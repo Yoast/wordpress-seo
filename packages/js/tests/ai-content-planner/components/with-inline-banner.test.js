@@ -228,6 +228,14 @@ describe( "withInlineBanner", () => {
 		expect( wrapper ).toHaveClass( "wp-block" );
 	} );
 
+	test( "sets the data-block attribute on the banner wrapper div", () => {
+		setupMocks();
+		const { getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
+
+		const wrapper = getByTestId( "inline-banner" ).parentElement;
+		expect( wrapper ).toHaveAttribute( "data-block", "yoast-content-planner-banner" );
+	} );
+
 	test( "passes isPremium=true to the InlineBanner", () => {
 		setupMocks( { isPremium: true } );
 		const { getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
@@ -247,6 +255,154 @@ describe( "withInlineBanner", () => {
 		const { getByTestId } = render( <WithInlineBanner clientId="client-1" data-custom="yes" /> );
 
 		expect( getByTestId( "block-list-block" ) ).toHaveAttribute( "data-custom", "yes" );
+	} );
+
+	describe( "mousedown effect", () => {
+		const makeMockDoc = () => ( {
+			getElementById: jest.fn().mockReturnValue( null ),
+			addEventListener: jest.fn(),
+			removeEventListener: jest.fn(),
+		} );
+
+		/**
+		 * Builds a ref whose `current` has `ownerDocument` and a `querySelector` that returns
+		 * different elements based on the selector, so we can exercise `isClickOutsideDropdown`.
+		 *
+		 * @param {object} mockDoc             The fake ownerDocument.
+		 * @param {object} [opts]              Per-selector overrides.
+		 * @param {object} [opts.triggerExpandedEl] Returned for `[aria-expanded='true']` selector.
+		 * @param {object} [opts.menuEl]        Returned for `[role='menu']` selector.
+		 * @param {object} [opts.triggerEl]     Returned for the plain trigger selector (used to call .click()).
+		 * @returns {object} A mocked ref.
+		 */
+		const makeBannerRef = ( mockDoc, { triggerExpandedEl = null, menuEl = null, triggerEl = null } = {} ) => {
+			const el = {
+				ownerDocument: mockDoc,
+				querySelector: jest.fn( ( selector ) => {
+					if ( selector === ".yst-dropdown-menu__icon-trigger[aria-expanded='true']" ) {
+						return triggerExpandedEl;
+					}
+					if ( selector === "[role='menu']" ) {
+						return menuEl;
+					}
+					if ( selector === ".yst-dropdown-menu__icon-trigger" ) {
+						return triggerEl;
+					}
+					return null;
+				} ),
+			};
+			const ref = {};
+			Object.defineProperty( ref, "current", { get: () => el, set: () => {}, configurable: true } );
+			return ref;
+		};
+
+		test( "registers a capture-phase mousedown listener when the banner is visible", () => {
+			const mockDoc = makeMockDoc();
+			useRef.mockReturnValue( makeBannerRef( mockDoc ) );
+			setupMocks();
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			expect( mockDoc.addEventListener ).toHaveBeenCalledWith( "mousedown", expect.any( Function ), { capture: true } );
+		} );
+
+		test( "removes the mousedown listener when the component unmounts", () => {
+			const mockDoc = makeMockDoc();
+			useRef.mockReturnValue( makeBannerRef( mockDoc ) );
+			setupMocks();
+			const { unmount } = render( <WithInlineBanner clientId="client-1" /> );
+
+			unmount();
+
+			expect( mockDoc.removeEventListener ).toHaveBeenCalledWith( "mousedown", expect.any( Function ), { capture: true } );
+		} );
+
+		test( "does not register a mousedown listener when the banner is not shown", () => {
+			const mockDoc = makeMockDoc();
+			useRef.mockReturnValue( makeBannerRef( mockDoc ) );
+			setupMocks( { isBannerDismissed: true } );
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			expect( mockDoc.addEventListener ).not.toHaveBeenCalled();
+		} );
+
+		test( "clicks the trigger to close the dropdown when mousedown fires outside both trigger and menu", () => {
+			const mockClick = jest.fn();
+			const triggerExpandedEl = { contains: jest.fn().mockReturnValue( false ), click: mockClick };
+			const triggerEl = { click: mockClick };
+			const menuEl = { contains: jest.fn().mockReturnValue( false ) };
+			const mockDoc = makeMockDoc();
+			useRef.mockReturnValue( makeBannerRef( mockDoc, { triggerExpandedEl, menuEl, triggerEl } ) );
+			setupMocks();
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			const [ , handler ] = mockDoc.addEventListener.mock.calls.find( ( [ type ] ) => type === "mousedown" );
+			handler( { target: document.body } );
+
+			expect( mockClick ).toHaveBeenCalledTimes( 1 );
+		} );
+
+		test( "does not close the dropdown when mousedown is inside the trigger", () => {
+			const mockClick = jest.fn();
+			const triggerExpandedEl = { contains: jest.fn().mockReturnValue( true ), click: mockClick };
+			const triggerEl = { click: mockClick };
+			const menuEl = { contains: jest.fn().mockReturnValue( false ) };
+			const mockDoc = makeMockDoc();
+			useRef.mockReturnValue( makeBannerRef( mockDoc, { triggerExpandedEl, menuEl, triggerEl } ) );
+			setupMocks();
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			const [ , handler ] = mockDoc.addEventListener.mock.calls.find( ( [ type ] ) => type === "mousedown" );
+			handler( { target: document.body } );
+
+			expect( mockClick ).not.toHaveBeenCalled();
+		} );
+
+		test( "does not close the dropdown when mousedown is inside the menu", () => {
+			const mockClick = jest.fn();
+			const triggerExpandedEl = { contains: jest.fn().mockReturnValue( false ), click: mockClick };
+			const triggerEl = { click: mockClick };
+			const menuEl = { contains: jest.fn().mockReturnValue( true ) };
+			const mockDoc = makeMockDoc();
+			useRef.mockReturnValue( makeBannerRef( mockDoc, { triggerExpandedEl, menuEl, triggerEl } ) );
+			setupMocks();
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			const [ , handler ] = mockDoc.addEventListener.mock.calls.find( ( [ type ] ) => type === "mousedown" );
+			handler( { target: document.body } );
+
+			expect( mockClick ).not.toHaveBeenCalled();
+		} );
+
+		test( "does not close the dropdown when no trigger with aria-expanded is found", () => {
+			const mockClick = jest.fn();
+			const triggerEl = { click: mockClick };
+			const mockDoc = makeMockDoc();
+			// triggerExpandedEl is null: no open dropdown trigger.
+			useRef.mockReturnValue( makeBannerRef( mockDoc, { triggerExpandedEl: null, triggerEl } ) );
+			setupMocks();
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			const [ , handler ] = mockDoc.addEventListener.mock.calls.find( ( [ type ] ) => type === "mousedown" );
+			handler( { target: document.body } );
+
+			expect( mockClick ).not.toHaveBeenCalled();
+		} );
+
+		test( "does not close the dropdown when the trigger is open but the menu element is absent", () => {
+			const mockClick = jest.fn();
+			const triggerExpandedEl = { contains: jest.fn().mockReturnValue( false ), click: mockClick };
+			const triggerEl = { click: mockClick };
+			const mockDoc = makeMockDoc();
+			// menuEl is null: trigger is open but [role='menu'] not found.
+			useRef.mockReturnValue( makeBannerRef( mockDoc, { triggerExpandedEl, menuEl: null, triggerEl } ) );
+			setupMocks();
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			const [ , handler ] = mockDoc.addEventListener.mock.calls.find( ( [ type ] ) => type === "mousedown" );
+			handler( { target: document.body } );
+
+			expect( mockClick ).not.toHaveBeenCalled();
+		} );
 	} );
 
 	describe( "tab navigation effect", () => {
@@ -365,6 +521,28 @@ describe( "withInlineBanner", () => {
 			render( <WithInlineBanner clientId="client-1" /> );
 
 			expect( mockDoc.createElement ).not.toHaveBeenCalled();
+		} );
+
+		test( "does not inject a stylesheet when ownerDoc is the main window document", () => {
+			// ownerDoc === window.document: we are not inside an iframe, so no injection needed.
+			const realEl = document.createElement( "div" );
+			const ref = {};
+			Object.defineProperty( ref, "current", { get: () => realEl, set: () => {}, configurable: true } );
+			useRef.mockReturnValue( ref );
+
+			const mainLink = document.createElement( "link" );
+			mainLink.id = STYLE_ID;
+			mainLink.href = "https://example.com/tailwind.css";
+			document.head.appendChild( mainLink );
+
+			const appendChildSpy = jest.spyOn( document.head, "appendChild" ).mockImplementation( () => {} );
+			setupMocks();
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			expect( appendChildSpy ).not.toHaveBeenCalled();
+
+			appendChildSpy.mockRestore();
+			document.head.removeChild( mainLink );
 		} );
 
 		test( "injects a cloned stylesheet link when ownerDoc is a separate iframe document", () => {
