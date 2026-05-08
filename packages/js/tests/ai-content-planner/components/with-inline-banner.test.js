@@ -264,7 +264,6 @@ describe( "withInlineBanner", () => {
 	} );
 
 	describe( "mousedown effect", () => {
-
 		/**
 		 * Builds a ref whose `current` has `ownerDocument` and a `querySelector` that returns
 		 * different elements based on the selector, so we can exercise `isClickOutsideDropdown`.
