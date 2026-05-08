@@ -18,7 +18,7 @@ describe( "InlineBanner", () => {
 
 	it( "renders the description text", () => {
 		renderBanner();
-		expect( screen.getByText( /Let Yoast analyze your site/ ) ).toBeInTheDocument();
+		expect( screen.getByText( /Let Yoast AI Content Planner analyze/ ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the 'Get content suggestions' button", () => {
@@ -33,15 +33,16 @@ describe( "InlineBanner", () => {
 		expect( onClick ).toHaveBeenCalledTimes( 1 );
 	} );
 
-	it( "renders the close button", () => {
+	it( "renders the dismiss dropdown trigger", () => {
 		renderBanner();
-		expect( screen.getByRole( "button", { name: "Close" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: "Open banner options" } ) ).toBeInTheDocument();
 	} );
 
-	it( "calls onDismiss when the close button is clicked", () => {
+	it( "calls onDismiss when 'Remove for this post' is clicked", () => {
 		const onDismiss = jest.fn();
 		renderBanner( { onDismiss } );
-		fireEvent.click( screen.getByRole( "button", { name: "Close" } ) );
+		fireEvent.click( screen.getByRole( "button", { name: "Open banner options" } ) );
+		fireEvent.click( screen.getByText( "Remove for this post" ) );
 		expect( onDismiss ).toHaveBeenCalledTimes( 1 );
 	} );
 
