@@ -26,6 +26,7 @@ jest.mock( "@wordpress/data", () => ( {
 jest.mock( "@wordpress/blocks", () => ( {
 	createBlock: jest.fn( ( name, attributes, innerBlocks ) => ( { name, attributes, innerBlocks } ) ),
 	registerBlockType: jest.fn(),
+	getBlockType: jest.fn( () => null ),
 } ) );
 
 jest.mock( "@wordpress/block-editor", () => ( {
@@ -112,5 +113,20 @@ describe( "content-suggestion block transform", () => {
 
 		expect( result.name ).toBe( "core/list" );
 		expect( result.innerBlocks ).toHaveLength( 0 );
+	} );
+} );
+
+describe( "content-suggestion block registration guard", () => {
+	test( "skips registerBlockType when the block is already registered", () => {
+		const { registerBlockType: mockRegisterBlockType, getBlockType: mockGetBlockType } = require( "@wordpress/blocks" );
+
+		mockGetBlockType.mockReturnValueOnce( { name: "yoast-seo/content-suggestion" } );
+		mockRegisterBlockType.mockClear();
+
+		jest.isolateModules( () => {
+			require( "../../src/ai-content-planner/blocks/content-suggestion-block" );
+		} );
+
+		expect( mockRegisterBlockType ).not.toHaveBeenCalled();
 	} );
 } );
