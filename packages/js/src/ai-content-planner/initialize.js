@@ -65,14 +65,24 @@ export const ContentPlannerEditorPlugin = () => {
 			blocks: select( "core/block-editor" ).getBlocks(),
 			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
 			isBannerRendered: select( CONTENT_PLANNER_STORE ).selectIsBannerRendered(),
-			yoastTitle: meta._yoast_wpseo_title ?? "",
-			yoastMetaDesc: meta._yoast_wpseo_metadesc ?? "",
-			yoastFocusKw: meta._yoast_wpseo_focuskw ?? "",
+			yoastTitle: meta?._yoast_wpseo_title ?? "",
+			yoastMetaDesc: meta?._yoast_wpseo_metadesc ?? "",
+			yoastFocusKw: meta?._yoast_wpseo_focuskw ?? "",
 		};
 	}, [] );
 
 	const { insertBlock } = useDispatch( "core/block-editor" );
 
+	/*
+	 * Mirrors core/editor meta changes into yoast-seo/editor. Fires on every meta change,
+	 * including undo — which is intentional: undo should revert the Yoast fields too.
+	 * Direct sidebar edits (yoast-seo/editor only) will be overwritten if core/editor meta
+	 * changes afterwards — accepted trade-off for correct undo behaviour.
+	 *
+	 * dispatch() is called inside the effect (not via useDispatch) because yoast-seo/editor
+	 * is registered after the Gutenberg store and may not be available at component mount;
+	 * resolving it lazily avoids the need for a conditional hook.
+	 */
 	useEffect( () => {
 		const yoastEditor = dispatch( "yoast-seo/editor" );
 		yoastEditor?.updateData?.( { title: yoastTitle, description: yoastMetaDesc } );

@@ -287,21 +287,23 @@ class WPSEO_Meta {
 					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ],
 				);
 
-				// Re-register for the 'post' subtype with REST exposure and auth callback.
-				register_meta(
-					'post',
-					self::$meta_prefix . $key,
-					[
-						'show_in_rest'      => ( $field_def['show_in_rest'] ?? false ),
-						'single'            => ( $field_def['single'] ?? false ),
-						'type'              => 'string',
-						'object_subtype'    => 'post',
-						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
-						'auth_callback'     => static function ( $allowed, $meta_key, $object_id ) {
-							return current_user_can( 'edit_post', $object_id );
-						},
-					],
-				);
+				// Re-register for the 'post' subtype with REST exposure and auth callback when show_in_rest is enabled.
+				if ( ! empty( $field_def['show_in_rest'] ) ) {
+					register_meta(
+						'post',
+						self::$meta_prefix . $key,
+						[
+							'show_in_rest'      => true,
+							'single'            => ( $field_def['single'] ?? false ),
+							'type'              => 'string',
+							'object_subtype'    => 'post',
+							'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
+							'auth_callback'     => static function ( $allowed, $meta_key, $object_id ) {
+								return current_user_can( 'edit_post', $object_id );
+							},
+						],
+					);
+				}
 
 				// Set the $fields_index property for efficiency.
 				self::$fields_index[ self::$meta_prefix . $key ] = [
@@ -323,7 +325,8 @@ class WPSEO_Meta {
 
 		// Strip meta fields that have show_in_rest enabled from REST responses for users
 		// without edit_post capability. register_meta's auth_callback only covers writes,
-		// so read access must be restricted separately via this filter. Register only for post post type.
+		// so read access must be restricted separately via this filter. 
+		// Register only for 'post' post type. Other post types don't expose these fields.
 		add_filter( 'rest_prepare_post', [ self::class, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
 
 		self::filter_schema_article_types();
