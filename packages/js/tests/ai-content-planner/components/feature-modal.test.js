@@ -287,4 +287,14 @@ describe( "FeatureModal", () => {
 		// If handlePanelMeasureChange runs without error, the callback was exercised.
 		expect( capturedCallback ).toBeDefined();
 	} );
+
+	it( "hides the modal when status is 'content-suggestions' and isReplaceModalOpen is true", () => {
+		renderModal( { status: "content-suggestions", isReplaceModalOpen: true } );
+		expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "hides the modal when status is 'content-outline' and isReplaceModalOpen is true", () => {
+		renderModal( { status: "content-outline", isReplaceModalOpen: true } );
+		expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
+	} );
 } );

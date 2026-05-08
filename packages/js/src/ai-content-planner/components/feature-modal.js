@@ -94,6 +94,7 @@ export const FeatureModal = ( {
 	}, [ isEmptyPost, handleApplyOutline, openReplaceContentModal, setHasVisitedReplace ] );
 
 	return (
+		// Close this modal when the replace confirmation is open to avoid competing FocusTrap instances.
 		<Modal isOpen={ ! isConsentModalOpen && ! isReplaceModalOpen && ( isSuggestions || isOutline ) } onClose={ onClose }>
 			<Modal.Panel ref={ panelRef } className="yst-p-0 yst-max-w-2xl yst-overflow-visible" hasCloseButton={ false }>
 				<Modal.CloseButton

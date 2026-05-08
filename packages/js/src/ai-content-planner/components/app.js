@@ -59,6 +59,8 @@ export const App = () => {
 		}
 	}, [ status ] );
 
+	const isReplaceModalOpen = replaceContentModalIsOpen && hasVisitedReplace;
+
 	return (
 		<>
 			<ApproveModal
@@ -69,11 +71,11 @@ export const App = () => {
 				handleApplyOutline={ handleApplyOutline }
 				openReplaceContentModal={ openReplaceContentModal }
 				setHasVisitedReplace={ setHasVisitedReplace }
-				isReplaceModalOpen={ replaceContentModalIsOpen && hasVisitedReplace }
+				isReplaceModalOpen={ isReplaceModalOpen }
 			/>
 			<ReplaceContentModal
 				onConfirm={ handleConfirmReplace }
-				isOpen={ replaceContentModalIsOpen && hasVisitedReplace }
+				isOpen={ isReplaceModalOpen }
 				onClose={ toggleReplaceContentModal }
 			/>
 
