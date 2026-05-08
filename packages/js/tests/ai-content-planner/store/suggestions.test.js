@@ -9,6 +9,7 @@ import {
 	fetchContentPlannerSuggestions,
 	getInitialContentSuggestionsState,
 } from "../../../src/ai-content-planner/store/content-suggestions";
+import { ERROR_DEFAULT } from "../../../src/ai-content-planner/constants";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
 
 jest.mock( "../../../src/ai-content-planner/helpers/fetch", () => ( {
@@ -18,13 +19,6 @@ jest.mock( "../../../src/ai-content-planner/helpers/fetch", () => ( {
 jest.mock( "@wordpress/url", () => ( {
 	addQueryArgs: jest.fn( ( path, args ) => `${ path }?${ new URLSearchParams( args ).toString() }` ),
 } ) );
-
-const ERROR_DEFAULT = {
-	errorCode: null,
-	errorIdentifier: null,
-	errorMessage: null,
-	missingLicenses: [],
-};
 
 /* eslint-disable camelcase -- API field names use snake_case. */
 const mockApiSuggestions = [
