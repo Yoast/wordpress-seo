@@ -13,12 +13,16 @@ const mockSetFocusKeyword = jest.fn();
 /**
  * Sets up useSelect to return meta fields from a fake core/editor store.
  *
- * @param {Object} meta The meta object to return from getEditedPostAttribute.
+ * @param {Object} meta     The meta object to return from getEditedPostAttribute.
+ * @param {string} postType The post type to return from getCurrentPostType.
  */
-const setupUseSelect = ( meta = {} ) => {
+const setupUseSelect = ( meta = {}, postType = "post" ) => {
 	useSelect.mockImplementation( ( selector ) => selector( ( storeName ) => {
 		if ( storeName === "core/editor" ) {
-			return { getEditedPostAttribute: ( attr ) => attr === "meta" ? meta : null };
+			return {
+				getEditedPostAttribute: ( attr ) => attr === "meta" ? meta : null,
+				getCurrentPostType: () => postType,
+			};
 		}
 	} ) );
 };
@@ -49,11 +53,20 @@ describe( "useYoastMetaSync", () => {
 		expect( mockSetFocusKeyword ).toHaveBeenCalledWith( "my keyword" );
 	} );
 
-	it( "passes undefined when meta fields are absent", () => {
+	it( "passes undefined when meta fields are absent on a post", () => {
 		renderHook( () => useYoastMetaSync() );
 
 		expect( mockUpdateData ).toHaveBeenCalledWith( { title: undefined, description: undefined } );
 		expect( mockSetFocusKeyword ).toHaveBeenCalledWith( undefined );
+	} );
+
+	it( "does not dispatch when the post type is not 'post'", () => {
+		setupUseSelect( {}, "page" );
+
+		renderHook( () => useYoastMetaSync() );
+
+		expect( mockUpdateData ).not.toHaveBeenCalled();
+		expect( mockSetFocusKeyword ).not.toHaveBeenCalled();
 	} );
 
 	it( "dispatches to yoast-seo/editor", () => {

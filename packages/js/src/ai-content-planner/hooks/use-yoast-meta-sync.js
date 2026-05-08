@@ -14,18 +14,25 @@ import { useEffect } from "@wordpress/element";
  * @returns {void}
  */
 export function useYoastMetaSync() {
-	const { yoastTitle, yoastMetaDesc, yoastFocusKw } = useSelect( select => {
-		const meta = select( "core/editor" ).getEditedPostAttribute( "meta" );
+	const { yoastTitle, yoastMetaDesc, yoastFocusKw, isPost } = useSelect( select => {
+		const editor = select( "core/editor" );
+		const meta = editor.getEditedPostAttribute( "meta" );
 		return {
 			yoastTitle: meta?._yoast_wpseo_title,
 			yoastMetaDesc: meta?._yoast_wpseo_metadesc,
 			yoastFocusKw: meta?._yoast_wpseo_focuskw,
+			isPost: editor.getCurrentPostType() === "post",
 		};
 	}, [] );
 
 	useEffect( () => {
+		// These meta keys are only registered for the 'post' subtype; bail on all other post types
+		// to avoid dispatching undefined values into yoast-seo/editor.
+		if ( ! isPost ) {
+			return;
+		}
 		const yoastEditor = dispatch( "yoast-seo/editor" );
 		yoastEditor?.updateData?.( { title: yoastTitle, description: yoastMetaDesc } );
 		yoastEditor?.setFocusKeyword?.( yoastFocusKw );
-	}, [ yoastTitle, yoastMetaDesc, yoastFocusKw ] );
+	}, [ isPost, yoastTitle, yoastMetaDesc, yoastFocusKw ] );
 }
