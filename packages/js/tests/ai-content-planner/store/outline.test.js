@@ -136,12 +136,14 @@ describe( "content outline store", () => {
 			} );
 
 			it( "should normalize the snake_case API response and set status to success on success", () => {
+				/* eslint-disable camelcase */
 				const apiResponse = {
 					outline: [
 						{ subheading_text: "Introduction", content_notes: [ "Write an intro" ] },
 						{ subheading_text: "Body", content_notes: [ "Add examples", "Add stats" ] },
 					],
 				};
+				/* eslint-enable camelcase */
 				const result = contentOutlineReducer(
 					getInitialContentOutlineState(),
 					{
@@ -317,6 +319,7 @@ describe( "content outline store", () => {
 			expect( controlResult.done ).toBe( false );
 
 			// Third yield: success action with the simulated API response.
+			// eslint-disable-next-line camelcase
 			const apiResponse = { outline: [ { subheading_text: "Intro", content_notes: [] } ] };
 			const successResult = generator.next( apiResponse );
 			expect( successResult.value ).toEqual( {
@@ -332,8 +335,9 @@ describe( "content outline store", () => {
 
 		it( "should yield an error action when the API call throws a non-aborted error", () => {
 			const generator = fetchContentOutline( params );
-			generator.next(); // request
-			generator.next(); // control
+			// Advance past request and control yields.
+			generator.next();
+			generator.next();
 
 			const error = new Error( "Network error" );
 			const errorResult = generator.throw( error );
@@ -350,8 +354,9 @@ describe( "content outline store", () => {
 
 		it( "should return early without yielding an error action when the error is aborted", () => {
 			const generator = fetchContentOutline( params );
-			generator.next(); // request
-			generator.next(); // control
+			// Advance past request and control yields.
+			generator.next();
+			generator.next();
 
 			const abortedError = { aborted: true };
 			const result = generator.throw( abortedError );
