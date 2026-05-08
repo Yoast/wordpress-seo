@@ -26,6 +26,11 @@ jest.mock( "@yoast/search-metadata-previews", () => ( {
 	getProgressColor: jest.fn( () => "#2a9d8f" ),
 } ) );
 
+// Shared drag handler references — must use the `mock` prefix so Jest's factory
+// hoisting allows them to be referenced inside the jest.mock() factory below.
+const mockHandleDragOver = jest.fn();
+const mockHandleDrop = jest.fn();
+
 jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
 	useFetchContentOutline: jest.fn(),
 	useDraggableStructure: () => ( {
@@ -38,8 +43,8 @@ jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
 		dragOverIndex: null,
 		reorderMessage: "",
 		handleDragStart: jest.fn(),
-		handleDragOver: jest.fn(),
-		handleDrop: jest.fn(),
+		handleDragOver: mockHandleDragOver,
+		handleDrop: mockHandleDrop,
 		handleDragEnd: jest.fn(),
 		handleMoveUp: jest.fn(),
 		handleMoveDown: jest.fn(),
@@ -96,6 +101,8 @@ describe( "ContentOutlineModal", () => {
 	beforeEach( () => {
 		getDescriptionProgress.mockClear();
 		getProgressColor.mockClear();
+		mockHandleDragOver.mockClear();
+		mockHandleDrop.mockClear();
 		jest.useFakeTimers();
 		useFetchContentOutline.mockReturnValue( mockFetchContentOutlineFn );
 	} );
@@ -380,6 +387,23 @@ describe( "ContentOutlineModal", () => {
 		} );
 	} );
 
+	describe( "sentinel drop zone", () => {
+		it( "calls handleDragOver with the last index when dragging over the sentinel", () => {
+			renderLoadedModal();
+			const sentinel = document.querySelector( ".yst-h-8" );
+			fireEvent.dragOver( sentinel );
+			// structure.length = 4, so sentinel passes index 4 to handleDragOver.
+			expect( mockHandleDragOver ).toHaveBeenCalledWith( expect.anything(), 4 );
+		} );
+
+		it( "calls handleDrop with the last index when dropping on the sentinel", () => {
+			renderLoadedModal();
+			const sentinel = document.querySelector( ".yst-h-8" );
+			fireEvent.drop( sentinel );
+			expect( mockHandleDrop ).toHaveBeenCalledWith( expect.anything(), 4 );
+		} );
+	} );
+
 	describe( "keyboard reordering", () => {
 		it( "renders all structure rows as keyboard-accessible list items", () => {
 			renderLoadedModal();
@@ -524,6 +548,19 @@ describe( "ContentOutlineModal", () => {
 			renderLoadedModal();
 			const innerBar = document.body.querySelector( ".yst-h-1\\.5.yst-bg-slate-200 > div" );
 			expect( innerBar ).toHaveStyle( "width: 100%" );
+		} );
+
+		it( "renders correctly when date is not provided, using the empty-string default", () => {
+			// Passing date={undefined} via props overrides the date="" default in renderModal,
+			// so MetaDescriptionProgressBar falls back to its own default date="".
+			renderLoadedModal( { date: undefined } );
+			expect( getDescriptionProgress ).toHaveBeenCalledWith(
+				expect.anything(),
+				"",
+				expect.anything(),
+				false,
+				expect.anything()
+			);
 		} );
 
 		it( "sets the progress bar background color from getProgressColor", () => {
