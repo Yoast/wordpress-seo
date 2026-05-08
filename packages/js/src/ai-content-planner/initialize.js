@@ -1,5 +1,6 @@
 import { createBlock } from "@wordpress/blocks";
-import { dispatch, useSelect, useDispatch } from "@wordpress/data";
+import { useSelect, useDispatch } from "@wordpress/data";
+import { addFilter } from "@wordpress/hooks";
 import domReady from "@wordpress/dom-ready";
 import { useEffect, useRef } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
@@ -8,13 +9,13 @@ import { App } from "./components/app";
 import "./blocks/content-suggestion-block";
 import { CONTENT_PLANNER_STORE } from "./constants";
 import { getIsBannerDismissedFromInput, getIsBannerRenderedFromInput } from "./helpers/fields";
+import { useYoastMetaSync } from "./hooks";
 import { registerStore } from "./store";
 import { AVAILABILITY_NAME } from "./store/availability";
 import { BANNER_NAME } from "./store/banner";
 import { CONTENT_OUTLINE_NAME } from "./store/content-outline";
 import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
 import { withInlineBanner } from "./components/with-inline-banner";
-import { addFilter } from "@wordpress/hooks";
 
 /**
  * Ensures a fresh post has at least one block in the canvas, so the
@@ -24,9 +25,9 @@ import { addFilter } from "@wordpress/hooks";
  * (which is not a real block), so the filter never fires and the banner only
  * appears once the user starts typing.
  *
- * @param {Array}    blocks      The current list of blocks in the editor.
- * @param {Function} insertBlock The block editor insertBlock dispatch function.
- * @param {boolean} isBannerRendered Whether the banner is rendered already in the post.
+ * @param {Array}    blocks           The current list of blocks in the editor.
+ * @param {Function} insertBlock      The block editor insertBlock dispatch function.
+ * @param {boolean}  isBannerRendered Whether the banner is rendered already in the post.
  * @returns {boolean} Whether the banner insertion is complete.
  */
 export function insertFirstParagraph( blocks, insertBlock, isBannerRendered ) {
@@ -45,49 +46,27 @@ export function insertFirstParagraph( blocks, insertBlock, isBannerRendered ) {
 	return firstParagraphIndex !== -1;
 }
 
-
 /**
- * Editor plugin that auto-inserts the Content Planner Banner component (via the `editor.BlockListBlock` filter) in new posts of the "post" type,
- * after the first paragraph on new posts and renders the shared
- * FeatureModal controlled by the content planner store.
+ * Auto-inserts a paragraph block on new "post" type posts so the inline banner
+ * filter has a block to attach to.
  *
  * @returns {void}
  */
-export const ContentPlannerEditorPlugin = () => {
+function useAutoInsertBanner() {
 	const hasInserted = useRef( false );
 
-	const { isNewPost, postType, blocks, minPostsMet, isBannerRendered, yoastTitle, yoastMetaDesc, yoastFocusKw } = useSelect( select => {
+	const { isNewPost, postType, blocks, minPostsMet, isBannerRendered } = useSelect( select => {
 		const coreEditor = select( "core/editor" );
-		const meta = coreEditor.getEditedPostAttribute( "meta" );
 		return {
 			isNewPost: coreEditor.isEditedPostNew(),
 			postType: coreEditor.getCurrentPostType(),
 			blocks: select( "core/block-editor" ).getBlocks(),
 			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
 			isBannerRendered: select( CONTENT_PLANNER_STORE ).selectIsBannerRendered(),
-			yoastTitle: meta?._yoast_wpseo_title ?? "",
-			yoastMetaDesc: meta?._yoast_wpseo_metadesc ?? "",
-			yoastFocusKw: meta?._yoast_wpseo_focuskw ?? "",
 		};
 	}, [] );
 
 	const { insertBlock } = useDispatch( "core/block-editor" );
-
-	/*
-	 * Mirrors core/editor meta changes into yoast-seo/editor. Fires on every meta change,
-	 * including undo — which is intentional: undo should revert the Yoast fields too.
-	 * Direct sidebar edits (yoast-seo/editor only) will be overwritten if core/editor meta
-	 * changes afterwards — accepted trade-off for correct undo behaviour.
-	 *
-	 * dispatch() is called inside the effect (not via useDispatch) because yoast-seo/editor
-	 * is registered after the Gutenberg store and may not be available at component mount;
-	 * resolving it lazily avoids the need for a conditional hook.
-	 */
-	useEffect( () => {
-		const yoastEditor = dispatch( "yoast-seo/editor" );
-		yoastEditor?.updateData?.( { title: yoastTitle, description: yoastMetaDesc } );
-		yoastEditor?.setFocusKeyword?.( yoastFocusKw );
-	}, [ yoastTitle, yoastMetaDesc, yoastFocusKw ] );
 
 	useEffect( () => {
 		if ( hasInserted.current || ! isNewPost || postType !== "post" || ! minPostsMet ) {
@@ -96,6 +75,18 @@ export const ContentPlannerEditorPlugin = () => {
 
 		hasInserted.current = insertFirstParagraph( blocks, insertBlock, isBannerRendered );
 	}, [ blocks, isNewPost, postType, insertBlock, minPostsMet ] );
+}
+
+/**
+ * Editor plugin that renders the shared FeatureModal controlled by the content
+ * planner store, syncs Yoast meta fields on undo, and auto-inserts the inline
+ * banner on new posts of the "post" type.
+ *
+ * @returns {void}
+ */
+export const ContentPlannerEditorPlugin = () => {
+	useYoastMetaSync();
+	useAutoInsertBanner();
 
 	return (
 		<App />
