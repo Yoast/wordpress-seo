@@ -257,12 +257,13 @@ describe( "withInlineBanner", () => {
 		expect( getByTestId( "block-list-block" ) ).toHaveAttribute( "data-custom", "yes" );
 	} );
 
+	const makeMockDoc = () => ( {
+		getElementById: jest.fn().mockReturnValue( null ),
+		addEventListener: jest.fn(),
+		removeEventListener: jest.fn(),
+	} );
+
 	describe( "mousedown effect", () => {
-		const makeMockDoc = () => ( {
-			getElementById: jest.fn().mockReturnValue( null ),
-			addEventListener: jest.fn(),
-			removeEventListener: jest.fn(),
-		} );
 
 		/**
 		 * Builds a ref whose `current` has `ownerDocument` and a `querySelector` that returns
@@ -415,12 +416,6 @@ describe( "withInlineBanner", () => {
 			} );
 			return ref;
 		};
-
-		const makeMockDoc = () => ( {
-			getElementById: jest.fn().mockReturnValue( null ),
-			addEventListener: jest.fn(),
-			removeEventListener: jest.fn(),
-		} );
 
 		test( "registers a capture-phase keydown listener when the banner is visible", () => {
 			const mockDoc = makeMockDoc();
