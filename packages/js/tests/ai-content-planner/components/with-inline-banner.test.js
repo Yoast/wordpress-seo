@@ -12,9 +12,10 @@ jest.mock( "@wordpress/compose", () => ( {
 } ) );
 
 jest.mock( "../../../src/ai-content-planner/components/inline-banner", () => ( {
-	InlineBanner: ( { onDismiss, onClick, isPremium } ) => (
+	InlineBanner: ( { onDismiss, onDismissPermanently, onClick, isPremium } ) => (
 		<div data-testid="inline-banner" data-is-premium={ isPremium }>
 			<button data-testid="dismiss-btn" onClick={ onDismiss } />
+			<button data-testid="dismiss-permanently-btn" onClick={ onDismissPermanently } />
 			<button data-testid="click-btn" onClick={ onClick } />
 		</div>
 	),
@@ -40,13 +41,16 @@ const MockBlockListBlock = ( props ) => <div data-testid="block-list-block" { ..
 const mockSetFeatureModalStatus = jest.fn();
 const mockSetBannerDismissed = jest.fn();
 const mockSetBannerRendered = jest.fn();
+const mockDismissBannerPermanently = jest.fn();
 
 const setupMocks = ( overrides = {} ) => {
 	const defaults = {
 		isFirstBlock: true,
 		isNewPost: true,
 		isBannerDismissed: false,
+		isBannerPermanentlyDismissed: false,
 		isBannerRendered: false,
+		bannerPermanentDismissalEndpoint: "yoast/v1/ai_content_planner/banner_permanent_dismissal",
 		hasConsent: false,
 		isPremium: false,
 		minPostsMet: true,
@@ -65,6 +69,8 @@ const setupMocks = ( overrides = {} ) => {
 			return {
 				selectIsBannerDismissed: () => values.isBannerDismissed,
 				selectIsBannerRendered: () => values.isBannerRendered,
+				selectIsBannerPermanentlyDismissed: () => values.isBannerPermanentlyDismissed,
+				selectBannerPermanentDismissalEndpoint: () => values.bannerPermanentDismissalEndpoint,
 				selectIsMinPostsMet: () => values.minPostsMet,
 			};
 		}
@@ -81,6 +87,7 @@ const setupMocks = ( overrides = {} ) => {
 		setFeatureModalStatus: mockSetFeatureModalStatus,
 		setBannerDismissed: mockSetBannerDismissed,
 		setBannerRendered: mockSetBannerRendered,
+		dismissBannerPermanently: mockDismissBannerPermanently,
 	} );
 };
 
@@ -102,6 +109,14 @@ describe( "withInlineBanner", () => {
 
 	test( "does not render the banner when it is dismissed", () => {
 		setupMocks( { isBannerDismissed: true } );
+		const { queryByTestId, getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
+
+		expect( queryByTestId( "inline-banner" ) ).not.toBeInTheDocument();
+		expect( getByTestId( "block-list-block" ) ).toBeInTheDocument();
+	} );
+
+	test( "does not render the banner when it is permanently dismissed", () => {
+		setupMocks( { isBannerPermanentlyDismissed: true } );
 		const { queryByTestId, getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
 
 		expect( queryByTestId( "inline-banner" ) ).not.toBeInTheDocument();
@@ -142,6 +157,14 @@ describe( "withInlineBanner", () => {
 
 		getByTestId( "dismiss-btn" ).click();
 		expect( mockSetBannerDismissed ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	test( "calls dismissBannerPermanently with the endpoint when the permanently-dismiss button is clicked", () => {
+		setupMocks();
+		const { getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
+
+		getByTestId( "dismiss-permanently-btn" ).click();
+		expect( mockDismissBannerPermanently ).toHaveBeenCalledWith( "yoast/v1/ai_content_planner/banner_permanent_dismissal" );
 	} );
 
 	test( "calls fetchContentSuggestions when click button is clicked and has consent", () => {
