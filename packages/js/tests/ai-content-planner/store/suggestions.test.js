@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
+import { contentPlannerFetch } from "../../../src/ai-content-planner/helpers/fetch";
 import {
 	CONTENT_SUGGESTIONS_NAME,
 	FETCH_CONTENT_SUGGESTIONS_ACTION_NAME,
@@ -8,6 +9,7 @@ import {
 	fetchContentPlannerSuggestions,
 	getInitialContentSuggestionsState,
 } from "../../../src/ai-content-planner/store/content-suggestions";
+import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
 
 jest.mock( "../../../src/ai-content-planner/helpers/fetch", () => ( {
 	contentPlannerFetch: jest.fn(),
@@ -16,10 +18,6 @@ jest.mock( "../../../src/ai-content-planner/helpers/fetch", () => ( {
 jest.mock( "@wordpress/url", () => ( {
 	addQueryArgs: jest.fn( ( path, args ) => `${ path }?${ new URLSearchParams( args ).toString() }` ),
 } ) );
-
-const { contentPlannerFetch } = require( "../../../src/ai-content-planner/helpers/fetch" );
-
-import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
 
 const ERROR_DEFAULT = {
 	errorCode: null,

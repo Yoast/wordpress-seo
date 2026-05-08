@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
+import { contentPlannerFetch } from "../../../src/ai-content-planner/helpers/fetch";
 import {
 	CONTENT_OUTLINE_NAME,
 	FETCH_CONTENT_OUTLINE_ACTION_NAME,
@@ -8,15 +9,13 @@ import {
 	fetchContentOutline,
 	getInitialContentOutlineState,
 } from "../../../src/ai-content-planner/store/content-outline";
+import { FETCH_CONTENT_SUGGESTIONS_ACTION_NAME } from "../../../src/ai-content-planner/store/content-suggestions";
+import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
+import { ERROR_DEFAULT } from "../../../src/ai-content-planner/constants";
 
 jest.mock( "../../../src/ai-content-planner/helpers/fetch", () => ( {
 	contentPlannerFetch: jest.fn(),
 } ) );
-
-const { contentPlannerFetch } = require( "../../../src/ai-content-planner/helpers/fetch" );
-import { FETCH_CONTENT_SUGGESTIONS_ACTION_NAME } from "../../../src/ai-content-planner/store/content-suggestions";
-import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
-import { ERROR_DEFAULT } from "../../../src/ai-content-planner/constants";
 
 /* eslint-disable camelcase -- API field names use snake_case. */
 const mockSuggestion = {
