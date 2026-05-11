@@ -99,6 +99,38 @@ final class WordPress_Query_Repository_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that get() assigns a synthetic negative id when indexables are not persisted.
+	 *
+	 * When the `Yoast\WP\SEO\should_index_indexables` filter returns `false`, the builder produces
+	 * in-memory Indexables whose primary key is never minted by the DB. Downstream consumers
+	 * (e.g. Meta_Tags_Context_Memoizer) key caches on `$indexable->id`, so distinct posts must
+	 * still end up with distinct ids — the repository fills that gap by assigning `-$post_id`.
+	 *
+	 * @return void
+	 */
+	public function test_get_assigns_synthetic_negative_id_when_indexables_disabled(): void {
+		\add_filter( 'Yoast\WP\SEO\should_index_indexables', '__return_false' );
+
+		try {
+			$result = $this->instance->get( 1, 10, 'post' );
+
+			$this->assertNotEmpty( $result, 'Should still return indexables even when indexables are disabled' );
+
+			$ids = [];
+			foreach ( $result as $indexable ) {
+				$this->assertLessThan( 0, $indexable->id, 'Synthetic ids must be negative to avoid collisions with real primary keys' );
+				$this->assertSame( -$indexable->object_id, $indexable->id, 'Synthetic id should be the negated post id' );
+				$ids[] = $indexable->id;
+			}
+
+			$this->assertSame( $ids, \array_unique( $ids ), 'Synthetic ids should be unique across the returned indexables' );
+		}
+		finally {
+			\remove_filter( 'Yoast\WP\SEO\should_index_indexables', '__return_false' );
+		}
+	}
+
+	/**
 	 * Tests the get method with pagination.
 	 *
 	 * @return void
