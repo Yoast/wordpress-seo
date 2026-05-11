@@ -1,4 +1,4 @@
-import { getWincherTrackableKeyphrases } from "../../../src/redux/selectors/WincherSEOPerformance";
+import { makeGetWincherTrackableKeyphrases } from "../../../src/redux/selectors/WincherSEOPerformance";
 
 let windowSpy;
 
@@ -16,38 +16,43 @@ afterEach( () => {
 
 describe( "getWincherTrackableKeyphrases", () => {
 	it( "trims, lowercases and sorts the focus keyword", () => {
+		const selector = makeGetWincherTrackableKeyphrases();
 		const state = { focusKeyword: "  SEO  " };
 
-		expect( getWincherTrackableKeyphrases( state ) ).toEqual( [ "seo" ] );
+		expect( selector( state ) ).toEqual( [ "seo" ] );
 	} );
 
 	it( "filters out an empty focus keyword", () => {
+		const selector = makeGetWincherTrackableKeyphrases();
 		const state = { focusKeyword: "" };
 
-		expect( getWincherTrackableKeyphrases( state ) ).toEqual( [] );
+		expect( selector( state ) ).toEqual( [] );
 	} );
 
 	it( "canonicalises quotes, colons and extra whitespace", () => {
+		const selector = makeGetWincherTrackableKeyphrases();
 		const state = { focusKeyword: '"seo":tools' };
 
-		expect( getWincherTrackableKeyphrases( state ) ).toEqual( [ "seo tools" ] );
+		expect( selector( state ) ).toEqual( [ "seo tools" ] );
 	} );
 
 	it( "returns the same array reference when called twice with the same content", () => {
-		const state = { focusKeyword: "reference stability" };
+		const selector = makeGetWincherTrackableKeyphrases();
+		const state = { focusKeyword: "seo" };
 
-		const first = getWincherTrackableKeyphrases( state );
-		const second = getWincherTrackableKeyphrases( state );
+		const first = selector( state );
+		const second = selector( state );
 
 		expect( second ).toBe( first );
 	} );
 
 	it( "returns a new array reference when the focus keyword changes", () => {
+		const selector = makeGetWincherTrackableKeyphrases();
 		const stateA = { focusKeyword: "keyword alpha" };
 		const stateB = { focusKeyword: "keyword beta" };
 
-		const first = getWincherTrackableKeyphrases( stateA );
-		const second = getWincherTrackableKeyphrases( stateB );
+		const first = selector( stateA );
+		const second = selector( stateB );
 
 		expect( second ).not.toBe( first );
 	} );
@@ -67,9 +72,10 @@ describe( "getWincherTrackableKeyphrases", () => {
 			},
 		} );
 
+		const selector = makeGetWincherTrackableKeyphrases();
 		const state = { focusKeyword: "seo" };
 
-		expect( getWincherTrackableKeyphrases( state ) ).toEqual( [ "another one", "related keyphrase", "seo" ] );
+		expect( selector( state ) ).toEqual( [ "another one", "related keyphrase", "seo" ] );
 	} );
 
 	it( "ignores premium keywords whose keyword property is undefined", () => {
@@ -87,9 +93,10 @@ describe( "getWincherTrackableKeyphrases", () => {
 			},
 		} );
 
+		const selector = makeGetWincherTrackableKeyphrases();
 		const state = { focusKeyword: "seo" };
 
-		expect( getWincherTrackableKeyphrases( state ) ).toEqual( [ "seo", "valid" ] );
+		expect( selector( state ) ).toEqual( [ "seo", "valid" ] );
 	} );
 
 	it( "deduplicates keyphrases that canonicalise to the same value", () => {
@@ -104,8 +111,9 @@ describe( "getWincherTrackableKeyphrases", () => {
 			},
 		} );
 
+		const selector = makeGetWincherTrackableKeyphrases();
 		const state = { focusKeyword: "seo" };
 
-		expect( getWincherTrackableKeyphrases( state ) ).toEqual( [ "seo" ] );
+		expect( selector( state ) ).toEqual( [ "seo" ] );
 	} );
 } );

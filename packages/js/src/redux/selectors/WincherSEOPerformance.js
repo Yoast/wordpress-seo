@@ -64,7 +64,7 @@ function getPremiumKeyphrases() {
  *
  * @returns {Function} A memoized selector that takes state and returns an array of keyphrases.
  */
-const makeGetWincherTrackableKeyphrases = () => {
+export const makeGetWincherTrackableKeyphrases = () => {
 	let lastResult = [];
 
 	return ( state ) => {
