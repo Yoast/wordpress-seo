@@ -61,7 +61,7 @@ class KeywordInput extends Component {
 	 *
 	 * @returns {boolean} Whether to display the message about the missing keyphrase.
 	 */
-	getMissingKeyphraseMessage( keyphrase, context ) {
+	shouldShowMissingKeyphraseMessage( keyphrase, context ) {
 		return keyphrase.trim().length === 0 && context;
 	}
 
@@ -74,11 +74,11 @@ class KeywordInput extends Component {
 		const errors = [ ...this.props.errors ];
 		const keyphrase = this.props.keyword;
 
-		if ( this.getMissingKeyphraseMessage( keyphrase, this.props.displayNoKeyphraseMessage ) ) {
+		if ( this.shouldShowMissingKeyphraseMessage( keyphrase, this.props.displayNoKeyphraseMessage ) ) {
 			errors.push( __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) );
 		}
 
-		if ( this.getMissingKeyphraseMessage( keyphrase, this.props.displayNoKeyphrasForTrackingMessage ) ) {
+		if ( this.shouldShowMissingKeyphraseMessage( keyphrase, this.props.displayNoKeyphrasForTrackingMessage ) ) {
 			errors.push( __( "Please enter a focus keyphrase first to track keyphrase performance", "wordpress-seo" ) );
 		}
 

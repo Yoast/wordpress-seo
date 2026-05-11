@@ -57,7 +57,6 @@ const usePrevious = ( value ) => {
 	return ref.current;
 };
 
-
 /**
  * The WincherKeyphrasesTable component.
  *
