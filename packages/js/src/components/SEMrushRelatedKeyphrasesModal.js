@@ -160,9 +160,9 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	 * When logged in the button triggers the modal directly.
 	 * When not logged in it opens the SEMrush OAuth popup first.
 	 *
-	 * @returns {JSX.Element} The keyphrases button wrapped in a yoast div.
+	 * @returns {JSX.Element} The "Discover related keyphrases" button wrapped in a yoast div.
 	 */
-	renderKeyphrasesButton() {
+	renderRelatedKeyphrasesButton() {
 		const { location, isLoggedIn } = this.props;
 
 		const buttonProps = isLoggedIn
@@ -212,7 +212,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 
 		return (
 			<Root>
-				{ this.renderKeyphrasesButton() }
+				{ this.renderRelatedKeyphrasesButton() }
 				<Modal
 					isOpen={ Boolean( keyphrase ) && whichModalOpen === location }
 					onClose={ onClose }
