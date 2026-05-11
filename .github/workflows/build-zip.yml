@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Check actions access
         if: github.event_name == 'issue_comment'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const { data } = await github.rest.repos.getCollaboratorPermissionLevel({
@@ -34,7 +34,7 @@ jobs:
 
       - name: Add reaction to command
         if: github.event_name == 'issue_comment'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.reactions.createForIssueComment({
@@ -47,7 +47,7 @@ jobs:
       - name: Get PR head ref
         if: github.event_name == 'issue_comment'
         id: pr
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const { data: pr } = await github.rest.pulls.get({
@@ -58,7 +58,7 @@ jobs:
             core.setOutput('ref', pr.head.ref);
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ steps.pr.outputs.ref || '' }}
 
@@ -69,7 +69,7 @@ jobs:
           coverage: none
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: './.nvmrc'
 
@@ -95,7 +95,7 @@ jobs:
 
       - name: Post artifact link
         if: github.event_name == 'issue_comment'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.issues.createComment({

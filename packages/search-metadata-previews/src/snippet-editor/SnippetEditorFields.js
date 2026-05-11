@@ -6,7 +6,7 @@ import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
-import { colors, withCaretStyles } from "@yoast/style-guide";
+import { withCaretStyles } from "@yoast/style-guide";
 import {
 	ReplacementVariableEditor,
 	replacementVariablesShape,
@@ -19,6 +19,7 @@ import { ProgressBar, VariableEditorInputContainer, SimulatedLabel } from "@yoas
 import {
 	lengthProgressShape,
 } from "./constants";
+import { getProgressColor } from "../helpers/progress";
 
 const SlugInput = styled.input`
 	border: none;
@@ -305,7 +306,7 @@ class SnippetEditorFields extends React.Component {
 				<ProgressBar
 					max={ titleLengthProgress.max }
 					value={ titleLengthProgress.actual }
-					progressColor={ this.getProgressColor( titleLengthProgress.score ) }
+					progressColor={ getProgressColor( titleLengthProgress.score ) }
 				/>
 				<SimulatedLabel
 					id={ slugLabelId }
@@ -348,29 +349,10 @@ class SnippetEditorFields extends React.Component {
 				<ProgressBar
 					max={ descriptionLengthProgress.max }
 					value={ descriptionLengthProgress.actual }
-					progressColor={ this.getProgressColor( descriptionLengthProgress.score ) }
+					progressColor={ getProgressColor( descriptionLengthProgress.score ) }
 				/>
 			</StyledEditor>
 		);
-	}
-
-	/**
-	 * Returns the progress color for a given score.
-	 *
-	 * @param {number} score The score to determine a color for.
-	 *
-	 * @returns {string} A hex color.
-	 */
-	getProgressColor( score ) {
-		if ( score >= 7 ) {
-			return colors.$color_good;
-		}
-
-		if ( score >= 5 ) {
-			return colors.$color_ok;
-		}
-
-		return colors.$color_bad;
 	}
 }
 
