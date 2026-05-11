@@ -3,13 +3,12 @@ import { SearchIcon } from "@heroicons/react/outline";
 import { Component } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import apiFetch from "@wordpress/api-fetch";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { Button, Root } from "@yoast/ui-library";
 
 /* Internal dependencies */
 import { Modal } from "@yoast/related-keyphrase-suggestions";
-import { safeCreateInterpolateElement } from "../helpers/i18n";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
@@ -156,66 +155,72 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	}
 
 	/**
-	 * Renders the RelatedKeyPhrasesModal modal component.
+	 * Renders the "Discover related keyphrases" button.
 	 *
-	 * @returns {JSX.Element} The RelatedKeyPhrasesModal modal component.
+	 * When logged in the button triggers the modal directly.
+	 * When not logged in it opens the SEMrush OAuth popup first.
+	 *
+	 * @returns {JSX.Element} The keyphrases button wrapped in a yoast div.
 	 */
-	render() {
-		const { keyphrase, location, whichModalOpen, isLoggedIn, onClose, countryCode, learnMoreLink } = this.props;
+	renderKeyphrasesButton() {
+		const { location, isLoggedIn } = this.props;
 
-		const insightsLink = new URL( "https://www.semrush.com/analytics/keywordoverview/" );
-		insightsLink.searchParams.append( "q", keyphrase );
-		insightsLink.searchParams.append( "db", countryCode );
-
-		const SEMrushButtonText = safeCreateInterpolateElement(
-			sprintf(
-				/* translators: %1$s is the search icon. */
-				__( "%1$s Discover related keyphrases", "wordpress-seo" ), "<SearchIcon />" ),
-			{ SearchIcon: <SearchIcon className="yst-w-4 yst-h-4 yst-text-slate-400" /> }
-		);
+		const buttonProps = isLoggedIn
+			? { onClick: this.onModalOpen }
+			: {
+				as: "a",
+				href: "https://oauth.semrush.com/oauth2/authorize?" +
+					"ref=1513012826&client_id=yoast&redirect_uri=https%3A%2F%2Foauth.semrush.com%2Foauth2%2Fyoast%2Fsuccess&" +
+					"response_type=code&scope=user.id",
+				onClick: this.onLinkClick,
+			};
 
 		return (
-			<Root>
-				{ isLoggedIn && <div className={ "yoast" }>
-					<Button
-						variant="secondary"
-						id={ `yoast-get-related-keyphrases-${location}` }
-						onClick={ this.onModalOpen }
-						className={ "yst-gap-1.5 yst-mt-0" }
-					>
-						{ SEMrushButtonText }
-					</Button>
-				</div> }
-				<Modal
-					isOpen={ Boolean( keyphrase ) && whichModalOpen === location }
-					onClose={ onClose }
-					insightsLink={ insightsLink.toString() }
-					learnMoreLink={ learnMoreLink }
+			<div className={ "yoast" }>
+				<Button
+					variant="secondary"
+					id={ `yoast-get-related-keyphrases-${location}` }
+					className={ "yst-gap-1.5 yst-mt-0" }
+					{ ...buttonProps }
 				>
-
-					<Slot name="YoastRelatedKeyphrases" />
-
-				</Modal>
-				{ ! isLoggedIn && <div className={ "yoast" }>
-					<Button
-						as="a"
-						variant="secondary"
-						id={ `yoast-get-related-keyphrases-${location}` }
-						href={ "https://oauth.semrush.com/oauth2/authorize?" +
-							"ref=1513012826&client_id=yoast&redirect_uri=https%3A%2F%2Foauth.semrush.com%2Foauth2%2Fyoast%2Fsuccess&" +
-							"response_type=code&scope=user.id" }
-						onClick={ this.onLinkClick }
-						className={ "yst-gap-1.5 yst-mt-0" }
-					>
-						{ SEMrushButtonText }
+					<SearchIcon className="yst-w-4 yst-h-4 yst-text-slate-400" />
+					{ __( "Discover related keyphrases", "wordpress-seo" ) }
+					{ ! isLoggedIn && (
 						<span className="screen-reader-text">
 							{
 								/* translators: Hidden accessibility text. */
 								__( "(Opens in a new browser tab)", "wordpress-seo" )
 							}
 						</span>
-					</Button>
-				</div> }
+					) }
+				</Button>
+			</div>
+		);
+	}
+
+	/**
+	 * Renders the RelatedKeyPhrasesModal modal component.
+	 *
+	 * @returns {JSX.Element} The RelatedKeyPhrasesModal modal component.
+	 */
+	render() {
+		const { keyphrase, location, whichModalOpen, onClose, countryCode, learnMoreLink } = this.props;
+
+		const insightsLink = new URL( "https://www.semrush.com/analytics/keywordoverview/" );
+		insightsLink.searchParams.append( "q", keyphrase );
+		insightsLink.searchParams.append( "db", countryCode );
+
+		return (
+			<Root>
+				{ this.renderKeyphrasesButton() }
+				<Modal
+					isOpen={ Boolean( keyphrase ) && whichModalOpen === location }
+					onClose={ onClose }
+					insightsLink={ insightsLink.toString() }
+					learnMoreLink={ learnMoreLink }
+				>
+					<Slot name="YoastRelatedKeyphrases" />
+				</Modal>
 			</Root>
 		);
 	}
