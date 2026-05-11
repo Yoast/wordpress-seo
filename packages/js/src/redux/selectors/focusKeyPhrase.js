@@ -1,4 +1,5 @@
 import { applyFilters } from "@wordpress/hooks";
+import { createSelector } from "@reduxjs/toolkit";
 import { get, isArray, isString } from "lodash";
 
 /**
@@ -17,7 +18,10 @@ export function getFocusKeyphrase( state ) {
  * @param {Object} state The state.
  * @returns {string[]} The errors.
  */
-export const getFocusKeyphraseErrors = state => {
-	const errors = applyFilters( "yoast.focusKeyphrase.errors", [], getFocusKeyphrase( state ) );
-	return isArray( errors ) ? errors.filter( isString ) : [];
-};
+export const getFocusKeyphraseErrors = createSelector(
+	getFocusKeyphrase,
+	( keyword ) => {
+		const errors = applyFilters( "yoast.focusKeyphrase.errors", [], keyword );
+		return isArray( errors ) ? errors.filter( isString ) : [];
+	}
+);

@@ -41,28 +41,54 @@ export function hasWincherTrackedKeyphrases( state ) {
 /**
  * Gets the set keyphrases.
  *
- * @param {Object} state The state.
+ * Uses output memoization: returns the same array reference whenever the
+ * computed content has not changed. This prevents `useSelect`/`withSelect`
+ * from seeing a new reference on every render, which would cause unnecessary
+ * re-renders. A simple `createSelector` approach is not sufficient here because
+ * the premium store is external and may return a new array reference on every
+ * call even when its content is unchanged.
  *
- * @returns {array} The currently set keyphrases.
+ * @returns {Function} A memoized selector that takes state and returns an array of keyphrases.
  */
-export function getWincherTrackableKeyphrases( state ) {
-	const isPremium = getL10nObject().isPremium;
-	const premiumStore = window.wp.data.select( "yoast-seo-premium/editor" );
-	const keyphrases = [ state.focusKeyword.trim() ];
-
-	if ( isPremium && premiumStore ) {
-		// eslint-disable-next-line no-undefined
-		keyphrases.push( ...premiumStore.getKeywords().filter( k => k.keyword !== undefined ).map( k => k.keyword.trim() ) );
+/**
+ * Gets keyphrases from the premium store, if the premium store is available.
+ *
+ * @returns {string[]} The premium keyphrases, or an empty array.
+ */
+function getPremiumKeyphrases() {
+	const premiumStore = window.wp?.data?.select( "yoast-seo-premium/editor" );
+	if ( ! getL10nObject().isPremium || ! premiumStore ) {
+		return [];
 	}
-
-	return uniq( keyphrases.filter( k => !! k ).map(
-		// Canonicalize the keyword the same way Wincher does
-		k => k
-			.replace( /["+:\s]+/g, " " )
-			.trim()
-			.toLocaleLowerCase()
-	) ).sort();
+	// eslint-disable-next-line no-undefined
+	return premiumStore.getKeywords().filter( k => k.keyword !== undefined ).map( k => k.keyword.trim() );
 }
+
+const makeGetWincherTrackableKeyphrases = () => {
+	let lastResult = [];
+
+	return ( state ) => {
+		const keyphrases = [ state.focusKeyword.trim(), ...getPremiumKeyphrases() ];
+
+		const result = uniq( keyphrases.filter( k => !! k ).map(
+			// Canonicalize the keyword the same way Wincher does
+			k => k
+				.replace( /["+:\s]+/g, " " )
+				.trim()
+				.toLocaleLowerCase()
+		) ).sort();
+
+		// Return the previous reference when content is identical to avoid triggering re-renders.
+		if ( result.length === lastResult.length && result.every( ( v, i ) => v === lastResult[ i ] ) ) {
+			return lastResult;
+		}
+
+		lastResult = result;
+		return result;
+	};
+};
+
+export const getWincherTrackableKeyphrases = makeGetWincherTrackableKeyphrases();
 
 /**
  * Determines whether all keyphrases being tracked are still missing ranking data.
