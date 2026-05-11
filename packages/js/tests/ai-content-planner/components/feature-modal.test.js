@@ -288,13 +288,8 @@ describe( "FeatureModal", () => {
 		expect( capturedCallback ).toBeDefined();
 	} );
 
-	it( "hides the modal when status is 'content-suggestions' and isReplaceModalOpen is true", () => {
+	it( "keeps the modal open when isReplaceModalOpen is true so it stays visible behind the confirmation", () => {
 		renderModal( { status: "content-suggestions", isReplaceModalOpen: true } );
-		expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
-	} );
-
-	it( "hides the modal when status is 'content-outline' and isReplaceModalOpen is true", () => {
-		renderModal( { status: "content-outline", isReplaceModalOpen: true } );
-		expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
+		expect( screen.getByRole( "dialog" ) ).toBeInTheDocument();
 	} );
 } );
