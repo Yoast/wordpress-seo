@@ -21,7 +21,7 @@ import { getIsSeoDataDefault } from "../helpers/getIsSeoDataDefault";
  * @returns {Function} A memoized mapSelectToProps function.
  */
 const makeMapSelectToProps = () => {
-	let lastChecklist = [];
+	let lastResult = null;
 
 	return ( select ) => {
 		const yoastStore = select( "yoast-seo/editor" );
@@ -33,13 +33,15 @@ const makeMapSelectToProps = () => {
 		maybeAddInclusiveLanguageCheck( checklist, yoastStore );
 		checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
 
+		const isSeoDataDefault = getIsSeoDataDefault( yoastStore );
+
 		// Return the previous reference when content is identical to avoid triggering re-renders.
-		if ( JSON.stringify( checklist ) === JSON.stringify( lastChecklist ) ) {
-			return { checklist: lastChecklist, isSeoDataDefault: getIsSeoDataDefault( yoastStore ) };
+		if ( JSON.stringify( { checklist, isSeoDataDefault } ) === JSON.stringify( lastResult ) ) {
+			return lastResult;
 		}
 
-		lastChecklist = checklist;
-		return { checklist, isSeoDataDefault: getIsSeoDataDefault( yoastStore ) };
+		lastResult = { checklist, isSeoDataDefault };
+		return lastResult;
 	};
 };
 
