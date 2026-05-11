@@ -11,23 +11,36 @@ import {
 /**
  * Maps the select function to props for the checklist.
  *
- * @param {function} select The WordPress select function.
+ * Uses output memoization: returns the same array reference whenever the
+ * computed checklist content has not changed. This prevents `withSelect`
+ * from seeing a new reference on every render, which would cause unnecessary
+ * re-renders.
  *
- * @returns {{checklist: []}} The props for the checklist.
+ * @returns {Function} A memoized mapSelectToProps function.
  */
-export function mapSelectToProps( select ) {
-	const yoastStore = select( "yoast-seo/editor" );
+const makeMapSelectToProps = () => {
+	let lastChecklist = [];
 
-	const checklist = [];
+	return ( select ) => {
+		const yoastStore = select( "yoast-seo/editor" );
 
-	maybeAddSEOCheck( checklist, yoastStore );
-	maybeAddReadabilityCheck( checklist, yoastStore );
-	maybeAddInclusiveLanguageCheck( checklist, yoastStore );
+		const checklist = [];
+		maybeAddSEOCheck( checklist, yoastStore );
+		maybeAddReadabilityCheck( checklist, yoastStore );
+		maybeAddInclusiveLanguageCheck( checklist, yoastStore );
+		checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
 
-	checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
+		// Return the previous reference when content is identical to avoid triggering re-renders.
+		if ( JSON.stringify( checklist ) === JSON.stringify( lastChecklist ) ) {
+			return { checklist: lastChecklist };
+		}
 
-	return { checklist };
-}
+		lastChecklist = checklist;
+		return { checklist };
+	};
+};
+
+export const mapSelectToProps = makeMapSelectToProps();
 
 /**
  * Maps the dispatch function to props for the checklist.
