@@ -31,7 +31,10 @@ const makeMapSelectToProps = () => {
 		checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
 
 		// Return the previous reference when content is identical to avoid triggering re-renders.
-		if ( JSON.stringify( checklist ) === JSON.stringify( lastChecklist ) ) {
+		if (
+			checklist.length === lastChecklist.length &&
+			checklist.every( ( item, i ) => JSON.stringify( item ) === JSON.stringify( lastChecklist[ i ] ) )
+		) {
 			return { checklist: lastChecklist };
 		}
 

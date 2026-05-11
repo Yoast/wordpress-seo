@@ -36,7 +36,13 @@ const makeMapSelectToProps = () => {
 		const isSeoDataDefault = getIsSeoDataDefault( yoastStore );
 
 		// Return the previous reference when content is identical to avoid triggering re-renders.
-		if ( JSON.stringify( { checklist, isSeoDataDefault } ) === JSON.stringify( lastResult ) ) {
+		if (
+			lastResult !== null &&
+			checklist.length === lastResult.checklist.length &&
+			checklist.every( ( item, i ) => JSON.stringify( item ) === JSON.stringify( lastResult.checklist[ i ] ) ) &&
+			isSeoDataDefault.isAllTitlesDefault === lastResult.isSeoDataDefault.isAllTitlesDefault &&
+			isSeoDataDefault.isAllDescriptionsDefault === lastResult.isSeoDataDefault.isAllDescriptionsDefault
+		) {
 			return lastResult;
 		}
 

@@ -9,6 +9,24 @@ import PrimaryTaxonomyPicker from "../components/PrimaryTaxonomyPicker";
 const EMPTY_TERM_IDS = [];
 
 /**
+ * Checks whether the newly computed withSelect props are identical to the last memoized result.
+ *
+ * @param {Object|null} lastResult         The previously memoized result, or null on first call.
+ * @param {Array}       selectedTermIds    The newly computed selected term IDs.
+ * @param {number|null} primaryTaxonomyId  The newly computed primary taxonomy ID.
+ * @param {string}      learnMoreLink      The newly computed learn-more link.
+ *
+ * @returns {boolean} True when all props are unchanged and the cached result can be reused.
+ */
+function withSelectPropsAreEqual( lastResult, selectedTermIds, primaryTaxonomyId, learnMoreLink ) {
+	return lastResult !== null &&
+		primaryTaxonomyId === lastResult.primaryTaxonomyId &&
+		learnMoreLink === lastResult.learnMoreLink &&
+		selectedTermIds.length === lastResult.selectedTermIds.length &&
+		selectedTermIds.every( ( id, i ) => id === lastResult.selectedTermIds[ i ] );
+}
+
+/**
  * Maps the select function to props.
  *
  * Uses output memoization: returns the same object reference whenever the
@@ -17,7 +35,7 @@ const EMPTY_TERM_IDS = [];
  *
  * @returns {Function} A memoized withSelect callback.
  */
-const makeWithSelectProps = () => {
+export const makeWithSelectProps = () => {
 	let lastResult = null;
 
 	return ( select, props ) => {
@@ -30,7 +48,7 @@ const makeWithSelectProps = () => {
 		const learnMoreLink = yoastData.selectLink( "https://yoa.st/primary-category-more" );
 
 		// Return the previous reference when content is identical to avoid triggering re-renders.
-		if ( JSON.stringify( { selectedTermIds, primaryTaxonomyId, learnMoreLink } ) === JSON.stringify( lastResult ) ) {
+		if ( withSelectPropsAreEqual( lastResult, selectedTermIds, primaryTaxonomyId, learnMoreLink ) ) {
 			return lastResult;
 		}
 
