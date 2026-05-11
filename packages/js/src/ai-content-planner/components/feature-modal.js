@@ -52,7 +52,7 @@ export const FeatureModal = ( {
 	setHasVisitedReplace,
 	editedOutlineRef,
 	handleApplyOutline,
-	isReplaceModalOpen,
+	isReplaceModalOpen = false,
 	onCloseReplace,
 } ) => {
 	const fetchContentOutline = useFetchContentOutline();

@@ -155,7 +155,7 @@ const setupMocks = ( selectOverrides = {} ) => {
 	} ) );
 };
 
-const createModalElement = ( { status = "idle", editedOutlineRef = { current: null }, ...props } = {} ) => (
+const createModalElement = ( { status = "idle", editedOutlineRef = { current: null }, onCloseReplace = jest.fn(), ...props } = {} ) => (
 	<FeatureModal
 		onClose={ jest.fn() }
 		isEmptyPost={ true }
@@ -165,6 +165,7 @@ const createModalElement = ( { status = "idle", editedOutlineRef = { current: nu
 		openReplaceContentModal={ mockOpenReplaceContentModal }
 		setHasVisitedReplace={ mockSetHasVisitedReplace }
 		handleApplyOutline={ mockHandleApplyOutline }
+		onCloseReplace={ onCloseReplace }
 		{ ...props }
 	/>
 );
@@ -288,8 +289,10 @@ describe( "FeatureModal", () => {
 		expect( capturedCallback ).toBeDefined();
 	} );
 
-	it( "keeps the modal open when isReplaceModalOpen is true so it stays visible behind the confirmation", () => {
-		renderModal( { status: "content-suggestions", isReplaceModalOpen: true } );
-		expect( screen.getByRole( "dialog" ) ).toBeInTheDocument();
+	it( "renders both the feature modal and the replace confirmation dialog when isReplaceModalOpen is true", () => {
+		const onCloseReplace = jest.fn();
+		renderModal( { status: "content-suggestions", isReplaceModalOpen: true, onCloseReplace } );
+		expect( screen.getAllByRole( "dialog" ) ).toHaveLength( 2 );
+		expect( screen.getByText( "Replace existing content with this outline?" ) ).toBeInTheDocument();
 	} );
 } );
