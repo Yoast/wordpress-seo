@@ -36,7 +36,8 @@ function withSelectPropsAreEqual( lastResult, selectedTermIds, primaryTaxonomyId
  * @returns {Function} A memoized withSelect callback.
  */
 export const makeWithSelectProps = () => {
-	let lastResult = null;
+	// Keyed by taxonomy name so that multiple mounted instances do not share a single lastResult.
+	const lastResults = new Map();
 
 	return ( select, props ) => {
 		const { taxonomy } = props;
@@ -47,13 +48,16 @@ export const makeWithSelectProps = () => {
 		const primaryTaxonomyId = yoastData.getPrimaryTaxonomyId( taxonomy.name );
 		const learnMoreLink = yoastData.selectLink( "https://yoa.st/primary-category-more" );
 
+		const lastResult = lastResults.get( taxonomy.name ) ?? null;
+
 		// Return the previous reference when content is identical to avoid triggering re-renders.
 		if ( withSelectPropsAreEqual( lastResult, selectedTermIds, primaryTaxonomyId, learnMoreLink ) ) {
 			return lastResult;
 		}
 
-		lastResult = { selectedTermIds, primaryTaxonomyId, learnMoreLink };
-		return lastResult;
+		const result = { selectedTermIds, primaryTaxonomyId, learnMoreLink };
+		lastResults.set( taxonomy.name, result );
+		return result;
 	};
 };
 

@@ -81,4 +81,17 @@ describe( "PrimaryTaxonomyPicker container withSelect", () => {
 
 		expect( second ).not.toBe( first );
 	} );
+
+	it( "keeps separate caches for different taxonomy names", () => {
+		const withSelectProps = makeWithSelectProps();
+		const categoryTaxonomy = { name: "category", restBase: "categories" };
+		const tagTaxonomy = { name: "post_tag", restBase: "tags" };
+
+		const categoryResult = withSelectProps( makeSelect( { primaryId: 1 } ), { taxonomy: categoryTaxonomy } );
+		// A call for a different taxonomy must not corrupt the category cache.
+		withSelectProps( makeSelect( { primaryId: 99 } ), { taxonomy: tagTaxonomy } );
+		const categoryResultAgain = withSelectProps( makeSelect( { primaryId: 1 } ), { taxonomy: categoryTaxonomy } );
+
+		expect( categoryResultAgain ).toBe( categoryResult );
+	} );
 } );
