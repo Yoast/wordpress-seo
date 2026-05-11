@@ -137,6 +137,62 @@ describe( "WincherKeyphrasesTable getKeyphrases fetch", () => {
 	} );
 } );
 
+describe( "WincherKeyphrasesTable getKeyphraseData", () => {
+	const activateTrackingText = "Activate tracking to show the ranking position";
+
+	const renderWithTracked = ( keyphrases, trackedKeyphrases ) => render(
+		<WincherKeyphrasesTable
+			keyphrases={ keyphrases }
+			trackedKeyphrases={ trackedKeyphrases }
+			onAuthentication={ noop }
+			addTrackingKeyphrase={ noop }
+			newRequest={ noop }
+			setKeyphraseLimitReached={ noop }
+			setTrackedKeyphrases={ noop }
+			setRequestFailed={ noop }
+			setRequestSucceeded={ noop }
+			addTrackedKeyphrase={ noop }
+			removeTrackedKeyphrase={ noop }
+			setHasTrackedAll={ noop }
+			onSelectKeyphrases={ noop }
+			permalink=""
+			selectedKeyphrases={ [] }
+		/>
+	);
+
+	it( "shows 'Activate tracking' when trackedKeyphrases is null", () => {
+		renderWithTracked( [ "seo" ], null );
+		expect( screen.getByText( activateTrackingText ) ).toBeInTheDocument();
+	} );
+
+	it( "shows 'Activate tracking' when trackedKeyphrases is empty", () => {
+		renderWithTracked( [ "seo" ], {} );
+		expect( screen.getByText( activateTrackingText ) ).toBeInTheDocument();
+	} );
+
+	it( "shows 'Activate tracking' when the keyphrase is not in trackedKeyphrases", () => {
+		renderWithTracked( [ "seo" ], { other: { id: "1" } } );
+		expect( screen.getByText( activateTrackingText ) ).toBeInTheDocument();
+	} );
+
+	it( "does not show 'Activate tracking' when the keyphrase is an own property of trackedKeyphrases", () => {
+		renderWithTracked( [ "seo" ], { seo: { id: "1" } } );
+		expect( screen.queryByText( activateTrackingText ) ).not.toBeInTheDocument();
+	} );
+
+	it( "matches keyphrases case-insensitively against trackedKeyphrases keys", () => {
+		renderWithTracked( [ "SEO" ], { seo: { id: "1" } } );
+		expect( screen.queryByText( activateTrackingText ) ).not.toBeInTheDocument();
+	} );
+
+	it( "does not return data for inherited properties of trackedKeyphrases", () => {
+		// "constructor" exists on the Object prototype but is not an own property of a plain object.
+		// trackedKeyphrases must be non-empty so isEmpty() does not short-circuit before the hasOwnProperty check.
+		renderWithTracked( [ "constructor" ], { seo: { id: "1" } } );
+		expect( screen.getByText( activateTrackingText ) ).toBeInTheDocument();
+	} );
+} );
+
 describe( "WincherKeyphrasesTable with asterisk", () => {
 	it( "should add an asterisk after the focus keyphrase, even if the keyphrase contains capital letters", async() => {
 		renderWincherKeyphrasesTable( {

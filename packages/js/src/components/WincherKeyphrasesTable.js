@@ -119,7 +119,7 @@ const WincherKeyphrasesTable = ( {
 	const getKeyphraseData = useCallback( ( keyphrase ) => {
 		const targetKeyphrase = keyphrase.toLowerCase();
 
-		if ( trackedKeyphrases && ! isEmpty( trackedKeyphrases ) && trackedKeyphrases.hasOwnProperty( targetKeyphrase ) ) {
+		if ( trackedKeyphrases && ! isEmpty( trackedKeyphrases ) && Object.prototype.hasOwnProperty.call( trackedKeyphrases, targetKeyphrase ) ) {
 			return trackedKeyphrases[ targetKeyphrase ];
 		}
 
