@@ -4,7 +4,7 @@ import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "@wo
 import { __, sprintf } from "@wordpress/i18n";
 import { Checkbox } from "@yoast/components";
 import { getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
-import { debounce, difference, filter, isEmpty, orderBy, without } from "lodash";
+import { difference, filter, isEmpty, orderBy, without } from "lodash";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { handleAPIResponse } from "../helpers/api";
@@ -57,9 +57,6 @@ const usePrevious = ( value ) => {
 	return ref.current;
 };
 
-const debouncedGetKeyphrases = debounce( getKeyphrases, 500, {
-	leading: true,
-} );
 
 /**
  * The WincherKeyphrasesTable component.
@@ -142,7 +139,7 @@ const WincherKeyphrasesTable = ( {
 					abortController.current.abort();
 				}
 				abortController.current = typeof AbortController === "undefined" ? null : new AbortController();
-				return debouncedGetKeyphrases( keyphrases, startAt, permalink, abortController.current.signal );
+				return getKeyphrases( keyphrases, startAt, permalink, abortController.current.signal );
 			},
 			( response ) => {
 				setRequestSucceeded( response );
