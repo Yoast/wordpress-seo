@@ -6,7 +6,7 @@ global.window.wpseoAdminGlobalL10n[ "links.wincher.login" ] = "test.com";
 import WincherKeyphrasesTable
 	from "../../../js/src/components/WincherKeyphrasesTable";
 import { noop } from "lodash";
-import { trackKeyphrases } from "../../src/helpers/wincherEndpoints";
+import { getKeyphrases, trackKeyphrases } from "../../src/helpers/wincherEndpoints";
 
 jest.mock( "../../src/helpers/wincherEndpoints" );
 trackKeyphrases.mockImplementation( async fn => {
@@ -53,6 +53,87 @@ describe( "WincherKeyphrasesTable", () => {
 	it( "should have the right keyphrases present", async() => {
 		const cell = screen.getByRole( "cell", { name: "Example keyphrase" } );
 		expect( cell ).toBeInTheDocument();
+	} );
+} );
+
+describe( "WincherKeyphrasesTable getKeyphrases fetch", () => {
+	const successResponse = { status: 200, results: { seo: { keyword: "seo" } } };
+
+	const renderWithFetch = ( props = {} ) => render( <WincherKeyphrasesTable
+		keyphrases={ [ "seo" ] }
+		trackedKeyphrases={ null }
+		onAuthentication={ noop }
+		addTrackingKeyphrase={ noop }
+		newRequest={ noop }
+		setKeyphraseLimitReached={ noop }
+		setTrackedKeyphrases={ noop }
+		setRequestFailed={ noop }
+		setRequestSucceeded={ noop }
+		addTrackedKeyphrase={ noop }
+		removeTrackedKeyphrase={ noop }
+		setHasTrackedAll={ noop }
+		onSelectKeyphrases={ noop }
+		isLoggedIn={ true }
+		permalink="https://example.com"
+		startAt="2024-01-01"
+		selectedKeyphrases={ [] }
+		{ ...props }
+	/> );
+
+	beforeEach( () => {
+		jest.clearAllMocks();
+		getKeyphrases.mockResolvedValue( successResponse );
+	} );
+
+	it( "calls getKeyphrases with the correct arguments on mount", async() => {
+		renderWithFetch();
+
+		await waitFor( () => expect( getKeyphrases ).toHaveBeenCalledTimes( 1 ) );
+		expect( getKeyphrases ).toHaveBeenCalledWith(
+			[ "seo" ],
+			"2024-01-01",
+			"https://example.com",
+			expect.any( AbortSignal )
+		);
+	} );
+
+	it( "calls setTrackedKeyphrases with the response results after a successful fetch", async() => {
+		const setTrackedKeyphrases = jest.fn();
+
+		renderWithFetch( { setTrackedKeyphrases } );
+
+		await waitFor( () => expect( setTrackedKeyphrases ).toHaveBeenCalledWith( successResponse.results ) );
+	} );
+
+	it( "calls getKeyphrases a second time and resolves setTrackedKeyphrases when keyphrases change", async() => {
+		const setTrackedKeyphrases = jest.fn();
+
+		const { rerender } = renderWithFetch( { setTrackedKeyphrases } );
+
+		await waitFor( () => expect( getKeyphrases ).toHaveBeenCalledTimes( 1 ) );
+
+		rerender( <WincherKeyphrasesTable
+			keyphrases={ [ "seo", "tools" ] }
+			trackedKeyphrases={ null }
+			onAuthentication={ noop }
+			addTrackingKeyphrase={ noop }
+			newRequest={ noop }
+			setKeyphraseLimitReached={ noop }
+			setTrackedKeyphrases={ setTrackedKeyphrases }
+			setRequestFailed={ noop }
+			setRequestSucceeded={ noop }
+			addTrackedKeyphrase={ noop }
+			removeTrackedKeyphrase={ noop }
+			setHasTrackedAll={ noop }
+			onSelectKeyphrases={ noop }
+			isLoggedIn={ true }
+			permalink="https://example.com"
+			startAt="2024-01-01"
+			selectedKeyphrases={ [] }
+		/> );
+
+		await waitFor( () => expect( getKeyphrases ).toHaveBeenCalledTimes( 2 ) );
+		await waitFor( () => expect( setTrackedKeyphrases ).toHaveBeenCalledTimes( 2 ) );
 	} );
 } );
 
