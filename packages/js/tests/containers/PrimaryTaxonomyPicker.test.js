@@ -64,6 +64,16 @@ describe( "PrimaryTaxonomyPicker container withSelect", () => {
 		expect( second ).not.toBe( first );
 	} );
 
+	it( "returns the same reference when primaryTaxonomyId is NaN on consecutive calls", () => {
+		const withSelectProps = makeWithSelectProps();
+		const select = makeSelect( { primaryId: NaN } );
+
+		const first = withSelectProps( select, { taxonomy } );
+		const second = withSelectProps( select, { taxonomy } );
+
+		expect( second ).toBe( first );
+	} );
+
 	it( "returns a new reference when primaryTaxonomyId changes", () => {
 		const withSelectProps = makeWithSelectProps();
 
