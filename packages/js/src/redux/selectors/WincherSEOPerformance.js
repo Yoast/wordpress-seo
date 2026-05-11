@@ -39,18 +39,6 @@ export function hasWincherTrackedKeyphrases( state ) {
 }
 
 /**
- * Gets the set keyphrases.
- *
- * Uses output memoization: returns the same array reference whenever the
- * computed content has not changed. This prevents `useSelect`/`withSelect`
- * from seeing a new reference on every render, which would cause unnecessary
- * re-renders. A simple `createSelector` approach is not sufficient here because
- * the premium store is external and may return a new array reference on every
- * call even when its content is unchanged.
- *
- * @returns {Function} A memoized selector that takes state and returns an array of keyphrases.
- */
-/**
  * Gets keyphrases from the premium store, if the premium store is available.
  *
  * @returns {string[]} The premium keyphrases, or an empty array.
@@ -64,6 +52,18 @@ function getPremiumKeyphrases() {
 	return premiumStore.getKeywords().filter( k => k.keyword !== undefined ).map( k => k.keyword.trim() );
 }
 
+/**
+ * Creates a memoized selector for trackable keyphrases.
+ *
+ * Uses output memoization: returns the same array reference whenever the
+ * computed content has not changed. This prevents `useSelect`/`withSelect`
+ * from seeing a new reference on every render, which would cause unnecessary
+ * re-renders. A simple `createSelector` approach is not sufficient here because
+ * the premium store is external and may return a new array reference on every
+ * call even when its content is unchanged.
+ *
+ * @returns {Function} A memoized selector that takes state and returns an array of keyphrases.
+ */
 const makeGetWincherTrackableKeyphrases = () => {
 	let lastResult = [];
 
@@ -88,6 +88,13 @@ const makeGetWincherTrackableKeyphrases = () => {
 	};
 };
 
+/**
+ * Gets the set keyphrases that can be tracked by Wincher.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string[]} The canonicalized, deduplicated, sorted list of trackable keyphrases.
+ */
 export const getWincherTrackableKeyphrases = makeGetWincherTrackableKeyphrases();
 
 /**
