@@ -112,9 +112,10 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
 			AND P.post_status NOT IN (%s)
-			AND P.ID not in (
-				SELECT I.object_id from wp_yoast_indexable as I
-				WHERE I.object_type = 'post'
+			AND NOT EXISTS (
+				SELECT 1 FROM wp_yoast_indexable AS I
+				WHERE I.object_id = P.ID
+				AND I.object_type = 'post'
 				AND I.version = %d )";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
@@ -147,9 +148,10 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
 			AND P.post_status NOT IN (%s)
-			AND P.ID not in (
-				SELECT I.object_id from wp_yoast_indexable as I
-				WHERE I.object_type = 'post'
+			AND NOT EXISTS (
+				SELECT 1 FROM wp_yoast_indexable AS I
+				WHERE I.object_id = P.ID
+				AND I.object_type = 'post'
 				AND I.version = %d )
 			LIMIT %d";
 
@@ -230,9 +232,10 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
 			AND P.post_status NOT IN (%s)
-			AND P.ID not in (
-				SELECT I.object_id from wp_yoast_indexable as I
-				WHERE I.object_type = 'post'
+			AND NOT EXISTS (
+				SELECT 1 FROM wp_yoast_indexable AS I
+				WHERE I.object_id = P.ID
+				AND I.object_type = 'post'
 				AND I.version = %d )";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
@@ -265,9 +268,10 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
 			AND P.post_status NOT IN (%s)
-			AND P.ID not in (
-				SELECT I.object_id from wp_yoast_indexable as I
-				WHERE I.object_type = 'post'
+			AND NOT EXISTS (
+				SELECT 1 FROM wp_yoast_indexable AS I
+				WHERE I.object_id = P.ID
+				AND I.object_type = 'post'
 				AND I.version = %d )
 			LIMIT %d";
 
@@ -350,9 +354,10 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
 			AND P.post_status NOT IN (%s)
-			AND P.ID not in (
-				SELECT I.object_id from wp_yoast_indexable as I
-				WHERE I.object_type = 'post'
+			AND NOT EXISTS (
+				SELECT 1 FROM wp_yoast_indexable AS I
+				WHERE I.object_id = P.ID
+				AND I.object_type = 'post'
 				AND I.version = %d )
 			LIMIT %d";
 
@@ -405,9 +410,10 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
 			AND P.post_status NOT IN (%s)
-			AND P.ID not in (
-				SELECT I.object_id from wp_yoast_indexable as I
-				WHERE I.object_type = 'post'
+			AND NOT EXISTS (
+				SELECT 1 FROM wp_yoast_indexable AS I
+				WHERE I.object_id = P.ID
+				AND I.object_type = 'post'
 				AND I.version = %d )
 			LIMIT %d";
 
