@@ -55,6 +55,7 @@ class Schema_Aggregator_Announcement implements Introduction_Interface {
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show() {
-		return $this->current_page_helper->is_yoast_seo_page();
+		return $this->current_page_helper->is_yoast_seo_page()
+			&& $this->is_user_allowed( [ 'wpseo_manage_options' ] );
 	}
 }

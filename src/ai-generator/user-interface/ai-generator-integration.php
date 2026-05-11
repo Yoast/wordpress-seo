@@ -10,6 +10,7 @@ use Yoast\WP\SEO\AI\Generator\Application\Generator_Endpoints_Repository;
 use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Conditionals\AI_Editor_Conditional;
+use Yoast\WP\SEO\Conditionals\Old_Premium_AI_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -98,7 +99,7 @@ class Ai_Generator_Integration implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ AI_Conditional::class, AI_Editor_Conditional::class ];
+		return [ AI_Conditional::class, AI_Editor_Conditional::class, Old_Premium_AI_Conditional::class ];
 	}
 
 	/**

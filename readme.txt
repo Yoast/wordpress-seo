@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.0
-Stable tag: 27.3
+Stable tag: 27.5
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -303,48 +303,38 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 27.4 =
+= 27.6 =
 
-Release date: 2026-04-14
-
-#### Enhancements
-
-* Adds a \"Yoast\" tab to the WordPress Plugins screen that groups all installed Yoast plugins when two or more are present. Requires WordPress 7.0+.
-* Enhances the task list with a task about customizing meta descriptions in recent content.
-* Enhances the task list with a task about deleting the \"Sample Page\".
-* Improves the UX of completing tasks that require users to go to specific part of the post editor, by redirecting them to the exact spot they need to be.
-
-#### Bugfixes
-
-* Fixes a bug where alt text changes made via the inline image editor in How-to and FAQ blocks were not being reflected on the frontend. Props to @param-chandarana.
-* Fixes a bug where the task list copies were displayed in the site language instead of the user language
-
-#### Other
-
-* Updates the webinar promotion banner copy on admin pages.
-
-= 27.3 =
-
-Release date: 2026-03-31
-
-Yoast SEO 27.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+Release date: 2026-05-12
 
 #### Enhancements
 
-* Adds the highlighting feature to _keyphrase in subheadings_ assessment. Now users can highlight the headings that include the keyphrase or synonyms.
-* Introduces a more robust HTML processing approach for the _keyphrase in subheadings_ assessment.
-
-#### Bugfixes
-
-* Fixes a bug where `Deprecated: strip_tags(): Passing null to parameter #1 ($string) of type string is deprecated` notices appeared on certain actions, like when activating the plugin, or saving a Yoast setting. Props to @sabernhardt.
-* Fixes a bug where the installation success redirect was incorrectly fired during AJAX, cron, REST API, or JSON requests, breaking integrations such as the Bluehost SSO.
-* Fixes a console error in the editor related to AI Generate feature that occurred when the “Enable SEO controls and assessments” option was disabled for a content type.
+* Adds the Content Planner feature, which allows users to get AI-powered content suggestions and structured outlines for new posts directly from the block editor.
 
 #### Other
 
-* Sets the _WordPress tested up to_ version to 7.0.
-* Improves security of format_json_encode() by removing JSON_UNESCAPED_SLASHES, which could allow a user to control tags in the schema JSON-LD output. Props to @rob006.
-* Updates the completion message and changes the call-to-action button text of the First-time configuration.
+* Improves documentation in a docblock. Props to [@MukundaKatta](https://github.com/MukundaKatta).
+* Introduces a shared contributor guide for humans and AI coding tools.
+
+= 27.5 =
+
+Release date: 2026-04-28
+
+Introduces Yoast SEO Abilities API, allowing AI tools, dashboards, and automated workflows to automatically read SEO, readability, and inclusive language scores from your most recent posts. Read more in the [release post](https://yoa.st/56j). 
+
+#### Enhancements
+
+* Adds a Yoast ability for retrieving scores for Yoast analyses for recent posts, using the Abilities API.
+* Adds Qatar to the list of available countries for the Semrush related keyphrase suggestions.
+
+#### Bugfixes
+
+* Fixes a bug where the AI Generator's "Generate with AI" feature failed after a site's domain was changed, because stale callback URLs remained registered with the Yoast API from the original domain.
+
+#### Other
+
+* Introduces a performance increase when calculating if the SEO optimization is completed for internal links. Props to [@adconecto](https://github.com/adconecto).
+* Removes the schemamap line from the `robots.txt` file.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

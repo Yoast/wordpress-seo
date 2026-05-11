@@ -12,6 +12,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Premium_Or_Free_AI_Conditional;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -67,7 +68,7 @@ class Get_Usage_Route implements Route_Interface {
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		return [ AI_Conditional::class ];
+		return [ AI_Conditional::class, New_Premium_Or_Free_AI_Conditional::class ];
 	}
 
 	/**

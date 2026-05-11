@@ -57,6 +57,7 @@ class Container_Compiler {
 			$container_builder->addCompilerPass( new Interface_Injection_Pass() );
 			$container_builder->addCompilerPass( new AutowireRequiredMethodsPass() );
 			$container_builder->addCompilerPass( new Inject_From_Registry_Pass() );
+			$container_builder->addCompilerPass( new Logger_Aware_Pass() );
 			$loader = new Custom_Loader( $container_builder, $class_map_path );
 			$loader->load( $services_path );
 			$container_builder->compile();

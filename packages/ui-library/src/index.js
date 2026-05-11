@@ -24,6 +24,7 @@ export { default as Toggle } from "./elements/toggle";
 export { default as Tooltip } from "./elements/tooltip";
 export { ValidationIcon, ValidationInput, ValidationMessage } from "./elements/validation";
 export { default as ScoreIcon } from "./elements/score-icon";
+export { SparklesIcon as GradientSparklesIcon } from "./elements/button/sparkles-icon";
 
 export { default as AutocompleteField } from "./components/autocomplete-field";
 export { default as Card } from "./components/card";
