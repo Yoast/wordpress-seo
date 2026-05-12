@@ -9,7 +9,7 @@ use Generator;
 /**
  * Test class getting the configuration.
  *
- * @group Llms_Txt_Configuration
+ * @group llms.txt
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Configuration\Llms_Txt_Configuration::get_configuration
  *
