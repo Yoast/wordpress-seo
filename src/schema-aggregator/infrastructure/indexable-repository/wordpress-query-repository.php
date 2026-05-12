@@ -71,7 +71,7 @@ class WordPress_Query_Repository implements Indexable_Repository_Interface {
 			if ( $indexable !== null && ( $indexable->is_public === true || $indexable->is_public === null ) ) {
 				if ( empty( $indexable->id ) ) {
 					// If the indexable doesn't have an ID, we assign it a negative value of the post ID to ensure uniqueness.
-					$indexable->id = ( -$post_id );
+					$indexable->id = $post_id;
 				}
 				$public_indexables[] = $indexable;
 			}
