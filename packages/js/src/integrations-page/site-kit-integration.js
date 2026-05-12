@@ -8,7 +8,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Button, useToggleState } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ReactComponent as SiteKitLogo } from "../../images/site-kit-logo.svg";
-import { SiteKitConsentModal, UnsavedChangesModal as DisconnectModal } from "../shared-admin/components";
+import { SiteKitConsentModal, ConfirmActionModal as DisconnectModal } from "../shared-admin/components";
 import { SimpleIntegration } from "./simple-integration";
 import classNames from "classnames";
 import { values } from "lodash";
