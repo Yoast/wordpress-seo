@@ -15,14 +15,14 @@ class Image_Helper {
 	/**
 	 * Image types that are supported by Open Graph.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected static $valid_image_types = [ 'image/jpeg', 'image/gif', 'image/png', 'image/webp' ];
 
 	/**
 	 * Image extensions that are supported by Open Graph.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected static $valid_image_extensions = [ 'jpeg', 'jpg', 'gif', 'png', 'webp' ];
 
@@ -230,7 +230,7 @@ class Image_Helper {
 	 *
 	 * @param int $attachment_id Attachment ID.
 	 *
-	 * @return array The metadata, empty array when no metadata is found.
+	 * @return array<string, string|int|array<string, string|int|array<string, string|int>>> The metadata, empty array when no metadata is found.
 	 */
 	public function get_metadata( $attachment_id ) {
 		$metadata = \wp_get_attachment_metadata( $attachment_id );
@@ -266,7 +266,7 @@ class Image_Helper {
 	 * @param int    $attachment_id Attachment ID.
 	 * @param string $size          Size name.
 	 *
-	 * @return array|false Returns an array with image data on success, false on failure.
+	 * @return array<string, string|int>|false Returns an array with image data on success, false on failure.
 	 */
 	public function get_image( $attachment_id, $size ) {
 		return WPSEO_Image_Utils::get_image( $attachment_id, $size );
@@ -366,24 +366,23 @@ class Image_Helper {
 	}
 
 	/**
-	 * Based on and image ID return array with the best variation of that image. If it's not saved to the DB,  save it
-	 * to an option.
+	 * Retrieves the best variation of the image stored in a settings field.
 	 *
-	 * @param string $setting The setting name. Should be company or person.
+	 * The cached variation is populated at save time by Logo_Meta_Watcher, so
+	 * this method mostly just reads it. In the narrow window where the cache
+	 * is not (yet) populated it falls back to a live compute, but the result
+	 * is not persisted.
 	 *
-	 * @return array|bool Array with image details when the image is found, boolean when it's not found.
+	 * @param string $setting The setting name. Should be company_logo or person_logo.
+	 *
+	 * @return array<string, string|int>|bool Array with image details when the image is found, boolean when it's not found.
 	 */
 	public function get_attachment_meta_from_settings( $setting ) {
 		$image_meta = $this->options_helper->get( $setting . '_meta', false );
 		if ( ! $image_meta ) {
 			$image_id = $this->options_helper->get( $setting . '_id', false );
 			if ( $image_id ) {
-				// There is not an option to put a URL in an image field in the settings anymore, only to upload it through the media manager.
-				// This means an attachment always exists, so doing this is only needed once.
 				$image_meta = $this->get_best_attachment_variation( $image_id );
-				if ( $image_meta ) {
-					$this->options_helper->set( $setting . '_meta', $image_meta );
-				}
 			}
 		}
 
