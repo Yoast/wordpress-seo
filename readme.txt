@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.0
-Stable tag: 27.5
+Stable tag: 27.6
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -307,9 +307,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-05-12
 
+Introduces Yoast AI Content Planner to Yoast SEO Premium, giving five site-specific post ideas and a structured starter draft the moment you open a new post. Haven't used your free AI sparks yet? Give it a try on us. [Read the full release post here](https://yoa.st/56n).
+
 #### Enhancements
 
-* Adds the Content Planner feature, which allows users to get AI-powered content suggestions and structured outlines for new posts directly from the block editor.
+* Adds the Content Planner feature, which allows users to get AI-powered content suggestions and structured outlines for new posts directly from the block editor. This is available as part of the free sparks allowance in Yoast SEO Free.
 
 #### Other
 
