@@ -40,12 +40,27 @@ class WPSEO_Custom_Fields {
 		 *
 		 * @param int $limit Number of custom fields to retrieve. Default 30.
 		 */
-		$limit  = apply_filters( 'postmeta_form_limit', 30 );
-		$sql    = "SELECT DISTINCT meta_key
-			FROM $wpdb->postmeta
-			WHERE meta_key NOT BETWEEN '_' AND '_z' AND SUBSTRING(meta_key, 1, 1) != '_'
-			LIMIT %d";
-		$fields = $wpdb->get_col( $wpdb->prepare( $sql, $limit ) );
+		$limit = apply_filters( 'postmeta_form_limit', 30 );
+
+		/**
+		 * Filters the custom-fields lookup before the database query runs.
+		 *
+		 * Returning a non-null array short-circuits the default `SELECT DISTINCT meta_key`
+		 * query against `wp_postmeta`. On very large postmeta tables this is can be a way
+		 * to supply a pre-cached list or an alternative query to improve loading times.
+		 *
+		 * @param string[]|null $custom_fields Pre-computed list of meta_key names, or null to run the default query.
+		 * @param int           $limit         The configured result limit; honor it if running a custom query.
+		 */
+		$fields = apply_filters( 'wpseo_custom_fields_pre_query', null, $limit );
+
+		if ( ! is_array( $fields ) ) {
+			$sql    = "SELECT DISTINCT meta_key
+				FROM $wpdb->postmeta
+				WHERE meta_key NOT BETWEEN '_' AND '_z' AND SUBSTRING(meta_key, 1, 1) != '_'
+				LIMIT %d";
+			$fields = $wpdb->get_col( $wpdb->prepare( $sql, $limit ) );
+		}
 
 		/**
 		 * Filters the custom fields that are auto-completed and replaced as replacement variables
