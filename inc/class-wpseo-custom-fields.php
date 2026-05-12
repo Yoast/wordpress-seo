@@ -43,7 +43,7 @@ class WPSEO_Custom_Fields {
 		$limit = apply_filters( 'postmeta_form_limit', 30 );
 
 		/**
-		 * Filters the custom-fields lookup before the database query runs.
+		 * Filter: 'wpseo_custom_fields_pre_query' - Filters the custom-fields lookup before the database query runs.
 		 *
 		 * Returning a non-null array short-circuits the default `SELECT DISTINCT meta_key`
 		 * query against `wp_postmeta`. On very large postmeta tables this is can be a way
