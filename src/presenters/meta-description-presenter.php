@@ -57,6 +57,9 @@ class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 		 * @param Indexable_Presentation $presentation     The presentation of an indexable.
 		 */
 		$meta_description = \apply_filters( 'wpseo_metadesc', $meta_description, $this->presentation );
+		if ( ! is_string( $meta_description ) ) {
+		    $meta_description = '';
+		}
 		$meta_description = $this->helpers->string->strip_all_tags( \stripslashes( $meta_description ) );
 		return \trim( $meta_description );
 	}
