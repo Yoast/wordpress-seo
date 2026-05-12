@@ -46,7 +46,7 @@ class WPSEO_Custom_Fields {
 		 * Filter: 'wpseo_custom_fields_pre_query' - Filters the custom-fields lookup before the database query runs.
 		 *
 		 * Returning a non-null array short-circuits the default `SELECT DISTINCT meta_key`
-		 * query against `wp_postmeta`. On very large postmeta tables this is can be a way
+		 * query against `wp_postmeta`. On very large postmeta tables this can be a way
 		 * to supply a pre-cached list or an alternative query to improve loading times.
 		 *
 		 * @param string[]|null $custom_fields Pre-computed list of meta_key names, or null to run the default query.
