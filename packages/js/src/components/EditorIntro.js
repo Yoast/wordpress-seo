@@ -13,7 +13,7 @@ import { __ } from "@wordpress/i18n";
  */
 export const EditorIntro = ( { withPromptForContentSuggestions, isPost, children } ) => {
 	return <div className="yst-px-4 yst-pt-4">
-		<Yoast className="yst-w-14" />
+		<Yoast className="yst-w-14 yst-text-primary-500" />
 		{ children }
 		<p className={ classNames( "yst-text-slate-600 yst-mt-3", isPost ? "yst-mb-0" : "yst-mb-3" ) }>
 			{ withPromptForContentSuggestions ? __( "Optimize your content for discovery or get new content suggestions.", "wordpress-seo" )

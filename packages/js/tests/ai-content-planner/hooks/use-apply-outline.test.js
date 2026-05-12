@@ -1,213 +1,209 @@
+/* eslint-disable camelcase */
 import { renderHook, act } from "@testing-library/react";
-import { useDispatch, select } from "@wordpress/data";
+import { useDispatch, select as mockSelect } from "@wordpress/data";
 import { useApplyOutline } from "../../../src/ai-content-planner/hooks/use-apply-outline";
 import { buildBlocksFromOutline } from "../../../src/ai-content-planner/helpers/build-blocks-from-outline";
-import { applyPostMetaFromOutline } from "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline";
+import { CONTENT_PLANNER_STORE } from "../../../src/ai-content-planner/constants";
 
 jest.mock( "@wordpress/data", () => ( {
 	useDispatch: jest.fn(),
 	select: jest.fn(),
 } ) );
 
+const mockBlocks = [ { name: "core/heading", attributes: {} } ];
 jest.mock( "../../../src/ai-content-planner/helpers/build-blocks-from-outline", () => ( {
-	buildBlocksFromOutline: jest.fn( () => [ "block1" ] ),
+	buildBlocksFromOutline: jest.fn( () => mockBlocks ),
 } ) );
 
-jest.mock( "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline", () => ( {
-	applyPostMetaFromOutline: jest.fn(),
-} ) );
+const mockEditPost = jest.fn();
+const mockCloseModal = jest.fn();
+const mockSetBannerDismissed = jest.fn();
 
-const mockApiOutline = [ { heading: "Intro" }, { heading: "Body" } ];
+const apiOutline = [ { heading: "Intro" } ];
+// The API suggestion mirrors the snake_case shape returned by the Yoast Content Planner endpoint.
+const apiSuggestion = {
+	title: "API title",
 
-const mockApiSuggestion = {
-	title: "API Title",
-	// eslint-disable-next-line camelcase
-	meta_description: "API Meta",
+	meta_description: "API meta",
 	keyphrase: "api keyphrase",
-	category: "api-category",
-	id: "suggestion-api keyphrase-API Title",
+	category: { name: "API", id: 7 },
 };
 
-const resetBlocks = jest.fn();
-const closeModal = jest.fn();
-const setBannerDismissed = jest.fn();
+beforeEach( () => {
+	mockEditPost.mockClear();
+	mockCloseModal.mockClear();
+	mockSetBannerDismissed.mockClear();
+	buildBlocksFromOutline.mockClear();
 
-/**
- * Sets up useDispatch to return the correct mock per store.
- */
-const setupUseDispatch = () => {
 	useDispatch.mockImplementation( ( storeName ) => {
-		if ( storeName === "core/block-editor" ) {
-			return { resetBlocks };
+		if ( storeName === "core/editor" ) {
+			return { editPost: mockEditPost };
 		}
-		return { closeModal, setBannerDismissed };
+		if ( storeName === CONTENT_PLANNER_STORE ) {
+			return { closeModal: mockCloseModal, setBannerDismissed: mockSetBannerDismissed };
+		}
+		return {};
 	} );
-};
 
-/**
- * Sets up select to return the correct mock per store.
- *
- * @param {Object} params               Optional override values.
- * @param {Array}  params.apiOutline    Outline returned by selectContentOutline.
- * @param {Object} params.apiSuggestion Suggestion returned by selectSuggestion.
- */
-const setupSelect = ( { apiOutline = mockApiOutline, apiSuggestion = mockApiSuggestion } = {} ) => {
-	select.mockImplementation( () => ( {
-		selectContentOutline: jest.fn( () => apiOutline ),
-		selectSuggestion: jest.fn( () => apiSuggestion ),
-	} ) );
-};
+	mockSelect.mockImplementation( ( storeName ) => {
+		if ( storeName === CONTENT_PLANNER_STORE ) {
+			return {
+				selectContentOutline: () => apiOutline,
+				selectSuggestion: () => apiSuggestion,
+			};
+		}
+		return {};
+	} );
+} );
 
 describe( "useApplyOutline", () => {
-	beforeEach( () => {
-		jest.clearAllMocks();
-		setupUseDispatch();
-		setupSelect();
+	it( "writes blocks, title, and categories in a single editPost call when a category is provided", async() => {
+		const editedOutline = {
+			title: "Edited title",
+			metaDescription: "Edited meta",
+			focusKeyphrase: "edited keyphrase",
+			category: { name: "Edited", id: 9 },
+			structure: [ { heading: "Edited section" } ],
+		};
+		const editedOutlineRef = { current: editedOutline };
+		const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
+
+		await act( async() => {
+			await result.current();
+		} );
+
+		expect( mockEditPost ).toHaveBeenCalledTimes( 1 );
+		expect( mockEditPost ).toHaveBeenCalledWith( {
+			title: "Edited title",
+			blocks: mockBlocks,
+			categories: [ 9 ],
+			meta: {
+				_yoast_wpseo_title: "Edited title",
+				_yoast_wpseo_metadesc: "Edited meta",
+				_yoast_wpseo_focuskw: "edited keyphrase",
+			},
+		} );
+		expect( buildBlocksFromOutline ).toHaveBeenCalledWith( editedOutline.structure );
 	} );
 
-	describe( "metadata from editedOutline", () => {
-		it( "uses editedOutline data when the ref has a value", async() => {
-			const editedOutline = {
-				title: "Edited Title",
-				metaDescription: "Edited Meta",
-				focusKeyphrase: "edited keyphrase",
-				category: "edited-category",
-				structure: [ { heading: "Edited Section" } ],
-			};
-			const editedOutlineRef = { current: editedOutline };
+	it( "omits the categories field when category is null", async() => {
+		const editedOutline = {
+			title: "T",
+			metaDescription: "M",
+			focusKeyphrase: "K",
+			category: null,
+			structure: [],
+		};
+		const editedOutlineRef = { current: editedOutline };
+		const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
 
-			const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
-
-			await act( async() => {
-				await result.current();
-			} );
-
-			expect( applyPostMetaFromOutline ).toHaveBeenCalledWith( {
-				title: "Edited Title",
-				metaDescription: "Edited Meta",
-				focusKeyphrase: "edited keyphrase",
-				category: "edited-category",
-			} );
+		await act( async() => {
+			await result.current();
 		} );
 
-		it( "uses editedOutline.structure as the block structure", async() => {
-			const editedStructure = [ { heading: "Custom Section" } ];
-			const editedOutlineRef = {
-				current: {
-					title: "T",
-					metaDescription: "M",
-					focusKeyphrase: "K",
-					category: "C",
-					structure: editedStructure,
-				},
-			};
-
-			const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
-
-			await act( async() => {
-				await result.current();
-			} );
-
-			expect( buildBlocksFromOutline ).toHaveBeenCalledWith( editedStructure );
-		} );
-	} );
-
-	describe( "metadata from apiSuggestion", () => {
-		it( "falls back to apiSuggestion when editedOutlineRef.current is null", async() => {
-			const editedOutlineRef = { current: null };
-
-			const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
-
-			await act( async() => {
-				await result.current();
-			} );
-
-			expect( applyPostMetaFromOutline ).toHaveBeenCalledWith( {
-				title: mockApiSuggestion.title,
-				metaDescription: mockApiSuggestion.meta_description,
-				focusKeyphrase: mockApiSuggestion.keyphrase,
-				category: mockApiSuggestion.category,
-			} );
-		} );
-
-		it( "uses apiOutline as the block structure when editedOutlineRef.current is null", async() => {
-			const editedOutlineRef = { current: null };
-
-			const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
-
-			await act( async() => {
-				await result.current();
-			} );
-
-			expect( buildBlocksFromOutline ).toHaveBeenCalledWith( mockApiOutline );
+		expect( mockEditPost ).toHaveBeenCalledTimes( 1 );
+		expect( mockEditPost ).toHaveBeenCalledWith( {
+			title: "T",
+			blocks: mockBlocks,
+			meta: {
+				_yoast_wpseo_title: "T",
+				_yoast_wpseo_metadesc: "M",
+				_yoast_wpseo_focuskw: "K",
+			},
 		} );
 	} );
 
-	describe( "block operations", () => {
-		it( "calls resetBlocks with the built blocks", async() => {
-			const editedOutlineRef = { current: null };
+	it( "omits the categories field when the empty-category sentinel is given", async() => {
+		const editedOutline = {
+			title: "T",
+			metaDescription: "M",
+			focusKeyphrase: "K",
+			category: { name: "", id: -1 },
+			structure: [],
+		};
+		const editedOutlineRef = { current: editedOutline };
+		const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
 
-			const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
-
-			await act( async() => {
-				await result.current();
-			} );
-
-			expect( resetBlocks ).toHaveBeenCalledWith( [ "block1" ] );
+		await act( async() => {
+			await result.current();
 		} );
 
-		it( "calls setBannerDismissed after applying the outline", async() => {
-			const editedOutlineRef = { current: null };
-
-			const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
-
-			await act( async() => {
-				await result.current();
-			} );
-
-			expect( setBannerDismissed ).toHaveBeenCalledTimes( 1 );
-		} );
-	} );
-
-	describe( "modal close", () => {
-		it( "calls closeModal after applying the outline", async() => {
-			const editedOutlineRef = { current: null };
-
-			const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
-
-			await act( async() => {
-				await result.current();
-			} );
-
-			expect( closeModal ).toHaveBeenCalledTimes( 1 );
+		expect( mockEditPost ).toHaveBeenCalledTimes( 1 );
+		expect( mockEditPost ).toHaveBeenCalledWith( {
+			title: "T",
+			blocks: mockBlocks,
+			meta: {
+				_yoast_wpseo_title: "T",
+				_yoast_wpseo_metadesc: "M",
+				_yoast_wpseo_focuskw: "K",
+			},
 		} );
 	} );
 
-	describe( "ref timing", () => {
-		it( "reads editedOutlineRef.current at callback invocation time, not render time", async() => {
-			const editedOutlineRef = { current: null };
+	it( "includes Yoast meta fields in the editPost call", async() => {
+		const editedOutline = {
+			title: "Edited title",
+			metaDescription: "Edited meta",
+			focusKeyphrase: "edited keyphrase",
+			category: { name: "Edited", id: 9 },
+			structure: [],
+		};
+		const editedOutlineRef = { current: editedOutline };
+		const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
 
-			const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
-
-			// Update the ref after the hook has rendered.
-			editedOutlineRef.current = {
-				title: "Late-set Title",
-				metaDescription: "Late-set Meta",
-				focusKeyphrase: "late keyphrase",
-				category: "late-category",
-				structure: [],
-			};
-
-			await act( async() => {
-				await result.current();
-			} );
-
-			expect( applyPostMetaFromOutline ).toHaveBeenCalledWith( {
-				title: "Late-set Title",
-				metaDescription: "Late-set Meta",
-				focusKeyphrase: "late keyphrase",
-				category: "late-category",
-			} );
+		await act( async() => {
+			await result.current();
 		} );
+
+		expect( mockEditPost ).toHaveBeenCalledWith( expect.objectContaining( {
+			meta: {
+				_yoast_wpseo_title: "Edited title",
+				_yoast_wpseo_metadesc: "Edited meta",
+				_yoast_wpseo_focuskw: "edited keyphrase",
+			},
+		} ) );
+	} );
+
+	it( "falls back to the API suggestion when no edited outline is present", async() => {
+		const editedOutlineRef = { current: null };
+		const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
+
+		await act( async() => {
+			await result.current();
+		} );
+
+		expect( buildBlocksFromOutline ).toHaveBeenCalledWith( apiOutline );
+		expect( mockEditPost ).toHaveBeenCalledWith( {
+			title: apiSuggestion.title,
+			blocks: mockBlocks,
+			categories: [ apiSuggestion.category.id ],
+			meta: {
+				_yoast_wpseo_title: apiSuggestion.title,
+				_yoast_wpseo_metadesc: apiSuggestion.meta_description,
+				_yoast_wpseo_focuskw: apiSuggestion.keyphrase,
+			},
+		} );
+	} );
+
+	it( "dismisses the banner after applying the outline", async() => {
+		const editedOutlineRef = { current: null };
+		const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
+
+		await act( async() => {
+			await result.current();
+		} );
+
+		expect( mockSetBannerDismissed ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( "closes the modal at the end of the apply flow", async() => {
+		const editedOutlineRef = { current: null };
+		const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
+
+		await act( async() => {
+			await result.current();
+		} );
+
+		expect( mockCloseModal ).toHaveBeenCalledTimes( 1 );
 	} );
 } );

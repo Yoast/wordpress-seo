@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, within } from "@testing-library/react";
+import { render, screen, fireEvent, within, act } from "@testing-library/react";
 import { Modal } from "@yoast/ui-library";
 import { SuggestionsModalContent } from "../../../src/ai-content-planner/components/suggestions-modal-content";
 import { ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
@@ -54,23 +54,23 @@ const mockSuggestions = [
 
 const renderLoadingModal = ( { onClose = jest.fn(), suggestions = mockSuggestions, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
-		<div>
+		<Modal.Panel closeButtonScreenReaderText="Close">
 			<SuggestionsModalContent status={ ASYNC_ACTION_STATUS.loading } isPremium={ false } suggestions={ suggestions } { ...props } />
-		</div>
+		</Modal.Panel>
 	</Modal>
 );
 
 const renderSuccessModal = ( { onClose = jest.fn(), suggestions = mockSuggestions, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
-		<div>
+		<Modal.Panel closeButtonScreenReaderText="Close">
 			<SuggestionsModalContent status={ ASYNC_ACTION_STATUS.success } isPremium={ false } suggestions={ suggestions } { ...props } />
-		</div>
+		</Modal.Panel>
 	</Modal>
 );
 
 const renderErrorModal = ( { onClose = jest.fn(), error = { errorCode: 500 }, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
-		<div>
+		<Modal.Panel closeButtonScreenReaderText="Close">
 			<SuggestionsModalContent
 				status={ ASYNC_ACTION_STATUS.error }
 				isPremium={ false }
@@ -78,7 +78,7 @@ const renderErrorModal = ( { onClose = jest.fn(), error = { errorCode: 500 }, ..
 				error={ error }
 				{ ...props }
 			/>
-		</div>
+		</Modal.Panel>
 	</Modal>
 );
 
@@ -163,6 +163,20 @@ describe( "ContentSuggestionsModal", () => {
 		it( "renders no suggestion buttons when suggestions is empty", () => {
 			renderSuccessModal( { suggestions: [] } );
 			expect( screen.queryByText( "How to train your dog" ) ).not.toBeInTheDocument();
+		} );
+	} );
+
+	describe( "loading text rotation", () => {
+		it( "cycles to the second loading text after 3 seconds", () => {
+			renderLoadingModal();
+			expect( screen.getByText( "Analyzing your site content…" ) ).toBeInTheDocument();
+			act( () => {
+				jest.advanceTimersByTime( 3000 );
+			} );
+			act( () => {
+				jest.advanceTimersByTime( 300 );
+			} );
+			expect( screen.getByText( "Composing your content suggestions…" ) ).toBeInTheDocument();
 		} );
 	} );
 
