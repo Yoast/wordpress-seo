@@ -106,17 +106,17 @@ final class WordPress_Query_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get() assigns a synthetic negative id when indexables are not persisted.
+	 * Tests that get() assigns a synthetic id when indexables are not persisted.
 	 *
 	 * When the `Yoast\WP\SEO\should_index_indexables` filter returns `false`, the builder produces
 	 * in-memory Indexables whose primary key is never minted by the DB. Downstream consumers
 	 * (e.g. Meta_Tags_Context_Memoizer) key caches on `$indexable->id`, so distinct posts must
-	 * still end up with distinct ids — the repository fills that gap by assigning `-$post_id`.
+	 * still end up with distinct ids — the repository fills that gap by assigning `$post_id`.
 	 *
 	 * @return void
 	 */
-	public function test_get_assigns_synthetic_negative_id_when_indexables_disabled(): void {
-		// Remove any indexables that the post watcher persisted during set_up; otherwise find_by_id_and_type returns the saved row (with a real positive id) and the synthetic-id branch never fires.
+	public function test_get_assigns_synthetic_id_when_indexables_disabled(): void {
+		// Remove any indexables that the post watcher persisted during set_up; otherwise find_by_id_and_type returns the saved row (with a real id) and the synthetic-id branch never fires.
 		$this->pure_indexable_repository
 			->query()
 			->where_in( 'object_id', $this->created_posts )
@@ -132,8 +132,7 @@ final class WordPress_Query_Repository_Test extends TestCase {
 
 			$ids = [];
 			foreach ( $result as $indexable ) {
-				$this->assertLessThan( 0, $indexable->id, 'Synthetic ids must be negative to avoid collisions with real primary keys' );
-				$this->assertSame( -$indexable->object_id, $indexable->id, 'Synthetic id should be the negated post id' );
+				$this->assertSame( $indexable->object_id, $indexable->id, 'Synthetic id should equal the post id' );
 				$ids[] = $indexable->id;
 			}
 
