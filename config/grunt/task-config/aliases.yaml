@@ -102,9 +102,13 @@ clean:build-assets:
 release:
   - 'clean:build-assets'
   - 'build:images'
-  - 'release:packages'
+  - 'release:packages:from-npm'
   - 'release:js'
   - 'release:css'
+
+# Use pre-built NPM packages where available, fall back to source build.
+'release:packages:from-npm':
+  - 'shell:install-npm-builds'
 # Compile the JavaScript packages that need it.
 'release:packages':
   - 'shell:yarn-prod:build --ignore @yoast/wordpress-seo'
