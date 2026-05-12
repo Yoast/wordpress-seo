@@ -1,0 +1,14 @@
+---
+description: Yoast SEO — create a pull request workflow. Apply whenever the user asks to open, file, or update a pull request.
+alwaysApply: false
+---
+
+When the user asks to create, open, or update a pull request, follow the procedure in [`docs/workflows/create-pr.md`](../../docs/workflows/create-pr.md) exactly. That file is the canonical workflow shared across tools — do not reinvent it from context.
+
+@../../docs/workflows/create-pr.md
+
+The recipe's own references are:
+
+- [`AGENTS.md`](../../AGENTS.md) — conventions and architecture.
+- [`.github/CONTRIBUTING.md`](../../.github/CONTRIBUTING.md) — pre-push checks and coverage policy.
+- [`.github/PULL_REQUEST_TEMPLATE.md`](../../.github/PULL_REQUEST_TEMPLATE.md) — changelog grammar, labels, bracket syntax, release-branch rules.
