@@ -134,6 +134,38 @@ describe( "an assessor object", function() {
 		} );
 	} );
 
+	describe( "tree building", function() {
+		it( "builds the HTML tree exactly once when the paper does not already have one", function() {
+			const paper = new Paper( "<p>Hello world.</p>" );
+			const assessor = new Assessor( new DefaultResearcher() );
+
+			expect( paper.getTree() ).toBeNull();
+			const setTreeSpy = jest.spyOn( paper, "setTree" );
+
+			assessor.assess( paper );
+
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( paper.getTree() ).not.toBeNull();
+		} );
+
+		it( "does not rebuild the HTML tree when the paper already has one", function() {
+			const paper = new Paper( "<p>Hello world.</p>" );
+			const assessor = new Assessor( new DefaultResearcher() );
+
+			// Populate the tree once via a first assess() call so it's a real, valid tree.
+			assessor.assess( paper );
+			const existingTree = paper.getTree();
+			expect( existingTree ).not.toBeNull();
+
+			const setTreeSpy = jest.spyOn( paper, "setTree" );
+
+			assessor.assess( paper );
+
+			expect( setTreeSpy ).not.toHaveBeenCalled();
+			expect( paper.getTree() ).toBe( existingTree );
+		} );
+	} );
+
 	describe( "hasMarker", function() {
 		let assessor;
 

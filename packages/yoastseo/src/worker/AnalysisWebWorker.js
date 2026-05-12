@@ -1095,6 +1095,8 @@ export default class AnalysisWebWorker {
 				keyword: this._relatedKeywords[ key ].keyword,
 				synonyms: this._relatedKeywords[ key ].synonyms,
 			} );
+			// The HTML text and shortcodes are identical to the parent paper, so reuse its tree to avoid a rebuild per related keyphrase.
+			relatedPaper.setTree( paper.getTree() );
 
 			// We need to remember the key, since the SEO results are stored in an object, not an array.
 			return this.assess( relatedPaper, this._relatedKeywordAssessor ).then(

@@ -1929,6 +1929,41 @@ describe( "AnalysisWebWorker", () => {
 		} );
 	} );
 
+	describe( "assessRelatedKeywords", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+		} );
+
+		test( "propagates the parent paper's tree to each related-keyphrase paper to avoid rebuilding", async() => {
+			const paper = new Paper( "<p>Some content here.</p>" );
+			const sentinelTree = { __sentinel: true };
+			paper.setTree( sentinelTree );
+
+			// Mock worker.assess so we don't run a real assessor against a sentinel tree.
+			const assessSpy = jest.spyOn( worker, "assess" ).mockResolvedValue( { score: 0, results: [] } );
+
+			const relatedKeywords = {
+				a: { keyword: "foo", synonyms: "" },
+				b: { keyword: "bar", synonyms: "" },
+			};
+
+			await worker.assessRelatedKeywords( paper, relatedKeywords );
+
+			expect( assessSpy ).toHaveBeenCalledTimes( 2 );
+
+			const firstRelatedPaper = assessSpy.mock.calls[ 0 ][ 0 ];
+			const secondRelatedPaper = assessSpy.mock.calls[ 1 ][ 0 ];
+
+			expect( firstRelatedPaper.getTree() ).toBe( sentinelTree );
+			expect( secondRelatedPaper.getTree() ).toBe( sentinelTree );
+
+			expect( firstRelatedPaper ).not.toBe( secondRelatedPaper );
+			expect( firstRelatedPaper.getKeyword() ).toBe( "foo" );
+			expect( secondRelatedPaper.getKeyword() ).toBe( "bar" );
+		} );
+	} );
+
 	describe( "set assessors", () => {
 		const customAssessorOptions = { url: "url" };
 		beforeEach( () => {
