@@ -447,13 +447,13 @@ final class Schema_Generator_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2024-12-13 09:58:08' )
 			->andReturn( '2024-12-13 09:58:08' );
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2024-12-13 09:58:09' )
 			->andReturn( '2024-12-13 09:58:09' );
@@ -652,13 +652,13 @@ final class Schema_Generator_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2024-12-13 09:58:08' )
 			->andReturn( '2024-12-13 09:58:08' );
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2024-12-13 09:58:09' )
 			->andReturn( '2024-12-13 09:58:09' );
@@ -723,13 +723,13 @@ final class Schema_Generator_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2024-12-13 09:58:08' )
 			->andReturn( '2024-12-13 09:58:08' );
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2024-12-13 09:58:09' )
 			->andReturn( '2024-12-13 09:58:09' );
@@ -837,13 +837,13 @@ final class Schema_Generator_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2024-12-13 09:58:08' )
 			->andReturn( '2024-12-13 09:58:08' );
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2024-12-13 09:58:09' )
 			->andReturn( '2024-12-13 09:58:09' );
@@ -940,13 +940,13 @@ final class Schema_Generator_Test extends TestCase {
 			->andReturnTrue();
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2024-12-13 09:58:08' )
 			->andReturn( '2024-12-13 09:58:08' );
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2024-12-13 09:58:09' )
 			->andReturn( '2024-12-13 09:58:09' );
@@ -1164,7 +1164,7 @@ final class Schema_Generator_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2024-12-13 09:58:08' )
 			->andReturn( '2024-12-13 09:58:08' );
