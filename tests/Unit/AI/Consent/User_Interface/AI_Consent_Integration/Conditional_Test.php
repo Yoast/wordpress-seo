@@ -5,7 +5,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\User_Interface\AI_Consent_Integration;
 
 use Yoast\WP\SEO\AI\Consent\User_Interface\Ai_Consent_Integration;
-use Yoast\WP\SEO\Conditionals\New_Premium_Or_Free_AI_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Profile_Conditional;
 
 /**
@@ -23,7 +22,7 @@ final class Conditional_Test extends Abstract_AI_Consent_Integration_Test {
 	 * @return void
 	 */
 	public function test_conditional() {
-		$expected = [ User_Profile_Conditional::class, New_Premium_Or_Free_AI_Conditional::class ];
+		$expected = [ User_Profile_Conditional::class ];
 		$this->assertSame( $expected, Ai_Consent_Integration::get_conditionals() );
 	}
 }

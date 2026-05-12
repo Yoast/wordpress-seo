@@ -20,13 +20,17 @@
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Premium_Or_Free_AI_Conditional;
+use Yoast\WP\SEO\Conditionals\Old_Premium_AI_Conditional;
 use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Unsupported_PHP_Version_Notice;
 
 $deprecated_classes = [
-	Request_Helper::class                                          => '23.6',
-	Unsupported_PHP_Version_Notice::class                          => '25.0',
-	Google_Site_Kit_Feature_Conditional::class                     => '26.7',
+	Request_Helper::class                      => '23.6',
+	Unsupported_PHP_Version_Notice::class      => '25.0',
+	Google_Site_Kit_Feature_Conditional::class => '26.7',
+	Old_Premium_AI_Conditional::class          => '27.7',
+	New_Premium_Or_Free_AI_Conditional::class  => '27.7',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {
