@@ -44,11 +44,22 @@ describe( "getFocusKeyphraseErrors", () => {
 		expect( second ).toBe( first );
 	} );
 
-	it( "returns a new array reference when the keyword changes", () => {
+	it( "returns the same array reference when the keyword changes but errors are identical", () => {
 		applyFilters.mockReturnValue( [ "An error." ] );
 
 		const first = getFocusKeyphraseErrors( { focusKeyword: "seo-new-a" } );
 		const second = getFocusKeyphraseErrors( { focusKeyword: "seo-new-b" } );
+
+		// Output memoization: reference only changes when error content changes, not when the keyword changes.
+		expect( second ).toBe( first );
+	} );
+
+	it( "returns a new array reference when the errors content changes", () => {
+		applyFilters.mockReturnValueOnce( [ "Error A." ] );
+		applyFilters.mockReturnValueOnce( [ "Error B." ] );
+
+		const first = getFocusKeyphraseErrors( { focusKeyword: "seo-change" } );
+		const second = getFocusKeyphraseErrors( { focusKeyword: "seo-change" } );
 
 		expect( second ).not.toBe( first );
 	} );

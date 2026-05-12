@@ -39,7 +39,11 @@ const makeMapSelectToProps = () => {
 		if (
 			lastResult !== null &&
 			checklist.length === lastResult.checklist.length &&
-			checklist.every( ( item, i ) => JSON.stringify( item ) === JSON.stringify( lastResult.checklist[ i ] ) ) &&
+			checklist.every( ( item, i ) =>
+				item.label === lastResult.checklist[ i ].label &&
+			item.score === lastResult.checklist[ i ].score &&
+			item.scoreValue === lastResult.checklist[ i ].scoreValue
+			) &&
 			isSeoDataDefault.isAllTitlesDefault === lastResult.isSeoDataDefault.isAllTitlesDefault &&
 			isSeoDataDefault.isAllDescriptionsDefault === lastResult.isSeoDataDefault.isAllDescriptionsDefault
 		) {

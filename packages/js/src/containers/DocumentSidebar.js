@@ -33,7 +33,11 @@ const makeMapSelectToProps = () => {
 		// Return the previous reference when content is identical to avoid triggering re-renders.
 		if (
 			checklist.length === lastChecklist.length &&
-			checklist.every( ( item, i ) => JSON.stringify( item ) === JSON.stringify( lastChecklist[ i ] ) )
+			checklist.every( ( item, i ) =>
+				item.label === lastChecklist[ i ].label &&
+			item.score === lastChecklist[ i ].score &&
+			item.scoreValue === lastChecklist[ i ].scoreValue
+			)
 		) {
 			return { checklist: lastChecklist };
 		}
