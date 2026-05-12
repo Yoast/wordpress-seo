@@ -3,7 +3,6 @@ import { useState, useEffect, useCallback, useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import ApproveModal from "../containers/approve-modal";
 import { AiGrantConsent } from "../../shared-admin/components";
-import { ReplaceContentModal } from "./replace-content-modal";
 import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
 import { STORE_NAME_EDITOR, STORE_NAME_AI } from "../../ai-generator/constants";
 import { useFetchContentSuggestions, useApplyOutline } from "../hooks";
@@ -49,15 +48,13 @@ export const App = () => {
 		fetchContentSuggestions();
 	}, [ hasConsent, setFeatureModalStatus, fetchContentSuggestions ] );
 
-	const handleConfirmReplace = useCallback( () => {
-		handleApplyOutline();
-	}, [ handleApplyOutline ] );
-
 	useEffect( () => {
 		if ( ! status ) {
 			setHasVisitedReplace( false );
 		}
 	}, [ status ] );
+
+	const isReplaceModalOpen = replaceContentModalIsOpen && hasVisitedReplace;
 
 	return (
 		<>
@@ -69,11 +66,8 @@ export const App = () => {
 				handleApplyOutline={ handleApplyOutline }
 				openReplaceContentModal={ openReplaceContentModal }
 				setHasVisitedReplace={ setHasVisitedReplace }
-			/>
-			<ReplaceContentModal
-				onConfirm={ handleConfirmReplace }
-				isOpen={ replaceContentModalIsOpen && hasVisitedReplace }
-				onClose={ toggleReplaceContentModal }
+				isReplaceModalOpen={ isReplaceModalOpen }
+				onCloseReplace={ toggleReplaceContentModal }
 			/>
 
 			<Modal isOpen={ isConsentModalOpen } onClose={ closeModal } className="yst-introduction-modal">

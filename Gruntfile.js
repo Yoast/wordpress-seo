@@ -142,6 +142,11 @@ module.exports = function( grunt ) {
 				"set-version": "@yoast/grunt-plugin-tasks",
 				"update-changelog-to-latest": "@yoast/grunt-plugin-tasks",
 				"register-prompt": "grunt-prompt",
+				"notify-slack": "notify-slack",
+				// `update-myyoast-credentials` and `sign-v0-myyoast-credentials`
+				// are both registered by `update-myyoast-credentials.js`;
+				// jit-grunt needs an explicit mapping for the secondary task.
+				"sign-v0-myyoast-credentials": "./config/grunt/custom-tasks/update-myyoast-credentials.js",
 			},
 			customTasksDir: "config/grunt/custom-tasks",
 		},
