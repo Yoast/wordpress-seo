@@ -1,5 +1,14 @@
 import { KeywordInput } from "../../../src/components/contentAnalysis/KeywordInput";
-import { render, screen } from "../../test-utils";
+import { fireEvent, render, screen } from "../../test-utils";
+
+const baseProps = {
+	location: "sidebar",
+	keyword: "",
+	handleChange: jest.fn(),
+	onFocusKeyword: jest.fn(),
+	onBlurKeyword: jest.fn(),
+	validation: null,
+};
 
 beforeAll( () => {
 	global.wpseoAdminL10n = { "shortlinks.focus_keyword_info": "https://example.com/focus_keyword_info" };
@@ -9,51 +18,79 @@ afterAll( () => {
 	delete global.wpseoAdminL10n;
 } );
 
-describe( "KeywordInput", () => {
+describe( "KeywordInput (presentational)", () => {
 	let props;
 
 	beforeEach( () => {
-		props = {
-			onFocusKeyword: jest.fn(),
-			onFocusKeywordChange: jest.fn(),
-			onBlurKeyword: jest.fn(),
-		};
+		props = { ...baseProps, handleChange: jest.fn(), onFocusKeyword: jest.fn(), onBlurKeyword: jest.fn() };
 	} );
 
-	describe( "validate", () => {
-		it( "successfully validates that there is no keyphrase present", () => {
-			render( <KeywordInput { ...props } displayNoKeyphraseMessage={ true } /> );
+	it( "renders the TextField with a location-scoped id, placeholder and autoComplete=off", () => {
+		render( <KeywordInput { ...props } location="metabox" /> );
 
-			const alert = screen.getByRole( "alert" );
-			expect( alert ).toBeInTheDocument();
-			expect( alert.textContent ).toBe( "Please enter a focus keyphrase first to get related keyphrases" );
+		const input = document.getElementById( "focus-keyword-input-metabox" );
+		expect( input ).toBeInTheDocument();
+		expect( input ).toHaveAttribute( "placeholder", "Type here" );
+		expect( input ).toHaveAttribute( "autocomplete", "off" );
+	} );
+
+	it( "forwards the keyword value into the input", () => {
+		render( <KeywordInput { ...props } keyword="my phrase" /> );
+
+		expect( document.getElementById( "focus-keyword-input-sidebar" ) ).toHaveValue( "my phrase" );
+	} );
+
+	it( "calls handleChange with the raw event when the input changes", () => {
+		let receivedValue = null;
+		const handleChange = jest.fn( ( event ) => {
+			receivedValue = event.target.value;
 		} );
 
-		it( "successfully validates that there is a comma in the keyphrase", () => {
-			render( <KeywordInput { ...props } keyword="yoast seo," /> );
+		render( <KeywordInput { ...props } handleChange={ handleChange } /> );
 
-			const alert = screen.getByRole( "alert" );
-			expect( alert ).toBeInTheDocument();
-			expect( alert.textContent ).toBe( "Are you trying to use multiple keyphrases? You should add them separately below." );
-		} );
+		const input = document.getElementById( "focus-keyword-input-sidebar" );
+		fireEvent.change( input, { target: { value: "next" } } );
 
-		it( "successfully validates that the keyphrase is longer than 191 characters", () => {
-			render( <KeywordInput
-				{ ...props }
-				keyword={ "yoast seo wordpress plugin to help improve your SEO through WordPress" +
-					"yoast seo wordpress plugin to help improve your SEO through WordPress" +
-					"yoast seo wordpress plugin to help improve your SEO through WordPress" }
-			/> );
+		expect( handleChange ).toHaveBeenCalledTimes( 1 );
+		expect( receivedValue ).toBe( "next" );
+	} );
 
-			const alert = screen.getByRole( "alert" );
-			expect( alert ).toBeInTheDocument();
-			expect( alert.textContent ).toBe( "Your keyphrase is too long. It can be a maximum of 191 characters." );
-		} );
+	it( "calls onFocusKeyword on focus and onBlurKeyword on blur", () => {
+		render( <KeywordInput { ...props } /> );
 
-		it( "doesn't return any errors when the keyphrase is valid", () => {
-			render( <KeywordInput { ...props } keyword="yoast seo" /> );
+		const input = document.getElementById( "focus-keyword-input-sidebar" );
+		fireEvent.focus( input );
+		fireEvent.blur( input );
 
-			expect( screen.queryByRole( "alert" ) ).not.toBeInTheDocument();
-		} );
+		expect( props.onFocusKeyword ).toHaveBeenCalledTimes( 1 );
+		expect( props.onBlurKeyword ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( "renders the validation message when validation is provided", () => {
+		const validation = {
+			variant: "error",
+			message: <span role="alert">Something is wrong</span>,
+		};
+
+		render( <KeywordInput { ...props } validation={ validation } /> );
+
+		const alert = screen.getByRole( "alert" );
+		expect( alert ).toBeInTheDocument();
+		expect( alert.textContent ).toBe( "Something is wrong" );
+	} );
+
+	it( "renders no validation message when validation is null", () => {
+		render( <KeywordInput { ...props } validation={ null } /> );
+
+		expect( screen.queryByRole( "alert" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "renders the description with an outbound learn-more link to the configured shortlink", () => {
+		render( <KeywordInput { ...props } /> );
+
+		const link = screen.getByRole( "link", { name: /Learn more about best practices for keyphrases/i } );
+		expect( link ).toHaveAttribute( "href", "https://example.com/focus_keyword_info" );
+		expect( link ).toHaveAttribute( "target", "_blank" );
+		expect( link ).toHaveAttribute( "rel", "noopener noreferrer" );
 	} );
 } );

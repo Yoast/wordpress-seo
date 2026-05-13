@@ -37,6 +37,7 @@ import {
 } from "./shared-admin/components";
 import { Introduction, SuggestionError, SparksLimitNotification, FeatureError } from "./ai-generator/components";
 import { removesLocaleVariantSuffixes, fetchSuggestions } from "./ai-generator/helpers";
+import SynonymsInputField from "./components/contentAnalysis/SynonymsInput";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -67,6 +68,7 @@ window.yoast.editorModules = {
 		},
 		contentAnalysis: {
 			KeywordInput,
+			SynonymsInputField,
 			mapResults,
 		},
 		contexts: {

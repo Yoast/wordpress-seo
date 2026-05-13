@@ -1,160 +1,67 @@
 /* global wpseoAdminL10n */
-import { Slot } from "@wordpress/components";
-import { compose } from "@wordpress/compose";
-import { withDispatch, withSelect } from "@wordpress/data";
-import { Component } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
-import { LocationConsumer } from "@yoast/externals/contexts";
+import { __, sprintf } from "@wordpress/i18n";
+import { TextField } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-import styled from "styled-components";
-import SEMrushModal from "../../containers/SEMrushRelatedKeyphrasesModal";
-import HelpLink from "../HelpLink";
-import KeywordInputComponent from "./KeywordInputComponent";
 
-const KeywordInputContainer = styled.div`
-	padding: 16px;
-	/* Necessary to compensate negative top margin of the collapsible after the keyword input. */
-	border-bottom: 1px solid transparent;
-`;
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
+import { OutboundLink } from "../../shared-admin/components";
 
 /**
- * Redux container for the keyword input.
+ * Gets the description element for the keyphrase input.
+ *
+ * @returns {JSX.Element} The description element.
  */
-class KeywordInput extends Component {
-	/**
-	 * The constructor.
-	 *
-	 * @param {Object} props The props to use in the component.
-	 */
-	constructor( props ) {
-		super( props );
-
-		this.validate = this.validate.bind( this );
+const getDescription = () => safeCreateInterpolateElement(
+	sprintf(
+		/* translators: %1$s and %2$s are anchor tags. */
+		__( "Use the main word or phrase you want your content found for across search, AI, and beyond. %1$sLearn more about best practices for keyphrases.%2$s", "wordpress-seo" ),
+		"<a>",
+		"</a>"
+	),
+	{
+		a: <OutboundLink
+			href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
+			variant="default"
+		/>,
 	}
+);
 
-	/**
-	 * Renders a help link.
-	 *
-	 * @returns {wp.Element} The help link component.
-	 */
-	static renderHelpLink() {
-		return (
-			<HelpLink
-				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
-				className="dashicons"
-			>
-				<span className="screen-reader-text">
-					{
-						/* translators: Hidden accessibility text. */
-						__( "Help on choosing the perfect focus keyphrase", "wordpress-seo" )
-					}
-				</span>
-			</HelpLink>
-		);
-	}
-
-	/**
-	 * Validates the keyword input.
-	 *
-	 * @returns {array} The detected errors.
-	 */
-	validate() {
-		const errors = [ ...this.props.errors ];
-
-		if ( this.props.keyword.trim().length === 0 && this.props.displayNoKeyphraseMessage ) {
-			errors.push( __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) );
-		}
-
-		if ( this.props.keyword.trim().length === 0 && this.props.displayNoKeyphrasForTrackingMessage ) {
-			errors.push( __( "Please enter a focus keyphrase first to track keyphrase performance", "wordpress-seo" ) );
-		}
-
-		if ( this.props.keyword.includes( "," ) ) {
-			errors.push( __( "Are you trying to use multiple keyphrases? You should add them separately below.", "wordpress-seo" ) );
-		}
-
-		if ( this.props.keyword.length > 191 ) {
-			errors.push( __( "Your keyphrase is too long. It can be a maximum of 191 characters.", "wordpress-seo" ) );
-		}
-
-		return errors;
-	}
-
-	/**
-	 * Renders the component.
-	 *
-	 * @returns {JSX.Element} The component.
-	 */
-	render() {
-		const errors = this.validate();
-
-		return <LocationConsumer>
-			{ context => (
-				<div style={ context === "sidebar" ? { borderBottom: "1px solid #f0f0f0" } : {} }>
-					<KeywordInputContainer location={ context }>
-						<KeywordInputComponent
-							id={ `focus-keyword-input-${ context }` }
-							onChange={ this.props.onFocusKeywordChange }
-							keyword={ this.props.keyword }
-							label={ __( "Focus keyphrase", "wordpress-seo" ) }
-							helpLink={ KeywordInput.renderHelpLink() }
-							onBlurKeyword={ this.props.onBlurKeyword }
-							onFocusKeyword={ this.props.onFocusKeyword }
-							hasError={ errors.length > 0 }
-							errorMessages={ errors }
-						/>
-						{
-							this.props.isSEMrushIntegrationActive &&
-							<SEMrushModal
-								location={ context }
-								keyphrase={ this.props.keyword }
-							/>
-						}
-					</KeywordInputContainer>
-					<Slot name={ `YoastAfterKeywordInput${ context.charAt( 0 ).toUpperCase() + context.slice( 1 ) }` } />
-				</div>
-			) }
-		</LocationConsumer>;
-	}
-}
+/**
+ * Renders the focus keyphrase input field.
+ *
+ * @param {Object} props The component props.
+ * @param {string} props.location The current location context (e.g., "metabox" or "sidebar"). Used to scope the input id.
+ * @param {string} props.keyword The current focus keyphrase value.
+ * @param {Function} props.handleChange Change handler. Receives the raw change event from the input.
+ * @param {Function} props.onFocusKeyword Focus handler.
+ * @param {Function} props.onBlurKeyword Blur handler.
+ * @param {Object} props.validation Validation state forwarded to TextField, or null when there are no errors.
+ *
+ * @returns {JSX.Element} The keyphrase TextField.
+ */
+export const KeywordInput = ( { location, keyword, handleChange, onFocusKeyword, onBlurKeyword, validation } ) => (
+	<TextField
+		id={ `focus-keyword-input-${ location }` }
+		label={ __( "Focus keyphrase", "wordpress-seo" ) }
+		value={ keyword }
+		onChange={ handleChange }
+		onFocus={ onFocusKeyword }
+		onBlur={ onBlurKeyword }
+		validation={ validation }
+		autoComplete="off"
+		placeholder={ __( "Type here", "wordpress-seo" ) }
+		description={ getDescription() }
+	/>
+);
 
 KeywordInput.propTypes = {
-	keyword: PropTypes.string,
-	onFocusKeywordChange: PropTypes.func.isRequired,
+	location: PropTypes.string.isRequired,
+	keyword: PropTypes.string.isRequired,
+	handleChange: PropTypes.func.isRequired,
 	onFocusKeyword: PropTypes.func.isRequired,
 	onBlurKeyword: PropTypes.func.isRequired,
-	isSEMrushIntegrationActive: PropTypes.bool,
-	displayNoKeyphraseMessage: PropTypes.bool,
-	displayNoKeyphrasForTrackingMessage: PropTypes.bool,
-	errors: PropTypes.arrayOf( PropTypes.string ),
-};
-
-KeywordInput.defaultProps = {
-	keyword: "",
-	isSEMrushIntegrationActive: false,
-	displayNoKeyphraseMessage: false,
-	displayNoKeyphrasForTrackingMessage: false,
-	errors: [],
-};
-
-export { KeywordInput };
-
-export default compose( [
-	withSelect( ( select ) => {
-		const { getFocusKeyphrase, getSEMrushNoKeyphraseMessage, hasWincherNoKeyphrase, getFocusKeyphraseErrors } = select( "yoast-seo/editor" );
-		return {
-			keyword: getFocusKeyphrase(),
-			displayNoKeyphraseMessage: getSEMrushNoKeyphraseMessage(),
-			displayNoKeyphrasForTrackingMessage: hasWincherNoKeyphrase(),
-			errors: getFocusKeyphraseErrors(),
-		};
+	validation: PropTypes.shape( {
+		variant: PropTypes.string,
+		message: PropTypes.node,
 	} ),
-	withDispatch( ( dispatch ) => {
-		const { setFocusKeyword, setMarkerPauseStatus } = dispatch( "yoast-seo/editor" );
-		return {
-			onFocusKeywordChange: setFocusKeyword,
-			onFocusKeyword: () => setMarkerPauseStatus( true ),
-			onBlurKeyword: () => setMarkerPauseStatus( false ),
-		};
-	} ),
-] )( KeywordInput );
+};

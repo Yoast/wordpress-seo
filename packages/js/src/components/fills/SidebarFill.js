@@ -9,7 +9,7 @@ import { useSelect } from "@wordpress/data";
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
+import { TopicInputs, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
 import { useFirstEligibleNotification } from "../../hooks/use-first-eligible-notification";
 import InsightsModal from "../../insights/components/insights-modal";
 import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
@@ -61,7 +61,7 @@ export default function SidebarFill( { settings } ) {
 					key="editor-intro"
 					renderPriority={ 1 }
 				>
-					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }>
+					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost } isPost={ isPost }>
 						{ FirstEligibleNotification && <FirstEligibleNotification inEditorIntro={ true } /> }
 					</EditorIntro>
 				</SidebarItem>
@@ -69,7 +69,7 @@ export default function SidebarFill( { settings } ) {
 					<ContentPlannerEditorItem location="sidebar" />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
-					<KeywordInput
+					<TopicInputs
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 				</SidebarItem> }
