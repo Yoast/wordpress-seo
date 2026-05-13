@@ -1,5 +1,6 @@
 import { ReactComponent as Yoast } from "../../images/yoast.svg";
 import { __ } from "@wordpress/i18n";
+import classNames from "classnames";
 
 /**
  * The introduction component for the editor.
@@ -9,7 +10,7 @@ import { __ } from "@wordpress/i18n";
  * @returns {JSX.Element} The editor introduction component.
  */
 export const EditorIntro = ( { children } ) => {
-	return <div className="yst-p-4">
+	return <div className="yst-p-4 yst-flex yst-flex-col yst-gap-3">
 		<Yoast className="yst-w-14 yst-text-primary-500" />
 		{ children }
 	</div>;

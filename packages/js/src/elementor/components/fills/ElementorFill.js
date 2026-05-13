@@ -57,8 +57,8 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					renderPriority={ 0 }
 				>
 					<EditorIntro>
-						{ FirstEligibleNotification && <FirstEligibleNotification inEditorIntro={ true } /> }
-						<EditorIntroText withPromptForContentSuggestions={ false } className="yst-mt-3" />
+						{ FirstEligibleNotification && <FirstEligibleNotification /> }
+						<EditorIntroText withPromptForContentSuggestions={ false } />
 					</EditorIntro>
 				</SidebarItem>
 				<SidebarItem renderPriority={ 1 }>

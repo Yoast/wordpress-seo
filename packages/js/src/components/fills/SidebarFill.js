@@ -62,10 +62,9 @@ export default function SidebarFill( { settings } ) {
 					renderPriority={ 1 }
 				>
 					<EditorIntro>
-						{ FirstEligibleNotification && <FirstEligibleNotification inEditorIntro={ true } /> }
+						{ FirstEligibleNotification && <FirstEligibleNotification /> }
 						<EditorIntroText
 							withPromptForContentSuggestions={ isAiFeatureActive && isPost }
-							className={ isAiFeatureActive && isPost ? "yst-my-3" : "yst-mt-3" }
 						/>
 						{ isPost && isAiFeatureActive && <ContentPlannerEditorItem location="sidebar" /> }
 					</EditorIntro>
