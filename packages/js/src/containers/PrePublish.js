@@ -13,27 +13,49 @@ import { getIsSeoDataDefault } from "../helpers/getIsSeoDataDefault";
 /**
  * Maps the select function to props for the checklist.
  *
- * @param {function} select The WordPress select function.
+ * Uses output memoization: returns the same array reference whenever the
+ * computed checklist content has not changed. This prevents `withSelect`
+ * from seeing a new reference on every render, which would cause unnecessary
+ * re-renders.
  *
- * @returns {{checklist: [], isSeoDataDefault: object}} The props for the checklist.
+ * @returns {Function} A memoized mapSelectToProps function.
  */
-export function mapSelectToProps( select ) {
-	const yoastStore = select( "yoast-seo/editor" );
+const makeMapSelectToProps = () => {
+	let lastResult = null;
 
-	const checklist = [];
+	return ( select ) => {
+		const yoastStore = select( "yoast-seo/editor" );
 
-	maybeAddFocusKeyphraseCheck( checklist, yoastStore );
-	maybeAddSEOCheck( checklist, yoastStore );
-	maybeAddReadabilityCheck( checklist, yoastStore );
-	maybeAddInclusiveLanguageCheck( checklist, yoastStore );
+		const checklist = [];
+		maybeAddFocusKeyphraseCheck( checklist, yoastStore );
+		maybeAddSEOCheck( checklist, yoastStore );
+		maybeAddReadabilityCheck( checklist, yoastStore );
+		maybeAddInclusiveLanguageCheck( checklist, yoastStore );
+		checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
 
-	checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
+		const isSeoDataDefault = getIsSeoDataDefault( yoastStore );
 
-	return {
-		checklist,
-		isSeoDataDefault: getIsSeoDataDefault( yoastStore ),
+		// Return the previous reference when content is identical to avoid triggering re-renders.
+		if (
+			lastResult !== null &&
+			checklist.length === lastResult.checklist.length &&
+			checklist.every( ( item, i ) =>
+				item.label === lastResult.checklist[ i ].label &&
+			item.score === lastResult.checklist[ i ].score &&
+			item.scoreValue === lastResult.checklist[ i ].scoreValue
+			) &&
+			isSeoDataDefault.isAllTitlesDefault === lastResult.isSeoDataDefault.isAllTitlesDefault &&
+			isSeoDataDefault.isAllDescriptionsDefault === lastResult.isSeoDataDefault.isAllDescriptionsDefault
+		) {
+			return lastResult;
+		}
+
+		lastResult = { checklist, isSeoDataDefault };
+		return lastResult;
 	};
-}
+};
+
+export const mapSelectToProps = makeMapSelectToProps();
 
 /**
  * Maps the dispatch function to props for the checklist.

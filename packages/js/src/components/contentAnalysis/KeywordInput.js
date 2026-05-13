@@ -54,18 +54,31 @@ class KeywordInput extends Component {
 	}
 
 	/**
+	 * Determines whether to display the message about the missing keyphrase.
+	 *
+	 * @param {string} keyphrase The keyphrase to check.
+	 * @param {boolean} context Whether the message should be displayed in the current context.
+	 *
+	 * @returns {boolean} Whether to display the message about the missing keyphrase.
+	 */
+	shouldShowMissingKeyphraseMessage( keyphrase, context ) {
+		return keyphrase.trim().length === 0 && context;
+	}
+
+	/**
 	 * Validates the keyword input.
 	 *
 	 * @returns {array} The detected errors.
 	 */
 	validate() {
 		const errors = [ ...this.props.errors ];
+		const keyphrase = this.props.keyword;
 
-		if ( this.props.keyword.trim().length === 0 && this.props.displayNoKeyphraseMessage ) {
+		if ( this.shouldShowMissingKeyphraseMessage( keyphrase, this.props.displayNoKeyphraseMessage ) ) {
 			errors.push( __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) );
 		}
 
-		if ( this.props.keyword.trim().length === 0 && this.props.displayNoKeyphrasForTrackingMessage ) {
+		if ( this.shouldShowMissingKeyphraseMessage( keyphrase, this.props.displayNoKeyphrasForTrackingMessage ) ) {
 			errors.push( __( "Please enter a focus keyphrase first to track keyphrase performance", "wordpress-seo" ) );
 		}
 
