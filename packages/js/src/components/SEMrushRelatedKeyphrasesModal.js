@@ -1,14 +1,13 @@
 /* External dependencies */
-import { SearchIcon } from "@heroicons/react/outline";
 import { Component } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import apiFetch from "@wordpress/api-fetch";
-import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { Button, Root } from "@yoast/ui-library";
+import { Root } from "@yoast/ui-library";
 
 /* Internal dependencies */
 import { Modal } from "@yoast/related-keyphrase-suggestions";
+import { RelatedKeyphraseButton } from "./RelatedKeyphraseButton";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
@@ -155,56 +154,12 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	}
 
 	/**
-	 * Renders the "Discover related keyphrases" button.
-	 *
-	 * When logged in the button triggers the modal directly.
-	 * When not logged in it opens the SEMrush OAuth popup first.
-	 *
-	 * @returns {JSX.Element} The "Discover related keyphrases" button wrapped in a yoast div.
-	 */
-	renderRelatedKeyphrasesButton() {
-		const { location, isLoggedIn } = this.props;
-
-		const buttonProps = isLoggedIn
-			? { onClick: this.onModalOpen }
-			: {
-				as: "a",
-				href: "https://oauth.semrush.com/oauth2/authorize?" +
-					"ref=1513012826&client_id=yoast&redirect_uri=https%3A%2F%2Foauth.semrush.com%2Foauth2%2Fyoast%2Fsuccess&" +
-					"response_type=code&scope=user.id",
-				onClick: this.onLinkClick,
-			};
-
-		return (
-			<div className={ "yoast" }>
-				<Button
-					variant="secondary"
-					id={ `yoast-get-related-keyphrases-${location}` }
-					className={ "yst-gap-1.5 yst-mt-0" }
-					{ ...buttonProps }
-				>
-					<SearchIcon className="yst-w-4 yst-h-4 yst-text-slate-400" />
-					{ __( "Discover related keyphrases", "wordpress-seo" ) }
-					{ ! isLoggedIn && (
-						<span className="screen-reader-text">
-							{
-								/* translators: Hidden accessibility text. */
-								__( "(Opens in a new browser tab)", "wordpress-seo" )
-							}
-						</span>
-					) }
-				</Button>
-			</div>
-		);
-	}
-
-	/**
 	 * Renders the RelatedKeyPhrasesModal modal component.
 	 *
 	 * @returns {JSX.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, whichModalOpen, onClose, countryCode, learnMoreLink } = this.props;
+		const { keyphrase, location, whichModalOpen, onClose, countryCode, learnMoreLink, isLoggedIn } = this.props;
 
 		const insightsLink = new URL( "https://www.semrush.com/analytics/keywordoverview/" );
 		insightsLink.searchParams.append( "q", keyphrase );
@@ -212,7 +167,12 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 
 		return (
 			<Root>
-				{ this.renderRelatedKeyphrasesButton() }
+				<RelatedKeyphraseButton
+					isLoggedIn={ isLoggedIn }
+					location={ location }
+					onLinkClick={ this.onLinkClick }
+					onModalOpen={ this.onModalOpen }
+				/>
 				<Modal
 					isOpen={ Boolean( keyphrase ) && whichModalOpen === location }
 					onClose={ onClose }
