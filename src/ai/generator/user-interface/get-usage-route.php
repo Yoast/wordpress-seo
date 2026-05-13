@@ -5,8 +5,7 @@ namespace Yoast\WP\SEO\AI\Generator\User_Interface;
 
 use WP_REST_Response;
 use WPSEO_Addon_Manager;
-use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
-use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
+use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Factory;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\WP_Request_Exception;
@@ -42,18 +41,11 @@ class Get_Usage_Route implements Route_Interface {
 	public const ROUTE_PREFIX = '/ai_generator/get_usage';
 
 	/**
-	 * The token manager instance.
+	 * The auth strategy factory.
 	 *
-	 * @var Token_Manager
+	 * @var Auth_Strategy_Factory
 	 */
-	private $token_manager;
-
-	/**
-	 * The request handler instance.
-	 *
-	 * @var Request_Handler
-	 */
-	private $request_handler;
+	private $auth_strategy_factory;
 
 	/**
 	 * Represents the add-on manager.
@@ -74,14 +66,12 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Token_Manager       $token_manager   The token manager instance.
-	 * @param Request_Handler     $request_handler The request handler instance.
-	 * @param WPSEO_Addon_Manager $addon_manager   The add-on manager instance.
+	 * @param Auth_Strategy_Factory $auth_strategy_factory The auth strategy factory.
+	 * @param WPSEO_Addon_Manager   $addon_manager         The add-on manager instance.
 	 */
-	public function __construct( Token_Manager $token_manager, Request_Handler $request_handler, WPSEO_Addon_Manager $addon_manager ) {
-		$this->addon_manager   = $addon_manager;
-		$this->token_manager   = $token_manager;
-		$this->request_handler = $request_handler;
+	public function __construct( Auth_Strategy_Factory $auth_strategy_factory, WPSEO_Addon_Manager $addon_manager ) {
+		$this->addon_manager         = $addon_manager;
+		$this->auth_strategy_factory = $auth_strategy_factory;
 	}
 
 	/**
@@ -118,13 +108,10 @@ class Get_Usage_Route implements Route_Interface {
 		$is_woo_product_entity = $request->get_param( 'is_woo_product_entity' );
 		$user                  = \wp_get_current_user();
 		try {
-			$token           = $this->token_manager->get_or_request_access_token( $user );
-			$request_headers = [
-				'Authorization' => "Bearer $token",
-			];
-			$action_path     = $this->get_action_path( $is_woo_product_entity );
-			$response        = $this->request_handler->handle( new Request( $action_path, [], $request_headers, false ) );
-			$data            = \json_decode( $response->get_body() );
+			$action_path = $this->get_action_path( $is_woo_product_entity );
+			$strategy    = $this->auth_strategy_factory->create( $user );
+			$response    = $strategy->send( new Request( $action_path, [], [], false ), $user );
+			$data        = \json_decode( $response->get_body() );
 		} catch ( Remote_Request_Exception | WP_Request_Exception $e ) {
 			$message = [
 				'errorMessage'    => $e->getMessage(),

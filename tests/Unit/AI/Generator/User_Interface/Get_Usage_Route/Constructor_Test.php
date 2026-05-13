@@ -5,8 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\User_Interface\Get_Usage_Route;
 
 use WPSEO_Addon_Manager;
-use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
-use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
+use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Factory;
 
 /**
  * Tests the Get_Usage_Route's construct method.
@@ -24,13 +23,8 @@ final class Constructor_Test extends Abstract_Get_Usage_Route_Test {
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
-			Token_Manager::class,
-			$this->getPropertyValue( $this->instance, 'token_manager' ),
-		);
-
-		$this->assertInstanceOf(
-			Request_Handler::class,
-			$this->getPropertyValue( $this->instance, 'request_handler' ),
+			Auth_Strategy_Factory::class,
+			$this->getPropertyValue( $this->instance, 'auth_strategy_factory' ),
 		);
 
 		$this->assertInstanceOf(

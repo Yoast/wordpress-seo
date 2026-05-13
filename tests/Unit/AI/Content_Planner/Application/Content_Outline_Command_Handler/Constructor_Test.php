@@ -4,10 +4,9 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Application\Content_Outline_Command_Handler;
 
-use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Factory;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Recent_Content\Recent_Content_Collector;
-use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 
 /**
  * Tests the Content_Outline_Command_Handler constructor.
@@ -31,12 +30,8 @@ final class Constructor_Test extends Abstract_Content_Outline_Command_Handler_Te
 			$this->getPropertyValue( $this->instance, 'recent_content_collector' ),
 		);
 		$this->assertInstanceOf(
-			Token_Manager::class,
-			$this->getPropertyValue( $this->instance, 'token_manager' ),
-		);
-		$this->assertInstanceOf(
-			Request_Handler::class,
-			$this->getPropertyValue( $this->instance, 'request_handler' ),
+			Auth_Strategy_Factory::class,
+			$this->getPropertyValue( $this->instance, 'auth_strategy_factory' ),
 		);
 		$this->assertInstanceOf(
 			Consent_Handler::class,

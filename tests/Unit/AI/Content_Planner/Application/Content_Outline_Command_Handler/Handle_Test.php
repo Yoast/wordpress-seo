@@ -10,7 +10,6 @@ use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Post_List;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Section_List;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 
@@ -83,19 +82,15 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 
 		$this->recent_content_collector->expects( 'collect' )->once()->with( 'post' )->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->with( 'post' )->andReturn( $about_page );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->with( $command->get_user() )->andReturn( 'JWT' );
 
-		$this->request_handler
-			->expects( 'handle' )
-			->once()
-			->with(
-				Mockery::on(
-					static function ( $request ) use ( $about_page ) {
-						return self::request_matches_expected_shape( $request, $about_page );
-					},
-				),
-			)
-			->andReturn( new Response( self::RESPONSE_BODY, 200, '' ) );
+		$this->auth_strategy->expects( 'send' )->once()->with(
+			Mockery::on(
+				static function ( $request ) use ( $about_page ) {
+					return self::request_matches_expected_shape( $request, $about_page );
+				},
+			),
+			$command->get_user(),
+		)->andReturn( new Response( self::RESPONSE_BODY, 200, '' ) );
 
 		$result = $this->instance->handle( $command );
 
@@ -126,10 +121,9 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 
 		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
 
-		$this->request_handler
-			->expects( 'handle' )
+		$this->auth_strategy
+			->expects( 'send' )
 			->once()
 			->with(
 				Mockery::on(
@@ -142,71 +136,13 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 						return ! \array_key_exists( 'about_page', $content );
 					},
 				),
+				Mockery::any(),
 			)
 			->andReturn( new Response( self::RESPONSE_BODY, 200, '' ) );
 
 		$result = $this->instance->handle( $command );
 
 		$this->assertInstanceOf( Section_List::class, $result );
-	}
-
-	/**
-	 * Tests the handle method retries once when the request handler throws an Unauthorized_Exception.
-	 *
-	 * @return void
-	 */
-	public function test_handle_retries_on_unauthorized() {
-		$command = $this->build_command();
-
-		$post_list = Mockery::mock( Post_List::class );
-		$post_list->expects( 'to_array' )->twice()->andReturn( [] );
-
-		$this->recent_content_collector->expects( 'collect' )->twice()->andReturn( $post_list );
-		$this->recent_content_collector->expects( 'collect_about_page' )->twice()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->twice()->andReturn( 'JWT' );
-		$this->token_manager->expects( 'clear_tokens' )->once()->with( 1 );
-
-		$this->request_handler
-			->expects( 'handle' )
-			->twice()
-			->andReturnUsing(
-				static function () {
-					static $call = 0;
-					++$call;
-					if ( $call === 1 ) {
-						throw new Unauthorized_Exception();
-					}
-
-					return new Response( self::RESPONSE_BODY, 200, '' );
-				},
-			);
-
-		$result = $this->instance->handle( $command );
-
-		$this->assertInstanceOf( Section_List::class, $result );
-	}
-
-	/**
-	 * Tests the handle method rethrows when the request handler throws Unauthorized_Exception and retry is disabled.
-	 *
-	 * @return void
-	 */
-	public function test_handle_rethrows_unauthorized_when_retry_disabled() {
-		$command = $this->build_command();
-
-		$post_list = Mockery::mock( Post_List::class );
-		$post_list->expects( 'to_array' )->once()->andReturn( [] );
-
-		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
-		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
-		$this->token_manager->expects( 'clear_tokens' )->once()->with( 1 );
-
-		$this->request_handler->expects( 'handle' )->once()->andThrow( new Unauthorized_Exception() );
-
-		$this->expectException( Unauthorized_Exception::class );
-
-		$this->instance->handle( $command, false );
 	}
 
 	/**
@@ -222,9 +158,8 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 
 		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
 
-		$this->request_handler->expects( 'handle' )->once()->andThrow( new Forbidden_Exception( 'NOPE', 403 ) );
+		$this->auth_strategy->expects( 'send' )->once()->andThrow( new Forbidden_Exception( 'NOPE', 403 ) );
 
 		$this->consent_handler->expects( 'revoke_consent' )->once()->with( 1 );
 
@@ -247,8 +182,7 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 
 		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
-		$this->request_handler->expects( 'handle' )->once()->andReturn( new Response( 'not json', 200, '' ) );
+		$this->auth_strategy->expects( 'send' )->once()->andReturn( new Response( 'not json', 200, '' ) );
 
 		$result = $this->instance->handle( $command );
 
@@ -268,8 +202,7 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 
 		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
-		$this->request_handler->expects( 'handle' )->once()->andReturn( new Response( '{"something_else":[]}', 200, '' ) );
+		$this->auth_strategy->expects( 'send' )->once()->andReturn( new Response( '{"something_else":[]}', 200, '' ) );
 
 		$result = $this->instance->handle( $command );
 
@@ -289,9 +222,8 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 
 		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
-		$this->request_handler
-			->expects( 'handle' )
+		$this->auth_strategy
+			->expects( 'send' )
 			->once()
 			->andReturn( new Response( '{"choices":[{"subheading_text":"Only heading"},{"content_notes":["only notes"]}]}', 200, '' ) );
 
@@ -317,6 +249,9 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	/**
 	 * Asserts that the given Request matches the expected shape produced by the handler.
 	 *
+	 * The Authorization header is no longer set on the Request — the auth strategy attaches it on dispatch — so
+	 * this matcher only verifies the auth-agnostic parts of the request shape (path, X-Yst-Cohort, body content).
+	 *
 	 * @param mixed                $request    The request to inspect.
 	 * @param array<string, mixed> $about_page The expected about_page payload.
 	 *
@@ -331,9 +266,6 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 		}
 
 		$headers = $request->get_headers();
-		if ( ( $headers['Authorization'] ?? null ) !== 'Bearer JWT' ) {
-			return false;
-		}
 		if ( ( $headers['X-Yst-Cohort'] ?? null ) !== 'gutenberg' ) {
 			return false;
 		}

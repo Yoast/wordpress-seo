@@ -5,12 +5,12 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Application\Content_Suggestion_Command_Handler;
 
 use Mockery;
-use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Factory;
+use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Interface;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Content_Planner\Application\Category_Repository_Interface;
 use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Suggestion_Command_Handler;
 use Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Recent_Content\Recent_Content_Collector;
-use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -28,18 +28,18 @@ abstract class Abstract_Content_Suggestion_Command_Handler_Test extends TestCase
 	protected $recent_content_collector;
 
 	/**
-	 * The token manager mock.
+	 * The auth strategy factory mock.
 	 *
-	 * @var Mockery\MockInterface|Token_Manager
+	 * @var Mockery\MockInterface|Auth_Strategy_Factory
 	 */
-	protected $token_manager;
+	protected $auth_strategy_factory;
 
 	/**
-	 * The request handler mock.
+	 * The auth strategy mock returned by the factory.
 	 *
-	 * @var Mockery\MockInterface|Request_Handler
+	 * @var Mockery\MockInterface|Auth_Strategy_Interface
 	 */
-	protected $request_handler;
+	protected $auth_strategy;
 
 	/**
 	 * The consent handler mock.
@@ -71,15 +71,16 @@ abstract class Abstract_Content_Suggestion_Command_Handler_Test extends TestCase
 		parent::set_up();
 
 		$this->recent_content_collector = Mockery::mock( Recent_Content_Collector::class );
-		$this->token_manager            = Mockery::mock( Token_Manager::class );
-		$this->request_handler          = Mockery::mock( Request_Handler::class );
+		$this->auth_strategy_factory    = Mockery::mock( Auth_Strategy_Factory::class );
+		$this->auth_strategy            = Mockery::mock( Auth_Strategy_Interface::class );
 		$this->consent_handler          = Mockery::mock( Consent_Handler::class );
 		$this->category_repository      = Mockery::mock( Category_Repository_Interface::class );
 
+		$this->auth_strategy_factory->shouldReceive( 'create' )->andReturn( $this->auth_strategy )->byDefault();
+
 		$this->instance = new Content_Suggestion_Command_Handler(
 			$this->recent_content_collector,
-			$this->token_manager,
-			$this->request_handler,
+			$this->auth_strategy_factory,
 			$this->consent_handler,
 			$this->category_repository,
 		);

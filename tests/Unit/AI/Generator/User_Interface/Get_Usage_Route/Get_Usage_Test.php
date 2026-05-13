@@ -46,21 +46,14 @@ final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
 		$wp_rest_response = Mockery::mock( 'overload:' . WP_REST_Response::class );
 		$http_response    = Mockery::mock( Response::class );
 
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
-			->once()
-			->with( $user );
-
 		$this->addon_manager
 			->expects( 'has_valid_subscription' )
 			->once()
 			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
 			->andReturn( true );
 
-		$this->request_handler
-			->expects( 'handle' )
-			->once()
-			->andReturn( $http_response );
+		$this->auth_strategy_factory->expects( 'create' )->once()->with( $user )->andReturn( $this->auth_strategy );
+		$this->auth_strategy->expects( 'send' )->once()->andReturn( $http_response );
 
 		$http_response
 			->expects( 'get_body' )
@@ -79,7 +72,7 @@ final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
 	}
 
 	/**
-	 * Tests a bad HTTP request.
+	 * Tests a bad HTTP request — the auth strategy throws and the route surfaces the structured error body.
 	 *
 	 * @return void
 	 */
@@ -101,11 +94,14 @@ final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
 		$wp_rest_response  = Mockery::mock( 'overload:' . WP_REST_Response::class );
 		$request_exception = Mockery::mock( Remote_Request_Exception::class );
 
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
+		$this->addon_manager
+			->expects( 'has_valid_subscription' )
 			->once()
-			->with( $user )
-			->andThrows( $request_exception );
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
+			->andReturn( true );
+
+		$this->auth_strategy_factory->expects( 'create' )->once()->with( $user )->andReturn( $this->auth_strategy );
+		$this->auth_strategy->expects( 'send' )->once()->andThrow( $request_exception );
 
 		$request_exception
 			->expects( 'get_error_identifier' )
@@ -153,11 +149,14 @@ final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
 		$wp_rest_response  = Mockery::mock( 'overload:' . WP_REST_Response::class );
 		$request_exception = Mockery::mock( Too_Many_Requests_Exception::class );
 
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
+		$this->addon_manager
+			->expects( 'has_valid_subscription' )
 			->once()
-			->with( $user )
-			->andThrows( $request_exception );
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
+			->andReturn( true );
+
+		$this->auth_strategy_factory->expects( 'create' )->once()->with( $user )->andReturn( $this->auth_strategy );
+		$this->auth_strategy->expects( 'send' )->once()->andThrow( $request_exception );
 
 		$request_exception
 			->expects( 'get_error_identifier' )
