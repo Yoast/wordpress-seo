@@ -148,9 +148,13 @@ class Assessor {
 	assess( paper ) {
 		this._researcher.setPaper( paper );
 
-		const languageProcessor = new LanguageProcessor( this._researcher );
-		const shortcodes = paper._attributes && paper._attributes.shortcodes;
-		paper.setTree( build( paper, languageProcessor, shortcodes ) );
+		// Only build the HTML tree if the paper doesn't already have one — callers (e.g. AnalysisWebWorker.analyze)
+		// build it earlier in the pipeline and reuse it across multiple assessor runs on the same paper.
+		if ( paper.getTree() === null ) {
+			const languageProcessor = new LanguageProcessor( this._researcher );
+			const shortcodes = paper._attributes && paper._attributes.shortcodes;
+			paper.setTree( build( paper, languageProcessor, shortcodes ) );
+		}
 
 		let assessments = this.getAvailableAssessments();
 

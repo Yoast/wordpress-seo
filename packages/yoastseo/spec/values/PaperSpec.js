@@ -197,6 +197,49 @@ describe( "Paper", function() {
 		} );
 	} );
 
+	describe( "hasSameTreeInputsAs", function() {
+		it( "returns true for two papers with identical text and tree-relevant attributes", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>" );
+			const paper2 = new Paper( "<p>Hello world.</p>" );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
+		} );
+
+		it( "returns true when only non-tree attributes (keyword, title, description, …) differ", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { keyword: "alpha", title: "Title A", description: "Desc A" } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { keyword: "beta",  title: "Title B", description: "Desc B" } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
+		} );
+
+		it( "returns false when the text differs", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>" );
+			const paper2 = new Paper( "<p>Goodbye world.</p>" );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( false );
+		} );
+
+		it( "returns false when the locale differs", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { locale: "en_US" } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { locale: "nl_NL" } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( false );
+		} );
+
+		it( "returns false when the shortcodes list differs", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { shortcodes: [ "gallery" ] } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { shortcodes: [ "gallery", "caption" ] } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( false );
+		} );
+
+		it( "returns false when the wpBlocks list differs", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { wpBlocks: [ { name: "core/paragraph" } ] } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { wpBlocks: [ { name: "core/heading" } ] } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( false );
+		} );
+
+		it( "returns false when compared against a falsy value", function() {
+			const paper = new Paper( "<p>Hello world.</p>" );
+			expect( paper.hasSameTreeInputsAs( null ) ).toBe( false );
+		} );
+	} );
+
 	describe( "hasText", function() {
 		it( "should return true if contains raw text", function() {
 			const paper = new Paper( "This is a test" );

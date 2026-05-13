@@ -1929,6 +1929,196 @@ describe( "AnalysisWebWorker", () => {
 		} );
 	} );
 
+	describe( "assessRelatedKeywords", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+		} );
+
+		test( "propagates the parent paper's tree to each related-keyphrase paper to avoid rebuilding", async() => {
+			const paper = new Paper( "<p>Some content here.</p>" );
+			const sentinelTree = { __sentinel: true };
+			paper.setTree( sentinelTree );
+
+			// Mock worker.assess so we don't run a real assessor against a sentinel tree.
+			const assessSpy = jest.spyOn( worker, "assess" ).mockResolvedValue( { score: 0, results: [] } );
+
+			const relatedKeywords = {
+				a: { keyword: "foo", synonyms: "" },
+				b: { keyword: "bar", synonyms: "" },
+			};
+
+			await worker.assessRelatedKeywords( paper, relatedKeywords );
+
+			expect( assessSpy ).toHaveBeenCalledTimes( 2 );
+
+			const firstRelatedPaper = assessSpy.mock.calls[ 0 ][ 0 ];
+			const secondRelatedPaper = assessSpy.mock.calls[ 1 ][ 0 ];
+
+			expect( firstRelatedPaper.getTree() ).toBe( sentinelTree );
+			expect( secondRelatedPaper.getTree() ).toBe( sentinelTree );
+
+			expect( firstRelatedPaper ).not.toBe( secondRelatedPaper );
+			expect( firstRelatedPaper.getKeyword() ).toBe( "foo" );
+			expect( secondRelatedPaper.getKeyword() ).toBe( "bar" );
+		} );
+	} );
+
+	describe( "analyze tree reuse", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			// Stub the inner assess to avoid running assessors against papers without real trees.
+			jest.spyOn( worker, "assess" ).mockResolvedValue( { score: 0, results: [] } );
+		} );
+
+		afterEach( () => {
+			jest.restoreAllMocks();
+		} );
+
+		test( "reuses the cached tree when only non-tree attributes (e.g. keyphrase) change", async() => {
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Identical body.</p>", { keyword: "alpha" } );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const newPaper = new Paper( "<p>Identical body.</p>", { keyword: "beta" } );
+			const setTreeSpy = jest.spyOn( newPaper, "setTree" );
+
+			await worker.analyze( 0, { paper: newPaper } );
+
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( setTreeSpy ).toHaveBeenCalledWith( cachedTree );
+		} );
+
+		test( "rebuilds the tree when the text differs from the cached paper", async() => {
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Old body.</p>" );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const newPaper = new Paper( "<p>New body.</p>" );
+			const setTreeSpy = jest.spyOn( newPaper, "setTree" );
+
+			await worker.analyze( 0, { paper: newPaper } );
+
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( setTreeSpy ).not.toHaveBeenCalledWith( cachedTree );
+			expect( newPaper.getTree() ).not.toBeNull();
+		} );
+	} );
+
+	describe( "runResearch tree reuse", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			// Avoid running an actual research; we only care about tree-building side effects here.
+			jest.spyOn( worker._researcher, "getResearch" ).mockReturnValue( {} );
+		} );
+
+		afterEach( () => {
+			jest.restoreAllMocks();
+		} );
+
+		test( "reuses the worker's cached tree when the incoming paper has matching content", () => {
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Identical body.</p>" );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const incomingPaper = new Paper( "<p>Identical body.</p>", { keyword: "different" } );
+			const setTreeSpy = jest.spyOn( incomingPaper, "setTree" );
+
+			worker.runResearch( 0, { name: "any", paper: incomingPaper } );
+
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( setTreeSpy ).toHaveBeenCalledWith( cachedTree );
+		} );
+
+		test( "builds a fresh tree when the incoming paper's content differs from the cached paper", () => {
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Old body.</p>" );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const incomingPaper = new Paper( "<p>New body.</p>" );
+			const setTreeSpy = jest.spyOn( incomingPaper, "setTree" );
+
+			worker.runResearch( 0, { name: "any", paper: incomingPaper } );
+
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( setTreeSpy ).not.toHaveBeenCalledWith( cachedTree );
+			expect( incomingPaper.getTree() ).not.toBe( cachedTree );
+			expect( incomingPaper.getTree() ).not.toBeNull();
+		} );
+
+		test( "does nothing tree-related when the incoming paper already has a tree", () => {
+			const presetTree = { __preset: true };
+			const cachedTree = { __cached: true };
+			const cachedPaper = new Paper( "<p>Body.</p>" );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const incomingPaper = new Paper( "<p>Body.</p>" );
+			incomingPaper.setTree( presetTree );
+			const setTreeSpy = jest.spyOn( incomingPaper, "setTree" );
+
+			worker.runResearch( 0, { name: "any", paper: incomingPaper } );
+
+			expect( setTreeSpy ).not.toHaveBeenCalled();
+			expect( incomingPaper.getTree() ).toBe( presetTree );
+		} );
+
+		test( "reuses the cached tree when the caller omits shortcodes that the worker has cached", () => {
+			// Without the backfill, hasSameTreeInputsAs would return false (shortcodes [] vs [ "gallery" ]) and the worker
+			// would rebuild the tree without filtering shortcode markers — silently disagreeing with the analyze-path tree.
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Body.</p>", { shortcodes: [ "gallery", "caption" ] } );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const incomingPaper = new Paper( "<p>Body.</p>" );
+			const setTreeSpy = jest.spyOn( incomingPaper, "setTree" );
+
+			worker.runResearch( 0, { name: "any", paper: incomingPaper } );
+
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( setTreeSpy ).toHaveBeenCalledWith( cachedTree );
+			expect( incomingPaper._attributes.shortcodes ).toEqual( [ "gallery", "caption" ] );
+		} );
+
+		test( "uses cached shortcodes for the fallback build when the caller omits them and the text differs", () => {
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Old body.</p>", { shortcodes: [ "gallery" ] } );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const incomingPaper = new Paper( "<p>New body.</p>" );
+			const setTreeSpy = jest.spyOn( incomingPaper, "setTree" );
+
+			worker.runResearch( 0, { name: "any", paper: incomingPaper } );
+
+			// Cache miss (text differs), so a fresh tree is built — but the build uses the backfilled shortcodes,
+			// keeping the tree consistent with what analyze() would produce on the same site.
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( setTreeSpy ).not.toHaveBeenCalledWith( cachedTree );
+			expect( incomingPaper._attributes.shortcodes ).toEqual( [ "gallery" ] );
+		} );
+
+		test( "does not overwrite shortcodes the caller explicitly supplied", () => {
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Body.</p>", { shortcodes: [ "gallery" ] } );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const incomingPaper = new Paper( "<p>Body.</p>", { shortcodes: [ "audio", "video" ] } );
+
+			worker.runResearch( 0, { name: "any", paper: incomingPaper } );
+
+			expect( incomingPaper._attributes.shortcodes ).toEqual( [ "audio", "video" ] );
+		} );
+	} );
+
 	describe( "set assessors", () => {
 		const customAssessorOptions = { url: "url" };
 		beforeEach( () => {
