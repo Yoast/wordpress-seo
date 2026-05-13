@@ -83,28 +83,30 @@ class Request_Handler implements Request_Handler_Interface {
 
 		$response = $this->response_parser->parse( $api_response );
 
+		$headers = $response->get_headers();
+
 		// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
 		switch ( $response->get_response_code() ) {
 			case 200:
 				return $response;
 			case 401:
-				throw new Unauthorized_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				throw new Unauthorized_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $headers );
 			case 402:
-				throw new Payment_Required_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $response->get_missing_licenses() );
+				throw new Payment_Required_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $response->get_missing_licenses(), $headers );
 			case 403:
-				throw new Forbidden_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				throw new Forbidden_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $headers );
 			case 404:
-				throw new Not_Found_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				throw new Not_Found_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $headers );
 			case 408:
-				throw new Request_Timeout_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				throw new Request_Timeout_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $headers );
 			case 429:
-				throw new Too_Many_Requests_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $response->get_missing_licenses() );
+				throw new Too_Many_Requests_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $response->get_missing_licenses(), $headers );
 			case 500:
-				throw new Internal_Server_Error_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				throw new Internal_Server_Error_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $headers );
 			case 503:
-				throw new Service_Unavailable_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				throw new Service_Unavailable_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $headers );
 			default:
-				throw new Bad_Request_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				throw new Bad_Request_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $headers );
 		}
 		// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 	}

@@ -146,6 +146,7 @@ final class Handle_Test extends Abstract_Request_Handler_Test {
 		$response->shouldReceive( 'get_message' )->andReturn( $message );
 		$response->shouldReceive( 'get_error_code' )->andReturn( $error_code );
 		$response->shouldReceive( 'get_missing_licenses' )->andReturn( [] );
+		$response->shouldReceive( 'get_headers' )->andReturn( [] );
 
 		$this->api_client->expects( 'perform_request' )
 			->once()
