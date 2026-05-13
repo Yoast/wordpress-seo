@@ -94,8 +94,3 @@ describe( "RelatedKeyphraseButton", () => {
 		expect( container.firstChild ).toHaveClass( "yoast" );
 	} );
 } );
-
-
-
-
-

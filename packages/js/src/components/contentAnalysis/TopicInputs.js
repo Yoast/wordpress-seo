@@ -145,7 +145,10 @@ const TopicInputs = ( {
 			title={ __( "Focus keyphrase", "wordpress-seo" ) }
 			initialIsOpen={ true }
 		>
-			<div className={ "yst-root yst-flex yst-flex-col yst-gap-4" }>
+			{ /* Block layout (not flex) so vertical margins collapse: this keeps the spacing at 16px when
+			 the old Premium SynonymsInput (which carries `margin: 1em 0` on its InputContainer) fills the slot,
+			 instead of the 32px we'd get from `gap-4` stacking on top of that margin. */ }
+			<div className={ "yst-root yst-space-y-4" }>
 				<KeywordInput
 					location={ location }
 					keyword={ keyword }
