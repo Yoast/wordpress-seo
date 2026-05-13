@@ -31,7 +31,7 @@ final class Send_With_401_Retry_Test extends Abstract_Token_Auth_Strategy_Test {
 		$success = new Response( '{}', 200, 'OK' );
 
 		$this->request_handler->expects( 'handle' )->twice()->andReturnUsing(
-			static function ( Request $request ) use ( $success ) {
+			static function () use ( $success ) {
 				static $call = 0;
 				++$call;
 				if ( $call === 1 ) {

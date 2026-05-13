@@ -37,7 +37,7 @@ final class Send_With_DPoP_Nonce_Challenge_Test extends Abstract_OAuth_Auth_Stra
 		$success = new Response( '{}', 200, 'OK' );
 
 		$this->request_handler->expects( 'handle' )->twice()->andReturnUsing(
-			static function ( Request $request ) use ( $nonce_response_headers, $success ) {
+			static function () use ( $nonce_response_headers, $success ) {
 				static $call = 0;
 				++$call;
 				if ( $call === 1 ) {

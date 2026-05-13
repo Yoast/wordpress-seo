@@ -18,8 +18,6 @@ use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
  */
 class Auth_Strategy_Factory {
 
-	private const AUTH_METHOD_FILTER = 'wpseo_ai_auth_method';
-
 	/**
 	 * The MyYoast connection feature flag conditional.
 	 *
@@ -119,7 +117,7 @@ class Auth_Strategy_Factory {
 		 * @param string|null $method The forced strategy, or null for default selection.
 		 * @param WP_User     $user   The WP user the request is on behalf of.
 		 */
-		$forced = \apply_filters( self::AUTH_METHOD_FILTER, null, $user );
+		$forced = \apply_filters( 'wpseo_ai_auth_method', null, $user );
 
 		if ( $forced === Auth_Method::OAUTH || $forced === Auth_Method::TOKEN ) {
 			return $forced;
