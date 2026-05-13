@@ -25,7 +25,7 @@ import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsChec
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
 import ContentPlannerEditorItem from "../../ai-content-planner/containers/content-planner-editor-item";
-import { EditorIntro } from "../EditorIntro";
+import { EditorIntro, EditorIntroText } from "../EditorIntro";
 
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 
@@ -64,10 +64,8 @@ export default function MetaboxFill( { settings } ) {
 					renderPriority={ 1 }
 				>
 					<EditorIntro>
-						<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } />
-						<EditorIntroText
-							withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }
-						/>
+						<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } inEditorIntro={ true } />
+						<EditorIntroText withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost } />
 						{ isPost && isBlockEditorActive && isAiFeatureActive && <ContentPlannerEditorItem location="metabox" /> }
 					</EditorIntro>
 				</SidebarItem>

@@ -21,6 +21,7 @@ import AdvancedSettings from "../../../containers/AdvancedSettings";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanceModal";
 import KeywordUpsell from "../../../components/modals/KeywordUpsell";
+import { EditorIntro, EditorIntroText } from "../../../components/EditorIntro";
 
 /* eslint-disable complexity */
 /**
@@ -56,8 +57,8 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					renderPriority={ 0 }
 				>
 					<EditorIntro>
-						{ FirstEligibleNotification && <FirstEligibleNotification /> }
-						<EditorIntroText withPromptForContentSuggestions={ false } />
+						{ FirstEligibleNotification && <FirstEligibleNotification inEditorIntro={ true } /> }
+						<EditorIntroText withPromptForContentSuggestions={ false } className="yst-mb-0" />
 					</EditorIntro>
 				</SidebarItem>
 				<SidebarItem renderPriority={ 1 }>
