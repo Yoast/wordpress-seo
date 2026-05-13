@@ -65,7 +65,10 @@ export default function MetaboxFill( { settings } ) {
 				>
 					<EditorIntro>
 						<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } inEditorIntro={ true } />
-						<EditorIntroText withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost } />
+						<EditorIntroText
+							withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }
+							className={ isAiFeatureActive && isBlockEditorActive && isPost ? "yst-my-3" : "yst-mt-3" }
+						/>
 						{ isPost && isBlockEditorActive && isAiFeatureActive && <ContentPlannerEditorItem location="metabox" /> }
 					</EditorIntro>
 				</SidebarItem>

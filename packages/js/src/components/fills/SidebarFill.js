@@ -63,8 +63,11 @@ export default function SidebarFill( { settings } ) {
 				>
 					<EditorIntro>
 						{ FirstEligibleNotification && <FirstEligibleNotification inEditorIntro={ true } /> }
-						<EditorIntroText withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost } />
-						{ isPost && isBlockEditorActive && isAiFeatureActive && <ContentPlannerEditorItem location="sidebar" /> }
+						<EditorIntroText
+							withPromptForContentSuggestions={ isAiFeatureActive && isPost }
+							className={ isAiFeatureActive && isPost ? "yst-my-3" : "yst-mt-3" }
+						/>
+						{ isPost && isAiFeatureActive && <ContentPlannerEditorItem location="sidebar" /> }
 					</EditorIntro>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
