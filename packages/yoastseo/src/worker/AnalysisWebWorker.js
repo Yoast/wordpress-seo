@@ -995,12 +995,22 @@ export default class AnalysisWebWorker {
 
 		// Only set the paper and build the tree if the paper has any changes.
 		if ( paperHasChanges ) {
+			// Capture whether the cached paper's tree is still valid for the new paper before we overwrite this._paper.
+			const previousTree = this._paper !== null && this._paper.hasSameTreeInputsAs( paper )
+				? this._paper.getTree()
+				: null;
+
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
-			const languageProcessor = new LanguageProcessor( this._researcher );
-			const shortcodes = this._paper._attributes && this._paper._attributes.shortcodes;
-			this._paper.setTree( build( this._paper, languageProcessor, shortcodes ) );
+			if ( previousTree === null ) {
+				const languageProcessor = new LanguageProcessor( this._researcher );
+				const shortcodes = this._paper._attributes && this._paper._attributes.shortcodes;
+				this._paper.setTree( build( this._paper, languageProcessor, shortcodes ) );
+			} else {
+				// Only non-tree attributes (keyword, title, description, …) changed — reuse the existing tree.
+				this._paper.setTree( previousTree );
+			}
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
@@ -1258,11 +1268,23 @@ export default class AnalysisWebWorker {
 			researcher.setPaper( paper );
 			researcher.addResearchData( "morphology", morphologyData );
 
-			// Build and set the tree if it's not been set before.
+			// Build and set the tree if it's not been set before, reusing the worker's cached tree when the content matches.
 			if ( paper.getTree() === null ) {
-				const languageProcessor = new LanguageProcessor( researcher );
-				const shortcodes = paper._attributes && paper._attributes.shortcodes;
-				paper.setTree( build( paper, languageProcessor, shortcodes ) );
+				// Shortcodes are a site-wide registry: when the caller omitted them, fall back to the worker's cached set
+				// so the tree-input comparison can hit and the fallback build still filters shortcode markers correctly.
+				const callerShortcodes = paper._attributes && paper._attributes.shortcodes;
+				const cachedShortcodes = this._paper && this._paper._attributes && this._paper._attributes.shortcodes;
+				if ( ( ! callerShortcodes || callerShortcodes.length === 0 ) && cachedShortcodes && cachedShortcodes.length > 0 ) {
+					paper._attributes.shortcodes = cachedShortcodes;
+				}
+
+				if ( this._paper !== null && this._paper.getTree() !== null && this._paper.hasSameTreeInputsAs( paper ) ) {
+					// The incoming paper has the same tree inputs as the worker's cached paper; reuse that tree instead of rebuilding.
+					paper.setTree( this._paper.getTree() );
+				} else {
+					const languageProcessor = new LanguageProcessor( researcher );
+					paper.setTree( build( paper, languageProcessor, paper._attributes.shortcodes ) );
+				}
 			}
 		}
 
