@@ -158,11 +158,10 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function maybe_create_notification() {
-		if ( ! $this->should_show_notification() ) {
-			return;
-		}
-
-		if ( ! $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID ) ) {
+		if (
+			! $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID )
+			&& $this->should_show_notification()
+		) {
 			$notification = $this->notification();
 			$this->notification_helper->restore_notification( $notification );
 			$this->notification_center->add_notification( $notification );

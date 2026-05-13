@@ -53,6 +53,8 @@ clean:build-assets:
   - 'shell:composer-install-production'
   # Build like we normally would
   - 'release'
+  # Bake fresh MyYoast credentials into Issuer_Config (or fall back to v0)
+  - 'update-myyoast-credentials'
   # Remove build folder
   - 'clean:artifact'
   # Copy only the relevant files to the folder
