@@ -8,7 +8,7 @@ use Mockery;
 use WP_User;
 use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender;
 use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Interface;
-use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Loop_Exception;
+use Yoast\WP\SEO\AI\Authentication\Domain\Exceptions\Auth_Strategy_Loop_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Insufficient_Scope_Exception;

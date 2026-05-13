@@ -17,6 +17,9 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Token_Request_Failed_Exce
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Token_Storage_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP\DPoP_Proof_Exception;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Authenticates AI requests with a MyYoast-issued, DPoP-bound `client_credentials` access token.
@@ -32,7 +35,9 @@ use Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP\DPoP_Proof_Exception;
  * decorate() picks it up; on any other 401 we clear the cached site token so the next decorate()
  * fetches a fresh one; on a 403 insufficient_scope we throw a typed exception that bypasses fallback.
  */
-class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
+class OAuth_Auth_Strategy implements Auth_Strategy_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	private const AI_SCOPE = 'service:ai:consume';
 
@@ -78,6 +83,7 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
 	public function __construct( MyYoast_Client $myyoast_client, API_Client $api_client ) {
 		$this->myyoast_client = $myyoast_client;
 		$this->api_client     = $api_client;
+		$this->logger         = new NullLogger();
 	}
 
 	/**
@@ -95,6 +101,7 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
 		try {
 			$token_set = $this->myyoast_client->get_site_token( [ self::AI_SCOPE ] );
 		} catch ( Token_Request_Failed_Exception | Token_Storage_Exception $exception ) {
+			$this->logger->warning( 'OAuth decorate: site token unavailable ({error}); surfacing as OAUTH_TOKEN_UNAVAILABLE.', [ 'error' => $exception->getMessage() ] );
 			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception data, not output.
 			throw new Bad_Request_Exception( 'OAUTH_TOKEN_UNAVAILABLE', 0, 'OAUTH_TOKEN_UNAVAILABLE', $exception );
 			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
@@ -106,6 +113,7 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
 		try {
 			$proof = $this->myyoast_client->create_dpop_proof( $method, $url, $token_set );
 		} catch ( DPoP_Proof_Exception $exception ) {
+			$this->logger->warning( 'OAuth decorate: DPoP proof generation failed ({error}); surfacing as DPOP_PROOF_FAILED.', [ 'error' => $exception->getMessage() ] );
 			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception data, not output.
 			throw new Bad_Request_Exception( 'DPOP_PROOF_FAILED', 0, 'DPOP_PROOF_FAILED', $exception );
 			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
@@ -146,6 +154,7 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
 		if ( $exception instanceof Forbidden_Exception ) {
 			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception data, not output.
 			if ( $this->is_insufficient_scope( $exception ) ) {
+				$this->logger->warning( 'OAuth on_failure: yoast-ai returned insufficient_scope; surfacing without fallback.' );
 				throw new Insufficient_Scope_Exception(
 					'INSUFFICIENT_SCOPE',
 					$exception->getCode(),
@@ -157,6 +166,7 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
 			// Plain 403 on the OAuth wire isn't a "consent revoked" — that's a Token-flow concept.
 			// Translate to a typed exception so the sender bypasses fallback and callers don't
 			// auto-revoke consent on the user's behalf.
+			$this->logger->warning( 'OAuth on_failure: yoast-ai returned forbidden ({error_id}); surfacing without fallback.', [ 'error_id' => $exception->get_error_identifier() ] );
 			throw new OAuth_Forbidden_Exception(
 				$exception->getMessage(),
 				$exception->getCode(),
@@ -172,10 +182,12 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
 		}
 
 		if ( $this->is_nonce_challenge( $exception ) ) {
+			$this->logger->debug( 'OAuth on_failure: DPoP nonce challenge received; stashing nonce and retrying.' );
 			$this->myyoast_client->store_dpop_nonce( $exception->get_response_headers() );
 			return true;
 		}
 
+		$this->logger->debug( 'OAuth on_failure: 401 from yoast-ai; clearing cached site token and retrying.' );
 		$this->myyoast_client->clear_site_token();
 		return true;
 	}

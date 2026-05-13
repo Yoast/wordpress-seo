@@ -9,6 +9,9 @@ use Yoast\WP\SEO\AI\Authentication\Domain\Auth_Method;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Builds an AI_Request_Sender configured with the right auth strategy (primary + optional fallback)
@@ -18,7 +21,9 @@ use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
  * MyYoast client registered → site has any user token. The auth model is site-wide: once any admin
  * has completed the auth-code flow, every WP user on the site uses the OAuth path.
  */
-class AI_Request_Sender_Factory {
+class AI_Request_Sender_Factory implements LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The AI request handler.
@@ -76,6 +81,7 @@ class AI_Request_Sender_Factory {
 		$this->myyoast_client                 = $myyoast_client;
 		$this->oauth_strategy                 = $oauth_strategy;
 		$this->token_strategy                 = $token_strategy;
+		$this->logger                         = new NullLogger();
 	}
 
 	/**
@@ -102,21 +108,31 @@ class AI_Request_Sender_Factory {
 	private function should_use_oauth( WP_User $user ): bool {
 		$forced = $this->get_filter_override( $user );
 		if ( $forced === Auth_Method::OAUTH ) {
+			$this->logger->debug( 'AI auth: wpseo_ai_auth_method filter pinned oauth.' );
 			return true;
 		}
 		if ( $forced === Auth_Method::TOKEN ) {
+			$this->logger->debug( 'AI auth: wpseo_ai_auth_method filter pinned token.' );
 			return false;
 		}
 
 		if ( ! $this->myyoast_connection_conditional->is_met() ) {
+			$this->logger->debug( 'AI auth: routing to token strategy (MYYOAST_CONNECTION feature flag is off).' );
 			return false;
 		}
 
 		if ( ! $this->myyoast_client->is_registered() ) {
+			$this->logger->debug( 'AI auth: routing to token strategy (MyYoast OAuth client not registered).' );
 			return false;
 		}
 
-		return $this->myyoast_client->has_any_user_token();
+		if ( ! $this->myyoast_client->has_any_user_token() ) {
+			$this->logger->debug( 'AI auth: routing to token strategy (no user has completed auth-code flow on this site yet).' );
+			return false;
+		}
+
+		$this->logger->debug( 'AI auth: routing to oauth strategy (all gates passed).' );
+		return true;
 	}
 
 	/**

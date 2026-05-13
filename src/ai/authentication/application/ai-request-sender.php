@@ -5,12 +5,16 @@
 namespace Yoast\WP\SEO\AI\Authentication\Application;
 
 use WP_User;
+use Yoast\WP\SEO\AI\Authentication\Domain\Exceptions\Auth_Strategy_Loop_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Insufficient_Scope_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\OAuth_Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Sends an authenticated AI request using a primary auth strategy, with optional fallback.
@@ -23,7 +27,9 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  * Insufficient_Scope_Exception always propagates without triggering fallback — different token
  * semantics mean the legacy path would mask the real config bug.
  */
-class AI_Request_Sender {
+class AI_Request_Sender implements LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * Hard cap on dispatch attempts per strategy. The OAuth strategy uses at most two recoveries
@@ -63,6 +69,7 @@ class AI_Request_Sender {
 		$this->request_handler = $request_handler;
 		$this->primary         = $primary;
 		$this->fallback        = $fallback;
+		$this->logger          = new NullLogger();
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.Missing -- Request_Handler and strategies throw typed exceptions that propagate out.
@@ -90,6 +97,10 @@ class AI_Request_Sender {
 			if ( $this->fallback === null ) {
 				throw $exception;
 			}
+			$this->logger->warning(
+				'Primary AI auth strategy exhausted recovery ({error_id}); falling back to the secondary strategy.',
+				[ 'error_id' => $exception->get_error_identifier() ],
+			);
 			return $this->dispatch_with( $this->fallback, $request, $user );
 		}
 	}
@@ -116,6 +127,7 @@ class AI_Request_Sender {
 
 		// A strategy kept returning true from on_failure past MAX_ATTEMPTS — buggy implementation.
 		// Fail loudly with a LogicException so the bug surfaces rather than being masked by fallback.
+		$this->logger->error( 'AI auth strategy {strategy} hit retry budget without resolution.', [ 'strategy' => \get_class( $strategy ) ] );
 		throw new Auth_Strategy_Loop_Exception( 'AI_Request_Sender: retry budget exhausted without resolution.' );
 	}
 
