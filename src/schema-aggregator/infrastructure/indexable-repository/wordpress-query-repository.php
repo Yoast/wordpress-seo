@@ -64,17 +64,21 @@ class WordPress_Query_Repository implements Indexable_Repository_Interface {
 			return [];
 		}
 
-		$post_ids          = isset( $query->posts ) && \is_array( $query->posts ) ? $query->posts : [];
-		$public_indexables = [];
-		foreach ( $post_ids as $post_id ) {
-			$indexable = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
-			if ( $indexable !== null && ( $indexable->is_public === true || $indexable->is_public === null ) ) {
-				if ( empty( $indexable->id ) ) {
+		$post_ids = isset( $query->posts ) && \is_array( $query->posts ) ? $query->posts : [];
 
-					$indexable->id = $post_id;
-				}
-				$public_indexables[] = $indexable;
+		$indexables        = $this->indexable_repository->find_by_multiple_ids_and_type( $post_ids, 'post' );
+		$public_indexables = [];
+		foreach ( $indexables as $indexable ) {
+			if ( $indexable === null ) {
+				continue;
 			}
+			if ( $indexable->is_public !== true && $indexable->is_public !== null ) {
+				continue;
+			}
+			if ( empty( $indexable->id ) ) {
+				$indexable->id = $indexable->object_id;
+			}
+			$public_indexables[] = $indexable;
 		}
 		return $public_indexables;
 	}
