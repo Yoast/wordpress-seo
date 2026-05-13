@@ -59,26 +59,18 @@ export default function MetaboxFill( { settings } ) {
 				>
 					<Warning />
 				</SidebarItem>
-				{ isBlockEditorActive ? (
-					<SidebarItem
-						key="editor-intro"
-						renderPriority={ 1 }
-					>
-						<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isPost }>
-							<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } inEditorIntro={ true } />
-						</EditorIntro>
-					</SidebarItem>
-				) : (
-					<SidebarItem
-						key="time-constrained-notification"
-						renderPriority={ 1 }
-					>
+				<SidebarItem
+					key="editor-intro"
+					renderPriority={ 1 }
+				>
+					<EditorIntro>
 						<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } />
-					</SidebarItem>
-				) }
-				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="content-planner" renderPriority={ 2 }>
-					<ContentPlannerEditorItem location="metabox" />
-				</SidebarItem> }
+						<EditorIntroText
+							withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }
+						/>
+						{ isPost && isBlockEditorActive && isAiFeatureActive && <ContentPlannerEditorItem location="metabox" /> }
+					</EditorIntro>
+				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }

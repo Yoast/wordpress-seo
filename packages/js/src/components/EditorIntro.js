@@ -9,8 +9,8 @@ import { __ } from "@wordpress/i18n";
  * @param {string} props.children The children to render inside the component.
  * @returns {JSX.Element} The editor introduction component.
  */
-export const EditorIntro = ( { withPromptForContentSuggestions, children } ) => {
-	return <div className="yst-px-4 yst-pt-4">
+export const EditorIntro = ( { children } ) => {
+	return <div className="yst-p-4 yst-flex yst-flex-col yst-gap-3">
 		<Yoast className="yst-w-14 yst-text-primary-500" />
 		{ children }
 		<p className="yst-text-slate-600 yst-mb-0 yst-mt-3">

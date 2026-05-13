@@ -51,6 +51,15 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	return (
 		<>
 			<Fill name="YoastElementor">
+				<SidebarItem
+					key="editor-intro"
+					renderPriority={ 0 }
+				>
+					<EditorIntro>
+						{ FirstEligibleNotification && <FirstEligibleNotification /> }
+						<EditorIntroText withPromptForContentSuggestions={ false } />
+					</EditorIntro>
+				</SidebarItem>
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
 					{ FirstEligibleNotification && (

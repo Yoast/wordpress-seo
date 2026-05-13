@@ -61,8 +61,12 @@ export default function SidebarFill( { settings } ) {
 					key="editor-intro"
 					renderPriority={ 1 }
 				>
-					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }>
-						{ FirstEligibleNotification && <FirstEligibleNotification inEditorIntro={ true } /> }
+					<EditorIntro>
+						{ FirstEligibleNotification && <FirstEligibleNotification /> }
+						<EditorIntroText
+							withPromptForContentSuggestions={ isAiFeatureActive && isPost }
+						/>
+						{ isPost && isAiFeatureActive && <ContentPlannerEditorItem location="sidebar" /> }
 					</EditorIntro>
 				</SidebarItem>
 				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="content-planner" renderPriority={ 2 }>
