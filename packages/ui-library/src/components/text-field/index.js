@@ -58,13 +58,13 @@ const TextField = forwardRef( ( {
 				validation={ validation }
 				{ ...props }
 			/>
+			{ /* yst-mt-2 is added as an inline class on both __validation and __description because the
+			 yst-mt-2 from style.css is part of a @layer, which loses specificity in the Yoast sidebar. */ }
 			{ validation?.message && (
-				<ValidationMessage variant={ validation?.variant } id={ ids.validation } className="yst-text-field__validation">
+				<ValidationMessage variant={ validation?.variant } id={ ids.validation } className="yst-text-field__validation yst-mt-2">
 					{ validation.message }
 				</ValidationMessage>
 			) }
-			{ /* yst-mt-2 is added as an inline class because the yst-mt-2 from style.css is part of a @layer,
-			 which loses specificity in the Yoast sidebar. */ }
 			{ description && <p id={ ids.description } className="yst-text-field__description yst-mt-2">{ description }</p> }
 		</div>
 	);
