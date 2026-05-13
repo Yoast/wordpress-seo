@@ -13,6 +13,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Token_Storage_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Grants\Client_Credentials_Grant;
 use Yoast\WP\SEO\MyYoast_Client\Application\Grants\Refresh_Token_Grant;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Application\Ports\DPoP_Proof_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Site_URL_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Token_Storage_Interface;
@@ -37,6 +38,15 @@ class MyYoast_Client implements LoggerAwareInterface {
 	use LoggerAwareTrait;
 
 	private const REFRESH_LOCK_TTL_IN_SECONDS = 30;
+
+	/**
+	 * Option key for the site-wide "an admin has connected this site to MyYoast at least once" flag.
+	 *
+	 * Setting this flag is the trigger that lets every user on the site use the OAuth path: once any
+	 * admin has completed the authorization-code flow once, the MyYoast server has a verified redirect
+	 * URI for this client and starts including the site_url claim in client_credentials tokens.
+	 */
+	private const SITE_CONNECTED_OPTION = 'wpseo_myyoast_site_connected';
 
 	/**
 	 * The client registration port.
@@ -102,6 +112,13 @@ class MyYoast_Client implements LoggerAwareInterface {
 	private $site_url_provider;
 
 	/**
+	 * The DPoP proof provider port.
+	 *
+	 * @var DPoP_Proof_Provider_Interface
+	 */
+	private $dpop_proof_provider;
+
+	/**
 	 * MyYoast_Client constructor.
 	 *
 	 * @param Client_Registration_Interface $client_registration The client registration port.
@@ -113,6 +130,7 @@ class MyYoast_Client implements LoggerAwareInterface {
 	 * @param Token_Storage_Interface       $token_storage       The site-level token storage port.
 	 * @param User_Token_Storage_Interface  $user_token_storage  The user-level token storage port.
 	 * @param Site_URL_Provider_Interface   $site_url_provider   The site URL provider port.
+	 * @param DPoP_Proof_Provider_Interface $dpop_proof_provider The DPoP proof provider port.
 	 */
 	public function __construct(
 		Client_Registration_Interface $client_registration,
@@ -123,7 +141,8 @@ class MyYoast_Client implements LoggerAwareInterface {
 		Lock_Helper $lock_helper,
 		Token_Storage_Interface $token_storage,
 		User_Token_Storage_Interface $user_token_storage,
-		Site_URL_Provider_Interface $site_url_provider
+		Site_URL_Provider_Interface $site_url_provider,
+		DPoP_Proof_Provider_Interface $dpop_proof_provider
 	) {
 		$this->client_registration = $client_registration;
 		$this->auth_code_handler   = $auth_code_handler;
@@ -134,6 +153,7 @@ class MyYoast_Client implements LoggerAwareInterface {
 		$this->token_storage       = $token_storage;
 		$this->user_token_storage  = $user_token_storage;
 		$this->site_url_provider   = $site_url_provider;
+		$this->dpop_proof_provider = $dpop_proof_provider;
 		$this->logger              = new NullLogger();
 	}
 
@@ -178,7 +198,9 @@ class MyYoast_Client implements LoggerAwareInterface {
 	 * @return bool True if deleted or not registered, false on network failure.
 	 */
 	public function deregister(): bool {
-		return $this->client_registration->deregister();
+		$result = $this->client_registration->deregister();
+		$this->clear_site_connected();
+		return $result;
 	}
 
 	/**
@@ -232,6 +254,7 @@ class MyYoast_Client implements LoggerAwareInterface {
 	public function exchange_authorization_code( int $user_id, string $code, string $state ): Token_Set {
 		$token_set = $this->auth_code_handler->exchange_code( $user_id, $code, $state );
 		$this->user_token_storage->store( $user_id, $token_set );
+		$this->mark_site_connected();
 		return $token_set;
 	}
 
@@ -407,5 +430,72 @@ class MyYoast_Client implements LoggerAwareInterface {
 			$token_set->get_token_type(),
 			$options,
 		);
+	}
+
+	/**
+	 * Creates a DPoP proof JWT bound to the given token, for consumers that send their own HTTP requests.
+	 *
+	 * Picks up any DPoP nonce previously stashed by store_dpop_nonce() so resource servers that issue
+	 * use_dpop_nonce challenges can be satisfied without going through authenticated_request().
+	 *
+	 * @param string    $method    The HTTP method (e.g. "POST", "GET").
+	 * @param string    $url       The full request URL (query/fragment are stripped per RFC 9449).
+	 * @param Token_Set $token_set The token set whose access token the proof should bind to.
+	 *
+	 * @return string The signed DPoP proof JWT.
+	 */
+	public function create_dpop_proof( string $method, string $url, Token_Set $token_set ): string {
+		return $this->dpop_proof_provider->create_proof( $method, $url, $token_set->get_access_token() );
+	}
+
+	/**
+	 * Stashes a DPoP nonce returned by a resource server, so the next create_dpop_proof() call can include it.
+	 *
+	 * @param array<string, string|string[]> $response_headers The response headers from the failing request.
+	 *
+	 * @return void
+	 */
+	public function store_dpop_nonce( array $response_headers ): void {
+		$this->dpop_proof_provider->handle_nonce_response( $response_headers );
+	}
+
+	/**
+	 * Whether this site has an active MyYoast OAuth connection.
+	 *
+	 * Required because MyYoast only embeds the site_url claim in client_credentials tokens after the
+	 * client has at least one verified redirect URI — i.e. after a user has completed the auth-code
+	 * flow on this site. The flag is set on first successful exchange and cleared on deregister.
+	 *
+	 * Note: this tracks whether the site has *ever* completed the connect handshake, not whether any
+	 * individual user currently holds a token. Live token storage is owned by User_Token_Storage.
+	 *
+	 * @return bool True if the site is currently connected.
+	 */
+	public function is_site_connected(): bool {
+		return (bool) \get_option( self::SITE_CONNECTED_OPTION, false );
+	}
+
+	/**
+	 * Marks the site as having completed the auth-code flow at least once.
+	 *
+	 * Called by the authorization-code handler on first successful exchange.
+	 *
+	 * @return void
+	 */
+	private function mark_site_connected(): void {
+		if ( $this->is_site_connected() ) {
+			return;
+		}
+		\update_option( self::SITE_CONNECTED_OPTION, true, false );
+	}
+
+	/**
+	 * Clears the site-connected flag. Called when the OAuth client is deregistered so the factory
+	 * stops routing AI traffic through the OAuth path on a site that no longer has a valid connection.
+	 *
+	 * @return void
+	 */
+	private function clear_site_connected(): void {
+		\delete_option( self::SITE_CONNECTED_OPTION );
 	}
 }
