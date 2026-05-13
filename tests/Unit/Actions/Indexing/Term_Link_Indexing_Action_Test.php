@@ -327,8 +327,10 @@ final class Term_Link_Indexing_Action_Test extends TestCase {
 			->with( 'query' )
 			->andReturn( $terms );
 
+		$indexables = [];
 		foreach ( $terms as $term ) {
 			$indexable             = Mockery::mock( Indexable_Mock::class );
+			$indexable->object_id  = (int) $term->term_id;
 			$indexable->link_count = 10;
 
 			$this->indexable_helper
@@ -338,8 +340,14 @@ final class Term_Link_Indexing_Action_Test extends TestCase {
 
 			$this->link_builder->expects( 'build' )->with( $indexable, $term->description );
 
-			$this->repository->expects( 'find_by_id_and_type' )->once()->with( $term->term_id, 'term' )->andReturn( $indexable );
+			$indexables[] = $indexable;
 		}
+
+		$this->repository
+			->expects( 'find_by_multiple_ids_and_type' )
+			->once()
+			->with( [ 1, 3, 8 ], 'term' )
+			->andReturn( $indexables );
 
 		Functions\expect( 'delete_transient' )->once()->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
 
@@ -399,18 +407,29 @@ final class Term_Link_Indexing_Action_Test extends TestCase {
 				],
 			);
 
-		$indexable             = Mockery::mock( Indexable_Mock::class );
-		$indexable->link_count = null;
+		$indexable_1             = Mockery::mock( Indexable_Mock::class );
+		$indexable_1->object_id  = 1;
+		$indexable_1->link_count = null;
+		$indexable_3             = Mockery::mock( Indexable_Mock::class );
+		$indexable_3->object_id  = 3;
+		$indexable_3->link_count = null;
+		$indexable_8             = Mockery::mock( Indexable_Mock::class );
+		$indexable_8->object_id  = 8;
+		$indexable_8->link_count = null;
 
-		$this->indexable_helper
-			->expects( 'save_indexable' )
-			->with( $indexable )
-			->times( 3 );
+		$this->indexable_helper->expects( 'save_indexable' )->with( $indexable_1 )->once();
+		$this->indexable_helper->expects( 'save_indexable' )->with( $indexable_3 )->once();
+		$this->indexable_helper->expects( 'save_indexable' )->with( $indexable_8 )->once();
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' )->andReturn( $indexable );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'term' )->andReturn( $indexable );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'term' )->andReturn( $indexable );
-		$this->link_builder->expects( 'build' )->times( 3 )->with( $indexable, 'foo' );
+		$this->repository
+			->expects( 'find_by_multiple_ids_and_type' )
+			->once()
+			->with( [ 1, 3, 8 ], 'term' )
+			->andReturn( [ $indexable_1, $indexable_3, $indexable_8 ] );
+
+		$this->link_builder->expects( 'build' )->once()->with( $indexable_1, 'foo' );
+		$this->link_builder->expects( 'build' )->once()->with( $indexable_3, 'foo' );
+		$this->link_builder->expects( 'build' )->once()->with( $indexable_8, 'foo' );
 
 		Functions\expect( 'delete_transient' )->once()->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
 

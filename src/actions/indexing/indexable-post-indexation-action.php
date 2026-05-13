@@ -98,10 +98,10 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$post_ids = $this->wpdb->get_col( $query );
 
-		$indexables = [];
-		foreach ( $post_ids as $post_id ) {
-			$indexables[] = $this->repository->find_by_id_and_type( (int) $post_id, 'post' );
-		}
+		$indexables = $this->repository->find_by_multiple_ids_and_type(
+			\array_map( 'intval', $post_ids ),
+			'post',
+		);
 
 		if ( \count( $indexables ) > 0 ) {
 			\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
