@@ -4,7 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\Application\Suggestions_Provider;
 
-use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Factory;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 
 /**
@@ -28,8 +28,8 @@ final class Constructor_Test extends Abstract_Suggestions_Provider_Test {
 		);
 
 		$this->assertInstanceOf(
-			Auth_Strategy_Factory::class,
-			$this->getPropertyValue( $this->instance, 'auth_strategy_factory' ),
+			AI_Request_Sender_Factory::class,
+			$this->getPropertyValue( $this->instance, 'ai_request_sender_factory' ),
 		);
 	}
 }

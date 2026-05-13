@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\AI\Generator\User_Interface;
 
 use WP_REST_Response;
 use WPSEO_Addon_Manager;
-use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Factory;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\WP_Request_Exception;
@@ -43,9 +43,9 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * The auth strategy factory.
 	 *
-	 * @var Auth_Strategy_Factory
+	 * @var AI_Request_Sender_Factory
 	 */
-	private $auth_strategy_factory;
+	private $ai_request_sender_factory;
 
 	/**
 	 * Represents the add-on manager.
@@ -66,12 +66,12 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Auth_Strategy_Factory $auth_strategy_factory The auth strategy factory.
-	 * @param WPSEO_Addon_Manager   $addon_manager         The add-on manager instance.
+	 * @param AI_Request_Sender_Factory $ai_request_sender_factory The auth strategy factory.
+	 * @param WPSEO_Addon_Manager       $addon_manager             The add-on manager instance.
 	 */
-	public function __construct( Auth_Strategy_Factory $auth_strategy_factory, WPSEO_Addon_Manager $addon_manager ) {
-		$this->addon_manager         = $addon_manager;
-		$this->auth_strategy_factory = $auth_strategy_factory;
+	public function __construct( AI_Request_Sender_Factory $ai_request_sender_factory, WPSEO_Addon_Manager $addon_manager ) {
+		$this->addon_manager             = $addon_manager;
+		$this->ai_request_sender_factory = $ai_request_sender_factory;
 	}
 
 	/**
@@ -109,8 +109,8 @@ class Get_Usage_Route implements Route_Interface {
 		$user                  = \wp_get_current_user();
 		try {
 			$action_path = $this->get_action_path( $is_woo_product_entity );
-			$strategy    = $this->auth_strategy_factory->create( $user );
-			$response    = $strategy->send( new Request( $action_path, [], [], false ), $user );
+			$sender      = $this->ai_request_sender_factory->create( $user );
+			$response    = $sender->send( new Request( $action_path, [], [], false ), $user );
 			$data        = \json_decode( $response->get_body() );
 		} catch ( Remote_Request_Exception | WP_Request_Exception $e ) {
 			$message = [

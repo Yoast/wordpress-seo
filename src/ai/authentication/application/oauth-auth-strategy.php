@@ -5,31 +5,32 @@
 namespace Yoast\WP\SEO\AI\Authentication\Application;
 
 use WP_User;
-use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Insufficient_Scope_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\OAuth_Forbidden_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 use Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Token_Request_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Token_Storage_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
-use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP\DPoP_Proof_Exception;
 
 /**
  * Authenticates AI requests with a MyYoast-issued, DPoP-bound `client_credentials` access token.
  *
- * Site-wide auth: one admin connects this site to MyYoast once, after which every WP user can use this
- * strategy. The token itself is site-level — the current WP user's id is self-reported in the body for
- * endpoints that need per-user identity.
+ * Pure decorator: attaches `Authorization: DPoP <token>` + a matching `DPoP` proof header and a
+ * `user_id` body field on user-bound paths. The sender owns dispatch + retry orchestration.
  *
- * The actual HTTP call goes through Request_Handler / API_Client (same as the Token strategy); only the
- * Authorization header shape and the DPoP proof header differ. On 401/use_dpop_nonce we fetch a fresh
- * nonce and retry once; on 401/invalid_token we clear the cached site token and retry once; if both
- * retries are exhausted we fall back to the Token strategy unless runtime fallback is disabled.
+ * Site-wide auth: one admin connects this site to MyYoast once, after which every WP user can use
+ * this strategy. The token itself is site-level — the current WP user's id is self-reported in the
+ * body for endpoints that need per-user identity.
+ *
+ * Recovery (`on_failure`): on a DPoP nonce challenge we stash the server-issued nonce so the next
+ * decorate() picks it up; on any other 401 we clear the cached site token so the next decorate()
+ * fetches a fresh one; on a 403 insufficient_scope we throw a typed exception that bypasses fallback.
  */
 class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
 
@@ -62,13 +63,6 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
 	private $myyoast_client;
 
 	/**
-	 * The AI request handler.
-	 *
-	 * @var Request_Handler
-	 */
-	private $request_handler;
-
-	/**
 	 * The AI API client (used to resolve the full URL for the DPoP proof's htu claim).
 	 *
 	 * @var API_Client
@@ -76,125 +70,46 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
 	private $api_client;
 
 	/**
-	 * The Token strategy, used for runtime fallback when the OAuth path can't authenticate this request.
-	 *
-	 * @var Token_Auth_Strategy
-	 */
-	private $token_strategy;
-
-	/**
 	 * Constructor.
 	 *
-	 * @param MyYoast_Client      $myyoast_client  The MyYoast OAuth client.
-	 * @param Request_Handler     $request_handler The AI request handler.
-	 * @param API_Client          $api_client      The AI API client.
-	 * @param Token_Auth_Strategy $token_strategy  The Token strategy for runtime fallback.
+	 * @param MyYoast_Client $myyoast_client The MyYoast OAuth client.
+	 * @param API_Client     $api_client     The AI API client.
 	 */
-	public function __construct(
-		MyYoast_Client $myyoast_client,
-		Request_Handler $request_handler,
-		API_Client $api_client,
-		Token_Auth_Strategy $token_strategy
-	) {
-		$this->myyoast_client  = $myyoast_client;
-		$this->request_handler = $request_handler;
-		$this->api_client      = $api_client;
-		$this->token_strategy  = $token_strategy;
+	public function __construct( MyYoast_Client $myyoast_client, API_Client $api_client ) {
+		$this->myyoast_client = $myyoast_client;
+		$this->api_client     = $api_client;
 	}
 
-	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.Missing -- Request_Handler and MyYoast_Client throw typed exceptions that propagate out.
-
 	/**
-	 * Sends a request to the AI API using the MyYoast OAuth + DPoP flow.
+	 * Decorates the request with the OAuth Authorization header, DPoP proof header, and (for user-
+	 * bound paths) the user_id body field.
 	 *
 	 * @param Request $request The base request.
-	 * @param WP_User $user    The WP user the request is on behalf of.
+	 * @param WP_User $user    The WP user.
 	 *
-	 * @return Response The parsed response.
+	 * @return Request The decorated request.
+	 *
+	 * @throws Bad_Request_Exception When site-token issuance or DPoP proof generation fails.
 	 */
-	public function send( Request $request, WP_User $user ): Response {
+	public function decorate( Request $request, WP_User $user ): Request {
 		try {
 			$token_set = $this->myyoast_client->get_site_token( [ self::AI_SCOPE ] );
 		} catch ( Token_Request_Failed_Exception | Token_Storage_Exception $exception ) {
-			// Selection-time token issuance failed; fall back to the Token strategy for this request.
-			return $this->token_strategy->send( $request, $user );
+			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception data, not output.
+			throw new Bad_Request_Exception( 'OAUTH_TOKEN_UNAVAILABLE', 0, 'OAUTH_TOKEN_UNAVAILABLE', $exception );
+			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
-		return $this->dispatch( $request, $user, $token_set, true, true );
-	}
-
-	/**
-	 * Dispatches the request with DPoP-bound headers, with bounded retries on auth-related 401s.
-	 *
-	 * @param Request   $request                       The base request.
-	 * @param WP_User   $user                          The WP user.
-	 * @param Token_Set $token_set                     The site token to bind.
-	 * @param bool      $nonce_retry_available         Whether the use_dpop_nonce retry is still available.
-	 * @param bool      $invalid_token_retry_available Whether the invalid_token clear+reissue retry is still available.
-	 *
-	 * @return Response The parsed response.
-	 */
-	private function dispatch(
-		Request $request,
-		WP_User $user,
-		Token_Set $token_set,
-		bool $nonce_retry_available,
-		bool $invalid_token_retry_available
-	): Response {
-		$decorated_request = $this->decorate( $request, $user, $token_set );
+		$method = $request->is_post() ? 'POST' : 'GET';
+		$url    = $this->api_client->get_url( $request->get_action_path() );
 
 		try {
-			return $this->request_handler->handle( $decorated_request );
-		} catch ( Unauthorized_Exception $exception ) {
-			if ( $nonce_retry_available && $this->is_nonce_challenge( $exception ) ) {
-				$this->myyoast_client->store_dpop_nonce( $exception->get_response_headers() );
-				return $this->dispatch( $request, $user, $token_set, false, $invalid_token_retry_available );
-			}
-
-			if ( $invalid_token_retry_available ) {
-				$this->myyoast_client->clear_site_token();
-				try {
-					$fresh_token = $this->myyoast_client->get_site_token( [ self::AI_SCOPE ] );
-				} catch ( Token_Request_Failed_Exception | Token_Storage_Exception $token_exception ) {
-					return $this->token_strategy->send( $request, $user );
-				}
-				return $this->dispatch( $request, $user, $fresh_token, false, false );
-			}
-
-			return $this->token_strategy->send( $request, $user );
-		} catch ( Forbidden_Exception $exception ) {
-			if ( $this->is_insufficient_scope( $exception ) ) {
-				// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception data, not output.
-				throw new Insufficient_Scope_Exception(
-					'INSUFFICIENT_SCOPE',
-					$exception->getCode(),
-					'INSUFFICIENT_SCOPE',
-					$exception,
-					$exception->get_response_headers(),
-				);
-				// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
-			}
-			throw $exception;
+			$proof = $this->myyoast_client->create_dpop_proof( $method, $url, $token_set );
 		} catch ( DPoP_Proof_Exception $exception ) {
 			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception data, not output.
 			throw new Bad_Request_Exception( 'DPOP_PROOF_FAILED', 0, 'DPOP_PROOF_FAILED', $exception );
 			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
-	}
-
-	/**
-	 * Decorates the request with the OAuth Authorization header, DPoP proof header, and user_id body field.
-	 *
-	 * @param Request   $request   The base request.
-	 * @param WP_User   $user      The WP user.
-	 * @param Token_Set $token_set The site token to bind.
-	 *
-	 * @return Request The decorated request.
-	 */
-	private function decorate( Request $request, WP_User $user, Token_Set $token_set ): Request {
-		$method = $request->is_post() ? 'POST' : 'GET';
-		$url    = $this->api_client->get_url( $request->get_action_path() );
-		$proof  = $this->myyoast_client->create_dpop_proof( $method, $url, $token_set );
 
 		$decorated = $request->with_added_headers(
 			[
@@ -210,7 +125,60 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
 		return $decorated;
 	}
 
-	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.Missing
+	/**
+	 * Recovery hook called by the sender after a failed dispatch.
+	 *
+	 * Recovery decisions are driven entirely by the exception type — `$request`, `$user`, and
+	 * `$attempt` are part of the interface contract but not used here. The sender owns the retry
+	 * budget (MAX_ATTEMPTS = 3), so this method never needs to count its own attempts.
+	 *
+	 * @param Request                  $request   The base request.
+	 * @param WP_User                  $user      The WP user.
+	 * @param Remote_Request_Exception $exception The exception from the failed dispatch.
+	 * @param int                      $attempt   The 1-based attempt counter.
+	 *
+	 * @return bool True to retry, false to give up.
+	 *
+	 * @throws Insufficient_Scope_Exception When the response is a 403 insufficient_scope, so the sender propagates without falling back.
+	 * @throws OAuth_Forbidden_Exception    When the response is any other 403 on the OAuth wire; bypasses fallback and consent-revoke flow.
+	 */
+	public function on_failure( Request $request, WP_User $user, Remote_Request_Exception $exception, int $attempt ): bool { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter,VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- See method docblock.
+		if ( $exception instanceof Forbidden_Exception ) {
+			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception data, not output.
+			if ( $this->is_insufficient_scope( $exception ) ) {
+				throw new Insufficient_Scope_Exception(
+					'INSUFFICIENT_SCOPE',
+					$exception->getCode(),
+					'INSUFFICIENT_SCOPE',
+					$exception,
+					$exception->get_response_headers(),
+				);
+			}
+			// Plain 403 on the OAuth wire isn't a "consent revoked" — that's a Token-flow concept.
+			// Translate to a typed exception so the sender bypasses fallback and callers don't
+			// auto-revoke consent on the user's behalf.
+			throw new OAuth_Forbidden_Exception(
+				$exception->getMessage(),
+				$exception->getCode(),
+				$exception->get_error_identifier(),
+				$exception,
+				$exception->get_response_headers(),
+			);
+			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		}
+
+		if ( ! ( $exception instanceof Unauthorized_Exception ) ) {
+			return false;
+		}
+
+		if ( $this->is_nonce_challenge( $exception ) ) {
+			$this->myyoast_client->store_dpop_nonce( $exception->get_response_headers() );
+			return true;
+		}
+
+		$this->myyoast_client->clear_site_token();
+		return true;
+	}
 
 	/**
 	 * Whether the given action path is in the user-bound set.
@@ -240,7 +208,7 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
 	 */
 	private function is_nonce_challenge( Unauthorized_Exception $exception ): bool {
 		$headers = $exception->get_response_headers();
-		if ( ! $this->has_header( $headers, 'dpop-nonce' ) ) {
+		if ( $this->get_header_value( $headers, 'dpop-nonce' ) === null ) {
 			return false;
 		}
 
@@ -269,25 +237,10 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface {
 	}
 
 	/**
-	 * Whether the headers contain the given header name.
-	 *
-	 * Keys are already lower-cased upstream by Response_Parser::normalize_headers(), so callers must
-	 * pass the lower-cased name they expect.
-	 *
-	 * @param array<string, string|array<string>> $headers The (normalized) headers.
-	 * @param string                              $name    The header name (lower-case).
-	 *
-	 * @return bool True if the header is present and non-empty.
-	 */
-	private function has_header( array $headers, string $name ): bool {
-		return ( $this->get_header_value( $headers, $name ) !== null );
-	}
-
-	/**
 	 * Returns the value of the given header, or null if missing/empty.
 	 *
 	 * Keys are already lower-cased upstream by Response_Parser::normalize_headers(), so callers must
-	 * pass the lower-cased name they expect — same convention HTTP_Client follows for `retry-after`.
+	 * pass the lower-cased name they expect.
 	 *
 	 * @param array<string, string|array<string>> $headers The (normalized) headers.
 	 * @param string                              $name    The header name (lower-case).

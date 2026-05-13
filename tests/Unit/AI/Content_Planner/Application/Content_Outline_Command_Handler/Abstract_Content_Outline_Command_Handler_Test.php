@@ -5,8 +5,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Application\Content_Outline_Command_Handler;
 
 use Mockery;
-use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Factory;
-use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Interface;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command_Handler;
 use Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Recent_Content\Recent_Content_Collector;
@@ -29,16 +29,16 @@ abstract class Abstract_Content_Outline_Command_Handler_Test extends TestCase {
 	/**
 	 * The auth strategy factory mock.
 	 *
-	 * @var Mockery\MockInterface|Auth_Strategy_Factory
+	 * @var Mockery\MockInterface|AI_Request_Sender_Factory
 	 */
-	protected $auth_strategy_factory;
+	protected $ai_request_sender_factory;
 
 	/**
 	 * The auth strategy mock returned by the factory.
 	 *
-	 * @var Mockery\MockInterface|Auth_Strategy_Interface
+	 * @var Mockery\MockInterface|AI_Request_Sender
 	 */
-	protected $auth_strategy;
+	protected $ai_request_sender;
 
 	/**
 	 * The consent handler mock.
@@ -62,16 +62,16 @@ abstract class Abstract_Content_Outline_Command_Handler_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->recent_content_collector = Mockery::mock( Recent_Content_Collector::class );
-		$this->auth_strategy_factory    = Mockery::mock( Auth_Strategy_Factory::class );
-		$this->auth_strategy            = Mockery::mock( Auth_Strategy_Interface::class );
-		$this->consent_handler          = Mockery::mock( Consent_Handler::class );
+		$this->recent_content_collector  = Mockery::mock( Recent_Content_Collector::class );
+		$this->ai_request_sender_factory = Mockery::mock( AI_Request_Sender_Factory::class );
+		$this->ai_request_sender         = Mockery::mock( AI_Request_Sender::class );
+		$this->consent_handler           = Mockery::mock( Consent_Handler::class );
 
-		$this->auth_strategy_factory->shouldReceive( 'create' )->andReturn( $this->auth_strategy )->byDefault();
+		$this->ai_request_sender_factory->shouldReceive( 'create' )->andReturn( $this->ai_request_sender )->byDefault();
 
 		$this->instance = new Content_Outline_Command_Handler(
 			$this->recent_content_collector,
-			$this->auth_strategy_factory,
+			$this->ai_request_sender_factory,
 			$this->consent_handler,
 		);
 	}

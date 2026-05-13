@@ -10,6 +10,7 @@ use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Post_List;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Section_List;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\OAuth_Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 
@@ -83,7 +84,7 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 		$this->recent_content_collector->expects( 'collect' )->once()->with( 'post' )->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->with( 'post' )->andReturn( $about_page );
 
-		$this->auth_strategy->expects( 'send' )->once()->with(
+		$this->ai_request_sender->expects( 'send' )->once()->with(
 			Mockery::on(
 				static function ( $request ) use ( $about_page ) {
 					return self::request_matches_expected_shape( $request, $about_page );
@@ -122,7 +123,7 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
 
-		$this->auth_strategy
+		$this->ai_request_sender
 			->expects( 'send' )
 			->once()
 			->with(
@@ -159,12 +160,36 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
 
-		$this->auth_strategy->expects( 'send' )->once()->andThrow( new Forbidden_Exception( 'NOPE', 403 ) );
+		$this->ai_request_sender->expects( 'send' )->once()->andThrow( new Forbidden_Exception( 'NOPE', 403 ) );
 
 		$this->consent_handler->expects( 'revoke_consent' )->once()->with( 1 );
 
 		$this->expectException( Forbidden_Exception::class );
 		$this->expectExceptionMessage( 'CONSENT_REVOKED' );
+
+		$this->instance->handle( $command );
+	}
+
+	/**
+	 * An OAuth_Forbidden_Exception is propagated unchanged — no consent revoke (OAuth-wire 403s
+	 * aren't consent revocations).
+	 *
+	 * @return void
+	 */
+	public function test_handle_propagates_oauth_forbidden_without_consent_revoke() {
+		$command = $this->build_command();
+
+		$post_list = Mockery::mock( Post_List::class );
+		$post_list->expects( 'to_array' )->once()->andReturn( [] );
+
+		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
+		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
+
+		$this->ai_request_sender->expects( 'send' )->once()->andThrow( new OAuth_Forbidden_Exception( 'policy', 403, 'policy' ) );
+
+		$this->consent_handler->shouldNotReceive( 'revoke_consent' );
+
+		$this->expectException( OAuth_Forbidden_Exception::class );
 
 		$this->instance->handle( $command );
 	}
@@ -182,7 +207,7 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 
 		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->auth_strategy->expects( 'send' )->once()->andReturn( new Response( 'not json', 200, '' ) );
+		$this->ai_request_sender->expects( 'send' )->once()->andReturn( new Response( 'not json', 200, '' ) );
 
 		$result = $this->instance->handle( $command );
 
@@ -202,7 +227,7 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 
 		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->auth_strategy->expects( 'send' )->once()->andReturn( new Response( '{"something_else":[]}', 200, '' ) );
+		$this->ai_request_sender->expects( 'send' )->once()->andReturn( new Response( '{"something_else":[]}', 200, '' ) );
 
 		$result = $this->instance->handle( $command );
 
@@ -222,7 +247,7 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 
 		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->auth_strategy
+		$this->ai_request_sender
 			->expects( 'send' )
 			->once()
 			->andReturn( new Response( '{"choices":[{"subheading_text":"Only heading"},{"content_notes":["only notes"]}]}', 200, '' ) );

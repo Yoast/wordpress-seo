@@ -6,8 +6,8 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\User_Interface\Get_Usage_Route;
 
 use Mockery;
 use WPSEO_Addon_Manager;
-use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Factory;
-use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Interface;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
 use Yoast\WP\SEO\AI\Generator\User_Interface\Get_Usage_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -28,16 +28,16 @@ abstract class Abstract_Get_Usage_Route_Test extends TestCase {
 	/**
 	 * The auth strategy factory mock.
 	 *
-	 * @var Mockery\MockInterface|Auth_Strategy_Factory
+	 * @var Mockery\MockInterface|AI_Request_Sender_Factory
 	 */
-	protected $auth_strategy_factory;
+	protected $ai_request_sender_factory;
 
 	/**
 	 * The auth strategy mock returned by the factory.
 	 *
-	 * @var Mockery\MockInterface|Auth_Strategy_Interface
+	 * @var Mockery\MockInterface|AI_Request_Sender
 	 */
-	protected $auth_strategy;
+	protected $ai_request_sender;
 
 	/**
 	 * The add-on manager mock.
@@ -54,14 +54,14 @@ abstract class Abstract_Get_Usage_Route_Test extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->auth_strategy_factory = Mockery::mock( Auth_Strategy_Factory::class );
-		$this->auth_strategy         = Mockery::mock( Auth_Strategy_Interface::class );
-		$this->addon_manager         = Mockery::mock( WPSEO_Addon_Manager::class );
+		$this->ai_request_sender_factory = Mockery::mock( AI_Request_Sender_Factory::class );
+		$this->ai_request_sender         = Mockery::mock( AI_Request_Sender::class );
+		$this->addon_manager             = Mockery::mock( WPSEO_Addon_Manager::class );
 
-		$this->auth_strategy_factory->shouldReceive( 'create' )->andReturn( $this->auth_strategy )->byDefault();
+		$this->ai_request_sender_factory->shouldReceive( 'create' )->andReturn( $this->ai_request_sender )->byDefault();
 
 		$this->instance = new Get_Usage_Route(
-			$this->auth_strategy_factory,
+			$this->ai_request_sender_factory,
 			$this->addon_manager,
 		);
 	}

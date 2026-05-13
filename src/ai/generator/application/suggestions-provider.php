@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI\Generator\Application;
 
 use RuntimeException;
 use WP_User;
-use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Factory;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Generator\Domain\Suggestion;
 use Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket;
@@ -15,6 +15,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Insufficient_Scope_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Not_Found_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\OAuth_Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Request_Timeout_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Service_Unavailable_Exception;
@@ -38,22 +39,22 @@ class Suggestions_Provider {
 	/**
 	 * The auth strategy factory.
 	 *
-	 * @var Auth_Strategy_Factory
+	 * @var AI_Request_Sender_Factory
 	 */
-	private $auth_strategy_factory;
+	private $ai_request_sender_factory;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param Consent_Handler       $consent_handler       The consent handler instance.
-	 * @param Auth_Strategy_Factory $auth_strategy_factory The auth strategy factory.
+	 * @param Consent_Handler           $consent_handler           The consent handler instance.
+	 * @param AI_Request_Sender_Factory $ai_request_sender_factory The auth strategy factory.
 	 */
 	public function __construct(
 		Consent_Handler $consent_handler,
-		Auth_Strategy_Factory $auth_strategy_factory
+		AI_Request_Sender_Factory $ai_request_sender_factory
 	) {
-		$this->consent_handler       = $consent_handler;
-		$this->auth_strategy_factory = $auth_strategy_factory;
+		$this->consent_handler           = $consent_handler;
+		$this->ai_request_sender_factory = $ai_request_sender_factory;
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
@@ -102,8 +103,8 @@ class Suggestions_Provider {
 		];
 
 		try {
-			$strategy = $this->auth_strategy_factory->create( $user );
-			$response = $strategy->send(
+			$sender   = $this->ai_request_sender_factory->create( $user );
+			$response = $sender->send(
 				new Request(
 					"/openai/suggestions/$suggestion_type",
 					$request_body,
@@ -111,9 +112,9 @@ class Suggestions_Provider {
 				),
 				$user,
 			);
-		} catch ( Insufficient_Scope_Exception $exception ) {
-			// Scope errors are a deployment/token-issuance problem, not a consent revocation.
-			// Surface them unchanged so the caller can distinguish the two.
+		} catch ( Insufficient_Scope_Exception | OAuth_Forbidden_Exception $exception ) {
+			// OAuth-side 4xxs are deployment/policy problems, not consent revocation.
+			// Surface them unchanged so the consent flow doesn't fire incorrectly.
 			throw $exception;
 		} catch ( Forbidden_Exception $exception ) {
 			// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).

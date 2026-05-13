@@ -460,18 +460,19 @@ class MyYoast_Client implements LoggerAwareInterface {
 	}
 
 	/**
-	 * Whether this site has an active MyYoast OAuth connection.
+	 * Whether any user on this site has ever obtained a token via the MyYoast auth-code flow.
 	 *
 	 * Required because MyYoast only embeds the site_url claim in client_credentials tokens after the
 	 * client has at least one verified redirect URI — i.e. after a user has completed the auth-code
 	 * flow on this site. The flag is set on first successful exchange and cleared on deregister.
 	 *
-	 * Note: this tracks whether the site has *ever* completed the connect handshake, not whether any
-	 * individual user currently holds a token. Live token storage is owned by User_Token_Storage.
+	 * Note: the underlying option key (`SITE_CONNECTED_OPTION`) keeps its historical name to avoid
+	 * a stored-data migration. The public method name reflects the semantic the AI module reads
+	 * against — "has any user token been issued on this site?"
 	 *
-	 * @return bool True if the site is currently connected.
+	 * @return bool True if the flag is currently set.
 	 */
-	public function is_site_connected(): bool {
+	public function has_any_user_token(): bool {
 		return (bool) \get_option( self::SITE_CONNECTED_OPTION, false );
 	}
 
@@ -483,7 +484,7 @@ class MyYoast_Client implements LoggerAwareInterface {
 	 * @return void
 	 */
 	private function mark_site_connected(): void {
-		if ( $this->is_site_connected() ) {
+		if ( $this->has_any_user_token() ) {
 			return;
 		}
 		\update_option( self::SITE_CONNECTED_OPTION, true, false );

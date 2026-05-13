@@ -5,8 +5,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\Application\Suggestions_Provider;
 
 use Mockery;
-use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Factory;
-use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Interface;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -35,16 +35,16 @@ abstract class Abstract_Suggestions_Provider_Test extends TestCase {
 	/**
 	 * The auth strategy factory instance.
 	 *
-	 * @var Mockery\MockInterface|Auth_Strategy_Factory
+	 * @var Mockery\MockInterface|AI_Request_Sender_Factory
 	 */
-	protected $auth_strategy_factory;
+	protected $ai_request_sender_factory;
 
 	/**
 	 * The auth strategy returned by the factory.
 	 *
-	 * @var Mockery\MockInterface|Auth_Strategy_Interface
+	 * @var Mockery\MockInterface|AI_Request_Sender
 	 */
-	protected $auth_strategy;
+	protected $ai_request_sender;
 
 	/**
 	 * Setup the test.
@@ -54,14 +54,14 @@ abstract class Abstract_Suggestions_Provider_Test extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->consent_handler       = Mockery::mock( Consent_Handler::class );
-		$this->auth_strategy_factory = Mockery::mock( Auth_Strategy_Factory::class );
-		$this->auth_strategy         = Mockery::mock( Auth_Strategy_Interface::class );
-		$this->auth_strategy_factory->shouldReceive( 'create' )->andReturn( $this->auth_strategy )->byDefault();
+		$this->consent_handler           = Mockery::mock( Consent_Handler::class );
+		$this->ai_request_sender_factory = Mockery::mock( AI_Request_Sender_Factory::class );
+		$this->ai_request_sender         = Mockery::mock( AI_Request_Sender::class );
+		$this->ai_request_sender_factory->shouldReceive( 'create' )->andReturn( $this->ai_request_sender )->byDefault();
 
 		$this->instance = new Suggestions_Provider(
 			$this->consent_handler,
-			$this->auth_strategy_factory,
+			$this->ai_request_sender_factory,
 		);
 	}
 }
