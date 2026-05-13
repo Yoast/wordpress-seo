@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP;
 
 use Exception;
 use SensitiveParameter;
+use Yoast\WP\SEO\MyYoast_Client\Application\Ports\DPoP_Proof_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\JWT_Signer;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\JWT_Signing_Exception;
@@ -18,7 +19,7 @@ use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Issuer_Config;
  * DPoP (Demonstrating Proof of Possession) binds access tokens to a
  * cryptographic key pair, preventing token theft.
  */
-class DPoP_Handler {
+class DPoP_Handler implements DPoP_Proof_Provider_Interface {
 
 	private const NONCE_TRANSIENT_PREFIX = 'wpseo_myyoast_dpop_nonce_';
 	private const NONCE_TTL_IN_SECONDS   = ( \MINUTE_IN_SECONDS * 5 );

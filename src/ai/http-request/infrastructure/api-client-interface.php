@@ -33,4 +33,13 @@ interface API_Client_Interface {
 	 * @return int The timeout of the suggestion requests in seconds.
 	 */
 	public function get_request_timeout(): int;
+
+	/**
+	 * Builds the full URL for a request to the AI API, applying the same filter perform_request() uses.
+	 *
+	 * @param string $action_path The action path for the request.
+	 *
+	 * @return string The full URL for the request.
+	 */
+	public function get_url( string $action_path ): string;
 }

@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\Application\Suggestions_Provider;
 use Mockery;
 use WP_User;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\OAuth_Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 
 /**
@@ -30,15 +30,8 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 
 		$http_response = Mockery::mock( Response::class );
 
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
-			->once()
-			->with( $user );
-
-		$this->request_handler
-			->expects( 'handle' )
-			->once()
-			->andReturn( $http_response );
+		$this->ai_request_sender_factory->expects( 'create' )->with( $user )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender->expects( 'send' )->once()->andReturn( $http_response );
 
 		$http_response
 			->expects( 'get_body' )
@@ -54,7 +47,6 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 			'',
 			'',
 			'',
-			false,
 		);
 
 		$this->assertArrayHasKey( 0, $suggestions_array );
@@ -62,73 +54,8 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 	}
 
 	/**
-	 * Tests an unauthorized exception.
-	 *
-	 * @dataProvider data_get_suggestions
-	 *
-	 * @param bool $retry_on_unauthorized Whether to retry when unauthorized.
-	 *
-	 * @return void
-	 */
-	public function test_get_suggestions_with_unauthorized_exception( $retry_on_unauthorized ) {
-		$user     = Mockery::mock( WP_User::class );
-		$user->ID = 1;
-
-		$call_count = ( $retry_on_unauthorized ) ? 2 : 1;
-
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
-			->times( $call_count )
-			->with( $user );
-
-		$this->request_handler
-			->expects( 'handle' )
-			->times( $call_count )
-			->andThrow( new Unauthorized_Exception( 'unauthorized' ) );
-
-		$this->user_helper->expects( 'delete_meta' )
-			->times( $call_count )
-			->with( $user->ID, '_yoast_wpseo_ai_generator_access_jwt' )
-			->andReturn( true );
-
-		$this->user_helper->expects( 'delete_meta' )
-			->times( $call_count )
-			->with( $user->ID, '_yoast_wpseo_ai_generator_refresh_jwt' )
-			->andReturn( true );
-
-		$this->expectException( Unauthorized_Exception::class );
-		$this->expectExceptionMessage( 'unauthorized' );
-
-		$this->instance->get_suggestions(
-			$user,
-			'test',
-			'',
-			'',
-			'',
-			'',
-			'',
-			$retry_on_unauthorized,
-		);
-	}
-
-	/**
-	 * Data provider for test_get_suggestions.
-	 *
-	 * @return array<string, array<bool>>
-	 */
-	public static function data_get_suggestions() {
-		return [
-			'Retry on unauthorized' => [
-				'retry_on_unauthorized' => true,
-			],
-			'Do not retry on unauthorized' => [
-				'retry_on_unauthorized' => false,
-			],
-		];
-	}
-
-	/**
-	 * Tests a foridden exception.
+	 * Tests that a Forbidden exception is translated into a CONSENT_REVOKED Forbidden_Exception
+	 * after revoking the user's consent (the 401-retry logic now lives in Token_Auth_Strategy).
 	 *
 	 * @return void
 	 */
@@ -136,15 +63,8 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 		$user     = Mockery::mock( WP_User::class );
 		$user->ID = 1;
 
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
-			->once()
-			->with( $user );
-
-		$this->request_handler
-			->expects( 'handle' )
-			->once()
-			->andThrow( new Forbidden_Exception() );
+		$this->ai_request_sender_factory->expects( 'create' )->with( $user )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender->expects( 'send' )->once()->andThrow( new Forbidden_Exception() );
 
 		$this->consent_handler->expects( 'revoke_consent' )
 			->once()
@@ -161,7 +81,35 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 			'',
 			'',
 			'',
-			false,
+		);
+	}
+
+	/**
+	 * An OAuth_Forbidden_Exception (typed wrapper around a non-scope 403 on the OAuth wire) is
+	 * propagated unchanged — consent is NOT revoked, since "consent" is a Token-flow concept that
+	 * doesn't apply on the OAuth wire.
+	 *
+	 * @return void
+	 */
+	public function test_get_suggestions_propagates_oauth_forbidden_without_consent_revoke() {
+		$user     = Mockery::mock( WP_User::class );
+		$user->ID = 1;
+
+		$this->ai_request_sender_factory->expects( 'create' )->with( $user )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender->expects( 'send' )->once()->andThrow( new OAuth_Forbidden_Exception( 'policy', 403, 'policy' ) );
+
+		$this->consent_handler->shouldNotReceive( 'revoke_consent' );
+
+		$this->expectException( OAuth_Forbidden_Exception::class );
+
+		$this->instance->get_suggestions(
+			$user,
+			'test',
+			'',
+			'',
+			'',
+			'',
+			'',
 		);
 	}
 }

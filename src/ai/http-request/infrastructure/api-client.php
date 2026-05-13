@@ -48,15 +48,8 @@ class API_Client implements API_Client_Interface {
 			$arguments['body'] = WPSEO_Utils::format_json_encode( $body );
 		}
 
-		/**
-		 * Filter: 'Yoast\WP\SEO\ai_api_url' - Replaces the default URL for the AI API with a custom one.
-		 *
-		 * @internal
-		 *
-		 * @param string $url The default URL for the AI API.
-		 */
-		$url      = \apply_filters( 'Yoast\WP\SEO\ai_api_url', $this->base_url );
-		$response = ( $is_post ) ? \wp_remote_post( $url . $action_path, $arguments ) : \wp_remote_get( $url . $action_path, $arguments );
+		$url      = $this->get_url( $action_path );
+		$response = ( $is_post ) ? \wp_remote_post( $url, $arguments ) : \wp_remote_get( $url, $arguments );
 
 		if ( \is_wp_error( $response ) ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
@@ -64,6 +57,26 @@ class API_Client implements API_Client_Interface {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Builds the full URL for a request to the AI API, applying the same filter perform_request() uses.
+	 *
+	 * @param string $action_path The action path for the request.
+	 *
+	 * @return string The full URL for the request.
+	 */
+	public function get_url( string $action_path ): string {
+		/**
+		 * Filter: 'Yoast\WP\SEO\ai_api_url' - Replaces the default URL for the AI API with a custom one.
+		 *
+		 * @internal
+		 *
+		 * @param string $url The default URL for the AI API.
+		 */
+		$url = \apply_filters( 'Yoast\WP\SEO\ai_api_url', $this->base_url );
+
+		return $url . $action_path;
 	}
 
 	/**

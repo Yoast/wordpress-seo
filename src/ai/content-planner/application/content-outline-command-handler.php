@@ -3,13 +3,14 @@
 
 namespace Yoast\WP\SEO\AI\Content_Planner\Application;
 
-use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Section;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Section_List;
 use Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Recent_Content\Recent_Content_Collector;
-use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Insufficient_Scope_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\OAuth_Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
@@ -27,18 +28,11 @@ class Content_Outline_Command_Handler {
 	private $recent_content_collector;
 
 	/**
-	 * The token manager.
+	 * The auth strategy factory.
 	 *
-	 * @var Token_Manager
+	 * @var AI_Request_Sender_Factory
 	 */
-	private $token_manager;
-
-	/**
-	 * The request handler.
-	 *
-	 * @var Request_Handler
-	 */
-	private $request_handler;
+	private $ai_request_sender_factory;
 
 	/**
 	 * The consent handler.
@@ -50,41 +44,37 @@ class Content_Outline_Command_Handler {
 	/**
 	 * The constructor.
 	 *
-	 * @param Recent_Content_Collector $recent_content_collector The recent content collector.
-	 * @param Token_Manager            $token_manager            The token manager.
-	 * @param Request_Handler          $request_handler          The request handler.
-	 * @param Consent_Handler          $consent_handler          The consent handler.
+	 * @param Recent_Content_Collector  $recent_content_collector  The recent content collector.
+	 * @param AI_Request_Sender_Factory $ai_request_sender_factory The auth strategy factory.
+	 * @param Consent_Handler           $consent_handler           The consent handler.
 	 */
 	public function __construct(
 		Recent_Content_Collector $recent_content_collector,
-		Token_Manager $token_manager,
-		Request_Handler $request_handler,
+		AI_Request_Sender_Factory $ai_request_sender_factory,
 		Consent_Handler $consent_handler
 	) {
-		$this->recent_content_collector = $recent_content_collector;
-		$this->token_manager            = $token_manager;
-		$this->request_handler          = $request_handler;
-		$this->consent_handler          = $consent_handler;
+		$this->recent_content_collector  = $recent_content_collector;
+		$this->ai_request_sender_factory = $ai_request_sender_factory;
+		$this->consent_handler           = $consent_handler;
 	}
+
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't track exceptions thrown by called services.
 
 	/**
 	 * Handles the content outline command by collecting recent content and requesting an outline from the AI API.
 	 *
-	 * @param Content_Outline_Command $command               The content outline command.
-	 * @param bool                    $retry_on_unauthorized Whether to retry on unauthorized response.
+	 * @param Content_Outline_Command $command The content outline command.
 	 *
-	 * @throws Unauthorized_Exception When the API returns an unauthorized response and retry is exhausted.
-	 * @throws Forbidden_Exception    When consent has been revoked.
+	 * @throws Unauthorized_Exception        When the API returns an unauthorized response and retry is exhausted.
+	 * @throws Forbidden_Exception           When consent has been revoked.
+	 * @throws Insufficient_Scope_Exception  When the OAuth path's token is missing the required scope.
+	 * @throws OAuth_Forbidden_Exception     When yoast-ai returns a non-scope 403 on the OAuth wire.
 	 *
 	 * @return Section_List A list of outline sections.
 	 */
-	public function handle(
-		Content_Outline_Command $command,
-		bool $retry_on_unauthorized = true
-	): Section_List {
+	public function handle( Content_Outline_Command $command ): Section_List {
 		$recent_content = $this->recent_content_collector->collect( $command->get_post_type() );
 		$about_page     = $this->recent_content_collector->collect_about_page( $command->get_post_type() );
-		$token          = $this->token_manager->get_or_request_access_token( $command->get_user() );
 		$recent_content = $recent_content->to_array();
 
 		$existing_posts = \array_map(
@@ -119,23 +109,19 @@ class Content_Outline_Command_Handler {
 			],
 		];
 
-		$request_headers = [
-			'Authorization' => "Bearer $token",
-			'X-Yst-Cohort'  => $command->get_editor(),
-		];
-
 		try {
-			$response = $this->request_handler->handle( new Request( '/content-planner/next-post-outline', $request_body, $request_headers ) );
-		} catch ( Unauthorized_Exception $exception ) {
-			// Delete the stored JWT tokens, as they appear to be no longer valid.
-			$this->token_manager->clear_tokens( (string) $command->get_user()->ID );
-
-			if ( ! $retry_on_unauthorized ) {
-				throw $exception;
-			}
-
-			// Try again once more by fetching a new set of tokens and trying the outline endpoint again.
-			return $this->handle( $command, false );
+			$sender   = $this->ai_request_sender_factory->create( $command->get_user() );
+			$response = $sender->send(
+				new Request(
+					'/content-planner/next-post-outline',
+					$request_body,
+					[ 'X-Yst-Cohort' => $command->get_editor() ],
+				),
+				$command->get_user(),
+			);
+		} catch ( Insufficient_Scope_Exception | OAuth_Forbidden_Exception $exception ) {
+			// OAuth-side 4xxs are deployment/policy problems, not consent revocation.
+			throw $exception;
 		} catch ( Forbidden_Exception $exception ) {
 			// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
 			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
