@@ -127,9 +127,9 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Centralises the `noindex-author-noposts-wpseo` branching so the sitemap query and its
 	 * backfill counterpart always agree on which users are considered eligible.
 	 *
-	 * @param array $criteria The get_users() criteria array to extend.
+	 * @param array<string, array<array<string, string>>> $criteria The get_users() criteria array to extend.
 	 *
-	 * @return array The criteria array with the eligibility clause applied.
+	 * @return array<string, array<array<string, string>>> The criteria array with the eligibility clause applied.
 	 */
 	protected function apply_author_eligibility_filter( array $criteria ) {
 		if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', true ) ) {
