@@ -24,7 +24,7 @@ import KeywordUpsell from "../modals/KeywordUpsell";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
 import ContentPlannerEditorItem from "../../ai-content-planner/containers/content-planner-editor-item";
-import { EditorIntro } from "../EditorIntro";
+import { EditorIntro, EditorIntroText } from "../EditorIntro";
 
 /* eslint-disable complexity */
 /**
@@ -61,13 +61,14 @@ export default function SidebarFill( { settings } ) {
 					key="editor-intro"
 					renderPriority={ 1 }
 				>
-					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }>
-						{ FirstEligibleNotification && <FirstEligibleNotification inEditorIntro={ true } /> }
+					<EditorIntro>
+						{ FirstEligibleNotification && <FirstEligibleNotification /> }
+						<EditorIntroText
+							withPromptForContentSuggestions={ isAiFeatureActive && isPost }
+						/>
+						{ isPost && isAiFeatureActive && <ContentPlannerEditorItem location="sidebar" /> }
 					</EditorIntro>
 				</SidebarItem>
-				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="content-planner" renderPriority={ 2 }>
-					<ContentPlannerEditorItem location="sidebar" />
-				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }

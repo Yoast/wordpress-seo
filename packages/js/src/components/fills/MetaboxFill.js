@@ -25,7 +25,7 @@ import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsChec
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
 import ContentPlannerEditorItem from "../../ai-content-planner/containers/content-planner-editor-item";
-import { EditorIntro } from "../EditorIntro";
+import { EditorIntro, EditorIntroText } from "../EditorIntro";
 
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 
@@ -59,26 +59,18 @@ export default function MetaboxFill( { settings } ) {
 				>
 					<Warning />
 				</SidebarItem>
-				{ isBlockEditorActive ? (
-					<SidebarItem
-						key="editor-intro"
-						renderPriority={ 1 }
-					>
-						<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isPost }>
-							<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } inEditorIntro={ true } />
-						</EditorIntro>
-					</SidebarItem>
-				) : (
-					<SidebarItem
-						key="time-constrained-notification"
-						renderPriority={ 1 }
-					>
+				<SidebarItem
+					key="editor-intro"
+					renderPriority={ 1 }
+				>
+					<EditorIntro>
 						<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } />
-					</SidebarItem>
-				) }
-				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="content-planner" renderPriority={ 2 }>
-					<ContentPlannerEditorItem location="metabox" />
-				</SidebarItem> }
+						<EditorIntroText
+							withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }
+						/>
+						{ isPost && isBlockEditorActive && isAiFeatureActive && <ContentPlannerEditorItem location="metabox" /> }
+					</EditorIntro>
+				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
