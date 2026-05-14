@@ -88,30 +88,20 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_users( $arguments = [] ) {
 
-		global $wpdb;
-
 		$defaults = [
 			'meta_key'   => '_yoast_wpseo_profile_updated',
 			'orderby'    => 'meta_value_num',
 			'order'      => 'DESC',
 			'meta_query' => [
-				'relation' => 'AND',
+				'relation' => 'OR',
 				[
-					'key'     => $wpdb->get_blog_prefix() . 'user_level',
-					'value'   => '0',
+					'key'     => 'wpseo_noindex_author',
+					'value'   => 'on',
 					'compare' => '!=',
 				],
 				[
-					'relation' => 'OR',
-					[
-						'key'     => 'wpseo_noindex_author',
-						'value'   => 'on',
-						'compare' => '!=',
-					],
-					[
-						'key'     => 'wpseo_noindex_author',
-						'compare' => 'NOT EXISTS',
-					],
+					'key'     => 'wpseo_noindex_author',
+					'compare' => 'NOT EXISTS',
 				],
 			],
 		];
