@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Domain\Content_Suggestion_Response;
 
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_List;
+use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_Response;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Post_List;
 
 /**
@@ -27,7 +28,7 @@ final class Constructor_Test extends Abstract_Content_Suggestion_Response {
 		$suggestions    = new Content_Suggestion_List();
 		$recent_content = new Post_List();
 
-		$instance = new \Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_Response(
+		$instance = new Content_Suggestion_Response(
 			$suggestions,
 			$recent_content,
 		);

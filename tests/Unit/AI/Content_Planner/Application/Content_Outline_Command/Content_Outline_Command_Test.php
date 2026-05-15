@@ -38,7 +38,12 @@ final class Content_Outline_Command_Test extends TestCase {
 	public function test_constructor_populates_all_fields() {
 		$user = Mockery::mock( WP_User::class );
 
-		$recent_content = [ [ 'title' => 'My Post', 'description' => 'A description.' ] ];
+		$recent_content = [
+			[
+				'title'       => 'My Post',
+				'description' => 'A description.',
+			],
+		];
 
 		$command = new Content_Outline_Command(
 			$user,

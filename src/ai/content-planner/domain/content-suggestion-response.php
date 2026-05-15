@@ -53,7 +53,7 @@ class Content_Suggestion_Response {
 	/**
 	 * Returns this object in array format.
 	 *
-	 * @return array<string, mixed> The response as an array.
+	 * @return array<string, array<array<string, string|bool|array<string, int>>>> The response as an array.
 	 */
 	public function to_array(): array {
 		$result                   = $this->suggestions->to_array();

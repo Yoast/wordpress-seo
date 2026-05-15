@@ -60,7 +60,7 @@ final class To_Array_Test extends Abstract_Content_Suggestion_Response {
 			'BlogPosting',
 		);
 
-		$suggestions    = new Content_Suggestion_List();
+		$suggestions = new Content_Suggestion_List();
 		$suggestions->add( $suggestion );
 
 		$recent_content = new Post_List();

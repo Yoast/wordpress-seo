@@ -32,7 +32,10 @@ final class Build_Response_Test extends Abstract_Content_Suggestion_Command_Hand
 					'explanation'      => 'This article explains AI usage.',
 					'keyphrase'        => 'AI usage',
 					'meta_description' => 'Learn how to use AI effectively.',
-					'category'         => [ 'name' => 'Tech', 'id' => 5 ],
+					'category'         => [
+						'name' => 'Tech',
+						'id'   => 5,
+					],
 				],
 			],
 		];
