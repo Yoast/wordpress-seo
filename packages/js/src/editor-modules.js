@@ -6,6 +6,7 @@ import getL10nObject from "./analysis/getL10nObject";
 import * as refreshAnalysis from "./analysis/refreshAnalysis";
 import KeywordInput from "./components/contentAnalysis/KeywordInputComponent";
 import * as mapResults from "./components/contentAnalysis/mapResults";
+import RelatedKeyphraseInputField from "./components/contentAnalysis/RelatedKeyphraseInputField";
 import HelpLink from "./components/HelpLink";
 import withYoastSidebarPriority from "./components/higherorder/withYoastSidebarPriority";
 import MetaboxCollapsible from "./components/MetaboxCollapsible";
@@ -68,6 +69,7 @@ window.yoast.editorModules = {
 		},
 		contentAnalysis: {
 			KeywordInput,
+			RelatedKeyphraseInputField,
 			SynonymsInputField,
 			mapResults,
 		},
