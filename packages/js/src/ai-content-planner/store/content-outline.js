@@ -107,15 +107,16 @@ export const contentOutlineSelectors = {
 };
 
 /**
- * @param {string} endpoint The endpoint to fetch the content outline from.
- * @param {string} postType The type of the post.
- * @param {string} language The language of the post.
- * @param {string} editor The editor instance.
- * @param {Suggestion} suggestion The suggestion object containing details for the content outline.
+ * @param {string}   endpoint      The endpoint to fetch the content outline from.
+ * @param {string}   postType      The type of the post.
+ * @param {string}   language      The language of the post.
+ * @param {string}   editor        The editor instance.
+ * @param {Suggestion} suggestion  The suggestion object containing details for the content outline.
+ * @param {Object[]} recentContent The recent content from the suggestions response.
  * @returns {Object} Success or error action object.
  */
 export function* fetchContentOutline( {
-	endpoint, postType, language, editor, suggestion,
+	endpoint, postType, language, editor, suggestion, recentContent,
 } ) {
 	yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, payload: { suggestion } };
 	try {
@@ -124,6 +125,7 @@ export function* fetchContentOutline( {
 			postType,
 			language,
 			editor,
+			recentContent,
 			...suggestion,
 		} };
 		yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload };
@@ -156,6 +158,8 @@ export const contentOutlineControls = {
 			// eslint-disable-next-line camelcase
 			meta_description: payload.meta_description,
 			category: payload.category,
+			// eslint-disable-next-line camelcase
+			recent_content: payload.recentContent,
 		},
 	} ),
 };
