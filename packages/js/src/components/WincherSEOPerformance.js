@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { HelpIcon, NewButton } from "@yoast/components";
 import { difference, isEmpty, orderBy } from "lodash";
-import moment from "moment";
+import { sub } from "date-fns";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import WincherKeyphrasesTable from "../containers/WincherKeyphrasesTable";
@@ -262,27 +262,31 @@ const ChartWrapper = styled.div`
 	margin: 8px 0;
 `;
 
-const START_OF_TODAY = moment.utc().startOf( "day" );
+const now = new Date();
+const START_OF_TODAY = new Date( Date.UTC( now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() ) );
+
+// Produces "YYYY-MM-DDTHH:mm:ssZ" without milliseconds, matching the format moment().format() previously generated.
+const toWincherISOString = ( date ) => date.toISOString().slice( 0, 19 ) + "Z";
 
 const WINCHER_PERIOD_OPTIONS = [
 	{
 		name: __( "Last day", "wordpress-seo" ),
-		value: moment( START_OF_TODAY ).subtract( 1, "days" ).format(),
+		value: toWincherISOString( sub( START_OF_TODAY, { days: 1 } ) ),
 		defaultIndex: 1,
 	},
 	{
 		name: __( "Last week", "wordpress-seo" ),
-		value: moment( START_OF_TODAY ).subtract( 1, "week" ).format(),
+		value: toWincherISOString( sub( START_OF_TODAY, { weeks: 1 } ) ),
 		defaultIndex: 2,
 	},
 	{
 		name: __( "Last month", "wordpress-seo" ),
-		value: moment( START_OF_TODAY ).subtract( 1, "month" ).format(),
+		value: toWincherISOString( sub( START_OF_TODAY, { months: 1 } ) ),
 		defaultIndex: 3,
 	},
 	{
 		name: __( "Last year", "wordpress-seo" ),
-		value: moment( START_OF_TODAY ).subtract( 1, "year" ).format(),
+		value: toWincherISOString( sub( START_OF_TODAY, { years: 1 } ) ),
 		defaultIndex: 0,
 	},
 ];
@@ -364,10 +368,10 @@ const TableContent = ( {
 		return <WincherNoKeyphraseSet />;
 	}
 
-	const historyLimitDate = moment( START_OF_TODAY ).subtract( historyDaysLimit, "days" );
+	const historyLimitDate = sub( START_OF_TODAY, { days: historyDaysLimit } );
 
 	const periodOptions = WINCHER_PERIOD_OPTIONS.filter(
-		opt => moment( opt.value ).isSameOrAfter( historyLimitDate )
+		opt => new Date( opt.value ) >= historyLimitDate
 	);
 
 	const defaultPeriod = orderBy( periodOptions, opt => opt.defaultIndex, "desc" )[ 0 ];

@@ -2,10 +2,10 @@
 import { useMemo } from "@wordpress/element";
 import { Line } from "react-chartjs-2";
 import { CategoryScale, Chart, LineController,	LineElement, LinearScale, PointElement, TimeScale, Legend, Tooltip, Interaction } from "chart.js";
-import "chartjs-adapter-moment";
+import "chartjs-adapter-date-fns";
 import PropTypes from "prop-types";
 import { noop } from "lodash";
-import moment from "moment";
+import { format, isValid, parseISO } from "date-fns";
 import { getRelativePosition } from "chart.js/helpers";
 
 Chart.register( CategoryScale, LineController,	LineElement, PointElement, LinearScale, TimeScale, Legend, Tooltip );
@@ -128,7 +128,10 @@ export default function WincherRankingHistoryChart( { datasets, isChartShown, ke
 					tooltip: {
 						enabled: true,
 						callbacks: {
-							title: ( x ) => moment( x[ 0 ].raw.x ).utc().format( "YYYY-MM-DD" ),
+							title: ( x ) => {
+								const d = parseISO( x[ 0 ].raw.x );
+								return format( isValid( d ) ? d : new Date( x[ 0 ].raw.x ), "yyyy-MM-dd" );
+							},
 						},
 						titleAlign: "center",
 						mode: "xPoint",
