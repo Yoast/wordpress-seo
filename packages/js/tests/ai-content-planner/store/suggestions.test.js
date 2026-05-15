@@ -102,7 +102,6 @@ describe( "suggestions store", () => {
 		} );
 
 		it( "should set suggestions and status to success on success", () => {
-			/* eslint-disable camelcase */
 			const recentContent = [ { title: "My Post", description: "A description." } ];
 			const result = contentSuggestionsReducer(
 				getInitialContentSuggestionsState(),
@@ -111,7 +110,6 @@ describe( "suggestions store", () => {
 					payload: { suggestions: transformedSuggestions, recentContent },
 				}
 			);
-			/* eslint-enable camelcase */
 
 			expect( result ).toEqual( {
 				endpoint: "",
