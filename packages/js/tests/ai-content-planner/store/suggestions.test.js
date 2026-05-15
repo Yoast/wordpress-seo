@@ -71,6 +71,7 @@ describe( "suggestions store", () => {
 				endpoint: "",
 				status: ASYNC_ACTION_STATUS.idle,
 				suggestions: [],
+				recentContent: [],
 				error: ERROR_DEFAULT,
 			} );
 		} );
@@ -82,6 +83,7 @@ describe( "suggestions store", () => {
 				endpoint: "",
 				status: ASYNC_ACTION_STATUS.success,
 				suggestions: transformedSuggestions,
+				recentContent: [ { title: "Old post" } ],
 				error: ERROR_DEFAULT,
 			};
 
@@ -94,23 +96,28 @@ describe( "suggestions store", () => {
 				endpoint: "",
 				status: ASYNC_ACTION_STATUS.loading,
 				suggestions: [],
+				recentContent: [],
 				error: ERROR_DEFAULT,
 			} );
 		} );
 
 		it( "should set suggestions and status to success on success", () => {
+			/* eslint-disable camelcase */
+			const recentContent = [ { title: "My Post", description: "A description." } ];
 			const result = contentSuggestionsReducer(
 				getInitialContentSuggestionsState(),
 				{
 					type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`,
-					payload: transformedSuggestions,
+					payload: { suggestions: transformedSuggestions, recentContent },
 				}
 			);
+			/* eslint-enable camelcase */
 
 			expect( result ).toEqual( {
 				endpoint: "",
 				status: ASYNC_ACTION_STATUS.success,
 				suggestions: transformedSuggestions,
+				recentContent,
 				error: ERROR_DEFAULT,
 			} );
 		} );
@@ -134,6 +141,7 @@ describe( "suggestions store", () => {
 				endpoint: "",
 				status: ASYNC_ACTION_STATUS.error,
 				suggestions: [],
+				recentContent: [],
 				error: {
 					errorCode: 403,
 					errorIdentifier: "forbidden",
@@ -289,6 +297,24 @@ describe( "suggestions store", () => {
 		it( "should return the default error when state is missing", () => {
 			expect( contentSuggestionsSelectors.selectSuggestionsError( {} ) ).toEqual( ERROR_DEFAULT );
 		} );
+
+		it( "should return recent content from state", () => {
+			const recentContent = [ { title: "My Post", description: "A description." } ];
+			const state = {
+				[ CONTENT_SUGGESTIONS_NAME ]: {
+					status: ASYNC_ACTION_STATUS.success,
+					suggestions: [],
+					recentContent,
+					error: ERROR_DEFAULT,
+				},
+			};
+
+			expect( contentSuggestionsSelectors.selectRecentContent( state ) ).toEqual( recentContent );
+		} );
+
+		it( "should return an empty array for recent content when state is missing", () => {
+			expect( contentSuggestionsSelectors.selectRecentContent( {} ) ).toEqual( [] );
+		} );
 	} );
 
 	describe( "fetchContentPlannerSuggestions", () => {
@@ -316,10 +342,11 @@ describe( "suggestions store", () => {
 			} );
 
 			// Simulate the API response being returned from the control.
-			const result = generator.next( { suggestions: mockApiSuggestions } );
+			// eslint-disable-next-line camelcase
+			const result = generator.next( { suggestions: mockApiSuggestions, recent_content: [] } );
 			expect( result.value ).toEqual( {
 				type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`,
-				payload: transformedSuggestions,
+				payload: { suggestions: transformedSuggestions, recentContent: [] },
 			} );
 			expect( result.done ).toBe( true );
 		} );
