@@ -49,6 +49,7 @@ final class Get_Outline_Test extends Abstract_Get_Outline_Route_Test {
 		$request->expects( 'get_param' )->with( 'explanation' )->andReturn( 'Explanation' );
 		$request->expects( 'get_param' )->with( 'keyphrase' )->andReturn( 'AI usage' );
 		$request->expects( 'get_param' )->with( 'meta_description' )->andReturn( 'Meta description' );
+		$request->expects( 'get_param' )->with( 'recent_content' )->andReturn( [] );
 
 		return $request;
 	}

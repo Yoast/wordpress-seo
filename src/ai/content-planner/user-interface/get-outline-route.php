@@ -137,6 +137,12 @@ class Get_Outline_Route implements Route_Interface {
 						],
 						'description' => 'The category of the chosen content suggestion. Use name "" and id -1 to indicate no category.',
 					],
+					'recent_content'   => [
+						'required'    => true,
+						'type'        => 'array',
+						'items'       => [ 'type' => 'object' ],
+						'description' => 'The recent content returned by the get_suggestions response.',
+					],
 				],
 				'callback'            => [ $this, 'get_outline' ],
 				'permission_callback' => [ $this, 'check_permissions' ],
@@ -169,6 +175,7 @@ class Get_Outline_Route implements Route_Interface {
 				$request->get_param( 'meta_description' ),
 				$category_param['name'],
 				(int) $category_param['id'],
+				$request->get_param( 'recent_content' ),
 			);
 			$data    = $this->command_handler->handle( $command );
 		} catch ( Remote_Request_Exception $e ) {

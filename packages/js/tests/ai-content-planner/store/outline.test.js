@@ -284,12 +284,14 @@ describe( "content outline store", () => {
 	} );
 
 	describe( "fetchContentOutline", () => {
+		const mockRecentContent = [ { title: "My Post", description: "A description." } ];
 		const params = {
 			endpoint: "yoast/v1/ai_content_planner/get_outline",
 			postType: "post",
 			language: "en",
 			editor: "gutenberg",
 			suggestion: mockSuggestion,
+			recentContent: mockRecentContent,
 		};
 
 		it( "should yield a request action, a control action, a success action, then complete", () => {
@@ -312,6 +314,7 @@ describe( "content outline store", () => {
 					postType: params.postType,
 					language: params.language,
 					editor: params.editor,
+					recentContent: mockRecentContent,
 					...mockSuggestion,
 				},
 			} );
@@ -370,6 +373,7 @@ describe( "content outline store", () => {
 		} );
 
 		it( "should call contentPlannerFetch with POST method and correct data fields", async() => {
+			const mockRecentContent = [ { title: "My Post", description: "A description." } ];
 			const payload = {
 				endpoint: "yoast/v1/ai_content_planner/get_outline",
 				postType: "post",
@@ -382,6 +386,7 @@ describe( "content outline store", () => {
 				// eslint-disable-next-line camelcase
 				meta_description: mockSuggestion.meta_description,
 				category: mockSuggestion.category,
+				recentContent: mockRecentContent,
 			};
 			contentPlannerFetch.mockResolvedValue( { outline: [] } );
 
@@ -402,6 +407,7 @@ describe( "content outline store", () => {
 						keyphrase: payload.keyphrase,
 						meta_description: payload.meta_description,
 						category: payload.category,
+						recent_content: mockRecentContent,
 					} ),
 				} )
 			);

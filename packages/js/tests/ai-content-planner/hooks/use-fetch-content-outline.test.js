@@ -23,6 +23,7 @@ const defaultStoreValues = {
 	postType: "post",
 	contentLocale: "en_US",
 	editorApiValue: "classic",
+	recentContent: [],
 	selectContentOutlineCache: jest.fn( () => null ),
 };
 
@@ -37,6 +38,7 @@ const setupUseSelect = ( overrides = {} ) => {
 		if ( storeName === "yoast-seo/content-planner" ) {
 			return {
 				selectContentOutlineEndpoint: () => values.endpoint,
+				selectRecentContent: () => values.recentContent,
 				selectContentOutlineCache: values.selectContentOutlineCache,
 			};
 		}
@@ -139,6 +141,21 @@ describe( "useFetchContentOutline", () => {
 			} );
 
 			expect( setFeatureModalStatus ).not.toHaveBeenCalled();
+		} );
+
+		it( "passes recentContent from the store to fetchContentOutline", () => {
+			const recentContent = [ { title: "My Post", description: "A description." } ];
+			setupUseSelect( { recentContent } );
+
+			const { result } = renderHook( () => useFetchContentOutline() );
+
+			act( () => {
+				result.current( mockSuggestion );
+			} );
+
+			expect( fetchContentOutline ).toHaveBeenCalledWith( expect.objectContaining( {
+				recentContent,
+			} ) );
 		} );
 	} );
 
