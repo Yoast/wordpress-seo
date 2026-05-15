@@ -7,7 +7,6 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Application\Content_Outline
 use Mockery;
 use WP_User;
 use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command;
-use Yoast\WP\SEO\AI\Content_Planner\Domain\Post_List;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Section_List;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
@@ -54,6 +53,12 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 			'Learn how to use AI effectively.',
 			'Tech',
 			5,
+			[
+				[
+					'title'       => 'Existing post',
+					'description' => 'Existing description',
+				],
+			],
 		);
 	}
 
@@ -65,23 +70,11 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	public function test_handle_happy_path_with_about_page() {
 		$command = $this->build_command();
 
-		$post_list = Mockery::mock( Post_List::class );
-		$post_list->expects( 'to_array' )->once()->andReturn(
-			[
-				[
-					'title'       => 'Existing post',
-					'description' => 'Existing description',
-					'extra'       => 'ignored',
-				],
-			],
-		);
-
 		$about_page = [
 			'title'       => 'About us',
 			'description' => 'All about us',
 		];
 
-		$this->recent_content_collector->expects( 'collect' )->once()->with( 'post' )->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->with( 'post' )->andReturn( $about_page );
 		$this->token_manager->expects( 'get_or_request_access_token' )->once()->with( $command->get_user() )->andReturn( 'JWT' );
 
@@ -121,10 +114,6 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	public function test_handle_happy_path_without_about_page() {
 		$command = $this->build_command();
 
-		$post_list = Mockery::mock( Post_List::class );
-		$post_list->expects( 'to_array' )->once()->andReturn( [] );
-
-		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
 		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
 
@@ -158,10 +147,6 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	public function test_handle_retries_on_unauthorized() {
 		$command = $this->build_command();
 
-		$post_list = Mockery::mock( Post_List::class );
-		$post_list->expects( 'to_array' )->twice()->andReturn( [] );
-
-		$this->recent_content_collector->expects( 'collect' )->twice()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->twice()->andReturn( false );
 		$this->token_manager->expects( 'get_or_request_access_token' )->twice()->andReturn( 'JWT' );
 		$this->token_manager->expects( 'clear_tokens' )->once()->with( 1 );
@@ -194,10 +179,6 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	public function test_handle_rethrows_unauthorized_when_retry_disabled() {
 		$command = $this->build_command();
 
-		$post_list = Mockery::mock( Post_List::class );
-		$post_list->expects( 'to_array' )->once()->andReturn( [] );
-
-		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
 		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
 		$this->token_manager->expects( 'clear_tokens' )->once()->with( 1 );
@@ -217,10 +198,6 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	public function test_handle_revokes_consent_on_forbidden() {
 		$command = $this->build_command();
 
-		$post_list = Mockery::mock( Post_List::class );
-		$post_list->expects( 'to_array' )->once()->andReturn( [] );
-
-		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
 		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
 
@@ -242,10 +219,6 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	public function test_handle_returns_empty_section_list_on_invalid_json() {
 		$command = $this->build_command();
 
-		$post_list = Mockery::mock( Post_List::class );
-		$post_list->expects( 'to_array' )->once()->andReturn( [] );
-
-		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
 		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
 		$this->request_handler->expects( 'handle' )->once()->andReturn( new Response( 'not json', 200, '' ) );
@@ -263,10 +236,6 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	public function test_handle_returns_empty_section_list_on_missing_choices_key() {
 		$command = $this->build_command();
 
-		$post_list = Mockery::mock( Post_List::class );
-		$post_list->expects( 'to_array' )->once()->andReturn( [] );
-
-		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
 		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
 		$this->request_handler->expects( 'handle' )->once()->andReturn( new Response( '{"something_else":[]}', 200, '' ) );
@@ -284,10 +253,6 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	public function test_handle_falls_back_gracefully_on_partial_choice_fields() {
 		$command = $this->build_command();
 
-		$post_list = Mockery::mock( Post_List::class );
-		$post_list->expects( 'to_array' )->once()->andReturn( [] );
-
-		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
 		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
 		$this->request_handler

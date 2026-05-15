@@ -26,6 +26,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command::get_keyphrase
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command::get_meta_description
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command::get_category
+ * @covers \Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command::get_recent_content
  */
 final class Content_Outline_Command_Test extends TestCase {
 
@@ -36,6 +37,8 @@ final class Content_Outline_Command_Test extends TestCase {
 	 */
 	public function test_constructor_populates_all_fields() {
 		$user = Mockery::mock( WP_User::class );
+
+		$recent_content = [ [ 'title' => 'My Post', 'description' => 'A description.' ] ];
 
 		$command = new Content_Outline_Command(
 			$user,
@@ -49,6 +52,7 @@ final class Content_Outline_Command_Test extends TestCase {
 			'Learn how to use AI effectively.',
 			'Tech',
 			5,
+			$recent_content,
 		);
 
 		$this->assertSame( $user, $command->get_user() );
@@ -67,6 +71,7 @@ final class Content_Outline_Command_Test extends TestCase {
 			],
 			$command->get_category()->to_array(),
 		);
+		$this->assertSame( $recent_content, $command->get_recent_content() );
 	}
 
 	/**
@@ -95,6 +100,7 @@ final class Content_Outline_Command_Test extends TestCase {
 			'Meta description',
 			'Tech',
 			5,
+			[],
 		);
 
 		$this->assertSame( $post_type, $command->get_post_type() );
