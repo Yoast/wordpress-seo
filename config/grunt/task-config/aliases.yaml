@@ -11,6 +11,11 @@
   - 'build:css'
   - 'watch'
 
+# Override build:images to also optimise SVGs in packages/js/images/
+'build:images':
+  - 'imagemin'
+  - 'imagemin:js-images'
+
 # Grunt command to only build CSS and JS
 'build:dev':
   - 'build:packages'
