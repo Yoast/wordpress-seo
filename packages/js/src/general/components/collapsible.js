@@ -1,5 +1,5 @@
 import { Disclosure } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/outline";
+import ChevronDownIcon from "@heroicons/react/outline/esm/ChevronDownIcon";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 

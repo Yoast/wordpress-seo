@@ -1,5 +1,6 @@
-import { LockOpenIcon } from "@heroicons/react/outline";
-import { CheckIcon, XIcon } from "@heroicons/react/solid";
+import LockOpenIcon from "@heroicons/react/outline/esm/LockOpenIcon";
+import CheckIcon from "@heroicons/react/solid/esm/CheckIcon";
+import XIcon from "@heroicons/react/solid/esm/XIcon";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
 import PropTypes from "prop-types";

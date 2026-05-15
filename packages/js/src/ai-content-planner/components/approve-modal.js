@@ -1,6 +1,6 @@
 import { Button, Modal, GradientSparklesIcon, Link, useSvgAria } from "@yoast/ui-library";
-import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
-import { LockOpenIcon } from "@heroicons/react/outline";
+import ArrowNarrowRightIcon from "@heroicons/react/solid/esm/ArrowNarrowRightIcon";
+import LockOpenIcon from "@heroicons/react/outline/esm/LockOpenIcon";
 
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";

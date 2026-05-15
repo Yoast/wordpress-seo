@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { UserAddIcon } from "@heroicons/react/outline";
+import UserAddIcon from "@heroicons/react/outline/esm/UserAddIcon";
 import apiFetch from "@wordpress/api-fetch";
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";

@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { PhotographIcon } from "@heroicons/react/outline";
+import PhotographIcon from "@heroicons/react/outline/esm/PhotographIcon";
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, Label, Link, useDescribedBy } from "@yoast/ui-library";

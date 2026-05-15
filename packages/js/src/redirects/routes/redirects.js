@@ -8,7 +8,7 @@ import { ModalContent } from "../components/modal-content";
 import { useSelectRedirects } from "../hooks";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { FieldsetLayout } from "../../shared-admin/components";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import ChevronDownIcon from "@heroicons/react/solid/esm/ChevronDownIcon";
 import { noop } from "lodash";
 
 /**

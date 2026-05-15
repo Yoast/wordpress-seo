@@ -11,7 +11,7 @@ import { SparksLimitNotification } from "../../ai-generator/components/sparks-li
 import { useMeasuredRef } from "../../ai-generator/hooks";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
-import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
+import QuestionMarkCircleIcon from "@heroicons/react/solid/esm/QuestionMarkCircleIcon";
 import { getModalNotificationPosition } from "../../shared-admin/helpers";
 import { ReplaceContentModal } from "./replace-content-modal";
 

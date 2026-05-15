@@ -1,4 +1,4 @@
-import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
+import ArrowNarrowRightIcon from "@heroicons/react/solid/esm/ArrowNarrowRightIcon";
 import { useMemo, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext, useToggleState, Spinner } from "@yoast/ui-library";

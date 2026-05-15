@@ -1,4 +1,4 @@
-import { CheckCircleIcon } from "@heroicons/react/solid";
+import CheckCircleIcon from "@heroicons/react/solid/esm/CheckCircleIcon";
 import { Badge, Card, Title, useSvgAria } from "@yoast/ui-library";
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";

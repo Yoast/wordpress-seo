@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
-import { LockOpenIcon } from "@heroicons/react/outline";
-import { ArrowSmRightIcon, XIcon } from "@heroicons/react/solid";
+import LockOpenIcon from "@heroicons/react/outline/esm/LockOpenIcon";
+import ArrowSmRightIcon from "@heroicons/react/solid/esm/ArrowSmRightIcon";
+import XIcon from "@heroicons/react/solid/esm/XIcon";
 import { Slot } from "@wordpress/components";
 import { useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";

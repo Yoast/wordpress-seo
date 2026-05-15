@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
-import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
-import { CheckCircleIcon } from "@heroicons/react/solid";
+import ArrowNarrowRightIcon from "@heroicons/react/outline/esm/ArrowNarrowRightIcon";
+import CheckCircleIcon from "@heroicons/react/solid/esm/CheckCircleIcon";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, Paper, Title } from "@yoast/ui-library";
 import classNames from "classnames";

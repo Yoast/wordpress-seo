@@ -1,4 +1,4 @@
-import { PhotographIcon } from "@heroicons/react/outline";
+import PhotographIcon from "@heroicons/react/outline/esm/PhotographIcon";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, Link } from "@yoast/ui-library";

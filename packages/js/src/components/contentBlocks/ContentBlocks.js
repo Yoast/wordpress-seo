@@ -1,4 +1,7 @@
-import { ClockIcon, LinkIcon, SparklesIcon, ViewListIcon } from "@heroicons/react/outline";
+import ClockIcon from "@heroicons/react/outline/esm/ClockIcon";
+import LinkIcon from "@heroicons/react/outline/esm/LinkIcon";
+import SparklesIcon from "@heroicons/react/outline/esm/SparklesIcon";
+import ViewListIcon from "@heroicons/react/outline/esm/ViewListIcon";
 import { useCallback, useContext } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { LocationContext } from "@yoast/externals/contexts";

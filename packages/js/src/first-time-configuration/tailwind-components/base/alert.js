@@ -2,7 +2,10 @@
 // Duplicated from admin-ui! ( admin-ui/packages/toolkit/components/alert.js )
 // Addition: "success" case, fade in alert.
 
-import { CheckCircleIcon, ExclamationIcon, InformationCircleIcon, XCircleIcon } from "@heroicons/react/solid";
+import CheckCircleIcon from "@heroicons/react/solid/esm/CheckCircleIcon";
+import ExclamationIcon from "@heroicons/react/solid/esm/ExclamationIcon";
+import InformationCircleIcon from "@heroicons/react/solid/esm/InformationCircleIcon";
+import XCircleIcon from "@heroicons/react/solid/esm/XCircleIcon";
 import { useCallback, useState } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";

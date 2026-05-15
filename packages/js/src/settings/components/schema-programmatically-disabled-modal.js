@@ -1,4 +1,4 @@
-import { ExclamationIcon } from "@heroicons/react/outline";
+import ExclamationIcon from "@heroicons/react/outline/esm/ExclamationIcon";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Code, Modal, useSvgAria } from "@yoast/ui-library";

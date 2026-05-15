@@ -1,5 +1,6 @@
-import { ExternalLinkIcon, LockOpenIcon } from "@heroicons/react/outline";
-import { ArrowSmRightIcon } from "@heroicons/react/solid";
+import ExternalLinkIcon from "@heroicons/react/outline/esm/ExternalLinkIcon";
+import LockOpenIcon from "@heroicons/react/outline/esm/LockOpenIcon";
+import ArrowSmRightIcon from "@heroicons/react/solid/esm/ArrowSmRightIcon";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";

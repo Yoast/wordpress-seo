@@ -1,5 +1,5 @@
 /* global wpseoAdminL10n */
-import { LockClosedIcon } from "@heroicons/react/solid";
+import LockClosedIcon from "@heroicons/react/solid/esm/LockClosedIcon";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { useRootContext } from "@yoast/externals/contexts";

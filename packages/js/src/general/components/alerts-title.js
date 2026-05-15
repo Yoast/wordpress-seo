@@ -1,4 +1,4 @@
-import { ExclamationCircleIcon } from "@heroicons/react/outline";
+import ExclamationCircleIcon from "@heroicons/react/outline/esm/ExclamationCircleIcon";
 import { useContext } from "@wordpress/element";
 import { Title } from "@yoast/ui-library";
 import classNames from "classnames";

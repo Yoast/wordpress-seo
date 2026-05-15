@@ -2,7 +2,7 @@
 import { Button, Modal, SkeletonLoader, TextField, TextareaField } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { useState, useCallback, useEffect } from "@wordpress/element";
-import { ArrowLeftIcon } from "@heroicons/react/outline";
+import ArrowLeftIcon from "@heroicons/react/outline/esm/ArrowLeftIcon";
 import { getDescriptionProgress, getProgressColor } from "@yoast/search-metadata-previews";
 import { ContentPlannerError } from "./content-planner-error";
 import classNames from "classnames";

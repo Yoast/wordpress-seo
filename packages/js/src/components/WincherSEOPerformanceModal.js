@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 /* External dependencies */
-import { ChartBarIcon } from "@heroicons/react/solid";
+import ChartBarIcon from "@heroicons/react/solid/esm/ChartBarIcon";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { useSvgAria } from "@yoast/ui-library/src";

@@ -2,7 +2,7 @@
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import ArrowNarrowRightIcon from "@heroicons/react/outline/esm/ArrowNarrowRightIcon";
 import { select, useDispatch } from "@wordpress/data";
 import { useState, useCallback, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";

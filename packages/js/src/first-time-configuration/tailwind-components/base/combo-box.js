@@ -1,5 +1,6 @@
 import { Combobox } from "@headlessui/react";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import CheckIcon from "@heroicons/react/solid/esm/CheckIcon";
+import SelectorIcon from "@heroicons/react/solid/esm/SelectorIcon";
 import { Fragment, useCallback, useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";

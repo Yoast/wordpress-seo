@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { UserGroupIcon, CollectionIcon } from "@heroicons/react/outline";
+import UserGroupIcon from "@heroicons/react/outline/esm/UserGroupIcon";
+import CollectionIcon from "@heroicons/react/outline/esm/CollectionIcon";
 
 import { PREMIUM_CONTENT_BLOCKS, getPremiumBlocksForPages } from "./ContentBlocks";
 

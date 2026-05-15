@@ -1,6 +1,6 @@
 import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
-import { LockOpenIcon } from "@heroicons/react/outline";
+import LockOpenIcon from "@heroicons/react/outline/esm/LockOpenIcon";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
 import { STORE_NAME_INTRODUCTIONS } from "../../constants";

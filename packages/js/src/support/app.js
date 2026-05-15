@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-max-depth */
-import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import ArrowNarrowRightIcon from "@heroicons/react/outline/esm/ArrowNarrowRightIcon";
 import { useSelect } from "@wordpress/data";
 import { Fragment, useMemo } from "@wordpress/element";
 import { safeCreateInterpolateElement } from "../helpers/i18n";

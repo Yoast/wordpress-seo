@@ -1,4 +1,4 @@
-import { AdjustmentsIcon } from "@heroicons/react/outline";
+import AdjustmentsIcon from "@heroicons/react/outline/esm/AdjustmentsIcon";
 import { useEffect } from "@wordpress/element";
 import { SidebarNavigation, useNavigationContext } from "@yoast/ui-library";
 import { useLocation } from "react-router-dom";

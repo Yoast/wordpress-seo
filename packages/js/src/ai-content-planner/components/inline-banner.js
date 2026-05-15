@@ -1,6 +1,8 @@
 import { __ } from "@wordpress/i18n";
 import { Button, DropdownMenu, GradientSparklesIcon, Link, Root, useSvgAria } from "@yoast/ui-library";
-import { ArrowNarrowRightIcon, TrashIcon, XIcon } from "@heroicons/react/solid";
+import ArrowNarrowRightIcon from "@heroicons/react/solid/esm/ArrowNarrowRightIcon";
+import TrashIcon from "@heroicons/react/solid/esm/TrashIcon";
+import XIcon from "@heroicons/react/solid/esm/XIcon";
 import { OneSparkNote } from "./one-spark-note";
 import { OutboundLink } from "../../shared-admin/components";
 

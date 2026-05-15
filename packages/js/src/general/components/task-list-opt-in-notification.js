@@ -1,7 +1,7 @@
 import { ModalNotification, Button, useSvgAria, useModalNotificationContext } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
-import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import ArrowNarrowRightIcon from "@heroicons/react/outline/esm/ArrowNarrowRightIcon";
 import classNames from "classnames";
 import { useCallback, useEffect } from "@wordpress/element";
 import { STORE_NAME } from "../constants";

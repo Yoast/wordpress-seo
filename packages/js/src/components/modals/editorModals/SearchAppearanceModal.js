@@ -1,5 +1,5 @@
 /* External dependencies */
-import { SearchIcon } from "@heroicons/react/solid";
+import SearchIcon from "@heroicons/react/solid/esm/SearchIcon";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { useSvgAria } from "@yoast/ui-library/src";

@@ -1,6 +1,6 @@
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { LockOpenIcon } from "@heroicons/react/outline";
+import LockOpenIcon from "@heroicons/react/outline/esm/LockOpenIcon";
 import { Button, Root } from "@yoast/ui-library";
 
 /**

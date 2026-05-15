@@ -1,4 +1,4 @@
-import { LightBulbIcon } from "@heroicons/react/solid";
+import LightBulbIcon from "@heroicons/react/solid/esm/LightBulbIcon";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { isFeatureEnabled } from "@yoast/feature-flag";

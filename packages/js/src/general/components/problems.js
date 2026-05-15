@@ -1,6 +1,6 @@
 import { __, _n } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
-import { ExclamationCircleIcon } from "@heroicons/react/outline";
+import ExclamationCircleIcon from "@heroicons/react/outline/esm/ExclamationCircleIcon";
 import { Paper } from "@yoast/ui-library";
 import { AlertsList } from "./alerts-list";
 import { AlertsTitle } from "./alerts-title";

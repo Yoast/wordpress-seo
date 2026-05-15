@@ -2,8 +2,9 @@
 import { Button, Modal, Title } from "@yoast/ui-library";
 import { ReactComponent as YoastLogo } from "../../../images/Yoast_icon_kader.svg";
 import { useSelect } from "@wordpress/data";
-import { LockOpenIcon } from "@heroicons/react/outline";
-import { CheckCircleIcon, ShoppingCartIcon } from "@heroicons/react/solid";
+import LockOpenIcon from "@heroicons/react/outline/esm/LockOpenIcon";
+import CheckCircleIcon from "@heroicons/react/solid/esm/CheckCircleIcon";
+import ShoppingCartIcon from "@heroicons/react/solid/esm/ShoppingCartIcon";
 import { useMemo, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import classNames from "classnames";

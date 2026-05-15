@@ -1,4 +1,4 @@
-import { ExclamationIcon } from "@heroicons/react/outline";
+import ExclamationIcon from "@heroicons/react/outline/esm/ExclamationIcon";
 import { Button, Modal, useSvgAria } from "@yoast/ui-library";
 import { noop } from "lodash";
 import PropTypes from "prop-types";

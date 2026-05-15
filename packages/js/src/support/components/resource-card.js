@@ -1,4 +1,4 @@
-import { ArrowSmRightIcon } from "@heroicons/react/solid";
+import ArrowSmRightIcon from "@heroicons/react/solid/esm/ArrowSmRightIcon";
 import { __ } from "@wordpress/i18n";
 import { Card, Link, Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";

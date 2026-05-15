@@ -1,5 +1,6 @@
 import { __ } from "@wordpress/i18n";
-import { EyeIcon, DocumentIcon } from "@heroicons/react/solid";
+import EyeIcon from "@heroicons/react/solid/esm/EyeIcon";
+import DocumentIcon from "@heroicons/react/solid/esm/DocumentIcon";
 import { useSvgAria } from "@yoast/ui-library";
 
 /**

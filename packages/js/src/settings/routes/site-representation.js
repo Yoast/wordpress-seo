@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { Transition } from "@headlessui/react";
-import { TrashIcon } from "@heroicons/react/outline";
-import { PlusIcon } from "@heroicons/react/solid";
+import TrashIcon from "@heroicons/react/outline/esm/TrashIcon";
+import PlusIcon from "@heroicons/react/solid/esm/PlusIcon";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";

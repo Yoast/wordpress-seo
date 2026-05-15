@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 /* eslint-disable complexity */
-import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
+import QuestionMarkCircleIcon from "@heroicons/react/solid/esm/QuestionMarkCircleIcon";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useState, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";

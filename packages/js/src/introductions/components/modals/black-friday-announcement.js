@@ -2,7 +2,7 @@ import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
-import { LockOpenIcon } from "@heroicons/react/outline";
+import LockOpenIcon from "@heroicons/react/outline/esm/LockOpenIcon";
 import { STORE_NAME_INTRODUCTIONS } from "../../constants";
 import { Modal } from "../modal";
 import { get } from "lodash";

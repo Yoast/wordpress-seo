@@ -1,4 +1,4 @@
-import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
+import ArrowNarrowRightIcon from "@heroicons/react/solid/esm/ArrowNarrowRightIcon";
 import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";

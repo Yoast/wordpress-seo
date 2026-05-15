@@ -14,7 +14,7 @@ import { useLocation } from "../../ai-generator/hooks/use-location";
 /* Internal dependencies */
 import { ModalContent } from "./modal-content";
 import { getAllBlocks } from "../../helpers/getAllBlocks";
-import { LockClosedIcon } from "@heroicons/react/solid";
+import LockClosedIcon from "@heroicons/react/solid/esm/LockClosedIcon";
 import { isTextViewActive } from "../../lib/tinymce";
 
 /**

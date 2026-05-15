@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import ArrowNarrowRightIcon from "@heroicons/react/outline/esm/ArrowNarrowRightIcon";
 import { useSvgAria } from "@yoast/ui-library";
 import { OutboundButtonLink } from "./outbound-button-link";
 

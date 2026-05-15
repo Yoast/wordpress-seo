@@ -1,6 +1,6 @@
 import { Button } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { ExternalLinkIcon } from "@heroicons/react/outline";
+import ExternalLinkIcon from "@heroicons/react/outline/esm/ExternalLinkIcon";
 
 /**
  * The xml sitemap button component for the feature row in the Site Features settings.

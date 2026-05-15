@@ -1,5 +1,5 @@
 /* eslint-disable complexity, max-statements */
-import { CheckIcon } from "@heroicons/react/outline";
+import CheckIcon from "@heroicons/react/outline/esm/CheckIcon";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { Fragment, useCallback, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";

@@ -1,5 +1,5 @@
-import { LockOpenIcon } from "@heroicons/react/outline";
-import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
+import LockOpenIcon from "@heroicons/react/outline/esm/LockOpenIcon";
+import ArrowNarrowRightIcon from "@heroicons/react/solid/esm/ArrowNarrowRightIcon";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";

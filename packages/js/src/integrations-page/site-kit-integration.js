@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { CheckIcon } from "@heroicons/react/solid";
+import CheckIcon from "@heroicons/react/solid/esm/CheckIcon";
 import apiFetch from "@wordpress/api-fetch";
 import { useSelect } from "@wordpress/data";
 import { useCallback, useState } from "@wordpress/element";

@@ -1,4 +1,4 @@
-import { LockOpenIcon } from "@heroicons/react/outline";
+import LockOpenIcon from "@heroicons/react/outline/esm/LockOpenIcon";
 import { useSelect } from "@wordpress/data";
 import { useEffect, useMemo } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";

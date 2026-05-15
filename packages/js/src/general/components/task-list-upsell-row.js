@@ -1,6 +1,7 @@
 import { Button, Table, Title } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
-import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/outline";
+import LockClosedIcon from "@heroicons/react/outline/esm/LockClosedIcon";
+import LockOpenIcon from "@heroicons/react/outline/esm/LockOpenIcon";
 import { select } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 

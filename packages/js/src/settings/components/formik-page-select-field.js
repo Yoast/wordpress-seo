@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { DocumentAddIcon } from "@heroicons/react/outline";
+import DocumentAddIcon from "@heroicons/react/outline/esm/DocumentAddIcon";
 import { useCallback, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";

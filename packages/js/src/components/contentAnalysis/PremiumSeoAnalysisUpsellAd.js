@@ -2,7 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
 import { Title, useSvgAria, Button } from "@yoast/ui-library";
 import { ReactComponent as CrownIcon } from "../../../images/icon-crown.svg";
-import { LockOpenIcon } from "@heroicons/react/outline";
+import LockOpenIcon from "@heroicons/react/outline/esm/LockOpenIcon";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { WooSeoAnalysisUpsellAd } from "./WooSeoAnalysisUpsellAd";
 

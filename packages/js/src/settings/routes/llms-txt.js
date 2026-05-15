@@ -1,5 +1,6 @@
-import { ExternalLinkIcon, TrashIcon } from "@heroicons/react/outline";
-import { PlusIcon } from "@heroicons/react/solid";
+import ExternalLinkIcon from "@heroicons/react/outline/esm/ExternalLinkIcon";
+import TrashIcon from "@heroicons/react/outline/esm/TrashIcon";
+import PlusIcon from "@heroicons/react/solid/esm/PlusIcon";
 import { useCallback, useEffect, useMemo, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, ToggleField, useToggleState } from "@yoast/ui-library";

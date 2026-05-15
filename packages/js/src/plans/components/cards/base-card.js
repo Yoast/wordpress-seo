@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { CheckCircleIcon } from "@heroicons/react/solid";
+import CheckCircleIcon from "@heroicons/react/solid/esm/CheckCircleIcon";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Card, Title, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";

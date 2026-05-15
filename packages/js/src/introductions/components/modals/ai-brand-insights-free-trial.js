@@ -1,7 +1,7 @@
 import { useSelect } from "@wordpress/data";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { ExternalLinkIcon } from "@heroicons/react/outline";
+import ExternalLinkIcon from "@heroicons/react/outline/esm/ExternalLinkIcon";
 import { Button, Modal as UiModal, useSvgAria, useModalContext } from "@yoast/ui-library";
 import { STORE_NAME_INTRODUCTIONS } from "../../constants";
 import { Modal } from "../modal";

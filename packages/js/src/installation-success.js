@@ -1,10 +1,11 @@
 import domReady from "@wordpress/dom-ready";
 import { __, sprintf } from "@wordpress/i18n";
 import { createRoot } from "@wordpress/element";
-import { ArrowNarrowRightIcon, ExternalLinkIcon } from "@heroicons/react/outline";
+import ArrowNarrowRightIcon from "@heroicons/react/outline/esm/ArrowNarrowRightIcon";
+import ExternalLinkIcon from "@heroicons/react/outline/esm/ExternalLinkIcon";
 import { safeCreateInterpolateElement } from "./helpers/i18n";
 import { Button } from "@yoast/ui-library";
-import { CheckIcon } from "@heroicons/react/solid";
+import CheckIcon from "@heroicons/react/solid/esm/CheckIcon";
 
 /**
  * The installation success page.

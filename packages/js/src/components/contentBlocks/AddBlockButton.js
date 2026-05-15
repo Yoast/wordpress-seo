@@ -1,4 +1,4 @@
-import { PlusIcon } from "@heroicons/react/outline";
+import PlusIcon from "@heroicons/react/outline/esm/PlusIcon";
 import { createBlock } from "@wordpress/blocks";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useState } from "@wordpress/element";

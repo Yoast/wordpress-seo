@@ -1,6 +1,8 @@
 import { useSvgAria } from "@yoast/ui-library";
-import { CodeIcon, CogIcon, SwitchHorizontalIcon } from "@heroicons/react/outline";
-import { LockClosedIcon } from "@heroicons/react/solid";
+import CodeIcon from "@heroicons/react/outline/esm/CodeIcon";
+import CogIcon from "@heroicons/react/outline/esm/CogIcon";
+import SwitchHorizontalIcon from "@heroicons/react/outline/esm/SwitchHorizontalIcon";
+import LockClosedIcon from "@heroicons/react/solid/esm/LockClosedIcon";
 import { Link } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../../shared-admin/components";
 import { ROUTES } from "../constants";

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { ExclamationCircleIcon } from "@heroicons/react/solid";
+import ExclamationCircleIcon from "@heroicons/react/solid/esm/ExclamationCircleIcon";
 import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment, useCallback, useMemo } from "@wordpress/element";

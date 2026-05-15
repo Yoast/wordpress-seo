@@ -1,7 +1,7 @@
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { IconButtonToggle } from "@yoast/components";
 import { Badge } from "@yoast/ui-library";
-import { LockClosedIcon } from "@heroicons/react/solid";
+import LockClosedIcon from "@heroicons/react/solid/esm/LockClosedIcon";
 import { __ } from "@wordpress/i18n";
 import { Component, Fragment } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";

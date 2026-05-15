@@ -1,5 +1,5 @@
-import { LockClosedIcon } from "@heroicons/react/solid";
-import { CheckIcon } from "@heroicons/react/outline";
+import LockClosedIcon from "@heroicons/react/solid/esm/LockClosedIcon";
+import CheckIcon from "@heroicons/react/outline/esm/CheckIcon";
 import { useSelect } from "@wordpress/data";
 import { useEffect, useState } from "@wordpress/element";
 import { SvgIcon } from "@yoast/components";
