@@ -82,10 +82,9 @@ class Content_Outline_Command_Handler {
 		Content_Outline_Command $command,
 		bool $retry_on_unauthorized = true
 	): Section_List {
-		$recent_content = $this->recent_content_collector->collect( $command->get_post_type() );
+		$recent_content = $command->get_recent_content();
 		$about_page     = $this->recent_content_collector->collect_about_page( $command->get_post_type() );
 		$token          = $this->token_manager->get_or_request_access_token( $command->get_user() );
-		$recent_content = $recent_content->to_array();
 
 		$existing_posts = \array_map(
 			static function ( $post ) {
