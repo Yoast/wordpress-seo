@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Content_Planner_Integration::get_script_data
+ * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Content_Planner_Integration::is_minimum_posts_met
+ * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Content_Planner_Integration::is_banner_permanently_dismissed
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
