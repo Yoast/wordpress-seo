@@ -16,12 +16,13 @@ import { removesLocaleVariantSuffixes } from "../../shared-admin/helpers";
  * @returns {(contentSuggestion: Suggestion) => void} Callback to trigger the content outline fetch.
  */
 export const useFetchContentOutline = () => {
-	const { endpoint, postType, contentLocale, editorApiValue, selectContentOutlineCache } = useSelect( ( select ) => {
+	const { endpoint, postType, contentLocale, editorApiValue, recentContent, selectContentOutlineCache } = useSelect( ( select ) => {
 		return {
 			endpoint: select( CONTENT_PLANNER_STORE ).selectContentOutlineEndpoint(),
 			postType: select( "yoast-seo/editor" ).getPostType(),
 			contentLocale: select( "yoast-seo/editor" ).getContentLocale(),
 			editorApiValue: select( "yoast-seo/editor" ).getEditorTypeApiValue(),
+			recentContent: select( CONTENT_PLANNER_STORE ).selectRecentContent(),
 			selectContentOutlineCache: select( CONTENT_PLANNER_STORE ).selectContentOutlineCache,
 		};
 	}, [] );
@@ -42,6 +43,7 @@ export const useFetchContentOutline = () => {
 			postType,
 			language,
 			editor: editorApiValue,
+			recentContent,
 			suggestion: {
 				...contentSuggestion,
 			},
@@ -50,6 +52,7 @@ export const useFetchContentOutline = () => {
 		postType,
 		contentLocale,
 		editorApiValue,
+		recentContent,
 		fetchContentOutline,
 		restoreContentOutlineFromCache,
 		selectContentOutlineCache,
