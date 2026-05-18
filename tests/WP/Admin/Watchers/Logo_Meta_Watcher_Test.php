@@ -146,6 +146,59 @@ final class Logo_Meta_Watcher_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a save carrying stale meta alongside a new id refreshes the meta.
+	 *
+	 * @covers ::ensure_logo_meta
+	 *
+	 * @return void
+	 */
+	public function test_company_logo_meta_is_refreshed_when_id_changes_with_stale_meta_carried_forward() {
+		$original = self::factory()->attachment->create();
+		\update_post_meta(
+			$original,
+			'_wp_attachment_metadata',
+			[
+				'width'  => 100,
+				'height' => 100,
+			],
+		);
+
+		$replacement = self::factory()->attachment->create();
+		\update_post_meta(
+			$replacement,
+			'_wp_attachment_metadata',
+			[
+				'width'  => 800,
+				'height' => 400,
+			],
+		);
+
+		\update_option(
+			'wpseo_titles',
+			[
+				'company_logo_id'   => $original,
+				'company_logo_meta' => false,
+			],
+		);
+
+		$first = \get_option( 'wpseo_titles' );
+
+		\update_option(
+			'wpseo_titles',
+			[
+				'company_logo_id'   => $replacement,
+				'company_logo_meta' => $first['company_logo_meta'],
+			],
+		);
+
+		$stored = \get_option( 'wpseo_titles' );
+
+		$this->assertSame( $replacement, $stored['company_logo_meta']['id'] );
+		$this->assertSame( 800, $stored['company_logo_meta']['width'] );
+		$this->assertSame( 400, $stored['company_logo_meta']['height'] );
+	}
+
+	/**
 	 * Tests that clearing the logo id also clears the stored meta, so no
 	 * stale variation is left behind when a user removes the company logo.
 	 *

@@ -130,14 +130,13 @@ final class Logo_Meta_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that meta already supplied by the caller is preserved as-is and no
-	 * recomputation happens.
+	 * Tests that supplied meta wins when the id is unchanged.
 	 *
 	 * @covers ::ensure_logo_meta
 	 *
 	 * @return void
 	 */
-	public function test_ensure_logo_meta_preserves_supplied_meta() {
+	public function test_ensure_logo_meta_respects_supplied_meta_when_id_unchanged() {
 		$supplied = [
 			'url'    => 'https://example.test/preset.png',
 			'width'  => 300,
@@ -153,9 +152,58 @@ final class Logo_Meta_Watcher_Test extends TestCase {
 				'person_logo_id'    => 0,
 				'person_logo_meta'  => false,
 			],
+			[
+				'company_logo_id'   => 42,
+				'company_logo_meta' => $supplied,
+				'person_logo_id'    => 0,
+				'person_logo_meta'  => false,
+			],
 		);
 
 		$this->assertSame( $supplied, $result['company_logo_meta'] );
+	}
+
+	/**
+	 * Tests that a stale meta blob carried alongside a new id is overridden.
+	 *
+	 * @covers ::ensure_logo_meta
+	 *
+	 * @return void
+	 */
+	public function test_ensure_logo_meta_overrides_carried_meta_when_id_changed() {
+		$stale     = [
+			'url'    => 'https://example.test/old.png',
+			'width'  => 50,
+			'height' => 50,
+		];
+		$recompute = [
+			'url'    => 'https://example.test/new.png',
+			'width'  => 800,
+			'height' => 400,
+		];
+
+		$this->image
+			->expects( 'get_best_attachment_variation' )
+			->once()
+			->with( 99 )
+			->andReturn( $recompute );
+
+		$result = $this->instance->ensure_logo_meta(
+			[
+				'company_logo_id'   => 99,
+				'company_logo_meta' => $stale,
+				'person_logo_id'    => 0,
+				'person_logo_meta'  => false,
+			],
+			[
+				'company_logo_id'   => 42,
+				'company_logo_meta' => $stale,
+				'person_logo_id'    => 0,
+				'person_logo_meta'  => false,
+			],
+		);
+
+		$this->assertSame( $recompute, $result['company_logo_meta'] );
 	}
 
 	/**
