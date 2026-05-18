@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Configuration;
 
 use Mockery;
-use Yoast\WP\SEO\Task_List\Domain\Endpoint\Endpoint_List;
+use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 
 /**
  * Test class for getting configuration.

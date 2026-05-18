@@ -15,6 +15,7 @@ domReady( () => {
 	registerStore( {
 		[ HAS_AI_GENERATOR_CONSENT_NAME ]: {
 			hasConsent: get( window, "wpseoAiConsent.hasConsent", false ) === "1",
+			endpoint: get( window, "wpseoAiConsent.endpoints.consent", "" ),
 		},
 		[ PLUGIN_URL_NAME ]: get( window, "wpseoAiConsent.pluginUrl", "" ),
 		[ LINK_PARAMS_NAME ]: get( window, "wpseoAiConsent.linkParams", {} ),

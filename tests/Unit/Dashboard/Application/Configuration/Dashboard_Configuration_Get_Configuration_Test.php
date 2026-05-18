@@ -4,8 +4,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Application\Configuration;
 
 use Mockery;
-use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_List;
 use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List;
+use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 
 /**
  * Test class for the constructor.

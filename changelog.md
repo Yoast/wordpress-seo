@@ -1,55 +1,48 @@
 Yoast SEO
 =========
 Requires at least: 6.8
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
 
 Changelog
 =========
 
-## 27.2
+## 27.5
 
-Release date: 2026-03-17
+Release date: 2026-04-28
 
 #### Enhancements
 
-* Enhances the task list with tasks about the SEO and readability of recent posts.
-* Replaces the Toast with a ModalNotification dialog in the task list opt-in notification for improved accessibility, focus trapping, and keyboard navigation.
+* Adds a Yoast ability for retrieving scores for Yoast analyses for recent posts, using the Abilities API.
+* Adds Qatar to the list of available countries for the Semrush related keyphrase suggestions.
 
 #### Bugfixes
 
-* Fixes a bug where structured data broke when `script` tag was used in the step description of the HowTo block.
-* Adds sanitization to duration text for the HowTo block.
-* Fixes a bug where `ImageObject` id related to Person Schema was not a fully-qualified, absolute URL.
-* Fixes a bug where the "Additional CSS class(es)" field was missing from the link popover when Yoast SEO was active. Props to [somecodeiwrote](https://github.com/somecodeiwrote).
+* Fixes a bug where the AI Generator's "Generate with AI" feature failed after a site's domain was changed, because stale callback URLs remained registered with the Yoast API from the original domain.
 
 #### Other
 
-* Adds more loading tasks to the tasks list on the general page.
+* Removes the schemamap line from the `robots.txt` file.
+* Introduces a performance increase when calculating if the SEO optimization is completed for internal links. Props to [@adconecto](https://github.com/adconecto).
 
-## 27.1.1
+## 27.4
 
-Release date: 2026-03-03
+Release date: 2026-04-14
 
-#### Bugfixes
-
-* Fixes a bug where Schema aggregator endpoints were returning a fatal error when trying to access response pages other than the first one by using slash syntax.
-
-## 27.1
-
-Release date: 2026-03-03
-
-New: Introducing the Schema Aggregation feature. Futureproof your website for an agentic future. [Read the full release post here](https://yoa.st/55i).
+Yoast SEO 27.4 adds new tasks to the Task List, improves navigation within the editor, and fixes a bug where tasks were displaying in the wrong language. [Read the full release post here.](https://yoa.st/task-list)
 
 #### Enhancements
 
-* Introduces the Schema aggregation feature. Thanks to Syde for helping us with testing it!
-* Introduces a more robust HTML processing and highlighting approach for the *transition words* assessment.
+* Enhances the task list with a task about customizing meta descriptions in recent content.
+* Enhances the task list with a task about deleting the "Sample Page".
+* Improves the UX of completing tasks that require users to go to specific part of the post editor, by redirecting them to the exact spot they need to be.
+* Adds a "Yoast" tab to the WordPress Plugins screen that groups all installed Yoast plugins when two or more are present. Requires WordPress 7.0+.
 
 #### Bugfixes
 
-* Fixes a bug where sentences containing transition words failed to be highlighted in _transition words_ assessment when they contained elements excluded from the analysis such as `<code>`.
-* Fixes a bug where Slovak two-part transition words weren't recognized when running the readability analysis.
+* Fixes a bug where the task list copies were displayed in the site language instead of the user language.
+* Fixes a bug where alt text changes made via the inline image editor in How-to and FAQ blocks were not being reflected on the frontend. Props to [@param-chandarana](https://github.com/param-chandarana).
+
 
 ### Earlier versions
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

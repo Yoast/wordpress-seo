@@ -45,6 +45,7 @@ final class Cleanup_Command implements Command_Interface {
 	 * - Indexables
 	 * - Indexable hierarchy
 	 * - SEO links
+	 * - Expired entries from the expiring store
 	 *
 	 * ## OPTIONS
 	 *

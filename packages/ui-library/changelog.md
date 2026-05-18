@@ -1,5 +1,32 @@
 # Changelog
 
+## 4.5.0
+
+### Enhancements:
+
+* Adds support to change the icons for the Toggle component. [#22890](https://github.com/Yoast/wordpress-seo/pull/22890)
+* Adds the ImageSelect component. [#22580](https://github.com/Yoast/wordpress-seo/pull/22580) [#22911](https://github.com/Yoast/wordpress-seo/pull/22911)
+* Adds a new `ModalNotification` component with focus trapping, Escape key dismissal, and focus restoration for interactive notifications. [#22939](https://github.com/Yoast/wordpress-seo/pull/22939)
+* Adds two Button variants for AI features and improves button icons accessibility. [#22692](https://github.com/Yoast/wordpress-seo/pull/22692) [#22580](https://github.com/Yoast/wordpress-seo/pull/22580)
+* Adds the ScoreIcon component. [#22963](https://github.com/Yoast/wordpress-seo/pull/22963)
+* Improves Toast component accessibility and documentation. [#22978](https://github.com/Yoast/wordpress-seo/pull/22978)
+* Updates position classes yst-left-0/yst-right-0 with logical properties yst-start-0/yst-end-0 in the ModalNotification component for correct RTL positioning. [#22960](https://github.com/Yoast/wordpress-seo/pull/22960)
+
+### Bugfixes:
+
+* Fixes a bug where link buttons would be outlined on mouse click when using tertiary buttons and links.  [#22796](https://github.com/Yoast/wordpress-seo/pull/22796)
+
+### Other:
+
+* Applies `Table.Head` background color styling to the header cell instead of the row. [#22709](https://github.com/Yoast/wordpress-seo/pull/22709)
+* Applies striped table row styling on the cell, instead of the row. [#22709](https://github.com/Yoast/wordpress-seo/pull/22709)
+* Adds support to add styling to the progress indicator for the progress bar component. [#22720](https://github.com/Yoast/wordpress-seo/pull/22720)
+
+### Non user facing:
+
+* Adds the AI variant to the Badge component. [#22717](https://github.com/Yoast/wordpress-seo/pull/22717)
+* Bumps `@yoast/tailwindcss-preset` to version `2.6.0` from `2.5.0`. [#23045](https://github.com/Yoast/wordpress-seo/pull/23045)
+
 ## 4.4.0
 
 ### Enhancements:

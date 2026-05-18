@@ -3,6 +3,11 @@
   "version": "1.0.1",
   "description": "A Jest preset for Yoast packages.",
   "main": "jest-preset.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/wordpress-seo.git",
+    "directory": "packages/jest-preset"
+  },
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,

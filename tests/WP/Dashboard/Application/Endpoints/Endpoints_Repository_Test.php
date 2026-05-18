@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Tests\WP\Dashboard\Application\Endpoints;
 
 use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
-use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Dashboard_Endpoint_Interface;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Readability_Scores_Endpoint;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\SEO_Scores_Endpoint;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Configuration_Dismissal_Endpoint;
@@ -23,8 +23,8 @@ final class Endpoints_Repository_Test extends TestCase {
 	 *
 	 * @dataProvider data_get_all_endpoints
 	 *
-	 * @param Endpoint_Interface[] $endpoints     List of possible endpoints.
-	 * @param array<string>        $expected_list Expected url list.
+	 * @param Dashboard_Endpoint_Interface[] $endpoints     List of possible endpoints.
+	 * @param array<string>                  $expected_list Expected url list.
 	 *
 	 * @return void
 	 */
@@ -37,7 +37,7 @@ final class Endpoints_Repository_Test extends TestCase {
 	/**
 	 * Data provider for test_get_all_endpoints.
 	 *
-	 * @return array<string, array<string, Endpoint_Interface[]|array<string, string>>>
+	 * @return array<string, array<string, Dashboard_Endpoint_Interface[]|array<string, string>>>
 	 */
 	public static function data_get_all_endpoints() {
 		$readability_endpoint        = new Readability_Scores_Endpoint();

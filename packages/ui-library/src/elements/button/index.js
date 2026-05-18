@@ -14,7 +14,7 @@ export const classNameMap = {
 		error: "yst-button--error",
 		upsell: "yst-button--upsell",
 		"ai-primary": "yst-button--ai-primary",
-		"ai-secondary": "yst-button--ai-secondary",
+		"ai-secondary": "yst-button--ai-secondary yst-ai-gradient-border",
 	},
 	size: {
 		"default": "",

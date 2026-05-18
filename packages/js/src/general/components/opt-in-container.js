@@ -23,5 +23,9 @@ export const OptInContainer = () => {
 		hideOptInNotification( "task_list" );
 	}, [ hideOptInNotification ] );
 
+	if ( ! isOpen ) {
+		return null;
+	}
+
 	return <TaskListOptInNotification isOpen={ isOpen } onClose={ onClose } />;
 };

@@ -4,6 +4,7 @@ import { TaskRow, TasksProgressBar, GetTasksErrorRow, TaskListTable, TaskListPro
 import { values, isEmpty } from "lodash";
 import { useEffect } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
+import { addQueryArgs } from "@wordpress/url";
 import { STORE_NAME } from "../constants";
 import { Task, TaskListUpsellRow, TaskListModal } from "../components";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
@@ -59,7 +60,10 @@ export const TaskList = () => {
 	useEffect( () => {
 		// Fetch tasks only if we don't have them yet.
 		if ( isEmpty( tasks ) ) {
-			fetchTasks( getTasksEndpoint, nonce );
+			fetchTasks(
+				addQueryArgs( getTasksEndpoint, { _locale: "user" } ),
+				nonce
+			);
 		}
 	}, [ tasks, fetchTasks ] );
 

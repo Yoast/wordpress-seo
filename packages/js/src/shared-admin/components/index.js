@@ -14,3 +14,4 @@ export { ReactComponent as YoastLogo } from "./yoast-logo.svg";
 export { SiteKitConsentModal } from "./site-kit-consent-modal";
 export { SidebarLayout } from "./sidebar-layout";
 export { AiConsent } from "./ai-consent";
+export { AiGrantConsent } from "./ai-grant-consent";

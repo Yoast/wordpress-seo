@@ -1,6 +1,7 @@
 import { withSelect } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { getQueryArg } from "@wordpress/url";
 import { LocationConsumer, RootContext } from "@yoast/externals/contexts";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -14,6 +15,9 @@ import { getIconForScore } from "./mapResults";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 import { PremiumSeoAnalysisUpsellAd } from "./PremiumSeoAnalysisUpsellAd";
+
+// Capture at module-load time, before `openGeneralSidebar` causes WordPress to replace the URL.
+const initialYoastTab = getQueryArg( window.location.href, "yoast-tab" );
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -110,6 +114,7 @@ class SeoAnalysis extends Component {
 											prefixIconCollapsed={ getIconForScore( score.className ) }
 											subTitle={ this.props.keyword }
 											id={ `yoast-seo-analysis-collapsible-${ location }` }
+											initialIsOpen={ initialYoastTab === "seo" }
 										>
 											<SynonymSlot location={ location } />
 											{ this.props.shouldUpsell && <PremiumSeoAnalysisUpsellAd location={ location } /> }

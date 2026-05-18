@@ -98,8 +98,20 @@ class Opt_In_Route implements Route_Interface {
 	public function set_opt_in_seen( $request ) {
 		$key             = $request->get_param( 'key' );
 		$current_user_id = $this->user_helper->get_current_user_id();
+		$meta_key        = '_yoast_wpseo_' . $key . '_opt_in_notification_seen';
 
-		$result  = $this->user_helper->update_meta( $current_user_id, '_yoast_wpseo_' . $key . '_opt_in_notification_seen', true );
+		// If already seen, return success immediately (update_user_meta returns false when the value is unchanged).
+		if ( $this->user_helper->get_meta( $current_user_id, $meta_key, true ) === '1' ) {
+			return new WP_REST_Response(
+				(object) [
+					'success' => true,
+					'status'  => 200,
+				],
+				200,
+			);
+		}
+
+		$result  = $this->user_helper->update_meta( $current_user_id, $meta_key, true );
 		$success = $result !== false;
 		$status  = ( $success ) ? 200 : 400;
 

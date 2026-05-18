@@ -55,7 +55,7 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertSame( $new_post, $post );
 
@@ -104,7 +104,7 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertSame( $new_post, $wp_query->queried_object );
 
@@ -150,7 +150,7 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertSame( 123, $wp_query->queried_object_id );
 
@@ -196,7 +196,7 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertTrue( $wp_query->is_single );
 		$this->assertTrue( $wp_query->is_singular );
@@ -246,7 +246,7 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			->once()
 			->with( $new_page );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertFalse( $wp_query->is_single );
 		$this->assertTrue( $wp_query->is_singular );
@@ -296,7 +296,7 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertSame( $new_post, $post );
 		$this->assertSame( $new_post, $wp_query->queried_object );
@@ -343,7 +343,7 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$wp_query = null;
 
@@ -389,10 +389,54 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		Functions\expect( 'wp_reset_postdata' )
 			->once();
+
+		$this->instance->reset_global_state();
+	}
+
+	/**
+	 * Tests that reset_global_state clears the memoizer's current_page cache.
+	 *
+	 * @return void
+	 */
+	public function test_reset_global_state_clears_memoizer_current_page() {
+		global $post, $wp_query;
+
+		$post     = null;
+		$wp_query = (object) [
+			'queried_object'    => null,
+			'queried_object_id' => null,
+			'is_single'         => false,
+			'is_singular'       => false,
+			'is_page'           => false,
+		];
+
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_id       = 123;
+		$indexable->object_sub_type = 'post';
+
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
+
+		Functions\expect( 'get_post' )
+			->twice()
+			->with( 123 )
+			->andReturn( $new_post );
+
+		Functions\expect( 'setup_postdata' )
+			->once()
+			->with( $new_post );
+
+		$this->instance->set_global_state( $indexable, $this->context );
+
+		Functions\expect( 'wp_reset_postdata' )
+			->once();
+
+		$this->memoizer->expects( 'clear_for_current_page' )->once();
 
 		$this->instance->reset_global_state();
 	}

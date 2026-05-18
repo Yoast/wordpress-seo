@@ -6,33 +6,54 @@ import getAllWordsFromPaper from "../helpers/morphology/getAllWordsFromPaper";
 import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 
 /**
- * A stem with accompanying forms.
- *
- * @param {string}      stem    The word stem.
- * @param {string[]}    forms   The word forms for the stem.
- *
- * @constructor
+ * @typedef {import ("../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import ("../../values/").Paper } Paper
+ * @typedef {import ("../helpers/morphology/buildTopicStems").TopicPhrase } TopicPhrase
  */
-function StemWithForms( stem, forms ) {
-	this.stem = stem;
-	this.forms = forms;
+
+
+/**
+ * A stem with accompanying forms found in the paper.
+ */
+class StemWithForms {
+	/**
+	 * A stem with accompanying forms.
+	 *
+	 * @param {string}		stem    The word stem.
+	 * @param {string[]}    forms   The word forms for the stem.
+	 *
+	 * @constructor
+	 */
+	constructor( stem, forms ) {
+		this.stem = stem;
+		this.forms = forms;
+	}
+}
+
+
+/**
+ * An object containing the forms for the keyphrase and synonyms.
+ * The keyphrase forms are stored in an array, while the synonym forms are stored in an array of arrays, where each inner array contains the forms for a specific synonym.
+ * @property {string[][]} keyphraseForms An array of arrays of keyphrase forms, where each inner array contains the forms for a specific word in the keyphrase.
+ * @property {string[][][]} synonymsForms An array of arrays of arrays of synonym forms, where each inner array contains the forms for a specific word in a specific synonym.
+ */
+export class TopicFormsResult {
+	/**
+	 * A result for all topic forms.
+	 *
+	 * @param {string[][]} keyphraseForms  All keyphrase forms.
+	 * @param {string[][][]} synonymsForms   All synonym forms.
+	 * @constructor
+	 */
+	constructor( keyphraseForms = [], synonymsForms = [] ) {
+		this.keyphraseForms = keyphraseForms;
+		this.synonymsForms = synonymsForms;
+	}
 }
 
 /**
- * A result for all topic forms.
- *
- * @param {Array[]} keyphraseForms  All keyphrase forms.
- * @param {Array[]} synonymsForms   All synonym forms.
- * @constructor
- */
-function Result( keyphraseForms = [], synonymsForms = [] ) {
-	this.keyphraseForms = keyphraseForms;
-	this.synonymsForms = synonymsForms;
-}
-
-/**
- * Takes a stem-original pair and returns the accompanying forms for the stem that were found in the paper. Additionally
- * adds a sanitized version of the original word and (for specific languages) creates basic word forms.
+ * Takes a stem-original pair and returns the accompanying forms for the stem that were found in the paper.
+ * Additionally, adds a sanitized version of the original word and (for specific languages) creates basic word forms.
  *
  * @param {StemOriginalPair}    stemOriginalPair            The stem-original pair for which to get forms.
  * @param {StemWithForms[]}     paperWordsGroupedByStems    All word forms in the paper grouped by stem.
@@ -40,7 +61,7 @@ function Result( keyphraseForms = [], synonymsForms = [] ) {
  *
  * @returns {string[]} All forms found in the paper for the given stem, plus a sanitized version of the original word.
  */
-function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, createBasicWordForms ) {
+const replaceStemWithForms = ( stemOriginalPair, paperWordsGroupedByStems, createBasicWordForms ) => {
 	const matchingStemFormPair = paperWordsGroupedByStems.find( element => element.stem === stemOriginalPair.stem );
 	const originalSanitized = normalizeSingle( escapeRegExp( stemOriginalPair.original ) );
 
@@ -58,7 +79,7 @@ function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, creat
 	 * Only return original if no matching forms were found in the text and no forms could be created.
 	 */
 	return [ ... new Set( forms ) ];
-}
+};
 
 /**
  * Extracts the stems from all keyphrase and synonym stems.
@@ -68,7 +89,7 @@ function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, creat
  *
  * @returns {string[]} All word stems of they keyphrase and synonyms.
  */
-function extractStems( keyphrase, synonyms ) {
+const extractStems = ( keyphrase, synonyms ) => {
 	const keyphraseStemsOnly = keyphrase.stemOriginalPairs.length === 0
 		? []
 		: keyphrase.getStems();
@@ -78,7 +99,7 @@ function extractStems( keyphrase, synonyms ) {
 		: synonyms.map( topicPhrase => topicPhrase.getStems() );
 
 	return ( [ ...keyphraseStemsOnly, ...flattenDeep( synonymsStemsOnly ) ] );
-}
+};
 
 /**
  * Constructs the result with forms for a topic phrase (i.e., a keyphrase or a synonym).
@@ -89,7 +110,7 @@ function extractStems( keyphrase, synonyms ) {
  *
  * @returns {Array.<string[]>} The word forms for a given topic phrase, grouped by original topic phrase word.
  */
-function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, createBasicWordForms ) {
+const constructTopicPhraseResult = ( topicPhrase, paperWordsGroupedByStems, createBasicWordForms ) => {
 	// Empty result for an empty topic phrase.
 	if ( topicPhrase.stemOriginalPairs.length === 0 ) {
 		return [];
@@ -99,10 +120,10 @@ function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, crea
 		return [ [ topicPhrase.stemOriginalPairs[ 0 ].stem ] ];
 	}
 
-	return topicPhrase.stemOriginalPairs.map( function( stemOriginalPair ) {
+	return topicPhrase.stemOriginalPairs.map( ( stemOriginalPair ) => {
 		return replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, createBasicWordForms );
 	} );
-}
+};
 
 /**
  * Gets all matching word forms for the keyphrase and synonyms. Stems are either collected from
@@ -116,24 +137,24 @@ function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, crea
  * @param {Function|null}   createBasicWordForms    	A function to create basic word forms (if available).
  * @param {boolean}   		areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
 
- * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
+ * @returns {TopicFormsResult} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
  * found in the text or created forms.
  */
-function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, stemmer, createBasicWordForms, areHyphensWordBoundaries ) {
+const getWordForms = ( keyphrase, synonyms, allWordsFromPaper, functionWords, stemmer, createBasicWordForms, areHyphensWordBoundaries ) => {
 	const topicPhrases     = collectStems( keyphrase, synonyms, stemmer, functionWords, areHyphensWordBoundaries );
 	const keyphraseStemmed = topicPhrases.keyphraseStems;
 	const synonymsStemmed  = topicPhrases.synonymsStems;
 
 	// Return an empty result when no keyphrase and synonyms have been set.
 	if ( keyphraseStemmed.stemOriginalPairs.length === 0 && synonymsStemmed.length === 0 ) {
-		return new Result();
+		return new TopicFormsResult();
 	}
 
 	// Return exact match if all topic phrases contain exact match. Forms don't need to be built in that case.
 	const allTopicPhrases = [ keyphraseStemmed, ...synonymsStemmed ];
 
 	if ( allTopicPhrases.every( topicPhrase => topicPhrase.exactMatch === true ) ) {
-		return new Result(
+		return new TopicFormsResult(
 			[ [ keyphraseStemmed.stemOriginalPairs[ 0 ].stem ] ],
 			synonymsStemmed.map( synonym => [ [ synonym.stemOriginalPairs[ 0 ].stem ] ]
 			)
@@ -156,7 +177,7 @@ function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, st
 		.sort( ( a, b ) => a.stem.localeCompare( b.stem ) );
 
 	// Group word-stem pairs from the paper by stems.
-	const paperWordsGroupedByStems = paperWordsWithStems.reduce( function( accumulator, stemOriginalPair ) {
+	const paperWordsGroupedByStems = paperWordsWithStems.reduce( ( accumulator, stemOriginalPair ) => {
 		const lastItem = accumulator[ accumulator.length - 1 ];
 
 		if ( accumulator.length === 0 || lastItem.stem !== stemOriginalPair.stem ) {
@@ -168,11 +189,11 @@ function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, st
 		return accumulator;
 	}, [] );
 
-	return new Result(
+	return new TopicFormsResult(
 		constructTopicPhraseResult( keyphraseStemmed, paperWordsGroupedByStems, createBasicWordForms ),
 		synonymsStemmed.map( synonym => constructTopicPhraseResult( synonym, paperWordsGroupedByStems, createBasicWordForms ) )
 	);
-}
+};
 
 /**
  * Gets all matching word forms for the keyphrase and synonyms.
@@ -180,7 +201,7 @@ function getWordForms( keyphrase, synonyms, allWordsFromPaper, functionWords, st
  * @param {Paper}       paper       	The paper.
  * @param {Researcher}  researcher  	The researcher.
  *
- * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
+ * @returns {TopicFormsResult} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
  * found in the text or created forms.
  */
 export default function( paper, researcher ) {

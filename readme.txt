@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.9
-Stable tag: 27.1.1
+Tested up to: 7.0
+Stable tag: 27.6
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -303,49 +303,36 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 27.2 =
+= 27.7 =
 
-Release date: 2026-03-17
-
-#### Enhancements
-
-* Enhances the task list with tasks about the SEO and readability of recent posts.
-* Replaces the Toast with a ModalNotification dialog in the task list opt-in notification for improved accessibility, focus trapping, and keyboard navigation.
+Release date: 2026-05-26
 
 #### Bugfixes
 
-* Adds sanitization to duration text for the HowTo block.
-* Fixes a bug where `ImageObject` id related to Person Schema was not a fully-qualified, absolute URL.
-* Fixes a bug where structured data broke when `script` tag was used in the step description of the HowTo block.
-* Fixes a bug where the \"Additional CSS class(es)\" field was missing from the link popover when Yoast SEO was active. Props to [somecodeiwrote](https://github.com/somecodeiwrote).
+* Fixes a bug in Schema aggregator where products Schema pieces had  incorrect `@id` values for `mainEntityOfPage` and `image` properties.
+* Fixes a bug where a `FocusTrap` warning was thrown and the X button did not receive focus when the replace content confirmation modal from the AI Content Planner was opened.
+* Fixes a bug where a warning was triggered in the console when editing a post with the Content Planner feature enabled.
+* Fixes a bug where only the first piece was returned when indexables were not available.
+* Fixes a bug where the AI features section was rendered twice on the user profile page.
 
 #### Other
 
-* Adds more loading tasks to the tasks list on the general page.
+* Makes the Academy, Upgrade and Brand insights links visible to more user roles.
 
-= 27.1.1 =
+= 27.6 =
 
-Release date: 2026-03-03
+Release date: 2026-05-12
 
-#### Bugfixes
-
-* Fixes a bug where Schema aggregator endpoints were returning a fatal error when trying to access response pages other than the first one by using slash syntax.
-
-= 27.1 =
-
-Release date: 2026-03-03
-
-New: Introducing the Schema Aggregation feature. Futureproof your website for an agentic future. [Read the full release post here](https://yoa.st/55i).
+Introduces Yoast AI Content Planner to Yoast SEO Premium, giving five site-specific post ideas and a structured starter draft the moment you open a new post. Haven't used your free AI sparks yet? Give it a try on us. [Read the full release post here](https://yoa.st/56n).
 
 #### Enhancements
 
-* Introduces the Schema aggregation feature. Thanks to Syde for helping us with testing it!
-* Introduces a more robust HTML processing and highlighting approach for the *transition words* assessment.
+* Adds the Content Planner feature, which allows users to get AI-powered content suggestions and structured outlines for new posts directly from the block editor. This is available as part of the free sparks allowance in Yoast SEO Free.
 
-#### Bugfixes
+#### Other
 
-* Fixes a bug where sentences containing transition words failed to be highlighted in _transition words_ assessment when they contained elements excluded from the analysis such as `<code>`.
-* Fixes a bug where Slovak two-part transition words weren't recognized when running the readability analysis.
+* Improves documentation in a docblock. Props to [@MukundaKatta](https://github.com/MukundaKatta).
+* Introduces a shared contributor guide for humans and AI coding tools.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

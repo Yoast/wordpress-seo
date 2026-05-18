@@ -388,6 +388,54 @@ final class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that set_for_current_page installs the given context as the current_page cache entry.
+	 *
+	 * @covers ::set_for_current_page
+	 *
+	 * @return void
+	 */
+	public function test_set_for_current_page_installs_context() {
+		$new_context = new Meta_Tags_Context_Mock();
+
+		$this->instance->set_for_current_page( $new_context );
+
+		$this->assertSame( $new_context, $this->instance->get_cache()['current_page'] );
+	}
+
+	/**
+	 * Tests that set_for_current_page overwrites a previously cached current_page context.
+	 *
+	 * @covers ::set_for_current_page
+	 *
+	 * @return void
+	 */
+	public function test_set_for_current_page_overwrites_existing_context() {
+		$old_context = new Meta_Tags_Context_Mock();
+		$new_context = new Meta_Tags_Context_Mock();
+		$this->instance->set_cache( 'current_page', $old_context );
+
+		$this->instance->set_for_current_page( $new_context );
+
+		$this->assertSame( $new_context, $this->instance->get_cache()['current_page'] );
+	}
+
+	/**
+	 * Tests that set_for_current_page does not affect cache entries keyed by indexable id.
+	 *
+	 * @covers ::set_for_current_page
+	 *
+	 * @return void
+	 */
+	public function test_set_for_current_page_leaves_indexable_cache_intact() {
+		$indexable_context = new Meta_Tags_Context_Mock();
+		$this->instance->set_cache( $this->indexable->id, $indexable_context );
+
+		$this->instance->set_for_current_page( new Meta_Tags_Context_Mock() );
+
+		$this->assertSame( $indexable_context, $this->instance->get_cache()[ $this->indexable->id ] );
+	}
+
+	/**
 	 * Mocks the get method for use in other methods.
 	 *
 	 * @return void

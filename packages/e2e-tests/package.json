@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "description": "e2e-tests implementation for Yoast SEO plugin",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/wordpress-seo.git",
+    "directory": "packages/e2e-tests"
+  },
   "author": "Team Yoast",
   "license": "GPL-3.0",
   "private": false,
@@ -12,9 +17,9 @@
   "devDependencies": {
     "@wordpress/e2e-test-utils": "^5.1.2",
     "@wordpress/url": "^2.22.2",
-    "babel-jest": "^26.6.3",
-    "jest": "^27.5.1",
-    "jest-puppeteer": "^6.2.0",
-    "puppeteer": "^9.0.0"
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-puppeteer": "^11.0.0",
+    "puppeteer": "^24.41.0"
   }
 }

@@ -1,6 +1,12 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
+const EDITOR_TYPE_TO_API_VALUE = {
+	blockEditor: "gutenberg",
+	elementorEditor: "elementor",
+	classicEditor: "classic",
+};
+
 /**
  * Gets the editor context.
  *
@@ -140,6 +146,22 @@ export function getEditorType( state ) {
 		return "blockEditor";
 	}
 	return "classicEditor";
+}
+
+/**
+ * Returns the editor type as the API-expected value.
+ *
+ * Maps internal editor type identifiers to the strings the REST API expects:
+ * - "blockEditor" → "gutenberg"
+ * - "elementorEditor" → "elementor"
+ * - "classicEditor" → "classic"
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The editor type API value.
+ */
+export function getEditorTypeApiValue( state ) {
+	return EDITOR_TYPE_TO_API_VALUE[ getEditorType( state ) ] || "classic";
 }
 
 /**

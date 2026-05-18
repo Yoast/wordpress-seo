@@ -10,10 +10,6 @@ import TextInput from "../../base/text-input";
 import { OrganizationSection } from "./organization-section";
 import { PersonSection } from "./person-section";
 import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
-import { ExternalLinkIcon } from "@heroicons/react/solid";
-import { LocationMarkerIcon, ShoppingCartIcon } from "@heroicons/react/outline";
-import { Button } from "@yoast/ui-library";
-import UpsellNotice from "../../base/upsell-notice";
 
 /* eslint-disable complexity */
 
@@ -164,94 +160,6 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		>
 			{ __( "You're almost there! Complete all settings in this step so search engines know what your site is about.", "wordpress-seo" ) }
 		</FadeInAlert>
-		{ ! state.isPremium && state.isWooCommerceActive && ! state.isWooCommerceSeoActive && <UpsellNotice className="yst-mt-6 yst-gap-2">
-			<div className="yst-flex yst-flex-col yst-gap-1">
-				<div className="yst-flex yst-gap-2 yst-items-center">
-					<ShoppingCartIcon className="yst-text-primary-300 yst-w-4 yst-h-4 yst-inline-block" />
-					<p className="yst-font-medium yst-text-slate-800">
-						{ __( "Running an online store?", "wordpress-seo" ) }
-					</p>
-				</div>
-				<p>
-					{
-						sprintf(
-							/* translators: %s expands to Yoast WooCommerce SEO. */
-							__( "%s helps your products stand out in Google Shopping and Rich Results.", "wordpress-seo" ),
-							"Yoast WooCommerce SEO"
-						)
-					}
-				</p>
-			</div>
-			<p className="yst-mt-4">
-				<Button
-					id="ftc-indexing-learn-more"
-					as="a"
-					href={ window.wpseoFirstTimeConfigurationData.shortlinks.reprWoocommerceLearnMore }
-					variant="tertiary"
-					target="_blank"
-					className="yst-p-0"
-				>
-					{
-						sprintf(
-							/* translators: %s expands to WooCommerce SEO. */
-							__( "Learn more about %s", "wordpress-seo" ),
-							"WooCommerce SEO"
-						)
-					}
-					<span className="yst-sr-only">
-						{
-							/* translators: Hidden accessibility text. */
-							__( "(Opens in a new browser tab)", "wordpress-seo" )
-						}
-					</span>
-					<ExternalLinkIcon className="yst-ms-1 yst-w-4 yst-h-4 yst-icon-rtl" />
-				</Button>
-			</p>
-		</UpsellNotice> }
-		{ state.companyOrPerson === "company" && ! state.isPremium && ! state.isWooCommerceActive && <UpsellNotice className="yst-mt-6 yst-gap-2">
-			<div className="yst-flex yst-flex-col yst-gap-1">
-				<div className="yst-flex yst-gap-2 yst-items-center">
-					<LocationMarkerIcon className="yst-text-primary-300 yst-w-4 yst-h-4 yst-inline-block" />
-					<p className="yst-font-medium yst-text-slate-800">
-						{ __( "Have a physical location?", "wordpress-seo" ) }
-					</p>
-				</div>
-				<p>
-					{
-						sprintf(
-							/* translators: %s expands to Yoast Local SEO. */
-							__( "%s helps you show up in Google Maps and local results. Complete your visibility where it matters most!", "wordpress-seo" ),
-							"Yoast Local SEO"
-						)
-					}
-				</p>
-			</div>
-			<p className="yst-mt-4">
-				<Button
-					id="ftc-indexing-learn-more"
-					as="a"
-					href={ window.wpseoFirstTimeConfigurationData.shortlinks.reprLocalLearnMore }
-					variant="tertiary"
-					target="_blank"
-					className="yst-p-0"
-				>
-					{
-						sprintf(
-							/* translators: %s expands to Local SEO. */
-							__( "Learn more about %s", "wordpress-seo" ),
-							"Local SEO"
-						)
-					}
-					<span className="yst-sr-only">
-						{
-							/* translators: Hidden accessibility text. */
-							__( "(Opens in a new browser tab)", "wordpress-seo" )
-						}
-					</span>
-					<ExternalLinkIcon className="yst-ms-1 yst-w-4 yst-h-4 yst-icon-rtl" />
-				</Button>
-			</p>
-		</UpsellNotice> }
 	</Fragment>;
 }
 

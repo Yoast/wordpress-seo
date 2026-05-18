@@ -39,6 +39,13 @@ import {
 	usageCountSelectors,
 } from "./usage-count";
 import {
+	ENDPOINTS_NAME,
+	endpointsActions,
+	endpointsReducer,
+	endpointsSelectors,
+	getInitialEndpointsState,
+} from "./endpoints";
+import {
 	FREE_SPARKS_NAME,
 	getInitialFreeSparks,
 	freeSparksActions,
@@ -62,6 +69,7 @@ const createStore = ( initialState ) => {
 			...promptContentActions,
 			...usageCountActions,
 			...freeSparksActions,
+			...endpointsActions,
 		},
 		selectors: {
 			...hasAiGeneratorConsentSelectors,
@@ -70,6 +78,7 @@ const createStore = ( initialState ) => {
 			...promptContentSelectors,
 			...usageCountSelectors,
 			...freeSparksSelectors,
+			...endpointsSelectors,
 		},
 		initialState: merge(
 			{},
@@ -80,6 +89,7 @@ const createStore = ( initialState ) => {
 				[ PROMPT_CONTENT_NAME ]: getInitialPromptContentState(),
 				[ USAGE_COUNT_NAME ]: getInitialUsageCount(),
 				[ FREE_SPARKS_NAME ]: getInitialFreeSparks(),
+				[ ENDPOINTS_NAME ]: getInitialEndpointsState(),
 			},
 			initialState
 		),
@@ -90,6 +100,7 @@ const createStore = ( initialState ) => {
 			[ PROMPT_CONTENT_NAME ]: promptContentReducer,
 			[ USAGE_COUNT_NAME ]: usageCountReducer,
 			[ FREE_SPARKS_NAME ]: freeSparksReducer,
+			[ ENDPOINTS_NAME ]: endpointsReducer,
 		} ),
 		controls: {
 			...hasAiGeneratorConsentControls,

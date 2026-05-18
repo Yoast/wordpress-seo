@@ -400,7 +400,7 @@ class Settings_Integration implements Integration_Interface {
 	public function add_settings_saved_page( $pages ) {
 		$runner = $this->runner;
 		\add_submenu_page(
-			'',
+			'options.php',
 			'',
 			'',
 			'wpseo_manage_options',

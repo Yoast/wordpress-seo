@@ -1,6 +1,6 @@
 {
   "name": "@yoast/social-metadata-forms",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0",
   "main": "build/index.js",
   "files": [
     "build",
@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yoast/wordpress-seo",
+    "url": "https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/social-metadata-forms"
   },
   "author": "Team Yoast",
@@ -30,7 +30,7 @@
     "@wordpress/i18n": "^5.8.2",
     "@yoast/components": "^3.0.0-alpha.3",
     "@yoast/helpers": "^0.17.0-alpha.2",
-    "@yoast/replacement-variable-editor": "^2.0.0-alpha.3",
+    "@yoast/replacement-variable-editor": "^2.0.0",
     "@yoast/style-guide": "^0.14.0-alpha.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.6.0",
@@ -58,7 +58,7 @@
   },
   "peerDependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
-    "@yoast/ui-library": "^4.4.0",
+    "@yoast/ui-library": "^4.5.0",
     "draft-js": "^0.11.7"
   }
 }

@@ -24,6 +24,8 @@ import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
+import ContentPlannerEditorItem from "../../ai-content-planner/containers/content-planner-editor-item";
+import { EditorIntro } from "../EditorIntro";
 
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 
@@ -36,10 +38,10 @@ const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( B
  * @returns {wp.Element} The Metabox component.
  */
 export default function MetaboxFill( { settings } ) {
-	const { isTerm } = useSelect( ( select ) => ( {
+	const { isTerm, isPost, isAiFeatureActive } = useSelect( ( select ) => ( {
 		isTerm: select( "yoast-seo/editor" ).getIsTerm(),
-		isProduct: select( "yoast-seo/editor" ).getIsProduct(),
-		isWooCommerceActive: select( "yoast-seo/editor" ).getIsWooCommerceActive(),
+		isPost: select( "yoast-seo/editor" ).getPostType() === "post",
+		isAiFeatureActive: select( "yoast-seo/editor" ).getPreference( "isAiFeatureActive" ),
 	} ), [] );
 
 	const isBlockEditorActive = isBlockEditor();
@@ -53,16 +55,30 @@ export default function MetaboxFill( { settings } ) {
 			<Fill name="YoastMetabox">
 				<SidebarItem
 					key="warning"
-					renderPriority={ 1 }
+					renderPriority={ 0 }
 				>
 					<Warning />
 				</SidebarItem>
-				<SidebarItem
-					key="time-constrained-notification"
-					renderPriority={ 2 }
-				>
-					<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } />
-				</SidebarItem>
+				{ isBlockEditorActive ? (
+					<SidebarItem
+						key="editor-intro"
+						renderPriority={ 1 }
+					>
+						<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isPost }>
+							<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } inEditorIntro={ true } />
+						</EditorIntro>
+					</SidebarItem>
+				) : (
+					<SidebarItem
+						key="time-constrained-notification"
+						renderPriority={ 1 }
+					>
+						<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } />
+					</SidebarItem>
+				) }
+				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="content-planner" renderPriority={ 2 }>
+					<ContentPlannerEditorItem location="metabox" />
+				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }

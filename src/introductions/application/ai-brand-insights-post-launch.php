@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Introductions\Application;
 
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 
 /**
@@ -22,12 +23,24 @@ class AI_Brand_Insights_Post_Launch implements Introduction_Interface {
 	private $current_page_helper;
 
 	/**
+	 * Holds the product helper.
+	 *
+	 * @var Product_Helper
+	 */
+	private $product_helper;
+
+	/**
 	 * Constructs the introduction.
 	 *
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
+	 * @param Product_Helper      $product_helper      The product helper.
 	 */
-	public function __construct( Current_Page_Helper $current_page_helper ) {
+	public function __construct(
+		Current_Page_Helper $current_page_helper,
+		Product_Helper $product_helper
+	) {
 		$this->current_page_helper = $current_page_helper;
+		$this->product_helper      = $product_helper;
 	}
 
 	/**
@@ -54,6 +67,6 @@ class AI_Brand_Insights_Post_Launch implements Introduction_Interface {
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show() {
-		return $this->current_page_helper->is_yoast_seo_page();
+		return $this->current_page_helper->is_yoast_seo_page() && ! $this->product_helper->is_premium();
 	}
 }

@@ -166,17 +166,12 @@ final class Robots_Txt_Integration_Test extends TestCase {
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->robots_txt_helper
-			->expects( 'get_schemamap_rules' )
-			->andReturn( [ 'http://basic.wordpress.test/wp-json/yoast/v1/schema-aggregator/get-xml' ] );
-
 		$expected = '# START YOAST BLOCK' . \PHP_EOL
 					. '# ---------------------------' . \PHP_EOL
 					. 'User-agent: *' . \PHP_EOL
 					. 'Disallow:' . \PHP_EOL
 					. \PHP_EOL
 					. 'Sitemap: http://basic.wordpress.test/sitemap_index.xml' . \PHP_EOL
-					. 'Schemamap: http://basic.wordpress.test/wp-json/yoast/v1/schema-aggregator/get-xml' . \PHP_EOL
 					. '# ---------------------------' . \PHP_EOL
 					. '# END YOAST BLOCK';
 
@@ -263,16 +258,12 @@ final class Robots_Txt_Integration_Test extends TestCase {
 		$this->robots_txt_helper
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
-		$this->robots_txt_helper
-			->expects( 'get_schemamap_rules' )
-			->andReturn( [ 'http://basic.wordpress.test/wp-json/yoast/v1/schema-aggregator/get-xml' ] );
 		$expected = '# START YOAST BLOCK' . \PHP_EOL
 					. '# ---------------------------' . \PHP_EOL
 					. 'User-agent: *' . \PHP_EOL
 					. 'Disallow:' . \PHP_EOL
 					. \PHP_EOL
 					. 'Sitemap: http://basic.wordpress.test/sitemap_index.xml' . \PHP_EOL
-					. 'Schemamap: http://basic.wordpress.test/wp-json/yoast/v1/schema-aggregator/get-xml' . \PHP_EOL
 					. '# ---------------------------' . \PHP_EOL
 					. '# END YOAST BLOCK';
 
@@ -385,16 +376,12 @@ final class Robots_Txt_Integration_Test extends TestCase {
 		$this->robots_txt_helper
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
-		$this->robots_txt_helper
-			->expects( 'get_schemamap_rules' )
-			->andReturn( [ 'http://basic.wordpress.test/wp-json/yoast/v1/schema-aggregator/get-xml' ] );
 		$expected = '# START YOAST BLOCK' . \PHP_EOL
 					. '# ---------------------------' . \PHP_EOL
 					. 'User-agent: *' . \PHP_EOL
 					. 'Disallow:' . \PHP_EOL
 					. \PHP_EOL
 					. 'Sitemap: http://basic.wordpress.test/sitemap_index.xml' . \PHP_EOL
-					. 'Schemamap: http://basic.wordpress.test/wp-json/yoast/v1/schema-aggregator/get-xml' . \PHP_EOL
 					. '# ---------------------------' . \PHP_EOL
 					. '# END YOAST BLOCK';
 
@@ -470,16 +457,12 @@ final class Robots_Txt_Integration_Test extends TestCase {
 		$this->robots_txt_helper
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
-		$this->robots_txt_helper
-			->expects( 'get_schemamap_rules' )
-			->andReturn( [ 'http://basic.wordpress.test/wp-json/yoast/v1/schema-aggregator/get-xml' ] );
 		$expected = '# START YOAST BLOCK' . \PHP_EOL
 					. '# ---------------------------' . \PHP_EOL
 					. 'User-agent: *' . \PHP_EOL
 					. 'Disallow:' . \PHP_EOL
 					. \PHP_EOL
 					. 'Sitemap: http://basic.wordpress.test/sitemap_index.xml' . \PHP_EOL
-					. 'Schemamap: http://basic.wordpress.test/wp-json/yoast/v1/schema-aggregator/get-xml' . \PHP_EOL
 					. '# ---------------------------' . \PHP_EOL
 					. '# END YOAST BLOCK';
 
@@ -507,10 +490,6 @@ final class Robots_Txt_Integration_Test extends TestCase {
 
 		$this->robots_txt_helper
 			->expects( 'get_sitemap_rules' )
-			->andReturn( [] );
-
-		$this->robots_txt_helper
-			->expects( 'get_schemamap_rules' )
 			->andReturn( [] );
 
 		$expected = '# START YOAST BLOCK' . \PHP_EOL

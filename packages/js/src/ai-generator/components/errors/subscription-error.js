@@ -6,20 +6,21 @@ import { Alert, Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { OutboundLink } from "../../../shared-admin/components";
-import { STORE_NAME_EDITOR } from "../../constants";
+import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../../constants";
 
 /**
  * @param {string[]} [invalidSubscriptions=[]] The array with the names of products with invalid subscription.
  * @returns {JSX.Element} The element.
  */
 export const SubscriptionError = ( { invalidSubscriptions = [] } ) => {
-	const { newYoastWooLink, activateYoastWooLink, newPremiumLink, activatePremiumLink } = useSelect( ( select ) => {
+	const { newYoastWooLink, activateYoastWooLink, newPremiumLink, activatePremiumLink, bustSubscriptionCacheEndpoint } = useSelect( ( select ) => {
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return {
 			newYoastWooLink: editorSelect.selectLink( "https://yoa.st/ai-generator-new-yoast-woocommerce" ),
 			activateYoastWooLink: editorSelect.selectLink( "https://yoa.st/ai-generator-activate-yoast-woocommerce" ),
 			newPremiumLink: editorSelect.selectLink( "https://yoa.st/ai-generator-new-premium" ),
 			activatePremiumLink: editorSelect.selectLink( "https://yoa.st/ai-generator-activate-premium" ),
+			bustSubscriptionCacheEndpoint: select( STORE_NAME_AI ).selectBustSubscriptionCacheEndpoint(),
 		};
 	}, [] );
 
@@ -28,7 +29,7 @@ export const SubscriptionError = ( { invalidSubscriptions = [] } ) => {
 	const handleRefresh = useCallback( async() => {
 		try {
 			await apiFetch( {
-				path: "yoast/v1/ai_generator/bust_subscription_cache",
+				path: bustSubscriptionCacheEndpoint,
 				method: "POST",
 				parse: false,
 			} );

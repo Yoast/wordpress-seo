@@ -136,19 +136,24 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$expected_query = "SELECT COUNT(P.ID)
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN wp_yoast_seo_links AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
-				AND P.post_type IN (%s, %s)";
+			WHERE P.post_status = 'publish'
+				AND P.post_type IN (%s, %s)
+				AND (
+					NOT EXISTS (
+						SELECT 1 FROM wp_yoast_indexable AS I
+						WHERE I.object_id = P.ID
+							AND I.link_count IS NOT NULL
+							AND I.object_type = 'post'
+					)
+					OR EXISTS (
+						SELECT 1 FROM wp_yoast_seo_links AS L
+						WHERE L.post_id = P.ID
+							AND L.target_indexable_id IS NULL
+							AND L.type = 'internal'
+							AND L.target_post_id IS NOT NULL
+							AND L.target_post_id != 0
+					)
+				)";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -192,19 +197,24 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$expected_query = "SELECT COUNT(P.ID)
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN wp_yoast_seo_links AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
-				AND P.post_type IN (%s, %s)";
+			WHERE P.post_status = 'publish'
+				AND P.post_type IN (%s, %s)
+				AND (
+					NOT EXISTS (
+						SELECT 1 FROM wp_yoast_indexable AS I
+						WHERE I.object_id = P.ID
+							AND I.link_count IS NOT NULL
+							AND I.object_type = 'post'
+					)
+					OR EXISTS (
+						SELECT 1 FROM wp_yoast_seo_links AS L
+						WHERE L.post_id = P.ID
+							AND L.target_indexable_id IS NULL
+							AND L.type = 'internal'
+							AND L.target_post_id IS NOT NULL
+							AND L.target_post_id != 0
+					)
+				)";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -254,19 +264,24 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT P.ID, P.post_content
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN wp_yoast_seo_links AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
+			WHERE P.post_status = 'publish'
 				AND P.post_type IN (%s, %s)
+				AND (
+					NOT EXISTS (
+						SELECT 1 FROM wp_yoast_indexable AS I
+						WHERE I.object_id = P.ID
+							AND I.link_count IS NOT NULL
+							AND I.object_type = 'post'
+					)
+					OR EXISTS (
+						SELECT 1 FROM wp_yoast_seo_links AS L
+						WHERE L.post_id = P.ID
+							AND L.target_indexable_id IS NULL
+							AND L.type = 'internal'
+							AND L.target_post_id IS NOT NULL
+							AND L.target_post_id != 0
+					)
+				)
 			LIMIT %d";
 
 		$this->wpdb
@@ -318,19 +333,24 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT P.ID, P.post_content
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN wp_yoast_seo_links AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
+			WHERE P.post_status = 'publish'
 				AND P.post_type IN (%s, %s)
+				AND (
+					NOT EXISTS (
+						SELECT 1 FROM wp_yoast_indexable AS I
+						WHERE I.object_id = P.ID
+							AND I.link_count IS NOT NULL
+							AND I.object_type = 'post'
+					)
+					OR EXISTS (
+						SELECT 1 FROM wp_yoast_seo_links AS L
+						WHERE L.post_id = P.ID
+							AND L.target_indexable_id IS NULL
+							AND L.type = 'internal'
+							AND L.target_post_id IS NOT NULL
+							AND L.target_post_id != 0
+					)
+				)
 			LIMIT %d";
 
 		$this->wpdb
@@ -396,19 +416,24 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT P.ID, P.post_content
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN wp_yoast_seo_links AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
+			WHERE P.post_status = 'publish'
 				AND P.post_type IN (%s, %s)
+				AND (
+					NOT EXISTS (
+						SELECT 1 FROM wp_yoast_indexable AS I
+						WHERE I.object_id = P.ID
+							AND I.link_count IS NOT NULL
+							AND I.object_type = 'post'
+					)
+					OR EXISTS (
+						SELECT 1 FROM wp_yoast_seo_links AS L
+						WHERE L.post_id = P.ID
+							AND L.target_indexable_id IS NULL
+							AND L.type = 'internal'
+							AND L.target_post_id IS NOT NULL
+							AND L.target_post_id != 0
+					)
+				)
 			LIMIT %d";
 
 		$this->wpdb
