@@ -71,7 +71,7 @@ class First_Time_Configuration_Action {
 			}
 		}
 
-		// Delete cached logos in the db.
+		// Vestigial: Logo_Meta_Watcher overrides these clears.
 		$this->options_helper->set( 'company_logo_meta', false );
 		$this->options_helper->set( 'person_logo_meta', false );
 

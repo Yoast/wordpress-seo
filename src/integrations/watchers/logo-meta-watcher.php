@@ -44,23 +44,29 @@ class Logo_Meta_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_filter( 'pre_update_option_wpseo_titles', [ $this, 'ensure_logo_meta' ], 10, 1 );
+		\add_filter( 'pre_update_option_wpseo_titles', [ $this, 'ensure_logo_meta' ], 10, 2 );
 	}
 
 	/**
-	 * Repopulates the company and person logo meta entries so they match the
-	 * corresponding attachment ids in the value about to be stored.
-	 *
-	 * Runs on the `pre_update_option_wpseo_titles` filter so the computed
-	 * meta lands in the same database write.
+	 * Recomputes the logo `_meta` from `_id` on every `wpseo_titles` save,
+	 * unless the caller supplied a non-empty meta blob alongside an unchanged
+	 * id (the AIOSEO importer's round-trip pattern). Comparing against
+	 * `$old_value` is essential: `WPSEO_Options::save_option` does a
+	 * read-modify-write, so callers updating only `_id` arrive here with the
+	 * previous attachment's meta still attached — without the id check, that
+	 * stale blob would survive the supplied-meta branch.
 	 *
 	 * @param array<string, string|int|bool|array<string, string|int|bool>>|false $new_value The value about to be stored.
+	 * @param array<string, string|int|bool|array<string, string|int|bool>>|false $old_value The value currently stored.
 	 *
 	 * @return array<string, string|int|bool|array<string, string|int|bool>>|false The — possibly repopulated — value to store.
 	 */
-	public function ensure_logo_meta( $new_value ) {
+	public function ensure_logo_meta( $new_value, $old_value = [] ) {
 		if ( ! \is_array( $new_value ) ) {
 			return $new_value;
+		}
+		if ( ! \is_array( $old_value ) ) {
+			$old_value = [];
 		}
 
 		foreach ( [ 'company_logo', 'person_logo' ] as $prefix ) {
@@ -69,14 +75,13 @@ class Logo_Meta_Watcher implements Integration_Interface {
 
 			$new_id = isset( $new_value[ $id_key ] ) ? (int) $new_value[ $id_key ] : 0;
 			if ( $new_id <= 0 ) {
-				// No attachment selected — make sure no stale meta is kept.
 				$new_value[ $meta_key ] = false;
 				continue;
 			}
 
+			$old_id        = isset( $old_value[ $id_key ] ) ? (int) $old_value[ $id_key ] : 0;
 			$supplied_meta = ( $new_value[ $meta_key ] ?? false );
-			if ( \is_array( $supplied_meta ) && $supplied_meta !== [] ) {
-				// The caller supplied a meta blob explicitly — respect it.
+			if ( $new_id === $old_id && \is_array( $supplied_meta ) && $supplied_meta !== [] ) {
 				continue;
 			}
 
