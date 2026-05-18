@@ -6,7 +6,7 @@ global.window.wpseoAdminGlobalL10n[ "links.wincher.login" ] = "test.com";
 import WincherKeyphrasesTable
 	from "../../../js/src/components/WincherKeyphrasesTable";
 import { noop } from "lodash";
-import { trackKeyphrases } from "../../src/helpers/wincherEndpoints";
+import { getKeyphrases, trackKeyphrases } from "../../src/helpers/wincherEndpoints";
 
 jest.mock( "../../src/helpers/wincherEndpoints" );
 trackKeyphrases.mockImplementation( async fn => {
@@ -81,5 +81,91 @@ describe( "WincherKeyphrasesTable with asterisk", () => {
 		expect( trackKeyphrases ).toHaveBeenCalledWith( keyphrases );
 	} );
 } );
+describe( "WincherKeyphrasesTable - fetch behavior", () => {
+	beforeEach( () => {
+		getKeyphrases.mockReset();
+	} );
 
+	it( "calls getKeyphrases when logged in with a permalink and startAt", async() => {
+		getKeyphrases.mockResolvedValue( { status: 200, results: {} } );
 
+		renderWincherKeyphrasesTable( {
+			isLoggedIn: true,
+			permalink: "https://example.com/post",
+			startAt: "2025-04-18T00:00:00Z",
+			trackedKeyphrases: null,
+		} );
+
+		await waitFor( () => {
+			expect( getKeyphrases ).toHaveBeenCalled();
+		} );
+	} );
+
+	it( "calls setTrackedKeyphrases with the response results on a successful fetch", async() => {
+		const mockResults = { "example keyphrase": { keyword: "example keyphrase" } };
+		getKeyphrases.mockResolvedValue( { status: 200, results: mockResults } );
+		const setTrackedKeyphrases = jest.fn();
+
+		renderWincherKeyphrasesTable( {
+			isLoggedIn: true,
+			permalink: "https://example.com/post",
+			startAt: "2025-04-18T00:00:00Z",
+			trackedKeyphrases: null,
+			setTrackedKeyphrases,
+		} );
+
+		await waitFor( () => {
+			expect( setTrackedKeyphrases ).toHaveBeenCalledWith( mockResults );
+		} );
+	} );
+
+	it( "calls setRequestFailed when the fetch returns a non-200 status", async() => {
+		getKeyphrases.mockResolvedValue( { status: 500 } );
+		const setRequestFailed = jest.fn();
+
+		renderWincherKeyphrasesTable( {
+			isLoggedIn: true,
+			permalink: "https://example.com/post",
+			startAt: "2025-04-18T00:00:00Z",
+			trackedKeyphrases: null,
+			setRequestFailed,
+		} );
+
+		await waitFor( () => {
+			expect( setRequestFailed ).toHaveBeenCalled();
+		} );
+	} );
+
+	it( "does not fetch when isLoggedIn is false", () => {
+		renderWincherKeyphrasesTable( {
+			isLoggedIn: false,
+			permalink: "https://example.com/post",
+			startAt: "2025-04-18T00:00:00Z",
+			trackedKeyphrases: null,
+		} );
+
+		expect( getKeyphrases ).not.toHaveBeenCalled();
+	} );
+
+	it( "does not fetch when permalink is missing", () => {
+		renderWincherKeyphrasesTable( {
+			isLoggedIn: true,
+			permalink: "",
+			startAt: "2025-04-18T00:00:00Z",
+			trackedKeyphrases: null,
+		} );
+
+		expect( getKeyphrases ).not.toHaveBeenCalled();
+	} );
+
+	it( "does not fetch when startAt is missing", () => {
+		renderWincherKeyphrasesTable( {
+			isLoggedIn: true,
+			permalink: "https://example.com/post",
+			startAt: null,
+			trackedKeyphrases: null,
+		} );
+
+		expect( getKeyphrases ).not.toHaveBeenCalled();
+	} );
+} );
