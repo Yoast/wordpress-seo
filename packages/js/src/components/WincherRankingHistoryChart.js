@@ -5,7 +5,7 @@ import { CategoryScale, Chart, LineController,	LineElement, LinearScale, PointEl
 import "chartjs-adapter-date-fns";
 import PropTypes from "prop-types";
 import { noop } from "lodash";
-import { format, isValid, parseISO } from "date-fns";
+import { isValid, parseISO } from "date-fns";
 import { getRelativePosition } from "chart.js/helpers";
 
 Chart.register( CategoryScale, LineController,	LineElement, PointElement, LinearScale, TimeScale, Legend, Tooltip );
@@ -130,7 +130,12 @@ export default function WincherRankingHistoryChart( { datasets, isChartShown, ke
 						callbacks: {
 							title: ( x ) => {
 								const d = parseISO( x[ 0 ].raw.x );
-								return format( isValid( d ) ? d : new Date( x[ 0 ].raw.x ), "yyyy-MM-dd" );
+								const utcDate = isValid( d ) ? d : new Date( x[ 0 ].raw.x );
+								return [
+									utcDate.getUTCFullYear(),
+									String( utcDate.getUTCMonth() + 1 ).padStart( 2, "0" ),
+									String( utcDate.getUTCDate() ).padStart( 2, "0" ),
+								].join( "-" );
 							},
 						},
 						titleAlign: "center",

@@ -81,7 +81,7 @@ describe( "WincherSEOPerformance - period options", () => {
 
 		const options = screen.getAllByRole( "option" );
 		options.forEach( opt => {
-			expect( opt.value ).toMatch( /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/ );
+			expect( opt.value ).toMatch( /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+00:00$/ );
 		} );
 	} );
 } );

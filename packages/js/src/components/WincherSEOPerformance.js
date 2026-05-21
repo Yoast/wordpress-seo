@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { HelpIcon, NewButton } from "@yoast/components";
 import { difference, isEmpty, orderBy } from "lodash";
-import { sub } from "date-fns";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import WincherKeyphrasesTable from "../containers/WincherKeyphrasesTable";
@@ -265,28 +264,54 @@ const ChartWrapper = styled.div`
 const now = new Date();
 const START_OF_TODAY = new Date( Date.UTC( now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() ) );
 
-// Produces "YYYY-MM-DDTHH:mm:ssZ" without milliseconds, matching the format moment().format() previously generated.
-const toWincherISOString = ( date ) => date.toISOString().slice( 0, 19 ) + "Z";
+// Produces "YYYY-MM-DDTHH:mm:ss+00:00" without milliseconds, matching the format moment().utc().format() previously generated.
+const toWincherISOString = ( date ) => date.toISOString().slice( 0, 19 ) + "+00:00";
+
+/**
+ * Subtracts a duration from a UTC-midnight Date using UTC calendar arithmetic.
+ * Uses millisecond arithmetic for fixed-duration units (days, weeks) and UTC
+ * date-component manipulation for variable-length units (months, years) to
+ * avoid local-timezone drift and correctly clamp month-end overflow.
+ *
+ * @param {Date} date The UTC-midnight date to subtract from.
+ * @param {{ days?: number, weeks?: number, months?: number, years?: number }} duration The duration to subtract.
+ * @returns {Date} The resulting UTC date.
+ */
+const subUTC = ( date, { days = 0, weeks = 0, months = 0, years = 0 } ) => {
+	if ( days || weeks ) {
+		return new Date( date.getTime() - ( days + weeks * 7 ) * 86400000 );
+	}
+	const result = new Date( Date.UTC(
+		date.getUTCFullYear() - years,
+		date.getUTCMonth() - months,
+		date.getUTCDate(),
+	) );
+	// Clamp day overflow (e.g., March 31 minus one month → Feb 28, not March 3).
+	if ( result.getUTCDate() !== date.getUTCDate() ) {
+		result.setUTCDate( 0 );
+	}
+	return result;
+};
 
 const WINCHER_PERIOD_OPTIONS = [
 	{
 		name: __( "Last day", "wordpress-seo" ),
-		value: toWincherISOString( sub( START_OF_TODAY, { days: 1 } ) ),
+		value: toWincherISOString( subUTC( START_OF_TODAY, { days: 1 } ) ),
 		defaultIndex: 1,
 	},
 	{
 		name: __( "Last week", "wordpress-seo" ),
-		value: toWincherISOString( sub( START_OF_TODAY, { weeks: 1 } ) ),
+		value: toWincherISOString( subUTC( START_OF_TODAY, { weeks: 1 } ) ),
 		defaultIndex: 2,
 	},
 	{
 		name: __( "Last month", "wordpress-seo" ),
-		value: toWincherISOString( sub( START_OF_TODAY, { months: 1 } ) ),
+		value: toWincherISOString( subUTC( START_OF_TODAY, { months: 1 } ) ),
 		defaultIndex: 3,
 	},
 	{
 		name: __( "Last year", "wordpress-seo" ),
-		value: toWincherISOString( sub( START_OF_TODAY, { years: 1 } ) ),
+		value: toWincherISOString( subUTC( START_OF_TODAY, { years: 1 } ) ),
 		defaultIndex: 0,
 	},
 ];
@@ -368,7 +393,7 @@ const TableContent = ( {
 		return <WincherNoKeyphraseSet />;
 	}
 
-	const historyLimitDate = sub( START_OF_TODAY, { days: historyDaysLimit } );
+	const historyLimitDate = subUTC( START_OF_TODAY, { days: historyDaysLimit } );
 
 	const periodOptions = WINCHER_PERIOD_OPTIONS.filter(
 		opt => new Date( opt.value ) >= historyLimitDate

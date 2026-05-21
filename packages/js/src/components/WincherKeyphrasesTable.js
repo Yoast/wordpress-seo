@@ -138,7 +138,7 @@ const WincherKeyphrasesTable = ( {
 					abortController.current.abort();
 				}
 				abortController.current = typeof AbortController === "undefined" ? null : new AbortController();
-				return getKeyphrases( keyphrases, startAt, permalink, abortController.current.signal );
+				return getKeyphrases( keyphrases, startAt, permalink, abortController.current?.signal );
 			},
 			( response ) => {
 				setRequestSucceeded( response );
