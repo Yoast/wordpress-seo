@@ -4,7 +4,8 @@ import { addFilter } from "@wordpress/hooks";
 import domReady from "@wordpress/dom-ready";
 import { useEffect, useRef } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
-import { get } from "lodash";
+import { get, isObject, noop } from "lodash";
+import { ErrorBoundary } from "@yoast/ui-library";
 import { App } from "./components/app";
 import "./blocks/content-suggestion-block";
 import { CONTENT_PLANNER_STORE } from "./constants";
@@ -16,6 +17,7 @@ import { BANNER_NAME } from "./store/banner";
 import { CONTENT_OUTLINE_NAME } from "./store/content-outline";
 import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
 import { withInlineBanner } from "./components/with-inline-banner";
+import { STORE_NAME_AI } from "../ai-generator/constants";
 
 /**
  * Ensures a fresh post has at least one block in the canvas, so the
@@ -51,7 +53,7 @@ export function insertFirstParagraph( blocks, insertBlock, isBannerRendered ) {
  * planner store, syncs Yoast meta fields on undo, and auto-inserts the inline
  * banner on new posts of the "post" type.
  *
- * @returns {void}
+ * @returns {JSX.Element|null} The editor plugin component.
  */
 export const ContentPlannerEditorPlugin = () => {
 	const hasInserted = useRef( false );
@@ -66,6 +68,8 @@ export const ContentPlannerEditorPlugin = () => {
 			isBannerRendered: select( CONTENT_PLANNER_STORE ).selectIsBannerRendered(),
 		};
 	}, [] );
+	const aiGeneratorSelectors = useSelect( select => select( STORE_NAME_AI ) );
+	const hasConsent = useSelect( select => select( STORE_NAME_AI )?.selectHasAiGeneratorConsent() ?? false );
 
 	const { insertBlock } = useDispatch( "core/block-editor" );
 
@@ -79,9 +83,10 @@ export const ContentPlannerEditorPlugin = () => {
 		hasInserted.current = insertFirstParagraph( blocks, insertBlock, isBannerRendered );
 	}, [ blocks, isNewPost, postType, insertBlock, minPostsMet ] );
 
-	return (
-		<App />
-	);
+	if ( ! isObject( aiGeneratorSelectors ) ) {
+		return null;
+	}
+	return <ErrorBoundary FallbackComponent={ noop }><App hasConsent={ hasConsent } /></ErrorBoundary>;
 };
 
 /**

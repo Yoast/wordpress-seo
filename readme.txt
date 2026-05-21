@@ -314,6 +314,8 @@ Release date: 2026-05-26
 * Fixes a bug where a warning was triggered in the console when editing a post with the Content Planner feature enabled.
 * Fixes a bug where only the first piece was returned when indexables were not available.
 * Fixes a bug where the AI features section was rendered twice on the user profile page.
+* Fixes a bug where the block editor was crashing when some AI features were triggering errors.
+* Fixes a bug where the Content Planner inline banner was displayed when editing a template or template part.
 
 #### Other
 

@@ -4,7 +4,6 @@ import { useSelect } from "@wordpress/data";
 import PropTypes from "prop-types";
 
 import ConnectedPersistentDismissableNotification from "../containers/PersistentDismissableNotification";
-import { ReactComponent as DefaultImage } from "../../../../images/succes_marieke_bubble_optm.svg";
 
 /**
  * @param {string} store The Redux store identifier from which to determine dismissed state.
@@ -15,7 +14,7 @@ import { ReactComponent as DefaultImage } from "../../../../images/succes_mariek
  */
 const WebinarPromoNotification = ( {
 	store = "yoast-seo/editor",
-	image: Image = DefaultImage,
+	image = null,
 	url,
 	...props
 } ) => {
@@ -27,7 +26,7 @@ const WebinarPromoNotification = ( {
 			store={ store }
 			id="webinar-promo-notification"
 			title={ __( "Ready to boost your online visibility?", "wordpress-seo" ) }
-			image={ Image }
+			image={ image }
 			url={ url }
 			{ ...props }
 		>

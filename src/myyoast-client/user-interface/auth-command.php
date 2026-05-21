@@ -1,7 +1,5 @@
 <?php
 
-// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-
 namespace Yoast\WP\SEO\MyYoast_Client\User_Interface;
 
 use Exception;
@@ -13,6 +11,7 @@ use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Loadable_Interface;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
+use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client_Cleanup;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Token_Storage_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\User_Token_Storage_Interface;
@@ -63,6 +62,13 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	private $user_token_storage;
 
 	/**
+	 * The cleanup service.
+	 *
+	 * @var MyYoast_Client_Cleanup
+	 */
+	private $cleanup;
+
+	/**
 	 * Auth_Command constructor.
 	 *
 	 * @param MyYoast_Client                $myyoast_client      The MyYoast client facade.
@@ -70,19 +76,22 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 * @param Issuer_Config                 $issuer_config       The issuer configuration.
 	 * @param Token_Storage_Interface       $token_storage       The site-level token storage port.
 	 * @param User_Token_Storage_Interface  $user_token_storage  The user-level token storage port.
+	 * @param MyYoast_Client_Cleanup        $cleanup             The cleanup service.
 	 */
 	public function __construct(
 		MyYoast_Client $myyoast_client,
 		Client_Registration_Interface $client_registration,
 		Issuer_Config $issuer_config,
 		Token_Storage_Interface $token_storage,
-		User_Token_Storage_Interface $user_token_storage
+		User_Token_Storage_Interface $user_token_storage,
+		MyYoast_Client_Cleanup $cleanup
 	) {
 		$this->myyoast_client      = $myyoast_client;
 		$this->client_registration = $client_registration;
 		$this->issuer_config       = $issuer_config;
 		$this->token_storage       = $token_storage;
 		$this->user_token_storage  = $user_token_storage;
+		$this->cleanup             = $cleanup;
 	}
 
 	/**
@@ -334,6 +343,40 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 		else {
 			WP_CLI::warning( 'Server-side deregistration failed (network error). Local token was cleared but client credentials remain.' );
 		}
+	}
+
+	/**
+	 * Resets all MyYoast OAuth client state on this site.
+	 *
+	 * Performs the same cleanup as plugin uninstall: best-effort server-side
+	 * deregistration, then deletes all site/user tokens, registered client
+	 * credentials, key pairs, and OIDC/JWKS/DPoP caches. Intended for
+	 * development environments that need to start from a clean slate without
+	 * uninstalling the plugin.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--yes]
+	 * : Skip confirmation prompt.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp yoast auth reset
+	 *     wp yoast auth reset --yes
+	 *
+	 * @when after_wp_load
+	 *
+	 * @param array<int, string>|null    $args       The arguments.
+	 * @param array<string, string>|null $assoc_args The associative arguments.
+	 *
+	 * @return void
+	 */
+	public function reset( $args = null, $assoc_args = null ): void {
+		WP_CLI::confirm( 'This will wipe all MyYoast OAuth client state on this site (registered client, site/user tokens, key pairs, OIDC/JWKS/DPoP caches). Proceed?', $assoc_args );
+
+		$this->cleanup->execute();
+
+		WP_CLI::success( 'MyYoast OAuth client state cleared.' );
 	}
 
 	/**

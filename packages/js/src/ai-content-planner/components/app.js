@@ -13,17 +13,12 @@ import { useSelect, useDispatch } from "@wordpress/data";
 /**
  * The modal that orchestrates the flow between the approve, content suggestions,
  * content outline, and replace content confirmation views.
+ * @param {boolean} hasConsent Whether the user has granted consent for AI-generated content.
  *
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
-export const App = () => {
-	const { status, hasConsent } = useSelect( select => {
-		const contentPlannerSelectors = select( CONTENT_PLANNER_STORE );
-		return {
-			status: contentPlannerSelectors.selectFeatureModalStatus(),
-			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
-		};
-	}, [] );
+export const App = ( { hasConsent } ) => {
+	const status = useSelect( select => select( CONTENT_PLANNER_STORE ).selectFeatureModalStatus(), [] );
 	const { setFeatureModalStatus, closeModal } = useDispatch( CONTENT_PLANNER_STORE );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const [ replaceContentModalIsOpen, toggleReplaceContentModal, , openReplaceContentModal  ] = useToggleState( false );
