@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\Markdown_Builders\Markdown_Builder;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Description;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Intro;
@@ -11,7 +12,7 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Title;
 
 /**
- * Tests the Markdown_Builder constructor.
+ * Tests the Markdown_Builder render method.
  *
  * @group llms.txt
  *
@@ -20,12 +21,11 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Title;
 final class Render_Test extends Abstract_Markdown_Builder_Test {
 
 	/**
-	 * Tests the render method.
+	 * Sets up the section mocks and renderer expectations shared by all render tests.
 	 *
 	 * @return void
 	 */
-	public function test_render() {
-		// Mocks for sections.
+	private function set_up_render_pipeline(): void {
 		$built_intro              = Mockery::mock( Intro::class );
 		$built_title              = Mockery::mock( Title::class );
 		$built_description        = Mockery::mock( Description::class );
@@ -77,9 +77,44 @@ final class Render_Test extends Abstract_Markdown_Builder_Test {
 		$built_link_list1->shouldReceive( 'escape_markdown' )->once()->with( $this->markdown_escaper );
 		$built_link_list2->shouldReceive( 'escape_markdown' )->once()->with( $this->markdown_escaper );
 		$optional_built_link_list->shouldReceive( 'escape_markdown' )->once()->with( $this->markdown_escaper );
+	}
+
+	/**
+	 * Tests the render method when no callback is attached to the wpseo_llmstxt_content filter.
+	 *
+	 * @return void
+	 */
+	public function test_render_without_filter_callback() {
+		$this->set_up_render_pipeline();
 
 		$this->llms_txt_renderer->shouldReceive( 'render' )->once()->andReturn( 'final markdown output' );
 
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_llmstxt_content', 'final markdown output' )
+			->andReturn( 'final markdown output' );
+
 		$this->assertSame( 'final markdown output', $this->instance->render() );
+	}
+
+	/**
+	 * Tests that a callback attached to wpseo_llmstxt_content can append extra content.
+	 *
+	 * @return void
+	 */
+	public function test_render_with_filter_callback_appending_content() {
+		$this->set_up_render_pipeline();
+
+		$rendered = "## Optional\n- [Sitemap index](https://example.com/sitemap_index.xml)\n";
+		$extra    = "\n## My pages\n- [Page 1](https://example.com/1)\n";
+
+		$this->llms_txt_renderer->shouldReceive( 'render' )->once()->andReturn( $rendered );
+
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_llmstxt_content', $rendered )
+			->andReturn( $rendered . $extra );
+
+		$this->assertSame( $rendered . $extra, $this->instance->render() );
 	}
 }
