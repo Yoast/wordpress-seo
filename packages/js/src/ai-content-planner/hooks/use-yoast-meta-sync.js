@@ -38,9 +38,9 @@ export function useYoastMetaSync() {
 		if ( ! isPost ) {
 			return;
 		}
-		// Only sync non-empty values. An empty string means no custom value has been saved, in
-		// which case the snippet editor should keep showing the SEO title template instead of
-		// being overwritten with an empty string.
+		// Only sync non-empty values. An empty string means no custom value has been saved,
+		// in which case the snippet editor should keep showing the SEO title
+		// template instead of being overwritten with an empty string.
 		const dataToSync = {
 			title: titleTemplate,
 			description: descTemplate,

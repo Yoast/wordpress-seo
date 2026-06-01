@@ -81,12 +81,11 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	if ( wpseoScriptData?.disableMetaboxInBlockEditor ) {
+	const disableMetaboxInBlockEditor = get( wpseoScriptData, "disableMetaboxInBlockEditor", false );
+	if ( disableMetaboxInBlockEditor ) {
 		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyFocusKw ] ?? "";
 	}
-	var val = document.getElementById( "yoast_wpseo_focuskw" ) && document.getElementById( "yoast_wpseo_focuskw" ).value || "";
-
-	return val;
+	return document.getElementById( "yoast_wpseo_focuskw" )?.value ?? "";
 };
 
 /**
@@ -110,10 +109,11 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
  * @returns {string} The meta description.
  */
 PostDataCollector.prototype.getMeta = function() {
-	if ( wpseoScriptData?.disableMetaboxInBlockEditor ) {
+	const disableMetaboxInBlockEditor = get( wpseoScriptData, "disableMetaboxInBlockEditor", false );
+	if ( disableMetaboxInBlockEditor ) {
 		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyMetaDesc ] ?? "";
 	}
-	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
+	return document.getElementById( "yoast_wpseo_metadesc" )?.value ?? "";
 };
 
 /**
@@ -178,10 +178,11 @@ PostDataCollector.prototype.getExcerpt = function() {
  * @returns {string} The snippet title.
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
-	if ( wpseoScriptData?.disableMetaboxInBlockEditor ) {
+	const disableMetaboxInBlockEditor = get( wpseoScriptData, "disableMetaboxInBlockEditor", false );
+	if ( disableMetaboxInBlockEditor ) {
 		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTitle ] ?? "";
 	}
-	return document.getElementById( "yoast_wpseo_title" ) && document.getElementById( "yoast_wpseo_title" ).value || "";
+	return document.getElementById( "yoast_wpseo_title" )?.value ?? "";
 };
 
 /**
@@ -190,10 +191,11 @@ PostDataCollector.prototype.getSnippetTitle = function() {
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
-	if ( wpseoScriptData?.disableMetaboxInBlockEditor ) {
+	const disableMetaboxInBlockEditor = get( wpseoScriptData, "disableMetaboxInBlockEditor", false );
+	if ( disableMetaboxInBlockEditor ) {
 		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyMetaDesc ] ?? "";
 	}
-	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
+	return document.getElementById( "yoast_wpseo_metadesc" )?.value ?? "";
 };
 
 /**
@@ -277,6 +279,65 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
 };
 
 /**
+ * Updates the snippet meta description field.
+ *
+ * @param {string} value The value to set.
+ *
+ * @returns {void}
+ */
+PostDataCollector.prototype.setSnippetMeta = function( value ) {
+	const disableMetaboxInBlockEditor = get( wpseoScriptData, "disableMetaboxInBlockEditor", false );
+	if ( disableMetaboxInBlockEditor ) {
+		dispatch( "core/editor" ).editPost( { meta: { [ metaKeyMetaDesc ]: value } } );
+		return;
+	}
+	document.getElementById( "yoast_wpseo_metadesc" ).value = value;
+};
+
+/**
+ * Updates the snippet slug field.
+ *
+ * WordPress leaves the post name empty to signify that it should be generated from the title once the
+ * post is saved. So when we receive an auto generated slug from WordPress we should be
+ * able to not save this to the UI. This conditional makes that possible.
+ *
+ * @param {string} value The value to set.
+ *
+ * @returns {void}
+ */
+PostDataCollector.prototype.setSnippetCite = function( value ) {
+	if ( this.leavePostNameUntouched ) {
+		this.leavePostNameUntouched = false;
+		return;
+	}
+	if ( document.getElementById( "post_name" ) !== null ) {
+		document.getElementById( "post_name" ).value = value;
+	}
+	if (
+		document.getElementById( "editable-post-name" ) !== null &&
+		document.getElementById( "editable-post-name-full" ) !== null ) {
+		document.getElementById( "editable-post-name" ).textContent = value;
+		document.getElementById( "editable-post-name-full" ).textContent = value;
+	}
+};
+
+/**
+ * Updates the snippet title field.
+ *
+ * @param {string} value The value to set.
+ *
+ * @returns {void}
+ */
+PostDataCollector.prototype.setSnippetTitle = function( value ) {
+	const disableMetaboxInBlockEditor = get( wpseoScriptData, "disableMetaboxInBlockEditor", false );
+	if ( disableMetaboxInBlockEditor ) {
+		dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTitle ]: value } } );
+		return;
+	}
+	document.getElementById( "yoast_wpseo_title" ).value = value;
+};
+
+/**
  * When the snippet is updated, update the (hidden) fields on the page.
  *
  * @param {Object} value The value to set.
@@ -285,43 +346,15 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
  * @returns {void}
  */
 PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
-	const useRestMeta = Boolean( wpseoScriptData?.disableMetaboxInBlockEditor );
-
 	switch ( type ) {
 		case "snippet_meta":
-			if ( useRestMeta ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyMetaDesc ]: value } } );
-			} else {
-				document.getElementById( "yoast_wpseo_metadesc" ).value = value;
-			}
+			this.setSnippetMeta( value );
 			break;
 		case "snippet_cite":
-
-			/*
-			 * WordPress leaves the post name empty to signify that it should be generated from the title once the
-			 * post is saved. So when we receive an auto generated slug from WordPress we should be
-			 * able to not save this to the UI. This conditional makes that possible.
-			 */
-			if ( this.leavePostNameUntouched ) {
-				this.leavePostNameUntouched = false;
-				return;
-			}
-			if ( document.getElementById( "post_name" ) !== null ) {
-				document.getElementById( "post_name" ).value = value;
-			}
-			if (
-				document.getElementById( "editable-post-name" ) !== null &&
-				document.getElementById( "editable-post-name-full" ) !== null ) {
-				document.getElementById( "editable-post-name" ).textContent = value;
-				document.getElementById( "editable-post-name-full" ).textContent = value;
-			}
+			this.setSnippetCite( value );
 			break;
 		case "snippet_title":
-			if ( useRestMeta ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTitle ]: value } } );
-			} else {
-				document.getElementById( "yoast_wpseo_title" ).value = value;
-			}
+			this.setSnippetTitle( value );
 			break;
 		default:
 			break;
