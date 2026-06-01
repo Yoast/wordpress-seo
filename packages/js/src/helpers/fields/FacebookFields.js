@@ -1,4 +1,10 @@
 import { dispatch, select } from "@wordpress/data";
+import {
+	metaKeyOgTitle,
+	metaKeyOgDescription,
+	metaKeyOgImageId,
+	metaKeyOgImage,
+} from "./constants";
 
 /**
  * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
@@ -60,7 +66,7 @@ export default class FacebookFields {
 	 */
 	static get title() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_opengraph-title" ] ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyOgTitle ] ?? "";
 		}
 		return FacebookFields.titleElement?.value ?? "";
 	}
@@ -74,7 +80,7 @@ export default class FacebookFields {
 	 */
 	static set title( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_opengraph-title": value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgTitle ]: value } } );
 			return;
 		}
 		if ( FacebookFields.titleElement ) {
@@ -91,7 +97,7 @@ export default class FacebookFields {
 	 */
 	static set description( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_opengraph-description": value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgDescription ]: value } } );
 			return;
 		}
 		if ( FacebookFields.descriptionElement ) {
@@ -106,7 +112,7 @@ export default class FacebookFields {
 	 */
 	static get description() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_opengraph-description" ] ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyOgDescription ] ?? "";
 		}
 		return FacebookFields.descriptionElement?.value ?? "";
 	}
@@ -120,7 +126,7 @@ export default class FacebookFields {
 	 */
 	static set imageId( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_opengraph-image-id": value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgImageId ]: value } } );
 			return;
 		}
 		if ( FacebookFields.imageIdElement ) {
@@ -135,7 +141,7 @@ export default class FacebookFields {
 	 */
 	static get imageId() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_opengraph-image-id" ] ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyOgImageId ] ?? "";
 		}
 		return FacebookFields.imageIdElement?.value ?? "";
 	}
@@ -149,7 +155,7 @@ export default class FacebookFields {
 	 */
 	static set imageUrl( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_opengraph-image": value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgImage ]: value } } );
 			return;
 		}
 		if ( FacebookFields.imageUrlElement ) {
@@ -164,7 +170,7 @@ export default class FacebookFields {
 	 */
 	static get imageUrl() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_opengraph-image" ] ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyOgImage ] ?? "";
 		}
 		return FacebookFields.imageUrlElement?.value ?? "";
 	}

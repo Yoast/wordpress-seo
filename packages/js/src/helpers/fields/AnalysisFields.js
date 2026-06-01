@@ -1,4 +1,11 @@
 import { dispatch, select } from "@wordpress/data";
+import {
+	metaKeyFocusKw,
+	metaKeyIsCornerstone,
+	metaKeyLinkdex,
+	metaKeyContentScore,
+	metaKeyInclusiveLanguageScore,
+} from "./constants";
 
 /**
  * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
@@ -71,7 +78,7 @@ export default class AnalysisFields {
 	 */
 	static set keyphrase( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_focuskw: value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyFocusKw ]: value } } );
 			return;
 		}
 		if ( AnalysisFields.keyphraseElement ) {
@@ -86,7 +93,7 @@ export default class AnalysisFields {
 	 */
 	static get keyphrase() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_focuskw ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyFocusKw ] ?? "";
 		}
 		return AnalysisFields.keyphraseElement?.value ?? "";
 	}
@@ -100,7 +107,7 @@ export default class AnalysisFields {
 	 */
 	static set isCornerstone( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_is_cornerstone: value ? "1" : "0" } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyIsCornerstone ]: value ? "1" : "0" } } );
 			return;
 		}
 		if ( AnalysisFields.isCornerstoneElement ) {
@@ -115,7 +122,7 @@ export default class AnalysisFields {
 	 */
 	static get isCornerstone() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_is_cornerstone === "1";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyIsCornerstone ] === "1";
 		}
 		return AnalysisFields.isCornerstoneElement?.value === "1";
 	}
@@ -129,7 +136,7 @@ export default class AnalysisFields {
 	 */
 	static set seoScore( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_linkdex: value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyLinkdex ]: value } } );
 			return;
 		}
 		if ( AnalysisFields.seoScoreElement ) {
@@ -144,7 +151,7 @@ export default class AnalysisFields {
 	 */
 	static get seoScore() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_linkdex ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyLinkdex ] ?? "";
 		}
 		return AnalysisFields.seoScoreElement?.value ?? "";
 	}
@@ -158,7 +165,7 @@ export default class AnalysisFields {
 	 */
 	static set readabilityScore( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_content_score: value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyContentScore ]: value } } );
 			return;
 		}
 		if ( AnalysisFields.readabilityScoreElement ) {
@@ -173,7 +180,7 @@ export default class AnalysisFields {
 	 */
 	static get readabilityScore() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_content_score ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyContentScore ] ?? "";
 		}
 		return AnalysisFields.readabilityScoreElement?.value ?? "";
 	}
@@ -187,7 +194,7 @@ export default class AnalysisFields {
 	 */
 	static set inclusiveLanguageScore( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_inclusive_language_score: value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyInclusiveLanguageScore ]: value } } );
 			return;
 		}
 		if ( AnalysisFields.inclusiveLanguageScoreElement ) {
@@ -202,7 +209,7 @@ export default class AnalysisFields {
 	 */
 	static get inclusiveLanguageScore() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_inclusive_language_score ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyInclusiveLanguageScore ] ?? "";
 		}
 		return AnalysisFields.inclusiveLanguageScoreElement?.value ?? "";
 	}

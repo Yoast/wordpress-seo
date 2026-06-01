@@ -1,4 +1,11 @@
 import { dispatch, select } from "@wordpress/data";
+import {
+	metaKeyNoIndex,
+	metaKeyNoFollow,
+	metaKeyAdvanced,
+	metaKeyBcTitle,
+	metaKeyCanonical,
+} from "./constants";
 
 /**
  * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
@@ -69,7 +76,7 @@ export default class AdvancedFields {
 	 */
 	static get noIndex() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_meta-robots-noindex" ] ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyNoIndex ] ?? "";
 		}
 		return AdvancedFields.noIndexElement && AdvancedFields.noIndexElement.value  || "";
 	}
@@ -83,7 +90,7 @@ export default class AdvancedFields {
 	 */
 	static set noIndex( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_meta-robots-noindex": value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyNoIndex ]: value } } );
 			return;
 		}
 		AdvancedFields.noIndexElement.value = value;
@@ -96,7 +103,7 @@ export default class AdvancedFields {
 	 */
 	static get noFollow() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_meta-robots-nofollow" ] ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyNoFollow ] ?? "";
 		}
 		return AdvancedFields.noFollowElement && AdvancedFields.noFollowElement.value || "";
 	}
@@ -110,7 +117,7 @@ export default class AdvancedFields {
 	 */
 	static set noFollow( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_meta-robots-nofollow": value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyNoFollow ]: value } } );
 			return;
 		}
 		AdvancedFields.noFollowElement.value = value;
@@ -123,7 +130,7 @@ export default class AdvancedFields {
 	 */
 	static get advanced() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_meta-robots-adv" ] ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyAdvanced ] ?? "";
 		}
 		return AdvancedFields.advancedElement && AdvancedFields.advancedElement.value || "";
 	}
@@ -137,7 +144,7 @@ export default class AdvancedFields {
 	 */
 	static set advanced( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_meta-robots-adv": value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyAdvanced ]: value } } );
 			return;
 		}
 		AdvancedFields.advancedElement.value = value;
@@ -150,7 +157,7 @@ export default class AdvancedFields {
 	 */
 	static get breadcrumbsTitle() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_bctitle ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyBcTitle ] ?? "";
 		}
 		return AdvancedFields.breadcrumbsTitleElement && AdvancedFields.breadcrumbsTitleElement.value || "";
 	}
@@ -164,7 +171,7 @@ export default class AdvancedFields {
 	 */
 	static set breadcrumbsTitle( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_bctitle: value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyBcTitle ]: value } } );
 			return;
 		}
 		AdvancedFields.breadcrumbsTitleElement.value = value;
@@ -177,7 +184,7 @@ export default class AdvancedFields {
 	 */
 	static get canonical() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_canonical ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyCanonical ] ?? "";
 		}
 		return AdvancedFields.canonicalElement && AdvancedFields.canonicalElement.value  || "";
 	}
@@ -191,7 +198,7 @@ export default class AdvancedFields {
 	 */
 	static set canonical( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_canonical: value } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyCanonical ]: value } } );
 			return;
 		}
 		AdvancedFields.canonicalElement.value = value;
