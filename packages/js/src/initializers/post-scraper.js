@@ -203,7 +203,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {PostDataCollector} The initialized post data collector.
 	 */
 	function initializePostDataCollector( data ) {
-		const postDataCollector = new PostDataCollector( {
+		const collector = new PostDataCollector( {
 			data,
 			store: store,
 		} );
@@ -216,19 +216,19 @@ export default function initPostScraper( $, store, editorData ) {
 		 *
 		 * See bind event on "ajaxComplete" in this file.
 		 */
-		postDataCollector.leavePostNameUntouched = false;
+		collector.leavePostNameUntouched = false;
 
-		return postDataCollector;
+		return collector;
 	}
 
 	/**
 	 * Returns the arguments necessary to initialize the app.
 	 *
-	 * @param {Object} store The store.
+	 * @param {Object} yoastStore The store.
 	 *
 	 * @returns {Object} The arguments to initialize the app
 	 */
-	function getAppArgs( store ) {
+	function getAppArgs( yoastStore ) {
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
@@ -244,7 +244,7 @@ export default function initPostScraper( $, store, editorData ) {
 				getData: postDataCollector.getData.bind( postDataCollector ),
 			},
 			locale: wpseoScriptData.metabox.contentLocale,
-			marker: getApplyMarks( store ),
+			marker: getApplyMarks( yoastStore ),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			debouncedRefresh: false,
@@ -253,22 +253,22 @@ export default function initPostScraper( $, store, editorData ) {
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			store.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
+			yoastStore.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
 
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				const keyword = store.getState().focusKeyword;
+				const keyword = yoastStore.getState().focusKeyword;
 
-				store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-				store.dispatch( refreshSnippetEditor() );
+				yoastStore.dispatch( setSeoResultsForKeyword( keyword, results ) );
+				yoastStore.dispatch( refreshSnippetEditor() );
 			};
 		}
 
 		if ( isContentAnalysisActive() ) {
 			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind( postDataCollector );
 			args.callbacks.updatedContentResults = function( results ) {
-				store.dispatch( setReadabilityResults( results ) );
-				store.dispatch( refreshSnippetEditor() );
+				yoastStore.dispatch( setReadabilityResults( results ) );
+				yoastStore.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -318,14 +318,14 @@ export default function initPostScraper( $, store, editorData ) {
 	/**
 	 * Rerun the analysis when the title or meta description in the snippet changes.
 	 *
-	 * @param {Object}   store            The store.
+	 * @param {Object}   yoastStore       The store.
 	 * @param {Function} _refreshAnalysis Function that triggers a refresh of the analysis.
 	 *
 	 * @returns {void}
 	 */
-	function handleStoreChange( store, _refreshAnalysis ) {
+	function handleStoreChange( yoastStore, _refreshAnalysis ) {
 		const previousAnalysisData = currentAnalysisData || "";
-		currentAnalysisData = store.getState().analysisData.snippet;
+		currentAnalysisData = yoastStore.getState().analysisData.snippet;
 
 		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
