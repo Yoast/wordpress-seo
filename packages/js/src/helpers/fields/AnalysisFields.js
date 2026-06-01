@@ -5,7 +5,7 @@ import {
 	metaKeyLinkdex,
 	metaKeyContentScore,
 	metaKeyInclusiveLanguageScore,
-} from "../../shared-admin/constants/meta-keys";
+} from "../../shared-admin/constants";
 
 /**
  * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
