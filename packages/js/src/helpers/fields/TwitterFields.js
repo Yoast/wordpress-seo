@@ -4,7 +4,7 @@ import {
 	metaKeyTwitterDescription,
 	metaKeyTwitterImageId,
 	metaKeyTwitterImage,
-} from "./constants";
+} from "../../shared-admin/constants/meta-keys";
 
 /**
  * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
