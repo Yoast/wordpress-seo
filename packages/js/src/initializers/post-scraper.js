@@ -2,7 +2,7 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import { debounce, isUndefined } from "lodash";
+import { debounce, get, isUndefined } from "lodash";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
@@ -370,30 +370,17 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
-	 * Initializes analysis for the post edit screen.
+	 * Sets up the window.YoastSEO namespace, creates the App instance, and wires all
+	 * app-level overwrites (Pluggable, refresh, analysis worker, etc.).
+	 *
+	 * @param {Object} appArgs The arguments for the App constructor.
 	 *
 	 * @returns {void}
 	 */
-	function initializePostAnalysis() {
-		metaboxContainer = $( "#wpseo_meta" );
-
-		tinyMCEHelper.setStore( store );
-		tinyMCEHelper.wpTextViewOnInitCheck();
-
-		handlePageBuilderCompatibility();
-
-		// Avoid error when snippet metabox is not rendered.
-		if ( metaboxContainer.length === 0 ) {
-			return;
-		}
-
-		postDataCollector = initializePostDataCollector( editorData );
-		publishBox.initialize();
-
-		const appArgs = getAppArgs( store );
+	function setupYoastSEOGlobals( appArgs ) {
 		app = new App( appArgs );
 
-		// Content analysis
+		// Content analysis.
 		window.YoastSEO = window.YoastSEO || {};
 		window.YoastSEO.app = app;
 		window.YoastSEO.store = store;
@@ -434,13 +421,17 @@ export default function initPostScraper( $, store, editorData ) {
 			window.YoastSEO.app.refresh();
 		};
 
-		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage_and_post_types", store );
-		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
-
 		// Backwards compatibility.
 		window.YoastSEO.analyzerArgs = appArgs;
+	}
 
-		// Analysis plugins
+	/**
+	 * Registers all analysis plugins (replace vars, shortcode, reusable blocks, markdown)
+	 * and sets the tinyMCE helper reference on window.YoastSEO.wp.
+	 *
+	 * @returns {void}
+	 */
+	function initializeAnalysisPlugins() {
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 		initShortcodePlugin( app, store );
@@ -456,6 +447,105 @@ export default function initPostScraper( $, store, editorData ) {
 
 		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
 		activateEnabledAnalysis();
+	}
+
+	/**
+	 * Initializes the snippet editor data and sets up the store subscriber that keeps the
+	 * snippet editor and PostDataCollector in sync with the store.
+	 *
+	 * @returns {void}
+	 */
+	function initializeSnippetEditorSync() {
+		let snippetEditorData = getDataFromCollector( postDataCollector );
+		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
+		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+
+		store.dispatch( updateData( snippetEditorData ) );
+		// This used to be a checkbox, then became a hidden input. In REST meta mode the element is absent
+		// but AnalysisFields.isCornerstone reads from core/editor store instead.
+		store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
+
+		let focusKeyword = store.getState().focusKeyword;
+		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
+		const refreshAfterFocusKeywordChange = debounce( () => {
+			app.refresh();
+		}, 50 );
+
+		let previousCornerstoneValue = null;
+		store.subscribe( () => {
+			const newFocusKeyword = store.getState().focusKeyword;
+
+			if ( focusKeyword !== newFocusKeyword ) {
+				focusKeyword = newFocusKeyword;
+				requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
+
+				AnalysisFields.keyphrase = focusKeyword;
+				refreshAfterFocusKeywordChange();
+			}
+
+			const data = getDataFromStore( store );
+			const dataWithoutTemplates = getDataWithoutTemplates( data, snippetEditorTemplates );
+
+			if ( snippetEditorData.title !== data.title ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
+			}
+
+			if ( snippetEditorData.slug !== data.slug ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
+			}
+
+			if ( snippetEditorData.description !== data.description ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+			}
+
+			const currentState = store.getState();
+
+			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
+				previousCornerstoneValue = currentState.isCornerstone;
+				AnalysisFields.isCornerstone = currentState.isCornerstone;
+
+				app.changeAssessorOptions( {
+					useCornerstone: currentState.isCornerstone,
+				} );
+			}
+
+			snippetEditorData.title = data.title;
+			snippetEditorData.slug = data.slug;
+			snippetEditorData.description = data.description;
+		} );
+	}
+
+	/**
+	 * Initializes analysis for the post edit screen.
+	 *
+	 * @returns {void}
+	 */
+	function initializePostAnalysis() {
+		metaboxContainer = $( "#wpseo_meta" );
+
+		tinyMCEHelper.setStore( store );
+		tinyMCEHelper.wpTextViewOnInitCheck();
+
+		handlePageBuilderCompatibility();
+
+		// Avoid error when snippet metabox is not rendered, unless the metabox has been intentionally
+		// disabled in the block editor (REST-first mode), in which case the app still needs to initialize
+		// so that window.YoastSEO.app and its Pluggable hooks are available for third-party integrations.
+		if ( metaboxContainer.length === 0 && ! get( window, "wpseoScriptData.disableMetaboxInBlockEditor", false ) ) {
+			return;
+		}
+
+		postDataCollector = initializePostDataCollector( editorData );
+		publishBox.initialize();
+
+		const appArgs = getAppArgs( store );
+		setupYoastSEOGlobals( appArgs );
+
+		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage_and_post_types", store );
+		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
+
+		// Analysis plugins.
+		initializeAnalysisPlugins();
 
 		// Initialize the analysis worker.
 		window.YoastSEO.analysis.worker.initialize( getAnalysisConfiguration() )
@@ -486,68 +576,8 @@ export default function initPostScraper( $, store, editorData ) {
 			editorData.setRefresh( app.refresh );
 		}
 
-		// Initialize the snippet editor data.
-		let snippetEditorData = getDataFromCollector( postDataCollector );
-		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
-		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
-
-		// Set the initial snippet editor data.
-		store.dispatch( updateData( snippetEditorData ) );
-		// This used to be a checkbox, then became a hidden input. In REST meta mode the element is absent
-		// but AnalysisFields.isCornerstone reads from core/editor store instead.
-		store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
-
-		// Save the keyword, in order to compare it to store changes.
-		let focusKeyword = store.getState().focusKeyword;
-		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
-		const refreshAfterFocusKeywordChange = debounce( () => {
-			app.refresh();
-		}, 50 );
-
-		let previousCornerstoneValue = null;
-		store.subscribe( () => {
-			// Verify whether the focusKeyword changed. If so, trigger refresh:
-			const newFocusKeyword = store.getState().focusKeyword;
-
-			if ( focusKeyword !== newFocusKeyword ) {
-				focusKeyword = newFocusKeyword;
-				requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
-
-				AnalysisFields.keyphrase = focusKeyword;
-				refreshAfterFocusKeywordChange();
-			}
-
-			const data = getDataFromStore( store );
-			const dataWithoutTemplates = getDataWithoutTemplates( data, snippetEditorTemplates );
-
-
-			if ( snippetEditorData.title !== data.title ) {
-				postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
-			}
-
-			if ( snippetEditorData.slug !== data.slug ) {
-				postDataCollector.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
-			}
-
-			if ( snippetEditorData.description !== data.description ) {
-				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
-			}
-
-			const currentState = store.getState();
-
-			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
-				previousCornerstoneValue = currentState.isCornerstone;
-				AnalysisFields.isCornerstone = currentState.isCornerstone;
-
-				app.changeAssessorOptions( {
-					useCornerstone: currentState.isCornerstone,
-				} );
-			}
-
-			snippetEditorData.title = data.title;
-			snippetEditorData.slug = data.slug;
-			snippetEditorData.description = data.description;
-		} );
+		// Initialize snippet editor data and wire the store subscriber that keeps it in sync.
+		initializeSnippetEditorSync();
 
 		if ( isBlockEditor() ) {
 			let editorMode = getEditorMode();
