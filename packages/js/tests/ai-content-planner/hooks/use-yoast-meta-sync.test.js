@@ -38,7 +38,11 @@ beforeEach( () => {
 	mockUpdateData.mockClear();
 	mockSetFocusKeyword.mockClear();
 	mockSetCornerstoneContent.mockClear();
-	useDispatch.mockReturnValue( { updateData: mockUpdateData, setFocusKeyword: mockSetFocusKeyword, setCornerstoneContent: mockSetCornerstoneContent } );
+	useDispatch.mockReturnValue( {
+		updateData: mockUpdateData,
+		setFocusKeyword: mockSetFocusKeyword,
+		setCornerstoneContent: mockSetCornerstoneContent,
+	} );
 	setupUseSelect();
 } );
 
