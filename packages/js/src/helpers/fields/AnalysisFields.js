@@ -17,6 +17,16 @@ function isRestMetaActive() {
 }
 
 /**
+ * Returns whether the core/editor store has finished loading the post type config.
+ * Dispatching editPost before the entity config is available throws a runtime error.
+ *
+ * @returns {boolean} True when the post type config is loaded and editPost can be called safely.
+ */
+function isEditorReady() {
+	return Boolean( select( "core/editor" ).getCurrentPostType() );
+}
+
+/**
  * This class is responsible for handling the interaction with the hidden fields for the analysis.
  *
  * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM fields are not rendered.
@@ -78,7 +88,9 @@ export default class AnalysisFields {
 	 */
 	static set keyphrase( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyFocusKw ]: value } } );
+			if ( isEditorReady() ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyFocusKw ]: value } } );
+			}
 			return;
 		}
 		if ( AnalysisFields.keyphraseElement ) {
@@ -107,7 +119,9 @@ export default class AnalysisFields {
 	 */
 	static set isCornerstone( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyIsCornerstone ]: value ? "1" : "0" } } );
+			if ( isEditorReady() ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyIsCornerstone ]: value ? "1" : "0" } } );
+			}
 			return;
 		}
 		if ( AnalysisFields.isCornerstoneElement ) {
@@ -136,7 +150,9 @@ export default class AnalysisFields {
 	 */
 	static set seoScore( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyLinkdex ]: value } } );
+			if ( isEditorReady() ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyLinkdex ]: value } } );
+			}
 			return;
 		}
 		if ( AnalysisFields.seoScoreElement ) {
@@ -165,7 +181,9 @@ export default class AnalysisFields {
 	 */
 	static set readabilityScore( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyContentScore ]: value } } );
+			if ( isEditorReady() ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyContentScore ]: value } } );
+			}
 			return;
 		}
 		if ( AnalysisFields.readabilityScoreElement ) {
@@ -194,7 +212,9 @@ export default class AnalysisFields {
 	 */
 	static set inclusiveLanguageScore( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyInclusiveLanguageScore ]: value } } );
+			if ( isEditorReady() ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyInclusiveLanguageScore ]: value } } );
+			}
 			return;
 		}
 		if ( AnalysisFields.inclusiveLanguageScoreElement ) {
