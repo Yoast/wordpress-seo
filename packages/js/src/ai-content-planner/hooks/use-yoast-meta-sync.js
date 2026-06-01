@@ -7,10 +7,15 @@ import { useEffect } from "@wordpress/element";
  * Direct sidebar edits (yoast-seo/editor only) will be overwritten if core/editor meta
  * changes afterwards — accepted trade-off for correct undo behaviour.
  *
+ * This hook is the core/editor → yoast-seo/editor direction. The reverse direction
+ * (yoast-seo/editor → core/editor) is handled by the Redux action creators in
+ * packages/js/src/redux/actions/ via the Fields helpers, which dispatch to core/editor
+ * when wpseoScriptData.disableMetaboxInBlockEditor is true.
+ *
  * @returns {void}
  */
 export function useYoastMetaSync() {
-	const { yoastTitle, yoastMetaDesc, yoastFocusKw, isPost, titleTemplate, descTemplate } = useSelect( select => {
+	const { yoastTitle, yoastMetaDesc, yoastFocusKw, yoastIsCornerstone, isPost, titleTemplate, descTemplate } = useSelect( select => {
 		const editor = select( "core/editor" );
 		const meta = editor.getEditedPostAttribute( "meta" );
 		const { title, description } = select( "yoast-seo/editor" ).getSnippetEditorTemplates();
@@ -18,12 +23,13 @@ export function useYoastMetaSync() {
 			yoastTitle: meta?._yoast_wpseo_title,
 			yoastMetaDesc: meta?._yoast_wpseo_metadesc,
 			yoastFocusKw: meta?._yoast_wpseo_focuskw,
+			yoastIsCornerstone: meta?._yoast_wpseo_is_cornerstone,
 			isPost: editor.getCurrentPostType() === "post",
 			titleTemplate: title,
 			descTemplate: description,
 		};
 	}, [] );
-	const { updateData, setFocusKeyword } = useDispatch( "yoast-seo/editor" );
+	const { updateData, setFocusKeyword, setCornerstoneContent } = useDispatch( "yoast-seo/editor" );
 
 	useEffect( () => {
 		// These meta keys are only registered for the 'post' subtype; bail on all other post types
@@ -46,5 +52,6 @@ export function useYoastMetaSync() {
 		}
 		updateData( dataToSync );
 		setFocusKeyword( yoastFocusKw || "" );
-	}, [ isPost, yoastTitle, yoastMetaDesc, yoastFocusKw, titleTemplate, descTemplate ] );
+		setCornerstoneContent( yoastIsCornerstone === "1" );
+	}, [ isPost, yoastTitle, yoastMetaDesc, yoastFocusKw, yoastIsCornerstone, titleTemplate, descTemplate ] );
 }
