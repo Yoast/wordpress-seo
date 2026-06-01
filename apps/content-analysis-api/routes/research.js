@@ -1,6 +1,4 @@
-const { Paper } = require( "yoastseo" );
-const { build } = require( "yoastseo/build/parse/build" );
-const { LanguageProcessor } = require( "yoastseo/build/parse/language" );
+const { Paper, ensureTree } = require( "yoastseo" );
 const { getResearcher } = require( "../helpers/get-researcher" );
 
 module.exports = function( app ) {
@@ -47,7 +45,7 @@ module.exports = function( app ) {
 			request.body.text || "",
 			request.body || {}
 		);
-		paper.setTree( build( paper, new LanguageProcessor( researcher ), paper._attributes && paper._attributes.shortcodes ) );
+		ensureTree( paper, researcher );
 		researcher.setPaper( paper );
 		const sentenceLengths = researcher.getResearch( "countSentencesFromText" );
 
@@ -62,7 +60,7 @@ module.exports = function( app ) {
 			request.body.text || "",
 			request.body || {}
 		);
-		paper.setTree( build( paper, new LanguageProcessor( researcher ), paper._attributes && paper._attributes.shortcodes ) );
+		ensureTree( paper, researcher );
 		researcher.setPaper( paper );
 		const paragraphLengths = researcher.getResearch( "getParagraphLength" );
 
