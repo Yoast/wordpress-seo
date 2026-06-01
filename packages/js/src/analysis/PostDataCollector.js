@@ -4,7 +4,7 @@
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import { markers } from "yoastseo";
-import { select } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 
 /* Internal dependencies */
 import measureTextWidth from "../helpers/measureTextWidth";
@@ -80,6 +80,9 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
+	if ( wpseoScriptData?.disableMetaboxInBlockEditor ) {
+		return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_focuskw ?? "";
+	}
 	var val = document.getElementById( "yoast_wpseo_focuskw" ) && document.getElementById( "yoast_wpseo_focuskw" ).value || "";
 
 	return val;
@@ -106,6 +109,9 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
  * @returns {string} The meta description.
  */
 PostDataCollector.prototype.getMeta = function() {
+	if ( wpseoScriptData?.disableMetaboxInBlockEditor ) {
+		return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_metadesc ?? "";
+	}
 	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
 };
 
@@ -171,6 +177,9 @@ PostDataCollector.prototype.getExcerpt = function() {
  * @returns {string} The snippet title.
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
+	if ( wpseoScriptData?.disableMetaboxInBlockEditor ) {
+		return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_title ?? "";
+	}
 	return document.getElementById( "yoast_wpseo_title" ) && document.getElementById( "yoast_wpseo_title" ).value || "";
 };
 
@@ -180,6 +189,9 @@ PostDataCollector.prototype.getSnippetTitle = function() {
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
+	if ( wpseoScriptData?.disableMetaboxInBlockEditor ) {
+		return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_metadesc ?? "";
+	}
 	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
 };
 
@@ -272,9 +284,15 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
  * @returns {void}
  */
 PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
+	const useRestMeta = Boolean( wpseoScriptData?.disableMetaboxInBlockEditor );
+
 	switch ( type ) {
 		case "snippet_meta":
-			document.getElementById( "yoast_wpseo_metadesc" ).value = value;
+			if ( useRestMeta ) {
+				dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_metadesc: value } } );
+			} else {
+				document.getElementById( "yoast_wpseo_metadesc" ).value = value;
+			}
 			break;
 		case "snippet_cite":
 
@@ -298,7 +316,11 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 			}
 			break;
 		case "snippet_title":
-			document.getElementById( "yoast_wpseo_title" ).value = value;
+			if ( useRestMeta ) {
+				dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_title: value } } );
+			} else {
+				document.getElementById( "yoast_wpseo_title" ).value = value;
+			}
 			break;
 		default:
 			break;

@@ -48,6 +48,7 @@ import { actions } from "@yoast/externals/redux";
 
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
+import AnalysisFields from "../helpers/fields/AnalysisFields";
 
 const {
 	setFocusKeyword,
@@ -131,7 +132,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeKeywordAnalysis( activePublishBox ) {
-		const savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
+		const savedKeywordScore = AnalysisFields.seoScore;
 
 		const indicator = getIndicatorForScore( savedKeywordScore );
 
@@ -149,7 +150,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeContentAnalysis( activePublishBox ) {
-		const savedContentScore = $( "#yoast_wpseo_content_score" ).val();
+		const savedContentScore = AnalysisFields.readabilityScore;
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
@@ -166,7 +167,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeInclusiveLanguageAnalysis( activePublishBox ) {
-		const savedContentScore = $( "#yoast_wpseo_inclusive_language_score" ).val();
+		const savedContentScore = AnalysisFields.inclusiveLanguageScore;
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
@@ -252,7 +253,7 @@ export default function initPostScraper( $, store, editorData ) {
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			store.dispatch( setFocusKeyword( $( "#yoast_wpseo_focuskw" ).val() ) );
+			store.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
 
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
@@ -492,8 +493,9 @@ export default function initPostScraper( $, store, editorData ) {
 
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
-		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
-		store.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "1" ) );
+		// This used to be a checkbox, then became a hidden input. In REST meta mode the element is absent
+		// but AnalysisFields.isCornerstone reads from core/editor store instead.
+		store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = store.getState().focusKeyword;
@@ -511,7 +513,7 @@ export default function initPostScraper( $, store, editorData ) {
 				focusKeyword = newFocusKeyword;
 				requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
 
-				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
+				AnalysisFields.keyphrase = focusKeyword;
 				refreshAfterFocusKeywordChange();
 			}
 
@@ -535,7 +537,7 @@ export default function initPostScraper( $, store, editorData ) {
 
 			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
 				previousCornerstoneValue = currentState.isCornerstone;
-				document.getElementById( "yoast_wpseo_is_cornerstone" ).value = currentState.isCornerstone;
+				AnalysisFields.isCornerstone = currentState.isCornerstone;
 
 				app.changeAssessorOptions( {
 					useCornerstone: currentState.isCornerstone,
