@@ -1,4 +1,5 @@
 import { dispatch, select } from "@wordpress/data";
+import { metaKeySchemaArticleType, metaKeySchemaPageType } from "../shared-admin/constants/meta-keys";
 
 /**
  * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
@@ -42,7 +43,7 @@ export default class SchemaFields {
 	 */
 	static get articleType() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_schema_article_type ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeySchemaArticleType ] ?? "";
 		}
 		return SchemaFields.articleTypeInput?.value ?? "";
 	}
@@ -56,7 +57,7 @@ export default class SchemaFields {
 	 */
 	static set articleType( articleType ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_schema_article_type: articleType } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeySchemaArticleType ]: articleType } } );
 			return;
 		}
 		if ( SchemaFields.articleTypeInput ) {
@@ -89,7 +90,7 @@ export default class SchemaFields {
 	 */
 	static get pageType() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_schema_page_type ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeySchemaPageType ] ?? "";
 		}
 		return SchemaFields.pageTypeInput?.value ?? "";
 	}
@@ -103,7 +104,7 @@ export default class SchemaFields {
 	 */
 	static set pageType( pageType ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_schema_page_type: pageType } } );
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeySchemaPageType ]: pageType } } );
 			return;
 		}
 		if ( SchemaFields.pageTypeInput ) {

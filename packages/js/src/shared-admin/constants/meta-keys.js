@@ -25,3 +25,7 @@ export const metaKeyTwitterTitle = "_yoast_wpseo_twitter-title";
 export const metaKeyTwitterDescription = "_yoast_wpseo_twitter-description";
 export const metaKeyTwitterImageId = "_yoast_wpseo_twitter-image-id";
 export const metaKeyTwitterImage = "_yoast_wpseo_twitter-image";
+
+// Schema meta keys.
+export const metaKeySchemaArticleType = "_yoast_wpseo_schema_article_type";
+export const metaKeySchemaPageType = "_yoast_wpseo_schema_page_type";
