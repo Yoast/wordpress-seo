@@ -330,8 +330,36 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return void
 	 */
 	public function meta_box() {
-		$this->render_hidden_fields();
+		if ( ! $this->is_metabox_disabled_in_block_editor() ) {
+			$this->render_hidden_fields();
+		}
 		$this->render_tabs();
+	}
+
+	/**
+	 * Returns whether the metabox hidden fields and $_POST-based save are disabled for the block editor.
+	 *
+	 * When this returns true the block editor uses the REST API meta path instead: all WPSEO post meta
+	 * fields are registered with show_in_rest, so core/editor carries and saves them automatically.
+	 *
+	 * Filter: 'wpseo_disable_metabox_in_block_editor'
+	 *
+	 * @return bool
+	 */
+	protected function is_metabox_disabled_in_block_editor() {
+		$screen = WP_Screen::get();
+		if ( ! $screen || ! $screen->is_block_editor() ) {
+			return false;
+		}
+
+		/**
+		 * Filter: 'wpseo_disable_metabox_in_block_editor' - Disables the Yoast metabox hidden fields
+		 * and the $_POST-based save hook in the block editor, so that post meta is saved via the
+		 * WordPress REST API instead (requires all relevant fields to have show_in_rest enabled).
+		 *
+		 * @param bool $disable Whether to disable the metabox. Default false.
+		 */
+		return (bool) apply_filters( 'wpseo_disable_metabox_in_block_editor', false );
 	}
 
 	/**
@@ -700,6 +728,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return false;
 		}
 
+		// Bail when the REST API meta path is active: core/editor sends meta via REST,
+		// not via $_POST, so no nonce or hidden field values will be present.
+		if ( ( defined( 'REST_REQUEST' ) && REST_REQUEST ) && apply_filters( 'wpseo_disable_metabox_in_block_editor', false ) ) {
+			return;
+		}
+
 		if ( $post_id === null ) {
 			return false;
 		}
@@ -904,9 +938,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$is_front_page    = $homepage_is_page && $page_on_front === (int) $post_id;
 
 		$script_data = [
-			'metabox'                    => $this->get_metabox_script_data(),
-			'isPost'                     => true,
-			'isBlockEditor'              => $is_block_editor,
+			'metabox'                          => $this->get_metabox_script_data(),
+			'isPost'                           => true,
+			'isBlockEditor'                    => $is_block_editor,
+			'disableMetaboxInBlockEditor'      => $is_block_editor && (bool) apply_filters( 'wpseo_disable_metabox_in_block_editor', false ),
 			'postId'                     => $post_id,
 			'postStatus'                 => get_post_status( $post_id ),
 			'postType'                   => get_post_type( $post_id ),
