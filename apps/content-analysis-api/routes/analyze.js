@@ -1,4 +1,4 @@
-const { Paper, assessments, assessors, interpreters } = require( "yoastseo" );
+const { Paper, ensureTree, assessments, assessors, interpreters } = require( "yoastseo" );
 const { getResearcher } = require( "../helpers/get-researcher" );
 
 const express = require( "express" ), app = express();
@@ -51,6 +51,9 @@ module.exports = function( app ) {
 			request.body || {}
 		);
 
+		// Build the tree once up front so all four assessors reuse it instead of each rebuilding.
+		ensureTree( paper, researcher );
+
 		seoAssessor.assess( paper );
 		contentAssessor.assess( paper );
 		relatedKeywordAssessor.assess( paper );
@@ -75,6 +78,7 @@ module.exports = function( app ) {
 			request.body.text || "",
 			request.body || {}
 		);
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( resultToVM ) );
 	} );
@@ -89,6 +93,7 @@ module.exports = function( app ) {
 			request.body.text || "",
 			request.body || {}
 		);
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( resultToVM ) );
 	} );
@@ -101,6 +106,7 @@ module.exports = function( app ) {
 			request.body.text || "",
 			request.body || {}
 		);
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( resultToVM ) );
 	} );
@@ -113,6 +119,7 @@ module.exports = function( app ) {
 			request.body.text || "",
 			request.body || {}
 		);
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( resultToVM ) );
 	} );
@@ -128,6 +135,7 @@ module.exports = function( app ) {
 			request.body.text || "",
 			request.body || {}
 		);
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( resultToVM ) );
 	} );
@@ -143,6 +151,7 @@ module.exports = function( app ) {
 			request.body.text || "",
 			request.body || {}
 		);
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( resultToVM ) );
 	} );
@@ -158,6 +167,7 @@ module.exports = function( app ) {
 			request.body.text || "",
 			request.body || {}
 		);
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( resultToVM ) );
 	} );
@@ -175,6 +185,7 @@ module.exports = function( app ) {
 			request.body.text || "",
 			request.body || {}
 		);
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( resultToVM ) );
 	} );
