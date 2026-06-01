@@ -1,5 +1,20 @@
+import { dispatch, select } from "@wordpress/data";
+
+/**
+ * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
+ *
+ * @returns {boolean} True when the REST path is active.
+ */
+function isRestMetaActive() {
+	return Boolean( window.wpseoScriptData?.disableMetaboxInBlockEditor );
+}
+
 /**
  * This class is responsible for handling the interaction with the hidden fields for Twitter.
+ *
+ * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM fields are not rendered.
+ * In that case getters read from the `core/editor` store and setters dispatch to it so that
+ * WordPress saves the values via the REST API on post save.
  */
 export default class TwitterFields {
 	/**
@@ -44,7 +59,10 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter title.
 	 */
 	static get title() {
-		return TwitterFields.titleElement.value;
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_twitter-title" ] ?? "";
+		}
+		return TwitterFields.titleElement?.value ?? "";
 	}
 
 	/**
@@ -55,7 +73,13 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set title( value ) {
-		TwitterFields.titleElement.value = value;
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_twitter-title": value } } );
+			return;
+		}
+		if ( TwitterFields.titleElement ) {
+			TwitterFields.titleElement.value = value;
+		}
 	}
 
 	/**
@@ -66,7 +90,13 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set description( value ) {
-		TwitterFields.descriptionElement.value = value;
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_twitter-description": value } } );
+			return;
+		}
+		if ( TwitterFields.descriptionElement ) {
+			TwitterFields.descriptionElement.value = value;
+		}
 	}
 
 	/**
@@ -75,7 +105,10 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter description.
 	 */
 	static get description() {
-		return TwitterFields.descriptionElement.value;
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_twitter-description" ] ?? "";
+		}
+		return TwitterFields.descriptionElement?.value ?? "";
 	}
 
 	/**
@@ -86,7 +119,13 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set imageId( value ) {
-		TwitterFields.imageIdElement.value = value;
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_twitter-image-id": value } } );
+			return;
+		}
+		if ( TwitterFields.imageIdElement ) {
+			TwitterFields.imageIdElement.value = value;
+		}
 	}
 
 	/**
@@ -95,7 +134,10 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter imageId.
 	 */
 	static get imageId() {
-		return TwitterFields.imageIdElement.value;
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_twitter-image-id" ] ?? "";
+		}
+		return TwitterFields.imageIdElement?.value ?? "";
 	}
 
 	/**
@@ -106,7 +148,13 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set imageUrl( value ) {
-		TwitterFields.imageUrlElement.value = value;
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_twitter-image": value } } );
+			return;
+		}
+		if ( TwitterFields.imageUrlElement ) {
+			TwitterFields.imageUrlElement.value = value;
+		}
 	}
 
 	/**
@@ -115,6 +163,9 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter imageUrl.
 	 */
 	static get imageUrl() {
-		return TwitterFields.imageUrlElement.value;
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_twitter-image" ] ?? "";
+		}
+		return TwitterFields.imageUrlElement?.value ?? "";
 	}
 }

@@ -1,5 +1,20 @@
+import { dispatch, select } from "@wordpress/data";
+
+/**
+ * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
+ *
+ * @returns {boolean} True when the REST path is active.
+ */
+function isRestMetaActive() {
+	return Boolean( window.wpseoScriptData?.disableMetaboxInBlockEditor );
+}
+
 /**
  * This class is responsible for handling the interaction with the hidden fields for Facebook.
+ *
+ * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM fields are not rendered.
+ * In that case getters read from the `core/editor` store and setters dispatch to it so that
+ * WordPress saves the values via the REST API on post save.
  */
 export default class FacebookFields {
 	/**
@@ -44,7 +59,10 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook title.
 	 */
 	static get title() {
-		return FacebookFields.titleElement.value;
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_opengraph-title" ] ?? "";
+		}
+		return FacebookFields.titleElement?.value ?? "";
 	}
 
 	/**
@@ -55,7 +73,13 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set title( value ) {
-		FacebookFields.titleElement.value = value;
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_opengraph-title": value } } );
+			return;
+		}
+		if ( FacebookFields.titleElement ) {
+			FacebookFields.titleElement.value = value;
+		}
 	}
 
 	/**
@@ -66,7 +90,13 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set description( value ) {
-		FacebookFields.descriptionElement.value = value;
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_opengraph-description": value } } );
+			return;
+		}
+		if ( FacebookFields.descriptionElement ) {
+			FacebookFields.descriptionElement.value = value;
+		}
 	}
 
 	/**
@@ -75,7 +105,10 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook description.
 	 */
 	static get description() {
-		return FacebookFields.descriptionElement.value;
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_opengraph-description" ] ?? "";
+		}
+		return FacebookFields.descriptionElement?.value ?? "";
 	}
 
 	/**
@@ -86,7 +119,13 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set imageId( value ) {
-		FacebookFields.imageIdElement.value = value;
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_opengraph-image-id": value } } );
+			return;
+		}
+		if ( FacebookFields.imageIdElement ) {
+			FacebookFields.imageIdElement.value = value;
+		}
 	}
 
 	/**
@@ -95,7 +134,10 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook imageId.
 	 */
 	static get imageId() {
-		return FacebookFields.imageIdElement.value;
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_opengraph-image-id" ] ?? "";
+		}
+		return FacebookFields.imageIdElement?.value ?? "";
 	}
 
 	/**
@@ -106,7 +148,13 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set imageUrl( value ) {
-		FacebookFields.imageUrlElement.value = value;
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { "_yoast_wpseo_opengraph-image": value } } );
+			return;
+		}
+		if ( FacebookFields.imageUrlElement ) {
+			FacebookFields.imageUrlElement.value = value;
+		}
 	}
 
 	/**
@@ -115,6 +163,9 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook imageUrl.
 	 */
 	static get imageUrl() {
-		return FacebookFields.imageUrlElement.value;
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ "_yoast_wpseo_opengraph-image" ] ?? "";
+		}
+		return FacebookFields.imageUrlElement?.value ?? "";
 	}
 }

@@ -1,5 +1,20 @@
+import { dispatch, select } from "@wordpress/data";
+
+/**
+ * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
+ *
+ * @returns {boolean} True when the REST path is active.
+ */
+function isRestMetaActive() {
+	return Boolean( window.wpseoScriptData?.disableMetaboxInBlockEditor );
+}
+
 /**
  * This class is responsible for handling the interaction with the hidden fields for Schema.
+ *
+ * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM fields are not rendered.
+ * In that case getters read from the `core/editor` store and setters dispatch to it so that
+ * WordPress saves the values via the REST API on post save.
  */
 export default class SchemaFields {
 	/**
@@ -17,27 +32,36 @@ export default class SchemaFields {
 	 * @returns {string} The default ArticleType.
 	 */
 	static get defaultArticleType() {
-		return SchemaFields.articleTypeInput.getAttribute( "data-default" );
+		return SchemaFields.articleTypeInput?.getAttribute( "data-default" ) ?? "";
 	}
 
 	/**
-	 * Gets the ArticleType from the hidden input.
+	 * Gets the ArticleType from the hidden input or the REST meta store.
 	 *
 	 * @returns {string} The ArticleType.
 	 */
 	static get articleType() {
-		return SchemaFields.articleTypeInput.value;
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_schema_article_type ?? "";
+		}
+		return SchemaFields.articleTypeInput?.value ?? "";
 	}
 
 	/**
-	 * Sets the ArticleType on the hidden input.
+	 * Sets the ArticleType on the hidden input or dispatches to the REST meta store.
 	 *
 	 * @param {string} articleType The selected ArticleType.
 	 *
 	 * @returns {void}
 	 */
 	static set articleType( articleType ) {
-		SchemaFields.articleTypeInput.value = articleType;
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_schema_article_type: articleType } } );
+			return;
+		}
+		if ( SchemaFields.articleTypeInput ) {
+			SchemaFields.articleTypeInput.value = articleType;
+		}
 	}
 
 	/**
@@ -55,26 +79,35 @@ export default class SchemaFields {
 	 * @returns {string} The default PageType.
 	 */
 	static get defaultPageType() {
-		return SchemaFields.pageTypeInput.getAttribute( "data-default" );
+		return SchemaFields.pageTypeInput?.getAttribute( "data-default" ) ?? "";
 	}
 
 	/**
-	 * Gets the PageType from the hidden input.
+	 * Gets the PageType from the hidden input or the REST meta store.
 	 *
 	 * @returns {string} The PageType.
 	 */
 	static get pageType() {
-		return SchemaFields.pageTypeInput.value;
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_schema_page_type ?? "";
+		}
+		return SchemaFields.pageTypeInput?.value ?? "";
 	}
 
 	/**
-	 * Sets the PageType on the hidden input.
+	 * Sets the PageType on the hidden input or dispatches to the REST meta store.
 	 *
 	 * @param {string} pageType The selected PageType.
 	 *
 	 * @returns {void}
 	 */
 	static set pageType( pageType ) {
-		SchemaFields.pageTypeInput.value = pageType;
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_schema_page_type: pageType } } );
+			return;
+		}
+		if ( SchemaFields.pageTypeInput ) {
+			SchemaFields.pageTypeInput.value = pageType;
+		}
 	}
 }

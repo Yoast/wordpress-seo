@@ -1,5 +1,20 @@
+import { dispatch, select } from "@wordpress/data";
+
+/**
+ * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
+ *
+ * @returns {boolean} True when the REST path is active.
+ */
+function isRestMetaActive() {
+	return Boolean( window.wpseoScriptData?.disableMetaboxInBlockEditor );
+}
+
 /**
  * This class is responsible for handling the interaction with the hidden fields for the analysis.
+ *
+ * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM fields are not rendered.
+ * In that case getters read from the `core/editor` store and setters dispatch to it so that
+ * WordPress saves the values via the REST API on post save.
  */
 export default class AnalysisFields {
 	/**
@@ -55,6 +70,10 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set keyphrase( value ) {
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_focuskw: value } } );
+			return;
+		}
 		if ( AnalysisFields.keyphraseElement ) {
 			AnalysisFields.keyphraseElement.value = value;
 		}
@@ -66,6 +85,9 @@ export default class AnalysisFields {
 	 * @returns {string} The keyphrase.
 	 */
 	static get keyphrase() {
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_focuskw ?? "";
+		}
 		return AnalysisFields.keyphraseElement?.value ?? "";
 	}
 
@@ -77,6 +99,10 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set isCornerstone( value ) {
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_is_cornerstone: value ? "1" : "0" } } );
+			return;
+		}
 		if ( AnalysisFields.isCornerstoneElement ) {
 			AnalysisFields.isCornerstoneElement.value = value ? "1" : "0";
 		}
@@ -88,6 +114,9 @@ export default class AnalysisFields {
 	 * @returns {boolean} The isCornerstone.
 	 */
 	static get isCornerstone() {
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_is_cornerstone === "1";
+		}
 		return AnalysisFields.isCornerstoneElement?.value === "1";
 	}
 
@@ -99,6 +128,10 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set seoScore( value ) {
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_linkdex: value } } );
+			return;
+		}
 		if ( AnalysisFields.seoScoreElement ) {
 			AnalysisFields.seoScoreElement.value = value;
 		}
@@ -110,6 +143,9 @@ export default class AnalysisFields {
 	 * @returns {string} The SEO (overall) score.
 	 */
 	static get seoScore() {
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_linkdex ?? "";
+		}
 		return AnalysisFields.seoScoreElement?.value ?? "";
 	}
 
@@ -121,6 +157,10 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set readabilityScore( value ) {
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_content_score: value } } );
+			return;
+		}
 		if ( AnalysisFields.readabilityScoreElement ) {
 			AnalysisFields.readabilityScoreElement.value = value;
 		}
@@ -132,6 +172,9 @@ export default class AnalysisFields {
 	 * @returns {string} The Readability (overall) score.
 	 */
 	static get readabilityScore() {
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_content_score ?? "";
+		}
 		return AnalysisFields.readabilityScoreElement?.value ?? "";
 	}
 
@@ -143,6 +186,10 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set inclusiveLanguageScore( value ) {
+		if ( isRestMetaActive() ) {
+			dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_inclusive_language_score: value } } );
+			return;
+		}
 		if ( AnalysisFields.inclusiveLanguageScoreElement ) {
 			AnalysisFields.inclusiveLanguageScoreElement.value = value;
 		}
@@ -154,6 +201,9 @@ export default class AnalysisFields {
 	 * @returns {string} The inclusive language (overall) score.
 	 */
 	static get inclusiveLanguageScore() {
+		if ( isRestMetaActive() ) {
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_inclusive_language_score ?? "";
+		}
 		return AnalysisFields.inclusiveLanguageScoreElement?.value ?? "";
 	}
 }
