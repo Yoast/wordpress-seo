@@ -1,4 +1,6 @@
 // Analysis meta keys.
+export const metaKeyTitle = "_yoast_wpseo_title";
+export const metaKeyMetaDesc = "_yoast_wpseo_metadesc";
 export const metaKeyFocusKw = "_yoast_wpseo_focuskw";
 export const metaKeyIsCornerstone = "_yoast_wpseo_is_cornerstone";
 export const metaKeyLinkdex = "_yoast_wpseo_linkdex";

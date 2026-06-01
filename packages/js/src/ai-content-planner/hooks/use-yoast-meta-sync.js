@@ -1,5 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
+import { metaKeyTitle, metaKeyMetaDesc, metaKeyFocusKw, metaKeyIsCornerstone } from "../../shared-admin/constants";
 
 /**
  * Mirrors core/editor meta changes into yoast-seo/editor. Fires on every meta change,
@@ -20,10 +21,10 @@ export function useYoastMetaSync() {
 		const meta = editor.getEditedPostAttribute( "meta" );
 		const { title, description } = select( "yoast-seo/editor" ).getSnippetEditorTemplates();
 		return {
-			yoastTitle: meta?._yoast_wpseo_title,
-			yoastMetaDesc: meta?._yoast_wpseo_metadesc,
-			yoastFocusKw: meta?._yoast_wpseo_focuskw,
-			yoastIsCornerstone: meta?._yoast_wpseo_is_cornerstone,
+			yoastTitle: meta?.[ metaKeyTitle ],
+			yoastMetaDesc: meta?.[ metaKeyMetaDesc ],
+			yoastFocusKw: meta?.[ metaKeyFocusKw ],
+			yoastIsCornerstone: meta?.[ metaKeyIsCornerstone ],
 			isPost: editor.getCurrentPostType() === "post",
 			titleTemplate: title,
 			descTemplate: description,

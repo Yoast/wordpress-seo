@@ -7,6 +7,7 @@ import { markers } from "yoastseo";
 import { dispatch, select } from "@wordpress/data";
 
 /* Internal dependencies */
+import { metaKeyTitle, metaKeyMetaDesc, metaKeyFocusKw } from "../shared-admin/constants";
 import measureTextWidth from "../helpers/measureTextWidth";
 import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
@@ -81,7 +82,7 @@ PostDataCollector.prototype.getData = function() {
  */
 PostDataCollector.prototype.getKeyword = function() {
 	if ( wpseoScriptData?.disableMetaboxInBlockEditor ) {
-		return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_focuskw ?? "";
+		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyFocusKw ] ?? "";
 	}
 	var val = document.getElementById( "yoast_wpseo_focuskw" ) && document.getElementById( "yoast_wpseo_focuskw" ).value || "";
 
@@ -110,7 +111,7 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
  */
 PostDataCollector.prototype.getMeta = function() {
 	if ( wpseoScriptData?.disableMetaboxInBlockEditor ) {
-		return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_metadesc ?? "";
+		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyMetaDesc ] ?? "";
 	}
 	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
 };
@@ -178,7 +179,7 @@ PostDataCollector.prototype.getExcerpt = function() {
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
 	if ( wpseoScriptData?.disableMetaboxInBlockEditor ) {
-		return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_title ?? "";
+		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTitle ] ?? "";
 	}
 	return document.getElementById( "yoast_wpseo_title" ) && document.getElementById( "yoast_wpseo_title" ).value || "";
 };
@@ -190,7 +191,7 @@ PostDataCollector.prototype.getSnippetTitle = function() {
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
 	if ( wpseoScriptData?.disableMetaboxInBlockEditor ) {
-		return select( "core/editor" ).getEditedPostAttribute( "meta" )?._yoast_wpseo_metadesc ?? "";
+		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyMetaDesc ] ?? "";
 	}
 	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
 };
@@ -289,7 +290,7 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
 		case "snippet_meta":
 			if ( useRestMeta ) {
-				dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_metadesc: value } } );
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyMetaDesc ]: value } } );
 			} else {
 				document.getElementById( "yoast_wpseo_metadesc" ).value = value;
 			}
@@ -317,7 +318,7 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 			break;
 		case "snippet_title":
 			if ( useRestMeta ) {
-				dispatch( "core/editor" ).editPost( { meta: { _yoast_wpseo_title: value } } );
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTitle ]: value } } );
 			} else {
 				document.getElementById( "yoast_wpseo_title" ).value = value;
 			}
