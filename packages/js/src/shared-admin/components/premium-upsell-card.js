@@ -1,15 +1,54 @@
 import CheckCircleIcon from "@heroicons/react/solid/CheckCircleIcon";
 import ArrowNarrowRightIcon from "@heroicons/react/solid/ArrowNarrowRightIcon";
 import { useMemo } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { getPremiumBenefits, getWooSeoBenefits } from "../../helpers/get-premium-benefits";
-import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Button, Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ReactComponent as YoastSeoLogo } from "../../../images/yoast-premium-logo-new.svg";
 import { ReactComponent as WooSeoLogo } from "../../../images/woo-seo-logo-new.svg";
 // Note that the same logo in images has a width and height, which we do not want here.
 import classNames  from "classnames";
+
+/**
+ * UpsellButton component.
+ *
+ * @param {Object} props The props.
+ * @param {boolean} props.isBlackFriday Whether the Black Friday promotion is active.
+ * @param {string} props.link The link for the button.
+ * @param {Object} props.linkProps Additional props for the button link.
+ * @returns {JSX.Element} The Upsell button.
+ */
+const UpsellButton = ( { isBlackFriday, link, linkProps } ) => {
+	return <Button
+		as="a"
+		variant="upsell"
+		href={ link }
+		target="_blank"
+		rel="noopener"
+		className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 focus:yst-ring-offset-primary-500"
+		{ ...linkProps }
+	>
+		<span>{ isBlackFriday ? __( "Buy now for 30% off", "wordpress-seo" ) : __( "Buy now", "wordpress-seo" ) }</span>
+		<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0 yst-icon-rtl" />
+	</Button>;
+};
+
+/**
+ * The title component for the Premium Upsell Card.
+ *
+ * @param {*} props The props.
+ * @param {boolean} props.isWooCommerceActive Whether WooCommerce is active.
+ * @returns {JSX.Element} The upsell title component.
+ */
+const UpsellTitle = ( { isWooCommerceActive } ) => <Title
+	as="h2"
+	className={ classNames( "yst-mt-6 yst-text-xl yst-font-semibold",
+		isWooCommerceActive ? "yst-text-woo-light" : "yst-text-primary-500" )
+	}
+>
+	{ isWooCommerceActive ? "Yoast WooCommerce SEO" : "Yoast SEO Premium" }
+</Title>;
 
 /**
  * @param {string} link The link.
@@ -34,43 +73,15 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 		}
 		return __( "Optimize your site faster, smarter, and with more confidence.", "wordpress-seo" );
 	}, [ isWooCommerceActive ] );
-	let upsellButtonText = __( "Buy now", "wordpress-seo" );
+
 	const microCopy = useMemo( () => {
 		if ( isWooCommerceActive ) {
 			return	__( "Less friction. Smarter optimization.", "wordpress-seo" );
 		}
 		return __( "Less friction. Faster publishing.", "wordpress-seo" );
 	}, [ isWooCommerceActive ] );
-	const upsellTitle = isWooCommerceActive
-		? safeCreateInterpolateElement(
-			sprintf(
-			/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
-				__( "%1$s%2$s %3$s", "wordpress-seo" ),
-				"<nowrap>",
-				"</nowrap>",
-				"Yoast WooCommerce SEO"
-			),
-			{
-				nowrap: <span className="yst-whitespace-nowrap" />,
-			}
-		)
-		: safeCreateInterpolateElement(
-			sprintf(
-				/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
-				__( "%1$s%2$s %3$s", "wordpress-seo" ),
-				"<nowrap>",
-				"</nowrap>",
-				"Yoast SEO Premium"
-			),
-			{
-				nowrap: <span className="yst-whitespace-nowrap" />,
-			}
-		);
 	const isBlackFriday = isPromotionActive( "black-friday-promotion" );
 
-	if ( isBlackFriday ) {
-		upsellButtonText = __( "Buy now for 30% off", "wordpress-seo" );
-	}
 	return (
 		<div
 			className={ classNames( "yst-p-6 yst-rounded-lg yst-text-slate-600 yst-bg-white yst-shadow yst-border",
@@ -90,36 +101,18 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 					<span className="banner_text">{ __( "BLACK FRIDAY | 30% OFF", "wordpress-seo" ) }</span>
 				</div>
 			</div> }
-			<Title
-				as="h2"
-				className={ classNames( "yst-mt-6 yst-text-xl yst-font-semibold",
-					isWooCommerceActive ? "yst-text-woo-light" : "yst-text-primary-500" )
-				}
-			>
-				{ upsellTitle }
-			</Title>
+			<UpsellTitle isWooCommerceActive={ isWooCommerceActive } />
 			<p className="yst-mt-3 yst-font-medium yst-text-slate-800">{ infoSubHeader }</p>
 			<p className="yst-mt-1 yst-font-normal">{ info }</p>
 			<ul className="yst-list-outside yst-text-slate-600 yst-mt-4 yst-flex yst-flex-col yst-gap-2">
 				{ getBenefits( true ).map( ( benefit, index ) => (
 					<li key={ `upsell-benefit-${ index }` } className="yst-flex yst-items-start">
-						<CheckCircleIcon className="yst-mr-2 yst-text-green-500 yst-w-[19.5px] yst-h-[19.5px] yst-flex-shrink-0" />
+						<CheckCircleIcon className="yst-me-2 yst-text-green-500 yst-w-[19.5px] yst-h-[19.5px] yst-flex-shrink-0" />
 						{ benefit }
 					</li>
 				) ) }
 			</ul>
-			<Button
-				as="a"
-				variant="upsell"
-				href={ link }
-				target="_blank"
-				rel="noopener"
-				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 focus:yst-ring-offset-primary-500"
-				{ ...linkProps }
-			>
-				<span>{ upsellButtonText }</span>
-				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0" />
-			</Button>
+			<UpsellButton link={ link } linkProps={ linkProps } isBlackFriday={ isBlackFriday } />
 			<p className="yst-text-center yst-text-xs yst-font-normal yst-leading-5 yst-text-slate-500 yst-italic yst-mt-3 yst-mb-2">
 				{ microCopy }
 			</p>
@@ -136,4 +129,5 @@ PremiumUpsellCard.propTypes = {
 	link: PropTypes.string.isRequired,
 	linkProps: PropTypes.object.isRequired,
 	isPromotionActive: PropTypes.func.isRequired,
+	isWooCommerceActive: PropTypes.bool.isRequired,
 };
