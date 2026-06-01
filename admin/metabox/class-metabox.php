@@ -232,6 +232,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return void
 	 */
 	public function add_meta_box() {
+		if ( $this->is_metabox_disabled_in_block_editor() ) {
+			return;
+		}
+
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 		$post_types = array_filter( $post_types, [ $this, 'display_metabox' ] );
 
@@ -330,9 +334,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return void
 	 */
 	public function meta_box() {
-		if ( ! $this->is_metabox_disabled_in_block_editor() ) {
-			$this->render_hidden_fields();
-		}
+		$this->render_hidden_fields();
 		$this->render_tabs();
 	}
 
