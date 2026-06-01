@@ -123,18 +123,26 @@ class WPSEO_Meta {
 			'linkdex' => [
 				'type'          => 'hidden',
 				'default_value' => '0',
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 			'content_score' => [
 				'type'          => 'hidden',
 				'default_value' => '0',
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 			'inclusive_language_score' => [
 				'type'          => 'hidden',
 				'default_value' => '0',
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 			'is_cornerstone' => [
 				'type'          => 'hidden',
 				'default_value' => 'false',
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 		],
 		'advanced'        => [
@@ -146,6 +154,8 @@ class WPSEO_Meta {
 					'2' => '', // Index.
 					'1' => '', // No-index.
 				],
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 			'meta-robots-nofollow' => [
 				'type'          => 'hidden',
@@ -154,6 +164,8 @@ class WPSEO_Meta {
 					'0' => '', // Follow.
 					'1' => '', // No-follow.
 				],
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 			'meta-robots-adv'      => [
 				'type'          => 'hidden',
@@ -163,30 +175,42 @@ class WPSEO_Meta {
 					'noarchive'    => '',
 					'nosnippet'    => '',
 				],
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 			'bctitle'              => [
 				'type'          => 'hidden',
 				'default_value' => '',
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 			'canonical'            => [
 				'type'          => 'hidden',
 				'default_value' => '',
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 			'redirect'             => [
 				'type'          => 'url',
 				'default_value' => '',
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 		],
 		'social'          => [],
 		'schema'          => [
 			'schema_page_type'    => [
-				'type'    => 'hidden',
-				'options' => Schema_Types::PAGE_TYPES,
+				'type'         => 'hidden',
+				'options'      => Schema_Types::PAGE_TYPES,
+				'show_in_rest' => true,
+				'single'       => true,
 			],
 			'schema_article_type' => [
 				'type'          => 'hidden',
 				'hide_on_pages' => true,
 				'options'       => Schema_Types::ARTICLE_TYPES,
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 		],
 		/* Fields we should validate & save, but not show on any form. */
@@ -261,6 +285,8 @@ class WPSEO_Meta {
 					self::$meta_fields['social'][ $network . '-' . $box ] = [
 						'type'          => $type,
 						'default_value' => '',
+						'show_in_rest'  => true,
+						'single'        => true,
 					];
 				}
 			}
