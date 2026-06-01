@@ -86,7 +86,7 @@ class PrimaryTaxonomyFilter extends Component {
 						) }
 					</ErrorContainer>
 					{
-						stack && <ClipboardButton isLarge={ true } text={ stack }>
+						stack && <ClipboardButton variant="secondary" text={ stack }>
 							{ __( "Copy error", "wordpress-seo" ) }
 						</ClipboardButton>
 					}

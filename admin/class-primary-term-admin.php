@@ -21,6 +21,8 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		add_action( 'admin_footer', [ $this, 'wp_footer' ], 10 );
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+
+		add_action( 'init', [ $this, 'register_primary_term_meta_for_rest' ], 20 );
 	}
 
 	/**
@@ -37,6 +39,51 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		}
 
 		return $post_id;
+	}
+
+	/**
+	 * Registers primary taxonomy meta keys for the REST API.
+	 *
+	 * Called on `init` (priority 20) only when the `wpseo_disable_metabox_in_block_editor`
+	 * filter is active. Registers `_yoast_wpseo_primary_{taxonomy}` for every hierarchical
+	 * taxonomy attached to a public post type so that the block editor can persist primary
+	 * term selections via `core/editor.editPost({ meta: { … } })`.
+	 *
+	 * @return void
+	 */
+	public function register_primary_term_meta_for_rest() {
+		if ( ! apply_filters( 'wpseo_disable_metabox_in_block_editor', false ) ) {
+			return;
+		}
+
+		$post_types = get_post_types( [ 'public' => true ], 'names' );
+
+		foreach ( $post_types as $post_type ) {
+			$taxonomies = get_object_taxonomies( $post_type, 'objects' );
+
+			foreach ( $taxonomies as $taxonomy ) {
+				if ( ! $taxonomy->hierarchical ) {
+					continue;
+				}
+
+				$meta_key = WPSEO_Meta::$meta_prefix . 'primary_' . $taxonomy->name;
+
+				register_meta(
+					'post',
+					$meta_key,
+					[
+						'object_subtype'    => $post_type,
+						'show_in_rest'      => true,
+						'single'            => true,
+						'type'              => 'string',
+						'sanitize_callback' => [ WPSEO_Meta::class, 'sanitize_post_meta' ],
+						'auth_callback'     => static function( $allowed, $key, $object_id ) {
+							return current_user_can( 'edit_post', $object_id );
+						},
+					]
+				);
+			}
+		}
 	}
 
 	/**
