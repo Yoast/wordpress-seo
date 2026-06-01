@@ -938,20 +938,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$is_front_page    = $homepage_is_page && $page_on_front === (int) $post_id;
 
 		$script_data = [
-			'metabox'                          => $this->get_metabox_script_data(),
-			'isPost'                           => true,
-			'isBlockEditor'                    => $is_block_editor,
-			'disableMetaboxInBlockEditor'      => $is_block_editor && (bool) apply_filters( 'wpseo_disable_metabox_in_block_editor', false ),
-			'postId'                     => $post_id,
-			'postStatus'                 => get_post_status( $post_id ),
-			'postType'                   => get_post_type( $post_id ),
-			'isPage'                     => get_post_type( $post_id ) === 'page',
-			'usedKeywordsNonce'          => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
-			'analysis'                   => [
+			'metabox'                     => $this->get_metabox_script_data(),
+			'isPost'                      => true,
+			'isBlockEditor'               => $is_block_editor,
+			'disableMetaboxInBlockEditor' => $is_block_editor && (bool) apply_filters( 'wpseo_disable_metabox_in_block_editor', false ),
+			'postId'                      => $post_id,
+			'postStatus'                  => get_post_status( $post_id ),
+			'postType'                    => get_post_type( $post_id ),
+			'isPage'                      => get_post_type( $post_id ) === 'page',
+			'usedKeywordsNonce'           => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
+			'analysis'                    => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'isFrontPage'                => $is_front_page,
+			'isFrontPage'                 => $is_front_page,
 		];
 
 		/**
