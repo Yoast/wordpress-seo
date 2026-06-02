@@ -1,4 +1,4 @@
-import { dispatch, select, subscribe } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 import {
 	metaKeyNoIndex,
 	metaKeyNoFollow,
@@ -7,33 +7,6 @@ import {
 	metaKeyCanonical,
 } from "../../shared-admin/constants";
 import isRestMetaActive, { shouldSkipMetaWrite } from "./is-rest-meta-active";
-
-let settingsSynced = false;
-
-/**
- * Subscribes to core/editor once and re-dispatches loadAdvancedSettingsData when the post
- * meta becomes available. This is needed because the AdvancedSettings component is only
- * connected to yoast-seo/editor, so it does not re-render when the entity record loads.
- *
- * @returns {void}
- */
-function scheduleSettingsSync() {
-	if ( settingsSynced ) {
-		return;
-	}
-	const unsubscribe = subscribe( () => {
-		if ( settingsSynced ) {
-			return;
-		}
-		const meta = select( "core/editor" ).getEditedPostAttribute( "meta" );
-		if ( ! meta ) {
-			return;
-		}
-		settingsSynced = true;
-		unsubscribe();
-		dispatch( "yoast-seo/editor" ).loadAdvancedSettingsData();
-	}, "core/editor" );
-}
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Advanced Settings.
@@ -249,9 +222,6 @@ export default class AdvancedFields {
 	 */
 	static getLoadableSettings() {
 		const metaReady = ! isRestMetaActive() || Boolean( select( "core/editor" ).getEditedPostAttribute( "meta" ) );
-		if ( ! metaReady ) {
-			scheduleSettingsSync();
-		}
 		return {
 			noIndex: AdvancedFields.noIndex,
 			noFollow: AdvancedFields.noFollow,
