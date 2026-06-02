@@ -313,7 +313,7 @@ class WPSEO_Meta {
 					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ],
 				);
 
-				// Re-register for the 'post' subtype with REST exposure and auth callback when show_in_rest is enabled.
+				// Re-register with REST exposure and auth callback when show_in_rest is enabled.
 				if ( ! empty( $field_def['show_in_rest'] ) ) {
 					register_meta(
 						'post',
@@ -322,7 +322,6 @@ class WPSEO_Meta {
 							'show_in_rest'      => true,
 							'single'            => ( $field_def['single'] ?? false ),
 							'type'              => 'string',
-							'object_subtype'    => 'post',
 							'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
 							'auth_callback'     => static function ( $allowed, $meta_key, $object_id ) {
 								return current_user_can( 'edit_post', $object_id );
