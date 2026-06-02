@@ -9,7 +9,6 @@ jest.mock( "@wordpress/data", () => ( {
 
 const mockUpdateData = jest.fn();
 const mockSetFocusKeyword = jest.fn();
-const mockSetCornerstoneContent = jest.fn();
 
 /**
  * Sets up useSelect to return meta fields and templates from fake stores.
@@ -37,11 +36,9 @@ const setupUseSelect = ( meta = {}, postType = "post", templates = { title: "", 
 beforeEach( () => {
 	mockUpdateData.mockClear();
 	mockSetFocusKeyword.mockClear();
-	mockSetCornerstoneContent.mockClear();
 	useDispatch.mockReturnValue( {
 		updateData: mockUpdateData,
 		setFocusKeyword: mockSetFocusKeyword,
-		setCornerstoneContent: mockSetCornerstoneContent,
 	} );
 	setupUseSelect();
 } );
@@ -167,24 +164,6 @@ describe( "useYoastMetaSync", () => {
 
 		expect( mockUpdateData ).not.toHaveBeenCalled();
 		expect( mockSetFocusKeyword ).not.toHaveBeenCalled();
-	} );
-
-	it( "calls setCornerstoneContent with true when is_cornerstone meta is '1'", () => {
-		// eslint-disable-next-line camelcase
-		setupUseSelect( { _yoast_wpseo_is_cornerstone: "1" } );
-
-		renderHook( () => useYoastMetaSync() );
-
-		expect( mockSetCornerstoneContent ).toHaveBeenCalledWith( true );
-	} );
-
-	it( "calls setCornerstoneContent with false when is_cornerstone meta is not '1'", () => {
-		// eslint-disable-next-line camelcase
-		setupUseSelect( { _yoast_wpseo_is_cornerstone: "0" } );
-
-		renderHook( () => useYoastMetaSync() );
-
-		expect( mockSetCornerstoneContent ).toHaveBeenCalledWith( false );
 	} );
 
 	it( "uses non-empty suggestion values over templates when content planner applies suggestions", () => {
