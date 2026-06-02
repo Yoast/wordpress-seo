@@ -1,6 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
-import { metaKeyTitle, metaKeyMetaDesc, metaKeyFocusKw, metaKeyIsCornerstone } from "../../shared-admin/constants";
+import { metaKeyTitle, metaKeyMetaDesc, metaKeyFocusKw } from "../../shared-admin/constants";
 
 /**
  * Mirrors core/editor meta changes into yoast-seo/editor. Fires on every meta change,
@@ -16,7 +16,7 @@ import { metaKeyTitle, metaKeyMetaDesc, metaKeyFocusKw, metaKeyIsCornerstone } f
  * @returns {void}
  */
 export function useYoastMetaSync() {
-	const { yoastTitle, yoastMetaDesc, yoastFocusKw, yoastIsCornerstone, isPost, titleTemplate, descTemplate } = useSelect( select => {
+	const { yoastTitle, yoastMetaDesc, yoastFocusKw, isPost, titleTemplate, descTemplate } = useSelect( select => {
 		const editor = select( "core/editor" );
 		const meta = editor.getEditedPostAttribute( "meta" );
 		const { title, description } = select( "yoast-seo/editor" ).getSnippetEditorTemplates();
@@ -24,13 +24,12 @@ export function useYoastMetaSync() {
 			yoastTitle: meta?.[ metaKeyTitle ],
 			yoastMetaDesc: meta?.[ metaKeyMetaDesc ],
 			yoastFocusKw: meta?.[ metaKeyFocusKw ],
-			yoastIsCornerstone: meta?.[ metaKeyIsCornerstone ],
 			isPost: editor.getCurrentPostType() === "post",
 			titleTemplate: title,
 			descTemplate: description,
 		};
 	}, [] );
-	const { updateData, setFocusKeyword, setCornerstoneContent } = useDispatch( "yoast-seo/editor" );
+	const { updateData, setFocusKeyword } = useDispatch( "yoast-seo/editor" );
 
 	useEffect( () => {
 		// These meta keys are only registered for the 'post' subtype; bail on all other post types
@@ -53,6 +52,5 @@ export function useYoastMetaSync() {
 		}
 		updateData( dataToSync );
 		setFocusKeyword( yoastFocusKw || "" );
-		setCornerstoneContent( yoastIsCornerstone === "1" );
-	}, [ isPost, yoastTitle, yoastMetaDesc, yoastFocusKw, yoastIsCornerstone, titleTemplate, descTemplate ] );
+	}, [ isPost, yoastTitle, yoastMetaDesc, yoastFocusKw, titleTemplate, descTemplate ] );
 }
