@@ -281,7 +281,7 @@ class WPSEO_Meta {
 					self::$meta_prefix . $key,
 					[
 						'show_in_rest'      => true,
-						'single'            => false,
+						'single'            => true,
 						'type'              => 'string',
 						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
 						'auth_callback'     => static function ( $allowed, $meta_key, $object_id ) {
