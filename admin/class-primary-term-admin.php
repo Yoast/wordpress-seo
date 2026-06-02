@@ -84,10 +84,10 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 						'single'            => true,
 						'type'              => 'string',
 						'sanitize_callback' => [ WPSEO_Meta::class, 'sanitize_post_meta' ],
-						'auth_callback'     => static function( $allowed, $key, $object_id ) {
+						'auth_callback'     => static function ( $allowed, $key, $object_id ) {
 							return current_user_can( 'edit_post', $object_id );
 						},
-					]
+					],
 				);
 			}
 		}
