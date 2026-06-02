@@ -1,5 +1,5 @@
 import { dispatch, select } from "@wordpress/data";
-import isRestMetaActive from "./is-rest-meta-active";
+import isRestMetaActive, { shouldSkipMetaWrite } from "./is-rest-meta-active";
 
 /**
  * Returns the REST meta key for the given taxonomy.
@@ -72,7 +72,9 @@ export default class PrimaryTermFields {
 	static set( taxonomyName, termId, inputElement ) {
 		const value = termId === -1 ? "" : String( termId );
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKey( taxonomyName ) ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKey( taxonomyName ), value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKey( taxonomyName ) ]: value } } );
+			}
 			return;
 		}
 		if ( inputElement ) {

@@ -5,7 +5,7 @@ import {
 	metaKeyTwitterImageId,
 	metaKeyTwitterImage,
 } from "../../shared-admin/constants";
-import isRestMetaActive from "./is-rest-meta-active";
+import isRestMetaActive, { shouldSkipMetaWrite } from "./is-rest-meta-active";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Twitter.
@@ -72,7 +72,9 @@ export default class TwitterFields {
 	 */
 	static set title( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterTitle ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyTwitterTitle, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterTitle ]: value } } );
+			}
 			return;
 		}
 		if ( TwitterFields.titleElement ) {
@@ -89,7 +91,9 @@ export default class TwitterFields {
 	 */
 	static set description( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterDescription ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyTwitterDescription, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterDescription ]: value } } );
+			}
 			return;
 		}
 		if ( TwitterFields.descriptionElement ) {
@@ -118,7 +122,9 @@ export default class TwitterFields {
 	 */
 	static set imageId( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterImageId ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyTwitterImageId, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterImageId ]: value } } );
+			}
 			return;
 		}
 		if ( TwitterFields.imageIdElement ) {
@@ -147,7 +153,9 @@ export default class TwitterFields {
 	 */
 	static set imageUrl( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterImage ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyTwitterImage, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterImage ]: value } } );
+			}
 			return;
 		}
 		if ( TwitterFields.imageUrlElement ) {

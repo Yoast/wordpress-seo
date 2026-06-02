@@ -1,4 +1,4 @@
-import { dispatch, select } from "@wordpress/data";
+import { dispatch, select, subscribe } from "@wordpress/data";
 import {
 	metaKeyNoIndex,
 	metaKeyNoFollow,
@@ -6,7 +6,34 @@ import {
 	metaKeyBcTitle,
 	metaKeyCanonical,
 } from "../../shared-admin/constants";
-import isRestMetaActive from "./is-rest-meta-active";
+import isRestMetaActive, { shouldSkipMetaWrite } from "./is-rest-meta-active";
+
+let settingsSynced = false;
+
+/**
+ * Subscribes to core/editor once and re-dispatches loadAdvancedSettingsData when the post
+ * meta becomes available. This is needed because the AdvancedSettings component is only
+ * connected to yoast-seo/editor, so it does not re-render when the entity record loads.
+ *
+ * @returns {void}
+ */
+function scheduleSettingsSync() {
+	if ( settingsSynced ) {
+		return;
+	}
+	const unsubscribe = subscribe( () => {
+		if ( settingsSynced ) {
+			return;
+		}
+		const meta = select( "core/editor" ).getEditedPostAttribute( "meta" );
+		if ( ! meta ) {
+			return;
+		}
+		settingsSynced = true;
+		unsubscribe();
+		dispatch( "yoast-seo/editor" ).loadAdvancedSettingsData();
+	}, "core/editor" );
+}
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Advanced Settings.
@@ -68,7 +95,7 @@ export default class AdvancedFields {
 	 */
 	static get noIndex() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyNoIndex ] ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyNoIndex ] || "0";
 		}
 		return AdvancedFields.noIndexElement && AdvancedFields.noIndexElement.value  || "";
 	}
@@ -82,7 +109,9 @@ export default class AdvancedFields {
 	 */
 	static set noIndex( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyNoIndex ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyNoIndex, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyNoIndex ]: value } } );
+			}
 			return;
 		}
 		AdvancedFields.noIndexElement.value = value;
@@ -95,7 +124,7 @@ export default class AdvancedFields {
 	 */
 	static get noFollow() {
 		if ( isRestMetaActive() ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyNoFollow ] ?? "";
+			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyNoFollow ] || "0";
 		}
 		return AdvancedFields.noFollowElement && AdvancedFields.noFollowElement.value || "";
 	}
@@ -109,7 +138,9 @@ export default class AdvancedFields {
 	 */
 	static set noFollow( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyNoFollow ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyNoFollow, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyNoFollow ]: value } } );
+			}
 			return;
 		}
 		AdvancedFields.noFollowElement.value = value;
@@ -136,7 +167,9 @@ export default class AdvancedFields {
 	 */
 	static set advanced( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyAdvanced ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyAdvanced, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyAdvanced ]: value } } );
+			}
 			return;
 		}
 		AdvancedFields.advancedElement.value = value;
@@ -163,7 +196,9 @@ export default class AdvancedFields {
 	 */
 	static set breadcrumbsTitle( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyBcTitle ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyBcTitle, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyBcTitle ]: value } } );
+			}
 			return;
 		}
 		AdvancedFields.breadcrumbsTitleElement.value = value;
@@ -190,9 +225,40 @@ export default class AdvancedFields {
 	 */
 	static set canonical( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyCanonical ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyCanonical, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyCanonical ]: value } } );
+			}
 			return;
 		}
 		AdvancedFields.canonicalElement.value = value;
+	}
+
+	/**
+	 * Returns the current advanced settings together with a loading flag.
+	 *
+	 * In REST mode the values come from the core/editor store, which only has the post meta
+	 * once the entity record has been fetched. Calling this before that happens would populate
+	 * yoast-seo/editor with empty strings and mark it as done loading, preventing the correct
+	 * saved values from ever being reflected in the UI.
+	 *
+	 * When the entity meta is not yet available this method signals that loading is still in
+	 * progress (isLoading: true) so the caller can retry. The AdvancedSettings component
+	 * already retries on every render while isLoading is true.
+	 *
+	 * @returns {{noIndex: string, noFollow: string, advanced: string[], breadcrumbsTitle: string, canonical: string, isLoading: boolean}}
+	 */
+	static getLoadableSettings() {
+		const metaReady = ! isRestMetaActive() || Boolean( select( "core/editor" ).getEditedPostAttribute( "meta" ) );
+		if ( ! metaReady ) {
+			scheduleSettingsSync();
+		}
+		return {
+			noIndex: AdvancedFields.noIndex,
+			noFollow: AdvancedFields.noFollow,
+			advanced: AdvancedFields.advanced.split( "," ),
+			breadcrumbsTitle: AdvancedFields.breadcrumbsTitle,
+			canonical: AdvancedFields.canonical,
+			isLoading: ! metaReady,
+		};
 	}
 }

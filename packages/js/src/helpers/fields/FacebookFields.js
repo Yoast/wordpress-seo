@@ -5,7 +5,7 @@ import {
 	metaKeyOgImageId,
 	metaKeyOgImage,
 } from "../../shared-admin/constants";
-import isRestMetaActive from "./is-rest-meta-active";
+import isRestMetaActive, { shouldSkipMetaWrite } from "./is-rest-meta-active";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Facebook.
@@ -72,7 +72,9 @@ export default class FacebookFields {
 	 */
 	static set title( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgTitle ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyOgTitle, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgTitle ]: value } } );
+			}
 			return;
 		}
 		if ( FacebookFields.titleElement ) {
@@ -89,7 +91,9 @@ export default class FacebookFields {
 	 */
 	static set description( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgDescription ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyOgDescription, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgDescription ]: value } } );
+			}
 			return;
 		}
 		if ( FacebookFields.descriptionElement ) {
@@ -118,7 +122,9 @@ export default class FacebookFields {
 	 */
 	static set imageId( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgImageId ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyOgImageId, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgImageId ]: value } } );
+			}
 			return;
 		}
 		if ( FacebookFields.imageIdElement ) {
@@ -147,7 +153,9 @@ export default class FacebookFields {
 	 */
 	static set imageUrl( value ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgImage ]: value } } );
+			if ( ! shouldSkipMetaWrite( metaKeyOgImage, value ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgImage ]: value } } );
+			}
 			return;
 		}
 		if ( FacebookFields.imageUrlElement ) {

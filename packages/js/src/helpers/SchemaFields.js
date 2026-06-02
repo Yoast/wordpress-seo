@@ -1,6 +1,6 @@
 import { dispatch, select } from "@wordpress/data";
 import { metaKeySchemaArticleType, metaKeySchemaPageType } from "../shared-admin/constants/meta-keys";
-import isRestMetaActive from "./fields/is-rest-meta-active";
+import isRestMetaActive, { shouldSkipMetaWrite } from "./fields/is-rest-meta-active";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Schema.
@@ -49,7 +49,9 @@ export default class SchemaFields {
 	 */
 	static set articleType( articleType ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeySchemaArticleType ]: articleType } } );
+			if ( ! shouldSkipMetaWrite( metaKeySchemaArticleType, articleType ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeySchemaArticleType ]: articleType } } );
+			}
 			return;
 		}
 		if ( SchemaFields.articleTypeInput ) {
@@ -96,7 +98,9 @@ export default class SchemaFields {
 	 */
 	static set pageType( pageType ) {
 		if ( isRestMetaActive() ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeySchemaPageType ]: pageType } } );
+			if ( ! shouldSkipMetaWrite( metaKeySchemaPageType, pageType ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeySchemaPageType ]: pageType } } );
+			}
 			return;
 		}
 		if ( SchemaFields.pageTypeInput ) {

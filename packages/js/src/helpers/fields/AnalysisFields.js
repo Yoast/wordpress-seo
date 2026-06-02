@@ -7,7 +7,7 @@ import {
 	metaKeyInclusiveLanguageScore,
 } from "../../shared-admin/constants";
 
-import isRestMetaActive from "./is-rest-meta-active";
+import isRestMetaActive, { shouldSkipMetaWrite } from "./is-rest-meta-active";
 
 /**
  * Returns whether the core/editor store has finished loading the post type config.
@@ -168,7 +168,10 @@ export default class AnalysisFields {
 	 */
 	static set isCornerstone( value ) {
 		if ( isRestMetaActive() ) {
-			writeOrQueue( metaKeyIsCornerstone, value ? "1" : "0" );
+			const newValue = value ? "1" : "0";
+			if ( ! shouldSkipMetaWrite( metaKeyIsCornerstone, newValue ) ) {
+				writeOrQueue( metaKeyIsCornerstone, newValue );
+			}
 			return;
 		}
 		if ( AnalysisFields.isCornerstoneElement ) {
