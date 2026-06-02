@@ -70,7 +70,7 @@ export default class AdvancedFields {
 		if ( isRestMetaActive() ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyNoIndex ] || "0";
 		}
-		return AdvancedFields.noIndexElement && AdvancedFields.noIndexElement.value  || "";
+		return AdvancedFields.noIndexElement?.value || "0";
 	}
 
 	/**
@@ -99,7 +99,7 @@ export default class AdvancedFields {
 		if ( isRestMetaActive() ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyNoFollow ] || "0";
 		}
-		return AdvancedFields.noFollowElement && AdvancedFields.noFollowElement.value || "";
+		return AdvancedFields.noFollowElement?.value || "0";
 	}
 
 	/**
@@ -128,7 +128,7 @@ export default class AdvancedFields {
 		if ( isRestMetaActive() ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyAdvanced ] ?? "";
 		}
-		return AdvancedFields.advancedElement && AdvancedFields.advancedElement.value || "";
+		return AdvancedFields.advancedElement?.value || "";
 	}
 
 	/**
@@ -157,7 +157,7 @@ export default class AdvancedFields {
 		if ( isRestMetaActive() ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyBcTitle ] ?? "";
 		}
-		return AdvancedFields.breadcrumbsTitleElement && AdvancedFields.breadcrumbsTitleElement.value || "";
+		return AdvancedFields.breadcrumbsTitleElement?.value || "";
 	}
 
 	/**
@@ -186,7 +186,7 @@ export default class AdvancedFields {
 		if ( isRestMetaActive() ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyCanonical ] ?? "";
 		}
-		return AdvancedFields.canonicalElement && AdvancedFields.canonicalElement.value  || "";
+		return AdvancedFields.canonicalElement?.value || "";
 	}
 
 	/**
@@ -204,31 +204,5 @@ export default class AdvancedFields {
 			return;
 		}
 		AdvancedFields.canonicalElement.value = value;
-	}
-
-	/**
-	 * Returns the current advanced settings together with a loading flag.
-	 *
-	 * In REST mode the values come from the core/editor store, which only has the post meta
-	 * once the entity record has been fetched. Calling this before that happens would populate
-	 * yoast-seo/editor with empty strings and mark it as done loading, preventing the correct
-	 * saved values from ever being reflected in the UI.
-	 *
-	 * When the entity meta is not yet available this method signals that loading is still in
-	 * progress (isLoading: true) so the caller can retry. The AdvancedSettings component
-	 * already retries on every render while isLoading is true.
-	 *
-	 * @returns {{noIndex: string, noFollow: string, advanced: string[], breadcrumbsTitle: string, canonical: string, isLoading: boolean}}
-	 */
-	static getLoadableSettings() {
-		const metaReady = ! isRestMetaActive() || Boolean( select( "core/editor" ).getEditedPostAttribute( "meta" ) );
-		return {
-			noIndex: AdvancedFields.noIndex,
-			noFollow: AdvancedFields.noFollow,
-			advanced: AdvancedFields.advanced.split( "," ),
-			breadcrumbsTitle: AdvancedFields.breadcrumbsTitle,
-			canonical: AdvancedFields.canonical,
-			isLoading: ! metaReady,
-		};
 	}
 }

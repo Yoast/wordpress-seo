@@ -75,6 +75,13 @@ export const setCanonical = ( value ) => {
 export const loadAdvancedSettingsData = () => {
 	return {
 		type: LOAD_ADVANCED_SETTINGS,
-		settings: AdvancedFields.getLoadableSettings(),
+		settings: {
+			noIndex: AdvancedFields.noIndex,
+			noFollow: AdvancedFields.noFollow,
+			advanced: AdvancedFields.advanced.split( "," ),
+			breadcrumbsTitle: AdvancedFields.breadcrumbsTitle,
+			canonical: AdvancedFields.canonical,
+			isLoading: false,
+		},
 	};
 };
