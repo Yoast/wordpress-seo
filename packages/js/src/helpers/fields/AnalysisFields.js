@@ -1,4 +1,4 @@
-import { dispatch, select } from "@wordpress/data";
+import { dispatch, select, subscribe } from "@wordpress/data";
 import {
 	metaKeyFocusKw,
 	metaKeyIsCornerstone,
@@ -24,6 +24,62 @@ function isRestMetaActive() {
  */
 function isEditorReady() {
 	return Boolean( select( "core/editor" ).getCurrentPostType() );
+}
+
+// Pending meta writes buffered before the editor entity config is ready.
+// Keyed by meta key so that rapid successive writes for the same key collapse to the last value.
+const pendingWrites = new Map();
+let unsubscribeFlush = null;
+
+/**
+ * Subscribes to core/editor store changes and flushes pending meta writes as soon as the editor
+ * is ready. Unsubscribes immediately after the first successful flush to avoid ongoing overhead.
+ *
+ * @returns {void}
+ */
+function scheduleFlush() {
+	if ( unsubscribeFlush ) {
+		return;
+	}
+	unsubscribeFlush = subscribe( () => {
+		if ( ! isEditorReady() ) {
+			return;
+		}
+		unsubscribeFlush();
+		unsubscribeFlush = null;
+		if ( pendingWrites.size === 0 ) {
+			return;
+		}
+		const meta = Object.fromEntries( pendingWrites );
+		pendingWrites.clear();
+		dispatch( "core/editor" ).editPost( { meta } );
+	}, "core/editor" );
+}
+
+/**
+ * Dispatches a meta write immediately if the editor is ready, or queues it for the next flush.
+ * When the editor is already ready any previously queued writes are flushed together with this
+ * one in a single editPost call to minimise unnecessary state updates.
+ *
+ * @param {string} metaKey The meta key to write.
+ * @param {string} value   The value to write.
+ *
+ * @returns {void}
+ */
+function writeOrQueue( metaKey, value ) {
+	pendingWrites.set( metaKey, value );
+	if ( ! isEditorReady() ) {
+		scheduleFlush();
+		return;
+	}
+	// Cancel any pending flush subscription — we are dispatching everything now.
+	if ( unsubscribeFlush ) {
+		unsubscribeFlush();
+		unsubscribeFlush = null;
+	}
+	const meta = Object.fromEntries( pendingWrites );
+	pendingWrites.clear();
+	dispatch( "core/editor" ).editPost( { meta } );
 }
 
 /**
@@ -88,9 +144,7 @@ export default class AnalysisFields {
 	 */
 	static set keyphrase( value ) {
 		if ( isRestMetaActive() ) {
-			if ( isEditorReady() ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyFocusKw ]: value } } );
-			}
+			writeOrQueue( metaKeyFocusKw, value );
 			return;
 		}
 		if ( AnalysisFields.keyphraseElement ) {
@@ -119,9 +173,7 @@ export default class AnalysisFields {
 	 */
 	static set isCornerstone( value ) {
 		if ( isRestMetaActive() ) {
-			if ( isEditorReady() ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyIsCornerstone ]: value ? "1" : "0" } } );
-			}
+			writeOrQueue( metaKeyIsCornerstone, value ? "1" : "0" );
 			return;
 		}
 		if ( AnalysisFields.isCornerstoneElement ) {
@@ -150,9 +202,7 @@ export default class AnalysisFields {
 	 */
 	static set seoScore( value ) {
 		if ( isRestMetaActive() ) {
-			if ( isEditorReady() ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyLinkdex ]: value } } );
-			}
+			writeOrQueue( metaKeyLinkdex, value );
 			return;
 		}
 		if ( AnalysisFields.seoScoreElement ) {
@@ -181,9 +231,7 @@ export default class AnalysisFields {
 	 */
 	static set readabilityScore( value ) {
 		if ( isRestMetaActive() ) {
-			if ( isEditorReady() ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyContentScore ]: value } } );
-			}
+			writeOrQueue( metaKeyContentScore, value );
 			return;
 		}
 		if ( AnalysisFields.readabilityScoreElement ) {
@@ -212,9 +260,7 @@ export default class AnalysisFields {
 	 */
 	static set inclusiveLanguageScore( value ) {
 		if ( isRestMetaActive() ) {
-			if ( isEditorReady() ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyInclusiveLanguageScore ]: value } } );
-			}
+			writeOrQueue( metaKeyInclusiveLanguageScore, value );
 			return;
 		}
 		if ( AnalysisFields.inclusiveLanguageScoreElement ) {
