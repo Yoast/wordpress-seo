@@ -334,7 +334,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return void
 	 */
 	public function meta_box() {
-		$this->render_hidden_fields();
+		if ( ! $this->is_metabox_disabled_in_block_editor() ) {
+			$this->render_hidden_fields();
+		}
 		$this->render_tabs();
 	}
 
