@@ -103,46 +103,32 @@ class WPSEO_Meta {
 			'focuskw' => [
 				'type'         => 'hidden',
 				'title'        => '',
-				'show_in_rest' => true,
-				'single'       => true,
 			],
 			'title' => [
 				'type'          => 'hidden',
 				'default_value' => '',
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 			'metadesc' => [
 				'type'          => 'hidden',
 				'default_value' => '',
 				'class'         => 'metadesc',
 				'rows'          => 2,
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 			'linkdex' => [
 				'type'          => 'hidden',
 				'default_value' => '0',
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 			'content_score' => [
 				'type'          => 'hidden',
 				'default_value' => '0',
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 			'inclusive_language_score' => [
 				'type'          => 'hidden',
 				'default_value' => '0',
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 			'is_cornerstone' => [
 				'type'          => 'hidden',
 				'default_value' => 'false',
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 		],
 		'advanced'        => [
@@ -154,8 +140,6 @@ class WPSEO_Meta {
 					'2' => '', // Index.
 					'1' => '', // No-index.
 				],
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 			'meta-robots-nofollow' => [
 				'type'          => 'hidden',
@@ -164,8 +148,6 @@ class WPSEO_Meta {
 					'0' => '', // Follow.
 					'1' => '', // No-follow.
 				],
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 			'meta-robots-adv'      => [
 				'type'          => 'hidden',
@@ -175,26 +157,18 @@ class WPSEO_Meta {
 					'noarchive'    => '',
 					'nosnippet'    => '',
 				],
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 			'bctitle'              => [
 				'type'          => 'hidden',
 				'default_value' => '',
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 			'canonical'            => [
 				'type'          => 'hidden',
 				'default_value' => '',
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 			'redirect'             => [
 				'type'          => 'url',
 				'default_value' => '',
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 		],
 		'social'          => [],
@@ -202,15 +176,11 @@ class WPSEO_Meta {
 			'schema_page_type'    => [
 				'type'         => 'hidden',
 				'options'      => Schema_Types::PAGE_TYPES,
-				'show_in_rest' => true,
-				'single'       => true,
 			],
 			'schema_article_type' => [
 				'type'          => 'hidden',
 				'hide_on_pages' => true,
 				'options'       => Schema_Types::ARTICLE_TYPES,
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 		],
 		/* Fields we should validate & save, but not show on any form. */
@@ -306,29 +276,19 @@ class WPSEO_Meta {
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 
-				// Register for all post types: sanitise callback only, REST disabled.
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
-					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ],
+					[
+						'show_in_rest'      => true,
+						'single'            => false,
+						'type'              => 'string',
+						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
+						'auth_callback'     => static function ( $allowed, $meta_key, $object_id ) {
+							return current_user_can( 'edit_post', $object_id );
+						},
+					],
 				);
-
-				// Re-register with REST exposure and auth callback when show_in_rest is enabled.
-				if ( ! empty( $field_def['show_in_rest'] ) ) {
-					register_meta(
-						'post',
-						self::$meta_prefix . $key,
-						[
-							'show_in_rest'      => true,
-							'single'            => ( $field_def['single'] ?? false ),
-							'type'              => 'string',
-							'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
-							'auth_callback'     => static function ( $allowed, $meta_key, $object_id ) {
-								return current_user_can( 'edit_post', $object_id );
-							},
-						],
-					);
-				}
 
 				// Set the $fields_index property for efficiency.
 				self::$fields_index[ self::$meta_prefix . $key ] = [
