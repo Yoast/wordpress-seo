@@ -1,14 +1,6 @@
 import { dispatch, select } from "@wordpress/data";
 import { metaKeySchemaArticleType, metaKeySchemaPageType } from "../shared-admin/constants/meta-keys";
-
-/**
- * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
- *
- * @returns {boolean} True when the REST path is active.
- */
-function isRestMetaActive() {
-	return Boolean( window.wpseoScriptData?.disableMetaboxInBlockEditor );
-}
+import isRestMetaActive from "./fields/is-rest-meta-active";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Schema.

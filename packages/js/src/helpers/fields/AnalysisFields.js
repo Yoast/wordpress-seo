@@ -7,14 +7,7 @@ import {
 	metaKeyInclusiveLanguageScore,
 } from "../../shared-admin/constants";
 
-/**
- * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
- *
- * @returns {boolean} True when the REST path is active.
- */
-function isRestMetaActive() {
-	return Boolean( window.wpseoScriptData?.disableMetaboxInBlockEditor );
-}
+import isRestMetaActive from "./is-rest-meta-active";
 
 /**
  * Returns whether the core/editor store has finished loading the post type config.

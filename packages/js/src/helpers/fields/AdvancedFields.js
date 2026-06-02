@@ -6,15 +6,7 @@ import {
 	metaKeyBcTitle,
 	metaKeyCanonical,
 } from "../../shared-admin/constants";
-
-/**
- * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
- *
- * @returns {boolean} True when the REST path is active.
- */
-function isRestMetaActive() {
-	return Boolean( window.wpseoScriptData?.disableMetaboxInBlockEditor );
-}
+import isRestMetaActive from "./is-rest-meta-active";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Advanced Settings.

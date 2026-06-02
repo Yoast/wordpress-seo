@@ -1,13 +1,5 @@
 import { dispatch, select } from "@wordpress/data";
-
-/**
- * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
- *
- * @returns {boolean} True when the REST path is active.
- */
-function isRestMetaActive() {
-	return Boolean( window.wpseoScriptData?.disableMetaboxInBlockEditor );
-}
+import isRestMetaActive from "./is-rest-meta-active";
 
 /**
  * Returns the REST meta key for the given taxonomy.
