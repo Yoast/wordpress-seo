@@ -60,7 +60,9 @@ function scheduleFlush() {
  * @returns {void}
  */
 function writeOrQueue( metaKey, value ) {
-	pendingWrites.set( metaKey, value );
+	// All meta fields are registered with type: string. Coerce here so callers that pass
+	// numeric scores (e.g. linkdex) don't trigger a REST API type-validation error.
+	pendingWrites.set( metaKey, String( value ) );
 	if ( ! isEditorReady() ) {
 		scheduleFlush();
 		return;
