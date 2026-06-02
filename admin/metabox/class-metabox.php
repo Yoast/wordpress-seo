@@ -732,9 +732,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return false;
 		}
 
-		// Bail when the REST API meta path is active: core/editor sends meta via REST,
-		// not via $_POST, so no nonce or hidden field values will be present.
-		if ( ( defined( 'REST_REQUEST' ) && REST_REQUEST ) && apply_filters( 'wpseo_disable_metabox_in_block_editor', false ) ) {
+		// Bail when the REST meta path is active and there is no metabox form submission.
+		// core/editor persists meta via the REST API, so $_POST will not contain the Yoast
+		// nonce or hidden-field values. Checking for the nonce absence ensures we only skip
+		// when there is genuinely no $_POST-based save to process.
+		if ( apply_filters( 'wpseo_disable_metabox_in_block_editor', false )
+			&& ( defined( 'REST_REQUEST' ) && REST_REQUEST )
+			&& ! isset( $_POST['yoast_free_metabox_nonce'] ) ) {
 			return;
 		}
 
