@@ -13,6 +13,7 @@ import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as tmceHelper from "../lib/tinymce";
+import AnalysisFields from "../helpers/fields/AnalysisFields";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isContentAnalysisActive from "./isContentAnalysisActive";
@@ -436,7 +437,7 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 
 	publishBox.updateScore( "content", indicator.className );
 
-	document.getElementById( "yoast_wpseo_linkdex" ).value = score;
+	AnalysisFields.seoScore = score;
 
 	if ( "" === keyword ) {
 		indicator.className = "na";
@@ -470,7 +471,7 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
 		updateAdminBar( indicator );
 	}
 
-	$( "#yoast_wpseo_content_score" ).val( score );
+	AnalysisFields.readabilityScore = score;
 };
 
 /**
@@ -489,7 +490,7 @@ PostDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
 		updateAdminBar( indicator );
 	}
 
-	$( "#yoast_wpseo_inclusive_language_score" ).val( score );
+	AnalysisFields.inclusiveLanguageScore = score;
 };
 
 
