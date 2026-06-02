@@ -68,6 +68,13 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 				$meta_key = WPSEO_Meta::$meta_prefix . 'primary_' . $taxonomy->name;
 
+				// object_subtype is intentional here: the same taxonomy can be attached to multiple
+				// post types and a primary-term key only makes sense for the post type that actually
+				// has that taxonomy. Scoping per post type prevents the REST API from exposing the
+				// key on post types where the taxonomy is not registered, which would allow setting
+				// a primary term for a taxonomy that doesn't apply.
+				// This differs from the global WPSEO_Meta::$meta_fields registration, where the
+				// standard Yoast fields (title, metadesc, etc.) are valid for every post type.
 				register_meta(
 					'post',
 					$meta_key,
