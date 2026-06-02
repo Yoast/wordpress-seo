@@ -1,12 +1,12 @@
 import apiFetch from "@wordpress/api-fetch";
 import { ExternalLink } from "@wordpress/components";
-import { dispatch as wpDispatch } from "@wordpress/data";
 import { Component } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { difference, get, noop } from "lodash";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import PrimaryTermFields from "../helpers/fields/PrimaryTermFields";
 import TaxonomyPicker from "./TaxonomyPicker";
 
 const PrimaryTaxonomyPickerField = styled.div`
@@ -34,7 +34,8 @@ class PrimaryTaxonomyPicker extends Component {
 
 		// Read the initial primary term ID from the hidden field when available; fall back to
 		// the value already present in the taxonomy data passed from PHP.
-		const rawValue = this.input ? this.input.value : String( get( props, "taxonomy.primary", "" ) );
+		// PrimaryTermFields.getInitialValue always returns a string, ensuring consistent types.
+		const rawValue = PrimaryTermFields.getInitialValue( this.input, get( props, "taxonomy.primary", "" ) );
 		const parsedPrimaryTaxonomyId = parseInt( rawValue, 10 );
 		// Fallback to -1 when the field is empty or invalid to avoid dispatching NaN.
 		props.setPrimaryTaxonomyId( name, Number.isNaN( parsedPrimaryTaxonomyId ) ? -1 : parsedPrimaryTaxonomyId );
@@ -194,14 +195,7 @@ class PrimaryTaxonomyPicker extends Component {
 
 		this.props.setPrimaryTaxonomyId( name, termId );
 
-		if ( this.input ) {
-			// Classic editor or block editor with metabox enabled: write to the hidden field.
-			this.input.value = termId === -1 ? "" : termId;
-		} else if ( get( window, "wpseoScriptData.disableMetaboxInBlockEditor", false ) ) {
-			// Block editor REST-first mode: persist via core/editor meta.
-			const metaKey = `_yoast_wpseo_primary_${ name }`;
-			wpDispatch( "core/editor" ).editPost( { meta: { [ metaKey ]: termId === -1 ? "" : String( termId ) } } );
-		}
+		PrimaryTermFields.set( name, termId, this.input );
 	}
 
 	/**
