@@ -12,6 +12,12 @@ describe( "active-field-set slice", () => {
 		expect( state ).toBe( FIELD_SET_SOCIAL );
 	} );
 
+	it( "ignores unknown field set ids", () => {
+		const state = reducer( FIELD_SET_SOCIAL, activeFieldSetActions.setActiveFieldSet( "nonsense" ) );
+
+		expect( state ).toBe( FIELD_SET_SOCIAL );
+	} );
+
 	it( "selects the active field set from the store state", () => {
 		expect( activeFieldSetSelectors.selectActiveFieldSet( { activeFieldSet: FIELD_SET_SOCIAL } ) ).toBe( FIELD_SET_SOCIAL );
 	} );

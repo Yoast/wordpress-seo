@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
-import { FIELD_SET_SEARCH } from "../constants";
+import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "../constants";
+
+const FIELD_SETS = [ FIELD_SET_SEARCH, FIELD_SET_SOCIAL ];
 
 /**
  * @returns {string} The initial active field set.
@@ -11,7 +13,8 @@ const slice = createSlice( {
 	name: "activeFieldSet",
 	initialState: createInitialActiveFieldSetState(),
 	reducers: {
-		setActiveFieldSet: ( state, { payload } ) => payload,
+		// Ignore unknown ids: an invalid active field set would leave no tab selected or focusable.
+		setActiveFieldSet: ( state, { payload } ) => ( FIELD_SETS.includes( payload ) ? payload : state ),
 	},
 } );
 

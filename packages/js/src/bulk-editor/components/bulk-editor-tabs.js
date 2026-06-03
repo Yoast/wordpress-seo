@@ -111,7 +111,8 @@ export const BulkEditorTabs = ( { tabs, activeTab, onChange, label } ) => {
 		const nextTab = tabs[ nextIndex ];
 		onChange( nextTab.id );
 		// Selection follows focus: move keyboard focus along with the activation.
-		listRef.current?.querySelector( `#${ getTabId( nextTab.id ) }` )?.focus();
+		// getElementById, not querySelector: a tab id is not necessarily a valid CSS selector.
+		document.getElementById( getTabId( nextTab.id ) )?.focus();
 	}, [ tabs, activeTab, onChange ] );
 
 	return (

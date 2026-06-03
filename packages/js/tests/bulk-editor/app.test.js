@@ -1,10 +1,17 @@
+import { dispatch } from "@wordpress/data";
 import { fireEvent, render, screen } from "../test-utils";
 import App from "../../src/bulk-editor/app";
+import { FIELD_SET_SEARCH, STORE_NAME } from "../../src/bulk-editor/constants";
 import registerStore from "../../src/bulk-editor/store";
 
 describe( "App", () => {
 	beforeAll( () => {
 		registerStore();
+	} );
+
+	beforeEach( () => {
+		// The store lives in the global registry: reset the active field set so tests stay order-independent.
+		dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_SEARCH );
 	} );
 
 	it( "renders the page header", () => {
