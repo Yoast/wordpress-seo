@@ -7,7 +7,7 @@ import {
 	metaKeyInclusiveLanguageScore,
 } from "../../shared-admin/constants";
 
-import isRestMetaActive, { shouldSkipMetaWrite } from "./is-rest-meta-active";
+import { isRestMetaActive, shouldSkipMetaWrite } from "./rest-meta";
 
 /**
  * Returns whether the core/editor store has finished loading the post type config.

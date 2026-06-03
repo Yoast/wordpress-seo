@@ -9,9 +9,7 @@ import { select } from "@wordpress/data";
  *
  * @returns {boolean} True when the REST path is active.
  */
-export default function isRestMetaActive() {
-	return Boolean( window.wpseoScriptData?.disableMetaboxInBlockEditor );
-}
+export const isRestMetaActive = () => Boolean( window.wpseoScriptData?.disableMetaboxInBlockEditor );
 
 /**
  * Returns whether a meta write to core/editor should be skipped.
@@ -28,7 +26,7 @@ export default function isRestMetaActive() {
  *
  * @returns {boolean} True when the write should be skipped.
  */
-export function shouldSkipMetaWrite( metaKey, newValue ) {
+export const shouldSkipMetaWrite = ( metaKey, newValue ) => {
 	const currentMeta = select( "core/editor" ).getEditedPostAttribute( "meta" );
 	return ! currentMeta || currentMeta[ metaKey ] === String( newValue );
-}
+};

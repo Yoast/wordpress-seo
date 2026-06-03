@@ -1,6 +1,6 @@
 import { dispatch, select } from "@wordpress/data";
 import { metaKeySchemaArticleType, metaKeySchemaPageType } from "../shared-admin/constants/meta-keys";
-import isRestMetaActive, { shouldSkipMetaWrite } from "./fields/is-rest-meta-active";
+import { isRestMetaActive, shouldSkipMetaWrite } from "./fields/rest-meta";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Schema.
