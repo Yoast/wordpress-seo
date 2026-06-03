@@ -174,8 +174,8 @@ class WPSEO_Meta {
 		'social'          => [],
 		'schema'          => [
 			'schema_page_type'    => [
-				'type'         => 'hidden',
-				'options'      => Schema_Types::PAGE_TYPES,
+				'type'    => 'hidden',
+				'options' => Schema_Types::PAGE_TYPES,
 			],
 			'schema_article_type' => [
 				'type'          => 'hidden',
@@ -255,8 +255,6 @@ class WPSEO_Meta {
 					self::$meta_fields['social'][ $network . '-' . $box ] = [
 						'type'          => $type,
 						'default_value' => '',
-						'show_in_rest'  => true,
-						'single'        => true,
 					];
 				}
 			}
