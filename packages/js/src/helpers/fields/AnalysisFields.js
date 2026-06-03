@@ -54,12 +54,15 @@ function scheduleFlush() {
  * When the editor is already ready any previously queued writes are flushed together with this
  * one in a single editPost call to minimise unnecessary state updates.
  *
- * @param {string} metaKey The meta key to write.
- * @param {string} value   The value to write.
+ * @param {string}  metaKey    The meta key to write.
+ * @param {string}  value      The value to write.
+ * @param {boolean} undoIgnore When true, the write bypasses the undo stack via editEntityRecord.
+ *                             Use for computed values (e.g. analysis scores) that should not
+ *                             be undoable.
  *
  * @returns {void}
  */
-function writeOrQueue( metaKey, value ) {
+function writeOrQueue( metaKey, value, undoIgnore = false ) {
 	// All meta fields are registered with type: string. Coerce here so callers that pass
 	// numeric scores (e.g. linkdex) don't trigger a REST API type-validation error.
 	pendingWrites.set( metaKey, String( value ) );
@@ -74,7 +77,13 @@ function writeOrQueue( metaKey, value ) {
 	}
 	const meta = Object.fromEntries( pendingWrites );
 	pendingWrites.clear();
-	dispatch( "core/editor" ).editPost( { meta } );
+	if ( undoIgnore ) {
+		const postType = select( "core/editor" ).getCurrentPostType();
+		const postId = select( "core/editor" ).getCurrentPostId();
+		dispatch( "core" ).editEntityRecord( "postType", postType, postId, { meta }, { undoIgnore: true } );
+	} else {
+		dispatch( "core/editor" ).editPost( { meta } );
+	}
 }
 
 /**
@@ -139,7 +148,9 @@ export default class AnalysisFields {
 	 */
 	static set keyphrase( value ) {
 		if ( isRestMetaActive() ) {
-			writeOrQueue( metaKeyFocusKw, value );
+			if ( ! shouldSkipMetaWrite( metaKeyFocusKw, value ) ) {
+				writeOrQueue( metaKeyFocusKw, value );
+			}
 			return;
 		}
 		if ( AnalysisFields.keyphraseElement ) {
@@ -200,7 +211,7 @@ export default class AnalysisFields {
 	 */
 	static set seoScore( value ) {
 		if ( isRestMetaActive() ) {
-			writeOrQueue( metaKeyLinkdex, value );
+			writeOrQueue( metaKeyLinkdex, value, true );
 			return;
 		}
 		if ( AnalysisFields.seoScoreElement ) {
@@ -229,7 +240,7 @@ export default class AnalysisFields {
 	 */
 	static set readabilityScore( value ) {
 		if ( isRestMetaActive() ) {
-			writeOrQueue( metaKeyContentScore, value );
+			writeOrQueue( metaKeyContentScore, value, true );
 			return;
 		}
 		if ( AnalysisFields.readabilityScoreElement ) {
@@ -258,7 +269,7 @@ export default class AnalysisFields {
 	 */
 	static set inclusiveLanguageScore( value ) {
 		if ( isRestMetaActive() ) {
-			writeOrQueue( metaKeyInclusiveLanguageScore, value );
+			writeOrQueue( metaKeyInclusiveLanguageScore, value, true );
 			return;
 		}
 		if ( AnalysisFields.inclusiveLanguageScoreElement ) {
