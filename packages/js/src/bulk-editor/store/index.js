@@ -2,6 +2,7 @@ import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
+import activeFieldSet, { activeFieldSetActions, activeFieldSetSelectors, createInitialActiveFieldSetState } from "./active-field-set";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
@@ -15,22 +16,26 @@ const createStore = ( { initialState } ) => {
 		actions: {
 			...linkParamsActions,
 			...preferencesActions,
+			...activeFieldSetActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
 			...preferencesSelectors,
+			...activeFieldSetSelectors,
 		},
 		initialState: merge(
 			{},
 			{
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
+				activeFieldSet: createInitialActiveFieldSetState(),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			preferences,
+			activeFieldSet,
 		} ),
 	} );
 };
