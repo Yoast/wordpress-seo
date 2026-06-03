@@ -1087,12 +1087,11 @@ class WPSEO_Meta {
 		if ( current_user_can( 'edit_post', $post->ID ) ) {
 			return $response;
 		}
-		$data = $response->get_data();
-		foreach ( self::$meta_fields as $field_group ) {
-			foreach ( $field_group as $key => $field_def ) {
-				if ( ! empty( $field_def['show_in_rest'] ) ) {
-					unset( $data['meta'][ self::$meta_prefix . $key ] );
-				}
+		$data   = $response->get_data();
+		$prefix = self::$meta_prefix;
+		foreach ( array_keys( ( $data['meta'] ?? [] ) ) as $meta_key ) {
+			if ( str_starts_with( $meta_key, $prefix ) ) {
+				unset( $data['meta'][ $meta_key ] );
 			}
 		}
 		$response->set_data( $data );
