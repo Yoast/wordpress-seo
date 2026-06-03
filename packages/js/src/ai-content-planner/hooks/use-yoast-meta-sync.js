@@ -8,11 +8,6 @@ import { metaKeyTitle, metaKeyMetaDesc, metaKeyFocusKw } from "../../shared-admi
  * Direct sidebar edits (yoast-seo/editor only) will be overwritten if core/editor meta
  * changes afterwards — accepted trade-off for correct undo behaviour.
  *
- * This hook is the core/editor → yoast-seo/editor direction. The reverse direction
- * (yoast-seo/editor → core/editor) is handled by the Redux action creators in
- * packages/js/src/redux/actions/ via the Fields helpers, which dispatch to core/editor
- * when wpseoScriptData.disableMetaboxInBlockEditor is true.
- *
  * @returns {void}
  */
 export function useYoastMetaSync() {
