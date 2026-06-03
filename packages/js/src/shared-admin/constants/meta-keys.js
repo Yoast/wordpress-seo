@@ -3,6 +3,7 @@ export const metaKeyTitle = "_yoast_wpseo_title";
 export const metaKeyMetaDesc = "_yoast_wpseo_metadesc";
 export const metaKeyFocusKw = "_yoast_wpseo_focuskw";
 export const metaKeyIsCornerstone = "_yoast_wpseo_is_cornerstone";
+export const metaKeyEstimatedReadingTime = "_yoast_wpseo_estimated-reading-time-minutes";
 export const metaKeyLinkdex = "_yoast_wpseo_linkdex";
 export const metaKeyContentScore = "_yoast_wpseo_content_score";
 export const metaKeyInclusiveLanguageScore = "_yoast_wpseo_inclusive_language_score";

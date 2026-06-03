@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
-use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 use Yoast\WP\SEO\Integrations\Estimated_Reading_Time;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -42,10 +41,9 @@ final class Estimated_Reading_Time_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_hooks() {
-		Monkey\Filters\expectAdded( 'wpseo_metabox_entries_general' )
-			->with( [ $this->instance, 'add_estimated_reading_time_hidden_fields' ] );
-
+		// No hooks are registered; the field is declared in WPSEO_Meta::$meta_fields.
 		$this->instance->register_hooks();
+		$this->assertTrue( true );
 	}
 
 	/**
@@ -60,39 +58,5 @@ final class Estimated_Reading_Time_Test extends TestCase {
 			[ Estimated_Reading_Time_Conditional::class ],
 			Estimated_Reading_Time::get_conditionals(),
 		);
-	}
-
-	/**
-	 * Tests the adding of the hidden fields.
-	 *
-	 * @covers ::add_estimated_reading_time_hidden_fields
-	 *
-	 * @return void
-	 */
-	public function test_add_estimated_reading_time_hidden_fields() {
-		$actual = $this->instance->add_estimated_reading_time_hidden_fields( [] );
-
-		$this->assertIsArray( $actual );
-		$this->assertArrayHasKey( 'estimated-reading-time-minutes', $actual );
-		$this->assertEquals(
-			[
-				'type'  => 'hidden',
-				'title' => 'estimated-reading-time-minutes',
-			],
-			$actual['estimated-reading-time-minutes'],
-		);
-	}
-
-	/**
-	 * Tests only adding when the fields value is an array.
-	 *
-	 * @covers ::add_estimated_reading_time_hidden_fields
-	 *
-	 * @return void
-	 */
-	public function test_add_estimated_reading_time_hidden_fields_only_when_array() {
-		$actual = $this->instance->add_estimated_reading_time_hidden_fields( 'not-an-array' );
-
-		$this->assertSame( 'not-an-array', $actual );
 	}
 }

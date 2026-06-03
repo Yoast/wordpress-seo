@@ -6,7 +6,6 @@ import {
 	metaKeyContentScore,
 	metaKeyInclusiveLanguageScore,
 } from "../../shared-admin/constants";
-
 import { isRestMetaActive, shouldSkipMetaWrite } from "./rest-meta";
 
 /**
