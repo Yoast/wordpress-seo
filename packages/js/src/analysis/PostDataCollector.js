@@ -14,7 +14,7 @@ import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as tmceHelper from "../lib/tinymce";
 import AnalysisFields from "../helpers/fields/AnalysisFields";
-import isRestMetaActive from "../helpers/fields/is-rest-meta-active";
+import isRestMetaActive, { shouldSkipMetaWrite } from "../helpers/fields/is-rest-meta-active";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isContentAnalysisActive from "./isContentAnalysisActive";
@@ -285,7 +285,9 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
  */
 PostDataCollector.prototype.setSnippetMeta = function( value ) {
 	if ( isRestMetaActive() ) {
-		dispatch( "core/editor" ).editPost( { meta: { [ metaKeyMetaDesc ]: value } } );
+		if ( ! shouldSkipMetaWrite( metaKeyMetaDesc, value ) ) {
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyMetaDesc ]: value } } );
+		}
 		return;
 	}
 	document.getElementById( "yoast_wpseo_metadesc" ).value = value;
@@ -327,7 +329,9 @@ PostDataCollector.prototype.setSnippetCite = function( value ) {
  */
 PostDataCollector.prototype.setSnippetTitle = function( value ) {
 	if ( isRestMetaActive() ) {
-		dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTitle ]: value } } );
+		if ( ! shouldSkipMetaWrite( metaKeyTitle, value ) ) {
+			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTitle ]: value } } );
+		}
 		return;
 	}
 	document.getElementById( "yoast_wpseo_title" ).value = value;
