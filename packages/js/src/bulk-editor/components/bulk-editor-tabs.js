@@ -29,7 +29,6 @@ export const getTabPanelId = ( tabId ) => `bulk-editor-tabpanel-${ tabId }`;
 
 /**
  * Resolves which tab index a keyboard event should activate, following the APG tabs pattern
- * (Left/Right arrows move selection, Home/End jump to the first/last tab; arrows are mirrored in RTL).
  *
  * @param {string}  key          The pressed key.
  * @param {number}  currentIndex The index of the currently active tab.
