@@ -1,4 +1,5 @@
-import { select } from "@wordpress/data";
+import { get } from "lodash";
+import { dispatch, select } from "@wordpress/data";
 
 /**
  * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
@@ -9,9 +10,7 @@ import { select } from "@wordpress/data";
  *
  * @returns {boolean} True when the REST path is active.
  */
-export default function isRestMetaActive() {
-	return Boolean( window.wpseoScriptData?.disableMetaboxInBlockEditor );
-}
+export const isRestMetaActive = () => Boolean( get( window, "wpseoScriptData.disableMetaboxInBlockEditor", false ) );
 
 /**
  * Returns whether a meta write to core/editor should be skipped.
@@ -28,7 +27,23 @@ export default function isRestMetaActive() {
  *
  * @returns {boolean} True when the write should be skipped.
  */
-export function shouldSkipMetaWrite( metaKey, newValue ) {
+export const shouldSkipMetaWrite = ( metaKey, newValue ) => {
 	const currentMeta = select( "core/editor" ).getEditedPostAttribute( "meta" );
 	return ! currentMeta || currentMeta[ metaKey ] === String( newValue );
-}
+};
+
+/**
+ * Writes one or more meta values to the core/editor store without adding an undo entry.
+ *
+ * Use this for computed/derived values (e.g. analysis scores, estimated reading time) that
+ * should be persisted on save but must not pollute the block-editor undo stack.
+ *
+ * @param {Object} meta A plain object mapping meta keys to their new values.
+ *
+ * @returns {void}
+ */
+export const writeMetaWithoutUndo = ( meta ) => {
+	const postType = select( "core/editor" ).getCurrentPostType();
+	const postId = select( "core/editor" ).getCurrentPostId();
+	dispatch( "core" ).editEntityRecord( "postType", postType, postId, { meta }, { undoIgnore: true } );
+};

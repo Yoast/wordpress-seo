@@ -6,8 +6,7 @@ import {
 	metaKeyContentScore,
 	metaKeyInclusiveLanguageScore,
 } from "../../shared-admin/constants";
-
-import isRestMetaActive, { shouldSkipMetaWrite } from "./is-rest-meta-active";
+import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo } from "./rest-meta";
 
 /**
  * Returns whether the core/editor store has finished loading the post type config.
@@ -78,9 +77,7 @@ function writeOrQueue( metaKey, value, undoIgnore = false ) {
 	const meta = Object.fromEntries( pendingWrites );
 	pendingWrites.clear();
 	if ( undoIgnore ) {
-		const postType = select( "core/editor" ).getCurrentPostType();
-		const postId = select( "core/editor" ).getCurrentPostId();
-		dispatch( "core" ).editEntityRecord( "postType", postType, postId, { meta }, { undoIgnore: true } );
+		writeMetaWithoutUndo( meta );
 	} else {
 		dispatch( "core/editor" ).editPost( { meta } );
 	}

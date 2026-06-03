@@ -14,7 +14,7 @@ import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as tmceHelper from "../lib/tinymce";
 import AnalysisFields from "../helpers/fields/AnalysisFields";
-import isRestMetaActive, { shouldSkipMetaWrite } from "../helpers/fields/is-rest-meta-active";
+import { isRestMetaActive, shouldSkipMetaWrite } from "../helpers/fields/rest-meta";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isContentAnalysisActive from "./isContentAnalysisActive";

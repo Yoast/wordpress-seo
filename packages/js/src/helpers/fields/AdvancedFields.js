@@ -6,7 +6,7 @@ import {
 	metaKeyBcTitle,
 	metaKeyCanonical,
 } from "../../shared-admin/constants";
-import isRestMetaActive, { shouldSkipMetaWrite } from "./is-rest-meta-active";
+import { isRestMetaActive, shouldSkipMetaWrite } from "./rest-meta";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Advanced Settings.

@@ -49,7 +49,7 @@ import { actions } from "@yoast/externals/redux";
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
 import AnalysisFields from "../helpers/fields/AnalysisFields";
-import isRestMetaActive from "../helpers/fields/is-rest-meta-active";
+import { isRestMetaActive } from "../helpers/fields/rest-meta";
 
 const {
 	setFocusKeyword,
