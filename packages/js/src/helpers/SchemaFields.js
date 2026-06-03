@@ -34,7 +34,7 @@ export default class SchemaFields {
 	 * @returns {string} The ArticleType.
 	 */
 	static get articleType() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeySchemaArticleType ] ?? "";
 		}
 		return SchemaFields.articleTypeInput?.value ?? "";
@@ -48,7 +48,7 @@ export default class SchemaFields {
 	 * @returns {void}
 	 */
 	static set articleType( articleType ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeySchemaArticleType, articleType ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeySchemaArticleType ]: articleType } } );
 			}
@@ -83,7 +83,7 @@ export default class SchemaFields {
 	 * @returns {string} The PageType.
 	 */
 	static get pageType() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeySchemaPageType ] ?? "";
 		}
 		return SchemaFields.pageTypeInput?.value ?? "";
@@ -97,7 +97,7 @@ export default class SchemaFields {
 	 * @returns {void}
 	 */
 	static set pageType( pageType ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeySchemaPageType, pageType ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeySchemaPageType ]: pageType } } );
 			}

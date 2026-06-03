@@ -144,7 +144,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set keyphrase( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyFocusKw, value ) ) {
 				writeOrQueue( metaKeyFocusKw, value );
 			}
@@ -161,7 +161,7 @@ export default class AnalysisFields {
 	 * @returns {string} The keyphrase.
 	 */
 	static get keyphrase() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyFocusKw ] ?? "";
 		}
 		return AnalysisFields.keyphraseElement?.value ?? "";
@@ -175,7 +175,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set isCornerstone( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			const newValue = value ? "1" : "0";
 			if ( ! shouldSkipMetaWrite( metaKeyIsCornerstone, newValue ) ) {
 				writeOrQueue( metaKeyIsCornerstone, newValue );
@@ -193,7 +193,7 @@ export default class AnalysisFields {
 	 * @returns {boolean} The isCornerstone.
 	 */
 	static get isCornerstone() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyIsCornerstone ] === "1";
 		}
 		return AnalysisFields.isCornerstoneElement?.value === "1";
@@ -207,7 +207,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set seoScore( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			writeOrQueue( metaKeyLinkdex, value, true );
 			return;
 		}
@@ -222,7 +222,7 @@ export default class AnalysisFields {
 	 * @returns {string} The SEO (overall) score.
 	 */
 	static get seoScore() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyLinkdex ] ?? "";
 		}
 		return AnalysisFields.seoScoreElement?.value ?? "";
@@ -236,7 +236,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set readabilityScore( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			writeOrQueue( metaKeyContentScore, value, true );
 			return;
 		}
@@ -251,7 +251,7 @@ export default class AnalysisFields {
 	 * @returns {string} The Readability (overall) score.
 	 */
 	static get readabilityScore() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyContentScore ] ?? "";
 		}
 		return AnalysisFields.readabilityScoreElement?.value ?? "";
@@ -265,7 +265,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set inclusiveLanguageScore( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			writeOrQueue( metaKeyInclusiveLanguageScore, value, true );
 			return;
 		}
@@ -280,7 +280,7 @@ export default class AnalysisFields {
 	 * @returns {string} The inclusive language (overall) score.
 	 */
 	static get inclusiveLanguageScore() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyInclusiveLanguageScore ] ?? "";
 		}
 		return AnalysisFields.inclusiveLanguageScoreElement?.value ?? "";
