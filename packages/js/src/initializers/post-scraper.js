@@ -49,6 +49,7 @@ import { actions } from "@yoast/externals/redux";
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
 import AnalysisFields from "../helpers/fields/AnalysisFields";
+import isRestMetaActive from "../helpers/fields/is-rest-meta-active";
 
 const {
 	setFocusKeyword,
@@ -461,9 +462,20 @@ export default function initPostScraper( $, store, editorData ) {
 		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		store.dispatch( updateData( snippetEditorData ) );
-		// This used to be a checkbox, then became a hidden input. In REST meta mode the element is absent
-		// but AnalysisFields.isCornerstone reads from core/editor store instead.
-		store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
+		// Dispatch cornerstone after entity meta is available. In REST meta mode the DOM element is
+		// absent and AnalysisFields.isCornerstone reads from core/editor, which returns null until
+		// the entity resolves — so we defer the dispatch until meta is loaded.
+		if ( isRestMetaActive() && ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
+			const unsubscribeCornerstoneSync = subscribe( () => {
+				if ( ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
+					return;
+				}
+				unsubscribeCornerstoneSync();
+				store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
+			}, "core/editor" );
+		} else {
+			store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
+		}
 
 		let focusKeyword = store.getState().focusKeyword;
 		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
