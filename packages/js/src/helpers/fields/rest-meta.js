@@ -1,3 +1,4 @@
+import { get } from "lodash";
 import { dispatch, select } from "@wordpress/data";
 
 /**
@@ -9,7 +10,7 @@ import { dispatch, select } from "@wordpress/data";
  *
  * @returns {boolean} True when the REST path is active.
  */
-export const isRestMetaActive = () => Boolean( window.wpseoScriptData?.disableMetaboxInBlockEditor );
+export const isRestMetaActive = () => Boolean( get( window, "wpseoScriptData.disableMetaboxInBlockEditor", false ) );
 
 /**
  * Returns whether a meta write to core/editor should be skipped.
