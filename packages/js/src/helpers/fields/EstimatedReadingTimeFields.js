@@ -1,6 +1,6 @@
-import { dispatch, select } from "@wordpress/data";
+import { select } from "@wordpress/data";
 import { metaKeyEstimatedReadingTime } from "../../shared-admin/constants";
-import { isRestMetaActive, shouldSkipMetaWrite } from "./rest-meta";
+import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo } from "./rest-meta";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Estimated Reading Time (ert).
@@ -41,7 +41,7 @@ export default class EstimatedReadingTimeFields {
 	static set estimatedReadingTime( value ) {
 		if ( isRestMetaActive() ) {
 			if ( ! shouldSkipMetaWrite( metaKeyEstimatedReadingTime, value ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyEstimatedReadingTime ]: value } } );
+				writeMetaWithoutUndo( { [ metaKeyEstimatedReadingTime ]: value } );
 			}
 			return;
 		}
