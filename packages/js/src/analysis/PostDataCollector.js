@@ -14,6 +14,7 @@ import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as tmceHelper from "../lib/tinymce";
 import AnalysisFields from "../helpers/fields/AnalysisFields";
+import isRestMetaActive from "../helpers/fields/is-rest-meta-active";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isContentAnalysisActive from "./isContentAnalysisActive";
@@ -82,8 +83,7 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	const disableMetaboxInBlockEditor = get( wpseoScriptData, "disableMetaboxInBlockEditor", false );
-	if ( disableMetaboxInBlockEditor ) {
+	if ( isRestMetaActive() ) {
 		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyFocusKw ] ?? "";
 	}
 	return document.getElementById( "yoast_wpseo_focuskw" )?.value ?? "";
@@ -110,8 +110,7 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
  * @returns {string} The meta description.
  */
 PostDataCollector.prototype.getMeta = function() {
-	const disableMetaboxInBlockEditor = get( wpseoScriptData, "disableMetaboxInBlockEditor", false );
-	if ( disableMetaboxInBlockEditor ) {
+	if ( isRestMetaActive() ) {
 		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyMetaDesc ] ?? "";
 	}
 	return document.getElementById( "yoast_wpseo_metadesc" )?.value ?? "";
@@ -179,8 +178,7 @@ PostDataCollector.prototype.getExcerpt = function() {
  * @returns {string} The snippet title.
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
-	const disableMetaboxInBlockEditor = get( wpseoScriptData, "disableMetaboxInBlockEditor", false );
-	if ( disableMetaboxInBlockEditor ) {
+	if ( isRestMetaActive() ) {
 		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTitle ] ?? "";
 	}
 	return document.getElementById( "yoast_wpseo_title" )?.value ?? "";
@@ -192,8 +190,7 @@ PostDataCollector.prototype.getSnippetTitle = function() {
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
-	const disableMetaboxInBlockEditor = get( wpseoScriptData, "disableMetaboxInBlockEditor", false );
-	if ( disableMetaboxInBlockEditor ) {
+	if ( isRestMetaActive() ) {
 		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyMetaDesc ] ?? "";
 	}
 	return document.getElementById( "yoast_wpseo_metadesc" )?.value ?? "";
@@ -287,8 +284,7 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
  * @returns {void}
  */
 PostDataCollector.prototype.setSnippetMeta = function( value ) {
-	const disableMetaboxInBlockEditor = get( wpseoScriptData, "disableMetaboxInBlockEditor", false );
-	if ( disableMetaboxInBlockEditor ) {
+	if ( isRestMetaActive() ) {
 		dispatch( "core/editor" ).editPost( { meta: { [ metaKeyMetaDesc ]: value } } );
 		return;
 	}
@@ -330,8 +326,7 @@ PostDataCollector.prototype.setSnippetCite = function( value ) {
  * @returns {void}
  */
 PostDataCollector.prototype.setSnippetTitle = function( value ) {
-	const disableMetaboxInBlockEditor = get( wpseoScriptData, "disableMetaboxInBlockEditor", false );
-	if ( disableMetaboxInBlockEditor ) {
+	if ( isRestMetaActive() ) {
 		dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTitle ]: value } } );
 		return;
 	}
