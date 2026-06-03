@@ -75,6 +75,8 @@ const Tab = ( { tab, isActive, onChange, onKeyDown } ) => {
 			tabIndex={ isActive ? 0 : -1 }
 			onClick={ handleClick }
 			onKeyDown={ onKeyDown }
+			// Per the design, an unselected tab is quiet gray, not the tertiary pink.
+			className={ isActive ? "" : "yst-text-slate-600 hover:yst-text-slate-900 focus:yst-text-slate-900" }
 		>
 			{ tab.label }
 		</Button>
