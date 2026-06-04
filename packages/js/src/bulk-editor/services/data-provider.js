@@ -18,6 +18,7 @@ export class DataProvider {
 	 * @param {Object<string,string>} [data.endpoints] The endpoints.
 	 * @param {Object<string,string>} [data.links] The links.
 	 */
+	constructor( { contentTypes = [], endpoints = {}, links = {} } = {} ) {
 		this.#contentTypes = contentTypes;
 		this.#endpoints = endpoints;
 		this.#links = links;
