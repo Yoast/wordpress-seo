@@ -17,28 +17,28 @@ use Brain\Monkey;
 final class Search_Bulk_Update_Route_Check_Permissions_Test extends Abstract_Search_Bulk_Update_Route_Test {
 
 	/**
-	 * Tests the permission callback checks the edit_posts capability.
+	 * Tests the permission callback checks the wpseo_bulk_edit capability.
 	 *
 	 * @return void
 	 */
 	public function test_check_permissions() {
 		Monkey\Functions\expect( 'current_user_can' )
 			->once()
-			->with( 'edit_posts' )
+			->with( 'wpseo_bulk_edit' )
 			->andReturnTrue();
 
 		$this->assertTrue( $this->instance->check_permissions() );
 	}
 
 	/**
-	 * Tests the permission callback denies users without the edit_posts capability.
+	 * Tests the permission callback denies users without the wpseo_bulk_edit capability.
 	 *
 	 * @return void
 	 */
 	public function test_check_permissions_denied() {
 		Monkey\Functions\expect( 'current_user_can' )
 			->once()
-			->with( 'edit_posts' )
+			->with( 'wpseo_bulk_edit' )
 			->andReturnFalse();
 
 		$this->assertFalse( $this->instance->check_permissions() );

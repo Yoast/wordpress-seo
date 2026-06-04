@@ -172,7 +172,7 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 	 * @return bool Whether the current user is allowed to use the bulk editor.
 	 */
 	public function check_permissions(): bool {
-		return \current_user_can( 'edit_posts' );
+		return \current_user_can( 'wpseo_bulk_edit' );
 	}
 
 	/**
