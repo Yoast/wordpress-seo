@@ -68,15 +68,18 @@ const Tab = ( { tab, isActive, onChange, onKeyDown } ) => {
 		<Button
 			id={ getTabId( tab.id ) }
 			role="tab"
-			variant={ isActive ? "secondary" : "tertiary" }
+			variant="tertiary"
 			size="small"
 			aria-selected={ isActive }
 			aria-controls={ getTabPanelId( tab.id ) }
 			tabIndex={ isActive ? 0 : -1 }
 			onClick={ handleClick }
 			onKeyDown={ onKeyDown }
-			// Per the design, an unselected tab is quiet gray, not the tertiary pink.
-			className={ isActive ? "" : "yst-text-slate-600 hover:yst-text-slate-900 focus:yst-text-slate-900" }
+			// Per the design, tabs share the navigation items' style: the active one gets the slate pill,
+			// the inactive ones are quiet gray (not the tertiary pink).
+			className={ isActive
+				? "yst-bg-slate-200 yst-text-slate-900 hover:yst-text-slate-900 focus:yst-text-slate-900"
+				: "yst-text-slate-600 hover:yst-text-slate-900 focus:yst-text-slate-900" }
 		>
 			{ tab.label }
 		</Button>
