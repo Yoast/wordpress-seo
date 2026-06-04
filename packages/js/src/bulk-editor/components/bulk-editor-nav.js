@@ -63,11 +63,16 @@ export const BulkEditorNav = ( { contentTypes, activeContentType, onChange, back
 		/* translators: %d expands to the number of additional content types. */
 		const showMoreLabel = sprintf( __( "Show %d more", "wordpress-seo" ), hiddenCount );
 
+		// Per the design: a rounded pill with a thin divider line on each side.
 		return (
-			<Button variant="tertiary" size="small" onClick={ toggle } { ...ariaProps }>
-				{ show ? __( "Show less", "wordpress-seo" ) : showMoreLabel }
-				<ChevronDownIcon className={ classNames( "yst-w-4 yst-h-4 yst-ms-1", show && "yst-rotate-180" ) } aria-hidden="true" />
-			</Button>
+			<div className="yst-flex yst-items-center yst-gap-2 yst-mt-2">
+				<span className="yst-grow yst-border-t yst-border-slate-200" aria-hidden="true" />
+				<Button variant="secondary" size="small" className="yst-rounded-full" onClick={ toggle } { ...ariaProps }>
+					{ show ? __( "Show less", "wordpress-seo" ) : showMoreLabel }
+					<ChevronDownIcon className={ classNames( "yst-w-4 yst-h-4 yst-ms-1", show && "yst-rotate-180" ) } aria-hidden="true" />
+				</Button>
+				<span className="yst-grow yst-border-t yst-border-slate-200" aria-hidden="true" />
+			</div>
 		);
 	}, [ hiddenCount ] );
 
