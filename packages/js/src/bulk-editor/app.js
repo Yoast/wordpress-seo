@@ -71,6 +71,7 @@ const App = ( { dataProvider } ) => {
 	const { title, description } = getHeaderCopy( activeContentType );
 	// Note: getLink returns "" (not undefined) for unknown links, hence || and not ??.
 	const backToToolsUrl = dataProvider.getLink( "tools" ) || "admin.php?page=wpseo_tools";
+	const logoHref = dataProvider.getLink( "dashboard" ) || "admin.php?page=wpseo_dashboard";
 
 	return (
 		<div className="yst-p-8 yst-flex yst-items-start yst-gap-8 yst-max-w-7xl">
@@ -80,6 +81,7 @@ const App = ( { dataProvider } ) => {
 					activeContentType={ activeContentType ? activeContentType.id : "" }
 					onChange={ setActiveContentType }
 					backToToolsUrl={ backToToolsUrl }
+					logoHref={ logoHref }
 					isPremium={ isPremium }
 				/>
 			</div>

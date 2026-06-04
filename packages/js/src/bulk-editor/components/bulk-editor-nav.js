@@ -1,7 +1,7 @@
 import DuplicateIcon from "@heroicons/react/outline/DuplicateIcon";
 import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon";
 import { useCallback } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { Button, ChildrenLimiter, Link, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { YoastLogo } from "../../shared-admin/components";
@@ -73,8 +73,11 @@ export const BulkEditorNav = ( {
 	const svgAriaProps = useSvgAria();
 
 	const renderShowMoreButton = useCallback( ( { show, toggle, ariaProps } ) => {
-		/* translators: %d expands to the number of additional content types. */
-		const showMoreLabel = sprintf( __( "Show %d more", "wordpress-seo" ), hiddenCount );
+		const showMoreLabel = sprintf(
+			/* translators: %d expands to the number of additional content types. */
+			_n( "Show %d more", "Show %d more", hiddenCount, "wordpress-seo" ),
+			hiddenCount
+		);
 
 		// Per the design: a rounded pill with a thin divider line on each side.
 		return (
