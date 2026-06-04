@@ -33,7 +33,7 @@ domReady( () => {
 		endpoints: get( window, "wpseoBulkEditorData.endpoints", {} ),
 		links: get( window, "wpseoBulkEditorData.links", {} ),
 	} );
-	const remoteDataProvider = new RemoteDataProvider( { headers: { "X-Wp-Nonce": nonce } } );
+	const remoteDataProvider = new RemoteDataProvider( { headers: { "X-WP-Nonce": nonce } } );
 
 	const router = createHashRouter(
 		createRoutesFromElements(
@@ -44,7 +44,7 @@ domReady( () => {
 	// Mounted without the ui-library Root wrapper (RFC: Root-independent rendering).
 	// RTL is handled via the dir attribute instead of the Root context.
 	createRoot( root ).render(
-		<div dir={ isRtl ? "rtl" : "ltr" }>
+		<div dir={ isRtl ? "rtl" : "ltr" } className="yst-root">
 			<SlotFillProvider>
 				<RouterProvider router={ router } />
 			</SlotFillProvider>

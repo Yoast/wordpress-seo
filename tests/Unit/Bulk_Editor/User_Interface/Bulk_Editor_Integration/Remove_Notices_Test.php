@@ -21,9 +21,10 @@ final class Remove_Notices_Test extends Abstract_Bulk_Editor_Integration_Test {
 	 * @return void
 	 */
 	public function test_remove_notices() {
-		Functions\expect( 'remove_all_actions' )
-			->with( 'admin_notices', 'user_admin_notices', 'network_admin_notices', 'all_admin_notices' )
-			->times( 4 );
+		Functions\expect( 'remove_all_actions' )->once()->with( 'admin_notices' );
+		Functions\expect( 'remove_all_actions' )->once()->with( 'user_admin_notices' );
+		Functions\expect( 'remove_all_actions' )->once()->with( 'network_admin_notices' );
+		Functions\expect( 'remove_all_actions' )->once()->with( 'all_admin_notices' );
 
 		$this->instance->remove_notices();
 	}

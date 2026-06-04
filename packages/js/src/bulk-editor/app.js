@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { PlaceholderPage } from "./components";
 
 /**
@@ -11,10 +10,6 @@ import { PlaceholderPage } from "./components";
  */
 const App = ( { dataProvider } ) => {
 	return <PlaceholderPage dataProvider={ dataProvider } />;
-};
-
-App.propTypes = {
-	dataProvider: PropTypes.object.isRequired,
 };
 
 export default App;

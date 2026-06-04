@@ -1,6 +1,5 @@
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
  * Temporary placeholder page until the bulk editor UI lands.
@@ -14,7 +13,7 @@ export const PlaceholderPage = ( { dataProvider } ) => {
 
 	return (
 		<Paper className="yst-m-8 yst-p-8 yst-space-y-4">
-			<Title>{ __( "Bulk edit", "wordpress-seo" ) }</Title>
+			<Title>{ __( "Bulk editor", "wordpress-seo" ) }</Title>
 			<ul className="yst-list-disc yst-list-inside">
 				{ contentTypes.map( ( contentType ) => (
 					<li key={ contentType.name }>{ contentType.label }</li>
@@ -22,8 +21,4 @@ export const PlaceholderPage = ( { dataProvider } ) => {
 			</ul>
 		</Paper>
 	);
-};
-
-PlaceholderPage.propTypes = {
-	dataProvider: PropTypes.object.isRequired,
 };
