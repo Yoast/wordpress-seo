@@ -2,6 +2,7 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Paper } from "@yoast/ui-library";
+import { BulkEditorNav } from "./components/bulk-editor-nav";
 import { BulkEditorPageHeader } from "./components/bulk-editor-page-header";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./components/bulk-editor-tabs";
 import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, STORE_NAME } from "./constants";
@@ -19,18 +20,9 @@ const getPanelPlaceholder = ( label ) => {
 };
 
 /**
- * The bulk editor app: the page header, the Search/Social appearance tabs (active tab in the store), and the
- * tab panels. The panels hold placeholders until the field-set data table (Free-FE 4) plugs in.
- *
- * @param {Object}                              props              The props.
- * @param {import("./services").DataProvider}   props.dataProvider The data provider.
- *
- * @returns {JSX.Element} The app.
- */
-/**
  * Builds the header copy for a content type, following the design's wording.
  *
- * @param {Object} [contentType] The content type ({ name, label }), if any.
+ * @param {Object} [contentType] The content type ({ id, label }), if any.
  *
  * @returns {{title: string, description: string}} The header title and description.
  */
@@ -50,35 +42,63 @@ const getHeaderCopy = ( contentType ) => {
 	};
 };
 
+/**
+ * The bulk editor app: the content-type sub-navigation, the page header, the Search/Social appearance tabs,
+ * and the tab panels. The active content type and field set live in the store.
+ *
+ * @param {Object}                            props              The props.
+ * @param {import("./services").DataProvider} props.dataProvider The data provider.
+ *
+ * @returns {JSX.Element} The app.
+ */
 const App = ( { dataProvider } ) => {
 	const tabs = useMemo( () => [
 		{ id: FIELD_SET_SEARCH, label: __( "Search appearance", "wordpress-seo" ) },
 		{ id: FIELD_SET_SOCIAL, label: __( "Social appearance", "wordpress-seo" ) },
 	], [] );
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
-	const { setActiveFieldSet } = useDispatch( STORE_NAME );
+	const activeContentTypeName = useSelect( ( select ) => select( STORE_NAME ).selectActiveContentTypeName(), [] );
+	const { setActiveFieldSet, setActiveContentType } = useDispatch( STORE_NAME );
 
-	// Until the content-type navigation (Free-FE 3) drives the selection, the first content type is shown.
-	const { title, description } = getHeaderCopy( dataProvider.getContentTypes()[ 0 ] );
+	const contentTypes = useMemo(
+		() => dataProvider.getContentTypes().map( ( { name, label } ) => ( { id: name, label } ) ),
+		[ dataProvider ]
+	);
+	// An unknown or empty name falls back to the first available content type.
+	const activeContentType = contentTypes.find( ( { id } ) => id === activeContentTypeName ) ?? contentTypes[ 0 ];
+
+	const { title, description } = getHeaderCopy( activeContentType );
+	// Note: getLink returns "" (not undefined) for unknown links, hence || and not ??.
+	const backToToolsUrl = dataProvider.getLink( "tools" ) || "admin.php?page=wpseo_tools";
 
 	return (
-		<div className="yst-p-8 yst-space-y-8 yst-max-w-7xl">
-			<Paper>
-				<BulkEditorPageHeader title={ title } description={ description } />
-			</Paper>
-			<BulkEditorTabs
-				tabs={ tabs }
-				activeTab={ activeFieldSet }
-				onChange={ setActiveFieldSet }
-				label={ __( "Bulk editor views", "wordpress-seo" ) }
-			/>
-			{ tabs.map( ( tab ) => (
-				<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-					<Paper className="yst-p-8">
-						<p className="yst-text-slate-500">{ getPanelPlaceholder( tab.label ) }</p>
-					</Paper>
-				</BulkEditorTabPanel>
-			) ) }
+		<div className="yst-p-8 yst-flex yst-items-start yst-gap-8 yst-max-w-7xl">
+			<div className="yst-w-56 yst-shrink-0">
+				<BulkEditorNav
+					contentTypes={ contentTypes }
+					activeContentType={ activeContentType ? activeContentType.id : "" }
+					onChange={ setActiveContentType }
+					backToToolsUrl={ backToToolsUrl }
+				/>
+			</div>
+			<div className="yst-grow yst-min-w-0 yst-space-y-8">
+				<Paper>
+					<BulkEditorPageHeader title={ title } description={ description } />
+				</Paper>
+				<BulkEditorTabs
+					tabs={ tabs }
+					activeTab={ activeFieldSet }
+					onChange={ setActiveFieldSet }
+					label={ __( "Bulk editor views", "wordpress-seo" ) }
+				/>
+				{ tabs.map( ( tab ) => (
+					<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
+						<Paper className="yst-p-8">
+							<p className="yst-text-slate-500">{ getPanelPlaceholder( tab.label ) }</p>
+						</Paper>
+					</BulkEditorTabPanel>
+				) ) }
+			</div>
 		</div>
 	);
 };

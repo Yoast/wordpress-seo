@@ -2,6 +2,7 @@ import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
+import activeContentType, { activeContentTypeActions, activeContentTypeSelectors, createInitialActiveContentTypeState } from "./active-content-type";
 import activeFieldSet, { activeFieldSetActions, activeFieldSetSelectors, createInitialActiveFieldSetState } from "./active-field-set";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 
@@ -17,11 +18,13 @@ const createStore = ( { initialState } ) => {
 			...linkParamsActions,
 			...preferencesActions,
 			...activeFieldSetActions,
+			...activeContentTypeActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
 			...preferencesSelectors,
 			...activeFieldSetSelectors,
+			...activeContentTypeSelectors,
 		},
 		initialState: merge(
 			{},
@@ -29,6 +32,7 @@ const createStore = ( { initialState } ) => {
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
 				activeFieldSet: createInitialActiveFieldSetState(),
+				activeContentType: createInitialActiveContentTypeState(),
 			},
 			initialState
 		),
@@ -36,6 +40,7 @@ const createStore = ( { initialState } ) => {
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			preferences,
 			activeFieldSet,
+			activeContentType,
 		} ),
 	} );
 };
