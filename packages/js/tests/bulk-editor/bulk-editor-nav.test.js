@@ -34,6 +34,18 @@ describe( "BulkEditorNav", () => {
 		expect( link ).toHaveAttribute( "href", defaultProps.backToToolsUrl );
 	} );
 
+	it( "renders the Yoast SEO logo linking to the dashboard", () => {
+		render( <BulkEditorNav { ...defaultProps } /> );
+
+		expect( screen.getByRole( "link", { name: "Yoast SEO" } ) ).toHaveAttribute( "href", "admin.php?page=wpseo_dashboard" );
+	} );
+
+	it( "labels the logo Yoast SEO Premium when Premium is active", () => {
+		render( <BulkEditorNav { ...defaultProps } isPremium={ true } /> );
+
+		expect( screen.getByRole( "link", { name: "Yoast SEO Premium" } ) ).toBeInTheDocument();
+	} );
+
 	it( "marks the active content type with aria-current", () => {
 		render( <BulkEditorNav { ...defaultProps } /> );
 

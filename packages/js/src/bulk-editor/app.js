@@ -58,6 +58,7 @@ const App = ( { dataProvider } ) => {
 	], [] );
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const activeContentTypeName = useSelect( ( select ) => select( STORE_NAME ).selectActiveContentTypeName(), [] );
+	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
 	const { setActiveFieldSet, setActiveContentType } = useDispatch( STORE_NAME );
 
 	const contentTypes = useMemo(
@@ -79,6 +80,7 @@ const App = ( { dataProvider } ) => {
 					activeContentType={ activeContentType ? activeContentType.id : "" }
 					onChange={ setActiveContentType }
 					backToToolsUrl={ backToToolsUrl }
+					isPremium={ isPremium }
 				/>
 			</div>
 			<div className="yst-grow yst-min-w-0 yst-space-y-8">

@@ -1,8 +1,10 @@
+import DuplicateIcon from "@heroicons/react/outline/DuplicateIcon";
 import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon";
 import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, ChildrenLimiter, SidebarNavigation } from "@yoast/ui-library";
+import { Button, ChildrenLimiter, Link, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
+import { YoastLogo } from "../../shared-admin/components";
 import { BackToToolsLink } from "./back-to-tools-link";
 
 /**
@@ -47,17 +49,28 @@ const ContentTypeItem = ( { contentType, onChange } ) => {
  * Controlled and store-free: the active content type and the change handler are props, so Free-FE 1 can wire
  * them to the view-state store and localized data.
  *
- * @param {Object}                  props                  The props.
- * @param {BulkEditorContentType[]} props.contentTypes     The content types, in display order.
+ * @param {Object}                  props                   The props.
+ * @param {BulkEditorContentType[]} props.contentTypes      The content types, in display order.
  * @param {string}                  props.activeContentType The id of the active content type.
- * @param {Function}                props.onChange         Called with a content type id when one is selected.
- * @param {string}                  props.backToToolsUrl   The URL of the Tools page.
- * @param {number}                  [props.visibleLimit]   How many content types to show before "Show N more".
+ * @param {Function}                props.onChange          Called with a content type id when one is selected.
+ * @param {string}                  props.backToToolsUrl    The URL of the Tools page.
+ * @param {string}                  [props.logoHref]        Where the Yoast SEO logo links to.
+ * @param {boolean}                 [props.isPremium]       Whether Premium is active (affects the logo label).
+ * @param {number}                  [props.visibleLimit]    How many content types to show before "Show N more".
  *
  * @returns {JSX.Element} The sub-navigation.
  */
-export const BulkEditorNav = ( { contentTypes, activeContentType, onChange, backToToolsUrl, visibleLimit = 5 } ) => {
+export const BulkEditorNav = ( {
+	contentTypes,
+	activeContentType,
+	onChange,
+	backToToolsUrl,
+	logoHref = "admin.php?page=wpseo_dashboard",
+	isPremium = false,
+	visibleLimit = 5,
+} ) => {
 	const hiddenCount = contentTypes.length - visibleLimit;
+	const svgAriaProps = useSvgAria();
 
 	const renderShowMoreButton = useCallback( ( { show, toggle, ariaProps } ) => {
 		/* translators: %d expands to the number of additional content types. */
@@ -79,8 +92,19 @@ export const BulkEditorNav = ( { contentTypes, activeContentType, onChange, back
 	return (
 		<SidebarNavigation activePath={ activeContentType }>
 			<SidebarNavigation.Sidebar aria-label={ __( "Bulk editor menu", "wordpress-seo" ) } className="yst-space-y-6">
+				<Link
+					href={ logoHref }
+					className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500"
+					aria-label={ isPremium ? "Yoast SEO Premium" : "Yoast SEO" }
+				>
+					<YoastLogo className="yst-w-40" { ...svgAriaProps } />
+				</Link>
 				<BackToToolsLink href={ backToToolsUrl } />
-				<SidebarNavigation.MenuItem id="bulk-editor-nav-content-types" label={ __( "Bulk editor", "wordpress-seo" ) }>
+				<SidebarNavigation.MenuItem
+					id="bulk-editor-nav-content-types"
+					label={ __( "Bulk editor", "wordpress-seo" ) }
+					icon={ DuplicateIcon }
+				>
 					<ChildrenLimiter limit={ visibleLimit } id="bulk-editor-nav-more" renderButton={ renderShowMoreButton }>
 						{ contentTypes.map( ( contentType ) => (
 							<ContentTypeItem key={ contentType.id } contentType={ contentType } onChange={ onChange } />
