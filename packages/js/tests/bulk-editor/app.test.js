@@ -25,6 +25,18 @@ describe( "App", () => {
 		dispatch( STORE_NAME ).setActiveContentType( "" );
 	} );
 
+	it( "renders the header, tabs and panel in a single card with the header separator", () => {
+		const { container } = render( <App dataProvider={ dataProvider } /> );
+
+		const papers = container.querySelectorAll( ".yst-paper" );
+		expect( papers ).toHaveLength( 1 );
+		expect( papers[ 0 ] ).toContainElement( screen.getByRole( "heading", { level: 1 } ) );
+		expect( papers[ 0 ] ).toContainElement( screen.getByRole( "tablist", { name: "Bulk editor views" } ) );
+		expect( papers[ 0 ] ).toContainElement( screen.getByRole( "tabpanel" ) );
+		// The header carries the separator line between itself and the content.
+		expect( screen.getByRole( "banner" ) ).toHaveClass( "yst-border-b" );
+	} );
+
 	it( "renders the page header for the first content type", () => {
 		render( <App dataProvider={ dataProvider } /> );
 
