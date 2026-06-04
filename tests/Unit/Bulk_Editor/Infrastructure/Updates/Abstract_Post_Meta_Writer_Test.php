@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Updates;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Meta;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Updates\Abstract_Post_Meta_Writer;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -27,6 +28,20 @@ abstract class Abstract_Post_Meta_Writer_Test extends TestCase {
 	 * @var Abstract_Post_Meta_Writer
 	 */
 	protected $instance;
+
+	/**
+	 * Snapshot of WPSEO_Meta::$fields_index to restore after each test.
+	 *
+	 * @var array<string, array<string, string>>
+	 */
+	private $fields_index_snapshot;
+
+	/**
+	 * Snapshot of WPSEO_Meta::$defaults to restore after each test.
+	 *
+	 * @var array<string, string>
+	 */
+	private $defaults_snapshot;
 
 	/**
 	 * Creates the writer under test.
@@ -62,10 +77,28 @@ abstract class Abstract_Post_Meta_Writer_Test extends TestCase {
 
 		// WPSEO_Utils::sanitize_text_field() delegates to this WordPress function.
 		Monkey\Functions\when( 'wp_check_invalid_utf8' )->returnArg();
+
+		// The registration state is a global static; snapshot it and start from a clean
+		// slate so each test controls whether the field under test is registered.
+		$this->fields_index_snapshot = WPSEO_Meta::$fields_index;
+		$this->defaults_snapshot     = WPSEO_Meta::$defaults;
+		WPSEO_Meta::$fields_index    = [];
 	}
 
 	/**
-	 * Tests the title is sanitized and written to the title meta key.
+	 * Restores the global registration state.
+	 *
+	 * @return void
+	 */
+	protected function tear_down() {
+		WPSEO_Meta::$fields_index = $this->fields_index_snapshot;
+		WPSEO_Meta::$defaults     = $this->defaults_snapshot;
+
+		parent::tear_down();
+	}
+
+	/**
+	 * Tests an unregistered field is sanitized with plain text sanitization and written to the title meta key.
 	 *
 	 * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Updates\Abstract_Post_Meta_Writer::write_title
 	 *
@@ -104,5 +137,37 @@ abstract class Abstract_Post_Meta_Writer_Test extends TestCase {
 			->with( $this->get_expected_title_meta_key(), '', 123 );
 
 		$this->instance->write_title( 123, '' );
+	}
+
+	/**
+	 * Tests a registered field is routed through the canonical meta sanitizer, so the
+	 * field-specific handling and the `wpseo_sanitize_post_meta_*` filter run.
+	 *
+	 * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Updates\Abstract_Post_Meta_Writer::write_title
+	 *
+	 * @return void
+	 */
+	public function test_write_title_routes_registered_field_through_canonical_sanitizer() {
+		$meta_key = WPSEO_Meta::$meta_prefix . $this->get_expected_title_meta_key();
+
+		// Register the field, pointing at the always-present general/title hidden field definition.
+		WPSEO_Meta::$fields_index[ $meta_key ] = [
+			'subset' => 'general',
+			'key'    => 'title',
+		];
+		WPSEO_Meta::$defaults[ $meta_key ]     = '';
+
+		Monkey\Filters\expectApplied( 'wpseo_sanitize_post_meta_' . $meta_key )
+			->once()
+			->andReturnUsing(
+				static function ( $clean ) {
+					return $clean;
+				},
+			);
+
+		$this->meta_helper->expects( 'set_value' )
+			->with( $this->get_expected_title_meta_key(), 'The title', 123 );
+
+		$this->instance->write_title( 123, '  The title  ' );
 	}
 }
