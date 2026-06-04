@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Batch_Limit;
 use Yoast\WP\SEO\Bulk_Editor\User_Interface\Search_Bulk_Update_Route;
 
 /**
@@ -37,28 +36,6 @@ final class Search_Bulk_Update_Route_Register_Routes_Test extends Abstract_Searc
 							'required'          => true,
 							'type'              => 'array',
 							'description'       => 'The per-post updates to apply.',
-							'minItems'          => 1,
-							'maxItems'          => Batch_Limit::MAX_ITEMS,
-							'items'             => [
-								'type'                 => 'object',
-								'additionalProperties' => false,
-								'properties'           => [
-									'id'               => [
-										'type'        => 'integer',
-										'required'    => true,
-										'minimum'     => 1,
-										'description' => 'The ID of the post to update.',
-									],
-									'seo_title'        => [
-										'type'        => 'string',
-										'description' => 'The new title for the post.',
-									],
-									'meta_description' => [
-										'type'        => 'string',
-										'description' => 'The new description for the post.',
-									],
-								],
-							],
 							'validate_callback' => [ $this->instance, 'validate_items' ],
 						],
 					],

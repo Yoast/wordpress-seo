@@ -85,6 +85,9 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
+		// The per-item structure and batch bounds are enforced by validate_items(), not by this
+		// schema: a custom validate_callback replaces WordPress' built-in schema validation for
+		// the argument, so any properties/minItems/maxItems declared here would never be checked.
 		\register_rest_route(
 			self::ROUTE_NAMESPACE,
 			$this->get_route_prefix(),
@@ -95,28 +98,6 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 						'required'          => true,
 						'type'              => 'array',
 						'description'       => 'The per-post updates to apply.',
-						'minItems'          => 1,
-						'maxItems'          => Batch_Limit::MAX_ITEMS,
-						'items'             => [
-							'type'                 => 'object',
-							'additionalProperties' => false,
-							'properties'           => [
-								'id' => [
-									'type'        => 'integer',
-									'required'    => true,
-									'minimum'     => 1,
-									'description' => 'The ID of the post to update.',
-								],
-								$this->get_title_arg_name() => [
-									'type'        => 'string',
-									'description' => 'The new title for the post.',
-								],
-								$this->get_description_arg_name() => [
-									'type'        => 'string',
-									'description' => 'The new description for the post.',
-								],
-							],
-						],
 						'validate_callback' => [ $this, 'validate_items' ],
 					],
 				],
@@ -140,7 +121,13 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 			return new WP_Error( 'rest_invalid_items', 'The items argument must be an array.', [ 'status' => 400 ] );
 		}
 
-		if ( ! Batch_Limit::is_within_limit( \count( $items ) ) ) {
+		$count = \count( $items );
+
+		if ( $count < 1 ) {
+			return new WP_Error( 'rest_no_items', 'A batch must contain at least one item.', [ 'status' => 400 ] );
+		}
+
+		if ( ! Batch_Limit::is_within_limit( $count ) ) {
 			return new WP_Error(
 				'rest_too_many_items',
 				\sprintf( 'A batch may contain at most %d items.', Batch_Limit::MAX_ITEMS ),
@@ -149,9 +136,16 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 		}
 
 		foreach ( $items as $item ) {
-			if ( ! \is_array( $item )
-				|| ( ! \array_key_exists( $this->get_title_arg_name(), $item )
-					&& ! \array_key_exists( $this->get_description_arg_name(), $item ) )
+			if ( ! \is_array( $item ) ) {
+				return new WP_Error( 'rest_invalid_item', 'Each item must be an object.', [ 'status' => 400 ] );
+			}
+
+			if ( ! \array_key_exists( 'id', $item ) || ! \is_int( $item['id'] ) || $item['id'] < 1 ) {
+				return new WP_Error( 'rest_invalid_item_id', 'Each item must have a positive integer id.', [ 'status' => 400 ] );
+			}
+
+			if ( ! \array_key_exists( $this->get_title_arg_name(), $item )
+				&& ! \array_key_exists( $this->get_description_arg_name(), $item )
 			) {
 				return new WP_Error(
 					'rest_no_fields_to_update',

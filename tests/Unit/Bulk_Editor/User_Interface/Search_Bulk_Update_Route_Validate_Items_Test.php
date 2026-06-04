@@ -60,6 +60,44 @@ final class Search_Bulk_Update_Route_Validate_Items_Test extends Abstract_Search
 	}
 
 	/**
+	 * Tests an empty batch fails validation.
+	 *
+	 * @return void
+	 */
+	public function test_validate_items_empty() {
+		$this->assertInstanceOf( WP_Error::class, $this->instance->validate_items( [] ) );
+	}
+
+	/**
+	 * Tests an item without an id fails validation.
+	 *
+	 * @return void
+	 */
+	public function test_validate_items_missing_id() {
+		$items = [
+			[ 'seo_title' => 'The title' ],
+		];
+
+		$this->assertInstanceOf( WP_Error::class, $this->instance->validate_items( $items ) );
+	}
+
+	/**
+	 * Tests an item with a non-integer id fails validation.
+	 *
+	 * @return void
+	 */
+	public function test_validate_items_non_integer_id() {
+		$items = [
+			[
+				'id'        => '1',
+				'seo_title' => 'The title',
+			],
+		];
+
+		$this->assertInstanceOf( WP_Error::class, $this->instance->validate_items( $items ) );
+	}
+
+	/**
 	 * Tests a batch over the limit fails validation.
 	 *
 	 * @return void

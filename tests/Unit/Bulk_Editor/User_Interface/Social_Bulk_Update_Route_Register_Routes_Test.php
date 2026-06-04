@@ -40,7 +40,7 @@ final class Social_Bulk_Update_Route_Register_Routes_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the route is registered under its own prefix with the social argument names.
+	 * Tests the route is registered under its own prefix.
 	 *
 	 * @return void
 	 */
@@ -52,10 +52,9 @@ final class Social_Bulk_Update_Route_Register_Routes_Test extends TestCase {
 				'/bulk_editor/update_social',
 				Mockery::on(
 					static function ( $options ) {
-						$properties = $options['args']['items']['items']['properties'];
-
-						return isset( $properties['id'], $properties['social_title'], $properties['social_description'] )
-							&& ! isset( $properties['seo_title'], $properties['meta_description'] );
+						return $options['args']['items']['required'] === true
+							&& $options['args']['items']['type'] === 'array'
+							&& \is_callable( $options['args']['items']['validate_callback'] );
 					},
 				),
 			);
