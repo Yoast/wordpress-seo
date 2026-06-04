@@ -133,7 +133,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 			'wpseo_dashboard',
 			'',
 			\__( 'Bulk edit', 'wordpress-seo' ),
-			'edit_posts',
+			'wpseo_bulk_edit',
 			self::PAGE,
 			[ $this, 'display_page' ],
 		];
