@@ -43,8 +43,10 @@ domReady( () => {
 
 	// Mounted without the ui-library Root wrapper (RFC: Root-independent rendering).
 	// RTL is handled via the dir attribute instead of the Root context.
+	// The yst-root class (NOT the Root component) is temporarily needed for the ui-library component styles
+	// to apply: they are still scoped under .yst-root until Yoast/engineering#16 lands. Remove it then.
 	createRoot( root ).render(
-		<div dir={ isRtl ? "rtl" : "ltr" }>
+		<div dir={ isRtl ? "rtl" : "ltr" } className="yst-root">
 			<SlotFillProvider>
 				<RouterProvider router={ router } />
 			</SlotFillProvider>
