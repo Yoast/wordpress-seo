@@ -68,11 +68,12 @@ const App = ( { dataProvider } ) => {
 					isPremium={ isPremium }
 				/>
 			</div>
-			<div className="yst-grow yst-min-w-0 yst-space-y-8">
+			<div className="yst-grow yst-min-w-0">
+				{ /* Per the design: header, tabs and content share one card, separated by the header border. */ }
 				<Paper>
 					<BulkEditorPageHeader title={ title } description={ description } />
+					<BulkEditorContent />
 				</Paper>
-				<BulkEditorContent />
 			</div>
 		</div>
 	);

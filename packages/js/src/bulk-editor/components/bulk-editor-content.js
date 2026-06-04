@@ -1,7 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Paper } from "@yoast/ui-library";
 import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, STORE_NAME } from "../constants";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 
@@ -31,7 +30,7 @@ export const BulkEditorContent = () => {
 	const { setActiveFieldSet } = useDispatch( STORE_NAME );
 
 	return (
-		<>
+		<div className="yst-p-8 yst-space-y-8">
 			<BulkEditorTabs
 				tabs={ tabs }
 				activeTab={ activeFieldSet }
@@ -40,11 +39,9 @@ export const BulkEditorContent = () => {
 			/>
 			{ tabs.map( ( tab ) => (
 				<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-					<Paper className="yst-p-8">
-						<p className="yst-text-slate-500">{ getPanelPlaceholder( tab.label ) }</p>
-					</Paper>
+					<p className="yst-text-slate-500">{ getPanelPlaceholder( tab.label ) }</p>
 				</BulkEditorTabPanel>
 			) ) }
-		</>
+		</div>
 	);
 };
