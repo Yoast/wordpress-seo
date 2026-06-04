@@ -1,6 +1,5 @@
 import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
  * Temporary placeholder page until the bulk editor UI lands.
@@ -22,8 +21,4 @@ export const PlaceholderPage = ( { dataProvider } ) => {
 			</ul>
 		</Paper>
 	);
-};
-
-PlaceholderPage.propTypes = {
-	dataProvider: PropTypes.object.isRequired,
 };
