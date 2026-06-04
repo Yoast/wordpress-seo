@@ -5,7 +5,9 @@ import {
 	metaKeyTwitterImageId,
 	metaKeyTwitterImage,
 } from "../../shared-admin/constants";
-import { isRestMetaActive, shouldSkipMetaWrite } from "./rest-meta";
+import { shouldSkipMetaWrite } from "./rest-meta";
+
+const isRestMetaActive = select( "yoast-seo/editor" ).getIsRestMetaActive();
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Twitter.

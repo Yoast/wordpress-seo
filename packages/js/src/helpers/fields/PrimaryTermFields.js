@@ -1,5 +1,7 @@
 import { dispatch, select } from "@wordpress/data";
-import { isRestMetaActive, shouldSkipMetaWrite } from "./rest-meta";
+import { shouldSkipMetaWrite } from "./rest-meta";
+
+const isRestMetaActive = select( "yoast-seo/editor" ).getIsRestMetaActive();
 
 /**
  * Returns the REST meta key for the given taxonomy.

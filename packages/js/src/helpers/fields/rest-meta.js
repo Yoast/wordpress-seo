@@ -1,14 +1,4 @@
-import { get } from "lodash";
 import { dispatch, select } from "@wordpress/data";
-
-/**
- * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
- *
- * When `wpseoScriptData.disableMetaboxInBlockEditor` is true, the PHP metabox and its hidden
- * input fields are not rendered. All Fields helpers use this flag to decide whether to read
- * from / write to the DOM or to the `core/editor` store instead.
- */
-export const isRestMetaActive = Boolean( get( window, "wpseoScriptData.disableMetaboxInBlockEditor", false ) );
 
 /**
  * Returns whether a meta write to core/editor should be skipped.

@@ -6,7 +6,9 @@ import {
 	metaKeyContentScore,
 	metaKeyInclusiveLanguageScore,
 } from "../../shared-admin/constants";
-import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo } from "./rest-meta";
+import { shouldSkipMetaWrite, writeMetaWithoutUndo } from "./rest-meta";
+
+const isRestMetaActive = select( "yoast-seo/editor" ).getIsRestMetaActive();
 
 /**
  * Returns whether the core/editor store has finished loading the post type config.

@@ -44,6 +44,7 @@ function getDefaultState() {
 		userLocale: get( window, "wpseoScriptData.metabox.userLocale", "en-US" ),
 		isRecentTitlesDefault: isRecentTitlesDefault(),
 		isRecentDescriptionsDefault: isRecentDescriptionsDefault(),
+		isRestMetaActive: get( window, "wpseoScriptData.disableMetaboxInBlockEditor", false ),
 	};
 }
 

@@ -33,6 +33,15 @@ export const getPreferences = state => state.preferences;
 export const getIsKeywordAnalysisActive = state => get( state, "preferences.isKeywordAnalysisActive", false );
 
 /**
+ * Gets whether the block-editor REST meta path is active.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} True when the metabox hidden fields are disabled and meta is saved via REST.
+ */
+export const getIsRestMetaActive = state => getPreference( state, "isRestMetaActive", false );
+
+/**
  * Get the preference for the isWooCommerceActive.
  *
  * @param {Object} state The state.

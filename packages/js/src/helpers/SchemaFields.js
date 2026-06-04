@@ -1,6 +1,8 @@
 import { dispatch, select } from "@wordpress/data";
 import { metaKeySchemaArticleType, metaKeySchemaPageType } from "../shared-admin/constants/meta-keys";
-import { isRestMetaActive, shouldSkipMetaWrite } from "./fields/rest-meta";
+import { shouldSkipMetaWrite } from "./fields/rest-meta";
+
+const isRestMetaActive = select( "yoast-seo/editor" ).getIsRestMetaActive();
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Schema.
