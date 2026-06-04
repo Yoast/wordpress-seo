@@ -33,7 +33,7 @@ domReady( () => {
 		endpoints: get( window, "wpseoBulkEditorData.endpoints", {} ),
 		links: get( window, "wpseoBulkEditorData.links", {} ),
 	} );
-	const remoteDataProvider = new RemoteDataProvider( { headers: { "X-Wp-Nonce": nonce } } );
+	const remoteDataProvider = new RemoteDataProvider( { headers: { "X-WP-Nonce": nonce } } );
 
 	const router = createHashRouter(
 		createRoutesFromElements(

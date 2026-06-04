@@ -14,7 +14,7 @@ export const PlaceholderPage = ( { dataProvider } ) => {
 
 	return (
 		<Paper className="yst-m-8 yst-p-8 yst-space-y-4">
-			<Title>{ __( "Bulk edit", "wordpress-seo" ) }</Title>
+			<Title>{ __( "Bulk editor", "wordpress-seo" ) }</Title>
 			<ul className="yst-list-disc yst-list-inside">
 				{ contentTypes.map( ( contentType ) => (
 					<li key={ contentType.name }>{ contentType.label }</li>

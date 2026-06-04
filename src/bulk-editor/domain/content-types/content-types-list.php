@@ -9,11 +9,11 @@ namespace Yoast\WP\SEO\Bulk_Editor\Domain\Content_Types;
 class Content_Types_List {
 
 	/**
+	/**
 	 * The content types.
 	 *
-	 * @var array<Content_Type>
+	 * @var array<string, Content_Type>
 	 */
-	private $content_types = [];
 
 	/**
 	 * Adds a content type to the list.
@@ -27,13 +27,11 @@ class Content_Types_List {
 	}
 
 	/**
+	/**
 	 * Returns the content types in the list.
 	 *
-	 * @return array<Content_Type> The content types in the list.
+	 * @return array<string, Content_Type> The content types in the list.
 	 */
-	public function get(): array {
-		return $this->content_types;
-	}
 
 	/**
 	 * Parses the content type list to the expected key value representation.
