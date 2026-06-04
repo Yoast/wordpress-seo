@@ -5,6 +5,8 @@ namespace Yoast\WP\SEO\Bulk_Editor\Infrastructure\Updates;
 
 use WPSEO_Meta;
 use WPSEO_Utils;
+use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Meta_Writer_Interface;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Type;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 
 /**
@@ -13,7 +15,7 @@ use Yoast\WP\SEO\Helpers\Meta_Helper;
  * Writing through the meta helper triggers the post meta watcher, so the
  * indexable of the post is rebuilt through the normal flow.
  */
-abstract class Abstract_Post_Meta_Writer {
+class Meta_Writer implements Meta_Writer_Interface {
 
 	/**
 	 * The meta helper.
@@ -32,43 +34,44 @@ abstract class Abstract_Post_Meta_Writer {
 	}
 
 	/**
-	 * Gets the meta key (without prefix) the title is stored under.
-	 *
-	 * @return string The meta key the title is stored under.
-	 */
-	abstract protected function get_title_meta_key(): string;
-
-	/**
-	 * Gets the meta key (without prefix) the description is stored under.
-	 *
-	 * @return string The meta key the description is stored under.
-	 */
-	abstract protected function get_description_meta_key(): string;
-
-	/**
 	 * Writes the title for a post.
 	 *
-	 * @param int    $post_id The ID of the post.
-	 * @param string $title   The title to write.
+	 * @param Update_Type $type    The appearance the title belongs to.
+	 * @param int         $post_id The ID of the post.
+	 * @param string      $title   The title to write.
 	 *
 	 * @return void
 	 */
-	public function write_title( int $post_id, string $title ): void {
-		$key = $this->get_title_meta_key();
-		$this->meta_helper->set_value( $key, $this->sanitize( $key, $title ), $post_id );
+	public function write_title( Update_Type $type, int $post_id, string $title ): void {
+		$key = $type->is_social() ? 'opengraph-title' : 'title';
+		$this->write( $key, $post_id, $title );
 	}
 
 	/**
 	 * Writes the description for a post.
 	 *
-	 * @param int    $post_id     The ID of the post.
-	 * @param string $description The description to write.
+	 * @param Update_Type $type        The appearance the description belongs to.
+	 * @param int         $post_id     The ID of the post.
+	 * @param string      $description The description to write.
 	 *
 	 * @return void
 	 */
-	public function write_description( int $post_id, string $description ): void {
-		$key = $this->get_description_meta_key();
-		$this->meta_helper->set_value( $key, $this->sanitize( $key, $description ), $post_id );
+	public function write_description( Update_Type $type, int $post_id, string $description ): void {
+		$key = $type->is_social() ? 'opengraph-description' : 'metadesc';
+		$this->write( $key, $post_id, $description );
+	}
+
+	/**
+	 * Sanitizes and persists a value under the given meta key.
+	 *
+	 * @param string $key     The meta key (without prefix) to store the value under.
+	 * @param int    $post_id The ID of the post.
+	 * @param string $value   The value to write.
+	 *
+	 * @return void
+	 */
+	private function write( string $key, int $post_id, string $value ): void {
+		$this->meta_helper->set_value( $key, $this->sanitize( $key, $value ), $post_id );
 	}
 
 	/**

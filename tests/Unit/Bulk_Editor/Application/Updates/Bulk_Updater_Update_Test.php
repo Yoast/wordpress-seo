@@ -7,13 +7,14 @@ use Exception;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Post_Update;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Post_Update_Collection;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Error;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Type;
 
 /**
  * Test class for the update method of the bulk updater.
  *
  * @group Bulk_Editor
  *
- * @covers Yoast\WP\SEO\Bulk_Editor\Application\Updates\Abstract_Bulk_Updater
+ * @covers Yoast\WP\SEO\Bulk_Editor\Application\Updates\Bulk_Updater
  */
 final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 
@@ -38,7 +39,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 					],
 				],
 			],
-			$this->instance->update( $updates )->to_array(),
+			$this->instance->update( Update_Type::search(), $updates )->to_array(),
 		);
 	}
 
@@ -54,7 +55,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$updates = new Post_Update_Collection();
 		$updates->add( new Post_Update( 123, 'The title', null ) );
 
-		$results = $this->instance->update( $updates )->to_array();
+		$results = $this->instance->update( Update_Type::search(), $updates )->to_array();
 
 		$this->assertSame( Update_Error::INVALID_POST_TYPE, $results['results'][0]['error'] );
 	}
@@ -72,7 +73,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$updates = new Post_Update_Collection();
 		$updates->add( new Post_Update( 123, 'The title', null ) );
 
-		$results = $this->instance->update( $updates )->to_array();
+		$results = $this->instance->update( Update_Type::search(), $updates )->to_array();
 
 		$this->assertSame( Update_Error::FORBIDDEN, $results['results'][0]['error'] );
 	}
@@ -83,14 +84,15 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 	 * @return void
 	 */
 	public function test_update_title_only() {
+		$type = Update_Type::search();
 		$this->expect_editable_post( 123 );
-		$this->meta_writer->expects( 'write_title' )->with( 123, 'The title' );
+		$this->meta_writer->expects( 'write_title' )->with( $type, 123, 'The title' );
 		$this->meta_writer->expects( 'write_description' )->never();
 
 		$updates = new Post_Update_Collection();
 		$updates->add( new Post_Update( 123, 'The title', null ) );
 
-		$results = $this->instance->update( $updates )->to_array();
+		$results = $this->instance->update( $type, $updates )->to_array();
 
 		$this->assertTrue( $results['results'][0]['success'] );
 	}
@@ -101,14 +103,15 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 	 * @return void
 	 */
 	public function test_update_description_only() {
+		$type = Update_Type::search();
 		$this->expect_editable_post( 123 );
 		$this->meta_writer->expects( 'write_title' )->never();
-		$this->meta_writer->expects( 'write_description' )->with( 123, 'The description' );
+		$this->meta_writer->expects( 'write_description' )->with( $type, 123, 'The description' );
 
 		$updates = new Post_Update_Collection();
 		$updates->add( new Post_Update( 123, null, 'The description' ) );
 
-		$results = $this->instance->update( $updates )->to_array();
+		$results = $this->instance->update( $type, $updates )->to_array();
 
 		$this->assertTrue( $results['results'][0]['success'] );
 	}
@@ -119,14 +122,33 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 	 * @return void
 	 */
 	public function test_update_both_fields() {
+		$type = Update_Type::search();
 		$this->expect_editable_post( 123 );
-		$this->meta_writer->expects( 'write_title' )->with( 123, 'The title' );
-		$this->meta_writer->expects( 'write_description' )->with( 123, '' );
+		$this->meta_writer->expects( 'write_title' )->with( $type, 123, 'The title' );
+		$this->meta_writer->expects( 'write_description' )->with( $type, 123, '' );
 
 		$updates = new Post_Update_Collection();
 		$updates->add( new Post_Update( 123, 'The title', '' ) );
 
-		$results = $this->instance->update( $updates )->to_array();
+		$results = $this->instance->update( $type, $updates )->to_array();
+
+		$this->assertTrue( $results['results'][0]['success'] );
+	}
+
+	/**
+	 * Tests the update type is forwarded to the meta writer.
+	 *
+	 * @return void
+	 */
+	public function test_update_forwards_type_to_writer() {
+		$type = Update_Type::social();
+		$this->expect_editable_post( 123 );
+		$this->meta_writer->expects( 'write_title' )->with( $type, 123, 'The title' );
+
+		$updates = new Post_Update_Collection();
+		$updates->add( new Post_Update( 123, 'The title', null ) );
+
+		$results = $this->instance->update( $type, $updates )->to_array();
 
 		$this->assertTrue( $results['results'][0]['success'] );
 	}
@@ -137,13 +159,14 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 	 * @return void
 	 */
 	public function test_update_save_failed() {
+		$type = Update_Type::search();
 		$this->expect_editable_post( 123 );
-		$this->meta_writer->expects( 'write_title' )->with( 123, 'The title' )->andThrow( new Exception( 'Database error.' ) );
+		$this->meta_writer->expects( 'write_title' )->with( $type, 123, 'The title' )->andThrow( new Exception( 'Database error.' ) );
 
 		$updates = new Post_Update_Collection();
 		$updates->add( new Post_Update( 123, 'The title', null ) );
 
-		$results = $this->instance->update( $updates )->to_array();
+		$results = $this->instance->update( $type, $updates )->to_array();
 
 		$this->assertSame( Update_Error::SAVE_FAILED, $results['results'][0]['error'] );
 	}
@@ -154,9 +177,10 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 	 * @return void
 	 */
 	public function test_update_failures_do_not_block_other_updates() {
+		$type = Update_Type::search();
 		$this->post_access_checker->expects( 'exists' )->with( 1 )->andReturnFalse();
 		$this->expect_editable_post( 2 );
-		$this->meta_writer->expects( 'write_title' )->with( 2, 'Second title' );
+		$this->meta_writer->expects( 'write_title' )->with( $type, 2, 'Second title' );
 
 		$updates = new Post_Update_Collection();
 		$updates->add( new Post_Update( 1, 'First title', null ) );
@@ -176,7 +200,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 					],
 				],
 			],
-			$this->instance->update( $updates )->to_array(),
+			$this->instance->update( $type, $updates )->to_array(),
 		);
 	}
 
@@ -188,7 +212,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 	public function test_update_empty_collection() {
 		$this->assertSame(
 			[ 'results' => [] ],
-			$this->instance->update( new Post_Update_Collection() )->to_array(),
+			$this->instance->update( Update_Type::search(), new Post_Update_Collection() )->to_array(),
 		);
 	}
 }

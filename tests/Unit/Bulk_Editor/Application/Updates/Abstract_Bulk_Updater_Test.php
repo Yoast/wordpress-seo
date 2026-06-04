@@ -4,14 +4,13 @@
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Application\Updates;
 
 use Mockery;
+use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Bulk_Updater;
+use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Meta_Writer_Interface;
 use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Post_Access_Checker_Interface;
-use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Search\Search_Bulk_Updater;
-use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Search\Search_Meta_Writer_Interface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Base class for the bulk updater tests. The abstract updater is exercised
- * through the search bulk updater.
+ * Base class for the bulk updater tests.
  */
 abstract class Abstract_Bulk_Updater_Test extends TestCase {
 
@@ -25,14 +24,14 @@ abstract class Abstract_Bulk_Updater_Test extends TestCase {
 	/**
 	 * The meta writer.
 	 *
-	 * @var Mockery\MockInterface|Search_Meta_Writer_Interface
+	 * @var Mockery\MockInterface|Meta_Writer_Interface
 	 */
 	protected $meta_writer;
 
 	/**
 	 * Holds the instance.
 	 *
-	 * @var Search_Bulk_Updater
+	 * @var Bulk_Updater
 	 */
 	protected $instance;
 
@@ -45,9 +44,9 @@ abstract class Abstract_Bulk_Updater_Test extends TestCase {
 		parent::set_up();
 
 		$this->post_access_checker = Mockery::mock( Post_Access_Checker_Interface::class );
-		$this->meta_writer         = Mockery::mock( Search_Meta_Writer_Interface::class );
+		$this->meta_writer         = Mockery::mock( Meta_Writer_Interface::class );
 
-		$this->instance = new Search_Bulk_Updater( $this->post_access_checker, $this->meta_writer );
+		$this->instance = new Bulk_Updater( $this->post_access_checker, $this->meta_writer );
 	}
 
 	/**

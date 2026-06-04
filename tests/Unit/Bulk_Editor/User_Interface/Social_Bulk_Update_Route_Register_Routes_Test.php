@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Social\Social_Bulk_Updater;
+use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Bulk_Updater;
 use Yoast\WP\SEO\Bulk_Editor\User_Interface\Social_Bulk_Update_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -36,7 +36,7 @@ final class Social_Bulk_Update_Route_Register_Routes_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Social_Bulk_Update_Route( Mockery::mock( Social_Bulk_Updater::class ) );
+		$this->instance = new Social_Bulk_Update_Route( Mockery::mock( Bulk_Updater::class ) );
 	}
 
 	/**

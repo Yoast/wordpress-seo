@@ -6,10 +6,11 @@ namespace Yoast\WP\SEO\Bulk_Editor\User_Interface;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Abstract_Bulk_Updater;
+use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Bulk_Updater;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Batch_Limit;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Post_Update;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Post_Update_Collection;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Type;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -28,16 +29,16 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 	/**
 	 * The bulk updater.
 	 *
-	 * @var Abstract_Bulk_Updater
+	 * @var Bulk_Updater
 	 */
 	private $bulk_updater;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Abstract_Bulk_Updater $bulk_updater The bulk updater.
+	 * @param Bulk_Updater $bulk_updater The bulk updater.
 	 */
-	public function __construct( Abstract_Bulk_Updater $bulk_updater ) {
+	public function __construct( Bulk_Updater $bulk_updater ) {
 		$this->bulk_updater = $bulk_updater;
 	}
 
@@ -49,6 +50,13 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 	public static function get_conditionals() {
 		return [];
 	}
+
+	/**
+	 * Gets the appearance this route updates.
+	 *
+	 * @return Update_Type The appearance this route updates.
+	 */
+	abstract protected function get_update_type(): Update_Type;
 
 	/**
 	 * Gets the prefix for this route.
@@ -188,7 +196,7 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 			);
 		}
 
-		$results = $this->bulk_updater->update( $updates );
+		$results = $this->bulk_updater->update( $this->get_update_type(), $updates );
 
 		return new WP_REST_Response( $results->to_array() );
 	}

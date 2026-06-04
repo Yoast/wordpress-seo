@@ -3,7 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Bulk_Editor\User_Interface;
 
-use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Search\Search_Bulk_Updater;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Type;
 
 /**
  * Registers the route that applies search appearance (SEO title and meta description) updates.
@@ -18,12 +18,12 @@ class Search_Bulk_Update_Route extends Abstract_Bulk_Update_Route {
 	public const ROUTE_PREFIX = '/bulk_editor/update_search';
 
 	/**
-	 * The constructor.
+	 * Gets the appearance this route updates.
 	 *
-	 * @param Search_Bulk_Updater $bulk_updater The search bulk updater.
+	 * @return Update_Type The search appearance.
 	 */
-	public function __construct( Search_Bulk_Updater $bulk_updater ) { // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found -- Reason: The override narrows the updater type so DI can autowire the search channel.
-		parent::__construct( $bulk_updater );
+	protected function get_update_type(): Update_Type {
+		return Update_Type::search();
 	}
 
 	/**

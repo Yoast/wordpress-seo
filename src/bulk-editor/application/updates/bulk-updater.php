@@ -9,11 +9,12 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Post_Update_Collection;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Error;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Result;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Result_Collection;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Type;
 
 /**
  * Applies a batch of post updates, independently per post.
  */
-abstract class Abstract_Bulk_Updater {
+class Bulk_Updater {
 
 	/**
 	 * The post access checker.
@@ -44,15 +45,16 @@ abstract class Abstract_Bulk_Updater {
 	 * Applies the given post updates. Updates are applied independently: one failing
 	 * update does not block the others.
 	 *
+	 * @param Update_Type            $type    The appearance the updates target.
 	 * @param Post_Update_Collection $updates The post updates to apply.
 	 *
 	 * @return Update_Result_Collection The result per post update.
 	 */
-	public function update( Post_Update_Collection $updates ): Update_Result_Collection {
+	public function update( Update_Type $type, Post_Update_Collection $updates ): Update_Result_Collection {
 		$results = new Update_Result_Collection();
 
 		foreach ( $updates->get() as $update ) {
-			$results->add( $this->apply( $update ) );
+			$results->add( $this->apply( $type, $update ) );
 		}
 
 		return $results;
@@ -61,11 +63,12 @@ abstract class Abstract_Bulk_Updater {
 	/**
 	 * Applies a single post update.
 	 *
+	 * @param Update_Type $type   The appearance the update targets.
 	 * @param Post_Update $update The post update to apply.
 	 *
 	 * @return Update_Result The result of the update.
 	 */
-	private function apply( Post_Update $update ): Update_Result {
+	private function apply( Update_Type $type, Post_Update $update ): Update_Result {
 		$post_id = $update->get_post_id();
 
 		if ( ! $this->post_access_checker->exists( $post_id ) ) {
@@ -82,11 +85,11 @@ abstract class Abstract_Bulk_Updater {
 
 		try {
 			if ( $update->has_title() ) {
-				$this->meta_writer->write_title( $post_id, $update->get_title() );
+				$this->meta_writer->write_title( $type, $post_id, $update->get_title() );
 			}
 
 			if ( $update->has_description() ) {
-				$this->meta_writer->write_description( $post_id, $update->get_description() );
+				$this->meta_writer->write_description( $type, $post_id, $update->get_description() );
 			}
 		} catch ( Exception $exception ) {
 			return Update_Result::for_failure( $post_id, Update_Error::SAVE_FAILED );

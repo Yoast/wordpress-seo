@@ -9,6 +9,7 @@ use WP_REST_Response;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Post_Update_Collection;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Result;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Result_Collection;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Type;
 
 /**
  * Test class for the update callback.
@@ -64,6 +65,11 @@ final class Search_Bulk_Update_Route_Update_Test extends Abstract_Search_Bulk_Up
 
 		$this->bulk_updater->expects( 'update' )
 			->with(
+				Mockery::on(
+					static function ( $type ) {
+						return $type instanceof Update_Type && $type->is_search();
+					},
+				),
 				Mockery::on(
 					static function ( $updates ) {
 						if ( ! $updates instanceof Post_Update_Collection || \count( $updates->get() ) !== 2 ) {
