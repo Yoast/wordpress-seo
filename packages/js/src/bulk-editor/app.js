@@ -39,11 +39,12 @@ const App = ( { dataProvider } ) => {
 	const { title, description } = getHeaderCopy( dataProvider.getContentTypes()[ 0 ] );
 
 	return (
-		<div className="yst-p-8 yst-space-y-8 yst-max-w-7xl">
+		<div className="yst-p-8 yst-max-w-7xl">
+			{ /* Per the design: header, tabs and content share one card, separated by the header border. */ }
 			<Paper>
 				<BulkEditorPageHeader title={ title } description={ description } />
+				<BulkEditorContent />
 			</Paper>
-			<BulkEditorContent />
 		</div>
 	);
 };
