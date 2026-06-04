@@ -11,7 +11,7 @@ class Content_Types_List {
 	/**
 	 * The content types.
 	 *
-	 * @var array<Content_Type>
+	 * @var array<string, Content_Type>
 	 */
 	private $content_types = [];
 
@@ -29,7 +29,7 @@ class Content_Types_List {
 	/**
 	 * Returns the content types in the list.
 	 *
-	 * @return array<Content_Type> The content types in the list.
+	 * @return array<string, Content_Type> The content types in the list.
 	 */
 	public function get(): array {
 		return $this->content_types;
