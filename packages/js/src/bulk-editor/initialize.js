@@ -33,7 +33,7 @@ domReady( () => {
 		endpoints: get( window, "wpseoBulkEditorData.endpoints", {} ),
 		links: get( window, "wpseoBulkEditorData.links", {} ),
 	} );
-	const remoteDataProvider = new RemoteDataProvider( { headers: { "X-Wp-Nonce": nonce } } );
+	const remoteDataProvider = new RemoteDataProvider( { headers: { "X-WP-Nonce": nonce } } );
 
 	const router = createHashRouter(
 		createRoutesFromElements(
@@ -43,8 +43,6 @@ domReady( () => {
 
 	// Mounted without the ui-library Root wrapper (RFC: Root-independent rendering).
 	// RTL is handled via the dir attribute instead of the Root context.
-	// The yst-root class (NOT the Root component) is temporarily needed for the ui-library component styles
-	// to apply: they are still scoped under .yst-root until Yoast/engineering#16 lands. Remove it then.
 	createRoot( root ).render(
 		<div dir={ isRtl ? "rtl" : "ltr" } className="yst-root">
 			<SlotFillProvider>
