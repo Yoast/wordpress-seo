@@ -1,8 +1,6 @@
 import { select } from "@wordpress/data";
 import { metaKeyEstimatedReadingTime } from "../../shared-admin/constants";
-import { shouldSkipMetaWrite, writeMetaWithoutUndo } from "./rest-meta";
-
-const isRestMetaActive = select( "yoast-seo/editor" ).getIsRestMetaActive();
+import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo } from "./rest-meta";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Estimated Reading Time (ert).
