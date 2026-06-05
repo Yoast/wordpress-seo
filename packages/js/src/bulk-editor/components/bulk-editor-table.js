@@ -5,8 +5,7 @@ import { noop } from "lodash";
 import { PAGE_SIZE } from "../constants";
 
 /**
- * The selection seam, owned by Free-FE 9. Shaped to match a selection hook's return value so it can be passed
- * straight through. All members are optional here so Free-FE 4 renders the affordances without the behavior.
+ * The bulk editor selection.
  *
  * @typedef {Object} BulkEditorSelection
  * @property {number[]}  [selectedIds]   IDs of the selected rows.
@@ -15,7 +14,7 @@ import { PAGE_SIZE } from "../constants";
  * @property {Function}  [onToggleAll]   Called when the header "select all" checkbox is toggled.
  */
 /**
- * Maps a post status to a human-readable label, or "" for published (no label shown).
+ * Maps a post status to a label, or "" for published (no label shown).
  *
  * @param {string} status The post status.
  *
@@ -35,7 +34,7 @@ const getStatusLabel = ( status ) => {
 };
 
 /**
- * The fixed columns (select + title + focus keyphrase + actions) around the field-set columns.
+ * The fixed columns (select + title + focus keyphrase + actions).
  *
  * @param {FieldSetField[]} fields The active field set's editable columns.
  *
@@ -59,7 +58,6 @@ const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
 
 	return (
 		<Table.Head>
-			{ /* The multi-select toolbar, per the design: Free-FE 9 adds the Select menu here, Free-FE 7 the Filters button. */ }
 			<Table.Row>
 				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-50 yst-rounded-ss-lg yst-rounded-se-lg">
 					<Checkbox
@@ -75,7 +73,7 @@ const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
 			</Table.Row>
 			<Table.Row>
 				<Table.Header scope="col" className="yst-w-0">
-					{ /* The row checkbox column: no visible header in the design, named for assistive tech only. */ }
+					{ /* The row checkbox column: no visible header, named for assistive tech only. */ }
 					<span className="yst-sr-only">{ __( "Select", "wordpress-seo" ) }</span>
 				</Table.Header>
 				<Table.Header scope="col">{ __( "Title", "wordpress-seo" ) }</Table.Header>
@@ -222,7 +220,7 @@ const BulkEditorBody = ( { rows, fields, columnCount, selection, onEdit, isLoadi
  * @param {Object}              props             The props.
  * @param {BulkEditorRow[]}     props.rows        The rows to render.
  * @param {FieldSet}            props.fieldSet    The active field set (its `fields` drive the editable columns).
- * @param {BulkEditorSelection} [props.selection] The selection seam (logic lives in Free-FE 9).
+ * @param {BulkEditorSelection} [props.selection] The selection seam.
  * @param {Function}            [props.onEdit]    Called with a row id when its Edit action is triggered.
  * @param {boolean}             [props.isLoading] Whether to render skeleton rows instead of data.
  *

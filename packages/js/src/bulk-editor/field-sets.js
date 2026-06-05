@@ -2,22 +2,22 @@ import { __ } from "@wordpress/i18n";
 import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
 
 /**
- * The data contract for one content item shown in the bulk editor table.
+ * The data for one content item shown in the bulk editor table.
  *
  * The editable fields map to Yoast post meta (prefix `_yoast_wpseo_`): `seoTitle` → `title`,
  * `metaDescription` → `metadesc`, `socialTitle` → `opengraph-title`, `socialDescription` →
- * `opengraph-description`. The data provider (Free-FE 1) and the bulk save/AI endpoints conform to this shape.
+ * `opengraph-description`.
  *
  * @typedef {Object} BulkEditorRow
  * @property {number} id                The post ID.
  * @property {string} title             The post title.
- * @property {string} status            The post status (e.g. "publish", "draft", "pending", "future", "private").
+ * @property {string} status            The post status (e.g. "published", "draft", "pending", "scheduled").
  * @property {string} editLink          URL to edit the post in WordPress.
  * @property {string} focusKeyphrase    The Yoast focus keyphrase.
  * @property {string} seoTitle          The SEO title.
  * @property {string} metaDescription   The meta description.
- * @property {string} socialTitle       The social (Open Graph) title.
- * @property {string} socialDescription The social (Open Graph) description.
+ * @property {string} socialTitle       The social title.
+ * @property {string} socialDescription The social description.
  */
 
 /**
@@ -33,7 +33,7 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  *
  * @typedef {Object} FieldSet
  * @property {string}          id     The field set identifier.
- * @property {string}          label  The human-readable tab label.
+ * @property {string}          label  The tab label.
  * @property {FieldSetField[]} fields The editable columns, in display order.
  */
 

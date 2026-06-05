@@ -75,8 +75,6 @@ const Tab = ( { tab, isActive, onChange, onKeyDown } ) => {
 			tabIndex={ isActive ? 0 : -1 }
 			onClick={ handleClick }
 			onKeyDown={ onKeyDown }
-			// Per the design, tabs share the navigation items' style: the active one gets the slate pill,
-			// the inactive ones are quiet gray (not the tertiary pink).
 			className={ isActive
 				? "yst-bg-slate-200 yst-text-slate-900 hover:yst-text-slate-900 focus:yst-text-slate-900"
 				: "yst-text-slate-600 hover:yst-text-slate-900 focus:yst-text-slate-900" }
@@ -89,9 +87,7 @@ const Tab = ( { tab, isActive, onChange, onKeyDown } ) => {
 /**
  * The bulk editor tab list (Search appearance / Social appearance).
  *
- * Controlled and store-free: the active tab and the change handler are props, so Free-FE 1 can wire it to the
- * view-state store while tests use local state. Implements the APG tabs pattern: roving tabindex, selection
- * follows keyboard focus, and mirrored arrow keys in RTL.
+ * Controlled and store-free.
  *
  * @param {Object}          props           The props.
  * @param {BulkEditorTab[]} props.tabs      The tabs, in display order.
@@ -115,8 +111,6 @@ export const BulkEditorTabs = ( { tabs, activeTab, onChange, label } ) => {
 		event.preventDefault();
 		const nextTab = tabs[ nextIndex ];
 		onChange( nextTab.id );
-		// Selection follows focus: move keyboard focus along with the activation.
-		// getElementById, not querySelector: a tab id is not necessarily a valid CSS selector.
 		document.getElementById( getTabId( nextTab.id ) )?.focus();
 	}, [ tabs, activeTab, onChange ] );
 

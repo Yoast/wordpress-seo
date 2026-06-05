@@ -69,7 +69,6 @@ const App = ( { dataProvider } ) => {
 				/>
 			</aside>
 			<div className="yst-grow yst-max-w-page yst-min-w-0">
-				{ /* Per the design: header, tabs and content share one card, separated by the header border. */ }
 				<Paper as="main">
 					<BulkEditorPageHeader title={ title } description={ description } />
 					<BulkEditorContent />
