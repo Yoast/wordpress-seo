@@ -2,14 +2,7 @@ import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, Checkbox, SkeletonLoader, Table } from "@yoast/ui-library";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
-
-const SKELETON_ROW_COUNT = 10;
-
-const fieldsPropType = PropTypes.arrayOf( PropTypes.shape( {
-	key: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
-} ) );
+import { PAGE_SIZE } from "../constants";
 
 /**
  * The selection seam, owned by Free-FE 9. Shaped to match a selection hook's return value so it can be passed
@@ -21,13 +14,6 @@ const fieldsPropType = PropTypes.arrayOf( PropTypes.shape( {
  * @property {Function}  [onToggleRow]   Called with a row id when its checkbox is toggled.
  * @property {Function}  [onToggleAll]   Called when the header "select all" checkbox is toggled.
  */
-const selectionPropType = PropTypes.shape( {
-	selectedIds: PropTypes.arrayOf( PropTypes.number ),
-	isAllSelected: PropTypes.bool,
-	onToggleRow: PropTypes.func,
-	onToggleAll: PropTypes.func,
-} );
-
 /**
  * Maps a post status to a human-readable label, or "" for published (no label shown).
  *
@@ -97,12 +83,6 @@ const BulkEditorHeader = ( { fields, selection, isLoading } ) => {
 	);
 };
 
-BulkEditorHeader.propTypes = {
-	fields: fieldsPropType.isRequired,
-	selection: selectionPropType.isRequired,
-	isLoading: PropTypes.bool.isRequired,
-};
-
 /**
  * A single content row.
  *
@@ -162,14 +142,6 @@ const BulkEditorRow = ( { row, fields, isSelected, onToggleRow, onEdit } ) => {
 	);
 };
 
-BulkEditorRow.propTypes = {
-	row: PropTypes.object.isRequired,
-	fields: fieldsPropType.isRequired,
-	isSelected: PropTypes.bool.isRequired,
-	onToggleRow: PropTypes.func.isRequired,
-	onEdit: PropTypes.func.isRequired,
-};
-
 /**
  * The placeholder rows shown while data is loading.
  *
@@ -180,7 +152,7 @@ BulkEditorRow.propTypes = {
  */
 const SkeletonRows = ( { columnCount } ) => (
 	<>
-		{ Array.from( { length: SKELETON_ROW_COUNT }, ( _row, rowIndex ) => (
+		{ Array.from( { length: PAGE_SIZE }, ( _row, rowIndex ) => (
 			<Table.Row key={ `skeleton-${ rowIndex }` }>
 				{ Array.from( { length: columnCount }, ( _cell, cellIndex ) => (
 					<Table.Cell key={ `skeleton-${ rowIndex }-${ cellIndex }` }>
@@ -194,10 +166,6 @@ const SkeletonRows = ( { columnCount } ) => (
 		) ) }
 	</>
 );
-
-SkeletonRows.propTypes = {
-	columnCount: PropTypes.number.isRequired,
-};
 
 /**
  * The table body: skeleton rows while loading, an empty state, or the content rows.
@@ -241,15 +209,6 @@ const BulkEditorBody = ( { rows, fields, columnCount, selection, onEdit, isLoadi
 	) );
 };
 
-BulkEditorBody.propTypes = {
-	rows: PropTypes.arrayOf( PropTypes.object ).isRequired,
-	fields: fieldsPropType.isRequired,
-	columnCount: PropTypes.number.isRequired,
-	selection: selectionPropType.isRequired,
-	onEdit: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
-};
-
 /**
  * The bulk editor data table.
  *
@@ -289,15 +248,3 @@ export const BulkEditorTable = ( { rows, fieldSet, selection = {}, onEdit = noop
 		</Table>
 	</>
 );
-
-BulkEditorTable.propTypes = {
-	rows: PropTypes.arrayOf( PropTypes.object ).isRequired,
-	fieldSet: PropTypes.shape( {
-		id: PropTypes.string.isRequired,
-		label: PropTypes.string.isRequired,
-		fields: fieldsPropType.isRequired,
-	} ).isRequired,
-	selection: selectionPropType,
-	onEdit: PropTypes.func,
-	isLoading: PropTypes.bool,
-};

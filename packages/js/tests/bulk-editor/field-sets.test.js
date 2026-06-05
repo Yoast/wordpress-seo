@@ -1,4 +1,5 @@
-import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, getFieldSets } from "../../src/bulk-editor/field-sets";
+import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "../../src/bulk-editor/constants";
+import { getFieldSets } from "../../src/bulk-editor/field-sets";
 
 describe( "getFieldSets", () => {
 	it( "returns the Search and Social field sets keyed by id", () => {

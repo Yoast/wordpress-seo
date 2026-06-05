@@ -1,4 +1,5 @@
 import { __ } from "@wordpress/i18n";
+import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
 
 /**
  * The data contract for one content item shown in the bulk editor table.
@@ -35,9 +36,6 @@ import { __ } from "@wordpress/i18n";
  * @property {string}          label  The human-readable tab label.
  * @property {FieldSetField[]} fields The editable columns, in display order.
  */
-
-export const FIELD_SET_SEARCH = "search";
-export const FIELD_SET_SOCIAL = "social";
 
 /**
  * Builds the field sets for the two bulk editor tabs.

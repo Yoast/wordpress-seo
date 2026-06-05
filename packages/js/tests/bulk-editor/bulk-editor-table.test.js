@@ -1,7 +1,8 @@
 import { fireEvent, render, screen } from "../test-utils";
 import { noop } from "lodash";
 import { BulkEditorTable } from "../../src/bulk-editor/components/bulk-editor-table";
-import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, getFieldSets } from "../../src/bulk-editor/field-sets";
+import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PAGE_SIZE } from "../../src/bulk-editor/constants";
+import { getFieldSets } from "../../src/bulk-editor/field-sets";
 
 const fieldSets = getFieldSets();
 const searchFieldSet = fieldSets[ FIELD_SET_SEARCH ];
@@ -112,6 +113,8 @@ describe( "BulkEditorTable", () => {
 		expect( screen.queryAllByRole( "button" ) ).toHaveLength( 0 );
 		// The "select all" checkbox is disabled while loading.
 		expect( screen.getByRole( "checkbox", { name: "Select all pages" } ) ).toBeDisabled();
+		// One header row plus a full page of skeleton rows.
+		expect( screen.getAllByRole( "row" ) ).toHaveLength( 1 + PAGE_SIZE );
 		// The table reports it is busy and the loading state is announced.
 		expect( screen.getByRole( "table" ) ).toHaveAttribute( "aria-busy", "true" );
 		expect( screen.getByRole( "status" ) ).toHaveTextContent( "Loading content…" );
