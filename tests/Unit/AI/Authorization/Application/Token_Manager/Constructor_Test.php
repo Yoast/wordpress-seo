@@ -8,7 +8,6 @@ use Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler;
 use Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository_Interface;
 use Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
 use Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository_Interface;
-use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Generator\Infrastructure\WordPress_URLs;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -35,10 +34,6 @@ final class Constructor_Test extends Abstract_Token_Manager_Test {
 		$this->assertInstanceOf(
 			Code_Verifier_Handler::class,
 			$this->getPropertyValue( $this->instance, 'code_verifier' ),
-		);
-		$this->assertInstanceOf(
-			Consent_Handler::class,
-			$this->getPropertyValue( $this->instance, 'consent_handler' ),
 		);
 		$this->assertInstanceOf(
 			Refresh_Token_User_Meta_Repository_Interface::class,

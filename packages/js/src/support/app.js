@@ -140,7 +140,7 @@ export const App = () => {
 							>
 								<div className="yst-grid yst-gap-6 yst-grid-cols-3 max-sm:yst-grid-cols-1">
 									<ResourceCard
-										imageSrc={ `${ pluginUrl }/images/support/help_center.png` }
+										imageSrc={ `${ pluginUrl }/images/support/help_center.jpg` }
 										title={ sprintf(
 											/* translators: %1$s expands to Yoast. */
 											__( "%1$s's help center", "wordpress-seo" ),
@@ -155,7 +155,7 @@ export const App = () => {
 										linkText={ __( "Visit our help center", "wordpress-seo" ) }
 									/>
 									<ResourceCard
-										imageSrc={ `${ pluginUrl }/images/support/support_forums.png` }
+										imageSrc={ `${ pluginUrl }/images/support/how_can_I_get_support.jpg` }
 										title={ sprintf(
 											/* translators: %1$s expands to Yoast SEO. */
 											__( "WordPress support forum for %1$s", "wordpress-seo" ),

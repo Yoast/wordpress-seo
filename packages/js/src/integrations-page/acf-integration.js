@@ -17,7 +17,7 @@ import { SimpleIntegration } from "./simple-integration";
 const AcfLogo = ( props ) => {
 	return (
 		<img
-			src={ window.wpseoIntegrationsData.plugin_url + "/images/acf-logo.png" }
+			src={ window.wpseoIntegrationsData.plugin_url + "/images/acf-logo.svg" }
 			height="50"
 			width="50"
 			alt={

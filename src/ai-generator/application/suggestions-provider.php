@@ -111,7 +111,15 @@ class Suggestions_Provider {
 		string $editor,
 		bool $retry_on_unauthorized = true
 	): array {
-		$token = $this->token_manager->get_or_request_access_token( $user );
+		try {
+			$token = $this->token_manager->get_or_request_access_token( $user );
+		} catch ( Forbidden_Exception $exception ) {
+			// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
+			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
+			$this->consent_handler->revoke_consent( $user->ID );
+			throw new Forbidden_Exception( 'CONSENT_REVOKED', $exception->getCode() );
+			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		}
 
 		$request_body    = [
 			'service' => 'openai',
