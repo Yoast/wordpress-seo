@@ -10,11 +10,16 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Error;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Result;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Result_Collection;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Type;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Applies a batch of post updates, independently per post.
  */
-class Bulk_Updater {
+class Bulk_Updater implements LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The post access checker.
@@ -39,6 +44,7 @@ class Bulk_Updater {
 	public function __construct( Post_Access_Checker_Interface $post_access_checker, Meta_Writer_Interface $meta_writer ) {
 		$this->post_access_checker = $post_access_checker;
 		$this->meta_writer         = $meta_writer;
+		$this->logger              = new NullLogger();
 	}
 
 	/**
@@ -92,6 +98,14 @@ class Bulk_Updater {
 				$this->meta_writer->write_description( $type, $post_id, $update->get_description() );
 			}
 		} catch ( Exception $exception ) {
+			$this->logger->warning(
+				'Bulk update failed to save post {post_id}: {error}',
+				[
+					'post_id' => $post_id,
+					'error'   => $exception->getMessage(),
+				],
+			);
+
 			return Update_Result::for_failure( $post_id, Update_Error::SAVE_FAILED );
 		}
 

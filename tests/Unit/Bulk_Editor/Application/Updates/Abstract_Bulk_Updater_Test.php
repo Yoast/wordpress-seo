@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Bulk_Updater;
 use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Meta_Writer_Interface;
 use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Post_Access_Checker_Interface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 
 /**
  * Base class for the bulk updater tests.
@@ -29,6 +30,13 @@ abstract class Abstract_Bulk_Updater_Test extends TestCase {
 	protected $meta_writer;
 
 	/**
+	 * The logger.
+	 *
+	 * @var Mockery\MockInterface|LoggerInterface
+	 */
+	protected $logger;
+
+	/**
 	 * Holds the instance.
 	 *
 	 * @var Bulk_Updater
@@ -45,8 +53,10 @@ abstract class Abstract_Bulk_Updater_Test extends TestCase {
 
 		$this->post_access_checker = Mockery::mock( Post_Access_Checker_Interface::class );
 		$this->meta_writer         = Mockery::mock( Meta_Writer_Interface::class );
+		$this->logger              = Mockery::mock( LoggerInterface::class )->shouldIgnoreMissing();
 
 		$this->instance = new Bulk_Updater( $this->post_access_checker, $this->meta_writer );
+		$this->instance->setLogger( $this->logger );
 	}
 
 	/**

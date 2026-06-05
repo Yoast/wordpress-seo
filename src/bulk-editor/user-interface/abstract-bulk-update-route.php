@@ -13,11 +13,16 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Post_Update_Collection;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Type;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Registers a route that applies a batch of per-post title and description updates.
  */
-abstract class Abstract_Bulk_Update_Route implements Route_Interface {
+abstract class Abstract_Bulk_Update_Route implements Route_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The namespace for this route.
@@ -40,6 +45,7 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 	 */
 	public function __construct( Bulk_Updater $bulk_updater ) {
 		$this->bulk_updater = $bulk_updater;
+		$this->logger       = new NullLogger();
 	}
 
 	/**
@@ -115,39 +121,37 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 	 */
 	public function validate_items( $items ) {
 		if ( ! \is_array( $items ) ) {
-			return new WP_Error( 'rest_invalid_items', 'The items argument must be an array.', [ 'status' => 400 ] );
+			return $this->reject( 'rest_invalid_items', 'The items argument must be an array.' );
 		}
 
 		$count = \count( $items );
 
 		if ( $count < 1 ) {
-			return new WP_Error( 'rest_no_items', 'A batch must contain at least one item.', [ 'status' => 400 ] );
+			return $this->reject( 'rest_no_items', 'A batch must contain at least one item.' );
 		}
 
 		if ( ! Batch_Limit::is_within_limit( $count ) ) {
-			return new WP_Error(
+			return $this->reject(
 				'rest_too_many_items',
 				\sprintf( 'A batch may contain at most %d items.', Batch_Limit::MAX_ITEMS ),
-				[ 'status' => 400 ],
 			);
 		}
 
 		foreach ( $items as $item ) {
 			if ( ! \is_array( $item ) ) {
-				return new WP_Error( 'rest_invalid_item', 'Each item must be an object.', [ 'status' => 400 ] );
+				return $this->reject( 'rest_invalid_item', 'Each item must be an object.' );
 			}
 
 			if ( ! \array_key_exists( 'id', $item ) || ! \is_int( $item['id'] ) || $item['id'] < 1 ) {
-				return new WP_Error( 'rest_invalid_item_id', 'Each item must have a positive integer id.', [ 'status' => 400 ] );
+				return $this->reject( 'rest_invalid_item_id', 'Each item must have a positive integer id.' );
 			}
 
 			if ( ! \array_key_exists( $this->get_title_arg_name(), $item )
 				&& ! \array_key_exists( $this->get_description_arg_name(), $item )
 			) {
-				return new WP_Error(
+				return $this->reject(
 					'rest_no_fields_to_update',
 					\sprintf( 'Each item must contain at least a %s or a %s.', $this->get_title_arg_name(), $this->get_description_arg_name() ),
-					[ 'status' => 400 ],
 				);
 			}
 		}
@@ -156,6 +160,20 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 	}
 
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+
+	/**
+	 * Logs a rejected request and builds the matching error response.
+	 *
+	 * @param string $code    The error code.
+	 * @param string $message The human-readable error message.
+	 *
+	 * @return WP_Error The error response with a 400 status.
+	 */
+	private function reject( string $code, string $message ): WP_Error {
+		$this->logger->debug( 'Bulk update request rejected: {code}.', [ 'code' => $code ] );
+
+		return new WP_Error( $code, $message, [ 'status' => 400 ] );
+	}
 
 	/**
 	 * Checks whether the current user is allowed to use the bulk editor.
@@ -187,7 +205,17 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 			);
 		}
 
-		$results = $this->bulk_updater->update( $this->get_update_type(), $updates );
+		$type = $this->get_update_type();
+
+		$this->logger->debug(
+			'Received bulk {type} update for {count} item(s).',
+			[
+				'type'  => ( $type->is_search() ) ? 'search' : 'social',
+				'count' => \count( $updates->get() ),
+			],
+		);
+
+		$results = $this->bulk_updater->update( $type, $updates );
 
 		return new WP_REST_Response( $results->to_array() );
 	}
