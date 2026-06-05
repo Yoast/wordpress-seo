@@ -320,9 +320,9 @@ class WPSEO_Meta {
 	 * data blobs) that are not suitable for REST API access and will be registered with
 	 * `show_in_rest: false`.
 	 *
-	 * @param string $key       The internal key of the meta field to register (without prefix).
-	 * @param array  $field_def Optional. The field definition array. Used to determine whether
-	 *                          the field should be exposed via the REST API. Defaults to [].
+	 * @param string       $key       The internal key of the meta field to register (without prefix).
+	 * @param array<string, string|null> $field_def Optional. The field definition array. Used to determine whether
+	 *                             the field should be exposed via the REST API. Defaults to [].
 	 *
 	 * @return void
 	 */
