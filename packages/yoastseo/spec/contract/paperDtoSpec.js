@@ -21,6 +21,27 @@ describe( "the Paper input contract (PaperDTO)", function() {
 			expect( paper.getDescription() ).toBe( "The best cat food." );
 		} );
 
+		it( "maps the full neutral metadata surface onto Paper", function() {
+			const paper = toPaper( {
+				text: "x",
+				title: "My SEO title",
+				slug: "my-slug",
+				permalink: "https://example.com/my-slug",
+				titleWidth: 400,
+				textTitle: "Article title",
+				date: "2024-01-01",
+				writingDirection: "RTL",
+			} );
+
+			expect( paper.getTitle() ).toBe( "My SEO title" );
+			expect( paper.getSlug() ).toBe( "my-slug" );
+			expect( paper.getPermalink() ).toBe( "https://example.com/my-slug" );
+			expect( paper.getTitleWidth() ).toBe( 400 );
+			expect( paper.getTextTitle() ).toBe( "Article title" );
+			expect( paper.getDate() ).toBe( "2024-01-01" );
+			expect( paper.getWritingDirection() ).toBe( "RTL" );
+		} );
+
 		it( "leaves absent optional fields to Paper's defaults, without throwing", function() {
 			const paper = toPaper( { text: "Only text provided." } );
 

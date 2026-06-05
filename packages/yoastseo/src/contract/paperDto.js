@@ -3,7 +3,7 @@ import { z } from "zod";
 import Paper from "../values/Paper.js";
 
 /**
- * Serializable input contract for the analysis engine (keyphrase-core slice).
+ * Serializable, platform-neutral input contract for the analysis engine.
  *
  * Proof of concept for lingo-other-tasks#634. zod is the source of truth; a JSON
  * Schema can be generated from it for non-JS / wire consumers.
@@ -24,6 +24,13 @@ export const paperDtoSchema = z.object( {
 	synonyms: z.string().optional().describe( "Comma-separated synonyms of the keyphrase." ),
 	locale: z.string().optional().describe( "Locale, e.g. \"en_US\". The engine defaults to \"en_US\" when absent." ),
 	description: z.string().optional().describe( "The SEO meta description." ),
+	title: z.string().optional().describe( "The SEO title." ),
+	slug: z.string().optional().describe( "The URL slug." ),
+	permalink: z.string().optional().describe( "The full permalink URL of the content." ),
+	titleWidth: z.number().optional().describe( "Rendered width of the SEO title in pixels." ),
+	textTitle: z.string().optional().describe( "The title of the text or article itself." ),
+	date: z.string().optional().describe( "Publication date." ),
+	writingDirection: z.enum( [ "LTR", "RTL" ] ).optional().describe( "Writing direction of the content." ),
 	siteUrl: z.string().optional().describe( "Full site URL including scheme, e.g. \"https://example.com\"." ),
 	domain: z.string().optional().describe( "Bare host without scheme, e.g. \"example.com\"." ),
 } ).strict();
@@ -52,6 +59,13 @@ export function toPaper( dto ) {
 		synonyms: data.synonyms,
 		locale: data.locale,
 		description: data.description,
+		title: data.title,
+		slug: data.slug,
+		permalink: data.permalink,
+		titleWidth: data.titleWidth,
+		textTitle: data.textTitle,
+		date: data.date,
+		writingDirection: data.writingDirection,
 	};
 
 	// `siteUrl`/`domain` have no Paper attribute today — competing-links reads the
