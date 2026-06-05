@@ -29,8 +29,8 @@ final class Add_Page_Test extends Abstract_Bulk_Editor_Integration_Test {
 				[
 					'wpseo_dashboard',
 					'',
-					'Bulk edit',
-					'wpseo_bulk_edit',
+					'Bulk editor',
+					'wpseo_manage_options',
 					Bulk_Editor_Integration::PAGE,
 					[ $this->instance, 'display_page' ],
 				],

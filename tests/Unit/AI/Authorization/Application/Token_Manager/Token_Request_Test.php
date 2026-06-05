@@ -8,7 +8,6 @@ use Brain\Monkey;
 use Mockery;
 use WP_User;
 use Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 
 /**
  * Class Token_Request_Test.
@@ -19,7 +18,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 final class Token_Request_Test extends Abstract_Token_Manager_Test {
 
 	/**
-	 * Tests token_request when user has consent and request succeeds.
+	 * Tests token_request when the request succeeds.
 	 *
 	 * @return void
 	 */
@@ -33,12 +32,6 @@ final class Token_Request_Test extends Abstract_Token_Manager_Test {
 		$created_at           = 1_640_995_200;
 		$callback_url         = 'https://example.com/callback';
 		$refresh_callback_url = 'https://example.com/refresh-callback';
-
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( '1' );
 
 		$this->code_verifier
 			->expects( 'generate' )
@@ -81,87 +74,6 @@ final class Token_Request_Test extends Abstract_Token_Manager_Test {
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->with( 123, 'user_meta' )
 			->once();
-
-		$this->instance->token_request( $user );
-	}
-
-	/**
-	 * Tests token_request when user has not given consent.
-	 *
-	 * @return void
-	 */
-	public function test_token_request_no_consent() {
-		$user     = Mockery::mock( WP_User::class );
-		$user->ID = 123;
-
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( '0' );
-
-		$this->consent_handler
-			->expects( 'revoke_consent' )
-			->with( 123 )
-			->once();
-
-		$this->expectException( Forbidden_Exception::class );
-		$this->expectExceptionMessage( 'CONSENT_REVOKED' );
-		$this->expectExceptionCode( 403 );
-
-		$this->instance->token_request( $user );
-	}
-
-	/**
-	 * Tests token_request when user has empty consent.
-	 *
-	 * @return void
-	 */
-	public function test_token_request_empty_consent() {
-		$user     = Mockery::mock( WP_User::class );
-		$user->ID = 123;
-
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( '' );
-
-		$this->consent_handler
-			->expects( 'revoke_consent' )
-			->with( 123 )
-			->once();
-
-		$this->expectException( Forbidden_Exception::class );
-		$this->expectExceptionMessage( 'CONSENT_REVOKED' );
-		$this->expectExceptionCode( 403 );
-
-		$this->instance->token_request( $user );
-	}
-
-	/**
-	 * Tests token_request when user consent is null.
-	 *
-	 * @return void
-	 */
-	public function test_token_request_null_consent() {
-		$user     = Mockery::mock( WP_User::class );
-		$user->ID = 123;
-
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( null );
-
-		$this->consent_handler
-			->expects( 'revoke_consent' )
-			->with( 123 )
-			->once();
-
-		$this->expectException( Forbidden_Exception::class );
-		$this->expectExceptionMessage( 'CONSENT_REVOKED' );
-		$this->expectExceptionCode( 403 );
 
 		$this->instance->token_request( $user );
 	}

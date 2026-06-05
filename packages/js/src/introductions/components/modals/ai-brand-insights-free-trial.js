@@ -93,7 +93,7 @@ const AiBrandInsightsFreeTrialContent = ( {
  * @returns {JSX.Element} The element.
  */
 export const AiBrandInsightsFreeTrial = () => {
-	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "ai-brand-insights-pre-launch.png" ), [] );
+	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "ai-brand-insights-pre-launch.jpg" ), [] );
 	const buttonLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS )
 		.selectLink( "https://yoa.st/aibi-introduction-free-trial" ), [] );
 	const thumbnail = useMemo( () => ( {

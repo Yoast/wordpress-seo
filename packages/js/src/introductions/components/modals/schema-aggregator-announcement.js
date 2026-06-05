@@ -82,7 +82,7 @@ const SchemaAggregatorAnnouncementContent = ( {
  * @returns {JSX.Element} The element.
  */
 export const SchemaAggregatorAnnouncement = () => {
-	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "schema-aggregator-thumbnail.png" ), [] );
+	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "schema-aggregator.jpg" ), [] );
 	const buttonLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "?page=wpseo_page_settings#/site-features#card-wpseo-enable_schema_aggregation_endpoint" ), [] );
 	const learnMoreLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/schema-aggregation-activation/" ), [] );
 

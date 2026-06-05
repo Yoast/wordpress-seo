@@ -47,12 +47,14 @@ final class Get_Content_Types_Test extends Abstract_Content_Types_Collector_Test
 			'indexable post types' => [
 				'indexable_post_type_objects' => [
 					(object) [
-						'name'  => 'post',
-						'label' => 'Posts',
+						'name'    => 'post',
+						'label'   => 'Posts',
+						'show_ui' => true,
 					],
 					(object) [
-						'name'  => 'page',
-						'label' => 'Pages',
+						'name'    => 'page',
+						'label'   => 'Pages',
+						'show_ui' => true,
 					],
 				],
 				'expected'                    => [
@@ -63,6 +65,26 @@ final class Get_Content_Types_Test extends Abstract_Content_Types_Collector_Test
 					[
 						'name'  => 'page',
 						'label' => 'Pages',
+					],
+				],
+			],
+			'post type without UI is skipped' => [
+				'indexable_post_type_objects' => [
+					(object) [
+						'name'    => 'post',
+						'label'   => 'Posts',
+						'show_ui' => true,
+					],
+					(object) [
+						'name'    => 'hidden',
+						'label'   => 'Hidden',
+						'show_ui' => false,
+					],
+				],
+				'expected'                    => [
+					[
+						'name'  => 'post',
+						'label' => 'Posts',
 					],
 				],
 			],

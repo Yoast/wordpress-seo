@@ -94,9 +94,17 @@ class Content_Suggestion_Command_Handler {
 		Content_Suggestion_Command $command,
 		bool $retry_on_unauthorized = true
 	): Content_Suggestion_Response {
-		$post_list      = $this->recent_content_collector->collect( $command->get_post_type() );
-		$about_page     = $this->recent_content_collector->collect_about_page( $command->get_post_type() );
-		$token          = $this->token_manager->get_or_request_access_token( $command->get_user() );
+		$post_list  = $this->recent_content_collector->collect( $command->get_post_type() );
+		$about_page = $this->recent_content_collector->collect_about_page( $command->get_post_type() );
+		try {
+			$token = $this->token_manager->get_or_request_access_token( $command->get_user() );
+		} catch ( Forbidden_Exception $exception ) {
+			// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
+			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
+			$this->consent_handler->revoke_consent( $command->get_user()->ID );
+			throw new Forbidden_Exception( 'CONSENT_REVOKED', $exception->getCode() );
+			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		}
 		$recent_content = $post_list->to_array();
 
 		$content = [
