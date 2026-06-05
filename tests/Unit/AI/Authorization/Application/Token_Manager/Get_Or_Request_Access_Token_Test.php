@@ -74,12 +74,6 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->once()
 			->andReturn( '' );
 
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( '1' );
-
 		$this->code_verifier
 			->expects( 'generate' )
 			->with( 'test@example.com' )
@@ -144,12 +138,6 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->once()
 			->andReturn( null );
 
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( '1' );
-
 		$this->code_verifier
 			->expects( 'generate' )
 			->with( 'test@example.com' )
@@ -213,12 +201,6 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->with( 123, '_yoast_wpseo_ai_generator_access_jwt', true )
 			->once()
 			->andReturn( 123 ); // Non-string value.
-
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( '1' );
 
 		$this->code_verifier
 			->expects( 'generate' )
@@ -392,12 +374,6 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->once()
 			->andThrow( new Unauthorized_Exception( 'Unauthorized', 401 ) );
 
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( '1' );
-
 		$this->code_verifier
 			->expects( 'generate' )
 			->with( 'test@example.com' )
@@ -442,7 +418,10 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 	}
 
 	/**
-	 * Tests get_or_request_access_token when token is expired and refresh throws Forbidden_Exception.
+	 * Tests get_or_request_access_token when the token is expired and refresh throws Forbidden_Exception.
+	 *
+	 * Token_Manager is consent-agnostic, so the exception propagates unchanged; callers are responsible
+	 * for syncing local consent state.
 	 *
 	 * @return void
 	 */
@@ -497,13 +476,8 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->once()
 			->andThrow( new Forbidden_Exception( 'Forbidden', 403 ) );
 
-		$this->consent_handler
-			->expects( 'revoke_consent' )
-			->with( 123 )
-			->once();
-
 		$this->expectException( Forbidden_Exception::class );
-		$this->expectExceptionMessage( 'CONSENT_REVOKED' );
+		$this->expectExceptionMessage( 'Forbidden' );
 		$this->expectExceptionCode( 403 );
 
 		$this->instance->get_or_request_access_token( $user );
@@ -528,12 +502,6 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->with( 123, '_yoast_wpseo_ai_generator_access_jwt', true )
 			->once()
 			->andReturn( '' );
-
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( '1' );
 
 		$this->code_verifier
 			->expects( 'generate' )
@@ -590,12 +558,6 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->with( 123, '_yoast_wpseo_ai_generator_access_jwt', true )
 			->once()
 			->andReturn( '' );
-
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( '1' );
 
 		$this->code_verifier
 			->expects( 'generate' )

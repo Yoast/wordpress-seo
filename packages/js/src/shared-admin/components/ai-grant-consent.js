@@ -30,7 +30,7 @@ export const AiGrantConsent = ( { storeName, onConsentGranted, linkStoreName, li
 				termsOfServiceLink: linkStore.selectLink( resolvedLinks.termsOfService ),
 				privacyPolicyLink: linkStore.selectLink( resolvedLinks.privacyPolicy ),
 				learnMoreLink: linkStore.selectLink( resolvedLinks.learnMore ),
-				imageLink: linkStore.selectImageLink( "ai-consent.png" ),
+				imageLink: linkStore.selectImageLink( "ai-consent.jpg" ),
 				endpoint: consentStore.selectAiGeneratorConsentEndpoint(),
 			};
 		},

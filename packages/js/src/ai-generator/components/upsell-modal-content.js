@@ -36,7 +36,7 @@ export const UpsellModalContent = ( { onActivateFreeSparks } ) => {
 			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
 			isProductPost: editorSelect.getIsProduct(),
 			learnMoreLink: editorSelect.selectLink( "https://yoa.st/ai-generator-learn-more" ),
-			imageLink: editorSelect.selectImageLink( "ai-generator-preview.png" ),
+			imageLink: editorSelect.selectImageLink( "ai-generator-preview.jpg" ),
 			wistiaEmbedPermissionValue: editorSelect.selectWistiaEmbedPermissionValue(),
 			wistiaEmbedPermissionStatus: editorSelect.selectWistiaEmbedPermissionStatus(),
 			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),

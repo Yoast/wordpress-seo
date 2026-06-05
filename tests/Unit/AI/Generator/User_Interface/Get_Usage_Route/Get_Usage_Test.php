@@ -10,6 +10,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_User;
 use WPSEO_Addon_Manager;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
@@ -120,6 +121,64 @@ final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
 				[
 					'errorMessage'    => '',
 					'errorIdentifier' => 'test',
+					'errorCode'       => 0,
+				],
+				0,
+			);
+
+		$result = $this->instance->get_usage( $wp_rest_request );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $result );
+	}
+
+	/**
+	 * Tests that a Forbidden_Exception triggers a consent revocation before the error response is returned.
+	 *
+	 * @return void
+	 */
+	public function test_get_usage_with_forbidden_exception_revokes_consent() {
+		$user     = Mockery::mock( WP_User::class );
+		$user->ID = 42;
+
+		Functions\expect( 'wp_get_current_user' )
+			->once()
+			->withNoArgs()
+			->andReturn( $user );
+
+		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
+		$wp_rest_request
+			->expects( 'get_param' )
+			->once()
+			->with( 'is_woo_product_entity' )
+			->andReturn( true );
+
+		$wp_rest_response  = Mockery::mock( 'overload:' . WP_REST_Response::class );
+		$request_exception = Mockery::mock( Forbidden_Exception::class );
+
+		$this->token_manager
+			->expects( 'get_or_request_access_token' )
+			->once()
+			->with( $user )
+			->andThrows( $request_exception );
+
+		$this->consent_handler
+			->expects( 'revoke_consent' )
+			->once()
+			->with( 42 );
+
+		$request_exception
+			->expects( 'get_error_identifier' )
+			->once()
+			->withNoArgs()
+			->andReturn( 'forbidden' );
+
+		$wp_rest_response
+			->expects( '__construct' )
+			->once()
+			->with(
+				[
+					'errorMessage'    => '',
+					'errorIdentifier' => 'forbidden',
 					'errorCode'       => 0,
 				],
 				0,
