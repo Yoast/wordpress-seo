@@ -277,7 +277,7 @@ class WPSEO_Meta {
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 
-				self::register_meta( $key );
+				self::register_meta( $key, $field_def );
 
 				// Set the $fields_index property for efficiency.
 				self::$fields_index[ self::$meta_prefix . $key ] = [
@@ -312,20 +312,30 @@ class WPSEO_Meta {
 	/**
 	 * Registers a single Yoast post meta field for REST API access.
 	 *
-	 * Registers the field as a single string value, visible in the REST API, with the
-	 * shared Yoast sanitize and auth callbacks. Addons can call this method to register
-	 * additional fields using the same setup without duplicating the registration boilerplate.
+	 * Registers the field with the shared Yoast sanitize and auth callbacks. Addons can call
+	 * this method to register additional fields using the same setup without duplicating the
+	 * registration boilerplate.
 	 *
-	 * @param string $key The internal key of the meta field to register (without prefix).
+	 * Fields with `type: null` in their definition are internal/serialized fields (e.g. addon
+	 * data blobs) that are not suitable for REST API access and will be registered with
+	 * `show_in_rest: false`.
+	 *
+	 * @param string $key       The internal key of the meta field to register (without prefix).
+	 * @param array  $field_def Optional. The field definition array. Used to determine whether
+	 *                          the field should be exposed via the REST API. Defaults to [].
 	 *
 	 * @return void
 	 */
-	public static function register_meta( $key ) {
+	public static function register_meta( $key, $field_def = [] ) {
+		// Fields with type: null are internal/serialized fields not suitable for REST API access.
+		// All other field types (hidden, text, select, etc.) are stored as strings in the DB.
+		$show_in_rest = ! array_key_exists( 'type', $field_def ) || $field_def['type'] !== null;
+
 		register_meta(
 			'post',
 			self::$meta_prefix . $key,
 			[
-				'show_in_rest'      => true,
+				'show_in_rest'      => $show_in_rest,
 				'single'            => true,
 				'type'              => 'string',
 				'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
