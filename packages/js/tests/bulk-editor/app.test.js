@@ -30,7 +30,6 @@ describe( "App", () => {
 
 		const papers = container.querySelectorAll( ".yst-paper" );
 		expect( papers ).toHaveLength( 1 );
-		// The card is the main landmark, following the other admin pages (e.g. Support, Settings).
 		expect( screen.getByRole( "main" ) ).toBe( papers[ 0 ] );
 		expect( papers[ 0 ] ).toContainElement( screen.getByRole( "heading", { level: 1 } ) );
 		expect( papers[ 0 ] ).toContainElement( screen.getByRole( "tablist", { name: "Bulk editor views" } ) );

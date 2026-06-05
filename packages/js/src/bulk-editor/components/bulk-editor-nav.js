@@ -46,8 +46,6 @@ const ContentTypeItem = ( { contentType, onChange } ) => {
  * The sub-navigation of the bulk editor: a "Back to Tools" link and the content type list, limited to
  * `visibleLimit` items with a "Show N more" toggle.
  *
- * Controlled and store-free.
- *
  * @param {Object}                  props                   The props.
  * @param {BulkEditorContentType[]} props.contentTypes      The content types, in display order.
  * @param {string}                  props.activeContentType The id of the active content type.
