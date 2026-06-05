@@ -1,0 +1,72 @@
+import { isEmpty, isUndefined } from "lodash";
+import { z } from "zod";
+import Paper from "../values/Paper.js";
+
+/**
+ * Serializable input contract for the analysis engine (keyphrase-core slice).
+ *
+ * Proof of concept for lingo-other-tasks#634. zod is the source of truth; a JSON
+ * Schema can be generated from it for non-JS / wire consumers.
+ *
+ * Two validation tiers (see the issue): structural validity is enforced here —
+ * wrong types, malformed payloads, and unknown keys throw at the boundary. Per
+ * assessment field needs are NOT enforced: every field except `text` is optional,
+ * so a consumer that omits e.g. `keyphrase` simply receives no keyphrase
+ * assessments, matching the engine's existing graceful-skip behaviour.
+ *
+ * `.strict()` encodes the "reject unknown keys" option from the issue's open
+ * question on unknown-key policy (it catches typos like `keyword` vs `keyphrase`);
+ * relax to `.strip()`/`.passthrough()` if that decision changes.
+ */
+export const paperDtoSchema = z.object( {
+	text: z.string().describe( "The content to analyse (HTML or plain text)." ),
+	keyphrase: z.string().optional().describe( "The focus keyphrase." ),
+	synonyms: z.string().optional().describe( "Comma-separated synonyms of the keyphrase." ),
+	locale: z.string().optional().describe( "Locale, e.g. \"en_US\". The engine defaults to \"en_US\" when absent." ),
+	description: z.string().optional().describe( "The SEO meta description." ),
+	siteUrl: z.string().optional().describe( "Full site URL including scheme, e.g. \"https://example.com\"." ),
+	domain: z.string().optional().describe( "Bare host without scheme, e.g. \"example.com\"." ),
+} ).strict();
+
+/**
+ * @typedef {import("zod").infer<typeof paperDtoSchema>} PaperDTO
+ */
+
+/**
+ * Validates a PaperDTO and maps it onto the engine's internal Paper.
+ *
+ * This is the single place that knows how contract fields land on Paper attributes
+ * (notably `keyphrase` -> `keyword`); the engine, assessors, and researches are
+ * untouched. Throws a `ZodError` when the payload is structurally invalid. Absent
+ * optional fields are left to Paper's own defaults, so missing inputs degrade
+ * gracefully rather than throwing.
+ *
+ * @param {PaperDTO} dto The serializable input contract.
+ * @returns {Paper} The constructed Paper, ready for `assessor.assess( paper )`.
+ */
+export function toPaper( dto ) {
+	const data = paperDtoSchema.parse( dto );
+
+	const attributes = {
+		keyword: data.keyphrase,
+		synonyms: data.synonyms,
+		locale: data.locale,
+		description: data.description,
+	};
+
+	// `siteUrl`/`domain` have no Paper attribute today — competing-links reads the
+	// site URL from WordPress context. Stash them in customData as a placeholder
+	// until that engine-side plumbing exists (lingo-other-tasks#634).
+	const customData = {};
+	if ( ! isUndefined( data.siteUrl ) ) {
+		customData.siteUrl = data.siteUrl;
+	}
+	if ( ! isUndefined( data.domain ) ) {
+		customData.domain = data.domain;
+	}
+	if ( ! isEmpty( customData ) ) {
+		attributes.customData = customData;
+	}
+
+	return new Paper( data.text, attributes );
+}
