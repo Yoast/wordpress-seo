@@ -1,6 +1,6 @@
 import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Button, Checkbox, SkeletonLoader, Table } from "@yoast/ui-library";
+import { Button, Checkbox, SkeletonLoader, Table } from "@yoast/ui-library";
 import { noop } from "lodash";
 import { PAGE_SIZE } from "../constants";
 
@@ -29,8 +29,6 @@ const getStatusLabel = ( status ) => {
 			return __( "Pending", "wordpress-seo" );
 		case "future":
 			return __( "Scheduled", "wordpress-seo" );
-		case "private":
-			return __( "Private", "wordpress-seo" );
 		default:
 			return "";
 	}
@@ -46,22 +44,24 @@ const getStatusLabel = ( status ) => {
 const getColumnCount = ( fields ) => 4 + fields.length;
 
 /**
- * The table header row.
+ * The table header: the multi-select toolbar row and the column header row.
  *
- * @param {Object}              props           The props.
- * @param {FieldSetField[]}     props.fields    The active field set's editable columns.
- * @param {BulkEditorSelection} props.selection The selection seam.
- * @param {boolean}             props.isLoading Whether the table is loading (disables "select all").
+ * @param {Object}              props             The props.
+ * @param {FieldSetField[]}     props.fields      The active field set's editable columns.
+ * @param {number}              props.columnCount The total number of columns.
+ * @param {BulkEditorSelection} props.selection   The selection seam.
+ * @param {boolean}             props.isLoading   Whether the table is loading (disables "select all").
  *
  * @returns {JSX.Element} The header.
  */
-const BulkEditorHeader = ( { fields, selection, isLoading } ) => {
+const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
 	const { isAllSelected = false, onToggleAll = noop } = selection;
 
 	return (
 		<Table.Head>
+			{ /* The multi-select toolbar, per the design: Free-FE 9 adds the Select menu here, Free-FE 7 the Filters button. */ }
 			<Table.Row>
-				<Table.Header scope="col" className="yst-w-0">
+				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-50 yst-rounded-ss-lg yst-rounded-se-lg">
 					<Checkbox
 						id="bulk-editor-select-all"
 						name="bulk-editor-select-all"
@@ -71,6 +71,12 @@ const BulkEditorHeader = ( { fields, selection, isLoading } ) => {
 						onChange={ onToggleAll }
 						disabled={ isLoading }
 					/>
+				</Table.Cell>
+			</Table.Row>
+			<Table.Row>
+				<Table.Header scope="col" className="yst-w-0">
+					{ /* The row checkbox column: no visible header in the design, named for assistive tech only. */ }
+					<span className="yst-sr-only">{ __( "Select", "wordpress-seo" ) }</span>
 				</Table.Header>
 				<Table.Header scope="col">{ __( "Title", "wordpress-seo" ) }</Table.Header>
 				<Table.Header scope="col">{ __( "Focus keyphrase", "wordpress-seo" ) }</Table.Header>
@@ -117,9 +123,7 @@ const BulkEditorRow = ( { row, fields, isSelected, onToggleRow, onEdit } ) => {
 				<div className="yst-flex yst-flex-col">
 					<span>{ row.title }</span>
 					{ statusLabel && (
-						<Badge variant="plain" size="small" className="yst-mt-1 yst-self-start">
-							{ statusLabel }
-						</Badge>
+						<span className="yst-mt-1 yst-font-normal yst-text-slate-500">{ `- ${ statusLabel }` }</span>
 					) }
 				</div>
 			</Table.Header>
@@ -227,24 +231,28 @@ const BulkEditorBody = ( { rows, fields, columnCount, selection, onEdit, isLoadi
  *
  * @returns {JSX.Element} The table.
  */
-export const BulkEditorTable = ( { rows, fieldSet, selection = {}, onEdit = noop, isLoading = false } ) => (
-	<>
-		{ /* Announces the loading state to assistive tech (the skeleton itself is aria-hidden). */ }
-		<div role="status" className="yst-sr-only">
-			{ isLoading ? __( "Loading content…", "wordpress-seo" ) : "" }
-		</div>
-		<Table aria-label={ fieldSet.label } aria-busy={ isLoading }>
-			<BulkEditorHeader fields={ fieldSet.fields } selection={ selection } isLoading={ isLoading } />
-			<Table.Body>
-				<BulkEditorBody
-					rows={ rows }
-					fields={ fieldSet.fields }
-					columnCount={ getColumnCount( fieldSet.fields ) }
-					selection={ selection }
-					onEdit={ onEdit }
-					isLoading={ isLoading }
-				/>
-			</Table.Body>
-		</Table>
-	</>
-);
+export const BulkEditorTable = ( { rows, fieldSet, selection = {}, onEdit = noop, isLoading = false } ) => {
+	const columnCount = getColumnCount( fieldSet.fields );
+
+	return (
+		<>
+			{ /* Announces the loading state to assistive tech (the skeleton itself is aria-hidden). */ }
+			<div role="status" className="yst-sr-only">
+				{ isLoading ? __( "Loading content…", "wordpress-seo" ) : "" }
+			</div>
+			<Table aria-label={ fieldSet.label } aria-busy={ isLoading }>
+				<BulkEditorHeader fields={ fieldSet.fields } columnCount={ columnCount } selection={ selection } isLoading={ isLoading } />
+				<Table.Body>
+					<BulkEditorBody
+						rows={ rows }
+						fields={ fieldSet.fields }
+						columnCount={ columnCount }
+						selection={ selection }
+						onEdit={ onEdit }
+						isLoading={ isLoading }
+					/>
+				</Table.Body>
+			</Table>
+		</>
+	);
+};

@@ -62,7 +62,8 @@ describe( "BulkEditorTable", () => {
 	it( "shows a status label for non-published content only", () => {
 		render( <BulkEditorTable rows={ rows } fieldSet={ searchFieldSet } /> );
 
-		const draftLabels = screen.getAllByText( "Draft" );
+		// Plain muted text per the design, not a badge.
+		const draftLabels = screen.getAllByText( "- Draft" );
 		expect( draftLabels ).toHaveLength( 1 );
 	} );
 
@@ -113,8 +114,8 @@ describe( "BulkEditorTable", () => {
 		expect( screen.queryAllByRole( "button" ) ).toHaveLength( 0 );
 		// The "select all" checkbox is disabled while loading.
 		expect( screen.getByRole( "checkbox", { name: "Select all pages" } ) ).toBeDisabled();
-		// One header row plus a full page of skeleton rows.
-		expect( screen.getAllByRole( "row" ) ).toHaveLength( 1 + PAGE_SIZE );
+		// The multi-select toolbar row, the column header row, and a full page of skeleton rows.
+		expect( screen.getAllByRole( "row" ) ).toHaveLength( 2 + PAGE_SIZE );
 		// The table reports it is busy and the loading state is announced.
 		expect( screen.getByRole( "table" ) ).toHaveAttribute( "aria-busy", "true" );
 		expect( screen.getByRole( "status" ) ).toHaveTextContent( "Loading content…" );
