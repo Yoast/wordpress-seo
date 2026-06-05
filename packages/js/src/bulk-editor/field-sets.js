@@ -11,7 +11,7 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  * @typedef {Object} BulkEditorRow
  * @property {number} id                The post ID.
  * @property {string} title             The post title.
- * @property {string} status            The post status (e.g. "published", "draft", "pending", "scheduled").
+ * @property {string} status            The post status (e.g. "publish", "draft", "pending", "future" as WordPress terms).
  * @property {string} editLink          URL to edit the post in WordPress.
  * @property {string} focusKeyphrase    The Yoast focus keyphrase.
  * @property {string} seoTitle          The SEO title.

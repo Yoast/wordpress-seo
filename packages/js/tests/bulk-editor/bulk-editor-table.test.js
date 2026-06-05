@@ -84,7 +84,7 @@ describe( "BulkEditorTable", () => {
 		fireEvent.click( screen.getByRole( "checkbox", { name: "Select On-Page SEO Checklist" } ) );
 		expect( onToggleRow ).toHaveBeenCalledWith( 2 );
 
-		fireEvent.click( screen.getByRole( "checkbox", { name: "Select all pages" } ) );
+		fireEvent.click( screen.getByRole( "checkbox", { name: "Select all" } ) );
 		expect( onToggleAll ).toHaveBeenCalled();
 	} );
 
@@ -113,7 +113,7 @@ describe( "BulkEditorTable", () => {
 		expect( screen.queryByText( "What Is SEO? Complete Guide" ) ).not.toBeInTheDocument();
 		expect( screen.queryAllByRole( "button" ) ).toHaveLength( 0 );
 		// The "select all" checkbox is disabled while loading.
-		expect( screen.getByRole( "checkbox", { name: "Select all pages" } ) ).toBeDisabled();
+		expect( screen.getByRole( "checkbox", { name: "Select all" } ) ).toBeDisabled();
 		// The multi-select toolbar row, the column header row, and a full page of skeleton rows.
 		expect( screen.getAllByRole( "row" ) ).toHaveLength( 2 + PAGE_SIZE );
 		// The table reports it is busy and the loading state is announced.

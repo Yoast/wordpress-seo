@@ -64,7 +64,7 @@ const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
 						id="bulk-editor-select-all"
 						name="bulk-editor-select-all"
 						value="all"
-						aria-label={ __( "Select all pages", "wordpress-seo" ) }
+						aria-label={ __( "Select all", "wordpress-seo" ) }
 						checked={ isAllSelected }
 						onChange={ onToggleAll }
 						disabled={ isLoading }

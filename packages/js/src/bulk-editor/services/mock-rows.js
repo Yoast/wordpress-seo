@@ -1,7 +1,8 @@
+import { PAGE_SIZE } from "../constants";
+
 /**
- * TEMPORARY development response: one page of rows (20, matching the design's page size) until the list
- * endpoint feeds the table through the RemoteDataProvider. Remove together with its usage in the
- * bulk editor content component.
+ * TEMPORARY development response: one page of rows until the list endpoint feeds the table through
+ * the RemoteDataProvider. Remove together with its usage in the bulk editor content component.
  */
 
 const ITEMS = [
@@ -33,7 +34,7 @@ const STATUSES = { 3: "draft", 13: "pending" };
 /**
  * @returns {import("../field-sets").BulkEditorRow[]} One page of mock rows.
  */
-export const getMockRows = () => ITEMS.map( ( [ title, focusKeyphrase, seoTitle, metaDescription ], index ) => {
+export const getMockRows = () => ITEMS.slice( 0, PAGE_SIZE ).map( ( [ title, focusKeyphrase, seoTitle, metaDescription ], index ) => {
 	const id = index + 1;
 
 	return {
