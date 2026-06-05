@@ -216,11 +216,8 @@ const BulkEditorBody = ( { rows, fields, columnCount, selection, onEdit, isLoadi
 /**
  * The bulk editor data table.
  *
- * Presentational and WordPress-agnostic: it renders the rows it is given for the active field set (the Search
- * or Social tab). Selection (`selection`) and editing (`onEdit`) are seams for Free-FE 9 and Free-FE 5; this
- * issue (Free-FE 4) renders the read-only view, the selection/edit affordances, and the loading and empty
- * states. Sorting is intentionally not implemented here — the new design's header is plain text, so it is
- * deferred until product/design confirm it (see the Free-FE 4 open question).
+ * It renders the rows it is given for the active field set (the Search
+ * or Social tab).
  *
  * @param {Object}              props             The props.
  * @param {BulkEditorRow[]}     props.rows        The rows to render.
