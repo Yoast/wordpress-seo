@@ -16,8 +16,8 @@ import { BackToToolsLink } from "./back-to-tools-link";
  */
 
 /**
- * One content type item. A button (not a link): selecting a content type changes view state, it does not
- * navigate. The active state and `aria-current` come from the SidebarNavigation context by matching the
+ * One content type item. Selecting a content type changes view state, it does notnavigate.
+ * The active state and `aria-current` come from the SidebarNavigation context by matching the
  * item's `value` against the `activePath`.
  *
  * @param {Object}                props             The props.
@@ -45,9 +45,6 @@ const ContentTypeItem = ( { contentType, onChange } ) => {
 /**
  * The left sub-navigation of the bulk editor: a "Back to Tools" link and the content type list, limited to
  * `visibleLimit` items with a "Show N more" toggle.
- *
- * Controlled and store-free: the active content type and the change handler are props, so Free-FE 1 can wire
- * them to the view-state store and localized data.
  *
  * @param {Object}                  props                   The props.
  * @param {BulkEditorContentType[]} props.contentTypes      The content types, in display order.
