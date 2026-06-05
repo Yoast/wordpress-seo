@@ -41,7 +41,6 @@ domReady( () => {
 		)
 	);
 
-	// Mounted without the ui-library Root wrapper (RFC: Root-independent rendering).
 	// RTL is handled via the dir attribute instead of the Root context.
 	createRoot( root ).render(
 		<div dir={ isRtl ? "rtl" : "ltr" } className="yst-root">
