@@ -85,9 +85,6 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
-		// The per-item structure and batch bounds are enforced by validate_items(), not by this
-		// schema: a custom validate_callback replaces WordPress' built-in schema validation for
-		// the argument, so any properties/minItems/maxItems declared here would never be checked.
 		\register_rest_route(
 			self::ROUTE_NAMESPACE,
 			$this->get_route_prefix(),
