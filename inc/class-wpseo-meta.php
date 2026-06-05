@@ -277,19 +277,7 @@ class WPSEO_Meta {
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 
-				register_meta(
-					'post',
-					self::$meta_prefix . $key,
-					[
-						'show_in_rest'      => true,
-						'single'            => true,
-						'type'              => 'string',
-						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
-						'auth_callback'     => static function ( $allowed, $meta_key, $object_id ) {
-							return current_user_can( 'edit_post', $object_id );
-						},
-					],
-				);
+				self::register_meta( $key );
 
 				// Set the $fields_index property for efficiency.
 				self::$fields_index[ self::$meta_prefix . $key ] = [
@@ -319,6 +307,33 @@ class WPSEO_Meta {
 
 		add_filter( 'update_post_metadata', [ self::class, 'remove_meta_if_default' ], 10, 5 );
 		add_filter( 'add_post_metadata', [ self::class, 'dont_save_meta_if_default' ], 10, 4 );
+	}
+
+	/**
+	 * Registers a single Yoast post meta field for REST API access.
+	 *
+	 * Registers the field as a single string value, visible in the REST API, with the
+	 * shared Yoast sanitize and auth callbacks. Addons can call this method to register
+	 * additional fields using the same setup without duplicating the registration boilerplate.
+	 *
+	 * @param string $key The internal key of the meta field to register (without prefix).
+	 *
+	 * @return void
+	 */
+	public static function register_meta( $key ) {
+		register_meta(
+			'post',
+			self::$meta_prefix . $key,
+			[
+				'show_in_rest'      => true,
+				'single'            => true,
+				'type'              => 'string',
+				'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
+				'auth_callback'     => static function ( $allowed, $meta_key, $object_id ) {
+					return current_user_can( 'edit_post', $object_id );
+				},
+			],
+		);
 	}
 
 	/**
@@ -1072,12 +1087,11 @@ class WPSEO_Meta {
 		if ( current_user_can( 'edit_post', $post->ID ) ) {
 			return $response;
 		}
-		$data = $response->get_data();
-		foreach ( self::$meta_fields as $field_group ) {
-			foreach ( $field_group as $key => $field_def ) {
-				if ( ! empty( $field_def['show_in_rest'] ) ) {
-					unset( $data['meta'][ self::$meta_prefix . $key ] );
-				}
+		$data   = $response->get_data();
+		$prefix = self::$meta_prefix;
+		foreach ( array_keys( ( $data['meta'] ?? [] ) ) as $meta_key ) {
+			if ( str_starts_with( $meta_key, $prefix ) ) {
+				unset( $data['meta'][ $meta_key ] );
 			}
 		}
 		$response->set_data( $data );

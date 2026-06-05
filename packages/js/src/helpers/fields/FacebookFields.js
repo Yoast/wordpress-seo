@@ -57,7 +57,7 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook title.
 	 */
 	static get title() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyOgTitle ] ?? "";
 		}
 		return FacebookFields.titleElement?.value ?? "";
@@ -71,7 +71,7 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set title( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyOgTitle, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgTitle ]: value } } );
 			}
@@ -90,7 +90,7 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set description( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyOgDescription, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgDescription ]: value } } );
 			}
@@ -107,7 +107,7 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook description.
 	 */
 	static get description() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyOgDescription ] ?? "";
 		}
 		return FacebookFields.descriptionElement?.value ?? "";
@@ -121,7 +121,7 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set imageId( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyOgImageId, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgImageId ]: value } } );
 			}
@@ -138,7 +138,7 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook imageId.
 	 */
 	static get imageId() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyOgImageId ] ?? "";
 		}
 		return FacebookFields.imageIdElement?.value ?? "";
@@ -152,7 +152,7 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set imageUrl( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyOgImage, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgImage ]: value } } );
 			}
@@ -169,7 +169,7 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook imageUrl.
 	 */
 	static get imageUrl() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyOgImage ] ?? "";
 		}
 		return FacebookFields.imageUrlElement?.value ?? "";

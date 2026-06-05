@@ -83,7 +83,7 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	if ( isRestMetaActive() ) {
+	if ( isRestMetaActive ) {
 		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyFocusKw ] ?? "";
 	}
 	return document.getElementById( "yoast_wpseo_focuskw" )?.value ?? "";
@@ -110,7 +110,7 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
  * @returns {string} The meta description.
  */
 PostDataCollector.prototype.getMeta = function() {
-	if ( isRestMetaActive() ) {
+	if ( isRestMetaActive ) {
 		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyMetaDesc ] ?? "";
 	}
 	return document.getElementById( "yoast_wpseo_metadesc" )?.value ?? "";
@@ -178,7 +178,7 @@ PostDataCollector.prototype.getExcerpt = function() {
  * @returns {string} The snippet title.
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
-	if ( isRestMetaActive() ) {
+	if ( isRestMetaActive ) {
 		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTitle ] ?? "";
 	}
 	return document.getElementById( "yoast_wpseo_title" )?.value ?? "";
@@ -190,7 +190,7 @@ PostDataCollector.prototype.getSnippetTitle = function() {
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
-	if ( isRestMetaActive() ) {
+	if ( isRestMetaActive ) {
 		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyMetaDesc ] ?? "";
 	}
 	return document.getElementById( "yoast_wpseo_metadesc" )?.value ?? "";
@@ -284,7 +284,7 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
  * @returns {void}
  */
 PostDataCollector.prototype.setSnippetMeta = function( value ) {
-	if ( isRestMetaActive() ) {
+	if ( isRestMetaActive ) {
 		if ( ! shouldSkipMetaWrite( metaKeyMetaDesc, value ) ) {
 			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyMetaDesc ]: value } } );
 		}
@@ -328,7 +328,7 @@ PostDataCollector.prototype.setSnippetCite = function( value ) {
  * @returns {void}
  */
 PostDataCollector.prototype.setSnippetTitle = function( value ) {
-	if ( isRestMetaActive() ) {
+	if ( isRestMetaActive ) {
 		if ( ! shouldSkipMetaWrite( metaKeyTitle, value ) ) {
 			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTitle ]: value } } );
 		}

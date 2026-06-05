@@ -57,7 +57,7 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter title.
 	 */
 	static get title() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTwitterTitle ] ?? "";
 		}
 		return TwitterFields.titleElement?.value ?? "";
@@ -71,7 +71,7 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set title( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyTwitterTitle, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterTitle ]: value } } );
 			}
@@ -90,7 +90,7 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set description( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyTwitterDescription, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterDescription ]: value } } );
 			}
@@ -107,7 +107,7 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter description.
 	 */
 	static get description() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTwitterDescription ] ?? "";
 		}
 		return TwitterFields.descriptionElement?.value ?? "";
@@ -121,7 +121,7 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set imageId( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyTwitterImageId, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterImageId ]: value } } );
 			}
@@ -138,7 +138,7 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter imageId.
 	 */
 	static get imageId() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTwitterImageId ] ?? "";
 		}
 		return TwitterFields.imageIdElement?.value ?? "";
@@ -152,7 +152,7 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set imageUrl( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyTwitterImage, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterImage ]: value } } );
 			}
@@ -169,7 +169,7 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter imageUrl.
 	 */
 	static get imageUrl() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTwitterImage ] ?? "";
 		}
 		return TwitterFields.imageUrlElement?.value ?? "";

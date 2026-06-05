@@ -67,7 +67,7 @@ export default class AdvancedFields {
 	 * @returns {string} The No Index setting.
 	 */
 	static get noIndex() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyNoIndex ] || "0";
 		}
 		return AdvancedFields.noIndexElement?.value || "0";
@@ -81,7 +81,7 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set noIndex( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyNoIndex, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyNoIndex ]: value } } );
 			}
@@ -96,7 +96,7 @@ export default class AdvancedFields {
 	 * @returns {string} The No Follow setting.
 	 */
 	static get noFollow() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyNoFollow ] || "0";
 		}
 		return AdvancedFields.noFollowElement?.value || "0";
@@ -110,7 +110,7 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set noFollow( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyNoFollow, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyNoFollow ]: value } } );
 			}
@@ -125,7 +125,7 @@ export default class AdvancedFields {
 	 * @returns {string} The Advanced (metarobots) setting.
 	 */
 	static get advanced() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyAdvanced ] ?? "";
 		}
 		return AdvancedFields.advancedElement?.value || "";
@@ -139,7 +139,7 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set advanced( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyAdvanced, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyAdvanced ]: value } } );
 			}
@@ -154,7 +154,7 @@ export default class AdvancedFields {
 	 * @returns {string} The BreadCrumbsTitle setting.
 	 */
 	static get breadcrumbsTitle() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyBcTitle ] ?? "";
 		}
 		return AdvancedFields.breadcrumbsTitleElement?.value || "";
@@ -168,7 +168,7 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set breadcrumbsTitle( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyBcTitle, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyBcTitle ]: value } } );
 			}
@@ -183,7 +183,7 @@ export default class AdvancedFields {
 	 * @returns {string} The Canonical URL setting.
 	 */
 	static get canonical() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyCanonical ] ?? "";
 		}
 		return AdvancedFields.canonicalElement?.value || "";
@@ -197,7 +197,7 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set canonical( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyCanonical, value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyCanonical ]: value } } );
 			}

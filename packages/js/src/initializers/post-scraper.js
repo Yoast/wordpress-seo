@@ -465,7 +465,7 @@ export default function initPostScraper( $, store, editorData ) {
 		// Dispatch cornerstone after entity meta is available. In REST meta mode the DOM element is
 		// absent and AnalysisFields.isCornerstone reads from core/editor, which returns null until
 		// the entity resolves — so we defer the dispatch until meta is loaded.
-		if ( isRestMetaActive() && ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
+		if ( isRestMetaActive && ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
 			const unsubscribeCornerstoneSync = subscribe( () => {
 				if ( ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
 					return;

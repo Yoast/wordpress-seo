@@ -51,7 +51,7 @@ export default class PrimaryTermFields {
 	 * @returns {string} The primary term ID as a string, or an empty string when unset.
 	 */
 	static get( taxonomyName, inputElement ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKey( taxonomyName ) ] ?? "";
 		}
 		return inputElement?.value ?? "";
@@ -71,7 +71,7 @@ export default class PrimaryTermFields {
 	 */
 	static set( taxonomyName, termId, inputElement ) {
 		const value = termId === -1 ? "" : String( termId );
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKey( taxonomyName ), value ) ) {
 				dispatch( "core/editor" ).editPost( { meta: { [ metaKey( taxonomyName ) ]: value } } );
 			}

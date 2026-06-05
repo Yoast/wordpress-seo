@@ -25,7 +25,7 @@ export default class EstimatedReadingTimeFields {
 	 * @returns {string} The estimated reading time.
 	 */
 	static get estimatedReadingTime() {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyEstimatedReadingTime ] ?? "";
 		}
 		return EstimatedReadingTimeFields.estimatedReadingTimeElement?.value || "";
@@ -39,7 +39,7 @@ export default class EstimatedReadingTimeFields {
 	 * @returns {void}
 	 */
 	static set estimatedReadingTime( value ) {
-		if ( isRestMetaActive() ) {
+		if ( isRestMetaActive ) {
 			if ( ! shouldSkipMetaWrite( metaKeyEstimatedReadingTime, value ) ) {
 				writeMetaWithoutUndo( { [ metaKeyEstimatedReadingTime ]: value } );
 			}
