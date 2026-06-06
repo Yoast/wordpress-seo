@@ -69,7 +69,17 @@ describe( "the Paper input contract (PaperDTO)", function() {
 		} );
 
 		it( "throws on unknown or typo'd keys (strict)", function() {
-			expect( () => toPaper( { text: "x", keyword: "typo" } ) ).toThrow();
+			expect( () => toPaper( { text: "x", keyphrse: "typo" } ) ).toThrow();
+		} );
+
+		it( "accepts the deprecated `keyword` alias and maps it to the keyphrase", function() {
+			const paper = toPaper( { text: "x", keyword: "cat food" } );
+			expect( paper.getKeyword() ).toBe( "cat food" );
+		} );
+
+		it( "prefers `keyphrase` over the deprecated `keyword` when both are supplied", function() {
+			const paper = toPaper( { text: "x", keyphrase: "preferred", keyword: "legacy" } );
+			expect( paper.getKeyword() ).toBe( "preferred" );
 		} );
 	} );
 

@@ -14,13 +14,15 @@ import Paper from "../values/Paper.js";
  * so a consumer that omits e.g. `keyphrase` simply receives no keyphrase
  * assessments, matching the engine's existing graceful-skip behaviour.
  *
- * `.strict()` encodes the "reject unknown keys" option from the issue's open
- * question on unknown-key policy (it catches typos like `keyword` vs `keyphrase`);
- * relax to `.strip()`/`.passthrough()` if that decision changes.
+ * `.strict()` rejects unknown keys, catching typos (e.g. `keyphrse`). The one
+ * blessed exception is `keyword`: a deprecated alias for `keyphrase`, accepted so
+ * existing consumers (which speak the engine's `keyword`) can adopt the contract
+ * without renaming. Remove it at a future major once they migrate to `keyphrase`.
  */
 export const paperDtoSchema = z.object( {
 	text: z.string().describe( "The content to analyse (HTML or plain text)." ),
 	keyphrase: z.string().optional().describe( "The focus keyphrase." ),
+	keyword: z.string().optional().describe( "Deprecated alias for `keyphrase`; prefer `keyphrase`." ),
 	synonyms: z.string().optional().describe( "Comma-separated synonyms of the keyphrase." ),
 	locale: z.string().optional().describe( "Locale, e.g. \"en_US\". The engine defaults to \"en_US\" when absent." ),
 	description: z.string().optional().describe( "The SEO meta description." ),
@@ -54,8 +56,11 @@ export const paperDtoSchema = z.object( {
 export function toPaper( dto ) {
 	const data = paperDtoSchema.parse( dto );
 
+	// `keyphrase` is canonical; `keyword` is a deprecated alias. Keyphrase wins when both are supplied.
+	const keyphrase = isUndefined( data.keyphrase ) ? data.keyword : data.keyphrase;
+
 	const attributes = {
-		keyword: data.keyphrase,
+		keyword: keyphrase,
 		synonyms: data.synonyms,
 		locale: data.locale,
 		description: data.description,
