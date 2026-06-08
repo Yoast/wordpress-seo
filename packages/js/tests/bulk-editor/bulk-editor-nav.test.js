@@ -18,6 +18,7 @@ const defaultProps = {
 	activeContentType: "page",
 	onChange: noop,
 	backToToolsUrl: "https://example.test/wp-admin/admin.php?page=wpseo_tools",
+	logoHref: "https://example.test/wp-admin/admin.php?page=wpseo_dashboard",
 };
 
 describe( "BulkEditorNav", () => {
@@ -37,7 +38,7 @@ describe( "BulkEditorNav", () => {
 	it( "renders the Yoast SEO logo linking to the dashboard", () => {
 		render( <BulkEditorNav { ...defaultProps } /> );
 
-		expect( screen.getByRole( "link", { name: "Yoast SEO" } ) ).toHaveAttribute( "href", "admin.php?page=wpseo_dashboard" );
+		expect( screen.getByRole( "link", { name: "Yoast SEO" } ) ).toHaveAttribute( "href", defaultProps.logoHref );
 	} );
 
 	it( "labels the logo Yoast SEO Premium when Premium is active", () => {

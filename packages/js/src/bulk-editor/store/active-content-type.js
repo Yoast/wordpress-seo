@@ -7,9 +7,8 @@ import { get } from "lodash";
 export const createInitialActiveContentTypeState = () => "";
 
 /*
- * Unlike the field sets, the valid content type names are not known statically (they come from the data
- * provider), so the reducer cannot guard the payload. The app resolves unknown names by falling back to the
- * first available content type.
+ * The reducer stores the name as-is: the valid names come from the data provider at runtime, so it cannot
+ * validate them. The app resolves an empty or unknown name to the first available content type.
  */
 const slice = createSlice( {
 	name: "activeContentType",

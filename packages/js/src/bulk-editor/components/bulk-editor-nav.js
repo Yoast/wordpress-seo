@@ -62,7 +62,7 @@ export const BulkEditorNav = ( {
 	activeContentType,
 	onChange,
 	backToToolsUrl,
-	logoHref = "admin.php?page=wpseo_dashboard",
+	logoHref = "index.php",
 	isPremium = false,
 	visibleLimit = 5,
 } ) => {
@@ -76,7 +76,6 @@ export const BulkEditorNav = ( {
 			hiddenCount
 		);
 
-		// Per the design: a rounded pill with a thin divider line on each side.
 		return (
 			<div className="yst-flex yst-items-center yst-gap-2 yst-mt-2">
 				<span className="yst-grow yst-border-t yst-border-slate-200" aria-hidden="true" />

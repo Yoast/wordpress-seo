@@ -48,13 +48,12 @@ const App = ( { dataProvider } ) => {
 		() => dataProvider.getContentTypes().map( ( { name, label } ) => ( { id: name, label } ) ),
 		[ dataProvider ]
 	);
-	// An unknown or empty name falls back to the first available content type.
 	const activeContentType = contentTypes.find( ( { id } ) => id === activeContentTypeName ) ?? contentTypes[ 0 ];
 
 	const { title, description } = getHeaderCopy( activeContentType );
-	// Note: getLink returns "" (not undefined) for unknown links, hence || and not ??.
-	const backToToolsUrl = dataProvider.getLink( "tools" ) || "admin.php?page=wpseo_tools";
-	const logoHref = dataProvider.getLink( "dashboard" ) || "admin.php?page=wpseo_dashboard";
+	// Fall back to the WP admin home when the data provider has no link.
+	const backToToolsUrl = dataProvider.getLink( "tools" ) || "index.php";
+	const logoHref = dataProvider.getLink( "dashboard" ) || "index.php";
 
 	return (
 		<div className="yst-p-4 min-[783px]:yst-p-8 yst-flex yst-items-start yst-gap-6">
