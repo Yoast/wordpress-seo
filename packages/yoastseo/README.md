@@ -97,6 +97,36 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 
 There is a basic example of this setup [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis-api).
 
+### Serializable input contract (`yoastseo/contract`)
+
+Non-WordPress consumers (a web API, the Shopify app, the Google Docs extension, …) can send a documented, serializable input shape — a `PaperDTO` — instead of constructing a `Paper` by hand. The contract is a separate, opt-in entry point, so its validation dependency is only loaded by consumers that import it; the package root is unaffected.
+
+```js
+import { toPaper } from "yoastseo/contract";
+
+// `toPaper` validates the input and returns an engine `Paper`.
+const paper = toPaper( {
+    text: "Text to analyze",
+    keyphrase: "analyze",
+    locale: "en_US",
+} );
+
+// `paper` can now be passed to `worker.analyze( paper )` or `assessor.assess( paper )`.
+```
+
+Notes:
+- **Platform-neutral.** The contract covers the fields used by the analysis (`text`, `keyphrase`, `synonyms`, `locale`, `description`, `title`, `slug`, `permalink`, `titleWidth`, `textTitle`, `date`, `writingDirection`, and an open `customData` object). WordPress-specific fields (`wpBlocks`, `shortcodes`, `isFrontPage`) are intentionally **not** part of it.
+- **`keyphrase` is the canonical field name.** `keyword` is accepted as a deprecated alias so existing consumers can adopt the contract without renaming.
+- **Validation.** `toPaper` throws on structurally invalid input (wrong types, unknown keys). Omitting an optional field is fine — the assessments that need it are simply skipped, matching the engine's existing behaviour.
+- **Extensible.** A consumer that registers its own assessments can validate extra fields by extending the schema:
+  ```js
+  import { z } from "zod";
+  import { paperDtoSchema, createToPaper } from "yoastseo/contract";
+
+  const toPaper = createToPaper( paperDtoSchema.extend( { myField: z.string() } ) );
+  const paper = toPaper( { text: "…", myField: "…" } ); // `myField` is validated and available on the Paper
+  ```
+
 ## Supported languages
 
 ### SEO analysis

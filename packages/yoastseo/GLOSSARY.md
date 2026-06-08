@@ -27,6 +27,28 @@ const paper = new Paper("<p>This is the <strong>main</strong> content<p>", {
 });
 ```
 
+### <a name="paperdto"></a>PaperDTO
+A documented, serializable, platform-neutral **input contract** for the engine, exposed via the opt-in `yoastseo/contract` entry. A non-WordPress consumer sends a `PaperDTO` (plain JSON) and the `toPaper` boundary validates it and constructs an internal [Paper](#paper). It is the *external* counterpart of `Paper`: where `Paper` is the engine's internal value object, `PaperDTO` is the stable shape consumers send.
+
+Key differences from `Paper`:
+- Uses the canonical name **`keyphrase`** (mapped to the engine's `keyword`); `keyword` is accepted as a deprecated alias.
+- Excludes WordPress-specific fields (`wpBlocks`, `shortcodes`, `isFrontPage`) — these stay on the WordPress side, not in the neutral contract.
+- Authored in [zod](https://zod.dev); validates structure (wrong types / unknown keys throw) while leaving per-assessment fields optional (omitting one just skips that assessment).
+- Extensible: consumers can `paperDtoSchema.extend({ … })` and build a mapper with `createToPaper` to validate custom fields for their own assessments.
+
+**Example:**
+```javascript
+import { toPaper } from "yoastseo/contract";
+
+const paper = toPaper({
+    text: "<p>This is the <strong>main</strong> content</p>",
+    keyphrase: "example",
+    description: "This is a meta description",
+    slug: "example-page",
+    locale: "en_US"
+});
+```
+
 ### <a name="assessment"></a>Assessment
 A single analysis unit that evaluates one specific aspect of content. Each assessment:
 - Has a specific purpose (e.g., the _keyword density_ assessment evaluates the number of keywords used in the content)
