@@ -1,5 +1,6 @@
+import { z } from "zod";
 import Paper from "../../src/values/Paper.js";
-import { paperDtoSchema, toPaper } from "../../src/contract";
+import { paperDtoSchema, toPaper, createToPaper } from "../../src/contract";
 
 describe( "the Paper input contract (PaperDTO)", function() {
 	describe( "toPaper", function() {
@@ -89,6 +90,31 @@ describe( "the Paper input contract (PaperDTO)", function() {
 	describe( "paperDtoSchema", function() {
 		it( "accepts a minimal valid payload", function() {
 			expect( paperDtoSchema.parse( { text: "hi" } ) ).toEqual( { text: "hi" } );
+		} );
+	} );
+
+	describe( "createToPaper (consumer extension)", function() {
+		const extendedSchema = paperDtoSchema.extend( { customField: z.string() } );
+
+		it( "validates a consumer-defined field and passes it onto the Paper", function() {
+			const paper = createToPaper( extendedSchema )( {
+				text: "x",
+				keyphrase: "cat food",
+				customField: "consumer value",
+			} );
+
+			// Base mapping still applies.
+			expect( paper.getKeyword() ).toBe( "cat food" );
+			// The extra field lands on the Paper's attributes for a custom assessment to read.
+			expect( paper._attributes.customField ).toBe( "consumer value" );
+		} );
+
+		it( "type-checks the consumer-defined field", function() {
+			expect( () => createToPaper( extendedSchema )( { text: "x", customField: 123 } ) ).toThrow();
+		} );
+
+		it( "still rejects genuinely unknown keys (strict is preserved through extend)", function() {
+			expect( () => createToPaper( extendedSchema )( { text: "x", customField: "v", bogus: 1 } ) ).toThrow();
 		} );
 	} );
 } );
