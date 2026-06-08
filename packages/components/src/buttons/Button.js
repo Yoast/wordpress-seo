@@ -18,7 +18,7 @@ const ieMinHeight = settings.minHeight - ( settings.verticalPadding * 2 ) - ( se
  * Builds a styled-components `attrs` callback that fills in the given defaults for any prop that is
  * not provided. React 19's automatic JSX runtime no longer applies `defaultProps` to function /
  * `forwardRef` components (styled components included), so applying the defaults here keeps them
- * working on both runtimes; `defaultProps` is kept as well for classic consumers.
+ * working on both runtimes.
  *
  * @param {Object} defaults The default prop values.
  *
@@ -209,9 +209,6 @@ BaseButton.propTypes = {
 	focusBorderColor: PropTypes.string,
 	focusBoxShadowColor: PropTypes.string,
 };
-
-// Kept for classic-runtime consumers; addButtonStyles applies these via .attrs for React 19.
-BaseButton.defaultProps = baseButtonDefaults;
 
 /**
  * Returns a styled Button with set font size.

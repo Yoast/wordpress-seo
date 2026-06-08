@@ -72,12 +72,12 @@ const getVariantIcons = variant => variantToIcon[ variant ] || null;
 export const Button = ( props ) => {
 	// Split Button.js specific props from all other props.
 	const {
-		children,
-		className,
-		variant,
-		small,
-		type,
-		buttonRef,
+		children = null,
+		className = "",
+		variant = "primary",
+		small = false,
+		type = "button",
+		buttonRef = null,
 		...restProps
 	} = props;
 
@@ -112,16 +112,6 @@ Button.propTypes = {
 	),
 };
 
-Button.defaultProps = {
-	className: "",
-	type: "button",
-	variant: "primary",
-	small: false,
-	children: null,
-	onClick: null,
-	buttonRef: null,
-};
-
 /**
  * A link, styled to look like a button.
  *
@@ -136,11 +126,11 @@ Button.defaultProps = {
  */
 export const ButtonStyledLink = ( props ) => {
 	const {
-		children,
-		className,
-		variant,
-		small,
-		buttonRef,
+		children = null,
+		className = "",
+		variant = "primary",
+		small = false,
+		buttonRef = null,
 		...restProps
 	} = props;
 
@@ -171,12 +161,4 @@ ButtonStyledLink.propTypes = {
 			PropTypes.arrayOf( PropTypes.node ),
 		]
 	),
-};
-
-ButtonStyledLink.defaultProps = {
-	className: "",
-	variant: "primary",
-	small: false,
-	children: null,
-	buttonRef: null,
 };

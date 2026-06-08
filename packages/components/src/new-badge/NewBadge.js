@@ -9,7 +9,7 @@ import { __ } from "@wordpress/i18n";
  *
  * @returns {React.Component} The NewBadge.
  */
-const NewBadge = ( { inLabel } ) => (
+const NewBadge = ( { inLabel = false } ) => (
 	<span className={ inLabel ? "yoast-badge yoast-badge__in-label yoast-new-badge" : "yoast-badge yoast-new-badge" }>
 		{ __( "New", "wordpress-seo" ) }
 	</span>
@@ -17,10 +17,6 @@ const NewBadge = ( { inLabel } ) => (
 
 NewBadge.propTypes = {
 	inLabel: PropTypes.bool,
-};
-
-NewBadge.defaultProps = {
-	inLabel: false,
 };
 
 export default NewBadge;

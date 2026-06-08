@@ -33,22 +33,32 @@ const IconButtonBase = styled.button`
  *
  * @returns {ReactElement} IconCTAEditButton component.
  */
-const IconCTAEditButton = function( props ) {
+const IconCTAEditButton = function( {
+	id,
+	ariaLabel,
+	onClick,
+	boxShadowColor = colors.$color_button_border,
+	background = colors.$color_button,
+	iconColor = colors.$color_button_text,
+	icon,
+	hoverBorderColor = colors.$color_white,
+	className,
+} ) {
 	return (
 		<IconButtonBase
 			type="button"
-			onClick={ props.onClick }
-			boxShadowColor={ props.boxShadowColor }
-			background={ props.background }
-			id={ props.id }
-			aria-label={ props.ariaLabel }
-			iconColor={ props.iconColor }
-			hoverBorderColor={ props.hoverBorderColor }
-			className={ props.className }
+			onClick={ onClick }
+			boxShadowColor={ boxShadowColor }
+			background={ background }
+			id={ id }
+			aria-label={ ariaLabel }
+			iconColor={ iconColor }
+			hoverBorderColor={ hoverBorderColor }
+			className={ className }
 		>
 			<SvgIcon
-				icon={ props.icon }
-				color={ props.iconColor }
+				icon={ icon }
+				color={ iconColor }
 				size="18px"
 			/>
 		</IconButtonBase>
@@ -65,13 +75,6 @@ IconCTAEditButton.propTypes = {
 	icon: PropTypes.string.isRequired,
 	hoverBorderColor: PropTypes.string,
 	className: PropTypes.string,
-};
-
-IconCTAEditButton.defaultProps = {
-	boxShadowColor: colors.$color_button_border,
-	background: colors.$color_button,
-	iconColor: colors.$color_button_text,
-	hoverBorderColor: colors.$color_white,
 };
 
 export default IconCTAEditButton;
