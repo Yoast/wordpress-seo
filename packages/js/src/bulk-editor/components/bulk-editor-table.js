@@ -111,6 +111,7 @@ const BulkEditorRow = ( { row, fields, isSelected, onToggleRow, onEdit } ) => {
 					id={ `bulk-editor-select-${ row.id }` }
 					name={ `bulk-editor-select-${ row.id }` }
 					value={ String( row.id ) }
+					className="yst-mt-0.5"
 					/* translators: %s expands to the content item title. */
 					aria-label={ sprintf( __( "Select %s", "wordpress-seo" ), row.title ) }
 					checked={ isSelected }
@@ -235,7 +236,7 @@ export const BulkEditorTable = ( { rows, fieldSet, selection = {}, onEdit = noop
 			<div role="status" className="yst-sr-only">
 				{ isLoading ? __( "Loading content…", "wordpress-seo" ) : "" }
 			</div>
-			<Table aria-label={ fieldSet.label } aria-busy={ isLoading }>
+			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className="[&_td]:yst-align-top [&_th]:yst-align-top">
 				<BulkEditorHeader fields={ fieldSet.fields } columnCount={ columnCount } selection={ selection } isLoading={ isLoading } />
 				<Table.Body>
 					<BulkEditorBody
