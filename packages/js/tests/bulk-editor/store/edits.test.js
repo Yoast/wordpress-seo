@@ -1,61 +1,89 @@
 import reducer, { createInitialEditsState, editsActions, editsSelectors } from "../../../src/bulk-editor/store/edits";
 
 describe( "edits slice", () => {
-	it( "defaults to no row being edited", () => {
-		expect( createInitialEditsState() ).toEqual( { editingId: null, draft: {}, isSaving: false } );
+	it( "defaults to no rows being edited", () => {
+		expect( createInitialEditsState() ).toEqual( { rows: {} } );
 	} );
 
-	it( "enters edit mode and seeds the draft from the row's values", () => {
+	it( "enters edit mode for a row, opening its fields seeded with their values", () => {
 		const state = reducer(
 			createInitialEditsState(),
-			editsActions.startEdit( { id: 7, draft: { seoTitle: "Old title" } } )
+			editsActions.startEdit( { id: 7, draft: { seoTitle: "Title", metaDescription: "Description" } } )
 		);
 
-		expect( state ).toEqual( { editingId: 7, draft: { seoTitle: "Old title" }, isSaving: false } );
+		expect( state.rows[ 7 ] ).toEqual( {
+			openFields: [ "seoTitle", "metaDescription" ],
+			draft: { seoTitle: "Title", metaDescription: "Description" },
+			savingField: null,
+		} );
 	} );
 
-	it( "copies the seeded draft so later edits do not mutate the source row", () => {
-		const source = { seoTitle: "Old title" };
+	it( "lets several rows be edited at once", () => {
+		let state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: { seoTitle: "A" } } ) );
+		state = reducer( state, editsActions.startEdit( { id: 9, draft: { seoTitle: "B" } } ) );
+
+		expect( Object.keys( state.rows ) ).toEqual( [ "7", "9" ] );
+	} );
+
+	it( "copies the seeded draft so later edits do not mutate the source", () => {
+		const source = { seoTitle: "Title" };
 		const state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: source } ) );
 
-		reducer( state, editsActions.updateDraftField( { key: "seoTitle", value: "New title" } ) );
+		reducer( state, editsActions.updateDraftField( { id: 7, key: "seoTitle", value: "Changed" } ) );
 
-		expect( source.seoTitle ).toBe( "Old title" );
+		expect( source.seoTitle ).toBe( "Title" );
 	} );
 
-	it( "updates a single draft field, leaving the others untouched", () => {
-		const initial = { editingId: 7, draft: { seoTitle: "Title", metaDescription: "Description" }, isSaving: false };
+	it( "updates a single field for the targeted row only", () => {
+		let state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: { seoTitle: "A", metaDescription: "B" } } ) );
+		state = reducer( state, editsActions.startEdit( { id: 9, draft: { seoTitle: "C" } } ) );
 
-		const state = reducer( initial, editsActions.updateDraftField( { key: "metaDescription", value: "New" } ) );
+		state = reducer( state, editsActions.updateDraftField( { id: 7, key: "metaDescription", value: "B2" } ) );
 
-		expect( state.draft ).toEqual( { seoTitle: "Title", metaDescription: "New" } );
+		expect( state.rows[ 7 ].draft ).toEqual( { seoTitle: "A", metaDescription: "B2" } );
+		expect( state.rows[ 9 ].draft ).toEqual( { seoTitle: "C" } );
 	} );
 
-	it( "flags and clears the saving state", () => {
-		const saving = reducer( createInitialEditsState(), editsActions.setSaving( true ) );
-		expect( saving.isSaving ).toBe( true );
+	it( "flags and clears the saving field for a row", () => {
+		let state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: { seoTitle: "A" } } ) );
 
-		const done = reducer( saving, editsActions.setSaving( false ) );
-		expect( done.isSaving ).toBe( false );
+		state = reducer( state, editsActions.setSavingField( { id: 7, key: "seoTitle" } ) );
+		expect( state.rows[ 7 ].savingField ).toBe( "seoTitle" );
+
+		state = reducer( state, editsActions.setSavingField( { id: 7, key: null } ) );
+		expect( state.rows[ 7 ].savingField ).toBeNull();
 	} );
 
-	it( "leaves edit mode and clears the draft on stopEdit", () => {
-		const editing = { editingId: 7, draft: { seoTitle: "Title" }, isSaving: true };
+	it( "closes one field but keeps the row editing while another remains open", () => {
+		let state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: { seoTitle: "A", metaDescription: "B" } } ) );
+		state = reducer( state, editsActions.setSavingField( { id: 7, key: "seoTitle" } ) );
 
-		expect( reducer( editing, editsActions.stopEdit() ) ).toEqual( createInitialEditsState() );
+		state = reducer( state, editsActions.closeField( { id: 7, key: "seoTitle" } ) );
+
+		expect( state.rows[ 7 ].openFields ).toEqual( [ "metaDescription" ] );
+		expect( state.rows[ 7 ].draft ).toEqual( { metaDescription: "B" } );
+		expect( state.rows[ 7 ].savingField ).toBeNull();
 	} );
 
-	it( "selects the editing id, the draft and the saving state", () => {
-		const state = { edits: { editingId: 7, draft: { seoTitle: "Title" }, isSaving: true } };
+	it( "leaves edit mode for a row once its last field closes", () => {
+		let state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: { seoTitle: "A" } } ) );
 
-		expect( editsSelectors.selectEditingId( state ) ).toBe( 7 );
-		expect( editsSelectors.selectEditDraft( state ) ).toEqual( { seoTitle: "Title" } );
-		expect( editsSelectors.selectIsSaving( state ) ).toBe( true );
+		state = reducer( state, editsActions.closeField( { id: 7, key: "seoTitle" } ) );
+
+		expect( state.rows[ 7 ] ).toBeUndefined();
 	} );
 
-	it( "falls back to safe defaults when the slice state is missing", () => {
-		expect( editsSelectors.selectEditingId( {} ) ).toBeNull();
-		expect( editsSelectors.selectEditDraft( {} ) ).toEqual( {} );
-		expect( editsSelectors.selectIsSaving( {} ) ).toBe( false );
+	it( "clears every editing row on stopEdit", () => {
+		let state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: { seoTitle: "A" } } ) );
+		state = reducer( state, editsActions.startEdit( { id: 9, draft: { seoTitle: "B" } } ) );
+
+		expect( reducer( state, editsActions.stopEdit() ) ).toEqual( createInitialEditsState() );
+	} );
+
+	it( "selects the editing rows map, defaulting to empty when missing", () => {
+		const rows = { 7: { openFields: [ "seoTitle" ], draft: { seoTitle: "A" }, savingField: null } };
+
+		expect( editsSelectors.selectEditingRows( { edits: { rows } } ) ).toEqual( rows );
+		expect( editsSelectors.selectEditingRows( {} ) ).toEqual( {} );
 	} );
 } );

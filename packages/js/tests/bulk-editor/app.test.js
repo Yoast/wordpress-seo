@@ -23,6 +23,7 @@ describe( "App", () => {
 		// The store lives in the global registry: reset the view state so tests stay order-independent.
 		dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_SEARCH );
 		dispatch( STORE_NAME ).setActiveContentType( "" );
+		dispatch( STORE_NAME ).stopEdit();
 	} );
 
 	it( "renders the header, tabs and panel in a single card with the header separator", () => {
@@ -84,5 +85,36 @@ describe( "App", () => {
 		expect( screen.getByRole( "tab", { name: "Social appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
 		expect( screen.getByRole( "columnheader", { name: "Social title" } ) ).toBeInTheDocument();
 		expect( screen.getByRole( "columnheader", { name: "Social description" } ) ).toBeInTheDocument();
+	} );
+
+	it( "discards an in-progress edit when switching tabs", () => {
+		render( <App dataProvider={ dataProvider } /> );
+		const rowTitle = "What Is SEO and How It Works";
+
+		fireEvent.click( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+		expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+
+		// Switching tabs changes the editable fields, so the edit is discarded.
+		fireEvent.click( screen.getByRole( "tab", { name: "Social appearance" } ) );
+		expect( screen.queryByRole( "textbox", { name: `Social title for ${ rowTitle }` } ) ).not.toBeInTheDocument();
+		// Back on Search the row is no longer in edit mode either.
+		fireEvent.click( screen.getByRole( "tab", { name: "Search appearance" } ) );
+		expect( screen.queryByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) ).toBeEnabled();
+	} );
+
+	it( "edits multiple rows at once without disabling the other rows' Edit", () => {
+		render( <App dataProvider={ dataProvider } /> );
+
+		fireEvent.click( screen.getByRole( "button", { name: "Edit What Is SEO and How It Works" } ) );
+
+		// Editing one row leaves another row's Edit enabled.
+		const secondEdit = screen.getByRole( "button", { name: "Edit Keyword Research for Beginners" } );
+		expect( secondEdit ).toBeEnabled();
+		fireEvent.click( secondEdit );
+
+		// Both rows are in edit mode simultaneously.
+		expect( screen.getByRole( "textbox", { name: "SEO title for What Is SEO and How It Works" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "textbox", { name: "SEO title for Keyword Research for Beginners" } ) ).toBeInTheDocument();
 	} );
 } );

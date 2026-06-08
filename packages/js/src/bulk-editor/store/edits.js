@@ -2,41 +2,61 @@ import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
 /**
- * @returns {Object} The initial edits state: no row is being edited.
+ * @returns {Object} The initial edits state: no rows are being edited.
  */
 export const createInitialEditsState = () => ( {
-	editingId: null,
-	draft: {},
-	isSaving: false,
+	// Edit state per row id; a row is in edit mode while it has an entry here. Several rows can edit at once.
+	rows: {},
 } );
 
 const slice = createSlice( {
 	name: "edits",
 	initialState: createInitialEditsState(),
 	reducers: {
-		// Enters edit mode for a row, seeding the draft with its current field values.
+		// Enters edit mode for a row, opening the given fields.
 		startEdit: ( state, { payload } ) => {
-			state.editingId = payload.id;
-			state.draft = { ...payload.draft };
-			state.isSaving = false;
+			state.rows[ payload.id ] = {
+				openFields: Object.keys( payload.draft ),
+				draft: { ...payload.draft },
+				savingField: null,
+			};
 		},
-		// Updates a single field of the in-progress draft.
+		// Updates a single open field's draft value for a row.
 		updateDraftField: ( state, { payload } ) => {
-			state.draft[ payload.key ] = payload.value;
+			const row = state.rows[ payload.id ];
+			if ( row ) {
+				row.draft[ payload.key ] = payload.value;
+			}
 		},
-		// Flags an in-progress save so the UI can disable the inputs and actions while it runs.
-		setSaving: ( state, { payload } ) => {
-			state.isSaving = payload;
+		// Marks the field currently saving for a row (or null when none), to disable it while the save runs.
+		setSavingField: ( state, { payload } ) => {
+			const row = state.rows[ payload.id ];
+			if ( row ) {
+				row.savingField = payload.key;
+			}
 		},
-		// Leaves edit mode and clears the draft; used by Cancel and after a successful save.
+		// Resolves a field (after Apply or Discard): closes its input. The row leaves edit mode once none remain.
+		closeField: ( state, { payload } ) => {
+			const row = state.rows[ payload.id ];
+			if ( ! row ) {
+				return;
+			}
+			row.openFields = row.openFields.filter( ( key ) => key !== payload.key );
+			delete row.draft[ payload.key ];
+			if ( row.savingField === payload.key ) {
+				row.savingField = null;
+			}
+			if ( row.openFields.length === 0 ) {
+				delete state.rows[ payload.id ];
+			}
+		},
+		// Leaves edit mode for every row and clears the drafts (e.g. when switching tabs).
 		stopEdit: () => createInitialEditsState(),
 	},
 } );
 
 export const editsSelectors = {
-	selectEditingId: ( state ) => get( state, "edits.editingId", null ),
-	selectEditDraft: ( state ) => get( state, "edits.draft", {} ),
-	selectIsSaving: ( state ) => get( state, "edits.isSaving", false ),
+	selectEditingRows: ( state ) => get( state, "edits.rows", {} ),
 };
 
 export const editsActions = slice.actions;
