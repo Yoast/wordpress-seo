@@ -1,4 +1,4 @@
-import { isEmpty, isUndefined } from "lodash";
+import { isUndefined } from "lodash";
 import { z } from "zod";
 import Paper from "../values/Paper.js";
 
@@ -33,8 +33,14 @@ export const paperDtoSchema = z.object( {
 	textTitle: z.string().optional().describe( "The title of the text or article itself." ),
 	date: z.string().optional().describe( "Publication date." ),
 	writingDirection: z.enum( [ "LTR", "RTL" ] ).optional().describe( "Writing direction of the content." ),
-	siteUrl: z.string().optional().describe( "Full site URL including scheme, e.g. \"https://example.com\"." ),
-	domain: z.string().optional().describe( "Bare host without scheme, e.g. \"example.com\"." ),
+	// Open-ended extensibility bag (e.g. product identifiers/SKU data, read by the product assessments).
+	// Validated as an object only — its contents are intentionally unchecked, because typing the inner keys
+	// would couple the contract to platform-specific (product/Shopify) shapes.
+	customData: z.record( z.unknown() ).optional().describe( "Open-ended custom data; contents are not validated." ),
+	// `siteUrl` / `domain` are intentionally NOT in the contract yet: no consumer feeds them through Paper
+	// today and no assessment reads them. They belong to the competing-links assessment, which currently
+	// gets the site URL from context. Add them (full URL incl. scheme vs bare host — see #97) as part of
+	// that assessment's refactor, when there is a real reader to shape the semantics against.
 } ).strict();
 
 /**
@@ -71,21 +77,8 @@ export function toPaper( dto ) {
 		textTitle: data.textTitle,
 		date: data.date,
 		writingDirection: data.writingDirection,
+		customData: data.customData,
 	};
-
-	// `siteUrl`/`domain` have no Paper attribute today — competing-links reads the
-	// site URL from WordPress context. Stash them in customData as a placeholder
-	// until that engine-side plumbing exists (lingo-other-tasks#634).
-	const customData = {};
-	if ( ! isUndefined( data.siteUrl ) ) {
-		customData.siteUrl = data.siteUrl;
-	}
-	if ( ! isUndefined( data.domain ) ) {
-		customData.domain = data.domain;
-	}
-	if ( ! isEmpty( customData ) ) {
-		attributes.customData = customData;
-	}
 
 	return new Paper( data.text, attributes );
 }

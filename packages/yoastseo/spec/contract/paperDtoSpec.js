@@ -51,17 +51,20 @@ describe( "the Paper input contract (PaperDTO)", function() {
 			expect( paper.getDescription() ).toBe( "" );
 		} );
 
-		it( "stashes siteUrl and domain in customData as a placeholder", function() {
-			const paper = toPaper( {
-				text: "x",
-				siteUrl: "https://example.com",
-				domain: "example.com",
-			} );
+		it( "passes an open-ended customData object through unchanged", function() {
+			const customData = { hasGlobalIdentifier: false, productType: "variable", anything: [ 1, 2 ] };
+			const paper = toPaper( { text: "x", customData } );
 
-			expect( paper.getCustomData() ).toEqual( {
-				siteUrl: "https://example.com",
-				domain: "example.com",
-			} );
+			expect( paper.getCustomData() ).toEqual( customData );
+		} );
+
+		it( "rejects a non-object customData (shape is validated)", function() {
+			expect( () => toPaper( { text: "x", customData: "not an object" } ) ).toThrow();
+		} );
+
+		it( "rejects siteUrl/domain for now (deferred to the competing-links refactor)", function() {
+			expect( () => toPaper( { text: "x", siteUrl: "https://example.com" } ) ).toThrow();
+			expect( () => toPaper( { text: "x", domain: "example.com" } ) ).toThrow();
 		} );
 
 		it( "throws on a structurally invalid payload (wrong type)", function() {
