@@ -52,7 +52,7 @@ describe( "App", () => {
 
 		expect( screen.getByRole( "navigation", { name: "Bulk editor menu" } ) ).toBeInTheDocument();
 		// If data provider has no links, the link falls back to the WP admin home.
-		expect( screen.getByRole( "link", { name: "Back to Tools" } ) ).toHaveAttribute( "href", "index.php" );
+		expect( screen.getByRole( "link", { name: "Back to Tools" } ) ).toHaveAttribute( "href", "/wp-admin/" );
 		expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
 	} );
 

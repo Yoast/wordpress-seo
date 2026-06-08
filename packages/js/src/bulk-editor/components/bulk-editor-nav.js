@@ -81,7 +81,7 @@ export const BulkEditorNav = ( {
 	activeContentType,
 	onChange,
 	backToToolsUrl,
-	logoHref = "index.php",
+	logoHref = "/wp-admin/",
 	isPremium = false,
 	visibleLimit = 5,
 } ) => {

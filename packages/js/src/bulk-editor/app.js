@@ -52,8 +52,8 @@ const App = ( { dataProvider } ) => {
 
 	const { title, description } = getHeaderCopy( activeContentType );
 	// Fall back to the WP admin home when the data provider has no link.
-	const backToToolsUrl = dataProvider.getLink( "tools" ) || "index.php";
-	const logoHref = dataProvider.getLink( "dashboard" ) || "index.php";
+	const backToToolsUrl = dataProvider.getLink( "tools" ) || "/wp-admin/";
+	const logoHref = dataProvider.getLink( "dashboard" ) || "/wp-admin/";
 
 	return (
 		<div className="yst-p-4 min-[783px]:yst-p-8 yst-flex yst-items-start yst-gap-6">
