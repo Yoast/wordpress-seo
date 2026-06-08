@@ -115,7 +115,7 @@ const paper = toPaper( {
 ```
 
 Notes:
-- **Platform-neutral.** The contract covers the fields used by the analysis (`text`, `keyphrase`, `synonyms`, `locale`, `description`, `title`, `slug`, `permalink`, `titleWidth`, `textTitle`, `date`, `writingDirection`, and an open `customData` object). WordPress-specific fields (`wpBlocks`, `shortcodes`, `isFrontPage`) are intentionally **not** part of it.
+- **Covers the analysis inputs.** The neutral core is `text`, `keyphrase`, `synonyms`, `locale`, `description`, `title`, `slug`, `permalink`, `titleWidth`, `textTitle`, `date`, `writingDirection`, and an open `customData` object. The contract also carries optional, **deprecated** WordPress-transitional fields (`wpBlocks`, `shortcodes`, `isFrontPage`): they are real analysis inputs that change WordPress scores, so a remote/API analysis needs them to reproduce in-browser results. They are marked deprecated. Non-WordPress consumers simply omit them.
 - **`keyphrase` is the canonical field name.** `keyword` is accepted as a deprecated alias so existing consumers can adopt the contract without renaming.
 - **Validation.** `toPaper` throws on structurally invalid input (wrong types, unknown keys). Omitting an optional field is fine — the assessments that need it are simply skipped, matching the engine's existing behaviour.
 - **Extensible.** A consumer that registers its own assessments can validate extra fields by extending the schema:

@@ -3,7 +3,14 @@ import { z } from "zod";
 import Paper from "../values/Paper.js";
 
 /**
- * Serializable, platform-neutral input contract for the analysis engine.
+ * Serializable input contract for the analysis engine.
+ *
+ * The core surface is platform-neutral, but the contract also carries a few **optional, deprecated**
+ * WordPress-transitional fields (`wpBlocks`, `shortcodes`, `isFrontPage`). They're included because they
+ * are real analysis *inputs* — they change the resulting scores for WordPress content (e.g. shortcodes are
+ * stripped before word-counting/keyphrase matching; blocks drive tree construction). So a remote/API
+ * analysis of a WordPress page can only reproduce the in-browser scores if it can send them. They are
+ * marked deprecated: #264 introduces a neutral structured-content representation that will replace them.
  *
  * Proof of concept for lingo-other-tasks#634. zod is the source of truth; a JSON
  * Schema can be generated from it for non-JS / wire consumers.
@@ -37,6 +44,12 @@ export const paperDtoSchema = z.object( {
 	// Validated as an object only — its contents are intentionally unchecked, because typing the inner keys
 	// would couple the contract to platform-specific (product/Shopify) shapes.
 	customData: z.record( z.unknown() ).optional().describe( "Open-ended custom data; contents are not validated." ),
+	// WordPress-transitional fields — optional and DEPRECATED. They are real analysis inputs (they change
+	// WP scores), so they're in the contract for browser/remote result parity; #264's neutral structured
+	// content will replace them. Kept optional so non-WP consumers simply omit them.
+	wpBlocks: z.array( z.unknown() ).optional().describe( "Deprecated (WP-transitional, see #264): WordPress block-editor blocks." ),
+	shortcodes: z.array( z.string() ).optional().describe( "Deprecated (WP-transitional, see #264): shortcode tags present in the text." ),
+	isFrontPage: z.boolean().optional().describe( "Deprecated (WP-transitional, see #264): whether the page is the site front page." ),
 	// `siteUrl` / `domain` are intentionally NOT in the contract yet: no consumer feeds them through Paper
 	// today and no assessment reads them. They belong to the competing-links assessment, which currently
 	// gets the site URL from context. Add them (full URL incl. scheme vs bare host — see #97) as part of
@@ -89,6 +102,9 @@ export function createToPaper( schema = paperDtoSchema ) {
 			date: data.date,
 			writingDirection: data.writingDirection,
 			customData: data.customData,
+			wpBlocks: data.wpBlocks,
+			shortcodes: data.shortcodes,
+			isFrontPage: data.isFrontPage,
 		};
 
 		// Consumer-defined extra fields (validated by the extended schema) are passed through verbatim.

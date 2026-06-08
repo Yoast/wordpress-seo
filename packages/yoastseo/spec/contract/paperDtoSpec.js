@@ -63,6 +63,25 @@ describe( "the Paper input contract (PaperDTO)", function() {
 			expect( () => toPaper( { text: "x", customData: "not an object" } ) ).toThrow();
 		} );
 
+		it( "accepts the deprecated WP-transitional fields and maps them onto the Paper", function() {
+			const wpBlocks = [ { name: "core/paragraph" } ];
+			const paper = toPaper( {
+				text: "x",
+				wpBlocks,
+				shortcodes: [ "gallery", "caption" ],
+				isFrontPage: true,
+			} );
+
+			expect( paper._attributes.wpBlocks ).toEqual( wpBlocks );
+			expect( paper._attributes.shortcodes ).toEqual( [ "gallery", "caption" ] );
+			expect( paper.isFrontPage() ).toBe( true );
+		} );
+
+		it( "type-checks the WP-transitional fields (e.g. shortcodes must be strings)", function() {
+			expect( () => toPaper( { text: "x", shortcodes: "not-an-array" } ) ).toThrow();
+			expect( () => toPaper( { text: "x", isFrontPage: "yes" } ) ).toThrow();
+		} );
+
 		it( "rejects siteUrl/domain for now (deferred to the competing-links refactor)", function() {
 			expect( () => toPaper( { text: "x", siteUrl: "https://example.com" } ) ).toThrow();
 			expect( () => toPaper( { text: "x", domain: "example.com" } ) ).toThrow();

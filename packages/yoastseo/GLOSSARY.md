@@ -28,11 +28,11 @@ const paper = new Paper("<p>This is the <strong>main</strong> content<p>", {
 ```
 
 ### <a name="paperdto"></a>PaperDTO
-A documented, serializable, platform-neutral **input contract** for the engine, exposed via the opt-in `yoastseo/contract` entry. A non-WordPress consumer sends a `PaperDTO` (plain JSON) and the `toPaper` boundary validates it and constructs an internal [Paper](#paper). It is the *external* counterpart of `Paper`: where `Paper` is the engine's internal value object, `PaperDTO` is the stable shape consumers send.
+A documented, serializable **input contract** for the engine (neutral core + a few optional, deprecated WordPress-transitional fields), exposed via the opt-in `yoastseo/contract` entry. A non-WordPress consumer sends a `PaperDTO` (plain JSON) and the `toPaper` boundary validates it and constructs an internal [Paper](#paper). It is the *external* counterpart of `Paper`: where `Paper` is the engine's internal value object, `PaperDTO` is the stable shape consumers send.
 
 Key differences from `Paper`:
 - Uses the canonical name **`keyphrase`** (mapped to the engine's `keyword`); `keyword` is accepted as a deprecated alias.
-- Excludes WordPress-specific fields (`wpBlocks`, `shortcodes`, `isFrontPage`) — these stay on the WordPress side, not in the neutral contract.
+- Carries the WordPress-transitional fields (`wpBlocks`, `shortcodes`, `isFrontPage`) as **optional, deprecated** — they are real analysis inputs that change WordPress scores, so a remote/API analysis needs them for result parity.
 - Authored in [zod](https://zod.dev); validates structure (wrong types / unknown keys throw) while leaving per-assessment fields optional (omitting one just skips that assessment).
 - Extensible: consumers can `paperDtoSchema.extend({ … })` and build a mapper with `createToPaper` to validate custom fields for their own assessments.
 
@@ -81,7 +81,7 @@ Types of assessors include:
 - ReadabilityAssessor: Analyzes text readability
 - CornerStoneAssessor: Applies stricter rules for important content
 
-The diagram below shows an example hierarchy of assessors and assessments. 
+The diagram below shows an example hierarchy of assessors and assessments.
 
 ```mermaid
 graph TD
@@ -201,4 +201,4 @@ Alternative words or phrases with similar meaning to the keyphrase. Used to:
 ```
 Keyphrase: "car"
 Synonyms: "automobile", "vehicle", "motor vehicle"
-``` 
+```
