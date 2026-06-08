@@ -42,6 +42,25 @@ const ContentTypeItem = ( { contentType, onChange } ) => {
 	);
 };
 
+const ShowMoreToggle = ( { show, toggle, ariaProps, hiddenCount } ) => {
+	const showMoreLabel = sprintf(
+		/* translators: %d expands to the number of additional content types. */
+		_n( "Show %d more", "Show %d more", hiddenCount, "wordpress-seo" ),
+		hiddenCount
+	);
+
+	return (
+		<div className="yst-flex yst-items-center yst-gap-2 yst-mt-2">
+			<span className="yst-grow yst-border-t yst-border-slate-200" aria-hidden="true" />
+			<Button variant="secondary" size="small" className="yst-rounded-full" onClick={ toggle } { ...ariaProps }>
+				{ show ? __( "Show less", "wordpress-seo" ) : showMoreLabel }
+				<ChevronDownIcon className={ classNames( "yst-w-4 yst-h-4 yst-ms-1", show && "yst-rotate-180" ) } aria-hidden="true" />
+			</Button>
+			<span className="yst-grow yst-border-t yst-border-slate-200" aria-hidden="true" />
+		</div>
+	);
+};
+
 /**
  * The left sub-navigation of the bulk editor: a "Back to Tools" link and the content type list, limited to
  * `visibleLimit` items with a "Show N more" toggle.
@@ -69,24 +88,10 @@ export const BulkEditorNav = ( {
 	const hiddenCount = contentTypes.length - visibleLimit;
 	const svgAriaProps = useSvgAria();
 
-	const renderShowMoreButton = useCallback( ( { show, toggle, ariaProps } ) => {
-		const showMoreLabel = sprintf(
-			/* translators: %d expands to the number of additional content types. */
-			_n( "Show %d more", "Show %d more", hiddenCount, "wordpress-seo" ),
-			hiddenCount
-		);
-
-		return (
-			<div className="yst-flex yst-items-center yst-gap-2 yst-mt-2">
-				<span className="yst-grow yst-border-t yst-border-slate-200" aria-hidden="true" />
-				<Button variant="secondary" size="small" className="yst-rounded-full" onClick={ toggle } { ...ariaProps }>
-					{ show ? __( "Show less", "wordpress-seo" ) : showMoreLabel }
-					<ChevronDownIcon className={ classNames( "yst-w-4 yst-h-4 yst-ms-1", show && "yst-rotate-180" ) } aria-hidden="true" />
-				</Button>
-				<span className="yst-grow yst-border-t yst-border-slate-200" aria-hidden="true" />
-			</div>
-		);
-	}, [ hiddenCount ] );
+	const renderShowMoreButton = useCallback(
+		( props ) => <ShowMoreToggle { ...props } hiddenCount={ hiddenCount } />,
+		[ hiddenCount ]
+	);
 
 	return (
 		<SidebarNavigation activePath={ activeContentType }>
