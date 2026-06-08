@@ -55,7 +55,7 @@ const TextInput = ( props ) => {
 		min,
 		max,
 		step,
-		onChange,
+		onChange = () => {},
 	} = props;
 
 	const fieldGroupProps = { ...props };

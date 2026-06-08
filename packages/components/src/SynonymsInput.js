@@ -33,7 +33,6 @@ const SynonymsInput = ( props ) => {
 		type = "text",
 		...inputProps
 	} = props;
-	inputProps.type = type;
 
 	return (
 		<InputContainer>
@@ -45,6 +44,7 @@ const SynonymsInput = ( props ) => {
 			</SynonymsFieldLabelContainer>
 			<InputField
 				{ ...inputProps }
+				type={ type }
 				autoComplete="off"
 			/>
 		</InputContainer>
