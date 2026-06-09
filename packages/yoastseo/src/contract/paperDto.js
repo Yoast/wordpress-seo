@@ -1,4 +1,3 @@
-import { isUndefined } from "lodash";
 import { z } from "zod";
 import Paper from "../values/Paper.js";
 
@@ -43,11 +42,11 @@ export const paperDtoSchema = z.object( {
 	// would couple the contract to platform-specific (product/Shopify) shapes.
 	customData: z.record( z.unknown() ).optional().describe( "Open-ended custom data; contents are not validated." ),
 	// WordPress-transitional fields — optional and DEPRECATED. They are real analysis inputs (they change
-	// WP scores), so they're in the contract for browser/remote result parity; #264's neutral structured
-	// content will replace them. Kept optional so non-WP consumers simply omit them.
-	wpBlocks: z.array( z.unknown() ).optional().describe( "Deprecated (WP-transitional, see #264): WordPress block-editor blocks." ),
-	shortcodes: z.array( z.string() ).optional().describe( "Deprecated (WP-transitional, see #264): shortcode tags present in the text." ),
-	isFrontPage: z.boolean().optional().describe( "Deprecated (WP-transitional, see #264): whether the page is the site front page." ),
+	// WP scores), so they're in the contract for browser/remote result parity.
+	// Kept optional so non-WP consumers simply omit them.
+	wpBlocks: z.array( z.unknown() ).optional().describe( "Deprecated (WP-transitional): WordPress block-editor blocks." ),
+	shortcodes: z.array( z.string() ).optional().describe( "Deprecated (WP-transitional): shortcode tags present in the text." ),
+	isFrontPage: z.boolean().optional().describe( "Deprecated (WP-transitional: whether the page is the site front page." ),
 } ).strict();
 
 /**
@@ -73,6 +72,11 @@ const BASE_KEYS = new Set( Object.keys( paperDtoSchema.shape ) );
  * it via `paper._attributes.myField`. The base `keyphrase` -> `keyword` mapping and the rest of the neutral
  * surface are applied exactly as in {@link toPaper}.
  *
+ * Note: `.extend()` preserves the base schema's `.strict()`, so an extended schema still rejects keys it
+ * doesn't declare. A consumer that genuinely needs open-ended, undeclared extra keys should call
+ * `.passthrough()` before `.extend()` (most cases are better served by declaring the fields, or by the
+ * open `customData` object).
+ *
  * @param {import("zod").ZodType} [schema] The schema to validate against. Defaults to the base contract.
  * @returns {(dto: object) => Paper} A mapper that validates `dto` and returns the constructed Paper.
  */
@@ -81,7 +85,7 @@ export function createToPaper( schema = paperDtoSchema ) {
 		const data = schema.parse( dto );
 
 		// `keyphrase` is canonical; `keyword` is a deprecated alias. Keyphrase wins when both are supplied.
-		const keyphrase = isUndefined( data.keyphrase ) ? data.keyword : data.keyphrase;
+		const keyphrase = data.keyphrase ?? data.keyword;
 
 		const attributes = {
 			keyword: keyphrase,
