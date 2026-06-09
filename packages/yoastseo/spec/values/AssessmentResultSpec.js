@@ -143,4 +143,36 @@ describe( "AssessmentResult", function() {
 			expect( result.hasAIFixes() ).toBe( true );
 		} );
 	} );
+
+	describe( "isBeta", function() {
+		it( "defaults to false", function() {
+			const result = new AssessmentResult();
+
+			expect( result.isBeta() ).toBe( false );
+		} );
+
+		it( "mirrors the beta-badge value (the neutral replacement for hasBetaBadge)", function() {
+			const result = new AssessmentResult();
+
+			result.setHasBetaBadge( true );
+
+			expect( result.isBeta() ).toBe( true );
+		} );
+	} );
+
+	describe( "isOptimizable", function() {
+		it( "defaults to false", function() {
+			const result = new AssessmentResult();
+
+			expect( result.isOptimizable() ).toBe( false );
+		} );
+
+		it( "mirrors the AI-fixes value (the neutral replacement for hasAIFixes)", function() {
+			const result = new AssessmentResult();
+
+			result.setHasAIFixes( true );
+
+			expect( result.isOptimizable() ).toBe( true );
+		} );
+	} );
 } );

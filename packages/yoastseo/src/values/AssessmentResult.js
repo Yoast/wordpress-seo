@@ -10,6 +10,30 @@ import Mark from "./Mark";
 const emptyMarker = () => [];
 
 /**
+ * Tracks which deprecated getters have already logged a notice, so the warning is emitted once per
+ * session instead of on every analysis result (these getters are read per result, e.g. in result mappers).
+ *
+ * @type {Object<string, boolean>}
+ */
+const deprecationNoticed = {};
+
+/**
+ * Logs a one-time deprecation notice for a getter that has been renamed to a contract-neutral name.
+ *
+ * @param {string} oldName The deprecated getter name.
+ * @param {string} newName The replacement getter name.
+ *
+ * @returns {void}
+ */
+function warnRenamedGetterOnce( oldName, newName ) {
+	if ( deprecationNoticed[ oldName ] ) {
+		return;
+	}
+	deprecationNoticed[ oldName ] = true;
+	console.warn( `AssessmentResult.${ oldName }() is deprecated; use ${ newName }() instead.` );
+}
+
+/**
  * Represents the assessment result.
  */
 class AssessmentResult {
@@ -242,9 +266,25 @@ class AssessmentResult {
 	/**
 	 * Returns the value of _hasBetaBadge to determine if the result has a beta badge.
 	 *
+	 * @deprecated Use {@link AssessmentResult#isBeta} instead. The result contract exposes this signal under
+	 * the neutral `isBeta` name; this UI-branded getter is kept for backwards compatibility and will be
+	 * removed at a future major version.
+	 *
 	 * @returns {bool} Whether this result has a beta badge.
 	 */
 	hasBetaBadge() {
+		warnRenamedGetterOnce( "hasBetaBadge", "isBeta" );
+		return this._hasBetaBadge;
+	}
+
+	/**
+	 * Returns whether this result belongs to an assessment that is still in beta/experimental status.
+	 *
+	 * Replaces the UI-branded {@link AssessmentResult#hasBetaBadge}.
+	 *
+	 * @returns {boolean} Whether this result is from a beta assessment.
+	 */
+	isBeta() {
 		return this._hasBetaBadge;
 	}
 
@@ -336,9 +376,26 @@ class AssessmentResult {
 	/**
 	 * Returns the value of _hasAIFixes to determine if the result has AI fixes.
 	 *
+	 * @deprecated Use {@link AssessmentResult#isOptimizable} instead. The result contract exposes this signal
+	 * under the neutral `isOptimizable` name; this Yoast-AI-branded getter is kept for backwards
+	 * compatibility and will be removed at a future major version.
+	 *
 	 * @returns {bool} Whether this result has AI fixes.
 	 */
 	hasAIFixes() {
+		warnRenamedGetterOnce( "hasAIFixes", "isOptimizable" );
+		return this._hasAIFixes;
+	}
+
+	/**
+	 * Returns whether this result is optimizable, i.e. whether an automated fix is available for it.
+	 *
+	 * Replaces the Yoast-AI-branded {@link AssessmentResult#hasAIFixes}. Eligibility is computed by the
+	 * assessment from the result's score, so it stays an engine-side signal a consumer cannot reconstruct.
+	 *
+	 * @returns {boolean} Whether an automated fix is available for this result.
+	 */
+	isOptimizable() {
 		return this._hasAIFixes;
 	}
 
