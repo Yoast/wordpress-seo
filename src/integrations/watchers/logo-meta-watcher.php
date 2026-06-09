@@ -48,13 +48,15 @@ class Logo_Meta_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Recomputes the logo `_meta` from `_id` on every `wpseo_titles` save,
-	 * unless the caller supplied a non-empty meta blob alongside an unchanged
-	 * id (the AIOSEO importer's round-trip pattern). Comparing against
-	 * `$old_value` is essential: `WPSEO_Options::save_option` does a
-	 * read-modify-write, so callers updating only `_id` arrive here with the
-	 * previous attachment's meta still attached — without the id check, that
-	 * stale blob would survive the supplied-meta branch.
+	 * Recomputes the logo `_meta` from `_id` on every `wpseo_titles` save.
+	 *
+	 * Exception: when the caller supplied a non-empty meta blob alongside an
+	 * unchanged id (the AIOSEO importer's round-trip pattern), the supplied
+	 * blob is respected. Comparing against `$old_value` is essential here:
+	 * `WPSEO_Options::save_option` does a read-modify-write, so callers
+	 * updating only `_id` arrive here with the previous attachment's meta
+	 * still attached — without the id check, that stale blob would survive
+	 * the supplied-meta branch.
 	 *
 	 * @param array<string, string|int|bool|array<string, string|int|bool>>|false $new_value The value about to be stored.
 	 * @param array<string, string|int|bool|array<string, string|int|bool>>|false $old_value The value currently stored.
