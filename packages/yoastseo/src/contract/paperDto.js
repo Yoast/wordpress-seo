@@ -46,7 +46,7 @@ export const paperDtoSchema = z.object( {
 	// Kept optional so non-WP consumers simply omit them.
 	wpBlocks: z.array( z.unknown() ).optional().describe( "Deprecated (WP-transitional): WordPress block-editor blocks." ),
 	shortcodes: z.array( z.string() ).optional().describe( "Deprecated (WP-transitional): shortcode tags present in the text." ),
-	isFrontPage: z.boolean().optional().describe( "Deprecated (WP-transitional: whether the page is the site front page." ),
+	isFrontPage: z.boolean().optional().describe( "Deprecated (WP-transitional): whether the page is the site front page." ),
 } ).strict();
 
 /**
