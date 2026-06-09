@@ -14,9 +14,9 @@ import Paper from "../values/Paper.js";
  * is fully neutral and optional, and the front page gets a proper context-aware assessment.
  *
  * Two validation tiers (see the issue): structural validity is enforced here —
- * wrong types, malformed payloads, and unknown keys throw at the boundary. Per
- * assessment field needs are NOT enforced: every field except `text` is optional,
- * so a consumer that omits e.g. `keyphrase` simply receives no keyphrase
+ * wrong types, malformed payloads, and unknown keys throw at the boundary.
+ * Per-assessment field needs are NOT enforced: every field except `text` is optional,
+ * so a consumer that omits, e.g. `keyphrase` simply receives no keyphrase
  * assessments, matching the engine's existing graceful-skip behaviour.
  *
  * `.strict()` rejects unknown keys, catching typos (e.g. `keyphrse`).
@@ -39,7 +39,7 @@ export const paperDtoSchema = z.object( {
 	date: z.string().optional().describe( "Publication date." ),
 	writingDirection: z.enum( [ "LTR", "RTL" ] ).optional().describe( "Writing direction of the content." ),
 	// Open-ended extensibility bag (e.g. product identifiers/SKU data, read by the product assessments).
-	// Validated as an object only — its contents are intentionally unchecked, because typing the inner keys
+	// Validated as an object only — its contents are intentionally unchecked because typing the inner keys
 	// would couple the contract to platform-specific (product/Shopify) shapes.
 	customData: z.record( z.unknown() ).optional().describe( "Open-ended custom data; contents are not validated." ),
 	// WordPress-transitional fields — optional and DEPRECATED. They are real analysis inputs (they change
@@ -48,10 +48,6 @@ export const paperDtoSchema = z.object( {
 	wpBlocks: z.array( z.unknown() ).optional().describe( "Deprecated (WP-transitional, see #264): WordPress block-editor blocks." ),
 	shortcodes: z.array( z.string() ).optional().describe( "Deprecated (WP-transitional, see #264): shortcode tags present in the text." ),
 	isFrontPage: z.boolean().optional().describe( "Deprecated (WP-transitional, see #264): whether the page is the site front page." ),
-	// `siteUrl` / `domain` are intentionally NOT in the contract yet: no consumer feeds them through Paper
-	// today and no assessment reads them. They belong to the competing-links assessment, which currently
-	// gets the site URL from context. Add them (full URL incl. scheme vs bare host — see #97) as part of
-	// that assessment's refactor, when there is a real reader to shape the semantics against.
 } ).strict();
 
 /**
