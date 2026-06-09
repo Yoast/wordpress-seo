@@ -6,7 +6,9 @@ namespace Yoast\WP\SEO\AI\Generator\User_Interface;
 use WP_REST_Response;
 use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\WP_Request_Exception;
@@ -56,6 +58,13 @@ class Get_Usage_Route implements Route_Interface {
 	private $request_handler;
 
 	/**
+	 * The consent handler instance.
+	 *
+	 * @var Consent_Handler
+	 */
+	private $consent_handler;
+
+	/**
 	 * Represents the add-on manager.
 	 *
 	 * @var WPSEO_Addon_Manager
@@ -76,12 +85,14 @@ class Get_Usage_Route implements Route_Interface {
 	 *
 	 * @param Token_Manager       $token_manager   The token manager instance.
 	 * @param Request_Handler     $request_handler The request handler instance.
+	 * @param Consent_Handler     $consent_handler The consent handler instance.
 	 * @param WPSEO_Addon_Manager $addon_manager   The add-on manager instance.
 	 */
-	public function __construct( Token_Manager $token_manager, Request_Handler $request_handler, WPSEO_Addon_Manager $addon_manager ) {
+	public function __construct( Token_Manager $token_manager, Request_Handler $request_handler, Consent_Handler $consent_handler, WPSEO_Addon_Manager $addon_manager ) {
 		$this->addon_manager   = $addon_manager;
 		$this->token_manager   = $token_manager;
 		$this->request_handler = $request_handler;
+		$this->consent_handler = $consent_handler;
 	}
 
 	/**
@@ -126,6 +137,10 @@ class Get_Usage_Route implements Route_Interface {
 			$response        = $this->request_handler->handle( new Request( $action_path, [], $request_headers, false ) );
 			$data            = \json_decode( $response->get_body() );
 		} catch ( Remote_Request_Exception | WP_Request_Exception $e ) {
+			if ( $e instanceof Forbidden_Exception ) {
+				// The API signals that consent is revoked; sync local state.
+				$this->consent_handler->revoke_consent( $user->ID );
+			}
 			$message = [
 				'errorMessage'    => $e->getMessage(),
 				'errorIdentifier' => $e->get_error_identifier(),

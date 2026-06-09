@@ -21,7 +21,8 @@
     "build",
     "!*.map",
     "vendor",
-    "images"
+    "images",
+    "researcher"
   ],
   "sideEffects": false,
   "scripts": {

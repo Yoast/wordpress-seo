@@ -28,6 +28,7 @@
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
     "publish:storybook": "./scripts/publish-storybook.sh",
+    "test": "jest tests/react-render-smoke.test.js",
     "test:storyshots": "yarn build:storybook --test --quiet && jest tests/storyshots.js",
     "t_st": "yarn test:storyshots",
     "lint": "eslint . --max-warnings=3"
@@ -54,6 +55,7 @@
     "@storybook/theming": "^7.6.17",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.9",
+    "@testing-library/react": "^16.2.0",
     "@wordpress/jest-preset-default": "^8.0.1",
     "@yoast/browserslist-config": "^1.2.5",
     "@yoast/eslint-config": "^8.1.0",

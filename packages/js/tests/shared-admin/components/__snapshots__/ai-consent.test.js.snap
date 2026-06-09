@@ -14,7 +14,7 @@ exports[`AiConsent match snapshot 1`] = `
         decoding="async"
         height="244"
         loading="lazy"
-        src="https://example.com/ai-consent.png"
+        src="https://example.com/ai-consent.jpg"
         width="432"
       />
     </div>

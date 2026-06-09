@@ -103,6 +103,14 @@ const results = assessor.getValidResults();
 
 `Assessor.assess(paper)` requires a paper whose HTML tree has been built. If you're using `AnalysisWorkerWrapper`/`AnalysisWebWorker`, the worker takes care of this for you. If you're calling an assessor or a tree-dependent research directly, call `ensureTree(paper, researcher)` first.
 
+> **Language-specific analysis:** `AbstractResearcher` runs the generic, language-agnostic researches. For language-aware analysis (function words, stemming, transition words, etc.), resolve the per-language Researcher class through the dedicated entry point instead:
+> ```javascript
+> import getResearcher from "yoastseo/researcher";
+> const Researcher = getResearcher( "nl" ); // Returns the class; falls back to the default Researcher for unsupported languages.
+> const researcher = new Researcher( paper );
+> ```
+> See the [Entry points](./README.md#entry-points) section of the README for why this is a separate entry.
+
 ## Key Features
 
 1. **Multilingual Support**: Supports analysis in multiple languages with language-specific rules and assessments
@@ -141,6 +149,7 @@ The library can be integrated in several ways:
 4. **Custom CMS Integration**: Can be integrated into any CMS or editing environment
 
 For more detailed documentation on specific topics, see:
+- [Public entry points](./README.md#entry-points) (`yoastseo` and `yoastseo/researcher`)
 - [Assessments Documentation](./src/scoring/assessments/README.md)
 - [Morphology Documentation](./MORPHOLOGY.md)
 - [Design Decisions](./DESIGN%20DECISIONS.md)

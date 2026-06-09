@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\User_Interface\Get_Usage_Route;
 
 use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 
 /**
@@ -31,6 +32,11 @@ final class Constructor_Test extends Abstract_Get_Usage_Route_Test {
 		$this->assertInstanceOf(
 			Request_Handler::class,
 			$this->getPropertyValue( $this->instance, 'request_handler' ),
+		);
+
+		$this->assertInstanceOf(
+			Consent_Handler::class,
+			$this->getPropertyValue( $this->instance, 'consent_handler' ),
 		);
 
 		$this->assertInstanceOf(
