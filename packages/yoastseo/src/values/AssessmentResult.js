@@ -29,20 +29,22 @@ class AssessmentResult {
 	 * @returns {void}
 	 */
 	constructor( values ) {
-		this._hasScore = false;
-		this._identifier = "";
-		this._hasAIFixes = false;
-		this._hasMarks = false;
-		this._hasJumps = false;
-		this._hasEditFieldName = false;
-		this._hasEditFieldAriaLabel = false;
-		this._marker = emptyMarker;
-		this._hasBetaBadge = false;
-		this.score = 0;
-		this.text = "";
-		this.marks = [];
-		this.editFieldName = "";
-		this.editFieldAriaLabel = "";
+		Object.assign( this, {
+			_hasScore: false,
+			_identifier: "",
+			_hasAIFixes: false,
+			_hasMarks: false,
+			_hasJumps: false,
+			_hasEditFieldName: false,
+			_hasEditFieldAriaLabel: false,
+			_marker: emptyMarker,
+			_hasBetaBadge: false,
+			score: 0,
+			text: "",
+			marks: [],
+			editFieldName: "",
+			editFieldAriaLabel: "",
+		} );
 
 		if ( isUndefined( values ) ) {
 			values = {};
