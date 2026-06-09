@@ -155,6 +155,10 @@ module.exports = function( app ) {
 		if ( ! paper ) {
 			return;
 		}
+		// This endpoint is keyphrase analysis, so a keyphrase is required (the contract leaves it optional).
+		if ( ! paper.hasKeyword() ) {
+			return response.status( 400 ).json( { error: "A keyphrase is required" } );
+		}
 		const language = request.body.locale || "en";
 		const researcher = getResearcher( language );
 		const assessor = new KeyphraseAssessor( researcher );
@@ -166,6 +170,10 @@ module.exports = function( app ) {
 		const paper = paperFromRequest( request, response );
 		if ( ! paper ) {
 			return;
+		}
+		// This endpoint is keyphrase analysis, so a keyphrase is required (the contract leaves it optional).
+		if ( ! paper.hasKeyword() ) {
+			return response.status( 400 ).json( { error: "A keyphrase is required" } );
 		}
 		const language = request.body.locale || "en";
 		const researcher = getResearcher( language );
