@@ -2,11 +2,13 @@ import { Paper, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { TaskRow, TasksProgressBar, GetTasksErrorRow, TaskListTable, TaskListProvider } from "@yoast/dashboard-frontend";
 import { values, isEmpty } from "lodash";
+import classNames from "classnames";
 import { useEffect } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { addQueryArgs } from "@wordpress/url";
-import { STORE_NAME } from "../constants";
-import { Task, TaskListUpsellRow, TaskListModal } from "../components";
+import { STORE_NAME, HIGHLIGHT_TASK_LIST } from "../constants";
+import { Task, TaskListUpsellRow, TaskListModal, FeatureHighlightPopover } from "../components";
+import { useFeatureHighlight } from "../hooks";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
 const loadingTasksTitleWidth = [
@@ -29,6 +31,7 @@ const loadingTasksTitleWidth = [
  */
 export const TaskList = () => {
 	const { fetchTasks } = useDispatch( STORE_NAME );
+	const [ isHighlighting, setIsHighlighting ] = useFeatureHighlight( HIGHLIGHT_TASK_LIST );
 	const { getTasksEndpoint,
 		isPremium,
 		tasks,
@@ -74,7 +77,7 @@ export const TaskList = () => {
 				{ __( "Stay on top of your SEO progress with this task list. Complete each task to ensure your site is optimized and aligned with best SEO practices.", "wordpress-seo" ) }
 			</p>
 		</Paper.Header>
-		<Paper.Content>
+		<Paper.Content className={ classNames( { "yst-feature-highlight": isHighlighting } ) }>
 			<TaskListProvider locale={ userLocale }>
 				<TasksProgressBar
 					completedTasks={ completedTasksCount }
@@ -92,6 +95,14 @@ export const TaskList = () => {
 				</TaskListTable>
 				<TaskListModal />
 			</TaskListProvider>
+			<FeatureHighlightPopover
+				id="task-list-highlight-popover"
+				position="top"
+				isVisible={ isHighlighting }
+				setIsVisible={ setIsHighlighting }
+				title={ __( "Your new SEO task list", "wordpress-seo" ) }
+				content={ __( "Track and complete SEO tasks tailored to your site, right here.", "wordpress-seo" ) }
+			/>
 		</Paper.Content>
 	</Paper>;
 };

@@ -13,7 +13,6 @@ import {
 	FormikIndexablePageSelectField,
 	FormLayout,
 	RouteLayout,
-	LlmTxtPopover,
 	LlmsTxtAlert,
 	LlmsTxtUnsavedChangesModal,
 } from "../components";
@@ -143,8 +142,6 @@ const LlmTxt = () => {
 		}
 	}, [ fetchIndexablePages, isLlmsTxtEnabled, llmsTxtSelectionMode ] );
 
-	const isOptIn = useMemo( () => ! isLlmsTxtEnabled && sessionStorage?.getItem( "yoast-highlight-setting" ) === "llm-txt", [ isLlmsTxtEnabled ] );
-
 	const [ openUnsavedFile, , , setOpenUnsavedFile, unsetOpenUnsavedFile ] = useToggleState( false );
 
 	return (
@@ -158,29 +155,26 @@ const LlmTxt = () => {
 
 						{ generationFailure && initialIsLlmsTxtEnabled && isLlmsTxtEnabled && <LlmsTxtAlert reason={ generationFailureReason } /> }
 
-						<div className="yst-relative yst-max-w-sm">
-							<FormikValueChangeFieldWithDisabledMessage
-								as={ ToggleField }
-								type="checkbox"
-								name="wpseo.enable_llms_txt"
-								id="input-wpseo.enable_llms_txt"
-								label={ sprintf(
+						<FormikValueChangeFieldWithDisabledMessage
+							as={ ToggleField }
+							type="checkbox"
+							name="wpseo.enable_llms_txt"
+							id="input-wpseo.enable_llms_txt"
+							label={ sprintf(
+							// translators: %1$s expands to "llms.txt".
+								__( "Enable %1$s file feature", "wordpress-seo" ),
+								LABEL
+							) }
+							description={ sprintf(
 								// translators: %1$s expands to "llms.txt".
-									__( "Enable %1$s file feature", "wordpress-seo" ),
-									LABEL
-								) }
-								description={ sprintf(
-									// translators: %1$s expands to "llms.txt".
-									__(
-										"Enabling this feature generates and updates an %1$s file weekly that lists a selection of your site's content.",
-										"wordpress-seo"
-									),
-									LABEL
-								) }
-								className={ isOptIn ? "yst-popover-backdrop-highlight-button" : "" }
-							/>
-							{ isOptIn && <LlmTxtPopover /> }
-						</div>
+								__(
+									"Enabling this feature generates and updates an %1$s file weekly that lists a selection of your site's content.",
+									"wordpress-seo"
+								),
+								LABEL
+							) }
+							className="yst-max-w-sm"
+						/>
 					</fieldset>
 					{ ! showUnsavedChangesModal && <Button
 						as="a"

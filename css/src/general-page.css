@@ -87,6 +87,11 @@ body.toplevel_page_wpseo_dashboard {
 		padding-left: 0 !important;
 	}
 
+	/* Keep the admin menu's background above the task-list spotlight dim so it isn't tinted grey. */
+	#adminmenuback {
+		z-index: 11;
+	}
+
 	#wpfooter {
 		@apply yst-pr-4;
 
@@ -226,6 +231,14 @@ body.toplevel_page_wpseo_dashboard {
 				yst-mt-1.5;
 			}
 		}
+	}
+
+	.yst-feature-highlight {
+		position: relative;
+		z-index: 10; /* Above page content (z:auto); the popover (z:30) stays above the shadow. */
+		box-shadow: 0 0 0 100vmax rgb(100 116 139 / 0.75); /* Slate-500/75 spotlight dim. */
+		border-bottom-left-radius: 0.5rem; /* Match the card's rounded-lg bottom corners. */
+		border-bottom-right-radius: 0.5rem;
 	}
 
 	/* RTL */

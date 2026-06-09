@@ -4,7 +4,7 @@ import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.sv
 import ArrowNarrowRightIcon from "@heroicons/react/outline/ArrowNarrowRightIcon";
 import classNames from "classnames";
 import { useCallback, useEffect } from "@wordpress/element";
-import { STORE_NAME } from "../constants";
+import { STORE_NAME, HIGHLIGHT_TASK_LIST } from "../constants";
 import { useDispatch } from "@wordpress/data";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../routes";
@@ -38,7 +38,7 @@ const NotificationButtons = () => {
 	const handleShow = useCallback( async() => {
 		hideOptInNotification( "task_list" );
 		handleDismiss();
-		navigate( taskListpath );
+		navigate( taskListpath, { state: { highlight: HIGHLIGHT_TASK_LIST } } );
 	}, [ taskListpath, navigate ] );
 
 	return <div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">

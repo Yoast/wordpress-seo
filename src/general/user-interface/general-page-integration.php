@@ -288,7 +288,7 @@ class General_Page_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Gets if the llms.txt opt-in notification has been seen.
+	 * Gets if the task list opt-in notification has been seen.
 	 *
 	 * @return bool True if the notification has been seen, false otherwise.
 	 */
