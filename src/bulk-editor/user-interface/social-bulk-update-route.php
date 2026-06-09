@@ -15,7 +15,7 @@ class Social_Bulk_Update_Route extends Abstract_Bulk_Update_Route {
 	 *
 	 * @var string
 	 */
-	public const ROUTE_PREFIX = 'bulk_editor/update_social';
+	public const ROUTE_PREFIX = '/bulk_editor/update_social';
 
 	/**
 	 * Gets the appearance this route updates.

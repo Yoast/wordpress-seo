@@ -142,6 +142,10 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface, LoggerAwar
 				return $this->reject( 'rest_invalid_item', 'Each item must be an object.' );
 			}
 
+			if ( ! \array_key_exists( 'id', $item ) || ! \is_int( $item['id'] ) ) {
+				return $this->reject( 'rest_invalid_item_id', 'Each item must contain an integer id.' );
+			}
+
 			$title_key       = $this->get_title_arg_name();
 			$description_key = $this->get_description_arg_name();
 
