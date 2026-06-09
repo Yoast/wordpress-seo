@@ -49,6 +49,23 @@ const paper = toPaper({
 });
 ```
 
+### <a name="resultdto"></a>ResultDTO
+A documented, serializable **output contract** for the engine, exposed via the same opt-in `yoastseo/contract` entry — the result-side sibling of [PaperDTO](#paperdto). The `toResultDTO` boundary maps a single engine [AssessmentResult](#assessment) onto the stable shape a non-WordPress consumer reads, so each consumer no longer hand-rolls its own view model.
+
+Key points:
+- Carries `identifier`, `score`, the interpreted `rating`, `text`, `marks`, `editFieldName`/`editFieldAriaLabel` (empty strings when none), and the neutral signals `isOptimizable` and `isBeta`.
+- **`rating`** is computed in the boundary (a pure function of `score`) and never stored, so it cannot drift from `score`.
+- **`isOptimizable`** / **`isBeta`** are the neutral contract names for the per-result signals behind the deprecated `AssessmentResult#hasAIFixes` / `#hasBetaBadge` getters.
+- Authored in [zod](https://zod.dev); `marks` are serialized into a transport-agnostic shape.
+- **i18n caveat:** `editFieldAriaLabel` (like `text`) is a pre-translated string carried as-is for now; a future i18n contract may replace it with a stable key derived from `editFieldName`.
+
+**Example:**
+```javascript
+import { toResultDTO } from "yoastseo/contract";
+
+const results = seoAssessor.getValidResults().map( toResultDTO );
+```
+
 ### <a name="assessment"></a>Assessment
 A single analysis unit that evaluates one specific aspect of content. Each assessment:
 - Has a specific purpose (e.g., the _keyword density_ assessment evaluates the number of keywords used in the content)

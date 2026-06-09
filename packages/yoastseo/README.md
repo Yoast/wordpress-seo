@@ -157,6 +157,23 @@ Notes:
   const paper = toPaper( { text: "…", myField: "…" } ); // `myField` is validated and available on the Paper
   ```
 
+### Serializable output contract (`yoastseo/contract`)
+
+The same entry point exposes a documented, serializable **output** shape — a `ResultDTO` — for the results an assessor returns. It is the result-side sibling of `PaperDTO`: instead of each consumer hand-rolling a view model from an `AssessmentResult`, the `toResultDTO` boundary maps one result to a stable, consumer-facing shape.
+
+```js
+import { toResultDTO } from "yoastseo/contract";
+
+const results = seoAssessor.getValidResults().map( toResultDTO );
+// => [ { identifier, score, rating, text, marks, editFieldName, editFieldAriaLabel, isOptimizable, isBeta }, … ]
+```
+
+Notes:
+- **`rating` is interpreted in the boundary.** It is a pure function of `score` (`error`/`feedback`/`bad`/`ok`/`good`), computed by `toResultDTO` and never stored on the result, so it cannot drift from `score`. Consumers no longer need to call `interpreters.scoreToRating` themselves.
+- **Neutral signal names.** `isOptimizable` (an automated fix is available for this result) and `isBeta` (the assessment is still in beta) are the contract names for the engine signals exposed by the deprecated `AssessmentResult#hasAIFixes`/`#hasBetaBadge` getters. Presentation stays a consumer concern.
+- **`marks`** carry the highlighting payload (`original`, `marked`, `fieldsToMark`, optional `position`) in a transport-agnostic shape. `editFieldName` is the neutral target field for an edit/jump action (an empty string when the result has none).
+- **i18n caveat.** Like `text`, `editFieldAriaLabel` is a pre-translated (`wordpress-seo` textdomain) string carried as-is for now; a future i18n contract may replace it with a stable key derived from `editFieldName`.
+
 ## Supported languages
 
 ### SEO analysis
