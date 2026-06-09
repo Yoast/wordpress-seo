@@ -153,7 +153,6 @@
 	<rule ref="WordPress.WP.Capabilities">
 		<properties>
 			<property name="custom_capabilities" type="array">
-				<element value="wpseo_bulk_edit"/>
 				<element value="wpseo_manage_network_options"/>
 				<element value="wpseo_manage_options"/>
 			</property>
