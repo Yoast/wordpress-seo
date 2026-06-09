@@ -9,11 +9,9 @@ import Paper from "../values/Paper.js";
  * WordPress-transitional fields (`wpBlocks`, `shortcodes`, `isFrontPage`). They're included because they
  * are real analysis *inputs* — they change the resulting scores for WordPress content (e.g. shortcodes are
  * stripped before word-counting/keyphrase matching; blocks drive tree construction). So a remote/API
- * analysis of a WordPress page can only reproduce the in-browser scores if it can send them. They are
- * marked deprecated: #264 introduces a neutral structured-content representation that will replace them.
- *
- * Proof of concept for lingo-other-tasks#634. zod is the source of truth; a JSON
- * Schema can be generated from it for non-JS / wire consumers.
+ * analysis of a WordPress page can only reproduce the in-browser scores if it can send them.
+ * They are marked deprecated as they will be removed once the engine's structured content (blocks, shortcodes)
+ * is fully neutral and optional, and the front page gets a proper context-aware assessment.
  *
  * Two validation tiers (see the issue): structural validity is enforced here —
  * wrong types, malformed payloads, and unknown keys throw at the boundary. Per
@@ -21,10 +19,10 @@ import Paper from "../values/Paper.js";
  * so a consumer that omits e.g. `keyphrase` simply receives no keyphrase
  * assessments, matching the engine's existing graceful-skip behaviour.
  *
- * `.strict()` rejects unknown keys, catching typos (e.g. `keyphrse`). The one
- * blessed exception is `keyword`: a deprecated alias for `keyphrase`, accepted so
+ * `.strict()` rejects unknown keys, catching typos (e.g. `keyphrse`).
+ * The one blessed exception is `keyword`: a deprecated alias for `keyphrase`, accepted so
  * existing consumers (which speak the engine's `keyword`) can adopt the contract
- * without renaming. Remove it at a future major once they migrate to `keyphrase`.
+ * without renaming. They will be removed at a future major once they migrate to `keyphrase`.
  */
 export const paperDtoSchema = z.object( {
 	text: z.string().describe( "The content to analyse (HTML or plain text)." ),
@@ -123,14 +121,14 @@ export function createToPaper( schema = paperDtoSchema ) {
  *
  * This is the single place that knows how contract fields land on Paper attributes
  * (notably `keyphrase` -> `keyword`); the engine, assessors, and researches are
- * untouched. Throws a `ZodError` when the payload is structurally invalid. Absent
- * optional fields are left to Paper's own defaults, so missing inputs degrade
+ * untouched. Throws a `ZodError` when the payload is structurally invalid.
+ * Absent optional fields are left to Paper's own defaults, so missing inputs degrade
  * gracefully rather than throwing.
  *
  * Consumers that need extra, validated input fields for their own assessments should build a mapper with
  * {@link createToPaper} and an extended schema instead.
  *
  * @param {PaperDTO} dto The serializable input contract.
- * @returns {Paper} The constructed Paper, ready for `assessor.assess( paper )`.
+ * @returns {Paper} The constructed Paper.
  */
 export const toPaper = createToPaper();
