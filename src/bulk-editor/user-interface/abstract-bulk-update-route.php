@@ -142,17 +142,24 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface, LoggerAwar
 				return $this->reject( 'rest_invalid_item', 'Each item must be an object.' );
 			}
 
-			if ( ! \array_key_exists( 'id', $item ) || ! \is_int( $item['id'] ) || $item['id'] < 1 ) {
-				return $this->reject( 'rest_invalid_item_id', 'Each item must have a positive integer id.' );
-			}
+			$title_key       = $this->get_title_arg_name();
+			$description_key = $this->get_description_arg_name();
 
-			if ( ! \array_key_exists( $this->get_title_arg_name(), $item )
-				&& ! \array_key_exists( $this->get_description_arg_name(), $item )
+			if ( ! \array_key_exists( $title_key, $item )
+				&& ! \array_key_exists( $description_key, $item )
 			) {
 				return $this->reject(
 					'rest_no_fields_to_update',
-					\sprintf( 'Each item must contain at least a %s or a %s.', $this->get_title_arg_name(), $this->get_description_arg_name() ),
+					\sprintf( 'Each item must contain at least a %s or a %s.', $title_key, $description_key ),
 				);
+			}
+
+			if ( \array_key_exists( $title_key, $item ) && ! \is_string( $item[ $title_key ] ) ) {
+				return $this->reject( 'rest_invalid_item_field', \sprintf( 'The %s field must be a string.', $title_key ) );
+			}
+
+			if ( \array_key_exists( $description_key, $item ) && ! \is_string( $item[ $description_key ] ) ) {
+				return $this->reject( 'rest_invalid_item_field', \sprintf( 'The %s field must be a string.', $description_key ) );
 			}
 		}
 

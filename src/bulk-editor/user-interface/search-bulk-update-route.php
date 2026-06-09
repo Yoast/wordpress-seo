@@ -15,7 +15,7 @@ class Search_Bulk_Update_Route extends Abstract_Bulk_Update_Route {
 	 *
 	 * @var string
 	 */
-	public const ROUTE_PREFIX = '/bulk_editor/update_search';
+	public const ROUTE_PREFIX = 'bulk_editor/update_search';
 
 	/**
 	 * Gets the appearance this route updates.
