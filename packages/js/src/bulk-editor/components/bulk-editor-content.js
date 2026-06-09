@@ -1,7 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { noop } from "lodash";
 import { STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
 import { getMockRows } from "../services/mock-rows";
@@ -11,9 +10,13 @@ import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 /**
  * The bulk editor content: the Search/Social appearance tab bar and the tab panels with the field-set table.
  *
+ * @param {Object}                             props                    The props.
+ * @param {import("../services").DataProvider} props.dataProvider       The data provider (config + endpoints).
+ * @param {Object}                             props.remoteDataProvider The remote data provider (HTTP), used to save edits.
+ *
  * @returns {JSX.Element} The content.
  */
-export const BulkEditorContent = () => {
+export const BulkEditorContent = ( { dataProvider, remoteDataProvider } ) => {
 	const fieldSets = useMemo( () => getFieldSets(), [] );
 	const tabs = useMemo(
 		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
@@ -21,7 +24,7 @@ export const BulkEditorContent = () => {
 	);
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const editingRows = useSelect( ( select ) => select( STORE_NAME ).selectEditingRows(), [] );
-	const { setActiveFieldSet, startEdit, updateDraftField, closeField, stopEdit } = useDispatch( STORE_NAME );
+	const { setActiveFieldSet, startEdit, updateDraftField, setSavingField, closeField, stopEdit } = useDispatch( STORE_NAME );
 
 	// TEMPORARY fixture rows until the list endpoint feeds the table through the provider.
 	const rows = useMemo( () => getMockRows(), [] );
@@ -32,7 +35,7 @@ export const BulkEditorContent = () => {
 		setActiveFieldSet( id );
 	}, [ stopEdit, setActiveFieldSet ] );
 
-	// Edit opens the active field set's fields for a row.
+	// Edit opens the active field set's fields for a row, with the row's current values.
 	const onStartEdit = useCallback( ( id ) => {
 		const row = rows.find( ( candidate ) => candidate.id === id );
 		if ( ! row ) {
@@ -47,14 +50,37 @@ export const BulkEditorContent = () => {
 	// Discard closes the field; the cell falls back to the row's stored value.
 	const onDiscardField = useCallback( ( { id, key } ) => closeField( { id, key } ), [ closeField ] );
 
+	// Apply saves a single field through the active tab's endpoint.
+	const onApplyField = useCallback( async( { id, key } ) => {
+		const fieldSet = fieldSets[ activeFieldSet ];
+		const field = fieldSet.fields.find( ( candidate ) => candidate.key === key );
+		const endpoint = dataProvider.getEndpoint( fieldSet.endpoint );
+		const rowEdit = editingRows[ id ];
+		if ( ! endpoint || ! field || ! rowEdit ) {
+			return;
+		}
+
+		setSavingField( { id, key } );
+		try {
+			await remoteDataProvider.fetchJson( endpoint, {}, {
+				method: "POST",
+				body: JSON.stringify( { items: [ { id, [ field.param ]: rowEdit.draft[ key ] } ] } ),
+			} );
+			// Success: collapse/close the field.
+			closeField( { id, key } );
+		} catch ( error ) {
+			// Keep the field open so the user can retry.
+			setSavingField( { id, key: null } );
+		}
+	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, closeField ] );
+
 	const editing = useMemo( () => ( {
 		editingRows,
 		onStartEdit,
 		onChangeField: updateDraftField,
-		// Saving a field is wired in the next step (the save hook); the controls render already.
-		onApplyField: noop,
+		onApplyField,
 		onDiscardField,
-	} ), [ editingRows, onStartEdit, updateDraftField, onDiscardField ] );
+	} ), [ editingRows, onStartEdit, updateDraftField, onApplyField, onDiscardField ] );
 
 	return (
 		<div className="yst-p-8 yst-space-y-8">

@@ -17,21 +17,23 @@ describe( "getFieldSets", () => {
 		expect( fieldSets[ FIELD_SET_SOCIAL ].label ).toBe( "Social appearance" );
 	} );
 
-	it( "maps the Search field set to the SEO title and meta description fields", () => {
-		const { fields } = getFieldSets()[ FIELD_SET_SEARCH ];
+	it( "maps the Search field set to the SEO title and meta description fields with their save params", () => {
+		const fieldSet = getFieldSets()[ FIELD_SET_SEARCH ];
 
-		expect( fields ).toEqual( [
-			{ key: "seoTitle", label: "SEO title" },
-			{ key: "metaDescription", label: "Meta description" },
+		expect( fieldSet.endpoint ).toBe( "update_search" );
+		expect( fieldSet.fields ).toEqual( [
+			{ key: "seoTitle", label: "SEO title", param: "seo_title" },
+			{ key: "metaDescription", label: "Meta description", param: "meta_description" },
 		] );
 	} );
 
-	it( "maps the Social field set to the social title and description fields", () => {
-		const { fields } = getFieldSets()[ FIELD_SET_SOCIAL ];
+	it( "maps the Social field set to the social title and description fields with their save params", () => {
+		const fieldSet = getFieldSets()[ FIELD_SET_SOCIAL ];
 
-		expect( fields ).toEqual( [
-			{ key: "socialTitle", label: "Social title" },
-			{ key: "socialDescription", label: "Social description" },
+		expect( fieldSet.endpoint ).toBe( "update_social" );
+		expect( fieldSet.fields ).toEqual( [
+			{ key: "socialTitle", label: "Social title", param: "social_title" },
+			{ key: "socialDescription", label: "Social description", param: "social_description" },
 		] );
 	} );
 

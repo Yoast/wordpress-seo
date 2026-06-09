@@ -26,15 +26,17 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  * @typedef {Object} FieldSetField
  * @property {string} key   The {@link BulkEditorRow} property this column edits.
  * @property {string} label The column header label.
+ * @property {string} param The request parameter name the save endpoint expects for this field.
  */
 
 /**
  * A tab's set of editable fields (which columns the table shows and edits).
  *
  * @typedef {Object} FieldSet
- * @property {string}          id     The field set identifier.
- * @property {string}          label  The tab label.
- * @property {FieldSetField[]} fields The editable columns, in display order.
+ * @property {string}          id       The field set identifier.
+ * @property {string}          label    The tab label.
+ * @property {string}          endpoint The data-provider endpoint key that saves this field.
+ * @property {FieldSetField[]} fields   The editable columns, in display order.
  */
 
 /**
@@ -48,17 +50,19 @@ export const getFieldSets = () => ( {
 	[ FIELD_SET_SEARCH ]: {
 		id: FIELD_SET_SEARCH,
 		label: __( "Search appearance", "wordpress-seo" ),
+		endpoint: "update_search",
 		fields: [
-			{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ) },
-			{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ) },
+			{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ), param: "seo_title" },
+			{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ), param: "meta_description" },
 		],
 	},
 	[ FIELD_SET_SOCIAL ]: {
 		id: FIELD_SET_SOCIAL,
 		label: __( "Social appearance", "wordpress-seo" ),
+		endpoint: "update_social",
 		fields: [
-			{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ) },
-			{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ) },
+			{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ), param: "social_title" },
+			{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ), param: "social_description" },
 		],
 	},
 } );

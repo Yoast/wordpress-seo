@@ -1,7 +1,8 @@
 import { dispatch } from "@wordpress/data";
-import { fireEvent, render, screen } from "../test-utils";
+import { fireEvent, render, screen, waitFor } from "../test-utils";
 import App from "../../src/bulk-editor/app";
 import { FIELD_SET_SEARCH, STORE_NAME } from "../../src/bulk-editor/constants";
+import { getFieldSets } from "../../src/bulk-editor/field-sets";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
 
@@ -116,5 +117,59 @@ describe( "App", () => {
 		// Both rows are in edit mode simultaneously.
 		expect( screen.getByRole( "textbox", { name: "SEO title for What Is SEO and How It Works" } ) ).toBeInTheDocument();
 		expect( screen.getByRole( "textbox", { name: "SEO title for Keyword Research for Beginners" } ) ).toBeInTheDocument();
+	} );
+
+	describe( "saving a field (Apply)", () => {
+		const searchSet = getFieldSets()[ FIELD_SET_SEARCH ];
+		const seoTitleParam = searchSet.fields[ 0 ].param;
+		const endpointUrl = "https://example.com/wp-json/yoast/v1/bulk_editor/update_search";
+		const savingDataProvider = new DataProvider( {
+			contentTypes: [ { name: "post", label: "Posts" } ],
+			endpoints: { [ searchSet.endpoint ]: endpointUrl },
+			links: {},
+		} );
+		const rowTitle = "What Is SEO and How It Works";
+
+		it( "posts the edited field to the active tab's endpoint and collapses it on success", async() => {
+			const remoteDataProvider = { fetchJson: jest.fn().mockResolvedValue( {} ) };
+			render( <App dataProvider={ savingDataProvider } remoteDataProvider={ remoteDataProvider } /> );
+
+			fireEvent.click( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			fireEvent.change(
+				screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ),
+				{ target: { value: "New SEO title" } }
+			);
+			fireEvent.click( screen.getByRole( "button", { name: `Apply SEO title for ${ rowTitle }` } ) );
+
+			expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
+				endpointUrl,
+				{},
+				{ method: "POST", body: JSON.stringify( { items: [ { id: 1, [ seoTitleParam ]: "New SEO title" } ] } ) }
+			);
+			// On success the field collapses/closes back to text.
+			await waitFor( () => expect( screen.queryByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument() );
+		} );
+
+		it( "keeps the field open and re-enables it when the save fails", async() => {
+			const remoteDataProvider = { fetchJson: jest.fn().mockRejectedValue( new Error( "save failed" ) ) };
+			render( <App dataProvider={ savingDataProvider } remoteDataProvider={ remoteDataProvider } /> );
+
+			fireEvent.click( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			fireEvent.click( screen.getByRole( "button", { name: `Apply SEO title for ${ rowTitle }` } ) );
+
+			// The field stays open and becomes editable again once the failed save settles.
+			await waitFor( () => expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeEnabled() );
+		} );
+
+		it( "does not call the endpoint when it is unavailable", () => {
+			const remoteDataProvider = { fetchJson: jest.fn() };
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
+
+			fireEvent.click( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			fireEvent.click( screen.getByRole( "button", { name: `Apply SEO title for ${ rowTitle }` } ) );
+
+			expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+		} );
 	} );
 } );
