@@ -32,7 +32,7 @@ final class Bulk_Updater_Logging_Test extends Abstract_Bulk_Updater_Test {
 			[
 				'post_id' => 123,
 				'error'   => 'Database error.',
-			]
+			],
 		);
 
 		$updates = new Post_Update_Collection();

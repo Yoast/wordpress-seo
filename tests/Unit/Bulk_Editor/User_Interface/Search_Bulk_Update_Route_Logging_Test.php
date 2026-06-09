@@ -58,7 +58,7 @@ final class Search_Bulk_Update_Route_Logging_Test extends Abstract_Search_Bulk_U
 			[
 				'type'  => 'search',
 				'count' => 1,
-			]
+			],
 		);
 
 		$this->instance->update( $request );
@@ -72,7 +72,7 @@ final class Search_Bulk_Update_Route_Logging_Test extends Abstract_Search_Bulk_U
 	public function test_validate_items_logs_rejection() {
 		$this->logger->expects( 'debug' )->once()->with(
 			'Bulk update request rejected: {code}.',
-			[ 'code' => 'rest_no_items' ]
+			[ 'code' => 'rest_no_items' ],
 		);
 
 		$this->instance->validate_items( [] );
