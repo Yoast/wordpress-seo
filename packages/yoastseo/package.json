@@ -22,6 +22,7 @@
     "!*.map",
     "vendor",
     "images",
+    "researcher",
     "contract"
   ],
   "sideEffects": false,
