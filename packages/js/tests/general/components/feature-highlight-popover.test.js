@@ -23,6 +23,14 @@ describe( "FeatureHighlightPopover", () => {
 		expect( screen.getByText( "Highlight content" ) ).toBeInTheDocument();
 	} );
 
+	it( "names and describes the dialog via the title and content", () => {
+		render( <FeatureHighlightPopover { ...defaultProps } /> );
+		const dialog = screen.getByRole( "dialog" );
+
+		expect( dialog ).toHaveAccessibleName( "Highlight title" );
+		expect( dialog ).toHaveAccessibleDescription( "Highlight content" );
+	} );
+
 	it( "renders nothing when not visible", () => {
 		render( <FeatureHighlightPopover { ...defaultProps } isVisible={ false } /> );
 
