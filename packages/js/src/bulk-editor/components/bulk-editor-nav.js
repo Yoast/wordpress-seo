@@ -1,9 +1,7 @@
 import DuplicateIcon from "@heroicons/react/outline/DuplicateIcon";
-import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon";
 import { useCallback } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { Button, ChildrenLimiter, Link, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
-import classNames from "classnames";
+import { Link, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import { YoastLogo } from "../../shared-admin/components";
 import { BackToToolsLink } from "./back-to-tools-link";
 
@@ -42,25 +40,6 @@ const ContentTypeItem = ( { contentType, onChange } ) => {
 	);
 };
 
-const ShowMoreToggle = ( { show, toggle, ariaProps, hiddenCount } ) => {
-	const showMoreLabel = sprintf(
-		/* translators: %d expands to the number of additional content types. */
-		_n( "Show %d more", "Show %d more", hiddenCount, "wordpress-seo" ),
-		hiddenCount
-	);
-
-	return (
-		<div className="yst-flex yst-items-center yst-gap-2 yst-mt-2">
-			<span className="yst-grow yst-border-t yst-border-slate-200" aria-hidden="true" />
-			<Button variant="secondary" size="small" className="yst-rounded-full" onClick={ toggle } { ...ariaProps }>
-				{ show ? __( "Show less", "wordpress-seo" ) : showMoreLabel }
-				<ChevronDownIcon className={ classNames( "yst-w-4 yst-h-4 yst-ms-1", show && "yst-rotate-180" ) } aria-hidden="true" />
-			</Button>
-			<span className="yst-grow yst-border-t yst-border-slate-200" aria-hidden="true" />
-		</div>
-	);
-};
-
 /**
  * The left sub-navigation of the bulk editor: a "Back to Tools" link and the content type list, limited to
  * `visibleLimit` items with a "Show N more" toggle.
@@ -88,9 +67,10 @@ export const BulkEditorNav = ( {
 	const hiddenCount = contentTypes.length - visibleLimit;
 	const svgAriaProps = useSvgAria();
 
-	const renderShowMoreButton = useCallback(
-		( props ) => <ShowMoreToggle { ...props } hiddenCount={ hiddenCount } />,
-		[ hiddenCount ]
+	const showMoreLabel = sprintf(
+		/* translators: %d expands to the number of additional content types. */
+		_n( "Show %d more", "Show %d more", hiddenCount, "wordpress-seo" ),
+		hiddenCount
 	);
 
 	return (
@@ -104,17 +84,20 @@ export const BulkEditorNav = ( {
 					<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 				</Link>
 				<BackToToolsLink href={ backToToolsUrl } />
-				<SidebarNavigation.MenuItem
+				<SidebarNavigation.MenuItemWithLimiter
 					id="bulk-editor-nav-content-types"
 					label={ __( "Bulk editor", "wordpress-seo" ) }
 					icon={ DuplicateIcon }
+					defaultOpen={ true }
+					limit={ visibleLimit }
+					buttonId="bulk-editor-nav-more"
+					showMoreLabel={ showMoreLabel }
+					showLessLabel={ __( "Show less", "wordpress-seo" ) }
 				>
-					<ChildrenLimiter limit={ visibleLimit } id="bulk-editor-nav-more" renderButton={ renderShowMoreButton }>
-						{ contentTypes.map( ( contentType ) => (
-							<ContentTypeItem key={ contentType.id } contentType={ contentType } onChange={ onChange } />
-						) ) }
-					</ChildrenLimiter>
-				</SidebarNavigation.MenuItem>
+					{ contentTypes.map( ( contentType ) => (
+						<ContentTypeItem key={ contentType.id } contentType={ contentType } onChange={ onChange } />
+					) ) }
+				</SidebarNavigation.MenuItemWithLimiter>
 			</SidebarNavigation.Sidebar>
 		</SidebarNavigation>
 	);
