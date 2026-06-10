@@ -1,5 +1,4 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Paper } from "@yoast/ui-library";
 import { BulkEditorContent } from "./components/bulk-editor-content";
@@ -44,10 +43,7 @@ const App = ( { dataProvider } ) => {
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
 	const { setActiveContentType } = useDispatch( STORE_NAME );
 
-	const contentTypes = useMemo(
-		() => dataProvider.getContentTypes().map( ( { name, label } ) => ( { id: name, label } ) ),
-		[ dataProvider ]
-	);
+	const contentTypes = dataProvider.getContentTypes().map( ( { name, label } ) => ( { id: name, label } ) );
 	const activeContentType = contentTypes.find( ( { id } ) => id === activeContentTypeName ) ?? contentTypes[ 0 ];
 
 	const { title, description } = getHeaderCopy( activeContentType );
