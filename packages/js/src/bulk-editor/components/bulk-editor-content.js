@@ -21,8 +21,8 @@ export const BulkEditorContent = () => {
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const { setActiveFieldSet } = useDispatch( STORE_NAME );
 
-	// TEMPORARY fixture rows until the list endpoint feeds the table through the provider.
-	const rows = useMemo( () => getMockRows(), [] );
+	// TEMPORARY fixture items until the list endpoint feeds the table through the provider.
+	const items = useMemo( () => getMockRows(), [] );
 
 	return (
 		<div className="yst-p-8 yst-space-y-8">
@@ -34,7 +34,7 @@ export const BulkEditorContent = () => {
 			/>
 			{ tabs.map( ( tab ) => (
 				<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-					<BulkEditorTable rows={ rows } fieldSet={ fieldSets[ tab.id ] } />
+					<BulkEditorTable items={ items } fieldSet={ fieldSets[ tab.id ] } />
 				</BulkEditorTabPanel>
 			) ) }
 		</div>

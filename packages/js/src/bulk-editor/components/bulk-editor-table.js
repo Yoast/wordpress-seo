@@ -73,7 +73,6 @@ const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
 			</Table.Row>
 			<Table.Row>
 				<Table.Header scope="col" className="yst-w-0">
-					{ /* The row checkbox column: no visible header, named for assistive tech only. */ }
 					<span className="yst-sr-only">{ __( "Select", "wordpress-seo" ) }</span>
 				</Table.Header>
 				<Table.Header scope="col">{ __( "Title", "wordpress-seo" ) }</Table.Header>
@@ -118,7 +117,7 @@ const BulkEditorRow = ( { row, fields, isSelected, onToggleRow, onEdit } ) => {
 					onChange={ handleToggle }
 				/>
 			</Table.Cell>
-			<Table.Header scope="row" className="yst-font-normal yst-text-left">
+			<Table.Header scope="row" className="yst-text-left">
 				<div className="yst-flex yst-flex-col">
 					<span>{ row.title }</span>
 					{ statusLabel && (
@@ -159,7 +158,6 @@ const SkeletonRows = ( { columnCount } ) => (
 			<Table.Row key={ `skeleton-${ rowIndex }` }>
 				{ Array.from( { length: columnCount }, ( _cell, cellIndex ) => (
 					<Table.Cell key={ `skeleton-${ rowIndex }-${ cellIndex }` }>
-						{ /* Hidden from assistive tech: the live status region announces loading instead. */ }
 						<span aria-hidden="true">
 							<SkeletonLoader className="yst-w-full">&nbsp;</SkeletonLoader>
 						</span>
@@ -174,7 +172,7 @@ const SkeletonRows = ( { columnCount } ) => (
  * The table body: skeleton rows while loading, an empty state, or the content rows.
  *
  * @param {Object}              props             The props.
- * @param {BulkEditorRow[]}     props.rows        The rows to render.
+ * @param {BulkEditorRow[]}     props.items       The items to render.
  * @param {FieldSetField[]}     props.fields      The active field set's editable columns.
  * @param {number}              props.columnCount The total number of columns.
  * @param {BulkEditorSelection} props.selection   The selection seam.
@@ -183,14 +181,14 @@ const SkeletonRows = ( { columnCount } ) => (
  *
  * @returns {JSX.Element} The body rows.
  */
-const BulkEditorBody = ( { rows, fields, columnCount, selection, onEdit, isLoading } ) => {
+const BulkEditorBody = ( { items, fields, columnCount, selection, onEdit, isLoading } ) => {
 	const { selectedIds = [], onToggleRow = noop } = selection;
 
 	if ( isLoading ) {
 		return <SkeletonRows columnCount={ columnCount } />;
 	}
 
-	if ( rows.length === 0 ) {
+	if ( items.length === 0 ) {
 		return (
 			<Table.Row>
 				<Table.Cell colSpan={ columnCount } className="yst-text-center yst-text-slate-500">
@@ -200,7 +198,7 @@ const BulkEditorBody = ( { rows, fields, columnCount, selection, onEdit, isLoadi
 		);
 	}
 
-	return rows.map( ( row ) => (
+	return items.map( ( row ) => (
 		<BulkEditorRow
 			key={ row.id }
 			row={ row }
@@ -215,11 +213,11 @@ const BulkEditorBody = ( { rows, fields, columnCount, selection, onEdit, isLoadi
 /**
  * The bulk editor data table.
  *
- * It renders the rows it is given for the active field set (the Search
+ * It renders the items it is given for the active field set (the Search
  * or Social tab).
  *
  * @param {Object}              props             The props.
- * @param {BulkEditorRow[]}     props.rows        The rows to render.
+ * @param {BulkEditorRow[]}     props.items       The items to render.
  * @param {FieldSet}            props.fieldSet    The active field set (its `fields` drive the editable columns).
  * @param {BulkEditorSelection} [props.selection] The selection seam.
  * @param {Function}            [props.onEdit]    Called with a row id when its Edit action is triggered.
@@ -227,7 +225,7 @@ const BulkEditorBody = ( { rows, fields, columnCount, selection, onEdit, isLoadi
  *
  * @returns {JSX.Element} The table.
  */
-export const BulkEditorTable = ( { rows, fieldSet, selection = {}, onEdit = noop, isLoading = false } ) => {
+export const BulkEditorTable = ( { items, fieldSet, selection = {}, onEdit = noop, isLoading = false } ) => {
 	const columnCount = getColumnCount( fieldSet.fields );
 
 	return (
@@ -236,11 +234,11 @@ export const BulkEditorTable = ( { rows, fieldSet, selection = {}, onEdit = noop
 			<div role="status" className="yst-sr-only">
 				{ isLoading ? __( "Loading content…", "wordpress-seo" ) : "" }
 			</div>
-			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className="[&_td]:yst-align-top [&_th]:yst-align-top">
+			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className="[&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium">
 				<BulkEditorHeader fields={ fieldSet.fields } columnCount={ columnCount } selection={ selection } isLoading={ isLoading } />
 				<Table.Body>
 					<BulkEditorBody
-						rows={ rows }
+						items={ items }
 						fields={ fieldSet.fields }
 						columnCount={ columnCount }
 						selection={ selection }

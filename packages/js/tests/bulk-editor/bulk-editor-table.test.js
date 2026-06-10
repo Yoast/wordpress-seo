@@ -8,7 +8,7 @@ const fieldSets = getFieldSets();
 const searchFieldSet = fieldSets[ FIELD_SET_SEARCH ];
 const socialFieldSet = fieldSets[ FIELD_SET_SOCIAL ];
 
-const rows = [
+const items = [
 	{
 		id: 1,
 		title: "What Is SEO",
@@ -35,7 +35,7 @@ const rows = [
 
 describe( "BulkEditorTable", () => {
 	it( "renders the Search field set columns and a row's data", () => {
-		render( <BulkEditorTable rows={ rows } fieldSet={ searchFieldSet } /> );
+		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } /> );
 
 		// Fixed + field-set headers.
 		expect( screen.getByRole( "columnheader", { name: "Title" } ) ).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe( "BulkEditorTable", () => {
 	} );
 
 	it( "renders the Social field set columns and values", () => {
-		render( <BulkEditorTable rows={ rows } fieldSet={ socialFieldSet } /> );
+		render( <BulkEditorTable items={ items } fieldSet={ socialFieldSet } /> );
 
 		expect( screen.getByRole( "columnheader", { name: "Social title" } ) ).toBeInTheDocument();
 		expect( screen.getByRole( "columnheader", { name: "Social description" } ) ).toBeInTheDocument();
@@ -60,7 +60,7 @@ describe( "BulkEditorTable", () => {
 	} );
 
 	it( "shows a status label for non-published content only", () => {
-		render( <BulkEditorTable rows={ rows } fieldSet={ searchFieldSet } /> );
+		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } /> );
 
 		// Plain muted text per the design, not a badge.
 		const draftLabels = screen.getAllByText( "- Draft" );
@@ -72,7 +72,7 @@ describe( "BulkEditorTable", () => {
 		const onToggleAll = jest.fn();
 		render(
 			<BulkEditorTable
-				rows={ rows }
+				items={ items }
 				fieldSet={ searchFieldSet }
 				selection={ { selectedIds: [ 1 ], onToggleRow, onToggleAll } }
 			/>
@@ -90,7 +90,7 @@ describe( "BulkEditorTable", () => {
 
 	it( "gives each Edit button a row-specific accessible name", () => {
 		const onEdit = jest.fn();
-		render( <BulkEditorTable rows={ rows } fieldSet={ searchFieldSet } onEdit={ onEdit } /> );
+		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } onEdit={ onEdit } /> );
 
 		// Accessible names are contextual, so there is no ambiguous "Edit" button.
 		expect( screen.queryByRole( "button", { name: "Edit" } ) ).not.toBeInTheDocument();
@@ -99,7 +99,7 @@ describe( "BulkEditorTable", () => {
 	} );
 
 	it( "marks column and row headers with scope", () => {
-		render( <BulkEditorTable rows={ rows } fieldSet={ searchFieldSet } /> );
+		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } /> );
 
 		expect( screen.getByRole( "columnheader", { name: "Title" } ) ).toHaveAttribute( "scope", "col" );
 		// The title cell is the row header.
@@ -108,7 +108,7 @@ describe( "BulkEditorTable", () => {
 	} );
 
 	it( "renders skeleton rows while loading, announces it, and exposes aria-busy", () => {
-		render( <BulkEditorTable rows={ rows } fieldSet={ searchFieldSet } isLoading={ true } /> );
+		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } isLoading={ true } /> );
 
 		expect( screen.queryByText( "What Is SEO? Complete Guide" ) ).not.toBeInTheDocument();
 		expect( screen.queryAllByRole( "button" ) ).toHaveLength( 0 );
@@ -122,7 +122,7 @@ describe( "BulkEditorTable", () => {
 	} );
 
 	it( "renders an empty state when there are no rows", () => {
-		render( <BulkEditorTable rows={ [] } fieldSet={ searchFieldSet } onEdit={ noop } /> );
+		render( <BulkEditorTable items={ [] } fieldSet={ searchFieldSet } onEdit={ noop } /> );
 
 		expect( screen.getByText( "No content found." ) ).toBeInTheDocument();
 	} );
