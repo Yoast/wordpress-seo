@@ -19,6 +19,7 @@ This library can generate metrics about a text and assess these metrics to give 
 * The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/docs/Customization.md).
 * Information on the design decisions within the package can be found [here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/DESIGN%20DECISIONS.md).
 * Information on how morphology works in `yoastseo` package can be found [here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/MORPHOLOGY.md).
+* The [serializable contract](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/docs/CONTRACT.md) (`yoastseo/contract`) that lets non-WordPress consumers exchange a `PaperDTO` input and `ResultDTO` output with the engine.
 
 ## Installation
 You can install YoastSEO.js using npm:
@@ -127,53 +128,9 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 
 There is a basic example of this setup [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis-api).
 
-### Serializable input contract (`yoastseo/contract`)
+### Serializable contract (`yoastseo/contract`)
 
-Non-WordPress consumers (a web API, the Shopify app, the Google Docs extension, …) can send a documented, serializable input shape — a `PaperDTO` — instead of constructing a `Paper` by hand. The contract is a separate, opt-in entry point, so its validation dependency is only loaded by consumers that import it; the package root is unaffected.
-
-```js
-import { toPaper } from "yoastseo/contract";
-
-// `toPaper` validates the input and returns an engine `Paper`.
-const paper = toPaper( {
-    text: "Text to analyze",
-    keyphrase: "analyze",
-    locale: "en_US",
-} );
-
-// `paper` can now be passed to `worker.analyze( paper )` or `assessor.assess( paper )`.
-```
-
-Notes:
-- **Covers the analysis inputs.** The neutral core is `text`, `keyphrase`, `synonyms`, `locale`, `description`, `title`, `slug`, `permalink`, `titleWidth`, `textTitle`, `date`, `writingDirection`, and an open `customData` object. The contract also carries optional, **deprecated** WordPress-transitional fields (`wpBlocks`, `shortcodes`, `isFrontPage`): they are real analysis inputs that change WordPress scores, so a remote/API analysis needs them to reproduce in-browser results. They are marked deprecated. Non-WordPress consumers simply omit them.
-- **`keyphrase` is the canonical field name.** `keyword` is accepted as a deprecated alias so existing consumers can adopt the contract without renaming.
-- **Validation.** `toPaper` throws on structurally invalid input (wrong types, unknown keys). Omitting an optional field is fine — the assessments that need it are simply skipped, matching the engine's existing behaviour.
-- **Extensible.** A consumer that registers its own assessments can validate extra fields by extending the schema:
-  ```js
-  import { z } from "zod";
-  import { paperDtoSchema, createToPaper } from "yoastseo/contract";
-
-  const toPaper = createToPaper( paperDtoSchema.extend( { myField: z.string() } ) );
-  const paper = toPaper( { text: "…", myField: "…" } ); // `myField` is validated and available on the Paper
-  ```
-
-### Serializable output contract (`yoastseo/contract`)
-
-The same entry point exposes a documented, serializable **output** shape — a `ResultDTO` — for the results an assessor returns. It is the result-side sibling of `PaperDTO`: instead of each consumer hand-rolling a view model from an `AssessmentResult`, the `toResultDTO` boundary maps one result to a stable, consumer-facing shape.
-
-```js
-import { toResultDTO } from "yoastseo/contract";
-
-const results = seoAssessor.getValidResults().map( toResultDTO );
-// => [ { identifier, score, rating, text, marks, editFieldName, editFieldAriaLabel, isOptimizable, isBeta }, … ]
-```
-
-Notes:
-- **`rating` is interpreted in the boundary.** It is a pure function of `score` (`error`/`feedback`/`bad`/`ok`/`good`), computed by `toResultDTO` and never stored on the result, so it cannot drift from `score`. Consumers no longer need to call `interpreters.scoreToRating` themselves.
-- **Neutral signal names.** `isOptimizable` (an automated fix is available for this result) and `isBeta` (the assessment is still in beta) are the contract names for the engine signals exposed by the deprecated `AssessmentResult#hasAIFixes`/`#hasBetaBadge` getters. Presentation stays a consumer concern.
-- **`marks`** carry the highlighting payload (`original`, `marked`, `fieldsToMark`, optional `position`) in a transport-agnostic shape. `editFieldName` is the neutral target field for an edit/jump action (an empty string when the result has none).
-- **No separate edit-affordance flag.** There is intentionally no `hasJumps`-style boolean: render the edit/jump action when `editFieldName` is non-empty (`Boolean( result.editFieldName )`). The engine only ever sets a jump target together with the affordance, so the presence of `editFieldName` is the single source of truth.
-- **i18n caveat.** Like `text`, `editFieldAriaLabel` is a pre-translated (`wordpress-seo` textdomain) string carried as-is for now; a future i18n contract may replace it with a stable key derived from `editFieldName`.
+Non-WordPress consumers can exchange documented, serializable shapes with the engine via the opt-in `yoastseo/contract` entry — a `PaperDTO` input (`toPaper`) and a `ResultDTO` output (`toResultDTO`) — instead of constructing `Paper` objects and hand-rolling result view models. See the [serializable contract guide](docs/CONTRACT.md) for the full input/output surface, examples, the extensibility hooks, and the deprecation/i18n notes.
 
 ## Supported languages
 
