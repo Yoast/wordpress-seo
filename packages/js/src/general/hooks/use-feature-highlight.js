@@ -15,11 +15,20 @@ export const useFeatureHighlight = ( highlightValue ) => {
 	const navigate = useNavigate();
 	const [ isHighlighting, setIsHighlighting ] = useState( () => location.state?.highlight === highlightValue );
 
+	// Run once on mount: this is a one-shot consume, so it must not re-fire on later navigations.
 	useEffect( () => {
-		// Consume the one-shot highlight signal so a refresh or back/forward navigation does not re-trigger it.
-		if ( location.state?.highlight ) {
-			navigate( location.pathname, { replace: true, state: null } );
+		if ( ! location.state?.highlight ) {
+			return;
 		}
+
+		// Strip only the highlight key, preserving any other state plus the current search and hash.
+		const remainingState = { ...location.state };
+		delete remainingState.highlight;
+
+		navigate(
+			{ pathname: location.pathname, search: location.search, hash: location.hash },
+			{ replace: true, state: Object.keys( remainingState ).length > 0 ? remainingState : null }
+		);
 	}, [] );
 
 	return [ isHighlighting, setIsHighlighting ];
