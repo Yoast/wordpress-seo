@@ -100,8 +100,8 @@ export const TaskList = () => {
 				position="top"
 				isVisible={ isHighlighting }
 				setIsVisible={ setIsHighlighting }
-				title={ __( "Your new SEO task list", "wordpress-seo" ) }
-				content={ __( "Track and complete SEO tasks tailored to your site, right here.", "wordpress-seo" ) }
+				title={ __( "Stay on top of your SEO progress with this task list", "wordpress-seo" ) }
+				content={ __( "Complete each task to ensure your site is optimized and aligned with best SEO practices.", "wordpress-seo" ) }
 			/>
 		</Paper.Content>
 	</Paper>;
