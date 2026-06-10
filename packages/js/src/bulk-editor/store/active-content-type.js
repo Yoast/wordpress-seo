@@ -6,14 +6,13 @@ import { get } from "lodash";
  */
 export const createInitialActiveContentTypeState = () => "";
 
-/*
- * The reducer stores the name as-is: the valid names come from the data provider at runtime, so it cannot
- * validate them. The app resolves an empty or unknown name to the first available content type.
- */
 const slice = createSlice( {
 	name: "activeContentType",
 	initialState: createInitialActiveContentTypeState(),
 	reducers: {
+		// The name isn't validated here: the valid content type names are runtime data from the data
+		// provider, so the store can't know them. The app resolves an empty or unknown name to the first
+		// available content type.
 		setActiveContentType: ( state, { payload } ) => payload,
 	},
 } );
