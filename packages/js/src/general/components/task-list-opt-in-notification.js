@@ -39,7 +39,7 @@ const NotificationButtons = () => {
 		hideOptInNotification( "task_list" );
 		handleDismiss();
 		navigate( taskListpath, { state: { highlight: HIGHLIGHT_TASK_LIST } } );
-	}, [ taskListpath, navigate ] );
+	}, [ hideOptInNotification, handleDismiss, taskListpath, navigate ] );
 
 	return <div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
 		<Button size="small" variant="tertiary" onClick={ handleDismiss }>{ __( "Dismiss", "wordpress-seo" ) }</Button>
