@@ -8,7 +8,7 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  * `metaDescription` → `metadesc`, `socialTitle` → `opengraph-title`, `socialDescription` →
  * `opengraph-description`.
  *
- * @typedef {Object} BulkEditorRow
+ * @typedef {Object} BulkEditorItem
  * @property {number} id                The post ID.
  * @property {string} title             The post title.
  * @property {string} status            The post status (e.g. "publish", "draft", "pending", "future" as WordPress terms).
@@ -24,8 +24,9 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  * One editable column within a field set.
  *
  * @typedef {Object} FieldSetField
- * @property {string} key   The {@link BulkEditorRow} property this column edits.
+ * @property {string} key   The {@link BulkEditorItem} property this column edits.
  * @property {string} label The column header label.
+ * @property {string} width The column width.
  */
 
 /**
@@ -49,16 +50,16 @@ export const getFieldSets = () => ( {
 		id: FIELD_SET_SEARCH,
 		label: __( "Search appearance", "wordpress-seo" ),
 		fields: [
-			{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ) },
-			{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ) },
+			{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ), width: "sm:yst-w-[19%]" },
+			{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ), width: "sm:yst-w-[33%]" },
 		],
 	},
 	[ FIELD_SET_SOCIAL ]: {
 		id: FIELD_SET_SOCIAL,
 		label: __( "Social appearance", "wordpress-seo" ),
 		fields: [
-			{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ) },
-			{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ) },
+			{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ), width: "sm:yst-w-[19%]" },
+			{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ), width: "sm:yst-w-[33%]" },
 		],
 	},
 } );

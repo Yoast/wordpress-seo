@@ -32,7 +32,7 @@ const ITEMS = [
 const STATUSES = { 3: "draft", 13: "pending" };
 
 /**
- * @returns {import("../field-sets").BulkEditorRow[]} One page of mock rows.
+ * @returns {import("../field-sets").BulkEditorItem[]} One page of mock items.
  */
 export const getMockRows = () => ITEMS.slice( 0, PAGE_SIZE ).map( ( [ title, focusKeyphrase, seoTitle, metaDescription ], index ) => {
 	const id = index + 1;
