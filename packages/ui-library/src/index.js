@@ -4,6 +4,7 @@ export { default as Badge } from "./elements/badge";
 export { default as Button } from "./elements/button";
 export { default as Checkbox } from "./elements/checkbox";
 export { default as Code } from "./elements/code";
+export { default as Divider } from "./elements/divider";
 export { default as ErrorBoundary } from "./elements/error-boundary";
 export { default as Label } from "./elements/label";
 export { default as Link } from "./elements/link";
