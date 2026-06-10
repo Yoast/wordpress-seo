@@ -2,7 +2,7 @@
 
 Non-WordPress consumers (a hosted web API, the Shopify app, the Google Docs extension, …) can exchange documented, serializable shapes with the analysis engine instead of constructing `Paper` objects and hand-rolling result view models. The contract is a separate, **opt-in** entry point (`yoastseo/contract`), so its validation dependency (`zod`) is only loaded by consumers that import it — the package root, and therefore the WordPress bundle, is unaffected.
 
-It has two halves: an **input** contract (`PaperDTO` → `toPaper`) and an **output** contract (`ResultDTO` → `toResultDTO`). See also the [`PaperDTO`](../GLOSSARY.md#paperdto) and [`ResultDTO`](../GLOSSARY.md#resultdto) glossary entries.
+It has two halves: an **input** contract (`PaperDTO` → `toPaper`) and an **output** contract (`ResultDTO` → `toResultDTO`). See also the [`PaperDTO`](GLOSSARY.md#paperdto) and [`ResultDTO`](GLOSSARY.md#resultdto) glossary entries.
 
 ## Input contract — `PaperDTO` / `toPaper`
 
