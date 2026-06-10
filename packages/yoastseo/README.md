@@ -172,6 +172,7 @@ Notes:
 - **`rating` is interpreted in the boundary.** It is a pure function of `score` (`error`/`feedback`/`bad`/`ok`/`good`), computed by `toResultDTO` and never stored on the result, so it cannot drift from `score`. Consumers no longer need to call `interpreters.scoreToRating` themselves.
 - **Neutral signal names.** `isOptimizable` (an automated fix is available for this result) and `isBeta` (the assessment is still in beta) are the contract names for the engine signals exposed by the deprecated `AssessmentResult#hasAIFixes`/`#hasBetaBadge` getters. Presentation stays a consumer concern.
 - **`marks`** carry the highlighting payload (`original`, `marked`, `fieldsToMark`, optional `position`) in a transport-agnostic shape. `editFieldName` is the neutral target field for an edit/jump action (an empty string when the result has none).
+- **No separate edit-affordance flag.** There is intentionally no `hasJumps`-style boolean: render the edit/jump action when `editFieldName` is non-empty (`Boolean( result.editFieldName )`). The engine only ever sets a jump target together with the affordance, so the presence of `editFieldName` is the single source of truth.
 - **i18n caveat.** Like `text`, `editFieldAriaLabel` is a pre-translated (`wordpress-seo` textdomain) string carried as-is for now; a future i18n contract may replace it with a stable key derived from `editFieldName`.
 
 ## Supported languages

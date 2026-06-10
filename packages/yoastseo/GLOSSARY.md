@@ -58,6 +58,7 @@ Key points:
 - **`isOptimizable`** / **`isBeta`** are the neutral contract names for the per-result signals behind the deprecated `AssessmentResult#hasAIFixes` / `#hasBetaBadge` getters.
 - Authored in [zod](https://zod.dev); `marks` are serialized into a transport-agnostic shape.
 - **i18n caveat:** `editFieldAriaLabel` (like `text`) is a pre-translated string carried as-is for now; a future i18n contract may replace it with a stable key derived from `editFieldName`.
+- **No edit-affordance flag:** there is deliberately no `hasJumps`-style boolean — derive the affordance from `editFieldName` being non-empty (`Boolean( result.editFieldName )`), which is the single source of truth.
 
 **Example:**
 ```javascript
