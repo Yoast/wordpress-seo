@@ -10,9 +10,12 @@ const dataProvider = new DataProvider( {
 		{ name: "page", label: "Pages" },
 		{ name: "post", label: "Posts" },
 	],
-	endpoints: {},
+	endpoints: { posts: "https://example.com/wp-json/yoast/v1/bulk_editor/posts" },
 	links: {},
 } );
+// The data layer is exercised by use-posts.test.js; here the request stays pending so the table
+// renders its loading state and the assertions are unaffected by data.
+const remoteDataProvider = { fetchJson: jest.fn( () => new Promise( () => {} ) ) };
 
 describe( "App", () => {
 	beforeAll( () => {
@@ -26,7 +29,7 @@ describe( "App", () => {
 	} );
 
 	it( "renders the header, tabs and panel in a single card with the header separator", () => {
-		const { container } = render( <App dataProvider={ dataProvider } /> );
+		const { container } = render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
 
 		const papers = container.querySelectorAll( ".yst-paper" );
 		expect( papers ).toHaveLength( 1 );
@@ -39,7 +42,7 @@ describe( "App", () => {
 	} );
 
 	it( "renders the page header for the first content type", () => {
-		render( <App dataProvider={ dataProvider } /> );
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
 
 		expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
 		expect(
@@ -48,7 +51,7 @@ describe( "App", () => {
 	} );
 
 	it( "renders the content type navigation with the first content type active", () => {
-		render( <App dataProvider={ dataProvider } /> );
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
 
 		expect( screen.getByRole( "navigation", { name: "Bulk editor menu" } ) ).toBeInTheDocument();
 		expect( screen.getByRole( "link", { name: "Back to Tools" } ) ).toHaveAttribute( "href", "admin.php?page=wpseo_tools" );
@@ -56,7 +59,7 @@ describe( "App", () => {
 	} );
 
 	it( "drives the header copy from the selected content type", () => {
-		render( <App dataProvider={ dataProvider } /> );
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
 
 		fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
 
@@ -68,7 +71,7 @@ describe( "App", () => {
 	} );
 
 	it( "renders the tabs with Search appearance active by default", () => {
-		render( <App dataProvider={ dataProvider } /> );
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
 
 		expect( screen.getByRole( "tab", { name: "Search appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
 		// The panel holds the field-set table for the active tab.
@@ -77,7 +80,7 @@ describe( "App", () => {
 	} );
 
 	it( "switches the panel when the Social appearance tab is activated", () => {
-		render( <App dataProvider={ dataProvider } /> );
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
 
 		fireEvent.click( screen.getByRole( "tab", { name: "Social appearance" } ) );
 

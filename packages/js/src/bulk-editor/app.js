@@ -34,12 +34,13 @@ const getHeaderCopy = ( contentType ) => {
  * The bulk editor app: the content-type sub-navigation, the page header, and the appearance content
  * (tabs + panels). The active content type and field set live in the store.
  *
- * @param {Object}                            props              The props.
- * @param {import("./services").DataProvider} props.dataProvider The data provider.
+ * @param {Object}                            props                    The props.
+ * @param {import("./services").DataProvider} props.dataProvider       The data provider.
+ * @param {RemoteDataProvider}                props.remoteDataProvider The remote data provider.
  *
  * @returns {JSX.Element} The app.
  */
-const App = ( { dataProvider } ) => {
+const App = ( { dataProvider, remoteDataProvider } ) => {
 	const activeContentTypeName = useSelect( ( select ) => select( STORE_NAME ).selectActiveContentTypeName(), [] );
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
 	const { setActiveContentType } = useDispatch( STORE_NAME );
@@ -71,7 +72,11 @@ const App = ( { dataProvider } ) => {
 			<div className="yst-grow yst-max-w-page yst-min-w-0">
 				<Paper as="main">
 					<BulkEditorPageHeader title={ title } description={ description } />
-					<BulkEditorContent />
+					<BulkEditorContent
+						dataProvider={ dataProvider }
+						remoteDataProvider={ remoteDataProvider }
+						contentType={ activeContentType ? activeContentType.id : "" }
+					/>
 				</Paper>
 			</div>
 		</div>
