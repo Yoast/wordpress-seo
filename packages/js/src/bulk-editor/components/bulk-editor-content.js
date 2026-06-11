@@ -5,7 +5,7 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, STORE_NAME } from "../constants";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 
 /**
- * The placeholder content of a tab panel, until the field-set data table (Free-FE 4) lands here.
+ * The placeholder content of a tab panel.
  *
  * @param {string} label The tab label.
  *
@@ -18,9 +18,6 @@ const getPanelPlaceholder = ( label ) => {
 
 /**
  * The bulk editor content: the Search/Social appearance tab bar and the tab panels.
- *
- * Connected: owns the active field set wiring. The state lives in the store (not locally) because the
- * premium bundle's fills (AI buttons, smart-select) read and dispatch the same view state.
  *
  * @returns {JSX.Element} The content.
  */

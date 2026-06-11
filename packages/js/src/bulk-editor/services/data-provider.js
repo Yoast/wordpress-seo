@@ -33,7 +33,7 @@ export class DataProvider {
 
 	/**
 	 * @param {string} endpoint The endpoint to get.
-	 * @returns {string} The endpoint or an empty string if not found.
+	 * @returns {string} The endpoint, or an empty string if not found — use || (not ??) for fallbacks.
 	 */
 	getEndpoint( endpoint ) {
 		return this.#endpoints[ endpoint ] || "";
@@ -48,7 +48,7 @@ export class DataProvider {
 
 	/**
 	 * @param {string} link The link to get.
-	 * @returns {string} The link or an empty string if not found.
+	 * @returns {string} The link, or an empty string if not found — use || (not ??) for fallbacks.
 	 */
 	getLink( link ) {
 		return this.#links[ link ] || "";

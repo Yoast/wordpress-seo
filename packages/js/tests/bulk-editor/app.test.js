@@ -20,8 +20,9 @@ describe( "App", () => {
 	} );
 
 	beforeEach( () => {
-		// The store lives in the global registry: reset the active field set so tests stay order-independent.
+		// The store lives in the global registry: reset the view state so tests stay order-independent.
 		dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_SEARCH );
+		dispatch( STORE_NAME ).setActiveContentType( "" );
 	} );
 
 	it( "renders the header, tabs and panel in a single card with the header separator", () => {
@@ -29,6 +30,7 @@ describe( "App", () => {
 
 		const papers = container.querySelectorAll( ".yst-paper" );
 		expect( papers ).toHaveLength( 1 );
+		expect( screen.getByRole( "main" ) ).toBe( papers[ 0 ] );
 		expect( papers[ 0 ] ).toContainElement( screen.getByRole( "heading", { level: 1 } ) );
 		expect( papers[ 0 ] ).toContainElement( screen.getByRole( "tablist", { name: "Bulk editor views" } ) );
 		expect( papers[ 0 ] ).toContainElement( screen.getByRole( "tabpanel" ) );
@@ -42,6 +44,27 @@ describe( "App", () => {
 		expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
 		expect(
 			screen.getByText( "The bulk editor for pages is a tool that you can use to quickly make changes to your search and social media appearance for multiple pages." )
+		).toBeInTheDocument();
+	} );
+
+	it( "renders the content type navigation with the first content type active", () => {
+		render( <App dataProvider={ dataProvider } /> );
+
+		expect( screen.getByRole( "navigation", { name: "Bulk editor menu" } ) ).toBeInTheDocument();
+		// If data provider has no links, the link falls back to the WP admin home.
+		expect( screen.getByRole( "link", { name: "Back to Tools" } ) ).toHaveAttribute( "href", "/wp-admin/" );
+		expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
+	} );
+
+	it( "drives the header copy from the selected content type", () => {
+		render( <App dataProvider={ dataProvider } /> );
+
+		fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
+
+		expect( screen.getByRole( "button", { name: "Posts" } ) ).toHaveAttribute( "aria-current", "page" );
+		expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Posts" } ) ).toBeInTheDocument();
+		expect(
+			screen.getByText( "The bulk editor for posts is a tool that you can use to quickly make changes to your search and social media appearance for multiple posts." )
 		).toBeInTheDocument();
 	} );
 
