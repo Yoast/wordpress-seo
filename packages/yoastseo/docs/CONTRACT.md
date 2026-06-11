@@ -2,11 +2,11 @@
 
 Non-WordPress consumers (a hosted web API, the Shopify app, the Google Docs extension, …) can exchange documented, serializable shapes with the analysis engine instead of constructing `Paper` objects and hand-rolling result view models. The contract is a separate, **opt-in** entry point (`yoastseo/contract`), so its validation dependency (`zod`) is only loaded by consumers that import it — the package root, and therefore the WordPress bundle, is unaffected.
 
-It has two halves: an **input** contract (`PaperDTO` → `toPaper`) and an **output** contract (`ResultDTO` → `toResultDTO`). See also the [`PaperDTO`](GLOSSARY.md#paperdto) and [`ResultDTO`](GLOSSARY.md#resultdto) glossary entries.
+It has two halves: an **input** contract (`PaperDto` → `toPaper`) and an **output** contract (`ResultDto` → `toResultDto`). See also the [`PaperDto`](GLOSSARY.md#paperdto) and [`ResultDto`](GLOSSARY.md#resultdto) glossary entries.
 
-## Input contract — `PaperDTO` / `toPaper`
+## Input contract — `PaperDto` / `toPaper`
 
-Non-WordPress consumers can send a documented, serializable input shape — a `PaperDTO` — instead of constructing a `Paper` by hand.
+Non-WordPress consumers can send a documented, serializable input shape — a `PaperDto` — instead of constructing a `Paper` by hand.
 
 ```js
 import { toPaper } from "yoastseo/contract";
@@ -34,22 +34,22 @@ Notes:
   const paper = toPaper( { text: "…", myField: "…" } ); // `myField` is validated and available on the Paper
   ```
 
-## Output contract — `ResultDTO` / `toResultDTO`
+## Output contract — `ResultDto` / `toResultDto`
 
-The same entry point exposes a documented, serializable **output** shape — a `ResultDTO` — for the results an assessor returns. It is the result-side sibling of `PaperDTO`: instead of each consumer hand-rolling a view model from an `AssessmentResult`, the `toResultDTO` boundary maps one result to a stable, consumer-facing shape.
+The same entry point exposes a documented, serializable **output** shape — a `ResultDto` — for the results an assessor returns. It is the result-side sibling of `PaperDto`: instead of each consumer hand-rolling a view model from an `AssessmentResult`, the `toResultDto` boundary maps one result to a stable, consumer-facing shape.
 
 ```js
-import { toResultDTO } from "yoastseo/contract";
+import { toResultDto } from "yoastseo/contract";
 
-const results = seoAssessor.getValidResults().map( toResultDTO );
+const results = seoAssessor.getValidResults().map( toResultDto );
 // => [ { identifier, score, rating, text, marks, editFieldName, editFieldAriaLabel, isOptimizable, isBeta }, … ]
 ```
 
 Notes:
-- **`rating` is interpreted in the boundary.** It is a pure function of `score` (`error`/`feedback`/`bad`/`ok`/`good`), computed by `toResultDTO` and never stored on the result, so it cannot drift from `score`. Consumers no longer need to call `interpreters.scoreToRating` themselves.
+- **`rating` is interpreted in the boundary.** It is a pure function of `score` (`error`/`feedback`/`bad`/`ok`/`good`), computed by `toResultDto` and never stored on the result, so it cannot drift from `score`. Consumers no longer need to call `interpreters.scoreToRating` themselves.
 - **Neutral signal names.** `isOptimizable` (an automated fix is available for this result) and `isBeta` (the assessment is still in beta) are the contract names for the engine signals exposed by the deprecated `AssessmentResult#hasAIFixes`/`#hasBetaBadge` getters. Presentation stays a consumer concern.
 - **`marks`** carry the highlighting payload (`original`, `marked`, `fieldsToMark`, optional `position`) in a transport-agnostic shape. `editFieldName` is the neutral target field for an edit/jump action (an empty string when the result has none).
 - **No separate edit-affordance flag.** There is intentionally no `hasJumps`-style boolean: render the edit/jump action when `editFieldName` is non-empty (`Boolean( result.editFieldName )`). The engine only ever sets a jump target together with the affordance, so the presence of `editFieldName` is the single source of truth.
 - **i18n caveat.** Like `text`, `editFieldAriaLabel` is a pre-translated (`wordpress-seo` textdomain) string carried as-is for now; a future i18n contract may replace it with a stable key derived from `editFieldName`.
 
-> **Deprecation — `AssessmentResult#hasAIFixes()` / `#hasBetaBadge()`.** These UI-branded getters are deprecated in favour of the neutral `isOptimizable()` / `isBeta()`. Consumers that read the signals directly off an `AssessmentResult` (instead of via `ResultDTO`) should migrate. The old getters still return the same values but log a once-per-session console deprecation warning, and will be removed in a future major version. The `setHasAIFixes`/`setHasBetaBadge` setters and the worker-transport (`serialize`/`parse`) keys are unchanged.
+> **Deprecation — `AssessmentResult#hasAIFixes()` / `#hasBetaBadge()`.** These UI-branded getters are deprecated in favour of the neutral `isOptimizable()` / `isBeta()`. Consumers that read the signals directly off an `AssessmentResult` (instead of via `ResultDto`) should migrate. The old getters still return the same values but log a once-per-session console deprecation warning, and will be removed in a future major version. The `setHasAIFixes`/`setHasBetaBadge` setters and the worker-transport (`serialize`/`parse`) keys are unchanged.

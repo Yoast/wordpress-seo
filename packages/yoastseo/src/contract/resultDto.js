@@ -21,10 +21,10 @@ const markSchema = z.object( {
 /**
  * Serializable output contract for the analysis engine: the stable shape of a single `AssessmentResult`.
  *
- * This is the result-side sibling of the `PaperDTO` input contract. It exposes only the result-intrinsic
+ * This is the result-side sibling of the `PaperDto` input contract. It exposes only the result-intrinsic
  * surface a non-WordPress consumer needs, and folds two interpretation/selection concerns into the boundary
  * so they cannot drift:
- * - `rating` is the interpreted score (a pure function of `score`); it is computed in {@link toResultDTO}
+ * - `rating` is the interpreted score (a pure function of `score`); it is computed in {@link toResultDto}
  *   and never stored on the result, so it can never disagree with `score`.
  * - `isOptimizable` and `isBeta` are the engine's neutral per-result UI-eligibility signals (mapped from the
  *   deprecated `hasAIFixes()`/`hasBetaBadge()` getters); presentation stays a consumer concern.
@@ -51,11 +51,11 @@ export const resultDtoSchema = z.object( {
 } );
 
 /**
- * @typedef {import("zod").infer<typeof resultDtoSchema>} ResultDTO
+ * @typedef {import("zod").infer<typeof resultDtoSchema>} ResultDto
  */
 
 /**
- * Maps an engine `AssessmentResult` onto the stable, serializable `ResultDTO`.
+ * Maps an engine `AssessmentResult` onto the stable, serializable `ResultDto`.
  *
  * This is the single place that knows how the engine's result surface lands on the contract: it interprets
  * `score` into `rating`, maps the neutral `isOptimizable`/`isBeta` signals off the (deprecated) branded
@@ -67,9 +67,9 @@ export const resultDtoSchema = z.object( {
  *
  * @param {AssessmentResult} result The result to map.
  *
- * @returns {ResultDTO} The validated, consumer-facing result.
+ * @returns {ResultDto} The validated, consumer-facing result.
  */
-export function toResultDTO( result ) {
+export function toResultDto( result ) {
 	return resultDtoSchema.parse( {
 		identifier: result.getIdentifier(),
 		score: result.getScore(),

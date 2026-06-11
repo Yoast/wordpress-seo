@@ -1,14 +1,14 @@
-import { resultDtoSchema, toResultDTO } from "../../src/contract";
+import { resultDtoSchema, toResultDto } from "../../src/contract";
 import AssessmentResult from "../../src/values/AssessmentResult.js";
 import Mark from "../../src/values/Mark.js";
 
-describe( "the result output contract (ResultDTO)", function() {
-	describe( "toResultDTO", function() {
-		it( "maps a valid AssessmentResult onto a ResultDTO", function() {
+describe( "the result output contract (ResultDto)", function() {
+	describe( "toResultDto", function() {
+		it( "maps a valid AssessmentResult onto a ResultDto", function() {
 			const result = new AssessmentResult( { score: 9, text: "Great keyphrase length!" } );
 			result.setIdentifier( "keyphraseLength" );
 
-			expect( toResultDTO( result ) ).toEqual( {
+			expect( toResultDto( result ) ).toEqual( {
 				identifier: "keyphraseLength",
 				score: 9,
 				rating: "good",
@@ -26,39 +26,39 @@ describe( "the result output contract (ResultDTO)", function() {
 			it( `derives rating "${ rating }" from score ${ score }`, function() {
 				const result = new AssessmentResult( { score, text: "A feedback message." } );
 
-				expect( toResultDTO( result ).rating ).toBe( rating );
+				expect( toResultDto( result ).rating ).toBe( rating );
 			} );
 		} );
 
 		it( "includes editFieldName when the result has one", function() {
 			const result = new AssessmentResult( { score: 3, text: "x", editFieldName: "slug" } );
 
-			expect( toResultDTO( result ).editFieldName ).toBe( "slug" );
+			expect( toResultDto( result ).editFieldName ).toBe( "slug" );
 		} );
 
 		it( "defaults editFieldName to an empty string when the result has none", function() {
 			const result = new AssessmentResult( { score: 3, text: "x" } );
 
-			expect( toResultDTO( result ).editFieldName ).toBe( "" );
+			expect( toResultDto( result ).editFieldName ).toBe( "" );
 		} );
 
 		it( "includes editFieldAriaLabel when the result has one", function() {
 			const result = new AssessmentResult( { score: 3, text: "x", editFieldAriaLabel: "Edit the slug" } );
 
-			expect( toResultDTO( result ).editFieldAriaLabel ).toBe( "Edit the slug" );
+			expect( toResultDto( result ).editFieldAriaLabel ).toBe( "Edit the slug" );
 		} );
 
 		it( "defaults editFieldAriaLabel to an empty string when the result has none", function() {
 			const result = new AssessmentResult( { score: 3, text: "x" } );
 
-			expect( toResultDTO( result ).editFieldAriaLabel ).toBe( "" );
+			expect( toResultDto( result ).editFieldAriaLabel ).toBe( "" );
 		} );
 
 		it( "serializes marks into their transport-agnostic shape (no _parseClass)", function() {
 			const mark = new Mark( { original: "cat", marked: "<yoastmark>cat</yoastmark>" } );
 			const result = new AssessmentResult( { score: 3, text: "x", marks: [ mark ] } );
 
-			const dto = toResultDTO( result );
+			const dto = toResultDto( result );
 
 			expect( dto.marks ).toEqual( [ { original: "cat", marked: "<yoastmark>cat</yoastmark>", fieldsToMark: [] } ] );
 			expect( dto.marks[ 0 ] ).not.toHaveProperty( "_parseClass" );
@@ -67,7 +67,7 @@ describe( "the result output contract (ResultDTO)", function() {
 		it( "maps the neutral isOptimizable/isBeta signals off the engine getters", function() {
 			const result = new AssessmentResult( { score: 3, text: "x", _hasAIFixes: true, _hasBetaBadge: true } );
 
-			const dto = toResultDTO( result );
+			const dto = toResultDto( result );
 
 			expect( dto.isOptimizable ).toBe( true );
 			expect( dto.isBeta ).toBe( true );

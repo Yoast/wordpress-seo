@@ -1,2 +1,2 @@
 export { paperDtoSchema, toPaper, createToPaper } from "./paperDto.js";
-export { resultDtoSchema, toResultDTO } from "./resultDto.js";
+export { resultDtoSchema, toResultDto } from "./resultDto.js";

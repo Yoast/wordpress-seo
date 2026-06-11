@@ -50,7 +50,7 @@ export const paperDtoSchema = z.object( {
 } ).strict();
 
 /**
- * @typedef {import("zod").infer<typeof paperDtoSchema>} PaperDTO
+ * @typedef {import("zod").infer<typeof paperDtoSchema>} PaperDto
  */
 
 /**
@@ -117,7 +117,7 @@ export function createToPaper( schema = paperDtoSchema ) {
 }
 
 /**
- * Validates a PaperDTO and maps it onto the engine's internal Paper.
+ * Validates a PaperDto and maps it onto the engine's internal Paper.
  *
  * This is the single place that knows how contract fields land on Paper attributes
  * (notably `keyphrase` -> `keyword`); the engine, assessors, and researches are
@@ -128,7 +128,7 @@ export function createToPaper( schema = paperDtoSchema ) {
  * Consumers that need extra, validated input fields for their own assessments should build a mapper with
  * {@link createToPaper} and an extended schema instead.
  *
- * @param {PaperDTO} dto The serializable input contract.
+ * @param {PaperDto} dto The serializable input contract.
  * @returns {Paper} The constructed Paper.
  */
 export const toPaper = createToPaper();
