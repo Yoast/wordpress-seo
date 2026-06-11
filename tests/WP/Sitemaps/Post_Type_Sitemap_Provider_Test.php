@@ -412,20 +412,27 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_sitemap_links_query_count_does_not_grow_with_post_count() {
-		// A %category% permalink structure makes get_permalink() look up each post's terms.
-		$this->set_permalink_structure( '/%category%/%postname%/' );
+		$original_structure = \get_option( 'permalink_structure' );
 
-		$this->create_posts_with_own_category( 3 );
-		$queries_for_three_posts = $this->count_sitemap_links_queries();
+		try {
+			// A %category% permalink structure makes get_permalink() look up each post's terms.
+			$this->set_permalink_structure( '/%category%/%postname%/' );
 
-		$this->create_posts_with_own_category( 7 );
-		$queries_for_ten_posts = $this->count_sitemap_links_queries();
+			$this->create_posts_with_own_category( 3 );
+			$queries_for_three_posts = $this->count_sitemap_links_queries();
 
-		$this->assertSame(
-			$queries_for_three_posts,
-			$queries_for_ten_posts,
-			'Generating sitemap links should not run more queries when there are more posts',
-		);
+			$this->create_posts_with_own_category( 7 );
+			$queries_for_ten_posts = $this->count_sitemap_links_queries();
+
+			$this->assertSame(
+				$queries_for_three_posts,
+				$queries_for_ten_posts,
+				'Generating sitemap links should not run more queries when there are more posts',
+			);
+		}
+		finally {
+			$this->set_permalink_structure( $original_structure );
+		}
 	}
 
 	/**
