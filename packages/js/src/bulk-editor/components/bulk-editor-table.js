@@ -80,7 +80,7 @@ const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
 				{ fields.map( ( field ) => (
 					<Table.Header key={ field.key } scope="col">{ field.label }</Table.Header>
 				) ) }
-				<Table.Header scope="col">{ __( "Actions", "wordpress-seo" ) }</Table.Header>
+				<Table.Header scope="col"><span className="yst-flex yst-justify-end">{ __( "Actions", "wordpress-seo" ) }</span></Table.Header>
 			</Table.Row>
 		</Table.Head>
 	);
@@ -130,15 +130,18 @@ const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, onEdit } ) => {
 				<Table.Cell key={ field.key }>{ item[ field.key ] }</Table.Cell>
 			) ) }
 			<Table.Cell>
-				<Button
-					variant="tertiary"
-					size="small"
-					onClick={ handleEdit }
-					/* translators: %s expands to the content item title. */
-					aria-label={ sprintf( __( "Edit %s", "wordpress-seo" ), item.title ) }
-				>
-					{ __( "Edit", "wordpress-seo" ) }
-				</Button>
+				<span className="yst-flex yst-justify-end">
+					<Button
+						variant="tertiary"
+						size="small"
+						className="yst--me-2.5"
+						onClick={ handleEdit }
+						/* translators: %s expands to the content item title. */
+						aria-label={ sprintf( __( "Edit %s", "wordpress-seo" ), item.title ) }
+					>
+						{ __( "Edit", "wordpress-seo" ) }
+					</Button>
+				</span>
 			</Table.Cell>
 		</Table.Row>
 	);
