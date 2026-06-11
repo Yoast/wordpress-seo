@@ -8,8 +8,8 @@ import scoreToRating from "../scoring/interpreters/scoreToRating.js";
 /**
  * Serializable shape of a single highlighting mark, mirroring `Mark.serialize()`.
  *
- * The schema is intentionally non-strict: `Mark.serialize()` also emits a `_parseClass` transport key,
- * which is stripped here so the contract carries a clean, transport-agnostic shape.
+ * `Mark.serialize()` also emits a `_parseClass` transport key. `z.object()` strips unknown keys on parse
+ * by default, so it is dropped here, leaving a clean, transport-agnostic shape (`.strict()` would throw on it instead).
  */
 const markSchema = z.object( {
 	original: z.string().describe( "The original, unmarked source text." ),
@@ -30,7 +30,7 @@ const markSchema = z.object( {
  *   deprecated `hasAIFixes()`/`hasBetaBadge()` getters); presentation stays a consumer concern.
  *
  * The schema is deliberately NOT `.strict()`: unlike the input contract, the engine produces this payload, so
- * there is no consumer typo to catch — and the non-strict mark schema relies on extra keys being stripped.
+ * there is no consumer typo to catch.
  */
 export const resultDtoSchema = z.object( {
 	identifier: z.string().describe( "Stable assessment id, e.g. 'keyphraseLength'." ),
