@@ -8,7 +8,7 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  * `metaDescription` → `metadesc`, `socialTitle` → `opengraph-title`, `socialDescription` →
  * `opengraph-description`.
  *
- * @typedef {Object} BulkEditorRow
+ * @typedef {Object} BulkEditorItem
  * @property {number} id                The post ID.
  * @property {string} title             The post title.
  * @property {string} status            The post status (e.g. "publish", "draft", "pending", "future" as WordPress terms).
@@ -24,9 +24,10 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  * One editable column within a field set.
  *
  * @typedef {Object} FieldSetField
- * @property {string} key   The {@link BulkEditorRow} property this column edits.
+ * @property {string} key   The {@link BulkEditorItem} property this column edits.
  * @property {string} label The column header label.
  * @property {string} param The request parameter name the save endpoint expects for this field.
+ * @property {string} width The column width.
  */
 
 /**
@@ -52,8 +53,8 @@ export const getFieldSets = () => ( {
 		label: __( "Search appearance", "wordpress-seo" ),
 		endpoint: "update_search",
 		fields: [
-			{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ), param: "seo_title" },
-			{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ), param: "meta_description" },
+			{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ), param: "seo_title", width: "sm:yst-w-[19%]" },
+			{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ), param: "meta_description", width: "sm:yst-w-[33%]" },
 		],
 	},
 	[ FIELD_SET_SOCIAL ]: {
@@ -61,8 +62,8 @@ export const getFieldSets = () => ( {
 		label: __( "Social appearance", "wordpress-seo" ),
 		endpoint: "update_social",
 		fields: [
-			{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ), param: "social_title" },
-			{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ), param: "social_description" },
+			{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ), param: "social_title", width: "sm:yst-w-[19%]" },
+			{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ), param: "social_description", width: "sm:yst-w-[33%]" },
 		],
 	},
 } );

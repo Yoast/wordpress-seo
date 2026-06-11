@@ -7,6 +7,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -171,9 +172,12 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	public function get_script_data() {
 		return [
 			'contentTypes' => $this->content_types_repository->get_content_types(),
-			// The endpoints and links are stubs until the REST routes and app needs land in later tasks.
+			// The endpoints are a stub until the REST routes land in a later task.
 			'endpoints'    => [],
-			'links'        => [],
+			'links'        => [
+				'dashboard' => \admin_url( 'admin.php?page=' . General_Page_Integration::PAGE ),
+				'tools'     => \admin_url( 'admin.php?page=wpseo_tools' ),
+			],
 			'nonce'        => $this->nonce_repository->get_rest_nonce(),
 			'restRoot'     => \esc_url_raw( \rest_url() ),
 			'preferences'  => [

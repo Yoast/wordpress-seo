@@ -26,8 +26,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider } ) => {
 	const editingRows = useSelect( ( select ) => select( STORE_NAME ).selectEditingRows(), [] );
 	const { setActiveFieldSet, startEdit, updateDraftField, setSavingField, closeField, stopEdit } = useDispatch( STORE_NAME );
 
-	// TEMPORARY fixture rows until the list endpoint feeds the table through the provider.
-	const rows = useMemo( () => getMockRows(), [] );
+	// TEMPORARY fixture items until the list endpoint feeds the table through the provider.
+	const items = useMemo( () => getMockRows(), [] );
 
 	// Switching tabs changes the editable fields, so any in-progress edits are discarded.
 	const onChangeTab = useCallback( ( id ) => {
@@ -35,17 +35,17 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider } ) => {
 		setActiveFieldSet( id );
 	}, [ stopEdit, setActiveFieldSet ] );
 
-	// Edit opens the active field set's fields for a row, with the row's current values.
+	// Edit opens the active field set's fields for a row, with the item's current values.
 	const onStartEdit = useCallback( ( id ) => {
-		const row = rows.find( ( candidate ) => candidate.id === id );
-		if ( ! row ) {
+		const item = items.find( ( candidate ) => candidate.id === id );
+		if ( ! item ) {
 			return;
 		}
 		const draftValues = Object.fromEntries(
-			fieldSets[ activeFieldSet ].fields.map( ( field ) => [ field.key, row[ field.key ] ?? "" ] )
+			fieldSets[ activeFieldSet ].fields.map( ( field ) => [ field.key, item[ field.key ] ?? "" ] )
 		);
 		startEdit( { id, draft: draftValues } );
-	}, [ rows, fieldSets, activeFieldSet, startEdit ] );
+	}, [ items, fieldSets, activeFieldSet, startEdit ] );
 
 	// Discard closes the field; the cell falls back to the row's stored value.
 	const onDiscardField = useCallback( ( { id, key } ) => closeField( { id, key } ), [ closeField ] );
@@ -92,7 +92,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider } ) => {
 			/>
 			{ tabs.map( ( tab ) => (
 				<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-					<BulkEditorTable rows={ rows } fieldSet={ fieldSets[ tab.id ] } editing={ editing } />
+					<BulkEditorTable items={ items } fieldSet={ fieldSets[ tab.id ] } editing={ editing } />
 				</BulkEditorTabPanel>
 			) ) }
 		</div>

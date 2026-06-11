@@ -22,8 +22,8 @@ describe( "getFieldSets", () => {
 
 		expect( fieldSet.endpoint ).toBe( "update_search" );
 		expect( fieldSet.fields ).toEqual( [
-			{ key: "seoTitle", label: "SEO title", param: "seo_title" },
-			{ key: "metaDescription", label: "Meta description", param: "meta_description" },
+			{ key: "seoTitle", label: "SEO title", param: "seo_title", width: "sm:yst-w-[19%]" },
+			{ key: "metaDescription", label: "Meta description", param: "meta_description", width: "sm:yst-w-[33%]" },
 		] );
 	} );
 
@@ -32,8 +32,8 @@ describe( "getFieldSets", () => {
 
 		expect( fieldSet.endpoint ).toBe( "update_social" );
 		expect( fieldSet.fields ).toEqual( [
-			{ key: "socialTitle", label: "Social title", param: "social_title" },
-			{ key: "socialDescription", label: "Social description", param: "social_description" },
+			{ key: "socialTitle", label: "Social title", param: "social_title", width: "sm:yst-w-[19%]" },
+			{ key: "socialDescription", label: "Social description", param: "social_description", width: "sm:yst-w-[33%]" },
 		] );
 	} );
 
