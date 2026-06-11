@@ -36,7 +36,10 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 		$expected_script_data = [
 			'contentTypes' => $content_types,
 			'endpoints'    => [],
-			'links'        => [],
+			'links'        => [
+				'dashboard' => 'https://example.com/wp-admin/admin.php?page=wpseo_dashboard',
+				'tools'     => 'https://example.com/wp-admin/admin.php?page=wpseo_tools',
+			],
 			'nonce'        => 'rest-nonce',
 			'restRoot'     => 'https://example.com/wp-json/',
 			'preferences'  => [
@@ -60,6 +63,13 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 		Functions\expect( 'plugins_url' )
 			->once()
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
+		Functions\expect( 'admin_url' )
+			->twice()
+			->andReturnUsing(
+				static function ( $path ) {
+					return 'https://example.com/wp-admin/' . $path;
+				},
+			);
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
 
 		$this->asset_manager->expects( 'localize_script' )
