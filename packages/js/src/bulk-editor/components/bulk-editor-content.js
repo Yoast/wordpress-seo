@@ -26,7 +26,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const { setActiveFieldSet } = useDispatch( STORE_NAME );
 
-	const { data: rows = [], isPending } = usePosts( { dataProvider, remoteDataProvider, contentType } );
+	const { data: items = [], isPending } = usePosts( { dataProvider, remoteDataProvider, contentType } );
 
 	return (
 		<div className="yst-p-8 yst-space-y-8">
@@ -38,7 +38,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			/>
 			{ tabs.map( ( tab ) => (
 				<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-					<BulkEditorTable rows={ rows } fieldSet={ fieldSets[ tab.id ] } isLoading={ isPending } />
+					<BulkEditorTable items={ items } fieldSet={ fieldSets[ tab.id ] } isLoading={ isPending } />
 				</BulkEditorTabPanel>
 			) ) }
 		</div>

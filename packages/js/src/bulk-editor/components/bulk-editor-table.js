@@ -8,9 +8,9 @@ import { PAGE_SIZE } from "../constants";
  * The bulk editor selection.
  *
  * @typedef {Object} BulkEditorSelection
- * @property {number[]}  [selectedIds]   IDs of the selected rows.
+ * @property {number[]}  [selectedIds]   IDs of the selected items.
  * @property {boolean}   [isAllSelected] Whether the header "select all" checkbox is checked.
- * @property {Function}  [onToggleRow]   Called with a row id when its checkbox is toggled.
+ * @property {Function}  [onToggleRow]   Called with an item id when its checkbox is toggled.
  * @property {Function}  [onToggleAll]   Called when the header "select all" checkbox is toggled.
  */
 /**
@@ -72,8 +72,7 @@ const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
 				</Table.Cell>
 			</Table.Row>
 			<Table.Row>
-				<Table.Header scope="col" className="yst-w-0">
-					{ /* The row checkbox column: no visible header, named for assistive tech only. */ }
+				<Table.Header scope="col">
 					<span className="yst-sr-only">{ __( "Select", "wordpress-seo" ) }</span>
 				</Table.Header>
 				<Table.Header scope="col">{ __( "Title", "wordpress-seo" ) }</Table.Header>
@@ -81,7 +80,7 @@ const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
 				{ fields.map( ( field ) => (
 					<Table.Header key={ field.key } scope="col">{ field.label }</Table.Header>
 				) ) }
-				<Table.Header scope="col">{ __( "Actions", "wordpress-seo" ) }</Table.Header>
+				<Table.Header scope="col"><span className="yst-flex yst-justify-end">{ __( "Actions", "wordpress-seo" ) }</span></Table.Header>
 			</Table.Row>
 		</Table.Head>
 	);
@@ -91,55 +90,58 @@ const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
  * A single content row.
  *
  * @param {Object}          props             The props.
- * @param {BulkEditorRow}   props.row         The row data.
+ * @param {BulkEditorItem}  props.item        The item data.
  * @param {FieldSetField[]} props.fields      The active field set's editable columns.
- * @param {boolean}         props.isSelected  Whether this row is selected.
- * @param {Function}        props.onToggleRow Called with the row id when its checkbox is toggled.
- * @param {Function}        props.onEdit      Called with the row id when its Edit action is triggered.
+ * @param {boolean}         props.isSelected  Whether this item is selected.
+ * @param {Function}        props.onToggleRow Called with the item id when its checkbox is toggled.
+ * @param {Function}        props.onEdit      Called with the item id when its Edit action is triggered.
  *
  * @returns {JSX.Element} The row.
  */
-const BulkEditorRow = ( { row, fields, isSelected, onToggleRow, onEdit } ) => {
-	const handleToggle = useCallback( () => onToggleRow( row.id ), [ onToggleRow, row.id ] );
-	const handleEdit = useCallback( () => onEdit( row.id ), [ onEdit, row.id ] );
-	const statusLabel = getStatusLabel( row.status );
+const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, onEdit } ) => {
+	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
+	const handleEdit = useCallback( () => onEdit( item.id ), [ onEdit, item.id ] );
+	const statusLabel = getStatusLabel( item.status );
 
 	return (
 		<Table.Row>
 			<Table.Cell>
 				<Checkbox
-					id={ `bulk-editor-select-${ row.id }` }
-					name={ `bulk-editor-select-${ row.id }` }
-					value={ String( row.id ) }
+					id={ `bulk-editor-select-${ item.id }` }
+					name={ `bulk-editor-select-${ item.id }` }
+					value={ String( item.id ) }
 					className="yst-mt-0.5"
 					/* translators: %s expands to the content item title. */
-					aria-label={ sprintf( __( "Select %s", "wordpress-seo" ), row.title ) }
+					aria-label={ sprintf( __( "Select %s", "wordpress-seo" ), item.title ) }
 					checked={ isSelected }
 					onChange={ handleToggle }
 				/>
 			</Table.Cell>
-			<Table.Header scope="row" className="yst-font-normal yst-text-left">
+			<Table.Header scope="row" className="yst-text-left">
 				<div className="yst-flex yst-flex-col">
-					<span>{ row.title }</span>
+					<span>{ item.title }</span>
 					{ statusLabel && (
 						<span className="yst-mt-1 yst-font-normal yst-text-slate-500">{ `- ${ statusLabel }` }</span>
 					) }
 				</div>
 			</Table.Header>
-			<Table.Cell>{ row.focusKeyphrase }</Table.Cell>
+			<Table.Cell>{ item.focusKeyphrase }</Table.Cell>
 			{ fields.map( ( field ) => (
-				<Table.Cell key={ field.key }>{ row[ field.key ] }</Table.Cell>
+				<Table.Cell key={ field.key }>{ item[ field.key ] }</Table.Cell>
 			) ) }
 			<Table.Cell>
-				<Button
-					variant="tertiary"
-					size="small"
-					onClick={ handleEdit }
-					/* translators: %s expands to the content item title. */
-					aria-label={ sprintf( __( "Edit %s", "wordpress-seo" ), row.title ) }
-				>
-					{ __( "Edit", "wordpress-seo" ) }
-				</Button>
+				<span className="yst-flex yst-justify-end">
+					<Button
+						variant="tertiary"
+						size="small"
+						className="yst--me-2.5"
+						onClick={ handleEdit }
+						/* translators: %s expands to the content item title. */
+						aria-label={ sprintf( __( "Edit %s", "wordpress-seo" ), item.title ) }
+					>
+						{ __( "Edit", "wordpress-seo" ) }
+					</Button>
+				</span>
 			</Table.Cell>
 		</Table.Row>
 	);
@@ -159,7 +161,6 @@ const SkeletonRows = ( { columnCount } ) => (
 			<Table.Row key={ `skeleton-${ rowIndex }` }>
 				{ Array.from( { length: columnCount }, ( _cell, cellIndex ) => (
 					<Table.Cell key={ `skeleton-${ rowIndex }-${ cellIndex }` }>
-						{ /* Hidden from assistive tech: the live status region announces loading instead. */ }
 						<span aria-hidden="true">
 							<SkeletonLoader className="yst-w-full">&nbsp;</SkeletonLoader>
 						</span>
@@ -174,23 +175,23 @@ const SkeletonRows = ( { columnCount } ) => (
  * The table body: skeleton rows while loading, an empty state, or the content rows.
  *
  * @param {Object}              props             The props.
- * @param {BulkEditorRow[]}     props.rows        The rows to render.
+ * @param {BulkEditorItem[]}    props.items       The items to render.
  * @param {FieldSetField[]}     props.fields      The active field set's editable columns.
  * @param {number}              props.columnCount The total number of columns.
  * @param {BulkEditorSelection} props.selection   The selection seam.
- * @param {Function}            props.onEdit      Called with a row id when its Edit action is triggered.
+ * @param {Function}            props.onEdit      Called with an item id when its Edit action is triggered.
  * @param {boolean}             props.isLoading   Whether to render skeleton rows.
  *
  * @returns {JSX.Element} The body rows.
  */
-const BulkEditorBody = ( { rows, fields, columnCount, selection, onEdit, isLoading } ) => {
+const BulkEditorBody = ( { items, fields, columnCount, selection, onEdit, isLoading } ) => {
 	const { selectedIds = [], onToggleRow = noop } = selection;
 
 	if ( isLoading ) {
 		return <SkeletonRows columnCount={ columnCount } />;
 	}
 
-	if ( rows.length === 0 ) {
+	if ( items.length === 0 ) {
 		return (
 			<Table.Row>
 				<Table.Cell colSpan={ columnCount } className="yst-text-center yst-text-slate-500">
@@ -200,12 +201,12 @@ const BulkEditorBody = ( { rows, fields, columnCount, selection, onEdit, isLoadi
 		);
 	}
 
-	return rows.map( ( row ) => (
+	return items.map( ( item ) => (
 		<BulkEditorRow
-			key={ row.id }
-			row={ row }
+			key={ item.id }
+			item={ item }
 			fields={ fields }
-			isSelected={ selectedIds.includes( row.id ) }
+			isSelected={ selectedIds.includes( item.id ) }
 			onToggleRow={ onToggleRow }
 			onEdit={ onEdit }
 		/>
@@ -215,19 +216,19 @@ const BulkEditorBody = ( { rows, fields, columnCount, selection, onEdit, isLoadi
 /**
  * The bulk editor data table.
  *
- * It renders the rows it is given for the active field set (the Search
+ * It renders the items it is given for the active field set (the Search
  * or Social tab).
  *
  * @param {Object}              props             The props.
- * @param {BulkEditorRow[]}     props.rows        The rows to render.
+ * @param {BulkEditorItem[]}    props.items       The items to render.
  * @param {FieldSet}            props.fieldSet    The active field set (its `fields` drive the editable columns).
  * @param {BulkEditorSelection} [props.selection] The selection seam.
- * @param {Function}            [props.onEdit]    Called with a row id when its Edit action is triggered.
+ * @param {Function}            [props.onEdit]    Called with an item id when its Edit action is triggered.
  * @param {boolean}             [props.isLoading] Whether to render skeleton rows instead of data.
  *
  * @returns {JSX.Element} The table.
  */
-export const BulkEditorTable = ( { rows, fieldSet, selection = {}, onEdit = noop, isLoading = false } ) => {
+export const BulkEditorTable = ( { items, fieldSet, selection = {}, onEdit = noop, isLoading = false } ) => {
 	const columnCount = getColumnCount( fieldSet.fields );
 
 	return (
@@ -236,11 +237,20 @@ export const BulkEditorTable = ( { rows, fieldSet, selection = {}, onEdit = noop
 			<div role="status" className="yst-sr-only">
 				{ isLoading ? __( "Loading content…", "wordpress-seo" ) : "" }
 			</div>
-			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className="[&_td]:yst-align-top [&_th]:yst-align-top">
+			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className="yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium">
+				<colgroup>
+					<col className="sm:yst-w-[4%]" />
+					<col className="sm:yst-w-[20%]" />
+					<col className="sm:yst-w-[19%]" />
+					{ fieldSet.fields.map( ( field ) => (
+						<col key={ field.key } className={ field.width } />
+					) ) }
+					<col className="sm:yst-w-[5%]" />
+				</colgroup>
 				<BulkEditorHeader fields={ fieldSet.fields } columnCount={ columnCount } selection={ selection } isLoading={ isLoading } />
 				<Table.Body>
 					<BulkEditorBody
-						rows={ rows }
+						items={ items }
 						fields={ fieldSet.fields }
 						columnCount={ columnCount }
 						selection={ selection }

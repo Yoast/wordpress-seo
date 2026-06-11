@@ -1,3 +1,25 @@
 .seo_page_wpseo_page_bulk_edit {
 	@apply yst-bg-slate-100;
+
+	/* Let the Yoast UI (and the mobile top bar) span the full content width. */
+	#wpcontent {
+		padding-left: 0 !important;
+	}
+
+	.yst-mobile-navigation__top {
+		/* Offset the sticky bar below the taller mobile admin bar. */
+		@media (min-width: 601px) and (max-width: 768px) {
+			top: 46px;
+		}
+
+		/* From 783px the desktop sidebar is shown, so hide the mobile hamburger bar. */
+		@media (min-width: 783px) {
+			@apply yst-hidden;
+		}
+	}
+
+	/* Stack the drawer above the WP admin bar so it overlays instead of stacking below it. */
+	.yst-mobile-navigation__dialog {
+		z-index: 99999;
+	}
 }

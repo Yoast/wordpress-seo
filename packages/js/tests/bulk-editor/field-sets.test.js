@@ -21,8 +21,8 @@ describe( "getFieldSets", () => {
 		const { fields } = getFieldSets()[ FIELD_SET_SEARCH ];
 
 		expect( fields ).toEqual( [
-			{ key: "seoTitle", label: "SEO title" },
-			{ key: "metaDescription", label: "Meta description" },
+			{ key: "seoTitle", label: "SEO title", width: "sm:yst-w-[19%]" },
+			{ key: "metaDescription", label: "Meta description", width: "sm:yst-w-[33%]" },
 		] );
 	} );
 
@@ -30,8 +30,8 @@ describe( "getFieldSets", () => {
 		const { fields } = getFieldSets()[ FIELD_SET_SOCIAL ];
 
 		expect( fields ).toEqual( [
-			{ key: "socialTitle", label: "Social title" },
-			{ key: "socialDescription", label: "Social description" },
+			{ key: "socialTitle", label: "Social title", width: "sm:yst-w-[19%]" },
+			{ key: "socialDescription", label: "Social description", width: "sm:yst-w-[33%]" },
 		] );
 	} );
 

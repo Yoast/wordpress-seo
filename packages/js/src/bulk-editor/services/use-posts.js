@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "@wordpress/element";
 import { PAGE_SIZE } from "../constants";
 
 /**
- * Maps a single API row (snake_case) to a {@link BulkEditorRow} (camelCase).
+ * Maps a single API row (snake_case) to a {@link BulkEditorItem} (camelCase).
  *
  * @param {Object} post The API row.
  *
- * @returns {import("../field-sets").BulkEditorRow} The bulk editor row.
+ * @returns {import("../field-sets").BulkEditorItem} The bulk editor item.
  */
 const formatPost = ( post ) => ( {
 	id: post.id,
@@ -31,7 +31,7 @@ const formatPost = ( post ) => ( {
  * @param {RemoteDataProvider} props.remoteDataProvider The remote data provider (performs the request).
  * @param {string}             props.contentType        The content type to fetch posts for.
  *
- * @returns {{data: import("../field-sets").BulkEditorRow[], error?: Error, isPending: boolean}} The remote data info.
+ * @returns {{data: import("../field-sets").BulkEditorItem[], error?: Error, isPending: boolean}} The remote data info.
  */
 export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) => {
 	const [ state, setState ] = useState( { data: [], error: null, isPending: true } );
