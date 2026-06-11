@@ -122,7 +122,7 @@ describe( "App", () => {
 
 	describe( "saving a field (Apply)", () => {
 		const searchSet = getFieldSets()[ FIELD_SET_SEARCH ];
-		const seoTitleParam = searchSet.fields[ 0 ].param;
+		const seoTitleParam = searchSet.fields.find( ( field ) => field.key === "seoTitle" ).param;
 		const endpointUrl = "https://example.com/wp-json/yoast/v1/bulk_editor/update_search";
 		const savingDataProvider = new DataProvider( {
 			contentTypes: [ { name: "post", label: "Posts" } ],

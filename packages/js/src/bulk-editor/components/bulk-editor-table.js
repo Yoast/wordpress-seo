@@ -47,13 +47,13 @@ const getStatusLabel = ( status ) => {
 };
 
 /**
- * The fixed columns (select + title + focus keyphrase + actions).
+ * The fixed columns (select + title + actions); the field set supplies the rest, including the focus keyphrase.
  *
  * @param {FieldSetField[]} fields The active field set's editable columns.
  *
  * @returns {number} The total number of columns, used for full-width rows (loading/empty).
  */
-const getColumnCount = ( fields ) => 4 + fields.length;
+const getColumnCount = ( fields ) => 3 + fields.length;
 
 // The edit state for a row that is not being edited (no open fields, empty draft, nothing saving).
 const EMPTY_ROW_EDIT = { openFields: [], draft: {}, savingField: null };
@@ -92,7 +92,6 @@ const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
 					<span className="yst-sr-only">{ __( "Select", "wordpress-seo" ) }</span>
 				</Table.Header>
 				<Table.Header scope="col">{ __( "Title", "wordpress-seo" ) }</Table.Header>
-				<Table.Header scope="col" className="yst-hidden sm:yst-table-cell sm:yst-bg-slate-50">{ __( "Focus keyphrase", "wordpress-seo" ) }</Table.Header>
 				{ fields.map( ( field ) => (
 					<Table.Header key={ field.key } scope="col">{ field.label }</Table.Header>
 				) ) }
@@ -244,7 +243,6 @@ const BulkEditorRow = ( {
 				/>
 			</Table.Cell>
 			<TitleCell item={ item } />
-			<Table.Cell className="yst-hidden sm:yst-table-cell">{ item.focusKeyphrase }</Table.Cell>
 			{ fields.map( ( field ) => ( openFields.includes( field.key )
 				? (
 					<EditableFieldCell
@@ -398,7 +396,6 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}
 				<colgroup>
 					<col className="sm:yst-w-[4%]" />
 					<col className="sm:yst-w-[20%]" />
-					<col className="sm:yst-w-[19%]" />
 					{ fieldSet.fields.map( ( field ) => (
 						<col key={ field.key } className={ field.width } />
 					) ) }

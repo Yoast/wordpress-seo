@@ -24,10 +24,12 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  * One editable column within a field set.
  *
  * @typedef {Object} FieldSetField
- * @property {string} key   The {@link BulkEditorItem} property this column edits.
- * @property {string} label The column header label.
- * @property {string} param The request parameter name the save endpoint expects for this field.
- * @property {string} width The column width.
+ * @property {string}  key       The {@link BulkEditorItem} property this column edits.
+ * @property {string}  label     The column header label.
+ * @property {string}  param     The request parameter name the save endpoint expects for this field.
+ * @property {string} width      The column width.
+ * @property {string} [endpoint] A data-provider endpoint key that saves this field, overriding the field set's
+ *                               (the focus keyphrase saves through its own endpoint, shared across both tabs).
  */
 
 /**
@@ -47,23 +49,36 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  *
  * @returns {Object<string, FieldSet>} The field sets, keyed by id.
  */
-export const getFieldSets = () => ( {
-	[ FIELD_SET_SEARCH ]: {
-		id: FIELD_SET_SEARCH,
-		label: __( "Search appearance", "wordpress-seo" ),
-		endpoint: "update_search",
-		fields: [
-			{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ), param: "seo_title", width: "sm:yst-w-[19%]" },
-			{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ), param: "meta_description", width: "sm:yst-w-[33%]" },
-		],
-	},
-	[ FIELD_SET_SOCIAL ]: {
-		id: FIELD_SET_SOCIAL,
-		label: __( "Social appearance", "wordpress-seo" ),
-		endpoint: "update_social",
-		fields: [
-			{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ), param: "social_title", width: "sm:yst-w-[19%]" },
-			{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ), param: "social_description", width: "sm:yst-w-[33%]" },
-		],
-	},
-} );
+export const getFieldSets = () => {
+	// The focus keyphrase is shared by both tabs and saves through its own endpoint; it leads each field set.
+	const focusKeyphrase = {
+		key: "focusKeyphrase",
+		label: __( "Focus keyphrase", "wordpress-seo" ),
+		param: "focus_keyphrase",
+		endpoint: "update_keyphrase",
+		width: "sm:yst-w-[19%]",
+	};
+
+	return {
+		[ FIELD_SET_SEARCH ]: {
+			id: FIELD_SET_SEARCH,
+			label: __( "Search appearance", "wordpress-seo" ),
+			endpoint: "update_search",
+			fields: [
+				focusKeyphrase,
+				{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ), param: "seo_title", width: "sm:yst-w-[19%]" },
+				{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ), param: "meta_description", width: "sm:yst-w-[33%]" },
+			],
+		},
+		[ FIELD_SET_SOCIAL ]: {
+			id: FIELD_SET_SOCIAL,
+			label: __( "Social appearance", "wordpress-seo" ),
+			endpoint: "update_social",
+			fields: [
+				focusKeyphrase,
+				{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ), param: "social_title", width: "sm:yst-w-[19%]" },
+				{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ), param: "social_description", width: "sm:yst-w-[33%]" },
+			],
+		},
+	};
+};

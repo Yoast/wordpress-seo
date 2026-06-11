@@ -158,6 +158,20 @@ describe( "BulkEditorTable", () => {
 		expect( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).toBeDisabled();
 	} );
 
+	it( "edits the focus keyphrase, which leads both field sets", () => {
+		render(
+			<BulkEditorTable
+				items={ items }
+				fieldSet={ searchFieldSet }
+				editing={ { editingRows: { 2: { openFields: [ "focusKeyphrase" ], draft: { focusKeyphrase: "draft keyphrase" }, savingField: null } } } }
+			/>
+		);
+
+		const input = screen.getByRole( "textbox", { name: "Focus keyphrase for On-Page SEO Checklist" } );
+		expect( input ).toHaveValue( "draft keyphrase" );
+		expect( screen.getByRole( "button", { name: "Apply Focus keyphrase for On-Page SEO Checklist" } ) ).toBeInTheDocument();
+	} );
+
 	it( "renders only the open fields as inputs, the rest as text", () => {
 		render(
 			<BulkEditorTable

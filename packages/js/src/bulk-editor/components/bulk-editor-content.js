@@ -50,13 +50,16 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider } ) => {
 	// Discard closes the field; the cell falls back to the row's stored value.
 	const onDiscardField = useCallback( ( { id, key } ) => closeField( { id, key } ), [ closeField ] );
 
-	// Apply saves a single field through the active tab's endpoint.
+	// Apply saves a single field; the focus keyphrase uses its own endpoint, the rest the active tab's.
 	const onApplyField = useCallback( async( { id, key } ) => {
 		const fieldSet = fieldSets[ activeFieldSet ];
 		const field = fieldSet.fields.find( ( candidate ) => candidate.key === key );
-		const endpoint = dataProvider.getEndpoint( fieldSet.endpoint );
 		const rowEdit = editingRows[ id ];
-		if ( ! endpoint || ! field || ! rowEdit ) {
+		if ( ! field || ! rowEdit ) {
+			return;
+		}
+		const endpoint = dataProvider.getEndpoint( field.endpoint ?? fieldSet.endpoint );
+		if ( ! endpoint ) {
 			return;
 		}
 
