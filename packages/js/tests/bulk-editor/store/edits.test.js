@@ -73,6 +73,16 @@ describe( "edits slice", () => {
 		expect( state.rows[ 7 ] ).toBeUndefined();
 	} );
 
+	it( "cancels one row on discardEdit, leaving the others editing", () => {
+		let state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: { seoTitle: "A", metaDescription: "B" } } ) );
+		state = reducer( state, editsActions.startEdit( { id: 9, draft: { seoTitle: "C" } } ) );
+
+		state = reducer( state, editsActions.discardEdit( { id: 7 } ) );
+
+		expect( state.rows[ 7 ] ).toBeUndefined();
+		expect( state.rows[ 9 ] ).toBeDefined();
+	} );
+
 	it( "clears every editing row on stopEdit", () => {
 		let state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: { seoTitle: "A" } } ) );
 		state = reducer( state, editsActions.startEdit( { id: 9, draft: { seoTitle: "B" } } ) );

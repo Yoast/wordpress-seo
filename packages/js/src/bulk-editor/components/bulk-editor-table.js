@@ -25,6 +25,7 @@ import { PAGE_SIZE } from "../constants";
  * @property {Function} [onChangeField]  Called with `{ id, key, value }` when a field changes.
  * @property {Function} [onApplyField]   Called with `{ id, key }` to save that field.
  * @property {Function} [onDiscardField] Called with `{ id, key }` to discard that field's changes.
+ * @property {Function} [onCancelEdit]   Called with an item id to cancel all of its open fields at once.
  */
 /**
  * Maps a post status to a label, or "" for published (no label shown).
@@ -195,7 +196,7 @@ const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, onChang
  * @param {BulkEditorItem}  props.item           The item data.
  * @param {FieldSetField[]} props.fields         The active field set's editable columns.
  * @param {boolean}         props.isSelected     Whether this item is selected.
- * @param {boolean}         props.isEditDisabled Whether the Edit action is disabled (a row is being edited).
+ * @param {boolean}         props.isEditing      Whether this row is in edit mode (its Edit action becomes Cancel).
  * @param {string[]}        props.openFields     The field keys open as inputs in this row (empty unless editing).
  * @param {Object}          props.draft          The open fields' draft values.
  * @param {string|null}     props.savingField    The field key currently saving.
@@ -204,6 +205,7 @@ const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, onChang
  * @param {Function}        props.onChangeField  Called with { id, key, value } when an open field changes.
  * @param {Function}        props.onApplyField   Called with { id, key } to save a field.
  * @param {Function}        props.onDiscardField Called with { id, key } to discard a field.
+ * @param {Function}        props.onCancelEdit   Called with the item id to cancel all of the row's open fields.
  *
  * @returns {JSX.Element} The row.
  */
@@ -211,7 +213,7 @@ const BulkEditorRow = ( {
 	item,
 	fields,
 	isSelected,
-	isEditDisabled,
+	isEditing,
 	openFields,
 	draft,
 	savingField,
@@ -220,13 +222,20 @@ const BulkEditorRow = ( {
 	onChangeField,
 	onApplyField,
 	onDiscardField,
+	onCancelEdit,
 } ) => {
 	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
 	const handleEdit = useCallback( () => onStartEdit( item.id ), [ onStartEdit, item.id ] );
+	const handleCancel = useCallback( () => onCancelEdit( item.id ), [ onCancelEdit, item.id ] );
 	// Pass the item id to the handlers, so the store can track the edit state for this row.
 	const handleChangeField = useCallback( ( { key, value } ) => onChangeField( { id: item.id, key, value } ), [ onChangeField, item.id ] );
 	const handleApplyField = useCallback( ( key ) => onApplyField( { id: item.id, key } ), [ onApplyField, item.id ] );
 	const handleDiscardField = useCallback( ( key ) => onDiscardField( { id: item.id, key } ), [ onDiscardField, item.id ] );
+
+	/* translators: %s expands to the content item title. */
+	const editLabel = sprintf( __( "Edit %s", "wordpress-seo" ), item.title );
+	/* translators: %s expands to the content item title. */
+	const cancelLabel = sprintf( __( "Cancel editing %s", "wordpress-seo" ), item.title );
 
 	return (
 		<Table.Row>
@@ -265,12 +274,10 @@ const BulkEditorRow = ( {
 						variant="tertiary"
 						size="small"
 						className="yst--me-2.5"
-						onClick={ handleEdit }
-						disabled={ isEditDisabled }
-						/* translators: %s expands to the content item title. */
-						aria-label={ sprintf( __( "Edit %s", "wordpress-seo" ), item.title ) }
+						onClick={ isEditing ? handleCancel : handleEdit }
+						aria-label={ isEditing ? cancelLabel : editLabel }
 					>
-						{ __( "Edit", "wordpress-seo" ) }
+						{ isEditing ? __( "Cancel", "wordpress-seo" ) : __( "Edit", "wordpress-seo" ) }
 					</Button>
 				</span>
 			</Table.Cell>
@@ -317,7 +324,7 @@ const SkeletonRows = ( { columnCount } ) => (
  */
 const BulkEditorBody = ( { items, fields, columnCount, selection, editing, isLoading } ) => {
 	const { selectedIds, onToggleRow } = selection;
-	const { editingRows, onStartEdit, onChangeField, onApplyField, onDiscardField } = editing;
+	const { editingRows, onStartEdit, onChangeField, onApplyField, onDiscardField, onCancelEdit } = editing;
 
 	if ( isLoading ) {
 		return <SkeletonRows columnCount={ columnCount } />;
@@ -344,7 +351,7 @@ const BulkEditorBody = ( { items, fields, columnCount, selection, editing, isLoa
 				item={ item }
 				fields={ fields }
 				isSelected={ selectedIds.includes( item.id ) }
-				isEditDisabled={ isEditing }
+				isEditing={ isEditing }
 				openFields={ itemEdit.openFields }
 				draft={ itemEdit.draft }
 				savingField={ itemEdit.savingField }
@@ -353,6 +360,7 @@ const BulkEditorBody = ( { items, fields, columnCount, selection, editing, isLoa
 				onChangeField={ onChangeField }
 				onApplyField={ onApplyField }
 				onDiscardField={ onDiscardField }
+				onCancelEdit={ onCancelEdit }
 			/>
 		);
 	} );
@@ -383,6 +391,7 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}
 		onChangeField: noop,
 		onApplyField: noop,
 		onDiscardField: noop,
+		onCancelEdit: noop,
 		...editing,
 	};
 

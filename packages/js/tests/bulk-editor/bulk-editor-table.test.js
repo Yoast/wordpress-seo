@@ -154,8 +154,26 @@ describe( "BulkEditorTable", () => {
 		expect( screen.getByRole( "button", { name: "Apply Meta description for On-Page SEO Checklist" } ) ).toBeInTheDocument();
 		expect( screen.getByRole( "button", { name: "Discard Meta description for On-Page SEO Checklist" } ) ).toBeInTheDocument();
 
-		// The editing row's own Edit action is disabled while editing.
-		expect( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).toBeDisabled();
+		// The editing row's Edit turns into an active Cancel.
+		expect( screen.queryByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).not.toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: "Cancel editing On-Page SEO Checklist" } ) ).toBeEnabled();
+	} );
+
+	it( "cancels all of a row's open fields at once through the editing seam", () => {
+		const onCancelEdit = jest.fn();
+		render(
+			<BulkEditorTable
+				items={ items }
+				fieldSet={ searchFieldSet }
+				editing={ {
+					editingRows: { 2: { openFields: [ "seoTitle", "metaDescription" ], draft: { seoTitle: "A", metaDescription: "B" }, savingField: null } },
+					onCancelEdit,
+				} }
+			/>
+		);
+
+		fireEvent.click( screen.getByRole( "button", { name: "Cancel editing On-Page SEO Checklist" } ) );
+		expect( onCancelEdit ).toHaveBeenCalledWith( 2 );
 	} );
 
 	it( "edits the focus keyphrase, which leads both field sets", () => {
@@ -245,8 +263,8 @@ describe( "BulkEditorTable", () => {
 			/>
 		);
 
-		// Only the editing row's own Edit is disabled; the other row stays editable.
-		expect( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).toBeDisabled();
+		// The editing row shows Cancel; the other row keeps its (enabled) Edit.
+		expect( screen.getByRole( "button", { name: "Cancel editing On-Page SEO Checklist" } ) ).toBeEnabled();
 		expect( screen.getByRole( "button", { name: "Edit What Is SEO" } ) ).toBeEnabled();
 	} );
 

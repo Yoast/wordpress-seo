@@ -24,7 +24,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider } ) => {
 	);
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const editingRows = useSelect( ( select ) => select( STORE_NAME ).selectEditingRows(), [] );
-	const { setActiveFieldSet, startEdit, updateDraftField, setSavingField, closeField, stopEdit } = useDispatch( STORE_NAME );
+	const { setActiveFieldSet, startEdit, updateDraftField, setSavingField, closeField, discardEdit, stopEdit } = useDispatch( STORE_NAME );
 
 	// TEMPORARY fixture items until the list endpoint feeds the table through the provider.
 	const items = useMemo( () => getMockRows(), [] );
@@ -49,6 +49,9 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider } ) => {
 
 	// Discard closes the field; the cell falls back to the row's stored value.
 	const onDiscardField = useCallback( ( { id, key } ) => closeField( { id, key } ), [ closeField ] );
+
+	// Cancel closes every open field of a row at once (the row's Cancel action).
+	const onCancelEdit = useCallback( ( id ) => discardEdit( { id } ), [ discardEdit ] );
 
 	// Apply saves a single field; the focus keyphrase uses its own endpoint, the rest the active tab's.
 	const onApplyField = useCallback( async( { id, key } ) => {
@@ -83,7 +86,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider } ) => {
 		onChangeField: updateDraftField,
 		onApplyField,
 		onDiscardField,
-	} ), [ editingRows, onStartEdit, updateDraftField, onApplyField, onDiscardField ] );
+		onCancelEdit,
+	} ), [ editingRows, onStartEdit, updateDraftField, onApplyField, onDiscardField, onCancelEdit ] );
 
 	return (
 		<div className="yst-p-8 yst-space-y-8">

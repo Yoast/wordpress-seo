@@ -50,6 +50,10 @@ const slice = createSlice( {
 				delete state.rows[ payload.id ];
 			}
 		},
+		// With Cancel button
+		discardEdit: ( state, { payload } ) => {
+			delete state.rows[ payload.id ];
+		},
 		// Leaves edit mode for every row and clears the drafts (e.g. when switching tabs).
 		stopEdit: () => createInitialEditsState(),
 	},
