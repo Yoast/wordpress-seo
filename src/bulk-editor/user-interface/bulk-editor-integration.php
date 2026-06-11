@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Bulk_Editor\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
+use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -70,6 +71,13 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	private $nonce_repository;
 
 	/**
+	 * Holds the Endpoints_Repository.
+	 *
+	 * @var Endpoints_Repository
+	 */
+	private $endpoints_repository;
+
+	/**
 	 * Constructs the instance.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager            The WPSEO_Admin_Asset_Manager.
@@ -78,6 +86,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @param Short_Link_Helper         $short_link_helper        The Short_Link_Helper.
 	 * @param Content_Types_Repository  $content_types_repository The Content_Types_Repository.
 	 * @param Nonce_Repository          $nonce_repository         The Nonce_Repository.
+	 * @param Endpoints_Repository      $endpoints_repository     The Endpoints_Repository.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -85,7 +94,8 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		Product_Helper $product_helper,
 		Short_Link_Helper $short_link_helper,
 		Content_Types_Repository $content_types_repository,
-		Nonce_Repository $nonce_repository
+		Nonce_Repository $nonce_repository,
+		Endpoints_Repository $endpoints_repository
 	) {
 		$this->asset_manager            = $asset_manager;
 		$this->current_page_helper      = $current_page_helper;
@@ -93,6 +103,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$this->short_link_helper        = $short_link_helper;
 		$this->content_types_repository = $content_types_repository;
 		$this->nonce_repository         = $nonce_repository;
+		$this->endpoints_repository     = $endpoints_repository;
 	}
 
 	/**
@@ -171,8 +182,8 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	public function get_script_data() {
 		return [
 			'contentTypes' => $this->content_types_repository->get_content_types(),
-			// The endpoints and links are stubs until the REST routes and app needs land in later tasks.
-			'endpoints'    => [],
+			'endpoints'    => $this->endpoints_repository->get_all_endpoints()->to_array(),
+			// The links are a stub until the app needs land in later tasks.
 			'links'        => [],
 			'nonce'        => $this->nonce_repository->get_rest_nonce(),
 			'restRoot'     => \esc_url_raw( \rest_url() ),

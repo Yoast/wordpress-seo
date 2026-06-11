@@ -6,7 +6,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Bulk_Editor_Integra
 
 use Brain\Monkey\Actions;
 use Brain\Monkey\Functions;
+use Mockery;
 use Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
+use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 
 /**
  * Tests enqueuing the assets.
@@ -35,7 +37,9 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 
 		$expected_script_data = [
 			'contentTypes' => $content_types,
-			'endpoints'    => [],
+			'endpoints'    => [
+				'posts' => 'https://example.com/wp-json/yoast/v1/bulk_editor/posts',
+			],
 			'links'        => [],
 			'nonce'        => 'rest-nonce',
 			'restRoot'     => 'https://example.com/wp-json/',
@@ -52,7 +56,13 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 		$this->asset_manager->expects( 'enqueue_script' )->once()->with( Bulk_Editor_Integration::ASSETS_NAME );
 		$this->asset_manager->expects( 'enqueue_style' )->once()->with( Bulk_Editor_Integration::ASSETS_NAME );
 
+		$endpoint_list = Mockery::mock( Endpoint_List::class );
+		$endpoint_list->expects( 'to_array' )->once()->andReturn(
+			[ 'posts' => 'https://example.com/wp-json/yoast/v1/bulk_editor/posts' ],
+		);
+
 		$this->content_types_repository->expects( 'get_content_types' )->once()->andReturn( $content_types );
+		$this->endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $endpoint_list );
 		$this->nonce_repository->expects( 'get_rest_nonce' )->once()->andReturn( 'rest-nonce' );
 		Functions\expect( 'rest_url' )->once()->withNoArgs()->andReturn( 'https://example.com/wp-json/' );
 		$this->product_helper->expects( 'is_premium' )->once()->andReturn( false );
