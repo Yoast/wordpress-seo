@@ -1,8 +1,8 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import { Paper } from "@yoast/ui-library";
+import { Paper, SidebarNavigation } from "@yoast/ui-library";
 import { BulkEditorContent } from "./components/bulk-editor-content";
-import { BulkEditorNav } from "./components/bulk-editor-nav";
+import { BulkEditorNavMenu } from "./components/bulk-editor-nav";
 import { BulkEditorPageHeader } from "./components/bulk-editor-page-header";
 import { STORE_NAME } from "./constants";
 
@@ -51,26 +51,39 @@ const App = ( { dataProvider } ) => {
 	const backToToolsUrl = dataProvider.getLink( "tools" ) || "/wp-admin/";
 	const logoHref = dataProvider.getLink( "dashboard" ) || "/wp-admin/";
 
+	const menuProps = {
+		contentTypes,
+		onChange: setActiveContentType,
+		backToToolsUrl,
+		logoHref,
+		isPremium,
+	};
+
 	return (
-		<div className="yst-p-4 min-[783px]:yst-p-8 yst-flex yst-items-start yst-gap-6">
-			<aside className="yst-w-56 yst-shrink-0">
-				<BulkEditorNav
-					contentTypes={ contentTypes }
-					activeContentType={ activeContentType ? activeContentType.id : "" }
-					onChange={ setActiveContentType }
-					backToToolsUrl={ backToToolsUrl }
-					logoHref={ logoHref }
-					isPremium={ isPremium }
-				/>
-			</aside>
-			<div className="yst-grow yst-max-w-page yst-min-w-0">
-				{ /* Per the design: header, tabs and content share one card, separated by the header border. */ }
-				<Paper as="main">
-					<BulkEditorPageHeader title={ title } description={ description } />
-					<BulkEditorContent />
-				</Paper>
+		<SidebarNavigation activePath={ activeContentType ? activeContentType.id : "" }>
+			<SidebarNavigation.Mobile
+				openButtonId="button-open-bulk-editor-navigation-mobile"
+				closeButtonId="button-close-bulk-editor-navigation-mobile"
+				openButtonScreenReaderText={ __( "Open bulk editor navigation", "wordpress-seo" ) }
+				closeButtonScreenReaderText={ __( "Close bulk editor navigation", "wordpress-seo" ) }
+				aria-label={ __( "Bulk editor navigation", "wordpress-seo" ) }
+			>
+				<BulkEditorNavMenu { ...menuProps } idSuffix="-mobile" />
+			</SidebarNavigation.Mobile>
+			<div className="yst-p-4 min-[783px]:yst-p-8 yst-flex yst-items-start yst-gap-6">
+				<aside className="yst-w-56 yst-shrink-0 yst-hidden min-[783px]:yst-block">
+					<SidebarNavigation.Sidebar aria-label={ __( "Bulk editor menu", "wordpress-seo" ) }>
+						<BulkEditorNavMenu { ...menuProps } />
+					</SidebarNavigation.Sidebar>
+				</aside>
+				<div className="yst-grow yst-max-w-page yst-min-w-0">
+					<Paper as="main">
+						<BulkEditorPageHeader title={ title } description={ description } />
+						<BulkEditorContent />
+					</Paper>
+				</div>
 			</div>
-		</div>
+		</SidebarNavigation>
 	);
 };
 

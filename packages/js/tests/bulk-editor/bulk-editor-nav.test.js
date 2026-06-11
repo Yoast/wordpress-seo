@@ -1,6 +1,7 @@
-import { fireEvent, render, screen } from "../test-utils";
+import { SidebarNavigation } from "@yoast/ui-library";
 import { noop } from "lodash";
-import { BulkEditorNav } from "../../src/bulk-editor/components/bulk-editor-nav";
+import { fireEvent, render, screen } from "../test-utils";
+import { BulkEditorNavMenu } from "../../src/bulk-editor/components/bulk-editor-nav";
 
 const contentTypes = [
 	{ id: "page", label: "Pages" },
@@ -15,40 +16,55 @@ const contentTypes = [
 
 const defaultProps = {
 	contentTypes,
-	activeContentType: "page",
 	onChange: noop,
 	backToToolsUrl: "https://example.test/wp-admin/admin.php?page=wpseo_tools",
 	logoHref: "https://example.test/wp-admin/admin.php?page=wpseo_dashboard",
 };
 
-describe( "BulkEditorNav", () => {
+/**
+ * Renders the menu inside the SidebarNavigation context, mirroring the page shell.
+ *
+ * @param {Object} [props]      Extra props for the menu.
+ * @param {string} [activePath] The active content type id.
+ *
+ * @returns {void}
+ */
+const renderNav = ( props = {}, activePath = "page" ) => render(
+	<SidebarNavigation activePath={ activePath }>
+		<SidebarNavigation.Sidebar aria-label="Bulk editor menu">
+			<BulkEditorNavMenu { ...defaultProps } { ...props } />
+		</SidebarNavigation.Sidebar>
+	</SidebarNavigation>
+);
+
+describe( "BulkEditorNavMenu", () => {
 	it( "renders a labeled navigation landmark", () => {
-		render( <BulkEditorNav { ...defaultProps } /> );
+		renderNav();
 
 		expect( screen.getByRole( "navigation", { name: "Bulk editor menu" } ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the Back to Tools link", () => {
-		render( <BulkEditorNav { ...defaultProps } /> );
+		renderNav();
 
 		const link = screen.getByRole( "link", { name: "Back to Tools" } );
 		expect( link ).toHaveAttribute( "href", defaultProps.backToToolsUrl );
 	} );
 
 	it( "renders the Yoast SEO logo linking to the dashboard", () => {
-		render( <BulkEditorNav { ...defaultProps } /> );
+		renderNav();
 
 		expect( screen.getByRole( "link", { name: "Yoast SEO" } ) ).toHaveAttribute( "href", defaultProps.logoHref );
 	} );
 
 	it( "labels the logo Yoast SEO Premium when Premium is active", () => {
-		render( <BulkEditorNav { ...defaultProps } isPremium={ true } /> );
+		renderNav( { isPremium: true } );
 
 		expect( screen.getByRole( "link", { name: "Yoast SEO Premium" } ) ).toBeInTheDocument();
 	} );
 
 	it( "marks the active content type with aria-current", () => {
-		render( <BulkEditorNav { ...defaultProps } /> );
+		renderNav();
 
 		expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
 		expect( screen.getByRole( "button", { name: "Posts" } ) ).not.toHaveAttribute( "aria-current" );
@@ -56,14 +72,14 @@ describe( "BulkEditorNav", () => {
 
 	it( "calls onChange with the content type id when an item is selected", () => {
 		const onChange = jest.fn();
-		render( <BulkEditorNav { ...defaultProps } onChange={ onChange } /> );
+		renderNav( { onChange } );
 
 		fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
 		expect( onChange ).toHaveBeenCalledWith( "post" );
 	} );
 
 	it( "collapses content types beyond the limit behind a Show more toggle", () => {
-		render( <BulkEditorNav { ...defaultProps } /> );
+		renderNav();
 
 		const toggle = screen.getByRole( "button", { name: "Show 3 more" } );
 		expect( toggle ).toHaveAttribute( "aria-expanded", "false" );
@@ -74,7 +90,7 @@ describe( "BulkEditorNav", () => {
 	} );
 
 	it( "renders no toggle when everything fits within the limit", () => {
-		render( <BulkEditorNav { ...defaultProps } contentTypes={ contentTypes.slice( 0, 4 ) } /> );
+		renderNav( { contentTypes: contentTypes.slice( 0, 4 ) } );
 
 		expect( screen.queryByRole( "button", { name: /Show \d+ more/ } ) ).not.toBeInTheDocument();
 	} );
