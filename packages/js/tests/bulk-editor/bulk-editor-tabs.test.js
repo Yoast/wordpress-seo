@@ -9,7 +9,7 @@ const tabs = [
 ];
 
 /**
- * Renders the tabs with local state, the way Free-FE 1 will wire them to the store.
+ * Renders the tabs with local state.
  *
  * @returns {JSX.Element} The harness.
  */

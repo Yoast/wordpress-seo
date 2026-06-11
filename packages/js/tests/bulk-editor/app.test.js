@@ -72,7 +72,9 @@ describe( "App", () => {
 		render( <App dataProvider={ dataProvider } /> );
 
 		expect( screen.getByRole( "tab", { name: "Search appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
-		expect( screen.getByRole( "tabpanel" ) ).toHaveTextContent( "The Search appearance fields will be editable here." );
+		// The panel holds the field-set table for the active tab.
+		expect( screen.getByRole( "columnheader", { name: "SEO title" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "columnheader", { name: "Meta description" } ) ).toBeInTheDocument();
 	} );
 
 	it( "switches the panel when the Social appearance tab is activated", () => {
@@ -81,6 +83,7 @@ describe( "App", () => {
 		fireEvent.click( screen.getByRole( "tab", { name: "Social appearance" } ) );
 
 		expect( screen.getByRole( "tab", { name: "Social appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
-		expect( screen.getByRole( "tabpanel" ) ).toHaveTextContent( "The Social appearance fields will be editable here." );
+		expect( screen.getByRole( "columnheader", { name: "Social title" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "columnheader", { name: "Social description" } ) ).toBeInTheDocument();
 	} );
 } );

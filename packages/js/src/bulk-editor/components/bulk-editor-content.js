@@ -1,33 +1,28 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
-import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, STORE_NAME } from "../constants";
+import { __ } from "@wordpress/i18n";
+import { STORE_NAME } from "../constants";
+import { getFieldSets } from "../field-sets";
+import { getMockRows } from "../services/mock-rows";
+import { BulkEditorTable } from "./bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 
 /**
- * The placeholder content of a tab panel.
- *
- * @param {string} label The tab label.
- *
- * @returns {string} The placeholder text.
- */
-const getPanelPlaceholder = ( label ) => {
-	/* translators: %s expands to the tab label, e.g. "Search appearance". */
-	return sprintf( __( "The %s fields will be editable here.", "wordpress-seo" ), label );
-};
-
-/**
- * The bulk editor content: the Search/Social appearance tab bar and the tab panels.
+ * The bulk editor content: the Search/Social appearance tab bar and the tab panels with the field-set table.
  *
  * @returns {JSX.Element} The content.
  */
 export const BulkEditorContent = () => {
-	const tabs = useMemo( () => [
-		{ id: FIELD_SET_SEARCH, label: __( "Search appearance", "wordpress-seo" ) },
-		{ id: FIELD_SET_SOCIAL, label: __( "Social appearance", "wordpress-seo" ) },
-	], [] );
+	const fieldSets = useMemo( () => getFieldSets(), [] );
+	const tabs = useMemo(
+		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
+		[ fieldSets ]
+	);
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const { setActiveFieldSet } = useDispatch( STORE_NAME );
+
+	// TEMPORARY fixture items until the list endpoint feeds the table through the provider.
+	const items = useMemo( () => getMockRows(), [] );
 
 	return (
 		<div className="yst-p-8 yst-space-y-8">
@@ -39,7 +34,7 @@ export const BulkEditorContent = () => {
 			/>
 			{ tabs.map( ( tab ) => (
 				<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-					<p className="yst-text-slate-500">{ getPanelPlaceholder( tab.label ) }</p>
+					<BulkEditorTable items={ items } fieldSet={ fieldSets[ tab.id ] } />
 				</BulkEditorTabPanel>
 			) ) }
 		</div>
