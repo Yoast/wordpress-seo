@@ -566,6 +566,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$post_ids[] = $sanitized_post->ID;
 		}
 
+		// Warm the post and term caches in bulk, so permalink building (e.g. %category% structures) doesn't query per post.
+		_prime_post_caches( $post_ids, true, false );
 		update_meta_cache( 'post', $post_ids );
 
 		return $posts;
