@@ -76,7 +76,7 @@ const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
 					<span className="yst-sr-only">{ __( "Select", "wordpress-seo" ) }</span>
 				</Table.Header>
 				<Table.Header scope="col">{ __( "Title", "wordpress-seo" ) }</Table.Header>
-				<Table.Header scope="col" className="yst-hidden sm:yst-table-cell sm:yst-bg-slate-50">{ __( "Focus keyphrase", "wordpress-seo" ) }</Table.Header>
+				<Table.Header scope="col">{ __( "Focus keyphrase", "wordpress-seo" ) }</Table.Header>
 				{ fields.map( ( field ) => (
 					<Table.Header key={ field.key } scope="col">{ field.label }</Table.Header>
 				) ) }
@@ -125,7 +125,7 @@ const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, onEdit } ) => {
 					) }
 				</div>
 			</Table.Header>
-			<Table.Cell className="yst-hidden sm:yst-table-cell">{ item.focusKeyphrase }</Table.Cell>
+			<Table.Cell>{ item.focusKeyphrase }</Table.Cell>
 			{ fields.map( ( field ) => (
 				<Table.Cell key={ field.key }>{ item[ field.key ] }</Table.Cell>
 			) ) }
