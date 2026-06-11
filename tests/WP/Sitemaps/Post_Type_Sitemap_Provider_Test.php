@@ -429,6 +429,31 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the cache priming can be disabled through the wpseo_disable_priming_post_caches_sitemap filter.
+	 *
+	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
+	 */
+	public function test_priming_post_caches_can_be_disabled_via_filter() {
+		// A %category% permalink structure makes get_permalink() look up each post's terms.
+		$this->set_permalink_structure( '/%category%/%postname%/' );
+
+		$this->create_posts_with_own_category( 3 );
+		$queries_with_priming = $this->count_sitemap_links_queries();
+
+		\add_filter( 'wpseo_disable_priming_post_caches_sitemap', '__return_true' );
+		$queries_without_priming = $this->count_sitemap_links_queries();
+		\remove_filter( 'wpseo_disable_priming_post_caches_sitemap', '__return_true' );
+
+		$this->assertGreaterThan(
+			$queries_with_priming,
+			$queries_without_priming,
+			'Disabling the cache priming through the filter should make per-post queries return',
+		);
+	}
+
+	/**
 	 * Creates posts that each have their own category.
 	 *
 	 * @param int $count The number of posts to create.
