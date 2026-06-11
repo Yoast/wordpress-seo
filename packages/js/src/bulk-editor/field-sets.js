@@ -29,7 +29,7 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  * @property {string}  param     The request parameter name the save endpoint expects for this field.
  * @property {string} width      The column width.
  * @property {string} [endpoint] A data-provider endpoint key that saves this field, overriding the field set's
- *                               (the focus keyphrase saves through its own endpoint, shared across both tabs).
+ *                               endpoint (the focus keyphrase saves through its own endpoint, shared by both tabs).
  */
 
 /**
@@ -38,7 +38,7 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  * @typedef {Object} FieldSet
  * @property {string}          id       The field set identifier.
  * @property {string}          label    The tab label.
- * @property {string}          endpoint The data-provider endpoint key that saves this field.
+ * @property {string}          endpoint The default data-provider endpoint for saving this set's fields; a field may override it.
  * @property {FieldSetField[]} fields   The editable columns, in display order.
  */
 

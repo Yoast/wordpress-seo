@@ -1,11 +1,21 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useMemo } from "@wordpress/element";
+import { useCallback, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
 import { getMockRows } from "../services/mock-rows";
 import { BulkEditorTable } from "./bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
+
+/**
+ * The endpoint key a field saves through: its own override (the focus keyphrase) or the field set's default.
+ *
+ * @param {import("../field-sets").FieldSetField} field    The field being saved.
+ * @param {import("../field-sets").FieldSet}      fieldSet The active field set.
+ *
+ * @returns {string} The data-provider endpoint key.
+ */
+const fieldEndpointKey = ( field, fieldSet ) => field.endpoint ?? fieldSet.endpoint;
 
 /**
  * The bulk editor content: the Search/Social appearance tab bar and the tab panels with the field-set table.
@@ -26,8 +36,9 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider } ) => {
 	const editingRows = useSelect( ( select ) => select( STORE_NAME ).selectEditingRows(), [] );
 	const { setActiveFieldSet, startEdit, updateDraftField, setSavingField, closeField, discardEdit, stopEdit } = useDispatch( STORE_NAME );
 
-	// TEMPORARY fixture items until the list endpoint feeds the table through the provider.
-	const items = useMemo( () => getMockRows(), [] );
+	// TEMPORARY fixture items until the list endpoint feeds the table through the provider; kept in state so a
+	// successful save can reflect the new value locally (there is no refetch yet).
+	const [ items, setItems ] = useState( getMockRows );
 
 	// Switching tabs changes the editable fields, so any in-progress edits are discarded.
 	const onChangeTab = useCallback( ( id ) => {
@@ -61,18 +72,20 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider } ) => {
 		if ( ! field || ! rowEdit ) {
 			return;
 		}
-		const endpoint = dataProvider.getEndpoint( field.endpoint ?? fieldSet.endpoint );
-		if ( ! endpoint ) {
+		const endpoint = dataProvider.getEndpoint( fieldEndpointKey( field, fieldSet ) );
+		if ( ! endpoint || ! remoteDataProvider ) {
 			return;
 		}
 
+		const value = rowEdit.draft[ key ];
 		setSavingField( { id, key } );
 		try {
 			await remoteDataProvider.fetchJson( endpoint, {}, {
 				method: "POST",
-				body: JSON.stringify( { items: [ { id, [ field.param ]: rowEdit.draft[ key ] } ] } ),
+				body: JSON.stringify( { items: [ { id, [ field.param ]: value } ] } ),
 			} );
-			// Success: collapse/close the field.
+			// Success: reflect the saved value in the row (no refetch yet) and close the field.
+			setItems( ( current ) => current.map( ( item ) => ( item.id === id ? { ...item, [ key ]: value } : item ) ) );
 			closeField( { id, key } );
 		} catch ( error ) {
 			// Keep the field open so the user can retry.
