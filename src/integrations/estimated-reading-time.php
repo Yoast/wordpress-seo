@@ -53,7 +53,7 @@ class Estimated_Reading_Time implements Integration_Interface {
 	 * When it is not met the field is removed, so it does not show up in the metabox
 	 * even though the meta key is always registered in $meta_fields.
 	 *
-	 * @deprecated 27.9
+	 * @deprecated 28.0
 	 * @codeCoverageIgnore
 	 * @param array<string, array<string, string|int|string[]>> $field_defs The $fields_defs.
 	 *
