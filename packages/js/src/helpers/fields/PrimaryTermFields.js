@@ -36,7 +36,7 @@ export default class PrimaryTermFields {
 	 */
 	static getInitialValue( inputElement, fallback ) {
 		if ( inputElement ) {
-			return inputElement?.value || "";
+			return inputElement.value || "";
 		}
 		return String( fallback ?? "" );
 	}
