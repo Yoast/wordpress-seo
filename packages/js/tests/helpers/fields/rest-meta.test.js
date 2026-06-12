@@ -9,6 +9,7 @@ jest.mock( "@wordpress/data", () => ( {
 
 import { select, dispatch } from "@wordpress/data";
 import { shouldSkipMetaWrite, writeMetaWithoutUndo, getMetaValue, setMetaValue } from "../../../src/helpers/fields/rest-meta";
+import { metaKeyTitle, metaKeyLinkdex, metaKeyContentScore } from "../../../src/shared-admin/constants/meta-keys";
 
 describe( "shouldSkipMetaWrite", () => {
 	afterEach( () => {
@@ -17,22 +18,22 @@ describe( "shouldSkipMetaWrite", () => {
 
 	it( "returns true when entity meta is null (not yet loaded)", () => {
 		select.mockReturnValue( { getEditedPostAttribute: () => null } );
-		expect( shouldSkipMetaWrite( "_yoast_wpseo_title", "value" ) ).toBe( true );
+		expect( shouldSkipMetaWrite( metaKeyTitle, "value" ) ).toBe( true );
 	} );
 
 	it( "returns true when the new value equals the current meta value", () => {
-		select.mockReturnValue( { getEditedPostAttribute: () => ( { "_yoast_wpseo_title": "same" } ) } );
-		expect( shouldSkipMetaWrite( "_yoast_wpseo_title", "same" ) ).toBe( true );
+		select.mockReturnValue( { getEditedPostAttribute: () => ( { [ metaKeyTitle ]: "same" } ) } );
+		expect( shouldSkipMetaWrite( metaKeyTitle, "same" ) ).toBe( true );
 	} );
 
 	it( "returns false when the new value differs from the current meta value", () => {
-		select.mockReturnValue( { getEditedPostAttribute: () => ( { "_yoast_wpseo_title": "old" } ) } );
-		expect( shouldSkipMetaWrite( "_yoast_wpseo_title", "new" ) ).toBe( false );
+		select.mockReturnValue( { getEditedPostAttribute: () => ( { [ metaKeyTitle ]: "old" } ) } );
+		expect( shouldSkipMetaWrite( metaKeyTitle, "new" ) ).toBe( false );
 	} );
 
 	it( "coerces the new value to string before comparing", () => {
-		select.mockReturnValue( { getEditedPostAttribute: () => ( { "_yoast_wpseo_linkdex": "100" } ) } );
-		expect( shouldSkipMetaWrite( "_yoast_wpseo_linkdex", 100 ) ).toBe( true );
+		select.mockReturnValue( { getEditedPostAttribute: () => ( { [ metaKeyLinkdex ]: "100" } ) } );
+		expect( shouldSkipMetaWrite( metaKeyLinkdex, 100 ) ).toBe( true );
 	} );
 } );
 
@@ -57,19 +58,19 @@ describe( "writeMetaWithoutUndo", () => {
 	} );
 
 	it( "calls editEntityRecord with undoIgnore: true", () => {
-		writeMetaWithoutUndo( { "_yoast_wpseo_linkdex": "100" } );
+		writeMetaWithoutUndo( { [ metaKeyLinkdex ]: "100" } );
 		expect( mockEditEntityRecord ).toHaveBeenCalledWith(
 			"postType", "post", 42,
-			{ meta: { "_yoast_wpseo_linkdex": "100" } },
+			{ meta: { [ metaKeyLinkdex ]: "100" } },
 			{ undoIgnore: true }
 		);
 	} );
 
 	it( "passes the full meta object through", () => {
-		writeMetaWithoutUndo( { "_yoast_wpseo_linkdex": "50", "_yoast_wpseo_content_score": "80" } );
+		writeMetaWithoutUndo( { [ metaKeyLinkdex ]: "50", [ metaKeyContentScore ]: "80" } );
 		expect( mockEditEntityRecord ).toHaveBeenCalledWith(
 			"postType", "post", 42,
-			{ meta: { "_yoast_wpseo_linkdex": "50", "_yoast_wpseo_content_score": "80" } },
+			{ meta: { [ metaKeyLinkdex ]: "50", [ metaKeyContentScore ]: "80" } },
 			{ undoIgnore: true }
 		);
 	} );
@@ -78,27 +79,27 @@ describe( "writeMetaWithoutUndo", () => {
 // isRestMetaActive is false by default (no window.wpseoScriptData set).
 describe( "getMetaValue (REST meta inactive)", () => {
 	it( "returns element.value when element is provided", () => {
-		expect( getMetaValue( "_yoast_wpseo_title", { value: "dom-value" }, "" ) ).toBe( "dom-value" );
+		expect( getMetaValue( metaKeyTitle, { value: "dom-value" }, "" ) ).toBe( "dom-value" );
 	} );
 
 	it( "returns the fallback when element is null", () => {
-		expect( getMetaValue( "_yoast_wpseo_title", null, "fallback" ) ).toBe( "fallback" );
+		expect( getMetaValue( metaKeyTitle, null, "fallback" ) ).toBe( "fallback" );
 	} );
 
 	it( "returns the fallback when element.value is undefined", () => {
-		expect( getMetaValue( "_yoast_wpseo_title", {}, "fallback" ) ).toBe( "fallback" );
+		expect( getMetaValue( metaKeyTitle, {}, "fallback" ) ).toBe( "fallback" );
 	} );
 } );
 
 describe( "setMetaValue (REST meta inactive)", () => {
 	it( "sets element.value to the given value", () => {
 		const element = { value: "" };
-		setMetaValue( "_yoast_wpseo_title", element, "new-value" );
+		setMetaValue( metaKeyTitle, element, "new-value" );
 		expect( element.value ).toBe( "new-value" );
 	} );
 
 	it( "does nothing when element is null", () => {
-		expect( () => setMetaValue( "_yoast_wpseo_title", null, "value" ) ).not.toThrow();
+		expect( () => setMetaValue( metaKeyTitle, null, "value" ) ).not.toThrow();
 	} );
 } );
 
@@ -123,18 +124,18 @@ describe( "getMetaValue (REST meta active)", () => {
 	} );
 
 	it( "reads the value from the core/editor store", () => {
-		mockGetEditedPostAttribute.mockReturnValue( { "_yoast_wpseo_title": "REST title" } );
-		expect( getMetaValueActive( "_yoast_wpseo_title", null, "" ) ).toBe( "REST title" );
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyTitle ]: "REST title" } );
+		expect( getMetaValueActive( metaKeyTitle, null, "" ) ).toBe( "REST title" );
 	} );
 
 	it( "returns the fallback when the meta key is absent", () => {
 		mockGetEditedPostAttribute.mockReturnValue( {} );
-		expect( getMetaValueActive( "_yoast_wpseo_title", null, "fallback" ) ).toBe( "fallback" );
+		expect( getMetaValueActive( metaKeyTitle, null, "fallback" ) ).toBe( "fallback" );
 	} );
 
 	it( "ignores the DOM element and reads from the store", () => {
-		mockGetEditedPostAttribute.mockReturnValue( { "_yoast_wpseo_title": "REST title" } );
-		expect( getMetaValueActive( "_yoast_wpseo_title", { value: "dom-value" }, "" ) ).toBe( "REST title" );
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyTitle ]: "REST title" } );
+		expect( getMetaValueActive( metaKeyTitle, { value: "dom-value" }, "" ) ).toBe( "REST title" );
 	} );
 } );
 
@@ -172,28 +173,28 @@ describe( "setMetaValue (REST meta active)", () => {
 	} );
 
 	it( "dispatches editPost when withoutUndo is false (default)", () => {
-		mockGetEditedPostAttribute.mockReturnValue( { "_yoast_wpseo_title": "old" } );
-		setMetaValueActive( "_yoast_wpseo_title", null, "new" );
-		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { "_yoast_wpseo_title": "new" } } );
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyTitle ]: "old" } );
+		setMetaValueActive( metaKeyTitle, null, "new" );
+		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { [ metaKeyTitle ]: "new" } } );
 	} );
 
 	it( "coerces value to string before dispatching", () => {
-		mockGetEditedPostAttribute.mockReturnValue( { "_yoast_wpseo_linkdex": "0" } );
-		setMetaValueActive( "_yoast_wpseo_linkdex", null, 100 );
-		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { "_yoast_wpseo_linkdex": "100" } } );
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "0" } );
+		setMetaValueActive( metaKeyLinkdex, null, 100 );
+		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { [ metaKeyLinkdex ]: "100" } } );
 	} );
 
 	it( "skips dispatch when the value already matches the current meta", () => {
-		mockGetEditedPostAttribute.mockReturnValue( { "_yoast_wpseo_title": "same" } );
-		setMetaValueActive( "_yoast_wpseo_title", null, "same" );
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyTitle ]: "same" } );
+		setMetaValueActive( metaKeyTitle, null, "same" );
 		expect( mockEditPost ).not.toHaveBeenCalled();
 	} );
 
 	it( "dispatches editEntityRecord when withoutUndo is true", () => {
-		setMetaValueActive( "_yoast_wpseo_linkdex", null, "100", true );
+		setMetaValueActive( metaKeyLinkdex, null, "100", true );
 		expect( mockEditEntityRecord ).toHaveBeenCalledWith(
 			"postType", "post", 1,
-			{ meta: { "_yoast_wpseo_linkdex": "100" } },
+			{ meta: { [ metaKeyLinkdex ]: "100" } },
 			{ undoIgnore: true }
 		);
 	} );
@@ -201,7 +202,7 @@ describe( "setMetaValue (REST meta active)", () => {
 	it( "does not write to the DOM element in REST mode", () => {
 		mockGetEditedPostAttribute.mockReturnValue( {} );
 		const element = { value: "original" };
-		setMetaValueActive( "_yoast_wpseo_title", element, "new" );
+		setMetaValueActive( metaKeyTitle, element, "new" );
 		expect( element.value ).toBe( "original" );
 	} );
 } );
