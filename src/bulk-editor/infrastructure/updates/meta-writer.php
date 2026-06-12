@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Update_Type;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 
 /**
- * Persists a title and description to Yoast post meta.
+ * Persists a title, description and focus keyphrase to Yoast post meta.
  *
  * Writing through the meta helper triggers the post meta watcher, so the
  * indexable of the post is rebuilt through the normal flow.
@@ -59,6 +59,19 @@ class Meta_Writer implements Meta_Writer_Interface {
 	public function write_description( Update_Type $type, int $post_id, string $description ): void {
 		$key = $type->is_social() ? 'opengraph-description' : 'metadesc';
 		$this->write( $key, $post_id, $description );
+	}
+
+	/**
+	 * Writes the focus keyphrase for a post. The focus keyphrase is channel-agnostic,
+	 * so it does not depend on the update type.
+	 *
+	 * @param int    $post_id         The ID of the post.
+	 * @param string $focus_keyphrase The focus keyphrase to write.
+	 *
+	 * @return void
+	 */
+	public function write_focus_keyphrase( int $post_id, string $focus_keyphrase ): void {
+		$this->write( 'focuskw', $post_id, $focus_keyphrase );
 	}
 
 	/**
