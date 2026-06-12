@@ -97,7 +97,7 @@ export const writeMeta = ( metaKey, value ) => {
  * @param {string} metaKey The meta key.
  * @param {HTMLElement} element The DOM element to write to when REST meta is inactive.
  * @param {string} value The value to write.
- * @param {boolean} undo When true, the write adds an undo entry. Defaults to true.
+ * @param {boolean} withoutUndo When true, the write bypasses the undo stack. Defaults to false.
  *
  * @returns {void}
  */
