@@ -54,7 +54,7 @@ export const writeMetaWithoutUndo = ( meta ) => {
  *
  * @returns {string} The meta value, or fallback.
  */
-export const readMeta = ( metaKey, fallback = "" ) =>
+const readMeta = ( metaKey, fallback = "" ) =>
 	select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKey ] ?? fallback;
 
 /**
@@ -84,7 +84,7 @@ export const getMetaValue = ( metaKey, element, fallback = "" ) => {
  *
  * @returns {void}
  */
-export const writeMeta = ( metaKey, value ) => {
+const writeMeta = ( metaKey, value ) => {
 	const stringValue = String( value );
 	if ( ! shouldSkipMetaWrite( metaKey, stringValue ) ) {
 		dispatch( "core/editor" ).editPost( { meta: { [ metaKey ]: stringValue } } );
