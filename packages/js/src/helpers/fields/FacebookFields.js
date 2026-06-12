@@ -122,8 +122,9 @@ export default class FacebookFields {
 	 */
 	static set imageId( value ) {
 		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeyOgImageId, value ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgImageId ]: value } } );
+			const stringValue = String( value );
+			if ( ! shouldSkipMetaWrite( metaKeyOgImageId, stringValue ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgImageId ]: stringValue } } );
 			}
 			return;
 		}

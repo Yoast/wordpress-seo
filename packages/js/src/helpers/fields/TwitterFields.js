@@ -122,8 +122,9 @@ export default class TwitterFields {
 	 */
 	static set imageId( value ) {
 		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeyTwitterImageId, value ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterImageId ]: value } } );
+			const stringValue = String( value );
+			if ( ! shouldSkipMetaWrite( metaKeyTwitterImageId, stringValue ) ) {
+				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterImageId ]: stringValue } } );
 			}
 			return;
 		}
