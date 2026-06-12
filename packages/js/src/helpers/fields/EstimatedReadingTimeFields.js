@@ -1,6 +1,5 @@
-import { select } from "@wordpress/data";
 import { metaKeyEstimatedReadingTime } from "../../shared-admin/constants";
-import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo } from "./rest-meta";
+import { getMetaValue, setMetaValue } from "./rest-meta";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Estimated Reading Time (ert).
@@ -25,10 +24,7 @@ export default class EstimatedReadingTimeFields {
 	 * @returns {string} The estimated reading time.
 	 */
 	static get estimatedReadingTime() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyEstimatedReadingTime ] ?? "";
-		}
-		return EstimatedReadingTimeFields.estimatedReadingTimeElement?.value || "";
+		return getMetaValue( metaKeyEstimatedReadingTime, EstimatedReadingTimeFields.estimatedReadingTimeElement, "" );
 	}
 
 	/**
@@ -39,14 +35,6 @@ export default class EstimatedReadingTimeFields {
 	 * @returns {void}
 	 */
 	static set estimatedReadingTime( value ) {
-		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeyEstimatedReadingTime, value ) ) {
-				writeMetaWithoutUndo( { [ metaKeyEstimatedReadingTime ]: value } );
-			}
-			return;
-		}
-		if ( EstimatedReadingTimeFields.estimatedReadingTimeElement ) {
-			EstimatedReadingTimeFields.estimatedReadingTimeElement.value = value;
-		}
+		setMetaValue( metaKeyEstimatedReadingTime, EstimatedReadingTimeFields.estimatedReadingTimeElement, value, false );
 	}
 }

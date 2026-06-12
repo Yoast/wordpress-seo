@@ -45,3 +45,72 @@ export const writeMetaWithoutUndo = ( meta ) => {
 	const postId = select( "core/editor" ).getCurrentPostId();
 	dispatch( "core" ).editEntityRecord( "postType", postType, postId, { meta }, { undoIgnore: true } );
 };
+
+/**
+ * Reads a single meta value from the core/editor store.
+ *
+ * @param {string} metaKey  The meta key.
+ * @param {string} fallback Returned when the key is absent or null. Defaults to "".
+ *
+ * @returns {string} The meta value, or fallback.
+ */
+export const readMeta = ( metaKey, fallback = "" ) =>
+	select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKey ] ?? fallback;
+
+/**
+ * Get value from the DOM when REST meta is inactive, or from the core/editor store when active.
+ *
+ * @param {string} metaKey The meta key.
+ * @param {HTMLElement} element The DOM element to read from when REST meta is inactive.
+ * @param {string} fallback Returned when the key is absent or null. Defaults to "".
+ *
+ * @returns {string} The meta value, or fallback.
+ */
+export const getMetaValue = ( metaKey, element, fallback = "" ) => {
+	if ( isRestMetaActive ) {
+		return readMeta( metaKey, fallback );
+	}
+	return element?.value ?? fallback;
+};
+
+/**
+ * Writes a single meta value to the core/editor store.
+ *
+ * Always coerces value to a string — all Yoast meta fields are registered with type:string
+ * and the REST API rejects non-string values with a 400 error.
+ *
+ * @param {string} metaKey The meta key.
+ * @param {*}      value   The value to write. Coerced to string before dispatch.
+ *
+ * @returns {void}
+ */
+export const writeMeta = ( metaKey, value ) => {
+	const stringValue = String( value );
+	if ( ! shouldSkipMetaWrite( metaKey, stringValue ) ) {
+		dispatch( "core/editor" ).editPost( { meta: { [ metaKey ]: stringValue } } );
+	}
+};
+
+/**
+ * Sets Meta value on the DOM when REST meta is inactive, or dispatches to core/editor when active.
+ *
+ * @param {string} metaKey The meta key.
+ * @param {HTMLElement} element The DOM element to write to when REST meta is inactive.
+ * @param {string} value The value to write.
+ * @param {boolean} undo When true, the write adds an undo entry. Defaults to true.
+ *
+ * @returns {void}
+ */
+export const setMetaValue = ( metaKey, element, value, undo = true ) => {
+	if ( isRestMetaActive ) {
+		if ( undo ) {
+			writeMeta( metaKey, value );
+		} else {
+			writeMetaWithoutUndo( { [ metaKey ]: value } );
+		}
+		return;
+	}
+	if ( element ) {
+		element.value = value;
+	}
+};

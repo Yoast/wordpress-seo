@@ -4,7 +4,7 @@
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import { markers } from "yoastseo";
-import { dispatch, select } from "@wordpress/data";
+import { select } from "@wordpress/data";
 
 /* Internal dependencies */
 import { metaKeyTitle, metaKeyMetaDesc, metaKeyFocusKw } from "../shared-admin/constants";
@@ -14,7 +14,7 @@ import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as tmceHelper from "../lib/tinymce";
 import AnalysisFields from "../helpers/fields/AnalysisFields";
-import { isRestMetaActive, shouldSkipMetaWrite } from "../helpers/fields/rest-meta";
+import { getMetaValue, setMetaValue } from "../helpers/fields/rest-meta";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isContentAnalysisActive from "./isContentAnalysisActive";
@@ -83,10 +83,7 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	if ( isRestMetaActive ) {
-		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyFocusKw ] ?? "";
-	}
-	return document.getElementById( "yoast_wpseo_focuskw" )?.value ?? "";
+	return getMetaValue( metaKeyFocusKw, document.getElementById( "yoast_wpseo_focuskw" ), "" );
 };
 
 /**
@@ -110,10 +107,7 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
  * @returns {string} The meta description.
  */
 PostDataCollector.prototype.getMeta = function() {
-	if ( isRestMetaActive ) {
-		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyMetaDesc ] ?? "";
-	}
-	return document.getElementById( "yoast_wpseo_metadesc" )?.value ?? "";
+	return getMetaValue( metaKeyMetaDesc, document.getElementById( "yoast_wpseo_metadesc" ), "" );
 };
 
 /**
@@ -178,10 +172,7 @@ PostDataCollector.prototype.getExcerpt = function() {
  * @returns {string} The snippet title.
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
-	if ( isRestMetaActive ) {
-		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTitle ] ?? "";
-	}
-	return document.getElementById( "yoast_wpseo_title" )?.value ?? "";
+	return getMetaValue( metaKeyTitle, document.getElementById( "yoast_wpseo_title" ), "" );
 };
 
 /**
@@ -190,10 +181,7 @@ PostDataCollector.prototype.getSnippetTitle = function() {
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
-	if ( isRestMetaActive ) {
-		return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyMetaDesc ] ?? "";
-	}
-	return document.getElementById( "yoast_wpseo_metadesc" )?.value ?? "";
+	return getMetaValue( metaKeyMetaDesc, document.getElementById( "yoast_wpseo_metadesc" ), "" );
 };
 
 /**
@@ -284,13 +272,7 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
  * @returns {void}
  */
 PostDataCollector.prototype.setSnippetMeta = function( value ) {
-	if ( isRestMetaActive ) {
-		if ( ! shouldSkipMetaWrite( metaKeyMetaDesc, value ) ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyMetaDesc ]: value } } );
-		}
-		return;
-	}
-	document.getElementById( "yoast_wpseo_metadesc" ).value = value;
+	setMetaValue( metaKeyMetaDesc, document.getElementById( "yoast_wpseo_metadesc" ), value );
 };
 
 /**
@@ -328,13 +310,7 @@ PostDataCollector.prototype.setSnippetCite = function( value ) {
  * @returns {void}
  */
 PostDataCollector.prototype.setSnippetTitle = function( value ) {
-	if ( isRestMetaActive ) {
-		if ( ! shouldSkipMetaWrite( metaKeyTitle, value ) ) {
-			dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTitle ]: value } } );
-		}
-		return;
-	}
-	document.getElementById( "yoast_wpseo_title" ).value = value;
+	setMetaValue( metaKeyTitle, document.getElementById( "yoast_wpseo_title" ), value );
 };
 
 /**
