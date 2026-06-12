@@ -1,6 +1,5 @@
-import { dispatch, select } from "@wordpress/data";
-import { metaKeySchemaArticleType, metaKeySchemaPageType } from "../shared-admin/constants/meta-keys";
-import { isRestMetaActive, shouldSkipMetaWrite } from "./fields/rest-meta";
+import { metaKeySchemaArticleType, metaKeySchemaPageType } from "../../shared-admin/constants/meta-keys";
+import { getMetaValue, setMetaValue } from "./rest-meta";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Schema.
@@ -34,10 +33,7 @@ export default class SchemaFields {
 	 * @returns {string} The ArticleType.
 	 */
 	static get articleType() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeySchemaArticleType ] ?? "";
-		}
-		return SchemaFields.articleTypeInput?.value ?? "";
+		return getMetaValue( metaKeySchemaArticleType, SchemaFields.articleTypeInput, "" );
 	}
 
 	/**
@@ -48,15 +44,7 @@ export default class SchemaFields {
 	 * @returns {void}
 	 */
 	static set articleType( articleType ) {
-		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeySchemaArticleType, articleType ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeySchemaArticleType ]: articleType } } );
-			}
-			return;
-		}
-		if ( SchemaFields.articleTypeInput ) {
-			SchemaFields.articleTypeInput.value = articleType;
-		}
+		setMetaValue( metaKeySchemaArticleType, SchemaFields.articleTypeInput, articleType );
 	}
 
 	/**
@@ -83,10 +71,7 @@ export default class SchemaFields {
 	 * @returns {string} The PageType.
 	 */
 	static get pageType() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeySchemaPageType ] ?? "";
-		}
-		return SchemaFields.pageTypeInput?.value ?? "";
+		return getMetaValue( metaKeySchemaPageType, SchemaFields.pageTypeInput, "" );
 	}
 
 	/**
@@ -97,14 +82,6 @@ export default class SchemaFields {
 	 * @returns {void}
 	 */
 	static set pageType( pageType ) {
-		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeySchemaPageType, pageType ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeySchemaPageType ]: pageType } } );
-			}
-			return;
-		}
-		if ( SchemaFields.pageTypeInput ) {
-			SchemaFields.pageTypeInput.value = pageType;
-		}
+		setMetaValue( metaKeySchemaPageType, SchemaFields.pageTypeInput, pageType );
 	}
 }
