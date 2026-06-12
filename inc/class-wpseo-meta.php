@@ -355,7 +355,21 @@ class WPSEO_Meta {
 				if ( ! $taxonomy->hierarchical ) {
 					continue;
 				}
-				self::register_meta( 'primary_' . $taxonomy->name, [ 'type' => 'hidden' ] );
+				$primary_key       = 'primary_' . $taxonomy->name;
+				$primary_field_def = [ 'type' => 'hidden' ];
+				self::register_meta( $primary_key, $primary_field_def );
+
+				// Also register in $fields_index and $defaults so sanitize_post_meta
+				// can look up these dynamically-created keys the same way as static ones.
+				$full_key = self::$meta_prefix . $primary_key;
+				if ( ! isset( self::$fields_index[ $full_key ] ) ) {
+					self::$meta_fields['primary_term'][ $primary_key ] = $primary_field_def;
+					self::$fields_index[ $full_key ]                   = [
+						'subset' => 'primary_term',
+						'key'    => $primary_key,
+					];
+					self::$defaults[ $full_key ]                       = '';
+				}
 			}
 
 			add_filter( 'rest_prepare_' . $post_type, [ self::class, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
