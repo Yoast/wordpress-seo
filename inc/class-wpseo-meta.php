@@ -293,8 +293,10 @@ class WPSEO_Meta {
 		// Strip meta fields that have show_in_rest enabled from REST responses for users
 		// without edit_post capability. register_meta's auth_callback only covers writes,
 		// so read access must be restricted separately via this filter.
-		// Register only for 'post' post type. Other post types don't expose these fields.
-		add_filter( 'rest_prepare_post', [ self::class, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
+		// Register for all post types.
+		foreach ( get_post_types( [ 'public' => true ], 'names' ) as $post_type ) {
+			add_filter( 'rest_prepare_' . $post_type, [ self::class, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
+		}
 
 		self::filter_schema_article_types();
 
