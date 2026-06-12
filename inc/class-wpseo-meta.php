@@ -186,13 +186,6 @@ class WPSEO_Meta {
 				'options'       => Schema_Types::ARTICLE_TYPES,
 			],
 		],
-		/* Fields we should validate & save, but not show on any form. */
-		'non_form'        => [
-			'linkdex' => [
-				'type'          => null,
-				'default_value' => '0',
-			],
-		],
 		'content_planner' => [
 			'is_content_planner_banner_rendered'  => [
 				'type'          => 'hidden',
