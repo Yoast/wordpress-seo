@@ -293,10 +293,8 @@ class WPSEO_Meta {
 		// Strip meta fields that have show_in_rest enabled from REST responses for users
 		// without edit_post capability. register_meta's auth_callback only covers writes,
 		// so read access must be restricted separately via this filter.
-		// Register for all post types.
-		foreach ( get_post_types( [ 'public' => true ], 'names' ) as $post_type ) {
-			add_filter( 'rest_prepare_' . $post_type, [ self::class, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
-		}
+		// Deferred to init:20 so post types and taxonomies registered by plugins are available.
+		add_action( 'init', [ self::class, 'register_post_type_hooks' ], 20 );
 
 		self::filter_schema_article_types();
 
@@ -339,6 +337,29 @@ class WPSEO_Meta {
 				},
 			],
 		);
+	}
+
+	/**
+	 * Registers primary term meta for REST and adds REST response filters for all public post types.
+	 *
+	 * Hooked to `init:20` so that post types and taxonomies registered by plugins on `init` are
+	 * already available when this runs. Running this during `plugins_loaded` (where WPSEO_Meta::init()
+	 * is called) would miss all plugin-registered post types and taxonomies.
+	 *
+	 * @return void
+	 */
+	public static function register_post_type_hooks() {
+		foreach ( get_post_types( [ 'public' => true ], 'names' ) as $post_type ) {
+			$taxonomies = get_object_taxonomies( $post_type, 'objects' );
+			foreach ( $taxonomies as $taxonomy ) {
+				if ( ! $taxonomy->hierarchical ) {
+					continue;
+				}
+				self::register_meta( 'primary_' . $taxonomy->name, [ 'type' => 'hidden' ] );
+			}
+
+			add_filter( 'rest_prepare_' . $post_type, [ self::class, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
+		}
 	}
 
 	/**
