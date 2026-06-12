@@ -101,12 +101,12 @@ export const writeMeta = ( metaKey, value ) => {
  *
  * @returns {void}
  */
-export const setMetaValue = ( metaKey, element, value, undo = true ) => {
+export const setMetaValue = ( metaKey, element, value, withoutUndo = false ) => {
 	if ( isRestMetaActive ) {
-		if ( undo ) {
-			writeMeta( metaKey, value );
-		} else {
+		if ( withoutUndo ) {
 			writeMetaWithoutUndo( { [ metaKey ]: value } );
+		} else {
+			writeMeta( metaKey, value );
 		}
 		return;
 	}

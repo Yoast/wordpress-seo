@@ -35,6 +35,6 @@ export default class EstimatedReadingTimeFields {
 	 * @returns {void}
 	 */
 	static set estimatedReadingTime( value ) {
-		setMetaValue( metaKeyEstimatedReadingTime, EstimatedReadingTimeFields.estimatedReadingTimeElement, value, false );
+		setMetaValue( metaKeyEstimatedReadingTime, EstimatedReadingTimeFields.estimatedReadingTimeElement, value, true );
 	}
 }
