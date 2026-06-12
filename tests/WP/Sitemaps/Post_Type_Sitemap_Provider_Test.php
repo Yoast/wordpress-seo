@@ -436,13 +436,13 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the cache priming can be disabled through the wpseo_disable_priming_post_caches_sitemap filter.
+	 * Tests that the cache priming can be disabled through the wpseo_disable_xml_sitemap_cache_priming filter.
 	 *
 	 * @covers ::get_sitemap_links
 	 *
 	 * @return void
 	 */
-	public function test_priming_post_caches_can_be_disabled_via_filter() {
+	public function test_cache_priming_can_be_disabled_via_filter() {
 		$original_structure = \get_option( 'permalink_structure' );
 
 		try {
@@ -452,7 +452,7 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 			$this->create_posts_with_own_category( 3 );
 			$queries_with_priming = $this->count_sitemap_links_queries();
 
-			\add_filter( 'wpseo_disable_priming_post_caches_sitemap', '__return_true' );
+			\add_filter( 'wpseo_disable_xml_sitemap_cache_priming', '__return_true' );
 			$queries_without_priming = $this->count_sitemap_links_queries();
 
 			$this->assertGreaterThan(
@@ -462,8 +462,52 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 			);
 		}
 		finally {
-			\remove_filter( 'wpseo_disable_priming_post_caches_sitemap', '__return_true' );
+			\remove_filter( 'wpseo_disable_xml_sitemap_cache_priming', '__return_true' );
 			$this->set_permalink_structure( $original_structure );
+		}
+	}
+
+	/**
+	 * Tests that generating sitemap links for posts with featured images runs a constant number
+	 * of queries, regardless of the post count.
+	 *
+	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
+	 */
+	public function test_get_sitemap_links_query_count_does_not_grow_with_featured_image_count() {
+		$this->create_posts_with_featured_images( 3 );
+		$queries_for_three_posts = $this->count_sitemap_links_queries();
+
+		$this->create_posts_with_featured_images( 7 );
+		$queries_for_ten_posts = $this->count_sitemap_links_queries();
+
+		$this->assertSame(
+			$queries_for_three_posts,
+			$queries_for_ten_posts,
+			'Generating sitemap links should not run more queries when there are more posts with featured images',
+		);
+	}
+
+	/**
+	 * Creates posts that each have their own featured image.
+	 *
+	 * @param int $count The number of posts to create.
+	 *
+	 * @return void
+	 */
+	private function create_posts_with_featured_images( $count ) {
+		$attachment_data = [
+			'post_mime_type' => 'image/jpeg',
+			'post_title'     => 'Test image',
+			'post_content'   => '',
+			'post_status'    => 'inherit',
+		];
+
+		for ( $i = 0; $i < $count; $i++ ) {
+			$post_id      = $this->factory->post->create();
+			$thumbnail_id = \wp_insert_attachment( $attachment_data, 'featured.jpg', $post_id );
+			\set_post_thumbnail( $post_id, $thumbnail_id );
 		}
 	}
 
