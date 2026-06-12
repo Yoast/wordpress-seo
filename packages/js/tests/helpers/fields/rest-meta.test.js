@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 jest.mock( "@wordpress/data", () => ( {
 	select: jest.fn(),
 	dispatch: jest.fn(),
