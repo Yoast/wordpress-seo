@@ -11,6 +11,13 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_List;
 interface Posts_Collector_Interface {
 
 	/**
+	 * The post statuses shown in the bulk editor.
+	 *
+	 * @var array<string>
+	 */
+	public const STATUSES = [ 'publish', 'draft', 'pending', 'future' ];
+
+	/**
 	 * Collects a page of posts for the given content type.
 	 *
 	 * @param string $content_type The content type to collect posts for.

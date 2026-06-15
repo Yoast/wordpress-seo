@@ -22,13 +22,6 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	private const META_PREFIX = '_yoast_wpseo_';
 
 	/**
-	 * The post statuses shown in the bulk editor.
-	 *
-	 * @var array<string>
-	 */
-	private const STATUSES = [ 'publish', 'draft', 'pending' ];
-
-	/**
 	 * Collects a page of posts for the given content type.
 	 *
 	 * @param string $content_type The content type to collect posts for.
@@ -70,9 +63,10 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		$query = new WP_Query(
 			[
 				'post_type'           => $content_type,
-				'post_status'         => self::STATUSES,
+				'post_status'         => Posts_Collector_Interface::STATUSES,
 				'posts_per_page'      => $per_page,
-				'orderby'             => 'date',
+				// Order by post ID so the result matches the indexable collector's ordering.
+				'orderby'             => 'ID',
 				'order'               => 'DESC',
 				// We only render a single page, so the total row count is not needed.
 				'no_found_rows'       => true,

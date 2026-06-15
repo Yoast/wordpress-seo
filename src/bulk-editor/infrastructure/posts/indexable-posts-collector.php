@@ -17,13 +17,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Posts_Collector implements Posts_Collector_Interface {
 
 	/**
-	 * The post statuses shown in the bulk editor.
-	 *
-	 * @var array<string>
-	 */
-	private const STATUSES = [ 'publish', 'draft', 'pending' ];
-
-	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -51,7 +44,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 		$indexables = $this->indexable_repository->query()
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $content_type )
-			->where_in( 'post_status', self::STATUSES )
+			->where_in( 'post_status', Posts_Collector_Interface::STATUSES )
 			->order_by_desc( 'object_id' )
 			->limit( $per_page )
 			->find_many();

@@ -36,7 +36,7 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$query = Mockery::mock();
 		$query->expects( 'where' )->once()->with( 'object_type', 'post' )->andReturnSelf();
 		$query->expects( 'where' )->once()->with( 'object_sub_type', 'page' )->andReturnSelf();
-		$query->expects( 'where_in' )->once()->with( 'post_status', [ 'publish', 'draft', 'pending' ] )->andReturnSelf();
+		$query->expects( 'where_in' )->once()->with( 'post_status', [ 'publish', 'draft', 'pending', 'future' ] )->andReturnSelf();
 		$query->expects( 'order_by_desc' )->once()->with( 'object_id' )->andReturnSelf();
 		$query->expects( 'limit' )->once()->with( 20 )->andReturnSelf();
 		$query->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
