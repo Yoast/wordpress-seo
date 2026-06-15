@@ -1,5 +1,5 @@
 import Paper from "../../src/values/Paper";
-import normalizeProductData from "../../src/helpers/normalizeProductData";
+import normalizeProductData from "../../src/contract/normalizeProductData";
 
 describe( "normalizeProductData", () => {
 	it( "reads from the first-class productData field when present", () => {

@@ -1,7 +1,8 @@
 import { mapValues, merge } from "lodash";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
-import { createAnchorOpeningTag, normalizeProductData } from "../../../helpers";
+import { createAnchorOpeningTag } from "../../../helpers";
+import { normalizeProductData } from "../../../contract";
 
 /**
  * Represents the assessment that checks whether a product has identifier(s).
