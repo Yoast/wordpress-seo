@@ -43,6 +43,7 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 
 		$this->indexable_repository->expects( 'query' )->once()->andReturn( $query );
 
+		Functions\expect( '_prime_post_caches' )->once()->with( [ 7 ], false, false );
 		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
 
