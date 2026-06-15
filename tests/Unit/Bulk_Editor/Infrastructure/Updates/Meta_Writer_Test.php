@@ -140,6 +140,18 @@ final class Meta_Writer_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the focus keyphrase is sanitized and written to the focuskw meta key.
+	 *
+	 * @return void
+	 */
+	public function test_write_focus_keyphrase() {
+		$this->meta_helper->expects( 'set_value' )
+			->with( 'focuskw', 'The keyphrase', 123 );
+
+		$this->instance->write_focus_keyphrase( 123, "  The \t keyphrase  " );
+	}
+
+	/**
 	 * Tests an empty string is written as-is, clearing the meta value.
 	 *
 	 * @dataProvider provide_title_cases
@@ -154,6 +166,18 @@ final class Meta_Writer_Test extends TestCase {
 			->with( $title_key, '', 123 );
 
 		$this->instance->write_title( $type, 123, '' );
+	}
+
+	/**
+	 * Tests an empty focus keyphrase is written as-is, clearing the meta value.
+	 *
+	 * @return void
+	 */
+	public function test_write_empty_focus_keyphrase() {
+		$this->meta_helper->expects( 'set_value' )
+			->with( 'focuskw', '', 123 );
+
+		$this->instance->write_focus_keyphrase( 123, '' );
 	}
 
 	/**
@@ -189,5 +213,34 @@ final class Meta_Writer_Test extends TestCase {
 			->with( $title_key, 'The title', 123 );
 
 		$this->instance->write_title( $type, 123, '  The title  ' );
+	}
+
+	/**
+	 * Tests the registered focus keyphrase field is routed through the canonical meta
+	 * sanitizer, so the field-specific handling and the `wpseo_sanitize_post_meta_*` filter run.
+	 *
+	 * @return void
+	 */
+	public function test_write_focus_keyphrase_routes_registered_field_through_canonical_sanitizer() {
+		$meta_key = WPSEO_Meta::$meta_prefix . 'focuskw';
+
+		WPSEO_Meta::$fields_index[ $meta_key ] = [
+			'subset' => 'general',
+			'key'    => 'focuskw',
+		];
+		WPSEO_Meta::$defaults[ $meta_key ]     = '';
+
+		Monkey\Filters\expectApplied( 'wpseo_sanitize_post_meta_' . $meta_key )
+			->once()
+			->andReturnUsing(
+				static function ( $clean ) {
+					return $clean;
+				},
+			);
+
+		$this->meta_helper->expects( 'set_value' )
+			->with( 'focuskw', 'The keyphrase', 123 );
+
+		$this->instance->write_focus_keyphrase( 123, '  The keyphrase  ' );
 	}
 }

@@ -97,6 +97,10 @@ class Bulk_Updater implements LoggerAwareInterface {
 			if ( $update->has_description() ) {
 				$this->meta_writer->write_description( $type, $post_id, $update->get_description() );
 			}
+
+			if ( $update->has_focus_keyphrase() ) {
+				$this->meta_writer->write_focus_keyphrase( $post_id, $update->get_focus_keyphrase() );
+			}
 		} catch ( Exception $exception ) {
 			$this->logger->warning(
 				'Bulk update failed to save post {post_id}: {error}',

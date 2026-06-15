@@ -18,7 +18,7 @@ use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
 use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
- * Registers a route that applies a batch of per-post title and description updates.
+ * Registers a route that applies a batch of per-post title, description and focus keyphrase updates.
  */
 abstract class Abstract_Bulk_Update_Route implements Route_Interface, LoggerAwareInterface {
 
@@ -86,6 +86,17 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface, LoggerAwar
 	abstract protected function get_description_arg_name(): string;
 
 	/**
+	 * Gets the name of the focus keyphrase argument in the request.
+	 *
+	 * The focus keyphrase is channel-agnostic, so the argument is the same for every route.
+	 *
+	 * @return string The name of the focus keyphrase argument.
+	 */
+	protected function get_focus_keyphrase_arg_name(): string {
+		return 'focus_keyphrase';
+	}
+
+	/**
 	 * Registers routes with WordPress.
 	 *
 	 * @return void
@@ -146,15 +157,17 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface, LoggerAwar
 				return $this->reject( 'rest_invalid_item_id', 'Each item must contain an integer id.' );
 			}
 
-			$title_key       = $this->get_title_arg_name();
-			$description_key = $this->get_description_arg_name();
+			$title_key           = $this->get_title_arg_name();
+			$description_key     = $this->get_description_arg_name();
+			$focus_keyphrase_key = $this->get_focus_keyphrase_arg_name();
 
 			if ( ! \array_key_exists( $title_key, $item )
 				&& ! \array_key_exists( $description_key, $item )
+				&& ! \array_key_exists( $focus_keyphrase_key, $item )
 			) {
 				return $this->reject(
 					'rest_no_fields_to_update',
-					\sprintf( 'Each item must contain at least a %s or a %s.', $title_key, $description_key ),
+					\sprintf( 'Each item must contain at least a %s, a %s or a %s.', $title_key, $description_key, $focus_keyphrase_key ),
 				);
 			}
 
@@ -164,6 +177,10 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface, LoggerAwar
 
 			if ( \array_key_exists( $description_key, $item ) && ! \is_string( $item[ $description_key ] ) ) {
 				return $this->reject( 'rest_invalid_item_field', \sprintf( 'The %s field must be a string.', $description_key ) );
+			}
+
+			if ( \array_key_exists( $focus_keyphrase_key, $item ) && ! \is_string( $item[ $focus_keyphrase_key ] ) ) {
+				return $this->reject( 'rest_invalid_item_field', \sprintf( 'The %s field must be a string.', $focus_keyphrase_key ) );
 			}
 		}
 
@@ -212,6 +229,7 @@ abstract class Abstract_Bulk_Update_Route implements Route_Interface, LoggerAwar
 					// Use array_key_exists, not isset: an empty string is a value that clears the field.
 					( \array_key_exists( $this->get_title_arg_name(), $item ) ) ? (string) $item[ $this->get_title_arg_name() ] : null,
 					( \array_key_exists( $this->get_description_arg_name(), $item ) ) ? (string) $item[ $this->get_description_arg_name() ] : null,
+					( \array_key_exists( $this->get_focus_keyphrase_arg_name(), $item ) ) ? (string) $item[ $this->get_focus_keyphrase_arg_name() ] : null,
 				),
 			);
 		}
