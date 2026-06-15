@@ -1,2 +1,2 @@
-export { paperDtoSchema, toPaper, createToPaper } from "./paperDto.js";
+export { paperDtoSchema, toPaper } from "./paperDto.js";
 export { default as normalizeProductData } from "./normalizeProductData";
