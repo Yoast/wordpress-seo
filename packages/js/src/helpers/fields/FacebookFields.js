@@ -1,11 +1,10 @@
-import { dispatch, select } from "@wordpress/data";
 import {
 	metaKeyOgTitle,
 	metaKeyOgDescription,
 	metaKeyOgImageId,
 	metaKeyOgImage,
 } from "../../shared-admin/constants";
-import { isRestMetaActive, shouldSkipMetaWrite } from "./rest-meta";
+import { getMetaValue, setMetaValue } from "./rest-meta";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Facebook.
@@ -57,10 +56,7 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook title.
 	 */
 	static get title() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyOgTitle ] ?? "";
-		}
-		return FacebookFields.titleElement?.value ?? "";
+		return getMetaValue( metaKeyOgTitle, FacebookFields.titleElement, "" );
 	}
 
 	/**
@@ -71,15 +67,7 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set title( value ) {
-		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeyOgTitle, value ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgTitle ]: value } } );
-			}
-			return;
-		}
-		if ( FacebookFields.titleElement ) {
-			FacebookFields.titleElement.value = value;
-		}
+		setMetaValue( metaKeyOgTitle, FacebookFields.titleElement, value );
 	}
 
 	/**
@@ -90,15 +78,7 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set description( value ) {
-		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeyOgDescription, value ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgDescription ]: value } } );
-			}
-			return;
-		}
-		if ( FacebookFields.descriptionElement ) {
-			FacebookFields.descriptionElement.value = value;
-		}
+		setMetaValue( metaKeyOgDescription, FacebookFields.descriptionElement, value );
 	}
 
 	/**
@@ -107,10 +87,7 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook description.
 	 */
 	static get description() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyOgDescription ] ?? "";
-		}
-		return FacebookFields.descriptionElement?.value ?? "";
+		return getMetaValue( metaKeyOgDescription, FacebookFields.descriptionElement, "" );
 	}
 
 	/**
@@ -121,15 +98,7 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set imageId( value ) {
-		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeyOgImageId, value ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgImageId ]: value } } );
-			}
-			return;
-		}
-		if ( FacebookFields.imageIdElement ) {
-			FacebookFields.imageIdElement.value = value;
-		}
+		setMetaValue( metaKeyOgImageId, FacebookFields.imageIdElement, value );
 	}
 
 	/**
@@ -138,10 +107,7 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook imageId.
 	 */
 	static get imageId() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyOgImageId ] ?? "";
-		}
-		return FacebookFields.imageIdElement?.value ?? "";
+		return getMetaValue( metaKeyOgImageId, FacebookFields.imageIdElement, "" );
 	}
 
 	/**
@@ -152,15 +118,7 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set imageUrl( value ) {
-		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeyOgImage, value ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyOgImage ]: value } } );
-			}
-			return;
-		}
-		if ( FacebookFields.imageUrlElement ) {
-			FacebookFields.imageUrlElement.value = value;
-		}
+		setMetaValue( metaKeyOgImage, FacebookFields.imageUrlElement, value );
 	}
 
 	/**
@@ -169,9 +127,6 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook imageUrl.
 	 */
 	static get imageUrl() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyOgImage ] ?? "";
-		}
-		return FacebookFields.imageUrlElement?.value ?? "";
+		return getMetaValue( metaKeyOgImage, FacebookFields.imageUrlElement, "" );
 	}
 }

@@ -130,9 +130,6 @@ class WPSEO_Meta {
 				'type'          => 'hidden',
 				'default_value' => 'false',
 			],
-			'estimated-reading-time-minutes' => [
-				'type' => 'hidden',
-			],
 		],
 		'advanced'        => [
 			'meta-robots-noindex'  => [
@@ -184,13 +181,6 @@ class WPSEO_Meta {
 				'type'          => 'hidden',
 				'hide_on_pages' => true,
 				'options'       => Schema_Types::ARTICLE_TYPES,
-			],
-		],
-		/* Fields we should validate & save, but not show on any form. */
-		'non_form'        => [
-			'linkdex' => [
-				'type'          => null,
-				'default_value' => '0',
 			],
 		],
 		'content_planner' => [
@@ -300,8 +290,8 @@ class WPSEO_Meta {
 		// Strip meta fields that have show_in_rest enabled from REST responses for users
 		// without edit_post capability. register_meta's auth_callback only covers writes,
 		// so read access must be restricted separately via this filter.
-		// Register only for 'post' post type. Other post types don't expose these fields.
-		add_filter( 'rest_prepare_post', [ self::class, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
+		// Deferred to init:20 so post types and taxonomies registered by plugins are available.
+		add_action( 'init', [ self::class, 'register_post_type_hooks' ], 20 );
 
 		self::filter_schema_article_types();
 
@@ -320,9 +310,9 @@ class WPSEO_Meta {
 	 * data blobs) that are not suitable for REST API access and will be registered with
 	 * `show_in_rest: false`.
 	 *
-	 * @param string $key       The internal key of the meta field to register (without prefix).
-	 * @param array  $field_def Optional. The field definition array. Used to determine whether
-	 *                          the field should be exposed via the REST API. Defaults to [].
+	 * @param string                     $key       The internal key of the meta field to register (without prefix).
+	 * @param array<string, string|null> $field_def Optional. The field definition array. Used to determine whether
+	 *                             the field should be exposed via the REST API. Defaults to [].
 	 *
 	 * @return void
 	 */
@@ -344,6 +334,43 @@ class WPSEO_Meta {
 				},
 			],
 		);
+	}
+
+	/**
+	 * Registers primary term meta for REST and adds REST response filters for all public post types.
+	 *
+	 * Hooked to `init:20` so that post types and taxonomies registered by plugins on `init` are
+	 * already available when this runs. Running this during `plugins_loaded` (where WPSEO_Meta::init()
+	 * is called) would miss all plugin-registered post types and taxonomies.
+	 *
+	 * @return void
+	 */
+	public static function register_post_type_hooks() {
+		foreach ( get_post_types( [ 'public' => true ], 'names' ) as $post_type ) {
+			$taxonomies = get_object_taxonomies( $post_type, 'objects' );
+			foreach ( $taxonomies as $taxonomy ) {
+				if ( ! $taxonomy->hierarchical ) {
+					continue;
+				}
+				$primary_key       = 'primary_' . $taxonomy->name;
+				$primary_field_def = [ 'type' => 'hidden' ];
+				self::register_meta( $primary_key, $primary_field_def );
+
+				// Also register in $fields_index and $defaults so sanitize_post_meta
+				// can look up these dynamically-created keys the same way as static ones.
+				$full_key = self::$meta_prefix . $primary_key;
+				if ( ! isset( self::$fields_index[ $full_key ] ) ) {
+					self::$meta_fields['primary_term'][ $primary_key ] = $primary_field_def;
+					self::$fields_index[ $full_key ]                   = [
+						'subset' => 'primary_term',
+						'key'    => $primary_key,
+					];
+					self::$defaults[ $full_key ]                       = '';
+				}
+			}
+
+			add_filter( 'rest_prepare_' . $post_type, [ self::class, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
+		}
 	}
 
 	/**

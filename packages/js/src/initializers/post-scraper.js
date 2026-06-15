@@ -2,7 +2,7 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import { debounce, get, isUndefined } from "lodash";
+import { debounce, isUndefined } from "lodash";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
@@ -543,7 +543,7 @@ export default function initPostScraper( $, store, editorData ) {
 		// Avoid error when snippet metabox is not rendered, unless the metabox has been intentionally
 		// disabled in the block editor (REST-first mode), in which case the app still needs to initialize
 		// so that window.YoastSEO.app and its Pluggable hooks are available for third-party integrations.
-		if ( metaboxContainer.length === 0 && ! get( window, "wpseoScriptData.disableMetaboxInBlockEditor", false ) ) {
+		if ( metaboxContainer.length === 0 && ! isRestMetaActive ) {
 			return;
 		}
 

@@ -6,7 +6,7 @@ import {
 	metaKeyContentScore,
 	metaKeyInclusiveLanguageScore,
 } from "../../shared-admin/constants";
-import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo } from "./rest-meta";
+import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo, getMetaValue } from "./rest-meta";
 
 /**
  * Returns whether the core/editor store has finished loading the post type config.
@@ -82,6 +82,24 @@ function writeOrQueue( metaKey, value, undoIgnore = false ) {
 		dispatch( "core/editor" ).editPost( { meta } );
 	}
 }
+
+/**
+ * Sets a meta value either by writing directly to the DOM element when REST meta is inactive, or via the REST API when active.
+ *
+ * @param {string} metaKey The meta key to write.
+ * @param {HTMLElement|null} element The DOM element to write to when REST meta is inactive.
+ * @param {string} value The value to write.
+ * @returns {void}
+ */
+const setScoreMeta = ( metaKey, element, value ) => {
+	if ( isRestMetaActive ) {
+		writeOrQueue( metaKey, value, true );
+		return;
+	}
+	if ( element ) {
+		element.value = value;
+	}
+};
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for the analysis.
@@ -161,10 +179,7 @@ export default class AnalysisFields {
 	 * @returns {string} The keyphrase.
 	 */
 	static get keyphrase() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyFocusKw ] ?? "";
-		}
-		return AnalysisFields.keyphraseElement?.value ?? "";
+		return getMetaValue( metaKeyFocusKw, AnalysisFields.keyphraseElement, "" );
 	}
 
 	/**
@@ -193,10 +208,7 @@ export default class AnalysisFields {
 	 * @returns {boolean} The isCornerstone.
 	 */
 	static get isCornerstone() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyIsCornerstone ] === "1";
-		}
-		return AnalysisFields.isCornerstoneElement?.value === "1";
+		return getMetaValue( metaKeyIsCornerstone, AnalysisFields.isCornerstoneElement, "0" ) === "1";
 	}
 
 	/**
@@ -207,13 +219,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set seoScore( value ) {
-		if ( isRestMetaActive ) {
-			writeOrQueue( metaKeyLinkdex, value, true );
-			return;
-		}
-		if ( AnalysisFields.seoScoreElement ) {
-			AnalysisFields.seoScoreElement.value = value;
-		}
+		setScoreMeta( metaKeyLinkdex, AnalysisFields.seoScoreElement, value );
 	}
 
 	/**
@@ -222,10 +228,7 @@ export default class AnalysisFields {
 	 * @returns {string} The SEO (overall) score.
 	 */
 	static get seoScore() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyLinkdex ] ?? "";
-		}
-		return AnalysisFields.seoScoreElement?.value ?? "";
+		return getMetaValue( metaKeyLinkdex, AnalysisFields.seoScoreElement, "" );
 	}
 
 	/**
@@ -236,13 +239,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set readabilityScore( value ) {
-		if ( isRestMetaActive ) {
-			writeOrQueue( metaKeyContentScore, value, true );
-			return;
-		}
-		if ( AnalysisFields.readabilityScoreElement ) {
-			AnalysisFields.readabilityScoreElement.value = value;
-		}
+		setScoreMeta( metaKeyContentScore, AnalysisFields.readabilityScoreElement, value );
 	}
 
 	/**
@@ -251,10 +248,7 @@ export default class AnalysisFields {
 	 * @returns {string} The Readability (overall) score.
 	 */
 	static get readabilityScore() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyContentScore ] ?? "";
-		}
-		return AnalysisFields.readabilityScoreElement?.value ?? "";
+		return getMetaValue( metaKeyContentScore, AnalysisFields.readabilityScoreElement, "" );
 	}
 
 	/**
@@ -265,13 +259,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set inclusiveLanguageScore( value ) {
-		if ( isRestMetaActive ) {
-			writeOrQueue( metaKeyInclusiveLanguageScore, value, true );
-			return;
-		}
-		if ( AnalysisFields.inclusiveLanguageScoreElement ) {
-			AnalysisFields.inclusiveLanguageScoreElement.value = value;
-		}
+		setScoreMeta( metaKeyInclusiveLanguageScore, AnalysisFields.inclusiveLanguageScoreElement, value );
 	}
 
 	/**
@@ -280,9 +268,6 @@ export default class AnalysisFields {
 	 * @returns {string} The inclusive language (overall) score.
 	 */
 	static get inclusiveLanguageScore() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyInclusiveLanguageScore ] ?? "";
-		}
-		return AnalysisFields.inclusiveLanguageScoreElement?.value ?? "";
+		return getMetaValue( metaKeyInclusiveLanguageScore, AnalysisFields.inclusiveLanguageScoreElement, "" );
 	}
 }

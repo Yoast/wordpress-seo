@@ -1,5 +1,4 @@
-import { dispatch, select } from "@wordpress/data";
-import { isRestMetaActive, shouldSkipMetaWrite } from "./rest-meta";
+import { getMetaValue, setMetaValue } from "./rest-meta";
 
 /**
  * Returns the REST meta key for the given taxonomy.
@@ -37,7 +36,7 @@ export default class PrimaryTermFields {
 	 */
 	static getInitialValue( inputElement, fallback ) {
 		if ( inputElement ) {
-			return inputElement.value;
+			return inputElement.value || "";
 		}
 		return String( fallback ?? "" );
 	}
@@ -51,10 +50,7 @@ export default class PrimaryTermFields {
 	 * @returns {string} The primary term ID as a string, or an empty string when unset.
 	 */
 	static get( taxonomyName, inputElement ) {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKey( taxonomyName ) ] ?? "";
-		}
-		return inputElement?.value ?? "";
+		return getMetaValue( metaKey( taxonomyName ), inputElement, "" );
 	}
 
 	/**
@@ -71,14 +67,6 @@ export default class PrimaryTermFields {
 	 */
 	static set( taxonomyName, termId, inputElement ) {
 		const value = termId === -1 ? "" : String( termId );
-		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKey( taxonomyName ), value ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKey( taxonomyName ) ]: value } } );
-			}
-			return;
-		}
-		if ( inputElement ) {
-			inputElement.value = value;
-		}
+		setMetaValue( metaKey( taxonomyName ), inputElement, value );
 	}
 }

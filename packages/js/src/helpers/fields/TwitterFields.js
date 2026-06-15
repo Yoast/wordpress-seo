@@ -1,11 +1,10 @@
-import { dispatch, select } from "@wordpress/data";
 import {
 	metaKeyTwitterTitle,
 	metaKeyTwitterDescription,
 	metaKeyTwitterImageId,
 	metaKeyTwitterImage,
 } from "../../shared-admin/constants";
-import { isRestMetaActive, shouldSkipMetaWrite } from "./rest-meta";
+import { getMetaValue, setMetaValue } from "./rest-meta";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Twitter.
@@ -57,10 +56,7 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter title.
 	 */
 	static get title() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTwitterTitle ] ?? "";
-		}
-		return TwitterFields.titleElement?.value ?? "";
+		return getMetaValue( metaKeyTwitterTitle, TwitterFields.titleElement, "" );
 	}
 
 	/**
@@ -71,15 +67,7 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set title( value ) {
-		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeyTwitterTitle, value ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterTitle ]: value } } );
-			}
-			return;
-		}
-		if ( TwitterFields.titleElement ) {
-			TwitterFields.titleElement.value = value;
-		}
+		setMetaValue( metaKeyTwitterTitle, TwitterFields.titleElement, value );
 	}
 
 	/**
@@ -90,15 +78,7 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set description( value ) {
-		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeyTwitterDescription, value ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterDescription ]: value } } );
-			}
-			return;
-		}
-		if ( TwitterFields.descriptionElement ) {
-			TwitterFields.descriptionElement.value = value;
-		}
+		setMetaValue( metaKeyTwitterDescription, TwitterFields.descriptionElement, value );
 	}
 
 	/**
@@ -107,10 +87,7 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter description.
 	 */
 	static get description() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTwitterDescription ] ?? "";
-		}
-		return TwitterFields.descriptionElement?.value ?? "";
+		return getMetaValue( metaKeyTwitterDescription, TwitterFields.descriptionElement, "" );
 	}
 
 	/**
@@ -121,15 +98,7 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set imageId( value ) {
-		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeyTwitterImageId, value ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterImageId ]: value } } );
-			}
-			return;
-		}
-		if ( TwitterFields.imageIdElement ) {
-			TwitterFields.imageIdElement.value = value;
-		}
+		setMetaValue( metaKeyTwitterImageId, TwitterFields.imageIdElement, value );
 	}
 
 	/**
@@ -138,10 +107,7 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter imageId.
 	 */
 	static get imageId() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTwitterImageId ] ?? "";
-		}
-		return TwitterFields.imageIdElement?.value ?? "";
+		return getMetaValue( metaKeyTwitterImageId, TwitterFields.imageIdElement, "" );
 	}
 
 	/**
@@ -152,15 +118,7 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set imageUrl( value ) {
-		if ( isRestMetaActive ) {
-			if ( ! shouldSkipMetaWrite( metaKeyTwitterImage, value ) ) {
-				dispatch( "core/editor" ).editPost( { meta: { [ metaKeyTwitterImage ]: value } } );
-			}
-			return;
-		}
-		if ( TwitterFields.imageUrlElement ) {
-			TwitterFields.imageUrlElement.value = value;
-		}
+		setMetaValue( metaKeyTwitterImage, TwitterFields.imageUrlElement, value );
 	}
 
 	/**
@@ -169,9 +127,6 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter imageUrl.
 	 */
 	static get imageUrl() {
-		if ( isRestMetaActive ) {
-			return select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKeyTwitterImage ] ?? "";
-		}
-		return TwitterFields.imageUrlElement?.value ?? "";
+		return getMetaValue( metaKeyTwitterImage, TwitterFields.imageUrlElement, "" );
 	}
 }
