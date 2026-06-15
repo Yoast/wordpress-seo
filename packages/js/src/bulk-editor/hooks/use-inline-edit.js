@@ -22,7 +22,7 @@ const fieldEndpointKey = ( field, fieldSet ) => field.endpoint ?? fieldSet.endpo
  * @param {Object<string, import("../field-sets").FieldSet>} props.fieldSets The field sets, keyed by id.
  * @param {string}                             props.activeFieldSet     The active field set's id.
  *
- * @returns {{items: import("../field-sets").BulkEditorItem[], editing: Object, stopEditing: Function}} The items, the editing seam and the reset.
+ * @returns {{items: import("../field-sets").BulkEditorItem[], editing: Object, stopEditing: Function}} The items, the editing props and the reset.
  */
 export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet } ) => {
 	const editingRows = useSelect( ( select ) => select( STORE_NAME ).selectEditingRows(), [] );

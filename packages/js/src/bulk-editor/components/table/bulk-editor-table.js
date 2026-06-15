@@ -15,7 +15,7 @@ import { getColumnCount } from "./table-helpers";
  * @property {Function}  [onToggleAll]   Called when the header "select all" checkbox is toggled.
  */
 /**
- * The bulk editor inline-edit seam. Editing is per field and several rows can edit at once: a row's Edit opens
+ * The bulk editor inline-edit props. Editing is per field and several rows can edit at once: a row's Edit opens
  * its field-set fields, and each open field is applied (saved on its own) or discarded independently.
  *
  * @typedef {Object} BulkEditorEditing
@@ -30,14 +30,13 @@ import { getColumnCount } from "./table-helpers";
 /**
  * The bulk editor data table.
  *
- * It renders the items it is given for the active field set (the Search or Social tab). Selection and inline
- * editing are seams: this component is presentational and drives them through the `selection` and `editing` bags.
+ * It renders the items it is given for the active field set (the Search or Social tab).
  *
  * @param {Object}              props             The props.
  * @param {BulkEditorItem[]}    props.items       The items to render.
  * @param {FieldSet}            props.fieldSet    The active field set (its `fields` drive the editable columns).
- * @param {BulkEditorSelection} [props.selection] The selection seam.
- * @param {BulkEditorEditing}   [props.editing]   The inline-edit seam.
+ * @param {BulkEditorSelection} [props.selection] The selection props.
+ * @param {BulkEditorEditing}   [props.editing]   The inline-edit props.
  * @param {boolean}             [props.isLoading] Whether to render skeleton rows instead of data.
  *
  * @returns {JSX.Element} The table.

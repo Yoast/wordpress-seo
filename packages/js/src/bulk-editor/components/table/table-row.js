@@ -2,43 +2,26 @@ import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
 import { EditableFieldCell, TitleCell } from "./table-cells";
+import { getRowEditState } from "./table-helpers";
 
 /**
  * A content row. Each field-set cell renders as plain text, or — when the row is in edit mode and the field is
  * open — as an editable cell with its own Apply/Discard.
  *
- * @param {Object}          props                The props.
- * @param {BulkEditorItem}  props.item           The item data.
- * @param {FieldSetField[]} props.fields         The active field set's editable columns.
- * @param {boolean}         props.isSelected     Whether this item is selected.
- * @param {boolean}         props.isEditing      Whether this row is in edit mode (its Edit action becomes Cancel).
- * @param {string[]}        props.openFields     The field keys open as inputs in this row (empty unless editing).
- * @param {Object}          props.draft          The open fields' draft values.
- * @param {string|null}     props.savingField    The field key currently saving.
- * @param {Function}        props.onToggleRow    Called with the item id when its checkbox is toggled.
- * @param {Function}        props.onStartEdit    Called with the item id to enter edit mode.
- * @param {Function}        props.onChangeField  Called with { id, key, value } when an open field changes.
- * @param {Function}        props.onApplyField   Called with { id, key } to save a field.
- * @param {Function}        props.onDiscardField Called with { id, key } to discard a field.
- * @param {Function}        props.onCancelEdit   Called with the item id to cancel all of the row's open fields.
+ * @param {Object}            props             The props.
+ * @param {BulkEditorItem}    props.item        The item data.
+ * @param {FieldSetField[]}   props.fields      The active field set's editable columns.
+ * @param {boolean}           props.isSelected  Whether this item is selected.
+ * @param {Function}          props.onToggleRow Called with the item id when its checkbox is toggled.
+ * @param {Object}            [props.edit]      This row's edit state ({ openFields, draft, savingField }), or undefined when not editing.
+ * @param {BulkEditorEditing} props.editing     The inline-edit props (its handlers).
  *
  * @returns {JSX.Element} The row.
  */
-export const BulkEditorRow = ( {
-	item,
-	fields,
-	isSelected,
-	isEditing,
-	openFields,
-	draft,
-	savingField,
-	onToggleRow,
-	onStartEdit,
-	onChangeField,
-	onApplyField,
-	onDiscardField,
-	onCancelEdit,
-} ) => {
+export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, editing } ) => {
+	const { isEditing, openFields, draft, savingField } = getRowEditState( edit );
+	const { onStartEdit, onChangeField, onApplyField, onDiscardField, onCancelEdit } = editing;
+
 	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
 	const handleEdit = useCallback( () => onStartEdit( item.id ), [ onStartEdit, item.id ] );
 	const handleCancel = useCallback( () => onCancelEdit( item.id ), [ onCancelEdit, item.id ] );

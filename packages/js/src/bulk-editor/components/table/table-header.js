@@ -7,7 +7,7 @@ import { Checkbox, Table } from "@yoast/ui-library";
  * @param {Object}              props             The props.
  * @param {FieldSetField[]}     props.fields      The active field set's editable columns.
  * @param {number}              props.columnCount The total number of columns.
- * @param {BulkEditorSelection} props.selection   The selection seam.
+ * @param {BulkEditorSelection} props.selection   The selection props.
  * @param {boolean}             props.isLoading   Whether the table is loading (disables "select all").
  *
  * @returns {JSX.Element} The header.
