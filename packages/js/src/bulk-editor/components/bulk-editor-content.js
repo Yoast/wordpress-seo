@@ -4,7 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
 import { getMockRows } from "../services/mock-rows";
-import { BulkEditorTable } from "./bulk-editor-table";
+import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 
 /**

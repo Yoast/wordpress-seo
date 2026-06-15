@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "../test-utils";
-import { BulkEditorTable } from "../../src/bulk-editor/components/bulk-editor-table";
+import { BulkEditorTable } from "../../src/bulk-editor/components/table/bulk-editor-table";
 import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PAGE_SIZE } from "../../src/bulk-editor/constants";
 import { getFieldSets } from "../../src/bulk-editor/field-sets";
 
