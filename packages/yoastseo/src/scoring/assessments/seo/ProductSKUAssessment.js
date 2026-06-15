@@ -2,7 +2,7 @@ import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
-import { createAnchorOpeningTag } from "../../../helpers";
+import { createAnchorOpeningTag, normalizeProductData } from "../../../helpers";
 
 /**
  * Represents the assessment checks whether the product has a SKU.
@@ -53,7 +53,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
 	getResult( paper ) {
-		const productSKUData = paper.getCustomData();
+		const productSKUData = normalizeProductData( paper );
 
 		const result = this.scoreProductSKU( productSKUData, this._config );
 
@@ -86,25 +86,25 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable( paper ) {
-		const customData = paper.getCustomData();
+		const productData = normalizeProductData( paper );
 
 		/*
-	    * If the global SKU cannot be retrieved, the assessment shouldn't be applicable if the product is a simple
-	    * or external product, or doesn't have variants. Even though in reality a simple or external product doesn't have variants,
+	    * If the global SKU cannot be retrieved, the assessment shouldn't be applicable if the product is not a
+	    * variable product, or doesn't have variants. Even though in reality a non-variable product doesn't have variants,
 	    * this double check is added because the hasVariants variable doesn't always update correctly when changing product type.
 	    */
-		if ( customData.canRetrieveGlobalSku === false &&
-			( [ "simple", "external" ].includes( customData.productType ) || customData.hasVariants === false ) ) {
+		if ( productData.canRetrieveGlobalSku === false &&
+			( ! productData.isVariableProduct || productData.hasVariants === false ) ) {
 			return false;
 		}
 
 		// If variant identifiers cannot be retrieved for a variable product with variants, the assessment shouldn't be applicable.
-		if ( customData.canRetrieveVariantSkus === false && customData.hasVariants === true && customData.productType === "variable" ) {
+		if ( productData.canRetrieveVariantSkus === false && productData.hasVariants === true && productData.isVariableProduct ) {
 			return false;
 		}
 
 		// Assessment is not applicable if we don't want to assess variants and the product has variants.
-		return ! ( this._config.assessVariants === false && customData.hasVariants );
+		return ! ( this._config.assessVariants === false && productData.hasVariants );
 	}
 
 	/**
@@ -118,9 +118,8 @@ export default class ProductSKUAssessment extends Assessment {
 	 */
 	scoreProductSKU( productSKUData, config ) {
 		const { good, okay } = this.getFeedbackStrings();
-		// Apply the following scoring conditions to products without variants.
-		if ( [ "simple", "external", "grouped" ].includes( productSKUData.productType ) ||
-			( productSKUData.productType === "variable" && ! productSKUData.hasVariants ) ) {
+		// Apply the following scoring conditions to products that are assessed as a single unit (i.e. not as variants).
+		if ( ! ( productSKUData.isVariableProduct && productSKUData.hasVariants ) ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
 				return {
 					score: config.scores.ok,
@@ -131,7 +130,7 @@ export default class ProductSKUAssessment extends Assessment {
 				score: config.scores.good,
 				text: good.withoutVariants,
 			};
-		} else if ( productSKUData.productType === "variable" && productSKUData.hasVariants ) {
+		} else if ( productSKUData.isVariableProduct && productSKUData.hasVariants ) {
 			// If we want to assess variants, if product has variants and not all variants have a SKU, return orange bullet.
 			// If all variants have a SKU, return green bullet.
 			if ( ! productSKUData.doAllVariantsHaveSKU ) {

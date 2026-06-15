@@ -1,7 +1,7 @@
 import { mapValues, merge } from "lodash";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
-import { createAnchorOpeningTag } from "../../../helpers";
+import { createAnchorOpeningTag, normalizeProductData } from "../../../helpers";
 
 /**
  * Represents the assessment that checks whether a product has identifier(s).
@@ -52,7 +52,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
 	getResult( paper ) {
-		const productIdentifierData = paper.getCustomData();
+		const productIdentifierData = normalizeProductData( paper );
 
 		const result = this.scoreProductIdentifier( productIdentifierData, this._config );
 
@@ -82,25 +82,25 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable( paper ) {
-		const customData = paper.getCustomData();
+		const productData = normalizeProductData( paper );
 
 		/*
-		 * If the global identifier cannot be retrieved, the assessment shouldn't be applicable if the product is a simple
-		 * or external product, or doesn't have variants. Even though in reality a simple or external product doesn't have variants,
+		 * If the global identifier cannot be retrieved, the assessment shouldn't be applicable if the product is not a
+		 * variable product, or doesn't have variants. Even though in reality a non-variable product doesn't have variants,
 		 * this double check is added because the hasVariants variable doesn't always update correctly when changing product type.
 		 */
-		if ( customData.canRetrieveGlobalIdentifier === false &&
-			( [ "simple", "external", "grouped" ].includes( customData.productType ) || customData.hasVariants === false ) ) {
+		if ( productData.canRetrieveGlobalIdentifier === false &&
+			( ! productData.isVariableProduct || productData.hasVariants === false ) ) {
 			return false;
 		}
 
 		// If variant identifiers cannot be retrieved for a variable product with variants, the assessment shouldn't be applicable.
-		if ( customData.canRetrieveVariantIdentifiers === false && customData.hasVariants === true && customData.productType === "variable" ) {
+		if ( productData.canRetrieveVariantIdentifiers === false && productData.hasVariants === true && productData.isVariableProduct ) {
 			return false;
 		}
 
 		// Assessment is not applicable if we don't want to assess variants and the product has variants.
-		return ! ( this._config.assessVariants === false && customData.hasVariants );
+		return ! ( this._config.assessVariants === false && productData.hasVariants );
 	}
 
 	/**
@@ -115,9 +115,8 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	scoreProductIdentifier( productIdentifierData, config ) {
 		const { good, okay } = this.getFeedbackStrings();
 
-		// Apply the following scoring conditions to products without variants.
-		if ( [ "simple", "grouped", "external" ].includes( productIdentifierData.productType ) ||
-			( productIdentifierData.productType === "variable" && ! productIdentifierData.hasVariants ) ) {
+		// Apply the following scoring conditions to products that are assessed as a single unit (i.e. not as variants).
+		if ( ! ( productIdentifierData.isVariableProduct && productIdentifierData.hasVariants ) ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
 				return {
 					score: config.scores.ok,
@@ -129,7 +128,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 				score: config.scores.good,
 				text: good.withoutVariants,
 			};
-		} else if ( productIdentifierData.productType === "variable" && productIdentifierData.hasVariants ) {
+		} else if ( productIdentifierData.isVariableProduct && productIdentifierData.hasVariants ) {
 			if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 				// If we want to assess variants, and if product has variants but not all variants have an identifier, return orange bullet.
 				// If all variants have an identifier, return green bullet.

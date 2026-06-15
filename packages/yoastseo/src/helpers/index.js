@@ -5,6 +5,7 @@ export { getLanguagesWithWordComplexity } from "./getLanguagesWithWordComplexity
 export { createAnchorOpeningTag } from "./shortlinker";
 export { default as getWordComplexityHelper } from "./getWordComplexityHelper";
 export { default as getWordComplexityConfig } from "./getWordComplexityConfig";
+export { default as normalizeProductData } from "./normalizeProductData";
 
 import * as htmlEntities from "./htmlEntities";
 
