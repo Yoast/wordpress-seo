@@ -145,17 +145,10 @@ const paper = toPaper( {
 ```
 
 Notes:
-- **Covers the analysis inputs.** The neutral core is `text`, `keyphrase`, `synonyms`, `locale`, `description`, `title`, `slug`, `permalink`, `titleWidth`, `textTitle`, `date`, `writingDirection`, and an open `customData` object. The contract also carries optional, **deprecated** WordPress-transitional fields (`wpBlocks`, `shortcodes`, `isFrontPage`): they are real analysis inputs that change WordPress scores, so a remote/API analysis needs them to reproduce in-browser results. They are marked deprecated. Non-WordPress consumers simply omit them.
-- **`keyphrase` is the canonical field name.** `keyword` is accepted as a deprecated alias so existing consumers can adopt the contract without renaming.
+- **Covers the analysis inputs.** The neutral core is `text`, `keyphrase`, `synonyms`, `locale`, `description`, `title`, `slug`, `permalink`, `titleWidth`, `textTitle`, `date`, `writingDirection`, and an opaque `customData` object. The contract also carries optional, **deprecated** WordPress-transitional fields (`wpBlocks`, `shortcodes`, `isFrontPage`): they are real analysis inputs that change WordPress scores, so a remote/API analysis needs them to reproduce in-browser results. They are marked deprecated. Non-WordPress consumers simply omit them.
+- **`keyphrase` is the canonical field name.** `keyword` is accepted as a deprecated alias, so existing consumers can adopt the contract without renaming.
 - **Validation.** `toPaper` throws on structurally invalid input (wrong types, unknown keys). Omitting an optional field is fine — the assessments that need it are simply skipped, matching the engine's existing behaviour.
-- **Extensible.** A consumer that registers its own assessments can validate extra fields by extending the schema:
-  ```js
-  import { z } from "zod";
-  import { paperDtoSchema, createToPaper } from "yoastseo/contract";
-
-  const toPaper = createToPaper( paperDtoSchema.extend( { myField: z.string() } ) );
-  const paper = toPaper( { text: "…", myField: "…" } ); // `myField` is validated and available on the Paper
-  ```
+- **Custom analysis.** A consumer that registers its own analysis (e.g., assessments, researcher) can pass their inputs through the opaque `customData` object. Its contents are not validated, so the consumer's own analysis is responsible for reading and validating them.
 
 ## Supported languages
 
@@ -201,7 +194,7 @@ Hebrew, Farsi, Turkish, Norwegian, Czech, Slovak, Greek, Japanese
 <sup>4</sup> The Passive voice check for Japanese is not implemented since the structure is the same as the potential form and can additionally be used for an honorific purpose. Identifying whether a verb is in its passive, honorific or potential form is problematic without contextual information.
 
 The following readability assessments are available for all languages:
-- sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
+- sentence length (with a default upper limit of 20 words, see<sup>1</sup> above)
 - paragraph length
 - subheading distribution
 - text presence
