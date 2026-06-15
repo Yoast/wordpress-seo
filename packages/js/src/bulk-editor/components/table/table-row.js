@@ -42,7 +42,6 @@ export const BulkEditorRow = ( {
 	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
 	const handleEdit = useCallback( () => onStartEdit( item.id ), [ onStartEdit, item.id ] );
 	const handleCancel = useCallback( () => onCancelEdit( item.id ), [ onCancelEdit, item.id ] );
-	// Pass the item id to the handlers, so the store can track the edit state for this row.
 	const handleChangeField = useCallback( ( { key, value } ) => onChangeField( { id: item.id, key, value } ), [ onChangeField, item.id ] );
 	const handleApplyField = useCallback( ( key ) => onApplyField( { id: item.id, key } ), [ onApplyField, item.id ] );
 	const handleDiscardField = useCallback( ( key ) => onDiscardField( { id: item.id, key } ), [ onDiscardField, item.id ] );

@@ -51,7 +51,6 @@ export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, 
 	return (
 		<Table.Cell>
 			<div className="yst-flex yst-flex-col yst-gap-2">
-				{ /* Two lines so the full value is visible without a scrollbar, per the design. */ }
 				<Textarea
 					id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
 					rows={ 2 }

@@ -44,7 +44,6 @@ import { getColumnCount } from "./table-helpers";
  */
 export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}, isLoading = false } ) => {
 	const columnCount = getColumnCount( fieldSet.fields );
-	// Pass the seam handlers as props, so the sub-components can read them without per-field defaults.
 	const selectionState = { selectedIds: [], isAllSelected: false, onToggleRow: noop, onToggleAll: noop, ...selection };
 	const editingState = {
 		editingRows: {},
@@ -58,7 +57,6 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}
 
 	return (
 		<>
-			{ /* Announces the loading state to assistive tech (the skeleton itself is aria-hidden). */ }
 			<div role="status" className="yst-sr-only">
 				{ isLoading ? __( "Loading content…", "wordpress-seo" ) : "" }
 			</div>

@@ -60,7 +60,6 @@ export const BulkEditorBody = ( { items, fields, columnCount, selection, editing
 	}
 
 	return items.map( ( item ) => {
-		// Each row carries its own edit state; items absent from `editingRows` render read-only.
 		const isEditing = Boolean( editingRows[ item.id ] );
 		const itemEdit = editingRows[ item.id ] ?? EMPTY_ROW_EDIT;
 

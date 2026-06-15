@@ -29,5 +29,4 @@ export const getStatusLabel = ( status ) => {
  */
 export const getColumnCount = ( fields ) => 3 + fields.length;
 
-// The edit state for a row that is not being edited (no open fields, empty draft, nothing saving).
 export const EMPTY_ROW_EDIT = { openFields: [], draft: {}, savingField: null };
