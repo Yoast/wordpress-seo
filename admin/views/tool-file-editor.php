@@ -21,6 +21,17 @@ if ( ! is_writable( $home_path ) && ! empty( $_SERVER['DOCUMENT_ROOT'] ) ) {
 $robots_file    = $home_path . 'robots.txt';
 $ht_access_file = $home_path . '.htaccess';
 
+
+if ( ! current_user_can( 'edit_files' ) ) {
+
+	echo '<div class="notice notice-error"><p>';
+
+	esc_html_e( 'You do not have sufficient permissions to edit files.', 'wordpress-seo' );
+
+	echo '</p></div>';
+
+	return;}
+
 if ( isset( $_POST['create_robots'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
 		$die_msg = sprintf(

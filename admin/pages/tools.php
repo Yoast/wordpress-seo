@@ -31,12 +31,20 @@ if ( $tool_page === '' ) {
 		'desc'  => __( 'Import settings from other SEO plugins and export your settings for re-use on (another) site.', 'wordpress-seo' ),
 	];
 
-	if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
+	if ( ! is_multisite() ) {
+	if ( WPSEO_Utils::allow_system_file_edit() === true ) {
 		$tools['file-editor'] = [
 			'title' => __( 'File editor', 'wordpress-seo' ),
 			'desc'  => __( 'This tool allows you to quickly change important files for your SEO, like your robots.txt and, if you have one, your .htaccess file.', 'wordpress-seo' ),
 		];
 	}
+	else {
+		$tools['file-editor'] = [
+			'title' => __( 'File editor', 'wordpress-seo' ),
+			'desc'  => __( 'You do not have sufficient permissions to edit system files.', 'wordpress-seo' ),
+		];
+	}
+}
 
 	$tools['bulk-editor'] = [
 		'title' => __( 'Bulk editor', 'wordpress-seo' ),
@@ -76,11 +84,11 @@ if ( $tool_page === '' ) {
 else {
 	echo '<a href="', esc_url( admin_url( 'admin.php?page=wpseo_tools' ) ), '">', esc_html__( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
 
-	$tool_pages = [ 'bulk-editor', 'import-export' ];
+$tool_pages = [ 'bulk-editor', 'import-export' ];
 
-	if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
-		$tool_pages[] = 'file-editor';
-	}
+if ( ! is_multisite() ) {
+    $tool_pages[] = 'file-editor';
+}
 
 	if ( in_array( $tool_page, $tool_pages, true ) ) {
 		require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';
