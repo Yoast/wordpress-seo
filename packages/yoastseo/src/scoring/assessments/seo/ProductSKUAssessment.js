@@ -3,7 +3,7 @@ import { mapValues, merge } from "lodash";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { createAnchorOpeningTag } from "../../../helpers";
-import { normalizeProductData } from "../../../contract";
+import normalizeProductData from "../../../contract/normalizeProductData";
 
 /**
  * Represents the assessment checks whether the product has a SKU.

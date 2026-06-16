@@ -2,28 +2,7 @@ import { isEmpty } from "lodash";
 
 /**
  * @typedef {import("../values/Paper").default} Paper
- */
-
-/**
- * The normalized product analysis data consumed by the native product assessments (Product identifiers, SKU).
- *
- * `isVariableProduct` replaces the WooCommerce-specific `productType` enum: it is the single binary distinction the
- * assessments actually need — whether the product can carry independently-identified variants. The optional
- * `canRetrieve*` keys are deliberately optional: an absent key means "retrieval is possible" (see
- * `normalizeProductData`), so they must never be defaulted to `false`. Key casing mirrors the producers and must
- * be preserved.
- *
- * @typedef {Object} ProductData
- * @property {boolean}   isVariableProduct                Whether the product can carry independently-identified variants.
- * @property {boolean}   [hasVariants]                    Whether the product currently has variants.
- * @property {boolean}   [hasGlobalIdentifier]            Whether the product has a global identifier.
- * @property {boolean}   [hasGlobalSKU]                   Whether the product has a global SKU.
- * @property {boolean}   [doAllVariantsHaveIdentifier]    Whether every variant has an identifier.
- * @property {boolean}   [doAllVariantsHaveSKU]           Whether every variant has a SKU.
- * @property {boolean}   [canRetrieveGlobalIdentifier]    Whether the global identifier can be retrieved. Absent ⇒ possible.
- * @property {boolean}   [canRetrieveGlobalSku]           Whether the global SKU can be retrieved. Absent ⇒ possible.
- * @property {boolean}   [canRetrieveVariantIdentifiers]  Whether variant identifiers can be retrieved. Absent ⇒ possible.
- * @property {boolean}   [canRetrieveVariantSkus]         Whether variant SKUs can be retrieved. Absent ⇒ possible.
+ * @typedef {import("./productData").ProductData} ProductData
  */
 
 /**
@@ -34,6 +13,12 @@ import { isEmpty } from "lodash";
  * `isVariableProduct` boolean is derived from a legacy `productType === "variable"` when a producer has not sent it,
  * so the assessments never read `productType` directly. Optional keys are passed through untouched to preserve their
  * `undefined ≠ false` applicability semantics.
+ *
+ * This lives apart from `productData.js` on purpose: the schema there imports `zod`, but the assessments (which are
+ * in the core analysis bundle) need only this narrower, so keeping it zod-free — and importing it directly rather
+ * than via the contract barrel — keeps `zod` out of the core graph. It also deliberately does not run
+ * `productDataSchema.parse()`: the in-editor path builds the Paper directly and never crosses the contract boundary,
+ * so the defaulting/derivation must happen here at the point of consumption rather than as a schema transform.
  *
  * @param {Paper} paper The paper to read the product data from.
  *
