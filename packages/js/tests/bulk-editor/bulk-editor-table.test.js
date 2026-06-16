@@ -133,7 +133,7 @@ describe( "BulkEditorTable", () => {
 				fieldSet={ searchFieldSet }
 				editing={ {
 					editingRows: {
-						2: { openFields: [ "seoTitle", "metaDescription" ], draft: { seoTitle: "Draft title", metaDescription: "Draft description" }, savingField: null },
+						2: { openFields: [ "seoTitle", "metaDescription" ], draft: { seoTitle: "Draft title", metaDescription: "Draft description" }, savingFields: {} },
 					},
 				} }
 			/>
@@ -166,7 +166,7 @@ describe( "BulkEditorTable", () => {
 				items={ items }
 				fieldSet={ searchFieldSet }
 				editing={ {
-					editingRows: { 2: { openFields: [ "seoTitle", "metaDescription" ], draft: { seoTitle: "A", metaDescription: "B" }, savingField: null } },
+					editingRows: { 2: { openFields: [ "seoTitle", "metaDescription" ], draft: { seoTitle: "A", metaDescription: "B" }, savingFields: {} } },
 					onCancelEdit,
 				} }
 			/>
@@ -181,7 +181,7 @@ describe( "BulkEditorTable", () => {
 			<BulkEditorTable
 				items={ items }
 				fieldSet={ searchFieldSet }
-				editing={ { editingRows: { 2: { openFields: [ "focusKeyphrase" ], draft: { focusKeyphrase: "draft keyphrase" }, savingField: null } } } }
+				editing={ { editingRows: { 2: { openFields: [ "focusKeyphrase" ], draft: { focusKeyphrase: "draft keyphrase" }, savingFields: {} } } } }
 			/>
 		);
 
@@ -195,7 +195,7 @@ describe( "BulkEditorTable", () => {
 			<BulkEditorTable
 				items={ items }
 				fieldSet={ searchFieldSet }
-				editing={ { editingRows: { 2: { openFields: [ "metaDescription" ], draft: { metaDescription: "Draft description" }, savingField: null } } } }
+				editing={ { editingRows: { 2: { openFields: [ "metaDescription" ], draft: { metaDescription: "Draft description" }, savingFields: {} } } } }
 			/>
 		);
 
@@ -213,7 +213,7 @@ describe( "BulkEditorTable", () => {
 				items={ items }
 				fieldSet={ searchFieldSet }
 				editing={ {
-					editingRows: { 2: { openFields: [ "seoTitle" ], draft: { seoTitle: "Draft title" }, savingField: null } },
+					editingRows: { 2: { openFields: [ "seoTitle" ], draft: { seoTitle: "Draft title" }, savingFields: {} } },
 					onChangeField,
 					onApplyField,
 					onDiscardField,
@@ -241,7 +241,7 @@ describe( "BulkEditorTable", () => {
 				fieldSet={ searchFieldSet }
 				editing={ {
 					editingRows: {
-						2: { openFields: [ "seoTitle", "metaDescription" ], draft: { seoTitle: "Draft title", metaDescription: "Draft description" }, savingField: "seoTitle" },
+						2: { openFields: [ "seoTitle", "metaDescription" ], draft: { seoTitle: "Draft title", metaDescription: "Draft description" }, savingFields: { seoTitle: true } },
 					},
 				} }
 			/>
@@ -259,7 +259,7 @@ describe( "BulkEditorTable", () => {
 			<BulkEditorTable
 				items={ items }
 				fieldSet={ searchFieldSet }
-				editing={ { editingRows: { 2: { openFields: [ "seoTitle" ], draft: { seoTitle: "Draft title" }, savingField: null } } } }
+				editing={ { editingRows: { 2: { openFields: [ "seoTitle" ], draft: { seoTitle: "Draft title" }, savingFields: {} } } } }
 			/>
 		);
 
@@ -275,8 +275,8 @@ describe( "BulkEditorTable", () => {
 				fieldSet={ searchFieldSet }
 				editing={ {
 					editingRows: {
-						1: { openFields: [ "seoTitle" ], draft: { seoTitle: "First" }, savingField: null },
-						2: { openFields: [ "seoTitle" ], draft: { seoTitle: "Second" }, savingField: null },
+						1: { openFields: [ "seoTitle" ], draft: { seoTitle: "First" }, savingFields: {} },
+						2: { openFields: [ "seoTitle" ], draft: { seoTitle: "Second" }, savingFields: {} },
 					},
 				} }
 			/>

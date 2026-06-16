@@ -58,7 +58,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		}
 
 		const value = rowEdit.draft[ key ];
-		setSavingField( { id, key } );
+		setSavingField( { id, key, isSaving: true } );
 		try {
 			await remoteDataProvider.fetchJson( endpoint, {}, {
 				method: "POST",
@@ -67,7 +67,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			setItems( ( current ) => current.map( ( item ) => ( item.id === id ? { ...item, [ key ]: value } : item ) ) );
 			closeField( { id, key } );
 		} catch ( error ) {
-			setSavingField( { id, key: null } );
+			setSavingField( { id, key, isSaving: false } );
 		}
 	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, closeField ] );
 

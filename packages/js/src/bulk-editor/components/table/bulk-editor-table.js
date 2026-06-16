@@ -19,7 +19,7 @@ import { getColumnCount } from "./table-helpers";
  * its field-set fields, and each open field is applied (saved on its own) or discarded independently.
  *
  * @typedef {Object} BulkEditorEditing
- * @property {Object}   [editingRows]    Edit state keyed by item id: `{ [id]: { openFields, draft, savingField } }`.
+ * @property {Object}   [editingRows]    Edit state keyed by item id: `{ [id]: { openFields, draft, savingFields } }`.
  * @property {Function} [onStartEdit]    Called with an item id to enter edit mode.
  * @property {Function} [onChangeField]  Called with `{ id, key, value }` when a field changes.
  * @property {Function} [onApplyField]   Called with `{ id, key }` to save that field.

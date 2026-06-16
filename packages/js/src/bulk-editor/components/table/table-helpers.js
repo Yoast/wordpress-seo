@@ -29,15 +29,15 @@ export const getStatusLabel = ( status ) => {
  */
 export const getColumnCount = ( fields ) => 3 + fields.length;
 
-const EMPTY_ROW_EDIT = { openFields: [], draft: {}, savingField: null };
+const EMPTY_ROW_EDIT = { openFields: [], draft: {}, savingFields: {} };
 
 /**
  * Resolves what a row needs to render its editing UI: whether it is being edited, plus its open fields, draft
  * values and the field currently saving. Falls back to empty values when the row has no edit in progress.
  *
- * @param {Object} [edit] The row's edit state ({ openFields, draft, savingField }), or undefined when not editing.
+ * @param {Object} [edit] The row's edit state ({ openFields, draft, savingFields }), or undefined when not editing.
  *
- * @returns {{isEditing: boolean, openFields: string[], draft: Object, savingField: (string|null)}} The row's editing state.
+ * @returns {{isEditing: boolean, openFields: string[], draft: Object, savingFields: Object}} The row's editing state.
  */
 export const getRowEditState = ( edit ) => ( {
 	isEditing: Boolean( edit ),

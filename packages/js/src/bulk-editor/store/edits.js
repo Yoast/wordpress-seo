@@ -18,7 +18,7 @@ const slice = createSlice( {
 			state.rows[ payload.id ] = {
 				openFields: Object.keys( payload.draft ),
 				draft: { ...payload.draft },
-				savingField: null,
+				savingFields: {},
 			};
 		},
 		// Updates a single open field's draft value for a row.
@@ -28,11 +28,16 @@ const slice = createSlice( {
 				row.draft[ payload.key ] = payload.value;
 			}
 		},
-		// Marks the field currently saving for a row (or null when none), to disable it while the save runs.
+		// Flags or clears a single field's saving state, so a row's fields can save independently.
 		setSavingField: ( state, { payload } ) => {
 			const row = state.rows[ payload.id ];
-			if ( row ) {
-				row.savingField = payload.key;
+			if ( ! row ) {
+				return;
+			}
+			if ( payload.isSaving ) {
+				row.savingFields[ payload.key ] = true;
+			} else {
+				delete row.savingFields[ payload.key ];
 			}
 		},
 		// Resolves a field (after Apply or Discard): closes its input. The row leaves edit mode once none remain.
@@ -43,9 +48,7 @@ const slice = createSlice( {
 			}
 			row.openFields = row.openFields.filter( ( key ) => key !== payload.key );
 			delete row.draft[ payload.key ];
-			if ( row.savingField === payload.key ) {
-				row.savingField = null;
-			}
+			delete row.savingFields[ payload.key ];
 			if ( row.openFields.length === 0 ) {
 				delete state.rows[ payload.id ];
 			}

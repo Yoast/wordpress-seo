@@ -13,13 +13,13 @@ import { getRowEditState } from "./table-helpers";
  * @param {FieldSetField[]}   props.fields      The active field set's editable columns.
  * @param {boolean}           props.isSelected  Whether this item is selected.
  * @param {Function}          props.onToggleRow Called with the item id when its checkbox is toggled.
- * @param {Object}            [props.edit]      This row's edit state ({ openFields, draft, savingField }), or undefined when not editing.
+ * @param {Object}            [props.edit]      This row's edit state ({ openFields, draft, savingFields }), or undefined when not editing.
  * @param {BulkEditorEditing} props.editing     The inline-edit props (its handlers).
  *
  * @returns {JSX.Element} The row.
  */
 export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, editing } ) => {
-	const { isEditing, openFields, draft, savingField } = getRowEditState( edit );
+	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
 	const { onStartEdit, onChangeField, onApplyField, onDiscardField, onCancelEdit } = editing;
 
 	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
@@ -57,7 +57,7 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 						itemId={ item.id }
 						itemTitle={ item.title }
 						value={ draft[ field.key ] ?? "" }
-						isSaving={ savingField === field.key }
+						isSaving={ Boolean( savingFields[ field.key ] ) }
 						onChange={ handleChangeField }
 						onApply={ handleApplyField }
 						onDiscard={ handleDiscardField }
