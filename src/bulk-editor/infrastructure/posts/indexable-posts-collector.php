@@ -49,19 +49,19 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			->limit( $per_page )
 			->find_many();
 
-		$object_ids = [];
+		$unique_indexables = [];
 		foreach ( $indexables as $indexable ) {
-			$object_ids[] = (int) $indexable->object_id;
+			$unique_indexables[ (int) $indexable->object_id ] = $indexable;
 		}
 
-		if ( $object_ids !== [] ) {
+		if ( $unique_indexables !== [] ) {
 			// Prime the post cache so get_the_title()/get_edit_post_link() read from cache instead of one query per post.
-			\_prime_post_caches( $object_ids, false, false );
+			\_prime_post_caches( \array_keys( $unique_indexables ), false, false );
 		}
 
 		$posts_list = new Posts_List();
 
-		foreach ( $indexables as $indexable ) {
+		foreach ( $unique_indexables as $indexable ) {
 			$posts_list->add( $this->build_post( $indexable ) );
 		}
 
