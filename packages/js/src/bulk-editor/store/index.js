@@ -5,6 +5,7 @@ import { STORE_NAME } from "../constants";
 import activeContentType, { activeContentTypeActions, activeContentTypeSelectors, createInitialActiveContentTypeState } from "./active-content-type";
 import activeFieldSet, { activeFieldSetActions, activeFieldSetSelectors, createInitialActiveFieldSetState } from "./active-field-set";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
+import selection, { createInitialSelectionState, selectionActions, selectionSelectors } from "./selection";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -19,12 +20,14 @@ const createStore = ( { initialState } ) => {
 			...preferencesActions,
 			...activeFieldSetActions,
 			...activeContentTypeActions,
+			...selectionActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
 			...preferencesSelectors,
 			...activeFieldSetSelectors,
 			...activeContentTypeSelectors,
+			...selectionSelectors,
 		},
 		initialState: merge(
 			{},
@@ -33,6 +36,7 @@ const createStore = ( { initialState } ) => {
 				preferences: createInitialPreferencesState(),
 				activeFieldSet: createInitialActiveFieldSetState(),
 				activeContentType: createInitialActiveContentTypeState(),
+				selection: createInitialSelectionState(),
 			},
 			initialState
 		),
@@ -41,6 +45,7 @@ const createStore = ( { initialState } ) => {
 			preferences,
 			activeFieldSet,
 			activeContentType,
+			selection,
 		} ),
 	} );
 };
