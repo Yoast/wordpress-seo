@@ -66,7 +66,7 @@ export default class AdvancedFields {
 	 * @returns {string} The No Index setting.
 	 */
 	static get noIndex() {
-		return getMetaValue( metaKeyNoIndex, AdvancedFields.noIndexElement, "0" );
+		return getMetaValue( metaKeyNoIndex, AdvancedFields.noIndexElement ) || "0";
 	}
 
 	/**
@@ -86,7 +86,7 @@ export default class AdvancedFields {
 	 * @returns {string} The No Follow setting.
 	 */
 	static get noFollow() {
-		return getMetaValue( metaKeyNoFollow, AdvancedFields.noFollowElement, "0" );
+		return getMetaValue( metaKeyNoFollow, AdvancedFields.noFollowElement ) || "0";
 	}
 
 	/**

@@ -465,7 +465,7 @@ export default function initPostScraper( $, store, editorData ) {
 		// Dispatch cornerstone after entity meta is available. In REST meta mode the DOM element is
 		// absent and AnalysisFields.isCornerstone reads from core/editor, which returns null until
 		// the entity resolves — so we defer the dispatch until meta is loaded.
-		if ( isRestMetaActive && ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
+		if ( isRestMetaActive() && ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
 			const unsubscribeCornerstoneSync = subscribe( () => {
 				if ( ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
 					return;
@@ -543,7 +543,7 @@ export default function initPostScraper( $, store, editorData ) {
 		// Avoid error when snippet metabox is not rendered, unless the metabox has been intentionally
 		// disabled in the block editor (REST-first mode), in which case the app still needs to initialize
 		// so that window.YoastSEO.app and its Pluggable hooks are available for third-party integrations.
-		if ( metaboxContainer.length === 0 && ! isRestMetaActive ) {
+		if ( metaboxContainer.length === 0 && ! isRestMetaActive() ) {
 			return;
 		}
 

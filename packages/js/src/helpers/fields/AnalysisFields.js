@@ -92,7 +92,7 @@ function writeOrQueue( metaKey, value, undoIgnore = false ) {
  * @returns {void}
  */
 const setScoreMeta = ( metaKey, element, value ) => {
-	if ( isRestMetaActive ) {
+	if ( isRestMetaActive() ) {
 		writeOrQueue( metaKey, value, true );
 		return;
 	}
@@ -162,7 +162,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set keyphrase( value ) {
-		if ( isRestMetaActive ) {
+		if ( isRestMetaActive() ) {
 			if ( ! shouldSkipMetaWrite( metaKeyFocusKw, value ) ) {
 				writeOrQueue( metaKeyFocusKw, value );
 			}
@@ -190,7 +190,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set isCornerstone( value ) {
-		if ( isRestMetaActive ) {
+		if ( isRestMetaActive() ) {
 			const newValue = value ? "1" : "0";
 			if ( ! shouldSkipMetaWrite( metaKeyIsCornerstone, newValue ) ) {
 				writeOrQueue( metaKeyIsCornerstone, newValue );
