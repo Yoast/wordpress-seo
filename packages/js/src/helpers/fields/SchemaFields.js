@@ -1,5 +1,6 @@
 import { metaKeySchemaArticleType, metaKeySchemaPageType } from "../../shared-admin/constants/meta-keys";
 import { getMetaValue, setMetaValue } from "./rest-meta";
+import { get } from "lodash";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Schema.
@@ -24,7 +25,7 @@ export default class SchemaFields {
 	 * @returns {string} The default ArticleType.
 	 */
 	static get defaultArticleType() {
-		return SchemaFields.articleTypeInput?.getAttribute( "data-default" ) ?? "";
+		return get( window, "wpseoScriptData.metabox.schema.defaultArticleType", "" );
 	}
 
 	/**
@@ -62,7 +63,7 @@ export default class SchemaFields {
 	 * @returns {string} The default PageType.
 	 */
 	static get defaultPageType() {
-		return SchemaFields.pageTypeInput?.getAttribute( "data-default" ) ?? "";
+		return get( window, "wpseoScriptData.metabox.schema.defaultPageType", "" );
 	}
 
 	/**
@@ -83,5 +84,14 @@ export default class SchemaFields {
 	 */
 	static set pageType( pageType ) {
 		setMetaValue( metaKeySchemaPageType, SchemaFields.pageTypeInput, pageType );
+	}
+
+	/**
+	 * Should show the article input.
+	 *
+	 * @returns {boolean} True if the article input should be shown, false otherwise.
+	 */
+	static get showArticleInput() {
+		return Boolean( get( window, "wpseoScriptData.metabox.schema.showArticleInput", false ) );
 	}
 }

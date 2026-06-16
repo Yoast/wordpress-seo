@@ -1,12 +1,10 @@
 import SchemaFields from "../../../src/helpers/fields/SchemaFields";
+import { mockWindow } from "../../test-utils";
 
-const createElement = ( id, value = "", dataDefault = "" ) => {
+const createElement = ( id, value = "" ) => {
 	const el = document.createElement( "input" );
 	el.id = id;
 	el.value = value;
-	if ( dataDefault ) {
-		el.setAttribute( "data-default", dataDefault );
-	}
 	document.body.appendChild( el );
 	return el;
 };
@@ -27,13 +25,14 @@ describe( "articleTypeInput", () => {
 } );
 
 describe( "defaultArticleType", () => {
-	it( "returns an empty string when the element is absent", () => {
+	it( "returns an empty string when wpseoScriptData is absent", () => {
 		expect( SchemaFields.defaultArticleType ).toBe( "" );
 	} );
 
-	it( "returns the data-default attribute value", () => {
-		createElement( "yoast_wpseo_schema_article_type", "", "Article" );
+	it( "returns the value from wpseoScriptData", () => {
+		const spy = mockWindow( { wpseoScriptData: { metabox: { schema: { defaultArticleType: "Article" } } } } );
 		expect( SchemaFields.defaultArticleType ).toBe( "Article" );
+		spy.mockRestore();
 	} );
 } );
 
@@ -74,13 +73,14 @@ describe( "pageTypeInput", () => {
 } );
 
 describe( "defaultPageType", () => {
-	it( "returns an empty string when the element is absent", () => {
+	it( "returns an empty string when wpseoScriptData is absent", () => {
 		expect( SchemaFields.defaultPageType ).toBe( "" );
 	} );
 
-	it( "returns the data-default attribute value", () => {
-		createElement( "yoast_wpseo_schema_page_type", "", "WebPage" );
+	it( "returns the value from wpseoScriptData", () => {
+		const spy = mockWindow( { wpseoScriptData: { metabox: { schema: { defaultPageType: "WebPage" } } } } );
 		expect( SchemaFields.defaultPageType ).toBe( "WebPage" );
+		spy.mockRestore();
 	} );
 } );
 
