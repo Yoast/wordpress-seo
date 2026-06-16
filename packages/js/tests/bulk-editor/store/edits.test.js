@@ -14,7 +14,7 @@ describe( "edits slice", () => {
 		expect( state.rows[ 7 ] ).toEqual( {
 			openFields: [ "seoTitle", "metaDescription" ],
 			draft: { seoTitle: "Title", metaDescription: "Description" },
-			savingField: null,
+			savingFields: {},
 		} );
 	} );
 
@@ -25,12 +25,15 @@ describe( "edits slice", () => {
 		expect( Object.keys( state.rows ) ).toEqual( [ "7", "9" ] );
 	} );
 
-	it( "copies the seeded draft so later edits do not mutate the source", () => {
+	it( "copies the seeded draft so editing a field does not mutate the source", () => {
 		const source = { seoTitle: "Title" };
-		const state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: source } ) );
+		let state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: source } ) );
 
-		reducer( state, editsActions.updateDraftField( { id: 7, key: "seoTitle", value: "Changed" } ) );
+		expect( state.rows[ 7 ].draft ).not.toBe( source );
 
+		state = reducer( state, editsActions.updateDraftField( { id: 7, key: "seoTitle", value: "Changed" } ) );
+
+		expect( state.rows[ 7 ].draft.seoTitle ).toBe( "Changed" );
 		expect( source.seoTitle ).toBe( "Title" );
 	} );
 
@@ -44,25 +47,26 @@ describe( "edits slice", () => {
 		expect( state.rows[ 9 ].draft ).toEqual( { seoTitle: "C" } );
 	} );
 
-	it( "flags and clears the saving field for a row", () => {
-		let state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: { seoTitle: "A" } } ) );
+	it( "flags and clears each field's saving state independently, including concurrently", () => {
+		let state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: { seoTitle: "A", metaDescription: "B" } } ) );
 
-		state = reducer( state, editsActions.setSavingField( { id: 7, key: "seoTitle" } ) );
-		expect( state.rows[ 7 ].savingField ).toBe( "seoTitle" );
+		state = reducer( state, editsActions.setSavingField( { id: 7, key: "seoTitle", isSaving: true } ) );
+		state = reducer( state, editsActions.setSavingField( { id: 7, key: "metaDescription", isSaving: true } ) );
+		expect( state.rows[ 7 ].savingFields ).toEqual( { seoTitle: true, metaDescription: true } );
 
-		state = reducer( state, editsActions.setSavingField( { id: 7, key: null } ) );
-		expect( state.rows[ 7 ].savingField ).toBeNull();
+		state = reducer( state, editsActions.setSavingField( { id: 7, key: "seoTitle", isSaving: false } ) );
+		expect( state.rows[ 7 ].savingFields ).toEqual( { metaDescription: true } );
 	} );
 
 	it( "closes one field but keeps the row editing while another remains open", () => {
 		let state = reducer( createInitialEditsState(), editsActions.startEdit( { id: 7, draft: { seoTitle: "A", metaDescription: "B" } } ) );
-		state = reducer( state, editsActions.setSavingField( { id: 7, key: "seoTitle" } ) );
+		state = reducer( state, editsActions.setSavingField( { id: 7, key: "seoTitle", isSaving: true } ) );
 
 		state = reducer( state, editsActions.closeField( { id: 7, key: "seoTitle" } ) );
 
 		expect( state.rows[ 7 ].openFields ).toEqual( [ "metaDescription" ] );
 		expect( state.rows[ 7 ].draft ).toEqual( { metaDescription: "B" } );
-		expect( state.rows[ 7 ].savingField ).toBeNull();
+		expect( state.rows[ 7 ].savingFields ).toEqual( {} );
 	} );
 
 	it( "leaves edit mode for a row once its last field closes", () => {
@@ -91,7 +95,7 @@ describe( "edits slice", () => {
 	} );
 
 	it( "selects the editing rows map, defaulting to empty when missing", () => {
-		const rows = { 7: { openFields: [ "seoTitle" ], draft: { seoTitle: "A" }, savingField: null } };
+		const rows = { 7: { openFields: [ "seoTitle" ], draft: { seoTitle: "A" }, savingFields: {} } };
 
 		expect( editsSelectors.selectEditingRows( { edits: { rows } } ) ).toEqual( rows );
 		expect( editsSelectors.selectEditingRows( {} ) ).toEqual( {} );
