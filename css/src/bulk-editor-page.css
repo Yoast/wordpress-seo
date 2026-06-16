@@ -1,6 +1,9 @@
 .seo_page_wpseo_page_bulk_edit {
 	@apply yst-bg-slate-100;
 
+	--yst-ai-color-pink-300: #cd82ab;
+	--yst-ai-color-purple-300: #a5b4fc;
+
 	/* Let the Yoast UI (and the mobile top bar) span the full content width. */
 	#wpcontent {
 		padding-left: 0 !important;
@@ -21,5 +24,28 @@
 	/* Stack the drawer above the WP admin bar so it overlays instead of stacking below it. */
 	.yst-mobile-navigation__dialog {
 		z-index: 99999;
+	}
+}
+
+/* The bulk-actions toolbar animation */
+@keyframes yst-bulk-actions-reveal {
+	from {
+		opacity: 0;
+		transform: translateY( -0.25rem );
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY( 0 );
+	}
+}
+
+.yst-bulk-actions-row {
+	animation: yst-bulk-actions-reveal 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.yst-bulk-actions-row {
+		animation: none;
 	}
 }

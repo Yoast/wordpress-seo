@@ -43,48 +43,46 @@ const getStatusLabel = ( status ) => {
 const getColumnCount = ( fields ) => 4 + fields.length;
 
 /**
- * The table header: the multi-select toolbar row and the column header row.
+ * The table header: the selection toolbar, the bulk-actions toolbar (when rows are selected), and the column
+ * header row.
  *
- * @param {Object}              props             The props.
- * @param {FieldSetField[]}     props.fields      The active field set's editable columns.
- * @param {number}              props.columnCount The total number of columns.
- * @param {BulkEditorSelection} props.selection   The selection seam.
- * @param {boolean}             props.isLoading   Whether the table is loading (disables "select all").
+ * @param {Object}          props                  The props.
+ * @param {FieldSetField[]} props.fields           The active field set's editable columns.
+ * @param {number}          props.columnCount      The total number of columns (for the full-width toolbar rows).
+ * @param {JSX.Element}     [props.selectionToolbar] The first toolbar row's content (master checkbox + Select menu).
+ * @param {JSX.Element}     [props.bulkActions]      The second toolbar row's content; omitted when nothing is selected.
  *
  * @returns {JSX.Element} The header.
  */
-const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
-	const { isAllSelected = false, onToggleAll = noop } = selection;
-
-	return (
-		<Table.Head>
+const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkActions } ) => (
+	<Table.Head>
+		{ selectionToolbar && (
 			<Table.Row>
 				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-50 yst-rounded-ss-lg yst-rounded-se-lg">
-					<Checkbox
-						id="bulk-editor-select-all"
-						name="bulk-editor-select-all"
-						value="all"
-						aria-label={ __( "Select all", "wordpress-seo" ) }
-						checked={ isAllSelected }
-						onChange={ onToggleAll }
-						disabled={ isLoading }
-					/>
+					{ selectionToolbar }
 				</Table.Cell>
 			</Table.Row>
+		) }
+		{ bulkActions && (
 			<Table.Row>
-				<Table.Header scope="col">
-					<span className="yst-sr-only">{ __( "Select", "wordpress-seo" ) }</span>
-				</Table.Header>
-				<Table.Header scope="col">{ __( "Title", "wordpress-seo" ) }</Table.Header>
-				<Table.Header scope="col">{ __( "Focus keyphrase", "wordpress-seo" ) }</Table.Header>
-				{ fields.map( ( field ) => (
-					<Table.Header key={ field.key } scope="col">{ field.label }</Table.Header>
-				) ) }
-				<Table.Header scope="col"><span className="yst-flex yst-justify-end">{ __( "Actions", "wordpress-seo" ) }</span></Table.Header>
+				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-100 yst-bulk-actions-row">
+					{ bulkActions }
+				</Table.Cell>
 			</Table.Row>
-		</Table.Head>
-	);
-};
+		) }
+		<Table.Row>
+			<Table.Header scope="col">
+				<span className="yst-sr-only">{ __( "Select", "wordpress-seo" ) }</span>
+			</Table.Header>
+			<Table.Header scope="col">{ __( "Title", "wordpress-seo" ) }</Table.Header>
+			<Table.Header scope="col">{ __( "Focus keyphrase", "wordpress-seo" ) }</Table.Header>
+			{ fields.map( ( field ) => (
+				<Table.Header key={ field.key } scope="col">{ field.label }</Table.Header>
+			) ) }
+			<Table.Header scope="col"><span className="yst-flex yst-justify-end">{ __( "Actions", "wordpress-seo" ) }</span></Table.Header>
+		</Table.Row>
+	</Table.Head>
+);
 
 /**
  * A single content row.
@@ -222,13 +220,15 @@ const BulkEditorBody = ( { items, fields, columnCount, selection, onEdit, isLoad
  * @param {Object}              props             The props.
  * @param {BulkEditorItem[]}    props.items       The items to render.
  * @param {FieldSet}            props.fieldSet    The active field set (its `fields` drive the editable columns).
- * @param {BulkEditorSelection} [props.selection] The selection seam.
- * @param {Function}            [props.onEdit]    Called with an item id when its Edit action is triggered.
- * @param {boolean}             [props.isLoading] Whether to render skeleton rows instead of data.
+ * @param {BulkEditorSelection} [props.selection]        The selection seam.
+ * @param {Function}            [props.onEdit]           Called with an item id when its Edit action is triggered.
+ * @param {boolean}             [props.isLoading]        Whether to render skeleton rows instead of data.
+ * @param {JSX.Element}         [props.selectionToolbar] The first toolbar row's content (master checkbox + Select menu).
+ * @param {JSX.Element}         [props.bulkActions]      The bulk-actions toolbar row's content; omitted when nothing is selected.
  *
  * @returns {JSX.Element} The table.
  */
-export const BulkEditorTable = ( { items, fieldSet, selection = {}, onEdit = noop, isLoading = false } ) => {
+export const BulkEditorTable = ( { items, fieldSet, selection = {}, onEdit = noop, isLoading = false, selectionToolbar, bulkActions } ) => {
 	const columnCount = getColumnCount( fieldSet.fields );
 
 	return (
@@ -247,7 +247,12 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, onEdit = noo
 					) ) }
 					<col className="sm:yst-w-[5%]" />
 				</colgroup>
-				<BulkEditorHeader fields={ fieldSet.fields } columnCount={ columnCount } selection={ selection } isLoading={ isLoading } />
+				<BulkEditorHeader
+					fields={ fieldSet.fields }
+					columnCount={ columnCount }
+					selectionToolbar={ selectionToolbar }
+					bulkActions={ bulkActions }
+				/>
 				<Table.Body>
 					<BulkEditorBody
 						items={ items }

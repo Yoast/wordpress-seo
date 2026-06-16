@@ -7,6 +7,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Bulk_Editor_Integra
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
+use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -71,6 +72,13 @@ abstract class Abstract_Bulk_Editor_Integration_Test extends TestCase {
 	protected $nonce_repository;
 
 	/**
+	 * Holds the Endpoints_Repository mock.
+	 *
+	 * @var Mockery\MockInterface|Endpoints_Repository
+	 */
+	protected $endpoints_repository;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -84,6 +92,7 @@ abstract class Abstract_Bulk_Editor_Integration_Test extends TestCase {
 		$this->short_link_helper        = Mockery::mock( Short_Link_Helper::class );
 		$this->content_types_repository = Mockery::mock( Content_Types_Repository::class );
 		$this->nonce_repository         = Mockery::mock( Nonce_Repository::class );
+		$this->endpoints_repository     = Mockery::mock( Endpoints_Repository::class );
 
 		$this->instance = new Bulk_Editor_Integration(
 			$this->asset_manager,
@@ -92,6 +101,7 @@ abstract class Abstract_Bulk_Editor_Integration_Test extends TestCase {
 			$this->short_link_helper,
 			$this->content_types_repository,
 			$this->nonce_repository,
+			$this->endpoints_repository,
 		);
 	}
 }
