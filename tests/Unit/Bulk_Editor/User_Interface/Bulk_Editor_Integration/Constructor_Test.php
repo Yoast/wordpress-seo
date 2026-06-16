@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Bulk_Editor_Integra
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
+use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -49,6 +50,10 @@ final class Constructor_Test extends Abstract_Bulk_Editor_Integration_Test {
 		$this->assertInstanceOf(
 			Nonce_Repository::class,
 			$this->getPropertyValue( $this->instance, 'nonce_repository' ),
+		);
+		$this->assertInstanceOf(
+			Endpoints_Repository::class,
+			$this->getPropertyValue( $this->instance, 'endpoints_repository' ),
 		);
 	}
 }
