@@ -74,12 +74,6 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 			->andReturn( '' );
 
 		// token_request flow.
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( '1' );
-
 		$this->code_verifier
 			->expects( 'generate' )
 			->with( 'test@example.com' )
@@ -205,12 +199,6 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 			->andReturn( '' );
 
 		// token_request flow.
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( '1' );
-
 		$this->code_verifier
 			->expects( 'generate' )
 			->with( 'test@example.com' )
@@ -284,12 +272,6 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 		$code_verifier        = Mockery::mock( Code_Verifier::class );
 		$code                 = 'test-code-verifier';
 		$created_at           = 1_640_995_200;
-
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 123, '_yoast_wpseo_ai_consent', true )
-			->once()
-			->andReturn( '1' );
 
 		$this->code_verifier
 			->expects( 'generate' )

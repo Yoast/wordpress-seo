@@ -135,7 +135,7 @@ const BlackFridayAnnouncementContent = ( {
  * @returns {JSX.Element} The element.
  */
 export const BlackFridayAnnouncement = () => {
-	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "black-friday-2025.gif" ), [] );
+	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "black-friday-introduction.gif" ), [] );
 	const isWooEnabled = useMemo( () => Boolean( get( window, "wpseoIntroductions.isWooEnabled", false ) ), [] );
 	const buttonPremiumLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/black-friday-modal-premium/" ), [] );
 	const buttonWooLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/black-friday-modal-ecommerce/" ), [] );

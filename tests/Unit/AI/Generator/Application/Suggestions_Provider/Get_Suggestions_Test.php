@@ -164,4 +164,38 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 			false,
 		);
 	}
+
+	/**
+	 * Tests a forbidden exception thrown while fetching the access token.
+	 *
+	 * @return void
+	 */
+	public function test_get_suggestions_with_forbidden_exception_on_token_fetch() {
+		$user     = Mockery::mock( WP_User::class );
+		$user->ID = 1;
+
+		$this->token_manager
+			->expects( 'get_or_request_access_token' )
+			->once()
+			->with( $user )
+			->andThrow( new Forbidden_Exception() );
+
+		$this->consent_handler->expects( 'revoke_consent' )
+			->once()
+			->with( $user->ID );
+
+		$this->expectException( Forbidden_Exception::class );
+		$this->expectExceptionMessage( 'CONSENT_REVOKED' );
+
+		$this->instance->get_suggestions(
+			$user,
+			'test',
+			'',
+			'',
+			'',
+			'',
+			'',
+			false,
+		);
+	}
 }
