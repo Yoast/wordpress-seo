@@ -2,6 +2,7 @@ import SearchIcon from "@heroicons/react/outline/SearchIcon";
 import { useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { Button } from "@yoast/ui-library";
 import { debounce } from "lodash";
 import { FETCH_DELAY } from "../../shared-admin/constants";
 import { MIN_SEARCH_LENGTH, STORE_NAME } from "../constants";
@@ -78,12 +79,13 @@ export const SearchBox = ( { contentTypeLabel } ) => {
 						className="yst-w-full yst-border-0 yst-bg-transparent yst-py-1.5 yst-ps-10 yst-pe-3 yst-text-sm yst-text-slate-800 yst-placeholder-slate-500 focus:yst-outline-none focus:yst-ring-0"
 					/>
 				</div>
-				<button
+				<Button
 					type="submit"
-					className="yst-flex-none yst-border-s yst-border-slate-300 yst-px-4 yst-text-sm yst-font-medium yst-text-slate-700 hover:yst-text-slate-900 focus:yst-outline-none focus-visible:yst-ring-2 focus-visible:yst-ring-inset focus-visible:yst-ring-primary-500"
+					variant="tertiary"
+					className="yst-flex-none yst-rounded-none yst-border-s yst-border-slate-300 yst-px-4 yst-text-slate-700 hover:yst-text-slate-900 focus-visible:yst-outline-none focus-visible:yst-ring-2 focus-visible:yst-ring-inset focus-visible:yst-ring-primary-500"
 				>
 					{ __( "Search", "wordpress-seo" ) }
-				</button>
+				</Button>
 			</div>
 		</form>
 	);
