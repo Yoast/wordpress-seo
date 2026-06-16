@@ -8,7 +8,8 @@ use Mockery;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_List;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Page;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
 
 /**
  * Tests get_posts.
@@ -23,21 +24,29 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_List;
 final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 
 	/**
-	 * Tests that a valid content type returns the posts in a response.
+	 * Tests that a valid content type builds a query and returns the posts in a response.
 	 *
 	 * @return void
 	 */
 	public function test_get_posts_valid() {
 		$rows = [
-			[
-				'id'    => 7,
-				'title' => 'Hello world',
+			'posts'       => [
+				[
+					'id'    => 7,
+					'title' => 'Hello world',
+				],
 			],
+			'total'       => 1,
+			'total_pages' => 1,
+			'page'        => 1,
+			'per_page'    => 20,
 		];
 
 		$request = Mockery::mock( WP_REST_Request::class );
 		$request->expects( 'get_param' )->with( 'content_type' )->andReturn( 'page' );
+		$request->expects( 'get_param' )->with( 'page' )->andReturn( 1 );
 		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
+		$request->expects( 'get_param' )->with( 'search' )->andReturn( 'seo' );
 
 		$this->content_types_repository
 			->expects( 'get_content_types' )
@@ -51,14 +60,14 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 				],
 			);
 
-		$posts_list = Mockery::mock( Posts_List::class );
-		$posts_list->expects( 'to_array' )->once()->andReturn( $rows );
+		$posts_page = Mockery::mock( Posts_Page::class );
+		$posts_page->expects( 'to_array' )->once()->andReturn( $rows );
 
 		$this->posts_repository
 			->expects( 'get_posts' )
 			->once()
-			->with( 'page', 20 )
-			->andReturn( $posts_list );
+			->with( Mockery::type( Posts_Query::class ) )
+			->andReturn( $posts_page );
 
 		Mockery::mock( 'overload:' . WP_REST_Response::class );
 

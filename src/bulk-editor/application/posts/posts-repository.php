@@ -3,7 +3,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Bulk_Editor\Application\Posts;
 
-use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_List;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Page;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -52,20 +53,19 @@ class Posts_Repository {
 	}
 
 	/**
-	 * Returns a page of posts for the given content type.
+	 * Returns a page of posts for the given query.
 	 *
 	 * Reads from the indexable table when indexables are active, and falls back to post meta otherwise.
 	 *
-	 * @param string $content_type The content type to get posts for.
-	 * @param int    $per_page     The number of posts to get.
+	 * @param Posts_Query $query The query describing the page to get.
 	 *
-	 * @return Posts_List The posts.
+	 * @return Posts_Page The posts together with the totals for pagination.
 	 */
-	public function get_posts( string $content_type, int $per_page ): Posts_List {
+	public function get_posts( Posts_Query $query ): Posts_Page {
 		if ( $this->indexable_helper->should_index_indexables() ) {
-			return $this->indexable_posts_collector->get_posts( $content_type, $per_page );
+			return $this->indexable_posts_collector->get_posts( $query );
 		}
 
-		return $this->post_meta_posts_collector->get_posts( $content_type, $per_page );
+		return $this->post_meta_posts_collector->get_posts( $query );
 	}
 }

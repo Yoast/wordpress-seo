@@ -3,7 +3,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Bulk_Editor\Application\Posts;
 
-use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_List;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Page;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
 
 /**
  * Describes a collector that gathers a page of posts for the bulk editor.
@@ -18,12 +19,26 @@ interface Posts_Collector_Interface {
 	public const STATUSES = [ 'publish', 'draft', 'pending', 'future' ];
 
 	/**
-	 * Collects a page of posts for the given content type.
+	 * The fields matched by the catch-all search, as a map of indexable column to Yoast meta key suffix.
 	 *
-	 * @param string $content_type The content type to collect posts for.
-	 * @param int    $per_page     The number of posts to collect.
+	 * The post title is searched separately by both collectors because it lives in the posts table, not here.
 	 *
-	 * @return Posts_List The collected posts.
+	 * @var array<string, string>
 	 */
-	public function get_posts( string $content_type, int $per_page ): Posts_List;
+	public const SEARCHABLE_FIELDS = [
+		'primary_focus_keyword'  => 'focuskw',
+		'title'                  => 'title',
+		'description'            => 'metadesc',
+		'open_graph_title'       => 'opengraph-title',
+		'open_graph_description' => 'opengraph-description',
+	];
+
+	/**
+	 * Collects a page of posts for the given query.
+	 *
+	 * @param Posts_Query $query The query describing the page to collect.
+	 *
+	 * @return Posts_Page The collected posts together with the totals for pagination.
+	 */
+	public function get_posts( Posts_Query $query ): Posts_Page;
 }
