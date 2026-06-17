@@ -11,8 +11,24 @@ const dataProvider = new DataProvider( {
 		{ name: "page", label: "Pages" },
 		{ name: "post", label: "Posts" },
 	],
-	endpoints: {},
+	endpoints: { posts: "https://example.com/wp-json/yoast/v1/bulk_editor/posts" },
 	links: {},
+} );
+// The data layer is exercised by use-posts.test.js; here the request stays pending so the table
+// renders its loading state and the assertions are unaffected by data.
+const remoteDataProvider = { fetchJson: jest.fn( () => new Promise( () => {} ) ) };
+
+// The rows the posts endpoint serves, in the API's snake_case shape (mapped by usePosts).
+/* eslint-disable camelcase -- The REST endpoint returns snake_case keys. */
+const postRows = [
+	{ id: 1, title: "What Is SEO and How It Works", status: "publish", edit_link: "https://example.com/1", focus_keyphrase: "what is seo", seo_title: "What Is SEO? Complete Guide", meta_description: "Learn what SEO is.", social_title: "Social: What Is SEO", social_description: "Social description." },
+	{ id: 2, title: "Keyword Research for Beginners", status: "publish", edit_link: "https://example.com/2", focus_keyphrase: "keyword research", seo_title: "Keyword Research Guide", meta_description: "Find keywords.", social_title: "Social: Keyword Research", social_description: "Social description 2." },
+];
+/* eslint-enable camelcase */
+
+// A remote data provider that serves the posts list on GET and defers the save (POST) to `onSave`.
+const buildRemote = ( onSave = () => Promise.resolve( {} ) ) => ( {
+	fetchJson: jest.fn( ( url, params, options ) => ( options?.method === "POST" ? onSave() : Promise.resolve( postRows ) ) ),
 } );
 
 describe( "App", () => {
@@ -28,7 +44,7 @@ describe( "App", () => {
 	} );
 
 	it( "renders the header, tabs and panel in a single card with the header separator", () => {
-		const { container } = render( <App dataProvider={ dataProvider } /> );
+		const { container } = render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
 
 		const papers = container.querySelectorAll( ".yst-paper" );
 		expect( papers ).toHaveLength( 1 );
@@ -41,7 +57,7 @@ describe( "App", () => {
 	} );
 
 	it( "renders the page header for the first content type", () => {
-		render( <App dataProvider={ dataProvider } /> );
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
 
 		expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
 		expect(
@@ -50,7 +66,7 @@ describe( "App", () => {
 	} );
 
 	it( "renders the content type navigation with the first content type active", () => {
-		render( <App dataProvider={ dataProvider } /> );
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
 
 		expect( screen.getByRole( "navigation", { name: "Bulk editor menu" } ) ).toBeInTheDocument();
 		// If data provider has no links, the link falls back to the WP admin home.
@@ -59,7 +75,7 @@ describe( "App", () => {
 	} );
 
 	it( "drives the header copy from the selected content type", () => {
-		render( <App dataProvider={ dataProvider } /> );
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
 
 		fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
 
@@ -71,7 +87,7 @@ describe( "App", () => {
 	} );
 
 	it( "renders the tabs with Search appearance active by default", () => {
-		render( <App dataProvider={ dataProvider } /> );
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
 
 		expect( screen.getByRole( "tab", { name: "Search appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
 		// The panel holds the field-set table for the active tab.
@@ -80,7 +96,7 @@ describe( "App", () => {
 	} );
 
 	it( "switches the panel when the Social appearance tab is activated", () => {
-		render( <App dataProvider={ dataProvider } /> );
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
 
 		fireEvent.click( screen.getByRole( "tab", { name: "Social appearance" } ) );
 
@@ -89,11 +105,11 @@ describe( "App", () => {
 		expect( screen.getByRole( "columnheader", { name: "Social description" } ) ).toBeInTheDocument();
 	} );
 
-	it( "discards an in-progress edit when switching tabs", () => {
-		render( <App dataProvider={ dataProvider } /> );
+	it( "discards an in-progress edit when switching tabs", async() => {
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
 		const rowTitle = "What Is SEO and How It Works";
 
-		fireEvent.click( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+		fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
 		expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 
 		// Switching tabs changes the editable fields, so the edit is discarded.
@@ -105,10 +121,10 @@ describe( "App", () => {
 		expect( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) ).toBeEnabled();
 	} );
 
-	it( "edits multiple rows at once without disabling the other rows' Edit", () => {
-		render( <App dataProvider={ dataProvider } /> );
+	it( "edits multiple rows at once without disabling the other rows' Edit", async() => {
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
 
-		fireEvent.click( screen.getByRole( "button", { name: "Edit What Is SEO and How It Works" } ) );
+		fireEvent.click( await screen.findByRole( "button", { name: "Edit What Is SEO and How It Works" } ) );
 
 		// Editing one row leaves another row's Edit enabled.
 		const secondEdit = screen.getByRole( "button", { name: "Edit Keyword Research for Beginners" } );
@@ -126,23 +142,23 @@ describe( "App", () => {
 		const endpointUrl = "https://example.com/wp-json/yoast/v1/bulk_editor/update_search";
 		const savingDataProvider = new DataProvider( {
 			contentTypes: [ { name: "post", label: "Posts" } ],
-			endpoints: { [ searchSet.endpoint ]: endpointUrl },
+			endpoints: { posts: "https://example.com/wp-json/yoast/v1/bulk_editor/posts", [ searchSet.endpoint ]: endpointUrl },
 			links: {},
 		} );
 		const rowTitle = "What Is SEO and How It Works";
 
 		it( "posts the edited field to the active tab's endpoint and collapses it on success", async() => {
-			const remoteDataProvider = { fetchJson: jest.fn().mockResolvedValue( {} ) };
-			render( <App dataProvider={ savingDataProvider } remoteDataProvider={ remoteDataProvider } /> );
+			const remote = buildRemote( () => Promise.resolve( {} ) );
+			render( <App dataProvider={ savingDataProvider } remoteDataProvider={ remote } /> );
 
-			fireEvent.click( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
 			fireEvent.change(
 				screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ),
 				{ target: { value: "New SEO title" } }
 			);
 			fireEvent.click( screen.getByRole( "button", { name: `Apply SEO title for ${ rowTitle }` } ) );
 
-			expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
+			expect( remote.fetchJson ).toHaveBeenCalledWith(
 				endpointUrl,
 				{},
 				{ method: "POST", body: JSON.stringify( { items: [ { id: 1, [ seoTitleParam ]: "New SEO title" } ] } ) }
@@ -152,24 +168,29 @@ describe( "App", () => {
 		} );
 
 		it( "keeps the field open and re-enables it when the save fails", async() => {
-			const remoteDataProvider = { fetchJson: jest.fn().mockRejectedValue( new Error( "save failed" ) ) };
-			render( <App dataProvider={ savingDataProvider } remoteDataProvider={ remoteDataProvider } /> );
+			const remote = buildRemote( () => Promise.reject( new Error( "save failed" ) ) );
+			render( <App dataProvider={ savingDataProvider } remoteDataProvider={ remote } /> );
 
-			fireEvent.click( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
 			fireEvent.click( screen.getByRole( "button", { name: `Apply SEO title for ${ rowTitle }` } ) );
 
 			// The field stays open and becomes editable again once the failed save settles.
 			await waitFor( () => expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeEnabled() );
 		} );
 
-		it( "does not call the endpoint when it is unavailable", () => {
-			const remoteDataProvider = { fetchJson: jest.fn() };
-			render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
+		it( "does not post to the save endpoint when it is unavailable", async() => {
+			const remote = buildRemote();
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ remote } /> );
 
-			fireEvent.click( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
 			fireEvent.click( screen.getByRole( "button", { name: `Apply SEO title for ${ rowTitle }` } ) );
 
-			expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
+			// The active tab's save endpoint is not configured, so no POST is made and the field stays open.
+			expect( remote.fetchJson ).not.toHaveBeenCalledWith(
+				expect.anything(),
+				expect.anything(),
+				expect.objectContaining( { method: "POST" } )
+			);
 			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 		} );
 	} );

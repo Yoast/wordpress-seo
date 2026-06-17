@@ -1,7 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useMemo, useState } from "@wordpress/element";
+import { useCallback, useMemo } from "@wordpress/element";
 import { STORE_NAME } from "../constants";
-import { getMockRows } from "../services/mock-rows";
 
 /**
  * The endpoint key a field saves through: its own override (the focus keyphrase) or the field set's default.
@@ -21,14 +20,14 @@ const fieldEndpointKey = ( field, fieldSet ) => field.endpoint ?? fieldSet.endpo
  * @param {Object}                             props.remoteDataProvider The remote data provider (HTTP), used to save edits.
  * @param {Object<string, import("../field-sets").FieldSet>} props.fieldSets The field sets, keyed by id.
  * @param {string}                             props.activeFieldSet     The active field set's id.
+ * @param {import("../field-sets").BulkEditorItem[]} props.items         The rows being edited (from the posts endpoint).
+ * @param {Function}                           props.updateItem         Reflects a saved field on its row locally.
  *
- * @returns {{items: import("../field-sets").BulkEditorItem[], editing: Object, stopEditing: Function}} The items, the editing props and the reset.
+ * @returns {{editing: Object, stopEditing: Function}} The editing props and the reset.
  */
-export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet } ) => {
+export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } ) => {
 	const editingRows = useSelect( ( select ) => select( STORE_NAME ).selectEditingRows(), [] );
 	const { startEdit, updateDraftField, setSavingField, closeField, discardEdit, stopEdit } = useDispatch( STORE_NAME );
-
-	const [ items, setItems ] = useState( getMockRows );
 
 	const onStartEdit = useCallback( ( id ) => {
 		const item = items.find( ( candidate ) => candidate.id === id );
@@ -64,12 +63,12 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 				method: "POST",
 				body: JSON.stringify( { items: [ { id, [ field.param ]: value } ] } ),
 			} );
-			setItems( ( current ) => current.map( ( item ) => ( item.id === id ? { ...item, [ key ]: value } : item ) ) );
+			updateItem( id, key, value );
 			closeField( { id, key } );
 		} catch ( error ) {
 			setSavingField( { id, key, isSaving: false } );
 		}
-	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, closeField ] );
+	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, closeField, updateItem ] );
 
 	const editing = useMemo( () => ( {
 		editingRows,
@@ -80,5 +79,5 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		onCancelEdit,
 	} ), [ editingRows, onStartEdit, updateDraftField, onApplyField, onDiscardField, onCancelEdit ] );
 
-	return { items, editing, stopEditing: stopEdit };
+	return { editing, stopEditing: stopEdit };
 };

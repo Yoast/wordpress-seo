@@ -51,10 +51,15 @@ final class Search_Bulk_Update_Route_Update_Test extends Abstract_Search_Bulk_Up
 						'id'               => 1,
 						'seo_title'        => 'The title',
 						'meta_description' => '',
+						'focus_keyphrase'  => 'The keyphrase',
 					],
 					[
 						'id'               => 2,
 						'meta_description' => 'The description',
+					],
+					[
+						'id'              => 3,
+						'focus_keyphrase' => '',
 					],
 				],
 			);
@@ -62,6 +67,7 @@ final class Search_Bulk_Update_Route_Update_Test extends Abstract_Search_Bulk_Up
 		$results = new Update_Result_Collection();
 		$results->add( Update_Result::for_success( 1 ) );
 		$results->add( Update_Result::for_success( 2 ) );
+		$results->add( Update_Result::for_success( 3 ) );
 
 		$this->bulk_updater->expects( 'update' )
 			->with(
@@ -72,13 +78,17 @@ final class Search_Bulk_Update_Route_Update_Test extends Abstract_Search_Bulk_Up
 				),
 				Mockery::on(
 					static function ( $updates ) {
-						if ( ! $updates instanceof Post_Update_Collection || \count( $updates->get() ) !== 2 ) {
+						if ( ! $updates instanceof Post_Update_Collection || \count( $updates->get() ) !== 3 ) {
 							return false;
 						}
-						list( $first, $second ) = $updates->get();
+						list( $first, $second, $third ) = $updates->get();
 
 						return $first->get_post_id() === 1 && $first->get_title() === 'The title' && $first->get_description() === ''
-							&& $second->get_post_id() === 2 && $second->has_title() === false && $second->get_description() === 'The description';
+							&& $first->get_focus_keyphrase() === 'The keyphrase'
+							&& $second->get_post_id() === 2 && $second->has_title() === false && $second->get_description() === 'The description'
+							&& $second->has_focus_keyphrase() === false
+							&& $third->get_post_id() === 3 && $third->has_title() === false && $third->has_description() === false
+							&& $third->get_focus_keyphrase() === '';
 					},
 				),
 			)

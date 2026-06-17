@@ -35,7 +35,7 @@ const getHeaderCopy = ( contentType ) => {
  *
  * @param {Object}                            props                    The props.
  * @param {import("./services").DataProvider} props.dataProvider       The data provider (config + endpoints/links).
- * @param {Object}                            props.remoteDataProvider The remote data provider (HTTP), used to save edits.
+ * @param {Object}                            props.remoteDataProvider The remote data provider (HTTP), used to fetch and save edits.
  *
  * @returns {JSX.Element} The app.
  */
@@ -80,7 +80,11 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 				<div className="yst-grow yst-max-w-page yst-min-w-0">
 					<Paper as="main">
 						<BulkEditorPageHeader title={ title } description={ description } />
-						<BulkEditorContent dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } />
+						<BulkEditorContent
+							dataProvider={ dataProvider }
+							remoteDataProvider={ remoteDataProvider }
+							contentType={ activeContentType ? activeContentType.id : "" }
+						/>
 					</Paper>
 				</div>
 			</div>

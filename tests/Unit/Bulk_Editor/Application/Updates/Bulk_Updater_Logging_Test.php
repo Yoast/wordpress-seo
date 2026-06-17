@@ -36,7 +36,7 @@ final class Bulk_Updater_Logging_Test extends Abstract_Bulk_Updater_Test {
 		);
 
 		$updates = new Post_Update_Collection();
-		$updates->add( new Post_Update( 123, 'The title', null ) );
+		$updates->add( new Post_Update( 123, 'The title', null, null ) );
 
 		$this->instance->update( $type, $updates );
 	}
@@ -54,7 +54,7 @@ final class Bulk_Updater_Logging_Test extends Abstract_Bulk_Updater_Test {
 		$this->logger->expects( 'warning' )->never();
 
 		$updates = new Post_Update_Collection();
-		$updates->add( new Post_Update( 123, 'The title', null ) );
+		$updates->add( new Post_Update( 123, 'The title', null, null ) );
 
 		$this->instance->update( $type, $updates );
 	}

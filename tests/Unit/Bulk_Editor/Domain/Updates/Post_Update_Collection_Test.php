@@ -29,8 +29,8 @@ final class Post_Update_Collection_Test extends TestCase {
 
 		$this->assertSame( [], $instance->get() );
 
-		$first  = new Post_Update( 1, 'First', null );
-		$second = new Post_Update( 2, null, 'Second' );
+		$first  = new Post_Update( 1, 'First', null, null );
+		$second = new Post_Update( 2, null, 'Second', null );
 
 		$instance->add( $first );
 		$instance->add( $second );
