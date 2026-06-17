@@ -10,7 +10,29 @@ import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 
 /**
- * The bulk editor content: the Search/Social appearance tab bar and the tab panels with the field-set table.
+ * Generates the selection toolbar's view. While loading, the previous content type's items and selection still
+ * linger behind the skeleton rows, so a neutral (empty) selection is presented instead.
+ *
+ * @param {boolean}  isLoading   Whether the rows are still loading.
+ * @param {number[]} selectedIds The currently selected item ids.
+ * @param {Object[]} items       The loaded items.
+ *
+ * @returns {{isAllSelected: boolean, selectedCount: number, totalCount: number, hasSelection: boolean}} The selection view.
+ */
+const getSelectionView = ( isLoading, selectedIds, items ) => {
+	if ( isLoading ) {
+		return { isAllSelected: false, selectedCount: 0, totalCount: 0, hasSelection: false };
+	}
+	return {
+		isAllSelected: items.length > 0 && selectedIds.length === items.length,
+		selectedCount: selectedIds.length,
+		totalCount: items.length,
+		hasSelection: selectedIds.length > 0,
+	};
+};
+
+/**
+ * The bulk editor content.
  *
  * @param {Object}                             props                    The props.
  * @param {import("../services").DataProvider} props.dataProvider       The data provider (config + endpoints).
@@ -43,16 +65,18 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		deselectAll();
 	}, [ contentType, deselectAll ] );
 
-	const isAllSelected = items.length > 0 && selectedIds.length === items.length;
-	const onSelectAll = useCallback( () => selectAll( items.map( ( item ) => item.id ) ), [ selectAll, items ] );
+	const { isAllSelected, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items );
+	const onSelectAll = useCallback( () => {
+		if ( ! isPending ) {
+			selectAll( items.map( ( item ) => item.id ) );
+		}
+	}, [ isPending, selectAll, items ] );
 	const onToggleAll = useCallback( () => ( isAllSelected ? deselectAll() : onSelectAll() ), [ isAllSelected, deselectAll, onSelectAll ] );
 
 	const selection = useMemo( () => ( {
 		selectedIds,
 		onToggleRow: toggleRow,
 	} ), [ selectedIds, toggleRow ] );
-
-	const hasSelection = selectedIds.length > 0;
 
 	return (
 		<div className="yst-p-8 yst-space-y-8">
@@ -76,8 +100,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								onToggleAll={ onToggleAll }
 								onSelectAll={ onSelectAll }
 								onDeselectAll={ deselectAll }
-								selectedCount={ selectedIds.length }
-								totalCount={ items.length }
+								selectedCount={ selectedCount }
+								totalCount={ totalCount }
 							/>
 						}
 						bulkActions={ <BulkActions isPremium={ isPremium } /> }

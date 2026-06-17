@@ -1,4 +1,4 @@
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
 import { EditableFieldCell, TitleCell } from "./table-cells";
@@ -43,6 +43,17 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 		onDiscardField( { id: item.id, key } );
 	}, [ onDiscardField, item.id ] );
 
+	// Return focus to the row's Edit/Cancel button so keyboard users keep their place.
+	const toggleRef = useRef( null );
+	const previousOpenCount = useRef( openFields.length );
+	useEffect( () => {
+		const fieldClosed = openFields.length < previousOpenCount.current;
+		previousOpenCount.current = openFields.length;
+		if ( fieldClosed && document.activeElement === document.body ) {
+			toggleRef.current?.focus( { preventScroll: true } );
+		}
+	}, [ openFields.length ] );
+
 	/* translators: %s expands to the content item title. */
 	const editLabel = sprintf( __( "Edit %s", "wordpress-seo" ), item.title );
 	/* translators: %s expands to the content item title. */
@@ -84,6 +95,7 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 			<Table.Cell>
 				<span className="yst-flex yst-justify-end">
 					<Button
+						ref={ toggleRef }
 						variant="tertiary"
 						size="small"
 						className="yst--me-2.5"

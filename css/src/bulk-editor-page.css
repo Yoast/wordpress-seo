@@ -1,9 +1,6 @@
 .seo_page_wpseo_page_bulk_edit {
 	@apply yst-bg-slate-100;
 
-	--yst-ai-color-pink-300: #cd82ab;
-	--yst-ai-color-purple-300: #a5b4fc;
-
 	/* Let the Yoast UI (and the mobile top bar) span the full content width. */
 	#wpcontent {
 		padding-left: 0 !important;

@@ -1,5 +1,6 @@
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
+import { useReducedMotion } from "@wordpress/compose";
 import { useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Table, Textarea } from "@yoast/ui-library";
@@ -52,6 +53,7 @@ export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, 
 	const handleRequestClose = useCallback( () => onRequestClose( field.key ), [ onRequestClose, field.key ] );
 
 	// Row expand/collapse animation helper.
+	const reducedMotion = useReducedMotion();
 	const [ height, setHeight ] = useState( 0 );
 	useEffect( () => setHeight( isOpen ? "auto" : 0 ), [ isOpen ] );
 
@@ -63,12 +65,9 @@ export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, 
 
 	return (
 		<Table.Cell>
-			<AnimateHeight easing="ease-in-out" duration={ 300 } height={ height } animateOpacity={ true } onAnimationEnd={ handleAnimationEnd }>
+			<AnimateHeight easing="ease-in-out" duration={ reducedMotion ? 0 : 300 } height={ height } animateOpacity={ true } onAnimationEnd={ handleAnimationEnd }>
 				<div className="yst-flex yst-flex-col yst-gap-2">
-					<div
-						className="yst-rounded-md yst-p-px yst-shadow-sm"
-						style={ { backgroundImage: "linear-gradient(to bottom right, #cd82ab, #a3b3ff)" } }
-					>
+					<div className="yst-bg-ai-300 yst-rounded-md yst-p-px yst-shadow-sm">
 						<Textarea
 							id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
 							rows={ 2 }
