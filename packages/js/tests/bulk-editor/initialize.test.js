@@ -17,10 +17,6 @@ jest.mock( "@wordpress/element", () => ( {
 	createRoot: ( ...args ) => mockCreateRoot( ...args ),
 } ) );
 
-jest.mock( "@wordpress/compose", () => ( {
-	useReducedMotion: () => false,
-} ) );
-
 jest.mock( "@wordpress/components", () => ( {
 	SlotFillProvider: ( { children } ) => children,
 } ) );
