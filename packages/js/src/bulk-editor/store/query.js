@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
+import { activeContentTypeActions } from "./active-content-type";
 
 /**
  * @returns {{search: string, page: number}} The initial table query state.
@@ -18,6 +19,12 @@ const slice = createSlice( {
 		setPage: ( state, { payload } ) => {
 			state.page = payload;
 		},
+	},
+	extraReducers: ( builder ) => {
+		// Switching content type resets to the first page: the current page may not exist in the new content type's results.
+		builder.addCase( activeContentTypeActions.setActiveContentType, ( state ) => {
+			state.page = 1;
+		} );
 	},
 } );
 
