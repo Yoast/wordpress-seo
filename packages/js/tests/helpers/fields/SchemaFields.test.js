@@ -1,13 +1,5 @@
 import SchemaFields from "../../../src/helpers/fields/SchemaFields";
-import { mockWindow } from "../../test-utils";
-
-const createElement = ( id, value = "" ) => {
-	const el = document.createElement( "input" );
-	el.id = id;
-	el.value = value;
-	document.body.appendChild( el );
-	return el;
-};
+import { mockWindow, createElement } from "../../test-utils";
 
 afterEach( () => {
 	document.body.innerHTML = "";

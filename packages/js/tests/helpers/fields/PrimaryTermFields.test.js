@@ -3,6 +3,7 @@ jest.mock( "../../../src/helpers/fields/rest-meta", () => ( {
 	setMetaValue: jest.fn(),
 } ) );
 
+import { createElement } from "../../test-utils";
 import { getMetaValue, setMetaValue } from "../../../src/helpers/fields/rest-meta";
 import PrimaryTermFields from "../../../src/helpers/fields/PrimaryTermFields";
 
@@ -10,64 +11,55 @@ afterEach( () => {
 	jest.clearAllMocks();
 } );
 
-describe( "PrimaryTermFields.getInitialValue", () => {
+describe( "PrimaryTermFields.getPrimaryTermElement", () => {
 	it( "returns element.value when element is provided", () => {
-		expect( PrimaryTermFields.getInitialValue( { value: "42" }, 99 ) ).toBe( "42" );
-	} );
-
-	it( "returns empty string when element.value is empty", () => {
-		expect( PrimaryTermFields.getInitialValue( { value: "" }, 99 ) ).toBe( "" );
-	} );
-
-	it( "returns String(fallback) when element is null", () => {
-		expect( PrimaryTermFields.getInitialValue( null, 5 ) ).toBe( "5" );
-	} );
-
-	it( "returns empty string when element is null and fallback is null", () => {
-		expect( PrimaryTermFields.getInitialValue( null, null ) ).toBe( "" );
+		const el = createElement( "fieldId", "42" );
+		expect( PrimaryTermFields.getPrimaryTermElement( "fieldId" ) ).toBe( el );
 	} );
 } );
 
 describe( "PrimaryTermFields.get", () => {
 	it( "calls getMetaValue with the correct meta key for the taxonomy", () => {
-		getMetaValue.mockReturnValue( "7" );
-		const element = { value: "7" };
-		PrimaryTermFields.get( "category", element );
-		expect( getMetaValue ).toHaveBeenCalledWith( "_yoast_wpseo_primary_category", element, "" );
+		const el = createElement( "field-get-1", "5" );
+		PrimaryTermFields.get( "category", "field-get-1" );
+		expect( getMetaValue ).toHaveBeenCalledWith( "_yoast_wpseo_primary_category", el, "" );
 	} );
 
 	it( "returns the value from getMetaValue", () => {
-		getMetaValue.mockReturnValue( "7" );
-		expect( PrimaryTermFields.get( "category", null ) ).toBe( "7" );
+		createElement( "field-get-2", "5" );
+		getMetaValue.mockReturnValue( "99" );
+		const result = PrimaryTermFields.get( "category", "field-get-2" );
+		expect( result ).toBe( "99" );
 	} );
 
 	it( "builds the meta key from the taxonomy name", () => {
-		getMetaValue.mockReturnValue( "" );
-		PrimaryTermFields.get( "post_tag", null );
-		expect( getMetaValue ).toHaveBeenCalledWith( "_yoast_wpseo_primary_post_tag", null, "" );
+		createElement( "field-get-3" );
+		PrimaryTermFields.get( "post_tag", "field-get-3" );
+		expect( getMetaValue ).toHaveBeenCalledWith( "_yoast_wpseo_primary_post_tag", expect.anything(), "" );
 	} );
 } );
 
 describe( "PrimaryTermFields.set", () => {
 	it( "calls setMetaValue with the term ID coerced to string", () => {
-		const element = { value: "" };
-		PrimaryTermFields.set( "category", 42, element );
-		expect( setMetaValue ).toHaveBeenCalledWith( "_yoast_wpseo_primary_category", element, "42" );
+		const el = createElement( "field-set-1" );
+		PrimaryTermFields.set( "category", "field-set-1", 42 );
+		expect( setMetaValue ).toHaveBeenCalledWith( "_yoast_wpseo_primary_category", el, "42" );
 	} );
 
 	it( "passes empty string when termId is -1 (clear selection)", () => {
-		const element = { value: "3" };
-		PrimaryTermFields.set( "category", -1, element );
-		expect( setMetaValue ).toHaveBeenCalledWith( "_yoast_wpseo_primary_category", element, "" );
+		const el = createElement( "field-set-2" );
+		PrimaryTermFields.set( "category", "field-set-2", -1 );
+		expect( setMetaValue ).toHaveBeenCalledWith( "_yoast_wpseo_primary_category", el, "" );
 	} );
 
 	it( "builds the meta key from the taxonomy name", () => {
-		PrimaryTermFields.set( "post_tag", 10, null );
-		expect( setMetaValue ).toHaveBeenCalledWith( "_yoast_wpseo_primary_post_tag", null, "10" );
+		const el = createElement( "field-set-3" );
+		PrimaryTermFields.set( "post_tag", "field-set-3", 7 );
+		expect( setMetaValue ).toHaveBeenCalledWith( "_yoast_wpseo_primary_post_tag", el, "7" );
 	} );
 
 	it( "passes null element through to setMetaValue", () => {
-		PrimaryTermFields.set( "category", 5, null );
+		PrimaryTermFields.set( "category", "non-existent-field", 5 );
 		expect( setMetaValue ).toHaveBeenCalledWith( "_yoast_wpseo_primary_category", null, "5" );
 	} );
 } );

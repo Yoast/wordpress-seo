@@ -47,3 +47,16 @@ export const withConsoleErrorMock = ( fn ) => {
 		console.error = consoleErrorImplementation;
 	}
 };
+
+/**
+ * Create input element by id.
+ * @param {string} id The id of the element to create.
+ * @returns {HTMLElement} The created element.
+ */
+export const createElement = ( id, value = "" ) => {
+	const el = document.createElement( "input" );
+	el.id = id;
+	el.value = value;
+	document.body.appendChild( el );
+	return el;
+};
