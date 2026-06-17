@@ -3,7 +3,7 @@ import { ExternalLink } from "@wordpress/components";
 import { Component } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
-import { difference, get, noop } from "lodash";
+import { difference, noop } from "lodash";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import PrimaryTermFields from "../helpers/fields/PrimaryTermFields";
@@ -29,13 +29,8 @@ class PrimaryTaxonomyPicker extends Component {
 		this.updateReplacementVariable = this.updateReplacementVariable.bind( this );
 
 		const { fieldId, name } = props.taxonomy;
-		// When the metabox is disabled in the block editor, the hidden field does not exist.
+		const rawValue = PrimaryTermFields.get( name, fieldId );
 		this.input = document.getElementById( fieldId );
-
-		// Read the initial primary term ID from the hidden field when available; fall back to
-		// the value already present in the taxonomy data passed from PHP.
-		// PrimaryTermFields.getInitialValue always returns a string, ensuring consistent types.
-		const rawValue = PrimaryTermFields.getInitialValue( this.input, get( props, "taxonomy.primary", "" ) );
 		const parsedPrimaryTaxonomyId = parseInt( rawValue, 10 );
 		// Fallback to -1 when the field is empty or invalid to avoid dispatching NaN.
 		props.setPrimaryTaxonomyId( name, Number.isNaN( parsedPrimaryTaxonomyId ) ? -1 : parsedPrimaryTaxonomyId );
@@ -189,13 +184,13 @@ class PrimaryTaxonomyPicker extends Component {
 	 * @returns {void}
 	 */
 	onChange( termId ) {
-		const { name } = this.props.taxonomy;
+		const { name, fieldId } = this.props.taxonomy;
 
 		this.updateReplacementVariable( termId );
 
 		this.props.setPrimaryTaxonomyId( name, termId );
 
-		PrimaryTermFields.set( name, termId, this.input );
+		PrimaryTermFields.set( name, fieldId, termId );
 	}
 
 	/**

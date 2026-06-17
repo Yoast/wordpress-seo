@@ -34,11 +34,8 @@ export default class PrimaryTermFields {
 	 *
 	 * @returns {string} The initial primary term ID as a string.
 	 */
-	static getInitialValue( inputElement, fallback ) {
-		if ( inputElement ) {
-			return inputElement.value || "";
-		}
-		return String( fallback ?? "" );
+	static getPrimaryTermElement( fieldId ) {
+		return document.getElementById( fieldId );
 	}
 
 	/**
@@ -49,8 +46,8 @@ export default class PrimaryTermFields {
 	 *
 	 * @returns {string} The primary term ID as a string, or an empty string when unset.
 	 */
-	static get( taxonomyName, inputElement ) {
-		return getMetaValue( metaKey( taxonomyName ), inputElement, "" );
+	static get( taxonomyName, fieldId ) {
+		return getMetaValue( metaKey( taxonomyName ), PrimaryTermFields.getPrimaryTermElement( fieldId ), "" );
 	}
 
 	/**
@@ -61,12 +58,12 @@ export default class PrimaryTermFields {
 	 *
 	 * @param {string}           taxonomyName The taxonomy name.
 	 * @param {number}           termId       The term ID. Pass -1 to clear.
-	 * @param {HTMLElement|null} inputElement The hidden input element, or null if not rendered.
+	 * @param {string}           fieldId      The field ID of the hidden input element.
 	 *
 	 * @returns {void}
 	 */
-	static set( taxonomyName, termId, inputElement ) {
+	static set( taxonomyName, fieldId, termId ) {
 		const value = termId === -1 ? "" : String( termId );
-		setMetaValue( metaKey( taxonomyName ), inputElement, value );
+		setMetaValue( metaKey( taxonomyName ), PrimaryTermFields.getPrimaryTermElement( fieldId ), value );
 	}
 }
