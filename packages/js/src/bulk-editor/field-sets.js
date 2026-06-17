@@ -29,7 +29,7 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  * @property {string}  param     The request parameter name the save endpoint expects for this field.
  * @property {string} width      The column width.
  * @property {string} [endpoint] A data-provider endpoint key that saves this field, overriding the field set's
- *                               endpoint (the focus keyphrase saves through its own endpoint, shared by both tabs).
+ *                               default endpoint.
  */
 
 /**
@@ -50,12 +50,10 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  * @returns {Object<string, FieldSet>} The field sets, keyed by id.
  */
 export const getFieldSets = () => {
-	// The focus keyphrase is shared by both tabs and saves through its own endpoint; it leads each field set.
 	const focusKeyphrase = {
 		key: "focusKeyphrase",
 		label: __( "Focus keyphrase", "wordpress-seo" ),
 		param: "focus_keyphrase",
-		endpoint: "update_keyphrase",
 		width: "sm:yst-w-[19%]",
 	};
 

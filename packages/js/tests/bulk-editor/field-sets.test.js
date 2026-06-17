@@ -22,7 +22,7 @@ describe( "getFieldSets", () => {
 
 		expect( fieldSet.endpoint ).toBe( "update_search" );
 		expect( fieldSet.fields ).toEqual( [
-			{ key: "focusKeyphrase", label: "Focus keyphrase", param: "focus_keyphrase", endpoint: "update_keyphrase", width: "sm:yst-w-[19%]" },
+			{ key: "focusKeyphrase", label: "Focus keyphrase", param: "focus_keyphrase", width: "sm:yst-w-[19%]" },
 			{ key: "seoTitle", label: "SEO title", param: "seo_title", width: "sm:yst-w-[19%]" },
 			{ key: "metaDescription", label: "Meta description", param: "meta_description", width: "sm:yst-w-[33%]" },
 		] );
@@ -33,7 +33,7 @@ describe( "getFieldSets", () => {
 
 		expect( fieldSet.endpoint ).toBe( "update_social" );
 		expect( fieldSet.fields ).toEqual( [
-			{ key: "focusKeyphrase", label: "Focus keyphrase", param: "focus_keyphrase", endpoint: "update_keyphrase", width: "sm:yst-w-[19%]" },
+			{ key: "focusKeyphrase", label: "Focus keyphrase", param: "focus_keyphrase", width: "sm:yst-w-[19%]" },
 			{ key: "socialTitle", label: "Social title", param: "social_title", width: "sm:yst-w-[19%]" },
 			{ key: "socialDescription", label: "Social description", param: "social_description", width: "sm:yst-w-[33%]" },
 		] );
