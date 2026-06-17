@@ -4,6 +4,7 @@ import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkPar
 import { STORE_NAME } from "../constants";
 import activeContentType, { activeContentTypeActions, activeContentTypeSelectors, createInitialActiveContentTypeState } from "./active-content-type";
 import activeFieldSet, { activeFieldSetActions, activeFieldSetSelectors, createInitialActiveFieldSetState } from "./active-field-set";
+import edits, { createInitialEditsState, editsActions, editsSelectors } from "./edits";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import selection, { createInitialSelectionState, selectionActions, selectionSelectors } from "./selection";
 
@@ -21,6 +22,7 @@ const createStore = ( { initialState } ) => {
 			...activeFieldSetActions,
 			...activeContentTypeActions,
 			...selectionActions,
+			...editsActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
@@ -28,6 +30,7 @@ const createStore = ( { initialState } ) => {
 			...activeFieldSetSelectors,
 			...activeContentTypeSelectors,
 			...selectionSelectors,
+			...editsSelectors,
 		},
 		initialState: merge(
 			{},
@@ -37,6 +40,7 @@ const createStore = ( { initialState } ) => {
 				activeFieldSet: createInitialActiveFieldSetState(),
 				activeContentType: createInitialActiveContentTypeState(),
 				selection: createInitialSelectionState(),
+				edits: createInitialEditsState(),
 			},
 			initialState
 		),
@@ -46,6 +50,7 @@ const createStore = ( { initialState } ) => {
 			activeFieldSet,
 			activeContentType,
 			selection,
+			edits,
 		} ),
 	} );
 };

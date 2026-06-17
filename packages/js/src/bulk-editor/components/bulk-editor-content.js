@@ -3,18 +3,19 @@ import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
+import { useInlineEdit } from "../hooks/use-inline-edit";
 import { usePosts } from "../services/use-posts";
 import { BulkActions, SelectionToolbar } from "./bulk-action-bar";
-import { BulkEditorTable } from "./bulk-editor-table";
+import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 
 /**
  * The bulk editor content: the Search/Social appearance tab bar and the tab panels with the field-set table.
  *
- * @param {Object}             props                    The props.
- * @param {DataProvider}       props.dataProvider       The data provider (holds the endpoint).
- * @param {RemoteDataProvider} props.remoteDataProvider The remote data provider (performs the request).
- * @param {string}             props.contentType        The active content type to fetch posts for.
+ * @param {Object}                             props                    The props.
+ * @param {import("../services").DataProvider} props.dataProvider       The data provider (config + endpoints).
+ * @param {Object}                             props.remoteDataProvider The remote data provider (HTTP), used to fetch and save.
+ * @param {string}                             props.contentType        The active content type to fetch posts for.
  *
  * @returns {JSX.Element} The content.
  */
@@ -29,7 +30,14 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
 	const { setActiveFieldSet, toggleRow, selectAll, deselectAll } = useDispatch( STORE_NAME );
 
-	const { data: items = [], isPending } = usePosts( { dataProvider, remoteDataProvider, contentType } );
+	const { data: items = [], isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
+	const { editing, stopEditing } = useInlineEdit( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } );
+
+	// Switching tab discards in-progress edits; switching content type also clears the selection.
+	const onChangeTab = useCallback( ( id ) => {
+		stopEditing();
+		setActiveFieldSet( id );
+	}, [ stopEditing, setActiveFieldSet ] );
 
 	useEffect( () => {
 		deselectAll();
@@ -51,7 +59,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			<BulkEditorTabs
 				tabs={ tabs }
 				activeTab={ activeFieldSet }
-				onChange={ setActiveFieldSet }
+				onChange={ onChangeTab }
 				label={ __( "Bulk editor views", "wordpress-seo" ) }
 			/>
 			{ tabs.map( ( tab ) => (
@@ -60,6 +68,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 						items={ items }
 						fieldSet={ fieldSets[ tab.id ] }
 						selection={ selection }
+						editing={ editing }
 						selectionToolbar={
 							<SelectionToolbar
 								idSuffix={ `-${ tab.id }` }

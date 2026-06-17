@@ -106,7 +106,8 @@ describe( "usePosts", () => {
 		const { result } = renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
 
 		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
-		expect( result.current ).toEqual( { data: [], error: null, isPending: false } );
+		expect( result.current ).toMatchObject( { data: [], error: null, isPending: false } );
+		expect( typeof result.current.updateItem ).toBe( "function" );
 	} );
 
 	it( "ignores a superseded request that resolves after a newer one", async() => {

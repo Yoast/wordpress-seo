@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
 import { PAGE_SIZE } from "../constants";
 
 /**
@@ -31,10 +31,18 @@ const formatPost = ( post ) => ( {
  * @param {RemoteDataProvider} props.remoteDataProvider The remote data provider (performs the request).
  * @param {string}             props.contentType        The content type to fetch posts for.
  *
- * @returns {{data: import("../field-sets").BulkEditorItem[], error?: Error, isPending: boolean}} The remote data info.
+ * @returns {{data: Object[], error: ?Error, isPending: boolean, updateItem: Function}} The remote data plus a local row updater.
  */
 export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) => {
 	const [ state, setState ] = useState( { data: [], error: null, isPending: true } );
+
+	// Reflects a saved field locally; there is no refetch yet, so a successful save updates the row in place.
+	const updateItem = useCallback( ( id, key, value ) => {
+		setState( ( previous ) => ( {
+			...previous,
+			data: previous.data.map( ( item ) => ( item.id === id ? { ...item, [ key ]: value } : item ) ),
+		} ) );
+	}, [] );
 	/** @type {import("react").MutableRefObject<AbortController>} */
 	const controller = useRef();
 
@@ -79,5 +87,5 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 		return () => current.abort();
 	}, [ endpoint, contentType, remoteDataProvider ] );
 
-	return state;
+	return { ...state, updateItem };
 };
