@@ -83,7 +83,24 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 				\add_post_type_support( $post_type, 'custom-fields' );
 			}
 
+			// Add a filter to strip REST-exposed Yoast meta fields from the response for users without edit_post capability.
 			\add_filter( 'rest_prepare_' . $post_type, [ $this, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
+
+			// Add a filter to trigger wpseo_saved_postdata after a post is updated via REST API, same as in WPSEO_Metabox::save_postdata.
+			// The $creating guard ensures it only fires on updates (not on new post creation via REST), matching the
+			// classic-editor save_postdata path which is only reachable when a post already exists with an ID in $_POST.
+			if ( \apply_filters( 'wpseo_disable_metabox_in_block_editor', false ) ) {
+				\add_action(
+					'rest_after_insert_' . $post_type,
+					static function ( $post, $request, $creating ) {
+						if ( ! $creating ) {
+							\do_action( 'wpseo_saved_postdata' );
+						}
+					},
+					10,
+					3,
+				);
+			}
 		}
 	}
 
