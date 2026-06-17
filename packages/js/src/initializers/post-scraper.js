@@ -254,18 +254,10 @@ export default function initPostScraper( $, store, editorData ) {
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			// In REST meta mode, entity meta may not be loaded yet when post-scraper boots.
-			// Defer the initial keyphrase dispatch until meta is available, the same way
-			// cornerstone content does below, so the keyphrase input shows the saved value.
-			if ( isRestMetaActive() && ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
-				const unsubscribeKeyphraseSync = subscribe( () => {
-					if ( ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
-						return;
-					}
-					unsubscribeKeyphraseSync();
-					yoastStore.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
-				}, "core/editor" );
-			} else {
+			// In REST meta mode, when the entity meta is not yet available, the initial
+			// keyphrase dispatch is deferred together with title, description, and cornerstone
+			// in the single meta-ready subscriber inside initializeSnippetEditorSync.
+			if ( ! isRestMetaActive() || select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
 				yoastStore.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
 			}
 
@@ -475,16 +467,26 @@ export default function initPostScraper( $, store, editorData ) {
 		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		store.dispatch( updateData( snippetEditorData ) );
-		// Dispatch cornerstone after entity meta is available. In REST meta mode the DOM element is
-		// absent and AnalysisFields.isCornerstone reads from core/editor, which returns null until
-		// the entity resolves — so we defer the dispatch until meta is loaded.
+
 		if ( isRestMetaActive() && ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
-			const unsubscribeCornerstoneSync = subscribe( () => {
+			// In REST meta mode the entity meta hasn't loaded yet, so title, description,
+			// keyphrase, and cornerstone all return empty/false values. A single subscriber
+			// re-dispatches all four once core/editor makes the meta available.
+			const unsubscribeMetaReady = subscribe( () => {
 				if ( ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
 					return;
 				}
-				unsubscribeCornerstoneSync();
+				unsubscribeMetaReady();
+				const freshData = getDataFromCollector( postDataCollector );
+				const freshDataWithTemplates = getDataWithTemplates( freshData, snippetEditorTemplates );
+				store.dispatch( updateData( {
+					title: freshDataWithTemplates.title,
+					description: freshDataWithTemplates.description,
+				} ) );
 				store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
+				if ( isKeywordAnalysisActive() ) {
+					store.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
+				}
 			}, "core/editor" );
 		} else {
 			store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
