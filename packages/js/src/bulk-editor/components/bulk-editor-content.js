@@ -4,6 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
 import { usePosts } from "../services/use-posts";
+import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 import { SearchBox } from "./search-box";
@@ -28,7 +29,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const { setActiveFieldSet } = useDispatch( STORE_NAME );
 
-	const { data: items = [], isPending } = usePosts( { dataProvider, remoteDataProvider, contentType } );
+	const { data: items = [], total = 0, totalPages = 0, isPending } = usePosts( { dataProvider, remoteDataProvider, contentType } );
 
 	return (
 		<div className="yst-p-8 yst-space-y-8">
@@ -46,6 +47,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 					<BulkEditorTable items={ items } fieldSet={ fieldSets[ tab.id ] } isLoading={ isPending } />
 				</BulkEditorTabPanel>
 			) ) }
+			<BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
 		</div>
 	);
 };
