@@ -22,15 +22,17 @@ final class Post_Update_Test extends TestCase {
 	 * @covers ::get_post_id
 	 * @covers ::get_title
 	 * @covers ::get_description
+	 * @covers ::get_focus_keyphrase
 	 *
 	 * @return void
 	 */
 	public function test_getters() {
-		$instance = new Post_Update( 123, 'The title', 'The description' );
+		$instance = new Post_Update( 123, 'The title', 'The description', 'The keyphrase' );
 
 		$this->assertSame( 123, $instance->get_post_id() );
 		$this->assertSame( 'The title', $instance->get_title() );
 		$this->assertSame( 'The description', $instance->get_description() );
+		$this->assertSame( 'The keyphrase', $instance->get_focus_keyphrase() );
 	}
 
 	/**
@@ -41,9 +43,9 @@ final class Post_Update_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_has_title() {
-		$this->assertTrue( ( new Post_Update( 1, 'The title', null ) )->has_title() );
-		$this->assertTrue( ( new Post_Update( 1, '', null ) )->has_title() );
-		$this->assertFalse( ( new Post_Update( 1, null, 'The description' ) )->has_title() );
+		$this->assertTrue( ( new Post_Update( 1, 'The title', null, null ) )->has_title() );
+		$this->assertTrue( ( new Post_Update( 1, '', null, null ) )->has_title() );
+		$this->assertFalse( ( new Post_Update( 1, null, 'The description', null ) )->has_title() );
 	}
 
 	/**
@@ -54,8 +56,21 @@ final class Post_Update_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_has_description() {
-		$this->assertTrue( ( new Post_Update( 1, null, 'The description' ) )->has_description() );
-		$this->assertTrue( ( new Post_Update( 1, null, '' ) )->has_description() );
-		$this->assertFalse( ( new Post_Update( 1, 'The title', null ) )->has_description() );
+		$this->assertTrue( ( new Post_Update( 1, null, 'The description', null ) )->has_description() );
+		$this->assertTrue( ( new Post_Update( 1, null, '', null ) )->has_description() );
+		$this->assertFalse( ( new Post_Update( 1, 'The title', null, null ) )->has_description() );
+	}
+
+	/**
+	 * Tests has_focus_keyphrase distinguishes null from an empty string.
+	 *
+	 * @covers ::has_focus_keyphrase
+	 *
+	 * @return void
+	 */
+	public function test_has_focus_keyphrase() {
+		$this->assertTrue( ( new Post_Update( 1, null, null, 'The keyphrase' ) )->has_focus_keyphrase() );
+		$this->assertTrue( ( new Post_Update( 1, null, null, '' ) )->has_focus_keyphrase() );
+		$this->assertFalse( ( new Post_Update( 1, 'The title', null, null ) )->has_focus_keyphrase() );
 	}
 }

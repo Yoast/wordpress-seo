@@ -58,6 +58,7 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 
 		$this->indexable_repository->expects( 'query' )->once()->andReturn( $query );
 
+		Functions\expect( '_prime_post_caches' )->once()->with( [ 7 ], false, false );
 		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
 
@@ -83,6 +84,40 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 			],
 			$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array(),
 		);
+	}
+
+	/**
+	 * Tests that duplicate indexable rows for the same post yield a single post.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_deduplicates_indexables() {
+		$indexable                        = new Indexable_Mock();
+		$indexable->object_id             = 7;
+		$indexable->post_status           = 'draft';
+		$indexable->primary_focus_keyword = 'hello';
+		$indexable->title                 = 'Hello | Site';
+
+		$duplicate            = new Indexable_Mock();
+		$duplicate->object_id = 7;
+
+		$query = Mockery::mock();
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->expects( 'find_many' )->once()->andReturn( [ $indexable, $duplicate ] );
+
+		$this->indexable_repository->expects( 'query' )->once()->andReturn( $query );
+
+		Functions\expect( '_prime_post_caches' )->once()->with( [ 7 ], false, false );
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$posts = $this->instance->get_posts( 'page', 20 )->to_array();
+
+		$this->assertCount( 1, $posts );
+		$this->assertSame( 7, $posts[0]['id'] );
 	}
 
 	/**

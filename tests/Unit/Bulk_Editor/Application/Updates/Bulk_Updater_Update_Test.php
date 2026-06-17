@@ -27,7 +27,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$this->post_access_checker->expects( 'exists' )->with( 123 )->andReturnFalse();
 
 		$updates = new Post_Update_Collection();
-		$updates->add( new Post_Update( 123, 'The title', null ) );
+		$updates->add( new Post_Update( 123, 'The title', null, null ) );
 
 		$this->assertSame(
 			[
@@ -53,7 +53,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$this->post_access_checker->expects( 'is_supported_type' )->with( 123 )->andReturnFalse();
 
 		$updates = new Post_Update_Collection();
-		$updates->add( new Post_Update( 123, 'The title', null ) );
+		$updates->add( new Post_Update( 123, 'The title', null, null ) );
 
 		$results = $this->instance->update( Update_Type::search(), $updates )->to_array();
 
@@ -71,7 +71,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$this->post_access_checker->expects( 'can_edit' )->with( 123 )->andReturnFalse();
 
 		$updates = new Post_Update_Collection();
-		$updates->add( new Post_Update( 123, 'The title', null ) );
+		$updates->add( new Post_Update( 123, 'The title', null, null ) );
 
 		$results = $this->instance->update( Update_Type::search(), $updates )->to_array();
 
@@ -88,9 +88,10 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$this->expect_editable_post( 123 );
 		$this->meta_writer->expects( 'write_title' )->with( $type, 123, 'The title' );
 		$this->meta_writer->expects( 'write_description' )->never();
+		$this->meta_writer->expects( 'write_focus_keyphrase' )->never();
 
 		$updates = new Post_Update_Collection();
-		$updates->add( new Post_Update( 123, 'The title', null ) );
+		$updates->add( new Post_Update( 123, 'The title', null, null ) );
 
 		$results = $this->instance->update( $type, $updates )->to_array();
 
@@ -107,9 +108,10 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$this->expect_editable_post( 123 );
 		$this->meta_writer->expects( 'write_title' )->never();
 		$this->meta_writer->expects( 'write_description' )->with( $type, 123, 'The description' );
+		$this->meta_writer->expects( 'write_focus_keyphrase' )->never();
 
 		$updates = new Post_Update_Collection();
-		$updates->add( new Post_Update( 123, null, 'The description' ) );
+		$updates->add( new Post_Update( 123, null, 'The description', null ) );
 
 		$results = $this->instance->update( $type, $updates )->to_array();
 
@@ -128,11 +130,68 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$this->meta_writer->expects( 'write_description' )->with( $type, 123, '' );
 
 		$updates = new Post_Update_Collection();
-		$updates->add( new Post_Update( 123, 'The title', '' ) );
+		$updates->add( new Post_Update( 123, 'The title', '', null ) );
 
 		$results = $this->instance->update( $type, $updates )->to_array();
 
 		$this->assertTrue( $results['results'][0]['success'] );
+	}
+
+	/**
+	 * Tests an update carrying only a focus keyphrase writes only the focus keyphrase.
+	 *
+	 * @return void
+	 */
+	public function test_update_focus_keyphrase_only() {
+		$type = Update_Type::search();
+		$this->expect_editable_post( 123 );
+		$this->meta_writer->expects( 'write_title' )->never();
+		$this->meta_writer->expects( 'write_description' )->never();
+		$this->meta_writer->expects( 'write_focus_keyphrase' )->with( 123, 'The keyphrase' );
+
+		$updates = new Post_Update_Collection();
+		$updates->add( new Post_Update( 123, null, null, 'The keyphrase' ) );
+
+		$results = $this->instance->update( $type, $updates )->to_array();
+
+		$this->assertTrue( $results['results'][0]['success'] );
+	}
+
+	/**
+	 * Tests the focus keyphrase is written without the update type: it is the same
+	 * regardless of the appearance the update targets.
+	 *
+	 * @return void
+	 */
+	public function test_update_focus_keyphrase_is_channel_agnostic() {
+		$type = Update_Type::social();
+		$this->expect_editable_post( 123 );
+		$this->meta_writer->expects( 'write_focus_keyphrase' )->with( 123, 'The keyphrase' );
+
+		$updates = new Post_Update_Collection();
+		$updates->add( new Post_Update( 123, null, null, 'The keyphrase' ) );
+
+		$results = $this->instance->update( $type, $updates )->to_array();
+
+		$this->assertTrue( $results['results'][0]['success'] );
+	}
+
+	/**
+	 * Tests a throwing focus keyphrase write fails the update with save_failed.
+	 *
+	 * @return void
+	 */
+	public function test_update_focus_keyphrase_save_failed() {
+		$type = Update_Type::search();
+		$this->expect_editable_post( 123 );
+		$this->meta_writer->expects( 'write_focus_keyphrase' )->with( 123, 'The keyphrase' )->andThrow( new Exception( 'Database error.' ) );
+
+		$updates = new Post_Update_Collection();
+		$updates->add( new Post_Update( 123, null, null, 'The keyphrase' ) );
+
+		$results = $this->instance->update( $type, $updates )->to_array();
+
+		$this->assertSame( Update_Error::SAVE_FAILED, $results['results'][0]['error'] );
 	}
 
 	/**
@@ -146,7 +205,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$this->meta_writer->expects( 'write_title' )->with( $type, 123, 'The title' );
 
 		$updates = new Post_Update_Collection();
-		$updates->add( new Post_Update( 123, 'The title', null ) );
+		$updates->add( new Post_Update( 123, 'The title', null, null ) );
 
 		$results = $this->instance->update( $type, $updates )->to_array();
 
@@ -164,7 +223,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$this->meta_writer->expects( 'write_title' )->with( $type, 123, 'The title' )->andThrow( new Exception( 'Database error.' ) );
 
 		$updates = new Post_Update_Collection();
-		$updates->add( new Post_Update( 123, 'The title', null ) );
+		$updates->add( new Post_Update( 123, 'The title', null, null ) );
 
 		$results = $this->instance->update( $type, $updates )->to_array();
 
@@ -183,8 +242,8 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$this->meta_writer->expects( 'write_title' )->with( $type, 2, 'Second title' );
 
 		$updates = new Post_Update_Collection();
-		$updates->add( new Post_Update( 1, 'First title', null ) );
-		$updates->add( new Post_Update( 2, 'Second title', null ) );
+		$updates->add( new Post_Update( 1, 'First title', null, null ) );
+		$updates->add( new Post_Update( 2, 'Second title', null, null ) );
 
 		$this->assertSame(
 			[
