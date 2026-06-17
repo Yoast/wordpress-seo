@@ -267,7 +267,12 @@ class WPSEO_Meta {
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 
-				self::register_meta( $key, $field_def );
+				// Register for all post types: sanitise callback only, REST disabled.
+				register_meta(
+					'post',
+					self::$meta_prefix . $key,
+					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ],
+				);
 
 				// Set the $fields_index property for efficiency.
 				self::$fields_index[ self::$meta_prefix . $key ] = [
@@ -287,90 +292,10 @@ class WPSEO_Meta {
 		}
 		unset( $subset, $field_group, $key, $field_def );
 
-		// Strip meta fields that have show_in_rest enabled from REST responses for users
-		// without edit_post capability. register_meta's auth_callback only covers writes,
-		// so read access must be restricted separately via this filter.
-		// Deferred to init:20 so post types and taxonomies registered by plugins are available.
-		add_action( 'init', [ self::class, 'register_post_type_hooks' ], 20 );
-
 		self::filter_schema_article_types();
 
 		add_filter( 'update_post_metadata', [ self::class, 'remove_meta_if_default' ], 10, 5 );
 		add_filter( 'add_post_metadata', [ self::class, 'dont_save_meta_if_default' ], 10, 4 );
-	}
-
-	/**
-	 * Registers a single Yoast post meta field for REST API access.
-	 *
-	 * Registers the field with the shared Yoast sanitize and auth callbacks. Addons can call
-	 * this method to register additional fields using the same setup without duplicating the
-	 * registration boilerplate.
-	 *
-	 * Fields with `type: null` in their definition are internal/serialized fields (e.g. addon
-	 * data blobs) that are not suitable for REST API access and will be registered with
-	 * `show_in_rest: false`.
-	 *
-	 * @param string                     $key       The internal key of the meta field to register (without prefix).
-	 * @param array<string, string|null> $field_def Optional. The field definition array. Used to determine whether
-	 *                             the field should be exposed via the REST API. Defaults to [].
-	 *
-	 * @return void
-	 */
-	public static function register_meta( $key, $field_def = [] ) {
-		// Fields with type: null are internal/serialized fields not suitable for REST API access.
-		// All other field types (hidden, text, select, etc.) are stored as strings in the DB.
-		$show_in_rest = ! array_key_exists( 'type', $field_def ) || $field_def['type'] !== null;
-
-		register_meta(
-			'post',
-			self::$meta_prefix . $key,
-			[
-				'show_in_rest'      => $show_in_rest,
-				'single'            => true,
-				'type'              => 'string',
-				'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
-				'auth_callback'     => static function ( $allowed, $meta_key, $object_id ) {
-					return current_user_can( 'edit_post', $object_id );
-				},
-			],
-		);
-	}
-
-	/**
-	 * Registers primary term meta for REST and adds REST response filters for all public post types.
-	 *
-	 * Hooked to `init:20` so that post types and taxonomies registered by plugins on `init` are
-	 * already available when this runs. Running this during `plugins_loaded` (where WPSEO_Meta::init()
-	 * is called) would miss all plugin-registered post types and taxonomies.
-	 *
-	 * @return void
-	 */
-	public static function register_post_type_hooks() {
-		foreach ( get_post_types( [ 'public' => true ], 'names' ) as $post_type ) {
-			$taxonomies = get_object_taxonomies( $post_type, 'objects' );
-			foreach ( $taxonomies as $taxonomy ) {
-				if ( ! $taxonomy->hierarchical ) {
-					continue;
-				}
-				$primary_key       = 'primary_' . $taxonomy->name;
-				$primary_field_def = [ 'type' => 'hidden' ];
-				self::register_meta( $primary_key, $primary_field_def );
-
-				// Also register in $fields_index and $defaults so sanitize_post_meta
-				// can look up these dynamically-created keys the same way as static ones.
-				$full_key = self::$meta_prefix . $primary_key;
-				if ( ! isset( self::$fields_index[ $full_key ] ) ) {
-					self::$meta_fields['primary_term'][ $primary_key ] = $primary_field_def;
-					self::$fields_index[ $full_key ]                   = [
-						'subset' => 'primary_term',
-						'key'    => $primary_key,
-					];
-					self::$defaults[ $full_key ]                       = '';
-				}
-			}
-
-			add_filter( 'rest_prepare_' . $post_type, [ self::class, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
-		}
 	}
 
 	/**
@@ -1110,29 +1035,6 @@ class WPSEO_Meta {
 		}
 
 		return $post_types;
-	}
-
-	/**
-	 * Strips REST-exposed Yoast meta fields from the response for users without edit_post capability on the post.
-	 *
-	 * @param WP_REST_Response $response The REST response.
-	 * @param WP_Post          $post     The post object.
-	 *
-	 * @return WP_REST_Response The (possibly modified) response.
-	 */
-	public static function hide_meta_from_unauthorized_rest_response( $response, $post ) {
-		if ( current_user_can( 'edit_post', $post->ID ) ) {
-			return $response;
-		}
-		$data   = $response->get_data();
-		$prefix = self::$meta_prefix;
-		foreach ( array_keys( ( $data['meta'] ?? [] ) ) as $meta_key ) {
-			if ( str_starts_with( $meta_key, $prefix ) ) {
-				unset( $data['meta'][ $meta_key ] );
-			}
-		}
-		$response->set_data( $data );
-		return $response;
 	}
 
 	/**
