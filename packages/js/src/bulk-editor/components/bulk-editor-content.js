@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
+import { useAiUpsell } from "../hooks/use-ai-upsell";
 import { useInlineEdit } from "../hooks/use-inline-edit";
 import { usePosts } from "../services/use-posts";
 import { BulkActions, SelectionToolbar } from "./bulk-action-bar";
@@ -50,6 +51,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const selectedIds = useSelect( ( select ) => select( STORE_NAME ).selectSelectedIds(), [] );
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
+	const aiUpsell = useAiUpsell( contentType );
 	const { setActiveFieldSet, toggleRow, selectAll, deselectAll } = useDispatch( STORE_NAME );
 
 	const { data: items = [], isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
@@ -104,7 +106,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								totalCount={ totalCount }
 							/>
 						}
-						bulkActions={ <BulkActions isPremium={ isPremium } /> }
+						bulkActions={ <BulkActions isPremium={ isPremium } upsell={ aiUpsell } /> }
 						showBulkActions={ hasSelection }
 						isLoading={ isPending }
 					/>

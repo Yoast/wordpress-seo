@@ -1,9 +1,10 @@
 import { Slot } from "@wordpress/components";
-import { useMemo } from "@wordpress/element";
+import { useCallback, useMemo, useState } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, DropdownMenu } from "@yoast/ui-library";
 import { BULK_ACTIONS_SLOT, SELECT_MENU_ITEMS_FILTER } from "../constants";
+import { UpsellModal } from "./upsell-modal";
 
 /**
  * The "Select" menu.
@@ -86,31 +87,42 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, onToggleAll, o
 );
 
 /**
-* The AI generate buttons in Free.
+* The AI generate buttons in Free, each opens the upsell modal.
+ *
+ * @param {Object} props        The props.
+ * @param {Object} props.upsell The upsell modal props (label, link, ctb id) for the active content type.
  *
  * @returns {JSX.Element} The AI generate buttons.
  */
-const FreeBulkActions = () => (
-	<>
-		<Button variant="ai-secondary" size="small" className="yst-bg-white">
-			{ __( "Generate SEO titles", "wordpress-seo" ) }
-		</Button>
-		<Button variant="ai-secondary" size="small" className="yst-bg-white">
-			{ __( "Generate meta descriptions", "wordpress-seo" ) }
-		</Button>
-	</>
-);
+const FreeBulkActions = ( { upsell } ) => {
+	const [ isUpsellOpen, setIsUpsellOpen ] = useState( false );
+	const openUpsell = useCallback( () => setIsUpsellOpen( true ), [] );
+	const closeUpsell = useCallback( () => setIsUpsellOpen( false ), [] );
+
+	return (
+		<>
+			<Button variant="ai-secondary" size="small" className="yst-bg-white" onClick={ openUpsell }>
+				{ __( "Generate SEO titles", "wordpress-seo" ) }
+			</Button>
+			<Button variant="ai-secondary" size="small" className="yst-bg-white" onClick={ openUpsell }>
+				{ __( "Generate meta descriptions", "wordpress-seo" ) }
+			</Button>
+			<UpsellModal isOpen={ isUpsellOpen } onClose={ closeUpsell } { ...upsell } />
+		</>
+	);
+};
 
 /**
  * The AI generate buttons toolbar row, shown when rows are selected.
  *
  * @param {Object}  props           The props.
  * @param {boolean} props.isPremium Whether Premium is active.
+ * @param {Object}  props.upsell    The upsell modal props passed to the Free AI buttons.
  *
  * @returns {JSX.Element} The bulk actions row content.
  */
-export const BulkActions = ( { isPremium } ) => (
+export const BulkActions = ( { isPremium, upsell } ) => (
 	<div className="yst-flex yst-items-center yst-gap-3 yst-px-4 yst-py-3">
-		{ isPremium ? <Slot name={ BULK_ACTIONS_SLOT } /> : <FreeBulkActions /> }
+		{ isPremium ? <Slot name={ BULK_ACTIONS_SLOT } /> : <FreeBulkActions upsell={ upsell } /> }
 	</div>
 );

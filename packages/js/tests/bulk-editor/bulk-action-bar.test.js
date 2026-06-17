@@ -69,4 +69,21 @@ describe( "BulkActions", () => {
 
 		expect( screen.queryByRole( "button", { name: "Generate SEO titles" } ) ).not.toBeInTheDocument();
 	} );
+
+	it( "opens the upsell modal from a Free AI generate button", () => {
+		const upsell = {
+			upsellLabel: "Unlock with Yoast SEO Premium",
+			upsellLink: "https://yoa.st/bulk-editor-ai-upsell",
+			ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
+		};
+		render( <BulkActions isPremium={ false } upsell={ upsell } /> );
+
+		// The modal stays closed until a Generate button is clicked.
+		expect( screen.queryByRole( "heading", { name: "Generate Metadata in Bulk" } ) ).not.toBeInTheDocument();
+
+		fireEvent.click( screen.getByRole( "button", { name: "Generate SEO titles" } ) );
+
+		expect( screen.getByRole( "heading", { name: "Generate Metadata in Bulk" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "link", { name: /Unlock with Yoast SEO Premium/ } ) ).toHaveAttribute( "href", upsell.upsellLink );
+	} );
 } );
