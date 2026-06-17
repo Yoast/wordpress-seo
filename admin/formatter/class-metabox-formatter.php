@@ -60,7 +60,7 @@ class WPSEO_Metabox_Formatter {
 				'displayFooter'      => WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ),
 				'pageTypeOptions'    => $schema_types->get_page_type_options(),
 				'articleTypeOptions' => $schema_types->get_article_type_options(),
-				'defaultPageType'    => $schema_fields_defs['schema_page_type']['default'],
+				'defaultPageType'    => isset( $schema_fields_defs['schema_page_type'] ) ? $schema_fields_defs['schema_page_type']['default'] : '',
 				'defaultArticleType' => isset( $schema_fields_defs['schema_article_type'] ) ? $schema_fields_defs['schema_article_type']['default'] : '',
 				'showArticleInput'   => isset( $schema_fields_defs['schema_article_type'] ),
 			],
