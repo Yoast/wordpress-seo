@@ -24,18 +24,22 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  * One editable column within a field set.
  *
  * @typedef {Object} FieldSetField
- * @property {string} key   The {@link BulkEditorItem} property this column edits.
- * @property {string} label The column header label.
- * @property {string} width The column width.
+ * @property {string}  key       The {@link BulkEditorItem} property this column edits.
+ * @property {string}  label     The column header label.
+ * @property {string}  param     The request parameter name the save endpoint expects for this field.
+ * @property {string} width      The column width.
+ * @property {string} [endpoint] A data-provider endpoint key that saves this field, overriding the field set's
+ *                               default endpoint.
  */
 
 /**
  * A tab's set of editable fields (which columns the table shows and edits).
  *
  * @typedef {Object} FieldSet
- * @property {string}          id     The field set identifier.
- * @property {string}          label  The tab label.
- * @property {FieldSetField[]} fields The editable columns, in display order.
+ * @property {string}          id       The field set identifier.
+ * @property {string}          label    The tab label.
+ * @property {string}          endpoint The default data-provider endpoint for saving this set's fields; a field may override it.
+ * @property {FieldSetField[]} fields   The editable columns, in display order.
  */
 
 /**
@@ -45,21 +49,34 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  *
  * @returns {Object<string, FieldSet>} The field sets, keyed by id.
  */
-export const getFieldSets = () => ( {
-	[ FIELD_SET_SEARCH ]: {
-		id: FIELD_SET_SEARCH,
-		label: __( "Search appearance", "wordpress-seo" ),
-		fields: [
-			{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ), width: "sm:yst-w-[19%]" },
-			{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ), width: "sm:yst-w-[33%]" },
-		],
-	},
-	[ FIELD_SET_SOCIAL ]: {
-		id: FIELD_SET_SOCIAL,
-		label: __( "Social appearance", "wordpress-seo" ),
-		fields: [
-			{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ), width: "sm:yst-w-[19%]" },
-			{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ), width: "sm:yst-w-[33%]" },
-		],
-	},
-} );
+export const getFieldSets = () => {
+	const focusKeyphrase = {
+		key: "focusKeyphrase",
+		label: __( "Focus keyphrase", "wordpress-seo" ),
+		param: "focus_keyphrase",
+		width: "sm:yst-w-[19%]",
+	};
+
+	return {
+		[ FIELD_SET_SEARCH ]: {
+			id: FIELD_SET_SEARCH,
+			label: __( "Search appearance", "wordpress-seo" ),
+			endpoint: "update_search",
+			fields: [
+				focusKeyphrase,
+				{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ), param: "seo_title", width: "sm:yst-w-[19%]" },
+				{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ), param: "meta_description", width: "sm:yst-w-[33%]" },
+			],
+		},
+		[ FIELD_SET_SOCIAL ]: {
+			id: FIELD_SET_SOCIAL,
+			label: __( "Social appearance", "wordpress-seo" ),
+			endpoint: "update_social",
+			fields: [
+				focusKeyphrase,
+				{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ), param: "social_title", width: "sm:yst-w-[19%]" },
+				{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ), param: "social_description", width: "sm:yst-w-[33%]" },
+			],
+		},
+	};
+};

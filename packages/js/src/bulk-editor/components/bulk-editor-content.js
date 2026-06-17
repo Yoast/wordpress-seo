@@ -1,20 +1,21 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useMemo } from "@wordpress/element";
+import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
+import { useInlineEdit } from "../hooks/use-inline-edit";
 import { usePosts } from "../services/use-posts";
-import { BulkEditorTable } from "./bulk-editor-table";
+import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 import { SearchBox } from "./search-box";
 
 /**
  * The bulk editor content: the Search/Social appearance tab bar and the tab panels with the field-set table.
  *
- * @param {Object}             props                    The props.
- * @param {DataProvider}       props.dataProvider       The data provider (holds the endpoint).
- * @param {RemoteDataProvider} props.remoteDataProvider The remote data provider (performs the request).
- * @param {string}             props.contentType        The active content type to fetch posts for.
+ * @param {Object}                             props                    The props.
+ * @param {import("../services").DataProvider} props.dataProvider       The data provider (config + endpoints).
+ * @param {Object}                             props.remoteDataProvider The remote data provider (HTTP), used to fetch and save.
+ * @param {string}                             props.contentType        The active content type to fetch posts for.
  * @param {string}             props.contentTypeLabel   The active content type label, used in the search placeholder.
  *
  * @returns {JSX.Element} The content.
@@ -28,7 +29,13 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const { setActiveFieldSet } = useDispatch( STORE_NAME );
 
-	const { data: items = [], isPending } = usePosts( { dataProvider, remoteDataProvider, contentType } );
+	const { data: items = [], isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
+	const { editing, stopEditing } = useInlineEdit( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } );
+
+	const onChangeTab = useCallback( ( id ) => {
+		stopEditing();
+		setActiveFieldSet( id );
+	}, [ stopEditing, setActiveFieldSet ] );
 
 	return (
 		<div className="yst-p-8 yst-space-y-8">
@@ -36,14 +43,14 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 				<BulkEditorTabs
 					tabs={ tabs }
 					activeTab={ activeFieldSet }
-					onChange={ setActiveFieldSet }
+					onChange={ onChangeTab }
 					label={ __( "Bulk editor views", "wordpress-seo" ) }
 				/>
 				<SearchBox contentTypeLabel={ contentTypeLabel } />
 			</div>
 			{ tabs.map( ( tab ) => (
 				<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-					<BulkEditorTable items={ items } fieldSet={ fieldSets[ tab.id ] } isLoading={ isPending } />
+					<BulkEditorTable items={ items } fieldSet={ fieldSets[ tab.id ] } editing={ editing } isLoading={ isPending } />
 				</BulkEditorTabPanel>
 			) ) }
 		</div>

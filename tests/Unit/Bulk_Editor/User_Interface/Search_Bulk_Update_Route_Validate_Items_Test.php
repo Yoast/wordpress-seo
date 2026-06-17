@@ -51,6 +51,38 @@ final class Search_Bulk_Update_Route_Validate_Items_Test extends Abstract_Search
 	}
 
 	/**
+	 * Tests an item carrying only a focus keyphrase passes validation.
+	 *
+	 * @return void
+	 */
+	public function test_validate_items_focus_keyphrase_only() {
+		$items = [
+			[
+				'id'              => 1,
+				'focus_keyphrase' => 'The keyphrase',
+			],
+		];
+
+		$this->assertTrue( $this->instance->validate_items( $items ) );
+	}
+
+	/**
+	 * Tests an item with a non-string focus keyphrase fails validation.
+	 *
+	 * @return void
+	 */
+	public function test_validate_items_non_string_focus_keyphrase() {
+		$items = [
+			[
+				'id'              => 1,
+				'focus_keyphrase' => 123,
+			],
+		];
+
+		$this->assertInstanceOf( WP_Error::class, $this->instance->validate_items( $items ) );
+	}
+
+	/**
 	 * Tests a non-array value fails validation.
 	 *
 	 * @return void
