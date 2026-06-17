@@ -120,4 +120,17 @@ describe( "BulkEditorTable", () => {
 
 		expect( screen.getByText( "No content found." ) ).toBeInTheDocument();
 	} );
+
+	it( "renders the bulk-actions content when provided", () => {
+		render(
+			<BulkEditorTable
+				items={ items }
+				fieldSet={ searchFieldSet }
+				bulkActions={ <span>Bulk actions</span> }
+				showBulkActions={ true }
+			/>
+		);
+
+		expect( screen.getByText( "Bulk actions" ) ).toBeInTheDocument();
+	} );
 } );

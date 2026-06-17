@@ -2,6 +2,7 @@ import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, SkeletonLoader, Table } from "@yoast/ui-library";
 import { noop } from "lodash";
+import AnimateHeight from "react-animate-height";
 import { PAGE_SIZE } from "../constants";
 
 /**
@@ -43,18 +44,18 @@ const getStatusLabel = ( status ) => {
 const getColumnCount = ( fields ) => 4 + fields.length;
 
 /**
- * The table header: the selection toolbar, the bulk-actions toolbar (when rows are selected), and the column
- * header row.
+ * The table header: the selection toolbar, the bulk-actions toolbar, and the column header row.
  *
- * @param {Object}          props                  The props.
- * @param {FieldSetField[]} props.fields           The active field set's editable columns.
- * @param {number}          props.columnCount      The total number of columns (for the full-width toolbar rows).
+ * @param {Object}          props                    The props.
+ * @param {FieldSetField[]} props.fields             The active field set's editable columns.
+ * @param {number}          props.columnCount        The total number of columns (for the full-width toolbar rows).
  * @param {JSX.Element}     [props.selectionToolbar] The first toolbar row's content (master checkbox + Select menu).
- * @param {JSX.Element}     [props.bulkActions]      The second toolbar row's content; omitted when nothing is selected.
+ * @param {JSX.Element}     [props.bulkActions]      The bulk-actions toolbar row's content.
+ * @param {boolean}         [props.showBulkActions]  Whether the bulk-actions row is shown (a selection is active).
  *
  * @returns {JSX.Element} The header.
  */
-const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkActions } ) => (
+const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkActions, showBulkActions } ) => (
 	<Table.Head>
 		{ selectionToolbar && (
 			<Table.Row>
@@ -65,8 +66,10 @@ const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkActions 
 		) }
 		{ bulkActions && (
 			<Table.Row>
-				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-100 yst-bulk-actions-row">
-					{ bulkActions }
+				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-100 !yst-p-0">
+					<AnimateHeight easing="ease-in-out" duration={ 300 } height={ showBulkActions ? "auto" : 0 } animateOpacity={ true }>
+						{ bulkActions }
+					</AnimateHeight>
 				</Table.Cell>
 			</Table.Row>
 		) }
@@ -224,11 +227,21 @@ const BulkEditorBody = ( { items, fields, columnCount, selection, onEdit, isLoad
  * @param {Function}            [props.onEdit]           Called with an item id when its Edit action is triggered.
  * @param {boolean}             [props.isLoading]        Whether to render skeleton rows instead of data.
  * @param {JSX.Element}         [props.selectionToolbar] The first toolbar row's content (master checkbox + Select menu).
- * @param {JSX.Element}         [props.bulkActions]      The bulk-actions toolbar row's content; omitted when nothing is selected.
+ * @param {JSX.Element}         [props.bulkActions]      The bulk-actions toolbar row's content.
+ * @param {boolean}             [props.showBulkActions]  Whether the bulk-actions row is shown (a selection is active).
  *
  * @returns {JSX.Element} The table.
  */
-export const BulkEditorTable = ( { items, fieldSet, selection = {}, onEdit = noop, isLoading = false, selectionToolbar, bulkActions } ) => {
+export const BulkEditorTable = ( {
+	items,
+	fieldSet,
+	selection = {},
+	onEdit = noop,
+	isLoading = false,
+	selectionToolbar,
+	bulkActions,
+	showBulkActions = false,
+} ) => {
 	const columnCount = getColumnCount( fieldSet.fields );
 
 	return (
@@ -252,6 +265,7 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, onEdit = noo
 					columnCount={ columnCount }
 					selectionToolbar={ selectionToolbar }
 					bulkActions={ bulkActions }
+					showBulkActions={ showBulkActions }
 				/>
 				<Table.Body>
 					<BulkEditorBody

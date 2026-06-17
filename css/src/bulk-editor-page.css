@@ -26,26 +26,3 @@
 		z-index: 99999;
 	}
 }
-
-/* The bulk-actions toolbar animation */
-@keyframes yst-bulk-actions-reveal {
-	from {
-		opacity: 0;
-		transform: translateY( -0.25rem );
-	}
-
-	to {
-		opacity: 1;
-		transform: translateY( 0 );
-	}
-}
-
-.yst-bulk-actions-row {
-	animation: yst-bulk-actions-reveal 200ms ease-out;
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.yst-bulk-actions-row {
-		animation: none;
-	}
-}

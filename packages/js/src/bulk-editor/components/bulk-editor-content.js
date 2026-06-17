@@ -44,7 +44,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		onToggleRow: toggleRow,
 	} ), [ selectedIds, toggleRow ] );
 
-	const bulkActions = selectedIds.length > 0 ? <BulkActions isPremium={ isPremium } /> : null;
+	const hasSelection = selectedIds.length > 0;
 
 	return (
 		<div className="yst-p-8 yst-space-y-8">
@@ -71,7 +71,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								totalCount={ items.length }
 							/>
 						}
-						bulkActions={ bulkActions }
+						bulkActions={ <BulkActions isPremium={ isPremium } /> }
+						showBulkActions={ hasSelection }
 						isLoading={ isPending }
 					/>
 				</BulkEditorTabPanel>

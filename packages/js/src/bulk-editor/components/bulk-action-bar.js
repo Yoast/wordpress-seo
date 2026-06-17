@@ -6,7 +6,7 @@ import { Button, Checkbox, DropdownMenu, GradientSparklesIcon } from "@yoast/ui-
 import { BULK_ACTIONS_SLOT, SELECT_MENU_ITEMS_FILTER } from "../constants";
 
 /**
- * The "Select" menu: Select all / Deselect all, extended by Premium (e.g. smart-select) through a filter.
+ * The "Select" menu.
  *
  * @param {Object}   props               The props.
  * @param {Function} props.onSelectAll   Selects every row.
@@ -45,7 +45,7 @@ const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount } )
 };
 
 /**
- * The first toolbar row: the master checkbox, the Select menu and the selected-count.
+ * The first toolbar row: the multiselection checkbox, the Select menu and the selected-count.
  *
  * @param {Object}   props               The props.
  * @param {string}   [props.idSuffix]    A suffix that keeps the checkbox id unique across the two tab tables.
@@ -86,9 +86,7 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, onToggleAll, o
 );
 
 /**
- * The AI usage-counter badge: a white pill with the AI gradient border, matching the counter other AI features
- * show (e.g. the single-post AI generator). The live spark count is AI data wired with the generation flow; until
- * then this is the styled placeholder.
+ * The AI usage-counter badge.
  *
  * @returns {JSX.Element} The sparks badge.
  */
@@ -104,10 +102,9 @@ const SparksBadge = () => (
 );
 
 /**
- * The Free AI generate affordances with their usage-counter badge. Clicking is wired to the upsell flow later
- * (Yoast/reserved-tasks#1266); Premium replaces these through {@link BULK_ACTIONS_SLOT}.
+ * The Free AI generate sparks with their usage-counter badge.
  *
- * @returns {JSX.Element} The Free AI generate affordances.
+ * @returns {JSX.Element} The Free AI generate sparks.
  */
 const FreeBulkActions = () => (
 	<>
@@ -122,8 +119,7 @@ const FreeBulkActions = () => (
 );
 
 /**
- * The second toolbar row, shown when rows are selected: the bulk actions. Free shows the AI generate
- * affordances (upsell on use); Premium fills {@link BULK_ACTIONS_SLOT} with its generate/review actions.
+ * The AI generate buttons toolbar row, shown when rows are selected.
  *
  * @param {Object}  props           The props.
  * @param {boolean} props.isPremium Whether Premium is active.
@@ -131,7 +127,7 @@ const FreeBulkActions = () => (
  * @returns {JSX.Element} The bulk actions row content.
  */
 export const BulkActions = ( { isPremium } ) => (
-	<div className="yst-flex yst-items-center yst-gap-3">
+	<div className="yst-flex yst-items-center yst-gap-3 yst-px-4 yst-py-3">
 		{ isPremium ? <Slot name={ BULK_ACTIONS_SLOT } /> : <FreeBulkActions /> }
 	</div>
 );
