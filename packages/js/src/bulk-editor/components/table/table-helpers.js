@@ -33,7 +33,7 @@ const EMPTY_ROW_EDIT = { openFields: [], draft: {}, savingFields: {} };
 
 /**
  * Resolves what a row needs to render its editing UI: whether it is being edited, plus its open fields, draft
- * values and the field currently saving. Falls back to empty values when the row has no edit in progress.
+ * values and the map of fields currently saving. Falls back to empty values when the row has no edit in progress.
  *
  * @param {Object} [edit] The row's edit state ({ openFields, draft, savingFields }), or undefined when not editing.
  *

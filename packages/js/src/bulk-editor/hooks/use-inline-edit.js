@@ -3,7 +3,7 @@ import { useCallback, useMemo } from "@wordpress/element";
 import { STORE_NAME } from "../constants";
 
 /**
- * The endpoint key a field saves through: its own override (the focus keyphrase) or the field set's default.
+ * The endpoint key a field saves through: a field-level override when set, otherwise the field set's default.
  *
  * @param {import("../field-sets").FieldSetField} field    The field being saved.
  * @param {import("../field-sets").FieldSet}      fieldSet The active field set.
