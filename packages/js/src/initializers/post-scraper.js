@@ -254,7 +254,20 @@ export default function initPostScraper( $, store, editorData ) {
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			yoastStore.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
+			// In REST meta mode, entity meta may not be loaded yet when post-scraper boots.
+			// Defer the initial keyphrase dispatch until meta is available, the same way
+			// cornerstone content does below, so the keyphrase input shows the saved value.
+			if ( isRestMetaActive() && ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
+				const unsubscribeKeyphraseSync = subscribe( () => {
+					if ( ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
+						return;
+					}
+					unsubscribeKeyphraseSync();
+					yoastStore.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
+				}, "core/editor" );
+			} else {
+				yoastStore.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
+			}
 
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
