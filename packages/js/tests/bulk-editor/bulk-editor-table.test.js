@@ -3,6 +3,19 @@ import { BulkEditorTable } from "../../src/bulk-editor/components/table/bulk-edi
 import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PAGE_SIZE } from "../../src/bulk-editor/constants";
 import { getFieldSets } from "../../src/bulk-editor/field-sets";
 
+// Render the inline-edit reveal's children directly and fire its animation-end callback, since the real
+// height/opacity transition never resolves in jsdom (and the close commits on that callback).
+jest.mock( "react-animate-height", () => {
+	const { useEffect } = require( "@wordpress/element" );
+	return {
+		__esModule: true,
+		"default": ( { children, onAnimationEnd } ) => {
+			useEffect( () => onAnimationEnd?.() );
+			return children;
+		},
+	};
+} );
+
 const fieldSets = getFieldSets();
 const searchFieldSet = fieldSets[ FIELD_SET_SEARCH ];
 const socialFieldSet = fieldSets[ FIELD_SET_SOCIAL ];
@@ -167,20 +180,21 @@ describe( "BulkEditorTable", () => {
 	} );
 
 	it( "cancels all of a row's open fields at once through the editing seam", () => {
-		const onCancelEdit = jest.fn();
+		const onDiscardField = jest.fn();
 		render(
 			<BulkEditorTable
 				items={ items }
 				fieldSet={ searchFieldSet }
 				editing={ {
 					editingRows: { 2: { openFields: [ "seoTitle", "metaDescription" ], draft: { seoTitle: "A", metaDescription: "B" }, savingFields: {} } },
-					onCancelEdit,
+					onDiscardField,
 				} }
 			/>
 		);
 
 		fireEvent.click( screen.getByRole( "button", { name: "Cancel editing On-Page SEO Checklist" } ) );
-		expect( onCancelEdit ).toHaveBeenCalledWith( 2 );
+		expect( onDiscardField ).toHaveBeenCalledWith( { id: 2, key: "seoTitle" } );
+		expect( onDiscardField ).toHaveBeenCalledWith( { id: 2, key: "metaDescription" } );
 	} );
 
 	it( "edits the focus keyphrase, which leads both field sets", () => {

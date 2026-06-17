@@ -2,7 +2,7 @@ import { Slot } from "@wordpress/components";
 import { useMemo } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { Button, Checkbox, DropdownMenu, GradientSparklesIcon } from "@yoast/ui-library";
+import { Button, Checkbox, DropdownMenu } from "@yoast/ui-library";
 import { BULK_ACTIONS_SLOT, SELECT_MENU_ITEMS_FILTER } from "../constants";
 
 /**
@@ -25,15 +25,15 @@ const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount } )
 	const items = applyFilters( SELECT_MENU_ITEMS_FILTER, defaultItems, { selectedCount, totalCount } );
 
 	return (
-		<DropdownMenu>
+		<DropdownMenu as="div" className="yst-relative">
 			<DropdownMenu.Trigger as={ Button } variant="primary" size="small">
 				{ __( "Select", "wordpress-seo" ) }
 			</DropdownMenu.Trigger>
-			<DropdownMenu.List className="yst-w-56">
+			<DropdownMenu.List className="yst-absolute yst-z-10 yst-start-0 yst-top-full yst-mt-1 yst-w-56">
 				{ items.map( ( item ) => (
 					<DropdownMenu.ButtonItem
 						key={ item.key }
-						className="yst-flex yst-justify-start yst-px-4 yst-py-2 yst-font-normal"
+						className="yst-flex yst-justify-start yst-px-4 yst-py-2 yst-font-normal yst-text-slate-800"
 						onClick={ item.onClick }
 					>
 						{ item.label }
@@ -86,25 +86,9 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, onToggleAll, o
 );
 
 /**
- * The AI usage-counter badge.
+* The AI generate buttons in Free.
  *
- * @returns {JSX.Element} The sparks badge.
- */
-const SparksBadge = () => (
-	<span
-		className="yst-inline-flex yst-rounded-full yst-p-px"
-		style={ { backgroundImage: "linear-gradient(to bottom right, var(--yst-ai-color-pink-300), var(--yst-ai-color-purple-300))" } }
-	>
-		<span className="yst-inline-flex yst-items-center yst-gap-1 yst-rounded-full yst-bg-white yst-px-2.5 yst-py-1 yst-text-xs yst-font-medium yst-text-slate-700">
-			<GradientSparklesIcon className="yst-h-3.5 yst-w-3.5" />
-		</span>
-	</span>
-);
-
-/**
- * The Free AI generate sparks with their usage-counter badge.
- *
- * @returns {JSX.Element} The Free AI generate sparks.
+ * @returns {JSX.Element} The AI generate buttons.
  */
 const FreeBulkActions = () => (
 	<>
@@ -114,7 +98,6 @@ const FreeBulkActions = () => (
 		<Button variant="ai-secondary" size="small" className="yst-bg-white">
 			{ __( "Generate meta descriptions", "wordpress-seo" ) }
 		</Button>
-		<SparksBadge />
 	</>
 );
 
