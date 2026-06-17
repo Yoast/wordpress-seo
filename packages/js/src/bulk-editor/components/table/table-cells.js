@@ -57,7 +57,7 @@ export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, 
 					value={ value }
 					onChange={ handleChange }
 					disabled={ isSaving }
-					className="yst-resize-none"
+					className="yst-resize-none yst-bg-primary-50 yst-ring-primary-300"
 					/* translators: %1$s expands to the field label, %2$s to the content item title. */
 					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
 				/>
@@ -65,6 +65,7 @@ export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, 
 					<Button
 						variant="secondary"
 						size="small"
+						className="yst-gap-1.5"
 						onClick={ handleApply }
 						disabled={ isSaving }
 						/* translators: %1$s expands to the field label, %2$s to the content item title. */
@@ -76,6 +77,7 @@ export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, 
 					<Button
 						variant="secondary"
 						size="small"
+						className="yst-gap-1.5"
 						onClick={ handleDiscard }
 						disabled={ isSaving }
 						/* translators: %1$s expands to the field label, %2$s to the content item title. */
