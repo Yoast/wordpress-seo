@@ -79,6 +79,10 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 
 			$this->register_primary_term_meta( $post_type );
 
+			if ( ! \post_type_supports( $post_type, 'custom-fields' ) ) {
+				\add_post_type_support( $post_type, 'custom-fields' );
+			}
+
 			\add_filter( 'rest_prepare_' . $post_type, [ $this, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
 		}
 	}
