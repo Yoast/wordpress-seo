@@ -172,7 +172,8 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 		$data = $response->get_data();
 		foreach ( WPSEO_Meta::$meta_fields as $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
-				if ( ! empty( $field_def['show_in_rest'] ) ) {
+				// Mirror the show_in_rest logic from register_meta(): only expose fields whose type is not null.
+				if ( ! \array_key_exists( 'type', $field_def ) || $field_def['type'] !== null ) {
 					unset( $data['meta'][ WPSEO_Meta::$meta_prefix . $key ] );
 				}
 			}
