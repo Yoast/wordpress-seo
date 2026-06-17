@@ -34,8 +34,8 @@ const getHeaderCopy = ( contentType ) => {
  * (tabs + panels). The active content type and field set live in the store.
  *
  * @param {Object}                            props                    The props.
- * @param {import("./services").DataProvider} props.dataProvider       The data provider.
- * @param {RemoteDataProvider}                props.remoteDataProvider The remote data provider.
+ * @param {import("./services").DataProvider} props.dataProvider       The data provider (config + endpoints/links).
+ * @param {Object}                            props.remoteDataProvider The remote data provider (HTTP), used to fetch and save edits.
  *
  * @returns {JSX.Element} The app.
  */

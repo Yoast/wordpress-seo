@@ -4,6 +4,7 @@ import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkPar
 import { STORE_NAME } from "../constants";
 import activeContentType, { activeContentTypeActions, activeContentTypeSelectors, createInitialActiveContentTypeState } from "./active-content-type";
 import activeFieldSet, { activeFieldSetActions, activeFieldSetSelectors, createInitialActiveFieldSetState } from "./active-field-set";
+import edits, { createInitialEditsState, editsActions, editsSelectors } from "./edits";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
@@ -19,12 +20,14 @@ const createStore = ( { initialState } ) => {
 			...preferencesActions,
 			...activeFieldSetActions,
 			...activeContentTypeActions,
+			...editsActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
 			...preferencesSelectors,
 			...activeFieldSetSelectors,
 			...activeContentTypeSelectors,
+			...editsSelectors,
 		},
 		initialState: merge(
 			{},
@@ -33,6 +36,7 @@ const createStore = ( { initialState } ) => {
 				preferences: createInitialPreferencesState(),
 				activeFieldSet: createInitialActiveFieldSetState(),
 				activeContentType: createInitialActiveContentTypeState(),
+				edits: createInitialEditsState(),
 			},
 			initialState
 		),
@@ -41,6 +45,7 @@ const createStore = ( { initialState } ) => {
 			preferences,
 			activeFieldSet,
 			activeContentType,
+			edits,
 		} ),
 	} );
 };
