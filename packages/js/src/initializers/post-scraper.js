@@ -456,18 +456,14 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
-	 * Initializes the snippet editor data and sets up the store subscriber that keeps the
-	 * snippet editor and PostDataCollector in sync with the store.
+	 * Dispatches the initial cornerstone, keyphrase, title, and description to the store.
+	 * In REST meta mode, defers the dispatch until core/editor has loaded the entity meta.
+	 *
+	 * @param {Object} snippetEditorTemplates The snippet editor templates from l10n.
 	 *
 	 * @returns {void}
 	 */
-	function initializeSnippetEditorSync() {
-		let snippetEditorData = getDataFromCollector( postDataCollector );
-		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
-		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
-
-		store.dispatch( updateData( snippetEditorData ) );
-
+	function dispatchInitialMetaOnReady( snippetEditorTemplates ) {
 		if ( isRestMetaActive() && ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
 			// In REST meta mode the entity meta hasn't loaded yet, so title, description,
 			// keyphrase, and cornerstone all return empty/false values. A single subscriber
@@ -491,6 +487,77 @@ export default function initPostScraper( $, store, editorData ) {
 		} else {
 			store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
 		}
+	}
+
+	/**
+	 * Initializes analysis for the post edit screen.
+	 *
+	 * @returns {void}
+	 */
+	// eslint-disable-next-line max-statements
+	function initializePostAnalysis() {
+		metaboxContainer = $( "#wpseo_meta" );
+
+		tinyMCEHelper.setStore( store );
+		tinyMCEHelper.wpTextViewOnInitCheck();
+
+		handlePageBuilderCompatibility();
+
+		// Avoid error when snippet metabox is not rendered, unless the metabox has been intentionally
+		// disabled in the block editor (REST-first mode), in which case the app still needs to initialize
+		// so that window.YoastSEO.app and its Pluggable hooks are available for third-party integrations.
+		if ( metaboxContainer.length === 0 && ! isRestMetaActive() ) {
+			return;
+		}
+
+		postDataCollector = initializePostDataCollector( editorData );
+		publishBox.initialize();
+
+		const appArgs = getAppArgs( store );
+		setupYoastSEOGlobals( appArgs );
+
+		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage_and_post_types", store );
+		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
+
+		// Analysis plugins.
+		initializeAnalysisPlugins();
+
+		// Initialize the analysis worker.
+		window.YoastSEO.analysis.worker.initialize( getAnalysisConfiguration() )
+			.then( () => {
+				jQuery( window ).trigger( "YoastSEO:ready" );
+			} )
+			.catch( handleWorkerError );
+
+		postDataCollector.bindElementEvents( debounce( () => refreshAnalysis(
+			window.YoastSEO.analysis.worker,
+			window.YoastSEO.analysis.collectData,
+			window.YoastSEO.analysis.applyMarks,
+			store,
+			postDataCollector
+		), refreshDelay ) );
+
+		// Hack needed to make sure Publish box and traffic light are still updated.
+		disableYoastSEORenderers( app );
+		const originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
+		app.initAssessorPresenters = function() {
+			originalInitAssessorPresenters();
+			disableYoastSEORenderers( app );
+		};
+
+		// Set refresh function. data.setRefresh is only defined when Gutenberg is available.
+		if ( editorData.setRefresh ) {
+			editorData.setRefresh( app.refresh );
+		}
+
+		// Initialize snippet editor data and wire the store subscriber that keeps it in sync.
+		let snippetEditorData = getDataFromCollector( postDataCollector );
+		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
+		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+
+		store.dispatch( updateData( snippetEditorData ) );
+
+		dispatchInitialMetaOnReady( snippetEditorTemplates );
 
 		let focusKeyword = store.getState().focusKeyword;
 		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
@@ -540,71 +607,6 @@ export default function initPostScraper( $, store, editorData ) {
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
 		} );
-	}
-
-	/**
-	 * Initializes analysis for the post edit screen.
-	 *
-	 * @returns {void}
-	 */
-	function initializePostAnalysis() {
-		metaboxContainer = $( "#wpseo_meta" );
-
-		tinyMCEHelper.setStore( store );
-		tinyMCEHelper.wpTextViewOnInitCheck();
-
-		handlePageBuilderCompatibility();
-
-		// Avoid error when snippet metabox is not rendered, unless the metabox has been intentionally
-		// disabled in the block editor (REST-first mode), in which case the app still needs to initialize
-		// so that window.YoastSEO.app and its Pluggable hooks are available for third-party integrations.
-		if ( metaboxContainer.length === 0 && ! isRestMetaActive() ) {
-			return;
-		}
-
-		postDataCollector = initializePostDataCollector( editorData );
-		publishBox.initialize();
-
-		const appArgs = getAppArgs( store );
-		setupYoastSEOGlobals( appArgs );
-
-		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage_and_post_types", store );
-		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
-
-		// Analysis plugins.
-		initializeAnalysisPlugins();
-
-		// Initialize the analysis worker.
-		window.YoastSEO.analysis.worker.initialize( getAnalysisConfiguration() )
-			.then( () => {
-				jQuery( window ).trigger( "YoastSEO:ready" );
-			} )
-			.catch( handleWorkerError );
-
-
-		postDataCollector.bindElementEvents( debounce( () => refreshAnalysis(
-			window.YoastSEO.analysis.worker,
-			window.YoastSEO.analysis.collectData,
-			window.YoastSEO.analysis.applyMarks,
-			store,
-			postDataCollector
-		), refreshDelay ) );
-
-		// Hack needed to make sure Publish box and traffic light are still updated.
-		disableYoastSEORenderers( app );
-		const originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
-		app.initAssessorPresenters = function() {
-			originalInitAssessorPresenters();
-			disableYoastSEORenderers( app );
-		};
-
-		// Set refresh function. data.setRefresh is only defined when Gutenberg is available.
-		if ( editorData.setRefresh ) {
-			editorData.setRefresh( app.refresh );
-		}
-
-		// Initialize snippet editor data and wire the store subscriber that keeps it in sync.
-		initializeSnippetEditorSync();
 
 		if ( isBlockEditor() ) {
 			let editorMode = getEditorMode();
