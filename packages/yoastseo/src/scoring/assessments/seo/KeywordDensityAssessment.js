@@ -106,11 +106,10 @@ class KeyphraseDensityAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling the research.
-	 * @param {Function} matchWordCustomHelper The language-specific helper function to match word in text.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
-	getResult( paper, researcher, matchWordCustomHelper ) {
+	getResult( paper, researcher ) {
 		const assessmentResult = new AssessmentResult();
 
 		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
@@ -131,12 +130,13 @@ class KeyphraseDensityAssessment extends Assessment {
 				// Calculate the score for short texts in Japanese
 				const matchWordCustomHelper = researcher.getHelper("matchWordCustomHelper");
 				if ( matchWordCustomHelper ) {
-					const customTextLength = researcher.getResearch("textLength");
+					const customTextLength = researcher.getResearch("wordCountInText");
 					if ( matchWordCustomHelper && customTextLength < 50 ) {
 						this._minRecommendedKeyphraseCount = 1;
-						this._maxRecommendedKeyphraseCount = 25 ? 2 : 1;
+						this._maxRecommendedKeyphraseCount > 25 ? 2 : 1;
 					}
 				}
+				calculatedScore = this.calculateResultShortText();$
 			} else {
 				// Calculate the score for long texts.
 				this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
