@@ -34,7 +34,7 @@ import getApplyMarks from "../analysis/getApplyMarks";
 import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
 import initializeUsedKeywords from "./used-keywords-assessment";
-import { initializeSnippetEditorSync } from "./snippet-editor-sync";
+import { initializeSnippetEditorSync } from "../helpers/snippet-editor-sync";
 
 // Redux dependencies.
 import { actions } from "@yoast/externals/redux";
