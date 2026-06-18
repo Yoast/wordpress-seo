@@ -7,14 +7,13 @@ import { markers } from "yoastseo";
 import { select } from "@wordpress/data";
 
 /* Internal dependencies */
-import { metaKeyTitle, metaKeyMetaDesc, metaKeyFocusKw } from "../shared-admin/constants";
 import measureTextWidth from "../helpers/measureTextWidth";
 import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as tmceHelper from "../lib/tinymce";
 import AnalysisFields from "../helpers/fields/AnalysisFields";
-import { getMetaValue, setMetaValue } from "../helpers/fields/rest-meta";
+import SearchMetadataFields from "../helpers/fields/SearchMetadataFields";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isContentAnalysisActive from "./isContentAnalysisActive";
@@ -83,7 +82,7 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	return getMetaValue( metaKeyFocusKw, document.getElementById( "yoast_wpseo_focuskw" ), "" );
+	return AnalysisFields.keyphrase;
 };
 
 /**
@@ -107,7 +106,7 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
  * @returns {string} The meta description.
  */
 PostDataCollector.prototype.getMeta = function() {
-	return getMetaValue( metaKeyMetaDesc, document.getElementById( "yoast_wpseo_metadesc" ), "" );
+	return SearchMetadataFields.description;
 };
 
 /**
@@ -172,7 +171,7 @@ PostDataCollector.prototype.getExcerpt = function() {
  * @returns {string} The snippet title.
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
-	return getMetaValue( metaKeyTitle, document.getElementById( "yoast_wpseo_title" ), "" );
+	return SearchMetadataFields.title;
 };
 
 /**
@@ -181,7 +180,7 @@ PostDataCollector.prototype.getSnippetTitle = function() {
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
-	return getMetaValue( metaKeyMetaDesc, document.getElementById( "yoast_wpseo_metadesc" ), "" );
+	return SearchMetadataFields.description;
 };
 
 /**
@@ -272,7 +271,7 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
  * @returns {void}
  */
 PostDataCollector.prototype.setSnippetMeta = function( value ) {
-	setMetaValue( metaKeyMetaDesc, document.getElementById( "yoast_wpseo_metadesc" ), value );
+	SearchMetadataFields.description = value;
 };
 
 /**
@@ -310,7 +309,7 @@ PostDataCollector.prototype.setSnippetCite = function( value ) {
  * @returns {void}
  */
 PostDataCollector.prototype.setSnippetTitle = function( value ) {
-	setMetaValue( metaKeyTitle, document.getElementById( "yoast_wpseo_title" ), value );
+	SearchMetadataFields.title = value;
 };
 
 /**
