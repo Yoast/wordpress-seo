@@ -106,10 +106,11 @@ class KeyphraseDensityAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling the research.
+	 * @param {Function} matchWordCustomHelper The language-specific helper function to match word in text.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper, researcher, matchWordCustomHelper ) {
 		const assessmentResult = new AssessmentResult();
 
 		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
@@ -127,6 +128,15 @@ class KeyphraseDensityAssessment extends Assessment {
 				this._minRecommendedKeyphraseCount = 1;
 				this._maxRecommendedKeyphraseCount = this._textLength > 50 ? 2 : 1;
 				calculatedScore = this.calculateResultShortText();
+				// Calculate the score for short texts in Japanese
+				const matchWordCustomHelper = researcher.getHelper("matchWordCustomHelper");
+				if ( matchWordCustomHelper ) {
+					const customTextLength = researcher.getResearch("textLength");
+					if ( matchWordCustomHelper && customTextLength < 50 ) {
+						this._minRecommendedKeyphraseCount = 1;
+						this._maxRecommendedKeyphraseCount = 25 ? 2 : 1;
+					}
+				}
 			} else {
 				// Calculate the score for long texts.
 				this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
@@ -202,7 +212,7 @@ class KeyphraseDensityAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there is a good number of keyphrase matches in a short text (<= 100 words).
+	 * Checks whether there is a good number of keyphrase matches in a short text (<= 100 words or 50 characters).
 	 *
 	 * @returns {boolean} Returns true if the number of keyphrase occurrences is between the minimum and maximum recommended count.
 	 */
