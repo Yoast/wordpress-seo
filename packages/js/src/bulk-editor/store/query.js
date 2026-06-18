@@ -19,15 +19,9 @@ const slice = createSlice( {
 		setPage: ( state, { payload } ) => {
 			state.page = payload;
 		},
-		// Toggling a status filter resets to the first page: the filtered set may have fewer pages.
-		toggleStatus: ( state, { payload } ) => {
-			state.statuses = state.statuses.includes( payload )
-				? state.statuses.filter( ( status ) => status !== payload )
-				: [ ...state.statuses, payload ];
-			state.page = 1;
-		},
-		clearStatuses: ( state ) => {
-			state.statuses = [];
+		// Changing the status filter resets to the first page: the filtered set may have fewer pages.
+		setStatuses: ( state, { payload } ) => {
+			state.statuses = payload;
 			state.page = 1;
 		},
 	},

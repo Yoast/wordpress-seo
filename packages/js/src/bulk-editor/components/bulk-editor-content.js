@@ -5,6 +5,7 @@ import { STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
 import { useInlineEdit } from "../hooks/use-inline-edit";
 import { usePosts } from "../services/use-posts";
+import { BulkEditorFilters } from "./bulk-editor-filters";
 import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
@@ -51,7 +52,13 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			</div>
 			{ tabs.map( ( tab ) => (
 				<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-					<BulkEditorTable items={ items } fieldSet={ fieldSets[ tab.id ] } editing={ editing } isLoading={ isPending } />
+					<BulkEditorTable
+						items={ items }
+						fieldSet={ fieldSets[ tab.id ] }
+						editing={ editing }
+						isLoading={ isPending }
+						filters={ <BulkEditorFilters /> }
+					/>
 				</BulkEditorTabPanel>
 			) ) }
 			<BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />

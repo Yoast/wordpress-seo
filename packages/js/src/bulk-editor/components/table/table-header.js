@@ -9,25 +9,29 @@ import { Checkbox, Table } from "@yoast/ui-library";
  * @param {number}              props.columnCount The total number of columns.
  * @param {BulkEditorSelection} props.selection   The selection props.
  * @param {boolean}             props.isLoading   Whether the table is loading (disables "select all").
+ * @param {JSX.Element}         [props.filters]   The filters control.
  *
  * @returns {JSX.Element} The header.
  */
-export const BulkEditorHeader = ( { fields, columnCount, selection, isLoading } ) => {
+export const BulkEditorHeader = ( { fields, columnCount, selection, isLoading, filters } ) => {
 	const { isAllSelected, onToggleAll } = selection;
 
 	return (
 		<Table.Head>
 			<Table.Row>
 				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-50 yst-rounded-ss-lg yst-rounded-se-lg">
-					<Checkbox
-						id="bulk-editor-select-all"
-						name="bulk-editor-select-all"
-						value="all"
-						aria-label={ __( "Select all", "wordpress-seo" ) }
-						checked={ isAllSelected }
-						onChange={ onToggleAll }
-						disabled={ isLoading }
-					/>
+					<div className="yst-flex yst-items-center yst-justify-between yst-gap-4">
+						<Checkbox
+							id="bulk-editor-select-all"
+							name="bulk-editor-select-all"
+							value="all"
+							aria-label={ __( "Select all", "wordpress-seo" ) }
+							checked={ isAllSelected }
+							onChange={ onToggleAll }
+							disabled={ isLoading }
+						/>
+						{ filters }
+					</div>
 				</Table.Cell>
 			</Table.Row>
 			<Table.Row>
