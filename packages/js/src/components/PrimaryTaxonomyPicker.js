@@ -268,7 +268,6 @@ PrimaryTaxonomyPicker.propTypes = {
 		fieldId: PropTypes.string,
 		restBase: PropTypes.string,
 		singularLabel: PropTypes.string,
-		primary: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ),
 	} ),
 	learnMoreLink: PropTypes.string.isRequired,
 };
