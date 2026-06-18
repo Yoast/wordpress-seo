@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* global wpseoScriptData */
 
 // External dependencies.
@@ -376,86 +377,6 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
-	 * Sets up the window.YoastSEO namespace, creates the App instance, and wires all
-	 * app-level overwrites (Pluggable, refresh, analysis worker, etc.).
-	 *
-	 * @param {Object} appArgs The arguments for the App constructor.
-	 *
-	 * @returns {void}
-	 */
-	function setupYoastSEOGlobals( appArgs ) {
-		app = new App( appArgs );
-
-		// Content analysis.
-		window.YoastSEO = window.YoastSEO || {};
-		window.YoastSEO.app = app;
-		window.YoastSEO.store = store;
-		window.YoastSEO.analysis = {};
-		window.YoastSEO.analysis.worker = createAnalysisWorker();
-		window.YoastSEO.analysis.collectData = () => collectAnalysisData(
-			editorData,
-			store,
-			customAnalysisData,
-			app.pluggable,
-			select( "core/block-editor" ),
-			select( "core/editor" )
-		);
-		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks()( paper, marks );
-
-		// YoastSEO.app overwrites.
-		window.YoastSEO.app.refresh = debounce( () => refreshAnalysis(
-			window.YoastSEO.analysis.worker,
-			window.YoastSEO.analysis.collectData,
-			window.YoastSEO.analysis.applyMarks,
-			store,
-			postDataCollector
-		), refreshDelay );
-		window.YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
-		window.YoastSEO.app.pluggable = new Pluggable( window.YoastSEO.app.refresh );
-		window.YoastSEO.app.registerPlugin = window.YoastSEO.app.pluggable._registerPlugin;
-		window.YoastSEO.app.pluginReady = window.YoastSEO.app.pluggable._ready;
-		window.YoastSEO.app.pluginReloaded = window.YoastSEO.app.pluggable._reloaded;
-		window.YoastSEO.app.registerModification = window.YoastSEO.app.pluggable._registerModification;
-		window.YoastSEO.app.registerAssessment = ( name, assessment, pluginName ) => {
-			if ( ! isUndefined( app.seoAssessor ) ) {
-				return window.YoastSEO.app.pluggable._registerAssessment( app.defaultSeoAssessor, name, assessment, pluginName ) &&
-					window.YoastSEO.app.pluggable._registerAssessment( app.cornerStoneSeoAssessor, name, assessment, pluginName );
-			}
-		};
-		window.YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
-			window.YoastSEO.analysis.worker.initialize( assessorOptions ).catch( handleWorkerError );
-			window.YoastSEO.app.refresh();
-		};
-
-		// Backwards compatibility.
-		window.YoastSEO.analyzerArgs = appArgs;
-	}
-
-	/**
-	 * Registers all analysis plugins (replace vars, shortcode, reusable blocks, markdown)
-	 * and sets the tinyMCE helper reference on window.YoastSEO.wp.
-	 *
-	 * @returns {void}
-	 */
-	function initializeAnalysisPlugins() {
-		window.YoastSEO.wp = {};
-		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
-		initShortcodePlugin( app, store );
-
-		if ( isBlockEditor() ) {
-			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, window.YoastSEO.app.refresh );
-			reusableBlocksPlugin.register();
-		}
-		if ( wpseoScriptData.metabox.markdownEnabled ) {
-			const markdownPlugin = new YoastMarkdownPlugin( app.registerPlugin, app.registerModification );
-			markdownPlugin.register();
-		}
-
-		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
-		activateEnabledAnalysis();
-	}
-
-	/**
 	 * Dispatches the initial cornerstone, keyphrase, title, and description to the store.
 	 * In REST meta mode, defers the dispatch until core/editor has loaded the entity meta.
 	 *
@@ -514,13 +435,74 @@ export default function initPostScraper( $, store, editorData ) {
 		publishBox.initialize();
 
 		const appArgs = getAppArgs( store );
-		setupYoastSEOGlobals( appArgs );
+
+		// Sets up the window.YoastSEO namespace, creates the App instance, and wires all
+		// app-level overwrites (Pluggable, refresh, analysis worker, etc.).
+		app = new App( appArgs );
+
+		// Content analysis.
+		window.YoastSEO = window.YoastSEO || {};
+		window.YoastSEO.app = app;
+		window.YoastSEO.store = store;
+		window.YoastSEO.analysis = {};
+		window.YoastSEO.analysis.worker = createAnalysisWorker();
+		window.YoastSEO.analysis.collectData = () => collectAnalysisData(
+			editorData,
+			store,
+			customAnalysisData,
+			app.pluggable,
+			select( "core/block-editor" ),
+			select( "core/editor" )
+		);
+		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks()( paper, marks );
+
+		// YoastSEO.app overwrites.
+		window.YoastSEO.app.refresh = debounce( () => refreshAnalysis(
+			window.YoastSEO.analysis.worker,
+			window.YoastSEO.analysis.collectData,
+			window.YoastSEO.analysis.applyMarks,
+			store,
+			postDataCollector
+		), refreshDelay );
+		window.YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
+		window.YoastSEO.app.pluggable = new Pluggable( window.YoastSEO.app.refresh );
+		window.YoastSEO.app.registerPlugin = window.YoastSEO.app.pluggable._registerPlugin;
+		window.YoastSEO.app.pluginReady = window.YoastSEO.app.pluggable._ready;
+		window.YoastSEO.app.pluginReloaded = window.YoastSEO.app.pluggable._reloaded;
+		window.YoastSEO.app.registerModification = window.YoastSEO.app.pluggable._registerModification;
+		window.YoastSEO.app.registerAssessment = ( name, assessment, pluginName ) => {
+			if ( ! isUndefined( app.seoAssessor ) ) {
+				return window.YoastSEO.app.pluggable._registerAssessment( app.defaultSeoAssessor, name, assessment, pluginName ) &&
+					window.YoastSEO.app.pluggable._registerAssessment( app.cornerStoneSeoAssessor, name, assessment, pluginName );
+			}
+		};
+		window.YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
+			window.YoastSEO.analysis.worker.initialize( assessorOptions ).catch( handleWorkerError );
+			window.YoastSEO.app.refresh();
+		};
 
 		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage_and_post_types", store );
 		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
 
+		// Backwards compatibility.
+		window.YoastSEO.analyzerArgs = appArgs;
+
 		// Analysis plugins.
-		initializeAnalysisPlugins();
+		window.YoastSEO.wp = {};
+		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		initShortcodePlugin( app, store );
+
+		if ( isBlockEditor() ) {
+			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, window.YoastSEO.app.refresh );
+			reusableBlocksPlugin.register();
+		}
+		if ( wpseoScriptData.metabox.markdownEnabled ) {
+			const markdownPlugin = new YoastMarkdownPlugin( app.registerPlugin, app.registerModification );
+			markdownPlugin.register();
+		}
+
+		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
+		activateEnabledAnalysis();
 
 		// Initialize the analysis worker.
 		window.YoastSEO.analysis.worker.initialize( getAnalysisConfiguration() )
@@ -567,6 +549,7 @@ export default function initPostScraper( $, store, editorData ) {
 
 		let previousCornerstoneValue = null;
 		store.subscribe( () => {
+			// Verify whether the focusKeyword changed. If so, trigger refresh:
 			const newFocusKeyword = store.getState().focusKeyword;
 
 			if ( focusKeyword !== newFocusKeyword ) {
