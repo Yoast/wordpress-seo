@@ -50,8 +50,7 @@ describe( "BulkEditorFooter", () => {
 	afterEach( () => {
 		if ( typeof mockViewport.originalMatchMedia === "undefined" ) {
 			delete window.matchMedia;
-		}
-		else {
+		} else {
 			window.matchMedia = mockViewport.originalMatchMedia;
 		}
 	} );
