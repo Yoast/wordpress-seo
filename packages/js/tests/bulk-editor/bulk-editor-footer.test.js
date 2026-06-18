@@ -27,6 +27,10 @@ describe( "BulkEditorFooter", () => {
 	 * @returns {void}
 	 */
 	const mockViewport = ( matches ) => {
+		if ( ! Object.prototype.hasOwnProperty.call( mockViewport, "originalMatchMedia" ) ) {
+			mockViewport.originalMatchMedia = window.matchMedia;
+		}
+
 		window.matchMedia = jest.fn().mockImplementation( ( media ) => ( {
 			matches,
 			media,
@@ -41,6 +45,15 @@ describe( "BulkEditorFooter", () => {
 		mockCurrentPage( 1 );
 		// Default to the desktop viewport so the full set of page buttons renders.
 		mockViewport( true );
+	} );
+
+	afterEach( () => {
+		if ( typeof mockViewport.originalMatchMedia === "undefined" ) {
+			delete window.matchMedia;
+		}
+		else {
+			window.matchMedia = mockViewport.originalMatchMedia;
+		}
 	} );
 
 	it( "renders the result range for the current page", () => {
