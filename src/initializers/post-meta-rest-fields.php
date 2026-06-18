@@ -6,6 +6,8 @@ use WP_Post;
 use WP_REST_Response;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
@@ -31,12 +33,30 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 	private $taxonomy_helper;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
+	 * The capability helper.
+	 *
+	 * @var Capability_Helper
+	 */
+	private $capability_helper;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param Taxonomy_Helper $taxonomy_helper The taxonomy helper.
+	 * @param Taxonomy_Helper   $taxonomy_helper   The taxonomy helper.
+	 * @param Options_Helper    $options_helper    The options helper.
+	 * @param Capability_Helper $capability_helper The capability helper.
 	 */
-	public function __construct( Taxonomy_Helper $taxonomy_helper ) {
-		$this->taxonomy_helper = $taxonomy_helper;
+	public function __construct( Taxonomy_Helper $taxonomy_helper, Options_Helper $options_helper, Capability_Helper $capability_helper ) {
+		$this->taxonomy_helper   = $taxonomy_helper;
+		$this->options_helper    = $options_helper;
+		$this->capability_helper = $capability_helper;
 	}
 
 	/**
@@ -73,9 +93,10 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 		$metabox_disabled_in_block_editor = \apply_filters( 'wpseo_disable_metabox_in_block_editor', false );
 
 		foreach ( \get_post_types( [ 'show_in_rest' => true ], 'names' ) as $post_type ) {
-			foreach ( WPSEO_Meta::$meta_fields as $field_group ) {
+			foreach ( WPSEO_Meta::$meta_fields as $subset => $field_group ) {
+				$requires_advanced_cap = \in_array( $subset, [ 'advanced', 'schema' ], true );
 				foreach ( $field_group as $key => $field_def ) {
-					$this->register_meta( $post_type, $key, $field_def );
+					$this->register_meta( $post_type, $key, $field_def, $requires_advanced_cap );
 				}
 			}
 
@@ -156,13 +177,15 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 	 * Fields with `type: null` are internal/serialized fields not suitable for REST API
 	 * access and will be registered with `show_in_rest: false`.
 	 *
-	 * @param string                             $post_type The post type slug.
-	 * @param string                             $key       The internal key of the meta field (without prefix).
-	 * @param array<string,array<string,string>> $field_def The field definition array.
+	 * @param string                             $post_type             The post type slug.
+	 * @param string                             $key                   The internal key of the meta field (without prefix).
+	 * @param array<string,array<string,string>> $field_def             The field definition array.
+	 * @param bool                               $requires_advanced_cap Whether the field is in the advanced or schema subset
+	 *                                                                  and therefore also requires wpseo_edit_advanced_metadata.
 	 *
 	 * @return void
 	 */
-	private function register_meta( string $post_type, string $key, array $field_def = [] ) {
+	private function register_meta( string $post_type, string $key, array $field_def = [], bool $requires_advanced_cap = false ) {
 		$show_in_rest = ! \array_key_exists( 'type', $field_def ) || $field_def['type'] !== null;
 
 		$args = [
@@ -170,16 +193,42 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 			'single'            => true,
 			'type'              => 'string',
 			'sanitize_callback' => [ WPSEO_Meta::class, 'sanitize_post_meta' ],
-			'auth_callback'     => static function ( $allowed, $meta_key, $object_id ) {
-				return \current_user_can( 'edit_post', $object_id );
-			},
 		];
+
+		if ( $requires_advanced_cap ) {
+			$args['auth_callback'] = [ $this, 'auth_callback_for_advanced_meta' ];
+		}
+		else {
+			$args['auth_callback'] = static function ( $allowed, $meta_key, $object_id ) {
+				return \current_user_can( 'edit_post', $object_id );
+			};
+		}
 
 		if ( isset( $field_def['default_value'] ) ) {
 			$args['default'] = $field_def['default_value'];
 		}
 
 		\register_post_meta( $post_type, WPSEO_Meta::$meta_prefix . $key, $args );
+	}
+
+	/**
+	 * Auth callback for advanced and schema meta fields.
+	 *
+	 * Mirrors the gate in WPSEO_Meta::get_tab_field_defs(): when disableadvanced_meta is on,
+	 * only users with wpseo_edit_advanced_metadata (or wpseo_manage_options) may write these fields.
+	 *
+	 * @param bool   $allowed   Whether the user is allowed (unused; re-evaluated from scratch).
+	 * @param string $meta_key  The meta key being written.
+	 * @param int    $object_id The post ID.
+	 *
+	 * @return bool
+	 */
+	public function auth_callback_for_advanced_meta( $allowed, $meta_key, $object_id ) {
+		if ( ! \current_user_can( 'edit_post', $object_id ) ) {
+			return false;
+		}
+		return ! $this->options_helper->get( 'disableadvanced_meta' )
+			|| $this->capability_helper->current_user_can( 'wpseo_edit_advanced_metadata' );
 	}
 
 	/**

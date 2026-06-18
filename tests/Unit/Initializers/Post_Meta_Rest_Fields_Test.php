@@ -6,6 +6,8 @@ use Brain\Monkey;
 use Mockery;
 use stdClass;
 use WPSEO_Meta;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Initializers\Post_Meta_Rest_Fields;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -54,6 +56,20 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 	private $taxonomy_helper;
 
 	/**
+	 * Mocked options helper.
+	 *
+	 * @var Mockery\MockInterface&Options_Helper
+	 */
+	private $options_helper;
+
+	/**
+	 * Mocked capability helper.
+	 *
+	 * @var Mockery\MockInterface&Capability_Helper
+	 */
+	private $capability_helper;
+
+	/**
 	 * Snapshot of WPSEO_Meta::$meta_fields, restored after each test.
 	 *
 	 * @var array<string, array<string, array<string, mixed>>>
@@ -90,8 +106,10 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 		WPSEO_Meta::$fields_index = [];
 		WPSEO_Meta::$defaults     = [];
 
-		$this->taxonomy_helper = Mockery::mock( Taxonomy_Helper::class );
-		$this->instance        = new Post_Meta_Rest_Fields( $this->taxonomy_helper );
+		$this->taxonomy_helper   = Mockery::mock( Taxonomy_Helper::class );
+		$this->options_helper    = Mockery::mock( Options_Helper::class );
+		$this->capability_helper = Mockery::mock( Capability_Helper::class );
+		$this->instance          = new Post_Meta_Rest_Fields( $this->taxonomy_helper, $this->options_helper, $this->capability_helper );
 	}
 
 	/**
@@ -174,6 +192,126 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( false );
 
 		$this->instance->register_post_meta();
+	}
+
+	/**
+	 * Tests that a general-subset field's auth_callback only checks edit_post.
+	 *
+	 * @covers ::register_post_meta
+	 *
+	 * @return void
+	 */
+	public function test_general_field_auth_callback_only_requires_edit_post() {
+		$captured = [];
+		$this->stub_get_post_types( [ 'post' ] );
+		$this->stub_object_taxonomies( 'post', [] );
+		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( false );
+		Monkey\Filters\expectAdded( 'rest_prepare_post' );
+		Monkey\Functions\expect( 'register_post_meta' )
+			->twice()
+			->andReturnUsing(
+				static function ( $post_type, $meta_key, $args ) use ( &$captured ) {
+					$captured[ $meta_key ] = $args;
+				},
+			);
+
+		$this->instance->register_post_meta();
+
+		$key      = WPSEO_Meta::$meta_prefix . 'title';
+		$callback = $captured[ $key ]['auth_callback'];
+
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'edit_post', 42 )
+			->andReturn( true );
+
+		$this->assertTrue( $callback( true, $key, 42 ) );
+	}
+
+	/**
+	 * Tests that a schema-subset field's auth_callback blocks a user who has edit_post
+	 * but lacks wpseo_edit_advanced_metadata when disableadvanced_meta is enabled (the default).
+	 *
+	 * @covers ::register_post_meta
+	 *
+	 * @return void
+	 */
+	public function test_schema_field_auth_callback_denies_user_without_advanced_metadata_cap() {
+		$captured = [];
+		$this->stub_get_post_types( [ 'post' ] );
+		$this->stub_object_taxonomies( 'post', [] );
+		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( false );
+		Monkey\Filters\expectAdded( 'rest_prepare_post' );
+		Monkey\Functions\expect( 'register_post_meta' )
+			->twice()
+			->andReturnUsing(
+				static function ( $post_type, $meta_key, $args ) use ( &$captured ) {
+					$captured[ $meta_key ] = $args;
+				},
+			);
+
+		$this->instance->register_post_meta();
+
+		$key      = WPSEO_Meta::$meta_prefix . 'schema_page_type';
+		$callback = $captured[ $key ]['auth_callback'];
+
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'edit_post', 42 )
+			->andReturn( true );
+		$this->options_helper->expects( 'get' )
+			->once()
+			->with( 'disableadvanced_meta' )
+			->andReturn( true );
+		$this->capability_helper->expects( 'current_user_can' )
+			->once()
+			->with( 'wpseo_edit_advanced_metadata' )
+			->andReturn( false );
+
+		$this->assertFalse( $callback( true, $key, 42 ) );
+	}
+
+	/**
+	 * Tests that a schema-subset field's auth_callback allows a user who has
+	 * wpseo_manage_options (the superuser capability checked first by WPSEO_Capability_Utils).
+	 *
+	 * @covers ::register_post_meta
+	 *
+	 * @return void
+	 */
+	public function test_schema_field_auth_callback_allows_user_with_advanced_metadata_cap() {
+		$captured = [];
+		$this->stub_get_post_types( [ 'post' ] );
+		$this->stub_object_taxonomies( 'post', [] );
+		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( false );
+		Monkey\Filters\expectAdded( 'rest_prepare_post' );
+		Monkey\Functions\expect( 'register_post_meta' )
+			->twice()
+			->andReturnUsing(
+				static function ( $post_type, $meta_key, $args ) use ( &$captured ) {
+					$captured[ $meta_key ] = $args;
+				},
+			);
+
+		$this->instance->register_post_meta();
+
+		$key      = WPSEO_Meta::$meta_prefix . 'schema_page_type';
+		$callback = $captured[ $key ]['auth_callback'];
+
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'edit_post', 42 )
+			->andReturn( true );
+		$this->options_helper->expects( 'get' )
+			->once()
+			->with( 'disableadvanced_meta' )
+			->andReturn( true );
+		$this->capability_helper->expects( 'current_user_can' )
+			->once()
+			->with( 'wpseo_edit_advanced_metadata' )
+			->andReturn( true );
+
+		$this->assertTrue( $callback( true, $key, 42 ) );
 	}
 
 	/**
