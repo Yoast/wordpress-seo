@@ -136,7 +136,7 @@ class KeyphraseDensityAssessment extends Assessment {
 						this._maxRecommendedKeyphraseCount > 25 ? 2 : 1;
 					}
 				}
-				calculatedScore = this.calculateResultShortText();$
+				calculatedScore = this.calculateResultShortText();
 			} else {
 				// Calculate the score for long texts.
 				this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
