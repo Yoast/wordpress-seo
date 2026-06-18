@@ -61,6 +61,7 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 
 	const search = useSelect( ( select ) => select( STORE_NAME ).selectSearch(), [] );
 	const page = useSelect( ( select ) => select( STORE_NAME ).selectPage(), [] );
+	const statuses = useSelect( ( select ) => select( STORE_NAME ).selectStatuses(), [] );
 
 	const endpoint = dataProvider.getEndpoint( "posts" );
 
@@ -89,6 +90,7 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 					per_page: String( PAGE_SIZE ),
 					page: String( page ),
 					search,
+					status: statuses,
 					/* eslint-enable camelcase */
 				},
 				{ signal: current.signal }
@@ -106,7 +108,7 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 			} );
 
 		return () => current.abort();
-	}, [ endpoint, contentType, remoteDataProvider, search, page ] );
+	}, [ endpoint, contentType, remoteDataProvider, search, page, statuses ] );
 
 	return { ...state, updateItem };
 };
