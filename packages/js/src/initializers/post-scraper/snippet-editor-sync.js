@@ -1,5 +1,4 @@
 /* global wpseoScriptData */
-
 import { debounce } from "lodash";
 import { select, subscribe } from "@wordpress/data";
 import { actions } from "@yoast/externals/redux";
@@ -9,11 +8,11 @@ import {
 	getDataWithoutTemplates,
 	getDataWithTemplates,
 	getTemplatesFromL10n,
-} from "../analysis/snippetEditor";
-import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
-import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
-import AnalysisFields from "../helpers/fields/AnalysisFields";
-import { isRestMetaActive } from "../helpers/fields/rest-meta";
+} from "../../analysis/snippetEditor";
+import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
+import requestWordsToHighlight from "../../analysis/requestWordsToHighlight.js";
+import AnalysisFields from "../../helpers/fields/AnalysisFields";
+import { isRestMetaActive } from "../../helpers/fields/rest-meta";
 
 const { updateData, setCornerstoneContent, setFocusKeyword } = actions;
 
