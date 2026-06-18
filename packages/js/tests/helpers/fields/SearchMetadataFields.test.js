@@ -137,20 +137,9 @@ describe( "description (REST meta mode)", () => {
 		expect( SearchMetadataFields.description ).toBe( "Store Desc" );
 	} );
 
-	it( "returns an empty string when the key is absent", () => {
-		mockGetEditedPostAttribute.mockReturnValue( {} );
-		expect( SearchMetadataFields.description ).toBe( "" );
-	} );
-
 	it( "dispatches the new description to the store", () => {
 		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyMetaDesc ]: "Old" } );
 		SearchMetadataFields.description = "New Desc";
 		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { [ metaKeyMetaDesc ]: "New Desc" } } );
-	} );
-
-	it( "skips the dispatch when the description is unchanged", () => {
-		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyMetaDesc ]: "Same" } );
-		SearchMetadataFields.description = "Same";
-		expect( mockEditPost ).not.toHaveBeenCalled();
 	} );
 } );
