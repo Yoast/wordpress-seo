@@ -19,9 +19,39 @@ function isEditorReady() {
 }
 
 // Pending meta writes buffered before the editor entity config is ready.
+// Each entry is { value: string, undoIgnore: boolean } so the undo-ignore flag survives queuing.
 // Keyed by meta key so that rapid successive writes for the same key collapse to the last value.
 const pendingWrites = new Map();
 let unsubscribeFlush = null;
+
+/**
+ * Drains pendingWrites, routing undoIgnore entries through writeMetaWithoutUndo and the rest
+ * through editPost so that analysis scores never land on the undo stack regardless of when they
+ * were queued.
+ *
+ * @returns {void}
+ */
+function flushPendingWrites() {
+	if ( pendingWrites.size === 0 ) {
+		return;
+	}
+	const scoreMeta = {};
+	const editMeta = {};
+	for ( const [ key, { value, undoIgnore } ] of pendingWrites ) {
+		if ( undoIgnore ) {
+			scoreMeta[ key ] = value;
+		} else {
+			editMeta[ key ] = value;
+		}
+	}
+	pendingWrites.clear();
+	if ( Object.keys( scoreMeta ).length > 0 ) {
+		writeMetaWithoutUndo( scoreMeta );
+	}
+	if ( Object.keys( editMeta ).length > 0 ) {
+		dispatch( "core/editor" ).editPost( { meta: editMeta } );
+	}
+}
 
 /**
  * Subscribes to core/editor store changes and flushes pending meta writes as soon as the editor
@@ -39,19 +69,14 @@ function scheduleFlush() {
 		}
 		unsubscribeFlush();
 		unsubscribeFlush = null;
-		if ( pendingWrites.size === 0 ) {
-			return;
-		}
-		const meta = Object.fromEntries( pendingWrites );
-		pendingWrites.clear();
-		dispatch( "core/editor" ).editPost( { meta } );
+		flushPendingWrites();
 	}, "core/editor" );
 }
 
 /**
  * Dispatches a meta write immediately if the editor is ready, or queues it for the next flush.
  * When the editor is already ready any previously queued writes are flushed together with this
- * one in a single editPost call to minimise unnecessary state updates.
+ * one to minimise unnecessary state updates.
  *
  * @param {string}  metaKey    The meta key to write.
  * @param {string}  value      The value to write.
@@ -64,7 +89,7 @@ function scheduleFlush() {
 function writeOrQueue( metaKey, value, undoIgnore = false ) {
 	// All meta fields are registered with type: string. Coerce here so callers that pass
 	// numeric scores (e.g. linkdex) don't trigger a REST API type-validation error.
-	pendingWrites.set( metaKey, String( value ) );
+	pendingWrites.set( metaKey, { value: String( value ), undoIgnore } );
 	if ( ! isEditorReady() ) {
 		scheduleFlush();
 		return;
@@ -74,13 +99,7 @@ function writeOrQueue( metaKey, value, undoIgnore = false ) {
 		unsubscribeFlush();
 		unsubscribeFlush = null;
 	}
-	const meta = Object.fromEntries( pendingWrites );
-	pendingWrites.clear();
-	if ( undoIgnore ) {
-		writeMetaWithoutUndo( meta );
-	} else {
-		dispatch( "core/editor" ).editPost( { meta } );
-	}
+	flushPendingWrites();
 }
 
 /**
