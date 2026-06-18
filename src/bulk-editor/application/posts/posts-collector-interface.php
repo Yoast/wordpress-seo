@@ -19,21 +19,6 @@ interface Posts_Collector_Interface {
 	public const STATUSES = [ 'publish', 'draft', 'pending', 'future' ];
 
 	/**
-	 * The fields matched by the catch-all search, as a map of indexable column to Yoast meta key suffix.
-	 *
-	 * The post title is searched separately by both collectors because it lives in the posts table, not here.
-	 *
-	 * @var array<string, string>
-	 */
-	public const SEARCHABLE_FIELDS = [
-		'primary_focus_keyword'  => 'focuskw',
-		'title'                  => 'title',
-		'description'            => 'metadesc',
-		'open_graph_title'       => 'opengraph-title',
-		'open_graph_description' => 'opengraph-description',
-	];
-
-	/**
 	 * Collects a page of posts for the given query.
 	 *
 	 * @param Posts_Query $query The query describing the page to collect.

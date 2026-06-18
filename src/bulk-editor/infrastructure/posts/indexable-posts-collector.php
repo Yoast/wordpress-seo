@@ -19,6 +19,8 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  */
 class Indexable_Posts_Collector implements Posts_Collector_Interface {
 
+	use Searchable_Fields_Trait;
+
 	/**
 	 * The indexable repository.
 	 *
@@ -130,7 +132,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 
 		// The post title lives in the posts table, so match it through a subquery; the rest are indexable columns.
 		$clauses = [ 'object_id IN ( SELECT ID FROM ' . $wpdb->posts . ' WHERE post_title LIKE %s )' ];
-		foreach ( \array_keys( Posts_Collector_Interface::SEARCHABLE_FIELDS ) as $column ) {
+		foreach ( \array_keys( $this->searchable_fields() ) as $column ) {
 			$clauses[] = $column . ' LIKE %s';
 		}
 
