@@ -14,7 +14,6 @@ import YoastMarkdownPlugin from "../analysis/plugins/markdown-plugin";
 import * as tinyMCEHelper from "../lib/tinymce";
 import CompatibilityHelper from "../compatibility/compatibilityHelper";
 import Pluggable from "../lib/Pluggable";
-import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
 
 // UI dependencies.
 import * as publishBox from "../ui/publishBox";
@@ -30,18 +29,12 @@ import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
-import {
-	getDataFromCollector,
-	getDataFromStore,
-	getDataWithoutTemplates,
-	getDataWithTemplates,
-	getTemplatesFromL10n,
-} from "../analysis/snippetEditor";
 import CustomAnalysisData from "../analysis/CustomAnalysisData";
 import getApplyMarks from "../analysis/getApplyMarks";
 import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
 import initializeUsedKeywords from "./used-keywords-assessment";
+import { initializeSnippetEditorSync } from "./snippet-editor-sync";
 
 // Redux dependencies.
 import { actions } from "@yoast/externals/redux";
@@ -54,7 +47,6 @@ import { isRestMetaActive } from "../helpers/fields/rest-meta";
 const {
 	setFocusKeyword,
 	updateData,
-	setCornerstoneContent,
 	refreshSnippetEditor,
 	setReadabilityResults,
 	setSeoResultsForKeyword,
@@ -456,93 +448,6 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
-	 * Initializes the snippet editor data and sets up the store subscriber that keeps the
-	 * snippet editor and PostDataCollector in sync with the store.
-	 *
-	 * @returns {void}
-	 */
-	function initializeSnippetEditorSync() {
-		let snippetEditorData = getDataFromCollector( postDataCollector );
-		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
-		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
-
-		store.dispatch( updateData( snippetEditorData ) );
-
-		if ( isRestMetaActive() && ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
-			// In REST meta mode the entity meta hasn't loaded yet, so title, description,
-			// keyphrase, and cornerstone all return empty/false values. A single subscriber
-			// re-dispatches all four once core/editor makes the meta available.
-			const unsubscribeMetaReady = subscribe( () => {
-				if ( ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
-					return;
-				}
-				unsubscribeMetaReady();
-				const freshData = getDataFromCollector( postDataCollector );
-				const freshDataWithTemplates = getDataWithTemplates( freshData, snippetEditorTemplates );
-				store.dispatch( updateData( {
-					title: freshDataWithTemplates.title,
-					description: freshDataWithTemplates.description,
-				} ) );
-				store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
-				if ( isKeywordAnalysisActive() ) {
-					store.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
-				}
-			}, "core/editor" );
-		} else {
-			store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
-		}
-
-		let focusKeyword = store.getState().focusKeyword;
-		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
-		const refreshAfterFocusKeywordChange = debounce( () => {
-			app.refresh();
-		}, 50 );
-
-		let previousCornerstoneValue = null;
-		store.subscribe( () => {
-			const newFocusKeyword = store.getState().focusKeyword;
-
-			if ( focusKeyword !== newFocusKeyword ) {
-				focusKeyword = newFocusKeyword;
-				requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
-
-				AnalysisFields.keyphrase = focusKeyword;
-				refreshAfterFocusKeywordChange();
-			}
-
-			const data = getDataFromStore( store );
-			const dataWithoutTemplates = getDataWithoutTemplates( data, snippetEditorTemplates );
-
-			if ( snippetEditorData.title !== data.title ) {
-				postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
-			}
-
-			if ( snippetEditorData.slug !== data.slug ) {
-				postDataCollector.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
-			}
-
-			if ( snippetEditorData.description !== data.description ) {
-				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
-			}
-
-			const currentState = store.getState();
-
-			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
-				previousCornerstoneValue = currentState.isCornerstone;
-				AnalysisFields.isCornerstone = currentState.isCornerstone;
-
-				app.changeAssessorOptions( {
-					useCornerstone: currentState.isCornerstone,
-				} );
-			}
-
-			snippetEditorData.title = data.title;
-			snippetEditorData.slug = data.slug;
-			snippetEditorData.description = data.description;
-		} );
-	}
-
-	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
@@ -604,7 +509,7 @@ export default function initPostScraper( $, store, editorData ) {
 		}
 
 		// Initialize snippet editor data and wire the store subscriber that keeps it in sync.
-		initializeSnippetEditorSync();
+		initializeSnippetEditorSync( store, postDataCollector, app );
 
 		if ( isBlockEditor() ) {
 			let editorMode = getEditorMode();
