@@ -1,5 +1,14 @@
 import SearchMetadataFields from "../../../src/helpers/fields/SearchMetadataFields";
 import { mockWindow, createElement } from "../../test-utils";
+import { metaKeyTitle, metaKeyMetaDesc } from "../../../src/shared-admin/constants";
+
+const mockGetEditedPostAttribute = jest.fn();
+const mockEditPost = jest.fn();
+
+jest.mock( "@wordpress/data", () => ( {
+	select: () => ( { getEditedPostAttribute: mockGetEditedPostAttribute } ),
+	dispatch: () => ( { editPost: mockEditPost } ),
+} ) );
 
 beforeEach( () => {
 	window.wpseoScriptData = { isPost: true };
@@ -85,5 +94,63 @@ describe( "slug", () => {
 		const el = createElement( "yoast_wpseo_slug" );
 		SearchMetadataFields.slug = "new-slug";
 		expect( el.value ).toBe( "new-slug" );
+	} );
+} );
+
+describe( "title (REST meta mode)", () => {
+	beforeEach( () => {
+		window.wpseoScriptData = { isPost: true, disableMetaboxInBlockEditor: true };
+		mockEditPost.mockClear();
+	} );
+
+	it( "reads the title from the store", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyTitle ]: "Store Title" } );
+		expect( SearchMetadataFields.title ).toBe( "Store Title" );
+	} );
+
+	it( "returns an empty string when the key is absent", () => {
+		mockGetEditedPostAttribute.mockReturnValue( {} );
+		expect( SearchMetadataFields.title ).toBe( "" );
+	} );
+
+	it( "dispatches the new title to the store", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyTitle ]: "Old" } );
+		SearchMetadataFields.title = "New Title";
+		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { [ metaKeyTitle ]: "New Title" } } );
+	} );
+
+	it( "skips the dispatch when the title is unchanged", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyTitle ]: "Same" } );
+		SearchMetadataFields.title = "Same";
+		expect( mockEditPost ).not.toHaveBeenCalled();
+	} );
+} );
+
+describe( "description (REST meta mode)", () => {
+	beforeEach( () => {
+		window.wpseoScriptData = { isPost: true, disableMetaboxInBlockEditor: true };
+		mockEditPost.mockClear();
+	} );
+
+	it( "reads the description from the store", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyMetaDesc ]: "Store Desc" } );
+		expect( SearchMetadataFields.description ).toBe( "Store Desc" );
+	} );
+
+	it( "returns an empty string when the key is absent", () => {
+		mockGetEditedPostAttribute.mockReturnValue( {} );
+		expect( SearchMetadataFields.description ).toBe( "" );
+	} );
+
+	it( "dispatches the new description to the store", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyMetaDesc ]: "Old" } );
+		SearchMetadataFields.description = "New Desc";
+		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { [ metaKeyMetaDesc ]: "New Desc" } } );
+	} );
+
+	it( "skips the dispatch when the description is unchanged", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyMetaDesc ]: "Same" } );
+		SearchMetadataFields.description = "Same";
+		expect( mockEditPost ).not.toHaveBeenCalled();
 	} );
 } );

@@ -1,5 +1,44 @@
 import AnalysisFields from "../../../src/helpers/fields/AnalysisFields";
 import { mockWindow, createElement } from "../../test-utils";
+import { metaKeyFocusKw, metaKeyLinkdex } from "../../../src/shared-admin/constants";
+
+const mockGetEditedPostAttribute = jest.fn();
+const mockCurrentPostType = jest.fn();
+const mockCurrentPostId = jest.fn().mockReturnValue( 1 );
+const mockEditPost = jest.fn();
+const mockEditEntityRecord = jest.fn();
+const mockCapturedSubscribers = [];
+
+jest.mock( "@wordpress/data", () => ( {
+	select: ( store ) => {
+		if ( store === "core/editor" ) {
+			return {
+				getCurrentPostType: mockCurrentPostType,
+				getCurrentPostId: mockCurrentPostId,
+				getEditedPostAttribute: mockGetEditedPostAttribute,
+			};
+		}
+		return {};
+	},
+	dispatch: ( store ) => {
+		if ( store === "core/editor" ) {
+			return { editPost: mockEditPost };
+		}
+		if ( store === "core" ) {
+			return { editEntityRecord: mockEditEntityRecord };
+		}
+		return {};
+	},
+	subscribe: jest.fn( ( fn ) => {
+		mockCapturedSubscribers.push( fn );
+		return () => {
+			const index = mockCapturedSubscribers.indexOf( fn );
+			if ( index > -1 ) {
+				mockCapturedSubscribers.splice( index, 1 );
+			}
+		};
+	} ),
+} ) );
 
 describe( "keyphrase", () => {
 	const id = {
@@ -372,5 +411,72 @@ describe( "inclusiveLanguageScore", () => {
 
 			inputElement.remove();
 		} );
+	} );
+} );
+
+describe( "pending writes (REST meta mode)", () => {
+	beforeEach( () => {
+		// Flush any leftover module state from a previous test by simulating the editor becoming ready.
+		mockCurrentPostType.mockReturnValue( "post" );
+		[ ...mockCapturedSubscribers ].forEach( fn => fn() );
+		mockCapturedSubscribers.length = 0;
+
+		window.wpseoScriptData = { isPost: true, disableMetaboxInBlockEditor: true };
+		mockCurrentPostType.mockReturnValue( null );
+		mockGetEditedPostAttribute.mockReturnValue( {} );
+		mockEditPost.mockClear();
+		mockEditEntityRecord.mockClear();
+	} );
+
+	afterEach( () => {
+		delete window.wpseoScriptData;
+	} );
+
+	it( "flushes score writes via writeMetaWithoutUndo when the editor becomes ready", () => {
+		AnalysisFields.seoScore = "9";
+
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+		expect( mockEditPost ).not.toHaveBeenCalled();
+		expect( mockCapturedSubscribers ).toHaveLength( 1 );
+
+		mockCurrentPostType.mockReturnValue( "post" );
+		mockCapturedSubscribers[ 0 ]();
+
+		expect( mockEditEntityRecord ).toHaveBeenCalledWith(
+			"postType", "post", 1,
+			{ meta: { [ metaKeyLinkdex ]: "9" } },
+			{ undoIgnore: true }
+		);
+		expect( mockEditPost ).not.toHaveBeenCalled();
+	} );
+
+	it( "flushes user-editable writes via editPost when the editor becomes ready", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyFocusKw ]: "" } );
+		AnalysisFields.keyphrase = "test keyword";
+
+		expect( mockEditPost ).not.toHaveBeenCalled();
+		expect( mockCapturedSubscribers ).toHaveLength( 1 );
+
+		mockCurrentPostType.mockReturnValue( "post" );
+		mockCapturedSubscribers[ 0 ]();
+
+		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { [ metaKeyFocusKw ]: "test keyword" } } );
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+	} );
+
+	it( "splits mixed writes into separate editEntityRecord and editPost dispatches on flush", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyFocusKw ]: "" } );
+		AnalysisFields.seoScore = "5";
+		AnalysisFields.keyphrase = "mixed";
+
+		mockCurrentPostType.mockReturnValue( "post" );
+		mockCapturedSubscribers[ 0 ]();
+
+		expect( mockEditEntityRecord ).toHaveBeenCalledWith(
+			"postType", "post", 1,
+			{ meta: { [ metaKeyLinkdex ]: "5" } },
+			{ undoIgnore: true }
+		);
+		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { [ metaKeyFocusKw ]: "mixed" } } );
 	} );
 } );
