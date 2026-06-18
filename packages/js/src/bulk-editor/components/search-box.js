@@ -50,19 +50,21 @@ export const SearchBox = ( { contentTypeLabel } ) => {
 		setSearch( value.trim() );
 	}, [ value, setSearch, debouncedAutoSearch ] );
 
+	let label = __( "Search", "wordpress-seo" );
 	let placeholder = __( "Search…", "wordpress-seo" );
 	if ( contentTypeLabel ) {
-		placeholder = sprintf(
+		label = sprintf(
 			/* translators: %s expands to the lowercase content type label, e.g. "pages". */
-			__( "Search for %s…", "wordpress-seo" ),
+			__( "Search for %s", "wordpress-seo" ),
 			contentTypeLabel.toLowerCase()
 		);
+		placeholder = `${ label }…`;
 	}
 
 	return (
 		<form role="search" onSubmit={ handleSubmit } className="yst-w-full sm:yst-w-80">
 			<label htmlFor={ SEARCH_ID } className="yst-sr-only">
-				{ __( "Search posts", "wordpress-seo" ) }
+				{ label }
 			</label>
 			<div className="yst-flex yst-items-stretch yst-rounded-md yst-border yst-border-slate-300 yst-bg-white yst-shadow-sm focus-within:yst-border-primary-500 focus-within:yst-ring-1 focus-within:yst-ring-primary-500">
 				<div className="yst-relative yst-flex-1">
