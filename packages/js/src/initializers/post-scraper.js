@@ -1,40 +1,33 @@
 /* global wpseoScriptData */
 
 // External dependencies.
-import { App } from "yoastseo";
 import { debounce, isUndefined } from "lodash";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
 // Internal dependencies.
 import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
-import YoastReusableBlocksPlugin from "../analysis/plugins/reusable-blocks-plugin";
-import YoastShortcodePlugin, { initShortcodePlugin } from "../analysis/plugins/shortcode-plugin";
-import YoastMarkdownPlugin from "../analysis/plugins/markdown-plugin";
+import YoastShortcodePlugin from "../analysis/plugins/shortcode-plugin";
 import * as tinyMCEHelper from "../lib/tinymce";
 import CompatibilityHelper from "../compatibility/compatibilityHelper";
-import Pluggable from "../lib/Pluggable";
 
 // UI dependencies.
 import * as publishBox from "../ui/publishBox";
-import { update as updateTrafficLight } from "../ui/trafficLight";
-import { update as updateAdminBar } from "../ui/adminBar";
 
 // Analysis dependencies.
-import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
+import { getAnalysisConfiguration } from "../analysis/worker";
 import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis";
-import collectAnalysisData from "../analysis/collectAnalysisData";
 import PostDataCollector from "../analysis/PostDataCollector";
-import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
-import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
 import CustomAnalysisData from "../analysis/CustomAnalysisData";
 import getApplyMarks from "../analysis/getApplyMarks";
 import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
 import initializeUsedKeywords from "./used-keywords-assessment";
-import { initializeSnippetEditorSync } from "../helpers/snippet-editor-sync";
+import { setupYoastSEOGlobals } from "./post-scraper/setupYoastSEOGlobals";
+import { initializeAnalysisPlugins } from "./post-scraper/initializeAnalysisPlugins";
+import { initializeSnippetEditorSync } from "./post-scraper/snippet-editor-sync";
 
 // Redux dependencies.
 import { actions } from "@yoast/externals/redux";
@@ -116,58 +109,6 @@ export default function initPostScraper( $, store, editorData ) {
 			store.dispatch( updateData( snippetEditorData ) );
 		}
 	} );
-
-	/**
-	 * Initializes keyword analysis.
-	 *
-	 * @param {Object} activePublishBox             The publish box object.
-	 *
-	 * @returns {void}
-	 */
-	function initializeKeywordAnalysis( activePublishBox ) {
-		const savedKeywordScore = AnalysisFields.seoScore;
-
-		const indicator = getIndicatorForScore( savedKeywordScore );
-
-		updateTrafficLight( indicator );
-		updateAdminBar( indicator );
-
-		activePublishBox.updateScore( "keyword", indicator.className );
-	}
-
-	/**
-	 * Initializes content analysis
-	 *
-	 * @param {Object} activePublishBox The publish box object.
-	 *
-	 * @returns {void}
-	 */
-	function initializeContentAnalysis( activePublishBox ) {
-		const savedContentScore = AnalysisFields.readabilityScore;
-
-		const indicator = getIndicatorForScore( savedContentScore );
-
-		updateAdminBar( indicator );
-
-		activePublishBox.updateScore( "content", indicator.className );
-	}
-
-	/**
-	 * Initializes the inclusive language analysis.
-	 *
-	 * @param {Object} activePublishBox The publish box object.
-	 *
-	 * @returns {void}
-	 */
-	function initializeInclusiveLanguageAnalysis( activePublishBox ) {
-		const savedContentScore = AnalysisFields.inclusiveLanguageScore;
-
-		const indicator = getIndicatorForScore( savedContentScore );
-
-		updateAdminBar( indicator );
-
-		activePublishBox.updateScore( "inclusive-language", indicator.className );
-	}
 
 	/**
 	 * Retrieves the target to be passed to the App.
@@ -276,25 +217,6 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
-	 * Activates the correct analysis and tab based on which analyses are enabled.
-	 *
-	 * @returns {void}
-	 */
-	function activateEnabledAnalysis() {
-		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( publishBox );
-		}
-
-		if ( isContentAnalysisActive() ) {
-			initializeContentAnalysis( publishBox );
-		}
-
-		if ( isInclusiveLanguageAnalysisActive() ) {
-			initializeInclusiveLanguageAnalysis( publishBox );
-		}
-	}
-
-	/**
 	 * Overwrites YoastSEO.js' app renderers.
 	 *
 	 * @param {Object} yoastSeoApp YoastSEO.js app.
@@ -368,86 +290,6 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
-	 * Sets up the window.YoastSEO namespace, creates the App instance, and wires all
-	 * app-level overwrites (Pluggable, refresh, analysis worker, etc.).
-	 *
-	 * @param {Object} appArgs The arguments for the App constructor.
-	 *
-	 * @returns {void}
-	 */
-	function setupYoastSEOGlobals( appArgs ) {
-		app = new App( appArgs );
-
-		// Content analysis.
-		window.YoastSEO = window.YoastSEO || {};
-		window.YoastSEO.app = app;
-		window.YoastSEO.store = store;
-		window.YoastSEO.analysis = {};
-		window.YoastSEO.analysis.worker = createAnalysisWorker();
-		window.YoastSEO.analysis.collectData = () => collectAnalysisData(
-			editorData,
-			store,
-			customAnalysisData,
-			app.pluggable,
-			select( "core/block-editor" ),
-			select( "core/editor" )
-		);
-		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks()( paper, marks );
-
-		// YoastSEO.app overwrites.
-		window.YoastSEO.app.refresh = debounce( () => refreshAnalysis(
-			window.YoastSEO.analysis.worker,
-			window.YoastSEO.analysis.collectData,
-			window.YoastSEO.analysis.applyMarks,
-			store,
-			postDataCollector
-		), refreshDelay );
-		window.YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
-		window.YoastSEO.app.pluggable = new Pluggable( window.YoastSEO.app.refresh );
-		window.YoastSEO.app.registerPlugin = window.YoastSEO.app.pluggable._registerPlugin;
-		window.YoastSEO.app.pluginReady = window.YoastSEO.app.pluggable._ready;
-		window.YoastSEO.app.pluginReloaded = window.YoastSEO.app.pluggable._reloaded;
-		window.YoastSEO.app.registerModification = window.YoastSEO.app.pluggable._registerModification;
-		window.YoastSEO.app.registerAssessment = ( name, assessment, pluginName ) => {
-			if ( ! isUndefined( app.seoAssessor ) ) {
-				return window.YoastSEO.app.pluggable._registerAssessment( app.defaultSeoAssessor, name, assessment, pluginName ) &&
-					window.YoastSEO.app.pluggable._registerAssessment( app.cornerStoneSeoAssessor, name, assessment, pluginName );
-			}
-		};
-		window.YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
-			window.YoastSEO.analysis.worker.initialize( assessorOptions ).catch( handleWorkerError );
-			window.YoastSEO.app.refresh();
-		};
-
-		// Backwards compatibility.
-		window.YoastSEO.analyzerArgs = appArgs;
-	}
-
-	/**
-	 * Registers all analysis plugins (replace vars, shortcode, reusable blocks, markdown)
-	 * and sets the tinyMCE helper reference on window.YoastSEO.wp.
-	 *
-	 * @returns {void}
-	 */
-	function initializeAnalysisPlugins() {
-		window.YoastSEO.wp = {};
-		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
-		initShortcodePlugin( app, store );
-
-		if ( isBlockEditor() ) {
-			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, window.YoastSEO.app.refresh );
-			reusableBlocksPlugin.register();
-		}
-		if ( wpseoScriptData.metabox.markdownEnabled ) {
-			const markdownPlugin = new YoastMarkdownPlugin( app.registerPlugin, app.registerModification );
-			markdownPlugin.register();
-		}
-
-		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
-		activateEnabledAnalysis();
-	}
-
-	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
@@ -471,13 +313,13 @@ export default function initPostScraper( $, store, editorData ) {
 		publishBox.initialize();
 
 		const appArgs = getAppArgs( store );
-		setupYoastSEOGlobals( appArgs );
+		app = setupYoastSEOGlobals( appArgs, store, editorData, customAnalysisData, postDataCollector );
 
 		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage_and_post_types", store );
 		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
 
 		// Analysis plugins.
-		initializeAnalysisPlugins();
+		initializeAnalysisPlugins( app, store );
 
 		// Initialize the analysis worker.
 		window.YoastSEO.analysis.worker.initialize( getAnalysisConfiguration() )
