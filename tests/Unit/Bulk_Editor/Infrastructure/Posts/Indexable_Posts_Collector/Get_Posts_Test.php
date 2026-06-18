@@ -101,11 +101,12 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$duplicate            = new Indexable_Mock();
 		$duplicate->object_id = 7;
 
-		$query = Mockery::mock();
+		$query = Mockery::mock( ORM::class );
 		$query->allows( 'where' )->andReturnSelf();
 		$query->allows( 'where_in' )->andReturnSelf();
 		$query->allows( 'order_by_desc' )->andReturnSelf();
 		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
 		$query->expects( 'find_many' )->once()->andReturn( [ $indexable, $duplicate ] );
 
 		$this->indexable_repository->expects( 'query' )->once()->andReturn( $query );
@@ -114,10 +115,10 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
 
-		$posts = $this->instance->get_posts( 'page', 20 )->to_array();
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
 
-		$this->assertCount( 1, $posts );
-		$this->assertSame( 7, $posts[0]['id'] );
+		$this->assertCount( 1, $result['posts'] );
+		$this->assertSame( 7, $result['posts'][0]['id'] );
 	}
 
 	/**
@@ -141,6 +142,7 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 
 		$this->indexable_repository->expects( 'query' )->twice()->andReturn( $query );
 
+		Functions\expect( '_prime_post_caches' )->once()->with( [ 7 ], false, false );
 		Functions\expect( 'get_the_title' )->once()->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->andReturn( 'edit' );
 
