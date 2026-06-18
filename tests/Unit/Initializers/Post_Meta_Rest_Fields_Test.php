@@ -170,7 +170,6 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 
 		$this->stub_get_post_types( [ 'post' ] );
 		$this->stub_object_taxonomies( 'post', [] );
-		Monkey\Functions\expect( 'post_type_supports' )->once()->andReturn( true );
 		Monkey\Filters\expectAdded( 'rest_prepare_post' );
 		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( false );
 
@@ -178,8 +177,8 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that add_post_type_support is called when the post type does not
-	 * yet support custom-fields.
+	 * Tests that add_post_type_support is called when the filter is on, the post type
+	 * uses the block editor, and does not yet support custom-fields.
 	 *
 	 * @covers ::register_post_meta
 	 *
@@ -189,6 +188,11 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 		$this->stub_wp_register_post_meta();
 		$this->stub_get_post_types( [ 'post' ] );
 		$this->stub_object_taxonomies( 'post', [] );
+		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( true );
+		Monkey\Functions\expect( 'use_block_editor_for_post_type' )
+			->once()
+			->with( 'post' )
+			->andReturn( true );
 		Monkey\Functions\expect( 'post_type_supports' )
 			->once()
 			->with( 'post', 'custom-fields' )
@@ -197,7 +201,7 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 			->once()
 			->with( 'post', 'custom-fields' );
 		Monkey\Filters\expectAdded( 'rest_prepare_post' );
-		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( false );
+		Monkey\Actions\expectAdded( 'rest_after_insert_post' );
 
 		$this->instance->register_post_meta();
 	}
@@ -214,13 +218,61 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 		$this->stub_wp_register_post_meta();
 		$this->stub_get_post_types( [ 'post' ] );
 		$this->stub_object_taxonomies( 'post', [] );
+		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( true );
+		Monkey\Functions\expect( 'use_block_editor_for_post_type' )
+			->once()
+			->with( 'post' )
+			->andReturn( true );
 		Monkey\Functions\expect( 'post_type_supports' )
 			->once()
 			->with( 'post', 'custom-fields' )
 			->andReturn( true );
 		Monkey\Functions\expect( 'add_post_type_support' )->never();
 		Monkey\Filters\expectAdded( 'rest_prepare_post' );
+		Monkey\Actions\expectAdded( 'rest_after_insert_post' );
+
+		$this->instance->register_post_meta();
+	}
+
+	/**
+	 * Tests that add_post_type_support is NOT called when wpseo_disable_metabox_in_block_editor is false.
+	 *
+	 * @covers ::register_post_meta
+	 *
+	 * @return void
+	 */
+	public function test_register_post_meta_skips_add_custom_fields_support_when_filter_is_off() {
+		$this->stub_wp_register_post_meta();
+		$this->stub_get_post_types( [ 'post' ] );
+		$this->stub_object_taxonomies( 'post', [] );
 		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( false );
+		Monkey\Functions\expect( 'use_block_editor_for_post_type' )->never();
+		Monkey\Functions\expect( 'add_post_type_support' )->never();
+		Monkey\Filters\expectAdded( 'rest_prepare_post' );
+
+		$this->instance->register_post_meta();
+	}
+
+	/**
+	 * Tests that add_post_type_support is NOT called for a post type that does not use the block editor.
+	 *
+	 * @covers ::register_post_meta
+	 *
+	 * @return void
+	 */
+	public function test_register_post_meta_skips_add_custom_fields_support_when_not_block_editor_post_type() {
+		$this->stub_wp_register_post_meta();
+		$this->stub_get_post_types( [ 'post' ] );
+		$this->stub_object_taxonomies( 'post', [] );
+		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( true );
+		Monkey\Functions\expect( 'use_block_editor_for_post_type' )
+			->once()
+			->with( 'post' )
+			->andReturn( false );
+		Monkey\Functions\expect( 'post_type_supports' )->never();
+		Monkey\Functions\expect( 'add_post_type_support' )->never();
+		Monkey\Filters\expectAdded( 'rest_prepare_post' );
+		Monkey\Actions\expectAdded( 'rest_after_insert_post' );
 
 		$this->instance->register_post_meta();
 	}
@@ -237,7 +289,6 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 		$this->stub_wp_register_post_meta();
 		$this->stub_get_post_types( [ 'post' ] );
 		$this->stub_object_taxonomies( 'post', [] );
-		Monkey\Functions\expect( 'post_type_supports' )->andReturn( true );
 		Monkey\Filters\expectAdded( 'rest_prepare_post' )
 			->once()
 			->with( [ $this->instance, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
@@ -258,9 +309,9 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 		$this->stub_wp_register_post_meta();
 		$this->stub_get_post_types( [ 'post' ] );
 		$this->stub_object_taxonomies( 'post', [] );
-		Monkey\Functions\expect( 'post_type_supports' )->andReturn( true );
-		Monkey\Filters\expectAdded( 'rest_prepare_post' );
 		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( true );
+		Monkey\Functions\expect( 'use_block_editor_for_post_type' )->andReturn( false );
+		Monkey\Filters\expectAdded( 'rest_prepare_post' );
 		Monkey\Actions\expectAdded( 'rest_after_insert_post' )
 			->once()
 			->with( Mockery::type( 'Closure' ), 10, 3 );
@@ -280,7 +331,6 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 		$this->stub_wp_register_post_meta();
 		$this->stub_get_post_types( [ 'post' ] );
 		$this->stub_object_taxonomies( 'post', [] );
-		Monkey\Functions\expect( 'post_type_supports' )->andReturn( true );
 		Monkey\Filters\expectAdded( 'rest_prepare_post' );
 		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( false );
 		Monkey\Actions\expectAdded( 'rest_after_insert_post' )->never();
@@ -302,9 +352,9 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 		$this->stub_wp_register_post_meta();
 		$this->stub_get_post_types( [ 'post' ] );
 		$this->stub_object_taxonomies( 'post', [] );
-		Monkey\Functions\expect( 'post_type_supports' )->andReturn( true );
-		Monkey\Filters\expectAdded( 'rest_prepare_post' );
 		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( true );
+		Monkey\Functions\expect( 'use_block_editor_for_post_type' )->andReturn( false );
+		Monkey\Filters\expectAdded( 'rest_prepare_post' );
 		Monkey\Actions\expectAdded( 'rest_after_insert_post' )
 			->once()
 			->whenHappen(
@@ -334,9 +384,9 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 		$this->stub_wp_register_post_meta();
 		$this->stub_get_post_types( [ 'post' ] );
 		$this->stub_object_taxonomies( 'post', [] );
-		Monkey\Functions\expect( 'post_type_supports' )->andReturn( true );
-		Monkey\Filters\expectAdded( 'rest_prepare_post' );
 		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( true );
+		Monkey\Functions\expect( 'use_block_editor_for_post_type' )->andReturn( false );
+		Monkey\Filters\expectAdded( 'rest_prepare_post' );
 		Monkey\Actions\expectAdded( 'rest_after_insert_post' )
 			->once()
 			->whenHappen(
@@ -446,7 +496,6 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 
 		$this->stub_get_post_types( [ 'post' ] );
 		$this->stub_object_taxonomies( 'post', [ $taxonomy ] );
-		Monkey\Functions\expect( 'post_type_supports' )->andReturn( true );
 		Monkey\Filters\expectAdded( 'rest_prepare_post' );
 		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( false );
 
@@ -480,7 +529,6 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 
 		$this->stub_get_post_types( [ 'post' ] );
 		$this->stub_object_taxonomies( 'post', [ $taxonomy ] );
-		Monkey\Functions\expect( 'post_type_supports' )->andReturn( true );
 		Monkey\Filters\expectAdded( 'rest_prepare_post' );
 		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( false );
 
@@ -511,7 +559,6 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 
 		$this->stub_get_post_types( [ 'post' ] );
 		$this->stub_object_taxonomies( 'post', [ $taxonomy ] );
-		Monkey\Functions\expect( 'post_type_supports' )->andReturn( true );
 		Monkey\Filters\expectAdded( 'rest_prepare_post' );
 		Monkey\Filters\expectApplied( 'wpseo_disable_metabox_in_block_editor' )->andReturn( false );
 

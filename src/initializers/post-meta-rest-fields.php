@@ -70,6 +70,8 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 			}
 		}
 
+		$metabox_disabled_in_block_editor = \apply_filters( 'wpseo_disable_metabox_in_block_editor', false );
+
 		foreach ( \get_post_types( [ 'show_in_rest' => true ], 'names' ) as $post_type ) {
 			foreach ( WPSEO_Meta::$meta_fields as $field_group ) {
 				foreach ( $field_group as $key => $field_def ) {
@@ -79,7 +81,15 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 
 			$this->register_primary_term_meta( $post_type );
 
-			if ( ! \post_type_supports( $post_type, 'custom-fields' ) ) {
+			// Without custom-fields support, WordPress omits registered meta from the REST schema for CPTs
+			// (WP_REST_Posts_Controller::get_item_schema), so the block editor cannot read or write Yoast
+			// fields via REST. Only needed when our metabox is disabled in the block editor; otherwise the
+			// sidebar handles saving and classic-editor post types are unaffected.
+			if (
+				$metabox_disabled_in_block_editor
+				&& \use_block_editor_for_post_type( $post_type )
+				&& ! \post_type_supports( $post_type, 'custom-fields' )
+			) {
 				\add_post_type_support( $post_type, 'custom-fields' );
 			}
 
@@ -89,7 +99,7 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 			// Add a filter to trigger wpseo_saved_postdata after a post is updated via REST API, same as in WPSEO_Metabox::save_postdata.
 			// The $creating guard ensures it only fires on updates (not on new post creation via REST), matching the
 			// classic-editor save_postdata path which is only reachable when a post already exists with an ID in $_POST.
-			if ( \apply_filters( 'wpseo_disable_metabox_in_block_editor', false ) ) {
+			if ( $metabox_disabled_in_block_editor ) {
 				\add_action(
 					'rest_after_insert_' . $post_type,
 					static function ( $post, $request, $creating ) {
