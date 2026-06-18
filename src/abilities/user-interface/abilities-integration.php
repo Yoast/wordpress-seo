@@ -3,6 +3,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface;
 
+use WP_Error;
+use Yoast\WP\SEO\Abilities\Application\Post_Identifier_Resolver;
+use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
+use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
@@ -39,6 +43,27 @@ class Abilities_Integration implements Integration_Interface {
 	private $enabled_analysis_features_repository;
 
 	/**
+	 * The post SEO data collector.
+	 *
+	 * @var Post_SEO_Data_Collector
+	 */
+	private $post_seo_data_collector;
+
+	/**
+	 * The post SEO data updater.
+	 *
+	 * @var Post_SEO_Data_Updater
+	 */
+	private $post_seo_data_updater;
+
+	/**
+	 * The post identifier resolver.
+	 *
+	 * @var Post_Identifier_Resolver
+	 */
+	private $post_identifier_resolver;
+
+	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array<string> The conditionals.
@@ -53,15 +78,24 @@ class Abilities_Integration implements Integration_Interface {
 	 * @param Score_Retriever                      $score_retriever                      The score retriever.
 	 * @param Capability_Helper                    $capability_helper                    The capability helper.
 	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The enabled analysis features repository.
+	 * @param Post_SEO_Data_Collector              $post_seo_data_collector              The post SEO data collector.
+	 * @param Post_SEO_Data_Updater                $post_seo_data_updater                The post SEO data updater.
+	 * @param Post_Identifier_Resolver             $post_identifier_resolver             The post identifier resolver.
 	 */
 	public function __construct(
 		Score_Retriever $score_retriever,
 		Capability_Helper $capability_helper,
-		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository
+		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository,
+		Post_SEO_Data_Collector $post_seo_data_collector,
+		Post_SEO_Data_Updater $post_seo_data_updater,
+		Post_Identifier_Resolver $post_identifier_resolver
 	) {
 		$this->score_retriever                      = $score_retriever;
 		$this->capability_helper                    = $capability_helper;
 		$this->enabled_analysis_features_repository = $enabled_analysis_features_repository;
+		$this->post_seo_data_collector              = $post_seo_data_collector;
+		$this->post_seo_data_updater                = $post_seo_data_updater;
+		$this->post_identifier_resolver             = $post_identifier_resolver;
 	}
 
 	/**
@@ -98,6 +132,10 @@ class Abilities_Integration implements Integration_Interface {
 		if ( $enabled_features[ Inclusive_Language_Analysis::NAME ] === true ) {
 			$this->register_inclusive_language_scores_ability();
 		}
+
+		// Metadata read/write is independent of which analysis features are enabled.
+		$this->register_get_post_seo_data_ability();
+		$this->register_update_post_seo_data_ability();
 	}
 
 	/**
@@ -107,6 +145,32 @@ class Abilities_Integration implements Integration_Interface {
 	 */
 	public function can_read_scores(): bool {
 		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
+	}
+
+	/**
+	 * Checks whether the current user can read post SEO data.
+	 *
+	 * @return bool Whether the current user can read post SEO data.
+	 */
+	public function can_read_seo_data(): bool {
+		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
+	}
+
+	/**
+	 * Checks whether the current user can edit the SEO data of the resolved post.
+	 *
+	 * @param array<string, int|string|bool|null> $input The ability input identifying the post.
+	 *
+	 * @return bool|WP_Error Whether the current user can edit the post, or the resolution error.
+	 */
+	public function can_edit_post_seo_data( array $input ) {
+		$indexable = $this->post_identifier_resolver->resolve_one( $input );
+
+		if ( $indexable instanceof WP_Error ) {
+			return $indexable;
+		}
+
+		return \current_user_can( 'edit_post', (int) $indexable->object_id );
 	}
 
 	/**
@@ -167,6 +231,59 @@ class Abilities_Integration implements Integration_Interface {
 					'description'      => \__( 'Get the inclusive language scores for the most recently modified posts.', 'wordpress-seo' ),
 					'output_schema'    => $this->wrap_in_array_schema( $this->get_score_output_schema() ),
 					'execute_callback' => [ $this->score_retriever, 'get_inclusive_language_scores' ],
+				],
+			),
+		);
+	}
+
+	/**
+	 * Registers the get post SEO data ability.
+	 *
+	 * @return void
+	 */
+	private function register_get_post_seo_data_ability(): void {
+		\wp_register_ability(
+			Ability_Categories_Integration::CATEGORY_SLUG . '/get-post-seo-data',
+			$this->get_shared_ability_args(
+				[
+					'label'               => \__( 'Get Post SEO Data', 'wordpress-seo' ),
+					'description'         => \__( 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; a title keyword search returns the SEO data for every matching post. With no identifier, the latest public post is returned.', 'wordpress-seo' ),
+					'input_schema'        => $this->get_post_identifier_input_schema(),
+					'output_schema'       => $this->wrap_in_array_schema( $this->get_post_seo_data_output_schema() ),
+					'permission_callback' => [ $this, 'can_read_seo_data' ],
+					'execute_callback'    => [ $this->post_seo_data_collector, 'get_post_seo_data' ],
+				],
+			),
+		);
+	}
+
+	/**
+	 * Registers the update post SEO data ability.
+	 *
+	 * @return void
+	 */
+	private function register_update_post_seo_data_ability(): void {
+		\wp_register_ability(
+			Ability_Categories_Integration::CATEGORY_SLUG . '/update-post-seo-data',
+			$this->get_shared_ability_args(
+				[
+					'label'               => \__( 'Update Post SEO Data', 'wordpress-seo' ),
+					'description'         => \__( 'Update the SEO data for a single post. Identify the post by post_id, by permalink (URL), or by unambiguous title keywords. Only the fields you provide are changed; a provided empty value clears that field.', 'wordpress-seo' ),
+					'input_schema'        => $this->get_update_post_seo_data_input_schema(),
+					'output_schema'       => $this->get_post_seo_data_output_schema(),
+					'permission_callback' => [ $this, 'can_edit_post_seo_data' ],
+					'execute_callback'    => [ $this->post_seo_data_updater, 'update_post_seo_data' ],
+					'meta'                => [
+						'show_in_rest' => true,
+						'annotations'  => [
+							'readonly'    => false,
+							'destructive' => false,
+							'idempotent'  => true,
+						],
+						'mcp'          => [
+							'public' => true,
+						],
+					],
 				],
 			),
 		);
@@ -254,4 +371,123 @@ class Abilities_Integration implements Integration_Interface {
 			],
 		];
 	}
+
+	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
+
+	/**
+	 * Returns the input schema for identifying a post (read path).
+	 *
+	 * @return array<string, mixed> The input schema.
+	 */
+	private function get_post_identifier_input_schema(): array {
+		return [
+			'type'       => 'object',
+			'properties' => [
+				'post_id'   => [
+					'type'        => 'integer',
+					'description' => \__( 'The ID of the post to retrieve.', 'wordpress-seo' ),
+					'minimum'     => 1,
+				],
+				'permalink' => [
+					'type'        => 'string',
+					'description' => \__( 'The permalink (URL) of the post to retrieve.', 'wordpress-seo' ),
+				],
+				'title'     => [
+					'type'        => 'string',
+					'description' => \__( 'Keywords to search for in post titles. The search string is split on whitespace and each token must be present in the breadcrumb title. Returns the SEO data for every matching post.', 'wordpress-seo' ),
+				],
+			],
+		];
+	}
+
+	/**
+	 * Returns the input schema for updating a post's SEO data (write path).
+	 *
+	 * @return array<string, mixed> The input schema.
+	 */
+	private function get_update_post_seo_data_input_schema(): array {
+		$nullable_string = [ 'type' => [ 'string', 'null' ] ];
+
+		return [
+			'type'       => 'object',
+			'properties' => [
+				'post_id'                => [
+					'type'        => 'integer',
+					'description' => \__( 'The ID of the post to update.', 'wordpress-seo' ),
+					'minimum'     => 1,
+				],
+				'permalink'              => [
+					'type'        => 'string',
+					'description' => \__( 'The permalink (URL) of the post to update.', 'wordpress-seo' ),
+				],
+				'title'                  => [
+					'type'        => 'string',
+					'description' => \__( 'Title keywords identifying the post to update. Must match exactly one post.', 'wordpress-seo' ),
+				],
+				'seo_title'              => $nullable_string,
+				'meta_description'       => $nullable_string,
+				'focus_keyphrase'        => \array_merge( $nullable_string, [ 'maxLength' => 191 ] ),
+				'canonical'              => $nullable_string,
+				'is_cornerstone'         => [ 'type' => 'boolean' ],
+				'noindex'                => [ 'type' => [ 'boolean', 'null' ] ],
+				'nofollow'               => [ 'type' => 'boolean' ],
+				'noimageindex'           => [ 'type' => 'boolean' ],
+				'noarchive'              => [ 'type' => 'boolean' ],
+				'nosnippet'              => [ 'type' => 'boolean' ],
+				'open_graph_title'       => $nullable_string,
+				'open_graph_description' => $nullable_string,
+				'twitter_title'          => $nullable_string,
+				'twitter_description'    => $nullable_string,
+				'schema_page_type'       => \array_merge( $nullable_string, [ 'maxLength' => 64 ] ),
+				'schema_article_type'    => \array_merge( $nullable_string, [ 'maxLength' => 64 ] ),
+			],
+		];
+	}
+
+	/**
+	 * Returns the output schema describing a post's SEO data.
+	 *
+	 * @return array<string, mixed> The output schema.
+	 */
+	private function get_post_seo_data_output_schema(): array {
+		$nullable_string = [
+			'type' => [ 'string', 'null' ],
+		];
+		$score           = [
+			'type' => 'string',
+			'enum' => [ 'na', 'bad', 'ok', 'good' ],
+		];
+
+		return [
+			'type'       => 'object',
+			'properties' => [
+				'post_id'                  => [ 'type' => 'integer' ],
+				'post_title'               => $nullable_string,
+				'permalink'                => $nullable_string,
+				'post_type'                => [ 'type' => 'string' ],
+				'post_status'              => $nullable_string,
+				'seo_title'                => $nullable_string,
+				'meta_description'         => $nullable_string,
+				'focus_keyphrase'          => $nullable_string,
+				'canonical'                => $nullable_string,
+				'is_cornerstone'           => [ 'type' => 'boolean' ],
+				'noindex'                  => [ 'type' => [ 'boolean', 'null' ] ],
+				'nofollow'                 => [ 'type' => 'boolean' ],
+				'noimageindex'             => [ 'type' => 'boolean' ],
+				'noarchive'                => [ 'type' => 'boolean' ],
+				'nosnippet'                => [ 'type' => 'boolean' ],
+				'open_graph_title'         => $nullable_string,
+				'open_graph_description'   => $nullable_string,
+				'twitter_title'            => $nullable_string,
+				'twitter_description'      => $nullable_string,
+				'schema_page_type'         => $nullable_string,
+				'schema_article_type'      => $nullable_string,
+				'seo_score'                => $score,
+				'readability_score'        => $score,
+				'inclusive_language_score' => $score,
+			],
+		];
+	}
+
+	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
 }

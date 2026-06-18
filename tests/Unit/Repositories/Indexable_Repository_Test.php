@@ -374,6 +374,52 @@ final class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that find_posts_by_title_keywords ANDs a LIKE clause per keyword.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_find_posts_by_title_keywords() {
+		$indexable  = Mockery::mock( Indexable_Mock::class );
+		$orm_object = Mockery::mock( ORM::class );
+
+		$this->instance
+			->expects( 'query' )
+			->once()
+			->andReturn( $orm_object );
+
+		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
+
+		$this->wpdb->expects( 'esc_like' )->with( 'hiking' )->once()->andReturn( 'hiking' );
+		$this->wpdb->expects( 'esc_like' )->with( 'boots' )->once()->andReturn( 'boots' );
+
+		$orm_object->expects( 'where_like' )->with( 'breadcrumb_title', '%hiking%' )->once()->andReturnSelf();
+		$orm_object->expects( 'where_like' )->with( 'breadcrumb_title', '%boots%' )->once()->andReturnSelf();
+
+		$orm_object->expects( 'order_by_desc' )->with( 'object_last_modified' )->once()->andReturnSelf();
+		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->assertSame(
+			[ $indexable ],
+			$this->instance->find_posts_by_title_keywords( 'hiking boots' ),
+		);
+	}
+
+	/**
+	 * Tests that find_posts_by_title_keywords returns an empty array for an empty search.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_find_posts_by_title_keywords_empty_search() {
+		$this->assertSame( [], $this->instance->find_posts_by_title_keywords( '   ' ) );
+	}
+
+	/**
 	 * Tests if the reset_permalink method fires when no type and subtype are passed.
 	 *
 	 * @covers ::reset_permalink

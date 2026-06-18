@@ -515,6 +515,39 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Finds public posts whose breadcrumb title contains all of the given keywords.
+	 *
+	 * The search string is split on whitespace and each token must be present in the
+	 * breadcrumb title (a logical AND). This lets callers find a post from a few
+	 * remembered keywords without knowing the exact title, even when the words are
+	 * not adjacent. All matching posts are returned (no limit).
+	 *
+	 * @param string $keywords  The keywords to search for in the breadcrumb title.
+	 * @param string $post_type The post type to restrict the search to.
+	 *
+	 * @return Indexable[] The matching indexables, ordered by most recently modified.
+	 */
+	public function find_posts_by_title_keywords( string $keywords, string $post_type = 'post' ) {
+		$tokens = \array_filter( \preg_split( '/\s+/', \trim( $keywords ) ) );
+
+		// An empty search must not degrade into matching every post.
+		if ( empty( $tokens ) ) {
+			return [];
+		}
+
+		$query = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' );
+
+		foreach ( $tokens as $token ) {
+			$query->where_like( 'breadcrumb_title', '%' . $this->wpdb->esc_like( $token ) . '%' );
+		}
+
+		return $query->order_by_desc( 'object_last_modified' )->find_many();
+	}
+
+	/**
 	 * Returns the most recently modified cornerstone content of a post type.
 	 *
 	 * @param string   $post_type The post type.

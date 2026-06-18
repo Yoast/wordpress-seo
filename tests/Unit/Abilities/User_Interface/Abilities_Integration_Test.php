@@ -5,6 +5,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Error;
+use Yoast\WP\SEO\Abilities\Application\Post_Identifier_Resolver;
+use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
+use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities_Integration;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
@@ -47,6 +51,27 @@ final class Abilities_Integration_Test extends TestCase {
 	private $enabled_analysis_features_repository;
 
 	/**
+	 * The post SEO data collector mock.
+	 *
+	 * @var Mockery\MockInterface|Post_SEO_Data_Collector
+	 */
+	private $post_seo_data_collector;
+
+	/**
+	 * The post SEO data updater mock.
+	 *
+	 * @var Mockery\MockInterface|Post_SEO_Data_Updater
+	 */
+	private $post_seo_data_updater;
+
+	/**
+	 * The post identifier resolver mock.
+	 *
+	 * @var Mockery\MockInterface|Post_Identifier_Resolver
+	 */
+	private $post_identifier_resolver;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Abilities_Integration
@@ -63,14 +88,22 @@ final class Abilities_Integration_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
+		Mockery::mock( WP_Error::class );
+
 		$this->score_retriever                      = Mockery::mock( Score_Retriever::class );
 		$this->capability_helper                    = Mockery::mock( Capability_Helper::class );
 		$this->enabled_analysis_features_repository = Mockery::mock( Enabled_Analysis_Features_Repository::class );
+		$this->post_seo_data_collector              = Mockery::mock( Post_SEO_Data_Collector::class );
+		$this->post_seo_data_updater                = Mockery::mock( Post_SEO_Data_Updater::class );
+		$this->post_identifier_resolver             = Mockery::mock( Post_Identifier_Resolver::class );
 
 		$this->instance = new Abilities_Integration(
 			$this->score_retriever,
 			$this->capability_helper,
 			$this->enabled_analysis_features_repository,
+			$this->post_seo_data_collector,
+			$this->post_seo_data_updater,
+			$this->post_identifier_resolver,
 		);
 	}
 
@@ -104,13 +137,13 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that can_read_scores returns true for a user with wpseo_manage_options capability.
+	 * Tests that can_read_scores checks the manage options capability.
 	 *
 	 * @covers ::can_read_scores
 	 *
 	 * @return void
 	 */
-	public function test_can_read_scores_returns_true_for_user_with_manage_options() {
+	public function test_can_read_scores() {
 		$this->capability_helper
 			->expects( 'current_user_can' )
 			->once()
@@ -121,24 +154,67 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that can_read_scores returns false for a user without wpseo_manage_options capability.
+	 * Tests that can_read_seo_data checks the manage options capability.
 	 *
-	 * @covers ::can_read_scores
+	 * @covers ::can_read_seo_data
 	 *
 	 * @return void
 	 */
-	public function test_can_read_scores_returns_false_for_user_without_manage_options() {
+	public function test_can_read_seo_data() {
 		$this->capability_helper
 			->expects( 'current_user_can' )
 			->once()
 			->with( 'wpseo_manage_options' )
 			->andReturn( false );
 
-		$this->assertFalse( $this->instance->can_read_scores() );
+		$this->assertFalse( $this->instance->can_read_seo_data() );
 	}
 
 	/**
-	 * Tests that register_abilities registers all 3 abilities when inclusive language is enabled.
+	 * Tests that can_edit_post_seo_data checks the per-post edit capability of the resolved post.
+	 *
+	 * @covers ::can_edit_post_seo_data
+	 *
+	 * @return void
+	 */
+	public function test_can_edit_post_seo_data_checks_edit_post() {
+		$indexable            = Mockery::mock();
+		$indexable->object_id = 42;
+
+		$this->post_identifier_resolver
+			->expects( 'resolve_one' )
+			->once()
+			->with( [ 'post_id' => 42 ] )
+			->andReturn( $indexable );
+
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'edit_post', 42 )
+			->andReturn( true );
+
+		$this->assertTrue( $this->instance->can_edit_post_seo_data( [ 'post_id' => 42 ] ) );
+	}
+
+	/**
+	 * Tests that can_edit_post_seo_data returns the resolution error.
+	 *
+	 * @covers ::can_edit_post_seo_data
+	 *
+	 * @return void
+	 */
+	public function test_can_edit_post_seo_data_returns_resolution_error() {
+		$error = Mockery::mock( WP_Error::class );
+
+		$this->post_identifier_resolver
+			->expects( 'resolve_one' )
+			->once()
+			->andReturn( $error );
+
+		$this->assertSame( $error, $this->instance->can_edit_post_seo_data( [ 'title' => 'ambiguous' ] ) );
+	}
+
+	/**
+	 * Tests that register_abilities registers all score abilities plus the metadata abilities.
 	 *
 	 * @covers ::register_abilities
 	 *
@@ -147,192 +223,114 @@ final class Abilities_Integration_Test extends TestCase {
 	public function test_register_abilities_with_inclusive_language_enabled() {
 		$this->mock_enabled_features(
 			[
-				Keyphrase_Analysis::NAME           => true,
-				Readability_Analysis::NAME         => true,
-				Inclusive_Language_Analysis::NAME  => true,
+				Keyphrase_Analysis::NAME          => true,
+				Readability_Analysis::NAME        => true,
+				Inclusive_Language_Analysis::NAME => true,
 			],
 		);
 
-		$number_of_posts_schema = $this->get_number_of_posts_schema();
-
-		$seo_score_item_schema                                  = $this->get_expected_score_schema();
-		$seo_score_item_schema['properties']['focus_keyphrase'] = [
-			'type'        => [ 'string', 'null' ],
-			'description' => 'The focus keyphrase for the post, or null if not set.',
-		];
-
-		$readability_score_item_schema        = $this->get_expected_score_schema();
-		$inclusive_language_score_item_schema = $this->get_expected_score_schema();
-
-		$shared_meta = $this->get_shared_meta();
-
-		Monkey\Functions\expect( 'wp_register_ability' )
-			->once()
-			->with(
-				'yoast-seo/get-seo-scores',
-				[
-					'label'               => 'Get SEO Scores',
-					'category'            => 'yoast-seo',
-					'description'         => 'Get the SEO scores for the most recently modified posts.',
-					'input_schema'        => $number_of_posts_schema,
-					'output_schema'       => [
-						'type'  => 'array',
-						'items' => $seo_score_item_schema,
-					],
-					'permission_callback' => [ $this->instance, 'can_read_scores' ],
-					'execute_callback'    => [ $this->score_retriever, 'get_seo_scores' ],
-					'meta'                => $shared_meta,
-				],
-			);
-
-		Monkey\Functions\expect( 'wp_register_ability' )
-			->once()
-			->with(
-				'yoast-seo/get-readability-scores',
-				[
-					'label'               => 'Get Readability Scores',
-					'category'            => 'yoast-seo',
-					'description'         => 'Get the readability scores for the most recently modified posts.',
-					'input_schema'        => $number_of_posts_schema,
-					'output_schema'       => [
-						'type'  => 'array',
-						'items' => $readability_score_item_schema,
-					],
-					'permission_callback' => [ $this->instance, 'can_read_scores' ],
-					'execute_callback'    => [ $this->score_retriever, 'get_readability_scores' ],
-					'meta'                => $shared_meta,
-				],
-			);
-
-		Monkey\Functions\expect( 'wp_register_ability' )
-			->once()
-			->with(
-				'yoast-seo/get-inclusive-language-scores',
-				[
-					'label'               => 'Get Inclusive Language Scores',
-					'category'            => 'yoast-seo',
-					'description'         => 'Get the inclusive language scores for the most recently modified posts.',
-					'input_schema'        => $number_of_posts_schema,
-					'output_schema'       => [
-						'type'  => 'array',
-						'items' => $inclusive_language_score_item_schema,
-					],
-					'permission_callback' => [ $this->instance, 'can_read_scores' ],
-					'execute_callback'    => [ $this->score_retriever, 'get_inclusive_language_scores' ],
-					'meta'                => $shared_meta,
-				],
-			);
+		$this->expect_score_ability( 'yoast-seo/get-seo-scores' );
+		$this->expect_score_ability( 'yoast-seo/get-readability-scores' );
+		$this->expect_score_ability( 'yoast-seo/get-inclusive-language-scores' );
+		$this->expect_post_seo_data_abilities();
 
 		$this->instance->register_abilities();
 	}
 
 	/**
-	 * Tests that register_abilities does not register SEO scores when keyword analysis is disabled.
+	 * Tests that the score abilities are not registered when their analysis features are disabled,
+	 * but the metadata abilities always are.
 	 *
 	 * @covers ::register_abilities
 	 *
 	 * @return void
 	 */
-	public function test_register_abilities_with_keyword_analysis_disabled() {
+	public function test_register_abilities_with_all_analysis_disabled() {
 		$this->mock_enabled_features(
 			[
-				Keyphrase_Analysis::NAME           => false,
-				Readability_Analysis::NAME         => true,
-				Inclusive_Language_Analysis::NAME  => false,
+				Keyphrase_Analysis::NAME          => false,
+				Readability_Analysis::NAME        => false,
+				Inclusive_Language_Analysis::NAME => false,
 			],
 		);
 
-		Monkey\Functions\expect( 'wp_register_ability' )
-			->once();
+		$this->expect_post_seo_data_abilities();
 
 		$this->instance->register_abilities();
 	}
 
 	/**
-	 * Tests that register_abilities does not register readability scores when content analysis is disabled.
+	 * Tests that only the keyphrase score ability registers alongside the metadata abilities.
 	 *
 	 * @covers ::register_abilities
 	 *
 	 * @return void
 	 */
-	public function test_register_abilities_with_content_analysis_disabled() {
+	public function test_register_abilities_with_only_keyphrase_enabled() {
 		$this->mock_enabled_features(
 			[
-				Keyphrase_Analysis::NAME           => true,
-				Readability_Analysis::NAME         => false,
-				Inclusive_Language_Analysis::NAME  => false,
+				Keyphrase_Analysis::NAME          => true,
+				Readability_Analysis::NAME        => false,
+				Inclusive_Language_Analysis::NAME => false,
 			],
 		);
 
-		Monkey\Functions\expect( 'wp_register_ability' )
-			->once();
+		$this->expect_score_ability( 'yoast-seo/get-seo-scores' );
+		$this->expect_post_seo_data_abilities();
 
 		$this->instance->register_abilities();
 	}
 
 	/**
-	 * Tests that register_abilities registers only 2 abilities when inclusive language is disabled.
+	 * Tests that the get and update post SEO data abilities register with the expected definition.
 	 *
 	 * @covers ::register_abilities
+	 * @covers ::register_get_post_seo_data_ability
+	 * @covers ::register_update_post_seo_data_ability
 	 *
 	 * @return void
 	 */
-	public function test_register_abilities_with_inclusive_language_disabled() {
+	public function test_register_post_seo_data_abilities_definition() {
 		$this->mock_enabled_features(
 			[
-				Keyphrase_Analysis::NAME           => true,
-				Readability_Analysis::NAME         => true,
-				Inclusive_Language_Analysis::NAME  => false,
+				Keyphrase_Analysis::NAME          => false,
+				Readability_Analysis::NAME        => false,
+				Inclusive_Language_Analysis::NAME => false,
 			],
 		);
-
-		$number_of_posts_schema = $this->get_number_of_posts_schema();
-
-		$seo_score_item_schema                                  = $this->get_expected_score_schema();
-		$seo_score_item_schema['properties']['focus_keyphrase'] = [
-			'type'        => [ 'string', 'null' ],
-			'description' => 'The focus keyphrase for the post, or null if not set.',
-		];
-
-		$readability_score_item_schema = $this->get_expected_score_schema();
-
-		$shared_meta = $this->get_shared_meta();
 
 		Monkey\Functions\expect( 'wp_register_ability' )
 			->once()
 			->with(
-				'yoast-seo/get-seo-scores',
+				'yoast-seo/get-post-seo-data',
 				[
-					'label'               => 'Get SEO Scores',
+					'label'               => 'Get Post SEO Data',
 					'category'            => 'yoast-seo',
-					'description'         => 'Get the SEO scores for the most recently modified posts.',
-					'input_schema'        => $number_of_posts_schema,
+					'description'         => 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; a title keyword search returns the SEO data for every matching post. With no identifier, the latest public post is returned.',
+					'input_schema'        => $this->get_expected_identifier_input_schema(),
 					'output_schema'       => [
 						'type'  => 'array',
-						'items' => $seo_score_item_schema,
+						'items' => $this->get_expected_output_schema(),
 					],
-					'permission_callback' => [ $this->instance, 'can_read_scores' ],
-					'execute_callback'    => [ $this->score_retriever, 'get_seo_scores' ],
-					'meta'                => $shared_meta,
+					'permission_callback' => [ $this->instance, 'can_read_seo_data' ],
+					'execute_callback'    => [ $this->post_seo_data_collector, 'get_post_seo_data' ],
+					'meta'                => $this->get_read_meta(),
 				],
 			);
 
 		Monkey\Functions\expect( 'wp_register_ability' )
 			->once()
 			->with(
-				'yoast-seo/get-readability-scores',
+				'yoast-seo/update-post-seo-data',
 				[
-					'label'               => 'Get Readability Scores',
+					'label'               => 'Update Post SEO Data',
 					'category'            => 'yoast-seo',
-					'description'         => 'Get the readability scores for the most recently modified posts.',
-					'input_schema'        => $number_of_posts_schema,
-					'output_schema'       => [
-						'type'  => 'array',
-						'items' => $readability_score_item_schema,
-					],
-					'permission_callback' => [ $this->instance, 'can_read_scores' ],
-					'execute_callback'    => [ $this->score_retriever, 'get_readability_scores' ],
-					'meta'                => $shared_meta,
+					'description'         => 'Update the SEO data for a single post. Identify the post by post_id, by permalink (URL), or by unambiguous title keywords. Only the fields you provide are changed; a provided empty value clears that field.',
+					'input_schema'        => $this->get_expected_update_input_schema(),
+					'output_schema'       => $this->get_expected_output_schema(),
+					'permission_callback' => [ $this->instance, 'can_edit_post_seo_data' ],
+					'execute_callback'    => [ $this->post_seo_data_updater, 'update_post_seo_data' ],
+					'meta'                => $this->get_write_meta(),
 				],
 			);
 
@@ -340,31 +338,39 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Returns the expected number of posts input schema.
+	 * Registers a loose expectation for a score ability registration.
 	 *
-	 * @return array<string, mixed> The expected schema.
+	 * @param string $slug The ability slug.
+	 *
+	 * @return void
 	 */
-	private function get_number_of_posts_schema(): array {
-		return [
-			'type'       => 'object',
-			'properties' => [
-				'number_of_posts' => [
-					'type'        => 'integer',
-					'description' => 'The number of recently modified posts to retrieve scores for. Defaults to 10.',
-					'minimum'     => 1,
-					'maximum'     => 100,
-					'default'     => 10,
-				],
-			],
-		];
+	private function expect_score_ability( string $slug ): void {
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with( $slug, Mockery::type( 'array' ) );
 	}
 
 	/**
-	 * Returns the shared meta expected for all abilities.
+	 * Registers loose expectations for the two metadata abilities.
 	 *
-	 * @return array<string, mixed> The shared meta.
+	 * @return void
 	 */
-	private function get_shared_meta(): array {
+	private function expect_post_seo_data_abilities(): void {
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with( 'yoast-seo/get-post-seo-data', Mockery::type( 'array' ) );
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with( 'yoast-seo/update-post-seo-data', Mockery::type( 'array' ) );
+	}
+
+	/**
+	 * Returns the read meta (read-only annotations).
+	 *
+	 * @return array<string, mixed> The meta.
+	 */
+	private function get_read_meta(): array {
 		return [
 			'show_in_rest' => true,
 			'annotations'  => [
@@ -379,27 +385,133 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Returns the expected score output schema (with title).
+	 * Returns the write meta (non-read-only annotations).
 	 *
-	 * @return array<string, mixed> The expected score output schema.
+	 * @return array<string, mixed> The meta.
 	 */
-	private function get_expected_score_schema(): array {
+	private function get_write_meta(): array {
+		return [
+			'show_in_rest' => true,
+			'annotations'  => [
+				'readonly'    => false,
+				'destructive' => false,
+				'idempotent'  => true,
+			],
+			'mcp'          => [
+				'public' => true,
+			],
+		];
+	}
+
+	/**
+	 * Returns the expected identifier input schema for the read ability.
+	 *
+	 * @return array<string, mixed> The schema.
+	 */
+	private function get_expected_identifier_input_schema(): array {
 		return [
 			'type'       => 'object',
 			'properties' => [
-				'title' => [
-					'type'        => 'string',
-					'description' => 'The post title.',
+				'post_id'   => [
+					'type'        => 'integer',
+					'description' => 'The ID of the post to retrieve.',
+					'minimum'     => 1,
 				],
-				'score' => [
+				'permalink' => [
 					'type'        => 'string',
-					'enum'        => [ 'na', 'bad', 'ok', 'good' ],
-					'description' => 'The score slug.',
+					'description' => 'The permalink (URL) of the post to retrieve.',
 				],
-				'label' => [
+				'title'     => [
 					'type'        => 'string',
-					'description' => 'A human-readable label for the score.',
+					'description' => 'Keywords to search for in post titles. Returns the SEO data for every matching post.',
 				],
+			],
+		];
+	}
+
+	/**
+	 * Returns the expected update input schema.
+	 *
+	 * @return array<string, mixed> The schema.
+	 */
+	private function get_expected_update_input_schema(): array {
+		$nullable_string = [ 'type' => [ 'string', 'null' ] ];
+
+		return [
+			'type'       => 'object',
+			'properties' => [
+				'post_id'                => [
+					'type'        => 'integer',
+					'description' => 'The ID of the post to update.',
+					'minimum'     => 1,
+				],
+				'permalink'              => [
+					'type'        => 'string',
+					'description' => 'The permalink (URL) of the post to update.',
+				],
+				'title'                  => [
+					'type'        => 'string',
+					'description' => 'Title keywords identifying the post to update. Must match exactly one post.',
+				],
+				'seo_title'              => $nullable_string,
+				'meta_description'       => $nullable_string,
+				'focus_keyphrase'        => \array_merge( $nullable_string, [ 'maxLength' => 191 ] ),
+				'canonical'              => $nullable_string,
+				'is_cornerstone'         => [ 'type' => 'boolean' ],
+				'noindex'                => [ 'type' => [ 'boolean', 'null' ] ],
+				'nofollow'               => [ 'type' => 'boolean' ],
+				'noimageindex'           => [ 'type' => 'boolean' ],
+				'noarchive'              => [ 'type' => 'boolean' ],
+				'nosnippet'              => [ 'type' => 'boolean' ],
+				'open_graph_title'       => $nullable_string,
+				'open_graph_description' => $nullable_string,
+				'twitter_title'          => $nullable_string,
+				'twitter_description'    => $nullable_string,
+				'schema_page_type'       => \array_merge( $nullable_string, [ 'maxLength' => 64 ] ),
+				'schema_article_type'    => \array_merge( $nullable_string, [ 'maxLength' => 64 ] ),
+			],
+		];
+	}
+
+	/**
+	 * Returns the expected post SEO data output schema.
+	 *
+	 * @return array<string, mixed> The schema.
+	 */
+	private function get_expected_output_schema(): array {
+		$nullable_string = [ 'type' => [ 'string', 'null' ] ];
+		$score           = [
+			'type' => 'string',
+			'enum' => [ 'na', 'bad', 'ok', 'good' ],
+		];
+
+		return [
+			'type'       => 'object',
+			'properties' => [
+				'post_id'                  => [ 'type' => 'integer' ],
+				'post_title'               => $nullable_string,
+				'permalink'                => $nullable_string,
+				'post_type'                => [ 'type' => 'string' ],
+				'post_status'              => $nullable_string,
+				'seo_title'                => $nullable_string,
+				'meta_description'         => $nullable_string,
+				'focus_keyphrase'          => $nullable_string,
+				'canonical'                => $nullable_string,
+				'is_cornerstone'           => [ 'type' => 'boolean' ],
+				'noindex'                  => [ 'type' => [ 'boolean', 'null' ] ],
+				'nofollow'                 => [ 'type' => 'boolean' ],
+				'noimageindex'             => [ 'type' => 'boolean' ],
+				'noarchive'                => [ 'type' => 'boolean' ],
+				'nosnippet'                => [ 'type' => 'boolean' ],
+				'open_graph_title'         => $nullable_string,
+				'open_graph_description'   => $nullable_string,
+				'twitter_title'            => $nullable_string,
+				'twitter_description'      => $nullable_string,
+				'schema_page_type'         => $nullable_string,
+				'schema_article_type'      => $nullable_string,
+				'seo_score'                => $score,
+				'readability_score'        => $score,
+				'inclusive_language_score' => $score,
 			],
 		];
 	}
