@@ -30,7 +30,6 @@ class PrimaryTaxonomyPicker extends Component {
 
 		const { fieldId, name } = props.taxonomy;
 		const rawValue = PrimaryTermFields.get( name, fieldId );
-		this.input = document.getElementById( fieldId );
 		const parsedPrimaryTaxonomyId = parseInt( rawValue, 10 );
 		// Fallback to -1 when the field is empty or invalid to avoid dispatching NaN.
 		props.setPrimaryTaxonomyId( name, Number.isNaN( parsedPrimaryTaxonomyId ) ? -1 : parsedPrimaryTaxonomyId );
