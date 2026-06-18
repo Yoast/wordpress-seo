@@ -41,4 +41,18 @@ describe( "BulkEditorFilters", () => {
 		expect( select( STORE_NAME ).selectStatuses() ).toEqual( [ "draft" ] );
 		expect( screen.getByText( "1" ) ).toBeInTheDocument();
 	} );
+
+	it( "returns focus to the trigger when the dialog is closed with Escape", () => {
+		render( <BulkEditorFilters /> );
+
+		const trigger = screen.getByRole( "button", { name: /Filters/ } );
+		fireEvent.click( trigger );
+		// Move focus into the dialog, mirroring a keyboard user tabbing onto a checkbox.
+		screen.getByRole( "checkbox", { name: "Published" } ).focus();
+
+		fireEvent.keyDown( document, { key: "Escape" } );
+
+		expect( screen.queryByRole( "checkbox", { name: "Published" } ) ).not.toBeInTheDocument();
+		expect( trigger ).toHaveFocus();
+	} );
 } );

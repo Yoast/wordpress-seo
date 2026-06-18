@@ -16,6 +16,7 @@ export const BulkEditorFilters = () => {
 	const { setStatuses } = useDispatch( STORE_NAME );
 	const [ isOpen, setIsOpen ] = useState( false );
 	const containerRef = useRef( null );
+	const triggerRef = useRef( null );
 	const svgAriaProps = useSvgAria();
 
 	const statusOptions = useMemo( () => [
@@ -31,14 +32,19 @@ export const BulkEditorFilters = () => {
 		if ( ! isOpen ) {
 			return () => {};
 		}
+		// Return focus to the trigger so dismissing the dialog never drops focus to the document body.
+		const close = () => {
+			setIsOpen( false );
+			triggerRef.current?.focus();
+		};
 		const onPointerDown = ( event ) => {
 			if ( containerRef.current && ! containerRef.current.contains( event.target ) ) {
-				setIsOpen( false );
+				close();
 			}
 		};
 		const onKeyDown = ( event ) => {
 			if ( event.key === "Escape" ) {
-				setIsOpen( false );
+				close();
 			}
 		};
 		document.addEventListener( "mousedown", onPointerDown );
@@ -53,7 +59,7 @@ export const BulkEditorFilters = () => {
 
 	return (
 		<div ref={ containerRef } className="yst-relative">
-			<Button variant="secondary" size="small" onClick={ toggleOpen } aria-expanded={ isOpen } aria-haspopup="dialog">
+			<Button ref={ triggerRef } variant="secondary" size="small" onClick={ toggleOpen } aria-expanded={ isOpen } aria-haspopup="dialog">
 				{ __( "Filters", "wordpress-seo" ) }
 				{ appliedCount > 0 && <Badge variant="plain" size="small" className="yst-mx-2 !yst-rounded">{ appliedCount }</Badge> }
 				<FilterIcon className={ `yst-h-4 yst-w-4 yst-text-slate-500 ${ appliedCount > 0 ? "" : "yst-ms-2" }` } { ...svgAriaProps } />
