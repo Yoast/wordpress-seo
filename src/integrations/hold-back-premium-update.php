@@ -45,9 +45,9 @@ class Hold_Back_Premium_Update implements Integration_Interface {
 	 *
 	 * Patch releases (x.y.z) do not tighten the requirement, so only the major and minor components are compared.
 	 *
-	 * @param object $data The value of the update_plugins site transient.
+	 * @param object|false $data The value of the update_plugins site transient.
 	 *
-	 * @return object The (possibly adjusted) transient value.
+	 * @return object|false The transient value, with any held-back Premium update moved out of sight.
 	 */
 	public function hold_back_premium_update( $data ) {
 		if ( ! \is_object( $data ) || empty( $data->response ) || ! \is_array( $data->response ) ) {
