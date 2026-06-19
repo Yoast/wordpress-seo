@@ -106,16 +106,24 @@ describe( "BulkEditorTable", () => {
 		expect( rowHeader ).toHaveAttribute( "scope", "row" );
 	} );
 
-	it( "renders skeleton rows while loading, announces it, and exposes aria-busy", () => {
-		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } isLoading={ true } /> );
+	it( "renders skeleton rows on the initial load when there are no previous items", () => {
+		render( <BulkEditorTable items={ [] } fieldSet={ searchFieldSet } isLoading={ true } /> );
 
-		expect( screen.queryByText( "What Is SEO? Complete Guide" ) ).not.toBeInTheDocument();
 		expect( screen.queryAllByRole( "button" ) ).toHaveLength( 0 );
 		// The "select all" checkbox is disabled while loading.
 		expect( screen.getByRole( "checkbox", { name: "Select all" } ) ).toBeDisabled();
 		// The multi-select toolbar row, the column header row, and a full page of skeleton rows.
 		expect( screen.getAllByRole( "row" ) ).toHaveLength( 2 + PAGE_SIZE );
 		// The table reports it is busy and the loading state is announced.
+		expect( screen.getByRole( "table" ) ).toHaveAttribute( "aria-busy", "true" );
+		expect( screen.getByRole( "status" ) ).toHaveTextContent( "Loading content…" );
+	} );
+
+	it( "keeps existing rows visible while reloading and exposes aria-busy", () => {
+		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } isLoading={ true } /> );
+
+		// Items stay in the DOM (dimmed via opacity transition) instead of being replaced by skeleton rows.
+		expect( screen.getByText( "What Is SEO? Complete Guide" ) ).toBeInTheDocument();
 		expect( screen.getByRole( "table" ) ).toHaveAttribute( "aria-busy", "true" );
 		expect( screen.getByRole( "status" ) ).toHaveTextContent( "Loading content…" );
 	} );
