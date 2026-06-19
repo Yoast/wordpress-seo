@@ -28,7 +28,7 @@ const postRows = [
 
 // A remote data provider that serves the posts list on GET and defers the save (POST) to `onSave`.
 const buildRemote = ( onSave = () => Promise.resolve( {} ) ) => ( {
-	fetchJson: jest.fn( ( url, params, options ) => ( options?.method === "POST" ? onSave() : Promise.resolve( postRows ) ) ),
+	fetchJson: jest.fn( ( url, params, options ) => ( options?.method === "POST" ? onSave() : Promise.resolve( { posts: postRows, total: postRows.length, total_pages: 1 } ) ) ),
 } );
 
 describe( "App", () => {
