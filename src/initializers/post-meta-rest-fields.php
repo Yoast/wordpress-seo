@@ -165,7 +165,6 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 				$primary_key,
 				[
 					'type'          => 'hidden',
-					'default_value' => '-1',
 				],
 			);
 		}
@@ -202,10 +201,6 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 			$args['auth_callback'] = static function ( $allowed, $meta_key, $object_id ) {
 				return \current_user_can( 'edit_post', $object_id );
 			};
-		}
-
-		if ( isset( $field_def['default_value'] ) ) {
-			$args['default'] = $field_def['default_value'];
 		}
 
 		\register_post_meta( $post_type, WPSEO_Meta::$meta_prefix . $key, $args );
