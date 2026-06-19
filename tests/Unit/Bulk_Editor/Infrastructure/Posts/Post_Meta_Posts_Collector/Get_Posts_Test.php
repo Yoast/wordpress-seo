@@ -5,6 +5,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector;
 
 use Brain\Monkey\Functions;
+use Mockery;
+use WP_Query;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
 
 /**
  * Tests get_posts.
@@ -16,7 +19,7 @@ use Brain\Monkey\Functions;
 final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 
 	/**
-	 * Tests that the queried posts are mapped to posts, reading the raw Yoast meta.
+	 * Tests that the queried posts are mapped to a page of posts, reading the raw Yoast meta.
 	 *
 	 * @return void
 	 */
@@ -34,7 +37,11 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 			'_yoast_wpseo_opengraph-description' => 'Social description.',
 		];
 
-		$this->instance->expects( 'query_posts' )->once()->with( 'page', 20 )->andReturn( [ $post ] );
+		$wp_query              = Mockery::mock( WP_Query::class );
+		$wp_query->posts       = [ $post ];
+		$wp_query->found_posts = 1;
+
+		$this->instance->expects( 'run_query' )->once()->with( Mockery::type( Posts_Query::class ) )->andReturn( $wp_query );
 
 		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
@@ -48,19 +55,43 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 
 		$this->assertSame(
 			[
-				[
-					'id'                 => 7,
-					'title'              => 'Hello world',
-					'status'             => 'draft',
-					'edit_link'          => 'post.php?post=7&action=edit',
-					'focus_keyphrase'    => 'hello',
-					'seo_title'          => 'Hello | Site',
-					'meta_description'   => 'A description.',
-					'social_title'       => 'Social hello',
-					'social_description' => 'Social description.',
+				'posts'       => [
+					[
+						'id'                 => 7,
+						'title'              => 'Hello world',
+						'status'             => 'draft',
+						'edit_link'          => 'post.php?post=7&action=edit',
+						'focus_keyphrase'    => 'hello',
+						'seo_title'          => 'Hello | Site',
+						'meta_description'   => 'A description.',
+						'social_title'       => 'Social hello',
+						'social_description' => 'Social description.',
+					],
 				],
+				'total'       => 1,
+				'total_pages' => 1,
+				'page'        => 1,
+				'per_page'    => 20,
 			],
-			$this->instance->get_posts( 'page', 20 )->to_array(),
+			$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', [ 'publish' ] ) )->to_array(),
 		);
+	}
+
+	/**
+	 * Tests that the total is taken from the query's found_posts.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_reports_total_from_found_posts() {
+		$wp_query              = Mockery::mock( WP_Query::class );
+		$wp_query->posts       = [];
+		$wp_query->found_posts = 42;
+
+		$this->instance->expects( 'run_query' )->once()->andReturn( $wp_query );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', [ 'publish' ] ) )->to_array();
+
+		$this->assertSame( 42, $result['total'] );
+		$this->assertSame( 3, $result['total_pages'] );
 	}
 }
