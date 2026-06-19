@@ -5,6 +5,7 @@ import { STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
 import { useInlineEdit } from "../hooks/use-inline-edit";
 import { usePosts } from "../services/use-posts";
+import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 import { SearchBox } from "./search-box";
@@ -29,7 +30,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const { setActiveFieldSet } = useDispatch( STORE_NAME );
 
-	const { data: items = [], isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
+	const { data: items = [], total = 0, totalPages = 0, isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
 	const { editing, stopEditing } = useInlineEdit( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } );
 
 	const onChangeTab = useCallback( ( id ) => {
@@ -53,6 +54,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 					<BulkEditorTable items={ items } fieldSet={ fieldSets[ tab.id ] } editing={ editing } isLoading={ isPending } />
 				</BulkEditorTabPanel>
 			) ) }
+			<BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
 		</div>
 	);
 };

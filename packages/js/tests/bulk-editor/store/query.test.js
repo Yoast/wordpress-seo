@@ -1,3 +1,4 @@
+import { activeContentTypeActions } from "../../../src/bulk-editor/store/active-content-type";
 import reducer, { createInitialQueryState, queryActions, querySelectors } from "../../../src/bulk-editor/store/query";
 
 describe( "query slice", () => {
@@ -15,6 +16,12 @@ describe( "query slice", () => {
 		const state = reducer( { search: "seo", page: 1 }, queryActions.setPage( 3 ) );
 
 		expect( state ).toEqual( { search: "seo", page: 3 } );
+	} );
+
+	it( "resets to the first page when the content type changes", () => {
+		const state = reducer( { search: "seo", page: 9 }, activeContentTypeActions.setActiveContentType( "page" ) );
+
+		expect( state ).toEqual( { search: "seo", page: 1 } );
 	} );
 
 	it( "selects the search term, page and query from the store state", () => {

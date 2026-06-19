@@ -59,7 +59,7 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}
 			<div role="status" className="yst-sr-only">
 				{ isLoading ? __( "Loading content…", "wordpress-seo" ) : "" }
 			</div>
-			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className="yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium">
+			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ `yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }` }>
 				<colgroup>
 					<col className="sm:yst-w-[4%]" />
 					<col className="sm:yst-w-[20%]" />
