@@ -5,6 +5,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Application\Posts\Posts_Repository;
 
 use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_List;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Page;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
 
 /**
  * Tests get_posts.
@@ -21,7 +23,8 @@ final class Get_Posts_Test extends Abstract_Posts_Repository_Test {
 	 * @return void
 	 */
 	public function test_get_posts_uses_indexable_collector_when_indexing() {
-		$posts_list = new Posts_List();
+		$query      = new Posts_Query( 'page', 1, 20, '', [ 'publish' ] );
+		$posts_page = new Posts_Page( new Posts_List(), 0, 1, 20 );
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
@@ -31,12 +34,12 @@ final class Get_Posts_Test extends Abstract_Posts_Repository_Test {
 		$this->indexable_posts_collector
 			->expects( 'get_posts' )
 			->once()
-			->with( 'page', 20 )
-			->andReturn( $posts_list );
+			->with( $query )
+			->andReturn( $posts_page );
 
 		$this->post_meta_posts_collector->expects( 'get_posts' )->never();
 
-		$this->assertSame( $posts_list, $this->instance->get_posts( 'page', 20 ) );
+		$this->assertSame( $posts_page, $this->instance->get_posts( $query ) );
 	}
 
 	/**
@@ -45,7 +48,8 @@ final class Get_Posts_Test extends Abstract_Posts_Repository_Test {
 	 * @return void
 	 */
 	public function test_get_posts_uses_post_meta_collector_when_not_indexing() {
-		$posts_list = new Posts_List();
+		$query      = new Posts_Query( 'page', 1, 20, '', [ 'publish' ] );
+		$posts_page = new Posts_Page( new Posts_List(), 0, 1, 20 );
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
@@ -55,11 +59,11 @@ final class Get_Posts_Test extends Abstract_Posts_Repository_Test {
 		$this->post_meta_posts_collector
 			->expects( 'get_posts' )
 			->once()
-			->with( 'page', 20 )
-			->andReturn( $posts_list );
+			->with( $query )
+			->andReturn( $posts_page );
 
 		$this->indexable_posts_collector->expects( 'get_posts' )->never();
 
-		$this->assertSame( $posts_list, $this->instance->get_posts( 'page', 20 ) );
+		$this->assertSame( $posts_page, $this->instance->get_posts( $query ) );
 	}
 }
