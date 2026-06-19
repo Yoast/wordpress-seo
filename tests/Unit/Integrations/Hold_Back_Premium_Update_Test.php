@@ -44,7 +44,7 @@ final class Hold_Back_Premium_Update_Test extends TestCase {
 	public function test_get_conditionals() {
 		self::assertEquals(
 			[ Hold_Back_Premium_Update_Conditional::class ],
-			Hold_Back_Premium_Update::get_conditionals()
+			Hold_Back_Premium_Update::get_conditionals(),
 		);
 	}
 
@@ -109,44 +109,69 @@ final class Hold_Back_Premium_Update_Test extends TestCase {
 		$premium_file = 'wordpress-seo-premium/wp-seo-premium.php';
 
 		$premium = static function ( $version ) use ( $premium_file ) {
-			return [ $premium_file => (object) [ 'slug' => 'yoast-seo-wordpress-premium', 'new_version' => $version ] ];
+			return [
+				$premium_file => (object) [
+					'slug'        => 'yoast-seo-wordpress-premium',
+					'new_version' => $version,
+				],
+			];
 		};
-		$free = static function ( $version ) {
-			return [ \WPSEO_BASENAME => (object) [ 'slug' => 'wordpress-seo', 'new_version' => $version ] ];
+		$free    = static function ( $version ) {
+			return [
+				\WPSEO_BASENAME => (object) [
+					'slug'        => 'wordpress-seo',
+					'new_version' => $version,
+				],
+			];
 		};
 
 		return [
-			'Premium ahead of Free is moved to no_update'      => [
-				'data'         => (object) [ 'response' => $premium( '27.8' ), 'no_update' => $free( '27.7' ) ],
+			'Premium ahead of Free is moved to no_update' => [
+				'data'         => (object) [
+					'response'  => $premium( '27.8' ),
+					'no_update' => $free( '27.7' ),
+				],
 				'premium_file' => $premium_file,
 				'expected'     => 'no_update',
 				'message'      => 'Premium 27.8 must be hidden while the site only sees Free 27.7.',
 			],
-			'Premium matching Free stays in response'          => [
-				'data'         => (object) [ 'response' => $premium( '27.8' ), 'no_update' => $free( '27.8' ) ],
+			'Premium matching Free stays in response' => [
+				'data'         => (object) [
+					'response'  => $premium( '27.8' ),
+					'no_update' => $free( '27.8' ),
+				],
 				'premium_file' => $premium_file,
 				'expected'     => 'response',
 				'message'      => 'Premium 27.8 must be shown when Free 27.8 is available.',
 			],
 			'Premium patch within Free minor stays in response' => [
-				'data'         => (object) [ 'response' => $premium( '27.8.1' ), 'no_update' => $free( '27.8' ) ],
+				'data'         => (object) [
+					'response'  => $premium( '27.8.1' ),
+					'no_update' => $free( '27.8' ),
+				],
 				'premium_file' => $premium_file,
 				'expected'     => 'response',
 				'message'      => 'Premium patch 27.8.1 must be shown when Free 27.8 is available.',
 			],
 			'Premium shown when Free update of same minor is available' => [
-				'data'         => (object) [ 'response' => \array_merge( $premium( '27.8' ), $free( '27.8' ) ), 'no_update' => [] ],
+				'data'         => (object) [
+					'response'  => \array_merge( $premium( '27.8' ), $free( '27.8' ) ),
+					'no_update' => [],
+				],
 				'premium_file' => $premium_file,
 				'expected'     => 'response',
 				'message'      => 'Premium 27.8 must be shown when Free 27.8 is itself an available update.',
 			],
-			'Unknown Free version leaves Premium untouched'    => [
-				'data'         => (object) [ 'response' => $premium( '27.8' ), 'no_update' => [] ],
+			'Unknown Free version leaves Premium untouched' => [
+				'data'         => (object) [
+					'response'  => $premium( '27.8' ),
+					'no_update' => [],
+				],
 				'premium_file' => $premium_file,
 				'expected'     => 'response',
 				'message'      => 'Without a known Free version the update must not be hidden.',
 			],
-			'Non-object transient is returned unchanged'       => [
+			'Non-object transient is returned unchanged' => [
 				'data'         => false,
 				'premium_file' => null,
 				'expected'     => 'unchanged',

@@ -45,9 +45,9 @@ class Hold_Back_Premium_Update implements Integration_Interface {
 	 *
 	 * Patch releases (x.y.z) do not tighten the requirement, so only the major and minor components are compared.
 	 *
-	 * @param mixed $data The value of the update_plugins site transient.
+	 * @param object $data The value of the update_plugins site transient.
 	 *
-	 * @return mixed The (possibly adjusted) transient value.
+	 * @return object The (possibly adjusted) transient value.
 	 */
 	public function hold_back_premium_update( $data ) {
 		if ( ! \is_object( $data ) || empty( $data->response ) || ! \is_array( $data->response ) ) {
@@ -88,6 +88,10 @@ class Hold_Back_Premium_Update implements Integration_Interface {
 	 */
 	private function get_latest_free_version( $data ) {
 		foreach ( [ 'response', 'no_update' ] as $bucket ) {
+			if ( ! isset( $data->{$bucket} ) || ! \is_array( $data->{$bucket} ) ) {
+				continue;
+			}
+
 			if ( isset( $data->{$bucket}[ \WPSEO_BASENAME ]->new_version ) ) {
 				return $data->{$bucket}[ \WPSEO_BASENAME ]->new_version;
 			}
