@@ -1,5 +1,6 @@
+import { useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
-import { PAGE_SIZE } from "../constants";
+import { PAGE_SIZE, STORE_NAME } from "../constants";
 
 /**
  * Maps a single API row (snake_case) to a {@link BulkEditorItem} (camelCase).
@@ -21,6 +22,18 @@ const formatPost = ( post ) => ( {
 } );
 
 /**
+ * Maps the paginated API response to the settled hook state.
+ *
+ * @param {Object} response The API response wrapper.
+ *
+ * @returns {Object} The settled hook state.
+ */
+const formatResponse = ( response ) => {
+	const { posts = [], total = 0, total_pages: totalPages = 0 } = response ?? {};
+	return { data: posts.map( formatPost ), total, totalPages, error: null, isPending: false };
+};
+
+/**
  * Fetches a page of posts for a content type and maps them to bulk editor rows.
  *
  * Kept self-contained within the bulk editor: it drives the request through the injected
@@ -31,10 +44,10 @@ const formatPost = ( post ) => ( {
  * @param {RemoteDataProvider} props.remoteDataProvider The remote data provider (performs the request).
  * @param {string}             props.contentType        The content type to fetch posts for.
  *
- * @returns {{data: Object[], error: ?Error, isPending: boolean, updateItem: Function}} The remote data plus a local row updater.
+ * @returns {{data: Object[], error: ?Error, isPending: boolean, updateItem: Function}} The remote data info.
  */
 export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) => {
-	const [ state, setState ] = useState( { data: [], error: null, isPending: true } );
+	const [ state, setState ] = useState( { data: [], total: 0, totalPages: 0, error: null, isPending: true } );
 
 	// Reflects a saved field locally; there is no refetch yet, so a successful save updates the row in place.
 	const updateItem = useCallback( ( id, key, value ) => {
@@ -46,12 +59,15 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 	/** @type {import("react").MutableRefObject<AbortController>} */
 	const controller = useRef();
 
+	const search = useSelect( ( select ) => select( STORE_NAME ).selectSearch(), [] );
+	const page = useSelect( ( select ) => select( STORE_NAME ).selectPage(), [] );
+
 	const endpoint = dataProvider.getEndpoint( "posts" );
 
 	useEffect( () => {
 		// Without an endpoint there is nothing to fetch; surface an empty, settled state.
 		if ( ! endpoint ) {
-			setState( { data: [], error: null, isPending: false } );
+			setState( { data: [], total: 0, totalPages: 0, error: null, isPending: false } );
 			return;
 		}
 
@@ -67,25 +83,30 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 		remoteDataProvider
 			.fetchJson(
 				endpoint,
-				// eslint-disable-next-line camelcase -- The REST endpoint expects snake_case query parameters.
-				{ content_type: contentType, per_page: String( PAGE_SIZE ) },
+				{
+					/* eslint-disable camelcase -- The REST endpoint expects snake_case query parameters. */
+					content_type: contentType,
+					per_page: String( PAGE_SIZE ),
+					page: String( page ),
+					search,
+					/* eslint-enable camelcase */
+				},
 				{ signal: current.signal }
 			)
 			.then( ( response ) => {
-				if ( controller.current !== current ) {
-					return;
+				if ( controller.current === current ) {
+					setState( formatResponse( response ) );
 				}
-				setState( { data: ( response ?? [] ).map( formatPost ), error: null, isPending: false } );
 			} )
 			.catch( ( error ) => {
 				// Ignore abort errors: they are expected when a newer request supersedes this one.
 				if ( controller.current === current && error?.name !== "AbortError" ) {
-					setState( { data: [], error, isPending: false } );
+					setState( { data: [], total: 0, totalPages: 0, error, isPending: false } );
 				}
 			} );
 
 		return () => current.abort();
-	}, [ endpoint, contentType, remoteDataProvider ] );
+	}, [ endpoint, contentType, remoteDataProvider, search, page ] );
 
 	return { ...state, updateItem };
 };

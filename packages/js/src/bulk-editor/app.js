@@ -30,6 +30,18 @@ const getHeaderCopy = ( contentType ) => {
 };
 
 /**
+ * Resolves the id and label of the active content type, falling back to empty strings when there is none.
+ *
+ * @param {Object} [contentType] The content type ({ id, label }), if any.
+ *
+ * @returns {{id: string, label: string}} The active content type id and label.
+ */
+const getActiveContentTypeFields = ( contentType ) => ( {
+	id: contentType ? contentType.id : "",
+	label: contentType ? contentType.label : "",
+} );
+
+/**
  * The bulk editor app: the content-type sub-navigation, the page header, and the appearance content
  * (tabs + panels). The active content type and field set live in the store.
  *
@@ -46,6 +58,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 
 	const contentTypes = dataProvider.getContentTypes().map( ( { name, label } ) => ( { id: name, label } ) );
 	const activeContentType = contentTypes.find( ( { id } ) => id === activeContentTypeName ) ?? contentTypes[ 0 ];
+	const { id: activeContentTypeId, label: activeContentTypeLabel } = getActiveContentTypeFields( activeContentType );
 
 	const { title, description } = getHeaderCopy( activeContentType );
 	// Fall back to the WP admin home when the data provider has no link.
@@ -61,7 +74,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 	};
 
 	return (
-		<SidebarNavigation activePath={ activeContentType ? activeContentType.id : "" }>
+		<SidebarNavigation activePath={ activeContentTypeId }>
 			<SidebarNavigation.Mobile
 				openButtonId="button-open-bulk-editor-navigation-mobile"
 				closeButtonId="button-close-bulk-editor-navigation-mobile"
@@ -83,7 +96,8 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 						<BulkEditorContent
 							dataProvider={ dataProvider }
 							remoteDataProvider={ remoteDataProvider }
-							contentType={ activeContentType ? activeContentType.id : "" }
+							contentType={ activeContentTypeId }
+							contentTypeLabel={ activeContentTypeLabel }
 						/>
 					</Paper>
 				</div>

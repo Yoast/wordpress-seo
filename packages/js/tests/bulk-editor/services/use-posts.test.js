@@ -1,16 +1,27 @@
 import { renderHook, waitFor } from "@testing-library/react";
+import { useSelect } from "@wordpress/data";
 import { usePosts } from "../../../src/bulk-editor/services/use-posts";
 import { PAGE_SIZE } from "../../../src/bulk-editor/constants";
 
+jest.mock( "@wordpress/data", () => ( { useSelect: jest.fn() } ) );
+
 describe( "usePosts", () => {
 	let dataProvider;
+	let storeState;
 
 	beforeEach( () => {
 		dataProvider = { getEndpoint: jest.fn( () => "https://example.com/wp-json/yoast/v1/bulk_editor/posts" ) };
+		storeState = { search: "", page: 1 };
+		// Resolve each useSelect call against our controllable store state.
+		useSelect.mockImplementation( ( mapSelect ) => mapSelect( () => ( {
+			selectSearch: () => storeState.search,
+			selectPage: () => storeState.page,
+		} ) ) );
 	} );
 
-	it( "requests the posts endpoint with the content type and page size", async() => {
-		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( [] ) ) };
+	it( "requests the posts endpoint with the content type, page size, page and search", async() => {
+		storeState = { search: "seo", page: 2 };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { posts: [] } ) ) };
 
 		renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
 
@@ -20,27 +31,31 @@ describe( "usePosts", () => {
 		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
 			"https://example.com/wp-json/yoast/v1/bulk_editor/posts",
 			// eslint-disable-next-line camelcase -- The REST endpoint expects snake_case query parameters.
-			{ content_type: "page", per_page: String( PAGE_SIZE ) },
+			{ content_type: "page", per_page: String( PAGE_SIZE ), page: "2", search: "seo" },
 			expect.objectContaining( { signal: expect.anything() } )
 		);
 	} );
 
-	it( "maps the snake_case API rows to camelCase bulk editor rows", async() => {
+	it( "maps the snake_case API rows to camelCase bulk editor rows and exposes the totals", async() => {
 		const remoteDataProvider = {
 			/* eslint-disable camelcase -- The REST endpoint returns snake_case fields. */
-			fetchJson: jest.fn( () => Promise.resolve( [
-				{
-					id: 7,
-					title: "Hello world",
-					status: "draft",
-					edit_link: "post.php?post=7&action=edit",
-					focus_keyphrase: "hello",
-					seo_title: "Hello | Site",
-					meta_description: "A description.",
-					social_title: "Social hello",
-					social_description: "Social description.",
-				},
-			] ) ),
+			fetchJson: jest.fn( () => Promise.resolve( {
+				posts: [
+					{
+						id: 7,
+						title: "Hello world",
+						status: "draft",
+						edit_link: "post.php?post=7&action=edit",
+						focus_keyphrase: "hello",
+						seo_title: "Hello | Site",
+						meta_description: "A description.",
+						social_title: "Social hello",
+						social_description: "Social description.",
+					},
+				],
+				total: 42,
+				total_pages: 3,
+			} ) ),
 			/* eslint-enable camelcase -- The REST endpoint returns snake_case fields. */
 		};
 
@@ -61,6 +76,8 @@ describe( "usePosts", () => {
 				socialDescription: "Social description.",
 			},
 		] );
+		expect( result.current.total ).toBe( 42 );
+		expect( result.current.totalPages ).toBe( 3 );
 	} );
 
 	it( "maps a missing response to an empty list", async() => {
@@ -71,6 +88,8 @@ describe( "usePosts", () => {
 		await waitFor( () => expect( result.current.isPending ).toBe( false ) );
 
 		expect( result.current.data ).toEqual( [] );
+		expect( result.current.total ).toBe( 0 );
+		expect( result.current.totalPages ).toBe( 0 );
 	} );
 
 	it( "exposes the error when the request fails", async() => {
@@ -106,7 +125,7 @@ describe( "usePosts", () => {
 		const { result } = renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
 
 		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
-		expect( result.current ).toMatchObject( { data: [], error: null, isPending: false } );
+		expect( result.current ).toMatchObject( { data: [], total: 0, totalPages: 0, error: null, isPending: false } );
 		expect( typeof result.current.updateItem ).toBe( "function" );
 	} );
 
@@ -127,9 +146,9 @@ describe( "usePosts", () => {
 		rerender( { contentType: "post" } );
 
 		// The newer request settles first, then the stale one resolves late.
-		resolvers.post( [ { id: 2, title: "Post" } ] );
+		resolvers.post( { posts: [ { id: 2, title: "Post" } ] } );
 		await waitFor( () => expect( result.current.isPending ).toBe( false ) );
-		resolvers.page( [ { id: 1, title: "Page" } ] );
+		resolvers.page( { posts: [ { id: 1, title: "Page" } ] } );
 		// Flush the stale promise's then-callback before asserting.
 		await waitFor( () => expect( result.current.data ).toHaveLength( 1 ) );
 
