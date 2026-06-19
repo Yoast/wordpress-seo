@@ -109,7 +109,14 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								totalCount={ totalCount }
 							/>
 						}
-						bulkActions={ <BulkActions isPremium={ isPremium } /> }
+						bulkActions={
+							<BulkActions
+								isPremium={ isPremium }
+								selectedIds={ selectedIds }
+								activeFieldSet={ activeFieldSet }
+								contentType={ contentType }
+							/>
+						}
 						showBulkActions={ hasSelection }
 						isLoading={ isPending }
 					/>
