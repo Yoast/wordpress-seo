@@ -2,7 +2,7 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\Domain\Endpoint\Endpoint_List;
+namespace Yoast\WP\SEO\Tests\Unit\Routes\Endpoint\Endpoint_List;
 
 use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Abstract class for Endpoint_List tests.
  *
- * @group ai-generator
+ * @group routes
  */
 abstract class Abstract_Endpoint_List_Test extends TestCase {
 

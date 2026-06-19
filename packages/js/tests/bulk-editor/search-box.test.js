@@ -21,7 +21,7 @@ describe( "SearchBox", () => {
 	it( "renders an accessible search input and a content-type-aware placeholder", () => {
 		render( <SearchBox contentTypeLabel="Pages" /> );
 
-		const input = screen.getByLabelText( "Search posts" );
+		const input = screen.getByLabelText( "Search for pages" );
 		expect( input ).toBeInTheDocument();
 		expect( input ).toHaveAttribute( "placeholder", "Search for pages…" );
 	} );
@@ -29,7 +29,7 @@ describe( "SearchBox", () => {
 	it( "auto-searches the trimmed term after the debounce delay once it is long enough", () => {
 		render( <SearchBox contentTypeLabel="Pages" /> );
 
-		fireEvent.change( screen.getByLabelText( "Search posts" ), { target: { value: "  seo  " } } );
+		fireEvent.change( screen.getByLabelText( "Search for pages" ), { target: { value: "  seo  " } } );
 		// Nothing fires before the delay elapses.
 		expect( setSearch ).not.toHaveBeenCalled();
 
@@ -41,7 +41,7 @@ describe( "SearchBox", () => {
 	it( "does not auto-search while the term is below the minimum length", () => {
 		render( <SearchBox contentTypeLabel="Pages" /> );
 
-		fireEvent.change( screen.getByLabelText( "Search posts" ), { target: { value: "se" } } );
+		fireEvent.change( screen.getByLabelText( "Search for pages" ), { target: { value: "se" } } );
 		jest.advanceTimersByTime( 200 );
 
 		// 1-2 characters hold the previous results until the button is used.
@@ -50,7 +50,7 @@ describe( "SearchBox", () => {
 
 	it( "auto-resets to the full list when the term is cleared", () => {
 		render( <SearchBox contentTypeLabel="Pages" /> );
-		const input = screen.getByLabelText( "Search posts" );
+		const input = screen.getByLabelText( "Search for pages" );
 
 		// Search a term, then delete it back to empty.
 		fireEvent.change( input, { target: { value: "seo" } } );
@@ -64,7 +64,7 @@ describe( "SearchBox", () => {
 	it( "commits a single-character term immediately on submit, cancelling the pending auto-search", () => {
 		render( <SearchBox contentTypeLabel="Pages" /> );
 
-		fireEvent.change( screen.getByLabelText( "Search posts" ), { target: { value: "s" } } );
+		fireEvent.change( screen.getByLabelText( "Search for pages" ), { target: { value: "s" } } );
 		fireEvent.click( screen.getByRole( "button", { name: "Search" } ) );
 		jest.advanceTimersByTime( 200 );
 

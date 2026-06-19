@@ -17,6 +17,8 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
  */
 class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 
+	use Searchable_Fields_Trait;
+
 	/**
 	 * The Yoast post meta key prefix.
 	 */
@@ -112,6 +114,8 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 * @param WP_Query $wp_query The query being filtered.
 	 *
 	 * @return string The WHERE clause, with the search clause appended for our query.
+	 *
+	 * @internal Only public because it is registered as a posts_where filter callback.
 	 */
 	public function filter_posts_where( $where, $wp_query ): string {
 		if ( $wp_query->get( self::SEARCH_FLAG ) ) {
@@ -136,7 +140,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			static function ( $suffix ) {
 				return self::META_PREFIX . $suffix;
 			},
-			\array_values( Posts_Collector_Interface::SEARCHABLE_FIELDS ),
+			\array_values( $this->searchable_fields() ),
 		);
 
 		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
