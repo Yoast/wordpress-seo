@@ -8,9 +8,11 @@ use Yoast\WP\SEO\Exceptions\Locking\Lock_Timeout_Exception;
 use Yoast\WP\SEO\Helpers\Lock_Helper;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Discovery_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Failed_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Temporarily_Unavailable_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Server_Capability_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Auth_Token_Type;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption_Exception;
@@ -468,7 +470,8 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	 *
 	 * @return Registered_Client The registration result.
 	 *
-	 * @throws Registration_Failed_Exception If registration fails.
+	 * @throws Registration_Temporarily_Unavailable_Exception If the server temporarily refuses new registrations.
+	 * @throws Registration_Failed_Exception                  If registration fails.
 	 */
 	private function do_register( array $redirect_uris ): Registered_Client {
 		try {
@@ -524,6 +527,14 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			throw new Registration_Failed_Exception( 'DCR request failed: ' . $error_message );
 		}
 
+		// The server temporarily refuses new registrations (rollout brake engaged).
+		// Surface it as a typed transient failure carrying the (display-only) retry hint.
+		if ( $result->get_status() === 503 && $result->get_body_value( 'error' ) === 'temporarily_unavailable' ) {
+			$error_message = (string) $result->get_body_value( 'error_description', 'Client registration is temporarily disabled.' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+			throw new Registration_Temporarily_Unavailable_Exception( $error_message, $this->get_retry_after_seconds( $result ) );
+		}
+
 		if ( $result->get_status() !== 201 ) {
 			$error_message = (string) $result->get_body_value( 'error_description', $result->get_body_value( 'error', '' ) );
 			throw new Registration_Failed_Exception(
@@ -538,6 +549,30 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 		}
 
 		return $this->store_credentials( $body );
+	}
+
+	/**
+	 * Extracts the Retry-After delay (in seconds) from a response, if present and numeric.
+	 *
+	 * Display-only: used solely to tell the user when to try again; the plugin does not
+	 * schedule or enforce a wait based on it.
+	 *
+	 * @param HTTP_Response $result The response to read the Retry-After header from.
+	 *
+	 * @return int|null The retry delay in seconds, or null when absent or non-numeric.
+	 */
+	private function get_retry_after_seconds( HTTP_Response $result ): ?int {
+		foreach ( $result->get_headers() as $name => $value ) {
+			if ( \strtolower( (string) $name ) !== 'retry-after' ) {
+				continue;
+			}
+
+			$value = \is_array( $value ) ? \reset( $value ) : $value;
+
+			return \is_numeric( $value ) ? (int) $value : null;
+		}
+
+		return null;
 	}
 
 	/**

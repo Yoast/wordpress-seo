@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Loadable_Interface;
 use Yoast\WP\SEO\Main;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Temporarily_Unavailable_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client_Cleanup;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
@@ -251,6 +252,11 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 		try {
 			$redirect_uri = \get_admin_url( null, 'admin.php?page=' . General_Page_Integration::PAGE . '&yoast_myyoast_oauth_callback=1' );
 			$client       = $this->myyoast_client->ensure_registered( [ $redirect_uri ] );
+		} catch ( Registration_Temporarily_Unavailable_Exception $e ) {
+			$retry_after = $e->get_retry_after_seconds();
+			$retry_hint  = ( $retry_after !== null ) ? \sprintf( ' Try again in %d seconds.', $retry_after ) : ' Try again later.';
+			WP_CLI::error( 'Registration is temporarily unavailable.' . $retry_hint );
+			return;
 		} catch ( Exception $e ) {
 			WP_CLI::error( 'Registration failed: ' . $e->getMessage() );
 			return;
