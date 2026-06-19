@@ -26,7 +26,10 @@ export const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkA
 		) }
 		{ bulkActions && (
 			<Table.Row>
-				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-100 !yst-p-0">
+				{ /* Zero the cell padding via style: the `!yst-p-0` utility is purged from the page bundle, so it
+				     would leave the collapsed row showing a padded slate strip. The bar's own padding lives on its
+				     content, and AnimateHeight clips the background when collapsed. */ }
+				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-100" style={ { padding: 0 } }>
 					<AnimateHeight easing="ease-in-out" duration={ 300 } height={ showBulkActions ? "auto" : 0 } animateOpacity={ true }>
 						{ bulkActions }
 					</AnimateHeight>
