@@ -24,7 +24,7 @@ class MyYoast_Connection_Conditional extends Gradual_Rollout_Conditional {
 	/**
 	 * The share of sites the connection is rolled out to, in per-mille (0-1000).
 	 *
-	 *  Ships at 0 (no sites); raised release over release as the rollout widens.
+	 * Ships at 1%; raised release over release as the rollout widens.
 	 *
 	 * @return int The rollout share in per-mille.
 	 */

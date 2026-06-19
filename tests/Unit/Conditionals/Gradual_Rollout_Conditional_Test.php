@@ -155,9 +155,10 @@ final class Gradual_Rollout_Conditional_Test extends TestCase {
 	public function test_site_at_share_boundary_is_excluded() {
 		$bucket = $this->bucket_for( self::COHORT_FLAG, self::SITE_URL );
 
-		// Only meaningful when the bucket is in the open (0, 1000) range so neither clamp shortcut applies.
-		if ( $bucket <= 0 || $bucket >= 1000 ) {
-			$this->markTestSkipped( 'Bucket for the test URL is on a clamp boundary.' );
+		// A bucket of 0 would make the share 0, which the $share <= 0 clamp handles before the
+		// boundary comparison, so the boundary case is only meaningful for a non-zero bucket.
+		if ( $bucket === 0 ) {
+			$this->markTestSkipped( 'Bucket for the test URL is on the clamp boundary.' );
 		}
 
 		$instance = new Gradual_Rollout_Conditional_Double( self::COHORT_FLAG, $bucket );
