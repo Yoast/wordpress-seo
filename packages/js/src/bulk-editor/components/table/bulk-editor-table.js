@@ -15,15 +15,14 @@ import { getColumnCount } from "./table-helpers";
  * @property {Function}  [onToggleAll]   Called when the header "select all" checkbox is toggled.
  */
 /**
- * The bulk editor inline-edit props. Editing is per field and several rows can edit at once: a row's Edit opens
- * its field-set fields, and each open field is applied (saved on its own) or discarded independently.
+ * The bulk editor inline-edit props. Several rows can edit at once: a row's Edit opens its field-set fields,
+ * then the row's Save saves every open field and Cancel discards all of them at once.
  *
  * @typedef {Object} BulkEditorEditing
  * @property {Object}   [editingRows]    Edit state keyed by item id: `{ [id]: { openFields, draft, savingFields } }`.
  * @property {Function} [onStartEdit]    Called with an item id to enter edit mode.
  * @property {Function} [onChangeField]  Called with `{ id, key, value }` when a field changes.
  * @property {Function} [onApplyField]   Called with `{ id, key }` to save that field.
- * @property {Function} [onDiscardField] Called with `{ id, key }` to discard that field's changes.
  * @property {Function} [onCancelEdit]   Called with an item id to cancel all of its open fields at once.
  */
 
@@ -49,7 +48,6 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}
 		onStartEdit: noop,
 		onChangeField: noop,
 		onApplyField: noop,
-		onDiscardField: noop,
 		onCancelEdit: noop,
 		...editing,
 	};

@@ -1,8 +1,6 @@
-import CheckIcon from "@heroicons/react/outline/CheckIcon";
-import XIcon from "@heroicons/react/outline/XIcon";
 import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Table, Textarea } from "@yoast/ui-library";
+import { Table, Textarea } from "@yoast/ui-library";
 import { getStatusLabel } from "./table-helpers";
 
 /**
@@ -29,65 +27,34 @@ export const TitleCell = ( { item } ) => {
 };
 
 /**
- * An open field cell: the input plus its Apply and Discard actions. Each field is saved or discarded on its own.
+ * An open field cell: an editable textarea. The row's Save and Cancel actions save or
+ * discard all of the row's open fields at once.
  *
  * @param {Object}        props           The props.
  * @param {FieldSetField} props.field     The field this cell edits.
  * @param {number}        props.itemId    The item id, to keep the input id unique across rows.
- * @param {string}        props.itemTitle The item title, for the accessible names.
+ * @param {string}        props.itemTitle The item title, for the accessible name.
  * @param {string}        props.value     The current draft value.
- * @param {boolean}       props.isSaving  Whether this field is being saved (disables the controls).
+ * @param {boolean}       props.isSaving  Whether the row is being saved (disables the input).
  * @param {Function}      props.onChange  Called with { key, value } when the value changes.
- * @param {Function}      props.onApply   Called with the field key to save it.
- * @param {Function}      props.onDiscard Called with the field key to discard its changes.
  *
  * @returns {JSX.Element} The cell.
  */
-export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, onChange, onApply, onDiscard } ) => {
+export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, onChange } ) => {
 	const handleChange = useCallback( ( event ) => onChange( { key: field.key, value: event.target.value } ), [ onChange, field.key ] );
-	const handleApply = useCallback( () => onApply( field.key ), [ onApply, field.key ] );
-	const handleDiscard = useCallback( () => onDiscard( field.key ), [ onDiscard, field.key ] );
 
 	return (
 		<Table.Cell>
-			<div className="yst-flex yst-flex-col yst-gap-2">
-				<Textarea
-					id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
-					rows={ 2 }
-					value={ value }
-					onChange={ handleChange }
-					disabled={ isSaving }
-					className="yst-resize-none yst-bg-primary-50 yst-ring-primary-300"
-					/* translators: %1$s expands to the field label, %2$s to the content item title. */
-					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
-				/>
-				<div className="yst-flex yst-gap-2">
-					<Button
-						variant="secondary"
-						size="small"
-						className="yst-gap-1.5"
-						onClick={ handleApply }
-						disabled={ isSaving }
-						/* translators: %1$s expands to the field label, %2$s to the content item title. */
-						aria-label={ sprintf( __( "Apply %1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
-					>
-						<CheckIcon className="yst-h-4 yst-w-4 yst-text-green-500" aria-hidden="true" />
-						{ __( "Apply", "wordpress-seo" ) }
-					</Button>
-					<Button
-						variant="secondary"
-						size="small"
-						className="yst-gap-1.5"
-						onClick={ handleDiscard }
-						disabled={ isSaving }
-						/* translators: %1$s expands to the field label, %2$s to the content item title. */
-						aria-label={ sprintf( __( "Discard %1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
-					>
-						<XIcon className="yst-h-4 yst-w-4 yst-text-red-500" aria-hidden="true" />
-						{ __( "Discard", "wordpress-seo" ) }
-					</Button>
-				</div>
-			</div>
+			<Textarea
+				id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
+				rows={ 2 }
+				value={ value }
+				onChange={ handleChange }
+				disabled={ isSaving }
+				className="yst-resize-none yst-bg-primary-50 yst-ring-primary-300"
+				/* translators: %1$s expands to the field label, %2$s to the content item title. */
+				aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
+			/>
 		</Table.Cell>
 	);
 };

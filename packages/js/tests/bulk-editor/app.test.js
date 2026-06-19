@@ -136,7 +136,7 @@ describe( "App", () => {
 		expect( screen.getByRole( "textbox", { name: "SEO title for Keyword Research for Beginners" } ) ).toBeInTheDocument();
 	} );
 
-	describe( "saving a field (Apply)", () => {
+	describe( "saving a row (Save)", () => {
 		const searchSet = getFieldSets()[ FIELD_SET_SEARCH ];
 		const seoTitleParam = searchSet.fields.find( ( field ) => field.key === "seoTitle" ).param;
 		const endpointUrl = "https://example.com/wp-json/yoast/v1/bulk_editor/update_search";
@@ -156,7 +156,7 @@ describe( "App", () => {
 				screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ),
 				{ target: { value: "New SEO title" } }
 			);
-			fireEvent.click( screen.getByRole( "button", { name: `Apply SEO title for ${ rowTitle }` } ) );
+			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
 
 			expect( remote.fetchJson ).toHaveBeenCalledWith(
 				endpointUrl,
@@ -172,7 +172,7 @@ describe( "App", () => {
 			render( <App dataProvider={ savingDataProvider } remoteDataProvider={ remote } /> );
 
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			fireEvent.click( screen.getByRole( "button", { name: `Apply SEO title for ${ rowTitle }` } ) );
+			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
 
 			// The field stays open and becomes editable again once the failed save settles.
 			await waitFor( () => expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeEnabled() );
@@ -183,7 +183,7 @@ describe( "App", () => {
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ remote } /> );
 
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			fireEvent.click( screen.getByRole( "button", { name: `Apply SEO title for ${ rowTitle }` } ) );
+			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
 
 			// The active tab's save endpoint is not configured, so no POST is made and the field stays open.
 			expect( remote.fetchJson ).not.toHaveBeenCalledWith(
