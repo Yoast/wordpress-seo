@@ -47,7 +47,6 @@ domReady( () => {
 		<div dir={ isRtl ? "rtl" : "ltr" } className="yst-root">
 			<SlotFillProvider>
 				<RouterProvider router={ router } />
-				{ /* Renders Premium's registered fills inside this root so they reach the page's slots. */ }
 				<PluginArea scope={ PLUGIN_SCOPE } />
 			</SlotFillProvider>
 		</div>
