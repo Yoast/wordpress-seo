@@ -7,8 +7,9 @@ import { dispatch, select } from "@wordpress/data";
  * When `wpseoScriptData.disableMetaboxInBlockEditor` is true, the PHP metabox and its hidden
  * input fields are not rendered. All Fields helpers use this flag to decide whether to read
  * from / write to the DOM or to the `core/editor` store instead.
+ * @returns {boolean} True when REST meta is active.
  */
-export const isRestMetaActive = Boolean( get( window, "wpseoScriptData.disableMetaboxInBlockEditor", false ) );
+export const isRestMetaActive = () => Boolean( get( window, "wpseoScriptData.disableMetaboxInBlockEditor", false ) );
 
 /**
  * Returns whether a meta write to core/editor should be skipped.
@@ -67,7 +68,7 @@ const readMeta = ( metaKey, fallback = "" ) =>
  * @returns {string} The meta value, or fallback.
  */
 export const getMetaValue = ( metaKey, element, fallback = "" ) => {
-	if ( isRestMetaActive ) {
+	if ( isRestMetaActive() ) {
 		return readMeta( metaKey, fallback );
 	}
 	return element?.value ?? fallback;
@@ -102,7 +103,7 @@ const writeMeta = ( metaKey, value ) => {
  * @returns {void}
  */
 export const setMetaValue = ( metaKey, element, value, withoutUndo = false ) => {
-	if ( isRestMetaActive ) {
+	if ( isRestMetaActive() ) {
 		if ( withoutUndo ) {
 			writeMetaWithoutUndo( { [ metaKey ]: value } );
 		} else {

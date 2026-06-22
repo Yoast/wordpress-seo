@@ -8,7 +8,6 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository_Interface;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository_Interface;
-use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\WordPress_URLs;
 use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
@@ -44,13 +43,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @var Code_Verifier_Handler
 	 */
 	private $code_verifier;
-
-	/**
-	 * The consent handler.
-	 *
-	 * @var Consent_Handler
-	 */
-	private $consent_handler;
 
 	/**
 	 * The refresh token repository.
@@ -92,7 +84,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 *
 	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository  The access token repository.
 	 * @param Code_Verifier_Handler                        $code_verifier            The code verifier service.
-	 * @param Consent_Handler                              $consent_handler          The consent handler.
 	 * @param Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository The refresh token repository.
 	 * @param User_Helper                                  $user_helper              The user helper.
 	 * @param Request_Handler                              $request_handler          The request handler.
@@ -102,7 +93,6 @@ class Token_Manager implements Token_Manager_Interface {
 	public function __construct(
 		Access_Token_User_Meta_Repository_Interface $access_token_repository,
 		Code_Verifier_Handler $code_verifier,
-		Consent_Handler $consent_handler,
 		Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository,
 		User_Helper $user_helper,
 		Request_Handler $request_handler,
@@ -111,7 +101,6 @@ class Token_Manager implements Token_Manager_Interface {
 	) {
 		$this->access_token_repository  = $access_token_repository;
 		$this->code_verifier            = $code_verifier;
-		$this->consent_handler          = $consent_handler;
 		$this->refresh_token_repository = $refresh_token_repository;
 		$this->user_helper              = $user_helper;
 		$this->request_handler          = $request_handler;
@@ -189,15 +178,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
 	 */
 	public function token_request( WP_User $user ): void {
-		// Ensure the user has given consent.
-		if ( $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_consent', true ) !== '1' ) {
-			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
-			$this->consent_handler->revoke_consent( $user->ID );
-			throw new Forbidden_Exception( 'CONSENT_REVOKED', 403 );
-
-			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
-		}
-
 		// Generate a code verifier and store it in the database.
 		$code_verifier = $this->code_verifier->generate( $user->user_email );
 		$this->code_verifier_repository->store_code_verifier( $user->ID, $code_verifier->get_code(), $code_verifier->get_created_at() );
@@ -328,12 +308,6 @@ class Token_Manager implements Token_Manager_Interface {
 				$this->token_refresh( $user );
 			} catch ( Unauthorized_Exception $exception ) {
 				$this->token_request( $user );
-			} catch ( Forbidden_Exception $exception ) {
-				// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
-				// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
-				$this->consent_handler->revoke_consent( $user->ID );
-				throw new Forbidden_Exception( 'CONSENT_REVOKED', 403 );
-				// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			}
 			$access_jwt = $this->access_token_repository->get_token( $user->ID );
 		}

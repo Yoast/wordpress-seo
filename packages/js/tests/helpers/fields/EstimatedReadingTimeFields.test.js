@@ -1,13 +1,7 @@
 import EstimatedReadingTimeFields from "../../../src/helpers/fields/EstimatedReadingTimeFields";
+import { createElement } from "../../test-utils";
 
 const ELEMENT_ID = "yoast_wpseo_estimated-reading-time-minutes";
-
-const createElement = () => {
-	const el = document.createElement( "input" );
-	el.id = ELEMENT_ID;
-	document.body.appendChild( el );
-	return el;
-};
 
 afterEach( () => {
 	document.body.innerHTML = "";
@@ -19,7 +13,7 @@ describe( "estimatedReadingTimeElement", () => {
 	} );
 
 	it( "returns the element when present", () => {
-		const el = createElement();
+		const el = createElement( ELEMENT_ID );
 		expect( EstimatedReadingTimeFields.estimatedReadingTimeElement ).toBe( el );
 	} );
 } );
@@ -30,7 +24,7 @@ describe( "estimatedReadingTime getter", () => {
 	} );
 
 	it( "returns the element value", () => {
-		const el = createElement();
+		const el = createElement( ELEMENT_ID );
 		el.value = "5";
 		expect( EstimatedReadingTimeFields.estimatedReadingTime ).toBe( "5" );
 	} );
@@ -44,7 +38,7 @@ describe( "estimatedReadingTime setter", () => {
 	} );
 
 	it( "sets the element value", () => {
-		createElement();
+		createElement( ELEMENT_ID );
 		EstimatedReadingTimeFields.estimatedReadingTime = "7";
 		expect( EstimatedReadingTimeFields.estimatedReadingTime ).toBe( "7" );
 	} );

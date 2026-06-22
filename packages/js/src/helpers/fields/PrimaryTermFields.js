@@ -23,22 +23,14 @@ function metaKey( taxonomyName ) {
  */
 export default class PrimaryTermFields {
 	/**
-	 * Returns the initial primary term ID for a taxonomy as a string.
+	 * Returns the DOM element for the primary term hidden input.
 	 *
-	 * Reads from the hidden DOM input when it is present; falls back to the value supplied by
-	 * PHP via props. Normalising to a string here ensures callers never receive a number,
-	 * which avoids mixed-type comparisons elsewhere in the component tree.
+	 * @param {string} fieldId The element ID to look up.
 	 *
-	 * @param {HTMLElement|null}   inputElement The hidden input element, or null if not rendered.
-	 * @param {number|string|null} fallback     The fallback value from props.taxonomy.primary.
-	 *
-	 * @returns {string} The initial primary term ID as a string.
+	 * @returns {HTMLElement|null} The element, or null when not rendered.
 	 */
-	static getInitialValue( inputElement, fallback ) {
-		if ( inputElement ) {
-			return inputElement.value || "";
-		}
-		return String( fallback ?? "" );
+	static getPrimaryTermElement( fieldId ) {
+		return document.getElementById( fieldId );
 	}
 
 	/**
@@ -49,8 +41,8 @@ export default class PrimaryTermFields {
 	 *
 	 * @returns {string} The primary term ID as a string, or an empty string when unset.
 	 */
-	static get( taxonomyName, inputElement ) {
-		return getMetaValue( metaKey( taxonomyName ), inputElement, "" );
+	static get( taxonomyName, fieldId ) {
+		return getMetaValue( metaKey( taxonomyName ), PrimaryTermFields.getPrimaryTermElement( fieldId ), "" );
 	}
 
 	/**
@@ -61,12 +53,12 @@ export default class PrimaryTermFields {
 	 *
 	 * @param {string}           taxonomyName The taxonomy name.
 	 * @param {number}           termId       The term ID. Pass -1 to clear.
-	 * @param {HTMLElement|null} inputElement The hidden input element, or null if not rendered.
+	 * @param {string}           fieldId      The field ID of the hidden input element.
 	 *
 	 * @returns {void}
 	 */
-	static set( taxonomyName, termId, inputElement ) {
+	static set( taxonomyName, fieldId, termId ) {
 		const value = termId === -1 ? "" : String( termId );
-		setMetaValue( metaKey( taxonomyName ), inputElement, value );
+		setMetaValue( metaKey( taxonomyName ), PrimaryTermFields.getPrimaryTermElement( fieldId ), value );
 	}
 }

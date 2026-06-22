@@ -11,7 +11,6 @@ use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository_Interface;
 use Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
 use Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository_Interface;
-use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Generator\Infrastructure\WordPress_URLs;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\Helpers\Url_Helper;
@@ -38,13 +37,6 @@ abstract class Abstract_Token_Manager_Test extends TestCase {
 	 * @var Mockery\MockInterface|Code_Verifier_Handler
 	 */
 	protected $code_verifier;
-
-	/**
-	 * The consent handler.
-	 *
-	 * @var Mockery\MockInterface|Consent_Handler
-	 */
-	protected $consent_handler;
 
 	/**
 	 * The refresh token repository mock.
@@ -105,7 +97,6 @@ abstract class Abstract_Token_Manager_Test extends TestCase {
 
 		$this->access_token_repository  = Mockery::mock( Access_Token_User_Meta_Repository_Interface::class );
 		$this->code_verifier            = Mockery::mock( Code_Verifier_Handler::class );
-		$this->consent_handler          = Mockery::mock( Consent_Handler::class );
 		$this->refresh_token_repository = Mockery::mock( Refresh_Token_User_Meta_Repository_Interface::class );
 		$this->user_helper              = Mockery::mock( User_Helper::class );
 		$this->request_handler          = Mockery::mock( Request_Handler::class );
@@ -123,7 +114,7 @@ abstract class Abstract_Token_Manager_Test extends TestCase {
 		$this->urls->shouldReceive( 'get_callback_url' )->andReturn( $default_callback_url )->byDefault();
 		$this->urls->shouldReceive( 'get_refresh_callback_url' )->andReturn( 'https://example.com/wp-json/yoast/v1/ai_generator/refresh_callback' )->byDefault();
 
-		$this->instance = new Token_Manager( $this->access_token_repository, $this->code_verifier, $this->consent_handler, $this->refresh_token_repository, $this->user_helper, $this->request_handler, $this->code_verifier_repository, $this->urls );
+		$this->instance = new Token_Manager( $this->access_token_repository, $this->code_verifier, $this->refresh_token_repository, $this->user_helper, $this->request_handler, $this->code_verifier_repository, $this->urls );
 	}
 
 	/**

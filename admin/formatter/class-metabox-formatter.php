@@ -48,7 +48,8 @@ class WPSEO_Metabox_Formatter {
 	 * @return array<string, string|array<string|int|bool>|bool|int> Default settings for the metabox.
 	 */
 	private function get_defaults() {
-		$schema_types = new Schema_Types();
+		$schema_types       = new Schema_Types();
+		$schema_fields_defs = WPSEO_Meta::get_meta_field_defs( 'schema' );
 
 		$defaults = [
 			'author_name'                        => get_the_author_meta( 'display_name' ),
@@ -59,6 +60,9 @@ class WPSEO_Metabox_Formatter {
 				'displayFooter'      => WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ),
 				'pageTypeOptions'    => $schema_types->get_page_type_options(),
 				'articleTypeOptions' => $schema_types->get_article_type_options(),
+				'defaultPageType'    => isset( $schema_fields_defs['schema_page_type'] ) ? $schema_fields_defs['schema_page_type']['default'] : '',
+				'defaultArticleType' => isset( $schema_fields_defs['schema_article_type'] ) ? $schema_fields_defs['schema_article_type']['default'] : '',
+				'showArticleInput'   => isset( $schema_fields_defs['schema_article_type'] ),
 			],
 			'twitterCardType'                    => 'summary_large_image',
 			/**
