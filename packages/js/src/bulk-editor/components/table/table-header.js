@@ -12,15 +12,19 @@ import AnimateHeight from "react-animate-height";
  * @param {JSX.Element}     [props.selectionToolbar] The first toolbar row's content (master checkbox + Select menu).
  * @param {JSX.Element}     [props.bulkActions]      The bulk-actions toolbar row's content.
  * @param {boolean}         [props.showBulkActions]  Whether the bulk-actions row is expanded (a selection is active).
+ * @param {JSX.Element}     [props.filters]          The filters control, rendered at the end of the toolbar row.
  *
  * @returns {JSX.Element} The header.
  */
-export const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkActions, showBulkActions } ) => (
+export const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkActions, showBulkActions, filters } ) => (
 	<Table.Head>
 		{ selectionToolbar && (
 			<Table.Row>
 				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-50 yst-rounded-ss-lg yst-rounded-se-lg">
-					{ selectionToolbar }
+					<div className="yst-flex yst-items-center yst-justify-between yst-gap-4">
+						{ selectionToolbar }
+						{ filters }
+					</div>
 				</Table.Cell>
 			</Table.Row>
 		) }

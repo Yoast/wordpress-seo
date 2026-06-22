@@ -11,16 +11,17 @@ describe( "usePosts", () => {
 
 	beforeEach( () => {
 		dataProvider = { getEndpoint: jest.fn( () => "https://example.com/wp-json/yoast/v1/bulk_editor/posts" ) };
-		storeState = { search: "", page: 1 };
+		storeState = { search: "", page: 1, statuses: [] };
 		// Resolve each useSelect call against our controllable store state.
 		useSelect.mockImplementation( ( mapSelect ) => mapSelect( () => ( {
 			selectSearch: () => storeState.search,
 			selectPage: () => storeState.page,
+			selectStatuses: () => storeState.statuses,
 		} ) ) );
 	} );
 
-	it( "requests the posts endpoint with the content type, page size, page and search", async() => {
-		storeState = { search: "seo", page: 2 };
+	it( "requests the posts endpoint with the content type, page size, page, search and statuses", async() => {
+		storeState = { search: "seo", page: 2, statuses: [ "draft", "pending" ] };
 		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { posts: [] } ) ) };
 
 		renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
@@ -31,7 +32,7 @@ describe( "usePosts", () => {
 		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
 			"https://example.com/wp-json/yoast/v1/bulk_editor/posts",
 			// eslint-disable-next-line camelcase -- The REST endpoint expects snake_case query parameters.
-			{ content_type: "page", per_page: String( PAGE_SIZE ), page: "2", search: "seo" },
+			{ content_type: "page", per_page: String( PAGE_SIZE ), page: "2", search: "seo", status: [ "draft", "pending" ] },
 			expect.objectContaining( { signal: expect.anything() } )
 		);
 	} );

@@ -6,6 +6,7 @@ import { getFieldSets } from "../field-sets";
 import { useInlineEdit } from "../hooks/use-inline-edit";
 import { usePosts } from "../services/use-posts";
 import { BulkActions, SelectionToolbar } from "./bulk-action-bar";
+import { BulkEditorFilters } from "./bulk-editor-filters";
 import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
@@ -119,6 +120,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 						}
 						bulkActions={ <BulkActions isPremium={ isPremium } /> }
 						showBulkActions={ hasSelection }
+						filters={ <BulkEditorFilters /> }
 						isLoading={ isPending }
 					/>
 				</BulkEditorTabPanel>
