@@ -14,3 +14,9 @@ export const MIN_SEARCH_LENGTH = 3;
 // The field sets behind the two tabs: which editable fields the table shows.
 export const FIELD_SET_SEARCH = "search";
 export const FIELD_SET_SOCIAL = "social";
+
+// The SlotFill name Premium fills with its bulk actions.
+export const BULK_ACTIONS_SLOT = "yoast.bulkEditor.bulkActions";
+
+// The filter Premium uses to add items to the Select menu.
+export const SELECT_MENU_ITEMS_FILTER = "yoast.bulkEditor.selectMenuItems";

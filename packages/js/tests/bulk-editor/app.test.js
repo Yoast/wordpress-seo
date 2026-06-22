@@ -6,6 +6,7 @@ import { getFieldSets } from "../../src/bulk-editor/field-sets";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
 
+
 const dataProvider = new DataProvider( {
 	contentTypes: [
 		{ name: "page", label: "Pages" },

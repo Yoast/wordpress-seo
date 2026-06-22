@@ -66,14 +66,13 @@ describe( "BulkEditorTable", () => {
 		expect( draftLabels ).toHaveLength( 1 );
 	} );
 
-	it( "reflects the selected rows and calls the selection seams", () => {
+	it( "reflects the selected rows and calls the row selection seam", () => {
 		const onToggleRow = jest.fn();
-		const onToggleAll = jest.fn();
 		render(
 			<BulkEditorTable
 				items={ items }
 				fieldSet={ searchFieldSet }
-				selection={ { selectedIds: [ 1 ], onToggleRow, onToggleAll } }
+				selection={ { selectedIds: [ 1 ], onToggleRow } }
 			/>
 		);
 
@@ -82,9 +81,6 @@ describe( "BulkEditorTable", () => {
 
 		fireEvent.click( screen.getByRole( "checkbox", { name: "Select On-Page SEO Checklist" } ) );
 		expect( onToggleRow ).toHaveBeenCalledWith( 2 );
-
-		fireEvent.click( screen.getByRole( "checkbox", { name: "Select all" } ) );
-		expect( onToggleAll ).toHaveBeenCalled();
 	} );
 
 	it( "enters edit mode through the editing seam with a row-specific Edit name", () => {
@@ -110,10 +106,8 @@ describe( "BulkEditorTable", () => {
 		render( <BulkEditorTable items={ [] } fieldSet={ searchFieldSet } isLoading={ true } /> );
 
 		expect( screen.queryAllByRole( "button" ) ).toHaveLength( 0 );
-		// The "select all" checkbox is disabled while loading.
-		expect( screen.getByRole( "checkbox", { name: "Select all" } ) ).toBeDisabled();
-		// The multi-select toolbar row, the column header row, and a full page of skeleton rows.
-		expect( screen.getAllByRole( "row" ) ).toHaveLength( 2 + PAGE_SIZE );
+		// The column header row and a full page of skeleton rows.
+		expect( screen.getAllByRole( "row" ) ).toHaveLength( 1 + PAGE_SIZE );
 		// The table reports it is busy and the loading state is announced.
 		expect( screen.getByRole( "table" ) ).toHaveAttribute( "aria-busy", "true" );
 		expect( screen.getByRole( "status" ) ).toHaveTextContent( "Loading content…" );
@@ -132,6 +126,19 @@ describe( "BulkEditorTable", () => {
 		render( <BulkEditorTable items={ [] } fieldSet={ searchFieldSet } /> );
 
 		expect( screen.getByText( "No content found." ) ).toBeInTheDocument();
+	} );
+
+	it( "renders the bulk-actions content when provided", () => {
+		render(
+			<BulkEditorTable
+				items={ items }
+				fieldSet={ searchFieldSet }
+				bulkActions={ <span>Bulk actions</span> }
+				showBulkActions={ true }
+			/>
+		);
+
+		expect( screen.getByText( "Bulk actions" ) ).toBeInTheDocument();
 	} );
 
 	it( "renders an input with its own Apply and Discard for each open field", () => {
@@ -168,20 +175,21 @@ describe( "BulkEditorTable", () => {
 	} );
 
 	it( "cancels all of a row's open fields at once through the editing seam", () => {
-		const onCancelEdit = jest.fn();
+		const onDiscardField = jest.fn();
 		render(
 			<BulkEditorTable
 				items={ items }
 				fieldSet={ searchFieldSet }
 				editing={ {
 					editingRows: { 2: { openFields: [ "seoTitle", "metaDescription" ], draft: { seoTitle: "A", metaDescription: "B" }, savingFields: {} } },
-					onCancelEdit,
+					onDiscardField,
 				} }
 			/>
 		);
 
 		fireEvent.click( screen.getByRole( "button", { name: "Cancel editing On-Page SEO Checklist" } ) );
-		expect( onCancelEdit ).toHaveBeenCalledWith( 2 );
+		expect( onDiscardField ).toHaveBeenCalledWith( { id: 2, key: "seoTitle" } );
+		expect( onDiscardField ).toHaveBeenCalledWith( { id: 2, key: "metaDescription" } );
 	} );
 
 	it( "edits the focus keyphrase, which leads both field sets", () => {

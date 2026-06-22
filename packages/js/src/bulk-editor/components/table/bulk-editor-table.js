@@ -5,6 +5,9 @@ import { BulkEditorBody } from "./table-body";
 import { BulkEditorHeader } from "./table-header";
 import { getColumnCount } from "./table-helpers";
 
+const getTableClassName = ( isLoading ) =>
+	`yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }`;
+
 /**
  * The bulk editor selection.
  *
@@ -35,14 +38,27 @@ import { getColumnCount } from "./table-helpers";
  * @param {Object}              props             The props.
  * @param {BulkEditorItem[]}    props.items       The items to render.
  * @param {FieldSet}            props.fieldSet    The active field set (its `fields` drive the editable columns).
- * @param {BulkEditorSelection} [props.selection] The selection props.
- * @param {BulkEditorEditing}   [props.editing]   The inline-edit props.
- * @param {boolean}             [props.isLoading] Whether to render skeleton rows instead of data.
- * @param {JSX.Element}         [props.filters]   The filters control, rendered in the toolbar row.
+ * @param {BulkEditorSelection} [props.selection]        The selection props.
+ * @param {BulkEditorEditing}   [props.editing]          The inline-edit props.
+ * @param {boolean}             [props.isLoading]        Whether to render skeleton rows instead of data.
+ * @param {JSX.Element}         [props.selectionToolbar] The first toolbar row's content (master checkbox + Select menu).
+ * @param {JSX.Element}         [props.bulkActions]      The bulk-actions toolbar row's content.
+ * @param {boolean}             [props.showBulkActions]  Whether the bulk-actions row is expanded (a selection is active).
+ * @param {JSX.Element}         [props.filters]          The filters control, rendered in the toolbar row.
  *
  * @returns {JSX.Element} The table.
  */
-export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}, isLoading = false, filters } ) => {
+export const BulkEditorTable = ( {
+	items,
+	fieldSet,
+	selection = {},
+	editing = {},
+	isLoading = false,
+	selectionToolbar,
+	bulkActions,
+	showBulkActions = false,
+	filters,
+} ) => {
 	const columnCount = getColumnCount( fieldSet.fields );
 	const selectionState = { selectedIds: [], isAllSelected: false, onToggleRow: noop, onToggleAll: noop, ...selection };
 	const editingState = {
@@ -60,7 +76,7 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}
 			<div role="status" className="yst-sr-only">
 				{ isLoading ? __( "Loading content…", "wordpress-seo" ) : "" }
 			</div>
-			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ `yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }` }>
+			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ getTableClassName( isLoading ) }>
 				<colgroup>
 					<col className="sm:yst-w-[4%]" />
 					<col className="sm:yst-w-[20%]" />
@@ -72,8 +88,9 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}
 				<BulkEditorHeader
 					fields={ fieldSet.fields }
 					columnCount={ columnCount }
-					selection={ selectionState }
-					isLoading={ isLoading }
+					selectionToolbar={ selectionToolbar }
+					bulkActions={ bulkActions }
+					showBulkActions={ showBulkActions }
 					filters={ filters }
 				/>
 				<Table.Body>
