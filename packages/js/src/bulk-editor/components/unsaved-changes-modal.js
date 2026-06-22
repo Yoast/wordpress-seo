@@ -22,7 +22,7 @@ export const UnsavedChangesModal = ( { isOpen, onSave = noop, onDiscard = noop, 
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose } initialFocus={ saveRef }>
-			<Modal.Panel className="yst-max-w-md">
+			<Modal.Panel className="yst-max-w-md" hasCloseButton={ false }>
 				<div className="yst-flex yst-items-start yst-gap-4">
 					<div className="yst-flex yst-flex-shrink-0 yst-items-center yst-justify-center yst-h-10 yst-w-10 yst-rounded-full yst-bg-red-100">
 						<ExclamationIcon className="yst-h-6 yst-w-6 yst-text-red-600" { ...svgAriaProps } />
