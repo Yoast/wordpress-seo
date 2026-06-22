@@ -6,18 +6,6 @@ import { getFieldSets } from "../../src/bulk-editor/field-sets";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
 
-// Render the inline-edit reveal's children directly and fire its animation-end callback, since the real
-// height/opacity transition never resolves in jsdom (and the close commits on that callback).
-jest.mock( "react-animate-height", () => {
-	const { useEffect } = require( "@wordpress/element" );
-	return {
-		__esModule: true,
-		"default": ( { children, onAnimationEnd } ) => {
-			useEffect( () => onAnimationEnd?.() );
-			return children;
-		},
-	};
-} );
 
 const dataProvider = new DataProvider( {
 	contentTypes: [

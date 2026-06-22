@@ -43,7 +43,7 @@ const SkeletonRows = ( { columnCount } ) => (
 export const BulkEditorBody = ( { items, fields, columnCount, selection, editing, isLoading } ) => {
 	const { selectedIds, onToggleRow } = selection;
 
-	if ( isLoading ) {
+	if ( isLoading && items.length === 0 ) {
 		return <SkeletonRows columnCount={ columnCount } />;
 	}
 

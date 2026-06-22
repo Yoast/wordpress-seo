@@ -3,19 +3,6 @@ import { BulkEditorTable } from "../../src/bulk-editor/components/table/bulk-edi
 import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PAGE_SIZE } from "../../src/bulk-editor/constants";
 import { getFieldSets } from "../../src/bulk-editor/field-sets";
 
-// Render the inline-edit reveal's children directly and fire its animation-end callback, since the real
-// height/opacity transition never resolves in jsdom (and the close commits on that callback).
-jest.mock( "react-animate-height", () => {
-	const { useEffect } = require( "@wordpress/element" );
-	return {
-		__esModule: true,
-		"default": ( { children, onAnimationEnd } ) => {
-			useEffect( () => onAnimationEnd?.() );
-			return children;
-		},
-	};
-} );
-
 const fieldSets = getFieldSets();
 const searchFieldSet = fieldSets[ FIELD_SET_SEARCH ];
 const socialFieldSet = fieldSets[ FIELD_SET_SOCIAL ];
@@ -115,14 +102,22 @@ describe( "BulkEditorTable", () => {
 		expect( rowHeader ).toHaveAttribute( "scope", "row" );
 	} );
 
-	it( "renders skeleton rows while loading, announces it, and exposes aria-busy", () => {
-		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } isLoading={ true } /> );
+	it( "renders skeleton rows on the initial load when there are no previous items", () => {
+		render( <BulkEditorTable items={ [] } fieldSet={ searchFieldSet } isLoading={ true } /> );
 
-		expect( screen.queryByText( "What Is SEO? Complete Guide" ) ).not.toBeInTheDocument();
 		expect( screen.queryAllByRole( "button" ) ).toHaveLength( 0 );
 		// The column header row and a full page of skeleton rows.
 		expect( screen.getAllByRole( "row" ) ).toHaveLength( 1 + PAGE_SIZE );
 		// The table reports it is busy and the loading state is announced.
+		expect( screen.getByRole( "table" ) ).toHaveAttribute( "aria-busy", "true" );
+		expect( screen.getByRole( "status" ) ).toHaveTextContent( "Loading content…" );
+	} );
+
+	it( "keeps existing rows visible while reloading and exposes aria-busy", () => {
+		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } isLoading={ true } /> );
+
+		// Items stay in the DOM (dimmed via opacity transition) instead of being replaced by skeleton rows.
+		expect( screen.getByText( "What Is SEO? Complete Guide" ) ).toBeInTheDocument();
 		expect( screen.getByRole( "table" ) ).toHaveAttribute( "aria-busy", "true" );
 		expect( screen.getByRole( "status" ) ).toHaveTextContent( "Loading content…" );
 	} );
