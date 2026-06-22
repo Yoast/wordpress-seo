@@ -3,8 +3,10 @@ import { Slot } from "@wordpress/components";
 import { useMemo } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Checkbox, DropdownMenu, useSvgAria } from "@yoast/ui-library";
+import { Button, Checkbox, DropdownMenu, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { BULK_ACTIONS_SLOT, SELECT_MENU_ITEMS_FILTER } from "../constants";
+import { useAiUpsell } from "../hooks/use-ai-upsell";
+import { UpsellModal } from "./upsell-modal";
 
 /**
  * The "Select" menu.
@@ -97,32 +99,43 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, onToggleAll, o
 };
 
 /**
- * The AI generate buttons in Free. These are upsell affordances.
+ * The AI generate buttons in Free; each opens the upsell modal.
+ *
+ * @param {Object} props             The props.
+ * @param {string} props.contentType The active content type, used to pick the upsell variant.
  *
  * @returns {JSX.Element} The AI generate buttons.
  */
-const FreeBulkActions = () => (
-	<>
-		<Button variant="ai-secondary" size="small" className="yst-bg-white">
-			{ __( "Generate SEO titles", "wordpress-seo" ) }
-		</Button>
-		<Button variant="ai-secondary" size="small" className="yst-bg-white">
-			{ __( "Generate meta descriptions", "wordpress-seo" ) }
-		</Button>
-	</>
-);
+const FreeBulkActions = ( { contentType } ) => {
+	const upsell = useAiUpsell( contentType );
+	const [ isUpsellOpen, , , openUpsell, closeUpsell ] = useToggleState( false );
+
+	return (
+		<>
+			<Button variant="ai-secondary" size="small" className="yst-bg-white" onClick={ openUpsell }>
+				{ __( "Generate SEO titles", "wordpress-seo" ) }
+			</Button>
+			<Button variant="ai-secondary" size="small" className="yst-bg-white" onClick={ openUpsell }>
+				{ __( "Generate meta descriptions", "wordpress-seo" ) }
+			</Button>
+			<UpsellModal isOpen={ isUpsellOpen } onClose={ closeUpsell } { ...upsell } />
+		</>
+	);
+};
 
 /**
  * The AI generate buttons toolbar row, shown when rows are selected. In Premium the buttons fill the
- * {@link BULK_ACTIONS_SLOT} slot.
+ * {@link BULK_ACTIONS_SLOT} slot; in Free they open the upsell modal.
  *
- * @param {Object}  props           The props.
- * @param {boolean} props.isPremium Whether Premium is active.
+ * @param {Object}  props             The props.
+ * @param {boolean} props.isPremium   Whether Premium is active.
+ * @param {string}  props.contentType The active content type (for the Free upsell variant).
  *
  * @returns {JSX.Element} The bulk actions row content.
  */
-export const BulkActions = ( { isPremium } ) => (
+export const BulkActions = ( { isPremium, contentType } ) => (
 	<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
-		{ isPremium ? <Slot name={ BULK_ACTIONS_SLOT } /> : <FreeBulkActions /> }
+		{ ! isPremium && <FreeBulkActions contentType={ contentType } /> }
+		<Slot name={ BULK_ACTIONS_SLOT } />
 	</div>
 );
