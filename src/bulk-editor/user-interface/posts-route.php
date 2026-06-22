@@ -119,6 +119,16 @@ class Posts_Route implements Route_Interface {
 						'description'       => 'The term to search posts by.',
 						'sanitize_callback' => 'sanitize_text_field',
 					],
+					'status'       => [
+						'required'    => false,
+						'type'        => 'array',
+						'default'     => Posts_Collector_Interface::STATUSES,
+						'items'       => [
+							'type' => 'string',
+							'enum' => Posts_Collector_Interface::STATUSES,
+						],
+						'description' => 'The post statuses to include.',
+					],
 				],
 				'callback'            => [ $this, 'get_posts' ],
 				'permission_callback' => [ $this, 'check_permissions' ],
@@ -144,12 +154,18 @@ class Posts_Route implements Route_Interface {
 			);
 		}
 
+		// An empty selection (no status filter) means all statuses, never zero results.
+		$statuses = (array) $request->get_param( 'status' );
+		if ( empty( $statuses ) ) {
+			$statuses = Posts_Collector_Interface::STATUSES;
+		}
+
 		$query = new Posts_Query(
 			$content_type,
 			(int) $request->get_param( 'page' ),
 			(int) $request->get_param( 'per_page' ),
 			(string) $request->get_param( 'search' ),
-			Posts_Collector_Interface::STATUSES,
+			$statuses,
 		);
 
 		return new WP_REST_Response( $this->posts_repository->get_posts( $query )->to_array() );

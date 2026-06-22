@@ -38,10 +38,11 @@ import { getColumnCount } from "./table-helpers";
  * @param {BulkEditorSelection} [props.selection] The selection props.
  * @param {BulkEditorEditing}   [props.editing]   The inline-edit props.
  * @param {boolean}             [props.isLoading] Whether to render skeleton rows instead of data.
+ * @param {JSX.Element}         [props.filters]   The filters control, rendered in the toolbar row.
  *
  * @returns {JSX.Element} The table.
  */
-export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}, isLoading = false } ) => {
+export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}, isLoading = false, filters } ) => {
 	const columnCount = getColumnCount( fieldSet.fields );
 	const selectionState = { selectedIds: [], isAllSelected: false, onToggleRow: noop, onToggleAll: noop, ...selection };
 	const editingState = {
@@ -68,7 +69,13 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}
 					) ) }
 					<col className="sm:yst-w-[5%]" />
 				</colgroup>
-				<BulkEditorHeader fields={ fieldSet.fields } columnCount={ columnCount } selection={ selectionState } isLoading={ isLoading } />
+				<BulkEditorHeader
+					fields={ fieldSet.fields }
+					columnCount={ columnCount }
+					selection={ selectionState }
+					isLoading={ isLoading }
+					filters={ filters }
+				/>
 				<Table.Body>
 					<BulkEditorBody
 						items={ items }
