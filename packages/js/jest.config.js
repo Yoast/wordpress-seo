@@ -17,7 +17,6 @@ module.exports = {
 		"\\.(svg)$": "<rootDir>/tests/__mocks__/svgMock.js",
 		"\\.(css|less)$": "<rootDir>/tests/__mocks__/styleMock.js",
 		"find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js",
-		"^react-animate-height$": "<rootDir>/tests/__mocks__/react-animate-height.js",
 		"^lodash-es$": "lodash",
 		"^lodash-es/(.*)$": "lodash/$1",
 		"@yoast/ui-library": "<rootDir>/../ui-library/src",

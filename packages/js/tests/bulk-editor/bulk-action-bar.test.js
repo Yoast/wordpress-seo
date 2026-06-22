@@ -19,6 +19,12 @@ describe( "SelectionToolbar", () => {
 		expect( screen.getByText( "3 of 20 items selected" ) ).toBeInTheDocument();
 	} );
 
+	it( "hides the count when nothing is selected", () => {
+		render( <SelectionToolbar { ...toolbarProps } selectedCount={ 0 } /> );
+
+		expect( screen.queryByText( /selected/ ) ).not.toBeInTheDocument();
+	} );
+
 	it( "toggles all rows from the master checkbox", () => {
 		const onToggleAll = jest.fn();
 		render( <SelectionToolbar { ...toolbarProps } onToggleAll={ onToggleAll } /> );
