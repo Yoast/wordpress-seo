@@ -17,18 +17,19 @@ import { SearchBox } from "./search-box";
  *
  * @param {boolean}  isLoading   Whether the rows are still loading.
  * @param {number[]} selectedIds The currently selected item ids.
- * @param {Object[]} items       The loaded items.
+ * @param {Object[]} items       The loaded items (per page).
+ * @param {number}   total       The total number of items across all pages.
  *
  * @returns {{isAllSelected: boolean, selectedCount: number, totalCount: number, hasSelection: boolean}} The selection view.
  */
-const getSelectionView = ( isLoading, selectedIds, items ) => {
+const getSelectionView = ( isLoading, selectedIds, items, total ) => {
 	if ( isLoading ) {
 		return { isAllSelected: false, selectedCount: 0, totalCount: 0, hasSelection: false };
 	}
 	return {
 		isAllSelected: items.length > 0 && selectedIds.length === items.length,
 		selectedCount: selectedIds.length,
-		totalCount: items.length,
+		totalCount: total,
 		hasSelection: selectedIds.length > 0,
 	};
 };
@@ -50,9 +51,14 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
 		[ fieldSets ]
 	);
-	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
-	const selectedIds = useSelect( ( select ) => select( STORE_NAME ).selectSelectedIds(), [] );
-	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
+	const { activeFieldSet, selectedIds, isPremium } = useSelect( ( select ) => {
+		const store = select( STORE_NAME );
+		return {
+			activeFieldSet: store.selectActiveFieldSet(),
+			selectedIds: store.selectSelectedIds(),
+			isPremium: store.selectPreference( "isPremium", false ),
+		};
+	}, [] );
 	const { setActiveFieldSet, toggleRow, selectAll, deselectAll } = useDispatch( STORE_NAME );
 
 	const { data: items = [], total = 0, totalPages = 0, isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
@@ -68,7 +74,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		deselectAll();
 	}, [ contentType, deselectAll ] );
 
-	const { isAllSelected, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items );
+	const { isAllSelected, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
 	const onSelectAll = useCallback( () => {
 		if ( ! isPending ) {
 			selectAll( items.map( ( item ) => item.id ) );
@@ -108,6 +114,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								onDeselectAll={ deselectAll }
 								selectedCount={ selectedCount }
 								totalCount={ totalCount }
+								contentTypeLabel={ contentTypeLabel }
 							/>
 						}
 						bulkActions={ <BulkActions isPremium={ isPremium } /> }
