@@ -4,6 +4,15 @@ import { fireEvent, render, screen } from "../test-utils";
 import { BulkActions, SelectionToolbar } from "../../src/bulk-editor/components/bulk-action-bar";
 import { BULK_ACTIONS_SLOT, SELECT_MENU_ITEMS_FILTER } from "../../src/bulk-editor/constants";
 
+// The hook is covered by use-ai-upsell.test.js; here it just feeds the modal a static upsell.
+jest.mock( "../../src/bulk-editor/hooks/use-ai-upsell", () => ( {
+	useAiUpsell: () => ( {
+		upsellLabel: "Unlock with Yoast SEO Premium",
+		upsellLink: "https://yoa.st/bulk-editor-ai-upsell",
+		ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
+	} ),
+} ) );
+
 const toolbarProps = {
 	isAllSelected: false,
 	onToggleAll: jest.fn(),
@@ -93,5 +102,17 @@ describe( "BulkActions", () => {
 
 		expect( screen.getByText( "Premium AI buttons" ) ).toBeInTheDocument();
 		expect( received ).toEqual( { selectedIds: [ 1, 2 ], activeFieldSet: "search", contentType: "post" } );
+	} );
+
+	it( "opens the upsell modal from a Free AI generate button", () => {
+		render( <BulkActions isPremium={ false } contentType="post" /> );
+
+		// The modal stays closed until a Generate button is clicked.
+		expect( screen.queryByRole( "heading", { name: "Generate Metadata in Bulk" } ) ).not.toBeInTheDocument();
+
+		fireEvent.click( screen.getByRole( "button", { name: "Generate SEO titles" } ) );
+
+		expect( screen.getByRole( "heading", { name: "Generate Metadata in Bulk" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "link", { name: /Unlock with Yoast SEO Premium/ } ) ).toHaveAttribute( "href", "https://yoa.st/bulk-editor-ai-upsell" );
 	} );
 } );

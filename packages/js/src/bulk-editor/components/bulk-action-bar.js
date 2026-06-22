@@ -1,10 +1,12 @@
-import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon";
+import ChevronDownIcon from "@heroicons/react/outline/ChevronDownIcon";
 import { Slot } from "@wordpress/components";
 import { useMemo } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Checkbox, DropdownMenu, useSvgAria } from "@yoast/ui-library";
+import { Button, Checkbox, DropdownMenu, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { BULK_ACTIONS_SLOT, SELECT_MENU_ITEMS_FILTER } from "../constants";
+import { useAiUpsell } from "../hooks/use-ai-upsell";
+import { UpsellModal } from "./upsell-modal";
 
 /**
  * The "Select" menu.
@@ -30,7 +32,7 @@ const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount } )
 		<DropdownMenu as="div" className="yst-relative">
 			<DropdownMenu.Trigger as={ Button } variant="primary" size="small" className="yst-gap-1.5">
 				{ __( "Select", "wordpress-seo" ) }
-				<ChevronDownIcon className="yst-h-4 yst-w-4 yst--me-1" { ...svgAriaProps } />
+				<ChevronDownIcon className="yst-h-4 yst-w-4" { ...svgAriaProps } />
 			</DropdownMenu.Trigger>
 			<DropdownMenu.List className="yst-absolute yst-z-10 yst-start-0 yst-top-full yst-mt-1 yst-w-56">
 				{ items.map( ( item ) => (
@@ -97,39 +99,47 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, onToggleAll, o
 };
 
 /**
- * The AI generate buttons in Free. These are upsell affordances.
+ * The AI generate buttons in Free; each opens the upsell modal.
+ *
+ * @param {Object} props             The props.
+ * @param {string} props.contentType The active content type, used to pick the upsell variant.
  *
  * @returns {JSX.Element} The AI generate buttons.
  */
-const FreeBulkActions = () => (
-	<>
-		<Button variant="ai-secondary" size="small" className="yst-bg-white">
-			{ __( "Generate SEO titles", "wordpress-seo" ) }
-		</Button>
-		<Button variant="ai-secondary" size="small" className="yst-bg-white">
-			{ __( "Generate meta descriptions", "wordpress-seo" ) }
-		</Button>
-	</>
-);
+const FreeBulkActions = ( { contentType } ) => {
+	const upsell = useAiUpsell( contentType );
+	const [ isUpsellOpen, , , openUpsell, closeUpsell ] = useToggleState( false );
+
+	return (
+		<>
+			<Button variant="ai-secondary" size="small" className="yst-bg-white" onClick={ openUpsell }>
+				{ __( "Generate SEO titles", "wordpress-seo" ) }
+			</Button>
+			<Button variant="ai-secondary" size="small" className="yst-bg-white" onClick={ openUpsell }>
+				{ __( "Generate meta descriptions", "wordpress-seo" ) }
+			</Button>
+			<UpsellModal isOpen={ isUpsellOpen } onClose={ closeUpsell } { ...upsell } />
+		</>
+	);
+};
 
 /**
- * The AI generate buttons toolbar row, shown when rows are selected. In Premium the buttons fill the
- * {@link BULK_ACTIONS_SLOT} slot; the fill receives the selection and view as `fillProps`.
+ * The AI generate buttons toolbar row, shown when rows are selected. In Premium the active tab's slot is filled
+ * with the AI buttons (the fill receives `fillProps`); in Free they open the upsell modal.
  *
  * @param {Object}   props                The props.
  * @param {boolean}  props.isPremium      Whether Premium is active.
  * @param {boolean}  props.isActive       Whether this is the active tab. Only the active tab renders the slot, so the
  *                                        Premium fill has a single slot to target (each tab renders its own bar).
  * @param {number[]} props.selectedIds    The ids of the selected rows.
- * @param {string}   props.activeFieldSet The active tab/field set (e.g. Search or Social), which drives the buttons.
- * @param {string}   props.contentType    The active content type.
+ * @param {string}   props.activeFieldSet The active tab/field set (Search or Social), which drives the buttons.
+ * @param {string}   props.contentType    The active content type (also the Free upsell variant).
  *
  * @returns {JSX.Element} The bulk actions row content.
  */
 export const BulkActions = ( { isPremium, isActive, selectedIds, activeFieldSet, contentType } ) => (
 	<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
-		{ isPremium
-			? isActive && <Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType } } />
-			: <FreeBulkActions /> }
+		{ ! isPremium && <FreeBulkActions contentType={ contentType } /> }
+		{ isActive && <Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType } } /> }
 	</div>
 );
