@@ -18,5 +18,8 @@ export const FIELD_SET_SOCIAL = "social";
 // The SlotFill name Premium fills with its bulk actions.
 export const BULK_ACTIONS_SLOT = "yoast.bulkEditor.bulkActions";
 
+// The PluginArea scope Premium registers its fills under, so they mount inside this page's React tree.
+export const PLUGIN_SCOPE = "yoast-seo-bulk-editor";
+
 // The filter Premium uses to add items to the Select menu.
 export const SELECT_MENU_ITEMS_FILTER = "yoast.bulkEditor.selectMenuItems";
