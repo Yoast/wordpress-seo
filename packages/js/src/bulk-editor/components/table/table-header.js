@@ -25,8 +25,8 @@ export const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkA
 			</Table.Row>
 		) }
 		{ bulkActions && (
-			<Table.Row>
-				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-100 !yst-p-0">
+			<Table.Row aria-hidden={ ! showBulkActions }>
+				<Table.Cell colSpan={ columnCount } style={ { padding: 0 } }>
 					<AnimateHeight easing="ease-in-out" duration={ 300 } height={ showBulkActions ? "auto" : 0 } animateOpacity={ true }>
 						{ bulkActions }
 					</AnimateHeight>
