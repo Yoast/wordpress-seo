@@ -3,6 +3,15 @@ import { fireEvent, render, screen } from "../test-utils";
 import { BulkActions, SelectionToolbar } from "../../src/bulk-editor/components/bulk-action-bar";
 import { SELECT_MENU_ITEMS_FILTER } from "../../src/bulk-editor/constants";
 
+// The hook is covered by use-ai-upsell.test.js; here it just feeds the modal a static upsell.
+jest.mock( "../../src/bulk-editor/hooks/use-ai-upsell", () => ( {
+	useAiUpsell: () => ( {
+		upsellLabel: "Unlock with Yoast SEO Premium",
+		upsellLink: "https://yoa.st/bulk-editor-ai-upsell",
+		ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
+	} ),
+} ) );
+
 const toolbarProps = {
 	isAllSelected: false,
 	onToggleAll: jest.fn(),
@@ -17,6 +26,12 @@ describe( "SelectionToolbar", () => {
 		render( <SelectionToolbar { ...toolbarProps } selectedCount={ 3 } /> );
 
 		expect( screen.getByText( "3 of 20 items selected" ) ).toBeInTheDocument();
+	} );
+
+	it( "hides the count when nothing is selected", () => {
+		render( <SelectionToolbar { ...toolbarProps } selectedCount={ 0 } /> );
+
+		expect( screen.queryByText( /selected/ ) ).not.toBeInTheDocument();
 	} );
 
 	it( "toggles all rows from the master checkbox", () => {
@@ -71,12 +86,7 @@ describe( "BulkActions", () => {
 	} );
 
 	it( "opens the upsell modal from a Free AI generate button", () => {
-		const upsell = {
-			upsellLabel: "Unlock with Yoast SEO Premium",
-			upsellLink: "https://yoa.st/bulk-editor-ai-upsell",
-			ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
-		};
-		render( <BulkActions isPremium={ false } upsell={ upsell } /> );
+		render( <BulkActions isPremium={ false } contentType="post" /> );
 
 		// The modal stays closed until a Generate button is clicked.
 		expect( screen.queryByRole( "heading", { name: "Generate Metadata in Bulk" } ) ).not.toBeInTheDocument();
@@ -84,6 +94,6 @@ describe( "BulkActions", () => {
 		fireEvent.click( screen.getByRole( "button", { name: "Generate SEO titles" } ) );
 
 		expect( screen.getByRole( "heading", { name: "Generate Metadata in Bulk" } ) ).toBeInTheDocument();
-		expect( screen.getByRole( "link", { name: /Unlock with Yoast SEO Premium/ } ) ).toHaveAttribute( "href", upsell.upsellLink );
+		expect( screen.getByRole( "link", { name: /Unlock with Yoast SEO Premium/ } ) ).toHaveAttribute( "href", "https://yoa.st/bulk-editor-ai-upsell" );
 	} );
 } );

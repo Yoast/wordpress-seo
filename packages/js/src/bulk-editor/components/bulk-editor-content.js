@@ -3,12 +3,14 @@ import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
-import { useAiUpsell } from "../hooks/use-ai-upsell";
 import { useInlineEdit } from "../hooks/use-inline-edit";
 import { usePosts } from "../services/use-posts";
 import { BulkActions, SelectionToolbar } from "./bulk-action-bar";
+import { BulkEditorFilters } from "./bulk-editor-filters";
+import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
+import { SearchBox } from "./search-box";
 
 /**
  * Generates the selection toolbar's view. While loading, the previous content type's items and selection still
@@ -16,18 +18,19 @@ import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
  *
  * @param {boolean}  isLoading   Whether the rows are still loading.
  * @param {number[]} selectedIds The currently selected item ids.
- * @param {Object[]} items       The loaded items.
+ * @param {Object[]} items       The loaded items (per page).
+ * @param {number}   total       The total number of items across all pages.
  *
  * @returns {{isAllSelected: boolean, selectedCount: number, totalCount: number, hasSelection: boolean}} The selection view.
  */
-const getSelectionView = ( isLoading, selectedIds, items ) => {
+const getSelectionView = ( isLoading, selectedIds, items, total ) => {
 	if ( isLoading ) {
 		return { isAllSelected: false, selectedCount: 0, totalCount: 0, hasSelection: false };
 	}
 	return {
 		isAllSelected: items.length > 0 && selectedIds.length === items.length,
 		selectedCount: selectedIds.length,
-		totalCount: items.length,
+		totalCount: total,
 		hasSelection: selectedIds.length > 0,
 	};
 };
@@ -39,22 +42,27 @@ const getSelectionView = ( isLoading, selectedIds, items ) => {
  * @param {import("../services").DataProvider} props.dataProvider       The data provider (config + endpoints).
  * @param {Object}                             props.remoteDataProvider The remote data provider (HTTP), used to fetch and save.
  * @param {string}                             props.contentType        The active content type to fetch posts for.
+ * @param {string}             props.contentTypeLabel   The active content type label, used in the search placeholder.
  *
  * @returns {JSX.Element} The content.
  */
-export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentType } ) => {
+export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentType, contentTypeLabel } ) => {
 	const fieldSets = useMemo( () => getFieldSets(), [] );
 	const tabs = useMemo(
 		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
 		[ fieldSets ]
 	);
-	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
-	const selectedIds = useSelect( ( select ) => select( STORE_NAME ).selectSelectedIds(), [] );
-	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
-	const aiUpsell = useAiUpsell( contentType );
+	const { activeFieldSet, selectedIds, isPremium } = useSelect( ( select ) => {
+		const store = select( STORE_NAME );
+		return {
+			activeFieldSet: store.selectActiveFieldSet(),
+			selectedIds: store.selectSelectedIds(),
+			isPremium: store.selectPreference( "isPremium", false ),
+		};
+	}, [] );
 	const { setActiveFieldSet, toggleRow, selectAll, deselectAll } = useDispatch( STORE_NAME );
 
-	const { data: items = [], isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
+	const { data: items = [], total = 0, totalPages = 0, isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
 	const { editing, stopEditing } = useInlineEdit( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } );
 
 	// Switching tab discards in-progress edits; switching content type also clears the selection.
@@ -67,7 +75,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		deselectAll();
 	}, [ contentType, deselectAll ] );
 
-	const { isAllSelected, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items );
+	const { isAllSelected, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
 	const onSelectAll = useCallback( () => {
 		if ( ! isPending ) {
 			selectAll( items.map( ( item ) => item.id ) );
@@ -82,12 +90,15 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 
 	return (
 		<div className="yst-p-8 yst-space-y-8">
-			<BulkEditorTabs
-				tabs={ tabs }
-				activeTab={ activeFieldSet }
-				onChange={ onChangeTab }
-				label={ __( "Bulk editor views", "wordpress-seo" ) }
-			/>
+			<div className="yst-flex yst-flex-col yst-gap-4 sm:yst-flex-row sm:yst-items-start sm:yst-justify-between">
+				<BulkEditorTabs
+					tabs={ tabs }
+					activeTab={ activeFieldSet }
+					onChange={ onChangeTab }
+					label={ __( "Bulk editor views", "wordpress-seo" ) }
+				/>
+				<SearchBox contentTypeLabel={ contentTypeLabel } />
+			</div>
 			{ tabs.map( ( tab ) => (
 				<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
 					<BulkEditorTable
@@ -104,14 +115,17 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								onDeselectAll={ deselectAll }
 								selectedCount={ selectedCount }
 								totalCount={ totalCount }
+								contentTypeLabel={ contentTypeLabel }
 							/>
 						}
-						bulkActions={ <BulkActions isPremium={ isPremium } upsell={ aiUpsell } /> }
+						bulkActions={ <BulkActions isPremium={ isPremium } contentType={ contentType } /> }
 						showBulkActions={ hasSelection }
+						filters={ <BulkEditorFilters /> }
 						isLoading={ isPending }
 					/>
 				</BulkEditorTabPanel>
 			) ) }
+			<BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
 		</div>
 	);
 };

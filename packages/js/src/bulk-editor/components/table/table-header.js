@@ -12,21 +12,25 @@ import AnimateHeight from "react-animate-height";
  * @param {JSX.Element}     [props.selectionToolbar] The first toolbar row's content (master checkbox + Select menu).
  * @param {JSX.Element}     [props.bulkActions]      The bulk-actions toolbar row's content.
  * @param {boolean}         [props.showBulkActions]  Whether the bulk-actions row is expanded (a selection is active).
+ * @param {JSX.Element}     [props.filters]          The filters control, rendered at the end of the toolbar row.
  *
  * @returns {JSX.Element} The header.
  */
-export const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkActions, showBulkActions } ) => (
+export const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkActions, showBulkActions, filters } ) => (
 	<Table.Head>
 		{ selectionToolbar && (
 			<Table.Row>
 				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-50 yst-rounded-ss-lg yst-rounded-se-lg">
-					{ selectionToolbar }
+					<div className="yst-flex yst-items-center yst-justify-between yst-gap-4">
+						{ selectionToolbar }
+						{ filters }
+					</div>
 				</Table.Cell>
 			</Table.Row>
 		) }
 		{ bulkActions && (
-			<Table.Row>
-				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-100 !yst-p-0">
+			<Table.Row aria-hidden={ ! showBulkActions }>
+				<Table.Cell colSpan={ columnCount } style={ { padding: 0 } }>
 					<AnimateHeight easing="ease-in-out" duration={ 300 } height={ showBulkActions ? "auto" : 0 } animateOpacity={ true }>
 						{ bulkActions }
 					</AnimateHeight>
