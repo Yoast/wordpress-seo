@@ -135,6 +135,7 @@ const FreeBulkActions = ( { contentType } ) => {
  */
 export const BulkActions = ( { isPremium, contentType } ) => (
 	<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
-		{ isPremium ? <Slot name={ BULK_ACTIONS_SLOT } /> : <FreeBulkActions contentType={ contentType } /> }
+		{ ! isPremium && <FreeBulkActions contentType={ contentType } /> }
+		<Slot name={ BULK_ACTIONS_SLOT } />
 	</div>
 );
