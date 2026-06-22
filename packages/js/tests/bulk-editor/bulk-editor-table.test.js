@@ -3,19 +3,6 @@ import { BulkEditorTable } from "../../src/bulk-editor/components/table/bulk-edi
 import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PAGE_SIZE } from "../../src/bulk-editor/constants";
 import { getFieldSets } from "../../src/bulk-editor/field-sets";
 
-// Render the inline-edit reveal's children directly and fire its animation-end callback, since the real
-// height/opacity transition never resolves in jsdom (and the close commits on that callback).
-jest.mock( "react-animate-height", () => {
-	const { useEffect } = require( "@wordpress/element" );
-	return {
-		__esModule: true,
-		"default": ( { children, onAnimationEnd } ) => {
-			useEffect( () => onAnimationEnd?.() );
-			return children;
-		},
-	};
-} );
-
 const fieldSets = getFieldSets();
 const searchFieldSet = fieldSets[ FIELD_SET_SEARCH ];
 const socialFieldSet = fieldSets[ FIELD_SET_SOCIAL ];
