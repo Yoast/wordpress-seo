@@ -81,7 +81,7 @@ describe( "BulkActions", () => {
 		let received = null;
 		render(
 			<SlotFillProvider>
-				<BulkActions isPremium={ true } selectedIds={ [ 1, 2 ] } activeFieldSet="search" contentType="post" />
+				<BulkActions isPremium={ true } isActive={ true } selectedIds={ [ 1, 2 ] } activeFieldSet="search" contentType="post" />
 				<Fill name={ BULK_ACTIONS_SLOT }>
 					{ ( fillProps ) => {
 						received = fillProps;
