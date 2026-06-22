@@ -1,7 +1,7 @@
 import LockClosedIcon from "@heroicons/react/outline/LockClosedIcon";
 import { useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Button, GradientSparklesIcon, Modal } from "@yoast/ui-library";
+import { Button, GradientSparklesIcon, Modal, useSvgAria } from "@yoast/ui-library";
 
 /**
  * The upsell modal shown when a Free user triggers a bulk AI generate action.
@@ -17,15 +17,16 @@ import { Button, GradientSparklesIcon, Modal } from "@yoast/ui-library";
  */
 export const UpsellModal = ( { isOpen, onClose, upsellLabel, upsellLink, ctbId } ) => {
 	const upsellRef = useRef( null );
+	const svgAriaProps = useSvgAria();
 	const ctbProps = ctbId ? { "data-action": "load-nfd-ctb", "data-ctb-id": ctbId } : {};
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose } initialFocus={ upsellRef }>
-			<Modal.Panel className="yst-max-w-sm yst-p-6">
+			<Modal.Panel className="yst-max-w-sm yst-p-6" closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
 				<div className="yst-flex yst-flex-col yst-items-center yst-gap-6 yst-text-center">
 					<div className="yst-flex yst-flex-col yst-items-center yst-gap-4">
 						<span className="yst-flex yst-h-12 yst-w-12 yst-items-center yst-justify-center yst-rounded-full yst-bg-ai-100">
-							<GradientSparklesIcon className="yst-h-6 yst-w-6" />
+							<GradientSparklesIcon className="yst-h-6 yst-w-6" { ...svgAriaProps } />
 						</span>
 						<div className="yst-flex yst-flex-col yst-items-center yst-gap-2">
 							<Modal.Title as="h3" className="yst-text-lg yst-font-medium yst-text-slate-900">
