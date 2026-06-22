@@ -80,7 +80,7 @@ describe( "BulkActions", () => {
 		expect( screen.getByRole( "button", { name: "Generate meta descriptions" } ) ).toBeInTheDocument();
 	} );
 
-	it( "does not render the Free affordances for Premium (the slot is filled instead)", () => {
+	it( "does not render the Free affordances for Premium", () => {
 		render( <BulkActions isPremium={ true } /> );
 
 		expect( screen.queryByRole( "button", { name: "Generate SEO titles" } ) ).not.toBeInTheDocument();
