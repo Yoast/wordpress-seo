@@ -121,6 +121,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 						bulkActions={
 							<BulkActions
 								isPremium={ isPremium }
+								isActive={ tab.id === activeFieldSet }
 								selectedIds={ selectedIds }
 								activeFieldSet={ activeFieldSet }
 								contentType={ contentType }
