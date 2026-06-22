@@ -1,4 +1,4 @@
-import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon";
+import ChevronDownIcon from "@heroicons/react/outline/ChevronDownIcon";
 import { Slot } from "@wordpress/components";
 import { useMemo } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
@@ -30,7 +30,7 @@ const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount } )
 		<DropdownMenu as="div" className="yst-relative">
 			<DropdownMenu.Trigger as={ Button } variant="primary" size="small" className="yst-gap-1.5">
 				{ __( "Select", "wordpress-seo" ) }
-				<ChevronDownIcon className="yst-h-4 yst-w-4 yst--me-1" { ...svgAriaProps } />
+				<ChevronDownIcon className="yst-h-4 yst-w-4" { ...svgAriaProps } />
 			</DropdownMenu.Trigger>
 			<DropdownMenu.List className="yst-absolute yst-z-10 yst-start-0 yst-top-full yst-mt-1 yst-w-56">
 				{ items.map( ( item ) => (
