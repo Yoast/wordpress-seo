@@ -124,18 +124,22 @@ const FreeBulkActions = ( { contentType } ) => {
 };
 
 /**
- * The AI generate buttons toolbar row, shown when rows are selected. In Premium the buttons fill the
- * {@link BULK_ACTIONS_SLOT} slot; in Free they open the upsell modal.
+ * The AI generate buttons toolbar row, shown when rows are selected. In Premium the active tab's slot is filled
+ * with the AI buttons (the fill receives `fillProps`); in Free they open the upsell modal.
  *
- * @param {Object}  props             The props.
- * @param {boolean} props.isPremium   Whether Premium is active.
- * @param {string}  props.contentType The active content type (for the Free upsell variant).
+ * @param {Object}   props                The props.
+ * @param {boolean}  props.isPremium      Whether Premium is active.
+ * @param {boolean}  props.isActive       Whether this is the active tab. Only the active tab renders the slot, so the
+ *                                        Premium fill has a single slot to target (each tab renders its own bar).
+ * @param {number[]} props.selectedIds    The ids of the selected rows.
+ * @param {string}   props.activeFieldSet The active tab/field set (Search or Social), which drives the buttons.
+ * @param {string}   props.contentType    The active content type (also the Free upsell variant).
  *
  * @returns {JSX.Element} The bulk actions row content.
  */
-export const BulkActions = ( { isPremium, contentType } ) => (
+export const BulkActions = ( { isPremium, isActive, selectedIds, activeFieldSet, contentType } ) => (
 	<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
 		{ ! isPremium && <FreeBulkActions contentType={ contentType } /> }
-		<Slot name={ BULK_ACTIONS_SLOT } />
+		{ isActive && <Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType } } /> }
 	</div>
 );
