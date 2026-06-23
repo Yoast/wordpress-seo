@@ -76,7 +76,7 @@ if ( $tool_page === '' ) {
 else {
 	echo '<a href="', esc_url( admin_url( 'admin.php?page=wpseo_tools' ) ), '">', esc_html__( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
 
-	$tool_pages = [ 'bulk-editor', 'import-export' ];
+	$tool_pages = [ 'import-export' ];
 
 	if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
 		$tool_pages[] = 'file-editor';
