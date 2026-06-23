@@ -210,7 +210,7 @@ Run these checks locally and make sure each one is clean. CI will run the same c
 
 * `composer test` — the unit test suite must pass.
 * `composer test-wp-env` — the WordPress integration tests (Docker via `@wordpress/env`) must pass if your change touches code that has or needs WP integration coverage.
-* `composer check-branch-cs` — checks the Yoast coding-standard ruleset against the files you changed on this branch. It must report **no new errors or warnings** introduced by your branch. Use `composer fix-cs` to auto-fix what it can, and address the rest by hand.
+* `composer check-branch-cs` — checks the Yoast coding-standard ruleset against the files you changed on this branch. **Run it after committing your changes and before pushing:** it inspects the committed branch diff against `trunk`, so running it on uncommitted or untracked files skips them and can report a false pass. It must report **no new errors or warnings** introduced by your branch. Use `composer fix-cs` to auto-fix what it can, and address the rest by hand.
 * `composer lint-branch` — PHP parse-error check on the files changed on this branch.
 * For changes under `packages/*` or `js/`: run `yarn lint` and the relevant package's `yarn test`.
 * If your change adds or edits any image or SVG (`.png`, `.jpg`, `.gif`, `.svg` — primarily under `images/` or `svn-assets/`): run `grunt build:images` (or plain `grunt build`, which includes it) and commit the resulting optimised files. The release pipeline re-runs `imagemin` during artifact creation, and the build fails if the committed images aren't already optimised.

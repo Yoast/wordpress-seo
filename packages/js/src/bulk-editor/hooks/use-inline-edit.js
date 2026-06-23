@@ -40,8 +40,6 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		startEdit( { id, draft: draftValues } );
 	}, [ items, fieldSets, activeFieldSet, startEdit ] );
 
-	const onDiscardField = useCallback( ( { id, key } ) => closeField( { id, key } ), [ closeField ] );
-
 	const onCancelEdit = useCallback( ( id ) => discardEdit( { id } ), [ discardEdit ] );
 
 	const onApplyField = useCallback( async( { id, key } ) => {
@@ -75,9 +73,8 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		onStartEdit,
 		onChangeField: updateDraftField,
 		onApplyField,
-		onDiscardField,
 		onCancelEdit,
-	} ), [ editingRows, onStartEdit, updateDraftField, onApplyField, onDiscardField, onCancelEdit ] );
+	} ), [ editingRows, onStartEdit, updateDraftField, onApplyField, onCancelEdit ] );
 
 	return { editing, stopEditing: stopEdit };
 };

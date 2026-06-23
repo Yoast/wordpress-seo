@@ -5,6 +5,9 @@ import { BulkEditorBody } from "./table-body";
 import { BulkEditorHeader } from "./table-header";
 import { getColumnCount } from "./table-helpers";
 
+const getTableClassName = ( isLoading ) =>
+	`yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }`;
+
 /**
  * The bulk editor selection.
  *
@@ -15,15 +18,14 @@ import { getColumnCount } from "./table-helpers";
  * @property {Function}  [onToggleAll]   Called when the header "select all" checkbox is toggled.
  */
 /**
- * The bulk editor inline-edit props. Editing is per field and several rows can edit at once: a row's Edit opens
- * its field-set fields, and each open field is applied (saved on its own) or discarded independently.
+ * The bulk editor inline-edit props. Several rows can edit at once: a row's Edit opens its field-set fields,
+ * then the row's Save saves every open field and Cancel discards all of them at once.
  *
  * @typedef {Object} BulkEditorEditing
  * @property {Object}   [editingRows]    Edit state keyed by item id: `{ [id]: { openFields, draft, savingFields } }`.
  * @property {Function} [onStartEdit]    Called with an item id to enter edit mode.
  * @property {Function} [onChangeField]  Called with `{ id, key, value }` when a field changes.
  * @property {Function} [onApplyField]   Called with `{ id, key }` to save that field.
- * @property {Function} [onDiscardField] Called with `{ id, key }` to discard that field's changes.
  * @property {Function} [onCancelEdit]   Called with an item id to cancel all of its open fields at once.
  */
 
@@ -35,14 +37,27 @@ import { getColumnCount } from "./table-helpers";
  * @param {Object}              props             The props.
  * @param {BulkEditorItem[]}    props.items       The items to render.
  * @param {FieldSet}            props.fieldSet    The active field set (its `fields` drive the editable columns).
- * @param {BulkEditorSelection} [props.selection] The selection props.
- * @param {BulkEditorEditing}   [props.editing]   The inline-edit props.
- * @param {boolean}             [props.isLoading] Whether to render skeleton rows instead of data.
- * @param {JSX.Element}         [props.filters]   The filters control, rendered in the toolbar row.
+ * @param {BulkEditorSelection} [props.selection]        The selection props.
+ * @param {BulkEditorEditing}   [props.editing]          The inline-edit props.
+ * @param {boolean}             [props.isLoading]        Whether to render skeleton rows instead of data.
+ * @param {JSX.Element}         [props.selectionToolbar] The first toolbar row's content (master checkbox + Select menu).
+ * @param {JSX.Element}         [props.bulkActions]      The bulk-actions toolbar row's content.
+ * @param {boolean}             [props.showBulkActions]  Whether the bulk-actions row is expanded (a selection is active).
+ * @param {JSX.Element}         [props.filters]          The filters control, rendered in the toolbar row.
  *
  * @returns {JSX.Element} The table.
  */
-export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}, isLoading = false, filters } ) => {
+export const BulkEditorTable = ( {
+	items,
+	fieldSet,
+	selection = {},
+	editing = {},
+	isLoading = false,
+	selectionToolbar,
+	bulkActions,
+	showBulkActions = false,
+	filters,
+} ) => {
 	const columnCount = getColumnCount( fieldSet.fields );
 	const selectionState = { selectedIds: [], isAllSelected: false, onToggleRow: noop, onToggleAll: noop, ...selection };
 	const editingState = {
@@ -50,7 +65,6 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}
 		onStartEdit: noop,
 		onChangeField: noop,
 		onApplyField: noop,
-		onDiscardField: noop,
 		onCancelEdit: noop,
 		...editing,
 	};
@@ -60,7 +74,7 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}
 			<div role="status" className="yst-sr-only">
 				{ isLoading ? __( "Loading content…", "wordpress-seo" ) : "" }
 			</div>
-			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ `yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }` }>
+			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ getTableClassName( isLoading ) }>
 				<colgroup>
 					<col className="sm:yst-w-[4%]" />
 					<col className="sm:yst-w-[20%]" />
@@ -72,8 +86,9 @@ export const BulkEditorTable = ( { items, fieldSet, selection = {}, editing = {}
 				<BulkEditorHeader
 					fields={ fieldSet.fields }
 					columnCount={ columnCount }
-					selection={ selectionState }
-					isLoading={ isLoading }
+					selectionToolbar={ selectionToolbar }
+					bulkActions={ bulkActions }
+					showBulkActions={ showBulkActions }
 					filters={ filters }
 				/>
 				<Table.Body>

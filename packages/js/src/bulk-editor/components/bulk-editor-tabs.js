@@ -1,5 +1,6 @@
 import { useCallback, useRef } from "@wordpress/element";
 import { Button } from "@yoast/ui-library";
+import classNames from "classnames";
 
 /**
  * One tab definition.
@@ -69,15 +70,15 @@ const Tab = ( { tab, isActive, onChange, onKeyDown } ) => {
 			id={ getTabId( tab.id ) }
 			role="tab"
 			variant="tertiary"
-			size="small"
 			aria-selected={ isActive }
 			aria-controls={ getTabPanelId( tab.id ) }
 			tabIndex={ isActive ? 0 : -1 }
 			onClick={ handleClick }
 			onKeyDown={ onKeyDown }
-			className={ isActive
-				? "yst-bg-slate-200 yst-text-slate-900 hover:yst-text-slate-900 focus:yst-text-slate-900"
-				: "yst-text-slate-600 hover:yst-text-slate-900 focus:yst-text-slate-900" }
+			className={ classNames(
+				isActive ? "yst-bg-slate-100 yst-text-slate-800" : "yst-text-slate-600 hover:yst-bg-slate-100",
+				"hover:yst-font-medium focus:yst-text-slate-800 hover:yst-text-slate-800 hover:yst-bg-slate-100 hover:yst-text-opacity-100"
+			) }
 		>
 			{ tab.label }
 		</Button>
@@ -115,7 +116,7 @@ export const BulkEditorTabs = ( { tabs, activeTab, onChange, label } ) => {
 	}, [ tabs, activeTab, onChange ] );
 
 	return (
-		<div ref={ listRef } role="tablist" aria-label={ label } className="yst-flex yst-gap-2">
+		<div ref={ listRef } role="tablist" aria-label={ label } className="yst-flex yst-gap-4">
 			{ tabs.map( ( tab ) => (
 				<Tab
 					key={ tab.id }

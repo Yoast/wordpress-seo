@@ -66,14 +66,13 @@ describe( "BulkEditorTable", () => {
 		expect( draftLabels ).toHaveLength( 1 );
 	} );
 
-	it( "reflects the selected rows and calls the selection seams", () => {
+	it( "reflects the selected rows and calls the row selection seam", () => {
 		const onToggleRow = jest.fn();
-		const onToggleAll = jest.fn();
 		render(
 			<BulkEditorTable
 				items={ items }
 				fieldSet={ searchFieldSet }
-				selection={ { selectedIds: [ 1 ], onToggleRow, onToggleAll } }
+				selection={ { selectedIds: [ 1 ], onToggleRow } }
 			/>
 		);
 
@@ -82,9 +81,6 @@ describe( "BulkEditorTable", () => {
 
 		fireEvent.click( screen.getByRole( "checkbox", { name: "Select On-Page SEO Checklist" } ) );
 		expect( onToggleRow ).toHaveBeenCalledWith( 2 );
-
-		fireEvent.click( screen.getByRole( "checkbox", { name: "Select all" } ) );
-		expect( onToggleAll ).toHaveBeenCalled();
 	} );
 
 	it( "enters edit mode through the editing seam with a row-specific Edit name", () => {
@@ -110,10 +106,8 @@ describe( "BulkEditorTable", () => {
 		render( <BulkEditorTable items={ [] } fieldSet={ searchFieldSet } isLoading={ true } /> );
 
 		expect( screen.queryAllByRole( "button" ) ).toHaveLength( 0 );
-		// The "select all" checkbox is disabled while loading.
-		expect( screen.getByRole( "checkbox", { name: "Select all" } ) ).toBeDisabled();
-		// The multi-select toolbar row, the column header row, and a full page of skeleton rows.
-		expect( screen.getAllByRole( "row" ) ).toHaveLength( 2 + PAGE_SIZE );
+		// The column header row and a full page of skeleton rows.
+		expect( screen.getAllByRole( "row" ) ).toHaveLength( 1 + PAGE_SIZE );
 		// The table reports it is busy and the loading state is announced.
 		expect( screen.getByRole( "table" ) ).toHaveAttribute( "aria-busy", "true" );
 		expect( screen.getByRole( "status" ) ).toHaveTextContent( "Loading content…" );
@@ -134,7 +128,20 @@ describe( "BulkEditorTable", () => {
 		expect( screen.getByText( "No content found." ) ).toBeInTheDocument();
 	} );
 
-	it( "renders an input with its own Apply and Discard for each open field", () => {
+	it( "renders the bulk-actions content when provided", () => {
+		render(
+			<BulkEditorTable
+				items={ items }
+				fieldSet={ searchFieldSet }
+				bulkActions={ <span>Bulk actions</span> }
+				showBulkActions={ true }
+			/>
+		);
+
+		expect( screen.getByText( "Bulk actions" ) ).toBeInTheDocument();
+	} );
+
+	it( "renders a textarea per open field with a single row-level Save and Cancel", () => {
 		render(
 			<BulkEditorTable
 				items={ items }
@@ -156,15 +163,14 @@ describe( "BulkEditorTable", () => {
 		expect( description.tagName ).toBe( "TEXTAREA" );
 		expect( title ).toHaveAttribute( "rows", "2" );
 
-		// Each field has its own Apply and Discard; there is no row-level Save.
-		expect( screen.getByRole( "button", { name: "Apply SEO title for On-Page SEO Checklist" } ) ).toBeInTheDocument();
-		expect( screen.getByRole( "button", { name: "Discard SEO title for On-Page SEO Checklist" } ) ).toBeInTheDocument();
-		expect( screen.getByRole( "button", { name: "Apply Meta description for On-Page SEO Checklist" } ) ).toBeInTheDocument();
-		expect( screen.getByRole( "button", { name: "Discard Meta description for On-Page SEO Checklist" } ) ).toBeInTheDocument();
-
-		// The editing row's Edit turns into an active Cancel.
-		expect( screen.queryByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).not.toBeInTheDocument();
+		// No per-field Apply/Discard: the row has a single Save and Cancel.
+		expect( screen.queryByRole( "button", { name: "Apply SEO title for On-Page SEO Checklist" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Discard SEO title for On-Page SEO Checklist" } ) ).not.toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: "Save On-Page SEO Checklist" } ) ).toBeEnabled();
 		expect( screen.getByRole( "button", { name: "Cancel editing On-Page SEO Checklist" } ) ).toBeEnabled();
+
+		// The editing row no longer offers Edit.
+		expect( screen.queryByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).not.toBeInTheDocument();
 	} );
 
 	it( "cancels all of a row's open fields at once through the editing seam", () => {
@@ -195,7 +201,7 @@ describe( "BulkEditorTable", () => {
 
 		const input = screen.getByRole( "textbox", { name: "Focus keyphrase for On-Page SEO Checklist" } );
 		expect( input ).toHaveValue( "draft keyphrase" );
-		expect( screen.getByRole( "button", { name: "Apply Focus keyphrase for On-Page SEO Checklist" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: "Save On-Page SEO Checklist" } ) ).toBeInTheDocument();
 	} );
 
 	it( "renders only the open fields as inputs, the rest as text", () => {
@@ -212,19 +218,17 @@ describe( "BulkEditorTable", () => {
 		expect( screen.queryByRole( "textbox", { name: "SEO title for On-Page SEO Checklist" } ) ).not.toBeInTheDocument();
 	} );
 
-	it( "calls the per-field editing seams, tagged with the row id, on change, apply and discard", () => {
+	it( "calls onChangeField on input, and onApplyField for every open field when Save is clicked", () => {
 		const onChangeField = jest.fn();
 		const onApplyField = jest.fn();
-		const onDiscardField = jest.fn();
 		render(
 			<BulkEditorTable
 				items={ items }
 				fieldSet={ searchFieldSet }
 				editing={ {
-					editingRows: { 2: { openFields: [ "seoTitle" ], draft: { seoTitle: "Draft title" }, savingFields: {} } },
+					editingRows: { 2: { openFields: [ "seoTitle", "metaDescription" ], draft: { seoTitle: "Draft title", metaDescription: "Draft description" }, savingFields: {} } },
 					onChangeField,
 					onApplyField,
-					onDiscardField,
 				} }
 			/>
 		);
@@ -235,14 +239,14 @@ describe( "BulkEditorTable", () => {
 		);
 		expect( onChangeField ).toHaveBeenCalledWith( { id: 2, key: "seoTitle", value: "Changed" } );
 
-		fireEvent.click( screen.getByRole( "button", { name: "Apply SEO title for On-Page SEO Checklist" } ) );
+		// Save saves every open field on the row.
+		fireEvent.click( screen.getByRole( "button", { name: "Save On-Page SEO Checklist" } ) );
+		expect( onApplyField ).toHaveBeenCalledTimes( 2 );
 		expect( onApplyField ).toHaveBeenCalledWith( { id: 2, key: "seoTitle" } );
-
-		fireEvent.click( screen.getByRole( "button", { name: "Discard SEO title for On-Page SEO Checklist" } ) );
-		expect( onDiscardField ).toHaveBeenCalledWith( { id: 2, key: "seoTitle" } );
+		expect( onApplyField ).toHaveBeenCalledWith( { id: 2, key: "metaDescription" } );
 	} );
 
-	it( "disables only the saving field's input and actions", () => {
+	it( "disables the row's inputs and actions while it is saving", () => {
 		render(
 			<BulkEditorTable
 				items={ items }
@@ -255,11 +259,11 @@ describe( "BulkEditorTable", () => {
 			/>
 		);
 
+		// While any field on the row is saving, the whole row is locked.
 		expect( screen.getByRole( "textbox", { name: "SEO title for On-Page SEO Checklist" } ) ).toBeDisabled();
-		expect( screen.getByRole( "button", { name: "Apply SEO title for On-Page SEO Checklist" } ) ).toBeDisabled();
-		// The other open field is unaffected.
-		expect( screen.getByRole( "textbox", { name: "Meta description for On-Page SEO Checklist" } ) ).toBeEnabled();
-		expect( screen.getByRole( "button", { name: "Apply Meta description for On-Page SEO Checklist" } ) ).toBeEnabled();
+		expect( screen.getByRole( "textbox", { name: "Meta description for On-Page SEO Checklist" } ) ).toBeDisabled();
+		expect( screen.getByRole( "button", { name: "Save On-Page SEO Checklist" } ) ).toBeDisabled();
+		expect( screen.getByRole( "button", { name: "Cancel editing On-Page SEO Checklist" } ) ).toBeDisabled();
 	} );
 
 	it( "leaves other rows' Edit enabled while one row is being edited", () => {

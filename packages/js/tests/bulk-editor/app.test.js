@@ -6,6 +6,7 @@ import { getFieldSets } from "../../src/bulk-editor/field-sets";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
 
+
 const dataProvider = new DataProvider( {
 	contentTypes: [
 		{ name: "page", label: "Pages" },
@@ -106,20 +107,77 @@ describe( "App", () => {
 		expect( screen.getByRole( "columnheader", { name: "Social description" } ) ).toBeInTheDocument();
 	} );
 
-	it( "discards an in-progress edit when switching tabs", async() => {
-		render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+	describe( "switching tabs with unsaved edits", () => {
 		const rowTitle = "What Is SEO and How It Works";
 
-		fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-		expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+		// Opens an edit on the Search tab, then clicks the Social tab to trigger the guard.
+		const openEditAndSwitch = async() => {
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			fireEvent.click( screen.getByRole( "tab", { name: "Social appearance" } ) );
+		};
 
-		// Switching tabs changes the editable fields, so the edit is discarded.
-		fireEvent.click( screen.getByRole( "tab", { name: "Social appearance" } ) );
-		expect( screen.queryByRole( "textbox", { name: `Social title for ${ rowTitle }` } ) ).not.toBeInTheDocument();
-		// Back on Search the row is no longer in edit mode either.
-		fireEvent.click( screen.getByRole( "tab", { name: "Search appearance" } ) );
-		expect( screen.queryByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument();
-		expect( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) ).toBeEnabled();
+		it( "shows the confirmation modal and stays on the current tab", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			await openEditAndSwitch();
+
+			expect( screen.getByText( "Unsaved changes" ) ).toBeInTheDocument();
+			// The tab has not switched while the modal is open.
+			expect( screen.getByRole( "tab", { name: "Search appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
+			expect( screen.getByRole( "tab", { name: "Social appearance" } ) ).toHaveAttribute( "aria-selected", "false" );
+		} );
+
+		it( "keeps the edit and stays when Cancel is clicked", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			await openEditAndSwitch();
+			fireEvent.click( screen.getByRole( "button", { name: "Cancel" } ) );
+
+			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
+			expect( screen.getByRole( "tab", { name: "Search appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
+			// The edit is preserved.
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+		} );
+
+		it( "discards the edit and switches when Continue without saving is clicked", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			await openEditAndSwitch();
+			fireEvent.click( screen.getByRole( "button", { name: "Continue without saving" } ) );
+
+			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
+			expect( screen.getByRole( "tab", { name: "Social appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
+			// Back on Search the row is no longer in edit mode.
+			fireEvent.click( screen.getByRole( "tab", { name: "Search appearance" } ) );
+			expect( screen.queryByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument();
+			expect( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) ).toBeEnabled();
+		} );
+
+		it( "saves the edits and switches when Save changes is clicked", async() => {
+			const searchSet = getFieldSets()[ FIELD_SET_SEARCH ];
+			const endpointUrl = "https://example.com/wp-json/yoast/v1/bulk_editor/update_search";
+			const savingDataProvider = new DataProvider( {
+				contentTypes: [ { name: "post", label: "Posts" } ],
+				endpoints: { posts: "https://example.com/wp-json/yoast/v1/bulk_editor/posts", [ searchSet.endpoint ]: endpointUrl },
+				links: {},
+			} );
+			const remote = buildRemote( () => Promise.resolve( {} ) );
+			render( <App dataProvider={ savingDataProvider } remoteDataProvider={ remote } /> );
+
+			await openEditAndSwitch();
+			fireEvent.click( screen.getByRole( "button", { name: "Save changes" } ) );
+
+			// The open fields are posted to the active tab's save endpoint.
+			expect( remote.fetchJson ).toHaveBeenCalledWith(
+				endpointUrl,
+				{},
+				expect.objectContaining( { method: "POST" } )
+			);
+			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
+			// Await the switch so the saves settle (updateItem/closeField) within act().
+			await waitFor( () => expect( screen.getByRole( "tab", { name: "Social appearance" } ) ).toHaveAttribute( "aria-selected", "true" ) );
+		} );
 	} );
 
 	it( "edits multiple rows at once without disabling the other rows' Edit", async() => {
@@ -137,7 +195,7 @@ describe( "App", () => {
 		expect( screen.getByRole( "textbox", { name: "SEO title for Keyword Research for Beginners" } ) ).toBeInTheDocument();
 	} );
 
-	describe( "saving a field (Apply)", () => {
+	describe( "saving a row (Save)", () => {
 		const searchSet = getFieldSets()[ FIELD_SET_SEARCH ];
 		const seoTitleParam = searchSet.fields.find( ( field ) => field.key === "seoTitle" ).param;
 		const endpointUrl = "https://example.com/wp-json/yoast/v1/bulk_editor/update_search";
@@ -157,7 +215,7 @@ describe( "App", () => {
 				screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ),
 				{ target: { value: "New SEO title" } }
 			);
-			fireEvent.click( screen.getByRole( "button", { name: `Apply SEO title for ${ rowTitle }` } ) );
+			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
 
 			expect( remote.fetchJson ).toHaveBeenCalledWith(
 				endpointUrl,
@@ -173,7 +231,7 @@ describe( "App", () => {
 			render( <App dataProvider={ savingDataProvider } remoteDataProvider={ remote } /> );
 
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			fireEvent.click( screen.getByRole( "button", { name: `Apply SEO title for ${ rowTitle }` } ) );
+			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
 
 			// The field stays open and becomes editable again once the failed save settles.
 			await waitFor( () => expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeEnabled() );
@@ -184,7 +242,7 @@ describe( "App", () => {
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ remote } /> );
 
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			fireEvent.click( screen.getByRole( "button", { name: `Apply SEO title for ${ rowTitle }` } ) );
+			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
 
 			// The active tab's save endpoint is not configured, so no POST is made and the field stays open.
 			expect( remote.fetchJson ).not.toHaveBeenCalledWith(
