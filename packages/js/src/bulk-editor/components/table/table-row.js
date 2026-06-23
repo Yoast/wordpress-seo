@@ -1,8 +1,8 @@
+import { Slot, Fill } from "@wordpress/components";
 import { Fragment, useCallback } from "@wordpress/element";
-import { applyFilters } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
-import { OPEN_FIELD_CELL_FILTER } from "../../constants";
+import { OPEN_FIELD_CELL_SLOT } from "../../constants";
 import { EditableFieldCell, TitleCell } from "./table-cells";
 import { getRowEditState } from "./table-helpers";
 
@@ -57,31 +57,39 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 			</Table.Cell>
 			<TitleCell item={ item } />
 			{ fields.map( ( field ) => {
-				if ( ! openFields.includes( field.key ) ) {
-					return <Table.Cell key={ field.key }>{ item[ field.key ] }</Table.Cell>;
-				}
 				return (
 					<Fragment key={ field.key }>
-						{ applyFilters(
-							OPEN_FIELD_CELL_FILTER,
-							<EditableFieldCell
-								field={ field }
-								itemId={ item.id }
-								itemTitle={ item.title }
-								value={ draft[ field.key ] ?? "" }
-								isSaving={ isSaving }
-								onChange={ handleChangeField }
-								isOpen={ isEditing }
-							/>,
-							{
+						<Slot
+							name={ `${ OPEN_FIELD_CELL_SLOT }/${ field.key }/${item.id}` }
+							fillProps={ {
 								field,
 								item,
 								value: draft[ field.key ] ?? "",
 								isSaving,
 								onSaveField: () => onApplyField( { id: item.id, key: field.key } ),
 								onDiscardField: () => onDiscardField( { id: item.id, key: field.key } ),
-							}
-						) }
+							} }
+						>
+							{ ( fills ) => {
+								if ( fills.length > 0 ) {
+									return fills;
+								}
+
+								if ( ! openFields.includes( field.key ) ) {
+									return <Table.Cell key={ field.key }>{ item[ field.key ] }</Table.Cell>;
+								}
+
+								return <EditableFieldCell
+									field={ field }
+									itemId={ item.id }
+									itemTitle={ item.title }
+									value={ draft[ field.key ] ?? "" }
+									isSaving={ isSaving }
+									onChange={ handleChangeField }
+									isOpen={ isEditing }
+								/>;
+							} }
+						</Slot>
 					</Fragment>
 				);
 			} ) }
