@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Posts_Route;
 
 use Brain\Monkey;
+use Yoast\WP\SEO\Bulk_Editor\Application\Posts\Posts_Collector_Interface;
 use Yoast\WP\SEO\Bulk_Editor\User_Interface\Posts_Route;
 
 /**
@@ -46,6 +47,31 @@ final class Register_Routes_Test extends Abstract_Posts_Route_Test {
 							'maximum'           => 100,
 							'description'       => 'The number of posts to fetch.',
 							'sanitize_callback' => 'absint',
+						],
+						'page'         => [
+							'required'          => false,
+							'type'              => 'integer',
+							'default'           => 1,
+							'minimum'           => 1,
+							'description'       => 'The page of posts to fetch.',
+							'sanitize_callback' => 'absint',
+						],
+						'search'       => [
+							'required'          => false,
+							'type'              => 'string',
+							'default'           => '',
+							'description'       => 'The term to search posts by.',
+							'sanitize_callback' => 'sanitize_text_field',
+						],
+						'status'       => [
+							'required'    => false,
+							'type'        => 'array',
+							'default'     => Posts_Collector_Interface::STATUSES,
+							'items'       => [
+								'type' => 'string',
+								'enum' => Posts_Collector_Interface::STATUSES,
+							],
+							'description' => 'The post statuses to include.',
 						],
 					],
 					'callback'            => [ $this->instance, 'get_posts' ],

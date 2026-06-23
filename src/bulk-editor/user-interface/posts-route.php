@@ -7,7 +7,9 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
+use Yoast\WP\SEO\Bulk_Editor\Application\Posts\Posts_Collector_Interface;
 use Yoast\WP\SEO\Bulk_Editor\Application\Posts\Posts_Repository;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -102,6 +104,31 @@ class Posts_Route implements Route_Interface {
 						'description'       => 'The number of posts to fetch.',
 						'sanitize_callback' => 'absint',
 					],
+					'page'         => [
+						'required'          => false,
+						'type'              => 'integer',
+						'default'           => 1,
+						'minimum'           => 1,
+						'description'       => 'The page of posts to fetch.',
+						'sanitize_callback' => 'absint',
+					],
+					'search'       => [
+						'required'          => false,
+						'type'              => 'string',
+						'default'           => '',
+						'description'       => 'The term to search posts by.',
+						'sanitize_callback' => 'sanitize_text_field',
+					],
+					'status'       => [
+						'required'    => false,
+						'type'        => 'array',
+						'default'     => Posts_Collector_Interface::STATUSES,
+						'items'       => [
+							'type' => 'string',
+							'enum' => Posts_Collector_Interface::STATUSES,
+						],
+						'description' => 'The post statuses to include.',
+					],
 				],
 				'callback'            => [ $this, 'get_posts' ],
 				'permission_callback' => [ $this, 'check_permissions' ],
@@ -127,9 +154,21 @@ class Posts_Route implements Route_Interface {
 			);
 		}
 
-		$posts = $this->posts_repository->get_posts( $content_type, $request->get_param( 'per_page' ) );
+		// An empty selection (no status filter) means all statuses, never zero results.
+		$statuses = (array) $request->get_param( 'status' );
+		if ( empty( $statuses ) ) {
+			$statuses = Posts_Collector_Interface::STATUSES;
+		}
 
-		return new WP_REST_Response( $posts->to_array() );
+		$query = new Posts_Query(
+			$content_type,
+			(int) $request->get_param( 'page' ),
+			(int) $request->get_param( 'per_page' ),
+			(string) $request->get_param( 'search' ),
+			$statuses,
+		);
+
+		return new WP_REST_Response( $this->posts_repository->get_posts( $query )->to_array() );
 	}
 
 	/**
