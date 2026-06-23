@@ -21,6 +21,10 @@ jest.mock( "@wordpress/components", () => ( {
 	SlotFillProvider: ( { children } ) => children,
 } ) );
 
+jest.mock( "@wordpress/plugins", () => ( {
+	PluginArea: () => null,
+} ) );
+
 jest.mock( "@wordpress/data", () => ( {
 	select: () => ( { selectPreference: mockSelectPreference } ),
 } ) );

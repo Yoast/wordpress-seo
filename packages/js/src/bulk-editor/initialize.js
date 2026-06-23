@@ -2,13 +2,14 @@ import { SlotFillProvider } from "@wordpress/components";
 import { select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { createRoot } from "@wordpress/element";
+import { PluginArea } from "@wordpress/plugins";
 import { RemoteDataProvider } from "@yoast/dashboard-frontend";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
-import { ROOT_ID, STORE_NAME } from "./constants";
+import { PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
 import { DataProvider } from "./services";
 import registerStore from "./store";
 
@@ -46,6 +47,7 @@ domReady( () => {
 		<div dir={ isRtl ? "rtl" : "ltr" } className="yst-root">
 			<SlotFillProvider>
 				<RouterProvider router={ router } />
+				<PluginArea scope={ PLUGIN_SCOPE } />
 			</SlotFillProvider>
 		</div>
 	);
