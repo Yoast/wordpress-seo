@@ -27,7 +27,7 @@ export const UnsavedChangesModal = ( { isOpen, onSave = noop, onDiscard = noop, 
 					<div className="yst-flex yst-flex-shrink-0 yst-items-center yst-justify-center yst-h-10 yst-w-10 yst-rounded-full yst-bg-red-100">
 						<ExclamationIcon className="yst-h-6 yst-w-6 yst-text-red-600" { ...svgAriaProps } />
 					</div>
-					<div className="yst-flex yst-flex-col yst-gap-2">
+					<div className="yst-flex yst-flex-col yst-gap-2 yst-max-w-xs">
 						<Modal.Title className="yst-text-lg yst-font-medium yst-text-slate-900">
 							{ __( "Unsaved changes", "wordpress-seo" ) }
 						</Modal.Title>
