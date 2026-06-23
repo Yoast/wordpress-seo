@@ -130,7 +130,7 @@ class KeyphraseDensityAssessment extends Assessment {
 				// Calculate the score for short texts in Japanese
 				const matchWordCustomHelper = researcher.getHelper("matchWordCustomHelper");
 				if ( matchWordCustomHelper ) {
-					const customTextLength = researcher.getResearch("wordCountInText");
+					const customTextLength = researcher.getHelper("wordsCharacterCount");
 					if ( matchWordCustomHelper && customTextLength < 50 ) {
 						this._minRecommendedKeyphraseCount = 1;
 						this._maxRecommendedKeyphraseCount > 25 ? 2 : 1;
