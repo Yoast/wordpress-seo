@@ -51,7 +51,7 @@ export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, 
 				value={ value }
 				onChange={ handleChange }
 				disabled={ isSaving }
-				className="yst-resize-none yst-bg-primary-50 yst-ring-primary-300"
+				className="yst-resize-none"
 				/* translators: %1$s expands to the field label, %2$s to the content item title. */
 				aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
 			/>
