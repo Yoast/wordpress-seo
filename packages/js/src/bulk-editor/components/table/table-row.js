@@ -64,6 +64,7 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 						value={ draft[ field.key ] ?? "" }
 						isSaving={ isSaving }
 						onChange={ handleChangeField }
+						isOpen={ isEditing }
 					/>
 				)
 				: <Table.Cell key={ field.key }>{ item[ field.key ] }</Table.Cell>

@@ -1,7 +1,8 @@
-import { useCallback } from "@wordpress/element";
+import { useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Table, Textarea } from "@yoast/ui-library";
 import { getStatusLabel } from "./table-helpers";
+import AnimateHeight from "react-animate-height";
 
 /**
  * The title cell (the row header).
@@ -37,24 +38,31 @@ export const TitleCell = ( { item } ) => {
  * @param {string}        props.value     The current draft value.
  * @param {boolean}       props.isSaving  Whether the row is being saved (disables the input).
  * @param {Function}      props.onChange  Called with { key, value } when the value changes.
+ * @param {boolean}       props.isOpen    Whether the field is open for editing.
  *
  * @returns {JSX.Element} The cell.
  */
-export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, onChange } ) => {
+export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, onChange, isOpen } ) => {
 	const handleChange = useCallback( ( event ) => onChange( { key: field.key, value: event.target.value } ), [ onChange, field.key ] );
+
+	// Row expand/collapse animation helper.
+	const [ height, setHeight ] = useState( 0 );
+	useEffect( () => setHeight( isOpen ? "auto" : 0 ), [ isOpen ] );
 
 	return (
 		<Table.Cell>
-			<Textarea
-				id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
-				rows={ 2 }
-				value={ value }
-				onChange={ handleChange }
-				disabled={ isSaving }
-				className="yst-resize-none"
-				/* translators: %1$s expands to the field label, %2$s to the content item title. */
-				aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
-			/>
+			<AnimateHeight easing="ease-in-out" duration={ 300 } height={ height } animateOpacity={ true }>
+				<Textarea
+					id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
+					rows={ 2 }
+					value={ value }
+					onChange={ handleChange }
+					disabled={ isSaving }
+					className="yst-resize-none"
+					/* translators: %1$s expands to the field label, %2$s to the content item title. */
+					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
+				/>
+			</AnimateHeight>
 		</Table.Cell>
 	);
 };
