@@ -1,6 +1,8 @@
-import { useCallback } from "@wordpress/element";
+import { Fragment, useCallback } from "@wordpress/element";
+import { applyFilters } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
+import { OPEN_FIELD_CELL_FILTER } from "../../constants";
 import { EditableFieldCell, TitleCell } from "./table-cells";
 import { getRowEditState } from "./table-helpers";
 
@@ -20,7 +22,7 @@ import { getRowEditState } from "./table-helpers";
  */
 export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, editing } ) => {
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
-	const { onStartEdit, onChangeField, onApplyField, onCancelEdit } = editing;
+	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField } = editing;
 	const isSaving = Object.keys( savingFields ).length > 0;
 
 	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
@@ -54,21 +56,35 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 				/>
 			</Table.Cell>
 			<TitleCell item={ item } />
-			{ fields.map( ( field ) => ( openFields.includes( field.key )
-				? (
-					<EditableFieldCell
-						key={ field.key }
-						field={ field }
-						itemId={ item.id }
-						itemTitle={ item.title }
-						value={ draft[ field.key ] ?? "" }
-						isSaving={ isSaving }
-						onChange={ handleChangeField }
-						isOpen={ isEditing }
-					/>
-				)
-				: <Table.Cell key={ field.key }>{ item[ field.key ] }</Table.Cell>
-			) ) }
+			{ fields.map( ( field ) => {
+				if ( ! openFields.includes( field.key ) ) {
+					return <Table.Cell key={ field.key }>{ item[ field.key ] }</Table.Cell>;
+				}
+				return (
+					<Fragment key={ field.key }>
+						{ applyFilters(
+							OPEN_FIELD_CELL_FILTER,
+							<EditableFieldCell
+								field={ field }
+								itemId={ item.id }
+								itemTitle={ item.title }
+								value={ draft[ field.key ] ?? "" }
+								isSaving={ isSaving }
+								onChange={ handleChangeField }
+								isOpen={ isEditing }
+							/>,
+							{
+								field,
+								item,
+								value: draft[ field.key ] ?? "",
+								isSaving,
+								onSaveField: () => onApplyField( { id: item.id, key: field.key } ),
+								onDiscardField: () => onDiscardField( { id: item.id, key: field.key } ),
+							}
+						) }
+					</Fragment>
+				);
+			} ) }
 			<Table.Cell>
 				{ isEditing
 					? (

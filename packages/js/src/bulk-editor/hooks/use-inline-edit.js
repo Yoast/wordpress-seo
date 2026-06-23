@@ -29,6 +29,8 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 	const editingRows = useSelect( ( select ) => select( STORE_NAME ).selectEditingRows(), [] );
 	const { startEdit, updateDraftField, setSavingField, closeField, discardEdit, stopEdit } = useDispatch( STORE_NAME );
 
+	const onDiscardField = useCallback( ( { id, key } ) => closeField( { id, key } ), [ closeField ] );
+
 	const onStartEdit = useCallback( ( id ) => {
 		const item = items.find( ( candidate ) => candidate.id === id );
 		if ( ! item ) {
@@ -74,7 +76,8 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		onChangeField: updateDraftField,
 		onApplyField,
 		onCancelEdit,
-	} ), [ editingRows, onStartEdit, updateDraftField, onApplyField, onCancelEdit ] );
+		onDiscardField,
+	} ), [ editingRows, onStartEdit, updateDraftField, onApplyField, onCancelEdit, onDiscardField ] );
 
 	return { editing, stopEditing: stopEdit };
 };
