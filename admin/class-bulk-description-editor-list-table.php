@@ -8,6 +8,9 @@
 
 /**
  * Implements table for bulk description editing.
+ *
+ * @deprecated 28.2
+ * @codeCoverageIgnore
  */
 class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 
