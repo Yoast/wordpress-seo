@@ -1,7 +1,8 @@
+import { Fill, SlotFillProvider } from "@wordpress/components";
 import { addFilter, removeFilter } from "@wordpress/hooks";
 import { fireEvent, render, screen } from "../test-utils";
 import { BulkActions, SelectionToolbar } from "../../src/bulk-editor/components/bulk-action-bar";
-import { SELECT_MENU_ITEMS_FILTER } from "../../src/bulk-editor/constants";
+import { BULK_ACTIONS_SLOT, SELECT_MENU_ITEMS_FILTER } from "../../src/bulk-editor/constants";
 
 // The hook is covered by use-ai-upsell.test.js; here it just feeds the modal a static upsell.
 jest.mock( "../../src/bulk-editor/hooks/use-ai-upsell", () => ( {
@@ -79,10 +80,28 @@ describe( "BulkActions", () => {
 		expect( screen.getByRole( "button", { name: "Generate meta descriptions" } ) ).toBeInTheDocument();
 	} );
 
-	it( "does not render the Free affordances for Premium (the slot is filled instead)", () => {
+	it( "does not render the Free affordances for Premium", () => {
 		render( <BulkActions isPremium={ true } /> );
 
 		expect( screen.queryByRole( "button", { name: "Generate SEO titles" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "passes the selection and active view to the Premium slot fill", () => {
+		let received = null;
+		render(
+			<SlotFillProvider>
+				<BulkActions isPremium={ true } isActive={ true } selectedIds={ [ 1, 2 ] } activeFieldSet="search" contentType="post" />
+				<Fill name={ BULK_ACTIONS_SLOT }>
+					{ ( fillProps ) => {
+						received = fillProps;
+						return <span>Premium AI buttons</span>;
+					} }
+				</Fill>
+			</SlotFillProvider>
+		);
+
+		expect( screen.getByText( "Premium AI buttons" ) ).toBeInTheDocument();
+		expect( received ).toEqual( { selectedIds: [ 1, 2 ], activeFieldSet: "search", contentType: "post" } );
 	} );
 
 	it( "opens the upsell modal from a Free AI generate button", () => {
