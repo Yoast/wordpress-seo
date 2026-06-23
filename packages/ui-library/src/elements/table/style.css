@@ -18,12 +18,7 @@
 			@apply yst-rounded-lg yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5;
 
 			table {
-				/* Use separate borders rather than the preflight's collapsed default: Firefox
-				   drops a collapsed divider along a tall cell's edge when its neighbour is much
-				   shorter (e.g. next to a grown inline-edit cell), so the line disappears there.
-				   With separate borders each cell paints its own divider, which Firefox renders
-				   reliably. Row and row-group borders are ignored in this mode, so the dividers
-				   live on the cells. */
+				/* Firefox drops collapsed dividers next to tall cells; separate borders fix this. */
 				border-collapse: separate;
 				border-spacing: 0;
 
