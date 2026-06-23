@@ -165,11 +165,12 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 		$page_title = $submenu_page[2];
 
 		/*
-		 * Handle the Google Search Console special case by passing a fake parent
-		 * page slug. This way, the sub-page is stil registered and can be accessed
-		 * directly. Its menu item won't be displayed.
+		 * Handle pages that should be registered and reachable directly, but
+		 * whose menu item must not be displayed, by passing a fake parent page
+		 * slug. The Google Search Console page predates this; the bulk editor is
+		 * reached from the Tools page instead of its own menu item.
 		 */
-		if ( $submenu_page[4] === 'wpseo_search_console' ) {
+		if ( $submenu_page[4] === 'wpseo_search_console' || $submenu_page[4] === 'wpseo_page_bulk_edit' ) {
 			// Set the parent page slug to a non-existing one.
 			$submenu_page[0] = 'wpseo_fake_menu_parent_page_slug';
 		}
