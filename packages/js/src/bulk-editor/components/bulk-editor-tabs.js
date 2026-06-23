@@ -116,7 +116,7 @@ export const BulkEditorTabs = ( { tabs, activeTab, onChange, label } ) => {
 	}, [ tabs, activeTab, onChange ] );
 
 	return (
-		<div ref={ listRef } role="tablist" aria-label={ label } className="yst-flex yst-gap-2">
+		<div ref={ listRef } role="tablist" aria-label={ label } className="yst-flex yst-gap-4">
 			{ tabs.map( ( tab ) => (
 				<Tab
 					key={ tab.id }

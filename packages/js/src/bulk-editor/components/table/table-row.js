@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
+import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
 import { EditableFieldCell, TitleCell } from "./table-cells";
@@ -6,7 +6,7 @@ import { getRowEditState } from "./table-helpers";
 
 /**
  * A content row. Each field-set cell renders as plain text, or — when the row is in edit mode and the field is
- * open — as an editable cell with its own Apply/Discard buttons.
+ * open — as an editable cell. The Actions column then shows the row's Save and Cancel buttons.
  *
  * @param {Object}            props             The props.
  * @param {BulkEditorItem}    props.item        The item data.
@@ -20,42 +20,22 @@ import { getRowEditState } from "./table-helpers";
  */
 export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, editing } ) => {
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
-	const { onStartEdit, onChangeField, onApplyField, onDiscardField } = editing;
-
-	const [ closing, setClosing ] = useState( () => new Set() );
+	const { onStartEdit, onChangeField, onApplyField, onCancelEdit } = editing;
+	const isSaving = Object.keys( savingFields ).length > 0;
 
 	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
 	const handleEdit = useCallback( () => onStartEdit( item.id ), [ onStartEdit, item.id ] );
+	const handleCancel = useCallback( () => onCancelEdit( item.id ), [ onCancelEdit, item.id ] );
 	const handleChangeField = useCallback( ( { key, value } ) => onChangeField( { id: item.id, key, value } ), [ onChangeField, item.id ] );
-	const handleApplyField = useCallback( ( key ) => onApplyField( { id: item.id, key } ), [ onApplyField, item.id ] );
-
-	// Discard one field, or Cancel the whole row.
-	const requestCloseField = useCallback( ( key ) => setClosing( ( previous ) => new Set( previous ).add( key ) ), [] );
-	const handleCancel = useCallback( () => setClosing( new Set( openFields ) ), [ openFields ] );
-
-	// Discard the field once it has finished collapsing; the row leaves edit mode when none remain.
-	const commitCloseField = useCallback( ( key ) => {
-		setClosing( ( previous ) => {
-			const next = new Set( previous );
-			next.delete( key );
-			return next;
-		} );
-		onDiscardField( { id: item.id, key } );
-	}, [ onDiscardField, item.id ] );
-
-	// Return focus to the row's Edit/Cancel button so keyboard users keep their place.
-	const toggleRef = useRef( null );
-	const previousOpenCount = useRef( openFields.length );
-	useEffect( () => {
-		const fieldClosed = openFields.length < previousOpenCount.current;
-		previousOpenCount.current = openFields.length;
-		if ( fieldClosed && document.activeElement === document.body ) {
-			toggleRef.current?.focus( { preventScroll: true } );
-		}
-	}, [ openFields.length ] );
+	const handleSave = useCallback(
+		() => openFields.forEach( ( key ) => onApplyField( { id: item.id, key } ) ),
+		[ openFields, onApplyField, item.id ]
+	);
 
 	/* translators: %s expands to the content item title. */
 	const editLabel = sprintf( __( "Edit %s", "wordpress-seo" ), item.title );
+	/* translators: %s expands to the content item title. */
+	const saveLabel = sprintf( __( "Save %s", "wordpress-seo" ), item.title );
 	/* translators: %s expands to the content item title. */
 	const cancelLabel = sprintf( __( "Cancel editing %s", "wordpress-seo" ), item.title );
 
@@ -82,29 +62,52 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 						itemId={ item.id }
 						itemTitle={ item.title }
 						value={ draft[ field.key ] ?? "" }
-						isSaving={ Boolean( savingFields[ field.key ] ) }
-						isOpen={ ! closing.has( field.key ) }
+						isSaving={ isSaving }
 						onChange={ handleChangeField }
-						onApply={ handleApplyField }
-						onRequestClose={ requestCloseField }
-						onClosed={ commitCloseField }
+						isOpen={ isEditing }
 					/>
 				)
 				: <Table.Cell key={ field.key }>{ item[ field.key ] }</Table.Cell>
 			) ) }
 			<Table.Cell>
-				<span className="yst-flex yst-justify-end">
-					<Button
-						ref={ toggleRef }
-						variant="tertiary"
-						size="small"
-						className="yst--me-2.5"
-						onClick={ isEditing ? handleCancel : handleEdit }
-						aria-label={ isEditing ? cancelLabel : editLabel }
-					>
-						{ isEditing ? __( "Cancel", "wordpress-seo" ) : __( "Edit", "wordpress-seo" ) }
-					</Button>
-				</span>
+				{ isEditing
+					? (
+						<span className="yst-flex yst-flex-col yst-items-end yst-gap-1.5 yst--me-2.5">
+							<Button
+								variant="tertiary"
+								size="small"
+								onClick={ handleSave }
+								disabled={ isSaving }
+								aria-label={ saveLabel }
+							>
+								{ __( "Save", "wordpress-seo" ) }
+							</Button>
+							<span aria-hidden="true" className="yst-w-full yst-border-t yst-border-slate-200" />
+							<Button
+								variant="tertiary"
+								size="small"
+								onClick={ handleCancel }
+								disabled={ isSaving }
+								aria-label={ cancelLabel }
+							>
+								{ __( "Cancel", "wordpress-seo" ) }
+							</Button>
+						</span>
+					)
+					: (
+						<span className="yst-flex yst-justify-end">
+							<Button
+								variant="tertiary"
+								size="small"
+								className="yst--me-2.5"
+								onClick={ handleEdit }
+								aria-label={ editLabel }
+							>
+								{ __( "Edit", "wordpress-seo" ) }
+							</Button>
+						</span>
+					)
+				}
 			</Table.Cell>
 		</Table.Row>
 	);

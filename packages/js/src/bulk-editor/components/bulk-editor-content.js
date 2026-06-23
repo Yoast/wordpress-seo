@@ -1,5 +1,5 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useEffect, useMemo } from "@wordpress/element";
+import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
@@ -10,6 +10,7 @@ import { BulkEditorFilters } from "./bulk-editor-filters";
 import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
+import { UnsavedChangesModal } from "./unsaved-changes-modal";
 import { SearchBox } from "./search-box";
 
 /**
@@ -65,11 +66,41 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const { data: items = [], total = 0, totalPages = 0, isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
 	const { editing, stopEditing } = useInlineEdit( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } );
 
-	// Switching tab discards in-progress edits; switching content type also clears the selection.
+	// The tab the user wants to switch to while rows still have unsaved edits; drives the confirmation modal.
+	const [ pendingTab, setPendingTab ] = useState( null );
+	const hasUnsavedEdits = Object.keys( editing.editingRows ).length > 0;
+
+
 	const onChangeTab = useCallback( ( id ) => {
-		stopEditing();
+		if ( id === activeFieldSet ) {
+			return;
+		}
+		// Guard the switch when edits are in progress; otherwise switch straight away.
+		if ( Object.keys( editing.editingRows ).length > 0 ) {
+			setPendingTab( id );
+			return;
+		}
 		setActiveFieldSet( id );
-	}, [ stopEditing, setActiveFieldSet ] );
+	}, [ activeFieldSet, editing.editingRows, setActiveFieldSet ] );
+
+	const onSaveAndSwitch = useCallback( () => {
+		// Fire the save for every open field; each reads its draft synchronously, so clearing the edit state
+		// right after still posts the captured values while leaving the new tab clean.
+		Object.entries( editing.editingRows ).forEach( ( [ id, row ] ) =>
+			row.openFields.forEach( ( key ) => editing.onApplyField( { id: Number( id ), key } ) )
+		);
+		stopEditing();
+		setActiveFieldSet( pendingTab );
+		setPendingTab( null );
+	}, [ editing, stopEditing, pendingTab, setActiveFieldSet ] );
+
+	const onDiscardAndSwitch = useCallback( () => {
+		stopEditing();
+		setActiveFieldSet( pendingTab );
+		setPendingTab( null );
+	}, [ stopEditing, pendingTab, setActiveFieldSet ] );
+
+	const onCancelSwitch = useCallback( () => setPendingTab( null ), [] );
 
 	useEffect( () => {
 		deselectAll();
@@ -125,6 +156,12 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 					/>
 				</BulkEditorTabPanel>
 			) ) }
+			<UnsavedChangesModal
+				isOpen={ hasUnsavedEdits && pendingTab !== null }
+				onSave={ onSaveAndSwitch }
+				onDiscard={ onDiscardAndSwitch }
+				onClose={ onCancelSwitch }
+			/>
 			<BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
 		</div>
 	);
