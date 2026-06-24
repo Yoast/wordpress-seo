@@ -24,10 +24,10 @@ export const PLUGIN_SCOPE = "yoast-seo-bulk-editor";
 // The filter Premium uses to add items to the Select menu.
 export const SELECT_MENU_ITEMS_FILTER = "yoast.bulkEditor.selectMenuItems";
 
-// The slot base name Premium fills to replace an open field cell (e.g. with an AI suggestion cell).
-// The rendered slot name is `${OPEN_FIELD_CELL_SLOT}/${field.key}` (one slot per field).
+// The slot base name Premium fills to replace an the content of a a table cell that has fields (keyphrase, title, meta description).
+// The rendered slot name is `${TABLE_CELL_FIELD_SLOT}/${field.key}/${item.id}` (one slot per cell).
 // fillProps: { field, item, value, isSaving, onSaveField, onDiscardField }.
-export const OPEN_FIELD_CELL_SLOT = "yoast.bulkEditor.openFieldCell";
+export const TABLE_CELL_FIELD_SLOT = "yoast.bulkEditor.TableCellWithField";
 
 // The WooCommerce product post type.
 export const PRODUCT_CONTENT_TYPE = "product";

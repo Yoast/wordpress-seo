@@ -1,8 +1,8 @@
-import { Slot, Fill } from "@wordpress/components";
+import { Slot } from "@wordpress/components";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
-import { OPEN_FIELD_CELL_SLOT } from "../../constants";
+import { TABLE_CELL_FIELD_SLOT } from "../../constants";
 import { EditableFieldCell, TitleCell } from "./table-cells";
 import { getRowEditState } from "./table-helpers";
 
@@ -60,7 +60,7 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 				return (
 					<Fragment key={ field.key }>
 						<Slot
-							name={ `${ OPEN_FIELD_CELL_SLOT }/${ field.key }/${item.id}` }
+							name={ `${ TABLE_CELL_FIELD_SLOT }/${ field.key }/${item.id}` }
 							fillProps={ {
 								field,
 								item,
