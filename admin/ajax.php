@@ -83,7 +83,7 @@ add_action( 'wp_ajax_wpseo_set_ignore', 'wpseo_set_ignore' );
 /**
  * Save an individual SEO title from the Bulk Editor.
  *
- * @deprecated 28.2
+ * @deprecated 28.1
  * @codeCoverageIgnore
  *
  * @return void
@@ -98,7 +98,7 @@ add_action( 'wp_ajax_wpseo_save_title', 'wpseo_save_title' );
 /**
  * Save an individual meta description from the Bulk Editor.
  *
- * @deprecated 28.2
+ * @deprecated 28.1
  * @codeCoverageIgnore
  *
  * @return void
@@ -113,7 +113,7 @@ add_action( 'wp_ajax_wpseo_save_metadesc', 'wpseo_save_description' );
 /**
  * Save titles & descriptions.
  *
- * @deprecated 28.2
+ * @deprecated 28.1
  * @codeCoverageIgnore
  *
  * @param string $what Type of item to save (title, description).
@@ -145,7 +145,7 @@ function wpseo_save_what( $what ) {
  * Helper function to update a post's meta data, returning relevant information
  * about the information updated and the results or the meta update.
  *
- * @deprecated 28.2
+ * @deprecated 28.1
  * @codeCoverageIgnore
  *
  * @param int    $post_id         Post ID.
@@ -233,7 +233,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 /**
  * Save all titles sent from the Bulk Editor.
  *
- * @deprecated 28.2
+ * @deprecated 28.1
  * @codeCoverageIgnore
  *
  * @return void
@@ -248,7 +248,7 @@ add_action( 'wp_ajax_wpseo_save_all_titles', 'wpseo_save_all_titles' );
 /**
  * Save all description sent from the Bulk Editor.
  *
- * @deprecated 28.2
+ * @deprecated 28.1
  * @codeCoverageIgnore
  *
  * @return void
@@ -263,7 +263,7 @@ add_action( 'wp_ajax_wpseo_save_all_descriptions', 'wpseo_save_all_descriptions'
 /**
  * Utility function to save values.
  *
- * @deprecated 28.2
+ * @deprecated 28.1
  * @codeCoverageIgnore
  *
  * @param string $what Type of item so save.
@@ -292,7 +292,7 @@ function wpseo_save_all( $what ) {
 /**
  * Insert a new value.
  *
- * @deprecated 28.2
+ * @deprecated 28.1
  * @codeCoverageIgnore
  *
  * @param string $what      Item type (such as title).

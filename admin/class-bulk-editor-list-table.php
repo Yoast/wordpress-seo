@@ -9,7 +9,7 @@
 /**
  * Implements table for bulk editing.
  *
- * @deprecated 28.2
+ * @deprecated 28.1
  * @codeCoverageIgnore
  */
 class WPSEO_Bulk_List_Table extends WP_List_Table {
