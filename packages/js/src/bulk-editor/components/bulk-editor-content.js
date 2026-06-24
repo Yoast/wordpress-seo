@@ -120,7 +120,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	} ), [ selectedIds, toggleRow ] );
 
 	return (
-		<div className="yst-p-8 yst-space-y-8">
+		<div className="yst-p-8 yst-space-y-6">
 			<div className="yst-flex yst-flex-col yst-gap-4 sm:yst-flex-row sm:yst-items-start sm:yst-justify-between">
 				<BulkEditorTabs
 					tabs={ tabs }
