@@ -34,7 +34,7 @@
     "pretest": "grunt get-premium-configuration",
     "export:inclusive-language": "jest exportInclusiveLanguage",
     "test": "jest",
-    "lint": "eslint . --max-warnings 19",
+    "lint": "eslint . --max-warnings 18",
     "watch": "yarn clean && yarn watch:js",
     "watch:js": "yarn build:js --watch",
     "watch:types": "tsc --watch"

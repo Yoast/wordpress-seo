@@ -89,5 +89,11 @@ export function toPaper( dto ) {
 		isFrontPage: data.isFrontPage,
 	};
 
-	return new Paper( data.text, attributes );
+	// Omit absent optional fields entirely rather than passing explicit `undefined`, so Paper's own
+	// defaults apply and the constructed attributes only ever carry keys the consumer actually supplied.
+	const presentAttributes = Object.fromEntries(
+		Object.entries( attributes ).filter( ( [ , value ] ) => typeof value !== "undefined" )
+	);
+
+	return new Paper( data.text, presentAttributes );
 }

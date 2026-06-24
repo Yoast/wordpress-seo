@@ -2,6 +2,7 @@ const { build } = require( "yoastseo/build/parse/build" );
 const { LanguageProcessor } = require( "yoastseo/build/parse/language" );
 const { getResearcher } = require( "../helpers/get-researcher" );
 const { paperFromRequest } = require( "../helpers/paper-from-request" );
+const { paperLanguage } = require( "../helpers/paper-language" );
 
 module.exports = function( app ) {
 	app.get( "/research/estimated-reading-time", ( request, response ) => {
@@ -9,7 +10,7 @@ module.exports = function( app ) {
 		if ( ! paper ) {
 			return;
 		}
-		const language = request.body.locale || "en";
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		researcher.setPaper( paper );
 		const estimatedReadingTime = researcher.getResearch( "readingTime" );
@@ -21,7 +22,7 @@ module.exports = function( app ) {
 		if ( ! paper ) {
 			return;
 		}
-		const language = request.body.locale || "en";
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		researcher.setPaper( paper );
 		const fleschReadingEaseScore = researcher.getResearch( "getFleschReadingScore" );
@@ -33,7 +34,7 @@ module.exports = function( app ) {
 		if ( ! paper ) {
 			return;
 		}
-		const language = request.body.locale || "en";
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		researcher.setPaper( paper );
 		const wordCount = researcher.getResearch( "wordCountInText" );
@@ -45,7 +46,7 @@ module.exports = function( app ) {
 		if ( ! paper ) {
 			return;
 		}
-		const language = request.body.locale || "en";
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		paper.setTree( build( paper, new LanguageProcessor( researcher ), paper._attributes && paper._attributes.shortcodes ) );
 		researcher.setPaper( paper );
@@ -60,7 +61,7 @@ module.exports = function( app ) {
 		if ( ! paper ) {
 			return;
 		}
-		const language = request.body.locale || "en";
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		paper.setTree( build( paper, new LanguageProcessor( researcher ), paper._attributes && paper._attributes.shortcodes ) );
 		researcher.setPaper( paper );
