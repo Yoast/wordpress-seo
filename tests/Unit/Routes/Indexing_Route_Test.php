@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Exceptions\Indexable\Indexing_Failed_Exception;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Routes\Indexing_Route;
@@ -513,5 +514,25 @@ final class Indexing_Route_Test extends TestCase {
 		Mockery::mock( WP_Error::class );
 
 		$this->instance->index_general();
+	}
+
+	/**
+	 * Tests that a failing object reported through an Indexing_Failed_Exception is turned into a
+	 * WP_Error carrying that object's id and type.
+	 *
+	 * @covers ::run_indexation_action
+	 *
+	 * @return void
+	 */
+	public function test_index_posts_when_indexing_failed_exception_occurs() {
+		$exception = new Indexing_Failed_Exception( 123, 'post', 'post', new Exception( 'The underlying error.' ) );
+
+		$this->post_indexation_action->expects( 'index' )->once()->andThrow( $exception );
+
+		$this->indexing_helper->expects( 'indexing_failed' )->once()->withNoArgs();
+
+		Mockery::mock( WP_Error::class );
+
+		$this->assertInstanceOf( WP_Error::class, $this->instance->index_posts() );
 	}
 }

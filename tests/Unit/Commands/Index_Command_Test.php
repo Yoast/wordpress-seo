@@ -4,7 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Commands;
 
 use Brain\Monkey;
 use cli\progress\Bar;
+use Exception;
 use Mockery;
+use RuntimeException;
 use WP_CLI;
 use wpdb;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
@@ -16,6 +18,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Commands\Index_Command;
+use Yoast\WP\SEO\Exceptions\Indexable\Indexing_Failed_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -205,6 +208,48 @@ final class Index_Command_Test extends TestCase {
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 25 );
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 6 );
+
+		$this->instance->index( null, [ 'interval' => 500 ] );
+	}
+
+	/**
+	 * Tests that a failing object is reported through WP_CLI::error, which halts the run.
+	 *
+	 * @covers ::index
+	 * @covers ::run_indexation_action
+	 *
+	 * @return void
+	 */
+	public function test_execute_reports_failing_object() {
+		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
+
+		$this->prepare_indexing_action->expects( 'prepare' )->once();
+
+		$this->post_indexation_action->expects( 'get_total_unindexed' )->once()->andReturn( 30 );
+		$this->post_indexation_action->expects( 'get_limit' )->once()->andReturn( 25 );
+		$this->post_indexation_action
+			->expects( 'index' )
+			->once()
+			->andThrow( new Indexing_Failed_Exception( 42, 'post', 'post', new Exception( 'Something broke.' ) ) );
+
+		// The run halts on WP_CLI::error, so completion is never reached.
+		$this->complete_indexation_action->expects( 'complete' )->never();
+
+		$progress_bar_mock = Mockery::mock( Bar::class );
+		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
+			->once()
+			->with( Mockery::type( 'string' ), 30 )
+			->andReturn( $progress_bar_mock );
+		$progress_bar_mock->expects( 'finish' )->once();
+		$progress_bar_mock->expects( 'tick' )->never();
+
+		$cli = Mockery::mock( 'overload:' . WP_CLI::class );
+		$cli->expects( 'error' )
+			->once()
+			->with( 'Could not optimize post #42 while indexing posts: Something broke.' )
+			->andThrow( new RuntimeException( 'Halt.' ) );
+
+		$this->expectException( RuntimeException::class );
 
 		$this->instance->index( null, [ 'interval' => 500 ] );
 	}

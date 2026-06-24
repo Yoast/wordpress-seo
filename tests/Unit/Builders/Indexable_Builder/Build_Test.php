@@ -2,7 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
 
+use Brain\Monkey;
 use Mockery;
+use RuntimeException;
+use Yoast\WP\SEO\Exceptions\Indexable\Indexing_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
@@ -137,6 +140,57 @@ final class Build_Test extends Abstract_Indexable_Builder_TestCase {
 			->andThrows( Source_Exception::class );
 
 		$this->assertFalse( $this->instance->build( $this->indexable ) );
+	}
+
+	/**
+	 * Tests that an unexpected error while building is logged, fires the failure action and is thrown
+	 * wrapped in an Indexing_Failed_Exception that carries the failing object, so the existing
+	 * "stop the run and report it" behaviour is preserved.
+	 *
+	 * @covers ::build
+	 * @covers ::deep_copy_indexable
+	 *
+	 * @return void
+	 */
+	public function test_build_logs_fires_action_and_throws_wrapped_exception_on_unexpected_error() {
+		$this->indexable->object_sub_type = 'page';
+
+		$this->expect_deep_copy_indexable( $this->indexable );
+
+		$exception = new RuntimeException( 'Something unexpected happened.' );
+
+		$this->post_builder
+			->expects( 'build' )
+			->once()
+			->with( 1337, $this->indexable )
+			->andThrow( $exception );
+
+		$this->logger
+			->expects( 'error' )
+			->once()
+			->with(
+				'Yoast SEO could not build the post indexable for object 1337: Something unexpected happened.',
+				[
+					'object_id'       => 1337,
+					'object_type'     => 'post',
+					'object_sub_type' => 'page',
+					'exception'       => 'RuntimeException',
+				],
+			);
+
+		Monkey\Actions\expectDone( 'wpseo_indexable_indexing_failed' )
+			->once()
+			->with( 1337, 'post', 'page', $exception );
+
+		try {
+			$this->instance->build( $this->indexable );
+			$this->fail( 'Expected an Indexing_Failed_Exception to be thrown.' );
+		} catch ( Indexing_Failed_Exception $indexing_failed_exception ) {
+			$this->assertSame( 1337, $indexing_failed_exception->get_object_id() );
+			$this->assertSame( 'post', $indexing_failed_exception->get_object_type() );
+			$this->assertSame( 'page', $indexing_failed_exception->get_object_sub_type() );
+			$this->assertSame( $exception, $indexing_failed_exception->getPrevious() );
+		}
 	}
 
 	/**
