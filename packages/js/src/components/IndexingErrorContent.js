@@ -75,6 +75,10 @@ export default function IndexingErrorContent( { message, error } ) {
 		<details>
 			<summary>{ __( "Error details", "wordpress-seo" ) }</summary>
 			<div style={ { marginTop: "8px" } }>
+				<ErrorLine
+					title={ __( "Failing object", "wordpress-seo" ) }
+					value={ error.objectId ? `${ error.objectType } #${ error.objectId }` : "" }
+				/>
 				<ErrorLine title={ __( "Request URL", "wordpress-seo" ) } value={ error.url } />
 				<ErrorLine title={ __( "Request method", "wordpress-seo" ) } value={ error.method } />
 				<ErrorLine title={ __( "Status code", "wordpress-seo" ) } value={ error.statusCode } />
