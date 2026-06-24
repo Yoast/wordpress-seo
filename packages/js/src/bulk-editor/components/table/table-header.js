@@ -37,7 +37,7 @@ export const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkA
 				</Table.Cell>
 			</Table.Row>
 		) }
-		<Table.Row>
+		<Table.Row className="[&_th]:!yst-text-slate-800">
 			<Table.Header scope="col">
 				<span className="yst-sr-only">{ __( "Select", "wordpress-seo" ) }</span>
 			</Table.Header>
