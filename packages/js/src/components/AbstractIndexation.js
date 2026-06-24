@@ -99,8 +99,11 @@ class AbstractIndexation extends Component {
 
 		// Throw an error when the response's status code is not in the 200-299 range.
 		if ( ! response.ok ) {
-			const stackTrace = data.data ? data.data.stackTrace : "";
-			throw new RequestError( data.message, url, "POST", response.status, stackTrace );
+			const errorData = data.data || {};
+			throw new RequestError( data.message, url, "POST", response.status, errorData.stackTrace, {
+				objectId: errorData.object_id,
+				objectType: errorData.object_type,
+			} );
 		}
 
 		return data;
