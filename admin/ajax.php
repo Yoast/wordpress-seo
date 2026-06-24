@@ -89,7 +89,7 @@ add_action( 'wp_ajax_wpseo_set_ignore', 'wpseo_set_ignore' );
  * @return void
  */
 function wpseo_save_title() {
-	_deprecated_function( __FUNCTION__, 'Yoast SEO 28.2' );
+	_deprecated_function( __FUNCTION__, 'Yoast SEO 28.1' );
 	wpseo_save_what( 'title' );
 }
 
@@ -104,7 +104,7 @@ add_action( 'wp_ajax_wpseo_save_title', 'wpseo_save_title' );
  * @return void
  */
 function wpseo_save_description() {
-	_deprecated_function( __FUNCTION__, 'Yoast SEO 28.2' );
+	_deprecated_function( __FUNCTION__, 'Yoast SEO 28.1' );
 	wpseo_save_what( 'metadesc' );
 }
 
@@ -239,7 +239,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
  * @return void
  */
 function wpseo_save_all_titles() {
-	_deprecated_function( __FUNCTION__, 'Yoast SEO 28.2' );
+	_deprecated_function( __FUNCTION__, 'Yoast SEO 28.1' );
 	wpseo_save_all( 'title' );
 }
 
@@ -254,7 +254,7 @@ add_action( 'wp_ajax_wpseo_save_all_titles', 'wpseo_save_all_titles' );
  * @return void
  */
 function wpseo_save_all_descriptions() {
-	_deprecated_function( __FUNCTION__, 'Yoast SEO 28.2' );
+	_deprecated_function( __FUNCTION__, 'Yoast SEO 28.1' );
 	wpseo_save_all( 'metadesc' );
 }
 
