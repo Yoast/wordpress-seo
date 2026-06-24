@@ -6,7 +6,7 @@ import { BulkEditorHeader } from "./table-header";
 import { getColumnCount } from "./table-helpers";
 
 const getTableClassName = ( isLoading ) =>
-	`yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }`;
+	`yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium [&_tbody_td]:!yst-border-t-slate-100 [&_tbody_th]:!yst-border-t-slate-100 [&_thead_th]:!yst-border-b-slate-200 yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }`;
 
 /**
  * The bulk editor selection.
