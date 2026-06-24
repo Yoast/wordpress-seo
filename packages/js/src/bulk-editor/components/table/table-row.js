@@ -2,7 +2,7 @@ import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
 import { EditableFieldCell, TitleCell } from "./table-cells";
-import { getRowEditState } from "./table-helpers";
+import { getFieldTextClasses, getRowEditState } from "./table-helpers";
 
 /**
  * A content row. Each field-set cell renders as plain text, or — when the row is in edit mode and the field is
@@ -64,10 +64,9 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 						value={ draft[ field.key ] ?? "" }
 						isSaving={ isSaving }
 						onChange={ handleChangeField }
-						isOpen={ isEditing }
 					/>
 				)
-				: <Table.Cell key={ field.key }>{ item[ field.key ] }</Table.Cell>
+				: <Table.Cell key={ field.key } className={ getFieldTextClasses( field.key, false ) }>{ item[ field.key ] }</Table.Cell>
 			) ) }
 			<Table.Cell>
 				{ isEditing

@@ -1,4 +1,21 @@
 import { __ } from "@wordpress/i18n";
+import { FOCUS_KEYPHRASE_KEY } from "../../constants";
+
+/**
+ * The text classes for a field's value, by column and edit state.
+ *
+ * @param {string}  fieldKey  The field key.
+ * @param {boolean} isEditing Whether the field is being edited.
+ *
+ * @returns {string} The text size and color classes.
+ */
+export const getFieldTextClasses = ( fieldKey, isEditing ) => {
+	if ( fieldKey === FOCUS_KEYPHRASE_KEY ) {
+		return "!yst-text-[13px] !yst-text-slate-800";
+	}
+
+	return isEditing ? "!yst-text-[13px] !yst-text-slate-600" : "!yst-text-[13px] !yst-text-black";
+};
 
 /**
  * Maps a post status to a label, or "" for published (no label shown).
