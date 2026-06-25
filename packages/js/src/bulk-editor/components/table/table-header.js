@@ -20,7 +20,7 @@ export const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkA
 	<Table.Head>
 		{ selectionToolbar && (
 			<Table.Row>
-				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-50 yst-rounded-ss-lg yst-rounded-se-lg">
+				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-50 yst-rounded-ss-lg yst-rounded-se-lg !yst-py-3.5">
 					<div className="yst-flex yst-items-center yst-justify-between yst-gap-4">
 						{ selectionToolbar }
 						{ filters }
@@ -37,7 +37,7 @@ export const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkA
 				</Table.Cell>
 			</Table.Row>
 		) }
-		<Table.Row className="[&_th]:!yst-text-slate-800">
+		<Table.Row className="[&_th]:!yst-text-slate-800 [&_th]:!yst-py-3 [&_th]:!yst-leading-[19px]">
 			<Table.Header scope="col">
 				<span className="yst-sr-only">{ __( "Select", "wordpress-seo" ) }</span>
 			</Table.Header>
