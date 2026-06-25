@@ -24,29 +24,30 @@
 	}
 
 	/* Re-assert the page's responsive utilities so the @yoast/ai-frontend stylesheet cannot clobber
-	 * them when Premium AI is active; the page scope adds the specificity to win it back.
+	 * them when Premium AI is active. ai-frontend re-ships the base utilities as `!important`, so the
+	 * guard needs both the page-scope specificity and `!important` to win (plain `@apply` drops it).
 	 * Temporary stopgap — remove once Yoast/ai-frontend#141 / #124 land the durable fix. */
 	@media (min-width: 640px) {
 		.sm\:yst-block {
-			@apply yst-block;
+			@apply !yst-block;
 		}
 
 		.sm\:yst-flex-row {
-			@apply yst-flex-row;
+			@apply !yst-flex-row;
 		}
 
 		.sm\:yst-table-fixed {
-			@apply yst-table-fixed;
+			@apply !yst-table-fixed;
 		}
 	}
 
 	@media (min-width: 783px) {
 		.min-\[783px\]\:yst-block {
-			@apply yst-block;
+			@apply !yst-block;
 		}
 
 		.min-\[783px\]\:yst-p-8 {
-			@apply yst-p-8;
+			@apply !yst-p-8;
 		}
 	}
 }
