@@ -14,7 +14,7 @@ export const getFieldTextClasses = ( fieldKey, isEditing ) => {
 		return "!yst-text-[13px] !yst-text-slate-800";
 	}
 
-	return isEditing ? "!yst-text-[13px] !yst-text-slate-600" : "!yst-text-[13px] !yst-text-black";
+	return isEditing ? "!yst-text-[13px] !yst-text-slate-600" : "!yst-text-[13px] !yst-text-slate-800";
 };
 
 /**
