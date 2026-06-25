@@ -8,24 +8,24 @@ use Brain\Monkey\Functions;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 
 /**
- * Class Perform_Request_Post_Test
+ * Class Perform_Request_Delete_Test
  *
  * @group ai-http-request
  *
  * @covers Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client::perform_request
  */
-final class Perform_Request_Post_Test extends Abstract_API_Client_Test {
+final class Perform_Request_Delete_Test extends Abstract_API_Client_Test {
 
 	/**
-	 * Tests the perform_request method with a POST request.
+	 * Tests the perform_request method with a DELETE request.
 	 *
 	 * @return void
 	 */
-	public function test_perform_request_post() {
-		$action_path = '/generate';
-		$body        = [ 'prompt' => 'Test prompt' ];
+	public function test_perform_request_delete() {
+		$action_path = '/user/consent';
+		$body        = [];
 		$headers     = [ 'Authorization' => 'Bearer test_token' ];
-		$http_method = Request::METHOD_POST;
+		$http_method = Request::METHOD_DELETE;
 
 		Functions\expect( 'apply_filters' )
 			->once()
@@ -43,15 +43,15 @@ final class Perform_Request_Post_Test extends Abstract_API_Client_Test {
 				'Authorization' => 'Bearer test_token',
 				'Content-Type'  => 'application/json',
 			],
-			'body'    => '{"prompt":"Test prompt"}',
+			'method'  => 'DELETE',
 		];
 
-		Functions\expect( 'wp_remote_post' )
+		Functions\expect( 'wp_remote_request' )
 			->once()
-			->with( 'https://ai.yoa.st/api/v1/generate', $expected_args )
+			->with( 'https://ai.yoa.st/api/v1/user/consent', $expected_args )
 			->andReturn(
 				[
-					'body'     => '{"success":true}',
+					'body'     => '',
 					'response' => [ 'code' => 200 ],
 				],
 			);
@@ -60,7 +60,7 @@ final class Perform_Request_Post_Test extends Abstract_API_Client_Test {
 
 		$this->assertEquals(
 			[
-				'body'     => '{"success":true}',
+				'body'     => '',
 				'response' => [ 'code' => 200 ],
 			],
 			$result,

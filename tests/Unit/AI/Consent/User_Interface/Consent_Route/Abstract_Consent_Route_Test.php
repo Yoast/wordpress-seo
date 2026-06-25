@@ -8,6 +8,7 @@ use Mockery;
 use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route;
+use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -39,6 +40,13 @@ abstract class Abstract_Consent_Route_Test extends TestCase {
 	protected $token_manager;
 
 	/**
+	 * The logger instance.
+	 *
+	 * @var Mockery\MockInterface|Logger
+	 */
+	protected $logger;
+
+	/**
 	 * Setup the test.
 	 *
 	 * @return void
@@ -48,7 +56,8 @@ abstract class Abstract_Consent_Route_Test extends TestCase {
 
 		$this->consent_handler = Mockery::mock( Consent_Handler::class );
 		$this->token_manager   = Mockery::mock( Token_Manager::class );
+		$this->logger          = Mockery::mock( Logger::class );
 
-		$this->instance = new Consent_Route( $this->consent_handler, $this->token_manager );
+		$this->instance = new Consent_Route( $this->consent_handler, $this->token_manager, $this->logger );
 	}
 }

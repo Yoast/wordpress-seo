@@ -30,6 +30,7 @@ final class Register_Hooks_Test extends Abstract_Bulk_Editor_Integration_Test {
 			->withNoArgs()
 			->andReturn( 'foo' );
 
+		Actions\expectAdded( 'admin_head' )->once()->with( [ $this->instance, 'remove_menu_item' ] );
 		Actions\expectAdded( 'admin_enqueue_scripts' )->never();
 		Actions\expectAdded( 'in_admin_header' )->never();
 
@@ -49,6 +50,7 @@ final class Register_Hooks_Test extends Abstract_Bulk_Editor_Integration_Test {
 			->withNoArgs()
 			->andReturn( Bulk_Editor_Integration::PAGE );
 
+		Actions\expectAdded( 'admin_head' )->once()->with( [ $this->instance, 'remove_menu_item' ] );
 		Actions\expectAdded( 'admin_enqueue_scripts' )->once()->with( [ $this->instance, 'enqueue_assets' ] );
 		Actions\expectAdded( 'in_admin_header' )->once()->with( [ $this->instance, 'remove_notices' ], \PHP_INT_MAX );
 

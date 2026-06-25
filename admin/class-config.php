@@ -140,10 +140,6 @@ class WPSEO_Admin_Pages {
 		if ( empty( $tool ) ) {
 			$this->asset_manager->enqueue_script( 'yoast-seo' );
 		}
-
-		if ( $tool === 'bulk-editor' ) {
-			$this->asset_manager->enqueue_script( 'bulk-editor' );
-		}
 	}
 
 	/**

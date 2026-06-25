@@ -126,11 +126,28 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	public function register_hooks() {
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ] );
 
+		// Hide the menu item without losing the page. See remove_menu_item() for why this runs on admin_head.
+		\add_action( 'admin_head', [ $this, 'remove_menu_item' ] );
+
 		// Are we on our page?
 		if ( $this->current_page_helper->get_current_yoast_seo_page() === self::PAGE ) {
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
 		}
+	}
+
+	/**
+	 * Removes the bulk editor's submenu item from the Yoast SEO menu while keeping the page reachable by URL.
+	 *
+	 * Runs on admin_head rather than admin_menu on purpose: by then WordPress has already resolved the page's
+	 * parent and capability (so the page stays accessible and keeps its `seo_page_wpseo_page_bulk_edit` body
+	 * class, which its styles depend on), but the menu HTML has not been rendered yet, so the item is hidden.
+	 * The page is opened from the Tools page instead of its own menu item.
+	 *
+	 * @return void
+	 */
+	public function remove_menu_item() {
+		\remove_submenu_page( 'wpseo_dashboard', self::PAGE );
 	}
 
 	/**
