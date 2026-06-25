@@ -50,7 +50,7 @@ export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, 
 
 	return (
 		<Table.Cell>
-			<AnimateHeight easing="ease-in-out" duration={ 100 } height={ height } animateOpacity={ true }>
+			<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
 				<Textarea
 					id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
 					rows={ 2 }

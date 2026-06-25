@@ -15,7 +15,7 @@ export const MIN_SEARCH_LENGTH = 3;
 export const FIELD_SET_SEARCH = "search";
 export const FIELD_SET_SOCIAL = "social";
 
-// The focus keyphrase column styles.
+// The focus keyphrase field key; also used to give that column its own text styling.
 export const FOCUS_KEYPHRASE_KEY = "focusKeyphrase";
 
 // The SlotFill name Premium fills with its bulk actions.
