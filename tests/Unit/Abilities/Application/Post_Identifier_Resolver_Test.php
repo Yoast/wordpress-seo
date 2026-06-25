@@ -143,72 +143,19 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 	}
 
 	/**
-	 * Tests resolve_one by title keywords with a single match.
+	 * Tests resolve_one ignores title keywords and returns a missing-identifier error.
+	 *
+	 * Title keywords are not a valid identifier for the write path, so they must
+	 * not resolve a post; only post_id and permalink are accepted.
 	 *
 	 * @covers ::resolve_one
-	 * @covers ::one_by_title
 	 *
 	 * @return void
 	 */
-	public function test_resolve_one_by_title_single_match() {
-		$indexable = Mockery::mock();
+	public function test_resolve_one_ignores_title() {
+		$this->indexable_repository->expects( 'find_posts_by_title_keywords' )->never();
 
-		$this->indexable_repository
-			->expects( 'find_posts_by_title_keywords' )
-			->once()
-			->with( 'hello world' )
-			->andReturn( [ $indexable ] );
-
-		$this->assertSame( $indexable, $this->instance->resolve_one( [ 'title' => 'hello world' ] ) );
-	}
-
-	/**
-	 * Tests resolve_one by title keywords with no matches returns a not-found error.
-	 *
-	 * @covers ::resolve_one
-	 * @covers ::one_by_title
-	 *
-	 * @return void
-	 */
-	public function test_resolve_one_by_title_no_match() {
-		$this->indexable_repository
-			->expects( 'find_posts_by_title_keywords' )
-			->once()
-			->andReturn( [] );
-
-		$this->assertInstanceOf( WP_Error::class, $this->instance->resolve_one( [ 'title' => 'nope' ] ) );
-	}
-
-	/**
-	 * Tests resolve_one by title keywords with several matches returns an ambiguous error.
-	 *
-	 * @covers ::resolve_one
-	 * @covers ::one_by_title
-	 * @covers ::to_candidate
-	 *
-	 * @return void
-	 */
-	public function test_resolve_one_by_title_ambiguous() {
-		$first                   = Mockery::mock();
-		$first->object_id        = 1;
-		$first->breadcrumb_title = 'First';
-		$first->permalink        = 'https://example.com/first/';
-		$first->object_sub_type  = 'post';
-		$first->post_status      = 'publish';
-
-		$second                   = Mockery::mock();
-		$second->object_id        = 2;
-		$second->breadcrumb_title = 'Second';
-		$second->permalink        = 'https://example.com/second/';
-		$second->object_sub_type  = 'post';
-		$second->post_status      = 'publish';
-
-		$this->indexable_repository
-			->expects( 'find_posts_by_title_keywords' )
-			->once()
-			->andReturn( [ $first, $second ] );
-
-		$this->assertInstanceOf( WP_Error::class, $this->instance->resolve_one( [ 'title' => 'common' ] ) );
+		$this->assertInstanceOf( WP_Error::class, $this->instance->resolve_one( [ 'title' => 'hello world' ] ) );
 	}
 
 	/**

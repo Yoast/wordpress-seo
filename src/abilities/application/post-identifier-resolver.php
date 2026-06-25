@@ -38,10 +38,12 @@ class Post_Identifier_Resolver {
 	 * Resolves the input to exactly one post indexable.
 	 *
 	 * Used by the write path, which must target a single, unambiguous post.
+	 * Title keywords are deliberately not accepted here: they can match several
+	 * posts, so only an exact identifier (post ID or permalink) is allowed.
 	 *
-	 * @param array<string, int|string|bool|null> $input The input containing one of 'post_id', 'permalink', or 'title'.
+	 * @param array<string, int|string|bool|null> $input The input containing one of 'post_id' or 'permalink'.
 	 *
-	 * @return Indexable|WP_Error The matching indexable, or an error (missing/unknown/ambiguous identifier).
+	 * @return Indexable|WP_Error The matching indexable, or an error (missing or unknown identifier).
 	 */
 	public function resolve_one( array $input ) {
 		if ( $this->has( $input, 'post_id' ) ) {
@@ -52,13 +54,9 @@ class Post_Identifier_Resolver {
 			return $this->by_permalink( (string) $input['permalink'] );
 		}
 
-		if ( $this->has( $input, 'title' ) ) {
-			return $this->one_by_title( (string) $input['title'] );
-		}
-
 		return new WP_Error(
 			'yoast_seo_missing_identifier',
-			\__( 'Provide a post_id, a permalink, or title keywords to identify the post.', 'wordpress-seo' ),
+			\__( 'Provide a post_id or a permalink to identify the post.', 'wordpress-seo' ),
 			[ 'status' => 400 ],
 		);
 	}
@@ -128,51 +126,6 @@ class Post_Identifier_Resolver {
 		}
 
 		return $indexable;
-	}
-
-	/**
-	 * Resolves a post by title keywords, requiring an unambiguous match.
-	 *
-	 * @param string $title The title keywords.
-	 *
-	 * @return Indexable|WP_Error The single match, a not-found error, or an ambiguous error listing candidates.
-	 */
-	private function one_by_title( string $title ) {
-		$matches = $this->indexable_repository->find_posts_by_title_keywords( $title );
-
-		if ( empty( $matches ) ) {
-			return $this->not_found();
-		}
-
-		if ( \count( $matches ) > 1 ) {
-			return new WP_Error(
-				'yoast_seo_ambiguous_identifier',
-				\__( 'Multiple posts match those title keywords. Retry with a permalink or post_id from the candidates.', 'wordpress-seo' ),
-				[
-					'status'     => 409,
-					'candidates' => \array_map( [ $this, 'to_candidate' ], $matches ),
-				],
-			);
-		}
-
-		return $matches[0];
-	}
-
-	/**
-	 * Builds a minimal candidate summary for disambiguation.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return array<string, int|string|null> The candidate summary.
-	 */
-	private function to_candidate( $indexable ): array {
-		return [
-			'post_id'     => (int) $indexable->object_id,
-			'post_title'  => $indexable->breadcrumb_title,
-			'permalink'   => $indexable->permalink,
-			'post_type'   => $indexable->object_sub_type,
-			'post_status' => $indexable->post_status,
-		];
 	}
 
 	/**

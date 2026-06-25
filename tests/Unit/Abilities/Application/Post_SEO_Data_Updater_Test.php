@@ -196,7 +196,7 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->once()
 			->andReturn( $error );
 
-		$this->assertSame( $error, $this->instance->update_post_seo_data( [ 'title' => 'ambiguous' ] ) );
+		$this->assertSame( $error, $this->instance->update_post_seo_data( [] ) );
 	}
 
 	/**

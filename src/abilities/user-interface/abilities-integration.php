@@ -268,7 +268,7 @@ class Abilities_Integration implements Integration_Interface {
 			$this->get_shared_ability_args(
 				[
 					'label'               => \__( 'Update Post SEO Data', 'wordpress-seo' ),
-					'description'         => \__( 'Update the SEO data for a single post. Identify the post by post_id, by permalink (URL), or by unambiguous title keywords. Only the fields you provide are changed; a provided empty value clears that field.', 'wordpress-seo' ),
+					'description'         => \__( 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field.', 'wordpress-seo' ),
 					'input_schema'        => $this->get_update_post_seo_data_input_schema(),
 					'output_schema'       => $this->get_post_seo_data_output_schema(),
 					'permission_callback' => [ $this, 'can_edit_post_seo_data' ],
@@ -419,10 +419,6 @@ class Abilities_Integration implements Integration_Interface {
 				'permalink'              => [
 					'type'        => 'string',
 					'description' => \__( 'The permalink (URL) of the post to update.', 'wordpress-seo' ),
-				],
-				'title'                  => [
-					'type'        => 'string',
-					'description' => \__( 'Title keywords identifying the post to update. Must match exactly one post.', 'wordpress-seo' ),
 				],
 				'seo_title'              => $nullable_string,
 				'meta_description'       => $nullable_string,

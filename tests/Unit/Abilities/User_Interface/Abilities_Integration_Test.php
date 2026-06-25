@@ -210,7 +210,7 @@ final class Abilities_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $error );
 
-		$this->assertSame( $error, $this->instance->can_edit_post_seo_data( [ 'title' => 'ambiguous' ] ) );
+		$this->assertSame( $error, $this->instance->can_edit_post_seo_data( [] ) );
 	}
 
 	/**
@@ -325,7 +325,7 @@ final class Abilities_Integration_Test extends TestCase {
 				[
 					'label'               => 'Update Post SEO Data',
 					'category'            => 'yoast-seo',
-					'description'         => 'Update the SEO data for a single post. Identify the post by post_id, by permalink (URL), or by unambiguous title keywords. Only the fields you provide are changed; a provided empty value clears that field.',
+					'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field.',
 					'input_schema'        => $this->get_expected_update_input_schema(),
 					'output_schema'       => $this->get_expected_output_schema(),
 					'permission_callback' => [ $this->instance, 'can_edit_post_seo_data' ],
@@ -448,10 +448,6 @@ final class Abilities_Integration_Test extends TestCase {
 				'permalink'              => [
 					'type'        => 'string',
 					'description' => 'The permalink (URL) of the post to update.',
-				],
-				'title'                  => [
-					'type'        => 'string',
-					'description' => 'Title keywords identifying the post to update. Must match exactly one post.',
 				],
 				'seo_title'              => $nullable_string,
 				'meta_description'       => $nullable_string,
