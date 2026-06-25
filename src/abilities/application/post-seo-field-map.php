@@ -6,6 +6,8 @@ namespace Yoast\WP\SEO\Abilities\Application;
 use WPSEO_Rank;
 use Yoast\WP\SEO\Abilities\Domain\Post_SEO_Data;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Surfaces\Meta_Surface;
+use Yoast\WP\SEO\Surfaces\Values\Meta;
 
 /**
  * Translates between an indexable, the post SEO data value object, and post meta operations.
@@ -15,6 +17,23 @@ use Yoast\WP\SEO\Models\Indexable;
  * encodings mirror Indexable_To_Postmeta_Helper.
  */
 class Post_SEO_Field_Map {
+
+	/**
+	 * Maps each rendered output field to the Meta property holding the value as
+	 * it is actually output on the front end (template applied, replacement
+	 * variables expanded).
+	 *
+	 * @var array<string, string>
+	 */
+	private const RENDERED_FIELDS = [
+		'seo_title'              => 'title',
+		'meta_description'       => 'meta_description',
+		'canonical'              => 'canonical',
+		'open_graph_title'       => 'open_graph_title',
+		'open_graph_description' => 'open_graph_description',
+		'twitter_title'          => 'twitter_title',
+		'twitter_description'    => 'twitter_description',
+	];
 
 	/**
 	 * Maps simple string input fields to their post meta key.
@@ -46,41 +65,94 @@ class Post_SEO_Field_Map {
 	];
 
 	/**
+	 * The meta surface.
+	 *
+	 * @var Meta_Surface
+	 */
+	private $meta_surface;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param Meta_Surface $meta_surface The meta surface.
+	 */
+	public function __construct( Meta_Surface $meta_surface ) {
+		$this->meta_surface = $meta_surface;
+	}
+
+	/**
 	 * Builds the post SEO data value object from an indexable.
+	 *
+	 * Alongside the raw stored fields, each rendered companion (`*_rendered`)
+	 * carries the value as it is actually output on the front end: the global
+	 * default template is applied where no custom value is set, and replacement
+	 * variables are expanded.
 	 *
 	 * @param Indexable $indexable The indexable to read from.
 	 *
 	 * @return Post_SEO_Data The post SEO data.
 	 */
 	public function to_post_seo_data( $indexable ): Post_SEO_Data {
+		$meta = $this->meta_surface->for_post( (int) $indexable->object_id );
+
 		return new Post_SEO_Data(
 			[
-				'post_id'                  => (int) $indexable->object_id,
-				'post_title'               => $indexable->breadcrumb_title,
-				'permalink'                => $indexable->permalink,
-				'post_type'                => $indexable->object_sub_type,
-				'post_status'              => $indexable->post_status,
-				'seo_title'                => $indexable->title,
-				'meta_description'         => $indexable->description,
-				'focus_keyphrase'          => $indexable->primary_focus_keyword,
-				'canonical'                => $indexable->canonical,
-				'is_cornerstone'           => (bool) $indexable->is_cornerstone,
-				'noindex'                  => $indexable->is_robots_noindex,
-				'nofollow'                 => (bool) $indexable->is_robots_nofollow,
-				'noimageindex'             => (bool) $indexable->is_robots_noimageindex,
-				'noarchive'                => (bool) $indexable->is_robots_noarchive,
-				'nosnippet'                => (bool) $indexable->is_robots_nosnippet,
-				'open_graph_title'         => $indexable->open_graph_title,
-				'open_graph_description'   => $indexable->open_graph_description,
-				'twitter_title'            => $indexable->twitter_title,
-				'twitter_description'      => $indexable->twitter_description,
-				'schema_page_type'         => $indexable->schema_page_type,
-				'schema_article_type'      => $indexable->schema_article_type,
-				'seo_score'                => WPSEO_Rank::from_numeric_score( (int) $indexable->primary_focus_keyword_score )->get_rank(),
-				'readability_score'        => WPSEO_Rank::from_numeric_score( (int) $indexable->readability_score )->get_rank(),
-				'inclusive_language_score' => $this->inclusive_language_rank( (int) $indexable->inclusive_language_score ),
+				'post_id'                         => (int) $indexable->object_id,
+				'post_title'                      => $indexable->breadcrumb_title,
+				'permalink'                       => $indexable->permalink,
+				'post_type'                       => $indexable->object_sub_type,
+				'post_status'                     => $indexable->post_status,
+				'seo_title'                       => $indexable->title,
+				'seo_title_rendered'              => $this->rendered( $meta, 'seo_title' ),
+				'meta_description'                => $indexable->description,
+				'meta_description_rendered'       => $this->rendered( $meta, 'meta_description' ),
+				'focus_keyphrase'                 => $indexable->primary_focus_keyword,
+				'canonical'                       => $indexable->canonical,
+				'canonical_rendered'              => $this->rendered( $meta, 'canonical' ),
+				'is_cornerstone'                  => (bool) $indexable->is_cornerstone,
+				'noindex'                         => $indexable->is_robots_noindex,
+				'nofollow'                        => (bool) $indexable->is_robots_nofollow,
+				'noimageindex'                    => (bool) $indexable->is_robots_noimageindex,
+				'noarchive'                       => (bool) $indexable->is_robots_noarchive,
+				'nosnippet'                       => (bool) $indexable->is_robots_nosnippet,
+				'open_graph_title'                => $indexable->open_graph_title,
+				'open_graph_title_rendered'       => $this->rendered( $meta, 'open_graph_title' ),
+				'open_graph_description'          => $indexable->open_graph_description,
+				'open_graph_description_rendered' => $this->rendered( $meta, 'open_graph_description' ),
+				'twitter_title'                   => $indexable->twitter_title,
+				'twitter_title_rendered'          => $this->rendered( $meta, 'twitter_title' ),
+				'twitter_description'             => $indexable->twitter_description,
+				'twitter_description_rendered'    => $this->rendered( $meta, 'twitter_description' ),
+				'schema_page_type'                => $indexable->schema_page_type,
+				'schema_article_type'             => $indexable->schema_article_type,
+				'seo_score'                       => WPSEO_Rank::from_numeric_score( (int) $indexable->primary_focus_keyword_score )->get_rank(),
+				'readability_score'               => WPSEO_Rank::from_numeric_score( (int) $indexable->readability_score )->get_rank(),
+				'inclusive_language_score'        => $this->inclusive_language_rank( (int) $indexable->inclusive_language_score ),
 			],
 		);
+	}
+
+	/**
+	 * Returns the front-end output for a rendered field, or null when nothing is output.
+	 *
+	 * @param Meta|false $meta         The meta values for the post, or false when unavailable.
+	 * @param string     $output_field The rendered output field name.
+	 *
+	 * @return string|null The rendered value, or null when empty or unavailable.
+	 */
+	private function rendered( $meta, string $output_field ): ?string {
+		if ( ! $meta instanceof Meta ) {
+			return null;
+		}
+
+		$value = $meta->{ self::RENDERED_FIELDS[ $output_field ] };
+
+		// Treat an empty presented value as "nothing is output" rather than an empty string.
+		if ( $value === null || $value === '' ) {
+			return null;
+		}
+
+		return (string) $value;
 	}
 
 	/**

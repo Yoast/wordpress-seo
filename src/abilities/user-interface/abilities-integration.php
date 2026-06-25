@@ -458,33 +458,52 @@ class Abilities_Integration implements Integration_Interface {
 			'enum' => [ 'na', 'bad', 'ok', 'good' ],
 		];
 
+		// The rendered companion of a field carries the value as actually output on the front end: the global default template applied where no custom value is set, with replacement variables expanded.
+		$rendered = static function ( $field ) {
+			return [
+				'type'        => [ 'string', 'null' ],
+				'description' => \sprintf(
+					/* translators: %s expands to the name of the SEO field, e.g. "SEO title". */
+					\__( 'The %s as output on the front end: the global default template applied when no custom value is set, with replacement variables expanded. Null when nothing is output.', 'wordpress-seo' ),
+					$field,
+				),
+			];
+		};
+
 		return [
 			'type'       => 'object',
 			'properties' => [
-				'post_id'                  => [ 'type' => 'integer' ],
-				'post_title'               => $nullable_string,
-				'permalink'                => $nullable_string,
-				'post_type'                => [ 'type' => 'string' ],
-				'post_status'              => $nullable_string,
-				'seo_title'                => $nullable_string,
-				'meta_description'         => $nullable_string,
-				'focus_keyphrase'          => $nullable_string,
-				'canonical'                => $nullable_string,
-				'is_cornerstone'           => [ 'type' => 'boolean' ],
-				'noindex'                  => [ 'type' => [ 'boolean', 'null' ] ],
-				'nofollow'                 => [ 'type' => 'boolean' ],
-				'noimageindex'             => [ 'type' => 'boolean' ],
-				'noarchive'                => [ 'type' => 'boolean' ],
-				'nosnippet'                => [ 'type' => 'boolean' ],
-				'open_graph_title'         => $nullable_string,
-				'open_graph_description'   => $nullable_string,
-				'twitter_title'            => $nullable_string,
-				'twitter_description'      => $nullable_string,
-				'schema_page_type'         => $nullable_string,
-				'schema_article_type'      => $nullable_string,
-				'seo_score'                => $score,
-				'readability_score'        => $score,
-				'inclusive_language_score' => $score,
+				'post_id'                         => [ 'type' => 'integer' ],
+				'post_title'                      => $nullable_string,
+				'permalink'                       => $nullable_string,
+				'post_type'                       => [ 'type' => 'string' ],
+				'post_status'                     => $nullable_string,
+				'seo_title'                       => $nullable_string,
+				'seo_title_rendered'              => $rendered( \__( 'SEO title', 'wordpress-seo' ) ),
+				'meta_description'                => $nullable_string,
+				'meta_description_rendered'       => $rendered( \__( 'meta description', 'wordpress-seo' ) ),
+				'focus_keyphrase'                 => $nullable_string,
+				'canonical'                       => $nullable_string,
+				'canonical_rendered'              => $rendered( \__( 'canonical URL', 'wordpress-seo' ) ),
+				'is_cornerstone'                  => [ 'type' => 'boolean' ],
+				'noindex'                         => [ 'type' => [ 'boolean', 'null' ] ],
+				'nofollow'                        => [ 'type' => 'boolean' ],
+				'noimageindex'                    => [ 'type' => 'boolean' ],
+				'noarchive'                       => [ 'type' => 'boolean' ],
+				'nosnippet'                       => [ 'type' => 'boolean' ],
+				'open_graph_title'                => $nullable_string,
+				'open_graph_title_rendered'       => $rendered( \__( 'Open Graph title', 'wordpress-seo' ) ),
+				'open_graph_description'          => $nullable_string,
+				'open_graph_description_rendered' => $rendered( \__( 'Open Graph description', 'wordpress-seo' ) ),
+				'twitter_title'                   => $nullable_string,
+				'twitter_title_rendered'          => $rendered( \__( 'Twitter title', 'wordpress-seo' ) ),
+				'twitter_description'             => $nullable_string,
+				'twitter_description_rendered'    => $rendered( \__( 'Twitter description', 'wordpress-seo' ) ),
+				'schema_page_type'                => $nullable_string,
+				'schema_article_type'             => $nullable_string,
+				'seo_score'                       => $score,
+				'readability_score'               => $score,
+				'inclusive_language_score'        => $score,
 			],
 		];
 	}
