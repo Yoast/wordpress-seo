@@ -77,7 +77,7 @@ const Tab = ( { tab, isActive, onChange, onKeyDown } ) => {
 			onKeyDown={ onKeyDown }
 			className={ classNames(
 				isActive ? "yst-bg-slate-100 yst-text-slate-800" : "yst-text-slate-600 hover:yst-bg-slate-100",
-				"hover:yst-font-medium focus:yst-text-slate-800 hover:yst-text-slate-800 hover:yst-bg-slate-100 hover:yst-text-opacity-100"
+				"hover:yst-font-medium focus:yst-text-slate-800 hover:yst-text-slate-800 hover:yst-bg-slate-100 hover:yst-text-opacity-100 !yst-leading-[19px]"
 			) }
 		>
 			{ tab.label }
