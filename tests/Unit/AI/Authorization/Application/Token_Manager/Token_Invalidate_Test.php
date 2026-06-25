@@ -24,7 +24,7 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 	 * @return void
 	 */
 	public function test_token_invalidate_with_valid_access_token() {
-		$user_id    = '123';
+		$user_id    = 123;
 		$access_jwt = 'valid_access_token';
 
 		// Mock getting the access token.
@@ -41,7 +41,7 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 				Mockery::on(
 					static function ( Request $request ) use ( $user_id, $access_jwt ) {
 						return $request->get_action_path() === '/token/invalidate'
-						&& $request->get_body() === [ 'user_id' => $user_id ]
+						&& $request->get_body() === [ 'user_id' => (string) $user_id ]
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $access_jwt" ];
 					},
 				),
@@ -68,7 +68,7 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 	 * @return void
 	 */
 	public function test_token_invalidate_with_access_token_exception() {
-		$user_id = '123';
+		$user_id = 123;
 
 		// Mock getting the access token throwing an exception.
 		$this->access_token_repository
@@ -84,7 +84,7 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 				Mockery::on(
 					static function ( Request $request ) use ( $user_id ) {
 						return $request->get_action_path() === '/token/invalidate'
-						&& $request->get_body() === [ 'user_id' => $user_id ]
+						&& $request->get_body() === [ 'user_id' => (string) $user_id ]
 						&& $request->get_headers() === [ 'Authorization' => 'Bearer ' ];
 					},
 				),
@@ -111,7 +111,7 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 	 * @return void
 	 */
 	public function test_token_invalidate_with_unauthorized_exception() {
-		$user_id    = '123';
+		$user_id    = 123;
 		$access_jwt = 'invalid_access_token';
 
 		// Mock getting the access token.
@@ -128,7 +128,7 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 				Mockery::on(
 					static function ( Request $request ) use ( $user_id, $access_jwt ) {
 						return $request->get_action_path() === '/token/invalidate'
-						&& $request->get_body() === [ 'user_id' => $user_id ]
+						&& $request->get_body() === [ 'user_id' => (string) $user_id ]
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $access_jwt" ];
 					},
 				),
@@ -156,7 +156,7 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 	 * @return void
 	 */
 	public function test_token_invalidate_with_forbidden_exception() {
-		$user_id    = '123';
+		$user_id    = 123;
 		$access_jwt = 'forbidden_access_token';
 
 		// Mock getting the access token.
@@ -173,7 +173,7 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 				Mockery::on(
 					static function ( Request $request ) use ( $user_id, $access_jwt ) {
 						return $request->get_action_path() === '/token/invalidate'
-						&& $request->get_body() === [ 'user_id' => $user_id ]
+						&& $request->get_body() === [ 'user_id' => (string) $user_id ]
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $access_jwt" ];
 					},
 				),

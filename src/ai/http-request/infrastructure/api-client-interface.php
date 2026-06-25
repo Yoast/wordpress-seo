@@ -19,13 +19,13 @@ interface API_Client_Interface {
 	 * @param string        $action_path The action path for the request.
 	 * @param array<string> $body        The body of the request.
 	 * @param array<string> $headers     The headers for the request.
-	 * @param bool          $is_post     Whether the request is a POST request.
+	 * @param string        $http_method The HTTP method for the request. One of `Request::METHOD_*`.
 	 *
 	 * @return array<int|string|array<string>> The response from the API.
 	 *
-	 * @throws WP_Request_Exception When the wp_remote_post() returns an error.
+	 * @throws WP_Request_Exception When the underlying WordPress HTTP call returns an error.
 	 */
-	public function perform_request( string $action_path, $body, $headers, bool $is_post ): array;
+	public function perform_request( string $action_path, $body, $headers, string $http_method ): array;
 
 	/**
 	 * Gets the timeout of the requests in seconds.
