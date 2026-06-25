@@ -13,9 +13,9 @@ import { Link } from "@yoast/ui-library";
 export const BackToToolsLink = ( { href } ) => (
 	<Link
 		href={ href }
-		className="yst-flex yst-items-center yst-gap-1.5 yst-no-underline yst-text-slate-600 hover:yst-text-slate-900"
+		className="yst-flex yst-items-center yst-gap-1.5 yst-rounded-md yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-no-underline yst-text-slate-800 hover:yst-bg-slate-50 hover:yst-text-slate-900"
 	>
-		<ArrowLeftIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" aria-hidden="true" />
+		<ArrowLeftIcon className="yst-w-4 yst-h-4 yst-text-slate-400 rtl:yst-rotate-180" aria-hidden="true" />
 		{ __( "Back to Tools", "wordpress-seo" ) }
 	</Link>
 );
