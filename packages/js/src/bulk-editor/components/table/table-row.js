@@ -1,4 +1,4 @@
-import { Slot } from "@wordpress/components";
+import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/components";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
@@ -24,6 +24,11 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
 	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField } = editing;
 	const isSaving = Object.keys( savingFields ).length > 0;
+	const fillsSeoTitles = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/seoTitle/${item.id}` );
+	const fillsMetaDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/metaDescription/${item.id}` );
+	const fillsSocialTitle = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialTitle/${item.id}` );
+	const fillsSocialDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialDescription/${item.id}` );
+	const isSlotFilled = [ fillsSeoTitles, fillsMetaDescription, fillsSocialTitle, fillsSocialDescription ].some( ( fills ) => fills?.length > 0 );
 
 	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
 	const handleEdit = useCallback( () => onStartEdit( item.id ), [ onStartEdit, item.id ] );
@@ -126,6 +131,7 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 								className="yst--me-2.5"
 								onClick={ handleEdit }
 								aria-label={ editLabel }
+								disabled={ isSlotFilled }
 							>
 								{ __( "Edit", "wordpress-seo" ) }
 							</Button>
