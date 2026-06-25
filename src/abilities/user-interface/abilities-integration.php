@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Editors\Framework\Inclusive_Language_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
@@ -434,9 +435,53 @@ class Abilities_Integration implements Integration_Interface {
 				'open_graph_description' => $nullable_string,
 				'twitter_title'          => $nullable_string,
 				'twitter_description'    => $nullable_string,
-				'schema_page_type'       => \array_merge( $nullable_string, [ 'maxLength' => 64 ] ),
-				'schema_article_type'    => \array_merge( $nullable_string, [ 'maxLength' => 64 ] ),
+				'schema_page_type'       => $this->nullable_enum_schema(
+					\array_keys( Schema_Types::PAGE_TYPES ),
+					\__( 'The Schema.org page type for the post. Must be one of the supported page types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
+				),
+				'schema_article_type'    => $this->nullable_enum_schema(
+					$this->get_schema_article_types(),
+					\__( 'The Schema.org article type for the post. Must be one of the supported article types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
+				),
 			],
+		];
+	}
+
+	/**
+	 * Returns the allowed Schema.org article type values.
+	 *
+	 * Mirrors the validation in WPSEO_Option_Titles so the ability accepts exactly the
+	 * article types the editor does, including any registered through the filter.
+	 *
+	 * @return array<int, string> The allowed article type values.
+	 */
+	private function get_schema_article_types(): array {
+		/**
+		 * Filter: 'wpseo_schema_article_types' - Allow developers to filter the available article types.
+		 *
+		 * Make sure when you filter this to also filter `wpseo_schema_article_types_labels`.
+		 *
+		 * @param array $schema_article_types The available schema article types.
+		 */
+		return \array_keys( \apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES ) );
+	}
+
+	/**
+	 * Returns a nullable-string input schema constrained to a fixed set of allowed values.
+	 *
+	 * Null and the empty string are always allowed on top of the enum so the field can be
+	 * cleared, matching the patch-clear semantics of the other write fields.
+	 *
+	 * @param array<int, string> $allowed_values The allowed string values.
+	 * @param string             $description    The field description.
+	 *
+	 * @return array<string, mixed> The input schema fragment.
+	 */
+	private function nullable_enum_schema( array $allowed_values, string $description ): array {
+		return [
+			'type'        => [ 'string', 'null' ],
+			'description' => $description,
+			'enum'        => \array_merge( $allowed_values, [ '', null ] ),
 		];
 	}
 
