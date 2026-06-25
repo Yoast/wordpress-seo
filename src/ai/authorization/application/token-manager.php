@@ -115,7 +115,7 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Invalidates the access token.
 	 *
-	 * @param string $user_id The user ID.
+	 * @param int $user_id The user ID.
 	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
@@ -127,7 +127,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws RuntimeException Unable to retrieve the access token.
 	 * @return void
 	 */
-	public function token_invalidate( string $user_id ): void {
+	public function token_invalidate( int $user_id ): void {
 		try {
 			$access_jwt = $this->access_token_repository->get_token( $user_id );
 		} catch ( RuntimeException $e ) {
@@ -159,11 +159,11 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Clears the user meta tokens for a specific user.
 	 *
-	 * @param string $user_id The user id to delete this for.
+	 * @param int $user_id The user id to delete this for.
 	 *
 	 * @return void
 	 */
-	public function clear_tokens( string $user_id ): void {
+	public function clear_tokens( int $user_id ): void {
 		$this->access_token_repository->delete_token( $user_id );
 		$this->refresh_token_repository->delete_token( $user_id );
 	}

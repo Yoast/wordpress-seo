@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\HTTP_Request\Infrastructure\API_Client;
 
 use Brain\Monkey\Functions;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 
 /**
  * Class Perform_Request_Post_Test
@@ -24,7 +25,7 @@ final class Perform_Request_Post_Test extends Abstract_API_Client_Test {
 		$action_path = '/generate';
 		$body        = [ 'prompt' => 'Test prompt' ];
 		$headers     = [ 'Authorization' => 'Bearer test_token' ];
-		$is_post     = true;
+		$http_method = Request::METHOD_POST;
 
 		Functions\expect( 'apply_filters' )
 			->once()
@@ -55,7 +56,7 @@ final class Perform_Request_Post_Test extends Abstract_API_Client_Test {
 				],
 			);
 
-		$result = $this->instance->perform_request( $action_path, $body, $headers, $is_post );
+		$result = $this->instance->perform_request( $action_path, $body, $headers, $http_method );
 
 		$this->assertEquals(
 			[

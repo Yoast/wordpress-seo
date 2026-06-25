@@ -134,7 +134,7 @@ class Get_Usage_Route implements Route_Interface {
 				'Authorization' => "Bearer $token",
 			];
 			$action_path     = $this->get_action_path( $is_woo_product_entity );
-			$response        = $this->request_handler->handle( new Request( $action_path, [], $request_headers, false ) );
+			$response        = $this->request_handler->handle( new Request( $action_path, [], $request_headers, Request::METHOD_GET ) );
 			$data            = \json_decode( $response->get_body() );
 		} catch ( Remote_Request_Exception | WP_Request_Exception $e ) {
 			if ( $e instanceof Forbidden_Exception ) {

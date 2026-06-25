@@ -4,11 +4,19 @@
 
 namespace Yoast\WP\SEO\AI\HTTP_Request\Domain;
 
+use InvalidArgumentException;
+
 /**
  * Class Request
  * Represents a request to the AI Generator API.
  */
 class Request {
+
+	public const METHOD_GET    = 'GET';
+	public const METHOD_POST   = 'POST';
+	public const METHOD_DELETE = 'DELETE';
+
+	private const ALLOWED_METHODS = [ self::METHOD_GET, self::METHOD_POST, self::METHOD_DELETE ];
 
 	/**
 	 * The action path for the request.
@@ -32,11 +40,11 @@ class Request {
 	private $headers;
 
 	/**
-	 * Whether the request is a POST request.
+	 * The HTTP method for the request.
 	 *
-	 * @var bool
+	 * @var string
 	 */
-	private $is_post;
+	private $http_method;
 
 	/**
 	 * Constructor for the Request class.
@@ -44,13 +52,20 @@ class Request {
 	 * @param string        $action_path The action path for the request.
 	 * @param array<string> $body        The body of the request.
 	 * @param array<string> $headers     The headers for the request.
-	 * @param bool          $is_post     Whether the request is a POST request. Default is true.
+	 * @param string        $http_method The HTTP method for the request. One of the METHOD_* constants. Defaults to POST.
+	 *
+	 * @throws InvalidArgumentException When $http_method is not one of the supported METHOD_* constants.
 	 */
-	public function __construct( string $action_path, array $body = [], array $headers = [], bool $is_post = true ) {
+	public function __construct( string $action_path, array $body = [], array $headers = [], string $http_method = self::METHOD_POST ) {
+		if ( ! \in_array( $http_method, self::ALLOWED_METHODS, true ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
+			throw new InvalidArgumentException( "Unsupported HTTP method: $http_method" );
+		}
+
 		$this->action_path = $action_path;
 		$this->body        = $body;
 		$this->headers     = $headers;
-		$this->is_post     = $is_post;
+		$this->http_method = $http_method;
 	}
 
 	/**
@@ -81,11 +96,11 @@ class Request {
 	}
 
 	/**
-	 * Whether the request is a POST request.
+	 * Get the HTTP method for the request.
 	 *
-	 * @return bool True if the request is a POST request, false otherwise.
+	 * @return string One of the METHOD_* constants.
 	 */
-	public function is_post(): bool {
-		return $this->is_post;
+	public function get_http_method(): string {
+		return $this->http_method;
 	}
 }
