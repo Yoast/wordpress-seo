@@ -66,7 +66,7 @@ export const SearchBox = ( { contentTypeLabel } ) => {
 			<label htmlFor={ SEARCH_ID } className="yst-sr-only">
 				{ label }
 			</label>
-			<div className="yst-flex yst-items-stretch yst-rounded-md yst-border yst-border-slate-300 yst-bg-white yst-shadow-sm focus-within:yst-border-primary-500 focus-within:yst-ring-1 focus-within:yst-ring-primary-500">
+			<div className="yst-flex yst-h-10 yst-items-stretch yst-rounded-md yst-border yst-border-slate-300 yst-bg-white yst-shadow-sm focus-within:yst-border-primary-500 focus-within:yst-ring-1 focus-within:yst-ring-primary-500">
 				<div className="yst-relative yst-flex-1">
 					<SearchIcon
 						className="yst-pointer-events-none yst-absolute yst-top-1/2 yst--translate-y-1/2 yst-start-3 yst-h-5 yst-w-5 yst-text-slate-400"
