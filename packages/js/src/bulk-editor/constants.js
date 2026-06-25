@@ -24,6 +24,10 @@ export const PLUGIN_SCOPE = "yoast-seo-bulk-editor";
 // The filter Premium uses to add items to the Select menu.
 export const SELECT_MENU_ITEMS_FILTER = "yoast.bulkEditor.selectMenuItems";
 
+// The slot Premium fills with its own pending-changes confirmation modal (e.g. unapplied AI suggestions), shown when a
+// tab switch is deferred because an external plugin reports pending changes. fillProps: { isOpen, onCommit, onCancel }.
+export const PENDING_CHANGES_MODAL_SLOT = "yoast.bulkEditor.pendingChangesModal";
+
 // The WooCommerce product post type.
 export const PRODUCT_CONTENT_TYPE = "product";
 
