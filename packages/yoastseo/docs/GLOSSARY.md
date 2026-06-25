@@ -34,7 +34,7 @@ Key differences from `Paper`:
 - Uses the canonical name **`keyphrase`** (mapped to the engine's `keyword`); `keyword` is accepted as a deprecated alias.
 - Carries the WordPress-transitional fields (`wpBlocks`, `shortcodes`, `isFrontPage`) as **optional, deprecated** — they are real analysis inputs that change WordPress scores, so a remote/API analysis needs them for result parity.
 - Authored in [zod](https://zod.dev); validates structure (wrong types / unknown keys throw) while leaving per-assessment fields optional (omitting one just skips that assessment).
-- Extensible: consumers can `paperDtoSchema.extend({ … })` and build a mapper with `createToPaper` to validate custom fields for their own assessments.
+- Consumers that register their own analysis (e.g., assessments) pass those inputs through the opaque `customData` object, whose contents are not validated.
 
 **Example:**
 ```javascript

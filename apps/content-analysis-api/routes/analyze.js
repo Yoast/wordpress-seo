@@ -2,6 +2,7 @@ const { assessments, assessors } = require( "yoastseo" );
 const { toResultDto } = require( "yoastseo/contract" );
 const { getResearcher } = require( "../helpers/get-researcher" );
 const { paperFromRequest } = require( "../helpers/paper-from-request" );
+const { paperLanguage } = require( "../helpers/paper-language" );
 
 const express = require( "express" ), app = express();
 
@@ -30,7 +31,7 @@ module.exports = function( app ) {
 		}
 
 		// Fetch the Researcher and set the morphology data for the given language (yes, this is a bit hacky)
-		const language = request.body.locale || "en";
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 
 		const seoAssessor = new SEOAssessor( researcher );
@@ -60,7 +61,7 @@ module.exports = function( app ) {
 		if ( ! paper ) {
 			return;
 		}
-		const language = request.body.locale || "en";
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new SEOAssessor( researcher );
 		assessor.addAssessment( "keyphraseDistribution", new KeyphraseDistributionAssessment() );
@@ -75,7 +76,7 @@ module.exports = function( app ) {
 		if ( ! paper ) {
 			return;
 		}
-		const language = request.body.locale || "en";
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new ContentAssessor( researcher );
 		assessor.addAssessment( "wordComplexity", new WordComplexityAssessment() );
@@ -90,7 +91,7 @@ module.exports = function( app ) {
 		if ( ! paper ) {
 			return;
 		}
-		const language = request.body.locale || "en";
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new RelatedKeywordAssessor( researcher );
 
@@ -103,7 +104,7 @@ module.exports = function( app ) {
 		if ( ! paper ) {
 			return;
 		}
-		const language = request.body.locale || "en";
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new InclusiveLanguageAssessor( researcher );
 
@@ -112,14 +113,15 @@ module.exports = function( app ) {
 	} );
 
 	app.get( "/analyze/meta-description", ( request, response ) => {
-		if ( ! request.body.description ) {
-			return response.status( 400 ).json( { error: "Description is required" } );
-		}
 		const paper = paperFromRequest( request, response );
 		if ( ! paper ) {
 			return;
 		}
-		const language = request.body.locale || "en";
+		// This endpoint analyses the meta description, so one is required (the contract leaves it optional).
+		if ( ! paper.getDescription() ) {
+			return response.status( 400 ).json( { error: "Description is required" } );
+		}
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new MetaDescriptionAssessor( researcher );
 		assessor.assess( paper );
@@ -127,14 +129,15 @@ module.exports = function( app ) {
 	} );
 
 	app.get( "/analyze/seo-title", ( request, response ) => {
-		if ( ! request.body.title ) {
-			return response.status( 400 ).json( { error: "Title is required" } );
-		}
 		const paper = paperFromRequest( request, response );
 		if ( ! paper ) {
 			return;
 		}
-		const language = request.body.locale || "en";
+		// This endpoint analyses the SEO title, so one is required (the contract leaves it optional).
+		if ( ! paper.getTitle() ) {
+			return response.status( 400 ).json( { error: "Title is required" } );
+		}
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new SeoTitleAssessor( researcher );
 		assessor.assess( paper );
@@ -150,7 +153,7 @@ module.exports = function( app ) {
 		if ( ! paper.hasKeyword() ) {
 			return response.status( 400 ).json( { error: "A keyphrase is required" } );
 		}
-		const language = request.body.locale || "en";
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new KeyphraseAssessor( researcher );
 		assessor.assess( paper );
@@ -166,7 +169,7 @@ module.exports = function( app ) {
 		if ( ! paper.hasKeyword() ) {
 			return response.status( 400 ).json( { error: "A keyphrase is required" } );
 		}
-		const language = request.body.locale || "en";
+		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new KeyphraseUseAssessor( researcher );
 		assessor.addAssessment( "keyphraseDistribution", new KeyphraseDistributionAssessment() );
