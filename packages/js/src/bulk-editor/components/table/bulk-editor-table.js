@@ -76,7 +76,7 @@ export const BulkEditorTable = ( {
 			</div>
 			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ getTableClassName( isLoading ) }>
 				<colgroup>
-					<col className="sm:yst-w-[4%]" />
+					<col className="sm:yst-w-[42px]" />
 					<col className="sm:yst-w-[20%]" />
 					{ fieldSet.fields.map( ( field ) => (
 						<col key={ field.key } className={ field.width } />
