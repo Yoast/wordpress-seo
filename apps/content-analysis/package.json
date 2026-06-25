@@ -62,7 +62,7 @@
     "terser-webpack-plugin": "2.2.1",
     "url-loader": "3.0.0",
     "webpack": "^4.47.0",
-    "webpack-dev-server": "^5.2.4",
+    "webpack-dev-server": "^5.2.5",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1",
     "worker-loader": "^2.0.0",

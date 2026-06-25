@@ -78,7 +78,7 @@ class Request_Handler implements Request_Handler_Interface {
 					$request->get_action_path(),
 					$request->get_body(),
 					$request->get_headers(),
-					$request->is_post(),
+					$request->get_http_method(),
 				);
 
 		$response = $this->response_parser->parse( $api_response );
