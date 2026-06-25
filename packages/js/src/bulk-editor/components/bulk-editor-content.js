@@ -161,6 +161,9 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 						showBulkActions={ hasSelection }
 						filters={ <BulkEditorFilters /> }
 						isLoading={ isPending }
+						footer={ total > 0
+							? <BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
+							: null }
 					/>
 				</BulkEditorTabPanel>
 			) ) }
@@ -170,7 +173,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 				onDiscard={ onDiscardAndSwitch }
 				onClose={ onCancelSwitch }
 			/>
-			<BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
 		</div>
 	);
 };

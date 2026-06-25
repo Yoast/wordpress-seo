@@ -5,8 +5,33 @@ import { BulkEditorBody } from "./table-body";
 import { BulkEditorHeader } from "./table-header";
 import { getColumnCount } from "./table-helpers";
 
-const getTableClassName = ( isLoading ) =>
-	`yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium [&_tbody_td]:!yst-border-t-slate-100 [&_tbody_th]:!yst-border-t-slate-100 [&_thead_th]:!yst-border-b-slate-200 yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }`;
+const getTableClassName = ( isLoading, hasFooter ) =>
+	// With a footer row present, the bottom corners belong to it, so square off the last body row's cells.
+	`yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium [&_tbody_td]:!yst-border-t-slate-100 [&_tbody_th]:!yst-border-t-slate-100 [&_thead_th]:!yst-border-b-slate-200${ hasFooter ? " [&_tbody_.yst-table-row:last-of-type_.yst-table-cell]:!yst-rounded-none" : "" } yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }`;
+
+/**
+ * The results footer as the table's bottom row, so it sits inside the table card and takes its rounded corners.
+ *
+ * @param {Object}      props             The props.
+ * @param {number}      props.columnCount The total number of columns (the footer cell spans them all).
+ * @param {JSX.Element} [props.children]  The footer content; when absent no footer row is rendered.
+ *
+ * @returns {JSX.Element|null} The footer row, or null when there is no footer.
+ */
+const TableFooter = ( { columnCount, children } ) => {
+	if ( ! children ) {
+		return null;
+	}
+	return (
+		<tfoot>
+			<Table.Row>
+				<Table.Cell colSpan={ columnCount } className="yst-border-t yst-border-slate-200 yst-bg-white yst-rounded-es-lg yst-rounded-ee-lg">
+					{ children }
+				</Table.Cell>
+			</Table.Row>
+		</tfoot>
+	);
+};
 
 /**
  * The bulk editor selection.
@@ -44,6 +69,7 @@ const getTableClassName = ( isLoading ) =>
  * @param {JSX.Element}         [props.bulkActions]      The bulk-actions toolbar row's content.
  * @param {boolean}             [props.showBulkActions]  Whether the bulk-actions row is expanded (a selection is active).
  * @param {JSX.Element}         [props.filters]          The filters control, rendered in the toolbar row.
+ * @param {JSX.Element}         [props.footer]           The results footer, rendered as the table's bottom row.
  *
  * @returns {JSX.Element} The table.
  */
@@ -57,6 +83,7 @@ export const BulkEditorTable = ( {
 	bulkActions,
 	showBulkActions = false,
 	filters,
+	footer,
 } ) => {
 	const columnCount = getColumnCount( fieldSet.fields );
 	const selectionState = { selectedIds: [], isAllSelected: false, onToggleRow: noop, onToggleAll: noop, ...selection };
@@ -74,7 +101,7 @@ export const BulkEditorTable = ( {
 			<div role="status" className="yst-sr-only">
 				{ isLoading ? __( "Loading content…", "wordpress-seo" ) : "" }
 			</div>
-			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ getTableClassName( isLoading ) }>
+			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ getTableClassName( isLoading, Boolean( footer ) ) }>
 				<colgroup>
 					<col className="sm:yst-w-[42px]" />
 					<col className="sm:yst-w-[20%]" />
@@ -101,6 +128,7 @@ export const BulkEditorTable = ( {
 						isLoading={ isLoading }
 					/>
 				</Table.Body>
+				<TableFooter columnCount={ columnCount }>{ footer }</TableFooter>
 			</Table>
 		</>
 	);

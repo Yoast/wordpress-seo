@@ -36,7 +36,7 @@ export const BulkEditorFooter = ( { total, totalPages, isPending } ) => {
 	const to = Math.min( page * PAGE_SIZE, total );
 
 	return (
-		<div className="yst-flex yst-items-center yst-justify-between yst-border-t yst-border-slate-200 yst-pt-4">
+		<div className="yst-flex yst-items-center yst-justify-between">
 			<p className="yst-hidden sm:yst-block yst-text-sm yst-text-slate-600">
 				{ createInterpolateElement(
 					sprintf(
