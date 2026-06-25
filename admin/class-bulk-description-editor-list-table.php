@@ -42,6 +42,9 @@ class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 	/**
 	 * The columns shown on the table.
 	 *
+	 * @deprecated 28.1
+	 * @codeCoverageIgnore
+	 *
 	 * @return array
 	 */
 	public function get_columns() {
