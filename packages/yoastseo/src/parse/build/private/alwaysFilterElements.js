@@ -19,11 +19,17 @@ const permanentFilters = [
 	// Filters for Elementor widgets
 	elementHasID( "breadcrumbs" ),
 	elementHasClass( "elementor-button-wrapper" ),
+	// Catches the classic button widget's <a> in Elementor V4, where the elementor-button-wrapper
+	// div is absent and the anchor is the first rendered child of the widget wrapper.
+	elementHasClass( "elementor-button" ),
 	elementHasClass( "elementor-divider" ),
 	elementHasClass( "elementor-spacer" ),
 	elementHasClass( "elementor-custom-embed" ),
 	elementHasClass( "elementor-icon-wrapper" ),
-	elementHasClass( "elementor-icon-box-wrapper" ),
+	// Filter only the icon container inside the icon-box widget, not the wrapper that also holds
+	// the title and description text. The old elementor-icon-box-wrapper filter was too wide and
+	// silently removed the heading and description from analysis.
+	elementHasClass( "elementor-icon-box-icon" ),
 	elementHasClass( "elementor-counter" ),
 	elementHasClass( "elementor-progress-wrapper" ),
 	// This element is used for the progress bar widget title.
@@ -33,6 +39,14 @@ const permanentFilters = [
 	elementHasClass( "elementor-shortcode" ),
 	elementHasClass( "elementor-menu-anchor" ),
 	elementHasClass( "e-rating" ),
+	// Elementor's own table-of-contents widget (distinct from the Yoast block above). It is
+	// navigation rather than content, so it is excluded in both the classic and V4 editors.
+	elementHasClass( "elementor-widget-table-of-contents" ),
+	// Elementor V4 atomic widgets that are not body content. Atomic forms render as a `<form>`
+	// element and are already covered by the `form` filter below, including their nested fields.
+	elementHasClass( "elementor-widget-e-button" ),
+	elementHasClass( "elementor-widget-e-divider" ),
+	elementHasClass( "elementor-widget-e-svg" ),
 	// Filters out HTML elements.
 	/* Elements are filtered out when: they contain content outside of the author's control (incl. quotes and embedded
 	content); their content isn't natural language (e.g. code); they contain metadata hidden from the page visitor

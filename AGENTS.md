@@ -20,6 +20,8 @@ If a rule appears to conflict between this file and `CONTRIBUTING.md` or [`.gith
 
 - **Don't paper over failures.** If a pre-push check, test, or coding-standard rule fails, fix it or flag it. Do not skip tests, lower CS thresholds, add ignore pragmas, bypass CI gates, or untick quality-assurance boxes on the PR template without explicit permission.
 
+- **Commit, then check CS, then push.** Run `composer check-branch-cs` after committing your changes and before pushing, never before. It only inspects committed branch changes, so a check run on uncommitted or untracked files can silently skip them and pass falsely. See [CONTRIBUTING.md → "Before you push or open/update a PR"](./.github/CONTRIBUTING.md#before-you-push-or-openupdate-a-pr).
+
 - **Respect the creator / merger split on PRs.** When opening a PR, never set the milestone and never add the `community-patch` label. Both are the merger's or automation's job. The full procedure lives in [`docs/workflows/create-pr.md`](./docs/workflows/create-pr.md) — follow it instead of reinventing the steps.
 
 - **Don't hand-edit generated or vendored files.** `src/generated/`, `vendor/`, `vendor_prefixed/`, `build/`, `js/dist/`, `css/dist/`, `artifact/`, `languages/`, `node_modules/` — regenerate via the appropriate tooling. The full list and the tool for each is in [CONTRIBUTING.md → "Repository layout"](./.github/CONTRIBUTING.md#repository-layout).
