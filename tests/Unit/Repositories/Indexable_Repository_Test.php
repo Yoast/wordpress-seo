@@ -295,8 +295,8 @@ final class Indexable_Repository_Test extends TestCase {
 	/**
 	 * Mocks the ORM object.
 	 *
-	 * @param array $indexable_ids The list of indexable IDs to expect to be retrieved.
-	 * @param array $indexables    The list of indexables to expect to be retrieved.
+	 * @param int[]            $indexable_ids The list of indexable IDs to expect to be retrieved.
+	 * @param Indexable_Mock[] $indexables    The list of indexables to expect to be retrieved.
 	 *
 	 * @return Mockery\Mock The mocked ORM object.
 	 */

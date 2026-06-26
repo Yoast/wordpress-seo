@@ -24,14 +24,14 @@ class Indexable_Repository {
 	 *
 	 * @var int
 	 */
-	const MAX_TITLE_KEYWORD_PHRASES = 10;
+	public const MAX_TITLE_KEYWORD_PHRASES = 10;
 
 	/**
 	 * The maximum page size honoured by a title-keyword search.
 	 *
 	 * @var int
 	 */
-	const MAX_TITLE_KEYWORD_PAGE_SIZE = 100;
+	public const MAX_TITLE_KEYWORD_PAGE_SIZE = 100;
 
 	/**
 	 * The indexable builder.
@@ -424,7 +424,7 @@ class Indexable_Repository {
 	/**
 	 * Finds the indexables by id's.
 	 *
-	 * @param array $indexable_ids The indexable id's.
+	 * @param int[] $indexable_ids The indexable id's.
 	 *
 	 * @return Indexable[] The found indexables.
 	 */
@@ -481,7 +481,7 @@ class Indexable_Repository {
 	 * Returns all subpages with a given post_parent.
 	 *
 	 * @param int   $post_parent The post parent.
-	 * @param array $exclude_ids The id's to exclude.
+	 * @param int[] $exclude_ids The id's to exclude.
 	 *
 	 * @return Indexable[] array of indexables.
 	 */
