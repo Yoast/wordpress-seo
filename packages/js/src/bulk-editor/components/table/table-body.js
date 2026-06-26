@@ -33,6 +33,7 @@ const SkeletonRows = ( { columnCount } ) => (
  * @param {Object}              props             The props.
  * @param {BulkEditorItem[]}    props.items       The items to render.
  * @param {FieldSetField[]}     props.fields      The active field set's editable columns.
+ * @param {string}              props.fieldSetId  The active field set's id, used to scope the per-row indicator slot.
  * @param {number}              props.columnCount The total number of columns.
  * @param {BulkEditorSelection} props.selection   The selection props.
  * @param {BulkEditorEditing}   props.editing     The inline-edit props.
@@ -40,7 +41,7 @@ const SkeletonRows = ( { columnCount } ) => (
  *
  * @returns {JSX.Element} The body rows.
  */
-export const BulkEditorBody = ( { items, fields, columnCount, selection, editing, isLoading } ) => {
+export const BulkEditorBody = ( { items, fields, fieldSetId, columnCount, selection, editing, isLoading } ) => {
 	const { selectedIds, onToggleRow } = selection;
 
 	if ( isLoading && items.length === 0 ) {
@@ -62,6 +63,7 @@ export const BulkEditorBody = ( { items, fields, columnCount, selection, editing
 			key={ item.id }
 			item={ item }
 			fields={ fields }
+			fieldSetId={ fieldSetId }
 			isSelected={ selectedIds.includes( item.id ) }
 			onToggleRow={ onToggleRow }
 			edit={ editing.editingRows[ item.id ] }

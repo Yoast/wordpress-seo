@@ -156,6 +156,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								selectedIds={ selectedIds }
 								activeFieldSet={ activeFieldSet }
 								contentType={ contentType }
+								contentTypeLabel={ contentTypeLabel }
 							/>
 						}
 						showBulkActions={ hasSelection }

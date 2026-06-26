@@ -122,6 +122,7 @@ export const BulkEditorTable = ( {
 					<BulkEditorBody
 						items={ items }
 						fields={ fieldSet.fields }
+						fieldSetId={ fieldSet.id }
 						columnCount={ columnCount }
 						selection={ selectionState }
 						editing={ editingState }
