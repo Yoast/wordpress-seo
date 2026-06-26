@@ -23,3 +23,9 @@
 		z-index: 99999;
 	}
 }
+
+/* Override the default textarea background color for AI suggestions. */
+/* Should be removed once .yst-root is removed from the bulk editor page. */
+.yst-root .yst-bulk-editor-ai-suggestion textarea.yst-textarea {
+	@apply !yst-bg-primary-50;
+}
