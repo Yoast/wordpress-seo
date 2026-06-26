@@ -22,6 +22,36 @@
 	.yst-mobile-navigation__dialog {
 		z-index: 99999;
 	}
+
+	/* Re-assert the page's responsive utilities so the @yoast/ai-frontend stylesheet cannot clobber
+	 * them when Premium AI is active. */
+	@media (min-width: 640px) {
+		.sm\:yst-block {
+			@apply !yst-block;
+		}
+
+		.sm\:yst-flex-row {
+			@apply !yst-flex-row;
+		}
+
+		.sm\:yst-table-fixed {
+			@apply !yst-table-fixed;
+		}
+
+		.sm\:yst-w-80 {
+			@apply !yst-w-80;
+		}
+	}
+
+	@media (min-width: 783px) {
+		.min-\[783px\]\:yst-block {
+			@apply !yst-block;
+		}
+
+		.min-\[783px\]\:yst-p-8 {
+			@apply !yst-p-8;
+		}
+	}
 }
 
 /* Override the default textarea background color for AI suggestions. */
