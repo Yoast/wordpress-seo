@@ -56,10 +56,7 @@ final class Get_Myyoast_Connection_Data_Test extends Abstract_AI_Generator_Integ
 		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturnTrue();
 		$this->status_presenter->expects( 'present' )->once()->andReturn( self::PROVISIONED_STATUS );
 
-		Monkey\Functions\expect( 'current_user_can' )
-			->with( 'wpseo_manage_options' )
-			->once()
-			->andReturnTrue();
+		$this->connection_permission->expects( 'can_manage' )->once()->andReturnTrue();
 
 		Monkey\Functions\expect( 'self_admin_url' )
 			->once()
@@ -103,10 +100,7 @@ final class Get_Myyoast_Connection_Data_Test extends Abstract_AI_Generator_Integ
 		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturnTrue();
 		$this->status_presenter->expects( 'present' )->once()->andReturn( self::PROVISIONED_STATUS );
 
-		Monkey\Functions\expect( 'current_user_can' )
-			->with( 'wpseo_manage_options' )
-			->once()
-			->andReturnFalse();
+		$this->connection_permission->expects( 'can_manage' )->once()->andReturnFalse();
 
 		// No connect URL is built for a user who cannot connect.
 		Monkey\Functions\expect( 'wp_create_nonce' )->never();

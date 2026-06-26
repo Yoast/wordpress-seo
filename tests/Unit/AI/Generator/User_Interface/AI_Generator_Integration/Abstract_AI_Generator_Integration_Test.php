@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Connection_Permission;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -127,6 +128,13 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 	protected $short_link_helper;
 
 	/**
+	 * Represents the MyYoast connection-management permission check.
+	 *
+	 * @var Mockery\MockInterface|Connection_Permission
+	 */
+	protected $connection_permission;
+
+	/**
 	 * Sets an instance for test purposes.
 	 *
 	 * @return void
@@ -147,6 +155,7 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 		$this->myyoast_connection_conditional   = Mockery::mock( MyYoast_Connection_Conditional::class );
 		$this->status_presenter                 = Mockery::mock( Status_Presenter::class );
 		$this->short_link_helper                = Mockery::mock( Short_Link_Helper::class );
+		$this->connection_permission            = Mockery::mock( Connection_Permission::class );
 
 		$this->instance = new Ai_Generator_Integration(
 			$this->asset_manager,
@@ -162,6 +171,7 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 			$this->myyoast_connection_conditional,
 			$this->status_presenter,
 			$this->short_link_helper,
+			$this->connection_permission,
 		);
 	}
 }

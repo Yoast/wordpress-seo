@@ -22,6 +22,7 @@ use Yoast\WP\SEO\Integrations\Admin\Integrations_Page;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell;
 use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Connection_Permission;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
 
 /**
@@ -121,6 +122,13 @@ class Ai_Generator_Integration implements Integration_Interface {
 	private $short_link_helper;
 
 	/**
+	 * The MyYoast connection-management permission check.
+	 *
+	 * @var Connection_Permission
+	 */
+	private $connection_permission;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array<string>
@@ -145,6 +153,7 @@ class Ai_Generator_Integration implements Integration_Interface {
 	 * @param MyYoast_Connection_Conditional   $myyoast_connection_conditional   The MyYoast connection feature-flag conditional.
 	 * @param Status_Presenter                 $status_presenter                 The MyYoast connection status presenter.
 	 * @param Short_Link_Helper                $short_link_helper                The short-link helper.
+	 * @param Connection_Permission            $connection_permission            The MyYoast connection-management permission check.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -159,7 +168,8 @@ class Ai_Generator_Integration implements Integration_Interface {
 		Free_Sparks_Endpoints_Repository $free_sparks_endpoints_repository,
 		MyYoast_Connection_Conditional $myyoast_connection_conditional,
 		Status_Presenter $status_presenter,
-		Short_Link_Helper $short_link_helper
+		Short_Link_Helper $short_link_helper,
+		Connection_Permission $connection_permission
 	) {
 		$this->asset_manager                    = $asset_manager;
 		$this->addon_manager                    = $addon_manager;
@@ -174,6 +184,7 @@ class Ai_Generator_Integration implements Integration_Interface {
 		$this->myyoast_connection_conditional   = $myyoast_connection_conditional;
 		$this->status_presenter                 = $status_presenter;
 		$this->short_link_helper                = $short_link_helper;
+		$this->connection_permission            = $connection_permission;
 	}
 
 	/**
@@ -244,7 +255,7 @@ class Ai_Generator_Integration implements Integration_Interface {
 		}
 
 		$status      = $this->status_presenter->present();
-		$can_connect = \current_user_can( 'wpseo_manage_options' );
+		$can_connect = $this->connection_permission->can_manage();
 
 		return [
 			'isProvisioned' => \is_bool( $status['is_provisioned'] ) && $status['is_provisioned'],
