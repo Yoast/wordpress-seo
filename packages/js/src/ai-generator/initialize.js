@@ -12,6 +12,7 @@ import { PRODUCT_SUBSCRIPTIONS_NAME } from "./store/product-subscriptions";
 import { ENDPOINTS_NAME } from "./store/endpoints";
 import { USAGE_COUNT_NAME } from "./store/usage-count";
 import { FREE_SPARKS_NAME } from "./store/free-sparks";
+import { MYYOAST_CONNECTION_NAME } from "./store/myyoast-connection";
 import domReady from "@wordpress/dom-ready";
 
 /**
@@ -77,6 +78,8 @@ const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editT
  * @returns {void}
  */
 const initializeAiGenerator = () => {
+	// Null when the MyYoast connection feature is unavailable (flag off / not provisioned).
+	const myyoastConnection = get( window, "wpseoAiGenerator.myyoastConnection", null );
 	registerStore( {
 		[ HAS_AI_GENERATOR_CONSENT_NAME ]: {
 			hasConsent: get( window, "wpseoAiGenerator.hasConsent", false ) === "1",
@@ -93,6 +96,13 @@ const initializeAiGenerator = () => {
 		[ ENDPOINTS_NAME ]: {
 			getSuggestions: get( window, "wpseoAiGenerator.endpoints.getSuggestions", "" ),
 			bustSubscriptionCache: get( window, "wpseoAiGenerator.endpoints.bustSubscriptionCache", "" ),
+		},
+		[ MYYOAST_CONNECTION_NAME ]: {
+			// Absent payload means the feature is unavailable; the editor then shows the informational variant.
+			isAvailable: Boolean( myyoastConnection ),
+			canConnect: get( myyoastConnection, "canConnect", false ),
+			connectUrl: get( myyoastConnection, "connectUrl", null ),
+			learnMoreUrl: get( myyoastConnection, "learnMoreUrl", "" ),
 		},
 	} );
 

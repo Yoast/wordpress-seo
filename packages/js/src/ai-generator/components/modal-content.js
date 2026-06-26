@@ -1,7 +1,7 @@
 /* eslint-disable complexity, max-statements */
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import { useDispatch, useSelect } from "@wordpress/data";
-import { Fragment, useCallback, useMemo, useState } from "@wordpress/element";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, Label, Modal, Notifications, Pagination, useModalContext, usePrevious } from "@yoast/ui-library";
 import { map, noop } from "lodash";
@@ -86,9 +86,12 @@ const SuggestionsFooter = ( { total, current, onNavigate, disabled = false, ...p
 
 /**
  * @param {number} height The height of the scrolling container above.
+ * @param {function} onFatalError Called with an error descriptor when the initial
+ *                                fetch fails (or a subscription error occurs), so
+ *                                the parent can close the modal and show a danger modal.
  * @returns {JSX.Element} The element.
  */
-export const ModalContent = ( { height } ) => {
+export const ModalContent = ( { height, onFatalError } ) => {
 	const [ initialFetch, setInitialFetch ] = useState( "" );
 	const { onClose } = useModalContext();
 	const { editType, previewType, contentType } = useTypeContext();
@@ -210,8 +213,12 @@ export const ModalContent = ( { height } ) => {
 		( suggestions.status === ASYNC_ACTION_STATUS.error && ! isOnLastPage )
 	), [ suggestions.status, isOnLastPage ] );
 	const showLoading = useMemo( () => suggestions.status === ASYNC_ACTION_STATUS.loading && isOnLastPage, [ suggestions.status, isOnLastPage ] );
-	const showError = useMemo( () => suggestions.status === ASYNC_ACTION_STATUS.error && isOnLastPage, [ suggestions.status, isOnLastPage ] );
-
+	// A "generate 5 more" failure on the last page surfaces as an inline alert with
+	// a retry, and clears on the next fetch.
+	const showError = useMemo(
+		() => suggestions.status === ASYNC_ACTION_STATUS.error && isOnLastPage,
+		[ suggestions.status, isOnLastPage ]
+	);
 	const handleGenerateMore = useCallback( () => {
 		if ( disableGenerateMore ) {
 			return;
@@ -229,7 +236,6 @@ export const ModalContent = ( { height } ) => {
 			}
 		} );
 	}, [ fetchSuggestions, suggestions.status, totalPages, setCurrentPage, setSelectedSuggestion, isUsageCountLimitReached ] );
-	const handleRetryInitialFetch = useCallback( () => setInitialFetch( "" ), [ setInitialFetch ] );
 	const setTitleOrDescription = useSetTitleOrDescription();
 	const openYoastSidebarWhenPublishing = useOpenYoastSidebarWhenPublishing( true );
 	const handleApplySuggestion = useCallback( () => {
@@ -267,20 +273,24 @@ export const ModalContent = ( { height } ) => {
 		return Promise.resolve();
 	}, [ initialFetch, addUsageCount, fetchSuggestions ] );
 
-	// Initial fetch gone wrong OR subscription error on any request.
-	if ( initialFetch === FETCH_RESPONSE_STATUS.error || ( suggestions.status === ASYNC_ACTION_STATUS.error && suggestions.error.code === 402 ) ) {
-		return (
-			<div className="yst-flex yst-flex-col yst-space-y-6 yst-mt-6">
-				<SuggestionError
-					errorCode={ suggestions.error.code }
-					errorIdentifier={ suggestions.error.errorIdentifier }
-					invalidSubscriptions={ suggestions.error.missingLicenses }
-					showActions={ true }
-					onRetry={ handleRetryInitialFetch }
-					errorMessage={ suggestions.error.message }
-				/>
-			</div>
-		);
+	// Initial fetch gone wrong OR subscription error on any request: this is fatal
+	// for the modal — hand the error to the parent, which closes the AI modal and
+	// surfaces it as a danger modal (the design shows these errors outside the AI modal).
+	const isFatalError = initialFetch === FETCH_RESPONSE_STATUS.error ||
+		( suggestions.status === ASYNC_ACTION_STATUS.error && suggestions.error.code === 402 );
+	useEffect( () => {
+		if ( isFatalError ) {
+			onFatalError( {
+				errorCode: suggestions.error.code,
+				errorIdentifier: suggestions.error.errorIdentifier ?? "",
+				invalidSubscriptions: suggestions.error.missingLicenses ?? [],
+				errorMessage: suggestions.error.message ?? "",
+			} );
+		}
+	}, [ isFatalError, suggestions.error, onFatalError ] );
+	if ( isFatalError ) {
+		// Render nothing while the parent closes the modal.
+		return null;
 	}
 
 	const suggestionClassNames = [
@@ -337,23 +347,6 @@ export const ModalContent = ( { height } ) => {
 								disabled={ suggestions.status === ASYNC_ACTION_STATUS.loading || showError }
 							/>
 						</> }
-					</>
-				) }
-				{ ( suggestions.status === ASYNC_ACTION_STATUS.error && isOnLastPage ) && (
-					<>
-						<div className="yst-mt-8" />
-						<SuggestionError
-							errorCode={ suggestions.error.code }
-							errorIdentifier={ suggestions.error.errorIdentifier }
-							invalidSubscriptions={ suggestions.error.missingLicenses }
-							errorMessage={ suggestions.error.message }
-						/>
-						<SuggestionsFooter
-							current={ currentPage }
-							total={ totalPages }
-							onNavigate={ setCurrentPage }
-							disabled={ suggestions.status === ASYNC_ACTION_STATUS.loading }
-						/>
 					</>
 				) }
 			</Modal.Container.Content>
@@ -414,10 +407,22 @@ export const ModalContent = ( { height } ) => {
 				{ ( suggestions.status === ASYNC_ACTION_STATUS.success || suggestions.status === ASYNC_ACTION_STATUS.loading ) && (
 					<TipNotification />
 				) }
+				{ /* A non-fatal "generate 5 more" failure: keep the modal open and offer a retry inline. */ }
+				{ showError && (
+					<SuggestionError
+						errorCode={ suggestions.error.code }
+						errorIdentifier={ suggestions.error.errorIdentifier }
+						invalidSubscriptions={ suggestions.error.missingLicenses }
+						errorMessage={ suggestions.error.message }
+						showActions={ true }
+						onRetry={ handleGenerateMore }
+					/>
+				) }
 			</Notifications>
 		</Fragment>
 	);
 };
 ModalContent.propTypes = {
 	height: PropTypes.number.isRequired,
+	onFatalError: PropTypes.func.isRequired,
 };
