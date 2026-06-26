@@ -56,6 +56,11 @@
 
 /* Override the default textarea background color for AI suggestions. */
 /* Should be removed once .yst-root is removed from the bulk editor page. */
+.yst-root .yst-bulk-editor-ai-suggestion {
+	padding: 1px;
+	background-image: linear-gradient(to bottom right, #cd82ab, #a3b3ff);
+}
+
 .yst-root .yst-bulk-editor-ai-suggestion textarea.yst-textarea {
 	@apply !yst-bg-primary-50;
 }
