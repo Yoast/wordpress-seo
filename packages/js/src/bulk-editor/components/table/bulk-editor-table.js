@@ -6,8 +6,8 @@ import { BulkEditorHeader } from "./table-header";
 import { getColumnCount } from "./table-helpers";
 
 const getTableClassName = ( isLoading, hasFooter ) =>
-	// With a footer row present, the bottom corners belong to it, so square off the last body row's cells.
-	`yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium [&_tbody_td]:!yst-border-t-slate-100 [&_tbody_th]:!yst-border-t-slate-100 [&_thead_th]:!yst-border-b-slate-200${ hasFooter ? " [&_tbody_.yst-table-row:last-of-type_.yst-table-cell]:!yst-rounded-none" : "" } yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }`;
+	// Aligns the title column (2nd cell) with the Select button, and round off the last body row's cells.
+	`yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium [&_tbody_td]:!yst-border-t-slate-100 [&_tbody_th]:!yst-border-t-slate-100 [&_thead_th]:!yst-border-b-slate-200 [&_tr>*:nth-child(2)]:!yst-ps-1.5${ hasFooter ? " [&_tbody_.yst-table-row:last-of-type_.yst-table-cell]:!yst-rounded-none" : "" } yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }`;
 
 /**
  * The results footer as the table's bottom row, so it sits inside the table card and takes its rounded corners.
@@ -103,7 +103,7 @@ export const BulkEditorTable = ( {
 			</div>
 			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ getTableClassName( isLoading, Boolean( footer ) ) }>
 				<colgroup>
-					<col className="sm:yst-w-[42px]" />
+					<col className="sm:yst-w-[38px]" />
 					<col className="sm:yst-w-[20%]" />
 					{ fieldSet.fields.map( ( field ) => (
 						<col key={ field.key } className={ field.width } />
