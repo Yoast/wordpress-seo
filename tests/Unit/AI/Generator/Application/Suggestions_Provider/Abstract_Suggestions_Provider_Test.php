@@ -5,11 +5,10 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\Application\Suggestions_Provider;
 
 use Mockery;
-use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider;
-use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
-use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -34,25 +33,18 @@ abstract class Abstract_Suggestions_Provider_Test extends TestCase {
 	protected $consent_handler;
 
 	/**
-	 * The request handler instance.
+	 * The auth strategy factory instance.
 	 *
-	 * @var Mockery\MockInterface|Request_Handler
+	 * @var Mockery\MockInterface|AI_Request_Sender_Factory
 	 */
-	protected $request_handler;
+	protected $ai_request_sender_factory;
 
 	/**
-	 * The token manager instance.
+	 * The auth strategy returned by the factory.
 	 *
-	 * @var Mockery\MockInterface|Token_Manager
+	 * @var Mockery\MockInterface|AI_Request_Sender
 	 */
-	protected $token_manager;
-
-	/**
-	 * The options helper instance.
-	 *
-	 * @var Mockery\MockInterface|User_Helper
-	 */
-	protected $user_helper;
+	protected $ai_request_sender;
 
 	/**
 	 * Setup the test.
@@ -62,16 +54,14 @@ abstract class Abstract_Suggestions_Provider_Test extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->consent_handler = Mockery::mock( Consent_Handler::class );
-		$this->request_handler = Mockery::mock( Request_Handler::class );
-		$this->token_manager   = Mockery::mock( Token_Manager::class );
-		$this->user_helper     = Mockery::mock( User_Helper::class );
+		$this->consent_handler           = Mockery::mock( Consent_Handler::class );
+		$this->ai_request_sender_factory = Mockery::mock( AI_Request_Sender_Factory::class );
+		$this->ai_request_sender         = Mockery::mock( AI_Request_Sender::class );
+		$this->ai_request_sender_factory->shouldReceive( 'create' )->andReturn( $this->ai_request_sender )->byDefault();
 
 		$this->instance = new Suggestions_Provider(
 			$this->consent_handler,
-			$this->request_handler,
-			$this->token_manager,
-			$this->user_helper,
+			$this->ai_request_sender_factory,
 		);
 	}
 }

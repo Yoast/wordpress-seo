@@ -175,6 +175,7 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 				$rat,
 				( $stored['registration_client_uri'] ?? '' ),
 				( $stored['metadata'] ?? [] ),
+				( $stored['validated_uris'] ?? [] ),
 			);
 		} catch ( InvalidArgumentException $e ) {
 			$this->logger->error( 'Stored registration data is invalid, clearing registration: {error}', [ 'error' => $e->getMessage() ] );
@@ -186,51 +187,33 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	}
 
 	/**
-	 * Whether the plugin is registered as an OAuth client.
+	 * Ensures the registration's redirect URIs exactly match the given set.
 	 *
-	 * When redirect URIs are provided, also verifies that all of them
-	 * are included in the stored registration.
+	 * Performs DCR when not yet registered; when registered with a different set, updates the
+	 * registration in place via RFC 7592 (preserving the client_id, RAT, and key pair, and the
+	 * verification state of unchanged URIs) rather than re-registering.
 	 *
-	 * @param string[] $redirect_uris Optional redirect URIs to verify against the stored registration.
-	 *
-	 * @return bool
-	 */
-	public function is_registered( array $redirect_uris = [] ): bool {
-		$registered_client = $this->get_registered_client();
-		if ( $registered_client === null ) {
-			return false;
-		}
-
-		if ( $redirect_uris === [] ) {
-			return true;
-		}
-
-		$stored_uris = ( $registered_client->get_metadata()['redirect_uris'] ?? [] );
-
-		return \array_diff( $redirect_uris, $stored_uris ) === [];
-	}
-
-	/**
-	 * Ensures the plugin is registered, performing DCR if needed.
-	 *
-	 * @param string[] $redirect_uris The OAuth redirect URIs to register with.
+	 * @param string[] $redirect_uris The exact set of OAuth redirect URIs the registration should have.
 	 *
 	 * @return Registered_Client The client credentials.
 	 *
 	 * @throws Registration_Failed_Exception If registration fails.
 	 */
-	public function ensure_registered( array $redirect_uris = [] ): Registered_Client {
-		if ( $this->is_registered( $redirect_uris ) ) {
-			return $this->get_registered_client();
-		}
+	public function ensure_registered( array $redirect_uris ): Registered_Client {
+		$registered_client = $this->get_registered_client();
 
-		// Registered with stale redirect URIs — deregister first.
-		if ( $this->get_registered_client() !== null ) {
-			$this->deregister();
+		if ( $registered_client !== null && $registered_client->has_redirect_uris( $redirect_uris ) ) {
+			return $registered_client;
 		}
 
 		if ( $redirect_uris === [] ) {
 			throw new Registration_Failed_Exception( 'At least one redirect URI is required for initial registration.' );
+		}
+
+		// Registered, but the redirect-URI set differs — update in place (RFC 7592 PUT) so the
+		// client_id survives and unchanged URIs keep their verification state and tokens.
+		if ( $registered_client !== null ) {
+			return $this->update_redirect_uris( $redirect_uris );
 		}
 
 		return $this->register( $redirect_uris );
@@ -356,6 +339,66 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	}
 
 	/**
+	 * Updates the registered redirect URIs in place (RFC 7592 PUT).
+	 *
+	 * Preserves the client_id, registration access token, and key pair. Verification state for
+	 * URIs that remain in the set is preserved; URIs no longer present are dropped.
+	 *
+	 * @param string[] $redirect_uris The new exact set of redirect URIs.
+	 *
+	 * @return Registered_Client The updated credentials.
+	 *
+	 * @throws Registration_Failed_Exception If the update fails.
+	 */
+	private function update_redirect_uris( array $redirect_uris ): Registered_Client {
+		$registered_client = $this->get_registered_client();
+		if ( $registered_client === null ) {
+			throw new Registration_Failed_Exception( 'Not registered.' );
+		}
+
+		// Per RFC 7592 §2.2, server-assigned fields MUST NOT be included; keep the existing key pair.
+		$request_body                       = $this->build_update_request_body( $registered_client->get_metadata() );
+		$request_body['redirect_uris']      = \array_values( $redirect_uris );
+		$request_body['software_statement'] = $this->issuer_config->get_software_statement();
+
+		// phpcs:ignore Yoast.Yoast.JsonEncodeAlternative.Found -- Encoding for HTTP request body, not user-facing output.
+		$json = \wp_json_encode( $request_body );
+		if ( $json === false ) {
+			throw new Registration_Failed_Exception( 'Failed to JSON-encode registration request body.' );
+		}
+
+		$result = $this->http_client->authenticated_request(
+			'PUT',
+			$registered_client->get_registration_client_uri(),
+			$registered_client->get_registration_access_token(),
+			Auth_Token_Type::BEARER,
+			[
+				'headers' => [
+					'Content-Type' => 'application/json',
+					'Accept'       => 'application/json',
+				],
+				'body'    => $json,
+				'timeout' => 15,
+			],
+		);
+
+		if ( ! $result->is_successful() ) {
+			$error_message = (string) $result->get_body_value( 'error_description', $result->get_body_value( 'error', '' ) );
+			throw new Registration_Failed_Exception(
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+				\sprintf( 'Redirect URI update returned HTTP %d: %s', $result->get_status(), $error_message ),
+			);
+		}
+
+		$body = $result->get_body();
+		if ( ! \is_array( $body ) || empty( $body['client_id'] ) ) {
+			throw new Registration_Failed_Exception( 'Redirect URI update returned invalid response.' );
+		}
+
+		return $this->store_credentials( $body );
+	}
+
+	/**
 	 * Deletes the client registration from the server (RFC 7592 DELETE) and clears local data.
 	 *
 	 * @return bool True if deleted or already not registered, false on network failure.
@@ -414,6 +457,55 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	}
 
 	/**
+	 * Whether the given redirect URI has completed the OAuth authorization-code flow on this site.
+	 *
+	 * The state lives on the stored registration: it is pruned to the current redirect-URI set
+	 * whenever those change, and invalidated when the client is deregistered.
+	 *
+	 * @param string $redirect_uri The redirect URI to check.
+	 *
+	 * @return bool
+	 */
+	public function is_uri_validated( string $redirect_uri ): bool {
+		$registered_client = $this->get_registered_client();
+
+		return $registered_client !== null && $registered_client->is_uri_validated( $redirect_uri );
+	}
+
+	/**
+	 * Records that the given redirect URI has completed the authorization-code flow.
+	 *
+	 * No-op when the site is not registered or the URI was already recorded. Idempotent:
+	 * `update_option()` short-circuits when the stored value is unchanged.
+	 *
+	 * @param string $redirect_uri The redirect URI that completed the auth-code flow.
+	 *
+	 * @return void
+	 */
+	public function mark_uri_validated( string $redirect_uri ): void {
+		$registered_client = $this->get_registered_client();
+		if ( $registered_client === null ) {
+			return;
+		}
+
+		$validated_uris = $registered_client->get_validated_uris();
+		if ( \in_array( $redirect_uri, $validated_uris, true ) ) {
+			return;
+		}
+
+		$validated_uris[] = $redirect_uri;
+
+		$option_key = $this->get_option_key();
+		$stored     = \get_option( $option_key, [] );
+		if ( \is_array( $stored ) ) {
+			$stored['validated_uris'] = $validated_uris;
+			\update_option( $option_key, $stored, false );
+		}
+
+		$this->cached_registered_clients[ $option_key ] = $registered_client->with_validated_uris( $validated_uris );
+	}
+
+	/**
 	 * Stores the DCR response credentials securely.
 	 *
 	 * @param array<string, string|array<string>> $response_body The parsed DCR response body.
@@ -431,6 +523,19 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 		$metadata = $response_body;
 		unset( $metadata['registration_access_token'] );
 
+		// Preserve validation state across an in-place update or key rotation (same client_id), but
+		// reset it for a fresh registration: a new client_id means the redirect URIs must be
+		// re-validated from scratch. Always prune to the new redirect-URI set so a removed URI loses
+		// its verification and an added one starts unverified.
+		$existing       = $this->get_registered_client();
+		$validated_uris = [];
+		if ( $existing !== null && $existing->get_client_id() === $response_body['client_id'] ) {
+			$new_redirect_uris = ( $metadata['redirect_uris'] ?? [] );
+			if ( \is_array( $new_redirect_uris ) ) {
+				$validated_uris = \array_values( \array_intersect( $existing->get_validated_uris(), $new_redirect_uris ) );
+			}
+		}
+
 		\update_option(
 			$option_key,
 			[
@@ -438,6 +543,7 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 				'encrypted_rat'           => $encrypted_rat,
 				'registration_client_uri' => ( $response_body['registration_client_uri'] ?? '' ),
 				'metadata'                => $metadata,
+				'validated_uris'          => $validated_uris,
 			],
 			false,
 		);
@@ -447,6 +553,7 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			( $response_body['registration_access_token'] ?? '' ),
 			( $response_body['registration_client_uri'] ?? '' ),
 			$metadata,
+			$validated_uris,
 		);
 
 		return $this->cached_registered_clients[ $option_key ];

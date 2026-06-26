@@ -161,21 +161,6 @@ final class Client_Registration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that is_registered returns correct values.
-	 *
-	 * @covers ::is_registered
-	 *
-	 * @return void
-	 */
-	public function test_is_registered() {
-		Functions\expect( 'get_option' )
-			->with( self::OPTION_KEY, false )
-			->andReturn( false );
-
-		$this->assertFalse( $this->instance->is_registered() );
-	}
-
-	/**
 	 * Tests that register throws when another registration is in progress.
 	 *
 	 * @covers ::register
@@ -460,6 +445,318 @@ final class Client_Registration_Test extends TestCase {
 
 		$result = $this->instance->rotate_registration_keys();
 		$this->assertSame( 'cid', $result->get_client_id() );
+	}
+
+	/**
+	 * Tests that is_uri_validated returns false when the site is not registered.
+	 *
+	 * @covers ::is_uri_validated
+	 *
+	 * @return void
+	 */
+	public function test_is_uri_validated_returns_false_when_not_registered() {
+		Functions\expect( 'get_option' )
+			->once()
+			->with( self::OPTION_KEY, false )
+			->andReturn( false );
+
+		$this->assertFalse( $this->instance->is_uri_validated( 'https://example.com/callback' ) );
+	}
+
+	/**
+	 * Tests that is_uri_validated returns false when the URI has not been validated yet.
+	 *
+	 * @covers ::is_uri_validated
+	 *
+	 * @return void
+	 */
+	public function test_is_uri_validated_returns_false_when_uri_not_validated() {
+		$this->mock_get_client();
+
+		$this->assertFalse( $this->instance->is_uri_validated( 'https://example.com/callback' ) );
+	}
+
+	/**
+	 * Tests that is_uri_validated returns true only for a redirect URI that has been validated.
+	 *
+	 * @covers ::is_uri_validated
+	 *
+	 * @return void
+	 */
+	public function test_is_uri_validated_returns_true_for_a_validated_uri() {
+		Functions\expect( 'get_option' )
+			->with( self::OPTION_KEY, false )
+			->andReturn(
+				[
+					'client_id'               => 'cid',
+					'encrypted_rat'           => 'encrypted-rat',
+					'registration_client_uri' => 'https://my.yoast.com/api/oauth/reg/cid',
+					'metadata'                => [],
+					'validated_uris'          => [ 'https://example.com/callback' ],
+				],
+			);
+
+		$this->encryption->expects( 'decrypt' )->andReturn( 'decrypted-rat' );
+
+		$this->assertTrue( $this->instance->is_uri_validated( 'https://example.com/callback' ) );
+		$this->assertFalse( $this->instance->is_uri_validated( 'https://other.example/callback' ) );
+	}
+
+	/**
+	 * Tests that ensure_registered is a no-op (no HTTP, returns the stored client) when the
+	 * redirect-URI set already matches.
+	 *
+	 * @covers ::ensure_registered
+	 *
+	 * @return void
+	 */
+	public function test_ensure_registered_is_noop_when_set_matches() {
+		$this->mock_get_client( [ 'redirect_uris' => [ 'https://example.com/callback' ] ] );
+
+		$this->http_client->expects( 'authenticated_request' )->never();
+		$this->http_client->expects( 'request' )->never();
+
+		$result = $this->instance->ensure_registered( [ 'https://example.com/callback' ] );
+
+		$this->assertSame( 'cid', $result->get_client_id() );
+	}
+
+	/**
+	 * Tests that ensure_registered throws when not registered and no redirect URIs are given,
+	 * so a token/auth flow can never silently register an empty client.
+	 *
+	 * @covers ::ensure_registered
+	 *
+	 * @return void
+	 */
+	public function test_ensure_registered_throws_when_not_registered_and_no_uris() {
+		Functions\expect( 'get_option' )
+			->with( self::OPTION_KEY, false )
+			->andReturn( false );
+
+		$this->http_client->expects( 'request' )->never();
+		$this->http_client->expects( 'authenticated_request' )->never();
+
+		$this->expectException( Registration_Failed_Exception::class );
+		$this->expectExceptionMessage( 'At least one redirect URI is required' );
+
+		$this->instance->ensure_registered( [] );
+	}
+
+	/**
+	 * Tests that ensure_registered updates the registration in place (RFC 7592 PUT, no
+	 * deregister/re-register) when the redirect-URI set differs, preserving the client_id and
+	 * pruning the validated URIs to the new set.
+	 *
+	 * @covers ::ensure_registered
+	 * @covers ::update_redirect_uris
+	 * @covers ::store_credentials
+	 *
+	 * @return void
+	 */
+	public function test_ensure_registered_updates_in_place_and_prunes_validated_uris() {
+		// Registered with A + B, both validated.
+		Functions\expect( 'get_option' )
+			->with( self::OPTION_KEY, Mockery::any() )
+			->andReturn(
+				[
+					'client_id'               => 'cid',
+					'encrypted_rat'           => 'encrypted-rat',
+					'registration_client_uri' => 'https://my.yoast.com/api/oauth/reg/cid',
+					'metadata'                => [ 'redirect_uris' => [ 'https://a.example/cb', 'https://b.example/cb' ] ],
+					'validated_uris'          => [ 'https://a.example/cb', 'https://b.example/cb' ],
+				],
+			);
+
+		$this->encryption->allows( 'decrypt' )->andReturn( 'decrypted-rat' );
+		$this->encryption->allows( 'encrypt' )->andReturn( 'encrypted-rat' );
+		$this->issuer_config->expects( 'get_software_statement' )->andReturn( 'fresh-ss-jwt' );
+		Functions\expect( 'wp_json_encode' )->andReturn( '{}' );
+
+		// A single in-place PUT — never a DELETE or a POST register.
+		$this->http_client
+			->expects( 'authenticated_request' )
+			->once()
+			->with( 'PUT', Mockery::any(), Mockery::any(), Mockery::any(), Mockery::any() )
+			->andReturn(
+				new HTTP_Response(
+					200,
+					[],
+					[
+						'client_id'                 => 'cid',
+						'registration_access_token' => 'rat',
+						'registration_client_uri'   => 'https://my.yoast.com/api/oauth/reg/cid',
+						'redirect_uris'             => [ 'https://a.example/cb', 'https://c.example/cb' ],
+					],
+				),
+			);
+
+		// B is pruned (removed from the set); C is not validated (newly added); A is kept.
+		Functions\expect( 'update_option' )
+			->once()
+			->with(
+				self::OPTION_KEY,
+				Mockery::on(
+					static function ( $option ) {
+						return ( $option['validated_uris'] ?? null ) === [ 'https://a.example/cb' ];
+					},
+				),
+				false,
+			)
+			->andReturn( true );
+
+		$result = $this->instance->ensure_registered( [ 'https://a.example/cb', 'https://c.example/cb' ] );
+
+		$this->assertSame( 'cid', $result->get_client_id() );
+		$this->assertSame( [ 'https://a.example/cb' ], $result->get_validated_uris() );
+	}
+
+	/**
+	 * Tests that store_credentials resets validated_uris when the server returns a different
+	 * client_id, since a new client must re-validate every redirect URI from scratch.
+	 *
+	 * @covers ::store_credentials
+	 *
+	 * @return void
+	 */
+	public function test_store_credentials_resets_validated_uris_for_a_new_client_id() {
+		// Registered as "old-cid" with A validated.
+		Functions\expect( 'get_option' )
+			->with( self::OPTION_KEY, Mockery::any() )
+			->andReturn(
+				[
+					'client_id'               => 'old-cid',
+					'encrypted_rat'           => 'encrypted-rat',
+					'registration_client_uri' => 'https://my.yoast.com/api/oauth/reg/old-cid',
+					'metadata'                => [ 'redirect_uris' => [ 'https://a.example/cb' ] ],
+					'validated_uris'          => [ 'https://a.example/cb' ],
+				],
+			);
+
+		$this->encryption->allows( 'decrypt' )->andReturn( 'decrypted-rat' );
+		$this->encryption->allows( 'encrypt' )->andReturn( 'encrypted-rat' );
+		$this->issuer_config->expects( 'get_software_statement' )->andReturn( 'fresh-ss-jwt' );
+		Functions\expect( 'wp_json_encode' )->andReturn( '{}' );
+
+		// The server responds with a different client_id and the same redirect URI.
+		$this->http_client
+			->expects( 'authenticated_request' )
+			->once()
+			->andReturn(
+				new HTTP_Response(
+					200,
+					[],
+					[
+						'client_id'                 => 'new-cid',
+						'registration_access_token' => 'rat',
+						'registration_client_uri'   => 'https://my.yoast.com/api/oauth/reg/new-cid',
+						'redirect_uris'             => [ 'https://a.example/cb' ],
+					],
+				),
+			);
+
+		// A was validated under the old client_id, but the new client_id resets all verification.
+		Functions\expect( 'update_option' )
+			->once()
+			->with(
+				self::OPTION_KEY,
+				Mockery::on(
+					static function ( $option ) {
+						return ( $option['validated_uris'] ?? null ) === [];
+					},
+				),
+				false,
+			)
+			->andReturn( true );
+
+		$result = $this->instance->ensure_registered( [ 'https://b.example/cb' ] );
+
+		$this->assertSame( 'new-cid', $result->get_client_id() );
+		$this->assertSame( [], $result->get_validated_uris() );
+	}
+
+	/**
+	 * Tests that mark_uri_validated appends the redirect URI to the stored registration.
+	 *
+	 * @covers ::mark_uri_validated
+	 *
+	 * @return void
+	 */
+	public function test_mark_uri_validated_appends_and_persists() {
+		$stored = [
+			'client_id'               => 'cid',
+			'encrypted_rat'           => 'encrypted-rat',
+			'registration_client_uri' => 'https://my.yoast.com/api/oauth/reg/cid',
+			'metadata'                => [],
+		];
+
+		// Matches both the get_registered_client() read (default false) and the re-read for the update (default []).
+		Functions\expect( 'get_option' )
+			->with( self::OPTION_KEY, Mockery::any() )
+			->andReturn( $stored );
+
+		$this->encryption->expects( 'decrypt' )->andReturn( 'decrypted-rat' );
+
+		Functions\expect( 'update_option' )
+			->once()
+			->with(
+				self::OPTION_KEY,
+				Mockery::on(
+					static function ( $option ) {
+						return ( $option['validated_uris'] ?? null ) === [ 'https://example.com/callback' ];
+					},
+				),
+				false,
+			)
+			->andReturn( true );
+
+		$this->instance->mark_uri_validated( 'https://example.com/callback' );
+	}
+
+	/**
+	 * Tests that mark_uri_validated is idempotent: re-marking an already-validated URI does not
+	 * persist a duplicate.
+	 *
+	 * @covers ::mark_uri_validated
+	 *
+	 * @return void
+	 */
+	public function test_mark_uri_validated_is_idempotent() {
+		Functions\expect( 'get_option' )
+			->with( self::OPTION_KEY, false )
+			->andReturn(
+				[
+					'client_id'               => 'cid',
+					'encrypted_rat'           => 'encrypted-rat',
+					'registration_client_uri' => 'https://my.yoast.com/api/oauth/reg/cid',
+					'metadata'                => [],
+					'validated_uris'          => [ 'https://example.com/callback' ],
+				],
+			);
+
+		$this->encryption->expects( 'decrypt' )->andReturn( 'decrypted-rat' );
+
+		Functions\expect( 'update_option' )->never();
+
+		$this->instance->mark_uri_validated( 'https://example.com/callback' );
+	}
+
+	/**
+	 * Tests that mark_uri_validated is a no-op when the site is not registered.
+	 *
+	 * @covers ::mark_uri_validated
+	 *
+	 * @return void
+	 */
+	public function test_mark_uri_validated_is_noop_when_not_registered() {
+		Functions\expect( 'get_option' )
+			->once()
+			->with( self::OPTION_KEY, false )
+			->andReturn( false );
+
+		Functions\expect( 'update_option' )->never();
+
+		$this->instance->mark_uri_validated( 'https://example.com/callback' );
 	}
 
 	/**

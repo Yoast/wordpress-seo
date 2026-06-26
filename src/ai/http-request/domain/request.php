@@ -103,4 +103,20 @@ class Request {
 	public function get_http_method(): string {
 		return $this->http_method;
 	}
+
+	/**
+	 * Returns a copy of the request with the given headers merged in.
+	 *
+	 * @param array<string> $headers The headers to add.
+	 *
+	 * @return self The new request.
+	 */
+	public function with_added_headers( array $headers ): self {
+		return new self(
+			$this->action_path,
+			$this->body,
+			\array_merge( $this->headers, $headers ),
+			$this->http_method,
+		);
+	}
 }
