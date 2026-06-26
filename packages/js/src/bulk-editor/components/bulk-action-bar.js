@@ -142,7 +142,12 @@ const FreeBulkActions = ( { contentType } ) => {
  */
 export const BulkActions = ( { isPremium, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } ) => (
 	<div className="yst-flex yst-flex-col">
-		{ isActive && <Slot name={ BULK_NOTICES_SLOT } fillProps={ { contentTypeLabel, contentTypeSingularLabel } } /> }
+		{ isActive && (
+			<Slot
+				name={ BULK_NOTICES_SLOT }
+				fillProps={ { selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } }
+			/>
+		) }
 		<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
 			{ ! isPremium && <FreeBulkActions contentType={ contentType } /> }
 			{ isActive && <Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType } } /> }

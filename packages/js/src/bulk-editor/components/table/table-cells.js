@@ -21,7 +21,7 @@ export const TitleCell = ( { item, fieldSetId } ) => {
 	return (
 		<Table.Header scope="row" className="yst-text-left !yst-text-[13px] !yst-text-slate-800">
 			<div className="yst-flex yst-items-start yst-gap-1.5">
-				<Slot name={ `${ TABLE_ROW_INDICATOR_SLOT }/${ fieldSetId }/${ item.id }` }>
+				<Slot name={ `${ TABLE_ROW_INDICATOR_SLOT }/${ fieldSetId }/${ item.id }` } fillProps={ { item, fieldSetId } }>
 					{ ( fills ) => fills }
 				</Slot>
 				<div className="yst-flex yst-flex-col">
