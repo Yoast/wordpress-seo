@@ -74,7 +74,7 @@ class Integrations_Page_Script_Data {
 	 * callback finished for this user since the last time the Integrations page
 	 * was rendered, so the React app can surface a one-shot notification.
 	 *
-	 * @return array{initialStatus: array{is_provisioned: bool, is_registered: bool, registered_at: int|null, registered_at_iso: string|null, redirect_uris: array<int, array{uri: string, origin: string, is_verified: bool}>, redirect_uris_match: bool}, callbackOutcome: array{kind: string, key: string}|null, linkParams: array<string, string>}|null
+	 * @return array{initialStatus: array{is_provisioned: bool, is_registered: bool, registered_at: int|null, registered_at_iso: string|null, redirect_uris: array<int, array{uri: string, origin: string, is_verified: bool}>, redirect_uris_match: bool}, callbackOutcome: array{kind: string, key: string}|null, linkParams: array<string, string>, startConnection: bool}|null
 	 */
 	public function present(): ?array {
 		if ( ! $this->myyoast_connection_conditional->is_met() ) {
@@ -85,7 +85,29 @@ class Integrations_Page_Script_Data {
 			'initialStatus'   => $this->status_presenter->present(),
 			'callbackOutcome' => $this->consume_callback_outcome(),
 			'linkParams'      => $this->short_link_helper->get_query_params(),
+			'startConnection' => $this->should_auto_start_connection(),
 		];
+	}
+
+	/**
+	 * Whether the page was opened by the editor's "Connect to MyYoast" link and
+	 * should auto-start the connection flow.
+	 *
+	 * Verifies the one-time nonce so the auto-start trigger can't be forged from
+	 * another site, and re-checks the connect capability so only users who may
+	 * register a client trigger it. The actual register/authorize REST calls are
+	 * independently nonce-protected; this gate is defense-in-depth on the trigger.
+	 *
+	 * @return bool Whether to auto-start the connection flow.
+	 */
+	private function should_auto_start_connection(): bool {
+		if ( ! isset( $_GET['start-myyoast-connection'] ) || ! \current_user_can( 'wpseo_manage_options' ) ) {
+			return false;
+		}
+
+		$nonce = isset( $_GET['_wpnonce'] ) ? \sanitize_text_field( \wp_unslash( $_GET['_wpnonce'] ) ) : '';
+
+		return \wp_verify_nonce( $nonce, 'wpseo-start-myyoast-connection' ) !== false;
 	}
 
 	/**

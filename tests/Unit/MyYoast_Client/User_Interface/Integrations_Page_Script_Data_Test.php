@@ -241,4 +241,112 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 
 		$this->assertNull( $this->instance->present() );
 	}
+
+	/**
+	 * Tests the auto-start flag is false when the query arg is absent.
+	 *
+	 * @covers ::present
+	 * @covers ::should_auto_start_connection
+	 *
+	 * @return void
+	 */
+	public function test_start_connection_false_without_query_arg() {
+		unset( $_GET['start-myyoast-connection'] );
+		$this->prime_present();
+
+		$this->assertFalse( $this->instance->present()['startConnection'] );
+	}
+
+	/**
+	 * Tests the auto-start flag is true with the query arg, a valid nonce, and the
+	 * connect capability.
+	 *
+	 * @covers ::should_auto_start_connection
+	 *
+	 * @return void
+	 */
+	public function test_start_connection_true_with_valid_nonce_and_capability() {
+		$_GET['start-myyoast-connection'] = '1';
+		$_GET['_wpnonce']                 = 'nonce-value';
+		$this->prime_present();
+
+		Monkey\Functions\expect( 'current_user_can' )->with( 'wpseo_manage_options' )->andReturnTrue();
+		Monkey\Functions\stubs(
+			[
+				'wp_unslash'          => static function ( $value ) {
+					return $value;
+				},
+				'sanitize_text_field' => static function ( $value ) {
+					return $value;
+				},
+			],
+		);
+		Monkey\Functions\expect( 'wp_verify_nonce' )->with( 'nonce-value', 'wpseo-start-myyoast-connection' )->andReturn( 1 );
+
+		$this->assertTrue( $this->instance->present()['startConnection'] );
+
+		unset( $_GET['start-myyoast-connection'], $_GET['_wpnonce'] );
+	}
+
+	/**
+	 * Tests the auto-start flag is false when the nonce is invalid.
+	 *
+	 * @covers ::should_auto_start_connection
+	 *
+	 * @return void
+	 */
+	public function test_start_connection_false_with_invalid_nonce() {
+		$_GET['start-myyoast-connection'] = '1';
+		$_GET['_wpnonce']                 = 'tampered';
+		$this->prime_present();
+
+		Monkey\Functions\expect( 'current_user_can' )->with( 'wpseo_manage_options' )->andReturnTrue();
+		Monkey\Functions\stubs(
+			[
+				'wp_unslash'          => static function ( $value ) {
+					return $value;
+				},
+				'sanitize_text_field' => static function ( $value ) {
+					return $value;
+				},
+			],
+		);
+		Monkey\Functions\expect( 'wp_verify_nonce' )->with( 'tampered', 'wpseo-start-myyoast-connection' )->andReturnFalse();
+
+		$this->assertFalse( $this->instance->present()['startConnection'] );
+
+		unset( $_GET['start-myyoast-connection'], $_GET['_wpnonce'] );
+	}
+
+	/**
+	 * Tests the auto-start flag is false when the user lacks the connect capability.
+	 *
+	 * @covers ::should_auto_start_connection
+	 *
+	 * @return void
+	 */
+	public function test_start_connection_false_without_capability() {
+		$_GET['start-myyoast-connection'] = '1';
+		$this->prime_present();
+
+		Monkey\Functions\expect( 'current_user_can' )->with( 'wpseo_manage_options' )->andReturnFalse();
+		Monkey\Functions\expect( 'wp_verify_nonce' )->never();
+
+		$this->assertFalse( $this->instance->present()['startConnection'] );
+
+		unset( $_GET['start-myyoast-connection'] );
+	}
+
+	/**
+	 * Primes the present() collaborators that are unrelated to the auto-start flag.
+	 *
+	 * @return void
+	 */
+	private function prime_present(): void {
+		$this->myyoast_connection_conditional->shouldReceive( 'is_met' )->andReturn( true );
+		$this->status_presenter->shouldReceive( 'present' )->andReturn( [] );
+		Monkey\Functions\expect( 'get_current_user_id' )->andReturn( 1 );
+		$this->callback_handler->shouldReceive( 'consume_outcome' )->andReturn( null );
+		$this->short_link_helper->shouldReceive( 'get_query_params' )->andReturn( [] );
+	}
 }
