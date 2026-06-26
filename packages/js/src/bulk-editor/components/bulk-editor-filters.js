@@ -73,6 +73,7 @@ export const BulkEditorFilters = () => {
 			>
 				<CheckboxGroup
 					id="bulk-editor-status-filter"
+					className="[&_.yst-checkbox]:yst-cursor-pointer [&_label]:!yst-cursor-pointer [&_.yst-checkbox]:yst-rounded [&_.yst-checkbox]:-yst-mx-2 [&_.yst-checkbox]:yst-px-2 [&_.yst-checkbox]:yst-py-1 [&_.yst-checkbox:hover]:yst-bg-slate-50"
 					options={ statusOptions }
 					values={ statuses }
 					onChange={ setStatuses }

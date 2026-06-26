@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Table, Textarea } from "@yoast/ui-library";
-import { getStatusLabel } from "./table-helpers";
+import { getFieldTextClasses, getStatusLabel } from "./table-helpers";
 import AnimateHeight from "react-animate-height";
 
 /**
@@ -16,7 +16,7 @@ export const TitleCell = ( { item } ) => {
 	const statusLabel = getStatusLabel( item.status );
 
 	return (
-		<Table.Header scope="row" className="yst-text-left">
+		<Table.Header scope="row" className="yst-text-left !yst-text-[13px] !yst-text-slate-800">
 			<div className="yst-flex yst-flex-col">
 				<span>{ item.title }</span>
 				{ statusLabel && (
@@ -38,27 +38,26 @@ export const TitleCell = ( { item } ) => {
  * @param {string}        props.value     The current draft value.
  * @param {boolean}       props.isSaving  Whether the row is being saved (disables the input).
  * @param {Function}      props.onChange  Called with { key, value } when the value changes.
- * @param {boolean}       props.isOpen    Whether the field is open for editing.
  *
  * @returns {JSX.Element} The cell.
  */
-export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, onChange, isOpen } ) => {
+export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, onChange } ) => {
 	const handleChange = useCallback( ( event ) => onChange( { key: field.key, value: event.target.value } ), [ onChange, field.key ] );
 
 	// Row expand/collapse animation helper.
 	const [ height, setHeight ] = useState( 0 );
-	useEffect( () => setHeight( isOpen ? "auto" : 0 ), [ isOpen ] );
+	useEffect( () => setHeight( "auto" ), [] );
 
 	return (
 		<Table.Cell>
-			<AnimateHeight easing="ease-in-out" duration={ 300 } height={ height } animateOpacity={ true }>
+			<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
 				<Textarea
 					id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
 					rows={ 2 }
 					value={ value }
 					onChange={ handleChange }
 					disabled={ isSaving }
-					className="yst-resize-none"
+					className={ `yst-resize-none ${ getFieldTextClasses( field.key, true ) }` }
 					/* translators: %1$s expands to the field label, %2$s to the content item title. */
 					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
 				/>
