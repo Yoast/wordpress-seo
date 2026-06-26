@@ -513,6 +513,144 @@ final class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that only the first MAX_TITLE_KEYWORD_PHRASES phrases are honoured and any beyond are ignored.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_find_posts_by_title_keywords_caps_the_number_of_phrases() {
+		$indexable  = Mockery::mock( Indexable_Mock::class );
+		$orm_object = Mockery::mock( ORM::class );
+
+		$this->instance
+			->expects( 'query' )
+			->once()
+			->andReturn( $orm_object );
+
+		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
+
+		// Provide one more phrase than the cap; only the first MAX_TITLE_KEYWORD_PHRASES should be used.
+		$phrases         = [];
+		$expected_likes  = [];
+		$expected_params = [];
+		for ( $i = 1; $i <= ( Indexable_Repository::MAX_TITLE_KEYWORD_PHRASES + 1 ); $i++ ) {
+			$phrases[] = 'k' . $i;
+		}
+		for ( $i = 1; $i <= Indexable_Repository::MAX_TITLE_KEYWORD_PHRASES; $i++ ) {
+			$this->wpdb->expects( 'esc_like' )->with( 'k' . $i )->once()->andReturn( 'k' . $i );
+			$expected_likes[]  = 'breadcrumb_title LIKE %s';
+			$expected_params[] = '%k' . $i . '%';
+		}
+
+		// The phrase beyond the cap is never escaped, proving it is dropped before reaching the query.
+		$orm_object
+			->expects( 'where_raw' )
+			->with(
+				'( ' . \implode( ' OR ', $expected_likes ) . ' )',
+				$expected_params,
+			)
+			->once()
+			->andReturnSelf();
+
+		$orm_object->expects( 'order_by_desc' )->with( 'object_last_modified' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'id' )->once()->andReturnSelf();
+		$orm_object->expects( 'limit' )->with( 10 )->once()->andReturnSelf();
+		$orm_object->expects( 'offset' )->with( 0 )->once()->andReturnSelf();
+		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->assertSame(
+			[ $indexable ],
+			$this->instance->find_posts_by_title_keywords( \implode( ', ', $phrases ) ),
+		);
+	}
+
+	/**
+	 * Tests that a page size below one is clamped to one rather than degrading into an empty or invalid LIMIT.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_find_posts_by_title_keywords_clamps_page_size_below_one() {
+		$indexable  = Mockery::mock( Indexable_Mock::class );
+		$orm_object = Mockery::mock( ORM::class );
+
+		$this->instance
+			->expects( 'query' )
+			->once()
+			->andReturn( $orm_object );
+
+		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
+
+		$this->wpdb->expects( 'esc_like' )->with( 'trail' )->once()->andReturn( 'trail' );
+
+		$orm_object
+			->expects( 'where_raw' )
+			->with( '( breadcrumb_title LIKE %s )', [ '%trail%' ] )
+			->once()
+			->andReturnSelf();
+
+		$orm_object->expects( 'order_by_desc' )->with( 'object_last_modified' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'id' )->once()->andReturnSelf();
+		$orm_object->expects( 'limit' )->with( 1 )->once()->andReturnSelf();
+		$orm_object->expects( 'offset' )->with( 0 )->once()->andReturnSelf();
+		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->assertSame(
+			[ $indexable ],
+			$this->instance->find_posts_by_title_keywords( 'trail', 1, 0 ),
+		);
+	}
+
+	/**
+	 * Tests that a page size above the maximum is clamped to MAX_TITLE_KEYWORD_PAGE_SIZE, including its effect on the offset.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_find_posts_by_title_keywords_clamps_page_size_above_maximum() {
+		$indexable  = Mockery::mock( Indexable_Mock::class );
+		$orm_object = Mockery::mock( ORM::class );
+
+		$this->instance
+			->expects( 'query' )
+			->once()
+			->andReturn( $orm_object );
+
+		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
+
+		$this->wpdb->expects( 'esc_like' )->with( 'trail' )->once()->andReturn( 'trail' );
+
+		$orm_object
+			->expects( 'where_raw' )
+			->with( '( breadcrumb_title LIKE %s )', [ '%trail%' ] )
+			->once()
+			->andReturnSelf();
+
+		$max = Indexable_Repository::MAX_TITLE_KEYWORD_PAGE_SIZE;
+
+		$orm_object->expects( 'order_by_desc' )->with( 'object_last_modified' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'id' )->once()->andReturnSelf();
+		$orm_object->expects( 'limit' )->with( $max )->once()->andReturnSelf();
+		// The clamped page size also drives the offset: ( page - 1 ) * clamped size.
+		$orm_object->expects( 'offset' )->with( $max )->once()->andReturnSelf();
+		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->assertSame(
+			[ $indexable ],
+			$this->instance->find_posts_by_title_keywords( 'trail', 2, ( $max + 50 ) ),
+		);
+	}
+
+	/**
 	 * Tests if the reset_permalink method fires when no type and subtype are passed.
 	 *
 	 * @covers ::reset_permalink

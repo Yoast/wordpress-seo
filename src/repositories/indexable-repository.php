@@ -19,6 +19,21 @@ use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 class Indexable_Repository {
 
 	/**
+	 * The maximum number of comma-separated phrases honoured by a title-keyword search.
+	 * Any phrases beyond this are ignored so an oversized list cannot blow up the query.
+	 *
+	 * @var int
+	 */
+	const MAX_TITLE_KEYWORD_PHRASES = 10;
+
+	/**
+	 * The maximum page size honoured by a title-keyword search.
+	 *
+	 * @var int
+	 */
+	const MAX_TITLE_KEYWORD_PAGE_SIZE = 100;
+
+	/**
 	 * The indexable builder.
 	 *
 	 * @var Indexable_Builder
@@ -525,6 +540,9 @@ class Indexable_Repository {
 	 * Results are paginated and ordered most recently modified first (with the indexable
 	 * id as a stable tiebreaker), so requesting a later page returns older matches.
 	 *
+	 * At most self::MAX_TITLE_KEYWORD_PHRASES phrases are honoured; any beyond that are ignored.
+	 * The page size is clamped to the range 1..self::MAX_TITLE_KEYWORD_PAGE_SIZE.
+	 *
 	 * @param string $keywords  The comma-separated phrases to match against the breadcrumb title.
 	 * @param int    $page      The page of results to return, 1-based.
 	 * @param int    $page_size The number of posts per page.
@@ -544,6 +562,10 @@ class Indexable_Repository {
 
 			$likes[]  = 'breadcrumb_title LIKE %s';
 			$params[] = '%' . $this->wpdb->esc_like( $phrase ) . '%';
+
+			if ( \count( $likes ) >= self::MAX_TITLE_KEYWORD_PHRASES ) {
+				break;
+			}
 		}
 
 		// An empty search must not degrade into matching every post.
@@ -551,7 +573,8 @@ class Indexable_Repository {
 			return [];
 		}
 
-		$offset = ( ( \max( 1, $page ) - 1 ) * $page_size );
+		$page_size = \min( \max( 1, $page_size ), self::MAX_TITLE_KEYWORD_PAGE_SIZE );
+		$offset    = ( ( \max( 1, $page ) - 1 ) * $page_size );
 
 		return $this->query()
 			->where( 'object_type', 'post' )

@@ -164,6 +164,53 @@ final class Find_Posts_By_Title_Keywords_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that only the first MAX_TITLE_KEYWORD_PHRASES phrases are honoured per request.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_caps_the_number_of_phrases_per_request(): void {
+		$cap = Indexable_Repository::MAX_TITLE_KEYWORD_PHRASES;
+
+		// The first $cap phrases match older posts; the phrase beyond the cap matches the single newest post.
+		$keywords = [];
+		for ( $i = 1; $i <= $cap; $i++ ) {
+			$this->insert_indexable( \sprintf( 'Capword %02d', $i ), \sprintf( '2024-01-%02d 10:00:00', $i ) );
+			$keywords[] = \sprintf( 'Capword %02d', $i );
+		}
+		$beyond_cap_title = \sprintf( 'Capword %02d', ( $cap + 1 ) );
+		$this->insert_indexable( $beyond_cap_title, '2024-02-01 10:00:00' );
+		$keywords[] = $beyond_cap_title;
+
+		$titles = $this->breadcrumb_titles( $this->instance->find_posts_by_title_keywords( \implode( ', ', $keywords ) ) );
+
+		// The phrase beyond the cap is ignored, so its (newest) post is absent despite being most recently modified.
+		$this->assertCount( $cap, $titles );
+		$this->assertNotContains( $beyond_cap_title, $titles );
+	}
+
+	/**
+	 * Tests that a page size below one is clamped to one rather than returning nothing or erroring.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_clamps_page_size_below_one(): void {
+		$this->insert_indexable( 'Clampword Older', '2024-01-01 10:00:00' );
+		$this->insert_indexable( 'Clampword Newer', '2024-01-02 10:00:00' );
+
+		// A page size of 0 or a negative value must clamp to 1, returning the single newest match.
+		foreach ( [ 0, -5 ] as $page_size ) {
+			$this->assertSame(
+				[ 'Clampword Newer' ],
+				$this->breadcrumb_titles( $this->instance->find_posts_by_title_keywords( 'Clampword', 1, $page_size ) ),
+			);
+		}
+	}
+
+	/**
 	 * Maps a list of indexables to their breadcrumb titles, preserving order.
 	 *
 	 * @param array<Indexable> $indexables The indexables.
