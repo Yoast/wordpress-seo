@@ -1,19 +1,26 @@
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
+import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { OutboundLink } from "../../../shared-admin/components";
 import { STORE_NAME_EDITOR } from "../../constants";
 
 /**
+ * @param {string} [linkStoreName] The store to read the common-errors and support links from.
+ *                                  Defaults to the block editor's store; pass a different store
+ *                                  name when rendering outside the block editor (e.g. the AI
+ *                                  consent screen on the user profile page).
+ * @param {string} [className] An optional class name.
+ *
  * @returns {JSX.Element} The element.
  */
-export const GenericAlert = () => {
-	const commonErrorsLink = useSelect( select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-common-errors" ), [] );
-	const supportLink = useSelect( select => select( STORE_NAME_EDITOR ).selectAdminLink( "?page=wpseo_page_support" ), [] );
+export const GenericAlert = ( { linkStoreName = STORE_NAME_EDITOR, className = "" } ) => {
+	const commonErrorsLink = useSelect( select => select( linkStoreName ).selectLink( "https://yoa.st/ai-common-errors" ), [ linkStoreName ] );
+	const supportLink = useSelect( select => select( linkStoreName ).selectAdminLink( "?page=wpseo_page_support" ), [ linkStoreName ] );
 
 	return (
-		<Alert variant="error">
+		<Alert variant="error" className={ className }>
 			<span className="yst-block yst-font-medium">{ __( "Something went wrong", "wordpress-seo" ) }</span>
 			<p className="yst-mt-2">
 				{ safeCreateInterpolateElement(
@@ -34,4 +41,8 @@ export const GenericAlert = () => {
 			</p>
 		</Alert>
 	);
+};
+GenericAlert.propTypes = {
+	linkStoreName: PropTypes.string,
+	className: PropTypes.string,
 };

@@ -113,7 +113,7 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Invalidates the access token.
 	 *
-	 * @param string $user_id The user ID.
+	 * @param int $user_id The user ID.
 	 *
 	 * @return void
 	 *
@@ -126,7 +126,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws RuntimeException Unable to retrieve the access token.
 	 */
-	public function token_invalidate( string $user_id ): void {
+	public function token_invalidate( int $user_id ): void {
 		try {
 			$access_jwt = $this->access_token_repository->get_token( $user_id );
 		} catch ( RuntimeException $e ) {

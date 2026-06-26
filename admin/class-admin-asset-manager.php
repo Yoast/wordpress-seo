@@ -293,6 +293,7 @@ class WPSEO_Admin_Asset_Manager {
 			'wincher-dashboard-widget' => [ self::PREFIX . 'api-client' ],
 			'editor-modules'           => [ 'jquery' ],
 			'elementor'                => $elementor_dependencies,
+			'elementor-v4'             => array_merge( [ self::PREFIX . 'elementor' ], $elementor_dependencies ),
 			'indexation'               => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',

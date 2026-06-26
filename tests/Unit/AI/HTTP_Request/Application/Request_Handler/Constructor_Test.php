@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\HTTP_Request\Application\Request_Handler;
 
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Response_Parser;
+use Yoast\WP\SEO\AI\HTTP_Request\Application\Response_Validator;
 use Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client;
 
 /**
@@ -30,6 +31,11 @@ final class Constructor_Test extends Abstract_Request_Handler_Test {
 		$this->assertInstanceOf(
 			Response_Parser::class,
 			$this->getPropertyValue( $this->instance, 'response_parser' ),
+		);
+
+		$this->assertInstanceOf(
+			Response_Validator::class,
+			$this->getPropertyValue( $this->instance, 'response_validator' ),
 		);
 	}
 }
