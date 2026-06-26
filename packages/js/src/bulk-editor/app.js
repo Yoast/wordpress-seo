@@ -30,15 +30,16 @@ const getHeaderCopy = ( contentType ) => {
 };
 
 /**
- * Resolves the id and label of the active content type, falling back to empty strings when there is none.
+ * Resolves the id and labels of the active content type, falling back to empty strings when there is none.
  *
- * @param {Object} [contentType] The content type ({ id, label }), if any.
+ * @param {Object} [contentType] The content type ({ id, label, singularLabel }), if any.
  *
- * @returns {{id: string, label: string}} The active content type id and label.
+ * @returns {{id: string, label: string, singularLabel: string}} The active content type id and labels.
  */
 const getActiveContentTypeFields = ( contentType ) => ( {
 	id: contentType ? contentType.id : "",
 	label: contentType ? contentType.label : "",
+	singularLabel: contentType ? contentType.singularLabel : "",
 } );
 
 /**
@@ -56,9 +57,10 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
 	const { setActiveContentType } = useDispatch( STORE_NAME );
 
-	const contentTypes = dataProvider.getContentTypes().map( ( { name, label } ) => ( { id: name, label } ) );
+	const contentTypes = dataProvider.getContentTypes().map( ( { name, label, singularLabel } ) => ( { id: name, label, singularLabel } ) );
 	const activeContentType = contentTypes.find( ( { id } ) => id === activeContentTypeName ) ?? contentTypes[ 0 ];
-	const { id: activeContentTypeId, label: activeContentTypeLabel } = getActiveContentTypeFields( activeContentType );
+	const { id: activeContentTypeId, label: activeContentTypeLabel, singularLabel: activeContentTypeSingularLabel } =
+		getActiveContentTypeFields( activeContentType );
 
 	const { title, description } = getHeaderCopy( activeContentType );
 	// Fall back to the WP admin home when the data provider has no link.
@@ -98,6 +100,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 							remoteDataProvider={ remoteDataProvider }
 							contentType={ activeContentTypeId }
 							contentTypeLabel={ activeContentTypeLabel }
+							contentTypeSingularLabel={ activeContentTypeSingularLabel }
 						/>
 					</Paper>
 				</div>

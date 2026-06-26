@@ -30,8 +30,9 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 
 		$content_types = [
 			[
-				'name'  => 'post',
-				'label' => 'Posts',
+				'name'          => 'post',
+				'label'         => 'Posts',
+				'singularLabel' => 'Post',
 			],
 		];
 

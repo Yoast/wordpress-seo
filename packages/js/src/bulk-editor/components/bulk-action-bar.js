@@ -135,13 +135,14 @@ const FreeBulkActions = ( { contentType } ) => {
  * @param {number[]} props.selectedIds      The ids of the selected rows.
  * @param {string}   props.activeFieldSet     The active tab/field set (Search or Social), which drives the buttons.
  * @param {string}   props.contentType        The active content type (also the Free upsell variant).
- * @param {string}   [props.contentTypeLabel] The active content type label, passed to the notices fill for its copy.
+ * @param {string}   [props.contentTypeLabel] The active content type label (plural), passed to the notices fill for its copy.
+ * @param {string}   [props.contentTypeSingularLabel] The active content type singular label, passed to the notices fill.
  *
  * @returns {JSX.Element} The bulk actions row content.
  */
-export const BulkActions = ( { isPremium, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel } ) => (
+export const BulkActions = ( { isPremium, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } ) => (
 	<div className="yst-flex yst-flex-col">
-		{ isActive && <Slot name={ BULK_NOTICES_SLOT } fillProps={ { contentTypeLabel } } /> }
+		{ isActive && <Slot name={ BULK_NOTICES_SLOT } fillProps={ { contentTypeLabel, contentTypeSingularLabel } } /> }
 		<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
 			{ ! isPremium && <FreeBulkActions contentType={ contentType } /> }
 			{ isActive && <Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType } } /> }
