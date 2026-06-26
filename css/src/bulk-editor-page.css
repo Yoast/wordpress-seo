@@ -18,8 +18,8 @@
 		}
 	}
 
-	/* Stack the drawer above the WP admin bar so it overlays instead of stacking below it. */
-	.yst-mobile-navigation__dialog {
+	/* Stack the nav menu above the WP admin bar so it overlays it. */
+	.yst-root .yst-mobile-navigation__dialog {
 		z-index: 99999;
 	}
 
