@@ -15,6 +15,9 @@ export const MIN_SEARCH_LENGTH = 3;
 export const FIELD_SET_SEARCH = "search";
 export const FIELD_SET_SOCIAL = "social";
 
+// The focus keyphrase field key; also used to give that column its own text styling.
+export const FOCUS_KEYPHRASE_KEY = "focusKeyphrase";
+
 // The SlotFill name Premium fills with its bulk actions.
 export const BULK_ACTIONS_SLOT = "yoast.bulkEditor.bulkActions";
 
@@ -23,6 +26,11 @@ export const PLUGIN_SCOPE = "yoast-seo-bulk-editor";
 
 // The filter Premium uses to add items to the Select menu.
 export const SELECT_MENU_ITEMS_FILTER = "yoast.bulkEditor.selectMenuItems";
+
+// The slot base name Premium fills to replace the content of a table cell that has fields (keyphrase, title, meta description).
+// The rendered slot name is `${TABLE_CELL_FIELD_SLOT}/${field.key}/${item.id}` (one slot per cell).
+// fillProps: { field, item, value, isSaving, onSaveField, onDiscardField }.
+export const TABLE_CELL_FIELD_SLOT = "yoast.bulkEditor.TableCellWithField";
 
 // The slot Premium fills with its own pending-changes confirmation modal (e.g. unapplied AI suggestions), shown when a
 // tab switch is deferred because an external plugin reports pending changes. fillProps: { isOpen, onCommit, onCancel }.

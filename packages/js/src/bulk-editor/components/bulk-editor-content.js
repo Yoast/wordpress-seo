@@ -141,7 +141,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	} ), [ selectedIds, toggleRow ] );
 
 	return (
-		<div className="yst-p-8 yst-space-y-8">
+		<div className="yst-p-8 yst-space-y-6">
 			<div className="yst-flex yst-flex-col yst-gap-4 sm:yst-flex-row sm:yst-items-start sm:yst-justify-between">
 				<BulkEditorTabs
 					tabs={ tabs }
@@ -182,6 +182,9 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 						showBulkActions={ hasSelection }
 						filters={ <BulkEditorFilters /> }
 						isLoading={ isPending }
+						footer={ total > 0
+							? <BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
+							: null }
 					/>
 				</BulkEditorTabPanel>
 			) ) }
@@ -191,8 +194,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 				onDiscard={ onDiscardAndSwitch }
 				onClose={ onCancelSwitch }
 			/>
-			{ /* Premium fills this with its AI pending-suggestions modal. Manual edits take precedence over the
-			     external guard, so the slot only opens once there are no unsaved manual edits. */ }
+			<BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
 			<Slot
 				name={ PENDING_CHANGES_MODAL_SLOT }
 				fillProps={ {
@@ -201,7 +203,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 					onCancel: onCancelSwitch,
 				} }
 			/>
-			<BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
 		</div>
 	);
 };

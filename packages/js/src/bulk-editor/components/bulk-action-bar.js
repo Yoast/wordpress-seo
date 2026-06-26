@@ -38,7 +38,7 @@ const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount } )
 				{ items.map( ( item ) => (
 					<DropdownMenu.ButtonItem
 						key={ item.key }
-						className="yst-flex yst-justify-start yst-px-4 yst-py-2 yst-font-normal yst-text-slate-800"
+						className="yst-flex yst-justify-start yst-px-4 yst-py-2 yst-font-normal yst-text-slate-800 hover:!yst-bg-slate-50 focus:!yst-bg-slate-50"
 						onClick={ item.onClick }
 					>
 						{ item.label }

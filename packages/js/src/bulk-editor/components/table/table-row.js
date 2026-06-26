@@ -1,8 +1,10 @@
-import { useCallback } from "@wordpress/element";
+import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/components";
+import { Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
+import { TABLE_CELL_FIELD_SLOT } from "../../constants";
 import { EditableFieldCell, TitleCell } from "./table-cells";
-import { getRowEditState } from "./table-helpers";
+import { getFieldTextClasses, getRowEditState } from "./table-helpers";
 
 /**
  * A content row. Each field-set cell renders as plain text, or — when the row is in edit mode and the field is
@@ -20,8 +22,13 @@ import { getRowEditState } from "./table-helpers";
  */
 export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, editing } ) => {
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
-	const { onStartEdit, onChangeField, onApplyField, onCancelEdit } = editing;
+	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField } = editing;
 	const isSaving = Object.keys( savingFields ).length > 0;
+	const fillsSeoTitles = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/seoTitle/${item.id}` );
+	const fillsMetaDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/metaDescription/${item.id}` );
+	const fillsSocialTitle = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialTitle/${item.id}` );
+	const fillsSocialDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialDescription/${item.id}` );
+	const isSlotFilled = [ fillsSeoTitles, fillsMetaDescription, fillsSocialTitle, fillsSocialDescription ].some( ( fills ) => fills?.length > 0 );
 
 	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
 	const handleEdit = useCallback( () => onStartEdit( item.id ), [ onStartEdit, item.id ] );
@@ -54,21 +61,47 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 				/>
 			</Table.Cell>
 			<TitleCell item={ item } />
-			{ fields.map( ( field ) => ( openFields.includes( field.key )
-				? (
-					<EditableFieldCell
-						key={ field.key }
-						field={ field }
-						itemId={ item.id }
-						itemTitle={ item.title }
-						value={ draft[ field.key ] ?? "" }
-						isSaving={ isSaving }
-						onChange={ handleChangeField }
-						isOpen={ isEditing }
-					/>
-				)
-				: <Table.Cell key={ field.key }>{ item[ field.key ] }</Table.Cell>
-			) ) }
+			{ fields.map( ( field ) => {
+				return (
+					<Fragment key={ field.key }>
+						<Slot
+							name={ `${ TABLE_CELL_FIELD_SLOT }/${ field.key }/${item.id}` }
+							fillProps={ {
+								field,
+								item,
+								value: draft[ field.key ] ?? "",
+								isSaving,
+								onSaveField: () => onApplyField( { id: item.id, key: field.key } ),
+								onDiscardField: () => onDiscardField( { id: item.id, key: field.key } ),
+							} }
+						>
+							{ ( fills ) => {
+								if ( fills.length > 0 ) {
+									return fills;
+								}
+
+								if ( ! openFields.includes( field.key ) ) {
+									return (
+										<Table.Cell key={ field.key } className={ getFieldTextClasses( field.key, false ) }>
+											{ item[ field.key ] }
+										</Table.Cell>
+									);
+								}
+
+								return <EditableFieldCell
+									field={ field }
+									itemId={ item.id }
+									itemTitle={ item.title }
+									value={ draft[ field.key ] ?? "" }
+									isSaving={ isSaving }
+									onChange={ handleChangeField }
+									isOpen={ isEditing }
+								/>;
+							} }
+						</Slot>
+					</Fragment>
+				);
+			} ) }
 			<Table.Cell>
 				{ isEditing
 					? (
@@ -102,6 +135,7 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 								className="yst--me-2.5"
 								onClick={ handleEdit }
 								aria-label={ editLabel }
+								disabled={ isSlotFilled }
 							>
 								{ __( "Edit", "wordpress-seo" ) }
 							</Button>

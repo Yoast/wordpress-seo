@@ -1,6 +1,7 @@
 import ArrowNarrowRightIcon from "@heroicons/react/solid/ArrowNarrowRightIcon";
-import { useMemo, useCallback } from "@wordpress/element";
+import { useMemo, useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { GenericAlert } from "../../ai-generator/components/errors";
 import { Button, useModalContext, useToggleState, Spinner } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { OutboundLink } from ".";
@@ -14,6 +15,7 @@ import { safeCreateInterpolateElement } from "../../helpers/i18n";
  * @param {string} privacyPolicyLink The privacy policy link.
  * @param {string} termsOfServiceLink The terms of service link.
  * @param {Object} imageLink The thumbnail: img props.
+ * @param {string} linkStoreName The store to read the error alert's links from.
  *
  * @returns {JSX.Element} The element.
  */
@@ -23,9 +25,11 @@ export const AiConsent = ( {
 	privacyPolicyLink,
 	termsOfServiceLink,
 	imageLink,
+	linkStoreName,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 	const [ consent, toggleConsent ] = useToggleState( false );
+	const [ error, setError ] = useState( false );
 
 	const thumbnail = useMemo( () => ( {
 		src: imageLink,
@@ -55,7 +59,10 @@ export const AiConsent = ( {
 	const [ loading, toggleLoading ] = useToggleState( false );
 	const handleConsentChange = useCallback( async() => {
 		toggleLoading();
-		await onGiveConsent();
+
+		const response = await onGiveConsent();
+		setError( response === false );
+
 		toggleLoading();
 	}, [ onGiveConsent ] );
 
@@ -128,15 +135,18 @@ export const AiConsent = ( {
 						{ checkboxLabel }
 					</label>
 				</div>
+				{ error &&
+					<GenericAlert className="yst-mt-3" linkStoreName={ linkStoreName } />
+				}
 				<div className="yst-w-full yst-flex yst-mt-4">
 					<Button
 						as="button"
 						className="yst-grow"
 						size="large"
-						disabled={ ! consent }
+						disabled={ ! consent || error }
 						onClick={ handleConsentChange }
 					>
-						{ loading && (
+						{ loading && ! error && (
 							<Spinner className="yst-me-2" />
 						) }
 						{ __( "Grant consent", "wordpress-seo" ) }
@@ -160,4 +170,5 @@ AiConsent.propTypes = {
 	privacyPolicyLink: PropTypes.string.isRequired,
 	termsOfServiceLink: PropTypes.string.isRequired,
 	imageLink: PropTypes.string.isRequired,
+	linkStoreName: PropTypes.string.isRequired,
 };
