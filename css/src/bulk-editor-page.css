@@ -24,8 +24,7 @@
 	}
 
 	/* Re-assert the page's responsive utilities so the @yoast/ai-frontend stylesheet cannot clobber
-	 * them when Premium AI is active.
-	 * Temporary stopgap — remove once Yoast/ai-frontend#141 / #124 land the proper fix. */
+	 * them when Premium AI is active. */
 	@media (min-width: 640px) {
 		.sm\:yst-block {
 			@apply !yst-block;
