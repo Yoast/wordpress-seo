@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities_Integration;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List;
 use Yoast\WP\SEO\Editors\Framework\Inclusive_Language_Analysis;
@@ -87,6 +88,9 @@ final class Abilities_Integration_Test extends TestCase {
 		parent::set_up();
 
 		$this->stubTranslationFunctions();
+
+		// The article-type enum is built from the documented filter; return the default unfiltered.
+		Monkey\Functions\when( 'apply_filters' )->returnArg( 2 );
 
 		Mockery::mock( WP_Error::class );
 
@@ -306,7 +310,7 @@ final class Abilities_Integration_Test extends TestCase {
 				[
 					'label'               => 'Get Post SEO Data',
 					'category'            => 'yoast-seo',
-					'description'         => 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; a title keyword search returns the SEO data for every matching post. With no identifier, the latest public post is returned.',
+					'description'         => 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). With no identifier, the latest public post is returned.',
 					'input_schema'        => $this->get_expected_identifier_input_schema(),
 					'output_schema'       => [
 						'type'  => 'array',
@@ -423,7 +427,13 @@ final class Abilities_Integration_Test extends TestCase {
 				],
 				'title'     => [
 					'type'        => 'string',
-					'description' => 'Keywords to search for in post titles. The search string is split on whitespace and each token must be present in the breadcrumb title. Returns the SEO data for every matching post.',
+					'description' => 'Keywords to search for in post titles. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the post title, and a post matching any value is returned. Results are paginated; see the page parameter.',
+				],
+				'page'      => [
+					'type'        => 'integer',
+					'description' => 'The page of title-search results to return, 1-based and defaulting to 1. Matches are ordered most recently modified first, so request a later page to reach older matches. An empty result means there are no further pages. Only applies to a title search.',
+					'minimum'     => 1,
+					'default'     => 1,
 				],
 			],
 		];
@@ -463,8 +473,16 @@ final class Abilities_Integration_Test extends TestCase {
 				'open_graph_description' => $nullable_string,
 				'twitter_title'          => $nullable_string,
 				'twitter_description'    => $nullable_string,
-				'schema_page_type'       => \array_merge( $nullable_string, [ 'maxLength' => 64 ] ),
-				'schema_article_type'    => \array_merge( $nullable_string, [ 'maxLength' => 64 ] ),
+				'schema_page_type'       => [
+					'type'        => [ 'string', 'null' ],
+					'description' => 'The Schema.org page type for the post. Must be one of the supported page types. Use null to clear it and fall back to the default.',
+					'enum'        => \array_merge( \array_keys( Schema_Types::PAGE_TYPES ), [ '', null ] ),
+				],
+				'schema_article_type'    => [
+					'type'        => [ 'string', 'null' ],
+					'description' => 'The Schema.org article type for the post. Must be one of the supported article types. Use null to clear it and fall back to the default.',
+					'enum'        => \array_merge( \array_keys( Schema_Types::ARTICLE_TYPES ), [ '', null ] ),
+				],
 			],
 		];
 	}

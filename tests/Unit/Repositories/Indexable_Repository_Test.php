@@ -374,7 +374,7 @@ final class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that find_posts_by_title_keywords ANDs a LIKE clause per keyword.
+	 * Tests that find_posts_by_title_keywords ORs a whole-phrase LIKE clause per comma-separated value.
 	 *
 	 * @covers ::find_posts_by_title_keywords
 	 *
@@ -393,13 +393,105 @@ final class Indexable_Repository_Test extends TestCase {
 		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
 		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
 
-		$this->wpdb->expects( 'esc_like' )->with( 'hiking' )->once()->andReturn( 'hiking' );
-		$this->wpdb->expects( 'esc_like' )->with( 'boots' )->once()->andReturn( 'boots' );
+		$this->wpdb->expects( 'esc_like' )->with( 'hiking boots' )->once()->andReturn( 'hiking boots' );
+		$this->wpdb->expects( 'esc_like' )->with( 'trail' )->once()->andReturn( 'trail' );
 
-		$orm_object->expects( 'where_like' )->with( 'breadcrumb_title', '%hiking%' )->once()->andReturnSelf();
-		$orm_object->expects( 'where_like' )->with( 'breadcrumb_title', '%boots%' )->once()->andReturnSelf();
+		$orm_object
+			->expects( 'where_raw' )
+			->with(
+				'( breadcrumb_title LIKE %s OR breadcrumb_title LIKE %s )',
+				[ '%hiking boots%', '%trail%' ],
+			)
+			->once()
+			->andReturnSelf();
 
 		$orm_object->expects( 'order_by_desc' )->with( 'object_last_modified' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'id' )->once()->andReturnSelf();
+		$orm_object->expects( 'limit' )->with( 10 )->once()->andReturnSelf();
+		$orm_object->expects( 'offset' )->with( 0 )->once()->andReturnSelf();
+		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->assertSame(
+			[ $indexable ],
+			$this->instance->find_posts_by_title_keywords( 'hiking boots, trail' ),
+		);
+	}
+
+	/**
+	 * Tests that a later page offsets the results by page size.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_find_posts_by_title_keywords_paginated() {
+		$indexable  = Mockery::mock( Indexable_Mock::class );
+		$orm_object = Mockery::mock( ORM::class );
+
+		$this->instance
+			->expects( 'query' )
+			->once()
+			->andReturn( $orm_object );
+
+		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
+
+		$this->wpdb->expects( 'esc_like' )->with( 'trail' )->once()->andReturn( 'trail' );
+
+		$orm_object
+			->expects( 'where_raw' )
+			->with( '( breadcrumb_title LIKE %s )', [ '%trail%' ] )
+			->once()
+			->andReturnSelf();
+
+		$orm_object->expects( 'order_by_desc' )->with( 'object_last_modified' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'id' )->once()->andReturnSelf();
+		$orm_object->expects( 'limit' )->with( 10 )->once()->andReturnSelf();
+		$orm_object->expects( 'offset' )->with( 20 )->once()->andReturnSelf();
+		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->assertSame(
+			[ $indexable ],
+			$this->instance->find_posts_by_title_keywords( 'trail', 3 ),
+		);
+	}
+
+	/**
+	 * Tests that a single value is matched as one whole phrase, keeping its internal spaces, with no OR.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_find_posts_by_title_keywords_single_value_is_one_phrase() {
+		$indexable  = Mockery::mock( Indexable_Mock::class );
+		$orm_object = Mockery::mock( ORM::class );
+
+		$this->instance
+			->expects( 'query' )
+			->once()
+			->andReturn( $orm_object );
+
+		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
+
+		$this->wpdb->expects( 'esc_like' )->with( 'hiking boots' )->once()->andReturn( 'hiking boots' );
+
+		$orm_object
+			->expects( 'where_raw' )
+			->with(
+				'( breadcrumb_title LIKE %s )',
+				[ '%hiking boots%' ],
+			)
+			->once()
+			->andReturnSelf();
+
+		$orm_object->expects( 'order_by_desc' )->with( 'object_last_modified' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'id' )->once()->andReturnSelf();
+		$orm_object->expects( 'limit' )->with( 10 )->once()->andReturnSelf();
+		$orm_object->expects( 'offset' )->with( 0 )->once()->andReturnSelf();
 		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
 
 		$this->assertSame(
@@ -409,7 +501,7 @@ final class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that find_posts_by_title_keywords returns an empty array for an empty search.
+	 * Tests that find_posts_by_title_keywords returns an empty array for an empty or comma-only search.
 	 *
 	 * @covers ::find_posts_by_title_keywords
 	 *
@@ -417,6 +509,7 @@ final class Indexable_Repository_Test extends TestCase {
 	 */
 	public function test_find_posts_by_title_keywords_empty_search() {
 		$this->assertSame( [], $this->instance->find_posts_by_title_keywords( '   ' ) );
+		$this->assertSame( [], $this->instance->find_posts_by_title_keywords( ', ,' ) );
 	}
 
 	/**

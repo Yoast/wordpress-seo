@@ -189,7 +189,7 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 	}
 
 	/**
-	 * Tests resolve_many by title returns all matches.
+	 * Tests resolve_many by title returns all matches on the default first page.
 	 *
 	 * @covers ::resolve_many
 	 *
@@ -201,10 +201,37 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'find_posts_by_title_keywords' )
 			->once()
-			->with( 'guide' )
+			->with( 'guide', 1 )
 			->andReturn( $matches );
 
 		$this->assertSame( $matches, $this->instance->resolve_many( [ 'title' => 'guide' ] ) );
+	}
+
+	/**
+	 * Tests resolve_many by title forwards the requested page.
+	 *
+	 * @covers ::resolve_many
+	 *
+	 * @return void
+	 */
+	public function test_resolve_many_by_title_forwards_page() {
+		$matches = [ Mockery::mock() ];
+
+		$this->indexable_repository
+			->expects( 'find_posts_by_title_keywords' )
+			->once()
+			->with( 'guide', 3 )
+			->andReturn( $matches );
+
+		$this->assertSame(
+			$matches,
+			$this->instance->resolve_many(
+				[
+					'title' => 'guide',
+					'page'  => 3,
+				],
+			),
+		);
 	}
 
 	/**

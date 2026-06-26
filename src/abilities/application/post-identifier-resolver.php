@@ -67,7 +67,7 @@ class Post_Identifier_Resolver {
 	 * Used by the read path. A title search may match several posts; with no
 	 * identifier at all, the latest public post is returned.
 	 *
-	 * @param array<string, int|string|bool|null> $input The input containing an optional 'post_id', 'permalink', or 'title'.
+	 * @param array<string, int|string|bool|null> $input The input containing an optional 'post_id', 'permalink', or 'title', plus an optional 'page' for a title search.
 	 *
 	 * @return Indexable[]|WP_Error The matching indexables, or an error for an unknown id/permalink.
 	 */
@@ -85,7 +85,9 @@ class Post_Identifier_Resolver {
 		}
 
 		if ( $this->has( $input, 'title' ) ) {
-			return $this->indexable_repository->find_posts_by_title_keywords( (string) $input['title'] );
+			$page = ( isset( $input['page'] ) ) ? (int) $input['page'] : 1;
+
+			return $this->indexable_repository->find_posts_by_title_keywords( (string) $input['title'], $page );
 		}
 
 		// No identifier given: default to the latest public post.

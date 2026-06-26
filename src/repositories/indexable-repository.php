@@ -515,36 +515,54 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Finds public posts whose breadcrumb title contains all of the given keywords.
+	 * Finds public posts whose breadcrumb title contains any of the given comma-separated phrases.
 	 *
-	 * The search string is split on whitespace and each token must be present in the
-	 * breadcrumb title (a logical AND). This lets callers find a post from a few
-	 * remembered keywords without knowing the exact title, even when the words are
-	 * not adjacent. All matching posts are returned (no limit).
+	 * The search string is a comma-separated list. Each value is matched as a whole
+	 * contiguous substring of the breadcrumb title, and a post is returned when it
+	 * contains any one of the values (a logical OR between values). For example,
+	 * "hiking boots, trail" returns posts whose title contains "hiking boots" or "trail".
 	 *
-	 * @param string $keywords  The keywords to search for in the breadcrumb title.
+	 * Results are paginated and ordered most recently modified first (with the indexable
+	 * id as a stable tiebreaker), so requesting a later page returns older matches.
+	 *
+	 * @param string $keywords  The comma-separated phrases to match against the breadcrumb title.
+	 * @param int    $page      The page of results to return, 1-based.
+	 * @param int    $page_size The number of posts per page.
 	 * @param string $post_type The post type to restrict the search to.
 	 *
-	 * @return Indexable[] The matching indexables, ordered by most recently modified.
+	 * @return Indexable[] The matching indexables for the requested page, ordered by most recently modified.
 	 */
-	public function find_posts_by_title_keywords( string $keywords, string $post_type = 'post' ) {
-		$tokens = \array_filter( \preg_split( '/\s+/', \trim( $keywords ) ) );
+	public function find_posts_by_title_keywords( string $keywords, int $page = 1, int $page_size = 10, string $post_type = 'post' ) {
+		$likes  = [];
+		$params = [];
+
+		foreach ( \explode( ',', $keywords ) as $segment ) {
+			$phrase = \trim( $segment );
+			if ( $phrase === '' ) {
+				continue;
+			}
+
+			$likes[]  = 'breadcrumb_title LIKE %s';
+			$params[] = '%' . $this->wpdb->esc_like( $phrase ) . '%';
+		}
 
 		// An empty search must not degrade into matching every post.
-		if ( empty( $tokens ) ) {
+		if ( empty( $likes ) ) {
 			return [];
 		}
 
-		$query = $this->query()
+		$offset = ( ( \max( 1, $page ) - 1 ) * $page_size );
+
+		return $this->query()
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )
-			->where_raw( '( is_public IS NULL OR is_public = 1 )' );
-
-		foreach ( $tokens as $token ) {
-			$query->where_like( 'breadcrumb_title', '%' . $this->wpdb->esc_like( $token ) . '%' );
-		}
-
-		return $query->order_by_desc( 'object_last_modified' )->find_many();
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
+			->where_raw( '( ' . \implode( ' OR ', $likes ) . ' )', $params )
+			->order_by_desc( 'object_last_modified' )
+			->order_by_desc( 'id' )
+			->limit( $page_size )
+			->offset( $offset )
+			->find_many();
 	}
 
 	/**

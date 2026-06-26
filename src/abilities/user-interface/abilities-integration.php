@@ -248,7 +248,7 @@ class Abilities_Integration implements Integration_Interface {
 			$this->get_shared_ability_args(
 				[
 					'label'               => \__( 'Get Post SEO Data', 'wordpress-seo' ),
-					'description'         => \__( 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; a title keyword search returns the SEO data for every matching post. With no identifier, the latest public post is returned.', 'wordpress-seo' ),
+					'description'         => \__( 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). With no identifier, the latest public post is returned.', 'wordpress-seo' ),
 					'input_schema'        => $this->get_post_identifier_input_schema(),
 					'output_schema'       => $this->wrap_in_array_schema( $this->get_post_seo_data_output_schema() ),
 					'permission_callback' => [ $this, 'can_read_seo_data' ],
@@ -395,7 +395,13 @@ class Abilities_Integration implements Integration_Interface {
 				],
 				'title'     => [
 					'type'        => 'string',
-					'description' => \__( 'Keywords to search for in post titles. The search string is split on whitespace and each token must be present in the breadcrumb title. Returns the SEO data for every matching post.', 'wordpress-seo' ),
+					'description' => \__( 'Keywords to search for in post titles. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the post title, and a post matching any value is returned. Results are paginated; see the page parameter.', 'wordpress-seo' ),
+				],
+				'page'      => [
+					'type'        => 'integer',
+					'description' => \__( 'The page of title-search results to return, 1-based and defaulting to 1. Matches are ordered most recently modified first, so request a later page to reach older matches. An empty result means there are no further pages. Only applies to a title search.', 'wordpress-seo' ),
+					'minimum'     => 1,
+					'default'     => 1,
 				],
 			],
 		];
