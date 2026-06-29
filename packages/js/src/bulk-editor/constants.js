@@ -33,7 +33,8 @@ export const SELECT_MENU_ITEMS_FILTER = "yoast.bulkEditor.selectMenuItems";
 
 // The slot base name Premium fills to replace the content of a table cell that has fields (keyphrase, title, meta description).
 // The rendered slot name is `${TABLE_CELL_FIELD_SLOT}/${field.key}/${item.id}` (one slot per cell).
-// fillProps: { field, item, value, isSaving, onSaveField, onDiscardField }.
+// fillProps: { field, item, value, isSaving, onSaveField, onDiscardField, onApplied }.
+// onApplied( value ) reflects a value the fill saved itself onto the row, so the cell shows it without a refetch.
 export const TABLE_CELL_FIELD_SLOT = "yoast.bulkEditor.TableCellWithField";
 
 // The slot base name Premium fills with a per-row indicator shown before the row title (e.g. an AI status icon).

@@ -77,7 +77,8 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		onApplyField,
 		onCancelEdit,
 		onDiscardField,
-	} ), [ editingRows, onStartEdit, updateDraftField, onApplyField, onCancelEdit, onDiscardField ] );
+		updateItem,
+	} ), [ editingRows, onStartEdit, updateDraftField, onApplyField, onCancelEdit, onDiscardField, updateItem ] );
 
 	return { editing, stopEditing: stopEdit };
 };
