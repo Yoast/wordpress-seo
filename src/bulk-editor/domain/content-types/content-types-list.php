@@ -44,8 +44,9 @@ class Content_Types_List {
 		$array = [];
 		foreach ( $this->content_types as $content_type ) {
 			$array[] = [
-				'name'  => $content_type->get_name(),
-				'label' => $content_type->get_label(),
+				'name'          => $content_type->get_name(),
+				'label'         => $content_type->get_label(),
+				'singularLabel' => $content_type->get_singular_label(),
 			];
 		}
 

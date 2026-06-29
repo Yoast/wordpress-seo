@@ -41,7 +41,7 @@ class Content_Types_Collector {
 			if ( $post_type_object->show_ui === false ) {
 				continue;
 			}
-			$content_type = new Content_Type( $post_type_object->name, $post_type_object->label );
+			$content_type = new Content_Type( $post_type_object->name, $post_type_object->label, $post_type_object->labels->singular_name );
 			$content_types_list->add( $content_type );
 		}
 

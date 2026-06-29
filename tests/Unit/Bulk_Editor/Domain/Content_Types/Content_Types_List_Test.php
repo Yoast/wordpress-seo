@@ -41,7 +41,7 @@ final class Content_Types_List_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_add_and_get() {
-		$content_type = new Content_Type( 'post', 'Posts' );
+		$content_type = new Content_Type( 'post', 'Posts', 'Post' );
 
 		$this->instance->add( $content_type );
 
@@ -54,9 +54,9 @@ final class Content_Types_List_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_add_overwrites_same_name() {
-		$this->instance->add( new Content_Type( 'post', 'Posts' ) );
+		$this->instance->add( new Content_Type( 'post', 'Posts', 'Post' ) );
 
-		$overwriting_content_type = new Content_Type( 'post', 'Articles' );
+		$overwriting_content_type = new Content_Type( 'post', 'Articles', 'Article' );
 		$this->instance->add( $overwriting_content_type );
 
 		$this->assertSame( [ 'post' => $overwriting_content_type ], $this->instance->get() );
@@ -68,18 +68,20 @@ final class Content_Types_List_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_to_array() {
-		$this->instance->add( new Content_Type( 'post', 'Posts' ) );
-		$this->instance->add( new Content_Type( 'page', 'Pages' ) );
+		$this->instance->add( new Content_Type( 'post', 'Posts', 'Post' ) );
+		$this->instance->add( new Content_Type( 'page', 'Pages', 'Page' ) );
 
 		$this->assertSame(
 			[
 				[
-					'name'  => 'post',
-					'label' => 'Posts',
+					'name'          => 'post',
+					'label'         => 'Posts',
+					'singularLabel' => 'Post',
 				],
 				[
-					'name'  => 'page',
-					'label' => 'Pages',
+					'name'          => 'page',
+					'label'         => 'Pages',
+					'singularLabel' => 'Page',
 				],
 			],
 			$this->instance->to_array(),

@@ -21,6 +21,10 @@ export const FOCUS_KEYPHRASE_KEY = "focusKeyphrase";
 // The SlotFill name Premium fills with its bulk actions.
 export const BULK_ACTIONS_SLOT = "yoast.bulkEditor.bulkActions";
 
+// The SlotFill name Premium fills with a full-width notice (e.g. the missing-keyphrase alert), shown as its own
+// row above the bulk-actions buttons.
+export const BULK_NOTICES_SLOT = "yoast.bulkEditor.bulkNotices";
+
 // The PluginArea scope Premium registers its fills under, so they mount inside this page's React tree.
 export const PLUGIN_SCOPE = "yoast-seo-bulk-editor";
 
@@ -31,6 +35,11 @@ export const SELECT_MENU_ITEMS_FILTER = "yoast.bulkEditor.selectMenuItems";
 // The rendered slot name is `${TABLE_CELL_FIELD_SLOT}/${field.key}/${item.id}` (one slot per cell).
 // fillProps: { field, item, value, isSaving, onSaveField, onDiscardField }.
 export const TABLE_CELL_FIELD_SLOT = "yoast.bulkEditor.TableCellWithField";
+
+// The slot base name Premium fills with a per-row indicator shown before the row title (e.g. an AI status icon).
+// The rendered slot name is `${TABLE_ROW_INDICATOR_SLOT}/${fieldSetId}/${item.id}`. Generic so any row-level marker (the missing-keyphrase
+// info icon, a generation-error icon) can fill the same spot.
+export const TABLE_ROW_INDICATOR_SLOT = "yoast.bulkEditor.TableRowIndicator";
 
 // The WooCommerce product post type.
 export const PRODUCT_CONTENT_TYPE = "product";

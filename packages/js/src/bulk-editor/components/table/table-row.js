@@ -13,6 +13,7 @@ import { getFieldTextClasses, getRowEditState } from "./table-helpers";
  * @param {Object}            props             The props.
  * @param {BulkEditorItem}    props.item        The item data.
  * @param {FieldSetField[]}   props.fields      The active field set's editable columns.
+ * @param {string}            props.fieldSetId  The active field set's id, used to scope the per-row indicator slot.
  * @param {boolean}           props.isSelected  Whether this item is selected.
  * @param {Function}          props.onToggleRow Called with the item id when its checkbox is toggled.
  * @param {Object}            [props.edit]      This row's edit state ({ openFields, draft, savingFields }), or undefined when not editing.
@@ -20,7 +21,7 @@ import { getFieldTextClasses, getRowEditState } from "./table-helpers";
  *
  * @returns {JSX.Element} The row.
  */
-export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, editing } ) => {
+export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleRow, edit, editing } ) => {
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
 	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField } = editing;
 	const isSaving = Object.keys( savingFields ).length > 0;
@@ -60,7 +61,7 @@ export const BulkEditorRow = ( { item, fields, isSelected, onToggleRow, edit, ed
 					onChange={ handleToggle }
 				/>
 			</Table.Cell>
-			<TitleCell item={ item } />
+			<TitleCell item={ item } fieldSetId={ fieldSetId } />
 			{ fields.map( ( field ) => {
 				return (
 					<Fragment key={ field.key }>

@@ -1,7 +1,8 @@
 /**
  * @typedef {Object} ContentType A content type.
  * @property {string} name The name of the content type.
- * @property {string} label The label of the content type.
+ * @property {string} label The label of the content type (plural).
+ * @property {string} singularLabel The singular label of the content type.
  */
 
 /**
