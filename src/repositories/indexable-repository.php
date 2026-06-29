@@ -551,27 +551,27 @@ class Indexable_Repository {
 	 * @return Indexable[] The matching indexables for the requested page, ordered by most recently modified.
 	 */
 	public function find_posts_by_title_keywords( string $keywords, int $page = 1, int $page_size = 10, string $post_type = 'post' ) {
-		$likes  = [];
-		$params = [];
-
-		foreach ( \explode( ',', $keywords ) as $segment ) {
-			$phrase = \trim( $segment );
-			if ( $phrase === '' ) {
-				continue;
-			}
-
-			$likes[]  = 'breadcrumb_title LIKE %s';
-			$params[] = '%' . $this->wpdb->esc_like( $phrase ) . '%';
-
-			if ( \count( $likes ) >= self::MAX_TITLE_KEYWORD_PHRASES ) {
-				break;
-			}
-		}
+		$phrases = \array_map( 'trim', \explode( ',', $keywords ) );
+		$phrases = \array_filter(
+			$phrases,
+			static function ( $phrase ) {
+				return $phrase !== '';
+			},
+		);
+		$phrases = \array_slice( $phrases, 0, self::MAX_TITLE_KEYWORD_PHRASES );
 
 		// An empty search must not degrade into matching every post.
-		if ( empty( $likes ) ) {
+		if ( empty( $phrases ) ) {
 			return [];
 		}
+
+		$likes  = \array_fill( 0, \count( $phrases ), 'breadcrumb_title LIKE %s' );
+		$params = \array_map(
+			function ( $phrase ) {
+				return '%' . $this->wpdb->esc_like( $phrase ) . '%';
+			},
+			$phrases,
+		);
 
 		$page_size = \min( \max( 1, $page_size ), self::MAX_TITLE_KEYWORD_PAGE_SIZE );
 		$offset    = ( ( \max( 1, $page ) - 1 ) * $page_size );
@@ -580,7 +580,7 @@ class Indexable_Repository {
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )
 			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
-			->where_raw( '( ' . \implode( ' OR ', $likes ) . ' )', $params )
+			->where_raw( '( ' . \implode( ' OR ', $likes ) . ' )', \array_values( $params ) )
 			->order_by_desc( 'object_last_modified' )
 			->order_by_desc( 'id' )
 			->limit( $page_size )
