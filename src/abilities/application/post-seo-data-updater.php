@@ -5,14 +5,15 @@ namespace Yoast\WP\SEO\Abilities\Application;
 
 use WP_Error;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
-use Yoast\WP\SEO\Helpers\Meta_Helper;
-use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 
 /**
  * Application service that updates the SEO data of a single post.
  *
- * Writes go to post meta (the source of truth); the indexable is then rebuilt so
- * that subsequent reads and the rest of the plugin stay consistent.
+ * The input is applied onto the resolved indexable (the desired state), cascaded
+ * to post meta (the source of truth) via Indexable_To_Postmeta_Helper, and the
+ * indexable is then rebuilt from that meta so reads and the rest of the plugin
+ * stay consistent.
  */
 class Post_SEO_Data_Updater {
 
@@ -31,11 +32,11 @@ class Post_SEO_Data_Updater {
 	private $field_map;
 
 	/**
-	 * The meta helper.
+	 * The indexable-to-postmeta helper.
 	 *
-	 * @var Meta_Helper
+	 * @var Indexable_To_Postmeta_Helper
 	 */
-	private $meta_helper;
+	private $indexable_to_postmeta;
 
 	/**
 	 * The indexable builder.
@@ -47,21 +48,21 @@ class Post_SEO_Data_Updater {
 	/**
 	 * Constructor.
 	 *
-	 * @param Post_Identifier_Resolver $resolver          The post identifier resolver.
-	 * @param Post_SEO_Field_Map       $field_map         The post SEO field map.
-	 * @param Meta_Helper              $meta_helper       The meta helper.
-	 * @param Indexable_Builder        $indexable_builder The indexable builder.
+	 * @param Post_Identifier_Resolver     $resolver              The post identifier resolver.
+	 * @param Post_SEO_Field_Map           $field_map             The post SEO field map.
+	 * @param Indexable_To_Postmeta_Helper $indexable_to_postmeta The indexable-to-postmeta helper.
+	 * @param Indexable_Builder            $indexable_builder     The indexable builder.
 	 */
 	public function __construct(
 		Post_Identifier_Resolver $resolver,
 		Post_SEO_Field_Map $field_map,
-		Meta_Helper $meta_helper,
+		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
 		Indexable_Builder $indexable_builder
 	) {
-		$this->resolver          = $resolver;
-		$this->field_map         = $field_map;
-		$this->meta_helper       = $meta_helper;
-		$this->indexable_builder = $indexable_builder;
+		$this->resolver              = $resolver;
+		$this->field_map             = $field_map;
+		$this->indexable_to_postmeta = $indexable_to_postmeta;
+		$this->indexable_builder     = $indexable_builder;
 	}
 
 	/**
@@ -81,18 +82,14 @@ class Post_SEO_Data_Updater {
 			return $indexable;
 		}
 
-		$post_id = (int) $indexable->object_id;
+		// Apply the patch onto the indexable, then cascade it to post meta (the source of truth),
+		// deleting the meta of any field cleared by the patch.
+		$this->field_map->apply_to_indexable( $input, $indexable );
+		$this->indexable_to_postmeta->map_to_postmeta( $indexable, true );
 
-		foreach ( $this->field_map->to_meta_operations( $input, $indexable ) as $operation ) {
-			if ( $operation['action'] === 'delete' ) {
-				$this->meta_helper->delete( $operation['key'], $post_id );
-				continue;
-			}
-
-			$this->meta_helper->set_value( $operation['key'], $operation['value'], $post_id );
-		}
-
-		$rebuilt = $this->rebuild_indexable( $post_id, $indexable );
+		// A post-meta write does not trigger the indexable watcher, so rebuild the read model
+		// explicitly from the meta we just wrote.
+		$rebuilt = $this->indexable_builder->build_for_id_and_type( (int) $indexable->object_id, 'post', $indexable );
 
 		if ( ! $rebuilt ) {
 			return new WP_Error(
@@ -103,20 +100,5 @@ class Post_SEO_Data_Updater {
 		}
 
 		return $this->field_map->to_post_seo_data( $rebuilt )->to_array();
-	}
-
-	/**
-	 * Rebuilds the indexable for a post after its meta has changed.
-	 *
-	 * A direct post-meta write does not trigger the indexable watcher, so the
-	 * read model must be rebuilt explicitly.
-	 *
-	 * @param int       $post_id   The post ID.
-	 * @param Indexable $indexable The existing indexable to overwrite.
-	 *
-	 * @return Indexable|false The rebuilt indexable, or false on failure.
-	 */
-	private function rebuild_indexable( int $post_id, $indexable ) {
-		return $this->indexable_builder->build_for_id_and_type( $post_id, 'post', $indexable );
 	}
 }

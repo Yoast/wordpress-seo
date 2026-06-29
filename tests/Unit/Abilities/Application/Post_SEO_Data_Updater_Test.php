@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\Domain\Post_SEO_Data;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
-use Yoast\WP\SEO\Helpers\Meta_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -38,11 +38,11 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 	private $field_map;
 
 	/**
-	 * The meta helper mock.
+	 * The indexable-to-postmeta helper mock.
 	 *
-	 * @var Mockery\MockInterface|Meta_Helper
+	 * @var Mockery\MockInterface|Indexable_To_Postmeta_Helper
 	 */
-	private $meta_helper;
+	private $indexable_to_postmeta;
 
 	/**
 	 * The indexable builder mock.
@@ -76,25 +76,25 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			],
 		);
 
-		$this->resolver          = Mockery::mock( Post_Identifier_Resolver::class );
-		$this->field_map         = Mockery::mock( Post_SEO_Field_Map::class );
-		$this->meta_helper       = Mockery::mock( Meta_Helper::class );
-		$this->indexable_builder = Mockery::mock( Indexable_Builder::class );
+		$this->resolver              = Mockery::mock( Post_Identifier_Resolver::class );
+		$this->field_map             = Mockery::mock( Post_SEO_Field_Map::class );
+		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class );
+		$this->indexable_builder     = Mockery::mock( Indexable_Builder::class );
 
 		$this->instance = new Post_SEO_Data_Updater(
 			$this->resolver,
 			$this->field_map,
-			$this->meta_helper,
+			$this->indexable_to_postmeta,
 			$this->indexable_builder,
 		);
 	}
 
 	/**
-	 * Tests the happy path: meta is written, the indexable is rebuilt, and the new data is returned.
+	 * Tests the happy path: the input is applied to the indexable, cascaded to post meta,
+	 * the indexable is rebuilt, and the new data is returned.
 	 *
 	 * @covers ::__construct
 	 * @covers ::update_post_seo_data
-	 * @covers ::rebuild_indexable
 	 *
 	 * @return void
 	 */
@@ -115,43 +115,14 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->andReturn( $indexable );
 
 		$this->field_map
-			->expects( 'to_meta_operations' )
+			->expects( 'apply_to_indexable' )
 			->once()
-			->with( $input, $indexable )
-			->andReturn(
-				[
-					[
-						'key'    => 'metadesc',
-						'action' => 'set',
-						'value'  => 'New description',
-					],
-					[
-						'key'    => 'meta-robots-noindex',
-						'action' => 'set',
-						'value'  => 1,
-					],
-					[
-						'key'    => 'canonical',
-						'action' => 'delete',
-						'value'  => null,
-					],
-				],
-			);
+			->with( $input, $indexable );
 
-		$this->meta_helper
-			->expects( 'set_value' )
+		$this->indexable_to_postmeta
+			->expects( 'map_to_postmeta' )
 			->once()
-			->with( 'metadesc', 'New description', 42 );
-
-		$this->meta_helper
-			->expects( 'set_value' )
-			->once()
-			->with( 'meta-robots-noindex', 1, 42 );
-
-		$this->meta_helper
-			->expects( 'delete' )
-			->once()
-			->with( 'canonical', 42 );
+			->with( $indexable, true );
 
 		$this->indexable_builder
 			->expects( 'build_for_id_and_type' )
@@ -203,7 +174,6 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 	 * Tests that a failed rebuild returns an error.
 	 *
 	 * @covers ::update_post_seo_data
-	 * @covers ::rebuild_indexable
 	 *
 	 * @return void
 	 */
@@ -217,9 +187,14 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->andReturn( $indexable );
 
 		$this->field_map
-			->expects( 'to_meta_operations' )
+			->expects( 'apply_to_indexable' )
 			->once()
-			->andReturn( [] );
+			->with( [ 'post_id' => 42 ], $indexable );
+
+		$this->indexable_to_postmeta
+			->expects( 'map_to_postmeta' )
+			->once()
+			->with( $indexable, true );
 
 		$this->indexable_builder
 			->expects( 'build_for_id_and_type' )

@@ -169,219 +169,94 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that a simple field is set when given a value and deleted when emptied.
+	 * Tests that string fields are set from their value and cleared to null when emptied.
 	 *
-	 * @covers ::to_meta_operations
+	 * @covers ::apply_to_indexable
 	 *
 	 * @return void
 	 */
-	public function test_to_meta_operations_simple_set_and_clear() {
-		$current = $this->make_indexable();
+	public function test_apply_to_indexable_string_fields_set_and_clear() {
+		$indexable = Mockery::mock();
 
-		$this->assertSame(
+		$this->instance->apply_to_indexable(
 			[
-				[
-					'key'    => 'title',
-					'action' => 'set',
-					'value'  => 'New title',
-				],
-				[
-					'key'    => 'metadesc',
-					'action' => 'delete',
-					'value'  => null,
-				],
-				[
-					'key'    => 'canonical',
-					'action' => 'delete',
-					'value'  => null,
-				],
+				'seo_title'        => 'New title',
+				'meta_description' => '',
+				'canonical'        => null,
+				'focus_keyphrase'  => 'a phrase',
 			],
-			$this->instance->to_meta_operations(
-				[
-					'seo_title'        => 'New title',
-					'meta_description' => '',
-					'canonical'        => null,
-				],
-				$current,
-			),
+			$indexable,
 		);
+
+		$this->assertSame( 'New title', $indexable->title );
+		$this->assertNull( $indexable->description );
+		$this->assertNull( $indexable->canonical );
+		$this->assertSame( 'a phrase', $indexable->primary_focus_keyword );
 	}
 
 	/**
-	 * Tests that the cornerstone flag is set or deleted.
+	 * Tests that boolean flags are cast and written to their indexable column.
 	 *
-	 * @covers ::to_meta_operations
+	 * @covers ::apply_to_indexable
 	 *
 	 * @return void
 	 */
-	public function test_to_meta_operations_cornerstone() {
-		$current = $this->make_indexable();
+	public function test_apply_to_indexable_boolean_flags() {
+		$indexable = Mockery::mock();
 
-		$this->assertSame(
+		$this->instance->apply_to_indexable(
 			[
-				[
-					'key'    => 'is_cornerstone',
-					'action' => 'set',
-					'value'  => '1',
-				],
+				'is_cornerstone' => true,
+				'nofollow'       => false,
+				'noimageindex'   => true,
+				'noarchive'      => false,
+				'nosnippet'      => true,
 			],
-			$this->instance->to_meta_operations( [ 'is_cornerstone' => true ], $current ),
+			$indexable,
 		);
 
-		$this->assertSame(
-			[
-				[
-					'key'    => 'is_cornerstone',
-					'action' => 'delete',
-					'value'  => null,
-				],
-			],
-			$this->instance->to_meta_operations( [ 'is_cornerstone' => false ], $current ),
-		);
+		$this->assertTrue( $indexable->is_cornerstone );
+		$this->assertFalse( $indexable->is_robots_nofollow );
+		$this->assertTrue( $indexable->is_robots_noimageindex );
+		$this->assertFalse( $indexable->is_robots_noarchive );
+		$this->assertTrue( $indexable->is_robots_nosnippet );
 	}
 
 	/**
-	 * Tests the noindex encoding for true, false, and null.
+	 * Tests the tri-state noindex mapping: true and false set a boolean, null resets to the default.
 	 *
-	 * @covers ::to_meta_operations
-	 * @covers ::noindex_operation
+	 * @covers ::apply_to_indexable
 	 *
 	 * @return void
 	 */
-	public function test_to_meta_operations_noindex() {
-		$current = $this->make_indexable();
+	public function test_apply_to_indexable_noindex() {
+		$noindex = Mockery::mock();
+		$index   = Mockery::mock();
+		$default = Mockery::mock();
 
-		$this->assertSame(
-			[
-				[
-					'key'    => 'meta-robots-noindex',
-					'action' => 'set',
-					'value'  => 1,
-				],
-			],
-			$this->instance->to_meta_operations( [ 'noindex' => true ], $current ),
-		);
+		$this->instance->apply_to_indexable( [ 'noindex' => true ], $noindex );
+		$this->instance->apply_to_indexable( [ 'noindex' => false ], $index );
+		$this->instance->apply_to_indexable( [ 'noindex' => null ], $default );
 
-		$this->assertSame(
-			[
-				[
-					'key'    => 'meta-robots-noindex',
-					'action' => 'set',
-					'value'  => 2,
-				],
-			],
-			$this->instance->to_meta_operations( [ 'noindex' => false ], $current ),
-		);
-
-		$this->assertSame(
-			[
-				[
-					'key'    => 'meta-robots-noindex',
-					'action' => 'delete',
-					'value'  => null,
-				],
-			],
-			$this->instance->to_meta_operations( [ 'noindex' => null ], $current ),
-		);
+		$this->assertTrue( $noindex->is_robots_noindex );
+		$this->assertFalse( $index->is_robots_noindex );
+		$this->assertNull( $default->is_robots_noindex );
 	}
 
 	/**
-	 * Tests the nofollow encoding for true and false.
+	 * Tests that fields absent from the input leave the indexable untouched.
 	 *
-	 * @covers ::to_meta_operations
-	 *
-	 * @return void
-	 */
-	public function test_to_meta_operations_nofollow() {
-		$current = $this->make_indexable();
-
-		$this->assertSame(
-			[
-				[
-					'key'    => 'meta-robots-nofollow',
-					'action' => 'set',
-					'value'  => 1,
-				],
-			],
-			$this->instance->to_meta_operations( [ 'nofollow' => true ], $current ),
-		);
-
-		$this->assertSame(
-			[
-				[
-					'key'    => 'meta-robots-nofollow',
-					'action' => 'delete',
-					'value'  => null,
-				],
-			],
-			$this->instance->to_meta_operations( [ 'nofollow' => false ], $current ),
-		);
-	}
-
-	/**
-	 * Tests that advanced robots flags are merged with the current indexable state.
-	 *
-	 * @covers ::to_meta_operations
-	 * @covers ::advanced_robots_operation
+	 * @covers ::apply_to_indexable
 	 *
 	 * @return void
 	 */
-	public function test_to_meta_operations_advanced_robots_merges_current() {
-		// Current indexable already has noarchive on; patching nosnippet on must preserve noarchive.
-		$current                         = $this->make_indexable();
-		$current->is_robots_noarchive    = true;
-		$current->is_robots_nosnippet    = false;
-		$current->is_robots_noimageindex = false;
+	public function test_apply_to_indexable_ignores_absent_fields() {
+		$indexable        = Mockery::mock();
+		$indexable->title = 'Untouched';
 
-		$this->assertSame(
-			[
-				[
-					'key'    => 'meta-robots-adv',
-					'action' => 'set',
-					'value'  => 'noarchive,nosnippet',
-				],
-			],
-			$this->instance->to_meta_operations( [ 'nosnippet' => true ], $current ),
-		);
-	}
+		$this->instance->apply_to_indexable( [], $indexable );
 
-	/**
-	 * Tests that advanced robots are deleted when the merged set is empty.
-	 *
-	 * @covers ::to_meta_operations
-	 * @covers ::advanced_robots_operation
-	 *
-	 * @return void
-	 */
-	public function test_to_meta_operations_advanced_robots_cleared() {
-		$current                         = $this->make_indexable();
-		$current->is_robots_noarchive    = false;
-		$current->is_robots_nosnippet    = false;
-		$current->is_robots_noimageindex = false;
-
-		$this->assertSame(
-			[
-				[
-					'key'    => 'meta-robots-adv',
-					'action' => 'delete',
-					'value'  => null,
-				],
-			],
-			$this->instance->to_meta_operations( [ 'noarchive' => false ], $current ),
-		);
-	}
-
-	/**
-	 * Tests that fields not present in the input produce no operations.
-	 *
-	 * @covers ::to_meta_operations
-	 *
-	 * @return void
-	 */
-	public function test_to_meta_operations_ignores_absent_fields() {
-		$current = $this->make_indexable();
-
-		$this->assertSame( [], $this->instance->to_meta_operations( [], $current ) );
+		$this->assertSame( 'Untouched', $indexable->title );
 	}
 
 	/**

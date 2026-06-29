@@ -82,6 +82,18 @@ class Indexable_To_Postmeta_Helper {
 			'post_meta_key' => 'meta-robots-adv',
 			'map_method'    => 'robots_adv_map',
 		],
+		'is_cornerstone'         => [
+			'post_meta_key' => 'is_cornerstone',
+			'map_method'    => 'cornerstone_map',
+		],
+		'schema_page_type'       => [
+			'post_meta_key' => 'schema_page_type',
+			'map_method'    => 'simple_map',
+		],
+		'schema_article_type'    => [
+			'post_meta_key' => 'schema_article_type',
+			'map_method'    => 'simple_map',
+		],
 	];
 
 	/**
@@ -96,13 +108,16 @@ class Indexable_To_Postmeta_Helper {
 	/**
 	 * Creates postmeta from a Yoast indexable.
 	 *
-	 * @param Indexable $indexable The Yoast indexable.
+	 * @param Indexable $indexable    The Yoast indexable.
+	 * @param bool      $delete_empty Whether an empty indexable value should delete the post meta
+	 *                                instead of being left untouched. Defaults to false so importers,
+	 *                                which only fill in missing data, keep their set-only behaviour.
 	 *
 	 * @return void
 	 */
-	public function map_to_postmeta( $indexable ) {
+	public function map_to_postmeta( $indexable, $delete_empty = false ) {
 		foreach ( $this->yoast_to_postmeta as $indexable_column => $map_info ) {
-			\call_user_func( [ $this, $map_info['map_method'] ], $indexable, $map_info['post_meta_key'], $indexable_column );
+			\call_user_func( [ $this, $map_info['map_method'] ], $indexable, $map_info['post_meta_key'], $indexable_column, $delete_empty );
 		}
 	}
 
@@ -112,15 +127,40 @@ class Indexable_To_Postmeta_Helper {
 	 * @param Indexable $indexable        The Yoast indexable.
 	 * @param string    $post_meta_key    The post_meta key that will be populated.
 	 * @param string    $indexable_column The indexable data that will be mapped to post_meta.
+	 * @param bool      $delete_empty     Whether an empty value should delete the post meta key.
 	 *
 	 * @return void
 	 */
-	public function simple_map( $indexable, $post_meta_key, $indexable_column ) {
+	public function simple_map( $indexable, $post_meta_key, $indexable_column, $delete_empty = false ) {
 		if ( empty( $indexable->{$indexable_column} ) ) {
+			if ( $delete_empty ) {
+				$this->meta->delete( $post_meta_key, $indexable->object_id );
+			}
 			return;
 		}
 
 		$this->meta->set_value( $post_meta_key, $indexable->{$indexable_column}, $indexable->object_id );
+	}
+
+	/**
+	 * Maps the cornerstone flag, which is stored as '1' when on and absent when off.
+	 *
+	 * @param Indexable $indexable        The Yoast indexable.
+	 * @param string    $post_meta_key    The post_meta key that will be populated.
+	 * @param string    $indexable_column The indexable data that will be mapped to post_meta.
+	 * @param bool      $delete_empty     Whether a disabled flag should delete the post meta key.
+	 *
+	 * @return void
+	 */
+	public function cornerstone_map( $indexable, $post_meta_key, $indexable_column, $delete_empty = false ) {
+		if ( $indexable->is_cornerstone === true ) {
+			$this->meta->set_value( $post_meta_key, '1', $indexable->object_id );
+			return;
+		}
+
+		if ( $delete_empty ) {
+			$this->meta->delete( $post_meta_key, $indexable->object_id );
+		}
 	}
 
 	/**
