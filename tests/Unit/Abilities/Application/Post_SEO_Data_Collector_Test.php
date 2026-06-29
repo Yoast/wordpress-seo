@@ -8,7 +8,6 @@ use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Post_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Field_Map;
-use Yoast\WP\SEO\Abilities\Domain\Post_SEO_Data;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -79,16 +78,16 @@ final class Post_SEO_Data_Collector_Test extends TestCase {
 			->andReturn( [ $first, $second ] );
 
 		$this->field_map
-			->expects( 'to_post_seo_data' )
+			->expects( 'to_seo_array' )
 			->once()
 			->with( $first )
-			->andReturn( new Post_SEO_Data( [ 'post_id' => 1 ] ) );
+			->andReturn( [ 'post_id' => 1 ] );
 
 		$this->field_map
-			->expects( 'to_post_seo_data' )
+			->expects( 'to_seo_array' )
 			->once()
 			->with( $second )
-			->andReturn( new Post_SEO_Data( [ 'post_id' => 2 ] ) );
+			->andReturn( [ 'post_id' => 2 ] );
 
 		$this->assertSame(
 			[

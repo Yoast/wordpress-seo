@@ -9,7 +9,6 @@ use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Post_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Field_Map;
-use Yoast\WP\SEO\Abilities\Domain\Post_SEO_Data;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -131,16 +130,14 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->andReturn( $rebuilt );
 
 		$this->field_map
-			->expects( 'to_post_seo_data' )
+			->expects( 'to_seo_array' )
 			->once()
 			->with( $rebuilt )
 			->andReturn(
-				new Post_SEO_Data(
-					[
-						'post_id'          => 42,
-						'meta_description' => 'New description',
-					],
-				),
+				[
+					'post_id'          => 42,
+					'meta_description' => 'New description',
+				],
 			);
 
 		$this->assertSame(

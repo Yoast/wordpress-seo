@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Abilities\Application;
 
 use WPSEO_Rank;
-use Yoast\WP\SEO\Abilities\Domain\Post_SEO_Data;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Surfaces\Values\Meta;
@@ -87,7 +86,7 @@ class Post_SEO_Field_Map {
 	}
 
 	/**
-	 * Builds the post SEO data value object from an indexable.
+	 * Builds the post SEO data array from an indexable.
 	 *
 	 * Alongside the raw stored fields, each rendered companion (`*_rendered`)
 	 * carries the value as it is actually output on the front end: the global
@@ -96,46 +95,44 @@ class Post_SEO_Field_Map {
 	 *
 	 * @param Indexable $indexable The indexable to read from.
 	 *
-	 * @return Post_SEO_Data The post SEO data.
+	 * @return array<string, int|string|bool|null> The post SEO data, keyed by output-schema property name.
 	 */
-	public function to_post_seo_data( $indexable ): Post_SEO_Data {
+	public function to_seo_array( $indexable ): array {
 		$meta = $this->meta_surface->for_post( (int) $indexable->object_id );
 
-		return new Post_SEO_Data(
-			[
-				'post_id'                         => (int) $indexable->object_id,
-				'post_title'                      => $indexable->breadcrumb_title,
-				'permalink'                       => $indexable->permalink,
-				'post_type'                       => $indexable->object_sub_type,
-				'post_status'                     => $indexable->post_status,
-				'seo_title'                       => $indexable->title,
-				'seo_title_rendered'              => $this->rendered( $meta, 'seo_title' ),
-				'meta_description'                => $indexable->description,
-				'meta_description_rendered'       => $this->rendered( $meta, 'meta_description' ),
-				'focus_keyphrase'                 => $indexable->primary_focus_keyword,
-				'canonical'                       => $indexable->canonical,
-				'canonical_rendered'              => $this->rendered( $meta, 'canonical' ),
-				'is_cornerstone'                  => (bool) $indexable->is_cornerstone,
-				'noindex'                         => $indexable->is_robots_noindex,
-				'nofollow'                        => (bool) $indexable->is_robots_nofollow,
-				'noimageindex'                    => (bool) $indexable->is_robots_noimageindex,
-				'noarchive'                       => (bool) $indexable->is_robots_noarchive,
-				'nosnippet'                       => (bool) $indexable->is_robots_nosnippet,
-				'open_graph_title'                => $indexable->open_graph_title,
-				'open_graph_title_rendered'       => $this->rendered( $meta, 'open_graph_title' ),
-				'open_graph_description'          => $indexable->open_graph_description,
-				'open_graph_description_rendered' => $this->rendered( $meta, 'open_graph_description' ),
-				'twitter_title'                   => $indexable->twitter_title,
-				'twitter_title_rendered'          => $this->rendered( $meta, 'twitter_title' ),
-				'twitter_description'             => $indexable->twitter_description,
-				'twitter_description_rendered'    => $this->rendered( $meta, 'twitter_description' ),
-				'schema_page_type'                => $indexable->schema_page_type,
-				'schema_article_type'             => $indexable->schema_article_type,
-				'seo_score'                       => WPSEO_Rank::from_numeric_score( (int) $indexable->primary_focus_keyword_score )->get_rank(),
-				'readability_score'               => WPSEO_Rank::from_numeric_score( (int) $indexable->readability_score )->get_rank(),
-				'inclusive_language_score'        => $this->inclusive_language_rank( (int) $indexable->inclusive_language_score ),
-			],
-		);
+		return [
+			'post_id'                         => (int) $indexable->object_id,
+			'post_title'                      => $indexable->breadcrumb_title,
+			'permalink'                       => $indexable->permalink,
+			'post_type'                       => $indexable->object_sub_type,
+			'post_status'                     => $indexable->post_status,
+			'seo_title'                       => $indexable->title,
+			'seo_title_rendered'              => $this->rendered( $meta, 'seo_title' ),
+			'meta_description'                => $indexable->description,
+			'meta_description_rendered'       => $this->rendered( $meta, 'meta_description' ),
+			'focus_keyphrase'                 => $indexable->primary_focus_keyword,
+			'canonical'                       => $indexable->canonical,
+			'canonical_rendered'              => $this->rendered( $meta, 'canonical' ),
+			'is_cornerstone'                  => (bool) $indexable->is_cornerstone,
+			'noindex'                         => $indexable->is_robots_noindex,
+			'nofollow'                        => (bool) $indexable->is_robots_nofollow,
+			'noimageindex'                    => (bool) $indexable->is_robots_noimageindex,
+			'noarchive'                       => (bool) $indexable->is_robots_noarchive,
+			'nosnippet'                       => (bool) $indexable->is_robots_nosnippet,
+			'open_graph_title'                => $indexable->open_graph_title,
+			'open_graph_title_rendered'       => $this->rendered( $meta, 'open_graph_title' ),
+			'open_graph_description'          => $indexable->open_graph_description,
+			'open_graph_description_rendered' => $this->rendered( $meta, 'open_graph_description' ),
+			'twitter_title'                   => $indexable->twitter_title,
+			'twitter_title_rendered'          => $this->rendered( $meta, 'twitter_title' ),
+			'twitter_description'             => $indexable->twitter_description,
+			'twitter_description_rendered'    => $this->rendered( $meta, 'twitter_description' ),
+			'schema_page_type'                => $indexable->schema_page_type,
+			'schema_article_type'             => $indexable->schema_article_type,
+			'seo_score'                       => WPSEO_Rank::from_numeric_score( (int) $indexable->primary_focus_keyword_score )->get_rank(),
+			'readability_score'               => WPSEO_Rank::from_numeric_score( (int) $indexable->readability_score )->get_rank(),
+			'inclusive_language_score'        => $this->inclusive_language_rank( (int) $indexable->inclusive_language_score ),
+		];
 	}
 
 	/**

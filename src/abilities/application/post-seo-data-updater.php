@@ -99,6 +99,6 @@ class Post_SEO_Data_Updater {
 			);
 		}
 
-		return $this->field_map->to_post_seo_data( $rebuilt )->to_array();
+		return $this->field_map->to_seo_array( $rebuilt );
 	}
 }

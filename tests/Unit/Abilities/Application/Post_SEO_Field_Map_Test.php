@@ -45,17 +45,17 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that to_post_seo_data maps an indexable to the full output shape,
+	 * Tests that to_seo_array maps an indexable to the full output shape,
 	 * including the rendered front-end companions.
 	 *
 	 * @covers ::__construct
-	 * @covers ::to_post_seo_data
+	 * @covers ::to_seo_array
 	 * @covers ::rendered
 	 * @covers ::inclusive_language_rank
 	 *
 	 * @return void
 	 */
-	public function test_to_post_seo_data() {
+	public function test_to_seo_array() {
 		$indexable = $this->make_indexable();
 
 		$this->meta_surface->expects( 'for_post' )->once()->with( 42 )->andReturn(
@@ -72,7 +72,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 			),
 		);
 
-		$result = $this->instance->to_post_seo_data( $indexable )->to_array();
+		$result = $this->instance->to_seo_array( $indexable );
 
 		$this->assertSame(
 			[
@@ -115,17 +115,17 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	/**
 	 * Tests that the rendered companions are null when no meta is available for the post.
 	 *
-	 * @covers ::to_post_seo_data
+	 * @covers ::to_seo_array
 	 * @covers ::rendered
 	 *
 	 * @return void
 	 */
-	public function test_to_post_seo_data_without_meta() {
+	public function test_to_seo_array_without_meta() {
 		$indexable = $this->make_indexable();
 
 		$this->meta_surface->expects( 'for_post' )->once()->with( 42 )->andReturnFalse();
 
-		$result = $this->instance->to_post_seo_data( $indexable )->to_array();
+		$result = $this->instance->to_seo_array( $indexable );
 
 		$this->assertNull( $result['seo_title_rendered'] );
 		$this->assertNull( $result['meta_description_rendered'] );
@@ -146,7 +146,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_to_post_seo_data_empty_rendered_value_is_null() {
+	public function test_to_seo_array_empty_rendered_value_is_null() {
 		$indexable = $this->make_indexable();
 
 		$this->meta_surface->expects( 'for_post' )->once()->with( 42 )->andReturn(
@@ -163,7 +163,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 			),
 		);
 
-		$result = $this->instance->to_post_seo_data( $indexable )->to_array();
+		$result = $this->instance->to_seo_array( $indexable );
 
 		$this->assertNull( $result['meta_description_rendered'] );
 	}
