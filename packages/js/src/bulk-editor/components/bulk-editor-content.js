@@ -159,6 +159,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								contentType={ contentType }
 								contentTypeLabel={ contentTypeLabel }
 								contentTypeSingularLabel={ contentTypeSingularLabel }
+								hasUnsavedEdits={ hasUnsavedEdits }
 							/>
 						}
 						showBulkActions={ hasSelection }
