@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities_Integration;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
+use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List;
@@ -112,7 +113,7 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get_conditionals returns the Abilities API conditional.
+	 * Tests that get_conditionals returns the Abilities API and indexables conditionals.
 	 *
 	 * @covers ::get_conditionals
 	 *
@@ -120,7 +121,10 @@ final class Abilities_Integration_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertSame(
-			[ Abilities_API_Conditional::class ],
+			[
+				Abilities_API_Conditional::class,
+				Should_Index_Indexables_Conditional::class,
+			],
 			Abilities_Integration::get_conditionals(),
 		);
 	}
