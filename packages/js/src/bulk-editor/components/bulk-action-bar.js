@@ -137,10 +137,14 @@ const FreeBulkActions = ( { contentType } ) => {
  * @param {string}   props.contentType        The active content type (also the Free upsell variant).
  * @param {string}   [props.contentTypeLabel] The active content type label (plural), passed to the notices fill for its copy.
  * @param {string}   [props.contentTypeSingularLabel] The active content type singular label, passed to the notices fill.
+ * @param {boolean}  [props.hasUnsavedEdits]  Whether a row has unsaved manual edits, passed to the actions fill so Premium
+ *                                             can disable the AI buttons while edits are in progress.
  *
  * @returns {JSX.Element} The bulk actions row content.
  */
-export const BulkActions = ( { isPremium, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } ) => (
+export const BulkActions = ( {
+	isPremium, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel, hasUnsavedEdits,
+} ) => (
 	<div className="yst-flex yst-flex-col">
 		{ isActive && (
 			<Slot
@@ -150,7 +154,7 @@ export const BulkActions = ( { isPremium, isActive, selectedIds, activeFieldSet,
 		) }
 		<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
 			{ ! isPremium && <FreeBulkActions contentType={ contentType } /> }
-			{ isActive && <Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType } } /> }
+			{ isActive && <Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType, hasUnsavedEdits } } /> }
 		</div>
 	</div>
 );
