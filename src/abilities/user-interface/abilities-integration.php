@@ -3,8 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface;
 
-use WP_Error;
-use Yoast\WP\SEO\Abilities\Application\Post_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
@@ -59,13 +57,6 @@ class Abilities_Integration implements Integration_Interface {
 	private $post_seo_data_updater;
 
 	/**
-	 * The post identifier resolver.
-	 *
-	 * @var Post_Identifier_Resolver
-	 */
-	private $post_identifier_resolver;
-
-	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array<string> The conditionals.
@@ -85,22 +76,19 @@ class Abilities_Integration implements Integration_Interface {
 	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The enabled analysis features repository.
 	 * @param Post_SEO_Data_Collector              $post_seo_data_collector              The post SEO data collector.
 	 * @param Post_SEO_Data_Updater                $post_seo_data_updater                The post SEO data updater.
-	 * @param Post_Identifier_Resolver             $post_identifier_resolver             The post identifier resolver.
 	 */
 	public function __construct(
 		Score_Retriever $score_retriever,
 		Capability_Helper $capability_helper,
 		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository,
 		Post_SEO_Data_Collector $post_seo_data_collector,
-		Post_SEO_Data_Updater $post_seo_data_updater,
-		Post_Identifier_Resolver $post_identifier_resolver
+		Post_SEO_Data_Updater $post_seo_data_updater
 	) {
 		$this->score_retriever                      = $score_retriever;
 		$this->capability_helper                    = $capability_helper;
 		$this->enabled_analysis_features_repository = $enabled_analysis_features_repository;
 		$this->post_seo_data_collector              = $post_seo_data_collector;
 		$this->post_seo_data_updater                = $post_seo_data_updater;
-		$this->post_identifier_resolver             = $post_identifier_resolver;
 	}
 
 	/**
@@ -144,38 +132,15 @@ class Abilities_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Checks whether the current user can read scores.
+	 * Checks whether the current user can manage Yoast SEO.
 	 *
-	 * @return bool Whether the current user can read scores.
+	 * Gates every ability — reading scores, reading post SEO data, and updating it —
+	 * behind the same Yoast SEO management capability.
+	 *
+	 * @return bool Whether the current user can manage Yoast SEO.
 	 */
-	public function can_read_scores(): bool {
+	public function can_manage_seo(): bool {
 		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
-	}
-
-	/**
-	 * Checks whether the current user can read post SEO data.
-	 *
-	 * @return bool Whether the current user can read post SEO data.
-	 */
-	public function can_read_seo_data(): bool {
-		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
-	}
-
-	/**
-	 * Checks whether the current user can edit the SEO data of the resolved post.
-	 *
-	 * @param array<string, int|string|bool|null> $input The ability input identifying the post.
-	 *
-	 * @return bool|WP_Error Whether the current user can edit the post, or the resolution error.
-	 */
-	public function can_edit_post_seo_data( array $input ) {
-		$indexable = $this->post_identifier_resolver->resolve_one( $input );
-
-		if ( $indexable instanceof WP_Error ) {
-			return $indexable;
-		}
-
-		return \current_user_can( 'edit_post', (int) $indexable->object_id );
 	}
 
 	/**
@@ -255,7 +220,6 @@ class Abilities_Integration implements Integration_Interface {
 					'description'         => \__( 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required.', 'wordpress-seo' ),
 					'input_schema'        => $this->get_post_identifier_input_schema(),
 					'output_schema'       => $this->wrap_in_array_schema( $this->get_post_seo_data_output_schema() ),
-					'permission_callback' => [ $this, 'can_read_seo_data' ],
 					'execute_callback'    => [ $this->post_seo_data_collector, 'get_post_seo_data' ],
 				],
 			),
@@ -276,7 +240,6 @@ class Abilities_Integration implements Integration_Interface {
 					'description'         => \__( 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field.', 'wordpress-seo' ),
 					'input_schema'        => $this->get_update_post_seo_data_input_schema(),
 					'output_schema'       => $this->get_post_seo_data_output_schema(),
-					'permission_callback' => [ $this, 'can_edit_post_seo_data' ],
 					'execute_callback'    => [ $this->post_seo_data_updater, 'update_post_seo_data' ],
 					'meta'                => [
 						'show_in_rest' => true,
@@ -320,7 +283,7 @@ class Abilities_Integration implements Integration_Interface {
 						],
 					],
 				],
-				'permission_callback' => [ $this, 'can_read_scores' ],
+				'permission_callback' => [ $this, 'can_manage_seo' ],
 				'meta'                => [
 					'show_in_rest' => true,
 					'annotations'  => [

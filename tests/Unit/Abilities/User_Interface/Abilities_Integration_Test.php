@@ -5,8 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
-use WP_Error;
-use Yoast\WP\SEO\Abilities\Application\Post_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
@@ -67,13 +65,6 @@ final class Abilities_Integration_Test extends TestCase {
 	private $post_seo_data_updater;
 
 	/**
-	 * The post identifier resolver mock.
-	 *
-	 * @var Mockery\MockInterface|Post_Identifier_Resolver
-	 */
-	private $post_identifier_resolver;
-
-	/**
 	 * The instance under test.
 	 *
 	 * @var Abilities_Integration
@@ -93,14 +84,11 @@ final class Abilities_Integration_Test extends TestCase {
 		// The article-type enum is built from the documented filter; return the default unfiltered.
 		Monkey\Functions\when( 'apply_filters' )->returnArg( 2 );
 
-		Mockery::mock( WP_Error::class );
-
 		$this->score_retriever                      = Mockery::mock( Score_Retriever::class );
 		$this->capability_helper                    = Mockery::mock( Capability_Helper::class );
 		$this->enabled_analysis_features_repository = Mockery::mock( Enabled_Analysis_Features_Repository::class );
 		$this->post_seo_data_collector              = Mockery::mock( Post_SEO_Data_Collector::class );
 		$this->post_seo_data_updater                = Mockery::mock( Post_SEO_Data_Updater::class );
-		$this->post_identifier_resolver             = Mockery::mock( Post_Identifier_Resolver::class );
 
 		$this->instance = new Abilities_Integration(
 			$this->score_retriever,
@@ -108,7 +96,6 @@ final class Abilities_Integration_Test extends TestCase {
 			$this->enabled_analysis_features_repository,
 			$this->post_seo_data_collector,
 			$this->post_seo_data_updater,
-			$this->post_identifier_resolver,
 		);
 	}
 
@@ -145,80 +132,36 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that can_read_scores checks the manage options capability.
+	 * Tests that can_manage_seo checks the manage options capability and returns its result.
 	 *
-	 * @covers ::can_read_scores
+	 * @covers ::can_manage_seo
+	 *
+	 * @dataProvider provide_can_manage_seo
+	 *
+	 * @param bool $allowed Whether the capability is granted.
 	 *
 	 * @return void
 	 */
-	public function test_can_read_scores() {
+	public function test_can_manage_seo( bool $allowed ) {
 		$this->capability_helper
 			->expects( 'current_user_can' )
 			->once()
 			->with( 'wpseo_manage_options' )
-			->andReturn( true );
+			->andReturn( $allowed );
 
-		$this->assertTrue( $this->instance->can_read_scores() );
+		$this->assertSame( $allowed, $this->instance->can_manage_seo() );
 	}
 
 	/**
-	 * Tests that can_read_seo_data checks the manage options capability.
+	 * Data provider for test_can_manage_seo.
 	 *
-	 * @covers ::can_read_seo_data
-	 *
-	 * @return void
+	 * @return array<string, array<bool>> The capability outcomes.
 	 */
-	public function test_can_read_seo_data() {
-		$this->capability_helper
-			->expects( 'current_user_can' )
-			->once()
-			->with( 'wpseo_manage_options' )
-			->andReturn( false );
-
-		$this->assertFalse( $this->instance->can_read_seo_data() );
-	}
-
-	/**
-	 * Tests that can_edit_post_seo_data checks the per-post edit capability of the resolved post.
-	 *
-	 * @covers ::can_edit_post_seo_data
-	 *
-	 * @return void
-	 */
-	public function test_can_edit_post_seo_data_checks_edit_post() {
-		$indexable            = Mockery::mock();
-		$indexable->object_id = 42;
-
-		$this->post_identifier_resolver
-			->expects( 'resolve_one' )
-			->once()
-			->with( [ 'post_id' => 42 ] )
-			->andReturn( $indexable );
-
-		Monkey\Functions\expect( 'current_user_can' )
-			->once()
-			->with( 'edit_post', 42 )
-			->andReturn( true );
-
-		$this->assertTrue( $this->instance->can_edit_post_seo_data( [ 'post_id' => 42 ] ) );
-	}
-
-	/**
-	 * Tests that can_edit_post_seo_data returns the resolution error.
-	 *
-	 * @covers ::can_edit_post_seo_data
-	 *
-	 * @return void
-	 */
-	public function test_can_edit_post_seo_data_returns_resolution_error() {
-		$error = Mockery::mock( WP_Error::class );
-
-		$this->post_identifier_resolver
-			->expects( 'resolve_one' )
-			->once()
-			->andReturn( $error );
-
-		$this->assertSame( $error, $this->instance->can_edit_post_seo_data( [] ) );
+	public static function provide_can_manage_seo(): array {
+		return [
+			'capability granted' => [ true ],
+			'capability denied'  => [ false ],
+		];
 	}
 
 	/**
@@ -320,7 +263,7 @@ final class Abilities_Integration_Test extends TestCase {
 						'type'  => 'array',
 						'items' => $this->get_expected_output_schema(),
 					],
-					'permission_callback' => [ $this->instance, 'can_read_seo_data' ],
+					'permission_callback' => [ $this->instance, 'can_manage_seo' ],
 					'execute_callback'    => [ $this->post_seo_data_collector, 'get_post_seo_data' ],
 					'meta'                => $this->get_read_meta(),
 				],
@@ -336,7 +279,7 @@ final class Abilities_Integration_Test extends TestCase {
 					'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field.',
 					'input_schema'        => $this->get_expected_update_input_schema(),
 					'output_schema'       => $this->get_expected_output_schema(),
-					'permission_callback' => [ $this->instance, 'can_edit_post_seo_data' ],
+					'permission_callback' => [ $this->instance, 'can_manage_seo' ],
 					'execute_callback'    => [ $this->post_seo_data_updater, 'update_post_seo_data' ],
 					'meta'                => $this->get_write_meta(),
 				],
