@@ -7,6 +7,7 @@ use Brain\Monkey;
 use Mockery;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Post_Identifier_Resolver;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -184,11 +185,12 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 	 * Tests resolve_many by title returns all matches on the default first page.
 	 *
 	 * @covers ::resolve_many
+	 * @covers ::by_title
 	 *
 	 * @return void
 	 */
 	public function test_resolve_many_by_title_returns_all() {
-		$matches = [ Mockery::mock(), Mockery::mock() ];
+		$matches = [ Mockery::mock( Indexable::class ), Mockery::mock( Indexable::class ) ];
 
 		$this->indexable_repository
 			->expects( 'find_posts_by_title_keywords' )
@@ -203,11 +205,12 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 	 * Tests resolve_many by title forwards the requested page.
 	 *
 	 * @covers ::resolve_many
+	 * @covers ::by_title
 	 *
 	 * @return void
 	 */
 	public function test_resolve_many_by_title_forwards_page() {
-		$matches = [ Mockery::mock() ];
+		$matches = [ Mockery::mock( Indexable::class ) ];
 
 		$this->indexable_repository
 			->expects( 'find_posts_by_title_keywords' )
@@ -224,6 +227,44 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 				],
 			),
 		);
+	}
+
+	/**
+	 * Tests resolve_many by title returns a not-found error when nothing matches.
+	 *
+	 * @covers ::resolve_many
+	 * @covers ::by_title
+	 * @covers ::not_found
+	 *
+	 * @return void
+	 */
+	public function test_resolve_many_by_title_not_found() {
+		$this->indexable_repository
+			->expects( 'find_posts_by_title_keywords' )
+			->once()
+			->with( 'nothing', 1 )
+			->andReturn( [] );
+
+		$this->assertInstanceOf( WP_Error::class, $this->instance->resolve_many( [ 'title' => 'nothing' ] ) );
+	}
+
+	/**
+	 * Tests resolve_many by title returns a not-found error when a match is not an indexable.
+	 *
+	 * @covers ::resolve_many
+	 * @covers ::by_title
+	 * @covers ::not_found
+	 *
+	 * @return void
+	 */
+	public function test_resolve_many_by_title_non_indexable_element() {
+		$this->indexable_repository
+			->expects( 'find_posts_by_title_keywords' )
+			->once()
+			->with( 'guide', 1 )
+			->andReturn( [ Mockery::mock( Indexable::class ), Mockery::mock() ] );
+
+		$this->assertInstanceOf( WP_Error::class, $this->instance->resolve_many( [ 'title' => 'guide' ] ) );
 	}
 
 	/**

@@ -87,7 +87,7 @@ class Post_Identifier_Resolver {
 		if ( $this->has( $input, 'title' ) ) {
 			$page = ( isset( $input['page'] ) ) ? (int) $input['page'] : 1;
 
-			return $this->indexable_repository->find_posts_by_title_keywords( (string) $input['title'], $page );
+			return $this->by_title( (string) $input['title'], $page );
 		}
 
 		return new WP_Error(
@@ -131,6 +131,34 @@ class Post_Identifier_Resolver {
 		}
 
 		return $indexable;
+	}
+
+	/**
+	 * Resolves posts by title keywords.
+	 *
+	 * A title search may match several posts; no match (or an unexpected result
+	 * that is not a list of indexables) is treated as not-found, mirroring the
+	 * by-id and by-permalink resolvers.
+	 *
+	 * @param string $title The title keywords.
+	 * @param int    $page  The 1-based result page.
+	 *
+	 * @return Indexable[]|WP_Error The matching indexables, or a not-found error.
+	 */
+	private function by_title( string $title, int $page ) {
+		$indexables = $this->indexable_repository->find_posts_by_title_keywords( $title, $page );
+
+		if ( $indexables === [] ) {
+			return $this->not_found();
+		}
+
+		foreach ( $indexables as $indexable ) {
+			if ( ! ( $indexable instanceof Indexable ) ) {
+				return $this->not_found();
+			}
+		}
+
+		return $indexables;
 	}
 
 	/**
