@@ -272,8 +272,9 @@ class Abilities_Integration implements Integration_Interface {
 			[
 				'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 				'input_schema'        => [
-					'type'       => 'object',
-					'properties' => [
+					'type'                 => 'object',
+					'additionalProperties' => false,
+					'properties'           => [
 						'number_of_posts' => [
 							'type'        => 'integer',
 							'description' => \__( 'The number of recently modified posts to retrieve scores for. Defaults to 10.', 'wordpress-seo' ),
@@ -349,8 +350,9 @@ class Abilities_Integration implements Integration_Interface {
 	 */
 	private function get_post_identifier_input_schema(): array {
 		return [
-			'type'       => 'object',
-			'properties' => [
+			'type'                 => 'object',
+			'additionalProperties' => false,
+			'properties'           => [
 				'post_id'   => [
 					'type'        => 'integer',
 					'description' => \__( 'The ID of the post to retrieve.', 'wordpress-seo' ),
@@ -383,8 +385,9 @@ class Abilities_Integration implements Integration_Interface {
 		$nullable_string = [ 'type' => [ 'string', 'null' ] ];
 
 		return [
-			'type'       => 'object',
-			'properties' => [
+			'type'                 => 'object',
+			'additionalProperties' => false,
+			'properties'           => [
 				'post_id'                => [
 					'type'        => 'integer',
 					'description' => \__( 'The ID of the post to update.', 'wordpress-seo' ),
