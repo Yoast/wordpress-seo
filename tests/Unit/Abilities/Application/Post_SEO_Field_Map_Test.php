@@ -51,7 +51,6 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::to_seo_array
 	 * @covers ::rendered
-	 * @covers ::inclusive_language_rank
 	 *
 	 * @return void
 	 */

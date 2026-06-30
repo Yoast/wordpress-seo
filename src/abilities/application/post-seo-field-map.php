@@ -131,7 +131,8 @@ class Post_SEO_Field_Map {
 			'schema_article_type'             => $indexable->schema_article_type,
 			'seo_score'                       => WPSEO_Rank::from_numeric_score( (int) $indexable->primary_focus_keyword_score )->get_rank(),
 			'readability_score'               => WPSEO_Rank::from_numeric_score( (int) $indexable->readability_score )->get_rank(),
-			'inclusive_language_score'        => $this->inclusive_language_rank( (int) $indexable->inclusive_language_score ),
+			// A zero score maps to NO_FOCUS ("not available") via the rank ranges, same as the scores above.
+			'inclusive_language_score'        => WPSEO_Rank::from_numeric_score( (int) $indexable->inclusive_language_score )->get_rank(),
 		];
 	}
 
@@ -190,20 +191,5 @@ class Post_SEO_Field_Map {
 			// Tri-state: null resets to the post-type default, true = noindex, false = index.
 			$indexable->is_robots_noindex = ( $input['noindex'] === null ) ? null : (bool) $input['noindex'];
 		}
-	}
-
-	/**
-	 * Returns the rank slug for an inclusive language score, treating zero as "not available".
-	 *
-	 * @param int $score The numeric inclusive language score.
-	 *
-	 * @return string The rank slug.
-	 */
-	private function inclusive_language_rank( int $score ): string {
-		if ( $score === 0 ) {
-			return WPSEO_Rank::NO_FOCUS;
-		}
-
-		return WPSEO_Rank::from_numeric_score( $score )->get_rank();
 	}
 }
