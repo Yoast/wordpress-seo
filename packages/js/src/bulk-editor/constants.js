@@ -36,6 +36,10 @@ export const SELECT_MENU_ITEMS_FILTER = "yoast.bulkEditor.selectMenuItems";
 // fillProps: { field, item, value, isSaving, onSaveField, onDiscardField }.
 export const TABLE_CELL_FIELD_SLOT = "yoast.bulkEditor.TableCellWithField";
 
+// The slot Premium fills with its own pending-changes confirmation modal (e.g. unapplied AI suggestions), shown when a
+// tab switch is deferred because an external plugin reports pending changes. fillProps: { isOpen, onCommit, onCancel }.
+export const PENDING_CHANGES_MODAL_SLOT = "yoast.bulkEditor.pendingChangesModal";
+
 // The slot base name Premium fills with a per-row indicator shown before the row title (e.g. an AI status icon).
 // The rendered slot name is `${TABLE_ROW_INDICATOR_SLOT}/${fieldSetId}/${item.id}`. Generic so any row-level marker (the missing-keyphrase
 // info icon, a generation-error icon) can fill the same spot.

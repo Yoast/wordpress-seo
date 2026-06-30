@@ -5,6 +5,11 @@ import { STORE_NAME } from "../constants";
 import activeContentType, { activeContentTypeActions, activeContentTypeSelectors, createInitialActiveContentTypeState } from "./active-content-type";
 import activeFieldSet, { activeFieldSetActions, activeFieldSetSelectors, createInitialActiveFieldSetState } from "./active-field-set";
 import edits, { createInitialEditsState, editsActions, editsSelectors } from "./edits";
+import externalPendingChanges, {
+	createInitialExternalPendingChangesState,
+	externalPendingChangesActions,
+	externalPendingChangesSelectors,
+} from "./external-pending-changes";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import query, { createInitialQueryState, queryActions, querySelectors } from "./query";
 import selection, { createInitialSelectionState, selectionActions, selectionSelectors } from "./selection";
@@ -25,6 +30,7 @@ const createStore = ( { initialState } ) => {
 			...queryActions,
 			...selectionActions,
 			...editsActions,
+			...externalPendingChangesActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
@@ -34,6 +40,7 @@ const createStore = ( { initialState } ) => {
 			...querySelectors,
 			...selectionSelectors,
 			...editsSelectors,
+			...externalPendingChangesSelectors,
 		},
 		initialState: merge(
 			{},
@@ -45,6 +52,7 @@ const createStore = ( { initialState } ) => {
 				query: createInitialQueryState(),
 				selection: createInitialSelectionState(),
 				edits: createInitialEditsState(),
+				externalPendingChanges: createInitialExternalPendingChangesState(),
 			},
 			initialState
 		),
@@ -56,6 +64,7 @@ const createStore = ( { initialState } ) => {
 			query,
 			selection,
 			edits,
+			externalPendingChanges,
 		} ),
 	} );
 };
