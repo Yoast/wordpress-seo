@@ -349,6 +349,29 @@ export const ModalContent = ( { height, onFatalError } ) => {
 						</> }
 					</>
 				) }
+				{ /*
+					* A non-fatal "generate 5 more" failure: keep the modal open and surface
+					* the error inline at the bottom of the content. No action row — the
+					* "Generate 5 more" button above is the retry; the modal's own Close
+					* dismisses it. Clears on the next fetch.
+					*/ }
+				{ showError && (
+					<>
+						<div className="yst-mt-8" />
+						<SuggestionError
+							errorCode={ suggestions.error.code }
+							errorIdentifier={ suggestions.error.errorIdentifier }
+							invalidSubscriptions={ suggestions.error.missingLicenses }
+							errorMessage={ suggestions.error.message }
+						/>
+						<SuggestionsFooter
+							current={ currentPage }
+							total={ totalPages }
+							onNavigate={ setCurrentPage }
+							disabled={ suggestions.status === ASYNC_ACTION_STATUS.loading }
+						/>
+					</>
+				) }
 			</Modal.Container.Content>
 			<Modal.Container.Footer>
 				{ contentIsScrolling && (
@@ -406,17 +429,6 @@ export const ModalContent = ( { height, onFatalError } ) => {
 				) }
 				{ ( suggestions.status === ASYNC_ACTION_STATUS.success || suggestions.status === ASYNC_ACTION_STATUS.loading ) && (
 					<TipNotification />
-				) }
-				{ /* A non-fatal "generate 5 more" failure: keep the modal open and offer a retry inline. */ }
-				{ showError && (
-					<SuggestionError
-						errorCode={ suggestions.error.code }
-						errorIdentifier={ suggestions.error.errorIdentifier }
-						invalidSubscriptions={ suggestions.error.missingLicenses }
-						errorMessage={ suggestions.error.message }
-						showActions={ true }
-						onRetry={ handleGenerateMore }
-					/>
 				) }
 			</Notifications>
 		</Fragment>
