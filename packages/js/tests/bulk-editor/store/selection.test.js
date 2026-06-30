@@ -1,4 +1,5 @@
 import reducer, { createInitialSelectionState, selectionActions, selectionSelectors } from "../../../src/bulk-editor/store/selection";
+import { queryActions } from "../../../src/bulk-editor/store/query";
 
 describe( "selection slice", () => {
 	it( "defaults to no rows selected", () => {
@@ -32,6 +33,12 @@ describe( "selection slice", () => {
 		let state = reducer( createInitialSelectionState(), selectionActions.selectAll( [ 7, 9 ] ) );
 
 		state = reducer( state, selectionActions.deselectAll() );
+
+		expect( state.selectedIds ).toEqual( [] );
+	} );
+
+	it( "clears the selection when the status filter changes", () => {
+		const state = reducer( { selectedIds: [ 7, 9 ] }, queryActions.setStatuses( [ "draft" ] ) );
 
 		expect( state.selectedIds ).toEqual( [] );
 	} );

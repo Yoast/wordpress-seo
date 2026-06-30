@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
+import { queryActions } from "./query";
 
 /**
  * @returns {Object} The initial selection state: no rows selected.
@@ -23,6 +24,10 @@ const slice = createSlice( {
 			state.selectedIds = [ ...payload ];
 		},
 		deselectAll: () => createInitialSelectionState(),
+	},
+	extraReducers: ( builder ) => {
+		// Changing the status filter resets the selection: the filtered set may no longer contain the selected rows.
+		builder.addCase( queryActions.setStatuses, () => createInitialSelectionState() );
 	},
 } );
 
