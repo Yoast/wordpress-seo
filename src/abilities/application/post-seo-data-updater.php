@@ -94,7 +94,7 @@ class Post_SEO_Data_Updater {
 
 		if ( ! $rebuilt ) {
 			return new WP_Error(
-				'yoast_seo_update_failed',
+				'yoast_seo_post_data_unavailable',
 				\__( 'The post SEO data was saved but the indexable could not be rebuilt.', 'wordpress-seo' ),
 				[ 'status' => 500 ],
 			);

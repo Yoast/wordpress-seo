@@ -108,7 +108,7 @@ class Post_Identifier_Resolver {
 		$indexable = $this->indexable_repository->find_by_id_and_type( $post_id, 'post', false );
 
 		if ( ! $indexable ) {
-			return $this->not_found();
+			return $this->invalid_identifier( 'post_id' );
 		}
 
 		return $indexable;
@@ -127,7 +127,7 @@ class Post_Identifier_Resolver {
 	private function by_permalink( string $permalink ) {
 		$indexable = $this->indexable_repository->find_by_permalink( $permalink );
 		if ( ! $indexable ) {
-			return $this->not_found();
+			return $this->invalid_identifier( 'permalink' );
 		}
 
 		return $indexable;
@@ -149,12 +149,12 @@ class Post_Identifier_Resolver {
 		$indexables = $this->indexable_repository->find_posts_by_title_keywords( $title, $page );
 
 		if ( $indexables === [] ) {
-			return $this->not_found();
+			return $this->invalid_identifier( 'title' );
 		}
 
 		foreach ( $indexables as $indexable ) {
 			if ( ! ( $indexable instanceof Indexable ) ) {
-				return $this->not_found();
+				return $this->invalid_identifier( 'title' );
 			}
 		}
 
@@ -162,13 +162,17 @@ class Post_Identifier_Resolver {
 	}
 
 	/**
-	 * Builds the standard not-found error.
+	 * Builds the error for an identifier that does not resolve to a post.
 	 *
-	 * @return WP_Error The not-found error.
+	 * Coded yoast_seo_invalid_<field> so a caller knows which identifier to correct and retry.
+	 *
+	 * @param string $field The identifier that failed to resolve: 'post_id', 'permalink', or 'title'.
+	 *
+	 * @return WP_Error The error for the unresolvable identifier.
 	 */
-	private function not_found(): WP_Error {
+	private function invalid_identifier( string $field ): WP_Error {
 		return new WP_Error(
-			'yoast_seo_post_not_found',
+			'yoast_seo_invalid_' . $field,
 			\__( 'No post could be found for the given identifier.', 'wordpress-seo' ),
 			[ 'status' => 404 ],
 		);
