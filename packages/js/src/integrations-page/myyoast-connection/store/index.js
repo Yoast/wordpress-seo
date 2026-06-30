@@ -64,6 +64,7 @@ export const registerMyyoastStore = () => {
 				status: transformStatus( data.initialStatus ),
 				pendingCallbackOutcome: data.callbackOutcome || null,
 				linkParams: data.linkParams || {},
+				endpoints: data.endpoints || {},
 			},
 		},
 	} ) );

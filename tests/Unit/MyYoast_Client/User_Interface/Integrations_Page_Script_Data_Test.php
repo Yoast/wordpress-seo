@@ -7,9 +7,11 @@ use Mockery;
 use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\MyYoast_Client\Application\Callback_Outcome;
+use Yoast\WP\SEO\MyYoast_Client\Application\Management_Endpoints_Repository;
 use Yoast\WP\SEO\MyYoast_Client\Application\OAuth_Callback_Handler;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Integrations_Page_Script_Data;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
+use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -48,6 +50,13 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 	private $short_link_helper;
 
 	/**
+	 * The management endpoints repository mock.
+	 *
+	 * @var Management_Endpoints_Repository|Mockery\MockInterface
+	 */
+	private $endpoints_repository;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Integrations_Page_Script_Data
@@ -66,12 +75,27 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 		$this->myyoast_connection_conditional = Mockery::mock( MyYoast_Connection_Conditional::class );
 		$this->callback_handler               = Mockery::mock( OAuth_Callback_Handler::class );
 		$this->short_link_helper              = Mockery::mock( Short_Link_Helper::class );
+		$this->endpoints_repository           = Mockery::mock( Management_Endpoints_Repository::class );
 		$this->instance                       = new Integrations_Page_Script_Data(
 			$this->status_presenter,
 			$this->myyoast_connection_conditional,
 			$this->callback_handler,
 			$this->short_link_helper,
+			$this->endpoints_repository,
 		);
+	}
+
+	/**
+	 * Stubs the endpoints repository to return the given name => path map.
+	 *
+	 * @param array<string, string> $paths The endpoint paths keyed by name.
+	 *
+	 * @return void
+	 */
+	private function stub_endpoints( array $paths ): void {
+		$list = Mockery::mock( Endpoint_List::class );
+		$list->shouldReceive( 'to_paths_array' )->andReturn( $paths );
+		$this->endpoints_repository->shouldReceive( 'get_all_endpoints' )->andReturn( $list );
 	}
 
 	/**
@@ -99,6 +123,7 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_user_id' )->andReturn( 42 );
 		$this->callback_handler->shouldReceive( 'consume_outcome' )->once()->with( 42 )->andReturn( null );
 		$this->short_link_helper->shouldReceive( 'get_query_params' )->once()->andReturn( [ 'php_version' => '8.2' ] );
+		$this->stub_endpoints( [ 'authorize' => 'yoast/v1/myyoast/authorize' ] );
 
 		$result = $this->instance->present();
 
@@ -106,6 +131,7 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 		$this->assertSame( $status, $result['initialStatus'] );
 		$this->assertNull( $result['callbackOutcome'] );
 		$this->assertSame( [ 'php_version' => '8.2' ], $result['linkParams'] );
+		$this->assertSame( [ 'authorize' => 'yoast/v1/myyoast/authorize' ], $result['endpoints'] );
 	}
 
 	/**
@@ -131,6 +157,7 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_user_id' )->andReturn( 7 );
 		$this->callback_handler->shouldReceive( 'consume_outcome' )->once()->with( 7 )->andReturn( Callback_Outcome::success() );
 		$this->short_link_helper->shouldReceive( 'get_query_params' )->andReturn( [] );
+		$this->stub_endpoints( [] );
 
 		$result = $this->instance->present();
 
@@ -173,6 +200,7 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_user_id' )->andReturn( 7 );
 		$this->callback_handler->shouldReceive( 'consume_outcome' )->once()->with( 7 )->andReturn( $outcome );
 		$this->short_link_helper->shouldReceive( 'get_query_params' )->andReturn( [] );
+		$this->stub_endpoints( [] );
 
 		$result = $this->instance->present();
 
@@ -222,6 +250,7 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_user_id' )->andReturn( 0 );
 		$this->callback_handler->shouldReceive( 'consume_outcome' )->once()->with( 0 )->andReturn( null );
 		$this->short_link_helper->shouldReceive( 'get_query_params' )->andReturn( [] );
+		$this->stub_endpoints( [] );
 
 		$result = $this->instance->present();
 
@@ -348,5 +377,6 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_user_id' )->andReturn( 1 );
 		$this->callback_handler->shouldReceive( 'consume_outcome' )->andReturn( null );
 		$this->short_link_helper->shouldReceive( 'get_query_params' )->andReturn( [] );
+		$this->stub_endpoints( [] );
 	}
 }

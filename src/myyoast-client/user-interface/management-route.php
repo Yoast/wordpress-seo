@@ -37,6 +37,8 @@ class Management_Route implements Route_Interface, LoggerAwareInterface {
 
 	use LoggerAwareTrait;
 
+	public const ROUTE_NAMESPACE = Main::API_V1_NAMESPACE;
+
 	public const ROUTE_PREFIX = '/myyoast';
 
 	public const STATUS_ROUTE         = '/status';

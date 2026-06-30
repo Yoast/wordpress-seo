@@ -1,15 +1,15 @@
 import ExclamationIcon from "@heroicons/react/outline/ExclamationIcon";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { Button, Modal, useSvgAria } from "@yoast/ui-library";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 
 /**
  * Confirm modal for disconnecting the site from MyYoast.
  *
- * @param {boolean}  isOpen    Whether the modal is open.
- * @param {function} onClose   Cancel handler.
- * @param {function} onConfirm Confirm handler.
+ * @param {Object} props The component props.
+ * @param {boolean} props.isOpen Whether the modal is open.
+ * @param {function} [props.onClose] Cancel handler. Defaults to a no-op.
+ * @param {function} [props.onConfirm] Confirm handler. Defaults to a no-op.
  * @returns {JSX.Element} The modal element.
  */
 export const MyyoastConnectionDisconnectModal = ( {
@@ -28,10 +28,18 @@ export const MyyoastConnectionDisconnectModal = ( {
 					</div>
 					<div className="yst-text-center sm:yst-text-left yst-flex-1">
 						<Modal.Title className="yst-text-lg yst-leading-6 yst-font-medium yst-text-slate-900 yst-mb-3">
-							{ __( "Disconnect this site from MyYoast?", "wordpress-seo" ) }
+							{ sprintf(
+								/* translators: %1$s expands to MyYoast. */
+								__( "Disconnect this site from %1$s?", "wordpress-seo" ),
+								"MyYoast"
+							) }
 						</Modal.Title>
 						<Modal.Description className="yst-text-sm yst-text-slate-500">
-							{ __( "All connected users will be signed out and the site stops working with MyYoast until you connect it again.", "wordpress-seo" ) }
+							{ sprintf(
+								/* translators: %1$s expands to MyYoast. */
+								__( "All connected users will be signed out and the site stops working with %1$s until you connect it again.", "wordpress-seo" ),
+								"MyYoast"
+							) }
 						</Modal.Description>
 					</div>
 				</div>
@@ -51,10 +59,4 @@ export const MyyoastConnectionDisconnectModal = ( {
 			</Modal.Panel>
 		</Modal>
 	);
-};
-
-MyyoastConnectionDisconnectModal.propTypes = {
-	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func,
-	onConfirm: PropTypes.func,
 };

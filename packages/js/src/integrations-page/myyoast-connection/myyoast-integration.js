@@ -2,13 +2,12 @@ import ArrowSmRightIcon from "@heroicons/react/solid/ArrowSmRightIcon";
 import CheckIcon from "@heroicons/react/solid/CheckIcon";
 import ExclamationCircleIcon from "@heroicons/react/solid/ExclamationCircleIcon";
 import ExclamationIcon from "@heroicons/react/solid/ExclamationIcon";
-import { dispatch, select, useSelect } from "@wordpress/data";
+import { dispatch, select as wpSelect, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useId, useRef, useState } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Alert, Button, Link, Notifications, TooltipContainer, TooltipTrigger, TooltipWithContext, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { get } from "lodash";
-import PropTypes from "prop-types";
 import { ReactComponent as MyYoastLogo } from "../../../images/myyoast-logo.svg";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { addHistoryState, removeSearchParam } from "../../helpers/urlHelpers";
@@ -33,25 +32,64 @@ const LEARN_MORE_LINK = "https://yoa.st/integrations-myyoast";
 const messageFor = ( code ) => {
 	switch ( code ) {
 		case "not_provisioned":
-			return __( "Your server doesn't support the MyYoast connection. Update Yoast SEO to the latest version. If the issue persists after updating, contact support.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to MyYoast. %2$s expands to Yoast SEO. */
+				__( "Your server doesn't support the %1$s connection. Update %2$s to the latest version. If the issue persists after updating, contact support.", "wordpress-seo" ),
+				"MyYoast",
+				"Yoast SEO"
+			);
 		case "registration_gone":
-			return __( "MyYoast no longer recognizes this site. Connect this site to MyYoast again to restore the connection.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to MyYoast. %2$s expands to MyYoast. */
+				__( "%1$s no longer recognizes this site. Connect this site to %2$s again to restore the connection.", "wordpress-seo" ),
+				"MyYoast",
+				"MyYoast"
+			);
 		case "rate_limited":
-			return __( "MyYoast has had a lot of connection attempts from this site or network. Please wait a few minutes and try again.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to MyYoast. */
+				__( "%1$s has had a lot of connection attempts from this site or network. Please wait a few minutes and try again.", "wordpress-seo" ),
+				"MyYoast"
+			);
 		case "server_capability":
-			return __( "MyYoast doesn't support a feature this version of Yoast SEO needs. Update Yoast SEO to the latest version. If the issue persists, contact support.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to MyYoast. %2$s expands to Yoast SEO. %3$s expands to Yoast SEO. */
+				__( "%1$s doesn't support a feature this version of %2$s needs. Update %3$s to the latest version. If the issue persists, contact support.", "wordpress-seo" ),
+				"MyYoast",
+				"Yoast SEO",
+				"Yoast SEO"
+			);
 		case "myyoast_unreachable":
-			return __( "Couldn't reach MyYoast from this server. Check your server's outbound network access, then try again. If MyYoast is having issues, wait a few minutes and retry.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to MyYoast. %2$s expands to MyYoast. */
+				__( "Couldn't reach %1$s from this server. Check your server's outbound network access, then try again. If %2$s is having issues, wait a few minutes and retry.", "wordpress-seo" ),
+				"MyYoast",
+				"MyYoast"
+			);
 		case "token_request_failed_invalid_grant":
-			return __( "MyYoast rejected the credentials stored for this site. Disconnect and connect this site again to restore the connection.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to MyYoast. */
+				__( "%1$s rejected the credentials stored for this site. Disconnect and connect this site again to restore the connection.", "wordpress-seo" ),
+				"MyYoast"
+			);
 		case "token_request_failed":
-			return __( "Something went wrong while talking to MyYoast. Try again in a moment. If the problem keeps happening, update Yoast SEO or contact support.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to MyYoast. %2$s expands to Yoast SEO. */
+				__( "Something went wrong while talking to %1$s. Try again in a moment. If the problem keeps happening, update %2$s or contact support.", "wordpress-seo" ),
+				"MyYoast",
+				"Yoast SEO"
+			);
 		case "token_storage_failed":
 			return __( "Couldn't save the new credentials on this site. Make sure your WordPress database is writable, then try again.", "wordpress-seo" );
 		case "invalid_resource":
 			return __( "Something went wrong. Refresh the page and try again. If the problem keeps happening, contact support.", "wordpress-seo" );
 		case "registration_failed":
-			return __( "Couldn't connect this site to MyYoast. Try again in a moment. If the problem keeps happening, update Yoast SEO or contact support.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to MyYoast. %2$s expands to Yoast SEO. */
+				__( "Couldn't connect this site to %1$s. Try again in a moment. If the problem keeps happening, update %2$s or contact support.", "wordpress-seo" ),
+				"MyYoast",
+				"Yoast SEO"
+			);
 		case "unknown_redirect_uri":
 			return __( "Couldn't verify this site because it's no longer recognized. Refresh the page and try again.", "wordpress-seo" );
 		case "invalid_user":
@@ -59,20 +97,40 @@ const messageFor = ( code ) => {
 		case "connection_cancelled":
 			return __( "Connection cancelled. You can try again whenever you're ready.", "wordpress-seo" );
 		case "timeout":
-			return __( "Request to MyYoast timed out. Please try again.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to MyYoast. */
+				__( "Request to %1$s timed out. Please try again.", "wordpress-seo" ),
+				"MyYoast"
+			);
 		case "connect_success":
-			return __( "This site is now connected to MyYoast.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to MyYoast. */
+				__( "This site is now connected to %1$s.", "wordpress-seo" ),
+				"MyYoast"
+			);
 		case "update_success":
 			return __( "Connection updated to match this site's current URL.", "wordpress-seo" );
 		case "disconnect_success":
-			return __( "This site is no longer connected to MyYoast.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to MyYoast. */
+				__( "This site is no longer connected to %1$s.", "wordpress-seo" ),
+				"MyYoast"
+			);
 		case "verify_success":
 			// Emitted by the OAuth callback for both first-time setup and a
 			// standalone re-verify, so the copy describes the end state rather
 			// than the "verify" action.
-			return __( "Your MyYoast connection is now active.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to MyYoast. */
+				__( "Your %1$s connection is now active.", "wordpress-seo" ),
+				"MyYoast"
+			);
 		default:
-			return __( "Something went wrong. Try again in a moment. If the problem keeps happening, update Yoast SEO or contact support.", "wordpress-seo" );
+			return sprintf(
+				/* translators: %1$s expands to Yoast SEO. */
+				__( "Something went wrong. Try again in a moment. If the problem keeps happening, update %1$s or contact support.", "wordpress-seo" ),
+				"Yoast SEO"
+			);
 	}
 };
 
@@ -91,11 +149,19 @@ const formatRateLimitedMessage = ( seconds ) => {
 	const minutes = Math.ceil( seconds / 60 );
 	if ( minutes >= 60 ) {
 		const hours = Math.ceil( seconds / 3600 );
-		/* translators: %d is a number of hours. */
-		return sprintf( _n( "MyYoast has had a lot of connection attempts from this site or network. Please wait about %d hour and try again.", "MyYoast has had a lot of connection attempts from this site or network. Please wait about %d hours and try again.", hours, "wordpress-seo" ), hours );
+		return sprintf(
+			/* translators: %1$s expands to MyYoast. %2$d is a number of hours. */
+			_n( "%1$s has had a lot of connection attempts from this site or network. Please wait about %2$d hour and try again.", "%1$s has had a lot of connection attempts from this site or network. Please wait about %2$d hours and try again.", hours, "wordpress-seo" ),
+			"MyYoast",
+			hours
+		);
 	}
-	/* translators: %d is a number of minutes. */
-	return sprintf( _n( "MyYoast has had a lot of connection attempts from this site or network. Please wait about %d minute and try again.", "MyYoast has had a lot of connection attempts from this site or network. Please wait about %d minutes and try again.", minutes, "wordpress-seo" ), minutes );
+	return sprintf(
+		/* translators: %1$s expands to MyYoast. %2$d is a number of minutes. */
+		_n( "%1$s has had a lot of connection attempts from this site or network. Please wait about %2$d minute and try again.", "%1$s has had a lot of connection attempts from this site or network. Please wait about %2$d minutes and try again.", minutes, "wordpress-seo" ),
+		"MyYoast",
+		minutes
+	);
 };
 
 const ACTION_DISPATCHERS = {
@@ -143,7 +209,7 @@ const runAction = async( actionName, body, options ) => {
 	// Serialize actions: they all mutate the same server-side registration, so a
 	// second action started while one is in flight (e.g. the mount-time status
 	// refresh overlapping a user click) would race on the shared status. Ignore it.
-	if ( select( MYYOAST_STORE_NAME ).selectMyyoastConnectionActionInFlight() ) {
+	if ( wpSelect( MYYOAST_STORE_NAME ).selectMyyoastConnectionActionInFlight() ) {
 		return { ok: false, errorCode: ACTION_IN_FLIGHT };
 	}
 	const store = dispatch( MYYOAST_STORE_NAME );
@@ -178,7 +244,7 @@ const runAction = async( actionName, body, options ) => {
  *                             is navigating away); false when we stay on the page.
  */
 const runAuthorize = async( onFeedback ) => {
-	if ( select( MYYOAST_STORE_NAME ).selectMyyoastConnectionActionInFlight() ) {
+	if ( wpSelect( MYYOAST_STORE_NAME ).selectMyyoastConnectionActionInFlight() ) {
 		return false;
 	}
 	const store = dispatch( MYYOAST_STORE_NAME );
@@ -231,7 +297,11 @@ const StatusFooter = ( { connectionLost, verificationNeeded } ) => {
 						<ExclamationIcon className={ `${ iconClass } yst-text-amber-500` } { ...svgAriaProps } />
 					</TooltipTrigger>
 					<TooltipWithContext id={ tooltipId } className="yst-max-w-48 yst-z-50 yst-text-center" position="top-left">
-						{ __( "Sign in to MyYoast to finish setting up this connection so everything works as expected.", "wordpress-seo" ) }
+						{ sprintf(
+							/* translators: %1$s expands to MyYoast. */
+							__( "Sign in to %1$s to finish setting up this connection so everything works as expected.", "wordpress-seo" ),
+							"MyYoast"
+						) }
 					</TooltipWithContext>
 				</TooltipContainer>
 			</p>
@@ -246,11 +316,6 @@ const StatusFooter = ( { connectionLost, verificationNeeded } ) => {
 	);
 };
 
-StatusFooter.propTypes = {
-	connectionLost: PropTypes.bool.isRequired,
-	verificationNeeded: PropTypes.bool.isRequired,
-};
-
 /**
  * The MyYoast connection card on the integrations page.
  *
@@ -258,12 +323,12 @@ StatusFooter.propTypes = {
  */
 // eslint-disable-next-line complexity
 export const MyyoastIntegration = () => {
-	const status = useSelect( s => s( MYYOAST_STORE_NAME ).selectMyyoastConnectionStatus(), [] );
-	const actionInFlight = useSelect( s => s( MYYOAST_STORE_NAME ).selectMyyoastConnectionActionInFlight(), [] );
-	const pendingCallbackOutcome = useSelect( s => s( MYYOAST_STORE_NAME ).selectMyyoastConnectionPendingCallbackOutcome(), [] );
+	const status = useSelect( select => select( MYYOAST_STORE_NAME ).selectMyyoastConnectionStatus(), [] );
+	const actionInFlight = useSelect( select => select( MYYOAST_STORE_NAME ).selectMyyoastConnectionActionInFlight(), [] );
+	const pendingCallbackOutcome = useSelect( select => select( MYYOAST_STORE_NAME ).selectMyyoastConnectionPendingCallbackOutcome(), [] );
 	// UTM/tracking params localized by the page; appended to outbound links so
 	// they carry the same attribution as the other integration cards' links.
-	const linkParams = useSelect( s => s( MYYOAST_STORE_NAME ).selectMyyoastConnectionLinkParams(), [] );
+	const linkParams = useSelect( select => select( MYYOAST_STORE_NAME ).selectMyyoastConnectionLinkParams(), [] );
 	const learnMoreLink = addQueryArgs( LEARN_MORE_LINK, linkParams );
 	// The OAuth flow outcome (connect/verify/disconnect/refresh and the callback
 	// return) surfaces as a transient toast. Each new outcome carries a fresh id
@@ -394,16 +459,24 @@ export const MyyoastIntegration = () => {
 						<h4 className="yst-text-base yst-font-medium yst-text-[#111827] yst-leading-tight">
 							{ safeCreateInterpolateElement(
 								sprintf(
-									/* translators: 1: bold open tag; 2: bold close tag. */
-									__( "Unlock more from Yoast with %1$sMyYoast%2$s", "wordpress-seo" ),
+									/* translators: %1$s expands to Yoast. %2$s expands to a bold open tag.
+									%3$s expands to MyYoast. %4$s expands to a bold close tag. */
+									__( "Unlock more from %1$s with %2$s%3$s%4$s", "wordpress-seo" ),
+									"Yoast",
 									"<strong>",
+									"MyYoast",
 									"</strong>"
 								),
 								{ strong: <strong /> }
 							) }
 						</h4>
 						<p>
-							{ __( "Connect your site to MyYoast so Yoast AI works even when your site is offline, behind a firewall, or with the REST API disabled.", "wordpress-seo" ) }
+							{ sprintf(
+								/* translators: %1$s expands to MyYoast. %2$s expands to Yoast AI. */
+								__( "Connect your site to %1$s so %2$s works even when your site is offline, behind a firewall, or with the REST API disabled.", "wordpress-seo" ),
+								"MyYoast",
+								"Yoast AI"
+							) }
 						</p>
 
 						<Link
@@ -423,7 +496,12 @@ export const MyyoastIntegration = () => {
 
 						{ ! status.isProvisioned && (
 							<Alert variant="warning">
-								{ __( "MyYoast connection is not configured on this build of Yoast SEO. Site features that depend on it are unavailable.", "wordpress-seo" ) }
+								{ sprintf(
+									/* translators: %1$s expands to MyYoast. %2$s expands to Yoast SEO. */
+									__( "%1$s connection is not configured on this build of %2$s. Site features that depend on it are unavailable.", "wordpress-seo" ),
+									"MyYoast",
+									"Yoast SEO"
+								) }
 							</Alert>
 						) }
 
@@ -456,7 +534,11 @@ export const MyyoastIntegration = () => {
 									<Alert variant="error">
 										<div className="yst-space-y-2">
 											<p className="yst-font-medium">{ __( "Connection lost", "wordpress-seo" ) }</p>
-											<p>{ __( "Your site's URL changed since the connection with MyYoast was made. Please reconnect.", "wordpress-seo" ) }</p>
+											<p>{ sprintf(
+												/* translators: %1$s expands to MyYoast. */
+												__( "Your site's URL changed since the connection with %1$s was made. Please reconnect.", "wordpress-seo" ),
+												"MyYoast"
+											) }</p>
 											<Button
 												type="button"
 												size="small"
@@ -476,7 +558,11 @@ export const MyyoastIntegration = () => {
 									<Alert variant="warning">
 										<div className="yst-space-y-2">
 											<p className="yst-font-medium">{ __( "Verification needed", "wordpress-seo" ) }</p>
-											<p>{ __( "Sign in to MyYoast to finish setting up this connection.", "wordpress-seo" ) }</p>
+											<p>{ sprintf(
+												/* translators: %1$s expands to MyYoast. */
+												__( "Sign in to %1$s to finish setting up this connection.", "wordpress-seo" ),
+												"MyYoast"
+											) }</p>
 											<Button
 												type="button"
 												size="small"
@@ -486,7 +572,11 @@ export const MyyoastIntegration = () => {
 												disabled={ actionInFlight !== null }
 												isLoading={ actionInFlight === "authorize" }
 											>
-												{ __( "Sign in to MyYoast", "wordpress-seo" ) }
+												{ sprintf(
+												/* translators: %1$s expands to MyYoast. */
+													__( "Sign in to %1$s", "wordpress-seo" ),
+													"MyYoast"
+												) }
 											</Button>
 										</div>
 									</Alert>

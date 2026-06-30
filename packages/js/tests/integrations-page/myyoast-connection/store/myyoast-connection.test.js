@@ -141,6 +141,7 @@ describe( "selectors", () => {
 			actionError: { errorCode: "boom" },
 			pendingCallbackOutcome: { kind: "success", key: "connect_success" },
 			linkParams: { php_version: "8.2" },
+			endpoints: { authorize: "yoast/v1/myyoast/authorize" },
 		},
 	};
 
@@ -166,6 +167,14 @@ describe( "selectors", () => {
 
 	it( "selectMyyoastConnectionLinkParams falls back to an empty object when absent", () => {
 		expect( myyoastConnectionSelectors.selectMyyoastConnectionLinkParams( {} ) ).toEqual( {} );
+	} );
+
+	it( "selectMyyoastConnectionEndpoint resolves an endpoint path by name", () => {
+		expect( myyoastConnectionSelectors.selectMyyoastConnectionEndpoint( state, "authorize" ) ).toBe( "yoast/v1/myyoast/authorize" );
+	} );
+
+	it( "selectMyyoastConnectionEndpoint falls back to an empty string for an unknown name", () => {
+		expect( myyoastConnectionSelectors.selectMyyoastConnectionEndpoint( state, "missing" ) ).toBe( "" );
 	} );
 } );
 

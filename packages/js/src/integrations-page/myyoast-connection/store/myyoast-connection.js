@@ -1,17 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 import apiFetch from "@wordpress/api-fetch";
+import { select } from "@wordpress/data";
 import { get } from "lodash";
+import { MYYOAST_STORE_NAME } from "../constants";
 
 export const MYYOAST_CONNECTION_NAME = "myyoastConnection";
 
 const REQUEST_TIMEOUT_MS = 30000;
 
+// The action type and HTTP method are JS-internal contract; the REST path is
+// resolved at call time from the `endpoints` map the backend localizes (keyed by
+// the same name), so the route lives in one PHP-defined source.
 const ENDPOINTS = {
-	refreshStatus: { actionType: "refreshMyyoastConnectionStatus", method: "POST", path: "/yoast/v1/myyoast/refresh-status" },
-	connect: { actionType: "connectMyyoastConnection", method: "POST", path: "/yoast/v1/myyoast/register" },
-	update: { actionType: "updateMyyoastConnection", method: "PUT", path: "/yoast/v1/myyoast/registration" },
-	disconnect: { actionType: "disconnectMyyoastConnection", method: "DELETE", path: "/yoast/v1/myyoast/registration" },
-	authorize: { actionType: "authorizeMyyoastSite", method: "POST", path: "/yoast/v1/myyoast/authorize" },
+	refreshStatus: { actionType: "refreshMyyoastConnectionStatus", method: "POST" },
+	connect: { actionType: "connectMyyoastConnection", method: "POST" },
+	update: { actionType: "updateMyyoastConnection", method: "PUT" },
+	disconnect: { actionType: "disconnectMyyoastConnection", method: "DELETE" },
+	authorize: { actionType: "authorizeMyyoastSite", method: "POST" },
 };
 
 /**
@@ -23,6 +28,7 @@ export const getInitialMyyoastConnectionState = () => ( {
 	actionError: null,
 	pendingCallbackOutcome: null,
 	linkParams: {},
+	endpoints: {},
 } );
 
 const DEFAULT_STATUS = {
@@ -177,17 +183,21 @@ const authorizeMyyoastSite = function* ( { returnUrl } = {} ) {
 /**
  * Calls a MyYoast endpoint via apiFetch with a client-side timeout.
  *
- * @param {Object} endpoint The endpoint config.
- * @param {Object} body     The request body.
+ * The REST path is resolved by endpoint name from the backend-localized
+ * `endpoints` map, so the route is defined once in PHP.
+ *
+ * @param {string} name The endpoint name (refreshStatus/connect/update/disconnect/authorize).
+ * @param {Object} body The request body.
  * @returns {Promise<Object>} The parsed response payload.
  */
-const callEndpoint = async( endpoint, body ) => {
+const callEndpoint = async( name, body ) => {
+	const path = select( MYYOAST_STORE_NAME ).selectMyyoastConnectionEndpoint( name );
 	const controller = new AbortController();
 	const timeoutId = setTimeout( () => controller.abort(), REQUEST_TIMEOUT_MS );
 	try {
 		return await apiFetch( {
-			method: endpoint.method,
-			path: endpoint.path,
+			method: ENDPOINTS[ name ].method,
+			path,
 			data: body,
 			signal: controller.signal,
 		} );
@@ -206,11 +216,11 @@ export const myyoastConnectionActions = {
 };
 
 export const myyoastConnectionControls = {
-	[ ENDPOINTS.refreshStatus.actionType ]: ( { payload } ) => callEndpoint( ENDPOINTS.refreshStatus, payload ),
-	[ ENDPOINTS.connect.actionType ]: ( { payload } ) => callEndpoint( ENDPOINTS.connect, payload ),
-	[ ENDPOINTS.update.actionType ]: ( { payload } ) => callEndpoint( ENDPOINTS.update, payload ),
-	[ ENDPOINTS.disconnect.actionType ]: ( { payload } ) => callEndpoint( ENDPOINTS.disconnect, payload ),
-	[ ENDPOINTS.authorize.actionType ]: ( { payload } ) => callEndpoint( ENDPOINTS.authorize, payload ),
+	[ ENDPOINTS.refreshStatus.actionType ]: ( { payload } ) => callEndpoint( "refreshStatus", payload ),
+	[ ENDPOINTS.connect.actionType ]: ( { payload } ) => callEndpoint( "connect", payload ),
+	[ ENDPOINTS.update.actionType ]: ( { payload } ) => callEndpoint( "update", payload ),
+	[ ENDPOINTS.disconnect.actionType ]: ( { payload } ) => callEndpoint( "disconnect", payload ),
+	[ ENDPOINTS.authorize.actionType ]: ( { payload } ) => callEndpoint( "authorize", payload ),
 };
 
 export const myyoastConnectionSelectors = {
@@ -218,6 +228,7 @@ export const myyoastConnectionSelectors = {
 	selectMyyoastConnectionActionInFlight: state => get( state, "myyoastConnection.actionInFlight", null ),
 	selectMyyoastConnectionPendingCallbackOutcome: state => get( state, "myyoastConnection.pendingCallbackOutcome", null ),
 	selectMyyoastConnectionLinkParams: state => get( state, "myyoastConnection.linkParams", {} ),
+	selectMyyoastConnectionEndpoint: ( state, name ) => get( state, [ "myyoastConnection", "endpoints", name ], "" ),
 };
 
 export const myyoastConnectionReducer = slice.reducer;
