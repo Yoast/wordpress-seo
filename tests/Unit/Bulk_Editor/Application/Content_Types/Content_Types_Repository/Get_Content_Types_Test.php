@@ -23,7 +23,7 @@ final class Get_Content_Types_Test extends Abstract_Content_Types_Repository_Tes
 	 */
 	public function test_get_content_types() {
 		$content_types_list = new Content_Types_List();
-		$content_types_list->add( new Content_Type( 'post', 'Posts' ) );
+		$content_types_list->add( new Content_Type( 'post', 'Posts', 'Post' ) );
 
 		$this->content_types_collector
 			->expects( 'get_content_types' )
@@ -33,8 +33,9 @@ final class Get_Content_Types_Test extends Abstract_Content_Types_Repository_Tes
 		$this->assertSame(
 			[
 				[
-					'name'  => 'post',
-					'label' => 'Posts',
+					'name'          => 'post',
+					'label'         => 'Posts',
+					'singularLabel' => 'Post',
 				],
 			],
 			$this->instance->get_content_types(),

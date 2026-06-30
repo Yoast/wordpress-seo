@@ -1,27 +1,35 @@
+import { Slot } from "@wordpress/components";
 import { useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Table, Textarea } from "@yoast/ui-library";
+import { TABLE_ROW_INDICATOR_SLOT } from "../../constants";
 import { getFieldTextClasses, getStatusLabel } from "./table-helpers";
 import AnimateHeight from "react-animate-height";
 
 /**
  * The title cell (the row header).
  *
- * @param {Object}         props      The props.
- * @param {BulkEditorItem} props.item The item data.
+ * @param {Object}         props            The props.
+ * @param {BulkEditorItem} props.item       The item data.
+ * @param {string}         props.fieldSetId The active field set's id, used to scope the per-row indicator slot.
  *
  * @returns {JSX.Element} The title cell.
  */
-export const TitleCell = ( { item } ) => {
+export const TitleCell = ( { item, fieldSetId } ) => {
 	const statusLabel = getStatusLabel( item.status );
 
 	return (
 		<Table.Header scope="row" className="yst-text-left !yst-text-[13px] !yst-text-slate-800">
-			<div className="yst-flex yst-flex-col">
-				<span>{ item.title }</span>
-				{ statusLabel && (
-					<span className="yst-mt-1 yst-font-normal yst-text-slate-500">{ `- ${ statusLabel }` }</span>
-				) }
+			<div className="yst-flex yst-items-start yst-gap-1.5">
+				<Slot name={ `${ TABLE_ROW_INDICATOR_SLOT }/${ fieldSetId }/${ item.id }` } fillProps={ { item, fieldSetId } }>
+					{ ( fills ) => fills }
+				</Slot>
+				<div className="yst-flex yst-flex-col">
+					<span>{ item.title }</span>
+					{ statusLabel && (
+						<span className="yst-mt-1 yst-font-normal yst-text-slate-500">{ `- ${ statusLabel }` }</span>
+					) }
+				</div>
 			</div>
 		</Table.Header>
 	);
