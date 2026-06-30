@@ -98,7 +98,7 @@ class Post_SEO_Field_Map {
 	 * @return array<string, int|string|bool|null> The post SEO data, keyed by output-schema property name.
 	 */
 	public function to_seo_array( $indexable ): array {
-		$meta = $this->meta_surface->for_post( (int) $indexable->object_id );
+		$meta = $this->meta_surface->for_indexable( $indexable, 'Post_Type' );
 
 		return [
 			'post_id'                         => (int) $indexable->object_id,

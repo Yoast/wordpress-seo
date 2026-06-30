@@ -58,7 +58,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	public function test_to_seo_array() {
 		$indexable = $this->make_indexable();
 
-		$this->meta_surface->expects( 'for_post' )->once()->with( 42 )->andReturn(
+		$this->meta_surface->expects( 'for_indexable' )->once()->with( $indexable, 'Post_Type' )->andReturn(
 			$this->make_meta(
 				[
 					'title'                  => 'Rendered SEO title',
@@ -123,7 +123,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	public function test_to_seo_array_without_meta() {
 		$indexable = $this->make_indexable();
 
-		$this->meta_surface->expects( 'for_post' )->once()->with( 42 )->andReturnFalse();
+		$this->meta_surface->expects( 'for_indexable' )->once()->with( $indexable, 'Post_Type' )->andReturnFalse();
 
 		$result = $this->instance->to_seo_array( $indexable );
 
@@ -149,7 +149,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	public function test_to_seo_array_empty_rendered_value_is_null() {
 		$indexable = $this->make_indexable();
 
-		$this->meta_surface->expects( 'for_post' )->once()->with( 42 )->andReturn(
+		$this->meta_surface->expects( 'for_indexable' )->once()->with( $indexable, 'Post_Type' )->andReturn(
 			$this->make_meta(
 				[
 					'title'                  => 'Rendered SEO title',
