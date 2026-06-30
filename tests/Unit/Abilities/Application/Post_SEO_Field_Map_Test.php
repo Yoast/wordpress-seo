@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Surfaces\Values\Meta;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -175,9 +176,9 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_apply_to_indexable_string_fields_set_and_clear() {
-		$indexable = Mockery::mock();
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
-		$this->instance->apply_to_indexable(
+		$changed = $this->instance->apply_to_indexable(
 			[
 				'seo_title'        => 'New title',
 				'meta_description' => '',
@@ -191,6 +192,8 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 		$this->assertNull( $indexable->description );
 		$this->assertNull( $indexable->canonical );
 		$this->assertSame( 'a phrase', $indexable->primary_focus_keyword );
+		// The order follows the STRING_FIELDS declaration order, not the input order.
+		$this->assertSame( [ 'title', 'description', 'primary_focus_keyword', 'canonical' ], $changed );
 	}
 
 	/**
@@ -201,9 +204,9 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_apply_to_indexable_boolean_flags() {
-		$indexable = Mockery::mock();
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
-		$this->instance->apply_to_indexable(
+		$changed = $this->instance->apply_to_indexable(
 			[
 				'is_cornerstone' => true,
 				'nofollow'       => false,
@@ -219,6 +222,13 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 		$this->assertTrue( $indexable->is_robots_noimageindex );
 		$this->assertFalse( $indexable->is_robots_noarchive );
 		$this->assertTrue( $indexable->is_robots_nosnippet );
+
+		// The field map reports the raw indexable columns it touched; collapsing the advanced-robots
+		// flags into a shared post meta key is the helper's concern, not the field map's.
+		$this->assertSame(
+			[ 'is_cornerstone', 'is_robots_nofollow', 'is_robots_noimageindex', 'is_robots_noarchive', 'is_robots_nosnippet' ],
+			$changed,
+		);
 	}
 
 	/**
@@ -229,17 +239,18 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_apply_to_indexable_noindex() {
-		$noindex = Mockery::mock();
-		$index   = Mockery::mock();
-		$default = Mockery::mock();
+		$noindex = Mockery::mock( Indexable_Mock::class );
+		$index   = Mockery::mock( Indexable_Mock::class );
+		$default = Mockery::mock( Indexable_Mock::class );
 
-		$this->instance->apply_to_indexable( [ 'noindex' => true ], $noindex );
+		$changed_noindex = $this->instance->apply_to_indexable( [ 'noindex' => true ], $noindex );
 		$this->instance->apply_to_indexable( [ 'noindex' => false ], $index );
 		$this->instance->apply_to_indexable( [ 'noindex' => null ], $default );
 
 		$this->assertTrue( $noindex->is_robots_noindex );
 		$this->assertFalse( $index->is_robots_noindex );
 		$this->assertNull( $default->is_robots_noindex );
+		$this->assertSame( [ 'is_robots_noindex' ], $changed_noindex );
 	}
 
 	/**
@@ -250,12 +261,13 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_apply_to_indexable_ignores_absent_fields() {
-		$indexable        = Mockery::mock();
+		$indexable        = Mockery::mock( Indexable_Mock::class );
 		$indexable->title = 'Untouched';
 
-		$this->instance->apply_to_indexable( [], $indexable );
+		$changed = $this->instance->apply_to_indexable( [], $indexable );
 
 		$this->assertSame( 'Untouched', $indexable->title );
+		$this->assertSame( [], $changed );
 	}
 
 	/**

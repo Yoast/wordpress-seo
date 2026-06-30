@@ -171,25 +171,33 @@ class Post_SEO_Field_Map {
 	 * @param array<string, int|string|bool|null> $input     The validated input patch.
 	 * @param Indexable                           $indexable The indexable to mutate.
 	 *
-	 * @return void
+	 * @return array<string> The indexable columns the patch touched, so the caller can cascade
+	 *                       only those to post meta.
 	 */
-	public function apply_to_indexable( array $input, $indexable ): void {
+	public function apply_to_indexable( array $input, Indexable $indexable ): array {
+		$changed_columns = [];
+
 		foreach ( self::STRING_FIELDS as $input_key => $column ) {
 			if ( \array_key_exists( $input_key, $input ) ) {
 				$value                = $input[ $input_key ];
 				$indexable->{$column} = ( $value === null || $value === '' ) ? null : (string) $value;
+				$changed_columns[]    = $column;
 			}
 		}
 
 		foreach ( self::BOOLEAN_FIELDS as $input_key => $column ) {
 			if ( \array_key_exists( $input_key, $input ) ) {
 				$indexable->{$column} = (bool) $input[ $input_key ];
+				$changed_columns[]    = $column;
 			}
 		}
 
 		if ( \array_key_exists( 'noindex', $input ) ) {
 			// Tri-state: null resets to the post-type default, true = noindex, false = index.
 			$indexable->is_robots_noindex = ( $input['noindex'] === null ) ? null : (bool) $input['noindex'];
+			$changed_columns[]            = 'is_robots_noindex';
 		}
+
+		return $changed_columns;
 	}
 }

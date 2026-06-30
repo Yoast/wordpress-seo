@@ -82,10 +82,11 @@ class Post_SEO_Data_Updater {
 			return $indexable;
 		}
 
-		// Apply the patch onto the indexable, then cascade it to post meta (the source of truth),
-		// deleting the meta of any field cleared by the patch.
-		$this->field_map->apply_to_indexable( $input, $indexable );
-		$this->indexable_to_postmeta->map_to_postmeta( $indexable, true );
+		$changed_columns = $this->field_map->apply_to_indexable( $input, $indexable );
+
+		foreach ( $changed_columns as $column ) {
+			$this->indexable_to_postmeta->map_column_to_postmeta( $indexable, $column, true );
+		}
 
 		// A post-meta write does not trigger the indexable watcher, so rebuild the read model
 		// explicitly from the meta we just wrote.

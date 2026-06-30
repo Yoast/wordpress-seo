@@ -164,6 +164,92 @@ final class Indexable_To_Postmeta_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a single non-empty column is set through the matching map method.
+	 *
+	 * @covers ::map_column_to_postmeta
+	 *
+	 * @return void
+	 */
+	public function test_map_column_to_postmeta_sets_single_column() {
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm       = Mockery::mock( ORM::class );
+		$indexable->object_id = 123;
+		$indexable->title     = 'title1';
+
+		$this->meta->expects( 'delete' )->never();
+		$this->meta->expects( 'set_value' )
+			->once()
+			->with( 'title', 'title1', 123 )
+			->andReturn( true );
+
+		$this->instance->map_column_to_postmeta( $indexable, 'title', true );
+	}
+
+	/**
+	 * Tests that a single empty column is deleted when empties should be cleared.
+	 *
+	 * @covers ::map_column_to_postmeta
+	 *
+	 * @return void
+	 */
+	public function test_map_column_to_postmeta_deletes_empty_when_clearing() {
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm       = Mockery::mock( ORM::class );
+		$indexable->object_id = 123;
+		$indexable->title     = '';
+
+		$this->meta->expects( 'set_value' )->never();
+		$this->meta->expects( 'delete' )
+			->once()
+			->with( 'title', 123 )
+			->andReturn( true );
+
+		$this->instance->map_column_to_postmeta( $indexable, 'title', true );
+	}
+
+	/**
+	 * Tests that an advanced-robots column is resolved to its shared meta key.
+	 *
+	 * @covers ::map_column_to_postmeta
+	 *
+	 * @return void
+	 */
+	public function test_map_column_to_postmeta_resolves_advanced_robots_column() {
+		$indexable                         = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm                    = Mockery::mock( ORM::class );
+		$indexable->object_id              = 123;
+		$indexable->is_robots_noimageindex = true;
+		$indexable->is_robots_noarchive    = false;
+		$indexable->is_robots_nosnippet    = false;
+
+		$this->meta->expects( 'delete' )->never();
+		$this->meta->expects( 'set_value' )
+			->once()
+			->with( 'meta-robots-adv', 'noimageindex', 123 )
+			->andReturn( true );
+
+		$this->instance->map_column_to_postmeta( $indexable, 'is_robots_noimageindex', true );
+	}
+
+	/**
+	 * Tests that an unknown column is a no-op.
+	 *
+	 * @covers ::map_column_to_postmeta
+	 *
+	 * @return void
+	 */
+	public function test_map_column_to_postmeta_ignores_unknown_column() {
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm       = Mockery::mock( ORM::class );
+		$indexable->object_id = 123;
+
+		$this->meta->expects( 'set_value' )->never();
+		$this->meta->expects( 'delete' )->never();
+
+		$this->instance->map_column_to_postmeta( $indexable, 'not_a_real_column', true );
+	}
+
+	/**
 	 * Tests that a simple field is deleted when empty and empties should be cleared.
 	 *
 	 * @covers ::simple_map

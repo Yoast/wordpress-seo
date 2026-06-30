@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -103,7 +104,7 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			'meta_description' => 'New description',
 			'noindex'          => true,
 		];
-		$indexable            = Mockery::mock();
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 42;
 		$rebuilt              = Mockery::mock();
 
@@ -116,12 +117,17 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 		$this->field_map
 			->expects( 'apply_to_indexable' )
 			->once()
-			->with( $input, $indexable );
+			->with( $input, $indexable )
+			->andReturn( [ 'description', 'is_robots_noindex' ] );
 
 		$this->indexable_to_postmeta
-			->expects( 'map_to_postmeta' )
+			->expects( 'map_column_to_postmeta' )
 			->once()
-			->with( $indexable, true );
+			->with( $indexable, 'description', true );
+		$this->indexable_to_postmeta
+			->expects( 'map_column_to_postmeta' )
+			->once()
+			->with( $indexable, 'is_robots_noindex', true );
 
 		$this->indexable_builder
 			->expects( 'build_for_id_and_type' )
@@ -175,7 +181,7 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_post_seo_data_rebuild_failure() {
-		$indexable            = Mockery::mock();
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 42;
 
 		$this->resolver
@@ -186,12 +192,13 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 		$this->field_map
 			->expects( 'apply_to_indexable' )
 			->once()
-			->with( [ 'post_id' => 42 ], $indexable );
+			->with( [ 'post_id' => 42 ], $indexable )
+			->andReturn( [ 'description' ] );
 
 		$this->indexable_to_postmeta
-			->expects( 'map_to_postmeta' )
+			->expects( 'map_column_to_postmeta' )
 			->once()
-			->with( $indexable, true );
+			->with( $indexable, 'description', true );
 
 		$this->indexable_builder
 			->expects( 'build_for_id_and_type' )
