@@ -32,3 +32,6 @@ export const AI_UPSELL = {
 	premium: { link: "https://yoa.st/bulk-editor-ai-upsell", ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2" },
 	woo: { link: "https://yoa.st/bulk-editor-ai-upsell-woo", ctbId: "5b32250e-e6f0-44ae-ad74-3cefc8e427f9" },
 };
+
+// The "Learn more" shortlink for the bulk editor upsell modal.
+export const LEARN_MORE_LINK = "https://yoa.st/bulk-editor-learn-more";
