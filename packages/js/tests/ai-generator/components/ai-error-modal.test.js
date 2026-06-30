@@ -110,7 +110,7 @@ describe( "AIErrorModal", () => {
 			expect( screen.getByText( "Yoast AI cannot reach your site" ) ).toBeInTheDocument();
 			expect( screen.getByRole( "link", { name: /Still need help\?/ } ) ).toBeInTheDocument();
 			expect( screen.getByRole( "link", { name: /Learn more/ } ) ).toBeInTheDocument();
-			expect( screen.queryByRole( "link", { name: "Connect to MyYoast" } ) ).not.toBeInTheDocument();
+			expect( screen.queryByRole( "link", { name: /Connect to MyYoast/ } ) ).not.toBeInTheDocument();
 		} );
 
 		it( "shows variant 2 (Connect to MyYoast) when the user can connect", () => {
@@ -120,7 +120,7 @@ describe( "AIErrorModal", () => {
 				connectUrl: "https://example.test/connect",
 			} ) );
 			renderModal( props );
-			const connect = screen.getByRole( "link", { name: "Connect to MyYoast" } );
+			const connect = screen.getByRole( "link", { name: /Connect to MyYoast/ } );
 			expect( connect ).toBeInTheDocument();
 			// The CTA is a plain link to the nonce-protected URL, opening in a new tab.
 			expect( connect ).toHaveAttribute( "href", "https://example.test/connect" );
@@ -131,7 +131,7 @@ describe( "AIErrorModal", () => {
 			useSelect.mockImplementation( selectImplementation( { isAvailable: true, canConnect: false } ) );
 			renderModal( props );
 			expect( screen.getByText( /Ask your site administrator to connect to MyYoast/ ) ).toBeInTheDocument();
-			expect( screen.queryByRole( "link", { name: "Connect to MyYoast" } ) ).not.toBeInTheDocument();
+			expect( screen.queryByRole( "link", { name: /Connect to MyYoast/ } ) ).not.toBeInTheDocument();
 		} );
 	} );
 

@@ -26,7 +26,7 @@ ModalDescription.propTypes = { children: PropTypes.node.isRequired };
  * @returns {JSX.Element} The element.
  */
 export const Actions = ( { children } ) => (
-	<div className="yst-mt-6 yst-flex yst-flex-col sm:yst-flex-row-reverse yst-gap-3 yst-place-content-start">
+	<div className="yst-mt-6 yst-flex yst-flex-row yst-justify-end yst-gap-3">
 		{ children }
 	</div>
 );
@@ -39,7 +39,7 @@ Actions.propTypes = { children: PropTypes.node.isRequired };
  * @returns {JSX.Element} The element.
  */
 export const CloseButton = ( { onClose } ) => (
-	<Button variant="secondary" onClick={ onClose } className="yst-w-full sm:yst-w-auto">
+	<Button variant="secondary" onClick={ onClose }>
 		{ __( "Close", "wordpress-seo" ) }
 	</Button>
 );
@@ -57,12 +57,12 @@ CloseButton.propTypes = { onClose: PropTypes.func.isRequired };
  */
 export const RetryableActions = ( { showActions = false, onRetry, onClose } ) => (
 	<Actions>
+		<CloseButton onClose={ onClose } />
 		{ showActions && (
-			<Button variant="primary" onClick={ onRetry } className="yst-w-full sm:yst-w-auto">
+			<Button variant="primary" onClick={ onRetry }>
 				{ __( "Try again", "wordpress-seo" ) }
 			</Button>
 		) }
-		<CloseButton onClose={ onClose } />
 	</Actions>
 );
 RetryableActions.propTypes = {
@@ -87,11 +87,18 @@ export const DangerModal = ( { isOpen, title, onClose = noop, children } ) => {
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
 			<Modal.Panel className="yst-max-w-lg" closeButtonScreenReaderText={ __( "Dismiss", "wordpress-seo" ) }>
-				<div className="yst-flex yst-flex-col yst-items-center sm:yst-flex-row sm:yst-items-start yst-gap-4">
-					<div className="yst-mx-auto yst-flex-shrink-0 yst-flex yst-items-center yst-justify-center yst-h-10 yst-w-10 yst-rounded-full yst-bg-red-100 sm:yst-mx-0">
-						<ExclamationIcon className="yst-h-4 yst-w-4 yst-text-red-600" { ...svgAriaProps } />
+				{ /*
+					* An unconditional row (icon | title + body), not the `sm:`-gated
+					* stack-then-row other danger modals use. This modal is portaled inside
+					* the block editor, where the viewport `sm` breakpoint does not match
+					* reliably; gating the layout on it leaves the modal stuck stacked and
+					* centered. Mirrors `ReplaceContentModal`, which renders in the same context.
+					*/ }
+				<div className="yst-flex yst-items-start yst-gap-4">
+					<div className="yst-flex-shrink-0 yst-flex yst-items-center yst-justify-center yst-h-10 yst-w-10 yst-rounded-full yst-bg-red-100">
+						<ExclamationIcon className="yst-h-6 yst-w-6 yst-text-red-600" { ...svgAriaProps } />
 					</div>
-					<div className="yst-text-center sm:yst-text-left yst-flex-1 yst-min-w-0">
+					<div className="yst-text-start yst-flex-1 yst-min-w-0">
 						<Modal.Title className="yst-text-lg yst-leading-6 yst-font-medium yst-text-slate-900">
 							{ title }
 						</Modal.Title>

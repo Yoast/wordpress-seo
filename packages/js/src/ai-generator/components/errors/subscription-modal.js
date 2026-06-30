@@ -35,10 +35,10 @@ export const SubscriptionModal = ( { invalidSubscriptions = [], isOpen = true, o
 		<DangerModal isOpen={ isOpen } title={ title } onClose={ onClose }>
 			<ModalDescription><Body invalidSubscriptions={ invalidSubscriptions } /></ModalDescription>
 			<Actions>
-				<Button variant="primary" onClick={ handleRefresh } className="yst-w-full sm:yst-w-auto">
+				<CloseButton onClose={ onClose } />
+				<Button variant="primary" onClick={ handleRefresh }>
 					{ __( "Refresh page", "wordpress-seo" ) }
 				</Button>
-				<CloseButton onClose={ onClose } />
 			</Actions>
 		</DangerModal>
 	);

@@ -21,10 +21,10 @@ export const SeoAnalysisInactiveModal = ( { isOpen = true, onClose = noop } ) =>
 		<DangerModal isOpen={ isOpen } title={ title } onClose={ onClose }>
 			<ModalDescription><Body /></ModalDescription>
 			<Actions>
-				<Button variant="primary" onClick={ handleRefresh } className="yst-w-full sm:yst-w-auto">
+				<CloseButton onClose={ onClose } />
+				<Button variant="primary" onClick={ handleRefresh }>
 					{ __( "Refresh page", "wordpress-seo" ) }
 				</Button>
-				<CloseButton onClose={ onClose } />
 			</Actions>
 		</DangerModal>
 	);

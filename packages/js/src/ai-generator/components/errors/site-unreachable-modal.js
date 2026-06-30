@@ -1,7 +1,8 @@
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import ArrowNarrowRightIcon from "@heroicons/react/solid/ArrowNarrowRightIcon";
-import { Button } from "@yoast/ui-library";
+import ExternalLinkIcon from "@heroicons/react/outline/ExternalLinkIcon";
+import { Button, useSvgAria } from "@yoast/ui-library";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
@@ -40,6 +41,7 @@ LearnMoreAboutConnecting.propTypes = { learnMoreUrl: PropTypes.string };
  * @returns {JSX.Element} The element.
  */
 const UnavailableBody = () => {
+	const svgAriaProps = useSvgAria();
 	const { commonErrorsLink, supportLink } = useSelect( ( select ) => {
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return {
@@ -56,12 +58,17 @@ const UnavailableBody = () => {
 				</Paragraph>
 			</ModalDescription>
 			<Actions>
-				<Button as="a" href={ commonErrorsLink } target="_blank" rel="noopener noreferrer" variant="primary" className="yst-w-full sm:yst-w-auto">
-					{ __( "Learn more", "wordpress-seo" ) }
-					<ArrowNarrowRightIcon className="yst-ms-1 yst-h-4 yst-w-4 rtl:yst-rotate-180" />
-				</Button>
-				<Button as="a" href={ supportLink } target="_blank" rel="noopener noreferrer" variant="secondary" className="yst-w-full sm:yst-w-auto">
+				<Button as="a" href={ supportLink } target="_blank" rel="noopener noreferrer" variant="secondary">
 					{ __( "Still need help?", "wordpress-seo" ) }
+					<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-4 yst-w-4 yst-text-slate-400 rtl:yst-rotate-[270deg]" { ...svgAriaProps } />
+					<span className="yst-sr-only">
+						{ /* translators: Hidden accessibility text. */ }
+						{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }
+					</span>
+				</Button>
+				<Button as="a" href={ commonErrorsLink } target="_blank" rel="noopener noreferrer" variant="primary">
+					{ __( "Learn more", "wordpress-seo" ) }
+					<ArrowNarrowRightIcon className="yst--me-1 yst-ms-1 yst-h-4 yst-w-4 rtl:yst-rotate-180" { ...svgAriaProps } />
 				</Button>
 			</Actions>
 		</>
@@ -74,9 +81,10 @@ const UnavailableBody = () => {
  *
  * @param {Object} connection The MyYoast connection slice.
  * @param {function} onClose Dismisses the modal.
+ * @param {Object} svgAriaProps The aria props for decorative SVGs.
  * @returns {JSX.Element} The body.
  */
-const resolveBody = ( { isAvailable, canConnect, connectUrl, learnMoreUrl }, onClose ) => {
+const resolveBody = ( { isAvailable, canConnect, connectUrl, learnMoreUrl }, onClose, svgAriaProps ) => {
 	// Variant 2: the site can be connected and the current user may do so.
 	if ( isAvailable && canConnect && connectUrl ) {
 		return (
@@ -88,14 +96,19 @@ const resolveBody = ( { isAvailable, canConnect, connectUrl, learnMoreUrl }, onC
 					<LearnMoreAboutConnecting learnMoreUrl={ learnMoreUrl } />
 				</ModalDescription>
 				<Actions>
+					<CloseButton onClose={ onClose } />
 					{ /*
 						* A plain link in a new tab: the Integrations page auto-starts the connection
 						* there, so unsaved editor content is never lost to the OAuth redirect.
 						*/ }
-					<Button as="a" href={ connectUrl } target="_blank" rel="noopener noreferrer" variant="primary" className="yst-w-full sm:yst-w-auto">
+					<Button as="a" href={ connectUrl } target="_blank" rel="noopener noreferrer" variant="primary">
 						{ __( "Connect to MyYoast", "wordpress-seo" ) }
+						<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-4 yst-w-4 rtl:yst-rotate-[270deg]" { ...svgAriaProps } />
+						<span className="yst-sr-only">
+							{ /* translators: Hidden accessibility text. */ }
+							{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }
+						</span>
 					</Button>
-					<CloseButton onClose={ onClose } />
 				</Actions>
 			</>
 		);
@@ -135,11 +148,12 @@ const resolveBody = ( { isAvailable, canConnect, connectUrl, learnMoreUrl }, onC
  * @returns {JSX.Element} The element.
  */
 export const SiteUnreachableModal = ( { isOpen = true, onClose = noop } ) => {
+	const svgAriaProps = useSvgAria();
 	const connection = useSelect( select => select( STORE_NAME_AI ).selectMyyoastConnection(), [] );
 
 	return (
 		<DangerModal isOpen={ isOpen } title={ title } onClose={ onClose }>
-			{ resolveBody( connection, onClose ) }
+			{ resolveBody( connection, onClose, svgAriaProps ) }
 		</DangerModal>
 	);
 };
