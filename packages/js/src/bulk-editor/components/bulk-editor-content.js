@@ -197,7 +197,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 				onDiscard={ onDiscardAndSwitch }
 				onClose={ onCancelSwitch }
 			/>
-			<BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
 			<Slot
 				name={ PENDING_CHANGES_MODAL_SLOT }
 				fillProps={ {
