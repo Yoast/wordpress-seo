@@ -432,7 +432,10 @@ class Abilities_Integration implements Integration_Interface {
 				'focus_keyphrase'        => \array_merge( $nullable_string, [ 'maxLength' => 191 ] ),
 				'canonical'              => $nullable_string,
 				'is_cornerstone'         => [ 'type' => 'boolean' ],
-				'noindex'                => [ 'type' => [ 'boolean', 'null' ] ],
+				'noindex'                => [
+					'type'        => [ 'boolean', 'null' ],
+					'description' => \__( 'Whether search engines should be told not to index this post. true sets noindex (the post is excluded from search results); false forces the post to be indexed; null clears the setting and falls back to the post-type default.', 'wordpress-seo' ),
+				],
 				'nofollow'               => [ 'type' => 'boolean' ],
 				'noimageindex'           => [ 'type' => 'boolean' ],
 				'noarchive'              => [ 'type' => 'boolean' ],
@@ -533,7 +536,10 @@ class Abilities_Integration implements Integration_Interface {
 				'canonical'                       => $nullable_string,
 				'canonical_rendered'              => $rendered( \__( 'canonical URL', 'wordpress-seo' ) ),
 				'is_cornerstone'                  => [ 'type' => 'boolean' ],
-				'noindex'                         => [ 'type' => [ 'boolean', 'null' ] ],
+				'noindex'                         => [
+					'type'        => [ 'boolean', 'null' ],
+					'description' => \__( 'Whether search engines are told not to index this post. true means noindex (the post is excluded from search results); false means the post is forced to be indexed; null means no setting is stored and the post-type default applies.', 'wordpress-seo' ),
+				],
 				'nofollow'                        => [ 'type' => 'boolean' ],
 				'noimageindex'                    => [ 'type' => 'boolean' ],
 				'noarchive'                       => [ 'type' => 'boolean' ],
