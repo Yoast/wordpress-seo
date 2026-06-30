@@ -361,8 +361,9 @@ final class Abilities_Integration_Test extends TestCase {
 	 */
 	private function get_expected_identifier_input_schema(): array {
 		return [
-			'type'       => 'object',
-			'properties' => [
+			'type'                 => 'object',
+			'additionalProperties' => false,
+			'properties'           => [
 				'post_id'   => [
 					'type'        => 'integer',
 					'description' => 'The ID of the post to retrieve.',
@@ -395,8 +396,9 @@ final class Abilities_Integration_Test extends TestCase {
 		$nullable_string = [ 'type' => [ 'string', 'null' ] ];
 
 		return [
-			'type'       => 'object',
-			'properties' => [
+			'type'                 => 'object',
+			'additionalProperties' => false,
+			'properties'           => [
 				'post_id'                => [
 					'type'        => 'integer',
 					'description' => 'The ID of the post to update.',
