@@ -37,7 +37,7 @@ class Post_Identifier_Resolver {
 	/**
 	 * Resolves the input to exactly one post indexable.
 	 *
-	 * Used by the write path, which must target a single, unambiguous post.
+	 * Used by operations that have to target a single, unambiguous post.
 	 * Title keywords are deliberately not accepted here: they can match several
 	 * posts, so only an exact identifier (post ID or permalink) is allowed.
 	 *
@@ -65,11 +65,11 @@ class Post_Identifier_Resolver {
 	 * Resolves the input to all matching post indexables.
 	 *
 	 * Used by the read path. A title search may match several posts; with no
-	 * identifier at all, the latest public post is returned.
+	 * identifier at all, an error is returned.
 	 *
-	 * @param array<string, int|string|bool|null> $input The input containing an optional 'post_id', 'permalink', or 'title', plus an optional 'page' for a title search.
+	 * @param array<string, int|string|bool|null> $input The input containing a 'post_id', 'permalink', or 'title', plus an optional 'page' for a title search.
 	 *
-	 * @return Indexable[]|WP_Error The matching indexables, or an error for an unknown id/permalink.
+	 * @return Indexable[]|WP_Error The matching indexables, or an error for a missing or unknown id/permalink.
 	 */
 	public function resolve_many( array $input ) {
 		if ( $this->has( $input, 'post_id' ) ) {
@@ -90,8 +90,11 @@ class Post_Identifier_Resolver {
 			return $this->indexable_repository->find_posts_by_title_keywords( (string) $input['title'], $page );
 		}
 
-		// No identifier given: default to the latest public post.
-		return $this->indexable_repository->get_recently_modified_posts( 'post', 1, false );
+		return new WP_Error(
+			'yoast_seo_missing_identifier',
+			\__( 'Provide a post_id, a permalink, or title keywords to identify the post.', 'wordpress-seo' ),
+			[ 'status' => 400 ],
+		);
 	}
 
 	/**

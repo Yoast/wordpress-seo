@@ -170,22 +170,14 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 	}
 
 	/**
-	 * Tests resolve_many with no identifier defaults to the latest public post.
+	 * Tests resolve_many with no identifier returns a missing-identifier error.
 	 *
 	 * @covers ::resolve_many
 	 *
 	 * @return void
 	 */
-	public function test_resolve_many_defaults_to_latest_public_post() {
-		$indexable = Mockery::mock();
-
-		$this->indexable_repository
-			->expects( 'get_recently_modified_posts' )
-			->once()
-			->with( 'post', 1, false )
-			->andReturn( [ $indexable ] );
-
-		$this->assertSame( [ $indexable ], $this->instance->resolve_many( [] ) );
+	public function test_resolve_many_missing_identifier() {
+		$this->assertInstanceOf( WP_Error::class, $this->instance->resolve_many( [] ) );
 	}
 
 	/**

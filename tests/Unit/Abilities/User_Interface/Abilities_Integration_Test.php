@@ -310,7 +310,7 @@ final class Abilities_Integration_Test extends TestCase {
 				[
 					'label'               => 'Get Post SEO Data',
 					'category'            => 'yoast-seo',
-					'description'         => 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). With no identifier, the latest public post is returned.',
+					'description'         => 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required.',
 					'input_schema'        => $this->get_expected_identifier_input_schema(),
 					'output_schema'       => [
 						'type'  => 'array',

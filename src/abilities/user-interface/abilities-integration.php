@@ -248,7 +248,7 @@ class Abilities_Integration implements Integration_Interface {
 			$this->get_shared_ability_args(
 				[
 					'label'               => \__( 'Get Post SEO Data', 'wordpress-seo' ),
-					'description'         => \__( 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). With no identifier, the latest public post is returned.', 'wordpress-seo' ),
+					'description'         => \__( 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required.', 'wordpress-seo' ),
 					'input_schema'        => $this->get_post_identifier_input_schema(),
 					'output_schema'       => $this->wrap_in_array_schema( $this->get_post_seo_data_output_schema() ),
 					'permission_callback' => [ $this, 'can_read_seo_data' ],

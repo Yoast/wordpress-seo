@@ -9,7 +9,7 @@ use WP_Error;
  * Application service that reads the SEO data of one or more posts.
  *
  * Doubles as a discovery tool: a title keyword search returns full SEO data for
- * every matching post, and an empty request returns the latest public post.
+ * every matching post. A request must carry an identifier; an empty request is an error.
  */
 class Post_SEO_Data_Collector {
 
