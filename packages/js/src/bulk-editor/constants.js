@@ -1,3 +1,5 @@
+import { __ } from "@wordpress/i18n";
+
 /**
  * Keep constants centralized to avoid circular dependency problems.
  */
@@ -56,3 +58,6 @@ export const AI_UPSELL = {
 
 // The "Learn more" shortlink for the bulk editor upsell modal.
 export const LEARN_MORE_LINK = "https://yoa.st/bulk-editor-learn-more";
+
+// The generic (non-product) body copy for the bulk AI upsell modal; also the modal's default description.
+export const AI_UPSELL_DESCRIPTION = __( "Instantly create SEO titles, meta descriptions, and social metadata for all your content. Upgrade to unlock bulk AI generation and streamline your workflow.", "wordpress-seo" );

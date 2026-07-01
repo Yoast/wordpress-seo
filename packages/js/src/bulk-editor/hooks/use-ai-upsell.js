@@ -1,7 +1,7 @@
 import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { AI_UPSELL, LEARN_MORE_LINK, PRODUCT_CONTENT_TYPE, STORE_NAME } from "../constants";
+import { AI_UPSELL, AI_UPSELL_DESCRIPTION, LEARN_MORE_LINK, PRODUCT_CONTENT_TYPE, STORE_NAME } from "../constants";
 
 /**
  * The bulk AI upsell props for the active content type: WooCommerce SEO on products, Yoast SEO Premium otherwise.
@@ -27,6 +27,6 @@ export const useAiUpsell = ( contentType ) => {
 		learnMoreLink,
 		description: isProduct
 			? __( "Instantly create SEO titles, meta descriptions, and social metadata for all your products, posts, pages and more. Upgrade to unlock bulk AI generation and streamline your workflow.", "wordpress-seo" )
-			: __( "Instantly create SEO titles, meta descriptions, and social metadata for all your content. Upgrade to unlock bulk AI generation and streamline your workflow.", "wordpress-seo" ),
+			: AI_UPSELL_DESCRIPTION,
 	} ), [ upsellLink, target.ctbId, isProduct, learnMoreLink ] );
 };

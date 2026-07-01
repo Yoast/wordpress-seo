@@ -4,6 +4,7 @@ import { useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, GradientSparklesIcon, Modal, useSvgAria } from "@yoast/ui-library";
 import { OutboundLink } from "../../shared-admin/components";
+import { AI_UPSELL_DESCRIPTION } from "../constants";
 
 /**
  * The upsell modal shown when a Free user triggers a bulk AI generate action.
@@ -26,7 +27,7 @@ export const UpsellModal = ( {
 	upsellLink,
 	ctbId,
 	learnMoreLink,
-	description = __( "Instantly create SEO titles, meta descriptions, and social metadata for all your content. Upgrade to unlock bulk AI generation and streamline your workflow.", "wordpress-seo" ),
+	description = AI_UPSELL_DESCRIPTION,
 } ) => {
 	const upsellRef = useRef( null );
 	const svgAriaProps = useSvgAria();
