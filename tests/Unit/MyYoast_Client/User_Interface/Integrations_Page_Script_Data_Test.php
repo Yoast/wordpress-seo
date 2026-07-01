@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\MyYoast_Client\Application\Callback_Outcome;
 use Yoast\WP\SEO\MyYoast_Client\Application\Management_Endpoints_Repository;
 use Yoast\WP\SEO\MyYoast_Client\Application\OAuth_Callback_Handler;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Connection_Permission;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Integrations_Page_Script_Data;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
 use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
@@ -57,6 +58,13 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 	private $endpoints_repository;
 
 	/**
+	 * The connection-management permission mock.
+	 *
+	 * @var Connection_Permission|Mockery\MockInterface
+	 */
+	private $connection_permission;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Integrations_Page_Script_Data
@@ -76,12 +84,14 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 		$this->callback_handler               = Mockery::mock( OAuth_Callback_Handler::class );
 		$this->short_link_helper              = Mockery::mock( Short_Link_Helper::class );
 		$this->endpoints_repository           = Mockery::mock( Management_Endpoints_Repository::class );
+		$this->connection_permission          = Mockery::mock( Connection_Permission::class );
 		$this->instance                       = new Integrations_Page_Script_Data(
 			$this->status_presenter,
 			$this->myyoast_connection_conditional,
 			$this->callback_handler,
 			$this->short_link_helper,
 			$this->endpoints_repository,
+			$this->connection_permission,
 		);
 	}
 
@@ -299,7 +309,7 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 		$_GET['_wpnonce']                 = 'nonce-value';
 		$this->prime_present();
 
-		Monkey\Functions\expect( 'current_user_can' )->with( 'wpseo_manage_options' )->andReturnTrue();
+		$this->connection_permission->shouldReceive( 'can_manage' )->andReturnTrue();
 		Monkey\Functions\stubs(
 			[
 				'wp_unslash'          => static function ( $value ) {
@@ -329,7 +339,7 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 		$_GET['_wpnonce']                 = 'tampered';
 		$this->prime_present();
 
-		Monkey\Functions\expect( 'current_user_can' )->with( 'wpseo_manage_options' )->andReturnTrue();
+		$this->connection_permission->shouldReceive( 'can_manage' )->andReturnTrue();
 		Monkey\Functions\stubs(
 			[
 				'wp_unslash'          => static function ( $value ) {
@@ -358,7 +368,7 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 		$_GET['start-myyoast-connection'] = '1';
 		$this->prime_present();
 
-		Monkey\Functions\expect( 'current_user_can' )->with( 'wpseo_manage_options' )->andReturnFalse();
+		$this->connection_permission->shouldReceive( 'can_manage' )->andReturnFalse();
 		Monkey\Functions\expect( 'wp_verify_nonce' )->never();
 
 		$this->assertFalse( $this->instance->present()['startConnection'] );

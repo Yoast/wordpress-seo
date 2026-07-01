@@ -56,6 +56,13 @@ class Integrations_Page_Script_Data {
 	private $endpoints_repository;
 
 	/**
+	 * The MyYoast connection-management permission check.
+	 *
+	 * @var Connection_Permission
+	 */
+	private $connection_permission;
+
+	/**
 	 * Integrations_Page_Script_Data constructor.
 	 *
 	 * @param Status_Presenter                $status_presenter               The status presenter.
@@ -63,19 +70,22 @@ class Integrations_Page_Script_Data {
 	 * @param OAuth_Callback_Handler          $callback_handler               The callback handler.
 	 * @param Short_Link_Helper               $short_link_helper              The short-link helper.
 	 * @param Management_Endpoints_Repository $endpoints_repository           The management endpoints repository.
+	 * @param Connection_Permission           $connection_permission          The MyYoast connection-management permission check.
 	 */
 	public function __construct(
 		Status_Presenter $status_presenter,
 		MyYoast_Connection_Conditional $myyoast_connection_conditional,
 		OAuth_Callback_Handler $callback_handler,
 		Short_Link_Helper $short_link_helper,
-		Management_Endpoints_Repository $endpoints_repository
+		Management_Endpoints_Repository $endpoints_repository,
+		Connection_Permission $connection_permission
 	) {
 		$this->status_presenter               = $status_presenter;
 		$this->myyoast_connection_conditional = $myyoast_connection_conditional;
 		$this->callback_handler               = $callback_handler;
 		$this->short_link_helper              = $short_link_helper;
 		$this->endpoints_repository           = $endpoints_repository;
+		$this->connection_permission          = $connection_permission;
 	}
 
 	/**
@@ -114,7 +124,7 @@ class Integrations_Page_Script_Data {
 	 * @return bool Whether to auto-start the connection flow.
 	 */
 	private function should_auto_start_connection(): bool {
-		if ( ! isset( $_GET['start-myyoast-connection'] ) || ! \current_user_can( 'wpseo_manage_options' ) ) {
+		if ( ! isset( $_GET['start-myyoast-connection'] ) || ! $this->connection_permission->can_manage() ) {
 			return false;
 		}
 
