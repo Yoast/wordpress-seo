@@ -1,3 +1,4 @@
+import ArrowNarrowRightIcon from "@heroicons/react/outline/ArrowNarrowRightIcon";
 import LockClosedIcon from "@heroicons/react/outline/LockClosedIcon";
 import { useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -54,8 +55,9 @@ export const UpsellModal = ( { isOpen, onClose, upsellLabel, upsellLink, ctbId, 
 						<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
 					</Button>
 					{ learnMoreLink && (
-						<OutboundLink href={ learnMoreLink } variant="primary" className="yst-text-sm yst-font-medium yst-no-underline">
+						<OutboundLink href={ learnMoreLink } variant="primary" className="yst-inline-flex yst-items-center yst-gap-1 yst-text-sm yst-font-medium yst-no-underline">
 							{ __( "Learn more", "wordpress-seo" ) }
+							<ArrowNarrowRightIcon className="yst-h-4 yst-w-4 yst-icon-rtl" aria-hidden="true" />
 						</OutboundLink>
 					) }
 				</div>
