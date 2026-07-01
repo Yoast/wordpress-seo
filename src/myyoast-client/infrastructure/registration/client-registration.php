@@ -7,10 +7,13 @@ use InvalidArgumentException;
 use Yoast\WP\SEO\Exceptions\Locking\Lock_Timeout_Exception;
 use Yoast\WP\SEO\Helpers\Lock_Helper;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Discovery_Failed_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Rate_Limited_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Failed_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Not_Found_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Server_Capability_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Auth_Token_Type;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption_Exception;
@@ -224,7 +227,9 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	 *
 	 * @return array<string, string|string[]> The registration metadata.
 	 *
-	 * @throws Registration_Failed_Exception If the read fails.
+	 * @throws Registration_Not_Found_Exception If the server reports the registration is gone (HTTP 401/404).
+	 * @throws Rate_Limited_Exception           If the server rate-limited the request (HTTP 429).
+	 * @throws Registration_Failed_Exception    If the read fails for any other reason.
 	 */
 	public function read_registration(): array {
 		$registered_client = $this->get_registered_client();
@@ -252,10 +257,16 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 		if ( $result->get_status() === 401 || $result->get_status() === 404 ) {
 			$this->logger->warning( 'Registration is no longer valid (HTTP {status}), clearing local registration.', [ 'status' => $result->get_status() ] );
 			$this->forget_registration();
-			throw new Registration_Failed_Exception(
+			throw new Registration_Not_Found_Exception(
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 				'Registration is no longer valid (HTTP ' . $result->get_status() . ').',
 			);
+		}
+
+		if ( $result->get_status() === 429 ) {
+			$this->logger->warning( 'Registration read was rate-limited (HTTP 429).' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+			throw new Rate_Limited_Exception( 'Registration read was rate-limited (HTTP 429).', $this->get_retry_after_seconds( $result ) );
 		}
 
 		if ( ! $result->is_successful() ) {
@@ -348,7 +359,9 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	 *
 	 * @return Registered_Client The updated credentials.
 	 *
-	 * @throws Registration_Failed_Exception If the update fails.
+	 * @throws Registration_Not_Found_Exception If the server reports the registration is gone (HTTP 401/404).
+	 * @throws Rate_Limited_Exception           If the server rate-limited the request (HTTP 429).
+	 * @throws Registration_Failed_Exception    If the update fails for any other reason.
 	 */
 	private function update_redirect_uris( array $redirect_uris ): Registered_Client {
 		$registered_client = $this->get_registered_client();
@@ -381,6 +394,21 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 				'timeout' => 15,
 			],
 		);
+
+		if ( $result->get_status() === 401 || $result->get_status() === 404 ) {
+			$this->logger->warning( 'Registration is no longer valid on update (HTTP {status}), clearing local registration.', [ 'status' => $result->get_status() ] );
+			$this->forget_registration();
+			throw new Registration_Not_Found_Exception(
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+				'Registration is no longer valid (HTTP ' . $result->get_status() . ').',
+			);
+		}
+
+		if ( $result->get_status() === 429 ) {
+			$this->logger->warning( 'Registration update was rate-limited (HTTP 429).' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+			throw new Rate_Limited_Exception( 'Registration update was rate-limited (HTTP 429).', $this->get_retry_after_seconds( $result ) );
+		}
 
 		if ( ! $result->is_successful() ) {
 			$error_message = (string) $result->get_body_value( 'error_description', $result->get_body_value( 'error', '' ) );
@@ -569,13 +597,26 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	}
 
 	/**
+	 * Extracts the `Retry-After` value (in seconds) from a 429 response, if any.
+	 *
+	 * @param HTTP_Response $result The 429 response.
+	 *
+	 * @return int|null Seconds until retry, or null when absent or unparseable.
+	 */
+	private function get_retry_after_seconds( HTTP_Response $result ): ?int {
+		$headers = $result->get_headers();
+		return Rate_Limited_Exception::parse_retry_after( ( $headers['retry-after'] ?? null ) );
+	}
+
+	/**
 	 * Performs the actual DCR registration request.
 	 *
 	 * @param string[] $redirect_uris The OAuth redirect URIs to register.
 	 *
 	 * @return Registered_Client The registration result.
 	 *
-	 * @throws Registration_Failed_Exception If registration fails.
+	 * @throws Rate_Limited_Exception        If the server rate-limited the request (HTTP 429).
+	 * @throws Registration_Failed_Exception If registration fails for any other reason.
 	 */
 	private function do_register( array $redirect_uris ): Registered_Client {
 		try {
@@ -629,6 +670,12 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			$error_message = (string) $result->get_body_value( 'error_description', '' );
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 			throw new Registration_Failed_Exception( 'DCR request failed: ' . $error_message );
+		}
+
+		if ( $result->get_status() === 429 ) {
+			$this->logger->warning( 'DCR was rate-limited (HTTP 429).' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+			throw new Rate_Limited_Exception( 'DCR was rate-limited (HTTP 429).', $this->get_retry_after_seconds( $result ) );
 		}
 
 		if ( $result->get_status() !== 201 ) {

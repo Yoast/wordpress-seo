@@ -182,13 +182,17 @@ class MyYoast_Client implements LoggerAwareInterface {
 	}
 
 	/**
-	 * Reads the current client registration from the server.
+	 * Refreshes the local registration status against the server.
+	 *
+	 * Reads the current client registration (RFC 7592 GET) to confirm it is
+	 * still live; the underlying read self-heals by forgetting the local
+	 * registration when the server reports it gone.
 	 *
 	 * @return array<string, string|string[]> The registration metadata.
 	 *
 	 * @throws Registration_Failed_Exception If the read fails.
 	 */
-	public function verify_registration(): array {
+	public function refresh_registration_status(): array {
 		return $this->client_registration->read_registration();
 	}
 

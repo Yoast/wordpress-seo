@@ -266,7 +266,7 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	}
 
 	/**
-	 * Verifies the client registration with the server.
+	 * Refreshes the client registration status against the server.
 	 *
 	 * Reads the current registration from the authorization server to
 	 * confirm it is still valid and shows the registration metadata.
@@ -284,8 +284,10 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp yoast auth verify
-	 *     wp yoast auth verify --format=json
+	 *     wp yoast auth refresh-status
+	 *     wp yoast auth refresh-status --format=json
+	 *
+	 * @subcommand refresh-status
 	 *
 	 * @when after_wp_load
 	 *
@@ -294,17 +296,17 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 *
 	 * @return void
 	 *
-	 * @throws ExitException When verification fails.
+	 * @throws ExitException When the status refresh fails.
 	 */
-	public function verify( $args = null, $assoc_args = null ): void {
+	public function refresh_status( $args = null, $assoc_args = null ): void {
 		if ( ! $this->myyoast_client->is_registered() ) {
 			WP_CLI::error( 'Not registered. Run "wp yoast auth register" first.' );
 		}
 
 		try {
-			$metadata = $this->myyoast_client->verify_registration();
+			$metadata = $this->myyoast_client->refresh_registration_status();
 		} catch ( Exception $e ) {
-			WP_CLI::error( 'Verification failed: ' . $e->getMessage() );
+			WP_CLI::error( 'Status refresh failed: ' . $e->getMessage() );
 			return;
 		}
 

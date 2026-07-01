@@ -10,12 +10,20 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Consent_Management_
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Integrations_Page_Script_Data as MyYoast_Connection_Script_Data;
 use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 
 /**
  * Integrations_Page class
  */
 class Integrations_Page implements Integration_Interface {
+
+	/**
+	 * The page identifier of the integrations page.
+	 *
+	 * @var string
+	 */
+	public const PAGE = 'wpseo_integrations';
 
 	/**
 	 * The admin asset manager.
@@ -67,6 +75,13 @@ class Integrations_Page implements Integration_Interface {
 	private $schema_configuration;
 
 	/**
+	 * The MyYoast connection script-data provider.
+	 *
+	 * @var MyYoast_Connection_Script_Data
+	 */
+	private $myyoast_connection_script_data;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -85,6 +100,8 @@ class Integrations_Page implements Integration_Interface {
 	 * @param Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint The site kit consent
 	 *                                                                                   management endpoint.
 	 * @param Schema_Configuration                 $schema_configuration                 The schema configuration.
+	 * @param MyYoast_Connection_Script_Data       $myyoast_connection_script_data       The MyYoast connection
+	 *                                                                                   script-data provider.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -93,7 +110,8 @@ class Integrations_Page implements Integration_Interface {
 		Jetpack_Conditional $jetpack_conditional,
 		Site_Kit $site_kit_integration_data,
 		Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint,
-		Schema_Configuration $schema_configuration
+		Schema_Configuration $schema_configuration,
+		MyYoast_Connection_Script_Data $myyoast_connection_script_data
 	) {
 		$this->admin_asset_manager                  = $admin_asset_manager;
 		$this->options_helper                       = $options_helper;
@@ -102,6 +120,7 @@ class Integrations_Page implements Integration_Interface {
 		$this->site_kit_integration_data            = $site_kit_integration_data;
 		$this->site_kit_consent_management_endpoint = $site_kit_consent_management_endpoint;
 		$this->schema_configuration                 = $schema_configuration;
+		$this->myyoast_connection_script_data       = $myyoast_connection_script_data;
 	}
 
 	/**
@@ -125,7 +144,7 @@ class Integrations_Page implements Integration_Interface {
 			'',
 			\__( 'Integrations', 'wordpress-seo' ),
 			'wpseo_manage_options',
-			'wpseo_integrations',
+			self::PAGE,
 			[ $this, 'render_target' ],
 		];
 
@@ -141,7 +160,7 @@ class Integrations_Page implements Integration_Interface {
 	 */
 	public function enqueue_assets() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
-		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_integrations' ) {
+		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== self::PAGE ) {
 			return;
 		}
 
@@ -226,6 +245,7 @@ class Integrations_Page implements Integration_Interface {
 				'site_kit_configuration'             => $this->site_kit_integration_data->to_array(),
 				'site_kit_consent_management_url'    => $this->site_kit_consent_management_endpoint->get_url(),
 				'schema_framework_enabled'           => $this->options_helper->get( 'enable_schema', true ) === true && ! $this->schema_configuration->is_schema_disabled_programmatically(),
+				'myyoast_connection'                 => $this->myyoast_connection_script_data->present(),
 			],
 		);
 	}
