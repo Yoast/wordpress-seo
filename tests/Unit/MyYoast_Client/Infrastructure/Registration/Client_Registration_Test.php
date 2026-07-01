@@ -7,7 +7,9 @@ use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Exceptions\Locking\Lock_Timeout_Exception;
 use Yoast\WP\SEO\Helpers\Lock_Helper;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Rate_Limited_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Failed_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Not_Found_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Key_Pair;
@@ -757,6 +759,82 @@ final class Client_Registration_Test extends TestCase {
 		Functions\expect( 'update_option' )->never();
 
 		$this->instance->mark_uri_validated( 'https://example.com/callback' );
+	}
+
+	/**
+	 * Tests that a 401 from the RFC 7592 read clears local state and throws Registration_Not_Found_Exception.
+	 *
+	 * @covers ::read_registration
+	 *
+	 * @return void
+	 */
+	public function test_read_registration_throws_not_found_on_401() {
+		$this->mock_get_client();
+
+		$this->http_client
+			->expects( 'authenticated_request' )
+			->andReturn( new HTTP_Response( 401, [], [ 'error' => 'invalid_token' ] ) );
+
+		Functions\expect( 'delete_option' )->once()->with( self::OPTION_KEY )->andReturn( true );
+
+		$this->expectException( Registration_Not_Found_Exception::class );
+		$this->instance->read_registration();
+	}
+
+	/**
+	 * Tests that a 404 from the RFC 7592 read clears local state and throws Registration_Not_Found_Exception.
+	 *
+	 * @covers ::read_registration
+	 *
+	 * @return void
+	 */
+	public function test_read_registration_throws_not_found_on_404() {
+		$this->mock_get_client();
+
+		$this->http_client
+			->expects( 'authenticated_request' )
+			->andReturn( new HTTP_Response( 404, [], [] ) );
+
+		Functions\expect( 'delete_option' )->once()->with( self::OPTION_KEY )->andReturn( true );
+
+		$this->expectException( Registration_Not_Found_Exception::class );
+		$this->instance->read_registration();
+	}
+
+	/**
+	 * Tests that a 429 from the RFC 7592 read throws Rate_Limited_Exception carrying the Retry-After.
+	 *
+	 * @covers ::read_registration
+	 * @covers ::get_retry_after_seconds
+	 *
+	 * @return void
+	 */
+	public function test_read_registration_throws_rate_limited_on_429() {
+		$this->mock_get_client();
+
+		$this->http_client
+			->expects( 'authenticated_request' )
+			->andReturn( new HTTP_Response( 429, [ 'retry-after' => '120' ], [] ) );
+
+		try {
+			$this->instance->read_registration();
+			$this->fail( 'Expected Rate_Limited_Exception was not thrown.' );
+		} catch ( Rate_Limited_Exception $e ) {
+			$this->assertSame( 120, $e->get_retry_after_seconds() );
+		}
+	}
+
+	/**
+	 * Tests that the typed registration exceptions are still caught as Registration_Failed_Exception.
+	 *
+	 * @covers \Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Rate_Limited_Exception
+	 * @covers \Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Not_Found_Exception
+	 *
+	 * @return void
+	 */
+	public function test_typed_exceptions_extend_registration_failed_exception() {
+		$this->assertInstanceOf( Registration_Failed_Exception::class, new Rate_Limited_Exception( 'rate limited' ) );
+		$this->assertInstanceOf( Registration_Failed_Exception::class, new Registration_Not_Found_Exception( 'gone' ) );
 	}
 
 	/**

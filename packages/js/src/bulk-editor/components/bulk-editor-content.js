@@ -1,7 +1,8 @@
+import { Slot } from "@wordpress/components";
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useMemo, useState } from "@wordpress/element";
+import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { STORE_NAME } from "../constants";
+import { PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
 import { useInlineEdit } from "../hooks/use-inline-edit";
 import { usePosts } from "../services/use-posts";
@@ -54,12 +55,14 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
 		[ fieldSets ]
 	);
-	const { activeFieldSet, selectedIds, isPremium } = useSelect( ( select ) => {
+	const { activeFieldSet, selectedIds, isPremium, hasExternalPendingChanges } = useSelect( ( select ) => {
 		const store = select( STORE_NAME );
 		return {
 			activeFieldSet: store.selectActiveFieldSet(),
 			selectedIds: store.selectSelectedIds(),
 			isPremium: store.selectPreference( "isPremium", false ),
+			// An external plugin (e.g. Premium's AI suggestions) reports pending changes so the switch can be guarded.
+			hasExternalPendingChanges: store.selectHasExternalPendingChanges(),
 		};
 	}, [] );
 	const { setActiveFieldSet, toggleRow, selectAll, deselectAll } = useDispatch( STORE_NAME );
@@ -67,7 +70,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const { data: items = [], total = 0, totalPages = 0, isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
 	const { editing, stopEditing } = useInlineEdit( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } );
 
-	// The tab the user wants to switch to while rows still have unsaved edits; drives the confirmation modal.
+	// The tab the user wants to switch to while a switch is guarded (unsaved manual edits, or an external plugin
+	// reporting pending changes); drives the confirmation modal.
 	const [ pendingTab, setPendingTab ] = useState( null );
 	const hasUnsavedEdits = Object.keys( editing.editingRows ).length > 0;
 
@@ -76,32 +80,49 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		if ( id === activeFieldSet ) {
 			return;
 		}
-		// Guard the switch when edits are in progress; otherwise switch straight away.
-		if ( Object.keys( editing.editingRows ).length > 0 ) {
+		// Guard the switch when manual edits are in progress or an external plugin (Premium AI) reports pending
+		// changes; otherwise switch straight away. The guarded tab is held in pendingTab until the user decides.
+		if ( hasUnsavedEdits || hasExternalPendingChanges ) {
 			setPendingTab( id );
 			return;
 		}
 		setActiveFieldSet( id );
-	}, [ activeFieldSet, editing.editingRows, setActiveFieldSet ] );
+	}, [ activeFieldSet, hasUnsavedEdits, hasExternalPendingChanges, setActiveFieldSet ] );
 
 	const onSaveAndSwitch = useCallback( () => {
 		// Fire the save for every open field; each reads its draft synchronously, so clearing the edit state
-		// right after still posts the captured values while leaving the new tab clean.
+		// right after still posts the captured values while leaving the new tab clean. Clearing the edits flips
+		// hasUnsavedEdits to false, after which the switch completes via the self-heal effect (nothing external
+		// pending) or the slot modal (an external plugin still has pending changes) — never both at once.
 		Object.entries( editing.editingRows ).forEach( ( [ id, row ] ) =>
 			row.openFields.forEach( ( key ) => editing.onApplyField( { id: Number( id ), key } ) )
 		);
 		stopEditing();
-		setActiveFieldSet( pendingTab );
-		setPendingTab( null );
-	}, [ editing, stopEditing, pendingTab, setActiveFieldSet ] );
+	}, [ editing, stopEditing ] );
 
 	const onDiscardAndSwitch = useCallback( () => {
+		// Clearing the edits flips hasUnsavedEdits to false; the self-heal effect or the slot modal then completes
+		// the switch, so a still-pending external guard is honoured rather than overridden.
 		stopEditing();
-		setActiveFieldSet( pendingTab );
-		setPendingTab( null );
-	}, [ stopEditing, pendingTab, setActiveFieldSet ] );
+	}, [ stopEditing ] );
 
 	const onCancelSwitch = useCallback( () => setPendingTab( null ), [] );
+
+	// Commits the deferred switch for an external guard (Premium fills the slot below and calls this once it has
+	// handled its own pending changes). Free's own manual edits use onSaveAndSwitch/onDiscardAndSwitch instead.
+	const onCommitSwitch = useCallback( () => {
+		setActiveFieldSet( pendingTab );
+		setPendingTab( null );
+	}, [ pendingTab, setActiveFieldSet ] );
+
+	// Self-heal a stranded switch: if a deferral is outstanding but nothing guards it any more (manual edits saved
+	// and the external plugin cleared its pending changes), complete the switch so the user can never get stuck on a
+	// tab with no modal to resolve.
+	useEffect( () => {
+		if ( pendingTab !== null && ! hasUnsavedEdits && ! hasExternalPendingChanges ) {
+			onCommitSwitch();
+		}
+	}, [ pendingTab, hasUnsavedEdits, hasExternalPendingChanges, onCommitSwitch ] );
 
 	const { isAllSelected, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
 	const onSelectAll = useCallback( () => {
@@ -155,6 +176,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								contentType={ contentType }
 								contentTypeLabel={ contentTypeLabel }
 								contentTypeSingularLabel={ contentTypeSingularLabel }
+								hasUnsavedEdits={ hasUnsavedEdits }
 							/>
 						}
 						showBulkActions={ hasSelection }
@@ -171,6 +193,14 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 				onSave={ onSaveAndSwitch }
 				onDiscard={ onDiscardAndSwitch }
 				onClose={ onCancelSwitch }
+			/>
+			<Slot
+				name={ PENDING_CHANGES_MODAL_SLOT }
+				fillProps={ {
+					isOpen: pendingTab !== null && ! hasUnsavedEdits,
+					onCommit: onCommitSwitch,
+					onCancel: onCancelSwitch,
+				} }
 			/>
 		</div>
 	);

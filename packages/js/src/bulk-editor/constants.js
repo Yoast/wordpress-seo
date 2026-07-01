@@ -37,6 +37,10 @@ export const SELECT_MENU_ITEMS_FILTER = "yoast.bulkEditor.selectMenuItems";
 // onFieldApplied( value ) reflects a value the fill saved itself onto the row, so the cell shows it without a refetch.
 export const TABLE_CELL_FIELD_SLOT = "yoast.bulkEditor.TableCellWithField";
 
+// The slot Premium fills with its own pending-changes confirmation modal (e.g. unapplied AI suggestions), shown when a
+// tab switch is deferred because an external plugin reports pending changes. fillProps: { isOpen, onCommit, onCancel }.
+export const PENDING_CHANGES_MODAL_SLOT = "yoast.bulkEditor.pendingChangesModal";
+
 // The slot base name Premium fills with a per-row indicator shown before the row title (e.g. an AI status icon).
 // The rendered slot name is `${TABLE_ROW_INDICATOR_SLOT}/${fieldSetId}/${item.id}`. Generic so any row-level marker (the missing-keyphrase
 // info icon, a generation-error icon) can fill the same spot.
@@ -50,3 +54,6 @@ export const AI_UPSELL = {
 	premium: { link: "https://yoa.st/bulk-editor-ai-upsell", ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2" },
 	woo: { link: "https://yoa.st/bulk-editor-ai-upsell-woo", ctbId: "5b32250e-e6f0-44ae-ad74-3cefc8e427f9" },
 };
+
+// The "Learn more" shortlink for the bulk editor upsell modal.
+export const LEARN_MORE_LINK = "https://yoa.st/bulk-editor-learn-more";

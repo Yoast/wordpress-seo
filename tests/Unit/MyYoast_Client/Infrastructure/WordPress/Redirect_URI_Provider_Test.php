@@ -21,7 +21,7 @@ final class Redirect_URI_Provider_Test extends TestCase {
 	 *
 	 * @var string
 	 */
-	private const CANONICAL = 'https://example.com/wp-admin/admin.php?page=wpseo_dashboard&yoast_myyoast_oauth_callback=1';
+	private const CANONICAL = 'https://example.com/wp-admin/admin-post.php?action=yoast_myyoast_oauth_callback';
 
 	/**
 	 * The test instance.

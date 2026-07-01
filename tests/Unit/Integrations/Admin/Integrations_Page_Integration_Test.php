@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Consent_Management_
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Integrations_Page;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Integrations_Page_Script_Data;
 use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -75,6 +76,13 @@ final class Integrations_Page_Integration_Test extends TestCase {
 	private $schema_configuration;
 
 	/**
+	 * The MyYoast connection script-data provider.
+	 *
+	 * @var Mockery\MockInterface|Integrations_Page_Script_Data
+	 */
+	private $myyoast_connection_script_data;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Integrations_Page
@@ -98,6 +106,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->site_kit_configuration               = Mockery::mock( Site_Kit::class );
 		$this->site_kit_consent_management_endpoint = Mockery::mock( Site_Kit_Consent_Management_Endpoint::class );
 		$this->schema_configuration                 = Mockery::mock( Schema_Configuration::class );
+		$this->myyoast_connection_script_data       = Mockery::mock( Integrations_Page_Script_Data::class );
 
 		$this->instance = new Integrations_Page(
 			$this->admin_asset_manager,
@@ -107,6 +116,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 			$this->site_kit_configuration,
 			$this->site_kit_consent_management_endpoint,
 			$this->schema_configuration,
+			$this->myyoast_connection_script_data,
 		);
 	}
 
@@ -210,6 +220,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->site_kit_consent_management_endpoint->expects( 'get_url' )
 			->andReturn( 'https://www.example.com/manage-consent' );
 		$this->schema_configuration->expects( 'is_schema_disabled_programmatically' )->andReturnFalse();
+		$this->myyoast_connection_script_data->expects( 'present' )->andReturnNull();
 
 		$this->admin_asset_manager->expects( 'localize_script' )->with(
 			'integrations-page',
@@ -243,6 +254,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'site_kit_configuration'             => $site_kit_config,
 				'site_kit_consent_management_url'    => 'https://www.example.com/manage-consent',
 				'schema_framework_enabled'           => true,
+				'myyoast_connection'                 => null,
 			],
 		);
 

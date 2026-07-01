@@ -1,21 +1,24 @@
+import ArrowNarrowRightIcon from "@heroicons/react/outline/ArrowNarrowRightIcon";
 import LockClosedIcon from "@heroicons/react/outline/LockClosedIcon";
 import { useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, GradientSparklesIcon, Modal, useSvgAria } from "@yoast/ui-library";
+import { OutboundLink } from "../../shared-admin/components";
 
 /**
  * The upsell modal shown when a Free user triggers a bulk AI generate action.
  *
- * @param {Object}   props             The props.
- * @param {boolean}  props.isOpen      Whether the modal is open.
- * @param {Function} props.onClose     Closes the modal.
- * @param {string}   props.upsellLabel The CTA label (Premium or WooCommerce SEO).
- * @param {string}   props.upsellLink  The CTA URL.
- * @param {string}   [props.ctbId]     The click-to-buy id.
+ * @param {Object}   props                 The props.
+ * @param {boolean}  props.isOpen          Whether the modal is open.
+ * @param {Function} props.onClose         Closes the modal.
+ * @param {string}   props.upsellLabel     The CTA label (Premium or WooCommerce SEO).
+ * @param {string}   props.upsellLink      The CTA URL.
+ * @param {string}   [props.ctbId]         The click-to-buy id.
+ * @param {string}   [props.learnMoreLink] The "Learn more" link URL.
  *
  * @returns {JSX.Element} The upsell modal.
  */
-export const UpsellModal = ( { isOpen, onClose, upsellLabel, upsellLink, ctbId } ) => {
+export const UpsellModal = ( { isOpen, onClose, upsellLabel, upsellLink, ctbId, learnMoreLink } ) => {
 	const upsellRef = useRef( null );
 	const svgAriaProps = useSvgAria();
 	const ctbProps = ctbId ? { "data-action": "load-nfd-ctb", "data-ctb-id": ctbId } : {};
@@ -51,6 +54,12 @@ export const UpsellModal = ( { isOpen, onClose, upsellLabel, upsellLink, ctbId }
 						{ upsellLabel }
 						<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
 					</Button>
+					{ learnMoreLink && (
+						<OutboundLink href={ learnMoreLink } variant="primary" className="yst-inline-flex yst-items-center yst-gap-1 yst-text-sm yst-font-medium yst-no-underline">
+							{ __( "Learn more", "wordpress-seo" ) }
+							<ArrowNarrowRightIcon className="yst-h-4 yst-w-4 yst-icon-rtl" aria-hidden="true" />
+						</OutboundLink>
+					) }
 				</div>
 			</Modal.Panel>
 		</Modal>
