@@ -15,10 +15,19 @@ import { OutboundLink } from "../../shared-admin/components";
  * @param {string}   props.upsellLink      The CTA URL.
  * @param {string}   [props.ctbId]         The click-to-buy id.
  * @param {string}   [props.learnMoreLink] The "Learn more" link URL.
+ * @param {string}   [props.description]   The body copy; defaults to the generic (non-product) copy.
  *
  * @returns {JSX.Element} The upsell modal.
  */
-export const UpsellModal = ( { isOpen, onClose, upsellLabel, upsellLink, ctbId, learnMoreLink } ) => {
+export const UpsellModal = ( {
+	isOpen,
+	onClose,
+	upsellLabel,
+	upsellLink,
+	ctbId,
+	learnMoreLink,
+	description = __( "Instantly create SEO titles, meta descriptions, and social metadata for all your content. Upgrade to unlock bulk AI generation and streamline your workflow.", "wordpress-seo" ),
+} ) => {
 	const upsellRef = useRef( null );
 	const svgAriaProps = useSvgAria();
 	const ctbProps = ctbId ? { "data-action": "load-nfd-ctb", "data-ctb-id": ctbId } : {};
@@ -36,7 +45,7 @@ export const UpsellModal = ( { isOpen, onClose, upsellLabel, upsellLink, ctbId, 
 								{ __( "Generate Metadata in Bulk", "wordpress-seo" ) }
 							</Modal.Title>
 							<Modal.Description as="p" className="yst-text-sm yst-text-slate-600">
-								{ __( "Instantly create SEO titles, meta descriptions, and social metadata for all your products, posts, pages and more. Upgrade to unlock bulk AI generation and streamline your workflow.", "wordpress-seo" ) }
+								{ description }
 							</Modal.Description>
 						</div>
 					</div>
