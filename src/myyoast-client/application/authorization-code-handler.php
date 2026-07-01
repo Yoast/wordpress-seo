@@ -224,12 +224,12 @@ class Authorization_Code_Handler implements LoggerAwareInterface {
 		// Validate state (CSRF protection).
 		if ( ! \hash_equals( $flow_state->get_state(), $state ) ) {
 			$this->logger->warning( 'Authorization code exchange failed: state parameter mismatch for user {user_id} (potential CSRF).', [ 'user_id' => $user_id ] );
-			$this->expiring_store->delete_for_user( self::CURRENT_AUTH_FLOW_STATE_KEY, $user_id );
+			$this->discard_flow_state( $user_id );
 			throw new Token_Request_Failed_Exception( 'invalid_request', 'State parameter mismatch.' );
 		}
 
 		// Clean up the stored flow state.
-		$this->expiring_store->delete_for_user( self::CURRENT_AUTH_FLOW_STATE_KEY, $user_id );
+		$this->discard_flow_state( $user_id );
 
 		$resource_indicator = $flow_state->get_resource_indicator();
 		$grant              = new Authorization_Code_Grant( $code, $flow_state->get_redirect_uri(), $flow_state->get_code_verifier() );
@@ -256,6 +256,20 @@ class Authorization_Code_Handler implements LoggerAwareInterface {
 		} catch ( Token_Request_Failed_Exception $e ) {
 			return null;
 		}
+	}
+
+	/**
+	 * Discards any pending authorization-flow state for a user.
+	 *
+	 * Used when the provider returns an error (e.g. the user denied consent) so a
+	 * stale flow can't be resumed. A no-op when no flow is pending.
+	 *
+	 * @param int $user_id The WordPress user ID.
+	 *
+	 * @return void
+	 */
+	public function discard_flow_state( int $user_id ): void {
+		$this->expiring_store->delete_for_user( self::CURRENT_AUTH_FLOW_STATE_KEY, $user_id );
 	}
 
 	/**

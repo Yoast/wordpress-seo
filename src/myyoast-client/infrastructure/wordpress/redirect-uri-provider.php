@@ -3,17 +3,17 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\MyYoast_Client\Infrastructure\WordPress;
 
-use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Redirect_URI_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Resource_Indicator;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\OAuth_Callback_Integration;
 
 /**
  * WordPress implementation of the redirect URI provider.
  *
- * The canonical redirect URI is the Yoast admin page with the OAuth callback marker query
- * var. Site owners and plugins can register additional URIs and override the per-flow embed
- * URI through filters.
+ * The canonical redirect URI is this site's `admin-post.php` OAuth callback endpoint, exposed
+ * by `OAuth_Callback_Integration::get_callback_url()`. Site owners and plugins can register
+ * additional URIs and override the per-flow embed URI through filters.
  */
 class Redirect_URI_Provider implements Redirect_URI_Provider_Interface {
 
@@ -124,10 +124,7 @@ class Redirect_URI_Provider implements Redirect_URI_Provider_Interface {
 	 * @return string The canonical redirect URI.
 	 */
 	private function get_canonical_redirect_uri(): string {
-		return \get_admin_url(
-			null,
-			'admin.php?page=' . General_Page_Integration::PAGE . '&yoast_myyoast_oauth_callback=1',
-		);
+		return OAuth_Callback_Integration::get_callback_url();
 	}
 
 	/**
