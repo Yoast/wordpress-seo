@@ -243,7 +243,7 @@ class Management_Route implements Route_Interface, LoggerAwareInterface {
 
 		try {
 			$this->myyoast_client->refresh_registration_status();
-		} catch ( Registration_Failed_Exception $e ) {
+		} catch ( Throwable $e ) {
 			return $this->handle_exception( $e );
 		}
 
@@ -266,7 +266,7 @@ class Management_Route implements Route_Interface, LoggerAwareInterface {
 
 		try {
 			$this->myyoast_client->ensure_registered();
-		} catch ( Registration_Failed_Exception $e ) {
+		} catch ( Throwable $e ) {
 			return $this->handle_exception( $e );
 		}
 
