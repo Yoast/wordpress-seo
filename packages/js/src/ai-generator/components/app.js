@@ -174,6 +174,14 @@ export const App = ( { onUseAi } ) => {
 
 	const dismissErrorModal = useCallback( () => setErrorModal( null ), [] );
 
+	// Retry a fatal generate-flow error: dismiss the danger modal and reopen the AI
+	// modal. ModalContent remounts (it only renders while generating), resetting its
+	// initialFetch state to "" and re-running the initial fetch from scratch.
+	const handleErrorModalRetry = useCallback( () => {
+		setErrorModal( null );
+		setDisplay( DISPLAY.generate );
+	}, [] );
+
 	// Surfaces a feature-precondition error as a danger modal and closes the AI
 	// modal. The descriptor mirrors what the old inline FeatureError chose to render.
 	const showFeatureError = useCallback( () => {
@@ -436,6 +444,8 @@ export const App = ( { onUseAi } ) => {
 					errorIdentifier={ errorModal.errorIdentifier }
 					invalidSubscriptions={ errorModal.invalidSubscriptions }
 					errorMessage={ errorModal.errorMessage }
+					showActions={ true }
+					onRetry={ handleErrorModalRetry }
 					onClose={ dismissErrorModal }
 				/>
 			) }
