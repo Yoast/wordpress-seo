@@ -41,6 +41,32 @@ export const Body = ( { invalidSubscriptions = [] } ) => {
 		newSubscriptionLink = newPremiumLink;
 	}
 
+	// Without an identified product the sprintf copy below would render the literal
+	// "undefined" and href="undefined"; fall back to a generic activation message.
+	if ( ! addonProduct ) {
+		return (
+			<Paragraph>
+				{ safeCreateInterpolateElement(
+					sprintf(
+						/**
+						 * translators:
+						 * %1$s expands to MyYoast.
+						 * %2$s and %3$s expand to an opening and closing anchor tag, respectively, to activate your subscription.
+						 **/
+						__(
+							"To access this feature, you need an active subscription. Please %2$sactivate your subscription in %1$s%3$s. Afterward, refresh this page. It may take up to 30 seconds for the feature to function correctly.",
+							"wordpress-seo"
+						),
+						"MyYoast",
+						"<Activate>",
+						"</Activate>"
+					),
+					{ Activate: <OutboundLink variant="error" href={ activatePremiumLink } /> }
+				) }
+			</Paragraph>
+		);
+	}
+
 	return (
 		<Paragraph>
 			{ safeCreateInterpolateElement(
