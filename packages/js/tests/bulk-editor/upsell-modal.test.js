@@ -7,6 +7,7 @@ const baseProps = {
 	upsellLabel: "Unlock with Yoast SEO Premium",
 	upsellLink: "https://yoa.st/bulk-editor-ai-upsell?platform=wordpress",
 	ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
+	learnMoreLink: "https://yoa.st/bulk-editor-learn-more?platform=wordpress",
 };
 
 describe( "UpsellModal", () => {
@@ -21,6 +22,20 @@ describe( "UpsellModal", () => {
 		expect( cta ).toHaveAttribute( "target", "_blank" );
 		expect( cta ).toHaveAttribute( "data-action", "load-nfd-ctb" );
 		expect( cta ).toHaveAttribute( "data-ctb-id", baseProps.ctbId );
+	} );
+
+	it( "renders the learn more link", () => {
+		render( <UpsellModal { ...baseProps } /> );
+
+		const learnMore = screen.getByRole( "link", { name: /Learn more/ } );
+		expect( learnMore ).toHaveAttribute( "href", baseProps.learnMoreLink );
+		expect( learnMore ).toHaveAttribute( "target", "_blank" );
+	} );
+
+	it( "omits the learn more link when learnMoreLink is not provided", () => {
+		render( <UpsellModal { ...baseProps } learnMoreLink={ undefined } /> );
+
+		expect( screen.queryByRole( "link", { name: /Learn more/ } ) ).not.toBeInTheDocument();
 	} );
 
 	it( "uses the provided label (the WooCommerce SEO variant)", () => {
