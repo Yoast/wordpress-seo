@@ -23,7 +23,7 @@ import { getFieldTextClasses, getRowEditState } from "./table-helpers";
  */
 export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleRow, edit, editing } ) => {
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
-	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField, updateItem } = editing;
+	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField, onFieldApplied } = editing;
 	const isSaving = Object.keys( savingFields ).length > 0;
 	const fillsSeoTitles = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/seoTitle/${item.id}` );
 	const fillsMetaDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/metaDescription/${item.id}` );
@@ -76,7 +76,7 @@ export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleR
 								onDiscardField: () => onDiscardField( { id: item.id, key: field.key } ),
 								// Lets a fill (Premium's applied AI suggestion) reflect a value it saved itself onto the row,
 								// so the cell shows it without a refetch.
-								onApplied: ( value ) => updateItem( item.id, field.key, value ),
+								onFieldApplied: ( value ) => onFieldApplied( item.id, field.key, value ),
 							} }
 						>
 							{ ( fills ) => {
