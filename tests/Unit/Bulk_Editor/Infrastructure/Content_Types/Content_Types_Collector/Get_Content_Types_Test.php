@@ -49,22 +49,26 @@ final class Get_Content_Types_Test extends Abstract_Content_Types_Collector_Test
 					(object) [
 						'name'    => 'post',
 						'label'   => 'Posts',
+						'labels'  => (object) [ 'singular_name' => 'Post' ],
 						'show_ui' => true,
 					],
 					(object) [
 						'name'    => 'page',
 						'label'   => 'Pages',
+						'labels'  => (object) [ 'singular_name' => 'Page' ],
 						'show_ui' => true,
 					],
 				],
 				'expected'                    => [
 					[
-						'name'  => 'post',
-						'label' => 'Posts',
+						'name'          => 'post',
+						'label'         => 'Posts',
+						'singularLabel' => 'Post',
 					],
 					[
-						'name'  => 'page',
-						'label' => 'Pages',
+						'name'          => 'page',
+						'label'         => 'Pages',
+						'singularLabel' => 'Page',
 					],
 				],
 			],
@@ -73,18 +77,21 @@ final class Get_Content_Types_Test extends Abstract_Content_Types_Collector_Test
 					(object) [
 						'name'    => 'post',
 						'label'   => 'Posts',
+						'labels'  => (object) [ 'singular_name' => 'Post' ],
 						'show_ui' => true,
 					],
 					(object) [
 						'name'    => 'hidden',
 						'label'   => 'Hidden',
+						'labels'  => (object) [ 'singular_name' => 'Hidden item' ],
 						'show_ui' => false,
 					],
 				],
 				'expected'                    => [
 					[
-						'name'  => 'post',
-						'label' => 'Posts',
+						'name'          => 'post',
+						'label'         => 'Posts',
+						'singularLabel' => 'Post',
 					],
 				],
 			],

@@ -11,13 +11,13 @@ use Yoast\WP\SEO\Expiring_Store\Domain\Key_Not_Found_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Authorization_Flow_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Discovery_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\ID_Token_Validation_Exception;
-use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Server_Capability_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Token_Request_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Grants\Authorization_Code_Grant;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Discovery_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\ID_Token_Validator_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Redirect_URI_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Auth_Flow_State;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Resource_Indicator;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
@@ -74,27 +74,37 @@ class Authorization_Code_Handler implements LoggerAwareInterface {
 	private $expiring_store;
 
 	/**
+	 * The redirect URI provider port.
+	 *
+	 * @var Redirect_URI_Provider_Interface
+	 */
+	private $redirect_uri_provider;
+
+	/**
 	 * Authorization_Code_Handler constructor.
 	 *
-	 * @param Discovery_Interface           $discovery           The discovery port.
-	 * @param Client_Registration_Interface $client_registration The client registration port.
-	 * @param OAuth_Grant_Handler           $grant_handler       The OAuth grant handler.
-	 * @param ID_Token_Validator_Interface  $id_token_validator  The ID token validator port.
-	 * @param Expiring_Store                $expiring_store      The expiring store.
+	 * @param Discovery_Interface             $discovery             The discovery port.
+	 * @param Client_Registration_Interface   $client_registration   The client registration port.
+	 * @param OAuth_Grant_Handler             $grant_handler         The OAuth grant handler.
+	 * @param ID_Token_Validator_Interface    $id_token_validator    The ID token validator port.
+	 * @param Expiring_Store                  $expiring_store        The expiring store.
+	 * @param Redirect_URI_Provider_Interface $redirect_uri_provider The redirect URI provider port.
 	 */
 	public function __construct(
 		Discovery_Interface $discovery,
 		Client_Registration_Interface $client_registration,
 		OAuth_Grant_Handler $grant_handler,
 		ID_Token_Validator_Interface $id_token_validator,
-		Expiring_Store $expiring_store
+		Expiring_Store $expiring_store,
+		Redirect_URI_Provider_Interface $redirect_uri_provider
 	) {
-		$this->discovery           = $discovery;
-		$this->client_registration = $client_registration;
-		$this->grant_handler       = $grant_handler;
-		$this->id_token_validator  = $id_token_validator;
-		$this->expiring_store      = $expiring_store;
-		$this->logger              = new NullLogger();
+		$this->discovery             = $discovery;
+		$this->client_registration   = $client_registration;
+		$this->grant_handler         = $grant_handler;
+		$this->id_token_validator    = $id_token_validator;
+		$this->expiring_store        = $expiring_store;
+		$this->redirect_uri_provider = $redirect_uri_provider;
+		$this->logger                = new NullLogger();
 	}
 
 	/**
@@ -103,7 +113,6 @@ class Authorization_Code_Handler implements LoggerAwareInterface {
 	 * Generates PKCE challenge, state, and nonce, and stores them in the expiring store.
 	 *
 	 * @param int                $user_id            The WordPress user ID.
-	 * @param string             $redirect_uri       The callback redirect URI.
 	 * @param string[]           $scopes             The scopes to request.
 	 * @param Resource_Indicator $resource_indicator The RFC 8707 resource indicator the issued token should be bound to.
 	 * @param string|null        $return_url         The URL to return the user to after authorization completes.
@@ -112,17 +121,25 @@ class Authorization_Code_Handler implements LoggerAwareInterface {
 	 *
 	 * @throws Authorization_Flow_Exception If any of the auth flow prerequisites (registration, discovery, random number generation, or state parameter validation) fails.
 	 */
-	public function get_authorization_url( int $user_id, string $redirect_uri, array $scopes, Resource_Indicator $resource_indicator, ?string $return_url = null ): string {
+	public function get_authorization_url( int $user_id, array $scopes, Resource_Indicator $resource_indicator, ?string $return_url = null ): string {
 		if ( $user_id <= 0 ) {
 			throw new Authorization_Flow_Exception( 'invalid_user', 'A valid WordPress user ID is required to start the authorization flow.' );
 		}
 
-		try {
-			$registered_client = $this->client_registration->ensure_registered( [ $redirect_uri ] );
-		} catch ( Registration_Failed_Exception $e ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
-			throw new Authorization_Flow_Exception( 'registration_failed', $e->getMessage(), 0, $e );
+		// Registration is a prerequisite handled by the connect flow; this method never triggers DCR.
+		$registered_client = $this->client_registration->get_registered_client();
+		if ( $registered_client === null ) {
+			throw new Authorization_Flow_Exception( 'not_registered', 'Site is not registered with MyYoast; complete the registration first.' );
 		}
+
+		// Resolve which registered redirect URI to embed in this request (the server matches it exactly).
+		$redirect_uri = $this->redirect_uri_provider->get_authorization_redirect_uri(
+			$registered_client,
+			$user_id,
+			$scopes,
+			$resource_indicator,
+			$return_url,
+		);
 
 		try {
 			$auth_endpoint = $this->discovery->get_document()->get_authorization_endpoint();
@@ -195,7 +212,7 @@ class Authorization_Code_Handler implements LoggerAwareInterface {
 	 *
 	 * @return Token_Set The obtained tokens.
 	 *
-	 * @throws Registration_Failed_Exception|Token_Request_Failed_Exception If client registration or exchange fails.
+	 * @throws Token_Request_Failed_Exception If the site is not registered or the exchange fails.
 	 */
 	public function exchange_code( int $user_id, string $code, string $state ): Token_Set {
 		if ( $user_id <= 0 ) {
@@ -220,6 +237,8 @@ class Authorization_Code_Handler implements LoggerAwareInterface {
 
 		// Validate ID token nonce (replay protection) if an ID token was returned.
 		$this->validate_id_token_nonce( $token_set, $flow_state );
+
+		$this->client_registration->mark_uri_validated( $flow_state->get_redirect_uri() );
 
 		return $token_set;
 	}

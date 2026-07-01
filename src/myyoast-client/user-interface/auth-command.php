@@ -8,7 +8,6 @@ use WP_CLI\ExitException;
 use WP_CLI\Utils;
 use Yoast\WP\SEO\Commands\Command_Interface;
 use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
-use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Loadable_Interface;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
@@ -249,8 +248,7 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 		}
 
 		try {
-			$redirect_uri = \get_admin_url( null, 'admin.php?page=' . General_Page_Integration::PAGE . '&yoast_myyoast_oauth_callback=1' );
-			$client       = $this->myyoast_client->ensure_registered( [ $redirect_uri ] );
+			$client = $this->myyoast_client->ensure_registered();
 		} catch ( Exception $e ) {
 			WP_CLI::error( 'Registration failed: ' . $e->getMessage() );
 			return;
@@ -714,11 +712,13 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 			WP_CLI::error( 'Both --code and --state are required for code exchange.' );
 		}
 
-		// Phase 1: generate the authorization URL.
-		$redirect_uri = \get_admin_url( null, 'admin.php?page=' . General_Page_Integration::PAGE . '&yoast_myyoast_oauth_callback=1' );
+		// Phase 1: generate the authorization URL. Registration is a prerequisite.
+		if ( ! $this->myyoast_client->is_registered() ) {
+			WP_CLI::error( 'Not registered. Run "wp yoast auth register" first.' );
+		}
 
 		try {
-			$url = $this->myyoast_client->get_authorization_url( $user_id, $redirect_uri, $scopes, $resource_indicator );
+			$url = $this->myyoast_client->get_authorization_url( $user_id, $scopes, $resource_indicator );
 		} catch ( Exception $e ) {
 			WP_CLI::error( 'Failed to generate authorization URL: ' . $e->getMessage() );
 			return;

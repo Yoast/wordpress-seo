@@ -14,6 +14,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Grants\Client_Credentials_Grant;
 use Yoast\WP\SEO\MyYoast_Client\Application\Grants\Refresh_Token_Grant;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Redirect_URI_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Site_URL_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Token_Storage_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\User_Token_Storage_Interface;
@@ -104,17 +105,25 @@ class MyYoast_Client implements LoggerAwareInterface {
 	private $site_url_provider;
 
 	/**
+	 * The redirect URI provider port.
+	 *
+	 * @var Redirect_URI_Provider_Interface
+	 */
+	private $redirect_uri_provider;
+
+	/**
 	 * MyYoast_Client constructor.
 	 *
-	 * @param Client_Registration_Interface $client_registration The client registration port.
-	 * @param Authorization_Code_Handler    $auth_code_handler   The authorization code handler.
-	 * @param OAuth_Grant_Handler           $grant_handler       The OAuth grant handler.
-	 * @param Token_Revocation_Handler      $revocation_handler  The token revocation handler.
-	 * @param OAuth_Server_Client_Interface $http_client         The OAuth server client port.
-	 * @param Lock_Helper                   $lock_helper         The lock helper.
-	 * @param Token_Storage_Interface       $token_storage       The site-level token storage port.
-	 * @param User_Token_Storage_Interface  $user_token_storage  The user-level token storage port.
-	 * @param Site_URL_Provider_Interface   $site_url_provider   The site URL provider port.
+	 * @param Client_Registration_Interface   $client_registration   The client registration port.
+	 * @param Authorization_Code_Handler      $auth_code_handler     The authorization code handler.
+	 * @param OAuth_Grant_Handler             $grant_handler         The OAuth grant handler.
+	 * @param Token_Revocation_Handler        $revocation_handler    The token revocation handler.
+	 * @param OAuth_Server_Client_Interface   $http_client           The OAuth server client port.
+	 * @param Lock_Helper                     $lock_helper           The lock helper.
+	 * @param Token_Storage_Interface         $token_storage         The site-level token storage port.
+	 * @param User_Token_Storage_Interface    $user_token_storage    The user-level token storage port.
+	 * @param Site_URL_Provider_Interface     $site_url_provider     The site URL provider port.
+	 * @param Redirect_URI_Provider_Interface $redirect_uri_provider The redirect URI provider port.
 	 */
 	public function __construct(
 		Client_Registration_Interface $client_registration,
@@ -125,42 +134,51 @@ class MyYoast_Client implements LoggerAwareInterface {
 		Lock_Helper $lock_helper,
 		Token_Storage_Interface $token_storage,
 		User_Token_Storage_Interface $user_token_storage,
-		Site_URL_Provider_Interface $site_url_provider
+		Site_URL_Provider_Interface $site_url_provider,
+		Redirect_URI_Provider_Interface $redirect_uri_provider
 	) {
-		$this->client_registration = $client_registration;
-		$this->auth_code_handler   = $auth_code_handler;
-		$this->grant_handler       = $grant_handler;
-		$this->revocation_handler  = $revocation_handler;
-		$this->http_client         = $http_client;
-		$this->lock_helper         = $lock_helper;
-		$this->token_storage       = $token_storage;
-		$this->user_token_storage  = $user_token_storage;
-		$this->site_url_provider   = $site_url_provider;
-		$this->logger              = new NullLogger();
+		$this->client_registration   = $client_registration;
+		$this->auth_code_handler     = $auth_code_handler;
+		$this->grant_handler         = $grant_handler;
+		$this->revocation_handler    = $revocation_handler;
+		$this->http_client           = $http_client;
+		$this->lock_helper           = $lock_helper;
+		$this->token_storage         = $token_storage;
+		$this->user_token_storage    = $user_token_storage;
+		$this->site_url_provider     = $site_url_provider;
+		$this->redirect_uri_provider = $redirect_uri_provider;
+		$this->logger                = new NullLogger();
 	}
 
 	/**
-	 * Ensures the plugin is registered as an OAuth client.
-	 *
-	 * @param string[] $redirect_uris The OAuth redirect URIs to register with.
+	 * Ensures the plugin is registered as an OAuth client with the provider's redirect URIs.
 	 *
 	 * @return Registered_Client The registered client.
 	 *
 	 * @throws Registration_Failed_Exception If registration fails.
 	 */
-	public function ensure_registered( array $redirect_uris = [] ): Registered_Client {
-		return $this->client_registration->ensure_registered( $redirect_uris );
+	public function ensure_registered(): Registered_Client {
+		return $this->client_registration->ensure_registered( $this->redirect_uri_provider->get_redirect_uris() );
+	}
+
+	/**
+	 * Returns the stored registered client, or null if not registered.
+	 *
+	 * The returned client exposes per-URI verification state via Registered_Client::is_uri_validated().
+	 *
+	 * @return Registered_Client|null The registered client, or null if not registered.
+	 */
+	public function get_registered_client(): ?Registered_Client {
+		return $this->client_registration->get_registered_client();
 	}
 
 	/**
 	 * Whether the plugin is registered as an OAuth client.
 	 *
-	 * @param string[] $redirect_uris Optional redirect URIs to verify against the stored registration.
-	 *
 	 * @return bool
 	 */
-	public function is_registered( array $redirect_uris = [] ): bool {
-		return $this->client_registration->is_registered( $redirect_uris );
+	public function is_registered(): bool {
+		return $this->client_registration->get_registered_client() !== null;
 	}
 
 	/**
@@ -207,7 +225,6 @@ class MyYoast_Client implements LoggerAwareInterface {
 	 * Builds the authorization URL for the user authorization flow.
 	 *
 	 * @param int         $user_id            The WordPress user ID.
-	 * @param string      $redirect_uri       The callback redirect URI.
 	 * @param string[]    $scopes             The scopes to request.
 	 * @param string|null $resource_indicator The RFC 8707 resource indicator the issued token should be bound to.
 	 * @param string|null $return_url         The URL to return the user to after authorization completes.
@@ -217,8 +234,8 @@ class MyYoast_Client implements LoggerAwareInterface {
 	 * @throws Authorization_Flow_Exception If registration, discovery, or parameter validation fails.
 	 * @throws Invalid_Resource_Exception     If the resource indicator is malformed.
 	 */
-	public function get_authorization_url( int $user_id, string $redirect_uri, array $scopes = [], ?string $resource_indicator = null, ?string $return_url = null ): string {
-		return $this->auth_code_handler->get_authorization_url( $user_id, $redirect_uri, $scopes, new Resource_Indicator( $resource_indicator ), $return_url );
+	public function get_authorization_url( int $user_id, array $scopes = [], ?string $resource_indicator = null, ?string $return_url = null ): string {
+		return $this->auth_code_handler->get_authorization_url( $user_id, $scopes, new Resource_Indicator( $resource_indicator ), $return_url );
 	}
 
 	/**
@@ -239,6 +256,8 @@ class MyYoast_Client implements LoggerAwareInterface {
 		return $token_set;
 	}
 
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- Token_Storage_Exception is thrown by an injected service, not directly here.
+
 	/**
 	 * Returns a valid site-level access token (client_credentials).
 	 *
@@ -248,22 +267,34 @@ class MyYoast_Client implements LoggerAwareInterface {
 	 * @return Token_Set The site-level token set.
 	 *
 	 * @throws Invalid_Resource_Exception     If the resource indicator is malformed.
-	 * @throws Token_Request_Failed_Exception If the token request fails. May also throw Token_Storage_Exception when encrypting the token set for storage fails.
+	 * @throws Token_Request_Failed_Exception If the site is not registered or the token request fails. May also throw Token_Storage_Exception when encrypting the token set for storage fails.
 	 */
 	public function get_site_token( array $scopes = [], ?string $resource_indicator = null ): Token_Set {
 		$indicator = new Resource_Indicator( $resource_indicator );
 
 		$cached = $this->token_storage->get( $indicator );
 		if ( $cached !== null && ! $cached->is_expired() && $cached->has_scopes( $scopes ) ) {
+			$this->logger->debug( 'MyYoast site token: cache hit; reusing cached token (scopes: {scopes}).', [ 'scopes' => \implode( ' ', $scopes ) ] );
 			return $cached;
 		}
+		$this->logger->debug( 'MyYoast site token: cache miss; preparing to request a fresh token (scopes: {scopes}).', [ 'scopes' => \implode( ' ', $scopes ) ] );
+
+		if ( ! $this->is_registered() ) {
+			$this->logger->debug( 'MyYoast site token: site not registered; refusing to request a token. Run the connect flow first.' );
+			throw new Token_Request_Failed_Exception( 'not_registered', 'Site is not registered with MyYoast; complete the connect flow first.' );
+		}
+		$this->logger->debug( 'MyYoast site token: site already registered; proceeding with token request.' );
 
 		$grant     = new Client_Credentials_Grant( $scopes, $this->site_url_provider->get() );
 		$token_set = $this->grant_handler->request_token( $grant, $indicator );
 		$this->token_storage->store( $token_set );
 
+		$this->logger->debug( 'MyYoast site token: fresh token issued and cached.' );
+
 		return $token_set;
 	}
+
+	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
 
 	/**
 	 * Returns a valid user-level access token, auto-refreshing if expired.

@@ -31,7 +31,7 @@ final class Content_Type_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Content_Type( 'post', 'Posts' );
+		$this->instance = new Content_Type( 'post', 'Posts', 'Post' );
 	}
 
 	/**
@@ -50,5 +50,14 @@ final class Content_Type_Test extends TestCase {
 	 */
 	public function test_get_label() {
 		$this->assertSame( 'Posts', $this->instance->get_label() );
+	}
+
+	/**
+	 * Tests getting the singular label.
+	 *
+	 * @return void
+	 */
+	public function test_get_singular_label() {
+		$this->assertSame( 'Post', $this->instance->get_singular_label() );
 	}
 }

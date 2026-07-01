@@ -4,7 +4,7 @@ import { useMemo } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, DropdownMenu, useSvgAria, useToggleState } from "@yoast/ui-library";
-import { BULK_ACTIONS_SLOT, SELECT_MENU_ITEMS_FILTER } from "../constants";
+import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT, SELECT_MENU_ITEMS_FILTER } from "../constants";
 import { useAiUpsell } from "../hooks/use-ai-upsell";
 import { UpsellModal } from "./upsell-modal";
 
@@ -38,7 +38,7 @@ const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount } )
 				{ items.map( ( item ) => (
 					<DropdownMenu.ButtonItem
 						key={ item.key }
-						className="yst-flex yst-justify-start yst-px-4 yst-py-2 yst-font-normal yst-text-slate-800"
+						className="yst-flex yst-justify-start yst-px-4 yst-py-2 yst-font-normal yst-text-slate-800 hover:!yst-bg-slate-50 focus:!yst-bg-slate-50"
 						onClick={ item.onClick }
 					>
 						{ item.label }
@@ -125,21 +125,36 @@ const FreeBulkActions = ( { contentType } ) => {
 
 /**
  * The AI generate buttons toolbar row, shown when rows are selected. In Premium the active tab's slot is filled
- * with the AI buttons (the fill receives `fillProps`); in Free they open the upsell modal.
+ * with the AI buttons (the fill receives `fillProps`); in Free they open the upsell modal. The notices slot above
+ * it is full-bleed (outside the padded band), so Premium can fill it with a full-width row (e.g. an alert).
  *
  * @param {Object}   props                The props.
  * @param {boolean}  props.isPremium      Whether Premium is active.
- * @param {boolean}  props.isActive       Whether this is the active tab. Only the active tab renders the slot, so the
+ * @param {boolean}  props.isActive       Whether this is the active tab. Only the active tab renders the slots, so the
  *                                        Premium fill has a single slot to target (each tab renders its own bar).
- * @param {number[]} props.selectedIds    The ids of the selected rows.
- * @param {string}   props.activeFieldSet The active tab/field set (Search or Social), which drives the buttons.
- * @param {string}   props.contentType    The active content type (also the Free upsell variant).
+ * @param {number[]} props.selectedIds      The ids of the selected rows.
+ * @param {string}   props.activeFieldSet     The active tab/field set (Search or Social), which drives the buttons.
+ * @param {string}   props.contentType        The active content type (also the Free upsell variant).
+ * @param {string}   [props.contentTypeLabel] The active content type label (plural), passed to the notices fill for its copy.
+ * @param {string}   [props.contentTypeSingularLabel] The active content type singular label, passed to the notices fill.
+ * @param {boolean}  [props.hasUnsavedEdits]  Whether a row has unsaved manual edits, passed to the actions fill so Premium
+ *                                             can disable the AI buttons while edits are in progress.
  *
  * @returns {JSX.Element} The bulk actions row content.
  */
-export const BulkActions = ( { isPremium, isActive, selectedIds, activeFieldSet, contentType } ) => (
-	<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
-		{ ! isPremium && <FreeBulkActions contentType={ contentType } /> }
-		{ isActive && <Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType } } /> }
+export const BulkActions = ( {
+	isPremium, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel, hasUnsavedEdits,
+} ) => (
+	<div className="yst-flex yst-flex-col">
+		{ isActive && (
+			<Slot
+				name={ BULK_NOTICES_SLOT }
+				fillProps={ { selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } }
+			/>
+		) }
+		<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
+			{ ! isPremium && <FreeBulkActions contentType={ contentType } /> }
+			{ isActive && <Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType, hasUnsavedEdits } } /> }
+		</div>
 	</div>
 );

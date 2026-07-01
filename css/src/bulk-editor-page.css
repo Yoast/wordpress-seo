@@ -18,8 +18,49 @@
 		}
 	}
 
-	/* Stack the drawer above the WP admin bar so it overlays instead of stacking below it. */
-	.yst-mobile-navigation__dialog {
+	/* Stack the nav menu above the WP admin bar so it overlays it. */
+	.yst-root .yst-mobile-navigation__dialog {
 		z-index: 99999;
 	}
+
+	/* Re-assert the page's responsive utilities so the @yoast/ai-frontend stylesheet cannot clobber
+	 * them when Premium AI is active. */
+	@media (min-width: 640px) {
+		.sm\:yst-block {
+			@apply !yst-block;
+		}
+
+		.sm\:yst-flex-row {
+			@apply !yst-flex-row;
+		}
+
+		.sm\:yst-table-fixed {
+			@apply !yst-table-fixed;
+		}
+
+		.sm\:yst-w-80 {
+			@apply !yst-w-80;
+		}
+	}
+
+	@media (min-width: 783px) {
+		.min-\[783px\]\:yst-block {
+			@apply !yst-block;
+		}
+
+		.min-\[783px\]\:yst-p-8 {
+			@apply !yst-p-8;
+		}
+	}
+}
+
+/* Override the default textarea background color for AI suggestions. */
+/* Should be removed once .yst-root is removed from the bulk editor page. */
+.yst-root .yst-bulk-editor-ai-suggestion {
+	padding: 1px;
+	background-image: linear-gradient(to bottom right, #cd82ab, #a3b3ff);
+}
+
+.yst-root .yst-bulk-editor-ai-suggestion textarea.yst-textarea {
+	@apply !yst-bg-primary-50;
 }

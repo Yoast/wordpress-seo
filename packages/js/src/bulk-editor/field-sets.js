@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
+import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, FOCUS_KEYPHRASE_KEY } from "./constants";
 
 /**
  * The data for one content item shown in the bulk editor table.
@@ -51,7 +51,7 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "./constants";
  */
 export const getFieldSets = () => {
 	const focusKeyphrase = {
-		key: "focusKeyphrase",
+		key: FOCUS_KEYPHRASE_KEY,
 		label: __( "Focus keyphrase", "wordpress-seo" ),
 		param: "focus_keyphrase",
 		width: "sm:yst-w-[19%]",
