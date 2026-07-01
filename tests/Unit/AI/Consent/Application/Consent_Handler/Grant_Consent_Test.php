@@ -4,11 +4,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\Application\Consent_Handler;
 
-use Mockery;
 use RuntimeException;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 
 /**
  * Tests the Consent_Handler's grant_consent method.
@@ -21,7 +20,7 @@ final class Grant_Consent_Test extends Abstract_Consent_Handler_Test {
 
 	/**
 	 * Tests that grant_consent throws a RuntimeException when the user is not found, and does not
-	 * touch the token manager, request handler, or local meta.
+	 * touch the sender factory or local meta.
 	 *
 	 * @return void
 	 */
@@ -29,8 +28,7 @@ final class Grant_Consent_Test extends Abstract_Consent_Handler_Test {
 		$user_id = 1;
 		$this->stub_get_user_by_not_found( $user_id );
 
-		$this->token_manager->shouldNotReceive( 'get_or_request_access_token' );
-		$this->request_handler->shouldNotReceive( 'handle' );
+		$this->ai_request_sender_factory->shouldNotReceive( 'create' );
 		$this->user_helper->shouldNotReceive( 'update_meta' );
 
 		$this->expectException( RuntimeException::class );
@@ -39,7 +37,8 @@ final class Grant_Consent_Test extends Abstract_Consent_Handler_Test {
 	}
 
 	/**
-	 * Tests granting the consent on the happy path: token fetched, POST succeeds, local meta updated.
+	 * Tests granting the consent on the happy path: the sender is built for the user, the consent call
+	 * succeeds, and the local meta is updated.
 	 *
 	 * @return void
 	 */
@@ -47,24 +46,15 @@ final class Grant_Consent_Test extends Abstract_Consent_Handler_Test {
 		$user_id = 1;
 		$user    = $this->stub_get_user_by( $user_id );
 
-		$this->token_manager->expects( 'get_or_request_access_token' )
+		$this->ai_request_sender_factory->expects( 'create' )
 			->once()
 			->with( $user )
-			->andReturn( 'jwt-token' );
+			->andReturn( $this->ai_request_sender );
 
-		$this->request_handler->expects( 'handle' )
+		$this->ai_request_sender->expects( 'grant_consent' )
 			->once()
-			->with(
-				Mockery::on(
-					static function ( $request ) {
-						return $request instanceof Request
-							&& $request->get_action_path() === '/user/consent'
-							&& $request->get_http_method() === Request::METHOD_POST
-							&& $request->get_headers() === [ 'Authorization' => 'Bearer jwt-token' ]
-							&& $request->get_body() === [ 'user_id' => '1' ];
-					},
-				),
-			);
+			->with( $user )
+			->andReturn( new Response( '{}', 200, 'OK' ) );
 
 		$this->user_helper->expects( 'update_meta' )
 			->once()
@@ -75,16 +65,21 @@ final class Grant_Consent_Test extends Abstract_Consent_Handler_Test {
 	}
 
 	/**
-	 * Tests that grant_consent propagates a Forbidden_Exception thrown while fetching the access token
-	 * and does NOT update the local meta.
+	 * Tests that grant_consent propagates a Forbidden_Exception thrown by the consent call and does
+	 * NOT update the local meta.
 	 *
 	 * @return void
 	 */
-	public function test_grant_consent_propagates_token_fetch_exception() {
+	public function test_grant_consent_propagates_forbidden_exception() {
 		$user_id = 1;
 		$user    = $this->stub_get_user_by( $user_id );
 
-		$this->token_manager->expects( 'get_or_request_access_token' )
+		$this->ai_request_sender_factory->expects( 'create' )
+			->once()
+			->with( $user )
+			->andReturn( $this->ai_request_sender );
+
+		$this->ai_request_sender->expects( 'grant_consent' )
 			->once()
 			->with( $user )
 			->andThrow( new Forbidden_Exception( 'Forbidden', 403 ) );
@@ -98,7 +93,7 @@ final class Grant_Consent_Test extends Abstract_Consent_Handler_Test {
 	}
 
 	/**
-	 * Tests that grant_consent propagates an Internal_Server_Error_Exception thrown by the POST call
+	 * Tests that grant_consent propagates an Internal_Server_Error_Exception thrown by the consent call
 	 * and does NOT update the local meta.
 	 *
 	 * @return void
@@ -107,13 +102,14 @@ final class Grant_Consent_Test extends Abstract_Consent_Handler_Test {
 		$user_id = 1;
 		$user    = $this->stub_get_user_by( $user_id );
 
-		$this->token_manager->expects( 'get_or_request_access_token' )
+		$this->ai_request_sender_factory->expects( 'create' )
 			->once()
 			->with( $user )
-			->andReturn( 'jwt-token' );
+			->andReturn( $this->ai_request_sender );
 
-		$this->request_handler->expects( 'handle' )
+		$this->ai_request_sender->expects( 'grant_consent' )
 			->once()
+			->with( $user )
 			->andThrow( new Internal_Server_Error_Exception( 'Internal Server Error', 500 ) );
 
 		// Local meta must NOT be touched on failure.

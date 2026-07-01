@@ -5,14 +5,14 @@ namespace Yoast\WP\SEO\AI\Generator\User_Interface;
 
 use WP_REST_Response;
 use WPSEO_Addon_Manager;
-use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
-use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
+use Yoast\WP\SEO\AI\Generator\Domain\Usage_Parameters;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Insufficient_Scope_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\WP_Request_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Conditionals\New_Premium_Or_Free_AI_Conditional;
 use Yoast\WP\SEO\Main;
@@ -44,18 +44,11 @@ class Get_Usage_Route implements Route_Interface {
 	public const ROUTE_PREFIX = '/ai_generator/get_usage';
 
 	/**
-	 * The token manager instance.
+	 * The auth strategy factory.
 	 *
-	 * @var Token_Manager
+	 * @var AI_Request_Sender_Factory
 	 */
-	private $token_manager;
-
-	/**
-	 * The request handler instance.
-	 *
-	 * @var Request_Handler
-	 */
-	private $request_handler;
+	private $ai_request_sender_factory;
 
 	/**
 	 * The consent handler instance.
@@ -83,16 +76,14 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Token_Manager       $token_manager   The token manager instance.
-	 * @param Request_Handler     $request_handler The request handler instance.
-	 * @param Consent_Handler     $consent_handler The consent handler instance.
-	 * @param WPSEO_Addon_Manager $addon_manager   The add-on manager instance.
+	 * @param AI_Request_Sender_Factory $ai_request_sender_factory The auth strategy factory.
+	 * @param Consent_Handler           $consent_handler           The consent handler instance.
+	 * @param WPSEO_Addon_Manager       $addon_manager             The add-on manager instance.
 	 */
-	public function __construct( Token_Manager $token_manager, Request_Handler $request_handler, Consent_Handler $consent_handler, WPSEO_Addon_Manager $addon_manager ) {
-		$this->addon_manager   = $addon_manager;
-		$this->token_manager   = $token_manager;
-		$this->request_handler = $request_handler;
-		$this->consent_handler = $consent_handler;
+	public function __construct( AI_Request_Sender_Factory $ai_request_sender_factory, Consent_Handler $consent_handler, WPSEO_Addon_Manager $addon_manager ) {
+		$this->addon_manager             = $addon_manager;
+		$this->ai_request_sender_factory = $ai_request_sender_factory;
+		$this->consent_handler           = $consent_handler;
 	}
 
 	/**
@@ -129,16 +120,12 @@ class Get_Usage_Route implements Route_Interface {
 		$is_woo_product_entity = $request->get_param( 'is_woo_product_entity' );
 		$user                  = \wp_get_current_user();
 		try {
-			$token           = $this->token_manager->get_or_request_access_token( $user );
-			$request_headers = [
-				'Authorization' => "Bearer $token",
-			];
-			$action_path     = $this->get_action_path( $is_woo_product_entity );
-			$response        = $this->request_handler->handle( new Request( $action_path, [], $request_headers, Request::METHOD_GET ) );
-			$data            = \json_decode( $response->get_body() );
+			$parameters = new Usage_Parameters( $user, $this->is_free( $is_woo_product_entity ), \gmdate( 'Y-m' ) );
+			$sender     = $this->ai_request_sender_factory->create( $user );
+			$response   = $sender->get_usage( $parameters );
+			$data       = \json_decode( $response->get_body() );
 		} catch ( Remote_Request_Exception | WP_Request_Exception $e ) {
-			if ( $e instanceof Forbidden_Exception ) {
-				// The API signals that consent is revoked; sync local state.
+			if ( $e instanceof Forbidden_Exception && ! $e instanceof Insufficient_Scope_Exception ) {
 				$this->consent_handler->revoke_consent( $user->ID );
 			}
 			$message = [
@@ -159,20 +146,19 @@ class Get_Usage_Route implements Route_Interface {
 	}
 
 	/**
-	 * Get action path for the request.
+	 * Whether the current request should read the time-unbound free-usage bucket.
+	 *
+	 * A user without the relevant paid subscription is on the free tier, whose usage is tracked in
+	 * the free-usage bucket rather than per period.
 	 *
 	 * @param bool $is_woo_product_entity Whether the request is for a WooCommerce product entity.
 	 *
-	 * @return string The action path.
+	 * @return bool True when the user is on the free tier for this request type.
 	 */
-	public function get_action_path( $is_woo_product_entity = false ): string {
-		$unlimited = '/usage/' . \gmdate( 'Y-m' );
-		if ( $is_woo_product_entity && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
-			return $unlimited;
+	public function is_free( $is_woo_product_entity = false ): bool {
+		if ( $is_woo_product_entity ) {
+			return ! $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
 		}
-		if ( ! $is_woo_product_entity && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
-			return $unlimited;
-		}
-		return '/usage/free-usages';
+		return ! $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG );
 	}
 }
