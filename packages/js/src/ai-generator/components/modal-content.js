@@ -280,11 +280,13 @@ export const ModalContent = ( { height, onFatalError } ) => {
 		( suggestions.status === ASYNC_ACTION_STATUS.error && suggestions.error.code === 402 );
 	useEffect( () => {
 		if ( isFatalError ) {
+			// suggestions.error is null when the initial fetch itself failed before any
+			// suggestion request ran, so read it defensively.
 			onFatalError( {
-				errorCode: suggestions.error.code,
-				errorIdentifier: suggestions.error.errorIdentifier ?? "",
-				invalidSubscriptions: suggestions.error.missingLicenses ?? [],
-				errorMessage: suggestions.error.message ?? "",
+				errorCode: suggestions.error?.code ?? 0,
+				errorIdentifier: suggestions.error?.errorIdentifier ?? "",
+				invalidSubscriptions: suggestions.error?.missingLicenses ?? [],
+				errorMessage: suggestions.error?.message ?? "",
 			} );
 		}
 	}, [ isFatalError, suggestions.error, onFatalError ] );
