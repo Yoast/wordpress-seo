@@ -1,5 +1,5 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
+import { useCallback, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
@@ -102,10 +102,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	}, [ stopEditing, pendingTab, setActiveFieldSet ] );
 
 	const onCancelSwitch = useCallback( () => setPendingTab( null ), [] );
-
-	useEffect( () => {
-		deselectAll();
-	}, [ contentType, deselectAll ] );
 
 	const { isAllSelected, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
 	const onSelectAll = useCallback( () => {

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
+import { activeContentTypeActions } from "./active-content-type";
 import { queryActions } from "./query";
 
 /**
@@ -26,8 +27,10 @@ const slice = createSlice( {
 		deselectAll: () => createInitialSelectionState(),
 	},
 	extraReducers: ( builder ) => {
-		// Changing the status filter resets the selection: the filtered set may no longer contain the selected rows.
+		// Any change to the shown result set resets the selection: the new set may no longer contain the selected rows.
 		builder.addCase( queryActions.setStatuses, () => createInitialSelectionState() );
+		builder.addCase( queryActions.setSearch, () => createInitialSelectionState() );
+		builder.addCase( activeContentTypeActions.setActiveContentType, () => createInitialSelectionState() );
 	},
 } );
 
