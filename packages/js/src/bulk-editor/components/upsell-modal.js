@@ -36,7 +36,7 @@ export const UpsellModal = ( { isOpen, onClose, upsellLabel, upsellLink, ctbId, 
 								{ __( "Generate Metadata in Bulk", "wordpress-seo" ) }
 							</Modal.Title>
 							<Modal.Description as="p" className="yst-text-sm yst-text-slate-600">
-								{ __( "Instantly create SEO titles, meta descriptions, and social metadata for all your content. Upgrade to unlock bulk AI generation and streamline your workflow.", "wordpress-seo" ) }
+								{ __( "Instantly create SEO titles, meta descriptions, and social metadata for all your products, posts, pages and more. Upgrade to unlock bulk AI generation and streamline your workflow.", "wordpress-seo" ) }
 							</Modal.Description>
 						</div>
 					</div>
