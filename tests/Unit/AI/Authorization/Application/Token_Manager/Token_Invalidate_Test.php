@@ -39,9 +39,9 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 			->expects( 'handle' )
 			->with(
 				Mockery::on(
-					static function ( Request $request ) use ( $user_id, $access_jwt ) {
+					static function ( Request $request ) use ( $access_jwt ) {
 						return $request->get_action_path() === '/token/invalidate'
-						&& $request->get_body() === [ 'user_id' => (string) $user_id ]
+						&& $request->get_body() === []
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $access_jwt" ];
 					},
 				),
@@ -82,9 +82,9 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 			->expects( 'handle' )
 			->with(
 				Mockery::on(
-					static function ( Request $request ) use ( $user_id ) {
+					static function ( Request $request ) {
 						return $request->get_action_path() === '/token/invalidate'
-						&& $request->get_body() === [ 'user_id' => (string) $user_id ]
+						&& $request->get_body() === []
 						&& $request->get_headers() === [ 'Authorization' => 'Bearer ' ];
 					},
 				),
@@ -126,9 +126,9 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 			->expects( 'handle' )
 			->with(
 				Mockery::on(
-					static function ( Request $request ) use ( $user_id, $access_jwt ) {
+					static function ( Request $request ) use ( $access_jwt ) {
 						return $request->get_action_path() === '/token/invalidate'
-						&& $request->get_body() === [ 'user_id' => (string) $user_id ]
+						&& $request->get_body() === []
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $access_jwt" ];
 					},
 				),
@@ -171,9 +171,9 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 			->expects( 'handle' )
 			->with(
 				Mockery::on(
-					static function ( Request $request ) use ( $user_id, $access_jwt ) {
+					static function ( Request $request ) use ( $access_jwt ) {
 						return $request->get_action_path() === '/token/invalidate'
-						&& $request->get_body() === [ 'user_id' => (string) $user_id ]
+						&& $request->get_body() === []
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $access_jwt" ];
 					},
 				),

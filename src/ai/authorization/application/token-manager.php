@@ -135,18 +135,16 @@ class Token_Manager implements Token_Manager_Interface {
 			$access_jwt = '';
 		}
 
-		$request_body    = [
-			'user_id' => (string) $user_id,
-		];
 		$request_headers = [
 			'Authorization' => "Bearer $access_jwt",
 		];
 
 		try {
+			// The endpoint takes no request body; the user is identified by the access token.
 			$this->request_handler->handle(
 				new Request(
 					'/token/invalidate',
-					$request_body,
+					[],
 					$request_headers,
 				),
 			);
