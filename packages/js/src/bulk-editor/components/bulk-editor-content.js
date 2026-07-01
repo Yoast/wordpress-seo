@@ -124,10 +124,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		}
 	}, [ pendingTab, hasUnsavedEdits, hasExternalPendingChanges, onCommitSwitch ] );
 
-	useEffect( () => {
-		deselectAll();
-	}, [ contentType, deselectAll ] );
-
 	const { isAllSelected, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
 	const onSelectAll = useCallback( () => {
 		if ( ! isPending ) {

@@ -1,4 +1,6 @@
+import { activeContentTypeActions } from "../../../src/bulk-editor/store/active-content-type";
 import reducer, { createInitialSelectionState, selectionActions, selectionSelectors } from "../../../src/bulk-editor/store/selection";
+import { queryActions } from "../../../src/bulk-editor/store/query";
 
 describe( "selection slice", () => {
 	it( "defaults to no rows selected", () => {
@@ -32,6 +34,24 @@ describe( "selection slice", () => {
 		let state = reducer( createInitialSelectionState(), selectionActions.selectAll( [ 7, 9 ] ) );
 
 		state = reducer( state, selectionActions.deselectAll() );
+
+		expect( state.selectedIds ).toEqual( [] );
+	} );
+
+	it( "clears the selection when the status filter changes", () => {
+		const state = reducer( { selectedIds: [ 7, 9 ] }, queryActions.setStatuses( [ "draft" ] ) );
+
+		expect( state.selectedIds ).toEqual( [] );
+	} );
+
+	it( "clears the selection when the search changes", () => {
+		const state = reducer( { selectedIds: [ 7, 9 ] }, queryActions.setSearch( "seo" ) );
+
+		expect( state.selectedIds ).toEqual( [] );
+	} );
+
+	it( "clears the selection when the content type changes", () => {
+		const state = reducer( { selectedIds: [ 7, 9 ] }, activeContentTypeActions.setActiveContentType( "page" ) );
 
 		expect( state.selectedIds ).toEqual( [] );
 	} );
