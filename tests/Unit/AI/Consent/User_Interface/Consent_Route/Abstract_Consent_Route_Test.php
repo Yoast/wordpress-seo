@@ -5,7 +5,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\User_Interface\Consent_Route;
 
 use Mockery;
-use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route;
 use Yoast\WP\SEO\Loggers\Logger;
@@ -33,13 +32,6 @@ abstract class Abstract_Consent_Route_Test extends TestCase {
 	protected $consent_handler;
 
 	/**
-	 * The token manager instance.
-	 *
-	 * @var Mockery\MockInterface|Token_Manager
-	 */
-	protected $token_manager;
-
-	/**
 	 * The logger instance.
 	 *
 	 * @var Mockery\MockInterface|Logger
@@ -55,9 +47,8 @@ abstract class Abstract_Consent_Route_Test extends TestCase {
 		parent::setUp();
 
 		$this->consent_handler = Mockery::mock( Consent_Handler::class );
-		$this->token_manager   = Mockery::mock( Token_Manager::class );
 		$this->logger          = Mockery::mock( Logger::class );
 
-		$this->instance = new Consent_Route( $this->consent_handler, $this->token_manager, $this->logger );
+		$this->instance = new Consent_Route( $this->consent_handler, $this->logger );
 	}
 }
