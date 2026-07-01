@@ -4,6 +4,30 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
 
 /**
+ * Whether a valid Premium subscription is required but missing for this entity.
+ *
+ * @param {Object} editorSelect The editor store selectors.
+ * @param {Object} currentSubscriptions The premium/woo subscription validity.
+ * @returns {boolean} Whether Premium is needed but not active.
+ */
+const needsPremiumSubscription = ( editorSelect, currentSubscriptions ) => {
+	const requiresPremium = editorSelect.getIsPremium() || editorSelect.getIsWooProductEntity();
+	return requiresPremium && ! currentSubscriptions.premiumSubscription;
+};
+
+/**
+ * Whether a valid WooCommerce SEO subscription is required but missing for this entity.
+ *
+ * @param {Object} editorSelect The editor store selectors.
+ * @param {Object} currentSubscriptions The premium/woo subscription validity.
+ * @returns {boolean} Whether WooCommerce SEO is needed but not active.
+ */
+const needsWooSeoSubscription = ( editorSelect, currentSubscriptions ) => {
+	const requiresWooSeo = editorSelect.getIsWooProductEntity() && editorSelect.getIsWooSeoActive();
+	return requiresWooSeo && ! currentSubscriptions.wooCommerceSubscription;
+};
+
+/**
  * Collects the products whose subscription is invalid for the current entity.
  *
  * @param {Object} currentSubscriptions The premium/woo subscription validity.
@@ -11,18 +35,12 @@ import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
  */
 const collectInvalidSubscriptions = ( currentSubscriptions ) => {
 	const editorSelect = select( STORE_NAME_EDITOR );
-	const isPremium = editorSelect.getIsPremium();
-	const isWooProductEntity = editorSelect.getIsWooProductEntity();
-	const isWooSeoActive = editorSelect.getIsWooSeoActive();
-
-	const needsPremium = ( isPremium || isWooProductEntity ) && ! currentSubscriptions.premiumSubscription;
-	const needsWooSeo = isWooProductEntity && isWooSeoActive && ! currentSubscriptions.wooCommerceSubscription;
 
 	const invalidSubscriptions = [];
-	if ( needsPremium ) {
+	if ( needsPremiumSubscription( editorSelect, currentSubscriptions ) ) {
 		invalidSubscriptions.push( "Yoast SEO Premium" );
 	}
-	if ( needsWooSeo ) {
+	if ( needsWooSeoSubscription( editorSelect, currentSubscriptions ) ) {
 		invalidSubscriptions.push( "Yoast WooCommerce SEO" );
 	}
 	return invalidSubscriptions;
