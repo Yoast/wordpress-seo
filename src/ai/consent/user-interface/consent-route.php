@@ -77,8 +77,9 @@ class Consent_Route implements Route_Interface {
 	 */
 	public function __construct( Consent_Handler $consent_handler, Token_Manager $token_manager, Logger $logger ) {
 		$this->consent_handler = $consent_handler;
-		$this->token_manager   = $token_manager;
-		$this->logger          = $logger;
+		// @TODO: Remove the token manager as soon as we don't care about BC, because it's no longer used.
+		$this->token_manager = $token_manager;
+		$this->logger        = $logger;
 	}
 
 	/**
