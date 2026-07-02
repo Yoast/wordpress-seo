@@ -155,15 +155,18 @@ class AI_Request_Sender implements LoggerAwareInterface {
 	/**
 	 * Revokes the user's consent on the AI service.
 	 *
-	 * The strategy identifies the WP user to the service (the OAuth path injects `user_id` into the
-	 * query string for DELETE requests).
+	 * Delegated to the primary strategy, which revokes the way its auth model requires: the OAuth
+	 * strategy sends `DELETE /user/consent`, while the legacy Token strategy invalidates the user's
+	 * JWTs (revoking consent server-side without re-provisioning a token). No fallback is attempted —
+	 * revoking through a different auth path to a different endpoint would be surprising, and consent
+	 * is keyed by (site + user), so the primary strategy's revocation is authoritative.
 	 *
 	 * @param WP_User $user The WP user revoking consent.
 	 *
-	 * @return Response The parsed response.
+	 * @return void
 	 */
-	public function revoke_consent( WP_User $user ): Response {
-		return $this->send( new Request( '/user/consent', [], [], Request::METHOD_DELETE ), $user );
+	public function revoke_consent( WP_User $user ): void {
+		$this->primary->revoke_consent( $user );
 	}
 
 	/**

@@ -8,7 +8,6 @@ use RuntimeException;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\WP_Request_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 
 /**
  * Tests the Consent_Handler's revoke_consent method.
@@ -59,8 +58,7 @@ final class Revoke_Consent_Test extends Abstract_Consent_Handler_Test {
 
 		$this->ai_request_sender->expects( 'revoke_consent' )
 			->once()
-			->with( $user )
-			->andReturn( new Response( '{}', 200, 'OK' ) );
+			->with( $user );
 
 		$this->instance->revoke_consent( $user_id );
 	}
