@@ -41,7 +41,7 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 				Mockery::on(
 					static function ( Request $request ) use ( $access_jwt ) {
 						return $request->get_action_path() === '/token/invalidate'
-						&& $request->get_body() === []
+						&& $request->get_body() === null
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $access_jwt" ];
 					},
 				),
@@ -84,7 +84,7 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 				Mockery::on(
 					static function ( Request $request ) {
 						return $request->get_action_path() === '/token/invalidate'
-						&& $request->get_body() === []
+						&& $request->get_body() === null
 						&& $request->get_headers() === [ 'Authorization' => 'Bearer ' ];
 					},
 				),
@@ -128,7 +128,7 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 				Mockery::on(
 					static function ( Request $request ) use ( $access_jwt ) {
 						return $request->get_action_path() === '/token/invalidate'
-						&& $request->get_body() === []
+						&& $request->get_body() === null
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $access_jwt" ];
 					},
 				),
@@ -173,7 +173,7 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 				Mockery::on(
 					static function ( Request $request ) use ( $access_jwt ) {
 						return $request->get_action_path() === '/token/invalidate'
-						&& $request->get_body() === []
+						&& $request->get_body() === null
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $access_jwt" ];
 					},
 				),

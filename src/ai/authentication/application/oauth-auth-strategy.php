@@ -120,7 +120,7 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface, LoggerAwareInterfa
 		];
 
 		if ( $method === Request::METHOD_POST ) {
-			$body            = \array_merge( $request->get_body(), [ 'user_id' => $user_id ] );
+			$body            = \array_merge( ( $request->get_body() ?? [] ), [ 'user_id' => $user_id ] );
 			$options['body'] = WPSEO_Utils::format_json_encode( $body );
 		}
 		else {
@@ -193,6 +193,21 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface, LoggerAwareInterfa
 			);
 			throw $exception;
 		}
+	}
+
+	/**
+	 * Revokes the user's consent via an authenticated `DELETE /user/consent`.
+	 *
+	 * The OAuth strategy authenticates with the MyYoast site token and never touches the legacy
+	 * `/token/request` flow, so the DELETE revokes consent without re-granting it. `send()` appends the
+	 * `user_id` query parameter for the DELETE verb.
+	 *
+	 * @param WP_User $user The WP user.
+	 *
+	 * @return void
+	 */
+	public function revoke_consent( WP_User $user ): void {
+		$this->send( new Request( '/user/consent', [], [], Request::METHOD_DELETE ), $user );
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber

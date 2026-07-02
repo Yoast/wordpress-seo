@@ -78,10 +78,14 @@ class Request {
 	/**
 	 * Get the body of the request.
 	 *
-	 * @return array<string> The body of the request.
+	 * Returns null for an empty body: an empty PHP array is ambiguous once JSON-encoded (`[]` vs `{}`),
+	 * so an empty body is omitted from the request entirely rather than sent as an empty array, which
+	 * the AI service rejects.
+	 *
+	 * @return array<string>|null The body of the request, or null when there is no body to send.
 	 */
-	public function get_body(): array {
-		return $this->body;
+	public function get_body(): ?array {
+		return ( $this->body === [] ) ? null : $this->body;
 	}
 
 	/**
