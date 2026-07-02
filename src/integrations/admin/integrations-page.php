@@ -167,6 +167,7 @@ class Integrations_Page implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_style( 'admin-css' );
 		$this->admin_asset_manager->enqueue_style( 'tailwind' );
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
+		$this->admin_asset_manager->enqueue_style( 'integrations-page' );
 
 		$this->admin_asset_manager->enqueue_script( 'integrations-page' );
 
