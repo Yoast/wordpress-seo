@@ -8,14 +8,19 @@ use Mockery;
 use WP_User;
 use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender;
 use Yoast\WP\SEO\AI\Authentication\Application\Auth_Strategy_Interface;
+use Yoast\WP\SEO\AI\Authentication\Domain\Exceptions\Auth_Strategy_Unavailable_Exception;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Outline_Parameters;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_Parameters;
 use Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Parameters;
 use Yoast\WP\SEO\AI\Generator\Domain\Usage_Parameters;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Consent_Required_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Insufficient_Scope_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Service_Unavailable_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -127,7 +132,7 @@ final class AI_Request_Sender_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_send_falls_back_on_remote_request_exception(): void {
+	public function test_send_falls_back_on_unauthorized_exception(): void {
 		$fallback_response = new Response( '{}', 200, 'OK' );
 
 		$this->primary->expects( 'send' )->andThrow( new Unauthorized_Exception( 'oauth-failed', 401 ) );
@@ -146,9 +151,20 @@ final class AI_Request_Sender_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_send_rethrows_when_no_fallback(): void {
-		$this->primary->expects( 'send' )->andThrow( new Unauthorized_Exception( 'no-recovery', 401 ) );
+		$this->primary->expects( 'send' )->andThrow( new Unauthorized_Exception( 'no-recovery', 401, 'oauth-expired' ) );
+
+		$logger = Mockery::mock( LoggerInterface::class );
+		$logger->expects( 'warning' )->once()->with(
+			'Primary AI auth strategy failed ({error_id}, HTTP {status}: {message}); no fallback configured, giving up.',
+			[
+				'error_id' => 'oauth-expired',
+				'status'   => 401,
+				'message'  => 'no-recovery',
+			],
+		);
 
 		$sender = new AI_Request_Sender( $this->primary );
+		$sender->setLogger( $logger );
 
 		$this->expectException( Unauthorized_Exception::class );
 		$sender->get_suggestions( $this->suggestions_parameters() );
@@ -218,23 +234,123 @@ final class AI_Request_Sender_Test extends TestCase {
 	}
 
 	/**
-	 * A plain Forbidden_Exception is not one of the classified 403s, so it remains fallback-eligible:
-	 * it may be an access-forbidden case the legacy strategy can still serve.
+	 * A plain Forbidden_Exception (e.g. a DOMAIN_MISMATCH 403) is an authoritative answer the service
+	 * gave about this site, not an authentication failure of the primary strategy. The fallback talks
+	 * to the same service and would get the same verdict, so it must be skipped and the exception must
+	 * propagate.
 	 *
 	 * @covers ::send
 	 * @covers ::is_fallback_eligible
 	 *
 	 * @return void
 	 */
-	public function test_send_falls_back_on_plain_forbidden(): void {
+	public function test_send_does_not_fall_back_on_plain_forbidden(): void {
+		$this->primary->expects( 'send' )->andThrow( new Forbidden_Exception( 'forbidden', 403, 'forbidden' ) );
+		$this->fallback->shouldNotReceive( 'send' );
+
+		$sender = new AI_Request_Sender( $this->primary, $this->fallback );
+
+		$this->expectException( Forbidden_Exception::class );
+		$sender->get_suggestions( $this->suggestions_parameters() );
+	}
+
+	/**
+	 * The primary could not acquire an OAuth site token, so it never authenticated the request. The
+	 * fallback may still serve it via the legacy path.
+	 *
+	 * @covers ::send
+	 * @covers ::is_fallback_eligible
+	 *
+	 * @return void
+	 */
+	public function test_send_falls_back_on_auth_strategy_unavailable(): void {
 		$fallback_response = new Response( '{}', 200, 'OK' );
 
-		$this->primary->expects( 'send' )->andThrow( new Forbidden_Exception( 'forbidden', 403, 'forbidden' ) );
+		$this->primary->expects( 'send' )->andThrow( new Auth_Strategy_Unavailable_Exception( 'OAUTH_TOKEN_UNAVAILABLE', 0, 'OAUTH_TOKEN_UNAVAILABLE' ) );
 		$this->fallback->expects( 'send' )->andReturn( $fallback_response );
 
 		$sender = new AI_Request_Sender( $this->primary, $this->fallback );
 
 		$this->assertSame( $fallback_response, $sender->get_suggestions( $this->suggestions_parameters() ) );
+	}
+
+	/**
+	 * A transport failure reaching the service is the very case the OAuth path exists to survive, so it
+	 * is fallback-eligible: the legacy strategy may still reach the service.
+	 *
+	 * @covers ::send
+	 * @covers ::is_fallback_eligible
+	 *
+	 * @return void
+	 */
+	public function test_send_falls_back_on_wp_request_exception(): void {
+		$fallback_response = new Response( '{}', 200, 'OK' );
+
+		$this->primary->expects( 'send' )->andThrow( new WP_Request_Exception( 'connection refused' ) );
+		$this->fallback->expects( 'send' )->andReturn( $fallback_response );
+
+		$sender = new AI_Request_Sender( $this->primary, $this->fallback );
+
+		$this->assertSame( $fallback_response, $sender->get_suggestions( $this->suggestions_parameters() ) );
+	}
+
+	/**
+	 * A 400 the service returned about the request itself (e.g. AI_CONTENT_FILTER for profanity) is an
+	 * authoritative rejection, not an authentication failure. Falling back would silently repeat the
+	 * request, so the exception must propagate instead.
+	 *
+	 * @covers ::send
+	 * @covers ::is_fallback_eligible
+	 *
+	 * @return void
+	 */
+	public function test_send_does_not_fall_back_on_bad_request(): void {
+		$this->primary->expects( 'send' )->andThrow( new Bad_Request_Exception( 'blocked', 400, 'AI_CONTENT_FILTER' ) );
+		$this->fallback->shouldNotReceive( 'send' );
+
+		$sender = new AI_Request_Sender( $this->primary, $this->fallback );
+
+		$this->expectException( Bad_Request_Exception::class );
+		$sender->get_suggestions( $this->suggestions_parameters() );
+	}
+
+	/**
+	 * A 429 rate-limit is an authoritative answer about the account's usage, not an authentication
+	 * failure, so the fallback is skipped and the exception propagates.
+	 *
+	 * @covers ::send
+	 * @covers ::is_fallback_eligible
+	 *
+	 * @return void
+	 */
+	public function test_send_does_not_fall_back_on_too_many_requests(): void {
+		$this->primary->expects( 'send' )->andThrow( new Too_Many_Requests_Exception( 'slow down', 429, 'AI_RATE_LIMITED', null, [] ) );
+		$this->fallback->shouldNotReceive( 'send' );
+
+		$sender = new AI_Request_Sender( $this->primary, $this->fallback );
+
+		$this->expectException( Too_Many_Requests_Exception::class );
+		$sender->get_suggestions( $this->suggestions_parameters() );
+	}
+
+	/**
+	 * A 503 is the service's own answer that it could not reach the MyYoast licence server — distinct
+	 * from the primary strategy failing to reach the service (a WP_Request_Exception). It is therefore
+	 * authoritative and must propagate rather than trigger the fallback.
+	 *
+	 * @covers ::send
+	 * @covers ::is_fallback_eligible
+	 *
+	 * @return void
+	 */
+	public function test_send_does_not_fall_back_on_service_unavailable(): void {
+		$this->primary->expects( 'send' )->andThrow( new Service_Unavailable_Exception( 'unavailable', 503, '' ) );
+		$this->fallback->shouldNotReceive( 'send' );
+
+		$sender = new AI_Request_Sender( $this->primary, $this->fallback );
+
+		$this->expectException( Service_Unavailable_Exception::class );
+		$sender->get_suggestions( $this->suggestions_parameters() );
 	}
 
 	/**
