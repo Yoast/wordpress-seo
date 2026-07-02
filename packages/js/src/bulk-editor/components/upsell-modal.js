@@ -4,6 +4,7 @@ import { useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, GradientSparklesIcon, Modal, useSvgAria } from "@yoast/ui-library";
 import { OutboundLink } from "../../shared-admin/components";
+import { AI_UPSELL_DESCRIPTION } from "../constants";
 
 /**
  * The upsell modal shown when a Free user triggers a bulk AI generate action.
@@ -15,10 +16,19 @@ import { OutboundLink } from "../../shared-admin/components";
  * @param {string}   props.upsellLink      The CTA URL.
  * @param {string}   [props.ctbId]         The click-to-buy id.
  * @param {string}   [props.learnMoreLink] The "Learn more" link URL.
+ * @param {string}   [props.description]   The body copy; defaults to the generic (non-product) copy.
  *
  * @returns {JSX.Element} The upsell modal.
  */
-export const UpsellModal = ( { isOpen, onClose, upsellLabel, upsellLink, ctbId, learnMoreLink } ) => {
+export const UpsellModal = ( {
+	isOpen,
+	onClose,
+	upsellLabel,
+	upsellLink,
+	ctbId,
+	learnMoreLink,
+	description = AI_UPSELL_DESCRIPTION,
+} ) => {
 	const upsellRef = useRef( null );
 	const svgAriaProps = useSvgAria();
 	const ctbProps = ctbId ? { "data-action": "load-nfd-ctb", "data-ctb-id": ctbId } : {};
@@ -36,7 +46,7 @@ export const UpsellModal = ( { isOpen, onClose, upsellLabel, upsellLink, ctbId, 
 								{ __( "Generate Metadata in Bulk", "wordpress-seo" ) }
 							</Modal.Title>
 							<Modal.Description as="p" className="yst-text-sm yst-text-slate-600">
-								{ __( "Instantly create SEO titles, meta descriptions, and social metadata for all your content. Upgrade to unlock bulk AI generation and streamline your workflow.", "wordpress-seo" ) }
+								{ description }
 							</Modal.Description>
 						</div>
 					</div>

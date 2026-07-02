@@ -9,9 +9,18 @@ import { createHashRouter, createRoutesFromElements, Route, RouterProvider } fro
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
+import { UpsellModal } from "./components/upsell-modal";
 import { PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
+import { useAiUpsell } from "./hooks/use-ai-upsell";
 import { DataProvider } from "./services";
 import registerStore from "./store";
+
+// Expose the bulk AI upsell so Premium can reuse the same modal instead of duplicating it. Premium's bulk-editor
+// bundle depends on this script, so the global is set before Premium reads it.
+window.yoast = window.yoast || {};
+window.yoast.bulkEditor = window.yoast.bulkEditor || {};
+window.yoast.bulkEditor.components = { ...window.yoast.bulkEditor.components, UpsellModal };
+window.yoast.bulkEditor.hooks = { ...window.yoast.bulkEditor.hooks, useAiUpsell };
 
 domReady( () => {
 	const root = document.getElementById( ROOT_ID );
