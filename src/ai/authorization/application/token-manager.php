@@ -115,6 +115,9 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Invalidates the access token.
 	 *
+	 * The locally stored JWTs are always cleared, even when the remote invalidation fails — the
+	 * remote exception still propagates to the caller, but no credentials are left behind.
+	 *
 	 * @param int $user_id The user ID.
 	 *
 	 * @return void
@@ -150,9 +153,11 @@ class Token_Manager implements Token_Manager_Interface {
 			);
 		} catch ( Unauthorized_Exception | Forbidden_Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Reason: Ignored on purpose.
 			// If the credentials in our request were already invalid, our job is done and we continue to remove the tokens client-side.
+		} finally {
+			// Always clear the local tokens, even when the remote invalidation fails with an exception
+			// that propagates: leaving credentials behind would contradict the intent of invalidating.
+			$this->clear_tokens( $user_id );
 		}
-
-		$this->clear_tokens( $user_id );
 	}
 
 	/**

@@ -7,6 +7,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Application\Token_Manager;
 use Mockery;
 use RuntimeException;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 
@@ -191,6 +192,45 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 			->expects( 'delete_token' )
 			->with( $user_id )
 			->once();
+
+		$this->instance->token_invalidate( $user_id );
+	}
+
+	/**
+	 * Tests that the local tokens are still cleared when the remote invalidation fails with an
+	 * exception that propagates to the caller.
+	 *
+	 * @return void
+	 */
+	public function test_token_invalidate_clears_tokens_when_remote_invalidation_fails() {
+		$user_id    = 123;
+		$access_jwt = 'valid_access_token';
+
+		// Mock getting the access token.
+		$this->access_token_repository
+			->expects( 'get_token' )
+			->with( $user_id )
+			->once()
+			->andReturn( $access_jwt );
+
+		// Mock the HTTP request throwing an exception that is not swallowed.
+		$this->request_handler
+			->expects( 'handle' )
+			->once()
+			->andThrow( new Internal_Server_Error_Exception( 'Internal Server Error', 500 ) );
+
+		// Token deletion should still happen before the exception propagates.
+		$this->access_token_repository
+			->expects( 'delete_token' )
+			->with( $user_id )
+			->once();
+
+		$this->refresh_token_repository
+			->expects( 'delete_token' )
+			->with( $user_id )
+			->once();
+
+		$this->expectException( Internal_Server_Error_Exception::class );
 
 		$this->instance->token_invalidate( $user_id );
 	}
