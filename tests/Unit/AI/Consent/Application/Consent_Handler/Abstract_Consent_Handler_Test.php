@@ -9,6 +9,7 @@ use Mockery;
 use WP_User;
 use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender;
 use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
+use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -49,6 +50,13 @@ abstract class Abstract_Consent_Handler_Test extends TestCase {
 	protected $ai_request_sender;
 
 	/**
+	 * The token manager instance.
+	 *
+	 * @var Mockery\MockInterface|Token_Manager
+	 */
+	protected $token_manager;
+
+	/**
 	 * Setup the test.
 	 *
 	 * @return void
@@ -59,10 +67,12 @@ abstract class Abstract_Consent_Handler_Test extends TestCase {
 		$this->user_helper               = Mockery::mock( User_Helper::class );
 		$this->ai_request_sender_factory = Mockery::mock( AI_Request_Sender_Factory::class );
 		$this->ai_request_sender         = Mockery::mock( AI_Request_Sender::class );
+		$this->token_manager             = Mockery::mock( Token_Manager::class );
 
 		$this->instance = new Consent_Handler(
 			$this->user_helper,
 			$this->ai_request_sender_factory,
+			$this->token_manager,
 		);
 	}
 

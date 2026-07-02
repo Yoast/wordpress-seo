@@ -160,7 +160,8 @@ class AI_Request_Sender implements LoggerAwareInterface {
 	 * strategy sends `DELETE /user/consent`, while the legacy Token strategy invalidates the user's
 	 * JWTs (revoking consent server-side without re-provisioning a token). No fallback is attempted —
 	 * revoking through a different auth path to a different endpoint would be surprising, and consent
-	 * is keyed by (site + user), so the primary strategy's revocation is authoritative.
+	 * is keyed by (site + user), so the primary strategy's revocation is authoritative. Leftover
+	 * local legacy JWTs are cleared by Consent_Handler::revoke_consent(), not here.
 	 *
 	 * @param WP_User $user The WP user revoking consent.
 	 *

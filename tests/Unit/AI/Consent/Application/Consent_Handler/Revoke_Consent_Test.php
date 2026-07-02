@@ -30,6 +30,7 @@ final class Revoke_Consent_Test extends Abstract_Consent_Handler_Test {
 
 		$this->user_helper->shouldNotReceive( 'delete_meta' );
 		$this->ai_request_sender_factory->shouldNotReceive( 'create' );
+		$this->token_manager->shouldNotReceive( 'clear_tokens' );
 
 		$this->expectException( RuntimeException::class );
 
@@ -38,7 +39,7 @@ final class Revoke_Consent_Test extends Abstract_Consent_Handler_Test {
 
 	/**
 	 * Tests revoking the consent on the happy path: local meta is deleted first, then the consent call
-	 * succeeds.
+	 * succeeds, and leftover legacy JWTs are cleared.
 	 *
 	 * @return void
 	 */
@@ -59,6 +60,10 @@ final class Revoke_Consent_Test extends Abstract_Consent_Handler_Test {
 		$this->ai_request_sender->expects( 'revoke_consent' )
 			->once()
 			->with( $user );
+
+		$this->token_manager->expects( 'clear_tokens' )
+			->once()
+			->with( $user_id );
 
 		$this->instance->revoke_consent( $user_id );
 	}
@@ -87,6 +92,11 @@ final class Revoke_Consent_Test extends Abstract_Consent_Handler_Test {
 			->once()
 			->with( $user )
 			->andThrow( new Internal_Server_Error_Exception( 'Internal Server Error', 500 ) );
+
+		// The finally block clears leftover tokens even while the exception propagates.
+		$this->token_manager->expects( 'clear_tokens' )
+			->once()
+			->with( $user_id );
 
 		$this->expectException( Internal_Server_Error_Exception::class );
 
@@ -118,6 +128,11 @@ final class Revoke_Consent_Test extends Abstract_Consent_Handler_Test {
 			->with( $user )
 			->andThrow( new Forbidden_Exception( 'Forbidden', 403 ) );
 
+		// The finally block clears leftover tokens even while the exception propagates.
+		$this->token_manager->expects( 'clear_tokens' )
+			->once()
+			->with( $user_id );
+
 		$this->expectException( Forbidden_Exception::class );
 
 		$this->instance->revoke_consent( $user_id );
@@ -147,6 +162,11 @@ final class Revoke_Consent_Test extends Abstract_Consent_Handler_Test {
 			->once()
 			->with( $user )
 			->andThrow( new WP_Request_Exception( 'WP_HTTP_REQUEST_ERROR' ) );
+
+		// The finally block clears leftover tokens even while the exception propagates.
+		$this->token_manager->expects( 'clear_tokens' )
+			->once()
+			->with( $user_id );
 
 		$this->expectException( WP_Request_Exception::class );
 

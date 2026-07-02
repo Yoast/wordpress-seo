@@ -200,7 +200,8 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface, LoggerAwareInterfa
 	 *
 	 * The OAuth strategy authenticates with the MyYoast site token and never touches the legacy
 	 * `/token/request` flow, so the DELETE revokes consent without re-granting it. `send()` appends the
-	 * `user_id` query parameter for the DELETE verb.
+	 * `user_id` query parameter for the DELETE verb. Legacy JWTs left over from a pre-OAuth grant are
+	 * not this strategy's concern — Consent_Handler::revoke_consent() clears them.
 	 *
 	 * @param WP_User $user The WP user.
 	 *
