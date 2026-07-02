@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\AI\Consent\User_Interface;
 use RuntimeException;
 use WP_REST_Request;
 use WP_REST_Response;
+use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
@@ -45,6 +46,13 @@ class Consent_Route implements Route_Interface {
 	private $consent_handler;
 
 	/**
+	 * The token manager instance.
+	 *
+	 * @var Token_Manager
+	 */
+	private $token_manager;
+
+	/**
 	 * The logger instance.
 	 *
 	 * @var Logger
@@ -64,10 +72,12 @@ class Consent_Route implements Route_Interface {
 	 * Class constructor.
 	 *
 	 * @param Consent_Handler $consent_handler The consent handler.
+	 * @param Token_Manager   $token_manager   The token manager.
 	 * @param Logger          $logger          The logger.
 	 */
-	public function __construct( Consent_Handler $consent_handler, Logger $logger ) {
+	public function __construct( Consent_Handler $consent_handler, Token_Manager $token_manager, Logger $logger ) {
 		$this->consent_handler = $consent_handler;
+		$this->token_manager   = $token_manager;
 		$this->logger          = $logger;
 	}
 
