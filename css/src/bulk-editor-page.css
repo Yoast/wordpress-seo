@@ -64,3 +64,12 @@
 .yst-root .yst-bulk-editor-ai-suggestion textarea.yst-textarea {
 	@apply !yst-bg-primary-50;
 }
+
+/* The AI error alerts in Premium */
+.yst-root .yst-bulk-editor-notice-dismiss {
+	font-size: 10px;
+}
+
+.yst-root .yst-bulk-editor-error-body {
+	max-width: 576px;
+}
