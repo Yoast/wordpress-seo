@@ -109,8 +109,8 @@ final class AI_Request_Sender_Test extends TestCase {
 	}
 
 	/**
-	 * revoke_consent delegates to the primary strategy and never touches the fallback: revoke is
-	 * authoritative per auth method, so it must not switch mechanisms/endpoints on failure.
+	 * Tests that revoke_consent delegates to the primary strategy and never touches the fallback:
+	 * revoke is authoritative per auth method, so it must not switch mechanisms/endpoints on failure.
 	 *
 	 * @covers ::revoke_consent
 	 *

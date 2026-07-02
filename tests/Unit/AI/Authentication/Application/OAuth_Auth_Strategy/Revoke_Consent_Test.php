@@ -34,8 +34,8 @@ final class Revoke_Consent_Test extends Abstract_OAuth_Auth_Strategy_Test {
 	}
 
 	/**
-	 * revoke_consent dispatches an authenticated DELETE /user/consent, identifying the user with a
-	 * query parameter and sending no body.
+	 * Tests that revoke_consent dispatches an authenticated DELETE /user/consent, identifying the
+	 * user with a query parameter and sending no body.
 	 *
 	 * @covers ::revoke_consent
 	 *

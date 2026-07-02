@@ -160,8 +160,8 @@ final class Token_Auth_Strategy_Test extends TestCase {
 	}
 
 	/**
-	 * revoke_consent invalidates the user's JWTs (which also revokes consent server-side) and never
-	 * provisions a fresh token.
+	 * Tests that revoke_consent invalidates the user's JWTs (which also revokes consent server-side)
+	 * and never provisions a fresh token.
 	 *
 	 * @covers ::revoke_consent
 	 *
