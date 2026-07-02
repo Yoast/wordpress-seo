@@ -73,3 +73,17 @@
 .yst-root .yst-bulk-editor-error-body {
 	max-width: 576px;
 }
+
+/* The row title links to the post editor. The pointer cursor signals it's clickable. */
+.yst-root .yst-bulk-editor-title-link {
+	text-decoration: none;
+}
+
+.yst-root .yst-bulk-editor-title-link:focus {
+	outline: none;
+}
+
+.yst-root .yst-bulk-editor-title-link:hover,
+.yst-root .yst-bulk-editor-title-link:focus-visible {
+	text-decoration: underline;
+}
