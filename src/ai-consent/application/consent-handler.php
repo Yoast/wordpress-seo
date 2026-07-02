@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\AI_Consent\Application;
 
+use RuntimeException;
+use WP_User;
 use Yoast\WP\SEO\AI_Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
@@ -85,6 +87,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * @throws Too_Many_Requests_Exception     When the AI service responds with 429.
 	 * @throws Unauthorized_Exception          When the AI service responds with 401.
 	 * @throws WP_Request_Exception            When the underlying WordPress HTTP call fails.
+	 * @throws RuntimeException When the user is not found.
 	 */
 	public function grant_consent( int $user_id ) {
 		$user = \get_user_by( 'id', $user_id );
@@ -126,9 +129,14 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * @throws Too_Many_Requests_Exception     When the AI service responds with 429.
 	 * @throws Unauthorized_Exception          When the AI service responds with 401.
 	 * @throws WP_Request_Exception            When the underlying WordPress HTTP call fails.
+	 * @throws RuntimeException           When the user is not found.
 	 */
 	public function revoke_consent( int $user_id ) {
 		$user = \get_user_by( 'id', $user_id );
+		if ( ! $user instanceof WP_User ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
+			throw new RuntimeException( "User not found: $user_id" );
+		}
 		// Local consent is always revoked regardless of remote failures.
 		$this->user_helper->delete_meta( $user_id, '_yoast_wpseo_ai_consent' );
 

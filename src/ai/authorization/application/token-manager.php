@@ -117,6 +117,8 @@ class Token_Manager implements Token_Manager_Interface {
 	 *
 	 * @param int $user_id The user ID.
 	 *
+	 * @return void
+	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
 	 * @throws Not_Found_Exception Not_Found_Exception.
@@ -125,7 +127,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Service_Unavailable_Exception Service_Unavailable_Exception.
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws RuntimeException Unable to retrieve the access token.
-	 * @return void
 	 */
 	public function token_invalidate( int $user_id ): void {
 		try {
@@ -176,6 +177,8 @@ class Token_Manager implements Token_Manager_Interface {
 	 *
 	 * @param WP_User $user The WP user.
 	 *
+	 * @return void
+	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Forbidden_Exception Forbidden_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
@@ -185,7 +188,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Service_Unavailable_Exception Service_Unavailable_Exception.
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
-	 * @return void
 	 */
 	public function token_request( WP_User $user ): void {
 		// Generate a code verifier and store it in the database.
@@ -221,6 +223,8 @@ class Token_Manager implements Token_Manager_Interface {
 	 *
 	 * @param WP_User $user The WP user.
 	 *
+	 * @return void
+	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Forbidden_Exception Forbidden_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
@@ -231,7 +235,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
 	 * @throws RuntimeException Unable to retrieve the refresh token.
-	 * @return void
 	 */
 	public function token_refresh( WP_User $user ): void {
 		$refresh_jwt = $this->refresh_token_repository->get_token( $user->ID );
@@ -287,6 +290,8 @@ class Token_Manager implements Token_Manager_Interface {
 	 *
 	 * @param WP_User $user The WP user.
 	 *
+	 * @return string The access token.
+	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Forbidden_Exception Forbidden_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
@@ -297,13 +302,11 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
 	 * @throws RuntimeException Unable to retrieve the access or refresh token.
-	 * @return string The access token.
 	 */
 	public function get_or_request_access_token( WP_User $user ): string {
 		// If the site URL has changed since callback URLs were registered, delete stale tokens.
 		if ( $this->have_callback_urls_changed( $user ) ) {
-			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt' );
-			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_refresh_jwt' );
+			$this->clear_tokens( $user->ID );
 		}
 
 		$access_jwt = $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt', true );

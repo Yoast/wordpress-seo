@@ -164,6 +164,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->admin_asset_manager->expects()->enqueue_style( 'admin-css' );
 		$this->admin_asset_manager->expects()->enqueue_style( 'tailwind' );
 		$this->admin_asset_manager->expects()->enqueue_style( 'monorepo' );
+		$this->admin_asset_manager->expects()->enqueue_style( 'integrations-page' );
 		$this->admin_asset_manager->expects()->enqueue_script( 'integrations-page' );
 
 		$schema_api_integrations = [

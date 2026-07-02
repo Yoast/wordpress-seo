@@ -18,6 +18,8 @@ use YoastSEO_Vendor\Psr\Log\NullLogger;
  * Selection order (first match wins): wpseo_ai_auth_method filter override → MyYoast connection
  * feature flag. The auth model is site-wide: once any admin has completed the auth-code flow,
  * every WP user on the site uses the OAuth path.
+ *
+ * @makePublic
  */
 class AI_Request_Sender_Factory implements LoggerAwareInterface {
 
