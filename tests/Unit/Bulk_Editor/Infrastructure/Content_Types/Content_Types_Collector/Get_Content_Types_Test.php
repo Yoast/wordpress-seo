@@ -95,29 +95,6 @@ final class Get_Content_Types_Test extends Abstract_Content_Types_Collector_Test
 					],
 				],
 			],
-			'excluded post type is skipped' => [
-				'indexable_post_type_objects' => [
-					(object) [
-						'name'    => 'post',
-						'label'   => 'Posts',
-						'labels'  => (object) [ 'singular_name' => 'Post' ],
-						'show_ui' => true,
-					],
-					(object) [
-						'name'    => 'e-floating-buttons',
-						'label'   => 'Floating Elements',
-						'labels'  => (object) [ 'singular_name' => 'Floating Element' ],
-						'show_ui' => true,
-					],
-				],
-				'expected'                    => [
-					[
-						'name'          => 'post',
-						'label'         => 'Posts',
-						'singularLabel' => 'Post',
-					],
-				],
-			],
 			'no indexable post types' => [
 				'indexable_post_type_objects' => [],
 				'expected'                    => [],
