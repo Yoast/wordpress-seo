@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\Application\Consent_Handler;
 
 use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
+use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
@@ -29,6 +30,10 @@ final class Constructor_Test extends Abstract_Consent_Handler_Test {
 		$this->assertInstanceOf(
 			AI_Request_Sender_Factory::class,
 			$this->getPropertyValue( $this->instance, 'ai_request_sender_factory' ),
+		);
+		$this->assertInstanceOf(
+			Token_Manager::class,
+			$this->getPropertyValue( $this->instance, 'token_manager' ),
 		);
 	}
 }

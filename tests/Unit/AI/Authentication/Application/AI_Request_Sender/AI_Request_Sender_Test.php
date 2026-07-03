@@ -109,8 +109,39 @@ final class AI_Request_Sender_Test extends TestCase {
 	}
 
 	/**
-	 * When the primary throws an Unauthorized_Exception (a 401, the token is missing/invalid/expired)
-	 * and a fallback is configured, the fallback dispatches.
+	 * Tests that revoke_consent builds a bodyless `DELETE /user/consent` request and dispatches it
+	 * through the regular send() path, like every other endpoint facade.
+	 *
+	 * @covers ::revoke_consent
+	 *
+	 * @return void
+	 */
+	public function test_revoke_consent_builds_delete_request(): void {
+		$response = new Response( '{}', 200, 'OK' );
+
+		$this->primary
+			->expects( 'send' )
+			->with(
+				Mockery::on(
+					static function ( $request ) {
+						return $request instanceof Request
+							&& $request->get_action_path() === '/user/consent'
+							&& $request->get_http_method() === Request::METHOD_DELETE
+							&& $request->get_body() === null
+							&& $request->get_headers() === [];
+					},
+				),
+				$this->user,
+			)
+			->andReturn( $response );
+
+		$sender = new AI_Request_Sender( $this->primary );
+
+		$this->assertSame( $response, $sender->revoke_consent( $this->user ) );
+	}
+
+	/**
+	 * When the primary throws a Remote_Request_Exception and a fallback is configured, the fallback dispatches.
 	 *
 	 * @covers ::send
 	 *
@@ -538,7 +569,7 @@ final class AI_Request_Sender_Test extends TestCase {
 						return $request instanceof Request
 							&& $request->get_action_path() === '/usage/' . $period
 							&& $request->get_http_method() === Request::METHOD_GET
-							&& $request->get_body() === []
+							&& $request->get_body() === null
 							&& $request->get_headers() === [];
 					},
 				),
@@ -570,7 +601,7 @@ final class AI_Request_Sender_Test extends TestCase {
 						return $request instanceof Request
 							&& $request->get_action_path() === '/usage/free-usages'
 							&& $request->get_http_method() === Request::METHOD_GET
-							&& $request->get_body() === []
+							&& $request->get_body() === null
 							&& $request->get_headers() === [];
 					},
 				),

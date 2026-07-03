@@ -120,7 +120,7 @@ class OAuth_Auth_Strategy implements Auth_Strategy_Interface, LoggerAwareInterfa
 		];
 
 		if ( $method === Request::METHOD_POST ) {
-			$body            = \array_merge( $request->get_body(), [ 'user_id' => $user_id ] );
+			$body            = \array_merge( ( $request->get_body() ?? [] ), [ 'user_id' => $user_id ] );
 			$options['body'] = WPSEO_Utils::format_json_encode( $body );
 		}
 		else {

@@ -109,11 +109,14 @@ class Consent_Handler implements Consent_Handler_Interface {
 	}
 
 	/**
-	 * Revokes the user's consent on the Yoast AI service and clears the local user meta.
+	 * Revokes the user's consent, both locally (user meta) and remotely (Yoast AI service).
 	 *
 	 * Security-first: the local meta is always cleared before the remote call, so consent is
-	 * revoked locally even if the remote DELETE fails. Any HTTP-layer exception is propagated
-	 * and its management is deferred to the caller.
+	 * revoked locally even if the remote `DELETE /user/consent` fails. Any locally stored JWTs
+	 * are then invalidated regardless of the remote outcome — credentials must not outlive
+	 * consent. The invalidation runs after the DELETE on purpose: authenticating the DELETE may
+	 * mint a fresh JWT, and invalidating afterwards catches that token too. Any HTTP-layer
+	 * exception is propagated and its management is deferred to the caller.
 	 *
 	 * @param int $user_id The user ID.
 	 *
@@ -129,7 +132,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * @throws Too_Many_Requests_Exception     When the AI service responds with 429.
 	 * @throws Unauthorized_Exception          When the AI service responds with 401.
 	 * @throws WP_Request_Exception            When the underlying WordPress HTTP call fails.
-	 * @throws RuntimeException           When the user is not found.
+	 * @throws RuntimeException                When the user is not found.
 	 */
 	public function revoke_consent( int $user_id ) {
 		$user = \get_user_by( 'id', $user_id );
@@ -140,11 +143,19 @@ class Consent_Handler implements Consent_Handler_Interface {
 		// Local consent is always revoked regardless of remote failures.
 		$this->user_helper->delete_meta( $user_id, '_yoast_wpseo_ai_consent' );
 
-		$jwt = $this->token_manager->get_or_request_access_token( $user );
+		try {
+			$jwt = $this->token_manager->get_or_request_access_token( $user );
 
-		$this->request_handler->handle(
-			new Request( '/user/consent', [], [ 'Authorization' => "Bearer $jwt" ], Request::METHOD_DELETE ),
-		);
+			$this->request_handler->handle(
+				new Request( '/user/consent', [], [ 'Authorization' => "Bearer $jwt" ], Request::METHOD_DELETE ),
+			);
+		} finally {
+			// Invalidate the JWTs — including ones minted to authenticate the DELETE above — so
+			// credentials never outlive consent.
+			if ( $this->token_manager->has_local_tokens( $user_id ) ) {
+				$this->token_manager->token_invalidate( $user_id );
+			}
+		}
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber

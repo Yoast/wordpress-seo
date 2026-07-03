@@ -7,6 +7,7 @@ namespace Yoast\WP\SEO\AI\Consent\Application;
 use RuntimeException;
 use WP_User;
 use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
+use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Consent_Required_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
@@ -44,17 +45,27 @@ class Consent_Handler implements Consent_Handler_Interface {
 	private $ai_request_sender_factory;
 
 	/**
+	 * The token manager, used to invalidate leftover legacy JWTs when consent is revoked.
+	 *
+	 * @var Token_Manager
+	 */
+	private $token_manager;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param User_Helper               $user_helper               The user helper.
 	 * @param AI_Request_Sender_Factory $ai_request_sender_factory The AI request sender factory.
+	 * @param Token_Manager             $token_manager             The token manager.
 	 */
 	public function __construct(
 		User_Helper $user_helper,
-		AI_Request_Sender_Factory $ai_request_sender_factory
+		AI_Request_Sender_Factory $ai_request_sender_factory,
+		Token_Manager $token_manager
 	) {
 		$this->user_helper               = $user_helper;
 		$this->ai_request_sender_factory = $ai_request_sender_factory;
+		$this->token_manager             = $token_manager;
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
@@ -99,8 +110,11 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * Revokes the user's consent on the Yoast AI service and clears the local user meta.
 	 *
 	 * Security-first: the local meta is always cleared before the remote call, so consent is
-	 * revoked locally even if the remote DELETE fails. Any HTTP-layer exception is propagated
-	 * and its management is deferred to the caller.
+	 * revoked locally even if the remote `DELETE /user/consent` fails. Any locally stored legacy
+	 * JWTs are then invalidated regardless of the remote outcome — credentials must not outlive
+	 * consent. The invalidation runs after the DELETE on purpose: the legacy Token path may mint
+	 * a fresh JWT to authenticate the DELETE, and invalidating afterwards catches that token too.
+	 * Any HTTP-layer exception is propagated and its management is deferred to the caller.
 	 *
 	 * @param int $user_id The user ID.
 	 *
@@ -129,7 +143,16 @@ class Consent_Handler implements Consent_Handler_Interface {
 		// Local consent is always revoked regardless of remote failures.
 		$this->user_helper->delete_meta( $user_id, '_yoast_wpseo_ai_consent' );
 
-		$this->ai_request_sender_factory->create( $user )->revoke_consent( $user );
+		try {
+			$this->ai_request_sender_factory->create( $user )->revoke_consent( $user );
+		} finally {
+			// Invalidate the legacy JWTs — including ones minted to authenticate the DELETE above —
+			// so credentials never outlive consent. Skipped when no local JWTs exist (the OAuth path
+			// without a leftover pre-OAuth grant).
+			if ( $this->token_manager->has_local_tokens( $user_id ) ) {
+				$this->token_manager->token_invalidate( $user_id );
+			}
+		}
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
