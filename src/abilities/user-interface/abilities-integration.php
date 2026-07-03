@@ -473,10 +473,17 @@ class Abilities_Integration implements Integration_Interface {
 		$nullable_string = [
 			'type' => [ 'string', 'null' ],
 		];
-		$score           = [
-			'type' => 'string',
-			'enum' => [ 'na', 'bad', 'ok', 'good' ],
-		];
+		$score           = static function ( $analysis ) {
+			return [
+				'type'        => 'string',
+				'enum'        => [ 'na', 'bad', 'ok', 'good' ],
+				'description' => \sprintf(
+					/* translators: %s expands to the name of the analysis, e.g. "SEO analysis". */
+					\__( 'The result of the %s that ran on the post when it was last saved.', 'wordpress-seo' ),
+					$analysis,
+				),
+			];
+		};
 
 		// The rendered companion of a field carries the value as actually output on the front end: the global default template applied where no custom value is set, with replacement variables expanded.
 		$rendered = static function ( $field ) {
@@ -524,9 +531,9 @@ class Abilities_Integration implements Integration_Interface {
 				'twitter_description_rendered'    => $rendered( \__( 'Twitter description', 'wordpress-seo' ) ),
 				'schema_page_type'                => $nullable_string,
 				'schema_article_type'             => $nullable_string,
-				'seo_score'                       => $score,
-				'readability_score'               => $score,
-				'inclusive_language_score'        => $score,
+				'seo_score'                       => $score( \__( 'SEO analysis', 'wordpress-seo' ) ),
+				'readability_score'               => $score( \__( 'readability analysis', 'wordpress-seo' ) ),
+				'inclusive_language_score'        => $score( \__( 'inclusive language analysis', 'wordpress-seo' ) ),
 			],
 		];
 	}

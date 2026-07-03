@@ -446,10 +446,16 @@ final class Abilities_Integration_Test extends TestCase {
 	 */
 	private function get_expected_output_schema(): array {
 		$nullable_string = [ 'type' => [ 'string', 'null' ] ];
-		$score           = [
-			'type' => 'string',
-			'enum' => [ 'na', 'bad', 'ok', 'good' ],
-		];
+		$score           = static function ( $analysis ) {
+			return [
+				'type'        => 'string',
+				'enum'        => [ 'na', 'bad', 'ok', 'good' ],
+				'description' => \sprintf(
+					'The score that the %s assigned to the post when it was last saved.',
+					$analysis,
+				),
+			];
+		};
 		$rendered        = static function ( $field ) {
 			return [
 				'type'        => [ 'string', 'null' ],
@@ -494,9 +500,9 @@ final class Abilities_Integration_Test extends TestCase {
 				'twitter_description_rendered'    => $rendered( 'Twitter description' ),
 				'schema_page_type'                => $nullable_string,
 				'schema_article_type'             => $nullable_string,
-				'seo_score'                       => $score,
-				'readability_score'               => $score,
-				'inclusive_language_score'        => $score,
+				'seo_score'                       => $score( 'SEO analysis' ),
+				'readability_score'               => $score( 'readability analysis' ),
+				'inclusive_language_score'        => $score( 'inclusive language analysis' ),
 			],
 		];
 	}
