@@ -27,7 +27,7 @@ export const TitleCell = ( { item, fieldSetId } ) => {
 				<div className="yst-flex yst-flex-col">
 					{ item.editLink
 						// The title links to the post's editor screen; falls back to plain text when the user can't edit it.
-						? <a href={ item.editLink } className="yst-bulk-editor-title-link yst-text-slate-800">{ item.title }</a>
+						? <a href={ item.editLink } className="yst-bulk-editor-title-link">{ item.title }</a>
 						: <span>{ item.title }</span> }
 					{ statusLabel && (
 						<span className="yst-mt-1 yst-font-normal yst-text-slate-500">{ `- ${ statusLabel }` }</span>
