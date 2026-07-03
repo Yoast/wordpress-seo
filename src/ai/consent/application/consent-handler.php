@@ -45,7 +45,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 	private $ai_request_sender_factory;
 
 	/**
-	 * The token manager, used to clear leftover legacy JWTs when consent is revoked.
+	 * The token manager, used to invalidate leftover legacy JWTs when consent is revoked.
 	 *
 	 * @var Token_Manager
 	 */
@@ -110,10 +110,11 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * Revokes the user's consent on the Yoast AI service and clears the local user meta.
 	 *
 	 * Security-first: the local meta is always cleared before the remote call, so consent is
-	 * revoked locally even if the remote call fails. Any locally stored legacy JWTs are cleared
-	 * as well, regardless of the auth strategy or the remote outcome — credentials must not
-	 * outlive consent. Any HTTP-layer exception is propagated and its management is deferred to
-	 * the caller.
+	 * revoked locally even if the remote `DELETE /user/consent` fails. Any locally stored legacy
+	 * JWTs are then invalidated regardless of the remote outcome — credentials must not outlive
+	 * consent. The invalidation runs after the DELETE on purpose: the legacy Token path may mint
+	 * a fresh JWT to authenticate the DELETE, and invalidating afterwards catches that token too.
+	 * Any HTTP-layer exception is propagated and its management is deferred to the caller.
 	 *
 	 * @param int $user_id The user ID.
 	 *
@@ -145,10 +146,12 @@ class Consent_Handler implements Consent_Handler_Interface {
 		try {
 			$this->ai_request_sender_factory->create( $user )->revoke_consent( $user );
 		} finally {
-			// The OAuth strategy doesn't touch the legacy JWTs, so tokens left over from a pre-OAuth
-			// grant are cleared here regardless of strategy; on the Token path they are already gone
-			// and the deletes are no-ops.
-			$this->token_manager->clear_tokens( $user_id );
+			// Invalidate the legacy JWTs — including ones minted to authenticate the DELETE above —
+			// so credentials never outlive consent. Skipped when no local JWTs exist (the OAuth path
+			// without a leftover pre-OAuth grant).
+			if ( $this->token_manager->has_local_tokens( $user_id ) ) {
+				$this->token_manager->token_invalidate( $user_id );
+			}
 		}
 	}
 

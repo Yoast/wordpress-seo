@@ -33,17 +33,4 @@ interface Auth_Strategy_Interface {
 	 * @return Response The parsed response.
 	 */
 	public function send( Request $request, WP_User $user ): Response;
-
-	/**
-	 * Revokes the user's consent on the yoast-ai service using this strategy's auth method.
-	 *
-	 * Each strategy revokes the way its auth model requires: the OAuth strategy sends an authenticated
-	 * `DELETE /user/consent`, while the legacy Token strategy invalidates the user's JWTs (which also
-	 * revokes consent server-side) rather than re-provisioning a token.
-	 *
-	 * @param WP_User $user The WP user revoking consent.
-	 *
-	 * @return void
-	 */
-	public function revoke_consent( WP_User $user ): void;
 }

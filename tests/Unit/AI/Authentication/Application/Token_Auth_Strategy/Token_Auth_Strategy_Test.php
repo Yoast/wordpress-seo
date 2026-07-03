@@ -158,20 +158,4 @@ final class Token_Auth_Strategy_Test extends TestCase {
 		$this->expectException( Bad_Request_Exception::class );
 		$this->instance->send( new Request( '/openai/suggestions/seo-title' ), $this->user );
 	}
-
-	/**
-	 * Tests that revoke_consent invalidates the user's JWTs (which also revokes consent server-side)
-	 * and never provisions a fresh token.
-	 *
-	 * @covers ::revoke_consent
-	 *
-	 * @return void
-	 */
-	public function test_revoke_consent_invalidates_tokens(): void {
-		$this->token_manager->expects( 'token_invalidate' )->once()->with( $this->user->ID );
-		$this->token_manager->shouldNotReceive( 'get_or_request_access_token' );
-		$this->request_handler->shouldNotReceive( 'handle' );
-
-		$this->instance->revoke_consent( $this->user );
-	}
 }

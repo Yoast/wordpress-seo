@@ -112,23 +112,26 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * Revokes the user's consent, both locally (user meta) and remotely (Yoast AI service).
 	 *
 	 * Security-first: the local meta is always cleared before the remote call, so consent is
-	 * revoked locally even if the remote call fails. The remote revocation is delegated to
-	 * Token_Manager::token_invalidate(), which revokes consent and invalidates the JWT tokens on
-	 * the Yoast AI service in a single call, using the user's existing token. This deliberately
-	 * avoids provisioning a fresh token (which would re-register the user's consent). Any
-	 * HTTP-layer exception is propagated and its management is deferred to the caller.
+	 * revoked locally even if the remote `DELETE /user/consent` fails. Any locally stored JWTs
+	 * are then invalidated regardless of the remote outcome — credentials must not outlive
+	 * consent. The invalidation runs after the DELETE on purpose: authenticating the DELETE may
+	 * mint a fresh JWT, and invalidating afterwards catches that token too. Any HTTP-layer
+	 * exception is propagated and its management is deferred to the caller.
 	 *
 	 * @param int $user_id The user ID.
 	 *
 	 * @return void
 	 *
 	 * @throws Bad_Request_Exception           When the AI service responds with 400.
+	 * @throws Forbidden_Exception             When the AI service responds with 403.
 	 * @throws Internal_Server_Error_Exception When the AI service responds with 500.
 	 * @throws Not_Found_Exception             When the AI service responds with 404.
 	 * @throws Payment_Required_Exception      When the AI service responds with 402.
 	 * @throws Request_Timeout_Exception       When the AI service responds with 408.
 	 * @throws Service_Unavailable_Exception   When the AI service responds with 503.
 	 * @throws Too_Many_Requests_Exception     When the AI service responds with 429.
+	 * @throws Unauthorized_Exception          When the AI service responds with 401.
+	 * @throws WP_Request_Exception            When the underlying WordPress HTTP call fails.
 	 * @throws RuntimeException                When the user is not found.
 	 */
 	public function revoke_consent( int $user_id ) {
@@ -140,9 +143,19 @@ class Consent_Handler implements Consent_Handler_Interface {
 		// Local consent is always revoked regardless of remote failures.
 		$this->user_helper->delete_meta( $user_id, '_yoast_wpseo_ai_consent' );
 
-		// Revokes consent AND invalidates the JWT tokens on the Yoast AI service in a single call,
-		// using the existing token, so we never re-provision a token (which would re-grant consent).
-		$this->token_manager->token_invalidate( $user_id );
+		try {
+			$jwt = $this->token_manager->get_or_request_access_token( $user );
+
+			$this->request_handler->handle(
+				new Request( '/user/consent', [], [ 'Authorization' => "Bearer $jwt" ], Request::METHOD_DELETE ),
+			);
+		} finally {
+			// Invalidate the JWTs — including ones minted to authenticate the DELETE above — so
+			// credentials never outlive consent.
+			if ( $this->token_manager->has_local_tokens( $user_id ) ) {
+				$this->token_manager->token_invalidate( $user_id );
+			}
+		}
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber

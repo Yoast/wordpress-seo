@@ -173,6 +173,31 @@ class Token_Manager implements Token_Manager_Interface {
 	}
 
 	/**
+	 * Checks whether any JWT (access or refresh) is stored locally for the user.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return bool Whether a locally stored JWT exists.
+	 */
+	public function has_local_tokens( int $user_id ): bool {
+		try {
+			$this->access_token_repository->get_token( $user_id );
+
+			return true;
+		} catch ( RuntimeException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Reason: Ignored on purpose.
+			// No access token; fall through to the refresh token check.
+		}
+
+		try {
+			$this->refresh_token_repository->get_token( $user_id );
+
+			return true;
+		} catch ( RuntimeException $e ) {
+			return false;
+		}
+	}
+
+	/**
 	 * Requests a new set of JWT tokens.
 	 *
 	 * Requests a new JWT access and refresh token for a user from the Yoast AI Service and stores it in the database

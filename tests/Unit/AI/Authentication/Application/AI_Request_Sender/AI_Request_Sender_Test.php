@@ -109,20 +109,35 @@ final class AI_Request_Sender_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that revoke_consent delegates to the primary strategy and never touches the fallback:
-	 * revoke is authoritative per auth method, so it must not switch mechanisms/endpoints on failure.
+	 * Tests that revoke_consent builds a bodyless `DELETE /user/consent` request and dispatches it
+	 * through the regular send() path, like every other endpoint facade.
 	 *
 	 * @covers ::revoke_consent
 	 *
 	 * @return void
 	 */
-	public function test_revoke_consent_delegates_to_primary(): void {
-		$this->primary->expects( 'revoke_consent' )->once()->with( $this->user );
-		$this->fallback->shouldNotReceive( 'revoke_consent' );
+	public function test_revoke_consent_builds_delete_request(): void {
+		$response = new Response( '{}', 200, 'OK' );
 
-		$sender = new AI_Request_Sender( $this->primary, $this->fallback );
+		$this->primary
+			->expects( 'send' )
+			->with(
+				Mockery::on(
+					static function ( $request ) {
+						return $request instanceof Request
+							&& $request->get_action_path() === '/user/consent'
+							&& $request->get_http_method() === Request::METHOD_DELETE
+							&& $request->get_body() === null
+							&& $request->get_headers() === [];
+					},
+				),
+				$this->user,
+			)
+			->andReturn( $response );
 
-		$sender->revoke_consent( $this->user );
+		$sender = new AI_Request_Sender( $this->primary );
+
+		$this->assertSame( $response, $sender->revoke_consent( $this->user ) );
 	}
 
 	/**

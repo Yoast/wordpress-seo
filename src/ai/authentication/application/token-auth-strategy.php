@@ -87,21 +87,5 @@ class Token_Auth_Strategy implements Auth_Strategy_Interface, LoggerAwareInterfa
 		return $this->request_handler->handle( $decorated );
 	}
 
-	/**
-	 * Revokes consent by invalidating the user's JWTs on the yoast-ai service.
-	 *
-	 * `token_invalidate()` both revokes the user's consent and invalidates the access + refresh JWTs
-	 * server-side in a single call, using the user's existing token. It never provisions a fresh token
-	 * (which would re-register consent), which is exactly why the legacy path must not fall back to a
-	 * `DELETE /user/consent` that would re-authenticate via `get_or_request_access_token()`.
-	 *
-	 * @param WP_User $user The WP user.
-	 *
-	 * @return void
-	 */
-	public function revoke_consent( WP_User $user ): void {
-		$this->token_manager->token_invalidate( $user->ID );
-	}
-
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.Missing
 }
