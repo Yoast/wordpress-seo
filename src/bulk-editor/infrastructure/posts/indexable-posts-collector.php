@@ -106,7 +106,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			->where( 'object_sub_type', $query->get_content_type() )
 			->where_in( 'post_status', $query->get_statuses() )
 			// Password-protected posts (is_protected) are not shown in bulk editing.
-			->where( 'is_protected', false );
+			->where( 'is_protected', 0 );
 
 		if ( $query->has_search() ) {
 			$this->apply_search( $builder, $query->get_search() );
