@@ -73,7 +73,12 @@ describe( "BulkEditorTable", () => {
 		];
 		render( <BulkEditorTable items={ rows } fieldSet={ searchFieldSet } /> );
 
-		expect( screen.getByRole( "link", { name: "What Is SEO" } ) ).toHaveAttribute( "href", items[ 0 ].editLink );
+		const link = screen.getByRole( "link", { name: /What Is SEO/ } );
+		expect( link ).toHaveAttribute( "href", items[ 0 ].editLink );
+		// The title link opens the editor in a new tab, with a safe rel and a hidden hint for screen readers.
+		expect( link ).toHaveAttribute( "target", "_blank" );
+		expect( link ).toHaveAttribute( "rel", "noopener noreferrer" );
+		expect( link ).toHaveAccessibleName( "What Is SEO (Opens in a new browser tab)" );
 
 		// A row without an edit link shows the title as plain text, not a link.
 		expect( screen.queryByRole( "link", { name: "No Link Post" } ) ).not.toBeInTheDocument();
