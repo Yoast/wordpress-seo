@@ -24,10 +24,10 @@ class API_Client implements API_Client_Interface {
 	/**
 	 * Performs a request to the API.
 	 *
-	 * @param string        $action_path The action path for the request.
-	 * @param array<string> $body        The body of the request.
-	 * @param array<string> $headers     The headers for the request.
-	 * @param string        $http_method The HTTP method for the request. One of `Request::METHOD_*`.
+	 * @param string             $action_path The action path for the request.
+	 * @param array<string>|null $body        The body of the request, or null/empty to send no body.
+	 * @param array<string>      $headers     The headers for the request.
+	 * @param string             $http_method The HTTP method for the request. One of `Request::METHOD_*`.
 	 *
 	 * @return array<int|string|array<string>> The response from the API.
 	 *
@@ -41,8 +41,10 @@ class API_Client implements API_Client_Interface {
 			'headers' => $headers,
 		];
 
-		// Only POST sends a body to the AI API today; GET and DELETE endpoints do not.
-		if ( $http_method === Request::METHOD_POST ) {
+		// Only POST sends a body to the AI API today; GET and DELETE endpoints do not. An empty body is
+		// omitted entirely: an empty array is ambiguous once JSON-encoded (`[]` vs `{}`) and the AI
+		// service rejects it, so a bodyless POST is sent instead.
+		if ( $http_method === Request::METHOD_POST && ! empty( $body ) ) {
 			// phpcs:ignore Yoast.Yoast.JsonEncodeAlternative.Found -- Reason: We don't want the debug/pretty possibility.
 			$arguments['body'] = WPSEO_Utils::format_json_encode( $body );
 		}

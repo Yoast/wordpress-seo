@@ -3,17 +3,17 @@
 
 namespace Yoast\WP\SEO\AI\Content_Planner\Application;
 
-use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_List;
+use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_Parameters;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_Response;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Post_List;
 use Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Recent_Content\Recent_Content_Collector;
-use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Insufficient_Scope_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 
 /**
@@ -29,18 +29,11 @@ class Content_Suggestion_Command_Handler {
 	private $recent_content_collector;
 
 	/**
-	 * The token manager.
+	 * The auth strategy factory.
 	 *
-	 * @var Token_Manager
+	 * @var AI_Request_Sender_Factory
 	 */
-	private $token_manager;
-
-	/**
-	 * The request handler.
-	 *
-	 * @var Request_Handler
-	 */
-	private $request_handler;
+	private $ai_request_sender_factory;
 
 	/**
 	 * The consent handler.
@@ -59,94 +52,66 @@ class Content_Suggestion_Command_Handler {
 	/**
 	 * The constructor.
 	 *
-	 * @param Recent_Content_Collector      $recent_content_collector The recent content collector.
-	 * @param Token_Manager                 $token_manager            The token manager.
-	 * @param Request_Handler               $request_handler          The request handler.
-	 * @param Consent_Handler               $consent_handler          The consent handler.
-	 * @param Category_Repository_Interface $category_repository      The category repository.
+	 * @param Recent_Content_Collector      $recent_content_collector  The recent content collector.
+	 * @param AI_Request_Sender_Factory     $ai_request_sender_factory The auth strategy factory.
+	 * @param Consent_Handler               $consent_handler           The consent handler.
+	 * @param Category_Repository_Interface $category_repository       The category repository.
 	 */
 	public function __construct(
 		Recent_Content_Collector $recent_content_collector,
-		Token_Manager $token_manager,
-		Request_Handler $request_handler,
+		AI_Request_Sender_Factory $ai_request_sender_factory,
 		Consent_Handler $consent_handler,
 		Category_Repository_Interface $category_repository
 	) {
-		$this->recent_content_collector = $recent_content_collector;
-		$this->token_manager            = $token_manager;
-		$this->request_handler          = $request_handler;
-		$this->consent_handler          = $consent_handler;
-		$this->category_repository      = $category_repository;
+		$this->recent_content_collector  = $recent_content_collector;
+		$this->ai_request_sender_factory = $ai_request_sender_factory;
+		$this->consent_handler           = $consent_handler;
+		$this->category_repository       = $category_repository;
 	}
+
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't track exceptions thrown by called services.
 
 	/**
 	 * Handles the content suggestion command by collecting recent content and requesting suggestions from the AI API.
 	 *
-	 * @param Content_Suggestion_Command $command               The content suggestion command.
-	 * @param bool                       $retry_on_unauthorized Whether to retry on unauthorized response.
+	 * @param Content_Suggestion_Command $command The content suggestion command.
 	 *
-	 * @throws Unauthorized_Exception When the API returns an unauthorized response and retry is exhausted.
-	 * @throws Forbidden_Exception    When consent has been revoked.
+	 * @throws Unauthorized_Exception        When the API returns an unauthorized response and retry is exhausted.
+	 * @throws Forbidden_Exception           When consent has been revoked.
+	 * @throws Insufficient_Scope_Exception  When the OAuth path's token is missing the required scope.
 	 *
 	 * @return Content_Suggestion_Response The response containing suggestions and recent content.
 	 */
-	public function handle(
-		Content_Suggestion_Command $command,
-		bool $retry_on_unauthorized = true
-	): Content_Suggestion_Response {
-		$post_list  = $this->recent_content_collector->collect( $command->get_post_type() );
-		$about_page = $this->recent_content_collector->collect_about_page( $command->get_post_type() );
-		try {
-			$token = $this->token_manager->get_or_request_access_token( $command->get_user() );
-		} catch ( Forbidden_Exception $exception ) {
-			// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
-			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
-			$this->consent_handler->revoke_consent( $command->get_user()->ID );
-			throw new Forbidden_Exception( 'CONSENT_REVOKED', $exception->getCode() );
-			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
-		}
-		$recent_content = $post_list->to_array();
+	public function handle( Content_Suggestion_Command $command ): Content_Suggestion_Response {
+		$recent_content = $this->recent_content_collector->collect( $command->get_post_type() );
+		$about_page     = $this->recent_content_collector->collect_about_page( $command->get_post_type() );
 
 		$content = [
-			'posts' => $recent_content,
+			'posts' => $recent_content->to_array(),
 		];
 		if ( $about_page ) {
 			$content['about_page'] = $about_page;
 		}
-		$request_body = [
-			'subject' => [
-				'language' => $command->get_language(),
-				'content'  => $content,
-			],
-		];
-
-		$request_headers = [
-			'Authorization' => "Bearer $token",
-			'X-Yst-Cohort'  => $command->get_editor(),
-		];
+		$parameters = new Content_Suggestion_Parameters(
+			$command->get_user(),
+			$command->get_language(),
+			$content,
+			$command->get_editor(),
+		);
 
 		try {
+			$sender   = $this->ai_request_sender_factory->create( $command->get_user() );
+			$response = $sender->get_content_suggestions( $parameters );
+		} catch ( Insufficient_Scope_Exception $exception ) {
 
-			$response = $this->request_handler->handle( new Request( '/content-planner/next-post-suggestions', $request_body, $request_headers ) );
-		} catch ( Unauthorized_Exception $exception ) {
-			// Delete the stored JWT tokens, as they appear to be no longer valid.
-			$this->token_manager->clear_tokens( (string) $command->get_user()->ID );
-
-			if ( ! $retry_on_unauthorized ) {
-				throw $exception;
-			}
-
-			// Try again once more by fetching a new set of tokens and trying the suggestions endpoint again.
-			return $this->handle( $command, false );
+			throw $exception;
 		} catch ( Forbidden_Exception $exception ) {
-			// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
-			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
 			$this->consent_handler->revoke_consent( $command->get_user()->ID );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
 			throw new Forbidden_Exception( 'CONSENT_REVOKED', $exception->getCode() );
-			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
-		return $this->build_response( $response, $post_list );
+		return $this->build_response( $response, $recent_content );
 	}
 
 	/**

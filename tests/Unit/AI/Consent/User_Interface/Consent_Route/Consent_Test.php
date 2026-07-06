@@ -8,7 +8,6 @@ use Brain\Monkey;
 use Mockery;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 
@@ -27,13 +26,6 @@ final class Consent_Test extends Abstract_Consent_Route_Test {
 	 * @var Mockery\MockInterface|Consent_Handler
 	 */
 	protected $consent_handler;
-
-	/**
-	 * The token manager instance.
-	 *
-	 * @var Mockery\MockInterface|Token_Manager
-	 */
-	protected $token_manager;
 
 	/**
 	 * Tests the consent method.
@@ -74,10 +66,6 @@ final class Consent_Test extends Abstract_Consent_Route_Test {
 		else {
 			$this->consent_handler
 				->expects( 'revoke_consent' )
-				->once()
-				->with( $user_id );
-			$this->token_manager
-				->expects( 'token_invalidate' )
 				->once()
 				->with( $user_id );
 
@@ -145,11 +133,6 @@ final class Consent_Test extends Abstract_Consent_Route_Test {
 				->once();
 		}
 		else {
-			$this->token_manager
-				->expects( 'token_invalidate' )
-				->once()
-				->with( $user_id );
-
 			$this->consent_handler
 				->expects( 'revoke_consent' )
 				->once()
