@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.0
-Stable tag: 27.9
+Stable tag: 28.0
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -305,12 +305,17 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 28.0 =
 
-Release date: 2026-07-07
+Release date: 2026-07-06
+
+Yoast SEO now works smoothly with Elementor's version 4 release. [Read the full release post here](https://yoa.st/578).
+
+#### Enhancements
+
+* Improves the compatibility with the atomic editor in Elementor V4.
 
 #### Bugfixes
 
 * Fixes a bug where raw `type` and `id` attributes were written on a link instead of `data-type` and `data-id`, when the link was added by selecting a suggestion in the block editor link popover.
-* Fixes a bug where Yoast SEO analysis showed no results when content was added using Elementor V4's atomic editor.
 
 #### Other
 
