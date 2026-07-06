@@ -25,6 +25,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"edit-page": `${ sourceDirectory }/edit-page.js`,
 	"editor-modules": `${ sourceDirectory }/editor-modules.js`,
 	elementor: `${ sourceDirectory }/elementor/initialize.js`,
+	"elementor-v4": `${ sourceDirectory }/elementor-v4/initialize.js`,
 	"externals-components": `${ sourceDirectory }/externals/components.js`,
 	"externals-contexts": `${ sourceDirectory }/externals/contexts.js`,
 	"externals-redux": `${ sourceDirectory }/externals/redux.js`,

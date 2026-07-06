@@ -315,6 +315,39 @@ export const NotUsingBuildingBlocks = {
 	},
 };
 
+export const MenuItemWithLimiter = {
+	render: Template.bind( {} ),
+	name: "Menu item with limiter",
+	parameters: {
+		docs: {
+			description: {
+				story: "The subcomponent `SidebarNavigation.MenuItemWithLimiter` is a `MenuItem` with a built-in `ChildrenLimiter` and a show-more/less toggle (a pill centered on a `Divider`). Pass `limit`, `showMoreLabel` / `showLessLabel` and `buttonId` to persist the expand state.",
+			},
+		},
+	},
+	args: {
+		children: (
+			<SidebarNavigation.Sidebar className="yst-w-1/3">
+				<SidebarNavigation.MenuItemWithLimiter
+					id="menuitemwithlimiter"
+					icon={ NewspaperIcon }
+					label="MenuItem with limiter"
+					defaultOpen={ true }
+					limit={ 2 }
+					buttonId="menuitemwithlimiter-more"
+					showMoreLabel="Show 2 more"
+					showLessLabel="Show less"
+				>
+					<SidebarNavigation.SubmenuItem to="#1" label="SubmenuItem 1" />
+					<SidebarNavigation.SubmenuItem to="#2" label="SubmenuItem 2" />
+					<SidebarNavigation.SubmenuItem to="#3" label="SubmenuItem 3" />
+					<SidebarNavigation.SubmenuItem to="#4" label="SubmenuItem 4" />
+				</SidebarNavigation.MenuItemWithLimiter>
+			</SidebarNavigation.Sidebar>
+		),
+	},
+};
+
 export default {
 	title: "2) Components/Sidebar navigation",
 	component: SidebarNavigation,
@@ -375,7 +408,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A sidebar navigation component. Contains the subcomponents `Sidebar`, `Mobile`, `MenuItem` and `SubmenuItem` and contains the hook `useNavigationContext`.",
+				component: "A sidebar navigation component. Contains the subcomponents `Sidebar`, `Mobile`, `MenuItem`, `SubmenuItem` and `MenuItemWithLimiter` and contains the hook `useNavigationContext`.",
 			},
 			page: () => <InteractiveDocsPage
 				stories={ [
@@ -384,6 +417,7 @@ export default {
 					Mobile,
 					UsingBuildingBlocks,
 					NotUsingBuildingBlocks,
+					MenuItemWithLimiter,
 					NavigationContext,
 				] }
 			/>,
