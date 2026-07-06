@@ -81,6 +81,8 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		$args = [
 			'post_type'              => $query->get_content_type(),
 			'post_status'            => $query->get_statuses(),
+			// Exclude password-protected posts from bulk editing.
+			'has_password'           => false,
 			'posts_per_page'         => $query->get_per_page(),
 			'paged'                  => $query->get_page(),
 			// Order by post ID so the result matches the indexable collector's ordering.
