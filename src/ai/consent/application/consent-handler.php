@@ -6,10 +6,12 @@ namespace Yoast\WP\SEO\AI\Consent\Application;
 
 use RuntimeException;
 use WP_User;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
 use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
-use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Consent_Required_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Insufficient_Scope_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Not_Found_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception;
@@ -18,7 +20,6 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Service_Unavailable_Exception
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\WP_Request_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
@@ -37,34 +38,34 @@ class Consent_Handler implements Consent_Handler_Interface {
 	private $user_helper;
 
 	/**
-	 * The token manager instance.
+	 * The AI request sender factory, used to dispatch the consent calls through the active auth strategy.
+	 *
+	 * @var AI_Request_Sender_Factory
+	 */
+	private $ai_request_sender_factory;
+
+	/**
+	 * The token manager, used to invalidate leftover legacy JWTs when consent is revoked.
 	 *
 	 * @var Token_Manager
 	 */
 	private $token_manager;
 
 	/**
-	 * The request handler instance.
-	 *
-	 * @var Request_Handler
-	 */
-	private $request_handler;
-
-	/**
 	 * Class constructor.
 	 *
-	 * @param User_Helper     $user_helper     The user helper.
-	 * @param Token_Manager   $token_manager   The token manager, used to obtain a JWT for the consent endpoints.
-	 * @param Request_Handler $request_handler The request handler, used to call the AI service's consent endpoints.
+	 * @param User_Helper               $user_helper               The user helper.
+	 * @param AI_Request_Sender_Factory $ai_request_sender_factory The AI request sender factory.
+	 * @param Token_Manager             $token_manager             The token manager.
 	 */
 	public function __construct(
 		User_Helper $user_helper,
-		Token_Manager $token_manager,
-		Request_Handler $request_handler
+		AI_Request_Sender_Factory $ai_request_sender_factory,
+		Token_Manager $token_manager
 	) {
-		$this->user_helper     = $user_helper;
-		$this->token_manager   = $token_manager;
-		$this->request_handler = $request_handler;
+		$this->user_helper               = $user_helper;
+		$this->ai_request_sender_factory = $ai_request_sender_factory;
+		$this->token_manager             = $token_manager;
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
@@ -80,7 +81,9 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * @return void
 	 *
 	 * @throws Bad_Request_Exception           When the AI service responds with 400.
-	 * @throws Forbidden_Exception             When the AI service responds with 403.
+	 * @throws Consent_Required_Exception      When the AI service responds with a 403 indicating consent is required.
+	 * @throws Insufficient_Scope_Exception    When the AI service responds with a 403 insufficient_scope.
+	 * @throws Forbidden_Exception             When the AI service responds with any other 403.
 	 * @throws Internal_Server_Error_Exception When the AI service responds with 500.
 	 * @throws Not_Found_Exception             When the AI service responds with 404.
 	 * @throws Payment_Required_Exception      When the AI service responds with 402.
@@ -97,14 +100,8 @@ class Consent_Handler implements Consent_Handler_Interface {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
 			throw new RuntimeException( "User not found: $user_id" );
 		}
-		$jwt = $this->token_manager->get_or_request_access_token( $user );
 
-		$body = [
-			'user_id' => (string) $user_id,
-		];
-		$this->request_handler->handle(
-			new Request( '/user/consent', $body, [ 'Authorization' => "Bearer $jwt" ], Request::METHOD_POST ),
-		);
+		$this->ai_request_sender_factory->create( $user )->grant_consent( $user );
 
 		$this->user_helper->update_meta( $user_id, '_yoast_wpseo_ai_consent', true );
 	}
@@ -113,15 +110,20 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * Revokes the user's consent on the Yoast AI service and clears the local user meta.
 	 *
 	 * Security-first: the local meta is always cleared before the remote call, so consent is
-	 * revoked locally even if the remote DELETE fails. Any HTTP-layer exception is propagated
-	 * and its management is deferred to the caller.
+	 * revoked locally even if the remote `DELETE /user/consent` fails. Any locally stored legacy
+	 * JWTs are then invalidated regardless of the remote outcome — credentials must not outlive
+	 * consent. The invalidation runs after the DELETE on purpose: the legacy Token path may mint
+	 * a fresh JWT to authenticate the DELETE, and invalidating afterwards catches that token too.
+	 * Any HTTP-layer exception is propagated and its management is deferred to the caller.
 	 *
 	 * @param int $user_id The user ID.
 	 *
 	 * @return void
 	 *
 	 * @throws Bad_Request_Exception           When the AI service responds with 400.
-	 * @throws Forbidden_Exception             When the AI service responds with 403.
+	 * @throws Consent_Required_Exception      When the AI service responds with a 403 indicating consent is required.
+	 * @throws Insufficient_Scope_Exception    When the AI service responds with a 403 insufficient_scope.
+	 * @throws Forbidden_Exception             When the AI service responds with any other 403.
 	 * @throws Internal_Server_Error_Exception When the AI service responds with 500.
 	 * @throws Not_Found_Exception             When the AI service responds with 404.
 	 * @throws Payment_Required_Exception      When the AI service responds with 402.
@@ -141,11 +143,16 @@ class Consent_Handler implements Consent_Handler_Interface {
 		// Local consent is always revoked regardless of remote failures.
 		$this->user_helper->delete_meta( $user_id, '_yoast_wpseo_ai_consent' );
 
-		$jwt = $this->token_manager->get_or_request_access_token( $user );
-
-		$this->request_handler->handle(
-			new Request( '/user/consent', [], [ 'Authorization' => "Bearer $jwt" ], Request::METHOD_DELETE ),
-		);
+		try {
+			$this->ai_request_sender_factory->create( $user )->revoke_consent( $user );
+		} finally {
+			// Invalidate the legacy JWTs — including ones minted to authenticate the DELETE above —
+			// so credentials never outlive consent. Skipped when no local JWTs exist (the OAuth path
+			// without a leftover pre-OAuth grant).
+			if ( $this->token_manager->has_local_tokens( $user_id ) ) {
+				$this->token_manager->token_invalidate( $user_id );
+			}
+		}
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber

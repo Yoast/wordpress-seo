@@ -115,7 +115,12 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Invalidates the access token.
 	 *
+	 * The locally stored JWTs are always cleared, even when the remote invalidation fails — the
+	 * remote exception still propagates to the caller, but no credentials are left behind.
+	 *
 	 * @param int $user_id The user ID.
+	 *
+	 * @return void
 	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
@@ -125,7 +130,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Service_Unavailable_Exception Service_Unavailable_Exception.
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws RuntimeException Unable to retrieve the access token.
-	 * @return void
 	 */
 	public function token_invalidate( int $user_id ): void {
 		try {
@@ -134,26 +138,26 @@ class Token_Manager implements Token_Manager_Interface {
 			$access_jwt = '';
 		}
 
-		$request_body    = [
-			'user_id' => (string) $user_id,
-		];
 		$request_headers = [
 			'Authorization' => "Bearer $access_jwt",
 		];
 
 		try {
+			// The endpoint takes no request body; the user is identified by the access token.
 			$this->request_handler->handle(
 				new Request(
 					'/token/invalidate',
-					$request_body,
+					[],
 					$request_headers,
 				),
 			);
 		} catch ( Unauthorized_Exception | Forbidden_Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Reason: Ignored on purpose.
 			// If the credentials in our request were already invalid, our job is done and we continue to remove the tokens client-side.
+		} finally {
+			// Always clear the local tokens, even when the remote invalidation fails with an exception
+			// that propagates: leaving credentials behind would contradict the intent of invalidating.
+			$this->clear_tokens( $user_id );
 		}
-
-		$this->clear_tokens( $user_id );
 	}
 
 	/**
@@ -169,12 +173,39 @@ class Token_Manager implements Token_Manager_Interface {
 	}
 
 	/**
+	 * Checks whether any JWT (access or refresh) is stored locally for the user.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return bool Whether a locally stored JWT exists.
+	 */
+	public function has_local_tokens( int $user_id ): bool {
+		try {
+			$this->access_token_repository->get_token( $user_id );
+
+			return true;
+		} catch ( RuntimeException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Reason: Ignored on purpose.
+			// No access token; fall through to the refresh token check.
+		}
+
+		try {
+			$this->refresh_token_repository->get_token( $user_id );
+
+			return true;
+		} catch ( RuntimeException $e ) {
+			return false;
+		}
+	}
+
+	/**
 	 * Requests a new set of JWT tokens.
 	 *
 	 * Requests a new JWT access and refresh token for a user from the Yoast AI Service and stores it in the database
 	 * under usermeta. The storing of the token happens in a HTTP callback that is triggered by this request.
 	 *
 	 * @param WP_User $user The WP user.
+	 *
+	 * @return void
 	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Forbidden_Exception Forbidden_Exception.
@@ -185,7 +216,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Service_Unavailable_Exception Service_Unavailable_Exception.
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
-	 * @return void
 	 */
 	public function token_request( WP_User $user ): void {
 		// Generate a code verifier and store it in the database.
@@ -221,6 +251,8 @@ class Token_Manager implements Token_Manager_Interface {
 	 *
 	 * @param WP_User $user The WP user.
 	 *
+	 * @return void
+	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Forbidden_Exception Forbidden_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
@@ -231,7 +263,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
 	 * @throws RuntimeException Unable to retrieve the refresh token.
-	 * @return void
 	 */
 	public function token_refresh( WP_User $user ): void {
 		$refresh_jwt = $this->refresh_token_repository->get_token( $user->ID );
@@ -287,6 +318,8 @@ class Token_Manager implements Token_Manager_Interface {
 	 *
 	 * @param WP_User $user The WP user.
 	 *
+	 * @return string The access token.
+	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Forbidden_Exception Forbidden_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
@@ -297,13 +330,11 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
 	 * @throws RuntimeException Unable to retrieve the access or refresh token.
-	 * @return string The access token.
 	 */
 	public function get_or_request_access_token( WP_User $user ): string {
 		// If the site URL has changed since callback URLs were registered, delete stale tokens.
 		if ( $this->have_callback_urls_changed( $user ) ) {
-			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt' );
-			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_refresh_jwt' );
+			$this->clear_tokens( $user->ID );
 		}
 
 		$access_jwt = $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt', true );

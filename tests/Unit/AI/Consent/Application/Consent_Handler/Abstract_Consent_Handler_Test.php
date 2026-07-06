@@ -7,9 +7,10 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\Application\Consent_Handler;
 use Brain\Monkey;
 use Mockery;
 use WP_User;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
 use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
-use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -35,18 +36,25 @@ abstract class Abstract_Consent_Handler_Test extends TestCase {
 	protected $user_helper;
 
 	/**
+	 * The AI request sender factory instance.
+	 *
+	 * @var Mockery\MockInterface|AI_Request_Sender_Factory
+	 */
+	protected $ai_request_sender_factory;
+
+	/**
+	 * The AI request sender returned by the factory.
+	 *
+	 * @var Mockery\MockInterface|AI_Request_Sender
+	 */
+	protected $ai_request_sender;
+
+	/**
 	 * The token manager instance.
 	 *
 	 * @var Mockery\MockInterface|Token_Manager
 	 */
 	protected $token_manager;
-
-	/**
-	 * The request handler instance.
-	 *
-	 * @var Mockery\MockInterface|Request_Handler
-	 */
-	protected $request_handler;
 
 	/**
 	 * Setup the test.
@@ -56,14 +64,15 @@ abstract class Abstract_Consent_Handler_Test extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->user_helper     = Mockery::mock( User_Helper::class );
-		$this->token_manager   = Mockery::mock( Token_Manager::class );
-		$this->request_handler = Mockery::mock( Request_Handler::class );
+		$this->user_helper               = Mockery::mock( User_Helper::class );
+		$this->ai_request_sender_factory = Mockery::mock( AI_Request_Sender_Factory::class );
+		$this->ai_request_sender         = Mockery::mock( AI_Request_Sender::class );
+		$this->token_manager             = Mockery::mock( Token_Manager::class );
 
 		$this->instance = new Consent_Handler(
 			$this->user_helper,
+			$this->ai_request_sender_factory,
 			$this->token_manager,
-			$this->request_handler,
 		);
 	}
 
