@@ -159,7 +159,8 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 
 		return new Post(
 			$object_id,
-			\get_the_title( $object_id ),
+			// get_the_title() can return HTML-encoded entities; decode them so they render as text in the React table.
+			\html_entity_decode( \get_the_title( $object_id ), \ENT_QUOTES, 'UTF-8' ),
 			(string) $indexable->post_status,
 			(string) \get_edit_post_link( $object_id, 'raw' ),
 			(string) $indexable->primary_focus_keyword,

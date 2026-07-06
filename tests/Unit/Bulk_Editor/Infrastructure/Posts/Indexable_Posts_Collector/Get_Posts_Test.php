@@ -88,6 +88,35 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 	}
 
 	/**
+	 * Tests that HTML entities in the post title are decoded so they render as text.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_decodes_html_entities_in_the_title() {
+		$indexable              = new Indexable_Mock();
+		$indexable->object_id   = 7;
+		$indexable->post_status = 'draft';
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		$query->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->indexable_repository->expects( 'query' )->once()->andReturn( $query );
+
+		Functions\expect( '_prime_post_caches' )->once()->with( [ 7 ], false, false );
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Tips &amp; Tricks: &#8220;SEO&#8221;' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+
+		$this->assertSame( 'Tips & Tricks: “SEO”', $result['posts'][0]['title'] );
+	}
+
+	/**
 	 * Tests that duplicate indexable rows for the same post yield a single post.
 	 *
 	 * @return void
