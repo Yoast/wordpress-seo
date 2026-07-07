@@ -25,7 +25,7 @@ import { SearchBox } from "./search-box";
  *
  * @returns {{isAllSelected: boolean, isIndeterminate: boolean, selectedCount: number, totalCount: number, hasSelection: boolean}} The selection view.
  */
-const getSelectionView = ( isLoading, selectedIds, items, total ) => {
+export const getSelectionView = ( isLoading, selectedIds, items, total ) => {
 	if ( isLoading ) {
 		return { isAllSelected: false, isIndeterminate: false, selectedCount: 0, totalCount: 0, hasSelection: false };
 	}
