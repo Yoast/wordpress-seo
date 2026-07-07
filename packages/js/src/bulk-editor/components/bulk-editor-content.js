@@ -23,17 +23,20 @@ import { SearchBox } from "./search-box";
  * @param {Object[]} items       The loaded items (per page).
  * @param {number}   total       The total number of items across all pages.
  *
- * @returns {{isAllSelected: boolean, selectedCount: number, totalCount: number, hasSelection: boolean}} The selection view.
+ * @returns {{isAllSelected: boolean, isIndeterminate: boolean, selectedCount: number, totalCount: number, hasSelection: boolean}} The selection view.
  */
-const getSelectionView = ( isLoading, selectedIds, items, total ) => {
+export const getSelectionView = ( isLoading, selectedIds, items, total ) => {
 	if ( isLoading ) {
-		return { isAllSelected: false, selectedCount: 0, totalCount: 0, hasSelection: false };
+		return { isAllSelected: false, isIndeterminate: false, selectedCount: 0, totalCount: 0, hasSelection: false };
 	}
+	const selectedCount = selectedIds.length;
+	const isAllSelected = items.length > 0 && selectedCount === items.length;
 	return {
-		isAllSelected: items.length > 0 && selectedIds.length === items.length,
-		selectedCount: selectedIds.length,
+		isAllSelected,
+		isIndeterminate: selectedCount > 0 && ! isAllSelected,
+		selectedCount,
 		totalCount: total,
-		hasSelection: selectedIds.length > 0,
+		hasSelection: selectedCount > 0,
 	};
 };
 
@@ -124,13 +127,14 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		}
 	}, [ pendingTab, hasUnsavedEdits, hasExternalPendingChanges, onCommitSwitch ] );
 
-	const { isAllSelected, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
+	const { isAllSelected, isIndeterminate, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
 	const onSelectAll = useCallback( () => {
 		if ( ! isPending ) {
 			selectAll( items.map( ( item ) => item.id ) );
 		}
 	}, [ isPending, selectAll, items ] );
-	const onToggleAll = useCallback( () => ( isAllSelected ? deselectAll() : onSelectAll() ), [ isAllSelected, deselectAll, onSelectAll ] );
+	// Clicking the master checkbox clears the selection whenever anything is selected (all or a partial).
+	const onToggleAll = useCallback( () => ( hasSelection ? deselectAll() : onSelectAll() ), [ hasSelection, deselectAll, onSelectAll ] );
 
 	const selection = useMemo( () => ( {
 		selectedIds,
@@ -159,6 +163,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 							<SelectionToolbar
 								idSuffix={ `-${ tab.id }` }
 								isAllSelected={ isAllSelected }
+								isIndeterminate={ isIndeterminate }
 								onToggleAll={ onToggleAll }
 								onSelectAll={ onSelectAll }
 								onDeselectAll={ deselectAll }
