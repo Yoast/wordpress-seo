@@ -43,6 +43,22 @@ describe( "SelectionToolbar", () => {
 		expect( onToggleAll ).toHaveBeenCalled();
 	} );
 
+	it( "renders the master checkbox as indeterminate on a partial selection", () => {
+		render( <SelectionToolbar { ...toolbarProps } isIndeterminate={ true } selectedCount={ 3 } /> );
+
+		const checkbox = screen.getByRole( "checkbox", { name: "Select all" } );
+		expect( checkbox.indeterminate ).toBe( true );
+		expect( checkbox ).not.toBeChecked();
+	} );
+
+	it( "renders the master checkbox as checked (not indeterminate) when all rows are selected", () => {
+		render( <SelectionToolbar { ...toolbarProps } isAllSelected={ true } isIndeterminate={ false } selectedCount={ 20 } /> );
+
+		const checkbox = screen.getByRole( "checkbox", { name: "Select all" } );
+		expect( checkbox.indeterminate ).toBe( false );
+		expect( checkbox ).toBeChecked();
+	} );
+
 	it( "selects and deselects all from the Select menu", () => {
 		const onSelectAll = jest.fn();
 		const onDeselectAll = jest.fn();
