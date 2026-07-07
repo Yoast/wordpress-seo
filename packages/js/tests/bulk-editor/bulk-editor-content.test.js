@@ -1,7 +1,7 @@
 import { Fill, SlotFillProvider } from "@wordpress/components";
 import { dispatch } from "@wordpress/data";
 import { act, fireEvent, render, screen, waitFor } from "../test-utils";
-import { BulkEditorContent } from "../../src/bulk-editor/components/bulk-editor-content";
+import { BulkEditorContent, getSelectionView } from "../../src/bulk-editor/components/bulk-editor-content";
 import { FIELD_SET_SEARCH, PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../../src/bulk-editor/constants";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
@@ -44,6 +44,51 @@ const renderContent = () => render(
 		<SlotProbe />
 	</SlotFillProvider>
 );
+
+describe( "getSelectionView", () => {
+	const items = [ { id: 1 }, { id: 2 }, { id: 3 } ];
+
+	it( "presents a neutral selection while loading", () => {
+		expect( getSelectionView( true, [ 1, 2 ], items, 3 ) ).toEqual( {
+			isAllSelected: false,
+			isIndeterminate: false,
+			selectedCount: 0,
+			totalCount: 0,
+			hasSelection: false,
+		} );
+	} );
+
+	it( "marks the checkbox as checked when every row is selected", () => {
+		const view = getSelectionView( false, [ 1, 2, 3 ], items, 3 );
+
+		expect( view.isAllSelected ).toBe( true );
+		expect( view.isIndeterminate ).toBe( false );
+		expect( view.hasSelection ).toBe( true );
+	} );
+
+	it( "marks the checkbox as indeterminate on a partial selection", () => {
+		const view = getSelectionView( false, [ 1, 2 ], items, 3 );
+
+		expect( view.isAllSelected ).toBe( false );
+		expect( view.isIndeterminate ).toBe( true );
+		expect( view.hasSelection ).toBe( true );
+	} );
+
+	it( "leaves the checkbox neutral when nothing is selected", () => {
+		const view = getSelectionView( false, [], items, 3 );
+
+		expect( view.isAllSelected ).toBe( false );
+		expect( view.isIndeterminate ).toBe( false );
+		expect( view.hasSelection ).toBe( false );
+	} );
+
+	it( "reports the selected and total counts", () => {
+		const view = getSelectionView( false, [ 1, 2 ], items, 42 );
+
+		expect( view.selectedCount ).toBe( 2 );
+		expect( view.totalCount ).toBe( 42 );
+	} );
+} );
 
 describe( "BulkEditorContent tab-switch guard", () => {
 	beforeAll( () => {

@@ -1,6 +1,6 @@
 import ChevronDownIcon from "@heroicons/react/outline/ChevronDownIcon";
 import { Slot } from "@wordpress/components";
-import { useMemo } from "@wordpress/element";
+import { useEffect, useMemo, useRef } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, DropdownMenu, useSvgAria, useToggleState } from "@yoast/ui-library";
@@ -55,6 +55,7 @@ const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount } )
  * @param {Object}   props               The props.
  * @param {string}   [props.idSuffix]    A suffix that keeps the checkbox id unique across the two tab tables.
  * @param {boolean}  props.isAllSelected Whether every row is selected.
+ * @param {boolean}  [props.isIndeterminate] Whether only some rows are selected (renders the checkbox as a minus).
  * @param {Function} props.onToggleAll   Toggles between selecting every row and none.
  * @param {Function} props.onSelectAll   Selects every row.
  * @param {Function} props.onDeselectAll Clears the selection.
@@ -64,12 +65,20 @@ const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount } )
  *
  * @returns {JSX.Element} The selection toolbar.
  */
-export const SelectionToolbar = ( { idSuffix = "", isAllSelected, onToggleAll, onSelectAll, onDeselectAll, selectedCount, totalCount, contentTypeLabel } ) => {
+export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminate = false, onToggleAll, onSelectAll, onDeselectAll, selectedCount, totalCount, contentTypeLabel } ) => {
 	const noun = contentTypeLabel ? contentTypeLabel.toLowerCase() : __( "items", "wordpress-seo" );
+
+	const checkboxRef = useRef( null );
+	useEffect( () => {
+		if ( checkboxRef.current ) {
+			checkboxRef.current.indeterminate = isIndeterminate;
+		}
+	}, [ isIndeterminate ] );
 
 	return (
 		<div className="yst-flex yst-items-center yst-gap-4">
 			<Checkbox
+				ref={ checkboxRef }
 				id={ `bulk-editor-select-all${ idSuffix }` }
 				name={ `bulk-editor-select-all${ idSuffix }` }
 				value="all"

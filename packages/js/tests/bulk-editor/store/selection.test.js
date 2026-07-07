@@ -50,6 +50,12 @@ describe( "selection slice", () => {
 		expect( state.selectedIds ).toEqual( [] );
 	} );
 
+	it( "clears the selection when the page changes", () => {
+		const state = reducer( { selectedIds: [ 7, 9 ] }, queryActions.setPage( 2 ) );
+
+		expect( state.selectedIds ).toEqual( [] );
+	} );
+
 	it( "clears the selection when the content type changes", () => {
 		const state = reducer( { selectedIds: [ 7, 9 ] }, activeContentTypeActions.setActiveContentType( "page" ) );
 

@@ -49,6 +49,7 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$query->allows( 'where' )->with( 'object_type', 'post' )->andReturnSelf();
 		$query->allows( 'where' )->with( 'object_sub_type', 'page' )->andReturnSelf();
 		$query->allows( 'where_in' )->with( 'post_status', self::STATUSES )->andReturnSelf();
+		$query->expects( 'where' )->with( 'is_protected', 0 )->once()->andReturnSelf();
 		$query->allows( 'order_by_desc' )->with( 'object_id' )->andReturnSelf();
 		$query->allows( 'limit' )->with( 20 )->andReturnSelf();
 		$query->allows( 'offset' )->with( 0 )->andReturnSelf();

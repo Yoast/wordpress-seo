@@ -30,6 +30,7 @@ const slice = createSlice( {
 		// Any change to the shown result set resets the selection: the new set may no longer contain the selected rows.
 		builder.addCase( queryActions.setStatuses, () => createInitialSelectionState() );
 		builder.addCase( queryActions.setSearch, () => createInitialSelectionState() );
+		builder.addCase( queryActions.setPage, () => createInitialSelectionState() );
 		builder.addCase( activeContentTypeActions.setActiveContentType, () => createInitialSelectionState() );
 	},
 } );
