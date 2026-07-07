@@ -78,6 +78,59 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 	}
 
 	/**
+	 * Tests that HTML entities in the post title are decoded so they render as text.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_decodes_html_entities_in_the_title() {
+		$post = (object) [
+			'ID'          => 7,
+			'post_status' => 'draft',
+		];
+
+		$wp_query              = Mockery::mock( WP_Query::class );
+		$wp_query->posts       = [ $post ];
+		$wp_query->found_posts = 1;
+
+		$this->instance->expects( 'run_query' )->once()->andReturn( $wp_query );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Tips &amp; Tricks: &#8220;SEO&#8221;' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+		Functions\expect( 'get_post_meta' )->times( 5 )->andReturn( '' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', [ 'publish' ] ) )->to_array();
+
+		$this->assertSame( 'Tips & Tricks: “SEO”', $result['posts'][0]['title'] );
+	}
+
+	/**
+	 * Tests that an empty post title falls back to the untitled-post convention.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_falls_back_when_the_title_is_empty() {
+		$post = (object) [
+			'ID'          => 7,
+			'post_status' => 'draft',
+		];
+
+		$wp_query              = Mockery::mock( WP_Query::class );
+		$wp_query->posts       = [ $post ];
+		$wp_query->found_posts = 1;
+
+		$this->instance->expects( 'run_query' )->once()->andReturn( $wp_query );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( '' );
+		Functions\expect( '__' )->once()->with( '(no title)', 'wordpress-seo' )->andReturn( '(no title)' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+		Functions\expect( 'get_post_meta' )->times( 5 )->andReturn( '' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', [ 'publish' ] ) )->to_array();
+
+		$this->assertSame( '(no title)', $result['posts'][0]['title'] );
+	}
+
+	/**
 	 * Tests that the total is taken from the query's found_posts.
 	 *
 	 * @return void
