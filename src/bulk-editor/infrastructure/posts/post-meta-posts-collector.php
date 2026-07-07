@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
  */
 class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 
+	use Post_Title_Trait;
 	use Searchable_Fields_Trait;
 
 	/**
@@ -51,8 +52,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			$posts_list->add(
 				new Post(
 					$post->ID,
-					// get_the_title() can return HTML-encoded entities; decode them so they render as text in the React table.
-					\html_entity_decode( \get_the_title( $post->ID ), \ENT_QUOTES, 'UTF-8' ),
+					$this->get_normalized_title( $post->ID ),
 					$post->post_status,
 					(string) \get_edit_post_link( $post->ID, 'raw' ),
 					$this->get_meta( $post->ID, 'focuskw' ),

@@ -81,22 +81,6 @@ describe( "usePosts", () => {
 		expect( result.current.totalPages ).toBe( 3 );
 	} );
 
-	it( "falls back to (no title) for a post without a title", async() => {
-		const remoteDataProvider = {
-			/* eslint-disable camelcase -- The REST endpoint returns snake_case fields. */
-			fetchJson: jest.fn( () => Promise.resolve( {
-				posts: [ { id: 8, title: "", status: "draft", edit_link: "post.php?post=8&action=edit" } ],
-			} ) ),
-			/* eslint-enable camelcase -- The REST endpoint returns snake_case fields. */
-		};
-
-		const { result } = renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
-
-		await waitFor( () => expect( result.current.isPending ).toBe( false ) );
-
-		expect( result.current.data[ 0 ].title ).toBe( "(no title)" );
-	} );
-
 	it( "maps a missing response to an empty list", async() => {
 		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve() ) };
 

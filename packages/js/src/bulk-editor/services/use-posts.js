@@ -1,6 +1,5 @@
 import { useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
 import { PAGE_SIZE, STORE_NAME } from "../constants";
 
 /**
@@ -12,8 +11,7 @@ import { PAGE_SIZE, STORE_NAME } from "../constants";
  */
 const formatPost = ( post ) => ( {
 	id: post.id,
-	// Mirror WordPress' own untitled-post convention so the table and its accessible names always have text content.
-	title: post.title || __( "(no title)", "wordpress-seo" ),
+	title: post.title,
 	status: post.status,
 	editLink: post.edit_link,
 	focusKeyphrase: post.focus_keyphrase,
