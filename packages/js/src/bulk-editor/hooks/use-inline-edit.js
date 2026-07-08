@@ -1,6 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useMemo, useState } from "@wordpress/element";
-import { STORE_NAME } from "../constants";
+import { BULK_UPDATE_BATCH_SIZE, STORE_NAME } from "../constants";
 
 /**
  * The endpoint key a field saves through: a field-level override when set, otherwise the field set's default.
@@ -108,17 +108,28 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			return;
 		}
 
+		// One POST per endpoint, chunked to the server's batch limit: editing rows accumulate across pages, so the
+		// total can exceed a single batch — chunking keeps every request within the limit rather than being rejected.
+		const requests = groups.flatMap( ( group ) => {
+			const endpointItems = Object.values( group.items );
+			const chunks = [];
+			for ( let start = 0; start < endpointItems.length; start += BULK_UPDATE_BATCH_SIZE ) {
+				chunks.push( endpointItems.slice( start, start + BULK_UPDATE_BATCH_SIZE ) );
+			}
+			return chunks.map( ( chunk ) => remoteDataProvider.fetchJson( group.endpoint, {}, {
+				method: "POST",
+				body: JSON.stringify( { items: chunk } ),
+			} ) );
+		} );
+
 		setIsApplyingAll( true );
 		try {
-			await Promise.all( groups.map( ( group ) => remoteDataProvider.fetchJson( group.endpoint, {}, {
-				method: "POST",
-				body: JSON.stringify( { items: Object.values( group.items ) } ),
-			} ) ) );
+			await Promise.all( requests );
 			// Reflect every saved field on its row, then leave edit mode for all rows at once.
 			groups.forEach( ( group ) => group.applied.forEach( ( { id, key, value } ) => updateItem( id, key, value ) ) );
 			stopEdit();
 		} catch ( error ) {
-			// Keep the drafts so the user can retry; the fields stay in edit mode.
+			// A request failed: keep the drafts and stay in edit mode so the user can retry.
 		} finally {
 			setIsApplyingAll( false );
 		}

@@ -94,15 +94,10 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	}, [ activeFieldSet, hasUnsavedEdits, hasExternalPendingChanges, setActiveFieldSet ] );
 
 	const onSaveAndSwitch = useCallback( () => {
-		// Fire the save for every open field; each reads its draft synchronously, so clearing the edit state
-		// right after still posts the captured values while leaving the new tab clean. Clearing the edits flips
-		// hasUnsavedEdits to false, after which the switch completes via the self-heal effect (nothing external
-		// pending) or the slot modal (an external plugin still has pending changes) — never both at once.
-		Object.entries( editing.editingRows ).forEach( ( [ id, row ] ) =>
-			row.openFields.forEach( ( key ) => editing.onApplyField( { id: Number( id ), key } ) )
-		);
-		stopEditing();
-	}, [ editing, stopEditing ] );
+		// Save every open edit as one batch. On failure the drafts stay open, so the switch is not committed
+		// and no edits are silently lost.
+		editing.onApplyAll();
+	}, [ editing ] );
 
 	const onDiscardAndSwitch = useCallback( () => {
 		// Clearing the edits flips hasUnsavedEdits to false; the self-heal effect or the slot modal then completes

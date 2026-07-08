@@ -65,6 +65,25 @@ describe( "useInlineEdit batch actions", () => {
 		} );
 	} );
 
+	it( "chunks a large batch to the server's item limit, one request per 20 rows", async() => {
+		// Editing rows accumulate across pages, so a batch can exceed the 20-item server limit; 21 rows on one
+		// endpoint must go out as two requests (20 + 1) rather than one oversized POST that would be rejected.
+		editingRows = Object.fromEntries( Array.from( { length: 21 }, ( _row, index ) => {
+			const id = index + 1;
+			return [ id, { openFields: [ "seoTitle" ], draft: { seoTitle: `Title ${ id }` }, savingFields: {} } ];
+		} ) );
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( {} ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyAll();
+		} );
+
+		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledTimes( 2 );
+		const itemCounts = remoteDataProvider.fetchJson.mock.calls.map( ( call ) => JSON.parse( call[ 2 ].body ).items.length );
+		expect( itemCounts ).toEqual( [ 20, 1 ] );
+	} );
+
 	it( "reflects every saved field and leaves edit mode after applying all", async() => {
 		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( {} ) ) };
 		const { result } = renderEdit( remoteDataProvider );

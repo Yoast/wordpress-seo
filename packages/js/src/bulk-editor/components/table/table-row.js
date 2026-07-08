@@ -25,8 +25,9 @@ import { getFieldTextClasses, getRowEditState } from "./table-helpers";
  */
 export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleRow, edit, editing, hasExternalPendingChanges = false } ) => {
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
-	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField, onFieldApplied } = editing;
-	const isSaving = Object.keys( savingFields ).length > 0;
+	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField, onFieldApplied, isApplyingAll } = editing;
+	// Treat a batch "Save edits" as saving this row too, so its inputs and Save/Cancel lock and a per-field save can't race the batch.
+	const isSaving = Object.keys( savingFields ).length > 0 || isApplyingAll;
 	const fillsSeoTitles = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/seoTitle/${item.id}` );
 	const fillsMetaDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/metaDescription/${item.id}` );
 	const fillsSocialTitle = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialTitle/${item.id}` );

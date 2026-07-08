@@ -187,8 +187,7 @@ export const ManualReviewActions = ( { editCount, onApplyAll, onDiscardAll, isAp
  * @param {string}   [props.contentTypeLabel] The active content type label (plural), passed to the notices fill for its copy.
  * @param {string}   [props.contentTypeSingularLabel] The active content type singular label, passed to the notices fill.
  * @param {boolean}  [props.hasUnsavedEdits]  Whether a row has unsaved manual edits, passed to the actions fill so Premium
- *                                             can disable the AI buttons while edits are in progress. While true, the bar
- *                                             also shows the Apply all / Discard all review actions alongside the generate ones.
+ *                                             can disable the AI buttons while edits are in progress.
  * @param {number}   [props.editCount]        The number of rows with unsaved manual edits, shown in the review summary.
  * @param {Function} [props.onApplyAll]       Saves every row's open edits.
  * @param {Function} [props.onDiscardAll]     Discards every row's open edits.

@@ -120,6 +120,23 @@ describe( "BulkEditorTable", () => {
 		expect( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).toBeDisabled();
 	} );
 
+	it( "locks a row's Save and Cancel while a batch Save edits is in flight", () => {
+		render(
+			<BulkEditorTable
+				items={ items }
+				fieldSet={ searchFieldSet }
+				editing={ {
+					editingRows: { 1: { openFields: [ "seoTitle" ], draft: { seoTitle: "New title" }, savingFields: {} } },
+					isApplyingAll: true,
+				} }
+			/>
+		);
+
+		// A per-field save must not race the in-flight batch, so the row's own Save/Cancel lock too.
+		expect( screen.getByRole( "button", { name: "Save What Is SEO" } ) ).toBeDisabled();
+		expect( screen.getByRole( "button", { name: "Cancel editing What Is SEO" } ) ).toBeDisabled();
+	} );
+
 	it( "marks column and row headers with scope", () => {
 		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } /> );
 

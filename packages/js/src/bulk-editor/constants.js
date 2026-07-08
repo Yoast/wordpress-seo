@@ -10,6 +10,9 @@ export const ROOT_ID = "yoast-seo-bulk-editor";
 // How many rows the bulk editor shows per page; also sizes the loading skeleton.
 export const PAGE_SIZE = 20;
 
+// The most items a single bulk-update request may carry; mirrors the server's Batch_Limit::MAX_ITEMS.
+export const BULK_UPDATE_BATCH_SIZE = 20;
+
 // The minimum term length before the debounced as-you-type search runs; the Search button has no minimum.
 export const MIN_SEARCH_LENGTH = 3;
 
