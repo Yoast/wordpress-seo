@@ -451,7 +451,7 @@ final class Abilities_Integration_Test extends TestCase {
 				'type'        => 'string',
 				'enum'        => [ 'na', 'bad', 'ok', 'good' ],
 				'description' => \sprintf(
-					'The score that the %s assigned to the post when it was last saved.',
+					'The result of the %s that ran on the post when it was last saved.',
 					$analysis,
 				),
 			];
