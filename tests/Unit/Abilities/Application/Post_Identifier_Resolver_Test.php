@@ -108,7 +108,8 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_resolve_one_by_permalink() {
-		$indexable = Mockery::mock();
+		$indexable              = Mockery::mock();
+		$indexable->object_type = 'post';
 
 		$this->indexable_repository
 			->expects( 'find_by_permalink' )
@@ -140,6 +141,33 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 		$this->assertInstanceOf(
 			WP_Error::class,
 			$this->instance->resolve_one( [ 'permalink' => 'https://example.com/missing/' ] ),
+		);
+	}
+
+	/**
+	 * Tests resolve_one by permalink rejects an indexable that is not a post.
+	 *
+	 * The permalink lookup is not scoped by object type, so a term, author, or
+	 * archive URL can match an indexable too; those must not resolve.
+	 *
+	 * @covers ::resolve_one
+	 * @covers ::by_permalink
+	 *
+	 * @return void
+	 */
+	public function test_resolve_one_by_permalink_rejects_non_post() {
+		$indexable              = Mockery::mock();
+		$indexable->object_type = 'term';
+
+		$this->indexable_repository
+			->expects( 'find_by_permalink' )
+			->once()
+			->with( 'https://example.com/category/news/' )
+			->andReturn( $indexable );
+
+		$this->assertInstanceOf(
+			WP_Error::class,
+			$this->instance->resolve_one( [ 'permalink' => 'https://example.com/category/news/' ] ),
 		);
 	}
 

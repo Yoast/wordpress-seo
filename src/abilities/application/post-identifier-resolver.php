@@ -126,7 +126,10 @@ class Post_Identifier_Resolver {
 	 */
 	private function by_permalink( string $permalink ) {
 		$indexable = $this->indexable_repository->find_by_permalink( $permalink );
-		if ( ! $indexable ) {
+
+		// The permalink lookup is not scoped by object type, so a term, author, or
+		// archive URL can match too; only posts are valid targets here.
+		if ( ! $indexable || $indexable->object_type !== 'post' ) {
 			return $this->invalid_identifier( 'permalink' );
 		}
 
