@@ -277,6 +277,35 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 	}
 
 	/**
+	 * Tests resolve_many by title returns an empty list for an empty later page.
+	 *
+	 * The page parameter's schema documents that an empty result means there are
+	 * no further pages, so paging past the last result is not an invalid identifier.
+	 *
+	 * @covers ::resolve_many
+	 * @covers ::by_title
+	 *
+	 * @return void
+	 */
+	public function test_resolve_many_by_title_empty_later_page() {
+		$this->indexable_repository
+			->expects( 'find_posts_by_title_keywords' )
+			->once()
+			->with( 'guide', 2 )
+			->andReturn( [] );
+
+		$this->assertSame(
+			[],
+			$this->instance->resolve_many(
+				[
+					'title' => 'guide',
+					'page'  => 2,
+				],
+			),
+		);
+	}
+
+	/**
 	 * Tests resolve_many by title returns a not-found error when a match is not an indexable.
 	 *
 	 * @covers ::resolve_many

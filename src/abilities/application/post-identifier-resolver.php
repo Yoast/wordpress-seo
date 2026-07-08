@@ -139,9 +139,10 @@ class Post_Identifier_Resolver {
 	/**
 	 * Resolves posts by title keywords.
 	 *
-	 * A title search may match several posts; no match (or an unexpected result
-	 * that is not a list of indexables) is treated as not-found, mirroring the
-	 * by-id and by-permalink resolvers.
+	 * A title search may match several posts; no match on the first page (or an
+	 * unexpected result that is not a list of indexables) is treated as not-found,
+	 * mirroring the by-id and by-permalink resolvers. An empty later page is valid
+	 * pagination past the last result, as the page parameter's schema documents.
 	 *
 	 * @param string $title The title keywords.
 	 * @param int    $page  The 1-based result page.
@@ -152,6 +153,11 @@ class Post_Identifier_Resolver {
 		$indexables = $this->indexable_repository->find_posts_by_title_keywords( $title, $page );
 
 		if ( $indexables === [] ) {
+			// An empty later page means the client paged past the last result, not a bad identifier.
+			if ( $page > 1 ) {
+				return [];
+			}
+
 			return $this->invalid_identifier( 'title' );
 		}
 
