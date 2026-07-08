@@ -80,10 +80,14 @@ class Request {
 	/**
 	 * Get the body of the request.
 	 *
-	 * @return array<string> The body of the request.
+	 * Returns null for an empty body: an empty PHP array is ambiguous once JSON-encoded (`[]` vs `{}`),
+	 * so an empty body is omitted from the request entirely rather than sent as an empty array, which
+	 * the AI service rejects.
+	 *
+	 * @return array<string>|null The body of the request, or null when there is no body to send.
 	 */
-	public function get_body(): array {
-		return $this->body;
+	public function get_body(): ?array {
+		return ( $this->body === [] ) ? null : $this->body;
 	}
 
 	/**
@@ -102,5 +106,21 @@ class Request {
 	 */
 	public function get_http_method(): string {
 		return $this->http_method;
+	}
+
+	/**
+	 * Returns a copy of the request with the given headers merged in.
+	 *
+	 * @param array<string> $headers The headers to add.
+	 *
+	 * @return self The new request.
+	 */
+	public function with_added_headers( array $headers ): self {
+		return new self(
+			$this->action_path,
+			$this->body,
+			\array_merge( $this->headers, $headers ),
+			$this->http_method,
+		);
 	}
 }

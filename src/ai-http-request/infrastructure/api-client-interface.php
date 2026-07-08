@@ -14,10 +14,10 @@ interface API_Client_Interface {
 	/**
 	 * Performs a request to the API.
 	 *
-	 * @param string        $action_path The action path for the request.
-	 * @param array<string> $body        The body of the request.
-	 * @param array<string> $headers     The headers for the request.
-	 * @param string        $http_method The HTTP method for the request. One of `Request::METHOD_*`.
+	 * @param string             $action_path The action path for the request.
+	 * @param array<string>|null $body        The body of the request, or null/empty to send no body.
+	 * @param array<string>      $headers     The headers for the request.
+	 * @param string             $http_method The HTTP method for the request. One of `Request::METHOD_*`.
 	 *
 	 * @return array<int|string|array<string>> The response from the API.
 	 *
