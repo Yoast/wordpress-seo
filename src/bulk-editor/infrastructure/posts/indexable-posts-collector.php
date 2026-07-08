@@ -23,6 +23,18 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	use Searchable_Fields_Trait;
 
 	/**
+	 * Maps each "needs improvement" field key to its indexable column.
+	 *
+	 * @var array<string, string>
+	 */
+	private const FIELD_COLUMNS = [
+		'seo_title'          => 'title',
+		'meta_description'   => 'description',
+		'social_title'       => 'open_graph_title',
+		'social_description' => 'open_graph_description',
+	];
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -113,7 +125,43 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			$this->apply_search( $builder, $query->get_search() );
 		}
 
+		if ( $query->get_needs_improvement() !== [] ) {
+			$this->apply_needs_improvement( $builder, $query->get_needs_improvement() );
+		}
+
 		return $builder;
+	}
+
+	/**
+	 * Adds the "needs improvement" clause to the query.
+	 *
+	 * A field needs improvement when its indexable column is NULL or an empty string. The selected fields are
+	 * OR-ed inside a single group so they broaden the result without interfering with the other filters, and
+	 * unknown field keys are ignored.
+	 *
+	 * @param ORM           $builder The query to add the clause to.
+	 * @param array<string> $fields  The fields that must be empty.
+	 *
+	 * @return void
+	 */
+	private function apply_needs_improvement( ORM $builder, array $fields ): void {
+		$clauses = [];
+		foreach ( $fields as $field ) {
+			if ( isset( self::FIELD_COLUMNS[ $field ] ) ) {
+				$column    = self::FIELD_COLUMNS[ $field ];
+				$clauses[] = '( ' . $column . ' IS NULL OR ' . $column . ' = %s )';
+			}
+		}
+
+		if ( $clauses === [] ) {
+			return;
+		}
+
+		// The column names come from the internal FIELD_COLUMNS map, never from input; only the empty string is bound.
+		$builder->where_raw(
+			'( ' . \implode( ' OR ', $clauses ) . ' )',
+			\array_fill( 0, \count( $clauses ), '' ),
+		);
 	}
 
 	/**

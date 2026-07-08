@@ -89,13 +89,13 @@ class Posts_Route implements Route_Interface {
 			[
 				'methods'             => 'GET',
 				'args'                => [
-					'content_type' => [
+					'content_type'      => [
 						'required'          => true,
 						'type'              => 'string',
 						'description'       => 'The content type to fetch posts for.',
 						'sanitize_callback' => 'sanitize_text_field',
 					],
-					'per_page'     => [
+					'per_page'          => [
 						'required'          => false,
 						'type'              => 'integer',
 						'default'           => self::DEFAULT_PER_PAGE,
@@ -104,7 +104,7 @@ class Posts_Route implements Route_Interface {
 						'description'       => 'The number of posts to fetch.',
 						'sanitize_callback' => 'absint',
 					],
-					'page'         => [
+					'page'              => [
 						'required'          => false,
 						'type'              => 'integer',
 						'default'           => 1,
@@ -112,14 +112,14 @@ class Posts_Route implements Route_Interface {
 						'description'       => 'The page of posts to fetch.',
 						'sanitize_callback' => 'absint',
 					],
-					'search'       => [
+					'search'            => [
 						'required'          => false,
 						'type'              => 'string',
 						'default'           => '',
 						'description'       => 'The term to search posts by.',
 						'sanitize_callback' => 'sanitize_text_field',
 					],
-					'status'       => [
+					'status'            => [
 						'required'    => false,
 						'type'        => 'array',
 						'default'     => Posts_Collector_Interface::STATUSES,
@@ -128,6 +128,16 @@ class Posts_Route implements Route_Interface {
 							'enum' => Posts_Collector_Interface::STATUSES,
 						],
 						'description' => 'The post statuses to include.',
+					],
+					'needs_improvement' => [
+						'required'    => false,
+						'type'        => 'array',
+						'default'     => [],
+						'items'       => [
+							'type' => 'string',
+							'enum' => Posts_Collector_Interface::NEEDS_IMPROVEMENT_FIELDS,
+						],
+						'description' => 'The fields that must be empty for a post to be included.',
 					],
 				],
 				'callback'            => [ $this, 'get_posts' ],
@@ -166,6 +176,7 @@ class Posts_Route implements Route_Interface {
 			(int) $request->get_param( 'per_page' ),
 			(string) $request->get_param( 'search' ),
 			$statuses,
+			(array) $request->get_param( 'needs_improvement' ),
 		);
 
 		return new WP_REST_Response( $this->posts_repository->get_posts( $query )->to_array() );

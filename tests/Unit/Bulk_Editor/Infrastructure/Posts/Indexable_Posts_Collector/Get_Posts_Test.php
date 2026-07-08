@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_query
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::resolve_total
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::apply_search
+ * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::apply_needs_improvement
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_post
  */
 final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
@@ -205,5 +206,44 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$this->assertSame( [], $result['posts'] );
 		$this->assertSame( 0, $result['total'] );
 		$this->assertSame( 0, $result['total_pages'] );
+	}
+
+	/**
+	 * Tests that the needs-improvement filter adds an empty-column clause for each selected field.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_filters_on_needs_improvement() {
+		$captured = [];
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		// The clause backs both the page query and the fallback count query, so it is added twice.
+		$query->expects( 'where_raw' )
+			->twice()
+			->with(
+				Mockery::on(
+					static function ( $clause ) use ( &$captured ) {
+						$captured[] = $clause;
+
+						return true;
+					},
+				),
+				[ '', '' ],
+			)
+			->andReturnSelf();
+		$query->allows( 'count' )->andReturn( 0 );
+		$query->expects( 'find_many' )->once()->andReturn( [] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+
+		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, [ 'seo_title', 'meta_description' ] ) );
+
+		$this->assertStringContainsString( 'title IS NULL', $captured[0] );
+		$this->assertStringContainsString( 'description IS NULL', $captured[0] );
 	}
 }

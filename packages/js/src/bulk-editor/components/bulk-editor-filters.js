@@ -3,17 +3,23 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, CheckboxGroup, Popover, useSvgAria } from "@yoast/ui-library";
-import { STORE_NAME } from "../constants";
+import { FIELD_SET_SOCIAL, NEEDS_IMPROVEMENT_DESCRIPTION, NEEDS_IMPROVEMENT_TITLE, STORE_NAME } from "../constants";
 
 /**
- * The Filters button and popover: narrows the table by post status.
+ * The Filters button and popover: narrows the table by post status and by which fields need improvement.
  * A badge shows how many filters are applied.
+ *
+ * The "needs improvement" options are tab-agnostic (values {@link NEEDS_IMPROVEMENT_TITLE} /
+ * {@link NEEDS_IMPROVEMENT_DESCRIPTION}); only their labels change with the active tab, so a checked box
+ * keeps its selection and re-targets the tab's title/description field when the user switches tabs.
  *
  * @returns {JSX.Element} The filters control.
  */
 export const BulkEditorFilters = () => {
 	const statuses = useSelect( ( select ) => select( STORE_NAME ).selectStatuses(), [] );
-	const { setStatuses } = useDispatch( STORE_NAME );
+	const needsImprovement = useSelect( ( select ) => select( STORE_NAME ).selectNeedsImprovement(), [] );
+	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
+	const { setStatuses, setNeedsImprovement } = useDispatch( STORE_NAME );
 	const [ isOpen, setIsOpen ] = useState( false );
 	const containerRef = useRef( null );
 	const triggerRef = useRef( null );
@@ -25,6 +31,22 @@ export const BulkEditorFilters = () => {
 		{ value: "pending", label: __( "Pending", "wordpress-seo" ) },
 		{ value: "draft", label: __( "Draft", "wordpress-seo" ) },
 	], [] );
+
+	const isSocial = activeFieldSet === FIELD_SET_SOCIAL;
+	const needsImprovementOptions = useMemo( () => [
+		{
+			value: NEEDS_IMPROVEMENT_TITLE,
+			label: isSocial
+				? __( "Social title needs improvement", "wordpress-seo" )
+				: __( "SEO title needs improvement", "wordpress-seo" ),
+		},
+		{
+			value: NEEDS_IMPROVEMENT_DESCRIPTION,
+			label: isSocial
+				? __( "Social description needs improvement", "wordpress-seo" )
+				: __( "Meta description needs improvement", "wordpress-seo" ),
+		},
+	], [ isSocial ] );
 
 	const toggleOpen = useCallback( () => setIsOpen( ( open ) => ! open ), [] );
 
@@ -55,7 +77,7 @@ export const BulkEditorFilters = () => {
 		};
 	}, [ isOpen ] );
 
-	const appliedCount = statuses.length;
+	const appliedCount = statuses.length + needsImprovement.length;
 
 	return (
 		<div ref={ containerRef } className="yst-relative">
@@ -77,6 +99,13 @@ export const BulkEditorFilters = () => {
 					options={ statusOptions }
 					values={ statuses }
 					onChange={ setStatuses }
+				/>
+				<CheckboxGroup
+					id="bulk-editor-needs-improvement-filter"
+					className="yst-mt-3 yst-pt-3 yst-border-t yst-border-slate-200 [&_.yst-checkbox]:yst-cursor-pointer [&_label]:!yst-cursor-pointer [&_.yst-checkbox]:yst-rounded [&_.yst-checkbox]:-yst-mx-2 [&_.yst-checkbox]:yst-px-2 [&_.yst-checkbox]:yst-py-1 [&_.yst-checkbox:hover]:yst-bg-slate-50"
+					options={ needsImprovementOptions }
+					values={ needsImprovement }
+					onChange={ setNeedsImprovement }
 				/>
 			</Popover>
 		</div>

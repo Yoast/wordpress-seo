@@ -22,13 +22,23 @@ final class Posts_Query_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_getters() {
-		$instance = new Posts_Query( 'page', 2, 20, 'seo', [ 'publish', 'draft' ] );
+		$instance = new Posts_Query( 'page', 2, 20, 'seo', [ 'publish', 'draft' ], [ 'seo_title' ] );
 
 		$this->assertSame( 'page', $instance->get_content_type() );
 		$this->assertSame( 2, $instance->get_page() );
 		$this->assertSame( 20, $instance->get_per_page() );
 		$this->assertSame( 'seo', $instance->get_search() );
 		$this->assertSame( [ 'publish', 'draft' ], $instance->get_statuses() );
+		$this->assertSame( [ 'seo_title' ], $instance->get_needs_improvement() );
+	}
+
+	/**
+	 * Tests that the needs-improvement filter defaults to none.
+	 *
+	 * @return void
+	 */
+	public function test_needs_improvement_defaults_to_empty() {
+		$this->assertSame( [], ( new Posts_Query( 'page', 1, 20, '', [] ) )->get_needs_improvement() );
 	}
 
 	/**

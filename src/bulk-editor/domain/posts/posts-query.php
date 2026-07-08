@@ -47,26 +47,36 @@ class Posts_Query {
 	private $statuses;
 
 	/**
+	 * The fields that must be empty for a post to be included, or an empty array for no such filter.
+	 *
+	 * @var array<string>
+	 */
+	private $needs_improvement;
+
+	/**
 	 * The constructor.
 	 *
-	 * @param string        $content_type The content type to get posts for.
-	 * @param int           $page         The page of results to get, starting at 1.
-	 * @param int           $per_page     The number of posts per page.
-	 * @param string        $search       The search term, or an empty string for no search.
-	 * @param array<string> $statuses     The post statuses to include.
+	 * @param string        $content_type      The content type to get posts for.
+	 * @param int           $page              The page of results to get, starting at 1.
+	 * @param int           $per_page          The number of posts per page.
+	 * @param string        $search            The search term, or an empty string for no search.
+	 * @param array<string> $statuses          The post statuses to include.
+	 * @param array<string> $needs_improvement The fields that must be empty to include a post, or an empty array for no such filter.
 	 */
 	public function __construct(
 		string $content_type,
 		int $page,
 		int $per_page,
 		string $search,
-		array $statuses
+		array $statuses,
+		array $needs_improvement = []
 	) {
-		$this->content_type = $content_type;
-		$this->page         = $page;
-		$this->per_page     = $per_page;
-		$this->search       = $search;
-		$this->statuses     = $statuses;
+		$this->content_type      = $content_type;
+		$this->page              = $page;
+		$this->per_page          = $per_page;
+		$this->search            = $search;
+		$this->statuses          = $statuses;
+		$this->needs_improvement = $needs_improvement;
 	}
 
 	/**
@@ -121,6 +131,15 @@ class Posts_Query {
 	 */
 	public function get_statuses(): array {
 		return $this->statuses;
+	}
+
+	/**
+	 * Returns the fields that must be empty for a post to be included.
+	 *
+	 * @return array<string> The fields, or an empty array for no such filter.
+	 */
+	public function get_needs_improvement(): array {
+		return $this->needs_improvement;
 	}
 
 	/**

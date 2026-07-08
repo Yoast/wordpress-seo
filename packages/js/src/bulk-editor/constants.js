@@ -20,6 +20,23 @@ export const FIELD_SET_SOCIAL = "social";
 // The focus keyphrase field key; also used to give that column its own text styling.
 export const FOCUS_KEYPHRASE_KEY = "focusKeyphrase";
 
+// The "needs improvement" filter concepts. They are tab-agnostic: the active tab decides which concrete
+// field each one targets, so a checked box relabels and re-targets when the user switches tabs.
+export const NEEDS_IMPROVEMENT_TITLE = "title";
+export const NEEDS_IMPROVEMENT_DESCRIPTION = "description";
+
+// Resolves a "needs improvement" concept to the request parameter key the posts endpoint expects, per tab.
+export const NEEDS_IMPROVEMENT_FIELD_PARAMS = {
+	[ FIELD_SET_SEARCH ]: {
+		[ NEEDS_IMPROVEMENT_TITLE ]: "seo_title",
+		[ NEEDS_IMPROVEMENT_DESCRIPTION ]: "meta_description",
+	},
+	[ FIELD_SET_SOCIAL ]: {
+		[ NEEDS_IMPROVEMENT_TITLE ]: "social_title",
+		[ NEEDS_IMPROVEMENT_DESCRIPTION ]: "social_description",
+	},
+};
+
 // The SlotFill name Premium fills with its bulk actions.
 export const BULK_ACTIONS_SLOT = "yoast.bulkEditor.bulkActions";
 

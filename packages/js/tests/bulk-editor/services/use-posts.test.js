@@ -11,17 +11,19 @@ describe( "usePosts", () => {
 
 	beforeEach( () => {
 		dataProvider = { getEndpoint: jest.fn( () => "https://example.com/wp-json/yoast/v1/bulk_editor/posts" ) };
-		storeState = { search: "", page: 1, statuses: [] };
+		storeState = { search: "", page: 1, statuses: [], needsImprovement: [], activeFieldSet: "search" };
 		// Resolve each useSelect call against our controllable store state.
 		useSelect.mockImplementation( ( mapSelect ) => mapSelect( () => ( {
 			selectSearch: () => storeState.search,
 			selectPage: () => storeState.page,
 			selectStatuses: () => storeState.statuses,
+			selectNeedsImprovement: () => storeState.needsImprovement ?? [],
+			selectActiveFieldSet: () => storeState.activeFieldSet ?? "search",
 		} ) ) );
 	} );
 
-	it( "requests the posts endpoint with the content type, page size, page, search and statuses", async() => {
-		storeState = { search: "seo", page: 2, statuses: [ "draft", "pending" ] };
+	it( "requests the posts endpoint with the content type, page size, page, search, statuses and needs-improvement", async() => {
+		storeState = { search: "seo", page: 2, statuses: [ "draft", "pending" ], needsImprovement: [], activeFieldSet: "search" };
 		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { posts: [] } ) ) };
 
 		renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
@@ -32,8 +34,25 @@ describe( "usePosts", () => {
 		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
 			"https://example.com/wp-json/yoast/v1/bulk_editor/posts",
 			// eslint-disable-next-line camelcase -- The REST endpoint expects snake_case query parameters.
-			{ content_type: "page", per_page: String( PAGE_SIZE ), page: "2", search: "seo", status: [ "draft", "pending" ] },
+			{ content_type: "page", per_page: String( PAGE_SIZE ), page: "2", search: "seo", status: [ "draft", "pending" ], needs_improvement: [] },
 			expect.objectContaining( { signal: expect.anything() } )
+		);
+	} );
+
+	it( "resolves the tab-agnostic needs-improvement concepts to the active tab's fields", async() => {
+		storeState = { search: "", page: 1, statuses: [], needsImprovement: [ "title", "description" ], activeFieldSet: "social" };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { posts: [] } ) ) };
+
+		renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
+
+		await waitFor( () => expect( remoteDataProvider.fetchJson ).toHaveBeenCalled() );
+
+		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
+			expect.anything(),
+			// The social tab maps title/description to the social fields.
+			// eslint-disable-next-line camelcase -- The REST endpoint expects snake_case query parameters.
+			expect.objectContaining( { needs_improvement: [ "social_title", "social_description" ] } ),
+			expect.anything()
 		);
 	} );
 

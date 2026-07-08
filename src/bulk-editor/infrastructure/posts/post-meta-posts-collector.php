@@ -26,6 +26,18 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	private const META_PREFIX = '_yoast_wpseo_';
 
 	/**
+	 * Maps each "needs improvement" field key to its Yoast meta key suffix.
+	 *
+	 * @var array<string, string>
+	 */
+	private const FIELD_META_SUFFIXES = [
+		'seo_title'          => 'title',
+		'meta_description'   => 'metadesc',
+		'social_title'       => 'opengraph-title',
+		'social_description' => 'opengraph-description',
+	];
+
+	/**
 	 * The query var that flags our own query so the search filter only touches it.
 	 */
 	private const SEARCH_FLAG = 'yoast_bulk_editor_search';
@@ -94,6 +106,11 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			'update_post_term_cache' => false,
 		];
 
+		$meta_query = $this->build_needs_improvement_meta_query( $query->get_needs_improvement() );
+		if ( $meta_query !== [] ) {
+			$args['meta_query'] = $meta_query;
+		}
+
 		if ( ! $query->has_search() ) {
 			return new WP_Query( $args );
 		}
@@ -126,6 +143,42 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		}
 
 		return $where;
+	}
+
+	/**
+	 * Builds the meta_query for the "needs improvement" filter.
+	 *
+	 * A field needs improvement when its meta row is missing or stores an empty string. The selected fields are
+	 * OR-ed so they broaden the result, and unknown field keys are ignored.
+	 *
+	 * @param array<string> $fields The fields that must be empty.
+	 *
+	 * @return array<mixed> The meta_query, or an empty array when no known field is selected.
+	 */
+	private function build_needs_improvement_meta_query( array $fields ): array {
+		$clauses = [];
+		foreach ( $fields as $field ) {
+			if ( ! isset( self::FIELD_META_SUFFIXES[ $field ] ) ) {
+				continue;
+			}
+
+			$meta_key  = self::META_PREFIX . self::FIELD_META_SUFFIXES[ $field ];
+			$clauses[] = [
+				'key'     => $meta_key,
+				'compare' => 'NOT EXISTS',
+			];
+			$clauses[] = [
+				'key'     => $meta_key,
+				'value'   => '',
+				'compare' => '=',
+			];
+		}
+
+		if ( $clauses === [] ) {
+			return [];
+		}
+
+		return \array_merge( [ 'relation' => 'OR' ], $clauses );
 	}
 
 	/**

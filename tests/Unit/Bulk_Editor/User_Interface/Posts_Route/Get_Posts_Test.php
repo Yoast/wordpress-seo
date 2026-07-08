@@ -49,6 +49,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
 		$request->expects( 'get_param' )->with( 'search' )->andReturn( 'seo' );
 		$request->expects( 'get_param' )->with( 'status' )->andReturn( [ 'draft', 'pending' ] );
+		$request->expects( 'get_param' )->with( 'needs_improvement' )->andReturn( [ 'seo_title' ] );
 
 		$this->content_types_repository
 			->expects( 'get_content_types' )
@@ -65,7 +66,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$posts_page = Mockery::mock( Posts_Page::class );
 		$posts_page->expects( 'to_array' )->once()->andReturn( $rows );
 
-		// The selected statuses are carried through to the query unchanged.
+		// The selected statuses and needs-improvement fields are carried through to the query unchanged.
 		$this->posts_repository
 			->expects( 'get_posts' )
 			->once()
@@ -73,7 +74,8 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 				Mockery::on(
 					static function ( $query ) {
 						return $query instanceof Posts_Query
-							&& $query->get_statuses() === [ 'draft', 'pending' ];
+							&& $query->get_statuses() === [ 'draft', 'pending' ]
+							&& $query->get_needs_improvement() === [ 'seo_title' ];
 					},
 				),
 			)
@@ -96,6 +98,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
 		$request->expects( 'get_param' )->with( 'search' )->andReturn( '' );
 		$request->expects( 'get_param' )->with( 'status' )->andReturn( [] );
+		$request->expects( 'get_param' )->with( 'needs_improvement' )->andReturn( [] );
 
 		$this->content_types_repository
 			->expects( 'get_content_types' )

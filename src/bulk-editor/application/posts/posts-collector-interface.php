@@ -19,6 +19,13 @@ interface Posts_Collector_Interface {
 	public const STATUSES = [ 'publish', 'draft', 'pending', 'future' ];
 
 	/**
+	 * The fields the "needs improvement" filter can target, as sent by the client.
+	 *
+	 * @var array<string>
+	 */
+	public const NEEDS_IMPROVEMENT_FIELDS = [ 'seo_title', 'meta_description', 'social_title', 'social_description' ];
+
+	/**
 	 * Collects a page of posts for the given query.
 	 *
 	 * @param Posts_Query $query The query describing the page to collect.
