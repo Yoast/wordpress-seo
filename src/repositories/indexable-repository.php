@@ -530,7 +530,7 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Finds public posts whose breadcrumb title contains any of the given comma-separated phrases.
+	 * Finds posts whose breadcrumb title contains any of the given comma-separated phrases.
 	 *
 	 * The search string is a comma-separated list. Each value is matched as a whole
 	 * contiguous substring of the breadcrumb title, and a post is returned when it
@@ -579,7 +579,6 @@ class Indexable_Repository {
 		return $this->query()
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )
-			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
 			->where_raw( '( ' . \implode( ' OR ', $likes ) . ' )', \array_values( $params ) )
 			->order_by_desc( 'object_last_modified' )
 			->order_by_desc( 'id' )

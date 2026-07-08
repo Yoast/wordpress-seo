@@ -150,6 +150,30 @@ final class Find_Posts_By_Title_Keywords_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that non-public posts (drafts, noindexed or protected posts) are matched too.
+	 *
+	 * The ability consuming this search is capability-gated, and posts resolved by ID or
+	 * permalink are not filtered on visibility either, so a title search must not hide
+	 * non-public posts.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_matches_non_public_posts(): void {
+		$this->insert_indexable( 'Visibleword Published', '2024-01-03 10:00:00', 1 );
+		$this->insert_indexable( 'Visibleword Noindexed', '2024-01-02 10:00:00', 0 );
+		$this->insert_indexable( 'Visibleword Unset', '2024-01-01 10:00:00', null );
+
+		$titles = $this->breadcrumb_titles( $this->instance->find_posts_by_title_keywords( 'Visibleword' ) );
+
+		$this->assertSame(
+			[ 'Visibleword Published', 'Visibleword Noindexed', 'Visibleword Unset' ],
+			$titles,
+		);
+	}
+
+	/**
 	 * Tests that an empty or comma-only search never matches every post.
 	 *
 	 * @covers ::find_posts_by_title_keywords
@@ -227,14 +251,15 @@ final class Find_Posts_By_Title_Keywords_Test extends TestCase {
 	}
 
 	/**
-	 * Inserts a public post indexable with the given title and modification date.
+	 * Inserts a post indexable with the given title, modification date, and visibility.
 	 *
-	 * @param string $breadcrumb_title     The breadcrumb title to match against.
-	 * @param string $object_last_modified The modification timestamp used for ordering.
+	 * @param string   $breadcrumb_title     The breadcrumb title to match against.
+	 * @param string   $object_last_modified The modification timestamp used for ordering.
+	 * @param int|null $is_public            The is_public value; null when no override is set.
 	 *
 	 * @return void
 	 */
-	private function insert_indexable( string $breadcrumb_title, string $object_last_modified ): void {
+	private function insert_indexable( string $breadcrumb_title, string $object_last_modified, ?int $is_public = 1 ): void {
 		global $wpdb;
 
 		++$this->row_index;
@@ -246,7 +271,7 @@ final class Find_Posts_By_Title_Keywords_Test extends TestCase {
 				'object_type'          => 'post',
 				'object_sub_type'      => 'post',
 				'post_status'          => 'publish',
-				'is_public'            => 1,
+				'is_public'            => $is_public,
 				'permalink'            => $permalink,
 				'permalink_hash'       => \strlen( $permalink ) . ':' . \md5( $permalink ),
 				'object_last_modified' => $object_last_modified,

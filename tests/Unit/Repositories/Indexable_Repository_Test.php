@@ -391,7 +391,6 @@ final class Indexable_Repository_Test extends TestCase {
 
 		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
 		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
-		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
 
 		$this->wpdb->expects( 'esc_like' )->with( 'hiking boots' )->once()->andReturn( 'hiking boots' );
 		$this->wpdb->expects( 'esc_like' )->with( 'trail' )->once()->andReturn( 'trail' );
@@ -435,7 +434,6 @@ final class Indexable_Repository_Test extends TestCase {
 
 		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
 		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
-		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
 
 		$this->wpdb->expects( 'esc_like' )->with( 'trail' )->once()->andReturn( 'trail' );
 
@@ -475,7 +473,6 @@ final class Indexable_Repository_Test extends TestCase {
 
 		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
 		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
-		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
 
 		$this->wpdb->expects( 'esc_like' )->with( 'hiking boots' )->once()->andReturn( 'hiking boots' );
 
@@ -530,7 +527,6 @@ final class Indexable_Repository_Test extends TestCase {
 
 		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
 		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
-		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
 
 		// Provide one more phrase than the cap; only the first MAX_TITLE_KEYWORD_PHRASES should be used.
 		$phrases         = [];
@@ -585,7 +581,6 @@ final class Indexable_Repository_Test extends TestCase {
 
 		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
 		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
-		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
 
 		$this->wpdb->expects( 'esc_like' )->with( 'trail' )->once()->andReturn( 'trail' );
 
@@ -625,7 +620,6 @@ final class Indexable_Repository_Test extends TestCase {
 
 		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
 		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
-		$orm_object->expects( 'where_raw' )->with( '( is_public IS NULL OR is_public = 1 )' )->once()->andReturnSelf();
 
 		$this->wpdb->expects( 'esc_like' )->with( 'trail' )->once()->andReturn( 'trail' );
 
