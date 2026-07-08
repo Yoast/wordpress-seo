@@ -85,7 +85,7 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 	 *
 	 * @covers ::resolve_one
 	 * @covers ::by_id
-	 * @covers ::not_found
+	 * @covers ::invalid_identifier
 	 *
 	 * @return void
 	 */
@@ -262,7 +262,7 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 	 *
 	 * @covers ::resolve_many
 	 * @covers ::by_title
-	 * @covers ::not_found
+	 * @covers ::invalid_identifier
 	 *
 	 * @return void
 	 */
@@ -310,7 +310,7 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 	 *
 	 * @covers ::resolve_many
 	 * @covers ::by_title
-	 * @covers ::not_found
+	 * @covers ::invalid_identifier
 	 *
 	 * @return void
 	 */
