@@ -144,6 +144,20 @@ class Abilities_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Checks whether the current user can read scores.
+	 *
+	 * @deprecated 28.2
+	 * @codeCoverageIgnore Because of deprecation.
+	 *
+	 * @return bool Whether the current user can read scores.
+	 */
+	public function can_read_scores(): bool {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.2', 'Use can_manage_seo() instead.' );
+
+		return $this->can_manage_seo();
+	}
+
+	/**
 	 * Registers the SEO scores ability.
 	 *
 	 * @return void
