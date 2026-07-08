@@ -7,10 +7,10 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Application\Content_Outline
 use Mockery;
 use WP_User;
 use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command;
+use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Outline_Parameters;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Section_List;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 
 /**
@@ -63,7 +63,7 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	}
 
 	/**
-	 * Tests the handle method on the happy path, including the about_page being merged into the request body.
+	 * Tests the handle method on the happy path, including the about_page being merged into the request content.
 	 *
 	 * @return void
 	 */
@@ -76,15 +76,15 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 		];
 
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->with( 'post' )->andReturn( $about_page );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->with( $command->get_user() )->andReturn( 'JWT' );
 
-		$this->request_handler
-			->expects( 'handle' )
+		$this->ai_request_sender_factory->expects( 'create' )->once()->with( $command->get_user() )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender
+			->expects( 'get_content_outline_suggestions' )
 			->once()
 			->with(
 				Mockery::on(
-					static function ( $request ) use ( $about_page ) {
-						return self::request_matches_expected_shape( $request, $about_page );
+					static function ( $parameters ) use ( $about_page ) {
+						return self::parameters_match_expected_shape( $parameters, $about_page );
 					},
 				),
 			)
@@ -107,7 +107,7 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	}
 
 	/**
-	 * Tests the handle method without an about_page; the key should be absent from the request body.
+	 * Tests the handle method without an about_page; the key should be absent from the request content.
 	 *
 	 * @return void
 	 */
@@ -115,20 +115,19 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 		$command = $this->build_command();
 
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
 
-		$this->request_handler
-			->expects( 'handle' )
+		$this->ai_request_sender_factory->expects( 'create' )->once()->with( $command->get_user() )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender
+			->expects( 'get_content_outline_suggestions' )
 			->once()
 			->with(
 				Mockery::on(
-					static function ( $request ) {
-						if ( ! $request instanceof Request ) {
+					static function ( $parameters ) {
+						if ( ! $parameters instanceof Content_Outline_Parameters ) {
 							return false;
 						}
-						$content = ( $request->get_body()['subject']['content'] ?? [] );
 
-						return ! \array_key_exists( 'about_page', $content );
+						return ! \array_key_exists( 'about_page', $parameters->get_content() );
 					},
 				),
 			)
@@ -140,54 +139,25 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	}
 
 	/**
-	 * Tests the handle method retries once when the request handler throws an Unauthorized_Exception.
+	 * Tests the handle method propagates an Unauthorized_Exception unchanged, without revoking consent.
+	 *
+	 * The 401-retry logic now lives in the auth strategy, so the handler simply lets the exception surface.
 	 *
 	 * @return void
 	 */
-	public function test_handle_retries_on_unauthorized() {
-		$command = $this->build_command();
-
-		$this->recent_content_collector->expects( 'collect_about_page' )->twice()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->twice()->andReturn( 'JWT' );
-		$this->token_manager->expects( 'clear_tokens' )->once()->with( 1 );
-
-		$this->request_handler
-			->expects( 'handle' )
-			->twice()
-			->andReturnUsing(
-				static function () {
-					static $call = 0;
-					++$call;
-					if ( $call === 1 ) {
-						throw new Unauthorized_Exception();
-					}
-
-					return new Response( self::RESPONSE_BODY, 200, '' );
-				},
-			);
-
-		$result = $this->instance->handle( $command );
-
-		$this->assertInstanceOf( Section_List::class, $result );
-	}
-
-	/**
-	 * Tests the handle method rethrows when the request handler throws Unauthorized_Exception and retry is disabled.
-	 *
-	 * @return void
-	 */
-	public function test_handle_rethrows_unauthorized_when_retry_disabled() {
+	public function test_handle_propagates_unauthorized() {
 		$command = $this->build_command();
 
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
-		$this->token_manager->expects( 'clear_tokens' )->once()->with( 1 );
 
-		$this->request_handler->expects( 'handle' )->once()->andThrow( new Unauthorized_Exception() );
+		$this->ai_request_sender_factory->expects( 'create' )->once()->with( $command->get_user() )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender->expects( 'get_content_outline_suggestions' )->once()->andThrow( new Unauthorized_Exception() );
+
+		$this->consent_handler->shouldNotReceive( 'revoke_consent' );
 
 		$this->expectException( Unauthorized_Exception::class );
 
-		$this->instance->handle( $command, false );
+		$this->instance->handle( $command );
 	}
 
 	/**
@@ -199,31 +169,9 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 		$command = $this->build_command();
 
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
 
-		$this->request_handler->expects( 'handle' )->once()->andThrow( new Forbidden_Exception( 'NOPE', 403 ) );
-
-		$this->consent_handler->expects( 'revoke_consent' )->once()->with( 1 );
-
-		$this->expectException( Forbidden_Exception::class );
-		$this->expectExceptionMessage( 'CONSENT_REVOKED' );
-
-		$this->instance->handle( $command );
-	}
-
-	/**
-	 * Tests the handle method revokes consent and rethrows when Forbidden_Exception is thrown while fetching the access token.
-	 *
-	 * @return void
-	 */
-	public function test_handle_revokes_consent_on_forbidden_during_token_fetch() {
-		$command = $this->build_command();
-
-		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
-			->once()
-			->andThrow( new Forbidden_Exception( 'NOPE', 403 ) );
+		$this->ai_request_sender_factory->expects( 'create' )->once()->with( $command->get_user() )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender->expects( 'get_content_outline_suggestions' )->once()->andThrow( new Forbidden_Exception( 'NOPE', 403 ) );
 
 		$this->consent_handler->expects( 'revoke_consent' )->once()->with( 1 );
 
@@ -242,8 +190,7 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 		$command = $this->build_command();
 
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
-		$this->request_handler->expects( 'handle' )->once()->andReturn( new Response( 'not json', 200, '' ) );
+		$this->ai_request_sender->expects( 'get_content_outline_suggestions' )->once()->andReturn( new Response( 'not json', 200, '' ) );
 
 		$result = $this->instance->handle( $command );
 
@@ -259,8 +206,7 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 		$command = $this->build_command();
 
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
-		$this->request_handler->expects( 'handle' )->once()->andReturn( new Response( '{"something_else":[]}', 200, '' ) );
+		$this->ai_request_sender->expects( 'get_content_outline_suggestions' )->once()->andReturn( new Response( '{"something_else":[]}', 200, '' ) );
 
 		$result = $this->instance->handle( $command );
 
@@ -276,9 +222,8 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 		$command = $this->build_command();
 
 		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
-		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
-		$this->request_handler
-			->expects( 'handle' )
+		$this->ai_request_sender
+			->expects( 'get_content_outline_suggestions' )
 			->once()
 			->andReturn( new Response( '{"choices":[{"subheading_text":"Only heading"},{"content_notes":["only notes"]}]}', 200, '' ) );
 
@@ -302,35 +247,25 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	}
 
 	/**
-	 * Asserts that the given Request matches the expected shape produced by the handler.
+	 * Asserts that the given parameters match the expected shape produced by the handler.
 	 *
-	 * @param mixed                $request    The request to inspect.
+	 * @param mixed                $parameters The parameters to inspect.
 	 * @param array<string, mixed> $about_page The expected about_page payload.
 	 *
-	 * @return bool True when the request matches the expected shape.
+	 * @return bool True when the parameters match the expected shape.
 	 */
-	private static function request_matches_expected_shape( $request, array $about_page ): bool {
-		if ( ! $request instanceof Request ) {
+	private static function parameters_match_expected_shape( $parameters, array $about_page ): bool {
+		if ( ! $parameters instanceof Content_Outline_Parameters ) {
 			return false;
 		}
-		if ( $request->get_action_path() !== '/content-planner/next-post-outline' ) {
+		if ( $parameters->get_language() !== 'en_US' ) {
 			return false;
 		}
-
-		$headers = $request->get_headers();
-		if ( ( $headers['Authorization'] ?? null ) !== 'Bearer JWT' ) {
-			return false;
-		}
-		if ( ( $headers['X-Yst-Cohort'] ?? null ) !== 'gutenberg' ) {
+		if ( $parameters->get_editor() !== 'gutenberg' ) {
 			return false;
 		}
 
-		$body = $request->get_body();
-		if ( ( $body['subject']['language'] ?? null ) !== 'en_US' ) {
-			return false;
-		}
-
-		$content = ( $body['subject']['content'] ?? [] );
+		$content = $parameters->get_content();
 		if ( ( $content['new_post_metadata'] ?? null ) !== self::expected_metadata() ) {
 			return false;
 		}

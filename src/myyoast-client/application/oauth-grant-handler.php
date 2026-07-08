@@ -95,7 +95,12 @@ class OAuth_Grant_Handler implements LoggerAwareInterface {
 	 * @throws Token_Request_Failed_Exception If the token request fails.
 	 */
 	public function request_token( Grant_Interface $grant, Resource_Indicator $resource_indicator ): Token_Set {
-		$registered_client = $this->client_registration->ensure_registered();
+		// A token request requires an existing registration; it never triggers DCR or a
+		// redirect-URI update — that is the connect flow's responsibility.
+		$registered_client = $this->client_registration->get_registered_client();
+		if ( $registered_client === null ) {
+			throw new Token_Request_Failed_Exception( 'not_registered', 'Site is not registered with MyYoast; complete the connect flow first.' );
+		}
 
 		try {
 			$token_endpoint = $this->discovery->get_document()->get_token_endpoint();

@@ -79,6 +79,11 @@ final class Parse_Test extends TestCase {
 				->andReturn( $response_body );
 		}
 
+		Functions\expect( 'wp_remote_retrieve_headers' )
+			->once()
+			->with( $response )
+			->andReturn( [] );
+
 		$result = $this->instance->parse( $response );
 
 		$this->assertInstanceOf( Response::class, $result );

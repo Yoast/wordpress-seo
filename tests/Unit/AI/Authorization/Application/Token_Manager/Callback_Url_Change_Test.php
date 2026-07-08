@@ -55,15 +55,15 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 			->once()
 			->andReturn( 'https://example.com/wp-json/yoast/v1/ai_generator/refresh_callback' );
 
-		// Stale tokens should be deleted.
-		$this->user_helper
-			->expects( 'delete_meta' )
-			->with( 123, '_yoast_wpseo_ai_generator_access_jwt' )
+		// Stale tokens should be deleted via the repositories.
+		$this->access_token_repository
+			->expects( 'delete_token' )
+			->with( 123 )
 			->once();
 
-		$this->user_helper
-			->expects( 'delete_meta' )
-			->with( 123, '_yoast_wpseo_ai_generator_refresh_jwt' )
+		$this->refresh_token_repository
+			->expects( 'delete_token' )
+			->with( 123 )
 			->once();
 
 		// After deletion, get_meta returns empty — triggers token_request.
@@ -180,15 +180,15 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 			->with( 123, '_yoast_wpseo_ai_generator_callback_url_hash', true )
 			->andReturn( '' );
 
-		// Stale tokens should be deleted.
-		$this->user_helper
-			->expects( 'delete_meta' )
-			->with( 123, '_yoast_wpseo_ai_generator_access_jwt' )
+		// Stale tokens should be deleted via the repositories.
+		$this->access_token_repository
+			->expects( 'delete_token' )
+			->with( 123 )
 			->once();
 
-		$this->user_helper
-			->expects( 'delete_meta' )
-			->with( 123, '_yoast_wpseo_ai_generator_refresh_jwt' )
+		$this->refresh_token_repository
+			->expects( 'delete_token' )
+			->with( 123 )
 			->once();
 
 		// After deletion, get_meta returns empty — triggers token_request.
