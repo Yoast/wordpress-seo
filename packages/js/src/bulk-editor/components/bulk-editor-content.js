@@ -76,7 +76,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	// The tab the user wants to switch to while a switch is guarded (unsaved manual edits, or an external plugin
 	// reporting pending changes); drives the confirmation modal.
 	const [ pendingTab, setPendingTab ] = useState( null );
-	const hasUnsavedEdits = Object.keys( editing.editingRows ).length > 0;
+	const editCount = Object.keys( editing.editingRows ).length;
+	const hasUnsavedEdits = editCount > 0;
 
 
 	const onChangeTab = useCallback( ( id ) => {
@@ -182,11 +183,16 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								contentTypeLabel={ contentTypeLabel }
 								contentTypeSingularLabel={ contentTypeSingularLabel }
 								hasUnsavedEdits={ hasUnsavedEdits }
+								editCount={ editCount }
+								onApplyAll={ editing.onApplyAll }
+								onDiscardAll={ editing.onDiscardAll }
+								isApplyingAll={ editing.isApplyingAll }
 							/>
 						}
-						showBulkActions={ hasSelection }
+						showBulkActions={ hasSelection || hasUnsavedEdits }
 						filters={ <BulkEditorFilters /> }
 						isLoading={ isPending }
+						hasExternalPendingChanges={ hasExternalPendingChanges }
 						footer={ total > 0
 							? <BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
 							: null }

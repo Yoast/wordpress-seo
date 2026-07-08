@@ -1,5 +1,5 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useMemo } from "@wordpress/element";
+import { useCallback, useMemo, useState } from "@wordpress/element";
 import { STORE_NAME } from "../constants";
 
 /**
@@ -28,6 +28,8 @@ const fieldEndpointKey = ( field, fieldSet ) => field.endpoint ?? fieldSet.endpo
 export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } ) => {
 	const editingRows = useSelect( ( select ) => select( STORE_NAME ).selectEditingRows(), [] );
 	const { startEdit, updateDraftField, setSavingField, closeField, discardEdit, stopEdit } = useDispatch( STORE_NAME );
+
+	const [ isApplyingAll, setIsApplyingAll ] = useState( false );
 
 	const onDiscardField = useCallback( ( { id, key } ) => closeField( { id, key } ), [ closeField ] );
 
@@ -70,15 +72,73 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		}
 	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, closeField, updateItem ] );
 
+	const onApplyAll = useCallback( async() => {
+		const fieldSet = fieldSets[ activeFieldSet ];
+		if ( ! remoteDataProvider || Object.keys( editingRows ).length === 0 ) {
+			return;
+		}
+
+		// Group every row's open drafts by endpoint into one batched item per row.
+		const batches = {};
+		Object.entries( editingRows ).forEach( ( [ rowId, row ] ) => {
+			const id = Number( rowId );
+			row.openFields.forEach( ( key ) => {
+				const field = fieldSet.fields.find( ( candidate ) => candidate.key === key );
+				if ( ! field ) {
+					return;
+				}
+				const endpointKey = fieldEndpointKey( field, fieldSet );
+				const endpoint = dataProvider.getEndpoint( endpointKey );
+				if ( ! endpoint ) {
+					return;
+				}
+				if ( ! batches[ endpointKey ] ) {
+					batches[ endpointKey ] = { endpoint, items: {}, applied: [] };
+				}
+				if ( ! batches[ endpointKey ].items[ id ] ) {
+					batches[ endpointKey ].items[ id ] = { id };
+				}
+				batches[ endpointKey ].items[ id ][ field.param ] = row.draft[ key ];
+				batches[ endpointKey ].applied.push( { id, key, value: row.draft[ key ] } );
+			} );
+		} );
+
+		const groups = Object.values( batches );
+		if ( groups.length === 0 ) {
+			return;
+		}
+
+		setIsApplyingAll( true );
+		try {
+			await Promise.all( groups.map( ( group ) => remoteDataProvider.fetchJson( group.endpoint, {}, {
+				method: "POST",
+				body: JSON.stringify( { items: Object.values( group.items ) } ),
+			} ) ) );
+			// Reflect every saved field on its row, then leave edit mode for all rows at once.
+			groups.forEach( ( group ) => group.applied.forEach( ( { id, key, value } ) => updateItem( id, key, value ) ) );
+			stopEdit();
+		} catch ( error ) {
+			// Keep the drafts so the user can retry; the fields stay in edit mode.
+		} finally {
+			setIsApplyingAll( false );
+		}
+	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, updateItem, stopEdit ] );
+
 	const editing = useMemo( () => ( {
 		editingRows,
+		isApplyingAll,
 		onStartEdit,
 		onChangeField: updateDraftField,
 		onApplyField,
+		onApplyAll,
+		onDiscardAll: stopEdit,
 		onCancelEdit,
 		onDiscardField,
 		onFieldApplied: updateItem,
-	} ), [ editingRows, onStartEdit, updateDraftField, onApplyField, onCancelEdit, onDiscardField, updateItem ] );
+	} ), [
+		editingRows, isApplyingAll, onStartEdit, updateDraftField, onApplyField,
+		onApplyAll, stopEdit, onCancelEdit, onDiscardField, updateItem,
+	] );
 
 	return { editing, stopEditing: stopEdit };
 };
