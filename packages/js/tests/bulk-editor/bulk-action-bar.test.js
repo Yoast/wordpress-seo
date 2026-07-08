@@ -1,7 +1,7 @@
 import { Fill, SlotFillProvider } from "@wordpress/components";
 import { addFilter, removeFilter } from "@wordpress/hooks";
 import { fireEvent, render, screen } from "../test-utils";
-import { BulkActions, SelectionToolbar } from "../../src/bulk-editor/components/bulk-action-bar";
+import { BulkActions, ManualReviewActions, SelectionToolbar } from "../../src/bulk-editor/components/bulk-action-bar";
 import { BULK_ACTIONS_SLOT, SELECT_MENU_ITEMS_FILTER } from "../../src/bulk-editor/constants";
 
 // The hook is covered by use-ai-upsell.test.js; here it just feeds the modal a static upsell.
@@ -88,12 +88,62 @@ describe( "SelectionToolbar", () => {
 	} );
 } );
 
+describe( "ManualReviewActions", () => {
+	const reviewProps = { editCount: 2, onApplyAll: jest.fn(), onDiscardAll: jest.fn() };
+
+	it( "shows a singular summary for a single edited row", () => {
+		render( <ManualReviewActions { ...reviewProps } editCount={ 1 } /> );
+
+		expect( screen.getByText( "1 row with unsaved changes" ) ).toBeInTheDocument();
+	} );
+
+	it( "shows a plural summary for multiple edited rows", () => {
+		render( <ManualReviewActions { ...reviewProps } editCount={ 3 } /> );
+
+		expect( screen.getByText( "3 rows with unsaved changes" ) ).toBeInTheDocument();
+	} );
+
+	it( "applies and discards all from the actions", () => {
+		const onApplyAll = jest.fn();
+		const onDiscardAll = jest.fn();
+		render( <ManualReviewActions { ...reviewProps } onApplyAll={ onApplyAll } onDiscardAll={ onDiscardAll } /> );
+
+		fireEvent.click( screen.getByRole( "button", { name: "Save edits" } ) );
+		expect( onApplyAll ).toHaveBeenCalled();
+
+		fireEvent.click( screen.getByRole( "button", { name: "Cancel edits" } ) );
+		expect( onDiscardAll ).toHaveBeenCalled();
+	} );
+
+	it( "disables both actions while an apply-all is in flight", () => {
+		render( <ManualReviewActions { ...reviewProps } isApplying={ true } /> );
+
+		expect( screen.getByRole( "button", { name: "Save edits" } ) ).toBeDisabled();
+		expect( screen.getByRole( "button", { name: "Cancel edits" } ) ).toBeDisabled();
+	} );
+} );
+
 describe( "BulkActions", () => {
 	it( "shows the Free AI generate affordances when not Premium", () => {
 		render( <BulkActions isPremium={ false } /> );
 
 		expect( screen.getByRole( "button", { name: "Generate SEO titles" } ) ).toBeInTheDocument();
 		expect( screen.getByRole( "button", { name: "Generate meta descriptions" } ) ).toBeInTheDocument();
+	} );
+
+	it( "shows the review actions alongside the still-enabled Free generate affordances while editing", () => {
+		render(
+			<BulkActions
+				isPremium={ false } isActive={ true } hasUnsavedEdits={ true }
+				editCount={ 2 } onApplyAll={ jest.fn() } onDiscardAll={ jest.fn() }
+			/>
+		);
+
+		expect( screen.getByRole( "button", { name: "Save edits" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: "Cancel edits" } ) ).toBeInTheDocument();
+		// Free's generate buttons stay put and enabled so the upsell can still be triggered while editing.
+		expect( screen.getByRole( "button", { name: "Generate SEO titles" } ) ).toBeEnabled();
+		expect( screen.getByRole( "button", { name: "Generate meta descriptions" } ) ).toBeEnabled();
 	} );
 
 	it( "does not render the Free affordances for Premium", () => {

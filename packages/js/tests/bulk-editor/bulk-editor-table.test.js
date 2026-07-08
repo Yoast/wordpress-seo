@@ -112,6 +112,14 @@ describe( "BulkEditorTable", () => {
 		expect( onStartEdit ).toHaveBeenCalledWith( 2 );
 	} );
 
+	it( "disables every row's Edit button while Premium AI suggestions are pending review", () => {
+		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } hasExternalPendingChanges={ true } /> );
+
+		// Manual editing and AI generation are mutually exclusive: no row can start editing while suggestions are pending.
+		expect( screen.getByRole( "button", { name: "Edit What Is SEO" } ) ).toBeDisabled();
+		expect( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).toBeDisabled();
+	} );
+
 	it( "marks column and row headers with scope", () => {
 		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } /> );
 
