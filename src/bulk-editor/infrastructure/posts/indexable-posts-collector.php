@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  */
 class Indexable_Posts_Collector implements Posts_Collector_Interface {
 
+	use Post_Title_Trait;
 	use Searchable_Fields_Trait;
 
 	/**
@@ -159,7 +160,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 
 		return new Post(
 			$object_id,
-			\get_the_title( $object_id ),
+			$this->get_normalized_title( $object_id ),
 			(string) $indexable->post_status,
 			(string) \get_edit_post_link( $object_id, 'raw' ),
 			(string) $indexable->primary_focus_keyword,
