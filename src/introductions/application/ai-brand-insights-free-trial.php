@@ -32,6 +32,8 @@ class AI_Brand_Insights_Free_Trial implements Introduction_Interface {
 	/**
 	 * Constructs the introduction.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 * @param Product_Helper      $product_helper      The product helper.
 	 */
@@ -46,6 +48,8 @@ class AI_Brand_Insights_Free_Trial implements Introduction_Interface {
 	/**
 	 * Returns the ID.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return string The ID.
 	 */
 	public function get_id() {
@@ -54,6 +58,8 @@ class AI_Brand_Insights_Free_Trial implements Introduction_Interface {
 
 	/**
 	 * Returns the requested pagination priority. Lower means earlier.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return int The priority.
 	 */
@@ -64,9 +70,14 @@ class AI_Brand_Insights_Free_Trial implements Introduction_Interface {
 	/**
 	 * Returns whether this introduction should show.
 	 *
+	 * Disabled: the "Your first brand analysis is free!" modal is no longer shown after installation, because a fresh
+	 * site has no search results or AI insights yet.
+	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show() {
-		return $this->current_page_helper->is_yoast_seo_page() && $this->product_helper->is_premium();
+		return false;
 	}
 }
