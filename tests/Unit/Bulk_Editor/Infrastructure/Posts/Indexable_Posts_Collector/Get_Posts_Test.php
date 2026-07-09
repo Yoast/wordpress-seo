@@ -223,6 +223,47 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$query->allows( 'limit' )->andReturnSelf();
 		$query->allows( 'offset' )->andReturnSelf();
 		// The clause backs both the page query and the fallback count query, so it is added twice.
+		// Per search-tab field: the empty string plus the bad/ok score range bounds are bound.
+		$query->expects( 'where_raw' )
+			->twice()
+			->with(
+				Mockery::on(
+					static function ( $clause ) use ( &$captured ) {
+						$captured[] = $clause;
+
+						return true;
+					},
+				),
+				[ '', 1, 70, '', 1, 70 ],
+			)
+			->andReturnSelf();
+		$query->allows( 'count' )->andReturn( 0 );
+		$query->expects( 'find_many' )->once()->andReturn( [] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+
+		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, [ 'seo_title', 'meta_description' ] ) );
+
+		$this->assertStringContainsString( 'title IS NULL', $captured[0] );
+		$this->assertStringContainsString( 'seo_title_score BETWEEN %d AND %d', $captured[0] );
+		$this->assertStringContainsString( 'description IS NULL', $captured[0] );
+		$this->assertStringContainsString( 'meta_description_score BETWEEN %d AND %d', $captured[0] );
+	}
+
+	/**
+	 * Tests that the social fields match on emptiness only: they have no persisted score.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_needs_improvement_social_fields_have_no_score_clause() {
+		$captured = [];
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
 		$query->expects( 'where_raw' )
 			->twice()
 			->with(
@@ -241,9 +282,10 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 
 		$this->indexable_repository->allows( 'query' )->andReturn( $query );
 
-		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, [ 'seo_title', 'meta_description' ] ) );
+		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, [ 'social_title', 'social_description' ] ) );
 
-		$this->assertStringContainsString( 'title IS NULL', $captured[0] );
-		$this->assertStringContainsString( 'description IS NULL', $captured[0] );
+		$this->assertStringContainsString( 'open_graph_title IS NULL', $captured[0] );
+		$this->assertStringContainsString( 'open_graph_description IS NULL', $captured[0] );
+		$this->assertStringNotContainsString( 'BETWEEN', $captured[0] );
 	}
 }

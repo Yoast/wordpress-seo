@@ -38,6 +38,28 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	];
 
 	/**
+	 * Maps the fields with a persisted per-field score to their score meta key suffix.
+	 *
+	 * The social fields have no assessors, so they match on emptiness only.
+	 *
+	 * @var array<string, string>
+	 */
+	private const FIELD_SCORE_META_SUFFIXES = [
+		'seo_title'        => 'seo_title_score',
+		'meta_description' => 'meta_description_score',
+	];
+
+	/**
+	 * The per-field score range that counts as "needs improvement": the bad + ok score groups.
+	 *
+	 * 0 (and a missing meta row) means "never scored" and is deliberately outside the range, so
+	 * unscored posts only match through the empty check.
+	 *
+	 * @var array<int>
+	 */
+	private const NEEDS_IMPROVEMENT_SCORE_RANGE = [ 1, 70 ];
+
+	/**
 	 * The query var that flags our own query so the search filter only touches it.
 	 */
 	private const SEARCH_FLAG = 'yoast_bulk_editor_search';
@@ -148,10 +170,11 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	/**
 	 * Builds the meta_query for the "needs improvement" filter.
 	 *
-	 * A field needs improvement when its meta row is missing or stores an empty string. The selected fields are
-	 * OR-ed so they broaden the result, and unknown field keys are ignored.
+	 * A field needs improvement when its meta row is missing or stores an empty string, or — for fields
+	 * with a persisted per-field score — when that score falls in the bad/ok range. The selected fields
+	 * are OR-ed so they broaden the result, and unknown field keys are ignored.
 	 *
-	 * @param array<string> $fields The fields that must be empty.
+	 * @param array<string> $fields The fields that need improvement.
 	 *
 	 * @return array<mixed> The meta_query, or an empty array when no known field is selected.
 	 */
@@ -172,6 +195,15 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 				'value'   => '',
 				'compare' => '=',
 			];
+
+			if ( isset( self::FIELD_SCORE_META_SUFFIXES[ $field ] ) ) {
+				$clauses[] = [
+					'key'     => self::META_PREFIX . self::FIELD_SCORE_META_SUFFIXES[ $field ],
+					'value'   => self::NEEDS_IMPROVEMENT_SCORE_RANGE,
+					'compare' => 'BETWEEN',
+					'type'    => 'NUMERIC',
+				];
+			}
 		}
 
 		if ( $clauses === [] ) {
