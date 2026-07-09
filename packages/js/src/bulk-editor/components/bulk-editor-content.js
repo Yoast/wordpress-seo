@@ -58,12 +58,13 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
 		[ fieldSets ]
 	);
-	const { activeFieldSet, selectedIds, isPremium, hasExternalPendingChanges } = useSelect( ( select ) => {
+	const { activeFieldSet, selectedIds, isPremium, isAiEnabled, hasExternalPendingChanges } = useSelect( ( select ) => {
 		const store = select( STORE_NAME );
 		return {
 			activeFieldSet: store.selectActiveFieldSet(),
 			selectedIds: store.selectSelectedIds(),
 			isPremium: store.selectPreference( "isPremium", false ),
+			isAiEnabled: store.selectPreference( "isAiEnabled", false ),
 			// An external plugin (e.g. Premium's AI suggestions) reports pending changes so the switch can be guarded.
 			hasExternalPendingChanges: store.selectHasExternalPendingChanges(),
 		};
@@ -175,6 +176,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 						bulkActions={
 							<BulkActions
 								isPremium={ isPremium }
+								isAiEnabled={ isAiEnabled }
 								isActive={ tab.id === activeFieldSet }
 								selectedIds={ selectedIds }
 								activeFieldSet={ activeFieldSet }
@@ -184,7 +186,9 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								hasUnsavedEdits={ hasUnsavedEdits }
 							/>
 						}
-						showBulkActions={ hasSelection }
+						// A selection only warrants the band while AI is enabled (its only current occupant is the AI
+						// affordances); with AI off the band collapses, so no empty row is shown.
+						showBulkActions={ hasSelection && isAiEnabled }
 						filters={ <BulkEditorFilters /> }
 						isLoading={ isPending }
 						footer={ total > 0

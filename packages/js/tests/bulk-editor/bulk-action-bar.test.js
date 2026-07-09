@@ -102,6 +102,20 @@ describe( "BulkActions", () => {
 		expect( screen.queryByRole( "button", { name: "Generate SEO titles" } ) ).not.toBeInTheDocument();
 	} );
 
+	it( "hides the Free AI generate affordances when the AI feature is disabled", () => {
+		render( <BulkActions isPremium={ false } isAiEnabled={ false } /> );
+
+		expect( screen.queryByRole( "button", { name: "Generate SEO titles" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Generate meta descriptions" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "shows the Free AI generate affordances when the AI feature is enabled", () => {
+		render( <BulkActions isPremium={ false } isAiEnabled={ true } /> );
+
+		expect( screen.getByRole( "button", { name: "Generate SEO titles" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: "Generate meta descriptions" } ) ).toBeInTheDocument();
+	} );
+
 	it( "passes the selection and active view to the Premium slot fill", () => {
 		let received = null;
 		render(

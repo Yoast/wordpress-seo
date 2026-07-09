@@ -139,6 +139,9 @@ const FreeBulkActions = ( { contentType } ) => {
  *
  * @param {Object}   props                The props.
  * @param {boolean}  props.isPremium      Whether Premium is active.
+ * @param {boolean}  [props.isAiEnabled=true] Whether the AI feature is enabled in the global settings. Gates the AI
+ *                                         affordances (Free's upsell buttons; Premium fills its own slot only when on)
+ *                                         without touching any non-AI actions the band may host.
  * @param {boolean}  props.isActive       Whether this is the active tab. Only the active tab renders the slots, so the
  *                                        Premium fill has a single slot to target (each tab renders its own bar).
  * @param {number[]} props.selectedIds      The ids of the selected rows.
@@ -152,7 +155,7 @@ const FreeBulkActions = ( { contentType } ) => {
  * @returns {JSX.Element} The bulk actions row content.
  */
 export const BulkActions = ( {
-	isPremium, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel, hasUnsavedEdits,
+	isPremium, isAiEnabled = true, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel, hasUnsavedEdits,
 } ) => (
 	<div className="yst-flex yst-flex-col">
 		{ isActive && (
@@ -162,7 +165,7 @@ export const BulkActions = ( {
 			/>
 		) }
 		<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
-			{ ! isPremium && <FreeBulkActions contentType={ contentType } /> }
+			{ ! isPremium && isAiEnabled && <FreeBulkActions contentType={ contentType } /> }
 			{ isActive && <Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType, hasUnsavedEdits } } /> }
 		</div>
 	</div>
