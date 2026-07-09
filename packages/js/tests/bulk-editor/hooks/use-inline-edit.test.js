@@ -162,4 +162,19 @@ describe( "useInlineEdit batch actions", () => {
 		expect( dispatch.stopEdit ).toHaveBeenCalledTimes( 1 );
 		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
 	} );
+
+	it( "clears a lingering save error when discarding all edits", async() => {
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.reject( new Error( "boom" ) ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyAll();
+		} );
+		expect( result.current.editing.hasSaveError ).toBe( true );
+
+		act( () => result.current.editing.onDiscardAll() );
+
+		expect( result.current.editing.hasSaveError ).toBe( false );
+		expect( dispatch.stopEdit ).toHaveBeenCalled();
+	} );
 } );

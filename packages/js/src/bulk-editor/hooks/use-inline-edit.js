@@ -38,6 +38,12 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 
 	const dismissSaveError = useCallback( () => setHasSaveError( false ), [] );
 
+	// Discarding all edits also clears any lasting save error.
+	const onDiscardAll = useCallback( () => {
+		setHasSaveError( false );
+		stopEdit();
+	}, [ stopEdit ] );
+
 	const onDiscardField = useCallback( ( { id, key } ) => closeField( { id, key } ), [ closeField ] );
 
 	const onStartEdit = useCallback( ( id ) => {
@@ -167,13 +173,13 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		onChangeField: updateDraftField,
 		onApplyField,
 		onApplyAll,
-		onDiscardAll: stopEdit,
+		onDiscardAll,
 		onCancelEdit,
 		onDiscardField,
 		onFieldApplied: updateItem,
 	} ), [
 		editingRows, isApplyingAll, hasSaveError, dismissSaveError, onStartEdit, updateDraftField,
-		onApplyField, onApplyAll, stopEdit, onCancelEdit, onDiscardField, updateItem,
+		onApplyField, onApplyAll, onDiscardAll, onCancelEdit, onDiscardField, updateItem,
 	] );
 
 	return { editing, stopEditing: stopEdit };
