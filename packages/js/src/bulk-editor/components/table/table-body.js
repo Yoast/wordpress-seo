@@ -38,7 +38,7 @@ const SkeletonRows = ( { columnCount } ) => (
  * @param {BulkEditorSelection} props.selection   The selection props.
  * @param {BulkEditorEditing}   props.editing     The inline-edit props.
  * @param {boolean}             props.isLoading   Whether to render skeleton rows.
- * @param {boolean}             [props.hasExternalPendingChanges] Whether Premium AI suggestions are pending review; disables editing.
+ * @param {boolean}             [props.hasExternalPendingChanges=false] Whether Premium AI suggestions are pending review; disables editing.
  *
  * @returns {JSX.Element} The body rows.
  */
