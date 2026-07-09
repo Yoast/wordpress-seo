@@ -141,7 +141,7 @@ const FreeBulkActions = ( { contentType } ) => {
  * @param {number}   props.editCount   The number of rows with unsaved manual edits.
  * @param {Function} props.onApplyAll  Saves every row's open edits.
  * @param {Function} props.onDiscardAll Discards every row's open edits.
- * @param {boolean}  [props.isApplying] Whether an apply-all is in flight; disables both actions.
+ * @param {boolean}  [props.isApplying=false] Whether an apply-all is in flight; disables both actions.
  *
  * @returns {JSX.Element} The manual review actions.
  */
