@@ -99,7 +99,7 @@ const initializeAiGenerator = () => {
 		},
 		[ MYYOAST_CONNECTION_NAME ]: {
 			// Absent payload means the feature is unavailable; the editor then shows the informational variant.
-			isAvailable: Boolean( myyoastConnection ),
+			isAvailable: Boolean( myyoastConnection ) && get( myyoastConnection, "isProvisioned", false ),
 			canConnect: get( myyoastConnection, "canConnect", false ),
 			connectUrl: get( myyoastConnection, "connectUrl", null ),
 			learnMoreUrl: get( myyoastConnection, "learnMoreUrl", "" ),
