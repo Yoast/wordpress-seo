@@ -182,6 +182,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								onApplyAll={ editing.onApplyAll }
 								onDiscardAll={ editing.onDiscardAll }
 								isApplyingAll={ editing.isApplyingAll }
+								hasSaveError={ editing.hasSaveError }
+								onDismissSaveError={ editing.dismissSaveError }
 							/>
 						}
 						showBulkActions={ hasSelection || hasUnsavedEdits }

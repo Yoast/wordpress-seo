@@ -1,7 +1,7 @@
 import { Fill, SlotFillProvider } from "@wordpress/components";
 import { addFilter, removeFilter } from "@wordpress/hooks";
 import { fireEvent, render, screen } from "../test-utils";
-import { BulkActions, ManualReviewActions, SelectionToolbar } from "../../src/bulk-editor/components/bulk-action-bar";
+import { BulkActions, ManualReviewActions, ManualSaveErrorNotice, SelectionToolbar } from "../../src/bulk-editor/components/bulk-action-bar";
 import { BULK_ACTIONS_SLOT, SELECT_MENU_ITEMS_FILTER } from "../../src/bulk-editor/constants";
 
 // The hook is covered by use-ai-upsell.test.js; here it just feeds the modal a static upsell.
@@ -123,6 +123,23 @@ describe( "ManualReviewActions", () => {
 	} );
 } );
 
+describe( "ManualSaveErrorNotice", () => {
+	it( "shows the heading and the alert copy", () => {
+		render( <ManualSaveErrorNotice onDismiss={ jest.fn() } /> );
+
+		expect( screen.getByText( "Couldn't save your edits." ) ).toBeInTheDocument();
+		expect( screen.getByRole( "alert" ) ).toHaveTextContent( "Something went wrong. Please try again." );
+	} );
+
+	it( "dismisses from the close button", () => {
+		const onDismiss = jest.fn();
+		render( <ManualSaveErrorNotice onDismiss={ onDismiss } /> );
+
+		fireEvent.click( screen.getByRole( "button", { name: "Dismiss" } ) );
+		expect( onDismiss ).toHaveBeenCalled();
+	} );
+} );
+
 describe( "BulkActions", () => {
 	it( "shows the Free AI generate affordances when not Premium", () => {
 		render( <BulkActions isPremium={ false } /> );
@@ -180,5 +197,20 @@ describe( "BulkActions", () => {
 
 		expect( screen.getByRole( "heading", { name: "Generate Metadata in Bulk" } ) ).toBeInTheDocument();
 		expect( screen.getByRole( "link", { name: /Unlock with Yoast SEO Premium/ } ) ).toHaveAttribute( "href", "https://yoa.st/bulk-editor-ai-upsell" );
+	} );
+
+	it( "shows the save-error notice on the active tab when a save failed", () => {
+		const onDismissSaveError = jest.fn();
+		render( <BulkActions isPremium={ false } isActive={ true } hasSaveError={ true } onDismissSaveError={ onDismissSaveError } /> );
+
+		expect( screen.getByText( "Couldn't save your edits." ) ).toBeInTheDocument();
+		fireEvent.click( screen.getByRole( "button", { name: "Dismiss" } ) );
+		expect( onDismissSaveError ).toHaveBeenCalled();
+	} );
+
+	it( "does not show the save-error notice when there is no error", () => {
+		render( <BulkActions isPremium={ false } isActive={ true } hasSaveError={ false } /> );
+
+		expect( screen.queryByText( "Couldn't save your edits." ) ).not.toBeInTheDocument();
 	} );
 } );

@@ -1,5 +1,5 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useMemo, useState } from "@wordpress/element";
+import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
 import { BULK_UPDATE_BATCH_SIZE, STORE_NAME } from "../constants";
 
 /**
@@ -30,6 +30,13 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 	const { startEdit, updateDraftField, setSavingField, closeField, discardEdit, stopEdit } = useDispatch( STORE_NAME );
 
 	const [ isApplyingAll, setIsApplyingAll ] = useState( false );
+	// Whether the last apply-all had one or more requests fail; drives the inline "couldn't save" notice.
+	const [ hasSaveError, setHasSaveError ] = useState( false );
+	// Guards onApplyAll against re-entry, so a batch in flight can't fire a second,
+	// overlapping set of requests. A ref, so the check is synchronous within a tick.
+	const isApplyingAllRef = useRef( false );
+
+	const dismissSaveError = useCallback( () => setHasSaveError( false ), [] );
 
 	const onDiscardField = useCallback( ( { id, key } ) => closeField( { id, key } ), [ closeField ] );
 
@@ -74,11 +81,12 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 
 	const onApplyAll = useCallback( async() => {
 		const fieldSet = fieldSets[ activeFieldSet ];
-		if ( ! remoteDataProvider || Object.keys( editingRows ).length === 0 ) {
+		if ( isApplyingAllRef.current || ! remoteDataProvider || Object.keys( editingRows ).length === 0 ) {
 			return;
 		}
 
-		// Group every row's open drafts by endpoint into one batched item per row.
+		// Group every row's open drafts by endpoint: each row carries both its request payload (`item`) and the
+		// `applied` entries to reflect locally once it saves.
 		const batches = {};
 		Object.entries( editingRows ).forEach( ( [ rowId, row ] ) => {
 			const id = Number( rowId );
@@ -93,13 +101,13 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 					return;
 				}
 				if ( ! batches[ endpointKey ] ) {
-					batches[ endpointKey ] = { endpoint, items: {}, applied: [] };
+					batches[ endpointKey ] = { endpoint, rows: {} };
 				}
-				if ( ! batches[ endpointKey ].items[ id ] ) {
-					batches[ endpointKey ].items[ id ] = { id };
+				if ( ! batches[ endpointKey ].rows[ id ] ) {
+					batches[ endpointKey ].rows[ id ] = { item: { id }, applied: [] };
 				}
-				batches[ endpointKey ].items[ id ][ field.param ] = row.draft[ key ];
-				batches[ endpointKey ].applied.push( { id, key, value: row.draft[ key ] } );
+				batches[ endpointKey ].rows[ id ].item[ field.param ] = row.draft[ key ];
+				batches[ endpointKey ].rows[ id ].applied.push( { id, key, value: row.draft[ key ] } );
 			} );
 		} );
 
@@ -108,36 +116,53 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			return;
 		}
 
-		// One POST per endpoint, chunked to the server's batch limit: editing rows accumulate across pages, so the
-		// total can exceed a single batch — chunking keeps every request within the limit rather than being rejected.
+		// One POST per endpoint, chunked to the server's batch limit. Each request keeps the `applied` entries for its own rows,
+		// so a failed chunk only holds back its own rows.
 		const requests = groups.flatMap( ( group ) => {
-			const endpointItems = Object.values( group.items );
+			const rows = Object.values( group.rows );
 			const chunks = [];
-			for ( let start = 0; start < endpointItems.length; start += BULK_UPDATE_BATCH_SIZE ) {
-				chunks.push( endpointItems.slice( start, start + BULK_UPDATE_BATCH_SIZE ) );
+			for ( let start = 0; start < rows.length; start += BULK_UPDATE_BATCH_SIZE ) {
+				chunks.push( rows.slice( start, start + BULK_UPDATE_BATCH_SIZE ) );
 			}
-			return chunks.map( ( chunk ) => remoteDataProvider.fetchJson( group.endpoint, {}, {
-				method: "POST",
-				body: JSON.stringify( { items: chunk } ),
+			return chunks.map( ( chunkRows ) => ( {
+				applied: chunkRows.flatMap( ( row ) => row.applied ),
+				promise: remoteDataProvider.fetchJson( group.endpoint, {}, {
+					method: "POST",
+					body: JSON.stringify( { items: chunkRows.map( ( row ) => row.item ) } ),
+				} ),
 			} ) );
 		} );
 
+		isApplyingAllRef.current = true;
 		setIsApplyingAll( true );
+		setHasSaveError( false );
 		try {
-			await Promise.all( requests );
-			// Reflect every saved field on its row, then leave edit mode for all rows at once.
-			groups.forEach( ( group ) => group.applied.forEach( ( { id, key, value } ) => updateItem( id, key, value ) ) );
-			stopEdit();
-		} catch ( error ) {
-			// A request failed: keep the drafts and stay in edit mode so the user can retry.
+			// A partial failure reflects the rows that did save, while the
+			// failed rows stay open for a retry. On full success every field closes, so all rows leave edit mode.
+			const results = await Promise.allSettled( requests.map( ( request ) => request.promise ) );
+			results.forEach( ( result, index ) => {
+				if ( result.status !== "fulfilled" ) {
+					return;
+				}
+				requests[ index ].applied.forEach( ( { id, key, value } ) => {
+					updateItem( id, key, value );
+					closeField( { id, key } );
+				} );
+			} );
+			if ( results.some( ( result ) => result.status === "rejected" ) ) {
+				setHasSaveError( true );
+			}
 		} finally {
+			isApplyingAllRef.current = false;
 			setIsApplyingAll( false );
 		}
-	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, updateItem, stopEdit ] );
+	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, updateItem, closeField ] );
 
 	const editing = useMemo( () => ( {
 		editingRows,
 		isApplyingAll,
+		hasSaveError,
+		dismissSaveError,
 		onStartEdit,
 		onChangeField: updateDraftField,
 		onApplyField,
@@ -147,8 +172,8 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		onDiscardField,
 		onFieldApplied: updateItem,
 	} ), [
-		editingRows, isApplyingAll, onStartEdit, updateDraftField, onApplyField,
-		onApplyAll, stopEdit, onCancelEdit, onDiscardField, updateItem,
+		editingRows, isApplyingAll, hasSaveError, dismissSaveError, onStartEdit, updateDraftField,
+		onApplyField, onApplyAll, stopEdit, onCancelEdit, onDiscardField, updateItem,
 	] );
 
 	return { editing, stopEditing: stopEdit };

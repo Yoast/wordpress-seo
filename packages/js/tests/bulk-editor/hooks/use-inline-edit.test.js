@@ -84,7 +84,7 @@ describe( "useInlineEdit batch actions", () => {
 		expect( itemCounts ).toEqual( [ 20, 1 ] );
 	} );
 
-	it( "reflects every saved field and leaves edit mode after applying all", async() => {
+	it( "reflects every saved field and closes it after applying all", async() => {
 		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( {} ) ) };
 		const { result } = renderEdit( remoteDataProvider );
 
@@ -92,13 +92,17 @@ describe( "useInlineEdit batch actions", () => {
 			await result.current.editing.onApplyAll();
 		} );
 
+		// Each saved field is reflected on its row and then closed; a row leaves edit mode once its fields all close.
 		expect( updateItem ).toHaveBeenCalledWith( 7, "seoTitle", "Title 7" );
 		expect( updateItem ).toHaveBeenCalledWith( 7, "metaDescription", "Desc 7" );
 		expect( updateItem ).toHaveBeenCalledWith( 9, "seoTitle", "Title 9" );
-		expect( dispatch.stopEdit ).toHaveBeenCalledTimes( 1 );
+		expect( dispatch.closeField ).toHaveBeenCalledWith( { id: 7, key: "seoTitle" } );
+		expect( dispatch.closeField ).toHaveBeenCalledWith( { id: 7, key: "metaDescription" } );
+		expect( dispatch.closeField ).toHaveBeenCalledWith( { id: 9, key: "seoTitle" } );
+		expect( result.current.editing.hasSaveError ).toBe( false );
 	} );
 
-	it( "keeps the drafts and stays in edit mode when the batch save fails", async() => {
+	it( "keeps the drafts and flags an error when the whole batch fails", async() => {
 		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.reject( new Error( "boom" ) ) ) };
 		const { result } = renderEdit( remoteDataProvider );
 
@@ -106,8 +110,47 @@ describe( "useInlineEdit batch actions", () => {
 			await result.current.editing.onApplyAll();
 		} );
 
+		// Nothing reflected or closed, drafts stay open, and the save-error flag is raised for the inline notice.
 		expect( updateItem ).not.toHaveBeenCalled();
-		expect( dispatch.stopEdit ).not.toHaveBeenCalled();
+		expect( dispatch.closeField ).not.toHaveBeenCalled();
+		expect( result.current.editing.hasSaveError ).toBe( true );
+	} );
+
+	it( "reflects the succeeded chunk and keeps the failed one open on a partial failure", async() => {
+		// 21 rows on one endpoint → two chunks (20 + 1). The first chunk resolves, the second rejects.
+		editingRows = Object.fromEntries( Array.from( { length: 21 }, ( _row, index ) => {
+			const id = index + 1;
+			return [ id, { openFields: [ "seoTitle" ], draft: { seoTitle: `Title ${ id }` }, savingFields: {} } ];
+		} ) );
+		const remoteDataProvider = {
+			fetchJson: jest.fn()
+				.mockImplementationOnce( () => Promise.resolve( {} ) )
+				.mockImplementationOnce( () => Promise.reject( new Error( "boom" ) ) ),
+		};
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyAll();
+		} );
+
+		// The 20 rows in the succeeded chunk are reflected and closed; the 21st (failed chunk) is not.
+		expect( dispatch.closeField ).toHaveBeenCalledTimes( 20 );
+		expect( dispatch.closeField ).toHaveBeenCalledWith( { id: 1, key: "seoTitle" } );
+		expect( dispatch.closeField ).not.toHaveBeenCalledWith( { id: 21, key: "seoTitle" } );
+		expect( result.current.editing.hasSaveError ).toBe( true );
+	} );
+
+	it( "dismisses the save error", async() => {
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.reject( new Error( "boom" ) ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyAll();
+		} );
+		expect( result.current.editing.hasSaveError ).toBe( true );
+
+		act( () => result.current.editing.dismissSaveError() );
+		expect( result.current.editing.hasSaveError ).toBe( false );
 	} );
 
 	it( "discards all edits by leaving edit mode without saving", () => {
