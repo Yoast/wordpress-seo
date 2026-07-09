@@ -36,14 +36,27 @@ class Bulk_Updater implements LoggerAwareInterface {
 	private $meta_writer;
 
 	/**
+	 * The field renderer.
+	 *
+	 * @var Field_Renderer_Interface
+	 */
+	private $field_renderer;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Post_Access_Checker_Interface $post_access_checker The post access checker.
 	 * @param Meta_Writer_Interface         $meta_writer         The meta writer.
+	 * @param Field_Renderer_Interface      $field_renderer      The field renderer.
 	 */
-	public function __construct( Post_Access_Checker_Interface $post_access_checker, Meta_Writer_Interface $meta_writer ) {
+	public function __construct(
+		Post_Access_Checker_Interface $post_access_checker,
+		Meta_Writer_Interface $meta_writer,
+		Field_Renderer_Interface $field_renderer
+	) {
 		$this->post_access_checker = $post_access_checker;
 		$this->meta_writer         = $meta_writer;
+		$this->field_renderer      = $field_renderer;
 		$this->logger              = new NullLogger();
 	}
 
@@ -113,6 +126,30 @@ class Bulk_Updater implements LoggerAwareInterface {
 			return Update_Result::for_failure( $post_id, Update_Error::SAVE_FAILED );
 		}
 
-		return Update_Result::for_success( $post_id );
+		return Update_Result::for_success( $post_id, $this->render_fields( $type, $post_id ) );
+	}
+
+	/**
+	 * Renders the search appearance fields so the bulk editor can re-score them on the value users see.
+	 *
+	 * Only the search appearance is rendered: its SEO title and meta description feed the per-field
+	 * scores. The social appearance has no assessors, so it needs no rendered value. Both fields are
+	 * always returned, regardless of which one changed, so a focus keyphrase edit (which affects both
+	 * scores) can be re-scored too.
+	 *
+	 * @param Update_Type $type    The appearance the update targets.
+	 * @param int         $post_id The ID of the post.
+	 *
+	 * @return array<string, string> The rendered fields, keyed by field, or an empty array for social updates.
+	 */
+	private function render_fields( Update_Type $type, int $post_id ): array {
+		if ( ! $type->is_search() ) {
+			return [];
+		}
+
+		return [
+			'seo_title'        => $this->field_renderer->render( $post_id, 'title' ),
+			'meta_description' => $this->field_renderer->render( $post_id, 'metadesc' ),
+		];
 	}
 }
