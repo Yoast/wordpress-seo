@@ -1,4 +1,5 @@
 import { useDispatch, useSelect } from "@wordpress/data";
+import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Paper, SidebarNavigation } from "@yoast/ui-library";
 import { BulkEditorContent } from "./components/bulk-editor-content";
@@ -55,12 +56,20 @@ const getActiveContentTypeFields = ( contentType ) => ( {
 const App = ( { dataProvider, remoteDataProvider } ) => {
 	const activeContentTypeName = useSelect( ( select ) => select( STORE_NAME ).selectActiveContentTypeName(), [] );
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
-	const { setActiveContentType } = useDispatch( STORE_NAME );
+	const { requestSwitch } = useDispatch( STORE_NAME );
 
 	const contentTypes = dataProvider.getContentTypes().map( ( { name, label, singularLabel } ) => ( { id: name, label, singularLabel } ) );
 	const activeContentType = contentTypes.find( ( { id } ) => id === activeContentTypeName ) ?? contentTypes[ 0 ];
 	const { id: activeContentTypeId, label: activeContentTypeLabel, singularLabel: activeContentTypeSingularLabel } =
 		getActiveContentTypeFields( activeContentType );
+
+	// When switching content types, defers to the unsaved-changes / pending-AI modal when
+	// there are edits or pending suggestions, and switches straight away otherwise.
+	const onChangeContentType = useCallback( ( id ) => {
+		if ( id !== activeContentTypeId ) {
+			requestSwitch( { kind: "contentType", target: id } );
+		}
+	}, [ activeContentTypeId, requestSwitch ] );
 
 	const { title, description } = getHeaderCopy( activeContentType );
 	// Fall back to the WP admin home when the data provider has no link.
@@ -69,7 +78,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 
 	const menuProps = {
 		contentTypes,
-		onChange: setActiveContentType,
+		onChange: onChangeContentType,
 		backToToolsUrl,
 		logoHref,
 		isPremium,

@@ -1,6 +1,6 @@
 import { Slot } from "@wordpress/components";
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
+import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
@@ -58,7 +58,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
 		[ fieldSets ]
 	);
-	const { activeFieldSet, selectedIds, isPremium, isAiEnabled, hasExternalPendingChanges } = useSelect( ( select ) => {
+	const { activeFieldSet, selectedIds, isPremium, isAiEnabled, hasExternalPendingChanges, pendingSwitch } = useSelect( ( select ) => {
 		const store = select( STORE_NAME );
 		return {
 			activeFieldSet: store.selectActiveFieldSet(),
@@ -67,37 +67,28 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			isAiEnabled: store.selectPreference( "isAiEnabled", false ),
 			// An external plugin (e.g. Premium's AI suggestions) reports pending changes so the switch can be guarded.
 			hasExternalPendingChanges: store.selectHasExternalPendingChanges(),
+			pendingSwitch: store.selectPendingSwitch(),
 		};
 	}, [] );
-	const { setActiveFieldSet, toggleRow, selectAll, deselectAll } = useDispatch( STORE_NAME );
+	const { requestSwitch, commitSwitch, clearPendingSwitch, toggleRow, selectAll, deselectAll } = useDispatch( STORE_NAME );
 
 	const { data: items = [], total = 0, totalPages = 0, isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
 	const { editing, stopEditing } = useInlineEdit( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } );
 
-	// The tab the user wants to switch to while a switch is guarded (unsaved manual edits, or an external plugin
-	// reporting pending changes); drives the confirmation modal.
-	const [ pendingTab, setPendingTab ] = useState( null );
 	const editCount = Object.keys( editing.editingRows ).length;
 	const hasUnsavedEdits = editCount > 0;
 
-
+	// A tab click requests a field-set switch; requestSwitch guards it (defers to the modal) or commits it straight away.
 	const onChangeTab = useCallback( ( id ) => {
-		if ( id === activeFieldSet ) {
-			return;
+		if ( id !== activeFieldSet ) {
+			requestSwitch( { kind: "fieldSet", target: id } );
 		}
-		// Guard the switch when manual edits are in progress or an external plugin (Premium AI) reports pending
-		// changes; otherwise switch straight away. The guarded tab is held in pendingTab until the user decides.
-		if ( hasUnsavedEdits || hasExternalPendingChanges ) {
-			setPendingTab( id );
-			return;
-		}
-		setActiveFieldSet( id );
-	}, [ activeFieldSet, hasUnsavedEdits, hasExternalPendingChanges, setActiveFieldSet ] );
+	}, [ activeFieldSet, requestSwitch ] );
 
-	const onSaveAndSwitch = useCallback( () => {
-		// Save every open edit as one batch. On failure the drafts stay open, so the switch is not committed
-		// and no edits are silently lost.
-		editing.onApplyAll();
+	const onSaveAndSwitch = useCallback( async() => {
+		// Save every open edit as one batch, then let the self-heal effect commit the switch once the edits clear.
+		// On failure the drafts stay open, so nothing is committed and no edits are silently lost.
+		await editing.onApplyAll();
 	}, [ editing ] );
 
 	const onDiscardAndSwitch = useCallback( () => {
@@ -106,23 +97,24 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		stopEditing();
 	}, [ stopEditing ] );
 
-	const onCancelSwitch = useCallback( () => setPendingTab( null ), [] );
+	const onCancelSwitch = useCallback( () => clearPendingSwitch(), [ clearPendingSwitch ] );
 
 	// Commits the deferred switch for an external guard (Premium fills the slot below and calls this once it has
 	// handled its own pending changes). Free's own manual edits use onSaveAndSwitch/onDiscardAndSwitch instead.
 	const onCommitSwitch = useCallback( () => {
-		setActiveFieldSet( pendingTab );
-		setPendingTab( null );
-	}, [ pendingTab, setActiveFieldSet ] );
+		if ( pendingSwitch ) {
+			commitSwitch( pendingSwitch );
+		}
+	}, [ pendingSwitch, commitSwitch ] );
 
 	// Self-heal a stranded switch: if a deferral is outstanding but nothing guards it any more (manual edits saved
-	// and the external plugin cleared its pending changes), complete the switch so the user can never get stuck on a
-	// tab with no modal to resolve.
+	// and the external plugin cleared its pending changes), complete the switch so the user can never get stuck
+	// with no modal to resolve.
 	useEffect( () => {
-		if ( pendingTab !== null && ! hasUnsavedEdits && ! hasExternalPendingChanges ) {
+		if ( pendingSwitch !== null && ! hasUnsavedEdits && ! hasExternalPendingChanges ) {
 			onCommitSwitch();
 		}
-	}, [ pendingTab, hasUnsavedEdits, hasExternalPendingChanges, onCommitSwitch ] );
+	}, [ pendingSwitch, hasUnsavedEdits, hasExternalPendingChanges, onCommitSwitch ] );
 
 	const { isAllSelected, isIndeterminate, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
 	const onSelectAll = useCallback( () => {
@@ -202,7 +194,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 				</BulkEditorTabPanel>
 			) ) }
 			<UnsavedChangesModal
-				isOpen={ hasUnsavedEdits && pendingTab !== null }
+				isOpen={ hasUnsavedEdits && pendingSwitch !== null }
 				onSave={ onSaveAndSwitch }
 				onDiscard={ onDiscardAndSwitch }
 				onClose={ onCancelSwitch }
@@ -210,7 +202,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			<Slot
 				name={ PENDING_CHANGES_MODAL_SLOT }
 				fillProps={ {
-					isOpen: pendingTab !== null && ! hasUnsavedEdits,
+					isOpen: pendingSwitch !== null && ! hasUnsavedEdits,
 					onCommit: onCommitSwitch,
 					onCancel: onCancelSwitch,
 				} }

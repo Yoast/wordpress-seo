@@ -43,6 +43,7 @@ describe( "App", () => {
 		dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_SEARCH );
 		dispatch( STORE_NAME ).setActiveContentType( "" );
 		dispatch( STORE_NAME ).stopEdit();
+		dispatch( STORE_NAME ).clearPendingSwitch();
 	} );
 
 	it( "renders the header, tabs and panel in a single card with the header separator", () => {
