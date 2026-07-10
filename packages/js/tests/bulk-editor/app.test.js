@@ -174,8 +174,8 @@ describe( "App", () => {
 				{},
 				expect.objectContaining( { method: "POST" } )
 			);
-			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
-			// Await the switch so the saves settle (updateItem/closeField) within act().
+			// The batch save is async, so the modal closes once the request settles rather than synchronously.
+			await waitFor( () => expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument() );
 			await waitFor( () => expect( screen.getByRole( "tab", { name: "Social appearance" } ) ).toHaveAttribute( "aria-selected", "true" ) );
 		} );
 	} );

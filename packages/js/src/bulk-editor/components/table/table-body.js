@@ -38,10 +38,11 @@ const SkeletonRows = ( { columnCount } ) => (
  * @param {BulkEditorSelection} props.selection   The selection props.
  * @param {BulkEditorEditing}   props.editing     The inline-edit props.
  * @param {boolean}             props.isLoading   Whether to render skeleton rows.
+ * @param {boolean}             [props.hasExternalPendingChanges=false] Whether Premium AI suggestions are pending review; disables editing.
  *
  * @returns {JSX.Element} The body rows.
  */
-export const BulkEditorBody = ( { items, fields, fieldSetId, columnCount, selection, editing, isLoading } ) => {
+export const BulkEditorBody = ( { items, fields, fieldSetId, columnCount, selection, editing, isLoading, hasExternalPendingChanges = false } ) => {
 	const { selectedIds, onToggleRow } = selection;
 
 	if ( isLoading && items.length === 0 ) {
@@ -68,6 +69,7 @@ export const BulkEditorBody = ( { items, fields, fieldSetId, columnCount, select
 			onToggleRow={ onToggleRow }
 			edit={ editing.editingRows[ item.id ] }
 			editing={ editing }
+			hasExternalPendingChanges={ hasExternalPendingChanges }
 		/>
 	) );
 };

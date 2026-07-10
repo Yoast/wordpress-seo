@@ -77,7 +77,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	// The tab the user wants to switch to while a switch is guarded (unsaved manual edits, or an external plugin
 	// reporting pending changes); drives the confirmation modal.
 	const [ pendingTab, setPendingTab ] = useState( null );
-	const hasUnsavedEdits = Object.keys( editing.editingRows ).length > 0;
+	const editCount = Object.keys( editing.editingRows ).length;
+	const hasUnsavedEdits = editCount > 0;
 
 
 	const onChangeTab = useCallback( ( id ) => {
@@ -94,15 +95,10 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	}, [ activeFieldSet, hasUnsavedEdits, hasExternalPendingChanges, setActiveFieldSet ] );
 
 	const onSaveAndSwitch = useCallback( () => {
-		// Fire the save for every open field; each reads its draft synchronously, so clearing the edit state
-		// right after still posts the captured values while leaving the new tab clean. Clearing the edits flips
-		// hasUnsavedEdits to false, after which the switch completes via the self-heal effect (nothing external
-		// pending) or the slot modal (an external plugin still has pending changes) — never both at once.
-		Object.entries( editing.editingRows ).forEach( ( [ id, row ] ) =>
-			row.openFields.forEach( ( key ) => editing.onApplyField( { id: Number( id ), key } ) )
-		);
-		stopEditing();
-	}, [ editing, stopEditing ] );
+		// Save every open edit as one batch. On failure the drafts stay open, so the switch is not committed
+		// and no edits are silently lost.
+		editing.onApplyAll();
+	}, [ editing ] );
 
 	const onDiscardAndSwitch = useCallback( () => {
 		// Clearing the edits flips hasUnsavedEdits to false; the self-heal effect or the slot modal then completes
@@ -184,13 +180,21 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								contentTypeLabel={ contentTypeLabel }
 								contentTypeSingularLabel={ contentTypeSingularLabel }
 								hasUnsavedEdits={ hasUnsavedEdits }
+								editCount={ editCount }
+								onApplyAll={ editing.onApplyAll }
+								onDiscardAll={ editing.onDiscardAll }
+								isApplyingAll={ editing.isApplyingAll }
+								hasSaveError={ editing.hasSaveError }
+								onDismissSaveError={ editing.dismissSaveError }
 							/>
 						}
-						// A selection only warrants the band while AI is enabled (its only current occupant is the AI
-						// affordances); with AI off the band collapses, so no empty row is shown.
-						showBulkActions={ hasSelection && isAiEnabled }
+						// A selection only warrants the band while AI is enabled (the AI affordances are its only
+						// selection-driven occupant); with AI off the band collapses. Unsaved manual edits are a
+						// separate, non-AI occupant, so they keep it open regardless of the AI toggle.
+						showBulkActions={ ( hasSelection && isAiEnabled ) || hasUnsavedEdits }
 						filters={ <BulkEditorFilters /> }
 						isLoading={ isPending }
+						hasExternalPendingChanges={ hasExternalPendingChanges }
 						footer={ total > 0
 							? <BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
 							: null }
