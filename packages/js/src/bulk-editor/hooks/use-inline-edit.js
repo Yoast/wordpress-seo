@@ -90,12 +90,12 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		}
 	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, closeField, updateItem ] );
 
-	// Saves every open edit as one batch. Returns whether the save can be considered clean (no failed request),
-	// so a caller such as the tab-switch modal can decide whether to proceed or surface the error.
+	// Saves every open edit as one batch. Returns true (clean), false (a request failed), or null (a save was
+	// already in flight), so the tab-switch modal only closes on a real failure and not on a re-entrant call.
 	const onApplyAll = useCallback( async() => {
 		const fieldSet = fieldSets[ activeFieldSet ];
 		if ( isApplyingAllRef.current ) {
-			return false;
+			return null;
 		}
 		if ( ! remoteDataProvider || Object.keys( editingRows ).length === 0 ) {
 			return true;

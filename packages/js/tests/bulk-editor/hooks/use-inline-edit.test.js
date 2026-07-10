@@ -207,4 +207,31 @@ describe( "useInlineEdit batch actions", () => {
 		} );
 		expect( outcome ).toBe( false );
 	} );
+
+	it( "returns null for a re-entrant call while a save is already in flight", async() => {
+		let resolveFirst;
+		const remoteDataProvider = { fetchJson: jest.fn( () => new Promise( ( resolve ) => {
+			resolveFirst = resolve;
+		} ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		// Start a first save that stays pending, so the re-entrancy guard is active.
+		let firstOutcome;
+		act( () => {
+			firstOutcome = result.current.editing.onApplyAll();
+		} );
+
+		// A second call while the first is in flight must report null (busy), not false (failure).
+		let secondOutcome;
+		await act( async() => {
+			secondOutcome = await result.current.editing.onApplyAll();
+		} );
+		expect( secondOutcome ).toBe( null );
+
+		// Let the first save finish so no promise is left dangling.
+		await act( async() => {
+			resolveFirst( {} );
+			await firstOutcome;
+		} );
+	} );
 } );

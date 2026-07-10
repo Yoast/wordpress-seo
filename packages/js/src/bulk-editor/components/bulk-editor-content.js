@@ -95,10 +95,10 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	}, [ activeFieldSet, hasUnsavedEdits, hasExternalPendingChanges, setActiveFieldSet ] );
 
 	const onSaveAndSwitch = useCallback( async() => {
-		// On success the drafts clear and the failed rows stay open,
-		// so close the modal to reveal the error notice behind it.
+		// Close the modal only when the save actually failed, so its notice is revealed; a clean save lets the
+		// self-heal effect complete the switch, and an in-flight save (null) is left alone.
 		const saved = await editing.onApplyAll();
-		if ( ! saved ) {
+		if ( saved === false ) {
 			setPendingTab( null );
 		}
 	}, [ editing ] );
