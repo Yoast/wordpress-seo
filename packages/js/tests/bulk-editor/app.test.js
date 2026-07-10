@@ -1,5 +1,5 @@
 import { dispatch } from "@wordpress/data";
-import { fireEvent, render, screen, waitFor } from "../test-utils";
+import { act, fireEvent, render, screen, waitFor } from "../test-utils";
 import App from "../../src/bulk-editor/app";
 import { FIELD_SET_SEARCH, STORE_NAME } from "../../src/bulk-editor/constants";
 import { getFieldSets } from "../../src/bulk-editor/field-sets";
@@ -44,6 +44,7 @@ describe( "App", () => {
 		dispatch( STORE_NAME ).setActiveContentType( "" );
 		dispatch( STORE_NAME ).stopEdit();
 		dispatch( STORE_NAME ).clearPendingSwitch();
+		dispatch( STORE_NAME ).setHasExternalPendingChanges( false );
 	} );
 
 	it( "renders the header, tabs and panel in a single card with the header separator", () => {
@@ -252,6 +253,37 @@ describe( "App", () => {
 				expect.objectContaining( { method: "POST" } )
 			);
 			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+		} );
+	} );
+
+	describe( "switching content types with pending changes", () => {
+		const rowTitle = "What Is SEO and How It Works";
+
+		it( "shows the confirmation modal and stays on the content type when there are unsaved edits", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
+
+			expect( screen.getByText( "Unsaved changes" ) ).toBeInTheDocument();
+			// The content type has not switched while the modal is open.
+			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
+			expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
+		} );
+
+		it( "defers the switch while an external plugin reports pending changes", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+			await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } );
+
+			await act( async() => {
+				dispatch( STORE_NAME ).setHasExternalPendingChanges( true );
+			} );
+			fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
+
+			// The switch is held (Premium would fill the slot to resolve it); the content type does not change.
+			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
+			expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
 		} );
 	} );
 } );
