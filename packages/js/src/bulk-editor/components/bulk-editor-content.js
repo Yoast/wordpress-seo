@@ -94,10 +94,13 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		setActiveFieldSet( id );
 	}, [ activeFieldSet, hasUnsavedEdits, hasExternalPendingChanges, setActiveFieldSet ] );
 
-	const onSaveAndSwitch = useCallback( () => {
-		// Save every open edit as one batch. On failure the drafts stay open, so the switch is not committed
-		// and no edits are silently lost.
-		editing.onApplyAll();
+	const onSaveAndSwitch = useCallback( async() => {
+		// On success the drafts clear and the failed rows stay open,
+		// so close the modal to reveal the error notice behind it.
+		const saved = await editing.onApplyAll();
+		if ( ! saved ) {
+			setPendingTab( null );
+		}
 	}, [ editing ] );
 
 	const onDiscardAndSwitch = useCallback( () => {
@@ -206,6 +209,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 				onSave={ onSaveAndSwitch }
 				onDiscard={ onDiscardAndSwitch }
 				onClose={ onCancelSwitch }
+				isSaving={ editing.isApplyingAll }
 			/>
 			<Slot
 				name={ PENDING_CHANGES_MODAL_SLOT }
