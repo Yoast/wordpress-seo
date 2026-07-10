@@ -90,7 +90,7 @@ describe( "SelectionToolbar", () => {
 
 describe( "BulkActions", () => {
 	it( "shows the Free AI generate affordances when not Premium", () => {
-		render( <BulkActions isPremium={ false } /> );
+		render( <BulkActions isPremium={ false } isAiEnabled={ true } /> );
 
 		expect( screen.getByRole( "button", { name: "Generate SEO titles" } ) ).toBeInTheDocument();
 		expect( screen.getByRole( "button", { name: "Generate meta descriptions" } ) ).toBeInTheDocument();
@@ -135,7 +135,7 @@ describe( "BulkActions", () => {
 	} );
 
 	it( "opens the upsell modal from a Free AI generate button", () => {
-		render( <BulkActions isPremium={ false } contentType="post" /> );
+		render( <BulkActions isPremium={ false } isAiEnabled={ true } contentType="post" /> );
 
 		// The modal stays closed until a Generate button is clicked.
 		expect( screen.queryByRole( "heading", { name: "Generate Metadata in Bulk" } ) ).not.toBeInTheDocument();
