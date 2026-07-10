@@ -48,9 +48,10 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 			'nonce'        => 'rest-nonce',
 			'restRoot'     => 'https://example.com/wp-json/',
 			'preferences'  => [
-				'isPremium' => false,
-				'isRtl'     => false,
-				'pluginUrl' => 'https://example.com/wp-content/plugins/wordpress-seo',
+				'isPremium'   => false,
+				'isAiEnabled' => true,
+				'isRtl'       => false,
+				'pluginUrl'   => 'https://example.com/wp-content/plugins/wordpress-seo',
 			],
 			'linkParams'   => [ 'foo' => 'bar' ],
 		];
@@ -70,6 +71,7 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 		$this->nonce_repository->expects( 'get_rest_nonce' )->once()->andReturn( 'rest-nonce' );
 		Functions\expect( 'rest_url' )->once()->withNoArgs()->andReturn( 'https://example.com/wp-json/' );
 		$this->product_helper->expects( 'is_premium' )->once()->andReturn( false );
+		$this->options_helper->expects( 'get' )->once()->with( 'enable_ai_generator' )->andReturn( true );
 		Functions\expect( 'is_rtl' )->once()->withNoArgs()->andReturn( false );
 		Functions\expect( 'plugins_url' )
 			->once()

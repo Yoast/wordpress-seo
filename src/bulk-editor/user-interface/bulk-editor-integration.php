@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -79,6 +80,13 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	private $endpoints_repository;
 
 	/**
+	 * Holds the Options_Helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * Constructs the instance.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager            The WPSEO_Admin_Asset_Manager.
@@ -88,6 +96,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @param Content_Types_Repository  $content_types_repository The Content_Types_Repository.
 	 * @param Nonce_Repository          $nonce_repository         The Nonce_Repository.
 	 * @param Endpoints_Repository      $endpoints_repository     The Endpoints_Repository.
+	 * @param Options_Helper            $options_helper           The Options_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -96,7 +105,8 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		Short_Link_Helper $short_link_helper,
 		Content_Types_Repository $content_types_repository,
 		Nonce_Repository $nonce_repository,
-		Endpoints_Repository $endpoints_repository
+		Endpoints_Repository $endpoints_repository,
+		Options_Helper $options_helper
 	) {
 		$this->asset_manager            = $asset_manager;
 		$this->current_page_helper      = $current_page_helper;
@@ -105,6 +115,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$this->content_types_repository = $content_types_repository;
 		$this->nonce_repository         = $nonce_repository;
 		$this->endpoints_repository     = $endpoints_repository;
+		$this->options_helper           = $options_helper;
 	}
 
 	/**
@@ -208,9 +219,10 @@ class Bulk_Editor_Integration implements Integration_Interface {
 			'nonce'        => $this->nonce_repository->get_rest_nonce(),
 			'restRoot'     => \esc_url_raw( \rest_url() ),
 			'preferences'  => [
-				'isPremium' => $this->product_helper->is_premium(),
-				'isRtl'     => \is_rtl(),
-				'pluginUrl' => \plugins_url( '', \WPSEO_FILE ),
+				'isPremium'   => $this->product_helper->is_premium(),
+				'isAiEnabled' => $this->options_helper->get( 'enable_ai_generator' ) === true,
+				'isRtl'       => \is_rtl(),
+				'pluginUrl'   => \plugins_url( '', \WPSEO_FILE ),
 			],
 			'linkParams'   => $this->short_link_helper->get_query_params(),
 		];
