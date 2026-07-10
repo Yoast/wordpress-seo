@@ -31,10 +31,53 @@ final class Get_Content_Types_Test extends Abstract_Content_Types_Collector_Test
 			->once()
 			->andReturn( $indexable_post_type_objects );
 
+		$this->access_checker->allows( 'can_edit_any' )->andReturnTrue();
+
 		$content_types_list = $this->instance->get_content_types();
 
 		$this->assertInstanceOf( Content_Types_List::class, $content_types_list );
 		$this->assertSame( $expected, $content_types_list->to_array() );
+	}
+
+	/**
+	 * Tests that content types the current user cannot edit are excluded.
+	 *
+	 * @return void
+	 */
+	public function test_get_content_types_excludes_types_the_user_cannot_edit() {
+		$this->post_type_helper
+			->expects( 'get_indexable_post_type_objects' )
+			->once()
+			->andReturn(
+				[
+					(object) [
+						'name'    => 'post',
+						'label'   => 'Posts',
+						'labels'  => (object) [ 'singular_name' => 'Post' ],
+						'show_ui' => true,
+					],
+					(object) [
+						'name'    => 'page',
+						'label'   => 'Pages',
+						'labels'  => (object) [ 'singular_name' => 'Page' ],
+						'show_ui' => true,
+					],
+				],
+			);
+
+		$this->access_checker->expects( 'can_edit_any' )->with( 'post' )->andReturnTrue();
+		$this->access_checker->expects( 'can_edit_any' )->with( 'page' )->andReturnFalse();
+
+		$this->assertSame(
+			[
+				[
+					'name'          => 'post',
+					'label'         => 'Posts',
+					'singularLabel' => 'Post',
+				],
+			],
+			$this->instance->get_content_types()->to_array(),
+		);
 	}
 
 	/**
