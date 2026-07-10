@@ -20,6 +20,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Issuer_Config;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Connection_Permission;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Management_Route;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -65,6 +66,13 @@ final class Management_Route_Test extends TestCase {
 	private $client_registration;
 
 	/**
+	 * The connection-management permission check mock.
+	 *
+	 * @var Connection_Permission|Mockery\MockInterface
+	 */
+	private $connection_permission;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Management_Route
@@ -79,16 +87,18 @@ final class Management_Route_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->myyoast_client      = Mockery::mock( MyYoast_Client::class );
-		$this->status_presenter    = Mockery::mock( Status_Presenter::class );
-		$this->issuer_config       = Mockery::mock( Issuer_Config::class );
-		$this->client_registration = Mockery::mock( Client_Registration_Interface::class );
+		$this->myyoast_client        = Mockery::mock( MyYoast_Client::class );
+		$this->status_presenter      = Mockery::mock( Status_Presenter::class );
+		$this->issuer_config         = Mockery::mock( Issuer_Config::class );
+		$this->client_registration   = Mockery::mock( Client_Registration_Interface::class );
+		$this->connection_permission = Mockery::mock( Connection_Permission::class );
 
 		$this->instance = new Management_Route(
 			$this->myyoast_client,
 			$this->status_presenter,
 			$this->issuer_config,
 			$this->client_registration,
+			$this->connection_permission,
 		);
 
 		// Default throttle stubs: the issuer key is always available and the marker
@@ -185,15 +195,15 @@ final class Management_Route_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the permission callback checks `wpseo_manage_options`.
+	 * Tests that the permission callback delegates to the connection-permission check.
 	 *
 	 * @covers ::can_manage
 	 *
 	 * @return void
 	 */
 	public function test_can_manage() {
-		Monkey\Functions\expect( 'current_user_can' )
-			->with( 'wpseo_manage_options' )
+		$this->connection_permission
+			->shouldReceive( 'can_manage' )
 			->once()
 			->andReturn( true );
 

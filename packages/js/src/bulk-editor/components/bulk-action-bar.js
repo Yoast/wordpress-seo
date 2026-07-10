@@ -225,12 +225,48 @@ const BulkActionsNotices = ( {
 );
 
 /**
+ * The padded action band: Free's AI generate buttons (when AI is enabled), Premium's AI slot, and the manual
+ * review actions when a row has unsaved edits.
+ *
+ * @param {Object}   props                The props.
+ * @param {boolean}  props.isPremium      Whether Premium is active.
+ * @param {boolean}  props.isAiEnabled    Whether the AI feature is enabled; gates Free's AI affordances.
+ * @param {boolean}  props.isActive       Whether this is the active tab; only the active tab renders the slot and actions.
+ * @param {number[]} props.selectedIds    The ids of the selected rows, passed to the AI slot.
+ * @param {string}   props.activeFieldSet The active field set, passed to the AI slot.
+ * @param {string}   props.contentType    The active content type (also the Free upsell variant).
+ * @param {boolean}  [props.hasUnsavedEdits] Whether a row has unsaved manual edits.
+ * @param {number}   [props.editCount]    The number of rows with unsaved manual edits.
+ * @param {Function} [props.onApplyAll]   Saves every row's open edits.
+ * @param {Function} [props.onDiscardAll] Discards every row's open edits.
+ * @param {boolean}  [props.isApplyingAll] Whether an apply-all is in flight; disables the review actions.
+ *
+ * @returns {JSX.Element} The action band.
+ */
+const BulkActionsBand = ( {
+	isPremium, isAiEnabled, isActive, selectedIds, activeFieldSet, contentType, hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll,
+} ) => (
+	<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
+		{ ! isPremium && isAiEnabled && <FreeBulkActions contentType={ contentType } /> }
+		{ isActive && (
+			<Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType, hasUnsavedEdits } } />
+		) }
+		{ isActive && hasUnsavedEdits && (
+			<ManualReviewActions editCount={ editCount } onApplyAll={ onApplyAll } onDiscardAll={ onDiscardAll } isApplying={ isApplyingAll } />
+		) }
+	</div>
+);
+
+/**
  * The AI generate buttons toolbar row, shown when rows are selected. In Premium the active tab's slot is filled
  * with the AI buttons (the fill receives `fillProps`); in Free they open the upsell modal. The notices slot above
  * it is full-bleed (outside the padded band), so Premium can fill it with a full-width row (e.g. an alert).
  *
  * @param {Object}   props                The props.
  * @param {boolean}  props.isPremium      Whether Premium is active.
+ * @param {boolean}  [props.isAiEnabled=false] Whether the AI feature is enabled in the global settings. Gates the AI
+ *                                         affordances (Free's upsell buttons; Premium fills its own slot only when on)
+ *                                         without touching any non-AI actions the band may host.
  * @param {boolean}  props.isActive       Whether this is the active tab. Only the active tab renders the slots, so the
  *                                        Premium fill has a single slot to target (each tab renders its own bar).
  * @param {number[]} props.selectedIds      The ids of the selected rows.
@@ -250,7 +286,7 @@ const BulkActionsNotices = ( {
  * @returns {JSX.Element} The bulk actions row content.
  */
 export const BulkActions = ( {
-	isPremium, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
+	isPremium, isAiEnabled = false, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
 	hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll, hasSaveError, onDismissSaveError,
 } ) => (
 	<div className="yst-flex yst-flex-col">
@@ -265,14 +301,18 @@ export const BulkActions = ( {
 				contentTypeSingularLabel={ contentTypeSingularLabel }
 			/>
 		) }
-		<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
-			{ ! isPremium && <FreeBulkActions contentType={ contentType } /> }
-			{ isActive && (
-				<Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType, hasUnsavedEdits } } />
-			) }
-			{ isActive && hasUnsavedEdits && (
-				<ManualReviewActions editCount={ editCount } onApplyAll={ onApplyAll } onDiscardAll={ onDiscardAll } isApplying={ isApplyingAll } />
-			) }
-		</div>
+		<BulkActionsBand
+			isPremium={ isPremium }
+			isAiEnabled={ isAiEnabled }
+			isActive={ isActive }
+			selectedIds={ selectedIds }
+			activeFieldSet={ activeFieldSet }
+			contentType={ contentType }
+			hasUnsavedEdits={ hasUnsavedEdits }
+			editCount={ editCount }
+			onApplyAll={ onApplyAll }
+			onDiscardAll={ onDiscardAll }
+			isApplyingAll={ isApplyingAll }
+		/>
 	</div>
 );
