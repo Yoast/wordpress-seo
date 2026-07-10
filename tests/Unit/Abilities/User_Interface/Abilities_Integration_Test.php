@@ -7,6 +7,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
+use Yoast\WP\SEO\Abilities\Application\Posts_With_SEO_Issues_Retriever;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities_Integration;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
@@ -65,6 +66,13 @@ final class Abilities_Integration_Test extends TestCase {
 	private $post_seo_data_updater;
 
 	/**
+	 * The posts with SEO issues retriever mock.
+	 *
+	 * @var Mockery\MockInterface|Posts_With_SEO_Issues_Retriever
+	 */
+	private $posts_with_seo_issues_retriever;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Abilities_Integration
@@ -89,6 +97,7 @@ final class Abilities_Integration_Test extends TestCase {
 		$this->enabled_analysis_features_repository = Mockery::mock( Enabled_Analysis_Features_Repository::class );
 		$this->post_seo_data_collector              = Mockery::mock( Post_SEO_Data_Collector::class );
 		$this->post_seo_data_updater                = Mockery::mock( Post_SEO_Data_Updater::class );
+		$this->posts_with_seo_issues_retriever      = Mockery::mock( Posts_With_SEO_Issues_Retriever::class );
 
 		$this->instance = new Abilities_Integration(
 			$this->score_retriever,
@@ -96,6 +105,7 @@ final class Abilities_Integration_Test extends TestCase {
 			$this->enabled_analysis_features_repository,
 			$this->post_seo_data_collector,
 			$this->post_seo_data_updater,
+			$this->posts_with_seo_issues_retriever,
 		);
 	}
 
@@ -184,6 +194,7 @@ final class Abilities_Integration_Test extends TestCase {
 		$this->expect_score_ability( 'yoast-seo/get-readability-scores' );
 		$this->expect_score_ability( 'yoast-seo/get-inclusive-language-scores' );
 		$this->expect_post_seo_data_abilities();
+		$this->expect_posts_with_seo_issues_ability();
 
 		$this->instance->register_abilities();
 	}
@@ -206,6 +217,7 @@ final class Abilities_Integration_Test extends TestCase {
 		);
 
 		$this->expect_post_seo_data_abilities();
+		$this->expect_posts_with_seo_issues_ability();
 
 		$this->instance->register_abilities();
 	}
@@ -228,6 +240,7 @@ final class Abilities_Integration_Test extends TestCase {
 
 		$this->expect_score_ability( 'yoast-seo/get-seo-scores' );
 		$this->expect_post_seo_data_abilities();
+		$this->expect_posts_with_seo_issues_ability();
 
 		$this->instance->register_abilities();
 	}
@@ -285,6 +298,104 @@ final class Abilities_Integration_Test extends TestCase {
 				],
 			);
 
+		$this->expect_posts_with_seo_issues_ability();
+
+		$this->instance->register_abilities();
+	}
+
+	/**
+	 * Tests that the posts with SEO issues ability registers with the expected definition,
+	 * offering all issue types when every analysis feature is enabled.
+	 *
+	 * @covers ::register_abilities
+	 * @covers ::register_get_posts_with_seo_issues_ability
+	 * @covers ::get_posts_with_seo_issues_input_schema
+	 * @covers ::get_post_with_issue_output_schema
+	 *
+	 * @return void
+	 */
+	public function test_register_posts_with_seo_issues_ability_definition() {
+		$this->mock_enabled_features(
+			[
+				Keyphrase_Analysis::NAME          => true,
+				Readability_Analysis::NAME        => true,
+				Inclusive_Language_Analysis::NAME => true,
+			],
+		);
+
+		$this->expect_score_ability( 'yoast-seo/get-seo-scores' );
+		$this->expect_score_ability( 'yoast-seo/get-readability-scores' );
+		$this->expect_score_ability( 'yoast-seo/get-inclusive-language-scores' );
+		$this->expect_post_seo_data_abilities();
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with(
+				'yoast-seo/get-posts-with-seo-issues',
+				[
+					'label'               => 'Get Posts With SEO Issues',
+					'category'            => 'yoast-seo',
+					'description'         => 'Get published posts that have a known SEO issue of the given type: a low (not good) SEO score, a low (not good) readability score, or no custom meta description. Results are ordered most recently modified first and paginated; an empty result means there are no posts with the issue or no further pages.',
+					'input_schema'        => $this->get_expected_posts_with_seo_issues_input_schema(
+						[ 'low-seo-score', 'low-readability-score', 'default-meta-description' ],
+					),
+					'output_schema'       => [
+						'type'  => 'array',
+						'items' => [
+							'type'       => 'object',
+							'properties' => [
+								'post_id' => [
+									'type'        => 'integer',
+									'description' => 'The ID of the post.',
+								],
+								'title'   => [
+									'type'        => 'string',
+									'description' => 'The post title.',
+								],
+							],
+						],
+					],
+					'permission_callback' => [ $this->instance, 'can_manage_seo' ],
+					'execute_callback'    => [ $this->posts_with_seo_issues_retriever, 'get_posts_with_seo_issues' ],
+					'meta'                => $this->get_read_meta(),
+				],
+			);
+
+		$this->instance->register_abilities();
+	}
+
+	/**
+	 * Tests that the issue type enum only offers the meta description issue
+	 * when the score-based analysis features are disabled.
+	 *
+	 * @covers ::register_abilities
+	 * @covers ::register_get_posts_with_seo_issues_ability
+	 * @covers ::get_posts_with_seo_issues_input_schema
+	 *
+	 * @return void
+	 */
+	public function test_register_posts_with_seo_issues_ability_with_analyses_disabled() {
+		$this->mock_enabled_features(
+			[
+				Keyphrase_Analysis::NAME          => false,
+				Readability_Analysis::NAME        => false,
+				Inclusive_Language_Analysis::NAME => false,
+			],
+		);
+
+		$this->expect_post_seo_data_abilities();
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with(
+				'yoast-seo/get-posts-with-seo-issues',
+				Mockery::on(
+					static function ( $args ) {
+						return $args['input_schema']['properties']['issue_type']['enum'] === [ 'default-meta-description' ];
+					},
+				),
+			);
+
 		$this->instance->register_abilities();
 	}
 
@@ -314,6 +425,58 @@ final class Abilities_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_register_ability' )
 			->once()
 			->with( 'yoast-seo/update-post-seo-data', Mockery::type( 'array' ) );
+	}
+
+	/**
+	 * Registers a loose expectation for the posts with SEO issues ability registration.
+	 *
+	 * @return void
+	 */
+	private function expect_posts_with_seo_issues_ability(): void {
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with( 'yoast-seo/get-posts-with-seo-issues', Mockery::type( 'array' ) );
+	}
+
+	/**
+	 * Returns the expected input schema for the posts with SEO issues ability.
+	 *
+	 * @param array<int, string> $issue_types The issue types expected on offer.
+	 *
+	 * @return array<string, mixed> The schema.
+	 */
+	private function get_expected_posts_with_seo_issues_input_schema( array $issue_types ): array {
+		return [
+			'type'                 => 'object',
+			'additionalProperties' => false,
+			'required'             => [ 'issue_type' ],
+			'properties'           => [
+				'issue_type'      => [
+					'type'        => 'string',
+					'enum'        => $issue_types,
+					'description' => 'The SEO issue to look for. Only issue types whose analysis is enabled on this site are offered.',
+				],
+				'post_type'       => [
+					'type'        => 'string',
+					'enum'        => [ 'post', 'page', 'product' ],
+					'default'     => 'post',
+					'description' => 'The post type to look in. Defaults to post.',
+				],
+				'number_of_posts' => [
+					'type'        => 'integer',
+					'description' => 'The number of posts to return per page. Defaults to 10.',
+					'minimum'     => 1,
+					'maximum'     => 100,
+					'default'     => 10,
+				],
+				'page'            => [
+					'type'        => 'integer',
+					'description' => 'The page of results to return, 1-based and defaulting to 1. Posts are ordered most recently modified first, so request a later page to reach older posts. An empty result means there are no further pages.',
+					'minimum'     => 1,
+					'default'     => 1,
+				],
+			],
+		];
 	}
 
 	/**

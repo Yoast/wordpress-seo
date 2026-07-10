@@ -634,10 +634,12 @@ class Indexable_Repository {
 	 * @param string      $post_type  The post type.
 	 * @param int|null    $limit      The maximum number of posts to return.
 	 * @param string|null $date_limit Only include content modified after this date.
+	 * @param int|null    $offset     The number of posts to skip, for pagination. Only applied together with a limit.
+	 * @param int|null    $max_score  Only include posts whose SEO score is at most this value.
 	 *
 	 * @return array<array<string, string>>|false The array of indexable columns. False if the query failed.
 	 */
-	public function get_recent_posts_with_keywords_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
+	public function get_recent_posts_with_keywords_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null, ?int $offset = null, ?int $max_score = null ) {
 		$query = $this->query()
 			->select( 'object_id' )
 			->select( 'primary_focus_keyword_score' )
@@ -648,14 +650,23 @@ class Indexable_Repository {
 			->where_not_null( 'primary_focus_keyword_score' )
 			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
 			->where_raw( '( is_robots_noindex IS NULL OR is_robots_noindex <> 1 )' )
-			->order_by_desc( 'object_last_modified' );
+			->order_by_desc( 'object_last_modified' )
+			->order_by_desc( 'id' );
 
 		if ( $limit !== null ) {
 			$query->limit( $limit );
 		}
 
+		if ( $offset !== null ) {
+			$query->offset( $offset );
+		}
+
 		if ( $date_limit !== null ) {
 			$query->where_gte( 'object_last_modified', $date_limit );
+		}
+
+		if ( $max_score !== null ) {
+			$query->where_lte( 'primary_focus_keyword_score', $max_score );
 		}
 
 		return $query->find_array();
@@ -667,10 +678,12 @@ class Indexable_Repository {
 	 * @param string      $post_type  The post type.
 	 * @param int|null    $limit      The maximum number of posts to return.
 	 * @param string|null $date_limit Only include content modified after this date.
+	 * @param int|null    $offset     The number of posts to skip, for pagination. Only applied together with a limit.
+	 * @param int|null    $max_score  Only include posts whose readability score is at most this value. A missing score counts as below any maximum.
 	 *
 	 * @return array<array<string, string|null>>|false The array of indexable columns. False if the query failed.
 	 */
-	public function get_recent_posts_with_readability_scores_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
+	public function get_recent_posts_with_readability_scores_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null, ?int $offset = null, ?int $max_score = null ) {
 		$query = $this->query()
 			->select( 'object_id' )
 			->select( 'readability_score' )
@@ -679,14 +692,23 @@ class Indexable_Repository {
 			->where( 'object_sub_type', $post_type )
 			->where_not_null( 'estimated_reading_time_minutes' )
 			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
-			->order_by_desc( 'object_last_modified' );
+			->order_by_desc( 'object_last_modified' )
+			->order_by_desc( 'id' );
 
 		if ( $limit !== null ) {
 			$query->limit( $limit );
 		}
 
+		if ( $offset !== null ) {
+			$query->offset( $offset );
+		}
+
 		if ( $date_limit !== null ) {
 			$query->where_gte( 'object_last_modified', $date_limit );
+		}
+
+		if ( $max_score !== null ) {
+			$query->where_raw( '( readability_score IS NULL OR readability_score <= %d )', [ $max_score ] );
 		}
 
 		return $query->find_array();
@@ -695,13 +717,15 @@ class Indexable_Repository {
 	/**
 	 * Returns the most recently modified posts for a post type.
 	 *
-	 * @param string      $post_type  The post type.
-	 * @param int|null    $limit      The maximum number of posts to return.
-	 * @param string|null $date_limit Only include content modified after this date.
+	 * @param string      $post_type           The post type.
+	 * @param int|null    $limit               The maximum number of posts to return.
+	 * @param string|null $date_limit          Only include content modified after this date.
+	 * @param int|null    $offset              The number of posts to skip, for pagination. Only applied together with a limit.
+	 * @param bool        $without_description Only include posts without a custom meta description.
 	 *
 	 * @return array<array<string, string|null>>|false The array of indexable columns. False if the query failed.
 	 */
-	public function get_recent_posts_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
+	public function get_recent_posts_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null, ?int $offset = null, bool $without_description = false ) {
 		$query = $this->query()
 			->select( 'object_id' )
 			->select( 'breadcrumb_title' )
@@ -710,14 +734,23 @@ class Indexable_Repository {
 			->where( 'object_sub_type', $post_type )
 			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
 			->where_raw( '( is_robots_noindex IS NULL OR is_robots_noindex <> 1 )' )
-			->order_by_desc( 'object_last_modified' );
+			->order_by_desc( 'object_last_modified' )
+			->order_by_desc( 'id' );
 
 		if ( $limit !== null ) {
 			$query->limit( $limit );
 		}
 
+		if ( $offset !== null ) {
+			$query->offset( $offset );
+		}
+
 		if ( $date_limit !== null ) {
 			$query->where_gte( 'object_last_modified', $date_limit );
+		}
+
+		if ( $without_description ) {
+			$query->where_raw( "( description IS NULL OR description = '' )" );
 		}
 
 		return $query->find_array();
