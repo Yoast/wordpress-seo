@@ -44,6 +44,10 @@ export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
  * @returns {Function} The thunk.
  */
 export const requestSwitch = ( { kind, target } ) => ( { select, dispatch } ) => {
+	const current = kind === "contentType" ? select.selectActiveContentTypeName() : select.selectActiveFieldSet();
+	if ( target === current ) {
+		return;
+	}
 	const hasUnsavedEdits = Object.keys( select.selectEditingRows() ).length > 0;
 	if ( hasUnsavedEdits || select.selectHasExternalPendingChanges() ) {
 		dispatch.setPendingSwitch( { kind, target } );

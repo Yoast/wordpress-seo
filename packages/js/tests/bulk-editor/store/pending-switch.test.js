@@ -26,10 +26,12 @@ describe( "pendingSwitch slice", () => {
 } );
 
 describe( "requestSwitch thunk", () => {
-	const makeThunkArgs = ( { editingRows = {}, hasExternalPendingChanges = false } = {} ) => ( {
+	const makeThunkArgs = ( { editingRows = {}, hasExternalPendingChanges = false, activeContentType = "", activeFieldSet = "search" } = {} ) => ( {
 		select: {
 			selectEditingRows: () => editingRows,
 			selectHasExternalPendingChanges: () => hasExternalPendingChanges,
+			selectActiveContentTypeName: () => activeContentType,
+			selectActiveFieldSet: () => activeFieldSet,
 		},
 		dispatch: {
 			setPendingSwitch: jest.fn(),
@@ -58,6 +60,14 @@ describe( "requestSwitch thunk", () => {
 		requestSwitch( { kind: "contentType", target: "product" } )( args );
 
 		expect( args.dispatch.setPendingSwitch ).toHaveBeenCalledWith( { kind: "contentType", target: "product" } );
+	} );
+
+	it( "ignores a switch to what is already active", () => {
+		const args = makeThunkArgs( { activeContentType: "page", editingRows: { 7: {} } } );
+		requestSwitch( { kind: "contentType", target: "page" } )( args );
+
+		expect( args.dispatch.commitSwitch ).not.toHaveBeenCalled();
+		expect( args.dispatch.setPendingSwitch ).not.toHaveBeenCalled();
 	} );
 } );
 

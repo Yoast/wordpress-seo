@@ -78,12 +78,9 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const editCount = Object.keys( editing.editingRows ).length;
 	const hasUnsavedEdits = editCount > 0;
 
-	// A tab click requests a field-set switch; requestSwitch guards it (defers to the modal) or commits it straight away.
-	const onChangeTab = useCallback( ( id ) => {
-		if ( id !== activeFieldSet ) {
-			requestSwitch( { kind: "fieldSet", target: id } );
-		}
-	}, [ activeFieldSet, requestSwitch ] );
+	// A tab click requests a field-set switch; requestSwitch guards it (defers to the modal), skips a no-op switch,
+	// or commits straight away. Kept free of the active field set so the handler stays referentially stable.
+	const onChangeTab = useCallback( ( id ) => requestSwitch( { kind: "fieldSet", target: id } ), [ requestSwitch ] );
 
 	const onSaveAndSwitch = useCallback( async() => {
 		// Save every open edit as one batch, then let the self-heal effect commit the switch once the edits clear.

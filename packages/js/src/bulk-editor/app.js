@@ -63,13 +63,9 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 	const { id: activeContentTypeId, label: activeContentTypeLabel, singularLabel: activeContentTypeSingularLabel } =
 		getActiveContentTypeFields( activeContentType );
 
-	// When switching content types, defers to the unsaved-changes / pending-AI modal when
-	// there are edits or pending suggestions, and switches straight away otherwise.
-	const onChangeContentType = useCallback( ( id ) => {
-		if ( id !== activeContentTypeId ) {
-			requestSwitch( { kind: "contentType", target: id } );
-		}
-	}, [ activeContentTypeId, requestSwitch ] );
+	// Selecting a content type requests a guarded switch (requestSwitch defers to the modal or switches straight away).
+	// Kept free of the active type so the handler stays referentially stable behind the memoized navigation item.
+	const onChangeContentType = useCallback( ( id ) => requestSwitch( { kind: "contentType", target: id } ), [ requestSwitch ] );
 
 	const { title, description } = getHeaderCopy( activeContentType );
 	// Fall back to the WP admin home when the data provider has no link.
