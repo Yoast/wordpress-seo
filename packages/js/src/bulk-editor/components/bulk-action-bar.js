@@ -188,11 +188,21 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => (
 		</div>
 		<button
 			type="button"
-			className="yst-absolute yst-end-4 yst-top-4 yst-leading-none yst-text-current hover:yst-opacity-75 yst-cursor-pointer"
+			className="yst-absolute yst-end-4 yst-top-4 yst-text-current hover:yst-opacity-75 yst-cursor-pointer"
 			onClick={ onDismiss }
 			aria-label={ __( "Dismiss", "wordpress-seo" ) }
 		>
-			&times;
+			<svg
+				className="yst-h-2.5 yst-w-2.5"
+				viewBox="0 0 10 10"
+				fill="none"
+				stroke="currentColor"
+				strokeWidth="1.25"
+				strokeLinecap="round"
+				aria-hidden="true"
+			>
+				<path d="M0.75 0.75 9.25 9.25M9.25 0.75 0.75 9.25" />
+			</svg>
 		</button>
 	</Alert>
 );
