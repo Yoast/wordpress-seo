@@ -22,8 +22,8 @@ const remoteDataProvider = { fetchJson: jest.fn( () => new Promise( () => {} ) )
 // The rows the posts endpoint serves, in the API's snake_case shape (mapped by usePosts).
 /* eslint-disable camelcase -- The REST endpoint returns snake_case keys. */
 const postRows = [
-	{ id: 1, title: "What Is SEO and How It Works", status: "publish", edit_link: "https://example.com/1", focus_keyphrase: "what is seo", seo_title: "What Is SEO? Complete Guide", meta_description: "Learn what SEO is.", social_title: "Social: What Is SEO", social_description: "Social description." },
-	{ id: 2, title: "Keyword Research for Beginners", status: "publish", edit_link: "https://example.com/2", focus_keyphrase: "keyword research", seo_title: "Keyword Research Guide", meta_description: "Find keywords.", social_title: "Social: Keyword Research", social_description: "Social description 2." },
+	{ id: 1, title: "What Is SEO and How It Works", status: "publish", edit_link: "https://example.com/1", focus_keyphrase: "what is seo", seo_title: "What Is SEO? Complete Guide", meta_description: "Learn what SEO is.", social_title: "Social: What Is SEO", social_description: "Social description.", editable: true },
+	{ id: 2, title: "Keyword Research for Beginners", status: "publish", edit_link: "https://example.com/2", focus_keyphrase: "keyword research", seo_title: "Keyword Research Guide", meta_description: "Find keywords.", social_title: "Social: Keyword Research", social_description: "Social description 2.", editable: true },
 ];
 /* eslint-enable camelcase */
 
