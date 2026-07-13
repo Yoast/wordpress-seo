@@ -192,6 +192,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			) ) }
 			<UnsavedChangesModal
 				isOpen={ hasUnsavedEdits && pendingSwitch !== null }
+				isSaving={ editing.isApplyingAll }
 				onSave={ onSaveAndSwitch }
 				onDiscard={ onDiscardAndSwitch }
 				onClose={ onCancelSwitch }
