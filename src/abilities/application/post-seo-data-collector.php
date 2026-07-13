@@ -57,11 +57,6 @@ class Post_SEO_Data_Collector {
 			return $indexables;
 		}
 
-		return \array_map(
-			function ( $indexable ) {
-				return $this->field_map->to_seo_array( $indexable );
-			},
-			$indexables,
-		);
+		return $this->field_map->indexables_to_arrays( $indexables );
 	}
 }

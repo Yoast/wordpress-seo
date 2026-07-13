@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
@@ -166,6 +167,46 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 		$result = $this->instance->to_seo_array( $indexable );
 
 		$this->assertNull( $result['meta_description_rendered'] );
+	}
+
+	/**
+	 * Tests that indexables_to_arrays primes the post cache once for all posts and
+	 * maps every indexable to its SEO data array.
+	 *
+	 * @covers ::indexables_to_arrays
+	 *
+	 * @return void
+	 */
+	public function test_indexables_to_arrays_primes_post_caches_once() {
+		$first             = $this->make_indexable();
+		$second            = $this->make_indexable();
+		$second->object_id = 43;
+
+		Monkey\Functions\expect( '_prime_post_caches' )
+			->once()
+			->with( [ 42, 43 ], false, false );
+
+		$this->meta_surface->expects( 'for_indexable' )->once()->with( $first, 'Post_Type' )->andReturnFalse();
+		$this->meta_surface->expects( 'for_indexable' )->once()->with( $second, 'Post_Type' )->andReturnFalse();
+
+		$result = $this->instance->indexables_to_arrays( [ $first, $second ] );
+
+		$this->assertCount( 2, $result );
+		$this->assertSame( 42, $result[0]['post_id'] );
+		$this->assertSame( 43, $result[1]['post_id'] );
+	}
+
+	/**
+	 * Tests that indexables_to_arrays does not prime the post cache when there is nothing to map.
+	 *
+	 * @covers ::indexables_to_arrays
+	 *
+	 * @return void
+	 */
+	public function test_indexables_to_arrays_empty() {
+		Monkey\Functions\expect( '_prime_post_caches' )->never();
+
+		$this->assertSame( [], $this->instance->indexables_to_arrays( [] ) );
 	}
 
 	/**

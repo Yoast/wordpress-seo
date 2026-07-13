@@ -137,6 +137,29 @@ class Post_SEO_Field_Map {
 	}
 
 	/**
+	 * Builds the post SEO data arrays for a set of indexables.
+	 *
+	 * @param Indexable[] $indexables The indexables to read from.
+	 *
+	 * @return array<int, array<string, int|string|bool|null>> The post SEO data for each indexable.
+	 */
+	public function indexables_to_arrays( array $indexables ): array {
+		if ( $indexables !== [] ) {
+			$object_ids = \array_map(
+				static function ( $indexable ) {
+					return (int) $indexable->object_id;
+				},
+				$indexables,
+			);
+
+			// Prime the post cache in one query, so each presentation build below reads its post from cache instead of issuing its own query.
+			\_prime_post_caches( $object_ids, false, false );
+		}
+
+		return \array_map( [ $this, 'to_seo_array' ], $indexables );
+	}
+
+	/**
 	 * Returns the front-end output for a rendered field, or null when nothing is output.
 	 *
 	 * @param Meta|false $meta         The meta values for the post, or false when unavailable.
