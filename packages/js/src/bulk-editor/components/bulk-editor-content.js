@@ -84,27 +84,14 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	// or commits straight away. Kept free of the active field set so the handler stays referentially stable.
 	const onChangeTab = useCallback( ( id ) => requestSwitch( { kind: "fieldSet", target: id } ), [ requestSwitch ] );
 
-	const onChangeTab = useCallback( ( id ) => {
-		if ( id === activeFieldSet ) {
-			return;
-		}
-		// Guard the switch when manual edits are in progress or an external plugin (Premium AI) reports pending
-		// changes; otherwise switch straight away. The guarded tab is held in pendingTab until the user decides.
-		if ( hasUnsavedEdits || hasExternalPendingChanges ) {
-			setPendingTab( id );
-			return;
-		}
-		setActiveFieldSet( id );
-	}, [ activeFieldSet, hasUnsavedEdits, hasExternalPendingChanges, setActiveFieldSet ] );
-
 	const onSaveAndSwitch = useCallback( async() => {
 		// Close the modal only when the save actually failed, so its notice is revealed; a clean save lets the
 		// self-heal effect complete the switch, and an in-flight save (null) is left alone.
 		const saved = await editing.onApplyAll();
 		if ( saved === false ) {
-			setPendingTab( null );
+			clearPendingSwitch();
 		}
-	}, [ editing ] );
+	}, [ editing, clearPendingSwitch ] );
 
 	const onDiscardAndSwitch = useCallback( () => {
 		// Clearing the edits flips hasUnsavedEdits to false; the self-heal effect or the slot modal then completes
@@ -215,7 +202,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 				onSave={ onSaveAndSwitch }
 				onDiscard={ onDiscardAndSwitch }
 				onClose={ onCancelSwitch }
-				isSaving={ editing.isApplyingAll }
 			/>
 			<Slot
 				name={ PENDING_CHANGES_MODAL_SLOT }
