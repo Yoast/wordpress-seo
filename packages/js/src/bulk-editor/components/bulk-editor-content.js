@@ -85,10 +85,13 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const onChangeTab = useCallback( ( id ) => requestSwitch( { kind: "fieldSet", target: id } ), [ requestSwitch ] );
 
 	const onSaveAndSwitch = useCallback( async() => {
-		// Save every open edit as one batch, then let the self-heal effect commit the switch once the edits clear.
-		// On failure the drafts stay open, so nothing is committed and no edits are silently lost.
-		await editing.onApplyAll();
-	}, [ editing ] );
+		// Close the modal only when the save actually failed, so its notice is revealed; a clean save lets the
+		// self-heal effect complete the switch, and an in-flight save (null) is left alone.
+		const saved = await editing.onApplyAll();
+		if ( saved === false ) {
+			clearPendingSwitch();
+		}
+	}, [ editing, clearPendingSwitch ] );
 
 	const onDiscardAndSwitch = useCallback( () => {
 		// Clearing the edits flips hasUnsavedEdits to false; the self-heal effect or the slot modal then completes

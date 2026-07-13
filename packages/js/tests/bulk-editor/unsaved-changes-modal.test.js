@@ -1,7 +1,29 @@
-import { fireEvent, render, screen } from "../test-utils";
+import { render, screen, fireEvent } from "../test-utils";
 import { UnsavedChangesModal } from "../../src/bulk-editor/components/unsaved-changes-modal";
 
 describe( "UnsavedChangesModal", () => {
+	const baseProps = { isOpen: true, onSave: jest.fn(), onDiscard: jest.fn(), onClose: jest.fn() };
+
+	beforeEach( () => {
+		jest.clearAllMocks();
+	} );
+
+	it( "disables every action while a save is in flight", () => {
+		render( <UnsavedChangesModal { ...baseProps } isSaving={ true } /> );
+
+		expect( screen.getByRole( "button", { name: "Save changes" } ) ).toBeDisabled();
+		expect( screen.getByRole( "button", { name: "Continue without saving" } ) ).toBeDisabled();
+		expect( screen.getByRole( "button", { name: "Cancel" } ) ).toBeDisabled();
+	} );
+
+	it( "enables the actions when no save is in flight", () => {
+		render( <UnsavedChangesModal { ...baseProps } isSaving={ false } /> );
+
+		expect( screen.getByRole( "button", { name: "Save changes" } ) ).toBeEnabled();
+		expect( screen.getByRole( "button", { name: "Continue without saving" } ) ).toBeEnabled();
+		expect( screen.getByRole( "button", { name: "Cancel" } ) ).toBeEnabled();
+	} );
+
 	it( "wires each action to its handler", () => {
 		const onSave = jest.fn();
 		const onDiscard = jest.fn();
@@ -15,14 +37,5 @@ describe( "UnsavedChangesModal", () => {
 		expect( onSave ).toHaveBeenCalledTimes( 1 );
 		expect( onDiscard ).toHaveBeenCalledTimes( 1 );
 		expect( onClose ).toHaveBeenCalledTimes( 1 );
-	} );
-
-	it( "disables Save and Discard while a save is in flight, keeping Cancel available", () => {
-		render( <UnsavedChangesModal isOpen={ true } isSaving={ true } /> );
-
-		expect( screen.getByRole( "button", { name: "Save changes" } ) ).toBeDisabled();
-		expect( screen.getByRole( "button", { name: "Continue without saving" } ) ).toBeDisabled();
-		// Cancel stays enabled so a stalled save can't trap the user in the modal.
-		expect( screen.getByRole( "button", { name: "Cancel" } ) ).toBeEnabled();
 	} );
 } );
