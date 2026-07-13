@@ -576,7 +576,7 @@ class Indexable_Repository {
 		$page_size = \min( \max( 1, $page_size ), self::MAX_TITLE_KEYWORD_PAGE_SIZE );
 		$offset    = ( ( \max( 1, $page ) - 1 ) * $page_size );
 
-		return $this->query()
+		$indexables = $this->query()
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )
 			->where_raw( '( ' . \implode( ' OR ', $likes ) . ' )', \array_values( $params ) )
@@ -585,6 +585,8 @@ class Indexable_Repository {
 			->limit( $page_size )
 			->offset( $offset )
 			->find_many();
+
+		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
 	}
 
 	/**

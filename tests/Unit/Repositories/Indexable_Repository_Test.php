@@ -410,6 +410,8 @@ final class Indexable_Repository_Test extends TestCase {
 		$orm_object->expects( 'offset' )->with( 0 )->once()->andReturnSelf();
 		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
 
+		$this->mock_version_check( $indexable );
+
 		$this->assertSame(
 			[ $indexable ],
 			$this->instance->find_posts_by_title_keywords( 'hiking boots, trail' ),
@@ -448,6 +450,8 @@ final class Indexable_Repository_Test extends TestCase {
 		$orm_object->expects( 'limit' )->with( 10 )->once()->andReturnSelf();
 		$orm_object->expects( 'offset' )->with( 20 )->once()->andReturnSelf();
 		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->mock_version_check( $indexable );
 
 		$this->assertSame(
 			[ $indexable ],
@@ -490,6 +494,8 @@ final class Indexable_Repository_Test extends TestCase {
 		$orm_object->expects( 'limit' )->with( 10 )->once()->andReturnSelf();
 		$orm_object->expects( 'offset' )->with( 0 )->once()->andReturnSelf();
 		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->mock_version_check( $indexable );
 
 		$this->assertSame(
 			[ $indexable ],
@@ -557,6 +563,8 @@ final class Indexable_Repository_Test extends TestCase {
 		$orm_object->expects( 'offset' )->with( 0 )->once()->andReturnSelf();
 		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
 
+		$this->mock_version_check( $indexable );
+
 		$this->assertSame(
 			[ $indexable ],
 			$this->instance->find_posts_by_title_keywords( \implode( ', ', $phrases ) ),
@@ -595,6 +603,8 @@ final class Indexable_Repository_Test extends TestCase {
 		$orm_object->expects( 'limit' )->with( 1 )->once()->andReturnSelf();
 		$orm_object->expects( 'offset' )->with( 0 )->once()->andReturnSelf();
 		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->mock_version_check( $indexable );
 
 		$this->assertSame(
 			[ $indexable ],
@@ -638,9 +648,53 @@ final class Indexable_Repository_Test extends TestCase {
 		$orm_object->expects( 'offset' )->with( $max )->once()->andReturnSelf();
 		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
 
+		$this->mock_version_check( $indexable );
+
 		$this->assertSame(
 			[ $indexable ],
 			$this->instance->find_posts_by_title_keywords( 'trail', 2, ( $max + 50 ) ),
+		);
+	}
+
+	/**
+	 * Tests that an indexable built by an older plugin version is rebuilt before being returned.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_find_posts_by_title_keywords_upgrades_stale_indexables() {
+		$stale_indexable    = Mockery::mock( Indexable_Mock::class );
+		$upgraded_indexable = Mockery::mock( Indexable_Mock::class );
+		$orm_object         = Mockery::mock( ORM::class );
+
+		$this->instance
+			->expects( 'query' )
+			->once()
+			->andReturn( $orm_object );
+
+		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
+
+		$this->wpdb->expects( 'esc_like' )->with( 'trail' )->once()->andReturn( 'trail' );
+
+		$orm_object
+			->expects( 'where_raw' )
+			->with( '( breadcrumb_title LIKE %s )', [ '%trail%' ] )
+			->once()
+			->andReturnSelf();
+
+		$orm_object->expects( 'order_by_desc' )->with( 'object_last_modified' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'id' )->once()->andReturnSelf();
+		$orm_object->expects( 'limit' )->with( 10 )->once()->andReturnSelf();
+		$orm_object->expects( 'offset' )->with( 0 )->once()->andReturnSelf();
+		$orm_object->expects( 'find_many' )->once()->andReturn( [ $stale_indexable ] );
+
+		$this->mock_version_check( $stale_indexable, $upgraded_indexable );
+
+		$this->assertSame(
+			[ $upgraded_indexable ],
+			$this->instance->find_posts_by_title_keywords( 'trail' ),
 		);
 	}
 
