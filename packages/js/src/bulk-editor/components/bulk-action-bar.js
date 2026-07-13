@@ -1,6 +1,6 @@
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import ChevronDownIcon from "@heroicons/react/outline/ChevronDownIcon";
-import XIcon from "@heroicons/react/outline/XIcon";
+import XIcon from "@heroicons/react/solid/XIcon";
 import { Slot } from "@wordpress/components";
 import { useEffect, useId, useMemo, useRef } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
@@ -148,6 +148,7 @@ const FreeBulkActions = ( { contentType } ) => {
 export const ManualReviewActions = ( { editCount, onApplyAll, onDiscardAll, isApplying = false } ) => {
 	// Couple the count summary to each action, so screen readers announce it.
 	const summaryId = useId();
+	const svgAriaProps = useSvgAria();
 
 	return (
 		<div className="yst-grow yst-flex yst-justify-end yst-items-center yst-gap-4">
@@ -160,11 +161,11 @@ export const ManualReviewActions = ( { editCount, onApplyAll, onDiscardAll, isAp
 			</span>
 			<div className="yst-flex yst-gap-2">
 				<Button variant="secondary" size="small" className="yst-gap-1.5" onClick={ onApplyAll } disabled={ isApplying } aria-describedby={ summaryId }>
-					<CheckIcon className="yst-h-4 yst-w-4 yst-text-green-500" aria-hidden="true" />
+					<CheckIcon className="yst-h-4 yst-w-4 yst-text-green-500" { ...svgAriaProps } />
 					{ __( "Save edits", "wordpress-seo" ) }
 				</Button>
 				<Button variant="secondary" size="small" className="yst-gap-1.5" onClick={ onDiscardAll } disabled={ isApplying } aria-describedby={ summaryId }>
-					<XIcon className="yst-h-4 yst-w-4 yst-text-red-500" aria-hidden="true" />
+					<XIcon className="yst-h-4 yst-w-4 yst-text-red-500" { ...svgAriaProps } />
 					{ __( "Cancel edits", "wordpress-seo" ) }
 				</Button>
 			</div>
@@ -180,8 +181,9 @@ export const ManualReviewActions = ( { editCount, onApplyAll, onDiscardAll, isAp
  *
  * @returns {JSX.Element} The save-error notice.
  */
-export const ManualSaveErrorNotice = ( { onDismiss } ) => (
-	<Alert variant="error" as="div" role="alert" className="yst-rounded-none yst-relative">
+export const ManualSaveErrorNotice = ( { onDismiss } ) => {
+	const svgAriaProps = useSvgAria();
+	return <Alert variant="error" as="div" role="alert" className="yst-rounded-none yst-relative">
 		<div className="yst-flex yst-flex-col yst-gap-1">
 			<span className="yst-block yst-font-medium">{ __( "Couldn't save your edits.", "wordpress-seo" ) }</span>
 			<span className="yst-font-normal">{ __( "Something went wrong. Please try again.", "wordpress-seo" ) }</span>
@@ -192,20 +194,10 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => (
 			onClick={ onDismiss }
 			aria-label={ __( "Dismiss", "wordpress-seo" ) }
 		>
-			<svg
-				className="yst-h-2.5 yst-w-2.5"
-				viewBox="0 0 10 10"
-				fill="none"
-				stroke="currentColor"
-				strokeWidth="1.25"
-				strokeLinecap="round"
-				aria-hidden="true"
-			>
-				<path d="M0.75 0.75 9.25 9.25M9.25 0.75 0.75 9.25" />
-			</svg>
+			<XIcon className="yst-h-5 yst-w-5" { ...svgAriaProps } />
 		</button>
-	</Alert>
-);
+	</Alert>;
+};
 
 /**
  * The Free save-error notice, and the alerts slot Premium fills (e.g. its AI alerts).
