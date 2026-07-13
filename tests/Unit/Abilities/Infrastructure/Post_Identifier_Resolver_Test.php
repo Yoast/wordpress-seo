@@ -1,12 +1,12 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
+namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 
 use Brain\Monkey;
 use Mockery;
 use WP_Error;
-use Yoast\WP\SEO\Abilities\Application\Post_Identifier_Resolver;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_Identifier_Resolver;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group abilities
  *
- * @coversDefaultClass \Yoast\WP\SEO\Abilities\Application\Post_Identifier_Resolver
+ * @coversDefaultClass \Yoast\WP\SEO\Abilities\Infrastructure\Post_Identifier_Resolver
  */
 final class Post_Identifier_Resolver_Test extends TestCase {
 

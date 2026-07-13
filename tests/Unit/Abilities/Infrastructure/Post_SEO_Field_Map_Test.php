@@ -1,10 +1,10 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
+namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 
 use Mockery;
-use Yoast\WP\SEO\Abilities\Application\Post_SEO_Field_Map;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Surfaces\Values\Meta;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group abilities
  *
- * @coversDefaultClass \Yoast\WP\SEO\Abilities\Application\Post_SEO_Field_Map
+ * @coversDefaultClass \Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map
  */
 final class Post_SEO_Field_Map_Test extends TestCase {
 

@@ -1,7 +1,7 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Abilities\Application;
+namespace Yoast\WP\SEO\Abilities\Infrastructure;
 
 use WPSEO_Rank;
 use Yoast\WP\SEO\Models\Indexable;

@@ -5,9 +5,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
 use Mockery;
 use WP_Error;
-use Yoast\WP\SEO\Abilities\Application\Post_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
-use Yoast\WP\SEO\Abilities\Application\Post_SEO_Field_Map;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_Identifier_Resolver;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

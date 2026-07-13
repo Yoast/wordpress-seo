@@ -4,6 +4,8 @@
 namespace Yoast\WP\SEO\Abilities\Application;
 
 use WP_Error;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_Identifier_Resolver;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 
 /**
  * Application service that reads the SEO data of one or more posts.
