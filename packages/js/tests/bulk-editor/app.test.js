@@ -302,4 +302,20 @@ describe( "App", () => {
 			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 		} );
 	} );
+
+	describe( "guarding hard-navigation paths", () => {
+		const rowTitle = "What Is SEO and How It Works";
+
+		it( "guards the Back to Tools link with the unsaved-changes modal when there are edits", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+
+			fireEvent.click( screen.getByRole( "link", { name: "Back to Tools" } ) );
+
+			// The click is intercepted (no full page navigation) and the confirmation modal is shown instead.
+			expect( screen.getByText( "Unsaved changes" ) ).toBeInTheDocument();
+		} );
+	} );
 } );

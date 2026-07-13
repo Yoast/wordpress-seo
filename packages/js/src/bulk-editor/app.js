@@ -58,6 +58,18 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
 	const { requestSwitch } = useDispatch( STORE_NAME );
 
+	// A hard-navigation link (logo, Back to Tools) requests a guarded switch: requestSwitch defers to the modal when
+	// there are unsaved changes, else navigates straight away. Modified clicks (open in new tab/window) don't leave
+	// the current page, so they pass through to the browser unguarded.
+	const onNavigate = useCallback( ( event, href ) => {
+		const passThrough = [ event.defaultPrevented, event.button !== 0, event.metaKey, event.ctrlKey, event.shiftKey, event.altKey ];
+		if ( passThrough.some( Boolean ) ) {
+			return;
+		}
+		event.preventDefault();
+		requestSwitch( { kind: "navigate", target: href } );
+	}, [ requestSwitch ] );
+
 	const contentTypes = dataProvider.getContentTypes().map( ( { name, label, singularLabel } ) => ( { id: name, label, singularLabel } ) );
 	const activeContentType = contentTypes.find( ( { id } ) => id === activeContentTypeName ) ?? contentTypes[ 0 ];
 	const { id: activeContentTypeId, label: activeContentTypeLabel, singularLabel: activeContentTypeSingularLabel } =
@@ -81,6 +93,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 		contentTypes,
 		onChange: onChangeContentType,
 		backToToolsUrl,
+		onNavigate,
 		logoHref,
 		isPremium,
 	};
