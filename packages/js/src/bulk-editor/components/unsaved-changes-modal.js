@@ -10,13 +10,15 @@ import { noop } from "lodash";
  *
  * @param {Object}   props             The props.
  * @param {boolean}  props.isOpen      Whether the modal is open.
+ * @param {boolean}  [props.isSaving]  Whether a save is in flight; disables Save and Discard so the in-flight
+ *                                     save can't be double-fired or discarded mid-flight.
  * @param {Function} [props.onSave]    Saves all edits and then switches tab (Save changes).
  * @param {Function} [props.onDiscard] Discards all edits and then switches tab (Continue without saving).
  * @param {Function} [props.onClose]   Closes the modal and stays on the current tab (Cancel / dismiss).
  *
  * @returns {JSX.Element} The modal.
  */
-export const UnsavedChangesModal = ( { isOpen, onSave = noop, onDiscard = noop, onClose = noop } ) => {
+export const UnsavedChangesModal = ( { isOpen, isSaving = false, onSave = noop, onDiscard = noop, onClose = noop } ) => {
 	const svgAriaProps = useSvgAria();
 	const saveRef = useRef( null );
 
@@ -37,10 +39,10 @@ export const UnsavedChangesModal = ( { isOpen, onSave = noop, onDiscard = noop, 
 					</div>
 				</div>
 				<div className="yst-flex yst-flex-col yst-gap-2 yst-mt-6">
-					<Button ref={ saveRef } type="button" variant="primary" onClick={ onSave }>
+					<Button ref={ saveRef } type="button" variant="primary" onClick={ onSave } disabled={ isSaving }>
 						{ __( "Save changes", "wordpress-seo" ) }
 					</Button>
-					<Button type="button" variant="secondary" onClick={ onDiscard }>
+					<Button type="button" variant="secondary" onClick={ onDiscard } disabled={ isSaving }>
 						{ __( "Continue without saving", "wordpress-seo" ) }
 					</Button>
 					<Button type="button" variant="tertiary" onClick={ onClose }>

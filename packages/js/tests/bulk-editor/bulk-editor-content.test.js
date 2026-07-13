@@ -110,6 +110,8 @@ describe( "BulkEditorContent tab-switch guard", () => {
 		// The store lives in the global registry: reset the guard state so tests stay order-independent.
 		dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_SEARCH );
 		dispatch( STORE_NAME ).setHasExternalPendingChanges( false );
+		dispatch( STORE_NAME ).stopEdit();
+		dispatch( STORE_NAME ).clearPendingSwitch();
 	} );
 
 	it( "switches immediately when nothing guards the switch", () => {
