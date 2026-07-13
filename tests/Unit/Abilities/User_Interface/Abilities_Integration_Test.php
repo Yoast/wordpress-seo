@@ -8,6 +8,7 @@ use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities_Integration;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
@@ -18,6 +19,10 @@ use Yoast\WP\SEO\Editors\Framework\Inclusive_Language_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
+use Yoast\WP\SEO\Helpers\Meta_Helper;
+use Yoast\WP\SEO\Surfaces\Meta_Surface;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -286,6 +291,131 @@ final class Abilities_Integration_Test extends TestCase {
 			);
 
 		$this->instance->register_abilities();
+	}
+
+	/**
+	 * Tests that every writable field in the update input schema is applied by the
+	 * field map and cascades to a post meta write.
+	 *
+	 * The field contract is spread over hand-maintained structures (the input schema,
+	 * Post_SEO_Field_Map, Indexable_To_Postmeta_Helper) which fail silently when they
+	 * drift: a schema field missing from the field map is validated and accepted but
+	 * never applied, and an indexable column missing from the postmeta map is skipped
+	 * by the cascade and then reverted by the indexable rebuild. This test turns both
+	 * drift paths into a failure.
+	 *
+	 * @covers ::register_abilities
+	 * @covers ::register_update_post_seo_data_ability
+	 * @covers ::get_update_post_seo_data_input_schema
+	 *
+	 * @return void
+	 */
+	public function test_every_writable_input_field_cascades_to_post_meta() {
+		$input_schema = $this->get_registered_update_ability_args()['input_schema'];
+
+		$writable_fields = \array_diff_key(
+			$input_schema['properties'],
+			[
+				'post_id'   => true,
+				'permalink' => true,
+			],
+		);
+
+		$field_map            = new Post_SEO_Field_Map( Mockery::mock( Meta_Surface::class ) );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_id = 42;
+
+		$changed_columns = [];
+		foreach ( $writable_fields as $field => $field_schema ) {
+			// A truthy value for every type, so each mapped column performs a meta write below.
+			$value   = ( \in_array( 'boolean', (array) $field_schema['type'], true ) ) ? true : 'a value';
+			$changed = $field_map->apply_to_indexable( [ $field => $value ], $indexable );
+
+			$this->assertNotEmpty(
+				$changed,
+				"Input field `{$field}` is accepted by the update input schema but not applied by Post_SEO_Field_Map, so writes to it are silently dropped.",
+			);
+
+			$changed_columns[] = $changed;
+		}
+
+		$meta_writes = 0;
+		$meta_helper = Mockery::mock( Meta_Helper::class );
+		$meta_helper->shouldReceive( 'set_value', 'delete' )->andReturnUsing(
+			static function () use ( &$meta_writes ) {
+				++$meta_writes;
+
+				return true;
+			},
+		);
+		$postmeta_helper = new Indexable_To_Postmeta_Helper( $meta_helper );
+
+		foreach ( \array_unique( \array_merge( ...$changed_columns ) ) as $column ) {
+			$writes_before = $meta_writes;
+			$postmeta_helper->map_column_to_postmeta( $indexable, $column, true );
+
+			$this->assertGreaterThan(
+				$writes_before,
+				$meta_writes,
+				"Indexable column `{$column}` has no Indexable_To_Postmeta_Helper mapping, so writes to it are silently discarded and reverted by the indexable rebuild.",
+			);
+		}
+	}
+
+	/**
+	 * Tests that the SEO data array built by the field map exposes exactly the
+	 * properties documented in the output schema.
+	 *
+	 * @covers ::register_abilities
+	 * @covers ::register_update_post_seo_data_ability
+	 * @covers ::get_post_seo_data_output_schema
+	 *
+	 * @return void
+	 */
+	public function test_output_schema_matches_field_map_output() {
+		$output_schema = $this->get_registered_update_ability_args()['output_schema'];
+
+		$meta_surface = Mockery::mock( Meta_Surface::class );
+		$meta_surface->expects( 'for_indexable' )->andReturnFalse();
+		$field_map = new Post_SEO_Field_Map( $meta_surface );
+
+		$schema_properties = \array_keys( $output_schema['properties'] );
+		$output_fields     = \array_keys( $field_map->to_seo_array( Mockery::mock( Indexable_Mock::class ) ) );
+		\sort( $schema_properties );
+		\sort( $output_fields );
+
+		$this->assertSame(
+			$schema_properties,
+			$output_fields,
+			'The output schema and Post_SEO_Field_Map::to_seo_array() must describe the same set of fields.',
+		);
+	}
+
+	/**
+	 * Registers the abilities against a capturing stub and returns the arguments the
+	 * update ability was registered with.
+	 *
+	 * @return array<string, mixed> The update ability registration arguments.
+	 */
+	private function get_registered_update_ability_args(): array {
+		$this->mock_enabled_features(
+			[
+				Keyphrase_Analysis::NAME          => false,
+				Readability_Analysis::NAME        => false,
+				Inclusive_Language_Analysis::NAME => false,
+			],
+		);
+
+		$captured = [];
+		Monkey\Functions\when( 'wp_register_ability' )->alias(
+			static function ( $name, $args ) use ( &$captured ) {
+				$captured[ $name ] = $args;
+			},
+		);
+
+		$this->instance->register_abilities();
+
+		return $captured['yoast-seo/update-post-seo-data'];
 	}
 
 	/**
