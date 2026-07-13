@@ -285,5 +285,21 @@ describe( "App", () => {
 			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
 			expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
 		} );
+
+		it( "does not guard clicking the already-active first content type while the stored name is still empty", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			// Enter edit mode so any spurious switch would be guarded by the modal.
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+
+			// "Pages" is the resolved default while the stored active name is still "" (never switched).
+			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
+			fireEvent.click( screen.getByRole( "button", { name: "Pages" } ) );
+
+			// Clicking the content type you are already on is a no-op: no confirmation modal, the edit stays open.
+			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+		} );
 	} );
 } );

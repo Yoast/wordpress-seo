@@ -64,8 +64,13 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 		getActiveContentTypeFields( activeContentType );
 
 	// Selecting a content type requests a guarded switch (requestSwitch defers to the modal or switches straight away).
-	// Kept free of the active type so the handler stays referentially stable behind the memoized navigation item.
-	const onChangeContentType = useCallback( ( id ) => requestSwitch( { kind: "contentType", target: id } ), [ requestSwitch ] );
+	// The no-op check runs here against the resolved id: the store's active name can be "" (meaning "first content
+	// type"), which the store-level guard can't resolve, so clicking the active first type would otherwise switch.
+	const onChangeContentType = useCallback( ( id ) => {
+		if ( id !== activeContentTypeId ) {
+			requestSwitch( { kind: "contentType", target: id } );
+		}
+	}, [ activeContentTypeId, requestSwitch ] );
 
 	const { title, description } = getHeaderCopy( activeContentType );
 	// Fall back to the WP admin home when the data provider has no link.
