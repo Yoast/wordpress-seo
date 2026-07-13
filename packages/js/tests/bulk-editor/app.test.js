@@ -286,6 +286,24 @@ describe( "App", () => {
 			expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
 		} );
 
+		it( "can switch back to the first content type after switching away with pending edits discarded", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			// Edit on the first (resolved) content type while its stored name is still empty.
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
+
+			// Switch to Posts and discard the edit.
+			fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
+			fireEvent.click( screen.getByRole( "button", { name: "Continue without saving" } ) );
+			await waitFor( () => expect( screen.getByRole( "button", { name: "Posts" } ) ).toHaveAttribute( "aria-current", "page" ) );
+
+			// Switching back to Pages must still work: the click handler reads the current active id, not a stale one.
+			fireEvent.click( screen.getByRole( "button", { name: "Pages" } ) );
+			await waitFor( () => expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" ) );
+			expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
+		} );
+
 		it( "does not guard clicking the already-active first content type while the stored name is still empty", async() => {
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
 

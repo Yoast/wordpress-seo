@@ -1,5 +1,5 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback } from "@wordpress/element";
+import { useCallback, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Paper, SidebarNavigation, useBeforeUnload } from "@yoast/ui-library";
 import { BulkEditorContent } from "./components/bulk-editor-content";
@@ -88,14 +88,20 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 	const { id: activeContentTypeId, label: activeContentTypeLabel, singularLabel: activeContentTypeSingularLabel } =
 		getActiveContentTypeFields( activeContentType );
 
+	// The resolved active id is read from a ref so the handler below can stay referentially stable: the sidebar
+	// navigation freezes the first click handler it receives, so a handler closing over activeContentTypeId would
+	// keep comparing against a stale value and silently drop a switch back to an earlier content type.
+	const activeContentTypeIdRef = useRef( activeContentTypeId );
+	activeContentTypeIdRef.current = activeContentTypeId;
+
 	// Selecting a content type requests a guarded switch (requestSwitch defers to the modal or switches straight away).
 	// The no-op check runs here against the resolved id: the store's active name can be "" (meaning "first content
 	// type"), which the store-level guard can't resolve, so clicking the active first type would otherwise switch.
 	const onChangeContentType = useCallback( ( id ) => {
-		if ( id !== activeContentTypeId ) {
+		if ( id !== activeContentTypeIdRef.current ) {
 			requestSwitch( { kind: "contentType", target: id } );
 		}
-	}, [ activeContentTypeId, requestSwitch ] );
+	}, [ requestSwitch ] );
 
 	const { title, description } = getHeaderCopy( activeContentType );
 	// Fall back to the WP admin home when the data provider has no link.
