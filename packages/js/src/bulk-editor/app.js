@@ -1,7 +1,7 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Paper, SidebarNavigation } from "@yoast/ui-library";
+import { Paper, SidebarNavigation, useBeforeUnload } from "@yoast/ui-library";
 import { BulkEditorContent } from "./components/bulk-editor-content";
 import { BulkEditorNavMenu } from "./components/bulk-editor-nav";
 import { BulkEditorPageHeader } from "./components/bulk-editor-page-header";
@@ -56,7 +56,20 @@ const getActiveContentTypeFields = ( contentType ) => ( {
 const App = ( { dataProvider, remoteDataProvider } ) => {
 	const activeContentTypeName = useSelect( ( select ) => select( STORE_NAME ).selectActiveContentTypeName(), [] );
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
+	// Manual inline edits or an external plugin's pending changes (Premium AI) both count as unsaved work that a
+	// hard exit (refresh/close/back button) would silently discard.
+	const hasUnsavedChanges = useSelect( ( select ) => {
+		const store = select( STORE_NAME );
+		return Object.keys( store.selectEditingRows() ).length > 0 || store.selectHasExternalPendingChanges();
+	}, [] );
 	const { requestSwitch } = useDispatch( STORE_NAME );
+
+	// The browser's native confirm dialog is the only guard available for refresh/close/back; the in-app links use
+	// the styled modal below via onNavigate instead.
+	useBeforeUnload(
+		hasUnsavedChanges,
+		__( "There are unsaved changes on this page. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "wordpress-seo" )
+	);
 
 	// A hard-navigation link (logo, Back to Tools) requests a guarded switch: requestSwitch defers to the modal when
 	// there are unsaved changes, else navigates straight away. Modified clicks (open in new tab/window) don't leave

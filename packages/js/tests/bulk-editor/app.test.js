@@ -305,6 +305,24 @@ describe( "App", () => {
 
 	describe( "guarding hard-navigation paths", () => {
 		const rowTitle = "What Is SEO and How It Works";
+		const beforeUnloadCount = ( addSpy ) => addSpy.mock.calls.filter( ( [ type ] ) => type === "beforeunload" ).length;
+
+		it( "attaches the native beforeunload guard only while there are unsaved changes", async() => {
+			const addSpy = jest.spyOn( window, "addEventListener" );
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+			await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } );
+
+			// Nothing pending: no beforeunload listener is attached.
+			expect( beforeUnloadCount( addSpy ) ).toBe( 0 );
+
+			await act( async() => {
+				dispatch( STORE_NAME ).setHasExternalPendingChanges( true );
+			} );
+			// A pending change attaches the native unload guard for refresh/close/back.
+			expect( beforeUnloadCount( addSpy ) ).toBeGreaterThan( 0 );
+
+			addSpy.mockRestore();
+		} );
 
 		it( "guards the Back to Tools link with the unsaved-changes modal when there are edits", async() => {
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
