@@ -25,7 +25,20 @@ export const TitleCell = ( { item, fieldSetId } ) => {
 					{ ( fills ) => fills }
 				</Slot>
 				<div className="yst-flex yst-flex-col">
-					<span>{ item.title }</span>
+					{ item.editLink
+						// The title links to the post's editor screen; falls back to plain text when the user can't edit it.
+						? (
+							<a href={ item.editLink } className="yst-bulk-editor-title-link" target="_blank" rel="noopener noreferrer">
+								{ item.title }
+								<span className="yst-sr-only">
+									{
+										/* translators: Hidden accessibility text. */
+										__( "(Opens in a new browser tab)", "wordpress-seo" )
+									}
+								</span>
+							</a>
+						)
+						: <span>{ item.title }</span> }
 					{ statusLabel && (
 						<span className="yst-mt-1 yst-font-normal yst-text-slate-500">{ `- ${ statusLabel }` }</span>
 					) }

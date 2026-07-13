@@ -66,6 +66,25 @@ describe( "BulkEditorTable", () => {
 		expect( draftLabels ).toHaveLength( 1 );
 	} );
 
+	it( "links the title to the post's edit screen, falling back to plain text without an edit link", () => {
+		const rows = [
+			{ ...items[ 0 ] },
+			{ ...items[ 1 ], title: "No Link Post", editLink: "" },
+		];
+		render( <BulkEditorTable items={ rows } fieldSet={ searchFieldSet } /> );
+
+		const link = screen.getByRole( "link", { name: /What Is SEO/ } );
+		expect( link ).toHaveAttribute( "href", items[ 0 ].editLink );
+		// The title link opens the editor in a new tab, with a safe rel and a hidden hint for screen readers.
+		expect( link ).toHaveAttribute( "target", "_blank" );
+		expect( link ).toHaveAttribute( "rel", "noopener noreferrer" );
+		expect( link ).toHaveAccessibleName( "What Is SEO (Opens in a new browser tab)" );
+
+		// A row without an edit link shows the title as plain text, not a link.
+		expect( screen.queryByRole( "link", { name: "No Link Post" } ) ).not.toBeInTheDocument();
+		expect( screen.getByText( "No Link Post" ) ).toBeInTheDocument();
+	} );
+
 	it( "reflects the selected rows and calls the row selection seam", () => {
 		const onToggleRow = jest.fn();
 		render(
@@ -91,6 +110,31 @@ describe( "BulkEditorTable", () => {
 		expect( screen.queryByRole( "button", { name: "Edit" } ) ).not.toBeInTheDocument();
 		fireEvent.click( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) );
 		expect( onStartEdit ).toHaveBeenCalledWith( 2 );
+	} );
+
+	it( "disables every row's Edit button while Premium AI suggestions are pending review", () => {
+		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } hasExternalPendingChanges={ true } /> );
+
+		// Manual editing and AI generation are mutually exclusive: no row can start editing while suggestions are pending.
+		expect( screen.getByRole( "button", { name: "Edit What Is SEO" } ) ).toBeDisabled();
+		expect( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).toBeDisabled();
+	} );
+
+	it( "locks a row's Save and Cancel while a batch Save edits is in flight", () => {
+		render(
+			<BulkEditorTable
+				items={ items }
+				fieldSet={ searchFieldSet }
+				editing={ {
+					editingRows: { 1: { openFields: [ "seoTitle" ], draft: { seoTitle: "New title" }, savingFields: {} } },
+					isApplyingAll: true,
+				} }
+			/>
+		);
+
+		// A per-field save must not race the in-flight batch, so the row's own Save/Cancel lock too.
+		expect( screen.getByRole( "button", { name: "Save What Is SEO" } ) ).toBeDisabled();
+		expect( screen.getByRole( "button", { name: "Cancel editing What Is SEO" } ) ).toBeDisabled();
 	} );
 
 	it( "marks column and row headers with scope", () => {

@@ -10,6 +10,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Discovery_Failed_Exceptio
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Rate_Limited_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Not_Found_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Temporarily_Unavailable_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Server_Capability_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Auth_Token_Type;
@@ -615,8 +616,9 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	 *
 	 * @return Registered_Client The registration result.
 	 *
-	 * @throws Rate_Limited_Exception        If the server rate-limited the request (HTTP 429).
-	 * @throws Registration_Failed_Exception If registration fails for any other reason.
+	 * @throws Registration_Temporarily_Unavailable_Exception If the server temporarily refuses new registrations (HTTP 503).
+	 * @throws Rate_Limited_Exception                          If the server rate-limited the request (HTTP 429).
+	 * @throws Registration_Failed_Exception                   If registration fails for any other reason.
 	 */
 	private function do_register( array $redirect_uris ): Registered_Client {
 		try {
@@ -670,6 +672,14 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			$error_message = (string) $result->get_body_value( 'error_description', '' );
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 			throw new Registration_Failed_Exception( 'DCR request failed: ' . $error_message );
+		}
+
+		// The server temporarily refuses new registrations (rollout brake engaged).
+		// Surface it as a typed transient failure carrying the (display-only) retry hint.
+		if ( $result->get_status() === 503 && $result->get_body_value( 'error' ) === 'temporarily_unavailable' ) {
+			$error_message = (string) $result->get_body_value( 'error_description', 'Client registration is temporarily disabled.' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+			throw new Registration_Temporarily_Unavailable_Exception( $error_message, $this->get_retry_after_seconds( $result ) );
 		}
 
 		if ( $result->get_status() === 429 ) {
