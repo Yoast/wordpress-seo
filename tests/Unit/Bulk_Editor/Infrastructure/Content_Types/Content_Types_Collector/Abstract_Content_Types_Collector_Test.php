@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Content_Types\Content_Types_Collector;
 
 use Mockery;
+use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Type_Access_Checker_Interface;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Content_Types\Content_Types_Collector;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -31,6 +32,13 @@ abstract class Abstract_Content_Types_Collector_Test extends TestCase {
 	protected $post_type_helper;
 
 	/**
+	 * Holds the content type access checker.
+	 *
+	 * @var Mockery\MockInterface|Content_Type_Access_Checker_Interface
+	 */
+	protected $access_checker;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -39,7 +47,8 @@ abstract class Abstract_Content_Types_Collector_Test extends TestCase {
 		parent::set_up();
 
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$this->access_checker   = Mockery::mock( Content_Type_Access_Checker_Interface::class );
 
-		$this->instance = new Content_Types_Collector( $this->post_type_helper );
+		$this->instance = new Content_Types_Collector( $this->post_type_helper, $this->access_checker );
 	}
 }

@@ -29,8 +29,10 @@ export const getSelectionView = ( isLoading, selectedIds, items, total ) => {
 	if ( isLoading ) {
 		return { isAllSelected: false, isIndeterminate: false, selectedCount: 0, totalCount: 0, hasSelection: false };
 	}
+	// Only posts the user can edit are selectable, so "all selected" is measured against the editable rows.
+	const selectableCount = items.filter( ( item ) => item.editable ).length;
 	const selectedCount = selectedIds.length;
-	const isAllSelected = items.length > 0 && selectedCount === items.length;
+	const isAllSelected = selectableCount > 0 && selectedCount === selectableCount;
 	return {
 		isAllSelected,
 		isIndeterminate: selectedCount > 0 && ! isAllSelected,
@@ -127,7 +129,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const { isAllSelected, isIndeterminate, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
 	const onSelectAll = useCallback( () => {
 		if ( ! isPending ) {
-			selectAll( items.map( ( item ) => item.id ) );
+			// Only posts the user can edit are selectable for bulk editing.
+			selectAll( items.filter( ( item ) => item.editable ).map( ( item ) => item.id ) );
 		}
 	}, [ isPending, selectAll, items ] );
 	// Clicking the master checkbox clears the selection whenever anything is selected (all or a partial).

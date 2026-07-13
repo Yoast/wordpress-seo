@@ -46,7 +46,7 @@ const renderContent = () => render(
 );
 
 describe( "getSelectionView", () => {
-	const items = [ { id: 1 }, { id: 2 }, { id: 3 } ];
+	const items = [ { id: 1, editable: true }, { id: 2, editable: true }, { id: 3, editable: true } ];
 
 	it( "presents a neutral selection while loading", () => {
 		expect( getSelectionView( true, [ 1, 2 ], items, 3 ) ).toEqual( {
@@ -87,6 +87,17 @@ describe( "getSelectionView", () => {
 
 		expect( view.selectedCount ).toBe( 2 );
 		expect( view.totalCount ).toBe( 42 );
+	} );
+
+	it( "treats only editable rows as selectable", () => {
+		const mixed = [ { id: 1, editable: true }, { id: 2, editable: false }, { id: 3, editable: true } ];
+
+		// Both editable rows are selected, so the master checkbox reads as fully selected even though a
+		// locked row remains.
+		const view = getSelectionView( false, [ 1, 3 ], mixed, 3 );
+
+		expect( view.isAllSelected ).toBe( true );
+		expect( view.isIndeterminate ).toBe( false );
 	} );
 } );
 

@@ -62,6 +62,8 @@ export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleR
 					aria-label={ sprintf( __( "Select %s", "wordpress-seo" ), item.title ) }
 					checked={ isSelected }
 					onChange={ handleToggle }
+					// A post the current user cannot edit is shown locked and cannot be selected for bulk editing.
+					disabled={ ! item.editable }
 				/>
 			</Table.Cell>
 			<TitleCell item={ item } fieldSetId={ fieldSetId } />
@@ -142,7 +144,8 @@ export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleR
 								className="yst--me-2.5"
 								onClick={ handleEdit }
 								aria-label={ editLabel }
-								disabled={ isSlotFilled || hasExternalPendingChanges }
+								// A post the current user cannot edit stays locked; its SEO data is not returned either.
+								disabled={ isSlotFilled || hasExternalPendingChanges || ! item.editable }
 							>
 								{ __( "Edit", "wordpress-seo" ) }
 							</Button>
