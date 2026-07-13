@@ -17,8 +17,8 @@ const slice = createSlice( {
 } );
 
 /**
- * Commits a switch. A content-type change also resets the per-type selection and edits, so a stale selection or
- * unsaved draft can't leak into the newly-shown type.
+ * Commits a switch. A content-type change also clears the unsaved edits, so a stale draft can't leak into the
+ * newly shown type; the selection reset is handled by setActiveContentType itself.
  *
  * @param {{kind: string, target: string}} pending The switch to commit.
  *
@@ -27,7 +27,6 @@ const slice = createSlice( {
 export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
 	if ( kind === "contentType" ) {
 		dispatch.setActiveContentType( target );
-		dispatch.deselectAll();
 		dispatch.stopEdit();
 	} else {
 		dispatch.setActiveFieldSet( target );

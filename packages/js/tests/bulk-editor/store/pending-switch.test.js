@@ -90,13 +90,14 @@ describe( "commitSwitch thunk", () => {
 		expect( dispatch.clearPendingSwitch ).toHaveBeenCalled();
 	} );
 
-	it( "changes the content type and resets per-type selection and edits", () => {
+	it( "changes the content type and clears the edits, delegating the selection reset to setActiveContentType", () => {
 		const dispatch = makeDispatch();
 		commitSwitch( { kind: "contentType", target: "page" } )( { dispatch } );
 
 		expect( dispatch.setActiveContentType ).toHaveBeenCalledWith( "page" );
-		expect( dispatch.deselectAll ).toHaveBeenCalled();
 		expect( dispatch.stopEdit ).toHaveBeenCalled();
+		// The selection slice resets on setActiveContentType, so commitSwitch does not deselect separately.
+		expect( dispatch.deselectAll ).not.toHaveBeenCalled();
 		expect( dispatch.clearPendingSwitch ).toHaveBeenCalled();
 	} );
 } );
