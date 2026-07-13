@@ -27,7 +27,9 @@ const slice = createSlice( {
  */
 export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
 	if ( kind === "navigate" ) {
-		// A hard navigation unloads the page, so there is no view state to reset or pending switch to clear.
+		// Clear the deferral before leaving so a cancelled navigation (e.g. the user dismisses a still-armed
+		// beforeunload prompt) can't strand the pending switch and let the self-heal effect re-fire it.
+		dispatch.clearPendingSwitch();
 		window.location.href = target;
 		return;
 	}

@@ -56,18 +56,16 @@ const getActiveContentTypeFields = ( contentType ) => ( {
 const App = ( { dataProvider, remoteDataProvider } ) => {
 	const activeContentTypeName = useSelect( ( select ) => select( STORE_NAME ).selectActiveContentTypeName(), [] );
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
-	// Manual inline edits or an external plugin's pending changes (Premium AI) both count as unsaved work that a
-	// hard exit (refresh/close/back button) would silently discard.
-	const hasUnsavedChanges = useSelect( ( select ) => {
-		const store = select( STORE_NAME );
-		return Object.keys( store.selectEditingRows() ).length > 0 || store.selectHasExternalPendingChanges();
-	}, [] );
+	// Only Free's own unsaved inline edits arm the native unload guard. An external plugin's pending changes
+	// (Premium's AI suggestions) are guarded by that plugin's own modal, and it owns any unload guard for its state;
+	// reading its flag here would double-prompt on a navigation the user has already confirmed through that modal.
+	const hasUnsavedEdits = useSelect( ( select ) => Object.keys( select( STORE_NAME ).selectEditingRows() ).length > 0, [] );
 	const { requestSwitch } = useDispatch( STORE_NAME );
 
 	// The browser's native confirm dialog is the only guard available for refresh/close/back; the in-app links use
 	// the styled modal below via onNavigate instead.
 	useBeforeUnload(
-		hasUnsavedChanges,
+		hasUnsavedEdits,
 		__( "There are unsaved changes on this page. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "wordpress-seo" )
 	);
 

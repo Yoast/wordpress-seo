@@ -137,8 +137,8 @@ describe( "commitSwitch thunk", () => {
 		expect( dispatch.setActiveContentType ).not.toHaveBeenCalled();
 		expect( dispatch.setActiveFieldSet ).not.toHaveBeenCalled();
 		expect( dispatch.stopEdit ).not.toHaveBeenCalled();
-		// The page unloads, so there is no pending switch to clear.
-		expect( dispatch.clearPendingSwitch ).not.toHaveBeenCalled();
+		// The deferral is cleared before leaving so a cancelled navigation can't strand and re-fire it.
+		expect( dispatch.clearPendingSwitch ).toHaveBeenCalled();
 
 		window.location = original;
 	} );

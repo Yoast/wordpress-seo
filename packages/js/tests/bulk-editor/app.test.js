@@ -325,19 +325,27 @@ describe( "App", () => {
 		const rowTitle = "What Is SEO and How It Works";
 		const beforeUnloadCount = ( addSpy ) => addSpy.mock.calls.filter( ( [ type ] ) => type === "beforeunload" ).length;
 
-		it( "attaches the native beforeunload guard only while there are unsaved changes", async() => {
+		it( "attaches the native beforeunload guard only for unsaved manual edits, not external pending changes", async() => {
 			const addSpy = jest.spyOn( window, "addEventListener" );
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
-			await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } );
+			const editButton = await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } );
 
 			// Nothing pending: no beforeunload listener is attached.
 			expect( beforeUnloadCount( addSpy ) ).toBe( 0 );
 
+			// An external plugin's pending changes (Premium AI) are that plugin's concern; they must not arm Free's
+			// guard, or the user would get a native prompt on top of Premium's already-confirmed modal.
 			await act( async() => {
 				dispatch( STORE_NAME ).setHasExternalPendingChanges( true );
 			} );
-			// A pending change attaches the native unload guard for refresh/close/back.
-			expect( beforeUnloadCount( addSpy ) ).toBeGreaterThan( 0 );
+			expect( beforeUnloadCount( addSpy ) ).toBe( 0 );
+
+			// A manual inline edit does arm the native unload guard for refresh/close/back.
+			await act( async() => {
+				dispatch( STORE_NAME ).setHasExternalPendingChanges( false );
+			} );
+			fireEvent.click( editButton );
+			await waitFor( () => expect( beforeUnloadCount( addSpy ) ).toBeGreaterThan( 0 ) );
 
 			addSpy.mockRestore();
 		} );
