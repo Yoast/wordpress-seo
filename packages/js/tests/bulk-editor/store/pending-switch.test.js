@@ -69,6 +69,30 @@ describe( "requestSwitch thunk", () => {
 		expect( args.dispatch.commitSwitch ).not.toHaveBeenCalled();
 		expect( args.dispatch.setPendingSwitch ).not.toHaveBeenCalled();
 	} );
+
+	it( "commits a navigate switch straight away when nothing guards it", () => {
+		const args = makeThunkArgs();
+		requestSwitch( { kind: "navigate", target: "https://example.test/tools" } )( args );
+
+		expect( args.dispatch.commitSwitch ).toHaveBeenCalledWith( { kind: "navigate", target: "https://example.test/tools" } );
+		expect( args.dispatch.setPendingSwitch ).not.toHaveBeenCalled();
+	} );
+
+	it( "defers a navigate switch while manual edits are in progress", () => {
+		const args = makeThunkArgs( { editingRows: { 7: {} } } );
+		requestSwitch( { kind: "navigate", target: "https://example.test/tools" } )( args );
+
+		expect( args.dispatch.setPendingSwitch ).toHaveBeenCalledWith( { kind: "navigate", target: "https://example.test/tools" } );
+		expect( args.dispatch.commitSwitch ).not.toHaveBeenCalled();
+	} );
+
+	it( "defers a navigate switch while an external plugin reports pending changes", () => {
+		const args = makeThunkArgs( { hasExternalPendingChanges: true } );
+		requestSwitch( { kind: "navigate", target: "https://example.test/tools" } )( args );
+
+		expect( args.dispatch.setPendingSwitch ).toHaveBeenCalledWith( { kind: "navigate", target: "https://example.test/tools" } );
+		expect( args.dispatch.commitSwitch ).not.toHaveBeenCalled();
+	} );
 } );
 
 describe( "commitSwitch thunk", () => {
@@ -99,5 +123,23 @@ describe( "commitSwitch thunk", () => {
 		// The selection slice resets on setActiveContentType, so commitSwitch does not deselect separately.
 		expect( dispatch.deselectAll ).not.toHaveBeenCalled();
 		expect( dispatch.clearPendingSwitch ).toHaveBeenCalled();
+	} );
+
+	it( "navigates to the target URL for a navigate switch, leaving view state untouched", () => {
+		const dispatch = makeDispatch();
+		const original = window.location;
+		delete window.location;
+		window.location = { href: "" };
+
+		commitSwitch( { kind: "navigate", target: "https://example.test/tools" } )( { dispatch } );
+
+		expect( window.location.href ).toBe( "https://example.test/tools" );
+		expect( dispatch.setActiveContentType ).not.toHaveBeenCalled();
+		expect( dispatch.setActiveFieldSet ).not.toHaveBeenCalled();
+		expect( dispatch.stopEdit ).not.toHaveBeenCalled();
+		// The page unloads, so there is no pending switch to clear.
+		expect( dispatch.clearPendingSwitch ).not.toHaveBeenCalled();
+
+		window.location = original;
 	} );
 } );

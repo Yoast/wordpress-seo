@@ -18,13 +18,19 @@ const slice = createSlice( {
 
 /**
  * Commits a switch. A content-type change also clears the unsaved edits, so a stale draft can't leak into the
- * newly shown type; the selection reset is handled by setActiveContentType itself.
+ * newly shown type; the selection reset is handled by setActiveContentType itself. A "navigate" switch leaves the
+ * page for a URL, discarding all view state, so it only hands off to the browser.
  *
  * @param {{kind: string, target: string}} pending The switch to commit.
  *
  * @returns {Function} The thunk.
  */
 export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
+	if ( kind === "navigate" ) {
+		// A hard navigation unloads the page, so there is no view state to reset or pending switch to clear.
+		window.location.href = target;
+		return;
+	}
 	if ( kind === "contentType" ) {
 		dispatch.setActiveContentType( target );
 		dispatch.stopEdit();
@@ -36,16 +42,20 @@ export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
 
 /**
  * Requests a switch, guarding it when manual edits are in progress or an external plugin (Premium AI) reports
- * pending changes: the switch is then held until the user resolves it, otherwise it commits immediately.
+ * pending changes: the switch is then held until the user resolves it, otherwise it commits immediately. A
+ * "navigate" switch targets a URL rather than a view value, so it skips the no-op check that compares against the
+ * current view.
  *
  * @param {{kind: string, target: string}} request The requested switch.
  *
  * @returns {Function} The thunk.
  */
 export const requestSwitch = ( { kind, target } ) => ( { select, dispatch } ) => {
-	const current = kind === "contentType" ? select.selectActiveContentTypeName() : select.selectActiveFieldSet();
-	if ( target === current ) {
-		return;
+	if ( kind !== "navigate" ) {
+		const current = kind === "contentType" ? select.selectActiveContentTypeName() : select.selectActiveFieldSet();
+		if ( target === current ) {
+			return;
+		}
 	}
 	const hasUnsavedEdits = Object.keys( select.selectEditingRows() ).length > 0;
 	if ( hasUnsavedEdits || select.selectHasExternalPendingChanges() ) {
