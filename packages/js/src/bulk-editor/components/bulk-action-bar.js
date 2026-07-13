@@ -1,6 +1,7 @@
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import ChevronDownIcon from "@heroicons/react/outline/ChevronDownIcon";
-import XIcon from "@heroicons/react/solid/XIcon";
+import XIcon from "@heroicons/react/outline/XIcon";
+import SolidXIcon from "@heroicons/react/solid/XIcon";
 import { Slot } from "@wordpress/components";
 import { useEffect, useId, useMemo, useRef } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
@@ -194,7 +195,7 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => {
 			onClick={ onDismiss }
 			aria-label={ __( "Dismiss", "wordpress-seo" ) }
 		>
-			<XIcon className="yst-h-5 yst-w-5" { ...svgAriaProps } />
+			<SolidXIcon className="yst-h-5 yst-w-5" { ...svgAriaProps } />
 		</button>
 	</Alert>;
 };
