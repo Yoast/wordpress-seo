@@ -10,11 +10,11 @@ import { noop } from "lodash";
  *
  * @param {Object}   props             The props.
  * @param {boolean}  props.isOpen      Whether the modal is open.
+ * @param {boolean}  [props.isSaving=false] Whether a save is in flight; disables all actions so the batch
+ *                                             can't be re-fired, discarded, or cancelled mid-flight.
  * @param {Function} [props.onSave]    Saves all edits and then switches tab (Save changes).
  * @param {Function} [props.onDiscard] Discards all edits and then switches tab (Continue without saving).
  * @param {Function} [props.onClose]   Closes the modal and stays on the current tab (Cancel / dismiss).
- * @param {boolean}  [props.isSaving=false] Whether a save is in flight; disables the actions so the batch can't be
- *                                          re-fired and drafts can't be discarded while the save still commits.
  *
  * @returns {JSX.Element} The modal.
  */

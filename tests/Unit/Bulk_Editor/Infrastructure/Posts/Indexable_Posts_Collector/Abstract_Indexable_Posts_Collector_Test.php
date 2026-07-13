@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Posts\Indexable_Pos
 
 use Mockery;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector;
+use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Editability_Resolver;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -31,6 +32,13 @@ abstract class Abstract_Indexable_Posts_Collector_Test extends TestCase {
 	protected $indexable_repository;
 
 	/**
+	 * Holds the post editability resolver.
+	 *
+	 * @var Mockery\MockInterface|Post_Editability_Resolver
+	 */
+	protected $post_editability_resolver;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -38,8 +46,9 @@ abstract class Abstract_Indexable_Posts_Collector_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
+		$this->indexable_repository      = Mockery::mock( Indexable_Repository::class );
+		$this->post_editability_resolver = Mockery::mock( Post_Editability_Resolver::class );
 
-		$this->instance = new Indexable_Posts_Collector( $this->indexable_repository );
+		$this->instance = new Indexable_Posts_Collector( $this->indexable_repository, $this->post_editability_resolver );
 	}
 }

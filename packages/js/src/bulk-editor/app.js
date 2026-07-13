@@ -1,4 +1,5 @@
 import { useDispatch, useSelect } from "@wordpress/data";
+import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Paper, SidebarNavigation } from "@yoast/ui-library";
 import { BulkEditorContent } from "./components/bulk-editor-content";
@@ -55,12 +56,21 @@ const getActiveContentTypeFields = ( contentType ) => ( {
 const App = ( { dataProvider, remoteDataProvider } ) => {
 	const activeContentTypeName = useSelect( ( select ) => select( STORE_NAME ).selectActiveContentTypeName(), [] );
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
-	const { setActiveContentType } = useDispatch( STORE_NAME );
+	const { requestSwitch } = useDispatch( STORE_NAME );
 
 	const contentTypes = dataProvider.getContentTypes().map( ( { name, label, singularLabel } ) => ( { id: name, label, singularLabel } ) );
 	const activeContentType = contentTypes.find( ( { id } ) => id === activeContentTypeName ) ?? contentTypes[ 0 ];
 	const { id: activeContentTypeId, label: activeContentTypeLabel, singularLabel: activeContentTypeSingularLabel } =
 		getActiveContentTypeFields( activeContentType );
+
+	// Selecting a content type requests a guarded switch (requestSwitch defers to the modal or switches straight away).
+	// The no-op check runs here against the resolved id: the store's active name can be "" (meaning "first content
+	// type"), which the store-level guard can't resolve, so clicking the active first type would otherwise switch.
+	const onChangeContentType = useCallback( ( id ) => {
+		if ( id !== activeContentTypeId ) {
+			requestSwitch( { kind: "contentType", target: id } );
+		}
+	}, [ activeContentTypeId, requestSwitch ] );
 
 	const { title, description } = getHeaderCopy( activeContentType );
 	// Fall back to the WP admin home when the data provider has no link.
@@ -69,7 +79,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 
 	const menuProps = {
 		contentTypes,
-		onChange: setActiveContentType,
+		onChange: onChangeContentType,
 		backToToolsUrl,
 		logoHref,
 		isPremium,

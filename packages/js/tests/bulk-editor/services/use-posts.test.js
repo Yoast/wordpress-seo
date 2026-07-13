@@ -52,6 +52,7 @@ describe( "usePosts", () => {
 						meta_description: "A description.",
 						social_title: "Social hello",
 						social_description: "Social description.",
+						editable: true,
 					},
 				],
 				total: 42,
@@ -75,6 +76,7 @@ describe( "usePosts", () => {
 				metaDescription: "A description.",
 				socialTitle: "Social hello",
 				socialDescription: "Social description.",
+				editable: true,
 			},
 		] );
 		expect( result.current.total ).toBe( 42 );

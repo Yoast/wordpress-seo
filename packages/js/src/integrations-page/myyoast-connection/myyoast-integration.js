@@ -473,7 +473,7 @@ export const MyyoastIntegration = () => {
 						<p>
 							{ sprintf(
 								/* translators: %1$s expands to MyYoast. %2$s expands to Yoast AI. */
-								__( "Connect your site to %1$s so %2$s works even when your site is offline, behind a firewall, or with the REST API disabled.", "wordpress-seo" ),
+								__( "Connect your site to %1$s so %2$s works even when your site is not publicly accessible, behind a firewall, or with the REST API disabled.", "wordpress-seo" ),
 								"MyYoast",
 								"Yoast AI"
 							) }
