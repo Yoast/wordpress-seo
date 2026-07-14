@@ -27,7 +27,7 @@ const slice = createSlice( {
  */
 export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
 	if ( kind === "navigate" ) {
-		// Clear the deferral before leaving so a cancelled navigation (e.g. the user dismisses a still-armed
+		// Clear the deferral before exit so a cancelled navigation can’t leave a pending switch and cause the self-repair to re-trigger.
 		// beforeunload prompt) can't strand the pending switch and let the self-heal effect re-fire it.
 		dispatch.clearPendingSwitch();
 		// Security: target flows unvalidated into location.href, so it must stay a server-generated URL (the localized
