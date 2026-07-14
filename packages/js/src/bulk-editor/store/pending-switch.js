@@ -36,7 +36,6 @@ const slice = createSlice( {
 export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
 	if ( kind === "navigate" ) {
 		// Clear the deferral before exit so a cancelled navigation can’t leave a pending switch and cause the self-repair to re-trigger.
-		// beforeunload prompt) can't strand the pending switch and let the self-heal effect re-fire it.
 		dispatch.clearPendingSwitch();
 		// Security: Now, `target` is a server-generated URL (see bulk-editor-integration.php).
 		// If it ever comes from input, it has to be validated to prevent open redirects or malicious URIs.
