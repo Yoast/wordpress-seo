@@ -185,8 +185,10 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 						}
 						// A selection only warrants the band while AI is enabled (the AI affordances are its only
 						// selection-driven occupant); with AI off the band collapses. Unsaved manual edits are a
-						// separate, non-AI occupant, so they keep it open regardless of the AI toggle.
-						showBulkActions={ ( hasSelection && isAiEnabled ) || hasUnsavedEdits }
+						// separate, non-AI occupant, so they keep it open regardless of the AI toggle. External
+						// pending changes (Premium's AI suggestions) also keep it open: a filter, search, or page
+						// change clears the selection but must leave the pending suggestions actionable.
+						showBulkActions={ ( hasSelection && isAiEnabled ) || hasUnsavedEdits || hasExternalPendingChanges }
 						filters={ <BulkEditorFilters /> }
 						isLoading={ isPending }
 						hasExternalPendingChanges={ hasExternalPendingChanges }

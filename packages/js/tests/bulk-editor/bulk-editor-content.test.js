@@ -45,6 +45,37 @@ const renderContent = () => render(
 	</SlotFillProvider>
 );
 
+// The store registers once for the whole file: the WP data registry is global, so a second register would clash.
+beforeAll( () => {
+	registerStore();
+} );
+
+// The store lives in the global registry: reset the state each test touches so tests stay order-independent.
+beforeEach( () => {
+	dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_SEARCH );
+	dispatch( STORE_NAME ).setHasExternalPendingChanges( false );
+	dispatch( STORE_NAME ).stopEdit();
+	dispatch( STORE_NAME ).clearPendingSwitch();
+	dispatch( STORE_NAME ).setSearch( "" );
+	dispatch( STORE_NAME ).setStatuses( [] );
+	dispatch( STORE_NAME ).setPage( 1 );
+} );
+
+/**
+ * Asserts every bulk-actions band row (one per tab table) is expanded or collapsed, via the aria-hidden
+ * that mirrors `showBulkActions`.
+ *
+ * @param {HTMLElement} container  The render container.
+ * @param {boolean}     isExpanded Whether the band should be expanded.
+ *
+ * @returns {void}
+ */
+const expectBandExpanded = ( container, isExpanded ) => {
+	const rows = Array.from( container.querySelectorAll( "tr[aria-hidden]" ) );
+	expect( rows ).not.toHaveLength( 0 );
+	rows.forEach( ( row ) => expect( row ).toHaveAttribute( "aria-hidden", String( ! isExpanded ) ) );
+};
+
 describe( "getSelectionView", () => {
 	const items = [ { id: 1, editable: true }, { id: 2, editable: true }, { id: 3, editable: true } ];
 
@@ -102,18 +133,6 @@ describe( "getSelectionView", () => {
 } );
 
 describe( "BulkEditorContent tab-switch guard", () => {
-	beforeAll( () => {
-		registerStore();
-	} );
-
-	beforeEach( () => {
-		// The store lives in the global registry: reset the guard state so tests stay order-independent.
-		dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_SEARCH );
-		dispatch( STORE_NAME ).setHasExternalPendingChanges( false );
-		dispatch( STORE_NAME ).stopEdit();
-		dispatch( STORE_NAME ).clearPendingSwitch();
-	} );
-
 	it( "switches immediately when nothing guards the switch", () => {
 		renderContent();
 
@@ -164,5 +183,63 @@ describe( "BulkEditorContent tab-switch guard", () => {
 
 		expect( screen.getByRole( "tab", { name: "Social appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
 		await waitFor( () => expect( screen.getByTestId( "slot-probe" ) ).toHaveAttribute( "data-open", "false" ) );
+	} );
+} );
+
+describe( "BulkEditorContent pending changes across query changes", () => {
+	it( "keeps the action band expanded across filter, search and page changes while an external plugin reports pending changes", () => {
+		const { container } = renderContent();
+
+		// Collapsed while nothing is pending or selected.
+		expectBandExpanded( container, false );
+
+		setExternalPending( true );
+		expectBandExpanded( container, true );
+
+		// A filter, search or page change resets the selection, but the pending suggestions must stay actionable.
+		// The block bodies keep act() synchronous: the dispatch returns a promise, which a concise body would
+		// hand to act and turn it into an unawaited async scope.
+		act( () => {
+			dispatch( STORE_NAME ).setStatuses( [ "draft" ] );
+		} );
+		expectBandExpanded( container, true );
+
+		act( () => {
+			dispatch( STORE_NAME ).setSearch( "seo" );
+		} );
+		expectBandExpanded( container, true );
+
+		act( () => {
+			dispatch( STORE_NAME ).setPage( 2 );
+		} );
+		expectBandExpanded( container, true );
+
+		// A filter/search/page change is not a guarded view switch: the pending-changes slot stays closed.
+		expect( screen.getByTestId( "slot-probe" ) ).toHaveAttribute( "data-open", "false" );
+	} );
+
+	it( "keeps pending manual edits and their action bar when a filter or search is applied", () => {
+		const { container } = renderContent();
+
+		act( () => {
+			dispatch( STORE_NAME ).startEdit( { id: 1, draft: { seoTitle: "Draft title" } } );
+		} );
+		expectBandExpanded( container, true );
+
+		act( () => {
+			dispatch( STORE_NAME ).setStatuses( [ "draft" ] );
+		} );
+		act( () => {
+			dispatch( STORE_NAME ).setSearch( "seo" );
+		} );
+
+		// The edit survives the query changes: the summary, the batch actions and the expanded band all remain.
+		expect( screen.getByText( "1 row with unsaved changes" ) ).toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: "Save edits" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: "Cancel edits" } ) ).toBeInTheDocument();
+		expectBandExpanded( container, true );
+
+		// No unsaved-changes modal: filters never request a guarded switch.
+		expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
 	} );
 } );
