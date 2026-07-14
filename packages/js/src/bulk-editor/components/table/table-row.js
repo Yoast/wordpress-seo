@@ -5,7 +5,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
 import { STORE_NAME, TABLE_CELL_FIELD_SLOT } from "../../constants";
 import { EditableFieldCell, TitleCell } from "./table-cells";
-import { getFieldTextClasses, getRowEditState } from "./table-helpers";
+import { getFieldTextClasses, getRowEditState, isRowEditDisabled } from "./table-helpers";
 
 /**
  * A content row. Each field-set cell renders as plain text, or — when the row is in edit mode and the field is
@@ -146,8 +146,7 @@ export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleR
 								className="yst--me-2.5"
 								onClick={ handleEdit }
 								aria-label={ editLabel }
-								// A post the current user cannot edit stays locked; its SEO data is not returned either.
-								disabled={ isSlotFilled || hasExternalPendingChanges || ! item.editable || hasExternalGeneration }
+								disabled={ isRowEditDisabled( { isSlotFilled, hasExternalPendingChanges, hasExternalGeneration, item } ) }
 							>
 								{ __( "Edit", "wordpress-seo" ) }
 							</Button>
