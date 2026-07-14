@@ -4,6 +4,8 @@
 namespace Yoast\WP\SEO\Abilities\Application;
 
 use WP_Error;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_Identifier_Resolver;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 

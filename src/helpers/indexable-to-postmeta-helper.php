@@ -155,14 +155,17 @@ class Indexable_To_Postmeta_Helper {
 	 * @return void
 	 */
 	public function simple_map( $indexable, $post_meta_key, $indexable_column, $delete_empty = false ) {
-		if ( empty( $indexable->{$indexable_column} ) ) {
+		$value = $indexable->{$indexable_column};
+
+		// Strict emptiness check because empty() would treat the literal string '0' as empty and drop it.
+		if ( $value === null || $value === '' ) {
 			if ( $delete_empty ) {
 				$this->meta->delete( $post_meta_key, $indexable->object_id );
 			}
 			return;
 		}
 
-		$this->meta->set_value( $post_meta_key, $indexable->{$indexable_column}, $indexable->object_id );
+		$this->meta->set_value( $post_meta_key, $value, $indexable->object_id );
 	}
 
 	/**

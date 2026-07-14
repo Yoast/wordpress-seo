@@ -1,7 +1,7 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Abilities\Application;
+namespace Yoast\WP\SEO\Abilities\Infrastructure;
 
 use WPSEO_Rank;
 use Yoast\WP\SEO\Models\Indexable;
@@ -134,6 +134,29 @@ class Post_SEO_Field_Map {
 			// A zero score maps to NO_FOCUS ("not available") via the rank ranges, same as the scores above.
 			'inclusive_language_score'        => WPSEO_Rank::from_numeric_score( (int) $indexable->inclusive_language_score )->get_rank(),
 		];
+	}
+
+	/**
+	 * Builds the post SEO data arrays for a set of indexables.
+	 *
+	 * @param Indexable[] $indexables The indexables to read from.
+	 *
+	 * @return array<int, array<string, int|string|bool|null>> The post SEO data for each indexable.
+	 */
+	public function indexables_to_arrays( array $indexables ): array {
+		if ( $indexables !== [] ) {
+			$object_ids = \array_map(
+				static function ( $indexable ) {
+					return (int) $indexable->object_id;
+				},
+				$indexables,
+			);
+
+			// Prime the post cache in one query, so each presentation build below reads its post from cache instead of issuing its own query.
+			\_prime_post_caches( $object_ids, false, false );
+		}
+
+		return \array_map( [ $this, 'to_seo_array' ], $indexables );
 	}
 
 	/**

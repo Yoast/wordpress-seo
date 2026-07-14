@@ -4,6 +4,8 @@
 namespace Yoast\WP\SEO\Abilities\Application;
 
 use WP_Error;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_Identifier_Resolver;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 
 /**
  * Application service that reads the SEO data of one or more posts.
@@ -55,11 +57,6 @@ class Post_SEO_Data_Collector {
 			return $indexables;
 		}
 
-		return \array_map(
-			function ( $indexable ) {
-				return $this->field_map->to_seo_array( $indexable );
-			},
-			$indexables,
-		);
+		return $this->field_map->indexables_to_arrays( $indexables );
 	}
 }

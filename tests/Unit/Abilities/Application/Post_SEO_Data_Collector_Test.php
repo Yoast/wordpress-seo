@@ -5,9 +5,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
 use Mockery;
 use WP_Error;
-use Yoast\WP\SEO\Abilities\Application\Post_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
-use Yoast\WP\SEO\Abilities\Application\Post_SEO_Field_Map;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_Identifier_Resolver;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -78,16 +78,15 @@ final class Post_SEO_Data_Collector_Test extends TestCase {
 			->andReturn( [ $first, $second ] );
 
 		$this->field_map
-			->expects( 'to_seo_array' )
+			->expects( 'indexables_to_arrays' )
 			->once()
-			->with( $first )
-			->andReturn( [ 'post_id' => 1 ] );
-
-		$this->field_map
-			->expects( 'to_seo_array' )
-			->once()
-			->with( $second )
-			->andReturn( [ 'post_id' => 2 ] );
+			->with( [ $first, $second ] )
+			->andReturn(
+				[
+					[ 'post_id' => 1 ],
+					[ 'post_id' => 2 ],
+				],
+			);
 
 		$this->assertSame(
 			[
@@ -127,6 +126,12 @@ final class Post_SEO_Data_Collector_Test extends TestCase {
 		$this->resolver
 			->expects( 'resolve_many' )
 			->once()
+			->andReturn( [] );
+
+		$this->field_map
+			->expects( 'indexables_to_arrays' )
+			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->assertSame( [], $this->instance->get_post_seo_data( [ 'title' => 'nope' ] ) );

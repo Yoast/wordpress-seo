@@ -272,6 +272,28 @@ final class Indexable_To_Postmeta_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the literal string '0' is stored as a value, not treated as empty.
+	 *
+	 * @covers ::simple_map
+	 *
+	 * @return void
+	 */
+	public function test_simple_map_stores_literal_zero_string() {
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm       = Mockery::mock( ORM::class );
+		$indexable->object_id = 123;
+		$indexable->title     = '0';
+
+		$this->meta->expects( 'delete' )->never();
+		$this->meta->expects( 'set_value' )
+			->once()
+			->with( 'title', '0', 123 )
+			->andReturn( true );
+
+		$this->instance->simple_map( $indexable, 'title', 'title', true );
+	}
+
+	/**
 	 * Tests that the cornerstone flag is stored as '1' when enabled.
 	 *
 	 * @covers ::cornerstone_map
