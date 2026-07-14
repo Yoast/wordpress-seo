@@ -38,9 +38,8 @@ export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
 		// Clear the deferral before exit so a cancelled navigation can’t leave a pending switch and cause the self-repair to re-trigger.
 		// beforeunload prompt) can't strand the pending switch and let the self-heal effect re-fire it.
 		dispatch.clearPendingSwitch();
-		// Security: target flows unvalidated into location.href, so it must stay a server-generated URL (the localized
-		// links in bulk-editor-integration.php). If a link ever derives from request input, validate it here first
-		// (same-origin and an http(s) scheme) to avoid an open redirect or a javascript: URI.
+		// Security: Now, `target` is a server-generated URL (see bulk-editor-integration.php).
+		// If it ever comes from input, it has to be validated to prevent open redirects or malicious URIs.
 		window.location.href = target;
 		return;
 	}
@@ -54,10 +53,9 @@ export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
 };
 
 /**
- * Requests a switch, guarding it when manual edits are in progress or an external plugin (Premium AI) reports
- * pending changes: the switch is then held until the user resolves it, otherwise it commits immediately. A
- * "navigate" switch targets a URL rather than a view value, so it skips the no-op check that compares against the
- * current view.
+ * Requests a switch.
+ * Defers the request when manual edits are unsaved or an external plugin (Premium AI) reports pending changes.
+ * Otherwise, commits immediately. A "navigate" switch uses a URL target and skips current-view checks.
  *
  * @param {PendingSwitch} request The requested switch.
  *

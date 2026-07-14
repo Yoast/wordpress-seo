@@ -56,9 +56,7 @@ const getActiveContentTypeFields = ( contentType ) => ( {
 const App = ( { dataProvider, remoteDataProvider } ) => {
 	const activeContentTypeName = useSelect( ( select ) => select( STORE_NAME ).selectActiveContentTypeName(), [] );
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
-	// Only Free's own unsaved inline edits arm the native unload guard. An external plugin's pending changes
-	// (Premium's AI suggestions) are guarded by that plugin's own modal, and it owns any unload guard for its state;
-	// reading its flag here would double-prompt on a navigation the user has already confirmed through that modal.
+	// Free's unsaved inline edits trigger the native unload guard; Premium handles its own pending changes and unload prompts.
 	const hasUnsavedEdits = useSelect( ( select ) => Object.keys( select( STORE_NAME ).selectEditingRows() ).length > 0, [] );
 	const { requestSwitch } = useDispatch( STORE_NAME );
 
@@ -86,9 +84,8 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 	const { id: activeContentTypeId, label: activeContentTypeLabel, singularLabel: activeContentTypeSingularLabel } =
 		getActiveContentTypeFields( activeContentType );
 
-	// The resolved active id is read from a ref so the handler below can stay referentially stable: the sidebar
-	// navigation freezes the first click handler it receives, so a handler closing over activeContentTypeId would
-	// keep comparing against a stale value and silently drop a switch back to an earlier content type.
+	// The active ID is read from a ref to keep the click handler referentially stable,
+	// preventing stale comparisons that could silently drop a switch to an earlier content type.
 	const activeContentTypeIdRef = useRef( activeContentTypeId );
 	activeContentTypeIdRef.current = activeContentTypeId;
 
