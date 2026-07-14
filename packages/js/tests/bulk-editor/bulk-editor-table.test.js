@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "../test-utils";
 import { BulkEditorTable } from "../../src/bulk-editor/components/table/bulk-editor-table";
 import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PAGE_SIZE } from "../../src/bulk-editor/constants";
 import { getFieldSets } from "../../src/bulk-editor/field-sets";
+import registerStore from "../../src/bulk-editor/store";
 
 const fieldSets = getFieldSets();
 const searchFieldSet = fieldSets[ FIELD_SET_SEARCH ];
@@ -35,6 +36,11 @@ const items = [
 ];
 
 describe( "BulkEditorTable", () => {
+	beforeAll( () => {
+		// The rows read the external-generation flag from the store, so it must be registered.
+		registerStore();
+	} );
+
 	it( "renders the Search field set columns and a row's data", () => {
 		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } /> );
 
