@@ -91,7 +91,7 @@ export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleR
 
 								if ( ! openFields.includes( field.key ) ) {
 									return (
-										<Table.Cell key={ field.key } className={ getFieldTextClasses( field.key, false ) }>
+										<Table.Cell key={ field.key } className={ `yst-bulk-editor-cell-value ${ getFieldTextClasses( field.key, false ) }` }>
 											{ item[ field.key ] }
 										</Table.Cell>
 									);
