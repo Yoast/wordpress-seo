@@ -58,6 +58,7 @@ beforeEach( () => {
 	dispatch( STORE_NAME ).clearPendingSwitch();
 	dispatch( STORE_NAME ).setSearch( "" );
 	dispatch( STORE_NAME ).setStatuses( [] );
+	dispatch( STORE_NAME ).setPage( 1 );
 } );
 
 /**
@@ -186,7 +187,7 @@ describe( "BulkEditorContent tab-switch guard", () => {
 } );
 
 describe( "BulkEditorContent pending changes across query changes", () => {
-	it( "keeps the action band expanded across filter and search changes while an external plugin reports pending changes", () => {
+	it( "keeps the action band expanded across filter, search and page changes while an external plugin reports pending changes", () => {
 		const { container } = renderContent();
 
 		// Collapsed while nothing is pending or selected.
@@ -195,7 +196,7 @@ describe( "BulkEditorContent pending changes across query changes", () => {
 		setExternalPending( true );
 		expectBandExpanded( container, true );
 
-		// A filter or search resets the selection, but the pending suggestions must stay actionable.
+		// A filter, search or page change resets the selection, but the pending suggestions must stay actionable.
 		// The block bodies keep act() synchronous: the dispatch returns a promise, which a concise body would
 		// hand to act and turn it into an unawaited async scope.
 		act( () => {
@@ -208,7 +209,12 @@ describe( "BulkEditorContent pending changes across query changes", () => {
 		} );
 		expectBandExpanded( container, true );
 
-		// A filter is not a guarded view switch: the pending-changes slot stays closed.
+		act( () => {
+			dispatch( STORE_NAME ).setPage( 2 );
+		} );
+		expectBandExpanded( container, true );
+
+		// A filter/search/page change is not a guarded view switch: the pending-changes slot stays closed.
 		expect( screen.getByTestId( "slot-probe" ) ).toHaveAttribute( "data-open", "false" );
 	} );
 
