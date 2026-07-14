@@ -102,7 +102,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 						<BulkEditorNavMenu { ...menuProps } />
 					</SidebarNavigation.Sidebar>
 				</aside>
-				<div className="yst-grow yst-max-w-page yst-min-w-0">
+				<div className="yst-grow yst-max-w-page yst-min-w-0 yst-mb-8">
 					<Paper as="main">
 						<BulkEditorPageHeader title={ title } description={ description } />
 						<BulkEditorContent
