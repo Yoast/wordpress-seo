@@ -7,8 +7,10 @@ import { useCallback, useEffect, useId, useRef, useState } from "@wordpress/elem
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Alert, Button, Link, Notifications, TooltipContainer, TooltipTrigger, TooltipWithContext, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { get } from "lodash";
 import { ReactComponent as MyYoastLogo } from "../../../images/myyoast-logo.svg";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
+import { addHistoryState, removeSearchParam } from "../../helpers/urlHelpers";
 import { MyyoastConnectionDisconnectModal } from "./myyoast-disconnect-modal";
 import { MYYOAST_STORE_NAME } from "./constants";
 import { Card } from "../tailwind-components/card";
@@ -404,6 +406,22 @@ export const MyyoastIntegration = () => {
 			setIsConnecting( false );
 		}
 	}, [ showFeedback ] );
+	// Auto-start the connection flow when the page was opened from the editor's
+	// "Connect to MyYoast" nudge. The `startConnection` flag is set server-side
+	// only after the one-time nonce and the connect capability are verified, so
+	// it's safe to act on. We strip the query args first so a refresh or back
+	// navigation doesn't re-trigger, and skip when the site is already registered.
+	const autoStartFired = useRef( false );
+	useEffect( () => {
+		const shouldStart = get( window, "wpseoIntegrationsData.myyoast_connection.startConnection", false ) === true;
+		if ( ! shouldStart || autoStartFired.current || status.isRegistered ) {
+			return;
+		}
+		autoStartFired.current = true;
+		addHistoryState( null, document.title, removeSearchParam( removeSearchParam( window.location.href, "start-myyoast-connection" ), "_wpnonce" ) );
+		handleConnect();
+	}, [ handleConnect, status.isRegistered ] );
+
 	const handleReconnect = useCallback( () => runAction( "update", null, { onFeedback: showFeedback } ), [ showFeedback ] );
 	const handleDisconnectConfirm = useCallback( () => {
 		closeDisconnect();

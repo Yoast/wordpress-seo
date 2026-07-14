@@ -18,13 +18,16 @@ import { getFieldTextClasses, getRowEditState } from "./table-helpers";
  * @param {Function}          props.onToggleRow Called with the item id when its checkbox is toggled.
  * @param {Object}            [props.edit]      This row's edit state ({ openFields, draft, savingFields }), or undefined when not editing.
  * @param {BulkEditorEditing} props.editing     The inline-edit props (its handlers).
+ * @param {boolean}           [props.hasExternalPendingChanges=false] Whether Premium AI has suggestions pending review; while true,
+ *                                                              editing is disabled so manual edits and AI generation stay mutually exclusive.
  *
  * @returns {JSX.Element} The row.
  */
-export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleRow, edit, editing } ) => {
+export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleRow, edit, editing, hasExternalPendingChanges = false } ) => {
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
-	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField, onFieldApplied } = editing;
-	const isSaving = Object.keys( savingFields ).length > 0;
+	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField, onFieldApplied, isApplyingAll } = editing;
+	// Treat a batch "Save edits" as saving this row too, so its inputs and Save/Cancel lock and a per-field save can't race the batch.
+	const isSaving = Object.keys( savingFields ).length > 0 || isApplyingAll;
 	const fillsSeoTitles = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/seoTitle/${item.id}` );
 	const fillsMetaDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/metaDescription/${item.id}` );
 	const fillsSocialTitle = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialTitle/${item.id}` );
@@ -139,7 +142,7 @@ export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleR
 								className="yst--me-2.5"
 								onClick={ handleEdit }
 								aria-label={ editLabel }
-								disabled={ isSlotFilled }
+								disabled={ isSlotFilled || hasExternalPendingChanges }
 							>
 								{ __( "Edit", "wordpress-seo" ) }
 							</Button>
