@@ -30,6 +30,9 @@ export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
 		// Clear the deferral before leaving so a cancelled navigation (e.g. the user dismisses a still-armed
 		// beforeunload prompt) can't strand the pending switch and let the self-heal effect re-fire it.
 		dispatch.clearPendingSwitch();
+		// Security: target flows unvalidated into location.href, so it must stay a server-generated URL (the localized
+		// links in bulk-editor-integration.php). If a link ever derives from request input, validate it here first
+		// (same-origin and an http(s) scheme) to avoid an open redirect or a javascript: URI.
 		window.location.href = target;
 		return;
 	}
