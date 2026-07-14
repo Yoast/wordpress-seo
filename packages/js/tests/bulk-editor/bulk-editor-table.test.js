@@ -18,6 +18,7 @@ const items = [
 		metaDescription: "Learn what SEO is.",
 		socialTitle: "Social: What Is SEO",
 		socialDescription: "Social description for SEO.",
+		editable: true,
 	},
 	{
 		id: 2,
@@ -29,6 +30,7 @@ const items = [
 		metaDescription: "Follow this on-page checklist.",
 		socialTitle: "Social: On-Page SEO",
 		socialDescription: "Social description for on-page.",
+		editable: true,
 	},
 ];
 
@@ -46,6 +48,7 @@ describe( "BulkEditorTable", () => {
 		// Row data for the Search field set.
 		expect( screen.getByText( "What Is SEO? Complete Guide" ) ).toBeInTheDocument();
 		expect( screen.getByText( "Learn what SEO is." ) ).toBeInTheDocument();
+		expect( screen.getByRole( "cell", { name: "What Is SEO? Complete Guide" } ) ).toHaveClass( "yst-bulk-editor-cell-value" );
 	} );
 
 	it( "renders the Social field set columns and values", () => {
@@ -135,6 +138,24 @@ describe( "BulkEditorTable", () => {
 		// A per-field save must not race the in-flight batch, so the row's own Save/Cancel lock too.
 		expect( screen.getByRole( "button", { name: "Save What Is SEO" } ) ).toBeDisabled();
 		expect( screen.getByRole( "button", { name: "Cancel editing What Is SEO" } ) ).toBeDisabled();
+	} );
+
+	it( "locks a post the current user cannot edit: its selection and Edit are disabled", () => {
+		const onToggleRow = jest.fn();
+		const rows = [ { ...items[ 0 ], editable: false } ];
+		render(
+			<BulkEditorTable
+				items={ rows }
+				fieldSet={ searchFieldSet }
+				selection={ { selectedIds: [], onToggleRow } }
+			/>
+		);
+
+		expect( screen.getByRole( "checkbox", { name: "Select What Is SEO" } ) ).toBeDisabled();
+		expect( screen.getByRole( "button", { name: "Edit What Is SEO" } ) ).toBeDisabled();
+
+		fireEvent.click( screen.getByRole( "button", { name: "Edit What Is SEO" } ) );
+		expect( onToggleRow ).not.toHaveBeenCalled();
 	} );
 
 	it( "marks column and row headers with scope", () => {

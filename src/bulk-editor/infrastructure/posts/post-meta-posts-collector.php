@@ -38,7 +38,26 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	private $search_where = '';
 
 	/**
+	 * The resolver for the per-post edit permission.
+	 *
+	 * @var Post_Editability_Resolver
+	 */
+	private $post_editability_resolver;
+
+	/**
+	 * The constructor.
+	 *
+	 * @param Post_Editability_Resolver $post_editability_resolver The resolver for the per-post edit permission.
+	 */
+	public function __construct( Post_Editability_Resolver $post_editability_resolver ) {
+		$this->post_editability_resolver = $post_editability_resolver;
+	}
+
+	/**
 	 * Collects a page of posts for the given query.
+	 *
+	 * A single page is fetched and counted through WP_Query; the per-post edit permission is then resolved
+	 * for that page so posts the user cannot edit are returned locked and without their SEO data.
 	 *
 	 * @param Posts_Query $query The query describing the page to collect.
 	 *
@@ -46,22 +65,13 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 */
 	public function get_posts( Posts_Query $query ): Posts_Page {
 		$wp_query = $this->run_query( $query );
+		$post_ids = \array_map( 'intval', $wp_query->posts );
+
+		$editability = $this->post_editability_resolver->resolve( $post_ids );
 
 		$posts_list = new Posts_List();
-		foreach ( $wp_query->posts as $post ) {
-			$posts_list->add(
-				new Post(
-					$post->ID,
-					$this->get_normalized_title( $post->ID ),
-					$post->post_status,
-					(string) \get_edit_post_link( $post->ID, 'raw' ),
-					$this->get_meta( $post->ID, 'focuskw' ),
-					$this->get_meta( $post->ID, 'title' ),
-					$this->get_meta( $post->ID, 'metadesc' ),
-					$this->get_meta( $post->ID, 'opengraph-title' ),
-					$this->get_meta( $post->ID, 'opengraph-description' ),
-				),
-			);
+		foreach ( $post_ids as $post_id ) {
+			$posts_list->add( $this->build_post( $post_id, ( $editability[ $post_id ] ?? false ) ) );
 		}
 
 		return new Posts_Page( $posts_list, (int) $wp_query->found_posts, $query->get_page(), $query->get_per_page() );
@@ -79,20 +89,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 * @return WP_Query The executed query.
 	 */
 	protected function run_query( Posts_Query $query ): WP_Query {
-		$args = [
-			'post_type'              => $query->get_content_type(),
-			'post_status'            => $query->get_statuses(),
-			// Exclude password-protected posts from bulk editing.
-			'has_password'           => false,
-			'posts_per_page'         => $query->get_per_page(),
-			'paged'                  => $query->get_page(),
-			// Order by post ID so the result matches the indexable collector's ordering.
-			'orderby'                => 'ID',
-			'order'                  => 'DESC',
-			'ignore_sticky_posts'    => true,
-			// We render the title, status and Yoast meta, but never the terms, so don't prime the term cache.
-			'update_post_term_cache' => false,
-		];
+		$args = $this->build_query_args( $query );
 
 		if ( ! $query->has_search() ) {
 			return new WP_Query( $args );
@@ -111,6 +108,37 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	}
 
 	/**
+	 * Builds the WP_Query arguments for the given query.
+	 *
+	 * @param Posts_Query $query The query describing the page to collect.
+	 *
+	 * @return array<string, string|int|bool|array<string>> The WP_Query arguments.
+	 */
+	private function build_query_args( Posts_Query $query ): array {
+		$args = [
+			'post_type'              => $query->get_content_type(),
+			'post_status'            => $query->get_statuses(),
+			// Exclude password-protected posts from bulk editing.
+			'has_password'           => false,
+			'fields'                 => 'ids',
+			'posts_per_page'         => $query->get_per_page(),
+			'paged'                  => $query->get_page(),
+			// Order by post ID so the result matches the indexable collector's ordering.
+			'orderby'                => 'ID',
+			'order'                  => 'DESC',
+			'ignore_sticky_posts'    => true,
+			// We render the title, status and Yoast meta, but never the terms, so don't prime the term cache.
+			'update_post_term_cache' => false,
+		];
+
+		if ( $query->has_author_filter() ) {
+			$args['author'] = $query->get_author_id();
+		}
+
+		return $args;
+	}
+
+	/**
 	 * Appends the prepared search clause to our own query's WHERE.
 	 *
 	 * @param string   $where    The WHERE clause so far.
@@ -126,6 +154,40 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		}
 
 		return $where;
+	}
+
+	/**
+	 * Builds a post from its ID.
+	 *
+	 * The SEO data and edit link of a post the current user cannot edit are withheld, so the post is
+	 * shown in the list but stays locked and does not expose its metadata.
+	 *
+	 * @param int  $post_id  The post ID.
+	 * @param bool $editable Whether the current user may edit the post.
+	 *
+	 * @return Post The post.
+	 */
+	private function build_post( int $post_id, bool $editable ): Post {
+		$post   = \get_post( $post_id );
+		$status = ( $post !== null ) ? (string) $post->post_status : '';
+		$title  = $this->get_normalized_title( $post_id );
+
+		if ( ! $editable ) {
+			return new Post( $post_id, $title, $status, '', '', '', '', '', '', false );
+		}
+
+		return new Post(
+			$post_id,
+			$title,
+			$status,
+			(string) \get_edit_post_link( $post_id, 'raw' ),
+			$this->get_meta( $post_id, 'focuskw' ),
+			$this->get_meta( $post_id, 'title' ),
+			$this->get_meta( $post_id, 'metadesc' ),
+			$this->get_meta( $post_id, 'opengraph-title' ),
+			$this->get_meta( $post_id, 'opengraph-description' ),
+			true,
+		);
 	}
 
 	/**

@@ -47,6 +47,13 @@ class Posts_Query {
 	private $statuses;
 
 	/**
+	 * The author to limit posts to, or null for no author restriction.
+	 *
+	 * @var int|null
+	 */
+	private $author_id;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param string        $content_type The content type to get posts for.
@@ -54,19 +61,22 @@ class Posts_Query {
 	 * @param int           $per_page     The number of posts per page.
 	 * @param string        $search       The search term, or an empty string for no search.
 	 * @param array<string> $statuses     The post statuses to include.
+	 * @param int|null      $author_id    The author to limit posts to, or null for no author restriction.
 	 */
 	public function __construct(
 		string $content_type,
 		int $page,
 		int $per_page,
 		string $search,
-		array $statuses
+		array $statuses,
+		?int $author_id = null
 	) {
 		$this->content_type = $content_type;
 		$this->page         = $page;
 		$this->per_page     = $per_page;
 		$this->search       = $search;
 		$this->statuses     = $statuses;
+		$this->author_id    = $author_id;
 	}
 
 	/**
@@ -121,6 +131,24 @@ class Posts_Query {
 	 */
 	public function get_statuses(): array {
 		return $this->statuses;
+	}
+
+	/**
+	 * Returns the author to limit posts to.
+	 *
+	 * @return int|null The author ID, or null for no author restriction.
+	 */
+	public function get_author_id(): ?int {
+		return $this->author_id;
+	}
+
+	/**
+	 * Returns whether posts are limited to a single author.
+	 *
+	 * @return bool Whether an author restriction is set.
+	 */
+	public function has_author_filter(): bool {
+		return $this->author_id !== null;
 	}
 
 	/**

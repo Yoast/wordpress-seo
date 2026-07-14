@@ -83,6 +83,6 @@ final class Posts_List_Test extends TestCase {
 	 * @return Post The post.
 	 */
 	private function build_post( int $id ): Post {
-		return new Post( $id, 'Title', 'publish', 'edit', 'kw', 'seo', 'meta', 'social', 'social desc' );
+		return new Post( $id, 'Title', 'publish', 'edit', 'kw', 'seo', 'meta', 'social', 'social desc', true );
 	}
 }
