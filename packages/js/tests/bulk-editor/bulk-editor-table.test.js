@@ -48,6 +48,7 @@ describe( "BulkEditorTable", () => {
 		// Row data for the Search field set.
 		expect( screen.getByText( "What Is SEO? Complete Guide" ) ).toBeInTheDocument();
 		expect( screen.getByText( "Learn what SEO is." ) ).toBeInTheDocument();
+		expect( screen.getByRole( "cell", { name: "What Is SEO? Complete Guide" } ) ).toHaveClass( "yst-bulk-editor-cell-value" );
 	} );
 
 	it( "renders the Social field set columns and values", () => {
