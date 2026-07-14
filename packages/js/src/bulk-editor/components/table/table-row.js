@@ -1,8 +1,9 @@
 import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/components";
+import { useSelect } from "@wordpress/data";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
-import { TABLE_CELL_FIELD_SLOT } from "../../constants";
+import { STORE_NAME, TABLE_CELL_FIELD_SLOT } from "../../constants";
 import { EditableFieldCell, TitleCell } from "./table-cells";
 import { getFieldTextClasses, getRowEditState } from "./table-helpers";
 
@@ -32,6 +33,7 @@ export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleR
 	const fillsMetaDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/metaDescription/${item.id}` );
 	const fillsSocialTitle = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialTitle/${item.id}` );
 	const fillsSocialDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialDescription/${item.id}` );
+	const hasExternalGeneration = useSelect( ( select ) => select( STORE_NAME ).selectHasExternalGeneration(), [] );
 	const isSlotFilled = [ fillsSeoTitles, fillsMetaDescription, fillsSocialTitle, fillsSocialDescription ].some( ( fills ) => fills?.length > 0 );
 
 	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
@@ -142,7 +144,7 @@ export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleR
 								className="yst--me-2.5"
 								onClick={ handleEdit }
 								aria-label={ editLabel }
-								disabled={ isSlotFilled || hasExternalPendingChanges }
+								disabled={ isSlotFilled || hasExternalPendingChanges || hasExternalGeneration }
 							>
 								{ __( "Edit", "wordpress-seo" ) }
 							</Button>
