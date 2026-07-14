@@ -1,5 +1,5 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
+import { useCallback, useEffect, useMemo, useRef, useState } from "@wordpress/element";
 import { BULK_UPDATE_BATCH_SIZE, STORE_NAME } from "../constants";
 
 /**
@@ -38,11 +38,15 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 
 	const dismissSaveError = useCallback( () => setHasSaveError( false ), [] );
 
-	// Discarding all edits also clears any lasting save error.
-	const onDiscardAll = useCallback( () => {
-		setHasSaveError( false );
-		stopEdit();
-	}, [ stopEdit ] );
+	// Clear the save error whenever edit mode is fully exited. Failed rows stay open, so the error persists exactly
+	// while there is still something to retry, and can't resurface stale on the next edit session.
+	useEffect( () => {
+		if ( Object.keys( editingRows ).length === 0 ) {
+			setHasSaveError( false );
+		}
+	}, [ editingRows ] );
+
+	const onDiscardAll = useCallback( () => stopEdit(), [ stopEdit ] );
 
 	const onDiscardField = useCallback( ( { id, key } ) => closeField( { id, key } ), [ closeField ] );
 
@@ -82,13 +86,19 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			closeField( { id, key } );
 		} catch ( error ) {
 			setSavingField( { id, key, isSaving: false } );
+			setHasSaveError( true );
 		}
 	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, closeField, updateItem ] );
 
+	// Saves every open edit as one batch. Returns true (clean), false (a request failed), or null (a save was
+	// already in flight), so the tab-switch modal only closes on a real failure and not on a re-entrant call.
 	const onApplyAll = useCallback( async() => {
 		const fieldSet = fieldSets[ activeFieldSet ];
-		if ( isApplyingAllRef.current || ! remoteDataProvider || Object.keys( editingRows ).length === 0 ) {
-			return;
+		if ( isApplyingAllRef.current ) {
+			return null;
+		}
+		if ( ! remoteDataProvider || Object.keys( editingRows ).length === 0 ) {
+			return true;
 		}
 
 		// Group every row's open drafts by endpoint: each row carries both its request payload (`item`) and the
@@ -119,7 +129,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 
 		const groups = Object.values( batches );
 		if ( groups.length === 0 ) {
-			return;
+			return true;
 		}
 
 		// One POST per endpoint, chunked to the server's batch limit. Each request keeps the `applied` entries for its own rows,
@@ -155,9 +165,11 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 					closeField( { id, key } );
 				} );
 			} );
-			if ( results.some( ( result ) => result.status === "rejected" ) ) {
+			const hasFailure = results.some( ( result ) => result.status === "rejected" );
+			if ( hasFailure ) {
 				setHasSaveError( true );
 			}
+			return ! hasFailure;
 		} finally {
 			isApplyingAllRef.current = false;
 			setIsApplyingAll( false );

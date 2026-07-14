@@ -1,5 +1,5 @@
 import { dispatch } from "@wordpress/data";
-import { fireEvent, render, screen, waitFor } from "../test-utils";
+import { act, fireEvent, render, screen, waitFor } from "../test-utils";
 import App from "../../src/bulk-editor/app";
 import { FIELD_SET_SEARCH, STORE_NAME } from "../../src/bulk-editor/constants";
 import { getFieldSets } from "../../src/bulk-editor/field-sets";
@@ -22,8 +22,8 @@ const remoteDataProvider = { fetchJson: jest.fn( () => new Promise( () => {} ) )
 // The rows the posts endpoint serves, in the API's snake_case shape (mapped by usePosts).
 /* eslint-disable camelcase -- The REST endpoint returns snake_case keys. */
 const postRows = [
-	{ id: 1, title: "What Is SEO and How It Works", status: "publish", edit_link: "https://example.com/1", focus_keyphrase: "what is seo", seo_title: "What Is SEO? Complete Guide", meta_description: "Learn what SEO is.", social_title: "Social: What Is SEO", social_description: "Social description." },
-	{ id: 2, title: "Keyword Research for Beginners", status: "publish", edit_link: "https://example.com/2", focus_keyphrase: "keyword research", seo_title: "Keyword Research Guide", meta_description: "Find keywords.", social_title: "Social: Keyword Research", social_description: "Social description 2." },
+	{ id: 1, title: "What Is SEO and How It Works", status: "publish", edit_link: "https://example.com/1", focus_keyphrase: "what is seo", seo_title: "What Is SEO? Complete Guide", meta_description: "Learn what SEO is.", social_title: "Social: What Is SEO", social_description: "Social description.", editable: true },
+	{ id: 2, title: "Keyword Research for Beginners", status: "publish", edit_link: "https://example.com/2", focus_keyphrase: "keyword research", seo_title: "Keyword Research Guide", meta_description: "Find keywords.", social_title: "Social: Keyword Research", social_description: "Social description 2.", editable: true },
 ];
 /* eslint-enable camelcase */
 
@@ -43,6 +43,8 @@ describe( "App", () => {
 		dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_SEARCH );
 		dispatch( STORE_NAME ).setActiveContentType( "" );
 		dispatch( STORE_NAME ).stopEdit();
+		dispatch( STORE_NAME ).clearPendingSwitch();
+		dispatch( STORE_NAME ).setHasExternalPendingChanges( false );
 	} );
 
 	it( "renders the header, tabs and panel in a single card with the header separator", () => {
@@ -250,6 +252,53 @@ describe( "App", () => {
 				expect.anything(),
 				expect.objectContaining( { method: "POST" } )
 			);
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+		} );
+	} );
+
+	describe( "switching content types with pending changes", () => {
+		const rowTitle = "What Is SEO and How It Works";
+
+		it( "shows the confirmation modal and stays on the content type when there are unsaved edits", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
+
+			expect( screen.getByText( "Unsaved changes" ) ).toBeInTheDocument();
+			// The content type has not switched while the modal is open.
+			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
+			expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
+		} );
+
+		it( "defers the switch while an external plugin reports pending changes", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+			await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } );
+
+			await act( async() => {
+				dispatch( STORE_NAME ).setHasExternalPendingChanges( true );
+			} );
+			fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
+
+			// The switch is held (Premium would fill the slot to resolve it); the content type does not change.
+			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
+			expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
+		} );
+
+		it( "does not guard clicking the already-active first content type while the stored name is still empty", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			// Enter edit mode so any spurious switch would be guarded by the modal.
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+
+			// "Pages" is the resolved default while the stored active name is still "" (never switched).
+			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
+			fireEvent.click( screen.getByRole( "button", { name: "Pages" } ) );
+
+			// Clicking the content type you are already on is a no-op: no confirmation modal, the edit stays open.
+			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
 			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 		} );
 	} );

@@ -116,6 +116,18 @@ describe( "useInlineEdit batch actions", () => {
 		expect( result.current.editing.hasSaveError ).toBe( true );
 	} );
 
+	it( "flags a save error when a single per-row field save fails", async() => {
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.reject( new Error( "boom" ) ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyField( { id: 7, key: "seoTitle" } );
+		} );
+
+		// A row's own Save must surface the same notice as the batch Save edits, not fail silently.
+		expect( result.current.editing.hasSaveError ).toBe( true );
+	} );
+
 	it( "reflects the succeeded chunk and keeps the failed one open on a partial failure", async() => {
 		// 21 rows on one endpoint → two chunks (20 + 1). The first chunk resolves, the second rejects.
 		editingRows = Object.fromEntries( Array.from( { length: 21 }, ( _row, index ) => {
@@ -163,18 +175,63 @@ describe( "useInlineEdit batch actions", () => {
 		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
 	} );
 
-	it( "clears a lingering save error when discarding all edits", async() => {
+	it( "clears a lingering save error once edit mode is fully exited", async() => {
 		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.reject( new Error( "boom" ) ) ) };
-		const { result } = renderEdit( remoteDataProvider );
+		const { result, rerender } = renderEdit( remoteDataProvider );
 
 		await act( async() => {
 			await result.current.editing.onApplyAll();
 		} );
 		expect( result.current.editing.hasSaveError ).toBe( true );
 
-		act( () => result.current.editing.onDiscardAll() );
+		// Any exit path empties the editing rows; the error must not linger into the next edit session.
+		editingRows = {};
+		act( () => rerender() );
 
 		expect( result.current.editing.hasSaveError ).toBe( false );
-		expect( dispatch.stopEdit ).toHaveBeenCalled();
+	} );
+
+	it( "reports success or failure through its return value", async() => {
+		const okProvider = { fetchJson: jest.fn( () => Promise.resolve( {} ) ) };
+		const { result: okResult } = renderEdit( okProvider );
+		let outcome;
+		await act( async() => {
+			outcome = await okResult.current.editing.onApplyAll();
+		} );
+		expect( outcome ).toBe( true );
+
+		const failProvider = { fetchJson: jest.fn( () => Promise.reject( new Error( "boom" ) ) ) };
+		const { result: failResult } = renderEdit( failProvider );
+		await act( async() => {
+			outcome = await failResult.current.editing.onApplyAll();
+		} );
+		expect( outcome ).toBe( false );
+	} );
+
+	it( "returns null for a re-entrant call while a save is already in flight", async() => {
+		let resolveFirst;
+		const remoteDataProvider = { fetchJson: jest.fn( () => new Promise( ( resolve ) => {
+			resolveFirst = resolve;
+		} ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		// Start a first save that stays pending, so the re-entrancy guard is active.
+		let firstOutcome;
+		act( () => {
+			firstOutcome = result.current.editing.onApplyAll();
+		} );
+
+		// A second call while the first is in flight must report null (busy), not false (failure).
+		let secondOutcome;
+		await act( async() => {
+			secondOutcome = await result.current.editing.onApplyAll();
+		} );
+		expect( secondOutcome ).toBe( null );
+
+		// Let the first save finish so no promise is left dangling.
+		await act( async() => {
+			resolveFirst( {} );
+			await firstOutcome;
+		} );
 	} );
 } );

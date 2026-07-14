@@ -74,6 +74,11 @@
 	max-width: 576px;
 }
 
+/* Wrap long unbroken words within the column instead of overflowing into the next. */
+.yst-root .yst-bulk-editor-cell-value {
+	overflow-wrap: break-word;
+}
+
 /* The row title links to the post editor. */
 .yst-root .yst-bulk-editor-title-link,
 .yst-root .yst-bulk-editor-title-link:visited {
