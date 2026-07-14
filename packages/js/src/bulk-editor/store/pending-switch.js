@@ -2,7 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
 /**
- * @returns {null} The initial pending-switch state: no switch is deferred.
+ * A deferred switch, held until the unsaved-edits guard is resolved.
+ *
+ * @typedef {Object} PendingSwitch
+ *
+ * @property {"fieldSet"|"contentType"|"navigate"} kind What the switch targets: a field set, a content type, or a URL to navigate to.
+ * @property {string} target The field-set name, content-type name, or (for "navigate") the destination URL.
+ */
+
+/**
+ * @returns {?PendingSwitch} The initial pending-switch state: no switch is deferred.
  */
 export const createInitialPendingSwitchState = () => null;
 
@@ -10,7 +19,6 @@ const slice = createSlice( {
 	name: "pendingSwitch",
 	initialState: createInitialPendingSwitchState(),
 	reducers: {
-		// Holds a deferred switch ({ kind: "fieldSet" | "contentType", target }) until the guard is resolved.
 		setPendingSwitch: ( _state, { payload } ) => payload,
 		clearPendingSwitch: () => null,
 	},
@@ -21,7 +29,7 @@ const slice = createSlice( {
  * newly shown type; the selection reset is handled by setActiveContentType itself. A "navigate" switch leaves the
  * page for a URL, discarding all view state, so it only hands off to the browser.
  *
- * @param {{kind: string, target: string}} pending The switch to commit.
+ * @param {PendingSwitch} pending The switch to commit.
  *
  * @returns {Function} The thunk.
  */
@@ -51,7 +59,7 @@ export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
  * "navigate" switch targets a URL rather than a view value, so it skips the no-op check that compares against the
  * current view.
  *
- * @param {{kind: string, target: string}} request The requested switch.
+ * @param {PendingSwitch} request The requested switch.
  *
  * @returns {Function} The thunk.
  */
@@ -71,6 +79,11 @@ export const requestSwitch = ( { kind, target } ) => ( { select, dispatch } ) =>
 };
 
 export const pendingSwitchSelectors = {
+	/**
+	 * @param {Object} state The root store state.
+	 *
+	 * @returns {?PendingSwitch} The deferred switch, or null when none is pending.
+	 */
 	selectPendingSwitch: ( state ) => get( state, "pendingSwitch", null ),
 };
 
