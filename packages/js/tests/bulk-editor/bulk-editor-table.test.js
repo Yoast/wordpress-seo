@@ -123,6 +123,14 @@ describe( "BulkEditorTable", () => {
 		expect( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).toBeDisabled();
 	} );
 
+	it( "disables every row's Edit button while an external AI generation is in flight", () => {
+		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } hasExternalGeneration={ true } /> );
+
+		// Manual editing and AI generation are mutually exclusive: no row can start editing while a generation runs.
+		expect( screen.getByRole( "button", { name: "Edit What Is SEO" } ) ).toBeDisabled();
+		expect( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).toBeDisabled();
+	} );
+
 	it( "locks a row's Save and Cancel while a batch Save edits is in flight", () => {
 		render(
 			<BulkEditorTable
