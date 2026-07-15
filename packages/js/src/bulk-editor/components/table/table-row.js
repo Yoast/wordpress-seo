@@ -1,9 +1,8 @@
 import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/components";
-import { useSelect } from "@wordpress/data";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
-import { STORE_NAME, TABLE_CELL_FIELD_SLOT } from "../../constants";
+import { TABLE_CELL_FIELD_SLOT } from "../../constants";
 import { EditableFieldCell, TitleCell } from "./table-cells";
 import { getFieldTextClasses, getRowEditState, isRowEditDisabled } from "./table-helpers";
 
@@ -21,10 +20,22 @@ import { getFieldTextClasses, getRowEditState, isRowEditDisabled } from "./table
  * @param {BulkEditorEditing} props.editing     The inline-edit props (its handlers).
  * @param {boolean}           [props.hasExternalPendingChanges=false] Whether Premium AI has suggestions pending review; while true,
  *                                                              editing is disabled so manual edits and AI generation stay mutually exclusive.
+ * @param {boolean}           [props.hasExternalGeneration=false] Whether an external AI generation request is in flight; while true,
+ *                                                              editing is disabled so manual edits and AI generation stay mutually exclusive.
  *
  * @returns {JSX.Element} The row.
  */
-export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleRow, edit, editing, hasExternalPendingChanges = false } ) => {
+export const BulkEditorRow = ( {
+	item,
+	fields,
+	fieldSetId,
+	isSelected,
+	onToggleRow,
+	edit,
+	editing,
+	hasExternalPendingChanges = false,
+	hasExternalGeneration = false,
+} ) => {
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
 	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField, onFieldApplied, isApplyingAll } = editing;
 	// Treat a batch "Save edits" as saving this row too, so its inputs and Save/Cancel lock and a per-field save can't race the batch.
@@ -33,7 +44,6 @@ export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleR
 	const fillsMetaDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/metaDescription/${item.id}` );
 	const fillsSocialTitle = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialTitle/${item.id}` );
 	const fillsSocialDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialDescription/${item.id}` );
-	const hasExternalGeneration = useSelect( ( select ) => select( STORE_NAME ).selectHasExternalGeneration(), [] );
 	const isSlotFilled = [ fillsSeoTitles, fillsMetaDescription, fillsSocialTitle, fillsSocialDescription ].some( ( fills ) => fills?.length > 0 );
 
 	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
