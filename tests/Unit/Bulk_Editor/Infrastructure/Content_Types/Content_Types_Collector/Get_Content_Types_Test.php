@@ -34,6 +34,11 @@ final class Get_Content_Types_Test extends Abstract_Content_Types_Collector_Test
 
 		$this->access_checker->allows( 'can_edit_any' )->andReturnTrue();
 
+		Filters\expectApplied( 'wpseo_bulk_editor_excluded_post_types' )
+			->once()
+			->with( [ 'attachment' ] )
+			->andReturnFirstArg();
+
 		$content_types_list = $this->instance->get_content_types();
 
 		$this->assertInstanceOf( Content_Types_List::class, $content_types_list );
@@ -68,6 +73,11 @@ final class Get_Content_Types_Test extends Abstract_Content_Types_Collector_Test
 
 		$this->access_checker->expects( 'can_edit_any' )->with( 'post' )->andReturnTrue();
 		$this->access_checker->expects( 'can_edit_any' )->with( 'page' )->andReturnFalse();
+
+		Filters\expectApplied( 'wpseo_bulk_editor_excluded_post_types' )
+			->once()
+			->with( [ 'attachment' ] )
+			->andReturnFirstArg();
 
 		$this->assertSame(
 			[
