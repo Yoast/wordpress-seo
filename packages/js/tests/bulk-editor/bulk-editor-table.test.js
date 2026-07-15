@@ -1,6 +1,7 @@
-import { fireEvent, render, screen } from "../test-utils";
+import { dispatch } from "@wordpress/data";
+import { act, fireEvent, render, screen } from "../test-utils";
 import { BulkEditorTable } from "../../src/bulk-editor/components/table/bulk-editor-table";
-import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PAGE_SIZE } from "../../src/bulk-editor/constants";
+import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PAGE_SIZE, STORE_NAME } from "../../src/bulk-editor/constants";
 import { getFieldSets } from "../../src/bulk-editor/field-sets";
 import registerStore from "../../src/bulk-editor/store";
 
@@ -127,6 +128,19 @@ describe( "BulkEditorTable", () => {
 		// Manual editing and AI generation are mutually exclusive: no row can start editing while suggestions are pending.
 		expect( screen.getByRole( "button", { name: "Edit What Is SEO" } ) ).toBeDisabled();
 		expect( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).toBeDisabled();
+	} );
+
+	it( "disables every row's Edit button while an external AI generation is in flight", () => {
+		dispatch( STORE_NAME ).setHasExternalGeneration( true );
+		render( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } /> );
+
+		expect( screen.getByRole( "button", { name: "Edit What Is SEO" } ) ).toBeDisabled();
+		expect( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) ).toBeDisabled();
+
+		// Reset: the store is registered once in beforeAll, so the flag would leak into later tests.
+		act( () => {
+			dispatch( STORE_NAME ).setHasExternalGeneration( false );
+		} );
 	} );
 
 	it( "locks a row's Save and Cancel while a batch Save edits is in flight", () => {
