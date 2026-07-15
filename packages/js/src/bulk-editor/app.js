@@ -1,7 +1,7 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback } from "@wordpress/element";
+import { useCallback, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Paper, SidebarNavigation } from "@yoast/ui-library";
+import { Paper, SidebarNavigation, useBeforeUnload } from "@yoast/ui-library";
 import { BulkEditorContent } from "./components/bulk-editor-content";
 import { BulkEditorNavMenu } from "./components/bulk-editor-nav";
 import { BulkEditorPageHeader } from "./components/bulk-editor-page-header";
@@ -56,21 +56,47 @@ const getActiveContentTypeFields = ( contentType ) => ( {
 const App = ( { dataProvider, remoteDataProvider } ) => {
 	const activeContentTypeName = useSelect( ( select ) => select( STORE_NAME ).selectActiveContentTypeName(), [] );
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
+	// Free's unsaved inline edits trigger the native unload guard; Premium handles its own pending changes and unload prompts.
+	const hasUnsavedEdits = useSelect( ( select ) => Object.keys( select( STORE_NAME ).selectEditingRows() ).length > 0, [] );
 	const { requestSwitch } = useDispatch( STORE_NAME );
+
+	// The browser's native confirm dialog is the only guard available for refresh/close/back; the in-app links use
+	// the styled modal below via onNavigate instead.
+	useBeforeUnload(
+		hasUnsavedEdits,
+		__( "There are unsaved changes on this page. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "wordpress-seo" )
+	);
+
+	// A hard-navigation link (logo, Back to Tools) requests a guarded switch: requestSwitch defers to the modal when
+	// there are unsaved changes, else navigates straight away. Modified clicks (open in new tab/window) don't leave
+	// the current page, so they pass through to the browser unguarded.
+	const onNavigate = useCallback( ( event, href ) => {
+		const passThrough = [ event.defaultPrevented, event.button !== 0, event.metaKey, event.ctrlKey, event.shiftKey, event.altKey ];
+		if ( passThrough.some( Boolean ) ) {
+			return;
+		}
+		event.preventDefault();
+		requestSwitch( { kind: "navigate", target: href } );
+	}, [ requestSwitch ] );
 
 	const contentTypes = dataProvider.getContentTypes().map( ( { name, label, singularLabel } ) => ( { id: name, label, singularLabel } ) );
 	const activeContentType = contentTypes.find( ( { id } ) => id === activeContentTypeName ) ?? contentTypes[ 0 ];
 	const { id: activeContentTypeId, label: activeContentTypeLabel, singularLabel: activeContentTypeSingularLabel } =
 		getActiveContentTypeFields( activeContentType );
 
+	// The active ID is read from a ref to keep the click handler referentially stable,
+	// preventing stale comparisons that could silently drop a switch to an earlier content type.
+	const activeContentTypeIdRef = useRef( activeContentTypeId );
+	activeContentTypeIdRef.current = activeContentTypeId;
+
 	// Selecting a content type requests a guarded switch (requestSwitch defers to the modal or switches straight away).
 	// The no-op check runs here against the resolved id: the store's active name can be "" (meaning "first content
 	// type"), which the store-level guard can't resolve, so clicking the active first type would otherwise switch.
 	const onChangeContentType = useCallback( ( id ) => {
-		if ( id !== activeContentTypeId ) {
+		if ( id !== activeContentTypeIdRef.current ) {
 			requestSwitch( { kind: "contentType", target: id } );
 		}
-	}, [ activeContentTypeId, requestSwitch ] );
+	}, [ requestSwitch ] );
 
 	const { title, description } = getHeaderCopy( activeContentType );
 	// Fall back to the WP admin home when the data provider has no link.
@@ -81,6 +107,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 		contentTypes,
 		onChange: onChangeContentType,
 		backToToolsUrl,
+		onNavigate,
 		logoHref,
 		isPremium,
 	};
@@ -102,7 +129,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 						<BulkEditorNavMenu { ...menuProps } />
 					</SidebarNavigation.Sidebar>
 				</aside>
-				<div className="yst-grow yst-max-w-page yst-min-w-0">
+				<div className="yst-grow yst-max-w-page yst-min-w-0 yst-mb-8">
 					<Paper as="main">
 						<BulkEditorPageHeader title={ title } description={ description } />
 						<BulkEditorContent
