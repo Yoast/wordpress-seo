@@ -165,7 +165,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			'update_post_term_cache' => false,
 		];
 
-		$meta_query = $this->build_needs_improvement_meta_query( $query->get_needs_improvement() );
+		$meta_query = $this->build_needs_improvement_meta_query( $query->get_needs_improvement(), $query->are_scores_enabled() );
 		if ( $meta_query !== [] ) {
 			$args['meta_query'] = $meta_query;
 		}
@@ -233,14 +233,15 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 * Builds the meta_query for the "needs improvement" filter.
 	 *
 	 * A field needs improvement when its meta row is missing or stores an empty string, or — for fields
-	 * with a persisted per-field score — when that score falls in the bad/ok range. The selected fields
-	 * are OR-ed so they broaden the result, and unknown field keys are ignored.
+	 * with a persisted per-field score and while scoring is enabled — when that score falls in the bad/ok
+	 * range. The selected fields are OR-ed so they broaden the result, and unknown field keys are ignored.
 	 *
-	 * @param array<string> $fields The fields that need improvement.
+	 * @param array<string> $fields         The fields that need improvement.
+	 * @param bool          $scores_enabled Whether the per-field scores may back the filter.
 	 *
 	 * @return array<mixed> The meta_query, or an empty array when no known field is selected.
 	 */
-	private function build_needs_improvement_meta_query( array $fields ): array {
+	private function build_needs_improvement_meta_query( array $fields, bool $scores_enabled ): array {
 		$clauses = [];
 		foreach ( $fields as $field ) {
 			if ( ! isset( self::FIELD_META_SUFFIXES[ $field ] ) ) {
@@ -258,7 +259,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 				'compare' => '=',
 			];
 
-			if ( isset( self::FIELD_SCORE_META_SUFFIXES[ $field ] ) ) {
+			if ( $scores_enabled && isset( self::FIELD_SCORE_META_SUFFIXES[ $field ] ) ) {
 				$clauses[] = [
 					'key'     => self::META_PREFIX . self::FIELD_SCORE_META_SUFFIXES[ $field ],
 					'value'   => self::NEEDS_IMPROVEMENT_SCORE_RANGE,
