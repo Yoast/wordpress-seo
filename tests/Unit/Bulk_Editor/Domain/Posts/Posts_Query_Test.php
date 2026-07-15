@@ -60,4 +60,32 @@ final class Posts_Query_Test extends TestCase {
 		$this->assertSame( 0, ( new Posts_Query( 'page', 1, 20, '', [] ) )->get_offset() );
 		$this->assertSame( 40, ( new Posts_Query( 'page', 3, 20, '', [] ) )->get_offset() );
 	}
+
+	/**
+	 * Tests that the author defaults to null when none is passed.
+	 *
+	 * @return void
+	 */
+	public function test_get_author_id_defaults_to_null() {
+		$this->assertNull( ( new Posts_Query( 'page', 1, 20, '', [] ) )->get_author_id() );
+	}
+
+	/**
+	 * Tests that the author is carried through when set.
+	 *
+	 * @return void
+	 */
+	public function test_get_author_id() {
+		$this->assertSame( 5, ( new Posts_Query( 'page', 1, 20, '', [], 5 ) )->get_author_id() );
+	}
+
+	/**
+	 * Tests that has_author_filter reflects whether an author is set.
+	 *
+	 * @return void
+	 */
+	public function test_has_author_filter() {
+		$this->assertTrue( ( new Posts_Query( 'page', 1, 20, '', [], 5 ) )->has_author_filter() );
+		$this->assertFalse( ( new Posts_Query( 'page', 1, 20, '', [] ) )->has_author_filter() );
+	}
 }

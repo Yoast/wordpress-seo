@@ -53,6 +53,13 @@ import {
 	freeSparksReducer,
 	freeSparksControls,
 } from "./free-sparks";
+import {
+	getInitialMyyoastConnectionState,
+	MYYOAST_CONNECTION_NAME,
+	myyoastConnectionActions,
+	myyoastConnectionReducer,
+	myyoastConnectionSelectors,
+} from "./myyoast-connection";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -70,6 +77,7 @@ const createStore = ( initialState ) => {
 			...usageCountActions,
 			...freeSparksActions,
 			...endpointsActions,
+			...myyoastConnectionActions,
 		},
 		selectors: {
 			...hasAiGeneratorConsentSelectors,
@@ -79,6 +87,7 @@ const createStore = ( initialState ) => {
 			...usageCountSelectors,
 			...freeSparksSelectors,
 			...endpointsSelectors,
+			...myyoastConnectionSelectors,
 		},
 		initialState: merge(
 			{},
@@ -90,6 +99,7 @@ const createStore = ( initialState ) => {
 				[ USAGE_COUNT_NAME ]: getInitialUsageCount(),
 				[ FREE_SPARKS_NAME ]: getInitialFreeSparks(),
 				[ ENDPOINTS_NAME ]: getInitialEndpointsState(),
+				[ MYYOAST_CONNECTION_NAME ]: getInitialMyyoastConnectionState(),
 			},
 			initialState
 		),
@@ -101,6 +111,7 @@ const createStore = ( initialState ) => {
 			[ USAGE_COUNT_NAME ]: usageCountReducer,
 			[ FREE_SPARKS_NAME ]: freeSparksReducer,
 			[ ENDPOINTS_NAME ]: endpointsReducer,
+			[ MYYOAST_CONNECTION_NAME ]: myyoastConnectionReducer,
 		} ),
 		controls: {
 			...hasAiGeneratorConsentControls,

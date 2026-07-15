@@ -70,6 +70,7 @@ const TableFooter = ( { columnCount, children } ) => {
  * @param {boolean}             [props.showBulkActions]  Whether the bulk-actions row is expanded (a selection is active).
  * @param {JSX.Element}         [props.filters]          The filters control, rendered in the toolbar row.
  * @param {JSX.Element}         [props.footer]           The results footer, rendered as the table's bottom row.
+ * @param {boolean}             [props.hasExternalPendingChanges] Whether Premium AI suggestions are pending review; disables row editing.
  *
  * @returns {JSX.Element} The table.
  */
@@ -84,6 +85,7 @@ export const BulkEditorTable = ( {
 	showBulkActions = false,
 	filters,
 	footer,
+	hasExternalPendingChanges,
 } ) => {
 	const columnCount = getColumnCount( fieldSet.fields );
 	const selectionState = { selectedIds: [], isAllSelected: false, onToggleRow: noop, onToggleAll: noop, ...selection };
@@ -127,6 +129,7 @@ export const BulkEditorTable = ( {
 						selection={ selectionState }
 						editing={ editingState }
 						isLoading={ isLoading }
+						hasExternalPendingChanges={ hasExternalPendingChanges }
 					/>
 				</Table.Body>
 				<TableFooter columnCount={ columnCount }>{ footer }</TableFooter>

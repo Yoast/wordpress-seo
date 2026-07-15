@@ -25,7 +25,7 @@ final class Posts_Page_Test extends TestCase {
 	 */
 	public function test_to_array() {
 		$posts_list = new Posts_List();
-		$posts_list->add( new Post( 7, 'Hello world', 'draft', 'edit', 'hello', 'SEO', 'Meta', 'OG', 'OG desc' ) );
+		$posts_list->add( new Post( 7, 'Hello world', 'draft', 'edit', 'hello', 'SEO', 'Meta', 'OG', 'OG desc', true ) );
 
 		$instance = new Posts_Page( $posts_list, 45, 2, 20 );
 
@@ -42,6 +42,7 @@ final class Posts_Page_Test extends TestCase {
 						'meta_description'   => 'Meta',
 						'social_title'       => 'OG',
 						'social_description' => 'OG desc',
+						'editable'           => true,
 					],
 				],
 				'total'       => 45,

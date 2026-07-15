@@ -47,6 +47,13 @@ class Posts_Query {
 	private $statuses;
 
 	/**
+	 * The author to limit posts to, or null for no author restriction.
+	 *
+	 * @var int|null
+	 */
+	private $author_id;
+
+	/**
 	 * The fields that must be empty for a post to be included, or an empty array for no such filter.
 	 *
 	 * @var array<string>
@@ -56,11 +63,12 @@ class Posts_Query {
 	/**
 	 * The constructor.
 	 *
-	 * @param string        $content_type      The content type to get posts for.
-	 * @param int           $page              The page of results to get, starting at 1.
-	 * @param int           $per_page          The number of posts per page.
-	 * @param string        $search            The search term, or an empty string for no search.
-	 * @param array<string> $statuses          The post statuses to include.
+	 * @param string        $content_type The content type to get posts for.
+	 * @param int           $page         The page of results to get, starting at 1.
+	 * @param int           $per_page     The number of posts per page.
+	 * @param string        $search       The search term, or an empty string for no search.
+	 * @param array<string> $statuses     The post statuses to include.
+	 * @param int|null      $author_id    The author to limit posts to, or null for no author restriction.
 	 * @param array<string> $needs_improvement The fields that must be empty to include a post, or an empty array for no such filter.
 	 */
 	public function __construct(
@@ -69,6 +77,7 @@ class Posts_Query {
 		int $per_page,
 		string $search,
 		array $statuses,
+		?int $author_id = null,
 		array $needs_improvement = []
 	) {
 		$this->content_type      = $content_type;
@@ -76,6 +85,7 @@ class Posts_Query {
 		$this->per_page          = $per_page;
 		$this->search            = $search;
 		$this->statuses          = $statuses;
+		$this->author_id         = $author_id;
 		$this->needs_improvement = $needs_improvement;
 	}
 
@@ -140,6 +150,24 @@ class Posts_Query {
 	 */
 	public function get_needs_improvement(): array {
 		return $this->needs_improvement;
+	}
+
+	/**
+	 * Returns the author to limit posts to.
+	 *
+	 * @return int|null The author ID, or null for no author restriction.
+	 */
+	public function get_author_id(): ?int {
+		return $this->author_id;
+	}
+
+	/**
+	 * Returns whether posts are limited to a single author.
+	 *
+	 * @return bool Whether an author restriction is set.
+	 */
+	public function has_author_filter(): bool {
+		return $this->author_id !== null;
 	}
 
 	/**

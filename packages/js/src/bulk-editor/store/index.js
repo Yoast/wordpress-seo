@@ -10,6 +10,7 @@ import externalPendingChanges, {
 	externalPendingChangesActions,
 	externalPendingChangesSelectors,
 } from "./external-pending-changes";
+import pendingSwitch, { createInitialPendingSwitchState, pendingSwitchActions, pendingSwitchSelectors } from "./pending-switch";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import query, { createInitialQueryState, queryActions, querySelectors } from "./query";
 import selection, { createInitialSelectionState, selectionActions, selectionSelectors } from "./selection";
@@ -31,6 +32,7 @@ const createStore = ( { initialState } ) => {
 			...selectionActions,
 			...editsActions,
 			...externalPendingChangesActions,
+			...pendingSwitchActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
@@ -41,6 +43,7 @@ const createStore = ( { initialState } ) => {
 			...selectionSelectors,
 			...editsSelectors,
 			...externalPendingChangesSelectors,
+			...pendingSwitchSelectors,
 		},
 		initialState: merge(
 			{},
@@ -53,6 +56,7 @@ const createStore = ( { initialState } ) => {
 				selection: createInitialSelectionState(),
 				edits: createInitialEditsState(),
 				externalPendingChanges: createInitialExternalPendingChangesState(),
+				pendingSwitch: createInitialPendingSwitchState(),
 			},
 			initialState
 		),
@@ -65,6 +69,7 @@ const createStore = ( { initialState } ) => {
 			selection,
 			edits,
 			externalPendingChanges,
+			pendingSwitch,
 		} ),
 	} );
 };
