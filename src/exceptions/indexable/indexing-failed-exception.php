@@ -49,7 +49,7 @@ class Indexing_Failed_Exception extends Indexable_Exception {
 		parent::__construct(
 			\sprintf(
 				/* translators: 1: indexable object type; 2: object ID; 3: underlying error message. */
-				'Yoast SEO could not build the %1$s indexable for object %2$d: %3$s',
+				\__( 'Yoast SEO could not build the %1$s indexable for object %2$d: %3$s', 'wordpress-seo' ),
 				$object_type,
 				$object_id,
 				$previous->getMessage(),
