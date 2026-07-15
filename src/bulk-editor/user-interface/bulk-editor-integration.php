@@ -9,7 +9,6 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
-use Yoast\WP\SEO\Helpers\Asset_Helper;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -88,13 +87,6 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
-	 * Holds the Asset_Helper.
-	 *
-	 * @var Asset_Helper
-	 */
-	private $asset_helper;
-
-	/**
 	 * Constructs the instance.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager            The WPSEO_Admin_Asset_Manager.
@@ -105,7 +97,6 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @param Nonce_Repository          $nonce_repository         The Nonce_Repository.
 	 * @param Endpoints_Repository      $endpoints_repository     The Endpoints_Repository.
 	 * @param Options_Helper            $options_helper           The Options_Helper.
-	 * @param Asset_Helper              $asset_helper             The Asset_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -115,8 +106,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		Content_Types_Repository $content_types_repository,
 		Nonce_Repository $nonce_repository,
 		Endpoints_Repository $endpoints_repository,
-		Options_Helper $options_helper,
-		Asset_Helper $asset_helper
+		Options_Helper $options_helper
 	) {
 		$this->asset_manager            = $asset_manager;
 		$this->current_page_helper      = $current_page_helper;
@@ -126,7 +116,6 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$this->nonce_repository         = $nonce_repository;
 		$this->endpoints_repository     = $endpoints_repository;
 		$this->options_helper           = $options_helper;
-		$this->asset_helper             = $asset_helper;
 	}
 
 	/**
@@ -212,21 +201,6 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$this->asset_manager->enqueue_script( self::ASSETS_NAME );
 		$this->asset_manager->enqueue_style( self::ASSETS_NAME );
 		$this->asset_manager->localize_script( self::ASSETS_NAME, 'wpseoBulkEditorData', $this->get_script_data() );
-
-		// The analysis worker reads its URL and dependencies from wpseoScriptData, so the bulk editor can
-		// recompute the per-field scores after a save the same way the post editor does.
-		$this->asset_manager->localize_script(
-			self::ASSETS_NAME,
-			'wpseoScriptData',
-			[
-				'analysis' => [
-					'worker' => [
-						'url'          => $this->asset_helper->get_asset_url( 'yoast-seo-analysis-worker' ),
-						'dependencies' => $this->asset_helper->get_dependency_urls_by_handle( 'yoast-seo-analysis-worker' ),
-					],
-				],
-			],
-		);
 	}
 
 	/**

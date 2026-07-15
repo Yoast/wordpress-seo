@@ -60,15 +60,6 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 			],
 		];
 
-		$expected_worker_data = [
-			'analysis' => [
-				'worker' => [
-					'url'          => 'https://example.com/analysis-worker.js',
-					'dependencies' => [ 'https://example.com/analysis-package.js' ],
-				],
-			],
-		];
-
 		Actions\expectRemoved( 'admin_print_scripts' )->once()->with( 'print_emoji_detection_script' );
 
 		$this->asset_manager->expects( 'enqueue_script' )->once()->with( Bulk_Editor_Integration::ASSETS_NAME );
@@ -100,21 +91,9 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 			);
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
 
-		$this->asset_helper->expects( 'get_asset_url' )
-			->once()
-			->with( 'yoast-seo-analysis-worker' )
-			->andReturn( 'https://example.com/analysis-worker.js' );
-		$this->asset_helper->expects( 'get_dependency_urls_by_handle' )
-			->once()
-			->with( 'yoast-seo-analysis-worker' )
-			->andReturn( [ 'https://example.com/analysis-package.js' ] );
-
 		$this->asset_manager->expects( 'localize_script' )
 			->once()
 			->with( Bulk_Editor_Integration::ASSETS_NAME, 'wpseoBulkEditorData', $expected_script_data );
-		$this->asset_manager->expects( 'localize_script' )
-			->once()
-			->with( Bulk_Editor_Integration::ASSETS_NAME, 'wpseoScriptData', $expected_worker_data );
 
 		$this->instance->enqueue_assets();
 	}
