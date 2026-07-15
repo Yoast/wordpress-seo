@@ -22,7 +22,7 @@ final class Posts_Query_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_getters() {
-		$instance = new Posts_Query( 'page', 2, 20, 'seo', [ 'publish', 'draft' ], [ 'seo_title' ] );
+		$instance = new Posts_Query( 'page', 2, 20, 'seo', [ 'publish', 'draft' ], null, [ 'seo_title' ] );
 
 		$this->assertSame( 'page', $instance->get_content_type() );
 		$this->assertSame( 2, $instance->get_page() );

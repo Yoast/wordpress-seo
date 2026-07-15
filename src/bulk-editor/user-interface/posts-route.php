@@ -205,8 +205,8 @@ class Posts_Route implements Route_Interface {
 			(int) $request->get_param( 'per_page' ),
 			(string) $request->get_param( 'search' ),
 			$statuses,
-			(array) $request->get_param( 'needs_improvement' ),
 			$author_id,
+			(array) $request->get_param( 'needs_improvement' ),
 		);
 
 		// Posts the current user cannot edit are returned locked and without their SEO data; the per-post

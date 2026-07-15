@@ -64,7 +64,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 					static function ( $query ) {
 						return $query instanceof Posts_Query
 							&& $query->get_statuses() === [ 'draft', 'pending' ]
-							&& $query->get_needs_improvement() === [ 'seo_title' ];
+							&& $query->get_needs_improvement() === [ 'seo_title' ]
 							&& $query->get_author_id() === null;
 					},
 				),
@@ -88,6 +88,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
 		$request->expects( 'get_param' )->with( 'search' )->andReturn( '' );
 		$request->expects( 'get_param' )->with( 'status' )->andReturn( [ 'publish' ] );
+		$request->expects( 'get_param' )->with( 'needs_improvement' )->andReturn( [] );
 
 		$this->content_types_repository
 			->expects( 'get_content_types' )

@@ -293,8 +293,9 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$query->expects( 'find_many' )->once()->andReturn( [] );
 
 		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->allows( 'resolve' )->andReturn( [] );
 
-		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, [ 'seo_title', 'meta_description' ] ) );
+		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 'seo_title', 'meta_description' ] ) );
 
 		$this->assertStringContainsString( 'title IS NULL', $captured[0] );
 		$this->assertStringContainsString( 'seo_title_score BETWEEN %d AND %d', $captured[0] );
@@ -333,8 +334,9 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$query->expects( 'find_many' )->once()->andReturn( [] );
 
 		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->allows( 'resolve' )->andReturn( [] );
 
-		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, [ 'social_title', 'social_description' ] ) );
+		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 'social_title', 'social_description' ] ) );
 
 		$this->assertStringContainsString( 'open_graph_title IS NULL', $captured[0] );
 		$this->assertStringContainsString( 'open_graph_description IS NULL', $captured[0] );
