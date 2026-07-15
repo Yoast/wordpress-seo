@@ -54,6 +54,19 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 				'pluginUrl'   => 'https://example.com/wp-content/plugins/wordpress-seo',
 			],
 			'linkParams'   => [ 'foo' => 'bar' ],
+			'analysis'     => [
+				'contentLocale'         => 'en_US',
+				'keywordAnalysisActive' => true,
+			],
+		];
+
+		$expected_worker_data = [
+			'analysis' => [
+				'worker' => [
+					'url'          => 'https://example.com/analysis-worker.js',
+					'dependencies' => [ 'https://example.com/analysis-package.js' ],
+				],
+			],
 		];
 
 		Actions\expectRemoved( 'admin_print_scripts' )->once()->with( 'print_emoji_detection_script' );
@@ -72,7 +85,9 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 		Functions\expect( 'rest_url' )->once()->withNoArgs()->andReturn( 'https://example.com/wp-json/' );
 		$this->product_helper->expects( 'is_premium' )->once()->andReturn( false );
 		$this->options_helper->expects( 'get' )->once()->with( 'enable_ai_generator' )->andReturn( true );
+		$this->options_helper->expects( 'get' )->once()->with( 'keyword_analysis_active' )->andReturn( true );
 		Functions\expect( 'is_rtl' )->once()->withNoArgs()->andReturn( false );
+		Functions\expect( 'get_locale' )->once()->withNoArgs()->andReturn( 'en_US' );
 		Functions\expect( 'plugins_url' )
 			->once()
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
@@ -85,9 +100,21 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 			);
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
 
+		$this->asset_helper->expects( 'get_asset_url' )
+			->once()
+			->with( 'yoast-seo-analysis-worker' )
+			->andReturn( 'https://example.com/analysis-worker.js' );
+		$this->asset_helper->expects( 'get_dependency_urls_by_handle' )
+			->once()
+			->with( 'yoast-seo-analysis-worker' )
+			->andReturn( [ 'https://example.com/analysis-package.js' ] );
+
 		$this->asset_manager->expects( 'localize_script' )
 			->once()
 			->with( Bulk_Editor_Integration::ASSETS_NAME, 'wpseoBulkEditorData', $expected_script_data );
+		$this->asset_manager->expects( 'localize_script' )
+			->once()
+			->with( Bulk_Editor_Integration::ASSETS_NAME, 'wpseoScriptData', $expected_worker_data );
 
 		$this->instance->enqueue_assets();
 	}
