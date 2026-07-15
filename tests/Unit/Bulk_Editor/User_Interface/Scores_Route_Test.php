@@ -96,7 +96,7 @@ final class Scores_Route_Test extends TestCase {
 	public function test_validate_items_valid() {
 		$items = [
 			[
-				'id'              => 7,
+				'id'        => 7,
 				'seo_title_score' => 63,
 			],
 			[
