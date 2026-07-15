@@ -79,7 +79,7 @@ class Content_Types_Collector {
 		/**
 		 * Filter: 'wpseo_bulk_editor_excluded_post_types' - Allows excluding post types from the bulk editor.
 		 *
-		 * @param array<string> $excluded_post_types The post types excluded from the bulk editor.
+		 * @param array<string> $excluded_post_types The list of post types excluded from the bulk editor. Defaults to including the attachment post type.
 		 */
 		$excluded_post_types = \apply_filters( 'wpseo_bulk_editor_excluded_post_types', [ 'attachment' ] );
 
