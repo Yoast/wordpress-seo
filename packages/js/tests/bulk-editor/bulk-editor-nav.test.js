@@ -78,6 +78,22 @@ describe( "BulkEditorNavMenu", () => {
 		expect( onChange ).toHaveBeenCalledWith( "post" );
 	} );
 
+	it( "routes the Back to Tools click through onNavigate with the target URL", () => {
+		const onNavigate = jest.fn( ( event ) => event.preventDefault() );
+		renderNav( { onNavigate } );
+
+		fireEvent.click( screen.getByRole( "link", { name: "Back to Tools" } ) );
+		expect( onNavigate ).toHaveBeenCalledWith( expect.objectContaining( { type: "click" } ), defaultProps.backToToolsUrl );
+	} );
+
+	it( "routes the logo click through onNavigate with the target URL", () => {
+		const onNavigate = jest.fn( ( event ) => event.preventDefault() );
+		renderNav( { onNavigate } );
+
+		fireEvent.click( screen.getByRole( "link", { name: "Yoast SEO" } ) );
+		expect( onNavigate ).toHaveBeenCalledWith( expect.objectContaining( { type: "click" } ), defaultProps.logoHref );
+	} );
+
 	it( "collapses content types beyond the limit behind a Show more toggle", () => {
 		renderNav();
 
