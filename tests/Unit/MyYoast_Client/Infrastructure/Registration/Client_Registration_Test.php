@@ -911,6 +911,76 @@ final class Client_Registration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a successful read heals drifted local redirect URIs from the authoritative server
+	 * body — the site-migration scenario where a database search-replace rewrote the stored URIs
+	 * without going through the registration round-trip — while preserving the stored RAT.
+	 *
+	 * @covers ::read_registration
+	 * @covers ::store_credentials
+	 *
+	 * @return void
+	 */
+	public function test_read_registration_heals_drifted_redirect_uris_and_preserves_rat() {
+		$old_uri = 'https://induction-buttons-seemed-blessed.trycloudflare.com/wp-admin/admin-post.php?action=yoast_myyoast_oauth_callback';
+		$new_uri = 'https://shoe-committed-mumbai-incorporate.trycloudflare.com/wp-admin/admin-post.php?action=yoast_myyoast_oauth_callback';
+
+		// Local drifted to the migrated URL (search-replace rewrote it in the DB) and marked verified.
+		Functions\expect( 'get_option' )
+			->with( self::OPTION_KEY, Mockery::any() )
+			->andReturn(
+				[
+					'client_id'               => 'cid',
+					'encrypted_rat'           => 'encrypted-rat',
+					'registration_client_uri' => 'https://my.yoast.com/api/oauth/reg/cid',
+					'metadata'                => [ 'redirect_uris' => [ $new_uri ] ],
+					'validated_uris'          => [ $new_uri ],
+				],
+			);
+
+		$this->encryption->expects( 'decrypt' )->with( 'encrypted-rat', Mockery::any() )->andReturn( 'decrypted-rat' );
+		// The server body carries no RAT, so the stored one must be preserved — never re-encrypted.
+		$this->encryption->expects( 'encrypt' )->never();
+
+		// The server still holds the pre-migration URL — that is the authority.
+		$this->http_client
+			->expects( 'authenticated_request' )
+			->once()
+			->with( 'GET', Mockery::any(), Mockery::any(), Mockery::any(), Mockery::any() )
+			->andReturn(
+				new HTTP_Response(
+					200,
+					[],
+					[
+						'client_id'                => 'cid',
+						'registration_client_uri'  => 'https://my.yoast.com/api/oauth/reg/cid',
+						'redirect_uris'            => [ $old_uri ],
+					],
+				),
+			);
+
+		// Local is rewritten to the server's URL, the RAT is kept, and the stale verification of the
+		// migrated URL is pruned (the server no longer lists it).
+		Functions\expect( 'update_option' )
+			->once()
+			->with(
+				self::OPTION_KEY,
+				Mockery::on(
+					static function ( $option ) use ( $old_uri ) {
+						return ( $option['metadata']['redirect_uris'] ?? null ) === [ $old_uri ]
+							&& ( $option['encrypted_rat'] ?? null ) === 'encrypted-rat'
+							&& ( $option['validated_uris'] ?? null ) === [];
+					},
+				),
+				false,
+			)
+			->andReturn( true );
+
+		$body = $this->instance->read_registration();
+
+		$this->assertSame( [ $old_uri ], $body['redirect_uris'] );
+	}
+
+	/**
 	 * Tests that the typed registration exceptions are still caught as Registration_Failed_Exception.
 	 *
 	 * @covers \Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Rate_Limited_Exception
