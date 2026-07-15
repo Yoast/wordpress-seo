@@ -921,8 +921,8 @@ final class Client_Registration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_read_registration_heals_drifted_redirect_uris_and_preserves_rat() {
-		$old_uri = 'https://induction-buttons-seemed-blessed.trycloudflare.com/wp-admin/admin-post.php?action=yoast_myyoast_oauth_callback';
-		$new_uri = 'https://shoe-committed-mumbai-incorporate.trycloudflare.com/wp-admin/admin-post.php?action=yoast_myyoast_oauth_callback';
+		$old_uri = 'https://old.example.com/wp-admin/admin-post.php?action=yoast_myyoast_oauth_callback';
+		$new_uri = 'https://new.example.com/wp-admin/admin-post.php?action=yoast_myyoast_oauth_callback';
 
 		// Local drifted to the migrated URL (search-replace rewrote it in the DB) and marked verified.
 		Functions\expect( 'get_option' )
