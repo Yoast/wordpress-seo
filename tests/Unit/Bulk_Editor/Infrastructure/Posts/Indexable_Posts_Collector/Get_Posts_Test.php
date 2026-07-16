@@ -342,4 +342,45 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$this->assertStringContainsString( 'open_graph_description IS NULL', $captured[0] );
 		$this->assertStringNotContainsString( 'BETWEEN', $captured[0] );
 	}
+
+	/**
+	 * Tests that the score clause is dropped when scoring is disabled, so the search fields match on
+	 * emptiness only.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_needs_improvement_omits_score_clause_when_scoring_disabled() {
+		$captured = [];
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		// With scoring disabled only the empty string is bound per field: no score range.
+		$query->expects( 'where_raw' )
+			->twice()
+			->with(
+				Mockery::on(
+					static function ( $clause ) use ( &$captured ) {
+						$captured[] = $clause;
+
+						return true;
+					},
+				),
+				[ '', '' ],
+			)
+			->andReturnSelf();
+		$query->allows( 'count' )->andReturn( 0 );
+		$query->expects( 'find_many' )->once()->andReturn( [] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->allows( 'resolve' )->andReturn( [] );
+
+		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 'seo_title', 'meta_description' ], false ) );
+
+		$this->assertStringContainsString( 'title IS NULL', $captured[0] );
+		$this->assertStringNotContainsString( 'BETWEEN', $captured[0] );
+	}
 }

@@ -42,6 +42,16 @@ final class Posts_Query_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that scoring defaults to enabled and is carried through when set.
+	 *
+	 * @return void
+	 */
+	public function test_are_scores_enabled() {
+		$this->assertTrue( ( new Posts_Query( 'page', 1, 20, '', [] ) )->are_scores_enabled() );
+		$this->assertFalse( ( new Posts_Query( 'page', 1, 20, '', [], null, [ 'seo_title' ], false ) )->are_scores_enabled() );
+	}
+
+	/**
 	 * Tests that has_search reflects whether a search term is set.
 	 *
 	 * @return void

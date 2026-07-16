@@ -37,6 +37,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$request->expects( 'get_param' )->with( 'search' )->andReturn( 'seo' );
 		$request->expects( 'get_param' )->with( 'status' )->andReturn( [ 'draft', 'pending' ] );
 		$request->expects( 'get_param' )->with( 'needs_improvement' )->andReturn( [ 'seo_title' ] );
+		$this->options_helper->expects( 'get' )->with( 'keyword_analysis_active' )->andReturn( true );
 
 		$this->content_types_repository
 			->expects( 'get_content_types' )
@@ -65,8 +66,60 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 						return $query instanceof Posts_Query
 							&& $query->get_statuses() === [ 'draft', 'pending' ]
 							&& $query->get_needs_improvement() === [ 'seo_title' ]
-							&& $query->get_author_id() === null;
+							&& $query->get_author_id() === null
+							&& $query->are_scores_enabled() === true;
 					},
+				),
+			)
+			->andReturn( $posts_page );
+
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->get_posts( $request ) );
+	}
+
+	/**
+	 * Tests that scoring is disabled in the query when SEO analysis is inactive, so the filter falls back
+	 * to the empty-field check.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_disables_scores_when_seo_analysis_inactive() {
+		$request = Mockery::mock( WP_REST_Request::class );
+		$request->expects( 'get_param' )->with( 'content_type' )->andReturn( 'page' );
+		$request->expects( 'get_param' )->with( 'page' )->andReturn( 1 );
+		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
+		$request->expects( 'get_param' )->with( 'search' )->andReturn( '' );
+		$request->expects( 'get_param' )->with( 'status' )->andReturn( [ 'publish' ] );
+		$request->expects( 'get_param' )->with( 'needs_improvement' )->andReturn( [ 'seo_title' ] );
+		$this->options_helper->expects( 'get' )->with( 'keyword_analysis_active' )->andReturn( false );
+
+		$this->content_types_repository
+			->expects( 'get_content_types' )
+			->once()
+			->andReturn(
+				[
+					[
+						'name'  => 'page',
+						'label' => 'Pages',
+					],
+				],
+			);
+
+		$this->content_type_access_checker->expects( 'can_edit_others' )->with( 'page' )->andReturnTrue();
+
+		$posts_page = Mockery::mock( Posts_Page::class );
+		$posts_page->expects( 'to_array' )->once()->andReturn( [] );
+
+		$this->posts_repository
+			->expects( 'get_posts' )
+			->once()
+			->with(
+				Mockery::on(
+					static function ( $query ) {
+						return $query instanceof Posts_Query
+							&& $query->are_scores_enabled() === false;
+						},
 				),
 			)
 			->andReturn( $posts_page );
@@ -104,6 +157,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 
 		$this->content_type_access_checker->expects( 'can_edit_others' )->with( 'page' )->andReturnFalse();
 		$this->user_helper->expects( 'get_current_user_id' )->once()->andReturn( 5 );
+		$this->options_helper->expects( 'get' )->with( 'keyword_analysis_active' )->andReturn( true );
 
 		$posts_page = Mockery::mock( Posts_Page::class );
 		$posts_page->expects( 'to_array' )->once()->andReturn( [] );
@@ -139,6 +193,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$request->expects( 'get_param' )->with( 'search' )->andReturn( '' );
 		$request->expects( 'get_param' )->with( 'status' )->andReturn( [] );
 		$request->expects( 'get_param' )->with( 'needs_improvement' )->andReturn( [] );
+		$this->options_helper->expects( 'get' )->with( 'keyword_analysis_active' )->andReturn( true );
 
 		$this->content_types_repository
 			->expects( 'get_content_types' )

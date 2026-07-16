@@ -175,7 +175,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 		}
 
 		if ( $query->get_needs_improvement() !== [] ) {
-			$this->apply_needs_improvement( $builder, $query->get_needs_improvement() );
+			$this->apply_needs_improvement( $builder, $query->get_needs_improvement(), $query->are_scores_enabled() );
 		}
 
 		return $builder;
@@ -185,16 +185,17 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	 * Adds the "needs improvement" clause to the query.
 	 *
 	 * A field needs improvement when its indexable column is NULL or an empty string, or — for fields
-	 * with a persisted per-field score — when that score falls in the bad/ok range. The selected fields
-	 * are OR-ed inside a single group so they broaden the result without interfering with the other
-	 * filters, and unknown field keys are ignored.
+	 * with a persisted per-field score and while scoring is enabled — when that score falls in the bad/ok
+	 * range. The selected fields are OR-ed inside a single group so they broaden the result without
+	 * interfering with the other filters, and unknown field keys are ignored.
 	 *
-	 * @param ORM           $builder The query to add the clause to.
-	 * @param array<string> $fields  The fields that need improvement.
+	 * @param ORM           $builder        The query to add the clause to.
+	 * @param array<string> $fields         The fields that need improvement.
+	 * @param bool          $scores_enabled Whether the per-field scores may back the filter.
 	 *
 	 * @return void
 	 */
-	private function apply_needs_improvement( ORM $builder, array $fields ): void {
+	private function apply_needs_improvement( ORM $builder, array $fields, bool $scores_enabled ): void {
 		$clauses = [];
 		$values  = [];
 		foreach ( $fields as $field ) {
@@ -206,7 +207,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			$clause   = $column . ' IS NULL OR ' . $column . ' = %s';
 			$values[] = '';
 
-			if ( isset( self::FIELD_SCORE_COLUMNS[ $field ] ) ) {
+			if ( $scores_enabled && isset( self::FIELD_SCORE_COLUMNS[ $field ] ) ) {
 				$clause  .= ' OR ' . self::FIELD_SCORE_COLUMNS[ $field ] . ' BETWEEN %d AND %d';
 				$values[] = self::NEEDS_IMPROVEMENT_MIN_SCORE;
 				$values[] = self::NEEDS_IMPROVEMENT_MAX_SCORE;
