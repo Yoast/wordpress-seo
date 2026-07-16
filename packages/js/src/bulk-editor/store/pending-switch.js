@@ -6,8 +6,8 @@ import { get } from "lodash";
  *
  * @typedef {Object} PendingSwitch
  *
- * @property {"fieldSet"|"contentType"|"navigate"} kind What the switch targets: a field set, a content type, or a URL to navigate to.
- * @property {string} target The field-set name, content-type name, or (for "navigate") the destination URL.
+ * @property {"fieldSet"|"contentType"|"navigate"|"page"} kind What the switch targets.
+ * @property {string|number} target The field-set/content-type name, the destination URL, or (for "page") the 1-based page number.
  */
 
 /**
@@ -27,7 +27,8 @@ const slice = createSlice( {
 /**
  * Commits a switch. A content-type change also clears the unsaved edits, so a stale draft can't leak into the
  * newly shown type; the selection reset is handled by setActiveContentType itself. A "navigate" switch leaves the
- * page for a URL, discarding all view state, so it only hands off to the browser.
+ * page for a URL, discarding all view state, so it only hands off to the browser. A "page" switch changes the
+ * results page.
  *
  * @param {PendingSwitch} pending The switch to commit.
  *
@@ -40,6 +41,11 @@ export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
 		// Security: Now, `target` is a server-generated URL (see bulk-editor-integration.php).
 		// If it ever comes from input, it has to be validated to prevent open redirects or malicious URIs.
 		window.location.href = target;
+		return;
+	}
+	if ( kind === "page" ) {
+		dispatch.setPage( target );
+		dispatch.clearPendingSwitch();
 		return;
 	}
 	if ( kind === "contentType" ) {
@@ -61,11 +67,14 @@ export const commitSwitch = ( { kind, target } ) => ( { dispatch } ) => {
  * @returns {Function} The thunk.
  */
 export const requestSwitch = ( { kind, target } ) => ( { select, dispatch } ) => {
-	if ( kind !== "navigate" ) {
-		const current = kind === "contentType" ? select.selectActiveContentTypeName() : select.selectActiveFieldSet();
-		if ( target === current ) {
-			return;
-		}
+	const currentValueSelector = {
+		contentType: select.selectActiveContentTypeName,
+		fieldSet: select.selectActiveFieldSet,
+		page: select.selectPage,
+	}[ kind ];
+	// A no-op switch (to the value already shown) needs no guard.
+	if ( currentValueSelector && target === currentValueSelector() ) {
+		return;
 	}
 	const hasUnsavedEdits = Object.keys( select.selectEditingRows() ).length > 0;
 	if ( hasUnsavedEdits || select.selectHasExternalPendingChanges() ) {

@@ -5,7 +5,7 @@ import { BulkEditorFooter } from "../../src/bulk-editor/components/bulk-editor-f
 jest.mock( "@wordpress/data", () => ( { useDispatch: jest.fn(), useSelect: jest.fn() } ) );
 
 describe( "BulkEditorFooter", () => {
-	let setPage;
+	let requestSwitch;
 
 	/**
 	 * Points the mocked store selector at a given current page.
@@ -40,8 +40,8 @@ describe( "BulkEditorFooter", () => {
 	};
 
 	beforeEach( () => {
-		setPage = jest.fn();
-		useDispatch.mockReturnValue( { setPage } );
+		requestSwitch = jest.fn();
+		useDispatch.mockReturnValue( { requestSwitch } );
 		mockCurrentPage( 1 );
 		// Default to the desktop viewport so the full set of page buttons renders.
 		mockViewport( true );
@@ -72,14 +72,14 @@ describe( "BulkEditorFooter", () => {
 		expect( screen.getByText( /Showing/ ) ).toHaveTextContent( "Showing 181 to 197 of 197 results" );
 	} );
 
-	it( "dispatches setPage with the requested page when a page button is clicked", () => {
+	it( "requests a guarded page switch when a page button is clicked", () => {
 		mockCurrentPage( 1 );
 
 		render( <BulkEditorFooter total={ 197 } totalPages={ 10 } isPending={ false } /> );
 
 		fireEvent.click( screen.getByRole( "button", { name: "3" } ) );
 
-		expect( setPage ).toHaveBeenCalledWith( 3 );
+		expect( requestSwitch ).toHaveBeenCalledWith( { kind: "page", target: 3 } );
 	} );
 
 	it( "shows fewer page buttons on a mobile viewport", () => {
