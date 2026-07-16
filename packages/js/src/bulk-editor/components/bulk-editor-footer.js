@@ -27,7 +27,7 @@ export const BulkEditorFooter = ( { total, totalPages, isPending } ) => {
 	const { requestSwitch } = useDispatch( STORE_NAME );
 	const { matches: isLarge } = useMediaQuery( "(min-width: 640px)" );
 
-	// A page change with active suggestions is a guarded switch.
+	// A page change is a guarded switch when there are unsaved edits or AI pending changes.
 	const onNavigate = useCallback( ( target ) => requestSwitch( { kind: "page", target } ), [ requestSwitch ] );
 
 	// Nothing to summarise or page through; the table itself shows the "no content" message.
