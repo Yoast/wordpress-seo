@@ -511,8 +511,6 @@ final class Indexing_Route_Test extends TestCase {
 
 		$this->indexing_helper->expects( 'indexing_failed' )->withNoArgs();
 
-		Mockery::mock( WP_Error::class );
-
 		$this->instance->index_general();
 	}
 
@@ -525,14 +523,23 @@ final class Indexing_Route_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_index_posts_when_indexing_failed_exception_occurs() {
+		$this->stubTranslationFunctions();
+
 		$exception = new Indexing_Failed_Exception( 123, 'post', 'post', new Exception( 'The underlying error.' ) );
 
 		$this->post_indexation_action->expects( 'index' )->once()->andThrow( $exception );
 
 		$this->indexing_helper->expects( 'indexing_failed' )->once()->withNoArgs();
 
-		Mockery::mock( WP_Error::class );
+		$result = $this->instance->index_posts();
 
-		$this->assertInstanceOf( WP_Error::class, $this->instance->index_posts() );
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'wpseo_error_indexing', $result->get_error_code() );
+		$this->assertSame( $exception->getMessage(), $result->get_error_message() );
+
+		$data = $result->get_error_data();
+		$this->assertSame( 123, $data['object_id'] );
+		$this->assertSame( 'post', $data['object_type'] );
+		$this->assertArrayHasKey( 'stackTrace', $data );
 	}
 }
