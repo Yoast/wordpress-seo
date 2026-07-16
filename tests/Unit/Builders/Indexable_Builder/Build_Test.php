@@ -194,6 +194,44 @@ final class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	}
 
 	/**
+	 * Tests that an Indexing_Failed_Exception escaping a nested build (e.g. the author indexable built
+	 * during a post build) passes through unwrapped, so the failure is logged and the action is fired
+	 * only once, with the root failing object's identity.
+	 *
+	 * @covers ::build
+	 * @covers ::deep_copy_indexable
+	 *
+	 * @return void
+	 */
+	public function test_build_passes_through_an_already_wrapped_exception_from_a_nested_build() {
+		$this->expect_deep_copy_indexable( $this->indexable );
+
+		$nested_exception = new Indexing_Failed_Exception( 3, 'user', null, new RuntimeException( 'Something unexpected happened.' ) );
+
+		$this->post_builder
+			->expects( 'build' )
+			->once()
+			->with( 1337, $this->indexable )
+			->andThrow( $nested_exception );
+
+		$this->logger
+			->expects( 'error' )
+			->never();
+
+		Monkey\Actions\expectDone( 'wpseo_indexable_indexing_failed' )
+			->never();
+
+		try {
+			$this->instance->build( $this->indexable );
+			$this->fail( 'Expected an Indexing_Failed_Exception to be thrown.' );
+		} catch ( Indexing_Failed_Exception $indexing_failed_exception ) {
+			$this->assertSame( $nested_exception, $indexing_failed_exception );
+			$this->assertSame( 3, $indexing_failed_exception->get_object_id() );
+			$this->assertSame( 'user', $indexing_failed_exception->get_object_type() );
+		}
+	}
+
+	/**
 	 * Tests that build returns false when a build returns an exception.
 	 *
 	 * @covers ::build
