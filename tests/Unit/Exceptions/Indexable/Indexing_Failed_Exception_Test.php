@@ -27,6 +27,8 @@ final class Indexing_Failed_Exception_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_constructor() {
+		$this->stubTranslationFunctions();
+
 		$previous = new Exception( 'The underlying error.' );
 
 		$instance = new Indexing_Failed_Exception( 123, 'post', 'page', $previous );
