@@ -169,7 +169,7 @@ final class Build_Test extends Abstract_Indexable_Builder_TestCase {
 			->expects( 'error' )
 			->once()
 			->with(
-				'Yoast SEO could not build the post indexable for object 1337: Something unexpected happened.',
+				'Yoast SEO could not build the indexable for post #1337: Something unexpected happened.',
 				[
 					'object_id'       => 1337,
 					'object_type'     => 'post',
