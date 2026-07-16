@@ -26,13 +26,14 @@ describe( "pendingSwitch slice", () => {
 } );
 
 describe( "requestSwitch thunk", () => {
-	const DEFAULT_STATE = { editingRows: {}, hasExternalPendingChanges: false, activeContentType: "", activeFieldSet: "search", page: 1 };
+	const DEFAULT_STATE = { editingRows: {}, hasExternalPendingChanges: false, hasExternalGeneration: false, activeContentType: "", activeFieldSet: "search", page: 1 };
 	const makeThunkArgs = ( overrides = {} ) => {
 		const state = { ...DEFAULT_STATE, ...overrides };
 		return {
 			select: {
 				selectEditingRows: () => state.editingRows,
 				selectHasExternalPendingChanges: () => state.hasExternalPendingChanges,
+				selectHasExternalGeneration: () => state.hasExternalGeneration,
 				selectActiveContentTypeName: () => state.activeContentType,
 				selectActiveFieldSet: () => state.activeFieldSet,
 				selectPage: () => state.page,
@@ -99,6 +100,22 @@ describe( "requestSwitch thunk", () => {
 		expect( args.dispatch.commitSwitch ).not.toHaveBeenCalled();
 	} );
 
+	it( "commits a navigate switch straight away even while external generation is in flight", () => {
+		const args = makeThunkArgs( { hasExternalGeneration: true } );
+		requestSwitch( { kind: "navigate", target: "https://example.test/tools" } )( args );
+
+		expect( args.dispatch.commitSwitch ).toHaveBeenCalledWith( { kind: "navigate", target: "https://example.test/tools" } );
+		expect( args.dispatch.setPendingSwitch ).not.toHaveBeenCalled();
+	} );
+
+	it( "silently no-ops an in-app switch while external generation is in flight", () => {
+		const args = makeThunkArgs( { hasExternalGeneration: true } );
+		requestSwitch( { kind: "contentType", target: "product" } )( args );
+
+		expect( args.dispatch.setPendingSwitch ).not.toHaveBeenCalled();
+		expect( args.dispatch.commitSwitch ).not.toHaveBeenCalled();
+	} );
+
 	it( "commits a page switch straight away when nothing guards it", () => {
 		const args = makeThunkArgs( { page: 1 } );
 		requestSwitch( { kind: "page", target: 2 } )( args );
@@ -120,6 +137,14 @@ describe( "requestSwitch thunk", () => {
 		requestSwitch( { kind: "page", target: 2 } )( args );
 
 		expect( args.dispatch.setPendingSwitch ).toHaveBeenCalledWith( { kind: "page", target: 2 } );
+		expect( args.dispatch.commitSwitch ).not.toHaveBeenCalled();
+	} );
+
+	it( "silently no-ops a page switch while external generation is in flight", () => {
+		const args = makeThunkArgs( { hasExternalGeneration: true, page: 1 } );
+		requestSwitch( { kind: "page", target: 2 } )( args );
+
+		expect( args.dispatch.setPendingSwitch ).not.toHaveBeenCalled();
 		expect( args.dispatch.commitSwitch ).not.toHaveBeenCalled();
 	} );
 
