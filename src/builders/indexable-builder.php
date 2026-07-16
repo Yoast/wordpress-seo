@@ -421,6 +421,11 @@ class Indexable_Builder {
 			return $this->indexable_helper->save_indexable( $indexable, $indexable_before );
 		} catch ( Not_Built_Exception $exception ) {
 			return false;
+		} catch ( Indexing_Failed_Exception $exception ) {
+			// A nested build (e.g. the author indexable built during a post build) already logged the
+			// failure, fired the action and wrapped the original error, so pass it through untouched
+			// to keep the root failing object's identity and avoid reporting the failure twice.
+			throw $exception;
 		} catch ( Throwable $exception ) {
 			$indexing_failed_exception = new Indexing_Failed_Exception(
 				$indexable->object_id,
