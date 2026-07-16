@@ -1,6 +1,7 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo, useRef, useState } from "@wordpress/element";
-import { BULK_UPDATE_BATCH_SIZE, STORE_NAME } from "../constants";
+import { BULK_UPDATE_BATCH_SIZE, FIELD_SET_SEARCH, FOCUS_KEYPHRASE_KEY, STORE_NAME } from "../constants";
+import { createFieldScorer } from "../services/field-scores";
 
 /**
  * The endpoint key a field saves through: a field-level override when set, otherwise the field set's default.
@@ -11,6 +12,58 @@ import { BULK_UPDATE_BATCH_SIZE, STORE_NAME } from "../constants";
  * @returns {string} The data-provider endpoint key.
  */
 const fieldEndpointKey = ( field, fieldSet ) => field.endpoint ?? fieldSet.endpoint;
+
+/**
+ * Re-scores a saved row from an update result, when it carries rendered search fields.
+ *
+ * A rendered payload is only present for search-appearance updates, so this is a no-op for the social tab.
+ *
+ * @param {Function} scoreFields The re-scorer.
+ * @param {Object}   result      A single per-post update result.
+ * @param {string}   keyphrase   The focus keyphrase to score against.
+ *
+ * @returns {void}
+ */
+const rescoreFromResult = ( scoreFields, result, keyphrase ) => {
+	const rendered = result?.rendered;
+	if ( ! result?.success || ! rendered ) {
+		return;
+	}
+	scoreFields( { id: result.id, title: rendered.seo_title, description: rendered.meta_description, keyphrase } );
+};
+
+/**
+ * Re-scores a single saved row after a search-appearance save.
+ *
+ * @param {Function} scoreFields    The re-scorer.
+ * @param {string}   activeFieldSet The active field set's id.
+ * @param {Object}   response       The update response.
+ * @param {Object}   rowEdit        The row's edit state, holding its draft field values.
+ *
+ * @returns {void}
+ */
+const rescoreAfterSave = ( scoreFields, activeFieldSet, response, rowEdit ) => {
+	if ( activeFieldSet !== FIELD_SET_SEARCH ) {
+		return;
+	}
+	const results = response?.results ?? [];
+	rescoreFromResult( scoreFields, results[ 0 ], rowEdit.draft[ FOCUS_KEYPHRASE_KEY ] ?? "" );
+};
+
+/**
+ * Re-scores every saved row in a batch response that carries rendered search fields.
+ *
+ * @param {Function} scoreFields The re-scorer.
+ * @param {Object}   response    The update response for one batch.
+ * @param {Object}   editingRows The current edit state, keyed by row id, holding each row's draft values.
+ *
+ * @returns {void}
+ */
+const rescoreBatchResult = ( scoreFields, response, editingRows ) => {
+	( response?.results ?? [] ).forEach( ( result ) => {
+		rescoreFromResult( scoreFields, result, editingRows[ result.id ]?.draft?.[ FOCUS_KEYPHRASE_KEY ] ?? "" );
+	} );
+};
 
 /**
  * The bulk editor's inline editing: per-row, per-field edit state and the save.
@@ -35,6 +88,13 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 	// Guards onApplyAll against re-entry, so a batch in flight can't fire a second,
 	// overlapping set of requests. A ref, so the check is synchronous within a tick.
 	const isApplyingAllRef = useRef( false );
+
+	// Recomputes and persists the per-field scores after a search-appearance save, so the needs-improvement
+	// filter reflects the edit. Fire-and-forget: it never blocks or fails the save.
+	const scoreFields = useMemo(
+		() => createFieldScorer( { dataProvider, remoteDataProvider } ),
+		[ dataProvider, remoteDataProvider ]
+	);
 
 	const dismissSaveError = useCallback( () => setHasSaveError( false ), [] );
 
@@ -78,17 +138,20 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		const value = rowEdit.draft[ key ];
 		setSavingField( { id, key, isSaving: true } );
 		try {
-			await remoteDataProvider.fetchJson( endpoint, {}, {
+			const response = await remoteDataProvider.fetchJson( endpoint, {}, {
 				method: "POST",
 				body: JSON.stringify( { items: [ { id, [ field.param ]: value } ] } ),
 			} );
 			updateItem( id, key, value );
 			closeField( { id, key } );
+
+			// On the search tab the response carries the rendered fields; re-score so the filter reflects the edit.
+			rescoreAfterSave( scoreFields, activeFieldSet, response, rowEdit );
 		} catch ( error ) {
 			setSavingField( { id, key, isSaving: false } );
 			setHasSaveError( true );
 		}
-	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, closeField, updateItem ] );
+	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, closeField, updateItem, scoreFields ] );
 
 	// Saves every open edit as one batch. Returns true (clean), false (a request failed), or null (a save was
 	// already in flight), so the tab-switch modal only closes on a real failure and not on a re-entrant call.
@@ -164,6 +227,8 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 					updateItem( id, key, value );
 					closeField( { id, key } );
 				} );
+				// Re-score the search rows in this batch; social results carry no rendered fields and are skipped.
+				rescoreBatchResult( scoreFields, result.value, editingRows );
 			} );
 			const hasFailure = results.some( ( result ) => result.status === "rejected" );
 			if ( hasFailure ) {
@@ -174,7 +239,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			isApplyingAllRef.current = false;
 			setIsApplyingAll( false );
 		}
-	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, updateItem, closeField ] );
+	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, updateItem, closeField, scoreFields ] );
 
 	const editing = useMemo( () => ( {
 		editingRows,
