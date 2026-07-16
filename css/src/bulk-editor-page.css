@@ -73,3 +73,37 @@
 .yst-root .yst-bulk-editor-error-body {
 	max-width: 576px;
 }
+
+/* Wrap long unbroken words within the column instead of overflowing into the next. */
+.yst-root .yst-bulk-editor-cell-value {
+	overflow-wrap: break-word;
+}
+
+/* The row title links to the post editor. */
+.yst-root .yst-bulk-editor-title-link,
+.yst-root .yst-bulk-editor-title-link:visited {
+	@apply yst-relative yst-w-fit yst-no-underline yst-text-slate-800;
+}
+
+.yst-root .yst-bulk-editor-title-link::after {
+	content: "";
+	@apply yst-absolute yst-bottom-0 yst-start-0 yst-h-px yst-w-full yst-bg-slate-800 yst-opacity-0 yst-transition-opacity yst-duration-300 yst-ease-in-out;
+}
+
+/* The :visited variants outrank ui-library's `.yst-root a:hover:visited` rule */
+.yst-root .yst-bulk-editor-title-link:hover,
+.yst-root .yst-bulk-editor-title-link:hover:visited,
+.yst-root .yst-bulk-editor-title-link:focus-visible,
+.yst-root .yst-bulk-editor-title-link:focus-visible:visited {
+	@apply yst-text-slate-900;
+}
+
+.yst-root .yst-bulk-editor-title-link:hover::after,
+.yst-root .yst-bulk-editor-title-link:focus-visible::after {
+	@apply yst-bg-slate-900 yst-opacity-100;
+}
+
+/* Drop the focus ring for pointer clicks, but keep it for keyboard users (WCAG 2.4.7). */
+.yst-root .yst-bulk-editor-title-link:focus:not(:focus-visible) {
+	@apply yst-outline-none;
+}

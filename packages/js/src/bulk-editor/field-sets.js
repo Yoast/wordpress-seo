@@ -18,6 +18,7 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, FOCUS_KEYPHRASE_KEY } from "./const
  * @property {string} metaDescription   The meta description.
  * @property {string} socialTitle       The social title.
  * @property {string} socialDescription The social description.
+ * @property {boolean} editable         Whether the current user may edit the post; locked rows hide their SEO data.
  */
 
 /**

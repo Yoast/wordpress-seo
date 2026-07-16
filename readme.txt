@@ -310,7 +310,7 @@ Release date: 2026-07-21
 #### Enhancements
 
 * Adds a MyYoast connection card on the Integrations page to connect, verify, and disconnect a site using MyYoast OAuth.
-* Adds the bulk generation feature, which allows users to get AI-powered Metadata suggestions for multiple posts directly from the bulk editor page.
+* Redesigns the bulk editor page, which allows users to edit Metadata for multiple posts at once.
 
 = 28.0 =
 

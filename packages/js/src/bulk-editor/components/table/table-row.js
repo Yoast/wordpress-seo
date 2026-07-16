@@ -4,7 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
 import { TABLE_CELL_FIELD_SLOT } from "../../constants";
 import { EditableFieldCell, TitleCell } from "./table-cells";
-import { getFieldTextClasses, getRowEditState } from "./table-helpers";
+import { getFieldTextClasses, getRowEditState, isRowEditDisabled } from "./table-helpers";
 
 /**
  * A content row. Each field-set cell renders as plain text, or — when the row is in edit mode and the field is
@@ -18,13 +18,28 @@ import { getFieldTextClasses, getRowEditState } from "./table-helpers";
  * @param {Function}          props.onToggleRow Called with the item id when its checkbox is toggled.
  * @param {Object}            [props.edit]      This row's edit state ({ openFields, draft, savingFields }), or undefined when not editing.
  * @param {BulkEditorEditing} props.editing     The inline-edit props (its handlers).
+ * @param {boolean}           [props.hasExternalPendingChanges=false] Whether Premium AI has suggestions pending review; while true,
+ *                                                              editing is disabled so manual edits and AI generation stay mutually exclusive.
+ * @param {boolean}           [props.hasExternalGeneration=false] Whether an external AI generation request is in flight; while true,
+ *                                                              editing is disabled so manual edits and AI generation stay mutually exclusive.
  *
  * @returns {JSX.Element} The row.
  */
-export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleRow, edit, editing } ) => {
+export const BulkEditorRow = ( {
+	item,
+	fields,
+	fieldSetId,
+	isSelected,
+	onToggleRow,
+	edit,
+	editing,
+	hasExternalPendingChanges = false,
+	hasExternalGeneration = false,
+} ) => {
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
-	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField, onFieldApplied } = editing;
-	const isSaving = Object.keys( savingFields ).length > 0;
+	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField, onFieldApplied, isApplyingAll } = editing;
+	// Treat a batch "Save edits" as saving this row too, so its inputs and Save/Cancel lock and a per-field save can't race the batch.
+	const isSaving = Object.keys( savingFields ).length > 0 || isApplyingAll;
 	const fillsSeoTitles = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/seoTitle/${item.id}` );
 	const fillsMetaDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/metaDescription/${item.id}` );
 	const fillsSocialTitle = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialTitle/${item.id}` );
@@ -59,6 +74,8 @@ export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleR
 					aria-label={ sprintf( __( "Select %s", "wordpress-seo" ), item.title ) }
 					checked={ isSelected }
 					onChange={ handleToggle }
+					// A post the current user cannot edit is shown locked and cannot be selected for bulk editing.
+					disabled={ ! item.editable }
 				/>
 			</Table.Cell>
 			<TitleCell item={ item } fieldSetId={ fieldSetId } />
@@ -86,7 +103,7 @@ export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleR
 
 								if ( ! openFields.includes( field.key ) ) {
 									return (
-										<Table.Cell key={ field.key } className={ getFieldTextClasses( field.key, false ) }>
+										<Table.Cell key={ field.key } className={ `yst-bulk-editor-cell-value ${ getFieldTextClasses( field.key, false ) }` }>
 											{ item[ field.key ] }
 										</Table.Cell>
 									);
@@ -139,7 +156,7 @@ export const BulkEditorRow = ( { item, fields, fieldSetId, isSelected, onToggleR
 								className="yst--me-2.5"
 								onClick={ handleEdit }
 								aria-label={ editLabel }
-								disabled={ isSlotFilled }
+								disabled={ isRowEditDisabled( { isSlotFilled, hasExternalPendingChanges, hasExternalGeneration, item } ) }
 							>
 								{ __( "Edit", "wordpress-seo" ) }
 							</Button>

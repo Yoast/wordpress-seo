@@ -69,6 +69,9 @@ final class Enqueue_Assets_Test extends Abstract_AI_Generator_Integration_Test {
 		$generator_endpoint_list->expects( 'merge_with' )->once()->with( $free_sparks_endpoint_list )->andReturnSelf();
 		$generator_endpoint_list->expects( 'to_paths_array' )->once()->andReturn( [] );
 
+		// The MyYoast connection feature flag is disabled, so the payload is null.
+		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturnFalse();
+
 		// Enqueueing.
 		$this->asset_manager->expects( 'enqueue_script' )->once()->with( 'ai-generator' );
 		$this->asset_manager->expects( 'localize_script' )->once()->with(
@@ -84,6 +87,7 @@ final class Enqueue_Assets_Test extends Abstract_AI_Generator_Integration_Test {
 				'requestTimeout'       => 0,
 				'isFreeSparks'         => true,
 				'endpoints'            => [],
+				'myyoastConnection'    => null,
 			],
 		);
 		$this->asset_manager->expects( 'enqueue_style' )->once()->with( 'ai-generator' );

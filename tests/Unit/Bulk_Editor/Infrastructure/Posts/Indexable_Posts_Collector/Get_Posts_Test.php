@@ -16,8 +16,8 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  * @group bulk-editor
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::get_posts
- * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_query
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::resolve_total
+ * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_query
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::apply_search
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_post
  */
@@ -31,11 +31,12 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 	private const STATUSES = [ 'publish', 'draft', 'pending', 'future' ];
 
 	/**
-	 * Tests that a partially-filled page is mapped to posts and its total is derived without a count query.
+	 * Tests that an editable post is returned with its SEO data, and a partial page derives the total
+	 * without a count query.
 	 *
 	 * @return void
 	 */
-	public function test_get_posts() {
+	public function test_get_posts_editable() {
 		$indexable                         = new Indexable_Mock();
 		$indexable->object_id              = 7;
 		$indexable->post_status            = 'draft';
@@ -45,21 +46,12 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$indexable->open_graph_title       = 'Social hello';
 		$indexable->open_graph_description = 'Social description.';
 
-		$query = Mockery::mock( ORM::class );
-		$query->allows( 'where' )->with( 'object_type', 'post' )->andReturnSelf();
-		$query->allows( 'where' )->with( 'object_sub_type', 'page' )->andReturnSelf();
-		$query->allows( 'where_in' )->with( 'post_status', self::STATUSES )->andReturnSelf();
-		$query->expects( 'where' )->with( 'is_protected', 0 )->once()->andReturnSelf();
-		$query->allows( 'order_by_desc' )->with( 'object_id' )->andReturnSelf();
-		$query->allows( 'limit' )->with( 20 )->andReturnSelf();
-		$query->allows( 'offset' )->with( 0 )->andReturnSelf();
-		$query->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
-		// The page is not full, so the total is offset + rows and no count query runs.
+		$query = $this->stub_page_query( [ $indexable ] );
+		// The page is not full, so the total is derived and no count query runs.
 		$query->expects( 'count' )->never();
 
-		$this->indexable_repository->expects( 'query' )->once()->andReturn( $query );
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
 
-		Functions\expect( '_prime_post_caches' )->once()->with( [ 7 ], false, false );
 		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
 
@@ -76,6 +68,7 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 						'meta_description'   => 'A description.',
 						'social_title'       => 'Social hello',
 						'social_description' => 'Social description.',
+						'editable'           => true,
 					],
 				],
 				'total'       => 1,
@@ -88,38 +81,43 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 	}
 
 	/**
-	 * Tests that duplicate indexable rows for the same post yield a single post.
+	 * Tests that a non-editable post is returned locked and without its SEO data.
 	 *
 	 * @return void
 	 */
-	public function test_get_posts_deduplicates_indexables() {
+	public function test_get_posts_locks_non_editable_post() {
 		$indexable                        = new Indexable_Mock();
 		$indexable->object_id             = 7;
-		$indexable->post_status           = 'draft';
-		$indexable->primary_focus_keyword = 'hello';
-		$indexable->title                 = 'Hello | Site';
+		$indexable->post_status           = 'publish';
+		$indexable->primary_focus_keyword = 'secret';
+		$indexable->title                 = 'Secret | Site';
 
-		$duplicate            = new Indexable_Mock();
-		$duplicate->object_id = 7;
+		$query = $this->stub_page_query( [ $indexable ] );
+		$query->allows( 'count' );
 
-		$query = Mockery::mock( ORM::class );
-		$query->allows( 'where' )->andReturnSelf();
-		$query->allows( 'where_in' )->andReturnSelf();
-		$query->allows( 'order_by_desc' )->andReturnSelf();
-		$query->allows( 'limit' )->andReturnSelf();
-		$query->allows( 'offset' )->andReturnSelf();
-		$query->expects( 'find_many' )->once()->andReturn( [ $indexable, $duplicate ] );
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => false ] );
 
-		$this->indexable_repository->expects( 'query' )->once()->andReturn( $query );
-
-		Functions\expect( '_prime_post_caches' )->once()->with( [ 7 ], false, false );
-		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
-		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Secret post' );
+		// A locked post exposes neither its edit link nor its SEO data.
+		Functions\expect( 'get_edit_post_link' )->never();
 
 		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
 
-		$this->assertCount( 1, $result['posts'] );
-		$this->assertSame( 7, $result['posts'][0]['id'] );
+		$this->assertSame(
+			[
+				'id'                 => 7,
+				'title'              => 'Secret post',
+				'status'             => 'publish',
+				'edit_link'          => '',
+				'focus_keyphrase'    => '',
+				'seo_title'          => '',
+				'meta_description'   => '',
+				'social_title'       => '',
+				'social_description' => '',
+				'editable'           => false,
+			],
+			$result['posts'][0],
+		);
 	}
 
 	/**
@@ -141,9 +139,10 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$query->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
 		$query->expects( 'count' )->once()->andReturn( 50 );
 
-		$this->indexable_repository->expects( 'query' )->twice()->andReturn( $query );
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
 
-		Functions\expect( '_prime_post_caches' )->once()->with( [ 7 ], false, false );
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
 		Functions\expect( 'get_the_title' )->once()->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->andReturn( 'edit' );
 
@@ -164,11 +163,13 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$query->allows( 'where_in' )->andReturnSelf();
 		$query->allows( 'order_by_desc' )->andReturnSelf();
 		$query->allows( 'limit' )->with( 20 )->andReturnSelf();
-		$query->expects( 'offset' )->once()->with( 40 )->andReturnSelf();
+		$query->expects( 'offset' )->with( 40 )->andReturnSelf();
 		$query->expects( 'count' )->once()->andReturn( 100 );
 		$query->expects( 'find_many' )->once()->andReturn( [] );
 
 		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [] )->andReturn( [] );
 
 		$result = $this->instance->get_posts( new Posts_Query( 'page', 3, 20, '', self::STATUSES ) )->to_array();
 
@@ -178,7 +179,35 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 	}
 
 	/**
-	 * Tests that a search term adds the catch-all clause to both the count and the page query.
+	 * Tests that duplicate indexable rows for the same post yield a single post and an accurate total.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_deduplicates_indexables() {
+		$indexable            = new Indexable_Mock();
+		$indexable->object_id = 7;
+
+		$duplicate            = new Indexable_Mock();
+		$duplicate->object_id = 7;
+
+		$query = $this->stub_page_query( [ $indexable, $duplicate ] );
+		// The page ended within the fetched rows, so the total comes from the distinct count, not a count query.
+		$query->expects( 'count' )->never();
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+
+		$this->assertCount( 1, $result['posts'] );
+		$this->assertSame( 7, $result['posts'][0]['id'] );
+		$this->assertSame( 1, $result['total'] );
+	}
+
+	/**
+	 * Tests that a search term adds the catch-all clause and an empty result yields an empty page.
 	 *
 	 * @return void
 	 */
@@ -186,6 +215,7 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		global $wpdb;
 		$wpdb        = Mockery::mock();
 		$wpdb->posts = 'wp_posts';
+		// build_query runs twice (the page query and the count query), so the search clause is built twice.
 		$wpdb->expects( 'esc_like' )->twice()->with( 'seo' )->andReturn( 'seo' );
 
 		$query = Mockery::mock( ORM::class );
@@ -195,15 +225,37 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$query->allows( 'limit' )->andReturnSelf();
 		$query->allows( 'offset' )->andReturnSelf();
 		$query->expects( 'where_raw' )->twice()->andReturnSelf();
-		$query->allows( 'count' )->andReturn( 0 );
 		$query->expects( 'find_many' )->once()->andReturn( [] );
+		$query->expects( 'count' )->once()->andReturn( 0 );
 
 		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [] )->andReturn( [] );
 
 		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, 'seo', self::STATUSES ) )->to_array();
 
 		$this->assertSame( [], $result['posts'] );
 		$this->assertSame( 0, $result['total'] );
-		$this->assertSame( 0, $result['total_pages'] );
+	}
+
+	/**
+	 * Stubs the indexable query for a page that returns the given rows, without constraining count().
+	 *
+	 * @param array<Indexable_Mock> $rows The indexables the page query returns.
+	 *
+	 * @return Mockery\MockInterface|ORM The query mock, so the caller can add a count() expectation.
+	 */
+	private function stub_page_query( array $rows ) {
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		$query->expects( 'find_many' )->once()->andReturn( $rows );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+
+		return $query;
 	}
 }
