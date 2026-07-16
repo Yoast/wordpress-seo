@@ -70,6 +70,12 @@ ErrorBox.propTypes = {
  * @returns {JSX.Element} The indexation error body.
  */
 export default function IndexingErrorContent( { message, error } ) {
+	// Id-less object types (e.g. home-page, system-page) are still identified by their object type alone.
+	let failingObject = "";
+	if ( error.objectType ) {
+		failingObject = error.objectId ? `${ error.objectType } #${ error.objectId }` : error.objectType;
+	}
+
 	return <>
 		<div dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( message, ALLOWED_TAGS ) } } />
 		<details>
@@ -77,7 +83,7 @@ export default function IndexingErrorContent( { message, error } ) {
 			<div style={ { marginTop: "8px" } }>
 				<ErrorLine
 					title={ __( "Failing object", "wordpress-seo" ) }
-					value={ error.objectId ? `${ error.objectType } #${ error.objectId }` : "" }
+					value={ failingObject }
 				/>
 				<ErrorLine title={ __( "Request URL", "wordpress-seo" ) } value={ error.url } />
 				<ErrorLine title={ __( "Request method", "wordpress-seo" ) } value={ error.method } />
