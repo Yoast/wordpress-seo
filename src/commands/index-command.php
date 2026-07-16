@@ -267,9 +267,8 @@ class Index_Command implements Command_Interface {
 					$previous = $exception->getPrevious();
 					WP_CLI::error(
 						\sprintf(
-							'Could not optimize %1$s #%2$d while indexing %3$s: %4$s',
-							$exception->get_object_type(),
-							$exception->get_object_id(),
+							'Could not optimize %1$s while indexing %2$s: %3$s',
+							$exception->get_object_description(),
 							$name,
 							( $previous !== null ) ? $previous->getMessage() : $exception->getMessage(),
 						),

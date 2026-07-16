@@ -49,10 +49,9 @@ class Indexing_Failed_Exception extends Indexable_Exception {
 
 		parent::__construct(
 			\sprintf(
-				/* translators: 1: indexable object type; 2: object ID; 3: underlying error message. */
-				\__( 'Yoast SEO could not build the %1$s indexable for object %2$d: %3$s', 'wordpress-seo' ),
-				$object_type,
-				$object_id,
+				/* translators: 1: description of the failing object (e.g. "post #123"); 2: underlying error message. */
+				\__( 'Yoast SEO could not build the indexable for %1$s: %2$s', 'wordpress-seo' ),
+				$this->get_object_description(),
 				$previous->getMessage(),
 			),
 			0,
@@ -85,5 +84,25 @@ class Indexing_Failed_Exception extends Indexable_Exception {
 	 */
 	public function get_object_sub_type() {
 		return $this->object_sub_type;
+	}
+
+	/**
+	 * Describes the failing object as specifically as its indexable allows.
+	 *
+	 * Id-less object types fall back to the sub type when present (e.g. "system-page (404)",
+	 * "post-type-archive (book)") and to the bare object type otherwise (e.g. "home-page").
+	 *
+	 * @return string The object description, e.g. "post #123", "system-page (404)" or "home-page".
+	 */
+	public function get_object_description() {
+		if ( $this->object_id !== null ) {
+			return \sprintf( '%1$s #%2$d', $this->object_type, $this->object_id );
+		}
+
+		if ( $this->object_sub_type !== null ) {
+			return \sprintf( '%1$s (%2$s)', $this->object_type, $this->object_sub_type );
+		}
+
+		return $this->object_type;
 	}
 }
