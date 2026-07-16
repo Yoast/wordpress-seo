@@ -3,7 +3,7 @@ import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, NewButton, ProgressBar } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
-import AbstractIndexation, { STATE } from "./AbstractIndexation";
+import AbstractIndexation, { indexationDefaultProps, indexationPropTypes, STATE } from "./AbstractIndexation";
 import IndexingError from "./IndexingError";
 
 /**
@@ -139,5 +139,8 @@ class Indexation extends AbstractIndexation {
 		return this.renderTool();
 	}
 }
+
+Indexation.propTypes = indexationPropTypes;
+Indexation.defaultProps = indexationDefaultProps;
 
 export default Indexation;
