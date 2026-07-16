@@ -95,4 +95,22 @@ describe( "BulkEditorTabs", () => {
 		expect( screen.getAllByRole( "tabpanel" ) ).toHaveLength( 1 );
 		expect( screen.getByText( "Social content" ) ).not.toBeVisible();
 	} );
+
+	it( "ignores clicks when disabled", () => {
+		const onChange = jest.fn();
+		render( <BulkEditorTabs tabs={ tabs } activeTab="search" disabled={ true } onChange={ onChange } label="Bulk editor tabs" /> );
+
+		fireEvent.click( screen.getByRole( "tab", { name: "Social appearance" } ) );
+
+		expect( onChange ).not.toHaveBeenCalled();
+	} );
+
+	it( "ignores arrow-key navigation when disabled", () => {
+		const onChange = jest.fn();
+		render( <BulkEditorTabs tabs={ tabs } activeTab="search" disabled={ true } onChange={ onChange } label="Bulk editor tabs" /> );
+
+		fireEvent.keyDown( screen.getByRole( "tab", { name: "Search appearance" } ), { key: "ArrowRight" } );
+
+		expect( onChange ).not.toHaveBeenCalled();
+	} );
 } );
