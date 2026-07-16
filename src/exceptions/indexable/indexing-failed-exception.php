@@ -13,9 +13,10 @@ use Throwable;
 class Indexing_Failed_Exception extends Indexable_Exception {
 
 	/**
-	 * The object ID of the indexable that failed to build.
+	 * The object ID of the indexable that failed to build, or null for id-less object types
+	 * (e.g. home-page, system-page, date-archive, post-type-archive).
 	 *
-	 * @var int
+	 * @var int|null
 	 */
 	private $object_id;
 
@@ -36,7 +37,7 @@ class Indexing_Failed_Exception extends Indexable_Exception {
 	/**
 	 * Constructs the exception.
 	 *
-	 * @param int         $object_id       The object ID of the indexable that failed to build.
+	 * @param int|null    $object_id       The object ID of the indexable that failed to build, or null for id-less object types.
 	 * @param string      $object_type     The object type of the indexable that failed to build.
 	 * @param string|null $object_sub_type The object sub type of the indexable that failed to build.
 	 * @param Throwable   $previous        The error that caused the failure.
@@ -62,7 +63,7 @@ class Indexing_Failed_Exception extends Indexable_Exception {
 	/**
 	 * Gets the object ID of the indexable that failed to build.
 	 *
-	 * @return int The object ID.
+	 * @return int|null The object ID, or null for id-less object types.
 	 */
 	public function get_object_id() {
 		return $this->object_id;

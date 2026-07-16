@@ -444,7 +444,7 @@ class Indexable_Builder {
 			 *
 			 * This action lets third parties observe build failures themselves.
 			 *
-			 * @param int         $object_id       The object ID of the indexable that failed to build.
+			 * @param int|null    $object_id       The object ID of the indexable that failed to build, or null for id-less object types.
 			 * @param string      $object_type     The object type of the indexable that failed to build.
 			 * @param string|null $object_sub_type The object sub type of the indexable that failed to build.
 			 * @param Throwable   $exception       The error that caused the failure.
