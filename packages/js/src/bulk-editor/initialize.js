@@ -14,6 +14,7 @@ import { PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
 import { useAiUpsell } from "./hooks/use-ai-upsell";
 import { DataProvider } from "./services";
 import registerStore from "./store";
+import { MYYOAST_CONNECTION_NAME } from "../ai-generator/store/myyoast-connection";
 
 // Expose the bulk AI upsell so Premium can reuse the same modal instead of duplicating it. Premium's bulk-editor
 // bundle depends on this script, so the global is set before Premium reads it.
@@ -27,10 +28,19 @@ domReady( () => {
 	if ( ! root ) {
 		return;
 	}
+	// Null when the MyYoast connection feature is unavailable (flag off / not provisioned).
+	const myyoastConnection = get( window, "wpseoBulkEditorData.myyoastConnection", null );
 
 	registerStore( {
 		initialState: {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoBulkEditorData.linkParams", {} ),
+			[ MYYOAST_CONNECTION_NAME ]: {
+				// Absent payload means the feature is unavailable; the editor then shows the informational variant.
+				isAvailable: Boolean( myyoastConnection ) && get( myyoastConnection, "isProvisioned", false ),
+				canConnect: get( myyoastConnection, "canConnect", false ),
+				connectUrl: get( myyoastConnection, "connectUrl", null ),
+				learnMoreUrl: get( myyoastConnection, "learnMoreUrl", "" ),
+			},
 		},
 	} );
 	fixWordPressMenuScrolling();

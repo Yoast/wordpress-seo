@@ -1,6 +1,13 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
+import {
+	getInitialMyyoastConnectionState,
+	MYYOAST_CONNECTION_NAME,
+	myyoastConnectionActions,
+	myyoastConnectionReducer,
+	myyoastConnectionSelectors,
+} from "../../ai-generator/store/myyoast-connection";
 import { STORE_NAME } from "../constants";
 import activeContentType, { activeContentTypeActions, activeContentTypeSelectors, createInitialActiveContentTypeState } from "./active-content-type";
 import activeFieldSet, { activeFieldSetActions, activeFieldSetSelectors, createInitialActiveFieldSetState } from "./active-field-set";
@@ -33,6 +40,7 @@ const createStore = ( { initialState } ) => {
 			...editsActions,
 			...externalPendingChangesActions,
 			...pendingSwitchActions,
+			...myyoastConnectionActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
@@ -44,6 +52,7 @@ const createStore = ( { initialState } ) => {
 			...editsSelectors,
 			...externalPendingChangesSelectors,
 			...pendingSwitchSelectors,
+			...myyoastConnectionSelectors,
 		},
 		initialState: merge(
 			{},
@@ -57,6 +66,7 @@ const createStore = ( { initialState } ) => {
 				edits: createInitialEditsState(),
 				externalPendingChanges: createInitialExternalPendingChangesState(),
 				pendingSwitch: createInitialPendingSwitchState(),
+				[ MYYOAST_CONNECTION_NAME ]: getInitialMyyoastConnectionState(),
 			},
 			initialState
 		),
@@ -70,6 +80,7 @@ const createStore = ( { initialState } ) => {
 			edits,
 			externalPendingChanges,
 			pendingSwitch,
+			[ MYYOAST_CONNECTION_NAME ]: myyoastConnectionReducer,
 		} ),
 	} );
 };
