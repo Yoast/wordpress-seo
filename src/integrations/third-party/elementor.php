@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Elementor\Plugin;
 use WP_Post;
-use WP_Screen;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Meta;
@@ -460,10 +459,12 @@ class Elementor implements Integration_Interface {
 		$homepage_is_page = \get_option( 'show_on_front' ) === 'page';
 		$is_front_page    = $homepage_is_page && $page_on_front === $post_id;
 
+		$current_screen = \get_current_screen();
+
 		$script_data = [
 			'metabox'                   => $this->get_metabox_script_data( $permalink ),
 			'isPost'                    => true,
-			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
+			'isBlockEditor'             => ( $current_screen ) ? $current_screen->is_block_editor() : false,
 			'isElementorEditor'         => true,
 			'isAlwaysIntroductionV2'    => $this->is_elementor_version_compatible_with_introduction_v2(),
 			'isElementorV4Atomic'       => $is_v4_atomic,
