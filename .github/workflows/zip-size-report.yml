@@ -43,7 +43,8 @@ jobs:
     # still want to publish the neutral "Failed to determine zip size" check.
     if: >
       github.repository_owner == 'Yoast' &&
-      github.event.workflow_run.event == 'pull_request'
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
 
     steps:
       # Only the diff helper is needed; check out the trusted default-branch code.
