@@ -96,16 +96,14 @@ jobs:
           php-version: 7.4
           coverage: none
 
-      # Single checkout with full history so we can switch between the head and base SHAs
-      # in-place. node_modules (and all build output) are gitignored, so switching refs
-      # with `git checkout -f` preserves the installed dependencies — the second
-      # `yarn install` then exits fast when yarn.lock is unchanged and only does real work
-      # when the PR actually changes dependencies.
+      # Shallow checkout of the head SHA. We switch to the base SHA in-place later with
+      # `git checkout -f`; node_modules (and all build output) are gitignored, so the ref
+      # switch preserves the installed dependencies — the second `yarn install` exits fast
+      # when yarn.lock is unchanged and only does real work when the PR changes deps.
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0
           persist-credentials: false
 
       - name: Set up Node
@@ -123,6 +121,14 @@ jobs:
         with:
           path: ${{ runner.temp }}/base-size.json
           key: zip-size-base-${{ github.event.pull_request.base.sha }}
+
+      # The shallow head checkout doesn't include the base commit, so fetch just that one
+      # commit (still shallow) before switching to it. Only needed on a cache miss.
+      - name: Fetch base commit
+        if: steps.base-cache.outputs.cache-hit != 'true'
+        run: git fetch --depth=1 origin "$BASE_SHA"
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
 
       - name: Build and measure base zip
         if: steps.base-cache.outputs.cache-hit != 'true'
