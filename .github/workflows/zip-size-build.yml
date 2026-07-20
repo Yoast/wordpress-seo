@@ -33,14 +33,20 @@ jobs:
       github.repository_owner == 'Yoast' &&
       github.event.pull_request.head.repo.full_name == github.repository
 
-    env:
-      # Kept outside the workspace so `checkout` never wipes them.
-      MEASURE: ${{ runner.temp }}/measure-zip.sh
-      BASE_SIZE: ${{ runner.temp }}/base-size.json
-      HEAD_SIZE: ${{ runner.temp }}/head-size.json
-      REPORT_DIR: ${{ runner.temp }}/zip-size-report
-
     steps:
+      # These paths live under runner.temp (outside the workspace) so `checkout` never
+      # wipes them. runner.* is not available in a job-level env: block, so export them to
+      # $GITHUB_ENV from a step, where the runner context is valid; later steps inherit
+      # them as plain env vars.
+      - name: Set up paths
+        run: |
+          {
+            echo "MEASURE=${{ runner.temp }}/measure-zip.sh"
+            echo "BASE_SIZE=${{ runner.temp }}/base-size.json"
+            echo "HEAD_SIZE=${{ runner.temp }}/head-size.json"
+            echo "REPORT_DIR=${{ runner.temp }}/zip-size-report"
+          } >> "$GITHUB_ENV"
+
       # Emit the measure helper into a checkout-safe location up front, so it does not
       # matter which ref (head or base) is checked out when we run it.
       - name: Prepare measure helper
