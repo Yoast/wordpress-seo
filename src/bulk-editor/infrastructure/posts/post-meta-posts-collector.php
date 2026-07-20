@@ -167,6 +167,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 
 		$meta_query = $this->build_needs_improvement_meta_query( $query->get_needs_improvement(), $query->are_scores_enabled() );
 		if ( $meta_query !== [] ) {
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Reason: the "needs improvement" filter can only be expressed against post meta, and runs for an explicit admin request.
 			$args['meta_query'] = $meta_query;
 		}
 
@@ -239,7 +240,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 * @param array<string> $fields         The fields that need improvement.
 	 * @param bool          $scores_enabled Whether the per-field scores may back the filter.
 	 *
-	 * @return array<mixed> The meta_query, or an empty array when no known field is selected.
+	 * @return array<int|string, string|array<string, string|array<int>>> The meta_query, or an empty array when no known field is selected.
 	 */
 	private function build_needs_improvement_meta_query( array $fields, bool $scores_enabled ): array {
 		$clauses = [];
