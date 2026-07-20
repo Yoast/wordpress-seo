@@ -39,6 +39,9 @@ jobs:
       # $GITHUB_ENV from a step, where the runner context is valid; later steps inherit
       # them as plain env vars.
       - name: Set up paths
+        # zizmor: ignore[template-injection]
+        # runner.temp is a fixed, GitHub-provided path, not attacker-controllable, so
+        # interpolating it into this run: block cannot inject anything.
         run: |
           {
             echo "MEASURE=${{ runner.temp }}/measure-zip.sh"
