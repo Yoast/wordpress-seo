@@ -32,11 +32,13 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 	 */
 	public function test_get_posts_editable() {
 		$meta = [
-			'_yoast_wpseo_focuskw'               => 'hello',
-			'_yoast_wpseo_title'                 => 'Hello | Site',
-			'_yoast_wpseo_metadesc'              => 'A description.',
-			'_yoast_wpseo_opengraph-title'       => 'Social hello',
-			'_yoast_wpseo_opengraph-description' => 'Social description.',
+			'_yoast_wpseo_focuskw'                => 'hello',
+			'_yoast_wpseo_title'                  => 'Hello | Site',
+			'_yoast_wpseo_metadesc'               => 'A description.',
+			'_yoast_wpseo_opengraph-title'        => 'Social hello',
+			'_yoast_wpseo_opengraph-description'  => 'Social description.',
+			'_yoast_wpseo_seo_title_score'        => '90',
+			'_yoast_wpseo_meta_description_score' => '50',
 		];
 
 		$this->stub_run_query( [ 7 ], 1 );
@@ -47,7 +49,7 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
 		Functions\expect( 'get_post_meta' )
-			->times( 5 )
+			->times( 7 )
 			->andReturnUsing(
 				static function ( $post_id, $key ) use ( $meta ) {
 					return $meta[ $key ];
@@ -68,6 +70,12 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 						'social_title'       => 'Social hello',
 						'social_description' => 'Social description.',
 						'editable'           => true,
+						'needs_improvement'  => [
+							'seo_title'          => false,
+							'meta_description'   => true,
+							'social_title'       => false,
+							'social_description' => false,
+						],
 					],
 				],
 				'total'       => 1,
@@ -109,6 +117,7 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 				'social_title'       => '',
 				'social_description' => '',
 				'editable'           => false,
+				'needs_improvement'  => [],
 			],
 			$result['posts'][0],
 		);
@@ -127,7 +136,7 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 		Functions\expect( 'get_post' )->once()->andReturn( (object) [ 'post_status' => 'draft' ] );
 		Functions\expect( 'get_the_title' )->once()->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->andReturn( 'edit' );
-		Functions\expect( 'get_post_meta' )->times( 5 )->andReturn( '' );
+		Functions\expect( 'get_post_meta' )->times( 7 )->andReturn( '' );
 
 		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
 

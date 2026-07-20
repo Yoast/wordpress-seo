@@ -46,6 +46,8 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$indexable->description            = 'A description.';
 		$indexable->open_graph_title       = 'Social hello';
 		$indexable->open_graph_description = 'Social description.';
+		$indexable->seo_title_score        = 90;
+		$indexable->meta_description_score = 50;
 
 		$query = $this->stub_page_query( [ $indexable ] );
 		// The page is not full, so the total is derived and no count query runs.
@@ -70,6 +72,12 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 						'social_title'       => 'Social hello',
 						'social_description' => 'Social description.',
 						'editable'           => true,
+						'needs_improvement'  => [
+							'seo_title'          => false,
+							'meta_description'   => true,
+							'social_title'       => false,
+							'social_description' => false,
+						],
 					],
 				],
 				'total'       => 1,
@@ -116,6 +124,7 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 				'social_title'       => '',
 				'social_description' => '',
 				'editable'           => false,
+				'needs_improvement'  => [],
 			],
 			$result['posts'][0],
 		);

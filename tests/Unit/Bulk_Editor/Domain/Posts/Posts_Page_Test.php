@@ -43,6 +43,7 @@ final class Posts_Page_Test extends TestCase {
 						'social_title'       => 'OG',
 						'social_description' => 'OG desc',
 						'editable'           => true,
+						'needs_improvement'  => [],
 					],
 				],
 				'total'       => 45,
