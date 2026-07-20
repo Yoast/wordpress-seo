@@ -110,7 +110,8 @@
 
 .yst-root .yst-bulk-editor-needs-improvement .yst-checkbox__label::before {
 	content: "";
-	@apply yst-me-2 yst-h-2 yst-w-2 yst-flex-shrink-0 yst-rounded-full;
+	/* A 12px dot (the design's 11.14px oval on a scaled frame) with an 8px gap to the label. */
+	@apply yst-me-2 yst-h-3 yst-w-3 yst-flex-shrink-0 yst-rounded-full;
 
 	/* The Yoast bad-score red — the same value as .wpseo-score-icon.bad and the ui-library .yst-bad-score. */
 	background-color: #dc3232;
