@@ -6,6 +6,16 @@ import { FIELD_SET_SEARCH } from "../../../src/bulk-editor/constants";
 
 jest.mock( "@wordpress/data", () => ( { useSelect: jest.fn(), useDispatch: jest.fn() } ) );
 
+// The scorers are exercised in their own service test; here they are mocked so we can assert the hook wires
+// them up. The factory returns lazy getters, so the "mock"-prefixed vars are only read at call time (safe with
+// the static import above).
+const mockScoreFields = jest.fn();
+const mockScoreField = jest.fn();
+jest.mock( "../../../src/bulk-editor/services/field-scores", () => ( {
+	createFieldScorer: () => mockScoreFields,
+	createSingleFieldScorer: () => mockScoreField,
+} ) );
+
 describe( "useInlineEdit batch actions", () => {
 	const fieldSets = getFieldSets();
 	let editingRows;
@@ -32,6 +42,9 @@ describe( "useInlineEdit batch actions", () => {
 
 		useSelect.mockImplementation( ( mapSelect ) => mapSelect( () => ( { selectEditingRows: () => editingRows } ) ) );
 		useDispatch.mockReturnValue( dispatch );
+
+		mockScoreFields.mockClear();
+		mockScoreField.mockClear();
 	} );
 
 	const renderEdit = ( remoteDataProvider ) => renderHook( () => useInlineEdit( {
@@ -163,6 +176,26 @@ describe( "useInlineEdit batch actions", () => {
 
 		act( () => result.current.editing.dismissSaveError() );
 		expect( result.current.editing.hasSaveError ).toBe( false );
+	} );
+
+	it( "reflects and re-scores just the applied field when a fill saves it onto a row", () => {
+		// Premium's AI apply saves through the same route, then reflects the value via onFieldApplied; that must
+		// also re-score the one applied field so the needs-improvement filter reflects the AI-generated value.
+		const remoteDataProvider = { fetchJson: jest.fn() };
+		const items = [ { id: 7, focusKeyphrase: "seo" } ];
+		const { result } = renderHook( () => useInlineEdit( {
+			dataProvider,
+			remoteDataProvider,
+			fieldSets,
+			activeFieldSet: FIELD_SET_SEARCH,
+			items,
+			updateItem,
+		} ) );
+
+		act( () => result.current.editing.onFieldApplied( 7, "seoTitle", "An AI title" ) );
+
+		expect( updateItem ).toHaveBeenCalledWith( 7, "seoTitle", "An AI title" );
+		expect( mockScoreField ).toHaveBeenCalledWith( { id: 7, fieldKey: "seoTitle", value: "An AI title", keyphrase: "seo" } );
 	} );
 
 	it( "discards all edits by leaving edit mode without saving", () => {

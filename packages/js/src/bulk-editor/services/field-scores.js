@@ -165,3 +165,89 @@ export const createFieldScorer = ( { dataProvider, remoteDataProvider } ) => {
 		}
 	};
 };
+
+// The per-field assessor and score request key, keyed by the search field's key. `onTitle` picks which Paper
+// field the value fills, so each assessor scores against the field it belongs to.
+const SINGLE_FIELD_SCORERS = {
+	seoTitle: { getAssessor: ( researcher ) => new assessors.SeoTitleAssessor( researcher ), param: "seo_title_score", onTitle: true },
+	metaDescription: { getAssessor: ( researcher ) => new assessors.MetaDescriptionAssessor( researcher ), param: "meta_description_score", onTitle: false },
+};
+
+/**
+ * Scores one field's applied value and persists it, when the score is derivable.
+ *
+ * @param {Object} props                    The props.
+ * @param {string} props.endpoint           The score endpoint.
+ * @param {Object} props.remoteDataProvider The remote data provider.
+ * @param {string} props.contentLocale      The content locale.
+ * @param {Object} props.scorer             The field's scorer config from {@link SINGLE_FIELD_SCORERS}.
+ * @param {number} props.id                 The post ID.
+ * @param {string} props.value              The applied (literal) field value.
+ * @param {string} props.keyphrase          The row's focus keyphrase.
+ *
+ * @returns {Promise<void>} Resolves once the score is persisted, or immediately when it is not derivable.
+ */
+const persistSingleFieldScore = async( { endpoint, remoteDataProvider, contentLocale, scorer, id, value, keyphrase } ) => {
+	const researcher = await getResearcher( contentLocale );
+	const paper = buildPaper( {
+		title: scorer.onTitle ? value : "",
+		description: scorer.onTitle ? "" : value,
+		keyphrase,
+		locale: contentLocale,
+	} );
+	const score = overallScore( scorer.getAssessor( researcher ), paper );
+	// A score of 0 is "not derivable"; skip it so the never-scored sentinel is not persisted.
+	if ( score <= 0 ) {
+		return;
+	}
+
+	await remoteDataProvider.fetchJson( endpoint, {}, {
+		method: "POST",
+		body: JSON.stringify( { items: [ { id, [ scorer.param ]: score } ] } ),
+	} );
+};
+
+/**
+ * Builds a re-scorer that recomputes and persists a single per-field score after a fill (Premium AI) applies a
+ * value to that field in the bulk editor.
+ *
+ * Unlike {@link createFieldScorer}, it scores only the applied field, from the applied value directly: an AI
+ * suggestion is already a literal value (no replacement variables to resolve), and each field's score depends
+ * only on that field and the keyphrase, so the other field's persisted score is left untouched. It is a no-op
+ * for a non-search field, when SEO analysis is disabled, or when the score endpoint is unavailable, and it
+ * never throws.
+ *
+ * @param {Object} props                    The props.
+ * @param {import("./data-provider").DataProvider} props.dataProvider The data provider (holds the endpoint).
+ * @param {Object} props.remoteDataProvider The remote data provider (performs the request).
+ *
+ * @returns {function(Object): Promise<void>} A function that re-scores and persists one applied field.
+ */
+export const createSingleFieldScorer = ( { dataProvider, remoteDataProvider } ) => {
+	const endpoint = dataProvider.getEndpoint( "update_scores" );
+	const { contentLocale, keywordAnalysisActive } = getAnalysisData();
+
+	/**
+	 * Re-scores and persists the applied field's score.
+	 *
+	 * @param {Object} props          The props.
+	 * @param {number} props.id       The post ID.
+	 * @param {string} props.fieldKey The applied field's key (`seoTitle` or `metaDescription`).
+	 * @param {string} props.value    The applied (literal) field value.
+	 * @param {string} props.keyphrase The row's focus keyphrase.
+	 *
+	 * @returns {Promise<void>} Resolves once the score is persisted (or the re-score is skipped).
+	 */
+	return async( { id, fieldKey, value, keyphrase } ) => {
+		const scorer = SINGLE_FIELD_SCORERS[ fieldKey ];
+		if ( ! keywordAnalysisActive || ! endpoint || ! remoteDataProvider || ! scorer ) {
+			return;
+		}
+
+		try {
+			await persistSingleFieldScore( { endpoint, remoteDataProvider, contentLocale, scorer, id, value, keyphrase } );
+		} catch ( error ) {
+			// Fire-and-forget: a failed re-score must not surface to the user or block editing.
+		}
+	};
+};

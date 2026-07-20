@@ -1,7 +1,7 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo, useRef, useState } from "@wordpress/element";
 import { BULK_UPDATE_BATCH_SIZE, FIELD_SET_SEARCH, FOCUS_KEYPHRASE_KEY, STORE_NAME } from "../constants";
-import { createFieldScorer } from "../services/field-scores";
+import { createFieldScorer, createSingleFieldScorer } from "../services/field-scores";
 
 /**
  * The endpoint key a field saves through: a field-level override when set, otherwise the field set's default.
@@ -95,6 +95,21 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		() => createFieldScorer( { dataProvider, remoteDataProvider } ),
 		[ dataProvider, remoteDataProvider ]
 	);
+
+	// Re-scores a single field after a fill (Premium AI) saves it onto a row, so the needs-improvement filter
+	// reflects an AI-generated value as well as a manual edit.
+	const scoreField = useMemo(
+		() => createSingleFieldScorer( { dataProvider, remoteDataProvider } ),
+		[ dataProvider, remoteDataProvider ]
+	);
+
+	// Reflects a value a fill saved itself onto its row, then re-scores just that field. The applied value is
+	// literal, so it is scored as-is; the row's current keyphrase drives the keyphrase-dependent assessments.
+	const onFieldApplied = useCallback( ( id, key, value ) => {
+		updateItem( id, key, value );
+		const item = items.find( ( candidate ) => candidate.id === id );
+		scoreField( { id, fieldKey: key, value, keyphrase: item?.[ FOCUS_KEYPHRASE_KEY ] ?? "" } );
+	}, [ updateItem, items, scoreField ] );
 
 	const dismissSaveError = useCallback( () => setHasSaveError( false ), [] );
 
@@ -253,10 +268,10 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		onDiscardAll,
 		onCancelEdit,
 		onDiscardField,
-		onFieldApplied: updateItem,
+		onFieldApplied,
 	} ), [
 		editingRows, isApplyingAll, hasSaveError, dismissSaveError, onStartEdit, updateDraftField,
-		onApplyField, onApplyAll, onDiscardAll, onCancelEdit, onDiscardField, updateItem,
+		onApplyField, onApplyAll, onDiscardAll, onCancelEdit, onDiscardField, onFieldApplied,
 	] );
 
 	return { editing, stopEditing: stopEdit };

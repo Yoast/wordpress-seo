@@ -2,6 +2,7 @@
 // The researcher is a module-level singleton; the module is reset per test (see beforeEach) so each test
 // starts with a fresh researcher and can observe the researcher filter being applied.
 let createFieldScorer;
+let createSingleFieldScorer;
 
 // The analysis package and hooks are mocked so the service can be tested in isolation.
 // Jest requires mock-factory-referenced variables to be prefixed with "mock".
@@ -128,6 +129,87 @@ describe( "createFieldScorer", () => {
 		const scoreFields = createFieldScorer( { dataProvider, remoteDataProvider } );
 
 		await expect( scoreFields( { id: 7, title: "A title", description: "A description", keyphrase: "seo" } ) ).resolves.toBeUndefined();
+		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
+	} );
+} );
+
+describe( "createSingleFieldScorer", () => {
+	let remoteDataProvider;
+	let dataProvider;
+
+	beforeEach( () => {
+		jest.resetModules();
+		createSingleFieldScorer = require( "../../../src/bulk-editor/services/field-scores" ).createSingleFieldScorer;
+		mockApplyFilters.mockClear();
+		mockSeoTitleAssess.mockReset();
+		mockMetaAssess.mockReset();
+		mockSeoTitleScore = 63;
+		mockMetaScore = 85;
+		remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( {} ) ) };
+		dataProvider = { getEndpoint: jest.fn( () => "https://example.com/wp-json/yoast/v1/bulk_editor/update_scores" ) };
+		global.window.yoast = { Researcher: { "default": class {} } };
+		global.window.wpseoBulkEditorData = { analysis: { contentLocale: "en_US", keywordAnalysisActive: true } };
+	} );
+
+	it( "scores only the applied SEO title and posts only its score", async() => {
+		const scoreField = createSingleFieldScorer( { dataProvider, remoteDataProvider } );
+		await scoreField( { id: 7, fieldKey: "seoTitle", value: "An AI title", keyphrase: "seo" } );
+
+		// Only the title assessor runs; the meta description score is left untouched.
+		expect( mockSeoTitleAssess ).toHaveBeenCalledTimes( 1 );
+		expect( mockMetaAssess ).not.toHaveBeenCalled();
+		const body = JSON.parse( remoteDataProvider.fetchJson.mock.calls[ 0 ][ 2 ].body );
+		// eslint-disable-next-line camelcase -- The score endpoint expects snake_case request fields.
+		expect( body.items[ 0 ] ).toEqual( { id: 7, seo_title_score: 63 } );
+	} );
+
+	it( "scores only the applied meta description and posts only its score", async() => {
+		const scoreField = createSingleFieldScorer( { dataProvider, remoteDataProvider } );
+		await scoreField( { id: 7, fieldKey: "metaDescription", value: "An AI description", keyphrase: "seo" } );
+
+		expect( mockMetaAssess ).toHaveBeenCalledTimes( 1 );
+		expect( mockSeoTitleAssess ).not.toHaveBeenCalled();
+		const body = JSON.parse( remoteDataProvider.fetchJson.mock.calls[ 0 ][ 2 ].body );
+		// eslint-disable-next-line camelcase -- The score endpoint expects snake_case request fields.
+		expect( body.items[ 0 ] ).toEqual( { id: 7, meta_description_score: 85 } );
+	} );
+
+	it( "does nothing for a field without a per-field score (e.g. a social field)", async() => {
+		const scoreField = createSingleFieldScorer( { dataProvider, remoteDataProvider } );
+		await scoreField( { id: 7, fieldKey: "socialTitle", value: "A social title", keyphrase: "seo" } );
+
+		expect( mockSeoTitleAssess ).not.toHaveBeenCalled();
+		expect( mockMetaAssess ).not.toHaveBeenCalled();
+		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
+	} );
+
+	it( "omits a not-derivable (0) score, so the never-scored sentinel is not persisted", async() => {
+		mockSeoTitleScore = 0;
+
+		const scoreField = createSingleFieldScorer( { dataProvider, remoteDataProvider } );
+		await scoreField( { id: 7, fieldKey: "seoTitle", value: "An AI title", keyphrase: "seo" } );
+
+		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
+	} );
+
+	it( "does nothing when keyword analysis is inactive", async() => {
+		global.window.wpseoBulkEditorData = { analysis: { contentLocale: "en_US", keywordAnalysisActive: false } };
+
+		const scoreField = createSingleFieldScorer( { dataProvider, remoteDataProvider } );
+		await scoreField( { id: 7, fieldKey: "seoTitle", value: "An AI title", keyphrase: "seo" } );
+
+		expect( mockSeoTitleAssess ).not.toHaveBeenCalled();
+		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
+	} );
+
+	it( "swallows assessment errors so a failed re-score never disrupts editing", async() => {
+		mockSeoTitleAssess.mockImplementation( () => {
+			throw new Error( "assess boom" );
+		} );
+
+		const scoreField = createSingleFieldScorer( { dataProvider, remoteDataProvider } );
+
+		await expect( scoreField( { id: 7, fieldKey: "seoTitle", value: "An AI title", keyphrase: "seo" } ) ).resolves.toBeUndefined();
 		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
 	} );
 } );
