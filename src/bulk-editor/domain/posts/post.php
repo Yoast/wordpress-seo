@@ -144,7 +144,15 @@ class Post {
 			'social_title'       => $this->social_title,
 			'social_description' => $this->social_description,
 			'editable'           => $this->editable,
-			'needs_improvement'  => $this->needs_improvement,
+			'needs_improvement'  => \array_merge(
+				[
+					'seo_title'          => false,
+					'meta_description'   => false,
+					'social_title'       => false,
+					'social_description' => false,
+				],
+				$this->needs_improvement
+			),
 		];
 	}
 }

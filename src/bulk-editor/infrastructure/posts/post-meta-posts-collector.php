@@ -245,7 +245,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		[ $min_score, $max_score ] = self::NEEDS_IMPROVEMENT_SCORE_RANGE;
 
 		$needs_improvement = [];
-		foreach ( self::FIELD_META_SUFFIXES as $field => $suffix ) {
+		foreach ( \array_keys( self::FIELD_META_SUFFIXES ) as $field ) {
 			$is_empty = ( ( $fields[ $field ] ?? '' ) === '' );
 
 			$is_bad_score = false;

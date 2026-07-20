@@ -124,7 +124,12 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 				'social_title'       => '',
 				'social_description' => '',
 				'editable'           => false,
-				'needs_improvement'  => [],
+				'needs_improvement'  => [
+					'seo_title'          => false,
+					'meta_description'   => false,
+					'social_title'       => false,
+					'social_description' => false,
+				],
 			],
 			$result['posts'][0],
 		);

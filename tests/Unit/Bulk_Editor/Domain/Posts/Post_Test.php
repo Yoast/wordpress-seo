@@ -84,7 +84,12 @@ final class Post_Test extends TestCase {
 				'social_title'       => '',
 				'social_description' => '',
 				'editable'           => false,
-				'needs_improvement'  => [],
+				'needs_improvement'  => [
+					'seo_title'          => false,
+					'meta_description'   => false,
+					'social_title'       => false,
+					'social_description' => false,
+				],
 			],
 			$instance->to_array(),
 		);

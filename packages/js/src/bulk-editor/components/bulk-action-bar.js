@@ -19,7 +19,7 @@ import { UpsellModal } from "./upsell-modal";
  * @param {Function} props.onDeselectAll    Clears the selection.
  * @param {number}   props.selectedCount    The number of selected rows.
  * @param {number}   props.totalCount       The total number of rows.
- * @param {Object[]} [props.smartSelectItems] The quality-based items.
+ * @param {Object[]} [props.smartSelectItems] The select improvement items.
  *
  * @returns {JSX.Element} The select menu.
  */
@@ -74,7 +74,7 @@ const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount, sm
  * @param {number}   props.selectedCount      The number of selected rows.
  * @param {number}   props.totalCount         The total number of rows.
  * @param {string}   [props.contentTypeLabel] The active content type label, used in the selected-count copy.
- * @param {Object[]} [props.smartSelectItems] The quality-based Select-menu items ({key, label, onClick}).
+ * @param {Object[]} [props.smartSelectItems] The quality-based Select-menu items ({key, label, ariaLabel, icon, onClick}).
  *
  * @returns {JSX.Element} The selection toolbar.
  */
