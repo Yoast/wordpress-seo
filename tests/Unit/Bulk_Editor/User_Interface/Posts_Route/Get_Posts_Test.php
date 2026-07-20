@@ -119,7 +119,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 					static function ( $query ) {
 						return $query instanceof Posts_Query
 							&& $query->are_scores_enabled() === false;
-						},
+					},
 				),
 			)
 			->andReturn( $posts_page );
