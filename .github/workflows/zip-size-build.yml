@@ -156,19 +156,14 @@ jobs:
         env:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
 
-      # PR number is display-only metadata; the report workflow trusts the head SHA from
-      # the event payload, never anything read out of this artifact. Copy only the maps
-      # that were produced so a failed build still uploads a (partial) artifact.
+      # Copy only the maps that were produced so a failed build still uploads a (partial)
+      # artifact. The report workflow trusts the head SHA from the event payload, so no PR
+      # metadata needs to travel through the artifact.
       - name: Stage report inputs
-        # PR number via env (not inline ${{ }}) to keep attacker-controllable values out of
-        # the shell; it is an integer here, but the env idiom is the safe default.
-        env:
-          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           mkdir -p "$REPORT_DIR"
           if [ -f "$BASE_SIZE" ]; then cp "$BASE_SIZE" "$REPORT_DIR/base-size.json"; else echo "base-size.json missing"; fi
           if [ -f "$HEAD_SIZE" ]; then cp "$HEAD_SIZE" "$REPORT_DIR/head-size.json"; else echo "head-size.json missing"; fi
-          printf '{"pr":%s}\n' "$PR_NUMBER" > "$REPORT_DIR/pr-meta.json"
 
       - name: Upload size maps
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
