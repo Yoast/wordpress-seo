@@ -13,20 +13,32 @@ name: Zip Size (report)
 # See: https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/
 
 on:
+  # zizmor: ignore[dangerous-triggers]
+  # workflow_run is the *recommended* trigger here, not a misuse: it is the privileged
+  # half of the split "pwn request" mitigation. It never checks out or executes PR code —
+  # it only reads the build artifact as data — so the usual workflow_run risk does not
+  # apply. See the SECURITY note above and https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/
   workflow_run:
     workflows: [ "Zip Size (build)" ]
     types: [ completed ]
 
-# Least privilege: only what is needed to read the artifact and write a check-run.
-permissions:
-  checks: write
-  actions: read
-  contents: read
+# Deny-all default; the job below grants only what it needs.
+permissions: {}
+
+# One report per build run is enough; drop superseded runs for the same head commit.
+concurrency:
+  group: zip-size-report-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: true
 
 jobs:
   report:
     name: Report zip size
     runs-on: ubuntu-latest
+    # Job-scoped least privilege.
+    permissions:
+      checks: write    # Publish the "Zip size" check-run.
+      actions: read    # Download the build workflow's artifact via the API.
+      contents: read   # Check out this repo's default-branch reporting script.
     # Deliberately does not gate on workflow_run.conclusion: when the build failed we
     # still want to publish the neutral "Failed to determine zip size" check.
     if: >

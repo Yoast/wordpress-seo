@@ -17,6 +17,12 @@ on:
 permissions:
   contents: read
 
+# Only the latest push per PR needs measuring; cancel superseded runs so rapid pushes
+# don't pile up double-builds.
+concurrency:
+  group: zip-size-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build and measure zip size
@@ -32,6 +38,7 @@ jobs:
       MEASURE: ${{ runner.temp }}/measure-zip.sh
       BASE_SIZE: ${{ runner.temp }}/base-size.json
       HEAD_SIZE: ${{ runner.temp }}/head-size.json
+      REPORT_DIR: ${{ runner.temp }}/zip-size-report
 
     steps:
       # Emit the measure helper into a checkout-safe location up front, so it does not
@@ -134,12 +141,15 @@ jobs:
       # the event payload, never anything read out of this artifact. Copy only the maps
       # that were produced so a failed build still uploads a (partial) artifact.
       - name: Stage report inputs
+        # PR number via env (not inline ${{ }}) to keep attacker-controllable values out of
+        # the shell; it is an integer here, but the env idiom is the safe default.
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          dest="${{ runner.temp }}/zip-size-report"
-          mkdir -p "$dest"
-          if [ -f "$BASE_SIZE" ]; then cp "$BASE_SIZE" "$dest/base-size.json"; else echo "base-size.json missing"; fi
-          if [ -f "$HEAD_SIZE" ]; then cp "$HEAD_SIZE" "$dest/head-size.json"; else echo "head-size.json missing"; fi
-          printf '{"pr":%s}\n' "${{ github.event.pull_request.number }}" > "$dest/pr-meta.json"
+          mkdir -p "$REPORT_DIR"
+          if [ -f "$BASE_SIZE" ]; then cp "$BASE_SIZE" "$REPORT_DIR/base-size.json"; else echo "base-size.json missing"; fi
+          if [ -f "$HEAD_SIZE" ]; then cp "$HEAD_SIZE" "$REPORT_DIR/head-size.json"; else echo "head-size.json missing"; fi
+          printf '{"pr":%s}\n' "$PR_NUMBER" > "$REPORT_DIR/pr-meta.json"
 
       - name: Upload size maps
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
