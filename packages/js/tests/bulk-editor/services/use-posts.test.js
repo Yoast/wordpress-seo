@@ -72,6 +72,7 @@ describe( "usePosts", () => {
 						social_title: "Social hello",
 						social_description: "Social description.",
 						editable: true,
+						needs_improvement: { seo_title: false, meta_description: true, social_title: false, social_description: false },
 					},
 				],
 				total: 42,
@@ -96,6 +97,8 @@ describe( "usePosts", () => {
 				socialTitle: "Social hello",
 				socialDescription: "Social description.",
 				editable: true,
+				// eslint-disable-next-line camelcase -- the needs-improvement map is keyed by backend field params.
+				needsImprovement: { seo_title: false, meta_description: true, social_title: false, social_description: false },
 			},
 		] );
 		expect( result.current.total ).toBe( 42 );

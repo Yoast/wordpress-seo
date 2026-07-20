@@ -2,7 +2,15 @@ import { Slot } from "@wordpress/components";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../constants";
+import { ScoreIcon } from "@yoast/ui-library";
+import {
+	FIELD_SET_SOCIAL,
+	NEEDS_IMPROVEMENT_DESCRIPTION,
+	NEEDS_IMPROVEMENT_FIELD_PARAMS,
+	NEEDS_IMPROVEMENT_TITLE,
+	PENDING_CHANGES_MODAL_SLOT,
+	STORE_NAME,
+} from "../constants";
 import { getFieldSets } from "../field-sets";
 import { useInlineEdit } from "../hooks/use-inline-edit";
 import { usePosts } from "../services/use-posts";
@@ -128,6 +136,44 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	// Clicking the master checkbox clears the selection whenever anything is selected (all or a partial).
 	const onToggleAll = useCallback( () => ( hasSelection ? deselectAll() : onSelectAll() ), [ hasSelection, deselectAll, onSelectAll ] );
 
+	// The Select-menu items: on the Search tab they target the SEO title/meta description,
+	// on Social the social title/description. Each selects the editable rows whose field needs
+	// improvement.
+	const smartSelectItems = useMemo( () => {
+		const params = NEEDS_IMPROVEMENT_FIELD_PARAMS[ activeFieldSet ];
+		if ( ! params ) {
+			return [];
+		}
+		const selectNeedingImprovement = ( fieldParam ) => {
+			if ( isPending ) {
+				return;
+			}
+			selectAll( items.filter( ( item ) => item.editable && item.needsImprovement?.[ fieldParam ] ).map( ( item ) => item.id ) );
+		};
+		const isSocial = activeFieldSet === FIELD_SET_SOCIAL;
+		const scoreDot = <ScoreIcon score="bad" isEmoji={ false } className="yst-h-3 yst-w-3 yst-shrink-0" />;
+		return [
+			{
+				key: "select-title-needs-improvement",
+				label: isSocial ? __( "Social titles", "wordpress-seo" ) : __( "SEO titles", "wordpress-seo" ),
+				ariaLabel: isSocial
+					? __( "Select pages with social titles that need improvement", "wordpress-seo" )
+					: __( "Select pages with SEO titles that need improvement", "wordpress-seo" ),
+				icon: scoreDot,
+				onClick: () => selectNeedingImprovement( params[ NEEDS_IMPROVEMENT_TITLE ] ),
+			},
+			{
+				key: "select-description-needs-improvement",
+				label: isSocial ? __( "Social descriptions", "wordpress-seo" ) : __( "Meta descriptions", "wordpress-seo" ),
+				ariaLabel: isSocial
+					? __( "Select pages with social descriptions that need improvement", "wordpress-seo" )
+					: __( "Select pages with meta descriptions that need improvement", "wordpress-seo" ),
+				icon: scoreDot,
+				onClick: () => selectNeedingImprovement( params[ NEEDS_IMPROVEMENT_DESCRIPTION ] ),
+			},
+		];
+	}, [ activeFieldSet, items, isPending, selectAll ] );
+
 	const selection = useMemo( () => ( {
 		selectedIds,
 		onToggleRow: toggleRow,
@@ -162,6 +208,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								selectedCount={ selectedCount }
 								totalCount={ totalCount }
 								contentTypeLabel={ contentTypeLabel }
+								smartSelectItems={ smartSelectItems }
 							/>
 						}
 						bulkActions={
