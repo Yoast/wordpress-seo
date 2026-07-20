@@ -10,7 +10,6 @@ import { App } from "./components/app";
 import "./blocks/content-suggestion-block";
 import { CONTENT_PLANNER_STORE } from "./constants";
 import { getIsBannerDismissedFromInput, getIsBannerRenderedFromInput } from "./helpers/fields";
-import { useYoastMetaSync } from "./hooks";
 import { registerStore } from "./store";
 import { AVAILABILITY_NAME } from "./store/availability";
 import { BANNER_NAME } from "./store/banner";
@@ -50,8 +49,10 @@ export function insertFirstParagraph( blocks, insertBlock, isBannerRendered ) {
 
 /**
  * Editor plugin that renders the shared FeatureModal controlled by the content
- * planner store, syncs Yoast meta fields on undo, and auto-inserts the inline
- * banner on new posts of the "post" type.
+ * planner store and auto-inserts the inline banner on new posts of the "post" type.
+ *
+ * Yoast meta sync (core/editor → yoast-seo/editor) lives on the always-registered
+ * yoast-seo block-editor plugin so it is not gated behind the AI feature.
  *
  * @returns {JSX.Element|null} The editor plugin component.
  */
@@ -72,8 +73,6 @@ export const ContentPlannerEditorPlugin = () => {
 	const hasConsent = useSelect( select => select( STORE_NAME_AI )?.selectHasAiGeneratorConsent() ?? false );
 
 	const { insertBlock } = useDispatch( "core/block-editor" );
-
-	useYoastMetaSync();
 
 	useEffect( () => {
 		if ( hasInserted.current || ! isNewPost || postType !== "post" || ! minPostsMet ) {

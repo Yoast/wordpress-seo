@@ -28,6 +28,7 @@ import WincherPostPublish from "../containers/WincherPostPublish";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
 import { link } from "../inline-links/edit-link";
 import initContentPlanner from "../ai-content-planner/initialize";
+import { useYoastMetaSync } from "../ai-content-planner/hooks";
 import { getIsAiFeatureEnabled } from "../redux/selectors/preferences";
 
 /**
@@ -130,55 +131,62 @@ function registerFills( store ) {
 	 *
 	 * @returns {Component} The editor fills component.
 	 */
-	const EditorFills = () => (
-		<Fragment>
-			<PluginSidebarMoreMenuItem
-				target="seo-sidebar"
-				icon={ <PluginIcon /> }
-			>
-				{ pluginTitle }
-			</PluginSidebarMoreMenuItem>
-			<PluginSidebar
-				name="seo-sidebar"
-				title={ pluginTitle }
-			>
-				<Root context={ blockSidebarContext }>
-					<SidebarSlot store={ store } theme={ theme } />
-				</Root>
-			</PluginSidebar>
+	const EditorFills = () => {
+		// Mirror core/editor Yoast meta into yoast-seo/editor so third-party
+		// editPost({ meta }) updates reach the sidebar and hidden fields,
+		// independent of the AI Content Planner feature toggle.
+		useYoastMetaSync();
+
+		return (
 			<Fragment>
-				<SidebarFill store={ store } theme={ theme } />
-				<Root context={ blockMetaboxContext }>
-					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
-				</Root>
+				<PluginSidebarMoreMenuItem
+					target="seo-sidebar"
+					icon={ <PluginIcon /> }
+				>
+					{ pluginTitle }
+				</PluginSidebarMoreMenuItem>
+				<PluginSidebar
+					name="seo-sidebar"
+					title={ pluginTitle }
+				>
+					<Root context={ blockSidebarContext }>
+						<SidebarSlot store={ store } theme={ theme } />
+					</Root>
+				</PluginSidebar>
+				<Fragment>
+					<SidebarFill store={ store } theme={ theme } />
+					<Root context={ blockMetaboxContext }>
+						<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+					</Root>
+				</Fragment>
+				{ analysesEnabled && <PluginPrePublishPanel
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					initialOpen={ true }
+					icon={ <Fragment /> }
+				>
+					<PrePublish />
+				</PluginPrePublishPanel> }
+				<PluginPostPublishPanel
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					initialOpen={ true }
+					icon={ <Fragment /> }
+				>
+					<PostPublish />
+					{ showWincherPanel && <WincherPostPublish /> }
+				</PluginPostPublishPanel>
+				{ analysesEnabled && <PluginDocumentSettingPanel
+					name="document-panel"
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					icon={ <Fragment /> }
+				>
+					<DocumentSidebar />
+				</PluginDocumentSettingPanel> }
 			</Fragment>
-			{ analysesEnabled && <PluginPrePublishPanel
-				className="yoast-seo-sidebar-panel"
-				title={ __( "Yoast SEO", "wordpress-seo" ) }
-				initialOpen={ true }
-				icon={ <Fragment /> }
-			>
-				<PrePublish />
-			</PluginPrePublishPanel> }
-			<PluginPostPublishPanel
-				className="yoast-seo-sidebar-panel"
-				title={ __( "Yoast SEO", "wordpress-seo" ) }
-				initialOpen={ true }
-				icon={ <Fragment /> }
-			>
-				<PostPublish />
-				{ showWincherPanel && <WincherPostPublish /> }
-			</PluginPostPublishPanel>
-			{ analysesEnabled && <PluginDocumentSettingPanel
-				name="document-panel"
-				className="yoast-seo-sidebar-panel"
-				title={ __( "Yoast SEO", "wordpress-seo" ) }
-				icon={ <Fragment /> }
-			>
-				<DocumentSidebar />
-			</PluginDocumentSettingPanel> }
-		</Fragment>
-	);
+		);
+	};
 
 	registerPlugin( "yoast-seo", {
 		render: EditorFills,
