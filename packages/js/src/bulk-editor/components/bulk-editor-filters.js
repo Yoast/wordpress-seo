@@ -33,18 +33,20 @@ export const BulkEditorFilters = () => {
 	], [] );
 
 	const isSocial = activeFieldSet === FIELD_SET_SOCIAL;
+	// The red dot in front of each option (and the group's "needs improvement" legend) carries the
+	// "needs improvement" meaning, so the visible labels are the plain field names.
 	const needsImprovementOptions = useMemo( () => [
 		{
 			value: NEEDS_IMPROVEMENT_TITLE,
 			label: isSocial
-				? __( "Social title needs improvement", "wordpress-seo" )
-				: __( "SEO title needs improvement", "wordpress-seo" ),
+				? __( "Social titles", "wordpress-seo" )
+				: __( "SEO titles", "wordpress-seo" ),
 		},
 		{
 			value: NEEDS_IMPROVEMENT_DESCRIPTION,
 			label: isSocial
-				? __( "Social description needs improvement", "wordpress-seo" )
-				: __( "Meta description needs improvement", "wordpress-seo" ),
+				? __( "Social descriptions", "wordpress-seo" )
+				: __( "Meta descriptions", "wordpress-seo" ),
 		},
 	], [ isSocial ] );
 
@@ -95,14 +97,17 @@ export const BulkEditorFilters = () => {
 			>
 				<CheckboxGroup
 					id="bulk-editor-status-filter"
-					className="[&_.yst-checkbox]:yst-cursor-pointer [&_label]:!yst-cursor-pointer [&_.yst-checkbox]:yst-rounded [&_.yst-checkbox]:-yst-mx-2 [&_.yst-checkbox]:yst-px-2 [&_.yst-checkbox]:yst-py-1 [&_.yst-checkbox:hover]:yst-bg-slate-50"
+					className="yst-bulk-editor-filter-group"
 					options={ statusOptions }
 					values={ statuses }
 					onChange={ setStatuses }
 				/>
 				<CheckboxGroup
 					id="bulk-editor-needs-improvement-filter"
-					className="yst-mt-3 yst-pt-3 yst-border-t yst-border-slate-200 [&_.yst-checkbox]:yst-cursor-pointer [&_label]:!yst-cursor-pointer [&_.yst-checkbox]:yst-rounded [&_.yst-checkbox]:-yst-mx-2 [&_.yst-checkbox]:yst-px-2 [&_.yst-checkbox]:yst-py-1 [&_.yst-checkbox:hover]:yst-bg-slate-50"
+					// The divider, the red score dot on each option, and the visually-hidden group legend all live in the
+					// `yst-bulk-editor-needs-improvement` rule in the page stylesheet.
+					label={ __( "Needs improvement", "wordpress-seo" ) }
+					className="yst-bulk-editor-filter-group yst-bulk-editor-needs-improvement"
 					options={ needsImprovementOptions }
 					values={ needsImprovement }
 					onChange={ setNeedsImprovement }

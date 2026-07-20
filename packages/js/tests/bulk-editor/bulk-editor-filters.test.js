@@ -49,8 +49,8 @@ describe( "BulkEditorFilters", () => {
 
 		fireEvent.click( screen.getByRole( "button", { name: /Filters/ } ) );
 
-		expect( screen.getByRole( "checkbox", { name: "SEO title needs improvement" } ) ).toBeInTheDocument();
-		expect( screen.getByRole( "checkbox", { name: "Meta description needs improvement" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "checkbox", { name: "SEO titles" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "checkbox", { name: "Meta descriptions" } ) ).toBeInTheDocument();
 	} );
 
 	it( "relabels the needs-improvement options for the social tab", () => {
@@ -59,15 +59,23 @@ describe( "BulkEditorFilters", () => {
 
 		fireEvent.click( screen.getByRole( "button", { name: /Filters/ } ) );
 
-		expect( screen.getByRole( "checkbox", { name: "Social title needs improvement" } ) ).toBeInTheDocument();
-		expect( screen.getByRole( "checkbox", { name: "Social description needs improvement" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "checkbox", { name: "Social titles" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "checkbox", { name: "Social descriptions" } ) ).toBeInTheDocument();
+	} );
+
+	it( "groups the needs-improvement options under an accessible 'Needs improvement' legend, so the red dot's meaning is not colour-only", () => {
+		render( <BulkEditorFilters /> );
+
+		fireEvent.click( screen.getByRole( "button", { name: /Filters/ } ) );
+
+		expect( screen.getByRole( "group", { name: "Needs improvement" } ) ).toBeInTheDocument();
 	} );
 
 	it( "applies a needs-improvement filter, updates the store and counts it in the badge", () => {
 		render( <BulkEditorFilters /> );
 
 		fireEvent.click( screen.getByRole( "button", { name: /Filters/ } ) );
-		fireEvent.click( screen.getByRole( "checkbox", { name: "SEO title needs improvement" } ) );
+		fireEvent.click( screen.getByRole( "checkbox", { name: "SEO titles" } ) );
 
 		expect( select( STORE_NAME ).selectNeedsImprovement() ).toEqual( [ "title" ] );
 		expect( screen.getByText( "1" ) ).toBeInTheDocument();
