@@ -89,6 +89,29 @@ function diffMaps( base, head ) {
 	return rows;
 }
 
+// Longest entry path rendered in a cell; anything longer is middle-truncated.
+const MAX_KEY_LENGTH = 120;
+
+/**
+ * Sanitizes an entry path for safe rendering inside a markdown table code span. The path
+ * comes from an untrusted artifact, so characters that could break out of the cell or the
+ * code span (pipe, backtick, backslash, CR/LF) are stripped, and the length is capped, to
+ * prevent a tampered artifact from spoofing the check-run summary.
+ *
+ * @param {string} key The raw entry path.
+ * @returns {string} A single-line, length-bounded, table-safe string.
+ */
+function sanitizeKey( key ) {
+	// Coerce non-strings (a tampered map could carry anything as a key) and flatten
+	// newlines, then drop the markdown-significant characters.
+	let safe = String( key ).replace( /[\r\n]+/g, " " ).replace( /[`|\\]/g, "" );
+	if ( safe.length > MAX_KEY_LENGTH ) {
+		const half = Math.floor( ( MAX_KEY_LENGTH - 1 ) / 2 );
+		safe = `${ safe.slice( 0, half ) }…${ safe.slice( -half ) }`;
+	}
+	return safe;
+}
+
 /**
  * Renders a markdown table for a set of delta rows, truncating to MAX_ROWS and appending a
  * "+N more" note (also returned via `truncated` so the caller can log it).
@@ -110,7 +133,7 @@ function renderTable( rows, label ) {
 	for ( const row of shown ) {
 		const status = row.base === 0 ? " (new)" : row.head === 0 ? " (removed)" : "";
 		lines.push(
-			`| \`${ row.key }\`${ status } | ${ formatBytes( row.base, false ) } | ` +
+			`| \`${ sanitizeKey( row.key ) }\`${ status } | ${ formatBytes( row.base, false ) } | ` +
 			`${ formatBytes( row.head, false ) } | ${ formatBytes( row.delta ) } |`
 		);
 	}
@@ -166,4 +189,5 @@ module.exports = {
 	formatPercent,
 	rollUpDirectories,
 	diffMaps,
+	sanitizeKey,
 };

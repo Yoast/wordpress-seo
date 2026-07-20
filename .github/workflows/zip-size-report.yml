@@ -108,6 +108,9 @@ jobs:
               });
               core.info(`Published zip-size check: ${report.title}`);
             } catch (error) {
+              // The artifact is untrusted: log the real error to the (trusted) run log,
+              // but never reflect its message into the check summary, which renders
+              // markdown and would otherwise let a tampered artifact spoof CI output.
               core.warning(`Could not determine zip size: ${error.message}`);
               await github.rest.checks.create({
                 ...base,
@@ -115,7 +118,7 @@ jobs:
                   title: "Failed to determine zip size",
                   summary: "The zip-size build did not produce usable size data for this run, " +
                     "so the net contribution could not be computed. This does not block the pull request.\n\n" +
-                    `Reason: \`${error.message}\``,
+                    "See the workflow run log for the underlying reason.",
                 },
               });
             }
