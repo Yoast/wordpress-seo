@@ -7,9 +7,44 @@
  * produced by the measure helper in zip-size-build.yml.
  */
 
+/* eslint-env node */
+
 // Most-changed entries and directories shown in the summary; the rest are collapsed into a
 // logged "+N more" line so the report never silently hides truncated rows.
 const MAX_ROWS = 20;
+
+/**
+ * Returns the sign prefix for a number. Negative always yields "-"; a non-negative value
+ * yields "+" only when `signed` is set (used for absolute columns that want no "+").
+ *
+ * @param {number} value The number to sign.
+ * @param {boolean} signed Whether non-negative values get a "+" prefix.
+ * @returns {string} "+", "-", or "".
+ */
+function signPrefix( value, signed ) {
+	if ( value < 0 ) {
+		return "-";
+	}
+	return signed ? "+" : "";
+}
+
+/**
+ * Scales an absolute byte count to the largest unit under 1024, returning the value and its
+ * unit label.
+ *
+ * @param {number} abs The absolute byte count.
+ * @returns {{value: number, unit: string}} The scaled value and its unit.
+ */
+function scaleBytes( abs ) {
+	const units = [ "B", "kB", "MB", "GB" ];
+	let value = abs;
+	let unit = 0;
+	while ( value >= 1024 && unit < units.length - 1 ) {
+		value /= 1024;
+		unit++;
+	}
+	return { value, unit: units[ unit ] };
+}
 
 /**
  * Formats a byte count as a signed, human-readable string (e.g. "+23.4 kB", "-512 B").
@@ -19,19 +54,12 @@ const MAX_ROWS = 20;
  * @returns {string} The formatted size.
  */
 function formatBytes( bytes, signed = true ) {
-	const sign = bytes > 0 && signed ? "+" : bytes < 0 ? "-" : signed ? "+" : "";
-	const abs = Math.abs( bytes );
-	if ( abs < 1024 ) {
-		return `${ sign }${ abs } B`;
+	const sign = signPrefix( bytes, signed );
+	const { value, unit } = scaleBytes( Math.abs( bytes ) );
+	if ( unit === "B" ) {
+		return `${ sign }${ value } ${ unit }`;
 	}
-	const units = [ "kB", "MB", "GB" ];
-	let value = abs / 1024;
-	let unit = 0;
-	while ( value >= 1024 && unit < units.length - 1 ) {
-		value /= 1024;
-		unit++;
-	}
-	return `${ sign }${ value.toFixed( value < 10 ? 2 : 1 ) } ${ units[ unit ] }`;
+	return `${ sign }${ value.toFixed( value < 10 ? 2 : 1 ) } ${ unit }`;
 }
 
 /**
@@ -45,8 +73,8 @@ function formatPercent( fraction ) {
 		return "n/a";
 	}
 	const pct = fraction * 100;
-	const sign = pct > 0 ? "+" : "";
-	return `${ sign }${ pct.toFixed( 2 ) }%`;
+	// signPrefix owns the sign, so format the absolute value to avoid a doubled "-".
+	return `${ signPrefix( pct, true ) }${ Math.abs( pct ).toFixed( 2 ) }%`;
 }
 
 /**
@@ -113,6 +141,23 @@ function sanitizeKey( key ) {
 }
 
 /**
+ * Returns a " (new)"/" (removed)" annotation for a delta row, or "" when the entry exists on
+ * both sides.
+ *
+ * @param {{base: number, head: number}} row The delta row.
+ * @returns {string} The status annotation.
+ */
+function rowStatus( row ) {
+	if ( row.base === 0 ) {
+		return " (new)";
+	}
+	if ( row.head === 0 ) {
+		return " (removed)";
+	}
+	return "";
+}
+
+/**
  * Renders a markdown table for a set of delta rows, truncating to MAX_ROWS and appending a
  * "+N more" note (also returned via `truncated` so the caller can log it).
  *
@@ -131,7 +176,7 @@ function renderTable( rows, label ) {
 		"| --- | ---: | ---: | ---: |",
 	];
 	for ( const row of shown ) {
-		const status = row.base === 0 ? " (new)" : row.head === 0 ? " (removed)" : "";
+		const status = rowStatus( row );
 		lines.push(
 			`| \`${ sanitizeKey( row.key ) }\`${ status } | ${ formatBytes( row.base, false ) } | ` +
 			`${ formatBytes( row.head, false ) } | ${ formatBytes( row.delta ) } |`
