@@ -61,7 +61,7 @@ final class Image_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta name="twitter:image" content="relative_image.jpg" />';
+		$expected = '<meta name="twitter:image" content="relative_image.jpg">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
@@ -98,7 +98,7 @@ final class Image_Presenter_Test extends TestCase {
 			->andReturn( 'relative_image.jpg' );
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta name="twitter:image" content="relative_image.jpg" />';
+		$expected = '<meta name="twitter:image" content="relative_image.jpg">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
@@ -116,7 +116,7 @@ final class Image_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
-		$expected = '<meta name="twitter:image" content="relative_image.jpg" class="yoast-seo-meta-tag" />';
+		$expected = '<meta name="twitter:image" content="relative_image.jpg" class="yoast-seo-meta-tag">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );

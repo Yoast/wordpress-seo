@@ -78,7 +78,7 @@ final class Title_Presenter_Test extends TestCase {
 			);
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta name="twitter:title" content="twitter_example_title" />';
+		$expected = '<meta name="twitter:title" content="twitter_example_title">';
 		$actual   = $this->instance->present();
 		$this->assertEquals( $expected, $actual );
 	}
@@ -130,7 +130,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturn( 'twitterexampletitle' );
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta name="twitter:title" content="twitterexampletitle" />';
+		$expected = '<meta name="twitter:title" content="twitterexampletitle">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
@@ -155,7 +155,7 @@ final class Title_Presenter_Test extends TestCase {
 			);
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
-		$expected = '<meta name="twitter:title" content="twitter_example_title" class="yoast-seo-meta-tag" />';
+		$expected = '<meta name="twitter:title" content="twitter_example_title" class="yoast-seo-meta-tag">';
 		$actual   = $this->instance->present();
 		$this->assertEquals( $expected, $actual );
 	}

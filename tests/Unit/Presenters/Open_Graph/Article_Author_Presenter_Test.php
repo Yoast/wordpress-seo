@@ -59,7 +59,7 @@ final class Article_Author_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta property="article:author" content="https://facebook.com/author" />';
+		$expected = '<meta property="article:author" content="https://facebook.com/author">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
@@ -98,7 +98,7 @@ final class Article_Author_Presenter_Test extends TestCase {
 			->andReturn( 'https://facebook.com/newauthor' );
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta property="article:author" content="https://facebook.com/newauthor" />';
+		$expected = '<meta property="article:author" content="https://facebook.com/newauthor">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
@@ -116,7 +116,7 @@ final class Article_Author_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
-		$expected = '<meta property="article:author" content="https://facebook.com/author" class="yoast-seo-meta-tag" />';
+		$expected = '<meta property="article:author" content="https://facebook.com/author" class="yoast-seo-meta-tag">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );

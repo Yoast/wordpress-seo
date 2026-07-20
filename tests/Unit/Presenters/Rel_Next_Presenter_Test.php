@@ -99,7 +99,7 @@ final class Rel_Next_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
-			'<link rel="next" href="https://filtered" />',
+			'<link rel="next" href="https://filtered">',
 			$this->instance->present(),
 		);
 	}
@@ -122,7 +122,7 @@ final class Rel_Next_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$this->assertEquals(
-			'<link rel="next" href="https://permalink/post/2" class="yoast-seo-meta-tag" />',
+			'<link rel="next" href="https://permalink/post/2" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}

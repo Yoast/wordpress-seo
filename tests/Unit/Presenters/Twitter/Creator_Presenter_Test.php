@@ -61,7 +61,7 @@ final class Creator_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
-			'<meta name="twitter:creator" content="@TwitterHandle" />',
+			'<meta name="twitter:creator" content="@TwitterHandle">',
 			$this->instance->present(),
 		);
 	}
@@ -107,7 +107,7 @@ final class Creator_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$this->assertEquals(
-			'<meta name="twitter:creator" content="@TwitterHandle" class="yoast-seo-meta-tag" />',
+			'<meta name="twitter:creator" content="@TwitterHandle" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}

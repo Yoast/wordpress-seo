@@ -72,7 +72,7 @@ final class Pinterest_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertSame(
-			'<meta name="p:domain_verify" content="pinterest-ver" />',
+			'<meta name="p:domain_verify" content="pinterest-ver">',
 			$this->instance->present(),
 		);
 	}
@@ -124,7 +124,7 @@ final class Pinterest_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$this->assertSame(
-			'<meta name="p:domain_verify" content="pinterest-ver" class="yoast-seo-meta-tag" />',
+			'<meta name="p:domain_verify" content="pinterest-ver" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}

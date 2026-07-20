@@ -72,7 +72,7 @@ final class Yandex_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertSame(
-			'<meta name="yandex-verification" content="yandex-ver" />',
+			'<meta name="yandex-verification" content="yandex-ver">',
 			$this->instance->present(),
 		);
 	}
@@ -124,7 +124,7 @@ final class Yandex_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$this->assertSame(
-			'<meta name="yandex-verification" content="yandex-ver" class="yoast-seo-meta-tag" />',
+			'<meta name="yandex-verification" content="yandex-ver" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}

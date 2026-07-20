@@ -59,7 +59,7 @@ final class Article_Published_Time_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta property="article:published_time" content="2019-10-08T12:26:31+00:00" />';
+		$expected = '<meta property="article:published_time" content="2019-10-08T12:26:31+00:00">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
@@ -107,7 +107,7 @@ final class Article_Published_Time_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
-		$expected = '<meta property="article:published_time" content="2019-10-08T12:26:31+00:00" class="yoast-seo-meta-tag" />';
+		$expected = '<meta property="article:published_time" content="2019-10-08T12:26:31+00:00" class="yoast-seo-meta-tag">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );

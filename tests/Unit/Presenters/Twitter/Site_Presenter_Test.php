@@ -79,7 +79,7 @@ final class Site_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
-			'<meta name="twitter:site" content="@AlteredTwitterHandle" />',
+			'<meta name="twitter:site" content="@AlteredTwitterHandle">',
 			$this->instance->present(),
 		);
 	}
@@ -98,7 +98,7 @@ final class Site_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
-			'<meta name="twitter:site" content="@TwitterHandle" />',
+			'<meta name="twitter:site" content="@TwitterHandle">',
 			$this->instance->present(),
 		);
 	}
@@ -169,7 +169,7 @@ final class Site_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$this->assertEquals(
-			'<meta name="twitter:site" content="@TwitterHandle" class="yoast-seo-meta-tag" />',
+			'<meta name="twitter:site" content="@TwitterHandle" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}

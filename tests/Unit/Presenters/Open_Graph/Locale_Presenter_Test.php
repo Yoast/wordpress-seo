@@ -59,7 +59,7 @@ final class Locale_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta property="og:locale" content="nl_BE" />';
+		$expected = '<meta property="og:locale" content="nl_BE">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
@@ -82,7 +82,7 @@ final class Locale_Presenter_Test extends TestCase {
 			->andReturn( 'nl_BE' );
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta property="og:locale" content="nl_BE" />';
+		$expected = '<meta property="og:locale" content="nl_BE">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
@@ -100,7 +100,7 @@ final class Locale_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
-		$expected = '<meta property="og:locale" content="nl_BE" class="yoast-seo-meta-tag" />';
+		$expected = '<meta property="og:locale" content="nl_BE" class="yoast-seo-meta-tag">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );

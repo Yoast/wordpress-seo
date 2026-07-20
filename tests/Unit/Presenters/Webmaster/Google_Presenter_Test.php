@@ -72,7 +72,7 @@ final class Google_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertSame(
-			'<meta name="google-site-verification" content="google-ver" />',
+			'<meta name="google-site-verification" content="google-ver">',
 			$this->instance->present(),
 		);
 	}
@@ -124,7 +124,7 @@ final class Google_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$this->assertSame(
-			'<meta name="google-site-verification" content="google-ver" class="yoast-seo-meta-tag" />',
+			'<meta name="google-site-verification" content="google-ver" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}

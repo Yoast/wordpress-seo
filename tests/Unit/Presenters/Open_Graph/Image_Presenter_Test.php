@@ -86,7 +86,7 @@ final class Image_Presenter_Test extends TestCase {
 			->andReturn( false );
 
 		$this->assertEquals(
-			'<meta property="og:image" content="https://example.com/image.jpg" />' . \PHP_EOL . "\t" . '<meta property="og:image:width" content="100" />' . \PHP_EOL . "\t" . '<meta property="og:image:height" content="100" />',
+			'<meta property="og:image" content="https://example.com/image.jpg">' . \PHP_EOL . "\t" . '<meta property="og:image:width" content="100">' . \PHP_EOL . "\t" . '<meta property="og:image:height" content="100">',
 			$this->instance->present(),
 		);
 	}
@@ -223,7 +223,7 @@ final class Image_Presenter_Test extends TestCase {
 			->andReturn( false );
 
 		$this->assertEquals(
-			'<meta property="og:image" content="https://example.com/image.jpg" class="yoast-seo-meta-tag" />' . \PHP_EOL . "\t" . '<meta property="og:image:width" content="100" class="yoast-seo-meta-tag" />' . \PHP_EOL . "\t" . '<meta property="og:image:height" content="100" class="yoast-seo-meta-tag" />',
+			'<meta property="og:image" content="https://example.com/image.jpg" class="yoast-seo-meta-tag">' . \PHP_EOL . "\t" . '<meta property="og:image:width" content="100" class="yoast-seo-meta-tag">' . \PHP_EOL . "\t" . '<meta property="og:image:height" content="100" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}
@@ -263,7 +263,7 @@ final class Image_Presenter_Test extends TestCase {
 			->andReturnFirstArg();
 
 		$this->assertEquals(
-			'<meta property="og:image" content="https://example.com/image" class="yoast-seo-meta-tag" />' . \PHP_EOL . "\t" . '<meta property="og:image:width" content="100" class="yoast-seo-meta-tag" />' . \PHP_EOL . "\t" . '<meta property="og:image:height" content="100" class="yoast-seo-meta-tag" />',
+			'<meta property="og:image" content="https://example.com/image" class="yoast-seo-meta-tag">' . \PHP_EOL . "\t" . '<meta property="og:image:width" content="100" class="yoast-seo-meta-tag">' . \PHP_EOL . "\t" . '<meta property="og:image:height" content="100" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}

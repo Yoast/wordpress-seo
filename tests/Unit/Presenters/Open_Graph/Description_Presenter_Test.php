@@ -103,7 +103,7 @@ final class Description_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta property="og:description" content="My description" />';
+		$expected = '<meta property="og:description" content="My description">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
@@ -142,7 +142,7 @@ final class Description_Presenter_Test extends TestCase {
 			->andReturn( 'My filtered description' );
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta property="og:description" content="My filtered description" />';
+		$expected = '<meta property="og:description" content="My filtered description">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
@@ -160,7 +160,7 @@ final class Description_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
-		$expected = '<meta property="og:description" content="My description" class="yoast-seo-meta-tag" />';
+		$expected = '<meta property="og:description" content="My description" class="yoast-seo-meta-tag">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );

@@ -108,7 +108,7 @@ final class Meta_Author_Presenter_Test extends TestCase {
 			->andReturn( 'John Doe' );
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$output = '<meta name="author" content="John Doe" />';
+		$output = '<meta name="author" content="John Doe">';
 
 		Monkey\Filters\expectApplied( 'wpseo_meta_author' );
 		$this->assertSame( $output, $this->instance->present() );
@@ -192,7 +192,7 @@ final class Meta_Author_Presenter_Test extends TestCase {
 			->andReturn( 'John Doe' );
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
-		$output = '<meta name="author" content="John Doe" class="yoast-seo-meta-tag" />';
+		$output = '<meta name="author" content="John Doe" class="yoast-seo-meta-tag">';
 
 		$this->assertSame( $output, $this->instance->present() );
 	}

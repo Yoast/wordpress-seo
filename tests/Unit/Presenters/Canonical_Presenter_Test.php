@@ -49,7 +49,7 @@ final class Canonical_Presenter_Test extends TestCase {
 		$presented_canonical = $instance->present();
 
 		$this->assertEquals(
-			'<link rel="canonical" href="https://permalink" />',
+			'<link rel="canonical" href="https://permalink">',
 			$presented_canonical,
 		);
 	}
@@ -96,7 +96,7 @@ final class Canonical_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
-			'<link rel="canonical" href="https://filtered" />',
+			'<link rel="canonical" href="https://filtered">',
 			$instance->present(),
 		);
 	}
@@ -141,7 +141,7 @@ final class Canonical_Presenter_Test extends TestCase {
 		$presented_canonical = $instance->present();
 
 		$this->assertEquals(
-			'<link rel="canonical" href="https://permalink" class="yoast-seo-meta-tag" />',
+			'<link rel="canonical" href="https://permalink" class="yoast-seo-meta-tag">',
 			$presented_canonical,
 		);
 	}

@@ -54,7 +54,7 @@ final class Card_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
-			'<meta name="twitter:card" content="summary" />',
+			'<meta name="twitter:card" content="summary">',
 			$this->instance->present(),
 		);
 	}
@@ -91,7 +91,7 @@ final class Card_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$this->assertEquals(
-			'<meta name="twitter:card" content="summary" class="yoast-seo-meta-tag" />',
+			'<meta name="twitter:card" content="summary" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}

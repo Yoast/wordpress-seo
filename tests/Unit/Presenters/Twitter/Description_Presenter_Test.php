@@ -70,7 +70,7 @@ final class Description_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
-			'<meta name="twitter:description" content="This is the twitter description" />',
+			'<meta name="twitter:description" content="This is the twitter description">',
 			$this->instance->present(),
 		);
 	}
@@ -116,7 +116,7 @@ final class Description_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$this->assertEquals(
-			'<meta name="twitter:description" content="This is the twitter description" class="yoast-seo-meta-tag" />',
+			'<meta name="twitter:description" content="This is the twitter description" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}

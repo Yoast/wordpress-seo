@@ -56,7 +56,7 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
-			'<link rel="prev" href="https://permalink/post/2" />',
+			'<link rel="prev" href="https://permalink/post/2">',
 			$this->instance->present(),
 		);
 	}
@@ -122,7 +122,7 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
-			'<link rel="prev" href="https://filtered" />',
+			'<link rel="prev" href="https://filtered">',
 			$this->instance->present(),
 		);
 	}
@@ -145,7 +145,7 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$this->assertEquals(
-			'<link rel="prev" href="https://permalink/post/2" class="yoast-seo-meta-tag" />',
+			'<link rel="prev" href="https://permalink/post/2" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}

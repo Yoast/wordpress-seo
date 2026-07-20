@@ -72,7 +72,7 @@ final class Baidu_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertSame(
-			'<meta name="baidu-site-verification" content="baidu" />',
+			'<meta name="baidu-site-verification" content="baidu">',
 			$this->instance->present(),
 		);
 	}
@@ -140,7 +140,7 @@ final class Baidu_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$this->assertSame(
-			'<meta name="baidu-site-verification" content="baidu" class="yoast-seo-meta-tag" />',
+			'<meta name="baidu-site-verification" content="baidu" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}

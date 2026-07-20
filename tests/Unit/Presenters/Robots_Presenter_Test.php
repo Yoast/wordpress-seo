@@ -63,7 +63,7 @@ final class Robots_Presenter_Test extends TestCase {
 		];
 
 		$actual   = $this->instance->present();
-		$expected = '<meta name="robots" content="index, nofollow" />';
+		$expected = '<meta name="robots" content="index, nofollow">';
 
 		$this->assertEquals( $expected, $actual );
 	}

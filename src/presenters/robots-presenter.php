@@ -23,7 +23,7 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 		$robots = \implode( ', ', $this->get() );
 
 		if ( \is_string( $robots ) && $robots !== '' ) {
-			return \sprintf( '<meta name="robots" content="%s" />', \esc_attr( $robots ) );
+			return \sprintf( '<meta name="robots" content="%s">', \esc_attr( $robots ) );
 		}
 
 		return '';
@@ -32,7 +32,7 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Gets the raw value of a presentation.
 	 *
-	 * @return array The raw value.
+	 * @return array<string, string> The raw value.
 	 */
 	public function get() {
 		return $this->presentation->robots;

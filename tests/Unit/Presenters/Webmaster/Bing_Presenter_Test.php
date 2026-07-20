@@ -72,7 +72,7 @@ final class Bing_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertSame(
-			'<meta name="msvalidate.01" content="bing-ver" />',
+			'<meta name="msvalidate.01" content="bing-ver">',
 			$this->instance->present(),
 		);
 	}
@@ -124,7 +124,7 @@ final class Bing_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$this->assertSame(
-			'<meta name="msvalidate.01" content="bing-ver" class="yoast-seo-meta-tag" />',
+			'<meta name="msvalidate.01" content="bing-ver" class="yoast-seo-meta-tag">',
 			$this->instance->present(),
 		);
 	}

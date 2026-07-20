@@ -59,7 +59,7 @@ final class Url_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta property="og:url" content="www.example.com" />';
+		$expected = '<meta property="og:url" content="www.example.com">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
@@ -95,7 +95,7 @@ final class Url_Presenter_Test extends TestCase {
 			->andReturn( 'www.example.com' );
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$expected = '<meta property="og:url" content="www.example.com" />';
+		$expected = '<meta property="og:url" content="www.example.com">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
@@ -113,7 +113,7 @@ final class Url_Presenter_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
-		$expected = '<meta property="og:url" content="www.example.com" class="yoast-seo-meta-tag" />';
+		$expected = '<meta property="og:url" content="www.example.com" class="yoast-seo-meta-tag">';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );

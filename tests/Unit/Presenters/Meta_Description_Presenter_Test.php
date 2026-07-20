@@ -107,7 +107,7 @@ final class Meta_Description_Presenter_Test extends TestCase {
 			->with( 'the_meta_description' )
 			->andReturn( 'the_meta_description' );
 
-		$output = '<meta name="description" content="the_meta_description" />';
+		$output = '<meta name="description" content="the_meta_description">';
 
 		$this->assertEquals( $output, $this->instance->present() );
 	}
@@ -213,7 +213,7 @@ final class Meta_Description_Presenter_Test extends TestCase {
 			->with( 'the_meta_description' )
 			->andReturn( 'the_meta_description' );
 
-		$output = '<meta name="description" content="the_meta_description" class="yoast-seo-meta-tag" />';
+		$output = '<meta name="description" content="the_meta_description" class="yoast-seo-meta-tag">';
 
 		$this->assertEquals( $output, $this->instance->present() );
 	}

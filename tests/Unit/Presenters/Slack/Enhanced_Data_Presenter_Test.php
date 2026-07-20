@@ -80,10 +80,10 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 		Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
-			"<meta name=\"twitter:label1\" content=\"Written by\" />\n"
-			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\" />\n"
-			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\" />\n"
-			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\" />",
+			"<meta name=\"twitter:label1\" content=\"Written by\">\n"
+			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\">\n"
+			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\">\n"
+			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\">",
 			$this->instance->present(),
 		);
 	}
@@ -116,8 +116,8 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 		Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
-			"<meta name=\"twitter:label1\" content=\"Est. reading time\" />\n"
-			. "\t<meta name=\"twitter:data1\" content=\"40 minutes\" />",
+			"<meta name=\"twitter:label1\" content=\"Est. reading time\">\n"
+			. "\t<meta name=\"twitter:data1\" content=\"40 minutes\">",
 			$this->instance->present(),
 		);
 	}
@@ -150,10 +150,10 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 		Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$this->assertEquals(
-			"<meta name=\"twitter:label1\" content=\"Written by\" class=\"yoast-seo-meta-tag\" />\n"
-			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\" class=\"yoast-seo-meta-tag\" />\n"
-			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\" class=\"yoast-seo-meta-tag\" />\n"
-			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\" class=\"yoast-seo-meta-tag\" />",
+			"<meta name=\"twitter:label1\" content=\"Written by\" class=\"yoast-seo-meta-tag\">\n"
+			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\" class=\"yoast-seo-meta-tag\">\n"
+			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\" class=\"yoast-seo-meta-tag\">\n"
+			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\" class=\"yoast-seo-meta-tag\">",
 			$this->instance->present(),
 		);
 	}
