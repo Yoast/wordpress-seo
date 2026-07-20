@@ -7,8 +7,6 @@
  * produced by the measure helper in zip-size-build.yml.
  */
 
-/* eslint-env node */
-
 // Most-changed entries and directories shown in the summary; the rest are collapsed into a
 // logged "+N more" line so the report never silently hides truncated rows.
 const MAX_ROWS = 20;
