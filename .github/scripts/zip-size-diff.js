@@ -144,13 +144,41 @@ function renderTable( rows, label ) {
 }
 
 /**
- * Builds the check-run title and markdown summary for a base→head zip-size comparison.
+ * Validates a size map read from the (untrusted) artifact and returns it unchanged. Throws
+ * on anything that would produce NaN or corrupt arithmetic downstream — a non-finite
+ * `total`, a missing/`null` `entries`, or any non-finite entry value. Keeping this at the
+ * single entry point means `diffMaps`/`rollUpDirectories` can assume numeric input
+ * regardless of caller, and a hostile artifact degrades to the neutral fallback rather
+ * than rendering NaN or string-concatenated sizes.
  *
- * @param {{total: number, entries: Object}} baseMap Base size map.
- * @param {{total: number, entries: Object}} headMap Head size map.
+ * @param {*} map The candidate size map.
+ * @param {string} name Label for the error message.
+ * @returns {{total: number, entries: Object<string, number>}} The validated map.
+ */
+function normalizeMap( map, name ) {
+	if ( ! map || ! Number.isFinite( map.total ) || typeof map.entries !== "object" || map.entries === null ) {
+		throw new Error( `Malformed ${ name } size map` );
+	}
+	for ( const size of Object.values( map.entries ) ) {
+		if ( ! Number.isFinite( size ) ) {
+			throw new Error( `Non-numeric entry size in ${ name } size map` );
+		}
+	}
+	return map;
+}
+
+/**
+ * Builds the check-run title and markdown summary for a base→head zip-size comparison.
+ * Throws if either map is malformed; callers turn that into the neutral fallback check.
+ *
+ * @param {{total: number, entries: Object}} rawBaseMap Base size map (untrusted).
+ * @param {{total: number, entries: Object}} rawHeadMap Head size map (untrusted).
  * @returns {{title: string, summary: string, delta: number, truncated: number}} The report.
  */
-function buildReport( baseMap, headMap ) {
+function buildReport( rawBaseMap, rawHeadMap ) {
+	const baseMap = normalizeMap( rawBaseMap, "base" );
+	const headMap = normalizeMap( rawHeadMap, "head" );
+
 	const delta = headMap.total - baseMap.total;
 	const fraction = baseMap.total === 0 ? Infinity : delta / baseMap.total;
 
@@ -190,4 +218,5 @@ module.exports = {
 	rollUpDirectories,
 	diffMaps,
 	sanitizeKey,
+	normalizeMap,
 };

@@ -77,22 +77,11 @@ jobs:
               conclusion: "neutral",
             };
 
-            // Read a size map as DATA only; any parse failure falls through to the
-            // "failed to determine" path rather than throwing.
-            const readMap = (file) => {
-              const map = JSON.parse(fs.readFileSync(path.join("zip-size-report", file), "utf8"));
-              // The artifact is untrusted data; reject anything that would render as NaN so
-              // a corrupt-but-parseable map degrades to the neutral fallback below.
-              if (!Number.isFinite(map.total) || typeof map.entries !== "object" || map.entries === null) {
-                throw new Error(`Malformed size map in ${file}`);
-              }
-              for (const size of Object.values(map.entries)) {
-                if (!Number.isFinite(size)) {
-                  throw new Error(`Non-numeric entry size in ${file}`);
-                }
-              }
-              return map;
-            };
+            // Read a size map as DATA only. Shape/number validation lives in buildReport
+            // (normalizeMap); a parse failure here or a malformed map there both fall
+            // through to the "failed to determine" path below.
+            const readMap = (file) =>
+              JSON.parse(fs.readFileSync(path.join("zip-size-report", file), "utf8"));
 
             try {
               const baseMap = readMap("base-size.json");
