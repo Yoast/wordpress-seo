@@ -47,6 +47,10 @@ jest.mock( "../../src/bulk-editor/store", () => ( {
 	"default": ( ...args ) => mockRegisterStore( ...args ),
 } ) );
 
+jest.mock( "../../src/ai-generator/store/myyoast-connection", () => ( {
+	MYYOAST_CONNECTION_NAME: "myyoastConnection",
+} ) );
+
 jest.mock( "../../src/shared-admin/helpers", () => ( {
 	fixWordPressMenuScrolling: () => mockFixScrolling(),
 } ) );
@@ -82,7 +86,14 @@ describe( "bulk editor initialize", () => {
 		} );
 
 		expect( mockRegisterStore ).toHaveBeenCalledWith( {
-			initialState: { linkParams: { foo: "bar" } },
+			initialState: {
+				linkParams: { foo: "bar" },
+				myyoastConnection: {
+					isAvailable: false,
+					canConnect: false,
+					connectUrl: null,
+				},
+			},
 		} );
 		expect( mockFixScrolling ).toHaveBeenCalledTimes( 1 );
 		expect( mockCreateRoot ).toHaveBeenCalledWith( root );
