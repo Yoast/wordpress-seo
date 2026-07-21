@@ -207,13 +207,12 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			return new Post( $post_id, $title, $status, '', '', '', '', '', '', false );
 		}
 
-		// Keyed by field param so the values can be reused for the needs-improvement verdict without re-reading.
-		$fields = [
-			'seo_title'          => $this->get_meta( $post_id, 'title' ),
-			'meta_description'   => $this->get_meta( $post_id, 'metadesc' ),
-			'social_title'       => $this->get_meta( $post_id, 'opengraph-title' ),
-			'social_description' => $this->get_meta( $post_id, 'opengraph-description' ),
-		];
+		// Read each field's value once from its meta suffix, keyed by field param, so the values can be reused for
+		// the needs-improvement filter. Built from the suffix map to keep a single source of truth.
+		$fields = [];
+		foreach ( self::FIELD_META_SUFFIXES as $field => $suffix ) {
+			$fields[ $field ] = $this->get_meta( $post_id, $suffix );
+		}
 
 		return new Post(
 			$post_id,
@@ -242,8 +241,6 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 * @return array<string, bool> Whether each field needs improvement, keyed by field param.
 	 */
 	private function build_needs_improvement( int $post_id, array $fields, bool $scores_enabled ): array {
-		[ $min_score, $max_score ] = self::NEEDS_IMPROVEMENT_SCORE_RANGE;
-
 		$needs_improvement = [];
 		foreach ( \array_keys( self::FIELD_META_SUFFIXES ) as $field ) {
 			$is_empty = ( ( $fields[ $field ] ?? '' ) === '' );
@@ -251,7 +248,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			$is_bad_score = false;
 			if ( $scores_enabled && isset( self::FIELD_SCORE_META_SUFFIXES[ $field ] ) ) {
 				$score        = (int) $this->get_meta( $post_id, self::FIELD_SCORE_META_SUFFIXES[ $field ] );
-				$is_bad_score = ( $score >= $min_score && $score <= $max_score );
+				$is_bad_score = ( $score >= self::NEEDS_IMPROVEMENT_MIN_SCORE && $score <= self::NEEDS_IMPROVEMENT_MAX_SCORE );
 			}
 
 			$needs_improvement[ $field ] = ( $is_empty || $is_bad_score );
