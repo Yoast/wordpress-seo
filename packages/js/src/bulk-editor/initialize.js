@@ -39,7 +39,6 @@ domReady( () => {
 				isAvailable: Boolean( myyoastConnection ) && get( myyoastConnection, "isProvisioned", false ),
 				canConnect: get( myyoastConnection, "canConnect", false ),
 				connectUrl: get( myyoastConnection, "connectUrl", null ),
-				learnMoreUrl: get( myyoastConnection, "learnMoreUrl", "" ),
 			},
 		},
 	} );
