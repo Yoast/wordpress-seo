@@ -170,7 +170,7 @@ class Posts_Route implements Route_Interface {
 							'type' => 'string',
 							'enum' => Posts_Collector_Interface::NEEDS_IMPROVEMENT_FIELDS,
 						],
-						'description' => 'The fields that must be empty for a post to be included.',
+						'description' => 'The fields to filter posts by; a field matches when it is empty, or (for search fields with SEO analysis enabled) when its score needs improvement.',
 					],
 				],
 				'callback'            => [ $this, 'get_posts' ],
