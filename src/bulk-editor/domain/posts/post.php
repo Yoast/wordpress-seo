@@ -151,7 +151,7 @@ class Post {
 					'social_title'       => false,
 					'social_description' => false,
 				],
-				$this->needs_improvement
+				$this->needs_improvement,
 			),
 		];
 	}
