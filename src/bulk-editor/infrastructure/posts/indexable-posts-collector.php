@@ -47,23 +47,6 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	];
 
 	/**
-	 * The per-field score range that counts as "needs improvement": the bad + ok score groups.
-	 *
-	 * 0 (and NULL) means "never scored" and is deliberately outside the range, so unscored posts
-	 * only match through the empty check.
-	 *
-	 * @var int
-	 */
-	private const NEEDS_IMPROVEMENT_MIN_SCORE = 1;
-
-	/**
-	 * The upper bound of the "needs improvement" score range.
-	 *
-	 * @var int
-	 */
-	private const NEEDS_IMPROVEMENT_MAX_SCORE = 70;
-
-	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository

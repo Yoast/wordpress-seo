@@ -50,16 +50,6 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	];
 
 	/**
-	 * The per-field score range that counts as "needs improvement": the bad + ok score groups.
-	 *
-	 * 0 (and a missing meta row) means "never scored" and is deliberately outside the range, so
-	 * unscored posts only match through the empty check.
-	 *
-	 * @var array<int>
-	 */
-	private const NEEDS_IMPROVEMENT_SCORE_RANGE = [ 1, 70 ];
-
-	/**
 	 * The query var that flags our own query so the search filter only touches it.
 	 */
 	private const SEARCH_FLAG = 'yoast_bulk_editor_search';
@@ -263,7 +253,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			if ( $scores_enabled && isset( self::FIELD_SCORE_META_SUFFIXES[ $field ] ) ) {
 				$clauses[] = [
 					'key'     => self::META_PREFIX . self::FIELD_SCORE_META_SUFFIXES[ $field ],
-					'value'   => self::NEEDS_IMPROVEMENT_SCORE_RANGE,
+					'value'   => [ self::NEEDS_IMPROVEMENT_MIN_SCORE, self::NEEDS_IMPROVEMENT_MAX_SCORE ],
 					'compare' => 'BETWEEN',
 					'type'    => 'NUMERIC',
 				];

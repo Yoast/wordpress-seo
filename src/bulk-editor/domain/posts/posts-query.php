@@ -78,7 +78,7 @@ class Posts_Query {
 	 * @param string        $search            The search term, or an empty string for no search.
 	 * @param array<string> $statuses          The post statuses to include.
 	 * @param int|null      $author_id         The author to limit posts to, or null for no author restriction.
-	 * @param array<string> $needs_improvement The needs-improvement fields to filter by (a field matches when empty, or a weak per-field score for search fields when scoring is enabled), or an empty array for no such filter.
+	 * @param array<string> $needs_improvement The needs-improvement fields to filter by (a field matches when empty, or — for search fields with SEO analysis enabled — when its per-field score needs improvement), or an empty array for no such filter.
 	 * @param bool          $scores_enabled    Whether the per-field scores may back the needs-improvement filter.
 	 */
 	public function __construct(
