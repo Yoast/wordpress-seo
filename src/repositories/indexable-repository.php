@@ -19,6 +19,21 @@ use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 class Indexable_Repository {
 
 	/**
+	 * The maximum number of comma-separated phrases honoured by a title-keyword search.
+	 * Any phrases beyond this are ignored so an oversized list cannot blow up the query.
+	 *
+	 * @var int
+	 */
+	public const MAX_TITLE_KEYWORD_PHRASES = 10;
+
+	/**
+	 * The maximum page size honoured by a title-keyword search.
+	 *
+	 * @var int
+	 */
+	public const MAX_TITLE_KEYWORD_PAGE_SIZE = 100;
+
+	/**
 	 * The indexable builder.
 	 *
 	 * @var Indexable_Builder
@@ -409,7 +424,7 @@ class Indexable_Repository {
 	/**
 	 * Finds the indexables by id's.
 	 *
-	 * @param array $indexable_ids The indexable id's.
+	 * @param int[] $indexable_ids The indexable id's.
 	 *
 	 * @return Indexable[] The found indexables.
 	 */
@@ -466,7 +481,7 @@ class Indexable_Repository {
 	 * Returns all subpages with a given post_parent.
 	 *
 	 * @param int   $post_parent The post parent.
-	 * @param array $exclude_ids The id's to exclude.
+	 * @param int[] $exclude_ids The id's to exclude.
 	 *
 	 * @return Indexable[] array of indexables.
 	 */
@@ -512,6 +527,66 @@ class Indexable_Repository {
 			->limit( $limit );
 
 		return $query->find_many();
+	}
+
+	/**
+	 * Finds posts whose breadcrumb title contains any of the given comma-separated phrases.
+	 *
+	 * The search string is a comma-separated list. Each value is matched as a whole
+	 * contiguous substring of the breadcrumb title, and a post is returned when it
+	 * contains any one of the values (a logical OR between values). For example,
+	 * "hiking boots, trail" returns posts whose title contains "hiking boots" or "trail".
+	 *
+	 * Results are paginated and ordered most recently modified first (with the indexable
+	 * id as a stable tiebreaker), so requesting a later page returns older matches.
+	 *
+	 * At most self::MAX_TITLE_KEYWORD_PHRASES phrases are honoured; any beyond that are ignored.
+	 * The page size is clamped to the range 1..self::MAX_TITLE_KEYWORD_PAGE_SIZE.
+	 *
+	 * @param string $keywords  The comma-separated phrases to match against the breadcrumb title.
+	 * @param int    $page      The page of results to return, 1-based.
+	 * @param int    $page_size The number of posts per page.
+	 * @param string $post_type The post type to restrict the search to.
+	 *
+	 * @return Indexable[] The matching indexables for the requested page, ordered by most recently modified.
+	 */
+	public function find_posts_by_title_keywords( string $keywords, int $page = 1, int $page_size = 10, string $post_type = 'post' ) {
+		$phrases = \array_map( 'trim', \explode( ',', $keywords ) );
+		$phrases = \array_filter(
+			$phrases,
+			static function ( $phrase ) {
+				return $phrase !== '';
+			},
+		);
+		$phrases = \array_slice( $phrases, 0, self::MAX_TITLE_KEYWORD_PHRASES );
+
+		// An empty search must not degrade into matching every post.
+		if ( empty( $phrases ) ) {
+			return [];
+		}
+
+		$likes  = \array_fill( 0, \count( $phrases ), 'breadcrumb_title LIKE %s' );
+		$params = \array_map(
+			function ( $phrase ) {
+				return '%' . $this->wpdb->esc_like( $phrase ) . '%';
+			},
+			$phrases,
+		);
+
+		$page_size = \min( \max( 1, $page_size ), self::MAX_TITLE_KEYWORD_PAGE_SIZE );
+		$offset    = ( ( \max( 1, $page ) - 1 ) * $page_size );
+
+		$indexables = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_raw( '( ' . \implode( ' OR ', $likes ) . ' )', \array_values( $params ) )
+			->order_by_desc( 'object_last_modified' )
+			->order_by_desc( 'id' )
+			->limit( $page_size )
+			->offset( $offset )
+			->find_many();
+
+		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
 	}
 
 	/**

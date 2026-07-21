@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.0
-Stable tag: 28.0
+Stable tag: 28.1
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -307,9 +307,10 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-07-21
 
+Yoast SEO 28.1 redesigns the Bulk editor into a focused workspace with new search and status filters, so you can find and fix titles and meta descriptions across posts, pages, and custom post types in one place. [Read the full release post here](https://yoa.st/57c).
+
 #### Enhancements
 
-* Adds a MyYoast connection card on the Integrations page to connect, verify, and disconnect a site using MyYoast OAuth.
 * Redesigns the bulk editor page, which allows users to edit Metadata for multiple posts at once.
 
 = 28.0 =
