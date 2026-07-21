@@ -313,7 +313,7 @@ Release date: 2026-08-04
 
 #### Bugfixes
 
-* Fixes a bug where the overall SEO score was lowered when the focus keyphrase did not consist of function words only.
+* Fixes a bug where the overall SEO score was lowered when the focus keyphrase did not consist of function words only. Props to @faisalahammad.
 
 = 28.1 =
 
