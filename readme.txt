@@ -305,7 +305,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 28.1 =
 
-Release date: 2026-07-20
+Release date: 2026-07-21
 
 Yoast SEO 28.1 redesigns the Bulk editor into a focused workspace with new search and status filters, so you can find and fix titles and meta descriptions across posts, pages, and custom post types in one place. [Read the full release post here](https://yoa.st/57c).
 
