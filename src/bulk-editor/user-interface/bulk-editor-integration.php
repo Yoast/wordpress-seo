@@ -270,7 +270,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * Returns `null` when the feature flag is disabled, so the editor treats the
 	 * connection as unavailable and shows the informational-only variant.
 	 *
-	 * @return array{isProvisioned: bool, canConnect: bool, connectUrl: string|null, learnMoreUrl: string}|null
+	 * @return array{isProvisioned: bool, canConnect: bool, connectUrl: string|null}|null The MyYoast connection payload, or `null` when the feature flag is disabled.
 	 */
 	public function get_myyoast_connection_data() {
 		if ( ! $this->myyoast_connection_conditional->is_met() ) {
