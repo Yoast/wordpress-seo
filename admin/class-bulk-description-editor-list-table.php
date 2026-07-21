@@ -8,6 +8,9 @@
 
 /**
  * Implements table for bulk description editing.
+ *
+ * @deprecated 28.1
+ * @codeCoverageIgnore
  */
 class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 
@@ -38,6 +41,9 @@ class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 
 	/**
 	 * The columns shown on the table.
+	 *
+	 * @deprecated 28.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */

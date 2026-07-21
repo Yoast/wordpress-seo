@@ -36,7 +36,33 @@ class Response_Parser implements Response_Parser_Interface {
 			}
 		}
 
-		return new Response( $response['body'], $response_code, $response_message, $error_code, $missing_licenses );
+		$headers = $this->normalize_headers( \wp_remote_retrieve_headers( $response ) );
+
+		return new Response( $response['body'], $response_code, $response_message, $error_code, $missing_licenses, $headers );
+	}
+
+	/**
+	 * Normalizes wp_remote_retrieve_headers() output to a plain array keyed by lower-cased header name.
+	 *
+	 * @param object|array<string, string|array<string>>|string $raw_headers The raw return value of wp_remote_retrieve_headers(), which is a Requests_Utility_CaseInsensitiveDictionary, an array, or empty string.
+	 *
+	 * @return array<string, string|array<string>> The normalized headers.
+	 */
+	private function normalize_headers( $raw_headers ): array {
+		// wp_remote_retrieve_headers() returns a CaseInsensitiveDictionary in WP core; getAll() yields a plain array.
+		if ( \is_object( $raw_headers ) && \method_exists( $raw_headers, 'getAll' ) ) {
+			$raw_headers = $raw_headers->getAll();
+		}
+		if ( ! \is_array( $raw_headers ) ) {
+			return [];
+		}
+
+		$normalized = [];
+		foreach ( $raw_headers as $name => $value ) {
+			$normalized[ \strtolower( (string) $name ) ] = $value;
+		}
+
+		return $normalized;
 	}
 
 	/**
