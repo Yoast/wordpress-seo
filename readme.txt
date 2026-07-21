@@ -303,6 +303,18 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 28.2 =
+
+Release date: 2026-08-04
+
+#### Enhancements
+
+* Introduces two new Yoast SEO abilities to get and set SEO data for specified posts.
+
+#### Bugfixes
+
+* Fixes a bug where the overall SEO score was lowered when the focus keyphrase did not consist of function words only.
+
 = 28.1 =
 
 Release date: 2026-07-21
@@ -312,24 +324,6 @@ Yoast SEO 28.1 redesigns the Bulk editor into a focused workspace with new searc
 #### Enhancements
 
 * Redesigns the bulk editor page, which allows users to edit Metadata for multiple posts at once.
-
-= 28.0 =
-
-Release date: 2026-07-06
-
-Yoast SEO now works smoothly with Elementor's version 4 release. [Read the full release post here](https://yoa.st/578).
-
-#### Enhancements
-
-* Improves the compatibility with the atomic editor in Elementor V4.
-
-#### Bugfixes
-
-* Fixes a bug where raw `type` and `id` attributes were written on a link instead of `data-type` and `data-id`, when the link was added by selecting a suggestion in the block editor link popover.
-
-#### Other
-
-* Updates the guzzlehttp/guzzle and guzzlehttp/psr7 dependencies to patched releases that address known security advisories.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
