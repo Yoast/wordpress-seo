@@ -10,6 +10,11 @@ import externalPendingChanges, {
 	externalPendingChangesActions,
 	externalPendingChangesSelectors,
 } from "./external-pending-changes";
+import externalGeneration, {
+	createInitialExternalGenerationState,
+	externalGenerationActions,
+	externalGenerationSelectors,
+} from "./external-generation";
 import pendingSwitch, { createInitialPendingSwitchState, pendingSwitchActions, pendingSwitchSelectors } from "./pending-switch";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import query, { createInitialQueryState, queryActions, querySelectors } from "./query";
@@ -32,6 +37,7 @@ const createStore = ( { initialState } ) => {
 			...selectionActions,
 			...editsActions,
 			...externalPendingChangesActions,
+			...externalGenerationActions,
 			...pendingSwitchActions,
 		},
 		selectors: {
@@ -43,6 +49,7 @@ const createStore = ( { initialState } ) => {
 			...selectionSelectors,
 			...editsSelectors,
 			...externalPendingChangesSelectors,
+			...externalGenerationSelectors,
 			...pendingSwitchSelectors,
 		},
 		initialState: merge(
@@ -56,6 +63,7 @@ const createStore = ( { initialState } ) => {
 				selection: createInitialSelectionState(),
 				edits: createInitialEditsState(),
 				externalPendingChanges: createInitialExternalPendingChangesState(),
+				externalGeneration: createInitialExternalGenerationState(),
 				pendingSwitch: createInitialPendingSwitchState(),
 			},
 			initialState
@@ -69,6 +77,7 @@ const createStore = ( { initialState } ) => {
 			selection,
 			edits,
 			externalPendingChanges,
+			externalGeneration,
 			pendingSwitch,
 		} ),
 	} );

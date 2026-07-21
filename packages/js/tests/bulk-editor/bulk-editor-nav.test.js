@@ -78,6 +78,22 @@ describe( "BulkEditorNavMenu", () => {
 		expect( onChange ).toHaveBeenCalledWith( "post" );
 	} );
 
+	it( "routes the Back to Tools click through onNavigate with the target URL", () => {
+		const onNavigate = jest.fn( ( event ) => event.preventDefault() );
+		renderNav( { onNavigate } );
+
+		fireEvent.click( screen.getByRole( "link", { name: "Back to Tools" } ) );
+		expect( onNavigate ).toHaveBeenCalledWith( expect.objectContaining( { type: "click" } ), defaultProps.backToToolsUrl );
+	} );
+
+	it( "routes the logo click through onNavigate with the target URL", () => {
+		const onNavigate = jest.fn( ( event ) => event.preventDefault() );
+		renderNav( { onNavigate } );
+
+		fireEvent.click( screen.getByRole( "link", { name: "Yoast SEO" } ) );
+		expect( onNavigate ).toHaveBeenCalledWith( expect.objectContaining( { type: "click" } ), defaultProps.logoHref );
+	} );
+
 	it( "collapses content types beyond the limit behind a Show more toggle", () => {
 		renderNav();
 
@@ -93,5 +109,44 @@ describe( "BulkEditorNavMenu", () => {
 		renderNav( { contentTypes: contentTypes.slice( 0, 4 ) } );
 
 		expect( screen.queryByRole( "button", { name: /Show \d+ more/ } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "does not call onChange when disabled and a content type is clicked", () => {
+		const onChange = jest.fn();
+		renderNav( { onChange, disabled: true } );
+
+		fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
+
+		expect( onChange ).not.toHaveBeenCalled();
+	} );
+
+	it( "does not call onNavigate when disabled and the Back to Tools link is clicked", () => {
+		const onNavigate = jest.fn();
+		renderNav( { onNavigate, disabled: true } );
+
+		fireEvent.click( screen.getByRole( "link", { name: "Back to Tools" } ) );
+
+		expect( onNavigate ).not.toHaveBeenCalled();
+	} );
+
+	it( "does not call onNavigate when disabled and the logo is clicked", () => {
+		const onNavigate = jest.fn();
+		renderNav( { onNavigate, disabled: true } );
+
+		fireEvent.click( screen.getByRole( "link", { name: "Yoast SEO" } ) );
+
+		expect( onNavigate ).not.toHaveBeenCalled();
+	} );
+
+	it( "marks the Back to Tools link as aria-disabled when disabled", () => {
+		renderNav( { disabled: true } );
+
+		expect( screen.getByRole( "link", { name: "Back to Tools" } ) ).toHaveAttribute( "aria-disabled", "true" );
+	} );
+
+	it( "marks the logo as aria-disabled when disabled", () => {
+		renderNav( { disabled: true } );
+
+		expect( screen.getByRole( "link", { name: "Yoast SEO" } ) ).toHaveAttribute( "aria-disabled", "true" );
 	} );
 } );

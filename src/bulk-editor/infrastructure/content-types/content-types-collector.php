@@ -47,10 +47,14 @@ class Content_Types_Collector {
 	 * @return Content_Types_List The content types in a list.
 	 */
 	public function get_content_types(): Content_Types_List {
-		$content_types_list = new Content_Types_List();
-		$post_types         = $this->post_type_helper->get_indexable_post_type_objects();
+		$content_types_list  = new Content_Types_List();
+		$post_types          = $this->post_type_helper->get_indexable_post_type_objects();
+		$excluded_post_types = $this->get_excluded_post_types();
 
 		foreach ( $post_types as $post_type_object ) {
+			if ( \in_array( $post_type_object->name, $excluded_post_types, true ) ) {
+				continue;
+			}
 			if ( $post_type_object->show_ui === false ) {
 				continue;
 			}
@@ -64,5 +68,26 @@ class Content_Types_Collector {
 		}
 
 		return $content_types_list;
+	}
+
+	/**
+	 * Returns the post types that are excluded from the bulk editor.
+	 *
+	 * @return array<string> The post types excluded from the bulk editor.
+	 */
+	private function get_excluded_post_types(): array {
+		/**
+		 * Filter: 'wpseo_bulk_editor_excluded_post_types' - Allows excluding post types from the bulk editor.
+		 *
+		 * @param array<string> $excluded_post_types The list of post types excluded from the bulk editor. Defaults to including the attachment post type.
+		 */
+		$excluded_post_types = \apply_filters( 'wpseo_bulk_editor_excluded_post_types', [ 'attachment' ] );
+
+		// Failsafe, to always make sure that the filtered value is an array.
+		if ( ! \is_array( $excluded_post_types ) ) {
+			return [ 'attachment' ];
+		}
+
+		return $excluded_post_types;
 	}
 }
