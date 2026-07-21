@@ -281,7 +281,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$can_connect = $this->connection_permission->can_manage();
 
 		return [
-			'isProvisioned' => \is_bool( $status['is_provisioned'] ) && $status['is_provisioned'],
+			'isProvisioned' => $status['is_provisioned'] === true,
 			'canConnect'    => $can_connect,
 			'connectUrl'    => ( $can_connect ) ? $this->get_connect_url() : null,
 		];
