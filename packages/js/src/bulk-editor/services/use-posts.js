@@ -63,6 +63,8 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 	const search = useSelect( ( select ) => select( STORE_NAME ).selectSearch(), [] );
 	const page = useSelect( ( select ) => select( STORE_NAME ).selectPage(), [] );
 	const statuses = useSelect( ( select ) => select( STORE_NAME ).selectStatuses(), [] );
+	const overviewIds = useSelect( ( select ) => select( STORE_NAME ).selectOverviewIds(), [] );
+	const isOverviewFilterActive = useSelect( ( select ) => select( STORE_NAME ).selectIsOverviewFilterActive(), [] );
 
 	const endpoint = dataProvider.getEndpoint( "posts" );
 
@@ -82,18 +84,24 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 
 		setState( ( previous ) => ( { ...previous, isPending: true } ) );
 
+		const params = {
+			/* eslint-disable camelcase -- The REST endpoint expects snake_case query parameters. */
+			content_type: contentType,
+			per_page: String( PAGE_SIZE ),
+			page: String( page ),
+			search,
+			status: statuses,
+			/* eslint-enable camelcase */
+		};
+		// The "Overview selection" filter narrows the list to the posts carried over from the WP admin overview.
+		if ( isOverviewFilterActive && overviewIds.length > 0 ) {
+			params.include = overviewIds.map( String );
+		}
+
 		remoteDataProvider
 			.fetchJson(
 				endpoint,
-				{
-					/* eslint-disable camelcase -- The REST endpoint expects snake_case query parameters. */
-					content_type: contentType,
-					per_page: String( PAGE_SIZE ),
-					page: String( page ),
-					search,
-					status: statuses,
-					/* eslint-enable camelcase */
-				},
+				params,
 				{ signal: current.signal }
 			)
 			.then( ( response ) => {
@@ -109,7 +117,7 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 			} );
 
 		return () => current.abort();
-	}, [ endpoint, contentType, remoteDataProvider, search, page, statuses ] );
+	}, [ endpoint, contentType, remoteDataProvider, search, page, statuses, overviewIds, isOverviewFilterActive ] );
 
 	return { ...state, updateItem };
 };
