@@ -8,10 +8,10 @@ use Mockery;
 use WP_User;
 use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Suggestion_Command;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Category;
+use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_Parameters;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_Response;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Post;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Post_List;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 
 /**
@@ -83,26 +83,19 @@ final class Handle_Test extends Abstract_Content_Suggestion_Command_Handler_Test
 			->with( 'post' )
 			->andReturn( false );
 
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
-			->once()
-			->with( $command->get_user() )
-			->andReturn( 'JWT' );
+		$this->ai_request_sender_factory->expects( 'create' )->once()->with( $command->get_user() )->andReturn( $this->ai_request_sender );
 
-		$this->request_handler
-			->expects( 'handle' )
+		$this->ai_request_sender
+			->expects( 'get_content_suggestions' )
 			->once()
 			->with(
 				Mockery::on(
-					static function ( $request ) use ( $post_list ) {
-						if ( ! $request instanceof Request ) {
-							return false;
-						}
-						if ( $request->get_action_path() !== '/content-planner/next-post-suggestions' ) {
+					static function ( $parameters ) use ( $post_list ) {
+						if ( ! $parameters instanceof Content_Suggestion_Parameters ) {
 							return false;
 						}
 
-						$content = ( $request->get_body()['subject']['content'] ?? [] );
+						$content = $parameters->get_content();
 
 						return ( $content['posts'] ?? null ) === $post_list->to_array();
 					},

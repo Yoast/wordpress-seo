@@ -7,6 +7,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\HTTP_Request\Infrastructure\API_Client;
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\WP_Request_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 
 /**
  * Class Perform_Request_Error_Test
@@ -26,7 +27,7 @@ final class Perform_Request_Error_Test extends Abstract_API_Client_Test {
 		$action_path = '/generate';
 		$body        = [ 'prompt' => 'Test prompt' ];
 		$headers     = [ 'Authorization' => 'Bearer test_token' ];
-		$is_post     = true;
+		$http_method = Request::METHOD_POST;
 
 		Functions\expect( 'apply_filters' )
 			->once()
@@ -58,6 +59,6 @@ final class Perform_Request_Error_Test extends Abstract_API_Client_Test {
 		$this->expectException( WP_Request_Exception::class );
 		$this->expectExceptionMessage( 'WP_HTTP_REQUEST_ERROR' );
 
-		$this->instance->perform_request( $action_path, $body, $headers, $is_post );
+		$this->instance->perform_request( $action_path, $body, $headers, $http_method );
 	}
 }

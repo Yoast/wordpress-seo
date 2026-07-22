@@ -7,6 +7,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\HTTP_Request\Application\Request_Handler;
 use Mockery;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Response_Parser;
+use Yoast\WP\SEO\AI\HTTP_Request\Application\Response_Validator;
 use Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -32,6 +33,14 @@ abstract class Abstract_Request_Handler_Test extends TestCase {
 	protected $response_parser;
 
 	/**
+	 * The Response_Validator instance. Uses the real implementation so the status-to-exception
+	 * mapping is exercised end-to-end through handle(); Response_Validator has its own test class.
+	 *
+	 * @var Response_Validator
+	 */
+	protected $response_validator;
+
+	/**
 	 * The instance to test.
 	 *
 	 * @var Request_Handler
@@ -46,12 +55,14 @@ abstract class Abstract_Request_Handler_Test extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->api_client      = Mockery::mock( API_Client::class );
-		$this->response_parser = Mockery::mock( Response_Parser::class );
+		$this->api_client         = Mockery::mock( API_Client::class );
+		$this->response_parser    = Mockery::mock( Response_Parser::class );
+		$this->response_validator = new Response_Validator();
 
 		$this->instance = new Request_Handler(
 			$this->api_client,
 			$this->response_parser,
+			$this->response_validator,
 		);
 	}
 }
