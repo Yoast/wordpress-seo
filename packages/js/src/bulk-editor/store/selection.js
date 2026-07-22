@@ -4,10 +4,13 @@ import { activeContentTypeActions } from "./active-content-type";
 import { queryActions } from "./query";
 
 /**
- * @returns {Object} The initial selection state: no rows selected.
+ * @returns {Object} The initial selection state: no rows selected, no selection carried over from the WP admin overview.
  */
 export const createInitialSelectionState = () => ( {
 	selectedIds: [],
+	// How many items were selected on the WP admin overview when the user came in via its bulk action; drives the
+	// "only the first 20 are selected" notice. 0 when the user did not come in that way (or the notice was dismissed).
+	preselectedTotal: 0,
 } );
 
 const slice = createSlice( {
@@ -23,20 +26,27 @@ const slice = createSlice( {
 		},
 		selectAll: ( state, { payload } ) => {
 			state.selectedIds = [ ...payload ];
+			// An explicit select-all replaces the carried-over selection, so its notice would be stale.
+			state.preselectedTotal = 0;
 		},
 		deselectAll: () => createInitialSelectionState(),
+		dismissPreselectionNotice: ( state ) => {
+			state.preselectedTotal = 0;
+		},
 	},
 	extraReducers: ( builder ) => {
 		// Any change to the shown result set resets the selection: the new set may no longer contain the selected rows.
 		builder.addCase( queryActions.setStatuses, () => createInitialSelectionState() );
 		builder.addCase( queryActions.setSearch, () => createInitialSelectionState() );
 		builder.addCase( queryActions.setPage, () => createInitialSelectionState() );
+		builder.addCase( queryActions.setOverviewFilterActive, () => createInitialSelectionState() );
 		builder.addCase( activeContentTypeActions.setActiveContentType, () => createInitialSelectionState() );
 	},
 } );
 
 export const selectionSelectors = {
 	selectSelectedIds: ( state ) => get( state, "selection.selectedIds", [] ),
+	selectPreselectedTotal: ( state ) => get( state, "selection.preselectedTotal", 0 ),
 };
 
 export const selectionActions = slice.actions;
