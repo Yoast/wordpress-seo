@@ -2,7 +2,7 @@ import { Slot } from "@wordpress/components";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../constants";
+import { BULK_UPDATE_BATCH_SIZE, PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
 import { useInlineEdit } from "../hooks/use-inline-edit";
 import { usePosts } from "../services/use-posts";
@@ -30,9 +30,11 @@ export const getSelectionView = ( isLoading, selectedIds, items, total ) => {
 		return { isAllSelected: false, isIndeterminate: false, selectedCount: 0, totalCount: 0, hasSelection: false };
 	}
 	// Only posts the user can edit are selectable, so "all selected" is measured against the editable rows.
-	const selectableCount = items.filter( ( item ) => item.editable ).length;
+	// Measured by membership, not count: a selection carried over from the WP admin overview can contain
+	// rows that are not on the current page.
+	const selectableIds = items.filter( ( item ) => item.editable ).map( ( item ) => item.id );
 	const selectedCount = selectedIds.length;
-	const isAllSelected = selectableCount > 0 && selectedCount === selectableCount;
+	const isAllSelected = selectableIds.length > 0 && selectableIds.every( ( id ) => selectedIds.includes( id ) );
 	return {
 		isAllSelected,
 		isIndeterminate: selectedCount > 0 && ! isAllSelected,
@@ -85,6 +87,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const {
 		activeFieldSet,
 		selectedIds,
+		preselectedTotal,
 		isPremium,
 		isAiEnabled,
 		hasExternalPendingChanges,
@@ -95,6 +98,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		return {
 			activeFieldSet: store.selectActiveFieldSet(),
 			selectedIds: store.selectSelectedIds(),
+			// The size of a selection carried over from the WP admin overview; drives the truncation notice.
+			preselectedTotal: store.selectPreselectedTotal(),
 			isPremium: store.selectPreference( "isPremium", false ),
 			isAiEnabled: store.selectPreference( "isAiEnabled", false ),
 			// An external plugin (e.g. Premium's AI suggestions) reports pending changes so the switch can be guarded.
@@ -104,7 +109,9 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			pendingSwitch: store.selectPendingSwitch(),
 		};
 	}, [] );
-	const { requestSwitch, commitSwitch, clearPendingSwitch, toggleRow, selectAll, deselectAll } = useDispatch( STORE_NAME );
+	const {
+		requestSwitch, commitSwitch, clearPendingSwitch, toggleRow, selectAll, deselectAll, dismissPreselectionNotice,
+	} = useDispatch( STORE_NAME );
 
 	const { data: items = [], total = 0, totalPages = 0, isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
 	const { editing, stopEditing } = useInlineEdit( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } );
@@ -151,6 +158,9 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	}, [ pendingSwitch, hasUnsavedEdits, hasExternalPendingChanges, onCommitSwitch ] );
 
 	const { isAllSelected, isIndeterminate, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
+	// The truncation notice for a selection carried over from the WP admin overview, shown in the band's notices region.
+	const hasOverviewNotice = preselectedTotal > BULK_UPDATE_BATCH_SIZE;
+	const showBulkActions = shouldShowBulkActions( { hasSelection, isAiEnabled, hasUnsavedEdits, hasExternalPendingChanges, hasOverviewNotice } );
 	const onSelectAll = useCallback( () => {
 		if ( ! isPending ) {
 			// Only posts the user can edit are selectable for bulk editing.
@@ -214,6 +224,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								isApplyingAll={ editing.isApplyingAll }
 								hasSaveError={ editing.hasSaveError }
 								onDismissSaveError={ editing.dismissSaveError }
+								preselectedTotal={ preselectedTotal }
+								onDismissPreselection={ dismissPreselectionNotice }
 							/>
 						}
 						showBulkActions={ showBulkActions }
