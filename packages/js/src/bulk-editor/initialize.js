@@ -11,7 +11,7 @@ import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
 import { UpsellModal } from "./components/upsell-modal";
-import { PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
+import { BULK_UPDATE_BATCH_SIZE, PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
 import { useAiUpsell } from "./hooks/use-ai-upsell";
 import { DataProvider } from "./services";
 import registerStore from "./store";
@@ -60,6 +60,7 @@ domReady( () => {
 	registerStore( {
 		initialState: {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoBulkEditorData.linkParams", {} ),
+			...getPreselectionState( get( window, "wpseoBulkEditorData.initialSelection", {} ) ),
 		},
 	} );
 	fixWordPressMenuScrolling();
