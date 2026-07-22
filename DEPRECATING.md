@@ -1,8 +1,3 @@
----
-name: deprecate-php
-description: "Deprecate PHP methods, classes, filters, and actions in the Yoast wordpress-seo repository following the official deprecation guide. Handles finding usages, adding _deprecated_function() calls, PHPDoc annotations, moving files to src/deprecated/, updating the DI container deprecated-classes list, and deprecating hooks with do_action_deprecated/apply_filters_deprecated."
----
-
 # Deprecate PHP
 
 Follow this process to deprecate a PHP method, class, filter, or action in Yoast SEO.
