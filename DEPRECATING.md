@@ -13,7 +13,7 @@ Before making any changes, locate all existing usages:
 
 1. **Code:** Search the codebase for the method/class/hook name. Also search for the name as a string (it may be used as a hook callback that static analysis won't catch).
 2. **Docs:** Search the developer docs for mentions; note any that need updating or a deprecation notice.
-3. **Third parties:** Check [Veloria (formerly WPDirectory)](https://https://veloria.dev/) and GitHub for external plugins/themes using the symbol. If an actively supported plugin depends on it, consider notifying the maintainer before the RC1 cut.
+3. **Third parties:** Check [Veloria (formerly WPDirectory)](https://veloria.dev/) and GitHub for external plugins/themes using the symbol. If an actively supported plugin depends on it, consider notifying the maintainer before the RC1 cut.
 
 If no usages are found, it is safe to proceed. If usages exist, decide whether an alternative should be provided and note it for the deprecation call.
 
@@ -140,8 +140,7 @@ Once a year, all deprecated functionality older than one year is removed. To fin
 
 - [ ] Searched codebase (including string searches for hook callbacks).
 - [ ] Checked docs for mentions.
-- [ ] Checked WPdirectory / GitHub for third-party usage.
-- [ ] Checked [veloria.dev](https://veloria.dev/) for third-party usage of the class/method/hook.
+- [ ] Checked [Veloria](https://veloria.dev/) and GitHub for third-party usage of the class/method/hook.
 - [ ] Alternative method identified (or confirmed none exists).
 - [ ] `_deprecated_function()` call added with `'Yoast SEO X.Y'` prefix.
 - [ ] `@deprecated X.Y` and `@codeCoverageIgnore` added to PHPDoc (method **and** class if deprecating the whole class).
