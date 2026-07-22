@@ -24,6 +24,33 @@ window.yoast.bulkEditor = window.yoast.bulkEditor || {};
 window.yoast.bulkEditor.components = { ...window.yoast.bulkEditor.components, UpsellModal, GenericAlert };
 window.yoast.bulkEditor.hooks = { ...window.yoast.bulkEditor.hooks, useAiUpsell };
 
+/**
+ * Builds the store state for a selection carried over from a WP admin overview bulk action.
+ *
+ * @param {Object} [initialSelection] The carried-over selection ({ contentType, postIds, selectedCount }), if any.
+ *
+ * @returns {Object} The seeded state: the active content type, the selection and the overview filter.
+ */
+export const getPreselectionState = ( initialSelection = {} ) => {
+	const selectedIds = ( Array.isArray( initialSelection.postIds ) ? initialSelection.postIds : [] )
+		.map( Number )
+		.filter( ( id ) => Number.isInteger( id ) && id > 0 )
+		.slice( 0, BULK_UPDATE_BATCH_SIZE );
+
+	return {
+		// An empty or unknown name resolves to the first available content type in the app.
+		activeContentType: typeof initialSelection.contentType === "string" ? initialSelection.contentType : "",
+		selection: {
+			selectedIds,
+			preselectedTotal: selectedIds.length > 0 ? Math.max( Number( initialSelection.selectedCount ) || 0, selectedIds.length ) : 0,
+		},
+		query: {
+			overviewIds: selectedIds,
+			isOverviewFilterActive: selectedIds.length > 0,
+		},
+	};
+};
+
 domReady( () => {
 	const root = document.getElementById( ROOT_ID );
 	if ( ! root ) {
