@@ -68,8 +68,9 @@ public function format_name( $name ) {
 3. Add `@deprecated X.Y` and `@codeCoverageIgnore` to the PHPDoc of every public method, and add a `_deprecated_function()` call as the **first line** of each deprecated public method body (this matches existing deprecated classes under `src/deprecated/src/`).
 4. If an individual public method is independently callable (e.g. used as a hook callback or called statically), ensure it has its own `_deprecated_function()` call even if the class also emits a notice elsewhere.
 5. Internal helper functions/methods that are only ever called by already-deprecated public API do **not** need a `_deprecated_function()` call — the public entry point already fires the notice. Add `@deprecated X.Y` and `@codeCoverageIgnore` to their PHPDoc for clarity.
-6. Move the file to `src/deprecated/` — especially when it is (or was) wired into the DI container or exposed on the surface API. Only skip this move if there is a specific technical reason.
-7. If the class is registered in the DI container, add it to `config/dependency-injection/deprecated-classes.php`.
+6. Internal helper functions/methods that are not used anymore (e.g. because the public methods were changed to call the alternative implementation directly) can be removed, or shortcut to the new implementation, instead of being kept and annotated.
+7. Move the file to `src/deprecated/` — especially when it is (or was) wired into the DI container or exposed on the surface API. Only skip this move if there is a specific technical reason.
+8. If the class is registered in the DI container, add it to `config/dependency-injection/deprecated-classes.php`.
 
 **Full example:**
 
