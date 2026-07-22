@@ -114,4 +114,5 @@ dependencies.md
 ############
 # AI
 ############
-/.claude/
+/.claude/*
+!/.claude/skills/
