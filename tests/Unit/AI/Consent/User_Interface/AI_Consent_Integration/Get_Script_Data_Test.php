@@ -42,6 +42,11 @@ final class Get_Script_Data_Test extends Abstract_AI_Consent_Integration_Test {
 		$endpoint_list->expects( 'to_paths_array' )->once()->andReturn( [] );
 		$this->endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $endpoint_list );
 
+		// Admin URL.
+		Monkey\Functions\expect( 'admin_url' )
+			->once()
+			->andReturn( 'https://example.com/wp-admin/' );
+
 		$this->instance->get_script_data();
 	}
 }

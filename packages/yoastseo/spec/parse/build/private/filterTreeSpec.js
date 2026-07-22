@@ -310,6 +310,50 @@ describe( "Miscellaneous tests", () => {
 		filteredTree = filterTree( tree, permanentFilters );
 		expect( filteredTree.findAll( child => child.attributes && child.attributes.id === "breadcrumbs" ) ).toHaveLength( 0 );
 	} );
+
+	it( "should filter out the Elementor table-of-contents widget", () => {
+		// Elementor's own ToC widget (distinct from the Yoast block) is navigation, not content.
+		const html = "<div data-id=\"23a158d\" data-element_type=\"widget\" class=\"elementor-element elementor-element-23a158d " +
+			"elementor-widget elementor-widget-table-of-contents elementor-toc--minimized-on-tablet\" data-widget_type=\"table-of-contents.default\">" +
+			"<div class=\"elementor-widget-container\"><div class=\"elementor-toc__header\"><span class=\"elementor-toc__header-title\">" +
+			"Table of Contents</span></div><div class=\"elementor-toc__body\"><ul><li><a href=\"#x\">Far away mountains</a></li></ul></div></div></div>" +
+			"<p>This is the first sentence.</p>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		expect( tree.findAll( child => child.attributes && child.attributes.class && child.attributes.class.has( "elementor-widget-table-of-contents" ) ) ).toHaveLength( 1 );
+
+		const filteredTree = filterTree( tree, permanentFilters );
+		expect( filteredTree.findAll( child => child.attributes && child.attributes.class && child.attributes.class.has( "elementor-widget-table-of-contents" ) ) ).toHaveLength( 0 );
+	} );
+
+	it( "should filter out Elementor V4 atomic button, divider and svg widgets", () => {
+		// Atomic widgets render as `<div class="elementor-element ... elementor-widget-e-<type>">`.
+		const html = "<div class=\"elementor-element elementor-widget elementor-widget-e-button\"><a class=\"e-button-base\">Click me</a></div>" +
+			"<div class=\"elementor-element elementor-widget elementor-widget-e-divider\"><hr class=\"e-divider-base\"></div>" +
+			"<div class=\"elementor-element elementor-widget elementor-widget-e-svg\"><svg class=\"e-svg-base\"></svg></div>" +
+			"<p>This is the first sentence.</p>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		const filteredTree = filterTree( tree, permanentFilters );
+
+		[ "elementor-widget-e-button", "elementor-widget-e-divider", "elementor-widget-e-svg" ].forEach( ( widgetClass ) => {
+			const matches = filteredTree.findAll(
+				child => child.attributes && child.attributes.class && child.attributes.class.has( widgetClass )
+			);
+			expect( matches ).toHaveLength( 0 );
+		} );
+		// The button label must not survive as analysable text.
+		expect( filteredTree.findAll( child => child.name === "a" ) ).toHaveLength( 0 );
+	} );
+
+	it( "should filter out an Elementor V4 atomic form together with its nested fields", () => {
+		// Atomic forms render as a `<form>` element, so the existing `form` filter removes the whole subtree.
+		const html = "<form class=\"elementor-widget-e-form\"><label class=\"elementor-widget-e-form-label\">Name</label>" +
+			"<input class=\"elementor-widget-e-form-input\"><button class=\"elementor-widget-e-form-submit-button\">Send</button></form>" +
+			"<p>This is the first sentence.</p>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		const filteredTree = filterTree( tree, permanentFilters );
+
+		expect( filteredTree.findAll( child => [ "form", "label", "input", "button" ].includes( child.name ) ) ).toHaveLength( 0 );
+	} );
 } );
 
 describe( "Tests filtered trees of a few Yoast blocks and of a made-up Yoast block", () => {
