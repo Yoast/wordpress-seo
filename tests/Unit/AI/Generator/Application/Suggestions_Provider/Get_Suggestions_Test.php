@@ -6,8 +6,9 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\Application\Suggestions_Provider;
 
 use Mockery;
 use WP_User;
+use Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Parameters;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Insufficient_Scope_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 
 /**
@@ -30,14 +31,17 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 
 		$http_response = Mockery::mock( Response::class );
 
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
+		$this->ai_request_sender_factory->expects( 'create' )->with( $user )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender
+			->expects( 'get_suggestions' )
 			->once()
-			->with( $user );
-
-		$this->request_handler
-			->expects( 'handle' )
-			->once()
+			->with(
+				Mockery::on(
+					static function ( $parameters ) use ( $user ) {
+						return self::parameters_match_expected_shape( $parameters, $user );
+					},
+				),
+			)
 			->andReturn( $http_response );
 
 		$http_response
@@ -48,13 +52,12 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 
 		$suggestions_array = $this->instance->get_suggestions(
 			$user,
-			'test',
-			'',
-			'',
-			'',
-			'',
-			'',
-			false,
+			'seo-title',
+			'The article excerpt.',
+			'AI usage',
+			'en_US',
+			'web',
+			'gutenberg',
 		);
 
 		$this->assertArrayHasKey( 0, $suggestions_array );
@@ -62,73 +65,8 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 	}
 
 	/**
-	 * Tests an unauthorized exception.
-	 *
-	 * @dataProvider data_get_suggestions
-	 *
-	 * @param bool $retry_on_unauthorized Whether to retry when unauthorized.
-	 *
-	 * @return void
-	 */
-	public function test_get_suggestions_with_unauthorized_exception( $retry_on_unauthorized ) {
-		$user     = Mockery::mock( WP_User::class );
-		$user->ID = 1;
-
-		$call_count = ( $retry_on_unauthorized ) ? 2 : 1;
-
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
-			->times( $call_count )
-			->with( $user );
-
-		$this->request_handler
-			->expects( 'handle' )
-			->times( $call_count )
-			->andThrow( new Unauthorized_Exception( 'unauthorized' ) );
-
-		$this->user_helper->expects( 'delete_meta' )
-			->times( $call_count )
-			->with( $user->ID, '_yoast_wpseo_ai_generator_access_jwt' )
-			->andReturn( true );
-
-		$this->user_helper->expects( 'delete_meta' )
-			->times( $call_count )
-			->with( $user->ID, '_yoast_wpseo_ai_generator_refresh_jwt' )
-			->andReturn( true );
-
-		$this->expectException( Unauthorized_Exception::class );
-		$this->expectExceptionMessage( 'unauthorized' );
-
-		$this->instance->get_suggestions(
-			$user,
-			'test',
-			'',
-			'',
-			'',
-			'',
-			'',
-			$retry_on_unauthorized,
-		);
-	}
-
-	/**
-	 * Data provider for test_get_suggestions.
-	 *
-	 * @return array<string, array<bool>>
-	 */
-	public static function data_get_suggestions() {
-		return [
-			'Retry on unauthorized' => [
-				'retry_on_unauthorized' => true,
-			],
-			'Do not retry on unauthorized' => [
-				'retry_on_unauthorized' => false,
-			],
-		];
-	}
-
-	/**
-	 * Tests a foridden exception.
+	 * Tests that a Forbidden exception is translated into a CONSENT_REVOKED Forbidden_Exception
+	 * after revoking the user's consent (the 401-retry logic now lives in Token_Auth_Strategy).
 	 *
 	 * @return void
 	 */
@@ -136,14 +74,11 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 		$user     = Mockery::mock( WP_User::class );
 		$user->ID = 1;
 
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
+		$this->ai_request_sender_factory->expects( 'create' )->with( $user )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender
+			->expects( 'get_suggestions' )
 			->once()
-			->with( $user );
-
-		$this->request_handler
-			->expects( 'handle' )
-			->once()
+			->with( Mockery::type( Suggestions_Parameters::class ) )
 			->andThrow( new Forbidden_Exception() );
 
 		$this->consent_handler->expects( 'revoke_consent' )
@@ -166,26 +101,25 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 	}
 
 	/**
-	 * Tests a forbidden exception thrown while fetching the access token.
+	 * An Insufficient_Scope_Exception is propagated unchanged — a scope failure is a deployment/
+	 * token-issuance problem, so consent is NOT revoked even though the class extends Forbidden_Exception.
 	 *
 	 * @return void
 	 */
-	public function test_get_suggestions_with_forbidden_exception_on_token_fetch() {
+	public function test_get_suggestions_propagates_insufficient_scope_without_consent_revoke() {
 		$user     = Mockery::mock( WP_User::class );
 		$user->ID = 1;
 
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
+		$this->ai_request_sender_factory->expects( 'create' )->with( $user )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender
+			->expects( 'get_suggestions' )
 			->once()
-			->with( $user )
-			->andThrow( new Forbidden_Exception() );
+			->with( Mockery::type( Suggestions_Parameters::class ) )
+			->andThrow( new Insufficient_Scope_Exception( 'INSUFFICIENT_SCOPE', 403, 'INSUFFICIENT_SCOPE' ) );
 
-		$this->consent_handler->expects( 'revoke_consent' )
-			->once()
-			->with( $user->ID );
+		$this->consent_handler->shouldNotReceive( 'revoke_consent' );
 
-		$this->expectException( Forbidden_Exception::class );
-		$this->expectExceptionMessage( 'CONSENT_REVOKED' );
+		$this->expectException( Insufficient_Scope_Exception::class );
 
 		$this->instance->get_suggestions(
 			$user,
@@ -195,7 +129,28 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 			'',
 			'',
 			'',
-			false,
 		);
+	}
+
+	/**
+	 * Asserts that the given parameters match what get_suggestions was invoked with on the happy path.
+	 *
+	 * @param mixed   $parameters The parameters to inspect.
+	 * @param WP_User $user       The expected user.
+	 *
+	 * @return bool True when the parameters match the expected shape.
+	 */
+	private static function parameters_match_expected_shape( $parameters, WP_User $user ): bool {
+		if ( ! $parameters instanceof Suggestions_Parameters ) {
+			return false;
+		}
+
+		return $parameters->get_user() === $user
+			&& $parameters->get_suggestion_type() === 'seo-title'
+			&& $parameters->get_prompt_content() === 'The article excerpt.'
+			&& $parameters->get_focus_keyphrase() === 'AI usage'
+			&& $parameters->get_language() === 'en_US'
+			&& $parameters->get_platform() === 'web'
+			&& $parameters->get_editor() === 'gutenberg';
 	}
 }

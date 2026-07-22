@@ -40,6 +40,7 @@ import {
 	CheckboxGroup,
 	ChildrenLimiter,
 	Code,
+	Divider,
 	DropdownMenu,
 	ErrorBoundary,
 	FeatureUpsell,
@@ -110,6 +111,8 @@ const cases = [
 		props: { id: "cb", name: "cb", value: "cb" },
 	},
 	{ name: "Code", Component: Code, props: { children: "code" } },
+	{ name: "Divider", Component: Divider, props: {} },
+	{ name: "Divider (with children)", Component: Divider, props: { children: "or" } },
 	{ name: "Label", Component: Label, props: {} },
 	{ name: "Link", Component: Link, props: { children: "Link" } },
 	{
@@ -278,6 +281,19 @@ const cases = [
 		name: "SidebarNavigation",
 		Component: SidebarNavigation,
 		props: { children: <span>Nav</span> },
+	},
+	{
+		name: "SidebarNavigation.MenuItemWithLimiter",
+		Component: SidebarNavigation.MenuItemWithLimiter,
+		props: {
+			id: "mi",
+			label: "Menu",
+			limit: 1,
+			buttonId: "mi-more",
+			showMoreLabel: "More",
+			showLessLabel: "Less",
+			children: [ <a key="1" href="#1">1</a>, <a key="2" href="#2">2</a> ],
+		},
 	},
 	{
 		name: "Stepper",

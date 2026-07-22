@@ -78,3 +78,13 @@ global.HTMLCanvasElement.prototype.getContext = function( type ) {
 // This is a workaround to make them available in Jest.
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
+
+// JSDOM's window.matchMedia stub lacks addEventListener/removeEventListener; replace it with a
+// full mock so components using useMediaQuery (e.g. BulkEditorFooter) don't crash during tests.
+global.matchMedia = jest.fn().mockImplementation( ( query ) => ( {
+	matches: false,
+	media: query,
+	addEventListener: jest.fn(),
+	removeEventListener: jest.fn(),
+	dispatchEvent: jest.fn(),
+} ) );
