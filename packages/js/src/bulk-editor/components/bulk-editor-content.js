@@ -43,6 +43,28 @@ export const getSelectionView = ( isLoading, selectedIds, items, total ) => {
 };
 
 /**
+ * Decides whether the bulk-actions band row is expanded.
+ *
+ * A selection only warrants the band while AI is enabled (the AI affordances are its only selection-driven
+ * occupant); with AI off the band collapses. Unsaved manual edits are a separate, non-AI occupant, so they
+ * keep it open regardless of the AI toggle. External pending changes (Premium's AI suggestions) also keep
+ * it open: a filter, search, or page change clears the selection but must leave the pending suggestions
+ * actionable. The overview-selection truncation notice lives in the band's notices region, so it opens the
+ * band too.
+ *
+ * @param {Object}  view                           The view state.
+ * @param {boolean} view.hasSelection              Whether any rows are selected.
+ * @param {boolean} view.isAiEnabled               Whether the AI feature is enabled.
+ * @param {boolean} view.hasUnsavedEdits           Whether a row has unsaved manual edits.
+ * @param {boolean} view.hasExternalPendingChanges Whether an external plugin reports pending changes.
+ * @param {boolean} view.hasOverviewNotice         Whether the overview-selection truncation notice must show.
+ *
+ * @returns {boolean} Whether the band is expanded.
+ */
+export const shouldShowBulkActions = ( { hasSelection, isAiEnabled, hasUnsavedEdits, hasExternalPendingChanges, hasOverviewNotice } ) =>
+	( hasSelection && isAiEnabled ) || hasUnsavedEdits || hasExternalPendingChanges || hasOverviewNotice;
+
+/**
  * The bulk editor content.
  *
  * @param {Object}                             props                    The props.
@@ -194,12 +216,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								onDismissSaveError={ editing.dismissSaveError }
 							/>
 						}
-						// A selection only warrants the band while AI is enabled (the AI affordances are its only
-						// selection-driven occupant); with AI off the band collapses. Unsaved manual edits are a
-						// separate, non-AI occupant, so they keep it open regardless of the AI toggle. External
-						// pending changes (Premium's AI suggestions) also keep it open: a filter, search, or page
-						// change clears the selection but must leave the pending suggestions actionable.
-						showBulkActions={ ( hasSelection && isAiEnabled ) || hasUnsavedEdits || hasExternalPendingChanges }
+						showBulkActions={ showBulkActions }
 						filters={ <BulkEditorFilters /> }
 						isLoading={ isPending }
 						hasExternalPendingChanges={ hasExternalPendingChanges }
