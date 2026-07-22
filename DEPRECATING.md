@@ -63,7 +63,7 @@ public function format_name( $name ) {
 
 ## Deprecating a class
 
-1. Add `_deprecated_function( __METHOD__, 'Yoast SEO X.Y' )` to `__construct` — this is the single point that fires the notice for any caller that instantiates the class. Child classes that call `parent::__construct()` inherit the notice automatically.
+1. If the class has a `__construct` (or adding one won’t change behavior), add `_deprecated_function( __METHOD__, 'Yoast SEO X.Y' )` as the **first line** of `__construct`. Child classes that call `parent::__construct()` inherit the notice automatically.
 2. Add `@deprecated X.Y` and `@codeCoverageIgnore` to the **class-level PHPDoc block** and to `__construct`'s PHPDoc block.
 3. Add `@deprecated X.Y` and `@codeCoverageIgnore` to the PHPDoc of every public method, and add a `_deprecated_function()` call as the **first line** of each deprecated public method body (this matches existing deprecated classes under `src/deprecated/src/`).
 4. If an individual public method is independently callable (e.g. used as a hook callback or called statically), ensure it has its own `_deprecated_function()` call even if the class also emits a notice elsewhere.
