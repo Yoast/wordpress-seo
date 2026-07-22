@@ -239,6 +239,39 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 	}
 
 	/**
+	 * Tests that a post ID restriction narrows the query to those posts.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_restricts_to_the_included_post_ids() {
+		$indexable            = new Indexable_Mock();
+		$indexable->object_id = 5;
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->expects( 'where_in' )->with( 'post_status', self::STATUSES )->andReturnSelf();
+		$query->expects( 'where_in' )->with( 'object_id', [ 5, 3 ] )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		// The page is not full, so the total is derived and build_query runs only once.
+		$query->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+		$query->expects( 'count' )->never();
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 5 ] )->andReturn( [ 5 => true ] );
+
+		Functions\expect( 'get_the_title' )->once()->with( 5 )->andReturn( 'Hello world' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 5, 'raw' )->andReturn( 'edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 5, 3 ] ) )->to_array();
+
+		$this->assertSame( 5, $result['posts'][0]['id'] );
+		$this->assertSame( 1, $result['total'] );
+	}
+
+	/**
 	 * Stubs the indexable query for a page that returns the given rows, without constraining count().
 	 *
 	 * @param array<Indexable_Mock> $rows The indexables the page query returns.

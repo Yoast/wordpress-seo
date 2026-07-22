@@ -1,7 +1,7 @@
 import { Fill, SlotFillProvider } from "@wordpress/components";
 import { dispatch } from "@wordpress/data";
 import { act, fireEvent, render, screen, waitFor } from "../test-utils";
-import { BulkEditorContent, getSelectionView } from "../../src/bulk-editor/components/bulk-editor-content";
+import { BulkEditorContent, getSelectionView, shouldShowBulkActions } from "../../src/bulk-editor/components/bulk-editor-content";
 import { FIELD_SET_SEARCH, PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../../src/bulk-editor/constants";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
@@ -120,6 +120,22 @@ describe( "getSelectionView", () => {
 		expect( view.totalCount ).toBe( 42 );
 	} );
 
+	it( "does not read a carried-over selection of other rows as all selected", () => {
+		// Two visible rows plus an id that is not on this page (carried over from the WP admin overview).
+		const view = getSelectionView( false, [ 1, 2, 99 ], items, 30 );
+
+		expect( view.isAllSelected ).toBe( false );
+		expect( view.isIndeterminate ).toBe( true );
+		expect( view.selectedCount ).toBe( 3 );
+	} );
+
+	it( "reads a selection covering every visible row as all selected, even with extra off-page rows", () => {
+		const view = getSelectionView( false, [ 1, 2, 3, 99 ], items, 30 );
+
+		expect( view.isAllSelected ).toBe( true );
+		expect( view.isIndeterminate ).toBe( false );
+	} );
+
 	it( "treats only editable rows as selectable", () => {
 		const mixed = [ { id: 1, editable: true }, { id: 2, editable: false }, { id: 3, editable: true } ];
 
@@ -129,6 +145,25 @@ describe( "getSelectionView", () => {
 
 		expect( view.isAllSelected ).toBe( true );
 		expect( view.isIndeterminate ).toBe( false );
+	} );
+} );
+
+describe( "shouldShowBulkActions", () => {
+	const closed = { hasSelection: false, isAiEnabled: false, hasUnsavedEdits: false, hasExternalPendingChanges: false, hasOverviewNotice: false };
+
+	it( "keeps the band closed when nothing occupies it", () => {
+		expect( shouldShowBulkActions( closed ) ).toBe( false );
+	} );
+
+	it( "opens the band for a selection only while AI is enabled", () => {
+		expect( shouldShowBulkActions( { ...closed, hasSelection: true } ) ).toBe( false );
+		expect( shouldShowBulkActions( { ...closed, hasSelection: true, isAiEnabled: true } ) ).toBe( true );
+	} );
+
+	it( "opens the band for unsaved edits, external pending changes and the overview notice", () => {
+		expect( shouldShowBulkActions( { ...closed, hasUnsavedEdits: true } ) ).toBe( true );
+		expect( shouldShowBulkActions( { ...closed, hasExternalPendingChanges: true } ) ).toBe( true );
+		expect( shouldShowBulkActions( { ...closed, hasOverviewNotice: true } ) ).toBe( true );
 	} );
 } );
 

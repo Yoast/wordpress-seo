@@ -11,12 +11,14 @@ describe( "usePosts", () => {
 
 	beforeEach( () => {
 		dataProvider = { getEndpoint: jest.fn( () => "https://example.com/wp-json/yoast/v1/bulk_editor/posts" ) };
-		storeState = { search: "", page: 1, statuses: [] };
+		storeState = { search: "", page: 1, statuses: [], overviewIds: [], isOverviewFilterActive: false };
 		// Resolve each useSelect call against our controllable store state.
 		useSelect.mockImplementation( ( mapSelect ) => mapSelect( () => ( {
 			selectSearch: () => storeState.search,
 			selectPage: () => storeState.page,
 			selectStatuses: () => storeState.statuses,
+			selectOverviewIds: () => storeState.overviewIds,
+			selectIsOverviewFilterActive: () => storeState.isOverviewFilterActive,
 		} ) ) );
 	} );
 
@@ -33,6 +35,36 @@ describe( "usePosts", () => {
 			"https://example.com/wp-json/yoast/v1/bulk_editor/posts",
 			// eslint-disable-next-line camelcase -- The REST endpoint expects snake_case query parameters.
 			{ content_type: "page", per_page: String( PAGE_SIZE ), page: "2", search: "seo", status: [ "draft", "pending" ] },
+			expect.objectContaining( { signal: expect.anything() } )
+		);
+	} );
+
+	it( "requests only the carried-over posts while the overview filter is active", async() => {
+		storeState = { search: "", page: 1, statuses: [], overviewIds: [ 5, 3 ], isOverviewFilterActive: true };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { posts: [] } ) ) };
+
+		renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
+
+		await waitFor( () => expect( remoteDataProvider.fetchJson ).toHaveBeenCalled() );
+
+		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
+			"https://example.com/wp-json/yoast/v1/bulk_editor/posts",
+			expect.objectContaining( { include: [ "5", "3" ] } ),
+			expect.objectContaining( { signal: expect.anything() } )
+		);
+	} );
+
+	it( "does not send the carried-over posts while the overview filter is inactive", async() => {
+		storeState = { search: "", page: 1, statuses: [], overviewIds: [ 5, 3 ], isOverviewFilterActive: false };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { posts: [] } ) ) };
+
+		renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
+
+		await waitFor( () => expect( remoteDataProvider.fetchJson ).toHaveBeenCalled() );
+
+		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
+			"https://example.com/wp-json/yoast/v1/bulk_editor/posts",
+			expect.not.objectContaining( { include: expect.anything() } ),
 			expect.objectContaining( { signal: expect.anything() } )
 		);
 	} );

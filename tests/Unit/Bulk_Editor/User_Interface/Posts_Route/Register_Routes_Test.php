@@ -73,6 +73,17 @@ final class Register_Routes_Test extends Abstract_Posts_Route_Test {
 							],
 							'description' => 'The post statuses to include.',
 						],
+						'include'      => [
+							'required'    => false,
+							'type'        => 'array',
+							'default'     => [],
+							'maxItems'    => 100,
+							'items'       => [
+								'type'    => 'integer',
+								'minimum' => 1,
+							],
+							'description' => 'Limits the posts to these post IDs, e.g. a selection carried over from the posts overview.',
+						],
 					],
 					'callback'            => [ $this->instance, 'get_posts' ],
 					'permission_callback' => [ $this->instance, 'check_permissions' ],

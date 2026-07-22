@@ -6,12 +6,15 @@ import registerStore from "../../src/bulk-editor/store";
 
 describe( "BulkEditorFilters", () => {
 	beforeAll( () => {
-		registerStore();
+		// Seeded with a carried-over overview selection, like initialize.js does, so the
+		// "Overview selection" filter is offered.
+		registerStore( { initialState: { query: { overviewIds: [ 5, 3 ], isOverviewFilterActive: true } } } );
 	} );
 
 	beforeEach( () => {
-		// Reset the filter so the tests stay order-independent.
+		// Reset the filters so the tests stay order-independent.
 		dispatch( STORE_NAME ).setStatuses( [] );
+		dispatch( STORE_NAME ).setOverviewFilterActive( false );
 	} );
 
 	it( "renders the Filters button without a count badge when nothing is applied", () => {
@@ -39,6 +42,24 @@ describe( "BulkEditorFilters", () => {
 		fireEvent.click( screen.getByRole( "checkbox", { name: "Draft" } ) );
 
 		expect( select( STORE_NAME ).selectStatuses() ).toEqual( [ "draft" ] );
+		expect( screen.getByText( "1" ) ).toBeInTheDocument();
+	} );
+
+	it( "offers the Overview selection filter while a carried-over selection exists", () => {
+		render( <BulkEditorFilters /> );
+
+		fireEvent.click( screen.getByRole( "button", { name: /Filters/ } ) );
+
+		expect( screen.getByRole( "checkbox", { name: "Overview selection" } ) ).toBeInTheDocument();
+	} );
+
+	it( "activates the overview filter, updates the store and counts it in the badge", () => {
+		render( <BulkEditorFilters /> );
+
+		fireEvent.click( screen.getByRole( "button", { name: /Filters/ } ) );
+		fireEvent.click( screen.getByRole( "checkbox", { name: "Overview selection" } ) );
+
+		expect( select( STORE_NAME ).selectIsOverviewFilterActive() ).toBe( true );
 		expect( screen.getByText( "1" ) ).toBeInTheDocument();
 	} );
 

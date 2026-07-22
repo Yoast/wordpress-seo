@@ -3,8 +3,8 @@ import reducer, { createInitialSelectionState, selectionActions, selectionSelect
 import { queryActions } from "../../../src/bulk-editor/store/query";
 
 describe( "selection slice", () => {
-	it( "defaults to no rows selected", () => {
-		expect( createInitialSelectionState() ).toEqual( { selectedIds: [] } );
+	it( "defaults to no rows selected and no carried-over selection", () => {
+		expect( createInitialSelectionState() ).toEqual( { selectedIds: [], preselectedTotal: 0 } );
 	} );
 
 	it( "adds a row to the selection when toggled on", () => {
@@ -65,5 +65,46 @@ describe( "selection slice", () => {
 	it( "selects the selected ids, defaulting to empty when missing", () => {
 		expect( selectionSelectors.selectSelectedIds( { selection: { selectedIds: [ 7 ] } } ) ).toEqual( [ 7 ] );
 		expect( selectionSelectors.selectSelectedIds( {} ) ).toEqual( [] );
+	} );
+
+	it( "clears the carried-over selection total on dismissPreselectionNotice", () => {
+		const state = reducer( { selectedIds: [ 7, 9 ], preselectedTotal: 25 }, selectionActions.dismissPreselectionNotice() );
+
+		expect( state ).toEqual( { selectedIds: [ 7, 9 ], preselectedTotal: 0 } );
+	} );
+
+	it( "clears the carried-over selection total on selectAll", () => {
+		const state = reducer( { selectedIds: [ 7 ], preselectedTotal: 25 }, selectionActions.selectAll( [ 7, 9 ] ) );
+
+		expect( state ).toEqual( { selectedIds: [ 7, 9 ], preselectedTotal: 0 } );
+	} );
+
+	it( "clears the carried-over selection total on deselectAll", () => {
+		const state = reducer( { selectedIds: [ 7 ], preselectedTotal: 25 }, selectionActions.deselectAll() );
+
+		expect( state ).toEqual( { selectedIds: [], preselectedTotal: 0 } );
+	} );
+
+	it( "keeps the carried-over selection total when a single row is toggled", () => {
+		const state = reducer( { selectedIds: [ 7 ], preselectedTotal: 25 }, selectionActions.toggleRow( 9 ) );
+
+		expect( state ).toEqual( { selectedIds: [ 7, 9 ], preselectedTotal: 25 } );
+	} );
+
+	it( "clears the carried-over selection total when the shown result set changes", () => {
+		const state = reducer( { selectedIds: [ 7, 9 ], preselectedTotal: 25 }, queryActions.setPage( 2 ) );
+
+		expect( state ).toEqual( { selectedIds: [], preselectedTotal: 0 } );
+	} );
+
+	it( "clears the selection when the overview filter is toggled", () => {
+		const state = reducer( { selectedIds: [ 7, 9 ], preselectedTotal: 25 }, queryActions.setOverviewFilterActive( false ) );
+
+		expect( state ).toEqual( { selectedIds: [], preselectedTotal: 0 } );
+	} );
+
+	it( "selects the carried-over selection total, defaulting to 0 when missing", () => {
+		expect( selectionSelectors.selectPreselectedTotal( { selection: { preselectedTotal: 25 } } ) ).toBe( 25 );
+		expect( selectionSelectors.selectPreselectedTotal( {} ) ).toBe( 0 );
 	} );
 } );

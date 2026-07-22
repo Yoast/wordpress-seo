@@ -36,6 +36,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
 		$request->expects( 'get_param' )->with( 'search' )->andReturn( 'seo' );
 		$request->expects( 'get_param' )->with( 'status' )->andReturn( [ 'draft', 'pending' ] );
+		$request->expects( 'get_param' )->with( 'include' )->andReturn( [] );
 
 		$this->content_types_repository
 			->expects( 'get_content_types' )
@@ -86,6 +87,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
 		$request->expects( 'get_param' )->with( 'search' )->andReturn( '' );
 		$request->expects( 'get_param' )->with( 'status' )->andReturn( [ 'publish' ] );
+		$request->expects( 'get_param' )->with( 'include' )->andReturn( [] );
 
 		$this->content_types_repository
 			->expects( 'get_content_types' )
@@ -135,6 +137,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
 		$request->expects( 'get_param' )->with( 'search' )->andReturn( '' );
 		$request->expects( 'get_param' )->with( 'status' )->andReturn( [] );
+		$request->expects( 'get_param' )->with( 'include' )->andReturn( [] );
 
 		$this->content_types_repository
 			->expects( 'get_content_types' )
@@ -161,6 +164,55 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 					static function ( $query ) {
 						return $query instanceof Posts_Query
 							&& $query->get_statuses() === Posts_Collector_Interface::STATUSES;
+					},
+				),
+			)
+			->andReturn( $posts_page );
+
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->get_posts( $request ) );
+	}
+
+	/**
+	 * Tests that the included post IDs are deduplicated and carried into the query.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_carries_the_included_post_ids() {
+		$request = Mockery::mock( WP_REST_Request::class );
+		$request->expects( 'get_param' )->with( 'content_type' )->andReturn( 'page' );
+		$request->expects( 'get_param' )->with( 'page' )->andReturn( 1 );
+		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
+		$request->expects( 'get_param' )->with( 'search' )->andReturn( '' );
+		$request->expects( 'get_param' )->with( 'status' )->andReturn( [ 'publish' ] );
+		$request->expects( 'get_param' )->with( 'include' )->andReturn( [ 5, '3', 3, 5 ] );
+
+		$this->content_types_repository
+			->expects( 'get_content_types' )
+			->once()
+			->andReturn(
+				[
+					[
+						'name'  => 'page',
+						'label' => 'Pages',
+					],
+				],
+			);
+
+		$this->content_type_access_checker->expects( 'can_edit_others' )->with( 'page' )->andReturnTrue();
+
+		$posts_page = Mockery::mock( Posts_Page::class );
+		$posts_page->expects( 'to_array' )->once()->andReturn( [] );
+
+		$this->posts_repository
+			->expects( 'get_posts' )
+			->once()
+			->with(
+				Mockery::on(
+					static function ( $query ) {
+						return $query instanceof Posts_Query
+							&& $query->get_include() === [ 5, 3 ];
 					},
 				),
 			)

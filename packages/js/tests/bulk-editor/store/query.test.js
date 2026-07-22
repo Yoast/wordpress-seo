@@ -2,8 +2,8 @@ import { activeContentTypeActions } from "../../../src/bulk-editor/store/active-
 import reducer, { createInitialQueryState, queryActions, querySelectors } from "../../../src/bulk-editor/store/query";
 
 describe( "query slice", () => {
-	it( "defaults to an empty search on the first page with no status filter", () => {
-		expect( createInitialQueryState() ).toEqual( { search: "", page: 1, statuses: [] } );
+	it( "defaults to an empty search on the first page with no status filter and no overview selection", () => {
+		expect( createInitialQueryState() ).toEqual( { search: "", page: 1, statuses: [], overviewIds: [], isOverviewFilterActive: false } );
 	} );
 
 	it( "sets the search term and resets to the first page", () => {
@@ -24,10 +24,30 @@ describe( "query slice", () => {
 		expect( state ).toEqual( { search: "seo", page: 1, statuses: [ "draft", "pending" ] } );
 	} );
 
-	it( "resets to the first page when the content type changes", () => {
-		const state = reducer( { search: "seo", page: 9 }, activeContentTypeActions.setActiveContentType( "page" ) );
+	it( "resets to the first page and drops the overview selection when the content type changes", () => {
+		const state = reducer(
+			{ search: "seo", page: 9, overviewIds: [ 5, 3 ], isOverviewFilterActive: true },
+			activeContentTypeActions.setActiveContentType( "page" )
+		);
 
-		expect( state ).toEqual( { search: "seo", page: 1 } );
+		expect( state ).toEqual( { search: "seo", page: 1, overviewIds: [], isOverviewFilterActive: false } );
+	} );
+
+	it( "toggles the overview filter and resets to the first page", () => {
+		let state = reducer( { page: 4, overviewIds: [ 5, 3 ], isOverviewFilterActive: true }, queryActions.setOverviewFilterActive( false ) );
+		expect( state ).toEqual( { page: 1, overviewIds: [ 5, 3 ], isOverviewFilterActive: false } );
+
+		state = reducer( { ...state, page: 2 }, queryActions.setOverviewFilterActive( true ) );
+		expect( state ).toEqual( { page: 1, overviewIds: [ 5, 3 ], isOverviewFilterActive: true } );
+	} );
+
+	it( "selects the overview selection state, defaulting when missing", () => {
+		const state = { query: { overviewIds: [ 5, 3 ], isOverviewFilterActive: true } };
+
+		expect( querySelectors.selectOverviewIds( state ) ).toEqual( [ 5, 3 ] );
+		expect( querySelectors.selectIsOverviewFilterActive( state ) ).toBe( true );
+		expect( querySelectors.selectOverviewIds( {} ) ).toEqual( [] );
+		expect( querySelectors.selectIsOverviewFilterActive( {} ) ).toBe( false );
 	} );
 
 	it( "selects the search term, page, statuses and query from the store state", () => {
@@ -43,6 +63,6 @@ describe( "query slice", () => {
 		expect( querySelectors.selectSearch( {} ) ).toBe( "" );
 		expect( querySelectors.selectPage( {} ) ).toBe( 1 );
 		expect( querySelectors.selectStatuses( {} ) ).toEqual( [] );
-		expect( querySelectors.selectQuery( {} ) ).toEqual( { search: "", page: 1, statuses: [] } );
+		expect( querySelectors.selectQuery( {} ) ).toEqual( { search: "", page: 1, statuses: [], overviewIds: [], isOverviewFilterActive: false } );
 	} );
 } );
