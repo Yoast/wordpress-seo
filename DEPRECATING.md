@@ -13,7 +13,7 @@ Before making any changes, locate all existing usages:
 
 1. **Code:** Search the codebase for the method/class/hook name. Also search for the name as a string (it may be used as a hook callback that static analysis won't catch).
 2. **Docs:** Search the developer docs for mentions; note any that need updating or a deprecation notice.
-3. **Third parties:** Check [WPdirectory](https://wpdirectory.net/) and GitHub for external plugins/themes using the symbol. If an actively supported plugin depends on it, consider notifying the maintainer before the RC1 cut.
+3. **Third parties:** Check [Veloria (formerly WPDirectory)](https://https://veloria.dev/) and GitHub for external plugins/themes using the symbol. If an actively supported plugin depends on it, consider notifying the maintainer before the RC1 cut.
 
 If no usages are found, it is safe to proceed. If usages exist, decide whether an alternative should be provided and note it for the deprecation call.
 
@@ -26,7 +26,7 @@ If the functionality is being moved (e.g. util → helper), move the implementat
 1. Add the `_deprecated_function()` call as the **first line of the method body**:
 
 ```php
-_deprecated_function( __METHOD__, 'Yoast SEO X.Y', 'Alternative_Class::method_name' );
+\_deprecated_function( __METHOD__, 'Yoast SEO X.Y', 'Alternative_Class::method_name' );
 ```
 
 - First arg: `__METHOD__` (the called method).
@@ -56,7 +56,7 @@ _deprecated_function( __METHOD__, 'Yoast SEO X.Y', 'Alternative_Class::method_na
  * @return string The formatted name.
  */
 public function format_name( $name ) {
-    _deprecated_function( __METHOD__, 'Yoast SEO 20.0', 'Formatter::format_name' );
+    \_deprecated_function( __METHOD__, 'Yoast SEO 20.0', 'Formatter::format_name' );
     return YoastSEO()->helpers->formatter->format_name( $name );
 }
 ```
@@ -65,8 +65,8 @@ public function format_name( $name ) {
 
 1. Add `_deprecated_function( __METHOD__, 'Yoast SEO X.Y' )` to `__construct` — this is the single point that fires the notice for any caller that instantiates the class. Child classes that call `parent::__construct()` inherit the notice automatically.
 2. Add `@deprecated X.Y` and `@codeCoverageIgnore` to the **class-level PHPDoc block** and to `__construct`'s PHPDoc block.
-3. Add `@deprecated X.Y` and `@codeCoverageIgnore` to the PHPDoc of every other public method for documentation purposes, but **do not** add a `_deprecated_function()` call to each one — the constructor notice is sufficient and adding it to every method produces redundant noise.
-4. **Exception:** if an individual public method is also independently callable (e.g. called statically, or as a hook callback directly) without going through the constructor, deprecate it individually too.
+3. Add `@deprecated X.Y` and `@codeCoverageIgnore` to the PHPDoc of every public method, and add a `_deprecated_function()` call as the **first line** of each deprecated public method body (this matches existing deprecated classes under `src/deprecated/src/`).
+4. If an individual public method is independently callable (e.g. used as a hook callback or called statically), ensure it has its own `_deprecated_function()` call even if the class also emits a notice elsewhere.
 5. Internal helper functions/methods that are only ever called by already-deprecated public API do **not** need a `_deprecated_function()` call — the public entry point already fires the notice. Add `@deprecated X.Y` and `@codeCoverageIgnore` to their PHPDoc for clarity.
 6. Move the file to `src/deprecated/` — especially when it is (or was) wired into the DI container or exposed on the surface API. Only skip this move if there is a specific technical reason.
 7. If the class is registered in the DI container, add it to `config/dependency-injection/deprecated-classes.php`.
@@ -81,6 +81,16 @@ public function format_name( $name ) {
 class WPSEO_Utils {
 
     /**
+     * Class constructor.
+     *
+     * @deprecated 20.0
+     * @codeCoverageIgnore
+     */
+    public function __construct() {
+        \_deprecated_function( __METHOD__, 'Yoast SEO 20.0' );
+    }
+
+    /**
      * Formats a name.
      *
      * @deprecated 20.0
@@ -91,7 +101,7 @@ class WPSEO_Utils {
      * @return string The formatted name.
      */
     public function format_name( $name ) {
-        _deprecated_function( __METHOD__, 'Yoast SEO 20.0', 'Formatter::format_name' );
+        \_deprecated_function( __METHOD__, 'Yoast SEO 20.0', 'Formatter::format_name' );
         return YoastSEO()->helpers->formatter->format_name( $name );
     }
 }
@@ -103,10 +113,10 @@ Use WordPress's built-in deprecated-hook wrappers in place of the original call:
 
 ```php
 // Action:
-do_action_deprecated( 'wpseo_action', [ $arg1, $arg2 ], 'Yoast SEO 20.0', 'wpseo_new_action' );
+\do_action_deprecated( 'wpseo_action', [ $arg1, $arg2 ], 'Yoast SEO 20.0', 'wpseo_new_action' );
 
 // Filter:
-apply_filters_deprecated( 'wpseo_filter', [ $value, $extra_arg ], 'Yoast SEO 20.0', 'wpseo_new_filter' );
+\apply_filters_deprecated( 'wpseo_filter', [ $value, $extra_arg ], 'Yoast SEO 20.0', 'wpseo_new_filter' );
 ```
 
 Replace the existing `do_action` / `apply_filters` call with the deprecated variant; do not add a second call.
