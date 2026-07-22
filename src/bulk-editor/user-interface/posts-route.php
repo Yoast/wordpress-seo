@@ -151,6 +151,17 @@ class Posts_Route implements Route_Interface {
 						],
 						'description' => 'The post statuses to include.',
 					],
+					'include'      => [
+						'required'    => false,
+						'type'        => 'array',
+						'default'     => [],
+						'maxItems'    => self::MAX_PER_PAGE,
+						'items'       => [
+							'type'    => 'integer',
+							'minimum' => 1,
+						],
+						'description' => 'Limits the posts to these post IDs, e.g. a selection carried over from the posts overview.',
+					],
 				],
 				'callback'            => [ $this, 'get_posts' ],
 				'permission_callback' => [ $this, 'check_permissions' ],
@@ -189,6 +200,9 @@ class Posts_Route implements Route_Interface {
 			$author_id = $this->user_helper->get_current_user_id();
 		}
 
+		// The schema already coerces the items to positive integers; deduplicate on top of that.
+		$include = \array_values( \array_unique( \array_map( 'intval', (array) $request->get_param( 'include' ) ) ) );
+
 		$query = new Posts_Query(
 			$content_type,
 			(int) $request->get_param( 'page' ),
@@ -196,6 +210,7 @@ class Posts_Route implements Route_Interface {
 			(string) $request->get_param( 'search' ),
 			$statuses,
 			$author_id,
+			$include,
 		);
 
 		// Posts the current user cannot edit are returned locked and without their SEO data; the per-post
