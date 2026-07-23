@@ -136,7 +136,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		}
 
 		if ( $query->has_include() ) {
-			$args['post__in'] = $query->get_include();
+			$args['post__in'] = $query->get_include_ids();
 		}
 
 		return $args;

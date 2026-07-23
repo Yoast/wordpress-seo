@@ -58,7 +58,7 @@ class Posts_Query {
 	 *
 	 * @var array<int>
 	 */
-	private $include;
+	private $include_ids;
 
 	/**
 	 * The constructor.
@@ -86,7 +86,7 @@ class Posts_Query {
 		$this->search       = $search;
 		$this->statuses     = $statuses;
 		$this->author_id    = $author_id;
-		$this->include      = $include_ids;
+		$this->include_ids      = $include_ids;
 	}
 
 	/**
@@ -166,8 +166,8 @@ class Posts_Query {
 	 *
 	 * @return array<int> The post IDs, or an empty array for no restriction.
 	 */
-	public function get_include(): array {
-		return $this->include;
+	public function get_include_ids(): array {
+		return $this->include_ids;
 	}
 
 	/**
@@ -176,7 +176,7 @@ class Posts_Query {
 	 * @return bool Whether a post ID restriction is set.
 	 */
 	public function has_include(): bool {
-		return $this->include !== [];
+		return $this->include_ids !== [];
 	}
 
 	/**

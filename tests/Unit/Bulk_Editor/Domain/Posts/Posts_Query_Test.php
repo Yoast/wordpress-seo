@@ -85,7 +85,7 @@ final class Posts_Query_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_include_defaults_to_empty() {
-		$this->assertSame( [], ( new Posts_Query( 'page', 1, 20, '', [] ) )->get_include() );
+		$this->assertSame( [], ( new Posts_Query( 'page', 1, 20, '', [] ) )->get_include_ids() );
 	}
 
 	/**
@@ -94,7 +94,7 @@ final class Posts_Query_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_include() {
-		$this->assertSame( [ 5, 3 ], ( new Posts_Query( 'page', 1, 20, '', [], null, [ 5, 3 ] ) )->get_include() );
+		$this->assertSame( [ 5, 3 ], ( new Posts_Query( 'page', 1, 20, '', [], null, [ 5, 3 ] ) )->get_include_ids() );
 	}
 
 	/**

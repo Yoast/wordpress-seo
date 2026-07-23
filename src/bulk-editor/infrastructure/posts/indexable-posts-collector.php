@@ -130,7 +130,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 		}
 
 		if ( $query->has_include() ) {
-			$builder->where_in( 'object_id', $query->get_include() );
+			$builder->where_in( 'object_id', $query->get_include_ids() );
 		}
 
 		if ( $query->has_search() ) {

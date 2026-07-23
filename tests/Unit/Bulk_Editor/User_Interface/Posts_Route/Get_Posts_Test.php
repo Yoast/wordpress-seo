@@ -212,7 +212,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 				Mockery::on(
 					static function ( $query ) {
 						return $query instanceof Posts_Query
-							&& $query->get_include() === [ 5, 3 ];
+							&& $query->get_include_ids() === [ 5, 3 ];
 					},
 				),
 			)
