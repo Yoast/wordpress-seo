@@ -30,6 +30,13 @@ const slice = createSlice( {
 			state.preselectedTotal = 0;
 		},
 		deselectAll: () => createInitialSelectionState(),
+		// A selection carried over from the WP admin overview can reference posts the bulk editor does not list
+		// (e.g. private posts) or lists with a disabled checkbox (non-editable rows). Once the shown result set is
+		// known, such ids must be dropped: they would stay selected without a way to deselect them, and leak into
+		// the bulk actions.
+		pruneSelection: ( state, { payload } ) => {
+			state.selectedIds = state.selectedIds.filter( ( id ) => payload.includes( id ) );
+		},
 		dismissPreselectionNotice: ( state ) => {
 			state.preselectedTotal = 0;
 		},

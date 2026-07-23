@@ -1,13 +1,14 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { useSelect } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { usePosts } from "../../../src/bulk-editor/services/use-posts";
 import { PAGE_SIZE } from "../../../src/bulk-editor/constants";
 
-jest.mock( "@wordpress/data", () => ( { useSelect: jest.fn() } ) );
+jest.mock( "@wordpress/data", () => ( { useSelect: jest.fn(), useDispatch: jest.fn() } ) );
 
 describe( "usePosts", () => {
 	let dataProvider;
 	let storeState;
+	let pruneSelection;
 
 	beforeEach( () => {
 		dataProvider = { getEndpoint: jest.fn( () => "https://example.com/wp-json/yoast/v1/bulk_editor/posts" ) };
@@ -20,6 +21,8 @@ describe( "usePosts", () => {
 			selectOverviewIds: () => storeState.overviewIds,
 			selectIsOverviewFilterActive: () => storeState.isOverviewFilterActive,
 		} ) ) );
+		pruneSelection = jest.fn();
+		useDispatch.mockReturnValue( { pruneSelection } );
 	} );
 
 	it( "requests the posts endpoint with the content type, page size, page, search and statuses", async() => {
@@ -67,6 +70,45 @@ describe( "usePosts", () => {
 			expect.not.objectContaining( { include: expect.anything() } ),
 			expect.objectContaining( { signal: expect.anything() } )
 		);
+	} );
+
+	it( "prunes the selection to the editable listed rows while the overview filter is active", async() => {
+		storeState = { search: "", page: 1, statuses: [], overviewIds: [ 5, 3, 99 ], isOverviewFilterActive: true };
+		const remoteDataProvider = {
+			// Post 99 is not listed at all; post 3 is listed but not editable, so its checkbox is disabled.
+			fetchJson: jest.fn( () => Promise.resolve( { posts: [
+				{ id: 5, title: "Listed", editable: true },
+				{ id: 3, title: "Locked", editable: false },
+			] } ) ),
+		};
+
+		const { result } = renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
+
+		await waitFor( () => expect( result.current.isPending ).toBe( false ) );
+
+		expect( pruneSelection ).toHaveBeenCalledWith( [ 5 ] );
+	} );
+
+	it( "does not prune the selection while the overview filter is inactive", async() => {
+		storeState = { search: "", page: 1, statuses: [], overviewIds: [ 5, 3 ], isOverviewFilterActive: false };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { posts: [ { id: 5, title: "Listed", editable: true } ] } ) ) };
+
+		const { result } = renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
+
+		await waitFor( () => expect( result.current.isPending ).toBe( false ) );
+
+		expect( pruneSelection ).not.toHaveBeenCalled();
+	} );
+
+	it( "does not prune the selection when the request fails", async() => {
+		storeState = { search: "", page: 1, statuses: [], overviewIds: [ 5, 3 ], isOverviewFilterActive: true };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.reject( new Error( "boom" ) ) ) };
+
+		const { result } = renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
+
+		await waitFor( () => expect( result.current.isPending ).toBe( false ) );
+
+		expect( pruneSelection ).not.toHaveBeenCalled();
 	} );
 
 	it( "maps the snake_case API rows to camelCase bulk editor rows and exposes the totals", async() => {

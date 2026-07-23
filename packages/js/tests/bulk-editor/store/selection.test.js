@@ -38,6 +38,18 @@ describe( "selection slice", () => {
 		expect( state.selectedIds ).toEqual( [] );
 	} );
 
+	it( "prunes selected ids missing from the given selectable ids, keeping the carried-over selection total", () => {
+		const state = reducer( { selectedIds: [ 7, 9, 11 ], preselectedTotal: 25 }, selectionActions.pruneSelection( [ 9, 11, 13 ] ) );
+
+		expect( state ).toEqual( { selectedIds: [ 9, 11 ], preselectedTotal: 25 } );
+	} );
+
+	it( "keeps the selection intact when all selected ids are selectable", () => {
+		const state = reducer( { selectedIds: [ 7, 9 ], preselectedTotal: 25 }, selectionActions.pruneSelection( [ 7, 9, 11 ] ) );
+
+		expect( state ).toEqual( { selectedIds: [ 7, 9 ], preselectedTotal: 25 } );
+	} );
+
 	it( "clears the selection when the status filter changes", () => {
 		const state = reducer( { selectedIds: [ 7, 9 ] }, queryActions.setStatuses( [ "draft" ] ) );
 

@@ -1,4 +1,4 @@
-import { useSelect } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
 import { PAGE_SIZE, STORE_NAME } from "../constants";
 
@@ -65,6 +65,7 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 	const statuses = useSelect( ( select ) => select( STORE_NAME ).selectStatuses(), [] );
 	const overviewIds = useSelect( ( select ) => select( STORE_NAME ).selectOverviewIds(), [] );
 	const isOverviewFilterActive = useSelect( ( select ) => select( STORE_NAME ).selectIsOverviewFilterActive(), [] );
+	const { pruneSelection } = useDispatch( STORE_NAME );
 
 	const endpoint = dataProvider.getEndpoint( "posts" );
 
@@ -106,7 +107,13 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 			)
 			.then( ( response ) => {
 				if ( controller.current === current ) {
-					setState( formatResponse( response ) );
+					const settled = formatResponse( response );
+					setState( settled );
+					// While the overview filter is active, the response is the authoritative subset of the
+					// carried-over selection (at most one page): prune ids it cannot offer for selection.
+					if ( isOverviewFilterActive && overviewIds.length > 0 ) {
+						pruneSelection( settled.data.filter( ( item ) => item.editable ).map( ( item ) => item.id ) );
+					}
 				}
 			} )
 			.catch( ( error ) => {
@@ -117,7 +124,7 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 			} );
 
 		return () => current.abort();
-	}, [ endpoint, contentType, remoteDataProvider, search, page, statuses, overviewIds, isOverviewFilterActive ] );
+	}, [ endpoint, contentType, remoteDataProvider, search, page, statuses, overviewIds, isOverviewFilterActive, pruneSelection ] );
 
 	return { ...state, updateItem };
 };
