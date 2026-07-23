@@ -3,13 +3,19 @@
  * markdown summary. Kept dependency-free and side-effect-free so it can be unit-tested and
  * called from a thin `github-script` step. See .github/workflows/zip-size-report.yml.
  *
- * A size map has the shape { total: <bytes>, entries: { "<path>": <bytes>, ... } } as
- * produced by the measure helper in zip-size-build.yml.
+ * A size map has the shape { archive: <bytes>, total: <bytes>, entries: { "<path>": <bytes>, ... } }
+ * as produced by the measure helper in zip-size-build.yml. `archive` is the on-disk .zip size
+ * (what verify-zip-size checks against the 5 MB budget); `total`/`entries` are the summed
+ * per-entry compressed sizes that drive the attribution tables.
  */
 
 // Most-changed entries and directories shown in the summary; the rest are collapsed into a
 // logged "+N more" line so the report never silently hides truncated rows.
 const MAX_ROWS = 20;
+
+// The plugin release budget verify-zip-size enforces against the on-disk artifact.zip size.
+// Kept in sync with config/grunt/custom-tasks/verify-zip-size.js (5 MB = 5242880 bytes).
+const ZIP_SIZE_BUDGET = 5242880;
 
 /**
  * Returns the sign prefix for a number. Negative always yields "-"; a non-negative value
@@ -189,17 +195,17 @@ function renderTable( rows, label ) {
 /**
  * Validates a size map read from the (untrusted) artifact and returns it unchanged. Throws
  * on anything that would produce NaN or corrupt arithmetic downstream — a non-finite
- * `total`, a missing/`null` `entries`, or any non-finite entry value. Keeping this at the
- * single entry point means `diffMaps`/`rollUpDirectories` can assume numeric input
- * regardless of caller, and a hostile artifact degrades to the neutral fallback rather
+ * `archive` or `total`, a missing/`null` `entries`, or any non-finite entry value. Keeping
+ * this at the single entry point means `diffMaps`/`rollUpDirectories` can assume numeric
+ * input regardless of caller, and a hostile artifact degrades to the neutral fallback rather
  * than rendering NaN or string-concatenated sizes.
  *
  * @param {*} map The candidate size map.
  * @param {string} name Label for the error message.
- * @returns {{total: number, entries: Object<string, number>}} The validated map.
+ * @returns {{archive: number, total: number, entries: Object<string, number>}} The validated map.
  */
 function normalizeMap( map, name ) {
-	if ( ! map || ! Number.isFinite( map.total ) || typeof map.entries !== "object" || map.entries === null ) {
+	if ( ! map || ! Number.isFinite( map.archive ) || ! Number.isFinite( map.total ) || typeof map.entries !== "object" || map.entries === null ) {
 		throw new Error( `Malformed ${ name } size map` );
 	}
 	for ( const size of Object.values( map.entries ) ) {
@@ -214,16 +220,19 @@ function normalizeMap( map, name ) {
  * Builds the check-run title and markdown summary for a base→head zip-size comparison.
  * Throws if either map is malformed; callers turn that into the neutral fallback check.
  *
- * @param {{total: number, entries: Object}} rawBaseMap Base size map (untrusted).
- * @param {{total: number, entries: Object}} rawHeadMap Head size map (untrusted).
+ * @param {{archive: number, total: number, entries: Object}} rawBaseMap Base size map (untrusted).
+ * @param {{archive: number, total: number, entries: Object}} rawHeadMap Head size map (untrusted).
  * @returns {{title: string, summary: string, delta: number, truncated: number}} The report.
  */
 function buildReport( rawBaseMap, rawHeadMap ) {
 	const baseMap = normalizeMap( rawBaseMap, "base" );
 	const headMap = normalizeMap( rawHeadMap, "head" );
 
-	const delta = headMap.total - baseMap.total;
-	const fraction = baseMap.total === 0 ? Infinity : delta / baseMap.total;
+	// Headline the on-disk archive delta: it is what verify-zip-size measures against the
+	// 5 MB budget, so it is the number that actually decides whether a release fits. The
+	// per-entry sums below only attribute where that change came from.
+	const delta = headMap.archive - baseMap.archive;
+	const fraction = baseMap.archive === 0 ? Infinity : delta / baseMap.archive;
 
 	const title = delta === 0
 		? "No change to zip size"
@@ -236,10 +245,12 @@ function buildReport( rawBaseMap, rawHeadMap ) {
 	const dirs = renderTable( dirRows, "Directory" );
 
 	const summary = [
-		`**Total zip size:** ${ formatBytes( baseMap.total, false ) } → ${ formatBytes( headMap.total, false ) } ` +
+		`**Zip size:** ${ formatBytes( baseMap.archive, false ) } → ${ formatBytes( headMap.archive, false ) } ` +
 			`(**${ formatBytes( delta ) }**, ${ formatPercent( fraction ) })`,
+		`**Budget:** ${ ( headMap.archive / ZIP_SIZE_BUDGET * 100 ).toFixed( 1 ) }% of ${ formatBytes( ZIP_SIZE_BUDGET, false ) } used.`,
 		"",
-		"Sizes are the compressed (shipped) bytes of each entry in `artifact.zip`.",
+		"Headline is the on-disk `artifact.zip` size (the 5 MB release budget). The tables " +
+			"below attribute the change using the compressed (shipped) bytes of each entry.",
 		"",
 		"### By directory",
 		"",

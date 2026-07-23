@@ -57,11 +57,16 @@ jobs:
           cat > "$MEASURE" <<'EOF'
           #!/usr/bin/env bash
           # measure-zip.sh <zip> <out.json>
-          # Emits {"total": <bytes>, "entries": {"<path>": <compressed-bytes>, ...}} using
-          # the compressed column of `unzip -v`, i.e. the real shipped size (level-9).
+          # Emits {"archive": <bytes>, "total": <bytes>, "entries": {"<path>": <compressed-bytes>, ...}}.
+          # `archive` is the on-disk size of the .zip (what verify-zip-size checks against the
+          # 5 MB budget); it includes ZIP bookkeeping (local/central headers) that the per-entry
+          # sum omits. `total`/`entries` use the compressed column of `unzip -v`, i.e. the real
+          # shipped size per entry (level-9), and drive the attribution tables.
           set -euo pipefail
           zip="$1"
           export OUT="$2"
+          export ARCHIVE_SIZE
+          ARCHIVE_SIZE="$(stat -c %s "$zip")"
           unzip -v "$zip" | awk '
             # Columns: Length Method Size Cmpr Date Time CRC-32 Name. Data rows have a
             # numeric Length ($1) AND a non-numeric Method ($2); this excludes the totals
@@ -85,7 +90,8 @@ jobs:
               entries[name] = size;
               total += size;
             }
-            fs.writeFileSync(process.env.OUT, JSON.stringify({ total, entries }));
+            const archive = parseInt(process.env.ARCHIVE_SIZE, 10);
+            fs.writeFileSync(process.env.OUT, JSON.stringify({ archive, total, entries }));
           '
           EOF
           chmod +x "$MEASURE"
