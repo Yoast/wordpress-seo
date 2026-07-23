@@ -120,21 +120,39 @@ jobs:
           # packages. Matches the rest of the repo's workflows.
           cache: 'yarn'
 
-      # --- Base branch: build only on cache miss, keyed on the base commit SHA. ---
+      # Resolve the PR's merge base, not the base-branch tip. github.event.pull_request.base.sha
+      # is the base branch's *current* tip captured at event time; on an older PR the base can
+      # have moved on since the fork point, so diffing head against it would attribute unrelated
+      # base-branch changes to the PR (often inverted). The compare API's merge_base_commit.sha
+      # is the actual fork point, giving the PR's true net contribution. Read-only, so it works
+      # with this workflow's contents: read permission.
+      - name: Resolve merge base
+        id: merge-base
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const { data } = await github.rest.repos.compareCommitsWithBasehead({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              basehead: `${context.payload.pull_request.base.sha}...${context.payload.pull_request.head.sha}`,
+            });
+            core.setOutput("sha", data.merge_base_commit.sha);
+
+      # --- Base (merge base): build only on cache miss, keyed on the merge-base SHA. ---
       - name: Restore cached base zip size
         id: base-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ runner.temp }}/base-size.json
-          key: zip-size-base-${{ github.event.pull_request.base.sha }}
+          key: zip-size-base-${{ steps.merge-base.outputs.sha }}
 
-      # The shallow head checkout doesn't include the base commit, so fetch just that one
+      # The shallow head checkout doesn't include the merge-base commit, so fetch just that one
       # commit (still shallow) before switching to it. Only needed on a cache miss.
       - name: Fetch base commit
         if: steps.base-cache.outputs.cache-hit != 'true'
         run: git fetch --depth=1 origin "$BASE_SHA"
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_SHA: ${{ steps.merge-base.outputs.sha }}
 
       - name: Build and measure base zip
         if: steps.base-cache.outputs.cache-hit != 'true'
@@ -149,7 +167,7 @@ jobs:
           grunt artifact
           "$MEASURE" artifact.zip "$BASE_SIZE"
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_SHA: ${{ steps.merge-base.outputs.sha }}
 
       # --- PR head: switch back and build fresh. ---
       - name: Build and measure head zip
