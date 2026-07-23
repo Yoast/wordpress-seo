@@ -70,7 +70,7 @@ class AI_Brand_Insights_Post_Launch implements Introduction_Interface {
 	/**
 	 * Returns whether this introduction should show.
 	 *
-	 * Disabled: the AIBI modal is no longer shown after installation.
+	 * Disabled: the AIBI modal is no longer shown.
 	 *
 	 * @codeCoverageIgnore
 	 *
