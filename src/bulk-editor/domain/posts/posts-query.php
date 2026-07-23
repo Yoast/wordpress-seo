@@ -86,7 +86,7 @@ class Posts_Query {
 		$this->search       = $search;
 		$this->statuses     = $statuses;
 		$this->author_id    = $author_id;
-		$this->include_ids      = $include_ids;
+		$this->include_ids  = $include_ids;
 	}
 
 	/**
