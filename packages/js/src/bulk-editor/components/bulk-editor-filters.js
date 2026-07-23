@@ -92,7 +92,7 @@ export const BulkEditorFilters = () => {
 				isVisible={ isOpen }
 				setIsVisible={ setIsOpen }
 				position="bottom-left"
-				className="before:yst-hidden !yst-top-full yst-mt-1 yst-p-3 yst-shadow-lg"
+				className="before:yst-hidden !yst-top-full yst-mt-1 yst-py-3 yst-px-0 yst-shadow-lg"
 				aria-label={ __( "Filters", "wordpress-seo" ) }
 			>
 				<CheckboxGroup

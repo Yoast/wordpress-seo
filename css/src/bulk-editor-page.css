@@ -79,10 +79,11 @@
 	overflow-wrap: break-word;
 }
 
-/* Shared layout for the filter popover's checkbox groups: each option is a full-width, rounded hover target
- * that bleeds into the popover padding. */
+/* Shared layout for the filter popover's checkbox groups: each option is a full-width, rounded hover target.
+ * The popover drops its own horizontal padding (yst-px-0) so the target can span the full width; each option
+ * carries its own inset instead, which keeps the bleed without a negative margin. */
 .yst-root .yst-bulk-editor-filter-group .yst-checkbox {
-	@apply -yst-mx-2 yst-cursor-pointer yst-rounded yst-px-2 yst-py-1;
+	@apply yst-cursor-pointer yst-rounded yst-px-2 yst-py-1;
 }
 
 .yst-root .yst-bulk-editor-filter-group .yst-checkbox:hover {
