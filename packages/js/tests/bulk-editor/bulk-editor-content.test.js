@@ -1,7 +1,7 @@
 import { Fill, SlotFillProvider } from "@wordpress/components";
 import { dispatch } from "@wordpress/data";
 import { act, fireEvent, render, screen, waitFor } from "../test-utils";
-import { BulkEditorContent, getSelectionView, shouldShowBulkActions } from "../../src/bulk-editor/components/bulk-editor-content";
+import { BulkEditorContent, getHasOverviewNotice, getSelectionView, shouldShowBulkActions } from "../../src/bulk-editor/components/bulk-editor-content";
 import { FIELD_SET_SEARCH, PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../../src/bulk-editor/constants";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
@@ -164,6 +164,15 @@ describe( "shouldShowBulkActions", () => {
 		expect( shouldShowBulkActions( { ...closed, hasUnsavedEdits: true } ) ).toBe( true );
 		expect( shouldShowBulkActions( { ...closed, hasExternalPendingChanges: true } ) ).toBe( true );
 		expect( shouldShowBulkActions( { ...closed, hasOverviewNotice: true } ) ).toBe( true );
+	} );
+} );
+
+describe( "getHasOverviewNotice", () => {
+	it( "reports a notice for a truncated or a pruned carried-over selection, but not for a fitting one", () => {
+		expect( getHasOverviewNotice( { preselectedTotal: 0, hasExcludedPreselected: false } ) ).toBe( false );
+		expect( getHasOverviewNotice( { preselectedTotal: 20, hasExcludedPreselected: false } ) ).toBe( false );
+		expect( getHasOverviewNotice( { preselectedTotal: 25, hasExcludedPreselected: false } ) ).toBe( true );
+		expect( getHasOverviewNotice( { preselectedTotal: 3, hasExcludedPreselected: true } ) ).toBe( true );
 	} );
 } );
 
