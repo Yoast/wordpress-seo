@@ -40,31 +40,42 @@ final class Build_Needs_Improvement_Where_Test extends TestCase {
 		$wpdb           = Mockery::mock();
 		$wpdb->posts    = 'wp_posts';
 		$wpdb->postmeta = 'wp_postmeta';
-		$wpdb->allows( 'prepare' )->andReturnUsing(
-			static function ( $query, ...$args ) {
-				foreach ( $args as $arg ) {
-					$query = \preg_replace_callback(
-						'/%[isd]/',
-						static function ( $match ) use ( $arg ) {
-							if ( $match[0] === '%i' ) {
-								return '`' . $arg . '`';
-							}
-							if ( $match[0] === '%d' ) {
-								return (string) (int) $arg;
-							}
-
-							return "'" . $arg . "'";
-						},
-						$query,
-						1,
-					);
-				}
-
-				return $query;
-			},
-		);
+		$wpdb->allows( 'prepare' )->andReturnUsing( [ $this, 'interpolate_query' ] );
 
 		$this->instance = new Post_Meta_Posts_Collector_Double( Mockery::mock( Post_Editability_Resolver::class ) );
+	}
+
+	/**
+	 * Stands in for $wpdb->prepare by interpolating its arguments into the query.
+	 *
+	 * `%i` becomes a backticked identifier, `%s` a quoted string and `%d` a raw integer, so the generated
+	 * SQL can be asserted directly.
+	 *
+	 * @param string           $query   The query with placeholders.
+	 * @param string|int|float ...$args The values to interpolate, in order.
+	 *
+	 * @return string The interpolated query.
+	 */
+	public function interpolate_query( $query, ...$args ): string {
+		foreach ( $args as $arg ) {
+			$query = \preg_replace_callback(
+				'/%[isd]/',
+				static function ( $placeholder ) use ( $arg ) {
+					if ( $placeholder[0] === '%i' ) {
+						return '`' . $arg . '`';
+					}
+					if ( $placeholder[0] === '%d' ) {
+						return (string) (int) $arg;
+					}
+
+					return "'" . $arg . "'";
+				},
+				$query,
+				1,
+			);
+		}
+
+		return $query;
 	}
 
 	/**
