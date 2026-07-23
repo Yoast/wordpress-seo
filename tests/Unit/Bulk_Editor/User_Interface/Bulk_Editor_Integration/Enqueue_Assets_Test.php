@@ -54,6 +54,9 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 				'pluginUrl'   => 'https://example.com/wp-content/plugins/wordpress-seo',
 			],
 			'linkParams'   => [ 'foo' => 'bar' ],
+			'optInNotificationSeen' => [
+				'bulk_editor_tour' => false,
+			],
 		];
 
 		Actions\expectRemoved( 'admin_print_scripts' )->once()->with( 'print_emoji_detection_script' );
@@ -84,6 +87,11 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 				},
 			);
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
+		$this->user_helper->expects( 'get_current_user_id' )->once()->andReturn( 1 );
+		$this->user_helper->expects( 'get_meta' )
+			->once()
+			->with( 1, '_yoast_wpseo_bulk_editor_tour_opt_in_notification_seen', true )
+			->andReturn( '' );
 
 		$this->asset_manager->expects( 'localize_script' )
 			->once()

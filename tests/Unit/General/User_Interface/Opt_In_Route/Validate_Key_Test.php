@@ -23,6 +23,15 @@ final class Validate_Key_Test extends Abstract_Opt_In_Route_Test {
 	}
 
 	/**
+	 * Tests the validate_key method with the bulk editor tour key.
+	 *
+	 * @return void
+	 */
+	public function test_validate_key_with_bulk_editor_tour_key() {
+		$this->assertTrue( $this->instance->validate_key( 'bulk_editor_tour' ) );
+	}
+
+	/**
 	 * Tests the validate_key method with an invalid key.
 	 *
 	 * @return void
