@@ -69,7 +69,7 @@ class Posts_Query {
 	 * @param string        $search       The search term, or an empty string for no search.
 	 * @param array<string> $statuses     The post statuses to include.
 	 * @param int|null      $author_id    The author to limit posts to, or null for no author restriction.
-	 * @param array<int>    $include      The post IDs to limit posts to, or an empty array for no restriction.
+	 * @param array<int>    $include_ids  The post IDs to limit posts to, or an empty array for no restriction.
 	 */
 	public function __construct(
 		string $content_type,
@@ -78,7 +78,7 @@ class Posts_Query {
 		string $search,
 		array $statuses,
 		?int $author_id = null,
-		array $include = []
+		array $include_ids = []
 	) {
 		$this->content_type = $content_type;
 		$this->page         = $page;
@@ -86,7 +86,7 @@ class Posts_Query {
 		$this->search       = $search;
 		$this->statuses     = $statuses;
 		$this->author_id    = $author_id;
-		$this->include      = $include;
+		$this->include      = $include_ids;
 	}
 
 	/**
