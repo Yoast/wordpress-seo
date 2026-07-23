@@ -39,12 +39,15 @@ jobs:
       checks: write    # Publish the "Zip size" check-run.
       actions: read    # Download the build workflow's artifact via the API.
       contents: read   # Check out this repo's default-branch reporting script.
-    # Deliberately does not gate on workflow_run.conclusion: when the build failed we
-    # still want to publish the neutral "Failed to determine zip size" check.
+    # Deliberately does not gate on a *failed* conclusion: when the build failed we still
+    # want to publish the neutral "Failed to determine zip size" check. A *cancelled* run is
+    # different — the concurrency group cancels superseded builds, whose completion would
+    # otherwise publish a stale report against an already-outdated commit — so skip those.
     if: >
       github.repository_owner == 'Yoast' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
       github.event.workflow_run.event == 'pull_request' &&
-      github.event.workflow_run.head_repository.full_name == github.repository
+      github.event.workflow_run.conclusion != 'cancelled'
 
     steps:
       # Only the diff helper is needed; check out the trusted default-branch code.
