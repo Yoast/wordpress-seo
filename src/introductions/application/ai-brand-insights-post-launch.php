@@ -70,8 +70,7 @@ class AI_Brand_Insights_Post_Launch implements Introduction_Interface {
 	/**
 	 * Returns whether this introduction should show.
 	 *
-	 * Disabled: the "Discover Brand Insights now" modal is no longer shown after installation, because a fresh site
-	 * has no search results or AI insights yet.
+	 * Disabled: the AIBI modal is no longer shown after installation.
 	 *
 	 * @codeCoverageIgnore
 	 *
