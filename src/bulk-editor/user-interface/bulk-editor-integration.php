@@ -244,12 +244,12 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 */
 	public function get_script_data() {
 		return [
-			'contentTypes' => $this->content_types_repository->get_content_types(),
-			'endpoints'    => $this->endpoints_repository->get_all_endpoints()->to_array(),
+			'contentTypes'      => $this->content_types_repository->get_content_types(),
+			'endpoints'         => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			// These must stay server-generated URLs: the bulk editor assigns them to window.location.href for its
 			// "Back to Tools" / logo navigation. If a link ever derives from request input, validate it with
 			// wp_validate_redirect() here before exposing it, to avoid an open redirect on the front-end.
-			'links'        => [
+			'links'             => [
 				'dashboard' => \admin_url( 'admin.php?page=' . General_Page_Integration::PAGE ),
 				'tools'     => \admin_url( 'admin.php?page=wpseo_tools' ),
 			],
@@ -275,7 +275,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 *
 	 * @return array{isProvisioned: bool, canConnect: bool, connectUrl: string|null}|null The MyYoast connection payload, or `null` when the feature flag is disabled.
 	 */
-	public function get_myyoast_connection_data() {
+	private function get_myyoast_connection_data() {
 		if ( ! $this->myyoast_connection_conditional->is_met() ) {
 			return null;
 		}
