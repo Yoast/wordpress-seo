@@ -6,8 +6,6 @@ export { Notifications } from "./notifications";
 export { Problems } from "./problems";
 export { RouteErrorFallback } from "./route-error-fallback";
 export { RouteLayout } from "./route-layout";
-export { TaskListOptInNotification } from "./task-list-opt-in-notification";
-export { OptInContainer } from "./opt-in-container";
 export { TaskListUpsellRow } from "./task-list-upsell-row";
 export { Task } from "./task";
 export { TaskListModal } from "./task-list-modal";

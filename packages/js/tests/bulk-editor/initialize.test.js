@@ -1,5 +1,5 @@
 import { jest } from "@jest/globals";
-import { ROOT_ID } from "../../src/bulk-editor/constants";
+import { ROOT_ID, TOUR_OPT_IN_KEY } from "../../src/bulk-editor/constants";
 
 const mockRender = jest.fn();
 const mockCreateRoot = jest.fn( () => ( { render: mockRender } ) );
@@ -60,6 +60,7 @@ describe( "bulk editor initialize", () => {
 			contentTypes: [ { name: "post", label: "Posts" } ],
 			linkParams: { foo: "bar" },
 			nonce: "test-nonce",
+			optInNotificationSeen: { [ TOUR_OPT_IN_KEY ]: true },
 		};
 	} );
 
@@ -82,7 +83,10 @@ describe( "bulk editor initialize", () => {
 		} );
 
 		expect( mockRegisterStore ).toHaveBeenCalledWith( {
-			initialState: { linkParams: { foo: "bar" } },
+			initialState: {
+				linkParams: { foo: "bar" },
+				optInNotification: { seen: { [ TOUR_OPT_IN_KEY ]: true } },
+			},
 		} );
 		expect( mockFixScrolling ).toHaveBeenCalledTimes( 1 );
 		expect( mockCreateRoot ).toHaveBeenCalledWith( root );

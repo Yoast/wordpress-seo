@@ -8,7 +8,7 @@ import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import { GenericAlert } from "../ai-generator/components/errors";
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
-import { LINK_PARAMS_NAME } from "../shared-admin/store";
+import { LINK_PARAMS_NAME, OPT_IN_NOTIFICATION_NAME } from "../shared-admin/store";
 import App from "./app";
 import { UpsellModal } from "./components/upsell-modal";
 import { PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
@@ -33,6 +33,9 @@ domReady( () => {
 	registerStore( {
 		initialState: {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoBulkEditorData.linkParams", {} ),
+			[ OPT_IN_NOTIFICATION_NAME ]: {
+				seen: get( window, "wpseoBulkEditorData.optInNotificationSeen", {} ),
+			},
 		},
 	} );
 	fixWordPressMenuScrolling();
