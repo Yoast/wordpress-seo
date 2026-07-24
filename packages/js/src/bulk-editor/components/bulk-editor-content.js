@@ -149,6 +149,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 				<BulkEditorTabs
 					tabs={ tabs }
 					activeTab={ activeFieldSet }
+					disabled={ hasExternalGeneration }
 					onChange={ onChangeTab }
 					label={ __( "Bulk editor views", "wordpress-seo" ) }
 				/>

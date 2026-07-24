@@ -58,6 +58,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 	const isPremium = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "isPremium", false ), [] );
 	// Free's unsaved inline edits trigger the native unload guard; Premium handles its own pending changes and unload prompts.
 	const hasUnsavedEdits = useSelect( ( select ) => Object.keys( select( STORE_NAME ).selectEditingRows() ).length > 0, [] );
+	const isGenerating = useSelect( ( select ) => select( STORE_NAME ).selectHasExternalGeneration(), [] );
 	const { requestSwitch } = useDispatch( STORE_NAME );
 
 	// The browser's native confirm dialog is the only guard available for refresh/close/back; the in-app links use
@@ -107,6 +108,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 		contentTypes,
 		onChange: onChangeContentType,
 		backToToolsUrl,
+		disabled: isGenerating,
 		onNavigate,
 		logoHref,
 		isPremium,
