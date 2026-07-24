@@ -187,7 +187,7 @@ function renderTable( rows, label ) {
 		);
 	}
 	if ( truncated > 0 ) {
-		lines.push( "", `_…and ${ truncated } more changed ${ label.toLowerCase() } (largest ${ MAX_ROWS } shown)._` );
+		lines.push( "", `_…and ${ truncated } more not shown (largest ${ MAX_ROWS } listed)._` );
 	}
 	return { table: lines.join( "\n" ), truncated };
 }
