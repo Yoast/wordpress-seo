@@ -10,7 +10,7 @@ import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { Notices } from "./components";
+import { BulkEditorTourNotification, Notices } from "./components";
 import { STORE_NAME } from "./constants";
 import { deleteMigratingNotices } from "../helpers/migrateNotices";
 import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
@@ -145,6 +145,7 @@ const App = () => {
 					</div>
 				</div>
 			</SidebarNavigation>
+			<BulkEditorTourNotification />
 			<Notifications
 				className="yst-mx-[calc(50%-50vw)] yst-transition-all yst-start-48"
 				position="bottom-left"

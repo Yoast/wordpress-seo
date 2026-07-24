@@ -10,7 +10,7 @@ import { Dashboard } from "../dashboard";
 import { DataProvider } from "../dashboard/services/data-provider";
 import { DataTracker } from "../dashboard/services/data-tracker";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
-import { ADMIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
+import { ADMIN_URL_NAME, LINK_PARAMS_NAME, OPT_IN_NOTIFICATION_NAME } from "../shared-admin/store";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
 import { ConnectedPremiumUpsellList } from "./components/connected-premium-upsell-list";
@@ -44,6 +44,7 @@ domReady( () => {
 			dismissedAlerts: get( window, "wpseoScriptData.dismissedAlerts", {} ),
 			isPremium: get( window, "wpseoScriptData.preferences.isPremium", false ),
 			[ ADMIN_NOTICES_NAME ]: { resolvedNotices: [] },
+			[ OPT_IN_NOTIFICATION_NAME ]: { seen: get( window, "wpseoScriptData.optInNotificationSeen", {} ) },
 			[ TASK_LIST_NAME ]: {
 				enabled: get( window, "wpseoScriptData.taskListConfiguration.enabled", false ),
 				endpoints: get( window, "wpseoScriptData.taskListConfiguration.endpoints", {} ),

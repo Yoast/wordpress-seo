@@ -8,6 +8,7 @@ import { useInlineEdit } from "../hooks/use-inline-edit";
 import { usePosts } from "../services/use-posts";
 import { BulkActions, SelectionToolbar } from "./bulk-action-bar";
 import { BulkEditorFilters } from "./bulk-editor-filters";
+import { BulkEditorTour } from "./tour/bulk-editor-tour";
 import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
@@ -225,6 +226,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 					onCancel: onCancelSwitch,
 				} }
 			/>
+			<BulkEditorTour onSelectAll={ onSelectAll } onDeselectAll={ deselectAll } hasSelection={ hasSelection } />
 		</div>
 	);
 };

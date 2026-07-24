@@ -121,20 +121,22 @@ export const BulkEditorNavMenu = ( {
 		<div className="yst-space-y-6">
 			<NavLogo logoHref={ logoHref } isPremium={ isPremium } idSuffix={ idSuffix } disabled={ disabled } onNavigate={ onNavigate } />
 			<BackToToolsLink href={ backToToolsUrl } disabled={ disabled } onNavigate={ onNavigate } />
-			<SidebarNavigation.MenuItemWithLimiter
-				id={ `bulk-editor-nav-content-types${ idSuffix }` }
-				label={ __( "Bulk editor", "wordpress-seo" ) }
-				icon={ DuplicateIcon }
-				defaultOpen={ true }
-				limit={ visibleLimit }
-				buttonId={ `bulk-editor-nav-more${ idSuffix }` }
-				showMoreLabel={ showMoreLabel }
-				showLessLabel={ __( "Show less", "wordpress-seo" ) }
-			>
-				{ contentTypes.map( ( contentType ) => (
-					<ContentTypeItem key={ contentType.id } contentType={ contentType } disabled={ disabled } onChange={ onChange } />
-				) ) }
-			</SidebarNavigation.MenuItemWithLimiter>
+			<div data-tour-id="content-type-nav">
+				<SidebarNavigation.MenuItemWithLimiter
+					id={ `bulk-editor-nav-content-types${ idSuffix }` }
+					label={ __( "Bulk editor", "wordpress-seo" ) }
+					icon={ DuplicateIcon }
+					defaultOpen={ true }
+					limit={ visibleLimit }
+					buttonId={ `bulk-editor-nav-more${ idSuffix }` }
+					showMoreLabel={ showMoreLabel }
+					showLessLabel={ __( "Show less", "wordpress-seo" ) }
+				>
+					{ contentTypes.map( ( contentType ) => (
+						<ContentTypeItem key={ contentType.id } contentType={ contentType } disabled={ disabled } onChange={ onChange } />
+					) ) }
+				</SidebarNavigation.MenuItemWithLimiter>
+			</div>
 		</div>
 	);
 };

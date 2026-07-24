@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Task_List\Application\Configuration\Task_List_Configuration;
@@ -99,6 +100,13 @@ class General_Page_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * Holds the user helper.
+	 *
+	 * @var User_Helper
+	 */
+	private $user_helper;
+
+	/**
 	 * Holds the WooCommerce conditional.
 	 *
 	 * @var WooCommerce_Conditional
@@ -124,6 +132,7 @@ class General_Page_Integration implements Integration_Interface {
 	 * @param Promotion_Manager         $promotion_manager       The promotion manager.
 	 * @param Dashboard_Configuration   $dashboard_configuration The dashboard configuration.
 	 * @param Options_Helper            $options_helper          The options helper.
+	 * @param User_Helper               $user_helper             The user helper.
 	 * @param WooCommerce_Conditional   $woocommerce_conditional The WooCommerce conditional.
 	 * @param WPSEO_Addon_Manager       $addon_manager           The WPSEO_Addon_Manager.
 	 * @param Task_List_Configuration   $task_list_configuration The task list configuration.
@@ -138,6 +147,7 @@ class General_Page_Integration implements Integration_Interface {
 		Promotion_Manager $promotion_manager,
 		Dashboard_Configuration $dashboard_configuration,
 		Options_Helper $options_helper,
+		User_Helper $user_helper,
 		WooCommerce_Conditional $woocommerce_conditional,
 		WPSEO_Addon_Manager $addon_manager,
 		Task_List_Configuration $task_list_configuration
@@ -151,6 +161,7 @@ class General_Page_Integration implements Integration_Interface {
 		$this->promotion_manager       = $promotion_manager;
 		$this->dashboard_configuration = $dashboard_configuration;
 		$this->options_helper          = $options_helper;
+		$this->user_helper             = $user_helper;
 		$this->woocommerce_conditional = $woocommerce_conditional;
 		$this->addon_manager           = $addon_manager;
 		$this->task_list_configuration = $task_list_configuration;
@@ -270,6 +281,20 @@ class General_Page_Integration implements Integration_Interface {
 			'dismissedAlerts'       => $this->alert_dismissal_action->all_dismissed(),
 			'dashboard'             => $this->dashboard_configuration->get_configuration(),
 			'taskListConfiguration' => $this->task_list_configuration->get_configuration(),
+			'optInNotificationSeen' => [
+				'bulk_editor_tour' => $this->is_bulk_editor_tour_seen(),
+			],
 		];
+	}
+
+	/**
+	 * Gets whether the bulk editor guided tour has been seen by the current user.
+	 *
+	 * @return bool True when the tour has been seen, false otherwise.
+	 */
+	private function is_bulk_editor_tour_seen(): bool {
+		$current_user_id = $this->user_helper->get_current_user_id();
+
+		return (bool) $this->user_helper->get_meta( $current_user_id, '_yoast_wpseo_bulk_editor_tour_opt_in_notification_seen', true );
 	}
 }

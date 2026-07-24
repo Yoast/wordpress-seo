@@ -9,10 +9,16 @@ import {
 	adminUrlSelectors,
 	getInitialAdminUrlState,
 	getInitialLinkParamsState,
+	getInitialOptInNotificationState,
 	LINK_PARAMS_NAME,
 	linkParamsActions,
 	linkParamsReducer,
 	linkParamsSelectors,
+	OPT_IN_NOTIFICATION_NAME,
+	optInNotificationActions,
+	optInNotificationControls,
+	optInNotificationReducer,
+	optInNotificationSelectors,
 } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import { ADMIN_NOTICES_NAME, adminNoticesActions, adminNoticesReducer, adminNoticesSelectors, getInitialAdminNoticesState } from "./admin-notices";
@@ -56,6 +62,7 @@ const createStore = ( { initialState } ) => {
 			setDismissedAlerts,
 			setIsPremium,
 			...adminNoticesActions,
+			...optInNotificationActions,
 			...taskListActions,
 		},
 		selectors: {
@@ -67,6 +74,7 @@ const createStore = ( { initialState } ) => {
 			getIsPremium,
 			isPromotionActive,
 			...adminNoticesSelectors,
+			...optInNotificationSelectors,
 			...taskListSelectors,
 		},
 		initialState: merge(
@@ -78,6 +86,7 @@ const createStore = ( { initialState } ) => {
 				[ ALERT_CENTER_NAME ]: getInitialAlertCenterState(),
 				currentPromotions: { promotions: [] },
 				[ ADMIN_NOTICES_NAME ]: getInitialAdminNoticesState(),
+				[ OPT_IN_NOTIFICATION_NAME ]: getInitialOptInNotificationState(),
 				[ TASK_LIST_NAME ]: getInitialTaskListState(),
 			},
 			initialState
@@ -91,11 +100,13 @@ const createStore = ( { initialState } ) => {
 			dismissedAlerts,
 			isPremium,
 			[ ADMIN_NOTICES_NAME ]: adminNoticesReducer,
+			[ OPT_IN_NOTIFICATION_NAME ]: optInNotificationReducer,
 			[ TASK_LIST_NAME ]: taskListReducer,
 		} ),
 		controls: {
 			...alertCenterControls,
 			...dismissedAlertsControls,
+			...optInNotificationControls,
 			...taskListControls,
 		},
 	} );

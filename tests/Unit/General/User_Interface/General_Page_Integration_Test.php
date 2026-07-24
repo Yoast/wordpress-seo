@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Task_List\Application\Configuration\Task_List_Configuration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -101,6 +102,13 @@ final class General_Page_Integration_Test extends TestCase {
 	private $options_helper;
 
 	/**
+	 * Holds the user helper mock.
+	 *
+	 * @var Mockery\MockInterface|User_Helper
+	 */
+	private $user_helper;
+
+	/**
 	 * Holds the WooCommerce conditional.
 	 *
 	 * @var Mockery\MockInterface|WooCommerce_Conditional
@@ -138,6 +146,7 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->promotion_manager       = Mockery::mock( Promotion_Manager::class );
 		$this->dashboard_configuration = Mockery::mock( Dashboard_Configuration::class );
 		$this->options_helper          = Mockery::mock( Options_Helper::class );
+		$this->user_helper             = Mockery::mock( User_Helper::class );
 		$this->woocommerce_conditional = Mockery::mock( WooCommerce_Conditional::class );
 		$this->addon_manager           = Mockery::mock( WPSEO_Addon_Manager::class );
 		$this->task_list_configuration = Mockery::mock( Task_List_Configuration::class );
@@ -152,6 +161,7 @@ final class General_Page_Integration_Test extends TestCase {
 			$this->promotion_manager,
 			$this->dashboard_configuration,
 			$this->options_helper,
+			$this->user_helper,
 			$this->woocommerce_conditional,
 			$this->addon_manager,
 			$this->task_list_configuration,
@@ -178,6 +188,7 @@ final class General_Page_Integration_Test extends TestCase {
 				$this->promotion_manager,
 				$this->dashboard_configuration,
 				$this->options_helper,
+				$this->user_helper,
 				$this->woocommerce_conditional,
 				$this->addon_manager,
 				$this->task_list_configuration,
@@ -342,6 +353,16 @@ final class General_Page_Integration_Test extends TestCase {
 			->with( 'enable_llms_txt', true )
 			->once()
 			->andReturn( false );
+
+		$this->user_helper
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 1 );
+		$this->user_helper
+			->expects( 'get_meta' )
+			->with( 1, '_yoast_wpseo_bulk_editor_tour_opt_in_notification_seen', true )
+			->once()
+			->andReturn( '' );
 
 		$this->woocommerce_conditional
 			->expects( 'is_met' )

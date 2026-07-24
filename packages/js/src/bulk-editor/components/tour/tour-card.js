@@ -1,0 +1,103 @@
+import ArrowNarrowRightIcon from "@heroicons/react/solid/ArrowNarrowRightIcon";
+import { useCallback, useEffect, useRef } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { Button, Popover, useSvgAria } from "@yoast/ui-library";
+import { ReactComponent as YoastIcon } from "../../../../images/Yoast_icon_kader.svg";
+
+/**
+ * A single step of the bulk editor guided tour, rendered as a ui-library Popover anchored to a target element.
+ *
+ * The card carries the step copy plus the tour navigation (progress, Back, Next/finish). Dismissing the popover ends the whole tour via `onSkip`.
+ *
+ * @param {Object}          props             The component props.
+ * @param {string}          props.id          The unique popover id; also derives the title and content ids.
+ * @param {string}          props.title       The step title.
+ * @param {React.ReactNode} props.content     The step body copy.
+ * @param {number}          props.currentStep The 1-based index of this step.
+ * @param {number}          props.totalSteps  The total number of steps.
+ * @param {boolean}         props.isLastStep  Whether this is the final step (shows "Got it!" instead of "Next").
+ * @param {Function}        props.onNext      Advances to the next step, or finishes on the last step.
+ * @param {Function}        [props.onBack]    Goes back a step; omitted on the first step.
+ * @param {Function}        props.onSkip      Ends the tour without finishing (close button / backdrop / Escape).
+ * @param {string}          [props.position]  The popover position relative to its anchor.
+ * @param {string}          [props.className] Optional extra className for the popover.
+ *
+ * @returns {JSX.Element} The tour step card.
+ */
+export const TourCard = ( {
+	id,
+	title,
+	content,
+	currentStep,
+	totalSteps,
+	isLastStep,
+	onNext,
+	onBack = null,
+	onSkip,
+	position = "right",
+	className = "",
+} ) => {
+	const svgAriaProps = useSvgAria();
+	const nextButtonRef = useRef( null );
+
+	// Move focus to the primary action each time the step changes, so keyboard and screen reader users follow along.
+	useEffect( () => {
+		const timeout = setTimeout( () => nextButtonRef.current?.focus(), 300 );
+		return () => clearTimeout( timeout );
+	}, [ currentStep ] );
+
+	// The close button, backdrop and Escape all resolve to hiding the popover, which ends the tour.
+	const handleVisibilityChange = useCallback( ( isVisible ) => ! isVisible && onSkip(), [ onSkip ] );
+
+	return <Popover
+		id={ id }
+		hasBackdrop={ false }
+		role="dialog"
+		aria-labelledby={ `${ id }-title` }
+		aria-describedby={ `${ id }-content` }
+		isVisible={ true }
+		setIsVisible={ handleVisibilityChange }
+		position={ position }
+		className={ className }
+	>
+		<>
+			<div className="yst-flex yst-gap-3 yst-items-center">
+				<div className="yst-flex-shrink-0">
+					<YoastIcon className="yst-w-5 yst-h-5" { ...svgAriaProps } />
+				</div>
+				<div className="yst-flex-grow">
+					<Popover.Title id={ `${ id }-title` } as="h3">
+						{ title }
+					</Popover.Title>
+				</div>
+				<Popover.CloseButton screenReaderLabel={ __( "Close the tour", "wordpress-seo" ) } />
+			</div>
+			<Popover.Content id={ `${ id }-content` } className="yst-font-normal yst-ms-8 yst-me-5 yst-mt-1">
+				{ content }
+			</Popover.Content>
+			<div className="yst-flex yst-gap-3 yst-justify-between yst-items-center yst-mt-3">
+				<span className="yst-text-slate-500">
+					{ sprintf(
+						/* translators: %1$s is the current step number, %2$s is the total number of steps. */
+						__( "%1$s / %2$s", "wordpress-seo" ),
+						currentStep,
+						totalSteps
+					) }
+				</span>
+				<div className="yst-flex yst-gap-3 yst-items-center">
+					{ onBack && <Button variant="tertiary" onClick={ onBack }>
+						{ __( "Back", "wordpress-seo" ) }
+					</Button> }
+					<Button ref={ nextButtonRef } variant="primary" onClick={ onNext } className="yst-flex yst-gap-1">
+						{ isLastStep
+							? __( "Got it!", "wordpress-seo" )
+							: <>
+								{ __( "Next", "wordpress-seo" ) }
+								<ArrowNarrowRightIcon className="yst-h-4 yst-w-4 rtl:yst-rotate-180" { ...svgAriaProps } />
+							</> }
+					</Button>
+				</div>
+			</div>
+		</>
+	</Popover>;
+};
