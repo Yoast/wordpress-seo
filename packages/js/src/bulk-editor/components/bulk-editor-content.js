@@ -60,7 +60,15 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
 		[ fieldSets ]
 	);
-	const { activeFieldSet, selectedIds, isPremium, isAiEnabled, hasExternalPendingChanges, pendingSwitch } = useSelect( ( select ) => {
+	const {
+		activeFieldSet,
+		selectedIds,
+		isPremium,
+		isAiEnabled,
+		hasExternalPendingChanges,
+		hasExternalGeneration,
+		pendingSwitch,
+	} = useSelect( ( select ) => {
 		const store = select( STORE_NAME );
 		return {
 			activeFieldSet: store.selectActiveFieldSet(),
@@ -69,6 +77,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			isAiEnabled: store.selectPreference( "isAiEnabled", false ),
 			// An external plugin (e.g. Premium's AI suggestions) reports pending changes so the switch can be guarded.
 			hasExternalPendingChanges: store.selectHasExternalPendingChanges(),
+			// It also reports an in-flight generation request so row editing can be locked while it runs.
+			hasExternalGeneration: store.selectHasExternalGeneration(),
 			pendingSwitch: store.selectPendingSwitch(),
 		};
 	}, [] );
@@ -139,6 +149,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 				<BulkEditorTabs
 					tabs={ tabs }
 					activeTab={ activeFieldSet }
+					disabled={ hasExternalGeneration }
 					onChange={ onChangeTab }
 					label={ __( "Bulk editor views", "wordpress-seo" ) }
 				/>
@@ -192,6 +203,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 						filters={ <BulkEditorFilters /> }
 						isLoading={ isPending }
 						hasExternalPendingChanges={ hasExternalPendingChanges }
+						hasExternalGeneration={ hasExternalGeneration }
 						footer={ total > 0
 							? <BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
 							: null }

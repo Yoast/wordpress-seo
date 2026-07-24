@@ -6,6 +6,7 @@ import { PluginArea } from "@wordpress/plugins";
 import { RemoteDataProvider } from "@yoast/dashboard-frontend";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
+import { GenericAlert } from "../ai-generator/components/errors";
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
 import { LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
@@ -16,11 +17,12 @@ import { DataProvider } from "./services";
 import registerStore from "./store";
 import { MYYOAST_CONNECTION_NAME } from "../ai-generator/store/myyoast-connection";
 
-// Expose the bulk AI upsell so Premium can reuse the same modal instead of duplicating it. Premium's bulk-editor
-// bundle depends on this script, so the global is set before Premium reads it.
+// Expose the bulk AI upsell and the generic error alert so Premium can reuse them instead of duplicating: the
+// upsell modal, and the error alert its consent flow shows when granting consent fails. Premium's bulk-editor
+// bundle depends on this script, so the globals are set before Premium reads them.
 window.yoast = window.yoast || {};
 window.yoast.bulkEditor = window.yoast.bulkEditor || {};
-window.yoast.bulkEditor.components = { ...window.yoast.bulkEditor.components, UpsellModal };
+window.yoast.bulkEditor.components = { ...window.yoast.bulkEditor.components, UpsellModal, GenericAlert };
 window.yoast.bulkEditor.hooks = { ...window.yoast.bulkEditor.hooks, useAiUpsell };
 
 domReady( () => {

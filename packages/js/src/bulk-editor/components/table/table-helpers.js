@@ -46,6 +46,22 @@ export const getStatusLabel = ( status ) => {
  */
 export const getColumnCount = ( fields ) => 3 + fields.length;
 
+/**
+ * Whether a row's Edit action is unavailable: a fill occupies one of its cells (e.g. a Premium AI suggestion),
+ * external AI work locks the table (suggestions pending review or a generation request in flight), or the
+ * current user cannot edit the post (its SEO data is not returned either).
+ *
+ * @param {Object}         options                           The options.
+ * @param {boolean}        options.isSlotFilled              Whether one of the row's cell slots is filled.
+ * @param {boolean}        options.hasExternalPendingChanges Whether external suggestions are pending review.
+ * @param {boolean}        options.hasExternalGeneration     Whether an external generation request is in flight.
+ * @param {BulkEditorItem} options.item                      The row's item.
+ *
+ * @returns {boolean} Whether the Edit action is disabled.
+ */
+export const isRowEditDisabled = ( { isSlotFilled, hasExternalPendingChanges, hasExternalGeneration, item } ) =>
+	isSlotFilled || hasExternalPendingChanges || hasExternalGeneration || ! item.editable;
+
 const EMPTY_ROW_EDIT = { openFields: [], draft: {}, savingFields: {} };
 
 /**
