@@ -142,7 +142,6 @@ class Opt_In_Route implements Route_Interface {
 	 */
 	public function validate_key( $key ) {
 		$allowed_keys = [
-			'task_list',
 			'bulk_editor_tour',
 		];
 

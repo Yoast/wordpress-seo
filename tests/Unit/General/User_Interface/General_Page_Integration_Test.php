@@ -17,7 +17,6 @@ use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Task_List\Application\Configuration\Task_List_Configuration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -95,13 +94,6 @@ final class General_Page_Integration_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * Holds the user helper mock.
-	 *
-	 * @var Mockery\MockInterface|User_Helper
-	 */
-	private $user_helper;
-
-	/**
 	 * Holds the options helper mock.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
@@ -145,7 +137,6 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->alert_dismissal_action  = Mockery::mock( Alert_Dismissal_Action::class );
 		$this->promotion_manager       = Mockery::mock( Promotion_Manager::class );
 		$this->dashboard_configuration = Mockery::mock( Dashboard_Configuration::class );
-		$this->user_helper             = Mockery::mock( User_Helper::class );
 		$this->options_helper          = Mockery::mock( Options_Helper::class );
 		$this->woocommerce_conditional = Mockery::mock( WooCommerce_Conditional::class );
 		$this->addon_manager           = Mockery::mock( WPSEO_Addon_Manager::class );
@@ -160,7 +151,6 @@ final class General_Page_Integration_Test extends TestCase {
 			$this->alert_dismissal_action,
 			$this->promotion_manager,
 			$this->dashboard_configuration,
-			$this->user_helper,
 			$this->options_helper,
 			$this->woocommerce_conditional,
 			$this->addon_manager,
@@ -187,7 +177,6 @@ final class General_Page_Integration_Test extends TestCase {
 				$this->alert_dismissal_action,
 				$this->promotion_manager,
 				$this->dashboard_configuration,
-				$this->user_helper,
 				$this->options_helper,
 				$this->woocommerce_conditional,
 				$this->addon_manager,
@@ -309,7 +298,6 @@ final class General_Page_Integration_Test extends TestCase {
 	 *
 	 * @covers ::enqueue_assets
 	 * @covers ::get_script_data
-	 * @covers ::is_task_list_opt_in_notification_seen
 	 *
 	 * @return void
 	 */
@@ -348,17 +336,6 @@ final class General_Page_Integration_Test extends TestCase {
 			->expects( 'enqueue_style' )
 			->with( 'black-friday-banner' )
 			->once();
-
-		$this->user_helper
-			->expects( 'get_current_user_id' )
-			->once()
-			->andReturn( 1 );
-
-		$this->user_helper
-			->expects( 'get_meta' )
-			->with( 1, '_yoast_wpseo_task_list_opt_in_notification_seen', true )
-			->once()
-			->andReturn( false );
 
 		$this->options_helper
 			->expects( 'get' )

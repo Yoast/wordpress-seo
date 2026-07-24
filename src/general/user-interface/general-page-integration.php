@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Task_List\Application\Configuration\Task_List_Configuration;
@@ -93,13 +92,6 @@ class General_Page_Integration implements Integration_Interface {
 	private $alert_dismissal_action;
 
 	/**
-	 * Holds the user helper.
-	 *
-	 * @var User_Helper
-	 */
-	private $user_helper;
-
-	/**
 	 * Holds the options helper.
 	 *
 	 * @var Options_Helper
@@ -131,7 +123,6 @@ class General_Page_Integration implements Integration_Interface {
 	 * @param Alert_Dismissal_Action    $alert_dismissal_action  The alert dismissal action.
 	 * @param Promotion_Manager         $promotion_manager       The promotion manager.
 	 * @param Dashboard_Configuration   $dashboard_configuration The dashboard configuration.
-	 * @param User_Helper               $user_helper             The user helper.
 	 * @param Options_Helper            $options_helper          The options helper.
 	 * @param WooCommerce_Conditional   $woocommerce_conditional The WooCommerce conditional.
 	 * @param WPSEO_Addon_Manager       $addon_manager           The WPSEO_Addon_Manager.
@@ -146,7 +137,6 @@ class General_Page_Integration implements Integration_Interface {
 		Alert_Dismissal_Action $alert_dismissal_action,
 		Promotion_Manager $promotion_manager,
 		Dashboard_Configuration $dashboard_configuration,
-		User_Helper $user_helper,
 		Options_Helper $options_helper,
 		WooCommerce_Conditional $woocommerce_conditional,
 		WPSEO_Addon_Manager $addon_manager,
@@ -160,7 +150,6 @@ class General_Page_Integration implements Integration_Interface {
 		$this->alert_dismissal_action  = $alert_dismissal_action;
 		$this->promotion_manager       = $promotion_manager;
 		$this->dashboard_configuration = $dashboard_configuration;
-		$this->user_helper             = $user_helper;
 		$this->options_helper          = $options_helper;
 		$this->woocommerce_conditional = $woocommerce_conditional;
 		$this->addon_manager           = $addon_manager;
@@ -280,20 +269,7 @@ class General_Page_Integration implements Integration_Interface {
 			'currentPromotions'     => $this->promotion_manager->get_current_promotions(),
 			'dismissedAlerts'       => $this->alert_dismissal_action->all_dismissed(),
 			'dashboard'             => $this->dashboard_configuration->get_configuration(),
-			'optInNotificationSeen' => [
-				'task_list' => $this->is_task_list_opt_in_notification_seen(),
-			],
 			'taskListConfiguration' => $this->task_list_configuration->get_configuration(),
 		];
-	}
-
-	/**
-	 * Gets if the llms.txt opt-in notification has been seen.
-	 *
-	 * @return bool True if the notification has been seen, false otherwise.
-	 */
-	private function is_task_list_opt_in_notification_seen(): bool {
-		$current_user_id = $this->user_helper->get_current_user_id();
-		return (bool) $this->user_helper->get_meta( $current_user_id, '_yoast_wpseo_task_list_opt_in_notification_seen', true );
 	}
 }
