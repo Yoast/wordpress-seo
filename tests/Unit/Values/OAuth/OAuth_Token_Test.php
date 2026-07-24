@@ -174,6 +174,7 @@ final class OAuth_Token_Test extends TestCase {
 		$this->assertEquals( '000001', $this->getPropertyValue( $instance, 'refresh_token' ) );
 		$this->assertEquals( 604_800, $this->getPropertyValue( $instance, 'expires' ) );
 		$this->assertEquals( false, $this->getPropertyValue( $instance, 'has_expired' ) );
-		$this->assertEquals( $this->created_at, $this->getPropertyValue( $instance, 'created_at' ) );
+		// Tolerate 1s drift: set_up() captures \time(), from_response() captures \time() again.
+		$this->assertEqualsWithDelta( $this->created_at, $this->getPropertyValue( $instance, 'created_at' ), 1 );
 	}
 }
