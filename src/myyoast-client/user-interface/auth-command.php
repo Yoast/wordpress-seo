@@ -5,16 +5,19 @@ namespace Yoast\WP\SEO\MyYoast_Client\User_Interface;
 use Exception;
 use WP_CLI;
 use WP_CLI\ExitException;
+use WP_CLI\Utils;
 use Yoast\WP\SEO\Commands\Command_Interface;
 use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
-use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Loadable_Interface;
 use Yoast\WP\SEO\Main;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Temporarily_Unavailable_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client_Cleanup;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Token_Storage_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\User_Token_Storage_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Domain\Exceptions\Invalid_Resource_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Domain\Resource_Indicator;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Issuer_Config;
 
@@ -121,6 +124,12 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 *
 	 * ## OPTIONS
 	 *
+	 * [--resource=<uri>]
+	 * : Show status for a specific RFC 8707 resource indicator. Omit to target the default resource. Cannot be combined with --all-resources.
+	 *
+	 * [--all-resources]
+	 * : Show status for every stored resource bucket. Cannot be combined with --resource.
+	 *
 	 * [--format=<format>]
 	 * : Output format.
 	 * ---
@@ -134,6 +143,8 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 *
 	 *     wp yoast auth status
 	 *     wp yoast auth status --user=admin
+	 *     wp yoast auth status --resource=https://ai.yoa.st
+	 *     wp yoast auth status --all-resources
 	 *     wp yoast auth status --format=json
 	 *
 	 * @when after_wp_load
@@ -157,11 +168,31 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 			$client_id = $registered_client->get_client_id();
 		}
 
-		$site_token      = $this->token_storage->get();
-		$site_token_info = $this->build_token_info( $site_token );
+		$has_all  = (bool) Utils\get_flag_value( $assoc_args, 'all-resources', false );
+		$resource = Utils\get_flag_value( $assoc_args, 'resource' );
 
-		$user_token      = ( $user_id > 0 ) ? $this->user_token_storage->get( $user_id ) : null;
-		$user_token_info = $this->build_token_info( $user_token );
+		if ( $has_all && $resource !== null && $resource !== '' ) {
+			WP_CLI::error( '--all-resources and --resource cannot be combined.' );
+		}
+
+		if ( $has_all ) {
+			$user_tokens = ( $user_id > 0 ) ? $this->user_token_storage->get_all( $user_id ) : [];
+			$site_tokens = $this->token_storage->get_all();
+		}
+		else {
+			try {
+				$resource_filter = new Resource_Indicator( ( $resource !== null && $resource !== '' ) ? (string) $resource : null );
+			}
+			catch ( Invalid_Resource_Exception $e ) {
+				WP_CLI::error( 'Invalid resource indicator: ' . $e->getMessage() );
+				return;
+			}
+
+			$user_tokens = ( $user_id > 0 ) ? \array_filter( [ $this->user_token_storage->get( $user_id, $resource_filter ) ] ) : [];
+			$site_tokens = \array_filter( [ $this->token_storage->get( $resource_filter ) ] );
+		}
+
+		$format = Utils\get_flag_value( $assoc_args, 'format', 'table' );
 
 		$data = [
 			'issuer_url'           => $issuer_url,
@@ -169,17 +200,12 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 			'initial_access_token' => ( $has_iat ) ? 'configured' : 'not configured',
 			'registered'           => ( $is_registered ) ? 'yes' : 'no',
 			'client_id'            => ( $client_id ?? '-' ),
-			'site_token'           => $site_token_info['status'],
-			'site_token_expires'   => $site_token_info['expires'],
-			'site_token_scopes'    => $site_token_info['scopes'],
 			'user_id'              => ( $user_id > 0 ) ? $user_id : 'none (use --user flag)',
-			'user_token'           => $user_token_info['status'],
-			'user_token_expires'   => $user_token_info['expires'],
-			'user_token_scopes'    => $user_token_info['scopes'],
-			'user_token_errors'    => $user_token_info['error_count'],
+			'user_tokens'          => $this->build_token_inventory( $user_tokens ),
+			'site_tokens'          => $this->build_token_inventory( $site_tokens ),
 		];
 
-		$this->output( $data, $assoc_args['format'] );
+		$this->output( $data, $format );
 	}
 
 	/**
@@ -217,14 +243,18 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 * @throws ExitException When registration fails.
 	 */
 	public function register( $args = null, $assoc_args = null ): void {
-		if ( isset( $assoc_args['force'] ) ) {
+		if ( Utils\get_flag_value( $assoc_args, 'force', false ) ) {
 			$this->myyoast_client->deregister();
 			WP_CLI::log( 'Deregistered existing client.' );
 		}
 
 		try {
-			$redirect_uri = \get_admin_url( null, 'admin.php?page=' . General_Page_Integration::PAGE . '&yoast_myyoast_oauth_callback=1' );
-			$client       = $this->myyoast_client->ensure_registered( [ $redirect_uri ] );
+			$client = $this->myyoast_client->ensure_registered();
+		} catch ( Registration_Temporarily_Unavailable_Exception $e ) {
+			$retry_after = $e->get_retry_after_seconds();
+			$retry_hint  = ( $retry_after !== null ) ? \sprintf( ' Try again in %d seconds.', $retry_after ) : ' Try again later.';
+			WP_CLI::error( 'Registration is temporarily unavailable.' . $retry_hint );
+			return;
 		} catch ( Exception $e ) {
 			WP_CLI::error( 'Registration failed: ' . $e->getMessage() );
 			return;
@@ -235,14 +265,14 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 				'client_id' => $client->get_client_id(),
 				'status'    => 'registered',
 			],
-			$assoc_args['format'],
+			Utils\get_flag_value( $assoc_args, 'format', 'table' ),
 		);
 
 		WP_CLI::success( 'Client registered: ' . $client->get_client_id() );
 	}
 
 	/**
-	 * Verifies the client registration with the server.
+	 * Refreshes the client registration status against the server.
 	 *
 	 * Reads the current registration from the authorization server to
 	 * confirm it is still valid and shows the registration metadata.
@@ -260,8 +290,10 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp yoast auth verify
-	 *     wp yoast auth verify --format=json
+	 *     wp yoast auth refresh-status
+	 *     wp yoast auth refresh-status --format=json
+	 *
+	 * @subcommand refresh-status
 	 *
 	 * @when after_wp_load
 	 *
@@ -270,24 +302,24 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 *
 	 * @return void
 	 *
-	 * @throws ExitException When verification fails.
+	 * @throws ExitException When the status refresh fails.
 	 */
-	public function verify( $args = null, $assoc_args = null ): void {
+	public function refresh_status( $args = null, $assoc_args = null ): void {
 		if ( ! $this->myyoast_client->is_registered() ) {
 			WP_CLI::error( 'Not registered. Run "wp yoast auth register" first.' );
 		}
 
 		try {
-			$metadata = $this->myyoast_client->verify_registration();
+			$metadata = $this->myyoast_client->refresh_registration_status();
 		} catch ( Exception $e ) {
-			WP_CLI::error( 'Verification failed: ' . $e->getMessage() );
+			WP_CLI::error( 'Status refresh failed: ' . $e->getMessage() );
 			return;
 		}
 
 		// Redact sensitive fields.
 		unset( $metadata['registration_access_token'] );
 
-		$this->output( $this->flatten_for_display( $metadata ), $assoc_args['format'] );
+		$this->output( $metadata, Utils\get_flag_value( $assoc_args, 'format', 'table' ) );
 
 		WP_CLI::success( 'Registration is valid.' );
 	}
@@ -327,15 +359,15 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 
 		WP_CLI::confirm( 'This will deregister this site from MyYoast and clear all cached tokens. Proceed?', $assoc_args );
 
-		if ( isset( $assoc_args['local-only'] ) ) {
+		if ( Utils\get_flag_value( $assoc_args, 'local-only', false ) ) {
 			$this->client_registration->delete_local_data();
-			$this->myyoast_client->clear_site_token();
+			$this->myyoast_client->clear_all_site_tokens();
 			WP_CLI::success( 'Local registration data cleared.' );
 			return;
 		}
 
 		$result = $this->myyoast_client->deregister();
-		$this->myyoast_client->clear_site_token();
+		$this->myyoast_client->clear_all_site_tokens();
 
 		if ( $result ) {
 			WP_CLI::success( 'Client deregistered.' );
@@ -398,6 +430,9 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 * [--scopes=<scopes>]
 	 * : Comma-separated scopes to request.
 	 *
+	 * [--resource=<uri>]
+	 * : RFC 8707 resource indicator to bind the token to (e.g. https://ai.yoa.st). Omit for the default resource.
+	 *
 	 * [--code=<code>]
 	 * : Authorization code from the callback URL (user flow phase 2).
 	 *
@@ -421,6 +456,9 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 *     # Site-level token (client_credentials):
 	 *     wp yoast auth authorize --site --scopes=service:analytics
 	 *
+	 *     # Site-level token for a non-default resource:
+	 *     wp yoast auth authorize --site --resource=https://ai.yoa.st --scopes=service:ai:consume
+	 *
 	 *     # User authorization code flow, phase 1 - get the URL:
 	 *     wp yoast auth authorize --user=admin --scopes=openid,profile
 	 *
@@ -437,14 +475,17 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 * @throws ExitException When authorization fails.
 	 */
 	public function authorize( $args = null, $assoc_args = null ): void {
-		$scopes = $this->parse_scopes( $assoc_args );
+		$scopes             = $this->parse_scopes( $assoc_args );
+		$format             = Utils\get_flag_value( $assoc_args, 'format', 'table' );
+		$resource           = Utils\get_flag_value( $assoc_args, 'resource' );
+		$resource_indicator = ( $resource !== null && $resource !== '' ) ? (string) $resource : null;
 
-		if ( isset( $assoc_args['site'] ) ) {
-			$this->authorize_site( $scopes, $assoc_args['format'] );
+		if ( Utils\get_flag_value( $assoc_args, 'site', false ) ) {
+			$this->authorize_site( $scopes, $resource_indicator, $format );
 			return;
 		}
 
-		$this->authorize_user( $assoc_args, $scopes, $assoc_args['format'] );
+		$this->authorize_user( $assoc_args, $scopes, $resource_indicator, $format );
 	}
 
 	/**
@@ -459,6 +500,12 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 * [--site]
 	 * : Clear the cached site-level token.
 	 *
+	 * [--resource=<uri>]
+	 * : Limit revocation to a single RFC 8707 resource indicator. Omit to target the default resource.
+	 *
+	 * [--all-resources]
+	 * : Revoke every stored token across all resource indicators. Cannot be combined with --resource.
+	 *
 	 * [--yes]
 	 * : Skip confirmation prompt.
 	 *
@@ -467,6 +514,8 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 *     wp yoast auth revoke --user=admin
 	 *     wp yoast auth revoke --site
 	 *     wp yoast auth revoke --user=admin --site --yes
+	 *     wp yoast auth revoke --user=admin --resource=https://ai.yoa.st
+	 *     wp yoast auth revoke --user=admin --site --all-resources
 	 *
 	 * @when after_wp_load
 	 *
@@ -476,24 +525,60 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 * @return void
 	 */
 	public function revoke( $args = null, $assoc_args = null ): void {
-		$user_id  = \get_current_user_id();
-		$has_site = isset( $assoc_args['site'] );
-		$has_user = ( $user_id > 0 );
+		$user_id           = \get_current_user_id();
+		$has_user          = ( $user_id > 0 );
+		$has_site          = (bool) Utils\get_flag_value( $assoc_args, 'site', false );
+		$has_all_resources = (bool) Utils\get_flag_value( $assoc_args, 'all-resources', false );
+		$resource          = Utils\get_flag_value( $assoc_args, 'resource' );
 
 		if ( ! $has_site && ! $has_user ) {
 			WP_CLI::error( 'Specify --site and/or use the global --user flag.' );
 		}
 
-		WP_CLI::confirm( 'This will revoke the specified tokens. Proceed?', $assoc_args );
-
-		if ( $has_user ) {
-			$this->myyoast_client->revoke_user_token( $user_id );
-			WP_CLI::log( \sprintf( 'User %d tokens revoked.', $user_id ) );
+		if ( $has_all_resources && $resource !== null && $resource !== '' ) {
+			WP_CLI::error( '--all-resources and --resource cannot be combined.' );
 		}
 
-		if ( $has_site ) {
-			$this->myyoast_client->clear_site_token();
-			WP_CLI::log( 'Site token cleared.' );
+		$resource_indicator = null;
+		if ( $resource !== null && $resource !== '' ) {
+			$resource_indicator = (string) $resource;
+			try {
+				new Resource_Indicator( $resource_indicator );
+			}
+			catch ( Invalid_Resource_Exception $e ) {
+				WP_CLI::error( 'Invalid resource indicator: ' . $e->getMessage() );
+				return;
+			}
+		}
+
+		WP_CLI::confirm( 'This will revoke the specified tokens. Proceed?', $assoc_args );
+
+		try {
+			if ( $has_user ) {
+				if ( $has_all_resources ) {
+					$this->myyoast_client->revoke_all_user_tokens( $user_id );
+					WP_CLI::log( \sprintf( 'User %d tokens revoked across all resources.', $user_id ) );
+				}
+				else {
+					$this->myyoast_client->revoke_user_token( $user_id, $resource_indicator );
+					WP_CLI::log( \sprintf( 'User %d tokens revoked.', $user_id ) );
+				}
+			}
+
+			if ( $has_site ) {
+				if ( $has_all_resources ) {
+					$this->myyoast_client->clear_all_site_tokens();
+					WP_CLI::log( 'All site tokens cleared.' );
+				}
+				else {
+					$this->myyoast_client->clear_site_token( $resource_indicator );
+					WP_CLI::log( 'Site token cleared.' );
+				}
+			}
+		}
+		catch ( Exception $e ) {
+			WP_CLI::error( 'Revocation failed: ' . $e->getMessage() );
+			return;
 		}
 
 		WP_CLI::success( 'Done.' );
@@ -535,8 +620,9 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 * @throws ExitException When key rotation fails.
 	 */
 	public function rotate_keys( $args = null, $assoc_args = null ): void {
-		$rotate_registration = isset( $assoc_args['registration'] ) || isset( $assoc_args['all'] );
-		$rotate_dpop         = isset( $assoc_args['dpop'] ) || isset( $assoc_args['all'] );
+		$rotate_all          = (bool) Utils\get_flag_value( $assoc_args, 'all', false );
+		$rotate_registration = ( $rotate_all || (bool) Utils\get_flag_value( $assoc_args, 'registration', false ) );
+		$rotate_dpop         = ( $rotate_all || (bool) Utils\get_flag_value( $assoc_args, 'dpop', false ) );
 
 		if ( ! $rotate_registration && ! $rotate_dpop ) {
 			WP_CLI::error( 'Specify --registration, --dpop, or --all.' );
@@ -569,16 +655,17 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	/**
 	 * Performs a client_credentials grant for a site-level token.
 	 *
-	 * @param string[] $scopes The scopes to request.
-	 * @param string   $format The output format.
+	 * @param string[]    $scopes             The scopes to request.
+	 * @param string|null $resource_indicator The resource indicator (RFC 8707), or null for the default resource.
+	 * @param string      $format             The output format.
 	 *
 	 * @return void
 	 *
 	 * @throws ExitException When the token request fails.
 	 */
-	private function authorize_site( array $scopes, string $format ): void {
+	private function authorize_site( array $scopes, ?string $resource_indicator, string $format ): void {
 		try {
-			$token_set = $this->myyoast_client->get_site_token( $scopes );
+			$token_set = $this->myyoast_client->get_site_token( $scopes, $resource_indicator );
 		} catch ( Exception $e ) {
 			WP_CLI::error( 'Site token request failed: ' . $e->getMessage() );
 			return;
@@ -592,30 +679,31 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	/**
 	 * Handles the user authorization code flow.
 	 *
-	 * @param array<string, string> $assoc_args The associative arguments.
-	 * @param string[]              $scopes     The scopes to request.
-	 * @param string                $format     The output format.
+	 * @param array<string, string> $assoc_args         The associative arguments.
+	 * @param string[]              $scopes             The scopes to request.
+	 * @param string|null           $resource_indicator The resource indicator (RFC 8707), or null for the default resource.
+	 * @param string                $format             The output format.
 	 *
 	 * @return void
 	 *
 	 * @throws ExitException When authorization fails.
 	 */
-	private function authorize_user( array $assoc_args, array $scopes, string $format ): void {
+	private function authorize_user( array $assoc_args, array $scopes, ?string $resource_indicator, string $format ): void {
 		$user_id = \get_current_user_id();
 		if ( $user_id <= 0 ) {
 			WP_CLI::error( 'User authorization requires the global --user flag.' );
 		}
 
-		$has_code  = isset( $assoc_args['code'] );
-		$has_state = isset( $assoc_args['state'] );
+		$code  = Utils\get_flag_value( $assoc_args, 'code' );
+		$state = Utils\get_flag_value( $assoc_args, 'state' );
 
-		// Phase 2: exchange the code.
-		if ( $has_code && $has_state ) {
+		// Phase 2: exchange the code. The resource was persisted in the flow state during phase 1.
+		if ( $code !== null && $state !== null ) {
 			try {
 				$token_set = $this->myyoast_client->exchange_authorization_code(
 					$user_id,
-					$assoc_args['code'],
-					$assoc_args['state'],
+					(string) $code,
+					(string) $state,
 				);
 			} catch ( Exception $e ) {
 				WP_CLI::error( 'Code exchange failed: ' . $e->getMessage() );
@@ -628,21 +716,23 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 			return;
 		}
 
-		if ( $has_code || $has_state ) {
+		if ( $code !== null || $state !== null ) {
 			WP_CLI::error( 'Both --code and --state are required for code exchange.' );
 		}
 
-		// Phase 1: generate the authorization URL.
-		$redirect_uri = \get_admin_url( null, 'admin.php?page=' . General_Page_Integration::PAGE . '&yoast_myyoast_oauth_callback=1' );
+		// Phase 1: generate the authorization URL. Registration is a prerequisite.
+		if ( ! $this->myyoast_client->is_registered() ) {
+			WP_CLI::error( 'Not registered. Run "wp yoast auth register" first.' );
+		}
 
 		try {
-			$url = $this->myyoast_client->get_authorization_url( $user_id, $redirect_uri, $scopes );
+			$url = $this->myyoast_client->get_authorization_url( $user_id, $scopes, $resource_indicator );
 		} catch ( Exception $e ) {
 			WP_CLI::error( 'Failed to generate authorization URL: ' . $e->getMessage() );
 			return;
 		}
 
-		if ( isset( $assoc_args['url-only'] ) ) {
+		if ( Utils\get_flag_value( $assoc_args, 'url-only', false ) ) {
 			WP_CLI::log( $url );
 			return;
 		}
@@ -672,6 +762,7 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	private function build_token_info( ?Token_Set $token_set ): array {
 		if ( $token_set === null ) {
 			return [
+				'resource'    => '-',
 				'status'      => 'none',
 				'expires'     => '-',
 				'scopes'      => '-',
@@ -680,11 +771,27 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 		}
 
 		return [
+			'resource'    => ( $token_set->get_resource_indicator()->is_default() ? '(default)' : $token_set->get_resource_indicator()->value() ),
 			'status'      => ( $token_set->is_expired() ) ? 'expired' : 'valid',
 			'expires'     => \gmdate( 'Y-m-d H:i:s', $token_set->get_expires_at() ) . ' UTC',
 			'scopes'      => ( $token_set->get_scope() ?? '-' ),
 			'error_count' => $token_set->get_error_count(),
 		];
+	}
+
+	/**
+	 * Builds a display-safe inventory of tokens across resource buckets.
+	 *
+	 * @param Token_Set[] $token_sets The token sets.
+	 *
+	 * @return array<int, array<string, string|int>> The inventory.
+	 */
+	private function build_token_inventory( array $token_sets ): array {
+		$inventory = [];
+		foreach ( $token_sets as $token_set ) {
+			$inventory[] = $this->build_token_info( $token_set );
+		}
+		return $inventory;
 	}
 
 	/**
@@ -695,11 +802,12 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 * @return string[] The parsed scopes.
 	 */
 	private function parse_scopes( $assoc_args ): array {
-		if ( ! isset( $assoc_args['scopes'] ) || $assoc_args['scopes'] === '' ) {
+		$scopes = Utils\get_flag_value( $assoc_args, 'scopes', '' );
+		if ( $scopes === '' ) {
 			return [];
 		}
 
-		return \array_values( \array_filter( \array_map( 'trim', \explode( ',', $assoc_args['scopes'] ) ) ) );
+		return \array_values( \array_filter( \array_map( 'trim', \explode( ',', (string) $scopes ) ) ) );
 	}
 
 	/**
@@ -714,7 +822,7 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 		foreach ( $data as $key => $value ) {
 			if ( \is_array( $value ) ) {
 				// phpcs:ignore Yoast.Yoast.JsonEncodeAlternative.Found -- WP-CLI display output, not user-facing HTML.
-				$result[ $key ] = ( \wp_json_encode( $value ) ?? '[]' );
+				$result[ $key ] = ( \wp_json_encode( $value ) ?? 'err' );
 			}
 			elseif ( \is_bool( $value ) ) {
 				$result[ $key ] = ( $value ) ? 'true' : 'false';
@@ -742,11 +850,12 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 			return;
 		}
 
-		$items = [];
-		foreach ( $data as $key => $value ) {
+		$flat_data = $this->flatten_for_display( $data );
+		$items     = [];
+		foreach ( $flat_data as $key => $value ) {
 			$items[] = [
 				'field' => $key,
-				'value' => (string) $value,
+				'value' => $value,
 			];
 		}
 

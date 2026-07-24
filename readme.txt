@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.0
-Stable tag: 27.7
+Stable tag: 28.1
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -303,40 +303,27 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 27.7 =
+= 28.2 =
 
-Release date: 2026-05-27
-
-Yoast SEO 27.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Bugfixes
-
-* Fixes a bug in Schema aggregator where products Schema pieces had incorrect `@id` values for `mainEntityOfPage` and `image` properties.
-* Fixes a bug where a `FocusTrap` warning was thrown and the X button did not receive focus when the replace content confirmation modal from the AI Content Planner was opened.
-* Fixes a bug where a warning was triggered in the console when editing a post with the Content Planner feature enabled.
-* Fixes a bug where only the first piece was returned when indexables were not available.
-* Fixes a bug where the AI features section was rendered twice on the user profile page.
-* Fixes a bug where the block editor was crashing when some AI features were triggering errors.
-* Fixes a bug where the Content Planner inline banner was displayed when editing a template or template part.
-
-#### Other
-
-* Makes the Academy, Upgrade and Brand insights links visible to more user roles.
-
-= 27.6 =
-
-Release date: 2026-05-12
-
-Introduces Yoast AI Content Planner to Yoast SEO Premium, giving five site-specific post ideas and a structured starter draft the moment you open a new post. Haven't used your free AI sparks yet? Give it a try on us. [Read the full release post here](https://yoa.st/56n).
+Release date: 2026-08-04
 
 #### Enhancements
 
-* Adds the Content Planner feature, which allows users to get AI-powered content suggestions and structured outlines for new posts directly from the block editor. This is available as part of the free sparks allowance in Yoast SEO Free.
+* Introduces two new Yoast SEO abilities to get and set SEO data for specified posts.
 
-#### Other
+#### Bugfixes
 
-* Improves documentation in a docblock. Props to [@MukundaKatta](https://github.com/MukundaKatta).
-* Introduces a shared contributor guide for humans and AI coding tools.
+* Fixes a bug where the overall SEO score was lowered when the focus keyphrase did not consist of function words only. Props to @faisalahammad.
+
+= 28.1 =
+
+Release date: 2026-07-21
+
+Yoast SEO 28.1 redesigns the Bulk editor into a focused workspace with new search and status filters, so you can find and fix titles and meta descriptions across posts, pages, and custom post types in one place. [Read the full release post here](https://yoa.st/57c).
+
+#### Enhancements
+
+* Redesigns the bulk editor page, which allows users to edit Metadata for multiple posts at once.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

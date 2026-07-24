@@ -42,5 +42,6 @@ final class Authorization_Code_Grant_Test extends TestCase {
 		$this->assertSame( 'code-123', $params['code'] );
 		$this->assertSame( 'https://example.com/callback', $params['redirect_uri'] );
 		$this->assertSame( 'verifier-abc', $params['code_verifier'] );
+		$this->assertArrayNotHasKey( 'resource', $params );
 	}
 }

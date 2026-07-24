@@ -1,4 +1,4 @@
-import { DesktopComputerIcon } from "@heroicons/react/outline";
+import DesktopComputerIcon from "@heroicons/react/outline/DesktopComputerIcon";
 import { noop } from "lodash";
 import React from "react";
 import FileInput from ".";

@@ -18,16 +18,18 @@
 			@apply yst-rounded-lg yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5;
 
 			table {
-				@apply yst-divide-y yst-divide-slate-300;
+				/* Firefox drops collapsed dividers next to tall cells; separate borders fix this. */
+				border-collapse: separate;
+				border-spacing: 0;
 
 				thead {
 					.yst-table-header {
-						@apply first:yst-rounded-ss-lg last:yst-rounded-se-lg yst-bg-slate-50;;
+						@apply first:yst-rounded-ss-lg last:yst-rounded-se-lg yst-bg-slate-50 yst-border-b yst-border-slate-300;
 					}
 				}
 
-				tbody {
-					@apply yst-divide-y yst-divide-gray-200;
+				tbody > tr:not(:first-child) > * {
+					@apply yst-border-t yst-border-gray-200;
 				}
 
 				.yst-table-row:last-of-type .yst-table-cell {

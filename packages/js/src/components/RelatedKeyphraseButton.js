@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { SearchIcon } from "@heroicons/react/outline";
+import SearchIcon from "@heroicons/react/outline/SearchIcon";
 import { Button } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 

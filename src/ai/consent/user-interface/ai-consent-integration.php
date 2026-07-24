@@ -100,6 +100,7 @@ class Ai_Consent_Integration implements Integration_Interface {
 			'pluginUrl'  => \plugins_url( '', \WPSEO_FILE ),
 			'linkParams' => $this->short_link_helper->get_query_params(),
 			'endpoints'  => $this->endpoints_repository->get_all_endpoints()->to_paths_array(),
+			'adminUrl'   => \admin_url(),
 		];
 	}
 

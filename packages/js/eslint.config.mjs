@@ -45,6 +45,14 @@ export default [
 					name: "react-dom",
 					message: "Please use @wordpress/element instead.",
 				},
+				{
+					name: "@heroicons/react/outline",
+					message: "Import individual icons instead, e.g. import PlusIcon from '@heroicons/react/outline/PlusIcon'.",
+				},
+				{
+					name: "@heroicons/react/solid",
+					message: "Import individual icons instead, e.g. import CheckIcon from '@heroicons/react/solid/CheckIcon'.",
+				},
 			],
 			// Disabled rules
 			// In the editor, we're using the pragma `wp.element.createElement`

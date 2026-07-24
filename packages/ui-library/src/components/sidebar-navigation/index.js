@@ -7,6 +7,7 @@ import { Item } from "./item";
 import { Link } from "./link";
 import { List } from "./list";
 import MenuItem from "./menu-item";
+import { MenuItemWithLimiter } from "./menu-item-with-limiter";
 import Mobile from "./mobile";
 import Sidebar from "./sidebar";
 import SubmenuItem from "./submenu-item";
@@ -75,6 +76,8 @@ SidebarNavigation.MenuItem = MenuItem;
 SidebarNavigation.MenuItem.displayName = "SidebarNavigation.MenuItem";
 SidebarNavigation.SubmenuItem = SubmenuItem;
 SidebarNavigation.SubmenuItem.displayName = "SidebarNavigation.SubmenuItem";
+SidebarNavigation.MenuItemWithLimiter = MenuItemWithLimiter;
+SidebarNavigation.MenuItemWithLimiter.displayName = "SidebarNavigation.MenuItemWithLimiter";
 
 // "V2" building blocks.
 SidebarNavigation.List = List;

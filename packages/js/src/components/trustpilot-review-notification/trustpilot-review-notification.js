@@ -27,6 +27,7 @@ export const TrustpilotReviewNotification = ( props ) => {
 			hasIcon={ false }
 			isAlertDismissed={ ! shouldShow }
 			onDismissed={ dismiss }
+			className="yst-m-0"
 			{ ...props }
 		>
 			{ __( "Happy with the plugin?", "wordpress-seo" ) }

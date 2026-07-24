@@ -118,3 +118,4 @@ dependencies.md
 # Keep the shared security-guidance plugin config under version control.
 !/.claude/claude-security-guidance.md
 !/.claude/security-patterns.json
+!/.claude/skills/

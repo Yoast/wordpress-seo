@@ -70,15 +70,23 @@ class Token_Set {
 	private $error_count;
 
 	/**
+	 * The RFC 8707 resource indicator this token was minted for.
+	 *
+	 * @var Resource_Indicator
+	 */
+	private $resource_indicator;
+
+	/**
 	 * Token_Set constructor.
 	 *
-	 * @param string      $access_token  The access token.
-	 * @param int         $expires_at    Unix timestamp of token expiry.
-	 * @param string      $token_type    An Auth_Token_Type constant.
-	 * @param string|null $refresh_token The refresh token.
-	 * @param string|null $id_token      The OIDC ID token.
-	 * @param string|null $scope         The granted scope.
-	 * @param int         $error_count   The number of consecutive refresh errors.
+	 * @param string                  $access_token       The access token.
+	 * @param int                     $expires_at         Unix timestamp of token expiry.
+	 * @param string                  $token_type         An Auth_Token_Type constant.
+	 * @param string|null             $refresh_token      The refresh token.
+	 * @param string|null             $id_token           The OIDC ID token.
+	 * @param string|null             $scope              The granted scope.
+	 * @param int                     $error_count        The number of consecutive refresh errors.
+	 * @param Resource_Indicator|null $resource_indicator The resource indicator (RFC 8707) the token was minted for. Null is treated as Resource_Indicator::default().
 	 *
 	 * @throws InvalidArgumentException If required fields are empty or invalid.
 	 */
@@ -93,7 +101,8 @@ class Token_Set {
 		?string $refresh_token = null,
 		?string $id_token = null,
 		?string $scope = null,
-		int $error_count = 0
+		int $error_count = 0,
+		?Resource_Indicator $resource_indicator = null
 	) {
 		if ( $access_token === '' ) {
 			throw new InvalidArgumentException( 'Token_Set requires a non-empty access_token.' );
@@ -105,13 +114,14 @@ class Token_Set {
 			throw new InvalidArgumentException( 'Token_Set requires a non-empty token_type.' );
 		}
 
-		$this->access_token  = $access_token;
-		$this->expires_at    = $expires_at;
-		$this->token_type    = $token_type;
-		$this->refresh_token = $refresh_token;
-		$this->id_token      = $id_token;
-		$this->scope         = $scope;
-		$this->error_count   = $error_count;
+		$this->access_token       = $access_token;
+		$this->expires_at         = $expires_at;
+		$this->token_type         = $token_type;
+		$this->refresh_token      = $refresh_token;
+		$this->id_token           = $id_token;
+		$this->scope              = $scope;
+		$this->error_count        = $error_count;
+		$this->resource_indicator = ( $resource_indicator ?? new Resource_Indicator( null ) );
 	}
 
 	/**
@@ -194,6 +204,35 @@ class Token_Set {
 	}
 
 	/**
+	 * Returns the RFC 8707 resource indicator this token was minted for.
+	 *
+	 * @return Resource_Indicator
+	 */
+	public function get_resource_indicator(): Resource_Indicator {
+		return $this->resource_indicator;
+	}
+
+	/**
+	 * Returns a new Token_Set bound to the given resource indicator.
+	 *
+	 * @param Resource_Indicator $resource_indicator The resource indicator.
+	 *
+	 * @return self
+	 */
+	public function with_resource_indicator( Resource_Indicator $resource_indicator ): self {
+		return new self(
+			$this->access_token,
+			$this->expires_at,
+			$this->token_type,
+			$this->refresh_token,
+			$this->id_token,
+			$this->scope,
+			$this->error_count,
+			$resource_indicator,
+		);
+	}
+
+	/**
 	 * Returns a new Token_Set with an incremented error count.
 	 *
 	 * @return self
@@ -207,6 +246,7 @@ class Token_Set {
 			$this->id_token,
 			$this->scope,
 			$this->error_count + 1,
+			$this->resource_indicator,
 		);
 	}
 
@@ -228,13 +268,14 @@ class Token_Set {
 	 */
 	public function to_array(): array {
 		return [
-			'access_token'  => $this->access_token,
-			'expires_at'    => $this->expires_at,
-			'token_type'    => $this->token_type,
-			'refresh_token' => $this->refresh_token,
-			'id_token'      => $this->id_token,
-			'scope'         => $this->scope,
-			'error_count'   => $this->error_count,
+			'access_token'       => $this->access_token,
+			'expires_at'         => $this->expires_at,
+			'token_type'         => $this->token_type,
+			'refresh_token'      => $this->refresh_token,
+			'id_token'           => $this->id_token,
+			'scope'              => $this->scope,
+			'error_count'        => $this->error_count,
+			'resource_indicator' => $this->resource_indicator->value(),
 		];
 	}
 
@@ -246,6 +287,8 @@ class Token_Set {
 	 * @return self
 	 */
 	public static function from_array( array $data ): self {
+		$stored_indicator = ( $data['resource_indicator'] ?? null );
+
 		return new self(
 			(string) ( $data['access_token'] ?? '' ),
 			(int) ( $data['expires_at'] ?? 0 ),
@@ -254,11 +297,18 @@ class Token_Set {
 			( $data['id_token'] ?? null ),
 			( $data['scope'] ?? null ),
 			(int) ( $data['error_count'] ?? 0 ),
+			new Resource_Indicator( ( \is_string( $stored_indicator ) && $stored_indicator !== '' ) ? $stored_indicator : null ),
 		);
 	}
 
 	/**
 	 * Creates a Token_Set from a token endpoint response.
+	 *
+	 * Per RFC 8707 §3 the AS may echo a `resource` field to confirm the audience
+	 * it minted the token for. The spec does not require the client to honour
+	 * the echo, and trusting an unverified echo into storage could later violate
+	 * §2 on refresh. We deliberately ignore the echoed field; the caller is
+	 * expected to stamp the requested indicator via with_resource_indicator().
 	 *
 	 * @param array<string, string|int|null> $response The parsed JSON response from the token endpoint.
 	 *

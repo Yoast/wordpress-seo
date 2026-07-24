@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\MyYoast_Client\Domain;
 
 use InvalidArgumentException;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Auth_Flow_State;
+use Yoast\WP\SEO\MyYoast_Client\Domain\Resource_Indicator;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -26,7 +27,7 @@ final class Auth_Flow_State_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_getters() {
-		$state = new Auth_Flow_State( 'verifier', 'csrf-state', 'nonce-123', 'https://example.com/callback', 'https://example.com/settings' );
+		$state = new Auth_Flow_State( 'verifier', 'csrf-state', 'nonce-123', 'https://example.com/callback', 'https://example.com/settings', Resource_Indicator::default() );
 
 		$this->assertSame( 'verifier', $state->get_code_verifier() );
 		$this->assertSame( 'csrf-state', $state->get_state() );
@@ -43,8 +44,8 @@ final class Auth_Flow_State_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_return_url_defaults_to_null() {
-		$state = new Auth_Flow_State( 'verifier', 'csrf-state', 'nonce', 'https://example.com/callback' );
+	public function test_accepts_null_return_url() {
+		$state = new Auth_Flow_State( 'verifier', 'csrf-state', 'nonce', 'https://example.com/callback', null, Resource_Indicator::default() );
 
 		$this->assertNull( $state->get_return_url() );
 	}
@@ -58,7 +59,7 @@ final class Auth_Flow_State_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_to_array_from_array_round_trip() {
-		$original = new Auth_Flow_State( 'verifier', 'state', 'nonce', 'https://example.com/cb', 'https://example.com/return' );
+		$original = new Auth_Flow_State( 'verifier', 'state', 'nonce', 'https://example.com/cb', 'https://example.com/return', Resource_Indicator::default() );
 		$restored = Auth_Flow_State::from_array( $original->to_array() );
 
 		$this->assertSame( $original->get_code_verifier(), $restored->get_code_verifier() );
@@ -77,7 +78,7 @@ final class Auth_Flow_State_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_to_array_from_array_without_return_url() {
-		$original = new Auth_Flow_State( 'verifier', 'state', 'nonce', 'https://example.com/cb' );
+		$original = new Auth_Flow_State( 'verifier', 'state', 'nonce', 'https://example.com/cb', null, Resource_Indicator::default() );
 		$restored = Auth_Flow_State::from_array( $original->to_array() );
 
 		$this->assertNull( $restored->get_return_url() );
@@ -93,7 +94,7 @@ final class Auth_Flow_State_Test extends TestCase {
 	public function test_throws_on_empty_code_verifier() {
 		$this->expectException( InvalidArgumentException::class );
 
-		new Auth_Flow_State( '', 'state', 'nonce', 'https://example.com/cb' );
+		new Auth_Flow_State( '', 'state', 'nonce', 'https://example.com/cb', null, Resource_Indicator::default() );
 	}
 
 	/**
@@ -106,7 +107,7 @@ final class Auth_Flow_State_Test extends TestCase {
 	public function test_throws_on_empty_state() {
 		$this->expectException( InvalidArgumentException::class );
 
-		new Auth_Flow_State( 'verifier', '', 'nonce', 'https://example.com/cb' );
+		new Auth_Flow_State( 'verifier', '', 'nonce', 'https://example.com/cb', null, Resource_Indicator::default() );
 	}
 
 	/**
@@ -118,7 +119,7 @@ final class Auth_Flow_State_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_accepts_null_nonce() {
-		$state = new Auth_Flow_State( 'verifier', 'state', null, 'https://example.com/cb' );
+		$state = new Auth_Flow_State( 'verifier', 'state', null, 'https://example.com/cb', null, Resource_Indicator::default() );
 
 		$this->assertNull( $state->get_nonce() );
 	}
@@ -132,7 +133,7 @@ final class Auth_Flow_State_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_to_array_from_array_without_nonce() {
-		$original = new Auth_Flow_State( 'verifier', 'state', null, 'https://example.com/cb' );
+		$original = new Auth_Flow_State( 'verifier', 'state', null, 'https://example.com/cb', null, Resource_Indicator::default() );
 		$restored = Auth_Flow_State::from_array( $original->to_array() );
 
 		$this->assertNull( $restored->get_nonce() );
@@ -148,7 +149,7 @@ final class Auth_Flow_State_Test extends TestCase {
 	public function test_throws_on_empty_redirect_uri() {
 		$this->expectException( InvalidArgumentException::class );
 
-		new Auth_Flow_State( 'verifier', 'state', 'nonce', '' );
+		new Auth_Flow_State( 'verifier', 'state', 'nonce', '', null, Resource_Indicator::default() );
 	}
 
 	/**
@@ -162,5 +163,27 @@ final class Auth_Flow_State_Test extends TestCase {
 		$this->expectException( InvalidArgumentException::class );
 
 		Auth_Flow_State::from_array( [] );
+	}
+
+	/**
+	 * Tests that the resource indicator defaults to null and round-trips through serialization.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_resource_indicator
+	 * @covers ::to_array
+	 * @covers ::from_array
+	 *
+	 * @return void
+	 */
+	public function test_resource_indicator_round_trip() {
+		$default = new Auth_Flow_State( 'verifier', 'state', null, 'https://example.com/callback', null, Resource_Indicator::default() );
+		$this->assertTrue( $default->get_resource_indicator()->is_default() );
+
+		$indicator = new Resource_Indicator( 'https://ai.yoa.st' );
+		$bound     = new Auth_Flow_State( 'verifier', 'state', null, 'https://example.com/callback', null, $indicator );
+		$this->assertSame( 'https://ai.yoa.st', $bound->get_resource_indicator()->value() );
+
+		$restored = Auth_Flow_State::from_array( $bound->to_array() );
+		$this->assertSame( 'https://ai.yoa.st', $restored->get_resource_indicator()->value() );
 	}
 }

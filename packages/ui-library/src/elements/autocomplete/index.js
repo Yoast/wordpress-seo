@@ -1,6 +1,8 @@
+/* eslint-disable complexity */
 import { Combobox, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import XIcon from "@heroicons/react/outline/XIcon";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import SelectorIcon from "@heroicons/react/solid/SelectorIcon";
 import classNames from "classnames";
 import { constant } from "lodash";
 import PropTypes from "prop-types";
@@ -12,6 +14,11 @@ import { ValidationInput } from "../validation";
 // Render Combobox.Button as a div always.
 const AutocompleteButton = forwardRef( ( props, ref ) => <Combobox.Button as="div" ref={ ref } { ...props } /> );
 AutocompleteButton.displayName = "AutocompleteButton";
+
+// Stable references matching the old defaultProps single instance, so they keep a constant identity across renders.
+const DEFAULT_LABEL_PROPS = {};
+const DEFAULT_VALIDATION = {};
+const DEFAULT_BUTTON_PROPS = {};
 
 /**
  * @param {React.ReactNode} [children=null] The children.
@@ -101,22 +108,22 @@ ClearSelection.propTypes = {
  */
 const Autocomplete = forwardRef( ( {
 	id,
-	value,
-	children,
-	selectedLabel,
-	label,
-	labelProps,
-	labelSuffix,
+	value = null,
+	children = null,
+	selectedLabel = "",
+	label = "",
+	labelProps = DEFAULT_LABEL_PROPS,
+	labelSuffix = null,
 	onChange,
 	onQueryChange,
-	onClear,
-	validation,
-	placeholder,
-	className,
-	buttonProps,
-	clearButtonScreenReaderText,
-	nullable,
-	disabled,
+	onClear = null,
+	validation = DEFAULT_VALIDATION,
+	placeholder = "",
+	className = "",
+	buttonProps = DEFAULT_BUTTON_PROPS,
+	clearButtonScreenReaderText = "Clear",
+	nullable = false,
+	disabled = false,
 	...props
 }, ref ) => {
 	const getDisplayValue = useCallback( constant( selectedLabel ), [ selectedLabel ] );
@@ -219,22 +226,6 @@ const propTypes = {
 
 Autocomplete.displayName = "Autocomplete";
 Autocomplete.propTypes = propTypes;
-Autocomplete.defaultProps = {
-	children: null,
-	value: null,
-	selectedLabel: "",
-	label: "",
-	labelProps: {},
-	labelSuffix: null,
-	validation: {},
-	placeholder: "",
-	className: "",
-	buttonProps: {},
-	clearButtonScreenReaderText: "Clear",
-	nullable: false,
-	onClear: null,
-	disabled: false,
-};
 
 Autocomplete.Option = Option;
 Autocomplete.Option.displayName = "Autocomplete.Option";

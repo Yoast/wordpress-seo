@@ -105,4 +105,20 @@ class Post {
 
 		return $data;
 	}
+
+	/**
+	 * Returns the minimal array representation suitable for the REST response.
+	 *
+	 * Only includes fields the frontend round-trips into the get_outline call.
+	 * Excludes editor-only metadata (focus keyphrase, cornerstone, schema type)
+	 * that must not cross the REST boundary.
+	 *
+	 * @return array<string, string> The minimal post payload.
+	 */
+	public function to_minimal_array(): array {
+		return [
+			'title'       => $this->title,
+			'description' => $this->description,
+		];
+	}
 }

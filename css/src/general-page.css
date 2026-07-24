@@ -3,10 +3,6 @@ body.toplevel_page_wpseo_dashboard {
 		display: none;
 	}
 
-	.yoast-general-page-notices:last-child {
-		margin-bottom: 2rem;
-	}
-
 	.yoast-general-page-notice, .yoast-webinar-dashboard {
 		background: white;
 		padding: 0.75rem;
@@ -30,16 +26,6 @@ body.toplevel_page_wpseo_dashboard {
 		margin-right: 12px;
 	}
 
-	.yoast-general-page-notice .notice-dismiss {
-		position: relative;
-		@apply yst-text-slate-400
-		hover:yst-text-slate-500
-	}
-
-	.yoast-general-page-notice .notice-dismiss:before {
-		display: none;
-	}
-
 	.yoast-general-page-notice .notice-yoast img {
 		display: none;
 	}
@@ -53,16 +39,14 @@ body.toplevel_page_wpseo_dashboard {
 		margin-top: 0;
 	}
 
-	.yoast-webinar-dashboard .notice-dismiss:before {
-		/* yst-text-slate-400 */
-		background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%2394A3B8' class='yst-h-5 yst-w-5' role='img'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'></path></svg>");
-		content: '';
+	.notice-dismiss {
+		@apply yst-top-3 yst-right-3 yst-p-0;
 	}
 
-	.yoast-webinar-dashboard .notice-dismiss:hover:before {
-		/* yst-text-slate-500 */
-		background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%2364748b' class='yst-h-5 yst-w-5' role='img'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'></path></svg>");
-		content: '';
+	.notice-dismiss:before {
+		background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%2394A3B8' class='yst-h-5 yst-w-5' role='img'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'></path></svg>") no-repeat center;
+		color:transparent;
+		background-size: 20px;
 	}
 
 	.yoast-webinar-dashboard p {
@@ -88,10 +72,6 @@ body.toplevel_page_wpseo_dashboard {
 
 	.yoast-webinar-dashboard .notice-yoast__container {
 		padding: 0;
-	}
-
-	.yoast-webinar-dashboard .notice-dismiss {
-		@apply yst-p-3
 	}
 
 	.notice-yoast__header {

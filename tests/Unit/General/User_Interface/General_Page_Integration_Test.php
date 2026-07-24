@@ -309,7 +309,7 @@ final class General_Page_Integration_Test extends TestCase {
 	 *
 	 * @covers ::enqueue_assets
 	 * @covers ::get_script_data
-	 * @covers ::is_llms_txt_notification_seen
+	 * @covers ::is_task_list_opt_in_notification_seen
 	 *
 	 * @return void
 	 */

@@ -1,4 +1,4 @@
-import { CheckIcon } from "@heroicons/react/solid";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
 import { useArgs } from "@storybook/preview-api";
 import classNames from "classnames";
 import React, { useCallback, useContext } from "react";

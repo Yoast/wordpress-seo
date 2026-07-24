@@ -25,9 +25,9 @@ export const classNameMap = {
  * @returns {JSX.Element} The spinner.
  */
 const Spinner = forwardRef( ( {
-	variant,
-	size,
-	className,
+	variant = "default",
+	size = "4",
+	className = "",
 }, ref ) => {
 	const svgAriaProps = useSvgAria();
 
@@ -59,11 +59,6 @@ Spinner.propTypes = {
 	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
 	size: PropTypes.oneOf( keys( classNameMap.size ) ),
 	className: PropTypes.string,
-};
-Spinner.defaultProps = {
-	variant: "default",
-	size: "4",
-	className: "",
 };
 
 export default Spinner;

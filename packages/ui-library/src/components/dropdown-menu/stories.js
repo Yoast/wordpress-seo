@@ -1,6 +1,7 @@
 import { DropdownMenu } from ".";
 import React from "react";
-import { XIcon, TrashIcon } from "@heroicons/react/outline";
+import XIcon from "@heroicons/react/outline/XIcon";
+import TrashIcon from "@heroicons/react/outline/TrashIcon";
 import { component } from "./docs";
 
 export const Factory = {

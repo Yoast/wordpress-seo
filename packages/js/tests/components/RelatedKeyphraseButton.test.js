@@ -2,9 +2,9 @@ import { render, screen } from "../test-utils";
 import { RelatedKeyphraseButton } from "../../src/components/RelatedKeyphraseButton";
 
 // Mock Heroicons
-jest.mock( "@heroicons/react/outline", () => ( {
-	SearchIcon: ( { className } ) => <svg className={ className } data-testid="search-icon" />,
-} ) );
+jest.mock( "@heroicons/react/outline/SearchIcon", () => function SearchIcon( { className } ) {
+	return <svg className={ className } data-testid="search-icon" />;
+} );
 
 describe( "RelatedKeyphraseButton", () => {
 	const defaultProps = {

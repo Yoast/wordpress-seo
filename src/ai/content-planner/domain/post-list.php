@@ -38,4 +38,18 @@ class Post_List {
 
 		return $result;
 	}
+
+	/**
+	 * Returns the minimal array representation suitable for the REST response.
+	 *
+	 * @return array<array<string, string>> The posts as minimal arrays.
+	 */
+	public function to_minimal_array(): array {
+		$result = [];
+		foreach ( $this->posts as $post ) {
+			$result[] = $post->to_minimal_array();
+		}
+
+		return $result;
+	}
 }
