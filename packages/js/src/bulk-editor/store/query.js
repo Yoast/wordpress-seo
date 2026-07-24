@@ -3,9 +3,9 @@ import { get } from "lodash";
 import { activeContentTypeActions } from "./active-content-type";
 
 /**
- * @returns {{search: string, page: number, statuses: string[]}} The initial table query state.
+ * @returns {{search: string, page: number, statuses: string[], needsImprovement: string[]}} The initial table query state.
  */
-export const createInitialQueryState = () => ( { search: "", page: 1, statuses: [] } );
+export const createInitialQueryState = () => ( { search: "", page: 1, statuses: [], needsImprovement: [] } );
 
 const slice = createSlice( {
 	name: "query",
@@ -24,6 +24,11 @@ const slice = createSlice( {
 			state.statuses = payload;
 			state.page = 1;
 		},
+		// Changing the "needs improvement" filter resets to the first page: the filtered set may have fewer pages.
+		setNeedsImprovement: ( state, { payload } ) => {
+			state.needsImprovement = payload;
+			state.page = 1;
+		},
 	},
 	extraReducers: ( builder ) => {
 		// Switching content type resets to the first page: the current page may not exist in the new content type's results.
@@ -37,6 +42,7 @@ export const querySelectors = {
 	selectSearch: ( state ) => get( state, "query.search", "" ),
 	selectPage: ( state ) => get( state, "query.page", 1 ),
 	selectStatuses: ( state ) => get( state, "query.statuses", [] ),
+	selectNeedsImprovement: ( state ) => get( state, "query.needsImprovement", [] ),
 	selectQuery: ( state ) => get( state, "query", createInitialQueryState() ),
 };
 

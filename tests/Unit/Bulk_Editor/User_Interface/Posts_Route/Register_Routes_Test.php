@@ -33,13 +33,13 @@ final class Register_Routes_Test extends Abstract_Posts_Route_Test {
 				[
 					'methods'             => 'GET',
 					'args'                => [
-						'content_type' => [
+						'content_type'      => [
 							'required'          => true,
 							'type'              => 'string',
 							'description'       => 'The content type to fetch posts for.',
 							'sanitize_callback' => 'sanitize_text_field',
 						],
-						'per_page'     => [
+						'per_page'          => [
 							'required'          => false,
 							'type'              => 'integer',
 							'default'           => 20,
@@ -48,7 +48,7 @@ final class Register_Routes_Test extends Abstract_Posts_Route_Test {
 							'description'       => 'The number of posts to fetch.',
 							'sanitize_callback' => 'absint',
 						],
-						'page'         => [
+						'page'              => [
 							'required'          => false,
 							'type'              => 'integer',
 							'default'           => 1,
@@ -56,14 +56,14 @@ final class Register_Routes_Test extends Abstract_Posts_Route_Test {
 							'description'       => 'The page of posts to fetch.',
 							'sanitize_callback' => 'absint',
 						],
-						'search'       => [
+						'search'            => [
 							'required'          => false,
 							'type'              => 'string',
 							'default'           => '',
 							'description'       => 'The term to search posts by.',
 							'sanitize_callback' => 'sanitize_text_field',
 						],
-						'status'       => [
+						'status'            => [
 							'required'    => false,
 							'type'        => 'array',
 							'default'     => Posts_Collector_Interface::STATUSES,
@@ -72,6 +72,16 @@ final class Register_Routes_Test extends Abstract_Posts_Route_Test {
 								'enum' => Posts_Collector_Interface::STATUSES,
 							],
 							'description' => 'The post statuses to include.',
+						],
+						'needs_improvement' => [
+							'required'    => false,
+							'type'        => 'array',
+							'default'     => [],
+							'items'       => [
+								'type' => 'string',
+								'enum' => Posts_Collector_Interface::NEEDS_IMPROVEMENT_FIELDS,
+							],
+							'description' => 'The fields to filter posts by; a field matches when it is empty, or (for search fields with SEO analysis enabled) when its score needs improvement.',
 						],
 					],
 					'callback'            => [ $this->instance, 'get_posts' ],

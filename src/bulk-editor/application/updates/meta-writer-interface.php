@@ -42,4 +42,15 @@ interface Meta_Writer_Interface {
 	 * @return void
 	 */
 	public function write_focus_keyphrase( int $post_id, string $focus_keyphrase ): void;
+
+	/**
+	 * Writes a per-field score for a post.
+	 *
+	 * @param int    $post_id The ID of the post.
+	 * @param string $key     The score meta key (without prefix) to write.
+	 * @param int    $score   The 0-100 score to write.
+	 *
+	 * @return void
+	 */
+	public function write_score( int $post_id, string $key, int $score ): void;
 }

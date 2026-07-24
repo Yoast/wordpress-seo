@@ -801,7 +801,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether the given meta value key is disabled.
 	 */
 	public function is_meta_value_disabled( $key ) {
-		if ( $key === 'linkdex' && ! $this->seo_analysis->is_enabled() ) {
+		if ( in_array( $key, [ 'linkdex', 'seo_title_score', 'meta_description_score' ], true ) && ! $this->seo_analysis->is_enabled() ) {
 			return true;
 		}
 
