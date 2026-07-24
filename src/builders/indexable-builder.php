@@ -420,6 +420,16 @@ class Indexable_Builder {
 
 			return $this->indexable_helper->save_indexable( $indexable, $indexable_before );
 		} catch ( Not_Built_Exception $exception ) {
+			$this->logger->debug(
+				$exception->getMessage(),
+				[
+					'object_id'       => $indexable->object_id,
+					'object_type'     => $indexable->object_type,
+					'object_sub_type' => $indexable->object_sub_type,
+					'exception'       => \get_class( $exception ),
+				],
+			);
+
 			return false;
 		} catch ( Indexing_Failed_Exception $exception ) {
 			// A nested build (e.g. the author indexable built during a post build) already logged the

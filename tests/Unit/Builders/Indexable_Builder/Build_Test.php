@@ -7,6 +7,7 @@ use Mockery;
 use RuntimeException;
 use Yoast\WP\SEO\Exceptions\Indexable\Indexing_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
+use Yoast\WP\SEO\Exceptions\Indexable\Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -300,6 +301,57 @@ final class Build_Test extends Abstract_Indexable_Builder_TestCase {
 		$this->indexable->object_id = 0;
 
 		$this->expect_deep_copy_indexable( $this->indexable );
+
+		$this->logger
+			->expects( 'debug' )
+			->once()
+			->with(
+				'Indexable was not built because it had an invalid object id of 0.',
+				[
+					'object_id'       => 0,
+					'object_type'     => 'post',
+					'object_sub_type' => null,
+					'exception'       => Not_Built_Exception::class,
+				],
+			);
+
+		$this->assertFalse( $this->instance->build( $this->indexable ) );
+	}
+
+	/**
+	 * Tests that a deliberately-not-built indexable is logged at debug level only, so a full indexing
+	 * run over excluded objects cannot flood the log, and that the build still returns false.
+	 *
+	 * @covers ::build
+	 * @covers ::deep_copy_indexable
+	 *
+	 * @return void
+	 */
+	public function test_build_logs_at_debug_level_when_the_indexable_is_deliberately_not_built() {
+		$this->indexable->object_sub_type = 'page';
+
+		$this->expect_deep_copy_indexable( $this->indexable );
+
+		$exception = new Not_Built_Exception( 'Indexable was not built because its post type is not indexed.' );
+
+		$this->post_builder
+			->expects( 'build' )
+			->once()
+			->with( 1337, $this->indexable )
+			->andThrow( $exception );
+
+		$this->logger
+			->expects( 'debug' )
+			->once()
+			->with(
+				'Indexable was not built because its post type is not indexed.',
+				[
+					'object_id'       => 1337,
+					'object_type'     => 'post',
+					'object_sub_type' => 'page',
+					'exception'       => Not_Built_Exception::class,
+				],
+			);
 
 		$this->assertFalse( $this->instance->build( $this->indexable ) );
 	}
