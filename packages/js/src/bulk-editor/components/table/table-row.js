@@ -37,7 +37,7 @@ export const BulkEditorRow = ( {
 	hasExternalGeneration = false,
 } ) => {
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
-	const { onStartEdit, onChangeField, onApplyField, onCancelEdit, onDiscardField, onFieldApplied, isApplyingAll } = editing;
+	const { onStartEdit, onChangeField, onApplyField, onApplyRow, onCancelEdit, onDiscardField, onFieldApplied, isApplyingAll } = editing;
 	// Treat a batch "Save edits" as saving this row too, so its inputs and Save/Cancel lock and a per-field save can't race the batch.
 	const isSaving = Object.keys( savingFields ).length > 0 || isApplyingAll;
 	const fillsSeoTitles = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/seoTitle/${item.id}` );
@@ -51,8 +51,8 @@ export const BulkEditorRow = ( {
 	const handleCancel = useCallback( () => onCancelEdit( item.id ), [ onCancelEdit, item.id ] );
 	const handleChangeField = useCallback( ( { key, value } ) => onChangeField( { id: item.id, key, value } ), [ onChangeField, item.id ] );
 	const handleSave = useCallback(
-		() => openFields.forEach( ( key ) => onApplyField( { id: item.id, key } ) ),
-		[ openFields, onApplyField, item.id ]
+		() => onApplyRow( item.id ),
+		[ onApplyRow, item.id ]
 	);
 
 	/* translators: %s expands to the content item title. */

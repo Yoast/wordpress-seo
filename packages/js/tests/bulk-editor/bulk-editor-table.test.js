@@ -310,9 +310,9 @@ describe( "BulkEditorTable", () => {
 		expect( screen.queryByRole( "textbox", { name: "SEO title for On-Page SEO Checklist" } ) ).not.toBeInTheDocument();
 	} );
 
-	it( "calls onChangeField on input, and onApplyField for every open field when Save is clicked", () => {
+	it( "calls onChangeField on input, and onApplyRow with the row id when Save is clicked", () => {
 		const onChangeField = jest.fn();
-		const onApplyField = jest.fn();
+		const onApplyRow = jest.fn();
 		render(
 			<BulkEditorTable
 				items={ items }
@@ -320,7 +320,7 @@ describe( "BulkEditorTable", () => {
 				editing={ {
 					editingRows: { 2: { openFields: [ "seoTitle", "metaDescription" ], draft: { seoTitle: "Draft title", metaDescription: "Draft description" }, savingFields: {} } },
 					onChangeField,
-					onApplyField,
+					onApplyRow,
 				} }
 			/>
 		);
@@ -331,11 +331,10 @@ describe( "BulkEditorTable", () => {
 		);
 		expect( onChangeField ).toHaveBeenCalledWith( { id: 2, key: "seoTitle", value: "Changed" } );
 
-		// Save saves every open field on the row.
+		// Save delegates to onApplyRow, which batches all open fields into one request.
 		fireEvent.click( screen.getByRole( "button", { name: "Save On-Page SEO Checklist" } ) );
-		expect( onApplyField ).toHaveBeenCalledTimes( 2 );
-		expect( onApplyField ).toHaveBeenCalledWith( { id: 2, key: "seoTitle" } );
-		expect( onApplyField ).toHaveBeenCalledWith( { id: 2, key: "metaDescription" } );
+		expect( onApplyRow ).toHaveBeenCalledTimes( 1 );
+		expect( onApplyRow ).toHaveBeenCalledWith( 2 );
 	} );
 
 	it( "disables the row's inputs and actions while it is saving", () => {

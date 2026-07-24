@@ -199,7 +199,9 @@ describe( "App", () => {
 
 	describe( "saving a row (Save)", () => {
 		const searchSet = getFieldSets()[ FIELD_SET_SEARCH ];
+		const focusKeyphraseParam = searchSet.fields.find( ( field ) => field.key === "focusKeyphrase" ).param;
 		const seoTitleParam = searchSet.fields.find( ( field ) => field.key === "seoTitle" ).param;
+		const metaDescriptionParam = searchSet.fields.find( ( field ) => field.key === "metaDescription" ).param;
 		const endpointUrl = "https://example.com/wp-json/yoast/v1/bulk_editor/update_search";
 		const savingDataProvider = new DataProvider( {
 			contentTypes: [ { name: "post", label: "Posts" } ],
@@ -208,7 +210,7 @@ describe( "App", () => {
 		} );
 		const rowTitle = "What Is SEO and How It Works";
 
-		it( "posts the edited field to the active tab's endpoint and collapses it on success", async() => {
+		it( "posts all open fields to the active tab's endpoint in one request and collapses on success", async() => {
 			const remote = buildRemote( () => Promise.resolve( {} ) );
 			render( <App dataProvider={ savingDataProvider } remoteDataProvider={ remote } /> );
 
@@ -219,10 +221,11 @@ describe( "App", () => {
 			);
 			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
 
+			// onApplyRow batches all open fields into one POST; Edit opens all fields in the active field set.
 			expect( remote.fetchJson ).toHaveBeenCalledWith(
 				endpointUrl,
 				{},
-				{ method: "POST", body: JSON.stringify( { items: [ { id: 1, [ seoTitleParam ]: "New SEO title" } ] } ) }
+				{ method: "POST", body: JSON.stringify( { items: [ { id: 1, [ focusKeyphraseParam ]: "what is seo", [ seoTitleParam ]: "New SEO title", [ metaDescriptionParam ]: "Learn what SEO is." } ] } ) }
 			);
 			// On success the field collapses/closes back to text.
 			await waitFor( () => expect( screen.queryByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument() );

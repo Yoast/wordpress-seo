@@ -141,6 +141,94 @@ describe( "useInlineEdit batch actions", () => {
 		expect( result.current.editing.hasSaveError ).toBe( true );
 	} );
 
+	it( "batches all open fields of a row into one request per endpoint via onApplyRow", async() => {
+		// Row 7 has seoTitle and metaDescription open — both go to the same endpoint, so one request.
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( {} ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyRow( 7 );
+		} );
+
+		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledTimes( 1 );
+		const [ endpoint, , options ] = remoteDataProvider.fetchJson.mock.calls[ 0 ];
+		expect( endpoint ).toBe( "https://example.com/update_search" );
+		expect( JSON.parse( options.body ) ).toEqual( {
+			/* eslint-disable camelcase -- The REST endpoint expects snake_case parameters. */
+			items: [ { id: 7, seo_title: "Title 7", meta_description: "Desc 7" } ],
+			/* eslint-enable camelcase -- The REST endpoint expects snake_case parameters. */
+		} );
+	} );
+
+	it( "reflects and closes every field after onApplyRow succeeds", async() => {
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( {} ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyRow( 7 );
+		} );
+
+		expect( updateItem ).toHaveBeenCalledWith( 7, "seoTitle", "Title 7" );
+		expect( updateItem ).toHaveBeenCalledWith( 7, "metaDescription", "Desc 7" );
+		expect( dispatch.closeField ).toHaveBeenCalledWith( { id: 7, key: "seoTitle" } );
+		expect( dispatch.closeField ).toHaveBeenCalledWith( { id: 7, key: "metaDescription" } );
+		expect( result.current.editing.hasSaveError ).toBe( false );
+	} );
+
+	it( "re-scores after onApplyRow succeeds on the search tab", async() => {
+		const rendered = { seo_title: "Title 7 rendered", meta_description: "Desc 7 rendered" }; // eslint-disable-line camelcase -- server-side field name
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 7, success: true, rendered } ] } ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyRow( 7 );
+		} );
+
+		expect( mockScoreFields ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( "flags a save error and clears saving state when onApplyRow fails", async() => {
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.reject( new Error( "boom" ) ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyRow( 7 );
+		} );
+
+		expect( updateItem ).not.toHaveBeenCalled();
+		expect( dispatch.closeField ).not.toHaveBeenCalled();
+		expect( dispatch.setSavingField ).toHaveBeenCalledWith( { id: 7, key: "seoTitle", isSaving: false } );
+		expect( dispatch.setSavingField ).toHaveBeenCalledWith( { id: 7, key: "metaDescription", isSaving: false } );
+		expect( result.current.editing.hasSaveError ).toBe( true );
+	} );
+
+	it( "does not re-score when other fields of the same row are still open", async() => {
+		// Row 7 has two open fields: seoTitle and metaDescription. Applying seoTitle leaves metaDescription open.
+		// Scoring at this point is pointless — the score is immediately stale once metaDescription saves —
+		// and it fires an extra network request. Scoring must be deferred to the final apply.
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 7, success: true, rendered: { seo_title: "T", meta_description: "D" } } ] } ) ) }; // eslint-disable-line camelcase -- server-side field name
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyField( { id: 7, key: "seoTitle" } );
+		} );
+
+		expect( mockScoreFields ).not.toHaveBeenCalled();
+	} );
+
+	it( "re-scores after the last open field of a row is applied", async() => {
+		// Row 9 has only one open field: seoTitle. Applying it is the final edit for that row, so scoring fires.
+		const rendered = { seo_title: "Title 9 rendered", meta_description: "Desc 9 rendered" }; // eslint-disable-line camelcase -- server-side field name
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, rendered } ] } ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyField( { id: 9, key: "seoTitle" } );
+		} );
+
+		expect( mockScoreFields ).toHaveBeenCalledTimes( 1 );
+	} );
+
 	it( "reflects the succeeded chunk and keeps the failed one open on a partial failure", async() => {
 		// 21 rows on one endpoint → two chunks (20 + 1). The first chunk resolves, the second rejects.
 		editingRows = Object.fromEntries( Array.from( { length: 21 }, ( _row, index ) => {

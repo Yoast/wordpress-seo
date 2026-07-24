@@ -51,6 +51,24 @@ const rescoreAfterSave = ( scoreFields, activeFieldSet, response, rowEdit ) => {
 };
 
 /**
+ * Re-scores a row after a per-field apply — only when the applied field was the row's sole open edit,
+ * so the score update is deferred until the full row is saved rather than firing after every field.
+ *
+ * @param {Function} scoreFields    The re-scorer.
+ * @param {string}   activeFieldSet The active field set's id.
+ * @param {Object}   response       The update response.
+ * @param {Object}   rowEdit        The row's edit state (snapshot at save time).
+ *
+ * @returns {void}
+ */
+const rescoreIfLastField = ( scoreFields, activeFieldSet, response, rowEdit ) => {
+	if ( rowEdit.openFields.length !== 1 ) {
+		return;
+	}
+	rescoreAfterSave( scoreFields, activeFieldSet, response, rowEdit );
+};
+
+/**
  * Re-scores every saved row in a batch response that carries rendered search fields.
  *
  * @param {Function} scoreFields The re-scorer.
@@ -146,7 +164,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			return;
 		}
 		const endpoint = dataProvider.getEndpoint( fieldEndpointKey( field, fieldSet ) );
-		if ( ! endpoint || ! remoteDataProvider ) {
+		if ( ! endpoint ) {
 			return;
 		}
 
@@ -159,14 +177,74 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			} );
 			updateItem( id, key, value );
 			closeField( { id, key } );
-
-			// On the search tab the response carries the rendered fields; re-score so the filter reflects the edit.
-			rescoreAfterSave( scoreFields, activeFieldSet, response, rowEdit );
+			rescoreIfLastField( scoreFields, activeFieldSet, response, rowEdit );
 		} catch ( error ) {
 			setSavingField( { id, key, isSaving: false } );
 			setHasSaveError( true );
 		}
 	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, closeField, updateItem, scoreFields ] );
+
+	// Saves all open fields of a single row in as few requests as possible — one POST per endpoint, all fields
+	// merged into one item. Called by the per-row Save button; re-scores once all succeed.
+	const onApplyRow = useCallback( async( id ) => {
+		const fieldSet = fieldSets[ activeFieldSet ];
+		const rowEdit = editingRows[ id ];
+		if ( ! rowEdit || ! remoteDataProvider ) {
+			return;
+		}
+
+		// Group the row's open fields by endpoint — one item per endpoint, all fields merged in.
+		const batches = {};
+		rowEdit.openFields.forEach( ( key ) => {
+			const field = fieldSet.fields.find( ( candidate ) => candidate.key === key );
+			if ( ! field ) {
+				return;
+			}
+			const endpointKey = fieldEndpointKey( field, fieldSet );
+			const endpoint = dataProvider.getEndpoint( endpointKey );
+			if ( ! endpoint ) {
+				return;
+			}
+			if ( ! batches[ endpointKey ] ) {
+				batches[ endpointKey ] = { endpoint, item: { id }, applied: [] };
+			}
+			batches[ endpointKey ].item[ field.param ] = rowEdit.draft[ key ];
+			batches[ endpointKey ].applied.push( { key, value: rowEdit.draft[ key ] } );
+		} );
+
+		const groups = Object.values( batches );
+		if ( groups.length === 0 ) {
+			return;
+		}
+
+		rowEdit.openFields.forEach( ( key ) => setSavingField( { id, key, isSaving: true } ) );
+
+		const requests = groups.map( ( group ) => ( {
+			applied: group.applied,
+			promise: remoteDataProvider.fetchJson( group.endpoint, {}, {
+				method: "POST",
+				body: JSON.stringify( { items: [ group.item ] } ),
+			} ),
+		} ) );
+
+		const results = await Promise.allSettled( requests.map( ( request ) => request.promise ) );
+		let hasFailure = false;
+		results.forEach( ( result, index ) => {
+			if ( result.status !== "fulfilled" ) {
+				requests[ index ].applied.forEach( ( { key } ) => setSavingField( { id, key, isSaving: false } ) );
+				hasFailure = true;
+				return;
+			}
+			requests[ index ].applied.forEach( ( { key, value } ) => {
+				updateItem( id, key, value );
+				closeField( { id, key } );
+			} );
+			rescoreAfterSave( scoreFields, activeFieldSet, result.value, rowEdit );
+		} );
+		if ( hasFailure ) {
+			setHasSaveError( true );
+		}
+	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, updateItem, closeField, scoreFields ] );
 
 	// Saves every open edit as one batch. Returns true (clean), false (a request failed), or null (a save was
 	// already in flight), so the tab-switch modal only closes on a real failure and not on a re-entrant call.
@@ -264,6 +342,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		onStartEdit,
 		onChangeField: updateDraftField,
 		onApplyField,
+		onApplyRow,
 		onApplyAll,
 		onDiscardAll,
 		onCancelEdit,
@@ -271,7 +350,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		onFieldApplied,
 	} ), [
 		editingRows, isApplyingAll, hasSaveError, dismissSaveError, onStartEdit, updateDraftField,
-		onApplyField, onApplyAll, onDiscardAll, onCancelEdit, onDiscardField, onFieldApplied,
+		onApplyField, onApplyRow, onApplyAll, onDiscardAll, onCancelEdit, onDiscardField, onFieldApplied,
 	] );
 
 	return { editing, stopEditing: stopEdit };
