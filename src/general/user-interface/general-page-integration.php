@@ -250,7 +250,7 @@ class General_Page_Integration implements Integration_Interface {
 	/**
 	 * Creates the script data.
 	 *
-	 * @return array The script data.
+	 * @return array<string, string|array<string, string|bool|array<string, string|bool>>> The script data.
 	 */
 	private function get_script_data() {
 		return [

@@ -221,24 +221,24 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 */
 	public function get_script_data() {
 		return [
-			'contentTypes' => $this->content_types_repository->get_content_types(),
-			'endpoints'    => $this->endpoints_repository->get_all_endpoints()->to_array(),
+			'contentTypes'          => $this->content_types_repository->get_content_types(),
+			'endpoints'             => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			// These must stay server-generated URLs: the bulk editor assigns them to window.location.href for its
 			// "Back to Tools" / logo navigation. If a link ever derives from request input, validate it with
 			// wp_validate_redirect() here before exposing it, to avoid an open redirect on the front-end.
-			'links'        => [
+			'links'                 => [
 				'dashboard' => \admin_url( 'admin.php?page=' . General_Page_Integration::PAGE ),
 				'tools'     => \admin_url( 'admin.php?page=wpseo_tools' ),
 			],
-			'nonce'        => $this->nonce_repository->get_rest_nonce(),
-			'restRoot'     => \esc_url_raw( \rest_url() ),
-			'preferences'  => [
+			'nonce'                 => $this->nonce_repository->get_rest_nonce(),
+			'restRoot'              => \esc_url_raw( \rest_url() ),
+			'preferences'           => [
 				'isPremium'   => $this->product_helper->is_premium(),
 				'isAiEnabled' => $this->options_helper->get( 'enable_ai_generator' ) === true,
 				'isRtl'       => \is_rtl(),
 				'pluginUrl'   => \plugins_url( '', \WPSEO_FILE ),
 			],
-			'linkParams'   => $this->short_link_helper->get_query_params(),
+			'linkParams'            => $this->short_link_helper->get_query_params(),
 			// Whether the first-run guided tour has already been seen, so it only shows once per user.
 			'optInNotificationSeen' => [
 				'bulk_editor_tour' => $this->is_tour_opt_in_notification_seen(),

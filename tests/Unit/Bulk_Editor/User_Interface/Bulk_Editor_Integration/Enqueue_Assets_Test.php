@@ -37,23 +37,23 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 		];
 
 		$expected_script_data = [
-			'contentTypes' => $content_types,
-			'endpoints'    => [
+			'contentTypes'          => $content_types,
+			'endpoints'             => [
 				'posts' => 'https://example.com/wp-json/yoast/v1/bulk_editor/posts',
 			],
-			'links'        => [
+			'links'                 => [
 				'dashboard' => 'https://example.com/wp-admin/admin.php?page=wpseo_dashboard',
 				'tools'     => 'https://example.com/wp-admin/admin.php?page=wpseo_tools',
 			],
-			'nonce'        => 'rest-nonce',
-			'restRoot'     => 'https://example.com/wp-json/',
-			'preferences'  => [
+			'nonce'                 => 'rest-nonce',
+			'restRoot'              => 'https://example.com/wp-json/',
+			'preferences'           => [
 				'isPremium'   => false,
 				'isAiEnabled' => true,
 				'isRtl'       => false,
 				'pluginUrl'   => 'https://example.com/wp-content/plugins/wordpress-seo',
 			],
-			'linkParams'   => [ 'foo' => 'bar' ],
+			'linkParams'            => [ 'foo' => 'bar' ],
 			'optInNotificationSeen' => [
 				'bulk_editor_tour' => false,
 			],
