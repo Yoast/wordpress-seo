@@ -23,6 +23,9 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Class Consent_Handler
  * Handles the consent given or revoked by the user, both locally (user meta) and remotely (Yoast AI service).
  *
+ * @deprecated 28.2
+ * @codeCoverageIgnore
+ *
  * @makePublic
  */
 class Consent_Handler implements Consent_Handler_Interface {
@@ -51,6 +54,9 @@ class Consent_Handler implements Consent_Handler_Interface {
 	/**
 	 * Class constructor.
 	 *
+	 * @deprecated 28.2
+	 * @codeCoverageIgnore
+	 *
 	 * @param User_Helper     $user_helper     The user helper.
 	 * @param Token_Manager   $token_manager   The token manager, used to obtain a JWT for the consent endpoints.
 	 * @param Request_Handler $request_handler The request handler, used to call the AI service's consent endpoints.
@@ -60,6 +66,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 		Token_Manager $token_manager,
 		Request_Handler $request_handler
 	) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.2', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler' );
 		$this->user_helper     = $user_helper;
 		$this->token_manager   = $token_manager;
 		$this->request_handler = $request_handler;
@@ -72,6 +79,9 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 *
 	 * Transactional: any HTTP-layer exception is propagated and the local meta is left untouched, so
 	 * the local and server state stay in sync.
+	 *
+	 * @deprecated 28.2
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
 	 *
@@ -90,6 +100,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * @throws RuntimeException When the user is not found.
 	 */
 	public function grant_consent( int $user_id ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.2', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::grant_consent' );
 		$user = \get_user_by( 'id', $user_id );
 		if ( ! $user instanceof WP_User ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
@@ -118,6 +129,9 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * mint a fresh JWT, and invalidating afterwards catches that token too. Any HTTP-layer
 	 * exception is propagated and its management is deferred to the caller.
 	 *
+	 * @deprecated 28.2
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $user_id The user ID.
 	 *
 	 * @return void
@@ -135,6 +149,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * @throws RuntimeException                When the user is not found.
 	 */
 	public function revoke_consent( int $user_id ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.2', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::revoke_consent' );
 		$user = \get_user_by( 'id', $user_id );
 		if ( ! $user instanceof WP_User ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
