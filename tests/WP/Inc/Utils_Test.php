@@ -243,6 +243,11 @@ final class Utils_Test extends TestCase {
 				'expected'        => 'https://example.com/%d0%bf%d1%83%d1%82%d1%8c/%da%af%d8%b1%d9%88%d9%87',
 				'url_to_sanitize' => 'https://example.com/путь/%da%af%d8%b1%d9%88%d9%87',
 			],
+			// The pre-encoding must not touch the authority: non-Latin userinfo is encoded once, not double-encoded.
+			'with_non_latin_userinfo' => [
+				'expected'        => 'https://%c3%bcser:p%c3%a4ss@example.com/',
+				'url_to_sanitize' => 'https://üser:päss@example.com/',
+			],
 		];
 	}
 }
