@@ -50,16 +50,23 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	];
 
 	/**
-	 * The query var that flags our own query so the search filter only touches it.
+	 * The query var that flags our own query so the posts_where filter only touches it.
 	 */
-	private const SEARCH_FLAG = 'yoast_bulk_editor_search';
+	private const QUERY_FLAG = 'yoast_bulk_editor_query';
 
 	/**
-	 * The prepared WHERE clause to append while our search query runs.
+	 * The prepared search WHERE clause to append while our query runs.
 	 *
 	 * @var string
 	 */
 	private $search_where = '';
+
+	/**
+	 * The prepared "needs improvement" WHERE clause to append while our query runs.
+	 *
+	 * @var string
+	 */
+	private $needs_improvement_where = '';
 
 	/**
 	 * The resolver for the per-post edit permission.
@@ -104,9 +111,10 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	/**
 	 * Runs the WP_Query for the given query.
 	 *
-	 * When a search term is set, the catch-all clause is injected through a scoped posts_where filter:
-	 * WP_Query AND-joins its own 's' and 'meta_query', which would miss posts matching only one side, so
-	 * a single OR clause covering the post title and the Yoast meta is added instead.
+	 * The catch-all search and "needs improvement" clauses are both injected through a scoped posts_where
+	 * filter rather than WP_Query's own 's'/'meta_query'. WP_Query AND-joins those, which would miss posts
+	 * matching only one side, and WP_Meta_Query's INNER JOINs drop the very missing-meta-row posts the
+	 * "needs improvement" filter targets; a hand-built OR clause of correlated subqueries avoids both.
 	 *
 	 * @param Posts_Query $query The query describing the page to collect.
 	 *
@@ -115,18 +123,21 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	protected function run_query( Posts_Query $query ): WP_Query {
 		$args = $this->build_query_args( $query );
 
-		if ( ! $query->has_search() ) {
+		$this->search_where            = $query->has_search() ? $this->build_search_where( $query->get_search() ) : '';
+		$this->needs_improvement_where = $this->build_needs_improvement_where( $query->get_needs_improvement(), $query->are_scores_enabled() );
+
+		if ( $this->search_where === '' && $this->needs_improvement_where === '' ) {
 			return new WP_Query( $args );
 		}
 
-		$args[ self::SEARCH_FLAG ] = true;
-		$this->search_where        = $this->build_search_where( $query->get_search() );
+		$args[ self::QUERY_FLAG ] = true;
 
 		\add_filter( 'posts_where', [ $this, 'filter_posts_where' ], 10, 2 );
 		$wp_query = new WP_Query( $args );
 		\remove_filter( 'posts_where', [ $this, 'filter_posts_where' ], 10 );
 
-		$this->search_where = '';
+		$this->search_where            = '';
+		$this->needs_improvement_where = '';
 
 		return $wp_query;
 	}
@@ -155,12 +166,6 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			'update_post_term_cache' => false,
 		];
 
-		$meta_query = $this->build_needs_improvement_meta_query( $query->get_needs_improvement(), $query->are_scores_enabled() );
-		if ( $meta_query !== [] ) {
-			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Reason: the "needs improvement" filter can only be expressed against post meta, and runs for an explicit admin request.
-			$args['meta_query'] = $meta_query;
-		}
-
 		if ( $query->has_author_filter() ) {
 			$args['author'] = $query->get_author_id();
 		}
@@ -169,18 +174,19 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	}
 
 	/**
-	 * Appends the prepared search clause to our own query's WHERE.
+	 * Appends the prepared search and "needs improvement" clauses to our own query's WHERE.
 	 *
 	 * @param string   $where    The WHERE clause so far.
 	 * @param WP_Query $wp_query The query being filtered.
 	 *
-	 * @return string The WHERE clause, with the search clause appended for our query.
+	 * @return string The WHERE clause, with our clauses appended for our own query.
 	 *
 	 * @internal Only public because it is registered as a posts_where filter callback.
 	 */
 	public function filter_posts_where( $where, $wp_query ): string {
-		if ( $wp_query->get( self::SEARCH_FLAG ) ) {
+		if ( $wp_query->get( self::QUERY_FLAG ) ) {
 			$where .= $this->search_where;
+			$where .= $this->needs_improvement_where;
 		}
 
 		return $where;
@@ -258,50 +264,65 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	}
 
 	/**
-	 * Builds the meta_query for the "needs improvement" filter.
+	 * Builds the prepared "needs improvement" WHERE clause.
 	 *
 	 * A field needs improvement when its meta row is missing or stores an empty string, or — for fields
 	 * with a persisted per-field score and while scoring is enabled — when that score falls in the bad/ok
 	 * range. The selected fields are OR-ed so they broaden the result, and unknown field keys are ignored.
 	 *
+	 * Each field is matched through correlated subqueries rather than WP_Query's meta_query. A `NOT IN`
+	 * subquery over the non-empty rows matches both a missing meta row and a present-but-empty one in one
+	 * shot; a meta_query cannot, because WP_Meta_Query gives its value comparisons their own INNER JOIN,
+	 * which eliminates the missing-row posts before the OR-ed `NOT EXISTS` branch is ever evaluated.
+	 *
 	 * @param array<string> $fields         The fields that need improvement.
 	 * @param bool          $scores_enabled Whether the per-field scores may back the filter.
 	 *
-	 * @return array<int|string, string|array<string, string|array<int>>> The meta_query, or an empty array when no known field is selected.
+	 * @return string The prepared WHERE clause, or an empty string when no known field is selected.
 	 */
-	private function build_needs_improvement_meta_query( array $fields, bool $scores_enabled ): array {
+	protected function build_needs_improvement_where( array $fields, bool $scores_enabled ): string {
+		global $wpdb;
+
 		$clauses = [];
 		foreach ( $fields as $field ) {
 			if ( ! isset( self::FIELD_META_SUFFIXES[ $field ] ) ) {
 				continue;
 			}
 
-			$meta_key  = self::META_PREFIX . self::FIELD_META_SUFFIXES[ $field ];
-			$clauses[] = [
-				'key'     => $meta_key,
-				'compare' => 'NOT EXISTS',
-			];
-			$clauses[] = [
-				'key'     => $meta_key,
-				'value'   => '',
-				'compare' => '=',
-			];
+			$meta_key = self::META_PREFIX . self::FIELD_META_SUFFIXES[ $field ];
 
 			if ( $scores_enabled && isset( self::FIELD_SCORE_META_SUFFIXES[ $field ] ) ) {
-				$clauses[] = [
-					'key'     => self::META_PREFIX . self::FIELD_SCORE_META_SUFFIXES[ $field ],
-					'value'   => [ self::NEEDS_IMPROVEMENT_MIN_SCORE, self::NEEDS_IMPROVEMENT_MAX_SCORE ],
-					'compare' => 'BETWEEN',
-					'type'    => 'NUMERIC',
-				];
+				$clauses[] = $wpdb->prepare(
+					'( %i.ID NOT IN ( SELECT post_id FROM %i WHERE meta_key = %s AND meta_value <> %s )'
+					. ' OR %i.ID IN ( SELECT post_id FROM %i WHERE meta_key = %s AND CAST( meta_value AS SIGNED ) BETWEEN %d AND %d ) )',
+					$wpdb->posts,
+					$wpdb->postmeta,
+					$meta_key,
+					'',
+					$wpdb->posts,
+					$wpdb->postmeta,
+					self::META_PREFIX . self::FIELD_SCORE_META_SUFFIXES[ $field ],
+					self::NEEDS_IMPROVEMENT_MIN_SCORE,
+					self::NEEDS_IMPROVEMENT_MAX_SCORE,
+				);
+
+				continue;
 			}
+
+			$clauses[] = $wpdb->prepare(
+				'( %i.ID NOT IN ( SELECT post_id FROM %i WHERE meta_key = %s AND meta_value <> %s ) )',
+				$wpdb->posts,
+				$wpdb->postmeta,
+				$meta_key,
+				'',
+			);
 		}
 
 		if ( $clauses === [] ) {
-			return [];
+			return '';
 		}
 
-		return \array_merge( [ 'relation' => 'OR' ], $clauses );
+		return ' AND ( ' . \implode( ' OR ', $clauses ) . ' )';
 	}
 
 	/**

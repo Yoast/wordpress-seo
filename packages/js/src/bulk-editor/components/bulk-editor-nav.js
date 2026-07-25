@@ -2,6 +2,8 @@ import DuplicateIcon from "@heroicons/react/outline/DuplicateIcon";
 import { useCallback } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Link, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
+import classNames from "classnames";
+import { noop } from "lodash";
 import { YoastLogo } from "../../shared-admin/components";
 import { BackToToolsLink } from "./back-to-tools-link";
 
@@ -19,11 +21,12 @@ import { BackToToolsLink } from "./back-to-tools-link";
  *
  * @param {Object}                props             The props.
  * @param {BulkEditorContentType} props.contentType The content type.
+ * @param {boolean}               props.disabled    Whether the item is disabled.
  * @param {Function}              props.onChange    Called with the content type id when selected.
  *
  * @returns {JSX.Element} The item.
  */
-const ContentTypeItem = ( { contentType, onChange } ) => {
+const ContentTypeItem = ( { contentType, disabled, onChange } ) => {
 	const handleClick = useCallback( () => onChange( contentType.id ), [ onChange, contentType.id ] );
 
 	return (
@@ -33,9 +36,47 @@ const ContentTypeItem = ( { contentType, onChange } ) => {
 			pathProp="value"
 			value={ contentType.id }
 			label={ contentType.label }
+			disabled={ disabled }
 			onClick={ handleClick }
-			className="yst-w-full"
+			className={ classNames( "yst-w-full", { "yst-opacity-50": disabled } ) }
 		/>
+	);
+};
+
+/**
+ * The Yoast logo link at the top of the menu. Its click routes through onNavigate so the hard page navigation to
+ * the dashboard can be guarded when there are unsaved edits.
+ *
+ * @param {Object}   props              The props.
+ * @param {string}   props.logoHref     Where the logo links to.
+ * @param {boolean}  props.isPremium    Whether Premium is active (affects the accessible label).
+ * @param {string}   props.idSuffix     Suffix appended to the element id to avoid duplicates.
+ * @param {boolean}  [props.disabled]   Whether the logo link is disabled (e.g. during AI generation).
+ * @param {Function} props.onNavigate   Called with (event, href) when the logo is clicked, to guard the navigation.
+ *
+ * @returns {JSX.Element} The logo link.
+ */
+const NavLogo = ( { logoHref, isPremium, idSuffix, disabled, onNavigate } ) => {
+	const svgAriaProps = useSvgAria();
+	const handleClick = useCallback( ( event ) => {
+		if ( disabled ) {
+			event.preventDefault();
+			return;
+		}
+		onNavigate( event, logoHref );
+	}, [ disabled, onNavigate, logoHref ] );
+
+	return (
+		<Link
+			id={ `link-bulk-editor-logo${ idSuffix }` }
+			href={ logoHref }
+			onClick={ handleClick }
+			aria-disabled={ disabled }
+			className={ classNames( "yst-inline-block yst-rounded-md focus:yst-ring-primary-500", { "yst-opacity-50 yst-cursor-not-allowed": disabled } ) }
+			aria-label={ isPremium ? "Yoast SEO Premium" : "Yoast SEO" }
+		>
+			<YoastLogo className="yst-w-40" { ...svgAriaProps } />
+		</Link>
 	);
 };
 
@@ -47,6 +88,9 @@ const ContentTypeItem = ( { contentType, onChange } ) => {
  * @param {BulkEditorContentType[]} props.contentTypes   The content types, in display order.
  * @param {Function}                props.onChange       Called with a content type id when one is selected.
  * @param {string}                  props.backToToolsUrl The URL of the Tools page.
+ * @param {boolean}                 [props.disabled]     Whether navigation links and content type items are disabled.
+ * @param {Function}                [props.onNavigate=noop]   Called with (event, href) when a hard-navigation link (logo,
+ *                                                       Back to Tools) is clicked, to guard the navigation.
  * @param {string}                  [props.logoHref]     Where the Yoast SEO logo links to.
  * @param {boolean}                 [props.isPremium]    Whether Premium is active (affects the logo label).
  * @param {number}                  [props.visibleLimit] How many content types to show before "Show N more".
@@ -58,13 +102,14 @@ export const BulkEditorNavMenu = ( {
 	contentTypes,
 	onChange,
 	backToToolsUrl,
+	disabled,
+	onNavigate = noop,
 	logoHref = "/wp-admin/",
 	isPremium = false,
 	visibleLimit = 5,
 	idSuffix = "",
 } ) => {
 	const hiddenCount = contentTypes.length - visibleLimit;
-	const svgAriaProps = useSvgAria();
 
 	const showMoreLabel = sprintf(
 		/* translators: %d expands to the number of additional content types. */
@@ -74,15 +119,8 @@ export const BulkEditorNavMenu = ( {
 
 	return (
 		<div className="yst-space-y-6">
-			<Link
-				id={ `link-bulk-editor-logo${ idSuffix }` }
-				href={ logoHref }
-				className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500"
-				aria-label={ isPremium ? "Yoast SEO Premium" : "Yoast SEO" }
-			>
-				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
-			</Link>
-			<BackToToolsLink href={ backToToolsUrl } />
+			<NavLogo logoHref={ logoHref } isPremium={ isPremium } idSuffix={ idSuffix } disabled={ disabled } onNavigate={ onNavigate } />
+			<BackToToolsLink href={ backToToolsUrl } disabled={ disabled } onNavigate={ onNavigate } />
 			<SidebarNavigation.MenuItemWithLimiter
 				id={ `bulk-editor-nav-content-types${ idSuffix }` }
 				label={ __( "Bulk editor", "wordpress-seo" ) }
@@ -94,7 +132,7 @@ export const BulkEditorNavMenu = ( {
 				showLessLabel={ __( "Show less", "wordpress-seo" ) }
 			>
 				{ contentTypes.map( ( contentType ) => (
-					<ContentTypeItem key={ contentType.id } contentType={ contentType } onChange={ onChange } />
+					<ContentTypeItem key={ contentType.id } contentType={ contentType } disabled={ disabled } onChange={ onChange } />
 				) ) }
 			</SidebarNavigation.MenuItemWithLimiter>
 		</div>

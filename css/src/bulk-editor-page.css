@@ -79,10 +79,11 @@
 	overflow-wrap: break-word;
 }
 
-/* Shared layout for the filter popover's checkbox groups: each option is a full-width, rounded hover target
- * that bleeds into the popover padding. */
+/* Shared layout for the filter popover's checkbox groups: each option is a full-width, rounded hover target.
+ * The popover drops its own horizontal padding (yst-px-0) so the target can span the full width; each option
+ * carries its own inset instead, which keeps the bleed without a negative margin. */
 .yst-root .yst-bulk-editor-filter-group .yst-checkbox {
-	@apply -yst-mx-2 yst-cursor-pointer yst-rounded yst-px-2 yst-py-1;
+	@apply yst-cursor-pointer yst-rounded yst-px-4 yst-py-2;
 }
 
 .yst-root .yst-bulk-editor-filter-group .yst-checkbox:hover {
@@ -93,11 +94,19 @@
 	@apply yst-cursor-pointer !important;
 }
 
+.yst-root .yst-bulk-editor-filter-group .yst-checkbox-group__options {
+	@apply yst-gap-0;
+}
+
+.yst-root .yst-bulk-editor-filter-group .yst-checkbox-group__label {
+	@apply yst-m-0;
+}
+
 /* The "needs improvement" filter group. It is separated from the status filters by a divider; each option is
  * prefixed with a red score dot; and the group's legend is hidden visually but kept for assistive tech, so the
  * dot's "needs improvement" meaning is never conveyed by colour alone. */
 .yst-root .yst-bulk-editor-needs-improvement {
-	@apply yst-mt-3 yst-pt-3 yst-border-t yst-border-slate-200;
+	@apply yst-border-t yst-border-slate-200 yst-mt-0.5 yst-pt-0.5;
 }
 
 .yst-root .yst-bulk-editor-needs-improvement .yst-checkbox-group__label {
