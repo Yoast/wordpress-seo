@@ -27,6 +27,7 @@ class Schema_Types {
 		'CheckoutPage'      => '',
 		'RealEstateListing' => '',
 		'SearchResultsPage' => '',
+		'PodcastEpisode'    => '',
 	];
 
 	/**
@@ -46,13 +47,14 @@ class Schema_Types {
 		'ScholarlyArticle'         => '',
 		'TechArticle'              => '',
 		'Report'                   => '',
+		'PodcastEpisode'           => '',
 		'None'                     => '',
 	];
 
 	/**
 	 * Gets the page type options.
 	 *
-	 * @return array[] The schema page type options.
+	 * @return array<int, array<string, string>> The schema page type options.
 	 */
 	public function get_page_type_options() {
 		return [
@@ -104,13 +106,17 @@ class Schema_Types {
 				'name'  => \__( 'Search Results Page', 'wordpress-seo' ),
 				'value' => 'SearchResultsPage',
 			],
+			[
+				'name'  => \__( 'Podcast Episode', 'wordpress-seo' ),
+				'value' => 'PodcastEpisode',
+			],
 		];
 	}
 
 	/**
 	 * Gets the article type options.
 	 *
-	 * @return array[] The schema article type options.
+	 * @return array<int, array<string, string>> The schema article type options.
 	 */
 	public function get_article_type_options() {
 		/**
@@ -158,6 +164,10 @@ class Schema_Types {
 				[
 					'name'  => \__( 'Report', 'wordpress-seo' ),
 					'value' => 'Report',
+				],
+				[
+					'name'  => \__( 'Podcast Episode', 'wordpress-seo' ),
+					'value' => 'PodcastEpisode',
 				],
 				[
 					'name'  => \__( 'None', 'wordpress-seo' ),
