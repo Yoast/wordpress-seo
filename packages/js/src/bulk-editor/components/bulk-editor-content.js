@@ -146,11 +146,18 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 				isShiftDownRef.current = false;
 			}
 		};
+		// Clear on window blur so a Shift held while focus moves away (e.g. Alt+Tab) doesn't
+		// leave the ref stuck at true and make the next plain click behave like a shift+click.
+		const onBlur = () => {
+			isShiftDownRef.current = false;
+		};
 		document.addEventListener( "keydown", onDown );
 		document.addEventListener( "keyup", onUp );
+		window.addEventListener( "blur", onBlur );
 		return () => {
 			document.removeEventListener( "keydown", onDown );
 			document.removeEventListener( "keyup", onUp );
+			window.removeEventListener( "blur", onBlur );
 		};
 	}, [] );
 
