@@ -1,6 +1,6 @@
 import { Slot } from "@wordpress/components";
-import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useEffect, useMemo } from "@wordpress/element";
+import { select as selectStore, useDispatch, useSelect } from "@wordpress/data";
+import { useCallback, useEffect, useMemo, useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../constants";
 import { getFieldSets } from "../field-sets";
@@ -82,7 +82,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			pendingSwitch: store.selectPendingSwitch(),
 		};
 	}, [] );
-	const { requestSwitch, commitSwitch, clearPendingSwitch, toggleRow, selectAll, deselectAll } = useDispatch( STORE_NAME );
+	const { requestSwitch, commitSwitch, clearPendingSwitch, toggleRow, selectAll, deselectAll, selectRange } = useDispatch( STORE_NAME );
 
 	const { data: items = [], total = 0, totalPages = 0, isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
 	const { editing, stopEditing } = useInlineEdit( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } );
@@ -129,19 +129,42 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	}, [ pendingSwitch, hasUnsavedEdits, hasExternalPendingChanges, onCommitSwitch ] );
 
 	const { isAllSelected, isIndeterminate, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
+
+	// Tracks the last plain-click selection to anchor shift+click ranges.
+	const anchorIdRef = useRef( null );
+
+	const onToggleRow = useCallback( ( id, isShift ) => {
+		if ( isShift && anchorIdRef.current !== null ) {
+			const allEditableIds = items.filter( ( item ) => item.editable ).map( ( item ) => item.id );
+			selectRange( { anchorId: anchorIdRef.current, targetId: id, allIds: allEditableIds } );
+		} else {
+			// Read current state directly so this callback stays stable (no selectedIds dependency).
+			const currentIds = selectStore( STORE_NAME ).selectSelectedIds();
+			anchorIdRef.current = currentIds.includes( id ) ? null : id;
+			toggleRow( id );
+		}
+	}, [ items, toggleRow, selectRange ] );
+
 	const onSelectAll = useCallback( () => {
 		if ( ! isPending ) {
+			anchorIdRef.current = null;
 			// Only posts the user can edit are selectable for bulk editing.
 			selectAll( items.filter( ( item ) => item.editable ).map( ( item ) => item.id ) );
 		}
 	}, [ isPending, selectAll, items ] );
+
+	const handleDeselectAll = useCallback( () => {
+		anchorIdRef.current = null;
+		deselectAll();
+	}, [ deselectAll ] );
+
 	// Clicking the master checkbox clears the selection whenever anything is selected (all or a partial).
-	const onToggleAll = useCallback( () => ( hasSelection ? deselectAll() : onSelectAll() ), [ hasSelection, deselectAll, onSelectAll ] );
+	const onToggleAll = useCallback( () => ( hasSelection ? handleDeselectAll() : onSelectAll() ), [ hasSelection, handleDeselectAll, onSelectAll ] );
 
 	const selection = useMemo( () => ( {
 		selectedIds,
-		onToggleRow: toggleRow,
-	} ), [ selectedIds, toggleRow ] );
+		onToggleRow,
+	} ), [ selectedIds, onToggleRow ] );
 
 	return (
 		<div className="yst-p-8 yst-space-y-6">
@@ -169,7 +192,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								isIndeterminate={ isIndeterminate }
 								onToggleAll={ onToggleAll }
 								onSelectAll={ onSelectAll }
-								onDeselectAll={ deselectAll }
+								onDeselectAll={ handleDeselectAll }
 								selectedCount={ selectedCount }
 								totalCount={ totalCount }
 								contentTypeLabel={ contentTypeLabel }

@@ -2,11 +2,12 @@ import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import ChevronDownIcon from "@heroicons/react/outline/ChevronDownIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
 import SolidXIcon from "@heroicons/react/solid/XIcon";
-import { Slot } from "@wordpress/components";
+import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/components";
 import { useEffect, useId, useMemo, useRef } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Checkbox, DropdownMenu, useSvgAria, useToggleState } from "@yoast/ui-library";
+import AnimateHeight from "react-animate-height";
 import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT, SELECT_MENU_ITEMS_FILTER } from "../constants";
 import { useAiUpsell } from "../hooks/use-ai-upsell";
 import { UpsellModal } from "./upsell-modal";
@@ -217,15 +218,22 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => {
  */
 const BulkActionsNotices = ( {
 	hasSaveError, onDismissSaveError, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
-} ) => (
-	<>
-		{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
-		<Slot
-			name={ BULK_NOTICES_SLOT }
-			fillProps={ { selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } }
-		/>
-	</>
-);
+} ) => {
+	const noticeFills = useSlotFills( BULK_NOTICES_SLOT );
+	const hasBanner = hasSaveError || ( noticeFills && noticeFills.length > 0 );
+
+	return (
+		<AnimateHeight easing="ease-in-out" duration={ 300 } height={ hasBanner ? "auto" : 0 } animateOpacity={ true }>
+			<>
+				{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
+				<Slot
+					name={ BULK_NOTICES_SLOT }
+					fillProps={ { selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } }
+				/>
+			</>
+		</AnimateHeight>
+	);
+};
 
 /**
  * The padded action band: Free's AI generate buttons (when AI is enabled), Premium's AI slot, and the manual
