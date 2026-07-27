@@ -88,6 +88,7 @@ describe( "bulk editor initialize", () => {
 					isAvailable: false,
 					canConnect: false,
 					connectUrl: null,
+					learnMoreUrl: "",
 				},
 			},
 		} );
