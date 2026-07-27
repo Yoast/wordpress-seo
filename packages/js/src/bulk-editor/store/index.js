@@ -1,7 +1,10 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
-import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
-import {
+import { getInitialLinkParamsState,
+	LINK_PARAMS_NAME,
+	linkParamsActions,
+	linkParamsReducer,
+	linkParamsSelectors,
 	getInitialMyyoastConnectionState,
 	MYYOAST_CONNECTION_NAME,
 	myyoastConnectionActions,
