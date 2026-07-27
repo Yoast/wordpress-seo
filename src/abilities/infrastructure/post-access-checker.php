@@ -9,8 +9,8 @@ use Yoast\WP\SEO\Models\Indexable;
 /**
  * Checks whether the current user may edit the posts behind indexables.
  *
- * The abilities are gated site-wide by the wpseo_manage_options capability, but that
- * capability must not grant access to posts the user could not otherwise edit. This
+ * The abilities are gated site-wide by a capability check, but that capability
+ * must not grant access to posts the user could not otherwise edit. This
  * checker applies the exact per-post WordPress check, current_user_can( 'edit_post', $id ),
  * mirroring the bulk editor's access rules.
  */

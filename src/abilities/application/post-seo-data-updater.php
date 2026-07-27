@@ -95,7 +95,7 @@ class Post_SEO_Data_Updater {
 			return $indexable;
 		}
 
-		// The wpseo_manage_options gate on the ability is site-wide; the write itself is
+		// The capability gate on the ability is site-wide; the write itself is
 		// only allowed on posts the user could also edit through the regular editors.
 		$can_edit = $this->post_access_checker->ensure_can_edit( (int) $indexable->object_id );
 
