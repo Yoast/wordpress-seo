@@ -58,4 +58,12 @@ describe( "TourCard", () => {
 
 		expect( baseProps.onSkip ).toHaveBeenCalledTimes( 1 );
 	} );
+
+	it( "ends the tour via onSkip when Escape is pressed", () => {
+		render( <TourCard { ...baseProps } /> );
+
+		fireEvent.keyDown( screen.getByRole( "dialog" ), { key: "Escape" } );
+
+		expect( baseProps.onSkip ).toHaveBeenCalledTimes( 1 );
+	} );
 } );

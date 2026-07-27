@@ -4,18 +4,44 @@ import { useTourAnchor } from "../../../src/bulk-editor/components/tour/use-tour
 let resizeObserverDisconnect;
 
 /**
- * Adds a tour target to the DOM with a stubbed layout, since jsdom has none.
+ * Stubs an element's layout, since jsdom has none.
  *
- * @param {Object} rect The bounding rect the element should report.
+ * @param {HTMLElement} element The element.
+ * @param {Object}      rect    The bounding rect it should report.
+ *
+ * @returns {HTMLElement} The element.
+ */
+const stubLayout = ( element, rect ) => {
+	// findVisibleTarget/isVisible skip elements whose offsetParent is null; jsdom always reports null.
+	Object.defineProperty( element, "offsetParent", { get: () => document.body, configurable: true } );
+	element.getBoundingClientRect = () => ( { ...rect, right: rect.left + rect.width, bottom: rect.top + rect.height } );
+	return element;
+};
+
+/**
+ * Adds a tour target to the DOM with a stubbed layout.
+ *
+ * @param {Object} rect The bounding rect the target should report.
+ *
  * @returns {HTMLElement} The target element.
  */
 const addTarget = ( rect = { top: 10, left: 20, width: 100, height: 30 } ) => {
 	document.body.innerHTML = "<div data-tour-id=\"x\"></div>";
-	const target = document.querySelector( "[data-tour-id=\"x\"]" );
-	// findVisibleTarget skips elements whose offsetParent is null; jsdom always reports null.
-	Object.defineProperty( target, "offsetParent", { get: () => document.body, configurable: true } );
-	target.getBoundingClientRect = () => ( { ...rect, right: rect.left + rect.width, bottom: rect.top + rect.height } );
-	return target;
+	return stubLayout( document.querySelector( "[data-tour-id=\"x\"]" ), rect );
+};
+
+/**
+ * Appends a stubbed child to a target.
+ *
+ * @param {HTMLElement} target The target.
+ * @param {Object}      rect   The child's bounding rect.
+ *
+ * @returns {HTMLElement} The child.
+ */
+const addChild = ( target, rect ) => {
+	const child = document.createElement( "div" );
+	target.appendChild( child );
+	return stubLayout( child, rect );
 };
 
 describe( "useTourAnchor", () => {
@@ -35,40 +61,75 @@ describe( "useTourAnchor", () => {
 		document.body.innerHTML = "";
 	} );
 
-	it( "returns no style and does not highlight when inactive", () => {
-		const target = addTarget();
+	it( "returns no spotlight when inactive", () => {
+		addTarget();
 
 		const { result } = renderHook( () => useTourAnchor( "[data-tour-id=\"x\"]", false ) );
 
-		expect( result.current.style ).toBeNull();
-		expect( target.classList.contains( "yst-feature-highlight" ) ).toBe( false );
+		expect( result.current.spotlight ).toBeNull();
 	} );
 
-	it( "positions against the target and applies the spotlight when active", () => {
+	it( "cuts one padded rectangle for the whole target when active", () => {
 		const target = addTarget( { top: 10, left: 20, width: 100, height: 30 } );
 
 		const { result } = renderHook( () => useTourAnchor( "[data-tour-id=\"x\"]", true ) );
 
-		expect( result.current.style ).toEqual( { top: "10px", left: "20px", width: "100px", height: "30px" } );
-		expect( target.classList.contains( "yst-feature-highlight" ) ).toBe( true );
+		// The target rect grows by the spotlight padding: 8 all round plus an extra 24 on the right.
+		expect( result.current.spotlight.rects ).toEqual( [ { top: 2, left: 12, width: 132, height: 46, rx: 8 } ] );
+		expect( result.current.spotlight.bounds ).toEqual( { top: "2px", left: "12px", width: "132px", height: "46px" } );
+		expect( result.current.spotlight.viewport ).toEqual( { width: window.innerWidth, height: window.innerHeight } );
 		expect( target.scrollIntoView ).toHaveBeenCalled();
 	} );
 
-	it( "removes the spotlight and disconnects the observer on cleanup", () => {
-		const target = addTarget();
+	it( "clamps a single-region rectangle to the end element's bottom", () => {
+		const target = addTarget( { top: 10, left: 20, width: 100, height: 90 } );
+		const end = addChild( target, { top: 40, left: 20, width: 100, height: 20 } );
+		end.setAttribute( "data-tour-highlight-end", "true" );
+
+		const { result } = renderHook( () => useTourAnchor( "[data-tour-id=\"x\"]", true, { endSelector: "[data-tour-highlight-end]" } ) );
+
+		// Height spans from the padded top (2) to the end element's bottom (60), not the target's own 90-tall rect.
+		expect( result.current.spotlight.rects ).toEqual( [ { top: 2, left: 12, width: 132, height: 58, rx: 8 } ] );
+	} );
+
+	it( "cuts one rectangle per visible child with perChild", () => {
+		const target = addTarget( { top: 10, left: 20, width: 200, height: 30 } );
+		addChild( target, { top: 12, left: 22, width: 16, height: 16 } );
+		addChild( target, { top: 10, left: 60, width: 80, height: 28 } );
+
+		const { result } = renderHook( () => useTourAnchor( "[data-tour-id=\"x\"]", true, { perChild: true } ) );
+
+		// Each cut-out matches its child's exact size (no padding), so the gap between them stays dimmed.
+		expect( result.current.spotlight.rects ).toEqual( [
+			{ top: 12, left: 22, width: 16, height: 16, rx: 0 },
+			{ top: 10, left: 60, width: 80, height: 28, rx: 0 },
+		] );
+		// The bounds union spans both children.
+		expect( result.current.spotlight.bounds ).toEqual( { top: "10px", left: "22px", width: "118px", height: "28px" } );
+	} );
+
+	it( "returns no spotlight for perChild when the target has no visible children", () => {
+		addTarget();
+
+		const { result } = renderHook( () => useTourAnchor( "[data-tour-id=\"x\"]", true, { perChild: true } ) );
+
+		expect( result.current.spotlight ).toBeNull();
+	} );
+
+	it( "disconnects the observer on cleanup", () => {
+		addTarget();
 
 		const { unmount } = renderHook( () => useTourAnchor( "[data-tour-id=\"x\"]", true ) );
 		unmount();
 
-		expect( target.classList.contains( "yst-feature-highlight" ) ).toBe( false );
 		expect( resizeObserverDisconnect ).toHaveBeenCalled();
 	} );
 
-	it( "returns no style when the target is absent", () => {
+	it( "returns no spotlight when the target is absent", () => {
 		document.body.innerHTML = "";
 
 		const { result } = renderHook( () => useTourAnchor( "[data-tour-id=\"missing\"]", true ) );
 
-		expect( result.current.style ).toBeNull();
+		expect( result.current.spotlight ).toBeNull();
 	} );
 } );

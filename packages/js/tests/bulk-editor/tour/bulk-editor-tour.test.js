@@ -14,9 +14,14 @@ jest.mock( "@wordpress/data", () => ( {
 	useDispatch: () => ( { setOptInNotificationSeen: mockSetOptInNotificationSeen } ),
 } ) );
 
-// Bypass the DOM measuring/positioning; the controller only needs a style to render the card.
 jest.mock( "../../../src/bulk-editor/components/tour/use-tour-anchor", () => ( {
-	useTourAnchor: () => ( { style: { top: "0px", left: "0px", width: "10px", height: "10px" } } ),
+	useTourAnchor: () => ( {
+		spotlight: {
+			rects: [ { top: 0, left: 0, width: 10, height: 10 } ],
+			bounds: { top: "0px", left: "0px", width: "10px", height: "10px" },
+			viewport: { width: 1024, height: 768 },
+		},
+	} ),
 } ) );
 
 /**
