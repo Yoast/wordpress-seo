@@ -181,6 +181,18 @@ final class Meta_Writer_Test extends TestCase {
 	}
 
 	/**
+	 * Tests a score is cast to a string and written to its meta key.
+	 *
+	 * @return void
+	 */
+	public function test_write_score() {
+		$this->meta_helper->expects( 'set_value' )
+			->with( 'seo_title_score', '63', 123 );
+
+		$this->instance->write_score( 123, 'seo_title_score', 63 );
+	}
+
+	/**
 	 * Tests a registered field is routed through the canonical meta sanitizer, so the
 	 * field-specific handling and the `wpseo_sanitize_post_meta_*` filter run.
 	 *

@@ -262,6 +262,11 @@ class Bulk_Editor_Integration implements Integration_Interface {
 				'pluginUrl'   => \plugins_url( '', \WPSEO_FILE ),
 			],
 			'linkParams'        => $this->short_link_helper->get_query_params(),
+			'analysis'          => [
+				'contentLocale'         => \get_locale(),
+				// Re-scoring only runs when SEO analysis is enabled, matching the post editor.
+				'keywordAnalysisActive' => $this->options_helper->get( 'keyword_analysis_active' ) === true,
+			],
 			'myyoastConnection' => $this->get_myyoast_connection_data(),
 		];
 	}

@@ -23,6 +23,30 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	use Searchable_Fields_Trait;
 
 	/**
+	 * Maps each "needs improvement" field key to its indexable column.
+	 *
+	 * @var array<string, string>
+	 */
+	private const FIELD_COLUMNS = [
+		'seo_title'          => 'title',
+		'meta_description'   => 'description',
+		'social_title'       => 'open_graph_title',
+		'social_description' => 'open_graph_description',
+	];
+
+	/**
+	 * Maps the fields with a persisted per-field score to their indexable score column.
+	 *
+	 * The social fields have no assessors, so they match on emptiness only.
+	 *
+	 * @var array<string, string>
+	 */
+	private const FIELD_SCORE_COLUMNS = [
+		'seo_title'        => 'seo_title_score',
+		'meta_description' => 'meta_description_score',
+	];
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -133,7 +157,57 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			$this->apply_search( $builder, $query->get_search() );
 		}
 
+		if ( $query->get_needs_improvement() !== [] ) {
+			$this->apply_needs_improvement( $builder, $query->get_needs_improvement(), $query->are_scores_enabled() );
+		}
+
 		return $builder;
+	}
+
+	/**
+	 * Adds the "needs improvement" clause to the query.
+	 *
+	 * A field needs improvement when its indexable column is NULL or an empty string, or — for fields
+	 * with a persisted per-field score and while scoring is enabled — when that score falls in the bad/ok
+	 * range. The selected fields are OR-ed inside a single group so they broaden the result without
+	 * interfering with the other filters, and unknown field keys are ignored.
+	 *
+	 * @param ORM           $builder        The query to add the clause to.
+	 * @param array<string> $fields         The fields that need improvement.
+	 * @param bool          $scores_enabled Whether the per-field scores may back the filter.
+	 *
+	 * @return void
+	 */
+	private function apply_needs_improvement( ORM $builder, array $fields, bool $scores_enabled ): void {
+		$clauses = [];
+		$values  = [];
+		foreach ( $fields as $field ) {
+			if ( ! isset( self::FIELD_COLUMNS[ $field ] ) ) {
+				continue;
+			}
+
+			$column   = self::FIELD_COLUMNS[ $field ];
+			$clause   = $column . ' IS NULL OR ' . $column . ' = %s';
+			$values[] = '';
+
+			if ( $scores_enabled && isset( self::FIELD_SCORE_COLUMNS[ $field ] ) ) {
+				$clause  .= ' OR ' . self::FIELD_SCORE_COLUMNS[ $field ] . ' BETWEEN %d AND %d';
+				$values[] = self::NEEDS_IMPROVEMENT_MIN_SCORE;
+				$values[] = self::NEEDS_IMPROVEMENT_MAX_SCORE;
+			}
+
+			$clauses[] = '( ' . $clause . ' )';
+		}
+
+		if ( $clauses === [] ) {
+			return;
+		}
+
+		// The column names come from the internal maps, never from input; only the empty string and score bounds are bound.
+		$builder->where_raw(
+			'( ' . \implode( ' OR ', $clauses ) . ' )',
+			$values,
+		);
 	}
 
 	/**

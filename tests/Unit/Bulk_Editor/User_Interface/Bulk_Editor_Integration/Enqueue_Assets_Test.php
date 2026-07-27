@@ -54,6 +54,10 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 				'pluginUrl'   => 'https://example.com/wp-content/plugins/wordpress-seo',
 			],
 			'linkParams'        => [ 'foo' => 'bar' ],
+			'analysis'          => [
+				'contentLocale'         => 'en_US',
+				'keywordAnalysisActive' => true,
+			],
 			'myyoastConnection' => null,
 		];
 
@@ -73,7 +77,9 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 		Functions\expect( 'rest_url' )->once()->withNoArgs()->andReturn( 'https://example.com/wp-json/' );
 		$this->product_helper->expects( 'is_premium' )->once()->andReturn( false );
 		$this->options_helper->expects( 'get' )->once()->with( 'enable_ai_generator' )->andReturn( true );
+		$this->options_helper->expects( 'get' )->once()->with( 'keyword_analysis_active' )->andReturn( true );
 		Functions\expect( 'is_rtl' )->once()->withNoArgs()->andReturn( false );
+		Functions\expect( 'get_locale' )->once()->withNoArgs()->andReturn( 'en_US' );
 		Functions\expect( 'plugins_url' )
 			->once()
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
