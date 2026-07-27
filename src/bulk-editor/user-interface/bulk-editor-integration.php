@@ -302,11 +302,15 @@ class Bulk_Editor_Integration implements Integration_Interface {
 			$initial_selection['selectedCount'] = \count( $post_ids );
 		}
 
-		if ( $initial_selection['postIds'] !== [] && isset( $_GET[ self::SELECTED_COUNT_PARAM ] ) ) {
+		if (
+			$initial_selection['postIds'] !== []
+			&& isset( $_GET[ self::SELECTED_COUNT_PARAM ] )
+			&& \is_string( $_GET[ self::SELECTED_COUNT_PARAM ] )
+		) {
 			// The count can only grow beyond the carried IDs, never shrink below them.
 			$initial_selection['selectedCount'] = \max(
 				$initial_selection['selectedCount'],
-				(int) $_GET[ self::SELECTED_COUNT_PARAM ],
+				\absint( \wp_unslash( $_GET[ self::SELECTED_COUNT_PARAM ] ) ),
 			);
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
