@@ -170,27 +170,6 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that can_edit_posts checks the edit posts capability and returns its result.
-	 *
-	 * @covers ::can_edit_posts
-	 *
-	 * @dataProvider provide_can_manage_seo
-	 *
-	 * @param bool $allowed Whether the capability is granted.
-	 *
-	 * @return void
-	 */
-	public function test_can_edit_posts( bool $allowed ) {
-		$this->capability_helper
-			->expects( 'current_user_can' )
-			->once()
-			->with( 'edit_posts' )
-			->andReturn( $allowed );
-
-		$this->assertSame( $allowed, $this->instance->can_edit_posts() );
-	}
-
-	/**
 	 * Tests that register_abilities registers all score abilities plus the metadata abilities.
 	 *
 	 * @covers ::register_abilities
@@ -289,7 +268,7 @@ final class Abilities_Integration_Test extends TestCase {
 						'type'  => 'array',
 						'items' => $this->get_expected_output_schema(),
 					],
-					'permission_callback' => [ $this->instance, 'can_edit_posts' ],
+					'permission_callback' => [ $this->instance, 'can_manage_seo' ],
 					'execute_callback'    => [ $this->post_seo_data_collector, 'get_post_seo_data' ],
 					'meta'                => $this->get_read_meta(),
 				],
@@ -305,7 +284,7 @@ final class Abilities_Integration_Test extends TestCase {
 					'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.',
 					'input_schema'        => $this->get_expected_update_input_schema(),
 					'output_schema'       => $this->get_expected_output_schema(),
-					'permission_callback' => [ $this->instance, 'can_edit_posts' ],
+					'permission_callback' => [ $this->instance, 'can_manage_seo' ],
 					'execute_callback'    => [ $this->post_seo_data_updater, 'update_post_seo_data' ],
 					'meta'                => $this->get_write_meta(),
 				],
