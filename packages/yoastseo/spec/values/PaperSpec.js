@@ -197,6 +197,68 @@ describe( "Paper", function() {
 		} );
 	} );
 
+	describe( "hasSameTreeInputsAs", function() {
+		it( "returns true for two papers with identical text and tree-relevant attributes", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>" );
+			const paper2 = new Paper( "<p>Hello world.</p>" );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
+		} );
+
+		it( "returns true when only non-tree attributes (keyword, title, description, …) differ", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { keyword: "alpha", title: "Title A", description: "Desc A" } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { keyword: "beta",  title: "Title B", description: "Desc B" } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
+		} );
+
+		it( "returns false when the text differs", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>" );
+			const paper2 = new Paper( "<p>Goodbye world.</p>" );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( false );
+		} );
+
+		it( "returns false when the locale differs", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { locale: "en_US" } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { locale: "nl_NL" } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( false );
+		} );
+
+		it( "returns false when the shortcodes list differs", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { shortcodes: [ "gallery" ] } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { shortcodes: [ "gallery", "caption" ] } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( false );
+		} );
+
+		it( "returns false when the wpBlocks list differs", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { wpBlocks: [ { name: "core/paragraph" } ] } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { wpBlocks: [ { name: "core/heading" } ] } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( false );
+		} );
+
+		it( "returns false when compared against a falsy value", function() {
+			const paper = new Paper( "<p>Hello world.</p>" );
+			expect( paper.hasSameTreeInputsAs( null ) ).toBe( false );
+		} );
+
+		it( "treats a missing shortcodes attribute as equivalent to an empty array", function() {
+			// A paper deserialized from a payload that omits `shortcodes` ends up with the attribute undefined,
+			// but it produces the same tree as a paper that explicitly carries shortcodes: [], so the predicate
+			// must not report them as different tree inputs.
+			const paper1 = new Paper( "<p>Hello world.</p>", { shortcodes: [] } );
+			const paper2 = new Paper( "<p>Hello world.</p>" );
+			delete paper2._attributes.shortcodes;
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
+			expect( paper2.hasSameTreeInputsAs( paper1 ) ).toBe( true );
+		} );
+
+		it( "treats a missing wpBlocks attribute as equivalent to an empty array", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { wpBlocks: [] } );
+			const paper2 = new Paper( "<p>Hello world.</p>" );
+			delete paper2._attributes.wpBlocks;
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
+			expect( paper2.hasSameTreeInputsAs( paper1 ) ).toBe( true );
+		} );
+	} );
+
 	describe( "hasText", function() {
 		it( "should return true if contains raw text", function() {
 			const paper = new Paper( "This is a test" );

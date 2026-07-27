@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group llms.txt
  *
- * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Sitemap_Link_Collector::__construct
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Sitemap_Link_Collector::get_link
  */
 final class Sitemap_Link_Collector_Test extends TestCase {

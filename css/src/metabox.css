@@ -624,6 +624,14 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 	border-top: 0;
 }
 
+/* Restore the top border on the sidebar's Focus keyphrase collapsible so the intro section above it
+   gets a visible separator. The id-based selector beats the (0,2,0) specificity of the rule above.
+   Other sidebar collapsibles keep the rule above because the previous panel's border-bottom already
+   provides the separator; EditorIntro is not a panel and has no border-bottom of its own. */
+#yoast-focus-keyphrase-collapsible-sidebar.yoast.components-panel__body {
+	border-top: 1px solid #e0e0e0;
+}
+
 .components-button > .yoast-title-container {
 	flex-grow: 1;
 	overflow-x: hidden;

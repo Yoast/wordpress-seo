@@ -1,7 +1,8 @@
 import { Button, Table, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { useCallback, useEffect } from "@wordpress/element";
-import { ExclamationIcon, RefreshIcon } from "@heroicons/react/outline";
+import ExclamationIcon from "@heroicons/react/outline/ExclamationIcon";
+import RefreshIcon from "@heroicons/react/outline/RefreshIcon";
 
 /**
  * The GetTasksErrorRow component to display an error row when fetching tasks fails.

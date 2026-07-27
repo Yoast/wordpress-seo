@@ -3,8 +3,12 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface;
 
+use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
+use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
+use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Editors\Framework\Inclusive_Language_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
@@ -39,12 +43,29 @@ class Abilities_Integration implements Integration_Interface {
 	private $enabled_analysis_features_repository;
 
 	/**
+	 * The post SEO data collector.
+	 *
+	 * @var Post_SEO_Data_Collector
+	 */
+	private $post_seo_data_collector;
+
+	/**
+	 * The post SEO data updater.
+	 *
+	 * @var Post_SEO_Data_Updater
+	 */
+	private $post_seo_data_updater;
+
+	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		return [ Abilities_API_Conditional::class ];
+		return [
+			Abilities_API_Conditional::class,
+			Should_Index_Indexables_Conditional::class,
+		];
 	}
 
 	/**
@@ -53,15 +74,21 @@ class Abilities_Integration implements Integration_Interface {
 	 * @param Score_Retriever                      $score_retriever                      The score retriever.
 	 * @param Capability_Helper                    $capability_helper                    The capability helper.
 	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The enabled analysis features repository.
+	 * @param Post_SEO_Data_Collector              $post_seo_data_collector              The post SEO data collector.
+	 * @param Post_SEO_Data_Updater                $post_seo_data_updater                The post SEO data updater.
 	 */
 	public function __construct(
 		Score_Retriever $score_retriever,
 		Capability_Helper $capability_helper,
-		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository
+		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository,
+		Post_SEO_Data_Collector $post_seo_data_collector,
+		Post_SEO_Data_Updater $post_seo_data_updater
 	) {
 		$this->score_retriever                      = $score_retriever;
 		$this->capability_helper                    = $capability_helper;
 		$this->enabled_analysis_features_repository = $enabled_analysis_features_repository;
+		$this->post_seo_data_collector              = $post_seo_data_collector;
+		$this->post_seo_data_updater                = $post_seo_data_updater;
 	}
 
 	/**
@@ -98,15 +125,36 @@ class Abilities_Integration implements Integration_Interface {
 		if ( $enabled_features[ Inclusive_Language_Analysis::NAME ] === true ) {
 			$this->register_inclusive_language_scores_ability();
 		}
+
+		// Metadata read/write is independent of which analysis features are enabled.
+		$this->register_get_post_seo_data_ability();
+		$this->register_update_post_seo_data_ability();
+	}
+
+	/**
+	 * Checks whether the current user can manage Yoast SEO.
+	 *
+	 * Gates every ability — reading scores, reading post SEO data, and updating it —
+	 * behind the same Yoast SEO management capability.
+	 *
+	 * @return bool Whether the current user can manage Yoast SEO.
+	 */
+	public function can_manage_seo(): bool {
+		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
 	}
 
 	/**
 	 * Checks whether the current user can read scores.
 	 *
+	 * @deprecated 28.2
+	 * @codeCoverageIgnore Because of deprecation.
+	 *
 	 * @return bool Whether the current user can read scores.
 	 */
 	public function can_read_scores(): bool {
-		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.2', 'Use can_manage_seo() instead.' );
+
+		return $this->can_manage_seo();
 	}
 
 	/**
@@ -172,6 +220,57 @@ class Abilities_Integration implements Integration_Interface {
 		);
 	}
 
+	/**
+	 * Registers the get post SEO data ability.
+	 *
+	 * @return void
+	 */
+	private function register_get_post_seo_data_ability(): void {
+		\wp_register_ability(
+			Ability_Categories_Integration::CATEGORY_SLUG . '/get-post-seo-data',
+			$this->get_shared_ability_args(
+				[
+					'label'               => \__( 'Get Post SEO Data', 'wordpress-seo' ),
+					'description'         => \__( 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required.', 'wordpress-seo' ),
+					'input_schema'        => $this->get_post_identifier_input_schema(),
+					'output_schema'       => $this->wrap_in_array_schema( $this->get_post_seo_data_output_schema() ),
+					'execute_callback'    => [ $this->post_seo_data_collector, 'get_post_seo_data' ],
+				],
+			),
+		);
+	}
+
+	/**
+	 * Registers the update post SEO data ability.
+	 *
+	 * @return void
+	 */
+	private function register_update_post_seo_data_ability(): void {
+		\wp_register_ability(
+			Ability_Categories_Integration::CATEGORY_SLUG . '/update-post-seo-data',
+			$this->get_shared_ability_args(
+				[
+					'label'               => \__( 'Update Post SEO Data', 'wordpress-seo' ),
+					'description'         => \__( 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field.', 'wordpress-seo' ),
+					'input_schema'        => $this->get_update_post_seo_data_input_schema(),
+					'output_schema'       => $this->get_post_seo_data_output_schema(),
+					'execute_callback'    => [ $this->post_seo_data_updater, 'update_post_seo_data' ],
+					'meta'                => [
+						'show_in_rest' => true,
+						'annotations'  => [
+							'readonly'    => false,
+							'destructive' => false,
+							'idempotent'  => true,
+						],
+						'mcp'          => [
+							'public' => true,
+						],
+					],
+				],
+			),
+		);
+	}
+
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- Too complicated of a param declaration for this case.
 
 	/**
@@ -187,8 +286,9 @@ class Abilities_Integration implements Integration_Interface {
 			[
 				'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 				'input_schema'        => [
-					'type'       => 'object',
-					'properties' => [
+					'type'                 => 'object',
+					'additionalProperties' => false,
+					'properties'           => [
 						'number_of_posts' => [
 							'type'        => 'integer',
 							'description' => \__( 'The number of recently modified posts to retrieve scores for. Defaults to 10.', 'wordpress-seo' ),
@@ -198,7 +298,7 @@ class Abilities_Integration implements Integration_Interface {
 						],
 					],
 				],
-				'permission_callback' => [ $this, 'can_read_scores' ],
+				'permission_callback' => [ $this, 'can_manage_seo' ],
 				'meta'                => [
 					'show_in_rest' => true,
 					'annotations'  => [
@@ -254,4 +354,203 @@ class Abilities_Integration implements Integration_Interface {
 			],
 		];
 	}
+
+	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
+
+	/**
+	 * Returns the input schema for identifying a post (read path).
+	 *
+	 * @return array<string, mixed> The input schema.
+	 */
+	private function get_post_identifier_input_schema(): array {
+		return [
+			'type'                 => 'object',
+			'additionalProperties' => false,
+			'properties'           => [
+				'post_id'   => [
+					'type'        => 'integer',
+					'description' => \__( 'The ID of the post to retrieve.', 'wordpress-seo' ),
+					'minimum'     => 1,
+				],
+				'permalink' => [
+					'type'        => 'string',
+					'description' => \__( 'The permalink (URL) of the post to retrieve.', 'wordpress-seo' ),
+				],
+				'title'     => [
+					'type'        => 'string',
+					'description' => \__( 'Keywords to search for in post titles. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the post title, and a post matching any value is returned. At most 10 phrases are used per request; any beyond the first 10 are ignored. Results are paginated to 10 entities per page; see the page parameter.', 'wordpress-seo' ),
+				],
+				'page'      => [
+					'type'        => 'integer',
+					'description' => \__( 'The page of title-search results to return, 1-based and defaulting to 1. Matches are ordered most recently modified first, so request a later page to reach older matches. An empty result means there are no further pages. Only applies to a title search.', 'wordpress-seo' ),
+					'minimum'     => 1,
+					'default'     => 1,
+				],
+			],
+		];
+	}
+
+	/**
+	 * Returns the input schema for updating a post's SEO data (write path).
+	 *
+	 * @return array<string, mixed> The input schema.
+	 */
+	private function get_update_post_seo_data_input_schema(): array {
+		$nullable_string = [ 'type' => [ 'string', 'null' ] ];
+
+		return [
+			'type'                 => 'object',
+			'additionalProperties' => false,
+			'properties'           => [
+				'post_id'                => [
+					'type'        => 'integer',
+					'description' => \__( 'The ID of the post to update.', 'wordpress-seo' ),
+					'minimum'     => 1,
+				],
+				'permalink'              => [
+					'type'        => 'string',
+					'description' => \__( 'The permalink (URL) of the post to update.', 'wordpress-seo' ),
+				],
+				'seo_title'              => $nullable_string,
+				'meta_description'       => $nullable_string,
+				'focus_keyphrase'        => \array_merge( $nullable_string, [ 'maxLength' => 191 ] ),
+				'canonical'              => $nullable_string,
+				'is_cornerstone'         => [ 'type' => 'boolean' ],
+				'noindex'                => [
+					'type'        => [ 'boolean', 'null' ],
+					'description' => \__( 'Whether search engines should be told not to index this post. true sets noindex (the post is excluded from search results); false forces the post to be indexed; null clears the setting and falls back to the post-type default.', 'wordpress-seo' ),
+				],
+				'nofollow'               => [ 'type' => 'boolean' ],
+				'noimageindex'           => [ 'type' => 'boolean' ],
+				'noarchive'              => [ 'type' => 'boolean' ],
+				'nosnippet'              => [ 'type' => 'boolean' ],
+				'open_graph_title'       => $nullable_string,
+				'open_graph_description' => $nullable_string,
+				'twitter_title'          => $nullable_string,
+				'twitter_description'    => $nullable_string,
+				'schema_page_type'       => $this->nullable_enum_schema(
+					\array_keys( Schema_Types::PAGE_TYPES ),
+					\__( 'The Schema.org page type for the post. Must be one of the supported page types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
+				),
+				'schema_article_type'    => $this->nullable_enum_schema(
+					$this->get_schema_article_types(),
+					\__( 'The Schema.org article type for the post. Must be one of the supported article types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
+				),
+			],
+		];
+	}
+
+	/**
+	 * Returns the allowed Schema.org article type values.
+	 *
+	 * Mirrors the validation in WPSEO_Option_Titles so the ability accepts exactly the
+	 * article types the editor does, including any registered through the filter.
+	 *
+	 * @return array<int, string> The allowed article type values.
+	 */
+	private function get_schema_article_types(): array {
+		/**
+		 * Filter: 'wpseo_schema_article_types' - Allow developers to filter the available article types.
+		 *
+		 * Make sure when you filter this to also filter `wpseo_schema_article_types_labels`.
+		 *
+		 * @param array $schema_article_types The available schema article types.
+		 */
+		return \array_keys( \apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES ) );
+	}
+
+	/**
+	 * Returns a nullable-string input schema constrained to a fixed set of allowed values.
+	 *
+	 * Null and the empty string are always allowed on top of the enum so the field can be
+	 * cleared, matching the patch-clear semantics of the other write fields.
+	 *
+	 * @param array<int, string> $allowed_values The allowed string values.
+	 * @param string             $description    The field description.
+	 *
+	 * @return array<string, mixed> The input schema fragment.
+	 */
+	private function nullable_enum_schema( array $allowed_values, string $description ): array {
+		return [
+			'type'        => [ 'string', 'null' ],
+			'description' => $description,
+			'enum'        => \array_merge( $allowed_values, [ '', null ] ),
+		];
+	}
+
+	/**
+	 * Returns the output schema describing a post's SEO data.
+	 *
+	 * @return array<string, mixed> The output schema.
+	 */
+	private function get_post_seo_data_output_schema(): array {
+		$nullable_string = [
+			'type' => [ 'string', 'null' ],
+		];
+		$score           = static function ( $analysis ) {
+			return [
+				'type'        => 'string',
+				'enum'        => [ 'na', 'bad', 'ok', 'good' ],
+				'description' => \sprintf(
+					/* translators: %s expands to the name of the analysis, e.g. "SEO analysis". */
+					\__( 'The result of the %s that ran on the post when it was last saved.', 'wordpress-seo' ),
+					$analysis,
+				),
+			];
+		};
+
+		// The rendered companion of a field carries the value as actually output on the front end: the global default template applied where no custom value is set, with replacement variables expanded.
+		$rendered = static function ( $field ) {
+			return [
+				'type'        => [ 'string', 'null' ],
+				'description' => \sprintf(
+					/* translators: %s expands to the name of the SEO field, e.g. "SEO title". */
+					\__( 'The %s as output on the front end: the global default template applied when no custom value is set, with replacement variables expanded. Null when nothing is output.', 'wordpress-seo' ),
+					$field,
+				),
+			];
+		};
+
+		return [
+			'type'       => 'object',
+			'properties' => [
+				'post_id'                         => [ 'type' => 'integer' ],
+				'post_title'                      => $nullable_string,
+				'permalink'                       => $nullable_string,
+				'post_type'                       => [ 'type' => 'string' ],
+				'post_status'                     => $nullable_string,
+				'seo_title'                       => $nullable_string,
+				'seo_title_rendered'              => $rendered( \__( 'SEO title', 'wordpress-seo' ) ),
+				'meta_description'                => $nullable_string,
+				'meta_description_rendered'       => $rendered( \__( 'meta description', 'wordpress-seo' ) ),
+				'focus_keyphrase'                 => $nullable_string,
+				'canonical'                       => $nullable_string,
+				'canonical_rendered'              => $rendered( \__( 'canonical URL', 'wordpress-seo' ) ),
+				'is_cornerstone'                  => [ 'type' => 'boolean' ],
+				'noindex'                         => [
+					'type'        => [ 'boolean', 'null' ],
+					'description' => \__( 'Whether search engines are told not to index this post. true means noindex (the post is excluded from search results); false means the post is forced to be indexed; null means no setting is stored and the post-type default applies.', 'wordpress-seo' ),
+				],
+				'nofollow'                        => [ 'type' => 'boolean' ],
+				'noimageindex'                    => [ 'type' => 'boolean' ],
+				'noarchive'                       => [ 'type' => 'boolean' ],
+				'nosnippet'                       => [ 'type' => 'boolean' ],
+				'open_graph_title'                => $nullable_string,
+				'open_graph_title_rendered'       => $rendered( \__( 'Open Graph title', 'wordpress-seo' ) ),
+				'open_graph_description'          => $nullable_string,
+				'open_graph_description_rendered' => $rendered( \__( 'Open Graph description', 'wordpress-seo' ) ),
+				'twitter_title'                   => $nullable_string,
+				'twitter_title_rendered'          => $rendered( \__( 'Twitter title', 'wordpress-seo' ) ),
+				'twitter_description'             => $nullable_string,
+				'twitter_description_rendered'    => $rendered( \__( 'Twitter description', 'wordpress-seo' ) ),
+				'schema_page_type'                => $nullable_string,
+				'schema_article_type'             => $nullable_string,
+				'seo_score'                       => $score( \__( 'SEO analysis', 'wordpress-seo' ) ),
+				'readability_score'               => $score( \__( 'readability analysis', 'wordpress-seo' ) ),
+				'inclusive_language_score'        => $score( \__( 'inclusive language analysis', 'wordpress-seo' ) ),
+			],
+		];
+	}
+
+	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
 }

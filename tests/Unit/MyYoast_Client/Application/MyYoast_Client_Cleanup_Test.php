@@ -78,11 +78,11 @@ final class MyYoast_Client_Cleanup_Test extends TestCase {
 			->andReturn( true );
 
 		$this->user_token_storage
-			->expects( 'delete_all' )
+			->expects( 'delete_all_issuers' )
 			->once();
 
 		$this->token_storage
-			->expects( 'delete' )
+			->expects( 'delete_all_issuers' )
 			->once();
 
 		$this->client_registration
@@ -106,11 +106,11 @@ final class MyYoast_Client_Cleanup_Test extends TestCase {
 			->andThrow( new Exception( 'Network error' ) );
 
 		$this->user_token_storage
-			->expects( 'delete_all' )
+			->expects( 'delete_all_issuers' )
 			->once();
 
 		$this->token_storage
-			->expects( 'delete' )
+			->expects( 'delete_all_issuers' )
 			->once();
 
 		$this->client_registration

@@ -22,6 +22,7 @@ import PropTypes from "prop-types";
 const SidebarCollapsible = ( {
 	title,
 	children,
+	id = null,
 	prefixIcon = null,
 	subTitle = "",
 	hasBetaBadgeLabel = false,
@@ -48,7 +49,7 @@ const SidebarCollapsible = ( {
 		toggleOpen( currentIsOpen => ! currentIsOpen );
 	}, [ toggleOpen ] );
 
-	return <div className={ `yoast components-panel__body ${ isOpen ? "is-opened" : "" }` }>
+	return <div id={ id } className={ `yoast components-panel__body ${ isOpen ? "is-opened" : "" }` }>
 		<h2 className="components-panel__body-title">
 			<button
 				ref={ buttonRef }
@@ -102,6 +103,7 @@ SidebarCollapsible.propTypes = {
 		PropTypes.node,
 		PropTypes.arrayOf( PropTypes.node ),
 	] ).isRequired,
+	id: PropTypes.string,
 	prefixIcon: PropTypes.object,
 	subTitle: PropTypes.string,
 	hasBetaBadgeLabel: PropTypes.bool,

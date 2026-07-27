@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
@@ -5,6 +6,9 @@ import Label from "../../elements/label";
 import Textarea from "../../elements/textarea";
 import { ValidationInput, ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
+
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_VALIDATION = {};
 
 /**
  * @param {string} id The ID of the input.
@@ -21,10 +25,10 @@ const TextareaField = forwardRef( ( {
 	id,
 	label,
 	className = "",
-	description = "",
-	validation = {},
-	disabled,
-	readOnly,
+	description = null,
+	validation = DEFAULT_VALIDATION,
+	disabled = false,
+	readOnly = false,
 	...props
 }, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
@@ -73,13 +77,6 @@ TextareaField.propTypes = {
 		variant: PropTypes.string,
 		message: PropTypes.node,
 	} ),
-};
-TextareaField.defaultProps = {
-	className: "",
-	description: null,
-	disabled: false,
-	readOnly: false,
-	validation: {},
 };
 
 export default TextareaField;

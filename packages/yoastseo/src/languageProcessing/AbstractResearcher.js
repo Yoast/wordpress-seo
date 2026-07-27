@@ -41,7 +41,50 @@ import wordCountInText from "./researches/wordCountInText.js";
 import memoizedTokenizer from "./helpers/sentence/memoizedSentenceTokenizer";
 
 /**
- * The researcher contains all the researches, helpers, data, and config.
+ * @typedef {import("../values/Paper").default} Paper
+ */
+
+/**
+ * The public contract shared by every Researcher: the base `AbstractResearcher` and each
+ * language-specific subclass under `languageProcessing/languages/<lang>/Researcher`. A Researcher runs
+ * named "researches" (analysis primitives) against its {@link Paper} and stores the helpers,
+ * configuration, and research data those researches rely on.
+ *
+ * Use this type to annotate a Researcher *instance* in other modules — for example
+ * `@param {import("../AbstractResearcher").Researcher} researcher` (adjust the relative path). To type the
+ * Researcher *class* (a constructor), use `new (paper?: Paper) => Researcher`, e.g. as returned by
+ * the `getResearcher` factory.
+ *
+ * @typedef {Object} Researcher
+ *
+ * @property {Paper} paper The Paper the Researcher currently operates on.
+ *
+ * @property {(paper: Paper) => void} setPaper Associates a Paper with the Researcher.
+ * @property {(name: string, research: Function) => void} addResearch Registers a custom research by name.
+ * @property {(research: string, data: Object) => void} addResearchData Stores data for a research by name.
+ * @property {(name: string, helper: Function) => void} addHelper Registers a custom helper by name.
+ * @property {(name: string, config: *) => void} addConfig Registers a custom configuration by name.
+ *
+ * @property {(name: string) => boolean} hasResearch Whether a research with this name is available.
+ * @property {(name: string) => boolean} hasHelper Whether a helper with this name is available.
+ * @property {(name: string) => boolean} hasConfig Whether a configuration with this name is available.
+ * @property {(name: string) => boolean} hasResearchData Whether research data with this name is available.
+ *
+ * @property {() => Object} getAvailableResearches All available researches, keyed by name.
+ * @property {() => Object} getAvailableHelpers All available helpers, keyed by name.
+ * @property {() => Object} getAvailableConfig All available configuration.
+ * @property {() => Object} getAvailableResearchData All available research data.
+ *
+ * @property {(name: string) => *} getResearch Runs a research by name; returns its result, or `false` if unknown.
+ * @property {(research: string) => *} getData Returns stored research data by name, or `false` if unknown.
+ * @property {(name: string) => *} getConfig Returns a configuration value by name, or `false` if unknown.
+ * @property {(name: string) => (Function|false)} getHelper Returns a helper by name, or `false` if unknown.
+ */
+
+/**
+ * Base implementation of the {@link Researcher} contract: holds all the researches, helpers, data, and
+ * config. Each supported language extends this with its language-specific configuration (see
+ * `languageProcessing/languages/<lang>/Researcher`).
  */
 export default class AbstractResearcher {
 	/**

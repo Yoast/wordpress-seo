@@ -101,6 +101,9 @@ export function collectData() {
 		...data,
 		textTitle: getEditorDataTitle(),
 		isFrontPage: getIsFrontPage(),
+		shortcodes: Array.isArray( window.wpseoScriptData.analysis.plugins.shortcodes?.wpseo_shortcode_tags )
+			? window.wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags
+			: [],
 	};
 
 	const analysisData = applyAnalysisModifications( data );

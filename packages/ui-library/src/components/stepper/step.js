@@ -1,4 +1,4 @@
-import { CheckIcon } from "@heroicons/react/solid";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { useContext } from "react";

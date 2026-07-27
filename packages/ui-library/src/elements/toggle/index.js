@@ -1,6 +1,7 @@
-/* eslint-disable no-undefined */
+/* eslint-disable complexity */
 import { Switch, Transition } from "@headlessui/react";
-import { CheckIcon, XIcon } from "@heroicons/react/solid";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import XIcon from "@heroicons/react/solid/XIcon";
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
@@ -22,13 +23,13 @@ import { useSvgAria } from "../../hooks";
  */
 const Toggle = forwardRef( ( {
 	id,
-	as: Component,
-	checked,
+	as: Component = "button",
+	checked = false,
 	screenReaderLabel,
 	onChange,
-	disabled,
-	className,
-	type,
+	disabled = false,
+	className = "",
+	type = "",
 	checkedIcon,
 	unCheckedIcon,
 	...props
@@ -96,15 +97,6 @@ Toggle.propTypes = {
 	className: PropTypes.string,
 	checkedIcon: PropTypes.node,
 	unCheckedIcon: PropTypes.node,
-};
-Toggle.defaultProps = {
-	as: "button",
-	checked: false,
-	disabled: false,
-	type: "",
-	className: "",
-	checkedIcon: undefined,
-	unCheckedIcon: undefined,
 };
 
 export default Toggle;

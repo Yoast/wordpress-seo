@@ -40,5 +40,6 @@ final class Refresh_Token_Grant_Test extends TestCase {
 		$params = $grant->get_grant_params();
 
 		$this->assertSame( 'rt-abc-123', $params['refresh_token'] );
+		$this->assertArrayNotHasKey( 'resource', $params );
 	}
 }

@@ -112,9 +112,10 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
 			AND P.post_status NOT IN (%s)
-			AND P.ID not in (
-				SELECT I.object_id from wp_yoast_indexable as I
-				WHERE I.object_type = 'post'
+			AND NOT EXISTS (
+				SELECT 1 FROM wp_yoast_indexable AS I
+				WHERE I.object_id = P.ID
+				AND I.object_type = 'post'
 				AND I.version = %d )";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
@@ -147,9 +148,10 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
 			AND P.post_status NOT IN (%s)
-			AND P.ID not in (
-				SELECT I.object_id from wp_yoast_indexable as I
-				WHERE I.object_type = 'post'
+			AND NOT EXISTS (
+				SELECT 1 FROM wp_yoast_indexable AS I
+				WHERE I.object_id = P.ID
+				AND I.object_type = 'post'
 				AND I.version = %d )
 			LIMIT %d";
 
@@ -230,9 +232,10 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
 			AND P.post_status NOT IN (%s)
-			AND P.ID not in (
-				SELECT I.object_id from wp_yoast_indexable as I
-				WHERE I.object_type = 'post'
+			AND NOT EXISTS (
+				SELECT 1 FROM wp_yoast_indexable AS I
+				WHERE I.object_id = P.ID
+				AND I.object_type = 'post'
 				AND I.version = %d )";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
@@ -265,9 +268,10 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
 			AND P.post_status NOT IN (%s)
-			AND P.ID not in (
-				SELECT I.object_id from wp_yoast_indexable as I
-				WHERE I.object_type = 'post'
+			AND NOT EXISTS (
+				SELECT 1 FROM wp_yoast_indexable AS I
+				WHERE I.object_id = P.ID
+				AND I.object_type = 'post'
 				AND I.version = %d )
 			LIMIT %d";
 
@@ -296,9 +300,11 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->with( 'query' )
 			->andReturn( [ '1', '3', '8' ] );
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
+		$this->repository
+			->expects( 'find_by_multiple_ids_and_type' )
+			->once()
+			->with( [ 1, 3, 8 ], 'post' )
+			->andReturn( [ Mockery::mock() ] );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
@@ -323,9 +329,11 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
+		$this->repository
+			->expects( 'find_by_multiple_ids_and_type' )
+			->once()
+			->with( [ 1, 3, 8 ], 'post' )
+			->andReturn( [ Mockery::mock() ] );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
@@ -350,9 +358,10 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
 			AND P.post_status NOT IN (%s)
-			AND P.ID not in (
-				SELECT I.object_id from wp_yoast_indexable as I
-				WHERE I.object_type = 'post'
+			AND NOT EXISTS (
+				SELECT 1 FROM wp_yoast_indexable AS I
+				WHERE I.object_id = P.ID
+				AND I.object_type = 'post'
 				AND I.version = %d )
 			LIMIT %d";
 
@@ -380,9 +389,11 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->with( 'query' )
 			->andReturn( [ '1', '3', '8' ] );
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
+		$this->repository
+			->expects( 'find_by_multiple_ids_and_type' )
+			->once()
+			->with( [ 1, 3, 8 ], 'post' )
+			->andReturn( [ Mockery::mock() ] );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
@@ -405,9 +416,10 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
 			AND P.post_status NOT IN (%s)
-			AND P.ID not in (
-				SELECT I.object_id from wp_yoast_indexable as I
-				WHERE I.object_type = 'post'
+			AND NOT EXISTS (
+				SELECT 1 FROM wp_yoast_indexable AS I
+				WHERE I.object_id = P.ID
+				AND I.object_type = 'post'
 				AND I.version = %d )
 			LIMIT %d";
 
@@ -434,6 +446,12 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->expects( 'get_col' )
 			->once()
 			->with( 'query' )
+			->andReturn( [] );
+
+		$this->repository
+			->expects( 'find_by_multiple_ids_and_type' )
+			->once()
+			->with( [], 'post' )
 			->andReturn( [] );
 
 		$this->instance->index();

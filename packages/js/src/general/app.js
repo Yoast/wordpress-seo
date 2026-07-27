@@ -1,5 +1,8 @@
 import { Transition } from "@headlessui/react";
-import { AdjustmentsIcon, BellIcon, ChartPieIcon, ClipboardCheckIcon } from "@heroicons/react/outline";
+import AdjustmentsIcon from "@heroicons/react/outline/AdjustmentsIcon";
+import BellIcon from "@heroicons/react/outline/BellIcon";
+import ChartPieIcon from "@heroicons/react/outline/ChartPieIcon";
+import ClipboardCheckIcon from "@heroicons/react/outline/ClipboardCheckIcon";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -7,9 +10,8 @@ import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { Notice, OptInContainer } from "./components";
+import { Notices, OptInContainer } from "./components";
 import { STORE_NAME } from "./constants";
-import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { deleteMigratingNotices } from "../helpers/migrateNotices";
 import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
@@ -132,23 +134,10 @@ const App = () => {
 									enterFrom="yst-opacity-0"
 									enterTo="yst-opacity-100"
 								>
-									{ pathname !== ROUTES.firstTimeConfiguration && <div>
-										<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
-										{ notices.length > 0 && <div className={ notices.filter( notice => ! notice.isDismissed ).length > 0 ? "yst-space-y-3 yoast-general-page-notices" : "yst-hidden" }> {
-											notices.map( ( notice, index ) =>
-												<Notice
-													key={ index }
-													id={ notice.id || "yoast-general-page-notice-" + index }
-													title={ notice.header }
-													isDismissable={ notice.isDismissable }
-													className={ notice.isDismissed ? "yst-hidden" : "" }
-												>
-													{ notice.content }
-												</Notice>
-											)
-										}
-										</div> }
-									</div> }
+									{ pathname !== ROUTES.firstTimeConfiguration && <Notices
+										notices={ notices }
+										webinarIntroSettingsUrl={ webinarIntroSettingsUrl }
+									/> }
 									<Outlet />
 								</Transition>
 							</main>

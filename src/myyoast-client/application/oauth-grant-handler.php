@@ -13,6 +13,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Authenticator_Interface
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Discovery_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Domain\Resource_Indicator;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
 use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
 use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
@@ -81,16 +82,25 @@ class OAuth_Grant_Handler implements LoggerAwareInterface {
 	 * Executes a token endpoint request using the provided grant strategy.
 	 *
 	 * Ensures the client is registered, creates a client assertion, merges
-	 * grant-specific parameters, and sends the request.
+	 * grant-specific parameters, and sends the request. The resource indicator
+	 * is added to the body (unless it's the default-resource instance) and
+	 * stamped onto the resulting Token_Set so storage and audit code can
+	 * introspect the audience.
 	 *
-	 * @param Grant_Interface $grant The grant strategy providing grant-specific parameters.
+	 * @param Grant_Interface    $grant              The grant strategy providing grant-specific parameters.
+	 * @param Resource_Indicator $resource_indicator The resource indicator (RFC 8707) the grant targets. Use Resource_Indicator::default() for the default resource.
 	 *
 	 * @return Token_Set The token set from the response.
 	 *
 	 * @throws Token_Request_Failed_Exception If the token request fails.
 	 */
-	public function request_token( Grant_Interface $grant ): Token_Set {
-		$registered_client = $this->client_registration->ensure_registered();
+	public function request_token( Grant_Interface $grant, Resource_Indicator $resource_indicator ): Token_Set {
+		// A token request requires an existing registration; it never triggers DCR or a
+		// redirect-URI update — that is the connect flow's responsibility.
+		$registered_client = $this->client_registration->get_registered_client();
+		if ( $registered_client === null ) {
+			throw new Token_Request_Failed_Exception( 'not_registered', 'Site is not registered with MyYoast; complete the connect flow first.' );
+		}
 
 		try {
 			$token_endpoint = $this->discovery->get_document()->get_token_endpoint();
@@ -117,6 +127,12 @@ class OAuth_Grant_Handler implements LoggerAwareInterface {
 			],
 			$grant->get_grant_params(),
 		);
+
+		// RFC 8707 resource indicator is cross-cutting — independent of grant type.
+		// The Resource_Indicator value object proves the value is already canonical.
+		if ( ! $resource_indicator->is_default() ) {
+			$body['resource'] = $resource_indicator->value();
+		}
 
 		$result = $this->oauth_server_client->request(
 			'POST',
@@ -156,10 +172,15 @@ class OAuth_Grant_Handler implements LoggerAwareInterface {
 		}
 
 		try {
-			return Token_Set::from_response( $body );
+			$token_set = Token_Set::from_response( $body );
 		} catch ( InvalidArgumentException $e ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 			throw new Token_Request_Failed_Exception( 'invalid_token_response', $e->getMessage(), 0, $e );
 		}
+
+		// Per RFC 8707's trust model (§2, §4), the client is authoritative for the
+		// canonical resource indicator. We always stamp the requested value on the
+		// result rather than honouring any echoed `resource` field from the AS.
+		return $token_set->with_resource_indicator( $resource_indicator );
 	}
 }

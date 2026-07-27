@@ -139,4 +139,33 @@ final class Improve_Default_Meta_Descriptions_Child_Copy_Set_Test extends Improv
 
 		$this->assertSame( 'A "Quoted" Title', $array['title'] );
 	}
+
+	/**
+	 * Tests that get_copy_set falls back to "(no title)" when the title is empty.
+	 *
+	 * @return void
+	 */
+	public function test_get_copy_set_uses_no_title_fallback_when_title_is_empty() {
+		$content_item = new Meta_Description_Content_Item_Data( 456, '', false );
+
+		$parent_copy_set = new Copy_Set(
+			'Parent Title',
+			'<p>About text.</p>',
+		);
+
+		$this->parent_task
+			->shouldReceive( 'get_copy_set' )
+			->once()
+			->andReturn( $parent_copy_set );
+
+		$instance = new Improve_Default_Meta_Descriptions_Child(
+			$this->parent_task,
+			$content_item,
+		);
+
+		$copy_set = $instance->get_copy_set();
+		$array    = $copy_set->to_array();
+
+		$this->assertSame( '(no title)', $array['title'] );
+	}
 }

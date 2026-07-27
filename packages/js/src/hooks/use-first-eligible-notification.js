@@ -39,7 +39,7 @@ export const useFirstEligibleNotification = ( { webinarIntroUrl } ) => {
 		},
 		{
 			getIsEligible: shouldShowWebinarPromotionNotificationInSidebar,
-			component: ( props ) => <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroUrl } { ...props } />,
+			component: ( props ) => <WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroUrl } className="yst-m-0" { ...props } />,
 		},
 		{
 			getIsEligible: () => true,

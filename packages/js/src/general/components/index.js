@@ -11,3 +11,4 @@ export { OptInContainer } from "./opt-in-container";
 export { TaskListUpsellRow } from "./task-list-upsell-row";
 export { Task } from "./task";
 export { TaskListModal } from "./task-list-modal";
+export { Notices } from "./notices";

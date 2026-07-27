@@ -6,7 +6,7 @@
   "scripts": {
     "build": "cd ../.. && wp-scripts build --config config/webpack/webpack.config.js",
     "test": "jest",
-    "lint": "eslint . --max-warnings=43"
+    "lint": "eslint . --max-warnings=40"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
@@ -33,7 +33,7 @@
     "@wordpress/rich-text": "^7.8.4",
     "@wordpress/server-side-render": "^5.8.12",
     "@wordpress/url": "^4.8.1",
-    "@yoast/ai-frontend": "^0.24.0",
+    "@yoast/ai-frontend": "^0.25.0",
     "@yoast/analysis-report": "^2.0.0-alpha.1",
     "@yoast/components": "^3.0.0-alpha.3",
     "@yoast/dashboard-frontend": "^0.2.0",
@@ -69,7 +69,7 @@
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^6.26.2",
-    "redux": "^3.7.2",
+    "redux": "^4.2.1",
     "redux-thunk": "^2.2.0",
     "styled-components": "^5.3.6",
     "yoastseo": "^3.6.0",

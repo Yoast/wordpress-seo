@@ -1,5 +1,5 @@
 import { TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
-import { InformationCircleIcon } from "@heroicons/react/outline";
+import InformationCircleIcon from "@heroicons/react/outline/InformationCircleIcon";
 
 /**
  * The info tooltip component.

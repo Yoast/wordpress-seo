@@ -12,12 +12,14 @@ use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
 use Yoast\WP\SEO\MyYoast_Client\Application\OAuth_Grant_Handler;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Redirect_URI_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Site_URL_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Token_Storage_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\User_Token_Storage_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Token_Revocation_Handler;
 use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
+use Yoast\WP\SEO\MyYoast_Client\Domain\Resource_Indicator;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -92,6 +94,13 @@ final class MyYoast_Client_Test extends TestCase {
 	private $http_client;
 
 	/**
+	 * The redirect URI provider mock.
+	 *
+	 * @var Redirect_URI_Provider_Interface|Mockery\MockInterface
+	 */
+	private $redirect_uri_provider;
+
+	/**
 	 * Set up the test fixtures.
 	 *
 	 * @return void
@@ -111,6 +120,9 @@ final class MyYoast_Client_Test extends TestCase {
 		$site_url_provider = Mockery::mock( Site_URL_Provider_Interface::class );
 		$site_url_provider->allows( 'get' )->andReturn( 'https://example.com/' );
 
+		$this->redirect_uri_provider = Mockery::mock( Redirect_URI_Provider_Interface::class );
+		$this->redirect_uri_provider->allows( 'get_redirect_uris' )->andReturn( [ 'https://example.com/callback' ] );
+
 		$this->instance = new MyYoast_Client(
 			$this->client_registration,
 			$this->auth_code_handler,
@@ -121,11 +133,25 @@ final class MyYoast_Client_Test extends TestCase {
 			$this->token_storage,
 			$this->user_token_storage,
 			$site_url_provider,
+			$this->redirect_uri_provider,
 		);
 	}
 
 	/**
-	 * Tests that is_registered delegates to client_registration.
+	 * Mockery matcher for "is the default Resource_Indicator".
+	 *
+	 * @return Mockery\Matcher\MatcherAbstract
+	 */
+	private function default_indicator() {
+		return Mockery::on(
+			static function ( $indicator ) {
+				return $indicator instanceof Resource_Indicator && $indicator->is_default();
+			},
+		);
+	}
+
+	/**
+	 * Tests that is_registered reflects whether a registered client is stored.
 	 *
 	 * @covers ::is_registered
 	 *
@@ -133,11 +159,12 @@ final class MyYoast_Client_Test extends TestCase {
 	 */
 	public function test_is_registered() {
 		$this->client_registration
-			->expects( 'is_registered' )
-			->once()
-			->andReturn( true );
+			->expects( 'get_registered_client' )
+			->twice()
+			->andReturn( new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' ), null );
 
 		$this->assertTrue( $this->instance->is_registered() );
+		$this->assertFalse( $this->instance->is_registered() );
 	}
 
 	/**
@@ -152,7 +179,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->user_token_storage
 			->expects( 'get' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->once()
 			->andReturn( $token_set );
 
@@ -174,7 +201,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->user_token_storage
 			->expects( 'get' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->andReturn( $expired );
 
 		$this->lock_helper
@@ -250,7 +277,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->user_token_storage
 			->expects( 'delete' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->once();
 
 		$this->assertNull( $this->instance->get_user_token( 42 ) );
@@ -290,7 +317,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->user_token_storage
 			->expects( 'get' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->andReturn( $token_set );
 
 		$this->revocation_handler
@@ -307,7 +334,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->user_token_storage
 			->expects( 'delete' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->once();
 
 		$this->instance->revoke_user_token( 42 );
@@ -323,7 +350,7 @@ final class MyYoast_Client_Test extends TestCase {
 	public function test_has_user_token() {
 		$this->user_token_storage
 			->expects( 'get' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->andReturn( new Token_Set( 'access', ( \time() + 3600 ) ) );
 
 		$this->assertTrue( $this->instance->has_user_token( 42 ) );
@@ -362,6 +389,9 @@ final class MyYoast_Client_Test extends TestCase {
 			->once()
 			->andReturn( null );
 
+		$this->client_registration->expects( 'get_registered_client' )->once()->andReturn( new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' ) );
+		$this->client_registration->shouldNotReceive( 'ensure_registered' );
+
 		$fresh = new Token_Set( 'new-site-token', ( \time() + 900 ) );
 
 		$this->grant_handler
@@ -390,7 +420,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->user_token_storage
 			->expects( 'get' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->andReturn( $expired );
 
 		$this->assertNull( $this->instance->get_user_token( 42 ) );
@@ -409,7 +439,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->user_token_storage
 			->expects( 'get' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->andReturn( $expired );
 
 		$this->lock_helper
@@ -438,7 +468,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->user_token_storage
 			->expects( 'get' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->andReturn( $expired );
 
 		$this->lock_helper
@@ -463,7 +493,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->user_token_storage
 			->expects( 'get' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->andReturn( $token_set );
 
 		$this->assertNull( $this->instance->get_user_token( 42, [ 'profile', 'email' ] ) );
@@ -481,7 +511,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->user_token_storage
 			->expects( 'get' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->andReturn( $token_set );
 
 		$result = $this->instance->get_user_token( 42, [ 'profile' ] );
@@ -504,6 +534,9 @@ final class MyYoast_Client_Test extends TestCase {
 			->once()
 			->andReturn( $cached );
 
+		$this->client_registration->expects( 'get_registered_client' )->once()->andReturn( new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' ) );
+		$this->client_registration->shouldNotReceive( 'ensure_registered' );
+
 		$fresh = new Token_Set( 'new-token', ( \time() + 900 ), 'DPoP', null, null, 'service:licenses:read service:subscriptions:read' );
 
 		$this->grant_handler
@@ -521,6 +554,34 @@ final class MyYoast_Client_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that get_site_token refuses to issue a token when the site isn't registered with MyYoast.
+	 * Registration is a precondition handled by the user-driven connect flow; this method never
+	 * triggers DCR on its own. Callers (e.g. the AI auth sender) see a typed Token_Request_Failed
+	 * with `not_registered` and fall back accordingly.
+	 *
+	 * @covers ::get_site_token
+	 *
+	 * @return void
+	 */
+	public function test_get_site_token_throws_when_site_not_registered() {
+		$this->token_storage->expects( 'get' )->once()->andReturn( null );
+
+		$this->client_registration->expects( 'get_registered_client' )->once()->andReturn( null );
+		$this->client_registration->shouldNotReceive( 'ensure_registered' );
+
+		$this->grant_handler->shouldNotReceive( 'request_token' );
+		$this->token_storage->shouldNotReceive( 'store' );
+
+		try {
+			$this->instance->get_site_token();
+			$this->fail( 'Expected Token_Request_Failed_Exception.' );
+		}
+		catch ( Token_Request_Failed_Exception $exception ) {
+			$this->assertSame( 'not_registered', $exception->get_error_code() );
+		}
+	}
+
+	/**
 	 * Tests that revoke_user_token skips refresh token revocation when absent.
 	 *
 	 * @covers ::revoke_user_token
@@ -532,7 +593,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->user_token_storage
 			->expects( 'get' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->andReturn( $token_set );
 
 		$this->revocation_handler
@@ -543,7 +604,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->user_token_storage
 			->expects( 'delete' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->once();
 
 		$this->instance->revoke_user_token( 42 );
@@ -559,7 +620,7 @@ final class MyYoast_Client_Test extends TestCase {
 	public function test_revoke_user_token_noop_when_no_token() {
 		$this->user_token_storage
 			->expects( 'get' )
-			->with( 42 )
+			->with( 42, $this->default_indicator() )
 			->andReturn( null );
 
 		$this->revocation_handler->expects( 'revoke' )->never();
@@ -648,6 +709,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->client_registration
 			->expects( 'ensure_registered' )
+			->with( [ 'https://example.com/callback' ] )
 			->once()
 			->andReturn( $registered );
 
@@ -712,5 +774,220 @@ final class MyYoast_Client_Test extends TestCase {
 			->andReturn( true );
 
 		$this->assertTrue( $this->instance->revoke_token( 'some-token', 'access_token' ) );
+	}
+
+	/**
+	 * Tests that get_registered_client delegates to the client registration port.
+	 *
+	 * @covers ::get_registered_client
+	 *
+	 * @return void
+	 */
+	public function test_get_registered_client_delegates() {
+		$registered = new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' );
+
+		$this->client_registration
+			->expects( 'get_registered_client' )
+			->once()
+			->andReturn( $registered );
+
+		$this->assertSame( $registered, $this->instance->get_registered_client() );
+	}
+
+	/**
+	 * Tests that get_site_token forwards the resource indicator to storage and grant.
+	 *
+	 * @covers ::get_site_token
+	 *
+	 * @return void
+	 */
+	public function test_get_site_token_with_resource_indicator() {
+		$indicator_matches = static function ( $indicator ) {
+			return $indicator instanceof Resource_Indicator
+				&& $indicator->value() === 'https://ai.yoa.st';
+		};
+
+		$this->token_storage
+			->expects( 'get' )
+			->withArgs(
+				static function ( $indicator ) use ( $indicator_matches ) {
+					return $indicator_matches( $indicator );
+				},
+			)
+			->andReturn( null );
+
+		$this->client_registration
+			->expects( 'get_registered_client' )
+			->once()
+			->andReturn( new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' ) );
+
+		$fresh = ( new Token_Set( 'ai-tok', ( \time() + 900 ) ) )->with_resource_indicator( new Resource_Indicator( 'https://ai.yoa.st' ) );
+
+		$this->grant_handler
+			->expects( 'request_token' )
+			->withArgs(
+				static function ( $grant, $requested_resource ) use ( $indicator_matches ) {
+					return $indicator_matches( $requested_resource );
+				},
+			)
+			->andReturn( $fresh );
+
+		$this->token_storage
+			->expects( 'store' )
+			->with( $fresh )
+			->once();
+
+		$result = $this->instance->get_site_token( [ 'service:ai:consume' ], 'https://ai.yoa.st' );
+
+		$this->assertSame( 'https://ai.yoa.st', $result->get_resource_indicator()->value() );
+	}
+
+	/**
+	 * Tests that get_user_token refresh keeps the resource indicator binding.
+	 *
+	 * @covers ::get_user_token
+	 *
+	 * @return void
+	 */
+	public function test_get_user_token_refresh_preserves_resource_indicator() {
+		$indicator_matches = static function ( $indicator ) {
+			return $indicator instanceof Resource_Indicator
+				&& $indicator->value() === 'https://ai.yoa.st';
+		};
+
+		$expired = ( new Token_Set( 'old', ( \time() - 100 ), 'DPoP', 'refresh-tok' ) )
+			->with_resource_indicator( new Resource_Indicator( 'https://ai.yoa.st' ) );
+		$fresh   = ( new Token_Set( 'new', ( \time() + 900 ), 'DPoP', 'new-refresh' ) )
+			->with_resource_indicator( new Resource_Indicator( 'https://ai.yoa.st' ) );
+
+		$this->user_token_storage
+			->expects( 'get' )
+			->withArgs(
+				static function ( $user_id, $indicator ) use ( $indicator_matches ) {
+					return $user_id === 42 && $indicator_matches( $indicator );
+				},
+			)
+			->andReturn( $expired );
+
+		$this->lock_helper
+			->expects( 'execute' )
+			->andReturnUsing(
+				static function ( $key, $callback ) {
+					return $callback();
+				},
+			);
+
+		$this->grant_handler
+			->expects( 'request_token' )
+			->withArgs(
+				static function ( $grant, $requested_resource ) use ( $indicator_matches ) {
+					return $indicator_matches( $requested_resource );
+				},
+			)
+			->andReturn( $fresh );
+
+		$this->user_token_storage
+			->expects( 'store' )
+			->with( 42, $fresh )
+			->once();
+
+		$result = $this->instance->get_user_token( 42, [], 'https://ai.yoa.st' );
+
+		$this->assertSame( 'https://ai.yoa.st', $result->get_resource_indicator()->value() );
+	}
+
+	/**
+	 * Tests that revoke_user_token targets only the requested resource bucket.
+	 *
+	 * @covers ::revoke_user_token
+	 *
+	 * @return void
+	 */
+	public function test_revoke_user_token_targets_resource_bucket() {
+		$indicator_matches = static function ( $indicator ) {
+			return $indicator instanceof Resource_Indicator
+				&& $indicator->value() === 'https://ai.yoa.st';
+		};
+
+		$token_set = ( new Token_Set( 'ai-access', ( \time() + 3600 ), 'DPoP', 'ai-refresh' ) )
+			->with_resource_indicator( new Resource_Indicator( 'https://ai.yoa.st' ) );
+
+		$this->user_token_storage
+			->expects( 'get' )
+			->withArgs(
+				static function ( $user_id, $indicator ) use ( $indicator_matches ) {
+					return $user_id === 42 && $indicator_matches( $indicator );
+				},
+			)
+			->andReturn( $token_set );
+
+		$this->revocation_handler->expects( 'revoke' )->with( 'ai-access', 'access_token' )->andReturn( true );
+		$this->revocation_handler->expects( 'revoke' )->with( 'ai-refresh', 'refresh_token' )->andReturn( true );
+
+		$this->user_token_storage
+			->expects( 'delete' )
+			->withArgs(
+				static function ( $user_id, $indicator ) use ( $indicator_matches ) {
+					return $user_id === 42 && $indicator_matches( $indicator );
+				},
+			)
+			->once();
+
+		$this->instance->revoke_user_token( 42, 'https://ai.yoa.st' );
+	}
+
+	/**
+	 * Tests that clear_site_token forwards the resource indicator to storage.
+	 *
+	 * @covers ::clear_site_token
+	 *
+	 * @return void
+	 */
+	public function test_clear_site_token_with_resource_indicator() {
+		$this->token_storage
+			->expects( 'delete' )
+			->withArgs(
+				static function ( $indicator ) {
+					return $indicator instanceof Resource_Indicator
+						&& $indicator->value() === 'https://ai.yoa.st';
+				},
+			)
+			->once();
+
+		$this->instance->clear_site_token( 'https://ai.yoa.st' );
+	}
+
+	/**
+	 * Tests that revoke_all_user_tokens revokes every stored bucket.
+	 *
+	 * @covers ::revoke_all_user_tokens
+	 *
+	 * @return void
+	 */
+	public function test_revoke_all_user_tokens() {
+		$default_token = new Token_Set( 'default-access', ( \time() + 3600 ), 'DPoP', 'default-refresh' );
+		$ai_token      = ( new Token_Set( 'ai-access', ( \time() + 3600 ), 'DPoP', 'ai-refresh' ) )
+			->with_resource_indicator( new Resource_Indicator( 'https://ai.yoa.st' ) );
+
+		$this->user_token_storage
+			->expects( 'get_all' )
+			->with( 42 )
+			->andReturn( [ $default_token, $ai_token ] );
+
+		$this->revocation_handler->expects( 'revoke' )->with( 'default-access', 'access_token' )->andReturn( true );
+		$this->revocation_handler->expects( 'revoke' )->with( 'default-refresh', 'refresh_token' )->andReturn( true );
+		$this->revocation_handler->expects( 'revoke' )->with( 'ai-access', 'access_token' )->andReturn( true );
+		$this->revocation_handler->expects( 'revoke' )->with( 'ai-refresh', 'refresh_token' )->andReturn( true );
+
+		$this->user_token_storage->expects( 'delete' )->with( 42, $this->default_indicator() )->once();
+		$this->user_token_storage->expects( 'delete' )->withArgs(
+			static function ( $user_id, $indicator ) {
+				return $user_id === 42
+					&& $indicator instanceof Resource_Indicator
+					&& $indicator->value() === 'https://ai.yoa.st';
+			},
+		)->once();
+
+		$this->instance->revoke_all_user_tokens( 42 );
 	}
 }

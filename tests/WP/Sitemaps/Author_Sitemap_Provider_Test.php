@@ -234,4 +234,157 @@ final class Author_Sitemap_Provider_Test extends TestCase {
 		// Checks which users are in the sitemap, there should be none.
 		self::$class_instance->get_sitemap_links( 'author', 10, 1 );
 	}
+
+	/**
+	 * Tests that the backfill (triggered by get_index_links) stamps `_yoast_wpseo_profile_updated`
+	 * only for users that have published posts when `noindex-author-noposts-wpseo` is enabled.
+	 *
+	 * Mirrors the "Normal flow" preparation from PR #23256: delete the meta, render the index,
+	 * then verify the set of stamped users matches the set that will appear in the sitemap.
+	 *
+	 * @covers WPSEO_Author_Sitemap_Provider::get_index_links
+	 * @covers WPSEO_Author_Sitemap_Provider::update_user_meta
+	 * @covers WPSEO_Author_Sitemap_Provider::apply_author_eligibility_filter
+	 *
+	 * @return void
+	 */
+	public function test_backfill_stamps_only_authors_with_posts_when_noposts_option_is_true() {
+		// Removes authors with no posts from the sitemap.
+		WPSEO_Options::set( 'noindex-author-noposts-wpseo', true );
+
+		// Creates one author with published posts and one without any.
+		$author_with_posts_id    = $this->factory->user->create( [ 'role' => 'author' ] );
+		$author_without_posts_id = $this->factory->user->create( [ 'role' => 'author' ] );
+		$this->factory->post->create_many( 2, [ 'post_author' => $author_with_posts_id ] );
+
+		// Resets meta so the backfill has a clean slate (user_register may have stamped it).
+		\delete_user_meta( $author_with_posts_id, '_yoast_wpseo_profile_updated' );
+		\delete_user_meta( $author_without_posts_id, '_yoast_wpseo_profile_updated' );
+
+		// Renders the index, which triggers the backfill internally.
+		self::$class_instance->get_index_links( 100 );
+
+		// Only the author with posts should have been stamped.
+		$this->assertNotEmpty( \get_user_meta( $author_with_posts_id, '_yoast_wpseo_profile_updated', true ) );
+		$this->assertEmpty( \get_user_meta( $author_without_posts_id, '_yoast_wpseo_profile_updated', true ) );
+	}
+
+	/**
+	 * Tests that the backfill stamps every user with the `edit_posts` capability — regardless of
+	 * whether they have posts — when `noindex-author-noposts-wpseo` is disabled.
+	 *
+	 * Mirrors the "Enable the setting and repeat" branch of PR #23256.
+	 *
+	 * @covers WPSEO_Author_Sitemap_Provider::get_index_links
+	 * @covers WPSEO_Author_Sitemap_Provider::update_user_meta
+	 * @covers WPSEO_Author_Sitemap_Provider::apply_author_eligibility_filter
+	 *
+	 * @return void
+	 */
+	public function test_backfill_stamps_all_edit_posts_users_when_noposts_option_is_false() {
+		// Allows authors with no posts in the sitemap.
+		WPSEO_Options::set( 'noindex-author-noposts-wpseo', false );
+
+		$author_id     = $this->factory->user->create( [ 'role' => 'author' ] );
+		$admin_id      = $this->factory->user->create( [ 'role' => 'administrator' ] );
+		$subscriber_id = $this->factory->user->create( [ 'role' => 'subscriber' ] );
+
+		// Resets meta so the backfill has a clean slate.
+		\delete_user_meta( $author_id, '_yoast_wpseo_profile_updated' );
+		\delete_user_meta( $admin_id, '_yoast_wpseo_profile_updated' );
+		\delete_user_meta( $subscriber_id, '_yoast_wpseo_profile_updated' );
+
+		// Renders the index, which triggers the backfill internally.
+		self::$class_instance->get_index_links( 100 );
+
+		// Author and admin have `edit_posts` and should be stamped.
+		$this->assertNotEmpty( \get_user_meta( $author_id, '_yoast_wpseo_profile_updated', true ) );
+		$this->assertNotEmpty( \get_user_meta( $admin_id, '_yoast_wpseo_profile_updated', true ) );
+
+		// Subscribers do not have `edit_posts` and should remain unstamped.
+		$this->assertEmpty( \get_user_meta( $subscriber_id, '_yoast_wpseo_profile_updated', true ) );
+	}
+
+	/**
+	 * Tests that the per-page author sitemap emits a `<lastmod>` equal to the backfill timestamp
+	 * for a user whose meta was unset before the index render.
+	 *
+	 * Mirrors the PR #23256 step "Last Mods of authors sitemap should be the time of when you
+	 * visit the root sitemap page" — i.e. fresh stamps from the immediately-preceding index render.
+	 *
+	 * @covers WPSEO_Author_Sitemap_Provider::get_index_links
+	 * @covers WPSEO_Author_Sitemap_Provider::get_sitemap_links
+	 * @covers WPSEO_Author_Sitemap_Provider::update_user_meta
+	 *
+	 * @return void
+	 */
+	public function test_sitemap_lastmod_reflects_backfill_time_when_option_is_true() {
+		// Removes authors with no posts from the sitemap.
+		WPSEO_Options::set( 'noindex-author-noposts-wpseo', true );
+
+		$author_id = $this->factory->user->create( [ 'role' => 'author' ] );
+		$this->factory->post->create( [ 'post_author' => $author_id ] );
+
+		// Resets meta to ensure the backfill writes a fresh stamp.
+		\delete_user_meta( $author_id, '_yoast_wpseo_profile_updated' );
+
+		$time_before = \time();
+		self::$class_instance->get_index_links( 100 );
+		$time_after = \time();
+
+		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
+
+		// One author should be present.
+		$this->assertCount( 1, $sitemap_links );
+
+		// The author's <lastmod> value must match a stamp written during the backfill above.
+		$stamp = (int) \get_user_meta( $author_id, '_yoast_wpseo_profile_updated', true );
+		$this->assertGreaterThanOrEqual( $time_before, $stamp );
+		$this->assertLessThanOrEqual( $time_after, $stamp );
+		$this->assertSame( \gmdate( \DATE_W3C, $stamp ), $sitemap_links[0]['mod'] );
+	}
+
+	/**
+	 * Tests the "first-publish freshness" property called out in the PR description: an author who
+	 * has no posts at first index render gets no stamp; once they publish their first post, the
+	 * next index render stamps them with the current time, and that stamp surfaces as their
+	 * `<lastmod>` in the per-page sitemap.
+	 *
+	 * @covers WPSEO_Author_Sitemap_Provider::get_index_links
+	 * @covers WPSEO_Author_Sitemap_Provider::get_sitemap_links
+	 * @covers WPSEO_Author_Sitemap_Provider::update_user_meta
+	 *
+	 * @return void
+	 */
+	public function test_first_publish_triggers_fresh_lastmod_on_next_index_render() {
+		// Removes authors with no posts from the sitemap.
+		WPSEO_Options::set( 'noindex-author-noposts-wpseo', true );
+
+		$author_id = $this->factory->user->create( [ 'role' => 'author' ] );
+		\delete_user_meta( $author_id, '_yoast_wpseo_profile_updated' );
+
+		// First render — author has no posts, so the backfill must skip them.
+		self::$class_instance->get_index_links( 100 );
+		$this->assertEmpty(
+			\get_user_meta( $author_id, '_yoast_wpseo_profile_updated', true ),
+			'Author without posts should not be stamped on the first index render.',
+		);
+
+		// Author publishes their first post.
+		$this->factory->post->create( [ 'post_author' => $author_id ] );
+
+		// Second render — backfill should now stamp the author with a fresh timestamp.
+		$time_before = \time();
+		self::$class_instance->get_index_links( 100 );
+		$time_after = \time();
+
+		$stamp = (int) \get_user_meta( $author_id, '_yoast_wpseo_profile_updated', true );
+		$this->assertGreaterThanOrEqual( $time_before, $stamp );
+		$this->assertLessThanOrEqual( $time_after, $stamp );
+
+		// Per-page sitemap should now contain the author with the fresh stamp.
+		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
+		$this->assertCount( 1, $sitemap_links );
+		$this->assertSame( \gmdate( \DATE_W3C, $stamp ), $sitemap_links[0]['mod'] );
+	}
 }

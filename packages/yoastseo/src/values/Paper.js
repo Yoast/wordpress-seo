@@ -356,6 +356,37 @@ export default class Paper {
 	}
 
 	/**
+	 * Checks whether the given paper would produce the same HTML tree as this instance.
+	 *
+	 * Two papers share the same tree inputs when their text, shortcodes, block markup, and locale
+	 * all match. Attributes that do not feed the tree builder (keyword, synonyms, description,
+	 * title, slug, permalink, etc.) are intentionally ignored — they may differ without invalidating
+	 * the tree, so callers can reuse a previously built tree when this returns true.
+	 *
+	 * @param {Paper} paper The paper to compare against.
+	 *
+	 * @returns {boolean} Whether the two papers share the same tree-relevant inputs.
+	 */
+	hasSameTreeInputsAs( paper ) {
+		if ( ! paper ) {
+			return false;
+		}
+		if ( this._text !== paper.getText() ) {
+			return false;
+		}
+		if ( this._attributes.locale !== paper._attributes.locale ) {
+			return false;
+		}
+		// Normalize undefined / null to [] before comparing: a paper deserialized from a payload that omits
+		// `shortcodes` or `wpBlocks` ends up with the attribute missing, but it produces the same tree as a
+		// paper that explicitly carries an empty array, so the two must compare as equal here.
+		if ( ! isEqual( this._attributes.shortcodes ?? [], paper._attributes.shortcodes ?? [] ) ) {
+			return false;
+		}
+		return isEqual( this._attributes.wpBlocks ?? [], paper._attributes.wpBlocks ?? [] );
+	}
+
+	/**
 	 * Parses the object to a Paper.
 	 *
 	 * @param {Object|Paper} serialized The serialized object or Paper instance.

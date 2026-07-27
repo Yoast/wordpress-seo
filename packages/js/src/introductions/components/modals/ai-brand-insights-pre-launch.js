@@ -90,7 +90,7 @@ const AiBrandInsightsPreLaunchContent = ( {
  * @returns {JSX.Element} The element.
  */
 export const AiBrandInsightsPreLaunch = () => {
-	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "ai-brand-insights-pre-launch.png" ), [] );
+	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "ai-brand-insights-pre-launch.jpg" ), [] );
 	const joinWishlistLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/ai-brand-insights-introduction-pre-launch/" ), [] );
 
 	const thumbnail = useMemo( () => ( {

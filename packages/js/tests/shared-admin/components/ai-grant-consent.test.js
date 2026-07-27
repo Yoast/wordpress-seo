@@ -68,7 +68,7 @@ describe( "AiGrantConsent", () => {
 		expect( selectLinkMock ).toHaveBeenCalledWith( DEFAULT_LINKS.termsOfService );
 		expect( selectLinkMock ).toHaveBeenCalledWith( DEFAULT_LINKS.privacyPolicy );
 		expect( selectLinkMock ).toHaveBeenCalledWith( DEFAULT_LINKS.learnMore );
-		expect( selectImageLinkMock ).toHaveBeenCalledWith( "ai-consent.png" );
+		expect( selectImageLinkMock ).toHaveBeenCalledWith( "ai-consent.jpg" );
 	} );
 
 	it( "applies link overrides passed via the links prop", () => {
@@ -135,6 +135,6 @@ describe( "AiGrantConsent", () => {
 			.toHaveAttribute( "href", `resolved:${ DEFAULT_LINKS.privacyPolicy }` );
 		expect( getByRole( "link", { name: /learn more/i } ) )
 			.toHaveAttribute( "href", `resolved:${ DEFAULT_LINKS.learnMore }` );
-		expect( getByRole( "presentation" ) ).toHaveAttribute( "src", "image:ai-consent.png" );
+		expect( getByRole( "presentation" ) ).toHaveAttribute( "src", "image:ai-consent.jpg" );
 	} );
 } );
