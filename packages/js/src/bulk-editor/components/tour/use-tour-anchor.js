@@ -39,7 +39,7 @@ const findVisibleTarget = ( selector ) =>
 	[ ...document.querySelectorAll( selector ) ].find( ( element ) => element.offsetParent !== null ) ?? null;
 
 /**
- * Whether an element exsists and is visible.
+ * Whether an element exists and is visible.
  *
  * @param {HTMLElement} element The element.
  *

@@ -6,7 +6,7 @@
 		padding-left: 0 !important;
 	}
 
-	/* Keep the admin menu above the guided-tour spotlight dim so it isn't overlayed. */
+	/* Keep the admin menu above the guided-tour spotlight dim so it isn't overlaid. */
 	#adminmenuback {
 		z-index: 11;
 	}
@@ -113,7 +113,7 @@
 	@apply yst-outline-none;
 }
 
-/* The in-app guided-tour. It is decorative only so prevents interaction */
+/* The guided-tour spotlight overlay is decorative only; a separate backdrop blocks interaction, so it ignores pointer events. */
 .yst-root .yst-tour-spotlight {
 	pointer-events: none;
 }
