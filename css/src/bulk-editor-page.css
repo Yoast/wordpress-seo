@@ -102,6 +102,12 @@
 	@apply yst-m-0;
 }
 
+/* The "Overview selection" filter group. It is separated from the status filters below it by a divider,
+ * mirroring the one above the "needs improvement" group. */
+.yst-root .yst-bulk-editor-overview-selection {
+	@apply yst-border-b yst-border-slate-200 yst-mb-0.5 yst-pb-0.5;
+}
+
 /* The "needs improvement" filter group. It is separated from the status filters by a divider; each option is
  * prefixed with a red score dot; and the group's legend is hidden visually but kept for assistive tech, so the
  * dot's "needs improvement" meaning is never conveyed by colour alone. */

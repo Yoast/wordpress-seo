@@ -110,7 +110,7 @@ export const BulkEditorFilters = () => {
 				{ overviewIds.length > 0 && (
 					<CheckboxGroup
 						id="bulk-editor-overview-filter"
-						className="yst-bulk-editor-filter-group"
+						className="yst-bulk-editor-filter-group yst-bulk-editor-overview-selection"
 						options={ overviewOptions }
 						values={ isOverviewFilterActive ? [ "overview" ] : [] }
 						onChange={ onChangeOverviewFilter }
