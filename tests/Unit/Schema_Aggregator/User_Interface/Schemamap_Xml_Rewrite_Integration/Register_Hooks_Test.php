@@ -76,11 +76,14 @@ final class Register_Hooks_Test extends Abstract_Schemamap_Xml_Rewrite_Integrati
 		$this->assertNotFalse(
 			Monkey\Filters\has( 'query_vars', [ $this->instance, 'add_query_vars' ] ),
 		);
-		$this->assertNotFalse(
-			Monkey\Filters\has( 'redirect_canonical', [ $this->instance, 'redirect_canonical' ] ),
-		);
-		$this->assertNotFalse(
-			Monkey\Actions\has( 'template_redirect', [ $this->instance, 'maybe_render_schema_map' ] ),
+
+		/*
+		 * The priority is asserted, not just the registration: rendering has to happen before the
+		 * main query runs and before other callbacks get a chance to echo ahead of the XML.
+		 */
+		$this->assertSame(
+			1,
+			Monkey\Actions\has( 'pre_get_posts', [ $this->instance, 'maybe_render_schema_map' ] ),
 		);
 	}
 }

@@ -2,6 +2,7 @@
 // @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Tests\WP\Schema_Aggregator\User_Interface;
 
+use Mockery;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map\Schema_Map_Xml_Provider;
 use Yoast\WP\SEO\Schema_Aggregator\User_Interface\Schemamap_Xml_Rewrite_Integration;
 use Yoast\WP\SEO\Tests\WP\TestCase;
@@ -14,7 +15,6 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Schemamap_Xml_Rewrite_Integration::register_hooks
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Schemamap_Xml_Rewrite_Integration::add_rewrite_rules
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Schemamap_Xml_Rewrite_Integration::add_query_vars
- * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Schemamap_Xml_Rewrite_Integration::redirect_canonical
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -37,12 +37,25 @@ final class Schemamap_Xml_Rewrite_Integration_Test extends TestCase {
 
 		\YoastSEO()->helpers->options->set( 'enable_schema_aggregation_endpoint', true );
 
+		/*
+		 * The provider is only ever a constructor dependency, so the DI compiler inlines it and it
+		 * cannot be fetched from the container. These tests cover routing rather than the document,
+		 * which Site_Schema_Aggregator_Xml_Route_Test already exercises against the real provider.
+		 */
 		$this->instance = new Schemamap_Xml_Rewrite_Integration(
-			\YoastSEO()->classes->get( Schema_Map_Xml_Provider::class ),
+			Mockery::mock( Schema_Map_Xml_Provider::class ),
+			\YoastSEO()->helpers->redirect,
 		);
 
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->instance->register_hooks();
+
+		/*
+		 * go_to() runs the main query, which would reach the render callback and exit the PHPUnit
+		 * process. The rewrite rule and the query var are what these tests assert, so the callback
+		 * is unhooked; rendering is covered by the unit tests.
+		 */
+		\remove_action( 'pre_get_posts', [ $this->instance, 'maybe_render_schema_map' ], 1 );
 	}
 
 	/**
@@ -96,17 +109,6 @@ final class Schemamap_Xml_Rewrite_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the canonical redirect is cancelled for a schema map request.
-	 *
-	 * @return void
-	 */
-	public function test_redirect_canonical_is_suppressed() {
-		$this->go_to( \home_url( '/schemamap.xml' ) );
-
-		$this->assertFalse( $this->instance->redirect_canonical( \home_url( '/schemamap.xml/' ) ) );
-	}
-
-	/**
 	 * Tests that the schema map is not routed when pretty permalinks are off.
 	 *
 	 * This documents the known limitation: rewrite rules do not run under plain permalinks, so
@@ -120,17 +122,5 @@ final class Schemamap_Xml_Rewrite_Integration_Test extends TestCase {
 		$this->go_to( \home_url( '/schemamap.xml' ) );
 
 		$this->assertSame( '', \get_query_var( 'yoast_schemamap' ) );
-	}
-
-	/**
-	 * Tests that the rendered XML is what the schema visualizer expects to find.
-	 *
-	 * @return void
-	 */
-	public function test_rendered_xml_is_a_sitemap_document() {
-		$xml = \YoastSEO()->classes->get( Schema_Map_Xml_Provider::class )->get_xml();
-
-		$this->assertStringStartsWith( '<?xml', $xml );
-		$this->assertStringContainsString( '<urlset', $xml );
 	}
 }

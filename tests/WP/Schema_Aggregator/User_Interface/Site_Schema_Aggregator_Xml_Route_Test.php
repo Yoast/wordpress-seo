@@ -46,14 +46,15 @@ final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that a second request is served from the cache and produces the same XML.
+	 * Tests that rendering stores the XML in the transient the front-end route also reads.
 	 *
 	 * @return void
 	 */
-	public function test_render_schema_xml_is_cached() {
-		$first  = \rest_get_server()->dispatch( new WP_REST_Request( 'GET', '/yoast/v1/schema-aggregator/get-xml' ) );
-		$second = \rest_get_server()->dispatch( new WP_REST_Request( 'GET', '/yoast/v1/schema-aggregator/get-xml' ) );
+	public function test_render_schema_xml_populates_the_cache() {
+		\delete_transient( 'yoast_schema_aggregator_xml_sitemap_v1' );
 
-		$this->assertSame( $first->get_data(), $second->get_data() );
+		$response = \rest_get_server()->dispatch( new WP_REST_Request( 'GET', '/yoast/v1/schema-aggregator/get-xml' ) );
+
+		$this->assertSame( $response->get_data(), \get_transient( 'yoast_schema_aggregator_xml_sitemap_v1' ) );
 	}
 }
