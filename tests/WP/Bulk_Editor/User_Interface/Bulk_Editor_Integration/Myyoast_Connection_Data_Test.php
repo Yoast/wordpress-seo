@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Connection_Permission;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
 use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 use Yoast\WP\SEO\Tests\WP\TestCase;
@@ -99,6 +100,14 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 
 		$short_link_helper = Mockery::mock( Short_Link_Helper::class );
 		$short_link_helper->allows( 'get_query_params' )->andReturn( [] );
+		$short_link_helper->allows( 'get' )->andReturn( '' );
+
+		$myyoast_connection_data_presenter = new Myyoast_Connection_Data_Presenter(
+			$this->myyoast_connection_conditional,
+			$this->status_presenter,
+			$this->connection_permission,
+			$short_link_helper,
+		);
 
 		$this->instance = new Bulk_Editor_Integration(
 			Mockery::mock( WPSEO_Admin_Asset_Manager::class ),
@@ -109,9 +118,7 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 			$nonce_repository,
 			$endpoints_repository,
 			$options_helper,
-			$this->myyoast_connection_conditional,
-			$this->status_presenter,
-			$this->connection_permission,
+			$myyoast_connection_data_presenter,
 		);
 	}
 
