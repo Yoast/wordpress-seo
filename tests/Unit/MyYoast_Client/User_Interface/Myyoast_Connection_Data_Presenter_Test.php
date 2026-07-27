@@ -1,7 +1,5 @@
 <?php
 
-// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\MyYoast_Client\User_Interface;
 
 use Brain\Monkey;
@@ -14,14 +12,14 @@ use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the Myyoast_Connection_Data_Presenter.
+ * Tests the Myyoast_Connection_Data_Presenter class.
  *
- * @covers \Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter::present
+ * @coversDefaultClass \Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter
  */
 final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 
 	/**
-	 * The status payload returned by the Status_Presenter.
+	 * Status payload with `is_provisioned` set to `true`.
 	 *
 	 * @var array<string, mixed>
 	 */
@@ -35,7 +33,21 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 	];
 
 	/**
-	 * The instance to test.
+	 * Status payload with `is_provisioned` set to `false`.
+	 *
+	 * @var array<string, mixed>
+	 */
+	private const UNPROVISIONED_STATUS = [
+		'is_provisioned'      => false,
+		'is_registered'       => false,
+		'registered_at'       => null,
+		'registered_at_iso'   => null,
+		'redirect_uris'       => [],
+		'redirect_uris_match' => true,
+	];
+
+	/**
+	 * The instance under test.
 	 *
 	 * @var Myyoast_Connection_Data_Presenter
 	 */
@@ -91,7 +103,35 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the constructor stores all dependencies.
+	 *
+	 * @covers ::__construct
+	 *
+	 * @return void
+	 */
+	public function test_constructor() {
+		$this->assertInstanceOf(
+			MyYoast_Connection_Conditional::class,
+			$this->getPropertyValue( $this->instance, 'myyoast_connection_conditional' ),
+		);
+		$this->assertInstanceOf(
+			Status_Presenter::class,
+			$this->getPropertyValue( $this->instance, 'status_presenter' ),
+		);
+		$this->assertInstanceOf(
+			Connection_Permission::class,
+			$this->getPropertyValue( $this->instance, 'connection_permission' ),
+		);
+		$this->assertInstanceOf(
+			Short_Link_Helper::class,
+			$this->getPropertyValue( $this->instance, 'short_link_helper' ),
+		);
+	}
+
+	/**
 	 * Tests that the payload is null when the feature flag is disabled.
+	 *
+	 * @covers ::present
 	 *
 	 * @return void
 	 */
@@ -99,6 +139,59 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturnFalse();
 
 		$this->assertNull( $this->instance->present() );
+	}
+
+	/**
+	 * Tests that `isProvisioned` is false when the site is not yet provisioned.
+	 *
+	 * @covers ::present
+	 *
+	 * @return void
+	 */
+	public function test_is_provisioned_false_when_site_not_provisioned() {
+		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturnTrue();
+		$this->status_presenter->expects( 'present' )->once()->andReturn( self::UNPROVISIONED_STATUS );
+		$this->connection_permission->expects( 'can_manage' )->once()->andReturnFalse();
+
+		Monkey\Functions\expect( 'wp_create_nonce' )->never();
+		Monkey\Functions\expect( 'add_query_arg' )->never();
+
+		$this->short_link_helper->expects( 'get' )
+			->once()
+			->with( 'https://yoa.st/ai-myyoast-connection' )
+			->andReturn( 'https://yoa.st/ai-myyoast-connection?utm=1' );
+
+		$result = $this->instance->present();
+
+		$this->assertFalse( $result['isProvisioned'] );
+	}
+
+	/**
+	 * Tests that a non-boolean `is_provisioned` value is treated as false.
+	 *
+	 * @covers ::present
+	 *
+	 * @return void
+	 */
+	public function test_non_boolean_is_provisioned_is_treated_as_false() {
+		$status                   = self::UNPROVISIONED_STATUS;
+		$status['is_provisioned'] = 'yes';
+
+		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturnTrue();
+		$this->status_presenter->expects( 'present' )->once()->andReturn( $status );
+		$this->connection_permission->expects( 'can_manage' )->once()->andReturnFalse();
+
+		Monkey\Functions\expect( 'wp_create_nonce' )->never();
+		Monkey\Functions\expect( 'add_query_arg' )->never();
+
+		$this->short_link_helper->expects( 'get' )
+			->once()
+			->with( 'https://yoa.st/ai-myyoast-connection' )
+			->andReturn( 'https://yoa.st/ai-myyoast-connection?utm=1' );
+
+		$result = $this->instance->present();
+
+		$this->assertFalse( $result['isProvisioned'] );
 	}
 
 	/**
@@ -110,6 +203,8 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 	 * it must not carry the HTML-encoded separators `wp_nonce_url()` would add —
 	 * otherwise the browser sends `amp;start-myyoast-connection` as the query-arg
 	 * name and the auto-start flow never triggers.
+	 *
+	 * @covers ::present
 	 *
 	 * @return void
 	 */
@@ -153,6 +248,8 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 
 	/**
 	 * Tests the payload for a user who cannot connect: the connect URL is omitted.
+	 *
+	 * @covers ::present
 	 *
 	 * @return void
 	 */
