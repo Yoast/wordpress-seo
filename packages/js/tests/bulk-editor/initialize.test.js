@@ -47,10 +47,6 @@ jest.mock( "../../src/bulk-editor/store", () => ( {
 	"default": ( ...args ) => mockRegisterStore( ...args ),
 } ) );
 
-jest.mock( "../../src/ai-generator/store/myyoast-connection", () => ( {
-	MYYOAST_CONNECTION_NAME: "myyoastConnection",
-} ) );
-
 jest.mock( "../../src/shared-admin/helpers", () => ( {
 	fixWordPressMenuScrolling: () => mockFixScrolling(),
 } ) );

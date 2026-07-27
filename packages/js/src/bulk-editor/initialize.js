@@ -8,14 +8,13 @@ import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import { GenericAlert } from "../ai-generator/components/errors";
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
-import { LINK_PARAMS_NAME } from "../shared-admin/store";
+import { LINK_PARAMS_NAME, MYYOAST_CONNECTION_NAME } from "../shared-admin/store";
 import App from "./app";
 import { UpsellModal } from "./components/upsell-modal";
 import { PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
 import { useAiUpsell } from "./hooks/use-ai-upsell";
 import { DataProvider } from "./services";
 import registerStore from "./store";
-import { MYYOAST_CONNECTION_NAME } from "../ai-generator/store/myyoast-connection";
 
 // Expose the bulk AI upsell and the generic error alert so Premium can reuse them instead of duplicating: the
 // upsell modal, and the error alert its consent flow shows when granting consent fails. Premium's bulk-editor

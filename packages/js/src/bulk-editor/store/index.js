@@ -7,7 +7,7 @@ import {
 	myyoastConnectionActions,
 	myyoastConnectionReducer,
 	myyoastConnectionSelectors,
-} from "../../ai-generator/store/myyoast-connection";
+} from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import activeContentType, { activeContentTypeActions, activeContentTypeSelectors, createInitialActiveContentTypeState } from "./active-content-type";
 import activeFieldSet, { activeFieldSetActions, activeFieldSetSelectors, createInitialActiveFieldSetState } from "./active-field-set";

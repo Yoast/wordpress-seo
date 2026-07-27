@@ -3,7 +3,7 @@ import { select } from "@wordpress/data";
 import { addAction, addFilter } from "@wordpress/hooks";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
-import { HAS_AI_GENERATOR_CONSENT_NAME } from "../shared-admin/store";
+import { HAS_AI_GENERATOR_CONSENT_NAME, MYYOAST_CONNECTION_NAME } from "../shared-admin/store";
 import { App, TypeProvider } from "./components";
 import { PREVIEW_TYPE, STORE_NAME_EDITOR } from "./constants";
 import { filterFocusKeyphraseErrors, initializePromptContent, updateInteractedWithFeature } from "./initialize/index";
@@ -12,7 +12,6 @@ import { PRODUCT_SUBSCRIPTIONS_NAME } from "./store/product-subscriptions";
 import { ENDPOINTS_NAME } from "./store/endpoints";
 import { USAGE_COUNT_NAME } from "./store/usage-count";
 import { FREE_SPARKS_NAME } from "./store/free-sparks";
-import { MYYOAST_CONNECTION_NAME } from "./store/myyoast-connection";
 import domReady from "@wordpress/dom-ready";
 
 /**
