@@ -11,7 +11,7 @@ import PageTitleWidthAssessment from "../assessments/seo/PageTitleWidthAssessmen
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
 import SingleH1Assessment from "../assessments/seo/SingleH1Assessment.js";
 import { createAnchorOpeningTag } from "../../helpers";
-import SEOScoreAggregator from "../scoreAggregators/SEOScoreAggregator";
+import ValidOnlyResultsScoreAggregator from "../scoreAggregators/ValidOnlyResultsScoreAggregator";
 
 /**
  * Returns the text length assessment to use.
@@ -63,6 +63,6 @@ export default class TaxonomyAssessor extends Assessor {
 			new SingleH1Assessment(),
 		];
 
-		this._scoreAggregator = new SEOScoreAggregator();
+		this._scoreAggregator = new ValidOnlyResultsScoreAggregator();
 	}
 }

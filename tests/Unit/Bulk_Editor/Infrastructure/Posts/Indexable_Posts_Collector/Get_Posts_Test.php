@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::resolve_total
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_query
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::apply_search
+ * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::apply_needs_improvement
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_post
  */
 final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
@@ -265,7 +266,7 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		Functions\expect( 'get_the_title' )->once()->with( 5 )->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->with( 5, 'raw' )->andReturn( 'edit' );
 
-		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 5, 3 ] ) )->to_array();
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [], true, [ 5, 3 ] ) )->to_array();
 
 		$this->assertSame( 5, $result['posts'][0]['id'] );
 		$this->assertSame( 1, $result['total'] );
@@ -290,5 +291,129 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$this->indexable_repository->allows( 'query' )->andReturn( $query );
 
 		return $query;
+	}
+
+	/**
+	 * Tests that the needs-improvement filter adds an empty-column clause for each selected field.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_filters_on_needs_improvement() {
+		$captured = [];
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		// The clause backs both the page query and the fallback count query, so it is added twice.
+		// Per search-tab field: the empty string plus the bad/ok score range bounds are bound.
+		$query->expects( 'where_raw' )
+			->twice()
+			->with(
+				Mockery::on(
+					static function ( $clause ) use ( &$captured ) {
+						$captured[] = $clause;
+
+						return true;
+					},
+				),
+				[ '', 1, 70, '', 1, 70 ],
+			)
+			->andReturnSelf();
+		$query->allows( 'count' )->andReturn( 0 );
+		$query->expects( 'find_many' )->once()->andReturn( [] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->allows( 'resolve' )->andReturn( [] );
+
+		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 'seo_title', 'meta_description' ] ) );
+
+		$this->assertStringContainsString( 'title IS NULL', $captured[0] );
+		$this->assertStringContainsString( 'seo_title_score BETWEEN %d AND %d', $captured[0] );
+		$this->assertStringContainsString( 'description IS NULL', $captured[0] );
+		$this->assertStringContainsString( 'meta_description_score BETWEEN %d AND %d', $captured[0] );
+	}
+
+	/**
+	 * Tests that the social fields match on emptiness only: they have no persisted score.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_needs_improvement_social_fields_have_no_score_clause() {
+		$captured = [];
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		$query->expects( 'where_raw' )
+			->twice()
+			->with(
+				Mockery::on(
+					static function ( $clause ) use ( &$captured ) {
+						$captured[] = $clause;
+
+						return true;
+					},
+				),
+				[ '', '' ],
+			)
+			->andReturnSelf();
+		$query->allows( 'count' )->andReturn( 0 );
+		$query->expects( 'find_many' )->once()->andReturn( [] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->allows( 'resolve' )->andReturn( [] );
+
+		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 'social_title', 'social_description' ] ) );
+
+		$this->assertStringContainsString( 'open_graph_title IS NULL', $captured[0] );
+		$this->assertStringContainsString( 'open_graph_description IS NULL', $captured[0] );
+		$this->assertStringNotContainsString( 'BETWEEN', $captured[0] );
+	}
+
+	/**
+	 * Tests that the score clause is dropped when scoring is disabled, so the search fields match on
+	 * emptiness only.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_needs_improvement_omits_score_clause_when_scoring_disabled() {
+		$captured = [];
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		// With scoring disabled only the empty string is bound per field: no score range.
+		$query->expects( 'where_raw' )
+			->twice()
+			->with(
+				Mockery::on(
+					static function ( $clause ) use ( &$captured ) {
+						$captured[] = $clause;
+
+						return true;
+					},
+				),
+				[ '', '' ],
+			)
+			->andReturnSelf();
+		$query->allows( 'count' )->andReturn( 0 );
+		$query->expects( 'find_many' )->once()->andReturn( [] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->allows( 'resolve' )->andReturn( [] );
+
+		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 'seo_title', 'meta_description' ], false ) );
+
+		$this->assertStringContainsString( 'title IS NULL', $captured[0] );
+		$this->assertStringNotContainsString( 'BETWEEN', $captured[0] );
 	}
 }

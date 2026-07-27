@@ -75,6 +75,22 @@ class Meta_Writer implements Meta_Writer_Interface {
 	}
 
 	/**
+	 * Writes a per-field score for a post.
+	 *
+	 * The score is routed through the same sanitization as a normal post save, which clamps it to a
+	 * 0-100 integer.
+	 *
+	 * @param int    $post_id The ID of the post.
+	 * @param string $key     The score meta key (without prefix) to write.
+	 * @param int    $score   The 0-100 score to write.
+	 *
+	 * @return void
+	 */
+	public function write_score( int $post_id, string $key, int $score ): void {
+		$this->write( $key, $post_id, (string) $score );
+	}
+
+	/**
 	 * Sanitizes and persists a value under the given meta key.
 	 *
 	 * @param string $key     The meta key (without prefix) to store the value under.

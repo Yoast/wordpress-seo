@@ -157,6 +157,7 @@ final class Get_Initial_Selection_Test extends Abstract_Bulk_Editor_Integration_
 			[
 				'rest_url'            => 'https://example.com/wp-json/',
 				'is_rtl'              => false,
+				'get_locale'          => 'en_US',
 				'plugins_url'         => 'https://example.com/wp-content/plugins/wordpress-seo',
 				'admin_url'           => static function ( $path ) {
 					return 'https://example.com/wp-admin/' . $path;

@@ -1,6 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
-import { PAGE_SIZE, STORE_NAME } from "../constants";
+import { useCallback, useEffect, useMemo, useRef, useState } from "@wordpress/element";
+import { NEEDS_IMPROVEMENT_FIELD_PARAMS, PAGE_SIZE, STORE_NAME } from "../constants";
 
 /**
  * Maps a single API row (snake_case) to a {@link BulkEditorItem} (camelCase).
@@ -63,9 +63,17 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 	const search = useSelect( ( select ) => select( STORE_NAME ).selectSearch(), [] );
 	const page = useSelect( ( select ) => select( STORE_NAME ).selectPage(), [] );
 	const statuses = useSelect( ( select ) => select( STORE_NAME ).selectStatuses(), [] );
+	const needsImprovement = useSelect( ( select ) => select( STORE_NAME ).selectNeedsImprovement(), [] );
+	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const overviewIds = useSelect( ( select ) => select( STORE_NAME ).selectOverviewIds(), [] );
 	const isOverviewFilterActive = useSelect( ( select ) => select( STORE_NAME ).selectIsOverviewFilterActive(), [] );
 	const { pruneSelection } = useDispatch( STORE_NAME );
+
+	// Resolve the tab-agnostic "needs improvement" concepts to the active tab's concrete field params.
+	const needsImprovementFields = useMemo( () => {
+		const fieldParams = NEEDS_IMPROVEMENT_FIELD_PARAMS[ activeFieldSet ] ?? {};
+		return needsImprovement.map( ( concept ) => fieldParams[ concept ] ).filter( Boolean );
+	}, [ needsImprovement, activeFieldSet ] );
 
 	const endpoint = dataProvider.getEndpoint( "posts" );
 
@@ -92,6 +100,7 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 			page: String( page ),
 			search,
 			status: statuses,
+			needs_improvement: needsImprovementFields,
 			/* eslint-enable camelcase */
 		};
 		// The "Overview selection" filter narrows the list to the posts carried over from the WP admin overview.
@@ -124,7 +133,10 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 			} );
 
 		return () => current.abort();
-	}, [ endpoint, contentType, remoteDataProvider, search, page, statuses, overviewIds, isOverviewFilterActive, pruneSelection ] );
+	}, [
+		endpoint, contentType, remoteDataProvider, search, page, statuses,
+		needsImprovementFields, overviewIds, isOverviewFilterActive, pruneSelection,
+	] );
 
 	return { ...state, updateItem };
 };

@@ -254,13 +254,62 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 						'error'   => Update_Error::NOT_FOUND,
 					],
 					[
-						'id'      => 2,
-						'success' => true,
+						'id'       => 2,
+						'success'  => true,
+						'rendered' => [
+							'seo_title'        => 'rendered-title',
+							'meta_description' => 'rendered-metadesc',
+						],
 					],
 				],
 			],
 			$this->instance->update( $type, $updates )->to_array(),
 		);
+	}
+
+	/**
+	 * Tests a successful search update returns the rendered search fields for re-scoring.
+	 *
+	 * @return void
+	 */
+	public function test_update_search_returns_rendered_fields() {
+		$type = Update_Type::search();
+		$this->expect_editable_post( 123 );
+		$this->meta_writer->expects( 'write_title' )->with( $type, 123, 'The title' );
+
+		$updates = new Post_Update_Collection();
+		$updates->add( new Post_Update( 123, 'The title', null, null ) );
+
+		$results = $this->instance->update( $type, $updates )->to_array();
+
+		// Both search fields are rendered, regardless of which one changed: the SEO title maps to the
+		// 'title' meta and the meta description to the 'metadesc' meta (see the abstract's render stub).
+		$this->assertSame(
+			[
+				'seo_title'        => 'rendered-title',
+				'meta_description' => 'rendered-metadesc',
+			],
+			$results['results'][0]['rendered'],
+		);
+	}
+
+	/**
+	 * Tests a successful social update does not render fields: the social appearance has no assessors.
+	 *
+	 * @return void
+	 */
+	public function test_update_social_does_not_return_rendered_fields() {
+		$type = Update_Type::social();
+		$this->expect_editable_post( 123 );
+		$this->meta_writer->expects( 'write_title' )->with( $type, 123, 'The title' );
+		$this->field_renderer->expects( 'render' )->never();
+
+		$updates = new Post_Update_Collection();
+		$updates->add( new Post_Update( 123, 'The title', null, null ) );
+
+		$results = $this->instance->update( $type, $updates )->to_array();
+
+		$this->assertArrayNotHasKey( 'rendered', $results['results'][0] );
 	}
 
 	/**
