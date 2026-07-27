@@ -145,88 +145,90 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	} ), [ selectedIds, toggleRow ] );
 
 	return (
-		<div className="yst-p-8 yst-space-y-6">
-			<div className="yst-flex yst-flex-col yst-gap-4 sm:yst-flex-row sm:yst-items-start sm:yst-justify-between">
-				<BulkEditorTabs
-					tabs={ tabs }
-					activeTab={ activeFieldSet }
-					disabled={ hasExternalGeneration }
-					onChange={ onChangeTab }
-					label={ __( "Bulk editor views", "wordpress-seo" ) }
-				/>
-				<SearchBox contentTypeLabel={ contentTypeLabel } />
-			</div>
-			{ tabs.map( ( tab ) => (
-				<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-					<BulkEditorTable
-						items={ items }
-						fieldSet={ fieldSets[ tab.id ] }
-						selection={ selection }
-						editing={ editing }
-						selectionToolbar={
-							<SelectionToolbar
-								idSuffix={ `-${ tab.id }` }
-								isAllSelected={ isAllSelected }
-								isIndeterminate={ isIndeterminate }
-								onToggleAll={ onToggleAll }
-								onSelectAll={ onSelectAll }
-								onDeselectAll={ deselectAll }
-								selectedCount={ selectedCount }
-								totalCount={ totalCount }
-								contentTypeLabel={ contentTypeLabel }
-							/>
-						}
-						bulkActions={
-							<BulkActions
-								isPremium={ isPremium }
-								isAiEnabled={ isAiEnabled }
-								isActive={ tab.id === activeFieldSet }
-								selectedIds={ selectedIds }
-								activeFieldSet={ activeFieldSet }
-								contentType={ contentType }
-								contentTypeLabel={ contentTypeLabel }
-								contentTypeSingularLabel={ contentTypeSingularLabel }
-								hasUnsavedEdits={ hasUnsavedEdits }
-								editCount={ editCount }
-								onApplyAll={ editing.onApplyAll }
-								onDiscardAll={ editing.onDiscardAll }
-								isApplyingAll={ editing.isApplyingAll }
-								hasSaveError={ editing.hasSaveError }
-								onDismissSaveError={ editing.dismissSaveError }
-							/>
-						}
-						// A selection only warrants the band while AI is enabled (the AI affordances are its only
-						// selection-driven occupant); with AI off the band collapses. Unsaved manual edits are a
-						// separate, non-AI occupant, so they keep it open regardless of the AI toggle. External
-						// pending changes (Premium's AI suggestions) also keep it open: a filter, search, or page
-						// change clears the selection but must leave the pending suggestions actionable.
-						showBulkActions={ ( hasSelection && isAiEnabled ) || hasUnsavedEdits || hasExternalPendingChanges }
-						filters={ <BulkEditorFilters /> }
-						isLoading={ isPending }
-						hasExternalPendingChanges={ hasExternalPendingChanges }
-						hasExternalGeneration={ hasExternalGeneration }
-						footer={ total > 0
-							? <BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
-							: null }
+		<>
+			<div className="yst-p-8 yst-space-y-6">
+				<div className="yst-flex yst-flex-col yst-gap-4 sm:yst-flex-row sm:yst-items-start sm:yst-justify-between">
+					<BulkEditorTabs
+						tabs={ tabs }
+						activeTab={ activeFieldSet }
+						disabled={ hasExternalGeneration }
+						onChange={ onChangeTab }
+						label={ __( "Bulk editor views", "wordpress-seo" ) }
 					/>
-				</BulkEditorTabPanel>
-			) ) }
-			<UnsavedChangesModal
-				isOpen={ hasUnsavedEdits && pendingSwitch !== null }
-				isSaving={ editing.isApplyingAll }
-				onSave={ onSaveAndSwitch }
-				onDiscard={ onDiscardAndSwitch }
-				onClose={ onCancelSwitch }
-			/>
-			<Slot
-				name={ PENDING_CHANGES_MODAL_SLOT }
-				fillProps={ {
-					isOpen: pendingSwitch !== null && ! hasUnsavedEdits,
-					onCommit: onCommitSwitch,
-					onCancel: onCancelSwitch,
-				} }
-			/>
+					<SearchBox contentTypeLabel={ contentTypeLabel } />
+				</div>
+				{ tabs.map( ( tab ) => (
+					<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
+						<BulkEditorTable
+							items={ items }
+							fieldSet={ fieldSets[ tab.id ] }
+							selection={ selection }
+							editing={ editing }
+							selectionToolbar={
+								<SelectionToolbar
+									idSuffix={ `-${ tab.id }` }
+									isAllSelected={ isAllSelected }
+									isIndeterminate={ isIndeterminate }
+									onToggleAll={ onToggleAll }
+									onSelectAll={ onSelectAll }
+									onDeselectAll={ deselectAll }
+									selectedCount={ selectedCount }
+									totalCount={ totalCount }
+									contentTypeLabel={ contentTypeLabel }
+								/>
+							}
+							bulkActions={
+								<BulkActions
+									isPremium={ isPremium }
+									isAiEnabled={ isAiEnabled }
+									isActive={ tab.id === activeFieldSet }
+									selectedIds={ selectedIds }
+									activeFieldSet={ activeFieldSet }
+									contentType={ contentType }
+									contentTypeLabel={ contentTypeLabel }
+									contentTypeSingularLabel={ contentTypeSingularLabel }
+									hasUnsavedEdits={ hasUnsavedEdits }
+									editCount={ editCount }
+									onApplyAll={ editing.onApplyAll }
+									onDiscardAll={ editing.onDiscardAll }
+									isApplyingAll={ editing.isApplyingAll }
+									hasSaveError={ editing.hasSaveError }
+									onDismissSaveError={ editing.dismissSaveError }
+								/>
+							}
+							// A selection only warrants the band while AI is enabled (the AI affordances are its only
+							// selection-driven occupant); with AI off the band collapses. Unsaved manual edits are a
+							// separate, non-AI occupant, so they keep it open regardless of the AI toggle. External
+							// pending changes (Premium's AI suggestions) also keep it open: a filter, search, or page
+							// change clears the selection but must leave the pending suggestions actionable.
+							showBulkActions={ ( hasSelection && isAiEnabled ) || hasUnsavedEdits || hasExternalPendingChanges }
+							filters={ <BulkEditorFilters /> }
+							isLoading={ isPending }
+							hasExternalPendingChanges={ hasExternalPendingChanges }
+							hasExternalGeneration={ hasExternalGeneration }
+							footer={ total > 0
+								? <BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
+								: null }
+						/>
+					</BulkEditorTabPanel>
+				) ) }
+				<UnsavedChangesModal
+					isOpen={ hasUnsavedEdits && pendingSwitch !== null }
+					isSaving={ editing.isApplyingAll }
+					onSave={ onSaveAndSwitch }
+					onDiscard={ onDiscardAndSwitch }
+					onClose={ onCancelSwitch }
+				/>
+				<Slot
+					name={ PENDING_CHANGES_MODAL_SLOT }
+					fillProps={ {
+						isOpen: pendingSwitch !== null && ! hasUnsavedEdits,
+						onCommit: onCommitSwitch,
+						onCancel: onCancelSwitch,
+					} }
+				/>
+			</div>
 			<BulkEditorTour onSelectAll={ onSelectAll } onDeselectAll={ deselectAll } hasSelection={ hasSelection } />
-		</div>
+		</>
 	);
 };

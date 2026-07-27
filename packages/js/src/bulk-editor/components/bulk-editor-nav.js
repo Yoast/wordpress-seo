@@ -7,6 +7,9 @@ import { noop } from "lodash";
 import { YoastLogo } from "../../shared-admin/components";
 import { BackToToolsLink } from "./back-to-tools-link";
 
+// The WordPress built-in content types, used to scope the guided-tour spotlight to Posts and Pages.
+const BUILT_IN_CONTENT_TYPES = [ "post", "page" ];
+
 /**
  * One content type entry.
  *
@@ -19,14 +22,15 @@ import { BackToToolsLink } from "./back-to-tools-link";
  * One content type item. Selecting a content type changes view state, it does not navigate.
  * The active state comes from the SidebarNavigation context.
  *
- * @param {Object}                props             The props.
- * @param {BulkEditorContentType} props.contentType The content type.
- * @param {boolean}               props.disabled    Whether the item is disabled.
- * @param {Function}              props.onChange    Called with the content type id when selected.
+ * @param {Object}                props                 The props.
+ * @param {BulkEditorContentType} props.contentType     The content type.
+ * @param {boolean}               props.disabled        Whether the item is disabled.
+ * @param {Function}              props.onChange        Called with the content type id when selected.
+ * @param {boolean}               [props.isHighlightEnd] Whether this is the last item the guided-tour spotlight covers.
  *
  * @returns {JSX.Element} The item.
  */
-const ContentTypeItem = ( { contentType, disabled, onChange } ) => {
+const ContentTypeItem = ( { contentType, disabled, onChange, isHighlightEnd = false } ) => {
 	const handleClick = useCallback( () => onChange( contentType.id ), [ onChange, contentType.id ] );
 
 	return (
@@ -39,6 +43,7 @@ const ContentTypeItem = ( { contentType, disabled, onChange } ) => {
 			disabled={ disabled }
 			onClick={ handleClick }
 			className={ classNames( "yst-w-full", { "yst-opacity-50": disabled } ) }
+			{ ...( isHighlightEnd ? { "data-tour-highlight-end": "true" } : {} ) }
 		/>
 	);
 };
@@ -111,6 +116,19 @@ export const BulkEditorNavMenu = ( {
 } ) => {
 	const hiddenCount = contentTypes.length - visibleLimit;
 
+	// The in-app guided-tour covers only the leading built-in content types (Posts, Pages),
+	// never commerce or custom types.
+	const highlightEndIndex = ( () => {
+		let end = -1;
+		for ( let index = 0; index < contentTypes.length && index < 2; index++ ) {
+			if ( ! BUILT_IN_CONTENT_TYPES.includes( contentTypes[ index ].id ) ) {
+				break;
+			}
+			end = index;
+		}
+		return end;
+	} )();
+
 	const showMoreLabel = sprintf(
 		/* translators: %d expands to the number of additional content types. */
 		_n( "Show %d more", "Show %d more", hiddenCount, "wordpress-seo" ),
@@ -132,8 +150,14 @@ export const BulkEditorNavMenu = ( {
 					showMoreLabel={ showMoreLabel }
 					showLessLabel={ __( "Show less", "wordpress-seo" ) }
 				>
-					{ contentTypes.map( ( contentType ) => (
-						<ContentTypeItem key={ contentType.id } contentType={ contentType } disabled={ disabled } onChange={ onChange } />
+					{ contentTypes.map( ( contentType, index ) => (
+						<ContentTypeItem
+							key={ contentType.id }
+							contentType={ contentType }
+							disabled={ disabled }
+							onChange={ onChange }
+							isHighlightEnd={ index === highlightEndIndex }
+						/>
 					) ) }
 				</SidebarNavigation.MenuItemWithLimiter>
 			</div>

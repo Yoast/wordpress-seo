@@ -5,6 +5,9 @@ import { TourCard } from "./tour-card";
 import { getTourSteps } from "./tour-steps";
 import { useTourAnchor } from "./use-tour-anchor";
 
+// The id linking the overlay's rectangle to its cut-out mask. Only one tour is active at a time, so a constant is safe.
+const SPOTLIGHT_MASK_ID = "yoast-bulk-editor-tour-spotlight-mask";
+
 /**
  * The first-time guided tour for the bulk editor.
  *
@@ -52,7 +55,10 @@ export const BulkEditorTour = ( { onSelectAll, onDeselectAll, hasSelection } ) =
 		}
 	}, [ isActive, step, hasSelection, onSelectAll ] );
 
-	const { style } = useTourAnchor( `[data-tour-id="${ step.tourId }"]`, isActive );
+	const { spotlight } = useTourAnchor( `[data-tour-id="${ step.tourId }"]`, isActive, {
+		endSelector: step.highlightEndSelector,
+		perChild: step.highlightChildren,
+	} );
 
 	const finish = useCallback( () => {
 		if ( didAutoSelect.current ) {
@@ -64,35 +70,71 @@ export const BulkEditorTour = ( { onSelectAll, onDeselectAll, hasSelection } ) =
 	}, [ onDeselectAll, setOptInNotificationSeen ] );
 
 	const onNext = useCallback( () => {
-		setStepIndex( ( index ) => {
-			if ( index >= steps.length - 1 ) {
-				finish();
-				return index;
-			}
-			return index + 1;
-		} );
-	}, [ steps.length, finish ] );
+		// finish() dispatches store updates, so it runs from the event handler, not inside a state updater.
+		if ( isLastStep ) {
+			finish();
+			return;
+		}
+		setStepIndex( ( index ) => index + 1 );
+	}, [ isLastStep, finish ] );
 
 	const onBack = useCallback( () => setStepIndex( ( index ) => Math.max( 0, index - 1 ) ), [] );
 
-	if ( ! isActive || ! style ) {
+	if ( ! isActive || ! spotlight ) {
 		return null;
 	}
 
+	const { rects, bounds, viewport } = spotlight;
+
 	return (
-		<div className="yst-fixed yst-z-[100000]" style={ style }>
-			<TourCard
-				id={ step.id }
-				title={ step.title }
-				content={ step.content }
-				position={ step.position }
-				currentStep={ stepIndex + 1 }
-				totalSteps={ steps.length }
-				isLastStep={ isLastStep }
-				onNext={ onNext }
-				onBack={ stepIndex > 0 ? onBack : null }
-				onSkip={ finish }
-			/>
-		</div>
+		<>
+			<div className="yst-fixed yst-inset-0 yst-z-[100000]" />
+			<svg
+				className="yst-tour-spotlight yst-fixed yst-inset-0 yst-z-[100000]"
+				width={ viewport.width }
+				height={ viewport.height }
+				aria-hidden="true"
+			>
+				<defs>
+					<mask id={ SPOTLIGHT_MASK_ID } maskUnits="userSpaceOnUse" x="0" y="0" width={ viewport.width } height={ viewport.height }>
+						<rect x="0" y="0" width={ viewport.width } height={ viewport.height } fill="#fff" />
+						{ rects.map( ( rect, index ) => (
+							<rect
+								key={ index }
+								x={ rect.left }
+								y={ rect.top }
+								width={ rect.width }
+								height={ rect.height }
+								rx={ rect.rx }
+								fill="#000"
+							/>
+						) ) }
+					</mask>
+				</defs>
+				<rect
+					x="0"
+					y="0"
+					width={ viewport.width }
+					height={ viewport.height }
+					fill="#64748b"
+					fillOpacity="0.75"
+					mask={ `url(#${ SPOTLIGHT_MASK_ID })` }
+				/>
+			</svg>
+			<div className="yst-fixed yst-z-[100000]" style={ bounds }>
+				<TourCard
+					id={ step.id }
+					title={ step.title }
+					content={ step.content }
+					position={ step.position }
+					currentStep={ stepIndex + 1 }
+					totalSteps={ steps.length }
+					isLastStep={ isLastStep }
+					onNext={ onNext }
+					onBack={ stepIndex > 0 ? onBack : null }
+					onSkip={ finish }
+				/>
+			</div>
+		</>
 	);
 };

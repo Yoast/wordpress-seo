@@ -79,22 +79,24 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminat
 	}, [ isIndeterminate ] );
 
 	return (
-		<div className="yst-flex yst-items-center yst-gap-4" data-tour-id="selection-toolbar">
-			<Checkbox
-				ref={ checkboxRef }
-				id={ `bulk-editor-select-all${ idSuffix }` }
-				name={ `bulk-editor-select-all${ idSuffix }` }
-				value="all"
-				aria-label={ __( "Select all", "wordpress-seo" ) }
-				checked={ isAllSelected }
-				onChange={ onToggleAll }
-			/>
-			<SelectMenu
-				onSelectAll={ onSelectAll }
-				onDeselectAll={ onDeselectAll }
-				selectedCount={ selectedCount }
-				totalCount={ totalCount }
-			/>
+		<div className="yst-flex yst-items-center yst-gap-4">
+			<div className="yst-flex yst-items-center yst-gap-4" data-tour-id="selection-toolbar">
+				<Checkbox
+					ref={ checkboxRef }
+					id={ `bulk-editor-select-all${ idSuffix }` }
+					name={ `bulk-editor-select-all${ idSuffix }` }
+					value="all"
+					aria-label={ __( "Select all", "wordpress-seo" ) }
+					checked={ isAllSelected }
+					onChange={ onToggleAll }
+				/>
+				<SelectMenu
+					onSelectAll={ onSelectAll }
+					onDeselectAll={ onDeselectAll }
+					selectedCount={ selectedCount }
+					totalCount={ totalCount }
+				/>
+			</div>
 			{ selectedCount > 0 && (
 				<span className="yst-font-medium yst-text-slate-800">
 					{ sprintf(
@@ -249,11 +251,13 @@ const BulkActionsNotices = ( {
 const BulkActionsBand = ( {
 	isPremium, isAiEnabled, isActive, selectedIds, activeFieldSet, contentType, hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll,
 } ) => (
-	<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3" data-tour-id="generate-actions">
-		{ ! isPremium && isAiEnabled && <FreeBulkActions contentType={ contentType } /> }
-		{ isActive && (
-			<Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType, hasUnsavedEdits } } />
-		) }
+	<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
+		<div className="yst-flex yst-items-center yst-gap-3" data-tour-id="generate-actions">
+			{ ! isPremium && isAiEnabled && <FreeBulkActions contentType={ contentType } /> }
+			{ isActive && (
+				<Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType, hasUnsavedEdits } } />
+			) }
+		</div>
 		{ isActive && hasUnsavedEdits && (
 			<ManualReviewActions editCount={ editCount } onApplyAll={ onApplyAll } onDiscardAll={ onDiscardAll } isApplying={ isApplyingAll } />
 		) }

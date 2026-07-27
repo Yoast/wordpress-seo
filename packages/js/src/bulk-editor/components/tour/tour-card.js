@@ -5,6 +5,27 @@ import { Button, Popover, useSvgAria } from "@yoast/ui-library";
 import { ReactComponent as YoastIcon } from "../../../../images/Yoast_icon_kader.svg";
 
 /**
+ * Keeps Tab focus within a container.
+ *
+ * @param {KeyboardEvent} event The Tab keydown event; its `currentTarget` is the container to trap focus inside.
+ *
+ * @returns {void}
+ */
+const trapTab = ( event ) => {
+	const focusable = [ ...event.currentTarget.querySelectorAll(
+		"button, a[href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
+	) ].filter( ( element ) => ! element.disabled );
+	if ( focusable.length === 0 ) {
+		return;
+	}
+	const edge = event.shiftKey ? focusable[ 0 ] : focusable[ focusable.length - 1 ];
+	if ( document.activeElement === edge ) {
+		event.preventDefault();
+		( event.shiftKey ? focusable[ focusable.length - 1 ] : focusable[ 0 ] ).focus();
+	}
+};
+
+/**
  * A single step of the bulk editor guided tour, rendered as a ui-library Popover anchored to a target element.
  *
  * The card carries the step copy plus the tour navigation (progress, Back, Next/finish). Dismissing the popover ends the whole tour via `onSkip`.
@@ -46,8 +67,19 @@ export const TourCard = ( {
 		return () => clearTimeout( timeout );
 	}, [ currentStep ] );
 
-	// The close button, backdrop and Escape all resolve to hiding the popover, which ends the tour.
+	// The close button and Escape both resolve to hiding the popover, which ends the tour.
 	const handleVisibilityChange = useCallback( ( isVisible ) => ! isVisible && onSkip(), [ onSkip ] );
+
+	// The tour blocks the page, so the card behaves as a modal dialog: Escape closes it, and Tab is trapped within its
+	// controls, keeping keyboard users out of the page elements behind it.
+	const handleKeyDown = useCallback( ( event ) => {
+		if ( event.key === "Escape" ) {
+			event.preventDefault();
+			onSkip();
+		} else if ( event.key === "Tab" ) {
+			trapTab( event );
+		}
+	}, [ onSkip ] );
 
 	return <Popover
 		id={ id }
@@ -59,11 +91,12 @@ export const TourCard = ( {
 		setIsVisible={ handleVisibilityChange }
 		position={ position }
 		className={ className }
+		onKeyDown={ handleKeyDown }
 	>
 		<>
 			<div className="yst-flex yst-gap-3 yst-items-center">
 				<div className="yst-flex-shrink-0">
-					<YoastIcon className="yst-w-5 yst-h-5" { ...svgAriaProps } />
+					<YoastIcon className="yst-w-5 yst-h-5 yst-fill-primary-500" { ...svgAriaProps } />
 				</div>
 				<div className="yst-flex-grow">
 					<Popover.Title id={ `${ id }-title` } as="h3">
@@ -76,7 +109,7 @@ export const TourCard = ( {
 				{ content }
 			</Popover.Content>
 			<div className="yst-flex yst-gap-3 yst-justify-between yst-items-center yst-mt-3">
-				<span className="yst-text-slate-500">
+				<span className="yst-ms-8 yst-text-slate-500">
 					{ sprintf(
 						/* translators: %1$s is the current step number, %2$s is the total number of steps. */
 						__( "%1$s / %2$s", "wordpress-seo" ),

@@ -12,6 +12,7 @@ export const getTourSteps = () => [
 	{
 		id: "bulk-editor-tour-content-type",
 		tourId: "content-type-nav",
+		highlightEndSelector: "[data-tour-highlight-end]",
 		position: "right",
 		title: __( "Select your content type", "wordpress-seo" ),
 		content: __( "This will refine the content to what you want to update.", "wordpress-seo" ),
@@ -26,6 +27,7 @@ export const getTourSteps = () => [
 	{
 		id: "bulk-editor-tour-multi-select",
 		tourId: "selection-toolbar",
+		highlightChildren: true,
 		position: "right",
 		title: __( "Multi-select", "wordpress-seo" ),
 		content: __( "Choose the rows you want to update. Use the dropdown for additional options.", "wordpress-seo" ),
@@ -33,7 +35,8 @@ export const getTourSteps = () => [
 	{
 		id: "bulk-editor-tour-generate",
 		tourId: "generate-actions",
-		position: "bottom-right",
+		highlightChildren: true,
+		position: "right",
 		requiresSelection: true,
 		title: __( "Get SEO-friendly options at scale", "wordpress-seo" ),
 		content: __( "Generate up to 20 results at a time. Great for website refreshes!", "wordpress-seo" ),

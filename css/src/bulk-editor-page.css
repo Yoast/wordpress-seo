@@ -113,11 +113,7 @@
 	@apply yst-outline-none;
 }
 
-/* The guided-tour spotlight: lifts the highlighted element above a viewport-filling shadow that dims the rest
- * of the page, so the current step's target stays bright. The shadow roves as the class moves each step. */
-.yst-root .yst-feature-highlight {
-	position: relative;
-	z-index: 10; /* Above page content (z:auto); the tour card wrapper (z:100000) stays above the shadow. */
-	box-shadow: 0 0 0 100vmax rgb(100 116 139 / 0.75); /* Slate-500/75 spotlight dim. */
-	border-radius: 0.5rem; /* Soften the bright cut-out's corners. */
+/* The in-app guided-tour. It is decorative only so prevents interaction */
+.yst-root .yst-tour-spotlight {
+	pointer-events: none;
 }
