@@ -8,16 +8,13 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Integrations_Page;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\MyYoast_Client\User_Interface\Connection_Permission;
-use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 
 /**
  * Adds the bulk editor page to the Yoast admin menu.
@@ -91,40 +88,24 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
-	 * The MyYoast connection feature-flag conditional.
+	 * Builds the MyYoast connection payload for script data.
 	 *
-	 * @var MyYoast_Connection_Conditional
+	 * @var Myyoast_Connection_Data_Presenter
 	 */
-	private $myyoast_connection_conditional;
-
-	/**
-	 * The MyYoast connection status presenter.
-	 *
-	 * @var Status_Presenter
-	 */
-	private $status_presenter;
-
-	/**
-	 * The MyYoast connection-management permission check.
-	 *
-	 * @var Connection_Permission
-	 */
-	private $connection_permission;
+	private $myyoast_connection_data_presenter;
 
 	/**
 	 * Constructs the instance.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager      $asset_manager                  The WPSEO_Admin_Asset_Manager.
-	 * @param Current_Page_Helper            $current_page_helper            The Current_Page_Helper.
-	 * @param Product_Helper                 $product_helper                 The Product_Helper.
-	 * @param Short_Link_Helper              $short_link_helper              The Short_Link_Helper.
-	 * @param Content_Types_Repository       $content_types_repository       The Content_Types_Repository.
-	 * @param Nonce_Repository               $nonce_repository               The Nonce_Repository.
-	 * @param Endpoints_Repository           $endpoints_repository           The Endpoints_Repository.
-	 * @param Options_Helper                 $options_helper                 The Options_Helper.
-	 * @param MyYoast_Connection_Conditional $myyoast_connection_conditional The MyYoast connection feature-flag conditional.
-	 * @param Status_Presenter               $status_presenter               The MyYoast connection status presenter.
-	 * @param Connection_Permission          $connection_permission          The MyYoast connection-management permission check.
+	 * @param WPSEO_Admin_Asset_Manager         $asset_manager                     The WPSEO_Admin_Asset_Manager.
+	 * @param Current_Page_Helper               $current_page_helper               The Current_Page_Helper.
+	 * @param Product_Helper                    $product_helper                    The Product_Helper.
+	 * @param Short_Link_Helper                 $short_link_helper                 The Short_Link_Helper.
+	 * @param Content_Types_Repository          $content_types_repository          The Content_Types_Repository.
+	 * @param Nonce_Repository                  $nonce_repository                  The Nonce_Repository.
+	 * @param Endpoints_Repository              $endpoints_repository              The Endpoints_Repository.
+	 * @param Options_Helper                    $options_helper                    The Options_Helper.
+	 * @param Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter The MyYoast connection data presenter.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -135,21 +116,17 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		Nonce_Repository $nonce_repository,
 		Endpoints_Repository $endpoints_repository,
 		Options_Helper $options_helper,
-		MyYoast_Connection_Conditional $myyoast_connection_conditional,
-		Status_Presenter $status_presenter,
-		Connection_Permission $connection_permission
+		Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter
 	) {
-		$this->asset_manager                  = $asset_manager;
-		$this->current_page_helper            = $current_page_helper;
-		$this->product_helper                 = $product_helper;
-		$this->short_link_helper              = $short_link_helper;
-		$this->content_types_repository       = $content_types_repository;
-		$this->nonce_repository               = $nonce_repository;
-		$this->endpoints_repository           = $endpoints_repository;
-		$this->options_helper                 = $options_helper;
-		$this->myyoast_connection_conditional = $myyoast_connection_conditional;
-		$this->status_presenter               = $status_presenter;
-		$this->connection_permission          = $connection_permission;
+		$this->asset_manager                     = $asset_manager;
+		$this->current_page_helper               = $current_page_helper;
+		$this->product_helper                    = $product_helper;
+		$this->short_link_helper                 = $short_link_helper;
+		$this->content_types_repository          = $content_types_repository;
+		$this->nonce_repository                  = $nonce_repository;
+		$this->endpoints_repository              = $endpoints_repository;
+		$this->options_helper                    = $options_helper;
+		$this->myyoast_connection_data_presenter = $myyoast_connection_data_presenter;
 	}
 
 	/**
@@ -267,46 +244,8 @@ class Bulk_Editor_Integration implements Integration_Interface {
 				// Re-scoring only runs when SEO analysis is enabled, matching the post editor.
 				'keywordAnalysisActive' => $this->options_helper->get( 'keyword_analysis_active' ) === true,
 			],
-			'myyoastConnection' => $this->get_myyoast_connection_data(),
+			'myyoastConnection' => $this->myyoast_connection_data_presenter->present(),
 		];
-	}
-
-	/**
-	 * Builds the read-only MyYoast connection payload used to pick the
-	 * "Yoast AI cannot reach your site" notification variant in the bulk editor.
-	 *
-	 * Returns `null` when the feature flag is disabled, so the editor treats the
-	 * connection as unavailable and shows the informational-only variant.
-	 *
-	 * @return array{isProvisioned: bool, canConnect: bool, connectUrl: string|null}|null The MyYoast connection payload, or `null` when the feature flag is disabled.
-	 */
-	private function get_myyoast_connection_data() {
-		if ( ! $this->myyoast_connection_conditional->is_met() ) {
-			return null;
-		}
-
-		$status      = $this->status_presenter->present();
-		$can_connect = $this->connection_permission->can_manage();
-
-		return [
-			'isProvisioned' => $status['is_provisioned'] === true,
-			'canConnect'    => $can_connect,
-			'connectUrl'    => ( $can_connect ) ? $this->get_connect_url() : null,
-		];
-	}
-
-	/**
-	 * Builds the nonce-protected Integrations-page URL that auto-starts the
-	 * MyYoast connection flow when opened.
-	 *
-	 * @return string The connect URL.
-	 */
-	private function get_connect_url() {
-		return \add_query_arg(
-			'_wpnonce',
-			\wp_create_nonce( 'wpseo-start-myyoast-connection' ),
-			\self_admin_url( 'admin.php?page=' . Integrations_Page::PAGE . '&start-myyoast-connection=1' ),
-		);
 	}
 
 	/**

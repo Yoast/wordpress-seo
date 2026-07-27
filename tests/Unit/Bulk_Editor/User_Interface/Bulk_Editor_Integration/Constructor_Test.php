@@ -8,13 +8,11 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\MyYoast_Client\User_Interface\Connection_Permission;
-use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 
 /**
  * Tests the Bulk_Editor_Integration constructor.
@@ -64,16 +62,8 @@ final class Constructor_Test extends Abstract_Bulk_Editor_Integration_Test {
 			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
-			MyYoast_Connection_Conditional::class,
-			$this->getPropertyValue( $this->instance, 'myyoast_connection_conditional' ),
-		);
-		$this->assertInstanceOf(
-			Status_Presenter::class,
-			$this->getPropertyValue( $this->instance, 'status_presenter' ),
-		);
-		$this->assertInstanceOf(
-			Connection_Permission::class,
-			$this->getPropertyValue( $this->instance, 'connection_permission' ),
+			Myyoast_Connection_Data_Presenter::class,
+			$this->getPropertyValue( $this->instance, 'myyoast_connection_data_presenter' ),
 		);
 	}
 }

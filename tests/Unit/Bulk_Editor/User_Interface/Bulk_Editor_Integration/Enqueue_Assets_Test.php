@@ -91,7 +91,7 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 				},
 			);
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
-		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturn( false );
+		$this->myyoast_connection_data_presenter->expects( 'present' )->once()->andReturnNull();
 
 		$this->asset_manager->expects( 'localize_script' )
 			->once()
