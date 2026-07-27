@@ -102,8 +102,7 @@ describe( "BulkEditorTable", () => {
 		expect( screen.getByRole( "checkbox", { name: "Select On-Page SEO Checklist" } ) ).not.toBeChecked();
 
 		fireEvent.click( screen.getByRole( "checkbox", { name: "Select On-Page SEO Checklist" } ) );
-		// shiftKey is undefined (not set) for a plain click via fireEvent.
-		expect( onToggleRow ).toHaveBeenCalledWith( 2, undefined );
+		expect( onToggleRow ).toHaveBeenCalledWith( 2 );
 	} );
 
 	it( "enters edit mode through the editing seam with a row-specific Edit name", () => {

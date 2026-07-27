@@ -1,5 +1,5 @@
 import { Slot } from "@wordpress/components";
-import { select as selectStore, useDispatch, useSelect } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo, useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../constants";
@@ -132,18 +132,37 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 
 	// Tracks the last plain-click selection to anchor shift+click ranges.
 	const anchorIdRef = useRef( null );
+	// Tracks whether the Shift key is currently held, via document events — onChange on a checkbox
+	// doesn't carry modifier-key info, so we can't rely on event.shiftKey there.
+	const isShiftDownRef = useRef( false );
+	useEffect( () => {
+		const onDown = ( e ) => {
+			if ( e.key === "Shift" ) {
+				isShiftDownRef.current = true;
+			}
+		};
+		const onUp = ( e ) => {
+			if ( e.key === "Shift" ) {
+				isShiftDownRef.current = false;
+			}
+		};
+		document.addEventListener( "keydown", onDown );
+		document.addEventListener( "keyup", onUp );
+		return () => {
+			document.removeEventListener( "keydown", onDown );
+			document.removeEventListener( "keyup", onUp );
+		};
+	}, [] );
 
-	const onToggleRow = useCallback( ( id, isShift ) => {
-		if ( isShift && anchorIdRef.current !== null ) {
+	const onToggleRow = useCallback( ( id ) => {
+		if ( isShiftDownRef.current && anchorIdRef.current !== null ) {
 			const allEditableIds = items.filter( ( item ) => item.editable ).map( ( item ) => item.id );
 			selectRange( { anchorId: anchorIdRef.current, targetId: id, allIds: allEditableIds } );
 		} else {
-			// Read current state directly so this callback stays stable (no selectedIds dependency).
-			const currentIds = selectStore( STORE_NAME ).selectSelectedIds();
-			anchorIdRef.current = currentIds.includes( id ) ? null : id;
+			anchorIdRef.current = selectedIds.includes( id ) ? null : id;
 			toggleRow( id );
 		}
-	}, [ items, toggleRow, selectRange ] );
+	}, [ items, selectedIds, toggleRow, selectRange ] );
 
 	const onSelectAll = useCallback( () => {
 		if ( ! isPending ) {
