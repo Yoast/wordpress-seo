@@ -147,6 +147,26 @@ final class Get_Initial_Selection_Test extends Abstract_Bulk_Editor_Integration_
 	}
 
 	/**
+	 * Tests that a non-scalar selected count is ignored.
+	 *
+	 * @return void
+	 */
+	public function test_ignores_a_non_scalar_selected_count() {
+		$_GET[ Bulk_Editor_Integration::CONTENT_TYPE_PARAM ]   = 'post';
+		$_GET[ Bulk_Editor_Integration::POST_IDS_PARAM ]       = '1,2,3';
+		$_GET[ Bulk_Editor_Integration::SELECTED_COUNT_PARAM ] = [ '25' ];
+
+		$this->assertSame(
+			[
+				'contentType'   => 'post',
+				'postIds'       => [ 1, 2, 3 ],
+				'selectedCount' => 3,
+			],
+			$this->get_initial_selection(),
+		);
+	}
+
+	/**
 	 * Primes every collaborator the script data needs and returns the initial selection part.
 	 *
 	 * @return array<string, string|int|array<int>> The initial selection script data.
