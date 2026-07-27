@@ -74,9 +74,9 @@ describe( "useTourAnchor", () => {
 
 		const { result } = renderHook( () => useTourAnchor( "[data-tour-id=\"x\"]", true ) );
 
-		// The target rect grows by the spotlight padding: 8 all round plus an extra 24 on the right.
-		expect( result.current.spotlight.rects ).toEqual( [ { top: 2, left: 12, width: 132, height: 46, rx: 8 } ] );
-		expect( result.current.spotlight.bounds ).toEqual( { top: "2px", left: "12px", width: "132px", height: "46px" } );
+		// The target rect grows by the uniform 6px spotlight padding on every side.
+		expect( result.current.spotlight.rects ).toEqual( [ { top: 4, left: 14, width: 112, height: 42, rx: 8 } ] );
+		expect( result.current.spotlight.bounds ).toEqual( { top: "4px", left: "14px", width: "112px", height: "42px" } );
 		expect( result.current.spotlight.viewport ).toEqual( { width: window.innerWidth, height: window.innerHeight } );
 		expect( target.scrollIntoView ).toHaveBeenCalled();
 	} );
@@ -88,8 +88,8 @@ describe( "useTourAnchor", () => {
 
 		const { result } = renderHook( () => useTourAnchor( "[data-tour-id=\"x\"]", true, { endSelector: "[data-tour-highlight-end]" } ) );
 
-		// Height spans from the padded top (2) to the end element's bottom (60), not the target's own 90-tall rect.
-		expect( result.current.spotlight.rects ).toEqual( [ { top: 2, left: 12, width: 132, height: 58, rx: 8 } ] );
+		// Height spans from the padded top (4) to the end element's bottom (60), not the target's own 90-tall rect.
+		expect( result.current.spotlight.rects ).toEqual( [ { top: 4, left: 14, width: 112, height: 56, rx: 8 } ] );
 	} );
 
 	it( "cuts one rectangle per visible child with perChild", () => {

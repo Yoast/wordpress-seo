@@ -5,8 +5,8 @@ import { useState, useEffect } from "@wordpress/element";
 const TARGET_WAIT_MS = 2000;
 const TARGET_POLL_MS = 100;
 
-// Space (px) around a single-region spotlight. The right side gets extra room for the gap to the popover.
-const SPOTLIGHT_PADDING = { top: 8, right: 24, bottom: 8, left: 8 };
+// Space (px) around a single-region spotlight so it surrounds the target without looking clipped.
+const SPOTLIGHT_PADDING = { top: 6, right: 6, bottom: 6, left: 6 };
 // Corner radius (px) for a single-region cut-out, which covers an area rather than one styled control.
 const SINGLE_REGION_RADIUS = 8;
 
