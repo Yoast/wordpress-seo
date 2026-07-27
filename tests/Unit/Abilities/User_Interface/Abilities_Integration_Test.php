@@ -262,7 +262,7 @@ final class Abilities_Integration_Test extends TestCase {
 				[
 					'label'               => 'Get Post SEO Data',
 					'category'            => 'yoast-seo',
-					'description'         => 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required.',
+					'description'         => 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned.',
 					'input_schema'        => $this->get_expected_identifier_input_schema(),
 					'output_schema'       => [
 						'type'  => 'array',
@@ -281,7 +281,7 @@ final class Abilities_Integration_Test extends TestCase {
 				[
 					'label'               => 'Update Post SEO Data',
 					'category'            => 'yoast-seo',
-					'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field.',
+					'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.',
 					'input_schema'        => $this->get_expected_update_input_schema(),
 					'output_schema'       => $this->get_expected_output_schema(),
 					'permission_callback' => [ $this->instance, 'can_manage_seo' ],

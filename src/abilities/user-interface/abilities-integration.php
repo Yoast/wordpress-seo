@@ -231,7 +231,7 @@ class Abilities_Integration implements Integration_Interface {
 			$this->get_shared_ability_args(
 				[
 					'label'               => \__( 'Get Post SEO Data', 'wordpress-seo' ),
-					'description'         => \__( 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required.', 'wordpress-seo' ),
+					'description'         => \__( 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned.', 'wordpress-seo' ),
 					'input_schema'        => $this->get_post_identifier_input_schema(),
 					'output_schema'       => $this->wrap_in_array_schema( $this->get_post_seo_data_output_schema() ),
 					'execute_callback'    => [ $this->post_seo_data_collector, 'get_post_seo_data' ],
@@ -251,7 +251,7 @@ class Abilities_Integration implements Integration_Interface {
 			$this->get_shared_ability_args(
 				[
 					'label'               => \__( 'Update Post SEO Data', 'wordpress-seo' ),
-					'description'         => \__( 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field.', 'wordpress-seo' ),
+					'description'         => \__( 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.', 'wordpress-seo' ),
 					'input_schema'        => $this->get_update_post_seo_data_input_schema(),
 					'output_schema'       => $this->get_post_seo_data_output_schema(),
 					'execute_callback'    => [ $this->post_seo_data_updater, 'update_post_seo_data' ],
