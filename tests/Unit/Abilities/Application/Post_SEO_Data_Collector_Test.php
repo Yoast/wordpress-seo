@@ -141,6 +141,8 @@ final class Post_SEO_Data_Collector_Test extends TestCase {
 			->once()
 			->andReturn( $error );
 
+		$this->field_map->expects( 'indexables_to_arrays' )->never();
+
 		$this->assertSame( $error, $this->instance->get_post_seo_data( [ 'post_id' => 42 ] ) );
 	}
 
