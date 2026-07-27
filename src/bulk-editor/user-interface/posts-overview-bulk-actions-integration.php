@@ -106,7 +106,7 @@ class Posts_Overview_Bulk_Actions_Integration implements Integration_Interface {
 
 		// A nested array renders as an optgroup (since WP 5.6): the default actions stay first, followed
 		// by a visually separated "Yoast SEO" group holding the entry.
-		$actions[ \__( 'Yoast SEO', 'wordpress-seo' ) ] = [
+		$actions['Yoast SEO'] = [
 			self::BULK_ACTION => \__( 'Bulk edit', 'wordpress-seo' ) . ' ' . $arrow,
 		];
 
