@@ -212,6 +212,11 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->with( 42 )
 			->andReturn( $error );
 
+		$this->field_map->expects( 'apply_to_indexable' )->never();
+		$this->field_map->expects( 'to_seo_array' )->never();
+		$this->indexable_to_postmeta->expects( 'map_column_to_postmeta' )->never();
+		$this->indexable_builder->expects( 'build_for_id_and_type' )->never();
+
 		$this->assertSame( $error, $this->instance->update_post_seo_data( [ 'post_id' => 42 ] ) );
 	}
 
