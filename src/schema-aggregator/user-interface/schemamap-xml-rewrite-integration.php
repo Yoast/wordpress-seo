@@ -166,7 +166,11 @@ class Schemamap_Xml_Rewrite_Integration implements Integration_Interface {
 	/**
 	 * Tells whether the response headers have already been sent.
 	 *
-	 * @codeCoverageIgnore Wraps a PHP function that always reports true under the CLI test runner.
+	 * Wrapped in an overridable method so the unit tests can drive both branches of
+	 * maybe_render_schema_map(); the test process cannot control what headers_sent() reports.
+	 * Protected rather than private because Mockery cannot stub private methods.
+	 *
+	 * @codeCoverageIgnore It only wraps a PHP function.
 	 *
 	 * @return bool Whether the headers have already been sent.
 	 */
@@ -177,7 +181,11 @@ class Schemamap_Xml_Rewrite_Integration implements Integration_Interface {
 	/**
 	 * Ends the request after the schema map has been output.
 	 *
-	 * @codeCoverageIgnore Terminates the request, so it cannot be executed under test.
+	 * The exit() is wrapped in an overridable method so the unit tests can stub it out; executing it
+	 * would terminate the test runner. Protected rather than private because Mockery cannot stub
+	 * private methods.
+	 *
+	 * @codeCoverageIgnore It only wraps a language construct that terminates the request.
 	 *
 	 * @return void
 	 */
