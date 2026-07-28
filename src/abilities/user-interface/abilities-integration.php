@@ -125,10 +125,6 @@ class Abilities_Integration implements Integration_Interface {
 		if ( $enabled_features[ Inclusive_Language_Analysis::NAME ] === true ) {
 			$this->register_inclusive_language_scores_ability();
 		}
-
-		// Metadata read/write is independent of which analysis features are enabled.
-		$this->register_get_post_seo_data_ability();
-		$this->register_update_post_seo_data_ability();
 	}
 
 	/**
