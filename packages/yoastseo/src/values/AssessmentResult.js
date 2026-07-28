@@ -73,6 +73,12 @@ class AssessmentResult {
 		this._hasJumps = false;
 		this._hasEditFieldName = false;
 		this._hasEditFieldAriaLabel = false;
+		/**
+		 * The assessor-supplied marker is invoked for its side effect and returns nothing; the no-op
+		 * default returns an empty array, which is why the declared type is the wider callback shape.
+		 *
+		 * @type {function(): void}
+		 */
 		this._marker = emptyMarker;
 		this._hasBetaBadge = false;
 		this.score = 0;
@@ -88,7 +94,7 @@ class AssessmentResult {
 
 	/**
 	 * Sets the values for the AssessmentResult.
-	 * @internal
+	 *
 	 * @param {Object} values The values for this assessment result.
 	 * @param {number} [values.score] The score for this assessment result.
 	 * @param {string} [values.text] The text for this assessment result. This is the text that can be used as a feedback message associated with the score.
@@ -234,9 +240,13 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Sets the marker, a pure function that can return the marks for a given Paper.
+	 * Sets the marker: a callback that computes this result's marks for the Paper it was created for and
+	 * hands them to the marker configured on the assessor.
 	 *
-	 * @param {()=>[]} marker The marker to set.
+	 * It is invoked for that side effect and returns nothing — read the marks off the result with
+	 * {@link AssessmentResult#getMarks} instead.
+	 *
+	 * @param {function(): void} marker The marker to set.
 	 * @returns {void}
 	 */
 	setMarker( marker ) {
@@ -253,9 +263,10 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Gets the marker, a pure function that can return the marks for a given Paper.
+	 * Gets the marker: a callback that applies this result's marks through the marker configured on the
+	 * assessor. It returns nothing; see {@link AssessmentResult#setMarker}.
 	 *
-	 * @returns {Function} The marker.
+	 * @returns {function(): void} The marker.
 	 */
 	getMarker() {
 		return this._marker;

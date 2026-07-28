@@ -175,4 +175,59 @@ describe( "AssessmentResult", function() {
 			expect( result.isOptimizable() ).toBe( true );
 		} );
 	} );
+
+	/*
+	 * The "noticed" bookkeeping is module-level state, so each case requires its own fresh copy of the module:
+	 * the getters have already spent their once-per-session notice on the instance imported at the top of this file.
+	 */
+	describe( "the deprecation notice on the renamed getters", function() {
+		let FreshAssessmentResult;
+		let warnSpy;
+
+		beforeEach( function() {
+			jest.isolateModules( function() {
+				FreshAssessmentResult = require( "../../src/values/AssessmentResult.js" ).default;
+			} );
+
+			warnSpy = jest.spyOn( console, "warn" ).mockImplementation( noop );
+		} );
+
+		afterEach( function() {
+			warnSpy.mockRestore();
+		} );
+
+		it( "warns once per session for hasAIFixes, not once per call or per result", function() {
+			new FreshAssessmentResult().hasAIFixes();
+			new FreshAssessmentResult().hasAIFixes();
+
+			expect( warnSpy ).toHaveBeenCalledTimes( 1 );
+			expect( warnSpy ).toHaveBeenCalledWith( "AssessmentResult.hasAIFixes() is deprecated; use isOptimizable() instead." );
+		} );
+
+		it( "warns once per session for hasBetaBadge, not once per call or per result", function() {
+			new FreshAssessmentResult().hasBetaBadge();
+			new FreshAssessmentResult().hasBetaBadge();
+
+			expect( warnSpy ).toHaveBeenCalledTimes( 1 );
+			expect( warnSpy ).toHaveBeenCalledWith( "AssessmentResult.hasBetaBadge() is deprecated; use isBeta() instead." );
+		} );
+
+		it( "tracks the two deprecated getters separately", function() {
+			const result = new FreshAssessmentResult();
+
+			result.hasAIFixes();
+			result.hasBetaBadge();
+
+			expect( warnSpy ).toHaveBeenCalledTimes( 2 );
+		} );
+
+		it( "does not warn for the neutral getters", function() {
+			const result = new FreshAssessmentResult();
+
+			result.isOptimizable();
+			result.isBeta();
+
+			expect( warnSpy ).not.toHaveBeenCalled();
+		} );
+	} );
 } );
