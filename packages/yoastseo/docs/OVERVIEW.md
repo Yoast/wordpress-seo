@@ -147,6 +147,6 @@ The library can be integrated in several ways:
 
 For more detailed documentation on specific topics, see:
 - [Public entry points](../README.md#entry-points) (`yoastseo` and `yoastseo/researcher`)
-- [Assessments Documentation](../src/scoring/assessments/README.md)
+- [Assessments Documentation](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/README.md)
 - [Morphology Documentation](MORPHOLOGY.md)
 - [Design Decisions](DESIGN%20DECISIONS.md)

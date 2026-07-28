@@ -9,13 +9,13 @@ This library can generate metrics about a text and assess these metrics to give 
 ## Documentation
 * A high-level [architecture overview](docs/OVERVIEW.md) of the package.
 * A [glossary](docs/GLOSSARY.md) of the core domain concepts (Paper, Assessor, Researcher, etc.).
-* A list of all the [assessors](src/scoring/assessors/ASSESSORS%20OVERVIEW.md).
-* Information on the [scoring system of the assessments](src/scoring/assessments/README.md)
-  * [SEO analysis scoring](src/scoring/assessments/SCORING%20SEO.md)
-  * [Readability analysis scoring](src/scoring/assessments/SCORING%20READABILITY.md)
-  * [Inclusive language analysis scoring](src/scoring/assessments/SCORING%20INCLUSIVE%20LANGUAGE.md)
-  * [How keyphrase matching works](src/scoring/assessments/KEYPHRASE%20MATCHING.md)
-  * [Scoring on taxonomy pages](src/scoring/assessments/SCORING%20TAXONOMY.md)
+* A list of all the [assessors](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessors/ASSESSORS%20OVERVIEW.md).
+* Information on the [scoring system of the assessments](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/README.md)
+  * [SEO analysis scoring](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20SEO.md)
+  * [Readability analysis scoring](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md)
+  * [Inclusive language analysis scoring](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20INCLUSIVE%20LANGUAGE.md)
+  * [How keyphrase matching works](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/KEYPHRASE%20MATCHING.md)
+  * [Scoring on taxonomy pages](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20TAXONOMY.md)
 * The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, check out the [customization documentation](docs/Customization.md).
 * Information on the design decisions within the package can be found [here](docs/DESIGN%20DECISIONS.md).
 * Information on how morphology works in `yoastseo` package can be found [here](docs/MORPHOLOGY.md).
