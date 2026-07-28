@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Abilities\User_Interface;
 
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
+use Yoast\WP\SEO\Abilities\Application\Posts_With_SEO_Issues_Retriever;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
@@ -57,6 +58,13 @@ class Abilities_Integration implements Integration_Interface {
 	private $post_seo_data_updater;
 
 	/**
+	 * The posts with SEO issues retriever.
+	 *
+	 * @var Posts_With_SEO_Issues_Retriever
+	 */
+	private $posts_with_seo_issues_retriever;
+
+	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array<string> The conditionals.
@@ -76,19 +84,22 @@ class Abilities_Integration implements Integration_Interface {
 	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The enabled analysis features repository.
 	 * @param Post_SEO_Data_Collector              $post_seo_data_collector              The post SEO data collector.
 	 * @param Post_SEO_Data_Updater                $post_seo_data_updater                The post SEO data updater.
+	 * @param Posts_With_SEO_Issues_Retriever      $posts_with_seo_issues_retriever      The posts with SEO issues retriever.
 	 */
 	public function __construct(
 		Score_Retriever $score_retriever,
 		Capability_Helper $capability_helper,
 		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository,
 		Post_SEO_Data_Collector $post_seo_data_collector,
-		Post_SEO_Data_Updater $post_seo_data_updater
+		Post_SEO_Data_Updater $post_seo_data_updater,
+		Posts_With_SEO_Issues_Retriever $posts_with_seo_issues_retriever
 	) {
 		$this->score_retriever                      = $score_retriever;
 		$this->capability_helper                    = $capability_helper;
 		$this->enabled_analysis_features_repository = $enabled_analysis_features_repository;
 		$this->post_seo_data_collector              = $post_seo_data_collector;
 		$this->post_seo_data_updater                = $post_seo_data_updater;
+		$this->posts_with_seo_issues_retriever      = $posts_with_seo_issues_retriever;
 	}
 
 	/**
@@ -129,6 +140,8 @@ class Abilities_Integration implements Integration_Interface {
 		// Metadata read/write is independent of which analysis features are enabled.
 		$this->register_get_post_seo_data_ability();
 		$this->register_update_post_seo_data_ability();
+
+		$this->register_get_posts_with_seo_issues_ability( $enabled_features );
 	}
 
 	/**
@@ -271,6 +284,44 @@ class Abilities_Integration implements Integration_Interface {
 		);
 	}
 
+	/**
+	 * Registers the get posts with SEO issues ability.
+	 *
+	 * Registered regardless of the enabled analysis features, since the meta
+	 * description issue type depends on none of them; the score-based issue types
+	 * are only offered when their analysis runs on this site.
+	 *
+	 * @param array<string, bool> $enabled_features The enabled analysis features, keyed by feature name.
+	 *
+	 * @return void
+	 */
+	private function register_get_posts_with_seo_issues_ability( array $enabled_features ): void {
+		$issue_types = [];
+
+		if ( $enabled_features[ Keyphrase_Analysis::NAME ] === true ) {
+			$issue_types[] = Posts_With_SEO_Issues_Retriever::ISSUE_TYPE_LOW_SEO_SCORE;
+		}
+
+		if ( $enabled_features[ Readability_Analysis::NAME ] === true ) {
+			$issue_types[] = Posts_With_SEO_Issues_Retriever::ISSUE_TYPE_LOW_READABILITY_SCORE;
+		}
+
+		$issue_types[] = Posts_With_SEO_Issues_Retriever::ISSUE_TYPE_DEFAULT_META_DESCRIPTION;
+
+		\wp_register_ability(
+			Ability_Categories_Integration::CATEGORY_SLUG . '/get-posts-with-seo-issues',
+			$this->get_shared_ability_args(
+				[
+					'label'            => \__( 'Get Posts With SEO Issues', 'wordpress-seo' ),
+					'description'      => \__( 'Get published posts that have a known SEO issue of the given type: a low (not good) SEO score, a low (not good) readability score, or no custom meta description. Results are ordered most recently modified first and paginated; an empty result means there are no posts with the issue or no further pages.', 'wordpress-seo' ),
+					'input_schema'     => $this->get_posts_with_seo_issues_input_schema( $issue_types ),
+					'output_schema'    => $this->wrap_in_array_schema( $this->get_post_with_issue_output_schema() ),
+					'execute_callback' => [ $this->posts_with_seo_issues_retriever, 'get_posts_with_seo_issues' ],
+				],
+			),
+		);
+	}
+
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- Too complicated of a param declaration for this case.
 
 	/**
@@ -385,6 +436,68 @@ class Abilities_Integration implements Integration_Interface {
 					'description' => \__( 'The page of title-search results to return, 1-based and defaulting to 1. Matches are ordered most recently modified first, so request a later page to reach older matches. An empty result means there are no further pages. Only applies to a title search.', 'wordpress-seo' ),
 					'minimum'     => 1,
 					'default'     => 1,
+				],
+			],
+		];
+	}
+
+	/**
+	 * Returns the input schema for looking up posts with an SEO issue.
+	 *
+	 * @param array<int, string> $issue_types The issue types on offer on this site.
+	 *
+	 * @return array<string, mixed> The input schema.
+	 */
+	private function get_posts_with_seo_issues_input_schema( array $issue_types ): array {
+		return [
+			'type'                 => 'object',
+			'additionalProperties' => false,
+			'required'             => [ 'issue_type' ],
+			'properties'           => [
+				'issue_type'      => [
+					'type'        => 'string',
+					'enum'        => $issue_types,
+					'description' => \__( 'The SEO issue to look for. Only issue types whose analysis is enabled on this site are offered.', 'wordpress-seo' ),
+				],
+				'post_type'       => [
+					'type'        => 'string',
+					'enum'        => Posts_With_SEO_Issues_Retriever::SUPPORTED_POST_TYPES,
+					'default'     => 'post',
+					'description' => \__( 'The post type to look in. Defaults to post.', 'wordpress-seo' ),
+				],
+				'number_of_posts' => [
+					'type'        => 'integer',
+					'description' => \__( 'The number of posts to return per page. Defaults to 10.', 'wordpress-seo' ),
+					'minimum'     => 1,
+					'maximum'     => 100,
+					'default'     => 10,
+				],
+				'page'            => [
+					'type'        => 'integer',
+					'description' => \__( 'The page of results to return, 1-based and defaulting to 1. Posts are ordered most recently modified first, so request a later page to reach older posts. An empty result means there are no further pages.', 'wordpress-seo' ),
+					'minimum'     => 1,
+					'default'     => 1,
+				],
+			],
+		];
+	}
+
+	/**
+	 * Returns the output schema describing a post with an SEO issue.
+	 *
+	 * @return array<string, mixed> The output schema.
+	 */
+	private function get_post_with_issue_output_schema(): array {
+		return [
+			'type'       => 'object',
+			'properties' => [
+				'post_id' => [
+					'type'        => 'integer',
+					'description' => \__( 'The ID of the post.', 'wordpress-seo' ),
+				],
+				'title'   => [
+					'type'        => 'string',
+					'description' => \__( 'The post title.', 'wordpress-seo' ),
 				],
 			],
 		];

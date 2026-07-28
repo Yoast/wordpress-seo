@@ -699,6 +699,148 @@ final class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that get_recent_posts_with_keywords_for_post_type only builds the base query
+	 * when the optional arguments are omitted (the task-list call shape).
+	 *
+	 * @covers ::get_recent_posts_with_keywords_for_post_type
+	 *
+	 * @return void
+	 */
+	public function test_get_recent_posts_with_keywords_for_post_type_defaults() {
+		$orm_object = $this->mock_posts_with_keywords_query();
+
+		$orm_object->expects( 'find_array' )->once()->andReturn( [] );
+
+		$this->assertSame( [], $this->instance->get_recent_posts_with_keywords_for_post_type( 'post' ) );
+	}
+
+	/**
+	 * Tests that get_recent_posts_with_keywords_for_post_type applies the maximum score
+	 * filter and the pagination arguments.
+	 *
+	 * @covers ::get_recent_posts_with_keywords_for_post_type
+	 *
+	 * @return void
+	 */
+	public function test_get_recent_posts_with_keywords_for_post_type_with_max_score_and_offset() {
+		$orm_object = $this->mock_posts_with_keywords_query();
+
+		$orm_object->expects( 'limit' )->with( 10 )->once()->andReturnSelf();
+		$orm_object->expects( 'offset' )->with( 20 )->once()->andReturnSelf();
+		$orm_object->expects( 'where_lte' )->with( 'primary_focus_keyword_score', 70 )->once()->andReturnSelf();
+		$orm_object->expects( 'find_array' )->once()->andReturn( [] );
+
+		$this->assertSame(
+			[],
+			$this->instance->get_recent_posts_with_keywords_for_post_type( 'post', 10, null, 20, 70 ),
+		);
+	}
+
+	/**
+	 * Tests that get_recent_posts_with_readability_scores_for_post_type applies the maximum
+	 * score filter, counting a missing score as below the maximum, and the pagination arguments.
+	 *
+	 * @covers ::get_recent_posts_with_readability_scores_for_post_type
+	 *
+	 * @return void
+	 */
+	public function test_get_recent_posts_with_readability_scores_for_post_type_with_max_score_and_offset() {
+		$orm_object = Mockery::mock( ORM::class );
+
+		$this->instance
+			->expects( 'query' )
+			->once()
+			->andReturn( $orm_object );
+
+		$orm_object->expects( 'select' )->with( 'object_id' )->once()->andReturnSelf();
+		$orm_object->expects( 'select' )->with( 'readability_score' )->once()->andReturnSelf();
+		$orm_object->expects( 'select' )->with( 'breadcrumb_title' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where_not_null' )->with( 'estimated_reading_time_minutes' )->once()->andReturnSelf();
+		$orm_object->expects( 'where_raw' )->with( "( post_status = 'publish' OR post_status IS NULL )" )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'object_last_modified' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'id' )->once()->andReturnSelf();
+		$orm_object->expects( 'limit' )->with( 10 )->once()->andReturnSelf();
+		$orm_object->expects( 'offset' )->with( 0 )->once()->andReturnSelf();
+		$orm_object
+			->expects( 'where_raw' )
+			->with( '( readability_score IS NULL OR readability_score <= %d )', [ 70 ] )
+			->once()
+			->andReturnSelf();
+		$orm_object->expects( 'find_array' )->once()->andReturn( [] );
+
+		$this->assertSame(
+			[],
+			$this->instance->get_recent_posts_with_readability_scores_for_post_type( 'post', 10, null, 0, 70 ),
+		);
+	}
+
+	/**
+	 * Tests that get_recent_posts_for_post_type applies the without-description filter
+	 * and the pagination arguments.
+	 *
+	 * @covers ::get_recent_posts_for_post_type
+	 *
+	 * @return void
+	 */
+	public function test_get_recent_posts_for_post_type_without_description() {
+		$orm_object = Mockery::mock( ORM::class );
+
+		$this->instance
+			->expects( 'query' )
+			->once()
+			->andReturn( $orm_object );
+
+		$orm_object->expects( 'select' )->with( 'object_id' )->once()->andReturnSelf();
+		$orm_object->expects( 'select' )->with( 'breadcrumb_title' )->once()->andReturnSelf();
+		$orm_object->expects( 'select' )->with( 'description' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where_raw' )->with( "( post_status = 'publish' OR post_status IS NULL )" )->once()->andReturnSelf();
+		$orm_object->expects( 'where_raw' )->with( '( is_robots_noindex IS NULL OR is_robots_noindex <> 1 )' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'object_last_modified' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'id' )->once()->andReturnSelf();
+		$orm_object->expects( 'limit' )->with( 10 )->once()->andReturnSelf();
+		$orm_object->expects( 'offset' )->with( 20 )->once()->andReturnSelf();
+		$orm_object->expects( 'where_raw' )->with( "( description IS NULL OR description = '' )" )->once()->andReturnSelf();
+		$orm_object->expects( 'find_array' )->once()->andReturn( [] );
+
+		$this->assertSame(
+			[],
+			$this->instance->get_recent_posts_for_post_type( 'post', 10, null, 20, true ),
+		);
+	}
+
+	/**
+	 * Mocks the base query built by get_recent_posts_with_keywords_for_post_type.
+	 *
+	 * @return Mockery\MockInterface|ORM The mocked ORM object.
+	 */
+	private function mock_posts_with_keywords_query() {
+		$orm_object = Mockery::mock( ORM::class );
+
+		$this->instance
+			->expects( 'query' )
+			->once()
+			->andReturn( $orm_object );
+
+		$orm_object->expects( 'select' )->with( 'object_id' )->once()->andReturnSelf();
+		$orm_object->expects( 'select' )->with( 'primary_focus_keyword_score' )->once()->andReturnSelf();
+		$orm_object->expects( 'select' )->with( 'breadcrumb_title' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_sub_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where_not_equal' )->with( 'primary_focus_keyword_score', 0 )->once()->andReturnSelf();
+		$orm_object->expects( 'where_not_null' )->with( 'primary_focus_keyword_score' )->once()->andReturnSelf();
+		$orm_object->expects( 'where_raw' )->with( "( post_status = 'publish' OR post_status IS NULL )" )->once()->andReturnSelf();
+		$orm_object->expects( 'where_raw' )->with( '( is_robots_noindex IS NULL OR is_robots_noindex <> 1 )' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'object_last_modified' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'id' )->once()->andReturnSelf();
+
+		return $orm_object;
+	}
+
+	/**
 	 * Tests if the reset_permalink method fires when no type and subtype are passed.
 	 *
 	 * @covers ::reset_permalink
