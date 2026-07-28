@@ -217,7 +217,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	/**
 	 * Creates the script data.
 	 *
-	 * @return array<string, string|array<string, string|bool|array<string, string>>> The script data.
+	 * @return array<string, string|array<string, string|bool>|array<array<string, string>>> The script data.
 	 */
 	public function get_script_data() {
 		return [
