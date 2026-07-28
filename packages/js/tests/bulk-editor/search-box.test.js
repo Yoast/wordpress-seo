@@ -1,8 +1,8 @@
-import { useDispatch } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { fireEvent, render, screen } from "../test-utils";
 import { SearchBox } from "../../src/bulk-editor/components/search-box";
 
-jest.mock( "@wordpress/data", () => ( { useDispatch: jest.fn() } ) );
+jest.mock( "@wordpress/data", () => ( { useDispatch: jest.fn(), useSelect: jest.fn() } ) );
 
 describe( "SearchBox", () => {
 	let setSearch;
@@ -11,6 +11,7 @@ describe( "SearchBox", () => {
 		jest.useFakeTimers();
 		setSearch = jest.fn();
 		useDispatch.mockReturnValue( { setSearch } );
+		useSelect.mockImplementation( ( mapSelect ) => mapSelect( () => ( { selectActiveContentTypeName: () => "post" } ) ) );
 	} );
 
 	afterEach( () => {
