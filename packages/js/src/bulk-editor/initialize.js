@@ -8,7 +8,7 @@ import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import { GenericAlert } from "../ai-generator/components/errors";
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
-import { LINK_PARAMS_NAME, MYYOAST_CONNECTION_NAME } from "../shared-admin/store";
+import { getMyyoastConnectionState, LINK_PARAMS_NAME, MYYOAST_CONNECTION_NAME } from "../shared-admin/store";
 import App from "./app";
 import { UpsellModal } from "./components/upsell-modal";
 import { PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
@@ -35,13 +35,7 @@ domReady( () => {
 	registerStore( {
 		initialState: {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoBulkEditorData.linkParams", {} ),
-			[ MYYOAST_CONNECTION_NAME ]: {
-				// Absent payload means the feature is unavailable; the editor then shows the informational variant.
-				isAvailable: Boolean( myyoastConnection ) && get( myyoastConnection, "isProvisioned", false ),
-				canConnect: get( myyoastConnection, "canConnect", false ),
-				connectUrl: get( myyoastConnection, "connectUrl", null ),
-				learnMoreUrl: get( myyoastConnection, "learnMoreUrl", "" ),
-			},
+			[ MYYOAST_CONNECTION_NAME ]: getMyyoastConnectionState( myyoastConnection ),
 		},
 	} );
 	fixWordPressMenuScrolling();

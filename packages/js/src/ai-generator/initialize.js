@@ -3,7 +3,7 @@ import { select } from "@wordpress/data";
 import { addAction, addFilter } from "@wordpress/hooks";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
-import { HAS_AI_GENERATOR_CONSENT_NAME, MYYOAST_CONNECTION_NAME } from "../shared-admin/store";
+import { getMyyoastConnectionState, HAS_AI_GENERATOR_CONSENT_NAME, MYYOAST_CONNECTION_NAME } from "../shared-admin/store";
 import { App, TypeProvider } from "./components";
 import { PREVIEW_TYPE, STORE_NAME_EDITOR } from "./constants";
 import { filterFocusKeyphraseErrors, initializePromptContent, updateInteractedWithFeature } from "./initialize/index";
@@ -96,13 +96,7 @@ const initializeAiGenerator = () => {
 			getSuggestions: get( window, "wpseoAiGenerator.endpoints.getSuggestions", "" ),
 			bustSubscriptionCache: get( window, "wpseoAiGenerator.endpoints.bustSubscriptionCache", "" ),
 		},
-		[ MYYOAST_CONNECTION_NAME ]: {
-			// Absent payload means the feature is unavailable; the editor then shows the informational variant.
-			isAvailable: Boolean( myyoastConnection ) && get( myyoastConnection, "isProvisioned", false ),
-			canConnect: get( myyoastConnection, "canConnect", false ),
-			connectUrl: get( myyoastConnection, "connectUrl", null ),
-			learnMoreUrl: get( myyoastConnection, "learnMoreUrl", "" ),
-		},
+		[ MYYOAST_CONNECTION_NAME ]: getMyyoastConnectionState( myyoastConnection ),
 	} );
 
 	window.jQuery( window ).on( "YoastSEO:ready", () => {
