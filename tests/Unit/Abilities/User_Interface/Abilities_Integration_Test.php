@@ -170,6 +170,27 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that can_edit_advanced_metadata checks the advanced metadata capability and returns its result.
+	 *
+	 * @covers ::can_edit_advanced_metadata
+	 *
+	 * @dataProvider provide_can_manage_seo
+	 *
+	 * @param bool $allowed Whether the capability is granted.
+	 *
+	 * @return void
+	 */
+	public function test_can_edit_advanced_metadata( bool $allowed ) {
+		$this->capability_helper
+			->expects( 'current_user_can' )
+			->once()
+			->with( 'wpseo_edit_advanced_metadata' )
+			->andReturn( $allowed );
+
+		$this->assertSame( $allowed, $this->instance->can_edit_advanced_metadata() );
+	}
+
+	/**
 	 * Tests that register_abilities registers all score abilities plus the metadata abilities.
 	 *
 	 * @covers ::register_abilities
@@ -262,13 +283,13 @@ final class Abilities_Integration_Test extends TestCase {
 				[
 					'label'               => 'Get Post SEO Data',
 					'category'            => 'yoast-seo',
-					'description'         => 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required.',
+					'description'         => 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned.',
 					'input_schema'        => $this->get_expected_identifier_input_schema(),
 					'output_schema'       => [
 						'type'  => 'array',
 						'items' => $this->get_expected_output_schema(),
 					],
-					'permission_callback' => [ $this->instance, 'can_manage_seo' ],
+					'permission_callback' => [ $this->instance, 'can_edit_advanced_metadata' ],
 					'execute_callback'    => [ $this->post_seo_data_collector, 'get_post_seo_data' ],
 					'meta'                => $this->get_read_meta(),
 				],
@@ -281,10 +302,10 @@ final class Abilities_Integration_Test extends TestCase {
 				[
 					'label'               => 'Update Post SEO Data',
 					'category'            => 'yoast-seo',
-					'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field.',
+					'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.',
 					'input_schema'        => $this->get_expected_update_input_schema(),
 					'output_schema'       => $this->get_expected_output_schema(),
-					'permission_callback' => [ $this->instance, 'can_manage_seo' ],
+					'permission_callback' => [ $this->instance, 'can_edit_advanced_metadata' ],
 					'execute_callback'    => [ $this->post_seo_data_updater, 'update_post_seo_data' ],
 					'meta'                => $this->get_write_meta(),
 				],
