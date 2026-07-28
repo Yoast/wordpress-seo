@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import { useTourAnchor } from "../../../src/bulk-editor/components/tour/use-tour-anchor";
 
 let resizeObserverDisconnect;
@@ -145,5 +145,24 @@ describe( "useTourAnchor", () => {
 		const { result } = renderHook( () => useTourAnchor( "[data-tour-id=\"missing\"]", true ) );
 
 		expect( result.current.spotlight ).toBeNull();
+	} );
+
+	it( "flags the target as missing once the poll gives up", () => {
+		jest.useFakeTimers();
+		try {
+			document.body.innerHTML = "";
+
+			const { result } = renderHook( () => useTourAnchor( "[data-tour-id=\"missing\"]", true ) );
+			expect( result.current.targetMissing ).toBe( false );
+
+			// Advance past the 2s poll window so it stops looking and reports the target missing.
+			act( () => {
+				jest.advanceTimersByTime( 2500 );
+			} );
+
+			expect( result.current.targetMissing ).toBe( true );
+		} finally {
+			jest.useRealTimers();
+		}
 	} );
 } );

@@ -130,10 +130,19 @@ const boundsOf = ( rects ) => {
  * @param {string}  [options.childSelector] With `perChild`, spotlight the matching descendants instead of every direct
  *                                          child, so slot-filled siblings (e.g. Premium's AI usage counter) stay dimmed.
  *
- * @returns {{spotlight: {rects: Array<Object>, bounds: Object, viewport: Object}|null}} The spotlight geometry, or null.
+ * @returns {{spotlight: ({rects: Array<Object>, bounds: Object, viewport: Object}|null), targetMissing: boolean}} The
+ *          spotlight area (or null), and whether the target could not be found before the poll gave up.
  */
 export const useTourAnchor = ( targetSelector, isActive, { endSelector = null, perChild = false, childSelector = null } = {} ) => {
 	const [ spotlight, setSpotlight ] = useState( null );
+	const [ targetMissing, setTargetMissing ] = useState( false );
+	// Reset the flag synchronously when the step changes, so a stale `true` from the previous step can't make the caller
+	// skip the new one before the effect below re-runs.
+	const [ trackedSelector, setTrackedSelector ] = useState( targetSelector );
+	if ( targetSelector !== trackedSelector ) {
+		setTrackedSelector( targetSelector );
+		setTargetMissing( false );
+	}
 
 	useEffect( () => {
 		if ( ! isActive ) {
@@ -224,6 +233,8 @@ export const useTourAnchor = ( targetSelector, isActive, { endSelector = null, p
 			}
 			if ( Date.now() < deadline ) {
 				pollTimer = setTimeout( tryAttach, TARGET_POLL_MS );
+			} else {
+				setTargetMissing( true );
 			}
 		};
 		tryAttach();
@@ -239,5 +250,5 @@ export const useTourAnchor = ( targetSelector, isActive, { endSelector = null, p
 		};
 	}, [ targetSelector, isActive, endSelector, perChild, childSelector ] );
 
-	return { spotlight };
+	return { spotlight, targetMissing };
 };

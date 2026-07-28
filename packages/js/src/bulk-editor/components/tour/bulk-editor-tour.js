@@ -55,7 +55,7 @@ export const BulkEditorTour = ( { onSelectAll, onDeselectAll, hasSelection } ) =
 		}
 	}, [ isActive, step, hasSelection, onSelectAll ] );
 
-	const { spotlight } = useTourAnchor( `[data-tour-id="${ step.tourId }"]`, isActive, {
+	const { spotlight, targetMissing } = useTourAnchor( `[data-tour-id="${ step.tourId }"]`, isActive, {
 		endSelector: step.highlightEndSelector,
 		perChild: step.highlightChildren,
 		childSelector: step.highlightChildrenSelector,
@@ -80,6 +80,14 @@ export const BulkEditorTour = ( { onSelectAll, onDeselectAll, hasSelection } ) =
 	}, [ isLastStep, finish ] );
 
 	const onBack = useCallback( () => setStepIndex( ( index ) => Math.max( 0, index - 1 ) ), [] );
+
+	// If the active step's target never appears (e.g. the generate step when there are no selectable rows),
+	// advance past it instead of leaving the tour invisible-but-active.
+	useEffect( () => {
+		if ( isActive && targetMissing ) {
+			onNext();
+		}
+	}, [ isActive, targetMissing, onNext ] );
 
 	if ( ! isActive || ! spotlight ) {
 		return null;

@@ -14,26 +14,27 @@ jest.mock( "@wordpress/data", () => ( {
 	useDispatch: () => ( { setOptInNotificationSeen: mockSetOptInNotificationSeen } ),
 } ) );
 
+const mockAnchor = { spotlight: null, targetMissing: false };
+const defaultSpotlight = () => ( {
+	rects: [ { top: 0, left: 0, width: 10, height: 10 } ],
+	bounds: { top: "0px", left: "0px", width: "10px", height: "10px" },
+	viewport: { width: 1024, height: 768 },
+} );
+
 jest.mock( "../../../src/bulk-editor/components/tour/use-tour-anchor", () => ( {
-	useTourAnchor: () => ( {
-		spotlight: {
-			rects: [ { top: 0, left: 0, width: 10, height: 10 } ],
-			bounds: { top: "0px", left: "0px", width: "10px", height: "10px" },
-			viewport: { width: 1024, height: 768 },
-		},
-	} ),
+	useTourAnchor: () => mockAnchor,
 } ) );
 
 /**
- * Renders the tour and returns the select/deselect spies.
+ * Renders the tour and returns the select/deselect spies plus a re-render helper.
  *
  * @param {Object} [props] Prop overrides.
- * @returns {{onSelectAll: jest.Mock, onDeselectAll: jest.Mock}} The spies.
+ * @returns {{onSelectAll: jest.Mock, onDeselectAll: jest.Mock, rerender: Function}} The spies and a re-render helper.
  */
 const renderTour = ( props = {} ) => {
 	const onSelectAll = jest.fn();
 	const onDeselectAll = jest.fn();
-	render(
+	const makeElement = () => (
 		<BulkEditorTour
 			onSelectAll={ onSelectAll }
 			onDeselectAll={ onDeselectAll }
@@ -41,7 +42,9 @@ const renderTour = ( props = {} ) => {
 			{ ...props }
 		/>
 	);
-	return { onSelectAll, onDeselectAll };
+	const view = render( makeElement() );
+	// A fresh element each time, so React actually re-renders (it bails out on an identical element reference).
+	return { onSelectAll, onDeselectAll, rerender: () => view.rerender( makeElement() ) };
 };
 
 const clickNext = () => fireEvent.click( screen.getByRole( "button", { name: /Next/ } ) );
@@ -51,6 +54,8 @@ describe( "BulkEditorTour", () => {
 		jest.clearAllMocks();
 		storeState.isSeen = false;
 		storeState.isAiEnabled = true;
+		mockAnchor.spotlight = defaultSpotlight();
+		mockAnchor.targetMissing = false;
 	} );
 
 	it( "renders nothing once the tour has been seen", () => {
@@ -107,6 +112,24 @@ describe( "BulkEditorTour", () => {
 		clickNext();
 
 		expect( onSelectAll ).not.toHaveBeenCalled();
+	} );
+
+	it( "finishes and marks the tour seen if the last step's target never appears", () => {
+		const { onDeselectAll, rerender } = renderTour( { hasSelection: false } );
+
+		// Reach the generate step (step 4).
+		clickNext();
+		clickNext();
+		clickNext();
+
+		// Its target never shows (e.g. nothing is selectable), so the anchor reports it missing.
+		mockAnchor.spotlight = null;
+		mockAnchor.targetMissing = true;
+		rerender();
+
+		expect( mockSetOptInNotificationSeen ).toHaveBeenCalledWith( TOUR_OPT_IN_KEY );
+		expect( onDeselectAll ).toHaveBeenCalledTimes( 1 );
+		expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
 	} );
 
 	it( "marks the tour seen and clears its own selection on finish", () => {
