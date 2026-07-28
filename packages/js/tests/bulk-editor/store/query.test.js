@@ -30,10 +30,13 @@ describe( "query slice", () => {
 		expect( state ).toEqual( { search: "seo", page: 1, needsImprovement: [ "title", "description" ] } );
 	} );
 
-	it( "resets to the first page when the content type changes", () => {
-		const state = reducer( { search: "seo", page: 9 }, activeContentTypeActions.setActiveContentType( "page" ) );
+	it( "resets all query state when the content type changes", () => {
+		const state = reducer(
+			{ search: "seo", page: 9, statuses: [ "draft" ], needsImprovement: [ "title" ] },
+			activeContentTypeActions.setActiveContentType( "page" )
+		);
 
-		expect( state ).toEqual( { search: "seo", page: 1 } );
+		expect( state ).toEqual( createInitialQueryState() );
 	} );
 
 	it( "selects the search term, page, statuses, needs-improvement and query from the store state", () => {
