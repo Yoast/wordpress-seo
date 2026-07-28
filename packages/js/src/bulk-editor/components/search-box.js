@@ -1,5 +1,5 @@
 import SearchIcon from "@heroicons/react/outline/SearchIcon";
-import { useDispatch } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
@@ -22,6 +22,7 @@ const SEARCH_ID = "bulk-editor-search";
  */
 export const SearchBox = ( { contentTypeLabel } ) => {
 	const { setSearch } = useDispatch( STORE_NAME );
+	const activeContentType = useSelect( ( select ) => select( STORE_NAME ).selectActiveContentTypeName(), [] );
 	const [ value, setValue ] = useState( "" );
 
 	const debouncedAutoSearch = useMemo(
@@ -37,6 +38,12 @@ export const SearchBox = ( { contentTypeLabel } ) => {
 
 	// Flush any pending auto-search when the box unmounts so a late debounce can't dispatch into an unmounted tree.
 	useEffect( () => () => debouncedAutoSearch.cancel(), [ debouncedAutoSearch ] );
+
+	// Clear the local input value when the content type switches; the store's search is already reset by the action.
+	useEffect( () => {
+		setValue( "" );
+		debouncedAutoSearch.cancel();
+	}, [ activeContentType, debouncedAutoSearch ] );
 
 	const handleChange = useCallback( ( event ) => {
 		setValue( event.target.value );
