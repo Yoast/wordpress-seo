@@ -1,4 +1,5 @@
-const { assessments, assessors, interpreters } = require( "yoastseo" );
+const { assessments, assessors } = require( "yoastseo" );
+const { toResultDto } = require( "yoastseo/contract" );
 const { getResearcher } = require( "../helpers/get-researcher" );
 const { paperFromRequest } = require( "../helpers/paper-from-request" );
 const { paperLanguage } = require( "../helpers/paper-language" );
@@ -21,16 +22,6 @@ const KeyphraseDistributionAssessment = assessments.seo.KeyphraseDistributionAss
 const TextTitleAssessment = assessments.seo.TextTitleAssessment;
 const WordComplexityAssessment = assessments.readability.WordComplexityAssessment;
 const TextAlignmentAssessment = assessments.readability.TextAlignmentAssessment;
-
-/**
- * Maps the result to a view model, ready to be sent to the client.
- * @param {AssessmentResult[]} result The result to map.
- * @returns {{score, editFieldName, text, marks}} The view model.
- */
-const resultToVM = ( result ) => {
-	const { _identifier, score, text, marks, editFieldName } = result;
-	return { _identifier, score, text, marks, editFieldName, rating: interpreters.scoreToRating( score ) };
-};
 
 module.exports = function( app ) {
 	app.get( "/analyze", ( request, response ) => {
@@ -58,10 +49,10 @@ module.exports = function( app ) {
 		inclusiveLanguageAssessor.assess( paper );
 
 		response.json( {
-			seo: seoAssessor.getValidResults().map( resultToVM ),
-			readability: contentAssessor.getValidResults().map( resultToVM ),
-			relatedKeyword: relatedKeywordAssessor.getValidResults().map( resultToVM ),
-			inclusiveLanguage: inclusiveLanguageAssessor.getValidResults().map( resultToVM ),
+			seo: seoAssessor.getValidResults().map( toResultDto ),
+			readability: contentAssessor.getValidResults().map( toResultDto ),
+			relatedKeyword: relatedKeywordAssessor.getValidResults().map( toResultDto ),
+			inclusiveLanguage: inclusiveLanguageAssessor.getValidResults().map( toResultDto ),
 		} );
 	} );
 
@@ -77,7 +68,7 @@ module.exports = function( app ) {
 		assessor.addAssessment( "TextTitleAssessment", new TextTitleAssessment() );
 
 		assessor.assess( paper );
-		response.json( assessor.getValidResults().map( resultToVM ) );
+		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
 
 	app.get( "/analyze/readability", ( request, response ) => {
@@ -92,7 +83,7 @@ module.exports = function( app ) {
 		assessor.addAssessment( "textAlignment", new TextAlignmentAssessment() );
 
 		assessor.assess( paper );
-		response.json( assessor.getValidResults().map( resultToVM ) );
+		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
 
 	app.get( "/analyze/related-keyphrase", ( request, response ) => {
@@ -105,7 +96,7 @@ module.exports = function( app ) {
 		const assessor = new RelatedKeywordAssessor( researcher );
 
 		assessor.assess( paper );
-		response.json( assessor.getValidResults().map( resultToVM ) );
+		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
 
 	app.get( "/analyze/inclusive-language", ( request, response ) => {
@@ -118,7 +109,7 @@ module.exports = function( app ) {
 		const assessor = new InclusiveLanguageAssessor( researcher );
 
 		assessor.assess( paper );
-		response.json( assessor.getValidResults().map( resultToVM ) );
+		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
 
 	app.get( "/analyze/meta-description", ( request, response ) => {
@@ -134,7 +125,7 @@ module.exports = function( app ) {
 		const researcher = getResearcher( language );
 		const assessor = new MetaDescriptionAssessor( researcher );
 		assessor.assess( paper );
-		response.json( assessor.getValidResults().map( resultToVM ) );
+		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
 
 	app.get( "/analyze/seo-title", ( request, response ) => {
@@ -150,7 +141,7 @@ module.exports = function( app ) {
 		const researcher = getResearcher( language );
 		const assessor = new SeoTitleAssessor( researcher );
 		assessor.assess( paper );
-		response.json( assessor.getValidResults().map( resultToVM ) );
+		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
 
 	app.get( "/analyze/keyphrase", ( request, response ) => {
@@ -166,7 +157,7 @@ module.exports = function( app ) {
 		const researcher = getResearcher( language );
 		const assessor = new KeyphraseAssessor( researcher );
 		assessor.assess( paper );
-		response.json( assessor.getValidResults().map( resultToVM ) );
+		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
 
 	app.get( "/analyze/keyphrase-use", ( request, response ) => {
@@ -184,6 +175,6 @@ module.exports = function( app ) {
 		assessor.addAssessment( "keyphraseDistribution", new KeyphraseDistributionAssessment() );
 
 		assessor.assess( paper );
-		response.json( assessor.getValidResults().map( resultToVM ) );
+		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
 }
