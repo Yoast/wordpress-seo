@@ -149,4 +149,4 @@ For more detailed documentation on specific topics, see:
 - [Public entry points](../README.md#entry-points) (`yoastseo` and `yoastseo/researcher`)
 - [Assessments Documentation](../src/scoring/assessments/README.md)
 - [Morphology Documentation](MORPHOLOGY.md)
-- [Design Decisions](./DESIGN%20DECISIONS.md)
+- [Design Decisions](DESIGN%20DECISIONS.md)
