@@ -54,7 +54,7 @@ export const paperDtoSchema = z.object( {
  */
 
 /**
- * Validates a PaperDTO and maps it onto the engine's internal Paper.
+ * Validates a PaperDto and maps it onto the engine's internal Paper.
  *
  * This is the single place that knows how contract fields land on Paper attributes
  * (notably `keyphrase` -> `keyword`); the engine, assessors, and researches are
