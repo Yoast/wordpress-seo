@@ -51,6 +51,8 @@ jobs:
         coverage: [false]
 
         # Run code coverage only on high/low PHP.
+        # IMPORTANT: when these are updated, make sure to also update the `carryforward` flag names
+        #            in the `finish-coveralls.yml` workflow!
         include:
         - php_version: 7.4
           coverage: true
@@ -141,6 +143,8 @@ jobs:
 
     strategy:
       matrix:
+        # IMPORTANT: when these are updated, make sure to also update the `carryforward` flag names
+        #            in the `finish-coveralls.yml` workflow!
         include:
           - php_version: "7.4"
             wp_version: "6.8"

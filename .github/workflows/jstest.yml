@@ -60,6 +60,8 @@ jobs:
       # As these packages are all unique, don't stop the workflow when the test run of one package fails.
       fail-fast: false
       matrix:
+        # IMPORTANT: when these are updated, make sure to also update the `carryforward` flag names
+        #            in the `finish-coveralls.yml` workflow!
         package:
           - 'analysis-report'
           - 'browserslist-config'
@@ -141,6 +143,8 @@ jobs:
       # As these packages are all unique, don't stop the workflow when the test run of one package fails.
       fail-fast: false
       matrix:
+        # IMPORTANT: when these are updated, make sure to also update the `carryforward` flag names
+        #            in the `finish-coveralls.yml` workflow!
         include:
           - package:              'yoastseo'
             needs_premium_config: true
