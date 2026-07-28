@@ -31,10 +31,8 @@ const slice = createSlice( {
 		},
 	},
 	extraReducers: ( builder ) => {
-		// Switching content type resets to the first page: the current page may not exist in the new content type's results.
-		builder.addCase( activeContentTypeActions.setActiveContentType, ( state ) => {
-			state.page = 1;
-		} );
+		// Switching content type resets all query state: search and filters from the previous content type should not carry over.
+		builder.addCase( activeContentTypeActions.setActiveContentType, () => createInitialQueryState() );
 	},
 } );
 
