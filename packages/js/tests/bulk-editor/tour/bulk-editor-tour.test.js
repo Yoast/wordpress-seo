@@ -5,13 +5,14 @@ import { TOUR_OPT_IN_KEY } from "../../../src/bulk-editor/constants";
 // Controls the mocked store reads per test.
 const storeState = { isSeen: false, isAiEnabled: true };
 const mockSetOptInNotificationSeen = jest.fn();
+const mockHideOptInNotification = jest.fn();
 
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: ( mapSelect ) => mapSelect( () => ( {
 		selectIsOptInNotificationSeen: () => storeState.isSeen,
 		selectPreference: ( key, fallback ) => ( key === "isAiEnabled" ? storeState.isAiEnabled : fallback ),
 	} ) ),
-	useDispatch: () => ( { setOptInNotificationSeen: mockSetOptInNotificationSeen } ),
+	useDispatch: () => ( { setOptInNotificationSeen: mockSetOptInNotificationSeen, hideOptInNotification: mockHideOptInNotification } ),
 } ) );
 
 const mockAnchor = { spotlight: null, targetMissing: false };
@@ -141,6 +142,7 @@ describe( "BulkEditorTour", () => {
 		fireEvent.click( screen.getByRole( "button", { name: "Got it!" } ) );
 
 		expect( mockSetOptInNotificationSeen ).toHaveBeenCalledWith( TOUR_OPT_IN_KEY );
+		expect( mockHideOptInNotification ).toHaveBeenCalledWith( TOUR_OPT_IN_KEY );
 		expect( onDeselectAll ).toHaveBeenCalledTimes( 1 );
 		expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
 	} );

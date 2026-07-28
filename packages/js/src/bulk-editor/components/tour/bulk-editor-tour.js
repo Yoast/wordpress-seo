@@ -31,7 +31,7 @@ export const BulkEditorTour = ( { onSelectAll, onDeselectAll, hasSelection } ) =
 			isAiEnabled: store.selectPreference( "isAiEnabled", false ),
 		};
 	}, [] );
-	const { setOptInNotificationSeen } = useDispatch( STORE_NAME );
+	const { setOptInNotificationSeen, hideOptInNotification } = useDispatch( STORE_NAME );
 
 	// The generate step's target only exists when AI is enabled, so drop it otherwise.
 	const steps = useMemo(
@@ -67,8 +67,10 @@ export const BulkEditorTour = ( { onSelectAll, onDeselectAll, hasSelection } ) =
 			didAutoSelect.current = false;
 		}
 		setIsDismissed( true );
+		// Persist to the server and update local state, so the tour stays gone this session and on reload.
 		setOptInNotificationSeen( TOUR_OPT_IN_KEY );
-	}, [ onDeselectAll, setOptInNotificationSeen ] );
+		hideOptInNotification( TOUR_OPT_IN_KEY );
+	}, [ onDeselectAll, setOptInNotificationSeen, hideOptInNotification ] );
 
 	const onNext = useCallback( () => {
 		// finish() dispatches store updates, so it runs from the event handler, not inside a state updater.
