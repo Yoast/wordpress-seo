@@ -117,3 +117,16 @@
 .yst-root .yst-tour-spotlight {
 	pointer-events: none;
 }
+
+/* In RTL. */
+.yst-bulk-editor-tour-card.yst-popover--right {
+	margin-inline-start: 1rem;
+}
+
+[dir="rtl"] .yst-bulk-editor-tour-card.yst-popover--right::before {
+	inset-inline-start: auto !important;
+	inset-inline-end: 100% !important;
+	transform: translateY(-50%) !important;
+	border-inline-start: 14px solid transparent !important;
+	border-inline-end: 14px solid white !important;
+}

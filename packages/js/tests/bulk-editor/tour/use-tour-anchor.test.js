@@ -108,6 +108,20 @@ describe( "useTourAnchor", () => {
 		expect( result.current.spotlight.bounds ).toEqual( { top: "10px", left: "22px", width: "118px", height: "28px" } );
 	} );
 
+	it( "cuts one rectangle per matching descendant with childSelector, leaving siblings dimmed", () => {
+		const target = addTarget( { top: 10, left: 20, width: 300, height: 30 } );
+		// A non-button sibling (e.g. Premium's AI usage counter) that must stay dimmed.
+		addChild( target, { top: 12, left: 22, width: 40, height: 16 } );
+		const button = document.createElement( "button" );
+		target.appendChild( button );
+		stubLayout( button, { top: 10, left: 100, width: 80, height: 28 } );
+
+		const { result } = renderHook( () => useTourAnchor( "[data-tour-id=\"x\"]", true, { perChild: true, childSelector: "button" } ) );
+
+		// Only the button is cut out; the sibling counter keeps no hole.
+		expect( result.current.spotlight.rects ).toEqual( [ { top: 10, left: 100, width: 80, height: 28, rx: 0 } ] );
+	} );
+
 	it( "returns no spotlight for perChild when the target has no visible children", () => {
 		addTarget();
 

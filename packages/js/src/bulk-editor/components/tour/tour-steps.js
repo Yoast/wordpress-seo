@@ -36,6 +36,7 @@ export const getTourSteps = () => [
 		id: "bulk-editor-tour-generate",
 		tourId: "generate-actions",
 		highlightChildren: true,
+		highlightChildrenSelector: "button",
 		position: "right",
 		requiresSelection: true,
 		title: __( "Get SEO-friendly options at scale", "wordpress-seo" ),

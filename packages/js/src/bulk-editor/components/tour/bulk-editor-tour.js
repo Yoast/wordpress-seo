@@ -58,6 +58,7 @@ export const BulkEditorTour = ( { onSelectAll, onDeselectAll, hasSelection } ) =
 	const { spotlight } = useTourAnchor( `[data-tour-id="${ step.tourId }"]`, isActive, {
 		endSelector: step.highlightEndSelector,
 		perChild: step.highlightChildren,
+		childSelector: step.highlightChildrenSelector,
 	} );
 
 	const finish = useCallback( () => {

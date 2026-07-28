@@ -90,7 +90,7 @@ export const TourCard = ( {
 		isVisible={ true }
 		setIsVisible={ handleVisibilityChange }
 		position={ position }
-		className={ className }
+		className={ `yst-bulk-editor-tour-card ${ className }`.trim() }
 		onKeyDown={ handleKeyDown }
 	>
 		<>
@@ -99,23 +99,25 @@ export const TourCard = ( {
 					<YoastIcon className="yst-w-5 yst-h-5 yst-fill-primary-500" { ...svgAriaProps } />
 				</div>
 				<div className="yst-flex-grow">
-					<Popover.Title id={ `${ id }-title` } as="h3">
+					<Popover.Title id={ `${ id }-title` } as="h3" style={ { textAlign: "start" } }>
 						{ title }
 					</Popover.Title>
 				</div>
 				<Popover.CloseButton screenReaderLabel={ __( "Close the tour", "wordpress-seo" ) } />
 			</div>
-			<Popover.Content id={ `${ id }-content` } className="yst-font-normal yst-ms-8 yst-me-5 yst-mt-1">
+			<Popover.Content id={ `${ id }-content` } className="yst-font-normal yst-ms-8 yst-me-5 yst-mt-1" style={ { textAlign: "start" } }>
 				{ content }
 			</Popover.Content>
 			<div className="yst-flex yst-gap-3 yst-justify-between yst-items-center yst-mt-3">
 				<span className="yst-ms-8 yst-text-slate-500">
-					{ sprintf(
-						/* translators: %1$s is the current step number, %2$s is the total number of steps. */
-						__( "%1$s / %2$s", "wordpress-seo" ),
-						currentStep,
-						totalSteps
-					) }
+					<span dir="ltr">
+						{ sprintf(
+							/* translators: %1$s is the current step number, %2$s is the total number of steps. */
+							__( "%1$s / %2$s", "wordpress-seo" ),
+							currentStep,
+							totalSteps
+						) }
+					</span>
 				</span>
 				<div className="yst-flex yst-gap-3 yst-items-center">
 					{ onBack && <Button variant="tertiary" onClick={ onBack }>

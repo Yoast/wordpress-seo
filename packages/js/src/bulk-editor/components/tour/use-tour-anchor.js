@@ -5,6 +5,10 @@ import { useState, useEffect } from "@wordpress/element";
 const TARGET_WAIT_MS = 2000;
 const TARGET_POLL_MS = 100;
 
+// How many animation frames to keep re-measuring after the tour opens, so a target that shifts while the page settles
+// is followed until it stops moving, then left to the scroll/resize/ResizeObserver listeners.
+const SETTLE_MAX_FRAMES = 40;
+
 // Space (px) around a single-region spotlight so it surrounds the target without looking clipped.
 const SPOTLIGHT_PADDING = { top: 6, right: 6, bottom: 6, left: 6 };
 // Corner radius (px) for a single-region cut-out, which covers an area rather than one styled control.
@@ -48,6 +52,74 @@ const findVisibleTarget = ( selector ) =>
 const isVisible = ( element ) => element.offsetParent !== null && element.getBoundingClientRect().width > 0;
 
 /**
+ * Measures the spotlight rectangles in viewport coordinates for a target.
+ *
+ * @param {HTMLElement} element       The target element.
+ * @param {boolean}     perChild      Whether to spotlight per matching child rather than the whole target.
+ * @param {?string}     childSelector With `perChild`, the descendants to spotlight; otherwise every direct child.
+ * @param {?string}     endSelector   For a single-region spotlight, the element whose bottom clamps its height.
+ *
+ * @returns {Array<Object>} The rectangles ({ top, left, width, height, rx }).
+ */
+const measureRects = ( element, perChild, childSelector, endSelector ) => {
+	if ( perChild ) {
+		const children = childSelector ? [ ...element.querySelectorAll( childSelector ) ] : [ ...element.children ];
+		return children.filter( isVisible ).map( ( child ) => {
+			const childRect = child.getBoundingClientRect();
+			return { top: childRect.top, left: childRect.left, width: childRect.width, height: childRect.height, rx: cornerRadius( child ) };
+		} );
+	}
+
+	const rect = element.getBoundingClientRect();
+	const endElement = endSelector ? element.querySelector( endSelector ) : null;
+	const top = rect.top - SPOTLIGHT_PADDING.top;
+	const bottom = endElement ? endElement.getBoundingClientRect().bottom : rect.bottom + SPOTLIGHT_PADDING.bottom;
+	return [ {
+		top,
+		left: rect.left - SPOTLIGHT_PADDING.left,
+		width: rect.width + SPOTLIGHT_PADDING.left + SPOTLIGHT_PADDING.right,
+		height: bottom - top,
+		rx: SINGLE_REGION_RADIUS,
+	} ];
+};
+
+/**
+ * Re-bases rects onto the fixed spotlight overlay. Its origin is not always the viewport's (an RTL document scrollbar
+ * shifts a fixed element's left edge), so subtracting it keeps the cut-outs and card aligned with their targets, which
+ * were measured in viewport coordinates. A no-op when the overlay sits at the origin (the LTR case).
+ *
+ * @param {Array<Object>} rects The rectangles in viewport coordinates.
+ *
+ * @returns {Array<Object>} The rectangles relative to the overlay.
+ */
+const rebaseToOverlay = ( rects ) => {
+	const overlay = document.querySelector( ".yst-tour-spotlight" );
+	if ( ! overlay ) {
+		return rects;
+	}
+	const { left, top } = overlay.getBoundingClientRect();
+	if ( left === 0 && top === 0 ) {
+		return rects;
+	}
+	return rects.map( ( rect ) => ( { ...rect, left: rect.left - left, top: rect.top - top } ) );
+};
+
+/**
+ * The bounding box enclosing every rectangle.
+ *
+ * @param {Array<Object>} rects The rectangles.
+ *
+ * @returns {{top: string, left: string, width: string, height: string}} The bounds.
+ */
+const boundsOf = ( rects ) => {
+	const minLeft = Math.min( ...rects.map( ( rect ) => rect.left ) );
+	const minTop = Math.min( ...rects.map( ( rect ) => rect.top ) );
+	const maxRight = Math.max( ...rects.map( ( rect ) => rect.left + rect.width ) );
+	const maxBottom = Math.max( ...rects.map( ( rect ) => rect.top + rect.height ) );
+	return { top: `${ minTop }px`, left: `${ minLeft }px`, width: `${ maxRight - minLeft }px`, height: `${ maxBottom - minTop }px` };
+};
+
+/**
  * Tracks a target element and returns the spotlight rectangles.
  *
  * @param {string}  targetSelector The `[data-tour-id="…"]` selector of the element the step points at.
@@ -55,10 +127,12 @@ const isVisible = ( element ) => element.offsetParent !== null && element.getBou
  * @param {Object}  [options]      Extra options.
  * @param {string}  [options.endSelector] Selector, resolved within the target, whose bottom clamps a single-region spotlight.
  * @param {boolean} [options.perChild]    Whether to spotlight per visible direct child instead of one for the target.
+ * @param {string}  [options.childSelector] With `perChild`, spotlight the matching descendants instead of every direct
+ *                                          child, so slot-filled siblings (e.g. Premium's AI usage counter) stay dimmed.
  *
  * @returns {{spotlight: {rects: Array<Object>, bounds: Object, viewport: Object}|null}} The spotlight geometry, or null.
  */
-export const useTourAnchor = ( targetSelector, isActive, { endSelector = null, perChild = false } = {} ) => {
+export const useTourAnchor = ( targetSelector, isActive, { endSelector = null, perChild = false, childSelector = null } = {} ) => {
 	const [ spotlight, setSpotlight ] = useState( null );
 
 	useEffect( () => {
@@ -73,70 +147,69 @@ export const useTourAnchor = ( targetSelector, isActive, { endSelector = null, p
 			// Instant, minimal scroll: only nudge the target into view if it is off-screen.
 			element.scrollIntoView( { block: "nearest" } );
 
-			const updatePosition = () => {
-				let rects;
-				if ( perChild ) {
-					rects = [ ...element.children ].filter( isVisible ).map( ( child ) => {
-						const rect = child.getBoundingClientRect();
-						return {
-							top: rect.top,
-							left: rect.left,
-							width: rect.width,
-							height: rect.height,
-							rx: cornerRadius( child ),
-						};
-					} );
-				} else {
-					const rect = element.getBoundingClientRect();
-					// Clamp to the end element's bottom when present, so the rest of the target stays dimmed.
-					const endElement = endSelector ? element.querySelector( endSelector ) : null;
-					const top = rect.top - SPOTLIGHT_PADDING.top;
-					const bottom = endElement
-						? endElement.getBoundingClientRect().bottom
-						: rect.bottom + SPOTLIGHT_PADDING.bottom;
-					rects = [ {
-						top,
-						left: rect.left - SPOTLIGHT_PADDING.left,
-						width: rect.width + SPOTLIGHT_PADDING.left + SPOTLIGHT_PADDING.right,
-						height: bottom - top,
-						rx: SINGLE_REGION_RADIUS,
-					} ];
-				}
+			// The JSON of the last rendered spotlight; the frequent re-measures only re-render when it actually changed.
+			let renderedKey = "";
 
-				// No visible children yet (e.g. the generate AI actions row before it mounts): render nothing rather than an
-				// empty, fully-dimmed overlay.
+			const updatePosition = () => {
+				const rects = measureRects( element, perChild, childSelector, endSelector );
+
+				// No visible children yet (e.g. the generate AI actions row before it mounts): render nothing rather than
+				// an empty, fully-dimmed overlay.
 				if ( rects.length === 0 ) {
-					setSpotlight( null );
+					if ( renderedKey !== "none" ) {
+						renderedKey = "none";
+						setSpotlight( null );
+					}
 					return;
 				}
 
-				const minLeft = Math.min( ...rects.map( ( rect ) => rect.left ) );
-				const minTop = Math.min( ...rects.map( ( rect ) => rect.top ) );
-				const maxRight = Math.max( ...rects.map( ( rect ) => rect.left + rect.width ) );
-				const maxBottom = Math.max( ...rects.map( ( rect ) => rect.top + rect.height ) );
-
-				setSpotlight( {
-					rects,
-					bounds: {
-						top: `${ minTop }px`,
-						left: `${ minLeft }px`,
-						width: `${ maxRight - minLeft }px`,
-						height: `${ maxBottom - minTop }px`,
-					},
+				const overlaid = rebaseToOverlay( rects );
+				const next = {
+					rects: overlaid,
+					bounds: boundsOf( overlaid ),
 					viewport: { width: window.innerWidth, height: window.innerHeight },
-				} );
+				};
+				const key = JSON.stringify( next );
+				if ( key !== renderedKey ) {
+					renderedKey = key;
+					setSpotlight( next );
+				}
 			};
 			updatePosition();
 
 			window.addEventListener( "scroll", updatePosition, true );
 			window.addEventListener( "resize", updatePosition );
-			const observer = new ResizeObserver( updatePosition );
-			observer.observe( element );
+			const resizeObserver = new ResizeObserver( updatePosition );
+			resizeObserver.observe( element );
+
+			// Premium fills the generate step's slot asynchronously: its AI usage counter arrives after a fetch and, in
+			// RTL, shifts the buttons sideways without changing the container's own size — which the ResizeObserver would
+			// miss. Watch the subtree so an added/updated node re-measures the (now moved) buttons.
+			const mutationObserver = new MutationObserver( updatePosition );
+			mutationObserver.observe( element, { childList: true, subtree: true, attributes: true, characterData: true } );
+
+			// The target can also shift while the page first settles (sidebar/table layout, fonts, the RTL scrollbar),
+			// before any observer fires. Re-measure each frame for a short, capped window; the signature guard keeps this
+			// from re-rendering when nothing changed.
+			let settleFrame = null;
+			let settleTicks = 0;
+			const settle = () => {
+				updatePosition();
+				settleTicks += 1;
+				if ( settleTicks < SETTLE_MAX_FRAMES ) {
+					settleFrame = requestAnimationFrame( settle );
+				}
+			};
+			settleFrame = requestAnimationFrame( settle );
 
 			cleanup = () => {
+				if ( settleFrame !== null ) {
+					cancelAnimationFrame( settleFrame );
+				}
 				window.removeEventListener( "scroll", updatePosition, true );
 				window.removeEventListener( "resize", updatePosition );
-				observer.disconnect();
+				resizeObserver.disconnect();
+				mutationObserver.disconnect();
 			};
 		};
 
@@ -164,7 +237,7 @@ export const useTourAnchor = ( targetSelector, isActive, { endSelector = null, p
 			}
 			setSpotlight( null );
 		};
-	}, [ targetSelector, isActive, endSelector, perChild ] );
+	}, [ targetSelector, isActive, endSelector, perChild, childSelector ] );
 
 	return { spotlight };
 };
