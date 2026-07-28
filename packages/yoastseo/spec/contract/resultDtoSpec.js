@@ -100,5 +100,19 @@ describe( "the result output contract (ResultDto)", function() {
 		it( "requires the core fields (missing text throws)", function() {
 			expect( () => resultDtoSchema.parse( { identifier: "id", score: 5, rating: "ok" } ) ).toThrow();
 		} );
+
+		// A consumer round-tripping a ResultDto gets `[]` back rather than `undefined`, matching `Mark.serialize()`,
+		// which always emits the field.
+		it( "defaults a mark's fieldsToMark to an empty array when the key is absent", function() {
+			const parsed = resultDtoSchema.parse( {
+				identifier: "id",
+				score: 5,
+				rating: "ok",
+				text: "x",
+				marks: [ { original: "cat", marked: "<yoastmark>cat</yoastmark>" } ],
+			} );
+
+			expect( parsed.marks[ 0 ].fieldsToMark ).toEqual( [] );
+		} );
 	} );
 } );

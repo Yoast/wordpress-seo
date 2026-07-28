@@ -14,7 +14,7 @@ import scoreToRating from "../scoring/interpreters/scoreToRating.js";
 const markSchema = z.object( {
 	original: z.string().describe( "The original, unmarked source text." ),
 	marked: z.string().describe( "The text with highlighting markup applied." ),
-	fieldsToMark: z.array( z.string() ).optional().describe( "The fields the mark applies to." ),
+	fieldsToMark: z.array( z.string() ).default( [] ).describe( "The fields the mark applies to." ),
 	position: z.unknown().optional().describe( "Source-code range for position-based highlighting." ),
 } );
 
