@@ -1,6 +1,7 @@
 import { runAssessment } from "../../src/scoring/runAssessment";
 import Paper from "../../src/values/Paper";
 import AssessmentResult from "../../src/values/AssessmentResult";
+import Mark from "../../src/values/Mark";
 import Factory from "../../src/helpers/factory";
 import memoizedSentenceTokenizer from "../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 
@@ -124,6 +125,34 @@ describe( "The runAssessment function", () => {
 		expect( result.hasText() ).toBe( true );
 
 		traceSpy.mockRestore();
+	} );
+
+	it( "populates the result marks, de-duplicated, when the result has marks", () => {
+		const duplicatedMark = () => new Mark( { original: "cats", marked: "<yoastmark>cats</yoastmark>" } );
+		const assessment = {
+			identifier: "marked",
+			getResult: () => new AssessmentResult( { score: 3, marks: [ duplicatedMark() ] } ),
+			getMarks: () => [ duplicatedMark(), duplicatedMark() ],
+		};
+
+		const result = runAssessment( assessment, new Paper( "Some cats." ), buildStubResearcher(), { buildTree: false } );
+
+		expect( result.hasMarks() ).toBe( true );
+		expect( result.getMarks() ).toEqual( [ duplicatedMark() ] );
+	} );
+
+	it( "throws a MissingArgument error when no assessment is supplied", () => {
+		expect( () => runAssessment( null, new Paper( "Some text." ), buildStubResearcher() ) )
+			.toThrow( "runAssessment requires an assessment." );
+	} );
+
+	it( "throws a MissingArgument error when no paper is supplied", () => {
+		const assessment = {
+			identifier: "testAssessment",
+			getResult: () => new AssessmentResult( { score: 9 } ),
+		};
+
+		expect( () => runAssessment( assessment, null, buildStubResearcher() ) ).toThrow( "runAssessment requires a paper." );
 	} );
 
 	it( "throws a MissingArgument error when no researcher is supplied", () => {

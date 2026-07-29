@@ -7,6 +7,33 @@ import MissingArgument from "../errors/missingArgument";
 import { showTrace } from "../helpers/errors";
 
 /**
+ * Asserts that the required `runAssessment` arguments are all present.
+ *
+ * Extracted from `runAssessment` to keep its cyclomatic complexity within the linted maximum.
+ *
+ * @param {Assessment} assessment The assessment to run.
+ * @param {Paper}      paper      The paper to run the assessment on.
+ * @param {Researcher} researcher The researcher to use.
+ *
+ * @throws {MissingArgument} When any of the three is missing.
+ *
+ * @returns {void}
+ */
+function assertRequiredArguments( assessment, paper, researcher ) {
+	if ( ! assessment ) {
+		throw new MissingArgument( "runAssessment requires an assessment." );
+	}
+
+	if ( ! paper ) {
+		throw new MissingArgument( "runAssessment requires a paper." );
+	}
+
+	if ( ! researcher ) {
+		throw new MissingArgument( "runAssessment requires a researcher." );
+	}
+}
+
+/**
  * Runs a single assessment correctly, without instantiating an `Assessor`.
  *
  * This is the direct (non-worker) primitive equivalent to the per-assessment slice of
@@ -30,14 +57,16 @@ import { showTrace } from "../helpers/errors";
  *                                            (default `true`). Set to `false` for data-only assessments
  *                                            that don't read the tree, to skip the build cost.
  *
- * @throws {MissingArgument} When no researcher is supplied.
+ * @throws {MissingArgument} When the assessment, the paper or the researcher is missing.
  *
  * @returns {AssessmentResult|null} The assessment result, or `null` when the assessment is not applicable.
  */
 export function runAssessment( assessment, paper, researcher, options = {} ) {
-	if ( ! researcher ) {
-		throw new MissingArgument( "runAssessment requires a researcher." );
-	}
+	/*
+	 * All three arguments are required, so they are validated up front: this is a public entry point and
+	 * the error isolation below only covers failures inside the assessment itself, not a malformed call.
+	 */
+	assertRequiredArguments( assessment, paper, researcher );
 
 	const { buildTree = true } = options;
 
