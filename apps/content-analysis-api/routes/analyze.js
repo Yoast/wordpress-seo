@@ -1,4 +1,4 @@
-const { assessments, assessors } = require( "yoastseo" );
+const { assessments, assessors, ensureTree } = require( "yoastseo" );
 const { toResultDto } = require( "yoastseo/contract" );
 const { getResearcher } = require( "../helpers/get-researcher" );
 const { paperFromRequest } = require( "../helpers/paper-from-request" );
@@ -43,6 +43,9 @@ module.exports = function( app ) {
 		const relatedKeywordAssessor = new RelatedKeywordAssessor( researcher );
 		const inclusiveLanguageAssessor = new InclusiveLanguageAssessor( researcher );
 
+		// Build the tree once up front so all four assessors reuse it instead of each rebuilding.
+		ensureTree( paper, researcher );
+
 		seoAssessor.assess( paper );
 		contentAssessor.assess( paper );
 		relatedKeywordAssessor.assess( paper );
@@ -66,7 +69,7 @@ module.exports = function( app ) {
 		const assessor = new SEOAssessor( researcher );
 		assessor.addAssessment( "keyphraseDistribution", new KeyphraseDistributionAssessment() );
 		assessor.addAssessment( "TextTitleAssessment", new TextTitleAssessment() );
-
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
@@ -81,7 +84,7 @@ module.exports = function( app ) {
 		const assessor = new ContentAssessor( researcher );
 		assessor.addAssessment( "wordComplexity", new WordComplexityAssessment() );
 		assessor.addAssessment( "textAlignment", new TextAlignmentAssessment() );
-
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
@@ -94,7 +97,7 @@ module.exports = function( app ) {
 		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new RelatedKeywordAssessor( researcher );
-
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
@@ -107,7 +110,7 @@ module.exports = function( app ) {
 		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new InclusiveLanguageAssessor( researcher );
-
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
@@ -124,6 +127,7 @@ module.exports = function( app ) {
 		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new MetaDescriptionAssessor( researcher );
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
@@ -140,6 +144,7 @@ module.exports = function( app ) {
 		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new SeoTitleAssessor( researcher );
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
@@ -156,6 +161,7 @@ module.exports = function( app ) {
 		const language = paperLanguage( paper );
 		const researcher = getResearcher( language );
 		const assessor = new KeyphraseAssessor( researcher );
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
@@ -173,7 +179,7 @@ module.exports = function( app ) {
 		const researcher = getResearcher( language );
 		const assessor = new KeyphraseUseAssessor( researcher );
 		assessor.addAssessment( "keyphraseDistribution", new KeyphraseDistributionAssessment() );
-
+		ensureTree( paper, researcher );
 		assessor.assess( paper );
 		response.json( assessor.getValidResults().map( toResultDto ) );
 	} );
