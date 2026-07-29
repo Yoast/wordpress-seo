@@ -153,4 +153,43 @@ describe( "Indexation", () => {
 			expect( postIndexingAction ).toHaveBeenCalledWith( response.objects, global.yoastIndexingData );
 		}, { timeout: 1000 } );
 	} );
+
+	it( "shows the failing object when the backend reports one", async() => {
+		global.yoastIndexingData = {
+			amount: 5,
+			restApi: {
+				root: "https://example.com/",
+				// eslint-disable-next-line camelcase
+				indexing_endpoints: {
+					posts: "indexing-endpoint",
+				},
+				nonce: "nonsense",
+			},
+			errorMessage: "An error message.",
+		};
+
+		global.fetch = jest.fn().mockImplementation( () => Promise.resolve( {
+			ok: false,
+			status: 500,
+			text: () => Promise.resolve( JSON.stringify( {
+				message: "Indexing failed.",
+				data: {
+					stackTrace: "the stack trace",
+					// eslint-disable-next-line camelcase
+					object_id: 42,
+					// eslint-disable-next-line camelcase
+					object_type: "post",
+				},
+			} ) ),
+		} ) );
+
+		render( <Indexation /> );
+		fireEvent.click( screen.getByRole( "button" ) );
+
+		await waitFor( () => {
+			expect( screen.queryByText( "An error message." ) ).toBeInTheDocument();
+		}, { timeout: 1000 } );
+
+		expect( screen.getByText( /post #42/ ) ).toBeInTheDocument();
+	} );
 } );

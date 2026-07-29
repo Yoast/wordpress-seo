@@ -12,14 +12,11 @@ use Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Endpoints_Repository;
 use Yoast\WP\SEO\AI\Generator\Application\Generator_Endpoints_Repository;
 use Yoast\WP\SEO\AI\Generator\User_Interface\Ai_Generator_Integration;
 use Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
-use Yoast\WP\SEO\MyYoast_Client\User_Interface\Connection_Permission;
-use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -107,32 +104,11 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 	protected $free_sparks_endpoints_repository;
 
 	/**
-	 * Represents the MyYoast connection feature-flag conditional.
+	 * Represents the MyYoast connection data presenter.
 	 *
-	 * @var Mockery\MockInterface|MyYoast_Connection_Conditional
+	 * @var Mockery\MockInterface|Myyoast_Connection_Data_Presenter
 	 */
-	protected $myyoast_connection_conditional;
-
-	/**
-	 * Represents the MyYoast connection status presenter.
-	 *
-	 * @var Mockery\MockInterface|Status_Presenter
-	 */
-	protected $status_presenter;
-
-	/**
-	 * Represents the short-link helper.
-	 *
-	 * @var Mockery\MockInterface|Short_Link_Helper
-	 */
-	protected $short_link_helper;
-
-	/**
-	 * Represents the MyYoast connection-management permission check.
-	 *
-	 * @var Mockery\MockInterface|Connection_Permission
-	 */
-	protected $connection_permission;
+	protected $myyoast_connection_data_presenter;
 
 	/**
 	 * Sets an instance for test purposes.
@@ -142,20 +118,17 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->asset_manager                    = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->addon_manager                    = Mockery::mock( WPSEO_Addon_Manager::class );
-		$this->api_client                       = Mockery::mock( API_Client::class );
-		$this->current_page_helper              = Mockery::mock( Current_Page_Helper::class );
-		$this->options_helper                   = Mockery::mock( Options_Helper::class );
-		$this->user_helper                      = Mockery::mock( User_Helper::class );
-		$this->introductions_seen_repository    = Mockery::mock( Introductions_Seen_Repository::class );
-		$this->generator_endpoints_repository   = Mockery::mock( Generator_Endpoints_Repository::class );
-		$this->consent_endpoints_repository     = Mockery::mock( Consent_Endpoints_Repository::class );
-		$this->free_sparks_endpoints_repository = Mockery::mock( Free_Sparks_Endpoints_Repository::class );
-		$this->myyoast_connection_conditional   = Mockery::mock( MyYoast_Connection_Conditional::class );
-		$this->status_presenter                 = Mockery::mock( Status_Presenter::class );
-		$this->short_link_helper                = Mockery::mock( Short_Link_Helper::class );
-		$this->connection_permission            = Mockery::mock( Connection_Permission::class );
+		$this->asset_manager                     = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->addon_manager                     = Mockery::mock( WPSEO_Addon_Manager::class );
+		$this->api_client                        = Mockery::mock( API_Client::class );
+		$this->current_page_helper               = Mockery::mock( Current_Page_Helper::class );
+		$this->options_helper                    = Mockery::mock( Options_Helper::class );
+		$this->user_helper                       = Mockery::mock( User_Helper::class );
+		$this->introductions_seen_repository     = Mockery::mock( Introductions_Seen_Repository::class );
+		$this->generator_endpoints_repository    = Mockery::mock( Generator_Endpoints_Repository::class );
+		$this->consent_endpoints_repository      = Mockery::mock( Consent_Endpoints_Repository::class );
+		$this->free_sparks_endpoints_repository  = Mockery::mock( Free_Sparks_Endpoints_Repository::class );
+		$this->myyoast_connection_data_presenter = Mockery::mock( Myyoast_Connection_Data_Presenter::class );
 
 		$this->instance = new Ai_Generator_Integration(
 			$this->asset_manager,
@@ -168,10 +141,7 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 			$this->generator_endpoints_repository,
 			$this->consent_endpoints_repository,
 			$this->free_sparks_endpoints_repository,
-			$this->myyoast_connection_conditional,
-			$this->status_presenter,
-			$this->short_link_helper,
-			$this->connection_permission,
+			$this->myyoast_connection_data_presenter,
 		);
 	}
 }

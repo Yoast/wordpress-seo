@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 
 /**
  * Adds the bulk editor page to the Yoast admin menu.
@@ -87,16 +88,24 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * Builds the MyYoast connection payload for script data.
+	 *
+	 * @var Myyoast_Connection_Data_Presenter
+	 */
+	private $myyoast_connection_data_presenter;
+
+	/**
 	 * Constructs the instance.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager            The WPSEO_Admin_Asset_Manager.
-	 * @param Current_Page_Helper       $current_page_helper      The Current_Page_Helper.
-	 * @param Product_Helper            $product_helper           The Product_Helper.
-	 * @param Short_Link_Helper         $short_link_helper        The Short_Link_Helper.
-	 * @param Content_Types_Repository  $content_types_repository The Content_Types_Repository.
-	 * @param Nonce_Repository          $nonce_repository         The Nonce_Repository.
-	 * @param Endpoints_Repository      $endpoints_repository     The Endpoints_Repository.
-	 * @param Options_Helper            $options_helper           The Options_Helper.
+	 * @param WPSEO_Admin_Asset_Manager         $asset_manager                     The WPSEO_Admin_Asset_Manager.
+	 * @param Current_Page_Helper               $current_page_helper               The Current_Page_Helper.
+	 * @param Product_Helper                    $product_helper                    The Product_Helper.
+	 * @param Short_Link_Helper                 $short_link_helper                 The Short_Link_Helper.
+	 * @param Content_Types_Repository          $content_types_repository          The Content_Types_Repository.
+	 * @param Nonce_Repository                  $nonce_repository                  The Nonce_Repository.
+	 * @param Endpoints_Repository              $endpoints_repository              The Endpoints_Repository.
+	 * @param Options_Helper                    $options_helper                    The Options_Helper.
+	 * @param Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter The MyYoast connection data presenter.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -106,16 +115,18 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		Content_Types_Repository $content_types_repository,
 		Nonce_Repository $nonce_repository,
 		Endpoints_Repository $endpoints_repository,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter
 	) {
-		$this->asset_manager            = $asset_manager;
-		$this->current_page_helper      = $current_page_helper;
-		$this->product_helper           = $product_helper;
-		$this->short_link_helper        = $short_link_helper;
-		$this->content_types_repository = $content_types_repository;
-		$this->nonce_repository         = $nonce_repository;
-		$this->endpoints_repository     = $endpoints_repository;
-		$this->options_helper           = $options_helper;
+		$this->asset_manager                     = $asset_manager;
+		$this->current_page_helper               = $current_page_helper;
+		$this->product_helper                    = $product_helper;
+		$this->short_link_helper                 = $short_link_helper;
+		$this->content_types_repository          = $content_types_repository;
+		$this->nonce_repository                  = $nonce_repository;
+		$this->endpoints_repository              = $endpoints_repository;
+		$this->options_helper                    = $options_helper;
+		$this->myyoast_connection_data_presenter = $myyoast_connection_data_presenter;
 	}
 
 	/**
@@ -210,29 +221,30 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 */
 	public function get_script_data() {
 		return [
-			'contentTypes' => $this->content_types_repository->get_content_types(),
-			'endpoints'    => $this->endpoints_repository->get_all_endpoints()->to_array(),
+			'contentTypes'      => $this->content_types_repository->get_content_types(),
+			'endpoints'         => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			// These must stay server-generated URLs: the bulk editor assigns them to window.location.href for its
 			// "Back to Tools" / logo navigation. If a link ever derives from request input, validate it with
 			// wp_validate_redirect() here before exposing it, to avoid an open redirect on the front-end.
-			'links'        => [
+			'links'             => [
 				'dashboard' => \admin_url( 'admin.php?page=' . General_Page_Integration::PAGE ),
 				'tools'     => \admin_url( 'admin.php?page=wpseo_tools' ),
 			],
-			'nonce'        => $this->nonce_repository->get_rest_nonce(),
-			'restRoot'     => \esc_url_raw( \rest_url() ),
-			'preferences'  => [
+			'nonce'             => $this->nonce_repository->get_rest_nonce(),
+			'restRoot'          => \esc_url_raw( \rest_url() ),
+			'preferences'       => [
 				'isPremium'   => $this->product_helper->is_premium(),
 				'isAiEnabled' => $this->options_helper->get( 'enable_ai_generator' ) === true,
 				'isRtl'       => \is_rtl(),
 				'pluginUrl'   => \plugins_url( '', \WPSEO_FILE ),
 			],
-			'linkParams'   => $this->short_link_helper->get_query_params(),
-			'analysis'     => [
+			'linkParams'        => $this->short_link_helper->get_query_params(),
+			'analysis'          => [
 				'contentLocale'         => \get_locale(),
 				// Re-scoring only runs when SEO analysis is enabled, matching the post editor.
 				'keywordAnalysisActive' => $this->options_helper->get( 'keyword_analysis_active' ) === true,
 			],
+			'myyoastConnection' => $this->myyoast_connection_data_presenter->present(),
 		];
 	}
 

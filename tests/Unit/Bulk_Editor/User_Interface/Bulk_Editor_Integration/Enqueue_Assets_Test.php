@@ -37,27 +37,28 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 		];
 
 		$expected_script_data = [
-			'contentTypes' => $content_types,
-			'endpoints'    => [
+			'contentTypes'      => $content_types,
+			'endpoints'         => [
 				'posts' => 'https://example.com/wp-json/yoast/v1/bulk_editor/posts',
 			],
-			'links'        => [
+			'links'             => [
 				'dashboard' => 'https://example.com/wp-admin/admin.php?page=wpseo_dashboard',
 				'tools'     => 'https://example.com/wp-admin/admin.php?page=wpseo_tools',
 			],
-			'nonce'        => 'rest-nonce',
-			'restRoot'     => 'https://example.com/wp-json/',
-			'preferences'  => [
+			'nonce'             => 'rest-nonce',
+			'restRoot'          => 'https://example.com/wp-json/',
+			'preferences'       => [
 				'isPremium'   => false,
 				'isAiEnabled' => true,
 				'isRtl'       => false,
 				'pluginUrl'   => 'https://example.com/wp-content/plugins/wordpress-seo',
 			],
-			'linkParams'   => [ 'foo' => 'bar' ],
-			'analysis'     => [
+			'linkParams'        => [ 'foo' => 'bar' ],
+			'analysis'          => [
 				'contentLocale'         => 'en_US',
 				'keywordAnalysisActive' => true,
 			],
+			'myyoastConnection' => null,
 		];
 
 		Actions\expectRemoved( 'admin_print_scripts' )->once()->with( 'print_emoji_detection_script' );
@@ -90,6 +91,7 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 				},
 			);
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
+		$this->myyoast_connection_data_presenter->expects( 'present' )->once()->andReturnNull();
 
 		$this->asset_manager->expects( 'localize_script' )
 			->once()

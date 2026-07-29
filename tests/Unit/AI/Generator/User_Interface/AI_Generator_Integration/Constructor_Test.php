@@ -7,13 +7,11 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\User_Interface\AI_Generator_Integ
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
-use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 
 /**
  * Tests the AI_Generator_Integration's construct method.
@@ -59,16 +57,8 @@ final class Constructor_Test extends Abstract_AI_Generator_Integration_Test {
 			$this->getPropertyValue( $this->instance, 'introductions_seen_repository' ),
 		);
 		$this->assertInstanceOf(
-			MyYoast_Connection_Conditional::class,
-			$this->getPropertyValue( $this->instance, 'myyoast_connection_conditional' ),
-		);
-		$this->assertInstanceOf(
-			Status_Presenter::class,
-			$this->getPropertyValue( $this->instance, 'status_presenter' ),
-		);
-		$this->assertInstanceOf(
-			Short_Link_Helper::class,
-			$this->getPropertyValue( $this->instance, 'short_link_helper' ),
+			Myyoast_Connection_Data_Presenter::class,
+			$this->getPropertyValue( $this->instance, 'myyoast_connection_data_presenter' ),
 		);
 	}
 }
