@@ -81,6 +81,25 @@ describe( "useTourAnchor", () => {
 		expect( target.scrollIntoView ).toHaveBeenCalled();
 	} );
 
+	it( "re-bases the spotlight onto a shifted overlay (RTL scrollbar)", () => {
+		addTarget( { top: 10, left: 20, width: 100, height: 30 } );
+
+		// Simulate an RTL document where the left-side scrollbar shifts the fixed overlay's origin 15px inward.
+		const overlay = document.createElement( "div" );
+		overlay.className = "yst-tour-spotlight";
+		overlay.getBoundingClientRect = () => ( { left: 15, top: 0, width: 0, height: 0 } );
+		document.body.appendChild( overlay );
+
+		const { result } = renderHook( () => useTourAnchor( "[data-tour-id=\"x\"]", true ) );
+
+		// The padded rect (left 20 - 6 = 14) is re-based by the overlay's 15px offset, so it lands on its control.
+		expect( result.current.spotlight.rects[ 0 ].left ).toBe( -1 );
+		expect( result.current.spotlight.rects[ 0 ].top ).toBe( 4 );
+		expect( result.current.spotlight.bounds.left ).toBe( "-1px" );
+
+		overlay.remove();
+	} );
+
 	it( "clamps a single-region rectangle to the end element's bottom", () => {
 		const target = addTarget( { top: 10, left: 20, width: 100, height: 90 } );
 		const end = addChild( target, { top: 40, left: 20, width: 100, height: 20 } );

@@ -116,18 +116,11 @@ export const BulkEditorNavMenu = ( {
 } ) => {
 	const hiddenCount = contentTypes.length - visibleLimit;
 
-	// The in-app guided-tour covers only the leading built-in content types (Posts, Pages),
-	// never commerce or custom types.
-	const highlightEndIndex = ( () => {
-		let end = -1;
-		for ( let index = 0; index < contentTypes.length && index < 2; index++ ) {
-			if ( ! BUILT_IN_CONTENT_TYPES.includes( contentTypes[ index ].id ) ) {
-				break;
-			}
-			end = index;
-		}
-		return end;
-	} )();
+	// The in-app guided tour highlights only the built-in content types (Posts, Pages).
+	// Post/page are always on top of the registration order.
+	const highlightEndIndex = contentTypes
+		.slice( 0, 2 )
+		.reduce( ( end, contentType, index ) => ( BUILT_IN_CONTENT_TYPES.includes( contentType.id ) ? index : end ), -1 );
 
 	const showMoreLabel = sprintf(
 		/* translators: %d expands to the number of additional content types. */

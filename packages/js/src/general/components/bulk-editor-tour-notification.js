@@ -6,12 +6,10 @@ import { Button, ModalNotification, useModalNotificationContext, useSvgAria } fr
 import classNames from "classnames";
 import { useLocation } from "react-router-dom";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
+import { TOUR_OPT_IN_KEY } from "../../bulk-editor/constants";
 import { STORE_NAME } from "../constants";
 import { useSelectGeneralPage } from "../hooks";
 import { ROUTES } from "../routes";
-
-// The opt-in key shared with the bulk editor tour and the server meta.
-const TOUR_OPT_IN_KEY = "bulk_editor_tour";
 
 // The bulk editor admin page the tour runs on, resolved against the admin URL for the "Show me" navigation.
 const BULK_EDITOR_LINK = "admin.php?page=wpseo_page_bulk_edit";
