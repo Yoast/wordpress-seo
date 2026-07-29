@@ -5,7 +5,7 @@ import { __ } from "@wordpress/i18n";
 import { Modal, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { get } from "lodash";
-import { HAS_AI_GENERATOR_CONSENT_NAME, PLUGIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
+import { ADMIN_URL_NAME, HAS_AI_GENERATOR_CONSENT_NAME, PLUGIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
 import { GrantConsent } from "./components/grant-consent";
 import { RevokeConsent } from "./components/revoke-consent";
 import { STORE_NAME_AI_CONSENT } from "./constants";
@@ -19,6 +19,7 @@ domReady( () => {
 		},
 		[ PLUGIN_URL_NAME ]: get( window, "wpseoAiConsent.pluginUrl", "" ),
 		[ LINK_PARAMS_NAME ]: get( window, "wpseoAiConsent.linkParams", {} ),
+		[ ADMIN_URL_NAME ]: get( window, "wpseoAiConsent.adminUrl", "" ),
 	} );
 
 	/**

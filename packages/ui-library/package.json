@@ -31,7 +31,7 @@
     "test": "jest tests/react-render-smoke.test.js",
     "test:storyshots": "yarn build:storybook --test --quiet && jest tests/storyshots.js",
     "t_st": "yarn test:storyshots",
-    "lint": "eslint . --max-warnings=3"
+    "lint": "eslint . --max-warnings=2"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.9",

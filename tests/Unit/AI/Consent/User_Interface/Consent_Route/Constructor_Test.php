@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\User_Interface\Consent_Route;
 
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler_Interface;
+use Yoast\WP\SEO\Loggers\Logger;
 
 /**
  * Tests the Consent_Route's construct method.
@@ -24,6 +25,10 @@ final class Constructor_Test extends Abstract_Consent_Route_Test {
 		$this->assertInstanceOf(
 			Consent_Handler_Interface::class,
 			$this->getPropertyValue( $this->instance, 'consent_handler' ),
+		);
+		$this->assertInstanceOf(
+			Logger::class,
+			$this->getPropertyValue( $this->instance, 'logger' ),
 		);
 	}
 }

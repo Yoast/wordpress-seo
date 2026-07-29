@@ -4,16 +4,16 @@ import ColorSwatchIcon from "@heroicons/react/outline/ColorSwatchIcon";
 import DesktopComputerIcon from "@heroicons/react/outline/DesktopComputerIcon";
 import NewspaperIcon from "@heroicons/react/outline/NewspaperIcon";
 import { useSelect } from "@wordpress/data";
-import { useCallback, useEffect } from "@wordpress/element";
+import { useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Badge, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria, useNavigationContext } from "@yoast/ui-library";
+import { Badge, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria, useNavigationContext } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, PremiumUpsellList, SidebarRecommendations, YoastLogo } from "../shared-admin/components";
-import { ErrorFallback, Notifications, Search, AdvancedMenu, ChildrenLimiterButton } from "./components";
+import { ErrorFallback, Notifications, Search, AdvancedMenu } from "./components";
 import { STORE_NAME } from "./constants";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
@@ -46,19 +46,11 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
 	const { pathname } = useLocation();
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
-	const { history, setHistory, addToHistory, removeFromHistory } = useNavigationContext();
+	const { history, setHistory } = useNavigationContext();
 
 	useEffect( () => {
 		setHistory( [ `menu-content-types${ idSuffix }`, `menu-categories-and-tags${ idSuffix }`, `menu-general${ idSuffix }` ] );
 	}, [] );
-
-	const renderMoreContentTypesButton = useCallback( ( { show, toggle, ariaProps } ) => {
-		return <ChildrenLimiterButton { ...{ show, toggle, ariaProps, id: `more-content-types${ idSuffix }`, addToHistory, removeFromHistory, history } } />;
-	}, [ idSuffix, addToHistory, removeFromHistory, history ] );
-
-	const renderMoreCategoriesButton = useCallback( ( { show, toggle, ariaProps } ) => {
-		return <ChildrenLimiterButton { ...{ show, toggle, ariaProps, id: `more-categories${ idSuffix }`, addToHistory, removeFromHistory, history } } />;
-	}, [ idSuffix, addToHistory, removeFromHistory, history ] );
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
@@ -88,47 +80,51 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				/>
 				<MenuItemLink to="/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
-			<SidebarNavigation.MenuItem
+			<SidebarNavigation.MenuItemWithLimiter
 				id={ `menu-content-types${ idSuffix }` }
 				icon={ NewspaperIcon }
 				label={ __( "Content types", "wordpress-seo" ) }
 				defaultOpen={ history.includes( `menu-content-types${ idSuffix }` ) }
+				limit={ 5 }
+				buttonId={ `more-content-types${ idSuffix }` }
+				showMoreLabel={ __( "Show more", "wordpress-seo" ) }
+				showLessLabel={ __( "Show less", "wordpress-seo" ) }
 			>
-				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreContentTypesButton } initialShow={ history.includes( `more-content-types${ idSuffix }` ) }>
-					<MenuItemLink to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
-					{ map( postTypes, ( { name, route, label, isNew } ) => (
-						<MenuItemLink
-							key={ `link-post-type-${ name }` }
-							to={ `/post-type/${ route }` }
-							label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
-								{ label }
-								{ isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
-							</span> }
-							idSuffix={ idSuffix }
-						/>
-					) ) }
-				</ChildrenLimiter>
-			</SidebarNavigation.MenuItem>
-			<SidebarNavigation.MenuItem
+				<MenuItemLink to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				{ map( postTypes, ( { name, route, label, isNew } ) => (
+					<MenuItemLink
+						key={ `link-post-type-${ name }` }
+						to={ `/post-type/${ route }` }
+						label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
+							{ label }
+							{ isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
+						</span> }
+						idSuffix={ idSuffix }
+					/>
+				) ) }
+			</SidebarNavigation.MenuItemWithLimiter>
+			<SidebarNavigation.MenuItemWithLimiter
 				id={ `menu-categories-and-tags${ idSuffix }` }
 				icon={ ColorSwatchIcon }
 				label={ __( "Categories & tags", "wordpress-seo" ) }
 				defaultOpen={ history.includes( `menu-categories-and-tags${ idSuffix }` ) }
+				limit={ 5 }
+				buttonId={ `more-categories${ idSuffix }` }
+				showMoreLabel={ __( "Show more", "wordpress-seo" ) }
+				showLessLabel={ __( "Show less", "wordpress-seo" ) }
 			>
-				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreCategoriesButton } initialShow={ history.includes( `more-categories${ idSuffix }` ) }>
-					{ map( taxonomies, taxonomy => (
-						<MenuItemLink
-							key={ `link-taxonomy-${ taxonomy.name }` }
-							to={ `/taxonomy/${ taxonomy.route }` }
-							label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
-								{ taxonomy.label }
-								{ taxonomy.isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
-							</span> }
-							idSuffix={ idSuffix }
-						/>
-					) ) }
-				</ChildrenLimiter>
-			</SidebarNavigation.MenuItem>
+				{ map( taxonomies, taxonomy => (
+					<MenuItemLink
+						key={ `link-taxonomy-${ taxonomy.name }` }
+						to={ `/taxonomy/${ taxonomy.route }` }
+						label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
+							{ taxonomy.label }
+							{ taxonomy.isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
+						</span> }
+						idSuffix={ idSuffix }
+					/>
+				) ) }
+			</SidebarNavigation.MenuItemWithLimiter>
 			<AdvancedMenu idSuffix={ idSuffix } />
 		</div>
 	</>;

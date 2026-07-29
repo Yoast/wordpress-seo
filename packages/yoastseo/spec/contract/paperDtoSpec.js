@@ -1,7 +1,7 @@
 import Paper from "../../src/values/Paper.js";
 import { paperDtoSchema, toPaper } from "../../src/contract";
 
-describe( "the Paper input contract (PaperDTO)", function() {
+describe( "the Paper input contract (PaperDto)", function() {
 	describe( "toPaper", function() {
 		it( "maps a valid keyphrase-core DTO onto a Paper", function() {
 			const paper = toPaper( {
