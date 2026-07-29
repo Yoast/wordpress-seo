@@ -54,6 +54,8 @@ const slice = createSlice( {
 	},
 	extraReducers: ( builder ) => {
 		// Any change to the shown result set resets the selection: the new set may no longer contain the selected rows.
+		// The "Overview selection" filter (query slice) intentionally outlives these resets: it narrows the result set
+		// like any other filter, while the carried-over selection itself is one-shot and never restored.
 		builder.addCase( queryActions.setStatuses, () => createInitialSelectionState() );
 		builder.addCase( queryActions.setSearch, () => createInitialSelectionState() );
 		builder.addCase( queryActions.setPage, () => createInitialSelectionState() );
