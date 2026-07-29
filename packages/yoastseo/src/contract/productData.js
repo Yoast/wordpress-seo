@@ -2,7 +2,7 @@ import { z } from "zod";
 
 /**
  * Serializable contract for the product analysis data consumed by the native e-commerce SEO assessments
- * (Product identifiers, SKU). It is the e-commerce slice of the {@link PaperDTO} input contract: a producer
+ * (Product identifiers, SKU). It is the e-commerce slice of the {@link PaperDto} input contract: a producer
  * (WooCommerce, Shopify, or any headless consumer) maps its own product model onto these fields, and the
  * assessments score from them without knowing the platform.
  *
