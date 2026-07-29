@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Helpers\Lock_Helper;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Rate_Limited_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Not_Found_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Temporarily_Unavailable_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Domain\Discovery_Document;
 use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Key_Pair;
@@ -180,6 +182,90 @@ final class Client_Registration_Test extends TestCase {
 		$this->expectException( Registration_Failed_Exception::class );
 		$this->expectExceptionMessage( 'Another registration' );
 		$this->instance->register( [] );
+	}
+
+	/**
+	 * Tests that a 503 temporarily_unavailable DCR response throws a typed exception
+	 * carrying the Retry-After value.
+	 *
+	 * @covers ::register
+	 *
+	 * @return void
+	 */
+	public function test_register_throws_temporarily_unavailable_with_retry_after() {
+		$this->mock_do_register_prerequisites();
+
+		$this->http_client
+			->expects( 'request' )
+			->once()
+			->andReturn(
+				new HTTP_Response(
+					503,
+					[ 'retry-after' => '120' ],
+					[
+						'error'             => 'temporarily_unavailable',
+						'error_description' => 'Client registration is temporarily disabled',
+					],
+				),
+			);
+
+		try {
+			$this->instance->register( [ 'https://example.com/callback' ] );
+			$this->fail( 'Expected Registration_Temporarily_Unavailable_Exception was not thrown.' );
+		} catch ( Registration_Temporarily_Unavailable_Exception $e ) {
+			$this->assertSame( 120, $e->get_retry_after_seconds() );
+		}
+	}
+
+	/**
+	 * Tests that a 503 temporarily_unavailable DCR response without a Retry-After header
+	 * throws the typed exception with a null retry value.
+	 *
+	 * @covers ::register
+	 *
+	 * @return void
+	 */
+	public function test_register_throws_temporarily_unavailable_without_retry_after() {
+		$this->mock_do_register_prerequisites();
+
+		$this->http_client
+			->expects( 'request' )
+			->once()
+			->andReturn(
+				new HTTP_Response(
+					503,
+					[],
+					[ 'error' => 'temporarily_unavailable' ],
+				),
+			);
+
+		try {
+			$this->instance->register( [ 'https://example.com/callback' ] );
+			$this->fail( 'Expected Registration_Temporarily_Unavailable_Exception was not thrown.' );
+		} catch ( Registration_Temporarily_Unavailable_Exception $e ) {
+			$this->assertNull( $e->get_retry_after_seconds() );
+		}
+	}
+
+	/**
+	 * Tests that a non-brake error response still throws the generic registration failure.
+	 *
+	 * @covers ::register
+	 *
+	 * @return void
+	 */
+	public function test_register_throws_generic_failure_on_other_errors() {
+		$this->mock_do_register_prerequisites();
+
+		$this->http_client
+			->expects( 'request' )
+			->once()
+			->andReturn(
+				new HTTP_Response( 503, [], [ 'error' => 'server_error' ] ),
+			);
+
+		$this->expectException( Registration_Failed_Exception::class );
+		$this->instance->register( [ 'https://example.com/callback' ] );
 	}
 
 	/**
@@ -825,6 +911,76 @@ final class Client_Registration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a successful read heals drifted local redirect URIs from the authoritative server
+	 * body — the site-migration scenario where a database search-replace rewrote the stored URIs
+	 * without going through the registration round-trip — while preserving the stored RAT.
+	 *
+	 * @covers ::read_registration
+	 * @covers ::store_credentials
+	 *
+	 * @return void
+	 */
+	public function test_read_registration_heals_drifted_redirect_uris_and_preserves_rat() {
+		$old_uri = 'https://old.example.com/wp-admin/admin-post.php?action=yoast_myyoast_oauth_callback';
+		$new_uri = 'https://new.example.com/wp-admin/admin-post.php?action=yoast_myyoast_oauth_callback';
+
+		// Local drifted to the migrated URL (search-replace rewrote it in the DB) and marked verified.
+		Functions\expect( 'get_option' )
+			->with( self::OPTION_KEY, Mockery::any() )
+			->andReturn(
+				[
+					'client_id'               => 'cid',
+					'encrypted_rat'           => 'encrypted-rat',
+					'registration_client_uri' => 'https://my.yoast.com/api/oauth/reg/cid',
+					'metadata'                => [ 'redirect_uris' => [ $new_uri ] ],
+					'validated_uris'          => [ $new_uri ],
+				],
+			);
+
+		$this->encryption->expects( 'decrypt' )->with( 'encrypted-rat', Mockery::any() )->andReturn( 'decrypted-rat' );
+		// The server body carries no RAT, so the stored one must be preserved — never re-encrypted.
+		$this->encryption->expects( 'encrypt' )->never();
+
+		// The server still holds the pre-migration URL — that is the authority.
+		$this->http_client
+			->expects( 'authenticated_request' )
+			->once()
+			->with( 'GET', Mockery::any(), Mockery::any(), Mockery::any(), Mockery::any() )
+			->andReturn(
+				new HTTP_Response(
+					200,
+					[],
+					[
+						'client_id'                => 'cid',
+						'registration_client_uri'  => 'https://my.yoast.com/api/oauth/reg/cid',
+						'redirect_uris'            => [ $old_uri ],
+					],
+				),
+			);
+
+		// Local is rewritten to the server's URL, the RAT is kept, and the stale verification of the
+		// migrated URL is pruned (the server no longer lists it).
+		Functions\expect( 'update_option' )
+			->once()
+			->with(
+				self::OPTION_KEY,
+				Mockery::on(
+					static function ( $option ) use ( $old_uri ) {
+						return ( $option['metadata']['redirect_uris'] ?? null ) === [ $old_uri ]
+							&& ( $option['encrypted_rat'] ?? null ) === 'encrypted-rat'
+							&& ( $option['validated_uris'] ?? null ) === [];
+					},
+				),
+				false,
+			)
+			->andReturn( true );
+
+		$body = $this->instance->read_registration();
+
+		$this->assertSame( [ $old_uri ], $body['redirect_uris'] );
+	}
+
+	/**
 	 * Tests that the typed registration exceptions are still caught as Registration_Failed_Exception.
 	 *
 	 * @covers \Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Rate_Limited_Exception
@@ -859,5 +1015,43 @@ final class Client_Registration_Test extends TestCase {
 		$this->encryption
 			->expects( 'decrypt' )
 			->andReturn( 'decrypted-rat' );
+	}
+
+	/**
+	 * Sets up the mocks required for do_register() to reach the HTTP request,
+	 * for a fresh (not-yet-registered) site.
+	 *
+	 * @return void
+	 */
+	private function mock_do_register_prerequisites(): void {
+		Functions\expect( 'get_current_blog_id' )->andReturn( 1 );
+		$this->lock_helper->allows( 'execute' )->andReturnUsing(
+			static function ( $key, $callback ) {
+				return $callback();
+			},
+		);
+
+		// Not yet registered, so ensure_registered() proceeds to register().
+		Functions\expect( 'get_option' )
+			->with( self::OPTION_KEY, false )
+			->andReturn( false );
+
+		$discovery_document = Mockery::mock( Discovery_Document::class );
+		$discovery_document->allows( 'get_registration_endpoint' )->andReturn( 'https://my.yoast.com/api/oauth/reg' );
+		$this->discovery_client->allows( 'get_document' )->andReturn( $discovery_document );
+
+		$this->issuer_config->allows( 'get_software_statement' )->andReturn( 'ss-jwt' );
+		$this->issuer_config->allows( 'get_initial_access_token' )->andReturn( 'iat' );
+
+		$keypair  = \sodium_crypto_sign_keypair();
+		$key_pair = new Key_Pair(
+			\sodium_crypto_sign_publickey( $keypair ),
+			\sodium_crypto_sign_secretkey( $keypair ),
+			'kid',
+		);
+		$this->key_pair_manager->allows( 'get_or_create_key_pair' )->andReturn( $key_pair );
+		$this->key_pair_manager->allows( 'get_public_key_jwk' )->andReturn( [ 'kty' => 'OKP' ] );
+
+		Functions\expect( 'wp_json_encode' )->andReturn( '{}' );
 	}
 }

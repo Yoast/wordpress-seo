@@ -1,5 +1,5 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { createInterpolateElement } from "@wordpress/element";
+import { createInterpolateElement, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Pagination, useMediaQuery } from "@yoast/ui-library";
 import { PAGE_SIZE, STORE_NAME } from "../constants";
@@ -24,8 +24,11 @@ const MAX_PAGE_BUTTONS_SMALL = 5;
  */
 export const BulkEditorFooter = ( { total, totalPages, isPending } ) => {
 	const page = useSelect( ( select ) => select( STORE_NAME ).selectPage(), [] );
-	const { setPage } = useDispatch( STORE_NAME );
+	const { requestSwitch } = useDispatch( STORE_NAME );
 	const { matches: isLarge } = useMediaQuery( "(min-width: 640px)" );
+
+	// A page change is a guarded switch when there are unsaved edits or AI pending changes.
+	const onNavigate = useCallback( ( target ) => requestSwitch( { kind: "page", target } ), [ requestSwitch ] );
 
 	// Nothing to summarise or page through; the table itself shows the "no content" message.
 	if ( total === 0 ) {
@@ -61,7 +64,7 @@ export const BulkEditorFooter = ( { total, totalPages, isPending } ) => {
 				aria-label={ __( "Results pagination", "wordpress-seo" ) }
 				current={ page }
 				total={ totalPages }
-				onNavigate={ setPage }
+				onNavigate={ onNavigate }
 				maxPageButtons={ isLarge ? MAX_PAGE_BUTTONS_LARGE : MAX_PAGE_BUTTONS_SMALL }
 				disabled={ isPending }
 				/* translators: Hidden accessibility text. */

@@ -1,6 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useMemo } from "@wordpress/element";
-import { STORE_NAME } from "../constants";
+import { useCallback, useEffect, useMemo, useRef, useState } from "@wordpress/element";
+import { BULK_UPDATE_BATCH_SIZE, STORE_NAME } from "../constants";
 
 /**
  * The endpoint key a field saves through: a field-level override when set, otherwise the field set's default.
@@ -28,6 +28,25 @@ const fieldEndpointKey = ( field, fieldSet ) => field.endpoint ?? fieldSet.endpo
 export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } ) => {
 	const editingRows = useSelect( ( select ) => select( STORE_NAME ).selectEditingRows(), [] );
 	const { startEdit, updateDraftField, setSavingField, closeField, discardEdit, stopEdit } = useDispatch( STORE_NAME );
+
+	const [ isApplyingAll, setIsApplyingAll ] = useState( false );
+	// Whether the last apply-all had one or more requests fail; drives the inline "couldn't save" notice.
+	const [ hasSaveError, setHasSaveError ] = useState( false );
+	// Guards onApplyAll against re-entry, so a batch in flight can't fire a second,
+	// overlapping set of requests. A ref, so the check is synchronous within a tick.
+	const isApplyingAllRef = useRef( false );
+
+	const dismissSaveError = useCallback( () => setHasSaveError( false ), [] );
+
+	// Clear the save error whenever edit mode is fully exited. Failed rows stay open, so the error persists exactly
+	// while there is still something to retry, and can't resurface stale on the next edit session.
+	useEffect( () => {
+		if ( Object.keys( editingRows ).length === 0 ) {
+			setHasSaveError( false );
+		}
+	}, [ editingRows ] );
+
+	const onDiscardAll = useCallback( () => stopEdit(), [ stopEdit ] );
 
 	const onDiscardField = useCallback( ( { id, key } ) => closeField( { id, key } ), [ closeField ] );
 
@@ -67,18 +86,113 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			closeField( { id, key } );
 		} catch ( error ) {
 			setSavingField( { id, key, isSaving: false } );
+			setHasSaveError( true );
 		}
 	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, closeField, updateItem ] );
 
+	// Saves every open edit as one batch. Returns true (clean), false (a request failed), or null (a save was
+	// already in flight), so the tab-switch modal only closes on a real failure and not on a re-entrant call.
+	const onApplyAll = useCallback( async() => {
+		const fieldSet = fieldSets[ activeFieldSet ];
+		if ( isApplyingAllRef.current ) {
+			return null;
+		}
+		if ( ! remoteDataProvider || Object.keys( editingRows ).length === 0 ) {
+			return true;
+		}
+
+		// Group every row's open drafts by endpoint: each row carries both its request payload (`item`) and the
+		// `applied` entries to reflect locally once it saves.
+		const batches = {};
+		Object.entries( editingRows ).forEach( ( [ rowId, row ] ) => {
+			const id = Number( rowId );
+			row.openFields.forEach( ( key ) => {
+				const field = fieldSet.fields.find( ( candidate ) => candidate.key === key );
+				if ( ! field ) {
+					return;
+				}
+				const endpointKey = fieldEndpointKey( field, fieldSet );
+				const endpoint = dataProvider.getEndpoint( endpointKey );
+				if ( ! endpoint ) {
+					return;
+				}
+				if ( ! batches[ endpointKey ] ) {
+					batches[ endpointKey ] = { endpoint, rows: {} };
+				}
+				if ( ! batches[ endpointKey ].rows[ id ] ) {
+					batches[ endpointKey ].rows[ id ] = { item: { id }, applied: [] };
+				}
+				batches[ endpointKey ].rows[ id ].item[ field.param ] = row.draft[ key ];
+				batches[ endpointKey ].rows[ id ].applied.push( { id, key, value: row.draft[ key ] } );
+			} );
+		} );
+
+		const groups = Object.values( batches );
+		if ( groups.length === 0 ) {
+			return true;
+		}
+
+		// One POST per endpoint, chunked to the server's batch limit. Each request keeps the `applied` entries for its own rows,
+		// so a failed chunk only holds back its own rows.
+		const requests = groups.flatMap( ( group ) => {
+			const rows = Object.values( group.rows );
+			const chunks = [];
+			for ( let start = 0; start < rows.length; start += BULK_UPDATE_BATCH_SIZE ) {
+				chunks.push( rows.slice( start, start + BULK_UPDATE_BATCH_SIZE ) );
+			}
+			return chunks.map( ( chunkRows ) => ( {
+				applied: chunkRows.flatMap( ( row ) => row.applied ),
+				promise: remoteDataProvider.fetchJson( group.endpoint, {}, {
+					method: "POST",
+					body: JSON.stringify( { items: chunkRows.map( ( row ) => row.item ) } ),
+				} ),
+			} ) );
+		} );
+
+		isApplyingAllRef.current = true;
+		setIsApplyingAll( true );
+		setHasSaveError( false );
+		try {
+			// A partial failure reflects the rows that did save, while the
+			// failed rows stay open for a retry. On full success every field closes, so all rows leave edit mode.
+			const results = await Promise.allSettled( requests.map( ( request ) => request.promise ) );
+			results.forEach( ( result, index ) => {
+				if ( result.status !== "fulfilled" ) {
+					return;
+				}
+				requests[ index ].applied.forEach( ( { id, key, value } ) => {
+					updateItem( id, key, value );
+					closeField( { id, key } );
+				} );
+			} );
+			const hasFailure = results.some( ( result ) => result.status === "rejected" );
+			if ( hasFailure ) {
+				setHasSaveError( true );
+			}
+			return ! hasFailure;
+		} finally {
+			isApplyingAllRef.current = false;
+			setIsApplyingAll( false );
+		}
+	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, updateItem, closeField ] );
+
 	const editing = useMemo( () => ( {
 		editingRows,
+		isApplyingAll,
+		hasSaveError,
+		dismissSaveError,
 		onStartEdit,
 		onChangeField: updateDraftField,
 		onApplyField,
+		onApplyAll,
+		onDiscardAll,
 		onCancelEdit,
 		onDiscardField,
 		onFieldApplied: updateItem,
-	} ), [ editingRows, onStartEdit, updateDraftField, onApplyField, onCancelEdit, onDiscardField, updateItem ] );
+	} ), [
+		editingRows, isApplyingAll, hasSaveError, dismissSaveError, onStartEdit, updateDraftField,
+		onApplyField, onApplyAll, onDiscardAll, onCancelEdit, onDiscardField, updateItem,
+	] );
 
 	return { editing, stopEditing: stopEdit };
 };

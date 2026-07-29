@@ -19,16 +19,18 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
 final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 
 	/**
-	 * Tests that the queried posts are mapped to a page of posts, reading the raw Yoast meta.
+	 * The statuses passed in the query.
+	 *
+	 * @var array<string>
+	 */
+	private const STATUSES = [ 'publish', 'draft', 'pending', 'future' ];
+
+	/**
+	 * Tests that an editable post is returned with its status and raw Yoast meta.
 	 *
 	 * @return void
 	 */
-	public function test_get_posts() {
-		$post = (object) [
-			'ID'          => 7,
-			'post_title'  => 'Hello world',
-			'post_status' => 'draft',
-		];
+	public function test_get_posts_editable() {
 		$meta = [
 			'_yoast_wpseo_focuskw'               => 'hello',
 			'_yoast_wpseo_title'                 => 'Hello | Site',
@@ -37,12 +39,11 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 			'_yoast_wpseo_opengraph-description' => 'Social description.',
 		];
 
-		$wp_query              = Mockery::mock( WP_Query::class );
-		$wp_query->posts       = [ $post ];
-		$wp_query->found_posts = 1;
+		$this->stub_run_query( [ 7 ], 1 );
 
-		$this->instance->expects( 'run_query' )->once()->with( Mockery::type( Posts_Query::class ) )->andReturn( $wp_query );
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
 
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn( (object) [ 'post_status' => 'draft' ] );
 		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
 		Functions\expect( 'get_post_meta' )
@@ -66,6 +67,7 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 						'meta_description'   => 'A description.',
 						'social_title'       => 'Social hello',
 						'social_description' => 'Social description.',
+						'editable'           => true,
 					],
 				],
 				'total'       => 1,
@@ -73,7 +75,42 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 				'page'        => 1,
 				'per_page'    => 20,
 			],
-			$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', [ 'publish' ] ) )->to_array(),
+			$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array(),
+		);
+	}
+
+	/**
+	 * Tests that a non-editable post is returned locked and without its SEO data.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_locks_non_editable_post() {
+		$this->stub_run_query( [ 7 ], 1 );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => false ] );
+
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn( (object) [ 'post_status' => 'publish' ] );
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Secret post' );
+		// A locked post exposes neither its edit link nor its Yoast meta.
+		Functions\expect( 'get_edit_post_link' )->never();
+		Functions\expect( 'get_post_meta' )->never();
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+
+		$this->assertSame(
+			[
+				'id'                 => 7,
+				'title'              => 'Secret post',
+				'status'             => 'publish',
+				'edit_link'          => '',
+				'focus_keyphrase'    => '',
+				'seo_title'          => '',
+				'meta_description'   => '',
+				'social_title'       => '',
+				'social_description' => '',
+				'editable'           => false,
+			],
+			$result['posts'][0],
 		);
 	}
 
@@ -83,15 +120,34 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 	 * @return void
 	 */
 	public function test_get_posts_reports_total_from_found_posts() {
-		$wp_query              = Mockery::mock( WP_Query::class );
-		$wp_query->posts       = [];
-		$wp_query->found_posts = 42;
+		$this->stub_run_query( [ 7 ], 42 );
 
-		$this->instance->expects( 'run_query' )->once()->andReturn( $wp_query );
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
 
-		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', [ 'publish' ] ) )->to_array();
+		Functions\expect( 'get_post' )->once()->andReturn( (object) [ 'post_status' => 'draft' ] );
+		Functions\expect( 'get_the_title' )->once()->andReturn( 'Hello world' );
+		Functions\expect( 'get_edit_post_link' )->once()->andReturn( 'edit' );
+		Functions\expect( 'get_post_meta' )->times( 5 )->andReturn( '' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
 
 		$this->assertSame( 42, $result['total'] );
 		$this->assertSame( 3, $result['total_pages'] );
+	}
+
+	/**
+	 * Stubs run_query so it returns a WP_Query with the given post IDs and total.
+	 *
+	 * @param array<int> $post_ids    The post IDs the query returns.
+	 * @param int        $found_posts The total the query reports.
+	 *
+	 * @return void
+	 */
+	private function stub_run_query( array $post_ids, int $found_posts ) {
+		$wp_query              = Mockery::mock( WP_Query::class );
+		$wp_query->posts       = $post_ids;
+		$wp_query->found_posts = $found_posts;
+
+		$this->instance->expects( 'run_query' )->once()->with( Mockery::type( Posts_Query::class ) )->andReturn( $wp_query );
 	}
 }
