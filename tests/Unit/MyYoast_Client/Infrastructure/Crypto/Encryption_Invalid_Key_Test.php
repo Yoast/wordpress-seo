@@ -3,7 +3,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\MyYoast_Client\Infrastructure\Crypto;
 
-use stdClass;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption_Exception;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -43,6 +42,9 @@ final class Encryption_Invalid_Key_Test extends TestCase {
 	/**
 	 * Provides the non-string AUTH_KEY values that define() accepts.
 	 *
+	 * Objects are omitted: define() only accepts them as of PHP 8.1, so an object
+	 * AUTH_KEY cannot occur on the oldest PHP versions this plugin supports.
+	 *
 	 * @return array<string, array<mixed>>
 	 */
 	public static function provide_non_string_auth_keys() {
@@ -53,7 +55,6 @@ final class Encryption_Invalid_Key_Test extends TestCase {
 			'integer' => [ 123 ],
 			'float'   => [ 1.5 ],
 			'array'   => [ [ 'key' ] ],
-			'object'  => [ new stdClass() ],
 		];
 	}
 
