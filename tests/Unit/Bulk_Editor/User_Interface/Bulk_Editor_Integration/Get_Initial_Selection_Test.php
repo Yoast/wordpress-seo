@@ -208,6 +208,7 @@ final class Get_Initial_Selection_Test extends Abstract_Bulk_Editor_Integration_
 		$this->product_helper->allows( 'is_premium' )->andReturn( false );
 		$this->options_helper->allows( 'get' )->andReturn( true );
 		$this->short_link_helper->allows( 'get_query_params' )->andReturn( [] );
+		$this->myyoast_connection_data_presenter->allows( 'present' )->andReturn( null );
 
 		return $this->instance->get_script_data()['initialSelection'];
 	}

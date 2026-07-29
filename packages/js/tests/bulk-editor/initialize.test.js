@@ -84,6 +84,12 @@ describe( "bulk editor initialize", () => {
 		expect( mockRegisterStore ).toHaveBeenCalledWith( {
 			initialState: {
 				linkParams: { foo: "bar" },
+				myyoastConnection: {
+					isAvailable: false,
+					canConnect: false,
+					connectUrl: null,
+					learnMoreUrl: "",
+				},
 				activeContentType: "",
 				selection: { selectedIds: [], preselectedTotal: 0 },
 				query: { overviewIds: [], isOverviewFilterActive: false },
@@ -107,6 +113,12 @@ describe( "bulk editor initialize", () => {
 		expect( mockRegisterStore ).toHaveBeenCalledWith( {
 			initialState: {
 				linkParams: { foo: "bar" },
+				myyoastConnection: {
+					isAvailable: false,
+					canConnect: false,
+					connectUrl: null,
+					learnMoreUrl: "",
+				},
 				activeContentType: "page",
 				selection: { selectedIds: [ 5, 3 ], preselectedTotal: 25 },
 				query: { overviewIds: [ 5, 3 ], isOverviewFilterActive: true },

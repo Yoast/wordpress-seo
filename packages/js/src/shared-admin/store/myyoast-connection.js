@@ -23,6 +23,19 @@ const slice = createSlice( {
 
 export const getInitialMyyoastConnectionState = slice.getInitialState;
 
+/**
+ * Maps the raw myyoastConnection window payload to store initial state.
+ *
+ * @param {Object|null} payload The myyoastConnection value from the window data object, or null when unavailable.
+ * @returns {Object} The initial state shape for the myyoastConnection slice.
+ */
+export const getMyyoastConnectionState = ( payload ) => ( {
+	isAvailable: Boolean( payload ) && get( payload, "isProvisioned", false ),
+	canConnect: get( payload, "canConnect", false ),
+	connectUrl: get( payload, "connectUrl", null ),
+	learnMoreUrl: get( payload, "learnMoreUrl", "" ),
+} );
+
 export const myyoastConnectionSelectors = {
 	selectMyyoastConnection: state => get( state, MYYOAST_CONNECTION_NAME, getInitialMyyoastConnectionState() ),
 };
