@@ -13,10 +13,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Base class for the WooCommerce_Product_Type_Change_Listener_Integration tests.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-abstract class Abstract_WooCommerce_Product_Type_Change_Listener_Integration_TestCase extends TestCase {
+abstract class Abstract_TestCase extends TestCase {
 
 	/**
 	 * Holds the instance.

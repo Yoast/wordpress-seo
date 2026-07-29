@@ -13,10 +13,8 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional;
  * @group WooCommerce_Product_Type_Change_Listener_Integration
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Cache\WooCommerce_Product_Type_Change_Listener_Integration::get_conditionals
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class WooCommerce_Product_Type_Change_Listener_Integration_Get_Conditionals_Test extends Abstract_WooCommerce_Product_Type_Change_Listener_Integration_TestCase {
+final class Get_Conditionals_Test extends Abstract_TestCase {
 
 	/**
 	 * Tests that get_conditionals returns the expected conditionals.

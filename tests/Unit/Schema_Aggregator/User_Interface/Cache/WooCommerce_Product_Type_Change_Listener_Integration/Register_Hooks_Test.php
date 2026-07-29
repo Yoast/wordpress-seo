@@ -12,10 +12,8 @@ use Brain\Monkey;
  * @group WooCommerce_Product_Type_Change_Listener_Integration
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Cache\WooCommerce_Product_Type_Change_Listener_Integration::register_hooks
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class WooCommerce_Product_Type_Change_Listener_Integration_Register_Hooks_Test extends Abstract_WooCommerce_Product_Type_Change_Listener_Integration_TestCase {
+final class Register_Hooks_Test extends Abstract_TestCase {
 
 	/**
 	 * Tests the registration of the hooks.
