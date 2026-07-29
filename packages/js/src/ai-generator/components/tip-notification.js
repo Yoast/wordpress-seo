@@ -4,15 +4,15 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Button, Notifications, useToggleState } from "@yoast/ui-library";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { CONTENT_TYPE, EDIT_TYPE, MIN_CHARACTERS_DEFAULT, MIN_CHARACTERS_IRREGULAR, STORE_NAME_EDITOR } from "../constants";
+import { getVisibleContentLength } from "../helpers";
 import { useTypeContext } from "../hooks";
 
 const ALERT_KEY = "ai_generator_tip_notification";
 
 /**
  * Returns the minimum content length in characters for the given post type and content type.
- * @param {string} postType The current post type.
+ * @param {boolean} isWooProductEntity Whether the current post type is a WooCommerce product.
  * @param {string} contentType The current content type.
- * @param {boolean} isWooCommerceActive Whether WooCommerce is active.
  * @returns {number} The minimum content length.
  */
 const getMinimumContentLength = ( isWooProductEntity, contentType ) =>
@@ -55,8 +55,12 @@ export const TipNotification = () => {
 	const minimumContentLength = useMemo( () => getMinimumContentLength( isWooProductEntity, contentType ),
 		[ contentType, isWooProductEntity ] );
 
+	// Measured on the visible text rather than on the editor markup, so block comments and HTML tags do not count
+	// towards the threshold. This matches the prompt content the AI receives, which is built from parsed sentences.
+	const visibleContentLength = useMemo( () => getVisibleContentLength( content ), [ content ] );
+
 	// If the tip is dismissed or ignored, or the content length is greater than the minimum required, don't show the tip.
-	if ( isDismissed || isIgnored || content.length > minimumContentLength ) {
+	if ( isDismissed || isIgnored || visibleContentLength > minimumContentLength ) {
 		// Bail to not show the tip notification.
 		return null;
 	}

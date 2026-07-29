@@ -6,21 +6,21 @@ YoastSEO.js is a text analysis and SEO assessment library that helps improve con
 
 ### Core Concepts
 
-- **[Paper](./GLOSSARY.md#paper)**: A value object representing the text content to be analyzed, including metadata like title, meta description, keyword, etc.
-- **[Assessment](./GLOSSARY.md#assessment)**: An individual analysis that evaluates a specific aspect of content (e.g., keyword density, sentence length)
-- **[Assessor](./GLOSSARY.md#assessor)**: A collection of assessments that work together to analyze content from a specific angle (SEO, readability, etc.)
-- **[Researcher](./GLOSSARY.md#researcher)**: Performs linguistic research on text content (e.g., sentence detection, word counting)
-- **[Score](./GLOSSARY.md#score)**: A numeric value (0-100) indicating how well content performs for a specific assessment
-- **[Marker](./GLOSSARY.md#marker)**: Highlights relevant portions of text for specific assessments
+- **[Paper](GLOSSARY.md#paper)**: A value object representing the text content to be analyzed, including metadata like title, meta description, keyword, etc.
+- **[Assessment](GLOSSARY.md#assessment)**: An individual analysis that evaluates a specific aspect of content (e.g., keyword density, sentence length)
+- **[Assessor](GLOSSARY.md#assessor)**: A collection of assessments that work together to analyze content from a specific angle (SEO, readability, etc.)
+- **[Researcher](GLOSSARY.md#researcher)**: Performs linguistic research on text content (e.g., sentence detection, word counting)
+- **[Score](GLOSSARY.md#score)**: A numeric value (0-100) indicating how well content performs for a specific assessment
+- **[Marker](GLOSSARY.md#marker)**: Highlights relevant portions of text for specific assessments
 
 ### Linguistic Concepts
 
-- **[Morphology](./GLOSSARY.md#morphology)**: Study of word forms and structure (stems, affixes, etc.)
-- **[Stem](./GLOSSARY.md#stem)**: The base form of a word before any affixes are added
-- **[Function Words](./GLOSSARY.md#function-words)**: Words with little semantic meaning that primarily serve grammatical purposes (e.g., articles, prepositions)
-- **[Content Words](./GLOSSARY.md#content-words)**: Words that carry semantic meaning (nouns, verbs, adjectives, etc.)
-- **[Keyphrase](./GLOSSARY.md#keyphrase)**: The main topic or search term being targeted in the content
-- **[Synonym](./GLOSSARY.md#synonym)**: Alternative words or phrases with similar meaning to the keyphrase
+- **[Morphology](GLOSSARY.md#morphology)**: Study of word forms and structure (stems, affixes, etc.)
+- **[Stem](GLOSSARY.md#stem)**: The base form of a word before any affixes are added
+- **[Function Words](GLOSSARY.md#function-words)**: Words with little semantic meaning that primarily serve grammatical purposes (e.g., articles, prepositions)
+- **[Content Words](GLOSSARY.md#content-words)**: Words that carry semantic meaning (nouns, verbs, adjectives, etc.)
+- **[Keyphrase](GLOSSARY.md#keyphrase)**: The main topic or search term being targeted in the content
+- **[Synonym](GLOSSARY.md#synonym)**: Alternative words or phrases with similar meaning to the keyphrase
 
 ## Architecture Diagrams
 
@@ -106,7 +106,7 @@ const results = assessor.getValidResults();
 > const Researcher = getResearcher( "nl" ); // Returns the class; falls back to the default Researcher for unsupported languages.
 > const researcher = new Researcher( paper );
 > ```
-> See the [Entry points](./README.md#entry-points) section of the README for why this is a separate entry.
+> See the [Entry points](../README.md#entry-points) section of the README for why this is a separate entry.
 
 ## Key Features
 
@@ -146,7 +146,7 @@ The library can be integrated in several ways:
 4. **Custom CMS Integration**: Can be integrated into any CMS or editing environment
 
 For more detailed documentation on specific topics, see:
-- [Public entry points](./README.md#entry-points) (`yoastseo` and `yoastseo/researcher`)
-- [Assessments Documentation](./src/scoring/assessments/README.md)
-- [Morphology Documentation](./MORPHOLOGY.md)
-- [Design Decisions](./DESIGN%20DECISIONS.md)
+- [Public entry points](../README.md#entry-points) (`yoastseo` and `yoastseo/researcher`)
+- [Assessments Documentation](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/README.md)
+- [Morphology Documentation](MORPHOLOGY.md)
+- [Design Decisions](DESIGN%20DECISIONS.md)

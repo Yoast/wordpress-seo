@@ -7,6 +7,7 @@ use Brain\Monkey;
 use Mockery;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_Access_Checker;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
@@ -36,6 +37,13 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 	 * @var Mockery\MockInterface|Post_SEO_Field_Map
 	 */
 	private $field_map;
+
+	/**
+	 * The post access checker mock.
+	 *
+	 * @var Mockery\MockInterface|Post_Access_Checker
+	 */
+	private $post_access_checker;
 
 	/**
 	 * The indexable-to-postmeta helper mock.
@@ -78,12 +86,14 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 
 		$this->resolver              = Mockery::mock( Post_Identifier_Resolver::class );
 		$this->field_map             = Mockery::mock( Post_SEO_Field_Map::class );
+		$this->post_access_checker   = Mockery::mock( Post_Access_Checker::class );
 		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class );
 		$this->indexable_builder     = Mockery::mock( Indexable_Builder::class );
 
 		$this->instance = new Post_SEO_Data_Updater(
 			$this->resolver,
 			$this->field_map,
+			$this->post_access_checker,
 			$this->indexable_to_postmeta,
 			$this->indexable_builder,
 		);
@@ -113,6 +123,12 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->once()
 			->with( $input )
 			->andReturn( $indexable );
+
+		$this->post_access_checker
+			->expects( 'ensure_can_edit' )
+			->once()
+			->with( 42 )
+			->andReturn( true );
 
 		$this->field_map
 			->expects( 'apply_to_indexable' )
@@ -174,6 +190,37 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a post the user may not edit is refused and nothing is written.
+	 *
+	 * @covers ::update_post_seo_data
+	 *
+	 * @return void
+	 */
+	public function test_update_post_seo_data_forbidden() {
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_id = 42;
+		$error                = Mockery::mock( WP_Error::class );
+
+		$this->resolver
+			->expects( 'resolve_one' )
+			->once()
+			->andReturn( $indexable );
+
+		$this->post_access_checker
+			->expects( 'ensure_can_edit' )
+			->once()
+			->with( 42 )
+			->andReturn( $error );
+
+		$this->field_map->expects( 'apply_to_indexable' )->never();
+		$this->field_map->expects( 'to_seo_array' )->never();
+		$this->indexable_to_postmeta->expects( 'map_column_to_postmeta' )->never();
+		$this->indexable_builder->expects( 'build_for_id_and_type' )->never();
+
+		$this->assertSame( $error, $this->instance->update_post_seo_data( [ 'post_id' => 42 ] ) );
+	}
+
+	/**
 	 * Tests that a failed rebuild returns an error.
 	 *
 	 * @covers ::update_post_seo_data
@@ -188,6 +235,12 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->expects( 'resolve_one' )
 			->once()
 			->andReturn( $indexable );
+
+		$this->post_access_checker
+			->expects( 'ensure_can_edit' )
+			->once()
+			->with( 42 )
+			->andReturn( true );
 
 		$this->field_map
 			->expects( 'apply_to_indexable' )

@@ -50,11 +50,11 @@ export const paperDtoSchema = z.object( {
 } ).strict();
 
 /**
- * @typedef {import("zod").infer<typeof paperDtoSchema>} PaperDTO
+ * @typedef {import("zod").infer<typeof paperDtoSchema>} PaperDto
  */
 
 /**
- * Validates a PaperDTO and maps it onto the engine's internal Paper.
+ * Validates a PaperDto and maps it onto the engine's internal Paper.
  *
  * This is the single place that knows how contract fields land on Paper attributes
  * (notably `keyphrase` -> `keyword`); the engine, assessors, and researches are
@@ -62,7 +62,7 @@ export const paperDtoSchema = z.object( {
  * Absent optional fields are left to Paper's own defaults, so missing inputs degrade
  * gracefully rather than throwing.
  *
- * @param {PaperDTO} dto The serializable input contract.
+ * @param {PaperDto} dto The serializable input contract.
  * @returns {Paper} The constructed Paper.
  */
 export function toPaper( dto ) {
