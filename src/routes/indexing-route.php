@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Exceptions\Indexable\Indexing_Failed_Exception;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
@@ -418,6 +419,20 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	protected function run_indexation_action( Indexation_Action_Interface $indexation_action, $url ) {
 		try {
 			return parent::run_indexation_action( $indexation_action, $url );
+		} catch ( Indexing_Failed_Exception $exception ) {
+			$this->indexing_helper->indexing_failed();
+
+			$previous = $exception->getPrevious();
+
+			return new WP_Error(
+				'wpseo_error_indexing',
+				$exception->getMessage(),
+				[
+					'stackTrace'  => ( $previous !== null ) ? $previous->getTraceAsString() : $exception->getTraceAsString(),
+					'object_id'   => $exception->get_object_id(),
+					'object_type' => $exception->get_object_type(),
+				],
+			);
 		} catch ( Exception $exception ) {
 			$this->indexing_helper->indexing_failed();
 
