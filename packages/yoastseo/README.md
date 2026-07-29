@@ -129,6 +129,39 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 
 There is a basic example of this setup [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis-api).
 
+#### Running a single assessment
+
+If you only need the result of **one** assessment, use `runAssessment` instead of constructing an assessor. It runs the single-assessment slice of `Assessor.assess()`: it wires the researcher to the paper, builds the HTML tree when one is needed (so tree-dependent assessments such as text length or keyphrase density work, not just data-only ones), gates on applicability, stamps the result identifier, and isolates errors to a `-1` result.
+
+```js
+import { Paper, runAssessment, assessments } from "yoastseo";
+import getResearcher from "yoastseo/researcher";
+
+// 1. Construct the assessment with its (optional) config.
+const textLength = new assessments.seo.TextLengthAssessment();
+
+// 2. Build the Paper to analyze. (Pass `productData` here for the e-commerce assessments.)
+const paper = new Paper( "Text to analyze", {
+    keyword: "analyze",
+} );
+
+// 3. Resolve a language Researcher and instantiate it. One is required even for
+//    assessments that don't read it, because building the tree needs its language data.
+const EnglishResearcher = getResearcher( "en" );
+const researcher = new EnglishResearcher();
+
+// 4. Run the assessment.
+const result = runAssessment( textLength, paper, researcher );
+
+if ( result === null ) {
+    // The assessment was not applicable to this paper and was skipped.
+} else {
+    console.log( result.getScore(), result.getText() );
+}
+```
+
+For a data-only assessment that does not read the tree, pass `{ buildTree: false }` as the fourth argument to skip the tree-build cost.
+
 ## Supported languages
 
 ### SEO analysis

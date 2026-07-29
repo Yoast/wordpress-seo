@@ -2,9 +2,12 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Throwable;
+use Yoast\WP\SEO\Exceptions\Indexable\Indexing_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
@@ -108,6 +111,13 @@ class Indexable_Builder {
 	protected $version_manager;
 
 	/**
+	 * The logger.
+	 *
+	 * @var Logger
+	 */
+	protected $logger;
+
+	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
 	 * @param Indexable_Author_Builder            $author_builder            The author builder for creating missing indexables.
@@ -122,6 +132,7 @@ class Indexable_Builder {
 	 * @param Indexable_Helper                    $indexable_helper          The indexable helper.
 	 * @param Indexable_Version_Manager           $version_manager           The indexable version manager.
 	 * @param Indexable_Link_Builder              $link_builder              The link builder for creating missing SEO links.
+	 * @param Logger                              $logger                    The logger.
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
@@ -135,7 +146,8 @@ class Indexable_Builder {
 		Primary_Term_Builder $primary_term_builder,
 		Indexable_Helper $indexable_helper,
 		Indexable_Version_Manager $version_manager,
-		Indexable_Link_Builder $link_builder
+		Indexable_Link_Builder $link_builder,
+		Logger $logger
 	) {
 		$this->author_builder            = $author_builder;
 		$this->post_builder              = $post_builder;
@@ -149,6 +161,7 @@ class Indexable_Builder {
 		$this->indexable_helper          = $indexable_helper;
 		$this->version_manager           = $version_manager;
 		$this->link_builder              = $link_builder;
+		$this->logger                    = $logger;
 	}
 
 	/**
@@ -254,8 +267,8 @@ class Indexable_Builder {
 	/**
 	 * Ensures we have a valid indexable. Creates one if false is passed.
 	 *
-	 * @param Indexable|false $indexable The indexable.
-	 * @param array           $defaults  The initial properties of the Indexable.
+	 * @param Indexable|false           $indexable The indexable.
+	 * @param array<string, int|string> $defaults  The initial properties of the Indexable.
 	 *
 	 * @return Indexable The indexable.
 	 */
@@ -302,13 +315,13 @@ class Indexable_Builder {
 		return \in_array( $type, [ 'home-page', 'date-archive', 'post-type-archive', 'system-page' ], true );
 	}
 
-	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.Missing -- Exceptions are handled by the catch statement in the method.
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.Missing -- Most exceptions are handled in the method; the unexpected-error catch deliberately re-throws after firing the failure hook.
 
 	/**
 	 * Rebuilds an Indexable from scratch.
 	 *
-	 * @param Indexable  $indexable The Indexable to (re)build.
-	 * @param array|null $defaults  The object type of the Indexable.
+	 * @param Indexable                      $indexable The Indexable to (re)build.
+	 * @param array<string, int|string>|null $defaults  The object type of the Indexable.
 	 *
 	 * @return Indexable|false The resulting Indexable.
 	 */
@@ -407,7 +420,59 @@ class Indexable_Builder {
 
 			return $this->indexable_helper->save_indexable( $indexable, $indexable_before );
 		} catch ( Not_Built_Exception $exception ) {
+			$this->logger->debug(
+				$exception->getMessage(),
+				[
+					'object_id'       => $indexable->object_id,
+					'object_type'     => $indexable->object_type,
+					'object_sub_type' => $indexable->object_sub_type,
+					'exception'       => \get_class( $exception ),
+				],
+			);
+
 			return false;
+		} catch ( Indexing_Failed_Exception $exception ) {
+			// A nested build (e.g. the author indexable built during a post build) already logged the
+			// failure, fired the action and wrapped the original error, so pass it through untouched
+			// to keep the root failing object's identity and avoid reporting the failure twice.
+			throw $exception;
+		} catch ( Throwable $exception ) {
+			$indexing_failed_exception = new Indexing_Failed_Exception(
+				$indexable->object_id,
+				$indexable->object_type,
+				$indexable->object_sub_type,
+				$exception,
+			);
+
+			$this->logger->error(
+				$indexing_failed_exception->getMessage(),
+				[
+					'object_id'       => $indexable->object_id,
+					'object_type'     => $indexable->object_type,
+					'object_sub_type' => $indexable->object_sub_type,
+					'exception'       => \get_class( $exception ),
+				],
+			);
+
+			/**
+			 * Fires when an indexable could not be built because of an unexpected error.
+			 *
+			 * This action lets third parties observe build failures themselves.
+			 *
+			 * @param int|null    $object_id       The object ID of the indexable that failed to build, or null for id-less object types.
+			 * @param string      $object_type     The object type of the indexable that failed to build.
+			 * @param string|null $object_sub_type The object sub type of the indexable that failed to build.
+			 * @param Throwable   $exception       The error that caused the failure.
+			 */
+			\do_action(
+				'wpseo_indexable_indexing_failed',
+				$indexable->object_id,
+				$indexable->object_type,
+				$indexable->object_sub_type,
+				$exception,
+			);
+
+			throw $indexing_failed_exception;
 		}
 	}
 

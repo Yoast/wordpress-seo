@@ -82,7 +82,7 @@ console.log(results);
 ### Direct Usage (Without Worker)
 
 ```javascript
-import { AbstractResearcher, Paper, ContentAssessor } from "yoastseo";
+import { AbstractResearcher, Paper, ContentAssessor, ensureTree } from "yoastseo";
 
 // Create a paper with content
 const paper = new Paper("Text to analyze", {
@@ -96,9 +96,12 @@ const wordCount = researcher.getResearch("wordCountInText");
 
 // Create assessor and run assessments
 const assessor = new ContentAssessor(researcher);
+ensureTree(paper, researcher);
 assessor.assess(paper);
 const results = assessor.getValidResults();
 ```
+
+`Assessor.assess(paper)` requires a paper whose HTML tree has been built. If you're using `AnalysisWorkerWrapper`/`AnalysisWebWorker`, the worker takes care of this for you. If you're calling an assessor or a tree-dependent research directly, call `ensureTree(paper, researcher)` first.
 
 > **Language-specific analysis:** `AbstractResearcher` runs the generic, language-agnostic researches. For language-aware analysis (function words, stemming, transition words, etc.), resolve the per-language Researcher class through the dedicated entry point instead:
 > ```javascript

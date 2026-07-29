@@ -42,6 +42,7 @@ final class Ensure_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
 			$this->indexable_helper,
 			$this->version_manager,
 			$this->link_builder,
+			$this->logger,
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
