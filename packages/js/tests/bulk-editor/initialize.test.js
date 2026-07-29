@@ -82,7 +82,15 @@ describe( "bulk editor initialize", () => {
 		} );
 
 		expect( mockRegisterStore ).toHaveBeenCalledWith( {
-			initialState: { linkParams: { foo: "bar" } },
+			initialState: {
+				linkParams: { foo: "bar" },
+				myyoastConnection: {
+					isAvailable: false,
+					canConnect: false,
+					connectUrl: null,
+					learnMoreUrl: "",
+				},
+			},
 		} );
 		expect( mockFixScrolling ).toHaveBeenCalledTimes( 1 );
 		expect( mockCreateRoot ).toHaveBeenCalledWith( root );
