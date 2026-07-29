@@ -12,6 +12,11 @@ const baseProps = {
 	onSkip: jest.fn(),
 };
 
+// The step counter emphasises the current number in its own span, so match the counter wrapper's full text.
+const expectStepCounter = ( text ) => expect( screen.getByText(
+	( _content, element ) => element?.classList?.contains?.( "yst-ms-8" ) && element.textContent.replace( /\s+/g, " " ).trim() === text
+) ).toBeInTheDocument();
+
 describe( "TourCard", () => {
 	beforeEach( () => {
 		jest.clearAllMocks();
@@ -20,9 +25,9 @@ describe( "TourCard", () => {
 	it( "renders the title, content and step progress", () => {
 		render( <TourCard { ...baseProps } /> );
 
-		expect( screen.getByRole( "heading", { name: "Select your content type" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "heading", { name: "Step 1: Select your content type" } ) ).toBeInTheDocument();
 		expect( screen.getByText( "This will refine the content." ) ).toBeInTheDocument();
-		expect( screen.getByText( "1 / 4" ) ).toBeInTheDocument();
+		expectStepCounter( "1 / 4" );
 	} );
 
 	it( "calls onNext when the Next button is clicked", () => {

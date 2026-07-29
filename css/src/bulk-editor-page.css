@@ -118,8 +118,18 @@
 	pointer-events: none;
 }
 
+/* Prevent the in-app tour popovers title to stack bellow the close button */
+.yst-bulk-editor-tour-card .yst-flex-grow {
+	min-width: 0;
+	padding-inline-end: 2rem;
+}
+
 /* In RTL. */
 .yst-bulk-editor-tour-card.yst-popover--right {
+	margin-inline-start: 0.25rem;
+}
+
+[dir="rtl"] .yst-bulk-editor-tour-card.yst-popover--right {
 	margin-inline-start: 1rem;
 }
 

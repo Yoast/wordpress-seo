@@ -1,5 +1,5 @@
 import ArrowNarrowRightIcon from "@heroicons/react/solid/ArrowNarrowRightIcon";
-import { useCallback, useEffect, useRef } from "@wordpress/element";
+import { createInterpolateElement, useCallback, useEffect, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Popover, useSvgAria } from "@yoast/ui-library";
 import { ReactComponent as YoastIcon } from "../../../../images/Yoast_icon_kader.svg";
@@ -100,7 +100,12 @@ export const TourCard = ( {
 				</div>
 				<div className="yst-flex-grow">
 					<Popover.Title id={ `${ id }-title` } as="h3" style={ { textAlign: "start" } }>
-						{ title }
+						{ sprintf(
+							/* translators: %1$d is the step number, %2$s is the step title. */
+							__( "Step %1$d: %2$s", "wordpress-seo" ),
+							currentStep,
+							title
+						) }
 					</Popover.Title>
 				</div>
 				<Popover.CloseButton screenReaderLabel={ __( "Close the tour", "wordpress-seo" ) } />
@@ -111,11 +116,14 @@ export const TourCard = ( {
 			<div className="yst-flex yst-gap-3 yst-justify-between yst-items-center yst-mt-3">
 				<span className="yst-ms-8 yst-text-slate-500">
 					<span dir="ltr">
-						{ sprintf(
-							/* translators: %1$s is the current step number, %2$s is the total number of steps. */
-							__( "%1$s / %2$s", "wordpress-seo" ),
-							currentStep,
-							totalSteps
+						{ createInterpolateElement(
+							sprintf(
+								/* translators: %1$s is the current step number, %2$s is the total number of steps. */
+								__( "<current>%1$s</current> / %2$s", "wordpress-seo" ),
+								currentStep,
+								totalSteps
+							),
+							{ current: <span className="yst-font-medium yst-text-slate-600" /> }
 						) }
 					</span>
 				</span>

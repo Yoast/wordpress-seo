@@ -50,6 +50,11 @@ const renderTour = ( props = {} ) => {
 
 const clickNext = () => fireEvent.click( screen.getByRole( "button", { name: /Next/ } ) );
 
+// The step counter emphasises the current number in its own span, so match the counter wrapper's full text.
+const expectStepCounter = ( text ) => expect( screen.getByText(
+	( _content, element ) => element?.classList?.contains?.( "yst-ms-8" ) && element.textContent.replace( /\s+/g, " " ).trim() === text
+) ).toBeInTheDocument();
+
 describe( "BulkEditorTour", () => {
 	beforeEach( () => {
 		jest.clearAllMocks();
@@ -69,18 +74,18 @@ describe( "BulkEditorTour", () => {
 	it( "auto-starts on the first step for a new user", () => {
 		renderTour();
 
-		expect( screen.getByText( "1 / 4" ) ).toBeInTheDocument();
-		expect( screen.getByRole( "heading", { name: "Select your content type" } ) ).toBeInTheDocument();
+		expectStepCounter( "1 / 4" );
+		expect( screen.getByRole( "heading", { name: "Step 1: Select your content type" } ) ).toBeInTheDocument();
 	} );
 
 	it( "advances and goes back through the steps", () => {
 		renderTour();
 
 		clickNext();
-		expect( screen.getByText( "2 / 4" ) ).toBeInTheDocument();
+		expectStepCounter( "2 / 4" );
 
 		fireEvent.click( screen.getByRole( "button", { name: "Back" } ) );
-		expect( screen.getByText( "1 / 4" ) ).toBeInTheDocument();
+		expectStepCounter( "1 / 4" );
 	} );
 
 	it( "drops the generate step when AI is disabled, leaving three steps", () => {
@@ -90,7 +95,7 @@ describe( "BulkEditorTour", () => {
 		clickNext();
 		clickNext();
 
-		expect( screen.getByText( "3 / 3" ) ).toBeInTheDocument();
+		expectStepCounter( "3 / 3" );
 		expect( screen.queryByText( "Get SEO-friendly options at scale" ) ).not.toBeInTheDocument();
 	} );
 
