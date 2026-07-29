@@ -56,6 +56,13 @@ class Integrations_Page_Script_Data {
 	private $endpoints_repository;
 
 	/**
+	 * The MyYoast connection-management permission check.
+	 *
+	 * @var Connection_Permission
+	 */
+	private $connection_permission;
+
+	/**
 	 * Integrations_Page_Script_Data constructor.
 	 *
 	 * @param Status_Presenter                $status_presenter               The status presenter.
@@ -63,19 +70,22 @@ class Integrations_Page_Script_Data {
 	 * @param OAuth_Callback_Handler          $callback_handler               The callback handler.
 	 * @param Short_Link_Helper               $short_link_helper              The short-link helper.
 	 * @param Management_Endpoints_Repository $endpoints_repository           The management endpoints repository.
+	 * @param Connection_Permission           $connection_permission          The MyYoast connection-management permission check.
 	 */
 	public function __construct(
 		Status_Presenter $status_presenter,
 		MyYoast_Connection_Conditional $myyoast_connection_conditional,
 		OAuth_Callback_Handler $callback_handler,
 		Short_Link_Helper $short_link_helper,
-		Management_Endpoints_Repository $endpoints_repository
+		Management_Endpoints_Repository $endpoints_repository,
+		Connection_Permission $connection_permission
 	) {
 		$this->status_presenter               = $status_presenter;
 		$this->myyoast_connection_conditional = $myyoast_connection_conditional;
 		$this->callback_handler               = $callback_handler;
 		$this->short_link_helper              = $short_link_helper;
 		$this->endpoints_repository           = $endpoints_repository;
+		$this->connection_permission          = $connection_permission;
 	}
 
 	/**
@@ -86,7 +96,7 @@ class Integrations_Page_Script_Data {
 	 * callback finished for this user since the last time the Integrations page
 	 * was rendered, so the React app can surface a one-shot notification.
 	 *
-	 * @return array{initialStatus: array{is_provisioned: bool, is_registered: bool, registered_at: int|null, registered_at_iso: string|null, redirect_uris: array<int, array{uri: string, origin: string, is_verified: bool}>, redirect_uris_match: bool}, callbackOutcome: array{kind: string, key: string}|null, linkParams: array<string, string>, endpoints: array<string, string>}|null
+	 * @return array{initialStatus: array{is_provisioned: bool, is_registered: bool, registered_at: int|null, registered_at_iso: string|null, redirect_uris: array<int, array{uri: string, origin: string, is_verified: bool}>, redirect_uris_match: bool}, callbackOutcome: array{kind: string, key: string}|null, linkParams: array<string, string>, startConnection: bool, endpoints: array<string, string>}|null
 	 */
 	public function present(): ?array {
 		if ( ! $this->myyoast_connection_conditional->is_met() ) {
@@ -97,8 +107,30 @@ class Integrations_Page_Script_Data {
 			'initialStatus'   => $this->status_presenter->present(),
 			'callbackOutcome' => $this->consume_callback_outcome(),
 			'linkParams'      => $this->short_link_helper->get_query_params(),
+			'startConnection' => $this->should_auto_start_connection(),
 			'endpoints'       => $this->endpoints_repository->get_all_endpoints()->to_paths_array(),
 		];
+	}
+
+	/**
+	 * Whether the page was opened by the editor's "Connect to MyYoast" link and
+	 * should auto-start the connection flow.
+	 *
+	 * Verifies the one-time nonce so the auto-start trigger can't be forged from
+	 * another site, and re-checks the connect capability so only users who may
+	 * register a client trigger it. The actual register/authorize REST calls are
+	 * independently nonce-protected; this gate is defense-in-depth on the trigger.
+	 *
+	 * @return bool Whether to auto-start the connection flow.
+	 */
+	private function should_auto_start_connection(): bool {
+		if ( ! isset( $_GET['start-myyoast-connection'] ) || ! $this->connection_permission->can_manage() ) {
+			return false;
+		}
+
+		$nonce = isset( $_GET['_wpnonce'] ) ? \sanitize_text_field( \wp_unslash( $_GET['_wpnonce'] ) ) : '';
+
+		return \wp_verify_nonce( $nonce, 'wpseo-start-myyoast-connection' ) !== false;
 	}
 
 	/**

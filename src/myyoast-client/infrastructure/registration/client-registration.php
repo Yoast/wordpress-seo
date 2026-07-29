@@ -10,6 +10,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Discovery_Failed_Exceptio
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Rate_Limited_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Not_Found_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Temporarily_Unavailable_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Server_Capability_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Auth_Token_Type;
@@ -278,9 +279,15 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 		}
 
 		$body = $result->get_body();
-		if ( ! \is_array( $body ) ) {
+		if ( ! \is_array( $body ) || empty( $body['client_id'] ) ) {
 			throw new Registration_Failed_Exception( 'Invalid response from registration endpoint.' );
 		}
+
+		// The server is authoritative: heal local data that has drifted from it (for example when a
+		// site migration rewrote the stored redirect URIs directly in the database, bypassing the
+		// registration round-trip). The GET body carries no RAT, so store_credentials preserves the
+		// stored one.
+		$this->store_credentials( $body );
 
 		return $body;
 	}
@@ -536,16 +543,31 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	/**
 	 * Stores the DCR response credentials securely.
 	 *
+	 * A registration read (RFC 7592 GET) response carries no registration access token; when the
+	 * body omits the RAT, the existing stored RAT is preserved rather than overwritten with an
+	 * empty value.
+	 *
 	 * @param array<string, string|array<string>> $response_body The parsed DCR response body.
 	 *
 	 * @return Registered_Client The stored credentials.
 	 */
 	private function store_credentials( array $response_body ): Registered_Client {
-		$option_key    = $this->get_option_key();
-		$encrypted_rat = $this->encryption->encrypt(
-			( $response_body['registration_access_token'] ?? '' ),
-			self::ENCRYPTION_CONTEXT,
-		);
+		$option_key = $this->get_option_key();
+		$existing   = $this->get_registered_client();
+
+		// The RFC 7592 GET response never re-sends the RAT, so a missing key means "keep the stored
+		// one" — encrypting the absent value would brick every future management call. Only a body
+		// that explicitly carries a RAT (DCR / PUT) replaces it.
+		if ( \array_key_exists( 'registration_access_token', $response_body ) ) {
+			$rat           = $response_body['registration_access_token'];
+			$encrypted_rat = $this->encryption->encrypt( $rat, self::ENCRYPTION_CONTEXT );
+		}
+		else {
+			// Reuse the already-decrypted RAT and its stored ciphertext rather than re-encrypting.
+			$rat           = ( $existing !== null ) ? $existing->get_registration_access_token() : '';
+			$stored        = \get_option( $option_key, [] );
+			$encrypted_rat = ( \is_array( $stored ) ) ? ( $stored['encrypted_rat'] ?? '' ) : '';
+		}
 
 		// Strip the RAT from metadata — it is stored encrypted separately.
 		$metadata = $response_body;
@@ -555,7 +577,6 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 		// reset it for a fresh registration: a new client_id means the redirect URIs must be
 		// re-validated from scratch. Always prune to the new redirect-URI set so a removed URI loses
 		// its verification and an added one starts unverified.
-		$existing       = $this->get_registered_client();
 		$validated_uris = [];
 		if ( $existing !== null && $existing->get_client_id() === $response_body['client_id'] ) {
 			$new_redirect_uris = ( $metadata['redirect_uris'] ?? [] );
@@ -578,7 +599,7 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 
 		$this->cached_registered_clients[ $option_key ] = new Registered_Client(
 			$response_body['client_id'],
-			( $response_body['registration_access_token'] ?? '' ),
+			$rat,
 			( $response_body['registration_client_uri'] ?? '' ),
 			$metadata,
 			$validated_uris,
@@ -615,8 +636,9 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	 *
 	 * @return Registered_Client The registration result.
 	 *
-	 * @throws Rate_Limited_Exception        If the server rate-limited the request (HTTP 429).
-	 * @throws Registration_Failed_Exception If registration fails for any other reason.
+	 * @throws Registration_Temporarily_Unavailable_Exception If the server temporarily refuses new registrations (HTTP 503).
+	 * @throws Rate_Limited_Exception                          If the server rate-limited the request (HTTP 429).
+	 * @throws Registration_Failed_Exception                   If registration fails for any other reason.
 	 */
 	private function do_register( array $redirect_uris ): Registered_Client {
 		try {
@@ -670,6 +692,14 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			$error_message = (string) $result->get_body_value( 'error_description', '' );
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 			throw new Registration_Failed_Exception( 'DCR request failed: ' . $error_message );
+		}
+
+		// The server temporarily refuses new registrations (rollout brake engaged).
+		// Surface it as a typed transient failure carrying the (display-only) retry hint.
+		if ( $result->get_status() === 503 && $result->get_body_value( 'error' ) === 'temporarily_unavailable' ) {
+			$error_message = (string) $result->get_body_value( 'error_description', 'Client registration is temporarily disabled.' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+			throw new Registration_Temporarily_Unavailable_Exception( $error_message, $this->get_retry_after_seconds( $result ) );
 		}
 
 		if ( $result->get_status() === 429 ) {

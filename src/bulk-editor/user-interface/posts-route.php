@@ -6,11 +6,13 @@ namespace Yoast\WP\SEO\Bulk_Editor\User_Interface;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
+use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Type_Access_Checker_Interface;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Posts\Posts_Collector_Interface;
 use Yoast\WP\SEO\Bulk_Editor\Application\Posts\Posts_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -64,17 +66,37 @@ class Posts_Route implements Route_Interface {
 	private $content_types_repository;
 
 	/**
+	 * The content type access checker.
+	 *
+	 * @var Content_Type_Access_Checker_Interface
+	 */
+	private $content_type_access_checker;
+
+	/**
+	 * The user helper.
+	 *
+	 * @var User_Helper
+	 */
+	private $user_helper;
+
+	/**
 	 * The constructor.
 	 *
-	 * @param Posts_Repository         $posts_repository         The posts repository.
-	 * @param Content_Types_Repository $content_types_repository The content types repository.
+	 * @param Posts_Repository                      $posts_repository            The posts repository.
+	 * @param Content_Types_Repository              $content_types_repository    The content types repository.
+	 * @param Content_Type_Access_Checker_Interface $content_type_access_checker The content type access checker.
+	 * @param User_Helper                           $user_helper                 The user helper.
 	 */
 	public function __construct(
 		Posts_Repository $posts_repository,
-		Content_Types_Repository $content_types_repository
+		Content_Types_Repository $content_types_repository,
+		Content_Type_Access_Checker_Interface $content_type_access_checker,
+		User_Helper $user_helper
 	) {
-		$this->posts_repository         = $posts_repository;
-		$this->content_types_repository = $content_types_repository;
+		$this->posts_repository            = $posts_repository;
+		$this->content_types_repository    = $content_types_repository;
+		$this->content_type_access_checker = $content_type_access_checker;
+		$this->user_helper                 = $user_helper;
 	}
 
 	/**
@@ -160,14 +182,24 @@ class Posts_Route implements Route_Interface {
 			$statuses = Posts_Collector_Interface::STATUSES;
 		}
 
+		// Narrow the query to the user's own posts when they cannot edit other authors' posts. This keeps
+		// pagination cheap; the exact per-post edit permission is still enforced when collecting the page.
+		$author_id = null;
+		if ( ! $this->content_type_access_checker->can_edit_others( $content_type ) ) {
+			$author_id = $this->user_helper->get_current_user_id();
+		}
+
 		$query = new Posts_Query(
 			$content_type,
 			(int) $request->get_param( 'page' ),
 			(int) $request->get_param( 'per_page' ),
 			(string) $request->get_param( 'search' ),
 			$statuses,
+			$author_id,
 		);
 
+		// Posts the current user cannot edit are returned locked and without their SEO data; the per-post
+		// permission is resolved while collecting the page.
 		return new WP_REST_Response( $this->posts_repository->get_posts( $query )->to_array() );
 	}
 

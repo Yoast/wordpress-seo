@@ -95,24 +95,34 @@ class Management_Route implements Route_Interface, LoggerAwareInterface {
 	private $client_registration;
 
 	/**
+	 * The connection-management permission check.
+	 *
+	 * @var Connection_Permission
+	 */
+	private $connection_permission;
+
+	/**
 	 * Management_Route constructor.
 	 *
-	 * @param MyYoast_Client                $myyoast_client      The MyYoast client facade.
-	 * @param Status_Presenter              $status_presenter    The status presenter.
-	 * @param Issuer_Config                 $issuer_config       The issuer configuration.
-	 * @param Client_Registration_Interface $client_registration The client registration port.
+	 * @param MyYoast_Client                $myyoast_client        The MyYoast client facade.
+	 * @param Status_Presenter              $status_presenter      The status presenter.
+	 * @param Issuer_Config                 $issuer_config         The issuer configuration.
+	 * @param Client_Registration_Interface $client_registration   The client registration port.
+	 * @param Connection_Permission         $connection_permission The connection-management permission check.
 	 */
 	public function __construct(
 		MyYoast_Client $myyoast_client,
 		Status_Presenter $status_presenter,
 		Issuer_Config $issuer_config,
-		Client_Registration_Interface $client_registration
+		Client_Registration_Interface $client_registration,
+		Connection_Permission $connection_permission
 	) {
-		$this->myyoast_client      = $myyoast_client;
-		$this->status_presenter    = $status_presenter;
-		$this->issuer_config       = $issuer_config;
-		$this->client_registration = $client_registration;
-		$this->logger              = new NullLogger();
+		$this->myyoast_client        = $myyoast_client;
+		$this->status_presenter      = $status_presenter;
+		$this->issuer_config         = $issuer_config;
+		$this->client_registration   = $client_registration;
+		$this->connection_permission = $connection_permission;
+		$this->logger                = new NullLogger();
 	}
 
 	/**
@@ -204,7 +214,7 @@ class Management_Route implements Route_Interface, LoggerAwareInterface {
 	 * @return bool
 	 */
 	public function can_manage() {
-		return \current_user_can( 'wpseo_manage_options' );
+		return $this->connection_permission->can_manage();
 	}
 
 	/**
@@ -233,7 +243,7 @@ class Management_Route implements Route_Interface, LoggerAwareInterface {
 
 		try {
 			$this->myyoast_client->refresh_registration_status();
-		} catch ( Registration_Failed_Exception $e ) {
+		} catch ( Throwable $e ) {
 			return $this->handle_exception( $e );
 		}
 
@@ -256,7 +266,7 @@ class Management_Route implements Route_Interface, LoggerAwareInterface {
 
 		try {
 			$this->myyoast_client->ensure_registered();
-		} catch ( Registration_Failed_Exception $e ) {
+		} catch ( Throwable $e ) {
 			return $this->handle_exception( $e );
 		}
 

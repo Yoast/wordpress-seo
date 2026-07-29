@@ -32,6 +32,7 @@ final class Post_Test extends TestCase {
 			'A description.',
 			'Social hello',
 			'Social description.',
+			true,
 		);
 
 		$this->assertSame(
@@ -45,6 +46,32 @@ final class Post_Test extends TestCase {
 				'meta_description'   => 'A description.',
 				'social_title'       => 'Social hello',
 				'social_description' => 'Social description.',
+				'editable'           => true,
+			],
+			$instance->to_array(),
+		);
+	}
+
+	/**
+	 * Tests that a locked post reports itself as not editable.
+	 *
+	 * @return void
+	 */
+	public function test_to_array_not_editable() {
+		$instance = new Post( 7, 'Hello world', 'draft', '', '', '', '', '', '', false );
+
+		$this->assertSame(
+			[
+				'id'                 => 7,
+				'title'              => 'Hello world',
+				'status'             => 'draft',
+				'edit_link'          => '',
+				'focus_keyphrase'    => '',
+				'seo_title'          => '',
+				'meta_description'   => '',
+				'social_title'       => '',
+				'social_description' => '',
+				'editable'           => false,
 			],
 			$instance->to_array(),
 		);

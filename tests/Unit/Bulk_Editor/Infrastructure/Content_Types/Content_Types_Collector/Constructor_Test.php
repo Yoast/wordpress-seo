@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Content_Types\Content_Types_Collector;
 
+use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Type_Access_Checker_Interface;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
@@ -24,6 +25,10 @@ final class Constructor_Test extends Abstract_Content_Types_Collector_Test {
 		$this->assertInstanceOf(
 			Post_Type_Helper::class,
 			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
+		);
+		$this->assertInstanceOf(
+			Content_Type_Access_Checker_Interface::class,
+			$this->getPropertyValue( $this->instance, 'access_checker' ),
 		);
 	}
 }

@@ -1,5 +1,5 @@
 import { dispatch } from "@wordpress/data";
-import { fireEvent, render, screen, waitFor } from "../test-utils";
+import { act, fireEvent, render, screen, waitFor } from "../test-utils";
 import App from "../../src/bulk-editor/app";
 import { FIELD_SET_SEARCH, STORE_NAME } from "../../src/bulk-editor/constants";
 import { getFieldSets } from "../../src/bulk-editor/field-sets";
@@ -22,8 +22,8 @@ const remoteDataProvider = { fetchJson: jest.fn( () => new Promise( () => {} ) )
 // The rows the posts endpoint serves, in the API's snake_case shape (mapped by usePosts).
 /* eslint-disable camelcase -- The REST endpoint returns snake_case keys. */
 const postRows = [
-	{ id: 1, title: "What Is SEO and How It Works", status: "publish", edit_link: "https://example.com/1", focus_keyphrase: "what is seo", seo_title: "What Is SEO? Complete Guide", meta_description: "Learn what SEO is.", social_title: "Social: What Is SEO", social_description: "Social description." },
-	{ id: 2, title: "Keyword Research for Beginners", status: "publish", edit_link: "https://example.com/2", focus_keyphrase: "keyword research", seo_title: "Keyword Research Guide", meta_description: "Find keywords.", social_title: "Social: Keyword Research", social_description: "Social description 2." },
+	{ id: 1, title: "What Is SEO and How It Works", status: "publish", edit_link: "https://example.com/1", focus_keyphrase: "what is seo", seo_title: "What Is SEO? Complete Guide", meta_description: "Learn what SEO is.", social_title: "Social: What Is SEO", social_description: "Social description.", editable: true },
+	{ id: 2, title: "Keyword Research for Beginners", status: "publish", edit_link: "https://example.com/2", focus_keyphrase: "keyword research", seo_title: "Keyword Research Guide", meta_description: "Find keywords.", social_title: "Social: Keyword Research", social_description: "Social description 2.", editable: true },
 ];
 /* eslint-enable camelcase */
 
@@ -43,6 +43,8 @@ describe( "App", () => {
 		dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_SEARCH );
 		dispatch( STORE_NAME ).setActiveContentType( "" );
 		dispatch( STORE_NAME ).stopEdit();
+		dispatch( STORE_NAME ).clearPendingSwitch();
+		dispatch( STORE_NAME ).setHasExternalPendingChanges( false );
 	} );
 
 	it( "renders the header, tabs and panel in a single card with the header separator", () => {
@@ -174,8 +176,8 @@ describe( "App", () => {
 				{},
 				expect.objectContaining( { method: "POST" } )
 			);
-			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
-			// Await the switch so the saves settle (updateItem/closeField) within act().
+			// The batch save is async, so the modal closes once the request settles rather than synchronously.
+			await waitFor( () => expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument() );
 			await waitFor( () => expect( screen.getByRole( "tab", { name: "Social appearance" } ) ).toHaveAttribute( "aria-selected", "true" ) );
 		} );
 	} );
@@ -251,6 +253,113 @@ describe( "App", () => {
 				expect.objectContaining( { method: "POST" } )
 			);
 			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+		} );
+	} );
+
+	describe( "switching content types with pending changes", () => {
+		const rowTitle = "What Is SEO and How It Works";
+
+		it( "shows the confirmation modal and stays on the content type when there are unsaved edits", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
+
+			expect( screen.getByText( "Unsaved changes" ) ).toBeInTheDocument();
+			// The content type has not switched while the modal is open.
+			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
+			expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
+		} );
+
+		it( "defers the switch while an external plugin reports pending changes", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+			await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } );
+
+			await act( async() => {
+				dispatch( STORE_NAME ).setHasExternalPendingChanges( true );
+			} );
+			fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
+
+			// The switch is held (Premium would fill the slot to resolve it); the content type does not change.
+			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
+			expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
+		} );
+
+		it( "can switch back to the first content type after switching away with pending edits discarded", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			// Edit on the first (resolved) content type while its stored name is still empty.
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
+
+			// Switch to Posts and discard the edit.
+			fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
+			fireEvent.click( screen.getByRole( "button", { name: "Continue without saving" } ) );
+			await waitFor( () => expect( screen.getByRole( "button", { name: "Posts" } ) ).toHaveAttribute( "aria-current", "page" ) );
+
+			// Switching back to Pages must still work: the click handler reads the current active id, not a stale one.
+			fireEvent.click( screen.getByRole( "button", { name: "Pages" } ) );
+			await waitFor( () => expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" ) );
+			expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
+		} );
+
+		it( "does not guard clicking the already-active first content type while the stored name is still empty", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			// Enter edit mode so any spurious switch would be guarded by the modal.
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+
+			// "Pages" is the resolved default while the stored active name is still "" (never switched).
+			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
+			fireEvent.click( screen.getByRole( "button", { name: "Pages" } ) );
+
+			// Clicking the content type you are already on is a no-op: no confirmation modal, the edit stays open.
+			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+		} );
+	} );
+
+	describe( "guarding hard-navigation paths", () => {
+		const rowTitle = "What Is SEO and How It Works";
+		const beforeUnloadCount = ( addSpy ) => addSpy.mock.calls.filter( ( [ type ] ) => type === "beforeunload" ).length;
+
+		it( "attaches the native beforeunload guard only for unsaved manual edits, not external pending changes", async() => {
+			const addSpy = jest.spyOn( window, "addEventListener" );
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+			const editButton = await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } );
+
+			// Nothing pending: no beforeunload listener is attached.
+			expect( beforeUnloadCount( addSpy ) ).toBe( 0 );
+
+			// An external plugin's pending changes (Premium AI) are that plugin's concern; they must not arm Free's
+			// guard, or the user would get a native prompt on top of Premium's already-confirmed modal.
+			await act( async() => {
+				dispatch( STORE_NAME ).setHasExternalPendingChanges( true );
+			} );
+			expect( beforeUnloadCount( addSpy ) ).toBe( 0 );
+
+			// A manual inline edit does arm the native unload guard for refresh/close/back.
+			await act( async() => {
+				dispatch( STORE_NAME ).setHasExternalPendingChanges( false );
+			} );
+			fireEvent.click( editButton );
+			await waitFor( () => expect( beforeUnloadCount( addSpy ) ).toBeGreaterThan( 0 ) );
+
+			addSpy.mockRestore();
+		} );
+
+		it( "guards the Back to Tools link with the unsaved-changes modal when there are edits", async() => {
+			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
+
+			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+
+			fireEvent.click( screen.getByRole( "link", { name: "Back to Tools" } ) );
+
+			// The click is intercepted (no full page navigation) and the confirmation modal is shown instead.
+			expect( screen.getByText( "Unsaved changes" ) ).toBeInTheDocument();
 		} );
 	} );
 } );

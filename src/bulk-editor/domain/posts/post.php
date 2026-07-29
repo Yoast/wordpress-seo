@@ -72,6 +72,13 @@ class Post {
 	private $social_description;
 
 	/**
+	 * Whether the current user may edit this post.
+	 *
+	 * @var bool
+	 */
+	private $editable;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param int    $id                 The post ID.
@@ -83,6 +90,7 @@ class Post {
 	 * @param string $meta_description   The meta description.
 	 * @param string $social_title       The social title.
 	 * @param string $social_description The social description.
+	 * @param bool   $editable           Whether the current user may edit this post.
 	 */
 	public function __construct(
 		int $id,
@@ -93,7 +101,8 @@ class Post {
 		string $seo_title,
 		string $meta_description,
 		string $social_title,
-		string $social_description
+		string $social_description,
+		bool $editable
 	) {
 		$this->id                 = $id;
 		$this->title              = $title;
@@ -104,12 +113,13 @@ class Post {
 		$this->meta_description   = $meta_description;
 		$this->social_title       = $social_title;
 		$this->social_description = $social_description;
+		$this->editable           = $editable;
 	}
 
 	/**
 	 * Parses the post to the expected key value representation.
 	 *
-	 * @return array<string, int|string> The post presented as the expected key value representation.
+	 * @return array<string, int|string|bool> The post presented as the expected key value representation.
 	 */
 	public function to_array(): array {
 		return [
@@ -122,6 +132,7 @@ class Post {
 			'meta_description'   => $this->meta_description,
 			'social_title'       => $this->social_title,
 			'social_description' => $this->social_description,
+			'editable'           => $this->editable,
 		];
 	}
 }

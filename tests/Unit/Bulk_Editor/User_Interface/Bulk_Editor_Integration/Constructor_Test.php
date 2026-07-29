@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 
@@ -54,6 +55,10 @@ final class Constructor_Test extends Abstract_Bulk_Editor_Integration_Test {
 		$this->assertInstanceOf(
 			Endpoints_Repository::class,
 			$this->getPropertyValue( $this->instance, 'endpoints_repository' ),
+		);
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 }

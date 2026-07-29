@@ -30,4 +30,6 @@ If a rule appears to conflict between this file and `CONTRIBUTING.md` or [`.gith
 
 - **Keep changelog bullets to one short sentence.** Extra context goes in *Context* or *Relevant technical choices*, not in the bullet. See [CONTRIBUTING.md → "Changelog entry and label"](./.github/CONTRIBUTING.md#changelog-entry-and-label).
 
+- **Follow the deprecation guide when deprecating PHP.** When deprecating a PHP method, class, filter, or action, follow the step-by-step process in [`DEPRECATING.md`](./DEPRECATING.md). The guide covers `_deprecated_function()` placement, PHPDoc annotations, moving files to `src/deprecated/`, updating the DI container, and the yearly cleanup process.
+
 - **Default to CONTRIBUTING.md.** Anything not listed in this delta is in `CONTRIBUTING.md`, the PR template, or `src/README.md`. Read those before making assumptions.
