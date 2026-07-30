@@ -50,7 +50,7 @@ const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount, sm
 				{ __( "Select", "wordpress-seo" ) }
 				<ChevronDownIcon className="yst-h-4 yst-w-4" { ...svgAriaProps } />
 			</DropdownMenu.Trigger>
-			<DropdownMenu.List className="yst-absolute yst-z-10 yst-start-0 yst-top-full yst-mt-1 yst-w-[166px]">
+			<DropdownMenu.List className="yst-absolute yst-z-10 yst-start-0 yst-top-full yst-mt-1 yst-w-[169px]">
 				{ items.map( renderItem ) }
 				{ smartSelectItems.length > 0 && (
 					<div role="separator" className="yst-my-1 yst-border-t yst-border-slate-200" />
