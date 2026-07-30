@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\Infrastructure;
 
 use WPSEO_Rank;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Surfaces\Values\Meta;
@@ -14,7 +15,8 @@ use Yoast\WP\SEO\Surfaces\Values\Meta;
  * This is the single source of truth for the field contract shared by the read
  * (collector) and write (updater) abilities. The write path applies the input
  * onto an indexable; persistence to post meta is delegated to
- * Indexable_To_Postmeta_Helper so the encodings live in one place.
+ * Indexable_To_Postmeta_Helper so the encodings live in one place. The same definitions 
+ * drive both the ability input schema and the write.
  */
 class Post_SEO_Field_Map {
 
@@ -33,24 +35,6 @@ class Post_SEO_Field_Map {
 		'open_graph_description' => 'open_graph_description',
 		'twitter_title'          => 'twitter_title',
 		'twitter_description'    => 'twitter_description',
-	];
-
-	/**
-	 * Maps the string input fields to the indexable column they write to.
-	 *
-	 * @var array<string, string>
-	 */
-	private const STRING_FIELDS = [
-		'seo_title'              => 'title',
-		'meta_description'       => 'description',
-		'focus_keyphrase'        => 'primary_focus_keyword',
-		'canonical'              => 'canonical',
-		'open_graph_title'       => 'open_graph_title',
-		'open_graph_description' => 'open_graph_description',
-		'twitter_title'          => 'twitter_title',
-		'twitter_description'    => 'twitter_description',
-		'schema_page_type'       => 'schema_page_type',
-		'schema_article_type'    => 'schema_article_type',
 	];
 
 	/**
@@ -84,6 +68,129 @@ class Post_SEO_Field_Map {
 	public function __construct( Meta_Surface $meta_surface ) {
 		$this->meta_surface = $meta_surface;
 	}
+
+	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
+
+	/**
+	 * Returns the string fields editable through the update post SEO data ability.
+	 *
+	 * Each definition maps the ability input field name to the indexable column the
+	 * value is written to and the JSON-schema fragment describing the field in the
+	 * ability input schema. Keeping both in one definition means a field is only
+	 * accepted by the input schema when the write path also knows how to apply it,
+	 * so the two cannot drift apart.
+	 *
+	 * @return array<string, array<string, mixed>> The field definitions, keyed by input field name.
+	 */
+	public function get_editable_string_fields(): array {
+		$fields = [
+			'canonical'           => [
+				'column' => 'canonical',
+				'schema' => [ 'type' => [ 'string', 'null' ] ],
+			],
+			'schema_page_type'    => [
+				'column' => 'schema_page_type',
+				'schema' => $this->nullable_enum_schema(
+					\array_keys( Schema_Types::PAGE_TYPES ),
+					\__( 'The Schema.org page type for the post. Must be one of the supported page types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
+				),
+			],
+			'schema_article_type' => [
+				'column' => 'schema_article_type',
+				'schema' => $this->nullable_enum_schema(
+					$this->get_schema_article_types(),
+					\__( 'The Schema.org article type for the post. Must be one of the supported article types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
+				),
+			],
+		];
+
+		/**
+		 * Filter: 'wpseo_editable_post_seo_data_string_fields' - Allows adding string fields to the
+		 * ones editable through the update post SEO data ability.
+		 *
+		 * Each entry is keyed by the ability input field name and defines both the indexable column
+		 * the value is written to ('column') and the JSON-schema fragment describing the field in
+		 * the ability input schema ('schema'). Entries missing either part, or keyed by a reserved
+		 * input field name, are discarded.
+		 *
+		 * @param array<string, array<string, mixed>> $fields The editable string field definitions.
+		 */
+		$filtered = \apply_filters( 'wpseo_editable_post_seo_data_string_fields', $fields );
+
+		if ( ! \is_array( $filtered ) ) {
+			return $fields;
+		}
+
+		return \array_filter( $filtered, [ $this, 'is_valid_string_field' ], \ARRAY_FILTER_USE_BOTH );
+	}
+
+	/**
+	 * Checks whether a filtered field definition is usable.
+	 *
+	 * Guards the schema and write paths against malformed filter additions: an entry is
+	 * only kept when it targets a non-reserved input field and defines both the indexable
+	 * column and the schema fragment.
+	 *
+	 * @param mixed $field     The field definition to check.
+	 * @param mixed $input_key The input field name the definition is keyed by.
+	 *
+	 * @return bool Whether the definition is usable.
+	 */
+	private function is_valid_string_field( $field, $input_key ): bool {
+		if ( ! \is_string( $input_key ) || $input_key === '' ) {
+			return false;
+		}
+
+		// Never let a filtered definition hijack the post identifiers or the non-string fields.
+		$reserved = \array_merge( [ 'post_id', 'permalink', 'noindex' ], \array_keys( self::BOOLEAN_FIELDS ) );
+		if ( \in_array( $input_key, $reserved, true ) ) {
+			return false;
+		}
+
+		return \is_array( $field )
+			&& isset( $field['column'] ) && \is_string( $field['column'] ) && $field['column'] !== ''
+			&& isset( $field['schema'] ) && \is_array( $field['schema'] ) && $field['schema'] !== [];
+	}
+
+	/**
+	 * Returns the allowed Schema.org article type values.
+	 *
+	 * Mirrors the validation in WPSEO_Option_Titles so the ability accepts exactly the
+	 * article types the editor does, including any registered through the filter.
+	 *
+	 * @return array<int, string> The allowed article type values.
+	 */
+	private function get_schema_article_types(): array {
+		/**
+		 * Filter: 'wpseo_schema_article_types' - Allow developers to filter the available article types.
+		 *
+		 * Make sure when you filter this to also filter `wpseo_schema_article_types_labels`.
+		 *
+		 * @param array $schema_article_types The available schema article types.
+		 */
+		return \array_keys( \apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES ) );
+	}
+
+	/**
+	 * Returns a nullable-string input schema constrained to a fixed set of allowed values.
+	 *
+	 * Null and the empty string are always allowed on top of the enum so the field can be
+	 * cleared, matching the patch-clear semantics of the other write fields.
+	 *
+	 * @param array<int, string> $allowed_values The allowed string values.
+	 * @param string             $description    The field description.
+	 *
+	 * @return array<string, mixed> The input schema fragment.
+	 */
+	private function nullable_enum_schema( array $allowed_values, string $description ): array {
+		return [
+			'type'        => [ 'string', 'null' ],
+			'description' => $description,
+			'enum'        => \array_merge( $allowed_values, [ '', null ] ),
+		];
+	}
+
+	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
 
 	/**
 	 * Builds the post SEO data array from an indexable.
@@ -200,9 +307,10 @@ class Post_SEO_Field_Map {
 	public function apply_to_indexable( array $input, Indexable $indexable ): array {
 		$changed_columns = [];
 
-		foreach ( self::STRING_FIELDS as $input_key => $column ) {
+		foreach ( $this->get_editable_string_fields() as $input_key => $field ) {
 			if ( \array_key_exists( $input_key, $input ) ) {
 				$value                = $input[ $input_key ];
+				$column               = $field['column'];
 				$indexable->{$column} = ( $value === null || $value === '' ) ? null : (string) $value;
 				$changed_columns[]    = $column;
 			}
