@@ -18,13 +18,22 @@ import { DataProvider } from "./services";
 import { preparePromptContent } from "./services/prompt-content";
 import registerStore from "./store";
 
-// Expose the pieces Premium reuses instead of duplicating: the bulk AI upsell modal, the error alert its consent
-// flow shows when granting consent fails, the prompt-content service its bulk AI generation collects each post's
-// prompt content with, and the visible-length helper it measures "limited content" with — the same helper the
-// in-editor AI tip uses, so both surfaces judge content length identically. The token budgets travel along too,
-// so those numbers are defined once here rather than mirrored in Premium. Premium's bulk-editor bundle depends on
-// this script, so the globals are set before Premium reads them. This is an unversioned cross-plugin surface:
-// Free and Premium ship in lockstep.
+/*
+ * Cross-plugin surface consumed by Premium's bulk-editor bundle.
+ *
+ * Premium depends on this script, so the globals below are guaranteed to exist
+ * before Premium reads them. Free and Premium ship in lockstep (unversioned).
+ *
+ * Exposed pieces:
+ *  - UpsellModal        – Bulk AI upsell dialog.
+ *  - GenericAlert       – Error alert shown when the consent flow fails.
+ *  - preparePromptContent – Collects each post's prompt content for bulk AI generation.
+ *  - getVisibleContentLength – Measures "limited content" length; shared with the
+ *                              in-editor AI tip so both surfaces judge length identically.
+ *  - MAX_TOKENS_DEFAULT / MAX_TOKENS_IRREGULAR – Token budgets, defined once here
+ *                              rather than mirrored in Premium.
+ *  - useAiUpsell        – Hook driving the upsell flow.
+ */
 window.yoast = window.yoast || {};
 window.yoast.bulkEditor = window.yoast.bulkEditor || {};
 window.yoast.bulkEditor.components = { ...window.yoast.bulkEditor.components, UpsellModal, GenericAlert };
