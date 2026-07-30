@@ -8,6 +8,7 @@ const mockFixScrolling = jest.fn();
 const mockRemoteDataProvider = jest.fn();
 const mockSelectPreference = jest.fn( () => false );
 const mockPreparePromptContent = jest.fn();
+const mockGetVisibleContentLength = jest.fn();
 
 jest.mock( "@wordpress/dom-ready", () => ( {
 	__esModule: true,
@@ -57,6 +58,10 @@ jest.mock( "../../src/shared-admin/helpers", () => ( {
 // The service pulls in the analysis package; the bridge only needs to expose the reference.
 jest.mock( "../../src/bulk-editor/services/prompt-content", () => ( {
 	preparePromptContent: mockPreparePromptContent,
+} ) );
+
+jest.mock( "../../src/ai-generator/helpers/get-visible-content-length", () => ( {
+	getVisibleContentLength: mockGetVisibleContentLength,
 } ) );
 
 describe( "bulk editor initialize", () => {
@@ -112,6 +117,7 @@ describe( "bulk editor initialize", () => {
 
 		// The bridge is populated on import, independently of whether the app mounts.
 		expect( window.yoast.bulkEditor.helpers.preparePromptContent ).toBe( mockPreparePromptContent );
+		expect( window.yoast.bulkEditor.helpers.getVisibleContentLength ).toBe( mockGetVisibleContentLength );
 		expect( window.yoast.bulkEditor.constants ).toEqual( {
 			MAX_TOKENS_DEFAULT: 300,
 			MAX_TOKENS_IRREGULAR: 150,
