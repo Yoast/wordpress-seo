@@ -13,10 +13,8 @@ use Mockery;
  * @group WooCommerce_Product_Type_Change_Listener_Integration
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Cache\WooCommerce_Product_Type_Change_Listener_Integration::reset_cache
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class WooCommerce_Product_Type_Change_Listener_Integration_Reset_Cache_Test extends Abstract_WooCommerce_Product_Type_Change_Listener_Integration_TestCase {
+final class Reset_Cache_Test extends Abstract_TestCase {
 
 	/**
 	 * Data provider for product ID is empty scenarios.
