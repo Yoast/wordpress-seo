@@ -136,9 +136,9 @@ abstract class Abstract_TestCase extends TestCase {
 	/**
 	 * Expectations for update_related_indexables.
 	 *
-	 * @param int   $indexable_id          The indexable id.
-	 * @param array $insert_links          The links to insert.
-	 * @param array $links_by_indexable_id The links by indexable id.
+	 * @param int              $indexable_id          The indexable id.
+	 * @param array<SEO_Links> $insert_links          The links to insert.
+	 * @param array<SEO_Links> $links_by_indexable_id The links by indexable id.
 	 *
 	 * @return void
 	 */

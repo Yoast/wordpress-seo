@@ -49,7 +49,7 @@ final class Build_For_System_Page_Test extends Abstract_TestCase {
 	/**
 	 * Expectation for build method.
 	 *
-	 * @param array $defaults The defaults to expect.
+	 * @param array<string, int|string> $defaults The defaults to expect.
 	 *
 	 * @return void
 	 */

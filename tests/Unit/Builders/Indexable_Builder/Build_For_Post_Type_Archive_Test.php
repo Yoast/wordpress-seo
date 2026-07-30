@@ -47,7 +47,7 @@ final class Build_For_Post_Type_Archive_Test extends Abstract_TestCase {
 	/**
 	 * Expectation for build method.
 	 *
-	 * @param array $defaults The defaults to expect.
+	 * @param array<string, int|string> $defaults The defaults to expect.
 	 *
 	 * @return void
 	 */

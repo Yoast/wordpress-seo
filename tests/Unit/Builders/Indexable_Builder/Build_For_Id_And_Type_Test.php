@@ -37,7 +37,7 @@ final class Build_For_Id_And_Type_Test extends Abstract_TestCase {
 	/**
 	 * Expectation for build method.
 	 *
-	 * @param array $defaults The defaults to expect.
+	 * @param array<string, int|string> $defaults The defaults to expect.
 	 *
 	 * @return void
 	 */
