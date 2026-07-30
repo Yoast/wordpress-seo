@@ -19,7 +19,16 @@ final class Validate_Key_Test extends Abstract_Opt_In_Route_Test {
 	 * @return void
 	 */
 	public function test_validate_key_with_valid_key() {
-		$this->assertTrue( $this->instance->validate_key( 'task_list' ) );
+		$this->assertTrue( $this->instance->validate_key( 'bulk_editor_tour' ) );
+	}
+
+	/**
+	 * Tests that the removed task-list key is no longer valid.
+	 *
+	 * @return void
+	 */
+	public function test_validate_key_rejects_removed_task_list_key() {
+		$this->assertFalse( $this->instance->validate_key( 'task_list' ) );
 	}
 
 	/**
@@ -64,7 +73,7 @@ final class Validate_Key_Test extends Abstract_Opt_In_Route_Test {
 	 * @return void
 	 */
 	public function test_validate_key_with_extra_characters() {
-		$this->assertFalse( $this->instance->validate_key( 'task_list_extra' ) );
+		$this->assertFalse( $this->instance->validate_key( 'bulk_editor_tour_extra' ) );
 	}
 
 	/**
@@ -73,7 +82,7 @@ final class Validate_Key_Test extends Abstract_Opt_In_Route_Test {
 	 * @return void
 	 */
 	public function test_validate_key_is_case_sensitive() {
-		$this->assertFalse( $this->instance->validate_key( 'TASK_LIST' ) );
+		$this->assertFalse( $this->instance->validate_key( 'BULK_EDITOR_TOUR' ) );
 	}
 
 	/**
@@ -82,6 +91,6 @@ final class Validate_Key_Test extends Abstract_Opt_In_Route_Test {
 	 * @return void
 	 */
 	public function test_validate_key_with_whitespace() {
-		$this->assertFalse( $this->instance->validate_key( ' task_list ' ) );
+		$this->assertFalse( $this->instance->validate_key( ' bulk_editor_tour ' ) );
 	}
 }
