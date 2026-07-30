@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\Markdown_Escaper;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Markdown_Escaper::escape_markdown_url
  */
-final class Escape_Markdown_Url_Test extends Abstract_Markdown_Escaper_Test {
+final class Escape_Markdown_Url_Test extends Abstract_Test {
 
 	/**
 	 * Tests escape_markdown_url().

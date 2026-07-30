@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Description;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Description_Adapter::get_description
  */
-final class Get_Description_Test extends Abstract_Description_Adapter_Test {
+final class Get_Description_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_description method.

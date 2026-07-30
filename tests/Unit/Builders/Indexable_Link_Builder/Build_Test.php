@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
-final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
+final class Build_Test extends Abstract_TestCase {
 
 	/**
 	 * Data provider to test the build.

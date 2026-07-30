@@ -11,10 +11,8 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Elements_Context_Map\Map_Loade
  * @covers \Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Elements_Context_Map\Elements_Context_Map_Repository::__construct
  *
  * @group schema-aggregator
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Constructor_Test extends Abstract_Elements_Context_Map_Repository_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

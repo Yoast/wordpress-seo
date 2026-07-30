@@ -12,7 +12,7 @@ use RuntimeException;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::has_local_tokens
  */
-final class Has_Local_Tokens_Test extends Abstract_Token_Manager_Test {
+final class Has_Local_Tokens_Test extends Abstract_Test {
 
 	/**
 	 * Tests that has_local_tokens returns true when an access token is stored, without consulting

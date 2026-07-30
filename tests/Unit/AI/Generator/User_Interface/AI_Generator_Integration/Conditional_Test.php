@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Conditionals\New_Premium_Or_Free_AI_Conditional;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\AI_Generator_Integration::get_conditionals
  */
-final class Conditional_Test extends Abstract_AI_Generator_Integration_Test {
+final class Conditional_Test extends Abstract_Test {
 
 	/**
 	 * Tests the conditional.

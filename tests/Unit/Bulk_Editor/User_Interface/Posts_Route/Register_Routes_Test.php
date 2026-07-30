@@ -14,10 +14,8 @@ use Yoast\WP\SEO\Bulk_Editor\User_Interface\Posts_Route;
  * @group bulk-editor
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Posts_Route::register_routes
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Register_Routes_Test extends Abstract_Posts_Route_Test {
+final class Register_Routes_Test extends Abstract_Test {
 
 	/**
 	 * Tests the registration of the route.

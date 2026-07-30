@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::__construct
  */
-final class Constructor_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

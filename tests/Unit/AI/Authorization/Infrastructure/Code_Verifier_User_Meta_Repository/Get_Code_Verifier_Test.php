@@ -14,7 +14,7 @@ use Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::get_code_verifier
  */
-final class Get_Code_Verifier_Test extends Abstract_Code_Verifier_User_Meta_Repository_Test {
+final class Get_Code_Verifier_Test extends Abstract_Test {
 
 	/**
 	 * The constant for user id.

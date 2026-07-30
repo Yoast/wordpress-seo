@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\General\User_Interface\Opt_In_Route;
  *
  * @covers \Yoast\WP\SEO\General\User_Interface\Opt_In_Route::validate_key
  */
-final class Validate_Key_Test extends Abstract_Opt_In_Route_Test {
+final class Validate_Key_Test extends Abstract_Test {
 
 	/**
 	 * Tests the validate_key method with a valid key.
