@@ -28,6 +28,12 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 	public function test_enqueue_assets() {
 		$this->stubEscapeFunctions();
 
+		// The registered shortcode tags are read straight off the WordPress global.
+		$GLOBALS['shortcode_tags'] = [
+			'gallery' => 'gallery_shortcode',
+			'caption' => 'caption_shortcode',
+		];
+
 		$content_types = [
 			[
 				'name'          => 'post',
@@ -57,6 +63,7 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 			'analysis'          => [
 				'contentLocale'         => 'en_US',
 				'keywordAnalysisActive' => true,
+				'shortcodes'            => [ 'gallery', 'caption' ],
 			],
 			'myyoastConnection' => null,
 		];
