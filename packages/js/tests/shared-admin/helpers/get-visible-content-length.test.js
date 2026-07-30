@@ -1,4 +1,4 @@
-import { getVisibleContentLength } from "../../../src/ai-generator/helpers";
+import { getVisibleContentLength } from "../../../src/shared-admin/helpers";
 
 describe( "getVisibleContentLength", () => {
 	it( "should return 0 for an empty string", () => {

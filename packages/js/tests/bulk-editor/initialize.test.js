@@ -51,6 +51,7 @@ jest.mock( "../../src/bulk-editor/store", () => ( {
 
 jest.mock( "../../src/shared-admin/helpers", () => ( {
 	fixWordPressMenuScrolling: () => mockFixScrolling(),
+	getVisibleContentLength: mockGetVisibleContentLength,
 	MAX_TOKENS_DEFAULT: 300,
 	MAX_TOKENS_IRREGULAR: 150,
 } ) );
@@ -58,10 +59,6 @@ jest.mock( "../../src/shared-admin/helpers", () => ( {
 // The service pulls in the analysis package; the bridge only needs to expose the reference.
 jest.mock( "../../src/bulk-editor/services/prompt-content", () => ( {
 	preparePromptContent: mockPreparePromptContent,
-} ) );
-
-jest.mock( "../../src/ai-generator/helpers/get-visible-content-length", () => ( {
-	getVisibleContentLength: mockGetVisibleContentLength,
 } ) );
 
 describe( "bulk editor initialize", () => {

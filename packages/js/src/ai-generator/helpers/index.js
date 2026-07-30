@@ -2,6 +2,5 @@ export { applyPluggableReplacementVariables } from "./apply-pluggable-replacemen
 export { enforceTitleVariable } from "./enforce-title-variable";
 export { fetchSuggestions, removesLocaleVariantSuffixes } from "./fetch-suggestions";
 export { focusFocusKeyphraseInput } from "./focus-focus-keyphrase-input";
-export { getVisibleContentLength } from "./get-visible-content-length";
 export { isConsideredEmpty } from "./is-considered-empty";
 export { preparePromptContent } from "./prepare-prompt-content";
