@@ -128,10 +128,10 @@ export const TourCard = ( {
 					</span>
 				</span>
 				<div className="yst-flex yst-gap-3 yst-items-center">
-					{ onBack && <Button variant="tertiary" onClick={ onBack }>
+					{ onBack && <Button size="small" variant="tertiary" onClick={ onBack }>
 						{ __( "Back", "wordpress-seo" ) }
 					</Button> }
-					<Button ref={ nextButtonRef } variant="primary" onClick={ onNext } className="yst-flex yst-gap-1">
+					<Button size="small" ref={ nextButtonRef } variant="primary" onClick={ onNext } className="yst-flex yst-gap-1">
 						{ isLastStep
 							? __( "Got it!", "wordpress-seo" )
 							: <>
