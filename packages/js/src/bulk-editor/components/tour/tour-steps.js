@@ -20,6 +20,7 @@ export const getTourSteps = () => [
 	{
 		id: "bulk-editor-tour-appearance",
 		tourId: "appearance-tabs",
+		highlightChildren: true,
 		position: "right",
 		title: __( "Select search or social appearance", "wordpress-seo" ),
 		content: __( "Easily switch between them anytime.", "wordpress-seo" ),
