@@ -11,7 +11,6 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
  * @deprecated 28.3
  * @codeCoverageIgnore
  */
-
 interface API_Client_Interface {
 
 	/**
