@@ -1,12 +1,12 @@
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
-import SolidXIcon from "@heroicons/react/solid/XIcon";
 import { Slot } from "@wordpress/components";
 import { useEffect, useId, useRef } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT } from "../constants";
 import { useAiUpsell } from "../hooks/use-ai-upsell";
+import { DismissibleAlert } from "./dismissible-alert";
 import { OverviewExclusionNotice } from "./overview-exclusion-notice";
 import { OverviewSelectionNotice } from "./overview-selection-notice";
 import { UpsellModal } from "./upsell-modal";
@@ -144,23 +144,14 @@ export const ManualReviewActions = ( { editCount, onApplyAll, onDiscardAll, isAp
  *
  * @returns {JSX.Element} The save-error notice.
  */
-export const ManualSaveErrorNotice = ( { onDismiss } ) => {
-	const svgAriaProps = useSvgAria();
-	return <Alert variant="error" as="div" role="alert" className="yst-rounded-none yst-relative">
+export const ManualSaveErrorNotice = ( { onDismiss } ) => (
+	<DismissibleAlert variant="error" role="alert" onDismiss={ onDismiss }>
 		<div className="yst-flex yst-flex-col yst-gap-1">
 			<span className="yst-block yst-font-medium">{ __( "Couldn't save your edits.", "wordpress-seo" ) }</span>
 			<span className="yst-font-normal">{ __( "Something went wrong. Please try again.", "wordpress-seo" ) }</span>
 		</div>
-		<button
-			type="button"
-			className="yst-absolute yst-end-4 yst-top-4 yst-text-current hover:yst-opacity-75 yst-cursor-pointer"
-			onClick={ onDismiss }
-			aria-label={ __( "Dismiss", "wordpress-seo" ) }
-		>
-			<SolidXIcon className="yst-h-5 yst-w-5" { ...svgAriaProps } />
-		</button>
-	</Alert>;
-};
+	</DismissibleAlert>
+);
 
 /**
  * The overview-selection truncation and exclusion notices, the Free save-error notice, and the alerts slot

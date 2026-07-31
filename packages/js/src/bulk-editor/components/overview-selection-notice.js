@@ -1,21 +1,6 @@
-import SolidXIcon from "@heroicons/react/solid/XIcon";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, useSvgAria } from "@yoast/ui-library";
 import { BULK_UPDATE_BATCH_SIZE } from "../constants";
-
-/**
- * Builds the notice message.
- *
- * @param {string} noun The lowercase content type label, e.g. "posts".
- *
- * @returns {string} The notice message.
- */
-const getMessage = ( noun ) => sprintf(
-	/* translators: %1$d expands to the maximum number of items at a time, %2$s to the lowercase content type label, e.g. "posts". */
-	__( "Only the first %1$d %2$s from your selection were carried over. The bulk editor supports up to %1$d %2$s at a time.", "wordpress-seo" ),
-	BULK_UPDATE_BATCH_SIZE,
-	noun
-);
+import { DismissibleAlert } from "./dismissible-alert";
 
 /**
  * The notice shown when the user arrived from a WP admin overview with more items selected than the
@@ -37,18 +22,15 @@ export const OverviewSelectionNotice = ( { total, contentTypeLabel, onDismiss } 
 	}
 
 	const noun = contentTypeLabel ? contentTypeLabel.toLowerCase() : __( "items", "wordpress-seo" );
+	const message = sprintf(
+		/* translators: %1$d expands to the maximum number of items at a time. */
+		__( "Only the first %1$d items from your selection were carried over. The bulk editor supports up to %1$d items at a time.", "wordpress-seo" ),
+		BULK_UPDATE_BATCH_SIZE
+	);
 
 	return (
-		<Alert variant="info" as="div" role="status" className="yst-rounded-none yst-relative">
-			<span className="yst-block yst-pe-8">{ getMessage( noun ) }</span>
-			<button
-				type="button"
-				className="yst-absolute yst-end-4 yst-top-4 yst-text-current hover:yst-opacity-75 yst-cursor-pointer"
-				onClick={ onDismiss }
-				aria-label={ __( "Dismiss", "wordpress-seo" ) }
-			>
-				<SolidXIcon className="yst-h-5 yst-w-5" { ...svgAriaProps } />
-			</button>
-		</Alert>
+		<DismissibleAlert onDismiss={ onDismiss }>
+			<span className="yst-block yst-pe-8">{ message }</span>
+		</DismissibleAlert>
 	);
 };
