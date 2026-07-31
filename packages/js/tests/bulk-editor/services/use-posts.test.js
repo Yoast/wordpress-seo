@@ -1,6 +1,6 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { useSelect } from "@wordpress/data";
-import { usePosts } from "../../../src/bulk-editor/services/use-posts";
+import { usePosts } from "../../../src/bulk-editor/hooks/use-posts";
 import { PAGE_SIZE } from "../../../src/bulk-editor/constants";
 
 jest.mock( "@wordpress/data", () => ( { useSelect: jest.fn() } ) );

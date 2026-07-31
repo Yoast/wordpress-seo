@@ -1,7 +1,8 @@
 import { Fill, SlotFillProvider } from "@wordpress/components";
 import { dispatch } from "@wordpress/data";
 import { act, fireEvent, render, screen, waitFor } from "../test-utils";
-import { BulkEditorContent, getSelectionView, getSmartSelectItems } from "../../src/bulk-editor/components/bulk-editor-content";
+import { BulkEditorContent } from "../../src/bulk-editor/components/bulk-editor-content";
+import { getSelectionView, getSmartSelectItems } from "../../src/bulk-editor/helpers";
 import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../../src/bulk-editor/constants";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";

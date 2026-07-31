@@ -2,18 +2,13 @@ import { Slot } from "@wordpress/components";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { ScoreIcon } from "@yoast/ui-library";
 import {
-	FIELD_SET_SOCIAL,
-	NEEDS_IMPROVEMENT_DESCRIPTION,
-	NEEDS_IMPROVEMENT_FIELD_PARAMS,
-	NEEDS_IMPROVEMENT_TITLE,
 	PENDING_CHANGES_MODAL_SLOT,
 	STORE_NAME,
 } from "../constants";
 import { getFieldSets } from "../field-sets";
 import { useInlineEdit } from "../hooks/use-inline-edit";
-import { usePosts } from "../services/use-posts";
+import { usePosts } from "../hooks/use-posts";
 import { BulkActions, SelectionToolbar } from "./bulk-action-bar";
 import { BulkEditorFilters } from "./bulk-editor-filters";
 import { BulkEditorFooter } from "./bulk-editor-footer";
@@ -21,87 +16,7 @@ import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 import { UnsavedChangesModal } from "./unsaved-changes-modal";
 import { SearchBox } from "./search-box";
-
-/**
- * Generates the selection toolbar's view. While loading, the previous content type's items and selection still
- * linger behind the skeleton rows, so a neutral (empty) selection is presented instead.
- *
- * @param {boolean}  isLoading   Whether the rows are still loading.
- * @param {number[]} selectedIds The currently selected item ids.
- * @param {Object[]} items       The loaded items (per page).
- * @param {number}   total       The total number of items across all pages.
- *
- * @returns {{isAllSelected: boolean, isIndeterminate: boolean, selectedCount: number, totalCount: number, hasSelection: boolean}} The selection view.
- */
-export const getSelectionView = ( isLoading, selectedIds, items, total ) => {
-	if ( isLoading ) {
-		return { isAllSelected: false, isIndeterminate: false, selectedCount: 0, totalCount: 0, hasSelection: false };
-	}
-	// Only posts the user can edit are selectable, so "all selected" is measured against the editable rows.
-	const selectableCount = items.filter( ( item ) => item.editable ).length;
-	const selectedCount = selectedIds.length;
-	const isAllSelected = selectableCount > 0 && selectedCount === selectableCount;
-	return {
-		isAllSelected,
-		isIndeterminate: selectedCount > 0 && ! isAllSelected,
-		selectedCount,
-		totalCount: total,
-		hasSelection: selectedCount > 0,
-	};
-};
-
-/**
- * The red "needs improvement" score dot shown before a smart-select item's label.
- *
- * @returns {JSX.Element} The score dot.
- */
-const NeedsImprovementDot = () => <ScoreIcon score="bad" isEmoji={ false } className="yst-h-3 yst-w-3 yst-shrink-0" />;
-
-/**
- * Builds the quality-based Select-menu items for the active tab. Each selects the editable rows whose field needs
- * improvement, and is a no-op while the rows are still loading.
- *
- * @param {Object}   options                The options.
- * @param {string}   options.activeFieldSet The active field set (Search or Social).
- * @param {Object[]} options.items          The loaded rows.
- * @param {boolean}  options.isPending      Whether the rows are still loading; blocks the selection.
- * @param {Function} options.selectAll      Selects the given row ids.
- *
- * @returns {Array<Object>} The smart-select items ({ key, label, ariaLabel, icon, onClick }); empty for an unknown tab.
- */
-export const getSmartSelectItems = ( { activeFieldSet, items, isPending, selectAll } ) => {
-	const params = NEEDS_IMPROVEMENT_FIELD_PARAMS[ activeFieldSet ];
-	if ( ! params ) {
-		return [];
-	}
-	const selectNeedingImprovement = ( fieldParam ) => {
-		if ( isPending ) {
-			return;
-		}
-		selectAll( items.filter( ( item ) => item.editable && item.needsImprovement?.[ fieldParam ] ).map( ( item ) => item.id ) );
-	};
-	const isSocial = activeFieldSet === FIELD_SET_SOCIAL;
-	return [
-		{
-			key: "select-title-needs-improvement",
-			label: isSocial ? __( "Social titles", "wordpress-seo" ) : __( "SEO titles", "wordpress-seo" ),
-			ariaLabel: isSocial
-				? __( "Select pages with social titles that need improvement", "wordpress-seo" )
-				: __( "Select pages with SEO titles that need improvement", "wordpress-seo" ),
-			icon: <NeedsImprovementDot />,
-			onClick: () => selectNeedingImprovement( params[ NEEDS_IMPROVEMENT_TITLE ] ),
-		},
-		{
-			key: "select-description-needs-improvement",
-			label: isSocial ? __( "Social descriptions", "wordpress-seo" ) : __( "Meta descriptions", "wordpress-seo" ),
-			ariaLabel: isSocial
-				? __( "Select pages with social descriptions that need improvement", "wordpress-seo" )
-				: __( "Select pages with meta descriptions that need improvement", "wordpress-seo" ),
-			icon: <NeedsImprovementDot />,
-			onClick: () => selectNeedingImprovement( params[ NEEDS_IMPROVEMENT_DESCRIPTION ] ),
-		},
-	];
-};
+import { getSelectionView, getSmartSelectItems } from "../helpers";
 
 /**
  * The bulk editor content.
