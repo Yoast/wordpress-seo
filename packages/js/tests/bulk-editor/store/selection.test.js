@@ -1,4 +1,5 @@
 import { activeContentTypeActions } from "../../../src/bulk-editor/store/active-content-type";
+import { activeFieldSetActions } from "../../../src/bulk-editor/store/active-field-set";
 import reducer, { createInitialSelectionState, selectionActions, selectionSelectors } from "../../../src/bulk-editor/store/selection";
 import { queryActions } from "../../../src/bulk-editor/store/query";
 
@@ -97,8 +98,20 @@ describe( "selection slice", () => {
 		expect( state.selectedIds ).toEqual( [] );
 	} );
 
+	it( "clears the selection when the needs-improvement filter changes", () => {
+		const state = reducer( { selectedIds: [ 7, 9 ] }, queryActions.setNeedsImprovement( [ "seo_title" ] ) );
+
+		expect( state.selectedIds ).toEqual( [] );
+	} );
+
 	it( "clears the selection when the content type changes", () => {
 		const state = reducer( { selectedIds: [ 7, 9 ] }, activeContentTypeActions.setActiveContentType( "page" ) );
+
+		expect( state.selectedIds ).toEqual( [] );
+	} );
+
+	it( "clears the selection when the tab (field set) changes", () => {
+		const state = reducer( { selectedIds: [ 7, 9 ] }, activeFieldSetActions.setActiveFieldSet( "social" ) );
 
 		expect( state.selectedIds ).toEqual( [] );
 	} );

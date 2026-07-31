@@ -1,75 +1,7 @@
-import { __ } from "@wordpress/i18n";
 import { Alert } from "@yoast/components";
-import { strings } from "@yoast/helpers";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import RequestError from "../errors/RequestError";
-
-const { stripTagsFromHtmlString } = strings;
-
-const ALLOWED_TAGS = [ "a", "p" ];
-
-const ErrorDetails = styled.div`
-	margin-top: 8px;
-`;
-
-const Preformatted = styled.pre`
-	overflow-x: scroll;
-	max-width: 500px;
-	border: 1px solid;
-	padding: 16px;
-`;
-
-/**
- * Shows a value for in the error details.
- *
- * If the value is `undefined`, nothing is shown.
- *
- * @param {string} title The label for the value.
- * @param {any} [value=""] The value to show.
- *
- * @returns {JSX.Element} The error line component, or `null` if the value is `undefined`.
- */
-function ErrorLine( { title, value = "" } ) {
-	if ( ! value ) {
-		return null;
-	}
-	return <p>
-		<strong>{ title }</strong><br />
-		{ value }
-	</p>;
-}
-
-ErrorLine.propTypes = {
-	title: PropTypes.string.isRequired,
-	value: PropTypes.any,
-};
-
-/**
- * Renders a collapsible error box. For bigger error messages or stack traces.
- *
- * @param {string} title The label for the value.
- * @param {string} [value=""] The value.
- *
- * @returns {JSX.Element} The stack trace component, or `null` if no stack trace is available.
- */
-function ErrorBox( { title, value = "" } ) {
-	if ( ! value ) {
-		return null;
-	}
-
-	return <details>
-		<summary>{ title }</summary>
-		<Preformatted>
-			{ value }
-		</Preformatted>
-	</details>;
-}
-
-ErrorBox.propTypes = {
-	title: PropTypes.string.isRequired,
-	value: PropTypes.string,
-};
+import IndexingErrorContent from "./IndexingErrorContent";
 
 /**
  * An error that should be shown when indexation has failed.
@@ -81,18 +13,7 @@ ErrorBox.propTypes = {
  */
 export default function IndexingError( { message, error } ) {
 	return <Alert type={ "error" }>
-		<div dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( message, ALLOWED_TAGS ) } } />
-		<details>
-			<summary>{ __( "Error details", "wordpress-seo" ) }</summary>
-			<ErrorDetails>
-				<ErrorLine title={ __( "Request URL", "wordpress-seo" ) } value={ error.url } />
-				<ErrorLine title={ __( "Request method", "wordpress-seo" ) } value={ error.method } />
-				<ErrorLine title={ __( "Status code", "wordpress-seo" ) } value={ error.statusCode } />
-				<ErrorLine title={ __( "Error message", "wordpress-seo" ) } value={ error.message } />
-				<ErrorBox title={ __( "Response", "wordpress-seo" ) } value={ error.parseString } />
-				<ErrorBox title={ __( "Error stack trace", "wordpress-seo" ) } value={ error.stackTrace } />
-			</ErrorDetails>
-		</details>
+		<IndexingErrorContent message={ message } error={ error } />
 	</Alert>;
 }
 

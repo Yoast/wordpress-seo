@@ -1,8 +1,9 @@
 import { Fill, SlotFillProvider } from "@wordpress/components";
 import { dispatch } from "@wordpress/data";
 import { act, fireEvent, render, screen, waitFor } from "../test-utils";
-import { BulkEditorContent, getHasOverviewNotice, getSelectionView, shouldShowBulkActions } from "../../src/bulk-editor/components/bulk-editor-content";
-import { FIELD_SET_SEARCH, PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../../src/bulk-editor/constants";
+import { BulkEditorContent, getHasOverviewNotice, shouldShowBulkActions } from "../../src/bulk-editor/components/bulk-editor-content";
+import { getSelectionView, getSmartSelectItems } from "../../src/bulk-editor/helpers";
+import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../../src/bulk-editor/constants";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
 
@@ -173,6 +174,78 @@ describe( "getHasOverviewNotice", () => {
 		expect( getHasOverviewNotice( { preselectedTotal: 20, hasExcludedPreselected: false } ) ).toBe( false );
 		expect( getHasOverviewNotice( { preselectedTotal: 25, hasExcludedPreselected: false } ) ).toBe( true );
 		expect( getHasOverviewNotice( { preselectedTotal: 3, hasExcludedPreselected: true } ) ).toBe( true );
+	} );
+} );
+
+describe( "getSmartSelectItems", () => {
+	/* eslint-disable camelcase -- the needs-improvement map is keyed by backend field params. */
+	// id 3 is non-editable but needs improvement everywhere: it must never be selected.
+	const searchItems = [
+		{ id: 1, editable: true, needsImprovement: { seo_title: true, meta_description: false } },
+		{ id: 2, editable: true, needsImprovement: { seo_title: false, meta_description: true } },
+		{ id: 3, editable: false, needsImprovement: { seo_title: true, meta_description: true } },
+	];
+	// Both rows need improvement on the search fields, so a wrong social mapping would select both.
+	const socialItems = [
+		{ id: 10, editable: true, needsImprovement: { seo_title: true, meta_description: true, social_title: true, social_description: false } },
+		{ id: 20, editable: true, needsImprovement: { seo_title: true, meta_description: true, social_title: false, social_description: true } },
+	];
+	/* eslint-enable camelcase -- the needs-improvement map is keyed by backend field params. */
+
+	const build = ( activeFieldSet, items = [], isPending = false, selectAll = jest.fn() ) =>
+		getSmartSelectItems( { activeFieldSet, items, isPending, selectAll } );
+
+	it( "returns no items for an unknown tab", () => {
+		expect( build( "unknown", searchItems ) ).toEqual( [] );
+	} );
+
+	it( "labels the items per tab", () => {
+		const [ searchTitle, searchDescription ] = build( FIELD_SET_SEARCH );
+		expect( searchTitle.label ).toBe( "SEO titles" );
+		expect( searchDescription.label ).toBe( "Meta descriptions" );
+
+		const [ socialTitle, socialDescription ] = build( FIELD_SET_SOCIAL );
+		expect( socialTitle.label ).toBe( "Social titles" );
+		expect( socialDescription.label ).toBe( "Social descriptions" );
+	} );
+
+	it( "selects only the editable rows whose SEO title needs improvement", () => {
+		const selectAll = jest.fn();
+		const [ title ] = build( FIELD_SET_SEARCH, searchItems, false, selectAll );
+
+		title.onClick();
+
+		// id 1 qualifies; id 2's title is fine; id 3 needs improvement but is not editable.
+		expect( selectAll ).toHaveBeenCalledWith( [ 1 ] );
+	} );
+
+	it( "selects only the editable rows whose meta description needs improvement", () => {
+		const selectAll = jest.fn();
+		const [ , description ] = build( FIELD_SET_SEARCH, searchItems, false, selectAll );
+
+		description.onClick();
+
+		expect( selectAll ).toHaveBeenCalledWith( [ 2 ] );
+	} );
+
+	it( "does not select while the rows are still loading", () => {
+		const selectAll = jest.fn();
+		const [ title ] = build( FIELD_SET_SEARCH, searchItems, true, selectAll );
+
+		title.onClick();
+
+		expect( selectAll ).not.toHaveBeenCalled();
+	} );
+
+	it( "maps the Social tab items to the social fields, not the search fields", () => {
+		const selectAll = jest.fn();
+		const [ title, description ] = build( FIELD_SET_SOCIAL, socialItems, false, selectAll );
+
+		title.onClick();
+		expect( selectAll ).toHaveBeenLastCalledWith( [ 10 ] );
+
+		description.onClick();
+		expect( selectAll ).toHaveBeenLastCalledWith( [ 20 ] );
 	} );
 } );
 
