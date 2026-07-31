@@ -1,56 +1,14 @@
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
-import ChevronDownIcon from "@heroicons/react/outline/ChevronDownIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
 import SolidXIcon from "@heroicons/react/solid/XIcon";
 import { Slot } from "@wordpress/components";
-import { useEffect, useId, useMemo, useRef } from "@wordpress/element";
-import { applyFilters } from "@wordpress/hooks";
+import { useEffect, useId, useRef } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Checkbox, DropdownMenu, useSvgAria, useToggleState } from "@yoast/ui-library";
-import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT, SELECT_MENU_ITEMS_FILTER } from "../constants";
+import { Alert, Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT } from "../constants";
 import { useAiUpsell } from "../hooks/use-ai-upsell";
 import { UpsellModal } from "./upsell-modal";
-
-/**
- * The "Select" menu.
- *
- * @param {Object}   props               The props.
- * @param {Function} props.onSelectAll   Selects every row.
- * @param {Function} props.onDeselectAll Clears the selection.
- * @param {number}   props.selectedCount The number of selected rows.
- * @param {number}   props.totalCount    The total number of rows.
- *
- * @returns {JSX.Element} The select menu.
- */
-const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount } ) => {
-	const svgAriaProps = useSvgAria();
-	const defaultItems = useMemo( () => [
-		{ key: "select-all", label: __( "Select all", "wordpress-seo" ), onClick: onSelectAll },
-		{ key: "deselect-all", label: __( "Deselect all", "wordpress-seo" ), onClick: onDeselectAll },
-	], [ onSelectAll, onDeselectAll ] );
-
-	const items = applyFilters( SELECT_MENU_ITEMS_FILTER, defaultItems, { selectedCount, totalCount } );
-
-	return (
-		<DropdownMenu as="div" className="yst-relative">
-			<DropdownMenu.Trigger as={ Button } variant="primary" size="small" className="yst-gap-1.5">
-				{ __( "Select", "wordpress-seo" ) }
-				<ChevronDownIcon className="yst-h-4 yst-w-4" { ...svgAriaProps } />
-			</DropdownMenu.Trigger>
-			<DropdownMenu.List className="yst-absolute yst-z-10 yst-start-0 yst-top-full yst-mt-1 yst-w-56">
-				{ items.map( ( item ) => (
-					<DropdownMenu.ButtonItem
-						key={ item.key }
-						className="yst-flex yst-justify-start yst-px-4 yst-py-2 yst-font-normal yst-text-slate-800 hover:!yst-bg-slate-50 focus:!yst-bg-slate-50"
-						onClick={ item.onClick }
-					>
-						{ item.label }
-					</DropdownMenu.ButtonItem>
-				) ) }
-			</DropdownMenu.List>
-		</DropdownMenu>
-	);
-};
+import { SelectMenu } from "./select-menu";
 
 /**
  * The first toolbar row: the multiselection checkbox, the Select menu and the selected-count.
@@ -65,10 +23,11 @@ const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount } )
  * @param {number}   props.selectedCount      The number of selected rows.
  * @param {number}   props.totalCount         The total number of rows.
  * @param {string}   [props.contentTypeLabel] The active content type label, used in the selected-count copy.
+ * @param {Object[]} [props.smartSelectItems] The quality-based Select-menu items ({key, label, ariaLabel, icon, onClick}).
  *
  * @returns {JSX.Element} The selection toolbar.
  */
-export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminate = false, onToggleAll, onSelectAll, onDeselectAll, selectedCount, totalCount, contentTypeLabel } ) => {
+export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminate = false, onToggleAll, onSelectAll, onDeselectAll, selectedCount, totalCount, contentTypeLabel, smartSelectItems = [] } ) => {
 	const noun = contentTypeLabel ? contentTypeLabel.toLowerCase() : __( "items", "wordpress-seo" );
 
 	const checkboxRef = useRef( null );
@@ -94,6 +53,7 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminat
 				onDeselectAll={ onDeselectAll }
 				selectedCount={ selectedCount }
 				totalCount={ totalCount }
+				smartSelectItems={ smartSelectItems }
 			/>
 			{ selectedCount > 0 && (
 				<span className="yst-font-medium yst-text-slate-800">

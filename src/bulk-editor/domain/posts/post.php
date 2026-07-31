@@ -79,18 +79,27 @@ class Post {
 	private $editable;
 
 	/**
+	 * Whether each field needs improvement, keyed by field param (e.g. `seo_title`). Empty for a post whose
+	 * fields are not editable.
+	 *
+	 * @var array<string, bool>
+	 */
+	private $needs_improvement;
+
+	/**
 	 * The constructor.
 	 *
-	 * @param int    $id                 The post ID.
-	 * @param string $title              The post title.
-	 * @param string $status             The post status.
-	 * @param string $edit_link          The URL to edit the post.
-	 * @param string $focus_keyphrase    The focus keyphrase.
-	 * @param string $seo_title          The SEO title.
-	 * @param string $meta_description   The meta description.
-	 * @param string $social_title       The social title.
-	 * @param string $social_description The social description.
-	 * @param bool   $editable           Whether the current user may edit this post.
+	 * @param int                 $id                 The post ID.
+	 * @param string              $title              The post title.
+	 * @param string              $status             The post status.
+	 * @param string              $edit_link          The URL to edit the post.
+	 * @param string              $focus_keyphrase    The focus keyphrase.
+	 * @param string              $seo_title          The SEO title.
+	 * @param string              $meta_description   The meta description.
+	 * @param string              $social_title       The social title.
+	 * @param string              $social_description The social description.
+	 * @param bool                $editable           Whether the current user may edit this post.
+	 * @param array<string, bool> $needs_improvement  Whether each field needs improvement, keyed by field param.
 	 */
 	public function __construct(
 		int $id,
@@ -102,7 +111,8 @@ class Post {
 		string $meta_description,
 		string $social_title,
 		string $social_description,
-		bool $editable
+		bool $editable,
+		array $needs_improvement = []
 	) {
 		$this->id                 = $id;
 		$this->title              = $title;
@@ -114,12 +124,13 @@ class Post {
 		$this->social_title       = $social_title;
 		$this->social_description = $social_description;
 		$this->editable           = $editable;
+		$this->needs_improvement  = $needs_improvement;
 	}
 
 	/**
 	 * Parses the post to the expected key value representation.
 	 *
-	 * @return array<string, int|string|bool> The post presented as the expected key value representation.
+	 * @return array<string, int|string|bool|array<string, bool>> The post presented as the expected key value representation.
 	 */
 	public function to_array(): array {
 		return [
@@ -133,6 +144,15 @@ class Post {
 			'social_title'       => $this->social_title,
 			'social_description' => $this->social_description,
 			'editable'           => $this->editable,
+			'needs_improvement'  => \array_merge(
+				[
+					'seo_title'          => false,
+					'meta_description'   => false,
+					'social_title'       => false,
+					'social_description' => false,
+				],
+				$this->needs_improvement,
+			),
 		];
 	}
 }

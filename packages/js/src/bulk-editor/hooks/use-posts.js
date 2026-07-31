@@ -20,6 +20,7 @@ const formatPost = ( post ) => ( {
 	socialTitle: post.social_title,
 	socialDescription: post.social_description,
 	editable: post.editable,
+	needsImprovement: post.needs_improvement ?? {},
 } );
 
 /**

@@ -103,7 +103,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 
 		$posts_list = new Posts_List();
 		foreach ( $indexables_by_id as $object_id => $indexable ) {
-			$posts_list->add( $this->build_post( $indexable, ( $editability[ $object_id ] ?? false ) ) );
+			$posts_list->add( $this->build_post( $indexable, ( $editability[ $object_id ] ?? false ), $query->are_scores_enabled() ) );
 		}
 
 		return new Posts_Page( $posts_list, $total, $query->get_page(), $query->get_per_page() );
@@ -246,12 +246,13 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	 * The SEO data and edit link of a post the current user cannot edit are withheld, so the post is
 	 * shown in the list but stays locked and does not expose its metadata.
 	 *
-	 * @param Indexable $indexable The indexable.
-	 * @param bool      $editable  Whether the current user may edit the post.
+	 * @param Indexable $indexable      The indexable.
+	 * @param bool      $editable       Whether the current user may edit the post.
+	 * @param bool      $scores_enabled Whether the per-field scores may back the needs-improvement verdict.
 	 *
 	 * @return Post The post.
 	 */
-	private function build_post( Indexable $indexable, bool $editable ): Post {
+	private function build_post( Indexable $indexable, bool $editable, bool $scores_enabled ): Post {
 		$object_id = (int) $indexable->object_id;
 		$title     = $this->get_normalized_title( $object_id );
 
@@ -270,6 +271,34 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			(string) $indexable->open_graph_title,
 			(string) $indexable->open_graph_description,
 			true,
+			$this->build_needs_improvement( $indexable, $scores_enabled ),
 		);
+	}
+
+	/**
+	 * Builds the per-field needs-improvement verdict for a post, keyed by field param.
+	 *
+	 * A field needs improvement when its value is empty, or when its score falls in the bad/ok range.
+	 *
+	 * @param Indexable $indexable      The indexable.
+	 * @param bool      $scores_enabled Whether the per-field scores may back the verdict.
+	 *
+	 * @return array<string, bool> Whether each field needs improvement, keyed by field param.
+	 */
+	private function build_needs_improvement( Indexable $indexable, bool $scores_enabled ): array {
+		$needs_improvement = [];
+		foreach ( self::FIELD_COLUMNS as $field => $column ) {
+			$is_empty = ( (string) $indexable->{$column} === '' );
+
+			$is_bad_score = false;
+			if ( $scores_enabled && isset( self::FIELD_SCORE_COLUMNS[ $field ] ) ) {
+				$score        = (int) $indexable->{self::FIELD_SCORE_COLUMNS[ $field ]};
+				$is_bad_score = ( $score >= self::NEEDS_IMPROVEMENT_MIN_SCORE && $score <= self::NEEDS_IMPROVEMENT_MAX_SCORE );
+			}
+
+			$needs_improvement[ $field ] = ( $is_empty || $is_bad_score );
+		}
+
+		return $needs_improvement;
 	}
 }

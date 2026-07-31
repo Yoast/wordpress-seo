@@ -102,7 +102,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 
 		$posts_list = new Posts_List();
 		foreach ( $post_ids as $post_id ) {
-			$posts_list->add( $this->build_post( $post_id, ( $editability[ $post_id ] ?? false ) ) );
+			$posts_list->add( $this->build_post( $post_id, ( $editability[ $post_id ] ?? false ), $query->are_scores_enabled() ) );
 		}
 
 		return new Posts_Page( $posts_list, (int) $wp_query->found_posts, $query->get_page(), $query->get_per_page() );
@@ -198,12 +198,13 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 * The SEO data and edit link of a post the current user cannot edit are withheld, so the post is
 	 * shown in the list but stays locked and does not expose its metadata.
 	 *
-	 * @param int  $post_id  The post ID.
-	 * @param bool $editable Whether the current user may edit the post.
+	 * @param int  $post_id        The post ID.
+	 * @param bool $editable       Whether the current user may edit the post.
+	 * @param bool $scores_enabled Whether the per-field scores may back the needs-improvement verdict.
 	 *
 	 * @return Post The post.
 	 */
-	private function build_post( int $post_id, bool $editable ): Post {
+	private function build_post( int $post_id, bool $editable, bool $scores_enabled ): Post {
 		$post   = \get_post( $post_id );
 		$status = ( $post !== null ) ? (string) $post->post_status : '';
 		$title  = $this->get_normalized_title( $post_id );
@@ -212,18 +213,54 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			return new Post( $post_id, $title, $status, '', '', '', '', '', '', false );
 		}
 
+		// Read each field's value once from its meta suffix, keyed by field param, so the values can be reused for
+		// the needs-improvement filter. Built from the suffix map to keep a single source of truth.
+		$fields = [];
+		foreach ( self::FIELD_META_SUFFIXES as $field => $suffix ) {
+			$fields[ $field ] = $this->get_meta( $post_id, $suffix );
+		}
+
 		return new Post(
 			$post_id,
 			$title,
 			$status,
 			(string) \get_edit_post_link( $post_id, 'raw' ),
 			$this->get_meta( $post_id, 'focuskw' ),
-			$this->get_meta( $post_id, 'title' ),
-			$this->get_meta( $post_id, 'metadesc' ),
-			$this->get_meta( $post_id, 'opengraph-title' ),
-			$this->get_meta( $post_id, 'opengraph-description' ),
+			$fields['seo_title'],
+			$fields['meta_description'],
+			$fields['social_title'],
+			$fields['social_description'],
 			true,
+			$this->build_needs_improvement( $post_id, $fields, $scores_enabled ),
 		);
+	}
+
+	/**
+	 * Builds the per-field needs-improvement verdict for a post, keyed by field param.
+	 *
+	 * A field needs improvement when its value is empty, or when its score falls in the bad/ok range.
+	 *
+	 * @param int                   $post_id        The post ID.
+	 * @param array<string, string> $fields         The field values, keyed by field param.
+	 * @param bool                  $scores_enabled Whether the per-field scores may back the verdict.
+	 *
+	 * @return array<string, bool> Whether each field needs improvement, keyed by field param.
+	 */
+	private function build_needs_improvement( int $post_id, array $fields, bool $scores_enabled ): array {
+		$needs_improvement = [];
+		foreach ( \array_keys( self::FIELD_META_SUFFIXES ) as $field ) {
+			$is_empty = ( ( $fields[ $field ] ?? '' ) === '' );
+
+			$is_bad_score = false;
+			if ( $scores_enabled && isset( self::FIELD_SCORE_META_SUFFIXES[ $field ] ) ) {
+				$score        = (int) $this->get_meta( $post_id, self::FIELD_SCORE_META_SUFFIXES[ $field ] );
+				$is_bad_score = ( $score >= self::NEEDS_IMPROVEMENT_MIN_SCORE && $score <= self::NEEDS_IMPROVEMENT_MAX_SCORE );
+			}
+
+			$needs_improvement[ $field ] = ( $is_empty || $is_bad_score );
+		}
+
+		return $needs_improvement;
 	}
 
 	/**

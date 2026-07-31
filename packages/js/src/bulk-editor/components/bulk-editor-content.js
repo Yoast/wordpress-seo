@@ -2,10 +2,13 @@ import { Slot } from "@wordpress/components";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../constants";
+import {
+	PENDING_CHANGES_MODAL_SLOT,
+	STORE_NAME,
+} from "../constants";
 import { getFieldSets } from "../field-sets";
 import { useInlineEdit } from "../hooks/use-inline-edit";
-import { usePosts } from "../services/use-posts";
+import { usePosts } from "../hooks/use-posts";
 import { BulkActions, SelectionToolbar } from "./bulk-action-bar";
 import { BulkEditorFilters } from "./bulk-editor-filters";
 import { BulkEditorFooter } from "./bulk-editor-footer";
@@ -13,34 +16,7 @@ import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 import { UnsavedChangesModal } from "./unsaved-changes-modal";
 import { SearchBox } from "./search-box";
-
-/**
- * Generates the selection toolbar's view. While loading, the previous content type's items and selection still
- * linger behind the skeleton rows, so a neutral (empty) selection is presented instead.
- *
- * @param {boolean}  isLoading   Whether the rows are still loading.
- * @param {number[]} selectedIds The currently selected item ids.
- * @param {Object[]} items       The loaded items (per page).
- * @param {number}   total       The total number of items across all pages.
- *
- * @returns {{isAllSelected: boolean, isIndeterminate: boolean, selectedCount: number, totalCount: number, hasSelection: boolean}} The selection view.
- */
-export const getSelectionView = ( isLoading, selectedIds, items, total ) => {
-	if ( isLoading ) {
-		return { isAllSelected: false, isIndeterminate: false, selectedCount: 0, totalCount: 0, hasSelection: false };
-	}
-	// Only posts the user can edit are selectable, so "all selected" is measured against the editable rows.
-	const selectableCount = items.filter( ( item ) => item.editable ).length;
-	const selectedCount = selectedIds.length;
-	const isAllSelected = selectableCount > 0 && selectedCount === selectableCount;
-	return {
-		isAllSelected,
-		isIndeterminate: selectedCount > 0 && ! isAllSelected,
-		selectedCount,
-		totalCount: total,
-		hasSelection: selectedCount > 0,
-	};
-};
+import { getSelectionView, getSmartSelectItems } from "../helpers";
 
 /**
  * The bulk editor content.
@@ -138,6 +114,11 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	// Clicking the master checkbox clears the selection whenever anything is selected (all or a partial).
 	const onToggleAll = useCallback( () => ( hasSelection ? deselectAll() : onSelectAll() ), [ hasSelection, deselectAll, onSelectAll ] );
 
+	const smartSelectItems = useMemo(
+		() => getSmartSelectItems( { activeFieldSet, items, isPending, selectAll } ),
+		[ activeFieldSet, items, isPending, selectAll ]
+	);
+
 	const selection = useMemo( () => ( {
 		selectedIds,
 		onToggleRow: toggleRow,
@@ -173,6 +154,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								selectedCount={ selectedCount }
 								totalCount={ totalCount }
 								contentTypeLabel={ contentTypeLabel }
+								smartSelectItems={ smartSelectItems }
 							/>
 						}
 						bulkActions={

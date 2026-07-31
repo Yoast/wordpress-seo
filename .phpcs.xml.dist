@@ -275,6 +275,12 @@
 		<exclude-pattern>/tests/*/Doubles/*</exclude-pattern>
 	</rule>
 
+	<!-- The double/mock classes mirror the real classes' properties; enforcing type hints on the mock's own
+		 property declarations adds no value, as the real class is the source of truth. -->
+	<rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint">
+		<exclude-pattern>/tests/*/Doubles/*</exclude-pattern>
+	</rule>
+
 
 	<!--
 	#############################################################################
