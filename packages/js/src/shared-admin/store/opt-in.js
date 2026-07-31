@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
-import { ASYNC_ACTION_NAMES } from "../../shared-admin/constants";
+import { ASYNC_ACTION_NAMES } from "../constants";
 import apiFetch from "@wordpress/api-fetch";
 
 export const OPT_IN_NOTIFICATION_NAME = "optInNotification";
