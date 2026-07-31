@@ -296,18 +296,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Screenshots ==
 
-1. The AI Content Planner suggests what to write next and drafts the outline.
-2. AI Generate creates five title and meta description options in a click.
-3. The redesigned bulk editor fixes metadata across your whole site, with AI drafts in Premium.
-4. Schema and AI readiness settings, including LLMs.txt and the bot blocker.
-5. The content analyses in Yoast SEO.
-6. The modern interface makes Yoast SEO easy to work with.
-7. Easily manage how your posts and pages appear in SERPs.
-8. See what your post looks like in Google.
-9. The first-time configuration helps you get started quickly.
-10. Yoast SEO integrates with tools like Semrush and Wincher.
-11. Yoast SEO Premium has extra crawl optimization options.
-12. The inclusive language analysis in Yoast SEO.
+1. The modern interface makes Yoast SEO easy to work with.
+2. Easily manage how your posts and pages appear in SERPs.
+3. Yoast SEO Premium has extra crawl optimization options.
+4. Yoast SEO integrates with tools like Semrush and Wincher.
+5. The famous SEO and readability analyses in Yoast SEO.
+6. See what your post looks like in Google.
+7. The First-time configuration helps you get started quickly.
+8. The inclusive language analysis in Yoast SEO.
 
 == Changelog ==
 
