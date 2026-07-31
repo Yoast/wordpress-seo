@@ -1,4 +1,6 @@
-import { ChevronDoubleUpIcon, ChevronDoubleDownIcon, MenuAlt4Icon } from "@heroicons/react/outline";
+import ChevronDoubleUpIcon from "@heroicons/react/outline/ChevronDoubleUpIcon";
+import ChevronDoubleDownIcon from "@heroicons/react/outline/ChevronDoubleDownIcon";
+import MenuAlt4Icon from "@heroicons/react/outline/MenuAlt4Icon";
 import { __ } from "@wordpress/i18n";
 import { useSvgAria, SkeletonLoader } from "@yoast/ui-library";
 import classNames from "classnames";

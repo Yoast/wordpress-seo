@@ -197,6 +197,9 @@
 #wpadminbar #wp-admin-bar-wpseo_brand_insights_premium {
 	@apply yst-flex;
 }
+.yoast-brand-insights-content .yst-external-link-icon {
+	@apply rtl:yst-rotate-[270deg];
+}
 
 #wpadminbar #wp-admin-bar-wpseo_brand_insights .ab-item,
 #wpadminbar #wp-admin-bar-wpseo_brand_insights_premium .ab-item {

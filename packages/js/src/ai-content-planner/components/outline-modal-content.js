@@ -2,7 +2,7 @@
 import { Button, Modal, SkeletonLoader, TextField, TextareaField } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { useState, useCallback, useEffect } from "@wordpress/element";
-import { ArrowLeftIcon } from "@heroicons/react/outline";
+import ArrowLeftIcon from "@heroicons/react/outline/ArrowLeftIcon";
 import { getDescriptionProgress, getProgressColor } from "@yoast/search-metadata-previews";
 import { ContentPlannerError } from "./content-planner-error";
 import classNames from "classnames";
@@ -38,13 +38,13 @@ const StructureSectionHeader = () => (
  * Progress bar indicating the meta description character length.
  *
  * @param {string} value The meta description text.
- * @param {string} [date=""] The meta description date.
- * @param {string} [locale=""] The content locale, used for meta description length calculation.
- * @param {boolean} [isCornerstone=false] Whether the current post is marked as cornerstone content.
+ * @param {string} [date] The meta description date.
+ * @param {string} [locale] The content locale, used for meta description length calculation.
+ * @param {boolean} [isCornerstone] Whether the current post is marked as cornerstone content.
  *
  * @returns {JSX.Element} The MetaDescriptionProgressBar component.
  */
-const MetaDescriptionProgressBar = ( { value, date = "", locale = "", isCornerstone = false } ) => {
+const MetaDescriptionProgressBar = ( { value, date = "", locale, isCornerstone } ) => {
 	// Content planner feature is not available in taxonomies. Hence, the `isTaxonomy` flag is set to false.
 	const { actual, score, max } = getDescriptionProgress( value, date, isCornerstone, false, locale );
 	const percentage = Math.min( ( actual / max ) * 100, 100 );

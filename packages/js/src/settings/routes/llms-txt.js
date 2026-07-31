@@ -1,5 +1,6 @@
-import { ExternalLinkIcon, TrashIcon } from "@heroicons/react/outline";
-import { PlusIcon } from "@heroicons/react/solid";
+import ExternalLinkIcon from "@heroicons/react/outline/ExternalLinkIcon";
+import TrashIcon from "@heroicons/react/outline/TrashIcon";
+import PlusIcon from "@heroicons/react/solid/PlusIcon";
 import { useCallback, useEffect, useMemo, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, ToggleField, useToggleState } from "@yoast/ui-library";
@@ -12,7 +13,6 @@ import {
 	FormikIndexablePageSelectField,
 	FormLayout,
 	RouteLayout,
-	LlmTxtPopover,
 	LlmsTxtAlert,
 	LlmsTxtUnsavedChangesModal,
 } from "../components";
@@ -142,8 +142,6 @@ const LlmTxt = () => {
 		}
 	}, [ fetchIndexablePages, isLlmsTxtEnabled, llmsTxtSelectionMode ] );
 
-	const isOptIn = useMemo( () => ! isLlmsTxtEnabled && sessionStorage?.getItem( "yoast-highlight-setting" ) === "llm-txt", [ isLlmsTxtEnabled ] );
-
 	const [ openUnsavedFile, , , setOpenUnsavedFile, unsetOpenUnsavedFile ] = useToggleState( false );
 
 	return (
@@ -157,7 +155,7 @@ const LlmTxt = () => {
 
 						{ generationFailure && initialIsLlmsTxtEnabled && isLlmsTxtEnabled && <LlmsTxtAlert reason={ generationFailureReason } /> }
 
-						<div className="yst-relative yst-max-w-sm">
+						<div className="yst-max-w-sm">
 							<FormikValueChangeFieldWithDisabledMessage
 								as={ ToggleField }
 								type="checkbox"
@@ -176,9 +174,7 @@ const LlmTxt = () => {
 									),
 									LABEL
 								) }
-								className={ isOptIn ? "yst-popover-backdrop-highlight-button" : "" }
 							/>
-							{ isOptIn && <LlmTxtPopover /> }
 						</div>
 					</fieldset>
 					{ ! showUnsavedChangesModal && <Button

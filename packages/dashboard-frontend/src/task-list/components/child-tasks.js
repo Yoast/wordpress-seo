@@ -1,5 +1,6 @@
 import { TasksProgressBar } from "./tasks-progressbar";
-import { ArrowNarrowRightIcon, ArrowNarrowLeftIcon } from "@heroicons/react/outline";
+import ArrowNarrowRightIcon from "@heroicons/react/outline/ArrowNarrowRightIcon";
+import ArrowNarrowLeftIcon from "@heroicons/react/outline/ArrowNarrowLeftIcon";
 import { useCallback, useState, useMemo, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useSvgAria } from "@yoast/ui-library";

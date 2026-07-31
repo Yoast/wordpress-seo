@@ -1,7 +1,10 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { Title, useSvgAria, Button } from "@yoast/ui-library";
-import { LockOpenIcon, PhotographIcon, TagIcon, IdentificationIcon } from "@heroicons/react/outline";
-import { ShoppingCartIcon } from "@heroicons/react/solid";
+import LockOpenIcon from "@heroicons/react/outline/LockOpenIcon";
+import PhotographIcon from "@heroicons/react/outline/PhotographIcon";
+import TagIcon from "@heroicons/react/outline/TagIcon";
+import IdentificationIcon from "@heroicons/react/outline/IdentificationIcon";
+import ShoppingCartIcon from "@heroicons/react/solid/ShoppingCartIcon";
 import { useSelect } from "@wordpress/data";
 import { getLocationKey } from "./PremiumSeoAnalysisUpsellAd";
 

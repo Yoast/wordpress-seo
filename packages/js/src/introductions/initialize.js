@@ -7,8 +7,6 @@ import { Root } from "@yoast/ui-library";
 import { get, isEmpty, find } from "lodash";
 import { LINK_PARAMS_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
 import { Introduction, IntroductionProvider } from "./components";
-import { AiBrandInsightsFreeTrial } from "./components/modals/ai-brand-insights-free-trial";
-import { AiBrandInsightsPostLaunch } from "./components/modals/ai-brand-insights-post-launch";
 import { BlackFridayAnnouncement } from "./components/modals/black-friday-announcement";
 import { DelayedPremiumUpsell } from "./components/modals/delayed-premium-upsell";
 import { SchemaAggregatorAnnouncement } from "./components/modals/schema-aggregator-announcement";
@@ -24,8 +22,6 @@ domReady( () => {
 	}
 
 	const initialComponents = {
-		"ai-brand-insights-free-trial": AiBrandInsightsFreeTrial,
-		"ai-brand-insights-post-launch": AiBrandInsightsPostLaunch,
 		"black-friday-announcement": BlackFridayAnnouncement,
 		"delayed-premium-upsell": DelayedPremiumUpsell,
 		"schema-aggregator-announcement": SchemaAggregatorAnnouncement,

@@ -14,7 +14,7 @@ export const getReplaceVars = state => get( state, "snippetEditor.replacementVar
  *
  * @param {Object} state The state object.
  *
- * @returns {string} The snippet editor templates.
+ * @returns {Object} The snippet editor templates.
  */
 export const getSnippetEditorTemplates = state => get( state, "snippetEditor.templates", {
 	title: "",

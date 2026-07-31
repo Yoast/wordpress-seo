@@ -7,7 +7,6 @@ use Mockery;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -109,7 +108,6 @@ final class Academy_Integration_Test extends TestCase {
 		$this->assertEquals(
 			[
 				Admin_Conditional::class,
-				User_Can_Manage_Wpseo_Options_Conditional::class,
 			],
 			Academy_Integration::get_conditionals(),
 		);
@@ -187,7 +185,7 @@ final class Academy_Integration_Test extends TestCase {
 		$this->assertEquals( 'wpseo_dashboard', $pages[3][0] );
 		$this->assertEquals( '', $pages[3][1] );
 		$this->assertEquals( 'Academy', $pages[3][2] );
-		$this->assertEquals( 'wpseo_manage_options', $pages[3][3] );
+		$this->assertEquals( 'edit_posts', $pages[3][3] );
 		$this->assertEquals( 'wpseo_page_academy', $pages[3][4] );
 		$this->assertEquals( [ $this->instance, 'display_page' ], $pages[3][5] );
 	}

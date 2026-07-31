@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Switch } from "@headlessui/react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
@@ -19,15 +20,15 @@ import Toggle from "../../elements/toggle";
  */
 const ToggleField = forwardRef( ( {
 	id,
-	children,
+	children = null,
 	label,
-	labelSuffix,
-	description,
+	labelSuffix = null,
+	description = null,
 	checked,
-	disabled,
+	disabled = false,
 	onChange,
-	className,
-	"aria-label": ariaLabel,
+	className = "",
+	"aria-label": ariaLabel = null,
 	...props
 }, ref ) => (
 	<Switch.Group
@@ -69,14 +70,6 @@ ToggleField.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
 	"aria-label": PropTypes.string,
-};
-ToggleField.defaultProps = {
-	children: null,
-	labelSuffix: null,
-	description: null,
-	disabled: false,
-	className: "",
-	"aria-label": null,
 };
 
 export default ToggleField;

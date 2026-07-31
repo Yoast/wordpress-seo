@@ -19,6 +19,7 @@ const slice = createSlice( {
 		endpoint: "",
 		status: ASYNC_ACTION_STATUS.idle,
 		suggestions: [],
+		recentContent: [],
 		error: ERROR_DEFAULT,
 	},
 	reducers: {
@@ -43,11 +44,13 @@ const slice = createSlice( {
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
 			state.status = ASYNC_ACTION_STATUS.loading;
 			state.suggestions = [];
+			state.recentContent = [];
 			state.error = ERROR_DEFAULT;
 		} );
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.success;
-			state.suggestions = payload;
+			state.suggestions = payload.suggestions;
+			state.recentContent = payload.recentContent;
 			state.error = ERROR_DEFAULT;
 		} );
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
@@ -63,6 +66,7 @@ export const contentSuggestionsSelectors = {
 	selectContentSuggestionsEndpoint: ( state ) => get( state, [ CONTENT_SUGGESTIONS_NAME, "endpoint" ], slice.getInitialState().endpoint ),
 	selectSuggestionsStatus: ( state ) => get( state, [ CONTENT_SUGGESTIONS_NAME, "status" ], slice.getInitialState().status ),
 	selectSuggestions: ( state ) => get( state, [ CONTENT_SUGGESTIONS_NAME, "suggestions" ], slice.getInitialState().suggestions ),
+	selectRecentContent: ( state ) => get( state, [ CONTENT_SUGGESTIONS_NAME, "recentContent" ], slice.getInitialState().recentContent ),
 	selectSuggestionsError: ( state ) => get( state, [ CONTENT_SUGGESTIONS_NAME, "error" ], slice.getInitialState().error ),
 };
 /**
@@ -70,7 +74,7 @@ export const contentSuggestionsSelectors = {
  *
  * @param {Object} result The raw API response.
  *
- * @returns {Suggestion[]} The validated and transformed suggestions array.
+ * @returns {{ suggestions: Suggestion[], recentContent: Object[] }} The validated and transformed response.
  */
 const validateSuggestionsResponse = ( result ) => {
 	const suggestions = get( result, "suggestions", null );
@@ -79,16 +83,19 @@ const validateSuggestionsResponse = ( result ) => {
 		throw new Error( "Invalid suggestions response: expected an array of suggestions." );
 	}
 
-	return suggestions.map( ( suggestion ) => ( {
-		title: suggestion.title,
-		intent: suggestion.intent,
-		keyphrase: suggestion.keyphrase,
-		// eslint-disable-next-line camelcase
-		meta_description: suggestion.meta_description,
-		category: suggestion.category,
-		explanation: suggestion.explanation,
-		id: `suggestion-${ suggestion.keyphrase }-${ suggestion.title }`,
-	} ) );
+	return {
+		suggestions: suggestions.map( ( suggestion ) => ( {
+			title: suggestion.title,
+			intent: suggestion.intent,
+			keyphrase: suggestion.keyphrase,
+			// eslint-disable-next-line camelcase
+			meta_description: suggestion.meta_description,
+			category: suggestion.category,
+			explanation: suggestion.explanation,
+			id: `suggestion-${ suggestion.keyphrase }-${ suggestion.title }`,
+		} ) ),
+		recentContent: get( result, "recent_content", [] ),
+	};
 };
 /**
  * Generator action to fetch content planner suggestions from the REST API.

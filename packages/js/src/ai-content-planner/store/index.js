@@ -34,6 +34,7 @@ import {
 import {
 	BANNER_NAME,
 	bannerActions,
+	bannerControls,
 	bannerReducer,
 	bannerSelectors,
 	getInitialBannerState,
@@ -64,6 +65,7 @@ export const createStore = ( initialState ) => {
 		controls: {
 			...contentSuggestionsControls,
 			...contentOutlineControls,
+			...bannerControls,
 		},
 		initialState: merge(
 			{},

@@ -5,35 +5,63 @@ import { InlineBanner } from "./inline-banner";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS, INJECTED_STYLE_ID } from "../constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../../ai-generator/constants";
 import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
+import { handleBannerKeyNavigation } from "../helpers/handle-banner-tab-navigation";
+import { isObject } from "lodash";
+import { ErrorBoundary } from "@yoast/ui-library";
+
+/**
+ * Returns true when the mousedown target is outside the dropdown.
+ * HeadlessUI's built-in outside-click detection uses the top-level window and
+ * misses iframe clicks — replicated here via a capture-phase mousedown listener.
+ *
+ * @param {HTMLElement} bannerEl The banner wrapper element.
+ * @param {MouseEvent}  event    The mousedown event.
+ * @returns {boolean}
+ */
+function isClickOutsideDropdown( bannerEl, event ) {
+	const trigger = bannerEl?.querySelector( ".yst-dropdown-menu__icon-trigger[aria-expanded='true']" );
+	const menu = trigger && bannerEl.querySelector( "[role='menu']" );
+	return Boolean( menu ) && ! trigger.contains( event.target ) && ! menu.contains( event.target );
+}
 
 /**
  * The component that conditionally renders the Content Planner inline banner and injects the Tailwind stylesheet into the editor iframe.
  * @param {Function}   BlockListBlock The Gutenberg block component to wrap.
  * @param {Object}   props The block props passed by Gutenberg.
+ * @param {boolean}  hasConsent Whether the user has granted consent for AI-generated content.
  * @returns {JSX.Element} The wrapped block component with the inline banner conditionally rendered before it.
  */
-const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
-	const { isNewPost, isBannerDismissed, isBannerRendered, hasConsent, isPremium, minPostsMet } = useSelect( ( select ) => {
+const FirstBlockWithBanner = ( { BlockListBlock, props, hasConsent } ) => {
+	const {
+		isNewPost, isBannerDismissed, isBannerRendered, isBannerPermanentlyDismissed,
+		bannerPermanentDismissalEndpoint, isPremium, minPostsMet, learnMoreLink,
+	} = useSelect( ( select ) => {
 		const planner = select( CONTENT_PLANNER_STORE );
 		return {
 			isNewPost: select( "core/editor" ).isEditedPostNew(),
 			isBannerDismissed: planner.selectIsBannerDismissed(),
 			isBannerRendered: planner.selectIsBannerRendered(),
+			isBannerPermanentlyDismissed: planner.selectIsBannerPermanentlyDismissed(),
+			bannerPermanentDismissalEndpoint: planner.selectBannerPermanentDismissalEndpoint(),
 			isPremium: select( STORE_NAME_EDITOR ).getIsPremium(),
-			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
 			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
+			learnMoreLink: select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/content-planner-learn-more" ),
 		};
 	}, [] );
 
-	const { setFeatureModalStatus, setBannerDismissed, setBannerRendered } = useDispatch( CONTENT_PLANNER_STORE );
+	const { setFeatureModalStatus, setBannerDismissed, setBannerRendered, dismissBannerPermanently } = useDispatch( CONTENT_PLANNER_STORE );
 	const fetchContentSuggestions = useFetchContentSuggestions();
 	const ref = useRef( null );
 
-	const shouldShow = ! isBannerDismissed && ( isNewPost || isBannerRendered ) && minPostsMet;
+	const shouldShow = ! isBannerPermanentlyDismissed && ! isBannerDismissed && ( isNewPost || isBannerRendered ) && minPostsMet;
 
 	const handleDismiss = useCallback( () => {
 		setBannerDismissed();
 	}, [ setBannerDismissed ] );
+
+	const handleDismissPermanently = useCallback( () => {
+		dismissBannerPermanently( bannerPermanentDismissalEndpoint );
+	}, [ dismissBannerPermanently, bannerPermanentDismissalEndpoint ] );
 
 	const handleClick = useCallback( () => {
 		if ( hasConsent ) {
@@ -67,14 +95,59 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 		ownerDoc.head.appendChild( link );
 	}, [ shouldShow ] );
 
+	useEffect( () => {
+		if ( ! shouldShow ) {
+			return;
+		}
+
+		// Gutenberg's writing-flow Tab handler runs in the bubble phase and redirects
+		// focus to sentinel divs when the next tabbable is not inside the same block.
+		// The banner sits outside any [data-block] block wrapper, so it is always
+		// skipped. Attaching a capture-phase listener lets us act before Gutenberg does;
+		// once we call preventDefault(), Gutenberg's early-return guard fires and leaves
+		// focus alone.
+		//
+		// The same guard applies to ArrowUp/ArrowDown: Gutenberg's use-arrow-nav
+		// handler bails early when defaultPrevented is set, so calling preventDefault()
+		// here lets HeadlessUI still process the key while Gutenberg stays out of the way.
+		const ownerDoc = ref.current?.ownerDocument;
+		if ( ! ownerDoc ) {
+			return;
+		}
+
+		/**
+		 * Handles keydown events for banner Tab and dropdown arrow-key navigation.
+		 * @param {KeyboardEvent} event The keydown event.
+		 * @returns {void}
+		 */
+		function handleKeydownEvents( event ) {
+			handleBannerKeyNavigation( ref.current, event );
+		}
+
+		const onMousedown = ( event ) => {
+			if ( isClickOutsideDropdown( ref.current, event ) ) {
+				ref.current.querySelector( ".yst-dropdown-menu__icon-trigger" ).click();
+			}
+		};
+
+		ownerDoc.addEventListener( "keydown", handleKeydownEvents, { capture: true } );
+		ownerDoc.addEventListener( "mousedown", onMousedown, { capture: true } );
+		return () => {
+			ownerDoc.removeEventListener( "keydown", handleKeydownEvents, { capture: true } );
+			ownerDoc.removeEventListener( "mousedown", onMousedown, { capture: true } );
+		};
+	}, [ shouldShow ] );
+
 	return (
 		<>
 			{ shouldShow && (
-				<div ref={ ref }>
+				<div ref={ ref } className="wp-block" data-block="yoast-content-planner-banner">
 					<InlineBanner
 						isPremium={ isPremium }
 						onDismiss={ handleDismiss }
+						onDismissPermanently={ handleDismissPermanently }
 						onClick={ handleClick }
+						learnMoreLink={ learnMoreLink }
 					/>
 				</div>
 			) }
@@ -104,15 +177,29 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
  * persists "1" on the next save.
  */
 export const withInlineBanner = createHigherOrderComponent( ( BlockListBlock ) => function WithInlineBanner( props ) {
-	const isFirstBlock = useSelect( ( select ) => {
-		return select( "core/block-editor" ).getBlockOrder()[ 0 ] === props.clientId;
+	const { isFirstBlock, isEditingTemplate } = useSelect( ( select ) => {
+		const editor = select( "core/editor" );
+		const postType = editor.getCurrentPostType();
+		return {
+			// getBlockOrder() with no arguments returns root-level block IDs only, so nested
+			// blocks (inside core/query, core/comment-template, etc.) never match here.
+			isFirstBlock: select( "core/block-editor" ).getBlockOrder()[ 0 ] === props.clientId,
+			// Banner should not appear when editing a template or template part in the Site Editor,
+			// or when template-locked mode is active (Settings > Template > Show template in the post editor).
+			isEditingTemplate: postType === "wp_template" || postType === "wp_template_part" || editor.getRenderingMode() === "template-locked",
+		};
 	}, [ props.clientId ] );
+	const hasAiStore = useSelect( select => isObject( select( STORE_NAME_AI ) ), [] );
+	const hasConsent = useSelect( select => select( STORE_NAME_AI )?.selectHasAiGeneratorConsent() ?? false );
+	const BannerFallback = useCallback( () => <BlockListBlock { ...props } />, [ BlockListBlock, props ] );
 
-	// Non-first blocks: zero additional overhead.
-	if ( ! isFirstBlock ) {
+	// Non-first blocks, missing AI generator selectors, or template editing: zero additional overhead.
+	if ( ! isFirstBlock || ! hasAiStore || isEditingTemplate ) {
 		return <BlockListBlock { ...props } />;
 	}
 
 	// Only the first block renders the full component with all subscriptions.
-	return <FirstBlockWithBanner BlockListBlock={ BlockListBlock } props={ props } />;
+	return <ErrorBoundary FallbackComponent={ BannerFallback }>
+		<FirstBlockWithBanner BlockListBlock={ BlockListBlock } props={ props } hasConsent={ hasConsent } />
+	</ErrorBoundary>;
 }, "withYoastContentPlannerBanner" );

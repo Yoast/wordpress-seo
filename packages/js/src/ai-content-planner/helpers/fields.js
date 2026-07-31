@@ -22,10 +22,16 @@ const getInputValue = ( id ) => {
 };
 
 /**
- * Helper functions to get the value of whether the banner is dismissed or rendered.
- * @returns {boolean} True if the banner is dismissed or rendered, false otherwise.
+ * Helper function to get the dismissed state of the inline banner from the post meta.
+ *
+ * Returns true when the hidden input is missing, so a server-side filter that stops the input from rendering keeps the banner hidden site-wide.
+ *
+ * @returns {boolean} True if the banner is dismissed or its hidden input is absent, false otherwise.
  */
-export const getIsBannerDismissedFromInput = () => getInputValue( "yoast_wpseo_is_content_planner_banner_dismissed" ) === "1";
+export const getIsBannerDismissedFromInput = () => {
+	const input = document.getElementById( "yoast_wpseo_is_content_planner_banner_dismissed" );
+	return input === null || input.value === "1";
+};
 
 /**
  * Helper function to get the value of whether the banner is rendered.

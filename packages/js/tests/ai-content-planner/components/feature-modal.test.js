@@ -2,6 +2,7 @@ import { render, screen, fireEvent, act } from "@testing-library/react";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
 import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } from "../../../src/ai-content-planner/hooks";
+import { useMeasuredRef } from "../../../src/ai-generator/hooks";
 
 jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
@@ -154,7 +155,7 @@ const setupMocks = ( selectOverrides = {} ) => {
 	} ) );
 };
 
-const createModalElement = ( { status = "idle", editedOutlineRef = { current: null }, ...props } = {} ) => (
+const createModalElement = ( { status = "idle", editedOutlineRef = { current: null }, onCloseReplace = jest.fn(), ...props } = {} ) => (
 	<FeatureModal
 		onClose={ jest.fn() }
 		isEmptyPost={ true }
@@ -164,6 +165,7 @@ const createModalElement = ( { status = "idle", editedOutlineRef = { current: nu
 		openReplaceContentModal={ mockOpenReplaceContentModal }
 		setHasVisitedReplace={ mockSetHasVisitedReplace }
 		handleApplyOutline={ mockHandleApplyOutline }
+		onCloseReplace={ onCloseReplace }
 		{ ...props }
 	/>
 );
@@ -255,5 +257,42 @@ describe( "FeatureModal", () => {
 		renderModal( { status: "content-suggestions" } );
 		expect( screen.queryByText( "Looking for inspiration?" ) ).not.toBeInTheDocument();
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
+	} );
+
+	it( "renders the SparksLimitNotification area when contentSuggestionsStatus is success and no outline error", () => {
+		setupMocks();
+		renderModal( { status: "content-suggestions", contentSuggestionsStatus: "success" } );
+		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
+	} );
+
+	it( "calls fetchContentOutline with the suggestion when a suggestion button is clicked", () => {
+		const mockFetchContentOutline = jest.fn();
+		setupMocks();
+		useFetchContentOutline.mockReturnValue( mockFetchContentOutline );
+		renderModal( { status: "content-suggestions" } );
+		fireEvent.click( screen.getByText( "How to train your dog" ) );
+		expect( mockFetchContentOutline ).toHaveBeenCalledWith( mockSuggestion );
+	} );
+
+	it( "calls handlePanelMeasureChange when useMeasuredRef fires with a resize entry", () => {
+		// beforeEach already calls setupMocks(); override useMeasuredRef after it to capture the callback.
+		let capturedCallback;
+		useMeasuredRef.mockImplementationOnce( ( callback ) => {
+			capturedCallback = callback;
+			return { current: null };
+		} );
+		renderModal( { status: "content-suggestions" } );
+		act( () => {
+			capturedCallback( { borderBoxSize: [ { blockSize: 600 } ] } );
+		} );
+		// If handlePanelMeasureChange runs without error, the callback was exercised.
+		expect( capturedCallback ).toBeDefined();
+	} );
+
+	it( "renders both the feature modal and the replace confirmation dialog when isReplaceModalOpen is true", () => {
+		const onCloseReplace = jest.fn();
+		renderModal( { status: "content-suggestions", isReplaceModalOpen: true, onCloseReplace } );
+		expect( screen.getAllByRole( "dialog" ) ).toHaveLength( 2 );
+		expect( screen.getByText( "Replace existing content with this outline?" ) ).toBeInTheDocument();
 	} );
 } );

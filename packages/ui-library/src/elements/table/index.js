@@ -121,10 +121,6 @@ Table.propTypes = {
 	className: PropTypes.string,
 	variant: PropTypes.oneOf( Object.keys( tableVariants ) ),
 };
-Table.defaultProps = {
-	className: "",
-	variant: "default",
-};
 
 Table.Head = Head;
 Table.Head.displayName = "Table.Head";

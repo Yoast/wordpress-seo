@@ -26,6 +26,11 @@ jest.mock( "@yoast/search-metadata-previews", () => ( {
 	getProgressColor: jest.fn( () => "#2a9d8f" ),
 } ) );
 
+// Shared drag handler references — must use the `mock` prefix so Jest's factory
+// hoisting allows them to be referenced inside the jest.mock() factory below.
+const mockHandleDragOver = jest.fn();
+const mockHandleDrop = jest.fn();
+
 jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
 	useFetchContentOutline: jest.fn(),
 	useDraggableStructure: () => ( {
@@ -38,8 +43,8 @@ jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
 		dragOverIndex: null,
 		reorderMessage: "",
 		handleDragStart: jest.fn(),
-		handleDragOver: jest.fn(),
-		handleDrop: jest.fn(),
+		handleDragOver: mockHandleDragOver,
+		handleDrop: mockHandleDrop,
 		handleDragEnd: jest.fn(),
 		handleMoveUp: jest.fn(),
 		handleMoveDown: jest.fn(),
@@ -96,6 +101,8 @@ describe( "ContentOutlineModal", () => {
 	beforeEach( () => {
 		getDescriptionProgress.mockClear();
 		getProgressColor.mockClear();
+		mockHandleDragOver.mockClear();
+		mockHandleDrop.mockClear();
 		jest.useFakeTimers();
 		useFetchContentOutline.mockReturnValue( mockFetchContentOutlineFn );
 	} );
@@ -313,9 +320,27 @@ describe( "ContentOutlineModal", () => {
 			} );
 			expect( screen.queryByText( "WordPress" ) ).not.toBeInTheDocument();
 		} );
+
+		it( "hides the category badge when the toggle is switched off", () => {
+			renderLoadedModal( { suggestion: { ...defaultSuggestion, category: { name: "WordPress" } } } );
+			expect( screen.getByText( "WordPress" ) ).toBeInTheDocument();
+			fireEvent.click( screen.getByRole( "switch", { name: "Suggest category" } ) );
+			expect( screen.queryByText( "WordPress" ) ).not.toBeInTheDocument();
+		} );
 	} );
 
 	describe( "footer actions", () => {
+		it( "passes the fallback category when isCategoryEnabled is toggled off before applying", () => {
+			const onApplyOutline = jest.fn();
+			const suggestionWithCategory = { ...defaultSuggestion, category: { name: "WordPress", id: 5 } };
+			renderLoadedModal( { onApplyOutline, suggestion: suggestionWithCategory } );
+			fireEvent.click( screen.getByRole( "switch", { name: "Suggest category" } ) );
+			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
+			expect( onApplyOutline ).toHaveBeenCalledWith(
+				expect.objectContaining( { category: { name: "", id: -1 } } )
+			);
+		} );
+
 		it( "calls onBackToSuggestions when the back button is clicked", () => {
 			const onBackToSuggestions = jest.fn();
 			renderModal( { onBackToSuggestions, status: ASYNC_ACTION_STATUS.success } );
@@ -335,6 +360,47 @@ describe( "ContentOutlineModal", () => {
 			renderLoadedModal( { onApplyOutline } );
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 			expect( onApplyOutline ).toHaveBeenCalled();
+		} );
+
+		it( "moves focus to the close button when loading completes", () => {
+			const closeButton = document.createElement( "button" );
+			document.body.appendChild( closeButton );
+			const focusSpy = jest.spyOn( closeButton, "focus" );
+			const closeButtonRef = { current: closeButton };
+			renderLoadedModal( { closeButtonRef } );
+			expect( focusSpy ).toHaveBeenCalled();
+			document.body.removeChild( closeButton );
+		} );
+
+		it( "updates the focus keyphrase field when its value changes", () => {
+			renderLoadedModal();
+			const input = screen.getByDisplayValue( defaultSuggestion.keyphrase );
+			fireEvent.change( input, { target: { value: "updated keyphrase" } } );
+			expect( screen.getByDisplayValue( "updated keyphrase" ) ).toBeInTheDocument();
+		} );
+
+		it( "updates the title field when its value changes", () => {
+			renderLoadedModal();
+			const input = screen.getByDisplayValue( defaultSuggestion.title );
+			fireEvent.change( input, { target: { value: "Updated title" } } );
+			expect( screen.getByDisplayValue( "Updated title" ) ).toBeInTheDocument();
+		} );
+	} );
+
+	describe( "sentinel drop zone", () => {
+		it( "calls handleDragOver with the last index when dragging over the sentinel", () => {
+			renderLoadedModal();
+			const sentinel = document.querySelector( ".yst-h-8" );
+			fireEvent.dragOver( sentinel );
+			// structure.length = 4, so sentinel passes index 4 to handleDragOver.
+			expect( mockHandleDragOver ).toHaveBeenCalledWith( expect.anything(), 4 );
+		} );
+
+		it( "calls handleDrop with the last index when dropping on the sentinel", () => {
+			renderLoadedModal();
+			const sentinel = document.querySelector( ".yst-h-8" );
+			fireEvent.drop( sentinel );
+			expect( mockHandleDrop ).toHaveBeenCalledWith( expect.anything(), 4 );
 		} );
 	} );
 
@@ -482,6 +548,19 @@ describe( "ContentOutlineModal", () => {
 			renderLoadedModal();
 			const innerBar = document.body.querySelector( ".yst-h-1\\.5.yst-bg-slate-200 > div" );
 			expect( innerBar ).toHaveStyle( "width: 100%" );
+		} );
+
+		it( "renders correctly when date is not provided, using the empty-string default", () => {
+			// Passing date={undefined} via props overrides the date="" default in renderModal,
+			// so MetaDescriptionProgressBar falls back to its own default date="".
+			renderLoadedModal( { date: undefined } );
+			expect( getDescriptionProgress ).toHaveBeenCalledWith(
+				expect.anything(),
+				"",
+				expect.anything(),
+				false,
+				expect.anything()
+			);
 		} );
 
 		it( "sets the progress bar background color from getProgressColor", () => {

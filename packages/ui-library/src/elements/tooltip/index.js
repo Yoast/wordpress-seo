@@ -26,16 +26,17 @@ const variantClassNameMap = {
  * @param {string} [variant] Variant of the tooltip.
  * @returns {JSX.Element} Tooltip component.
  */
-const Tooltip = forwardRef( ( { children, as: Component, className, position, ...props }, ref ) => {
+const Tooltip = forwardRef( ( { children = null, as: Component = "div", className = "", position = "top", variant = "dark", ...props }, ref ) => {
 	return (
 		<Component
 			ref={ ref }
 			className={ classNames( "yst-tooltip",
 				positionClassNameMap[ position ],
-				variantClassNameMap[ props.variant ],
+				variantClassNameMap[ variant ],
 				className,
 			) }
 			role="tooltip"
+			variant={ variant }
 			{ ...props }
 		>
 			{ children }
@@ -51,12 +52,4 @@ Tooltip.propTypes = {
 	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
 	variant: PropTypes.oneOf( Object.keys( variantClassNameMap ) ),
 };
-Tooltip.defaultProps = {
-	as: "div",
-	children: null,
-	className: "",
-	position: "top",
-	variant: "dark",
-};
-
 export default Tooltip;

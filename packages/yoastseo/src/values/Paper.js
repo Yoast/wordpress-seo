@@ -7,8 +7,8 @@ import { defaults, isEmpty, isEqual, isNil } from "lodash";
 /**
  * Default attributes to be used by the Paper if they are left undefined.
  * @type {{keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
- * 		   slug: string, locale: string, permalink: string, date: string, customData: object, textTitle: string,
- * 		   writingDirection: "LTR", isFrontPage: boolean, wpBlocks: [], shortcodes: []}}
+ * 		   slug: string, locale: string, permalink: string, date: string, customData: object, productData: object,
+ * 		   textTitle: string, writingDirection: "LTR", isFrontPage: boolean, wpBlocks: [], shortcodes: []}}
  */
 const defaultAttributes = {
 	keyword: "",
@@ -21,6 +21,7 @@ const defaultAttributes = {
 	permalink: "",
 	date: "",
 	customData: {},
+	productData: {},
 	textTitle: "",
 	writingDirection: "LTR",
 	wpBlocks: [],
@@ -48,6 +49,7 @@ export default class Paper {
 	 * @param {string}  [attributes.date]               The date.
 	 * @param {Object[]}  [attributes.wpBlocks]         The array of texts, encoded in WordPress block editor blocks.
 	 * @param {Object}  [attributes.customData]         Custom data.
+	 * @param {Object}  [attributes.productData]        Product analysis data consumed by the native product assessments.
 	 * @param {string}  [attributes.textTitle]          The title of the text.
 	 * @param {string}  [attributes.writingDirection=LTR]   The writing direction of the paper. Defaults to left to right (LTR).
 	 * @param {boolean} [attributes.isFrontPage=false]  Whether the current page is the front page of the site. Defaults to false.
@@ -65,7 +67,7 @@ export default class Paper {
 			attributes.locale = defaultAttributes.locale;
 		}
 
-		if ( attributes.hasOwnProperty( "url" ) ) {
+		if ( Object.hasOwn( attributes, "url" ) ) {
 			// The 'url' attribute has been deprecated since version 1.19.1, refer to hasUrl and getUrl below.
 			console.warn( "The 'url' attribute is deprecated, use 'slug' instead." );
 			attributes.slug = attributes.url || attributes.slug;
@@ -316,6 +318,19 @@ export default class Paper {
 	}
 
 	/**
+	 * Returns the product data, or an empty object if no data is available.
+	 *
+	 * Unlike `customData`, this is a first-class field for the analysis data consumed by the native product
+	 * assessments (Product identifiers, SKU). The raw, un-narrowed attribute is returned here; narrowing to the
+	 * documented shape happens at the consumption boundary (see `normalizeProductData`).
+	 *
+	 * @returns {Object} Returns the product data.
+	 */
+	getProductData() {
+		return this._attributes.productData;
+	}
+
+	/**
 	 * Checks whether a text title is available.
 	 * @returns {boolean} Returns true if the Paper has a text title.
 	 */
@@ -353,6 +368,37 @@ export default class Paper {
 	 */
 	equals( paper ) {
 		return this._text === paper.getText() && isEqual( this._attributes, paper._attributes );
+	}
+
+	/**
+	 * Checks whether the given paper would produce the same HTML tree as this instance.
+	 *
+	 * Two papers share the same tree inputs when their text, shortcodes, block markup, and locale
+	 * all match. Attributes that do not feed the tree builder (keyword, synonyms, description,
+	 * title, slug, permalink, etc.) are intentionally ignored — they may differ without invalidating
+	 * the tree, so callers can reuse a previously built tree when this returns true.
+	 *
+	 * @param {Paper} paper The paper to compare against.
+	 *
+	 * @returns {boolean} Whether the two papers share the same tree-relevant inputs.
+	 */
+	hasSameTreeInputsAs( paper ) {
+		if ( ! paper ) {
+			return false;
+		}
+		if ( this._text !== paper.getText() ) {
+			return false;
+		}
+		if ( this._attributes.locale !== paper._attributes.locale ) {
+			return false;
+		}
+		// Normalize undefined / null to [] before comparing: a paper deserialized from a payload that omits
+		// `shortcodes` or `wpBlocks` ends up with the attribute missing, but it produces the same tree as a
+		// paper that explicitly carries an empty array, so the two must compare as equal here.
+		if ( ! isEqual( this._attributes.shortcodes ?? [], paper._attributes.shortcodes ?? [] ) ) {
+			return false;
+		}
+		return isEqual( this._attributes.wpBlocks ?? [], paper._attributes.wpBlocks ?? [] );
 	}
 
 	/**

@@ -24,9 +24,6 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
  * The class that handles the suggestions from the AI API.
- *
- * @deprecated 27.7
- * @codeCoverageIgnore
  */
 class Suggestions_Provider {
 
@@ -61,9 +58,6 @@ class Suggestions_Provider {
 	/**
 	 * Class constructor.
 	 *
-	 * @deprecated 27.7
-	 * @codeCoverageIgnore
-	 *
 	 * @param Consent_Handler $consent_handler The consent handler instance.
 	 * @param Request_Handler $request_handler The request handler instance.
 	 * @param Token_Manager   $token_manager   The token manager instance.
@@ -75,7 +69,6 @@ class Suggestions_Provider {
 		Token_Manager $token_manager,
 		User_Helper $user_helper
 	) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
 		$this->consent_handler = $consent_handler;
 		$this->request_handler = $request_handler;
 		$this->token_manager   = $token_manager;
@@ -86,9 +79,6 @@ class Suggestions_Provider {
 
 	/**
 	 * Method used to generate suggestions through AI.
-	 *
-	 * @deprecated 27.7
-	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user                  The WP user.
 	 * @param string  $suggestion_type       The type of the requested suggestion.
@@ -121,8 +111,15 @@ class Suggestions_Provider {
 		string $editor,
 		bool $retry_on_unauthorized = true
 	): array {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
-		$token = $this->token_manager->get_or_request_access_token( $user );
+		try {
+			$token = $this->token_manager->get_or_request_access_token( $user );
+		} catch ( Forbidden_Exception $exception ) {
+			// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
+			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
+			$this->consent_handler->revoke_consent( $user->ID );
+			throw new Forbidden_Exception( 'CONSENT_REVOKED', $exception->getCode() );
+			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		}
 
 		$request_body    = [
 			'service' => 'openai',
@@ -168,15 +165,11 @@ class Suggestions_Provider {
 	/**
 	 * Generates the list of 5 suggestions to return.
 	 *
-	 * @deprecated 27.7
-	 * @codeCoverageIgnore
-	 *
 	 * @param Response $response The response from the API.
 	 *
 	 * @return Suggestions_Bucket The array of suggestions.
 	 */
 	public function build_suggestions_array( Response $response ): Suggestions_Bucket {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
 		$suggestions_bucket = new Suggestions_Bucket();
 		$json               = \json_decode( $response->get_body() );
 		if ( $json === null || ! isset( $json->choices ) ) {

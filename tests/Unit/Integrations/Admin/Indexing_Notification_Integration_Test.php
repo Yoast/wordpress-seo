@@ -273,6 +273,12 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_create_notification_no_unindexed_items() {
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID )
+			->once()
+			->andReturnFalse();
+
 		$this->environment_helper
 			->expects( 'is_production_mode' )
 			->andReturn( true );
@@ -304,6 +310,12 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_create_notification_with_having_indexing_started() {
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID )
+			->once()
+			->andReturnFalse();
+
 		$this->environment_helper
 			->expects( 'is_production_mode' )
 			->andReturn( true );
@@ -314,6 +326,40 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->indexing_helper
 			->expects( 'get_filtered_unindexed_count' )
+			->never();
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->never();
+
+		$this->instance->maybe_create_notification();
+	}
+
+	/**
+	 * Tests that the expensive should_show_notification check is short-circuited
+	 * when the notification already exists in the notification center.
+	 *
+	 * @covers ::maybe_create_notification
+	 *
+	 * @return void
+	 */
+	public function test_maybe_create_notification_skips_expensive_check_when_notification_exists() {
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID )
+			->once()
+			->andReturn( 'the_notification' );
+
+		$this->environment_helper
+			->expects( 'is_production_mode' )
+			->never();
+
+		$this->indexing_helper
+			->expects( 'get_started' )
+			->never();
+
+		$this->indexing_helper
+			->expects( 'get_limited_filtered_unindexed_count' )
 			->never();
 
 		$this->notification_center
@@ -589,6 +635,12 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_create_notification_no_prod_site() {
+		$this->notification_center
+			->expects( 'get_notification_by_id' )
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID )
+			->once()
+			->andReturnFalse();
+
 		$this->environment_helper
 			->expects( 'is_production_mode' )
 			->andReturn( false );

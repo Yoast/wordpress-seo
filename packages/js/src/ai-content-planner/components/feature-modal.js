@@ -11,8 +11,9 @@ import { SparksLimitNotification } from "../../ai-generator/components/sparks-li
 import { useMeasuredRef } from "../../ai-generator/hooks";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
-import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
+import QuestionMarkCircleIcon from "@heroicons/react/solid/QuestionMarkCircleIcon";
 import { getModalNotificationPosition } from "../../shared-admin/helpers";
+import { ReplaceContentModal } from "./replace-content-modal";
 
 /**
  * The modal that orchestrates the flow between the approve, content suggestions,
@@ -32,6 +33,8 @@ import { getModalNotificationPosition } from "../../shared-admin/helpers";
  * @param {Function}      setHasVisitedReplace          Function to set whether the user has visited the replace content confirmation modal.
  * @param {Object}        editedOutlineRef              Ref object to store the edited content outline.
  * @param {Function}      handleApplyOutline           Function to apply the content outline to the post.
+ * @param {boolean}       isReplaceModalOpen           Whether the replace content confirmation modal is open.
+ * @param {Function}      onCloseReplace               Function to close the replace content confirmation modal.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 export const FeatureModal = ( {
@@ -49,6 +52,8 @@ export const FeatureModal = ( {
 	setHasVisitedReplace,
 	editedOutlineRef,
 	handleApplyOutline,
+	isReplaceModalOpen = false,
+	onCloseReplace,
 } ) => {
 	const fetchContentOutline = useFetchContentOutline();
 	const isConsentModalOpen = status === FEATURE_MODAL_STATUS.consent;
@@ -93,13 +98,19 @@ export const FeatureModal = ( {
 
 	return (
 		<Modal isOpen={ ! isConsentModalOpen && ( isSuggestions || isOutline ) } onClose={ onClose }>
+			{ /*
+			 * ReplaceContentModal is inside Modal.Panel so that:
+			 * 1. Modal receives a single element child (required by HeadlessUI Transition.Child with as=Fragment).
+			 * 2. ReplaceContentModal's Dialog is a React descendant of the outer Dialog, so HeadlessUI v1.7
+			 *    detects it as nested and manages the focus trap stack correctly (outer yields focus to inner).
+			 */ }
 			<Modal.Panel ref={ panelRef } className="yst-p-0 yst-max-w-2xl yst-overflow-visible" hasCloseButton={ false }>
 				<Modal.CloseButton
 					ref={ closeButtonRef } screenReaderText={ isSuggestions
 						? __( "Close content suggestions modal", "wordpress-seo" ) : __( "Close content outline modal", "wordpress-seo" ) }
 				/>
 				<Modal.Container>
-					<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
+					<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-14 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
 						<YoastIcon className="yst-fill-primary-500 yst-w-4 yst-mb-[1px]" { ...svgAriaProps } />
 						<Modal.Title size="2">{ isSuggestions ? __( "Content suggestions", "wordpress-seo" ) : __( "Content outline", "wordpress-seo" ) }</Modal.Title>
 						<Link
@@ -150,6 +161,11 @@ export const FeatureModal = ( {
 					{ contentSuggestionsStatus === ASYNC_ACTION_STATUS.success &&
 					! isOutlineError && <SparksLimitNotification /> }
 				</Notifications>
+				<ReplaceContentModal
+					isOpen={ isReplaceModalOpen }
+					onConfirm={ handleApplyOutline }
+					onClose={ onCloseReplace }
+				/>
 			</Modal.Panel>
 		</Modal>
 	);

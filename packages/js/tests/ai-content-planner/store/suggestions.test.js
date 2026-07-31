@@ -1,21 +1,24 @@
-import { describe, expect, it } from "@jest/globals";
+import { beforeEach, describe, expect, it } from "@jest/globals";
+import { contentPlannerFetch } from "../../../src/ai-content-planner/helpers/fetch";
 import {
 	CONTENT_SUGGESTIONS_NAME,
 	FETCH_CONTENT_SUGGESTIONS_ACTION_NAME,
-	getInitialContentSuggestionsState,
-	contentSuggestionsSelectors,
+	contentSuggestionsControls,
 	contentSuggestionsReducer,
+	contentSuggestionsSelectors,
 	fetchContentPlannerSuggestions,
+	getInitialContentSuggestionsState,
 } from "../../../src/ai-content-planner/store/content-suggestions";
-
+import { ERROR_DEFAULT } from "../../../src/ai-content-planner/constants";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
 
-const ERROR_DEFAULT = {
-	errorCode: null,
-	errorIdentifier: null,
-	errorMessage: null,
-	missingLicenses: [],
-};
+jest.mock( "../../../src/ai-content-planner/helpers/fetch", () => ( {
+	contentPlannerFetch: jest.fn(),
+} ) );
+
+jest.mock( "@wordpress/url", () => ( {
+	addQueryArgs: jest.fn( ( path, args ) => `${ path }?${ new URLSearchParams( args ).toString() }` ),
+} ) );
 
 /* eslint-disable camelcase -- API field names use snake_case. */
 const mockApiSuggestions = [
@@ -68,6 +71,7 @@ describe( "suggestions store", () => {
 				endpoint: "",
 				status: ASYNC_ACTION_STATUS.idle,
 				suggestions: [],
+				recentContent: [],
 				error: ERROR_DEFAULT,
 			} );
 		} );
@@ -79,6 +83,7 @@ describe( "suggestions store", () => {
 				endpoint: "",
 				status: ASYNC_ACTION_STATUS.success,
 				suggestions: transformedSuggestions,
+				recentContent: [ { title: "Old post" } ],
 				error: ERROR_DEFAULT,
 			};
 
@@ -91,16 +96,18 @@ describe( "suggestions store", () => {
 				endpoint: "",
 				status: ASYNC_ACTION_STATUS.loading,
 				suggestions: [],
+				recentContent: [],
 				error: ERROR_DEFAULT,
 			} );
 		} );
 
 		it( "should set suggestions and status to success on success", () => {
+			const recentContent = [ { title: "My Post", description: "A description." } ];
 			const result = contentSuggestionsReducer(
 				getInitialContentSuggestionsState(),
 				{
 					type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`,
-					payload: transformedSuggestions,
+					payload: { suggestions: transformedSuggestions, recentContent },
 				}
 			);
 
@@ -108,6 +115,7 @@ describe( "suggestions store", () => {
 				endpoint: "",
 				status: ASYNC_ACTION_STATUS.success,
 				suggestions: transformedSuggestions,
+				recentContent,
 				error: ERROR_DEFAULT,
 			} );
 		} );
@@ -131,6 +139,7 @@ describe( "suggestions store", () => {
 				endpoint: "",
 				status: ASYNC_ACTION_STATUS.error,
 				suggestions: [],
+				recentContent: [],
 				error: {
 					errorCode: 403,
 					errorIdentifier: "forbidden",
@@ -150,6 +159,42 @@ describe( "suggestions store", () => {
 			);
 
 			expect( result.error.errorCode ).toBe( 502 );
+		} );
+
+		it( "setContentSuggestionsStatus sets the status to the given value", () => {
+			const result = contentSuggestionsReducer(
+				getInitialContentSuggestionsState(),
+				{
+					type: `${ CONTENT_SUGGESTIONS_NAME }/setContentSuggestionsStatus`,
+					payload: ASYNC_ACTION_STATUS.loading,
+				}
+			);
+			expect( result.status ).toBe( ASYNC_ACTION_STATUS.loading );
+		} );
+
+		it( "setSuggestion updates an existing suggestion by id", () => {
+			const updatedSuggestion = { ...transformedSuggestions[ 0 ], title: "Updated Title" };
+			const previousState = {
+				...getInitialContentSuggestionsState(),
+				suggestions: transformedSuggestions,
+			};
+			const result = contentSuggestionsReducer( previousState, {
+				type: `${ CONTENT_SUGGESTIONS_NAME }/setSuggestion`,
+				payload: updatedSuggestion,
+			} );
+			expect( result.suggestions[ 0 ].title ).toBe( "Updated Title" );
+		} );
+
+		it( "setSuggestion does not change state when the id does not match any suggestion", () => {
+			const previousState = {
+				...getInitialContentSuggestionsState(),
+				suggestions: transformedSuggestions,
+			};
+			const result = contentSuggestionsReducer( previousState, {
+				type: `${ CONTENT_SUGGESTIONS_NAME }/setSuggestion`,
+				payload: { id: "nonexistent-id", title: "Ghost" },
+			} );
+			expect( result.suggestions ).toEqual( transformedSuggestions );
 		} );
 
 		it( "setSuggestionsError sets the error state without an API call, clearing any prior suggestions", () => {
@@ -250,6 +295,24 @@ describe( "suggestions store", () => {
 		it( "should return the default error when state is missing", () => {
 			expect( contentSuggestionsSelectors.selectSuggestionsError( {} ) ).toEqual( ERROR_DEFAULT );
 		} );
+
+		it( "should return recent content from state", () => {
+			const recentContent = [ { title: "My Post", description: "A description." } ];
+			const state = {
+				[ CONTENT_SUGGESTIONS_NAME ]: {
+					status: ASYNC_ACTION_STATUS.success,
+					suggestions: [],
+					recentContent,
+					error: ERROR_DEFAULT,
+				},
+			};
+
+			expect( contentSuggestionsSelectors.selectRecentContent( state ) ).toEqual( recentContent );
+		} );
+
+		it( "should return an empty array for recent content when state is missing", () => {
+			expect( contentSuggestionsSelectors.selectRecentContent( {} ) ).toEqual( [] );
+		} );
 	} );
 
 	describe( "fetchContentPlannerSuggestions", () => {
@@ -277,10 +340,11 @@ describe( "suggestions store", () => {
 			} );
 
 			// Simulate the API response being returned from the control.
-			const result = generator.next( { suggestions: mockApiSuggestions } );
+			// eslint-disable-next-line camelcase
+			const result = generator.next( { suggestions: mockApiSuggestions, recent_content: [] } );
 			expect( result.value ).toEqual( {
 				type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`,
-				payload: transformedSuggestions,
+				payload: { suggestions: transformedSuggestions, recentContent: [] },
 			} );
 			expect( result.done ).toBe( true );
 		} );
@@ -319,6 +383,54 @@ describe( "suggestions store", () => {
 			expect( result.value.payload ).toBeInstanceOf( Error );
 			expect( result.value.payload.message ).toBe( "Invalid suggestions response: expected an array of suggestions." );
 			expect( result.done ).toBe( true );
+		} );
+
+		it( "should return early without yielding an error action when the error is aborted", () => {
+			const generator = fetchContentPlannerSuggestions( params );
+
+			// First yield: request action.
+			generator.next();
+			// Second yield: control action.
+			generator.next();
+
+			const abortedError = { aborted: true };
+			const result = generator.throw( abortedError );
+			expect( result.done ).toBe( true );
+			expect( result.value ).toBeUndefined();
+		} );
+	} );
+
+	describe( "controls", () => {
+		beforeEach( () => {
+			contentPlannerFetch.mockClear();
+		} );
+
+		it( "should call contentPlannerFetch with the correct path including query args", async() => {
+			const payload = {
+				endpoint: "yoast/v1/ai_content_planner/get_suggestions",
+				postType: "post",
+				language: "en",
+				editor: "gutenberg",
+			};
+			contentPlannerFetch.mockResolvedValue( { suggestions: [] } );
+
+			await contentSuggestionsControls[ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME ]( { payload } );
+
+			expect( contentPlannerFetch ).toHaveBeenCalledWith(
+				expect.objectContaining( {
+					path: expect.stringContaining( `post_type=${ payload.postType }` ),
+				} )
+			);
+			expect( contentPlannerFetch ).toHaveBeenCalledWith(
+				expect.objectContaining( {
+					path: expect.stringContaining( `language=${ payload.language }` ),
+				} )
+			);
+			expect( contentPlannerFetch ).toHaveBeenCalledWith(
+				expect.objectContaining( {
+					path: expect.stringContaining( `editor=${ payload.editor }` ),
+				} )
+			);
 		} );
 	} );
 } );
