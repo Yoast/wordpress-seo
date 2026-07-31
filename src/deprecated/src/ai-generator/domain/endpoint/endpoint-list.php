@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_Generator\Domain\Endpoint;
 /**
  * List of endpoints.
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  */
 class Endpoint_List {
@@ -21,7 +21,7 @@ class Endpoint_List {
 	/**
 	 * Adds an endpoint to the list.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Endpoint_Interface $endpoint An endpoint.
@@ -29,20 +29,20 @@ class Endpoint_List {
 	 * @return void
 	 */
 	public function add_endpoint( Endpoint_Interface $endpoint ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$this->endpoints[] = $endpoint;
 	}
 
 	/**
 	 * Converts the list to an array.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string, string> The array of endpoints.
 	 */
 	public function to_array(): array {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$result = [];
 		foreach ( $this->endpoints as $endpoint ) {
 			$result[ $endpoint->get_name() ] = $endpoint->get_url();

@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Helpers\Date_Helper;
  * Class Code_Verifier_Service
  * Handles the generation and validation of code verifiers for users.
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  */
 class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
@@ -42,7 +42,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	/**
 	 * Code_Verifier_Service constructor.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Date_Helper                        $date_helper              The date helper.
@@ -50,7 +50,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	 * @param Code_Generator_Interface           $code_generator           The code  generator.
 	 */
 	public function __construct( Date_Helper $date_helper, Code_Verifier_User_Meta_Repository $code_verifier_repository, Code_Generator_Interface $code_generator ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$this->date_helper              = $date_helper;
 		$this->code_verifier_repository = $code_verifier_repository;
 		$this->code_generator           = $code_generator;
@@ -59,7 +59,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	/**
 	 * Generate a code verifier for a user.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $user_email The user email.
@@ -67,7 +67,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	 * @return Code_Verifier The generated code verifier.
 	 */
 	public function generate( string $user_email ): Code_Verifier {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$code       = $this->code_generator->generate( $user_email );
 		$created_at = $this->date_helper->current_time();
 
@@ -77,7 +77,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	/**
 	 * Validate the code verifier for a user.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -87,7 +87,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	 * @throws RuntimeException If the code verifier is expired or invalid.
 	 */
 	public function validate( int $user_id ): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$code_verifier = $this->code_verifier_repository->get_code_verifier( $user_id );
 
 		if ( $code_verifier === null || $code_verifier->is_expired( self::VALIDITY_IN_SECONDS ) ) {

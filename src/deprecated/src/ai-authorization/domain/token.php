@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_Authorization\Domain;
  * Class Token
  * Represents a token used for authentication with the AI Generator API.
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  */
 class Token {
@@ -28,14 +28,14 @@ class Token {
 	/**
 	 * Token constructor.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $value      The token value.
 	 * @param int    $expiration The expiration time.
 	 */
 	public function __construct( string $value, int $expiration ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$this->value      = $value;
 		$this->expiration = $expiration;
 	}
@@ -43,26 +43,26 @@ class Token {
 	/**
 	 * Get the token value.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The token value.
 	 */
 	public function get_value(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		return $this->value;
 	}
 
 	/**
 	 * Whether the token is expired.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool True if the token is expired, false otherwise.
 	 */
 	public function is_expired(): bool {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		return $this->expiration < \time();
 	}
 }

@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_Consent\Domain\Endpoint;
 /**
  * Interface Endpoint_Interface
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  */
 interface Endpoint_Interface {
@@ -14,7 +14,7 @@ interface Endpoint_Interface {
 	/**
 	 * Gets the name.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
@@ -24,7 +24,7 @@ interface Endpoint_Interface {
 	/**
 	 * Gets the namespace.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
@@ -34,7 +34,7 @@ interface Endpoint_Interface {
 	/**
 	 * Gets the route.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
@@ -44,7 +44,7 @@ interface Endpoint_Interface {
 	/**
 	 * Gets the URL.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string

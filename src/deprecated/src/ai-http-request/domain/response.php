@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Domain;
  * Class Response
  * Represents a response from the AI Generator API.
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  */
 class Response {
@@ -49,7 +49,7 @@ class Response {
 	/**
 	 * Response constructor.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string        $body             The response body.
@@ -59,7 +59,7 @@ class Response {
 	 * @param array<string> $missing_licenses The missing licenses.
 	 */
 	public function __construct( string $body, int $response_code, string $message, string $error_code = '', $missing_licenses = [] ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$this->body             = $body;
 		$this->response_code    = $response_code;
 		$this->message          = $message;
@@ -70,65 +70,65 @@ class Response {
 	/**
 	 * Gets the response body.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The response body.
 	 */
 	public function get_body() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		return $this->body;
 	}
 
 	/**
 	 * Gets the response code.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return int The response code.
 	 */
 	public function get_response_code(): int {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		return $this->response_code;
 	}
 
 	/**
 	 * Gets the response message.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The response message.
 	 */
 	public function get_message(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		return $this->message;
 	}
 
 	/**
 	 * Gets the error code.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The error code.
 	 */
 	public function get_error_code(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		return $this->error_code;
 	}
 
 	/**
 	 * Gets the missing licenses.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The missing licenses.
 	 */
 	public function get_missing_licenses(): array {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		return $this->missing_licenses;
 	}
 }

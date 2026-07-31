@@ -10,7 +10,7 @@ use Yoast\WP\SEO\AI_Consent\User_Interface\Consent_Route;
 /**
  * Represents the setup steps tracking endpoint.
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  */
 class Consent_Endpoint implements Endpoint_Interface {
@@ -18,53 +18,53 @@ class Consent_Endpoint implements Endpoint_Interface {
 	/**
 	 * Gets the name.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_name(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		return 'consent';
 	}
 
 	/**
 	 * Gets the namespace.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		return Consent_Route::ROUTE_NAMESPACE;
 	}
 
 	/**
 	 * Gets the route.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @throws Exception If the route prefix is not overwritten this throws.
 	 * @return string
 	 */
 	public function get_route(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		return Consent_Route::ROUTE_PREFIX;
 	}
 
 	/**
 	 * Gets the URL.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_url(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		return \rest_url( $this->get_namespace() . $this->get_route() );
 	}
 }

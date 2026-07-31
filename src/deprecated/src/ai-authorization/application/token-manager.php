@@ -26,7 +26,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Class Token_Manager
  * Handles the management of JWT tokens used in the authorization process.
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  *
  * @makePublic
@@ -85,7 +85,7 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Token_Manager constructor.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository  The access token repository.
@@ -105,7 +105,7 @@ class Token_Manager implements Token_Manager_Interface {
 		Code_Verifier_User_Meta_Repository $code_verifier_repository,
 		WordPress_URLs $urls
 	) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$this->access_token_repository  = $access_token_repository;
 		$this->code_verifier            = $code_verifier;
 		$this->refresh_token_repository = $refresh_token_repository;
@@ -123,7 +123,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * The locally stored JWTs are always cleared, even when the remote invalidation fails — the
 	 * remote exception still propagates to the caller, but no credentials are left behind.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -140,7 +140,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws RuntimeException Unable to retrieve the access token.
 	 */
 	public function token_invalidate( int $user_id ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		try {
 			$access_jwt = $this->access_token_repository->get_token( $user_id );
 		} catch ( RuntimeException $e ) {
@@ -172,7 +172,7 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Clears the user meta tokens for a specific user.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user id to delete this for.
@@ -180,7 +180,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @return void
 	 */
 	public function clear_tokens( int $user_id ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$this->access_token_repository->delete_token( $user_id );
 		$this->refresh_token_repository->delete_token( $user_id );
 	}
@@ -188,7 +188,7 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Checks whether any JWT (access or refresh) is stored locally for the user.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -196,7 +196,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @return bool Whether a locally stored JWT exists.
 	 */
 	public function has_local_tokens( int $user_id ): bool {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		try {
 			$this->access_token_repository->get_token( $user_id );
 
@@ -220,7 +220,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * Requests a new JWT access and refresh token for a user from the Yoast AI Service and stores it in the database
 	 * under usermeta. The storing of the token happens in a HTTP callback that is triggered by this request.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user The WP user.
@@ -238,7 +238,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
 	 */
 	public function token_request( WP_User $user ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		// Generate a code verifier and store it in the database.
 		$code_verifier = $this->code_verifier->generate( $user->user_email );
 		$this->code_verifier_repository->store_code_verifier( $user->ID, $code_verifier->get_code(), $code_verifier->get_created_at() );
@@ -270,7 +270,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * Refreshes a stored JWT access token for a user with the Yoast AI Service and stores it in the database under
 	 * usermeta. The storing of the token happens in a HTTP callback that is triggered by this request.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user The WP user.
@@ -289,7 +289,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws RuntimeException Unable to retrieve the refresh token.
 	 */
 	public function token_refresh( WP_User $user ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$refresh_jwt = $this->refresh_token_repository->get_token( $user->ID );
 
 		// Generate a code verifier and store it in the database.
@@ -312,7 +312,7 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Checks whether the token has expired.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $jwt The JWT.
@@ -320,7 +320,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @return bool Whether the token has expired.
 	 */
 	public function has_token_expired( string $jwt ): bool {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$parts = \explode( '.', $jwt );
 		if ( \count( $parts ) !== 3 ) {
 			// Headers, payload and signature parts are not detected.
@@ -345,7 +345,7 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Retrieves the access token.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user The WP user.
@@ -364,7 +364,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws RuntimeException Unable to retrieve the access or refresh token.
 	 */
 	public function get_or_request_access_token( WP_User $user ): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		// If the site URL has changed since callback URLs were registered, delete stale tokens.
 		if ( $this->have_callback_urls_changed( $user ) ) {
 			$this->clear_tokens( $user->ID );

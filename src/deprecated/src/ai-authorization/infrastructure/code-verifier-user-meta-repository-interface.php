@@ -11,7 +11,7 @@ use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
  *
  * This interface defines methods for managing code verifiers associated with users.
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  */
 interface Code_Verifier_User_Meta_Repository_Interface {
@@ -19,7 +19,7 @@ interface Code_Verifier_User_Meta_Repository_Interface {
 	/**
 	 * Get the verification code for a user.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -32,7 +32,7 @@ interface Code_Verifier_User_Meta_Repository_Interface {
 	/**
 	 * Store the verification code for a user.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int    $user_id    The user ID.
@@ -46,7 +46,7 @@ interface Code_Verifier_User_Meta_Repository_Interface {
 	/**
 	 * Delete the verification code for a user.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.

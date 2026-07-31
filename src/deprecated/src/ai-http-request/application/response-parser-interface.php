@@ -7,7 +7,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 /**
  * Interface Response_Parser_Interface
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  */
 interface Response_Parser_Interface {
@@ -15,7 +15,7 @@ interface Response_Parser_Interface {
 	/**
 	 * Parses the response from the API.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param array<int|string|array<string>> $response The response from the API.

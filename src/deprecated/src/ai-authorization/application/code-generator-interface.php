@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\AI_Authorization\Application;
 /**
  * Interface Code_Generator_Interface.
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  */
 interface Code_Generator_Interface {
@@ -13,7 +13,7 @@ interface Code_Generator_Interface {
 	/**
 	 * Generates a unique code using the user's email and random data.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $user_email The user's email.

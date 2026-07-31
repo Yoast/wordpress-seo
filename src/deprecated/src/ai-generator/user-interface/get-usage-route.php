@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route to get suggestions from the AI API
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  *
  * @makePublic
@@ -77,20 +77,20 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		return [ AI_Conditional::class, Old_Premium_AI_Conditional::class ];
 	}
 
 	/**
 	 * Class constructor.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Token_Manager       $token_manager   The token manager instance.
@@ -99,7 +99,7 @@ class Get_Usage_Route implements Route_Interface {
 	 * @param WPSEO_Addon_Manager $addon_manager   The add-on manager instance.
 	 */
 	public function __construct( Token_Manager $token_manager, Request_Handler $request_handler, Consent_Handler $consent_handler, WPSEO_Addon_Manager $addon_manager ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$this->addon_manager   = $addon_manager;
 		$this->token_manager   = $token_manager;
 		$this->request_handler = $request_handler;
@@ -109,13 +109,13 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Registers routes with WordPress.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_routes() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		\register_rest_route(
 			self::ROUTE_NAMESPACE,
 			self::ROUTE_PREFIX,
@@ -136,7 +136,7 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Runs the callback that gets the monthly usage of the user.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_REST_Request $request The request object.
@@ -144,7 +144,7 @@ class Get_Usage_Route implements Route_Interface {
 	 * @return WP_REST_Response The response of the callback action.
 	 */
 	public function get_usage( $request ): WP_REST_Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$is_woo_product_entity = $request->get_param( 'is_woo_product_entity' );
 		$user                  = \wp_get_current_user();
 		try {
@@ -180,7 +180,7 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Get action path for the request.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param bool $is_woo_product_entity Whether the request is for a WooCommerce product entity.
@@ -188,7 +188,7 @@ class Get_Usage_Route implements Route_Interface {
 	 * @return string The action path.
 	 */
 	public function get_action_path( $is_woo_product_entity = false ): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$unlimited = '/usage/' . \gmdate( 'Y-m' );
 		if ( $is_woo_product_entity && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
 			return $unlimited;

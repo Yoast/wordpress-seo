@@ -8,7 +8,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
  * Class Response_Parser
  * Parses the response from the AI API and creates a Response object.
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  */
 class Response_Parser implements Response_Parser_Interface {
@@ -16,7 +16,7 @@ class Response_Parser implements Response_Parser_Interface {
 	/**
 	 * Parses the response from the API.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param array<int|string|array<string>> $response The response from the API.
@@ -24,7 +24,7 @@ class Response_Parser implements Response_Parser_Interface {
 	 * @return Response The parsed response.
 	 */
 	public function parse( $response ): Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		$response_code    = ( \wp_remote_retrieve_response_code( $response ) !== '' ) ? \wp_remote_retrieve_response_code( $response ) : 0;
 		$response_message = \esc_html( \wp_remote_retrieve_response_message( $response ) );
 		$error_code       = '';
@@ -47,7 +47,7 @@ class Response_Parser implements Response_Parser_Interface {
 	/**
 	 * Maps the error message to a code.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $message The error message.
@@ -55,7 +55,7 @@ class Response_Parser implements Response_Parser_Interface {
 	 * @return string The mapped code.
 	 */
 	private function map_message_to_code( string $message ): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		if ( \strpos( $message, 'must NOT have fewer than 1 characters' ) !== false ) {
 			return 'NOT_ENOUGH_CONTENT';
 		}

@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_Authorization\User_Interface;
 /**
  * Registers the callback route used in the authorization process.
  *
- * @deprecated 27.7
+ * @deprecated 28.3
  * @codeCoverageIgnore
  *
  * @makePublic
@@ -25,13 +25,13 @@ class Refresh_Callback_Route extends Abstract_Callback_Route {
 	/**
 	 * Registers routes with WordPress.
 	 *
-	 * @deprecated 27.7
+	 * @deprecated 28.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_routes() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
 		\register_rest_route(
 			parent::ROUTE_NAMESPACE,
 			self::ROUTE_PREFIX,
