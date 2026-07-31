@@ -80,7 +80,7 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	}
 
 	/**
-	 * Returns a XML representation of the possible post types that can be used for schema.
+	 * Returns a XML representation of the post types that are used for schema.
 	 *
 	 * @return WP_REST_Response The response.
 	 */

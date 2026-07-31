@@ -22,6 +22,8 @@ final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 	 * @return void
 	 */
 	public function set_up() {
+		parent::set_up();
+
 		\YoastSEO()->helpers->options->set( 'enable_schema_aggregation_endpoint', true );
 
 		\do_action( 'rest_api_init' );
