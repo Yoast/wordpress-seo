@@ -1,9 +1,11 @@
+/* eslint-disable complexity */
 import { __ } from "@wordpress/i18n";
 import { Table } from "@yoast/ui-library";
 import { noop } from "lodash";
 import { BulkEditorBody } from "./table-body";
 import { BulkEditorHeader } from "./table-header";
 import { getColumnCount } from "./table-helpers";
+import AnimateHeight from "react-animate-height";
 
 const getTableClassName = ( isLoading, hasFooter ) =>
 	// Aligns the title column (2nd cell) with the Select button, and round off the last body row's cells.
@@ -101,19 +103,28 @@ export const BulkEditorTable = ( {
 	};
 
 	return (
-		<>
+		<div className="yst-bulk-editor-table-section">
 			<div role="status" className="yst-sr-only">
 				{ isLoading ? __( "Loading content…", "wordpress-seo" ) : "" }
 			</div>
+			<div className="yst-ring-1 yst-ring-slate-200 yst-rounded-t-lg">
+				{ selectionToolbar && (
+					<div className="yst-bg-slate-50 !yst-py-3.5 yst-px-3 yst-rounded-t-lg">
+						<div className="yst-flex yst-items-center yst-justify-between yst-gap-4">
+							{ selectionToolbar }
+							{ filters }
+						</div>
+					</div>
+				) }
+				{ bulkActions && (
+					<div aria-hidden={ ! showBulkActions }>
+						<AnimateHeight easing="ease-in-out" duration={ 300 } height={ showBulkActions ? "auto" : 0 } animateOpacity={ true }>
+							{ bulkActions }
+						</AnimateHeight>
+					</div>
+				) }
+			</div>
 			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ getTableClassName( isLoading, Boolean( footer ) ) }>
-				<colgroup>
-					<col className="sm:yst-w-[38px]" />
-					<col />
-					{ fieldSet.fields.map( ( field ) => (
-						<col key={ field.key } className={ field.width } />
-					) ) }
-					<col className="sm:yst-w-[5%]" />
-				</colgroup>
 				<BulkEditorHeader
 					fields={ fieldSet.fields }
 					columnCount={ columnCount }
@@ -137,6 +148,6 @@ export const BulkEditorTable = ( {
 				</Table.Body>
 				<TableFooter columnCount={ columnCount }>{ footer }</TableFooter>
 			</Table>
-		</>
+		</div>
 	);
 };
