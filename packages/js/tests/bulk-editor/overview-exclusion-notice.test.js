@@ -5,27 +5,19 @@ import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
 import { fireEvent, render, screen, within } from "../test-utils";
 
-const NOTICE_TEXT = "Your selection has been updated. Private, password-protected, or non-indexed posts can't be bulk edited and were excluded.";
-const TRUNCATION_TEXT = "Only the first 20 posts from your selection were carried over. The bulk editor supports up to 20 posts at a time.";
+const NOTICE_TEXT = "Your selection has been updated. Private, password-protected, or non-indexed items can't be bulk edited and were excluded.";
+const TRUNCATION_TEXT = "Only the first 20 items from your selection were carried over. The bulk editor supports up to 20 items at a time.";
 
 describe( "OverviewExclusionNotice", () => {
-	it( "explains that carried-over items were excluded, naming the content type", () => {
-		render( <OverviewExclusionNotice hasExclusions={ true } contentTypeLabel="Posts" onDismiss={ jest.fn() } /> );
+	it( "explains that carried-over items were excluded", () => {
+		render( <OverviewExclusionNotice hasExclusions={ true } onDismiss={ jest.fn() } /> );
 
 		expect( screen.getByText( NOTICE_TEXT ) ).toBeInTheDocument();
 	} );
 
-	it( "falls back to a generic noun without a content type label", () => {
-		render( <OverviewExclusionNotice hasExclusions={ true } onDismiss={ jest.fn() } /> );
-
-		expect( screen.getByText(
-			"Your selection has been updated. Private, password-protected, or non-indexed items can't be bulk edited and were excluded."
-		) ).toBeInTheDocument();
-	} );
-
 	it( "calls onDismiss when the dismiss button is clicked", () => {
 		const onDismiss = jest.fn();
-		render( <OverviewExclusionNotice hasExclusions={ true } contentTypeLabel="Posts" onDismiss={ onDismiss } /> );
+		render( <OverviewExclusionNotice hasExclusions={ true } onDismiss={ onDismiss } /> );
 
 		fireEvent.click( screen.getByRole( "button", { name: "Dismiss" } ) );
 
@@ -33,7 +25,7 @@ describe( "OverviewExclusionNotice", () => {
 	} );
 
 	it( "renders nothing while nothing was excluded", () => {
-		const { container } = render( <OverviewExclusionNotice hasExclusions={ false } contentTypeLabel="Posts" onDismiss={ jest.fn() } /> );
+		const { container } = render( <OverviewExclusionNotice hasExclusions={ false } onDismiss={ jest.fn() } /> );
 
 		expect( container ).toBeEmptyDOMElement();
 	} );

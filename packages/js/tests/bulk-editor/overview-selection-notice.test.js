@@ -5,26 +5,18 @@ import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
 import { fireEvent, render, screen } from "../test-utils";
 
-const NOTICE_TEXT = "Only the first 20 posts from your selection were carried over. The bulk editor supports up to 20 posts at a time.";
+const NOTICE_TEXT = "Only the first 20 items from your selection were carried over. The bulk editor supports up to 20 items at a time.";
 
 describe( "OverviewSelectionNotice", () => {
-	it( "explains that only the first batch of the overview selection is selected, naming the content type", () => {
-		render( <OverviewSelectionNotice total={ 25 } contentTypeLabel="Posts" onDismiss={ jest.fn() } /> );
+	it( "explains that only the first batch of the overview selection is selected", () => {
+		render( <OverviewSelectionNotice total={ 25 } onDismiss={ jest.fn() } /> );
 
 		expect( screen.getByText( NOTICE_TEXT ) ).toBeInTheDocument();
 	} );
 
-	it( "falls back to a generic noun without a content type label", () => {
-		render( <OverviewSelectionNotice total={ 25 } onDismiss={ jest.fn() } /> );
-
-		expect( screen.getByText(
-			"Only the first 20 items from your selection were carried over. The bulk editor supports up to 20 items at a time."
-		) ).toBeInTheDocument();
-	} );
-
 	it( "calls onDismiss when the dismiss button is clicked", () => {
 		const onDismiss = jest.fn();
-		render( <OverviewSelectionNotice total={ 25 } contentTypeLabel="Posts" onDismiss={ onDismiss } /> );
+		render( <OverviewSelectionNotice total={ 25 } onDismiss={ onDismiss } /> );
 
 		fireEvent.click( screen.getByRole( "button", { name: "Dismiss" } ) );
 
@@ -32,7 +24,7 @@ describe( "OverviewSelectionNotice", () => {
 	} );
 
 	it( "renders nothing while the whole selection fits the batch", () => {
-		const { container } = render( <OverviewSelectionNotice total={ 20 } contentTypeLabel="Posts" onDismiss={ jest.fn() } /> );
+		const { container } = render( <OverviewSelectionNotice total={ 20 } onDismiss={ jest.fn() } /> );
 
 		expect( container ).toBeEmptyDOMElement();
 	} );
