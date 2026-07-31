@@ -269,9 +269,13 @@ class Ai_Generator_Integration implements Integration_Interface {
 	 * editor; the connect call-to-action is just a nonce-protected link that
 	 * auto-starts the flow on the Integrations page in a new tab.
 	 *
+	 * @deprecated 27.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return array{isProvisioned: bool, canConnect: bool, connectUrl: string|null, learnMoreUrl: string}|null
 	 */
 	public function get_myyoast_connection_data() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
 		if ( ! $this->myyoast_connection_conditional->is_met() ) {
 			return null;
 		}

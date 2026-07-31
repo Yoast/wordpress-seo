@@ -3,6 +3,12 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\AI_Generator\Domain\Endpoint;
 
+/**
+ * Interface Endpoint_Interface
+ *
+ * @deprecated 27.7
+ * @codeCoverageIgnore
+ */
 interface Endpoint_Interface {
 
 	/**

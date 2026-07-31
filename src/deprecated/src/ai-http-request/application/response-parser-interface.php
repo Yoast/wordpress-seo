@@ -4,6 +4,12 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Application;
 
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 
+/**
+ * Interface Response_Parser_Interface
+ *
+ * @deprecated 27.7
+ * @codeCoverageIgnore
+ */
 interface Response_Parser_Interface {
 
 	/**

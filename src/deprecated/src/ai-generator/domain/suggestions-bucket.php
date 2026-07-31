@@ -56,7 +56,6 @@ class Suggestions_Bucket {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
 		return \array_map(
 			static function ( $item ) {
-				\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
 				return $item->get_value();
 			},
 			$this->suggestions,

@@ -10,6 +10,9 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
  * Class API_Client
  * Handles the API requests to the AI Generator API.
  *
+ * @deprecated 27.7
+ * @codeCoverageIgnore
+ *
  * @makePublic
  */
 class API_Client implements API_Client_Interface {
@@ -24,6 +27,9 @@ class API_Client implements API_Client_Interface {
 	/**
 	 * Performs a request to the API.
 	 *
+	 * @deprecated 27.7
+	 * @codeCoverageIgnore
+	 *
 	 * @param string             $action_path The action path for the request.
 	 * @param array<string>|null $body        The body of the request, or null/empty to send no body.
 	 * @param array<string>      $headers     The headers for the request.
@@ -34,6 +40,7 @@ class API_Client implements API_Client_Interface {
 	 * @throws WP_Request_Exception When the underlying WordPress HTTP call returns an error, or the HTTP method is not supported.
 	 */
 	public function perform_request( string $action_path, $body, $headers, string $http_method ): array {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
 		// Our API expects JSON.
 		$headers   = \array_merge( $headers, [ 'Content-Type' => 'application/json' ] );
 		$arguments = [
@@ -85,9 +92,14 @@ class API_Client implements API_Client_Interface {
 	/**
 	 * Gets the timeout of the requests in seconds.
 	 *
+	 * @deprecated 27.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return int The timeout of the suggestion requests in seconds.
 	 */
 	public function get_request_timeout(): int {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+
 		/**
 		 * Filter: 'Yoast\WP\SEO\ai_suggestions_timeout' - Replaces the default timeout with a custom one, for testing purposes.
 		 *

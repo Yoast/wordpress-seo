@@ -82,13 +82,13 @@ class Request_Handler implements Request_Handler_Interface {
 	 * @throws WP_Request_Exception When the request fails for any other reason.
 	 */
 	public function handle( Request $request ): Response {
-				\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
-				$api_response = $this->api_client->perform_request(
-					$request->get_action_path(),
-					$request->get_body(),
-					$request->get_headers(),
-					$request->get_http_method(),
-				);
+		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
+		$api_response = $this->api_client->perform_request(
+			$request->get_action_path(),
+			$request->get_body(),
+			$request->get_headers(),
+			$request->get_http_method(),
+		);
 
 		$response = $this->response_parser->parse( $api_response );
 

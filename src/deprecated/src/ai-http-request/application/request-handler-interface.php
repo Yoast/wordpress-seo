@@ -14,6 +14,12 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 
+/**
+ * Interface Request_Handler_Interface
+ *
+ * @deprecated 27.7
+ * @codeCoverageIgnore
+ */
 interface Request_Handler_Interface {
 
 	/**

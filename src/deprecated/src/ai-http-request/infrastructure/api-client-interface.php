@@ -7,12 +7,18 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 
 /**
  * Interface for the API client.
+ *
+ * @deprecated 27.7
+ * @codeCoverageIgnore
  */
 
 interface API_Client_Interface {
 
 	/**
 	 * Performs a request to the API.
+	 *
+	 * @deprecated 27.7
+	 * @codeCoverageIgnore
 	 *
 	 * @param string             $action_path The action path for the request.
 	 * @param array<string>|null $body        The body of the request, or null/empty to send no body.
@@ -27,6 +33,9 @@ interface API_Client_Interface {
 
 	/**
 	 * Gets the timeout of the requests in seconds.
+	 *
+	 * @deprecated 27.7
+	 * @codeCoverageIgnore
 	 *
 	 * @return int The timeout of the suggestion requests in seconds.
 	 */
