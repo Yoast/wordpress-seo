@@ -178,8 +178,8 @@ const BulkActionsNotices = ( {
 	selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
 } ) => (
 	<>
-		<OverviewSelectionNotice total={ preselectedTotal } contentTypeLabel={ contentTypeLabel } onDismiss={ onDismissPreselection } />
-		<OverviewExclusionNotice hasExclusions={ hasExcludedPreselected } contentTypeLabel={ contentTypeLabel } onDismiss={ onDismissExclusion } />
+		<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } />
+		<OverviewExclusionNotice hasExclusions={ hasExcludedPreselected } onDismiss={ onDismissExclusion } />
 		{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
 		<Slot
 			name={ BULK_NOTICES_SLOT }

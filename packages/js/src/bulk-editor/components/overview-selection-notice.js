@@ -7,21 +7,17 @@ import { DismissibleAlert } from "./dismissible-alert";
  * bulk editor can handle in one batch: only the first batch stays selected. Renders nothing while the
  * whole selection fits the batch.
  *
- * @param {Object}   props                    The props.
- * @param {number}   props.total              The number of items that were selected on the overview.
- * @param {string}   [props.contentTypeLabel] The active content type label (plural), used in the copy.
- * @param {Function} props.onDismiss          Dismisses the notice.
+ * @param {Object}   props           The props.
+ * @param {number}   props.total     The number of items that were selected on the overview.
+ * @param {Function} props.onDismiss Dismisses the notice.
  *
  * @returns {?JSX.Element} The notice, or null when the whole selection fits the batch.
  */
-export const OverviewSelectionNotice = ( { total, contentTypeLabel, onDismiss } ) => {
-	const svgAriaProps = useSvgAria();
-
+export const OverviewSelectionNotice = ( { total, onDismiss } ) => {
 	if ( total <= BULK_UPDATE_BATCH_SIZE ) {
 		return null;
 	}
 
-	const noun = contentTypeLabel ? contentTypeLabel.toLowerCase() : __( "items", "wordpress-seo" );
 	const message = sprintf(
 		/* translators: %1$d expands to the maximum number of items at a time. */
 		__( "Only the first %1$d items from your selection were carried over. The bulk editor supports up to %1$d items at a time.", "wordpress-seo" ),

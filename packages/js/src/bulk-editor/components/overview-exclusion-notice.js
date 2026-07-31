@@ -5,21 +5,16 @@ import { DismissibleAlert } from "./dismissible-alert";
  * The notice shown when a selection carried over from a WP admin overview contained items the bulk editor
  * cannot show or edit: those were dropped from the selection. Renders nothing while nothing was dropped.
  *
- * @param {Object}   props                    The props.
- * @param {boolean}  props.hasExclusions      Whether carried-over items were dropped from the selection.
- * @param {string}   [props.contentTypeLabel] The active content type label (plural), used in the copy.
- * @param {Function} props.onDismiss          Dismisses the notice.
+ * @param {Object}   props               The props.
+ * @param {boolean}  props.hasExclusions Whether carried-over items were dropped from the selection.
+ * @param {Function} props.onDismiss     Dismisses the notice.
  *
  * @returns {?JSX.Element} The notice, or null while nothing was dropped.
  */
-export const OverviewExclusionNotice = ( { hasExclusions, contentTypeLabel, onDismiss } ) => {
-	const svgAriaProps = useSvgAria();
-
+export const OverviewExclusionNotice = ( { hasExclusions, onDismiss } ) => {
 	if ( ! hasExclusions ) {
 		return null;
 	}
-
-	const noun = contentTypeLabel ? contentTypeLabel.toLowerCase() : __( "items", "wordpress-seo" );
 
 	return (
 		// The top margin separates this notice from the truncation notice above it; it cancels out when
