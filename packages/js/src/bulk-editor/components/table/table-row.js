@@ -3,7 +3,8 @@ import { Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
 import { TABLE_CELL_FIELD_SLOT, FOCUS_KEYPHRASE_KEY } from "../../constants";
-import { EditableFieldCell, TitleCell, FocusKeyphraseEditableFieldCell } from "./table-cells";
+import { EditableFieldCell, TitleCell } from "./table-cells";
+import { FocusKeyphraseEditableFieldCell } from "./focus-keyphrase-editable-field-cell";
 import { getRowEditState, isRowEditDisabled } from "./table-helpers";
 
 /**
