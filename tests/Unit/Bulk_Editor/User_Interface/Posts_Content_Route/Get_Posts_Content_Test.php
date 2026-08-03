@@ -221,6 +221,36 @@ final class Get_Posts_Content_Test extends Abstract_Posts_Content_Route_Test {
 	}
 
 	/**
+	 * Tests that a post which disappears between the access check and the lookup is omitted, not fatal.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_content_omits_a_post_that_vanished_after_the_access_check() {
+		$this->allow_post( 99 );
+		Functions\expect( 'get_post' )->once()->with( 99 )->andReturnNull();
+
+		// The accessible post is still returned.
+		$this->allow_post( 11 );
+		Functions\expect( 'get_post' )->once()->with( 11 )->andReturn( (object) [ 'post_content' => 'Kept.' ] );
+
+		$this->expect_response(
+			[
+				'posts' => [
+					[
+						'id'      => 11,
+						'content' => 'Kept.',
+					],
+				],
+			],
+		);
+
+		$this->assertInstanceOf(
+			WP_REST_Response::class,
+			$this->instance->get_posts_content( $this->create_request( [ 99, 11 ] ) ),
+		);
+	}
+
+	/**
 	 * Tests that an empty posts list is returned when no requested post is accessible.
 	 *
 	 * @return void

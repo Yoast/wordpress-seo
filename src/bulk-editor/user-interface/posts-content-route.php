@@ -104,6 +104,12 @@ class Posts_Content_Route implements Route_Interface {
 	 * @return WP_REST_Response The posts and their raw content.
 	 */
 	public function get_posts_content( WP_REST_Request $request ): WP_REST_Response {
+		/*
+		 * The `ids` argument declares `type: array` in the schema, so WordPress has already normalized it by the
+		 * time the callback runs: `rest_sanitize_array()` puts a scalar through `wp_parse_list()`, which means a
+		 * comma separated `ids=11,22` arrives here as [ 11, 22 ] rather than as one string. The cast therefore only
+		 * guards a non-array reaching this method from a direct call.
+		 */
 		$post_ids = \array_unique( \array_map( '\intval', (array) $request->get_param( 'ids' ) ) );
 
 		$posts = [];
@@ -116,6 +122,11 @@ class Posts_Content_Route implements Route_Interface {
 			}
 
 			$post = \get_post( $post_id );
+			// The access check above already resolved the post, but do not rely on that holding across two
+			// lookups: a post that is gone is omitted like any other inaccessible ID, never fataling the batch.
+			if ( $post === null ) {
+				continue;
+			}
 
 			$posts[] = [
 				'id'      => $post_id,

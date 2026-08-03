@@ -21,6 +21,48 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 
 	/**
+	 * Whether the shortcode tags global was set before the test replaced it.
+	 *
+	 * @var bool
+	 */
+	private $had_shortcode_tags;
+
+	/**
+	 * The shortcode tags global as it was before the test replaced it.
+	 *
+	 * @var mixed
+	 */
+	private $shortcode_tags_backup;
+
+	/**
+	 * Remembers the shortcode tags global, which these tests replace.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->had_shortcode_tags    = isset( $GLOBALS['shortcode_tags'] );
+		$this->shortcode_tags_backup = ( $GLOBALS['shortcode_tags'] ?? null );
+	}
+
+	/**
+	 * Restores the shortcode tags global, so replacing it cannot leak into other tests.
+	 *
+	 * @return void
+	 */
+	protected function tear_down() {
+		if ( $this->had_shortcode_tags ) {
+			$GLOBALS['shortcode_tags'] = $this->shortcode_tags_backup;
+		}
+		else {
+			unset( $GLOBALS['shortcode_tags'] );
+		}
+
+		parent::tear_down();
+	}
+
+	/**
 	 * Tests enqueuing the assets.
 	 *
 	 * @param mixed         $shortcode_tags      The WordPress shortcode tags global, or null to leave it unset.
