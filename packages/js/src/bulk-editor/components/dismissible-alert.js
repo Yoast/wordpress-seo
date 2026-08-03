@@ -19,7 +19,9 @@ export const DismissibleAlert = ( { variant = "info", role = "status", className
 	const svgAriaProps = useSvgAria();
 
 	return (
-		<Alert variant={ variant } as="div" role={ role } className={ classNames( "yst-rounded-none yst-relative", className ) }>
+		// The top margin separates this notice from the truncation notice above it; it cancels out when
+		// nothing precedes it in the notices region (the truncation notice renders null when it does not apply).
+		<Alert variant={ variant } as="div" role={ role } className={ classNames( "yst-mt-2 first:yst-mt-0 yst-rounded-none yst-relative", className ) }>
 			{ children }
 			<button
 				type="button"

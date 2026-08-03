@@ -17,9 +17,7 @@ export const OverviewExclusionNotice = ( { hasExclusions, onDismiss } ) => {
 	}
 
 	return (
-		// The top margin separates this notice from the truncation notice above it; it cancels out when
-		// nothing precedes it in the notices region (the truncation notice renders null when it does not apply).
-		<DismissibleAlert className="yst-mt-2 first:yst-mt-0" onDismiss={ onDismiss }>
+		<DismissibleAlert onDismiss={ onDismiss }>
 			<span className="yst-block yst-pe-8">
 				{ __( "Your selection has been updated. Private, password-protected, or non-indexed items can't be bulk edited and were excluded.", "wordpress-seo" ) }
 			</span>
