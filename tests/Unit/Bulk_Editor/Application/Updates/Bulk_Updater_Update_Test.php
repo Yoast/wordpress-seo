@@ -147,7 +147,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$this->expect_editable_post( 123 );
 		$this->meta_writer->expects( 'write_title' )->never();
 		$this->meta_writer->expects( 'write_description' )->never();
-		$this->meta_writer->expects( 'write_focus_keyphrase' )->with( 123, 'The keyphrase' );
+		$this->meta_writer->expects( 'write_focus_keyphrase' )->with( 123, 'The keyphrase' )->andReturn( 'The keyphrase' );
 
 		$updates = new Post_Update_Collection();
 		$updates->add( new Post_Update( 123, null, null, 'The keyphrase' ) );
@@ -155,6 +155,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$results = $this->instance->update( $type, $updates )->to_array();
 
 		$this->assertTrue( $results['results'][0]['success'] );
+		$this->assertSame( 'The keyphrase', $results['results'][0]['rendered']['focus_keyphrase'] );
 	}
 
 	/**
@@ -166,7 +167,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 	public function test_update_focus_keyphrase_is_channel_agnostic() {
 		$type = Update_Type::social();
 		$this->expect_editable_post( 123 );
-		$this->meta_writer->expects( 'write_focus_keyphrase' )->with( 123, 'The keyphrase' );
+		$this->meta_writer->expects( 'write_focus_keyphrase' )->with( 123, 'The keyphrase' )->andReturn( 'The keyphrase' );
 
 		$updates = new Post_Update_Collection();
 		$updates->add( new Post_Update( 123, null, null, 'The keyphrase' ) );
@@ -174,6 +175,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$results = $this->instance->update( $type, $updates )->to_array();
 
 		$this->assertTrue( $results['results'][0]['success'] );
+		$this->assertSame( 'The keyphrase', $results['results'][0]['rendered']['focus_keyphrase'] );
 	}
 
 	/**
