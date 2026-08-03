@@ -110,7 +110,7 @@ export const BulkEditorRow = ( {
 								}
 
 								if ( field.key === "focusKeyphrase" ) {
-									// The focus keyphrase has more warnings
+									// The focus keyphrase has more warnings.
 									return <FocusKeyphraseEditableFieldCell
 										field={ field }
 										itemId={ item.id }
@@ -118,7 +118,6 @@ export const BulkEditorRow = ( {
 										value={ draft[ field.key ] ?? "" }
 										isSaving={ isSaving }
 										onChange={ handleChangeField }
-										isOpen={ isEditing }
 									/>;
 								}
 
@@ -129,7 +128,6 @@ export const BulkEditorRow = ( {
 									value={ draft[ field.key ] ?? "" }
 									isSaving={ isSaving }
 									onChange={ handleChangeField }
-									isOpen={ isEditing }
 								/>;
 							} }
 						</Slot>
