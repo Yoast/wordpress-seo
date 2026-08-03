@@ -2,9 +2,9 @@ import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/com
 import { Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
-import { TABLE_CELL_FIELD_SLOT } from "../../constants";
+import { TABLE_CELL_FIELD_SLOT, FOCUS_KEYPHRASE_KEY } from "../../constants";
 import { EditableFieldCell, TitleCell, FocusKeyphraseEditableFieldCell } from "./table-cells";
-import { getFieldTextClasses, getRowEditState, isRowEditDisabled } from "./table-helpers";
+import { getRowEditState, isRowEditDisabled } from "./table-helpers";
 
 /**
  * A content row. Each field-set cell renders as plain text, or — when the row is in edit mode and the field is
@@ -103,17 +103,18 @@ export const BulkEditorRow = ( {
 
 								if ( ! openFields.includes( field.key ) ) {
 									return (
-										<Table.Cell key={ field.key } className={ `yst-bulk-editor-cell-value ${ getFieldTextClasses( field.key, false ) }` }>
+										<Table.Cell key={ field.key } className="yst-bulk-editor-cell-value yst-text-slate-600">
 											{ item[ field.key ] }
 										</Table.Cell>
 									);
 								}
 
-								if ( field.key === "focusKeyphrase" ) {
+								if ( field.key === FOCUS_KEYPHRASE_KEY ) {
 									// The focus keyphrase has more warnings.
 									return <FocusKeyphraseEditableFieldCell
 										field={ field }
 										itemId={ item.id }
+										fieldSetId={ fieldSetId }
 										itemTitle={ item.title }
 										value={ draft[ field.key ] ?? "" }
 										isSaving={ isSaving }

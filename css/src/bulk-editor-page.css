@@ -160,3 +160,7 @@
 .yst-root .yst-bulk-editor-title-link:focus:not(:focus-visible) {
 	@apply yst-outline-none;
 }
+
+.yst-root .yst-focuskeyphrase-field textarea {
+	@apply yst-resize-none;
+}
