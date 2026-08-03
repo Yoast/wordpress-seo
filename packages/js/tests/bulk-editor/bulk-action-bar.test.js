@@ -86,6 +86,25 @@ describe( "SelectionToolbar", () => {
 
 		removeFilter( SELECT_MENU_ITEMS_FILTER, "test/smart-select" );
 	} );
+
+	it( "renders a smart-select item with a short label but a full accessible name, and runs its onClick", () => {
+		const onClick = jest.fn();
+		const smartSelectItems = [ {
+			key: "needs-improvement",
+			label: "SEO titles",
+			ariaLabel: "Select pages with SEO titles that need improvement",
+			onClick,
+		} ];
+
+		render( <SelectionToolbar { ...toolbarProps } smartSelectItems={ smartSelectItems } /> );
+		fireEvent.click( screen.getByRole( "button", { name: "Select" } ) );
+
+		const item = screen.getByRole( "menuitem", { name: "Select pages with SEO titles that need improvement" } );
+		expect( item ).toHaveTextContent( "SEO titles" );
+
+		fireEvent.click( item );
+		expect( onClick ).toHaveBeenCalled();
+	} );
 } );
 
 describe( "ManualReviewActions", () => {

@@ -33,6 +33,12 @@ final class Post_Test extends TestCase {
 			'Social hello',
 			'Social description.',
 			true,
+			[
+				'seo_title'          => false,
+				'meta_description'   => true,
+				'social_title'       => false,
+				'social_description' => true,
+			],
 		);
 
 		$this->assertSame(
@@ -47,6 +53,12 @@ final class Post_Test extends TestCase {
 				'social_title'       => 'Social hello',
 				'social_description' => 'Social description.',
 				'editable'           => true,
+				'needs_improvement'  => [
+					'seo_title'          => false,
+					'meta_description'   => true,
+					'social_title'       => false,
+					'social_description' => true,
+				],
 			],
 			$instance->to_array(),
 		);
@@ -72,6 +84,12 @@ final class Post_Test extends TestCase {
 				'social_title'       => '',
 				'social_description' => '',
 				'editable'           => false,
+				'needs_improvement'  => [
+					'seo_title'          => false,
+					'meta_description'   => false,
+					'social_title'       => false,
+					'social_description' => false,
+				],
 			],
 			$instance->to_array(),
 		);

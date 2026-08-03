@@ -11,7 +11,7 @@ import { fixWordPressMenuScrolling, getVisibleContentLength, MAX_TOKENS_DEFAULT,
 import { getMyyoastConnectionState, LINK_PARAMS_NAME, MYYOAST_CONNECTION_NAME } from "../shared-admin/store";
 import App from "./app";
 import { UpsellModal } from "./components/upsell-modal";
-import { PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
+import { BULK_UPDATE_BATCH_SIZE, PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
 import { useAiUpsell } from "./hooks/use-ai-upsell";
 import { DataProvider } from "./services";
 import { preparePromptContent } from "./services/prompt-content";
@@ -40,6 +40,33 @@ window.yoast.bulkEditor.hooks = { ...window.yoast.bulkEditor.hooks, useAiUpsell 
 window.yoast.bulkEditor.helpers = { ...window.yoast.bulkEditor.helpers, preparePromptContent, getVisibleContentLength };
 window.yoast.bulkEditor.constants = { ...window.yoast.bulkEditor.constants, MAX_TOKENS_DEFAULT, MAX_TOKENS_IRREGULAR };
 
+/**
+ * Builds the store state for a selection carried over from a WP admin overview bulk action.
+ *
+ * @param {Object} [initialSelection] The carried-over selection ({ contentType, postIds, selectedCount }), if any.
+ *
+ * @returns {Object} The seeded state: the active content type, the selection and the overview filter.
+ */
+export const getPreselectionState = ( initialSelection = {} ) => {
+	const selectedIds = ( Array.isArray( initialSelection.postIds ) ? initialSelection.postIds : [] )
+		.map( Number )
+		.filter( ( id ) => Number.isInteger( id ) && id > 0 )
+		.slice( 0, BULK_UPDATE_BATCH_SIZE );
+
+	return {
+		// An empty or unknown name resolves to the first available content type in the app.
+		activeContentType: typeof initialSelection.contentType === "string" ? initialSelection.contentType : "",
+		selection: {
+			selectedIds,
+			preselectedTotal: selectedIds.length > 0 ? Math.max( Number( initialSelection.selectedCount ) || 0, selectedIds.length ) : 0,
+		},
+		query: {
+			overviewIds: selectedIds,
+			isOverviewFilterActive: selectedIds.length > 0,
+		},
+	};
+};
+
 domReady( () => {
 	const root = document.getElementById( ROOT_ID );
 	if ( ! root ) {
@@ -52,6 +79,7 @@ domReady( () => {
 		initialState: {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoBulkEditorData.linkParams", {} ),
 			[ MYYOAST_CONNECTION_NAME ]: getMyyoastConnectionState( myyoastConnection ),
+			...getPreselectionState( get( window, "wpseoBulkEditorData.initialSelection", {} ) ),
 		},
 	} );
 	fixWordPressMenuScrolling();

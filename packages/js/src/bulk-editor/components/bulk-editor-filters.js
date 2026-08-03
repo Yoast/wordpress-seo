@@ -6,8 +6,9 @@ import { Badge, Button, CheckboxGroup, Popover, useSvgAria } from "@yoast/ui-lib
 import { FIELD_SET_SOCIAL, NEEDS_IMPROVEMENT_DESCRIPTION, NEEDS_IMPROVEMENT_TITLE, STORE_NAME } from "../constants";
 
 /**
- * The Filters button and popover: narrows the table by post status and by which fields need improvement.
- * A badge shows how many filters are applied.
+ * The Filters button and popover: narrows the table by post status, by which fields need improvement
+ * and, when a selection was carried over from the WP admin overview, by that selection. A badge shows
+ * how many filters are applied.
  *
  * The "needs improvement" options are tab-agnostic (values {@link NEEDS_IMPROVEMENT_TITLE} /
  * {@link NEEDS_IMPROVEMENT_DESCRIPTION}); only their labels change with the active tab, so a checked box
@@ -19,7 +20,9 @@ export const BulkEditorFilters = () => {
 	const statuses = useSelect( ( select ) => select( STORE_NAME ).selectStatuses(), [] );
 	const needsImprovement = useSelect( ( select ) => select( STORE_NAME ).selectNeedsImprovement(), [] );
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
-	const { setStatuses, setNeedsImprovement } = useDispatch( STORE_NAME );
+	const overviewIds = useSelect( ( select ) => select( STORE_NAME ).selectOverviewIds(), [] );
+	const isOverviewFilterActive = useSelect( ( select ) => select( STORE_NAME ).selectIsOverviewFilterActive(), [] );
+	const { setStatuses, setNeedsImprovement, setOverviewFilterActive } = useDispatch( STORE_NAME );
 	const [ isOpen, setIsOpen ] = useState( false );
 	const containerRef = useRef( null );
 	const triggerRef = useRef( null );
@@ -31,6 +34,15 @@ export const BulkEditorFilters = () => {
 		{ value: "pending", label: __( "Pending", "wordpress-seo" ) },
 		{ value: "draft", label: __( "Draft", "wordpress-seo" ) },
 	], [] );
+
+	const overviewOptions = useMemo( () => [
+		{ value: "overview", label: __( "Overview selection", "wordpress-seo" ) },
+	], [] );
+
+	const onChangeOverviewFilter = useCallback(
+		( values ) => setOverviewFilterActive( values.includes( "overview" ) ),
+		[ setOverviewFilterActive ]
+	);
 
 	const isSocial = activeFieldSet === FIELD_SET_SOCIAL;
 	// The red dot in front of each option (and the group's "needs improvement" legend) carries the
@@ -79,7 +91,7 @@ export const BulkEditorFilters = () => {
 		};
 	}, [ isOpen ] );
 
-	const appliedCount = statuses.length + needsImprovement.length;
+	const appliedCount = statuses.length + needsImprovement.length + ( isOverviewFilterActive ? 1 : 0 );
 
 	return (
 		<div ref={ containerRef } className="yst-relative">
@@ -95,6 +107,15 @@ export const BulkEditorFilters = () => {
 				className="before:yst-hidden !yst-top-full yst-mt-1 yst-py-0.5 yst-px-0 yst-shadow-lg"
 				aria-label={ __( "Filters", "wordpress-seo" ) }
 			>
+				{ overviewIds.length > 0 && (
+					<CheckboxGroup
+						id="bulk-editor-overview-filter"
+						className="yst-bulk-editor-filter-group yst-bulk-editor-overview-selection"
+						options={ overviewOptions }
+						values={ isOverviewFilterActive ? [ "overview" ] : [] }
+						onChange={ onChangeOverviewFilter }
+					/>
+				) }
 				<CheckboxGroup
 					id="bulk-editor-status-filter"
 					className="yst-bulk-editor-filter-group"

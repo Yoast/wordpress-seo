@@ -70,6 +70,13 @@ class Posts_Query {
 	private $scores_enabled;
 
 	/**
+	 * The post IDs to limit posts to, or an empty array for no restriction.
+	 *
+	 * @var array<int>
+	 */
+	private $include_ids;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param string        $content_type      The content type to get posts for.
@@ -80,6 +87,7 @@ class Posts_Query {
 	 * @param int|null      $author_id         The author to limit posts to, or null for no author restriction.
 	 * @param array<string> $needs_improvement The needs-improvement fields to filter by (a field matches when empty, or — for search fields with SEO analysis enabled — when its per-field score needs improvement), or an empty array for no such filter.
 	 * @param bool          $scores_enabled    Whether the per-field scores may back the needs-improvement filter.
+	 * @param array<int>    $include_ids       The post IDs to limit posts to, or an empty array for no restriction.
 	 */
 	public function __construct(
 		string $content_type,
@@ -89,7 +97,8 @@ class Posts_Query {
 		array $statuses,
 		?int $author_id = null,
 		array $needs_improvement = [],
-		bool $scores_enabled = true
+		bool $scores_enabled = true,
+		array $include_ids = []
 	) {
 		$this->content_type      = $content_type;
 		$this->page              = $page;
@@ -99,6 +108,7 @@ class Posts_Query {
 		$this->author_id         = $author_id;
 		$this->needs_improvement = $needs_improvement;
 		$this->scores_enabled    = $scores_enabled;
+		$this->include_ids       = $include_ids;
 	}
 
 	/**
@@ -189,6 +199,24 @@ class Posts_Query {
 	 */
 	public function has_author_filter(): bool {
 		return $this->author_id !== null;
+	}
+
+	/**
+	 * Returns the post IDs to limit posts to.
+	 *
+	 * @return array<int> The post IDs, or an empty array for no restriction.
+	 */
+	public function get_include_ids(): array {
+		return $this->include_ids;
+	}
+
+	/**
+	 * Returns whether posts are limited to specific post IDs.
+	 *
+	 * @return bool Whether a post ID restriction is set.
+	 */
+	public function has_include(): bool {
+		return $this->include_ids !== [];
 	}
 
 	/**

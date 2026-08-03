@@ -1,25 +1,34 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { useSelect } from "@wordpress/data";
-import { usePosts } from "../../../src/bulk-editor/services/use-posts";
+import { useDispatch, useSelect } from "@wordpress/data";
+import { usePosts } from "../../../src/bulk-editor/hooks/use-posts";
 import { PAGE_SIZE } from "../../../src/bulk-editor/constants";
 
-jest.mock( "@wordpress/data", () => ( { useSelect: jest.fn() } ) );
+jest.mock( "@wordpress/data", () => ( { useSelect: jest.fn(), useDispatch: jest.fn() } ) );
+
+// A stable fallback: a fresh [] per selector call would change identity on every render and
+// make the hook's effect refetch forever.
+const EMPTY = [];
 
 describe( "usePosts", () => {
 	let dataProvider;
 	let storeState;
+	let pruneSelection;
 
 	beforeEach( () => {
 		dataProvider = { getEndpoint: jest.fn( () => "https://example.com/wp-json/yoast/v1/bulk_editor/posts" ) };
-		storeState = { search: "", page: 1, statuses: [], needsImprovement: [], activeFieldSet: "search" };
+		storeState = { search: "", page: 1, statuses: [], needsImprovement: [], activeFieldSet: "search", overviewIds: [], isOverviewFilterActive: false };
 		// Resolve each useSelect call against our controllable store state.
 		useSelect.mockImplementation( ( mapSelect ) => mapSelect( () => ( {
 			selectSearch: () => storeState.search,
 			selectPage: () => storeState.page,
 			selectStatuses: () => storeState.statuses,
-			selectNeedsImprovement: () => storeState.needsImprovement ?? [],
+			selectNeedsImprovement: () => storeState.needsImprovement ?? EMPTY,
 			selectActiveFieldSet: () => storeState.activeFieldSet ?? "search",
+			selectOverviewIds: () => storeState.overviewIds ?? EMPTY,
+			selectIsOverviewFilterActive: () => storeState.isOverviewFilterActive ?? false,
 		} ) ) );
+		pruneSelection = jest.fn();
+		useDispatch.mockReturnValue( { pruneSelection } );
 	} );
 
 	it( "requests the posts endpoint with the content type, page size, page, search, statuses and needs-improvement", async() => {
@@ -56,6 +65,75 @@ describe( "usePosts", () => {
 		);
 	} );
 
+	it( "requests only the carried-over posts while the overview filter is active", async() => {
+		storeState = { search: "", page: 1, statuses: [], overviewIds: [ 5, 3 ], isOverviewFilterActive: true };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { posts: [] } ) ) };
+
+		renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
+
+		await waitFor( () => expect( remoteDataProvider.fetchJson ).toHaveBeenCalled() );
+
+		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
+			"https://example.com/wp-json/yoast/v1/bulk_editor/posts",
+			expect.objectContaining( { include: [ "5", "3" ] } ),
+			expect.objectContaining( { signal: expect.anything() } )
+		);
+	} );
+
+	it( "does not send the carried-over posts while the overview filter is inactive", async() => {
+		storeState = { search: "", page: 1, statuses: [], overviewIds: [ 5, 3 ], isOverviewFilterActive: false };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { posts: [] } ) ) };
+
+		renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
+
+		await waitFor( () => expect( remoteDataProvider.fetchJson ).toHaveBeenCalled() );
+
+		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledWith(
+			"https://example.com/wp-json/yoast/v1/bulk_editor/posts",
+			expect.not.objectContaining( { include: expect.anything() } ),
+			expect.objectContaining( { signal: expect.anything() } )
+		);
+	} );
+
+	it( "prunes the selection to the editable listed rows while the overview filter is active", async() => {
+		storeState = { search: "", page: 1, statuses: [], overviewIds: [ 5, 3, 99 ], isOverviewFilterActive: true };
+		const remoteDataProvider = {
+			// Post 99 is not listed at all; post 3 is listed but not editable, so its checkbox is disabled.
+			fetchJson: jest.fn( () => Promise.resolve( { posts: [
+				{ id: 5, title: "Listed", editable: true },
+				{ id: 3, title: "Locked", editable: false },
+			] } ) ),
+		};
+
+		const { result } = renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
+
+		await waitFor( () => expect( result.current.isPending ).toBe( false ) );
+
+		expect( pruneSelection ).toHaveBeenCalledWith( [ 5 ] );
+	} );
+
+	it( "does not prune the selection while the overview filter is inactive", async() => {
+		storeState = { search: "", page: 1, statuses: [], overviewIds: [ 5, 3 ], isOverviewFilterActive: false };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { posts: [ { id: 5, title: "Listed", editable: true } ] } ) ) };
+
+		const { result } = renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
+
+		await waitFor( () => expect( result.current.isPending ).toBe( false ) );
+
+		expect( pruneSelection ).not.toHaveBeenCalled();
+	} );
+
+	it( "does not prune the selection when the request fails", async() => {
+		storeState = { search: "", page: 1, statuses: [], overviewIds: [ 5, 3 ], isOverviewFilterActive: true };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.reject( new Error( "boom" ) ) ) };
+
+		const { result } = renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
+
+		await waitFor( () => expect( result.current.isPending ).toBe( false ) );
+
+		expect( pruneSelection ).not.toHaveBeenCalled();
+	} );
+
 	it( "maps the snake_case API rows to camelCase bulk editor rows and exposes the totals", async() => {
 		const remoteDataProvider = {
 			/* eslint-disable camelcase -- The REST endpoint returns snake_case fields. */
@@ -72,6 +150,7 @@ describe( "usePosts", () => {
 						social_title: "Social hello",
 						social_description: "Social description.",
 						editable: true,
+						needs_improvement: { seo_title: false, meta_description: true, social_title: false, social_description: false },
 					},
 				],
 				total: 42,
@@ -96,6 +175,8 @@ describe( "usePosts", () => {
 				socialTitle: "Social hello",
 				socialDescription: "Social description.",
 				editable: true,
+				// eslint-disable-next-line camelcase -- the needs-improvement map is keyed by backend field params.
+				needsImprovement: { seo_title: false, meta_description: true, social_title: false, social_description: false },
 			},
 		] );
 		expect( result.current.total ).toBe( 42 );

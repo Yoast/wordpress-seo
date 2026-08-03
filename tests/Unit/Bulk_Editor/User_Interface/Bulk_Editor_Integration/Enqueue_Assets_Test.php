@@ -70,6 +70,11 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 				'keywordAnalysisActive' => true,
 				'shortcodes'            => $expected_shortcodes,
 			],
+			'initialSelection'  => [
+				'contentType'   => '',
+				'postIds'       => [],
+				'selectedCount' => 0,
+			],
 			'myyoastConnection' => null,
 		];
 
