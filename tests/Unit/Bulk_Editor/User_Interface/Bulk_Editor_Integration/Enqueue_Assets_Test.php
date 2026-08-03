@@ -23,16 +23,21 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 	/**
 	 * Tests enqueuing the assets.
 	 *
+	 * @param mixed         $shortcode_tags      The WordPress shortcode tags global, or null to leave it unset.
+	 * @param array<string> $expected_shortcodes The shortcode tags expected in the localized script data.
+	 *
+	 * @dataProvider data_shortcode_tags
+	 *
 	 * @return void
 	 */
-	public function test_enqueue_assets() {
+	public function test_enqueue_assets( $shortcode_tags, array $expected_shortcodes ) {
 		$this->stubEscapeFunctions();
 
 		// The registered shortcode tags are read straight off the WordPress global.
-		$GLOBALS['shortcode_tags'] = [
-			'gallery' => 'gallery_shortcode',
-			'caption' => 'caption_shortcode',
-		];
+		unset( $GLOBALS['shortcode_tags'] );
+		if ( $shortcode_tags !== null ) {
+			$GLOBALS['shortcode_tags'] = $shortcode_tags;
+		}
 
 		$content_types = [
 			[
@@ -63,7 +68,7 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 			'analysis'          => [
 				'contentLocale'         => 'en_US',
 				'keywordAnalysisActive' => true,
-				'shortcodes'            => [ 'gallery', 'caption' ],
+				'shortcodes'            => $expected_shortcodes,
 			],
 			'myyoastConnection' => null,
 		];
@@ -105,5 +110,37 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 			->with( Bulk_Editor_Integration::ASSETS_NAME, 'wpseoBulkEditorData', $expected_script_data );
 
 		$this->instance->enqueue_assets();
+	}
+
+	/**
+	 * Data provider for test_enqueue_assets.
+	 *
+	 * The global is always set by WordPress, but the integration stays defensive: an absent or malformed global
+	 * costs shortcode parity in the AI prompt content, which is better than a fatal on a settings page.
+	 *
+	 * @return array<string, array<mixed>> The test data.
+	 */
+	public static function data_shortcode_tags(): array {
+		return [
+			'registered shortcode tags' => [
+				'shortcode_tags'      => [
+					'gallery' => 'gallery_shortcode',
+					'caption' => 'caption_shortcode',
+				],
+				'expected_shortcodes' => [ 'gallery', 'caption' ],
+			],
+			'no shortcodes registered'  => [
+				'shortcode_tags'      => [],
+				'expected_shortcodes' => [],
+			],
+			'the global is unset'       => [
+				'shortcode_tags'      => null,
+				'expected_shortcodes' => [],
+			],
+			'the global is malformed'   => [
+				'shortcode_tags'      => 'not an array',
+				'expected_shortcodes' => [],
+			],
+		];
 	}
 }
