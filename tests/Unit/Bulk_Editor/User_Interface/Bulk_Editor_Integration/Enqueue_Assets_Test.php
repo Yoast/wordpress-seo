@@ -58,6 +58,11 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 				'contentLocale'         => 'en_US',
 				'keywordAnalysisActive' => true,
 			],
+			'initialSelection'  => [
+				'contentType'   => '',
+				'postIds'       => [],
+				'selectedCount' => 0,
+			],
 			'myyoastConnection' => null,
 		];
 

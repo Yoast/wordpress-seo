@@ -3,6 +3,7 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import {
+	BULK_UPDATE_BATCH_SIZE,
 	PENDING_CHANGES_MODAL_SLOT,
 	STORE_NAME,
 } from "../constants";
@@ -17,6 +18,40 @@ import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 import { UnsavedChangesModal } from "./unsaved-changes-modal";
 import { SearchBox } from "./search-box";
 import { getSelectionView, getSmartSelectItems } from "../helpers";
+
+/**
+ * Decides whether the bulk-actions band row is expanded.
+ *
+ * A selection only warrants the band while AI is enabled (the AI affordances are its only selection-driven
+ * occupant); with AI off the band collapses. Unsaved manual edits are a separate, non-AI occupant, so they
+ * keep it open regardless of the AI toggle. External pending changes (Premium's AI suggestions) also keep
+ * it open: a filter, search, or page change clears the selection but must leave the pending suggestions
+ * actionable. The overview-selection truncation and exclusion notices live in the band's notices region,
+ * so either opens the band too.
+ *
+ * @param {Object}  view                           The view state.
+ * @param {boolean} view.hasSelection              Whether any rows are selected.
+ * @param {boolean} view.isAiEnabled               Whether the AI feature is enabled.
+ * @param {boolean} view.hasUnsavedEdits           Whether a row has unsaved manual edits.
+ * @param {boolean} view.hasExternalPendingChanges Whether an external plugin reports pending changes.
+ * @param {boolean} view.hasOverviewNotice         Whether an overview-selection notice (truncation or exclusion) must show.
+ *
+ * @returns {boolean} Whether the band is expanded.
+ */
+export const shouldShowBulkActions = ( { hasSelection, isAiEnabled, hasUnsavedEdits, hasExternalPendingChanges, hasOverviewNotice } ) =>
+	( hasSelection && isAiEnabled ) || hasUnsavedEdits || hasExternalPendingChanges || hasOverviewNotice;
+
+/**
+ * Decides whether an overview-selection notice (truncation or exclusion) must show.
+ *
+ * @param {Object}  view                        The view state.
+ * @param {number}  view.preselectedTotal       How many items were selected on the WP admin overview.
+ * @param {boolean} view.hasExcludedPreselected Whether pruning dropped carried-over ids.
+ *
+ * @returns {boolean} Whether an overview-selection notice must show.
+ */
+export const getHasOverviewNotice = ( { preselectedTotal, hasExcludedPreselected } ) =>
+	preselectedTotal > BULK_UPDATE_BATCH_SIZE || hasExcludedPreselected;
 
 /**
  * The bulk editor content.
@@ -39,6 +74,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const {
 		activeFieldSet,
 		selectedIds,
+		preselectedTotal,
+		hasExcludedPreselected,
 		isPremium,
 		isAiEnabled,
 		hasExternalPendingChanges,
@@ -49,6 +86,10 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		return {
 			activeFieldSet: store.selectActiveFieldSet(),
 			selectedIds: store.selectSelectedIds(),
+			// The size of a selection carried over from the WP admin overview; drives the truncation notice.
+			preselectedTotal: store.selectPreselectedTotal(),
+			// Whether pruning dropped carried-over ids the bulk editor cannot show or edit; drives the exclusion notice.
+			hasExcludedPreselected: store.selectHasExcludedPreselected(),
 			isPremium: store.selectPreference( "isPremium", false ),
 			isAiEnabled: store.selectPreference( "isAiEnabled", false ),
 			// An external plugin (e.g. Premium's AI suggestions) reports pending changes so the switch can be guarded.
@@ -58,7 +99,9 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			pendingSwitch: store.selectPendingSwitch(),
 		};
 	}, [] );
-	const { requestSwitch, commitSwitch, clearPendingSwitch, toggleRow, selectAll, deselectAll } = useDispatch( STORE_NAME );
+	const {
+		requestSwitch, commitSwitch, clearPendingSwitch, toggleRow, selectAll, deselectAll, dismissPreselectionNotice, dismissExclusionNotice,
+	} = useDispatch( STORE_NAME );
 
 	const { data: items = [], total = 0, totalPages = 0, isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
 	const { editing, stopEditing } = useInlineEdit( { dataProvider, remoteDataProvider, fieldSets, activeFieldSet, items, updateItem } );
@@ -105,6 +148,10 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	}, [ pendingSwitch, hasUnsavedEdits, hasExternalPendingChanges, onCommitSwitch ] );
 
 	const { isAllSelected, isIndeterminate, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
+	// The truncation and exclusion notices for a selection carried over from the WP admin overview, shown in the
+	// band's notices region; either one keeps the band expanded.
+	const hasOverviewNotice = getHasOverviewNotice( { preselectedTotal, hasExcludedPreselected } );
+	const showBulkActions = shouldShowBulkActions( { hasSelection, isAiEnabled, hasUnsavedEdits, hasExternalPendingChanges, hasOverviewNotice } );
 	const onSelectAll = useCallback( () => {
 		if ( ! isPending ) {
 			// Only posts the user can edit are selectable for bulk editing.
@@ -174,14 +221,13 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								isApplyingAll={ editing.isApplyingAll }
 								hasSaveError={ editing.hasSaveError }
 								onDismissSaveError={ editing.dismissSaveError }
+								preselectedTotal={ preselectedTotal }
+								onDismissPreselection={ dismissPreselectionNotice }
+								hasExcludedPreselected={ hasExcludedPreselected }
+								onDismissExclusion={ dismissExclusionNotice }
 							/>
 						}
-						// A selection only warrants the band while AI is enabled (the AI affordances are its only
-						// selection-driven occupant); with AI off the band collapses. Unsaved manual edits are a
-						// separate, non-AI occupant, so they keep it open regardless of the AI toggle. External
-						// pending changes (Premium's AI suggestions) also keep it open: a filter, search, or page
-						// change clears the selection but must leave the pending suggestions actionable.
-						showBulkActions={ ( hasSelection && isAiEnabled ) || hasUnsavedEdits || hasExternalPendingChanges }
+						showBulkActions={ showBulkActions }
 						filters={ <BulkEditorFilters /> }
 						isLoading={ isPending }
 						hasExternalPendingChanges={ hasExternalPendingChanges }

@@ -14,9 +14,11 @@ export const getSelectionView = ( isLoading, selectedIds, items, total ) => {
 		return { isAllSelected: false, isIndeterminate: false, selectedCount: 0, totalCount: 0, hasSelection: false };
 	}
 	// Only posts the user can edit are selectable, so "all selected" is measured against the editable rows.
-	const selectableCount = items.filter( ( item ) => item.editable ).length;
+	// Measured by membership, not count: a selection carried over from the WP admin overview can contain
+	// rows that are not on the current page.
+	const selectableIds = items.filter( ( item ) => item.editable ).map( ( item ) => item.id );
 	const selectedCount = selectedIds.length;
-	const isAllSelected = selectableCount > 0 && selectedCount === selectableCount;
+	const isAllSelected = selectableIds.length > 0 && selectableIds.every( ( id ) => selectedIds.includes( id ) );
 	return {
 		isAllSelected,
 		isIndeterminate: selectedCount > 0 && ! isAllSelected,

@@ -1,12 +1,14 @@
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
-import SolidXIcon from "@heroicons/react/solid/XIcon";
 import { Slot } from "@wordpress/components";
 import { useEffect, useId, useRef } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT } from "../constants";
 import { useAiUpsell } from "../hooks/use-ai-upsell";
+import { DismissibleAlert } from "./dismissible-alert";
+import { OverviewExclusionNotice } from "./overview-exclusion-notice";
+import { OverviewSelectionNotice } from "./overview-selection-notice";
 import { UpsellModal } from "./upsell-modal";
 import { SelectMenu } from "./select-menu";
 
@@ -142,29 +144,25 @@ export const ManualReviewActions = ( { editCount, onApplyAll, onDiscardAll, isAp
  *
  * @returns {JSX.Element} The save-error notice.
  */
-export const ManualSaveErrorNotice = ( { onDismiss } ) => {
-	const svgAriaProps = useSvgAria();
-	return <Alert variant="error" as="div" role="alert" className="yst-rounded-none yst-relative">
+export const ManualSaveErrorNotice = ( { onDismiss } ) => (
+	<DismissibleAlert variant="error" role="alert" onDismiss={ onDismiss }>
 		<div className="yst-flex yst-flex-col yst-gap-1">
 			<span className="yst-block yst-font-medium">{ __( "Couldn't save your edits.", "wordpress-seo" ) }</span>
 			<span className="yst-font-normal">{ __( "Something went wrong. Please try again.", "wordpress-seo" ) }</span>
 		</div>
-		<button
-			type="button"
-			className="yst-absolute yst-end-4 yst-top-4 yst-text-current hover:yst-opacity-75 yst-cursor-pointer"
-			onClick={ onDismiss }
-			aria-label={ __( "Dismiss", "wordpress-seo" ) }
-		>
-			<SolidXIcon className="yst-h-5 yst-w-5" { ...svgAriaProps } />
-		</button>
-	</Alert>;
-};
+	</DismissibleAlert>
+);
 
 /**
- * The Free save-error notice, and the alerts slot Premium fills (e.g. its AI alerts).
- * Only rendered on the active tab, so each tab has a single slot to target.
+ * The overview-selection truncation and exclusion notices, the Free save-error notice, and the alerts slot
+ * Premium fills (e.g. its AI alerts). Only rendered on the active tab, so each tab has a single slot to target.
+ * The truncation and exclusion notices are independent and can show at the same time.
  *
  * @param {Object}   props                      The props.
+ * @param {number}   [props.preselectedTotal]   How many items were selected on the WP admin overview; shows the truncation notice.
+ * @param {Function} [props.onDismissPreselection] Dismisses the truncation notice.
+ * @param {boolean}  [props.hasExcludedPreselected] Whether carried-over items were dropped; shows the exclusion notice.
+ * @param {Function} [props.onDismissExclusion] Dismisses the exclusion notice.
  * @param {boolean}  [props.hasSaveError]       Whether the last apply-all failed; shows the save-error notice.
  * @param {Function} [props.onDismissSaveError] Dismisses the save-error notice.
  * @param {number[]} props.selectedIds          The ids of the selected rows, passed to the notices fill.
@@ -176,9 +174,12 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => {
  * @returns {JSX.Element} The notices region.
  */
 const BulkActionsNotices = ( {
-	hasSaveError, onDismissSaveError, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
+	preselectedTotal = 0, onDismissPreselection, hasExcludedPreselected = false, onDismissExclusion, hasSaveError, onDismissSaveError,
+	selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
 } ) => (
 	<>
+		<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } />
+		<OverviewExclusionNotice hasExclusions={ hasExcludedPreselected } onDismiss={ onDismissExclusion } />
 		{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
 		<Slot
 			name={ BULK_NOTICES_SLOT }
@@ -245,16 +246,25 @@ const BulkActionsBand = ( {
  * @param {boolean}  [props.isApplyingAll]    Whether an apply-all is in flight; disables the review actions.
  * @param {boolean}  [props.hasSaveError]     Whether the last apply-all failed; shows the inline save-error notice.
  * @param {Function} [props.onDismissSaveError] Dismisses the save-error notice.
+ * @param {number}   [props.preselectedTotal] How many items were selected on the WP admin overview; shows the truncation notice.
+ * @param {Function} [props.onDismissPreselection] Dismisses the truncation notice.
+ * @param {boolean}  [props.hasExcludedPreselected] Whether carried-over items were dropped; shows the exclusion notice.
+ * @param {Function} [props.onDismissExclusion] Dismisses the exclusion notice.
  *
  * @returns {JSX.Element} The bulk actions row content.
  */
 export const BulkActions = ( {
 	isPremium, isAiEnabled = false, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
 	hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll, hasSaveError, onDismissSaveError,
+	preselectedTotal, onDismissPreselection, hasExcludedPreselected, onDismissExclusion,
 } ) => (
 	<div className="yst-flex yst-flex-col">
 		{ isActive && (
 			<BulkActionsNotices
+				preselectedTotal={ preselectedTotal }
+				onDismissPreselection={ onDismissPreselection }
+				hasExcludedPreselected={ hasExcludedPreselected }
+				onDismissExclusion={ onDismissExclusion }
 				hasSaveError={ hasSaveError }
 				onDismissSaveError={ onDismissSaveError }
 				selectedIds={ selectedIds }

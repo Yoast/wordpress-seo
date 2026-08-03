@@ -90,11 +90,97 @@ describe( "bulk editor initialize", () => {
 					connectUrl: null,
 					learnMoreUrl: "",
 				},
+				activeContentType: "",
+				selection: { selectedIds: [], preselectedTotal: 0 },
+				query: { overviewIds: [], isOverviewFilterActive: false },
 			},
 		} );
 		expect( mockFixScrolling ).toHaveBeenCalledTimes( 1 );
 		expect( mockCreateRoot ).toHaveBeenCalledWith( root );
 		expect( mockRender ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	test( "should seed the store with the selection carried over from the WP admin overview", () => {
+		const root = document.createElement( "div" );
+		root.id = ROOT_ID;
+		document.body.appendChild( root );
+		window.wpseoBulkEditorData.initialSelection = { contentType: "page", postIds: [ 5, 3 ], selectedCount: 25 };
+
+		jest.isolateModules( () => {
+			require( "../../src/bulk-editor/initialize" );
+		} );
+
+		expect( mockRegisterStore ).toHaveBeenCalledWith( {
+			initialState: {
+				linkParams: { foo: "bar" },
+				myyoastConnection: {
+					isAvailable: false,
+					canConnect: false,
+					connectUrl: null,
+					learnMoreUrl: "",
+				},
+				activeContentType: "page",
+				selection: { selectedIds: [ 5, 3 ], preselectedTotal: 25 },
+				query: { overviewIds: [ 5, 3 ], isOverviewFilterActive: true },
+			},
+		} );
+	} );
+
+	describe( "getPreselectionState", () => {
+		/**
+		 * Requires the module in isolation and returns the getPreselectionState export.
+		 *
+		 * @returns {Function} The getPreselectionState function.
+		 */
+		const requireGetPreselectionState = () => {
+			let getPreselectionState;
+			jest.isolateModules( () => {
+				( { getPreselectionState } = require( "../../src/bulk-editor/initialize" ) );
+			} );
+			return getPreselectionState;
+		};
+
+		test( "should return an empty seed for a missing or malformed payload", () => {
+			const getPreselectionState = requireGetPreselectionState();
+
+			const emptySeed = {
+				activeContentType: "",
+				selection: { selectedIds: [], preselectedTotal: 0 },
+				query: { overviewIds: [], isOverviewFilterActive: false },
+			};
+			expect( getPreselectionState() ).toEqual( emptySeed );
+			expect( getPreselectionState( { contentType: 7, postIds: "5,3", selectedCount: 25 } ) ).toEqual( emptySeed );
+		} );
+
+		test( "should drop non-numeric and non-positive ids and never let the total undercut them", () => {
+			const getPreselectionState = requireGetPreselectionState();
+
+			expect( getPreselectionState( { contentType: "post", postIds: [ "5", 3, 0, -2, "junk" ], selectedCount: 1 } ) ).toEqual( {
+				activeContentType: "post",
+				selection: { selectedIds: [ 5, 3 ], preselectedTotal: 2 },
+				query: { overviewIds: [ 5, 3 ], isOverviewFilterActive: true },
+			} );
+		} );
+
+		test( "should cap the seeded ids at the batch size", () => {
+			const getPreselectionState = requireGetPreselectionState();
+
+			const postIds = Array.from( { length: 25 }, ( _, index ) => index + 1 );
+			const { selection } = getPreselectionState( { contentType: "post", postIds, selectedCount: 25 } );
+
+			expect( selection.selectedIds ).toHaveLength( 20 );
+			expect( selection.preselectedTotal ).toBe( 25 );
+		} );
+
+		test( "should not report a carried-over total without any usable ids", () => {
+			const getPreselectionState = requireGetPreselectionState();
+
+			expect( getPreselectionState( { contentType: "post", postIds: [], selectedCount: 25 } ) ).toEqual( {
+				activeContentType: "post",
+				selection: { selectedIds: [], preselectedTotal: 0 },
+				query: { overviewIds: [], isOverviewFilterActive: false },
+			} );
+		} );
 	} );
 
 	test( "should construct the remote data provider with the REST nonce header", () => {

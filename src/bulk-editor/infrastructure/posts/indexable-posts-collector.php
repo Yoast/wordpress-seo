@@ -153,6 +153,10 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			$builder->where( 'author_id', $query->get_author_id() );
 		}
 
+		if ( $query->has_include() ) {
+			$builder->where_in( 'object_id', $query->get_include_ids() );
+		}
+
 		if ( $query->has_search() ) {
 			$this->apply_search( $builder, $query->get_search() );
 		}

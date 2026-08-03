@@ -147,7 +147,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 *
 	 * @param Posts_Query $query The query describing the page to collect.
 	 *
-	 * @return array<string, string|int|bool|array<string>> The WP_Query arguments.
+	 * @return array<string, string|int|bool|array<string>|array<int>> The WP_Query arguments.
 	 */
 	private function build_query_args( Posts_Query $query ): array {
 		$args = [
@@ -168,6 +168,10 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 
 		if ( $query->has_author_filter() ) {
 			$args['author'] = $query->get_author_id();
+		}
+
+		if ( $query->has_include() ) {
+			$args['post__in'] = $query->get_include_ids();
 		}
 
 		return $args;

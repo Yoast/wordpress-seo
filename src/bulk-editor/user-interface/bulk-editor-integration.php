@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Bulk_Editor\User_Interface;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Batch_Limit;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
@@ -30,6 +31,21 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * The assets name.
 	 */
 	public const ASSETS_NAME = 'bulk-editor-page';
+
+	/**
+	 * The URL parameter carrying the content type to preselect.
+	 */
+	public const CONTENT_TYPE_PARAM = 'content_type';
+
+	/**
+	 * The URL parameter carrying the post IDs to preselect, comma-separated.
+	 */
+	public const POST_IDS_PARAM = 'post_ids';
+
+	/**
+	 * The URL parameter carrying how many posts were selected on the overview the user came from.
+	 */
+	public const SELECTED_COUNT_PARAM = 'selected_count';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -155,6 +171,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		if ( $this->current_page_helper->get_current_yoast_seo_page() === self::PAGE ) {
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
+			\add_filter( 'removable_query_args', [ $this, 'add_removable_query_args' ] );
 		}
 	}
 
@@ -220,8 +237,10 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @return array<string, string|array<string, string|bool|array<string, string>>> The script data.
 	 */
 	public function get_script_data() {
+		$content_types = $this->content_types_repository->get_content_types();
+
 		return [
-			'contentTypes'      => $this->content_types_repository->get_content_types(),
+			'contentTypes'      => $content_types,
 			'endpoints'         => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			// These must stay server-generated URLs: the bulk editor assigns them to window.location.href for its
 			// "Back to Tools" / logo navigation. If a link ever derives from request input, validate it with
@@ -244,8 +263,86 @@ class Bulk_Editor_Integration implements Integration_Interface {
 				// Re-scoring only runs when SEO analysis is enabled, matching the post editor.
 				'keywordAnalysisActive' => $this->options_helper->get( 'keyword_analysis_active' ) === true,
 			],
+			'initialSelection'  => $this->get_initial_selection( $content_types ),
 			'myyoastConnection' => $this->myyoast_connection_data_presenter->present(),
 		];
+	}
+
+	/**
+	 * Returns the selection carried over from a post overview bulk action, if any.
+	 *
+	 * The parameters only decide which rows start out selected in the app; the REST endpoints
+	 * enforce the actual per-post edit access when anything is saved.
+	 *
+	 * @param array<array<string, string>> $content_types The available content types.
+	 *
+	 * @return array<string, string|int|array<int>> The content type, post IDs and overview selection count.
+	 */
+	private function get_initial_selection( array $content_types ): array {
+		$initial_selection = [
+			'contentType'   => '',
+			'postIds'       => [],
+			'selectedCount' => 0,
+		];
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Reason: read-only display state, no action is taken.
+		if ( ! isset( $_GET[ self::CONTENT_TYPE_PARAM ] ) || ! \is_string( $_GET[ self::CONTENT_TYPE_PARAM ] ) ) {
+			return $initial_selection;
+		}
+
+		$content_type = \sanitize_text_field( \wp_unslash( $_GET[ self::CONTENT_TYPE_PARAM ] ) );
+		if ( ! \in_array( $content_type, \array_column( $content_types, 'name' ), true ) ) {
+			return $initial_selection;
+		}
+		$initial_selection['contentType'] = $content_type;
+
+		if ( isset( $_GET[ self::POST_IDS_PARAM ] ) && \is_string( $_GET[ self::POST_IDS_PARAM ] ) ) {
+			$post_ids = \explode( ',', \sanitize_text_field( \wp_unslash( $_GET[ self::POST_IDS_PARAM ] ) ) );
+			$post_ids = \array_values(
+				\array_unique(
+					\array_filter(
+						\array_map( 'intval', $post_ids ),
+						static function ( $id ) {
+							return $id > 0;
+						},
+					),
+				),
+			);
+			$post_ids = \array_slice( $post_ids, 0, Batch_Limit::MAX_ITEMS );
+
+			$initial_selection['postIds']       = $post_ids;
+			$initial_selection['selectedCount'] = \count( $post_ids );
+		}
+
+		if (
+			$initial_selection['postIds'] !== []
+			&& isset( $_GET[ self::SELECTED_COUNT_PARAM ] )
+			&& \is_string( $_GET[ self::SELECTED_COUNT_PARAM ] )
+		) {
+			// The count can only grow beyond the carried IDs, never shrink below them.
+			$initial_selection['selectedCount'] = \max(
+				$initial_selection['selectedCount'],
+				\absint( \wp_unslash( $_GET[ self::SELECTED_COUNT_PARAM ] ) ),
+			);
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+		return $initial_selection;
+	}
+
+	/**
+	 * Registers the carried-over selection parameters as removable, so WordPress cleans them from the
+	 * address bar once the page has picked them up.
+	 *
+	 * @param array<string> $removable_query_args The removable query args.
+	 *
+	 * @return array<string> The removable query args.
+	 */
+	public function add_removable_query_args( $removable_query_args ) {
+		$removable_query_args[] = self::POST_IDS_PARAM;
+		$removable_query_args[] = self::SELECTED_COUNT_PARAM;
+
+		return $removable_query_args;
 	}
 
 	/**
