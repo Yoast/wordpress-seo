@@ -7,7 +7,10 @@ import { RemoteDataProvider } from "@yoast/dashboard-frontend";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import { GenericAlert } from "../ai-generator/components/errors";
-import { fixWordPressMenuScrolling, getVisibleContentLength, MAX_TOKENS_DEFAULT, MAX_TOKENS_IRREGULAR } from "../shared-admin/helpers";
+import { fixWordPressMenuScrolling, MAX_TOKENS_DEFAULT, MAX_TOKENS_IRREGULAR } from "../shared-admin/helpers";
+// Imported directly rather than through the barrel: it pulls in `yoastseo`, which must not become a
+// dependency of the other pages that import that barrel.
+import { getVisibleContentLength } from "../shared-admin/helpers/get-visible-content-length";
 import { getMyyoastConnectionState, LINK_PARAMS_NAME, MYYOAST_CONNECTION_NAME } from "../shared-admin/store";
 import App from "./app";
 import { UpsellModal } from "./components/upsell-modal";

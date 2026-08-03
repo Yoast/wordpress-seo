@@ -51,9 +51,14 @@ jest.mock( "../../src/bulk-editor/store", () => ( {
 
 jest.mock( "../../src/shared-admin/helpers", () => ( {
 	fixWordPressMenuScrolling: () => mockFixScrolling(),
-	getVisibleContentLength: mockGetVisibleContentLength,
 	MAX_TOKENS_DEFAULT: 300,
 	MAX_TOKENS_IRREGULAR: 150,
+} ) );
+
+// Mocked at its own path, not through the barrel: the barrel deliberately does not re-export it, so that pages
+// importing the barrel do not pick up the analysis package.
+jest.mock( "../../src/shared-admin/helpers/get-visible-content-length", () => ( {
+	getVisibleContentLength: mockGetVisibleContentLength,
 } ) );
 
 // The service pulls in the analysis package; the bridge only needs to expose the reference.

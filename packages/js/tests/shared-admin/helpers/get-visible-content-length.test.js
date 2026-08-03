@@ -1,4 +1,5 @@
-import { getVisibleContentLength } from "../../../src/shared-admin/helpers";
+// Imported directly, not through the barrel: the barrel deliberately does not re-export it (it pulls in `yoastseo`).
+import { getVisibleContentLength } from "../../../src/shared-admin/helpers/get-visible-content-length";
 
 describe( "getVisibleContentLength", () => {
 	it( "should return 0 for an empty string", () => {
