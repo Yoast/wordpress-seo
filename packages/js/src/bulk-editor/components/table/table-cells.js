@@ -1,7 +1,7 @@
 import { Slot } from "@wordpress/components";
 import { useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Table, Textarea } from "@yoast/ui-library";
+import { Table, Textarea, TextareaField } from "@yoast/ui-library";
 import { TABLE_ROW_INDICATOR_SLOT } from "../../constants";
 import { getFieldTextClasses, getStatusLabel } from "./table-helpers";
 import AnimateHeight from "react-animate-height";
@@ -73,6 +73,44 @@ export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, 
 		<Table.Cell>
 			<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
 				<Textarea
+					id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
+					rows={ 2 }
+					value={ value }
+					onChange={ handleChange }
+					disabled={ isSaving }
+					className={ `yst-resize-none ${ getFieldTextClasses( field.key, true ) }` }
+					/* translators: %1$s expands to the field label, %2$s to the content item title. */
+					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
+				/>
+			</AnimateHeight>
+		</Table.Cell>
+	);
+};
+
+/**
+ * Focus keyphrase editable field cell.
+ *
+ * @param {Object}        props           The props.
+ * @param {FieldSetField} props.field     The field this cell edits.
+ * @param {number}        props.itemId    The item id, to keep the input id unique across rows.
+ * @param {string}        props.itemTitle The item title, for the accessible name.
+ * @param {string}        props.value     The current draft value.
+ * @param {boolean}       props.isSaving  Whether the row is being saved (disables the input).
+ * @param {Function}      props.onChange  Called with { key, value } when the value changes.
+ *
+ * @returns {JSX.Element} The cell.
+ */
+export const FocusKeyphraseEditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, onChange } ) => {
+	const handleChange = useCallback( ( event ) => onChange( { key: field.key, value: event.target.value } ), [ onChange, field.key ] );
+
+	// Row expand/collapse animation helper.
+	const [ height, setHeight ] = useState( 0 );
+	useEffect( () => setHeight( "auto" ), [] );
+
+	return (
+		<Table.Cell>
+			<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
+				<TextareaField
 					id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
 					rows={ 2 }
 					value={ value }

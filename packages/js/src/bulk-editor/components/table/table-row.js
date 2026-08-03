@@ -3,7 +3,7 @@ import { Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
 import { TABLE_CELL_FIELD_SLOT } from "../../constants";
-import { EditableFieldCell, TitleCell } from "./table-cells";
+import { EditableFieldCell, TitleCell, FocusKeyphraseEditableFieldCell } from "./table-cells";
 import { getFieldTextClasses, getRowEditState, isRowEditDisabled } from "./table-helpers";
 
 /**
@@ -107,6 +107,19 @@ export const BulkEditorRow = ( {
 											{ item[ field.key ] }
 										</Table.Cell>
 									);
+								}
+
+								if ( field.key === "focusKeyphrase" ) {
+									// The focus keyphrase has more warnings
+									return <FocusKeyphraseEditableFieldCell
+										field={ field }
+										itemId={ item.id }
+										itemTitle={ item.title }
+										value={ draft[ field.key ] ?? "" }
+										isSaving={ isSaving }
+										onChange={ handleChangeField }
+										isOpen={ isEditing }
+									/>;
 								}
 
 								return <EditableFieldCell
