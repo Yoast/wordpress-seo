@@ -107,6 +107,20 @@ export const FocusKeyphraseEditableFieldCell = ( { field, itemId, itemTitle, val
 	const [ height, setHeight ] = useState( 0 );
 	useEffect( () => setHeight( "auto" ), [] );
 
+	const validationMessages = [
+		value.includes( "," ) && __( "Are you trying to use multiple keyphrases? You should add them separately.", "wordpress-seo" ),
+		value.length > 191 && __( "Your keyphrase is too long. It can be a maximum of 191 characters.", "wordpress-seo" ),
+	].filter( Boolean );
+
+	const validation = validationMessages.length > 0
+		? {
+			variant: "error",
+			message: validationMessages.map( ( msg, index ) => (
+				<span key={ index } role="alert" className="yst-block">{ msg }</span>
+			) ),
+		}
+		: null;
+
 	return (
 		<Table.Cell>
 			<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
@@ -119,6 +133,8 @@ export const FocusKeyphraseEditableFieldCell = ( { field, itemId, itemTitle, val
 					className={ `yst-resize-none ${ getFieldTextClasses( field.key, true ) }` }
 					/* translators: %1$s expands to the field label, %2$s to the content item title. */
 					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
+					validation={ validation }
+					label={ "" }
 				/>
 			</AnimateHeight>
 		</Table.Cell>
