@@ -286,6 +286,42 @@ describe( "useInlineEdit batch actions", () => {
 		expect( mockScoreField ).toHaveBeenCalledWith( { id: 7, fieldKey: "seoTitle", value: "An AI title", keyphrase: "seo" } );
 	} );
 
+	it( "uses the server-rendered focus_keyphrase when present, so HTML stripped on save is not shown as saved", async() => {
+		// Row 9 submits a keyphrase with HTML; the server strips it and returns the clean value.
+		editingRows = {
+			9: { openFields: [ "focusKeyphrase" ], draft: { focusKeyphrase: "<b>seo</b>" }, savingFields: {} },
+		};
+		/* eslint-disable camelcase -- server-side field name */
+		const rendered = { focus_keyphrase: "seo" };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, rendered } ] } ) ) };
+		/* eslint-enable camelcase */
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyRow( 9 );
+		} );
+
+		// The local item must reflect what the server actually stored, not the HTML-containing draft.
+		expect( updateItem ).toHaveBeenCalledWith( 9, "focusKeyphrase", "seo" );
+	} );
+
+	it( "uses the server-rendered focus_keyphrase in a batch save", async() => {
+		editingRows = {
+			9: { openFields: [ "focusKeyphrase" ], draft: { focusKeyphrase: "<b>seo</b>" }, savingFields: {} },
+		};
+		/* eslint-disable camelcase -- server-side field name */
+		const rendered = { focus_keyphrase: "seo" };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, rendered } ] } ) ) };
+		/* eslint-enable camelcase */
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyAll();
+		} );
+
+		expect( updateItem ).toHaveBeenCalledWith( 9, "focusKeyphrase", "seo" );
+	} );
+
 	it( "discards all edits by leaving edit mode without saving", () => {
 		const remoteDataProvider = { fetchJson: jest.fn() };
 		const { result } = renderEdit( remoteDataProvider );

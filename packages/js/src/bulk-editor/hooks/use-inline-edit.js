@@ -14,6 +14,36 @@ import { createFieldScorer, createSingleFieldScorer } from "../services/field-sc
 const fieldEndpointKey = ( field, fieldSet ) => field.endpoint ?? fieldSet.endpoint;
 
 /**
+ * Resolves the value to persist locally for a field after a save.
+ *
+ * Prefers the server-rendered value when the response carries one, so a keyphrase that was
+ * silently altered by sanitization (e.g. HTML stripped) is reflected correctly rather than
+ * showing the unsanitized draft.
+ *
+ * @param {string}      key        The field key (JS camelCase).
+ * @param {string}      draftValue The draft value that was submitted.
+ * @param {Object|null} rendered   The rendered fields from the update result, or undefined.
+ *
+ * @returns {string} The value to reflect locally.
+ */
+const resolveItemValue = ( key, draftValue, rendered ) => {
+	if ( key === FOCUS_KEYPHRASE_KEY && rendered && "focus_keyphrase" in rendered ) {
+		return rendered.focus_keyphrase;
+	}
+	return draftValue;
+};
+
+/**
+ * Extracts the rendered fields from the first result of an update response.
+ *
+ * Centralising the optional-chaining here keeps the complexity budget of the callers intact.
+ *
+ * @param {Object} response The update response.
+ * @returns {Object|undefined} The rendered fields, or undefined when not present.
+ */
+const getFirstRendered = ( response ) => response?.results?.[ 0 ]?.rendered;
+
+/**
  * Re-scores a saved row from an update result, when it carries rendered search fields.
  *
  * A rendered payload is only present for search-appearance updates, so this is a no-op for the social tab.
@@ -175,7 +205,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 				method: "POST",
 				body: JSON.stringify( { items: [ { id, [ field.param ]: value } ] } ),
 			} );
-			updateItem( id, key, value );
+			updateItem( id, key, resolveItemValue( key, value, getFirstRendered( response ) ) );
 			closeField( { id, key } );
 			rescoreIfLastField( scoreFields, activeFieldSet, response, rowEdit );
 		} catch ( error ) {
@@ -235,8 +265,9 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 				hasFailure = true;
 				return;
 			}
+			const rendered = getFirstRendered( result.value );
 			requests[ index ].applied.forEach( ( { key, value } ) => {
-				updateItem( id, key, value );
+				updateItem( id, key, resolveItemValue( key, value, rendered ) );
 				closeField( { id, key } );
 			} );
 			rescoreAfterSave( scoreFields, activeFieldSet, result.value, rowEdit );
@@ -316,8 +347,11 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 				if ( result.status !== "fulfilled" ) {
 					return;
 				}
+				const renderedByPostId = Object.fromEntries(
+					( result.value?.results ?? [] ).map( ( r ) => [ r.id, r.rendered ] )
+				);
 				requests[ index ].applied.forEach( ( { id, key, value } ) => {
-					updateItem( id, key, value );
+					updateItem( id, key, resolveItemValue( key, value, renderedByPostId[ id ] ) );
 					closeField( { id, key } );
 				} );
 				// Re-score the search rows in this batch; social results carry no rendered fields and are skipped.

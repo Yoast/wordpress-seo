@@ -107,15 +107,20 @@ export const FocusKeyphraseEditableFieldCell = ( { field, itemId, itemTitle, val
 	const [ height, setHeight ] = useState( 0 );
 	useEffect( () => setHeight( "auto" ), [] );
 
-	const validationMessages = [
+	const errors = [
 		value.includes( "," ) && __( "Are you trying to use multiple keyphrases? You should add them separately.", "wordpress-seo" ),
 		value.length > 191 && __( "Your keyphrase is too long. It can be a maximum of 191 characters.", "wordpress-seo" ),
 	].filter( Boolean );
 
-	const validation = validationMessages.length > 0
+	const warnings = [
+		( /<[^>]*>/u ).test( value ) && __( "Your keyphrase contains HTML tags that will be stripped on save.", "wordpress-seo" ),
+	].filter( Boolean );
+
+	const allMessages = [ ...errors, ...warnings ];
+	const validation = allMessages.length > 0
 		? {
-			variant: "error",
-			message: validationMessages.map( ( msg, index ) => (
+			variant: errors.length > 0 ? "error" : "warning",
+			message: allMessages.map( ( msg, index ) => (
 				<span key={ index } role="alert" className="yst-block">{ msg }</span>
 			) ),
 		}
