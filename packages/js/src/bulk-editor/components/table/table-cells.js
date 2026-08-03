@@ -108,7 +108,7 @@ export const FocusKeyphraseEditableFieldCell = ( { field, itemId, itemTitle, val
 	useEffect( () => setHeight( "auto" ), [] );
 
 	const errors = [
-		value.includes( "," ) && __( "Are you trying to use multiple keyphrases? You should add them separately.", "wordpress-seo" ),
+		value.includes( "," ) && __( "Are you trying to use multiple keyphrases? You should add them separately in the editor.", "wordpress-seo" ),
 		value.length > 191 && __( "Your keyphrase is too long. It can be a maximum of 191 characters.", "wordpress-seo" ),
 	].filter( Boolean );
 
