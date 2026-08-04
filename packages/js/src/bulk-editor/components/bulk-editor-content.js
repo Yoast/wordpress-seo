@@ -181,7 +181,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 					onChange={ onChangeTab }
 					label={ __( "Bulk editor views", "wordpress-seo" ) }
 				/>
-				<SearchBox contentTypeLabel={ contentTypeLabel } />
+				<SearchBox key={ contentType } contentTypeLabel={ contentTypeLabel } />
 			</div>
 			{ tabs.map( ( tab ) => (
 				<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
