@@ -19,11 +19,11 @@ import { EditableFieldCell } from "./table-cells";
 export const FocusKeyphraseEditableFieldCell = ( { field, itemId, fieldSetId, itemTitle, value, isSaving, onChange } ) => {
 	const errors = [
 		value.includes( "," ) && __( "Are you trying to use multiple keyphrases? You should add them separately in the editor.", "wordpress-seo" ),
-		value.length > 191 && __( "Your keyphrase is too long. It can be a maximum of 191 characters.", "wordpress-seo" ),
 	].filter( Boolean );
 
 	const warnings = [
 		( /<[^>]*>/u ).test( value ) && __( "Your keyphrase contains HTML tags that will be stripped on save.", "wordpress-seo" ),
+		value.length === 191 && __( "Your keyphrase can be a maximum of 191 characters.", "wordpress-seo" ),
 	].filter( Boolean );
 
 	const allMessages = [ ...errors, ...warnings ];
@@ -48,6 +48,7 @@ export const FocusKeyphraseEditableFieldCell = ( { field, itemId, fieldSetId, it
 			onChange={ onChange }
 			validation={ validation }
 			className="yst-bulk-editor-textarea-field"
+			maxLength={ 191 }
 		/>
 	);
 };
