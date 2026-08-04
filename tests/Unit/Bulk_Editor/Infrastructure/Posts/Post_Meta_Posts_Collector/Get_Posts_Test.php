@@ -218,6 +218,59 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 	}
 
 	/**
+	 * Tests that the social title and social description fall back to the resolved template when the
+	 * stored values are empty, and that the post is not flagged as needing improvement.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_resolves_social_template_when_stored_values_are_empty() {
+		$meta = [
+			'_yoast_wpseo_focuskw'                => '',
+			'_yoast_wpseo_title'                  => 'Explicit SEO title',
+			'_yoast_wpseo_metadesc'               => 'Explicit meta description.',
+			'_yoast_wpseo_opengraph-title'        => '',
+			'_yoast_wpseo_opengraph-description'  => '',
+			'_yoast_wpseo_seo_title_score'        => '0',
+			'_yoast_wpseo_meta_description_score' => '0',
+		];
+
+		$this->stub_run_query( [ 7 ], 1 );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn(
+			(object) [
+				'post_status' => 'publish',
+				'post_type'   => 'post',
+			],
+		);
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A post' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+		Functions\expect( 'get_post_meta' )
+			->times( 7 )
+			->andReturnUsing(
+				static function ( $post_id, $key ) use ( $meta ) {
+					return $meta[ $key ];
+				},
+			);
+
+		$this->default_template_resolver->allows( 'resolve_social_title' )
+			->with( 7, 'post', '' )
+			->andReturn( 'Social title from template' );
+		$this->default_template_resolver->allows( 'resolve_social_description' )
+			->with( 7, 'post', '' )
+			->andReturn( 'Social description from template' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		$this->assertSame( 'Social title from template', $post['social_title'] );
+		$this->assertSame( 'Social description from template', $post['social_description'] );
+		$this->assertFalse( $post['needs_improvement']['social_title'] );
+		$this->assertFalse( $post['needs_improvement']['social_description'] );
+	}
+
+	/**
 	 * Stubs run_query so it returns a WP_Query with the given post IDs and total.
 	 *
 	 * @param array<int> $post_ids    The post IDs the query returns.

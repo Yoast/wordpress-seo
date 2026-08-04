@@ -238,8 +238,10 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		}
 
 		// Fall back to the post type's default template when the stored value is empty.
-		$fields['seo_title']        = $this->default_template_resolver->resolve_seo_title( $post_id, $post_type, $fields['seo_title'] );
-		$fields['meta_description'] = $this->default_template_resolver->resolve_meta_description( $post_id, $post_type, $fields['meta_description'] );
+		$fields['seo_title']          = $this->default_template_resolver->resolve_seo_title( $post_id, $post_type, $fields['seo_title'] );
+		$fields['meta_description']   = $this->default_template_resolver->resolve_meta_description( $post_id, $post_type, $fields['meta_description'] );
+		$fields['social_title']       = $this->default_template_resolver->resolve_social_title( $post_id, $post_type, $fields['social_title'] );
+		$fields['social_description'] = $this->default_template_resolver->resolve_social_description( $post_id, $post_type, $fields['social_description'] );
 
 		return new Post(
 			$post_id,

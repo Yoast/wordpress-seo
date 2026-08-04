@@ -134,6 +134,49 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 	}
 
 	/**
+	 * Tests that the social title and social description fall back to the resolved template when the
+	 * stored values are empty, and that the post is not flagged as needing improvement.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_resolves_social_template_when_stored_values_are_empty() {
+		$indexable                         = new Indexable_Mock();
+		$indexable->object_id              = 7;
+		$indexable->object_sub_type        = 'post';
+		$indexable->post_status            = 'publish';
+		$indexable->primary_focus_keyword  = '';
+		$indexable->title                  = 'Explicit SEO title';
+		$indexable->description            = 'Explicit meta description.';
+		$indexable->open_graph_title       = '';
+		$indexable->open_graph_description = '';
+		$indexable->seo_title_score        = 0;
+		$indexable->meta_description_score = 0;
+
+		$query = $this->stub_page_query( [ $indexable ] );
+		$query->expects( 'count' )->never();
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		$this->default_template_resolver->expects( 'resolve_social_title' )
+			->with( 7, 'post', '' )
+			->andReturn( 'Social title from template' );
+		$this->default_template_resolver->expects( 'resolve_social_description' )
+			->with( 7, 'post', '' )
+			->andReturn( 'Social description from template' );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A post' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		$this->assertSame( 'Social title from template', $post['social_title'] );
+		$this->assertSame( 'Social description from template', $post['social_description'] );
+		$this->assertFalse( $post['needs_improvement']['social_title'] );
+		$this->assertFalse( $post['needs_improvement']['social_description'] );
+	}
+
+	/**
 	 * Tests that a non-editable post is returned locked and without its SEO data.
 	 *
 	 * @return void

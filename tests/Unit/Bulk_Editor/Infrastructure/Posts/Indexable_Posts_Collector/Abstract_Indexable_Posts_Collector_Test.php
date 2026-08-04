@@ -61,6 +61,8 @@ abstract class Abstract_Indexable_Posts_Collector_Test extends TestCase {
 		// Pass the stored value through unchanged by default; individual tests override when needed.
 		$this->default_template_resolver->allows( 'resolve_seo_title' )->andReturnArg( 2 )->byDefault();
 		$this->default_template_resolver->allows( 'resolve_meta_description' )->andReturnArg( 2 )->byDefault();
+		$this->default_template_resolver->allows( 'resolve_social_title' )->andReturnArg( 2 )->byDefault();
+		$this->default_template_resolver->allows( 'resolve_social_description' )->andReturnArg( 2 )->byDefault();
 
 		$this->instance = new Indexable_Posts_Collector(
 			$this->indexable_repository,

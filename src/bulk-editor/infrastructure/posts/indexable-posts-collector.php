@@ -274,9 +274,13 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			return new Post( $object_id, $title, (string) $indexable->post_status, '', '', '', '', '', '', false );
 		}
 
-		$post_type        = (string) $indexable->object_sub_type;
-		$seo_title        = $this->default_template_resolver->resolve_seo_title( $object_id, $post_type, (string) $indexable->title );
-		$meta_description = $this->default_template_resolver->resolve_meta_description( $object_id, $post_type, (string) $indexable->description );
+		$post_type       = (string) $indexable->object_sub_type;
+		$resolved_values = [
+			'seo_title'          => $this->default_template_resolver->resolve_seo_title( $object_id, $post_type, (string) $indexable->title ),
+			'meta_description'   => $this->default_template_resolver->resolve_meta_description( $object_id, $post_type, (string) $indexable->description ),
+			'social_title'       => $this->default_template_resolver->resolve_social_title( $object_id, $post_type, (string) $indexable->open_graph_title ),
+			'social_description' => $this->default_template_resolver->resolve_social_description( $object_id, $post_type, (string) $indexable->open_graph_description ),
+		];
 
 		return new Post(
 			$object_id,
@@ -284,12 +288,12 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			(string) $indexable->post_status,
 			(string) \get_edit_post_link( $object_id, 'raw' ),
 			(string) $indexable->primary_focus_keyword,
-			$seo_title,
-			$meta_description,
-			(string) $indexable->open_graph_title,
-			(string) $indexable->open_graph_description,
+			$resolved_values['seo_title'],
+			$resolved_values['meta_description'],
+			$resolved_values['social_title'],
+			$resolved_values['social_description'],
 			true,
-			$this->build_needs_improvement( $indexable, $scores_enabled, $seo_title, $meta_description ),
+			$this->build_needs_improvement( $indexable, $scores_enabled, $resolved_values ),
 		);
 	}
 
@@ -297,23 +301,16 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	 * Builds the per-field needs-improvement verdict for a post, keyed by field param.
 	 *
 	 * A field needs improvement when its value is empty, or when its score falls in the bad/ok range.
-	 * The SEO title and meta description use their already-resolved values (which may have been filled
-	 * in from the post type's default template) so a post with a non-empty template is not flagged
-	 * as needing improvement merely because its stored value was never explicitly saved.
+	 * All four display values are passed in already-resolved so that a post whose stored value is empty
+	 * but whose post type has a configured default template is not incorrectly flagged.
 	 *
-	 * @param Indexable $indexable        The indexable.
-	 * @param bool      $scores_enabled   Whether the per-field scores may back the verdict.
-	 * @param string    $seo_title        The resolved SEO title (may differ from the raw indexable value).
-	 * @param string    $meta_description The resolved meta description (may differ from the raw indexable value).
+	 * @param Indexable             $indexable       The indexable.
+	 * @param bool                  $scores_enabled  Whether the per-field scores may back the verdict.
+	 * @param array<string, string> $resolved_values The resolved display values, keyed by field param.
 	 *
 	 * @return array<string, bool> Whether each field needs improvement, keyed by field param.
 	 */
-	private function build_needs_improvement( Indexable $indexable, bool $scores_enabled, string $seo_title, string $meta_description ): array {
-		$resolved_values = [
-			'seo_title'        => $seo_title,
-			'meta_description' => $meta_description,
-		];
-
+	private function build_needs_improvement( Indexable $indexable, bool $scores_enabled, array $resolved_values ): array {
 		$needs_improvement = [];
 		foreach ( self::FIELD_COLUMNS as $field => $column ) {
 			$value    = ( $resolved_values[ $field ] ?? (string) $indexable->{$column} );

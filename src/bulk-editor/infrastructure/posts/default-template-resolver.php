@@ -6,8 +6,8 @@ namespace Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Resolves a post's SEO title / meta description from the post type's default template when the
- * stored value is empty, matching the single-post editor's fallback behaviour.
+ * Resolves a post's SEO/social fields from the post type's default template when the stored value
+ * is empty, matching the single-post editor's fallback behaviour.
  */
 class Default_Template_Resolver {
 
@@ -70,6 +70,56 @@ class Default_Template_Resolver {
 		}
 
 		$template = (string) $this->options_helper->get( 'metadesc-' . $post_type, '' );
+		if ( $template === '' ) {
+			return '';
+		}
+
+		return (string) \wpseo_replace_vars( $template, \get_post( $post_id ) );
+	}
+
+	/**
+	 * Returns the social title for a post, falling back to the post type's configured template when empty.
+	 *
+	 * Priority mirrors the presentation layer: stored value → user-configured post type template
+	 * (SEO > Settings, `social-title-{post_type}`) → installation default (typically `%%title%%`).
+	 *
+	 * @param int    $post_id      The post ID.
+	 * @param string $post_type    The post type slug.
+	 * @param string $stored_value The raw stored social title (empty string when never explicitly saved).
+	 *
+	 * @return string The resolved social title.
+	 */
+	public function resolve_social_title( int $post_id, string $post_type, string $stored_value ): string {
+		if ( $stored_value !== '' ) {
+			return $stored_value;
+		}
+
+		$template = (string) $this->options_helper->get( 'social-title-' . $post_type, '' );
+		if ( $template === '' ) {
+			$template = (string) $this->options_helper->get_title_default( 'social-title-' . $post_type );
+		}
+		if ( $template === '' ) {
+			return '';
+		}
+
+		return (string) \wpseo_replace_vars( $template, \get_post( $post_id ) );
+	}
+
+	/**
+	 * Returns the social description for a post, falling back to the post type's configured template when empty.
+	 *
+	 * @param int    $post_id      The post ID.
+	 * @param string $post_type    The post type slug.
+	 * @param string $stored_value The raw stored social description (empty string when never explicitly saved).
+	 *
+	 * @return string The resolved social description.
+	 */
+	public function resolve_social_description( int $post_id, string $post_type, string $stored_value ): string {
+		if ( $stored_value !== '' ) {
+			return $stored_value;
+		}
+
+		$template = (string) $this->options_helper->get( 'social-description-' . $post_type, '' );
 		if ( $template === '' ) {
 			return '';
 		}
