@@ -1,57 +1,17 @@
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
-import ChevronDownIcon from "@heroicons/react/outline/ChevronDownIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
-import SolidXIcon from "@heroicons/react/solid/XIcon";
 import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/components";
-import { useEffect, useId, useMemo, useRef } from "@wordpress/element";
-import { applyFilters } from "@wordpress/hooks";
+import { useEffect, useId, useRef, useMemo } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Checkbox, DropdownMenu, useSvgAria, useToggleState } from "@yoast/ui-library";
-import AnimateHeight from "react-animate-height";
-import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT, SELECT_MENU_ITEMS_FILTER } from "../constants";
+import { Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT } from "../constants";
 import { useAiUpsell } from "../hooks/use-ai-upsell";
+import { DismissibleAlert } from "./dismissible-alert";
+import { OverviewExclusionNotice } from "./overview-exclusion-notice";
+import { OverviewSelectionNotice } from "./overview-selection-notice";
 import { UpsellModal } from "./upsell-modal";
-
-/**
- * The "Select" menu.
- *
- * @param {Object}   props               The props.
- * @param {Function} props.onSelectAll   Selects every row.
- * @param {Function} props.onDeselectAll Clears the selection.
- * @param {number}   props.selectedCount The number of selected rows.
- * @param {number}   props.totalCount    The total number of rows.
- *
- * @returns {JSX.Element} The select menu.
- */
-const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount } ) => {
-	const svgAriaProps = useSvgAria();
-	const defaultItems = useMemo( () => [
-		{ key: "select-all", label: __( "Select all", "wordpress-seo" ), onClick: onSelectAll },
-		{ key: "deselect-all", label: __( "Deselect all", "wordpress-seo" ), onClick: onDeselectAll },
-	], [ onSelectAll, onDeselectAll ] );
-
-	const items = applyFilters( SELECT_MENU_ITEMS_FILTER, defaultItems, { selectedCount, totalCount } );
-
-	return (
-		<DropdownMenu as="div" className="yst-relative">
-			<DropdownMenu.Trigger as={ Button } variant="primary" size="small" className="yst-gap-1.5">
-				{ __( "Select", "wordpress-seo" ) }
-				<ChevronDownIcon className="yst-h-4 yst-w-4" { ...svgAriaProps } />
-			</DropdownMenu.Trigger>
-			<DropdownMenu.List className="yst-absolute yst-z-10 yst-start-0 yst-top-full yst-mt-1 yst-w-56">
-				{ items.map( ( item ) => (
-					<DropdownMenu.ButtonItem
-						key={ item.key }
-						className="yst-flex yst-justify-start yst-px-4 yst-py-2 yst-font-normal yst-text-slate-800 hover:!yst-bg-slate-50 focus:!yst-bg-slate-50"
-						onClick={ item.onClick }
-					>
-						{ item.label }
-					</DropdownMenu.ButtonItem>
-				) ) }
-			</DropdownMenu.List>
-		</DropdownMenu>
-	);
-};
+import { SelectMenu } from "./select-menu";
+import AnimateHeight from "react-animate-height";
 
 /**
  * The first toolbar row: the multiselection checkbox, the Select menu and the selected-count.
@@ -66,10 +26,11 @@ const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount } )
  * @param {number}   props.selectedCount      The number of selected rows.
  * @param {number}   props.totalCount         The total number of rows.
  * @param {string}   [props.contentTypeLabel] The active content type label, used in the selected-count copy.
+ * @param {Object[]} [props.smartSelectItems] The quality-based Select-menu items ({key, label, ariaLabel, icon, onClick}).
  *
  * @returns {JSX.Element} The selection toolbar.
  */
-export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminate = false, onToggleAll, onSelectAll, onDeselectAll, selectedCount, totalCount, contentTypeLabel } ) => {
+export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminate = false, onToggleAll, onSelectAll, onDeselectAll, selectedCount, totalCount, contentTypeLabel, smartSelectItems = [] } ) => {
 	const noun = contentTypeLabel ? contentTypeLabel.toLowerCase() : __( "items", "wordpress-seo" );
 
 	const checkboxRef = useRef( null );
@@ -95,6 +56,7 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminat
 				onDeselectAll={ onDeselectAll }
 				selectedCount={ selectedCount }
 				totalCount={ totalCount }
+				smartSelectItems={ smartSelectItems }
 			/>
 			{ selectedCount > 0 && (
 				<span className="yst-font-medium yst-text-slate-800">
@@ -183,29 +145,25 @@ export const ManualReviewActions = ( { editCount, onApplyAll, onDiscardAll, isAp
  *
  * @returns {JSX.Element} The save-error notice.
  */
-export const ManualSaveErrorNotice = ( { onDismiss } ) => {
-	const svgAriaProps = useSvgAria();
-	return <Alert variant="error" as="div" role="alert" className="yst-rounded-none yst-relative">
+export const ManualSaveErrorNotice = ( { onDismiss } ) => (
+	<DismissibleAlert variant="error" role="alert" onDismiss={ onDismiss }>
 		<div className="yst-flex yst-flex-col yst-gap-1">
 			<span className="yst-block yst-font-medium">{ __( "Couldn't save your edits.", "wordpress-seo" ) }</span>
 			<span className="yst-font-normal">{ __( "Something went wrong. Please try again.", "wordpress-seo" ) }</span>
 		</div>
-		<button
-			type="button"
-			className="yst-absolute yst-end-4 yst-top-4 yst-text-current hover:yst-opacity-75 yst-cursor-pointer"
-			onClick={ onDismiss }
-			aria-label={ __( "Dismiss", "wordpress-seo" ) }
-		>
-			<SolidXIcon className="yst-h-5 yst-w-5" { ...svgAriaProps } />
-		</button>
-	</Alert>;
-};
+	</DismissibleAlert>
+);
 
 /**
- * The Free save-error notice, and the alerts slot Premium fills (e.g. its AI alerts).
- * Only rendered on the active tab, so each tab has a single slot to target.
+ * The overview-selection truncation and exclusion notices, the Free save-error notice, and the alerts slot
+ * Premium fills (e.g. its AI alerts). Only rendered on the active tab, so each tab has a single slot to target.
+ * The truncation and exclusion notices are independent and can show at the same time.
  *
  * @param {Object}   props                      The props.
+ * @param {number}   [props.preselectedTotal]   How many items were selected on the WP admin overview; shows the truncation notice.
+ * @param {Function} [props.onDismissPreselection] Dismisses the truncation notice.
+ * @param {boolean}  [props.hasExcludedPreselected] Whether carried-over items were dropped; shows the exclusion notice.
+ * @param {Function} [props.onDismissExclusion] Dismisses the exclusion notice.
  * @param {boolean}  [props.hasSaveError]       Whether the last apply-all failed; shows the save-error notice.
  * @param {Function} [props.onDismissSaveError] Dismisses the save-error notice.
  * @param {number[]} props.selectedIds          The ids of the selected rows, passed to the notices fill.
@@ -217,20 +175,35 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => {
  * @returns {JSX.Element} The notices region.
  */
 const BulkActionsNotices = ( {
-	hasSaveError, onDismissSaveError, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
+	preselectedTotal = 0,
+	onDismissPreselection,
+	hasExcludedPreselected = false,
+	onDismissExclusion,
+	hasSaveError,
+	onDismissSaveError,
+	selectedIds,
+	activeFieldSet,
+	contentType,
+	contentTypeLabel,
+	contentTypeSingularLabel,
 } ) => {
 	const noticeFills = useSlotFills( BULK_NOTICES_SLOT );
-	const hasBanner = hasSaveError || ( noticeFills && noticeFills.length > 0 );
+	const getBannerHeight = useMemo( () => {
+		if ( hasSaveError || ( noticeFills && noticeFills.length > 0 ) ) {
+			return "auto";
+		}
+		return 0;
+	}, [ hasSaveError, noticeFills ] );
 
 	return (
-		<AnimateHeight easing="ease-in-out" duration={ 300 } height={ hasBanner ? "auto" : 0 } animateOpacity={ true }>
-			<>
-				{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
-				<Slot
-					name={ BULK_NOTICES_SLOT }
-					fillProps={ { selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } }
-				/>
-			</>
+		<AnimateHeight easing="ease-in-out" duration={ 300 } height={ getBannerHeight } animateOpacity={ true }>
+			<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } />
+			<OverviewExclusionNotice hasExclusions={ hasExcludedPreselected } onDismiss={ onDismissExclusion } />
+			{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
+			<Slot
+				name={ BULK_NOTICES_SLOT }
+				fillProps={ { selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } }
+			/>
 		</AnimateHeight>
 	);
 };
@@ -293,16 +266,25 @@ const BulkActionsBand = ( {
  * @param {boolean}  [props.isApplyingAll]    Whether an apply-all is in flight; disables the review actions.
  * @param {boolean}  [props.hasSaveError]     Whether the last apply-all failed; shows the inline save-error notice.
  * @param {Function} [props.onDismissSaveError] Dismisses the save-error notice.
+ * @param {number}   [props.preselectedTotal] How many items were selected on the WP admin overview; shows the truncation notice.
+ * @param {Function} [props.onDismissPreselection] Dismisses the truncation notice.
+ * @param {boolean}  [props.hasExcludedPreselected] Whether carried-over items were dropped; shows the exclusion notice.
+ * @param {Function} [props.onDismissExclusion] Dismisses the exclusion notice.
  *
  * @returns {JSX.Element} The bulk actions row content.
  */
 export const BulkActions = ( {
 	isPremium, isAiEnabled = false, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
 	hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll, hasSaveError, onDismissSaveError,
+	preselectedTotal, onDismissPreselection, hasExcludedPreselected, onDismissExclusion,
 } ) => (
 	<div className="yst-flex yst-flex-col">
 		{ isActive && (
 			<BulkActionsNotices
+				preselectedTotal={ preselectedTotal }
+				onDismissPreselection={ onDismissPreselection }
+				hasExcludedPreselected={ hasExcludedPreselected }
+				onDismissExclusion={ onDismissExclusion }
 				hasSaveError={ hasSaveError }
 				onDismissSaveError={ onDismissSaveError }
 				selectedIds={ selectedIds }

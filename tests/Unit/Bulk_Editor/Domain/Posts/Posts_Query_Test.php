@@ -98,4 +98,32 @@ final class Posts_Query_Test extends TestCase {
 		$this->assertTrue( ( new Posts_Query( 'page', 1, 20, '', [], 5 ) )->has_author_filter() );
 		$this->assertFalse( ( new Posts_Query( 'page', 1, 20, '', [] ) )->has_author_filter() );
 	}
+
+	/**
+	 * Tests that the included post IDs default to no restriction.
+	 *
+	 * @return void
+	 */
+	public function test_get_include_defaults_to_empty() {
+		$this->assertSame( [], ( new Posts_Query( 'page', 1, 20, '', [] ) )->get_include_ids() );
+	}
+
+	/**
+	 * Tests that the included post IDs are carried through when set.
+	 *
+	 * @return void
+	 */
+	public function test_get_include() {
+		$this->assertSame( [ 5, 3 ], ( new Posts_Query( 'page', 1, 20, '', [], null, [], true, [ 5, 3 ] ) )->get_include_ids() );
+	}
+
+	/**
+	 * Tests that has_include reflects whether a post ID restriction is set.
+	 *
+	 * @return void
+	 */
+	public function test_has_include() {
+		$this->assertTrue( ( new Posts_Query( 'page', 1, 20, '', [], null, [], true, [ 5, 3 ] ) )->has_include() );
+		$this->assertFalse( ( new Posts_Query( 'page', 1, 20, '', [] ) )->has_include() );
+	}
 }

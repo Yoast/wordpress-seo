@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Bulk_Editor\User_Interface;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
+use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Batch_Limit;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
@@ -14,6 +15,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 
 /**
  * Adds the bulk editor page to the Yoast admin menu.
@@ -29,6 +31,21 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * The assets name.
 	 */
 	public const ASSETS_NAME = 'bulk-editor-page';
+
+	/**
+	 * The URL parameter carrying the content type to preselect.
+	 */
+	public const CONTENT_TYPE_PARAM = 'content_type';
+
+	/**
+	 * The URL parameter carrying the post IDs to preselect, comma-separated.
+	 */
+	public const POST_IDS_PARAM = 'post_ids';
+
+	/**
+	 * The URL parameter carrying how many posts were selected on the overview the user came from.
+	 */
+	public const SELECTED_COUNT_PARAM = 'selected_count';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -87,16 +104,24 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * Builds the MyYoast connection payload for script data.
+	 *
+	 * @var Myyoast_Connection_Data_Presenter
+	 */
+	private $myyoast_connection_data_presenter;
+
+	/**
 	 * Constructs the instance.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager            The WPSEO_Admin_Asset_Manager.
-	 * @param Current_Page_Helper       $current_page_helper      The Current_Page_Helper.
-	 * @param Product_Helper            $product_helper           The Product_Helper.
-	 * @param Short_Link_Helper         $short_link_helper        The Short_Link_Helper.
-	 * @param Content_Types_Repository  $content_types_repository The Content_Types_Repository.
-	 * @param Nonce_Repository          $nonce_repository         The Nonce_Repository.
-	 * @param Endpoints_Repository      $endpoints_repository     The Endpoints_Repository.
-	 * @param Options_Helper            $options_helper           The Options_Helper.
+	 * @param WPSEO_Admin_Asset_Manager         $asset_manager                     The WPSEO_Admin_Asset_Manager.
+	 * @param Current_Page_Helper               $current_page_helper               The Current_Page_Helper.
+	 * @param Product_Helper                    $product_helper                    The Product_Helper.
+	 * @param Short_Link_Helper                 $short_link_helper                 The Short_Link_Helper.
+	 * @param Content_Types_Repository          $content_types_repository          The Content_Types_Repository.
+	 * @param Nonce_Repository                  $nonce_repository                  The Nonce_Repository.
+	 * @param Endpoints_Repository              $endpoints_repository              The Endpoints_Repository.
+	 * @param Options_Helper                    $options_helper                    The Options_Helper.
+	 * @param Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter The MyYoast connection data presenter.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -106,16 +131,18 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		Content_Types_Repository $content_types_repository,
 		Nonce_Repository $nonce_repository,
 		Endpoints_Repository $endpoints_repository,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter
 	) {
-		$this->asset_manager            = $asset_manager;
-		$this->current_page_helper      = $current_page_helper;
-		$this->product_helper           = $product_helper;
-		$this->short_link_helper        = $short_link_helper;
-		$this->content_types_repository = $content_types_repository;
-		$this->nonce_repository         = $nonce_repository;
-		$this->endpoints_repository     = $endpoints_repository;
-		$this->options_helper           = $options_helper;
+		$this->asset_manager                     = $asset_manager;
+		$this->current_page_helper               = $current_page_helper;
+		$this->product_helper                    = $product_helper;
+		$this->short_link_helper                 = $short_link_helper;
+		$this->content_types_repository          = $content_types_repository;
+		$this->nonce_repository                  = $nonce_repository;
+		$this->endpoints_repository              = $endpoints_repository;
+		$this->options_helper                    = $options_helper;
+		$this->myyoast_connection_data_presenter = $myyoast_connection_data_presenter;
 	}
 
 	/**
@@ -144,6 +171,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		if ( $this->current_page_helper->get_current_yoast_seo_page() === self::PAGE ) {
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
+			\add_filter( 'removable_query_args', [ $this, 'add_removable_query_args' ] );
 		}
 	}
 
@@ -209,31 +237,112 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @return array<string, string|array<string, string|bool|array<string, string>>> The script data.
 	 */
 	public function get_script_data() {
+		$content_types = $this->content_types_repository->get_content_types();
+
 		return [
-			'contentTypes' => $this->content_types_repository->get_content_types(),
-			'endpoints'    => $this->endpoints_repository->get_all_endpoints()->to_array(),
+			'contentTypes'      => $content_types,
+			'endpoints'         => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			// These must stay server-generated URLs: the bulk editor assigns them to window.location.href for its
 			// "Back to Tools" / logo navigation. If a link ever derives from request input, validate it with
 			// wp_validate_redirect() here before exposing it, to avoid an open redirect on the front-end.
-			'links'        => [
+			'links'             => [
 				'dashboard' => \admin_url( 'admin.php?page=' . General_Page_Integration::PAGE ),
 				'tools'     => \admin_url( 'admin.php?page=wpseo_tools' ),
 			],
-			'nonce'        => $this->nonce_repository->get_rest_nonce(),
-			'restRoot'     => \esc_url_raw( \rest_url() ),
-			'preferences'  => [
+			'nonce'             => $this->nonce_repository->get_rest_nonce(),
+			'restRoot'          => \esc_url_raw( \rest_url() ),
+			'preferences'       => [
 				'isPremium'   => $this->product_helper->is_premium(),
 				'isAiEnabled' => $this->options_helper->get( 'enable_ai_generator' ) === true,
 				'isRtl'       => \is_rtl(),
 				'pluginUrl'   => \plugins_url( '', \WPSEO_FILE ),
 			],
-			'linkParams'   => $this->short_link_helper->get_query_params(),
-			'analysis'     => [
+			'linkParams'        => $this->short_link_helper->get_query_params(),
+			'analysis'          => [
 				'contentLocale'         => \get_locale(),
 				// Re-scoring only runs when SEO analysis is enabled, matching the post editor.
 				'keywordAnalysisActive' => $this->options_helper->get( 'keyword_analysis_active' ) === true,
 			],
+			'initialSelection'  => $this->get_initial_selection( $content_types ),
+			'myyoastConnection' => $this->myyoast_connection_data_presenter->present(),
 		];
+	}
+
+	/**
+	 * Returns the selection carried over from a post overview bulk action, if any.
+	 *
+	 * The parameters only decide which rows start out selected in the app; the REST endpoints
+	 * enforce the actual per-post edit access when anything is saved.
+	 *
+	 * @param array<array<string, string>> $content_types The available content types.
+	 *
+	 * @return array<string, string|int|array<int>> The content type, post IDs and overview selection count.
+	 */
+	private function get_initial_selection( array $content_types ): array {
+		$initial_selection = [
+			'contentType'   => '',
+			'postIds'       => [],
+			'selectedCount' => 0,
+		];
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Reason: read-only display state, no action is taken.
+		if ( ! isset( $_GET[ self::CONTENT_TYPE_PARAM ] ) || ! \is_string( $_GET[ self::CONTENT_TYPE_PARAM ] ) ) {
+			return $initial_selection;
+		}
+
+		$content_type = \sanitize_text_field( \wp_unslash( $_GET[ self::CONTENT_TYPE_PARAM ] ) );
+		if ( ! \in_array( $content_type, \array_column( $content_types, 'name' ), true ) ) {
+			return $initial_selection;
+		}
+		$initial_selection['contentType'] = $content_type;
+
+		if ( isset( $_GET[ self::POST_IDS_PARAM ] ) && \is_string( $_GET[ self::POST_IDS_PARAM ] ) ) {
+			$post_ids = \explode( ',', \sanitize_text_field( \wp_unslash( $_GET[ self::POST_IDS_PARAM ] ) ) );
+			$post_ids = \array_values(
+				\array_unique(
+					\array_filter(
+						\array_map( 'intval', $post_ids ),
+						static function ( $id ) {
+							return $id > 0;
+						},
+					),
+				),
+			);
+			$post_ids = \array_slice( $post_ids, 0, Batch_Limit::MAX_ITEMS );
+
+			$initial_selection['postIds']       = $post_ids;
+			$initial_selection['selectedCount'] = \count( $post_ids );
+		}
+
+		if (
+			$initial_selection['postIds'] !== []
+			&& isset( $_GET[ self::SELECTED_COUNT_PARAM ] )
+			&& \is_string( $_GET[ self::SELECTED_COUNT_PARAM ] )
+		) {
+			// The count can only grow beyond the carried IDs, never shrink below them.
+			$initial_selection['selectedCount'] = \max(
+				$initial_selection['selectedCount'],
+				\absint( \wp_unslash( $_GET[ self::SELECTED_COUNT_PARAM ] ) ),
+			);
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+		return $initial_selection;
+	}
+
+	/**
+	 * Registers the carried-over selection parameters as removable, so WordPress cleans them from the
+	 * address bar once the page has picked them up.
+	 *
+	 * @param array<string> $removable_query_args The removable query args.
+	 *
+	 * @return array<string> The removable query args.
+	 */
+	public function add_removable_query_args( $removable_query_args ) {
+		$removable_query_args[] = self::POST_IDS_PARAM;
+		$removable_query_args[] = self::SELECTED_COUNT_PARAM;
+
+		return $removable_query_args;
 	}
 
 	/**
