@@ -155,6 +155,21 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => (
 );
 
 /**
+ * Returns the AnimateHeight `height` value for the notices banner.
+ *
+ * @param {boolean} hasSaveError            Whether the last apply-all failed.
+ * @param {Array}   noticeFills             The Premium slot fills currently mounted.
+ * @param {number}  preselectedTotal        How many items were selected on the WP admin overview.
+ * @param {boolean} hasExcludedPreselected  Whether carried-over items were dropped.
+ *
+ * @returns {"auto"|0} "auto" when any notice is visible, 0 to collapse.
+ */
+const getBannerHeight = ( hasSaveError, noticeFills, preselectedTotal, hasExcludedPreselected ) =>
+	( hasSaveError || noticeFills?.length > 0 || preselectedTotal > BULK_UPDATE_BATCH_SIZE || hasExcludedPreselected )
+		? "auto"
+		: 0;
+
+/**
  * The overview-selection truncation and exclusion notices, the Free save-error notice, and the alerts slot
  * Premium fills (e.g. its AI alerts). Only rendered on the active tab, so each tab has a single slot to target.
  * The truncation and exclusion notices are independent and can show at the same time.
@@ -188,8 +203,7 @@ const BulkActionsNotices = ( {
 	contentTypeSingularLabel,
 } ) => {
 	const noticeFills = useSlotFills( BULK_NOTICES_SLOT );
-	const bannerHeight = ( hasSaveError || ( noticeFills && noticeFills.length > 0 ) ||
-		preselectedTotal > BULK_UPDATE_BATCH_SIZE || hasExcludedPreselected ) ? "auto" : 0;
+	const bannerHeight = getBannerHeight( hasSaveError, noticeFills, preselectedTotal, hasExcludedPreselected );
 
 	return (
 		<AnimateHeight easing="ease-in-out" duration={ 300 } height={ bannerHeight } animateOpacity={ true }>
