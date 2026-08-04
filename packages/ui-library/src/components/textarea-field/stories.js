@@ -22,6 +22,22 @@ export const WithLabelAndDescription = {
 	},
 };
 
+export const WithoutLabel = {
+	name: "Without label",
+	parameters: {
+		controls: { disable: false },
+		docs: {
+			description: {
+				story: "When no label is provided, supply an `aria-label` so the field has an accessible name.",
+			},
+		},
+	},
+	args: {
+		id: "textarea-field-no-label",
+		"aria-label": "Description",
+	},
+};
+
 export const Validation = {
 	render: () => (
 		<div className="yst-space-y-8">
@@ -61,7 +77,7 @@ export default {
 			description: {
 				component: "A textarea field component with optional label, description, and validation.",
 			},
-			page: () => <InteractiveDocsPage stories={ [ WithLabelAndDescription, Validation ] } />,
+			page: () => <InteractiveDocsPage stories={ [ WithLabelAndDescription, WithoutLabel, Validation ] } />,
 		},
 	},
 	args: {

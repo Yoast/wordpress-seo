@@ -20,9 +20,9 @@ const fieldEndpointKey = ( field, fieldSet ) => field.endpoint ?? fieldSet.endpo
  * silently altered by sanitization (e.g. HTML stripped) is reflected correctly rather than
  * showing the unsanitized draft.
  *
- * @param {string}      key        The field key (JS camelCase).
- * @param {string}      draftValue The draft value that was submitted.
- * @param {Object|null} rendered   The rendered fields from the update result, or undefined.
+ * @param {string}           key        The field key (JS camelCase).
+ * @param {string}           draftValue The draft value that was submitted.
+ * @param {Object|undefined} rendered   The rendered fields from the update result, or undefined.
  *
  * @returns {string} The value to reflect locally.
  */
@@ -36,7 +36,7 @@ const resolveItemValue = ( key, draftValue, rendered ) => {
 /**
  * Extracts the rendered fields from the first result of an update response.
  *
- * Centralising the optional-chaining here keeps the complexity budget of the callers intact.
+ * Centralizing the optional-chaining here keeps the complexity budget of the callers intact.
  *
  * @param {Object} response The update response.
  * @returns {Object|undefined} The rendered fields, or undefined when not present.
@@ -101,13 +101,21 @@ const rescoreIfLastField = ( scoreFields, activeFieldSet, response, rowEdit ) =>
 /**
  * Re-scores every saved row in a batch response that carries rendered search fields.
  *
- * @param {Function} scoreFields The re-scorer.
- * @param {Object}   response    The update response for one batch.
- * @param {Object}   editingRows The current edit state, keyed by row id, holding each row's draft values.
+ * A no-op for the social tab: the scorer needs seo_title and meta_description, which are
+ * only rendered for search updates. Social updates may carry a focus_keyphrase in rendered,
+ * so the activeFieldSet guard prevents accidental scoring against undefined title/description.
+ *
+ * @param {Function} scoreFields    The re-scorer.
+ * @param {string}   activeFieldSet The active field set's id.
+ * @param {Object}   response       The update response for one batch.
+ * @param {Object}   editingRows    The current edit state, keyed by row id, holding each row's draft values.
  *
  * @returns {void}
  */
-const rescoreBatchResult = ( scoreFields, response, editingRows ) => {
+const rescoreBatchResult = ( scoreFields, activeFieldSet, response, editingRows ) => {
+	if ( activeFieldSet !== FIELD_SET_SEARCH ) {
+		return;
+	}
 	( response?.results ?? [] ).forEach( ( result ) => {
 		rescoreFromResult( scoreFields, result, editingRows[ result.id ]?.draft?.[ FOCUS_KEYPHRASE_KEY ] ?? "" );
 	} );
@@ -354,8 +362,8 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 					updateItem( id, key, resolveItemValue( key, value, renderedByPostId[ id ] ) );
 					closeField( { id, key } );
 				} );
-				// Re-score the search rows in this batch; social results carry no rendered fields and are skipped.
-				rescoreBatchResult( scoreFields, result.value, editingRows );
+				// Re-score the search rows in this batch; the social guard is inside rescoreBatchResult.
+				rescoreBatchResult( scoreFields, activeFieldSet, result.value, editingRows );
 			} );
 			const hasFailure = results.some( ( result ) => result.status === "rejected" );
 			if ( hasFailure ) {

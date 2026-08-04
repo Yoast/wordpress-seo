@@ -2,7 +2,7 @@ import { act, renderHook } from "@testing-library/react";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useInlineEdit } from "../../../src/bulk-editor/hooks/use-inline-edit";
 import { getFieldSets } from "../../../src/bulk-editor/field-sets";
-import { FIELD_SET_SEARCH } from "../../../src/bulk-editor/constants";
+import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL } from "../../../src/bulk-editor/constants";
 
 jest.mock( "@wordpress/data", () => ( { useSelect: jest.fn(), useDispatch: jest.fn() } ) );
 
@@ -227,6 +227,50 @@ describe( "useInlineEdit batch actions", () => {
 		} );
 
 		expect( mockScoreFields ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( "uses the server-rendered focus_keyphrase in a per-field apply", async() => {
+		editingRows = {
+			9: { openFields: [ "focusKeyphrase" ], draft: { focusKeyphrase: "<b>seo</b>" }, savingFields: {} },
+		};
+		/* eslint-disable camelcase -- server-side field name */
+		const rendered = { focus_keyphrase: "seo" };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, rendered } ] } ) ) };
+		/* eslint-enable camelcase */
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyField( { id: 9, key: "focusKeyphrase" } );
+		} );
+
+		expect( updateItem ).toHaveBeenCalledWith( 9, "focusKeyphrase", "seo" );
+	} );
+
+	it( "does not re-score on a social batch save that carries only a focus_keyphrase in rendered", async() => {
+		// The social field set includes focusKeyphrase. A social save returns rendered: { focus_keyphrase }
+		// (no seo_title / meta_description). Without the activeFieldSet guard rescoreBatchResult would
+		// call the scorer with title: undefined and description: undefined, corrupting search scores.
+		editingRows = {
+			9: { openFields: [ "focusKeyphrase" ], draft: { focusKeyphrase: "<b>seo</b>" }, savingFields: {} },
+		};
+		/* eslint-disable camelcase -- server-side field name */
+		const rendered = { focus_keyphrase: "seo" };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, rendered } ] } ) ) };
+		/* eslint-enable camelcase */
+		const { result } = renderHook( () => useInlineEdit( {
+			dataProvider,
+			remoteDataProvider,
+			fieldSets: getFieldSets(),
+			activeFieldSet: FIELD_SET_SOCIAL,
+			items: [],
+			updateItem,
+		} ) );
+
+		await act( async() => {
+			await result.current.editing.onApplyAll();
+		} );
+
+		expect( mockScoreFields ).not.toHaveBeenCalled();
 	} );
 
 	it( "reflects the succeeded chunk and keeps the failed one open on a partial failure", async() => {

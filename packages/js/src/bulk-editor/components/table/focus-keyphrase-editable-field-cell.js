@@ -52,7 +52,8 @@ export const FocusKeyphraseEditableFieldCell = ( { field, itemId, fieldSetId, it
 					value={ value }
 					onChange={ handleChange }
 					disabled={ isSaving }
-					className="yst-focuskeyphrase-field"
+					className="yst-bulk-editor-focus-keyphrase-field"
+					maxLength={ 191 }
 					/* translators: %1$s expands to the field label, %2$s to the content item title. */
 					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
 					validation={ validation }

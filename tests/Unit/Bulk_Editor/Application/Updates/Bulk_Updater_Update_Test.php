@@ -176,6 +176,8 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 
 		$this->assertTrue( $results['results'][0]['success'] );
 		$this->assertSame( 'The keyphrase', $results['results'][0]['rendered']['focus_keyphrase'] );
+		// Social saves do not render seo_title/meta_description; only focus_keyphrase is echoed back.
+		$this->assertArrayNotHasKey( 'seo_title', $results['results'][0]['rendered'] );
 	}
 
 	/**
@@ -296,7 +298,11 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 	}
 
 	/**
-	 * Tests a successful social update does not render fields: the social appearance has no assessors.
+	 * Tests a social title update (no keyphrase) returns no rendered fields.
+	 *
+	 * A social update that includes a keyphrase echoes focus_keyphrase back; one that does not
+	 * (like this test) returns nothing, because the field renderer is only called for search updates
+	 * and focus_keyphrase is only echoed when it was part of the update.
 	 *
 	 * @return void
 	 */

@@ -104,7 +104,7 @@ export const BulkEditorRow = ( {
 
 								if ( ! openFields.includes( field.key ) ) {
 									return (
-										<Table.Cell key={ field.key } className="yst-bulk-editor-cell-value yst-text-slate-600">
+										<Table.Cell key={ field.key } className="yst-bulk-editor-cell-value">
 											{ item[ field.key ] }
 										</Table.Cell>
 									);
