@@ -76,12 +76,24 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	private $post_editability_resolver;
 
 	/**
+	 * The resolver for the post type's default SEO title / meta description template.
+	 *
+	 * @var Default_Template_Resolver
+	 */
+	private $default_template_resolver;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Post_Editability_Resolver $post_editability_resolver The resolver for the per-post edit permission.
+	 * @param Default_Template_Resolver $default_template_resolver The resolver for the default SEO title / meta description template.
 	 */
-	public function __construct( Post_Editability_Resolver $post_editability_resolver ) {
+	public function __construct(
+		Post_Editability_Resolver $post_editability_resolver,
+		Default_Template_Resolver $default_template_resolver
+	) {
 		$this->post_editability_resolver = $post_editability_resolver;
+		$this->default_template_resolver = $default_template_resolver;
 	}
 
 	/**
@@ -209,9 +221,10 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 * @return Post The post.
 	 */
 	private function build_post( int $post_id, bool $editable, bool $scores_enabled ): Post {
-		$post   = \get_post( $post_id );
-		$status = ( $post !== null ) ? (string) $post->post_status : '';
-		$title  = $this->get_normalized_title( $post_id );
+		$post      = \get_post( $post_id );
+		$status    = ( $post !== null ) ? (string) $post->post_status : '';
+		$post_type = ( $post !== null ) ? (string) $post->post_type : '';
+		$title     = $this->get_normalized_title( $post_id );
 
 		if ( ! $editable ) {
 			return new Post( $post_id, $title, $status, '', '', '', '', '', '', false );
@@ -223,6 +236,10 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		foreach ( self::FIELD_META_SUFFIXES as $field => $suffix ) {
 			$fields[ $field ] = $this->get_meta( $post_id, $suffix );
 		}
+
+		// Fall back to the post type's default template when the stored value is empty.
+		$fields['seo_title']        = $this->default_template_resolver->resolve_seo_title( $post_id, $post_type, $fields['seo_title'] );
+		$fields['meta_description'] = $this->default_template_resolver->resolve_meta_description( $post_id, $post_type, $fields['meta_description'] );
 
 		return new Post(
 			$post_id,

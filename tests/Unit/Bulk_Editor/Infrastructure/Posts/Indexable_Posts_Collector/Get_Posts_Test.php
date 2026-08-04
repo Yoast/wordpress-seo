@@ -21,6 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::apply_search
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::apply_needs_improvement
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_post
+ * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_needs_improvement
  */
 final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 
@@ -87,6 +88,49 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 			],
 			$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array(),
 		);
+	}
+
+	/**
+	 * Tests that the SEO title and meta description fall back to the resolved template when the stored
+	 * values are empty, and that the post is not flagged as needing improvement.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_resolves_template_when_stored_values_are_empty() {
+		$indexable                         = new Indexable_Mock();
+		$indexable->object_id              = 7;
+		$indexable->object_sub_type        = 'page';
+		$indexable->post_status            = 'draft';
+		$indexable->primary_focus_keyword  = '';
+		$indexable->title                  = '';
+		$indexable->description            = '';
+		$indexable->open_graph_title       = '';
+		$indexable->open_graph_description = '';
+		$indexable->seo_title_score        = 0;
+		$indexable->meta_description_score = 0;
+
+		$query = $this->stub_page_query( [ $indexable ] );
+		$query->expects( 'count' )->never();
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		$this->default_template_resolver->expects( 'resolve_seo_title' )
+			->with( 7, 'page', '' )
+			->andReturn( 'Page title from template' );
+		$this->default_template_resolver->expects( 'resolve_meta_description' )
+			->with( 7, 'page', '' )
+			->andReturn( 'Page description from template' );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		$this->assertSame( 'Page title from template', $post['seo_title'] );
+		$this->assertSame( 'Page description from template', $post['meta_description'] );
+		$this->assertFalse( $post['needs_improvement']['seo_title'] );
+		$this->assertFalse( $post['needs_improvement']['meta_description'] );
 	}
 
 	/**

@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector;
 
 use Mockery;
+use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Default_Template_Resolver;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Editability_Resolver;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Bulk_Editor\Post_Meta_Posts_Collector_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -42,7 +43,10 @@ final class Build_Needs_Improvement_Where_Test extends TestCase {
 		$wpdb->postmeta = 'wp_postmeta';
 		$wpdb->allows( 'prepare' )->andReturnUsing( [ $this, 'interpolate_query' ] );
 
-		$this->instance = new Post_Meta_Posts_Collector_Double( Mockery::mock( Post_Editability_Resolver::class ) );
+		$this->instance = new Post_Meta_Posts_Collector_Double(
+			Mockery::mock( Post_Editability_Resolver::class ),
+			Mockery::mock( Default_Template_Resolver::class ),
+		);
 	}
 
 	/**

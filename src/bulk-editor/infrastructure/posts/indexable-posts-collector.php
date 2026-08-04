@@ -61,17 +61,27 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	private $post_editability_resolver;
 
 	/**
+	 * The resolver for the post type's default SEO title / meta description template.
+	 *
+	 * @var Default_Template_Resolver
+	 */
+	private $default_template_resolver;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Indexable_Repository      $indexable_repository      The indexable repository.
 	 * @param Post_Editability_Resolver $post_editability_resolver The resolver for the per-post edit permission.
+	 * @param Default_Template_Resolver $default_template_resolver The resolver for the default SEO title / meta description template.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
-		Post_Editability_Resolver $post_editability_resolver
+		Post_Editability_Resolver $post_editability_resolver,
+		Default_Template_Resolver $default_template_resolver
 	) {
 		$this->indexable_repository      = $indexable_repository;
 		$this->post_editability_resolver = $post_editability_resolver;
+		$this->default_template_resolver = $default_template_resolver;
 	}
 
 	/**
@@ -264,18 +274,22 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			return new Post( $object_id, $title, (string) $indexable->post_status, '', '', '', '', '', '', false );
 		}
 
+		$post_type        = (string) $indexable->object_sub_type;
+		$seo_title        = $this->default_template_resolver->resolve_seo_title( $object_id, $post_type, (string) $indexable->title );
+		$meta_description = $this->default_template_resolver->resolve_meta_description( $object_id, $post_type, (string) $indexable->description );
+
 		return new Post(
 			$object_id,
 			$title,
 			(string) $indexable->post_status,
 			(string) \get_edit_post_link( $object_id, 'raw' ),
 			(string) $indexable->primary_focus_keyword,
-			(string) $indexable->title,
-			(string) $indexable->description,
+			$seo_title,
+			$meta_description,
 			(string) $indexable->open_graph_title,
 			(string) $indexable->open_graph_description,
 			true,
-			$this->build_needs_improvement( $indexable, $scores_enabled ),
+			$this->build_needs_improvement( $indexable, $scores_enabled, $seo_title, $meta_description ),
 		);
 	}
 
@@ -283,16 +297,27 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	 * Builds the per-field needs-improvement verdict for a post, keyed by field param.
 	 *
 	 * A field needs improvement when its value is empty, or when its score falls in the bad/ok range.
+	 * The SEO title and meta description use their already-resolved values (which may have been filled
+	 * in from the post type's default template) so a post with a non-empty template is not flagged
+	 * as needing improvement merely because its stored value was never explicitly saved.
 	 *
-	 * @param Indexable $indexable      The indexable.
-	 * @param bool      $scores_enabled Whether the per-field scores may back the verdict.
+	 * @param Indexable $indexable        The indexable.
+	 * @param bool      $scores_enabled   Whether the per-field scores may back the verdict.
+	 * @param string    $seo_title        The resolved SEO title (may differ from the raw indexable value).
+	 * @param string    $meta_description The resolved meta description (may differ from the raw indexable value).
 	 *
 	 * @return array<string, bool> Whether each field needs improvement, keyed by field param.
 	 */
-	private function build_needs_improvement( Indexable $indexable, bool $scores_enabled ): array {
+	private function build_needs_improvement( Indexable $indexable, bool $scores_enabled, string $seo_title, string $meta_description ): array {
+		$resolved_values = [
+			'seo_title'        => $seo_title,
+			'meta_description' => $meta_description,
+		];
+
 		$needs_improvement = [];
 		foreach ( self::FIELD_COLUMNS as $field => $column ) {
-			$is_empty = ( (string) $indexable->{$column} === '' );
+			$value    = ( $resolved_values[ $field ] ?? (string) $indexable->{$column} );
+			$is_empty = ( $value === '' );
 
 			$is_bad_score = false;
 			if ( $scores_enabled && isset( self::FIELD_SCORE_COLUMNS[ $field ] ) ) {

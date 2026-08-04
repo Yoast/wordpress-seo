@@ -45,7 +45,12 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 
 		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
 
-		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn( (object) [ 'post_status' => 'draft' ] );
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn(
+			(object) [
+				'post_status' => 'draft',
+				'post_type'   => 'post',
+			],
+		);
 		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
 		Functions\expect( 'get_post_meta' )
@@ -97,7 +102,12 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 
 		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => false ] );
 
-		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn( (object) [ 'post_status' => 'publish' ] );
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn(
+			(object) [
+				'post_status' => 'publish',
+				'post_type'   => 'post',
+			],
+		);
 		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Secret post' );
 		// A locked post exposes neither its edit link nor its Yoast meta.
 		Functions\expect( 'get_edit_post_link' )->never();
@@ -138,7 +148,12 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 
 		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
 
-		Functions\expect( 'get_post' )->once()->andReturn( (object) [ 'post_status' => 'draft' ] );
+		Functions\expect( 'get_post' )->once()->andReturn(
+			(object) [
+				'post_status' => 'draft',
+				'post_type'   => 'post',
+			],
+		);
 		Functions\expect( 'get_the_title' )->once()->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->andReturn( 'edit' );
 		Functions\expect( 'get_post_meta' )->times( 7 )->andReturn( '' );
@@ -147,6 +162,59 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 
 		$this->assertSame( 42, $result['total'] );
 		$this->assertSame( 3, $result['total_pages'] );
+	}
+
+	/**
+	 * Tests that the SEO title and meta description fall back to the resolved template when the stored
+	 * values are empty, and that the post is not flagged as needing improvement.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_resolves_template_when_stored_values_are_empty() {
+		$meta = [
+			'_yoast_wpseo_focuskw'                => '',
+			'_yoast_wpseo_title'                  => '',
+			'_yoast_wpseo_metadesc'               => '',
+			'_yoast_wpseo_opengraph-title'        => 'Social hello',
+			'_yoast_wpseo_opengraph-description'  => 'Social description.',
+			'_yoast_wpseo_seo_title_score'        => '0',
+			'_yoast_wpseo_meta_description_score' => '0',
+		];
+
+		$this->stub_run_query( [ 7 ], 1 );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn(
+			(object) [
+				'post_status' => 'draft',
+				'post_type'   => 'page',
+			],
+		);
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+		Functions\expect( 'get_post_meta' )
+			->times( 7 )
+			->andReturnUsing(
+				static function ( $post_id, $key ) use ( $meta ) {
+					return $meta[ $key ];
+				},
+			);
+
+		$this->default_template_resolver->allows( 'resolve_seo_title' )
+			->with( 7, 'page', '' )
+			->andReturn( 'Page title from template' );
+		$this->default_template_resolver->allows( 'resolve_meta_description' )
+			->with( 7, 'page', '' )
+			->andReturn( 'Page description from template' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		$this->assertSame( 'Page title from template', $post['seo_title'] );
+		$this->assertSame( 'Page description from template', $post['meta_description'] );
+		$this->assertFalse( $post['needs_improvement']['seo_title'] );
+		$this->assertFalse( $post['needs_improvement']['meta_description'] );
 	}
 
 	/**
