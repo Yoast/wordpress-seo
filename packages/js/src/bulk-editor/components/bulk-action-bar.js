@@ -1,10 +1,10 @@
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
 import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/components";
-import { useEffect, useId, useRef, useMemo } from "@wordpress/element";
+import { useEffect, useId, useRef } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
-import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT } from "../constants";
+import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT, BULK_UPDATE_BATCH_SIZE } from "../constants";
 import { useAiUpsell } from "../hooks/use-ai-upsell";
 import { DismissibleAlert } from "./dismissible-alert";
 import { OverviewExclusionNotice } from "./overview-exclusion-notice";
@@ -188,15 +188,11 @@ const BulkActionsNotices = ( {
 	contentTypeSingularLabel,
 } ) => {
 	const noticeFills = useSlotFills( BULK_NOTICES_SLOT );
-	const getBannerHeight = useMemo( () => {
-		if ( hasSaveError || ( noticeFills && noticeFills.length > 0 ) ) {
-			return "auto";
-		}
-		return 0;
-	}, [ hasSaveError, noticeFills ] );
+	const bannerHeight = ( hasSaveError || ( noticeFills && noticeFills.length > 0 ) ||
+		preselectedTotal > BULK_UPDATE_BATCH_SIZE || hasExcludedPreselected ) ? "auto" : 0;
 
 	return (
-		<AnimateHeight easing="ease-in-out" duration={ 300 } height={ getBannerHeight } animateOpacity={ true }>
+		<AnimateHeight easing="ease-in-out" duration={ 300 } height={ bannerHeight } animateOpacity={ true }>
 			<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } />
 			<OverviewExclusionNotice hasExclusions={ hasExcludedPreselected } onDismiss={ onDismissExclusion } />
 			{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
