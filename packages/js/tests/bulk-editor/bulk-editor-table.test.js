@@ -102,7 +102,7 @@ describe( "BulkEditorTable", () => {
 		expect( screen.getByRole( "checkbox", { name: "Select On-Page SEO Checklist" } ) ).not.toBeChecked();
 
 		fireEvent.click( screen.getByRole( "checkbox", { name: "Select On-Page SEO Checklist" } ) );
-		expect( onToggleRow ).toHaveBeenCalledWith( 2 );
+		expect( onToggleRow ).toHaveBeenCalledWith( 2, false );
 	} );
 
 	it( "enters edit mode through the editing seam with a row-specific Edit name", () => {
