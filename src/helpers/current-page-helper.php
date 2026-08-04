@@ -430,6 +430,18 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Returns whether the current admin overview (list table) shows the trash.
+	 *
+	 * Mirrors the check WP_Posts_List_Table itself uses to decide it is on the trash view.
+	 *
+	 * @return bool Whether the current admin overview shows the trash.
+	 */
+	public function is_trash_overview(): bool {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		return isset( $_REQUEST['post_status'] ) && $_REQUEST['post_status'] === 'trash';
+	}
+
+	/**
 	 * Checks if the current global post is the privacy policy page.
 	 *
 	 * @return bool current global post is set as privacy page

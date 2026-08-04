@@ -83,6 +83,17 @@ final class Register_Routes_Test extends Abstract_Posts_Route_Test {
 							],
 							'description' => 'The fields to filter posts by; a field matches when it is empty, or (for search fields with SEO analysis enabled) when its score needs improvement.',
 						],
+						'include'           => [
+							'required'    => false,
+							'type'        => 'array',
+							'default'     => [],
+							'maxItems'    => 100,
+							'items'       => [
+								'type'    => 'integer',
+								'minimum' => 1,
+							],
+							'description' => 'Limits the posts to these post IDs, e.g. a selection carried over from the posts overview.',
+						],
 					],
 					'callback'            => [ $this->instance, 'get_posts' ],
 					'permission_callback' => [ $this->instance, 'check_permissions' ],

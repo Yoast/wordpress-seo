@@ -172,6 +172,17 @@ class Posts_Route implements Route_Interface {
 						],
 						'description' => 'The fields to filter posts by; a field matches when it is empty, or (for search fields with SEO analysis enabled) when its score needs improvement.',
 					],
+					'include'           => [
+						'required'    => false,
+						'type'        => 'array',
+						'default'     => [],
+						'maxItems'    => self::MAX_PER_PAGE,
+						'items'       => [
+							'type'    => 'integer',
+							'minimum' => 1,
+						],
+						'description' => 'Limits the posts to these post IDs, e.g. a selection carried over from the posts overview.',
+					],
 				],
 				'callback'            => [ $this, 'get_posts' ],
 				'permission_callback' => [ $this, 'check_permissions' ],
@@ -214,6 +225,9 @@ class Posts_Route implements Route_Interface {
 		// the filter falls back to the empty-field check.
 		$scores_enabled = $this->options_helper->get( 'keyword_analysis_active' ) === true;
 
+		// The schema already coerces the items to positive integers; deduplicate on top of that.
+		$include = \array_values( \array_unique( \array_map( 'intval', (array) $request->get_param( 'include' ) ) ) );
+
 		$query = new Posts_Query(
 			$content_type,
 			(int) $request->get_param( 'page' ),
@@ -223,6 +237,7 @@ class Posts_Route implements Route_Interface {
 			$author_id,
 			(array) $request->get_param( 'needs_improvement' ),
 			$scores_enabled,
+			$include,
 		);
 
 		// Posts the current user cannot edit are returned locked and without their SEO data; the per-post

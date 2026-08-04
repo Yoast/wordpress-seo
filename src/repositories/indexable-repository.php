@@ -413,6 +413,16 @@ class Indexable_Repository {
 
 			$indexables_to_create = \array_diff( $object_ids, $indexables_available );
 
+			if ( ! empty( $indexables_to_create ) ) {
+				// Warm the object caches for the whole batch, so each build below does not trigger its own uncached queries.
+				if ( $object_type === 'post' ) {
+					\_prime_post_caches( $indexables_to_create );
+				}
+				elseif ( $object_type === 'term' ) {
+					\_prime_term_caches( $indexables_to_create );
+				}
+			}
+
 			foreach ( $indexables_to_create as $indexable_to_create ) {
 				$indexables[] = $this->builder->build_for_id_and_type( $indexable_to_create, $object_type );
 			}

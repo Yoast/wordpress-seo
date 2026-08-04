@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -87,6 +88,13 @@ abstract class Abstract_Bulk_Editor_Integration_Test extends TestCase {
 	protected $options_helper;
 
 	/**
+	 * Holds the Myyoast_Connection_Data_Presenter mock.
+	 *
+	 * @var Mockery\MockInterface|Myyoast_Connection_Data_Presenter
+	 */
+	protected $myyoast_connection_data_presenter;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -94,14 +102,15 @@ abstract class Abstract_Bulk_Editor_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->asset_manager            = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->current_page_helper      = Mockery::mock( Current_Page_Helper::class );
-		$this->product_helper           = Mockery::mock( Product_Helper::class );
-		$this->short_link_helper        = Mockery::mock( Short_Link_Helper::class );
-		$this->content_types_repository = Mockery::mock( Content_Types_Repository::class );
-		$this->nonce_repository         = Mockery::mock( Nonce_Repository::class );
-		$this->endpoints_repository     = Mockery::mock( Endpoints_Repository::class );
-		$this->options_helper           = Mockery::mock( Options_Helper::class );
+		$this->asset_manager                     = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->current_page_helper               = Mockery::mock( Current_Page_Helper::class );
+		$this->product_helper                    = Mockery::mock( Product_Helper::class );
+		$this->short_link_helper                 = Mockery::mock( Short_Link_Helper::class );
+		$this->content_types_repository          = Mockery::mock( Content_Types_Repository::class );
+		$this->nonce_repository                  = Mockery::mock( Nonce_Repository::class );
+		$this->endpoints_repository              = Mockery::mock( Endpoints_Repository::class );
+		$this->options_helper                    = Mockery::mock( Options_Helper::class );
+		$this->myyoast_connection_data_presenter = Mockery::mock( Myyoast_Connection_Data_Presenter::class );
 
 		$this->instance = new Bulk_Editor_Integration(
 			$this->asset_manager,
@@ -112,6 +121,7 @@ abstract class Abstract_Bulk_Editor_Integration_Test extends TestCase {
 			$this->nonce_repository,
 			$this->endpoints_repository,
 			$this->options_helper,
+			$this->myyoast_connection_data_presenter,
 		);
 	}
 }

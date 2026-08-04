@@ -1,0 +1,197 @@
+name: Zip Size (build)
+
+# Builds the plugin zip for both the PR head and its base, measures the compressed
+# size of every entry, and uploads the two size maps as an artifact. This workflow is
+# deliberately UNPRIVILEGED: it checks out and runs untrusted PR build scripts
+# (yarn/grunt/composer), so it must never have write permissions or secrets. The
+# privileged reporting happens in a separate `workflow_run` workflow
+# (zip-size-report.yml) that only ever reads this artifact as data.
+# See: https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+# Least privilege: read-only, no secrets. Running attacker-controllable build scripts
+# here cannot compromise the repository.
+permissions:
+  contents: read
+
+# Only the latest push per PR needs measuring; cancel superseded runs so rapid pushes
+# don't pile up double-builds.
+concurrency:
+  group: zip-size-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and measure zip size
+    runs-on: ubuntu-latest
+    # Don't run on forks: the base build is cached per base SHA and reporting needs a
+    # same-repo context. Fork PRs simply get no zip-size report.
+    if: >
+      github.repository_owner == 'Yoast' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+
+    steps:
+      # These paths live under runner.temp (outside the workspace) so `checkout` never
+      # wipes them. runner.* is not available in a job-level env: block, so export them to
+      # $GITHUB_ENV from a step, where the runner context is valid; later steps inherit
+      # them as plain env vars.
+      - name: Set up paths
+        # zizmor: ignore[template-injection]
+        # runner.temp is a fixed, GitHub-provided path, not attacker-controllable, so
+        # interpolating it into this run: block cannot inject anything.
+        run: |
+          {
+            echo "MEASURE=${{ runner.temp }}/measure-zip.sh"
+            echo "BASE_SIZE=${{ runner.temp }}/base-size.json"
+            echo "HEAD_SIZE=${{ runner.temp }}/head-size.json"
+            echo "REPORT_DIR=${{ runner.temp }}/zip-size-report"
+          } >> "$GITHUB_ENV"
+
+      # Emit the measure helper into a checkout-safe location up front, so it does not
+      # matter which ref (head or base) is checked out when we run it.
+      - name: Prepare measure helper
+        run: |
+          cat > "$MEASURE" <<'EOF'
+          #!/usr/bin/env bash
+          # measure-zip.sh <zip> <out.json>
+          # Emits {"archive": <bytes>, "total": <bytes>, "entries": {"<path>": <compressed-bytes>, ...}}.
+          # `archive` is the on-disk size of the .zip (what verify-zip-size checks against the
+          # 5 MB budget); it includes ZIP bookkeeping (local/central headers) that the per-entry
+          # sum omits. `total`/`entries` use the compressed column of `unzip -v`, i.e. the real
+          # shipped size per entry (level-9), and drive the attribution tables.
+          set -euo pipefail
+          zip="$1"
+          export OUT="$2"
+          export ARCHIVE_SIZE
+          ARCHIVE_SIZE="$(stat -c %s "$zip")"
+          unzip -v "$zip" | awk '
+            # Columns: Length Method Size Cmpr Date Time CRC-32 Name. Data rows have a
+            # numeric Length ($1) AND a non-numeric Method ($2); this excludes the totals
+            # footer row (whose $2 is the numeric size total).
+            $1 ~ /^[0-9]+$/ && $2 !~ /^[0-9]+$/ {
+              size=$3
+              name=$8
+              for (i=9; i<=NF; i++) name=name" "$i   # names may contain spaces.
+              printf "%s\t%s\n", size, name
+            }
+          ' | node -e '
+            const fs = require("fs");
+            const entries = {};
+            let total = 0;
+            for (const line of fs.readFileSync(0, "utf8").split("\n")) {
+              if (!line.trim()) continue;
+              const tab = line.indexOf("\t");
+              const size = parseInt(line.slice(0, tab), 10);
+              const name = line.slice(tab + 1);
+              if (name.endsWith("/")) continue;        // skip directory entries.
+              entries[name] = size;
+              total += size;
+            }
+            const archive = parseInt(process.env.ARCHIVE_SIZE, 10);
+            fs.writeFileSync(process.env.OUT, JSON.stringify({ archive, total, entries }));
+          '
+          EOF
+          chmod +x "$MEASURE"
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          php-version: 7.4
+          coverage: none
+
+      # Shallow checkout of the head SHA. We switch to the base SHA in-place later with
+      # `git checkout -f`; node_modules (and all build output) are gitignored, so the ref
+      # switch preserves the installed dependencies — the second `yarn install` exits fast
+      # when yarn.lock is unchanged and only does real work when the PR changes deps.
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: './.nvmrc'
+          # Restore the yarn download cache (keyed on yarn.lock) so installs don't refetch
+          # packages. Matches the rest of the repo's workflows.
+          cache: 'yarn'
+
+      # Resolve the PR's merge base, not the base-branch tip. github.event.pull_request.base.sha
+      # is the base branch's *current* tip captured at event time; on an older PR the base can
+      # have moved on since the fork point, so diffing head against it would attribute unrelated
+      # base-branch changes to the PR (often inverted). The compare API's merge_base_commit.sha
+      # is the actual fork point, giving the PR's true net contribution. Read-only, so it works
+      # with this workflow's contents: read permission.
+      - name: Resolve merge base
+        id: merge-base
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const { data } = await github.rest.repos.compareCommitsWithBasehead({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              basehead: `${context.payload.pull_request.base.sha}...${context.payload.pull_request.head.sha}`,
+            });
+            core.setOutput("sha", data.merge_base_commit.sha);
+
+      # --- Base (merge base): build only on cache miss, keyed on the merge-base SHA. ---
+      - name: Restore cached base zip size
+        id: base-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/base-size.json
+          key: zip-size-base-${{ steps.merge-base.outputs.sha }}
+
+      # The shallow head checkout doesn't include the merge-base commit, so fetch just that one
+      # commit (still shallow) before switching to it. Only needed on a cache miss.
+      - name: Fetch base commit
+        if: steps.base-cache.outputs.cache-hit != 'true'
+        run: git fetch --depth=1 origin "$BASE_SHA"
+        env:
+          BASE_SHA: ${{ steps.merge-base.outputs.sha }}
+
+      - name: Build and measure base zip
+        if: steps.base-cache.outputs.cache-hit != 'true'
+        # A broken build must not turn this optional check red; the report workflow
+        # degrades to "failed to determine" when a size map is missing. `git checkout -f`
+        # discards the working-tree changes grunt makes (e.g. baked credentials) while
+        # keeping the gitignored node_modules from the head checkout in place.
+        continue-on-error: true
+        run: |
+          git checkout -f "$BASE_SHA"
+          yarn install
+          grunt artifact
+          "$MEASURE" artifact.zip "$BASE_SIZE"
+        env:
+          BASE_SHA: ${{ steps.merge-base.outputs.sha }}
+
+      # --- PR head: switch back and build fresh. ---
+      - name: Build and measure head zip
+        continue-on-error: true
+        run: |
+          git checkout -f "$HEAD_SHA"
+          yarn install
+          grunt artifact
+          "$MEASURE" artifact.zip "$HEAD_SIZE"
+        env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+
+      # Copy only the maps that were produced so a failed build still uploads a (partial)
+      # artifact. The report workflow trusts the head SHA from the event payload, so no PR
+      # metadata needs to travel through the artifact.
+      - name: Stage report inputs
+        run: |
+          mkdir -p "$REPORT_DIR"
+          if [ -f "$BASE_SIZE" ]; then cp "$BASE_SIZE" "$REPORT_DIR/base-size.json"; else echo "base-size.json missing"; fi
+          if [ -f "$HEAD_SIZE" ]; then cp "$HEAD_SIZE" "$REPORT_DIR/head-size.json"; else echo "head-size.json missing"; fi
+
+      - name: Upload size maps
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: zip-size-report
+          path: ${{ runner.temp }}/zip-size-report/
+          retention-days: 1

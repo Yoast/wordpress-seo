@@ -566,7 +566,25 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$post_ids[] = $sanitized_post->ID;
 		}
 
+		/**
+		 * Filter to disable priming the post, term and featured-image caches for the sitemap.
+		 *
+		 * @since 28.0
+		 *
+		 * @param bool $disable_cache_priming Whether to disable priming the caches. Defaults to false.
+		 */
+		$disable_priming = apply_filters( 'wpseo_disable_xml_sitemap_cache_priming', false );
+
+		if ( ! $disable_priming ) {
+			// Warm the post and term caches in bulk, so permalink and image building doesn't query per post.
+			_prime_post_caches( $post_ids, true, false );
+		}
+
 		update_meta_cache( 'post', $post_ids );
+
+		if ( ! $disable_priming && $this->include_images ) {
+			$this->get_image_parser()->prime_thumbnail_caches( $posts );
+		}
 
 		return $posts;
 	}
