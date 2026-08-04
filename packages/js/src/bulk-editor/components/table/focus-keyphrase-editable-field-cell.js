@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
-import { Table, TextareaField } from "@yoast/ui-library";
-import AnimateHeight from "react-animate-height";
+import { __ } from "@wordpress/i18n";
+import { TextareaField } from "@yoast/ui-library";
+import { EditableFieldCell } from "./table-cells";
 
 /**
  * Focus keyphrase editable field cell.
@@ -18,12 +17,6 @@ import AnimateHeight from "react-animate-height";
  * @returns {JSX.Element} The cell.
  */
 export const FocusKeyphraseEditableFieldCell = ( { field, itemId, fieldSetId, itemTitle, value, isSaving, onChange } ) => {
-	const handleChange = useCallback( ( event ) => onChange( { key: field.key, value: event.target.value } ), [ onChange, field.key ] );
-
-	// Row expand/collapse animation helper.
-	const [ height, setHeight ] = useState( 0 );
-	useEffect( () => setHeight( "auto" ), [] );
-
 	const errors = [
 		value.includes( "," ) && __( "Are you trying to use multiple keyphrases? You should add them separately in the editor.", "wordpress-seo" ),
 		value.length > 191 && __( "Your keyphrase is too long. It can be a maximum of 191 characters.", "wordpress-seo" ),
@@ -44,21 +37,17 @@ export const FocusKeyphraseEditableFieldCell = ( { field, itemId, fieldSetId, it
 		: null;
 
 	return (
-		<Table.Cell>
-			<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
-				<TextareaField
-					id={ `bulk-editor-edit-${ itemId }-${ fieldSetId }-${ field.key }` }
-					rows={ 2 }
-					value={ value }
-					onChange={ handleChange }
-					disabled={ isSaving }
-					className="yst-bulk-editor-focus-keyphrase-field"
-					maxLength={ 191 }
-					/* translators: %1$s expands to the field label, %2$s to the content item title. */
-					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
-					validation={ validation }
-				/>
-			</AnimateHeight>
-		</Table.Cell>
+		<EditableFieldCell
+			as={ TextareaField }
+			id={ `bulk-editor-edit-${ itemId }-${ fieldSetId }-${ field.key }` }
+			isSaving={ isSaving }
+			field={ field }
+			itemId={ itemId }
+			itemTitle={ itemTitle }
+			value={ value }
+			onChange={ onChange }
+			validation={ validation }
+			className="yst-bulk-editor-textarea-field"
+		/>
 	);
 };
