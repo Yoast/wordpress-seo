@@ -59,7 +59,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple textarea field component.",
+				component: "A textarea field component with optional label, description, and validation.",
 			},
 			page: () => <InteractiveDocsPage stories={ [ WithLabelAndDescription, Validation ] } />,
 		},
