@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command_Handler::handle
  */
-final class Handle_Test extends Abstract_Aggregate_Site_Schema_Command_Handler_Test {
+final class Handle_Test extends Abstract_Test {
 
 	/**
 	 * Tests handle method orchestrates the aggregation process correctly.

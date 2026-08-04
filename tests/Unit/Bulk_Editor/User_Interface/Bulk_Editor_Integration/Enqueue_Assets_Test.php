@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::enqueue_assets
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::get_script_data
  */
-final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Enqueue_Assets_Test extends Abstract_Test {
 
 	/**
 	 * Tests enqueuing the assets.

@@ -13,7 +13,7 @@ use Brain\Monkey;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\File_Failure_Llms_Txt_Notification_Integration::maybe_show_notification
  */
-final class Maybe_Show_Notification_Test extends Abstract_File_Failure_Llms_Txt_Notification_Integration_Test {
+final class Maybe_Show_Notification_Test extends Abstract_Test {
 
 	/**
 	 * Tests the maybe_show_notification when there is a failure.

@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Infrastructure\Refresh_Token_
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository::store_token
  */
-final class Store_Token_Test extends Abstract_Refresh_Token_User_Meta_Repository_Test {
+final class Store_Token_Test extends Abstract_Test {
 
 	/**
 	 * Tests the store_token method.
