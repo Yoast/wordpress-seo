@@ -161,8 +161,8 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const anchorIdRef = useRef( null );
 
 	const onToggleRow = useCallback( ( id, shiftKey ) => {
-		if ( shiftKey && anchorIdRef.current !== null ) {
-			const allEditableIds = items.filter( ( item ) => item.editable ).map( ( item ) => item.id );
+		const allEditableIds = items.filter( ( item ) => item.editable ).map( ( item ) => item.id );
+		if ( shiftKey && anchorIdRef.current !== null && allEditableIds.includes( anchorIdRef.current ) ) {
 			selectRange( { anchorId: anchorIdRef.current, targetId: id, allIds: allEditableIds } );
 		} else {
 			anchorIdRef.current = selectedIds.includes( id ) ? null : id;

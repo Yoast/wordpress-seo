@@ -6,6 +6,11 @@ import { getSelectionView, getSmartSelectItems } from "../../src/bulk-editor/hel
 import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../../src/bulk-editor/constants";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
+import { usePosts } from "../../src/bulk-editor/hooks/use-posts";
+
+jest.mock( "../../src/bulk-editor/hooks/use-posts", () => ( {
+	usePosts: jest.fn(),
+} ) );
 
 const dataProvider = new DataProvider( {
 	contentTypes: [ { name: "post", label: "Posts", singularLabel: "Post" } ],
@@ -60,6 +65,8 @@ beforeEach( () => {
 	dispatch( STORE_NAME ).setSearch( "" );
 	dispatch( STORE_NAME ).setStatuses( [] );
 	dispatch( STORE_NAME ).setPage( 1 );
+	// Default: loading state, so existing tests that don't care about rows are unaffected.
+	usePosts.mockReturnValue( { data: [], total: 0, totalPages: 0, isPending: true, updateItem: jest.fn() } );
 } );
 
 /**
@@ -358,5 +365,40 @@ describe( "BulkEditorContent pending changes across query changes", () => {
 
 		// No unsaved-changes modal: filters never request a guarded switch.
 		expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
+	} );
+} );
+
+describe( "BulkEditorContent shift+click range selection", () => {
+	const makeItems = ( ids ) => ids.map( ( id ) => ( {
+		id,
+		title: `Post ${ id }`,
+		status: "publish",
+		editLink: `https://example.test/wp-admin/post.php?post=${ id }&action=edit`,
+		focusKeyphrase: "",
+		seoTitle: "",
+		metaDescription: "",
+		socialTitle: "",
+		socialDescription: "",
+		editable: true,
+		needsImprovement: {},
+	} ) );
+
+	it( "treats a shift+click as a plain toggle when the anchor row is not in the current page", () => {
+		usePosts.mockReturnValue( { data: makeItems( [ 1, 2, 3 ] ), total: 6, totalPages: 2, isPending: false, updateItem: jest.fn() } );
+		renderContent();
+
+		// Plain click on row 1 sets the anchor.
+		fireEvent.click( screen.getByRole( "checkbox", { name: "Select Post 1" } ) );
+		expect( screen.getByRole( "checkbox", { name: "Select Post 1" } ) ).toBeChecked();
+
+		// Navigate to page 2 — new items load, selectedIds resets, but anchorIdRef still holds 1.
+		usePosts.mockReturnValue( { data: makeItems( [ 4, 5, 6 ] ), total: 6, totalPages: 2, isPending: false, updateItem: jest.fn() } );
+		act( () => {
+			dispatch( STORE_NAME ).setPage( 2 );
+		} );
+
+		// Shift+click on row 5 — anchor (1) is not in [4,5,6], so should fall back to a plain toggle.
+		fireEvent.click( screen.getByRole( "checkbox", { name: "Select Post 5" } ), { shiftKey: true } );
+		expect( screen.getByRole( "checkbox", { name: "Select Post 5" } ) ).toBeChecked();
 	} );
 } );
