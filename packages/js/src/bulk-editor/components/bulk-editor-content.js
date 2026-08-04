@@ -159,37 +159,9 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 
 	// Tracks the last plain-click selection to anchor shift+click ranges.
 	const anchorIdRef = useRef( null );
-	// Tracks whether the Shift key is currently held, via document events — onChange on a checkbox
-	// doesn't carry modifier-key info, so we can't rely on event.shiftKey there.
-	const isShiftDownRef = useRef( false );
-	useEffect( () => {
-		const onDown = ( e ) => {
-			if ( e.key === "Shift" ) {
-				isShiftDownRef.current = true;
-			}
-		};
-		const onUp = ( e ) => {
-			if ( e.key === "Shift" ) {
-				isShiftDownRef.current = false;
-			}
-		};
-		// Clear on window blur so a Shift held while focus moves away (e.g. Alt+Tab) doesn't
-		// leave the ref stuck at true and make the next plain click behave like a shift+click.
-		const onBlur = () => {
-			isShiftDownRef.current = false;
-		};
-		document.addEventListener( "keydown", onDown );
-		document.addEventListener( "keyup", onUp );
-		window.addEventListener( "blur", onBlur );
-		return () => {
-			document.removeEventListener( "keydown", onDown );
-			document.removeEventListener( "keyup", onUp );
-			window.removeEventListener( "blur", onBlur );
-		};
-	}, [] );
 
-	const onToggleRow = useCallback( ( id ) => {
-		if ( isShiftDownRef.current && anchorIdRef.current !== null ) {
+	const onToggleRow = useCallback( ( id, shiftKey ) => {
+		if ( shiftKey && anchorIdRef.current !== null ) {
 			const allEditableIds = items.filter( ( item ) => item.editable ).map( ( item ) => item.id );
 			selectRange( { anchorId: anchorIdRef.current, targetId: id, allIds: allEditableIds } );
 		} else {
