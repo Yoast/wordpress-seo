@@ -56,7 +56,6 @@ export const FocusKeyphraseEditableFieldCell = ( { field, itemId, fieldSetId, it
 					/* translators: %1$s expands to the field label, %2$s to the content item title. */
 					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
 					validation={ validation }
-					label={ "" }
 				/>
 			</AnimateHeight>
 		</Table.Cell>
