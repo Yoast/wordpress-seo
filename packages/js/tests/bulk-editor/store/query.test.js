@@ -1,4 +1,6 @@
 import { activeContentTypeActions } from "../../../src/bulk-editor/store/active-content-type";
+import { activeFieldSetActions } from "../../../src/bulk-editor/store/active-field-set";
+import { FIELD_SET_SOCIAL } from "../../../src/bulk-editor/constants";
 import reducer, { createInitialQueryState, queryActions, querySelectors } from "../../../src/bulk-editor/store/query";
 
 describe( "query slice", () => {
@@ -37,6 +39,24 @@ describe( "query slice", () => {
 		);
 
 		expect( state ).toEqual( { search: "seo", page: 1, overviewIds: [], isOverviewFilterActive: false } );
+	} );
+
+	it( "clears the needs-improvement filter and resets to the first page when the tab changes", () => {
+		const state = reducer(
+			{ search: "seo", page: 9, statuses: [ "draft" ], needsImprovement: [ "title", "description" ] },
+			activeFieldSetActions.setActiveFieldSet( FIELD_SET_SOCIAL )
+		);
+
+		expect( state ).toEqual( { search: "seo", page: 1, statuses: [ "draft" ], needsImprovement: [] } );
+	} );
+
+	it( "keeps the page when the tab changes without an active needs-improvement filter", () => {
+		const state = reducer(
+			{ search: "seo", page: 9, statuses: [ "draft" ], needsImprovement: [] },
+			activeFieldSetActions.setActiveFieldSet( FIELD_SET_SOCIAL )
+		);
+
+		expect( state ).toEqual( { search: "seo", page: 9, statuses: [ "draft" ], needsImprovement: [] } );
 	} );
 
 	it( "toggles the overview filter and resets to the first page", () => {

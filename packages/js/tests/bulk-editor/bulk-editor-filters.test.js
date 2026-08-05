@@ -1,5 +1,5 @@
 import { dispatch, select } from "@wordpress/data";
-import { fireEvent, render, screen } from "../test-utils";
+import { act, fireEvent, render, screen } from "../test-utils";
 import { BulkEditorFilters } from "../../src/bulk-editor/components/bulk-editor-filters";
 import { FIELD_SET_SOCIAL, STORE_NAME } from "../../src/bulk-editor/constants";
 import registerStore from "../../src/bulk-editor/store";
@@ -82,6 +82,21 @@ describe( "BulkEditorFilters", () => {
 
 		expect( select( STORE_NAME ).selectNeedsImprovement() ).toEqual( [ "title" ] );
 		expect( screen.getByText( "1" ) ).toBeInTheDocument();
+	} );
+
+	it( "unchecks the needs-improvement options and drops them from the badge when the tab changes", () => {
+		render( <BulkEditorFilters /> );
+
+		fireEvent.click( screen.getByRole( "button", { name: /Filters/ } ) );
+		fireEvent.click( screen.getByRole( "checkbox", { name: "SEO titles" } ) );
+
+		act( () => {
+			dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_SOCIAL );
+		} );
+
+		expect( select( STORE_NAME ).selectNeedsImprovement() ).toEqual( [] );
+		expect( screen.getByRole( "checkbox", { name: "Social titles" } ) ).not.toBeChecked();
+		expect( screen.queryByText( "1" ) ).not.toBeInTheDocument();
 	} );
 
 	it( "offers the Overview selection filter while a carried-over selection exists", () => {
