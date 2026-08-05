@@ -162,5 +162,5 @@
 }
 
 .yst-root .yst-bulk-editor-textarea-field textarea {
-	@apply yst-resize-none;
+	field-sizing: content;
 }

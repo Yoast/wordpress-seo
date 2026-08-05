@@ -36,7 +36,6 @@ export const FocusKeyphraseEditableFieldCell = ( { value, ...props } ) => {
 			{ ...props }
 			value={ value }
 			validation={ validation }
-			className="yst-bulk-editor-textarea-field"
 			maxLength={ 191 }
 		/>
 	);

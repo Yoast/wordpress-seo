@@ -84,7 +84,7 @@ export const EditableFieldCell = ( {
 			<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
 				<Component
 					id={ `bulk-editor-edit-${ itemId }-${ fieldSetId }-${ field.key }` }
-					className="yst-resize-none"
+					className="yst-bulk-editor-textarea-field"
 					{ ...props }
 					rows={ 2 }
 					value={ value }
