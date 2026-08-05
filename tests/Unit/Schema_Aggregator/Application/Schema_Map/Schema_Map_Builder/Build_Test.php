@@ -14,10 +14,8 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count_Collection;
  * @group schema-aggregator
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map\Schema_Map_Builder::build
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Build_Test extends Abstract_Schema_Map_Builder_Test {
+final class Build_Test extends Abstract_Test {
 
 	/**
 	 * Tests building the schema map with various post type and count combinations.

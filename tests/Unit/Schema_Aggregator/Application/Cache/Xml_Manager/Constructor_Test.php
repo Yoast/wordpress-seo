@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Xml_Manager::__construct
  */
-final class Constructor_Test extends Abstract_Xml_Manager_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

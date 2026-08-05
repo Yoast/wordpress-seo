@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\Infrastructure\Endpoints\Get_Sugg
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_name
  */
-final class Get_Name_Test extends Abstract_Get_Suggestions_Endpoint_Test {
+final class Get_Name_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_name method.

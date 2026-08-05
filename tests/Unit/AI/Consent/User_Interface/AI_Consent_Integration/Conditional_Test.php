@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Conditionals\User_Profile_Conditional;
  *
  * @covers \Yoast\WP\SEO\AI\Consent\User_Interface\Ai_Consent_Integration::get_conditionals
  */
-final class Conditional_Test extends Abstract_AI_Consent_Integration_Test {
+final class Conditional_Test extends Abstract_Test {
 
 	/**
 	 * Tests the conditional.

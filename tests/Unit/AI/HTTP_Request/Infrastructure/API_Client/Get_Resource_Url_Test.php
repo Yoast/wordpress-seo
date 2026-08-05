@@ -13,7 +13,7 @@ use Brain\Monkey\Functions;
  *
  * @covers Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client::get_resource_url
  */
-final class Get_Resource_Url_Test extends Abstract_API_Client_Test {
+final class Get_Resource_Url_Test extends Abstract_Test {
 
 	/**
 	 * Tests that the resource URL is the origin of the base URL, without the path.

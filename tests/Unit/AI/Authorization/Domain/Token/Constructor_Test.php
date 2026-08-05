@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Domain\Token;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Domain\Token::__construct
  */
-final class Constructor_Test extends Abstract_Token_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Test construct method.

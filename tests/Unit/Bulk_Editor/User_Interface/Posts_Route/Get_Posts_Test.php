@@ -19,10 +19,8 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Posts_Route::get_posts
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Posts_Route::is_valid_content_type
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Posts_Test extends Abstract_Posts_Route_Test {
+final class Get_Posts_Test extends Abstract_Test {
 
 	/**
 	 * Tests that a user who can edit other authors' posts is not restricted by author.

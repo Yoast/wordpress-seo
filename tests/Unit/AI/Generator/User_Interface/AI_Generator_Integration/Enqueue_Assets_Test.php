@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\AI_Generator_Integration::enqueue_assets
  */
-final class Enqueue_Assets_Test extends Abstract_AI_Generator_Integration_Test {
+final class Enqueue_Assets_Test extends Abstract_Test {
 
 	/**
 	 * Tests enqueuing the assets.

@@ -12,10 +12,8 @@ use Brain\Monkey\Functions;
  * @group bulk-editor
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Posts_Route::check_permissions
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Check_Permissions_Test extends Abstract_Posts_Route_Test {
+final class Check_Permissions_Test extends Abstract_Test {
 
 	/**
 	 * Tests that the bulk editor capability is required.
