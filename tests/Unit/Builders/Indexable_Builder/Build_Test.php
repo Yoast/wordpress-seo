@@ -2,8 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
 
+use Brain\Monkey;
 use Mockery;
+use RuntimeException;
+use Yoast\WP\SEO\Exceptions\Indexable\Indexing_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
+use Yoast\WP\SEO\Exceptions\Indexable\Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -140,6 +144,95 @@ final class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	}
 
 	/**
+	 * Tests that an unexpected error while building is logged, fires the failure action and is thrown
+	 * wrapped in an Indexing_Failed_Exception that carries the failing object, so the existing
+	 * "stop the run and report it" behaviour is preserved.
+	 *
+	 * @covers ::build
+	 * @covers ::deep_copy_indexable
+	 *
+	 * @return void
+	 */
+	public function test_build_logs_fires_action_and_throws_wrapped_exception_on_unexpected_error() {
+		$this->indexable->object_sub_type = 'page';
+
+		$this->expect_deep_copy_indexable( $this->indexable );
+
+		$exception = new RuntimeException( 'Something unexpected happened.' );
+
+		$this->post_builder
+			->expects( 'build' )
+			->once()
+			->with( 1337, $this->indexable )
+			->andThrow( $exception );
+
+		$this->logger
+			->expects( 'error' )
+			->once()
+			->with(
+				'Yoast SEO could not build the indexable for post #1337: Something unexpected happened.',
+				[
+					'object_id'       => 1337,
+					'object_type'     => 'post',
+					'object_sub_type' => 'page',
+					'exception'       => 'RuntimeException',
+				],
+			);
+
+		Monkey\Actions\expectDone( 'wpseo_indexable_indexing_failed' )
+			->once()
+			->with( 1337, 'post', 'page', $exception );
+
+		try {
+			$this->instance->build( $this->indexable );
+			$this->fail( 'Expected an Indexing_Failed_Exception to be thrown.' );
+		} catch ( Indexing_Failed_Exception $indexing_failed_exception ) {
+			$this->assertSame( 1337, $indexing_failed_exception->get_object_id() );
+			$this->assertSame( 'post', $indexing_failed_exception->get_object_type() );
+			$this->assertSame( 'page', $indexing_failed_exception->get_object_sub_type() );
+			$this->assertSame( $exception, $indexing_failed_exception->getPrevious() );
+		}
+	}
+
+	/**
+	 * Tests that an Indexing_Failed_Exception escaping a nested build (e.g. the author indexable built
+	 * during a post build) passes through unwrapped, so the failure is logged and the action is fired
+	 * only once, with the root failing object's identity.
+	 *
+	 * @covers ::build
+	 * @covers ::deep_copy_indexable
+	 *
+	 * @return void
+	 */
+	public function test_build_passes_through_an_already_wrapped_exception_from_a_nested_build() {
+		$this->expect_deep_copy_indexable( $this->indexable );
+
+		$nested_exception = new Indexing_Failed_Exception( 3, 'user', null, new RuntimeException( 'Something unexpected happened.' ) );
+
+		$this->post_builder
+			->expects( 'build' )
+			->once()
+			->with( 1337, $this->indexable )
+			->andThrow( $nested_exception );
+
+		$this->logger
+			->expects( 'error' )
+			->never();
+
+		Monkey\Actions\expectDone( 'wpseo_indexable_indexing_failed' )
+			->never();
+
+		try {
+			$this->instance->build( $this->indexable );
+			$this->fail( 'Expected an Indexing_Failed_Exception to be thrown.' );
+		} catch ( Indexing_Failed_Exception $indexing_failed_exception ) {
+			$this->assertSame( $nested_exception, $indexing_failed_exception );
+			$this->assertSame( 3, $indexing_failed_exception->get_object_id() );
+			$this->assertSame( 'user', $indexing_failed_exception->get_object_type() );
+		}
+	}
+
+	/**
 	 * Tests that build returns false when a build returns an exception.
 	 *
 	 * @covers ::build
@@ -208,6 +301,57 @@ final class Build_Test extends Abstract_Indexable_Builder_TestCase {
 		$this->indexable->object_id = 0;
 
 		$this->expect_deep_copy_indexable( $this->indexable );
+
+		$this->logger
+			->expects( 'debug' )
+			->once()
+			->with(
+				'Indexable was not built because it had an invalid object id of 0.',
+				[
+					'object_id'       => 0,
+					'object_type'     => 'post',
+					'object_sub_type' => null,
+					'exception'       => Not_Built_Exception::class,
+				],
+			);
+
+		$this->assertFalse( $this->instance->build( $this->indexable ) );
+	}
+
+	/**
+	 * Tests that a deliberately-not-built indexable is logged at debug level only, so a full indexing
+	 * run over excluded objects cannot flood the log, and that the build still returns false.
+	 *
+	 * @covers ::build
+	 * @covers ::deep_copy_indexable
+	 *
+	 * @return void
+	 */
+	public function test_build_logs_at_debug_level_when_the_indexable_is_deliberately_not_built() {
+		$this->indexable->object_sub_type = 'page';
+
+		$this->expect_deep_copy_indexable( $this->indexable );
+
+		$exception = new Not_Built_Exception( 'Indexable was not built because its post type is not indexed.' );
+
+		$this->post_builder
+			->expects( 'build' )
+			->once()
+			->with( 1337, $this->indexable )
+			->andThrow( $exception );
+
+		$this->logger
+			->expects( 'debug' )
+			->once()
+			->with(
+				'Indexable was not built because its post type is not indexed.',
+				[
+					'object_id'       => 1337,
+					'object_type'     => 'post',
+					'object_sub_type' => 'page',
+					'exception'       => Not_Built_Exception::class,
+				],
+			);
 
 		$this->assertFalse( $this->instance->build( $this->indexable ) );
 	}

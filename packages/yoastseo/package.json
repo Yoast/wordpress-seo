@@ -23,7 +23,8 @@
     "vendor",
     "images",
     "researcher",
-    "contract"
+    "contract",
+    "docs/**/*.md"
   ],
   "sideEffects": false,
   "scripts": {

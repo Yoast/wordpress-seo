@@ -27,8 +27,8 @@ const paper = new Paper("<p>This is the <strong>main</strong> content<p>", {
 });
 ```
 
-### <a name="paperdto"></a>PaperDTO
-A documented, serializable **input contract** for the engine (neutral core + a few optional, deprecated WordPress-transitional fields), exposed via the opt-in `yoastseo/contract` entry. A non-WordPress consumer sends a `PaperDTO` (plain JSON) and the `toPaper` boundary validates it and constructs an internal [Paper](#paper). It is the *external* counterpart of `Paper`: where `Paper` is the engine's internal value object, `PaperDTO` is the stable shape consumers send.
+### <a name="paperdto"></a>PaperDto
+A documented, serializable **input contract** for the engine (neutral core + a few optional, deprecated WordPress-transitional fields), exposed via the opt-in `yoastseo/contract` entry. A non-WordPress consumer sends a `PaperDto` (plain JSON) and the `toPaper` boundary validates it and constructs an internal [Paper](#paper). It is the *external* counterpart of `Paper`: where `Paper` is the engine's internal value object, `PaperDto` is the stable shape consumers send.
 
 Key differences from `Paper`:
 - Uses the canonical name **`keyphrase`** (mapped to the engine's `keyword`); `keyword` is accepted as a deprecated alias.
@@ -47,6 +47,24 @@ const paper = toPaper({
     slug: "example-page",
     locale: "en_US"
 });
+```
+
+### <a name="resultdto"></a>ResultDto
+A documented, serializable **output contract** for the engine, exposed via the same opt-in `yoastseo/contract` entry — the result-side sibling of [PaperDto](#paperdto). The `toResultDto` boundary maps a single engine [AssessmentResult](#assessment) onto the stable shape a non-WordPress consumer reads, so each consumer no longer hand-rolls its own view model.
+
+Key points:
+- Carries `identifier`, `score`, the interpreted `rating`, `text`, `marks`, `editFieldName`/`editFieldAriaLabel` (empty strings when none), and the neutral signals `isOptimizable` and `isBeta`.
+- **`rating`** is computed in the boundary (a pure function of `score`) and never stored, so it cannot drift from `score`.
+- **`isOptimizable`** / **`isBeta`** are the neutral contract names for the per-result signals behind the deprecated `AssessmentResult#hasAIFixes` / `#hasBetaBadge` getters.
+- Authored in [zod](https://zod.dev); `marks` are serialized into a transport-agnostic shape.
+- **i18n caveat:** `editFieldAriaLabel` (like `text`) is a pre-translated string carried as-is for now; a future i18n contract may replace it with a stable key derived from `editFieldName`.
+- **No edit-affordance flag:** there is deliberately no `hasJumps`-style boolean — derive the affordance from `editFieldName` being non-empty (`Boolean( result.editFieldName )`), which is the single source of truth.
+
+**Example:**
+```javascript
+import { toResultDto } from "yoastseo/contract";
+
+const results = seoAssessor.getValidResults().map( toResultDto );
 ```
 
 ### <a name="assessment"></a>Assessment
