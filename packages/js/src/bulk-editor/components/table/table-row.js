@@ -129,6 +129,7 @@ export const BulkEditorRow = ( {
 									itemTitle={ item.title }
 									value={ draft[ field.key ] ?? "" }
 									isSaving={ isSaving }
+									fieldSetId={ fieldSetId }
 									onChange={ handleChangeField }
 								/>;
 							} }

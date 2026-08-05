@@ -59,6 +59,7 @@ export const TitleCell = ( { item, fieldSetId } ) => {
  * @param {string}        props.value     The current draft value.
  * @param {boolean}       props.isSaving  Whether the row is being saved (disables the input).
  * @param {Function}      props.onChange  Called with { key, value } when the value changes.
+ * @param {string}        props.fieldSetId  The active field set's id, scopes the input id across tabs.
  *
  * @returns {JSX.Element} The cell.
  */
@@ -70,6 +71,7 @@ export const EditableFieldCell = ( {
 	value,
 	isSaving,
 	onChange,
+	fieldSetId,
 	...props } ) => {
 	const handleChange = useCallback( ( event ) => onChange( { key: field.key, value: event.target.value } ), [ onChange, field.key ] );
 
@@ -81,7 +83,7 @@ export const EditableFieldCell = ( {
 		<Table.Cell>
 			<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
 				<Component
-					id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
+					id={ `bulk-editor-edit-${ itemId }-${ fieldSetId }-${ field.key }` }
 					className="yst-resize-none"
 					{ ...props }
 					rows={ 2 }
