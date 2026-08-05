@@ -67,7 +67,7 @@ export const BulkEditorRow = ( {
 		<Table.Row>
 			<Table.Cell>
 				<Checkbox
-					id={ `bulk-editor-select-${ item.id }` }
+					id={ `bulk-editor-select-${ item.id }-${ fieldSetId }` }
 					name={ `bulk-editor-select-${ item.id }` }
 					value={ String( item.id ) }
 					className="yst-mt-0.5"
