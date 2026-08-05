@@ -25,7 +25,7 @@ export const FocusKeyphraseEditableFieldCell = ( { value, ...props } ) => {
 		? {
 			variant: errors.length > 0 ? "error" : "warning",
 			message: allMessages.map( ( msg, index ) => (
-				<span key={ index } role="alert" className="yst-block">{ msg }</span>
+				<span key={ index } className="yst-block">{ msg }</span>
 			) ),
 		}
 		: null;
