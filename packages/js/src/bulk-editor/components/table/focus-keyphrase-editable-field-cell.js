@@ -11,20 +11,16 @@ import { EditableFieldCell } from "./table-cells";
  * @returns {JSX.Element} The cell.
  */
 export const FocusKeyphraseEditableFieldCell = ( { value, ...props } ) => {
-	const errors = [
+	const warnings = [
+		( /<[^>]*>/u ).test( value ) && __( "Your keyphrase contains HTML tags that will be stripped on save.", "wordpress-seo" ),
+		value.length === 191 && __( "You reached the maximum limit of 191 characters.", "wordpress-seo" ),
 		value.includes( "," ) && __( "Are you trying to use multiple keyphrases? You should add them separately in the editor.", "wordpress-seo" ),
 	].filter( Boolean );
 
-	const warnings = [
-		( /<[^>]*>/u ).test( value ) && __( "Your keyphrase contains HTML tags that will be stripped on save.", "wordpress-seo" ),
-		value.length === 191 && __( "Your keyphrase can be a maximum of 191 characters.", "wordpress-seo" ),
-	].filter( Boolean );
-
-	const allMessages = [ ...errors, ...warnings ];
-	const validation = allMessages.length > 0
+	const validation = warnings.length > 0
 		? {
-			variant: errors.length > 0 ? "error" : "warning",
-			message: allMessages.map( ( msg, index ) => (
+			variant: "warning",
+			message: warnings.map( ( msg, index ) => (
 				<span key={ index } className="yst-block">{ msg }</span>
 			) ),
 		}
