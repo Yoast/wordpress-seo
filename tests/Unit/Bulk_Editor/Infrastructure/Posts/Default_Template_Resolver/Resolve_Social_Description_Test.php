@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Posts\Default_Template_Resolver;
 
+use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 
 /**
@@ -16,7 +17,7 @@ use Brain\Monkey\Functions;
 final class Resolve_Social_Description_Test extends Abstract_Default_Template_Resolver_Test {
 
 	/**
-	 * Tests that a non-empty stored value is returned unchanged without touching the options.
+	 * Tests that a non-empty stored value is returned unchanged without touching options or filters.
 	 *
 	 * @return void
 	 */
@@ -29,14 +30,61 @@ final class Resolve_Social_Description_Test extends Abstract_Default_Template_Re
 	}
 
 	/**
-	 * Tests that the user-configured post type template is resolved when the stored value is empty.
+	 * Tests that an empty string is returned when OpenGraph is disabled.
 	 *
 	 * @return void
 	 */
-	public function test_resolves_from_configured_template_when_stored_value_is_empty() {
+	public function test_returns_empty_when_opengraph_disabled() {
+		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( false );
+
+		Functions\expect( 'apply_filters' )->never();
+		Functions\expect( 'wpseo_replace_vars' )->never();
+
+		$result = $this->instance->resolve_social_description( 7, 'post', '' );
+
+		$this->assertSame( '', $result );
+	}
+
+	/**
+	 * Tests that an empty string is returned when OpenGraph is enabled but the filter returns no template.
+	 *
+	 * This is the expected behaviour on Free, where no callback is registered for
+	 * `wpseo_social_template_post_type` and the filter therefore returns the default empty string.
+	 *
+	 * @return void
+	 */
+	public function test_returns_empty_when_filter_returns_empty_template() {
+		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( true );
+
+		Filters\expectApplied( 'wpseo_social_template_post_type' )
+			->once()
+			->with( '', 'description', 'post' )
+			->andReturn( '' );
+
+		Functions\expect( 'get_post' )->never();
+		Functions\expect( 'wpseo_replace_vars' )->never();
+
+		$result = $this->instance->resolve_social_description( 7, 'post', '' );
+
+		$this->assertSame( '', $result );
+	}
+
+	/**
+	 * Tests that the filter-provided template is resolved when OpenGraph is enabled.
+	 *
+	 * This is the expected behaviour on Premium, where a callback supplies the configured template.
+	 *
+	 * @return void
+	 */
+	public function test_resolves_from_filter_template_when_opengraph_enabled() {
 		$post = (object) [ 'ID' => 7 ];
 
-		$this->options_helper->expects( 'get' )->with( 'social-description-post', '' )->andReturn( '%%excerpt%%' );
+		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( true );
+
+		Filters\expectApplied( 'wpseo_social_template_post_type' )
+			->once()
+			->with( '', 'description', 'post' )
+			->andReturn( '%%excerpt%%' );
 
 		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn( $post );
 		Functions\expect( 'wpseo_replace_vars' )->once()->with( '%%excerpt%%', $post )->andReturn( 'The post excerpt.' );
@@ -44,23 +92,5 @@ final class Resolve_Social_Description_Test extends Abstract_Default_Template_Re
 		$result = $this->instance->resolve_social_description( 7, 'post', '' );
 
 		$this->assertSame( 'The post excerpt.', $result );
-	}
-
-	/**
-	 * Tests that an empty string is returned when no template is configured for the post type.
-	 *
-	 * Unlike social title, there is no installation-level default for social description.
-	 *
-	 * @return void
-	 */
-	public function test_returns_empty_when_no_template_is_configured() {
-		$this->options_helper->expects( 'get' )->with( 'social-description-page', '' )->andReturn( '' );
-
-		Functions\expect( 'get_post' )->never();
-		Functions\expect( 'wpseo_replace_vars' )->never();
-
-		$result = $this->instance->resolve_social_description( 7, 'page', '' );
-
-		$this->assertSame( '', $result );
 	}
 }

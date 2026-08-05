@@ -80,8 +80,10 @@ class Default_Template_Resolver {
 	/**
 	 * Returns the social title for a post, falling back to the post type's configured template when empty.
 	 *
-	 * Priority mirrors the presentation layer: stored value → user-configured post type template
-	 * (SEO > Settings, `social-title-{post_type}`) → installation default (typically `%%title%%`).
+	 * Mirrors `Social_Data_Provider::get_social_title_template()`: only resolves a template when
+	 * OpenGraph is enabled, and delegates to the `wpseo_social_template_post_type` filter so that
+	 * Premium can supply a value while Free — which cannot configure this setting — always gets an
+	 * empty string.
 	 *
 	 * @param int    $post_id      The post ID.
 	 * @param string $post_type    The post type slug.
@@ -94,10 +96,11 @@ class Default_Template_Resolver {
 			return $stored_value;
 		}
 
-		$template = (string) $this->options_helper->get( 'social-title-' . $post_type, '' );
-		if ( $template === '' ) {
-			$template = (string) $this->options_helper->get_title_default( 'social-title-' . $post_type );
+		if ( $this->options_helper->get( 'opengraph', false ) !== true ) {
+			return '';
 		}
+
+		$template = (string) \apply_filters( 'wpseo_social_template_post_type', '', 'title', $post_type );
 		if ( $template === '' ) {
 			return '';
 		}
@@ -107,6 +110,10 @@ class Default_Template_Resolver {
 
 	/**
 	 * Returns the social description for a post, falling back to the post type's configured template when empty.
+	 *
+	 * Mirrors `Social_Data_Provider::get_social_description_template()`: only resolves a template when
+	 * OpenGraph is enabled, and delegates to the `wpseo_social_template_post_type` filter so that
+	 * Premium can supply a value while Free always gets an empty string.
 	 *
 	 * @param int    $post_id      The post ID.
 	 * @param string $post_type    The post type slug.
@@ -119,7 +126,11 @@ class Default_Template_Resolver {
 			return $stored_value;
 		}
 
-		$template = (string) $this->options_helper->get( 'social-description-' . $post_type, '' );
+		if ( $this->options_helper->get( 'opengraph', false ) !== true ) {
+			return '';
+		}
+
+		$template = (string) \apply_filters( 'wpseo_social_template_post_type', '', 'description', $post_type );
 		if ( $template === '' ) {
 			return '';
 		}
