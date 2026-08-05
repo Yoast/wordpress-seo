@@ -127,35 +127,49 @@ class Bulk_Updater implements LoggerAwareInterface {
 			return Update_Result::for_failure( $post_id, Update_Error::SAVE_FAILED );
 		}
 
-		return Update_Result::for_success( $post_id, $this->render_fields( $type, $post_id, $saved_focus_keyphrase ) );
+		return Update_Result::for_success(
+			$post_id,
+			$this->render_fields( $type, $post_id ),
+			$this->sanitized_fields( $saved_focus_keyphrase ),
+		);
 	}
 
 	/**
-	 * Renders the fields the bulk editor needs to stay in sync with the backend after a save.
+	 * Renders the search fields with replacement variables resolved, for re-scoring after a save.
 	 *
-	 * The focus keyphrase is always echoed back when it was part of the update, so the frontend
-	 * can detect when sanitization silently altered the submitted value (e.g. HTML stripped).
-	 * The SEO title and meta description are rendered (replacement variables resolved) for search
-	 * updates only, since those feed the per-field scores. Social updates carry no scored fields.
+	 * Only called for search updates; social updates carry no scored fields.
 	 *
-	 * @param Update_Type $type                  The appearance the update targets.
-	 * @param int         $post_id               The ID of the post.
-	 * @param string|null $saved_focus_keyphrase The sanitized focus keyphrase that was stored, or null if not updated.
+	 * @param Update_Type $type    The appearance the update targets.
+	 * @param int         $post_id The ID of the post.
 	 *
 	 * @return array<string, string> The rendered fields, keyed by field.
 	 */
-	private function render_fields( Update_Type $type, int $post_id, ?string $saved_focus_keyphrase ): array {
-		$fields = [];
-
-		if ( $saved_focus_keyphrase !== null ) {
-			$fields['focus_keyphrase'] = $saved_focus_keyphrase;
+	private function render_fields( Update_Type $type, int $post_id ): array {
+		if ( ! $type->is_search() ) {
+			return [];
 		}
 
-		if ( $type->is_search() ) {
-			$fields['seo_title']        = $this->field_renderer->render( $post_id, 'title' );
-			$fields['meta_description'] = $this->field_renderer->render( $post_id, 'metadesc' );
+		return [
+			'seo_title'        => $this->field_renderer->render( $post_id, 'title' ),
+			'meta_description' => $this->field_renderer->render( $post_id, 'metadesc' ),
+		];
+	}
+
+	/**
+	 * Builds the sanitized-literals payload for the response.
+	 *
+	 * The focus keyphrase is echoed back when it was part of the update, so the frontend can detect
+	 * when sanitization silently altered the submitted value (e.g. HTML stripped).
+	 *
+	 * @param string|null $saved_focus_keyphrase The sanitized focus keyphrase that was stored, or null if not updated.
+	 *
+	 * @return array<string, string> The sanitized literals, keyed by field.
+	 */
+	private function sanitized_fields( ?string $saved_focus_keyphrase ): array {
+		if ( $saved_focus_keyphrase === null ) {
+			return [];
 		}
 
-		return $fields;
+		return [ 'focus_keyphrase' => $saved_focus_keyphrase ];
 	}
 }

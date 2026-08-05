@@ -16,32 +16,30 @@ const fieldEndpointKey = ( field, fieldSet ) => field.endpoint ?? fieldSet.endpo
 /**
  * Resolves the value to persist locally for a field after a save.
  *
- * Prefers the server-rendered value when the response carries one, so a keyphrase that was
- * silently altered by sanitization (e.g. HTML stripped) is reflected correctly rather than
- * showing the unsanitized draft.
+ * For the focus keyphrase, prefers the sanitized literal the server echoed back, so a keyphrase
+ * that was silently altered by sanitization (e.g. HTML stripped) is reflected correctly rather
+ * than showing the unsanitized draft. Other fields fall back to the submitted draft value.
  *
  * @param {string}           key        The field key (JS camelCase).
  * @param {string}           draftValue The draft value that was submitted.
- * @param {Object|undefined} rendered   The rendered fields from the update result, or undefined.
+ * @param {Object|undefined} sanitized  The sanitized literals from the update result, or undefined.
  *
  * @returns {string} The value to reflect locally.
  */
-const resolveItemValue = ( key, draftValue, rendered ) => {
-	if ( key === FOCUS_KEYPHRASE_KEY && rendered && "focus_keyphrase" in rendered ) {
-		return rendered.focus_keyphrase;
+const resolveItemValue = ( key, draftValue, sanitized ) => {
+	if ( key === FOCUS_KEYPHRASE_KEY && sanitized && "focus_keyphrase" in sanitized ) {
+		return sanitized.focus_keyphrase;
 	}
 	return draftValue;
 };
 
 /**
- * Extracts the rendered fields from the first result of an update response.
- *
- * Centralizing the optional-chaining here keeps the complexity budget of the callers intact.
+ * Extracts the sanitized literals from the first result of an update response.
  *
  * @param {Object} response The update response.
- * @returns {Object|undefined} The rendered fields, or undefined when not present.
+ * @returns {Object|undefined} The sanitized fields, or undefined when not present.
  */
-const getFirstRendered = ( response ) => response?.results?.[ 0 ]?.rendered;
+const getFirstSanitized = ( response ) => response?.results?.[ 0 ]?.sanitized;
 
 /**
  * Re-scores a saved row from an update result, when it carries rendered search fields.
@@ -102,8 +100,8 @@ const rescoreIfLastField = ( scoreFields, activeFieldSet, response, rowEdit ) =>
  * Re-scores every saved row in a batch response that carries rendered search fields.
  *
  * A no-op for the social tab: the scorer needs seo_title and meta_description, which are
- * only rendered for search updates. Social updates may carry a focus_keyphrase in rendered,
- * so the activeFieldSet guard prevents accidental scoring against undefined title/description.
+ * only present in rendered for search updates. Social updates have no rendered payload, so the
+ * activeFieldSet guard is a belt-and-suspenders defence against undefined title/description.
  *
  * @param {Function} scoreFields    The re-scorer.
  * @param {string}   activeFieldSet The active field set's id.
@@ -213,7 +211,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 				method: "POST",
 				body: JSON.stringify( { items: [ { id, [ field.param ]: value } ] } ),
 			} );
-			updateItem( id, key, resolveItemValue( key, value, getFirstRendered( response ) ) );
+			updateItem( id, key, resolveItemValue( key, value, getFirstSanitized( response ) ) );
 			closeField( { id, key } );
 			rescoreIfLastField( scoreFields, activeFieldSet, response, rowEdit );
 		} catch ( error ) {
@@ -273,9 +271,9 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 				hasFailure = true;
 				return;
 			}
-			const rendered = getFirstRendered( result.value );
+			const sanitized = getFirstSanitized( result.value );
 			requests[ index ].applied.forEach( ( { key, value } ) => {
-				updateItem( id, key, resolveItemValue( key, value, rendered ) );
+				updateItem( id, key, resolveItemValue( key, value, sanitized ) );
 				closeField( { id, key } );
 			} );
 			rescoreAfterSave( scoreFields, activeFieldSet, result.value, rowEdit );
@@ -355,11 +353,11 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 				if ( result.status !== "fulfilled" ) {
 					return;
 				}
-				const renderedByPostId = Object.fromEntries(
-					( result.value?.results ?? [] ).map( ( r ) => [ r.id, r.rendered ] )
+				const sanitizedByPostId = Object.fromEntries(
+					( result.value?.results ?? [] ).map( ( r ) => [ r.id, r.sanitized ] )
 				);
 				requests[ index ].applied.forEach( ( { id, key, value } ) => {
-					updateItem( id, key, resolveItemValue( key, value, renderedByPostId[ id ] ) );
+					updateItem( id, key, resolveItemValue( key, value, sanitizedByPostId[ id ] ) );
 					closeField( { id, key } );
 				} );
 				// Re-score the search rows in this batch; the social guard is inside rescoreBatchResult.

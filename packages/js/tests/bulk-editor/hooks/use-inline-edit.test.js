@@ -229,13 +229,13 @@ describe( "useInlineEdit batch actions", () => {
 		expect( mockScoreFields ).toHaveBeenCalledTimes( 1 );
 	} );
 
-	it( "uses the server-rendered focus_keyphrase in a per-field apply", async() => {
+	it( "uses the server-sanitized focus_keyphrase in a per-field apply", async() => {
 		editingRows = {
 			9: { openFields: [ "focusKeyphrase" ], draft: { focusKeyphrase: "<b>seo</b>" }, savingFields: {} },
 		};
 		/* eslint-disable camelcase -- server-side field name */
-		const rendered = { focus_keyphrase: "seo" };
-		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, rendered } ] } ) ) };
+		const sanitized = { focus_keyphrase: "seo" };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, sanitized } ] } ) ) };
 		/* eslint-enable camelcase */
 		const { result } = renderEdit( remoteDataProvider );
 
@@ -246,16 +246,16 @@ describe( "useInlineEdit batch actions", () => {
 		expect( updateItem ).toHaveBeenCalledWith( 9, "focusKeyphrase", "seo" );
 	} );
 
-	it( "does not re-score on a social batch save that carries only a focus_keyphrase in rendered", async() => {
-		// The social field set includes focusKeyphrase. A social save returns rendered: { focus_keyphrase }
-		// (no seo_title / meta_description). Without the activeFieldSet guard rescoreBatchResult would
-		// call the scorer with title: undefined and description: undefined, corrupting search scores.
+	it( "does not re-score on a social batch save that carries only a focus_keyphrase in sanitized", async() => {
+		// The social field set includes focusKeyphrase. A social save returns sanitized: { focus_keyphrase }
+		// but no rendered payload. rescoreBatchResult is gated on rendered being present, so this is a
+		// structural no-op rather than relying solely on the activeFieldSet guard.
 		editingRows = {
 			9: { openFields: [ "focusKeyphrase" ], draft: { focusKeyphrase: "<b>seo</b>" }, savingFields: {} },
 		};
 		/* eslint-disable camelcase -- server-side field name */
-		const rendered = { focus_keyphrase: "seo" };
-		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, rendered } ] } ) ) };
+		const sanitized = { focus_keyphrase: "seo" };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, sanitized } ] } ) ) };
 		/* eslint-enable camelcase */
 		const { result } = renderHook( () => useInlineEdit( {
 			dataProvider,
@@ -330,14 +330,14 @@ describe( "useInlineEdit batch actions", () => {
 		expect( mockScoreField ).toHaveBeenCalledWith( { id: 7, fieldKey: "seoTitle", value: "An AI title", keyphrase: "seo" } );
 	} );
 
-	it( "uses the server-rendered focus_keyphrase when present, so HTML stripped on save is not shown as saved", async() => {
+	it( "uses the server-sanitized focus_keyphrase when present, so HTML stripped on save is not shown as saved", async() => {
 		// Row 9 submits a keyphrase with HTML; the server strips it and returns the clean value.
 		editingRows = {
 			9: { openFields: [ "focusKeyphrase" ], draft: { focusKeyphrase: "<b>seo</b>" }, savingFields: {} },
 		};
 		/* eslint-disable camelcase -- server-side field name */
-		const rendered = { focus_keyphrase: "seo" };
-		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, rendered } ] } ) ) };
+		const sanitized = { focus_keyphrase: "seo" };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, sanitized } ] } ) ) };
 		/* eslint-enable camelcase */
 		const { result } = renderEdit( remoteDataProvider );
 
@@ -349,13 +349,13 @@ describe( "useInlineEdit batch actions", () => {
 		expect( updateItem ).toHaveBeenCalledWith( 9, "focusKeyphrase", "seo" );
 	} );
 
-	it( "uses the server-rendered focus_keyphrase in a batch save", async() => {
+	it( "uses the server-sanitized focus_keyphrase in a batch save", async() => {
 		editingRows = {
 			9: { openFields: [ "focusKeyphrase" ], draft: { focusKeyphrase: "<b>seo</b>" }, savingFields: {} },
 		};
 		/* eslint-disable camelcase -- server-side field name */
-		const rendered = { focus_keyphrase: "seo" };
-		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, rendered } ] } ) ) };
+		const sanitized = { focus_keyphrase: "seo" };
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( { results: [ { id: 9, success: true, sanitized } ] } ) ) };
 		/* eslint-enable camelcase */
 		const { result } = renderEdit( remoteDataProvider );
 

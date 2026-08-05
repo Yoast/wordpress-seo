@@ -155,7 +155,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$results = $this->instance->update( $type, $updates )->to_array();
 
 		$this->assertTrue( $results['results'][0]['success'] );
-		$this->assertSame( 'The keyphrase', $results['results'][0]['rendered']['focus_keyphrase'] );
+		$this->assertSame( 'The keyphrase', $results['results'][0]['sanitized']['focus_keyphrase'] );
 	}
 
 	/**
@@ -175,9 +175,9 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$results = $this->instance->update( $type, $updates )->to_array();
 
 		$this->assertTrue( $results['results'][0]['success'] );
-		$this->assertSame( 'The keyphrase', $results['results'][0]['rendered']['focus_keyphrase'] );
-		// Social saves do not render seo_title/meta_description; only focus_keyphrase is echoed back.
-		$this->assertArrayNotHasKey( 'seo_title', $results['results'][0]['rendered'] );
+		$this->assertSame( 'The keyphrase', $results['results'][0]['sanitized']['focus_keyphrase'] );
+		// Social saves do not render seo_title/meta_description; rendered is absent entirely.
+		$this->assertArrayNotHasKey( 'rendered', $results['results'][0] );
 	}
 
 	/**
