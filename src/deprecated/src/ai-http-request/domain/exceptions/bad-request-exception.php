@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions;
 /**
  * Class to manage a 400 - Bad request response.
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 class Bad_Request_Exception extends Remote_Request_Exception {

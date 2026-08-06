@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_Authorization\User_Interface;
 /**
  * Registers the callback route used in the authorization process.
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  *
  * @makePublic
@@ -25,43 +25,12 @@ class Callback_Route extends Abstract_Callback_Route {
 	/**
 	 * Registers routes with WordPress.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_routes() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
-		\register_rest_route(
-			parent::ROUTE_NAMESPACE,
-			self::ROUTE_PREFIX,
-			[
-				'methods'             => 'POST',
-				'args'                => [
-					'access_jwt'     => [
-						'required'    => true,
-						'type'        => 'string',
-						'description' => 'The access JWT.',
-					],
-					'refresh_jwt'    => [
-						'required'    => true,
-						'type'        => 'string',
-						'description' => 'The JWT to be used when the access JWT needs to be refreshed.',
-					],
-					'code_challenge' => [
-						'required'    => true,
-						'type'        => 'string',
-						'description' => 'The SHA266 of the verification code used to check the authenticity of a callback call.',
-					],
-					'user_id'        => [
-						'required'    => true,
-						'type'        => 'integer',
-						'description' => 'The id of the user associated to the code verifier.',
-					],
-				],
-				'callback'            => [ $this, 'callback' ],
-				'permission_callback' => '__return_true',
-			],
-		);
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 	}
 }

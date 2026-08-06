@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route toget suggestions from the AI API
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  *
  * @makePublic
@@ -65,20 +65,20 @@ class Consent_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return [ AI_Conditional::class, Old_Premium_AI_Conditional::class ];
 	}
 
 	/**
 	 * Class constructor.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param Consent_Handler $consent_handler The consent handler.
@@ -86,7 +86,7 @@ class Consent_Route implements Route_Interface {
 	 * @param Logger          $logger          The logger.
 	 */
 	public function __construct( Consent_Handler $consent_handler, Token_Manager $token_manager, Logger $logger ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->consent_handler = $consent_handler;
 		// @TODO: Remove the token manager as soon as we don't care about BC, because it's no longer used.
 		$this->token_manager = $token_manager;
@@ -96,35 +96,19 @@ class Consent_Route implements Route_Interface {
 	/**
 	 * Registers routes with WordPress.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_routes() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
-		\register_rest_route(
-			self::ROUTE_NAMESPACE,
-			self::ROUTE_PREFIX,
-			[
-				'methods'             => 'POST',
-				'args'                => [
-					'consent' => [
-						'required'    => true,
-						'type'        => 'boolean',
-						'description' => 'Whether the consent to use AI-based services has been given by the user.',
-					],
-				],
-				'callback'            => [ $this, 'consent' ],
-				'permission_callback' => [ $this, 'check_permissions' ],
-			],
-		);
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 	}
 
 	/**
 	 * Runs the callback to store the consent given by the user to use AI-based services.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_REST_Request $request The request object.
@@ -132,7 +116,7 @@ class Consent_Route implements Route_Interface {
 	 * @return WP_REST_Response The response of the callback action.
 	 */
 	public function consent( WP_REST_Request $request ): WP_REST_Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$user_id = \get_current_user_id();
 		$consent = (bool) $request->get_param( 'consent' );
 
@@ -159,13 +143,13 @@ class Consent_Route implements Route_Interface {
 	 * - if the user is logged
 	 * - if the user can edit posts
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether the user is logged in, can edit posts and the feature is active.
 	 */
 	public function check_permissions(): bool {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$user = \wp_get_current_user();
 		if ( $user === null || $user->ID < 1 ) {
 			return false;

@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\AI_Free_Sparks\Application;
  *
  * This interface defines the methods for handling user consent.
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 interface Free_Sparks_Handler_Interface {
@@ -15,7 +15,7 @@ interface Free_Sparks_Handler_Interface {
 	/**
 	 * Retrieves the timestamp.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $format The format in which to return the timestamp. Defaults to 'Y-m-d H:i:s'.
@@ -27,7 +27,7 @@ interface Free_Sparks_Handler_Interface {
 	/**
 	 * Registers the starting of the free sparks.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param ?int $timestamp The timestamp when the user started using free sparks. If null, the current time will be

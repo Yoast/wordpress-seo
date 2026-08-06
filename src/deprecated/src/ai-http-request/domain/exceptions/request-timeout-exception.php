@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions;
 /**
  * Class to manage a 408 - request timeout exception
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 class Request_Timeout_Exception extends Remote_Request_Exception {

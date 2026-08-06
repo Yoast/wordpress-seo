@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 /**
  * Ai_Consent_Integration class.
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 class Ai_Consent_Integration implements Integration_Interface {
@@ -49,20 +49,20 @@ class Ai_Consent_Integration implements Integration_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string>
 	 */
 	public static function get_conditionals(): array {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return [ User_Profile_Conditional::class, Old_Premium_AI_Conditional::class ];
 	}
 
 	/**
 	 * Constructs the class.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param WPSEO_Admin_Asset_Manager    $asset_manager        The admin asset manager.
@@ -76,7 +76,7 @@ class Ai_Consent_Integration implements Integration_Interface {
 		Short_Link_Helper $short_link_helper,
 		Consent_Endpoints_Repository $endpoints_repository
 	) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->asset_manager        = $asset_manager;
 		$this->user_helper          = $user_helper;
 		$this->short_link_helper    = $short_link_helper;
@@ -88,13 +88,13 @@ class Ai_Consent_Integration implements Integration_Interface {
 	 *
 	 * This is the place to register hooks and filters.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		// Hide AI feature option in user profile if the user is not allowed to use it.
 		if ( \current_user_can( 'edit_posts' ) ) {
 			\add_action( 'wpseo_user_profile_additions', [ $this, 'render_user_profile' ], 12 );
@@ -105,13 +105,13 @@ class Ai_Consent_Integration implements Integration_Interface {
 	/**
 	 * Returns the script data for the AI consent button.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string, string|bool>
 	 */
 	public function get_script_data(): array {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return [
 			'hasConsent' => $this->user_helper->get_meta( $this->user_helper->get_current_user_id(), '_yoast_wpseo_ai_consent', true ),
 			'pluginUrl'  => \plugins_url( '', \WPSEO_FILE ),
@@ -124,13 +124,13 @@ class Ai_Consent_Integration implements Integration_Interface {
 	/**
 	 * Enqueues the required assets.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->asset_manager->enqueue_style( 'ai-generator' );
 		$this->asset_manager->localize_script( 'ai-consent', 'wpseoAiConsent', $this->get_script_data() );
 		$this->asset_manager->enqueue_script( 'ai-consent' );
@@ -139,13 +139,13 @@ class Ai_Consent_Integration implements Integration_Interface {
 	/**
 	 * Renders the AI consent button for the user profile.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function render_user_profile() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		echo '<label for="ai-generator-consent-button">',
 		\esc_html__( 'AI features', 'wordpress-seo' ),
 		'</label>',

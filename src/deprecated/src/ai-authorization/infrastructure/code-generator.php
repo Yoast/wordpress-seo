@@ -7,7 +7,7 @@ use Yoast\WP\SEO\AI_Authorization\Application\Code_Generator_Interface;
 /**
  * Class Code_Generator.
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 class Code_Generator implements Code_Generator_Interface {
@@ -15,7 +15,7 @@ class Code_Generator implements Code_Generator_Interface {
 	/**
 	 * Generates a unique code using the user's email and random data.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $user_email The user's email.
@@ -24,7 +24,7 @@ class Code_Generator implements Code_Generator_Interface {
 	 * @return string The generated unique code.
 	 */
 	public function generate( string $user_email, int $length = 10 ): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$data = $user_email . \wp_generate_password( $length, false );
 		return \hash( 'sha256', $data );
 	}

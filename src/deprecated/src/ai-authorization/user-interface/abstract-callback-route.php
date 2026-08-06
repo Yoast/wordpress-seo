@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * The base class for the callback routes.
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 abstract class Abstract_Callback_Route implements Route_Interface {
@@ -54,20 +54,20 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return [ AI_Conditional::class, Old_Premium_AI_Conditional::class ];
 	}
 
 	/**
 	 * Callback_Route constructor.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository  The access token repository instance.
@@ -75,7 +75,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 * @param Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository The code verifier instance.
 	 */
 	public function __construct( Access_Token_User_Meta_Repository_Interface $access_token_repository, Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository, Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->access_token_repository  = $access_token_repository;
 		$this->refresh_token_repository = $refresh_token_repository;
 		$this->code_verifier_repository = $code_verifier_repository;
@@ -86,7 +86,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	/**
 	 * Runs the callback to store connection credentials and the tokens locally.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_REST_Request $request The request object.
@@ -97,7 +97,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 * @throws RuntimeException If the verification code is not found.
 	 */
 	public function callback( WP_REST_Request $request ): WP_REST_Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$user_id = $request->get_param( 'user_id' );
 		try {
 			$code_verifier = $this->code_verifier_repository->get_code_verifier( $user_id );

@@ -25,7 +25,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 /**
  * The class that handles the suggestions from the AI API.
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 class Suggestions_Provider {
@@ -61,7 +61,7 @@ class Suggestions_Provider {
 	/**
 	 * Class constructor.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param Consent_Handler $consent_handler The consent handler instance.
@@ -75,7 +75,7 @@ class Suggestions_Provider {
 		Token_Manager $token_manager,
 		User_Helper $user_helper
 	) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->consent_handler = $consent_handler;
 		$this->request_handler = $request_handler;
 		$this->token_manager   = $token_manager;
@@ -87,7 +87,7 @@ class Suggestions_Provider {
 	/**
 	 * Method used to generate suggestions through AI.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user                  The WP user.
@@ -121,7 +121,7 @@ class Suggestions_Provider {
 		string $editor,
 		bool $retry_on_unauthorized = true
 	): array {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		try {
 			$token = $this->token_manager->get_or_request_access_token( $user );
 		} catch ( Forbidden_Exception $exception ) {
@@ -176,7 +176,7 @@ class Suggestions_Provider {
 	/**
 	 * Generates the list of 5 suggestions to return.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param Response $response The response from the API.
@@ -184,7 +184,7 @@ class Suggestions_Provider {
 	 * @return Suggestions_Bucket The array of suggestions.
 	 */
 	public function build_suggestions_array( Response $response ): Suggestions_Bucket {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$suggestions_bucket = new Suggestions_Bucket();
 		$json               = \json_decode( $response->get_body() );
 		if ( $json === null || ! isset( $json->choices ) ) {

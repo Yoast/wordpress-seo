@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_Authorization\Domain;
  * Class Code_Verifier representing a challenge code and its creation time.
  * This is used during the authorization process to verify the user requesting a token.
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 class Code_Verifier {
@@ -28,14 +28,14 @@ class Code_Verifier {
 	/**
 	 * Code_Verifier constructor.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $code       The code.
 	 * @param int    $created_at The time the code was created.
 	 */
 	public function __construct( string $code, int $created_at ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->code       = $code;
 		$this->created_at = $created_at;
 	}
@@ -43,33 +43,33 @@ class Code_Verifier {
 	/**
 	 * Get the code.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The code.
 	 */
 	public function get_code(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return $this->code;
 	}
 
 	/**
 	 * Get the creation time of the code.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return int The creation time of the code.
 	 */
 	public function get_created_at(): int {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return $this->created_at;
 	}
 
 	/**
 	 * Check if the code is expired.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $validity_in_seconds The validity of the code in seconds.
@@ -77,7 +77,7 @@ class Code_Verifier {
 	 * @return bool True if the code is expired, false otherwise.
 	 */
 	public function is_expired( int $validity_in_seconds ): bool {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return $this->created_at < ( \time() - $validity_in_seconds );
 	}
 }

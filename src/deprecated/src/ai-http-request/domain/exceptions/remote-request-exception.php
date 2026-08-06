@@ -9,7 +9,7 @@ use Throwable;
 /**
  * Class Remote_Request_Exception
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 abstract class Remote_Request_Exception extends Exception {
@@ -24,7 +24,7 @@ abstract class Remote_Request_Exception extends Exception {
 	/**
 	 * Constructor.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param string         $message          The error message.
@@ -33,7 +33,7 @@ abstract class Remote_Request_Exception extends Exception {
 	 * @param Throwable|null $previous         The previously thrown exception.
 	 */
 	public function __construct( $message = '', $code = 0, $error_identifier = '', ?Throwable $previous = null ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		parent::__construct( $message, $code, $previous );
 		$this->error_identifier = (string) $error_identifier;
 	}
@@ -41,13 +41,13 @@ abstract class Remote_Request_Exception extends Exception {
 	/**
 	 * Returns the error identifier.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The error identifier.
 	 */
 	public function get_error_identifier(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return $this->error_identifier;
 	}
 }

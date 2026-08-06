@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 /**
  * Class Code_Verifier_Repository
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repository_Interface {
@@ -34,14 +34,14 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	/**
 	 * Code_Verifier_Repository constructor.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param Date_Helper $date_helper The date helper.
 	 * @param User_Helper $user_helper The user helper.
 	 */
 	public function __construct( Date_Helper $date_helper, User_Helper $user_helper ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->date_helper = $date_helper;
 		$this->user_helper = $user_helper;
 	}
@@ -49,7 +49,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	/**
 	 * Store the verification code for a user.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param int    $user_id    The user ID.
@@ -59,7 +59,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	 * @return void
 	 */
 	public function store_code_verifier( int $user_id, string $code, int $created_at ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->user_helper->update_meta(
 			$user_id,
 			'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id(),
@@ -73,7 +73,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	/**
 	 * Get the verification code for a user.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -82,7 +82,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	 * @return Code_Verifier The verification code or null if not found.
 	 */
 	public function get_code_verifier( int $user_id ): ?Code_Verifier {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$data = $this->user_helper->get_meta( $user_id, 'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id(), true );
 
 		if ( ! \is_array( $data ) || ! isset( $data['code'] ) || $data['code'] === '' ) {
@@ -100,7 +100,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	/**
 	 * Delete the verification code for a user.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -108,7 +108,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	 * @return void
 	 */
 	public function delete_code_verifier( int $user_id ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->user_helper->delete_meta( $user_id, 'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id() );
 	}
 }

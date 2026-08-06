@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_Interface;
 /**
  * Represents the free sparks endpoint.
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 class Free_Sparks_Endpoint implements Endpoint_Interface {
@@ -17,52 +17,52 @@ class Free_Sparks_Endpoint implements Endpoint_Interface {
 	/**
 	 * Gets the name.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_name(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return 'free_sparks';
 	}
 
 	/**
 	 * Gets the namespace.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return Free_Sparks_Route::ROUTE_NAMESPACE;
 	}
 
 	/**
 	 * Gets the route.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_route(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return Free_Sparks_Route::ROUTE_PREFIX;
 	}
 
 	/**
 	 * Gets the URL.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_url(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return \rest_url( $this->get_namespace() . $this->get_route() );
 	}
 }

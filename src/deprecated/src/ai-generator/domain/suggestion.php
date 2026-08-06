@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_Generator\Domain;
  * Class Suggestion
  * Represents a suggestion from the AI Generator API.
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 class Suggestion {
@@ -21,26 +21,26 @@ class Suggestion {
 	/**
 	 * The constructor.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $value The suggestion text.
 	 */
 	public function __construct( string $value ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->value = $value;
 	}
 
 	/**
 	 * Returns the suggestion text.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_value(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return $this->value;
 	}
 }

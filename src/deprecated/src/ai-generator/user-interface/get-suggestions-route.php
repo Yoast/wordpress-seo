@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route to get suggestions from the AI API
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  *
  * @makePublic
@@ -53,106 +53,45 @@ class Get_Suggestions_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		return [ AI_Conditional::class, Old_Premium_AI_Conditional::class ];
 	}
 
 	/**
 	 * Class constructor.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param Suggestions_Provider $suggestions_provider The suggestions provider instance.
 	 */
 	public function __construct( Suggestions_Provider $suggestions_provider ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->suggestions_provider = $suggestions_provider;
 	}
 
 	/**
 	 * Registers routes with WordPress.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_routes() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
-		\register_rest_route(
-			self::ROUTE_NAMESPACE,
-			self::ROUTE_PREFIX,
-			[
-				'methods'             => 'POST',
-				'args'                => [
-					'type'            => [
-						'required'    => true,
-						'type'        => 'string',
-						'enum'        => [
-							'seo-title',
-							'meta-description',
-							'product-seo-title',
-							'product-meta-description',
-							'product-taxonomy-seo-title',
-							'product-taxonomy-meta-description',
-							'taxonomy-seo-title',
-							'taxonomy-meta-description',
-						],
-						'description' => 'The type of suggestion requested.',
-					],
-					'prompt_content'  => [
-						'required'    => true,
-						'type'        => 'string',
-						'description' => 'The content needed by the prompt to ask for suggestions.',
-					],
-					'focus_keyphrase' => [
-						'required'    => true,
-						'type'        => 'string',
-						'description' => 'The focus keyphrase associated to the post.',
-					],
-					'language'        => [
-						'required'    => true,
-						'type'        => 'string',
-						'description' => 'The language the post is written in.',
-					],
-					'platform'        => [
-						'required'    => true,
-						'type'        => 'string',
-						'enum'        => [
-							'Google',
-							'Facebook',
-							'Twitter',
-						],
-						'description' => 'The platform the post is intended for.',
-					],
-					'editor' => [
-						'required'    => true,
-						'type'        => 'string',
-						'enum'        => [
-							'classic',
-							'elementor',
-							'gutenberg',
-						],
-						'description' => 'The current editor.',
-					],
-				],
-				'callback'            => [ $this, 'get_suggestions' ],
-				'permission_callback' => [ $this, 'check_permissions' ],
-			],
-		);
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 	}
 
 	/**
 	 * Runs the callback to get AI-generated suggestions.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_REST_Request $request The request object.
@@ -160,7 +99,7 @@ class Get_Suggestions_Route implements Route_Interface {
 	 * @return WP_REST_Response The response of the get_suggestions action.
 	 */
 	public function get_suggestions( WP_REST_Request $request ): WP_REST_Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		try {
 			$user = \wp_get_current_user();
 			$data = $this->suggestions_provider->get_suggestions(

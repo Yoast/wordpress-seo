@@ -17,7 +17,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 /**
  * Interface Token_Manager_Interface
  *
- * @deprecated 28.3
+ * @deprecated 28.4
  * @codeCoverageIgnore
  */
 interface Token_Manager_Interface {
@@ -25,7 +25,7 @@ interface Token_Manager_Interface {
 	/**
 	 * Invalidates the access token.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -49,7 +49,7 @@ interface Token_Manager_Interface {
 	 * Requests a new JWT access and refresh token for a user from the Yoast AI Service and stores it in the database
 	 * under usermeta. The storing of the token happens in a HTTP callback that is triggered by this request.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user The WP user.
@@ -74,7 +74,7 @@ interface Token_Manager_Interface {
 	 * Refreshes a stored JWT access token for a user with the Yoast AI Service and stores it in the database under
 	 * usermeta. The storing of the token happens in a HTTP callback that is triggered by this request.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user The WP user.
@@ -97,7 +97,7 @@ interface Token_Manager_Interface {
 	/**
 	 * Checks whether the token has expired.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $jwt The JWT.
@@ -109,7 +109,7 @@ interface Token_Manager_Interface {
 	/**
 	 * Retrieves the access token.
 	 *
-	 * @deprecated 28.3
+	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user The WP user.
