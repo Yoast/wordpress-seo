@@ -1,17 +1,16 @@
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
-import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/components";
+import { Slot } from "@wordpress/components";
 import { useEffect, useId, useRef } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
-import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT, BULK_UPDATE_BATCH_SIZE } from "../constants";
+import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT } from "../constants";
 import { useAiUpsell } from "../hooks/use-ai-upsell";
 import { DismissibleAlert } from "./dismissible-alert";
 import { OverviewExclusionNotice } from "./overview-exclusion-notice";
 import { OverviewSelectionNotice } from "./overview-selection-notice";
 import { UpsellModal } from "./upsell-modal";
 import { SelectMenu } from "./select-menu";
-import AnimateHeight from "react-animate-height";
 
 /**
  * The first toolbar row: the multiselection checkbox, the Select menu and the selected-count.
@@ -155,21 +154,6 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => (
 );
 
 /**
- * Returns the AnimateHeight `height` value for the notices banner.
- *
- * @param {boolean} hasSaveError            Whether the last apply-all failed.
- * @param {Array}   noticeFills             The Premium slot fills currently mounted.
- * @param {number}  preselectedTotal        How many items were selected on the WP admin overview.
- * @param {boolean} hasExcludedPreselected  Whether carried-over items were dropped.
- *
- * @returns {"auto"|0} "auto" when any notice is visible, 0 to collapse.
- */
-const getBannerHeight = ( hasSaveError, noticeFills, preselectedTotal, hasExcludedPreselected ) =>
-	( hasSaveError || noticeFills?.length > 0 || preselectedTotal > BULK_UPDATE_BATCH_SIZE || hasExcludedPreselected )
-		? "auto"
-		: 0;
-
-/**
  * The overview-selection truncation and exclusion notices, the Free save-error notice, and the alerts slot
  * Premium fills (e.g. its AI alerts). Only rendered on the active tab, so each tab has a single slot to target.
  * The truncation and exclusion notices are independent and can show at the same time.
@@ -201,22 +185,17 @@ const BulkActionsNotices = ( {
 	contentType,
 	contentTypeLabel,
 	contentTypeSingularLabel,
-} ) => {
-	const noticeFills = useSlotFills( BULK_NOTICES_SLOT );
-	const bannerHeight = getBannerHeight( hasSaveError, noticeFills, preselectedTotal, hasExcludedPreselected );
-
-	return (
-		<AnimateHeight easing="ease-in-out" duration={ 300 } height={ bannerHeight } animateOpacity={ true }>
-			<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } />
-			<OverviewExclusionNotice hasExclusions={ hasExcludedPreselected } onDismiss={ onDismissExclusion } />
-			{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
-			<Slot
-				name={ BULK_NOTICES_SLOT }
-				fillProps={ { selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } }
-			/>
-		</AnimateHeight>
-	);
-};
+} ) => (
+	<>
+		<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } />
+		<OverviewExclusionNotice hasExclusions={ hasExcludedPreselected } onDismiss={ onDismissExclusion } />
+		{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
+		<Slot
+			name={ BULK_NOTICES_SLOT }
+			fillProps={ { selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } }
+		/>
+	</>
+);
 
 /**
  * The padded action band: Free's AI generate buttons (when AI is enabled), Premium's AI slot, and the manual

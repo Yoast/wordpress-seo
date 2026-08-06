@@ -15,7 +15,7 @@ import { getFieldTextClasses, getRowEditState, isRowEditDisabled } from "./table
  * @param {FieldSetField[]}   props.fields      The active field set's editable columns.
  * @param {string}            props.fieldSetId  The active field set's id, used to scope the per-row indicator slot.
  * @param {boolean}           props.isSelected  Whether this item is selected.
- * @param {Function}          props.onToggleRow Called with the item id when its checkbox is toggled.
+ * @param {Function}          props.onToggleRow Called with the item id and shift-key state when its checkbox is toggled.
  * @param {Object}            [props.edit]      This row's edit state ({ openFields, draft, savingFields }), or undefined when not editing.
  * @param {BulkEditorEditing} props.editing     The inline-edit props (its handlers).
  * @param {boolean}           [props.hasExternalPendingChanges=false] Whether Premium AI has suggestions pending review; while true,

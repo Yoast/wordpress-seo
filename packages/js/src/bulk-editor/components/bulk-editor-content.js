@@ -160,11 +160,21 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	// Tracks the last plain-click selection to anchor shift+click ranges.
 	const anchorIdRef = useRef( null );
 
+	// When a query change (search, filter, page) resets the store's selectedIds to [], clear the anchor so
+	// the next shift+click starts a fresh range rather than extending from a row the user selected before the reset.
+	useEffect( () => {
+		if ( selectedIds.length === 0 ) {
+			anchorIdRef.current = null;
+		}
+	}, [ selectedIds ] );
+
 	const onToggleRow = useCallback( ( id, shiftKey ) => {
 		const allEditableIds = items.filter( ( item ) => item.editable ).map( ( item ) => item.id );
-		if ( shiftKey && anchorIdRef.current !== null && allEditableIds.includes( anchorIdRef.current ) ) {
+		if ( shiftKey && anchorIdRef.current !== null ) {
 			selectRange( { anchorId: anchorIdRef.current, targetId: id, allIds: allEditableIds } );
 		} else {
+			// A plain deselect clears the anchor: deselecting a row cannot serve as the start of a range.
+			// Shift+click only ever adds to the selection; it does not toggle rows off.
 			anchorIdRef.current = selectedIds.includes( id ) ? null : id;
 			toggleRow( id );
 		}

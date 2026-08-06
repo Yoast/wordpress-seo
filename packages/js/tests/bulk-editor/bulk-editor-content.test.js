@@ -383,7 +383,24 @@ describe( "BulkEditorContent shift+click range selection", () => {
 		needsImprovement: {},
 	} ) );
 
-	it( "treats a shift+click as a plain toggle when the anchor row is not in the current page", () => {
+	it( "selects a contiguous range from the anchor to the shift+clicked row", () => {
+		usePosts.mockReturnValue( { data: makeItems( [ 1, 2, 3, 4, 5 ] ), total: 5, totalPages: 1, isPending: false, updateItem: jest.fn() } );
+		renderContent();
+
+		// Plain click on row 2 sets the anchor.
+		fireEvent.click( screen.getByRole( "checkbox", { name: "Select Post 2" } ) );
+
+		// Shift+click on row 4 — selects the contiguous range [2, 3, 4].
+		fireEvent.click( screen.getByRole( "checkbox", { name: "Select Post 4" } ), { shiftKey: true } );
+
+		expect( screen.getByRole( "checkbox", { name: "Select Post 2" } ) ).toBeChecked();
+		expect( screen.getByRole( "checkbox", { name: "Select Post 3" } ) ).toBeChecked();
+		expect( screen.getByRole( "checkbox", { name: "Select Post 4" } ) ).toBeChecked();
+		expect( screen.getByRole( "checkbox", { name: "Select Post 1" } ) ).not.toBeChecked();
+		expect( screen.getByRole( "checkbox", { name: "Select Post 5" } ) ).not.toBeChecked();
+	} );
+
+	it( "treats a shift+click as a plain toggle when a page change cleared the anchor", () => {
 		usePosts.mockReturnValue( { data: makeItems( [ 1, 2, 3 ] ), total: 6, totalPages: 2, isPending: false, updateItem: jest.fn() } );
 		renderContent();
 
@@ -391,14 +408,37 @@ describe( "BulkEditorContent shift+click range selection", () => {
 		fireEvent.click( screen.getByRole( "checkbox", { name: "Select Post 1" } ) );
 		expect( screen.getByRole( "checkbox", { name: "Select Post 1" } ) ).toBeChecked();
 
-		// Navigate to page 2 — new items load, selectedIds resets, but anchorIdRef still holds 1.
+		// Navigate to page 2 — selectedIds resets to [], which clears the anchor.
 		usePosts.mockReturnValue( { data: makeItems( [ 4, 5, 6 ] ), total: 6, totalPages: 2, isPending: false, updateItem: jest.fn() } );
 		act( () => {
 			dispatch( STORE_NAME ).setPage( 2 );
 		} );
 
-		// Shift+click on row 5 — anchor (1) is not in [4,5,6], so should fall back to a plain toggle.
+		// Shift+click on row 5 — anchor was cleared by the page change, so falls back to a plain toggle.
 		fireEvent.click( screen.getByRole( "checkbox", { name: "Select Post 5" } ), { shiftKey: true } );
 		expect( screen.getByRole( "checkbox", { name: "Select Post 5" } ) ).toBeChecked();
+		expect( screen.getByRole( "checkbox", { name: "Select Post 4" } ) ).not.toBeChecked();
+		expect( screen.getByRole( "checkbox", { name: "Select Post 6" } ) ).not.toBeChecked();
+	} );
+
+	it( "treats a shift+click as a plain toggle after a search resets the selection", () => {
+		usePosts.mockReturnValue( { data: makeItems( [ 1, 2, 3 ] ), total: 3, totalPages: 1, isPending: false, updateItem: jest.fn() } );
+		renderContent();
+
+		// Plain click on row 1 sets the anchor.
+		fireEvent.click( screen.getByRole( "checkbox", { name: "Select Post 1" } ) );
+		expect( screen.getByRole( "checkbox", { name: "Select Post 1" } ) ).toBeChecked();
+
+		// A search resets selectedIds to [], which clears the anchor.
+		act( () => {
+			dispatch( STORE_NAME ).setSearch( "seo" );
+		} );
+		expect( screen.getByRole( "checkbox", { name: "Select Post 1" } ) ).not.toBeChecked();
+
+		// Shift+click on row 3 — anchor was cleared on search, so falls back to a plain toggle.
+		fireEvent.click( screen.getByRole( "checkbox", { name: "Select Post 3" } ), { shiftKey: true } );
+		expect( screen.getByRole( "checkbox", { name: "Select Post 3" } ) ).toBeChecked();
+		expect( screen.getByRole( "checkbox", { name: "Select Post 1" } ) ).not.toBeChecked();
+		expect( screen.getByRole( "checkbox", { name: "Select Post 2" } ) ).not.toBeChecked();
 	} );
 } );
