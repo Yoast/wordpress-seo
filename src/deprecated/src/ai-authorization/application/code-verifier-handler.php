@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\AI_Authorization\Application;
 
 use RuntimeException;
 use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Generator;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 
@@ -35,7 +36,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	/**
 	 * The code generator.
 	 *
-	 * @var Code_Generator_Interface
+	 * @var Code_Generator
 	 */
 	private $code_generator;
 
@@ -47,9 +48,9 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	 *
 	 * @param Date_Helper                        $date_helper              The date helper.
 	 * @param Code_Verifier_User_Meta_Repository $code_verifier_repository The code verifier repository.
-	 * @param Code_Generator_Interface           $code_generator           The code  generator.
+	 * @param Code_Generator                     $code_generator           The code  generator.
 	 */
-	public function __construct( Date_Helper $date_helper, Code_Verifier_User_Meta_Repository $code_verifier_repository, Code_Generator_Interface $code_generator ) {
+	public function __construct( Date_Helper $date_helper, Code_Verifier_User_Meta_Repository $code_verifier_repository, Code_Generator $code_generator ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->date_helper              = $date_helper;
 		$this->code_verifier_repository = $code_verifier_repository;

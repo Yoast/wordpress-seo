@@ -6,9 +6,9 @@ namespace Yoast\WP\SEO\AI_Authorization\User_Interface;
 use RuntimeException;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository_Interface;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository_Interface;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository_Interface;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Conditionals\Old_Premium_AI_Conditional;
@@ -33,21 +33,21 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	/**
 	 * The access token repository instance.
 	 *
-	 * @var Access_Token_User_Meta_Repository_Interface
+	 * @var Access_Token_User_Meta_Repository
 	 */
 	protected $access_token_repository;
 
 	/**
 	 * The refresh token repository instance.
 	 *
-	 * @var Refresh_Token_User_Meta_Repository_Interface
+	 * @var Refresh_Token_User_Meta_Repository
 	 */
 	protected $refresh_token_repository;
 
 	/**
 	 * The code verifier instance.
 	 *
-	 * @var Code_Verifier_User_Meta_Repository_Interface
+	 * @var Code_Verifier_User_Meta_Repository
 	 */
 	protected $code_verifier_repository;
 
@@ -70,11 +70,11 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 * @deprecated 28.4
 	 * @codeCoverageIgnore
 	 *
-	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository  The access token repository instance.
-	 * @param Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository The refresh token repository instance.
-	 * @param Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository The code verifier instance.
+	 * @param Access_Token_User_Meta_Repository  $access_token_repository  The access token repository instance.
+	 * @param Refresh_Token_User_Meta_Repository $refresh_token_repository The refresh token repository instance.
+	 * @param Code_Verifier_User_Meta_Repository $code_verifier_repository The code verifier instance.
 	 */
-	public function __construct( Access_Token_User_Meta_Repository_Interface $access_token_repository, Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository, Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository ) {
+	public function __construct( Access_Token_User_Meta_Repository $access_token_repository, Refresh_Token_User_Meta_Repository $refresh_token_repository, Code_Verifier_User_Meta_Repository $code_verifier_repository ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		$this->access_token_repository  = $access_token_repository;
 		$this->refresh_token_repository = $refresh_token_repository;

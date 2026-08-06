@@ -19,13 +19,12 @@
  */
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Yoast\WP\SEO\AI_Authorization\Application\Code_Generator_Interface;
 use Yoast\WP\SEO\AI_Authorization\Application\Code_Verifier_Handler;
 use Yoast\WP\SEO\AI_Authorization\Application\Token_Manager;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository_Interface;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Generator;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository_Interface;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository_Interface;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository;
 use Yoast\WP\SEO\AI_Authorization\User_Interface\Callback_Route;
 use Yoast\WP\SEO\AI_Authorization\User_Interface\Refresh_Callback_Route;
 use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
@@ -50,12 +49,11 @@ $deprecated_classes = [
 	Google_Site_Kit_Feature_Conditional::class          => '26.7',
 	Old_Premium_AI_Conditional::class                   => '28.4',
 	New_Premium_Or_Free_AI_Conditional::class           => '28.4',
-	Access_Token_User_Meta_Repository_Interface::class  => '28.4',
-	Refresh_Token_User_Meta_Repository_Interface::class => '28.4',
-	Code_Verifier_User_Meta_Repository_Interface::class => '28.4',
 	Code_Verifier_Handler::class                        => '28.4',
+	Access_Token_User_Meta_Repository::class            => '28.4',
+	Refresh_Token_User_Meta_Repository::class           => '28.4',
+	Code_Generator::class                               => '28.4',
 	Code_Verifier_User_Meta_Repository::class           => '28.4',
-	Code_Generator_Interface::class                     => '28.4',
 	WordPress_URLs::class                               => '28.4',
 	Refresh_Callback_Route::class                       => '28.4',
 	Response_Parser::class                              => '28.4',
