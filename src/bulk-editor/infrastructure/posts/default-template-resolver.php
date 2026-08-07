@@ -45,16 +45,7 @@ class Default_Template_Resolver {
 	 * @return string The raw template string, or an empty string when no template is configured.
 	 */
 	public function resolve_seo_title( int $post_id, string $post_type, string $stored_value ): string {
-		if ( $stored_value !== '' ) {
-			return $stored_value;
-		}
-
-		$template = (string) $this->options_helper->get( 'title-' . $post_type, '' );
-		if ( $template === '' ) {
-			$template = (string) $this->options_helper->get_title_default( 'title-' . $post_type );
-		}
-
-		return $template;
+		return $this->resolve( $post_type, $stored_value, 'title-', true );
 	}
 
 	/**
@@ -71,11 +62,7 @@ class Default_Template_Resolver {
 	 * @return string The raw template string, or an empty string when no template is configured.
 	 */
 	public function resolve_meta_description( int $post_id, string $post_type, string $stored_value ): string {
-		if ( $stored_value !== '' ) {
-			return $stored_value;
-		}
-
-		return (string) $this->options_helper->get( 'metadesc-' . $post_type, '' );
+		return $this->resolve( $post_type, $stored_value, 'metadesc-', false );
 	}
 
 	/**
@@ -92,20 +79,11 @@ class Default_Template_Resolver {
 	 * @return string The raw template string, or an empty string when no template is configured.
 	 */
 	public function resolve_social_title( int $post_id, string $post_type, string $stored_value ): string {
-		if ( $stored_value !== '' ) {
-			return $stored_value;
-		}
-
 		if ( $this->options_helper->get( 'opengraph', false ) !== true ) {
 			return '';
 		}
 
-		$template = (string) $this->options_helper->get( 'social-title-' . $post_type, '' );
-		if ( $template === '' ) {
-			$template = (string) $this->options_helper->get_title_default( 'social-title-' . $post_type );
-		}
-
-		return $template;
+		return $this->resolve( $post_type, $stored_value, 'social-title-', true );
 	}
 
 	/**
@@ -121,14 +99,35 @@ class Default_Template_Resolver {
 	 * @return string The raw template string, or an empty string when no template is configured.
 	 */
 	public function resolve_social_description( int $post_id, string $post_type, string $stored_value ): string {
-		if ( $stored_value !== '' ) {
-			return $stored_value;
-		}
-
 		if ( $this->options_helper->get( 'opengraph', false ) !== true ) {
 			return '';
 		}
 
-		return (string) $this->options_helper->get( 'social-description-' . $post_type, '' );
+		return $this->resolve( $post_type, $stored_value, 'social-description-', false );
+	}
+
+	/**
+	 * Resolves a raw template string for a given post type, stored value, and option key prefix.
+	 *
+	 * @param string $post_type                The post type slug.
+	 * @param string $stored_value             The raw stored value (empty string when never explicitly saved).
+	 * @param string $option_key_prefix        The option key prefix (e.g. `title-`, `metadesc-`).
+	 * @param bool   $use_installation_default Whether to fall back to the installation default when the configured template is empty.
+	 *
+	 * @return string The raw template string, or an empty string when no template is configured.
+	 */
+	private function resolve( string $post_type, string $stored_value, string $option_key_prefix, bool $use_installation_default ): string {
+		if ( $stored_value !== '' ) {
+			return $stored_value;
+		}
+
+		$option_key = $option_key_prefix . $post_type;
+		$template   = (string) $this->options_helper->get( $option_key, '' );
+
+		if ( $use_installation_default && $template === '' ) {
+			$template = (string) $this->options_helper->get_title_default( $option_key );
+		}
+
+		return $template;
 	}
 }
