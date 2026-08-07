@@ -378,6 +378,111 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 	}
 
 	/**
+	 * Tests that a post with an empty stored SEO title is flagged as needing improvement when no
+	 * post-type template is configured.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_flags_seo_title_when_no_template_configured_and_stored_value_is_empty() {
+		$indexable                         = new Indexable_Mock();
+		$indexable->object_id              = 7;
+		$indexable->object_sub_type        = 'page';
+		$indexable->post_status            = 'draft';
+		$indexable->primary_focus_keyword  = '';
+		$indexable->title                  = ''; // No stored value.
+		$indexable->description            = 'Explicit description.';
+		$indexable->open_graph_title       = '';
+		$indexable->open_graph_description = '';
+		$indexable->seo_title_score        = 0;
+		$indexable->meta_description_score = 0;
+
+		$query = $this->stub_page_query( [ $indexable ] );
+		$query->expects( 'count' )->never();
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		// No template configured: the resolver returns '' → the flag must be true.
+		$this->assertTrue( $post['needs_improvement']['seo_title'] );
+		// Stored description is non-empty, so meta description does not need improvement.
+		$this->assertFalse( $post['needs_improvement']['meta_description'] );
+	}
+
+	/**
+	 * Tests that the needs-improvement SQL filter and the per-row flag agree when the post type has a
+	 * configured SEO title template.
+	 *
+	 * The SQL filter must exclude template-defaulted posts (1 = 0, not IS NULL) and the row flag must
+	 * report them as not needing improvement. A mismatch between the two caused the bug in #23438.
+	 *
+	 * @return void
+	 */
+	public function test_filter_and_row_flag_agree_when_post_type_has_seo_title_template() {
+		$indexable                         = new Indexable_Mock();
+		$indexable->object_id              = 7;
+		$indexable->object_sub_type        = 'page';
+		$indexable->post_status            = 'draft';
+		$indexable->primary_focus_keyword  = '';
+		$indexable->title                  = ''; // No stored value; fallback template applies.
+		$indexable->description            = '';
+		$indexable->open_graph_title       = '';
+		$indexable->open_graph_description = '';
+		$indexable->seo_title_score        = 0;
+		$indexable->meta_description_score = 0;
+
+		// Resolver returns a template for seo_title when called with any post_id, 'page', ''.
+		$this->default_template_resolver->allows( 'resolve_seo_title' )
+			->with( Mockery::any(), 'page', '' )
+			->andReturn( '%%title%% %%sep%% %%sitename%%' );
+
+		$captured = [];
+		$query    = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		// Non-full page (1 row < per_page 20): resolve_total skips the count query, so where_raw fires once.
+		$query->expects( 'where_raw' )
+			->once()
+			->with(
+				Mockery::on(
+					static function ( $clause ) use ( &$captured ) {
+						$captured[] = $clause;
+
+						return true;
+					},
+				),
+				[], // Template configured, scoring disabled — no bound values.
+			)
+			->andReturnSelf();
+		$query->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts(
+			new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 'seo_title' ], false ),
+		)->to_array();
+		$post   = $result['posts'][0];
+
+		// SQL: the filter must use the false condition, not an empty-column check.
+		$this->assertStringContainsString( '1 = 0', $captured[0] );
+		$this->assertStringNotContainsString( 'title IS NULL', $captured[0] );
+
+		// Row flag: the post is not needing improvement — the template covers the gap.
+		$this->assertFalse( $post['needs_improvement']['seo_title'] );
+	}
+
+	/**
 	 * Stubs the indexable query for a page that returns the given rows, without constraining count().
 	 *
 	 * @param array<Indexable_Mock> $rows The indexables the page query returns.

@@ -275,6 +275,34 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 	}
 
 	/**
+	 * Tests that the collector handles a null get_post() return gracefully when the post is editable.
+	 *
+	 * get_post() returns null when the post has been deleted between the WP_Query and the per-row fetch.
+	 * In that case post_type falls back to '' and the resolver is called with an empty post type; the
+	 * collector must not crash and must return a post with empty status.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_handles_null_get_post_gracefully() {
+		$this->stub_run_query( [ 7 ], 1 );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturnNull();
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+		Functions\expect( 'get_post_meta' )->times( 7 )->andReturn( '' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		// Status is empty because get_post() returned null.
+		$this->assertSame( '', $post['status'] );
+		$this->assertSame( 7, $post['id'] );
+		$this->assertTrue( $post['editable'] );
+	}
+
+	/**
 	 * Stubs run_query so it returns a WP_Query with the given post IDs and total.
 	 *
 	 * @param array<int> $post_ids    The post IDs the query returns.
