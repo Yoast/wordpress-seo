@@ -28,16 +28,17 @@ class Default_Template_Resolver {
 	}
 
 	/**
-	 * Returns the SEO title for a post, falling back to the post type's configured template when empty.
+	 * Returns the raw SEO title template for a post, falling back to the post type's configured template when empty.
 	 *
-	 * Priority mirrors the presentation layer: stored value → user-configured post type template
-	 * (SEO > Settings, `title-{post_type}`) → installation default.
+	 * Returns the unresolved template string (e.g. `%%title%% %%sep%% %%sitename%%`) so the caller
+	 * can display it in a replacement-variable editor rather than showing the expanded value.
+	 * Priority: stored value → user-configured post type template (`title-{post_type}`) → installation default.
 	 *
-	 * @param int    $post_id      The post ID.
+	 * @param int    $post_id      The post ID (unused; kept for a consistent method signature).
 	 * @param string $post_type    The post type slug.
 	 * @param string $stored_value The raw stored title (empty string when never explicitly saved).
 	 *
-	 * @return string The resolved SEO title.
+	 * @return string The raw template string, or an empty string when no template is configured.
 	 */
 	public function resolve_seo_title( int $post_id, string $post_type, string $stored_value ): string {
 		if ( $stored_value !== '' ) {
@@ -48,33 +49,29 @@ class Default_Template_Resolver {
 		if ( $template === '' ) {
 			$template = (string) $this->options_helper->get_title_default( 'title-' . $post_type );
 		}
-		if ( $template === '' ) {
-			return '';
-		}
 
-		return (string) \wpseo_replace_vars( $template, \get_post( $post_id ) );
+		return $template;
 	}
 
 	/**
-	 * Returns the meta description for a post, falling back to the post type's configured template when empty.
+	 * Returns the raw meta description template for a post, falling back to the post type's configured template when empty.
 	 *
-	 * @param int    $post_id      The post ID.
+	 * Returns the unresolved template string so the caller can display it in a replacement-variable
+	 * editor. Unlike SEO title there is no installation-level default, so an empty stored value
+	 * returns an empty string when the user has not configured a post type template.
+	 *
+	 * @param int    $post_id      The post ID (unused; kept for a consistent method signature).
 	 * @param string $post_type    The post type slug.
 	 * @param string $stored_value The raw stored description (empty string when never explicitly saved).
 	 *
-	 * @return string The resolved meta description.
+	 * @return string The raw template string, or an empty string when no template is configured.
 	 */
 	public function resolve_meta_description( int $post_id, string $post_type, string $stored_value ): string {
 		if ( $stored_value !== '' ) {
 			return $stored_value;
 		}
 
-		$template = (string) $this->options_helper->get( 'metadesc-' . $post_type, '' );
-		if ( $template === '' ) {
-			return '';
-		}
-
-		return (string) \wpseo_replace_vars( $template, \get_post( $post_id ) );
+		return (string) $this->options_helper->get( 'metadesc-' . $post_type, '' );
 	}
 
 	/**
