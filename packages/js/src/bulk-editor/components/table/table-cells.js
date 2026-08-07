@@ -104,7 +104,7 @@ export const EditableFieldCell = ( {
 						replacementVariables={ replacementVariables }
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						/* translators: %1$s expands to the field label, %2$s to the content item title. */
-						aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
+						label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
 					/>
 				</AnimateHeight>
 			</Table.Cell>
@@ -121,7 +121,7 @@ export const EditableFieldCell = ( {
 					onChange={ handleTextareaChange }
 					disabled={ isSaving }
 					/* translators: %1$s expands to the field label, %2$s to the content item title. */
-					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
+					label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
 				/>
 			</AnimateHeight>
 		</Table.Cell>

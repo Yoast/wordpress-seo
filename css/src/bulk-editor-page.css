@@ -194,6 +194,10 @@
 	@apply yst-m-0;
 }
 
+.yst-root .yst-replacevar__label {
+	@apply yst-sr-only;
+}
+
 .yst-root .yst-replacevar__buttons {
 	display: none;
 }
