@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
  * @group bulk-editor
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector::get_posts
+ * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector::build_needs_improvement
  */
 final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 
@@ -201,10 +202,10 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 				},
 			);
 
-		$this->default_template_resolver->allows( 'resolve_seo_title' )
+		$this->default_template_resolver->expects( 'resolve_seo_title' )
 			->with( 7, 'page', '' )
 			->andReturn( 'Page title from template' );
-		$this->default_template_resolver->allows( 'resolve_meta_description' )
+		$this->default_template_resolver->expects( 'resolve_meta_description' )
 			->with( 7, 'page', '' )
 			->andReturn( 'Page description from template' );
 
@@ -256,10 +257,10 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 				},
 			);
 
-		$this->default_template_resolver->allows( 'resolve_social_title' )
+		$this->default_template_resolver->expects( 'resolve_social_title' )
 			->with( 7, 'post', '' )
 			->andReturn( 'Social title from template' );
-		$this->default_template_resolver->allows( 'resolve_social_description' )
+		$this->default_template_resolver->expects( 'resolve_social_description' )
 			->with( 7, 'post', '' )
 			->andReturn( 'Social description from template' );
 
