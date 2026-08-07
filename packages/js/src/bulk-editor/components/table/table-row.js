@@ -1,8 +1,11 @@
 import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/components";
 import { Fragment, useCallback } from "@wordpress/element";
+import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
+import { ReplacementVariableEditorStandalone } from "@yoast/replacement-variable-editor";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
-import { TABLE_CELL_FIELD_SLOT } from "../../constants";
+import { noop } from "lodash";
+import { STORE_NAME, TABLE_CELL_FIELD_SLOT } from "../../constants";
 import { EditableFieldCell, TitleCell } from "./table-cells";
 import { getFieldTextClasses, getRowEditState, isRowEditDisabled } from "./table-helpers";
 
@@ -38,6 +41,13 @@ export const BulkEditorRow = ( {
 } ) => {
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
 	const { onStartEdit, onChangeField, onApplyField, onApplyRow, onCancelEdit, onDiscardField, onFieldApplied, isApplyingAll } = editing;
+	const { replacementVariables, recommendedReplacementVariables } = useSelect( ( select ) => {
+		const activeContentType = select( STORE_NAME ).selectActiveContentTypeName();
+		return {
+			replacementVariables: select( STORE_NAME ).selectReplacementVariablesFor( activeContentType, "custom_post_type" ),
+			recommendedReplacementVariables: select( STORE_NAME ).selectRecommendedReplacementVariablesFor( activeContentType, "custom_post_type" ),
+		};
+	}, [] );
 	// Treat a batch "Save edits" as saving this row too, so its inputs and Save/Cancel lock and a per-field save can't race the batch.
 	const isSaving = Object.keys( savingFields ).length > 0 || isApplyingAll;
 	const fillsSeoTitles = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/seoTitle/${item.id}` );
@@ -102,6 +112,27 @@ export const BulkEditorRow = ( {
 								}
 
 								if ( ! openFields.includes( field.key ) ) {
+									if ( field.type ) {
+										return (
+											<Table.Cell key={ field.key } className={ `yst-bulk-editor-cell-value ${ getFieldTextClasses( field.key, false ) }` }>
+												<span id={ `bulk-editor-preview-${ field.key }-${ item.id }` } className="yst-sr-only">
+													{ sprintf(
+														/* translators: %1$s expands to the field label, %2$s to the content item title. */
+														__( "%1$s for %2$s", "wordpress-seo" ), field.label, item.title ) }
+												</span>
+												<ReplacementVariableEditorStandalone
+													content={ item[ field.key ] ?? "" }
+													onChange={ noop }
+													type={ field.type }
+													isDisabled={ true }
+													replacementVariables={ replacementVariables }
+													recommendedReplacementVariables={ recommendedReplacementVariables }
+													ariaLabelledBy={ `bulk-editor-preview-${ field.key }-${ item.id }` }
+													fieldId={ `bulk-editor-${ field.key }-${ item.id }` }
+												/>
+											</Table.Cell>
+										);
+									}
 									return (
 										<Table.Cell key={ field.key } className={ `yst-bulk-editor-cell-value ${ getFieldTextClasses( field.key, false ) }` }>
 											{ item[ field.key ] }
@@ -116,7 +147,8 @@ export const BulkEditorRow = ( {
 									value={ draft[ field.key ] ?? "" }
 									isSaving={ isSaving }
 									onChange={ handleChangeField }
-									isOpen={ isEditing }
+									replacementVariables={ replacementVariables }
+									recommendedReplacementVariables={ recommendedReplacementVariables }
 								/>;
 							} }
 						</Slot>
