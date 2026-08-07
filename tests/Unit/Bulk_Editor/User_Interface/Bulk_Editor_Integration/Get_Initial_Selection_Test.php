@@ -172,6 +172,8 @@ final class Get_Initial_Selection_Test extends Abstract_Bulk_Editor_Integration_
 	 * @return array<string, string|int|array<int>> The initial selection script data.
 	 */
 	private function get_initial_selection() {
+		$this->stub_wpseo_admin_replace_vars_dependencies();
+		$this->replace_vars->allows( 'get_replacement_variables_with_labels' )->andReturn( [] );
 		$this->stubEscapeFunctions();
 		Functions\stubs(
 			[

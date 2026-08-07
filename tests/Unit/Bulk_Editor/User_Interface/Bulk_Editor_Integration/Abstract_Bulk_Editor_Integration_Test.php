@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
 
+use Brain\Monkey\Functions;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Replace_Vars;
@@ -101,6 +102,23 @@ abstract class Abstract_Bulk_Editor_Integration_Test extends TestCase {
 	 * @var Mockery\MockInterface|WPSEO_Replace_Vars
 	 */
 	protected $replace_vars;
+
+	/**
+	 * Stubs the WP globals and functions consumed by WPSEO_Admin_Editor_Specific_Replace_Vars::__construct().
+	 *
+	 * Must be called before any test that exercises get_script_data() / enqueue_assets().
+	 *
+	 * @return void
+	 */
+	protected function stub_wpseo_admin_replace_vars_dependencies(): void {
+		global $wpdb;
+		$wpdb           = Mockery::mock();
+		$wpdb->postmeta = 'wp_postmeta';
+		$wpdb->allows( 'prepare' )->andReturn( '' );
+		$wpdb->allows( 'get_col' )->andReturn( [] );
+
+		Functions\stubs( [ 'get_taxonomies' => [] ] );
+	}
 
 	/**
 	 * Sets up the test fixtures.

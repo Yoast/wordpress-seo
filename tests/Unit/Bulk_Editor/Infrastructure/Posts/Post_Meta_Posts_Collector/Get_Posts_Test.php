@@ -66,17 +66,21 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 			[
 				'posts'       => [
 					[
-						'id'                 => 7,
-						'title'              => 'Hello world',
-						'status'             => 'draft',
-						'edit_link'          => 'post.php?post=7&action=edit',
-						'focus_keyphrase'    => 'hello',
-						'seo_title'          => 'Hello | Site',
-						'meta_description'   => 'A description.',
-						'social_title'       => 'Social hello',
-						'social_description' => 'Social description.',
-						'editable'           => true,
-						'needs_improvement'  => [
+						'id'                          => 7,
+						'title'                       => 'Hello world',
+						'status'                      => 'draft',
+						'edit_link'                   => 'post.php?post=7&action=edit',
+						'focus_keyphrase'             => 'hello',
+						'seo_title'                   => 'Hello | Site',
+						'meta_description'            => 'A description.',
+						'social_title'                => 'Social hello',
+						'social_description'          => 'Social description.',
+						'seo_title_fallback'          => '',
+						'meta_description_fallback'   => '',
+						'social_title_fallback'       => '',
+						'social_description_fallback' => '',
+						'editable'                    => true,
+						'needs_improvement'           => [
 							'seo_title'          => false,
 							'meta_description'   => true,
 							'social_title'       => false,
@@ -118,17 +122,21 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 
 		$this->assertSame(
 			[
-				'id'                 => 7,
-				'title'              => 'Secret post',
-				'status'             => 'publish',
-				'edit_link'          => '',
-				'focus_keyphrase'    => '',
-				'seo_title'          => '',
-				'meta_description'   => '',
-				'social_title'       => '',
-				'social_description' => '',
-				'editable'           => false,
-				'needs_improvement'  => [
+				'id'                          => 7,
+				'title'                       => 'Secret post',
+				'status'                      => 'publish',
+				'edit_link'                   => '',
+				'focus_keyphrase'             => '',
+				'seo_title'                   => '',
+				'meta_description'            => '',
+				'social_title'                => '',
+				'social_description'          => '',
+				'seo_title_fallback'          => '',
+				'meta_description_fallback'   => '',
+				'social_title_fallback'       => '',
+				'social_description_fallback' => '',
+				'editable'                    => false,
+				'needs_improvement'           => [
 					'seo_title'          => false,
 					'meta_description'   => false,
 					'social_title'       => false,
@@ -278,7 +286,7 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 	/**
 	 * Tests that the collector handles a null get_post() return gracefully when the post is editable.
 	 *
-	 * get_post() returns null when the post has been deleted between the WP_Query and the per-row fetch.
+	 * The get_post() function returns null when the post has been deleted between the WP_Query and the per-row fetch.
 	 * In that case post_type falls back to '' and the resolver is called with an empty post type; the
 	 * collector must not crash and must return a post with empty status.
 	 *

@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector;
 
 use Mockery;
+use Mockery\MockInterface;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Default_Template_Resolver;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Editability_Resolver;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Bulk_Editor\Post_Meta_Posts_Collector_Double;
@@ -29,7 +30,7 @@ final class Build_Needs_Improvement_Where_Test extends TestCase {
 	/**
 	 * The default template resolver mock.
 	 *
-	 * @var Default_Template_Resolver&\Mockery\MockInterface
+	 * @var Default_Template_Resolver&MockInterface
 	 */
 	private $default_template_resolver;
 

@@ -26,6 +26,7 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 	 * @return void
 	 */
 	public function test_enqueue_assets() {
+		$this->stub_wpseo_admin_replace_vars_dependencies();
 		$this->stubEscapeFunctions();
 
 		$content_types = [

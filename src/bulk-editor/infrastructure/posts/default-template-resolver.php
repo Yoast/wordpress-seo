@@ -79,11 +79,15 @@ class Default_Template_Resolver {
 	 * @return string The raw template string, or an empty string when no template is configured.
 	 */
 	public function resolve_social_title( int $post_id, string $post_type, string $stored_value ): string {
+		if ( $stored_value !== '' ) {
+			return $stored_value;
+		}
+
 		if ( $this->options_helper->get( 'opengraph', false ) !== true ) {
 			return '';
 		}
 
-		return $this->resolve( $post_type, $stored_value, 'social-title-', true );
+		return $this->resolve( $post_type, '', 'social-title-', true );
 	}
 
 	/**
@@ -99,11 +103,15 @@ class Default_Template_Resolver {
 	 * @return string The raw template string, or an empty string when no template is configured.
 	 */
 	public function resolve_social_description( int $post_id, string $post_type, string $stored_value ): string {
+		if ( $stored_value !== '' ) {
+			return $stored_value;
+		}
+
 		if ( $this->options_helper->get( 'opengraph', false ) !== true ) {
 			return '';
 		}
 
-		return $this->resolve( $post_type, $stored_value, 'social-description-', false );
+		return $this->resolve( $post_type, '', 'social-description-', false );
 	}
 
 	/**
