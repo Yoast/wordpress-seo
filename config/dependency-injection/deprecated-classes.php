@@ -67,8 +67,6 @@ $deprecated_classes = [
 	Bust_Subscription_Cache_Route::class                => '28.4',
 	Consent_Route::class                                => '28.4',
 	Consent_Handler::class                              => '28.4',
-
-
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {
