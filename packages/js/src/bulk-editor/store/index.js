@@ -10,6 +10,9 @@ import { getInitialLinkParamsState,
 	myyoastConnectionActions,
 	myyoastConnectionReducer,
 	myyoastConnectionSelectors,
+	replacementVariablesActions,
+	replacementVariablesReducer,
+	replacementVariablesSelectors,
 } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import activeContentType, { activeContentTypeActions, activeContentTypeSelectors, createInitialActiveContentTypeState } from "./active-content-type";
@@ -41,6 +44,7 @@ const createStore = ( { initialState } ) => {
 		actions: {
 			...linkParamsActions,
 			...preferencesActions,
+			...replacementVariablesActions,
 			...activeFieldSetActions,
 			...activeContentTypeActions,
 			...queryActions,
@@ -54,6 +58,7 @@ const createStore = ( { initialState } ) => {
 		selectors: {
 			...linkParamsSelectors,
 			...preferencesSelectors,
+			...replacementVariablesSelectors,
 			...activeFieldSetSelectors,
 			...activeContentTypeSelectors,
 			...querySelectors,
@@ -69,6 +74,7 @@ const createStore = ( { initialState } ) => {
 			{
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
+
 				activeFieldSet: createInitialActiveFieldSetState(),
 				activeContentType: createInitialActiveContentTypeState(),
 				query: createInitialQueryState(),
@@ -84,6 +90,7 @@ const createStore = ( { initialState } ) => {
 		reducer: combineReducers( {
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			preferences,
+			replacementVariables: replacementVariablesReducer,
 			activeFieldSet,
 			activeContentType,
 			query,
