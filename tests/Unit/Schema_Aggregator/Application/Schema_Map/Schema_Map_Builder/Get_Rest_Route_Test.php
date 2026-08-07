@@ -12,10 +12,8 @@ use Generator;
  * @group schema-aggregator
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map\Schema_Map_Builder::get_rest_route
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Rest_Route_Test extends Abstract_Schema_Map_Builder_Test {
+final class Get_Rest_Route_Test extends Abstract_Test {
 
 	/**
 	 * Tests get_rest_route returns the correct URL.

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Description;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Description_Builder::build_description
  */
-final class Build_Description_Test extends Abstract_Description_Builder_Test {
+final class Build_Description_Test extends Abstract_Test {
 
 	/**
 	 * Tests the build_description method.

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Conditionals\AI_Conditional;
  *
  * @covers \Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route::get_conditionals
  */
-final class Conditional_Test extends Abstract_Free_Sparks_Route_Test {
+final class Conditional_Test extends Abstract_Test {
 
 	/**
 	 * Tests the conditional.

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Content_Types\Content_Types_Collector::__construct
  */
-final class Constructor_Test extends Abstract_Content_Types_Collector_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

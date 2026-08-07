@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  *
  * @covers \Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::__construct
  */
-final class Constructor_Test extends Abstract_Consent_Handler_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

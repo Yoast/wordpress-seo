@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Reposito
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command_Handler::__construct
  */
-final class Constructor_Test extends Abstract_Aggregate_Site_Schema_Map_Command_Handler_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  *
  * @covers \Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Handler::__construct
  */
-final class Constructor_Test extends Abstract_Free_Sparks_Handler_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

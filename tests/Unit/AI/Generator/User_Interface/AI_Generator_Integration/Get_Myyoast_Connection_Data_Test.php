@@ -13,7 +13,7 @@ use Brain\Monkey;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\AI_Generator_Integration::get_myyoast_connection_data
  */
-final class Get_Myyoast_Connection_Data_Test extends Abstract_AI_Generator_Integration_Test {
+final class Get_Myyoast_Connection_Data_Test extends Abstract_Test {
 
 	/**
 	 * The status payload returned by the Status_Presenter.

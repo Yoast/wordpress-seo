@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\Domain\Suggestion;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Domain\Suggestion::get_value
  */
-final class Get_Value_Test extends Abstract_Suggestion_Test {
+final class Get_Value_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_value method.

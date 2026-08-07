@@ -14,7 +14,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
  *
  * @covers Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client::perform_request
  */
-final class Perform_Request_Post_Test extends Abstract_API_Client_Test {
+final class Perform_Request_Post_Test extends Abstract_Test {
 
 	/**
 	 * Tests the perform_request method with a POST request.

@@ -11,10 +11,8 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional;
  * @covers \Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Aggregator_Route::get_conditionals
  *
  * @group schema-aggregator
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Conditionals_Test extends Abstract_Site_Schema_Aggregator_Route_Test {
+final class Get_Conditionals_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_conditionals method.

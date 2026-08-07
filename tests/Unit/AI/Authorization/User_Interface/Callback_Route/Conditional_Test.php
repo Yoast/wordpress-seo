@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Conditionals\AI_Conditional;
  *
  * @covers \Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::get_conditionals
  */
-final class Conditional_Test extends Abstract_Callback_Route_Test {
+final class Conditional_Test extends Abstract_Test {
 
 	/**
 	 * Tests the conditional.

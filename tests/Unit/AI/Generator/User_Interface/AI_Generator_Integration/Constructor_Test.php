@@ -22,7 +22,7 @@ use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Ai_Generator_Integration::__construct
  */
-final class Constructor_Test extends Abstract_AI_Generator_Integration_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.
