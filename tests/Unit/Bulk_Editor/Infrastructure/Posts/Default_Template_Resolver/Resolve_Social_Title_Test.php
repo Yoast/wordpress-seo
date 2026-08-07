@@ -4,9 +4,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Posts\Default_Template_Resolver;
 
-use Brain\Monkey\Filters;
-use Brain\Monkey\Functions;
-
 /**
  * Tests resolve_social_title.
  *
@@ -17,7 +14,7 @@ use Brain\Monkey\Functions;
 final class Resolve_Social_Title_Test extends Abstract_Default_Template_Resolver_Test {
 
 	/**
-	 * Tests that a non-empty stored value is returned unchanged without touching options or filters.
+	 * Tests that a non-empty stored value is returned unchanged without touching options.
 	 *
 	 * @return void
 	 */
@@ -36,9 +33,7 @@ final class Resolve_Social_Title_Test extends Abstract_Default_Template_Resolver
 	 */
 	public function test_returns_empty_when_opengraph_disabled() {
 		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( false );
-
-		Functions\expect( 'apply_filters' )->never();
-		Functions\expect( 'wpseo_replace_vars' )->never();
+		$this->options_helper->expects( 'get_title_default' )->never();
 
 		$result = $this->instance->resolve_social_title( 7, 'post', '' );
 
@@ -46,51 +41,47 @@ final class Resolve_Social_Title_Test extends Abstract_Default_Template_Resolver
 	}
 
 	/**
-	 * Tests that an empty string is returned when OpenGraph is enabled but the filter returns no template.
-	 *
-	 * This is the expected behaviour on Free, where no callback is registered for
-	 * `wpseo_social_template_post_type` and the filter therefore returns the default empty string.
+	 * Tests that the raw user-configured template is returned when the stored value is empty.
 	 *
 	 * @return void
 	 */
-	public function test_returns_empty_when_filter_returns_empty_template() {
+	public function test_returns_configured_template_when_stored_value_is_empty() {
 		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( true );
+		$this->options_helper->expects( 'get' )->with( 'social-title-post', '' )->andReturn( '%%title%%' );
+		$this->options_helper->expects( 'get_title_default' )->never();
 
-		Filters\expectApplied( 'wpseo_social_template_post_type' )
-			->once()
-			->with( '', 'title', 'post' )
-			->andReturn( '' );
+		$result = $this->instance->resolve_social_title( 7, 'post', '' );
 
-		Functions\expect( 'get_post' )->never();
-		Functions\expect( 'wpseo_replace_vars' )->never();
+		$this->assertSame( '%%title%%', $result );
+	}
+
+	/**
+	 * Tests that the installation default template is returned when the user has not configured one.
+	 *
+	 * @return void
+	 */
+	public function test_returns_default_template_when_configured_template_is_empty() {
+		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( true );
+		$this->options_helper->expects( 'get' )->with( 'social-title-page', '' )->andReturn( '' );
+		$this->options_helper->expects( 'get_title_default' )->with( 'social-title-page' )->andReturn( '%%title%%' );
+
+		$result = $this->instance->resolve_social_title( 7, 'page', '' );
+
+		$this->assertSame( '%%title%%', $result );
+	}
+
+	/**
+	 * Tests that an empty string is returned when neither a configured template nor an installation default exists.
+	 *
+	 * @return void
+	 */
+	public function test_returns_empty_when_no_template_exists() {
+		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( true );
+		$this->options_helper->expects( 'get' )->with( 'social-title-post', '' )->andReturn( '' );
+		$this->options_helper->expects( 'get_title_default' )->with( 'social-title-post' )->andReturn( '' );
 
 		$result = $this->instance->resolve_social_title( 7, 'post', '' );
 
 		$this->assertSame( '', $result );
-	}
-
-	/**
-	 * Tests that the filter-provided template is resolved when OpenGraph is enabled.
-	 *
-	 * This is the expected behaviour on Premium, where a callback supplies the configured template.
-	 *
-	 * @return void
-	 */
-	public function test_resolves_from_filter_template_when_opengraph_enabled() {
-		$post = (object) [ 'ID' => 7 ];
-
-		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( true );
-
-		Filters\expectApplied( 'wpseo_social_template_post_type' )
-			->once()
-			->with( '', 'title', 'post' )
-			->andReturn( '%%title%%' );
-
-		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn( $post );
-		Functions\expect( 'wpseo_replace_vars' )->once()->with( '%%title%%', $post )->andReturn( 'My post' );
-
-		$result = $this->instance->resolve_social_title( 7, 'post', '' );
-
-		$this->assertSame( 'My post', $result );
 	}
 }

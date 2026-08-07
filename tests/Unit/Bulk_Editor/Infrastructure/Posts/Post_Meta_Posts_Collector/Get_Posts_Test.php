@@ -218,7 +218,7 @@ final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
 	}
 
 	/**
-	 * Tests that the social title and social description fall back to the resolved template when the
+	 * Tests that the social title and social description fall back to the raw template when the
 	 * stored values are empty, and that the post is not flagged as needing improvement.
 	 *
 	 * @return void

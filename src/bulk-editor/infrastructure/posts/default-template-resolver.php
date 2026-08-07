@@ -75,18 +75,17 @@ class Default_Template_Resolver {
 	}
 
 	/**
-	 * Returns the social title for a post, falling back to the post type's configured template when empty.
+	 * Returns the raw social title template for a post, falling back to the post type's configured template when empty.
 	 *
-	 * Mirrors `Social_Data_Provider::get_social_title_template()`: only resolves a template when
-	 * OpenGraph is enabled, and delegates to the `wpseo_social_template_post_type` filter so that
-	 * Premium can supply a value while Free — which cannot configure this setting — always gets an
-	 * empty string.
+	 * Returns the unresolved template string so the caller can display it in a replacement-variable editor.
+	 * Only resolves a template when OpenGraph is enabled.
+	 * Priority: stored value → user-configured post type template (`social-title-{post_type}`) → installation default.
 	 *
-	 * @param int    $post_id      The post ID.
+	 * @param int    $post_id      The post ID (unused; kept for a consistent method signature).
 	 * @param string $post_type    The post type slug.
 	 * @param string $stored_value The raw stored social title (empty string when never explicitly saved).
 	 *
-	 * @return string The resolved social title.
+	 * @return string The raw template string, or an empty string when no template is configured.
 	 */
 	public function resolve_social_title( int $post_id, string $post_type, string $stored_value ): string {
 		if ( $stored_value !== '' ) {
@@ -97,26 +96,25 @@ class Default_Template_Resolver {
 			return '';
 		}
 
-		$template = (string) \apply_filters( 'wpseo_social_template_post_type', '', 'title', $post_type );
+		$template = (string) $this->options_helper->get( 'social-title-' . $post_type, '' );
 		if ( $template === '' ) {
-			return '';
+			$template = (string) $this->options_helper->get_title_default( 'social-title-' . $post_type );
 		}
 
-		return (string) \wpseo_replace_vars( $template, \get_post( $post_id ) );
+		return $template;
 	}
 
 	/**
-	 * Returns the social description for a post, falling back to the post type's configured template when empty.
+	 * Returns the raw social description template for a post, falling back to the post type's configured template when empty.
 	 *
-	 * Mirrors `Social_Data_Provider::get_social_description_template()`: only resolves a template when
-	 * OpenGraph is enabled, and delegates to the `wpseo_social_template_post_type` filter so that
-	 * Premium can supply a value while Free always gets an empty string.
+	 * Returns the unresolved template string so the caller can display it in a replacement-variable editor.
+	 * Only resolves a template when OpenGraph is enabled. Unlike social title there is no installation-level default.
 	 *
-	 * @param int    $post_id      The post ID.
+	 * @param int    $post_id      The post ID (unused; kept for a consistent method signature).
 	 * @param string $post_type    The post type slug.
 	 * @param string $stored_value The raw stored social description (empty string when never explicitly saved).
 	 *
-	 * @return string The resolved social description.
+	 * @return string The raw template string, or an empty string when no template is configured.
 	 */
 	public function resolve_social_description( int $post_id, string $post_type, string $stored_value ): string {
 		if ( $stored_value !== '' ) {
@@ -127,11 +125,6 @@ class Default_Template_Resolver {
 			return '';
 		}
 
-		$template = (string) \apply_filters( 'wpseo_social_template_post_type', '', 'description', $post_type );
-		if ( $template === '' ) {
-			return '';
-		}
-
-		return (string) \wpseo_replace_vars( $template, \get_post( $post_id ) );
+		return (string) $this->options_helper->get( 'social-description-' . $post_type, '' );
 	}
 }
