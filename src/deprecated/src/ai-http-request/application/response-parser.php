@@ -55,7 +55,6 @@ class Response_Parser implements Response_Parser_Interface {
 	 * @return string The mapped code.
 	 */
 	private function map_message_to_code( string $message ): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.4' );
 		if ( \strpos( $message, 'must NOT have fewer than 1 characters' ) !== false ) {
 			return 'NOT_ENOUGH_CONTENT';
 		}
