@@ -252,7 +252,7 @@ describe( "App", () => {
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
 
 			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
-			
+
 			// The active tab's save endpoint is not configured, so no POST is made and the field stays open.
 			expect( remote.fetchJson ).not.toHaveBeenCalledWith(
 				expect.anything(),

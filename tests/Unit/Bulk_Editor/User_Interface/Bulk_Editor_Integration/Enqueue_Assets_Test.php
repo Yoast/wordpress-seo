@@ -84,8 +84,8 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 							&& \array_key_exists( 'recommended', $data['replacementVariables'] )
 							&& \array_key_exists( 'specific', $data['replacementVariables'] )
 							&& \array_key_exists( 'shared', $data['replacementVariables'] );
-					}
-				)
+					},
+				),
 			);
 
 		$this->instance->enqueue_assets();
