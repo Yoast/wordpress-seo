@@ -340,7 +340,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	private function build_needs_improvement( Indexable $indexable, bool $scores_enabled, array $resolved_values ): array {
 		$needs_improvement = [];
 		foreach ( self::FIELD_COLUMNS as $field => $column ) {
-			$value    = ( $resolved_values[ $field ] ?? (string) $indexable->{$column} );
+			$value    = $resolved_values[ $field ];
 			$is_empty = ( $value === '' );
 
 			$is_bad_score = false;
