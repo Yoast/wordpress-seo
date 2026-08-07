@@ -19,14 +19,22 @@
  */
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
+use Yoast\WP\SEO\AI_Consent\Infrastructure\Endpoints\Consent_Endpoint;
+use Yoast\WP\SEO\AI_Consent\User_Interface\Ai_Consent_Integration;
+use Yoast\WP\SEO\AI_Consent\User_Interface\Consent_Route;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Unsupported_PHP_Version_Notice;
 
 $deprecated_classes = [
-	Request_Helper::class                                          => '23.6',
-	Unsupported_PHP_Version_Notice::class                          => '25.0',
-	Google_Site_Kit_Feature_Conditional::class                     => '26.7',
+	Request_Helper::class                      => '23.6',
+	Unsupported_PHP_Version_Notice::class      => '25.0',
+	Google_Site_Kit_Feature_Conditional::class => '26.7',
+	Consent_Handler::class                     => '28.2',
+	Consent_Endpoint::class                    => '28.2',
+	Ai_Consent_Integration::class              => '28.2',
+	Consent_Route::class                       => '28.2',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {
