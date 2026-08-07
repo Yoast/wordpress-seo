@@ -4,6 +4,9 @@
 namespace Yoast\WP\SEO\Bulk_Editor\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Admin_Editor_Specific_Replace_Vars;
+use WPSEO_Admin_Recommended_Replace_Vars;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Batch_Limit;
@@ -111,6 +114,13 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	private $myyoast_connection_data_presenter;
 
 	/**
+	 * The replace vars handler, used to build the replacement variable list for the editor.
+	 *
+	 * @var WPSEO_Replace_Vars
+	 */
+	private $replace_vars;
+
+	/**
 	 * Constructs the instance.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager         $asset_manager                     The WPSEO_Admin_Asset_Manager.
@@ -122,6 +132,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @param Endpoints_Repository              $endpoints_repository              The Endpoints_Repository.
 	 * @param Options_Helper                    $options_helper                    The Options_Helper.
 	 * @param Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter The MyYoast connection data presenter.
+	 * @param WPSEO_Replace_Vars                $replace_vars                      The replace vars handler.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -132,7 +143,8 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		Nonce_Repository $nonce_repository,
 		Endpoints_Repository $endpoints_repository,
 		Options_Helper $options_helper,
-		Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter
+		Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter,
+		WPSEO_Replace_Vars $replace_vars
 	) {
 		$this->asset_manager                     = $asset_manager;
 		$this->current_page_helper               = $current_page_helper;
@@ -143,6 +155,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$this->endpoints_repository              = $endpoints_repository;
 		$this->options_helper                    = $options_helper;
 		$this->myyoast_connection_data_presenter = $myyoast_connection_data_presenter;
+		$this->replace_vars                      = $replace_vars;
 	}
 
 	/**
@@ -240,31 +253,53 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$content_types = $this->content_types_repository->get_content_types();
 
 		return [
-			'contentTypes'      => $content_types,
-			'endpoints'         => $this->endpoints_repository->get_all_endpoints()->to_array(),
+			'contentTypes'         => $content_types,
+			'endpoints'            => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			// These must stay server-generated URLs: the bulk editor assigns them to window.location.href for its
 			// "Back to Tools" / logo navigation. If a link ever derives from request input, validate it with
 			// wp_validate_redirect() here before exposing it, to avoid an open redirect on the front-end.
-			'links'             => [
+			'links'                => [
 				'dashboard' => \admin_url( 'admin.php?page=' . General_Page_Integration::PAGE ),
 				'tools'     => \admin_url( 'admin.php?page=wpseo_tools' ),
 			],
-			'nonce'             => $this->nonce_repository->get_rest_nonce(),
-			'restRoot'          => \esc_url_raw( \rest_url() ),
-			'preferences'       => [
+			'nonce'                => $this->nonce_repository->get_rest_nonce(),
+			'restRoot'             => \esc_url_raw( \rest_url() ),
+			'preferences'          => [
 				'isPremium'   => $this->product_helper->is_premium(),
 				'isAiEnabled' => $this->options_helper->get( 'enable_ai_generator' ) === true,
 				'isRtl'       => \is_rtl(),
 				'pluginUrl'   => \plugins_url( '', \WPSEO_FILE ),
 			],
-			'linkParams'        => $this->short_link_helper->get_query_params(),
-			'analysis'          => [
+			'linkParams'           => $this->short_link_helper->get_query_params(),
+			'analysis'             => [
 				'contentLocale'         => \get_locale(),
 				// Re-scoring only runs when SEO analysis is enabled, matching the post editor.
 				'keywordAnalysisActive' => $this->options_helper->get( 'keyword_analysis_active' ) === true,
 			],
-			'initialSelection'  => $this->get_initial_selection( $content_types ),
-			'myyoastConnection' => $this->myyoast_connection_data_presenter->present(),
+			'initialSelection'     => $this->get_initial_selection( $content_types ),
+			'myyoastConnection'    => $this->myyoast_connection_data_presenter->present(),
+			'replacementVariables' => $this->get_replacement_variables(),
+		];
+	}
+
+	/**
+	 * Builds the replacement variable data passed to the JS editor.
+	 *
+	 * Mirrors Settings_Integration::get_replacement_variables() so the bulk editor's
+	 * ReplacementVariableEditor receives the same variable metadata as the settings page.
+	 *
+	 * @return array{variables: array<int, array<string, string|bool>>, recommended: array<string, string[]>, specific: array<string, string[]>, shared: string[]} The replacement variable data.
+	 */
+	private function get_replacement_variables(): array {
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$specific_replace_vars    = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+		$replacement_variables    = $this->replace_vars->get_replacement_variables_with_labels();
+
+		return [
+			'variables'   => $replacement_variables,
+			'recommended' => $recommended_replace_vars->get_recommended_replacevars(),
+			'specific'    => $specific_replace_vars->get(),
+			'shared'      => $specific_replace_vars->get_generic( $replacement_variables ),
 		];
 	}
 
