@@ -146,12 +146,18 @@ describe( "App", () => {
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
 
 			await openEditAndSwitch();
-			fireEvent.click( screen.getByRole( "button", { name: "Continue without saving" } ) );
+			// Both clicks commit a field-set switch (setActiveFieldSet), which re-triggers usePosts via
+			// the needsImprovementFields dep. Wrap in act so the fetch microtask is flushed before assertions.
+			await act( async() => {
+				fireEvent.click( screen.getByRole( "button", { name: "Continue without saving" } ) );
+			} );
 
 			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
 			expect( screen.getByRole( "tab", { name: "Social appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
 			// Back on Search the row is no longer in edit mode.
-			fireEvent.click( screen.getByRole( "tab", { name: "Search appearance" } ) );
+			await act( async() => {
+				fireEvent.click( screen.getByRole( "tab", { name: "Search appearance" } ) );
+			} );
 			expect( screen.queryByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument();
 			expect( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) ).toBeEnabled();
 		} );
