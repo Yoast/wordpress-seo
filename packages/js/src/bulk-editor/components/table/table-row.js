@@ -121,7 +121,7 @@ export const BulkEditorRow = ( {
 														__( "%1$s for %2$s", "wordpress-seo" ), field.label, item.title ) }
 												</span>
 												<ReplacementVariableEditorStandalone
-													content={ item[ field.key ] ?? "" }
+													content={ item[ field.key ] || item[ `${ field.key }Fallback` ] || "" }
 													onChange={ noop }
 													type={ field.type }
 													isDisabled={ true }

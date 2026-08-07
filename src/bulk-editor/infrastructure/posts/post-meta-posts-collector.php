@@ -237,11 +237,16 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			$fields[ $field ] = $this->get_meta( $post_id, $suffix );
 		}
 
-		// Fall back to the post type's default template when the stored value is empty.
-		$fields['seo_title']          = $this->default_template_resolver->resolve_seo_title( $post_id, $post_type, $fields['seo_title'] );
-		$fields['meta_description']   = $this->default_template_resolver->resolve_meta_description( $post_id, $post_type, $fields['meta_description'] );
-		$fields['social_title']       = $this->default_template_resolver->resolve_social_title( $post_id, $post_type, $fields['social_title'] );
-		$fields['social_description'] = $this->default_template_resolver->resolve_social_description( $post_id, $post_type, $fields['social_description'] );
+		$raw_seo_title          = $fields['seo_title'];
+		$raw_meta_description   = $fields['meta_description'];
+		$raw_social_title       = $fields['social_title'];
+		$raw_social_description = $fields['social_description'];
+
+		// Resolve templates for needs-improvement scoring and as display fallbacks when the stored value is empty.
+		$fields['seo_title']          = $this->default_template_resolver->resolve_seo_title( $post_id, $post_type, $raw_seo_title );
+		$fields['meta_description']   = $this->default_template_resolver->resolve_meta_description( $post_id, $post_type, $raw_meta_description );
+		$fields['social_title']       = $this->default_template_resolver->resolve_social_title( $post_id, $post_type, $raw_social_title );
+		$fields['social_description'] = $this->default_template_resolver->resolve_social_description( $post_id, $post_type, $raw_social_description );
 
 		return new Post(
 			$post_id,
@@ -249,12 +254,16 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			$status,
 			(string) \get_edit_post_link( $post_id, 'raw' ),
 			$this->get_meta( $post_id, 'focuskw' ),
-			$fields['seo_title'],
-			$fields['meta_description'],
-			$fields['social_title'],
-			$fields['social_description'],
+			$raw_seo_title,
+			$raw_meta_description,
+			$raw_social_title,
+			$raw_social_description,
 			true,
 			$this->build_needs_improvement( $post_id, $fields, $scores_enabled ),
+			$raw_seo_title === '' ? $fields['seo_title'] : '',
+			$raw_meta_description === '' ? $fields['meta_description'] : '',
+			$raw_social_title === '' ? $fields['social_title'] : '',
+			$raw_social_description === '' ? $fields['social_description'] : '',
 		);
 	}
 

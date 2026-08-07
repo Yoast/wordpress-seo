@@ -127,8 +127,10 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
 		$post   = $result['posts'][0];
 
-		$this->assertSame( 'Page title from template', $post['seo_title'] );
-		$this->assertSame( 'Page description from template', $post['meta_description'] );
+		$this->assertSame( '', $post['seo_title'] );
+		$this->assertSame( '', $post['meta_description'] );
+		$this->assertSame( 'Page title from template', $post['seo_title_fallback'] );
+		$this->assertSame( 'Page description from template', $post['meta_description_fallback'] );
 		$this->assertFalse( $post['needs_improvement']['seo_title'] );
 		$this->assertFalse( $post['needs_improvement']['meta_description'] );
 	}
@@ -170,8 +172,10 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
 		$post   = $result['posts'][0];
 
-		$this->assertSame( 'Social title from template', $post['social_title'] );
-		$this->assertSame( 'Social description from template', $post['social_description'] );
+		$this->assertSame( '', $post['social_title'] );
+		$this->assertSame( '', $post['social_description'] );
+		$this->assertSame( 'Social title from template', $post['social_title_fallback'] );
+		$this->assertSame( 'Social description from template', $post['social_description_fallback'] );
 		$this->assertFalse( $post['needs_improvement']['social_title'] );
 		$this->assertFalse( $post['needs_improvement']['social_description'] );
 	}

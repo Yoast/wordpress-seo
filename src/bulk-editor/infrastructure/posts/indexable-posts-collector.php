@@ -274,12 +274,19 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			return new Post( $object_id, $title, (string) $indexable->post_status, '', '', '', '', '', '', false );
 		}
 
-		$post_type       = (string) $indexable->object_sub_type;
+		$post_type = (string) $indexable->object_sub_type;
+
+		$raw_seo_title          = (string) $indexable->title;
+		$raw_meta_description   = (string) $indexable->description;
+		$raw_social_title       = (string) $indexable->open_graph_title;
+		$raw_social_description = (string) $indexable->open_graph_description;
+
+		// Resolver results are used for needs-improvement scoring and as display fallbacks when the stored value is empty.
 		$resolved_values = [
-			'seo_title'          => $this->default_template_resolver->resolve_seo_title( $object_id, $post_type, (string) $indexable->title ),
-			'meta_description'   => $this->default_template_resolver->resolve_meta_description( $object_id, $post_type, (string) $indexable->description ),
-			'social_title'       => $this->default_template_resolver->resolve_social_title( $object_id, $post_type, (string) $indexable->open_graph_title ),
-			'social_description' => $this->default_template_resolver->resolve_social_description( $object_id, $post_type, (string) $indexable->open_graph_description ),
+			'seo_title'          => $this->default_template_resolver->resolve_seo_title( $object_id, $post_type, $raw_seo_title ),
+			'meta_description'   => $this->default_template_resolver->resolve_meta_description( $object_id, $post_type, $raw_meta_description ),
+			'social_title'       => $this->default_template_resolver->resolve_social_title( $object_id, $post_type, $raw_social_title ),
+			'social_description' => $this->default_template_resolver->resolve_social_description( $object_id, $post_type, $raw_social_description ),
 		];
 
 		return new Post(
@@ -288,12 +295,16 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			(string) $indexable->post_status,
 			(string) \get_edit_post_link( $object_id, 'raw' ),
 			(string) $indexable->primary_focus_keyword,
-			$resolved_values['seo_title'],
-			$resolved_values['meta_description'],
-			$resolved_values['social_title'],
-			$resolved_values['social_description'],
+			$raw_seo_title,
+			$raw_meta_description,
+			$raw_social_title,
+			$raw_social_description,
 			true,
 			$this->build_needs_improvement( $indexable, $scores_enabled, $resolved_values ),
+			$raw_seo_title === '' ? $resolved_values['seo_title'] : '',
+			$raw_meta_description === '' ? $resolved_values['meta_description'] : '',
+			$raw_social_title === '' ? $resolved_values['social_title'] : '',
+			$raw_social_description === '' ? $resolved_values['social_description'] : '',
 		);
 	}
 
