@@ -226,7 +226,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 
 			// Always add a clause per field — use a false condition when no real predicate applies so the
 			// field still participates in the outer OR group without incorrectly matching every row.
-			$clauses[] = '( ' . ( $field_clauses !== [] ? \implode( ' OR ', $field_clauses ) : '1 = 0' ) . ' )';
+			$clauses[] = '( ' . ( ( $field_clauses !== [] ) ? \implode( ' OR ', $field_clauses ) : '1 = 0' ) . ' )';
 		}
 
 		if ( $clauses === [] ) {
@@ -317,10 +317,10 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			$raw_social_description,
 			true,
 			$this->build_needs_improvement( $indexable, $scores_enabled, $resolved_values ),
-			$raw_seo_title === '' ? $resolved_values['seo_title'] : '',
-			$raw_meta_description === '' ? $resolved_values['meta_description'] : '',
-			$raw_social_title === '' ? $resolved_values['social_title'] : '',
-			$raw_social_description === '' ? $resolved_values['social_description'] : '',
+			( $raw_seo_title === '' ) ? $resolved_values['seo_title'] : '',
+			( $raw_meta_description === '' ) ? $resolved_values['meta_description'] : '',
+			( $raw_social_title === '' ) ? $resolved_values['social_title'] : '',
+			( $raw_social_description === '' ) ? $resolved_values['social_description'] : '',
 		);
 	}
 

@@ -260,10 +260,10 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			$raw_social_description,
 			true,
 			$this->build_needs_improvement( $post_id, $fields, $scores_enabled ),
-			$raw_seo_title === '' ? $fields['seo_title'] : '',
-			$raw_meta_description === '' ? $fields['meta_description'] : '',
-			$raw_social_title === '' ? $fields['social_title'] : '',
-			$raw_social_description === '' ? $fields['social_description'] : '',
+			( $raw_seo_title === '' ) ? $fields['seo_title'] : '',
+			( $raw_meta_description === '' ) ? $fields['meta_description'] : '',
+			( $raw_social_title === '' ) ? $fields['social_title'] : '',
+			( $raw_social_description === '' ) ? $fields['social_description'] : '',
 		);
 	}
 
@@ -309,6 +309,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 *
 	 * @param array<string> $fields         The fields that need improvement.
 	 * @param bool          $scores_enabled Whether the per-field scores may back the filter.
+	 * @param string        $post_type      The post type slug.
 	 *
 	 * @return string The prepared WHERE clause, or an empty string when no known field is selected.
 	 */
@@ -354,7 +355,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 
 			// Always add a clause per field — use a false condition when no real predicate applies so the
 			// field still participates in the outer OR group without incorrectly matching every row.
-			$clauses[] = '( ' . ( $field_clauses !== [] ? \implode( ' OR ', $field_clauses ) : '0 = 1' ) . ' )';
+			$clauses[] = '( ' . ( ( $field_clauses !== [] ) ? \implode( ' OR ', $field_clauses ) : '0 = 1' ) . ' )';
 		}
 
 		if ( $clauses === [] ) {
