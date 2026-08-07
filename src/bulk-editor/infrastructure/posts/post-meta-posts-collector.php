@@ -136,7 +136,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		$args = $this->build_query_args( $query );
 
 		$this->search_where            = $query->has_search() ? $this->build_search_where( $query->get_search() ) : '';
-		$this->needs_improvement_where = $this->build_needs_improvement_where( $query->get_needs_improvement(), $query->are_scores_enabled() );
+		$this->needs_improvement_where = $this->build_needs_improvement_where( $query->get_needs_improvement(), $query->are_scores_enabled(), $query->get_content_type() );
 
 		if ( $this->search_where === '' && $this->needs_improvement_where === '' ) {
 			return new WP_Query( $args );
@@ -312,8 +312,15 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 *
 	 * @return string The prepared WHERE clause, or an empty string when no known field is selected.
 	 */
-	protected function build_needs_improvement_where( array $fields, bool $scores_enabled ): string {
+	protected function build_needs_improvement_where( array $fields, bool $scores_enabled, string $post_type = '' ): string {
 		global $wpdb;
+
+		$has_fallback = [
+			'seo_title'          => $this->default_template_resolver->resolve_seo_title( 0, $post_type, '' ) !== '',
+			'meta_description'   => $this->default_template_resolver->resolve_meta_description( 0, $post_type, '' ) !== '',
+			'social_title'       => $this->default_template_resolver->resolve_social_title( 0, $post_type, '' ) !== '',
+			'social_description' => $this->default_template_resolver->resolve_social_description( 0, $post_type, '' ) !== '',
+		];
 
 		$clauses = [];
 		foreach ( $fields as $field ) {
@@ -321,33 +328,33 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 				continue;
 			}
 
-			$meta_key = self::META_PREFIX . self::FIELD_META_SUFFIXES[ $field ];
+			$meta_key      = self::META_PREFIX . self::FIELD_META_SUFFIXES[ $field ];
+			$field_clauses = [];
 
-			if ( $scores_enabled && isset( self::FIELD_SCORE_META_SUFFIXES[ $field ] ) ) {
-				$clauses[] = $wpdb->prepare(
-					'( %i.ID NOT IN ( SELECT post_id FROM %i WHERE meta_key = %s AND meta_value <> %s )'
-					. ' OR %i.ID IN ( SELECT post_id FROM %i WHERE meta_key = %s AND CAST( meta_value AS SIGNED ) BETWEEN %d AND %d ) )',
+			if ( ! ( $has_fallback[ $field ] ?? false ) ) {
+				$field_clauses[] = $wpdb->prepare(
+					'%i.ID NOT IN ( SELECT post_id FROM %i WHERE meta_key = %s AND meta_value <> %s )',
 					$wpdb->posts,
 					$wpdb->postmeta,
 					$meta_key,
 					'',
+				);
+			}
+
+			if ( $scores_enabled && isset( self::FIELD_SCORE_META_SUFFIXES[ $field ] ) ) {
+				$field_clauses[] = $wpdb->prepare(
+					'%i.ID IN ( SELECT post_id FROM %i WHERE meta_key = %s AND CAST( meta_value AS SIGNED ) BETWEEN %d AND %d )',
 					$wpdb->posts,
 					$wpdb->postmeta,
 					self::META_PREFIX . self::FIELD_SCORE_META_SUFFIXES[ $field ],
 					self::NEEDS_IMPROVEMENT_MIN_SCORE,
 					self::NEEDS_IMPROVEMENT_MAX_SCORE,
 				);
-
-				continue;
 			}
 
-			$clauses[] = $wpdb->prepare(
-				'( %i.ID NOT IN ( SELECT post_id FROM %i WHERE meta_key = %s AND meta_value <> %s ) )',
-				$wpdb->posts,
-				$wpdb->postmeta,
-				$meta_key,
-				'',
-			);
+			// Always add a clause per field — use a false condition when no real predicate applies so the
+			// field still participates in the outer OR group without incorrectly matching every row.
+			$clauses[] = '( ' . ( $field_clauses !== [] ? \implode( ' OR ', $field_clauses ) : '0 = 1' ) . ' )';
 		}
 
 		if ( $clauses === [] ) {

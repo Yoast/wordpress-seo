@@ -27,6 +27,13 @@ final class Build_Needs_Improvement_Where_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * The default template resolver mock.
+	 *
+	 * @var Default_Template_Resolver&\Mockery\MockInterface
+	 */
+	private $default_template_resolver;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * A minimal $wpdb stands in: prepare() interpolates its arguments so the generated SQL can be asserted
@@ -43,9 +50,17 @@ final class Build_Needs_Improvement_Where_Test extends TestCase {
 		$wpdb->postmeta = 'wp_postmeta';
 		$wpdb->allows( 'prepare' )->andReturnUsing( [ $this, 'interpolate_query' ] );
 
+		$this->default_template_resolver = Mockery::mock( Default_Template_Resolver::class );
+
+		// Return empty string by default — no fallback template configured — so the empty-value clause is kept.
+		$this->default_template_resolver->allows( 'resolve_seo_title' )->andReturn( '' )->byDefault();
+		$this->default_template_resolver->allows( 'resolve_meta_description' )->andReturn( '' )->byDefault();
+		$this->default_template_resolver->allows( 'resolve_social_title' )->andReturn( '' )->byDefault();
+		$this->default_template_resolver->allows( 'resolve_social_description' )->andReturn( '' )->byDefault();
+
 		$this->instance = new Post_Meta_Posts_Collector_Double(
 			Mockery::mock( Post_Editability_Resolver::class ),
-			Mockery::mock( Default_Template_Resolver::class ),
+			$this->default_template_resolver,
 		);
 	}
 
@@ -150,5 +165,42 @@ final class Build_Needs_Improvement_Where_Test extends TestCase {
 	public function test_returns_empty_string_for_no_known_fields() {
 		$this->assertSame( '', $this->instance->expose_build_needs_improvement_where( [], true ) );
 		$this->assertSame( '', $this->instance->expose_build_needs_improvement_where( [ 'unknown_field' ], true ) );
+	}
+
+	/**
+	 * Tests that a field with a post-type fallback template is excluded from the empty-value clause.
+	 *
+	 * When the post type has a configured template for a field, template-defaulted posts are not genuinely
+	 * empty and should not appear in the "needs improvement" filter. The empty-value clause is replaced
+	 * with a false condition so those posts are excluded while the OR-group structure is preserved.
+	 *
+	 * @return void
+	 */
+	public function test_skips_empty_clause_when_post_type_has_fallback_template() {
+		$this->default_template_resolver->allows( 'resolve_seo_title' )
+			->with( 0, 'post', '' )
+			->andReturn( '%%title%% %%sep%% %%sitename%%' );
+
+		$where = $this->instance->expose_build_needs_improvement_where( [ 'seo_title' ], false, 'post' );
+
+		$this->assertStringNotContainsString( '_yoast_wpseo_title', $where );
+		$this->assertStringContainsString( '0 = 1', $where );
+	}
+
+	/**
+	 * Tests that only the score clause is kept for a field with a template when scoring is enabled.
+	 *
+	 * @return void
+	 */
+	public function test_keeps_score_clause_for_templated_field_when_scoring_enabled() {
+		$this->default_template_resolver->allows( 'resolve_seo_title' )
+			->with( 0, 'post', '' )
+			->andReturn( '%%title%% %%sep%% %%sitename%%' );
+
+		$where = $this->instance->expose_build_needs_improvement_where( [ 'seo_title' ], true, 'post' );
+
+		$this->assertStringNotContainsString( "meta_key = '_yoast_wpseo_title' AND meta_value <> ''", $where );
+		$this->assertStringContainsString( '_yoast_wpseo_seo_title_score', $where );
+		$this->assertStringContainsString( 'BETWEEN', $where );
 	}
 }
