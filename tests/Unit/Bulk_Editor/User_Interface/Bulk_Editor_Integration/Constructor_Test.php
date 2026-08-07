@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
@@ -64,6 +65,10 @@ final class Constructor_Test extends Abstract_Bulk_Editor_Integration_Test {
 		$this->assertInstanceOf(
 			Myyoast_Connection_Data_Presenter::class,
 			$this->getPropertyValue( $this->instance, 'myyoast_connection_data_presenter' ),
+		);
+		$this->assertInstanceOf(
+			WPSEO_Replace_Vars::class,
+			$this->getPropertyValue( $this->instance, 'replace_vars' ),
 		);
 	}
 }

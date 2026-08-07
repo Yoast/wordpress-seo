@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Bulk_Editor_Integra
 
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
@@ -95,6 +96,13 @@ abstract class Abstract_Bulk_Editor_Integration_Test extends TestCase {
 	protected $myyoast_connection_data_presenter;
 
 	/**
+	 * Holds the WPSEO_Replace_Vars mock.
+	 *
+	 * @var Mockery\MockInterface|WPSEO_Replace_Vars
+	 */
+	protected $replace_vars;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -111,6 +119,7 @@ abstract class Abstract_Bulk_Editor_Integration_Test extends TestCase {
 		$this->endpoints_repository              = Mockery::mock( Endpoints_Repository::class );
 		$this->options_helper                    = Mockery::mock( Options_Helper::class );
 		$this->myyoast_connection_data_presenter = Mockery::mock( Myyoast_Connection_Data_Presenter::class );
+		$this->replace_vars                      = Mockery::mock( WPSEO_Replace_Vars::class );
 
 		$this->instance = new Bulk_Editor_Integration(
 			$this->asset_manager,
@@ -122,6 +131,7 @@ abstract class Abstract_Bulk_Editor_Integration_Test extends TestCase {
 			$this->endpoints_repository,
 			$this->options_helper,
 			$this->myyoast_connection_data_presenter,
+			$this->replace_vars,
 		);
 	}
 }
