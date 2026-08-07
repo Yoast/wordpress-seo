@@ -6,8 +6,12 @@ namespace Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Resolves a post's SEO/social fields from the post type's default template when the stored value
- * is empty, matching the single-post editor's fallback behaviour.
+ * Resolves a post's SEO/social fields to the raw template string for display in a replacement-variable editor.
+ *
+ * When a post has no stored value, falls back to the post type's configured template from options.
+ * Only the first level of fallback is applied; deeper rendering-chain fallbacks (e.g. social description
+ * falling back to meta description or excerpt) are intentionally omitted — those produce dynamic values
+ * that cannot be represented as a raw template.
  */
 class Default_Template_Resolver {
 
