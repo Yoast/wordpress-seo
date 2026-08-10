@@ -56,6 +56,7 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminat
 					onDeselectAll={ onDeselectAll }
 					selectedCount={ selectedCount }
 					totalCount={ totalCount }
+					smartSelectItems={ smartSelectItems }
 				/>
 			</div>
 			{ selectedCount > 0 && (
