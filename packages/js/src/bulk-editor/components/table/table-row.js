@@ -2,12 +2,11 @@ import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/com
 import { Fragment, useCallback } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import { ReplacementVariableEditorStandalone } from "@yoast/replacement-variable-editor";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
-import { noop } from "lodash";
 import { STORE_NAME, TABLE_CELL_FIELD_SLOT } from "../../constants";
 import { EditableFieldCell, TitleCell } from "./table-cells";
-import { getFieldTextClasses, getRowEditState, isRowEditDisabled } from "./table-helpers";
+import { getRowEditState, isRowEditDisabled } from "./table-helpers";
+import { PreviewEditableFieldCell } from "./preview-editable-field-cell";
 
 /**
  * A content row. Each field-set cell renders as plain text, or — when the row is in edit mode and the field is
@@ -112,31 +111,13 @@ export const BulkEditorRow = ( {
 								}
 
 								if ( ! openFields.includes( field.key ) ) {
-									if ( field.type ) {
-										return (
-											<Table.Cell key={ field.key } className={ `yst-bulk-editor-cell-value ${ getFieldTextClasses( field.key, false ) }` }>
-												<span id={ `bulk-editor-preview-${ field.key }-${ item.id }` } className="yst-sr-only">
-													{ sprintf(
-														/* translators: %1$s expands to the field label, %2$s to the content item title. */
-														__( "%1$s for %2$s", "wordpress-seo" ), field.label, item.title ) }
-												</span>
-												<ReplacementVariableEditorStandalone
-													content={ item[ field.key ] || item[ `${ field.key }Fallback` ] || "" }
-													onChange={ noop }
-													type={ field.type }
-													isDisabled={ true }
-													replacementVariables={ replacementVariables }
-													recommendedReplacementVariables={ recommendedReplacementVariables }
-													ariaLabelledBy={ `bulk-editor-preview-${ field.key }-${ item.id }` }
-													fieldId={ `bulk-editor-${ field.key }-${ item.id }` }
-												/>
-											</Table.Cell>
-										);
-									}
 									return (
-										<Table.Cell key={ field.key } className={ `yst-bulk-editor-cell-value ${ getFieldTextClasses( field.key, false ) }` }>
-											{ item[ field.key ] }
-										</Table.Cell>
+										<PreviewEditableFieldCell
+											field={ field }
+											item={ item }
+											replacementVariables={ replacementVariables }
+											recommendedReplacementVariables={ recommendedReplacementVariables }
+										/>
 									);
 								}
 
