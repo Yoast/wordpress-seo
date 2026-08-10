@@ -73,6 +73,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			->once()
 			->with( 1, '_yoast_wpseo_bulk_editor_tour_opt_in_notification_seen', true )
 			->andReturn( '' );
+		$this->replace_vars->expects( 'get_replacement_variables_with_labels' )->once()->andReturn( [] );
 
 		$this->asset_manager->expects( 'localize_script' )
 			->once()
@@ -82,7 +83,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 				Mockery::on(
 					static function ( $data ) use ( $content_types ) {
 						return $data['contentTypes'] === $content_types
-							&& $data['nonce'] === 'rest-nonce'
+							&& $data['preferences']['nonce'] === 'rest-nonce'
 							&& $data['preferences']['isPremium'] === false
 							&& \array_key_exists( 'replacementVariables', $data )
 							&& \array_key_exists( 'variables', $data['replacementVariables'] )
