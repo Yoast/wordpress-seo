@@ -24,6 +24,7 @@ This file is the canonical contributor guide for this repository. It is written 
   - [Code style](#code-style)
   - [Opening a pull request](#opening-a-pull-request)
     - [Before you push or open/update a PR](#before-you-push-or-openupdate-a-pr)
+    - [How many pull requests to have open at once](#how-many-pull-requests-to-have-open-at-once)
   - [Changelog entry and label](#changelog-entry-and-label)
   - [Issues labelled _patch welcome_](#issues-labelled-_patch-welcome_)
   - [Submitting an issue you have found](#submitting-an-issue-you-have-found)
@@ -195,6 +196,8 @@ Each package under `packages/*` has its own `package.json` with local scripts; p
 
 ### Opening a pull request
 
+Before you write any code, check the issue for pull requests that already address it. Any PR that references an issue shows up in that issue's timeline. If one is already there, review or comment on it instead of opening a competing PR: issues that collect two or three parallel PRs take longer to resolve, because each one has to be read and compared before any can be merged. If the existing PR looks stalled, ask on the issue whether it is still being worked on.
+
 1. Fork the repository and create your branch from `trunk`. `trunk` is the active development branch and the default branch on GitHub — every PR should target it unless a maintainer asks otherwise. Do **not** target `main`: that branch tracks the latest released version and is not where new work goes. When the work tracks a GitHub issue, name your branch `<issue-number>-<short-description>` (e.g. `2056-paid-upgrades`).
 2. Make your changes on your fork.
 3. Follow the [Yoast Coding Standards](https://github.com/Yoast/yoastcs) (a superset of the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/)).
@@ -218,6 +221,12 @@ Run these checks locally and make sure each one is clean. CI will run the same c
 **Coverage:** every PR should *increase* test coverage, or at minimum keep it flat. In practice this means the code you add should come with tests that exercise it. CI reports the coverage delta on the PR — if coverage drops, explain in the PR description why it was not possible to add tests for the new code (for example: pure wiring code that can only be exercised through a full WordPress boot, or a third-party API call that is impractical to mock).
 
 If a check fails or you need to skip one (e.g. you can't run Docker locally for `test-wp-env`), say so explicitly in the PR description so reviewers know what still needs validating.
+
+#### How many pull requests to have open at once
+
+To keep our workflow sustainable, we ask contributors to maintain a limit of no more than **5 open pull requests** in this repository at any given time. If you have reached that limit, please wait until some of them are merged or closed before opening another one.
+
+Reviewing takes time, and a large batch of open PRs from a single contributor slows down the queue for everyone. Fewer, well-prepared PRs get reviewed and merged faster than many at once.
 
 ### Changelog entry and label
 

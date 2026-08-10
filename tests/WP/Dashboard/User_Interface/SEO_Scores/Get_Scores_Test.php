@@ -33,7 +33,7 @@ use WP_REST_Response;
  * @covers Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface::get_filter_value
  * @covers Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type::get_name
  */
-final class Get_Scores_Test extends Abstract_SEO_Scores_Test {
+final class Get_Scores_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_scores method.

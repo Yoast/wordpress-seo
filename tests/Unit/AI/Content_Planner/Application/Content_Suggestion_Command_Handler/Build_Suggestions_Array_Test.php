@@ -14,7 +14,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Application\Content_Suggestion_Command_Handler::build_suggestions_array
  */
-final class Build_Suggestions_Array_Test extends Abstract_Content_Suggestion_Command_Handler_Test {
+final class Build_Suggestions_Array_Test extends Abstract_Test {
 
 	/**
 	 * Builds a response whose single choice has the given category payload.

@@ -23,7 +23,7 @@ use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
  *
  * @coversDefaultClass \Yoast\WP\SEO\AI\Authentication\Application\OAuth_Auth_Strategy
  */
-final class Send_Test extends Abstract_OAuth_Auth_Strategy_Test {
+final class Send_Test extends Abstract_Test {
 
 	/**
 	 * Stubs the WPSEO_Utils::format_json_encode call (it's a static on a real class — we don't

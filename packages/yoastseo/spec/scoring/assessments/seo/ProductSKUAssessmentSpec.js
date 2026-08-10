@@ -390,4 +390,55 @@ describe( "a test for the applicability of the assessment", function() {
 
 		expect( isApplicable ).toBe( true );
 	} );
+
+	/*
+	 * Aligns ProductSKUAssessment with ProductIdentifiersAssessment: a grouped product is treated as non-variable
+	 * (isVariableProduct === false), so when its global SKU cannot be retrieved the assessment is not applicable.
+	 * Previously isApplicable only listed "simple"/"external" and omitted "grouped".
+	 */
+	it( "is not applicable for a grouped product whose global SKU cannot be retrieved", function() {
+		const assessment = new ProductSKUAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveGlobalSku: false,
+			hasGlobalSKU: false,
+			hasVariants: false,
+			productType: "grouped",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+
+		expect( assessment.isApplicable( paperWithCustomData ) ).toBe( false );
+	} );
+
+	it( "stays applicable when canRetrieve keys are absent (undefined ≠ false)", function() {
+		const assessment = new ProductSKUAssessment( { assessVariants: false } );
+		// Mirrors Shopify, which never sets the canRetrieve* keys.
+		const paper = new Paper( "", { productData: { isVariableProduct: false, hasVariants: false, hasGlobalSKU: false } } );
+
+		expect( assessment.isApplicable( paper ) ).toBe( true );
+	} );
+} );
+
+describe( "a test for the SKU assessment reading the first-class product field", () => {
+	const assessment = new ProductSKUAssessment( { assessVariants: true } );
+
+	it( "scores 9 for a single-unit product with a global SKU, without a legacy productType", () => {
+		const paper = new Paper( "", { productData: { isVariableProduct: false, hasVariants: false, hasGlobalSKU: true } } );
+		expect( assessment.getResult( paper ).getScore() ).toEqual( 9 );
+	} );
+
+	it( "scores 6 for a variable product with variants when not all variants have a SKU", () => {
+		const paper = new Paper( "", {
+			productData: { isVariableProduct: true, hasVariants: true, hasGlobalSKU: false, doAllVariantsHaveSKU: false },
+		} );
+		expect( assessment.getResult( paper ).getScore() ).toEqual( 6 );
+	} );
+
+	it( "prefers the product field over legacy customData", () => {
+		const paper = new Paper( "", {
+			productData: { isVariableProduct: false, hasVariants: false, hasGlobalSKU: true },
+			customData: { productType: "simple", hasVariants: false, hasGlobalSKU: false },
+		} );
+		// The product field reports a global SKU (score 9); the legacy customData would score 6.
+		expect( assessment.getResult( paper ).getScore() ).toEqual( 9 );
+	} );
 } );
