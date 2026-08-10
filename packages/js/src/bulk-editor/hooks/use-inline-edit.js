@@ -75,7 +75,8 @@ const rescoreAfterSave = ( scoreFields, activeFieldSet, response, rowEdit ) => {
 		return;
 	}
 	const results = response?.results ?? [];
-	rescoreFromResult( scoreFields, results[ 0 ], rowEdit.draft[ FOCUS_KEYPHRASE_KEY ] ?? "" );
+	const keyphrase = resolveItemValue( FOCUS_KEYPHRASE_KEY, rowEdit.draft[ FOCUS_KEYPHRASE_KEY ] ?? "", getFirstSanitized( response ) );
+	rescoreFromResult( scoreFields, results[ 0 ], keyphrase );
 };
 
 /**
@@ -115,7 +116,8 @@ const rescoreBatchResult = ( scoreFields, activeFieldSet, response, editingRows 
 		return;
 	}
 	( response?.results ?? [] ).forEach( ( result ) => {
-		rescoreFromResult( scoreFields, result, editingRows[ result.id ]?.draft?.[ FOCUS_KEYPHRASE_KEY ] ?? "" );
+		const keyphrase = resolveItemValue( FOCUS_KEYPHRASE_KEY, editingRows[ result.id ]?.draft?.[ FOCUS_KEYPHRASE_KEY ] ?? "", result?.sanitized );
+		rescoreFromResult( scoreFields, result, keyphrase );
 	} );
 };
 
