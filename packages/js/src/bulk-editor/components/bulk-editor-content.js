@@ -184,7 +184,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 						label={ __( "Bulk editor views", "wordpress-seo" ) }
 					/>
 					{ /* key remounts on content-type switch, resetting local state; a prop change alone would not. */ }
-				    <SearchBox key={ contentType } contentTypeLabel={ contentTypeLabel } />
+					<SearchBox key={ contentType } contentTypeLabel={ contentTypeLabel } />
 				</div>
 				{ tabs.map( ( tab ) => (
 					<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
@@ -204,6 +204,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 									selectedCount={ selectedCount }
 									totalCount={ totalCount }
 									contentTypeLabel={ contentTypeLabel }
+									smartSelectItems={ smartSelectItems }
 								/>
 							}
 							bulkActions={
