@@ -106,6 +106,10 @@ describe( "bulk editor initialize", () => {
 				optInNotification: { seen: { [ TOUR_OPT_IN_KEY ]: true } },
 				activeContentType: "",
 				selection: { selectedIds: [], preselectedTotal: 0 },
+				query: {
+					isOverviewFilterActive: false,
+					overviewIds: [],
+				},
 			},
 		} );
 		expect( mockFixScrolling ).toHaveBeenCalledTimes( 1 );
