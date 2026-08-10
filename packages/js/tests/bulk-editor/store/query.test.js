@@ -30,13 +30,13 @@ describe( "query slice", () => {
 		expect( state ).toEqual( { search: "seo", page: 1, needsImprovement: [ "title", "description" ] } );
 	} );
 
-	it( "resets to the first page and drops the overview selection when the content type changes", () => {
+	it( "resets all query state when the content type changes", () => {
 		const state = reducer(
-			{ search: "seo", page: 9, overviewIds: [ 5, 3 ], isOverviewFilterActive: true },
+			{ search: "seo", page: 9, statuses: [ "draft" ], needsImprovement: [ "title" ] },
 			activeContentTypeActions.setActiveContentType( "page" )
 		);
 
-		expect( state ).toEqual( { search: "seo", page: 1, overviewIds: [], isOverviewFilterActive: false } );
+		expect( state ).toEqual( createInitialQueryState() );
 	} );
 
 	it( "toggles the overview filter and resets to the first page", () => {

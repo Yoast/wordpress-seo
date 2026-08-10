@@ -14,10 +14,8 @@ use Yoast\WP\SEO\Conditionals\AI_Editor_Conditional;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Content_Planner_Integration::get_conditionals
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Conditionals_Test extends Abstract_Content_Planner_Integration_Test {
+final class Get_Conditionals_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_conditionals method.

@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::add_removable_query_args
  */
-final class Add_Removable_Query_Args_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Add_Removable_Query_Args_Test extends Abstract_Test {
 
 	/**
 	 * Tests that the selection parameters are added to the removable query args.

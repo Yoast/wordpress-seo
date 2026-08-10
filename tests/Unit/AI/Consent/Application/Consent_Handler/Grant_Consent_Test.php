@@ -16,7 +16,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  *
  * @covers \Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::grant_consent
  */
-final class Grant_Consent_Test extends Abstract_Consent_Handler_Test {
+final class Grant_Consent_Test extends Abstract_Test {
 
 	/**
 	 * Tests that grant_consent throws a RuntimeException when the user is not found, and does not

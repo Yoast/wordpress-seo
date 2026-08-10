@@ -15,7 +15,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client;
  *
  * @covers Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler::__construct
  */
-final class Constructor_Test extends Abstract_Request_Handler_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

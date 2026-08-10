@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Infrastructure\Access_Token_U
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::delete_token
  */
-final class Delete_Token_Test extends Abstract_Access_Token_User_Meta_Repository_Test {
+final class Delete_Token_Test extends Abstract_Test {
 
 	/**
 	 * Tests the delete_token method.

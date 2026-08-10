@@ -38,7 +38,7 @@ const setExternalPending = ( value ) => act( () => {
 	dispatch( STORE_NAME ).setHasExternalPendingChanges( value );
 } );
 
-const renderContent = () => render(
+const renderContent = ( props = {} ) => render(
 	<SlotFillProvider>
 		<BulkEditorContent
 			dataProvider={ dataProvider }
@@ -46,6 +46,7 @@ const renderContent = () => render(
 			contentType="post"
 			contentTypeLabel="Posts"
 			contentTypeSingularLabel="Post"
+			{ ...props }
 		/>
 		<SlotProbe />
 	</SlotFillProvider>
@@ -340,6 +341,28 @@ describe( "BulkEditorContent pending changes across query changes", () => {
 
 		// A filter/search/page change is not a guarded view switch: the pending-changes slot stays closed.
 		expect( screen.getByTestId( "slot-probe" ) ).toHaveAttribute( "data-open", "false" );
+	} );
+
+	it( "clears the search input when the content type changes", () => {
+		const { rerender } = renderContent();
+
+		fireEvent.change( screen.getByLabelText( "Search for posts" ), { target: { value: "seo" } } );
+		expect( screen.getByLabelText( "Search for posts" ) ).toHaveValue( "seo" );
+
+		rerender(
+			<SlotFillProvider>
+				<BulkEditorContent
+					dataProvider={ dataProvider }
+					remoteDataProvider={ remoteDataProvider }
+					contentType="page"
+					contentTypeLabel="Pages"
+					contentTypeSingularLabel="Page"
+				/>
+				<SlotProbe />
+			</SlotFillProvider>
+		);
+
+		expect( screen.getByLabelText( "Search for pages" ) ).toHaveValue( "" );
 	} );
 
 	it( "keeps pending manual edits and their action bar when a filter or search is applied", () => {

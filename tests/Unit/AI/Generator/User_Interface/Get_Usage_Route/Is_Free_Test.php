@@ -13,7 +13,7 @@ use WPSEO_Addon_Manager;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Get_Usage_Route::is_free
  */
-final class Is_Free_Test extends Abstract_Get_Usage_Route_Test {
+final class Is_Free_Test extends Abstract_Test {
 
 	/**
 	 * Tests the is_free method.

@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Domain\Token;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Domain\Token::get_value
  */
-final class Get_Value_Test extends Abstract_Token_Test {
+final class Get_Value_Test extends Abstract_Test {
 
 	/**
 	 * Test get_value method.

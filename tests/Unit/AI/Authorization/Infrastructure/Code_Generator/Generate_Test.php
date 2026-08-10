@@ -11,7 +11,7 @@ use Brain\Monkey;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Generator::generate
  */
-final class Generate_Test extends Abstract_Code_Generator_Test {
+final class Generate_Test extends Abstract_Test {
 
 	/**
 	 * Tests the generate method with default parameters.
