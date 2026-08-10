@@ -84,7 +84,7 @@ jobs:
       # NOTE: The ref value should be different when triggered by pull_request event.
       #       See: https://github.com/lewagon/wait-on-check-action/issues/25.
       - name: "Wait on tests (PR)"
-        uses: lewagon/wait-on-check-action@1d57e2c51a58d812d2765e036a028b6bdb5a6154 # v1.8.1
+        uses: lewagon/wait-on-check-action@2271c86c146b96545b4e871b855e10ffa6f50773 # v1.9.0
         if: github.event_name == 'pull_request'
         with:
           ref: ${{ github.event.pull_request.head.sha }}
@@ -93,14 +93,14 @@ jobs:
 
       - name: "Wait on tests (push)"
         if: github.event_name != 'pull_request'
-        uses: lewagon/wait-on-check-action@1d57e2c51a58d812d2765e036a028b6bdb5a6154 # v1.8.1
+        uses: lewagon/wait-on-check-action@2271c86c146b96545b4e871b855e10ffa6f50773 # v1.9.0
         with:
           ref: ${{ github.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           check-regexp: Test|TestJS
 
       - name: "Coveralls Finished"
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
+        uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
         env:
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
