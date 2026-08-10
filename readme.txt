@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.0
-Stable tag: 28.1
+Stable tag: 28.2
 Requires PHP: 7.4
 
 Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.
@@ -296,43 +296,51 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Screenshots ==
 
-1. The AI Content Planner suggests what to write next and drafts the outline.
-2. AI Generate creates five title and meta description options in a click.
-3. The redesigned bulk editor fixes metadata across your whole site, with AI drafts in Premium.
-4. Schema and AI readiness settings, including LLMs.txt and the bot blocker.
-5. The content analyses in Yoast SEO.
-6. The modern interface makes Yoast SEO easy to work with.
-7. Easily manage how your posts and pages appear in SERPs.
-8. See what your post looks like in Google.
-9. The first-time configuration helps you get started quickly.
-10. Yoast SEO integrates with tools like Semrush and Wincher.
-11. Yoast SEO Premium has extra crawl optimization options.
-12. The inclusive language analysis in Yoast SEO.
+1. The modern interface makes Yoast SEO easy to work with.
+2. Easily manage how your posts and pages appear in SERPs.
+3. Yoast SEO Premium has extra crawl optimization options.
+4. Yoast SEO integrates with tools like Semrush and Wincher.
+5. The famous SEO and readability analyses in Yoast SEO.
+6. See what your post looks like in Google.
+7. The First-time configuration helps you get started quickly.
+8. The inclusive language analysis in Yoast SEO.
 
 == Changelog ==
+
+= 28.3 =
+
+Release date: 2026-08-18
+
+#### Enhancements
+
+* Adds a schemamap.xml file at the site root that exposes the aggregated schema map.
+* Adds the failing object's type and ID to the SEO data optimization error report when an indexable cannot be built.
+* Improves performance when running the SEO optimization by warming post and term caches in bulk.
+* Improves the performance of generating XML sitemaps by warming post, term and featured-image caches in bulk.
+
+#### Bugfixes
+
+* Fixes a bug where the AI Content Planner inserted an empty paragraph block before the template blocks when a post type had a block template registered.
+
+#### Other
+
+* Adds a first-time guided tour to the bulk editor.
+* Sets the minimum supported WordPress version to 6.9.
 
 = 28.2 =
 
 Release date: 2026-08-04
 
+Yoast SEO 28.2 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Bugfixes
 
-* Fixes a bug where an uncaught fatal error was thrown in the post editor on sites using the oAuth connection to MyYoast, when the `AUTH_KEY` salt in wp-config.php was set to a non-string value.
-* Fixes a bug where the overall SEO score was lowered when the focus keyphrase did not consist of function words only. Props to @faisalahammad.
+* Fixes a bug where the overall SEO score was lowered when the focus keyphrase did not consist of function words only. Props to [@faisalahammad](https://github.com/faisalahammad).
+* Fixes a bug where an uncaught fatal error was thrown in the post editor on sites using the OAuth connection to MyYoast, when the `AUTH_KEY` salt in wp-config.php was set to a non-string value.
 
 #### Other
 
 * Prevents Yoast SEO Abilities from being registered when indexables are disabled.
-
-= 28.1 =
-
-Release date: 2026-07-21
-
-Yoast SEO 28.1 redesigns the Bulk editor into a focused workspace with new search and status filters, so you can find and fix titles and meta descriptions across posts, pages, and custom post types in one place. [Read the full release post here](https://yoa.st/57c).
-
-#### Enhancements
-
-* Redesigns the bulk editor page, which allows users to edit Metadata for multiple posts at once.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

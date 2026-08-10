@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector::build_query_args
  */
-final class Build_Query_Args_Test extends Abstract_Post_Meta_Posts_Collector_Test {
+final class Build_Query_Args_Test extends Abstract_Test {
 
 	/**
 	 * The statuses passed in the query.

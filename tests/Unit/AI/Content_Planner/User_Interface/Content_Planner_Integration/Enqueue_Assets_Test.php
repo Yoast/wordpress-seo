@@ -16,10 +16,8 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Content_Planner_Integration::enqueue_assets
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Enqueue_Assets_Test extends Abstract_Content_Planner_Integration_Test {
+final class Enqueue_Assets_Test extends Abstract_Test {
 
 	/**
 	 * Tests that enqueue_assets enqueues the script and localizes it with the script data.

@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 
@@ -104,6 +105,13 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * Holds the User_Helper.
+	 *
+	 * @var User_Helper
+	 */
+	private $user_helper;
+
+	/**
 	 * Builds the MyYoast connection payload for script data.
 	 *
 	 * @var Myyoast_Connection_Data_Presenter
@@ -121,6 +129,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @param Nonce_Repository                  $nonce_repository                  The Nonce_Repository.
 	 * @param Endpoints_Repository              $endpoints_repository              The Endpoints_Repository.
 	 * @param Options_Helper                    $options_helper                    The Options_Helper.
+	 * @param User_Helper                       $user_helper                       The User_Helper.
 	 * @param Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter The MyYoast connection data presenter.
 	 */
 	public function __construct(
@@ -132,6 +141,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		Nonce_Repository $nonce_repository,
 		Endpoints_Repository $endpoints_repository,
 		Options_Helper $options_helper,
+		User_Helper $user_helper,
 		Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter
 	) {
 		$this->asset_manager                     = $asset_manager;
@@ -142,6 +152,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$this->nonce_repository                  = $nonce_repository;
 		$this->endpoints_repository              = $endpoints_repository;
 		$this->options_helper                    = $options_helper;
+		$this->user_helper                       = $user_helper;
 		$this->myyoast_connection_data_presenter = $myyoast_connection_data_presenter;
 	}
 
@@ -234,37 +245,41 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	/**
 	 * Creates the script data.
 	 *
-	 * @return array<string, string|array<string, string|bool|array<string, string>>> The script data.
+	 * @return array<string, string|array<string, string|bool>|array<array<string, string>>> The script data.
 	 */
 	public function get_script_data() {
 		$content_types = $this->content_types_repository->get_content_types();
 
 		return [
-			'contentTypes'      => $content_types,
-			'endpoints'         => $this->endpoints_repository->get_all_endpoints()->to_array(),
+			'contentTypes'          => $content_types,
+			'endpoints'             => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			// These must stay server-generated URLs: the bulk editor assigns them to window.location.href for its
 			// "Back to Tools" / logo navigation. If a link ever derives from request input, validate it with
 			// wp_validate_redirect() here before exposing it, to avoid an open redirect on the front-end.
-			'links'             => [
+			'links'                 => [
 				'dashboard' => \admin_url( 'admin.php?page=' . General_Page_Integration::PAGE ),
 				'tools'     => \admin_url( 'admin.php?page=wpseo_tools' ),
 			],
-			'nonce'             => $this->nonce_repository->get_rest_nonce(),
-			'restRoot'          => \esc_url_raw( \rest_url() ),
-			'preferences'       => [
+			'nonce'                 => $this->nonce_repository->get_rest_nonce(),
+			'restRoot'              => \esc_url_raw( \rest_url() ),
+			'preferences'           => [
 				'isPremium'   => $this->product_helper->is_premium(),
 				'isAiEnabled' => $this->options_helper->get( 'enable_ai_generator' ) === true,
 				'isRtl'       => \is_rtl(),
 				'pluginUrl'   => \plugins_url( '', \WPSEO_FILE ),
 			],
-			'linkParams'        => $this->short_link_helper->get_query_params(),
-			'analysis'          => [
+			'linkParams'            => $this->short_link_helper->get_query_params(),
+			'analysis'              => [
 				'contentLocale'         => \get_locale(),
 				// Re-scoring only runs when SEO analysis is enabled, matching the post editor.
 				'keywordAnalysisActive' => $this->options_helper->get( 'keyword_analysis_active' ) === true,
 			],
-			'initialSelection'  => $this->get_initial_selection( $content_types ),
-			'myyoastConnection' => $this->myyoast_connection_data_presenter->present(),
+			'initialSelection'      => $this->get_initial_selection( $content_types ),
+			'myyoastConnection'     => $this->myyoast_connection_data_presenter->present(),
+			// Whether the first-run guided tour has already been seen, so it only shows once per user.
+			'optInNotificationSeen' => [
+				'bulk_editor_tour' => $this->is_tour_opt_in_notification_seen(),
+			],
 		];
 	}
 
@@ -343,6 +358,17 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$removable_query_args[] = self::SELECTED_COUNT_PARAM;
 
 		return $removable_query_args;
+	}
+
+	/**
+	 * Gets whether the bulk editor guided tour has been seen by the current user.
+	 *
+	 * @return bool True when the tour has been seen, false otherwise.
+	 */
+	private function is_tour_opt_in_notification_seen(): bool {
+		$current_user_id = $this->user_helper->get_current_user_id();
+
+		return (bool) $this->user_helper->get_meta( $current_user_id, '_yoast_wpseo_bulk_editor_tour_opt_in_notification_seen', true );
 	}
 
 	/**

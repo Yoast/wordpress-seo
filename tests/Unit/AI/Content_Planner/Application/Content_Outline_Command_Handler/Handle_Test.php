@@ -20,10 +20,8 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command_Handler::handle
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command_Handler::build_outline
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
+final class Handle_Test extends Abstract_Test {
 
 	/**
 	 * The JSON body returned by the happy-path request handler stub.

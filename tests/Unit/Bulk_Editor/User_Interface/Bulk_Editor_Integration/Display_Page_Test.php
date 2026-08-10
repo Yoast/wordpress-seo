@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Bulk_Editor_Integra
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::display_page
  */
-final class Display_Page_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Display_Page_Test extends Abstract_Test {
 
 	/**
 	 * Tests displaying the bulk editor page.

@@ -13,7 +13,7 @@ use Brain\Monkey;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Llms_Txt_Cron_Callback_Integration::populate_file
  */
-final class Populate_File_Test extends Abstract_Llms_Txt_Cron_Callback_Integration_Test {
+final class Populate_File_Test extends Abstract_Test {
 
 	/**
 	 * Tests the toggle llms.txt functionality when not doing cron.

@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\Infrastructure\Endpoints\Bust_Sub
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Bust_Subscription_Cache_Endpoint::get_name
  */
-final class Get_Name_Test extends Abstract_Bust_Subscription_Cache_Endpoint_Test {
+final class Get_Name_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_name method.

@@ -13,7 +13,7 @@ use Generator;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Enable_Llms_Txt_Option_Watcher::check_llms_txt_selection
  */
-final class Check_Llms_Txt_Selection_Test extends Abstract_Enable_Llms_Txt_Option_Watcher_Test {
+final class Check_Llms_Txt_Selection_Test extends Abstract_Test {
 
 	/**
 	 * Tests that nothing happens when LLMS.txt is disabled.

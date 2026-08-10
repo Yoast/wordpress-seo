@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\AI_Generator_Integration::get_script_data
  */
-final class Get_Script_Data_Test extends Abstract_AI_Generator_Integration_Test {
+final class Get_Script_Data_Test extends Abstract_Test {
 
 	/**
 	 * Tests getting the script data.

@@ -17,10 +17,8 @@ use YoastSEO_Vendor\Psr\Log\LoggerInterface;
  * @group schema-aggregator
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Pieces\Schema_Piece_Repository::get
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Sets_Current_Page_Context_Test extends Abstract_Schema_Piece_Repository_Test {
+final class Get_Sets_Current_Page_Context_Test extends Abstract_Test {
 
 	/**
 	 * Builds an indexable with a product sub-type and the given id.

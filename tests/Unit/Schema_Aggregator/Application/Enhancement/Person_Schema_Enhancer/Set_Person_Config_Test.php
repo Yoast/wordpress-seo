@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Enhancement\Person_Config;
  *
  * @group schema-aggregator
  */
-final class Set_Person_Config_Test extends Abstract_Person_Schema_Enhancer_Test {
+final class Set_Person_Config_Test extends Abstract_Test {
 
 	/**
 	 * The Person_Config mock.
