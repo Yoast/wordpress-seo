@@ -117,6 +117,19 @@ describe( "Paper", function() {
 			expect( paper.getCustomData() ).toEqual( { hasGlobalIdentifier: false, hasVariants: true, doAllVariantsHaveIdentifier: true } );
 		} );
 
+		it( "returns product data", function() {
+			const attributes = {
+				productData: { isVariableProduct: true, hasVariants: true, hasGlobalSKU: false },
+			};
+			const paper = new Paper( "", attributes );
+			expect( paper.getProductData() ).toEqual( { isVariableProduct: true, hasVariants: true, hasGlobalSKU: false } );
+		} );
+
+		it( "returns an empty object for the product data when none is provided", function() {
+			const paper = new Paper( "" );
+			expect( paper.getProductData() ).toEqual( {} );
+		} );
+
 		it( "returns the text title", function() {
 			const attributes = {
 				textTitle: "A text title",
@@ -329,6 +342,13 @@ describe( "Paper", function() {
 			it( "does not contain the _parseClass", () => {
 				expect( paper._attributes._parseClass ).not.toBeDefined();
 			} );
+		} );
+
+		it( "round-trips the product data through serialize and parse", () => {
+			const productData = { isVariableProduct: true, hasVariants: true, hasGlobalSKU: false, canRetrieveGlobalSku: false };
+			const paper = new Paper( "text", { productData } );
+			const parsed = Paper.parse( paper.serialize() );
+			expect( parsed.getProductData() ).toEqual( productData );
 		} );
 	} );
 	describe( "A test for setters and getters", function() {

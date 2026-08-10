@@ -50,6 +50,9 @@ export const BULK_NOTICES_SLOT = "yoast.bulkEditor.bulkNotices";
 // The PluginArea scope Premium registers its fills under, so they mount inside this page's React tree.
 export const PLUGIN_SCOPE = "yoast-seo-bulk-editor";
 
+// The opt-in-notification key that tracks whether the first-run guided tour has been seen.
+export const TOUR_OPT_IN_KEY = "bulk_editor_tour";
+
 // The filter Premium uses to add items to the Select menu.
 export const SELECT_MENU_ITEMS_FILTER = "yoast.bulkEditor.selectMenuItems";
 

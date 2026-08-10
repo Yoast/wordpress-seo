@@ -14,7 +14,7 @@ use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider::__construct
  */
-final class Constructor_Test extends Abstract_Suggestions_Provider_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

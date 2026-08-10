@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Post_Access_Checker_Interface;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Editability_Resolver::__construct
  */
-final class Constructor_Test extends Abstract_Post_Editability_Resolver_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

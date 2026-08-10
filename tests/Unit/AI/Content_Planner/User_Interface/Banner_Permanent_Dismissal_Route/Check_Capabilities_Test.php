@@ -13,10 +13,8 @@ use Brain\Monkey\Functions;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Banner_Permanent_Dismissal_Route::check_capabilities
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Check_Capabilities_Test extends Abstract_Banner_Permanent_Dismissal_Route_Test {
+final class Check_Capabilities_Test extends Abstract_Test {
 
 	/**
 	 * Tests that check_capabilities returns true when the user has the edit_posts capability.
