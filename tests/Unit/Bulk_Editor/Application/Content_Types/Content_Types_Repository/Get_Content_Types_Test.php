@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Content_Types\Content_Types_List;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository::get_content_types
  */
-final class Get_Content_Types_Test extends Abstract_Content_Types_Repository_Test {
+final class Get_Content_Types_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_content_types method.

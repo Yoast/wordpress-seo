@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::get_script_data
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::get_initial_selection
  */
-final class Get_Initial_Selection_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Get_Initial_Selection_Test extends Abstract_Test {
 
 	/**
 	 * Tears down the test fixtures.
@@ -211,6 +211,8 @@ final class Get_Initial_Selection_Test extends Abstract_Bulk_Editor_Integration_
 		$this->options_helper->allows( 'get' )->andReturn( true );
 		$this->short_link_helper->allows( 'get_query_params' )->andReturn( [] );
 		$this->myyoast_connection_data_presenter->allows( 'present' )->andReturn( null );
+		$this->user_helper->allows( 'get_current_user_id' )->andReturn( 1 );
+		$this->user_helper->allows( 'get_meta' )->andReturn( false );
 
 		return $this->instance->get_script_data()['initialSelection'];
 	}

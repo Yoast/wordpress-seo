@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Pieces\Schema_Piece_Rep
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command_Handler::__construct
  */
-final class Constructor_Test extends Abstract_Aggregate_Site_Schema_Command_Handler_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

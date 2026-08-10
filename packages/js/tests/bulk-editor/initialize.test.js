@@ -1,5 +1,5 @@
 import { jest } from "@jest/globals";
-import { ROOT_ID } from "../../src/bulk-editor/constants";
+import { ROOT_ID, TOUR_OPT_IN_KEY } from "../../src/bulk-editor/constants";
 
 const mockRender = jest.fn();
 const mockCreateRoot = jest.fn( () => ( { render: mockRender } ) );
@@ -59,7 +59,14 @@ describe( "bulk editor initialize", () => {
 		window.wpseoBulkEditorData = {
 			contentTypes: [ { name: "post", label: "Posts" } ],
 			linkParams: { foo: "bar" },
+			myyoastConnection: {
+				isAvailable: false,
+				canConnect: false,
+				connectUrl: null,
+				learnMoreUrl: "",
+			},
 			nonce: "test-nonce",
+			optInNotificationSeen: { [ TOUR_OPT_IN_KEY ]: true },
 		};
 	} );
 
@@ -96,9 +103,9 @@ describe( "bulk editor initialize", () => {
 					specific: {},
 					variables: [],
 				},
+				optInNotification: { seen: { [ TOUR_OPT_IN_KEY ]: true } },
 				activeContentType: "",
 				selection: { selectedIds: [], preselectedTotal: 0 },
-				query: { overviewIds: [], isOverviewFilterActive: false },
 			},
 		} );
 		expect( mockFixScrolling ).toHaveBeenCalledTimes( 1 );
@@ -129,6 +136,7 @@ describe( "bulk editor initialize", () => {
 				activeContentType: "page",
 				selection: { selectedIds: [ 5, 3 ], preselectedTotal: 25 },
 				query: { overviewIds: [ 5, 3 ], isOverviewFilterActive: true },
+				optInNotification: { seen: { [ TOUR_OPT_IN_KEY ]: true } },
 			},
 		} );
 	} );

@@ -1,10 +1,17 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
-import { getInitialLinkParamsState,
+import {
+	getInitialLinkParamsState,
+	getInitialOptInNotificationState,
 	LINK_PARAMS_NAME,
 	linkParamsActions,
 	linkParamsReducer,
 	linkParamsSelectors,
+	OPT_IN_NOTIFICATION_NAME,
+	optInNotificationActions,
+	optInNotificationControls,
+	optInNotificationReducer,
+	optInNotificationSelectors,
 	getInitialMyyoastConnectionState,
 	MYYOAST_CONNECTION_NAME,
 	myyoastConnectionActions,
@@ -53,6 +60,7 @@ const createStore = ( { initialState } ) => {
 			...externalPendingChangesActions,
 			...externalGenerationActions,
 			...pendingSwitchActions,
+			...optInNotificationActions,
 			...myyoastConnectionActions,
 		},
 		selectors: {
@@ -67,6 +75,7 @@ const createStore = ( { initialState } ) => {
 			...externalPendingChangesSelectors,
 			...externalGenerationSelectors,
 			...pendingSwitchSelectors,
+			...optInNotificationSelectors,
 			...myyoastConnectionSelectors,
 		},
 		initialState: merge(
@@ -83,6 +92,7 @@ const createStore = ( { initialState } ) => {
 				externalPendingChanges: createInitialExternalPendingChangesState(),
 				externalGeneration: createInitialExternalGenerationState(),
 				pendingSwitch: createInitialPendingSwitchState(),
+				[ OPT_IN_NOTIFICATION_NAME ]: getInitialOptInNotificationState(),
 				[ MYYOAST_CONNECTION_NAME ]: getInitialMyyoastConnectionState(),
 			},
 			initialState
@@ -99,8 +109,12 @@ const createStore = ( { initialState } ) => {
 			externalPendingChanges,
 			externalGeneration,
 			pendingSwitch,
+			[ OPT_IN_NOTIFICATION_NAME ]: optInNotificationReducer,
 			[ MYYOAST_CONNECTION_NAME ]: myyoastConnectionReducer,
 		} ),
+		controls: {
+			...optInNotificationControls,
+		},
 	} );
 };
 

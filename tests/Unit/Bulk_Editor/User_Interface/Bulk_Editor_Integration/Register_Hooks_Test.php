@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::register_hooks
  */
-final class Register_Hooks_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Register_Hooks_Test extends Abstract_Test {
 
 	/**
 	 * Tests the registration of the hooks when not on the bulk editor page.

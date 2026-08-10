@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector::get_posts
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector::build_needs_improvement
  */
-final class Get_Posts_Test extends Abstract_Post_Meta_Posts_Collector_Test {
+final class Get_Posts_Test extends Abstract_Test {
 
 	/**
 	 * The statuses passed in the query.

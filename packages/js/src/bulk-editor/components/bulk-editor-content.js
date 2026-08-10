@@ -12,6 +12,7 @@ import { useInlineEdit } from "../hooks/use-inline-edit";
 import { usePosts } from "../hooks/use-posts";
 import { BulkActions, SelectionToolbar } from "./bulk-action-bar";
 import { BulkEditorFilters } from "./bulk-editor-filters";
+import { BulkEditorTour } from "./tour/bulk-editor-tour";
 import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
@@ -172,87 +173,90 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	} ), [ selectedIds, toggleRow ] );
 
 	return (
-		<div className="yst-p-8 yst-space-y-6">
-			<div className="yst-flex yst-flex-col yst-gap-4 sm:yst-flex-row sm:yst-items-start sm:yst-justify-between">
-				<BulkEditorTabs
-					tabs={ tabs }
-					activeTab={ activeFieldSet }
-					disabled={ hasExternalGeneration }
-					onChange={ onChangeTab }
-					label={ __( "Bulk editor views", "wordpress-seo" ) }
-				/>
-				<SearchBox contentTypeLabel={ contentTypeLabel } />
-			</div>
-			{ tabs.map( ( tab ) => (
-				<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-					<BulkEditorTable
-						items={ items }
-						fieldSet={ fieldSets[ tab.id ] }
-						selection={ selection }
-						editing={ editing }
-						selectionToolbar={
-							<SelectionToolbar
-								idSuffix={ `-${ tab.id }` }
-								isAllSelected={ isAllSelected }
-								isIndeterminate={ isIndeterminate }
-								onToggleAll={ onToggleAll }
-								onSelectAll={ onSelectAll }
-								onDeselectAll={ deselectAll }
-								selectedCount={ selectedCount }
-								totalCount={ totalCount }
-								contentTypeLabel={ contentTypeLabel }
-								smartSelectItems={ smartSelectItems }
-							/>
-						}
-						bulkActions={
-							<BulkActions
-								isPremium={ isPremium }
-								isAiEnabled={ isAiEnabled }
-								isActive={ tab.id === activeFieldSet }
-								selectedIds={ selectedIds }
-								activeFieldSet={ activeFieldSet }
-								contentType={ contentType }
-								contentTypeLabel={ contentTypeLabel }
-								contentTypeSingularLabel={ contentTypeSingularLabel }
-								hasUnsavedEdits={ hasUnsavedEdits }
-								editCount={ editCount }
-								onApplyAll={ editing.onApplyAll }
-								onDiscardAll={ editing.onDiscardAll }
-								isApplyingAll={ editing.isApplyingAll }
-								hasSaveError={ editing.hasSaveError }
-								onDismissSaveError={ editing.dismissSaveError }
-								preselectedTotal={ preselectedTotal }
-								onDismissPreselection={ dismissPreselectionNotice }
-								hasExcludedPreselected={ hasExcludedPreselected }
-								onDismissExclusion={ dismissExclusionNotice }
-							/>
-						}
-						showBulkActions={ showBulkActions }
-						filters={ <BulkEditorFilters /> }
-						isLoading={ isPending }
-						hasExternalPendingChanges={ hasExternalPendingChanges }
-						hasExternalGeneration={ hasExternalGeneration }
-						footer={ total > 0
-							? <BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
-							: null }
+		<>
+			<div className="yst-p-8 yst-space-y-6">
+				<div className="yst-flex yst-flex-col yst-gap-4 sm:yst-flex-row sm:yst-items-start sm:yst-justify-between">
+					<BulkEditorTabs
+						tabs={ tabs }
+						activeTab={ activeFieldSet }
+						disabled={ hasExternalGeneration }
+						onChange={ onChangeTab }
+						label={ __( "Bulk editor views", "wordpress-seo" ) }
 					/>
-				</BulkEditorTabPanel>
-			) ) }
-			<UnsavedChangesModal
-				isOpen={ hasUnsavedEdits && pendingSwitch !== null }
-				isSaving={ editing.isApplyingAll }
-				onSave={ onSaveAndSwitch }
-				onDiscard={ onDiscardAndSwitch }
-				onClose={ onCancelSwitch }
-			/>
-			<Slot
-				name={ PENDING_CHANGES_MODAL_SLOT }
-				fillProps={ {
-					isOpen: pendingSwitch !== null && ! hasUnsavedEdits,
-					onCommit: onCommitSwitch,
-					onCancel: onCancelSwitch,
-				} }
-			/>
-		</div>
+					{ /* key remounts on content-type switch, resetting local state; a prop change alone would not. */ }
+				    <SearchBox key={ contentType } contentTypeLabel={ contentTypeLabel } />
+				</div>
+				{ tabs.map( ( tab ) => (
+					<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
+						<BulkEditorTable
+							items={ items }
+							fieldSet={ fieldSets[ tab.id ] }
+							selection={ selection }
+							editing={ editing }
+							selectionToolbar={
+								<SelectionToolbar
+									idSuffix={ `-${ tab.id }` }
+									isAllSelected={ isAllSelected }
+									isIndeterminate={ isIndeterminate }
+									onToggleAll={ onToggleAll }
+									onSelectAll={ onSelectAll }
+									onDeselectAll={ deselectAll }
+									selectedCount={ selectedCount }
+									totalCount={ totalCount }
+									contentTypeLabel={ contentTypeLabel }
+								/>
+							}
+							bulkActions={
+								<BulkActions
+									isPremium={ isPremium }
+									isAiEnabled={ isAiEnabled }
+									isActive={ tab.id === activeFieldSet }
+									selectedIds={ selectedIds }
+									activeFieldSet={ activeFieldSet }
+									contentType={ contentType }
+									contentTypeLabel={ contentTypeLabel }
+									contentTypeSingularLabel={ contentTypeSingularLabel }
+									hasUnsavedEdits={ hasUnsavedEdits }
+									editCount={ editCount }
+									onApplyAll={ editing.onApplyAll }
+									onDiscardAll={ editing.onDiscardAll }
+									isApplyingAll={ editing.isApplyingAll }
+									hasSaveError={ editing.hasSaveError }
+									onDismissSaveError={ editing.dismissSaveError }
+									preselectedTotal={ preselectedTotal }
+									onDismissPreselection={ dismissPreselectionNotice }
+									hasExcludedPreselected={ hasExcludedPreselected }
+									onDismissExclusion={ dismissExclusionNotice }
+								/>
+							}
+							showBulkActions={ showBulkActions }
+							filters={ <BulkEditorFilters /> }
+							isLoading={ isPending }
+							hasExternalPendingChanges={ hasExternalPendingChanges }
+							hasExternalGeneration={ hasExternalGeneration }
+							footer={ total > 0
+								? <BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
+								: null }
+						/>
+					</BulkEditorTabPanel>
+				) ) }
+				<UnsavedChangesModal
+					isOpen={ hasUnsavedEdits && pendingSwitch !== null }
+					isSaving={ editing.isApplyingAll }
+					onSave={ onSaveAndSwitch }
+					onDiscard={ onDiscardAndSwitch }
+					onClose={ onCancelSwitch }
+				/>
+				<Slot
+					name={ PENDING_CHANGES_MODAL_SLOT }
+					fillProps={ {
+						isOpen: pendingSwitch !== null && ! hasUnsavedEdits,
+						onCommit: onCommitSwitch,
+						onCancel: onCancelSwitch,
+					} }
+				/>
+			</div>
+			<BulkEditorTour onSelectAll={ onSelectAll } onDeselectAll={ deselectAll } hasSelection={ hasSelection } />
+		</>
 	);
 };

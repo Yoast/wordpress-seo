@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Connection_Permission;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Status_Presenter;
@@ -66,6 +67,13 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 	private $connection_permission;
 
 	/**
+	 * The user helper mock
+	 *
+	 * @var Mockery\MockInterface|User_Helper
+	 */
+	private $user_helper;
+
+	/**
 	 * The replacement-variable helper mock.
 	 *
 	 * @var Mockery\MockInterface|WPSEO_Replace_Vars
@@ -87,6 +95,7 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 		$this->myyoast_connection_conditional = Mockery::mock( MyYoast_Connection_Conditional::class );
 		$this->status_presenter               = Mockery::mock( Status_Presenter::class );
 		$this->connection_permission          = Mockery::mock( Connection_Permission::class );
+		$this->user_helper                    = Mockery::mock( User_Helper::class );
 		$this->replace_vars                   = Mockery::mock( WPSEO_Replace_Vars::class );
 
 		$endpoint_list = Mockery::mock( Endpoint_List::class );
@@ -118,6 +127,9 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 			$short_link_helper,
 		);
 
+		$this->user_helper->allows( 'get_current_user_id' )->andReturn( 1 );
+		$this->user_helper->allows( 'get_meta' )->andReturn( false );
+
 		$this->instance = new Bulk_Editor_Integration(
 			Mockery::mock( WPSEO_Admin_Asset_Manager::class ),
 			Mockery::mock( Current_Page_Helper::class ),
@@ -127,6 +139,7 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 			$nonce_repository,
 			$endpoints_repository,
 			$options_helper,
+			$this->user_helper,
 			$myyoast_connection_data_presenter,
 			$this->replace_vars,
 		);

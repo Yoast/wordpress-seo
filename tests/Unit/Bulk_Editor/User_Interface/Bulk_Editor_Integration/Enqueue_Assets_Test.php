@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::enqueue_assets
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::get_script_data
  */
-final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Enqueue_Assets_Test extends Abstract_Test {
 
 	/**
 	 * Tests enqueuing the assets.
@@ -68,7 +68,11 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 			);
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
 		$this->myyoast_connection_data_presenter->expects( 'present' )->once()->andReturnNull();
-		$this->replace_vars->expects( 'get_replacement_variables_with_labels' )->once()->andReturn( [] );
+		$this->user_helper->expects( 'get_current_user_id' )->once()->andReturn( 1 );
+		$this->user_helper->expects( 'get_meta' )
+			->once()
+			->with( 1, '_yoast_wpseo_bulk_editor_tour_opt_in_notification_seen', true )
+			->andReturn( '' );
 
 		$this->asset_manager->expects( 'localize_script' )
 			->once()

@@ -13,7 +13,7 @@ use Brain\Monkey;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\AI_Generator_Integration::register_hooks
  */
-final class Register_Hooks_Test extends Abstract_AI_Generator_Integration_Test {
+final class Register_Hooks_Test extends Abstract_Test {
 
 	/**
 	 * Tests the registration of the hooks.

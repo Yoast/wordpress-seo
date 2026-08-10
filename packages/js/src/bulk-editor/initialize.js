@@ -8,7 +8,7 @@ import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import { GenericAlert } from "../ai-generator/components/errors";
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
-import { getMyyoastConnectionState, LINK_PARAMS_NAME, MYYOAST_CONNECTION_NAME, REPLACEMENT_VARIABLES_NAME, getReplacementVariablesInitialState } from "../shared-admin/store";
+import { getMyyoastConnectionState, LINK_PARAMS_NAME, MYYOAST_CONNECTION_NAME, REPLACEMENT_VARIABLES_NAME, getReplacementVariablesInitialState, OPT_IN_NOTIFICATION_NAME } from "../shared-admin/store";
 import App from "./app";
 import { UpsellModal } from "./components/upsell-modal";
 import { BULK_UPDATE_BATCH_SIZE, PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
@@ -65,6 +65,9 @@ domReady( () => {
 			[ MYYOAST_CONNECTION_NAME ]: getMyyoastConnectionState( myyoastConnection ),
 			[ REPLACEMENT_VARIABLES_NAME ]: getReplacementVariablesInitialState( replacementVariables ),
 			...getPreselectionState( get( window, "wpseoBulkEditorData.initialSelection", {} ) ),
+			[ OPT_IN_NOTIFICATION_NAME ]: {
+				seen: get( window, "wpseoBulkEditorData.optInNotificationSeen", {} ),
+			},
 		},
 	} );
 	fixWordPressMenuScrolling();

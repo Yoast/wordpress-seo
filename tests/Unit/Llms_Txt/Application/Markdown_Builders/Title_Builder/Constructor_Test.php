@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Title_Adapter;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Title_Builder::__construct
  */
-final class Constructor_Test extends Abstract_Title_Builder_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

@@ -14,7 +14,7 @@ use WP_REST_Response;
  * @covers Yoast\WP\SEO\Dashboard\User_Interface\Scores\Readability_Scores_Route::get_scores
  * @covers Yoast\WP\SEO\Dashboard\User_Interface\Scores\Readability_Scores_Route::get_content_type
  */
-final class Non_Existing_Content_Type_Test extends Abstract_Readability_Scores_Test {
+final class Non_Existing_Content_Type_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_scores by sending a non existing content type.

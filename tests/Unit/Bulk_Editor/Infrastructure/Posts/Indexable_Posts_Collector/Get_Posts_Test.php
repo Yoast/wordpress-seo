@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_post
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_needs_improvement
  */
-final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
+final class Get_Posts_Test extends Abstract_Test {
 
 	/**
 	 * The statuses passed in the query.

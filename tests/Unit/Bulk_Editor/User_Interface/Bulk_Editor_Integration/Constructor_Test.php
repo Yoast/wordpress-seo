@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 
 /**
@@ -22,7 +23,7 @@ use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::__construct
  */
-final class Constructor_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.
@@ -61,6 +62,10 @@ final class Constructor_Test extends Abstract_Bulk_Editor_Integration_Test {
 		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $this->instance, 'options_helper' ),
+		);
+		$this->assertInstanceOf(
+			User_Helper::class,
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 		$this->assertInstanceOf(
 			Myyoast_Connection_Data_Presenter::class,

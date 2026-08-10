@@ -46,13 +46,8 @@ const slice = createSlice( {
 		},
 	},
 	extraReducers: ( builder ) => {
-		// Switching content type resets to the first page: the current page may not exist in the new content
-		// type's results. The overview selection belongs to the content type it was made for, so it goes too.
-		builder.addCase( activeContentTypeActions.setActiveContentType, ( state ) => {
-			state.page = 1;
-			state.overviewIds = [];
-			state.isOverviewFilterActive = false;
-		} );
+		// Switching content type resets all query state: search and filters from the previous content type should not carry over.
+		builder.addCase( activeContentTypeActions.setActiveContentType, () => createInitialQueryState() );
 	},
 } );
 
