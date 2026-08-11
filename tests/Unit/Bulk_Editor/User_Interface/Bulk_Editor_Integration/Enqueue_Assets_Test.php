@@ -83,7 +83,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 				Mockery::on(
 					static function ( $data ) use ( $content_types ) {
 						return $data['contentTypes'] === $content_types
-							&& $data['preferences']['nonce'] === 'rest-nonce'
+							&& $data['nonce'] === 'rest-nonce'
 							&& $data['preferences']['isPremium'] === false
 							&& \array_key_exists( 'replacementVariables', $data )
 							&& \array_key_exists( 'variables', $data['replacementVariables'] )
