@@ -296,21 +296,19 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	/**
 	 * Checks whether the installed Premium version is compatible with the current Free plugin.
 	 *
-	 * Returns true when:
-	 *   - Premium is not the active plugin (Free is running, so no version incompatibility applies).
-	 *   - No Premium version information is available (plugin not installed).
-	 *   - The installed Premium version meets the minimum requirement (>= 28.1).
-	 * Returns false only when Premium is the active plugin AND its version is too old.
-	 *
 	 * @param bool $is_premium Whether Premium is the currently active plugin.
 	 *
 	 * @return bool True when there is no Premium version incompatibility, false when Premium needs upgrading.
 	 */
 	private function is_premium_version_supported( bool $is_premium ): bool {
+		if ( ! $is_premium ) {
+			return false;
+		}
+
 		$premium_version = $this->product_helper->get_premium_version();
 
-		if ( ! $is_premium || $premium_version === null ) {
-			return true;
+		if ( $premium_version === null ) {
+			return false;
 		}
 
 		// Drop pre-release/build suffixes, e.g. "28.3-RC3" => "28.3".
