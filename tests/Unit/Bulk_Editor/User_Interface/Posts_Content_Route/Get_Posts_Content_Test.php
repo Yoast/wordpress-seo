@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Posts_Content_Route
 
 use Brain\Monkey\Functions;
 use Mockery;
+use WP_Post;
 use WP_REST_Request;
 use WP_REST_Response;
 
@@ -31,7 +32,31 @@ final class Get_Posts_Content_Test extends Abstract_Posts_Content_Route_Test {
 		$request = Mockery::mock( WP_REST_Request::class );
 		$request->expects( 'get_param' )->once()->with( 'ids' )->andReturn( $ids );
 
+		// The cache is primed once, for the normalized IDs, so the checks per post do not each cost a query.
+		Functions\expect( '_prime_post_caches' )
+			->once()
+			->with( \array_unique( \array_map( '\intval', $ids ) ), false, false );
+
 		return $request;
+	}
+
+	/**
+	 * Stubs the lookup of a post, listed in the bulk editor unless told otherwise.
+	 *
+	 * @param int    $post_id  The post ID.
+	 * @param string $content  The stored post content.
+	 * @param string $status   The post status.
+	 * @param string $password The post password; a non-empty one marks the post password-protected.
+	 *
+	 * @return void
+	 */
+	private function expect_post( int $post_id, string $content, string $status = 'publish', string $password = '' ) {
+		$post                = Mockery::mock( WP_Post::class );
+		$post->post_content  = $content;
+		$post->post_status   = $status;
+		$post->post_password = $password;
+
+		Functions\expect( 'get_post' )->once()->with( $post_id )->andReturn( $post );
 	}
 
 	/**
@@ -58,13 +83,8 @@ final class Get_Posts_Content_Test extends Abstract_Posts_Content_Route_Test {
 		$this->allow_post( 11 );
 		$this->allow_post( 22 );
 
-		Functions\expect( 'get_post' )
-			->twice()
-			->andReturnUsing(
-				static function ( $post_id ) {
-					return (object) [ 'post_content' => 'Content of ' . $post_id ];
-				},
-			);
+		$this->expect_post( 11, 'Content of 11' );
+		$this->expect_post( 22, 'Content of 22' );
 
 		$this->expect_response(
 			[
@@ -96,7 +116,7 @@ final class Get_Posts_Content_Test extends Abstract_Posts_Content_Route_Test {
 		$stored = "<!-- wp:paragraph -->\n<p>A [caption]captioned[/caption] paragraph.</p>\n<!-- /wp:paragraph -->";
 
 		$this->allow_post( 11 );
-		Functions\expect( 'get_post' )->once()->with( 11 )->andReturn( (object) [ 'post_content' => $stored ] );
+		$this->expect_post( 11, $stored );
 
 		$this->expect_response(
 			[
@@ -136,7 +156,7 @@ final class Get_Posts_Content_Test extends Abstract_Posts_Content_Route_Test {
 
 		// The accessible post is still returned.
 		$this->allow_post( 11 );
-		Functions\expect( 'get_post' )->once()->with( 11 )->andReturn( (object) [ 'post_content' => 'Kept.' ] );
+		$this->expect_post( 11, 'Kept.' );
 
 		$this->expect_response(
 			[
@@ -175,7 +195,7 @@ final class Get_Posts_Content_Test extends Abstract_Posts_Content_Route_Test {
 	 */
 	public function test_get_posts_content_resolves_each_id_once() {
 		$this->allow_post( 11 );
-		Functions\expect( 'get_post' )->once()->with( 11 )->andReturn( (object) [ 'post_content' => 'Once.' ] );
+		$this->expect_post( 11, 'Once.' );
 
 		$this->expect_response(
 			[
@@ -201,7 +221,7 @@ final class Get_Posts_Content_Test extends Abstract_Posts_Content_Route_Test {
 	 */
 	public function test_get_posts_content_casts_string_ids() {
 		$this->allow_post( 11 );
-		Functions\expect( 'get_post' )->once()->with( 11 )->andReturn( (object) [ 'post_content' => 'Cast.' ] );
+		$this->expect_post( 11, 'Cast.' );
 
 		$this->expect_response(
 			[
@@ -231,7 +251,7 @@ final class Get_Posts_Content_Test extends Abstract_Posts_Content_Route_Test {
 
 		// The accessible post is still returned.
 		$this->allow_post( 11 );
-		Functions\expect( 'get_post' )->once()->with( 11 )->andReturn( (object) [ 'post_content' => 'Kept.' ] );
+		$this->expect_post( 11, 'Kept.' );
 
 		$this->expect_response(
 			[
@@ -248,6 +268,129 @@ final class Get_Posts_Content_Test extends Abstract_Posts_Content_Route_Test {
 			WP_REST_Response::class,
 			$this->instance->get_posts_content( $this->create_request( [ 99, 11 ] ) ),
 		);
+	}
+
+	/**
+	 * Tests that a post whose status the bulk editor does not list is omitted.
+	 *
+	 * @param string $status The post status that is not listed.
+	 *
+	 * @dataProvider data_unlisted_statuses
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_content_omits_a_post_with_an_unlisted_status( string $status ) {
+		$this->allow_post( 99 );
+		$this->expect_post( 99, 'Not listed.', $status );
+
+		// The listed post is still returned.
+		$this->allow_post( 11 );
+		$this->expect_post( 11, 'Kept.' );
+
+		$this->expect_response(
+			[
+				'posts' => [
+					[
+						'id'      => 11,
+						'content' => 'Kept.',
+					],
+				],
+			],
+		);
+
+		$this->assertInstanceOf(
+			WP_REST_Response::class,
+			$this->instance->get_posts_content( $this->create_request( [ 99, 11 ] ) ),
+		);
+	}
+
+	/**
+	 * Data provider for test_get_posts_content_omits_a_post_with_an_unlisted_status.
+	 *
+	 * @return array<string, array<string>>
+	 */
+	public static function data_unlisted_statuses() {
+		return [
+			'a private post'          => [ 'status' => 'private' ],
+			'a trashed post'          => [ 'status' => 'trash' ],
+			'an auto-draft'           => [ 'status' => 'auto-draft' ],
+			'an inherited revision'   => [ 'status' => 'inherit' ],
+			'an unknown post status'  => [ 'status' => 'some-plugin-status' ],
+		];
+	}
+
+	/**
+	 * Tests that a password-protected post is omitted, as it is left out of bulk editing.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_content_omits_a_password_protected_post() {
+		$this->allow_post( 99 );
+		$this->expect_post( 99, 'Protected.', 'publish', 'hunter2' );
+
+		// The unprotected post is still returned.
+		$this->allow_post( 11 );
+		$this->expect_post( 11, 'Kept.' );
+
+		$this->expect_response(
+			[
+				'posts' => [
+					[
+						'id'      => 11,
+						'content' => 'Kept.',
+					],
+				],
+			],
+		);
+
+		$this->assertInstanceOf(
+			WP_REST_Response::class,
+			$this->instance->get_posts_content( $this->create_request( [ 99, 11 ] ) ),
+		);
+	}
+
+	/**
+	 * Tests that every status the bulk editor lists is served.
+	 *
+	 * @param string $status The listed post status.
+	 *
+	 * @dataProvider data_listed_statuses
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_content_serves_every_listed_status( string $status ) {
+		$this->allow_post( 11 );
+		$this->expect_post( 11, 'Listed.', $status );
+
+		$this->expect_response(
+			[
+				'posts' => [
+					[
+						'id'      => 11,
+						'content' => 'Listed.',
+					],
+				],
+			],
+		);
+
+		$this->assertInstanceOf(
+			WP_REST_Response::class,
+			$this->instance->get_posts_content( $this->create_request( [ 11 ] ) ),
+		);
+	}
+
+	/**
+	 * Data provider for test_get_posts_content_serves_every_listed_status.
+	 *
+	 * @return array<string, array<string>>
+	 */
+	public static function data_listed_statuses() {
+		return [
+			'a published post' => [ 'status' => 'publish' ],
+			'a draft'          => [ 'status' => 'draft' ],
+			'a pending post'   => [ 'status' => 'pending' ],
+			'a scheduled post' => [ 'status' => 'future' ],
+		];
 	}
 
 	/**

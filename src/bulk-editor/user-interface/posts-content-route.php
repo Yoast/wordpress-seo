@@ -3,8 +3,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Bulk_Editor\User_Interface;
 
+use WP_Post;
 use WP_REST_Request;
 use WP_REST_Response;
+use Yoast\WP\SEO\Bulk_Editor\Application\Posts\Posts_Collector_Interface;
 use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Post_Access_Checker_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
@@ -95,9 +97,10 @@ class Posts_Content_Route implements Route_Interface {
 	/**
 	 * Returns the raw content of the requested posts.
 	 *
-	 * Posts that no longer exist, are not of an editable type, or that the current user may not edit are omitted
-	 * from the response rather than failing the request: one inaccessible post out of a selection should not cost
-	 * the caller the whole batch. The caller treats an absent ID as "no content available" for that row.
+	 * Posts that no longer exist, are not of an editable type, that the current user may not edit, or that the
+	 * bulk editor does not list are omitted from the response rather than failing the request: one inaccessible
+	 * post out of a selection should not cost the caller the whole batch. The caller treats an absent ID as
+	 * "no content available" for that row.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -112,6 +115,13 @@ class Posts_Content_Route implements Route_Interface {
 		 */
 		$post_ids = \array_unique( \array_map( '\intval', (array) $request->get_param( 'ids' ) ) );
 
+		/*
+		 * Prime the post cache in one query so the checks below do not run one per post, the same way
+		 * Post_Editability_Resolver does for the listing. Neither the meta nor the term cache is needed:
+		 * only the post row itself is read.
+		 */
+		\_prime_post_caches( $post_ids, false, false );
+
 		$posts = [];
 		foreach ( $post_ids as $post_id ) {
 			if ( ! $this->post_access_checker->exists( $post_id )
@@ -124,7 +134,7 @@ class Posts_Content_Route implements Route_Interface {
 			$post = \get_post( $post_id );
 			// The access check above already resolved the post, but do not rely on that holding across two
 			// lookups: a post that is gone is omitted like any other inaccessible ID, never fataling the batch.
-			if ( $post === null ) {
+			if ( $post === null || ! $this->is_listed( $post ) ) {
 				continue;
 			}
 
@@ -137,6 +147,23 @@ class Posts_Content_Route implements Route_Interface {
 		}
 
 		return new WP_REST_Response( [ 'posts' => $posts ] );
+	}
+
+	/**
+	 * Whether the post is on the bulk editor lists.
+	 *
+	 * The content served here has to stay in step with the table: a post that has no row cannot have a suggestion
+	 * generated for it, so serving its content would only widen what this route exposes. Both collectors narrow on
+	 * the same two properties — the bulk editor's post statuses, and password-protected posts being left out of
+	 * bulk editing (the indexable collector filters those on `is_protected`, which is derived from `post_password`).
+	 *
+	 * @param WP_Post $post The post to check.
+	 *
+	 * @return bool Whether the post is on the bulk editor lists.
+	 */
+	private function is_listed( WP_Post $post ): bool {
+		return \in_array( $post->post_status, Posts_Collector_Interface::STATUSES, true )
+			&& $post->post_password === '';
 	}
 
 	/**
