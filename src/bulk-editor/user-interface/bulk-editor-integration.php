@@ -273,9 +273,8 @@ class Bulk_Editor_Integration implements Integration_Interface {
 				'dashboard' => \admin_url( 'admin.php?page=' . General_Page_Integration::PAGE ),
 				'tools'     => \admin_url( 'admin.php?page=wpseo_tools' ),
 			],
+			'nonce'                 => $this->nonce_repository->get_rest_nonce(),
 			'preferences'           => [
-				'nonce'       => $this->nonce_repository->get_rest_nonce(),
-				'restRoot'    => \esc_url_raw( \rest_url() ),
 				'isPremium'   => $this->product_helper->is_premium(),
 				'isAiEnabled' => $this->options_helper->get( 'enable_ai_generator' ) === true,
 				'isRtl'       => \is_rtl(),

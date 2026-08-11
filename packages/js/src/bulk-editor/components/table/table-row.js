@@ -75,7 +75,7 @@ export const BulkEditorRow = ( {
 		<Table.Row>
 			<Table.Cell>
 				<Checkbox
-					id={ `bulk-editor-select-${ item.id }` }
+					id={ `bulk-editor-select-${ item.id }-${ fieldSetId }` }
 					name={ `bulk-editor-select-${ item.id }` }
 					value={ String( item.id ) }
 					className="yst-mt-0.5"
@@ -127,6 +127,7 @@ export const BulkEditorRow = ( {
 									itemTitle={ item.title }
 									value={ draft[ field.key ] ?? "" }
 									isSaving={ isSaving }
+									fieldSetId={ fieldSetId }
 									onChange={ handleChangeField }
 									replacementVariables={ replacementVariables }
 									recommendedReplacementVariables={ recommendedReplacementVariables }

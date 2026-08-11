@@ -2,10 +2,11 @@ import { Slot } from "@wordpress/components";
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { ReplacementVariableEditor } from "@yoast/replacement-variable-editor";
-import { Table, Textarea } from "@yoast/ui-library";
-import { TABLE_ROW_INDICATOR_SLOT } from "../../constants";
+import { Table } from "@yoast/ui-library";
+import { TABLE_ROW_INDICATOR_SLOT, FOCUS_KEYPHRASE_KEY } from "../../constants";
 import { getStatusLabel } from "./table-helpers";
 import AnimateHeight from "react-animate-height";
+import { FocusKeyphraseField } from "./focus-keyphrase-field";
 
 /**
  * The title cell (the row header).
@@ -62,6 +63,7 @@ export const TitleCell = ( { item, fieldSetId } ) => {
  * @param {Function}      props.onChange                     Called with { key, value } when the value changes.
  * @param {Array}         props.replacementVariables         The replacement variables available for this content type.
  * @param {Array}         props.recommendedReplacementVariables The recommended replacement variables for this content type.
+ * @param {string}        props.fieldSetId  The active field set's id, scopes the input id across tabs.
  *
  * @returns {JSX.Element} The cell.
  */
@@ -74,6 +76,7 @@ export const EditableFieldCell = ( {
 	onChange,
 	replacementVariables,
 	recommendedReplacementVariables,
+	fieldSetId,
 } ) => {
 	// Row expand/collapse animation helper.
 	const [ height, setHeight ] = useState( 0 );
@@ -91,6 +94,11 @@ export const EditableFieldCell = ( {
 	 */
 	const editorContent = useMemo( () => ( value?.match( /%%\w+%%$/ ) ? `${ value } ` : value ) || "", [ value ] );
 
+	const id = `bulk-editor-edit-${ itemId }-${ fieldSetId }-${ field.key }`;
+	const label = sprintf(
+		/* translators: %1$s expands to the field label, %2$s to the content item title. */
+		__( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle );
+
 	if ( field.type ) {
 		return (
 			<Table.Cell>
@@ -100,30 +108,31 @@ export const EditableFieldCell = ( {
 						onChange={ handleReplaceVarChange }
 						type={ field.type }
 						isDisabled={ isSaving }
-						fieldId={ `bulk-editor-edit-${ itemId }-${ field.key }` }
+						fieldId={ id }
 						replacementVariables={ replacementVariables }
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						/* translators: %1$s expands to the field label, %2$s to the content item title. */
-						label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
+						label={ label }
 					/>
 				</AnimateHeight>
 			</Table.Cell>
 		);
 	}
 
-	return (
-		<Table.Cell>
-			<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
-				<Textarea
-					id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
-					rows={ 2 }
-					value={ value }
-					onChange={ handleTextareaChange }
-					disabled={ isSaving }
-					/* translators: %1$s expands to the field label, %2$s to the content item title. */
-					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
-				/>
-			</AnimateHeight>
-		</Table.Cell>
-	);
+	if ( field.key === FOCUS_KEYPHRASE_KEY ) {
+		return (
+			<Table.Cell>
+				<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
+					<FocusKeyphraseField
+						id={ id }
+						aria-label={ label }
+						value={ value }
+						disabled={ isSaving }
+						onChange={ handleTextareaChange }
+						rows={ 2 }
+					/>
+				</AnimateHeight>
+			</Table.Cell>
+		);
+	}
 };
