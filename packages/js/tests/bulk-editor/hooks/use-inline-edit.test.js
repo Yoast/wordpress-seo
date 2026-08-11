@@ -16,6 +16,7 @@ jest.mock( "../../../src/bulk-editor/services/field-scores", () => ( {
 	createSingleFieldScorer: () => mockScoreField,
 } ) );
 
+// eslint-disable-next-line max-statements
 describe( "useInlineEdit batch actions", () => {
 	const fieldSets = getFieldSets();
 	let editingRows;
