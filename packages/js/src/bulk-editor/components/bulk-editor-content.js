@@ -77,7 +77,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		selectedIds,
 		preselectedTotal,
 		hasExcludedPreselected,
-		isPremium,
 		isAiEnabled,
 		hasExternalPendingChanges,
 		hasExternalGeneration,
@@ -91,7 +90,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			preselectedTotal: store.selectPreselectedTotal(),
 			// Whether pruning dropped carried-over ids the bulk editor cannot show or edit; drives the exclusion notice.
 			hasExcludedPreselected: store.selectHasExcludedPreselected(),
-			isPremium: store.selectPreference( "isPremium", false ),
 			isAiEnabled: store.selectPreference( "isAiEnabled", false ),
 			// An external plugin (e.g. Premium's AI suggestions) reports pending changes so the switch can be guarded.
 			hasExternalPendingChanges: store.selectHasExternalPendingChanges(),
@@ -209,8 +207,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 							}
 							bulkActions={
 								<BulkActions
-									isPremium={ isPremium }
-									isAiEnabled={ isAiEnabled }
 									isActive={ tab.id === activeFieldSet }
 									selectedIds={ selectedIds }
 									activeFieldSet={ activeFieldSet }
