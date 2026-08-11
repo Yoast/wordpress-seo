@@ -248,7 +248,9 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @return array<string, string|array<string, string|bool>|array<array<string, string>>> The script data.
 	 */
 	public function get_script_data() {
-		$content_types = $this->content_types_repository->get_content_types();
+		$content_types        = $this->content_types_repository->get_content_types();
+		$is_premium           = $this->product_helper->is_premium();
+		$is_version_supported = $this->is_premium_version_supported( $is_premium );
 
 		return [
 			'contentTypes'          => $content_types,
@@ -263,10 +265,18 @@ class Bulk_Editor_Integration implements Integration_Interface {
 			'nonce'                 => $this->nonce_repository->get_rest_nonce(),
 			'restRoot'              => \esc_url_raw( \rest_url() ),
 			'preferences'           => [
-				'isPremium'   => $this->product_helper->is_premium(),
-				'isAiEnabled' => $this->options_helper->get( 'enable_ai_generator' ) === true,
-				'isRtl'       => \is_rtl(),
-				'pluginUrl'   => \plugins_url( '', \WPSEO_FILE ),
+				'isPremium'                 => $is_premium,
+				'isPremiumVersionSupported' => $is_version_supported,
+				'isAiEnabled'               => $this->options_helper->get( 'enable_ai_generator' ) === true,
+				'isRtl'                     => \is_rtl(),
+				'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
+				'premiumUpdateUrl'          => \html_entity_decode(
+					\wp_nonce_url(
+						\admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php' ),
+						'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php',
+					),
+					\ENT_COMPAT,
+				),
 			],
 			'linkParams'            => $this->short_link_helper->get_query_params(),
 			'analysis'              => [
@@ -281,6 +291,32 @@ class Bulk_Editor_Integration implements Integration_Interface {
 				'bulk_editor_tour' => $this->is_tour_opt_in_notification_seen(),
 			],
 		];
+	}
+
+	/**
+	 * Checks whether the installed Premium version is compatible with the current Free plugin.
+	 *
+	 * Returns true when:
+	 *   - Premium is not the active plugin (Free is running, so no version incompatibility applies).
+	 *   - No Premium version information is available (plugin not installed).
+	 *   - The installed Premium version meets the minimum requirement (>= 28.1).
+	 * Returns false only when Premium is the active plugin AND its version is too old.
+	 *
+	 * @param bool $is_premium Whether Premium is the currently active plugin.
+	 *
+	 * @return bool True when there is no Premium version incompatibility, false when Premium needs upgrading.
+	 */
+	private function is_premium_version_supported( bool $is_premium ): bool {
+		$premium_version = $this->product_helper->get_premium_version();
+
+		if ( ! $is_premium || $premium_version === null ) {
+			return true;
+		}
+
+		// Drop pre-release/build suffixes, e.g. "28.3-RC3" => "28.3".
+		$stable_version = (string) \preg_replace( '/[-+].*$/', '', $premium_version );
+
+		return \version_compare( $stable_version, '28.1', '>=' );
 	}
 
 	/**
