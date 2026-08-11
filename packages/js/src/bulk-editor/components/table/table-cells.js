@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Table, Textarea } from "@yoast/ui-library";
 import { TABLE_ROW_INDICATOR_SLOT } from "../../constants";
-import { getFieldTextClasses, getStatusLabel } from "./table-helpers";
+import { getStatusLabel } from "./table-helpers";
 import AnimateHeight from "react-animate-height";
 
 /**
@@ -59,10 +59,20 @@ export const TitleCell = ( { item, fieldSetId } ) => {
  * @param {string}        props.value     The current draft value.
  * @param {boolean}       props.isSaving  Whether the row is being saved (disables the input).
  * @param {Function}      props.onChange  Called with { key, value } when the value changes.
+ * @param {string}        props.fieldSetId  The active field set's id, scopes the input id across tabs.
  *
  * @returns {JSX.Element} The cell.
  */
-export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, onChange } ) => {
+export const EditableFieldCell = ( {
+	as: Component = Textarea,
+	field,
+	itemId,
+	itemTitle,
+	value,
+	isSaving,
+	onChange,
+	fieldSetId,
+	...props } ) => {
 	const handleChange = useCallback( ( event ) => onChange( { key: field.key, value: event.target.value } ), [ onChange, field.key ] );
 
 	// Row expand/collapse animation helper.
@@ -72,13 +82,14 @@ export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, 
 	return (
 		<Table.Cell>
 			<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
-				<Textarea
-					id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
+				<Component
+					id={ `bulk-editor-edit-${ itemId }-${ fieldSetId }-${ field.key }` }
+					className="yst-bulk-editor-textarea-field"
+					{ ...props }
 					rows={ 2 }
 					value={ value }
 					onChange={ handleChange }
 					disabled={ isSaving }
-					className={ `yst-resize-none ${ getFieldTextClasses( field.key, true ) }` }
 					/* translators: %1$s expands to the field label, %2$s to the content item title. */
 					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
 				/>

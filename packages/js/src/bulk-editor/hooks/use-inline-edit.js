@@ -14,6 +14,34 @@ import { createFieldScorer, createSingleFieldScorer } from "../services/field-sc
 const fieldEndpointKey = ( field, fieldSet ) => field.endpoint ?? fieldSet.endpoint;
 
 /**
+ * Resolves the value to persist locally for a field after a save.
+ *
+ * For the focus keyphrase, prefers the sanitized literal the server echoed back, so a keyphrase
+ * that was silently altered by sanitization (e.g. HTML stripped) is reflected correctly rather
+ * than showing the unsanitized draft. Other fields fall back to the submitted draft value.
+ *
+ * @param {string}           key        The field key (JS camelCase).
+ * @param {string}           draftValue The draft value that was submitted.
+ * @param {Object|undefined} sanitized  The sanitized literals from the update result, or undefined.
+ *
+ * @returns {string} The value to reflect locally.
+ */
+const resolveItemValue = ( key, draftValue, sanitized ) => {
+	if ( key === FOCUS_KEYPHRASE_KEY && sanitized && "focus_keyphrase" in sanitized ) {
+		return sanitized.focus_keyphrase;
+	}
+	return draftValue;
+};
+
+/**
+ * Extracts the sanitized literals from the first result of an update response.
+ *
+ * @param {Object} response The update response.
+ * @returns {Object|undefined} The sanitized fields, or undefined when not present.
+ */
+const getFirstSanitized = ( response ) => response?.results?.[ 0 ]?.sanitized;
+
+/**
  * Re-scores a saved row from an update result, when it carries rendered search fields.
  *
  * A rendered payload is only present for search-appearance updates, so this is a no-op for the social tab.
@@ -47,7 +75,8 @@ const rescoreAfterSave = ( scoreFields, activeFieldSet, response, rowEdit ) => {
 		return;
 	}
 	const results = response?.results ?? [];
-	rescoreFromResult( scoreFields, results[ 0 ], rowEdit.draft[ FOCUS_KEYPHRASE_KEY ] ?? "" );
+	const keyphrase = resolveItemValue( FOCUS_KEYPHRASE_KEY, rowEdit.draft[ FOCUS_KEYPHRASE_KEY ] ?? "", getFirstSanitized( response ) );
+	rescoreFromResult( scoreFields, results[ 0 ], keyphrase );
 };
 
 /**
@@ -71,15 +100,24 @@ const rescoreIfLastField = ( scoreFields, activeFieldSet, response, rowEdit ) =>
 /**
  * Re-scores every saved row in a batch response that carries rendered search fields.
  *
- * @param {Function} scoreFields The re-scorer.
- * @param {Object}   response    The update response for one batch.
- * @param {Object}   editingRows The current edit state, keyed by row id, holding each row's draft values.
+ * A no-op for the social tab: the scorer needs seo_title and meta_description, which are
+ * only present in rendered for search updates. Social updates have no rendered payload, so the
+ * activeFieldSet guard is a belt-and-suspenders defence against undefined title/description.
+ *
+ * @param {Function} scoreFields    The re-scorer.
+ * @param {string}   activeFieldSet The active field set's id.
+ * @param {Object}   response       The update response for one batch.
+ * @param {Object}   editingRows    The current edit state, keyed by row id, holding each row's draft values.
  *
  * @returns {void}
  */
-const rescoreBatchResult = ( scoreFields, response, editingRows ) => {
+const rescoreBatchResult = ( scoreFields, activeFieldSet, response, editingRows ) => {
+	if ( activeFieldSet !== FIELD_SET_SEARCH ) {
+		return;
+	}
 	( response?.results ?? [] ).forEach( ( result ) => {
-		rescoreFromResult( scoreFields, result, editingRows[ result.id ]?.draft?.[ FOCUS_KEYPHRASE_KEY ] ?? "" );
+		const keyphrase = resolveItemValue( FOCUS_KEYPHRASE_KEY, editingRows[ result.id ]?.draft?.[ FOCUS_KEYPHRASE_KEY ] ?? "", result?.sanitized );
+		rescoreFromResult( scoreFields, result, keyphrase );
 	} );
 };
 
@@ -175,7 +213,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 				method: "POST",
 				body: JSON.stringify( { items: [ { id, [ field.param ]: value } ] } ),
 			} );
-			updateItem( id, key, value );
+			updateItem( id, key, resolveItemValue( key, value, getFirstSanitized( response ) ) );
 			closeField( { id, key } );
 			rescoreIfLastField( scoreFields, activeFieldSet, response, rowEdit );
 		} catch ( error ) {
@@ -235,8 +273,9 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 				hasFailure = true;
 				return;
 			}
+			const sanitized = getFirstSanitized( result.value );
 			requests[ index ].applied.forEach( ( { key, value } ) => {
-				updateItem( id, key, value );
+				updateItem( id, key, resolveItemValue( key, value, sanitized ) );
 				closeField( { id, key } );
 			} );
 			rescoreAfterSave( scoreFields, activeFieldSet, result.value, rowEdit );
@@ -316,12 +355,15 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 				if ( result.status !== "fulfilled" ) {
 					return;
 				}
+				const sanitizedByPostId = Object.fromEntries(
+					( result.value?.results ?? [] ).map( ( r ) => [ r.id, r.sanitized ] )
+				);
 				requests[ index ].applied.forEach( ( { id, key, value } ) => {
-					updateItem( id, key, value );
+					updateItem( id, key, resolveItemValue( key, value, sanitizedByPostId[ id ] ) );
 					closeField( { id, key } );
 				} );
-				// Re-score the search rows in this batch; social results carry no rendered fields and are skipped.
-				rescoreBatchResult( scoreFields, result.value, editingRows );
+				// Re-score the search rows in this batch; the social guard is inside rescoreBatchResult.
+				rescoreBatchResult( scoreFields, activeFieldSet, result.value, editingRows );
 			} );
 			const hasFailure = results.some( ( result ) => result.status === "rejected" );
 			if ( hasFailure ) {
