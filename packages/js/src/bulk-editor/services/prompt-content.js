@@ -41,8 +41,8 @@ const getAnalysisData = () => ( {
  * Exposed to Premium on `window.yoast.bulkEditor.helpers`, so Premium needs no `yoastseo` import of its own.
  *
  * @param {string}  content              The post's raw content.
- * @param {Object}  [options]            The options.
- * @param {number}  [options.maxTokens]  The token budget; defaults to the budget for regular content types.
+ * @param {Object}  [options={}]            The options.
+ * @param {number}  [options.maxTokens=300]  The token budget; defaults to the budget for regular content types {@link MAX_TOKENS_DEFAULT}.
  *
  * @returns {Promise<string>} The prompt content. Never empty: falls back to a single full stop.
  */

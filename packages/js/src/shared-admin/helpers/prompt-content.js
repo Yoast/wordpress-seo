@@ -1,5 +1,5 @@
 /**
- * The maximum number of tokens to consider for default content types.
+ * The maximum number of tokens to consider for default content types: 300.
  *
  * Note that whitespace and punctuation tokens count towards this budget.
  *
@@ -8,7 +8,7 @@
 export const MAX_TOKENS_DEFAULT = 300;
 
 /**
- * The maximum number of tokens to consider for irregular content types (e.g. products or terms).
+ * The maximum number of tokens to consider for irregular content types (e.g. products or terms): 150.
  *
  * @type {number}
  */
