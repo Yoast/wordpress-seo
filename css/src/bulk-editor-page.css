@@ -6,6 +6,11 @@
 		padding-left: 0 !important;
 	}
 
+	/* Keep the admin menu above the guided-tour spotlight dim so it isn't overlaid. */
+	#adminmenuback {
+		z-index: 11;
+	}
+
 	.yst-mobile-navigation__top {
 		/* Offset the sticky bar below the taller mobile admin bar. */
 		@media (min-width: 601px) and (max-width: 768px) {
@@ -159,4 +164,36 @@
 /* Drop the focus ring for pointer clicks, but keep it for keyboard users (WCAG 2.4.7). */
 .yst-root .yst-bulk-editor-title-link:focus:not(:focus-visible) {
 	@apply yst-outline-none;
+}
+
+.yst-root .yst-bulk-editor-textarea-field textarea {
+	field-sizing: content;
+}
+
+/* The guided-tour spotlight overlay is decorative only; a separate backdrop blocks interaction, so it ignores pointer events. */
+.yst-root .yst-tour-spotlight {
+	pointer-events: none;
+}
+
+/* Prevent the in-app tour popovers title to stack bellow the close button */
+.yst-bulk-editor-tour-card .yst-flex-grow {
+	min-width: 0;
+	padding-inline-end: 2rem;
+}
+
+/* In RTL. */
+.yst-bulk-editor-tour-card.yst-popover--right {
+	margin-inline-start: 0.25rem;
+}
+
+[dir="rtl"] .yst-bulk-editor-tour-card.yst-popover--right {
+	margin-inline-start: 1rem;
+}
+
+[dir="rtl"] .yst-bulk-editor-tour-card.yst-popover--right::before {
+	inset-inline-start: auto !important;
+	inset-inline-end: 100% !important;
+	transform: translateY(-50%) !important;
+	border-inline-start: 14px solid transparent !important;
+	border-inline-end: 14px solid white !important;
 }

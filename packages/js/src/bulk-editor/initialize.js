@@ -8,10 +8,10 @@ import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import { GenericAlert } from "../ai-generator/components/errors";
 import { fixWordPressMenuScrolling, MAX_TOKENS_DEFAULT, MAX_TOKENS_IRREGULAR } from "../shared-admin/helpers";
+import { getMyyoastConnectionState, LINK_PARAMS_NAME, MYYOAST_CONNECTION_NAME, OPT_IN_NOTIFICATION_NAME } from "../shared-admin/store";
 // Imported directly rather than through the barrel: it pulls in `yoastseo`, which must not become a
 // dependency of the other pages that import that barrel.
 import { getVisibleContentLength } from "../shared-admin/helpers/get-visible-content-length";
-import { getMyyoastConnectionState, LINK_PARAMS_NAME, MYYOAST_CONNECTION_NAME } from "../shared-admin/store";
 import App from "./app";
 import { UpsellModal } from "./components/upsell-modal";
 import { BULK_UPDATE_BATCH_SIZE, PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
@@ -83,6 +83,9 @@ domReady( () => {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoBulkEditorData.linkParams", {} ),
 			[ MYYOAST_CONNECTION_NAME ]: getMyyoastConnectionState( myyoastConnection ),
 			...getPreselectionState( get( window, "wpseoBulkEditorData.initialSelection", {} ) ),
+			[ OPT_IN_NOTIFICATION_NAME ]: {
+				seen: get( window, "wpseoBulkEditorData.optInNotificationSeen", {} ),
+			},
 		},
 	} );
 	fixWordPressMenuScrolling();

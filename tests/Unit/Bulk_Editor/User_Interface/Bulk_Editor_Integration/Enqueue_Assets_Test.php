@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::enqueue_assets
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::get_script_data
  */
-final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Enqueue_Assets_Test extends Abstract_Test {
 
 	/**
 	 * Whether the shortcode tags global was set before the test replaced it.
@@ -90,34 +90,37 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 		];
 
 		$expected_script_data = [
-			'contentTypes'      => $content_types,
-			'endpoints'         => [
+			'contentTypes'          => $content_types,
+			'endpoints'             => [
 				'posts' => 'https://example.com/wp-json/yoast/v1/bulk_editor/posts',
 			],
-			'links'             => [
+			'links'                 => [
 				'dashboard' => 'https://example.com/wp-admin/admin.php?page=wpseo_dashboard',
 				'tools'     => 'https://example.com/wp-admin/admin.php?page=wpseo_tools',
 			],
-			'nonce'             => 'rest-nonce',
-			'restRoot'          => 'https://example.com/wp-json/',
-			'preferences'       => [
+			'nonce'                 => 'rest-nonce',
+			'restRoot'              => 'https://example.com/wp-json/',
+			'preferences'           => [
 				'isPremium'   => false,
 				'isAiEnabled' => true,
 				'isRtl'       => false,
 				'pluginUrl'   => 'https://example.com/wp-content/plugins/wordpress-seo',
 			],
-			'linkParams'        => [ 'foo' => 'bar' ],
-			'analysis'          => [
+			'linkParams'            => [ 'foo' => 'bar' ],
+			'analysis'              => [
 				'contentLocale'         => 'en_US',
 				'keywordAnalysisActive' => true,
 				'shortcodes'            => $expected_shortcodes,
 			],
-			'initialSelection'  => [
+			'initialSelection'      => [
 				'contentType'   => '',
 				'postIds'       => [],
 				'selectedCount' => 0,
 			],
-			'myyoastConnection' => null,
+			'myyoastConnection'     => null,
+			'optInNotificationSeen' => [
+				'bulk_editor_tour' => false,
+			],
 		];
 
 		Actions\expectRemoved( 'admin_print_scripts' )->once()->with( 'print_emoji_detection_script' );
@@ -151,6 +154,11 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 			);
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
 		$this->myyoast_connection_data_presenter->expects( 'present' )->once()->andReturnNull();
+		$this->user_helper->expects( 'get_current_user_id' )->once()->andReturn( 1 );
+		$this->user_helper->expects( 'get_meta' )
+			->once()
+			->with( 1, '_yoast_wpseo_bulk_editor_tour_opt_in_notification_seen', true )
+			->andReturn( '' );
 
 		$this->asset_manager->expects( 'localize_script' )
 			->once()

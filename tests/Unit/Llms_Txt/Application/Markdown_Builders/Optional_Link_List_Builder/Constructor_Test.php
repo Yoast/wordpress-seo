@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Sitemap_Link_Collecto
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Optional_Link_List_Builder::__construct
  */
-final class Constructor_Test extends Abstract_Optional_Link_List_Builder_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

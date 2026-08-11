@@ -13,7 +13,7 @@ use Brain\Monkey\Functions;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Get_Usage_Route::register_routes
  */
-final class Register_Routes_Test extends Abstract_Get_Usage_Route_Test {
+final class Register_Routes_Test extends Abstract_Test {
 
 	/**
 	 * Tests that register_routes registers the expected route.
