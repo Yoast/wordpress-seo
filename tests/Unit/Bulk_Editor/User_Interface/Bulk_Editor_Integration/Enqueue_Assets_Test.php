@@ -48,10 +48,12 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			'nonce'                 => 'rest-nonce',
 			'restRoot'              => 'https://example.com/wp-json/',
 			'preferences'           => [
-				'isPremium'   => false,
-				'isAiEnabled' => true,
-				'isRtl'       => false,
-				'pluginUrl'   => 'https://example.com/wp-content/plugins/wordpress-seo',
+				'isPremium'                 => false,
+				'isPremiumVersionSupported' => false,
+				'isAiEnabled'               => true,
+				'isRtl'                     => false,
+				'pluginUrl'                 => 'https://example.com/wp-content/plugins/wordpress-seo',
+				'premiumUpdateUrl'          => 'https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&_wpnonce=92ba59f0da',
 			],
 			'linkParams'            => [ 'foo' => 'bar' ],
 			'analysis'              => [
@@ -84,6 +86,8 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 		$this->nonce_repository->expects( 'get_rest_nonce' )->once()->andReturn( 'rest-nonce' );
 		Functions\expect( 'rest_url' )->once()->withNoArgs()->andReturn( 'https://example.com/wp-json/' );
 		$this->product_helper->expects( 'is_premium' )->once()->andReturn( false );
+		Functions\expect( 'wp_nonce_url' )->once()->andReturn( 'https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&_wpnonce=92ba59f0da' );
+		Functions\expect( 'admin_url' )->once()->with( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php' );
 		$this->options_helper->expects( 'get' )->once()->with( 'enable_ai_generator' )->andReturn( true );
 		$this->options_helper->expects( 'get' )->once()->with( 'keyword_analysis_active' )->andReturn( true );
 		Functions\expect( 'is_rtl' )->once()->withNoArgs()->andReturn( false );

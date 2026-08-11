@@ -179,6 +179,7 @@ final class Get_Initial_Selection_Test extends Abstract_Test {
 				'is_rtl'              => false,
 				'get_locale'          => 'en_US',
 				'plugins_url'         => 'https://example.com/wp-content/plugins/wordpress-seo',
+				'wp_nonce_url'        => 'https://example.com/wp-admin/update.php',
 				'admin_url'           => static function ( $path ) {
 					return 'https://example.com/wp-admin/' . $path;
 				},
@@ -206,6 +207,7 @@ final class Get_Initial_Selection_Test extends Abstract_Test {
 		$this->endpoints_repository->allows( 'get_all_endpoints' )->andReturn( $endpoint_list );
 		$this->nonce_repository->allows( 'get_rest_nonce' )->andReturn( 'rest-nonce' );
 		$this->product_helper->allows( 'is_premium' )->andReturn( false );
+		$this->product_helper->allows( 'get_premium_version' )->andReturn( null );
 		$this->options_helper->allows( 'get' )->andReturn( true );
 		$this->short_link_helper->allows( 'get_query_params' )->andReturn( [] );
 		$this->myyoast_connection_data_presenter->allows( 'present' )->andReturn( null );
