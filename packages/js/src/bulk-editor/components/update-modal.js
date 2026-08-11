@@ -30,14 +30,14 @@ export const UpdateModal = ( { onClose, isOpen } ) => {
 				<CloseButton onClick={ onClose } />
 				<Button
 					id="yst-bulk-editor-upgrade-modal"
-					className="yst-flex yst-items-center"
+					className="yst-pe-2.5 yst-flex yst-gap-1.5 yst-items-center"
 					href={ premiumUpdateUrl }
 					target="_blank"
 					rel="noopener noreferrer"
 					as="a"
 				>
 					{ __( "Update now", "wordpress-seo" ) }
-					<ArrowNarrowRightIcon className="yst-ml-2 yst-h-4 yst-w-4 rtl:yst-rotate-180" { ...ariaProps } />
+					<ArrowNarrowRightIcon className="yst-h-4 yst-w-4 rtl:yst-rotate-180 yst-shrink-0" { ...ariaProps } />
 				</Button>
 			</Actions>
 		</DangerModal>
