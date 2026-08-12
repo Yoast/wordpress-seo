@@ -99,26 +99,6 @@ export const EditableFieldCell = ( {
 		/* translators: %1$s expands to the field label, %2$s to the content item title. */
 		__( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle );
 
-	if ( field.type ) {
-		return (
-			<Table.Cell>
-				<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
-					<ReplacementVariableEditor
-						content={ editorContent }
-						onChange={ handleReplaceVarChange }
-						type={ field.type }
-						isDisabled={ isSaving }
-						fieldId={ id }
-						replacementVariables={ replacementVariables }
-						recommendedReplacementVariables={ recommendedReplacementVariables }
-						/* translators: %1$s expands to the field label, %2$s to the content item title. */
-						label={ label }
-					/>
-				</AnimateHeight>
-			</Table.Cell>
-		);
-	}
-
 	if ( field.key === FOCUS_KEYPHRASE_KEY ) {
 		return (
 			<Table.Cell>
@@ -135,4 +115,20 @@ export const EditableFieldCell = ( {
 			</Table.Cell>
 		);
 	}
+
+	return ( <Table.Cell>
+		<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
+			<ReplacementVariableEditor
+				content={ editorContent }
+				onChange={ handleReplaceVarChange }
+				type={ field.type }
+				isDisabled={ isSaving }
+				fieldId={ id }
+				replacementVariables={ replacementVariables }
+				recommendedReplacementVariables={ recommendedReplacementVariables }
+				/* translators: %1$s expands to the field label, %2$s to the content item title. */
+				label={ label }
+			/>
+		</AnimateHeight>
+	</Table.Cell> );
 };
