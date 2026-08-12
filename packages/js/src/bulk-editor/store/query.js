@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 import { activeContentTypeActions } from "./active-content-type";
+import { activeFieldSetActions } from "./active-field-set";
 
 /**
  * @returns {{search: string, page: number, statuses: string[], needsImprovement: string[],
@@ -48,6 +49,14 @@ const slice = createSlice( {
 	extraReducers: ( builder ) => {
 		// Switching content type resets all query state: search and filters from the previous content type should not carry over.
 		builder.addCase( activeContentTypeActions.setActiveContentType, () => createInitialQueryState() );
+		// Each tab filters its own title/description fields, so a carried-over "needs improvement" filter would
+		// silently change meaning. Clearing it widens the result set, hence the page reset.
+		builder.addCase( activeFieldSetActions.setActiveFieldSet, ( state ) => {
+			if ( state.needsImprovement.length > 0 ) {
+				state.needsImprovement = [];
+				state.page = 1;
+			}
+		} );
 	},
 } );
 

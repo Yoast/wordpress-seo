@@ -32,9 +32,22 @@ class Update_Result {
 	/**
 	 * The rendered values of the updated fields, keyed by field, with replacement variables resolved.
 	 *
+	 * Used for fields that feed the per-field scores (seo_title, meta_description).
+	 *
 	 * @var array<string, string>
 	 */
 	private $rendered;
+
+	/**
+	 * The sanitized literals that were actually persisted, keyed by field.
+	 *
+	 * Used for fields whose submitted value may have been silently altered by sanitization
+	 * (e.g. focus_keyphrase with HTML stripped), so the frontend can reflect what was stored
+	 * rather than what was submitted.
+	 *
+	 * @var array<string, string>
+	 */
+	private $sanitized;
 
 	/**
 	 * The constructor. Use the named constructors to create instances.
@@ -43,24 +56,27 @@ class Update_Result {
 	 * @param bool                  $success    Whether the update succeeded.
 	 * @param string|null           $error_code The error code, or null when the update succeeded.
 	 * @param array<string, string> $rendered   The rendered values of the updated fields.
+	 * @param array<string, string> $sanitized  The sanitized literals that were persisted.
 	 */
-	private function __construct( int $post_id, bool $success, ?string $error_code, array $rendered = [] ) {
+	private function __construct( int $post_id, bool $success, ?string $error_code, array $rendered = [], array $sanitized = [] ) {
 		$this->post_id    = $post_id;
 		$this->success    = $success;
 		$this->error_code = $error_code;
 		$this->rendered   = $rendered;
+		$this->sanitized  = $sanitized;
 	}
 
 	/**
 	 * Creates a successful result.
 	 *
-	 * @param int                   $post_id  The ID of the post the result is for.
-	 * @param array<string, string> $rendered The rendered values of the updated fields, keyed by field.
+	 * @param int                   $post_id   The ID of the post the result is for.
+	 * @param array<string, string> $rendered  The rendered values of the updated fields, keyed by field.
+	 * @param array<string, string> $sanitized The sanitized literals that were persisted, keyed by field.
 	 *
 	 * @return self The successful result.
 	 */
-	public static function for_success( int $post_id, array $rendered = [] ): self {
-		return new self( $post_id, true, null, $rendered );
+	public static function for_success( int $post_id, array $rendered = [], array $sanitized = [] ): self {
+		return new self( $post_id, true, null, $rendered, $sanitized );
 	}
 
 	/**
@@ -112,6 +128,15 @@ class Update_Result {
 	}
 
 	/**
+	 * Gets the sanitized literals that were persisted.
+	 *
+	 * @return array<string, string> The sanitized values, keyed by field.
+	 */
+	public function get_sanitized(): array {
+		return $this->sanitized;
+	}
+
+	/**
 	 * Parses the result to the expected key value representation.
 	 *
 	 * @return array<string, int|bool|string|array<string, string>> The result presented as the expected key value representation.
@@ -128,6 +153,10 @@ class Update_Result {
 
 		if ( $this->rendered !== [] ) {
 			$array['rendered'] = $this->rendered;
+		}
+
+		if ( $this->sanitized !== [] ) {
+			$array['sanitized'] = $this->sanitized;
 		}
 
 		return $array;

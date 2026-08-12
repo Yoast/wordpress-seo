@@ -11,8 +11,8 @@ import { FIELD_SET_SOCIAL, NEEDS_IMPROVEMENT_DESCRIPTION, NEEDS_IMPROVEMENT_TITL
  * how many filters are applied.
  *
  * The "needs improvement" options are tab-agnostic (values {@link NEEDS_IMPROVEMENT_TITLE} /
- * {@link NEEDS_IMPROVEMENT_DESCRIPTION}); only their labels change with the active tab, so a checked box
- * keeps its selection and re-targets the tab's title/description field when the user switches tabs.
+ * {@link NEEDS_IMPROVEMENT_DESCRIPTION}); only their labels change with the active tab, and the query store
+ * clears the selection on a tab switch so the filter never silently re-targets the other tab's field.
  *
  * @returns {JSX.Element} The filters control.
  */

@@ -4,7 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Button, Notifications, useToggleState } from "@yoast/ui-library";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { CONTENT_TYPE, EDIT_TYPE, MIN_CHARACTERS_DEFAULT, MIN_CHARACTERS_IRREGULAR, STORE_NAME_EDITOR } from "../constants";
-import { getVisibleContentLength } from "../helpers";
+import { getVisibleContentLength } from "../../shared-admin/helpers/get-visible-content-length";
 import { useTypeContext } from "../hooks";
 
 const ALERT_KEY = "ai_generator_tip_notification";
