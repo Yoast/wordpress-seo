@@ -21,12 +21,65 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 final class Enqueue_Assets_Test extends Abstract_Test {
 
 	/**
-	 * Tests enqueuing the assets.
+	 * Whether the shortcode tags global was set before the test replaced it.
+	 *
+	 * @var bool
+	 */
+	private $had_shortcode_tags;
+
+	/**
+	 * The shortcode tags global as it was before the test replaced it.
+	 *
+	 * @var mixed
+	 */
+	private $shortcode_tags_backup;
+
+	/**
+	 * Remembers the shortcode tags global, which these tests replace.
 	 *
 	 * @return void
 	 */
-	public function test_enqueue_assets() {
+	protected function set_up() {
+		parent::set_up();
+
+		$this->had_shortcode_tags    = isset( $GLOBALS['shortcode_tags'] );
+		$this->shortcode_tags_backup = ( $GLOBALS['shortcode_tags'] ?? null );
+	}
+
+	/**
+	 * Restores the shortcode tags global, so replacing it cannot leak into other tests.
+	 *
+	 * @return void
+	 */
+	protected function tear_down() {
+		if ( $this->had_shortcode_tags ) {
+			$GLOBALS['shortcode_tags'] = $this->shortcode_tags_backup;
+		}
+		else {
+			unset( $GLOBALS['shortcode_tags'] );
+		}
+
+		parent::tear_down();
+	}
+
+	/**
+	 * Tests enqueuing the assets.
+	 *
+	 * @param mixed         $shortcode_tags      The WordPress shortcode tags global, or null to leave it unset.
+	 * @param array<string> $expected_shortcodes The shortcode tags expected in the localized script data.
+	 *
+	 * @dataProvider data_shortcode_tags
+	 *
+	 * @return void
+	 */
+	public function test_enqueue_assets( $shortcode_tags, array $expected_shortcodes ) {
 		$this->stubEscapeFunctions();
+
+		// The registered shortcode tags are read straight off the WordPress global.
+		unset( $GLOBALS['shortcode_tags'] );
+		if ( $shortcode_tags !== null ) {
+			$GLOBALS['shortcode_tags'] = $shortcode_tags;
+		}
 
 		$content_types = [
 			[
@@ -57,6 +110,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			'analysis'              => [
 				'contentLocale'         => 'en_US',
 				'keywordAnalysisActive' => true,
+				'shortcodes'            => $expected_shortcodes,
 			],
 			'initialSelection'      => [
 				'contentType'   => '',
@@ -111,5 +165,37 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			->with( Bulk_Editor_Integration::ASSETS_NAME, 'wpseoBulkEditorData', $expected_script_data );
 
 		$this->instance->enqueue_assets();
+	}
+
+	/**
+	 * Data provider for test_enqueue_assets.
+	 *
+	 * The global is always set by WordPress, but the integration stays defensive: an absent or malformed global
+	 * costs shortcode parity in the AI prompt content, which is better than a fatal on a settings page.
+	 *
+	 * @return array<string, array<mixed>> The test data.
+	 */
+	public static function data_shortcode_tags(): array {
+		return [
+			'registered shortcode tags' => [
+				'shortcode_tags'      => [
+					'gallery' => 'gallery_shortcode',
+					'caption' => 'caption_shortcode',
+				],
+				'expected_shortcodes' => [ 'gallery', 'caption' ],
+			],
+			'no shortcodes registered'  => [
+				'shortcode_tags'      => [],
+				'expected_shortcodes' => [],
+			],
+			'the global is unset'       => [
+				'shortcode_tags'      => null,
+				'expected_shortcodes' => [],
+			],
+			'the global is malformed'   => [
+				'shortcode_tags'      => 'not an array',
+				'expected_shortcodes' => [],
+			],
+		];
 	}
 }

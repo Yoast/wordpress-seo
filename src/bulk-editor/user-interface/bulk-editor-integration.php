@@ -273,6 +273,10 @@ class Bulk_Editor_Integration implements Integration_Interface {
 				'contentLocale'         => \get_locale(),
 				// Re-scoring only runs when SEO analysis is enabled, matching the post editor.
 				'keywordAnalysisActive' => $this->options_helper->get( 'keyword_analysis_active' ) === true,
+				// Used when collecting the AI prompt content, so shortcode delimiters are stripped from the
+				// text while the content they enclose is kept. Not gated on SEO analysis being enabled: the
+				// prompt content is collected for AI suggestions, which do not depend on the analysis.
+				'shortcodes'            => $this->get_valid_shortcode_tags(),
 			],
 			'initialSelection'      => $this->get_initial_selection( $content_types ),
 			'myyoastConnection'     => $this->myyoast_connection_data_presenter->present(),
@@ -369,6 +373,24 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$current_user_id = $this->user_helper->get_current_user_id();
 
 		return (bool) $this->user_helper->get_meta( $current_user_id, '_yoast_wpseo_bulk_editor_tour_opt_in_notification_seen', true );
+	}
+
+	/**
+	 * Returns the tags of all registered shortcodes.
+	 *
+	 * Mirrors what the post editor passes to the analysis (see WPSEO_Metabox::get_valid_shortcode_tags()), so the
+	 * parse tree treats shortcodes the same on both pages: the delimiters are removed and the text an enclosing
+	 * shortcode wraps is kept. Without this list the raw brackets stay in the text and consume prompt tokens.
+	 *
+	 * @return array<string> The registered shortcode tags.
+	 */
+	private function get_valid_shortcode_tags(): array {
+		// The global is always set by WordPress, but stay defensive: an empty list only costs shortcode parity.
+		if ( ! isset( $GLOBALS['shortcode_tags'] ) || ! \is_array( $GLOBALS['shortcode_tags'] ) ) {
+			return [];
+		}
+
+		return \array_keys( $GLOBALS['shortcode_tags'] );
 	}
 
 	/**
