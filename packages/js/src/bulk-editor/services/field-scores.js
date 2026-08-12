@@ -1,11 +1,7 @@
-import { applyFilters } from "@wordpress/hooks";
 import { get } from "lodash";
 import { assessors, Paper } from "yoastseo";
 import measureTextWidth from "../../helpers/measureTextWidth";
-
-// Lets Premium provide a callback that augments the researcher (e.g. adds morphology data); Free's default
-// is a no-op, so the researcher is scored with base word forms.
-const CONFIGURE_RESEARCHER_FILTER = "yoast.bulkEditor.analysis.configureResearcher";
+import { getResearcher } from "./researcher";
 
 /**
  * Reads the bulk editor's analysis configuration from the localized script data.
@@ -16,40 +12,6 @@ const getAnalysisData = () => ( {
 	contentLocale: get( window, [ "wpseoBulkEditorData", "analysis", "contentLocale" ], "en_US" ),
 	keywordAnalysisActive: get( window, [ "wpseoBulkEditorData", "analysis", "keywordAnalysisActive" ], false ) === true,
 } );
-
-// A single researcher is shared across re-scores; built on first use.
-let researcherPromise = null;
-
-/**
- * Lazily builds the researcher used to score the fields.
- *
- * The language researcher lives on the page as `window.yoast.Researcher` because the bundle depends on the
- * analysis package. Premium can hook {@link CONFIGURE_RESEARCHER_FILTER} to provide a callback that augments
- * the researcher (e.g. adds morphology data) so its scores match the Premium editor; Free's default callback
- * is a no-op and scores with base word forms. The callback is awaited, as Premium fetches morphology at runtime.
- *
- * @param {string} locale The content locale.
- *
- * @returns {Promise<Object>} The researcher.
- */
-const getResearcher = ( locale ) => {
-	if ( researcherPromise === null ) {
-		researcherPromise = Promise.resolve()
-			.then( async() => {
-				// eslint-disable-next-line new-cap
-				const researcher = new window.yoast.Researcher.default();
-				const configureResearcher = applyFilters( CONFIGURE_RESEARCHER_FILTER, () => {} );
-				await configureResearcher( researcher, locale );
-				return researcher;
-			} )
-			.catch( ( error ) => {
-				// Allow a retry on the next edit rather than caching the failure for the session.
-				researcherPromise = null;
-				throw error;
-			} );
-	}
-	return researcherPromise;
-};
 
 /**
  * Builds the request item for a post's scores.

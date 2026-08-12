@@ -7,22 +7,47 @@ import { RemoteDataProvider } from "@yoast/dashboard-frontend";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import { GenericAlert } from "../ai-generator/components/errors";
-import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
-import { getMyyoastConnectionState, LINK_PARAMS_NAME, MYYOAST_CONNECTION_NAME, REPLACEMENT_VARIABLES_NAME, getReplacementVariablesInitialState, OPT_IN_NOTIFICATION_NAME } from "../shared-admin/store";
+import { fixWordPressMenuScrolling, MAX_TOKENS_DEFAULT, MAX_TOKENS_IRREGULAR } from "../shared-admin/helpers";
+import {
+	getMyyoastConnectionState,
+	LINK_PARAMS_NAME,
+	MYYOAST_CONNECTION_NAME,
+	OPT_IN_NOTIFICATION_NAME,
+	REPLACEMENT_VARIABLES_NAME,
+	getReplacementVariablesInitialState } from "../shared-admin/store";
+// Imported directly rather than through the barrel: it pulls in `yoastseo`, which must not become a
+// dependency of the other pages that import that barrel.
+import { getVisibleContentLength } from "../shared-admin/helpers/get-visible-content-length";
 import App from "./app";
 import { UpsellModal } from "./components/upsell-modal";
 import { BULK_UPDATE_BATCH_SIZE, PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
 import { useAiUpsell } from "./hooks/use-ai-upsell";
 import { DataProvider } from "./services";
+import { preparePromptContent } from "./services/prompt-content";
 import registerStore from "./store";
 
-// Expose the bulk AI upsell and the generic error alert so Premium can reuse them instead of duplicating: the
-// upsell modal, and the error alert its consent flow shows when granting consent fails. Premium's bulk-editor
-// bundle depends on this script, so the globals are set before Premium reads them.
+/*
+ * Cross-plugin surface consumed by Premium's bulk-editor bundle.
+ *
+ * Premium depends on this script, so the globals below are guaranteed to exist
+ * before Premium reads them. Free and Premium ship in lockstep (unversioned).
+ *
+ * Exposed pieces:
+ *  - UpsellModal        – Bulk AI upsell dialog.
+ *  - GenericAlert       – Error alert shown when the consent flow fails.
+ *  - preparePromptContent – Collects each post's prompt content for bulk AI generation.
+ *  - getVisibleContentLength – Measures "limited content" length; shared with the
+ *                              in-editor AI tip so both surfaces judge length identically.
+ *  - MAX_TOKENS_DEFAULT / MAX_TOKENS_IRREGULAR – Token budgets, defined once here
+ *                              rather than mirrored in Premium.
+ *  - useAiUpsell        – Hook driving the upsell flow.
+ */
 window.yoast = window.yoast || {};
 window.yoast.bulkEditor = window.yoast.bulkEditor || {};
 window.yoast.bulkEditor.components = { ...window.yoast.bulkEditor.components, UpsellModal, GenericAlert };
 window.yoast.bulkEditor.hooks = { ...window.yoast.bulkEditor.hooks, useAiUpsell };
+window.yoast.bulkEditor.helpers = { ...window.yoast.bulkEditor.helpers, preparePromptContent, getVisibleContentLength };
+window.yoast.bulkEditor.constants = { ...window.yoast.bulkEditor.constants, MAX_TOKENS_DEFAULT, MAX_TOKENS_IRREGULAR };
 
 /**
  * Builds the store state for a selection carried over from a WP admin overview bulk action.
