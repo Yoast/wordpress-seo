@@ -201,9 +201,14 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	// Clicking the master checkbox clears the selection whenever anything is selected (all or a partial).
 	const onToggleAll = useCallback( () => ( hasSelection ? handleDeselectAll() : onSelectAll() ), [ hasSelection, handleDeselectAll, onSelectAll ] );
 
+	const handleSmartSelectAll = useCallback( ( ids ) => {
+		anchorIdRef.current = null;
+		selectAll( ids );
+	}, [ selectAll ] );
+
 	const smartSelectItems = useMemo(
-		() => getSmartSelectItems( { activeFieldSet, items, isPending, selectAll } ),
-		[ activeFieldSet, items, isPending, selectAll ]
+		() => getSmartSelectItems( { activeFieldSet, items, isPending, selectAll: handleSmartSelectAll } ),
+		[ activeFieldSet, items, isPending, handleSmartSelectAll ]
 	);
 
 	const selection = useMemo( () => ( {
