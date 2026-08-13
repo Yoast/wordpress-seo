@@ -4,8 +4,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
 
+use Brain\Monkey\Functions;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
@@ -103,6 +105,30 @@ abstract class Abstract_Test extends TestCase {
 	protected $myyoast_connection_data_presenter;
 
 	/**
+	 * Holds the WPSEO_Replace_Vars mock.
+	 *
+	 * @var Mockery\MockInterface|WPSEO_Replace_Vars
+	 */
+	protected $replace_vars;
+
+	/**
+	 * Stubs the WP globals and functions consumed by WPSEO_Admin_Editor_Specific_Replace_Vars::__construct().
+	 *
+	 * Must be called before any test that exercises get_script_data() / enqueue_assets().
+	 *
+	 * @return void
+	 */
+	protected function stub_wpseo_admin_replace_vars_dependencies(): void {
+		global $wpdb;
+		$wpdb           = Mockery::mock();
+		$wpdb->postmeta = 'wp_postmeta';
+		$wpdb->allows( 'prepare' )->andReturn( '' );
+		$wpdb->allows( 'get_col' )->andReturn( [] );
+
+		Functions\stubs( [ 'get_taxonomies' => [] ] );
+	}
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -120,6 +146,7 @@ abstract class Abstract_Test extends TestCase {
 		$this->options_helper                    = Mockery::mock( Options_Helper::class );
 		$this->user_helper                       = Mockery::mock( User_Helper::class );
 		$this->myyoast_connection_data_presenter = Mockery::mock( Myyoast_Connection_Data_Presenter::class );
+		$this->replace_vars                      = Mockery::mock( WPSEO_Replace_Vars::class );
 
 		$this->instance = new Bulk_Editor_Integration(
 			$this->asset_manager,
@@ -132,6 +159,7 @@ abstract class Abstract_Test extends TestCase {
 			$this->options_helper,
 			$this->user_helper,
 			$this->myyoast_connection_data_presenter,
+			$this->replace_vars,
 		);
 	}
 }

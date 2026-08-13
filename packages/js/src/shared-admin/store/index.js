@@ -1,4 +1,5 @@
 export * from "./admin-url";
+export * from "./replacement-variables";
 export * from "./ai-generator-has-consent";
 export * from "./link-params";
 export * from "./myyoast-connection";

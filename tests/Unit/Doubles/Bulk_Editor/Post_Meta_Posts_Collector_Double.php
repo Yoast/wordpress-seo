@@ -17,7 +17,7 @@ class Post_Meta_Posts_Collector_Double extends Post_Meta_Posts_Collector {
 	 *
 	 * @return string The prepared WHERE clause.
 	 */
-	public function expose_build_needs_improvement_where( array $fields, bool $scores_enabled ): string {
-		return $this->build_needs_improvement_where( $fields, $scores_enabled );
+	public function expose_build_needs_improvement_where( array $fields, bool $scores_enabled, string $post_type = '' ): string {
+		return $this->build_needs_improvement_where( $fields, $scores_enabled, $post_type );
 	}
 }

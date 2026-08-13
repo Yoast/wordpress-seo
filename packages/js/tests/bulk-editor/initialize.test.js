@@ -112,10 +112,19 @@ describe( "bulk editor initialize", () => {
 					connectUrl: null,
 					learnMoreUrl: "",
 				},
+				replacementVariables: {
+					recommended: {},
+					shared: [],
+					specific: {},
+					variables: [],
+				},
 				optInNotification: { seen: { [ TOUR_OPT_IN_KEY ]: true } },
-				query: { overviewIds: [], isOverviewFilterActive: false },
-				activeContentType: "",
+				activeContentType: "post",
 				selection: { selectedIds: [], preselectedTotal: 0 },
+				query: {
+					isOverviewFilterActive: false,
+					overviewIds: [],
+				},
 			},
 		} );
 		expect( mockFixScrolling ).toHaveBeenCalledTimes( 1 );
@@ -142,6 +151,7 @@ describe( "bulk editor initialize", () => {
 					connectUrl: null,
 					learnMoreUrl: "",
 				},
+				replacementVariables: { recommended: {}, shared: [], specific: {}, variables: [] },
 				activeContentType: "page",
 				selection: { selectedIds: [ 5, 3 ], preselectedTotal: 25 },
 				query: { overviewIds: [ 5, 3 ], isOverviewFilterActive: true },

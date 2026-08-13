@@ -42,6 +42,20 @@ const resolveItemValue = ( key, draftValue, sanitized ) => {
 const getFirstSanitized = ( response ) => response?.results?.[ 0 ]?.sanitized;
 
 /**
+ * Returns the draft value to persist, stripping it back to empty when it still equals the item's
+ * fallback template. This prevents clicking Save on an unedited row from baking the fallback template
+ * in as an explicit stored value, which would disconnect the post from Search Appearance.
+ *
+ * @param {string}           value    The current draft value.
+ * @param {Object|undefined} item     The source item (may be undefined if the row was not found).
+ * @param {string}           fieldKey The JS camelCase field key (e.g. "seoTitle").
+ *
+ * @returns {string} The value to send to the server.
+ */
+const normalizeDraftValue = ( value, item, fieldKey ) =>
+	value === ( item?.[ `${ fieldKey }Fallback` ] ?? "" ) ? "" : value;
+
+/**
  * Re-scores a saved row from an update result, when it carries rendered search fields.
  *
  * A rendered payload is only present for search-appearance updates, so this is a no-op for the social tab.
@@ -187,7 +201,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			return;
 		}
 		const draftValues = Object.fromEntries(
-			fieldSets[ activeFieldSet ].fields.map( ( field ) => [ field.key, item[ field.key ] ?? "" ] )
+			fieldSets[ activeFieldSet ].fields.map( ( field ) => [ field.key, item[ field.key ] || item[ `${ field.key }Fallback` ] || "" ] )
 		);
 		startEdit( { id, draft: draftValues } );
 	}, [ items, fieldSets, activeFieldSet, startEdit ] );
@@ -206,7 +220,8 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			return;
 		}
 
-		const value = rowEdit.draft[ key ];
+		const rowItem = items.find( ( candidate ) => candidate.id === id );
+		const value = normalizeDraftValue( rowEdit.draft[ key ], rowItem, key );
 		setSavingField( { id, key, isSaving: true } );
 		try {
 			const response = await remoteDataProvider.fetchJson( endpoint, {}, {
@@ -220,7 +235,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			setSavingField( { id, key, isSaving: false } );
 			setHasSaveError( true );
 		}
-	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, closeField, updateItem, scoreFields ] );
+	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, items, setSavingField, closeField, updateItem, scoreFields ] );
 
 	// Saves all open fields of a single row in as few requests as possible — one POST per endpoint, all fields
 	// merged into one item. Called by the per-row Save button; re-scores once all succeed.
@@ -232,6 +247,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		}
 
 		// Group the row's open fields by endpoint — one item per endpoint, all fields merged in.
+		const rowItem = items.find( ( candidate ) => candidate.id === id );
 		const batches = {};
 		rowEdit.openFields.forEach( ( key ) => {
 			const field = fieldSet.fields.find( ( candidate ) => candidate.key === key );
@@ -246,8 +262,9 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			if ( ! batches[ endpointKey ] ) {
 				batches[ endpointKey ] = { endpoint, item: { id }, applied: [] };
 			}
-			batches[ endpointKey ].item[ field.param ] = rowEdit.draft[ key ];
-			batches[ endpointKey ].applied.push( { key, value: rowEdit.draft[ key ] } );
+			const value = normalizeDraftValue( rowEdit.draft[ key ], rowItem, key );
+			batches[ endpointKey ].item[ field.param ] = value;
+			batches[ endpointKey ].applied.push( { key, value } );
 		} );
 
 		const groups = Object.values( batches );
@@ -283,7 +300,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		if ( hasFailure ) {
 			setHasSaveError( true );
 		}
-	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, setSavingField, updateItem, closeField, scoreFields ] );
+	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, items, setSavingField, updateItem, closeField, scoreFields ] );
 
 	// Saves every open edit as one batch. Returns true (clean), false (a request failed), or null (a save was
 	// already in flight), so the tab-switch modal only closes on a real failure and not on a re-entrant call.
@@ -317,8 +334,10 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 				if ( ! batches[ endpointKey ].rows[ id ] ) {
 					batches[ endpointKey ].rows[ id ] = { item: { id }, applied: [] };
 				}
-				batches[ endpointKey ].rows[ id ].item[ field.param ] = row.draft[ key ];
-				batches[ endpointKey ].rows[ id ].applied.push( { id, key, value: row.draft[ key ] } );
+				const rowItem = items.find( ( candidate ) => candidate.id === id );
+				const value = normalizeDraftValue( row.draft[ key ], rowItem, key );
+				batches[ endpointKey ].rows[ id ].item[ field.param ] = value;
+				batches[ endpointKey ].rows[ id ].applied.push( { id, key, value } );
 			} );
 		} );
 
@@ -374,7 +393,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			isApplyingAllRef.current = false;
 			setIsApplyingAll( false );
 		}
-	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, updateItem, closeField, scoreFields ] );
+	}, [ fieldSets, activeFieldSet, dataProvider, remoteDataProvider, editingRows, items, updateItem, closeField, scoreFields ] );
 
 	const editing = useMemo( () => ( {
 		editingRows,
