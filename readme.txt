@@ -326,6 +326,7 @@ Release date: 2026-08-18
 
 * Adds a first-time guided tour to the bulk editor.
 * Sets the minimum supported WordPress version to 6.9.
+* Sets the _WordPress tested up to_ version to 7.1.
 
 = 28.2 =
 
