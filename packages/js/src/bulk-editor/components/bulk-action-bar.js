@@ -176,8 +176,17 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => (
  * @returns {JSX.Element} The notices region.
  */
 const BulkActionsNotices = ( {
-	preselectedTotal = 0, onDismissPreselection, hasExcludedPreselected = false, onDismissExclusion, hasSaveError, onDismissSaveError,
-	selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
+	preselectedTotal = 0,
+	onDismissPreselection,
+	hasExcludedPreselected = false,
+	onDismissExclusion,
+	hasSaveError,
+	onDismissSaveError,
+	selectedIds,
+	activeFieldSet,
+	contentType,
+	contentTypeLabel,
+	contentTypeSingularLabel,
 } ) => (
 	<>
 		<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } />

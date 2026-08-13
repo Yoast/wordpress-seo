@@ -17,7 +17,7 @@ import { PreviewEditableFieldCell } from "./preview-editable-field-cell";
  * @param {FieldSetField[]}   props.fields      The active field set's editable columns.
  * @param {string}            props.fieldSetId  The active field set's id, used to scope the per-row indicator slot.
  * @param {boolean}           props.isSelected  Whether this item is selected.
- * @param {Function}          props.onToggleRow Called with the item id when its checkbox is toggled.
+ * @param {Function}          props.onToggleRow Called with the item id and shift-key state when its checkbox is toggled.
  * @param {Object}            [props.edit]      This row's edit state ({ openFields, draft, savingFields }), or undefined when not editing.
  * @param {BulkEditorEditing} props.editing     The inline-edit props (its handlers).
  * @param {boolean}           [props.hasExternalPendingChanges=false] Whether Premium AI has suggestions pending review; while true,
@@ -55,7 +55,7 @@ export const BulkEditorRow = ( {
 	const fillsSocialDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialDescription/${item.id}` );
 	const isSlotFilled = [ fillsSeoTitles, fillsMetaDescription, fillsSocialTitle, fillsSocialDescription ].some( ( fills ) => fills?.length > 0 );
 
-	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
+	const handleToggle = useCallback( ( e ) => onToggleRow( item.id, e.nativeEvent.shiftKey ), [ onToggleRow, item.id ] );
 	const handleEdit = useCallback( () => onStartEdit( item.id ), [ onStartEdit, item.id ] );
 	const handleCancel = useCallback( () => onCancelEdit( item.id ), [ onCancelEdit, item.id ] );
 	const handleChangeField = useCallback( ( { key, value } ) => onChangeField( { id: item.id, key, value } ), [ onChangeField, item.id ] );

@@ -1,6 +1,6 @@
 import { Slot } from "@wordpress/components";
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useEffect, useMemo } from "@wordpress/element";
+import { useCallback, useEffect, useMemo, useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import {
 	BULK_UPDATE_BATCH_SIZE,
@@ -101,7 +101,15 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		};
 	}, [] );
 	const {
-		requestSwitch, commitSwitch, clearPendingSwitch, toggleRow, selectAll, deselectAll, dismissPreselectionNotice, dismissExclusionNotice,
+		requestSwitch,
+		commitSwitch,
+		clearPendingSwitch,
+		toggleRow,
+		selectAll,
+		deselectAll,
+		dismissPreselectionNotice,
+		dismissExclusionNotice,
+		selectRange,
 	} = useDispatch( STORE_NAME );
 
 	const { data: items = [], total = 0, totalPages = 0, isPending, updateItem } = usePosts( { dataProvider, remoteDataProvider, contentType } );
@@ -149,28 +157,64 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	}, [ pendingSwitch, hasUnsavedEdits, hasExternalPendingChanges, onCommitSwitch ] );
 
 	const { isAllSelected, isIndeterminate, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
+
+	// Tracks the last plain-click selection to anchor shift+click ranges.
+	const anchorIdRef = useRef( null );
+
+	// When a query change (search, filter, page) resets the store's selectedIds to [], clear the anchor so
+	// the next shift+click starts a fresh range rather than extending from a row the user selected before the reset.
+	useEffect( () => {
+		if ( selectedIds.length === 0 ) {
+			anchorIdRef.current = null;
+		}
+	}, [ selectedIds ] );
+
+	const onToggleRow = useCallback( ( id, shiftKey ) => {
+		const allEditableIds = items.filter( ( item ) => item.editable ).map( ( item ) => item.id );
+		if ( shiftKey && anchorIdRef.current !== null ) {
+			selectRange( { anchorId: anchorIdRef.current, targetId: id, allIds: allEditableIds } );
+		} else {
+			// A plain deselect clears the anchor: deselecting a row cannot serve as the start of a range.
+			// Shift+click only ever adds to the selection; it does not toggle rows off.
+			anchorIdRef.current = selectedIds.includes( id ) ? null : id;
+			toggleRow( id );
+		}
+	}, [ items, selectedIds, toggleRow, selectRange ] );
+
 	// The truncation and exclusion notices for a selection carried over from the WP admin overview, shown in the
 	// band's notices region; either one keeps the band expanded.
 	const hasOverviewNotice = getHasOverviewNotice( { preselectedTotal, hasExcludedPreselected } );
 	const showBulkActions = shouldShowBulkActions( { hasSelection, isAiEnabled, hasUnsavedEdits, hasExternalPendingChanges, hasOverviewNotice } );
 	const onSelectAll = useCallback( () => {
 		if ( ! isPending ) {
+			anchorIdRef.current = null;
 			// Only posts the user can edit are selectable for bulk editing.
 			selectAll( items.filter( ( item ) => item.editable ).map( ( item ) => item.id ) );
 		}
 	}, [ isPending, selectAll, items ] );
+
+	const handleDeselectAll = useCallback( () => {
+		anchorIdRef.current = null;
+		deselectAll();
+	}, [ deselectAll ] );
+
 	// Clicking the master checkbox clears the selection whenever anything is selected (all or a partial).
-	const onToggleAll = useCallback( () => ( hasSelection ? deselectAll() : onSelectAll() ), [ hasSelection, deselectAll, onSelectAll ] );
+	const onToggleAll = useCallback( () => ( hasSelection ? handleDeselectAll() : onSelectAll() ), [ hasSelection, handleDeselectAll, onSelectAll ] );
+
+	const handleSmartSelectAll = useCallback( ( ids ) => {
+		anchorIdRef.current = null;
+		selectAll( ids );
+	}, [ selectAll ] );
 
 	const smartSelectItems = useMemo(
-		() => getSmartSelectItems( { activeFieldSet, items, isPending, selectAll } ),
-		[ activeFieldSet, items, isPending, selectAll ]
+		() => getSmartSelectItems( { activeFieldSet, items, isPending, selectAll: handleSmartSelectAll } ),
+		[ activeFieldSet, items, isPending, handleSmartSelectAll ]
 	);
 
 	const selection = useMemo( () => ( {
 		selectedIds,
-		onToggleRow: toggleRow,
-	} ), [ selectedIds, toggleRow ] );
+		onToggleRow,
+	} ), [ selectedIds, onToggleRow ] );
 
 	return (
 		<>
@@ -200,7 +244,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 									isIndeterminate={ isIndeterminate }
 									onToggleAll={ onToggleAll }
 									onSelectAll={ onSelectAll }
-									onDeselectAll={ deselectAll }
+									onDeselectAll={ handleDeselectAll }
 									selectedCount={ selectedCount }
 									totalCount={ totalCount }
 									contentTypeLabel={ contentTypeLabel }
@@ -257,7 +301,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 					} }
 				/>
 			</div>
-			<BulkEditorTour onSelectAll={ onSelectAll } onDeselectAll={ deselectAll } hasSelection={ hasSelection } />
+			<BulkEditorTour onSelectAll={ onSelectAll } onDeselectAll={ handleDeselectAll } hasSelection={ hasSelection } />
 		</>
 	);
 };
