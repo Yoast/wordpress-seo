@@ -119,7 +119,7 @@ describe( "bulk editor initialize", () => {
 					variables: [],
 				},
 				optInNotification: { seen: { [ TOUR_OPT_IN_KEY ]: true } },
-				activeContentType: "",
+				activeContentType: "post",
 				selection: { selectedIds: [], preselectedTotal: 0 },
 				query: {
 					isOverviewFilterActive: false,

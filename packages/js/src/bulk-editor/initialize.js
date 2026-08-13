@@ -63,7 +63,6 @@ export const getPreselectionState = ( initialSelection = {} ) => {
 		.slice( 0, BULK_UPDATE_BATCH_SIZE );
 
 	return {
-		// An empty or unknown name resolves to the first available content type in the app.
 		activeContentType: typeof initialSelection.contentType === "string" ? initialSelection.contentType : "",
 		selection: {
 			selectedIds,
@@ -84,12 +83,17 @@ domReady( () => {
 	// Null when the MyYoast connection feature is unavailable (flag off / not provisioned).
 	const myyoastConnection = get( window, "wpseoBulkEditorData.myyoastConnection", null );
 	const replacementVariables = get( window, "wpseoBulkEditorData.replacementVariables", {} );
+	const contentTypes = get( window, "wpseoBulkEditorData.contentTypes", [] );
+	const preselectionState = getPreselectionState( get( window, "wpseoBulkEditorData.initialSelection", {} ) );
 	registerStore( {
 		initialState: {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoBulkEditorData.linkParams", {} ),
 			[ MYYOAST_CONNECTION_NAME ]: getMyyoastConnectionState( myyoastConnection ),
 			[ REPLACEMENT_VARIABLES_NAME ]: getReplacementVariablesInitialState( replacementVariables ),
-			...getPreselectionState( get( window, "wpseoBulkEditorData.initialSelection", {} ) ),
+			...preselectionState,
+			// Resolve "" (the "first available" sentinel) to the actual first content type name so that store
+			// selectors using it as a lookup key (e.g. replacement variables) work correctly on initial load.
+			activeContentType: preselectionState.activeContentType || contentTypes[ 0 ]?.name || "",
 			[ OPT_IN_NOTIFICATION_NAME ]: {
 				seen: get( window, "wpseoBulkEditorData.optInNotificationSeen", {} ),
 			},
