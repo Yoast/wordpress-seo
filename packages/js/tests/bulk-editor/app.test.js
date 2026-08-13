@@ -115,7 +115,7 @@ describe( "App", () => {
 		// Opens an edit on the Search tab, then clicks the Social tab to trigger the guard.
 		const openEditAndSwitch = async() => {
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 			fireEvent.click( screen.getByRole( "tab", { name: "Social appearance" } ) );
 		};
 
@@ -139,20 +139,26 @@ describe( "App", () => {
 			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
 			expect( screen.getByRole( "tab", { name: "Search appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
 			// The edit is preserved.
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 		} );
 
 		it( "discards the edit and switches when Continue without saving is clicked", async() => {
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
 
 			await openEditAndSwitch();
-			fireEvent.click( screen.getByRole( "button", { name: "Continue without saving" } ) );
+			// Both clicks commit a field-set switch (setActiveFieldSet), which re-triggers usePosts via
+			// the needsImprovementFields dep. Wrap in act so the fetch microtask is flushed before assertions.
+			await act( async() => {
+				fireEvent.click( screen.getByRole( "button", { name: "Continue without saving" } ) );
+			} );
 
 			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
 			expect( screen.getByRole( "tab", { name: "Social appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
 			// Back on Search the row is no longer in edit mode.
-			fireEvent.click( screen.getByRole( "tab", { name: "Search appearance" } ) );
-			expect( screen.queryByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument();
+			await act( async() => {
+				fireEvent.click( screen.getByRole( "tab", { name: "Search appearance" } ) );
+			} );
+			expect( screen.queryByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument();
 			expect( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) ).toBeEnabled();
 		} );
 
@@ -193,8 +199,8 @@ describe( "App", () => {
 		fireEvent.click( secondEdit );
 
 		// Both rows are in edit mode simultaneously.
-		expect( screen.getByRole( "textbox", { name: "SEO title for What Is SEO and How It Works" } ) ).toBeInTheDocument();
-		expect( screen.getByRole( "textbox", { name: "SEO title for Keyword Research for Beginners" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "combobox", { name: "SEO title for What Is SEO and How It Works" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "combobox", { name: "SEO title for Keyword Research for Beginners" } ) ).toBeInTheDocument();
 	} );
 
 	describe( "saving a row (Save)", () => {
@@ -215,20 +221,18 @@ describe( "App", () => {
 			render( <App dataProvider={ savingDataProvider } remoteDataProvider={ remote } /> );
 
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			fireEvent.change(
-				screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ),
-				{ target: { value: "New SEO title" } }
-			);
-			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
+			await act( async() => {
+				fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
+			} );
 
 			// onApplyRow batches all open fields into one POST; Edit opens all fields in the active field set.
 			expect( remote.fetchJson ).toHaveBeenCalledWith(
 				endpointUrl,
 				{},
-				{ method: "POST", body: JSON.stringify( { items: [ { id: 1, [ focusKeyphraseParam ]: "what is seo", [ seoTitleParam ]: "New SEO title", [ metaDescriptionParam ]: "Learn what SEO is." } ] } ) }
+				{ method: "POST", body: JSON.stringify( { items: [ { id: 1, [ focusKeyphraseParam ]: "what is seo", [ seoTitleParam ]: "What Is SEO? Complete Guide", [ metaDescriptionParam ]: "Learn what SEO is." } ] } ) }
 			);
 			// On success the field collapses/closes back to text.
-			await waitFor( () => expect( screen.queryByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument() );
+			await waitFor( () => expect( screen.queryByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument() );
 		} );
 
 		it( "keeps the field open and re-enables it when the save fails", async() => {
@@ -239,14 +243,14 @@ describe( "App", () => {
 			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
 
 			// The field stays open and becomes editable again once the failed save settles.
-			await waitFor( () => expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeEnabled() );
+			await waitFor( () => expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeEnabled() );
 		} );
 
 		it( "does not post to the save endpoint when it is unavailable", async() => {
 			const remote = buildRemote();
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ remote } /> );
-
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+
 			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
 
 			// The active tab's save endpoint is not configured, so no POST is made and the field stays open.
@@ -255,7 +259,7 @@ describe( "App", () => {
 				expect.anything(),
 				expect.objectContaining( { method: "POST" } )
 			);
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 		} );
 	} );
 
@@ -266,7 +270,7 @@ describe( "App", () => {
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
 
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 			fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
 
 			expect( screen.getByText( "Unsaved changes" ) ).toBeInTheDocument();
@@ -312,7 +316,7 @@ describe( "App", () => {
 
 			// Enter edit mode so any spurious switch would be guarded by the modal.
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 
 			// "Pages" is the resolved default while the stored active name is still "" (never switched).
 			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
@@ -320,7 +324,7 @@ describe( "App", () => {
 
 			// Clicking the content type you are already on is a no-op: no confirmation modal, the edit stays open.
 			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 		} );
 	} );
 
@@ -357,7 +361,7 @@ describe( "App", () => {
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
 
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 
 			fireEvent.click( screen.getByRole( "link", { name: "Back to Tools" } ) );
 

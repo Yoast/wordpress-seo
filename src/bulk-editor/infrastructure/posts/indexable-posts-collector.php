@@ -61,17 +61,27 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	private $post_editability_resolver;
 
 	/**
+	 * The resolver for the post type's default SEO title / meta description template.
+	 *
+	 * @var Default_Template_Resolver
+	 */
+	private $default_template_resolver;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Indexable_Repository      $indexable_repository      The indexable repository.
 	 * @param Post_Editability_Resolver $post_editability_resolver The resolver for the per-post edit permission.
+	 * @param Default_Template_Resolver $default_template_resolver The resolver for the default SEO title / meta description template.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
-		Post_Editability_Resolver $post_editability_resolver
+		Post_Editability_Resolver $post_editability_resolver,
+		Default_Template_Resolver $default_template_resolver
 	) {
 		$this->indexable_repository      = $indexable_repository;
 		$this->post_editability_resolver = $post_editability_resolver;
+		$this->default_template_resolver = $default_template_resolver;
 	}
 
 	/**
@@ -162,7 +172,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 		}
 
 		if ( $query->get_needs_improvement() !== [] ) {
-			$this->apply_needs_improvement( $builder, $query->get_needs_improvement(), $query->are_scores_enabled() );
+			$this->apply_needs_improvement( $builder, $query->get_needs_improvement(), $query->are_scores_enabled(), $query->get_content_type() );
 		}
 
 		return $builder;
@@ -173,16 +183,26 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	 *
 	 * A field needs improvement when its indexable column is NULL or an empty string, or — for fields
 	 * with a persisted per-field score and while scoring is enabled — when that score falls in the bad/ok
-	 * range. The selected fields are OR-ed inside a single group so they broaden the result without
-	 * interfering with the other filters, and unknown field keys are ignored.
+	 * range. The empty-value check is skipped for fields whose post type has a configured fallback template,
+	 * since template-defaulted posts are not genuinely empty. The selected fields are OR-ed inside a single
+	 * group so they broaden the result without interfering with the other filters, and unknown field keys
+	 * are ignored.
 	 *
 	 * @param ORM           $builder        The query to add the clause to.
 	 * @param array<string> $fields         The fields that need improvement.
 	 * @param bool          $scores_enabled Whether the per-field scores may back the filter.
+	 * @param string        $post_type      The post type slug.
 	 *
 	 * @return void
 	 */
-	private function apply_needs_improvement( ORM $builder, array $fields, bool $scores_enabled ): void {
+	private function apply_needs_improvement( ORM $builder, array $fields, bool $scores_enabled, string $post_type ): void {
+		$has_fallback = [
+			'seo_title'          => $this->default_template_resolver->resolve_seo_title( 0, $post_type, '' ) !== '',
+			'meta_description'   => $this->default_template_resolver->resolve_meta_description( 0, $post_type, '' ) !== '',
+			'social_title'       => $this->default_template_resolver->resolve_social_title( 0, $post_type, '' ) !== '',
+			'social_description' => $this->default_template_resolver->resolve_social_description( 0, $post_type, '' ) !== '',
+		];
+
 		$clauses = [];
 		$values  = [];
 		foreach ( $fields as $field ) {
@@ -190,17 +210,23 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 				continue;
 			}
 
-			$column   = self::FIELD_COLUMNS[ $field ];
-			$clause   = $column . ' IS NULL OR ' . $column . ' = %s';
-			$values[] = '';
+			$column        = self::FIELD_COLUMNS[ $field ];
+			$field_clauses = [];
 
-			if ( $scores_enabled && isset( self::FIELD_SCORE_COLUMNS[ $field ] ) ) {
-				$clause  .= ' OR ' . self::FIELD_SCORE_COLUMNS[ $field ] . ' BETWEEN %d AND %d';
-				$values[] = self::NEEDS_IMPROVEMENT_MIN_SCORE;
-				$values[] = self::NEEDS_IMPROVEMENT_MAX_SCORE;
+			if ( ! ( $has_fallback[ $field ] ?? false ) ) {
+				$field_clauses[] = $column . ' IS NULL OR ' . $column . ' = %s';
+				$values[]        = '';
 			}
 
-			$clauses[] = '( ' . $clause . ' )';
+			if ( $scores_enabled && isset( self::FIELD_SCORE_COLUMNS[ $field ] ) ) {
+				$field_clauses[] = self::FIELD_SCORE_COLUMNS[ $field ] . ' BETWEEN %d AND %d';
+				$values[]        = self::NEEDS_IMPROVEMENT_MIN_SCORE;
+				$values[]        = self::NEEDS_IMPROVEMENT_MAX_SCORE;
+			}
+
+			// Always add a clause per field — use a false condition when no real predicate applies so the
+			// field still participates in the outer OR group without incorrectly matching every row.
+			$clauses[] = '( ' . ( ( $field_clauses !== [] ) ? \implode( ' OR ', $field_clauses ) : '1 = 0' ) . ' )';
 		}
 
 		if ( $clauses === [] ) {
@@ -264,18 +290,37 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			return new Post( $object_id, $title, (string) $indexable->post_status, '', '', '', '', '', '', false );
 		}
 
+		$post_type = (string) $indexable->object_sub_type;
+
+		$raw_seo_title          = (string) $indexable->title;
+		$raw_meta_description   = (string) $indexable->description;
+		$raw_social_title       = (string) $indexable->open_graph_title;
+		$raw_social_description = (string) $indexable->open_graph_description;
+
+		// Resolver results are used for needs-improvement scoring and as display fallbacks when the stored value is empty.
+		$resolved_values = [
+			'seo_title'          => $this->default_template_resolver->resolve_seo_title( $object_id, $post_type, $raw_seo_title ),
+			'meta_description'   => $this->default_template_resolver->resolve_meta_description( $object_id, $post_type, $raw_meta_description ),
+			'social_title'       => $this->default_template_resolver->resolve_social_title( $object_id, $post_type, $raw_social_title ),
+			'social_description' => $this->default_template_resolver->resolve_social_description( $object_id, $post_type, $raw_social_description ),
+		];
+
 		return new Post(
 			$object_id,
 			$title,
 			(string) $indexable->post_status,
 			(string) \get_edit_post_link( $object_id, 'raw' ),
 			(string) $indexable->primary_focus_keyword,
-			(string) $indexable->title,
-			(string) $indexable->description,
-			(string) $indexable->open_graph_title,
-			(string) $indexable->open_graph_description,
+			$raw_seo_title,
+			$raw_meta_description,
+			$raw_social_title,
+			$raw_social_description,
 			true,
-			$this->build_needs_improvement( $indexable, $scores_enabled ),
+			$this->build_needs_improvement( $indexable, $scores_enabled, $resolved_values ),
+			( $raw_seo_title === '' ) ? $resolved_values['seo_title'] : '',
+			( $raw_meta_description === '' ) ? $resolved_values['meta_description'] : '',
+			( $raw_social_title === '' ) ? $resolved_values['social_title'] : '',
+			( $raw_social_description === '' ) ? $resolved_values['social_description'] : '',
 		);
 	}
 
@@ -283,16 +328,20 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	 * Builds the per-field needs-improvement verdict for a post, keyed by field param.
 	 *
 	 * A field needs improvement when its value is empty, or when its score falls in the bad/ok range.
+	 * All four display values are passed in already-resolved so that a post whose stored value is empty
+	 * but whose post type has a configured default template is not incorrectly flagged.
 	 *
-	 * @param Indexable $indexable      The indexable.
-	 * @param bool      $scores_enabled Whether the per-field scores may back the verdict.
+	 * @param Indexable             $indexable       The indexable.
+	 * @param bool                  $scores_enabled  Whether the per-field scores may back the verdict.
+	 * @param array<string, string> $resolved_values The resolved display values, keyed by field param.
 	 *
 	 * @return array<string, bool> Whether each field needs improvement, keyed by field param.
 	 */
-	private function build_needs_improvement( Indexable $indexable, bool $scores_enabled ): array {
+	private function build_needs_improvement( Indexable $indexable, bool $scores_enabled, array $resolved_values ): array {
 		$needs_improvement = [];
 		foreach ( self::FIELD_COLUMNS as $field => $column ) {
-			$is_empty = ( (string) $indexable->{$column} === '' );
+			$value    = $resolved_values[ $field ];
+			$is_empty = ( $value === '' );
 
 			$is_bad_score = false;
 			if ( $scores_enabled && isset( self::FIELD_SCORE_COLUMNS[ $field ] ) ) {

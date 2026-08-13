@@ -1,6 +1,5 @@
 import { __ } from "@wordpress/i18n";
 import { TextareaField } from "@yoast/ui-library";
-import { EditableFieldCell } from "./table-cells";
 
 /**
  * Focus keyphrase editable field cell.
@@ -10,7 +9,7 @@ import { EditableFieldCell } from "./table-cells";
  *
  * @returns {JSX.Element} The cell.
  */
-export const FocusKeyphraseEditableFieldCell = ( { value, ...props } ) => {
+export const FocusKeyphraseField = ( { value, ...props } ) => {
 	const warnings = [
 		( /<[^>]*>/u ).test( value ) && __( "Your keyphrase contains HTML tags that will be stripped on save.", "wordpress-seo" ),
 		value.length === 191 && __( "You reached the maximum limit of 191 characters.", "wordpress-seo" ),
@@ -27,12 +26,13 @@ export const FocusKeyphraseEditableFieldCell = ( { value, ...props } ) => {
 		: null;
 
 	return (
-		<EditableFieldCell
-			as={ TextareaField }
-			{ ...props }
-			value={ value }
+		<TextareaField
+			className="yst-bulk-editor-textarea-field"
 			validation={ validation }
 			maxLength={ 191 }
+			rows={ 2 }
+			{ ...props }
+			value={ value }
 		/>
 	);
 };

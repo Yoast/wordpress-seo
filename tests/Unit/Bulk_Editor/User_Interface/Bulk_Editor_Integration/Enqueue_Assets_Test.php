@@ -74,6 +74,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 	 */
 	public function test_enqueue_assets( $shortcode_tags, array $expected_shortcodes ) {
 		$this->stubEscapeFunctions();
+		$this->stub_wpseo_admin_replace_vars_dependencies();
 
 		// The registered shortcode tags are read straight off the WordPress global.
 		unset( $GLOBALS['shortcode_tags'] );
@@ -86,40 +87,6 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 				'name'          => 'post',
 				'label'         => 'Posts',
 				'singularLabel' => 'Post',
-			],
-		];
-
-		$expected_script_data = [
-			'contentTypes'          => $content_types,
-			'endpoints'             => [
-				'posts' => 'https://example.com/wp-json/yoast/v1/bulk_editor/posts',
-			],
-			'links'                 => [
-				'dashboard' => 'https://example.com/wp-admin/admin.php?page=wpseo_dashboard',
-				'tools'     => 'https://example.com/wp-admin/admin.php?page=wpseo_tools',
-			],
-			'nonce'                 => 'rest-nonce',
-			'restRoot'              => 'https://example.com/wp-json/',
-			'preferences'           => [
-				'isPremium'   => false,
-				'isAiEnabled' => true,
-				'isRtl'       => false,
-				'pluginUrl'   => 'https://example.com/wp-content/plugins/wordpress-seo',
-			],
-			'linkParams'            => [ 'foo' => 'bar' ],
-			'analysis'              => [
-				'contentLocale'         => 'en_US',
-				'keywordAnalysisActive' => true,
-				'shortcodes'            => $expected_shortcodes,
-			],
-			'initialSelection'      => [
-				'contentType'   => '',
-				'postIds'       => [],
-				'selectedCount' => 0,
-			],
-			'myyoastConnection'     => null,
-			'optInNotificationSeen' => [
-				'bulk_editor_tour' => false,
 			],
 		];
 
@@ -159,10 +126,27 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			->once()
 			->with( 1, '_yoast_wpseo_bulk_editor_tour_opt_in_notification_seen', true )
 			->andReturn( '' );
+		$this->replace_vars->expects( 'get_replacement_variables_with_labels' )->once()->andReturn( [] );
 
 		$this->asset_manager->expects( 'localize_script' )
 			->once()
-			->with( Bulk_Editor_Integration::ASSETS_NAME, 'wpseoBulkEditorData', $expected_script_data );
+			->with(
+				Bulk_Editor_Integration::ASSETS_NAME,
+				'wpseoBulkEditorData',
+				Mockery::on(
+					static function ( $data ) use ( $content_types, $expected_shortcodes ) {
+						return $data['contentTypes'] === $content_types
+							&& $data['nonce'] === 'rest-nonce'
+							&& $data['preferences']['isPremium'] === false
+							&& $data['analysis']['shortcodes'] === $expected_shortcodes
+							&& \array_key_exists( 'replacementVariables', $data )
+							&& \array_key_exists( 'variables', $data['replacementVariables'] )
+							&& \array_key_exists( 'recommended', $data['replacementVariables'] )
+							&& \array_key_exists( 'specific', $data['replacementVariables'] )
+							&& \array_key_exists( 'shared', $data['replacementVariables'] );
+					},
+				),
+			);
 
 		$this->instance->enqueue_assets();
 	}
