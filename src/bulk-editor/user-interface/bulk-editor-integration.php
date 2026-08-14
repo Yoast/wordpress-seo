@@ -283,13 +283,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 				'isAiEnabled'               => $this->options_helper->get( 'enable_ai_generator' ) === true,
 				'isRtl'                     => \is_rtl(),
 				'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
-				'premiumUpdateUrl'          => \html_entity_decode(
-					\wp_nonce_url(
-						\self_admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php' ),
-						'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php',
-					),
-					\ENT_COMPAT,
-				),
+				'premiumUpdateUrl'          => $this->get_premium_update_url(),
 			],
 			'linkParams'            => $this->short_link_helper->get_query_params(),
 			'analysis'              => [
@@ -350,6 +344,26 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		}
 
 		return \version_compare( $premium_version, '28.1-RC0', '>' );
+	}
+
+	/**
+	 * Returns the one-click Premium update URL for the current user, or an empty string when the user
+	 * lacks the `update_plugins` capability (and would hit a wp_die permission error on update.php).
+	 *
+	 * @return string The nonce-protected update URL, or an empty string.
+	 */
+	private function get_premium_update_url(): string {
+		if ( ! \current_user_can( 'update_plugins' ) ) {
+			return '';
+		}
+
+		return \html_entity_decode(
+			\wp_nonce_url(
+				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php' ),
+				'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php',
+			),
+			\ENT_COMPAT,
+		);
 	}
 
 	/**

@@ -28,7 +28,7 @@ export const UpdateModal = ( { onClose, isOpen } ) => {
 			</ModalDescription>
 			<Actions>
 				<CloseButton onClick={ onClose } />
-				<Button
+				{ premiumUpdateUrl && <Button
 					id="yst-bulk-editor-update-modal"
 					className="yst-pe-2.5 yst-flex yst-gap-1.5 yst-items-center"
 					href={ premiumUpdateUrl }
@@ -39,7 +39,7 @@ export const UpdateModal = ( { onClose, isOpen } ) => {
 					{ __( "Update now", "wordpress-seo" ) }
 					<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
 					<ArrowNarrowRightIcon className="yst-h-4 yst-w-4 rtl:yst-rotate-180 yst-shrink-0" { ...ariaProps } />
-				</Button>
+				</Button> }
 			</Actions>
 		</DangerModal>
 	);
