@@ -33,10 +33,11 @@ export const Actions = ( { children } ) => (
  * A "Close" button that dismisses the modal.
  *
  * @param {object} props The props for the button, including onClose to dismiss the modal.
+ * @param {function} props.onClose Dismisses the modal.
  * @returns {JSX.Element} The element.
  */
-export const CloseButton = ( { onClose = noop, onClick, ...props } ) => (
-	<Button variant="secondary" onClick={ onClick || onClose } { ...props }>
+export const CloseButton = ( { onClose, ...props } ) => (
+	<Button variant="secondary" onClick={ onClose } { ...props }>
 		{ __( "Close", "wordpress-seo" ) }
 	</Button>
 );
