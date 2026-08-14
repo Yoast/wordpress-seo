@@ -86,8 +86,6 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 		$this->nonce_repository->expects( 'get_rest_nonce' )->once()->andReturn( 'rest-nonce' );
 		Functions\expect( 'rest_url' )->once()->withNoArgs()->andReturn( 'https://example.com/wp-json/' );
 		$this->product_helper->expects( 'is_premium' )->once()->andReturn( false );
-		Functions\expect( 'wp_nonce_url' )->once()->andReturn( 'https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&_wpnonce=92ba59f0da' );
-		Functions\expect( 'admin_url' )->once()->with( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php' );
 		$this->options_helper->expects( 'get' )->once()->with( 'enable_ai_generator' )->andReturn( true );
 		$this->options_helper->expects( 'get' )->once()->with( 'keyword_analysis_active' )->andReturn( true );
 		Functions\expect( 'is_rtl' )->once()->withNoArgs()->andReturn( false );
@@ -96,12 +94,19 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			->once()
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
 		Functions\expect( 'admin_url' )
-			->twice()
+			->times( 3 )
 			->andReturnUsing(
 				static function ( $path ) {
 					return 'https://example.com/wp-admin/' . $path;
 				},
 			);
+		Functions\expect( 'wp_nonce_url' )
+			->once()
+			->with(
+				'https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php',
+				'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php',
+			)
+			->andReturn( 'https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&_wpnonce=92ba59f0da' );
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
 		$this->myyoast_connection_data_presenter->expects( 'present' )->once()->andReturnNull();
 		$this->user_helper->expects( 'get_current_user_id' )->once()->andReturn( 1 );
