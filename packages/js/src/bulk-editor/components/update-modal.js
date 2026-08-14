@@ -37,6 +37,7 @@ export const UpdateModal = ( { onClose, isOpen } ) => {
 					as="a"
 				>
 					{ __( "Update now", "wordpress-seo" ) }
+					<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
 					<ArrowNarrowRightIcon className="yst-h-4 yst-w-4 rtl:yst-rotate-180 yst-shrink-0" { ...ariaProps } />
 				</Button>
 			</Actions>
