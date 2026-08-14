@@ -119,6 +119,10 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 					return 'https://example.com/wp-admin/' . $path;
 				},
 			);
+		Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'update_plugins' )
+			->andReturn( true );
 		Functions\expect( 'self_admin_url' )
 			->once()
 			->andReturnUsing(
