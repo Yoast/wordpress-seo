@@ -1,7 +1,17 @@
-import { fireEvent, render, screen } from "../test-utils";
+import { fireEvent, render, screen, act } from "../test-utils";
 import { BulkEditorTable } from "../../src/bulk-editor/components/table/bulk-editor-table";
 import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PAGE_SIZE } from "../../src/bulk-editor/constants";
 import { getFieldSets } from "../../src/bulk-editor/field-sets";
+
+// BulkEditorRow calls useSelect to fetch replacement variables from the bulk-editor store.
+// This mock avoids registering the real store in unit tests and returns empty arrays.
+jest.mock( "@wordpress/data", () => ( {
+	useSelect: jest.fn( ( mapSelect ) => mapSelect( () => ( {
+		selectActiveContentTypeName: () => "",
+		selectReplacementVariablesFor: () => [],
+		selectRecommendedReplacementVariablesFor: () => [],
+	} ) ) ),
+} ) );
 
 const fieldSets = getFieldSets();
 const searchFieldSet = fieldSets[ FIELD_SET_SEARCH ];
@@ -19,6 +29,7 @@ const items = [
 		socialTitle: "Social: What Is SEO",
 		socialDescription: "Social description for SEO.",
 		editable: true,
+		type: "description",
 	},
 	{
 		id: 2,
@@ -31,6 +42,7 @@ const items = [
 		socialTitle: "Social: On-Page SEO",
 		socialDescription: "Social description for on-page.",
 		editable: true,
+		type: "description",
 	},
 ];
 
@@ -48,7 +60,8 @@ describe( "BulkEditorTable", () => {
 		// Row data for the Search field set.
 		expect( screen.getByText( "What Is SEO? Complete Guide" ) ).toBeInTheDocument();
 		expect( screen.getByText( "Learn what SEO is." ) ).toBeInTheDocument();
-		expect( screen.getByRole( "cell", { name: "What Is SEO? Complete Guide" } ) ).toHaveClass( "yst-bulk-editor-cell-value" );
+		// The seoTitle cell is identified by its aria label (the sr-only span + combobox label).
+		expect( screen.getByRole( "cell", { name: "SEO title for What Is SEO" } ) ).toHaveClass( "yst-bulk-editor-cell-value" );
 	} );
 
 	it( "renders the Social field set columns and values", () => {
@@ -100,9 +113,10 @@ describe( "BulkEditorTable", () => {
 
 		expect( screen.getByRole( "checkbox", { name: "Select What Is SEO" } ) ).toBeChecked();
 		expect( screen.getByRole( "checkbox", { name: "Select On-Page SEO Checklist" } ) ).not.toBeChecked();
-
-		fireEvent.click( screen.getByRole( "checkbox", { name: "Select On-Page SEO Checklist" } ) );
-		expect( onToggleRow ).toHaveBeenCalledWith( 2 );
+		act( () => {
+			fireEvent.click( screen.getByRole( "checkbox", { name: "Select On-Page SEO Checklist" } ) );
+		} );
+		expect( onToggleRow ).toHaveBeenCalledWith( 2, false );
 	} );
 
 	it( "enters edit mode through the editing seam with a row-specific Edit name", () => {
@@ -111,7 +125,9 @@ describe( "BulkEditorTable", () => {
 
 		// Accessible names are contextual, so there is no ambiguous "Edit" button.
 		expect( screen.queryByRole( "button", { name: "Edit" } ) ).not.toBeInTheDocument();
-		fireEvent.click( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) );
+		act( () => {
+			fireEvent.click( screen.getByRole( "button", { name: "Edit On-Page SEO Checklist" } ) );
+		} );
 		expect( onStartEdit ).toHaveBeenCalledWith( 2 );
 	} );
 
@@ -162,7 +178,9 @@ describe( "BulkEditorTable", () => {
 		expect( screen.getByRole( "checkbox", { name: "Select What Is SEO" } ) ).toBeDisabled();
 		expect( screen.getByRole( "button", { name: "Edit What Is SEO" } ) ).toBeDisabled();
 
-		fireEvent.click( screen.getByRole( "button", { name: "Edit What Is SEO" } ) );
+		act( () => {
+			fireEvent.click( screen.getByRole( "button", { name: "Edit What Is SEO" } ) );
+		} );
 		expect( onToggleRow ).not.toHaveBeenCalled();
 	} );
 
@@ -233,7 +251,7 @@ describe( "BulkEditorTable", () => {
 		expect( screen.getByRole( "table" ).className ).not.toContain( "yst-rounded-none" );
 	} );
 
-	it( "renders a textarea per open field with a single row-level Save and Cancel", () => {
+	it( "renders editable fields per open field with a single row-level Save and Cancel", () => {
 		render(
 			<BulkEditorTable
 				items={ items }
@@ -246,14 +264,11 @@ describe( "BulkEditorTable", () => {
 			/>
 		);
 
-		const title = screen.getByRole( "textbox", { name: "SEO title for On-Page SEO Checklist" } );
-		const description = screen.getByRole( "textbox", { name: "Meta description for On-Page SEO Checklist" } );
-		expect( title ).toHaveValue( "Draft title" );
-		expect( description ).toHaveValue( "Draft description" );
-		// Equal-height two-line fields per the design (full text view, no scrollbar).
-		expect( title.tagName ).toBe( "TEXTAREA" );
-		expect( description.tagName ).toBe( "TEXTAREA" );
-		expect( title ).toHaveAttribute( "rows", "2" );
+		const title = screen.getByRole( "combobox", { name: "SEO title for On-Page SEO Checklist" } );
+		const description = screen.getByRole( "combobox", { name: "Meta description for On-Page SEO Checklist" } );
+		// seoTitle and metaDescription use the replacement-variable editor (DraftJS combobox).
+		expect( title ).toHaveTextContent( "Draft title" );
+		expect( description ).toHaveTextContent( "Draft description" );
 
 		// No per-field Apply/Discard: the row has a single Save and Cancel.
 		expect( screen.queryByRole( "button", { name: "Apply SEO title for On-Page SEO Checklist" } ) ).not.toBeInTheDocument();
@@ -277,8 +292,9 @@ describe( "BulkEditorTable", () => {
 				} }
 			/>
 		);
-
-		fireEvent.click( screen.getByRole( "button", { name: "Cancel editing On-Page SEO Checklist" } ) );
+		act( () => {
+			fireEvent.click( screen.getByRole( "button", { name: "Cancel editing On-Page SEO Checklist" } ) );
+		} );
 		expect( onCancelEdit ).toHaveBeenCalledWith( 2 );
 	} );
 
@@ -305,9 +321,9 @@ describe( "BulkEditorTable", () => {
 			/>
 		);
 
-		expect( screen.getByRole( "textbox", { name: "Meta description for On-Page SEO Checklist" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "combobox", { name: "Meta description for On-Page SEO Checklist" } ) ).toBeInTheDocument();
 		// The SEO title was resolved/closed, so it is no longer an input.
-		expect( screen.queryByRole( "textbox", { name: "SEO title for On-Page SEO Checklist" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByRole( "combobox", { name: "SEO title for On-Page SEO Checklist" } ) ).not.toBeInTheDocument();
 	} );
 
 	it( "calls onChangeField on input, and onApplyRow with the row id when Save is clicked", () => {
@@ -318,27 +334,31 @@ describe( "BulkEditorTable", () => {
 				items={ items }
 				fieldSet={ searchFieldSet }
 				editing={ {
-					editingRows: { 2: { openFields: [ "seoTitle", "metaDescription" ], draft: { seoTitle: "Draft title", metaDescription: "Draft description" }, savingFields: {} } },
+					editingRows: { 2: { openFields: [ "focusKeyphrase", "seoTitle" ], draft: { focusKeyphrase: "draft keyphrase", seoTitle: "Draft title" }, savingFields: {} } },
 					onChangeField,
 					onApplyRow,
 				} }
 			/>
 		);
+		act( () => {
+			// focusKeyphrase is a plain textarea — fireEvent.change works here.
+			fireEvent.change(
+				screen.getByRole( "textbox", { name: "Focus keyphrase for On-Page SEO Checklist" } ),
+				{ target: { value: "Changed" } }
+			);
+		} );
+		expect( onChangeField ).toHaveBeenCalledWith( { id: 2, key: "focusKeyphrase", value: "Changed" } );
 
-		fireEvent.change(
-			screen.getByRole( "textbox", { name: "SEO title for On-Page SEO Checklist" } ),
-			{ target: { value: "Changed" } }
-		);
-		expect( onChangeField ).toHaveBeenCalledWith( { id: 2, key: "seoTitle", value: "Changed" } );
-
+		act( () => {
 		// Save delegates to onApplyRow, which batches all open fields into one request.
-		fireEvent.click( screen.getByRole( "button", { name: "Save On-Page SEO Checklist" } ) );
+			fireEvent.click( screen.getByRole( "button", { name: "Save On-Page SEO Checklist" } ) );
+		} );
 		expect( onApplyRow ).toHaveBeenCalledTimes( 1 );
 		expect( onApplyRow ).toHaveBeenCalledWith( 2 );
 	} );
 
 	it( "disables the row's inputs and actions while it is saving", () => {
-		render(
+		const { container } = render(
 			<BulkEditorTable
 				items={ items }
 				fieldSet={ searchFieldSet }
@@ -351,8 +371,9 @@ describe( "BulkEditorTable", () => {
 		);
 
 		// While any field on the row is saving, the whole row is locked.
-		expect( screen.getByRole( "textbox", { name: "SEO title for On-Page SEO Checklist" } ) ).toBeDisabled();
-		expect( screen.getByRole( "textbox", { name: "Meta description for On-Page SEO Checklist" } ) ).toBeDisabled();
+		// Draft.js 0.11 sets contentEditable=false and drops role/aria-readonly in readOnly mode;
+		// ReplacementVariableEditor marks the wrapper with yst-replacevar--disabled instead.
+		expect( container.querySelectorAll( ".yst-replacevar--disabled" ) ).toHaveLength( 2 );
 		expect( screen.getByRole( "button", { name: "Save On-Page SEO Checklist" } ) ).toBeDisabled();
 		expect( screen.getByRole( "button", { name: "Cancel editing On-Page SEO Checklist" } ) ).toBeDisabled();
 	} );
@@ -385,7 +406,7 @@ describe( "BulkEditorTable", () => {
 			/>
 		);
 
-		expect( screen.getByRole( "textbox", { name: "SEO title for What Is SEO" } ) ).toHaveValue( "First" );
-		expect( screen.getByRole( "textbox", { name: "SEO title for On-Page SEO Checklist" } ) ).toHaveValue( "Second" );
+		expect( screen.getByRole( "combobox", { name: "SEO title for What Is SEO" } ) ).toHaveTextContent( "First" );
+		expect( screen.getByRole( "combobox", { name: "SEO title for On-Page SEO Checklist" } ) ).toHaveTextContent( "Second" );
 	} );
 } );

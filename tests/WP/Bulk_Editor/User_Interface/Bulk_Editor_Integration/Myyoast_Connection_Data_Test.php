@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\WP\Bulk_Editor\User_Interface\Bulk_Editor_Integrati
 
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
@@ -73,6 +74,13 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 	private $user_helper;
 
 	/**
+	 * The replacement-variable helper mock.
+	 *
+	 * @var Mockery\MockInterface|WPSEO_Replace_Vars
+	 */
+	private $replace_vars;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * Mocks all service-layer dependencies. WordPress functions (wp_create_nonce,
@@ -88,6 +96,7 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 		$this->status_presenter               = Mockery::mock( Status_Presenter::class );
 		$this->connection_permission          = Mockery::mock( Connection_Permission::class );
 		$this->user_helper                    = Mockery::mock( User_Helper::class );
+		$this->replace_vars                   = Mockery::mock( WPSEO_Replace_Vars::class );
 
 		$endpoint_list = Mockery::mock( Endpoint_List::class );
 		$endpoint_list->allows( 'to_array' )->andReturn( [] );
@@ -132,6 +141,7 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 			$options_helper,
 			$this->user_helper,
 			$myyoast_connection_data_presenter,
+			$this->replace_vars,
 		);
 	}
 
@@ -142,6 +152,7 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 	 */
 	public function test_myyoast_connection_is_null_when_feature_flag_is_disabled() {
 		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturn( false );
+		$this->replace_vars->expects( 'get_replacement_variables_with_labels' )->andReturn( [] );
 
 		$data = $this->instance->get_script_data();
 
@@ -160,6 +171,7 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturn( true );
 		$this->status_presenter->expects( 'present' )->once()->andReturn( [ 'is_provisioned' => true ] );
 		$this->connection_permission->expects( 'can_manage' )->once()->andReturn( true );
+		$this->replace_vars->expects( 'get_replacement_variables_with_labels' )->andReturn( [] );
 
 		$data       = $this->instance->get_script_data();
 		$connection = $data['myyoastConnection'];
@@ -180,6 +192,7 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturn( true );
 		$this->status_presenter->expects( 'present' )->once()->andReturn( [ 'is_provisioned' => false ] );
 		$this->connection_permission->expects( 'can_manage' )->once()->andReturn( false );
+		$this->replace_vars->expects( 'get_replacement_variables_with_labels' )->andReturn( [] );
 
 		$data       = $this->instance->get_script_data();
 		$connection = $data['myyoastConnection'];
@@ -198,6 +211,7 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturn( true );
 		$this->status_presenter->expects( 'present' )->once()->andReturn( [ 'is_provisioned' => 1 ] );
 		$this->connection_permission->expects( 'can_manage' )->once()->andReturn( false );
+		$this->replace_vars->expects( 'get_replacement_variables_with_labels' )->andReturn( [] );
 
 		$data = $this->instance->get_script_data();
 

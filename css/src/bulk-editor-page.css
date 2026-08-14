@@ -1,3 +1,6 @@
+@import "@draft-js-plugins/mention/lib/plugin.css";
+@import "draft-js/dist/Draft.css";
+
 .seo_page_wpseo_page_bulk_edit {
 	@apply yst-bg-slate-100;
 
@@ -166,6 +169,11 @@
 	@apply yst-outline-none;
 }
 
+.yst-root .yst-bulk-editor-textarea-field textarea {
+	@apply yst-min-h-16;
+	field-sizing: content;
+}
+
 /* The guided-tour spotlight overlay is decorative only; a separate backdrop blocks interaction, so it ignores pointer events. */
 .yst-root .yst-tour-spotlight {
 	pointer-events: none;
@@ -192,4 +200,46 @@
 	transform: translateY(-50%) !important;
 	border-inline-start: 14px solid transparent !important;
 	border-inline-end: 14px solid white !important;
+}
+
+.yst-root .yst-replacevar__editor {
+	@apply
+	yst-w-full
+	yst-min-h-16
+	yst-py-2
+	yst-px-3
+	yst-border
+	yst-border-slate-300
+	yst-rounded-md
+	yst-shadow-sm
+	yst-bg-white
+	yst-text-sm
+	yst-leading-5
+	yst-text-slate-800
+	yst-placeholder-slate-500
+	focus-within:yst-outline-none
+	focus-within:yst-ring-primary-500
+	focus-within:yst-border-primary-500
+	focus-within:yst-ring-2
+	focus-within:yst-border-opacity-0;
+}
+
+.yst-root .yst-replacevar__editor span.yst-replacevar__mention {
+	@apply yst-text-sm;
+}
+
+.yst-root .yst-replacevar {
+	@apply yst-m-0;
+}
+
+.yst-root .yst-replacevar__label {
+	@apply yst-sr-only;
+}
+
+.yst-root .yst-replacevar__buttons {
+	display: none;
+}
+
+.yst-root .DraftEditor-editorContainer {
+	@apply yst-leading-6;
 }

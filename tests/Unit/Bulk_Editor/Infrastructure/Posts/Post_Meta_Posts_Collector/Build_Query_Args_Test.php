@@ -4,8 +4,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector;
 
+use Mockery;
 use ReflectionMethod;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
+use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Default_Template_Resolver;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector;
 
 /**
@@ -58,7 +60,7 @@ final class Build_Query_Args_Test extends Abstract_Test {
 	 * @return array<string, string|int|bool|array<string>|array<int>> The built WP_Query arguments.
 	 */
 	private function invoke_build_query_args( Posts_Query $query ): array {
-		$instance = new Post_Meta_Posts_Collector( $this->post_editability_resolver );
+		$instance = new Post_Meta_Posts_Collector( $this->post_editability_resolver, Mockery::mock( Default_Template_Resolver::class ) );
 
 		$reflection = new ReflectionMethod( $instance, 'build_query_args' );
 		$reflection->setAccessible( true );

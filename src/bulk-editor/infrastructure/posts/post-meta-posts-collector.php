@@ -76,12 +76,24 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	private $post_editability_resolver;
 
 	/**
+	 * The resolver for the post type's default SEO title / meta description template.
+	 *
+	 * @var Default_Template_Resolver
+	 */
+	private $default_template_resolver;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Post_Editability_Resolver $post_editability_resolver The resolver for the per-post edit permission.
+	 * @param Default_Template_Resolver $default_template_resolver The resolver for the default SEO title / meta description template.
 	 */
-	public function __construct( Post_Editability_Resolver $post_editability_resolver ) {
+	public function __construct(
+		Post_Editability_Resolver $post_editability_resolver,
+		Default_Template_Resolver $default_template_resolver
+	) {
 		$this->post_editability_resolver = $post_editability_resolver;
+		$this->default_template_resolver = $default_template_resolver;
 	}
 
 	/**
@@ -124,7 +136,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		$args = $this->build_query_args( $query );
 
 		$this->search_where            = $query->has_search() ? $this->build_search_where( $query->get_search() ) : '';
-		$this->needs_improvement_where = $this->build_needs_improvement_where( $query->get_needs_improvement(), $query->are_scores_enabled() );
+		$this->needs_improvement_where = $this->build_needs_improvement_where( $query->get_needs_improvement(), $query->are_scores_enabled(), $query->get_content_type() );
 
 		if ( $this->search_where === '' && $this->needs_improvement_where === '' ) {
 			return new WP_Query( $args );
@@ -209,9 +221,10 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 * @return Post The post.
 	 */
 	private function build_post( int $post_id, bool $editable, bool $scores_enabled ): Post {
-		$post   = \get_post( $post_id );
-		$status = ( $post !== null ) ? (string) $post->post_status : '';
-		$title  = $this->get_normalized_title( $post_id );
+		$post      = \get_post( $post_id );
+		$status    = ( $post !== null ) ? (string) $post->post_status : '';
+		$post_type = ( $post !== null ) ? (string) $post->post_type : '';
+		$title     = $this->get_normalized_title( $post_id );
 
 		if ( ! $editable ) {
 			return new Post( $post_id, $title, $status, '', '', '', '', '', '', false );
@@ -224,18 +237,33 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			$fields[ $field ] = $this->get_meta( $post_id, $suffix );
 		}
 
+		$raw_seo_title          = $fields['seo_title'];
+		$raw_meta_description   = $fields['meta_description'];
+		$raw_social_title       = $fields['social_title'];
+		$raw_social_description = $fields['social_description'];
+
+		// Resolve templates for needs-improvement scoring and as display fallbacks when the stored value is empty.
+		$fields['seo_title']          = $this->default_template_resolver->resolve_seo_title( $post_id, $post_type, $raw_seo_title );
+		$fields['meta_description']   = $this->default_template_resolver->resolve_meta_description( $post_id, $post_type, $raw_meta_description );
+		$fields['social_title']       = $this->default_template_resolver->resolve_social_title( $post_id, $post_type, $raw_social_title );
+		$fields['social_description'] = $this->default_template_resolver->resolve_social_description( $post_id, $post_type, $raw_social_description );
+
 		return new Post(
 			$post_id,
 			$title,
 			$status,
 			(string) \get_edit_post_link( $post_id, 'raw' ),
 			$this->get_meta( $post_id, 'focuskw' ),
-			$fields['seo_title'],
-			$fields['meta_description'],
-			$fields['social_title'],
-			$fields['social_description'],
+			$raw_seo_title,
+			$raw_meta_description,
+			$raw_social_title,
+			$raw_social_description,
 			true,
 			$this->build_needs_improvement( $post_id, $fields, $scores_enabled ),
+			( $raw_seo_title === '' ) ? $fields['seo_title'] : '',
+			( $raw_meta_description === '' ) ? $fields['meta_description'] : '',
+			( $raw_social_title === '' ) ? $fields['social_title'] : '',
+			( $raw_social_description === '' ) ? $fields['social_description'] : '',
 		);
 	}
 
@@ -281,11 +309,19 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 *
 	 * @param array<string> $fields         The fields that need improvement.
 	 * @param bool          $scores_enabled Whether the per-field scores may back the filter.
+	 * @param string        $post_type      The post type slug.
 	 *
 	 * @return string The prepared WHERE clause, or an empty string when no known field is selected.
 	 */
-	protected function build_needs_improvement_where( array $fields, bool $scores_enabled ): string {
+	protected function build_needs_improvement_where( array $fields, bool $scores_enabled, string $post_type = '' ): string {
 		global $wpdb;
+
+		$has_fallback = [
+			'seo_title'          => $this->default_template_resolver->resolve_seo_title( 0, $post_type, '' ) !== '',
+			'meta_description'   => $this->default_template_resolver->resolve_meta_description( 0, $post_type, '' ) !== '',
+			'social_title'       => $this->default_template_resolver->resolve_social_title( 0, $post_type, '' ) !== '',
+			'social_description' => $this->default_template_resolver->resolve_social_description( 0, $post_type, '' ) !== '',
+		];
 
 		$clauses = [];
 		foreach ( $fields as $field ) {
@@ -293,33 +329,33 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 				continue;
 			}
 
-			$meta_key = self::META_PREFIX . self::FIELD_META_SUFFIXES[ $field ];
+			$meta_key      = self::META_PREFIX . self::FIELD_META_SUFFIXES[ $field ];
+			$field_clauses = [];
 
-			if ( $scores_enabled && isset( self::FIELD_SCORE_META_SUFFIXES[ $field ] ) ) {
-				$clauses[] = $wpdb->prepare(
-					'( %i.ID NOT IN ( SELECT post_id FROM %i WHERE meta_key = %s AND meta_value <> %s )'
-					. ' OR %i.ID IN ( SELECT post_id FROM %i WHERE meta_key = %s AND CAST( meta_value AS SIGNED ) BETWEEN %d AND %d ) )',
+			if ( ! ( $has_fallback[ $field ] ?? false ) ) {
+				$field_clauses[] = $wpdb->prepare(
+					'%i.ID NOT IN ( SELECT post_id FROM %i WHERE meta_key = %s AND meta_value <> %s )',
 					$wpdb->posts,
 					$wpdb->postmeta,
 					$meta_key,
 					'',
+				);
+			}
+
+			if ( $scores_enabled && isset( self::FIELD_SCORE_META_SUFFIXES[ $field ] ) ) {
+				$field_clauses[] = $wpdb->prepare(
+					'%i.ID IN ( SELECT post_id FROM %i WHERE meta_key = %s AND CAST( meta_value AS SIGNED ) BETWEEN %d AND %d )',
 					$wpdb->posts,
 					$wpdb->postmeta,
 					self::META_PREFIX . self::FIELD_SCORE_META_SUFFIXES[ $field ],
 					self::NEEDS_IMPROVEMENT_MIN_SCORE,
 					self::NEEDS_IMPROVEMENT_MAX_SCORE,
 				);
-
-				continue;
 			}
 
-			$clauses[] = $wpdb->prepare(
-				'( %i.ID NOT IN ( SELECT post_id FROM %i WHERE meta_key = %s AND meta_value <> %s ) )',
-				$wpdb->posts,
-				$wpdb->postmeta,
-				$meta_key,
-				'',
-			);
+			// Always add a clause per field — use a false condition when no real predicate applies so the
+			// field still participates in the outer OR group without incorrectly matching every row.
+			$clauses[] = '( ' . ( ( $field_clauses !== [] ) ? \implode( ' OR ', $field_clauses ) : '0 = 1' ) . ' )';
 		}
 
 		if ( $clauses === [] ) {

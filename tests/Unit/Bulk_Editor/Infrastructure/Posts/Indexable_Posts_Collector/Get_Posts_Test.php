@@ -21,6 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::apply_search
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::apply_needs_improvement
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_post
+ * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_needs_improvement
  */
 final class Get_Posts_Test extends Abstract_Test {
 
@@ -62,17 +63,21 @@ final class Get_Posts_Test extends Abstract_Test {
 			[
 				'posts'       => [
 					[
-						'id'                 => 7,
-						'title'              => 'Hello world',
-						'status'             => 'draft',
-						'edit_link'          => 'post.php?post=7&action=edit',
-						'focus_keyphrase'    => 'hello',
-						'seo_title'          => 'Hello | Site',
-						'meta_description'   => 'A description.',
-						'social_title'       => 'Social hello',
-						'social_description' => 'Social description.',
-						'editable'           => true,
-						'needs_improvement'  => [
+						'id'                          => 7,
+						'title'                       => 'Hello world',
+						'status'                      => 'draft',
+						'edit_link'                   => 'post.php?post=7&action=edit',
+						'focus_keyphrase'             => 'hello',
+						'seo_title'                   => 'Hello | Site',
+						'meta_description'            => 'A description.',
+						'social_title'                => 'Social hello',
+						'social_description'          => 'Social description.',
+						'seo_title_fallback'          => '',
+						'meta_description_fallback'   => '',
+						'social_title_fallback'       => '',
+						'social_description_fallback' => '',
+						'editable'                    => true,
+						'needs_improvement'           => [
 							'seo_title'          => false,
 							'meta_description'   => true,
 							'social_title'       => false,
@@ -87,6 +92,96 @@ final class Get_Posts_Test extends Abstract_Test {
 			],
 			$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array(),
 		);
+	}
+
+	/**
+	 * Tests that the SEO title and meta description fall back to the resolved template when the stored
+	 * values are empty, and that the post is not flagged as needing improvement.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_resolves_template_when_stored_values_are_empty() {
+		$indexable                         = new Indexable_Mock();
+		$indexable->object_id              = 7;
+		$indexable->object_sub_type        = 'page';
+		$indexable->post_status            = 'draft';
+		$indexable->primary_focus_keyword  = '';
+		$indexable->title                  = '';
+		$indexable->description            = '';
+		$indexable->open_graph_title       = '';
+		$indexable->open_graph_description = '';
+		$indexable->seo_title_score        = 0;
+		$indexable->meta_description_score = 0;
+
+		$query = $this->stub_page_query( [ $indexable ] );
+		$query->expects( 'count' )->never();
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		$this->default_template_resolver->expects( 'resolve_seo_title' )
+			->with( 7, 'page', '' )
+			->andReturn( 'Page title from template' );
+		$this->default_template_resolver->expects( 'resolve_meta_description' )
+			->with( 7, 'page', '' )
+			->andReturn( 'Page description from template' );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		$this->assertSame( '', $post['seo_title'] );
+		$this->assertSame( '', $post['meta_description'] );
+		$this->assertSame( 'Page title from template', $post['seo_title_fallback'] );
+		$this->assertSame( 'Page description from template', $post['meta_description_fallback'] );
+		$this->assertFalse( $post['needs_improvement']['seo_title'] );
+		$this->assertFalse( $post['needs_improvement']['meta_description'] );
+	}
+
+	/**
+	 * Tests that the social title and social description fall back to the raw template when the
+	 * stored values are empty, and that the post is not flagged as needing improvement.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_resolves_social_template_when_stored_values_are_empty() {
+		$indexable                         = new Indexable_Mock();
+		$indexable->object_id              = 7;
+		$indexable->object_sub_type        = 'post';
+		$indexable->post_status            = 'publish';
+		$indexable->primary_focus_keyword  = '';
+		$indexable->title                  = 'Explicit SEO title';
+		$indexable->description            = 'Explicit meta description.';
+		$indexable->open_graph_title       = '';
+		$indexable->open_graph_description = '';
+		$indexable->seo_title_score        = 0;
+		$indexable->meta_description_score = 0;
+
+		$query = $this->stub_page_query( [ $indexable ] );
+		$query->expects( 'count' )->never();
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		$this->default_template_resolver->expects( 'resolve_social_title' )
+			->with( 7, 'post', '' )
+			->andReturn( 'Social title from template' );
+		$this->default_template_resolver->expects( 'resolve_social_description' )
+			->with( 7, 'post', '' )
+			->andReturn( 'Social description from template' );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A post' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		$this->assertSame( '', $post['social_title'] );
+		$this->assertSame( '', $post['social_description'] );
+		$this->assertSame( 'Social title from template', $post['social_title_fallback'] );
+		$this->assertSame( 'Social description from template', $post['social_description_fallback'] );
+		$this->assertFalse( $post['needs_improvement']['social_title'] );
+		$this->assertFalse( $post['needs_improvement']['social_description'] );
 	}
 
 	/**
@@ -114,17 +209,21 @@ final class Get_Posts_Test extends Abstract_Test {
 
 		$this->assertSame(
 			[
-				'id'                 => 7,
-				'title'              => 'Secret post',
-				'status'             => 'publish',
-				'edit_link'          => '',
-				'focus_keyphrase'    => '',
-				'seo_title'          => '',
-				'meta_description'   => '',
-				'social_title'       => '',
-				'social_description' => '',
-				'editable'           => false,
-				'needs_improvement'  => [
+				'id'                          => 7,
+				'title'                       => 'Secret post',
+				'status'                      => 'publish',
+				'edit_link'                   => '',
+				'focus_keyphrase'             => '',
+				'seo_title'                   => '',
+				'meta_description'            => '',
+				'social_title'                => '',
+				'social_description'          => '',
+				'seo_title_fallback'          => '',
+				'meta_description_fallback'   => '',
+				'social_title_fallback'       => '',
+				'social_description_fallback' => '',
+				'editable'                    => false,
+				'needs_improvement'           => [
 					'seo_title'          => false,
 					'meta_description'   => false,
 					'social_title'       => false,
@@ -284,6 +383,111 @@ final class Get_Posts_Test extends Abstract_Test {
 
 		$this->assertSame( 5, $result['posts'][0]['id'] );
 		$this->assertSame( 1, $result['total'] );
+	}
+
+	/**
+	 * Tests that a post with an empty stored SEO title is flagged as needing improvement when no
+	 * post-type template is configured.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_flags_seo_title_when_no_template_configured_and_stored_value_is_empty() {
+		$indexable                         = new Indexable_Mock();
+		$indexable->object_id              = 7;
+		$indexable->object_sub_type        = 'page';
+		$indexable->post_status            = 'draft';
+		$indexable->primary_focus_keyword  = '';
+		$indexable->title                  = ''; // No stored value.
+		$indexable->description            = 'Explicit description.';
+		$indexable->open_graph_title       = '';
+		$indexable->open_graph_description = '';
+		$indexable->seo_title_score        = 0;
+		$indexable->meta_description_score = 0;
+
+		$query = $this->stub_page_query( [ $indexable ] );
+		$query->expects( 'count' )->never();
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		// No template configured: the resolver returns '' → the flag must be true.
+		$this->assertTrue( $post['needs_improvement']['seo_title'] );
+		// Stored description is non-empty, so meta description does not need improvement.
+		$this->assertFalse( $post['needs_improvement']['meta_description'] );
+	}
+
+	/**
+	 * Tests that the needs-improvement SQL filter and the per-row flag agree when the post type has a
+	 * configured SEO title template.
+	 *
+	 * The SQL filter must exclude template-defaulted posts (1 = 0, not IS NULL) and the row flag must
+	 * report them as not needing improvement. A mismatch between the two caused the bug in #23438.
+	 *
+	 * @return void
+	 */
+	public function test_filter_and_row_flag_agree_when_post_type_has_seo_title_template() {
+		$indexable                         = new Indexable_Mock();
+		$indexable->object_id              = 7;
+		$indexable->object_sub_type        = 'page';
+		$indexable->post_status            = 'draft';
+		$indexable->primary_focus_keyword  = '';
+		$indexable->title                  = ''; // No stored value; fallback template applies.
+		$indexable->description            = '';
+		$indexable->open_graph_title       = '';
+		$indexable->open_graph_description = '';
+		$indexable->seo_title_score        = 0;
+		$indexable->meta_description_score = 0;
+
+		// Resolver returns a template for seo_title when called with any post_id, 'page', ''.
+		$this->default_template_resolver->allows( 'resolve_seo_title' )
+			->with( Mockery::any(), 'page', '' )
+			->andReturn( '%%title%% %%sep%% %%sitename%%' );
+
+		$captured = [];
+		$query    = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		// Non-full page (1 row < per_page 20): resolve_total skips the count query, so where_raw fires once.
+		$query->expects( 'where_raw' )
+			->once()
+			->with(
+				Mockery::on(
+					static function ( $clause ) use ( &$captured ) {
+						$captured[] = $clause;
+
+						return true;
+					},
+				),
+				[], // Template configured, scoring disabled — no bound values.
+			)
+			->andReturnSelf();
+		$query->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts(
+			new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 'seo_title' ], false ),
+		)->to_array();
+		$post   = $result['posts'][0];
+
+		// SQL: the filter must use the false condition, not an empty-column check.
+		$this->assertStringContainsString( '1 = 0', $captured[0] );
+		$this->assertStringNotContainsString( 'title IS NULL', $captured[0] );
+
+		// Row flag: the post is not needing improvement — the template covers the gap.
+		$this->assertFalse( $post['needs_improvement']['seo_title'] );
 	}
 
 	/**

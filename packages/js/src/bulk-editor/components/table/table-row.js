@@ -1,10 +1,12 @@
 import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/components";
 import { Fragment, useCallback } from "@wordpress/element";
+import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, Table } from "@yoast/ui-library";
-import { TABLE_CELL_FIELD_SLOT } from "../../constants";
+import { STORE_NAME, TABLE_CELL_FIELD_SLOT } from "../../constants";
 import { EditableFieldCell, TitleCell } from "./table-cells";
-import { getFieldTextClasses, getRowEditState, isRowEditDisabled } from "./table-helpers";
+import { getRowEditState, isRowEditDisabled } from "./table-helpers";
+import { PreviewEditableFieldCell } from "./preview-editable-field-cell";
 
 /**
  * A content row. Each field-set cell renders as plain text, or — when the row is in edit mode and the field is
@@ -15,7 +17,7 @@ import { getFieldTextClasses, getRowEditState, isRowEditDisabled } from "./table
  * @param {FieldSetField[]}   props.fields      The active field set's editable columns.
  * @param {string}            props.fieldSetId  The active field set's id, used to scope the per-row indicator slot.
  * @param {boolean}           props.isSelected  Whether this item is selected.
- * @param {Function}          props.onToggleRow Called with the item id when its checkbox is toggled.
+ * @param {Function}          props.onToggleRow Called with the item id and shift-key state when its checkbox is toggled.
  * @param {Object}            [props.edit]      This row's edit state ({ openFields, draft, savingFields }), or undefined when not editing.
  * @param {BulkEditorEditing} props.editing     The inline-edit props (its handlers).
  * @param {boolean}           [props.hasExternalPendingChanges=false] Whether Premium AI has suggestions pending review; while true,
@@ -38,6 +40,13 @@ export const BulkEditorRow = ( {
 } ) => {
 	const { isEditing, openFields, draft, savingFields } = getRowEditState( edit );
 	const { onStartEdit, onChangeField, onApplyField, onApplyRow, onCancelEdit, onDiscardField, onFieldApplied, isApplyingAll } = editing;
+	const { replacementVariables, recommendedReplacementVariables } = useSelect( ( select ) => {
+		const activeContentType = select( STORE_NAME ).selectActiveContentTypeName();
+		return {
+			replacementVariables: select( STORE_NAME ).selectReplacementVariablesFor( activeContentType, "custom_post_type" ),
+			recommendedReplacementVariables: select( STORE_NAME ).selectRecommendedReplacementVariablesFor( activeContentType, "custom_post_type" ),
+		};
+	}, [] );
 	// Treat a batch "Save edits" as saving this row too, so its inputs and Save/Cancel lock and a per-field save can't race the batch.
 	const isSaving = Object.keys( savingFields ).length > 0 || isApplyingAll;
 	const fillsSeoTitles = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/seoTitle/${item.id}` );
@@ -46,7 +55,7 @@ export const BulkEditorRow = ( {
 	const fillsSocialDescription = useSlotFills( `${ TABLE_CELL_FIELD_SLOT }/socialDescription/${item.id}` );
 	const isSlotFilled = [ fillsSeoTitles, fillsMetaDescription, fillsSocialTitle, fillsSocialDescription ].some( ( fills ) => fills?.length > 0 );
 
-	const handleToggle = useCallback( () => onToggleRow( item.id ), [ onToggleRow, item.id ] );
+	const handleToggle = useCallback( ( e ) => onToggleRow( item.id, e.nativeEvent.shiftKey ), [ onToggleRow, item.id ] );
 	const handleEdit = useCallback( () => onStartEdit( item.id ), [ onStartEdit, item.id ] );
 	const handleCancel = useCallback( () => onCancelEdit( item.id ), [ onCancelEdit, item.id ] );
 	const handleChangeField = useCallback( ( { key, value } ) => onChangeField( { id: item.id, key, value } ), [ onChangeField, item.id ] );
@@ -66,7 +75,7 @@ export const BulkEditorRow = ( {
 		<Table.Row>
 			<Table.Cell>
 				<Checkbox
-					id={ `bulk-editor-select-${ item.id }` }
+					id={ `bulk-editor-select-${ item.id }-${ fieldSetId }` }
 					name={ `bulk-editor-select-${ item.id }` }
 					value={ String( item.id ) }
 					className="yst-mt-0.5"
@@ -103,9 +112,12 @@ export const BulkEditorRow = ( {
 
 								if ( ! openFields.includes( field.key ) ) {
 									return (
-										<Table.Cell key={ field.key } className={ `yst-bulk-editor-cell-value ${ getFieldTextClasses( field.key, false ) }` }>
-											{ item[ field.key ] }
-										</Table.Cell>
+										<PreviewEditableFieldCell
+											field={ field }
+											item={ item }
+											replacementVariables={ replacementVariables }
+											recommendedReplacementVariables={ recommendedReplacementVariables }
+										/>
 									);
 								}
 
@@ -115,8 +127,10 @@ export const BulkEditorRow = ( {
 									itemTitle={ item.title }
 									value={ draft[ field.key ] ?? "" }
 									isSaving={ isSaving }
+									fieldSetId={ fieldSetId }
 									onChange={ handleChangeField }
-									isOpen={ isEditing }
+									replacementVariables={ replacementVariables }
+									recommendedReplacementVariables={ recommendedReplacementVariables }
 								/>;
 							} }
 						</Slot>

@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector;
 
 use Mockery;
+use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Default_Template_Resolver;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Editability_Resolver;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -24,6 +25,13 @@ abstract class Abstract_Test extends TestCase {
 	protected $post_editability_resolver;
 
 	/**
+	 * Holds the default template resolver.
+	 *
+	 * @var Mockery\MockInterface|Default_Template_Resolver
+	 */
+	protected $default_template_resolver;
+
+	/**
 	 * Holds the instance.
 	 *
 	 * The WP_Query is instantiated internally, so we partial-mock the run_query seam.
@@ -41,8 +49,18 @@ abstract class Abstract_Test extends TestCase {
 		parent::set_up();
 
 		$this->post_editability_resolver = Mockery::mock( Post_Editability_Resolver::class );
+		$this->default_template_resolver = Mockery::mock( Default_Template_Resolver::class );
 
-		$this->instance = Mockery::mock( Post_Meta_Posts_Collector::class, [ $this->post_editability_resolver ] )
+		// Pass the stored value through unchanged by default; individual tests override when needed.
+		$this->default_template_resolver->allows( 'resolve_seo_title' )->andReturnArg( 2 )->byDefault();
+		$this->default_template_resolver->allows( 'resolve_meta_description' )->andReturnArg( 2 )->byDefault();
+		$this->default_template_resolver->allows( 'resolve_social_title' )->andReturnArg( 2 )->byDefault();
+		$this->default_template_resolver->allows( 'resolve_social_description' )->andReturnArg( 2 )->byDefault();
+
+		$this->instance = Mockery::mock(
+			Post_Meta_Posts_Collector::class,
+			[ $this->post_editability_resolver, $this->default_template_resolver ],
+		)
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 	}

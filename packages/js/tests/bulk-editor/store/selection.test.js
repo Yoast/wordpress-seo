@@ -161,4 +161,57 @@ describe( "selection slice", () => {
 		expect( selectionSelectors.selectPreselectedTotal( { selection: { preselectedTotal: 25 } } ) ).toBe( 25 );
 		expect( selectionSelectors.selectPreselectedTotal( {} ) ).toBe( 0 );
 	} );
+
+	describe( "selectRange", () => {
+		const allIds = [ 1, 2, 3, 4, 5 ];
+
+		it( "selects the contiguous range from anchor to target (forward)", () => {
+			const state = reducer(
+				createInitialSelectionState(),
+				selectionActions.selectRange( { anchorId: 2, targetId: 4, allIds } )
+			);
+
+			expect( state.selectedIds ).toEqual( [ 2, 3, 4 ] );
+		} );
+
+		it( "selects the contiguous range from anchor to target (reverse)", () => {
+			const state = reducer(
+				createInitialSelectionState(),
+				selectionActions.selectRange( { anchorId: 4, targetId: 2, allIds } )
+			);
+
+			expect( state.selectedIds ).toEqual( [ 2, 3, 4 ] );
+		} );
+
+		it( "merges the range into the existing selection without duplicates", () => {
+			const initial = reducer( createInitialSelectionState(), selectionActions.selectAll( [ 1, 5 ] ) );
+			const state = reducer(
+				initial,
+				selectionActions.selectRange( { anchorId: 2, targetId: 4, allIds } )
+			);
+
+			expect( state.selectedIds ).toEqual( expect.arrayContaining( [ 1, 2, 3, 4, 5 ] ) );
+			expect( state.selectedIds ).toHaveLength( 5 );
+		} );
+
+		it( "does nothing when the anchor is not in allIds", () => {
+			const initial = reducer( createInitialSelectionState(), selectionActions.selectAll( [ 1 ] ) );
+			const state = reducer(
+				initial,
+				selectionActions.selectRange( { anchorId: 99, targetId: 3, allIds } )
+			);
+
+			expect( state.selectedIds ).toEqual( [ 1 ] );
+		} );
+
+		it( "does nothing when the target is not in allIds", () => {
+			const initial = reducer( createInitialSelectionState(), selectionActions.selectAll( [ 1 ] ) );
+			const state = reducer(
+				initial,
+				selectionActions.selectRange( { anchorId: 1, targetId: 99, allIds } )
+			);
+
+			expect( state.selectedIds ).toEqual( [ 1 ] );
+		} );
+	} );
 } );

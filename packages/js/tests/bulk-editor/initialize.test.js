@@ -7,6 +7,8 @@ const mockRegisterStore = jest.fn();
 const mockFixScrolling = jest.fn();
 const mockRemoteDataProvider = jest.fn();
 const mockSelectPreference = jest.fn( () => false );
+const mockPreparePromptContent = jest.fn();
+const mockGetVisibleContentLength = jest.fn();
 
 jest.mock( "@wordpress/dom-ready", () => ( {
 	__esModule: true,
@@ -49,6 +51,19 @@ jest.mock( "../../src/bulk-editor/store", () => ( {
 
 jest.mock( "../../src/shared-admin/helpers", () => ( {
 	fixWordPressMenuScrolling: () => mockFixScrolling(),
+	MAX_TOKENS_DEFAULT: 300,
+	MAX_TOKENS_IRREGULAR: 150,
+} ) );
+
+// Mocked at its own path, not through the barrel: the barrel deliberately does not re-export it, so that pages
+// importing the barrel do not pick up the analysis package.
+jest.mock( "../../src/shared-admin/helpers/get-visible-content-length", () => ( {
+	getVisibleContentLength: mockGetVisibleContentLength,
+} ) );
+
+// The service pulls in the analysis package; the bridge only needs to expose the reference.
+jest.mock( "../../src/bulk-editor/services/prompt-content", () => ( {
+	preparePromptContent: mockPreparePromptContent,
 } ) );
 
 describe( "bulk editor initialize", () => {
@@ -97,10 +112,19 @@ describe( "bulk editor initialize", () => {
 					connectUrl: null,
 					learnMoreUrl: "",
 				},
+				replacementVariables: {
+					recommended: {},
+					shared: [],
+					specific: {},
+					variables: [],
+				},
 				optInNotification: { seen: { [ TOUR_OPT_IN_KEY ]: true } },
-				query: { overviewIds: [], isOverviewFilterActive: false },
-				activeContentType: "",
+				activeContentType: "post",
 				selection: { selectedIds: [], preselectedTotal: 0 },
+				query: {
+					isOverviewFilterActive: false,
+					overviewIds: [],
+				},
 			},
 		} );
 		expect( mockFixScrolling ).toHaveBeenCalledTimes( 1 );
@@ -127,6 +151,7 @@ describe( "bulk editor initialize", () => {
 					connectUrl: null,
 					learnMoreUrl: "",
 				},
+				replacementVariables: { recommended: {}, shared: [], specific: {}, variables: [] },
 				activeContentType: "page",
 				selection: { selectedIds: [ 5, 3 ], preselectedTotal: 25 },
 				query: { overviewIds: [ 5, 3 ], isOverviewFilterActive: true },
@@ -190,6 +215,30 @@ describe( "bulk editor initialize", () => {
 				query: { overviewIds: [], isOverviewFilterActive: false },
 			} );
 		} );
+	} );
+
+	test( "should expose the prompt-content service and its token budgets to Premium", () => {
+		jest.isolateModules( () => {
+			require( "../../src/bulk-editor/initialize" );
+		} );
+
+		// The bridge is populated on import, independently of whether the app mounts.
+		expect( window.yoast.bulkEditor.helpers.preparePromptContent ).toBe( mockPreparePromptContent );
+		expect( window.yoast.bulkEditor.helpers.getVisibleContentLength ).toBe( mockGetVisibleContentLength );
+		expect( window.yoast.bulkEditor.constants ).toEqual( {
+			MAX_TOKENS_DEFAULT: 300,
+			MAX_TOKENS_IRREGULAR: 150,
+		} );
+	} );
+
+	test( "should keep the existing bridge entries when exposing its own", () => {
+		jest.isolateModules( () => {
+			require( "../../src/bulk-editor/initialize" );
+		} );
+
+		expect( window.yoast.bulkEditor.components ).toHaveProperty( "UpsellModal" );
+		expect( window.yoast.bulkEditor.components ).toHaveProperty( "GenericAlert" );
+		expect( window.yoast.bulkEditor.hooks ).toHaveProperty( "useAiUpsell" );
 	} );
 
 	test( "should construct the remote data provider with the REST nonce header", () => {
