@@ -113,7 +113,14 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			->once()
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
 		Functions\expect( 'admin_url' )
-			->times( 3 )
+			->times( 2 )
+			->andReturnUsing(
+				static function ( $path ) {
+					return 'https://example.com/wp-admin/' . $path;
+				},
+			);
+		Functions\expect( 'self_admin_url' )
+			->once()
 			->andReturnUsing(
 				static function ( $path ) {
 					return 'https://example.com/wp-admin/' . $path;

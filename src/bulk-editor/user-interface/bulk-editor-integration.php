@@ -285,7 +285,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 				'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
 				'premiumUpdateUrl'          => \html_entity_decode(
 					\wp_nonce_url(
-						\admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php' ),
+						\self_admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php' ),
 						'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php',
 					),
 					\ENT_COMPAT,
@@ -349,10 +349,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 			return false;
 		}
 
-		// Drop pre-release/build suffixes, e.g. "28.3-RC3" => "28.3".
-		$stable_version = (string) \preg_replace( '/[-+].*$/', '', $premium_version );
-
-		return \version_compare( $stable_version, '28.1', '>=' );
+		return \version_compare( $premium_version, '28.1', '>=' );
 	}
 
 	/**
