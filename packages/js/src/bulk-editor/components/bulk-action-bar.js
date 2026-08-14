@@ -1,7 +1,7 @@
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
 import { Slot } from "@wordpress/components";
-import { useEffect, useId, useRef } from "@wordpress/element";
+import { forwardRef, useEffect, useId, useRef } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT } from "../constants";
@@ -26,10 +26,12 @@ import { SelectMenu } from "./select-menu";
  * @param {number}   props.totalCount         The total number of rows.
  * @param {string}   [props.contentTypeLabel] The active content type label, used in the selected-count copy.
  * @param {Object[]} [props.smartSelectItems] The quality-based Select-menu items ({key, label, ariaLabel, icon, onClick}).
+ * @param {Object}   ref                 Forwarded ref attached to the root element; used by BulkEditorContent to
+ *                                       give DismissibleAlert a focus target outside the AnimateHeight container.
  *
  * @returns {JSX.Element} The selection toolbar.
  */
-export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminate = false, onToggleAll, onSelectAll, onDeselectAll, selectedCount, totalCount, contentTypeLabel, smartSelectItems = [] } ) => {
+export const SelectionToolbar = forwardRef( ( { idSuffix = "", isAllSelected, isIndeterminate = false, onToggleAll, onSelectAll, onDeselectAll, selectedCount, totalCount, contentTypeLabel, smartSelectItems = [] }, ref ) => {
 	const noun = contentTypeLabel ? contentTypeLabel.toLowerCase() : __( "items", "wordpress-seo" );
 
 	const checkboxRef = useRef( null );
@@ -40,7 +42,7 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminat
 	}, [ isIndeterminate ] );
 
 	return (
-		<div className="yst-flex yst-items-center yst-gap-4">
+		<div className="yst-flex yst-items-center yst-gap-4" ref={ ref }>
 			<div className="yst-flex yst-items-center yst-gap-4" data-tour-id="selection-toolbar">
 				<Checkbox
 					ref={ checkboxRef }
@@ -72,7 +74,7 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminat
 			) }
 		</div>
 	);
-};
+} );
 
 /**
  * The AI generate buttons in Free; each opens the upsell modal.
@@ -141,13 +143,14 @@ export const ManualReviewActions = ( { editCount, onApplyAll, onDiscardAll, isAp
 /**
  * The inline error shown when a batch "Save edits" had one or more rows fail to save.
  *
- * @param {Object}   props           The props.
- * @param {Function} props.onDismiss Dismisses the notice.
+ * @param {Object}   props                        The props.
+ * @param {Function} props.onDismiss              Dismisses the notice.
+ * @param {Object}   [props.focusAfterDismissRef] Forwarded to DismissibleAlert; see its docs.
  *
  * @returns {JSX.Element} The save-error notice.
  */
-export const ManualSaveErrorNotice = ( { onDismiss } ) => (
-	<DismissibleAlert variant="error" role="alert" onDismiss={ onDismiss }>
+export const ManualSaveErrorNotice = ( { onDismiss, focusAfterDismissRef } ) => (
+	<DismissibleAlert variant="error" role="alert" onDismiss={ onDismiss } focusAfterDismissRef={ focusAfterDismissRef }>
 		<div className="yst-flex yst-flex-col yst-gap-1">
 			<span className="yst-block yst-font-medium">{ __( "Couldn't save your edits.", "wordpress-seo" ) }</span>
 			<span className="yst-font-normal">{ __( "Something went wrong. Please try again.", "wordpress-seo" ) }</span>
@@ -160,18 +163,19 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => (
  * Premium fills (e.g. its AI alerts). Only rendered on the active tab, so each tab has a single slot to target.
  * The truncation and exclusion notices are independent and can show at the same time.
  *
- * @param {Object}   props                      The props.
- * @param {number}   [props.preselectedTotal]   How many items were selected on the WP admin overview; shows the truncation notice.
+ * @param {Object}   props                        The props.
+ * @param {number}   [props.preselectedTotal]     How many items were selected on the WP admin overview; shows the truncation notice.
  * @param {Function} [props.onDismissPreselection] Dismisses the truncation notice.
  * @param {boolean}  [props.hasExcludedPreselected] Whether carried-over items were dropped; shows the exclusion notice.
- * @param {Function} [props.onDismissExclusion] Dismisses the exclusion notice.
- * @param {boolean}  [props.hasSaveError]       Whether the last apply-all failed; shows the save-error notice.
- * @param {Function} [props.onDismissSaveError] Dismisses the save-error notice.
- * @param {number[]} props.selectedIds          The ids of the selected rows, passed to the notices fill.
- * @param {string}   props.activeFieldSet       The active field set, passed to the notices fill.
- * @param {string}   props.contentType          The active content type, passed to the notices fill.
- * @param {string}   [props.contentTypeLabel]   The active content type label (plural), passed to the notices fill.
+ * @param {Function} [props.onDismissExclusion]   Dismisses the exclusion notice.
+ * @param {boolean}  [props.hasSaveError]         Whether the last apply-all failed; shows the save-error notice.
+ * @param {Function} [props.onDismissSaveError]   Dismisses the save-error notice.
+ * @param {number[]} props.selectedIds            The ids of the selected rows, passed to the notices fill.
+ * @param {string}   props.activeFieldSet         The active field set, passed to the notices fill.
+ * @param {string}   props.contentType            The active content type, passed to the notices fill.
+ * @param {string}   [props.contentTypeLabel]     The active content type label (plural), passed to the notices fill.
  * @param {string}   [props.contentTypeSingularLabel] The active content type singular label, passed to the notices fill.
+ * @param {Object}   [props.focusAfterDismissRef] Forwarded to each DismissibleAlert; see its docs.
  *
  * @returns {JSX.Element} The notices region.
  */
@@ -187,14 +191,19 @@ const BulkActionsNotices = ( {
 	contentType,
 	contentTypeLabel,
 	contentTypeSingularLabel,
+	focusAfterDismissRef,
 } ) => (
 	<>
-		<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } />
-		<OverviewExclusionNotice hasExclusions={ hasExcludedPreselected } onDismiss={ onDismissExclusion } />
-		{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
+		<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } focusAfterDismissRef={ focusAfterDismissRef } />
+		<OverviewExclusionNotice
+			hasExclusions={ hasExcludedPreselected }
+			onDismiss={ onDismissExclusion }
+			focusAfterDismissRef={ focusAfterDismissRef }
+		/>
+		{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } focusAfterDismissRef={ focusAfterDismissRef } /> }
 		<Slot
 			name={ BULK_NOTICES_SLOT }
-			fillProps={ { selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } }
+			fillProps={ { selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel, focusAfterDismissRef } }
 		/>
 	</>
 );
@@ -257,19 +266,20 @@ const BulkActionsBand = ( {
  * @param {Function} [props.onApplyAll]       Saves every row's open edits.
  * @param {Function} [props.onDiscardAll]     Discards every row's open edits.
  * @param {boolean}  [props.isApplyingAll]    Whether an apply-all is in flight; disables the review actions.
- * @param {boolean}  [props.hasSaveError]     Whether the last apply-all failed; shows the inline save-error notice.
- * @param {Function} [props.onDismissSaveError] Dismisses the save-error notice.
- * @param {number}   [props.preselectedTotal] How many items were selected on the WP admin overview; shows the truncation notice.
+ * @param {boolean}  [props.hasSaveError]        Whether the last apply-all failed; shows the inline save-error notice.
+ * @param {Function} [props.onDismissSaveError]  Dismisses the save-error notice.
+ * @param {number}   [props.preselectedTotal]    How many items were selected on the WP admin overview; shows the truncation notice.
  * @param {Function} [props.onDismissPreselection] Dismisses the truncation notice.
  * @param {boolean}  [props.hasExcludedPreselected] Whether carried-over items were dropped; shows the exclusion notice.
- * @param {Function} [props.onDismissExclusion] Dismisses the exclusion notice.
+ * @param {Function} [props.onDismissExclusion]  Dismisses the exclusion notice.
+ * @param {Object}   [props.focusAfterDismissRef] Forwarded to BulkActionsNotices and on to each DismissibleAlert; see its docs.
  *
  * @returns {JSX.Element} The bulk actions row content.
  */
 export const BulkActions = ( {
 	isPremium, isAiEnabled = false, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
 	hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll, hasSaveError, onDismissSaveError,
-	preselectedTotal, onDismissPreselection, hasExcludedPreselected, onDismissExclusion,
+	preselectedTotal, onDismissPreselection, hasExcludedPreselected, onDismissExclusion, focusAfterDismissRef,
 } ) => (
 	<div className="yst-flex yst-flex-col">
 		{ isActive && (
@@ -285,6 +295,7 @@ export const BulkActions = ( {
 				contentType={ contentType }
 				contentTypeLabel={ contentTypeLabel }
 				contentTypeSingularLabel={ contentTypeSingularLabel }
+				focusAfterDismissRef={ focusAfterDismissRef }
 			/>
 		) }
 		<BulkActionsBand

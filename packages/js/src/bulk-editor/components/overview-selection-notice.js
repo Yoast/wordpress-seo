@@ -7,13 +7,14 @@ import { DismissibleAlert } from "./dismissible-alert";
  * bulk editor can handle in one batch: only the first batch stays selected. Renders nothing while the
  * whole selection fits the batch.
  *
- * @param {Object}   props           The props.
- * @param {number}   props.total     The number of items that were selected on the overview.
- * @param {Function} props.onDismiss Dismisses the notice.
+ * @param {Object}   props                        The props.
+ * @param {number}   props.total                  The number of items that were selected on the overview.
+ * @param {Function} props.onDismiss              Dismisses the notice.
+ * @param {Object}   [props.focusAfterDismissRef] Forwarded to DismissibleAlert; see its docs.
  *
  * @returns {?JSX.Element} The notice, or null when the whole selection fits the batch.
  */
-export const OverviewSelectionNotice = ( { total, onDismiss } ) => {
+export const OverviewSelectionNotice = ( { total, onDismiss, focusAfterDismissRef } ) => {
 	if ( total <= BULK_UPDATE_BATCH_SIZE ) {
 		return null;
 	}
@@ -25,7 +26,7 @@ export const OverviewSelectionNotice = ( { total, onDismiss } ) => {
 	);
 
 	return (
-		<DismissibleAlert onDismiss={ onDismiss }>
+		<DismissibleAlert onDismiss={ onDismiss } focusAfterDismissRef={ focusAfterDismissRef }>
 			<span className="yst-block yst-pe-8">{ message }</span>
 		</DismissibleAlert>
 	);
