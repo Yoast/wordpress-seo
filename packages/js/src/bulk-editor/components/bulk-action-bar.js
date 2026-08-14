@@ -170,11 +170,6 @@ export const ManualSaveErrorNotice = ( { onDismiss, focusAfterDismissRef } ) => 
  * @param {Function} [props.onDismissExclusion]   Dismisses the exclusion notice.
  * @param {boolean}  [props.hasSaveError]         Whether the last apply-all failed; shows the save-error notice.
  * @param {Function} [props.onDismissSaveError]   Dismisses the save-error notice.
- * @param {number[]} props.selectedIds            The ids of the selected rows, passed to the notices fill.
- * @param {string}   props.activeFieldSet         The active field set, passed to the notices fill.
- * @param {string}   props.contentType            The active content type, passed to the notices fill.
- * @param {string}   [props.contentTypeLabel]     The active content type label (plural), passed to the notices fill.
- * @param {string}   [props.contentTypeSingularLabel] The active content type singular label, passed to the notices fill.
  * @param {Object}   [props.focusAfterDismissRef] Forwarded to each DismissibleAlert; see its docs.
  *
  * @returns {JSX.Element} The notices region.
@@ -186,11 +181,6 @@ const BulkActionsNotices = ( {
 	onDismissExclusion,
 	hasSaveError,
 	onDismissSaveError,
-	selectedIds,
-	activeFieldSet,
-	contentType,
-	contentTypeLabel,
-	contentTypeSingularLabel,
 	focusAfterDismissRef,
 } ) => (
 	<>
@@ -201,10 +191,7 @@ const BulkActionsNotices = ( {
 			focusAfterDismissRef={ focusAfterDismissRef }
 		/>
 		{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } focusAfterDismissRef={ focusAfterDismissRef } /> }
-		<Slot
-			name={ BULK_NOTICES_SLOT }
-			fillProps={ { selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel, focusAfterDismissRef } }
-		/>
+		<Slot name={ BULK_NOTICES_SLOT } />
 	</>
 );
 
@@ -258,8 +245,6 @@ const BulkActionsBand = ( {
  * @param {number[]} props.selectedIds      The ids of the selected rows.
  * @param {string}   props.activeFieldSet     The active tab/field set (Search or Social), which drives the buttons.
  * @param {string}   props.contentType        The active content type (also the Free upsell variant).
- * @param {string}   [props.contentTypeLabel] The active content type label (plural), passed to the notices fill for its copy.
- * @param {string}   [props.contentTypeSingularLabel] The active content type singular label, passed to the notices fill.
  * @param {boolean}  [props.hasUnsavedEdits]  Whether a row has unsaved manual edits, passed to the actions fill so Premium
  *                                             can disable the AI buttons while edits are in progress.
  * @param {number}   [props.editCount]        The number of rows with unsaved manual edits, shown in the review summary.
@@ -277,7 +262,7 @@ const BulkActionsBand = ( {
  * @returns {JSX.Element} The bulk actions row content.
  */
 export const BulkActions = ( {
-	isPremium, isAiEnabled = false, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
+	isPremium, isAiEnabled = false, isActive, selectedIds, activeFieldSet, contentType,
 	hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll, hasSaveError, onDismissSaveError,
 	preselectedTotal, onDismissPreselection, hasExcludedPreselected, onDismissExclusion, focusAfterDismissRef,
 } ) => (
@@ -290,11 +275,6 @@ export const BulkActions = ( {
 				onDismissExclusion={ onDismissExclusion }
 				hasSaveError={ hasSaveError }
 				onDismissSaveError={ onDismissSaveError }
-				selectedIds={ selectedIds }
-				activeFieldSet={ activeFieldSet }
-				contentType={ contentType }
-				contentTypeLabel={ contentTypeLabel }
-				contentTypeSingularLabel={ contentTypeSingularLabel }
 				focusAfterDismissRef={ focusAfterDismissRef }
 			/>
 		) }
