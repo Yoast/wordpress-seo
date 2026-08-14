@@ -181,7 +181,6 @@ final class Get_Initial_Selection_Test extends Abstract_Test {
 				'is_rtl'              => false,
 				'get_locale'          => 'en_US',
 				'plugins_url'         => 'https://example.com/wp-content/plugins/wordpress-seo',
-				'wp_nonce_url'        => 'https://example.com/wp-admin/update.php',
 				'admin_url'           => static function ( $path ) {
 					return 'https://example.com/wp-admin/' . $path;
 				},
@@ -193,6 +192,7 @@ final class Get_Initial_Selection_Test extends Abstract_Test {
 				},
 			],
 		);
+		Functions\when( 'current_user_can' )->justReturn( false );
 
 		$endpoint_list = Mockery::mock( Endpoint_List::class );
 		$endpoint_list->allows( 'to_array' )->andReturn( [] );
