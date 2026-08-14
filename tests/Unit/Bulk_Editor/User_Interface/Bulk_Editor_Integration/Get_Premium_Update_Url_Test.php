@@ -63,7 +63,7 @@ final class Get_Premium_Update_Url_Test extends Abstract_Test {
 				'admin_url'   => static function ( $path ) {
 					return 'https://example.com/wp-admin/' . $path;
 				},
-			]
+			],
 		);
 
 		Functions\when( 'current_user_can' )->justReturn( $can_update_plugins );
@@ -77,7 +77,7 @@ final class Get_Premium_Update_Url_Test extends Abstract_Test {
 					'wp_nonce_url'   => static function ( $url ) {
 						return $url . '&_wpnonce=abc123';
 					},
-				]
+				],
 			);
 		}
 
