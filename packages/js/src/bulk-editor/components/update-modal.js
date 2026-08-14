@@ -29,7 +29,7 @@ export const UpdateModal = ( { onClose, isOpen } ) => {
 			<Actions>
 				<CloseButton onClick={ onClose } />
 				<Button
-					id="yst-bulk-editor-upgrade-modal"
+					id="yst-bulk-editor-update-modal"
 					className="yst-pe-2.5 yst-flex yst-gap-1.5 yst-items-center"
 					href={ premiumUpdateUrl }
 					target="_blank"
