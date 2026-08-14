@@ -340,7 +340,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 */
 	private function is_premium_version_supported( bool $is_premium ): bool {
 		if ( ! $is_premium ) {
-			return false;
+			return true;
 		}
 
 		$premium_version = $this->product_helper->get_premium_version();
@@ -349,7 +349,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 			return false;
 		}
 
-		return \version_compare( $premium_version, '28.1', '>=' );
+		return \version_compare( $premium_version, '28.1-RC0', '>' );
 	}
 
 	/**
