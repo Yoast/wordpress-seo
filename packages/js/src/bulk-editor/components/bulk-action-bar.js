@@ -2,11 +2,10 @@ import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
 import { Slot } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
-import { useEffect, useId, useRef, useMemo } from "@wordpress/element";
+import { useEffect, useId, useRef } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT, STORE_NAME } from "../constants";
-import { useAiUpsell } from "../hooks/use-ai-upsell";
 import { DismissibleAlert } from "./dismissible-alert";
 import { OverviewExclusionNotice } from "./overview-exclusion-notice";
 import { OverviewSelectionNotice } from "./overview-selection-notice";
@@ -94,13 +93,9 @@ const FreeBulkActions = ( { contentType } ) => {
 		};
 	}, [] );
 
-	const upsell = useAiUpsell( contentType );
 	const [ isUpsellOpen, , , openUpsell, closeUpsell ] = useToggleState( false );
 
-	const showAiButtons = useMemo( () =>
-		isAiEnabled && ( ! isPremium || ! isPremiumVersionSupported ), [ isAiEnabled, isPremium, isPremiumVersionSupported ] );
-
-	if ( ! showAiButtons ) {
+	if ( ! isAiEnabled || isPremiumVersionSupported ) {
 		return null;
 	}
 	return (
@@ -111,7 +106,7 @@ const FreeBulkActions = ( { contentType } ) => {
 			<Button variant="ai-secondary" size="small" className="yst-bg-white" onClick={ openUpsell }>
 				{ __( "Generate meta descriptions", "wordpress-seo" ) }
 			</Button>
-			{ ! isPremium && <UpsellModal isOpen={ isUpsellOpen } onClose={ closeUpsell } { ...upsell } /> }
+			{ ! isPremium && <UpsellModal isOpen={ isUpsellOpen } onClose={ closeUpsell } contentType={ contentType } /> }
 			{ isPremium && ! isPremiumVersionSupported && <UpdateModal isOpen={ isUpsellOpen } onClose={ closeUpsell } /> }
 		</>
 	);
