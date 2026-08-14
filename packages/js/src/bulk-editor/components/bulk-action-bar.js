@@ -222,7 +222,6 @@ const BulkActionsNotices = ( {
  * review actions when a row has unsaved edits.
  *
  * @param {Object}   props                The props.
- * @param {boolean}  props.isAiEnabled    Whether the AI feature is enabled; gates Free's AI affordances.
  * @param {boolean}  props.isActive       Whether this is the active tab; only the active tab renders the slot and actions.
  * @param {number[]} props.selectedIds    The ids of the selected rows, passed to the AI slot.
  * @param {string}   props.activeFieldSet The active field set, passed to the AI slot.
