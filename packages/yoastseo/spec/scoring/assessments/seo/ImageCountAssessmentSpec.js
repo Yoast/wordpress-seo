@@ -181,3 +181,15 @@ describe( "tests for the assessment applicability.", function() {
 		expect( imageCountAssessment.isApplicable( paper ) ).toBe( true );
 	} );
 } );
+
+describe( "tests for the productImages scope.", function() {
+	it( "still assesses an empty text when the counted images come from the paper's product images.", function() {
+		// In the productImages scope the researches count paper-level images, so an empty text must not zero the result.
+		const assessment = imageCountAssessment.getResult( new Paper( "" ), Factory.buildMockResearcher( {
+			imageCount: 4,
+		}, true ) );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!" );
+	} );
+} );

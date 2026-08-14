@@ -92,6 +92,30 @@ describe( "the Paper input contract (PaperDto)", function() {
 			expect( () => toPaper( { text: "x", productData: { hasGlobalSku: true } } ) ).toThrow();
 		} );
 
+		it( "maps a typed productImages array onto the Paper", function() {
+			const productImages = [
+				{ id: 1, src: "https://example.com/image.jpg", alt: "An image" },
+				{ alt: "" },
+			];
+			const paper = toPaper( { text: "x", productImages } );
+
+			expect( paper.getProductImages() ).toEqual( productImages );
+		} );
+
+		it( "leaves absent productImages to Paper's default empty array", function() {
+			const paper = toPaper( { text: "x" } );
+
+			expect( paper.getProductImages() ).toEqual( [] );
+		} );
+
+		it( "type-checks productImages fields and rejects unknown keys (strict)", function() {
+			expect( () => toPaper( { text: "x", productImages: { alt: "not an array" } } ) ).toThrow();
+			expect( () => toPaper( { text: "x", productImages: [ { src: "https://example.com/image.jpg" } ] } ) ).toThrow();
+			expect( () => toPaper( { text: "x", productImages: [ { alt: 1 } ] } ) ).toThrow();
+			expect( () => toPaper( { text: "x", productImages: [ { id: "1", alt: "" } ] } ) ).toThrow();
+			expect( () => toPaper( { text: "x", productImages: [ { alt: "", altText: "typo" } ] } ) ).toThrow();
+		} );
+
 		it( "accepts the deprecated WP-transitional fields and maps them onto the Paper", function() {
 			const wpBlocks = [ { name: "core/paragraph" } ];
 			const paper = toPaper( {

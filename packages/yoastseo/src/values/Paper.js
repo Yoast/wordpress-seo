@@ -8,7 +8,7 @@ import { defaults, isEmpty, isEqual, isNil } from "lodash";
  * Default attributes to be used by the Paper if they are left undefined.
  * @type {{keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
  * 		   slug: string, locale: string, permalink: string, date: string, customData: object, productData: object,
- * 		   textTitle: string, writingDirection: "LTR", isFrontPage: boolean, wpBlocks: [], shortcodes: []}}
+ * 		   productImages: [], textTitle: string, writingDirection: "LTR", isFrontPage: boolean, wpBlocks: [], shortcodes: []}}
  */
 const defaultAttributes = {
 	keyword: "",
@@ -22,6 +22,7 @@ const defaultAttributes = {
 	date: "",
 	customData: {},
 	productData: {},
+	productImages: [],
 	textTitle: "",
 	writingDirection: "LTR",
 	wpBlocks: [],
@@ -50,6 +51,7 @@ export default class Paper {
 	 * @param {Object[]}  [attributes.wpBlocks]         The array of texts, encoded in WordPress block editor blocks.
 	 * @param {Object}  [attributes.customData]         Custom data.
 	 * @param {Object}  [attributes.productData]        Product analysis data consumed by the native product assessments.
+	 * @param {Object[]} [attributes.productImages]     The product's own images (featured, gallery, variations), consumed by the image assessments when the `imageScope` researcher config is set.
 	 * @param {string}  [attributes.textTitle]          The title of the text.
 	 * @param {string}  [attributes.writingDirection=LTR]   The writing direction of the paper. Defaults to left to right (LTR).
 	 * @param {boolean} [attributes.isFrontPage=false]  Whether the current page is the front page of the site. Defaults to false.
@@ -328,6 +330,19 @@ export default class Paper {
 	 */
 	getProductData() {
 		return this._attributes.productData;
+	}
+
+	/**
+	 * Returns the product images, or an empty array if none are available.
+	 *
+	 * These are the product's own images (featured, gallery, variations) as supplied by the producer,
+	 * not the images found in the text. They are only consumed by the image researches when the
+	 * `imageScope` researcher config is set (see `getImagesInScope`).
+	 *
+	 * @returns {Object[]} Returns the product images, each shaped `{ id?: number, src?: string, alt: string }`.
+	 */
+	getProductImages() {
+		return this._attributes.productImages;
 	}
 
 	/**

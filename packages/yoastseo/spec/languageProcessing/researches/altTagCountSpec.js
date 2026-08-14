@@ -302,6 +302,62 @@ describe( "Counts images in a text", function() {
 	} );
 } );
 
+describe( "Counts alt-tags of the product images in the productImages scope", function() {
+	it( "classifies the paper's product images by their alt texts and ignores the images in the text", function() {
+		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", {
+			keyword: "keyword",
+			productImages: [
+				{ id: 1, src: "https://example.com/featured.jpg", alt: "keyword" },
+				{ id: 2, src: "https://example.com/gallery.jpg", alt: "something else" },
+				{ id: 3, src: "https://example.com/variation.jpg", alt: "" },
+			],
+		} );
+		const researcher = new Researcher( paper );
+		researcher.addConfig( "imageScope", "productImages" );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 1 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 1 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 1 );
+	} );
+
+	it( "classifies alt-texted product images as withAlt when no keyphrase is set", function() {
+		const paper = new Paper( "string", {
+			keyword: "",
+			productImages: [ { id: 1, src: "https://example.com/featured.jpg", alt: "A featured image" } ],
+		} );
+		const researcher = new Researcher( paper );
+		researcher.addConfig( "imageScope", "productImages" );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 1 );
+		expect( stringToCheck.withAltKeyword ).toBe( 0 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
+	} );
+
+	it( "keeps classifying the images in the text when the imageScope config is not set", function() {
+		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", {
+			keyword: "keyword",
+			productImages: [ { id: 1, src: "https://example.com/featured.jpg", alt: "" } ],
+		} );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 1 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
+	} );
+} );
+
 /* describe( "test for alt tag attributes in Japanese", () => {
 	it( "returns result when no morphology data is supplied", () => {
 		const paper = new Paper( "<img src=\"http://basic.wordpress.test/wp-content/uploads/2021/10/images.jpeg\" alt=\"会えるトイレ\"> " +

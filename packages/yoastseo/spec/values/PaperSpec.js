@@ -130,6 +130,19 @@ describe( "Paper", function() {
 			expect( paper.getProductData() ).toEqual( {} );
 		} );
 
+		it( "returns product images", function() {
+			const attributes = {
+				productImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" }, { id: 2, src: "", alt: "" } ],
+			};
+			const paper = new Paper( "", attributes );
+			expect( paper.getProductImages() ).toEqual( attributes.productImages );
+		} );
+
+		it( "returns an empty array for the product images when none are provided", function() {
+			const paper = new Paper( "" );
+			expect( paper.getProductImages() ).toEqual( [] );
+		} );
+
 		it( "returns the text title", function() {
 			const attributes = {
 				textTitle: "A text title",
@@ -208,6 +221,12 @@ describe( "Paper", function() {
 			const paper2 = new Paper( "This is a test", attributes2 );
 			expect( paper1.equals( paper2 ) ).toBe( false );
 		} );
+
+		it( "should identify two papers with similar content but dissimilar product images as not equal", function() {
+			const paper1 = new Paper( "This is a test", { productImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" } ] } );
+			const paper2 = new Paper( "This is a test", { productImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "New alt" } ] } );
+			expect( paper1.equals( paper2 ) ).toBe( false );
+		} );
 	} );
 
 	describe( "hasSameTreeInputsAs", function() {
@@ -220,6 +239,13 @@ describe( "Paper", function() {
 		it( "returns true when only non-tree attributes (keyword, title, description, …) differ", function() {
 			const paper1 = new Paper( "<p>Hello world.</p>", { keyword: "alpha", title: "Title A", description: "Desc A" } );
 			const paper2 = new Paper( "<p>Hello world.</p>", { keyword: "beta",  title: "Title B", description: "Desc B" } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
+		} );
+
+		it( "returns true when only the product images differ", function() {
+			// Product images don't feed the tree builder, so a change must not invalidate the cached tree.
+			const paper1 = new Paper( "<p>Hello world.</p>", { productImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" } ] } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { productImages: [ { id: 2, src: "https://example.com/other.jpg", alt: "" } ] } );
 			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
 		} );
 
@@ -349,6 +375,13 @@ describe( "Paper", function() {
 			const paper = new Paper( "text", { productData } );
 			const parsed = Paper.parse( paper.serialize() );
 			expect( parsed.getProductData() ).toEqual( productData );
+		} );
+
+		it( "round-trips the product images through serialize and parse", () => {
+			const productImages = [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" }, { id: 2, src: "https://example.com/other.jpg", alt: "" } ];
+			const paper = new Paper( "text", { productImages } );
+			const parsed = Paper.parse( paper.serialize() );
+			expect( parsed.getProductImages() ).toEqual( productImages );
 		} );
 	} );
 	describe( "A test for setters and getters", function() {

@@ -7,6 +7,7 @@ import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLin
 import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
 import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment.js";
 import { createAnchorOpeningTag } from "../../../helpers";
+import applyImageScope from "./applyImageScope.js";
 
 /**
  * The ProductRelatedKeywordAssessor class is used for the related keyword analysis for products.
@@ -16,6 +17,7 @@ export default class ProductRelatedKeywordAssessor extends RelatedKeywordAssesso
 	 * Creates a new ProductRelatedKeywordAssessor instance.
 	 * @param {Researcher}	researcher	The researcher to use.
 	 * @param {Object}		[options]	The assessor options.
+	 * @param {string}		[options.imageScope]	Which images the image assessments assess: unset for the images in the text, `"productImages"` for the Paper's product images.
 	 */
 	constructor( researcher, options ) {
 		super( researcher, options );
@@ -58,5 +60,17 @@ export default class ProductRelatedKeywordAssessor extends RelatedKeywordAssesso
 				urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
 			} ),
 		];
+	}
+
+	/**
+	 * Runs the assessments, first propagating the `imageScope` option to the researcher config.
+	 *
+	 * @param {Paper} paper The paper to run the assessments on.
+	 *
+	 * @returns {void}
+	 */
+	assess( paper ) {
+		applyImageScope( this._researcher, this._options );
+		super.assess( paper );
 	}
 }
