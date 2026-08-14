@@ -42,7 +42,7 @@ export const SelectionToolbar = forwardRef( ( { idSuffix = "", isAllSelected, is
 	}, [ isIndeterminate ] );
 
 	return (
-		<div className="yst-flex yst-items-center yst-gap-4" ref={ ref }>
+		<div className="yst-flex yst-items-center yst-gap-4" ref={ ref } id="yst-bulk-editor-selection-toolbar">
 			<div className="yst-flex yst-items-center yst-gap-4" data-tour-id="selection-toolbar">
 				<Checkbox
 					ref={ checkboxRef }

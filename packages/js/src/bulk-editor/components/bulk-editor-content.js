@@ -66,7 +66,7 @@ export const getHasOverviewNotice = ( { preselectedTotal, hasExcludedPreselected
  *
  * @returns {JSX.Element} The content.
  */
-export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentType, contentTypeLabel, contentTypeSingularLabel } ) => {
+export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentType, contentTypeLabel } ) => {
 	const fieldSets = useMemo( () => getFieldSets(), [] );
 	const tabs = useMemo(
 		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
