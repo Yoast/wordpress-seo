@@ -330,11 +330,11 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 *
 	 * @param bool $is_premium Whether Premium is the currently active plugin.
 	 *
-	 * @return bool True when there is no Premium version incompatibility, false when Premium needs upgrading.
+	 * @return bool False when Premium needs upgrading or not active.
 	 */
 	private function is_premium_version_supported( bool $is_premium ): bool {
 		if ( ! $is_premium ) {
-			return true;
+			return false;
 		}
 
 		$premium_version = $this->product_helper->get_premium_version();
