@@ -1,7 +1,9 @@
 import SolidXIcon from "@heroicons/react/solid/XIcon";
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
+import { useActionBarFocusReturn } from "../hooks/use-action-bar-focus-return";
 
 /**
  * An alert with a dismiss (X) button in its top-end corner, shared by the notices in the bulk-actions band.
@@ -17,6 +19,12 @@ import classNames from "classnames";
  */
 export const DismissibleAlert = ( { variant = "info", role = "status", className = "", onDismiss, children } ) => {
 	const svgAriaProps = useSvgAria();
+	const focusActionBar = useActionBarFocusReturn();
+
+	const handleDismiss = useCallback( ( e ) => {
+		focusActionBar( e );
+		onDismiss();
+	}, [ focusActionBar, onDismiss ] );
 
 	return (
 		// The top margin separates this notice from the truncation notice above it; it cancels out when
@@ -26,7 +34,7 @@ export const DismissibleAlert = ( { variant = "info", role = "status", className
 			<button
 				type="button"
 				className="yst-absolute yst-end-4 yst-top-4 yst-text-current hover:yst-opacity-75 yst-cursor-pointer"
-				onClick={ onDismiss }
+				onClick={ handleDismiss }
 				aria-label={ __( "Dismiss", "wordpress-seo" ) }
 			>
 				<SolidXIcon className="yst-h-5 yst-w-5" { ...svgAriaProps } />

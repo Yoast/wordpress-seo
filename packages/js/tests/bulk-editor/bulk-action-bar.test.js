@@ -4,7 +4,6 @@ import { addFilter, removeFilter } from "@wordpress/hooks";
 import { fireEvent, render, screen } from "../test-utils";
 import { BulkActions, ManualReviewActions, ManualSaveErrorNotice, SelectionToolbar } from "../../src/bulk-editor/components/bulk-action-bar";
 import { BULK_ACTIONS_SLOT, SELECT_MENU_ITEMS_FILTER } from "../../src/bulk-editor/constants";
-
 // The hook is covered by use-ai-upsell.test.js; here it just feeds the modal a static upsell.
 jest.mock( "../../src/bulk-editor/hooks/use-ai-upsell", () => ( {
 	useAiUpsell: () => ( {
@@ -16,8 +15,14 @@ jest.mock( "../../src/bulk-editor/hooks/use-ai-upsell", () => ( {
 
 // FreeBulkActions reads isPremium / isPremiumVersionSupported / isAiEnabled from the store.
 // Mock the whole module so we can control those values per test without needing a real store.
+// useSelect is fully mocked, so the store never needs to be registered.
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn(),
+} ) );
+
+// DismissibleAlert uses useActionBarFocusReturn; focus behaviour is tested separately.
+jest.mock( "../../src/bulk-editor/hooks/use-action-bar-focus-return", () => ( {
+	useActionBarFocusReturn: () => jest.fn(),
 } ) );
 
 /**

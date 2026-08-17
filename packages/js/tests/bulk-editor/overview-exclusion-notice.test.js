@@ -8,6 +8,21 @@ import { fireEvent, render, screen, within } from "../test-utils";
 const NOTICE_TEXT = "Your selection has been updated. Private, password-protected, or non-indexed items can't be bulk edited and were excluded.";
 const TRUNCATION_TEXT = "Only the first 20 items from your selection were carried over. The bulk editor supports up to 20 items at a time.";
 
+// The store registers once for the whole file: the WP data registry is global, so a second register would
+// clash. Seeded as if 25 items were selected on the overview and pruning dropped some of the carried 20.
+beforeAll( () => {
+	registerStore( {
+		initialState: {
+			activeContentType: "post",
+			selection: {
+				selectedIds: Array.from( { length: 18 }, ( _, index ) => index + 1 ),
+				preselectedTotal: 25,
+				hasExcludedPreselected: true,
+			},
+		},
+	} );
+} );
+
 describe( "OverviewExclusionNotice", () => {
 	it( "explains that carried-over items were excluded", () => {
 		render( <OverviewExclusionNotice hasExclusions={ true } onDismiss={ jest.fn() } /> );
@@ -40,21 +55,6 @@ describe( "BulkEditorContent with a truncated and pruned carried-over selection"
 	// The data layer is covered by use-posts.test.js; the request stays pending here.
 	const remoteDataProvider = { fetchJson: jest.fn( () => new Promise( () => {} ) ) };
 
-	// The store registers once for the whole file: the WP data registry is global, so a second register would
-	// clash. Seeded as if 25 items were selected on the overview and pruning dropped some of the carried 20.
-	beforeAll( () => {
-		registerStore( {
-			initialState: {
-				activeContentType: "post",
-				selection: {
-					selectedIds: Array.from( { length: 18 }, ( _, index ) => index + 1 ),
-					preselectedTotal: 25,
-					hasExcludedPreselected: true,
-				},
-			},
-		} );
-	} );
-
 	const renderContent = () => render(
 		<SlotFillProvider>
 			<BulkEditorContent
@@ -82,6 +82,7 @@ describe( "BulkEditorContent with a truncated and pruned carried-over selection"
 
 		fireEvent.click( within( exclusion.closest( "[role='status']" ) ).getByRole( "button", { name: "Dismiss" } ) );
 
+		expect( document.activeElement ).toBe( screen.getByRole( "button", { name: "Select" } ) );
 		// The exclusion notice is gone; the truncation notice keeps the row expanded.
 		expect( screen.queryByText( NOTICE_TEXT ) ).not.toBeInTheDocument();
 		expect( screen.getByText( TRUNCATION_TEXT ) ).toBeInTheDocument();
@@ -89,6 +90,7 @@ describe( "BulkEditorContent with a truncated and pruned carried-over selection"
 
 		fireEvent.click( screen.getByRole( "button", { name: "Dismiss" } ) );
 
+		expect( document.activeElement ).toBe( screen.getByRole( "button", { name: "Select" } ) );
 		// Nothing else occupies the band here (AI is disabled, no edits), so dismissing both collapses the row.
 		expect( screen.queryByText( TRUNCATION_TEXT ) ).not.toBeInTheDocument();
 		container.querySelectorAll( "tr[aria-hidden]" ).forEach( ( row ) => {

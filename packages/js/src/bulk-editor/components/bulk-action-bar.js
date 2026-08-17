@@ -58,6 +58,7 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminat
 					selectedCount={ selectedCount }
 					totalCount={ totalCount }
 					smartSelectItems={ smartSelectItems }
+					id={ `yst-bulk-editor-select-menu${ idSuffix }` }
 				/>
 			</div>
 			{ selectedCount > 0 && (
@@ -173,18 +174,13 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => (
  * Premium fills (e.g. its AI alerts). Only rendered on the active tab, so each tab has a single slot to target.
  * The truncation and exclusion notices are independent and can show at the same time.
  *
- * @param {Object}   props                      The props.
- * @param {number}   [props.preselectedTotal]   How many items were selected on the WP admin overview; shows the truncation notice.
+ * @param {Object}   props                         The props.
+ * @param {number}   [props.preselectedTotal]      How many items were selected on the WP admin overview; shows the truncation notice.
  * @param {Function} [props.onDismissPreselection] Dismisses the truncation notice.
  * @param {boolean}  [props.hasExcludedPreselected] Whether carried-over items were dropped; shows the exclusion notice.
- * @param {Function} [props.onDismissExclusion] Dismisses the exclusion notice.
- * @param {boolean}  [props.hasSaveError]       Whether the last apply-all failed; shows the save-error notice.
- * @param {Function} [props.onDismissSaveError] Dismisses the save-error notice.
- * @param {number[]} props.selectedIds          The ids of the selected rows, passed to the notices fill.
- * @param {string}   props.activeFieldSet       The active field set, passed to the notices fill.
- * @param {string}   props.contentType          The active content type, passed to the notices fill.
- * @param {string}   [props.contentTypeLabel]   The active content type label (plural), passed to the notices fill.
- * @param {string}   [props.contentTypeSingularLabel] The active content type singular label, passed to the notices fill.
+ * @param {Function} [props.onDismissExclusion]   Dismisses the exclusion notice.
+ * @param {boolean}  [props.hasSaveError]         Whether the last apply-all failed; shows the save-error notice.
+ * @param {Function} [props.onDismissSaveError]   Dismisses the save-error notice.
  *
  * @returns {JSX.Element} The notices region.
  */
@@ -195,20 +191,12 @@ const BulkActionsNotices = ( {
 	onDismissExclusion,
 	hasSaveError,
 	onDismissSaveError,
-	selectedIds,
-	activeFieldSet,
-	contentType,
-	contentTypeLabel,
-	contentTypeSingularLabel,
 } ) => (
 	<>
 		<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } />
 		<OverviewExclusionNotice hasExclusions={ hasExcludedPreselected } onDismiss={ onDismissExclusion } />
 		{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
-		<Slot
-			name={ BULK_NOTICES_SLOT }
-			fillProps={ { selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel } }
-		/>
+		<Slot name={ BULK_NOTICES_SLOT } />
 	</>
 );
 
@@ -250,31 +238,29 @@ const BulkActionsBand = ( {
  * with the AI buttons (the fill receives `fillProps`); in Free they open the upsell modal. The notices slot above
  * it is full-bleed (outside the padded band), so Premium can fill it with a full-width row (e.g. an alert).
  *
- * @param {Object}   props                The props.
- * @param {boolean}  props.isActive       Whether this is the active tab. Only the active tab renders the slots, so the
- *                                        Premium fill has a single slot to target (each tab renders its own bar).
- * @param {number[]} props.selectedIds      The ids of the selected rows.
- * @param {string}   props.activeFieldSet     The active tab/field set (Search or Social), which drives the buttons.
- * @param {string}   props.contentType        The active content type (also the Free upsell variant).
- * @param {string}   [props.contentTypeLabel] The active content type label (plural), passed to the notices fill for its copy.
- * @param {string}   [props.contentTypeSingularLabel] The active content type singular label, passed to the notices fill.
- * @param {boolean}  [props.hasUnsavedEdits]  Whether a row has unsaved manual edits, passed to the actions fill so Premium
- *                                             can disable the AI buttons while edits are in progress.
- * @param {number}   [props.editCount]        The number of rows with unsaved manual edits, shown in the review summary.
- * @param {Function} [props.onApplyAll]       Saves every row's open edits.
- * @param {Function} [props.onDiscardAll]     Discards every row's open edits.
- * @param {boolean}  [props.isApplyingAll]    Whether an apply-all is in flight; disables the review actions.
- * @param {boolean}  [props.hasSaveError]     Whether the last apply-all failed; shows the inline save-error notice.
- * @param {Function} [props.onDismissSaveError] Dismisses the save-error notice.
- * @param {number}   [props.preselectedTotal] How many items were selected on the WP admin overview; shows the truncation notice.
- * @param {Function} [props.onDismissPreselection] Dismisses the truncation notice.
+ * @param {Object}   props The props.
+ * @param {boolean}  props.isActive                 Whether this is the active tab. Only the active tab renders the slots, so the
+ *                                                  Premium fill has a single slot to target (each tab renders its own bar).
+ * @param {number[]} props.selectedIds              The ids of the selected rows.
+ * @param {string}   props.activeFieldSet           The active tab/field set (Search or Social), which drives the buttons.
+ * @param {string}   props.contentType              The active content type (also the Free upsell variant).
+ * @param {boolean}  [props.hasUnsavedEdits]        Whether a row has unsaved manual edits, passed to the actions fill so Premium
+ *                                                  can disable the AI buttons while edits are in progress.
+ * @param {number}   [props.editCount]              The number of rows with unsaved manual edits, shown in the review summary.
+ * @param {Function} [props.onApplyAll]             Saves every row's open edits.
+ * @param {Function} [props.onDiscardAll]           Discards every row's open edits.
+ * @param {boolean}  [props.isApplyingAll]          Whether an apply-all is in flight; disables the review actions.
+ * @param {boolean}  [props.hasSaveError]           Whether the last apply-all failed; shows the inline save-error notice.
+ * @param {Function} [props.onDismissSaveError]     Dismisses the save-error notice.
+ * @param {number}   [props.preselectedTotal]       How many items were selected on the WP admin overview; shows the truncation notice.
+ * @param {Function} [props.onDismissPreselection]  Dismisses the truncation notice.
  * @param {boolean}  [props.hasExcludedPreselected] Whether carried-over items were dropped; shows the exclusion notice.
- * @param {Function} [props.onDismissExclusion] Dismisses the exclusion notice.
+ * @param {Function} [props.onDismissExclusion]     Dismisses the exclusion notice.
  *
  * @returns {JSX.Element} The bulk actions row content.
  */
 export const BulkActions = ( {
-	isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
+	isActive, selectedIds, activeFieldSet, contentType,
 	hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll, hasSaveError, onDismissSaveError,
 	preselectedTotal, onDismissPreselection, hasExcludedPreselected, onDismissExclusion,
 } ) => (
@@ -287,11 +273,6 @@ export const BulkActions = ( {
 				onDismissExclusion={ onDismissExclusion }
 				hasSaveError={ hasSaveError }
 				onDismissSaveError={ onDismissSaveError }
-				selectedIds={ selectedIds }
-				activeFieldSet={ activeFieldSet }
-				contentType={ contentType }
-				contentTypeLabel={ contentTypeLabel }
-				contentTypeSingularLabel={ contentTypeSingularLabel }
 			/>
 		) }
 		<BulkActionsBand

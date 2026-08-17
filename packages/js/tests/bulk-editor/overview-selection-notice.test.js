@@ -7,6 +7,17 @@ import { fireEvent, render, screen } from "../test-utils";
 
 const NOTICE_TEXT = "Only the first 20 items from your selection were carried over. The bulk editor supports up to 20 items at a time.";
 
+// The store registers once for the whole file: the WP data registry is global, so a second register would
+// clash. Seeded like initialize.js does for a selection carried over from the WP admin overview.
+beforeAll( () => {
+	registerStore( {
+		initialState: {
+			activeContentType: "post",
+			selection: { selectedIds: Array.from( { length: 20 }, ( _, index ) => index + 1 ), preselectedTotal: 25 },
+		},
+	} );
+} );
+
 describe( "OverviewSelectionNotice", () => {
 	it( "explains that only the first batch of the overview selection is selected", () => {
 		render( <OverviewSelectionNotice total={ 25 } onDismiss={ jest.fn() } /> );
@@ -39,17 +50,6 @@ describe( "BulkEditorContent with a carried-over overview selection", () => {
 	// The data layer is covered by use-posts.test.js; the request stays pending here.
 	const remoteDataProvider = { fetchJson: jest.fn( () => new Promise( () => {} ) ) };
 
-	// The store registers once for the whole file: the WP data registry is global, so a second register would
-	// clash. Seeded like initialize.js does for a selection carried over from the WP admin overview.
-	beforeAll( () => {
-		registerStore( {
-			initialState: {
-				activeContentType: "post",
-				selection: { selectedIds: Array.from( { length: 20 }, ( _, index ) => index + 1 ), preselectedTotal: 25 },
-			},
-		} );
-	} );
-
 	const renderContent = () => render(
 		<SlotFillProvider>
 			<BulkEditorContent
@@ -75,6 +75,7 @@ describe( "BulkEditorContent with a carried-over overview selection", () => {
 
 		fireEvent.click( screen.getByRole( "button", { name: "Dismiss" } ) );
 
+		expect( document.activeElement ).toBe( screen.getByRole( "button", { name: "Select" } ) );
 		expect( screen.queryByText( NOTICE_TEXT ) ).not.toBeInTheDocument();
 		// Nothing else occupies the band here (AI is disabled, no edits), so dismissing collapses the row.
 		container.querySelectorAll( "tr[aria-hidden]" ).forEach( ( row ) => {

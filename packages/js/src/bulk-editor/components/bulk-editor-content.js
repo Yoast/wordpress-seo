@@ -62,11 +62,10 @@ export const getHasOverviewNotice = ( { preselectedTotal, hasExcludedPreselected
  * @param {Object}                             props.remoteDataProvider The remote data provider (HTTP), used to fetch and save.
  * @param {string}                             props.contentType        The active content type to fetch posts for.
  * @param {string}                             props.contentTypeLabel   The active content type label, used in the search placeholder.
- * @param {string}                             props.contentTypeSingularLabel The active content type singular label, passed to the bulk actions.
  *
  * @returns {JSX.Element} The content.
  */
-export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentType, contentTypeLabel, contentTypeSingularLabel } ) => {
+export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentType, contentTypeLabel } ) => {
 	const fieldSets = useMemo( () => getFieldSets(), [] );
 	const tabs = useMemo(
 		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
@@ -255,8 +254,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 									selectedIds={ selectedIds }
 									activeFieldSet={ activeFieldSet }
 									contentType={ contentType }
-									contentTypeLabel={ contentTypeLabel }
-									contentTypeSingularLabel={ contentTypeSingularLabel }
 									hasUnsavedEdits={ hasUnsavedEdits }
 									editCount={ editCount }
 									onApplyAll={ editing.onApplyAll }

@@ -25,6 +25,7 @@ import { useAiUpsell } from "./hooks/use-ai-upsell";
 import { DataProvider } from "./services";
 import { preparePromptContent } from "./services/prompt-content";
 import registerStore from "./store";
+import { useActionBarFocusReturn } from "./hooks/use-action-bar-focus-return";
 
 /*
  * Cross-plugin surface consumed by Premium's bulk-editor bundle.
@@ -45,7 +46,7 @@ import registerStore from "./store";
 window.yoast = window.yoast || {};
 window.yoast.bulkEditor = window.yoast.bulkEditor || {};
 window.yoast.bulkEditor.components = { ...window.yoast.bulkEditor.components, UpsellModal, GenericAlert };
-window.yoast.bulkEditor.hooks = { ...window.yoast.bulkEditor.hooks, useAiUpsell };
+window.yoast.bulkEditor.hooks = { ...window.yoast.bulkEditor.hooks, useAiUpsell, useActionBarFocusReturn };
 window.yoast.bulkEditor.helpers = { ...window.yoast.bulkEditor.helpers, preparePromptContent, getVisibleContentLength };
 window.yoast.bulkEditor.constants = { ...window.yoast.bulkEditor.constants, MAX_TOKENS_DEFAULT, MAX_TOKENS_IRREGULAR };
 
