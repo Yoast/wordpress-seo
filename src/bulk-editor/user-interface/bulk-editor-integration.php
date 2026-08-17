@@ -261,7 +261,9 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @return array<string, string|array<string, string|bool>|array<array<string, string>>> The script data.
 	 */
 	public function get_script_data() {
-		$content_types = $this->content_types_repository->get_content_types();
+		$content_types        = $this->content_types_repository->get_content_types();
+		$is_premium           = $this->product_helper->is_premium();
+		$is_version_supported = $this->is_premium_version_supported( $is_premium );
 
 		return [
 			'contentTypes'          => $content_types,
@@ -276,10 +278,12 @@ class Bulk_Editor_Integration implements Integration_Interface {
 			'nonce'                 => $this->nonce_repository->get_rest_nonce(),
 			'restRoot'              => \esc_url_raw( \rest_url() ),
 			'preferences'           => [
-				'isPremium'   => $this->product_helper->is_premium(),
-				'isAiEnabled' => $this->options_helper->get( 'enable_ai_generator' ) === true,
-				'isRtl'       => \is_rtl(),
-				'pluginUrl'   => \plugins_url( '', \WPSEO_FILE ),
+				'isPremium'                 => $is_premium,
+				'isPremiumVersionSupported' => $is_version_supported,
+				'isAiEnabled'               => $this->options_helper->get( 'enable_ai_generator' ) === true,
+				'isRtl'                     => \is_rtl(),
+				'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
+				'premiumUpdateUrl'          => $this->get_premium_update_url(),
 			],
 			'linkParams'            => $this->short_link_helper->get_query_params(),
 			'analysis'              => [
@@ -319,6 +323,47 @@ class Bulk_Editor_Integration implements Integration_Interface {
 			'specific'    => $specific_replace_vars->get(),
 			'shared'      => $specific_replace_vars->get_generic( $replacement_variables ),
 		];
+	}
+
+	/**
+	 * Checks whether the installed Premium version is compatible with the current Free plugin.
+	 *
+	 * @param bool $is_premium Whether Premium is the currently active plugin.
+	 *
+	 * @return bool False when Premium needs upgrading or not active.
+	 */
+	private function is_premium_version_supported( bool $is_premium ): bool {
+		if ( ! $is_premium ) {
+			return false;
+		}
+
+		$premium_version = $this->product_helper->get_premium_version();
+
+		if ( $premium_version === null ) {
+			return false;
+		}
+
+		return \version_compare( $premium_version, '28.1-RC0', '>' );
+	}
+
+	/**
+	 * Returns the one-click Premium update URL for the current user, or an empty string when the user
+	 * lacks the `update_plugins` capability (and would hit a wp_die permission error on update.php).
+	 *
+	 * @return string The nonce-protected update URL, or an empty string.
+	 */
+	private function get_premium_update_url(): string {
+		if ( ! \current_user_can( 'update_plugins' ) ) {
+			return '';
+		}
+
+		return \html_entity_decode(
+			\wp_nonce_url(
+				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php' ),
+				'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php',
+			),
+			\ENT_COMPAT,
+		);
 	}
 
 	/**

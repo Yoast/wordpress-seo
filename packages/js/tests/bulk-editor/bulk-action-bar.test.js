@@ -1,4 +1,5 @@
 import { Fill, SlotFillProvider } from "@wordpress/components";
+import { useSelect } from "@wordpress/data";
 import { addFilter, removeFilter } from "@wordpress/hooks";
 import { fireEvent, render, screen } from "../test-utils";
 import { BulkActions, ManualReviewActions, ManualSaveErrorNotice, SelectionToolbar } from "../../src/bulk-editor/components/bulk-action-bar";
@@ -12,6 +13,27 @@ jest.mock( "../../src/bulk-editor/hooks/use-ai-upsell", () => ( {
 		ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 	} ),
 } ) );
+
+// FreeBulkActions reads isPremium / isPremiumVersionSupported / isAiEnabled from the store.
+// Mock the whole module so we can control those values per test without needing a real store.
+jest.mock( "@wordpress/data", () => ( {
+	useSelect: jest.fn(),
+} ) );
+
+/**
+ * Sets up the useSelect mock to return the given store preferences.
+ *
+ * @param {Object} prefs Partial preference overrides; unset keys fall back to safe defaults.
+ */
+const mockPreferences = ( prefs = {} ) => {
+	const defaults = { isPremium: false, isPremiumVersionSupported: false, isAiEnabled: false, premiumUpdateUrl: "" };
+	const merged = { ...defaults, ...prefs };
+	useSelect.mockImplementation( ( selector ) =>
+		selector( () => ( {
+			selectPreference: ( key, defaultVal ) => ( key in merged ? merged[ key ] : defaultVal ),
+		} ) )
+	);
+};
 
 const toolbarProps = {
 	isAllSelected: false,
@@ -160,17 +182,21 @@ describe( "ManualSaveErrorNotice", () => {
 } );
 
 describe( "BulkActions", () => {
+	beforeEach( () => mockPreferences() );
+
 	it( "shows the Free AI generate affordances when not Premium", () => {
-		render( <BulkActions isPremium={ false } isAiEnabled={ true } /> );
+		mockPreferences( { isAiEnabled: true } );
+		render( <BulkActions /> );
 
 		expect( screen.getByRole( "button", { name: "Generate SEO titles" } ) ).toBeInTheDocument();
 		expect( screen.getByRole( "button", { name: "Generate meta descriptions" } ) ).toBeInTheDocument();
 	} );
 
 	it( "shows the review actions alongside the still-enabled Free generate affordances while editing", () => {
+		mockPreferences( { isAiEnabled: true } );
 		render(
 			<BulkActions
-				isPremium={ false } isAiEnabled={ true } isActive={ true } hasUnsavedEdits={ true }
+				isActive={ true } hasUnsavedEdits={ true }
 				editCount={ 2 } onApplyAll={ jest.fn() } onDiscardAll={ jest.fn() }
 			/>
 		);
@@ -183,20 +209,23 @@ describe( "BulkActions", () => {
 	} );
 
 	it( "does not render the Free affordances for Premium", () => {
-		render( <BulkActions isPremium={ true } /> );
+		// isAiEnabled defaults to false → FreeBulkActions returns null.
+		render( <BulkActions /> );
 
 		expect( screen.queryByRole( "button", { name: "Generate SEO titles" } ) ).not.toBeInTheDocument();
 	} );
 
 	it( "hides the Free AI generate affordances when the AI feature is disabled", () => {
-		render( <BulkActions isPremium={ false } isAiEnabled={ false } /> );
+		// isAiEnabled defaults to false → FreeBulkActions returns null.
+		render( <BulkActions /> );
 
 		expect( screen.queryByRole( "button", { name: "Generate SEO titles" } ) ).not.toBeInTheDocument();
 		expect( screen.queryByRole( "button", { name: "Generate meta descriptions" } ) ).not.toBeInTheDocument();
 	} );
 
 	it( "shows the Free AI generate affordances when the AI feature is enabled", () => {
-		render( <BulkActions isPremium={ false } isAiEnabled={ true } /> );
+		mockPreferences( { isAiEnabled: true } );
+		render( <BulkActions /> );
 
 		expect( screen.getByRole( "button", { name: "Generate SEO titles" } ) ).toBeInTheDocument();
 		expect( screen.getByRole( "button", { name: "Generate meta descriptions" } ) ).toBeInTheDocument();
@@ -206,7 +235,7 @@ describe( "BulkActions", () => {
 		let received = null;
 		render(
 			<SlotFillProvider>
-				<BulkActions isPremium={ true } isActive={ true } selectedIds={ [ 1, 2 ] } activeFieldSet="search" contentType="post" />
+				<BulkActions isActive={ true } selectedIds={ [ 1, 2 ] } activeFieldSet="search" contentType="post" />
 				<Fill name={ BULK_ACTIONS_SLOT }>
 					{ ( fillProps ) => {
 						received = fillProps;
@@ -221,7 +250,8 @@ describe( "BulkActions", () => {
 	} );
 
 	it( "opens the upsell modal from a Free AI generate button", () => {
-		render( <BulkActions isPremium={ false } isAiEnabled={ true } contentType="post" /> );
+		mockPreferences( { isAiEnabled: true, isPremium: false } );
+		render( <BulkActions contentType="post" /> );
 
 		// The modal stays closed until a Generate button is clicked.
 		expect( screen.queryByRole( "heading", { name: "Generate Metadata in Bulk" } ) ).not.toBeInTheDocument();
@@ -234,7 +264,7 @@ describe( "BulkActions", () => {
 
 	it( "shows the save-error notice on the active tab when a save failed", () => {
 		const onDismissSaveError = jest.fn();
-		render( <BulkActions isPremium={ false } isActive={ true } hasSaveError={ true } onDismissSaveError={ onDismissSaveError } /> );
+		render( <BulkActions isActive={ true } hasSaveError={ true } onDismissSaveError={ onDismissSaveError } /> );
 
 		expect( screen.getByText( "Couldn't save your edits." ) ).toBeInTheDocument();
 		fireEvent.click( screen.getByRole( "button", { name: "Dismiss" } ) );
@@ -242,7 +272,7 @@ describe( "BulkActions", () => {
 	} );
 
 	it( "does not show the save-error notice when there is no error", () => {
-		render( <BulkActions isPremium={ false } isActive={ true } hasSaveError={ false } /> );
+		render( <BulkActions isActive={ true } hasSaveError={ false } /> );
 
 		expect( screen.queryByText( "Couldn't save your edits." ) ).not.toBeInTheDocument();
 	} );

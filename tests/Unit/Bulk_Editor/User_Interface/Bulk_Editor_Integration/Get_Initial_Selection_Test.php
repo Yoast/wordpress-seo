@@ -192,6 +192,7 @@ final class Get_Initial_Selection_Test extends Abstract_Test {
 				},
 			],
 		);
+		Functions\when( 'current_user_can' )->justReturn( false );
 
 		$endpoint_list = Mockery::mock( Endpoint_List::class );
 		$endpoint_list->allows( 'to_array' )->andReturn( [] );
@@ -208,6 +209,7 @@ final class Get_Initial_Selection_Test extends Abstract_Test {
 		$this->endpoints_repository->allows( 'get_all_endpoints' )->andReturn( $endpoint_list );
 		$this->nonce_repository->allows( 'get_rest_nonce' )->andReturn( 'rest-nonce' );
 		$this->product_helper->allows( 'is_premium' )->andReturn( false );
+		$this->product_helper->allows( 'get_premium_version' )->andReturn( null );
 		$this->options_helper->allows( 'get' )->andReturn( true );
 		$this->short_link_helper->allows( 'get_query_params' )->andReturn( [] );
 		$this->myyoast_connection_data_presenter->allows( 'present' )->andReturn( null );

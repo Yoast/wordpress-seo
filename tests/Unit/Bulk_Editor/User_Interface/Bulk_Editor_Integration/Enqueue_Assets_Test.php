@@ -113,12 +113,30 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			->once()
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
 		Functions\expect( 'admin_url' )
-			->twice()
+			->times( 2 )
 			->andReturnUsing(
 				static function ( $path ) {
 					return 'https://example.com/wp-admin/' . $path;
 				},
 			);
+		Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'update_plugins' )
+			->andReturn( true );
+		Functions\expect( 'self_admin_url' )
+			->once()
+			->andReturnUsing(
+				static function ( $path ) {
+					return 'https://example.com/wp-admin/' . $path;
+				},
+			);
+		Functions\expect( 'wp_nonce_url' )
+			->once()
+			->with(
+				'https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php',
+				'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php',
+			)
+			->andReturn( 'https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&_wpnonce=92ba59f0da' );
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
 		$this->myyoast_connection_data_presenter->expects( 'present' )->once()->andReturnNull();
 		$this->user_helper->expects( 'get_current_user_id' )->once()->andReturn( 1 );

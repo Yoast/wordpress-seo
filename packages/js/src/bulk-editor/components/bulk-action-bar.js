@@ -1,15 +1,16 @@
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
 import { Slot } from "@wordpress/components";
+import { useSelect } from "@wordpress/data";
 import { useEffect, useId, useRef } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
-import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT } from "../constants";
-import { useAiUpsell } from "../hooks/use-ai-upsell";
+import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT, STORE_NAME } from "../constants";
 import { DismissibleAlert } from "./dismissible-alert";
 import { OverviewExclusionNotice } from "./overview-exclusion-notice";
 import { OverviewSelectionNotice } from "./overview-selection-notice";
 import { UpsellModal } from "./upsell-modal";
+import { UpdateModal } from "./update-modal";
 import { SelectMenu } from "./select-menu";
 
 /**
@@ -83,9 +84,20 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminat
  * @returns {JSX.Element} The AI generate buttons.
  */
 const FreeBulkActions = ( { contentType } ) => {
-	const upsell = useAiUpsell( contentType );
+	const { isPremium, isPremiumVersionSupported, isAiEnabled } = useSelect( ( select ) => {
+		const store = select( STORE_NAME );
+		return {
+			isPremium: store.selectPreference( "isPremium", false ),
+			isPremiumVersionSupported: store.selectPreference( "isPremiumVersionSupported", false ),
+			isAiEnabled: store.selectPreference( "isAiEnabled", false ),
+		};
+	}, [] );
+
 	const [ isUpsellOpen, , , openUpsell, closeUpsell ] = useToggleState( false );
 
+	if ( ! isAiEnabled || isPremiumVersionSupported ) {
+		return null;
+	}
 	return (
 		<>
 			<Button variant="ai-secondary" size="small" className="yst-bg-white" onClick={ openUpsell }>
@@ -94,7 +106,8 @@ const FreeBulkActions = ( { contentType } ) => {
 			<Button variant="ai-secondary" size="small" className="yst-bg-white" onClick={ openUpsell }>
 				{ __( "Generate meta descriptions", "wordpress-seo" ) }
 			</Button>
-			<UpsellModal isOpen={ isUpsellOpen } onClose={ closeUpsell } { ...upsell } />
+			{ ! isPremium && <UpsellModal isOpen={ isUpsellOpen } onClose={ closeUpsell } contentType={ contentType } /> }
+			{ isPremium && ! isPremiumVersionSupported && <UpdateModal isOpen={ isUpsellOpen } onClose={ closeUpsell } /> }
 		</>
 	);
 };
@@ -204,8 +217,6 @@ const BulkActionsNotices = ( {
  * review actions when a row has unsaved edits.
  *
  * @param {Object}   props                The props.
- * @param {boolean}  props.isPremium      Whether Premium is active.
- * @param {boolean}  props.isAiEnabled    Whether the AI feature is enabled; gates Free's AI affordances.
  * @param {boolean}  props.isActive       Whether this is the active tab; only the active tab renders the slot and actions.
  * @param {number[]} props.selectedIds    The ids of the selected rows, passed to the AI slot.
  * @param {string}   props.activeFieldSet The active field set, passed to the AI slot.
@@ -219,11 +230,11 @@ const BulkActionsNotices = ( {
  * @returns {JSX.Element} The action band.
  */
 const BulkActionsBand = ( {
-	isPremium, isAiEnabled, isActive, selectedIds, activeFieldSet, contentType, hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll,
+	isActive, selectedIds, activeFieldSet, contentType, hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll,
 } ) => (
 	<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
 		<div className="yst-flex yst-items-center yst-gap-3" data-tour-id="generate-actions">
-			{ ! isPremium && isAiEnabled && <FreeBulkActions contentType={ contentType } /> }
+			<FreeBulkActions contentType={ contentType } />
 			{ isActive && (
 				<Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType, hasUnsavedEdits } } />
 			) }
@@ -240,10 +251,6 @@ const BulkActionsBand = ( {
  * it is full-bleed (outside the padded band), so Premium can fill it with a full-width row (e.g. an alert).
  *
  * @param {Object}   props                The props.
- * @param {boolean}  props.isPremium      Whether Premium is active.
- * @param {boolean}  [props.isAiEnabled=false] Whether the AI feature is enabled in the global settings. Gates the AI
- *                                         affordances (Free's upsell buttons; Premium fills its own slot only when on)
- *                                         without touching any non-AI actions the band may host.
  * @param {boolean}  props.isActive       Whether this is the active tab. Only the active tab renders the slots, so the
  *                                        Premium fill has a single slot to target (each tab renders its own bar).
  * @param {number[]} props.selectedIds      The ids of the selected rows.
@@ -267,7 +274,7 @@ const BulkActionsBand = ( {
  * @returns {JSX.Element} The bulk actions row content.
  */
 export const BulkActions = ( {
-	isPremium, isAiEnabled = false, isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
+	isActive, selectedIds, activeFieldSet, contentType, contentTypeLabel, contentTypeSingularLabel,
 	hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll, hasSaveError, onDismissSaveError,
 	preselectedTotal, onDismissPreselection, hasExcludedPreselected, onDismissExclusion,
 } ) => (
@@ -288,8 +295,6 @@ export const BulkActions = ( {
 			/>
 		) }
 		<BulkActionsBand
-			isPremium={ isPremium }
-			isAiEnabled={ isAiEnabled }
 			isActive={ isActive }
 			selectedIds={ selectedIds }
 			activeFieldSet={ activeFieldSet }
