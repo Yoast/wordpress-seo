@@ -155,8 +155,8 @@ export const ManualReviewActions = ( { editCount, onApplyAll, onDiscardAll, isAp
 /**
  * The inline error shown when a batch "Save edits" had one or more rows fail to save.
  *
- * @param {Object}   props                        The props.
- * @param {Function} props.onDismiss              Dismisses the notice.
+ * @param {Object}   props           The props.
+ * @param {Function} props.onDismiss Dismisses the notice.
  *
  * @returns {JSX.Element} The save-error notice.
  */
@@ -174,8 +174,8 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => (
  * Premium fills (e.g. its AI alerts). Only rendered on the active tab, so each tab has a single slot to target.
  * The truncation and exclusion notices are independent and can show at the same time.
  *
- * @param {Object}   props                        The props.
- * @param {number}   [props.preselectedTotal]     How many items were selected on the WP admin overview; shows the truncation notice.
+ * @param {Object}   props                         The props.
+ * @param {number}   [props.preselectedTotal]      How many items were selected on the WP admin overview; shows the truncation notice.
  * @param {Function} [props.onDismissPreselection] Dismisses the truncation notice.
  * @param {boolean}  [props.hasExcludedPreselected] Whether carried-over items were dropped; shows the exclusion notice.
  * @param {Function} [props.onDismissExclusion]   Dismisses the exclusion notice.
@@ -194,10 +194,7 @@ const BulkActionsNotices = ( {
 } ) => (
 	<>
 		<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } />
-		<OverviewExclusionNotice
-			hasExclusions={ hasExcludedPreselected }
-			onDismiss={ onDismissExclusion }
-		/>
+		<OverviewExclusionNotice hasExclusions={ hasExcludedPreselected } onDismiss={ onDismissExclusion } />
 		{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
 		<Slot name={ BULK_NOTICES_SLOT } />
 	</>

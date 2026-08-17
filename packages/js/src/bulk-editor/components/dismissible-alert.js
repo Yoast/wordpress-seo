@@ -8,12 +8,12 @@ import { useActionBarFocusReturn } from "../hooks/use-action-bar-focus-return";
 /**
  * An alert with a dismiss (X) button in its top-end corner, shared by the notices in the bulk-actions band.
  *
- * @param {Object}   props                        The props.
- * @param {string}   [props.variant]              The alert variant.
- * @param {string}   [props.role]                 The alert role.
- * @param {string}   [props.className]            Extra class names for the alert.
- * @param {Function} props.onDismiss              Dismisses the notice.
- * @param {JSX.node} props.children               The notice content.
+ * @param {Object}   props             The props.
+ * @param {string}   [props.variant]   The alert variant.
+ * @param {string}   [props.role]      The alert role.
+ * @param {string}   [props.className] Extra class names for the alert.
+ * @param {Function} props.onDismiss   Dismisses the notice.
+ * @param {JSX.node} props.children    The notice content.
  *
  * @returns {JSX.Element} The dismissible alert.
  */
