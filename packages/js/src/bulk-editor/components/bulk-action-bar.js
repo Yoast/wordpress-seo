@@ -1,7 +1,7 @@
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
 import { Slot } from "@wordpress/components";
-import { forwardRef, useEffect, useId, useRef } from "@wordpress/element";
+import { useEffect, useId, useRef } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT } from "../constants";
@@ -26,12 +26,10 @@ import { SelectMenu } from "./select-menu";
  * @param {number}   props.totalCount         The total number of rows.
  * @param {string}   [props.contentTypeLabel] The active content type label, used in the selected-count copy.
  * @param {Object[]} [props.smartSelectItems] The quality-based Select-menu items ({key, label, ariaLabel, icon, onClick}).
- * @param {Object}   ref                 Forwarded ref attached to the root element; used by BulkEditorContent to
- *                                       give DismissibleAlert a focus target outside the AnimateHeight container.
  *
  * @returns {JSX.Element} The selection toolbar.
  */
-export const SelectionToolbar = forwardRef( ( { idSuffix = "", isAllSelected, isIndeterminate = false, onToggleAll, onSelectAll, onDeselectAll, selectedCount, totalCount, contentTypeLabel, smartSelectItems = [] }, ref ) => {
+export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminate = false, onToggleAll, onSelectAll, onDeselectAll, selectedCount, totalCount, contentTypeLabel, smartSelectItems = [] } ) => {
 	const noun = contentTypeLabel ? contentTypeLabel.toLowerCase() : __( "items", "wordpress-seo" );
 
 	const checkboxRef = useRef( null );
@@ -42,7 +40,7 @@ export const SelectionToolbar = forwardRef( ( { idSuffix = "", isAllSelected, is
 	}, [ isIndeterminate ] );
 
 	return (
-		<div className="yst-flex yst-items-center yst-gap-4" ref={ ref } id="yst-bulk-editor-selection-toolbar">
+		<div className="yst-flex yst-items-center yst-gap-4">
 			<div className="yst-flex yst-items-center yst-gap-4" data-tour-id="selection-toolbar">
 				<Checkbox
 					ref={ checkboxRef }
@@ -59,6 +57,7 @@ export const SelectionToolbar = forwardRef( ( { idSuffix = "", isAllSelected, is
 					selectedCount={ selectedCount }
 					totalCount={ totalCount }
 					smartSelectItems={ smartSelectItems }
+					id={ `yst-bulk-editor-select-menu${ idSuffix }` }
 				/>
 			</div>
 			{ selectedCount > 0 && (
@@ -74,7 +73,7 @@ export const SelectionToolbar = forwardRef( ( { idSuffix = "", isAllSelected, is
 			) }
 		</div>
 	);
-} );
+};
 
 /**
  * The AI generate buttons in Free; each opens the upsell modal.
@@ -145,12 +144,11 @@ export const ManualReviewActions = ( { editCount, onApplyAll, onDiscardAll, isAp
  *
  * @param {Object}   props                        The props.
  * @param {Function} props.onDismiss              Dismisses the notice.
- * @param {Object}   [props.focusAfterDismissRef] Forwarded to DismissibleAlert; see its docs.
  *
  * @returns {JSX.Element} The save-error notice.
  */
-export const ManualSaveErrorNotice = ( { onDismiss, focusAfterDismissRef } ) => (
-	<DismissibleAlert variant="error" role="alert" onDismiss={ onDismiss } focusAfterDismissRef={ focusAfterDismissRef }>
+export const ManualSaveErrorNotice = ( { onDismiss } ) => (
+	<DismissibleAlert variant="error" role="alert" onDismiss={ onDismiss }>
 		<div className="yst-flex yst-flex-col yst-gap-1">
 			<span className="yst-block yst-font-medium">{ __( "Couldn't save your edits.", "wordpress-seo" ) }</span>
 			<span className="yst-font-normal">{ __( "Something went wrong. Please try again.", "wordpress-seo" ) }</span>

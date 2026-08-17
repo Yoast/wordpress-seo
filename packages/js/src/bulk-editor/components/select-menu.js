@@ -15,10 +15,11 @@ import ChevronDownIcon from "@heroicons/react/outline/ChevronDownIcon";
  * @param {number}   props.selectedCount    The number of selected rows.
  * @param {number}   props.totalCount       The total number of rows.
  * @param {Object[]} [props.smartSelectItems] The select improvement items.
+ * @param {string}   props.id               The id of the select menu button, used for accessibility.
  *
  * @returns {JSX.Element} The select menu.
  */
-export const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount, smartSelectItems = [] } ) => {
+export const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCount, smartSelectItems = [], id } ) => {
 	const svgAriaProps = useSvgAria();
 	const defaultItems = useMemo( () => [
 		{ key: "select-all", label: __( "Select all", "wordpress-seo" ), onClick: onSelectAll },
@@ -28,8 +29,8 @@ export const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCo
 	const items = applyFilters( SELECT_MENU_ITEMS_FILTER, defaultItems, { selectedCount, totalCount } );
 
 	return (
-		<DropdownMenu as="div" className="yst-relative">
-			<DropdownMenu.Trigger as={ Button } variant="primary" size="small" className="yst-gap-1.5">
+		<DropdownMenu as="div" className="yst-relative" id={ id }>
+			<DropdownMenu.Trigger as={ Button } variant="primary" size="small" className="yst-gap-1.5" id={ `${id}-button` }>
 				{ __( "Select", "wordpress-seo" ) }
 				<ChevronDownIcon className="yst-h-4 yst-w-4" { ...svgAriaProps } />
 			</DropdownMenu.Trigger>

@@ -3,6 +3,8 @@ import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
+import { useSelect } from "@wordpress/data";
+import { STORE_NAME } from "../constants";
 
 /**
  * An alert with a dismiss (X) button in its top-end corner, shared by the notices in the bulk-actions band.
@@ -12,20 +14,21 @@ import classNames from "classnames";
  * @param {string}   [props.role]                 The alert role.
  * @param {string}   [props.className]            Extra class names for the alert.
  * @param {Function} props.onDismiss              Dismisses the notice.
- * @param {Object}   [props.focusAfterDismissRef] Ref whose first focusable descendant receives focus before dismissal,
- *                                                preventing the aria-hidden warning from react-animate-height when
- *                                                focus stays inside the collapsing container.
  * @param {JSX.node} props.children               The notice content.
  *
  * @returns {JSX.Element} The dismissible alert.
  */
-export const DismissibleAlert = ( { variant = "info", role = "status", className = "", onDismiss, focusAfterDismissRef, children } ) => {
+export const DismissibleAlert = ( { variant = "info", role = "status", className = "", onDismiss, children } ) => {
 	const svgAriaProps = useSvgAria();
+	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 
 	const handleDismiss = useCallback( () => {
-		focusAfterDismissRef?.current?.querySelector( 'input, button, [href], [tabindex]:not([tabindex="-1"])' )?.focus();
+		const selectMenuButton = document.getElementById( `yst-bulk-editor-select-menu${ activeFieldSet }-button` );
+		if ( selectMenuButton ) {
+			selectMenuButton.focus();
+		}
 		onDismiss();
-	}, [ focusAfterDismissRef, onDismiss ] );
+	}, [ onDismiss ] );
 
 	return (
 		// The top margin separates this notice from the truncation notice above it; it cancels out when

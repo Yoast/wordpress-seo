@@ -156,11 +156,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		}
 	}, [ pendingSwitch, hasUnsavedEdits, hasExternalPendingChanges, onCommitSwitch ] );
 
-	// Focus target for dismiss buttons in the bulk-actions band: the first focusable element in the active
-	// tab's selection toolbar. Moving focus there before dismissal prevents the aria-hidden warning that
-	// react-animate-height triggers when it sets aria-hidden="true" while focus is still inside the container.
-	const focusAfterDismissRef = useRef( null );
-
 	const { isAllSelected, isIndeterminate, selectedCount, totalCount, hasSelection } = getSelectionView( isPending, selectedIds, items, total );
 
 	// Tracks the last plain-click selection to anchor shift+click ranges.
@@ -244,7 +239,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 							editing={ editing }
 							selectionToolbar={
 								<SelectionToolbar
-									ref={ tab.id === activeFieldSet ? focusAfterDismissRef : null }
 									idSuffix={ `-${ tab.id }` }
 									isAllSelected={ isAllSelected }
 									isIndeterminate={ isIndeterminate }
@@ -276,7 +270,6 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 									onDismissPreselection={ dismissPreselectionNotice }
 									hasExcludedPreselected={ hasExcludedPreselected }
 									onDismissExclusion={ dismissExclusionNotice }
-									focusAfterDismissRef={ focusAfterDismissRef }
 								/>
 							}
 							showBulkActions={ showBulkActions }
