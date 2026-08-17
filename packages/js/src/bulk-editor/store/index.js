@@ -1,6 +1,18 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
-import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
+import {
+	getInitialLinkParamsState,
+	getInitialOptInNotificationState,
+	LINK_PARAMS_NAME,
+	linkParamsActions,
+	linkParamsReducer,
+	linkParamsSelectors,
+	OPT_IN_NOTIFICATION_NAME,
+	optInNotificationActions,
+	optInNotificationControls,
+	optInNotificationReducer,
+	optInNotificationSelectors,
+} from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import activeContentType, { activeContentTypeActions, activeContentTypeSelectors, createInitialActiveContentTypeState } from "./active-content-type";
 import activeFieldSet, { activeFieldSetActions, activeFieldSetSelectors, createInitialActiveFieldSetState } from "./active-field-set";
@@ -39,6 +51,7 @@ const createStore = ( { initialState } ) => {
 			...externalPendingChangesActions,
 			...externalGenerationActions,
 			...pendingSwitchActions,
+			...optInNotificationActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
@@ -51,6 +64,7 @@ const createStore = ( { initialState } ) => {
 			...externalPendingChangesSelectors,
 			...externalGenerationSelectors,
 			...pendingSwitchSelectors,
+			...optInNotificationSelectors,
 		},
 		initialState: merge(
 			{},
@@ -65,6 +79,7 @@ const createStore = ( { initialState } ) => {
 				externalPendingChanges: createInitialExternalPendingChangesState(),
 				externalGeneration: createInitialExternalGenerationState(),
 				pendingSwitch: createInitialPendingSwitchState(),
+				[ OPT_IN_NOTIFICATION_NAME ]: getInitialOptInNotificationState(),
 			},
 			initialState
 		),
@@ -79,7 +94,11 @@ const createStore = ( { initialState } ) => {
 			externalPendingChanges,
 			externalGeneration,
 			pendingSwitch,
+			[ OPT_IN_NOTIFICATION_NAME ]: optInNotificationReducer,
 		} ),
+		controls: {
+			...optInNotificationControls,
+		},
 	} );
 };
 

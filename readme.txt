@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 7.0
+Tested up to: 7.1
 Stable tag: 28.2
 Requires PHP: 7.4
 
@@ -307,6 +307,29 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 28.3 =
+
+Release date: 2026-08-18
+
+Yoast SEO 28.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
+#### Enhancements
+
+* Adds a schemamap.xml file at the site root that exposes the aggregated schema map.
+* Adds the failing object's type and ID to the SEO data optimization error report when an indexable cannot be built.
+* Improves performance when running the SEO optimization by warming post and term caches in bulk.
+* Improves the performance of generating XML sitemaps by warming post, term and featured-image caches in bulk.
+
+#### Bugfixes
+
+* Fixes a bug where the AI Content Planner inserted an empty paragraph block before the template blocks when a post type had a block template registered.
+
+#### Other
+
+* Adds a first-time guided tour to the bulk editor.
+* Sets the minimum supported WordPress version to 6.9.
+* Sets the _WordPress tested up to_ version to 7.1.
+
 = 28.2 =
 
 Release date: 2026-08-04
@@ -321,16 +344,6 @@ Yoast SEO 28.2 brings more enhancements and bugfixes. [Find more information abo
 #### Other
 
 * Prevents Yoast SEO Abilities from being registered when indexables are disabled.
-
-= 28.1 =
-
-Release date: 2026-07-21
-
-Yoast SEO 28.1 redesigns the Bulk editor into a focused workspace with new search and status filters, so you can find and fix titles and meta descriptions across posts, pages, and custom post types in one place. [Read the full release post here](https://yoa.st/57c).
-
-#### Enhancements
-
-* Redesigns the bulk editor page, which allows users to edit Metadata for multiple posts at once.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

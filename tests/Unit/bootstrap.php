@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit;
 
+use Yoast\WP\SEO\Tests\Unit\Doubles\WP_Error_Double;
 use Yoast\WPTestUtils\BrainMonkey;
 
 \define( 'WPSEO_INDEXABLES', true );
@@ -40,8 +41,8 @@ if ( ! \defined( 'WPSEO_BASENAME' ) ) {
 \define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 \define( 'YOAST_SEO_PHP_REQUIRED', '7.4' );
-\define( 'YOAST_SEO_WP_TESTED', '7.0.2' );
-\define( 'YOAST_SEO_WP_REQUIRED', '6.8' );
+\define( 'YOAST_SEO_WP_TESTED', '7.1' );
+\define( 'YOAST_SEO_WP_REQUIRED', '6.9' );
 
 if ( ! \defined( 'WPSEO_NAMESPACES' ) ) {
 	\define( 'WPSEO_NAMESPACES', true );
@@ -66,6 +67,12 @@ BrainMonkey\makeDoublesForUnavailableClasses(
 		'wpdb',
 	],
 );
+
+/*
+ * Alias a richer double for WP_Error, so tests can assert on the code, message and data of errors
+ * created by the code under test. Must be aliased before any test declares the class via Mockery.
+ */
+\class_alias( WP_Error_Double::class, 'WP_Error' );
 
 /* ********************* DEFINES DEPENDING ON AUTOLOADED CODE ********************* */
 

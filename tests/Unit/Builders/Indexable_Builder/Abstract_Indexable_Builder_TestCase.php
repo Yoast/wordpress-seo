@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Builders\Indexable_System_Page_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -138,6 +139,13 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 	protected $version_manager;
 
 	/**
+	 * The logger.
+	 *
+	 * @var Mockery\MockInterface|Logger
+	 */
+	protected $logger;
+
+	/**
 	 * Sets up the test.
 	 *
 	 * @return void
@@ -158,6 +166,7 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 		$this->indexable_helper          = Mockery::mock( Indexable_Helper::class );
 		$this->version_manager           = Mockery::mock( Indexable_Version_Manager::class );
 		$this->indexable_repository      = Mockery::mock( Indexable_Repository::class );
+		$this->logger                    = Mockery::mock( Logger::class );
 
 		$this->indexable              = Mockery::mock( Indexable_Mock::class );
 		$this->indexable->author_id   = 1999;
@@ -178,6 +187,7 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 			$this->indexable_helper,
 			$this->version_manager,
 			$this->link_builder,
+			$this->logger,
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -214,8 +224,8 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 	/**
 	 * Expectations for ensure_indexable method.
 	 *
-	 * @param array          $defaults         The defaults to expect.
-	 * @param Indexable_Mock $return_indexable The indexable to expect.
+	 * @param array<string, int|string> $defaults         The defaults to expect.
+	 * @param Indexable_Mock            $return_indexable The indexable to expect.
 	 *
 	 * @return void
 	 */
