@@ -168,7 +168,6 @@ export const ManualSaveErrorNotice = ( { onDismiss } ) => (
  * @param {Function} [props.onDismissExclusion]   Dismisses the exclusion notice.
  * @param {boolean}  [props.hasSaveError]         Whether the last apply-all failed; shows the save-error notice.
  * @param {Function} [props.onDismissSaveError]   Dismisses the save-error notice.
- * @param {Object}   [props.focusAfterDismissRef] Forwarded to each DismissibleAlert; see its docs.
  *
  * @returns {JSX.Element} The notices region.
  */
@@ -179,16 +178,14 @@ const BulkActionsNotices = ( {
 	onDismissExclusion,
 	hasSaveError,
 	onDismissSaveError,
-	focusAfterDismissRef,
 } ) => (
 	<>
-		<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } focusAfterDismissRef={ focusAfterDismissRef } />
+		<OverviewSelectionNotice total={ preselectedTotal } onDismiss={ onDismissPreselection } />
 		<OverviewExclusionNotice
 			hasExclusions={ hasExcludedPreselected }
 			onDismiss={ onDismissExclusion }
-			focusAfterDismissRef={ focusAfterDismissRef }
 		/>
-		{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } focusAfterDismissRef={ focusAfterDismissRef } /> }
+		{ hasSaveError && <ManualSaveErrorNotice onDismiss={ onDismissSaveError } /> }
 		<Slot name={ BULK_NOTICES_SLOT } />
 	</>
 );
@@ -233,36 +230,35 @@ const BulkActionsBand = ( {
  * with the AI buttons (the fill receives `fillProps`); in Free they open the upsell modal. The notices slot above
  * it is full-bleed (outside the padded band), so Premium can fill it with a full-width row (e.g. an alert).
  *
- * @param {Object}   props                The props.
- * @param {boolean}  props.isPremium      Whether Premium is active.
- * @param {boolean}  [props.isAiEnabled=false] Whether the AI feature is enabled in the global settings. Gates the AI
- *                                         affordances (Free's upsell buttons; Premium fills its own slot only when on)
- *                                         without touching any non-AI actions the band may host.
- * @param {boolean}  props.isActive       Whether this is the active tab. Only the active tab renders the slots, so the
- *                                        Premium fill has a single slot to target (each tab renders its own bar).
- * @param {number[]} props.selectedIds      The ids of the selected rows.
- * @param {string}   props.activeFieldSet     The active tab/field set (Search or Social), which drives the buttons.
- * @param {string}   props.contentType        The active content type (also the Free upsell variant).
- * @param {boolean}  [props.hasUnsavedEdits]  Whether a row has unsaved manual edits, passed to the actions fill so Premium
- *                                             can disable the AI buttons while edits are in progress.
- * @param {number}   [props.editCount]        The number of rows with unsaved manual edits, shown in the review summary.
- * @param {Function} [props.onApplyAll]       Saves every row's open edits.
- * @param {Function} [props.onDiscardAll]     Discards every row's open edits.
- * @param {boolean}  [props.isApplyingAll]    Whether an apply-all is in flight; disables the review actions.
- * @param {boolean}  [props.hasSaveError]        Whether the last apply-all failed; shows the inline save-error notice.
- * @param {Function} [props.onDismissSaveError]  Dismisses the save-error notice.
- * @param {number}   [props.preselectedTotal]    How many items were selected on the WP admin overview; shows the truncation notice.
- * @param {Function} [props.onDismissPreselection] Dismisses the truncation notice.
+ * @param {Object}   props The props.
+ * @param {boolean}  props.isPremium                Whether Premium is active.
+ * @param {boolean}  [props.isAiEnabled=false]      Whether the AI feature is enabled in the global settings. Gates the AI
+ *                                                  affordances (Free's upsell buttons; Premium fills its own slot only when on)
+ *                                                  without touching any non-AI actions the band may host.
+ * @param {boolean}  props.isActive                 Whether this is the active tab. Only the active tab renders the slots, so the
+ *                                                  Premium fill has a single slot to target (each tab renders its own bar).
+ * @param {number[]} props.selectedIds              The ids of the selected rows.
+ * @param {string}   props.activeFieldSet           The active tab/field set (Search or Social), which drives the buttons.
+ * @param {string}   props.contentType              The active content type (also the Free upsell variant).
+ * @param {boolean}  [props.hasUnsavedEdits]        Whether a row has unsaved manual edits, passed to the actions fill so Premium
+ *                                                  can disable the AI buttons while edits are in progress.
+ * @param {number}   [props.editCount]              The number of rows with unsaved manual edits, shown in the review summary.
+ * @param {Function} [props.onApplyAll]             Saves every row's open edits.
+ * @param {Function} [props.onDiscardAll]           Discards every row's open edits.
+ * @param {boolean}  [props.isApplyingAll]          Whether an apply-all is in flight; disables the review actions.
+ * @param {boolean}  [props.hasSaveError]           Whether the last apply-all failed; shows the inline save-error notice.
+ * @param {Function} [props.onDismissSaveError]     Dismisses the save-error notice.
+ * @param {number}   [props.preselectedTotal]       How many items were selected on the WP admin overview; shows the truncation notice.
+ * @param {Function} [props.onDismissPreselection]  Dismisses the truncation notice.
  * @param {boolean}  [props.hasExcludedPreselected] Whether carried-over items were dropped; shows the exclusion notice.
- * @param {Function} [props.onDismissExclusion]  Dismisses the exclusion notice.
- * @param {Object}   [props.focusAfterDismissRef] Forwarded to BulkActionsNotices and on to each DismissibleAlert; see its docs.
+ * @param {Function} [props.onDismissExclusion]     Dismisses the exclusion notice.
  *
  * @returns {JSX.Element} The bulk actions row content.
  */
 export const BulkActions = ( {
 	isPremium, isAiEnabled = false, isActive, selectedIds, activeFieldSet, contentType,
 	hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll, hasSaveError, onDismissSaveError,
-	preselectedTotal, onDismissPreselection, hasExcludedPreselected, onDismissExclusion, focusAfterDismissRef,
+	preselectedTotal, onDismissPreselection, hasExcludedPreselected, onDismissExclusion,
 } ) => (
 	<div className="yst-flex yst-flex-col">
 		{ isActive && (
@@ -273,7 +269,6 @@ export const BulkActions = ( {
 				onDismissExclusion={ onDismissExclusion }
 				hasSaveError={ hasSaveError }
 				onDismissSaveError={ onDismissSaveError }
-				focusAfterDismissRef={ focusAfterDismissRef }
 			/>
 		) }
 		<BulkActionsBand
