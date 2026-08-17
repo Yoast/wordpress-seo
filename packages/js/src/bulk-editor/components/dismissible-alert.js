@@ -3,8 +3,7 @@ import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
-import { useSelect } from "@wordpress/data";
-import { STORE_NAME } from "../constants";
+import { useActionBarFocusReturn } from "../hooks/use-action-bar-focus-return";
 
 /**
  * An alert with a dismiss (X) button in its top-end corner, shared by the notices in the bulk-actions band.
@@ -20,15 +19,12 @@ import { STORE_NAME } from "../constants";
  */
 export const DismissibleAlert = ( { variant = "info", role = "status", className = "", onDismiss, children } ) => {
 	const svgAriaProps = useSvgAria();
-	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
+	const focusActionBar = useActionBarFocusReturn();
 
-	const handleDismiss = useCallback( () => {
-		const selectMenuButton = document.getElementById( `yst-bulk-editor-select-menu${ activeFieldSet }-button` );
-		if ( selectMenuButton ) {
-			selectMenuButton.focus();
-		}
+	const handleDismiss = useCallback( ( e ) => {
+		focusActionBar( e );
 		onDismiss();
-	}, [ onDismiss, activeFieldSet ] );
+	}, [ focusActionBar, onDismiss ] );
 
 	return (
 		// The top margin separates this notice from the truncation notice above it; it cancels out when
