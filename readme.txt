@@ -311,6 +311,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-08-18
 
+Yoast SEO 28.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Adds a schemamap.xml file at the site root that exposes the aggregated schema map.
