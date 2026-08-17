@@ -28,7 +28,7 @@ export const DismissibleAlert = ( { variant = "info", role = "status", className
 			selectMenuButton.focus();
 		}
 		onDismiss();
-	}, [ onDismiss ] );
+	}, [ onDismiss, activeFieldSet ] );
 
 	return (
 		// The top margin separates this notice from the truncation notice above it; it cancels out when
