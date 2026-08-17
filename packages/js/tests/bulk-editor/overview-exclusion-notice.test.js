@@ -82,6 +82,7 @@ describe( "BulkEditorContent with a truncated and pruned carried-over selection"
 
 		fireEvent.click( within( exclusion.closest( "[role='status']" ) ).getByRole( "button", { name: "Dismiss" } ) );
 
+		expect( document.activeElement ).toBe( screen.getByRole( "button", { name: "Select" } ) );
 		// The exclusion notice is gone; the truncation notice keeps the row expanded.
 		expect( screen.queryByText( NOTICE_TEXT ) ).not.toBeInTheDocument();
 		expect( screen.getByText( TRUNCATION_TEXT ) ).toBeInTheDocument();
@@ -89,6 +90,7 @@ describe( "BulkEditorContent with a truncated and pruned carried-over selection"
 
 		fireEvent.click( screen.getByRole( "button", { name: "Dismiss" } ) );
 
+		expect( document.activeElement ).toBe( screen.getByRole( "button", { name: "Select" } ) );
 		// Nothing else occupies the band here (AI is disabled, no edits), so dismissing both collapses the row.
 		expect( screen.queryByText( TRUNCATION_TEXT ) ).not.toBeInTheDocument();
 		container.querySelectorAll( "tr[aria-hidden]" ).forEach( ( row ) => {

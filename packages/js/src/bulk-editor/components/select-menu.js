@@ -15,7 +15,7 @@ import ChevronDownIcon from "@heroicons/react/outline/ChevronDownIcon";
  * @param {number}   props.selectedCount    The number of selected rows.
  * @param {number}   props.totalCount       The total number of rows.
  * @param {Object[]} [props.smartSelectItems] The select improvement items.
- * @param {string}   props.id               The id of the select menu button, used for accessibility.
+ * @param {string}   props.id               Id prefix for the menu; the trigger button's id is `${id}-button`.
  *
  * @returns {JSX.Element} The select menu.
  */

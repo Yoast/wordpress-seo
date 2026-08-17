@@ -75,6 +75,7 @@ describe( "BulkEditorContent with a carried-over overview selection", () => {
 
 		fireEvent.click( screen.getByRole( "button", { name: "Dismiss" } ) );
 
+		expect( document.activeElement ).toBe( screen.getByRole( "button", { name: "Select" } ) );
 		expect( screen.queryByText( NOTICE_TEXT ) ).not.toBeInTheDocument();
 		// Nothing else occupies the band here (AI is disabled, no edits), so dismissing collapses the row.
 		container.querySelectorAll( "tr[aria-hidden]" ).forEach( ( row ) => {

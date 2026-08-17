@@ -10,7 +10,7 @@ import { STORE_NAME } from "../constants";
 export const useActionBarFocusReturn = () => {
 	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	return useCallback( ( e ) => {
-		const selectMenuButton = document.getElementById( `yst-bulk-editor-select-menu${ activeFieldSet }-button` );
+		const selectMenuButton = document.getElementById( `yst-bulk-editor-select-menu-${ activeFieldSet }-button` );
 		if ( selectMenuButton ) {
 			selectMenuButton.focus();
 		} else {
