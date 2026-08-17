@@ -62,7 +62,6 @@ export const getHasOverviewNotice = ( { preselectedTotal, hasExcludedPreselected
  * @param {Object}                             props.remoteDataProvider The remote data provider (HTTP), used to fetch and save.
  * @param {string}                             props.contentType        The active content type to fetch posts for.
  * @param {string}                             props.contentTypeLabel   The active content type label, used in the search placeholder.
- * @param {string}                             props.contentTypeSingularLabel The active content type singular label, used in the selected-count copy.
  *
  * @returns {JSX.Element} The content.
  */
