@@ -3,6 +3,12 @@ import { addFilter, removeFilter } from "@wordpress/hooks";
 import { fireEvent, render, screen } from "../test-utils";
 import { BulkActions, ManualReviewActions, ManualSaveErrorNotice, SelectionToolbar } from "../../src/bulk-editor/components/bulk-action-bar";
 import { BULK_ACTIONS_SLOT, SELECT_MENU_ITEMS_FILTER } from "../../src/bulk-editor/constants";
+import registerStore from "../../src/bulk-editor/store";
+
+// The store registers once for the whole file: the WP data registry is global, so a second register would clash.
+beforeAll( () => {
+	registerStore( { initialState: { activeContentType: "post" } } );
+} );
 
 // The hook is covered by use-ai-upsell.test.js; here it just feeds the modal a static upsell.
 jest.mock( "../../src/bulk-editor/hooks/use-ai-upsell", () => ( {

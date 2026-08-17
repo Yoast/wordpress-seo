@@ -17,7 +17,6 @@ jest.mock( "@wordpress/dom-ready", () => ( {
 
 jest.mock( "@wordpress/element", () => ( {
 	createRoot: ( ...args ) => mockCreateRoot( ...args ),
-	forwardRef: ( fn ) => fn,
 } ) );
 
 jest.mock( "@wordpress/components", () => ( {
