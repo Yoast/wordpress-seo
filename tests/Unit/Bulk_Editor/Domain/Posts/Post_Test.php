@@ -47,9 +47,26 @@ final class Post_Test extends TestCase {
 				'social_title'       => 'Social hello',
 				'social_description' => 'Social description.',
 				'editable'           => true,
+				'images'             => [],
 			],
 			$instance->to_array(),
 		);
+	}
+
+	/**
+	 * Tests that the images passed to the post are exposed as they were given.
+	 *
+	 * @return void
+	 */
+	public function test_to_array_with_images() {
+		$images = [
+			'thumbnail' => 'https://example.com/product.jpg',
+			'count'     => 3,
+		];
+
+		$instance = new Post( 7, 'Hello world', 'draft', '', '', '', '', '', '', true, $images );
+
+		$this->assertSame( $images, $instance->to_array()['images'] );
 	}
 
 	/**
@@ -72,6 +89,7 @@ final class Post_Test extends TestCase {
 				'social_title'       => '',
 				'social_description' => '',
 				'editable'           => false,
+				'images'             => [],
 			],
 			$instance->to_array(),
 		);
