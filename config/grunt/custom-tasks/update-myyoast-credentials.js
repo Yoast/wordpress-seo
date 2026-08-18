@@ -177,8 +177,8 @@ const FETCH_TIMEOUT_MS = 30000;
 const SOFTWARE_STATEMENT_CLAIMS = {
 	softwareId: "yoast/wordpress-seo",
 	clientName: "Yoast SEO",
-	logoUri: "https://yoast.com/app/uploads/2025/11/premium.svg",
-	clientUri: "https://yoast.com/wordpress/plugins/seo/",
+	logoUri: "https://yoast.com/app/uploads/2025/09/free_icon.svg",
+	clientUri: "https://yoast.com/product/yoast-seo-wordpress/",
 	tosUri: "https://yoast.com/terms-of-service/",
 	policyUri: "https://yoast.com/privacy-policy/",
 	contacts: [ "support@yoast.com" ],
