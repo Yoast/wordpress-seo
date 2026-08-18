@@ -569,7 +569,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter to disable priming the post, term and featured-image caches for the sitemap.
 		 *
-		 * @since 28.0
+		 * @since 28.3
 		 *
 		 * @param bool $disable_cache_priming Whether to disable priming the caches. Defaults to false.
 		 */

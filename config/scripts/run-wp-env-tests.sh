@@ -21,7 +21,9 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-PLUGIN_PATH="/var/www/html/wp-content/plugins/wordpress-seo"
+# wp-env mounts the plugin under the project directory's basename, which only
+# matches "wordpress-seo" when running from the main checkout (not a worktree).
+PLUGIN_PATH="/var/www/html/wp-content/plugins/$(basename "$PROJECT_DIR")"
 OVERRIDE_FILE="$PROJECT_DIR/.wp-env.override.json"
 
 # Parse arguments.

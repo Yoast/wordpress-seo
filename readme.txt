@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 7.0
-Stable tag: 28.2
+Tested up to: 7.1
+Stable tag: 28.3
 Requires PHP: 7.4
 
 Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.
@@ -311,6 +311,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-08-18
 
+Yoast SEO 28.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Adds a schemamap.xml file at the site root that exposes the aggregated schema map.
@@ -326,6 +328,7 @@ Release date: 2026-08-18
 
 * Adds a first-time guided tour to the bulk editor.
 * Sets the minimum supported WordPress version to 6.9.
+* Sets the _WordPress tested up to_ version to 7.1.
 
 = 28.2 =
 
