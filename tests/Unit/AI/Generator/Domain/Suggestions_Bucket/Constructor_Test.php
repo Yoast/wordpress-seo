@@ -13,7 +13,7 @@ use Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket::__construct
  */
-final class Constructor_Test extends Abstract_Suggestions_Bucket_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

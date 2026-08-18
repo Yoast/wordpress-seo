@@ -13,7 +13,7 @@ use WPSEO_Addon_Manager;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\AI_Generator_Integration::get_product_subscriptions
  */
-final class Get_Product_Subscriptions_Test extends Abstract_AI_Generator_Integration_Test {
+final class Get_Product_Subscriptions_Test extends Abstract_Test {
 
 	/**
 	 * Tests getting the product subscripions.

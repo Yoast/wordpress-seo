@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Builder_Double;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-final class Is_Type_With_No_Id_Test extends Abstract_Indexable_Builder_TestCase {
+final class Is_Type_With_No_Id_Test extends Abstract_TestCase {
 
 	/**
 	 * Sets up the test.
@@ -35,15 +35,16 @@ final class Is_Type_With_No_Id_Test extends Abstract_Indexable_Builder_TestCase 
 			$this->indexable_helper,
 			$this->version_manager,
 			$this->link_builder,
+			$this->logger,
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
 	}
 
 	/**
-	 * Provider for testing save_indexable method.
+	 * Provider for testing is_type_with_no_id method.
 	 *
-	 * @return array The test data.
+	 * @return array<string, array<string, string|bool>> The test data.
 	 */
 	public static function is_type_with_no_id_provider() {
 		return [

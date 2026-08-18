@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Title;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Title_Builder::build_title
  */
-final class Build_Title_Test extends Abstract_Title_Builder_Test {
+final class Build_Title_Test extends Abstract_Test {
 
 	/**
 	 * Tests the build_title method.

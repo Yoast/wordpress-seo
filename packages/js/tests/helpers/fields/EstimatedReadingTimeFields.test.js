@@ -1,5 +1,5 @@
 import EstimatedReadingTimeFields from "../../../src/helpers/fields/EstimatedReadingTimeFields";
-import { createElement } from "../../test-utils";
+import { createInputElement } from "../../test-utils";
 
 const ELEMENT_ID = "yoast_wpseo_estimated-reading-time-minutes";
 
@@ -13,7 +13,7 @@ describe( "estimatedReadingTimeElement", () => {
 	} );
 
 	it( "returns the element when present", () => {
-		const el = createElement( ELEMENT_ID );
+		const el = createInputElement( ELEMENT_ID );
 		expect( EstimatedReadingTimeFields.estimatedReadingTimeElement ).toBe( el );
 	} );
 } );
@@ -24,7 +24,7 @@ describe( "estimatedReadingTime getter", () => {
 	} );
 
 	it( "returns the element value", () => {
-		const el = createElement( ELEMENT_ID );
+		const el = createInputElement( ELEMENT_ID );
 		el.value = "5";
 		expect( EstimatedReadingTimeFields.estimatedReadingTime ).toBe( "5" );
 	} );
@@ -38,7 +38,7 @@ describe( "estimatedReadingTime setter", () => {
 	} );
 
 	it( "sets the element value", () => {
-		createElement( ELEMENT_ID );
+		createInputElement( ELEMENT_ID );
 		EstimatedReadingTimeFields.estimatedReadingTime = "7";
 		expect( EstimatedReadingTimeFields.estimatedReadingTime ).toBe( "7" );
 	} );

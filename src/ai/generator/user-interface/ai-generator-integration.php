@@ -12,13 +12,13 @@ use Yoast\WP\SEO\AI\Generator\Application\Generator_Endpoints_Repository;
 use Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Conditionals\AI_Editor_Conditional;
-use Yoast\WP\SEO\Conditionals\New_Premium_Or_Free_AI_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell;
 use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 
 /**
  * Ai_Generator_Integration class.
@@ -96,27 +96,35 @@ class Ai_Generator_Integration implements Integration_Interface {
 	private $free_sparks_endpoints_repository;
 
 	/**
+	 * Builds the MyYoast connection payload for script data.
+	 *
+	 * @var Myyoast_Connection_Data_Presenter
+	 */
+	private $myyoast_connection_data_presenter;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ AI_Conditional::class, AI_Editor_Conditional::class, New_Premium_Or_Free_AI_Conditional::class ];
+		return [ AI_Conditional::class, AI_Editor_Conditional::class ];
 	}
 
 	/**
 	 * Constructs the class.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager        $asset_manager                    The admin asset manager.
-	 * @param WPSEO_Addon_Manager              $addon_manager                    The addon manager.
-	 * @param API_Client                       $api_client                       The API client.
-	 * @param Current_Page_Helper              $current_page_helper              The current page helper.
-	 * @param Options_Helper                   $options_helper                   The options helper.
-	 * @param User_Helper                      $user_helper                      The user helper.
-	 * @param Introductions_Seen_Repository    $introductions_seen_repository    The introductions seen repository.
-	 * @param Generator_Endpoints_Repository   $generator_endpoints_repository   The Generator endpoints repository.
-	 * @param Consent_Endpoints_Repository     $consent_endpoints_repository     The Consent endpoints repository.
-	 * @param Free_Sparks_Endpoints_Repository $free_sparks_endpoints_repository The Free Sparks endpoints repository.
+	 * @param WPSEO_Admin_Asset_Manager         $asset_manager                     The admin asset manager.
+	 * @param WPSEO_Addon_Manager               $addon_manager                     The addon manager.
+	 * @param API_Client                        $api_client                        The API client.
+	 * @param Current_Page_Helper               $current_page_helper               The current page helper.
+	 * @param Options_Helper                    $options_helper                    The options helper.
+	 * @param User_Helper                       $user_helper                       The user helper.
+	 * @param Introductions_Seen_Repository     $introductions_seen_repository     The introductions seen repository.
+	 * @param Generator_Endpoints_Repository    $generator_endpoints_repository    The Generator endpoints repository.
+	 * @param Consent_Endpoints_Repository      $consent_endpoints_repository      The Consent endpoints repository.
+	 * @param Free_Sparks_Endpoints_Repository  $free_sparks_endpoints_repository  The Free Sparks endpoints repository.
+	 * @param Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter The MyYoast connection data presenter.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -128,18 +136,20 @@ class Ai_Generator_Integration implements Integration_Interface {
 		Introductions_Seen_Repository $introductions_seen_repository,
 		Generator_Endpoints_Repository $generator_endpoints_repository,
 		Consent_Endpoints_Repository $consent_endpoints_repository,
-		Free_Sparks_Endpoints_Repository $free_sparks_endpoints_repository
+		Free_Sparks_Endpoints_Repository $free_sparks_endpoints_repository,
+		Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter
 	) {
-		$this->asset_manager                    = $asset_manager;
-		$this->addon_manager                    = $addon_manager;
-		$this->api_client                       = $api_client;
-		$this->current_page_helper              = $current_page_helper;
-		$this->options_helper                   = $options_helper;
-		$this->user_helper                      = $user_helper;
-		$this->introductions_seen_repository    = $introductions_seen_repository;
-		$this->generator_endpoints_repository   = $generator_endpoints_repository;
-		$this->consent_endpoints_repository     = $consent_endpoints_repository;
-		$this->free_sparks_endpoints_repository = $free_sparks_endpoints_repository;
+		$this->asset_manager                     = $asset_manager;
+		$this->addon_manager                     = $addon_manager;
+		$this->api_client                        = $api_client;
+		$this->current_page_helper               = $current_page_helper;
+		$this->options_helper                    = $options_helper;
+		$this->user_helper                       = $user_helper;
+		$this->introductions_seen_repository     = $introductions_seen_repository;
+		$this->generator_endpoints_repository    = $generator_endpoints_repository;
+		$this->consent_endpoints_repository      = $consent_endpoints_repository;
+		$this->free_sparks_endpoints_repository  = $free_sparks_endpoints_repository;
+		$this->myyoast_connection_data_presenter = $myyoast_connection_data_presenter;
 	}
 
 	/**
@@ -188,6 +198,7 @@ class Ai_Generator_Integration implements Integration_Interface {
 			'requestTimeout'       => $this->api_client->get_request_timeout(),
 			'isFreeSparks'         => $this->options_helper->get( 'ai_free_sparks_started_on', null ) !== null,
 			'endpoints'            => $endpoints,
+			'myyoastConnection'    => $this->myyoast_connection_data_presenter->present(),
 		];
 	}
 

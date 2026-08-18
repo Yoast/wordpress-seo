@@ -8,7 +8,6 @@ use Brain\Monkey;
 use Mockery;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 
@@ -19,7 +18,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
  *
  * @covers \Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::consent
  */
-final class Consent_Test extends Abstract_Consent_Route_Test {
+final class Consent_Test extends Abstract_Test {
 
 	/**
 	 * The consent handler instance.
@@ -27,13 +26,6 @@ final class Consent_Test extends Abstract_Consent_Route_Test {
 	 * @var Mockery\MockInterface|Consent_Handler
 	 */
 	protected $consent_handler;
-
-	/**
-	 * The token manager instance.
-	 *
-	 * @var Mockery\MockInterface|Token_Manager
-	 */
-	protected $token_manager;
 
 	/**
 	 * Tests the consent method.
@@ -68,16 +60,12 @@ final class Consent_Test extends Abstract_Consent_Route_Test {
 
 			$wp_rest_response
 				->expects( '__construct' )
-				->with( 'Consent successfully stored.' )
+				->with( 'Consent successfully given.' )
 				->once();
 		}
 		else {
 			$this->consent_handler
 				->expects( 'revoke_consent' )
-				->once()
-				->with( $user_id );
-			$this->token_manager
-				->expects( 'token_invalidate' )
 				->once()
 				->with( $user_id );
 
@@ -128,7 +116,7 @@ final class Consent_Test extends Abstract_Consent_Route_Test {
 			->andReturn( $consent );
 
 		$wp_rest_response = Mockery::mock( 'overload:' . WP_REST_Response::class );
-		$bad_request      = Mockery::mock( Bad_Request_Exception::class );
+		$bad_request      = new Bad_Request_Exception( 'Bad request', 400 );
 
 		if ( $consent ) {
 			$this->consent_handler
@@ -137,9 +125,11 @@ final class Consent_Test extends Abstract_Consent_Route_Test {
 				->with( $user_id )
 				->andThrow( $bad_request );
 
+			$this->logger->expects( 'error' )->once();
+
 			$wp_rest_response
 				->expects( '__construct' )
-				->with( 'Failed to store consent.', 500 )
+				->with( 'Failed to give consent.', 400 )
 				->once();
 		}
 		else {
@@ -149,9 +139,11 @@ final class Consent_Test extends Abstract_Consent_Route_Test {
 				->with( $user_id )
 				->andThrow( $bad_request );
 
+			$this->logger->expects( 'error' )->once();
+
 			$wp_rest_response
 				->expects( '__construct' )
-				->with( 'Failed to revoke consent.', 500 )
+				->with( 'Failed to revoke consent.', 400 )
 				->once();
 		}
 

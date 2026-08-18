@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 
 /**
  * Tests the AI_Generator_Integration's construct method.
@@ -19,7 +20,7 @@ use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Ai_Generator_Integration::__construct
  */
-final class Constructor_Test extends Abstract_AI_Generator_Integration_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.
@@ -54,6 +55,10 @@ final class Constructor_Test extends Abstract_AI_Generator_Integration_Test {
 		$this->assertInstanceOf(
 			Introductions_Seen_Repository::class,
 			$this->getPropertyValue( $this->instance, 'introductions_seen_repository' ),
+		);
+		$this->assertInstanceOf(
+			Myyoast_Connection_Data_Presenter::class,
+			$this->getPropertyValue( $this->instance, 'myyoast_connection_data_presenter' ),
 		);
 	}
 }

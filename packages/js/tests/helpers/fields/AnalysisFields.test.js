@@ -1,5 +1,5 @@
 import AnalysisFields from "../../../src/helpers/fields/AnalysisFields";
-import { mockWindow, createElement } from "../../test-utils";
+import { mockWindow, createInputElement } from "../../test-utils";
 import { metaKeyFocusKw, metaKeyLinkdex } from "../../../src/shared-admin/constants";
 
 const mockGetEditedPostAttribute = jest.fn();
@@ -52,7 +52,7 @@ describe( "keyphrase", () => {
 		} );
 
 		it( "gets the element for non-posts by default", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 
 			expect( AnalysisFields.keyphraseElement ).toBe( inputElement );
 
@@ -60,7 +60,7 @@ describe( "keyphrase", () => {
 		} );
 
 		it( "gets the element for posts", () => {
-			const inputElement = createElement( id.posts );
+			const inputElement = createInputElement( id.posts );
 			const windowSpy = mockWindow( { wpseoScriptData: { isPost: true } } );
 
 			expect( AnalysisFields.keyphraseElement ).toBe( inputElement );
@@ -70,7 +70,7 @@ describe( "keyphrase", () => {
 		} );
 
 		it( "gets the element for non-posts", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 			const windowSpy = mockWindow( { wpseoScriptData: { isPost: false } } );
 
 			expect( AnalysisFields.keyphraseElement ).toBe( inputElement );
@@ -86,7 +86,7 @@ describe( "keyphrase", () => {
 		} );
 
 		it( "gets the keyphrase", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 			inputElement.value = "foo";
 
 			expect( AnalysisFields.keyphrase ).toBe( "foo" );
@@ -102,7 +102,7 @@ describe( "keyphrase", () => {
 		} );
 
 		it( "sets the keyphrase", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 
 			AnalysisFields.keyphrase = "foo";
 			expect( AnalysisFields.keyphrase ).toBe( "foo" );
@@ -124,7 +124,7 @@ describe( "isCornerstone", () => {
 		} );
 
 		it( "gets the element for non-posts by default", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 
 			expect( AnalysisFields.isCornerstoneElement ).toBe( inputElement );
 
@@ -132,7 +132,7 @@ describe( "isCornerstone", () => {
 		} );
 
 		it( "gets the element for posts", () => {
-			const inputElement = createElement( id.posts );
+			const inputElement = createInputElement( id.posts );
 			const windowSpy = mockWindow( { wpseoScriptData: { isPost: true } } );
 
 			expect( AnalysisFields.isCornerstoneElement ).toBe( inputElement );
@@ -142,7 +142,7 @@ describe( "isCornerstone", () => {
 		} );
 
 		it( "gets the element for non-posts", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 			const windowSpy = mockWindow( { wpseoScriptData: { isPost: false } } );
 
 			expect( AnalysisFields.isCornerstoneElement ).toBe( inputElement );
@@ -158,7 +158,7 @@ describe( "isCornerstone", () => {
 		} );
 
 		it( "gets isCornerstone", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 			inputElement.value = "1";
 
 			expect( AnalysisFields.isCornerstone ).toBe( true );
@@ -187,7 +187,7 @@ describe( "isCornerstone", () => {
 			[ false, "0", null ],
 			[ false, "0", undefined ],
 		] )( "should return %s with the value %s when setting %s", ( expected, expectedValue, input ) => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 
 			AnalysisFields.isCornerstone = input;
 			expect( AnalysisFields.isCornerstone ).toBe( expected );
@@ -210,7 +210,7 @@ describe( "seoScore", () => {
 		} );
 
 		it( "gets the element for non-posts by default", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 
 			expect( AnalysisFields.seoScoreElement ).toBe( inputElement );
 
@@ -218,7 +218,7 @@ describe( "seoScore", () => {
 		} );
 
 		it( "gets the element for posts", () => {
-			const inputElement = createElement( id.posts );
+			const inputElement = createInputElement( id.posts );
 			const windowSpy = mockWindow( { wpseoScriptData: { isPost: true } } );
 
 			expect( AnalysisFields.seoScoreElement ).toBe( inputElement );
@@ -228,7 +228,7 @@ describe( "seoScore", () => {
 		} );
 
 		it( "gets the element for non-posts", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 			const windowSpy = mockWindow( { wpseoScriptData: { isPost: false } } );
 
 			expect( AnalysisFields.seoScoreElement ).toBe( inputElement );
@@ -244,7 +244,7 @@ describe( "seoScore", () => {
 		} );
 
 		it( "gets the seoScore", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 			inputElement.value = "9";
 
 			expect( AnalysisFields.seoScore ).toBe( "9" );
@@ -260,7 +260,7 @@ describe( "seoScore", () => {
 		} );
 
 		it( "sets the seoScore", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 
 			AnalysisFields.seoScore = "9";
 			expect( AnalysisFields.seoScore ).toBe( "9" );
@@ -282,7 +282,7 @@ describe( "readabilityScore", () => {
 		} );
 
 		it( "gets the element for non-posts by default", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 
 			expect( AnalysisFields.readabilityScoreElement ).toBe( inputElement );
 
@@ -290,7 +290,7 @@ describe( "readabilityScore", () => {
 		} );
 
 		it( "gets the element for posts", () => {
-			const inputElement = createElement( id.posts );
+			const inputElement = createInputElement( id.posts );
 			const windowSpy = mockWindow( { wpseoScriptData: { isPost: true } } );
 
 			expect( AnalysisFields.readabilityScoreElement ).toBe( inputElement );
@@ -300,7 +300,7 @@ describe( "readabilityScore", () => {
 		} );
 
 		it( "gets the element for non-posts", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 			const windowSpy = mockWindow( { wpseoScriptData: { isPost: false } } );
 
 			expect( AnalysisFields.readabilityScoreElement ).toBe( inputElement );
@@ -316,7 +316,7 @@ describe( "readabilityScore", () => {
 		} );
 
 		it( "gets the readabilityScore", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 			inputElement.value = "9";
 
 			expect( AnalysisFields.readabilityScore ).toBe( "9" );
@@ -332,7 +332,7 @@ describe( "readabilityScore", () => {
 		} );
 
 		it( "sets the readabilityScore", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 
 			AnalysisFields.readabilityScore = "9";
 			expect( AnalysisFields.readabilityScore ).toBe( "9" );
@@ -354,7 +354,7 @@ describe( "inclusiveLanguageScore", () => {
 		} );
 
 		it( "gets the element for non-posts by default", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 
 			expect( AnalysisFields.inclusiveLanguageScoreElement ).toBe( inputElement );
 
@@ -362,7 +362,7 @@ describe( "inclusiveLanguageScore", () => {
 		} );
 
 		it( "gets the element for posts", () => {
-			const inputElement = createElement( id.posts );
+			const inputElement = createInputElement( id.posts );
 			const windowSpy = mockWindow( { wpseoScriptData: { isPost: true } } );
 
 			expect( AnalysisFields.inclusiveLanguageScoreElement ).toBe( inputElement );
@@ -372,7 +372,7 @@ describe( "inclusiveLanguageScore", () => {
 		} );
 
 		it( "gets the element for non-posts", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 			const windowSpy = mockWindow( { wpseoScriptData: { isPost: false } } );
 
 			expect( AnalysisFields.inclusiveLanguageScoreElement ).toBe( inputElement );
@@ -388,7 +388,7 @@ describe( "inclusiveLanguageScore", () => {
 		} );
 
 		it( "gets the inclusiveLanguageScore", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 			inputElement.value = "9";
 
 			expect( AnalysisFields.inclusiveLanguageScore ).toBe( "9" );
@@ -404,10 +404,88 @@ describe( "inclusiveLanguageScore", () => {
 		} );
 
 		it( "sets the inclusiveLanguageScore", () => {
-			const inputElement = createElement( id.terms );
+			const inputElement = createInputElement( id.terms );
 
 			AnalysisFields.inclusiveLanguageScore = "9";
 			expect( AnalysisFields.inclusiveLanguageScore ).toBe( "9" );
+
+			inputElement.remove();
+		} );
+	} );
+} );
+
+describe( "seoTitleScore", () => {
+	const id = {
+		terms: "hidden_wpseo_seo_title_score",
+		posts: "yoast_wpseo_seo_title_score",
+	};
+
+	describe( "get seoTitleScoreElement", () => {
+		it( "returns null when no element is present", () => {
+			expect( AnalysisFields.seoTitleScoreElement ).toBeNull();
+		} );
+
+		it( "gets the element for posts", () => {
+			const inputElement = createInputElement( id.posts );
+			const windowSpy = mockWindow( { wpseoScriptData: { isPost: true } } );
+
+			expect( AnalysisFields.seoTitleScoreElement ).toBe( inputElement );
+
+			inputElement.remove();
+			windowSpy.mockRestore();
+		} );
+	} );
+
+	describe( "set seoTitleScore", () => {
+		it( "does nothing when no element is present", () => {
+			AnalysisFields.seoTitleScore = "63";
+			expect( AnalysisFields.seoTitleScoreElement ).toBeNull();
+		} );
+
+		it( "sets the seoTitleScore", () => {
+			const inputElement = createInputElement( id.terms );
+
+			AnalysisFields.seoTitleScore = "63";
+			expect( AnalysisFields.seoTitleScore ).toBe( "63" );
+
+			inputElement.remove();
+		} );
+	} );
+} );
+
+describe( "metaDescriptionScore", () => {
+	const id = {
+		terms: "hidden_wpseo_meta_description_score",
+		posts: "yoast_wpseo_meta_description_score",
+	};
+
+	describe( "get metaDescriptionScoreElement", () => {
+		it( "returns null when no element is present", () => {
+			expect( AnalysisFields.metaDescriptionScoreElement ).toBeNull();
+		} );
+
+		it( "gets the element for posts", () => {
+			const inputElement = createInputElement( id.posts );
+			const windowSpy = mockWindow( { wpseoScriptData: { isPost: true } } );
+
+			expect( AnalysisFields.metaDescriptionScoreElement ).toBe( inputElement );
+
+			inputElement.remove();
+			windowSpy.mockRestore();
+		} );
+	} );
+
+	describe( "set metaDescriptionScore", () => {
+		it( "does nothing when no element is present", () => {
+			AnalysisFields.metaDescriptionScore = "85";
+			expect( AnalysisFields.metaDescriptionScoreElement ).toBeNull();
+		} );
+
+		it( "sets the metaDescriptionScore", () => {
+			const inputElement = createInputElement( id.terms );
+
+			AnalysisFields.metaDescriptionScore = "85";
+			expect( AnalysisFields.metaDescriptionScore ).toBe( "85" );
 
 			inputElement.remove();
 		} );

@@ -1,5 +1,5 @@
 import AdvancedFields from "../../../src/helpers/fields/AdvancedFields";
-import { mockWindow, createElement } from "../../test-utils";
+import { mockWindow, createInputElement } from "../../test-utils";
 
 afterEach( () => {
 	document.body.innerHTML = "";
@@ -7,14 +7,14 @@ afterEach( () => {
 
 describe( "noIndexElement", () => {
 	it( "uses the post ID when isPost is true", () => {
-		const el = createElement( "yoast_wpseo_meta-robots-noindex" );
+		const el = createInputElement( "yoast_wpseo_meta-robots-noindex" );
 		const spy = mockWindow( { wpseoScriptData: { isPost: true } } );
 		expect( AdvancedFields.noIndexElement ).toBe( el );
 		spy.mockRestore();
 	} );
 
 	it( "uses the term ID when isPost is false", () => {
-		const el = createElement( "hidden_wpseo_noindex" );
+		const el = createInputElement( "hidden_wpseo_noindex" );
 		const spy = mockWindow( { wpseoScriptData: { isPost: false } } );
 		expect( AdvancedFields.noIndexElement ).toBe( el );
 		spy.mockRestore();
@@ -27,7 +27,7 @@ describe( "noFollowElement", () => {
 	} );
 
 	it( "returns the element when present", () => {
-		const el = createElement( "yoast_wpseo_meta-robots-nofollow" );
+		const el = createInputElement( "yoast_wpseo_meta-robots-nofollow" );
 		expect( AdvancedFields.noFollowElement ).toBe( el );
 	} );
 } );
@@ -38,21 +38,21 @@ describe( "advancedElement", () => {
 	} );
 
 	it( "returns the element when present", () => {
-		const el = createElement( "yoast_wpseo_meta-robots-adv" );
+		const el = createInputElement( "yoast_wpseo_meta-robots-adv" );
 		expect( AdvancedFields.advancedElement ).toBe( el );
 	} );
 } );
 
 describe( "breadcrumbsTitleElement", () => {
 	it( "uses the post ID when isPost is true", () => {
-		const el = createElement( "yoast_wpseo_bctitle" );
+		const el = createInputElement( "yoast_wpseo_bctitle" );
 		const spy = mockWindow( { wpseoScriptData: { isPost: true } } );
 		expect( AdvancedFields.breadcrumbsTitleElement ).toBe( el );
 		spy.mockRestore();
 	} );
 
 	it( "uses the term ID when isPost is false", () => {
-		const el = createElement( "hidden_wpseo_bctitle" );
+		const el = createInputElement( "hidden_wpseo_bctitle" );
 		const spy = mockWindow( { wpseoScriptData: { isPost: false } } );
 		expect( AdvancedFields.breadcrumbsTitleElement ).toBe( el );
 		spy.mockRestore();
@@ -61,14 +61,14 @@ describe( "breadcrumbsTitleElement", () => {
 
 describe( "canonicalElement", () => {
 	it( "uses the post ID when isPost is true", () => {
-		const el = createElement( "yoast_wpseo_canonical" );
+		const el = createInputElement( "yoast_wpseo_canonical" );
 		const spy = mockWindow( { wpseoScriptData: { isPost: true } } );
 		expect( AdvancedFields.canonicalElement ).toBe( el );
 		spy.mockRestore();
 	} );
 
 	it( "uses the term ID when isPost is false", () => {
-		const el = createElement( "hidden_wpseo_canonical" );
+		const el = createInputElement( "hidden_wpseo_canonical" );
 		const spy = mockWindow( { wpseoScriptData: { isPost: false } } );
 		expect( AdvancedFields.canonicalElement ).toBe( el );
 		spy.mockRestore();
@@ -83,7 +83,7 @@ describe( "noIndex", () => {
 	} );
 
 	it( "gets the value from the element", () => {
-		const el = createElement( "yoast_wpseo_meta-robots-noindex", "1" );
+		const el = createInputElement( "yoast_wpseo_meta-robots-noindex", "1" );
 		const spy = mockWindow( { wpseoScriptData: { isPost: true } } );
 		expect( AdvancedFields.noIndex ).toBe( "1" );
 		el.remove();
@@ -91,7 +91,7 @@ describe( "noIndex", () => {
 	} );
 
 	it( "sets the element value", () => {
-		const el = createElement( "yoast_wpseo_meta-robots-noindex" );
+		const el = createInputElement( "yoast_wpseo_meta-robots-noindex" );
 		const spy = mockWindow( { wpseoScriptData: { isPost: true } } );
 		AdvancedFields.noIndex = "2";
 		expect( el.value ).toBe( "2" );
@@ -105,12 +105,12 @@ describe( "noFollow", () => {
 	} );
 
 	it( "gets the value from the element", () => {
-		createElement( "yoast_wpseo_meta-robots-nofollow", "1" );
+		createInputElement( "yoast_wpseo_meta-robots-nofollow", "1" );
 		expect( AdvancedFields.noFollow ).toBe( "1" );
 	} );
 
 	it( "sets the element value", () => {
-		const el = createElement( "yoast_wpseo_meta-robots-nofollow" );
+		const el = createInputElement( "yoast_wpseo_meta-robots-nofollow" );
 		AdvancedFields.noFollow = "1";
 		expect( el.value ).toBe( "1" );
 	} );
@@ -122,12 +122,12 @@ describe( "advanced", () => {
 	} );
 
 	it( "gets the value from the element", () => {
-		createElement( "yoast_wpseo_meta-robots-adv", "noodp" );
+		createInputElement( "yoast_wpseo_meta-robots-adv", "noodp" );
 		expect( AdvancedFields.advanced ).toBe( "noodp" );
 	} );
 
 	it( "sets the element value", () => {
-		const el = createElement( "yoast_wpseo_meta-robots-adv" );
+		const el = createInputElement( "yoast_wpseo_meta-robots-adv" );
 		AdvancedFields.advanced = "noodp,noydir";
 		expect( el.value ).toBe( "noodp,noydir" );
 	} );
@@ -141,7 +141,7 @@ describe( "breadcrumbsTitle", () => {
 	} );
 
 	it( "gets the value from the element", () => {
-		const el = createElement( "yoast_wpseo_bctitle", "My Breadcrumb" );
+		const el = createInputElement( "yoast_wpseo_bctitle", "My Breadcrumb" );
 		const spy = mockWindow( { wpseoScriptData: { isPost: true } } );
 		expect( AdvancedFields.breadcrumbsTitle ).toBe( "My Breadcrumb" );
 		el.remove();
@@ -149,7 +149,7 @@ describe( "breadcrumbsTitle", () => {
 	} );
 
 	it( "sets the element value", () => {
-		const el = createElement( "yoast_wpseo_bctitle" );
+		const el = createInputElement( "yoast_wpseo_bctitle" );
 		const spy = mockWindow( { wpseoScriptData: { isPost: true } } );
 		AdvancedFields.breadcrumbsTitle = "Custom Title";
 		expect( el.value ).toBe( "Custom Title" );
@@ -165,7 +165,7 @@ describe( "canonical", () => {
 	} );
 
 	it( "gets the value from the element", () => {
-		const el = createElement( "yoast_wpseo_canonical", "https://example.com/" );
+		const el = createInputElement( "yoast_wpseo_canonical", "https://example.com/" );
 		const spy = mockWindow( { wpseoScriptData: { isPost: true } } );
 		expect( AdvancedFields.canonical ).toBe( "https://example.com/" );
 		el.remove();
@@ -173,7 +173,7 @@ describe( "canonical", () => {
 	} );
 
 	it( "sets the element value", () => {
-		const el = createElement( "yoast_wpseo_canonical" );
+		const el = createInputElement( "yoast_wpseo_canonical" );
 		const spy = mockWindow( { wpseoScriptData: { isPost: true } } );
 		AdvancedFields.canonical = "https://example.com/page/";
 		expect( el.value ).toBe( "https://example.com/page/" );

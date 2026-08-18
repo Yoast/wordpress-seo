@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Runner;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Title_Adapter::__construct
  */
-final class Constructor_Test extends Abstract_Title_Adapter_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

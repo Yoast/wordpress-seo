@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\AI_Generator_Integration::get_script_data
  */
-final class Get_Script_Data_Test extends Abstract_AI_Generator_Integration_Test {
+final class Get_Script_Data_Test extends Abstract_Test {
 
 	/**
 	 * Tests getting the script data.
@@ -69,6 +69,8 @@ final class Get_Script_Data_Test extends Abstract_AI_Generator_Integration_Test 
 		$generator_endpoint_list->expects( 'merge_with' )->once()->with( $free_sparks_endpoint_list )->andReturnSelf();
 		$generator_endpoint_list->expects( 'to_paths_array' )->once()->andReturn( [] );
 
+		$this->myyoast_connection_data_presenter->expects( 'present' )->once()->andReturnNull();
+
 		$expected = [
 			'hasConsent'           => true,
 			'productSubscriptions' => [
@@ -79,6 +81,7 @@ final class Get_Script_Data_Test extends Abstract_AI_Generator_Integration_Test 
 			'requestTimeout'       => 0,
 			'isFreeSparks'         => true,
 			'endpoints'            => [],
+			'myyoastConnection'    => null,
 		];
 
 		$this->assertSame( $expected, $this->instance->get_script_data() );

@@ -23,10 +23,8 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Get_Outline_Route::get_outline
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Outline_Test extends Abstract_Get_Outline_Route_Test {
+final class Get_Outline_Test extends Abstract_Test {
 
 	/**
 	 * Builds a request mock that returns a complete set of params.

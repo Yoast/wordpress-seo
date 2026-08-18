@@ -1,5 +1,5 @@
 import SchemaFields from "../../../src/helpers/fields/SchemaFields";
-import { mockWindow, createElement } from "../../test-utils";
+import { mockWindow, createInputElement } from "../../test-utils";
 
 afterEach( () => {
 	document.body.innerHTML = "";
@@ -11,7 +11,7 @@ describe( "articleTypeInput", () => {
 	} );
 
 	it( "returns the element when present", () => {
-		const el = createElement( "yoast_wpseo_schema_article_type" );
+		const el = createInputElement( "yoast_wpseo_schema_article_type" );
 		expect( SchemaFields.articleTypeInput ).toBe( el );
 	} );
 } );
@@ -34,7 +34,7 @@ describe( "articleType getter", () => {
 	} );
 
 	it( "returns the element value", () => {
-		createElement( "yoast_wpseo_schema_article_type", "BlogPosting" );
+		createInputElement( "yoast_wpseo_schema_article_type", "BlogPosting" );
 		expect( SchemaFields.articleType ).toBe( "BlogPosting" );
 	} );
 } );
@@ -47,7 +47,7 @@ describe( "articleType setter", () => {
 	} );
 
 	it( "sets the element value", () => {
-		createElement( "yoast_wpseo_schema_article_type" );
+		createInputElement( "yoast_wpseo_schema_article_type" );
 		SchemaFields.articleType = "NewsArticle";
 		expect( SchemaFields.articleType ).toBe( "NewsArticle" );
 	} );
@@ -59,7 +59,7 @@ describe( "pageTypeInput", () => {
 	} );
 
 	it( "returns the element when present", () => {
-		const el = createElement( "yoast_wpseo_schema_page_type" );
+		const el = createInputElement( "yoast_wpseo_schema_page_type" );
 		expect( SchemaFields.pageTypeInput ).toBe( el );
 	} );
 } );
@@ -82,7 +82,7 @@ describe( "pageType getter", () => {
 	} );
 
 	it( "returns the element value", () => {
-		createElement( "yoast_wpseo_schema_page_type", "AboutPage" );
+		createInputElement( "yoast_wpseo_schema_page_type", "AboutPage" );
 		expect( SchemaFields.pageType ).toBe( "AboutPage" );
 	} );
 } );
@@ -95,7 +95,7 @@ describe( "pageType setter", () => {
 	} );
 
 	it( "sets the element value", () => {
-		createElement( "yoast_wpseo_schema_page_type" );
+		createInputElement( "yoast_wpseo_schema_page_type" );
 		SchemaFields.pageType = "CollectionPage";
 		expect( SchemaFields.pageType ).toBe( "CollectionPage" );
 	} );

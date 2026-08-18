@@ -4,6 +4,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\Application\Consent_Handler;
 
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
+use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
@@ -13,7 +15,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  *
  * @covers \Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::__construct
  */
-final class Constructor_Test extends Abstract_Consent_Handler_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.
@@ -24,6 +26,14 @@ final class Constructor_Test extends Abstract_Consent_Handler_Test {
 		$this->assertInstanceOf(
 			User_Helper::class,
 			$this->getPropertyValue( $this->instance, 'user_helper' ),
+		);
+		$this->assertInstanceOf(
+			AI_Request_Sender_Factory::class,
+			$this->getPropertyValue( $this->instance, 'ai_request_sender_factory' ),
+		);
+		$this->assertInstanceOf(
+			Token_Manager::class,
+			$this->getPropertyValue( $this->instance, 'token_manager' ),
 		);
 	}
 }

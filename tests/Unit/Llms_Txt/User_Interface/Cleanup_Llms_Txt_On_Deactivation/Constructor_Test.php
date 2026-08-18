@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Cleanup_Llms_Txt_On_Deactivation::__construct
  */
-final class Constructor_Test extends Abstract_Cleanup_Llms_Txt_On_Deactivation_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

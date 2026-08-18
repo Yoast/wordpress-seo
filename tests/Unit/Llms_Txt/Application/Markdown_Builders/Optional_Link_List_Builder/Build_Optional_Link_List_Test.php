@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
  *
  * @covers  Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Optional_Link_List_Builder::build_optional_link_list
  */
-final class Build_Optional_Link_List_Test extends Abstract_Optional_Link_List_Builder_Test {
+final class Build_Optional_Link_List_Test extends Abstract_Test {
 
 	/**
 	 * Tests the build_optional_link_list method.

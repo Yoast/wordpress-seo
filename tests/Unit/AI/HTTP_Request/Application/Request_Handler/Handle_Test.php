@@ -24,7 +24,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  *
  * @covers Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler::handle
  */
-final class Handle_Test extends Abstract_Request_Handler_Test {
+final class Handle_Test extends Abstract_Test {
 
 	/**
 	 * Tests the handle method with success response code.
@@ -139,13 +139,14 @@ final class Handle_Test extends Abstract_Request_Handler_Test {
 		$request->shouldReceive( 'get_action_path' )->andReturn( '/test' );
 		$request->shouldReceive( 'get_body' )->andReturn( [ 'data' => 'test' ] );
 		$request->shouldReceive( 'get_headers' )->andReturn( [ 'Authorization' => 'Bearer token' ] );
-		$request->shouldReceive( 'is_post' )->andReturn( true );
+		$request->shouldReceive( 'get_http_method' )->andReturn( Request::METHOD_POST );
 
 		$response = Mockery::mock( Response::class );
 		$response->shouldReceive( 'get_response_code' )->andReturn( $response_code );
 		$response->shouldReceive( 'get_message' )->andReturn( $message );
 		$response->shouldReceive( 'get_error_code' )->andReturn( $error_code );
 		$response->shouldReceive( 'get_missing_licenses' )->andReturn( [] );
+		$response->shouldReceive( 'get_headers' )->andReturn( [] );
 
 		$this->api_client->expects( 'perform_request' )
 			->once()
