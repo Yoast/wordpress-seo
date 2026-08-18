@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector;
 
+use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\Lib\ORM;
@@ -69,6 +70,7 @@ final class Get_Posts_Test extends Abstract_Test {
 						'social_title'       => 'Social hello',
 						'social_description' => 'Social description.',
 						'editable'           => true,
+						'images'             => [],
 					],
 				],
 				'total'       => 1,
@@ -115,9 +117,68 @@ final class Get_Posts_Test extends Abstract_Test {
 				'social_title'       => '',
 				'social_description' => '',
 				'editable'           => false,
+				'images'             => [],
 			],
 			$result['posts'][0],
 		);
+	}
+
+	/**
+	 * Tests that the images an add-on supplies for the post are added to it.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_adds_filtered_images() {
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_id       = 7;
+		$indexable->object_sub_type = 'product';
+
+		$query = $this->stub_page_query( [ $indexable ] );
+		$query->allows( 'count' );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_the_title' )->once()->andReturn( 'Hello world' );
+		Functions\expect( 'get_edit_post_link' )->once()->andReturn( 'edit' );
+
+		Filters\expectApplied( 'wpseo_bulk_editor_post_images' )
+			->once()
+			->with( [], 7, 'product' )
+			->andReturn( [ 'thumbnail' => 'https://example.com/product.jpg' ] );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'product', 1, 20, '', self::STATUSES ) )->to_array();
+
+		$this->assertSame( [ 'thumbnail' => 'https://example.com/product.jpg' ], $result['posts'][0]['images'] );
+	}
+
+	/**
+	 * Tests that a non-editable post still gets its images, since they are shown rather than withheld.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_adds_filtered_images_to_non_editable_post() {
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_id       = 7;
+		$indexable->object_sub_type = 'product';
+
+		$query = $this->stub_page_query( [ $indexable ] );
+		$query->allows( 'count' );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => false ] );
+
+		Functions\expect( 'get_the_title' )->once()->andReturn( 'Secret product' );
+		Functions\expect( 'get_edit_post_link' )->never();
+
+		Filters\expectApplied( 'wpseo_bulk_editor_post_images' )
+			->once()
+			->with( [], 7, 'product' )
+			->andReturn( [ 'thumbnail' => 'https://example.com/product.jpg' ] );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'product', 1, 20, '', self::STATUSES ) )->to_array();
+
+		$this->assertSame( [ 'thumbnail' => 'https://example.com/product.jpg' ], $result['posts'][0]['images'] );
+		// The SEO data stays withheld, so the images are the only data a locked post exposes.
+		$this->assertSame( '', $result['posts'][0]['seo_title'] );
 	}
 
 	/**
