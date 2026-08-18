@@ -307,6 +307,18 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 28.4 =
+
+Release date: 2026-09-01
+
+#### Enhancements
+
+* Adds the Yoast bulk editor to the WordPress admin bulk-actions menu, with needs-improvement filtering, smart selection, and AI-powered SEO title and description generation.
+
+#### Bugfixes
+
+* Fixes a bug where the AI generator's tip to write more content was not shown for posts whose content consisted mostly of block markup, because the markup was counted as content.
+
 = 28.3 =
 
 Release date: 2026-08-18
@@ -329,21 +341,6 @@ Yoast SEO 28.3 brings more enhancements and bugfixes. [Find more information abo
 * Adds a first-time guided tour to the bulk editor.
 * Sets the minimum supported WordPress version to 6.9.
 * Sets the _WordPress tested up to_ version to 7.1.
-
-= 28.2 =
-
-Release date: 2026-08-04
-
-Yoast SEO 28.2 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Bugfixes
-
-* Fixes a bug where the overall SEO score was lowered when the focus keyphrase did not consist of function words only. Props to [@faisalahammad](https://github.com/faisalahammad).
-* Fixes a bug where an uncaught fatal error was thrown in the post editor on sites using the OAuth connection to MyYoast, when the `AUTH_KEY` salt in wp-config.php was set to a non-string value.
-
-#### Other
-
-* Prevents Yoast SEO Abilities from being registered when indexables are disabled.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
