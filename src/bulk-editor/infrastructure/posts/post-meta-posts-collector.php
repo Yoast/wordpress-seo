@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
  */
 class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 
+	use Post_Images_Trait;
 	use Post_Title_Trait;
 	use Searchable_Fields_Trait;
 
@@ -114,7 +115,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 
 		$posts_list = new Posts_List();
 		foreach ( $post_ids as $post_id ) {
-			$posts_list->add( $this->build_post( $post_id, ( $editability[ $post_id ] ?? false ), $query->are_scores_enabled() ) );
+			$posts_list->add( $this->build_post( $post_id, ( $editability[ $post_id ] ?? false ), $query->are_scores_enabled(), $query->get_content_type() ) );
 		}
 
 		return new Posts_Page( $posts_list, (int) $wp_query->found_posts, $query->get_page(), $query->get_per_page() );
@@ -214,20 +215,22 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 	 * The SEO data and edit link of a post the current user cannot edit are withheld, so the post is
 	 * shown in the list but stays locked and does not expose its metadata.
 	 *
-	 * @param int  $post_id        The post ID.
-	 * @param bool $editable       Whether the current user may edit the post.
-	 * @param bool $scores_enabled Whether the per-field scores may back the needs-improvement verdict.
+	 * @param int    $post_id        The post ID.
+	 * @param bool   $editable       Whether the current user may edit the post.
+	 * @param bool   $scores_enabled Whether the per-field scores may back the needs-improvement verdict.
+	 * @param string $content_type   The post type of the collected page.
 	 *
 	 * @return Post The post.
 	 */
-	private function build_post( int $post_id, bool $editable, bool $scores_enabled ): Post {
+	private function build_post( int $post_id, bool $editable, bool $scores_enabled, string $content_type ): Post {
 		$post      = \get_post( $post_id );
 		$status    = ( $post !== null ) ? (string) $post->post_status : '';
 		$post_type = ( $post !== null ) ? (string) $post->post_type : '';
 		$title     = $this->get_normalized_title( $post_id );
+		$images    = $this->get_post_images( $post_id, $content_type );
 
 		if ( ! $editable ) {
-			return new Post( $post_id, $title, $status, '', '', '', '', '', '', false );
+			return new Post( $post_id, $title, $status, '', '', '', '', '', '', false, $images );
 		}
 
 		// Read each field's value once from its meta suffix, keyed by field param, so the values can be reused for
@@ -264,6 +267,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			( $raw_meta_description === '' ) ? $fields['meta_description'] : '',
 			( $raw_social_title === '' ) ? $fields['social_title'] : '',
 			( $raw_social_description === '' ) ? $fields['social_description'] : '',
+			$images,
 		);
 	}
 
