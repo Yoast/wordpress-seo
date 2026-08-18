@@ -8,7 +8,7 @@ import { chunk, filter, forEach, get, includes, reduce } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
-import { LINK_PARAMS_NAME } from "../shared-admin/store";
+import { LINK_PARAMS_NAME, REPLACEMENT_VARIABLES_NAME, getReplacementVariablesInitialState } from "../shared-admin/store";
 import App from "./app";
 import { STORE_NAME } from "./constants";
 import { createValidationSchema, handleSubmit } from "./helpers";
@@ -114,6 +114,7 @@ domReady( () => {
 			description: __( "Please see the “New” badges and review the Search appearance settings.", "wordpress-seo" ),
 		} } : {};
 
+	const replacementVariables = get( window, "wpseoScriptData.replacementVariables", {} );
 
 	registerStore( {
 		initialState: {
@@ -122,6 +123,7 @@ domReady( () => {
 			currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
 			llmsTxt: get( window, "wpseoScriptData.llmsTxt", {} ),
 			schemaFramework: get( window, "wpseoScriptData.schemaFrameworkConfiguration", {} ),
+			[ REPLACEMENT_VARIABLES_NAME ]: getReplacementVariablesInitialState( replacementVariables ),
 		},
 	} );
 

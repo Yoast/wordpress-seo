@@ -1,6 +1,6 @@
-import { useSelect } from "@wordpress/data";
-import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
-import { PAGE_SIZE, STORE_NAME } from "../constants";
+import { useDispatch, useSelect } from "@wordpress/data";
+import { useCallback, useEffect, useMemo, useRef, useState } from "@wordpress/element";
+import { NEEDS_IMPROVEMENT_FIELD_PARAMS, PAGE_SIZE, STORE_NAME } from "../constants";
 
 /**
  * Maps a single API row (snake_case) to a {@link BulkEditorItem} (camelCase).
@@ -19,7 +19,12 @@ const formatPost = ( post ) => ( {
 	metaDescription: post.meta_description,
 	socialTitle: post.social_title,
 	socialDescription: post.social_description,
+	seoTitleFallback: post.seo_title_fallback ?? "",
+	metaDescriptionFallback: post.meta_description_fallback ?? "",
+	socialTitleFallback: post.social_title_fallback ?? "",
+	socialDescriptionFallback: post.social_description_fallback ?? "",
 	editable: post.editable,
+	needsImprovement: post.needs_improvement ?? {},
 } );
 
 /**
@@ -63,6 +68,17 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 	const search = useSelect( ( select ) => select( STORE_NAME ).selectSearch(), [] );
 	const page = useSelect( ( select ) => select( STORE_NAME ).selectPage(), [] );
 	const statuses = useSelect( ( select ) => select( STORE_NAME ).selectStatuses(), [] );
+	const needsImprovement = useSelect( ( select ) => select( STORE_NAME ).selectNeedsImprovement(), [] );
+	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
+	const overviewIds = useSelect( ( select ) => select( STORE_NAME ).selectOverviewIds(), [] );
+	const isOverviewFilterActive = useSelect( ( select ) => select( STORE_NAME ).selectIsOverviewFilterActive(), [] );
+	const { pruneSelection } = useDispatch( STORE_NAME );
+
+	// Resolve the tab-agnostic "needs improvement" concepts to the active tab's concrete field params.
+	const needsImprovementFields = useMemo( () => {
+		const fieldParams = NEEDS_IMPROVEMENT_FIELD_PARAMS[ activeFieldSet ] ?? {};
+		return needsImprovement.map( ( concept ) => fieldParams[ concept ] ).filter( Boolean );
+	}, [ needsImprovement, activeFieldSet ] );
 
 	const endpoint = dataProvider.getEndpoint( "posts" );
 
@@ -82,23 +98,36 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 
 		setState( ( previous ) => ( { ...previous, isPending: true } ) );
 
+		const params = {
+			/* eslint-disable camelcase -- The REST endpoint expects snake_case query parameters. */
+			content_type: contentType,
+			per_page: String( PAGE_SIZE ),
+			page: String( page ),
+			search,
+			status: statuses,
+			needs_improvement: needsImprovementFields,
+			/* eslint-enable camelcase */
+		};
+		// The "Overview selection" filter narrows the list to the posts carried over from the WP admin overview.
+		if ( isOverviewFilterActive && overviewIds.length > 0 ) {
+			params.include = overviewIds.map( String );
+		}
+
 		remoteDataProvider
 			.fetchJson(
 				endpoint,
-				{
-					/* eslint-disable camelcase -- The REST endpoint expects snake_case query parameters. */
-					content_type: contentType,
-					per_page: String( PAGE_SIZE ),
-					page: String( page ),
-					search,
-					status: statuses,
-					/* eslint-enable camelcase */
-				},
+				params,
 				{ signal: current.signal }
 			)
 			.then( ( response ) => {
 				if ( controller.current === current ) {
-					setState( formatResponse( response ) );
+					const settled = formatResponse( response );
+					setState( settled );
+					// While the overview filter is active, the response is the authoritative subset of the
+					// carried-over selection (at most one page): prune ids it cannot offer for selection.
+					if ( isOverviewFilterActive && overviewIds.length > 0 ) {
+						pruneSelection( settled.data.filter( ( item ) => item.editable ).map( ( item ) => item.id ) );
+					}
 				}
 			} )
 			.catch( ( error ) => {
@@ -109,7 +138,10 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 			} );
 
 		return () => current.abort();
-	}, [ endpoint, contentType, remoteDataProvider, search, page, statuses ] );
+	}, [
+		endpoint, contentType, remoteDataProvider, search, page, statuses,
+		needsImprovementFields, overviewIds, isOverviewFilterActive, pruneSelection,
+	] );
 
 	return { ...state, updateItem };
 };

@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
  * @group bulk-editor
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector::get_posts
+ * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector::build_needs_improvement
  */
 final class Get_Posts_Test extends Abstract_Test {
 
@@ -32,22 +33,29 @@ final class Get_Posts_Test extends Abstract_Test {
 	 */
 	public function test_get_posts_editable() {
 		$meta = [
-			'_yoast_wpseo_focuskw'               => 'hello',
-			'_yoast_wpseo_title'                 => 'Hello | Site',
-			'_yoast_wpseo_metadesc'              => 'A description.',
-			'_yoast_wpseo_opengraph-title'       => 'Social hello',
-			'_yoast_wpseo_opengraph-description' => 'Social description.',
+			'_yoast_wpseo_focuskw'                => 'hello',
+			'_yoast_wpseo_title'                  => 'Hello | Site',
+			'_yoast_wpseo_metadesc'               => 'A description.',
+			'_yoast_wpseo_opengraph-title'        => 'Social hello',
+			'_yoast_wpseo_opengraph-description'  => 'Social description.',
+			'_yoast_wpseo_seo_title_score'        => '90',
+			'_yoast_wpseo_meta_description_score' => '50',
 		];
 
 		$this->stub_run_query( [ 7 ], 1 );
 
 		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
 
-		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn( (object) [ 'post_status' => 'draft' ] );
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn(
+			(object) [
+				'post_status' => 'draft',
+				'post_type'   => 'post',
+			],
+		);
 		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
 		Functions\expect( 'get_post_meta' )
-			->times( 5 )
+			->times( 7 )
 			->andReturnUsing(
 				static function ( $post_id, $key ) use ( $meta ) {
 					return $meta[ $key ];
@@ -58,16 +66,26 @@ final class Get_Posts_Test extends Abstract_Test {
 			[
 				'posts'       => [
 					[
-						'id'                 => 7,
-						'title'              => 'Hello world',
-						'status'             => 'draft',
-						'edit_link'          => 'post.php?post=7&action=edit',
-						'focus_keyphrase'    => 'hello',
-						'seo_title'          => 'Hello | Site',
-						'meta_description'   => 'A description.',
-						'social_title'       => 'Social hello',
-						'social_description' => 'Social description.',
-						'editable'           => true,
+						'id'                          => 7,
+						'title'                       => 'Hello world',
+						'status'                      => 'draft',
+						'edit_link'                   => 'post.php?post=7&action=edit',
+						'focus_keyphrase'             => 'hello',
+						'seo_title'                   => 'Hello | Site',
+						'meta_description'            => 'A description.',
+						'social_title'                => 'Social hello',
+						'social_description'          => 'Social description.',
+						'seo_title_fallback'          => '',
+						'meta_description_fallback'   => '',
+						'social_title_fallback'       => '',
+						'social_description_fallback' => '',
+						'editable'                    => true,
+						'needs_improvement'           => [
+							'seo_title'          => false,
+							'meta_description'   => true,
+							'social_title'       => false,
+							'social_description' => false,
+						],
 					],
 				],
 				'total'       => 1,
@@ -89,7 +107,12 @@ final class Get_Posts_Test extends Abstract_Test {
 
 		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => false ] );
 
-		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn( (object) [ 'post_status' => 'publish' ] );
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn(
+			(object) [
+				'post_status' => 'publish',
+				'post_type'   => 'post',
+			],
+		);
 		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Secret post' );
 		// A locked post exposes neither its edit link nor its Yoast meta.
 		Functions\expect( 'get_edit_post_link' )->never();
@@ -99,16 +122,26 @@ final class Get_Posts_Test extends Abstract_Test {
 
 		$this->assertSame(
 			[
-				'id'                 => 7,
-				'title'              => 'Secret post',
-				'status'             => 'publish',
-				'edit_link'          => '',
-				'focus_keyphrase'    => '',
-				'seo_title'          => '',
-				'meta_description'   => '',
-				'social_title'       => '',
-				'social_description' => '',
-				'editable'           => false,
+				'id'                          => 7,
+				'title'                       => 'Secret post',
+				'status'                      => 'publish',
+				'edit_link'                   => '',
+				'focus_keyphrase'             => '',
+				'seo_title'                   => '',
+				'meta_description'            => '',
+				'social_title'                => '',
+				'social_description'          => '',
+				'seo_title_fallback'          => '',
+				'meta_description_fallback'   => '',
+				'social_title_fallback'       => '',
+				'social_description_fallback' => '',
+				'editable'                    => false,
+				'needs_improvement'           => [
+					'seo_title'          => false,
+					'meta_description'   => false,
+					'social_title'       => false,
+					'social_description' => false,
+				],
 			],
 			$result['posts'][0],
 		);
@@ -124,15 +157,158 @@ final class Get_Posts_Test extends Abstract_Test {
 
 		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
 
-		Functions\expect( 'get_post' )->once()->andReturn( (object) [ 'post_status' => 'draft' ] );
+		Functions\expect( 'get_post' )->once()->andReturn(
+			(object) [
+				'post_status' => 'draft',
+				'post_type'   => 'post',
+			],
+		);
 		Functions\expect( 'get_the_title' )->once()->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->andReturn( 'edit' );
-		Functions\expect( 'get_post_meta' )->times( 5 )->andReturn( '' );
+		Functions\expect( 'get_post_meta' )->times( 7 )->andReturn( '' );
 
 		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
 
 		$this->assertSame( 42, $result['total'] );
 		$this->assertSame( 3, $result['total_pages'] );
+	}
+
+	/**
+	 * Tests that the SEO title and meta description fall back to the resolved template when the stored
+	 * values are empty, and that the post is not flagged as needing improvement.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_resolves_template_when_stored_values_are_empty() {
+		$meta = [
+			'_yoast_wpseo_focuskw'                => '',
+			'_yoast_wpseo_title'                  => '',
+			'_yoast_wpseo_metadesc'               => '',
+			'_yoast_wpseo_opengraph-title'        => 'Social hello',
+			'_yoast_wpseo_opengraph-description'  => 'Social description.',
+			'_yoast_wpseo_seo_title_score'        => '0',
+			'_yoast_wpseo_meta_description_score' => '0',
+		];
+
+		$this->stub_run_query( [ 7 ], 1 );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn(
+			(object) [
+				'post_status' => 'draft',
+				'post_type'   => 'page',
+			],
+		);
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+		Functions\expect( 'get_post_meta' )
+			->times( 7 )
+			->andReturnUsing(
+				static function ( $post_id, $key ) use ( $meta ) {
+					return $meta[ $key ];
+				},
+			);
+
+		$this->default_template_resolver->expects( 'resolve_seo_title' )
+			->with( 7, 'page', '' )
+			->andReturn( 'Page title from template' );
+		$this->default_template_resolver->expects( 'resolve_meta_description' )
+			->with( 7, 'page', '' )
+			->andReturn( 'Page description from template' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		$this->assertSame( '', $post['seo_title'] );
+		$this->assertSame( '', $post['meta_description'] );
+		$this->assertSame( 'Page title from template', $post['seo_title_fallback'] );
+		$this->assertSame( 'Page description from template', $post['meta_description_fallback'] );
+		$this->assertFalse( $post['needs_improvement']['seo_title'] );
+		$this->assertFalse( $post['needs_improvement']['meta_description'] );
+	}
+
+	/**
+	 * Tests that the social title and social description fall back to the raw template when the
+	 * stored values are empty, and that the post is not flagged as needing improvement.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_resolves_social_template_when_stored_values_are_empty() {
+		$meta = [
+			'_yoast_wpseo_focuskw'                => '',
+			'_yoast_wpseo_title'                  => 'Explicit SEO title',
+			'_yoast_wpseo_metadesc'               => 'Explicit meta description.',
+			'_yoast_wpseo_opengraph-title'        => '',
+			'_yoast_wpseo_opengraph-description'  => '',
+			'_yoast_wpseo_seo_title_score'        => '0',
+			'_yoast_wpseo_meta_description_score' => '0',
+		];
+
+		$this->stub_run_query( [ 7 ], 1 );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn(
+			(object) [
+				'post_status' => 'publish',
+				'post_type'   => 'post',
+			],
+		);
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A post' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+		Functions\expect( 'get_post_meta' )
+			->times( 7 )
+			->andReturnUsing(
+				static function ( $post_id, $key ) use ( $meta ) {
+					return $meta[ $key ];
+				},
+			);
+
+		$this->default_template_resolver->expects( 'resolve_social_title' )
+			->with( 7, 'post', '' )
+			->andReturn( 'Social title from template' );
+		$this->default_template_resolver->expects( 'resolve_social_description' )
+			->with( 7, 'post', '' )
+			->andReturn( 'Social description from template' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		$this->assertSame( '', $post['social_title'] );
+		$this->assertSame( '', $post['social_description'] );
+		$this->assertSame( 'Social title from template', $post['social_title_fallback'] );
+		$this->assertSame( 'Social description from template', $post['social_description_fallback'] );
+		$this->assertFalse( $post['needs_improvement']['social_title'] );
+		$this->assertFalse( $post['needs_improvement']['social_description'] );
+	}
+
+	/**
+	 * Tests that the collector handles a null get_post() return gracefully when the post is editable.
+	 *
+	 * The get_post() function returns null when the post has been deleted between the WP_Query and the per-row fetch.
+	 * In that case post_type falls back to '' and the resolver is called with an empty post type; the
+	 * collector must not crash and must return a post with empty status.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_handles_null_get_post_gracefully() {
+		$this->stub_run_query( [ 7 ], 1 );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturnNull();
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+		Functions\expect( 'get_post_meta' )->times( 7 )->andReturn( '' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		// Status is empty because get_post() returned null.
+		$this->assertSame( '', $post['status'] );
+		$this->assertSame( 7, $post['id'] );
+		$this->assertTrue( $post['editable'] );
 	}
 
 	/**

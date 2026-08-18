@@ -33,6 +33,7 @@ final class Register_Hooks_Test extends Abstract_Test {
 		Actions\expectAdded( 'admin_head' )->once()->with( [ $this->instance, 'remove_menu_item' ] );
 		Actions\expectAdded( 'admin_enqueue_scripts' )->never();
 		Actions\expectAdded( 'in_admin_header' )->never();
+		Filters\expectAdded( 'removable_query_args' )->never();
 
 		$this->instance->register_hooks();
 	}
@@ -53,6 +54,7 @@ final class Register_Hooks_Test extends Abstract_Test {
 		Actions\expectAdded( 'admin_head' )->once()->with( [ $this->instance, 'remove_menu_item' ] );
 		Actions\expectAdded( 'admin_enqueue_scripts' )->once()->with( [ $this->instance, 'enqueue_assets' ] );
 		Actions\expectAdded( 'in_admin_header' )->once()->with( [ $this->instance, 'remove_notices' ], \PHP_INT_MAX );
+		Filters\expectAdded( 'removable_query_args' )->once()->with( [ $this->instance, 'add_removable_query_args' ] );
 
 		$this->instance->register_hooks();
 	}

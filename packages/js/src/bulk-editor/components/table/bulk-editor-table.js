@@ -39,7 +39,7 @@ const TableFooter = ( { columnCount, children } ) => {
  * @typedef {Object} BulkEditorSelection
  * @property {number[]}  [selectedIds]   IDs of the selected items.
  * @property {boolean}   [isAllSelected] Whether the header "select all" checkbox is checked.
- * @property {Function}  [onToggleRow]   Called with an item id when its checkbox is toggled.
+ * @property {Function}  [onToggleRow]   Called with an item id and shift-key state when its checkbox is toggled.
  * @property {Function}  [onToggleAll]   Called when the header "select all" checkbox is toggled.
  */
 /**

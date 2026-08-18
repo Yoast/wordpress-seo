@@ -894,4 +894,45 @@ final class Current_Page_Helper_Test extends TestCase {
 
 		$this->assertEquals( null, $this->instance->get_current_yoast_seo_page() );
 	}
+
+	/**
+	 * Test is_trash_overview function when the overview shows the trash.
+	 *
+	 * @covers ::is_trash_overview
+	 *
+	 * @return void
+	 */
+	public function test_is_trash_overview() {
+		$_REQUEST['post_status'] = 'trash';
+
+		$this->assertTrue( $this->instance->is_trash_overview() );
+
+		unset( $_REQUEST['post_status'] );
+	}
+
+	/**
+	 * Test is_trash_overview function when the overview shows another status.
+	 *
+	 * @covers ::is_trash_overview
+	 *
+	 * @return void
+	 */
+	public function test_is_trash_overview_other_status() {
+		$_REQUEST['post_status'] = 'draft';
+
+		$this->assertFalse( $this->instance->is_trash_overview() );
+
+		unset( $_REQUEST['post_status'] );
+	}
+
+	/**
+	 * Test is_trash_overview function when no status is requested.
+	 *
+	 * @covers ::is_trash_overview
+	 *
+	 * @return void
+	 */
+	public function test_is_trash_overview_without_status() {
+		$this->assertFalse( $this->instance->is_trash_overview() );
+	}
 }
