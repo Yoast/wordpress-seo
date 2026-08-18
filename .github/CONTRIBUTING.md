@@ -24,6 +24,7 @@ This file is the canonical contributor guide for this repository. It is written 
   - [Code style](#code-style)
   - [Opening a pull request](#opening-a-pull-request)
     - [Before you push or open/update a PR](#before-you-push-or-openupdate-a-pr)
+    - [How many pull requests to have open at once](#how-many-pull-requests-to-have-open-at-once)
   - [Changelog entry and label](#changelog-entry-and-label)
   - [Issues labelled _patch welcome_](#issues-labelled-_patch-welcome_)
   - [Submitting an issue you have found](#submitting-an-issue-you-have-found)
@@ -218,6 +219,12 @@ Run these checks locally and make sure each one is clean. CI will run the same c
 **Coverage:** every PR should *increase* test coverage, or at minimum keep it flat. In practice this means the code you add should come with tests that exercise it. CI reports the coverage delta on the PR — if coverage drops, explain in the PR description why it was not possible to add tests for the new code (for example: pure wiring code that can only be exercised through a full WordPress boot, or a third-party API call that is impractical to mock).
 
 If a check fails or you need to skip one (e.g. you can't run Docker locally for `test-wp-env`), say so explicitly in the PR description so reviewers know what still needs validating.
+
+#### How many pull requests to have open at once
+
+To keep our workflow sustainable, we ask contributors to maintain a limit of no more than **5 open pull requests** in this repository at any given time. If you have reached that limit, please wait until some of them are merged or closed before opening another one.
+
+Reviewing takes time, and a large batch of open PRs from a single contributor slows down the queue for everyone. Fewer, well-prepared PRs get reviewed and merged faster than many at once.
 
 ### Changelog entry and label
 
