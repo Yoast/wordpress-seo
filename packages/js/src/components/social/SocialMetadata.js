@@ -32,7 +32,7 @@ const SocialMetadata = ( { useOpenGraphData, useTwitterData } ) => {
 					/* translators: Social media appearance refers to a preview of how a page will be represented on social media. */
 					title={ __( "Social media appearance", "wordpress-seo" ) }
 					initialIsOpen={ true }
-					headerHelpLink={ <SocialPreviewsHelpLink /> }
+					HeaderHelpLink={ SocialPreviewsHelpLink }
 				>
 					<StyledDescriptionTop>{
 						__( "Determine how your post should look on social media like Facebook, X, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",

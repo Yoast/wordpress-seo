@@ -47,7 +47,6 @@ export {
 	StyledIconsButton,
 	StyledContainer,
 	StyledContainerTopLevel,
-	StyledHeaderRow,
 	wrapInHeading,
 } from "./Collapsible";
 
