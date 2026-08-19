@@ -1,4 +1,5 @@
-import { CheckCircleIcon } from "@heroicons/react/solid";
+/* eslint-disable complexity */
+import CheckCircleIcon from "@heroicons/react/solid/CheckCircleIcon";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
@@ -29,11 +30,11 @@ const Radio = forwardRef( ( {
 	name,
 	value,
 	label,
-	screenReaderLabel,
-	variant,
-	disabled,
-	className,
-	isLabelDangerousHtml,
+	screenReaderLabel = "",
+	variant = "default",
+	disabled = false,
+	className = "",
+	isLabelDangerousHtml = false,
 	...props
 }, ref ) => {
 	const svgAriaProps = useSvgAria();
@@ -110,13 +111,6 @@ Radio.propTypes = {
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
-};
-Radio.defaultProps = {
-	screenReaderLabel: "",
-	variant: "default",
-	disabled: false,
-	className: "",
-	isLabelDangerousHtml: false,
 };
 
 export default Radio;

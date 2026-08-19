@@ -1,5 +1,6 @@
 /* eslint-disable complexity */
-import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/solid";
+import CheckCircleIcon from "@heroicons/react/solid/CheckCircleIcon";
+import ExclamationCircleIcon from "@heroicons/react/solid/ExclamationCircleIcon";
 import { useMemo } from "@wordpress/element";
 import classNames from "classnames";
 import { PropTypes } from "prop-types";

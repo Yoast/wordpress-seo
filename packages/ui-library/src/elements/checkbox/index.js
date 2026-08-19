@@ -51,10 +51,5 @@ Checkbox.propTypes = {
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 };
-Checkbox.defaultProps = {
-	className: "",
-	disabled: false,
-	label: "",
-};
 
 export default Checkbox;

@@ -1,0 +1,142 @@
+import { createBlock } from "@wordpress/blocks";
+import { useSelect, useDispatch } from "@wordpress/data";
+import { addFilter } from "@wordpress/hooks";
+import domReady from "@wordpress/dom-ready";
+import { useEffect, useRef } from "@wordpress/element";
+import { registerPlugin } from "@wordpress/plugins";
+import { get, isObject, noop } from "lodash";
+import { ErrorBoundary } from "@yoast/ui-library";
+import { App } from "./components/app";
+import "./blocks/content-suggestion-block";
+import { CONTENT_PLANNER_STORE } from "./constants";
+import { getIsBannerDismissedFromInput, getIsBannerRenderedFromInput } from "./helpers/fields";
+import { useYoastMetaSync } from "./hooks";
+import { registerStore } from "./store";
+import { AVAILABILITY_NAME } from "./store/availability";
+import { BANNER_NAME } from "./store/banner";
+import { CONTENT_OUTLINE_NAME } from "./store/content-outline";
+import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
+import { withInlineBanner } from "./components/with-inline-banner";
+import { STORE_NAME_AI } from "../ai-generator/constants";
+
+/**
+ * Ensures a fresh post has at least one block in the canvas, so the
+ * `editor.BlockListBlock` filter has something to attach the banner to.
+ *
+ * Without this, a brand-new post shows only Gutenberg's empty-canvas appender
+ * (which is not a real block), so the filter never fires and the banner only
+ * appears once the user starts typing.
+ *
+ * @param {Array}    blocks           The current list of blocks in the editor.
+ * @param {Function} insertBlock      The block editor insertBlock dispatch function.
+ * @param {boolean}  isBannerRendered Whether the banner is rendered already in the post.
+ * @returns {boolean} Whether the banner insertion is complete.
+ */
+export function insertFirstParagraph( blocks, insertBlock, isBannerRendered ) {
+	if ( isBannerRendered ) {
+		return true;
+	}
+
+	// If canvas is empty, insert a paragraph first; the effect will re-run.
+	if ( blocks.length === 0 ) {
+		// eslint-disable-next-line no-undefined
+		insertBlock( createBlock( "core/paragraph" ), 0, undefined, false );
+		return false;
+	}
+
+	const firstParagraphIndex = blocks.findIndex( b => b.name === "core/paragraph" );
+	return firstParagraphIndex !== -1;
+}
+
+/**
+ * Editor plugin that renders the shared FeatureModal controlled by the content
+ * planner store, syncs Yoast meta fields on undo, and auto-inserts the inline
+ * banner on new posts of the "post" type.
+ *
+ * @returns {JSX.Element|null} The editor plugin component.
+ */
+export const ContentPlannerEditorPlugin = () => {
+	const hasInserted = useRef( false );
+
+	const { isNewPost, postType, blocks, minPostsMet, isBannerRendered, hasBlockTemplate } = useSelect( select => {
+		const coreEditor = select( "core/editor" );
+		const currentPostType = coreEditor.getCurrentPostType();
+		const postTypeObject = select( "core" ).getPostType( currentPostType );
+		return {
+			isNewPost: coreEditor.isEditedPostNew(),
+			postType: currentPostType,
+			blocks: select( "core/block-editor" ).getBlocks(),
+			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
+			isBannerRendered: select( CONTENT_PLANNER_STORE ).selectIsBannerRendered(),
+			hasBlockTemplate: Array.isArray( postTypeObject?.template ) && postTypeObject.template.length > 0,
+		};
+	}, [] );
+	const hasAiStore = useSelect( select => isObject( select( STORE_NAME_AI ) ), [] );
+	const hasConsent = useSelect( select => select( STORE_NAME_AI )?.selectHasAiGeneratorConsent() ?? false );
+
+	const { insertBlock } = useDispatch( "core/block-editor" );
+
+	useYoastMetaSync();
+
+	useEffect( () => {
+		if ( hasInserted.current || ! isNewPost || postType !== "post" || ! minPostsMet || hasBlockTemplate ) {
+			return;
+		}
+
+		hasInserted.current = insertFirstParagraph( blocks, insertBlock, isBannerRendered );
+	}, [ blocks, isNewPost, postType, insertBlock, minPostsMet, hasBlockTemplate ] );
+
+	if ( ! hasAiStore ) {
+		return null;
+	}
+	return <ErrorBoundary FallbackComponent={ noop }><App hasConsent={ hasConsent } /></ErrorBoundary>;
+};
+
+/**
+ * Registers the editor.BlockListBlock filter that renders the inline banner.
+ *
+ * Deferred behind a function so the filter is only added when the Content
+ * Planner feature initializes, not at module import time.
+ *
+ * @returns {void}
+ */
+export function registerInlineBanner() {
+	addFilter( "editor.BlockListBlock", "yoast/content-planner-banner", withInlineBanner );
+}
+
+/**
+ * Initializes the Content Planner feature.
+ *
+ * Registers the editor plugin (modals), the inline-banner filter, the legacy
+ * banner block (kept for parsing posts saved during RC2 that contain the block
+ * comment), and the content planner store.
+ *
+ * @returns {void}
+ */
+export default function initContentPlanner() {
+	// The banner slice's initial state must come from the hidden inputs that the metabox renders into the DOM.
+	// Those inputs only exist after the document is ready, so the store registration is deferred until then.
+	domReady( () => {
+		registerStore( {
+			[ CONTENT_SUGGESTIONS_NAME ]: {
+				endpoint: get( window, "wpseoContentPlanner.endpoints.getSuggestions", "" ),
+			},
+			[ CONTENT_OUTLINE_NAME ]: {
+				endpoint: get( window, "wpseoContentPlanner.endpoints.getOutline", "" ),
+			},
+			[ AVAILABILITY_NAME ]: {
+				minPostsMet: get( window, "wpseoContentPlanner.minPostsMet", false ),
+			},
+			[ BANNER_NAME ]: {
+				isBannerDismissed: getIsBannerDismissedFromInput(),
+				isBannerRendered: getIsBannerRenderedFromInput(),
+				isBannerPermanentlyDismissed: get( window, "wpseoContentPlanner.isBannerPermanentlyDismissed", false ),
+				bannerPermanentDismissalEndpoint: get( window, "wpseoContentPlanner.endpoints.bannerPermanentDismissal", "" ),
+			},
+		} );
+		// Register the inline banner filter after the store is registered,
+		// so the banner component can read from the store to determine whether it should render.
+		registerInlineBanner();
+	} );
+	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
+}

@@ -10,7 +10,7 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import SnippetEditor from "../../containers/SnippetEditor";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
+import { TopicInputs, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
 import InsightsCollapsible from "../../insights/components/insights-collapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
@@ -24,6 +24,8 @@ import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
+import ContentPlannerEditorItem from "../../ai-content-planner/containers/content-planner-editor-item";
+import { EditorIntro, EditorIntroText } from "../EditorIntro";
 
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 
@@ -36,10 +38,10 @@ const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( B
  * @returns {wp.Element} The Metabox component.
  */
 export default function MetaboxFill( { settings } ) {
-	const { isTerm } = useSelect( ( select ) => ( {
+	const { isTerm, isPost, isAiFeatureActive } = useSelect( ( select ) => ( {
 		isTerm: select( "yoast-seo/editor" ).getIsTerm(),
-		isProduct: select( "yoast-seo/editor" ).getIsProduct(),
-		isWooCommerceActive: select( "yoast-seo/editor" ).getIsWooCommerceActive(),
+		isPost: select( "yoast-seo/editor" ).getPostType() === "post",
+		isAiFeatureActive: select( "yoast-seo/editor" ).getPreference( "isAiFeatureActive" ),
 	} ), [] );
 
 	const isBlockEditorActive = isBlockEditor();
@@ -53,18 +55,24 @@ export default function MetaboxFill( { settings } ) {
 			<Fill name="YoastMetabox">
 				<SidebarItem
 					key="warning"
-					renderPriority={ 1 }
+					renderPriority={ 0 }
 				>
 					<Warning />
 				</SidebarItem>
 				<SidebarItem
-					key="time-constrained-notification"
-					renderPriority={ 2 }
+					key="editor-intro"
+					renderPriority={ 1 }
 				>
-					<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } />
+					<EditorIntro>
+						<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } />
+						<EditorIntroText
+							withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }
+						/>
+						{ isPost && isBlockEditorActive && isAiFeatureActive && <ContentPlannerEditorItem location="metabox" /> }
+					</EditorIntro>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
-					<KeywordInput
+					<TopicInputs
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 					{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">

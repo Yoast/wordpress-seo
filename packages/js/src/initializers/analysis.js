@@ -3,6 +3,7 @@ import { applyFilters, doAction } from "@wordpress/hooks";
 import { debounce, isEqual } from "lodash";
 import { Paper } from "yoastseo";
 import { refreshDelay } from "../analysis/constants";
+import { saveFieldScores } from "../analysis/deriveFieldScores";
 import handleWorkerError from "../analysis/handleWorkerError";
 import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
@@ -38,6 +39,7 @@ async function runAnalysis( worker, data ) {
 
 			dispatch( "yoast-seo/editor" ).setSeoResultsForKeyword( paper.getKeyword(), seoResults.results );
 			dispatch( "yoast-seo/editor" ).setOverallSeoScore( seoResults.score, paper.getKeyword() );
+			saveFieldScores( seoResults.results );
 		}
 
 		if ( readability ) {
@@ -101,6 +103,9 @@ export function collectData() {
 		...data,
 		textTitle: getEditorDataTitle(),
 		isFrontPage: getIsFrontPage(),
+		shortcodes: Array.isArray( window.wpseoScriptData.analysis.plugins.shortcodes?.wpseo_shortcode_tags )
+			? window.wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags
+			: [],
 	};
 
 	const analysisData = applyAnalysisModifications( data );

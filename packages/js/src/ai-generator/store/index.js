@@ -7,6 +7,11 @@ import {
 	hasAiGeneratorConsentControls,
 	hasAiGeneratorConsentReducer,
 	hasAiGeneratorConsentSelectors,
+	getInitialMyyoastConnectionState,
+	MYYOAST_CONNECTION_NAME,
+	myyoastConnectionActions,
+	myyoastConnectionReducer,
+	myyoastConnectionSelectors,
 } from "../../shared-admin/store";
 import { STORE_NAME_AI } from "../constants";
 import {
@@ -39,6 +44,13 @@ import {
 	usageCountSelectors,
 } from "./usage-count";
 import {
+	ENDPOINTS_NAME,
+	endpointsActions,
+	endpointsReducer,
+	endpointsSelectors,
+	getInitialEndpointsState,
+} from "./endpoints";
+import {
 	FREE_SPARKS_NAME,
 	getInitialFreeSparks,
 	freeSparksActions,
@@ -62,6 +74,8 @@ const createStore = ( initialState ) => {
 			...promptContentActions,
 			...usageCountActions,
 			...freeSparksActions,
+			...endpointsActions,
+			...myyoastConnectionActions,
 		},
 		selectors: {
 			...hasAiGeneratorConsentSelectors,
@@ -70,6 +84,8 @@ const createStore = ( initialState ) => {
 			...promptContentSelectors,
 			...usageCountSelectors,
 			...freeSparksSelectors,
+			...endpointsSelectors,
+			...myyoastConnectionSelectors,
 		},
 		initialState: merge(
 			{},
@@ -80,6 +96,8 @@ const createStore = ( initialState ) => {
 				[ PROMPT_CONTENT_NAME ]: getInitialPromptContentState(),
 				[ USAGE_COUNT_NAME ]: getInitialUsageCount(),
 				[ FREE_SPARKS_NAME ]: getInitialFreeSparks(),
+				[ ENDPOINTS_NAME ]: getInitialEndpointsState(),
+				[ MYYOAST_CONNECTION_NAME ]: getInitialMyyoastConnectionState(),
 			},
 			initialState
 		),
@@ -90,6 +108,8 @@ const createStore = ( initialState ) => {
 			[ PROMPT_CONTENT_NAME ]: promptContentReducer,
 			[ USAGE_COUNT_NAME ]: usageCountReducer,
 			[ FREE_SPARKS_NAME ]: freeSparksReducer,
+			[ ENDPOINTS_NAME ]: endpointsReducer,
+			[ MYYOAST_CONNECTION_NAME ]: myyoastConnectionReducer,
 		} ),
 		controls: {
 			...hasAiGeneratorConsentControls,

@@ -28,10 +28,10 @@ const classNameMap = {
  */
 const Badge = forwardRef( ( {
 	children,
-	as: Component,
-	variant,
-	size,
-	className,
+	as: Component = "span",
+	variant = "info",
+	size = "default",
+	className = "",
 	...props
 }, ref ) => (
 	<Component
@@ -58,11 +58,5 @@ const propTypes = {
 
 Badge.displayName = "Badge";
 Badge.propTypes = propTypes;
-Badge.defaultProps = {
-	as: "span",
-	variant: "info",
-	size: "default",
-	className: "",
-};
 
 export default Badge;

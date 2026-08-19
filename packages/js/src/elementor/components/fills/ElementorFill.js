@@ -11,7 +11,7 @@ import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
 import { useFirstEligibleNotification } from "../../../hooks/use-first-eligible-notification";
 import InsightsModal from "../../../insights/components/insights-modal";
 import Alert from "../../containers/Alert";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
+import { TopicInputs, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
 import SearchAppearanceModal from "../../../components/modals/editorModals/SearchAppearanceModal";
 import SocialAppearanceModal from "../../../components/modals/editorModals/SocialAppearanceModal";
@@ -21,6 +21,7 @@ import AdvancedSettings from "../../../containers/AdvancedSettings";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanceModal";
 import KeywordUpsell from "../../../components/modals/KeywordUpsell";
+import { EditorIntro, EditorIntroText } from "../../../components/EditorIntro";
 
 /* eslint-disable complexity */
 /**
@@ -51,16 +52,20 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	return (
 		<>
 			<Fill name="YoastElementor">
+				<SidebarItem
+					key="editor-intro"
+					renderPriority={ 0 }
+				>
+					<EditorIntro>
+						{ FirstEligibleNotification && <FirstEligibleNotification /> }
+						<EditorIntroText withPromptForContentSuggestions={ false } />
+					</EditorIntro>
+				</SidebarItem>
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
-					{ FirstEligibleNotification && (
-						<div className="yst-inline-block yst-px-1.5">
-							<FirstEligibleNotification />
-						</div>
-					) }
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
-					<KeywordInput
+					<TopicInputs
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 					{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">

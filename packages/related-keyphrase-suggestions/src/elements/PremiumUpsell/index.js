@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
-import { LockOpenIcon } from "@heroicons/react/outline";
+import LockOpenIcon from "@heroicons/react/outline/LockOpenIcon";
 
 /**
  * The premium upsell component.

@@ -87,7 +87,7 @@ final class Get_Test extends TestCase {
 		$indexable_repository           = new Indexable_Repository( $pure_indexable_repository );
 		$wordpress_query_repository     = new WordPress_Query_Repository( \YoastSEO()->classes->get( Indexable_Builder::class ), $pure_indexable_repository );
 		$indexable_repository_factory   = new Indexable_Repository_Factory( $indexable_repository, $wordpress_query_repository );
-		$wordpress_global_state_adapter = new WordPress_Global_State_Adapter();
+		$wordpress_global_state_adapter = new WordPress_Global_State_Adapter( $meta_tags_context_memoizer );
 		$edd_schema_piece_repository    = new Edd_Schema_Piece_Repository( new EDD_Conditional(), \YoastSEO()->classes->get( Meta_Surface::class ) );
 		$woo_schema_piece_repository    = new Woo_Schema_Piece_Repository( new WooCommerce_Conditional() );
 

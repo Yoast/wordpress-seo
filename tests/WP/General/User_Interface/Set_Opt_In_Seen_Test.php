@@ -53,7 +53,7 @@ final class Set_Opt_In_Seen_Test extends TestCase {
 		\wp_set_current_user( $user->ID );
 
 		$request = new WP_REST_Request( 'POST', '/yoast/v1/seen-opt-in-notification' );
-		$request->set_param( 'key', 'task_list' );
+		$request->set_param( 'key', 'bulk_editor_tour' );
 
 		$response = \rest_get_server()->dispatch( $request );
 
@@ -65,7 +65,7 @@ final class Set_Opt_In_Seen_Test extends TestCase {
 		$this->assertTrue( $response_data->success );
 		$this->assertSame( 200, $response_data->status );
 
-		$meta_value = \get_user_meta( $user->ID, '_yoast_wpseo_task_list_opt_in_notification_seen', true );
+		$meta_value = \get_user_meta( $user->ID, '_yoast_wpseo_bulk_editor_tour_opt_in_notification_seen', true );
 
 		$this->assertSame( $meta_value, '1' );
 	}
@@ -103,7 +103,7 @@ final class Set_Opt_In_Seen_Test extends TestCase {
 		\wp_set_current_user( $user->ID );
 
 		$request = new WP_REST_Request( 'POST', '/yoast/v1/seen-opt-in-notification' );
-		$request->set_param( 'key', 'task_list' );
+		$request->set_param( 'key', 'bulk_editor_tour' );
 
 		$response = \rest_get_server()->dispatch( $request );
 
@@ -124,7 +124,7 @@ final class Set_Opt_In_Seen_Test extends TestCase {
 		\wp_set_current_user( 0 );
 
 		$request = new WP_REST_Request( 'POST', '/yoast/v1/seen-opt-in-notification' );
-		$request->set_param( 'key', 'task_list' );
+		$request->set_param( 'key', 'bulk_editor_tour' );
 
 		$response = \rest_get_server()->dispatch( $request );
 
@@ -157,6 +157,30 @@ final class Set_Opt_In_Seen_Test extends TestCase {
 
 		$this->assertSame( 400, $response->status );
 		$this->assertSame( $response_data['code'], 'rest_invalid_param' );
+	}
+
+	/**
+	 * Tests that calling the endpoint twice returns 200 both times (idempotent).
+	 *
+	 * @return void
+	 */
+	public function test_set_opt_in_seen_is_idempotent() {
+		$user = $this->factory->user->create_and_get( [ 'role' => 'administrator' ] );
+		$user->add_cap( 'wpseo_manage_options' );
+		\wp_set_current_user( $user->ID );
+
+		$request = new WP_REST_Request( 'POST', '/yoast/v1/seen-opt-in-notification' );
+		$request->set_param( 'key', 'bulk_editor_tour' );
+
+		// First call: sets the meta.
+		$response = \rest_get_server()->dispatch( $request );
+		$this->assertSame( 200, $response->status );
+		$this->assertTrue( $response->get_data()->success );
+
+		// Second call: meta already set, should still return 200.
+		$response = \rest_get_server()->dispatch( $request );
+		$this->assertSame( 200, $response->status );
+		$this->assertTrue( $response->get_data()->success );
 	}
 
 	/**

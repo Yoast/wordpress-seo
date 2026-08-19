@@ -4,11 +4,12 @@ import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
+import { useSelect } from "@wordpress/data";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
+import { TopicInputs, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
 import { useFirstEligibleNotification } from "../../hooks/use-first-eligible-notification";
 import InsightsModal from "../../insights/components/insights-modal";
 import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
@@ -22,6 +23,8 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import KeywordUpsell from "../modals/KeywordUpsell";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
+import ContentPlannerEditorItem from "../../ai-content-planner/containers/content-planner-editor-item";
+import { EditorIntro, EditorIntroText } from "../EditorIntro";
 
 /* eslint-disable complexity */
 /**
@@ -38,6 +41,10 @@ import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
 export default function SidebarFill( { settings } ) {
 	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
 	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
+	const { isAiFeatureActive, isPost } = useSelect( ( select ) => ( {
+		isAiFeatureActive: select( "yoast-seo/editor" ).getPreference( "isAiFeatureActive" ),
+		isPost: select( "yoast-seo/editor" ).getPostType() === "post",
+	} ), [] );
 
 	const isBlockEditorActive = isBlockEditor();
 	if ( isBlockEditorActive ) {
@@ -47,14 +54,23 @@ export default function SidebarFill( { settings } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
-				<SidebarItem key="warning" renderPriority={ 1 }>
+				<SidebarItem key="warning" renderPriority={ 0 }>
 					<Warning />
-					<div style={ { margin: "0 16px" } }>
+				</SidebarItem>
+				<SidebarItem
+					key="editor-intro"
+					renderPriority={ 1 }
+				>
+					<EditorIntro>
 						{ FirstEligibleNotification && <FirstEligibleNotification /> }
-					</div>
+						<EditorIntroText
+							withPromptForContentSuggestions={ isAiFeatureActive && isPost }
+						/>
+						{ isPost && isAiFeatureActive && <ContentPlannerEditorItem location="sidebar" /> }
+					</EditorIntro>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
-					<KeywordInput
+					<TopicInputs
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 				</SidebarItem> }

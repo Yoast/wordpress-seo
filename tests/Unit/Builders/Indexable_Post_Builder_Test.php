@@ -343,7 +343,7 @@ final class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE ) ) );
 
 		// We expect the twitter image and its source to be set.
 		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
@@ -411,23 +411,28 @@ final class Indexable_Post_Builder_Test extends TestCase {
 			'primary_focus_keyword_score'    => null,
 			'readability_score'              => '50',
 			'inclusive_language_score'       => '42',
+			// Missing score meta falls back to the '0' default: the "never scored" sentinel.
+			'seo_title_score'                => '0',
+			'meta_description_score'         => '0',
 			'schema_page_type'               => 'FAQPage',
 			'schema_article_type'            => 'NewsArticle',
 			'estimated_reading_time_minutes' => '11',
 		];
 
 		$extra_postmeta                      = [
-			'_yoast_wpseo_focuskw'               => [ 'focuskeyword' ],
-			'_yoast_wpseo_meta-robots-noindex'   => [ '1' ],
-			'_yoast_wpseo_meta-robots-adv'       => [ '' ],
-			'_yoast_wpseo_canonical'             => [ 'https://canonical' ],
-			'_yoast_wpseo_meta-robots-nofollow'  => [ '1' ],
-			'_yoast_wpseo_title'                 => [ 'title' ],
-			'_yoast_wpseo_metadesc'              => [ 'description' ],
-			'_yoast_wpseo_opengraph-title'       => [ 'open_graph_title' ],
-			'_yoast_wpseo_opengraph-description' => [ 'open_graph_description' ],
-			'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
-			'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
+			'_yoast_wpseo_focuskw'                => [ 'focuskeyword' ],
+			'_yoast_wpseo_meta-robots-noindex'    => [ '1' ],
+			'_yoast_wpseo_meta-robots-adv'        => [ '' ],
+			'_yoast_wpseo_canonical'              => [ 'https://canonical' ],
+			'_yoast_wpseo_meta-robots-nofollow'   => [ '1' ],
+			'_yoast_wpseo_title'                  => [ 'title' ],
+			'_yoast_wpseo_metadesc'               => [ 'description' ],
+			'_yoast_wpseo_opengraph-title'        => [ 'open_graph_title' ],
+			'_yoast_wpseo_opengraph-description'  => [ 'open_graph_description' ],
+			'_yoast_wpseo_twitter-title'          => [ 'twitter_title' ],
+			'_yoast_wpseo_twitter-description'    => [ 'twitter_description' ],
+			'_yoast_wpseo_seo_title_score'        => [ '63' ],
+			'_yoast_wpseo_meta_description_score' => [ '85' ],
 		];
 		$full_postmeta_set                   = \array_merge( $postmeta_set_with_missing_data, $extra_postmeta );
 		$indexable_values_for_extra_postmeta = [
@@ -445,6 +450,8 @@ final class Indexable_Post_Builder_Test extends TestCase {
 			'is_robots_nosnippet'         => null,
 			'primary_focus_keyword'       => 'focuskeyword',
 			'primary_focus_keyword_score' => '100',
+			'seo_title_score'             => '63',
+			'meta_description_score'      => '85',
 		];
 		$indexable_with_full_postmeta_set    = \array_merge( $indexable_with_default_values_for_missing_postmeta, $indexable_values_for_extra_postmeta );
 

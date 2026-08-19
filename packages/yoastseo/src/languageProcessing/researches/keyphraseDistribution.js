@@ -326,23 +326,14 @@ const mergeListItemSentences = ( sentences ) => {
 };
 
 /**
- * Determines which portions of the text did not receive a lot of content words from keyphrase and synonyms.
+ * Retrieves the sentences from the paper.
  *
- * @param {Paper}       paper		The paper to check the keyphrase distribution for.
- * @param {Researcher}  researcher	The researcher to use for analysis.
- *
- * @returns {KeyphraseDistributionResult} The scores of topic relevance per portion of text and an array of all word forms to highlight.
+ * @param {Paper}    paper                   The paper to retrieve the sentences from.
+ * @param {Function} customSentenceTokenizer Language-specific sentence tokenizer.
+ * @param {Function} matchWordCustomHelper   Language-specific helper to match words.
+ * @returns {(Sentence|string)[]} An array of found sentences.
  */
-const keyphraseDistributionResearcher = function( paper, researcher ) {
-	const functionWords = researcher.getConfig( "functionWords" );
-	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
-	const getContentWordsHelper = researcher.getHelper( "getContentWords" );
-	const wordsCharacterCount = researcher.getHelper( "wordsCharacterCount" );
-	const customSplitIntoTokensHelper = researcher.getHelper( "splitIntoTokensCustom" );
-	const customSentenceTokenizer = researcher.getHelper( "memoizedTokenizer" );
-
-	// Custom topic length criteria for languages that don't use the default value to determine whether a topic is long or short.
-	const topicLengthCriteria = researcher.getConfig( "topicLength" ).lengthCriteria;
+const retrieveSentences = ( paper, customSentenceTokenizer, matchWordCustomHelper ) => {
 	let sentences = [];
 	if ( matchWordCustomHelper ) {
 		// This is currently only applicable for Japanese.
@@ -356,6 +347,28 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		sentences = getSentencesFromTree( paper.getTree(), true );
 		sentences = mergeListItemSentences( sentences );
 	}
+	return sentences;
+};
+
+/**
+ * Determines which portions of the text did not receive a lot of content words from keyphrase and synonyms.
+ *
+ * @param {Paper}       paper		The paper to check the keyphrase distribution for.
+ * @param {Researcher}  researcher	The researcher to use for analysis.
+ *
+ * @returns {KeyphraseDistributionResult} The scores of topic relevance per portion of text and an array of all word forms to highlight.
+ */
+const keyphraseDistributionResearcher = ( paper, researcher ) => {
+	const functionWords = researcher.getConfig( "functionWords" );
+	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
+	const getContentWordsHelper = researcher.getHelper( "getContentWords" );
+	const wordsCharacterCount = researcher.getHelper( "wordsCharacterCount" );
+	const customSplitIntoTokensHelper = researcher.getHelper( "splitIntoTokensCustom" );
+	const customSentenceTokenizer = researcher.getHelper( "memoizedTokenizer" );
+
+	// Custom topic length criteria for languages that don't use the default value to determine whether a topic is long or short.
+	const topicLengthCriteria = researcher.getConfig( "topicLength" ).lengthCriteria;
+	const sentences = retrieveSentences( paper, customSentenceTokenizer, matchWordCustomHelper );
 
 	const topicForms = researcher.getResearch( "morphology" );
 
@@ -382,10 +395,24 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const numberOfSentences = sentences.length;
 	const keyphraseDistractionPercentage = getKeyphraseDistractionPercentage( numberOfSentences, maximizedSentenceScores );
 
-	return {
+	const result = {
 		sentencesToHighlight: flattenDeep( sentencesToHighlight ),
 		keyphraseDistractionPercentage: keyphraseDistractionPercentage,
 	};
+
+	// Strip the sentenceParentNode back-references that getSentencesFromTree set on the tree's sentences.
+	// Without this cleanup the tree carries a cycle (paragraph -> sentences[i] -> sentenceParentNode -> paragraph)
+	// that escapes into subsequent runResearch/analyze results once the tree is reused across calls
+	// (the tree-build dedup keeps this._paper's tree alive between cycles, so the cycle is no longer GC'd
+	// at the end of each research). getMarkingsInSentence has already consumed sentenceParentNode above,
+	// so it's safe to drop here.
+	if ( ! matchWordCustomHelper && paper.getTree() ) {
+		getSentencesFromTree( paper.getTree() ).forEach( sentence => {
+			delete sentence.sentenceParentNode;
+		} );
+	}
+
+	return result;
 };
 
 export {

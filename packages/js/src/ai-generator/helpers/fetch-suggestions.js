@@ -2,10 +2,10 @@
 import { get } from "lodash";
 import apiFetch from "@wordpress/api-fetch";
 import { FETCH_RESPONSE_STATUS } from "../constants";
+export { removesLocaleVariantSuffixes } from "../../shared-admin/helpers";
 
 let abortController;
 let isTimeout = false;
-const LOCALE_VARIANTS = [ "_formal", "_informal", "_ao90" ];
 
 /**
  * Gets the additional error message from the Response body.
@@ -23,21 +23,6 @@ const getAdditionalErrorData = async( error ) => {
 	} catch ( e ) {
 		return { message: "Unknown" };
 	}
-};
-
-/**
- * Removes variant suffixes from locale, to make it a valid ISO 639-1 language.
- * @param {string} locale The locale.
- * @returns {string} The locale, with variant suffixes stripped out.
- */
-export const removesLocaleVariantSuffixes = ( locale ) => {
-	for ( const variant of LOCALE_VARIANTS ) {
-		if ( locale.endsWith( variant ) ) {
-			return locale.slice( 0, ( -variant.length ) );
-		}
-	}
-
-	return locale;
 };
 
 /**

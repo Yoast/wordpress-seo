@@ -73,6 +73,14 @@ class Redirect_Integration implements Integration_Interface {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$current_page = \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
 
+		// The bulk editor moved from the Tools page to its own page. Redirect the legacy deep link, keying on the tool because wpseo_tools is still a live page.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		$current_tool = ( isset( $_GET['tool'] ) && \is_string( $_GET['tool'] ) ) ? \sanitize_text_field( \wp_unslash( $_GET['tool'] ) ) : '';
+		if ( $current_page === 'wpseo_tools' && $current_tool === 'bulk-editor' ) {
+			$this->redirect->do_safe_redirect( \admin_url( 'admin.php?page=wpseo_page_bulk_edit' ), 301 );
+			return;
+		}
+
 		switch ( $current_page ) {
 			case 'wpseo_titles': // Redirect to new settings URLs. We're adding this, so that not-updated add-ons don't point to non-existent pages.
 				$this->redirect->do_safe_redirect( \admin_url( 'admin.php?page=wpseo_page_settings#/site-representation' ), 301 );

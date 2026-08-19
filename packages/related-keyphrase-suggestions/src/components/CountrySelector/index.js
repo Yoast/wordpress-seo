@@ -107,6 +107,7 @@ const COUNTRIES = [
 	{ value: "pe", label: "Peru - PE" },
 	{ value: "ph", label: "Philippines - PH" },
 	{ value: "pt", label: "Portugal - PT" },
+	{ value: "qa", label: "Qatar - QA" },
 	{ value: "ro", label: "Romania - RO" },
 	{ value: "sa", label: "Saudi Arabia - SA" },
 	{ value: "sn", label: "Senegal - SN" },

@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
@@ -6,10 +7,13 @@ import Textarea from "../../elements/textarea";
 import { ValidationInput, ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
 
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_VALIDATION = {};
+
 /**
- * @param {string} id The ID of the input.
- * @param {string} label The label.
- * @param {string} [className=""] The HTML class.
+ * @param {string}  id       The ID of the input.
+ * @param {string} [label]  The label. When omitted, supply an `aria-label` or `aria-labelledby` on the field instead.
+ * @param {string} [className] The HTML class.
  * @param {JSX.node} [description] A description.
  * @param {Object} [validation] The validation state.
  * @param {boolean} disabled Whether the input is disabled.
@@ -21,10 +25,10 @@ const TextareaField = forwardRef( ( {
 	id,
 	label,
 	className = "",
-	description = "",
-	validation = {},
-	disabled,
-	readOnly,
+	description = null,
+	validation = DEFAULT_VALIDATION,
+	disabled = false,
+	readOnly = false,
 	...props
 }, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
@@ -37,9 +41,11 @@ const TextareaField = forwardRef( ( {
 				readOnly && "yst-textarea-field--read-only",
 				className ) }
 		>
-			<div className="yst-flex yst-items-center yst-mb-2">
-				<Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label>
-			</div>
+			{ label && (
+				<div className="yst-flex yst-items-center yst-mb-2">
+					<Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label>
+				</div>
+			) }
 			<ValidationInput
 				as={ Textarea }
 				ref={ ref }
@@ -64,7 +70,7 @@ const TextareaField = forwardRef( ( {
 TextareaField.displayName = "TextareaField";
 TextareaField.propTypes = {
 	id: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
+	label: PropTypes.string,
 	className: PropTypes.string,
 	description: PropTypes.node,
 	disabled: PropTypes.bool,
@@ -73,13 +79,6 @@ TextareaField.propTypes = {
 		variant: PropTypes.string,
 		message: PropTypes.node,
 	} ),
-};
-TextareaField.defaultProps = {
-	className: "",
-	description: null,
-	disabled: false,
-	readOnly: false,
-	validation: {},
 };
 
 export default TextareaField;

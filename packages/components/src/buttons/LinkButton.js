@@ -8,6 +8,23 @@ import { colors, rgba } from "@yoast/style-guide";
 // Internal dependencies.
 import { addButtonStyles } from "./Button";
 
+const linkButtonDefaults = {
+	backgroundColor: colors.$color_button,
+	textColor: colors.$color_button_text,
+	borderColor: colors.$color_button_border,
+	boxShadowColor: colors.$color_button_border,
+	hoverColor: colors.$color_button_text_hover,
+	hoverBackgroundColor: colors.$color_button_hover,
+	hoverBorderColor: colors.$color_button_border_hover,
+	activeColor: colors.$color_button_text_hover,
+	activeBackgroundColor: colors.$color_button,
+	activeBorderColor: colors.$color_button_border_hover,
+	focusColor: colors.$color_button_text_hover,
+	focusBackgroundColor: colors.$color_white,
+	focusBorderColor: colors.$color_blue,
+	focusBoxShadowColor: colors.$color_blue_dark,
+};
+
 /**
  * Returns a basic link styled like a button.
  *
@@ -22,7 +39,8 @@ export const LinkButton = addButtonStyles(
 		border-color: ${ props => props.borderColor };
 		background: ${ props => props.backgroundColor };
 		box-shadow: 0 1px 0 ${ props => rgba( props.boxShadowColor, 1 ) };
-	`
+	`,
+	linkButtonDefaults
 );
 
 LinkButton.propTypes = {
@@ -42,19 +60,5 @@ LinkButton.propTypes = {
 	focusBoxShadowColor: PropTypes.string,
 };
 
-LinkButton.defaultProps = {
-	backgroundColor: colors.$color_button,
-	textColor: colors.$color_button_text,
-	borderColor: colors.$color_button_border,
-	boxShadowColor: colors.$color_button_border,
-	hoverColor: colors.$color_button_text_hover,
-	hoverBackgroundColor: colors.$color_button_hover,
-	hoverBorderColor: colors.$color_button_border_hover,
-	activeColor: colors.$color_button_text_hover,
-	activeBackgroundColor: colors.$color_button,
-	activeBorderColor: colors.$color_button_border_hover,
-	focusColor: colors.$color_button_text_hover,
-	focusBackgroundColor: colors.$color_white,
-	focusBorderColor: colors.$color_blue,
-	focusBoxShadowColor: colors.$color_blue_dark,
-};
+// Kept for classic-runtime consumers; the `.attrs` above is what applies these on React 19.
+LinkButton.defaultProps = linkButtonDefaults;

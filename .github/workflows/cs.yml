@@ -32,7 +32,7 @@ concurrency:
 jobs:
   actionlint:
     name: 'Lint GH Action workflows'
-    uses: Yoast/.github/.github/workflows/reusable-actionlint.yml@c14f66005ab514663a48d00712db67617c98728c # v1.0.0
+    uses: Yoast/.github/.github/workflows/reusable-actionlint.yml@7606779a4fe18ca9d780e4c675dd18e577af0429 # v1.0.1
 
   checkcs:
     name: 'Check code style'
@@ -40,7 +40,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: true
 
@@ -61,7 +61,7 @@ jobs:
         run: git fetch --no-tags --depth=1 origin ${{ steps.base_branch.outputs.NAME }}
 
       - name: Install PHP
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
           php-version: 'latest'
           coverage: none
@@ -77,7 +77,7 @@ jobs:
       # Install dependencies and handle caching in one go.
       # @link https://github.com/marketplace/actions/install-php-dependencies-with-composer
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@3cf229dc2919194e9e36783941438d17239e8520 # 3.1.1
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
         with:
           # Bust the cache at least once a week - output format: YYYY-MM-DD.
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")

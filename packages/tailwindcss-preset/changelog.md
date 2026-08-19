@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.6.0
+### Enhancements:
+* Adds AI gradients background colors. [#22692](https://github.com/Yoast/wordpress-seo/pull/22692)
+* Adds the gradient backgrounds for the site features. [#22878](https://github.com/Yoast/wordpress-seo/pull/22878)
+
+### Non user facing:
+* Adds the ai primary background gradient. [#22717](https://github.com/Yoast/wordpress-seo/pull/22717)
+
 ## 2.5.0
 ### Enhancements:
 * Adds AI gradients background colors. [#22692](https://github.com/Yoast/wordpress-seo/pull/22692)

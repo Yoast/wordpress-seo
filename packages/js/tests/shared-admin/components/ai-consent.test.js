@@ -7,7 +7,7 @@ describe( "AiConsent", () => {
 		learnMoreLink: "https://yoa.st/a-generator-learn-more",
 		privacyPolicyLink: "https://yoa.st/ai-generator-privacy-policy",
 		termsOfServiceLink: "https://yoa.st/ai-generator-terms-of-service",
-		imageLink: "https://example.com/ai-consent.png",
+		imageLink: "https://example.com/ai-consent.jpg",
 	};
 
 	it( "match snapshot", () => {

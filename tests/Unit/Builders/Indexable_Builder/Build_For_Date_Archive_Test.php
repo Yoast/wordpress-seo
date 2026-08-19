@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-final class Build_For_Date_Archive_Test extends Abstract_Indexable_Builder_TestCase {
+final class Build_For_Date_Archive_Test extends Abstract_TestCase {
 
 	/**
 	 * Sets up the test.
@@ -63,7 +63,7 @@ final class Build_For_Date_Archive_Test extends Abstract_Indexable_Builder_TestC
 	/**
 	 * Expectation for build method.
 	 *
-	 * @param array $defaults The defaults to expect.
+	 * @param array<string, int|string> $defaults The defaults to expect.
 	 *
 	 * @return void
 	 */

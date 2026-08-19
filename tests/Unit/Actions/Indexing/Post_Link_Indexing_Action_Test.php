@@ -136,19 +136,24 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$expected_query = "SELECT COUNT(P.ID)
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN wp_yoast_seo_links AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
-				AND P.post_type IN (%s, %s)";
+			WHERE P.post_status = 'publish'
+				AND P.post_type IN (%s, %s)
+				AND (
+					NOT EXISTS (
+						SELECT 1 FROM wp_yoast_indexable AS I
+						WHERE I.object_id = P.ID
+							AND I.link_count IS NOT NULL
+							AND I.object_type = 'post'
+					)
+					OR EXISTS (
+						SELECT 1 FROM wp_yoast_seo_links AS L
+						WHERE L.post_id = P.ID
+							AND L.target_indexable_id IS NULL
+							AND L.type = 'internal'
+							AND L.target_post_id IS NOT NULL
+							AND L.target_post_id != 0
+					)
+				)";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -192,19 +197,24 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$expected_query = "SELECT COUNT(P.ID)
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN wp_yoast_seo_links AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
-				AND P.post_type IN (%s, %s)";
+			WHERE P.post_status = 'publish'
+				AND P.post_type IN (%s, %s)
+				AND (
+					NOT EXISTS (
+						SELECT 1 FROM wp_yoast_indexable AS I
+						WHERE I.object_id = P.ID
+							AND I.link_count IS NOT NULL
+							AND I.object_type = 'post'
+					)
+					OR EXISTS (
+						SELECT 1 FROM wp_yoast_seo_links AS L
+						WHERE L.post_id = P.ID
+							AND L.target_indexable_id IS NULL
+							AND L.type = 'internal'
+							AND L.target_post_id IS NOT NULL
+							AND L.target_post_id != 0
+					)
+				)";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -254,19 +264,24 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT P.ID, P.post_content
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN wp_yoast_seo_links AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
+			WHERE P.post_status = 'publish'
 				AND P.post_type IN (%s, %s)
+				AND (
+					NOT EXISTS (
+						SELECT 1 FROM wp_yoast_indexable AS I
+						WHERE I.object_id = P.ID
+							AND I.link_count IS NOT NULL
+							AND I.object_type = 'post'
+					)
+					OR EXISTS (
+						SELECT 1 FROM wp_yoast_seo_links AS L
+						WHERE L.post_id = P.ID
+							AND L.target_indexable_id IS NULL
+							AND L.type = 'internal'
+							AND L.target_post_id IS NOT NULL
+							AND L.target_post_id != 0
+					)
+				)
 			LIMIT %d";
 
 		$this->wpdb
@@ -281,8 +296,10 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 			->with( 'query' )
 			->andReturn( $posts );
 
+		$indexables = [];
 		foreach ( $posts as $post ) {
 			$indexable             = Mockery::mock( Indexable_Mock::class );
+			$indexable->object_id  = (int) $post->ID;
 			$indexable->link_count = 10;
 
 			$this->indexable_helper
@@ -292,8 +309,14 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 
 			$this->link_builder->expects( 'build' )->with( $indexable, $post->post_content );
 
-			$this->repository->expects( 'find_by_id_and_type' )->once()->with( $post->ID, 'post' )->andReturn( $indexable );
+			$indexables[] = $indexable;
 		}
+
+		$this->repository
+			->expects( 'find_by_multiple_ids_and_type' )
+			->once()
+			->with( [ 1, 3, 8 ], 'post' )
+			->andReturn( $indexables );
 
 		Functions\expect( 'delete_transient' )->once()->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
 
@@ -318,19 +341,24 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT P.ID, P.post_content
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN wp_yoast_seo_links AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
+			WHERE P.post_status = 'publish'
 				AND P.post_type IN (%s, %s)
+				AND (
+					NOT EXISTS (
+						SELECT 1 FROM wp_yoast_indexable AS I
+						WHERE I.object_id = P.ID
+							AND I.link_count IS NOT NULL
+							AND I.object_type = 'post'
+					)
+					OR EXISTS (
+						SELECT 1 FROM wp_yoast_seo_links AS L
+						WHERE L.post_id = P.ID
+							AND L.target_indexable_id IS NULL
+							AND L.type = 'internal'
+							AND L.target_post_id IS NOT NULL
+							AND L.target_post_id != 0
+					)
+				)
 			LIMIT %d";
 
 		$this->wpdb
@@ -360,18 +388,29 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 				],
 			);
 
-		$indexable             = Mockery::mock( Indexable_Mock::class );
-		$indexable->link_count = null;
+		$indexable_1             = Mockery::mock( Indexable_Mock::class );
+		$indexable_1->object_id  = 1;
+		$indexable_1->link_count = null;
+		$indexable_3             = Mockery::mock( Indexable_Mock::class );
+		$indexable_3->object_id  = 3;
+		$indexable_3->link_count = null;
+		$indexable_8             = Mockery::mock( Indexable_Mock::class );
+		$indexable_8->object_id  = 8;
+		$indexable_8->link_count = null;
 
-		$this->indexable_helper
-			->expects( 'save_indexable' )
-			->with( $indexable )
-			->times( 3 );
+		$this->indexable_helper->expects( 'save_indexable' )->with( $indexable_1 )->once();
+		$this->indexable_helper->expects( 'save_indexable' )->with( $indexable_3 )->once();
+		$this->indexable_helper->expects( 'save_indexable' )->with( $indexable_8 )->once();
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( $indexable );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' )->andReturn( $indexable );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' )->andReturn( $indexable );
-		$this->link_builder->expects( 'build' )->times( 3 )->with( $indexable, 'foo' );
+		$this->repository
+			->expects( 'find_by_multiple_ids_and_type' )
+			->once()
+			->with( [ 1, 3, 8 ], 'post' )
+			->andReturn( [ $indexable_1, $indexable_3, $indexable_8 ] );
+
+		$this->link_builder->expects( 'build' )->once()->with( $indexable_1, 'foo' );
+		$this->link_builder->expects( 'build' )->once()->with( $indexable_3, 'foo' );
+		$this->link_builder->expects( 'build' )->once()->with( $indexable_8, 'foo' );
 
 		Functions\expect( 'delete_transient' )->once()->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
 
@@ -396,19 +435,24 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT P.ID, P.post_content
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN wp_yoast_seo_links AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
+			WHERE P.post_status = 'publish'
 				AND P.post_type IN (%s, %s)
+				AND (
+					NOT EXISTS (
+						SELECT 1 FROM wp_yoast_indexable AS I
+						WHERE I.object_id = P.ID
+							AND I.link_count IS NOT NULL
+							AND I.object_type = 'post'
+					)
+					OR EXISTS (
+						SELECT 1 FROM wp_yoast_seo_links AS L
+						WHERE L.post_id = P.ID
+							AND L.target_indexable_id IS NULL
+							AND L.type = 'internal'
+							AND L.target_post_id IS NOT NULL
+							AND L.target_post_id != 0
+					)
+				)
 			LIMIT %d";
 
 		$this->wpdb

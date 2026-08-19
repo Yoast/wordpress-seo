@@ -163,10 +163,19 @@ class Loader {
 	/**
 	 * Loads all registered commands.
 	 *
+	 * Commands that opt in to conditional loading by implementing
+	 * Loadable_Interface are skipped when their conditionals are not met.
+	 *
 	 * @return void
 	 */
 	protected function load_commands() {
 		foreach ( $this->commands as $class ) {
+			if ( \is_subclass_of( $class, Loadable_Interface::class )
+				&& ! $this->conditionals_are_met( $class )
+			) {
+				continue;
+			}
+
 			$command = $this->get_class( $class );
 
 			if ( $command === null ) {

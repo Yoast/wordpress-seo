@@ -50,8 +50,8 @@ class Sentence {
 	/**
 	 * Sets the parent attributes for this sentence.
 	 * @param {Node} parentNode The parent node.
-	 * @param {boolean} [setParentNode=false] Whether to set the parent node reference.
 	 * @param {Node} tree The full tree.
+	 * @param {boolean} [setParentNode=false] Whether to set the parent node reference.
 	 */
 	setParentAttributes( parentNode, tree, setParentNode = false ) {
 		const node = parentNode;

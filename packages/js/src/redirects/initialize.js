@@ -1,5 +1,5 @@
 import domReady from "@wordpress/dom-ready";
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import registerStore from "./store";
 import { select } from "@wordpress/data";
@@ -28,10 +28,9 @@ domReady( () => {
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
-	render(
+	createRoot( root ).render(
 		<Root context={ { isRtl } }>
 			<AppProvider />
-		</Root>,
-		root
+		</Root>
 	);
 } );

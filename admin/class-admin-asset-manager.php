@@ -293,6 +293,7 @@ class WPSEO_Admin_Asset_Manager {
 			'wincher-dashboard-widget' => [ self::PREFIX . 'api-client' ],
 			'editor-modules'           => [ 'jquery' ],
 			'elementor'                => $elementor_dependencies,
+			'elementor-v4'             => array_merge( [ self::PREFIX . 'elementor' ], $elementor_dependencies ),
 			'indexation'               => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
@@ -698,8 +699,18 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
+				'name' => 'bulk-editor-page',
+				'src'  => 'bulk-editor-page-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
+			],
+			[
 				'name' => 'general-page',
 				'src'  => 'general-page-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
+			],
+			[
+				'name' => 'integrations-page',
+				'src'  => 'integrations-page-' . $flat_version,
 				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[

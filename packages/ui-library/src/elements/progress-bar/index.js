@@ -35,8 +35,5 @@ ProgressBar.propTypes = {
 	progressClassName: PropTypes.string,
 	className: PropTypes.string,
 };
-ProgressBar.defaultProps = {
-	className: "",
-};
 
 export default ProgressBar;

@@ -1,6 +1,8 @@
+/* eslint-disable complexity */
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import withPersistentDismiss from "./withPersistentDismiss";
+import classNames from "classnames";
 
 /**
  * @param {string} id The id.
@@ -20,9 +22,10 @@ export const PersistentDismissableNotification = ( {
 	image: Image = null,
 	isAlertDismissed,
 	onDismissed,
+	className = "",
 } ) => {
 	return isAlertDismissed ? null : (
-		<div id={ id } className="notice-yoast yoast is-dismissible yoast-webinar-dashboard yoast-general-page-notices">
+		<div id={ id } className={ classNames( "notice-yoast yoast is-dismissible", className ) }>
 			<div className="notice-yoast__container">
 				<div>
 					<div className="notice-yoast__header">
@@ -55,6 +58,7 @@ PersistentDismissableNotification.propTypes = {
 	image: PropTypes.elementType,
 	isAlertDismissed: PropTypes.bool.isRequired,
 	onDismissed: PropTypes.func.isRequired,
+	className: PropTypes.string,
 };
 
 export default withPersistentDismiss( PersistentDismissableNotification );

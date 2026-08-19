@@ -8,6 +8,9 @@ const defaultRootContext = {
 
 export const RootContext = createContext( defaultRootContext );
 
+// Stable reference so the empty-object default keeps a constant identity across renders.
+const DEFAULT_CONTEXT = {};
+
 /**
  * @param {JSX.node} children The React children.
  * @param {{ isRtl: boolean }} [context] The root context value.
@@ -15,7 +18,7 @@ export const RootContext = createContext( defaultRootContext );
  * @param {Object} [props] Additional HTML attributes to pass to the wrapper div (id, data-*, etc.).
  * @returns {JSX.Element} The Root component.
  */
-const Root = ( { children, context = {}, className, ...props } ) => {
+const Root = ( { children, context = DEFAULT_CONTEXT, className, ...props } ) => {
 	return (
 		<RootContext.Provider value={ { ...defaultRootContext, ...context } }>
 			<div className={ classNames( "yst-root", className ) } { ...props }>

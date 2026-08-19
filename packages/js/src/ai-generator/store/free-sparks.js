@@ -10,7 +10,7 @@ const slice = createSlice( {
 	name: FREE_SPARKS_NAME,
 	initialState: {
 		isFreeSparksActive: false,
-		endpoint: "yoast/v1/ai/free_sparks",
+		endpoint: "",
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ START_FREE_SPARKS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state ) => {

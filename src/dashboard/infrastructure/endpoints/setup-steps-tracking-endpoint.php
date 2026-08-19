@@ -4,13 +4,12 @@
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints;
 
 use Exception;
-use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
 use Yoast\WP\SEO\Dashboard\User_Interface\Tracking\Setup_Steps_Tracking_Route;
 
 /**
  * Represents the setup steps tracking endpoint.
  */
-class Setup_Steps_Tracking_Endpoint implements Endpoint_Interface {
+class Setup_Steps_Tracking_Endpoint implements Dashboard_Endpoint_Interface {
 
 	/**
 	 * Gets the name.

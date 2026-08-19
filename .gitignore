@@ -59,6 +59,7 @@ temp/
 .Trashes
 .env
 .svn
+.wp-env.override.json
 .tmp
 
 ############
@@ -113,4 +114,5 @@ dependencies.md
 ############
 # AI
 ############
-/.claude/
+/.claude/*
+!/.claude/skills/

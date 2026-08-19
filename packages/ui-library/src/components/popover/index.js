@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { XIcon } from "@heroicons/react/outline";
+import XIcon from "@heroicons/react/outline/XIcon";
 import React, { createContext, forwardRef, useCallback, useContext, Fragment } from "react";
 import { Transition } from "@headlessui/react";
 import { noop } from "lodash";
