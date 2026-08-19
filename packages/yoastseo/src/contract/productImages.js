@@ -2,10 +2,11 @@ import { z } from "zod";
 
 /**
  * Serializable contract for a single product image consumed by the image assessments
- * (Images, Image alt attributes, Keyphrase in image alt) when the `imageScope` researcher config is set.
- * It is the image slice of the {@link PaperDto} input contract: a producer (WooCommerce, Shopify, or any
- * headless consumer) maps its product's own images — featured, gallery, variations — onto this shape, and
- * the assessments score from it without knowing the platform.
+ * (Images, Image alt attributes, Keyphrase in image alt). It is the image slice of the {@link PaperDto}
+ * input contract: a producer (WooCommerce, Shopify, or any headless consumer) maps its product's own
+ * images — featured, gallery, variations — onto this shape, and the assessments score from it without
+ * knowing the platform. Providing the `productImages` array — even empty — opts the image assessments
+ * into scoring it instead of the images in the text.
  *
  * Field semantics that are load-bearing:
  * - `alt` is the only field the researches read (via the mapped `img` pseudo-node); an empty string means

@@ -1,6 +1,6 @@
 import getLanguage from "../../languageProcessing/helpers/language/getLanguage";
 import wordCountInText from "./wordCountInText.js";
-import imageCount from "./imageCount.js";
+import getImagesInTree from "../helpers/image/getImagesInTree";
 
 /**
  * Calculates the expected reading time of a text.
@@ -71,7 +71,9 @@ export default function( paper, researcher ) {
 	}
 
 	const minutesPerImage = 0.2;
-	const numberOfImages = imageCount( paper );
+	// Deliberately counts the images in the text's tree, not via the `imageCount` research:
+	// reading time estimates the text itself, so the Paper's product-image scope must not apply here.
+	const numberOfImages = getImagesInTree( paper ).length;
 
 	/*
 	 * This formula is based on the average number of words a person is expected to read per minute,

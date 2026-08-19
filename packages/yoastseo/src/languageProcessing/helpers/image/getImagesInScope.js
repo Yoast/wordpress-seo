@@ -11,19 +11,19 @@ import getImagesInTree from "./getImagesInTree";
 const toImageNode = ( image ) => ( { name: "img", attributes: { src: image.src || "", alt: image.alt || "" } } );
 
 /**
- * Retrieves the images the image researches should assess, based on the researcher's `imageScope` config:
- * - unset/unknown: the images in the text's tree — the default behaviour.
- * - `"productImages"`: only the Paper's `productImages`, mapped to `img` pseudo-nodes.
+ * Retrieves the images the image researches should assess. The scope travels with the Paper,
+ * like `productData` does for the product assessments:
+ * - a producer that provides the `productImages` attribute opts in — only those images are assessed,
+ *   mapped to `img` pseudo-nodes. An empty array is a valid opt-in: a product without images.
+ * - without the attribute, the images in the text's tree are assessed — the default behaviour.
  *
- * @param {Paper}       paper           The paper to get the images from.
- * @param {Researcher}  [researcher]    The researcher carrying the `imageScope` config; may be absent in direct research calls.
+ * @param {Paper} paper The paper to get the images from.
  *
  * @returns {Array} Array containing the images in scope.
  */
-export default function getImagesInScope( paper, researcher ) {
-	const scope = ( researcher && researcher.getConfig ) ? researcher.getConfig( "imageScope" ) : false;
-	if ( scope === "productImages" ) {
-		return ( paper.getProductImages() || [] ).map( toImageNode );
+export default function getImagesInScope( paper ) {
+	if ( paper.hasProductImages() ) {
+		return paper.getProductImages().map( toImageNode );
 	}
 	return getImagesInTree( paper );
 }

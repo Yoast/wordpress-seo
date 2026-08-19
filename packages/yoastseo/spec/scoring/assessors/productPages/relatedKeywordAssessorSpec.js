@@ -4,7 +4,7 @@ import Paper from "../../../../src/values/Paper.js";
 import { checkAssessmentAvailability } from "../../../specHelpers/scoring/relatedKeyphraseAssessorTests.js";
 
 const mockPaper = new Paper( "" );
-const assessorOptions = {
+const assessor = new Assessor( new EnglishResearcher( mockPaper ), {
 	introductionKeyphraseUrlTitle: "https://yoast.com/1",
 	introductionKeyphraseCTAUrl: "https://yoast.com/2",
 	keyphraseLengthUrlTitle: "https://yoast.com/3",
@@ -19,8 +19,7 @@ const assessorOptions = {
 	functionWordsInKeyphraseCTAUrl: "https://yoast.com/12",
 	imageKeyphraseUrlTitle: "https://yoast.com/13",
 	imageKeyphraseCTAUrl: "https://yoast.com/14",
-};
-const assessor = new Assessor( new EnglishResearcher( mockPaper ), assessorOptions );
+} );
 
 describe( "running assessments in the related keyword product assessor", function() {
 	checkAssessmentAvailability( assessor );
@@ -88,25 +87,5 @@ describe( "has configuration overrides", () => {
 		expect( assessment._config ).toBeDefined();
 		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/13' target='_blank'>" );
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/14' target='_blank'>" );
-	} );
-} );
-
-describe( "the imageScope option", () => {
-	it( "leaves the researcher's imageScope config untouched on assess when the option is not passed", () => {
-		const researcher = new EnglishResearcher( new Paper( "" ) );
-		const plainAssessor = new Assessor( researcher, assessorOptions );
-
-		plainAssessor.assess( new Paper( "" ) );
-
-		expect( researcher.getConfig( "imageScope" ) ).toBe( false );
-	} );
-
-	it( "writes the imageScope option to the researcher's config on assess", () => {
-		const researcher = new EnglishResearcher( new Paper( "" ) );
-		const scopedAssessor = new Assessor( researcher, { ...assessorOptions, imageScope: "productImages" } );
-
-		scopedAssessor.assess( new Paper( "" ) );
-
-		expect( researcher.getConfig( "imageScope" ) ).toBe( "productImages" );
 	} );
 } );

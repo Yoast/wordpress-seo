@@ -46,9 +46,9 @@ export const paperDtoSchema = z.object( {
 	// Typed e-commerce slice consumed by the native product assessments. Unlike `customData`, its shape IS validated
 	// (see productData.js); producers that have not migrated may still send the legacy flat keys via `customData`.
 	productData: productDataSchema.optional().describe( "Product analysis data for the native e-commerce assessments (Product identifiers, SKU)." ),
-	// Typed image slice consumed by the image assessments when the producer scopes them to product images
-	// (see productImages.js); its shape IS validated, like `productData`.
-	productImages: z.array( productImageSchema ).optional().describe( "The product's own images (featured, gallery, variations) for the image assessments when scoped to product images." ),
+	// Typed image slice (see productImages.js); its shape IS validated, like `productData`. Providing it — even
+	// as an empty array — scopes the image assessments to these images instead of the images in the text.
+	productImages: z.array( productImageSchema ).optional().describe( "The product's own images (featured, gallery, variations). Providing this field scopes the image assessments to these images; an empty array means a product without images." ),
 	// WordPress-transitional fields — optional and DEPRECATED. They are real analysis inputs (they change
 	// WP scores), so they're in the contract for browser/remote result parity.
 	// Kept optional so non-WP consumers simply omit them.

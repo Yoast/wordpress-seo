@@ -302,7 +302,7 @@ describe( "Counts images in a text", function() {
 	} );
 } );
 
-describe( "Counts alt-tags of the product images in the productImages scope", function() {
+describe( "Counts alt-tags of the paper's product images when the producer provides them", function() {
 	it( "classifies the paper's product images by their alt texts and ignores the images in the text", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", {
 			keyword: "keyword",
@@ -313,7 +313,6 @@ describe( "Counts alt-tags of the product images in the productImages scope", fu
 			],
 		} );
 		const researcher = new Researcher( paper );
-		researcher.addConfig( "imageScope", "productImages" );
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
@@ -330,7 +329,6 @@ describe( "Counts alt-tags of the product images in the productImages scope", fu
 			productImages: [ { id: 1, src: "https://example.com/featured.jpg", alt: "A featured image" } ],
 		} );
 		const researcher = new Researcher( paper );
-		researcher.addConfig( "imageScope", "productImages" );
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
@@ -341,10 +339,10 @@ describe( "Counts alt-tags of the product images in the productImages scope", fu
 		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
 	} );
 
-	it( "keeps classifying the images in the text when the imageScope config is not set", function() {
+	it( "classifies nothing when the producer opted in with an empty productImages array, even when the text has images", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", {
 			keyword: "keyword",
-			productImages: [ { id: 1, src: "https://example.com/featured.jpg", alt: "" } ],
+			productImages: [],
 		} );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
@@ -353,7 +351,7 @@ describe( "Counts alt-tags of the product images in the productImages scope", fu
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
 		expect( stringToCheck.withAlt ).toBe( 0 );
-		expect( stringToCheck.withAltKeyword ).toBe( 1 );
+		expect( stringToCheck.withAltKeyword ).toBe( 0 );
 		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
 	} );
 } );

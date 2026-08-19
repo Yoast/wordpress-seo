@@ -138,9 +138,17 @@ describe( "Paper", function() {
 			expect( paper.getProductImages() ).toEqual( attributes.productImages );
 		} );
 
-		it( "returns an empty array for the product images when none are provided", function() {
+		it( "returns null for the product images when none are provided", function() {
 			const paper = new Paper( "" );
+			expect( paper.getProductImages() ).toBeNull();
+			expect( paper.hasProductImages() ).toBe( false );
+		} );
+
+		it( "treats an explicitly provided empty product images array as having product images", function() {
+			// The producer opted in: a product without images, which the image assessments must score as such.
+			const paper = new Paper( "", { productImages: [] } );
 			expect( paper.getProductImages() ).toEqual( [] );
+			expect( paper.hasProductImages() ).toBe( true );
 		} );
 
 		it( "returns the text title", function() {

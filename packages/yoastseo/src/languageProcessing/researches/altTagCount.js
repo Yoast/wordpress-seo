@@ -61,7 +61,7 @@ const matchAltProperties = function( imageNodes, topicForms, locale, matchWordCu
  * @returns {object} Object containing all types of found images
  */
 export default function altTagCount( paper, researcher ) {
-	const images = getImagesInScope( paper, researcher );
+	const images = getImagesInScope( paper );
 
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );

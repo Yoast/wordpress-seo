@@ -15,7 +15,6 @@ import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment.js
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment.js";
 import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment.js";
 import { createAnchorOpeningTag } from "../../../helpers";
-import applyImageScope from "./applyImageScope.js";
 
 /**
  * The ProductSEOAssessor class is used for the SEO analysis for products.
@@ -25,7 +24,6 @@ export default class ProductSEOAssessor extends SEOAssessor {
 	 * Creates a new ProductSEOAssessor instance.
 	 * @param {Researcher}	researcher	The researcher to use.
 	 * @param {Object}		[options]	The assessor options.
-	 * @param {string}		[options.imageScope]	Which images the image assessments assess: unset for the images in the text, `"productImages"` for the Paper's product images.
 	 */
 	constructor( researcher, options ) {
 		super( researcher, options );
@@ -111,17 +109,5 @@ export default class ProductSEOAssessor extends SEOAssessor {
 				urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
 			} ),
 		];
-	}
-
-	/**
-	 * Runs the assessments, first propagating the `imageScope` option to the researcher config.
-	 *
-	 * @param {Paper} paper The paper to run the assessments on.
-	 *
-	 * @returns {void}
-	 */
-	assess( paper ) {
-		applyImageScope( this._researcher, this._options );
-		super.assess( paper );
 	}
 }

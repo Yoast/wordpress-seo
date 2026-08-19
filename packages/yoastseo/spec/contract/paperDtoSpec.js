@@ -102,10 +102,18 @@ describe( "the Paper input contract (PaperDto)", function() {
 			expect( paper.getProductImages() ).toEqual( productImages );
 		} );
 
-		it( "leaves absent productImages to Paper's default empty array", function() {
+		it( "leaves absent productImages to Paper's default null, meaning the producer did not opt in", function() {
 			const paper = toPaper( { text: "x" } );
 
+			expect( paper.getProductImages() ).toBeNull();
+			expect( paper.hasProductImages() ).toBe( false );
+		} );
+
+		it( "accepts an empty productImages array as a valid opt-in: a product without images", function() {
+			const paper = toPaper( { text: "x", productImages: [] } );
+
 			expect( paper.getProductImages() ).toEqual( [] );
+			expect( paper.hasProductImages() ).toBe( true );
 		} );
 
 		it( "type-checks productImages fields and rejects unknown keys (strict)", function() {

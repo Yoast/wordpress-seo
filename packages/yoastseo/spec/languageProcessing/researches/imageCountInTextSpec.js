@@ -25,7 +25,7 @@ describe( "Counts images in an text", function() {
 	} );
 } );
 
-describe( "Counts images in the productImages scope", function() {
+describe( "Counts the paper's product images when the producer provides them", function() {
 	it( "counts the paper's product images and ignores the images in the text", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='' />", {
 			productImages: [
@@ -34,34 +34,20 @@ describe( "Counts images in the productImages scope", function() {
 			],
 		} );
 		const researcher = new EnglishResearcher( paper );
-		researcher.addConfig( "imageScope", "productImages" );
 		buildTree( paper, researcher );
 
-		const imageCount = imageCountFunction( paper, researcher );
+		const imageCount = imageCountFunction( paper );
 
 		expect( imageCount ).toBe( 2 );
 	} );
 
-	it( "returns imagecount 0 when the paper has no product images, even when the text has images", function() {
-		const paper = new Paper( "string <img src='http://plaatje' alt='' />" );
+	it( "returns imagecount 0 when the producer opted in with an empty productImages array, even when the text has images", function() {
+		const paper = new Paper( "string <img src='http://plaatje' alt='' />", { productImages: [] } );
 		const researcher = new EnglishResearcher( paper );
-		researcher.addConfig( "imageScope", "productImages" );
 		buildTree( paper, researcher );
 
-		const imageCount = imageCountFunction( paper, researcher );
+		const imageCount = imageCountFunction( paper );
 
 		expect( imageCount ).toBe( 0 );
-	} );
-
-	it( "keeps counting the images in the text when a researcher without the imageScope config is passed", function() {
-		const paper = new Paper( "string <img src='http://plaatje' alt='' />", {
-			productImages: [ { id: 1, src: "https://example.com/featured.jpg", alt: "A featured image" } ],
-		} );
-		const researcher = new EnglishResearcher( paper );
-		buildTree( paper, researcher );
-
-		const imageCount = imageCountFunction( paper, researcher );
-
-		expect( imageCount ).toBe( 1 );
 	} );
 } );
