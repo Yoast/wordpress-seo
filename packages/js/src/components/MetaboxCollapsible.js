@@ -1,4 +1,4 @@
-import { Collapsible } from "@yoast/components";
+import { Collapsible, StyledHeaderRow } from "@yoast/components";
 import styled from "styled-components";
 
 const StyledMetaboxCollapsible = styled( Collapsible )`
@@ -9,6 +9,11 @@ const StyledMetaboxCollapsible = styled( Collapsible )`
 		&:hover {
 			background-color: #f0f0f0;
 		}
+	}
+
+	// With a header help link the button no longer spans the header, so the row carries the hover.
+	${ StyledHeaderRow }:hover {
+		background-color: #f0f0f0;
 	}
 
 	div[class^="collapsible_content"] {
