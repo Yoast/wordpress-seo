@@ -7,6 +7,8 @@ export const metaKeyEstimatedReadingTime = "_yoast_wpseo_estimated-reading-time-
 export const metaKeyLinkdex = "_yoast_wpseo_linkdex";
 export const metaKeyContentScore = "_yoast_wpseo_content_score";
 export const metaKeyInclusiveLanguageScore = "_yoast_wpseo_inclusive_language_score";
+export const metaKeyMetaDescriptionScore = "_yoast_wpseo_meta_description_score";
+export const metaKeySeoTitleScore = "_yoast_wpseo_seo_title_score";
 
 // Advanced meta keys.
 export const metaKeyNoIndex = "_yoast_wpseo_meta-robots-noindex";

@@ -5,8 +5,10 @@ import {
 	metaKeyLinkdex,
 	metaKeyContentScore,
 	metaKeyInclusiveLanguageScore,
+	metaKeyMetaDescriptionScore,
+	metaKeySeoTitleScore,
 } from "../../shared-admin/constants";
-import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo, getMetaValue } from "./rest-meta";
+import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo, getMetaValue, setMetaValue } from "./rest-meta";
 
 /**
  * Returns whether the core/editor store has finished loading the post type config.
@@ -316,9 +318,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set seoTitleScore( value ) {
-		if ( AnalysisFields.seoTitleScoreElement ) {
-			AnalysisFields.seoTitleScoreElement.value = value;
-		}
+		setMetaValue( metaKeySeoTitleScore, AnalysisFields.seoTitleScoreElement, value );
 	}
 
 	/**
@@ -327,7 +327,7 @@ export default class AnalysisFields {
 	 * @returns {string} The SEO title score.
 	 */
 	static get seoTitleScore() {
-		return AnalysisFields.seoTitleScoreElement?.value ?? "";
+		return getMetaValue( metaKeySeoTitleScore, AnalysisFields.seoTitleScoreElement, "" );
 	}
 
 	/**
@@ -338,9 +338,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set metaDescriptionScore( value ) {
-		if ( AnalysisFields.metaDescriptionScoreElement ) {
-			AnalysisFields.metaDescriptionScoreElement.value = value;
-		}
+		setMetaValue( metaKeyMetaDescriptionScore, AnalysisFields.metaDescriptionScoreElement, value );
 	}
 
 	/**
@@ -349,6 +347,6 @@ export default class AnalysisFields {
 	 * @returns {string} The meta description score.
 	 */
 	static get metaDescriptionScore() {
-		return AnalysisFields.metaDescriptionScoreElement?.value ?? "";
+		return getMetaValue( metaKeyMetaDescriptionScore, AnalysisFields.metaDescriptionScoreElement, "" );
 	}
 }
