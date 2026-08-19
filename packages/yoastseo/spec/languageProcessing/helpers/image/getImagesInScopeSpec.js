@@ -1,4 +1,5 @@
 import getImagesInScope from "../../../../src/languageProcessing/helpers/image/getImagesInScope";
+import getAltAttribute from "../../../../src/languageProcessing/helpers/image/getAltAttribute";
 import Paper from "../../../../src/values/Paper";
 import buildTree from "../../../specHelpers/parse/buildTree";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
@@ -46,5 +47,22 @@ describe( "getImagesInScope", function() {
 		expect( getImagesInScope( buildPaperWithTreeImage( { productImages: [ { id: 3 } ] } ) ) ).toEqual( [
 			{ name: "img", attributes: { src: "", alt: "" } },
 		] );
+	} );
+
+	it( "returns equivalent nodes from both scopes for the same image, on the fields the image researches consume", function() {
+		const src = "https://example.com/parity.jpg";
+		const alt = "parity image";
+
+		const treePaper = new Paper( `string <img src='${ src }' alt='${ alt }' />` );
+		buildTree( treePaper, new EnglishResearcher( treePaper ) );
+		const productPaper = new Paper( "string without images", { productImages: [ { id: 4, src, alt } ] } );
+
+		const [ treeNode ] = getImagesInScope( treePaper );
+		const [ productNode ] = getImagesInScope( productPaper );
+
+		expect( treeNode.name ).toBe( productNode.name );
+		expect( treeNode.attributes.src ).toBe( productNode.attributes.src );
+		// Assert through the consumer helper, so the parity that matters downstream is what is checked.
+		expect( getAltAttribute( treeNode ) ).toBe( getAltAttribute( productNode ) );
 	} );
 } );
