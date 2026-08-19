@@ -51,6 +51,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.upsell.gsc.create_redirect_button'              => 'https://yoa.st/redirects',
 		'shortlinks.readability_analysis_info'                      => 'https://yoa.st/readability-analysis',
 		'shortlinks.inclusive_language_analysis_info'               => 'https://yoa.st/inclusive-language-analysis',
+		'shortlinks.social_previews_info'                           => 'https://yoa.st/social-preview-admin-bar',
 		'shortlinks.activate_premium_info'                          => 'https://yoa.st/activate-subscription',
 		'shortlinks.wincher.seo_performance'                        => 'https://yoa.st/wincher-integration',
 		'shortlinks-insights-estimated_reading_time'                => 'https://yoa.st/4fd',

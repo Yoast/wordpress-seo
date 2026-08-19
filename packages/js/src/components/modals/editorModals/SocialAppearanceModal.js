@@ -11,6 +11,7 @@ import EditorModal from "../../../containers/EditorModal";
 import FacebookEditor from "../../../containers/FacebookEditor";
 import TwitterEditor from "../../../containers/TwitterEditor";
 import ModalCollapsible from "../../ModalCollapsible";
+import SocialPreviewsHelpLink from "../../social/SocialPreviewsHelpLink";
 import { StyledDescription, StyledDescriptionTop } from "../../../helpers/styledDescription";
 import { useSvgAria } from "@yoast/ui-library/src";
 
@@ -45,6 +46,7 @@ const SocialAppearanceModal = ( props ) => {
 			id="yoast-social-appearance-modal"
 			shouldCloseOnClickOutside={ false }
 			SuffixHeroIcon={ <StyledHeroIcon className="yst-text-slate-500" { ...svgAriaProps } /> }
+			titleHelpLink={ <SocialPreviewsHelpLink /> }
 		>
 			{ useOpenGraphData &&
 				<Fragment>
