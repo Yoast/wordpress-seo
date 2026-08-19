@@ -1,5 +1,6 @@
 import { useMemo } from "@wordpress/element";
 import { Collapsible, StyledIconsButton } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
 import { colors, rgba } from "@yoast/style-guide";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -39,6 +40,14 @@ const StyledMetaboxCollapsible = styled( Collapsible )`
  *   it inside the toggle's hit area and keeps integrations working that look the icon up and click its
  *   parent element to open a collapsible.
  */
+/*
+ * Where to pin the suffix icon. Pinning takes it out of the flow, so it has to land where the flow
+ * would have put it: against the toggle button's end padding. That padding is set with a physical
+ * `padding-left` above, so the end side measures 16px in LTR but 24px in RTL. Matching both keeps this
+ * heading's icon lined up with the icon of every collapsible that has no help link.
+ */
+const suffixIconInset = getDirectionalStyle( "right: 16px", "left: 24px" );
+
 const StyledHeaderRow = styled.h2`
 	/*
 	 * Repeats wrapInHeading's resets, because this element takes the place of the heading it would
@@ -95,7 +104,7 @@ const StyledHeaderRow = styled.h2`
 
 		> svg:last-child {
 			position: absolute;
-			inset-inline-end: 16px;
+			${ suffixIconInset };
 			top: 50%;
 			transform: translateY(-50%);
 			margin: 0;
