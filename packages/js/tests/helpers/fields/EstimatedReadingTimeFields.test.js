@@ -24,8 +24,7 @@ describe( "estimatedReadingTime getter", () => {
 	} );
 
 	it( "returns the element value", () => {
-		const el = createInputElement( ELEMENT_ID );
-		el.value = "5";
+		createInputElement( ELEMENT_ID, "5" );
 		expect( EstimatedReadingTimeFields.estimatedReadingTime ).toBe( "5" );
 	} );
 } );

@@ -51,11 +51,15 @@ export const withConsoleErrorMock = ( fn ) => {
 /**
  * Creates an input element.
  * @param {string} id The ID.
+ * @param {string} [value] Optional initial value.
  * @returns {HTMLInputElement} The input element.
  */
-export const createInputElement = ( id ) => {
+export const createInputElement = ( id, value ) => {
 	const inputElement = document.createElement( "input" );
 	inputElement.id = id;
+	if ( value !== undefined ) {
+		inputElement.value = value;
+	}
 	document.body.appendChild( inputElement );
 
 	return inputElement;

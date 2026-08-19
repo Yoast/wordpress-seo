@@ -86,8 +86,7 @@ describe( "keyphrase", () => {
 		} );
 
 		it( "gets the keyphrase", () => {
-			const inputElement = createInputElement( id.terms );
-			inputElement.value = "foo";
+			const inputElement = createInputElement( id.terms, "foo" );
 
 			expect( AnalysisFields.keyphrase ).toBe( "foo" );
 
@@ -158,8 +157,7 @@ describe( "isCornerstone", () => {
 		} );
 
 		it( "gets isCornerstone", () => {
-			const inputElement = createInputElement( id.terms );
-			inputElement.value = "1";
+			const inputElement = createInputElement( id.terms, "1" );
 
 			expect( AnalysisFields.isCornerstone ).toBe( true );
 
@@ -244,8 +242,7 @@ describe( "seoScore", () => {
 		} );
 
 		it( "gets the seoScore", () => {
-			const inputElement = createInputElement( id.terms );
-			inputElement.value = "9";
+			const inputElement = createInputElement( id.terms, "9" );
 
 			expect( AnalysisFields.seoScore ).toBe( "9" );
 
@@ -316,8 +313,7 @@ describe( "readabilityScore", () => {
 		} );
 
 		it( "gets the readabilityScore", () => {
-			const inputElement = createInputElement( id.terms );
-			inputElement.value = "9";
+			const inputElement = createInputElement( id.terms, "9" );
 
 			expect( AnalysisFields.readabilityScore ).toBe( "9" );
 
@@ -388,8 +384,7 @@ describe( "inclusiveLanguageScore", () => {
 		} );
 
 		it( "gets the inclusiveLanguageScore", () => {
-			const inputElement = createInputElement( id.terms );
-			inputElement.value = "9";
+			const inputElement = createInputElement( id.terms, "9" );
 
 			expect( AnalysisFields.inclusiveLanguageScore ).toBe( "9" );
 

@@ -112,8 +112,7 @@ describe( "saveFieldScores", () => {
 	} );
 
 	it( "does not overwrite a saved score with the not-derivable 0", () => {
-		const titleElement = createInputElement( "hidden_wpseo_seo_title_score" );
-		titleElement.value = "63";
+		const titleElement = createInputElement( "hidden_wpseo_seo_title_score", "63" );
 
 		saveFieldScores( [] );
 
