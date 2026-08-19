@@ -95,7 +95,7 @@ describe( "serialize", () => {
 			locale: "en_US",
 			permalink: "https://example.com/page-0",
 			productData: {},
-			productImages: null,
+			providedImages: null,
 			title: "A text about a keyword.",
 			synonyms: "",
 			titleWidth: 0,

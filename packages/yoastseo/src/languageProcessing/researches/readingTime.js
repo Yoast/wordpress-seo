@@ -72,7 +72,7 @@ export default function( paper, researcher ) {
 
 	const minutesPerImage = 0.2;
 	// Deliberately counts the images in the text's tree, not via the `imageCount` research:
-	// reading time estimates the text itself, so the Paper's product-image scope must not apply here.
+	// reading time estimates the text itself, so the Paper's provided-images scope must not apply here.
 	const numberOfImages = getImagesInTree( paper ).length;
 
 	/*

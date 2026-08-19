@@ -4,7 +4,7 @@ import getImagesInScope from "../helpers/image/getImagesInScope";
 
 /**
  * Checks the amount of images in scope: the images in the text, unless the Paper
- * carries a `productImages` attribute (see `getImagesInScope`).
+ * carries a `providedImages` attribute (see `getImagesInScope`).
  *
  * @param {Paper} paper The paper to check for images.
  *

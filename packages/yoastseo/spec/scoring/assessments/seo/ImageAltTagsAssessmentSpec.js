@@ -6,8 +6,8 @@ import Factory from "../../../../src/helpers/factory.js";
 const imageAltTagsAssessment = new ImageAltTagsAssessment();
 
 describe( "test to check if all images have alt tags", function() {
-	it( "still assesses an empty text when the counted images come from the paper's product images", function() {
-		// In the productImages scope the researches count paper-level images, so an empty text must not zero the result.
+	it( "still assesses an empty text when the counted images come from the paper's provided images", function() {
+		// When the paper provides its own images the researches count paper-level images, so an empty text must not zero the result.
 		const result = imageAltTagsAssessment.getResult( new Paper( "" ), Factory.buildMockResearcher( {
 			imageCount: 2,
 			altTagCount: {

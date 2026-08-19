@@ -25,10 +25,10 @@ describe( "Counts images in an text", function() {
 	} );
 } );
 
-describe( "Counts the paper's product images when the producer provides them", function() {
-	it( "counts the paper's product images and ignores the images in the text", function() {
+describe( "Counts the paper's provided images when the producer provides them", function() {
+	it( "counts the paper's provided images and ignores the images in the text", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='' />", {
-			productImages: [
+			providedImages: [
 				{ id: 1, src: "https://example.com/featured.jpg", alt: "A featured image" },
 				{ id: 2, src: "https://example.com/gallery.jpg", alt: "" },
 			],
@@ -41,8 +41,8 @@ describe( "Counts the paper's product images when the producer provides them", f
 		expect( imageCount ).toBe( 2 );
 	} );
 
-	it( "returns imagecount 0 when the producer opted in with an empty productImages array, even when the text has images", function() {
-		const paper = new Paper( "string <img src='http://plaatje' alt='' />", { productImages: [] } );
+	it( "returns imagecount 0 when the producer opted in with an empty providedImages array, even when the text has images", function() {
+		const paper = new Paper( "string <img src='http://plaatje' alt='' />", { providedImages: [] } );
 		const researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
 

@@ -130,25 +130,25 @@ describe( "Paper", function() {
 			expect( paper.getProductData() ).toEqual( {} );
 		} );
 
-		it( "returns product images", function() {
+		it( "returns the provided images", function() {
 			const attributes = {
-				productImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" }, { id: 2, src: "", alt: "" } ],
+				providedImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" }, { id: 2, src: "", alt: "" } ],
 			};
 			const paper = new Paper( "", attributes );
-			expect( paper.getProductImages() ).toEqual( attributes.productImages );
+			expect( paper.getProvidedImages() ).toEqual( attributes.providedImages );
 		} );
 
-		it( "returns null for the product images when none are provided", function() {
+		it( "returns null for the provided images when none are provided", function() {
 			const paper = new Paper( "" );
-			expect( paper.getProductImages() ).toBeNull();
-			expect( paper.hasProductImages() ).toBe( false );
+			expect( paper.getProvidedImages() ).toBeNull();
+			expect( paper.hasProvidedImages() ).toBe( false );
 		} );
 
-		it( "treats an explicitly provided empty product images array as having product images", function() {
+		it( "treats an explicitly provided empty providedImages array as having provided images", function() {
 			// The producer opted in: a product without images, which the image assessments must score as such.
-			const paper = new Paper( "", { productImages: [] } );
-			expect( paper.getProductImages() ).toEqual( [] );
-			expect( paper.hasProductImages() ).toBe( true );
+			const paper = new Paper( "", { providedImages: [] } );
+			expect( paper.getProvidedImages() ).toEqual( [] );
+			expect( paper.hasProvidedImages() ).toBe( true );
 		} );
 
 		it( "returns the text title", function() {
@@ -230,9 +230,9 @@ describe( "Paper", function() {
 			expect( paper1.equals( paper2 ) ).toBe( false );
 		} );
 
-		it( "should identify two papers with similar content but dissimilar product images as not equal", function() {
-			const paper1 = new Paper( "This is a test", { productImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" } ] } );
-			const paper2 = new Paper( "This is a test", { productImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "New alt" } ] } );
+		it( "should identify two papers with similar content but dissimilar provided images as not equal", function() {
+			const paper1 = new Paper( "This is a test", { providedImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" } ] } );
+			const paper2 = new Paper( "This is a test", { providedImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "New alt" } ] } );
 			expect( paper1.equals( paper2 ) ).toBe( false );
 		} );
 	} );
@@ -250,10 +250,10 @@ describe( "Paper", function() {
 			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
 		} );
 
-		it( "returns true when only the product images differ", function() {
-			// Product images don't feed the tree builder, so a change must not invalidate the cached tree.
-			const paper1 = new Paper( "<p>Hello world.</p>", { productImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" } ] } );
-			const paper2 = new Paper( "<p>Hello world.</p>", { productImages: [ { id: 2, src: "https://example.com/other.jpg", alt: "" } ] } );
+		it( "returns true when only the provided images differ", function() {
+			// Provided images don't feed the tree builder, so a change must not invalidate the cached tree.
+			const paper1 = new Paper( "<p>Hello world.</p>", { providedImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" } ] } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { providedImages: [ { id: 2, src: "https://example.com/other.jpg", alt: "" } ] } );
 			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
 		} );
 
@@ -385,11 +385,11 @@ describe( "Paper", function() {
 			expect( parsed.getProductData() ).toEqual( productData );
 		} );
 
-		it( "round-trips the product images through serialize and parse", () => {
-			const productImages = [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" }, { id: 2, src: "https://example.com/other.jpg", alt: "" } ];
-			const paper = new Paper( "text", { productImages } );
+		it( "round-trips the provided images through serialize and parse", () => {
+			const providedImages = [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" }, { id: 2, src: "https://example.com/other.jpg", alt: "" } ];
+			const paper = new Paper( "text", { providedImages } );
 			const parsed = Paper.parse( paper.serialize() );
-			expect( parsed.getProductImages() ).toEqual( productImages );
+			expect( parsed.getProvidedImages() ).toEqual( providedImages );
 		} );
 	} );
 	describe( "A test for setters and getters", function() {

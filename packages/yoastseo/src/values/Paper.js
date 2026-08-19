@@ -8,7 +8,7 @@ import { defaults, isEmpty, isEqual, isNil } from "lodash";
  * Default attributes to be used by the Paper if they are left undefined.
  * @type {{keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
  * 		   slug: string, locale: string, permalink: string, date: string, customData: object, productData: object,
- * 		   productImages: ?Object[], textTitle: string, writingDirection: "LTR", isFrontPage: boolean, wpBlocks: [], shortcodes: []}}
+ * 		   providedImages: ?Object[], textTitle: string, writingDirection: "LTR", isFrontPage: boolean, wpBlocks: [], shortcodes: []}}
  */
 const defaultAttributes = {
 	keyword: "",
@@ -23,7 +23,7 @@ const defaultAttributes = {
 	customData: {},
 	productData: {},
 	// `null` (not `[]`) so that a producer explicitly passing an empty array still opts the image assessments in.
-	productImages: null,
+	providedImages: null,
 	textTitle: "",
 	writingDirection: "LTR",
 	wpBlocks: [],
@@ -52,7 +52,7 @@ export default class Paper {
 	 * @param {Object[]}  [attributes.wpBlocks]         The array of texts, encoded in WordPress block editor blocks.
 	 * @param {Object}  [attributes.customData]         Custom data.
 	 * @param {Object}  [attributes.productData]        Product analysis data consumed by the native product assessments.
-	 * @param {Object[]} [attributes.productImages]     The product's own images (featured, gallery, variations). Providing this attribute — even as an empty array — scopes the image assessments to these images instead of the images in the text.
+	 * @param {Object[]} [attributes.providedImages]   The analyzed item's own images as the producer knows them (e.g. a product's featured, gallery and variation images). Providing this attribute — even as an empty array — scopes the image assessments to these images instead of the images in the text.
 	 * @param {string}  [attributes.textTitle]          The title of the text.
 	 * @param {string}  [attributes.writingDirection=LTR]   The writing direction of the paper. Defaults to left to right (LTR).
 	 * @param {boolean} [attributes.isFrontPage=false]  Whether the current page is the front page of the site. Defaults to false.
@@ -334,26 +334,26 @@ export default class Paper {
 	}
 
 	/**
-	 * Returns the product images, or `null` when the producer did not provide them.
+	 * Returns the provided images, or `null` when the producer did not provide them.
 	 *
-	 * These are the product's own images (featured, gallery, variations) as supplied by the producer,
-	 * not the images found in the text. Their presence scopes the image researches to them
-	 * (see `getImagesInScope`); an empty array means a product that has no images.
+	 * These are the analyzed item's own images as supplied by the producer (e.g. a product's featured,
+	 * gallery and variation images), not the images found in the text. Their presence scopes the image
+	 * researches to them (see `getImagesInScope`); an empty array means an item that has no images.
 	 *
-	 * @returns {?Object[]} Returns the product images, each shaped `{ id?: number, src?: string, alt: string }`.
+	 * @returns {?Object[]} Returns the provided images, each shaped `{ id?: number, src?: string, alt: string }`.
 	 */
-	getProductImages() {
-		return this._attributes.productImages;
+	getProvidedImages() {
+		return this._attributes.providedImages;
 	}
 
 	/**
-	 * Checks whether the producer provided product images, opting the image assessments into scoring them.
-	 * An empty array counts as provided: it is a product without images, which must still be scored as such.
+	 * Checks whether the producer provided the item's images, opting the image assessments into scoring them.
+	 * An empty array counts as provided: it is an item without images, which must still be scored as such.
 	 *
-	 * @returns {boolean} Returns true if the Paper carries a product images array.
+	 * @returns {boolean} Returns true if the Paper carries an images array.
 	 */
-	hasProductImages() {
-		return ! isNil( this._attributes.productImages );
+	hasProvidedImages() {
+		return ! isNil( this._attributes.providedImages );
 	}
 
 	/**

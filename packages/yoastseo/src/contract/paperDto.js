@@ -1,7 +1,7 @@
 import { z } from "zod";
 import Paper from "../values/Paper.js";
 import { productDataSchema } from "./productData.js";
-import { productImageSchema } from "./productImages.js";
+import { providedImageSchema } from "./providedImages.js";
 
 /**
  * Serializable input contract for the analysis engine.
@@ -46,9 +46,9 @@ export const paperDtoSchema = z.object( {
 	// Typed e-commerce slice consumed by the native product assessments. Unlike `customData`, its shape IS validated
 	// (see productData.js); producers that have not migrated may still send the legacy flat keys via `customData`.
 	productData: productDataSchema.optional().describe( "Product analysis data for the native e-commerce assessments (Product identifiers, SKU)." ),
-	// Typed image slice (see productImages.js); its shape IS validated, like `productData`. Providing it — even
+	// Typed image slice (see providedImages.js); its shape IS validated, like `productData`. Providing it — even
 	// as an empty array — scopes the image assessments to these images instead of the images in the text.
-	productImages: z.array( productImageSchema ).optional().describe( "The product's own images (featured, gallery, variations). Providing this field scopes the image assessments to these images; an empty array means a product without images." ),
+	providedImages: z.array( providedImageSchema ).optional().describe( "The analyzed item's own images (e.g. a product's featured, gallery and variation images). Providing this field scopes the image assessments to these images; an empty array means an item without images." ),
 	// WordPress-transitional fields — optional and DEPRECATED. They are real analysis inputs (they change
 	// WP scores), so they're in the contract for browser/remote result parity.
 	// Kept optional so non-WP consumers simply omit them.
@@ -93,7 +93,7 @@ export function toPaper( dto ) {
 		writingDirection: data.writingDirection,
 		customData: data.customData,
 		productData: data.productData,
-		productImages: data.productImages,
+		providedImages: data.providedImages,
 		wpBlocks: data.wpBlocks,
 		shortcodes: data.shortcodes,
 		isFrontPage: data.isFrontPage,

@@ -302,11 +302,11 @@ describe( "Counts images in a text", function() {
 	} );
 } );
 
-describe( "Counts alt-tags of the paper's product images when the producer provides them", function() {
-	it( "classifies the paper's product images by their alt texts and ignores the images in the text", function() {
+describe( "Counts alt-tags of the paper's provided images when the producer provides them", function() {
+	it( "classifies the paper's provided images by their alt texts and ignores the images in the text", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", {
 			keyword: "keyword",
-			productImages: [
+			providedImages: [
 				{ id: 1, src: "https://example.com/featured.jpg", alt: "keyword" },
 				{ id: 2, src: "https://example.com/gallery.jpg", alt: "something else" },
 				{ id: 3, src: "https://example.com/variation.jpg", alt: "" },
@@ -323,10 +323,10 @@ describe( "Counts alt-tags of the paper's product images when the producer provi
 		expect( stringToCheck.withAltNonKeyword ).toBe( 1 );
 	} );
 
-	it( "classifies alt-texted product images as withAlt when no keyphrase is set", function() {
+	it( "classifies alt-texted provided images as withAlt when no keyphrase is set", function() {
 		const paper = new Paper( "string", {
 			keyword: "",
-			productImages: [ { id: 1, src: "https://example.com/featured.jpg", alt: "A featured image" } ],
+			providedImages: [ { id: 1, src: "https://example.com/featured.jpg", alt: "A featured image" } ],
 		} );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
@@ -339,10 +339,10 @@ describe( "Counts alt-tags of the paper's product images when the producer provi
 		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
 	} );
 
-	it( "classifies nothing when the producer opted in with an empty productImages array, even when the text has images", function() {
+	it( "classifies nothing when the producer opted in with an empty images array, even when the text has images", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", {
 			keyword: "keyword",
-			productImages: [],
+			providedImages: [],
 		} );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );

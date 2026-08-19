@@ -4,7 +4,7 @@ import Paper from "../../../../src/values/Paper";
 import buildTree from "../../../specHelpers/parse/buildTree";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
-const productImages = [
+const providedImages = [
 	{ id: 1, src: "https://example.com/featured.jpg", alt: "A featured image" },
 	{ id: 2, src: "https://example.com/gallery.jpg", alt: "" },
 ];
@@ -23,15 +23,15 @@ const buildPaperWithTreeImage = ( attributes = {} ) => {
 };
 
 describe( "getImagesInScope", function() {
-	it( "returns the tree images when the paper carries no productImages attribute", function() {
+	it( "returns the tree images when the paper carries no providedImages attribute", function() {
 		const images = getImagesInScope( buildPaperWithTreeImage() );
 
 		expect( images ).toHaveLength( 1 );
 		expect( images[ 0 ].attributes.alt ).toBe( "tree image" );
 	} );
 
-	it( "returns only the product images, mapped to img pseudo-nodes, when the paper carries them", function() {
-		const images = getImagesInScope( buildPaperWithTreeImage( { productImages } ) );
+	it( "returns only the provided images, mapped to img pseudo-nodes, when the paper carries them", function() {
+		const images = getImagesInScope( buildPaperWithTreeImage( { providedImages } ) );
 
 		expect( images ).toEqual( [
 			{ name: "img", attributes: { src: "https://example.com/featured.jpg", alt: "A featured image" } },
@@ -39,12 +39,12 @@ describe( "getImagesInScope", function() {
 		] );
 	} );
 
-	it( "returns an empty array when the producer opted in with an empty productImages array, even when the text has images", function() {
-		expect( getImagesInScope( buildPaperWithTreeImage( { productImages: [] } ) ) ).toEqual( [] );
+	it( "returns an empty array when the producer opted in with an empty providedImages array, even when the text has images", function() {
+		expect( getImagesInScope( buildPaperWithTreeImage( { providedImages: [] } ) ) ).toEqual( [] );
 	} );
 
-	it( "defaults missing src and alt to empty strings when mapping product images", function() {
-		expect( getImagesInScope( buildPaperWithTreeImage( { productImages: [ { id: 3 } ] } ) ) ).toEqual( [
+	it( "defaults missing src and alt to empty strings when mapping provided images", function() {
+		expect( getImagesInScope( buildPaperWithTreeImage( { providedImages: [ { id: 3 } ] } ) ) ).toEqual( [
 			{ name: "img", attributes: { src: "", alt: "" } },
 		] );
 	} );
@@ -55,7 +55,7 @@ describe( "getImagesInScope", function() {
 
 		const treePaper = new Paper( `string <img src='${ src }' alt='${ alt }' />` );
 		buildTree( treePaper, new EnglishResearcher( treePaper ) );
-		const productPaper = new Paper( "string without images", { productImages: [ { id: 4, src, alt } ] } );
+		const productPaper = new Paper( "string without images", { providedImages: [ { id: 4, src, alt } ] } );
 
 		const [ treeNode ] = getImagesInScope( treePaper );
 		const [ productNode ] = getImagesInScope( productPaper );
