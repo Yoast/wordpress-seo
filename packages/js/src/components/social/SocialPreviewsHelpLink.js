@@ -6,10 +6,12 @@ import HelpLink from "../HelpLink";
 
 /*
  * The header row centres its items, so the vertical nudge HelpLink applies for inline text would
- * push the icon off-centre here.
+ * push the icon off-centre here. The gap to the title lives here rather than on either header,
+ * so the collapsible and the modal keep the same spacing.
  */
 const StyledHelpLink = styled( HelpLink )`
-	margin: 0;
+	margin-block: 0;
+	margin-inline: 8px 0;
 `;
 
 /**

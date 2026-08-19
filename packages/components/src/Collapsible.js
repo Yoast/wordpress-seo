@@ -1,5 +1,5 @@
 import { getDirectionalStyle } from "@yoast/helpers";
-import { colors } from "@yoast/style-guide";
+import { colors, rgba } from "@yoast/style-guide";
 import { omit } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
@@ -91,12 +91,28 @@ export const StyledHeaderRow = styled.div`
 	${ StyledIconsButton } {
 		width: auto;
 		background-color: transparent;
-		padding-inline-end: 4px;
+		// The help link brings its own leading gap, so the button ends at its title.
+		padding-inline-end: 0;
 
 		&::after {
 			content: "";
 			position: absolute;
 			inset: 0;
+		}
+
+		/*
+		 * The button only wraps its title now, so its own focus ring would cover part of the header
+		 * instead of all of it. The overlay still spans the row, so it carries the ring instead.
+		 */
+		&:focus {
+			outline: none;
+			box-shadow: none;
+		}
+
+		&:focus::after {
+			outline: 1px solid ${ colors.$color_blue };
+			outline-offset: -1px;
+			box-shadow: 0 0 3px ${ rgba( colors.$color_blue_dark, 0.8 ) };
 		}
 
 		> svg:last-child {

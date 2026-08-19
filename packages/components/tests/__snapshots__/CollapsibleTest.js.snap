@@ -1818,13 +1818,24 @@ exports[`Collapsible renders a header help link outside the toggle button 1`] = 
 .c1 .c8 {
   width: auto;
   background-color: transparent;
-  padding-inline-end: 4px;
+  padding-inline-end: 0;
 }
 
 .c1 .c8::after {
   content: "";
   position: absolute;
   inset: 0;
+}
+
+.c1 .c8:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.c1 .c8:focus::after {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c1 .c8 > svg:last-child {
