@@ -51,7 +51,9 @@ export default class TextImagesAssessment extends Assessment {
 		this.imageCount = researcher.getResearch( "imageCount" );
 		this.videoCount = researcher.getResearch( "videoCount" );
 
-		const calculatedScore = this.calculateResult();
+		// Text videos are out of scope when the Paper's provided images are being assessed.
+		const countVideos = this._countVideos && ! paper.hasProvidedImages();
+		const calculatedScore = this.calculateResult( countVideos );
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
@@ -63,15 +65,17 @@ export default class TextImagesAssessment extends Assessment {
 	/**
 	 * Calculate the result based on the availability of images in the text, including videos in product pages.
 	 *
+	 * @param {boolean} countVideos Whether videos are also included in the assessment or not.
+	 *
 	 * @returns {{score: number, resultText: string}} The calculated result.
 	 */
-	calculateResult() {
+	calculateResult( countVideos ) {
 		// If "countVideos" is on, we include videos in the assessment
-		const mediaCount = this._countVideos ? this.imageCount + this.videoCount : this.imageCount;
+		const mediaCount = countVideos ? this.imageCount + this.videoCount : this.imageCount;
 
 		// No images.
 		if ( mediaCount === 0 ) {
-			if ( this._countVideos ) {
+			if ( countVideos ) {
 				return {
 					score: this._config.scores.bad,
 					resultText: sprintf(
@@ -102,7 +106,7 @@ export default class TextImagesAssessment extends Assessment {
 		}
 
 		if ( this._config.scores.okay ) {
-			if ( inRangeStartEndInclusive( mediaCount, 1, 3 ) && ! this._countVideos ) {
+			if ( inRangeStartEndInclusive( mediaCount, 1, 3 ) && ! countVideos ) {
 				return {
 					score: this._config.scores.okay,
 					resultText: sprintf(
@@ -122,7 +126,7 @@ export default class TextImagesAssessment extends Assessment {
 						"</a>"
 					),
 				};
-			} else if ( inRangeStartEndInclusive( mediaCount, 1, 3 ) && this._countVideos ) {
+			} else if ( inRangeStartEndInclusive( mediaCount, 1, 3 ) && countVideos ) {
 				return {
 					score: this._config.scores.okay,
 					resultText: sprintf(
@@ -145,7 +149,7 @@ export default class TextImagesAssessment extends Assessment {
 			}
 		}
 
-		if ( this._countVideos ) {
+		if ( countVideos ) {
 			// Text with at least one image or one video.
 			return {
 				score: this._config.scores.good,
