@@ -12,7 +12,7 @@ import classNames from "classnames";
  *
  * @returns {JSX.Element} The image alt notice component.
  */
-export const ImageAltNotice = ( { onClick, numberOfImagesMissingAlt, className } ) => {
+export const ImageAltNotice = ( { onClick, numberOfImagesMissingAlt = 0, className } ) => {
 	return (
 		<div className={ classNames( "yst-bg-slate-50 yst-border yst-border-slate-200 yst-rounded-md yst-p-4", className ) }>
 			<div className="yst-flex yst-gap-4 yst-justify-between">

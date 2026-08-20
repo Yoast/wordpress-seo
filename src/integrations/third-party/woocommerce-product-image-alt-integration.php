@@ -61,77 +61,14 @@ class WooCommerce_Product_Image_Alt_Integration implements Integration_Interface
 	 */
 	public function enqueue_assets() {
 		$this->asset_manager->enqueue_script( 'product-image-alt' );
-		$this->asset_manager->enqueue_style( 'product-image-alt' );
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only, used only to pass data to JS.
 		$post_id = isset( $_GET['post'] ) ? (int) $_GET['post'] : 0;
 		$this->asset_manager->localize_script(
 			'product-image-alt',
 			'wpseoProductImageAlt',
-			[
-				'numberOfImagesMissingAlt' => $this->count_images_missing_alt( $post_id ),
-				'isRtl'                    => \is_rtl(),
-			]
+			[]
 		);
-	}
-
-	/**
-	 * Counts the number of product images (featured, gallery, and variation) that are missing alt text.
-	 *
-	 * @param int $post_id The product post ID.
-	 *
-	 * @return int The number of images without alt text.
-	 */
-	private function count_images_missing_alt( int $post_id ): int {
-		if ( $post_id === 0 ) {
-			return 0;
-		}
-
-		$image_ids = [];
-
-		// Featured (product) image.
-		$thumbnail_id = \get_post_thumbnail_id( $post_id );
-		if ( $thumbnail_id ) {
-			$image_ids[] = (int) $thumbnail_id;
-		}
-
-		// Gallery images.
-		$gallery_meta = \get_post_meta( $post_id, '_product_image_gallery', true );
-		if ( $gallery_meta ) {
-			$image_ids = \array_merge(
-				$image_ids,
-				\array_map( 'intval', \array_filter( \explode( ',', $gallery_meta ) ) )
-			);
-		}
-
-		// Variation images.
-		$variation_ids = \get_posts(
-			[
-				'post_type'      => 'product_variation',
-				'post_parent'    => $post_id,
-				'posts_per_page' => -1,
-				'fields'         => 'ids',
-				'post_status'    => 'any',
-			]
-		);
-		foreach ( $variation_ids as $variation_id ) {
-			$variation_thumbnail_id = \get_post_thumbnail_id( $variation_id );
-			if ( $variation_thumbnail_id ) {
-				$image_ids[] = (int) $variation_thumbnail_id;
-			}
-		}
-
-		// Deduplicate in case the same attachment is used in multiple places.
-		$image_ids = \array_unique( $image_ids );
-
-		$count = 0;
-		foreach ( $image_ids as $image_id ) {
-			if ( empty( \get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) ) {
-				$count++;
-			}
-		}
-
-		return $count;
 	}
 
 	/**
