@@ -81,9 +81,20 @@ const StyledHeaderRow = styled.h2`
 		flex: 0 1 auto;
 		min-width: 0;
 		width: auto;
-		background-color: transparent;
+		/*
+		 * Restates the shared h2 > button padding instead of inheriting a selector this heading does not
+		 * own. Physical on purpose: the collapsibles it has to line up with are padded physically too.
+		 */
+		padding-block-start: 16px;
+		${ getDirectionalStyle( "padding-left: 24px", "padding-right: 16px" ) };
 		// The help link brings its own leading gap, so the button ends at its title.
 		padding-inline-end: 0;
+		// Only the heading paints the hover, so it covers the row in one even color.
+		background-color: transparent;
+
+		&:hover {
+			background-color: transparent;
+		}
 
 		&::after {
 			content: "";
