@@ -35,6 +35,7 @@ jest.mock( "@wordpress/data", () => ( {
 		insertBlock: jest.fn(),
 		updateData: jest.fn(),
 		setFocusKeyword: jest.fn(),
+		setCornerstoneContent: jest.fn(),
 	} ) ),
 	select: jest.fn( () => ( {
 		getBlocks: () => [],

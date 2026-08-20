@@ -42,7 +42,7 @@ final class Estimated_Reading_Time_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_hooks() {
-		Monkey\Filters\expectAdded( 'wpseo_metabox_entries_general' )
+		Monkey\Filters\expectAdded( 'add_extra_wpseo_meta_fields' )
 			->with( [ $this->instance, 'add_estimated_reading_time_hidden_fields' ] );
 
 		$this->instance->register_hooks();
@@ -73,26 +73,29 @@ final class Estimated_Reading_Time_Test extends TestCase {
 		$actual = $this->instance->add_estimated_reading_time_hidden_fields( [] );
 
 		$this->assertIsArray( $actual );
-		$this->assertArrayHasKey( 'estimated-reading-time-minutes', $actual );
+		$this->assertArrayHasKey( 'general', $actual );
+		$this->assertArrayHasKey( 'estimated-reading-time-minutes', $actual['general'] );
 		$this->assertEquals(
 			[
 				'type'  => 'hidden',
 				'title' => 'estimated-reading-time-minutes',
 			],
-			$actual['estimated-reading-time-minutes'],
+			$actual['general']['estimated-reading-time-minutes'],
 		);
 	}
 
 	/**
-	 * Tests only adding when the fields value is an array.
+	 * Tests that a non-array input is treated as an empty array.
 	 *
 	 * @covers ::add_estimated_reading_time_hidden_fields
 	 *
 	 * @return void
 	 */
-	public function test_add_estimated_reading_time_hidden_fields_only_when_array() {
+	public function test_add_estimated_reading_time_hidden_fields_when_not_array() {
 		$actual = $this->instance->add_estimated_reading_time_hidden_fields( 'not-an-array' );
 
-		$this->assertSame( 'not-an-array', $actual );
+		$this->assertIsArray( $actual );
+		$this->assertArrayHasKey( 'general', $actual );
+		$this->assertArrayHasKey( 'estimated-reading-time-minutes', $actual['general'] );
 	}
 }

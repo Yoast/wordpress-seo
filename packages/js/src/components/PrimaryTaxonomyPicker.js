@@ -6,6 +6,7 @@ import { addQueryArgs } from "@wordpress/url";
 import { difference, noop } from "lodash";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import PrimaryTermFields from "../helpers/fields/PrimaryTermFields";
 import TaxonomyPicker from "./TaxonomyPicker";
 
 const PrimaryTaxonomyPickerField = styled.div`
@@ -28,8 +29,8 @@ class PrimaryTaxonomyPicker extends Component {
 		this.updateReplacementVariable = this.updateReplacementVariable.bind( this );
 
 		const { fieldId, name } = props.taxonomy;
-		this.input = document.getElementById( fieldId );
-		const parsedPrimaryTaxonomyId = parseInt( this.input.value, 10 );
+		const rawValue = PrimaryTermFields.get( name, fieldId );
+		const parsedPrimaryTaxonomyId = parseInt( rawValue, 10 );
 		// Fallback to -1 when the field is empty or invalid to avoid dispatching NaN.
 		props.setPrimaryTaxonomyId( name, Number.isNaN( parsedPrimaryTaxonomyId ) ? -1 : parsedPrimaryTaxonomyId );
 
@@ -182,13 +183,13 @@ class PrimaryTaxonomyPicker extends Component {
 	 * @returns {void}
 	 */
 	onChange( termId ) {
-		const { name } = this.props.taxonomy;
+		const { name, fieldId } = this.props.taxonomy;
 
 		this.updateReplacementVariable( termId );
 
 		this.props.setPrimaryTaxonomyId( name, termId );
 
-		this.input.value = termId === -1 ? "" : termId;
+		PrimaryTermFields.set( name, fieldId, termId );
 	}
 
 	/**

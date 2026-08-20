@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* global wpseoScriptData */
 
 // External dependencies.
@@ -48,6 +49,8 @@ import { actions } from "@yoast/externals/redux";
 
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
+import AnalysisFields from "../helpers/fields/AnalysisFields";
+import { isRestMetaActive } from "../helpers/fields/rest-meta";
 
 const {
 	setFocusKeyword,
@@ -131,7 +134,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeKeywordAnalysis( activePublishBox ) {
-		const savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
+		const savedKeywordScore = AnalysisFields.seoScore;
 
 		const indicator = getIndicatorForScore( savedKeywordScore );
 
@@ -149,7 +152,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeContentAnalysis( activePublishBox ) {
-		const savedContentScore = $( "#yoast_wpseo_content_score" ).val();
+		const savedContentScore = AnalysisFields.readabilityScore;
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
@@ -166,7 +169,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeInclusiveLanguageAnalysis( activePublishBox ) {
-		const savedContentScore = $( "#yoast_wpseo_inclusive_language_score" ).val();
+		const savedContentScore = AnalysisFields.inclusiveLanguageScore;
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
@@ -202,7 +205,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {PostDataCollector} The initialized post data collector.
 	 */
 	function initializePostDataCollector( data ) {
-		const postDataCollector = new PostDataCollector( {
+		const collector = new PostDataCollector( {
 			data,
 			store: store,
 		} );
@@ -215,19 +218,19 @@ export default function initPostScraper( $, store, editorData ) {
 		 *
 		 * See bind event on "ajaxComplete" in this file.
 		 */
-		postDataCollector.leavePostNameUntouched = false;
+		collector.leavePostNameUntouched = false;
 
-		return postDataCollector;
+		return collector;
 	}
 
 	/**
 	 * Returns the arguments necessary to initialize the app.
 	 *
-	 * @param {Object} store The store.
+	 * @param {Object} yoastStore The store.
 	 *
 	 * @returns {Object} The arguments to initialize the app
 	 */
-	function getAppArgs( store ) {
+	function getAppArgs( yoastStore ) {
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
@@ -243,7 +246,7 @@ export default function initPostScraper( $, store, editorData ) {
 				getData: postDataCollector.getData.bind( postDataCollector ),
 			},
 			locale: wpseoScriptData.metabox.contentLocale,
-			marker: getApplyMarks( store ),
+			marker: getApplyMarks( yoastStore ),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			debouncedRefresh: false,
@@ -252,22 +255,27 @@ export default function initPostScraper( $, store, editorData ) {
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			store.dispatch( setFocusKeyword( $( "#yoast_wpseo_focuskw" ).val() ) );
+			// In REST meta mode, when the entity meta is not yet available, the initial
+			// keyphrase dispatch is deferred together with title, description, and cornerstone
+			// in the single meta-ready subscriber inside initializeSnippetEditorSync.
+			if ( ! isRestMetaActive() || select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
+				yoastStore.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
+			}
 
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				const keyword = store.getState().focusKeyword;
+				const keyword = yoastStore.getState().focusKeyword;
 
-				store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-				store.dispatch( refreshSnippetEditor() );
+				yoastStore.dispatch( setSeoResultsForKeyword( keyword, results ) );
+				yoastStore.dispatch( refreshSnippetEditor() );
 			};
 		}
 
 		if ( isContentAnalysisActive() ) {
 			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind( postDataCollector );
 			args.callbacks.updatedContentResults = function( results ) {
-				store.dispatch( setReadabilityResults( results ) );
-				store.dispatch( refreshSnippetEditor() );
+				yoastStore.dispatch( setReadabilityResults( results ) );
+				yoastStore.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -317,14 +325,14 @@ export default function initPostScraper( $, store, editorData ) {
 	/**
 	 * Rerun the analysis when the title or meta description in the snippet changes.
 	 *
-	 * @param {Object}   store            The store.
+	 * @param {Object}   yoastStore       The store.
 	 * @param {Function} _refreshAnalysis Function that triggers a refresh of the analysis.
 	 *
 	 * @returns {void}
 	 */
-	function handleStoreChange( store, _refreshAnalysis ) {
+	function handleStoreChange( yoastStore, _refreshAnalysis ) {
 		const previousAnalysisData = currentAnalysisData || "";
-		currentAnalysisData = store.getState().analysisData.snippet;
+		currentAnalysisData = yoastStore.getState().analysisData.snippet;
 
 		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
@@ -369,10 +377,45 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
+	 * Dispatches the initial cornerstone, keyphrase, title, and description to the store.
+	 * In REST meta mode, defers the dispatch until core/editor has loaded the entity meta.
+	 *
+	 * @param {Object} snippetEditorTemplates The snippet editor templates from l10n.
+	 *
+	 * @returns {void}
+	 */
+	function dispatchInitialMetaOnReady( snippetEditorTemplates ) {
+		if ( isRestMetaActive() && ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
+			// In REST meta mode the entity meta hasn't loaded yet, so title, description,
+			// keyphrase, and cornerstone all return empty/false values. A single subscriber
+			// re-dispatches all four once core/editor makes the meta available.
+			const unsubscribeMetaReady = subscribe( () => {
+				if ( ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
+					return;
+				}
+				unsubscribeMetaReady();
+				const freshData = getDataFromCollector( postDataCollector );
+				const freshDataWithTemplates = getDataWithTemplates( freshData, snippetEditorTemplates );
+				store.dispatch( updateData( {
+					title: freshDataWithTemplates.title,
+					description: freshDataWithTemplates.description,
+				} ) );
+				store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
+				if ( isKeywordAnalysisActive() ) {
+					store.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
+				}
+			}, "core/editor" );
+		} else {
+			store.dispatch( setCornerstoneContent( AnalysisFields.isCornerstone ) );
+		}
+	}
+
+	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
 	 */
+	// eslint-disable-next-line max-statements
 	function initializePostAnalysis() {
 		metaboxContainer = $( "#wpseo_meta" );
 
@@ -381,8 +424,10 @@ export default function initPostScraper( $, store, editorData ) {
 
 		handlePageBuilderCompatibility();
 
-		// Avoid error when snippet metabox is not rendered.
-		if ( metaboxContainer.length === 0 ) {
+		// Avoid error when snippet metabox is not rendered, unless the metabox has been intentionally
+		// disabled in the block editor (REST-first mode), in which case the app still needs to initialize
+		// so that window.YoastSEO.app and its Pluggable hooks are available for third-party integrations.
+		if ( metaboxContainer.length === 0 && ! isRestMetaActive() ) {
 			return;
 		}
 
@@ -390,9 +435,12 @@ export default function initPostScraper( $, store, editorData ) {
 		publishBox.initialize();
 
 		const appArgs = getAppArgs( store );
+
+		// Sets up the window.YoastSEO namespace, creates the App instance, and wires all
+		// app-level overwrites (Pluggable, refresh, analysis worker, etc.).
 		app = new App( appArgs );
 
-		// Content analysis
+		// Content analysis.
 		window.YoastSEO = window.YoastSEO || {};
 		window.YoastSEO.app = app;
 		window.YoastSEO.store = store;
@@ -439,7 +487,7 @@ export default function initPostScraper( $, store, editorData ) {
 		// Backwards compatibility.
 		window.YoastSEO.analyzerArgs = appArgs;
 
-		// Analysis plugins
+		// Analysis plugins.
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 		initShortcodePlugin( app, store );
@@ -463,7 +511,6 @@ export default function initPostScraper( $, store, editorData ) {
 			} )
 			.catch( handleWorkerError );
 
-
 		postDataCollector.bindElementEvents( debounce( () => refreshAnalysis(
 			window.YoastSEO.analysis.worker,
 			window.YoastSEO.analysis.collectData,
@@ -485,17 +532,15 @@ export default function initPostScraper( $, store, editorData ) {
 			editorData.setRefresh( app.refresh );
 		}
 
-		// Initialize the snippet editor data.
+		// Initialize snippet editor data and wire the store subscriber that keeps it in sync.
 		let snippetEditorData = getDataFromCollector( postDataCollector );
 		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
 		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
-		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
-		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
-		store.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "1" ) );
 
-		// Save the keyword, in order to compare it to store changes.
+		dispatchInitialMetaOnReady( snippetEditorTemplates );
+
 		let focusKeyword = store.getState().focusKeyword;
 		requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
 		const refreshAfterFocusKeywordChange = debounce( () => {
@@ -511,13 +556,12 @@ export default function initPostScraper( $, store, editorData ) {
 				focusKeyword = newFocusKeyword;
 				requestWordsToHighlight( window.YoastSEO.analysis.worker.runResearch, store, focusKeyword );
 
-				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
+				AnalysisFields.keyphrase = focusKeyword;
 				refreshAfterFocusKeywordChange();
 			}
 
 			const data = getDataFromStore( store );
 			const dataWithoutTemplates = getDataWithoutTemplates( data, snippetEditorTemplates );
-
 
 			if ( snippetEditorData.title !== data.title ) {
 				postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
@@ -535,7 +579,7 @@ export default function initPostScraper( $, store, editorData ) {
 
 			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
 				previousCornerstoneValue = currentState.isCornerstone;
-				document.getElementById( "yoast_wpseo_is_cornerstone" ).value = currentState.isCornerstone;
+				AnalysisFields.isCornerstone = currentState.isCornerstone;
 
 				app.changeAssessorOptions( {
 					useCornerstone: currentState.isCornerstone,
