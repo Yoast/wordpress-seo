@@ -3,8 +3,18 @@ import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { LocationProvider } from "@yoast/externals/contexts";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import SidebarButton from "../../SidebarButton";
 import Modal from "../Modal";
+
+/*
+ * Rows the title and the help link, so the link is centered on the title in every language. Inline
+ * alignment follows the font's metrics, which puts the icon low under a Hebrew or Arabic title.
+ */
+const StyledTitleWithHelpLink = styled.span`
+	display: inline-flex;
+	align-items: center;
+`;
 
 /**
  * Returns a button in a div that can be used to open the modal.
@@ -44,10 +54,12 @@ const EditorModal = ( {
 		{ isOpen &&
 			<LocationProvider value="modal">
 				<Modal
-					title={ titleHelpLink ? <>{ title }{ titleHelpLink }</> : title }
+					title={ titleHelpLink
+						? <StyledTitleWithHelpLink>{ title }{ titleHelpLink }</StyledTitleWithHelpLink>
+						: title }
 					/*
-					 * The dialog is named by its heading, so with a help link in there the link's screen reader text
-					 * would become part of the dialog name. contentLabel keeps the name to the title alone.
+					 * The modal is named by its heading, so with a help link in there the link's screen reader text
+					 * would become part of the modal name. Setting contentLabel keeps the name to the title alone.
 					 */
 					contentLabel={ titleHelpLink ? title : null }
 					onRequestClose={ close }
