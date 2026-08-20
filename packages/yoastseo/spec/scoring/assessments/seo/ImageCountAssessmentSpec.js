@@ -181,3 +181,48 @@ describe( "tests for the assessment applicability.", function() {
 		expect( imageCountAssessment.isApplicable( paper ) ).toBe( true );
 	} );
 } );
+
+describe( "tests for the provided-images scope.", function() {
+	it( "still assesses an empty text when the counted images come from the paper's provided images.", function() {
+		// When the paper provides its own images the researches count paper-level images, so an empty text must not zero the result.
+		const assessment = imageCountAssessment.getResult( new Paper( "" ), Factory.buildMockResearcher( {
+			imageCount: 4,
+		}, true ) );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!" );
+	} );
+
+	it( "ignores text videos when the paper provides its own images, so they cannot mask missing provided images (countVideos is true)", function() {
+		// The video count comes from the text, a different surface than the provided images — summing them would score green without any provided image.
+		const mockPaper = new Paper( "These are just five words <video src=\"movie.mp4\"></video>", { providedImages: [] } );
+
+		const assessment = new ImageCountAssessment( {}, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 0,
+			videoCount: 1,
+		}, true ) );
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: " +
+			"No images appear on this page. <a href='https://yoa.st/4f5' target='_blank'>Add some</a>!" );
+	} );
+
+	it( "scores on the provided images alone, with the images-only copy, when the paper provides its own images (countVideos is true)", function() {
+		const mockPaper = new Paper( "These are just five words <video src=\"movie.mp4\"></video>", {
+			providedImages: [
+				{ src: "image1.jpg", alt: "" },
+				{ src: "image2.jpg", alt: "" },
+				{ src: "image3.jpg", alt: "" },
+				{ src: "image4.jpg", alt: "" },
+			],
+		} );
+
+		const assessment = new ImageCountAssessment( {}, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 4,
+			videoCount: 1,
+		}, true ) );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!" );
+	} );
+} );
