@@ -57,6 +57,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"ai-content-planner": `${ sourceDirectory }/ai-content-planner/initialize.js`,
 	"ai-consent": `${ sourceDirectory }/ai-consent/initialize.js`,
 	plans: `${ sourceDirectory }/plans/initialize.js`,
+	"product-image-alt": `${ sourceDirectory }/product-image-alt/initialize.js`,
 } );
 
 /**

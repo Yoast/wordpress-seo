@@ -744,6 +744,11 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'plans-' . $flat_version,
 				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
+			[
+				'name' => 'product-image-alt',
+				'src'  => 'product-image-alt-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
+			],
 		];
 	}
 
