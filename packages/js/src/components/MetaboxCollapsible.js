@@ -70,8 +70,8 @@ const StyledHeaderRow = styled.h2`
 		background-color: #f0f0f0;
 	}
 
-	// Anything that is not the toggle button, so in practice the help link.
-	> :not(button) {
+	// The link's wrapper, above the button's overlay so the link stays clickable.
+	> span {
 		position: relative;
 		z-index: 1;
 		flex: 0 0 auto;
@@ -143,7 +143,7 @@ const MetaboxCollapsible = ( { initialIsOpen = false, id = null, HeaderHelpLink 
 			return (
 				<StyledHeaderRow>
 					<StyledIconsButton { ...headingProps } />
-					<HeaderHelpLink />
+					<span><HeaderHelpLink /></span>
 				</StyledHeaderRow>
 			);
 		};
