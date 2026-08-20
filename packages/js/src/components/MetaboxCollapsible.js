@@ -1,5 +1,5 @@
 import { useMemo } from "@wordpress/element";
-import { Collapsible, StyledIconsButton } from "@yoast/components";
+import { Collapsible, StyledIconsButton, StyledTitle } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors, rgba } from "@yoast/style-guide";
 import PropTypes from "prop-types";
@@ -23,7 +23,7 @@ const StyledMetaboxCollapsible = styled( Collapsible )`
 
 `;
 
-/**
+/*
  * Heading that holds the toggle button and a help link side by side.
  *
  * This replaces the heading the Collapsible renders itself, so it repeats the resets that
@@ -56,9 +56,14 @@ const StyledHeaderRow = styled.h2`
 	margin: 0 !important;
 	padding-block: 0 !important;
 	padding-inline-start: 0 !important;
-	font-size: 1rem !important;
-	font-weight: normal !important;
-	color: ${ colors.$color_headings } !important;
+	font-size: ${ props => props.headingProps.fontSize } !important;
+	font-weight: ${ props => props.headingProps.fontWeight } !important;
+	color: ${ props => props.headingProps.color } !important;
+
+	${ StyledTitle } {
+		font-weight: ${ props => props.headingProps.fontWeight };
+		color: ${ props => props.headingProps.color };
+	}
 
 	position: relative;
 	display: flex;
@@ -129,6 +134,7 @@ const StyledHeaderRow = styled.h2`
  * @param {Object} props The props
  * @param {boolean} [props.initialIsOpen=false] Whether the collapsible should be open by default
  * @param {?string} [props.id=null] The id of the collapsible
+ * @param {Object} [props.headingProps] The typography of the heading, as the Collapsible defines it
  * @param {?React.ComponentType} [props.HeaderHelpLink=null] A component rendering a help link to show
  *        next to the title, before the suffix icon. It is a component rather than an element so its
  *        identity stays stable across renders: the heading is swapped for a custom one when it is set,
@@ -137,7 +143,13 @@ const StyledHeaderRow = styled.h2`
  *
  * @returns {React.Component} A MetaboxCollapsible component
  */
-const MetaboxCollapsible = ( { initialIsOpen = false, id = null, HeaderHelpLink = null, ...rest } ) => {
+const MetaboxCollapsible = ( {
+	initialIsOpen = false,
+	id = null,
+	HeaderHelpLink = null,
+	headingProps = Collapsible.defaultProps.headingProps,
+	...rest
+} ) => {
 	const Heading = useMemo( () => {
 		if ( ! HeaderHelpLink ) {
 			return null;
@@ -146,25 +158,27 @@ const MetaboxCollapsible = ( { initialIsOpen = false, id = null, HeaderHelpLink 
 		/**
 		 * The heading, with the toggle button and the help link as siblings.
 		 *
-		 * @param {Object} headingProps The props the Collapsible passes to its heading.
+		 * @param {Object} buttonProps The props the Collapsible passes to its heading.
 		 *
 		 * @returns {JSX.Element} The heading.
 		 */
-		return function HeadingWithHelpLink( headingProps ) {
+		return function HeadingWithHelpLink( buttonProps ) {
 			return (
-				<StyledHeaderRow>
-					<StyledIconsButton { ...headingProps } />
+				// Always an h2, like every other metabox collapsible.
+				<StyledHeaderRow headingProps={ headingProps }>
+					<StyledIconsButton { ...buttonProps } />
 					<span><HeaderHelpLink /></span>
 				</StyledHeaderRow>
 			);
 		};
-	}, [ HeaderHelpLink ] );
+	}, [ HeaderHelpLink, headingProps ] );
 
 	return <StyledMetaboxCollapsible
 		hasPadding={ true }
 		hasSeparator={ true }
 		initialIsOpen={ initialIsOpen }
 		id={ id }
+		headingProps={ headingProps }
 		{ ...( Heading ? { Heading } : {} ) }
 		{ ...rest }
 	/>;
@@ -174,6 +188,12 @@ MetaboxCollapsible.propTypes = {
 	initialIsOpen: PropTypes.bool,
 	id: PropTypes.string,
 	HeaderHelpLink: PropTypes.elementType,
+	headingProps: PropTypes.shape( {
+		level: PropTypes.number,
+		fontSize: PropTypes.string,
+		fontWeight: PropTypes.string,
+		color: PropTypes.string,
+	} ),
 };
 
 export default MetaboxCollapsible;
