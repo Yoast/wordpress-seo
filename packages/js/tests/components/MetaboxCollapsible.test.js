@@ -8,6 +8,17 @@ import MetaboxCollapsible from "../../src/components/MetaboxCollapsible";
  */
 const HelpLink = () => <a href="https://example.com/help">Help</a>;
 
+/**
+ * Builds a fresh help link component, the way an inline component in JSX would.
+ *
+ * @param {string} label The link text.
+ *
+ * @returns {function(): JSX.Element} A new component on every call.
+ */
+const buildHelpLink = ( label ) => function InlineHelpLink() {
+	return <a href="https://example.com/help">{ label }</a>;
+};
+
 describe( "MetaboxCollapsible", () => {
 	it( "renders no help link by default", () => {
 		render( <MetaboxCollapsible title="Section" initialIsOpen={ true }>Content</MetaboxCollapsible> );
@@ -82,5 +93,27 @@ describe( "MetaboxCollapsible", () => {
 		// A heading whose identity changed every render would remount the button and drop focus.
 		expect( screen.getByRole( "button", { name: "Section" } ) ).toBe( button );
 		expect( document.activeElement ).toBe( button );
+	} );
+
+	it( "keeps the toggle button mounted when the help link is an inline component", () => {
+		const { rerender } = render(
+			<MetaboxCollapsible title="Section" initialIsOpen={ true } HeaderHelpLink={ buildHelpLink( "Help" ) }>
+				Content
+			</MetaboxCollapsible>
+		);
+
+		const button = screen.getByRole( "button", { name: "Section" } );
+		button.focus();
+
+		rerender(
+			<MetaboxCollapsible title="Section" initialIsOpen={ true } HeaderHelpLink={ buildHelpLink( "More help" ) }>
+				Content
+			</MetaboxCollapsible>
+		);
+
+		// The heading may not depend on the reference, but still has to render the current link.
+		expect( screen.getByRole( "button", { name: "Section" } ) ).toBe( button );
+		expect( document.activeElement ).toBe( button );
+		expect( screen.getByRole( "link", { name: "More help" } ) ).toBeInTheDocument();
 	} );
 } );

@@ -1,4 +1,4 @@
-import { useMemo } from "@wordpress/element";
+import { useMemo, useRef } from "@wordpress/element";
 import { Collapsible, StyledIconsButton, StyledTitle } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors, rgba } from "@yoast/style-guide";
@@ -135,11 +135,8 @@ const StyledHeaderRow = styled.h2`
  * @param {boolean} [props.initialIsOpen=false] Whether the collapsible should be open by default
  * @param {?string} [props.id=null] The id of the collapsible
  * @param {Object} [props.headingProps] The typography of the heading, as the Collapsible defines it
- * @param {?React.ComponentType} [props.HeaderHelpLink=null] A component rendering a help link to show
- *        next to the title, before the suffix icon. It is a component rather than an element so its
- *        identity stays stable across renders: the heading is swapped for a custom one when it is set,
- *        and a heading that changed identity every render would remount the toggle button and drop
- *        focus.
+ * @param {?React.ComponentType} [props.HeaderHelpLink=null] Renders a help link after the title, before the
+ *        suffix icon. A component rather than an element, because the heading composes it itself.
  *
  * @returns {React.Component} A MetaboxCollapsible component
  */
@@ -150,8 +147,20 @@ const MetaboxCollapsible = ( {
 	headingProps = Collapsible.defaultProps.headingProps,
 	...rest
 } ) => {
+	/*
+	 * Read through refs, so the heading keeps its identity even when these props get a new reference.
+	 * A heading that changed identity would remount the toggle button and drop focus.
+	 */
+	const HeaderHelpLinkRef = useRef( HeaderHelpLink );
+	HeaderHelpLinkRef.current = HeaderHelpLink;
+	const headingPropsRef = useRef( headingProps );
+	headingPropsRef.current = headingProps;
+
+	// Only the presence of a help link changes the heading, and that does not change after mount.
+	const hasHeaderHelpLink = Boolean( HeaderHelpLink );
+
 	const Heading = useMemo( () => {
-		if ( ! HeaderHelpLink ) {
+		if ( ! hasHeaderHelpLink ) {
 			return null;
 		}
 
@@ -163,15 +172,17 @@ const MetaboxCollapsible = ( {
 		 * @returns {JSX.Element} The heading.
 		 */
 		return function HeadingWithHelpLink( buttonProps ) {
+			const CurrentHeaderHelpLink = HeaderHelpLinkRef.current;
+
 			return (
 				// Always an h2, like every other metabox collapsible.
-				<StyledHeaderRow headingProps={ headingProps }>
+				<StyledHeaderRow headingProps={ headingPropsRef.current }>
 					<StyledIconsButton { ...buttonProps } />
-					<span><HeaderHelpLink /></span>
+					<span><CurrentHeaderHelpLink /></span>
 				</StyledHeaderRow>
 			);
 		};
-	}, [ HeaderHelpLink, headingProps ] );
+	}, [ hasHeaderHelpLink ] );
 
 	return <StyledMetaboxCollapsible
 		hasPadding={ true }
