@@ -339,6 +339,22 @@ describe( "Counts alt-tags of the paper's provided images when the producer prov
 		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
 	} );
 
+	it( "recognizes a keyphrase inflection that occurs only in a provided image's alt text", function() {
+		const paper = new Paper( "A text about a pet.", {
+			keyword: "cat",
+			providedImages: [ { id: 1, src: "https://example.com/gallery.jpg", alt: "two cats" } ],
+		} );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 1 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
+	} );
+
 	it( "classifies nothing when the producer opted in with an empty images array, even when the text has images", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", {
 			keyword: "keyword",
