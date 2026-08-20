@@ -35,10 +35,7 @@ describe( "MetaboxCollapsible", () => {
 
 		const link = screen.getByRole( "link", { name: "Help" } );
 
-		/*
-		 * A link inside the toggle button would be invalid HTML, and a click on it would open the link
-		 * and toggle the panel at the same time.
-		 */
+		// A link in a button is invalid HTML, and one click would open the link and toggle the panel.
 		expect( link.closest( "button" ) ).toBeNull();
 		expect( screen.getByRole( "button", { name: "Section" } ) ).toBeInTheDocument();
 	} );
@@ -51,9 +48,8 @@ describe( "MetaboxCollapsible", () => {
 		);
 
 		/*
-		 * The suffix icon is moved to the edge of the heading with CSS only. It has to stay a child of
-		 * the button so it keeps toggling the panel, and because integrations look it up and click its
-		 * parent element to open a collapsible.
+		 * The icon is only moved with CSS: it has to stay in the button to keep toggling, and because
+		 * integrations look it up and click its parent element.
 		 */
 		const chevron = container.querySelector( "[class*=chevron]" );
 		expect( chevron ).not.toBeNull();

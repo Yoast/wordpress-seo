@@ -24,35 +24,21 @@ const StyledMetaboxCollapsible = styled( Collapsible )`
 `;
 
 /*
- * Heading that holds the toggle button and a help link side by side.
- *
- * This replaces the heading the Collapsible renders itself, so it repeats the resets that
- * wrapInHeading applies. The link has to be a sibling of the toggle button, never a child: a link
- * inside a button is invalid HTML, and one click would open the link and toggle the panel at once.
- *
- * Making room for the link costs the two behaviours the full-width button provided. Both come back
- * without a click handler on the heading:
- *
- * - The button's `::after` covers the whole heading, so clicks anywhere on it still reach the button,
- *   and it carries the focus ring so the indicator still frames the whole heading rather than just the
- *   title. The help link is lifted above that overlay so it stays clickable.
- * - The suffix icon is pinned to the heading's edge while remaining a child of the button, which keeps
- *   it inside the toggle's hit area and keeps integrations working that look the icon up and click its
- *   parent element to open a collapsible.
- */
-/*
- * Where to pin the suffix icon. Pinning takes it out of the flow, so it has to land where the flow
- * would have put it: against the toggle button's end padding. That padding is set with a physical
- * `padding-left` above, so the end side measures 16px in LTR but 24px in RTL. Matching both keeps this
- * heading's icon lined up with the icon of every collapsible that has no help link.
+ * Pins the suffix icon against the button's end padding, which is physical: 16px in LTR, 24px in RTL.
+ * Matching it lines the icon up with the collapsibles that have no help link.
  */
 const suffixIconInset = getDirectionalStyle( "right: 16px", "left: 24px" );
 
+/*
+ * Heading holding the toggle button and a help link side by side, in place of the one the Collapsible
+ * wraps itself, hence the headingProps and the resets below.
+ *
+ * The link is a sibling of the button, never a child: a link in a button is invalid HTML, and one click
+ * would do both. The button then ends at its title, so its `::after` spans the row for the rest of the
+ * click area and the focus ring, and the suffix icon is only moved with CSS, so it stays in the button.
+ */
 const StyledHeaderRow = styled.h2`
-	/*
-	 * Repeats wrapInHeading's resets, because this element takes the place of the heading it would
-	 * otherwise render. Written as longhands so the chevron's lane below can override just one side.
-	 */
+	// wrapInHeading's resets, as longhands so the icon's lane below can override one side.
 	margin: 0 !important;
 	padding-block: 0 !important;
 	padding-inline-start: 0 !important;
@@ -68,7 +54,7 @@ const StyledHeaderRow = styled.h2`
 	position: relative;
 	display: flex;
 	align-items: center;
-	// Reserve the suffix icon's lane so the title and the help link shrink before reaching it.
+	// The suffix icon's lane, so the title and the link shrink before reaching it.
 	padding-inline-end: 48px !important;
 
 	&:hover {
@@ -107,6 +93,10 @@ const StyledHeaderRow = styled.h2`
 			inset: 0;
 		}
 
+		/*
+		 * The ring moves to the overlay, because on the button it would frame the title alone. It cannot
+		 * be reused: elsewhere it is the browser's own, which no pseudo-element can draw. Colors from Button.js.
+		 */
 		&:focus {
 			outline: none;
 			box-shadow: none;

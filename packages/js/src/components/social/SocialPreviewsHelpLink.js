@@ -5,9 +5,8 @@ import styled from "styled-components";
 import HelpLink from "../HelpLink";
 
 /*
- * The header row centres its items, so the vertical nudge HelpLink applies for inline text would
- * push the icon off-centre here. The gap to the title lives here rather than on either header,
- * so the collapsible and the modal keep the same spacing.
+ * Both headers center their items, so HelpLink's nudge for inline text would push the icon off center.
+ * The gap to the title lives here, so the collapsible and the modal keep the same spacing.
  */
 const StyledHelpLink = styled( HelpLink )`
 	margin-block: 0;
@@ -17,9 +16,8 @@ const StyledHelpLink = styled( HelpLink )`
 /**
  * The help link for the social appearance sections, pointing at the social previews feature page.
  *
- * Rendered in the header of the "Social media appearance" collapsible and in the header of the
- * social appearance modal. It is always a sibling of the collapsible's toggle button, never a child
- * of it: a link inside a button is invalid HTML, and clicking it would toggle the panel as well.
+ * Rendered in the "Social media appearance" collapsible header and in the modal header. Always a
+ * sibling of the toggle button, never a child: a link in a button is invalid HTML.
  *
  * @returns {JSX.Element} The help link.
  */

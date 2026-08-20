@@ -12,9 +12,8 @@ export const defaultModalClassName = "yoast yoast-gutenberg-modal";
  *
  * Accepts all props that the Gutenberg modal accepts.
  *
- * @param {React.ReactNode} [title="Yoast SEO"] The modal title. A node is allowed so callers can put a help link next to
- *                                            the title; pair that with `contentLabel` so the dialog's accessible name
- *                                            stays the title text alone.
+ * @param {React.ReactNode} [title="Yoast SEO"] The modal title. A node allows a help link next to it; pair that with
+ *                                            `contentLabel` so the accessible name stays the title text alone.
  * @param {string} [className=defaultModalClassName] The modal className.
  * @param {boolean} [showYoastIcon=true] Whether to show the Yoast icon.
  * @param {React.ReactNode} [children=null] The modal content.

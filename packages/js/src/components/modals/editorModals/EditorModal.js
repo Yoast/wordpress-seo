@@ -31,9 +31,8 @@ const StyledTitleWithHelpLink = styled.span`
  * @param {boolean} [shouldCloseOnClickOutside=true] Whether the modal should close when clicking outside.
  * @param {boolean} [showChangesWarning=true] Whether to show the changes warning.
  * @param {JSX.Element} [SuffixHeroIcon=null] Optional icon component.
- * @param {JSX.Element} [titleHelpLink=null] A help link rendered next to the modal title. It is deliberately not part of
- *                                          `title`, because `title` is also rendered inside the sidebar's open button,
- *                                          where a nested link would be invalid HTML.
+ * @param {JSX.Element} [titleHelpLink=null] A help link next to the modal title. Kept out of `title`, which also
+ *                                          renders in the sidebar's open button, where a nested link would be invalid.
  *
  * @returns {JSX.Element} The modal and its open button.
  */
