@@ -51,7 +51,6 @@ class WooCommerce_Product_Image_Alt_Integration implements Integration_Interface
 		}
 
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		\add_filter( 'admin_post_thumbnail_html', [ $this, 'render_product_image_notice' ], 10, 3 );
 	}
 
 	/**
@@ -119,23 +118,6 @@ class WooCommerce_Product_Image_Alt_Integration implements Integration_Interface
 		}
 
 		return $images;
-	}
-
-	/**
-	 * Appends the product image alt notice mount point to the product image metabox.
-	 *
-	 * @param string   $html         The existing product image metabox HTML.
-	 * @param int      $post_id      The post ID.
-	 * @param int|null $thumbnail_id The current thumbnail attachment ID, or null.
-	 *
-	 * @return string The HTML with the notice mount point appended.
-	 */
-	public function render_product_image_notice( $html, $post_id, $thumbnail_id ) {
-		if ( \get_post_type( $post_id ) !== 'product' ) {
-			return $html;
-		}
-
-		return $html . '<div id="yoast-product-image-alt-notice"></div>';
 	}
 
 	/**

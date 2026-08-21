@@ -125,5 +125,5 @@ export const useVariationImages = ( initialState ) => {
 		return () => cleanups.forEach( ( fn ) => fn() );
 	}, [ refresh ] );
 
-	return { variationImages, isLoadingAlts };
+	return { variationImages, isLoadingVariationImagesAlts: isLoadingAlts };
 };

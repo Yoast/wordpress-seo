@@ -18,8 +18,11 @@ const mountNotice = ( container, location, className ) => {
 };
 
 domReady( () => {
-	const productImageContainer = document.getElementById( "yoast-product-image-alt-notice" );
-	if ( productImageContainer ) {
+	const postImageInside = document.querySelector( "#postimagediv" );
+	if ( postImageInside ) {
+		const productImageContainer = document.createElement( "div" );
+		productImageContainer.id = "yoast-product-image-alt-notice";
+		postImageInside.appendChild( productImageContainer );
 		mountNotice( productImageContainer, "product-image", "yst-mx-3 yst-mb-3" );
 	}
 

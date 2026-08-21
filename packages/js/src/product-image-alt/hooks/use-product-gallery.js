@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { useState, useEffect, useCallback } from "@wordpress/element";
 import { fetchAttachmentAlts } from "../helpers";
 
@@ -79,5 +80,5 @@ export const useProductGallery = () => {
 		return () => cleanups.forEach( ( fn ) => fn() );
 	}, [ refresh ] );
 
-	return { galleryImages, isLoadingAlts };
+	return { galleryImages, isLoadingProductGalleryAlts: isLoadingAlts };
 };

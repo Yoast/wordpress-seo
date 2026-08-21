@@ -26,15 +26,21 @@ export const App = ( { className, location } ) => {
 	}, [] );
 	const initialVariatonImages = get( window, "wpseoProductImageAlt.variationImages", [] );
 
-	const { featuredImage } = useProductImage();
-	const { galleryImages } = useProductGallery();
-	const { variationImages } = useVariationImages( initialVariatonImages );
+	const { featuredImage, isLoadingFeaturedImageAlt } = useProductImage();
+	const { galleryImages, isLoadingProductGalleryAlts } = useProductGallery();
+	const { variationImages, isLoadingVariationImagesAlts } = useVariationImages( initialVariatonImages );
+
+	const isLoading = isLoadingFeaturedImageAlt || isLoadingProductGalleryAlts || isLoadingVariationImagesAlts;
 
 	const imagesWithoutAlt = useMemo( () =>
 		countImagesMissingAlt( { featuredImage, galleryImages, variationImages } )
 	, [ featuredImage, galleryImages, variationImages ] );
 
-	if ( shouldHideNotice( location, featuredImage, galleryImages, variationImages ) ) {
+	const hideNotice = useMemo( () =>
+		shouldHideNotice( location, featuredImage, galleryImages, variationImages )
+	, [ location, featuredImage, galleryImages, variationImages ] );
+
+	if ( hideNotice || isLoading ) {
 		return null;
 	}
 

@@ -4,7 +4,8 @@
  *
  * @param {string} location - The location where the notice might be rendered.
  * @param {object|null} featuredImage - The product's featured image, or null.
- * @param {number} imagesWithoutAlt - The number of images missing alt text.
+ * @param {Array} galleryImages - An array of gallery images.
+ * @param {Array} variationImages - An array of variation images.
  * @returns {boolean} - Whether the notice should be rendered.
  */
 export const shouldHideNotice = ( location, featuredImage, galleryImages = [], variationImages = [] ) => {

@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { useState, useEffect, useCallback } from "@wordpress/element";
 import { fetchAttachmentAlts } from "../helpers";
 
@@ -9,13 +10,22 @@ import { fetchAttachmentAlts } from "../helpers";
  * @returns {import("./use-product-images").ProductImage|null}
  */
 function getFeaturedImageFromDOM() {
-	const rawId = Number( document.getElementById( "_thumbnail_id" )?.value );
-	const id = rawId > 0 ? rawId : null;
-	if ( ! id ) {
+	// The <img> inside #set-post-thumbnail is the definitive signal that a
+	// product image is set. WooCommerce (thickbox flow) adds the img first and
+	// updates _thumbnail_id slightly after, so we must not gate on the ID.
+	const img = document.querySelector( "#set-post-thumbnail img" );
+	if ( ! img ) {
 		return null;
 	}
-	const img = document.querySelector( "#set-post-thumbnail img" );
-	return { id, src: img?.src ?? "", alt: img?.alt ?? "" };
+
+	// Read _thumbnail_id as best-effort: may still be -1 on the first
+	// MutationObserver tick if _thumbnail_id hasn't been updated yet.
+	// A null id means we skip the REST fetch but the notice still shows
+	// correctly because img.alt is already readable from the DOM.
+	const rawId = Number( document.getElementById( "_thumbnail_id" )?.value );
+	const id = rawId > 0 ? rawId : null;
+
+	return { id, src: img.src, alt: img.alt };
 }
 
 /**
@@ -44,16 +54,32 @@ export const useProductImage = () => {
 
 		const cleanups = [];
 
-		// Re-run when the featured image is set, removed, or its alt text is edited.
-		const thumbnailEl = document.getElementById( "set-post-thumbnail" );
-		if ( thumbnailEl ) {
-			thumbnailEl.addEventListener( "click", refresh );
-			const thumbnailObserver = new MutationObserver( () => refresh() );
-			thumbnailObserver.observe( thumbnailEl, { childList: true, subtree: true } );
-			cleanups.push( () => {
-				thumbnailEl.removeEventListener( "click", refresh );
-				thumbnailObserver.disconnect();
-			} );
+		// WooCommerce uses the old thickbox to let the user pick the product image.
+		// WordPress updates #set-post-thumbnail (and _thumbnail_id) before removing
+		// the thickbox overlay, so detecting #TB_overlay removal is the most
+		// reliable signal that the image has been set or changed.
+		const tbObserver = new MutationObserver( ( mutations ) => {
+			for ( const mutation of mutations ) {
+				for ( const node of mutation.removedNodes ) {
+					if ( node.id === "TB_overlay" || node.id === "TB_window" ) {
+						// Let any remaining synchronous DOM writes settle first.
+						setTimeout( refresh, 0 );
+						return;
+					}
+				}
+			}
+		} );
+		tbObserver.observe( document.body, { childList: true } );
+		cleanups.push( () => tbObserver.disconnect() );
+
+		// Also watch .inside for the image-removal case (clicking "Remove product
+		// image" does not go through the thickbox).
+		const insideEl = document.getElementById( "set-post-thumbnail" )?.closest( ".inside" ) ??
+			document.querySelector( "#postimagediv .inside" );
+		if ( insideEl ) {
+			const removalObserver = new MutationObserver( () => refresh() );
+			removalObserver.observe( insideEl, { childList: true, subtree: true } );
+			cleanups.push( () => removalObserver.disconnect() );
 		}
 
 		// Re-run when attachment metadata (alt text) is saved via WordPress AJAX.
@@ -73,5 +99,5 @@ export const useProductImage = () => {
 		return () => cleanups.forEach( ( fn ) => fn() );
 	}, [ refresh ] );
 
-	return { featuredImage, isLoadingAlts };
+	return { featuredImage, isLoadingFeaturedImageAlt: isLoadingAlts };
 };
