@@ -264,7 +264,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return string The open graph article published time.
 	 */
 	public function generate_open_graph_article_published_time() {
-		if ( $this->model->object_sub_type !== 'post' ) {
+		if ( $this->model->object_sub_type !== 'post' && $this->model->object_sub_type !== 'page' ) {
 			/**
 			 * Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types.
 			 *
