@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use WP_Screen;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\News_Conditional;
@@ -51,7 +50,8 @@ class Fix_News_Dependencies_Integration implements Integration_Interface {
 			return;
 		}
 
-		$is_block_editor  = WP_Screen::get()->is_block_editor();
+		$current_screen   = \get_current_screen();
+		$is_block_editor  = ( $current_screen ) ? $current_screen->is_block_editor() : false;
 		$post_edit_handle = 'post-edit';
 		if ( ! $is_block_editor ) {
 			$post_edit_handle = 'post-edit-classic';

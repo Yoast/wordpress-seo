@@ -358,7 +358,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
-		$screen          = WP_Screen::get();
+		$screen          = get_current_screen();
 		$is_block_editor = $screen && $screen->is_block_editor();
 		if ( $is_block_editor && $this->get_metabox_post()->post_type === 'post' ) {
 			/**
@@ -862,7 +862,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'ai-generator' );
 		$asset_manager->enqueue_style( 'ai-fix-assessments' );
 
-		$is_block_editor  = WP_Screen::get()->is_block_editor();
+		$current_screen   = get_current_screen();
+		$is_block_editor  = ( $current_screen ) ? $current_screen->is_block_editor() : false;
 		$post_edit_handle = 'post-edit';
 		if ( ! $is_block_editor ) {
 			$post_edit_handle = 'post-edit-classic';
