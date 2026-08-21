@@ -66,7 +66,7 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 				WooCommerce_Conditional::class,
 				Post_Conditional::class,
 			],
-			WooCommerce_Product_Image_Alt_Integration::get_conditionals()
+			WooCommerce_Product_Image_Alt_Integration::get_conditionals(),
 		);
 	}
 
@@ -84,13 +84,13 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 	 */
 	public function test_register_hooks_on_new_product_page() {
 		global $pagenow;
-		$pagenow              = 'post-new.php';
-		$_GET['post_type']    = 'product';
+		$pagenow           = 'post-new.php';
+		$_GET['post_type'] = 'product';
 
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse(
-			Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] )
+			Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] ),
 		);
 
 		unset( $_GET['post_type'] );
@@ -105,8 +105,8 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 	 */
 	public function test_register_hooks_on_product_edit_page() {
 		global $pagenow;
-		$pagenow        = 'post.php';
-		$_GET['post']   = '42';
+		$pagenow      = 'post.php';
+		$_GET['post'] = '42';
 
 		Monkey\Functions\expect( 'get_post_type' )
 			->once()
@@ -116,7 +116,7 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse(
-			Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] )
+			Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] ),
 		);
 
 		unset( $_GET['post'] );
@@ -137,7 +137,7 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertFalse(
-			Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] )
+			Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] ),
 		);
 
 		unset( $_GET['post_type'] );
@@ -163,7 +163,7 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertFalse(
-			Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] )
+			Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] ),
 		);
 
 		unset( $_GET['post'] );
@@ -183,7 +183,7 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertFalse(
-			Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] )
+			Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] ),
 		);
 	}
 
@@ -208,12 +208,8 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 			->with(
 				'product-image-alt',
 				'wpseoProductImageAlt',
-				[ 'variationImages' => [] ]
+				[ 'variationImages' => [] ],
 			);
-
-		Monkey\Functions\expect( 'function_exists' )
-			->with( 'wc_get_product' )
-			->andReturn( false );
 
 		$this->instance->enqueue_assets();
 	}
@@ -231,10 +227,6 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 
 		$product = Mockery::mock( 'WC_Product' );
 
-		Monkey\Functions\expect( 'function_exists' )
-			->with( 'wc_get_product' )
-			->andReturn( true );
-
 		Monkey\Functions\expect( 'wc_get_product' )
 			->once()
 			->with( 10 )
@@ -246,7 +238,7 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 			->with(
 				'product-image-alt',
 				'wpseoProductImageAlt',
-				[ 'variationImages' => [] ]
+				[ 'variationImages' => [] ],
 			);
 
 		$this->instance->enqueue_assets();
@@ -270,10 +262,6 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 
 		$product = Mockery::mock( WC_Product_Variable::class );
 		$product->expects( 'get_children' )->once()->andReturn( [ 7 ] );
-
-		Monkey\Functions\expect( 'function_exists' )
-			->with( 'wc_get_product' )
-			->andReturn( true );
 
 		Monkey\Functions\expect( 'wc_get_product' )
 			->twice()
@@ -306,7 +294,7 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 							],
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->enqueue_assets();
@@ -330,10 +318,6 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 		$product = Mockery::mock( WC_Product_Variable::class );
 		$product->expects( 'get_children' )->once()->andReturn( [ 7 ] );
 
-		Monkey\Functions\expect( 'function_exists' )
-			->with( 'wc_get_product' )
-			->andReturn( true );
-
 		Monkey\Functions\expect( 'wc_get_product' )
 			->twice()
 			->andReturnValues( [ $product, $variation ] );
@@ -351,7 +335,7 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 							'image'       => null,
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->enqueue_assets();
@@ -375,10 +359,6 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 		// wc_get_product returns a plain product (not WC_Product_Variation) for child 7.
 		$non_variation = Mockery::mock( 'WC_Product' );
 
-		Monkey\Functions\expect( 'function_exists' )
-			->with( 'wc_get_product' )
-			->andReturn( true );
-
 		Monkey\Functions\expect( 'wc_get_product' )
 			->twice()
 			->andReturnValues( [ $product, $non_variation ] );
@@ -389,7 +369,7 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 			->with(
 				'product-image-alt',
 				'wpseoProductImageAlt',
-				[ 'variationImages' => [] ]
+				[ 'variationImages' => [] ],
 			);
 
 		$this->instance->enqueue_assets();
@@ -413,10 +393,6 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 		$product = Mockery::mock( WC_Product_Variable::class );
 		$product->expects( 'get_children' )->once()->andReturn( [ 7 ] );
 
-		Monkey\Functions\expect( 'function_exists' )
-			->with( 'wc_get_product' )
-			->andReturn( true );
-
 		Monkey\Functions\expect( 'wc_get_product' )
 			->twice()
 			->andReturnValues( [ $product, $variation ] );
@@ -435,9 +411,11 @@ final class WooCommerce_Product_Image_Alt_Integration_Test extends TestCase {
 			->with(
 				'product-image-alt',
 				'wpseoProductImageAlt',
-				Mockery::on( static function ( $data ) {
-					return $data['variationImages'][0]['image']['src'] === '';
-				} )
+				Mockery::on(
+					static function ( $data ) {
+						return $data['variationImages'][0]['image']['src'] === '';
+					},
+				),
 			);
 
 		$this->instance->enqueue_assets();
