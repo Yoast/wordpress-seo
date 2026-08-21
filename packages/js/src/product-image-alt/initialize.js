@@ -30,4 +30,18 @@ domReady( () => {
 		galleryMetaBoxInside.appendChild( galleryContainer );
 		mountNotice( galleryContainer, "product-gallery", "yst-mx-3 yst-mb-3 yst--mt-3" );
 	}
+
+	const variationsInner = document.getElementById( "variable_product_options_inner" );
+	if ( variationsInner ) {
+		const variationsNotice = document.createElement( "div" );
+		variationsNotice.id = "yoast-product-variations-alt-notice";
+		// Insert before .woocommerce_variations so the notice sits above the variation rows.
+		const variationsList = variationsInner.querySelector( ".woocommerce_variations" );
+		if ( variationsList ) {
+			variationsInner.insertBefore( variationsNotice, variationsList );
+		} else {
+			variationsInner.appendChild( variationsNotice );
+		}
+		mountNotice( variationsNotice, "product-variations", "yst-m-3 yst-w-max" );
+	}
 } );

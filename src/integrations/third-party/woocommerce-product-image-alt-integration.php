@@ -64,11 +64,61 @@ class WooCommerce_Product_Image_Alt_Integration implements Integration_Interface
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only, used only to pass data to JS.
 		$post_id = isset( $_GET['post'] ) ? (int) $_GET['post'] : 0;
+
+		// Use add_inline_script with wp_json_encode so that number values are
+		// preserved as numbers in the JSON output (wp_localize_script stringifies them).
 		$this->asset_manager->localize_script(
 			'product-image-alt',
 			'wpseoProductImageAlt',
-			[]
+			[ 'variationImages' => $this->get_variation_images( $post_id ) ]
 		);
+	}
+
+	/**
+	 * Returns the variation images for a variable product, formatted for the JS alt-text notice.
+	 * Providing this on page load lets the JS notice render immediately, before WooCommerce
+	 * loads the variation rows into the DOM via AJAX.
+	 *
+	 * @param int $post_id The product post ID.
+	 * @return array<array{variationId:int,image:array{id:int,src:string,alt:string}|null}>
+	 */
+	private function get_variation_images( int $post_id ): array {
+		if ( ! $post_id || ! \function_exists( 'wc_get_product' ) ) {
+			return [];
+		}
+
+		$product = \wc_get_product( $post_id );
+		if ( ! $product instanceof \WC_Product_Variable ) {
+			return [];
+		}
+
+		$images = [];
+		foreach ( $product->get_children() as $variation_id ) {
+			$variation = \wc_get_product( $variation_id );
+			if ( ! $variation instanceof \WC_Product_Variation ) {
+				continue;
+			}
+
+			$image_id = (int) $variation->get_image_id();
+			if ( ! $image_id ) {
+				$images[] = [
+					'variationId' => $variation_id,
+					'image'       => null,
+				];
+				continue;
+			}
+
+			$images[] = [
+				'variationId' => $variation_id,
+				'image'       => [
+					'id'  => $image_id,
+					'src' => (string) \wp_get_attachment_image_url( $image_id, 'thumbnail' ),
+					'alt' => (string) \get_post_meta( $image_id, '_wp_attachment_image_alt', true ),
+				],
+			];
+		}
+
+		return $images;
 	}
 
 	/**

@@ -7,7 +7,7 @@
  *
  * @returns {number} The count of images missing alt text.
  */
-export const countImagesMissingAlt = ( { featuredImage, galleryImages, variationImages } ) => {
+export const countImagesMissingAlt = ( { featuredImage, galleryImages = [], variationImages = [] } ) => {
 	return [
 		featuredImage,
 		...galleryImages,

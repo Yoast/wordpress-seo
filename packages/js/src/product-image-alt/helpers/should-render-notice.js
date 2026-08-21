@@ -7,7 +7,7 @@
  * @param {number} imagesWithoutAlt - The number of images missing alt text.
  * @returns {boolean} - Whether the notice should be rendered.
  */
-export const shouldHideNotice = ( location, featuredImage, galleryImages, variationImages ) => {
+export const shouldHideNotice = ( location, featuredImage, galleryImages = [], variationImages = [] ) => {
 	if ( location === "product-image" && ( featuredImage?.alt || ! featuredImage ) ) {
 		return true;
 	}
@@ -15,8 +15,13 @@ export const shouldHideNotice = ( location, featuredImage, galleryImages, variat
 	const countGalleryImagesWithoutAlt = galleryImages.filter( ( img ) => ! img.alt ).length;
 	const countVariationImagesWithoutAlt = variationImages.filter( ( v ) => v.image && ! v.image.alt ).length;
 
-	if ( countGalleryImagesWithoutAlt === 0 && countVariationImagesWithoutAlt === 0 ) {
+	if ( location === "product-gallery" && countGalleryImagesWithoutAlt === 0 ) {
 		return true;
 	}
+
+	if ( location === "product-variations" && countVariationImagesWithoutAlt === 0 ) {
+		return true;
+	}
+
 	return false;
 };

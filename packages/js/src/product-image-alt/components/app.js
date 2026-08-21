@@ -2,8 +2,8 @@ import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { ImageAltNotice } from "./image-alt-notice";
-import { noop } from "lodash";
-import { useProductImages, useVariationImages } from "../hooks";
+import { noop, get } from "lodash";
+import { useProductImage, useProductGallery, useVariationImages } from "../hooks";
 import { countImagesMissingAlt, shouldHideNotice } from "../helpers";
 
 /**
@@ -18,16 +18,17 @@ import { countImagesMissingAlt, shouldHideNotice } from "../helpers";
  * @returns {JSX.Element|null} The rendered component, or null when no images are missing alt text.
  */
 export const App = ( { className, location } ) => {
-	const {  isRtl, productId } = useSelect( ( select ) => {
+	const { isRtl } = useSelect( ( select ) => {
 		const selectors = select( "yoast-seo/editor" );
 		return {
 			isRtl: selectors.getPreference( "isRtl", false ),
-			productId: selectors.getPostId(),
 		};
 	}, [] );
+	const initialVariatonImages = get( window, "wpseoProductImageAlt.variationImages", [] );
 
-	const { featuredImage, galleryImages } = useProductImages( productId );
-	const { variationImages } = useVariationImages();
+	const { featuredImage } = useProductImage();
+	const { galleryImages } = useProductGallery();
+	const { variationImages } = useVariationImages( initialVariatonImages );
 
 	const imagesWithoutAlt = useMemo( () =>
 		countImagesMissingAlt( { featuredImage, galleryImages, variationImages } )

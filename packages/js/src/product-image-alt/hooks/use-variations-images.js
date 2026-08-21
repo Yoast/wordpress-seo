@@ -1,27 +1,6 @@
 /* eslint-disable complexity */
 import { useState, useEffect, useCallback } from "@wordpress/element";
-import apiFetch from "@wordpress/api-fetch";
-
-/**
- *
- * @param {number[]} ids
- * @returns {Promise<Map<number, string>>}
- */
-async function fetchAttachmentAlts( ids ) {
-	if ( ! ids.length ) {
-		return new Map();
-	}
-
-	const entries = await Promise.all(
-		ids.map( ( id ) =>
-			apiFetch( { path: `/wp/v2/media/${ id }?_fields=id,alt_text` } )
-				.then( ( media ) => [ media.id, media.alt_text ?? "" ] )
-				.catch( () => [ id, "" ] )
-		)
-	);
-
-	return new Map( entries );
-}
+import { fetchAttachmentAlts } from "../helpers";
 
 /**
  *
@@ -29,7 +8,7 @@ async function fetchAttachmentAlts( ids ) {
  */
 function getVariationImagesFromDOM() {
 	const rows = document.querySelectorAll(
-		".woocommerce_variations .woocommerce_variation"
+		"#variable_product_options .woocommerce_variations .woocommerce_variation"
 	);
 
 	return Array.from( rows ).map( ( row ) => {
@@ -63,12 +42,22 @@ function getVariationImagesFromDOM() {
  *
  * @returns {{ variationImages: Array, isLoadingAlts: boolean }}
  */
-export const useVariationImages = () => {
-	const [ variationImages, setVariationImages ] = useState( [] );
+export const useVariationImages = ( initialState ) => {
+	// Seed state from PHP-provided data so the notice renders immediately on page
+	// load, before WooCommerce appends variation rows to the DOM via AJAX.
+	const [ variationImages, setVariationImages ] = useState(
+		() => initialState ?? []
+	);
 	const [ isLoadingAlts, setIsLoadingAlts ] = useState( false );
 
 	const refresh = useCallback( async() => {
 		const domImages = getVariationImagesFromDOM();
+
+		// If WooCommerce hasn't loaded variation rows into the DOM yet, keep the
+		// PHP-initialized state rather than overwriting it with an empty array.
+		if ( domImages.length === 0 ) {
+			return;
+		}
 
 		// Immediately show DOM state so UI isn't stale while fetching.
 		setVariationImages( domImages );
@@ -98,31 +87,42 @@ export const useVariationImages = () => {
 	useEffect( () => {
 		refresh();
 
+		const cleanups = [];
+
+		// Watch for variation rows being appended to .woocommerce_variations.
+		// WooCommerce appends .woocommerce_variation rows there via AJAX.
 		const variationsContainer = document.querySelector(
 			"#variable_product_options .woocommerce_variations"
 		);
-		if ( ! variationsContainer ) {
-			return;
+		if ( variationsContainer ) {
+			const rowObserver = new MutationObserver( () => refresh() );
+			rowObserver.observe( variationsContainer, { childList: true } );
+			cleanups.push( () => rowObserver.disconnect() );
 		}
 
-		// Watch for variation rows being added/removed (pagination, new variation).
-		const rowObserver = new MutationObserver( () => refresh() );
-		rowObserver.observe( variationsContainer, { childList: true } );
+		// Also refresh on the woocommerce_load_variations AJAX success.
+		// WooCommerce fires this automatically on page load for variable products,
+		// so the rows may be inserted after the observer is set up.
+		const onAjaxSuccess = ( _e, _xhr, settings ) => {
+			if ( /action=woocommerce_load_variations/.test( settings.data ) ) {
+				refresh();
+			}
+		};
+		window.jQuery?.( document ).on( "ajaxSuccess", onAjaxSuccess );
+		cleanups.push( () => window.jQuery?.( document ).off( "ajaxSuccess", onAjaxSuccess ) );
 
 		// Watch for image changes: WooCommerce triggers 'change' on
 		// input.upload_image_id when an image is set or removed.
 		const $container = window.jQuery?.( "#variable_product_options" );
 		$container?.on( "change", "input.upload_image_id", () => refresh() );
+		cleanups.push( () => $container?.off( "change", "input.upload_image_id" ) );
 
 		// Re-fetch alts when alt text is saved in the media modal.
 		const onAttachmentSave = () => refresh();
 		window.wp?.media?.on?.( "attachment:save", onAttachmentSave );
+		cleanups.push( () => window.wp?.media?.off?.( "attachment:save", onAttachmentSave ) );
 
-		return () => {
-			rowObserver.disconnect();
-			$container?.off( "change", "input.upload_image_id" );
-			window.wp?.media?.off?.( "attachment:save", onAttachmentSave );
-		};
+		return () => cleanups.forEach( ( fn ) => fn() );
 	}, [ refresh ] );
 
 	return { variationImages, isLoadingAlts };
