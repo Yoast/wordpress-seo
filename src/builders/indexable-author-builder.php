@@ -103,8 +103,8 @@ class Indexable_Author_Builder {
 		$this->handle_social_images( $indexable );
 
 		$timestamps                      = $this->get_object_timestamps( $user_id );
-		$indexable->object_published_at  = $timestamps->published_at;
-		$indexable->object_last_modified = $timestamps->last_modified;
+		$indexable->object_published_at  = ( $timestamps->published_at ?? null );
+		$indexable->object_last_modified = ( $timestamps->last_modified ?? null );
 
 		$indexable->version = $this->version;
 
@@ -180,7 +180,8 @@ class Indexable_Author_Builder {
 	 *
 	 * @param int $author_id The author ID.
 	 *
-	 * @return object An object with last_modified and published_at timestamps.
+	 * @return object|null An object with last_modified and published_at timestamps, or null
+	 *                     when the query fails or returns no row.
 	 */
 	protected function get_object_timestamps( $author_id ) {
 		global $wpdb;

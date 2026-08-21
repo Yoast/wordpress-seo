@@ -380,6 +380,151 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the build does not error when the timestamp query returns no row.
+	 *
+	 * @covers ::build
+	 *
+	 * @return void
+	 */
+	public function test_build_with_null_timestamps() {
+		$term = (object) [
+			'taxonomy'    => 'category',
+			'term_id'     => 1,
+			'name'        => 'some_category',
+			'description' => 'description',
+		];
+
+		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( $term );
+		Monkey\Functions\expect( 'get_term_link' )
+			->once()
+			->with( $term, 'category' )
+			->andReturn( 'https://example.org/category/1' );
+		Monkey\Functions\expect( 'is_wp_error' )->twice()->andReturn( false );
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->andReturn( [ 'category' ] );
+
+		$this->taxonomy->expects( 'get_term_meta' )
+			->once()
+			->with( $term )
+			->andReturn(
+				[
+					'wpseo_focuskw'                  => 'focuskeyword',
+					'wpseo_linkdex'                  => '75',
+					'wpseo_noindex'                  => 'noindex',
+					'wpseo_meta-robots-adv'          => '',
+					'wpseo_content_score'            => '50',
+					'wpseo_inclusive_language_score' => '42',
+					'wpseo_canonical'                => 'https://canonical-term',
+					'wpseo_meta-robots-nofollow'     => '1',
+					'wpseo_title'                    => 'title',
+					'wpseo_desc'                     => 'description',
+					'wpseo_opengraph-title'          => 'open_graph_title',
+					'wpseo_opengraph-image'          => 'open_graph_image',
+					'wpseo_opengraph-image-id'       => 'open_graph_image_id',
+					'wpseo_opengraph-description'    => 'open_graph_description',
+					'wpseo_twitter-title'            => 'twitter_title',
+					'wpseo_twitter-image'            => 'twitter_image',
+					'wpseo_twitter-image-id'         => 'twitter_image_id',
+					'wpseo_twitter-description'      => 'twitter_description',
+				],
+			);
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$GLOBALS['wpdb'] = $this->wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
+		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'PREPARED_QUERY' );
+		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturnNull();
+
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
+
+		$indexable_expectations = [
+			'object_id'                   => 1,
+			'object_type'                 => 'term',
+			'object_sub_type'             => 'category',
+			'permalink'                   => 'https://example.org/category/1',
+			'canonical'                   => 'https://canonical-term',
+			'title'                       => 'title',
+			'breadcrumb_title'            => 'some_category',
+			'description'                 => 'description',
+			'open_graph_title'            => 'open_graph_title',
+			'open_graph_image'            => 'open_graph_image',
+			'open_graph_image_id'         => 'open_graph_image_id',
+			'open_graph_description'      => 'open_graph_description',
+			'twitter_title'               => 'twitter_title',
+			'twitter_image'               => 'twitter_image',
+			'twitter_image_id'            => 'twitter_image_id',
+			'twitter_description'         => 'twitter_description',
+			'is_cornerstone'              => false,
+			'is_robots_noindex'           => true,
+			'is_robots_nofollow'          => null,
+			'is_robots_noarchive'         => null,
+			'is_robots_noimageindex'      => null,
+			'is_robots_nosnippet'         => null,
+			'primary_focus_keyword'       => 'focuskeyword',
+			'primary_focus_keyword_score' => 75,
+			'readability_score'           => 50,
+			'inclusive_language_score'    => 42,
+			'version'                     => 1,
+		];
+
+		$this->set_indexable_set_expectations( $indexable_mock, $indexable_expectations );
+
+		// Reset all social images first.
+		$this->set_indexable_set_expectations(
+			$indexable_mock,
+			[
+				'open_graph_image'        => null,
+				'open_graph_image_id'     => null,
+				'open_graph_image_source' => null,
+				'open_graph_image_meta'   => null,
+				'twitter_image'           => null,
+				'twitter_image_id'        => null,
+				'twitter_image_source'    => null,
+			],
+		);
+
+		$image_meta = [
+			'width'  => 640,
+			'height' => 480,
+			'url'    => 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg',
+			'path'   => '/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg',
+			'size'   => 'full',
+			'id'     => 13,
+			'alt'    => '',
+			'pixels' => 307_200,
+			'type'   => 'image/jpeg',
+		];
+
+		// Mock that the open graph and twitter images have been set by the user.
+		$this->open_graph_image_set_by_user( $indexable_mock, $image_meta );
+		$this->twitter_image_set_by_user( $indexable_mock );
+
+		// We expect the open graph image, its source and its metadata to be set.
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'set-by-user' );
+		$indexable_mock->orm->expects( 'set' )
+			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
+		$indexable_mock->orm->expects( 'set' )
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE ) ) );
+
+		// We expect the twitter image and its source to be set.
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
+
+		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnFalse();
+		$indexable_mock->orm->expects( 'set' )->once()->with( 'breadcrumb_title', null );
+
+		$indexable_mock->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( true );
+		$indexable_mock->orm->expects( 'set' )->once()->with( 'is_public', false );
+
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_published_at', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', null );
+
+		$this->instance->build( 1, $indexable_mock );
+	}
+
+	/**
 	 * Tests that build throws an exception when no term was returned.
 	 *
 	 * @covers ::build
