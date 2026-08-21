@@ -93,6 +93,11 @@ final class Meta_Author_Presenter_Test extends TestCase {
 		$this->indexable_presentation->model                  = new Indexable_Mock();
 		$this->indexable_presentation->model->object_sub_type = 'post';
 
+		Monkey\Functions\expect( 'post_type_supports' )
+			->once()
+			->with( 'post', 'author' )
+			->andReturn( true );
+
 		$user_mock               = Mockery::mock( WP_User::class );
 		$user_mock->display_name = 'John Doe';
 
@@ -126,6 +131,11 @@ final class Meta_Author_Presenter_Test extends TestCase {
 		$this->indexable_presentation->model                  = new Indexable_Mock();
 		$this->indexable_presentation->model->object_sub_type = 'post';
 
+		Monkey\Functions\expect( 'post_type_supports' )
+			->once()
+			->with( 'post', 'author' )
+			->andReturn( true );
+
 		Monkey\Functions\expect( 'get_userdata' )
 			->once()
 			->with( 123 )
@@ -142,16 +152,21 @@ final class Meta_Author_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presenter of the meta description when we are not on a post.
+	 * Tests that post types without author support do not output the meta author tag.
 	 *
 	 * @covers ::present
 	 * @covers ::get
 	 *
 	 * @return void
 	 */
-	public function test_present_and_filter_not_a_post() {
+	public function test_present_and_filter_unsupported_post_type() {
 		$this->indexable_presentation->model                  = new Indexable_Mock();
-		$this->indexable_presentation->model->object_sub_type = 'page';
+		$this->indexable_presentation->model->object_sub_type = 'no-author-cpt';
+
+		Monkey\Functions\expect( 'post_type_supports' )
+			->once()
+			->with( 'no-author-cpt', 'author' )
+			->andReturn( false );
 
 		Monkey\Functions\expect( 'get_userdata' )
 			->never();
@@ -166,6 +181,48 @@ final class Meta_Author_Presenter_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that CPTs with author support do output the meta author tag.
+	 *
+	 * Delete-the-fix guard: removing the post_type_supports() check from get() would cause
+	 * the original object_sub_type !== 'post' guard to bail early on this CPT slug, flipping
+	 * this test from green to red.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 *
+	 * @return void
+	 */
+	public function test_present_and_filter_supported_cpt() {
+		$this->indexable_presentation->model                  = new Indexable_Mock();
+		$this->indexable_presentation->model->object_sub_type = 'my-article-cpt';
+
+		Monkey\Functions\expect( 'post_type_supports' )
+			->once()
+			->with( 'my-article-cpt', 'author' )
+			->andReturn( true );
+
+		$user_mock               = Mockery::mock( WP_User::class );
+		$user_mock->display_name = 'Jane Smith';
+
+		Monkey\Functions\expect( 'get_userdata' )
+			->once()
+			->with( 123 )
+			->andReturn( $user_mock );
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->once()
+			->with( 'Jane Smith' )
+			->andReturn( 'Jane Smith' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
+
+		$output = '<meta name="author" content="Jane Smith" />';
+
+		Monkey\Filters\expectApplied( 'wpseo_meta_author' );
+		$this->assertSame( $output, $this->instance->present() );
+	}
+
+	/**
 	 * Tests the presenter of the meta description when the admin bar is showing a class is added.
 	 *
 	 * @covers ::present
@@ -176,6 +233,11 @@ final class Meta_Author_Presenter_Test extends TestCase {
 	public function test_present_and_filter_with_class() {
 		$this->indexable_presentation->model                  = new Indexable_Mock();
 		$this->indexable_presentation->model->object_sub_type = 'post';
+
+		Monkey\Functions\expect( 'post_type_supports' )
+			->once()
+			->with( 'post', 'author' )
+			->andReturn( true );
 
 		$user_mock               = Mockery::mock( WP_User::class );
 		$user_mock->display_name = 'John Doe';
