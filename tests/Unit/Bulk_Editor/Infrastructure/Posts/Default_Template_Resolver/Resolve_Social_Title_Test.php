@@ -56,31 +56,21 @@ final class Resolve_Social_Title_Test extends Abstract_Default_Template_Resolver
 	}
 
 	/**
-	 * Tests that the installation default template is returned when the user has not configured one.
+	 * Tests that an empty string is returned when the configured template has been cleared.
+	 *
+	 * The post type's template is normally pre-populated with the installation default at install time
+	 * (e.g. `%%title%%`), so reaching this point with an empty configured value means it was deliberately
+	 * cleared. This must not reintroduce the installation default: Open Graph then correctly falls back
+	 * to the fully-resolved SEO title instead, and this resolver should reflect that same emptiness.
 	 *
 	 * @return void
 	 */
-	public function test_returns_default_template_when_configured_template_is_empty() {
+	public function test_returns_empty_when_no_template_is_configured() {
 		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( true );
 		$this->options_helper->expects( 'get' )->with( 'social-title-page', '' )->andReturn( '' );
-		$this->options_helper->expects( 'get_title_default' )->with( 'social-title-page' )->andReturn( '%%title%%' );
+		$this->options_helper->expects( 'get_title_default' )->never();
 
 		$result = $this->instance->resolve_social_title( 7, 'page', '' );
-
-		$this->assertSame( '%%title%%', $result );
-	}
-
-	/**
-	 * Tests that an empty string is returned when neither a configured template nor an installation default exists.
-	 *
-	 * @return void
-	 */
-	public function test_returns_empty_when_no_template_exists() {
-		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( true );
-		$this->options_helper->expects( 'get' )->with( 'social-title-post', '' )->andReturn( '' );
-		$this->options_helper->expects( 'get_title_default' )->with( 'social-title-post' )->andReturn( '' );
-
-		$result = $this->instance->resolve_social_title( 7, 'post', '' );
 
 		$this->assertSame( '', $result );
 	}

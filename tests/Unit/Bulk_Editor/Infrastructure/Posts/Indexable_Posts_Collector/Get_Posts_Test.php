@@ -34,7 +34,8 @@ final class Get_Posts_Test extends Abstract_Test {
 
 	/**
 	 * Tests that an editable post is returned with its SEO data, and a partial page derives the total
-	 * without a count query.
+	 * without a count query. Also asserts that the fallback templates are resolved and exposed even
+	 * though the post has stored values for every field.
 	 *
 	 * @return void
 	 */
@@ -59,6 +60,11 @@ final class Get_Posts_Test extends Abstract_Test {
 		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'Hello world' );
 		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
 
+		$this->default_template_resolver->allows( 'resolve_seo_title' )->with( 7, '', '' )->andReturn( 'Post title from template' );
+		$this->default_template_resolver->allows( 'resolve_meta_description' )->with( 7, '', '' )->andReturn( 'Post description from template' );
+		$this->default_template_resolver->allows( 'resolve_social_title' )->with( 7, '', '' )->andReturn( 'Social title from template' );
+		$this->default_template_resolver->allows( 'resolve_social_description' )->with( 7, '', '' )->andReturn( 'Social description from template' );
+
 		$this->assertSame(
 			[
 				'posts'       => [
@@ -72,10 +78,10 @@ final class Get_Posts_Test extends Abstract_Test {
 						'meta_description'            => 'A description.',
 						'social_title'                => 'Social hello',
 						'social_description'          => 'Social description.',
-						'seo_title_fallback'          => '',
-						'meta_description_fallback'   => '',
-						'social_title_fallback'       => '',
-						'social_description_fallback' => '',
+						'seo_title_fallback'          => 'Post title from template',
+						'meta_description_fallback'   => 'Post description from template',
+						'social_title_fallback'       => 'Social title from template',
+						'social_description_fallback' => 'Social description from template',
 						'editable'                    => true,
 						'needs_improvement'           => [
 							'seo_title'          => false,

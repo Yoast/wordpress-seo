@@ -731,4 +731,76 @@ final class Settings_Integration_Test extends TestCase {
 
 		$this->assertSame( $expected, $result );
 	}
+
+	/**
+	 * Tests that an empty SEO title template in the settings is replaced with its hardcoded installation
+	 * default, so the settings page never shows an empty field for a template the site actually falls
+	 * back to at render time.
+	 *
+	 * @covers ::transform_settings
+	 *
+	 * @return void
+	 */
+	public function test_transform_settings_fills_empty_title_template_with_default() {
+		$this->options
+			->expects( 'get_title_default' )
+			->with( 'title-post' )
+			->andReturn( '%%title%% %%page%% %%sep%% %%sitename%%' );
+
+		$settings = [
+			'blogdescription' => '',
+			'wpseo_titles'    => [
+				'title-post' => '',
+			],
+		];
+
+		$result = $this->instance_double->transform_settings( $settings );
+
+		$this->assertSame( '%%title%% %%page%% %%sep%% %%sitename%%', $result['wpseo_titles']['title-post'] );
+	}
+
+	/**
+	 * Tests that a non-empty SEO title template is left untouched.
+	 *
+	 * @covers ::transform_settings
+	 *
+	 * @return void
+	 */
+	public function test_transform_settings_leaves_non_empty_title_template_untouched() {
+		$this->options->expects( 'get_title_default' )->never();
+
+		$settings = [
+			'blogdescription' => '',
+			'wpseo_titles'    => [
+				'title-post' => 'Custom %%sitename%%',
+			],
+		];
+
+		$result = $this->instance_double->transform_settings( $settings );
+
+		$this->assertSame( 'Custom %%sitename%%', $result['wpseo_titles']['title-post'] );
+	}
+
+	/**
+	 * Tests that an empty social title is left empty. Unlike SEO title, it has no installation-level
+	 * default to fall back to.
+	 *
+	 * @covers ::transform_settings
+	 *
+	 * @return void
+	 */
+	public function test_transform_settings_leaves_empty_social_title_untouched() {
+		$this->options->expects( 'get_title_default' )->never();
+
+		$settings = [
+			'blogdescription' => '',
+			'wpseo_titles'    => [
+				'social-title-post' => '',
+			],
+		];
+
+		$result = $this->instance_double->transform_settings( $settings );
+
+		$this->assertSame( '', $result['wpseo_titles']['social-title-post'] );
+	}
 }

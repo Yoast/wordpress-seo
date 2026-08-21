@@ -27,7 +27,8 @@ final class Get_Posts_Test extends Abstract_Test {
 	private const STATUSES = [ 'publish', 'draft', 'pending', 'future' ];
 
 	/**
-	 * Tests that an editable post is returned with its status and raw Yoast meta.
+	 * Tests that an editable post is returned with its status and raw Yoast meta, and that the fallback
+	 * templates are resolved and exposed even though the post has stored values for every field.
 	 *
 	 * @return void
 	 */
@@ -62,6 +63,11 @@ final class Get_Posts_Test extends Abstract_Test {
 				},
 			);
 
+		$this->default_template_resolver->allows( 'resolve_seo_title' )->with( 7, 'post', '' )->andReturn( 'Post title from template' );
+		$this->default_template_resolver->allows( 'resolve_meta_description' )->with( 7, 'post', '' )->andReturn( 'Post description from template' );
+		$this->default_template_resolver->allows( 'resolve_social_title' )->with( 7, 'post', '' )->andReturn( 'Social title from template' );
+		$this->default_template_resolver->allows( 'resolve_social_description' )->with( 7, 'post', '' )->andReturn( 'Social description from template' );
+
 		$this->assertSame(
 			[
 				'posts'       => [
@@ -75,10 +81,10 @@ final class Get_Posts_Test extends Abstract_Test {
 						'meta_description'            => 'A description.',
 						'social_title'                => 'Social hello',
 						'social_description'          => 'Social description.',
-						'seo_title_fallback'          => '',
-						'meta_description_fallback'   => '',
-						'social_title_fallback'       => '',
-						'social_description_fallback' => '',
+						'seo_title_fallback'          => 'Post title from template',
+						'meta_description_fallback'   => 'Post description from template',
+						'social_title_fallback'       => 'Social title from template',
+						'social_description_fallback' => 'Social description from template',
 						'editable'                    => true,
 						'needs_improvement'           => [
 							'seo_title'          => false,

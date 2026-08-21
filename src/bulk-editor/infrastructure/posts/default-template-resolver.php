@@ -9,9 +9,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  * Resolves a post's SEO/social fields to the raw template string for display in a replacement-variable editor.
  *
  * When a post has no stored value, falls back to the post type's configured template from options.
- * Only the first level of fallback is applied; deeper rendering-chain fallbacks (e.g. social description
- * falling back to meta description or excerpt) are intentionally omitted — those produce dynamic values
- * that cannot be represented as a raw template.
  */
 class Default_Template_Resolver {
 
@@ -70,7 +67,11 @@ class Default_Template_Resolver {
 	 *
 	 * Returns the unresolved template string so the caller can display it in a replacement-variable editor.
 	 * Only resolves a template when OpenGraph is enabled.
-	 * Priority: stored value → user-configured post type template (`social-title-{post_type}`) → installation default.
+	 *
+	 * The post type's configured template is normally already the installation default: it gets persisted
+	 * into the option at install time. An empty configured template therefore means it was deliberately
+	 * cleared, so this does not reintroduce the installation default — Open Graph then correctly falls
+	 * back to the fully-resolved SEO title instead, and this resolver should reflect that same emptiness.
 	 *
 	 * @param int    $post_id      The post ID (unused; kept for a consistent method signature).
 	 * @param string $post_type    The post type slug.
@@ -87,7 +88,7 @@ class Default_Template_Resolver {
 			return '';
 		}
 
-		return $this->resolve( $post_type, '', 'social-title-', true );
+		return $this->resolve( $post_type, '', 'social-title-', false );
 	}
 
 	/**

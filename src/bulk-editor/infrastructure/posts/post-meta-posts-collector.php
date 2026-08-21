@@ -242,11 +242,18 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		$raw_social_title       = $fields['social_title'];
 		$raw_social_description = $fields['social_description'];
 
-		// Resolve templates for needs-improvement scoring and as display fallbacks when the stored value is empty.
-		$fields['seo_title']          = $this->default_template_resolver->resolve_seo_title( $post_id, $post_type, $raw_seo_title );
-		$fields['meta_description']   = $this->default_template_resolver->resolve_meta_description( $post_id, $post_type, $raw_meta_description );
-		$fields['social_title']       = $this->default_template_resolver->resolve_social_title( $post_id, $post_type, $raw_social_title );
-		$fields['social_description'] = $this->default_template_resolver->resolve_social_description( $post_id, $post_type, $raw_social_description );
+		// Resolve each field's raw default template, always, so it stays available as a display fallback
+		// even after a stored value is cleared later. The effective values built below still prefer a
+		// present stored value for needs-improvement scoring.
+		$seo_title_template          = $this->default_template_resolver->resolve_seo_title( $post_id, $post_type, '' );
+		$meta_description_template   = $this->default_template_resolver->resolve_meta_description( $post_id, $post_type, '' );
+		$social_title_template       = $this->default_template_resolver->resolve_social_title( $post_id, $post_type, '' );
+		$social_description_template = $this->default_template_resolver->resolve_social_description( $post_id, $post_type, '' );
+
+		$fields['seo_title']          = ( $raw_seo_title !== '' ) ? $raw_seo_title : $seo_title_template;
+		$fields['meta_description']   = ( $raw_meta_description !== '' ) ? $raw_meta_description : $meta_description_template;
+		$fields['social_title']       = ( $raw_social_title !== '' ) ? $raw_social_title : $social_title_template;
+		$fields['social_description'] = ( $raw_social_description !== '' ) ? $raw_social_description : $social_description_template;
 
 		return new Post(
 			$post_id,
@@ -260,10 +267,10 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			$raw_social_description,
 			true,
 			$this->build_needs_improvement( $post_id, $fields, $scores_enabled ),
-			( $raw_seo_title === '' ) ? $fields['seo_title'] : '',
-			( $raw_meta_description === '' ) ? $fields['meta_description'] : '',
-			( $raw_social_title === '' ) ? $fields['social_title'] : '',
-			( $raw_social_description === '' ) ? $fields['social_description'] : '',
+			$seo_title_template,
+			$meta_description_template,
+			$social_title_template,
+			$social_description_template,
 		);
 	}
 

@@ -866,6 +866,21 @@ class Settings_Integration implements Integration_Interface {
 			);
 		}
 
+		if ( isset( $settings['wpseo_titles'] ) ) {
+			/*
+			 * An empty SEO title template still falls back to a hardcoded installation default at render
+			 * time, so the settings page should reflect that default rather than showing an empty field.
+			 */
+			foreach ( $settings['wpseo_titles'] as $key => $value ) {
+				if ( $value === '' && \strpos( $key, 'title-' ) === 0 ) {
+					$default = $this->options->get_title_default( $key );
+					if ( ! empty( $default ) ) {
+						$settings['wpseo_titles'][ $key ] = $default;
+					}
+				}
+			}
+		}
+
 		/**
 		 * Decode some WP options.
 		 */

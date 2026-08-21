@@ -43,4 +43,15 @@ final class Settings_Integration_Double extends Settings_Integration {
 	public function get_defaults_from_local_seo( $defaults ) {
 		return parent::get_defaults_from_local_seo( $defaults );
 	}
+
+	/**
+	 * Transforms setting values.
+	 *
+	 * @param array $settings The settings.
+	 *
+	 * @return array The settings.
+	 */
+	public function transform_settings( $settings ) {
+		return parent::transform_settings( $settings );
+	}
 }
