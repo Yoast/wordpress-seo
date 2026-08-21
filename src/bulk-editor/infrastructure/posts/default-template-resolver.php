@@ -66,7 +66,12 @@ class Default_Template_Resolver {
 	 * Returns the raw social title template for a post, falling back to the post type's configured template when empty.
 	 *
 	 * Returns the unresolved template string so the caller can display it in a replacement-variable editor.
-	 * Only resolves a template when OpenGraph is enabled. Unlike SEO title there is no installation-level default.
+	 * Only resolves a template when OpenGraph is enabled.
+	 *
+	 * The post type's configured template is normally already the installation default: it gets persisted
+	 * into the option at install time. An empty configured template therefore means it was deliberately
+	 * cleared, so this does not reintroduce the installation default — Open Graph then correctly falls
+	 * back to the fully-resolved SEO title instead, and this resolver should reflect that same emptiness.
 	 *
 	 * @param int    $post_id      The post ID (unused; kept for a consistent method signature).
 	 * @param string $post_type    The post type slug.
