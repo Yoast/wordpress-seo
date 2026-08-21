@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /**
  * The function returns boolean indicating whether the notice should be rendered based on the provided parameters.
  *
@@ -7,7 +8,7 @@
  * @returns {boolean} - Whether the notice should be rendered.
  */
 export const shouldHideNotice = ( location, featuredImage, galleryImages, variationImages ) => {
-	if ( location === "product-image" && featuredImage?.alt ) {
+	if ( location === "product-image" && ( featuredImage?.alt || ! featuredImage ) ) {
 		return true;
 	}
 
