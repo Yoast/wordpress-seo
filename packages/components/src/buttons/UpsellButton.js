@@ -86,7 +86,11 @@ export function addButtonStyles( component ) {
  * @returns {ReactElement} The upsell button.
  */
 export const UpsellButtonBase = addButtonStyles(
-	styled( YoastButtonBase )`
+	styled( YoastButtonBase ).attrs( ( {
+		backgroundColor = colors.$color_button_upsell,
+		hoverColor = colors.$color_button_hover_upsell,
+		textColor = colors.$color_black,
+	} ) => ( { backgroundColor, hoverColor, textColor } ) )`
 		color: ${ props => props.textColor };
 		background: ${ props => props.backgroundColor };
 		overflow: visible;
@@ -110,12 +114,6 @@ UpsellButtonBase.propTypes = {
 	backgroundColor: PropTypes.string,
 	hoverColor: PropTypes.string,
 	textColor: PropTypes.string,
-};
-
-UpsellButtonBase.defaultProps = {
-	backgroundColor: colors.$color_button_upsell,
-	hoverColor: colors.$color_button_hover_upsell,
-	textColor: colors.$color_black,
 };
 
 /**

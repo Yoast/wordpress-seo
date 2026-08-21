@@ -19,7 +19,7 @@ import PropTypes from "prop-types";
 const WordList = ( props ) => {
 	console.warn( "The WordList component has been deprecated and will be removed in a future release." );
 
-	const { title, classNamePrefix, words, header, footer } = props;
+	const { title, classNamePrefix = "", words, header = "", footer = "" } = props;
 
 	const list = (
 		<ol className={ classNamePrefix + "__list" }>
@@ -52,12 +52,6 @@ WordList.propTypes = {
 	header: PropTypes.string,
 	footer: PropTypes.string,
 	classNamePrefix: PropTypes.string,
-};
-
-WordList.defaultProps = {
-	classNamePrefix: "",
-	header: "",
-	footer: "",
 };
 
 export default WordList;
