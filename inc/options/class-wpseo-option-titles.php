@@ -433,20 +433,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'org-':
 				case 'website_name':
 				case 'alternate_website_name':
-				case 'open_graph_frontpage_title':
-					if ( isset( $dirty[ $key ] ) ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
-					}
-					break;
-
-				/*
-				 * The title and social title templates carry a hardcoded installation default (e.g.
-				 * `%%title%% %%page%% %%sep%% %%sitename%%`). Saving them empty is rejected rather than
-				 * persisted, so the field falls back to that default instead of being left blank.
-				 */
 				case 'title-':
 				case 'social-title-':
-					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+				case 'open_graph_frontpage_title':
+					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
 					break;
