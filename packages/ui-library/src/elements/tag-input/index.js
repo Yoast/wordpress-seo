@@ -64,7 +64,7 @@ Tag.propTypes = {
 /**
  * @param {string[]} [tags] The tags.
  * @param {JSX.node} [children] Render tags override.
- * @param {string} [className] Extra CSS class.
+ * @param {string} [className=""] Extra CSS class.
  * @param {boolean} [disabled] Whether the input is disabled.
  * @param {function} [onAddTag] Add tag handler.
  * @param {function} [onRemoveTag] Remove tag handler.
@@ -139,7 +139,7 @@ const TagInput = forwardRef( ( {
 				ref={ ref }
 				type="text"
 				disabled={ disabled }
-				className="yst-tag-input__input"
+				className="yst-tag-input__input yst-border-0"
 				onKeyDown={ handleKeyDown }
 				{ ...props }
 				onChange={ handleChange }

@@ -21,7 +21,7 @@ export const classNameMap = {
 /**
  * @param {string} [variant=default] The variant.
  * @param {string} [size] The size.
- * @param {string} [className] The HTML class.
+ * @param {string} [className=""] The HTML class.
  * @returns {JSX.Element} The spinner.
  */
 const Spinner = forwardRef( ( {

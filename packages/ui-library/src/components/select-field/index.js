@@ -12,7 +12,7 @@ const DEFAULT_VALIDATION = {};
 /**
  * @param {string} id Identifier.
  * @param {JSX.Element} error Error node.
- * @param {string} [className] Optional CSS class.
+ * @param {string} [className=""] Optional CSS class.
  * @param {boolean} [disabled] Disabled state.
  * @param {string} label Label.
  * @param {JSX.node} [description] Optional description.

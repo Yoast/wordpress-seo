@@ -35,7 +35,7 @@ const Checkbox = forwardRef( ( {
 			name={ name }
 			value={ value }
 			disabled={ disabled }
-			className="yst-checkbox__input"
+			className="yst-checkbox__input yst-border yst-border-slate-300"
 			{ ...props }
 		/>
 		{ label && <Label htmlFor={ id } className="yst-checkbox__label" label={ label } /> }
