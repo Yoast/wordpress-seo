@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useCallback, Fragment } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { isEmpty, noop } from "lodash";
-import moment from "moment";
+import { formatDistanceToNow, isValid, parseISO, sub } from "date-fns";
 import { Checkbox, SvgIcon, Toggle, ButtonStyledLink } from "@yoast/components";
 import AreaChart from "./AreaChart";
 import WincherSEOPerformanceLoading from "./modals/WincherSEOPerformanceLoading";
@@ -185,7 +185,15 @@ export function getKeyphrasePosition( keyphrase ) {
  *
  * @returns {string} The formatted last updated date.
  */
-const formatLastUpdated = ( dateString ) => moment( dateString ).fromNow();
+const toDate = ( value ) => {
+	if ( value instanceof Date ) {
+		return value;
+	}
+	const parsed = parseISO( String( value ) );
+	return isValid( parsed ) ? parsed : new Date( value );
+};
+
+const formatLastUpdated = ( dateString ) => formatDistanceToNow( toDate( dateString ), { addSuffix: true } );
 
 /**
  * Displays the position over time cell.
@@ -238,7 +246,7 @@ export function getPositionalDataByState( { rowData, websiteId, keyphrase, onSel
 	}, [ onSelectKeyphrases, keyphrase ] );
 
 	const isEnabled          = ! isEmpty( rowData );
-	const hasFreshData = rowData && rowData.updated_at && moment( rowData.updated_at ) >= moment().subtract( 7, "days" );
+	const hasFreshData = rowData && rowData.updated_at && toDate( rowData.updated_at ) >= sub( new Date(), { days: 7 } );
 	const viewLinkURL = rowData
 		? `https://app.wincher.com/websites/${websiteId}/keywords?serp=${rowData.id}&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast`
 		: null;
