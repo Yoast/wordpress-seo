@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
+use WC_Product_Variable;
+use WC_Product_Variation;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
@@ -69,7 +71,7 @@ class WooCommerce_Product_Image_Alt_Integration implements Integration_Interface
 		$this->asset_manager->localize_script(
 			'product-image-alt',
 			'wpseoProductImageAlt',
-			[ 'variationImages' => $this->get_variation_images( $post_id ) ]
+			[ 'variationImages' => $this->get_variation_images( $post_id ) ],
 		);
 	}
 
@@ -87,14 +89,14 @@ class WooCommerce_Product_Image_Alt_Integration implements Integration_Interface
 		}
 
 		$product = \wc_get_product( $post_id );
-		if ( ! $product instanceof \WC_Product_Variable ) {
+		if ( ! $product instanceof WC_Product_Variable ) {
 			return [];
 		}
 
 		$images = [];
 		foreach ( $product->get_children() as $variation_id ) {
 			$variation = \wc_get_product( $variation_id );
-			if ( ! $variation instanceof \WC_Product_Variation ) {
+			if ( ! $variation instanceof WC_Product_Variation ) {
 				continue;
 			}
 
