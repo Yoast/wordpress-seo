@@ -6,20 +6,21 @@ import { App } from "./components/app";
  * Mounts the App into a container element.
  *
  * @param {HTMLElement} container  The element to mount into.
+ * @param {string}      location   Extra location classes for the notice.
  * @param {string}      className  Extra class names for the notice.
  *
  * @returns {void}
  */
-const mountNotice = ( container, className ) => {
+const mountNotice = ( container, location, className ) => {
 	createRoot( container ).render(
-		<App className={ className } />
+		<App className={ className } location={ location } />
 	);
 };
 
 domReady( () => {
 	const productImageContainer = document.getElementById( "yoast-product-image-alt-notice" );
 	if ( productImageContainer ) {
-		mountNotice( productImageContainer, "yst-mx-3 yst-mb-3" );
+		mountNotice( productImageContainer, "product-image", "yst-mx-3 yst-mb-3" );
 	}
 
 	const galleryMetaBoxInside = document.querySelector( "#woocommerce-product-images .inside" );
@@ -27,6 +28,6 @@ domReady( () => {
 		const galleryContainer = document.createElement( "div" );
 		galleryContainer.id = "yoast-product-gallery-alt-notice";
 		galleryMetaBoxInside.appendChild( galleryContainer );
-		mountNotice( galleryContainer, "yst-mx-3 yst-mb-3 yst--mt-3" );
+		mountNotice( galleryContainer, "product-gallery", "yst-mx-3 yst-mb-3 yst--mt-3" );
 	}
 } );

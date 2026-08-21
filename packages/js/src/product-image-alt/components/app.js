@@ -3,8 +3,8 @@ import { useMemo } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { ImageAltNotice } from "./image-alt-notice";
 import { noop } from "lodash";
-import { useProductImages } from "../hooks/use-product-images";
-import { countImagesMissingAlt } from "../helpers/count-images-missing-alt";
+import { useProductImages, useVariationImages } from "../hooks";
+import { countImagesMissingAlt, shouldHideNotice } from "../helpers";
 
 /**
  * The App component is the main entry point for the product image alt notice feature.
@@ -17,7 +17,7 @@ import { countImagesMissingAlt } from "../helpers/count-images-missing-alt";
  *
  * @returns {JSX.Element|null} The rendered component, or null when no images are missing alt text.
  */
-export const App = ( { className } ) => {
+export const App = ( { className, location } ) => {
 	const {  isRtl, productId } = useSelect( ( select ) => {
 		const selectors = select( "yoast-seo/editor" );
 		return {
@@ -26,12 +26,14 @@ export const App = ( { className } ) => {
 		};
 	}, [] );
 
-	const { featuredImage, galleryImages, variationImages } = useProductImages( productId );
-	console.log( featuredImage, galleryImages, variationImages );
+	const { featuredImage, galleryImages } = useProductImages( productId );
+	const { variationImages } = useVariationImages();
+
 	const imagesWithoutAlt = useMemo( () =>
 		countImagesMissingAlt( { featuredImage, galleryImages, variationImages } )
 	, [ featuredImage, galleryImages, variationImages ] );
-	if ( imagesWithoutAlt === 0 ) {
+
+	if ( shouldHideNotice( location, featuredImage, galleryImages, variationImages ) ) {
 		return null;
 	}
 
