@@ -297,12 +297,21 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 		$raw_social_title       = (string) $indexable->open_graph_title;
 		$raw_social_description = (string) $indexable->open_graph_description;
 
-		// Resolver results are used for needs-improvement scoring and as display fallbacks when the stored value is empty.
+		// Resolve each field's raw default template, always, so it stays available as a display fallback
+		// even after a stored value is cleared later. The effective values built below still prefer a
+		// present stored value for needs-improvement scoring.
+		$templates = [
+			'seo_title'          => $this->default_template_resolver->resolve_seo_title( $object_id, $post_type, '' ),
+			'meta_description'   => $this->default_template_resolver->resolve_meta_description( $object_id, $post_type, '' ),
+			'social_title'       => $this->default_template_resolver->resolve_social_title( $object_id, $post_type, '' ),
+			'social_description' => $this->default_template_resolver->resolve_social_description( $object_id, $post_type, '' ),
+		];
+
 		$resolved_values = [
-			'seo_title'          => $this->default_template_resolver->resolve_seo_title( $object_id, $post_type, $raw_seo_title ),
-			'meta_description'   => $this->default_template_resolver->resolve_meta_description( $object_id, $post_type, $raw_meta_description ),
-			'social_title'       => $this->default_template_resolver->resolve_social_title( $object_id, $post_type, $raw_social_title ),
-			'social_description' => $this->default_template_resolver->resolve_social_description( $object_id, $post_type, $raw_social_description ),
+			'seo_title'          => ( $raw_seo_title !== '' ) ? $raw_seo_title : $templates['seo_title'],
+			'meta_description'   => ( $raw_meta_description !== '' ) ? $raw_meta_description : $templates['meta_description'],
+			'social_title'       => ( $raw_social_title !== '' ) ? $raw_social_title : $templates['social_title'],
+			'social_description' => ( $raw_social_description !== '' ) ? $raw_social_description : $templates['social_description'],
 		];
 
 		return new Post(
@@ -317,10 +326,10 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			$raw_social_description,
 			true,
 			$this->build_needs_improvement( $indexable, $scores_enabled, $resolved_values ),
-			( $raw_seo_title === '' ) ? $resolved_values['seo_title'] : '',
-			( $raw_meta_description === '' ) ? $resolved_values['meta_description'] : '',
-			( $raw_social_title === '' ) ? $resolved_values['social_title'] : '',
-			( $raw_social_description === '' ) ? $resolved_values['social_description'] : '',
+			$templates['seo_title'],
+			$templates['meta_description'],
+			$templates['social_title'],
+			$templates['social_description'],
 		);
 	}
 

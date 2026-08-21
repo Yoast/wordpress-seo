@@ -87,28 +87,32 @@ class Post {
 	private $needs_improvement;
 
 	/**
-	 * The post type's SEO title template, shown when the stored value is empty. Empty string when the stored value is set.
+	 * The post type's raw SEO title template, always resolved regardless of whether a stored value is
+	 * set, so it stays available as a display fallback even after a stored value is later cleared.
 	 *
 	 * @var string
 	 */
 	private $seo_title_fallback;
 
 	/**
-	 * The post type's meta description template, shown when the stored value is empty. Empty string when the stored value is set.
+	 * The post type's raw meta description template, always resolved regardless of whether a stored
+	 * value is set, so it stays available as a display fallback even after a stored value is later cleared.
 	 *
 	 * @var string
 	 */
 	private $meta_description_fallback;
 
 	/**
-	 * The post type's social title template, shown when the stored value is empty. Empty string when the stored value is set.
+	 * The post type's raw social title template, always resolved regardless of whether a stored value
+	 * is set, so it stays available as a display fallback even after a stored value is later cleared.
 	 *
 	 * @var string
 	 */
 	private $social_title_fallback;
 
 	/**
-	 * The post type's social description template, shown when the stored value is empty. Empty string when the stored value is set.
+	 * The post type's raw social description template, always resolved regardless of whether a stored
+	 * value is set, so it stays available as a display fallback even after a stored value is later cleared.
 	 *
 	 * @var string
 	 */
@@ -128,10 +132,10 @@ class Post {
 	 * @param string              $social_description          The raw stored social description.
 	 * @param bool                $editable                    Whether the current user may edit this post.
 	 * @param array<string, bool> $needs_improvement           Whether each field needs improvement, keyed by field param.
-	 * @param string              $seo_title_fallback          The post type's SEO title template (empty when stored value is set).
-	 * @param string              $meta_description_fallback   The post type's meta description template (empty when stored value is set).
-	 * @param string              $social_title_fallback       The post type's social title template (empty when stored value is set).
-	 * @param string              $social_description_fallback The post type's social description template (empty when stored value is set).
+	 * @param string              $seo_title_fallback          The post type's raw SEO title template.
+	 * @param string              $meta_description_fallback   The post type's raw meta description template.
+	 * @param string              $social_title_fallback       The post type's raw social title template.
+	 * @param string              $social_description_fallback The post type's raw social description template.
 	 */
 	public function __construct(
 		int $id,
