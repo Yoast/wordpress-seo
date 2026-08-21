@@ -235,13 +235,13 @@ final class Article_Test extends TestCase {
 			->andReturn( 'the-title' );
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2345-12-12 12:12:12' )
 			->andReturn( '2345-12-12 12:12:12' );
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->once()
 			->with( '2345-12-12 23:23:23' )
 			->andReturn( '2345-12-12 23:23:23' );
