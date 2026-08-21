@@ -80,8 +80,8 @@
     "@wordpress/element": "^6.0.1",
     "@yoast/ui-library": "^4.5.0",
     "chart.js": "^4.2.1",
-    "react": "^18",
+    "react": "^18 || ^19",
     "react-chartjs-2": "^5.2.0",
-    "react-dom": "^18"
+    "react-dom": "^18 || ^19"
   }
 }
