@@ -47,9 +47,9 @@ final class Settings_Integration_Double extends Settings_Integration {
 	/**
 	 * Transforms setting values.
 	 *
-	 * @param array $settings The settings.
+	 * @param array<string, mixed> $settings The settings.
 	 *
-	 * @return array The settings.
+	 * @return array<string, mixed> The settings.
 	 */
 	public function transform_settings( $settings ) {
 		return parent::transform_settings( $settings );
