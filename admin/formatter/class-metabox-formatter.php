@@ -49,7 +49,7 @@ class WPSEO_Metabox_Formatter {
 	 */
 	private function get_defaults() {
 		$schema_types       = new Schema_Types();
-		$schema_fields_defs = WPSEO_Meta::get_meta_field_defs( 'schema' );
+		$schema_fields_defs = WPSEO_Meta::get_meta_field_defs( 'schema', get_post_type() ?: 'post' );
 
 		$defaults = [
 			'author_name'                        => get_the_author_meta( 'display_name' ),
