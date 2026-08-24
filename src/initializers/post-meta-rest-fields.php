@@ -191,7 +191,7 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 			'show_in_rest'      => $show_in_rest,
 			'single'            => true,
 			'type'              => 'string',
-			'default'           => $field_def['default_value'] ?? '',
+			'default'           => ( $field_def['default_value'] ?? '' ),
 			'sanitize_callback' => [ WPSEO_Meta::class, 'sanitize_post_meta' ],
 		];
 
