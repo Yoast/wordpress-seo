@@ -6,6 +6,20 @@ import Factory from "../../../../src/helpers/factory.js";
 const imageAltTagsAssessment = new ImageAltTagsAssessment();
 
 describe( "test to check if all images have alt tags", function() {
+	it( "still assesses an empty text when the counted images come from the paper's provided images", function() {
+		// When the paper provides its own images the researches count paper-level images, so an empty text must not zero the result.
+		const result = imageAltTagsAssessment.getResult( new Paper( "" ), Factory.buildMockResearcher( {
+			imageCount: 2,
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 2,
+			},
+		}, true ) );
+
+		expect( result.getScore() ).toEqual( 9 );
+		expect( result.getText() ).toEqual( "<a href='' target='_blank'>Image alt attributes</a>: All images have alt attributes. Good job!" );
+	} );
+
 	it( "shows the assessment when there is an image but no text and gives the correct feedback", function() {
 		const mockPaper = new Paper( "<img src='image.jpg' />" );
 		const result = imageAltTagsAssessment.getResult( mockPaper, Factory.buildMockResearcher( {

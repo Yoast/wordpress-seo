@@ -78,7 +78,7 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 
 ### Assessments unique to product pages
 ### 1) Image alt attributes
-**What it does**: Checks if all images have alt attributes.
+**What it does**: Checks if all assessed images have alt attributes. By default it assesses the images in the text; a platform can scope all image assessments to the product's own images (featured, gallery, variations) instead, by providing the Paper's `providedImages` attribute — an empty array counts as a product without images.
 
 **When it applies**: Always.
 
