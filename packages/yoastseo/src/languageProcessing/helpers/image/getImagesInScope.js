@@ -8,6 +8,10 @@ import getImagesInTree from "./getImagesInTree";
  * Maps an image from the Paper's `providedImages` attribute to an `img` pseudo-node,
  * so downstream helpers that read image nodes (e.g. `getAltAttribute`) work unchanged.
  *
+ * Missing `src` and `alt` default to empty strings rather than throwing: the contract makes `alt`
+ * required and `toPaper()` rejects a DTO without it, but a Paper constructed directly bypasses that
+ * validation, and an empty `alt` degrades to the correct "no alt text" score instead of a hard failure.
+ *
  * @param {ProvidedImage} image The provided image to map.
  *
  * @returns {{name: string, attributes: {src: string, alt: string}}} The mapped `img` pseudo-node.
