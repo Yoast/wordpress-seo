@@ -138,6 +138,10 @@ class WPSEO_Meta {
 				'type'          => 'hidden',
 				'default_value' => 'false',
 			],
+			'estimated-reading-time-minutes' => [
+				'type'          => 'hidden',
+				'default_value' => '',
+			],
 		],
 		'advanced'        => [
 			'meta-robots-noindex'  => [

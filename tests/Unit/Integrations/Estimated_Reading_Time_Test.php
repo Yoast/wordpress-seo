@@ -3,7 +3,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Integrations\Estimated_Reading_Time;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -24,6 +26,13 @@ final class Estimated_Reading_Time_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The estimated reading time conditional mock.
+	 *
+	 * @var Estimated_Reading_Time_Conditional|Mockery\MockInterface
+	 */
+	protected $estimated_reading_time_conditional;
+
+	/**
 	 * Setup.
 	 *
 	 * @return void
@@ -31,7 +40,8 @@ final class Estimated_Reading_Time_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->instance = new Estimated_Reading_Time();
+		$this->estimated_reading_time_conditional = Mockery::mock( Estimated_Reading_Time_Conditional::class );
+		$this->instance                           = new Estimated_Reading_Time( $this->estimated_reading_time_conditional );
 	}
 
 	/**
@@ -42,8 +52,8 @@ final class Estimated_Reading_Time_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_hooks() {
-		Monkey\Filters\expectAdded( 'add_extra_wpseo_meta_fields' )
-			->with( [ $this->instance, 'add_estimated_reading_time_hidden_fields' ] );
+		Monkey\Filters\expectAdded( 'wpseo_metabox_entries_general' )
+			->with( [ $this->instance, 'filter_estimated_reading_time_field_def' ], 10, 2 );
 
 		$this->instance->register_hooks();
 	}
@@ -57,45 +67,67 @@ final class Estimated_Reading_Time_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[ Estimated_Reading_Time_Conditional::class ],
+			[ Post_Conditional::class ],
 			Estimated_Reading_Time::get_conditionals(),
 		);
 	}
 
 	/**
-	 * Tests the adding of the hidden fields.
+	 * Tests that the field is left in place when the conditional is met.
 	 *
-	 * @covers ::add_estimated_reading_time_hidden_fields
+	 * @covers ::filter_estimated_reading_time_field_def
 	 *
 	 * @return void
 	 */
-	public function test_add_estimated_reading_time_hidden_fields() {
-		$actual = $this->instance->add_estimated_reading_time_hidden_fields( [] );
+	public function test_filter_estimated_reading_time_field_def_keeps_field_when_conditional_is_met() {
+		$this->estimated_reading_time_conditional->expects( 'is_met' )->andReturn( true );
 
-		$this->assertIsArray( $actual );
-		$this->assertArrayHasKey( 'general', $actual );
-		$this->assertArrayHasKey( 'estimated-reading-time-minutes', $actual['general'] );
-		$this->assertEquals(
-			[
-				'type'  => 'hidden',
-				'title' => 'estimated-reading-time-minutes',
+		$field_defs = [
+			'estimated-reading-time-minutes' => [
+				'type'          => 'hidden',
+				'default_value' => '',
 			],
-			$actual['general']['estimated-reading-time-minutes'],
-		);
+		];
+
+		$actual = $this->instance->filter_estimated_reading_time_field_def( $field_defs, 'post' );
+
+		$this->assertArrayHasKey( 'estimated-reading-time-minutes', $actual );
 	}
 
 	/**
-	 * Tests that a non-array input is treated as an empty array.
+	 * Tests that the field is removed when the conditional is not met.
 	 *
-	 * @covers ::add_estimated_reading_time_hidden_fields
+	 * @covers ::filter_estimated_reading_time_field_def
 	 *
 	 * @return void
 	 */
-	public function test_add_estimated_reading_time_hidden_fields_when_not_array() {
-		$actual = $this->instance->add_estimated_reading_time_hidden_fields( 'not-an-array' );
+	public function test_filter_estimated_reading_time_field_def_removes_field_when_conditional_is_not_met() {
+		$this->estimated_reading_time_conditional->expects( 'is_met' )->andReturn( false );
 
-		$this->assertIsArray( $actual );
-		$this->assertArrayHasKey( 'general', $actual );
-		$this->assertArrayHasKey( 'estimated-reading-time-minutes', $actual['general'] );
+		$field_defs = [
+			'estimated-reading-time-minutes' => [
+				'type'  => 'hidden',
+				'title' => 'estimated-reading-time-minutes',
+			],
+			'focuskw'                        => [ 'type' => 'hidden' ],
+		];
+
+		$actual = $this->instance->filter_estimated_reading_time_field_def( $field_defs, 'post' );
+
+		$this->assertArrayNotHasKey( 'estimated-reading-time-minutes', $actual );
+		$this->assertArrayHasKey( 'focuskw', $actual );
+	}
+
+	/**
+	 * Tests that a non-array input is returned unchanged.
+	 *
+	 * @covers ::filter_estimated_reading_time_field_def
+	 *
+	 * @return void
+	 */
+	public function test_filter_estimated_reading_time_field_def_returns_non_array_unchanged() {
+		$actual = $this->instance->filter_estimated_reading_time_field_def( 'not-an-array', 'post' );
+
+		$this->assertEquals( 'not-an-array', $actual );
 	}
 }
