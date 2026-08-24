@@ -472,6 +472,13 @@ class WPSEO_Meta {
 				}
 				break;
 
+			case ( strpos( $meta_key, self::$meta_prefix . 'primary_' ) === 0 ):
+				$int = WPSEO_Utils::validate_int( $meta_value );
+				if ( $int !== false && $int >= -1 ) {
+					$clean = (string) $int; // Cast to string to make sure default check works.
+				}
+				break;
+
 			case ( $field_def['type'] === 'hidden' && isset( $field_def['options'] ) ):
 				// Only allow value if it's one of the predefined options.
 				if ( isset( $field_def['options'][ $meta_value ] ) ) {
