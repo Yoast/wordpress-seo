@@ -1,0 +1,34 @@
+{
+  "patterns": [
+    {
+      "rule_name": "public_rest_endpoint",
+      "reminder": "permission_callback => '__return_true' makes this endpoint public. Confirm it needs no auth, or that the handler validates a token/nonce/secret (see src/ai-authorization/user-interface/callback-route.php). No CS sniff checks capability presence.",
+      "substrings": ["__return_true"],
+      "exclude_paths": ["*tests/*", "*vendor/*", "*node_modules/*"]
+    },
+    {
+      "rule_name": "tls_verification_disabled",
+      "reminder": "Disabling TLS verification exposes remote requests to MITM. Keep sslverify on and CURLOPT_SSL_VERIFYPEER/VERIFYHOST enabled.",
+      "substrings": ["'sslverify' => false", "\"sslverify\" => false", "'sslverify'=>false", "CURLOPT_SSL_VERIFYPEER, false", "CURLOPT_SSL_VERIFYPEER, 0", "CURLOPT_VERIFYHOST, 0", "CURLOPT_VERIFYHOST, false"],
+      "exclude_paths": ["*tests/*", "*vendor/*", "*node_modules/*"]
+    },
+    {
+      "rule_name": "variable_variables",
+      "reminder": "Variable variables ($$var) can overwrite arbitrary variables from user input. Use explicit array/object access instead.",
+      "regex": "\\$\\$[a-zA-Z_]",
+      "exclude_paths": ["*tests/*", "*vendor/*", "*node_modules/*"]
+    },
+    {
+      "rule_name": "phar_deserialization",
+      "reminder": "phar:// on a filesystem function triggers PHP object deserialization (POP chains). Ensure user-supplied paths cannot contain phar://.",
+      "substrings": ["phar://"],
+      "exclude_paths": ["*tests/*", "*vendor/*", "*node_modules/*"]
+    },
+    {
+      "rule_name": "dynamic_file_inclusion",
+      "reminder": "include/require with a superglobal enables Local/Remote File Inclusion. Map requests to a fixed allow-list of paths; never concatenate user input into an include.",
+      "regex": "(include|require)(_once)?\\s*[\\(\\s].*\\$_(GET|POST|REQUEST|COOKIE)",
+      "exclude_paths": ["*tests/*", "*vendor/*", "*node_modules/*"]
+    }
+  ]
+}
