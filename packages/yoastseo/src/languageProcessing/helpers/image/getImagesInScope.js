@@ -1,10 +1,14 @@
 import getImagesInTree from "./getImagesInTree";
 
 /**
+ * @typedef {import("../../../contract/providedImages").ProvidedImage} ProvidedImage
+ */
+
+/**
  * Maps an image from the Paper's `providedImages` attribute to an `img` pseudo-node,
  * so downstream helpers that read image nodes (e.g. `getAltAttribute`) work unchanged.
  *
- * @param {{id: ?number, src: ?string, alt: ?string}} image The provided image to map.
+ * @param {ProvidedImage} image The provided image to map.
  *
  * @returns {{name: string, attributes: {src: string, alt: string}}} The mapped `img` pseudo-node.
  */

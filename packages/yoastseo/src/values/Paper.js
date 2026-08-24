@@ -2,13 +2,14 @@ import { defaults, isEmpty, isEqual, isNil } from "lodash";
 
 /**
  * @typedef {import("../parse/structure").Node} Node
+ * @typedef {import("../contract/providedImages").ProvidedImage} ProvidedImage
  */
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
  * @type {{keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
  * 		   slug: string, locale: string, permalink: string, date: string, customData: object, productData: object,
- * 		   providedImages: ?Object[], textTitle: string, writingDirection: "LTR", isFrontPage: boolean, wpBlocks: [], shortcodes: []}}
+ * 		   providedImages: ?ProvidedImage[], textTitle: string, writingDirection: "LTR", isFrontPage: boolean, wpBlocks: [], shortcodes: []}}
  */
 const defaultAttributes = {
 	keyword: "",
@@ -52,7 +53,7 @@ export default class Paper {
 	 * @param {Object[]}  [attributes.wpBlocks]         The array of texts, encoded in WordPress block editor blocks.
 	 * @param {Object}  [attributes.customData]         Custom data.
 	 * @param {Object}  [attributes.productData]        Product analysis data consumed by the native product assessments.
-	 * @param {Object[]} [attributes.providedImages]   The analyzed item's own images as the producer knows them (e.g. a product's featured, gallery and variation images). Providing this attribute — even as an empty array — scopes the image assessments to these images instead of the images in the text.
+	 * @param {ProvidedImage[]} [attributes.providedImages]   The analyzed item's own images as the producer knows them (e.g. a product's featured, gallery and variation images). Providing this attribute — even as an empty array — scopes the image assessments to these images instead of the images in the text.
 	 * @param {string}  [attributes.textTitle]          The title of the text.
 	 * @param {string}  [attributes.writingDirection=LTR]   The writing direction of the paper. Defaults to left to right (LTR).
 	 * @param {boolean} [attributes.isFrontPage=false]  Whether the current page is the front page of the site. Defaults to false.
@@ -340,7 +341,7 @@ export default class Paper {
 	 * gallery and variation images), not the images found in the text. Their presence scopes the image
 	 * researches to them (see `getImagesInScope`); an empty array means an item that has no images.
 	 *
-	 * @returns {?Object[]} Returns the provided images, each shaped `{ id?: number, src?: string, alt: string }`.
+	 * @returns {?ProvidedImage[]} Returns the provided images.
 	 */
 	getProvidedImages() {
 		return this._attributes.providedImages;
