@@ -38,6 +38,7 @@ describe( "writeMetaWithoutUndo", () => {
 
 	beforeEach( () => {
 		select.mockReturnValue( {
+			getEditedPostAttribute: () => ( {} ),
 			getCurrentPostType: () => "post",
 			getCurrentPostId: () => 42,
 		} );
