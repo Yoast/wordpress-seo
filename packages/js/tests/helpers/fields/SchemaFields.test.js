@@ -22,7 +22,7 @@ describe( "defaultArticleType", () => {
 	} );
 
 	it( "returns the value from wpseoScriptData", () => {
-		const spy = mockWindow( { wpseoScriptData: { metabox: { schema: { defaultArticleType: "Article" } } } } );
+		const spy = mockWindow( { wpseoScriptData: { schemaFields: { defaultArticleType: "Article" } } } );
 		expect( SchemaFields.defaultArticleType ).toBe( "Article" );
 		spy.mockRestore();
 	} );
@@ -70,7 +70,7 @@ describe( "defaultPageType", () => {
 	} );
 
 	it( "returns the value from wpseoScriptData", () => {
-		const spy = mockWindow( { wpseoScriptData: { metabox: { schema: { defaultPageType: "WebPage" } } } } );
+		const spy = mockWindow( { wpseoScriptData: { schemaFields: { defaultPageType: "WebPage" } } } );
 		expect( SchemaFields.defaultPageType ).toBe( "WebPage" );
 		spy.mockRestore();
 	} );
