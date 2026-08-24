@@ -42,9 +42,19 @@ export const shouldSkipMetaWrite = ( metaKey, newValue ) => {
  * @returns {void}
  */
 export const writeMetaWithoutUndo = ( meta ) => {
+	const currentMeta = select( "core/editor" ).getEditedPostAttribute( "meta" );
+	if ( ! currentMeta ) {
+		return;
+	}
+	const changed = Object.fromEntries(
+		Object.entries( meta ).filter( ( [ key, value ] ) => currentMeta[ key ] !== String( value ) )
+	);
+	if ( Object.keys( changed ).length === 0 ) {
+		return;
+	}
 	const postType = select( "core/editor" ).getCurrentPostType();
 	const postId = select( "core/editor" ).getCurrentPostId();
-	dispatch( "core" ).editEntityRecord( "postType", postType, postId, { meta }, { undoIgnore: true } );
+	dispatch( "core" ).editEntityRecord( "postType", postType, postId, { meta: changed }, { undoIgnore: true } );
 };
 
 /**
