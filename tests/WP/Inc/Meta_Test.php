@@ -297,6 +297,44 @@ final class Meta_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the per-field score meta only accepts integers within 0-100.
+	 *
+	 * @covers WPSEO_Meta::sanitize_post_meta
+	 *
+	 * @dataProvider provider_sanitize_field_score
+	 *
+	 * @param mixed  $meta_value The submitted meta value.
+	 * @param string $expected   The expected sanitized value.
+	 *
+	 * @return void
+	 */
+	public function test_sanitize_field_score( $meta_value, $expected ) {
+		foreach ( [ 'seo_title_score', 'meta_description_score' ] as $key ) {
+			$this->assertSame(
+				$expected,
+				WPSEO_Meta::sanitize_post_meta( $meta_value, WPSEO_Meta::$meta_prefix . $key ),
+				"Sanitizing {$key}",
+			);
+		}
+	}
+
+	/**
+	 * Provides data to test_sanitize_field_score.
+	 *
+	 * @return array<string, array<mixed>> The submitted value and the expected sanitized value.
+	 */
+	public static function provider_sanitize_field_score() {
+		return [
+			'a valid score is kept'                     => [ '63', '63' ],
+			'the minimum score is kept'                 => [ '0', '0' ],
+			'the maximum score is kept'                 => [ '100', '100' ],
+			'an out-of-range score keeps the default'   => [ '101', '0' ],
+			'a negative score keeps the default'        => [ '-1', '0' ],
+			'a non-numeric value keeps the default'     => [ 'not-a-score', '0' ],
+		];
+	}
+
+	/**
 	 * Registers a field on the WPSEO_Meta class.
 	 *
 	 * @param string $key        The key to register.

@@ -147,7 +147,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$this->expect_editable_post( 123 );
 		$this->meta_writer->expects( 'write_title' )->never();
 		$this->meta_writer->expects( 'write_description' )->never();
-		$this->meta_writer->expects( 'write_focus_keyphrase' )->with( 123, 'The keyphrase' );
+		$this->meta_writer->expects( 'write_focus_keyphrase' )->with( 123, 'The keyphrase' )->andReturn( 'The keyphrase' );
 
 		$updates = new Post_Update_Collection();
 		$updates->add( new Post_Update( 123, null, null, 'The keyphrase' ) );
@@ -155,6 +155,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$results = $this->instance->update( $type, $updates )->to_array();
 
 		$this->assertTrue( $results['results'][0]['success'] );
+		$this->assertSame( 'The keyphrase', $results['results'][0]['sanitized']['focus_keyphrase'] );
 	}
 
 	/**
@@ -166,7 +167,7 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 	public function test_update_focus_keyphrase_is_channel_agnostic() {
 		$type = Update_Type::social();
 		$this->expect_editable_post( 123 );
-		$this->meta_writer->expects( 'write_focus_keyphrase' )->with( 123, 'The keyphrase' );
+		$this->meta_writer->expects( 'write_focus_keyphrase' )->with( 123, 'The keyphrase' )->andReturn( 'The keyphrase' );
 
 		$updates = new Post_Update_Collection();
 		$updates->add( new Post_Update( 123, null, null, 'The keyphrase' ) );
@@ -174,6 +175,9 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 		$results = $this->instance->update( $type, $updates )->to_array();
 
 		$this->assertTrue( $results['results'][0]['success'] );
+		$this->assertSame( 'The keyphrase', $results['results'][0]['sanitized']['focus_keyphrase'] );
+		// Social saves do not render seo_title/meta_description; rendered is absent entirely.
+		$this->assertArrayNotHasKey( 'rendered', $results['results'][0] );
 	}
 
 	/**
@@ -254,13 +258,66 @@ final class Bulk_Updater_Update_Test extends Abstract_Bulk_Updater_Test {
 						'error'   => Update_Error::NOT_FOUND,
 					],
 					[
-						'id'      => 2,
-						'success' => true,
+						'id'       => 2,
+						'success'  => true,
+						'rendered' => [
+							'seo_title'        => 'rendered-title',
+							'meta_description' => 'rendered-metadesc',
+						],
 					],
 				],
 			],
 			$this->instance->update( $type, $updates )->to_array(),
 		);
+	}
+
+	/**
+	 * Tests a successful search update returns the rendered search fields for re-scoring.
+	 *
+	 * @return void
+	 */
+	public function test_update_search_returns_rendered_fields() {
+		$type = Update_Type::search();
+		$this->expect_editable_post( 123 );
+		$this->meta_writer->expects( 'write_title' )->with( $type, 123, 'The title' );
+
+		$updates = new Post_Update_Collection();
+		$updates->add( new Post_Update( 123, 'The title', null, null ) );
+
+		$results = $this->instance->update( $type, $updates )->to_array();
+
+		// Both search fields are rendered, regardless of which one changed: the SEO title maps to the
+		// 'title' meta and the meta description to the 'metadesc' meta (see the abstract's render stub).
+		$this->assertSame(
+			[
+				'seo_title'        => 'rendered-title',
+				'meta_description' => 'rendered-metadesc',
+			],
+			$results['results'][0]['rendered'],
+		);
+	}
+
+	/**
+	 * Tests a social title update (no keyphrase) returns no rendered fields.
+	 *
+	 * A social update that includes a keyphrase echoes focus_keyphrase back; one that does not
+	 * (like this test) returns nothing, because the field renderer is only called for search updates
+	 * and focus_keyphrase is only echoed when it was part of the update.
+	 *
+	 * @return void
+	 */
+	public function test_update_social_does_not_return_rendered_fields() {
+		$type = Update_Type::social();
+		$this->expect_editable_post( 123 );
+		$this->meta_writer->expects( 'write_title' )->with( $type, 123, 'The title' );
+		$this->field_renderer->expects( 'render' )->never();
+
+		$updates = new Post_Update_Collection();
+		$updates->add( new Post_Update( 123, 'The title', null, null ) );
+
+		$results = $this->instance->update( $type, $updates )->to_array();
+
+		$this->assertArrayNotHasKey( 'rendered', $results['results'][0] );
 	}
 
 	/**

@@ -148,7 +148,10 @@ final class Meta_Writer_Test extends TestCase {
 		$this->meta_helper->expects( 'set_value' )
 			->with( 'focuskw', 'The keyphrase', 123 );
 
-		$this->instance->write_focus_keyphrase( 123, "  The \t keyphrase  " );
+		$result = $this->instance->write_focus_keyphrase( 123, "  The \t keyphrase  " );
+
+		// The sanitized value is returned so callers can echo it back without a DB re-read.
+		$this->assertSame( 'The keyphrase', $result );
 	}
 
 	/**
@@ -178,6 +181,18 @@ final class Meta_Writer_Test extends TestCase {
 			->with( 'focuskw', '', 123 );
 
 		$this->instance->write_focus_keyphrase( 123, '' );
+	}
+
+	/**
+	 * Tests a score is cast to a string and written to its meta key.
+	 *
+	 * @return void
+	 */
+	public function test_write_score() {
+		$this->meta_helper->expects( 'set_value' )
+			->with( 'seo_title_score', '63', 123 );
+
+		$this->instance->write_score( 123, 'seo_title_score', 63 );
 	}
 
 	/**

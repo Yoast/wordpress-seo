@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
@@ -13,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 
 /**
  * Tests the Bulk_Editor_Integration constructor.
@@ -64,6 +66,14 @@ final class Constructor_Test extends Abstract_Test {
 		$this->assertInstanceOf(
 			User_Helper::class,
 			$this->getPropertyValue( $this->instance, 'user_helper' ),
+		);
+		$this->assertInstanceOf(
+			Myyoast_Connection_Data_Presenter::class,
+			$this->getPropertyValue( $this->instance, 'myyoast_connection_data_presenter' ),
+		);
+		$this->assertInstanceOf(
+			WPSEO_Replace_Vars::class,
+			$this->getPropertyValue( $this->instance, 'replace_vars' ),
 		);
 	}
 }
