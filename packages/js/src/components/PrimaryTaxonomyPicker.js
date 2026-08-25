@@ -1,5 +1,6 @@
 import apiFetch from "@wordpress/api-fetch";
 import { ExternalLink } from "@wordpress/components";
+import { select } from "@wordpress/data";
 import { Component } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
@@ -77,6 +78,34 @@ class PrimaryTaxonomyPicker extends Component {
 	}
 
 	/**
+	 * Resolves a stale -1 placeholder by re-reading the saved primary taxonomy ID from the field.
+	 * Returns true if the caller should stop further processing.
+	 *
+	 * A -1 may be written by the constructor before REST entity meta has loaded. Once meta is
+	 * available, sync the real value to the store rather than letting the fallback-to-first-term
+	 * path overwrite the saved primary term without user interaction.
+	 *
+	 * @returns {boolean} Whether the caller should return early.
+	 */
+	resolveStalePrimaryId() {
+		const { primaryTaxonomyId, taxonomy } = this.props;
+		if ( primaryTaxonomyId !== -1 ) {
+			return false;
+		}
+		const rawValue = PrimaryTermFields.get( taxonomy.name, taxonomy.fieldId );
+		const parsed = parseInt( rawValue, 10 );
+		if ( ! Number.isNaN( parsed ) ) {
+			this.props.setPrimaryTaxonomyId( taxonomy.name, parsed );
+			return true;
+		}
+		// Entity meta hasn't loaded yet; skip onChange to avoid dirtying the post.
+		if ( ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Checks if the current value still has a corresponding option, and if not changes
 	 * the value to the first term's id.
 	 *
@@ -84,16 +113,33 @@ class PrimaryTaxonomyPicker extends Component {
 	 */
 	handleSelectedTermsChange() {
 		const { selectedTerms } = this.state;
-		const { primaryTaxonomyId } = this.props;
+		const { primaryTaxonomyId, taxonomy } = this.props;
+
+		// Terms haven't been fetched yet: selectedTerms is derived from an empty list, so any
+		// "primary not found" result here is a false negative. Skip until fetchTerms resolves.
+		if ( this.state.terms.length === 0 ) {
+			return;
+		}
+
+		if ( this.resolveStalePrimaryId() ) {
+			return;
+		}
+
 		const selectedTerm = selectedTerms.find( term => {
 			return term.id === primaryTaxonomyId;
 		} );
 		if ( ! selectedTerm ) {
-			/**
-			 * If the selected term is no longer available, set the primary term id to
-			 * the first term, and to -1 if no term is available.
-			 */
-			this.onChange( selectedTerms.length ? selectedTerms[ 0 ].id : -1 );
+			const autoSelectedId = selectedTerms.length ? selectedTerms[ 0 ].id : -1;
+			if ( primaryTaxonomyId === -1 ) {
+				// No primary term was ever saved. Auto-select the first term for UI display only,
+				// without writing to meta, so the post is not dirtied before user interaction.
+				this.props.setPrimaryTaxonomyId( taxonomy.name, autoSelectedId );
+				this.updateReplacementVariable( autoSelectedId );
+			} else {
+				// The saved primary term is no longer among the selected terms (user removed it).
+				// Fall back to the first available term and persist the change.
+				this.onChange( autoSelectedId );
+			}
 		}
 	}
 
