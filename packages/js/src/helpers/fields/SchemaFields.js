@@ -25,7 +25,7 @@ export default class SchemaFields {
 	 * @returns {string} The default ArticleType.
 	 */
 	static get defaultArticleType() {
-		return get( window, "wpseoScriptData.schemaFields.defaultArticleType", "" );
+		return get( window, "wpseoScriptData.metabox.schema.defaultArticleType", "" );
 	}
 
 	/**
@@ -63,7 +63,7 @@ export default class SchemaFields {
 	 * @returns {string} The default PageType.
 	 */
 	static get defaultPageType() {
-		return get( window, "wpseoScriptData.schemaFields.defaultPageType", "" );
+		return get( window, "wpseoScriptData.metabox.schema.defaultPageType", "" );
 	}
 
 	/**
@@ -92,6 +92,6 @@ export default class SchemaFields {
 	 * @returns {boolean} True if the article input should be shown, false otherwise.
 	 */
 	static get showArticleInput() {
-		return Boolean( get( window, "wpseoScriptData.schemaFields.showArticleInput", false ) );
+		return Boolean( get( window, "wpseoScriptData.metabox.schema.showArticleInput", false ) );
 	}
 }

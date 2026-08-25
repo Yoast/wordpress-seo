@@ -943,11 +943,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		];
 
-		$post_type          = get_post_type( $post_id );
-		$page_on_front      = (int) get_option( 'page_on_front' );
-		$homepage_is_page   = get_option( 'show_on_front' ) === 'page';
-		$is_front_page      = $homepage_is_page && $page_on_front === (int) $post_id;
-		$schema_fields_defs = WPSEO_Meta::get_meta_field_defs( 'schema', $post_type ?: 'post' );
+		$page_on_front    = (int) get_option( 'page_on_front' );
+		$homepage_is_page = get_option( 'show_on_front' ) === 'page';
+		$is_front_page    = $homepage_is_page && $page_on_front === (int) $post_id;
 
 		$script_data = [
 			'metabox'                     => $this->get_metabox_script_data(),
@@ -956,19 +954,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'disableMetaboxInBlockEditor' => $is_block_editor && (bool) apply_filters( 'wpseo_disable_metabox_in_block_editor', false ),
 			'postId'                      => $post_id,
 			'postStatus'                  => get_post_status( $post_id ),
-			'postType'                    => $post_type,
-			'isPage'                      => $post_type === 'page',
+			'postType'                    => get_post_type( $post_id ),
+			'isPage'                      => get_post_type( $post_id ) === 'page',
 			'usedKeywordsNonce'           => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'analysis'                    => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
 			'isFrontPage'                 => $is_front_page,
-			'schemaFields'                => [
-				'defaultPageType'    => isset( $schema_fields_defs['schema_page_type'] ) ? $schema_fields_defs['schema_page_type']['default'] : '',
-				'defaultArticleType' => isset( $schema_fields_defs['schema_article_type'] ) ? $schema_fields_defs['schema_article_type']['default'] : '',
-				'showArticleInput'   => isset( $schema_fields_defs['schema_article_type'] ),
-			],
 		];
 
 		/**
