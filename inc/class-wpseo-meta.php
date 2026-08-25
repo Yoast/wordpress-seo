@@ -136,7 +136,7 @@ class WPSEO_Meta {
 			],
 			'is_cornerstone' => [
 				'type'          => 'hidden',
-				'default_value' => 'false',
+				'default_value' => '0',
 			],
 			'estimated-reading-time-minutes' => [
 				'type'          => 'hidden',
