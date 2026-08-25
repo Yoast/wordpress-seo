@@ -257,7 +257,7 @@ export default function initPostScraper( $, store, editorData ) {
 		if ( isKeywordAnalysisActive() ) {
 			// In REST meta mode, when the entity meta is not yet available, the initial
 			// keyphrase dispatch is deferred together with title, description, and cornerstone
-			// in the single meta-ready subscriber inside initializeSnippetEditorSync.
+			// in the single meta-ready subscriber inside dispatchInitialMetaOnReady.
 			if ( ! isRestMetaActive() || select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
 				yoastStore.dispatch( setFocusKeyword( AnalysisFields.keyphrase ) );
 			}
