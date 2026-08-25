@@ -6,7 +6,7 @@ import React, { forwardRef } from "react";
  * @param {string} label Content of the Label. Note that this is a string ONLY for a11y reasons.
  * @param {string} children Alternative to the label. See label.
  * @param {string|JSX.node} [as] Base component.
- * @param {string} [className] CSS class.
+ * @param {string} [className=""] CSS class.
  * @returns {JSX.Element} Label component.
  */
 const Label = forwardRef( ( {
