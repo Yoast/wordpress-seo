@@ -1,0 +1,57 @@
+@layer components {
+	.yst-root {
+		.yst-selectable-list {
+			@apply yst-flex yst-flex-col;
+		}
+
+		.yst-selectable-list__item {
+			@apply yst-list-none;
+		}
+
+		.yst-selectable-list__item-button {
+			@apply
+			yst-flex
+			yst-w-full
+			yst-items-center
+			yst-justify-between
+			yst-gap-2
+			yst-border-b
+			yst-border-slate-200
+			yst-bg-slate-50
+			yst-px-3
+			yst-py-4
+			yst-text-start
+			yst-transition-colors
+			yst-duration-150
+			yst-ease-in-out
+			hover:yst-bg-slate-100
+			disabled:yst-cursor-not-allowed
+			disabled:yst-opacity-50
+			focus-visible:yst-outline-none
+			focus-visible:yst-ring-2
+			focus-visible:yst-ring-inset
+			focus-visible:yst-ring-primary-500;
+		}
+
+		.yst-selectable-list__item-button--selected {
+			@apply yst-bg-slate-100;
+		}
+
+		.yst-selectable-list__item-content {
+			@apply yst-min-w-0 yst-flex-1;
+		}
+
+		.yst-selectable-list__item-icon {
+			@apply
+			yst-h-4
+			yst-w-4
+			yst-shrink-0
+			yst-text-slate-400
+			yst-transition-colors
+			yst-duration-150
+			yst-ease-in-out
+			group-hover:yst-text-slate-600
+			rtl:yst-rotate-180;
+		}
+	}
+}

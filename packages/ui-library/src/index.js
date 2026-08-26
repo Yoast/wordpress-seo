@@ -39,6 +39,7 @@ export { default as Pagination } from "./components/pagination";
 export { default as Popover, usePopoverContext } from "./components/popover";
 export { default as RadioGroup } from "./components/radio-group";
 export { default as Root } from "./components/root";
+export { default as SelectableList } from "./components/selectable-list";
 export { default as SelectField } from "./components/select-field";
 export { default as SidebarNavigation, useNavigationContext } from "./components/sidebar-navigation";
 export { default as TagField } from "./components/tag-field";
