@@ -20,6 +20,9 @@ export const MIN_SEARCH_LENGTH = 3;
 export const FIELD_SET_SEARCH = "search";
 export const FIELD_SET_SOCIAL = "social";
 
+// The Products-only "Image alt text" tab id.
+export const FIELD_SET_IMAGE_ALT_TEXT = "image_alt_text";
+
 // The focus keyphrase field key; also used to give that column its own text styling.
 export const FOCUS_KEYPHRASE_KEY = "focusKeyphrase";
 
