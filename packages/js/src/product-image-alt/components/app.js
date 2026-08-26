@@ -24,11 +24,11 @@ export const App = ( { className, location } ) => {
 			isRtl: selectors.getPreference( "isRtl", false ),
 		};
 	}, [] );
-	const initialVariatonImages = get( window, "wpseoProductImageAlt.variationImages", [] );
+	const initialVariationImages = get( window, "wpseoProductImageAlt.variationImages", [] );
 
 	const { featuredImage, isLoadingFeaturedImageAlt } = useProductImage();
 	const { galleryImages, isLoadingProductGalleryAlts } = useProductGallery();
-	const { variationImages, isLoadingVariationImagesAlts } = useVariationImages( initialVariatonImages );
+	const { variationImages, isLoadingVariationImagesAlts } = useVariationImages( initialVariationImages );
 
 	const isLoading = isLoadingFeaturedImageAlt || isLoadingProductGalleryAlts || isLoadingVariationImagesAlts;
 
