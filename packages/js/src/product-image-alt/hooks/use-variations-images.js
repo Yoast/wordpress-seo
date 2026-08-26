@@ -13,9 +13,7 @@ function getVariationImagesFromDOM() {
 
 	return Array.from( rows ).map( ( row ) => {
 		// Variation ID lives in input.variable_post_id
-		const variationId =
-            Number( row.querySelector( "input.variable_post_id" )?.value ) || null;
-
+		const variationId = Number( row.querySelector( "input.variable_post_id" )?.value ) || null;
 		// Image ID lives in input.upload_image_id inside .upload_image
 		const imageIdInput = row.querySelector( ".upload_image .upload_image_id" );
 		const imageId = Number( imageIdInput?.value ) || null;
