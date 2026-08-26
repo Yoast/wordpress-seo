@@ -14,7 +14,7 @@ import { LEARN_MORE_LINK, PRODUCT_CONTENT_TYPE, STORE_NAME } from "./constants";
  * @param {Object} [contentType]   The content type ({ id, label }), if any.
  * @param {string} [learnMoreLink] The resolved "Learn more about bulk editor features" link, for products.
  *
- * @returns {{title: string, description: JSX.node}} The header title and description.
+ * @returns {{title: string, description: React.ReactNode}} The header title and description.
  */
 const getHeaderCopy = ( contentType, learnMoreLink ) => {
 	const label = contentType ? contentType.label : __( "Content", "wordpress-seo" );
