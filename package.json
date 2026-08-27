@@ -52,7 +52,7 @@
     "@yoast/postcss-preset": "^1.2.1",
     "@yoast/related-keyphrase-suggestions": "^0.4.0",
     "@yoast/tailwindcss-preset": "^2.6.0",
-    "@yoast/ui-library": "^4.5.0",
+    "@yoast/ui-library": "^4.6.0",
     "colors": "1.4.0",
     "copy-webpack-plugin": "^12.0.2",
     "core-js": "^2.6.12",

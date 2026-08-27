@@ -1,5 +1,30 @@
 # Changelog
 
+## 4.6.0
+
+### Enhancements:
+
+* Exposes the sparkles gradient icon and decouples the gradient border styling. [#23205](https://github.com/Yoast/wordpress-seo/pull/23205)
+* Adds `yst-mt-2` spacing to the `TextField` description. [#23233](https://github.com/Yoast/wordpress-seo/pull/23233)
+* Adds a `Divider` element and a `SidebarNavigation.MenuItemWithLimiter` component. [#23343](https://github.com/Yoast/wordpress-seo/pull/23343)
+* Adds support for using the `TextareaField` without a label. [#23534](https://github.com/Yoast/wordpress-seo/pull/23534)
+
+### Bugfixes:
+
+* Fixes a bug where a table's row separator was not rendered next to a taller cell in Firefox. [#23387](https://github.com/Yoast/wordpress-seo/pull/23387)
+* Fixes a bug where the text color of the `ai-primary` and `ai-secondary` button variants would change to the browser's default visited-link color when the button was rendered as a link. [#23567](https://github.com/Yoast/wordpress-seo/pull/23567)
+
+### Other:
+
+* Improves the tooltip arrow styling to avoid conflicting style sheets. [#23205](https://github.com/Yoast/wordpress-seo/pull/23205)
+
+### Non user facing:
+
+* Switches Heroicons imports to individual ESM paths, to reduce the plugin bundle size. [#23292](https://github.com/Yoast/wordpress-seo/pull/23292)
+* Replaces deprecated `defaultProps` with ES6 default parameters across components, for React 19 compatibility. [#23317](https://github.com/Yoast/wordpress-seo/pull/23317)
+* Adds a React render smoke test that mounts every component, run in CI on React 18.3 and 19.2. [#23320](https://github.com/Yoast/wordpress-seo/pull/23320)
+* Makes `SidebarNavigation.Sidebar` pass extra props to the `nav` element, so the navigation landmark can be named via `aria-label`. [#23333](https://github.com/Yoast/wordpress-seo/pull/23333)
+
 ## 4.5.0
 
 ### Enhancements:
