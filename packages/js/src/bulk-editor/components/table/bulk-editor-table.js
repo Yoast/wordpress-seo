@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { __ } from "@wordpress/i18n";
 import { Table } from "@yoast/ui-library";
 import { noop } from "lodash";

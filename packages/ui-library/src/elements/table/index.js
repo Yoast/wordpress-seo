@@ -212,8 +212,8 @@ const CheckboxHeader = forwardRef( ( { id, name, checked, indeterminate, onChang
 	const context = useContext( CheckboxTableContext );
 	const inputRef = useRef( null );
 
-	const resolvedChecked = checked ?? context?.isAllSelected ?? false;
-	const resolvedIndeterminate = indeterminate ?? context?.isIndeterminate ?? false;
+	const resolvedChecked = checked ?? Boolean( context?.isAllSelected );
+	const resolvedIndeterminate = indeterminate ?? Boolean( context?.isIndeterminate );
 	const resolvedOnChange = onChange ?? context?.toggleAll;
 	const resolvedDisabled = disabled ?? false;
 
