@@ -170,7 +170,9 @@ const CheckboxProvider = ( { allValues, onChange, children } ) => {
 	const isSelected = useCallback( ( value ) => selectedValues.has( value ), [ selectedValues ] );
 
 	return (
-		<CheckboxTableContext.Provider value={ { selectedValues, isAllSelected, isIndeterminate, toggleAll, toggleRow, selectAll, deselectAll, isSelected } }>
+		<CheckboxTableContext.Provider
+			value={ { selectedValues, isAllSelected, isIndeterminate, toggleAll, toggleRow, selectAll, deselectAll, isSelected } }
+		>
 			{ children }
 		</CheckboxTableContext.Provider>
 	);
@@ -220,14 +222,16 @@ const CheckboxHeader = forwardRef( ( { id, name, checked, indeterminate, onChang
 			inputRef.current.indeterminate = resolvedIndeterminate;
 		}
 	}, [ resolvedIndeterminate ] );
-	const setRef = ( el ) => {
+
+	const setRef = useCallback( ( el ) => {
 		inputRef.current = el;
 		if ( typeof ref === "function" ) {
 			ref( el );
 		} else if ( ref ) {
 			ref.current = el;
 		}
-	};
+	}, [ ref ] );
+
 	return (
 		<th className={ classNames( "yst-table-checkbox-header", className ) } { ...thProps }>
 			<input
@@ -244,6 +248,8 @@ const CheckboxHeader = forwardRef( ( { id, name, checked, indeterminate, onChang
 		</th>
 	);
 } );
+
+CheckboxHeader.displayName = "Table.CheckboxHeader";
 
 CheckboxHeader.propTypes = {
 	id: PropTypes.string,
@@ -273,7 +279,7 @@ const CheckboxCell = forwardRef( ( { id, name, value, checked, onChange, disable
 	const contextOnChange = useCallback( () => context?.toggleRow( value ), [ context, value ] );
 
 	const resolvedChecked = checked ?? context?.isSelected( value ) ?? false;
-	const resolvedOnChange = onChange ?? ( context ? contextOnChange : undefined );
+	const resolvedOnChange = onChange ?? ( context ? contextOnChange : null );
 	const resolvedDisabled = disabled ?? false;
 
 	return (
@@ -292,6 +298,8 @@ const CheckboxCell = forwardRef( ( { id, name, value, checked, onChange, disable
 		</td>
 	);
 } );
+
+CheckboxCell.displayName = "Table.CheckboxCell";
 
 CheckboxCell.propTypes = {
 	id: PropTypes.string.isRequired,
