@@ -1,14 +1,10 @@
 @layer components {
 	.yst-root {
-		.yst-selectable-list {
-			@apply yst-flex yst-flex-col;
-		}
-
-		.yst-selectable-list__item {
+		.yst-selectable-row {
 			@apply yst-list-none;
 		}
 
-		.yst-selectable-list__item-button {
+		.yst-selectable-row__button {
 			@apply
 			yst-flex
 			yst-w-full
@@ -33,15 +29,15 @@
 			focus-visible:yst-ring-primary-500;
 		}
 
-		.yst-selectable-list__item-button--selected {
+		.yst-selectable-row__button--selected {
 			@apply yst-bg-slate-100;
 		}
 
-		.yst-selectable-list__item-content {
+		.yst-selectable-row__content {
 			@apply yst-min-w-0 yst-flex-1;
 		}
 
-		.yst-selectable-list__item-icon {
+		.yst-selectable-row__icon {
 			@apply
 			yst-h-4
 			yst-w-4
