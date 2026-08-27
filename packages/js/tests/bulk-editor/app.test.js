@@ -11,6 +11,7 @@ const dataProvider = new DataProvider( {
 	contentTypes: [
 		{ name: "page", label: "Pages" },
 		{ name: "post", label: "Posts" },
+		{ name: "product", label: "Products", singularLabel: "Product" },
 	],
 	endpoints: { posts: "https://example.com/wp-json/yoast/v1/bulk_editor/posts" },
 	links: {},
@@ -88,6 +89,19 @@ describe( "App", () => {
 		expect(
 			screen.getByText( "The bulk editor for posts is a tool that you can use to quickly make changes to your search and social media appearance for multiple posts." )
 		).toBeInTheDocument();
+	} );
+
+	it( "shows the products-specific header copy with a learn-more link", () => {
+		render( <App dataProvider={ dataProvider } remoteDataProvider={ remoteDataProvider } /> );
+
+		fireEvent.click( screen.getByRole( "button", { name: "Products" } ) );
+
+		expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Products" } ) ).toBeInTheDocument();
+		expect( screen.getByText( "The bulk editor enables you to make multiple changes across product catalogs.", { exact: false } ) ).toBeInTheDocument();
+
+		const learnMore = screen.getByRole( "link", { name: /Learn more about bulk editor features/ } );
+		expect( learnMore ).toHaveAttribute( "href", "https://yoa.st/bulk-editor-learn-more" );
+		expect( learnMore ).toHaveAttribute( "target", "_blank" );
 	} );
 
 	it( "renders the tabs with Search appearance active by default", () => {

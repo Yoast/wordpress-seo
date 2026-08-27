@@ -1,26 +1,45 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useRef } from "@wordpress/element";
+import { createInterpolateElement, useCallback, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Paper, SidebarNavigation, useBeforeUnload } from "@yoast/ui-library";
+import { OutboundLink } from "../shared-admin/components";
 import { BulkEditorContent } from "./components/bulk-editor-content";
 import { BulkEditorNavMenu } from "./components/bulk-editor-nav";
 import { BulkEditorPageHeader } from "./components/bulk-editor-page-header";
-import { STORE_NAME } from "./constants";
+import { LEARN_MORE_LINK, PRODUCT_CONTENT_TYPE, STORE_NAME } from "./constants";
 
 /**
  * Builds the header copy for a content type, following the design's wording.
  *
- * @param {Object} [contentType] The content type ({ id, label }), if any.
+ * @param {Object} [contentType]   The content type ({ id, label }), if any.
+ * @param {string} [learnMoreLink] The resolved "Learn more about bulk editor features" link, for products.
  *
- * @returns {{title: string, description: string}} The header title and description.
+ * @returns {{title: string, description: React.ReactNode}} The header title and description.
  */
-const getHeaderCopy = ( contentType ) => {
+const getHeaderCopy = ( contentType, learnMoreLink ) => {
 	const label = contentType ? contentType.label : __( "Content", "wordpress-seo" );
 	const lowercaseLabel = label.toLowerCase();
+	const title = sprintf(
+		/* translators: %s expands to the content type label, e.g. "Pages". */
+		__( "Bulk editor: %s", "wordpress-seo" ),
+		label
+	);
+
+	if ( contentType && contentType.id === PRODUCT_CONTENT_TYPE ) {
+		return {
+			title,
+			description: createInterpolateElement(
+				/* translators: <link/> expands to a "Learn more about bulk editor features." link. */
+				__( "The bulk editor enables you to make multiple changes across product catalogs. <link/>", "wordpress-seo" ),
+				{
+					link: <OutboundLink href={ learnMoreLink }>{ __( "Learn more about bulk editor features.", "wordpress-seo" ) }</OutboundLink>,
+				}
+			),
+		};
+	}
 
 	return {
-		/* translators: %s expands to the content type label, e.g. "Pages". */
-		title: sprintf( __( "Bulk editor: %s", "wordpress-seo" ), label ),
+		title,
 		description: sprintf(
 			/* translators: %1$s and %2$s expand to the lowercase content type label, e.g. "pages". */
 			__( "The bulk editor for %1$s is a tool that you can use to quickly make changes to your search and social media appearance for multiple %2$s.", "wordpress-seo" ),
@@ -59,6 +78,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 	// Free's unsaved inline edits trigger the native unload guard; Premium handles its own pending changes and unload prompts.
 	const hasUnsavedEdits = useSelect( ( select ) => Object.keys( select( STORE_NAME ).selectEditingRows() ).length > 0, [] );
 	const isGenerating = useSelect( ( select ) => select( STORE_NAME ).selectHasExternalGeneration(), [] );
+	const learnMoreLink = useSelect( ( select ) => select( STORE_NAME ).selectLink( LEARN_MORE_LINK ), [] );
 	const { requestSwitch } = useDispatch( STORE_NAME );
 
 	// The browser's native confirm dialog is the only guard available for refresh/close/back; the in-app links use
@@ -99,7 +119,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 		}
 	}, [ requestSwitch ] );
 
-	const { title, description } = getHeaderCopy( activeContentType );
+	const { title, description } = getHeaderCopy( activeContentType, learnMoreLink );
 	// Fall back to the WP admin home when the data provider has no link.
 	const backToToolsUrl = dataProvider.getLink( "tools" ) || "/wp-admin/";
 	const logoHref = dataProvider.getLink( "dashboard" ) || "/wp-admin/";

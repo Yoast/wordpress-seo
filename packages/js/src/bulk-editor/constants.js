@@ -20,6 +20,9 @@ export const MIN_SEARCH_LENGTH = 3;
 export const FIELD_SET_SEARCH = "search";
 export const FIELD_SET_SOCIAL = "social";
 
+// The Products-only "Image alt text" tab id.
+export const FIELD_SET_IMAGE_ALT_TEXT = "image_alt_text";
+
 // The focus keyphrase field key; also used to give that column its own text styling.
 export const FOCUS_KEYPHRASE_KEY = "focusKeyphrase";
 
@@ -70,6 +73,11 @@ export const PENDING_CHANGES_MODAL_SLOT = "yoast.bulkEditor.pendingChangesModal"
 // The rendered slot name is `${TABLE_ROW_INDICATOR_SLOT}/${fieldSetId}/${item.id}`. Generic so any row-level marker (the missing-keyphrase
 // info icon, a generation-error icon) can fill the same spot.
 export const TABLE_ROW_INDICATOR_SLOT = "yoast.bulkEditor.TableRowIndicator";
+
+// The slot the "Image alt text" tab panel renders: the WooCommerce SEO addon fills it with the product image
+// alt-text table when installed and active. Falls back to ImageAltTextPlaceholder (e.g. an upsell) when unfilled.
+// fillProps: { dataProvider, remoteDataProvider, contentType }.
+export const IMAGE_ALT_TEXT_SLOT = "yoast.bulkEditor.imageAltText";
 
 // The WooCommerce product post type.
 export const PRODUCT_CONTENT_TYPE = "product";
