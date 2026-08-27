@@ -211,7 +211,10 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 	const selection = useMemo( () => ( {
 		selectedIds,
 		onToggleRow,
-	} ), [ selectedIds, onToggleRow ] );
+		isAllSelected,
+		isIndeterminate,
+		onToggleAll,
+	} ), [ selectedIds, onToggleRow, isAllSelected, isIndeterminate, onToggleAll ] );
 
 	return (
 		<>
@@ -234,12 +237,10 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 							fieldSet={ fieldSets[ tab.id ] }
 							selection={ selection }
 							editing={ editing }
+							checkboxIdSuffix={ `-${ tab.id }` }
 							selectionToolbar={
 								<SelectionToolbar
 									idSuffix={ `-${ tab.id }` }
-									isAllSelected={ isAllSelected }
-									isIndeterminate={ isIndeterminate }
-									onToggleAll={ onToggleAll }
 									onSelectAll={ onSelectAll }
 									onDeselectAll={ handleDeselectAll }
 									selectedCount={ selectedCount }

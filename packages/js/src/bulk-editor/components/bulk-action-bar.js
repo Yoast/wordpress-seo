@@ -2,9 +2,9 @@ import CheckIcon from "@heroicons/react/outline/CheckIcon";
 import XIcon from "@heroicons/react/outline/XIcon";
 import { Slot } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
-import { useEffect, useId, useRef } from "@wordpress/element";
+import { useId } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { Button, Checkbox, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Button, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { BULK_ACTIONS_SLOT, BULK_NOTICES_SLOT, STORE_NAME } from "../constants";
 import { DismissibleAlert } from "./dismissible-alert";
 import { OverviewExclusionNotice } from "./overview-exclusion-notice";
@@ -14,15 +14,13 @@ import { UpdateModal } from "./update-modal";
 import { SelectMenu } from "./select-menu";
 
 /**
- * The first toolbar row: the multiselection checkbox, the Select menu and the selected-count.
+ * The first toolbar row: the Select menu and selected-count display.
+ * The master "select all" checkbox lives in the column header (Table.CheckboxHeader) instead.
  *
- * @param {Object}   props               The props.
- * @param {string}   [props.idSuffix]    A suffix that keeps the checkbox id unique across the two tab tables.
- * @param {boolean}  props.isAllSelected Whether every row is selected.
- * @param {boolean}  [props.isIndeterminate] Whether only some rows are selected (renders the checkbox as a minus).
- * @param {Function} props.onToggleAll   Toggles between selecting every row and none.
- * @param {Function} props.onSelectAll   Selects every row.
- * @param {Function} props.onDeselectAll Clears the selection.
+ * @param {Object}   props                    The props.
+ * @param {string}   [props.idSuffix]         A suffix that keeps the menu id unique across the two tab tables.
+ * @param {Function} props.onSelectAll        Selects every row.
+ * @param {Function} props.onDeselectAll      Clears the selection.
  * @param {number}   props.selectedCount      The number of selected rows.
  * @param {number}   props.totalCount         The total number of rows.
  * @param {string}   [props.contentTypeLabel] The active content type label, used in the selected-count copy.
@@ -30,37 +28,19 @@ import { SelectMenu } from "./select-menu";
  *
  * @returns {JSX.Element} The selection toolbar.
  */
-export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminate = false, onToggleAll, onSelectAll, onDeselectAll, selectedCount, totalCount, contentTypeLabel, smartSelectItems = [] } ) => {
+export const SelectionToolbar = ( { idSuffix = "", onSelectAll, onDeselectAll, selectedCount, totalCount, contentTypeLabel, smartSelectItems = [] } ) => {
 	const noun = contentTypeLabel ? contentTypeLabel.toLowerCase() : __( "items", "wordpress-seo" );
-
-	const checkboxRef = useRef( null );
-	useEffect( () => {
-		if ( checkboxRef.current ) {
-			checkboxRef.current.indeterminate = isIndeterminate;
-		}
-	}, [ isIndeterminate ] );
 
 	return (
 		<div className="yst-flex yst-items-center yst-gap-4">
-			<div className="yst-flex yst-items-center yst-gap-4" data-tour-id="selection-toolbar">
-				<Checkbox
-					ref={ checkboxRef }
-					id={ `bulk-editor-select-all${ idSuffix }` }
-					name={ `bulk-editor-select-all${ idSuffix }` }
-					value="all"
-					aria-label={ __( "Select all", "wordpress-seo" ) }
-					checked={ isAllSelected }
-					onChange={ onToggleAll }
-				/>
-				<SelectMenu
-					onSelectAll={ onSelectAll }
-					onDeselectAll={ onDeselectAll }
-					selectedCount={ selectedCount }
-					totalCount={ totalCount }
-					smartSelectItems={ smartSelectItems }
-					id={ `yst-bulk-editor-select-menu${ idSuffix }` }
-				/>
-			</div>
+			<SelectMenu
+				onSelectAll={ onSelectAll }
+				onDeselectAll={ onDeselectAll }
+				selectedCount={ selectedCount }
+				totalCount={ totalCount }
+				smartSelectItems={ smartSelectItems }
+				id={ `yst-bulk-editor-select-menu${ idSuffix }` }
+			/>
 			{ selectedCount > 0 && (
 				<span className="yst-font-medium yst-text-slate-800">
 					{ sprintf(
