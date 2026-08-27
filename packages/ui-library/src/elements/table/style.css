@@ -11,6 +11,14 @@
 				.yst-table-cell {
 					@apply yst-px-3 yst-py-4 yst-text-sm yst-text-slate-600;
 				}
+
+				.yst-table-checkbox-header {
+					@apply yst-px-3 yst-py-3.5 yst-text-start yst-text-sm yst-font-semibold yst-text-slate-900;
+				}
+
+				.yst-table-checkbox-cell {
+					@apply yst-px-3 yst-py-3.5 yst-text-sm yst-text-slate-600;
+				}
 			}
 		}
 
@@ -23,7 +31,8 @@
 				border-spacing: 0;
 
 				thead {
-					.yst-table-header {
+					.yst-table-header,
+					.yst-table-checkbox-header {
 						@apply first:yst-rounded-ss-lg last:yst-rounded-se-lg yst-bg-slate-50 yst-border-b yst-border-slate-300;
 					}
 				}
@@ -32,7 +41,8 @@
 					@apply yst-border-t yst-border-gray-200;
 				}
 
-				.yst-table-row:last-of-type .yst-table-cell {
+				.yst-table-row:last-of-type .yst-table-cell,
+				.yst-table-row:last-of-type .yst-table-checkbox-cell {
 					@apply first:yst-rounded-es-lg last:yst-rounded-ee-lg yst-bg-white;
 				}
 			}
@@ -42,15 +52,18 @@
 			table {
 				@apply yst-divide-y yst-divide-slate-300;
 
-				.yst-table-header {
+				.yst-table-header,
+				.yst-table-checkbox-header {
 					@apply yst-align-bottom yst-py-2;
 				}
 
-				.yst-table-cell {
+				.yst-table-cell,
+				.yst-table-checkbox-cell {
 					@apply yst-py-2 first:yst-ps-0 last:yst-pe-0;
 				}
 
-				.yst-table-header {
+				.yst-table-header,
+				.yst-table-checkbox-header {
 					@apply first:yst-ps-0 last:yst-pe-0;
 				}
 

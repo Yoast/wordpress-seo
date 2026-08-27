@@ -236,6 +236,46 @@ export const TableCell = {
 	},
 };
 
+const ROWS = [
+	{ id: "1", label: "Row one" },
+	{ id: "2", label: "Row two" },
+	{ id: "3", label: "Row three" },
+];
+
+const CheckboxTableDemo = () => (
+	<Table.CheckboxProvider allValues={ ROWS.map( ( r ) => r.id ) }>
+		<Table>
+			<Table.Head>
+				<Table.Row>
+					<Table.CheckboxHeader id="story-select-all" name="story-select-all" aria-label="Select all" scope="col" />
+					<Table.Header scope="col">Label</Table.Header>
+				</Table.Row>
+			</Table.Head>
+			<Table.Body>
+				{ ROWS.map( ( row ) => (
+					<Table.Row key={ row.id }>
+						<Table.CheckboxCell
+							id={ `story-select-${ row.id }` }
+							name={ `story-select-${ row.id }` }
+							value={ row.id }
+							aria-label={ `Select ${ row.label }` }
+						/>
+						<Table.Cell>{ row.label }</Table.Cell>
+					</Table.Row>
+				) ) }
+			</Table.Body>
+		</Table>
+	</Table.CheckboxProvider>
+);
+
+export const CheckboxTable = {
+	name: "Table with checkboxes",
+	parameters: {
+		controls: { disable: true },
+	},
+	render: () => <CheckboxTableDemo />,
+};
+
 export const MinimalVariant = {
 	name: "Table variant minimal",
 	parameters: {
@@ -290,6 +330,7 @@ export default {
 					TableHeader,
 					TableBody,
 					TableCell,
+					CheckboxTable,
 					MinimalVariant,
 				] }
 			/>,

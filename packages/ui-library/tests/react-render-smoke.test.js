@@ -148,6 +148,28 @@ const cases = [
 		Component: Table,
 		props: { children: <Table.Body><Table.Row><Table.Cell>Cell</Table.Cell></Table.Row></Table.Body> },
 	},
+	{
+		name: "Table (with checkbox columns)",
+		Component: Table,
+		props: {
+			children: (
+				<>
+					<Table.Head>
+						<Table.Row>
+							<Table.CheckboxHeader id="t-all" name="t-all" checked={ false } onChange={ noop } aria-label="Select all" scope="col" />
+							<Table.Header>Title</Table.Header>
+						</Table.Row>
+					</Table.Head>
+					<Table.Body>
+						<Table.Row>
+							<Table.CheckboxCell id="t-1" name="t-1" value="1" checked={ false } onChange={ noop } />
+							<Table.Cell>Row 1</Table.Cell>
+						</Table.Row>
+					</Table.Body>
+				</>
+			),
+		},
+	},
 	{ name: "TagInput", Component: TagInput, props: {} },
 	{
 		name: "TagInput.Tag",
