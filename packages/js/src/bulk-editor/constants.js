@@ -74,6 +74,11 @@ export const PENDING_CHANGES_MODAL_SLOT = "yoast.bulkEditor.pendingChangesModal"
 // info icon, a generation-error icon) can fill the same spot.
 export const TABLE_ROW_INDICATOR_SLOT = "yoast.bulkEditor.TableRowIndicator";
 
+// The slot the "Image alt text" tab panel renders: the WooCommerce SEO addon fills it with the product image
+// alt-text table when installed and active. Falls back to ImageAltTextPlaceholder (e.g. an upsell) when unfilled.
+// fillProps: { dataProvider, remoteDataProvider, contentType }.
+export const IMAGE_ALT_TEXT_SLOT = "yoast.bulkEditor.imageAltText";
+
 // The WooCommerce product post type.
 export const PRODUCT_CONTENT_TYPE = "product";
 

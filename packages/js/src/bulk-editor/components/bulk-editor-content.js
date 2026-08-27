@@ -5,6 +5,7 @@ import { __ } from "@wordpress/i18n";
 import {
 	BULK_UPDATE_BATCH_SIZE,
 	FIELD_SET_IMAGE_ALT_TEXT,
+	IMAGE_ALT_TEXT_SLOT,
 	PENDING_CHANGES_MODAL_SLOT,
 	PRODUCT_CONTENT_TYPE,
 	STORE_NAME,
@@ -238,7 +239,9 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 					if ( tab.id === FIELD_SET_IMAGE_ALT_TEXT ) {
 						return (
 							<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-								<ImageAltTextPlaceholder />
+								<Slot name={ IMAGE_ALT_TEXT_SLOT } fillProps={ { dataProvider, remoteDataProvider, contentType } }>
+									{ ( fills ) => ( fills.length > 0 ? fills : <ImageAltTextPlaceholder /> ) }
+								</Slot>
 							</BulkEditorTabPanel>
 						);
 					}
