@@ -25,6 +25,8 @@ jobs:
       id-token: write
       contents: read
       pull-requests: read
+    env:
+      NODE_AUTH_TOKEN: ''
 
     steps:
       - name: Checkout code
