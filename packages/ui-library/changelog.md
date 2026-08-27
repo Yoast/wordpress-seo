@@ -22,7 +22,7 @@
 
 * Switches Heroicons imports to individual ESM paths, to reduce the plugin bundle size. [#23292](https://github.com/Yoast/wordpress-seo/pull/23292)
 * Replaces deprecated `defaultProps` with ES6 default parameters across components, for React 19 compatibility. [#23317](https://github.com/Yoast/wordpress-seo/pull/23317)
-* Adds a React render smoke test that mounts every component, run in CI on React 18.3 and 19.2. [#23320](https://github.com/Yoast/wordpress-seo/pull/23320)
+* Adds a React render smoke test that mounts every component, runs in CI on React 18.3 and 19.2. [#23320](https://github.com/Yoast/wordpress-seo/pull/23320)
 * Makes `SidebarNavigation.Sidebar` pass extra props to the `nav` element, so the navigation landmark can be named via `aria-label`. [#23333](https://github.com/Yoast/wordpress-seo/pull/23333)
 
 ## 4.5.0
