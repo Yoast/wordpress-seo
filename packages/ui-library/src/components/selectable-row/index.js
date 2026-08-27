@@ -8,7 +8,7 @@ import { useSvgAria } from "../../hooks";
  * Fully agnostic about its content: renders whatever `children` the caller passes,
  * and only owns the row's own background, hover/selected state, and the trailing chevron.
  * Stacking several of these (in a plain `<ul>`, `<div>`, or any other wrapping
- * element) forms a list on its own. Mo dedicated list wrapper component is needed.
+ * element) forms a list on its own. No dedicated list wrapper component is needed.
  *
  * The wrapping button carries `aria-current` and a `group` class, so content that must recolor on
  * selection (e.g. the title) can target it with a `group-aria-[current=true]:` variant.
