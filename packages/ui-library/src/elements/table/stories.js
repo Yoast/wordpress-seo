@@ -1,7 +1,7 @@
 import React from "react";
 import Table from ".";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import { component, tableBody, tableCell, tableHead, tableHeader, tableRow, minimal } from "./docs";
+import { component, tableBody, tableCell, tableHead, tableHeader, tableRow, minimal, tableCheckbox } from "./docs";
 
 export const Factory = {
 	parameters: {
@@ -272,6 +272,7 @@ export const CheckboxTable = {
 	name: "Table with checkboxes",
 	parameters: {
 		controls: { disable: true },
+		docs: { description: { story: tableCheckbox } },
 	},
 	render: () => <CheckboxTableDemo />,
 };
