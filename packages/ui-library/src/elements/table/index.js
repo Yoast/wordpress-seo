@@ -1,6 +1,8 @@
+import PhotographIcon from "@heroicons/react/outline/PhotographIcon";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
+import { useSvgAria } from "../../hooks";
 
 const rowClassNameMap = {
 	variant: {
@@ -23,6 +25,33 @@ const Cell = ( { children, className = "", ...props } ) => (
 
 Cell.propTypes = {
 	children: PropTypes.node.isRequired,
+	className: PropTypes.string,
+};
+
+/**
+ * @param {string} [src] The image source. When empty, fallback to a placeholder.
+ * @param {string} [alt] The image alt text. Defaults to empty.
+ * @param {string} [className] Optional class name.
+ * @param {Object} [props] Optional cell props.
+ * @returns {JSX.Element} The element.
+ */
+const ImageCell = ( { src = "", alt = "", className = "", ...props } ) => {
+	const svgAriaProps = useSvgAria();
+
+	return (
+		<Cell className={ className } { ...props }>
+			<div className="yst-table-image-cell">
+				{ src
+					? <img src={ src } alt={ alt } className="yst-table-image-cell-image" />
+					: <PhotographIcon className="yst-table-image-cell-placeholder" { ...svgAriaProps } /> }
+			</div>
+		</Cell>
+	);
+};
+
+ImageCell.propTypes = {
+	src: PropTypes.string,
+	alt: PropTypes.string,
 	className: PropTypes.string,
 };
 
@@ -132,5 +161,7 @@ Table.Row = Row;
 Table.Row.displayName = "Table.Row";
 Table.Cell = Cell;
 Table.Cell.displayName = "Table.Cell";
+Table.ImageCell = ImageCell;
+Table.ImageCell.displayName = "Table.ImageCell";
 
 export default Table;
