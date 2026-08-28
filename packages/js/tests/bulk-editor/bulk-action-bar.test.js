@@ -41,6 +41,8 @@ const mockPreferences = ( prefs = {} ) => {
 };
 
 const toolbarProps = {
+	isAllSelected: false,
+	onToggleAll: jest.fn(),
 	onSelectAll: jest.fn(),
 	onDeselectAll: jest.fn(),
 	selectedCount: 0,
@@ -58,6 +60,30 @@ describe( "SelectionToolbar", () => {
 		render( <SelectionToolbar { ...toolbarProps } selectedCount={ 0 } /> );
 
 		expect( screen.queryByText( /selected/ ) ).not.toBeInTheDocument();
+	} );
+
+	it( "toggles all rows from the master checkbox", () => {
+		const onToggleAll = jest.fn();
+		render( <SelectionToolbar { ...toolbarProps } onToggleAll={ onToggleAll } /> );
+
+		fireEvent.click( screen.getByRole( "checkbox", { name: "Select all" } ) );
+		expect( onToggleAll ).toHaveBeenCalled();
+	} );
+
+	it( "renders the master checkbox as indeterminate on a partial selection", () => {
+		render( <SelectionToolbar { ...toolbarProps } isIndeterminate={ true } selectedCount={ 3 } /> );
+
+		const checkbox = screen.getByRole( "checkbox", { name: "Select all" } );
+		expect( checkbox.indeterminate ).toBe( true );
+		expect( checkbox ).not.toBeChecked();
+	} );
+
+	it( "renders the master checkbox as checked (not indeterminate) when all rows are selected", () => {
+		render( <SelectionToolbar { ...toolbarProps } isAllSelected={ true } isIndeterminate={ false } selectedCount={ 20 } /> );
+
+		const checkbox = screen.getByRole( "checkbox", { name: "Select all" } );
+		expect( checkbox.indeterminate ).toBe( false );
+		expect( checkbox ).toBeChecked();
 	} );
 
 	it( "selects and deselects all from the Select menu", () => {

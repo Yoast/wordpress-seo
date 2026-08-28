@@ -38,11 +38,10 @@ const TableFooter = ( { columnCount, children } ) => {
  * The bulk editor selection.
  *
  * @typedef {Object} BulkEditorSelection
- * @property {number[]}  [selectedIds]    IDs of the selected items.
- * @property {boolean}   [isAllSelected]  Whether the header "select all" checkbox is checked.
- * @property {boolean}   [isIndeterminate] Whether only some rows are selected.
- * @property {Function}  [onToggleRow]    Called with an item id and shift-key state when its checkbox is toggled.
- * @property {Function}  [onToggleAll]    Called when the header "select all" checkbox is toggled.
+ * @property {number[]}  [selectedIds]   IDs of the selected items.
+ * @property {boolean}   [isAllSelected] Whether the header "select all" checkbox is checked.
+ * @property {Function}  [onToggleRow]   Called with an item id and shift-key state when its checkbox is toggled.
+ * @property {Function}  [onToggleAll]   Called when the header "select all" checkbox is toggled.
  */
 /**
  * The bulk editor inline-edit props. Several rows can edit at once: a row's Edit opens its field-set fields,
@@ -74,7 +73,6 @@ const TableFooter = ( { columnCount, children } ) => {
  * @param {JSX.Element}         [props.footer]           The results footer, rendered as the table's bottom row.
  * @param {boolean}             [props.hasExternalPendingChanges] Whether Premium AI suggestions are pending review; disables row editing.
  * @param {boolean}             [props.hasExternalGeneration] Whether an external AI generation request is in flight; disables row editing.
- * @param {string}              [props.checkboxIdSuffix] Suffix that keeps the select-all checkbox id unique across the two tab tables.
  *
  * @returns {JSX.Element} The table.
  */
@@ -91,10 +89,9 @@ export const BulkEditorTable = ( {
 	footer,
 	hasExternalPendingChanges,
 	hasExternalGeneration,
-	checkboxIdSuffix = "",
 } ) => {
 	const columnCount = getColumnCount( fieldSet.fields );
-	const selectionState = { selectedIds: [], isAllSelected: false, isIndeterminate: false, onToggleRow: noop, onToggleAll: noop, ...selection };
+	const selectionState = { selectedIds: [], isAllSelected: false, onToggleRow: noop, onToggleAll: noop, ...selection };
 	const editingState = {
 		editingRows: {},
 		onStartEdit: noop,
@@ -125,10 +122,6 @@ export const BulkEditorTable = ( {
 					bulkActions={ bulkActions }
 					showBulkActions={ showBulkActions }
 					filters={ filters }
-					isAllSelected={ selectionState.isAllSelected }
-					isIndeterminate={ selectionState.isIndeterminate }
-					onToggleAll={ selectionState.onToggleAll }
-					checkboxIdSuffix={ checkboxIdSuffix }
 				/>
 				<Table.Body>
 					<BulkEditorBody
