@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, {  useCallback, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { CheckboxTableContext } from "./context";
 
 /**
@@ -14,7 +14,20 @@ import { CheckboxTableContext } from "./context";
 export const CheckboxProvider = ( { allValues, onChange, children } ) => {
 	const [ selectedValues, setSelectedValues ] = useState( new Set() );
 
-	const isAllSelected = allValues.length > 0 && selectedValues.size === allValues.length;
+	const allValuesSet = useMemo( () => new Set( allValues ), [ allValues ] );
+
+	useEffect( () => {
+		setSelectedValues( ( prev ) => {
+			const next = new Set( Array.from( prev ).filter( ( value ) => allValuesSet.has( value ) ) );
+			if ( next.size === prev.size ) {
+				return prev;
+			}
+			onChange?.( Array.from( next ) );
+			return next;
+		} );
+	}, [ allValuesSet, onChange ] );
+
+	const isAllSelected = allValuesSet.size > 0 && selectedValues.size === allValuesSet.size;
 	const isIndeterminate = selectedValues.size > 0 && ! isAllSelected;
 
 	const update = useCallback( ( next ) => {
