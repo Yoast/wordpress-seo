@@ -14,19 +14,19 @@ import { UpdateModal } from "./update-modal";
 import { SelectMenu } from "./select-menu";
 
 /**
- * The first toolbar row: the master checkbox, the Select menu and the selected-count.
+ * The first toolbar row: the multiselection checkbox, the Select menu and the selected-count.
  *
- * @param {Object}   props                        The props.
- * @param {string}   [props.idSuffix]             A suffix that keeps ids unique across the two tab tables.
- * @param {boolean}  props.isAllSelected          Whether every row is selected.
- * @param {boolean}  [props.isIndeterminate]      Whether only some rows are selected (renders the checkbox as a minus).
- * @param {Function} props.onToggleAll            Toggles between selecting every row and none.
- * @param {Function} props.onSelectAll            Selects every row.
- * @param {Function} props.onDeselectAll          Clears the selection.
- * @param {number}   props.selectedCount          The number of selected rows.
- * @param {number}   props.totalCount             The total number of rows.
- * @param {string}   [props.contentTypeLabel]     The active content type label, used in the selected-count copy.
- * @param {Object[]} [props.smartSelectItems]     The quality-based Select-menu items ({key, label, ariaLabel, icon, onClick}).
+ * @param {Object}   props               The props.
+ * @param {string}   [props.idSuffix]    A suffix that keeps the checkbox id unique across the two tab tables.
+ * @param {boolean}  props.isAllSelected Whether every row is selected.
+ * @param {boolean}  [props.isIndeterminate] Whether only some rows are selected (renders the checkbox as a minus).
+ * @param {Function} props.onToggleAll   Toggles between selecting every row and none.
+ * @param {Function} props.onSelectAll   Selects every row.
+ * @param {Function} props.onDeselectAll Clears the selection.
+ * @param {number}   props.selectedCount      The number of selected rows.
+ * @param {number}   props.totalCount         The total number of rows.
+ * @param {string}   [props.contentTypeLabel] The active content type label, used in the selected-count copy.
+ * @param {Object[]} [props.smartSelectItems] The quality-based Select-menu items ({key, label, ariaLabel, icon, onClick}).
  *
  * @returns {JSX.Element} The selection toolbar.
  */
