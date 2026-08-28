@@ -50,7 +50,7 @@ export const CheckboxHeader = forwardRef( ( { id, name, checked, indeterminate, 
 				onChange={ resolvedOnChange }
 				disabled={ resolvedDisabled }
 				aria-label={ ariaLabel }
-				className="yst-checkbox__input"
+				className={ classNames( "yst-checkbox__input", resolvedDisabled && "yst-opacity-50 yst-cursor-not-allowed" ) }
 			/>
 		</th>
 	);
