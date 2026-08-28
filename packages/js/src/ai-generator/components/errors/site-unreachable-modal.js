@@ -62,8 +62,10 @@ const UnavailableBody = () => {
 					{ __( "Still need help?", "wordpress-seo" ) }
 					<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-4 yst-w-4 yst-text-slate-400 rtl:yst-rotate-[270deg]" { ...svgAriaProps } />
 					<span className="yst-sr-only">
-						{ /* translators: Hidden accessibility text. */ }
-						{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }
+						{
+							/* translators: Hidden accessibility text. */
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
 					</span>
 				</Button>
 				<Button as="a" href={ commonErrorsLink } target="_blank" rel="noopener noreferrer" variant="primary">
@@ -105,8 +107,10 @@ const resolveBody = ( { isAvailable, canConnect, connectUrl, learnMoreUrl }, onC
 						{ __( "Connect to MyYoast", "wordpress-seo" ) }
 						<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-4 yst-w-4 rtl:yst-rotate-[270deg]" { ...svgAriaProps } />
 						<span className="yst-sr-only">
-							{ /* translators: Hidden accessibility text. */ }
-							{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }
+							{
+								/* translators: Hidden accessibility text. */
+								__( "(Opens in a new browser tab)", "wordpress-seo" )
+							}
 						</span>
 					</Button>
 				</Actions>

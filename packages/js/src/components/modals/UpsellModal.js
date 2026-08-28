@@ -111,7 +111,12 @@ export const UpsellModal = ( {
 									__( "Explore %s", "wordpress-seo" ),
 									isWooAd && ! isWooSEOActive ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
 								) }
-								<span className="yst-sr-only">{ __( "Opens in a new tab", "wordpress-seo" ) }</span>
+								<span className="yst-sr-only">
+									{
+										/* translators: Hidden accessibility text. */
+										__( "Opens in a new tab", "wordpress-seo" )
+									}
+								</span>
 							</Button>
 							<div className="yst-italic yst-text-slate-500 yst-mt-1">{ note }</div>
 						</div>

@@ -243,7 +243,13 @@ const WincherUpgradeCallout = ( { onClose = null, isTitleShortened = false, trac
 	return (
 		<CalloutContainer isTitleShortened={ isTitleShortened }>
 			{ onClose && (
-				<CloseButton type="button" aria-label={ __( "Close the upgrade callout", "wordpress-seo" ) } onClick={ onClose }>
+				<CloseButton
+					type="button"
+					aria-label={
+						/* translators: Hidden accessibility text. */
+						__( "Close the upgrade callout", "wordpress-seo" ) }
+					onClick={ onClose }
+				>
 					<SvgIcon icon="times-circle" color={ colors.$color_pink_dark } size="14px" />
 				</CloseButton>
 			) }

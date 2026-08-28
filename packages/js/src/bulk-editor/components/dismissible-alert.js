@@ -35,7 +35,9 @@ export const DismissibleAlert = ( { variant = "info", role = "status", className
 				type="button"
 				className="yst-absolute yst-end-4 yst-top-4 yst-text-current hover:yst-opacity-75 yst-cursor-pointer"
 				onClick={ handleDismiss }
-				aria-label={ __( "Dismiss", "wordpress-seo" ) }
+				aria-label={
+					/* translators: Hidden accessibility text. */
+					__( "Dismiss", "wordpress-seo" ) }
 			>
 				<SolidXIcon className="yst-h-5 yst-w-5" { ...svgAriaProps } />
 			</button>
