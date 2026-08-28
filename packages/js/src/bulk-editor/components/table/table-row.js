@@ -81,6 +81,7 @@ export const BulkEditorRow = ( {
 				aria-label={ sprintf( __( "Select %s", "wordpress-seo" ), item.title ) }
 				checked={ isSelected }
 				onChange={ handleToggle }
+				// A post the current user cannot edit is shown locked and cannot be selected for bulk editing.
 				disabled={ ! item.editable }
 			/>
 			<TitleCell item={ item } fieldSetId={ fieldSetId } />
