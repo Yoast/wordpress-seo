@@ -77,7 +77,7 @@ export const BulkEditorRow = ( {
 				id={ `bulk-editor-select-${ item.id }-${ fieldSetId }` }
 				name={ `bulk-editor-select-${ item.id }` }
 				value={ String( item.id ) }
-				/* translators: %s expands to the content item title. */
+				/* translators: Hidden accessibility text, %s expands to the content item title. */
 				aria-label={ sprintf( __( "Select %s", "wordpress-seo" ), item.title ) }
 				checked={ isSelected }
 				onChange={ handleToggle }
