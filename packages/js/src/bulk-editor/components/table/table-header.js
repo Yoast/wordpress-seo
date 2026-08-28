@@ -18,7 +18,7 @@ import AnimateHeight from "react-animate-height";
  */
 export const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkActions, showBulkActions, filters } ) => (
 	<Table.Head>
-		{ ( selectionToolbar || filters ) && (
+		{ selectionToolbar && (
 			<Table.Row>
 				<Table.Cell colSpan={ columnCount } className="yst-bg-slate-50 yst-rounded-ss-lg yst-rounded-se-lg !yst-py-3.5">
 					<div className="yst-flex yst-items-center yst-justify-between yst-gap-4">
