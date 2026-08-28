@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use WP_Post;
 use WP_Query;
+use WP_Screen;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
@@ -934,5 +935,66 @@ final class Current_Page_Helper_Test extends TestCase {
 	 */
 	public function test_is_trash_overview_without_status() {
 		$this->assertFalse( $this->instance->is_trash_overview() );
+	}
+
+	/**
+	 * Test is_block_editor function when get_current_screen() is not available.
+	 *
+	 * @covers ::is_block_editor
+	 *
+	 * @return void
+	 */
+	public function test_is_block_editor_without_get_current_screen_function() {
+		// A previously mocked get_current_screen() persists for the rest of the process, making the guard untestable.
+		if ( \function_exists( 'get_current_screen' ) ) {
+			$this->markTestSkipped( 'get_current_screen() has already been defined by another test.' );
+		}
+
+		$this->assertFalse( $this->instance->is_block_editor() );
+	}
+
+	/**
+	 * Test is_block_editor function when there is no current screen.
+	 *
+	 * @covers ::is_block_editor
+	 *
+	 * @return void
+	 */
+	public function test_is_block_editor_without_screen() {
+		Monkey\Functions\expect( 'get_current_screen' )->once()->andReturn( null );
+
+		$this->assertFalse( $this->instance->is_block_editor() );
+	}
+
+	/**
+	 * Test is_block_editor function when the current screen is the block editor.
+	 *
+	 * @covers ::is_block_editor
+	 *
+	 * @return void
+	 */
+	public function test_is_block_editor_on_block_editor_screen() {
+		$screen = Mockery::mock( WP_Screen::class );
+		$screen->expects( 'is_block_editor' )->once()->andReturn( true );
+
+		Monkey\Functions\expect( 'get_current_screen' )->once()->andReturn( $screen );
+
+		$this->assertTrue( $this->instance->is_block_editor() );
+	}
+
+	/**
+	 * Test is_block_editor function when the current screen is not the block editor.
+	 *
+	 * @covers ::is_block_editor
+	 *
+	 * @return void
+	 */
+	public function test_is_block_editor_on_classic_editor_screen() {
+		$screen = Mockery::mock( WP_Screen::class );
+		$screen->expects( 'is_block_editor' )->once()->andReturn( false );
+
+		Monkey\Functions\expect( 'get_current_screen' )->once()->andReturn( $screen );
+
+		$this->assertFalse( $this->instance->is_block_editor() );
 	}
 }

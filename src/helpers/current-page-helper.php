@@ -399,6 +399,25 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Determines whether the current admin screen is the block editor.
+	 *
+	 * Deliberately uses get_current_screen() and not WP_Screen::get(): the latter re-applies
+	 * the replace_editor filter on every call, which is a render hook with side effects
+	 * (e.g. it breaks the WooCommerce block email editor).
+	 *
+	 * @return bool Whether the current screen is the block editor.
+	 */
+	public function is_block_editor() {
+		if ( ! \function_exists( 'get_current_screen' ) ) {
+			return false;
+		}
+
+		$screen = \get_current_screen();
+
+		return $screen !== null && $screen->is_block_editor();
+	}
+
+	/**
 	 * Check if the current opened page is a Yoast SEO page.
 	 *
 	 * @return bool True when current page is a yoast seo plugin page.
