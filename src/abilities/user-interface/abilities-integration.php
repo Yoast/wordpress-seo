@@ -425,7 +425,6 @@ class Abilities_Integration implements Integration_Interface {
 					'type'        => 'string',
 					'description' => \__( 'The permalink (URL) of the post to update.', 'wordpress-seo' ),
 				],
-				'focus_keyphrase'     => \array_merge( $nullable_string, [ 'maxLength' => 191 ] ),
 				'canonical'           => $nullable_string,
 				'is_cornerstone'      => [ 'type' => 'boolean' ],
 				'noindex'             => [

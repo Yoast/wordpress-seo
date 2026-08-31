@@ -566,7 +566,6 @@ final class Abilities_Integration_Test extends TestCase {
 					'type'        => 'string',
 					'description' => 'The permalink (URL) of the post to update.',
 				],
-				'focus_keyphrase'     => \array_merge( $nullable_string, [ 'maxLength' => 191 ] ),
 				'canonical'           => $nullable_string,
 				'is_cornerstone'      => [ 'type' => 'boolean' ],
 				'noindex'             => [
