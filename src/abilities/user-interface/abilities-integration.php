@@ -125,6 +125,8 @@ class Abilities_Integration implements Integration_Interface {
 		if ( $enabled_features[ Inclusive_Language_Analysis::NAME ] === true ) {
 			$this->register_inclusive_language_scores_ability();
 		}
+
+		$this->register_get_post_seo_data_ability();
 	}
 
 	/**
