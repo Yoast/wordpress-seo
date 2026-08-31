@@ -127,6 +127,7 @@ class Abilities_Integration implements Integration_Interface {
 		}
 
 		$this->register_get_post_seo_data_ability();
+		$this->register_update_post_seo_data_ability();
 	}
 
 	/**
@@ -415,37 +416,31 @@ class Abilities_Integration implements Integration_Interface {
 			'type'                 => 'object',
 			'additionalProperties' => false,
 			'properties'           => [
-				'post_id'                => [
+				'post_id'             => [
 					'type'        => 'integer',
 					'description' => \__( 'The ID of the post to update.', 'wordpress-seo' ),
 					'minimum'     => 1,
 				],
-				'permalink'              => [
+				'permalink'           => [
 					'type'        => 'string',
 					'description' => \__( 'The permalink (URL) of the post to update.', 'wordpress-seo' ),
 				],
-				'seo_title'              => $nullable_string,
-				'meta_description'       => $nullable_string,
-				'focus_keyphrase'        => \array_merge( $nullable_string, [ 'maxLength' => 191 ] ),
-				'canonical'              => $nullable_string,
-				'is_cornerstone'         => [ 'type' => 'boolean' ],
-				'noindex'                => [
+				'focus_keyphrase'     => \array_merge( $nullable_string, [ 'maxLength' => 191 ] ),
+				'canonical'           => $nullable_string,
+				'is_cornerstone'      => [ 'type' => 'boolean' ],
+				'noindex'             => [
 					'type'        => [ 'boolean', 'null' ],
 					'description' => \__( 'Whether search engines should be told not to index this post. true sets noindex (the post is excluded from search results); false forces the post to be indexed; null clears the setting and falls back to the post-type default.', 'wordpress-seo' ),
 				],
-				'nofollow'               => [ 'type' => 'boolean' ],
-				'noimageindex'           => [ 'type' => 'boolean' ],
-				'noarchive'              => [ 'type' => 'boolean' ],
-				'nosnippet'              => [ 'type' => 'boolean' ],
-				'open_graph_title'       => $nullable_string,
-				'open_graph_description' => $nullable_string,
-				'twitter_title'          => $nullable_string,
-				'twitter_description'    => $nullable_string,
-				'schema_page_type'       => $this->nullable_enum_schema(
+				'nofollow'            => [ 'type' => 'boolean' ],
+				'noimageindex'        => [ 'type' => 'boolean' ],
+				'noarchive'           => [ 'type' => 'boolean' ],
+				'nosnippet'           => [ 'type' => 'boolean' ],
+				'schema_page_type'    => $this->nullable_enum_schema(
 					\array_keys( Schema_Types::PAGE_TYPES ),
 					\__( 'The Schema.org page type for the post. Must be one of the supported page types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
 				),
-				'schema_article_type'    => $this->nullable_enum_schema(
+				'schema_article_type' => $this->nullable_enum_schema(
 					$this->get_schema_article_types(),
 					\__( 'The Schema.org article type for the post. Must be one of the supported article types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
 				),
