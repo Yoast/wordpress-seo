@@ -13,7 +13,7 @@ use Brain\Monkey\Functions;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Usage_Endpoint::get_url
  */
-final class Get_Url_Test extends Abstract_Get_Usage_Endpoint_Test {
+final class Get_Url_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_url method.

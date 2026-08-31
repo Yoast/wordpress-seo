@@ -12,7 +12,7 @@ use Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::generate
  */
-final class Generate_Test extends Abstract_Code_Verifier_Handler_Test {
+final class Generate_Test extends Abstract_Test {
 
 	/**
 	 * Tests the generate method.

@@ -17,7 +17,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::token_invalidate
  */
-final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
+final class Token_Invalidate_Test extends Abstract_Test {
 
 	/**
 	 * Tests the token_invalidate method with a valid access token.

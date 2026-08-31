@@ -24,7 +24,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  *
  * @covers Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler::handle
  */
-final class Handle_Test extends Abstract_Request_Handler_Test {
+final class Handle_Test extends Abstract_Test {
 
 	/**
 	 * Tests the handle method with success response code.

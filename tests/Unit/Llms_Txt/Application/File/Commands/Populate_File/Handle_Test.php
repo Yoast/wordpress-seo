@@ -15,7 +15,7 @@ use Brain\Monkey;
  *
  * @phpcs :disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Handle_Test extends Abstract_Populate_File_Command_Handler_Test {
+final class Handle_Test extends Abstract_Test {
 
 	/**
 	 * Tests the handle execution by mocking expected behaviors and verifying interactions.

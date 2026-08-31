@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Infrastructure\WordPress_URLs::get_license_url
  */
-final class Get_License_Url_Test extends Abstract_WordPress_URLs_Test {
+final class Get_License_Url_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_license_url method.

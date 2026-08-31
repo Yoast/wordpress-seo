@@ -5,6 +5,7 @@ import { __ } from "@wordpress/i18n";
 import { Button, GradientSparklesIcon, Modal, useSvgAria } from "@yoast/ui-library";
 import { OutboundLink } from "../../shared-admin/components";
 import { AI_UPSELL_DESCRIPTION } from "../constants";
+import { useAiUpsell } from "../hooks/use-ai-upsell";
 
 /**
  * The upsell modal shown when a Free user triggers a bulk AI generate action.
@@ -12,23 +13,16 @@ import { AI_UPSELL_DESCRIPTION } from "../constants";
  * @param {Object}   props                 The props.
  * @param {boolean}  props.isOpen          Whether the modal is open.
  * @param {Function} props.onClose         Closes the modal.
- * @param {string}   props.upsellLabel     The CTA label (Premium or WooCommerce SEO).
- * @param {string}   props.upsellLink      The CTA URL.
- * @param {string}   [props.ctbId]         The click-to-buy id.
- * @param {string}   [props.learnMoreLink] The "Learn more" link URL.
- * @param {string}   [props.description]   The body copy; defaults to the generic (non-product) copy.
+ * @param {string}   props.contentType     The content type for which the upsell is shown.
  *
  * @returns {JSX.Element} The upsell modal.
  */
 export const UpsellModal = ( {
 	isOpen,
 	onClose,
-	upsellLabel,
-	upsellLink,
-	ctbId,
-	learnMoreLink,
-	description = AI_UPSELL_DESCRIPTION,
+	contentType,
 } ) => {
+	const { upsellLabel, upsellLink, ctbId, learnMoreLink, description = AI_UPSELL_DESCRIPTION } = useAiUpsell( contentType );
 	const upsellRef = useRef( null );
 	const svgAriaProps = useSvgAria();
 	const ctbProps = ctbId ? { "data-action": "load-nfd-ctb", "data-ctb-id": ctbId } : {};

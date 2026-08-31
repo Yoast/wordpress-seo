@@ -132,6 +132,14 @@ class WPSEO_Meta {
 				'type'          => 'hidden',
 				'default_value' => '0',
 			],
+			'seo_title_score' => [
+				'type'          => 'hidden',
+				'default_value' => '0',
+			],
+			'meta_description_score' => [
+				'type'          => 'hidden',
+				'default_value' => '0',
+			],
 			'is_cornerstone' => [
 				'type'          => 'hidden',
 				'default_value' => 'false',
@@ -439,6 +447,14 @@ class WPSEO_Meta {
 			case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int >= 0 ) {
+					$clean = (string) $int; // Convert to string to make sure default check works.
+				}
+				break;
+
+			case ( in_array( $meta_key, [ self::$meta_prefix . 'seo_title_score', self::$meta_prefix . 'meta_description_score' ], true ) ):
+				// Per-field scores are 0-100 percentages; out-of-range input keeps the "never scored" default.
+				$int = WPSEO_Utils::validate_int( $meta_value );
+				if ( $int !== false && $int >= 0 && $int <= 100 ) {
 					$clean = (string) $int; // Convert to string to make sure default check works.
 				}
 				break;
