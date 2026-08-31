@@ -14,6 +14,8 @@ import { getIconForScore } from "./mapResults";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 import { PremiumSeoAnalysisUpsellAd } from "./PremiumSeoAnalysisUpsellAd";
+import { IMAGE_ALT_TAGS_ASSESSMENT_ID } from "../../analysis/constants";
+import ImageAltTagsButtonSlot from "../slots/ImageAltTagsButtonSlot";
 
 // Capture at module-load time, before `openGeneralSidebar` causes WordPress to replace the URL.
 const initialYoastTab = getQueryArg( window.location.href, "yoast-tab" );
@@ -52,8 +54,14 @@ class SeoAnalysis extends Component {
 	}
 
 	/**
-	 * Renders the Yoast AI Optimize button.
-	 * The button is shown when:
+	 * Renders the button that sits next to an assessment result.
+	 *
+	 * For the Image alt attributes assessment this is a slot rather than a button. That assessment is only
+	 * registered by Yoast WooCommerce SEO, which fills the slot with its own alt text generation button. The slot
+	 * is rendered unconditionally: the fill owns the decision of whether a button is warranted, because it owns
+	 * the product image data the decision depends on. Without a fill the slot renders nothing.
+	 *
+	 * For every other assessment this is the Yoast AI Optimize button, which is shown when:
 	 * - The assessment can be fixed through Yoast AI Optimize.
 	 * - The AI feature is enabled (for Yoast SEO Premium users; for Free users, the button is shown with an upsell).
 	 * - We are in the block editor or classic editor.
@@ -63,9 +71,13 @@ class SeoAnalysis extends Component {
 	 * @param {boolean} hasAIFixes Whether the assessment can be fixed through Yoast AI Optimize.
 	 * @param {string} id The assessment ID.
 	 *
-	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
+	 * @returns {void|JSX.Element} The button or slot, or nothing if nothing should be shown.
 	 */
 	renderAIOptimizeButton = ( hasAIFixes, id ) => {
+		if ( id === IMAGE_ALT_TAGS_ASSESSMENT_ID ) {
+			return <ImageAltTagsButtonSlot />;
+		}
+
 		const { isElementor, isAiFeatureEnabled, isPremium, isTerm } = this.props;
 
 		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
@@ -169,6 +181,8 @@ SeoAnalysis.defaultProps = {
 	isPremium: false,
 	isTerm: false,
 };
+
+export { SeoAnalysis };
 
 export default withSelect( ( select, ownProps ) => {
 	const {
