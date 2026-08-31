@@ -311,9 +311,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-09-01
 
+Yoast SEO 28.4 makes the Bulk editor easier to access by adding a Bulk edit option to the Posts and Pages sections of the WordPress dashboard. This allows you to quickly access the Bulk editor after selecting the posts or pages you want to optimize. [Read the full release post here](https://yoa.st/57m).
+
 #### Enhancements
 
-* Adds the Yoast bulk editor to the WordPress admin bulk-actions menu, with needs-improvement filtering, smart selection, and AI-powered SEO title and description generation.
+* Adds an option to access the Yoast SEO Bulk editor from the Bulk actions menu in the Posts and Pages sections of the WordPress dashboard. 
 
 #### Bugfixes
 
