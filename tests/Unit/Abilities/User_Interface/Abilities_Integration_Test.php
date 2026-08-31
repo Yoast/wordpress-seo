@@ -8,6 +8,7 @@ use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities_Integration;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
@@ -17,6 +18,8 @@ use Yoast\WP\SEO\Editors\Framework\Inclusive_Language_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Surfaces\Meta_Surface;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -182,7 +185,7 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that register_abilities registers all score abilities when all analyses are enabled.
+	 * Tests that register_abilities registers all score abilities plus the get post SEO data ability.
 	 *
 	 * @covers ::register_abilities
 	 *
@@ -200,12 +203,14 @@ final class Abilities_Integration_Test extends TestCase {
 		$this->expect_score_ability( 'yoast-seo/get-seo-scores' );
 		$this->expect_score_ability( 'yoast-seo/get-readability-scores' );
 		$this->expect_score_ability( 'yoast-seo/get-inclusive-language-scores' );
+		$this->expect_get_post_seo_data_ability();
 
 		$this->instance->register_abilities();
 	}
 
 	/**
-	 * Tests that no abilities are registered when all analysis features are disabled.
+	 * Tests that the score abilities are not registered when their analysis features are disabled,
+	 * but the get post SEO data ability always is.
 	 *
 	 * @covers ::register_abilities
 	 *
@@ -220,13 +225,13 @@ final class Abilities_Integration_Test extends TestCase {
 			],
 		);
 
-		Monkey\Functions\expect( 'wp_register_ability' )->never();
+		$this->expect_get_post_seo_data_ability();
 
 		$this->instance->register_abilities();
 	}
 
 	/**
-	 * Tests that only the keyphrase score ability registers when only that analysis is enabled.
+	 * Tests that only the keyphrase score ability registers alongside the get post SEO data ability.
 	 *
 	 * @covers ::register_abilities
 	 *
@@ -242,8 +247,109 @@ final class Abilities_Integration_Test extends TestCase {
 		);
 
 		$this->expect_score_ability( 'yoast-seo/get-seo-scores' );
+		$this->expect_get_post_seo_data_ability();
 
 		$this->instance->register_abilities();
+	}
+
+	/**
+	 * Tests that the get post SEO data ability registers with the expected definition.
+	 *
+	 * @covers ::register_abilities
+	 * @covers ::register_get_post_seo_data_ability
+	 *
+	 * @return void
+	 */
+	public function test_register_get_post_seo_data_ability_definition() {
+		$this->mock_enabled_features(
+			[
+				Keyphrase_Analysis::NAME          => false,
+				Readability_Analysis::NAME        => false,
+				Inclusive_Language_Analysis::NAME => false,
+			],
+		);
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with(
+				'yoast-seo/get-post-seo-data',
+				[
+					'label'               => 'Get Post SEO Data',
+					'category'            => 'yoast-seo',
+					'description'         => 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned.',
+					'input_schema'        => $this->get_expected_identifier_input_schema(),
+					'output_schema'       => [
+						'type'  => 'array',
+						'items' => $this->get_expected_output_schema(),
+					],
+					'permission_callback' => [ $this->instance, 'can_edit_advanced_metadata' ],
+					'execute_callback'    => [ $this->post_seo_data_collector, 'get_post_seo_data' ],
+					'meta'                => $this->get_read_meta(),
+				],
+			);
+
+		$this->instance->register_abilities();
+	}
+
+	/**
+	 * Tests that the SEO data array built by the field map exposes exactly the
+	 * properties documented in the output schema.
+	 *
+	 * The field contract is spread over hand-maintained structures (the output schema
+	 * and Post_SEO_Field_Map) which fail silently when they drift: a field missing from
+	 * either side is simply never surfaced to the ability's consumers. This test turns
+	 * that drift into a failure.
+	 *
+	 * @covers ::register_abilities
+	 * @covers ::register_get_post_seo_data_ability
+	 * @covers ::get_post_seo_data_output_schema
+	 *
+	 * @return void
+	 */
+	public function test_output_schema_matches_field_map_output() {
+		$output_schema = $this->get_registered_get_ability_args()['output_schema']['items'];
+
+		$meta_surface = Mockery::mock( Meta_Surface::class );
+		$meta_surface->expects( 'for_indexable' )->andReturnFalse();
+		$field_map = new Post_SEO_Field_Map( $meta_surface );
+
+		$schema_properties = \array_keys( $output_schema['properties'] );
+		$output_fields     = \array_keys( $field_map->to_seo_array( Mockery::mock( Indexable_Mock::class ) ) );
+		\sort( $schema_properties );
+		\sort( $output_fields );
+
+		$this->assertSame(
+			$schema_properties,
+			$output_fields,
+			'The output schema and Post_SEO_Field_Map::to_seo_array() must describe the same set of fields.',
+		);
+	}
+
+	/**
+	 * Registers the abilities against a capturing stub and returns the arguments the
+	 * get post SEO data ability was registered with.
+	 *
+	 * @return array<string, mixed> The get ability registration arguments.
+	 */
+	private function get_registered_get_ability_args(): array {
+		$this->mock_enabled_features(
+			[
+				Keyphrase_Analysis::NAME          => false,
+				Readability_Analysis::NAME        => false,
+				Inclusive_Language_Analysis::NAME => false,
+			],
+		);
+
+		$captured = [];
+		Monkey\Functions\when( 'wp_register_ability' )->alias(
+			static function ( $name, $args ) use ( &$captured ) {
+				$captured[ $name ] = $args;
+			},
+		);
+
+		$this->instance->register_abilities();
+
+		return $captured['yoast-seo/get-post-seo-data'];
 	}
 
 	/**
@@ -257,6 +363,137 @@ final class Abilities_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_register_ability' )
 			->once()
 			->with( $slug, Mockery::type( 'array' ) );
+	}
+
+	/**
+	 * Registers a loose expectation for the get post SEO data ability registration.
+	 *
+	 * @return void
+	 */
+	private function expect_get_post_seo_data_ability(): void {
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with( 'yoast-seo/get-post-seo-data', Mockery::type( 'array' ) );
+	}
+
+	/**
+	 * Returns the read meta (read-only annotations).
+	 *
+	 * @return array<string, mixed> The meta.
+	 */
+	private function get_read_meta(): array {
+		return [
+			'show_in_rest' => true,
+			'annotations'  => [
+				'readonly'    => true,
+				'destructive' => false,
+				'idempotent'  => true,
+			],
+			'mcp'          => [
+				'public' => true,
+			],
+		];
+	}
+
+	/**
+	 * Returns the expected identifier input schema for the read ability.
+	 *
+	 * @return array<string, mixed> The schema.
+	 */
+	private function get_expected_identifier_input_schema(): array {
+		return [
+			'type'                 => 'object',
+			'additionalProperties' => false,
+			'properties'           => [
+				'post_id'   => [
+					'type'        => 'integer',
+					'description' => 'The ID of the post to retrieve.',
+					'minimum'     => 1,
+				],
+				'permalink' => [
+					'type'        => 'string',
+					'description' => 'The permalink (URL) of the post to retrieve.',
+				],
+				'title'     => [
+					'type'        => 'string',
+					'description' => 'Keywords to search for in post titles. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the post title, and a post matching any value is returned. At most 10 phrases are used per request; any beyond the first 10 are ignored. Results are paginated to 10 entities per page; see the page parameter.',
+				],
+				'page'      => [
+					'type'        => 'integer',
+					'description' => 'The page of title-search results to return, 1-based and defaulting to 1. Matches are ordered most recently modified first, so request a later page to reach older matches. An empty result means there are no further pages. Only applies to a title search.',
+					'minimum'     => 1,
+					'default'     => 1,
+				],
+			],
+		];
+	}
+
+	/**
+	 * Returns the expected post SEO data output schema.
+	 *
+	 * @return array<string, mixed> The schema.
+	 */
+	private function get_expected_output_schema(): array {
+		$nullable_string = [ 'type' => [ 'string', 'null' ] ];
+		$score           = static function ( $analysis ) {
+			return [
+				'type'        => 'string',
+				'enum'        => [ 'na', 'bad', 'ok', 'good' ],
+				'description' => \sprintf(
+					'The result of the %s that ran on the post when it was last saved.',
+					$analysis,
+				),
+			];
+		};
+		$rendered        = static function ( $field ) {
+			return [
+				'type'        => [ 'string', 'null' ],
+				'description' => \sprintf(
+					'The %s as output on the front end: the global default template applied when no custom value is set, with replacement variables expanded. Null when nothing is output.',
+					$field,
+				),
+			];
+		};
+
+		return [
+			'type'       => 'object',
+			'properties' => [
+				'post_id'                         => [ 'type' => 'integer' ],
+				'post_title'                      => $nullable_string,
+				'permalink'                       => $nullable_string,
+				'post_type'                       => [ 'type' => 'string' ],
+				'post_status'                     => $nullable_string,
+				'seo_title'                       => $nullable_string,
+				'seo_title_rendered'              => $rendered( 'SEO title' ),
+				'meta_description'                => $nullable_string,
+				'meta_description_rendered'       => $rendered( 'meta description' ),
+				'focus_keyphrase'                 => $nullable_string,
+				'canonical'                       => $nullable_string,
+				'canonical_rendered'              => $rendered( 'canonical URL' ),
+				'is_cornerstone'                  => [ 'type' => 'boolean' ],
+				'noindex'                         => [
+					'type'        => [ 'boolean', 'null' ],
+					'description' => 'Whether search engines are told not to index this post. true means noindex (the post is excluded from search results); false means the post is forced to be indexed; null means no setting is stored and the post-type default applies.',
+				],
+				'nofollow'                        => [ 'type' => 'boolean' ],
+				'noimageindex'                    => [ 'type' => 'boolean' ],
+				'noarchive'                       => [ 'type' => 'boolean' ],
+				'nosnippet'                       => [ 'type' => 'boolean' ],
+				'open_graph_title'                => $nullable_string,
+				'open_graph_title_rendered'       => $rendered( 'Open Graph title' ),
+				'open_graph_description'          => $nullable_string,
+				'open_graph_description_rendered' => $rendered( 'Open Graph description' ),
+				'twitter_title'                   => $nullable_string,
+				'twitter_title_rendered'          => $rendered( 'Twitter title' ),
+				'twitter_description'             => $nullable_string,
+				'twitter_description_rendered'    => $rendered( 'Twitter description' ),
+				'schema_page_type'                => $nullable_string,
+				'schema_article_type'             => $nullable_string,
+				'seo_score'                       => $score( 'SEO analysis' ),
+				'readability_score'               => $score( 'readability analysis' ),
+				'inclusive_language_score'        => $score( 'inclusive language analysis' ),
+			],
+		];
 	}
 
 	/**
