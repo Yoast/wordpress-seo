@@ -405,7 +405,7 @@ class Current_Page_Helper {
 	 * the replace_editor filter on every call, which is a render hook with side effects
 	 * (e.g. it breaks the WooCommerce block email editor).
 	 *
-	 * Only reliable after set_current_screen() has run (during admin page load, before
+	 * Only reliable after set_current_screen() has run (during admin page load, after
 	 * admin_init); earlier calls return false.
 	 *
 	 * @return bool Whether the current screen is the block editor.
