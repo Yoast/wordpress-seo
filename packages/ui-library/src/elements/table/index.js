@@ -4,6 +4,7 @@ import React, { forwardRef } from "react";
 import { CheckboxProvider } from "./checkbox-provider";
 import { CheckboxHeader } from "./checkbox-header";
 import { CheckboxCell } from "./checkbox-cell";
+import { ImageCell } from "./image-cell";
 export { useCheckboxTableContext } from "./context";
 
 const rowClassNameMap = {
@@ -139,5 +140,7 @@ Table.Cell.displayName = "Table.Cell";
 Table.CheckboxHeader = CheckboxHeader;
 Table.CheckboxCell = CheckboxCell;
 Table.CheckboxProvider = CheckboxProvider;
+Table.ImageCell = ImageCell;
+Table.ImageCell.displayName = "Table.ImageCell";
 
 export default Table;

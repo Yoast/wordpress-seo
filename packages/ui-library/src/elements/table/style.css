@@ -19,6 +19,33 @@
 				.yst-table-checkbox-cell {
 					@apply yst-px-3 yst-py-3.5 yst-text-sm yst-text-slate-600;
 				}
+
+				.yst-table-image-cell {
+					@apply
+					yst-flex
+					yst-items-center
+					yst-justify-center
+					yst-w-16 yst-h-16
+					yst-overflow-hidden
+					yst-rounded
+					yst-border
+					yst-border-slate-300
+					yst-bg-white;
+				}
+
+				.yst-table-image-cell-image {
+					@apply
+					yst-w-full
+					yst-h-full
+					yst-object-cover
+					yst-object-center;
+				}
+
+				.yst-table-image-cell-placeholder {
+					@apply
+					yst-w-5 yst-h-5
+					yst-text-slate-400;
+				}
 			}
 		}
 
