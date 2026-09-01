@@ -1,62 +1,66 @@
-import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
 import classNames from "classnames";
-import React from "react";
-import { useSvgAria } from "../../hooks";
+import React, { useCallback, useMemo, useState } from "react";
+import { ContentTabsContext } from "./context";
+import TabButton from "./tab-button";
+import Panel from "./panel";
 
 /**
- * A single selectable tab whose selection drives a content area shown elsewhere on the page.
- * Fully agnostic about its content: renders whatever `children` the caller passes,
- * and only owns the tab's own background, hover/selected state, and the trailing chevron.
- * Stacking several of these (in a plain `<ul>`, `<div>`, or any other wrapping
- * element) forms a list on its own. No dedicated list wrapper component is needed.
+ * A group of tabs whose active one drives a content area (`ContentTabs.Panel`), shown wherever the
+ * consumer puts it in the tree — not necessarily right next to the tabs. `ContentTabs` only owns
+ * the active-tab state; content stays fully agnostic: `ContentTabs.TabButton` and `ContentTabs.Panel`
+ * render whatever `children` you give them, and both also work standalone (outside this wrapper)
+ * by passing `isSelected`/`onClick` directly.
  *
- * The wrapping button carries `aria-current` and a `group` class, so content that must recolor on
- * selection (e.g. the title) can target it with a `group-aria-[current=true]:` variant.
+ * Controlled: pass `activeTab` and update it yourself via `onTabChange`.
+ * Uncontrolled: pass `defaultActiveTab` (or nothing) and let `ContentTabs` manage its own state.
  *
- * @param {JSX.ElementClass} [as="li"] The wrapping element.
- * @param {string} [id] The id for the tab's button, e.g. to target this tab from a consumer via `aria-controls` or a fragment link.
- * @param {React.ReactNode} children The tab's content.
- * @param {boolean} [isSelected=false] Whether this tab is the active/selected one.
- * @param {boolean} [disabled=false] Whether the tab is disabled.
- * @param {Function} onClick Called when the tab is activated.
+ * @param {React.ReactNode} children The tab buttons and the content area — `ContentTabs.TabButton`/`ContentTabs.Panel`, or any other markup.
+ * @param {string} [activeTab] The id of the active tab (controlled mode).
+ * @param {string} [defaultActiveTab=null] The id of the initially active tab (uncontrolled mode).
+ * @param {Function} [onTabChange] Called with the tab id when a tab is activated.
+ * @param {JSX.ElementClass} [as="div"] The wrapping element.
  * @param {string} [className=""] Extra class name for the wrapping element.
- * @param {...any} [props] Extra props, spread onto the button.
+ * @param {...any} [props] Extra props, spread onto the wrapping element.
  *
- * @returns {JSX.Element} The tab.
+ * @returns {JSX.Element} The tabs group.
  */
 const ContentTabs = ( {
-	as: Component = "li",
-	id,
 	children,
-	isSelected = false,
-	disabled = false,
-	onClick,
+	activeTab,
+	defaultActiveTab = null,
+	onTabChange,
+	as: Component = "div",
 	className = "",
 	...props
 } ) => {
-	const svgAriaProps = useSvgAria();
+	const [ internalActiveTab, setInternalActiveTab ] = useState( defaultActiveTab );
+	const isControlled = typeof activeTab !== "undefined";
+	const resolvedActiveTab = isControlled ? activeTab : internalActiveTab;
+
+	const handleTabSelect = useCallback( ( tabId ) => {
+		if ( ! isControlled ) {
+			setInternalActiveTab( tabId );
+		}
+		onTabChange?.( tabId );
+	}, [ isControlled, onTabChange ] );
+
+	const contextValue = useMemo(
+		() => ( { activeTab: resolvedActiveTab, onTabSelect: handleTabSelect } ),
+		[ resolvedActiveTab, handleTabSelect ],
+	);
 
 	return (
-		<Component className={ classNames( "yst-content-tabs", className ) }>
-			<button
-				id={ id }
-				type="button"
-				disabled={ disabled }
-				onClick={ onClick }
-				aria-current={ isSelected }
-				className={ classNames(
-					"yst-content-tabs__button yst-group",
-					isSelected && "yst-content-tabs__button--selected",
-				) }
-				{ ...props }
-			>
-				<span className="yst-content-tabs__content">{ children }</span>
-				<ChevronRightIcon className="yst-content-tabs__icon" { ...svgAriaProps } />
-			</button>
-		</Component>
+		<ContentTabsContext.Provider value={ contextValue }>
+			<Component className={ classNames( "yst-content-tabs", className ) } { ...props }>
+				{ children }
+			</Component>
+		</ContentTabsContext.Provider>
 	);
 };
 
 ContentTabs.displayName = "ContentTabs";
+ContentTabs.TabButton = TabButton;
+ContentTabs.Panel = Panel;
 
+export { useContentTabsContext } from "./context";
 export default ContentTabs;

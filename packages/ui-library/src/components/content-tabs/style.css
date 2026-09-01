@@ -1,6 +1,6 @@
 @layer components {
 	.yst-root {
-		.yst-content-tabs {
+		.yst-content-tabs__tab {
 			@apply yst-list-none;
 		}
 
@@ -33,7 +33,7 @@
 			@apply yst-bg-slate-100;
 		}
 
-		.yst-content-tabs__content {
+		.yst-content-tabs__label {
 			@apply yst-min-w-0 yst-flex-1;
 		}
 
@@ -48,6 +48,10 @@
 			yst-ease-in-out
 			group-hover:yst-text-slate-600
 			rtl:yst-rotate-180;
+		}
+
+		.yst-content-tabs__panel {
+			@apply yst-min-w-0 yst-flex-1;
 		}
 	}
 }
