@@ -113,7 +113,7 @@ class PrimaryTaxonomyPicker extends Component {
 	 */
 	handleSelectedTermsChange() {
 		const { selectedTerms } = this.state;
-		const { primaryTaxonomyId, taxonomy } = this.props;
+		const { primaryTaxonomyId } = this.props;
 
 		// Terms haven't been fetched yet: selectedTerms is derived from an empty list, so any
 		// "primary not found" result here is a false negative. Skip until fetchTerms resolves.
@@ -125,21 +125,9 @@ class PrimaryTaxonomyPicker extends Component {
 			return;
 		}
 
-		const selectedTerm = selectedTerms.find( term => {
-			return term.id === primaryTaxonomyId;
-		} );
+		const selectedTerm = selectedTerms.find( term => term.id === primaryTaxonomyId );
 		if ( ! selectedTerm ) {
-			const autoSelectedId = selectedTerms.length ? selectedTerms[ 0 ].id : -1;
-			if ( primaryTaxonomyId === -1 ) {
-				// No primary term was ever saved. Auto-select the first term for UI display only,
-				// without writing to meta, so the post is not dirtied before user interaction.
-				this.props.setPrimaryTaxonomyId( taxonomy.name, autoSelectedId );
-				this.updateReplacementVariable( autoSelectedId );
-			} else {
-				// The saved primary term is no longer among the selected terms (user removed it).
-				// Fall back to the first available term and persist the change.
-				this.onChange( autoSelectedId );
-			}
+			this.onChange( selectedTerms.length ? selectedTerms[ 0 ].id : -1 );
 		}
 	}
 
