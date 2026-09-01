@@ -53,7 +53,7 @@ function allow_custom_field_edits( $required_capabilities, $capabilities, $args 
 
 	// When advanced/schema fields are restricted, do not grant write access to them for users lacking the capability.
 	if ( WPSEO_Options::get( 'disableadvanced_meta' ) && ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) ) {
-		$field_info = WPSEO_Meta::$fields_index[ $args[3] ] ?? null;
+		$field_info = ( WPSEO_Meta::$fields_index[ $args[3] ] ?? null );
 		if ( $field_info && in_array( $field_info['subset'], [ 'advanced', 'schema' ], true ) ) {
 			return $required_capabilities;
 		}
