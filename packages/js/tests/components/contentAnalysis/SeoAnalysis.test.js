@@ -17,19 +17,22 @@ jest.mock( "../../../src/ai-optimizer/components/ai-optimize-button", () => {
  *
  * A fill for the metabox slot is always present, so a rendered slot is visible as its button.
  *
- * @param {Object} props The props to construct the component with.
+ * The props are merged over `defaultProps`, which constructing the class directly does not apply. Without that,
+ * `isElementor` and `isTerm` would arrive as `undefined` rather than `false`.
+ *
+ * @param {Object} props The props to construct the component with, merged over the component's default props.
  * @param {string} id The assessment ID to render the button for.
  * @param {boolean} [hasAIFixes] Whether the assessment can be fixed through Yoast AI Optimize.
  *
- * @returns {void}
+ * @returns {import("@testing-library/react").RenderResult} The render result.
  */
 const renderResultButton = ( props, id, hasAIFixes = true ) => render(
 	<SlotFillProvider>
 		<Fill name={ getImageAltTagsButtonSlotName( "metabox" ) }>
-			<button>Generate image alt text</button>
+			<button>Generate with AI</button>
 		</Fill>
 		<LocationProvider value="metabox">
-			{ new SeoAnalysis( props ).renderAIOptimizeButton( hasAIFixes, id ) }
+			{ new SeoAnalysis( { ...SeoAnalysis.defaultProps, ...props } ).renderAIOptimizeButton( hasAIFixes, id ) }
 		</LocationProvider>
 	</SlotFillProvider>
 );
@@ -38,7 +41,7 @@ describe( "SeoAnalysis.renderAIOptimizeButton", () => {
 	it( "renders the image alt tags slot for the Image alt attributes assessment", () => {
 		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "imageAltTags" );
 
-		expect( screen.getByRole( "button", { name: "Generate image alt text" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: "Generate with AI" } ) ).toBeInTheDocument();
 		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
 	} );
 
@@ -46,14 +49,14 @@ describe( "SeoAnalysis.renderAIOptimizeButton", () => {
 		// The alt text button is not part of Yoast AI Optimize, so the AI Optimize gates must not suppress it.
 		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "imageAltTags", false );
 
-		expect( screen.getByRole( "button", { name: "Generate image alt text" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: "Generate with AI" } ) ).toBeInTheDocument();
 	} );
 
 	it( "still renders the AI Optimize button for the other assessments", () => {
 		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "keyphraseDensity" );
 
 		expect( screen.getByTestId( "ai-optimize-button" ) ).toHaveAttribute( "data-id", "keyphraseDensity" );
-		expect( screen.queryByRole( "button", { name: "Generate image alt text" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Generate with AI" } ) ).not.toBeInTheDocument();
 	} );
 
 	it( "does not render the AI Optimize button when the AI feature is disabled in Premium", () => {

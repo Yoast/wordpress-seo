@@ -8,9 +8,9 @@ import { render, screen } from "../../test-utils";
  * Renders the slot for one location, together with the fills passed in.
  *
  * @param {string} location The location to render the slot for.
- * @param {JSX.Element} fills The fills to render alongside it.
+ * @param {?JSX.Element} fills The fills to render alongside it, or null to render the slot on its own.
  *
- * @returns {void}
+ * @returns {import("@testing-library/react").RenderResult} The render result.
  */
 const renderSlotWithFills = ( location, fills ) => render(
 	<SlotFillProvider>
