@@ -3,6 +3,7 @@ import { mapValues, merge } from "lodash";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { createAnchorOpeningTag } from "../../../helpers";
+import normalizeProductData from "../../../contract/normalizeProductData";
 
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
@@ -53,6 +54,11 @@ export default class ImageAltTagsAssessment extends Assessment {
 	getResult( paper, researcher ) {
 		this.altTagsProperties = researcher.getResearch( "altTagCount" );
 		this.imageCount = researcher.getResearch( "imageCount" );
+		/*
+		 * Only used to pick the wording: a platform that scopes the assessment to a product's own images may
+		 * need to name where those images live, and on a variable product that includes the variation images.
+		 */
+		this.isVariableProduct = normalizeProductData( paper ).isVariableProduct;
 
 		const calculatedScore = this.calculateResult();
 
@@ -113,6 +119,9 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 * - noneHasAltBad: string
 	 * - someHaveAltBad: string
 	 *
+	 * The callback also receives `isVariableProduct`, because a platform that scopes the assessment to a product's
+	 * own images may need to name the places those images live.
+	 *
 	 * @returns {{good: string, noImagesBad: string, noneHasAltBad: string, someHaveAltBad: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
@@ -144,6 +153,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 			urlActionAnchorOpeningTag,
 			numberOfImagesWithoutAlt,
 			totalNumberOfImages: this.imageCount,
+			isVariableProduct: this.isVariableProduct,
 		} );
 	}
 }
