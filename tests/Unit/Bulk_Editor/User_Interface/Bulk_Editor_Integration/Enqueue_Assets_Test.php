@@ -18,44 +18,75 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::enqueue_assets
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::get_script_data
  */
-final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Enqueue_Assets_Test extends Abstract_Test {
+
+	/**
+	 * Whether the shortcode tags global was set before the test replaced it.
+	 *
+	 * @var bool
+	 */
+	private $had_shortcode_tags;
+
+	/**
+	 * The shortcode tags global as it was before the test replaced it.
+	 *
+	 * @var mixed
+	 */
+	private $shortcode_tags_backup;
+
+	/**
+	 * Remembers the shortcode tags global, which these tests replace.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->had_shortcode_tags    = isset( $GLOBALS['shortcode_tags'] );
+		$this->shortcode_tags_backup = ( $GLOBALS['shortcode_tags'] ?? null );
+	}
+
+	/**
+	 * Restores the shortcode tags global, so replacing it cannot leak into other tests.
+	 *
+	 * @return void
+	 */
+	protected function tear_down() {
+		if ( $this->had_shortcode_tags ) {
+			$GLOBALS['shortcode_tags'] = $this->shortcode_tags_backup;
+		}
+		else {
+			unset( $GLOBALS['shortcode_tags'] );
+		}
+
+		parent::tear_down();
+	}
 
 	/**
 	 * Tests enqueuing the assets.
 	 *
+	 * @param mixed         $shortcode_tags      The WordPress shortcode tags global, or null to leave it unset.
+	 * @param array<string> $expected_shortcodes The shortcode tags expected in the localized script data.
+	 *
+	 * @dataProvider data_shortcode_tags
+	 *
 	 * @return void
 	 */
-	public function test_enqueue_assets() {
+	public function test_enqueue_assets( $shortcode_tags, array $expected_shortcodes ) {
 		$this->stubEscapeFunctions();
+		$this->stub_wpseo_admin_replace_vars_dependencies();
+
+		// The registered shortcode tags are read straight off the WordPress global.
+		unset( $GLOBALS['shortcode_tags'] );
+		if ( $shortcode_tags !== null ) {
+			$GLOBALS['shortcode_tags'] = $shortcode_tags;
+		}
 
 		$content_types = [
 			[
 				'name'          => 'post',
 				'label'         => 'Posts',
 				'singularLabel' => 'Post',
-			],
-		];
-
-		$expected_script_data = [
-			'contentTypes'          => $content_types,
-			'endpoints'             => [
-				'posts' => 'https://example.com/wp-json/yoast/v1/bulk_editor/posts',
-			],
-			'links'                 => [
-				'dashboard' => 'https://example.com/wp-admin/admin.php?page=wpseo_dashboard',
-				'tools'     => 'https://example.com/wp-admin/admin.php?page=wpseo_tools',
-			],
-			'nonce'                 => 'rest-nonce',
-			'restRoot'              => 'https://example.com/wp-json/',
-			'preferences'           => [
-				'isPremium'   => false,
-				'isAiEnabled' => true,
-				'isRtl'       => false,
-				'pluginUrl'   => 'https://example.com/wp-content/plugins/wordpress-seo',
-			],
-			'linkParams'            => [ 'foo' => 'bar' ],
-			'optInNotificationSeen' => [
-				'bulk_editor_tour' => false,
 			],
 		];
 
@@ -75,28 +106,98 @@ final class Enqueue_Assets_Test extends Abstract_Bulk_Editor_Integration_Test {
 		Functions\expect( 'rest_url' )->once()->withNoArgs()->andReturn( 'https://example.com/wp-json/' );
 		$this->product_helper->expects( 'is_premium' )->once()->andReturn( false );
 		$this->options_helper->expects( 'get' )->once()->with( 'enable_ai_generator' )->andReturn( true );
+		$this->options_helper->expects( 'get' )->once()->with( 'keyword_analysis_active' )->andReturn( true );
 		Functions\expect( 'is_rtl' )->once()->withNoArgs()->andReturn( false );
+		Functions\expect( 'get_locale' )->once()->withNoArgs()->andReturn( 'en_US' );
 		Functions\expect( 'plugins_url' )
 			->once()
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
 		Functions\expect( 'admin_url' )
-			->twice()
+			->times( 2 )
 			->andReturnUsing(
 				static function ( $path ) {
 					return 'https://example.com/wp-admin/' . $path;
 				},
 			);
+		Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'update_plugins' )
+			->andReturn( true );
+		Functions\expect( 'self_admin_url' )
+			->once()
+			->andReturnUsing(
+				static function ( $path ) {
+					return 'https://example.com/wp-admin/' . $path;
+				},
+			);
+		Functions\expect( 'wp_nonce_url' )
+			->once()
+			->with(
+				'https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php',
+				'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php',
+			)
+			->andReturn( 'https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&_wpnonce=92ba59f0da' );
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
+		$this->myyoast_connection_data_presenter->expects( 'present' )->once()->andReturnNull();
 		$this->user_helper->expects( 'get_current_user_id' )->once()->andReturn( 1 );
 		$this->user_helper->expects( 'get_meta' )
 			->once()
 			->with( 1, '_yoast_wpseo_bulk_editor_tour_opt_in_notification_seen', true )
 			->andReturn( '' );
+		$this->replace_vars->expects( 'get_replacement_variables_with_labels' )->once()->andReturn( [] );
 
 		$this->asset_manager->expects( 'localize_script' )
 			->once()
-			->with( Bulk_Editor_Integration::ASSETS_NAME, 'wpseoBulkEditorData', $expected_script_data );
+			->with(
+				Bulk_Editor_Integration::ASSETS_NAME,
+				'wpseoBulkEditorData',
+				Mockery::on(
+					static function ( $data ) use ( $content_types, $expected_shortcodes ) {
+						return $data['contentTypes'] === $content_types
+							&& $data['nonce'] === 'rest-nonce'
+							&& $data['preferences']['isPremium'] === false
+							&& $data['analysis']['shortcodes'] === $expected_shortcodes
+							&& \array_key_exists( 'replacementVariables', $data )
+							&& \array_key_exists( 'variables', $data['replacementVariables'] )
+							&& \array_key_exists( 'recommended', $data['replacementVariables'] )
+							&& \array_key_exists( 'specific', $data['replacementVariables'] )
+							&& \array_key_exists( 'shared', $data['replacementVariables'] );
+					},
+				),
+			);
 
 		$this->instance->enqueue_assets();
+	}
+
+	/**
+	 * Data provider for test_enqueue_assets.
+	 *
+	 * The global is always set by WordPress, but the integration stays defensive: an absent or malformed global
+	 * costs shortcode parity in the AI prompt content, which is better than a fatal on a settings page.
+	 *
+	 * @return array<string, array<mixed>> The test data.
+	 */
+	public static function data_shortcode_tags(): array {
+		return [
+			'registered shortcode tags' => [
+				'shortcode_tags'      => [
+					'gallery' => 'gallery_shortcode',
+					'caption' => 'caption_shortcode',
+				],
+				'expected_shortcodes' => [ 'gallery', 'caption' ],
+			],
+			'no shortcodes registered'  => [
+				'shortcode_tags'      => [],
+				'expected_shortcodes' => [],
+			],
+			'the global is unset'       => [
+				'shortcode_tags'      => null,
+				'expected_shortcodes' => [],
+			],
+			'the global is malformed'   => [
+				'shortcode_tags'      => 'not an array',
+				'expected_shortcodes' => [],
+			],
+		];
 	}
 }

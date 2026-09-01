@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Content_Types\Content_Types_Collecto
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository::__construct
  */
-final class Constructor_Test extends Abstract_Content_Types_Repository_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

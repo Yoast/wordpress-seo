@@ -13,7 +13,7 @@ use Mockery;
  *
  * @covers \Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Watcher::check_schema_aggregator_enabled
  */
-final class Check_Schema_Aggregator_Enabled_Test extends Abstract_Schema_Aggregator_Watcher_Test {
+final class Check_Schema_Aggregator_Enabled_Test extends Abstract_Test {
 
 	/**
 	 * Tests check_schema_aggregator_enabled returns the expected result based on various scenarios.

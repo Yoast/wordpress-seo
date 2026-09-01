@@ -19,9 +19,11 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::resolve_total
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_query
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::apply_search
+ * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::apply_needs_improvement
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_post
+ * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Indexable_Posts_Collector::build_needs_improvement
  */
-final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
+final class Get_Posts_Test extends Abstract_Test {
 
 	/**
 	 * The statuses passed in the query.
@@ -45,6 +47,8 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$indexable->description            = 'A description.';
 		$indexable->open_graph_title       = 'Social hello';
 		$indexable->open_graph_description = 'Social description.';
+		$indexable->seo_title_score        = 90;
+		$indexable->meta_description_score = 50;
 
 		$query = $this->stub_page_query( [ $indexable ] );
 		// The page is not full, so the total is derived and no count query runs.
@@ -59,16 +63,26 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 			[
 				'posts'       => [
 					[
-						'id'                 => 7,
-						'title'              => 'Hello world',
-						'status'             => 'draft',
-						'edit_link'          => 'post.php?post=7&action=edit',
-						'focus_keyphrase'    => 'hello',
-						'seo_title'          => 'Hello | Site',
-						'meta_description'   => 'A description.',
-						'social_title'       => 'Social hello',
-						'social_description' => 'Social description.',
-						'editable'           => true,
+						'id'                          => 7,
+						'title'                       => 'Hello world',
+						'status'                      => 'draft',
+						'edit_link'                   => 'post.php?post=7&action=edit',
+						'focus_keyphrase'             => 'hello',
+						'seo_title'                   => 'Hello | Site',
+						'meta_description'            => 'A description.',
+						'social_title'                => 'Social hello',
+						'social_description'          => 'Social description.',
+						'seo_title_fallback'          => '',
+						'meta_description_fallback'   => '',
+						'social_title_fallback'       => '',
+						'social_description_fallback' => '',
+						'editable'                    => true,
+						'needs_improvement'           => [
+							'seo_title'          => false,
+							'meta_description'   => true,
+							'social_title'       => false,
+							'social_description' => false,
+						],
 					],
 				],
 				'total'       => 1,
@@ -78,6 +92,96 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 			],
 			$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array(),
 		);
+	}
+
+	/**
+	 * Tests that the SEO title and meta description fall back to the resolved template when the stored
+	 * values are empty, and that the post is not flagged as needing improvement.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_resolves_template_when_stored_values_are_empty() {
+		$indexable                         = new Indexable_Mock();
+		$indexable->object_id              = 7;
+		$indexable->object_sub_type        = 'page';
+		$indexable->post_status            = 'draft';
+		$indexable->primary_focus_keyword  = '';
+		$indexable->title                  = '';
+		$indexable->description            = '';
+		$indexable->open_graph_title       = '';
+		$indexable->open_graph_description = '';
+		$indexable->seo_title_score        = 0;
+		$indexable->meta_description_score = 0;
+
+		$query = $this->stub_page_query( [ $indexable ] );
+		$query->expects( 'count' )->never();
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		$this->default_template_resolver->expects( 'resolve_seo_title' )
+			->with( 7, 'page', '' )
+			->andReturn( 'Page title from template' );
+		$this->default_template_resolver->expects( 'resolve_meta_description' )
+			->with( 7, 'page', '' )
+			->andReturn( 'Page description from template' );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		$this->assertSame( '', $post['seo_title'] );
+		$this->assertSame( '', $post['meta_description'] );
+		$this->assertSame( 'Page title from template', $post['seo_title_fallback'] );
+		$this->assertSame( 'Page description from template', $post['meta_description_fallback'] );
+		$this->assertFalse( $post['needs_improvement']['seo_title'] );
+		$this->assertFalse( $post['needs_improvement']['meta_description'] );
+	}
+
+	/**
+	 * Tests that the social title and social description fall back to the raw template when the
+	 * stored values are empty, and that the post is not flagged as needing improvement.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_resolves_social_template_when_stored_values_are_empty() {
+		$indexable                         = new Indexable_Mock();
+		$indexable->object_id              = 7;
+		$indexable->object_sub_type        = 'post';
+		$indexable->post_status            = 'publish';
+		$indexable->primary_focus_keyword  = '';
+		$indexable->title                  = 'Explicit SEO title';
+		$indexable->description            = 'Explicit meta description.';
+		$indexable->open_graph_title       = '';
+		$indexable->open_graph_description = '';
+		$indexable->seo_title_score        = 0;
+		$indexable->meta_description_score = 0;
+
+		$query = $this->stub_page_query( [ $indexable ] );
+		$query->expects( 'count' )->never();
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		$this->default_template_resolver->expects( 'resolve_social_title' )
+			->with( 7, 'post', '' )
+			->andReturn( 'Social title from template' );
+		$this->default_template_resolver->expects( 'resolve_social_description' )
+			->with( 7, 'post', '' )
+			->andReturn( 'Social description from template' );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A post' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		$this->assertSame( '', $post['social_title'] );
+		$this->assertSame( '', $post['social_description'] );
+		$this->assertSame( 'Social title from template', $post['social_title_fallback'] );
+		$this->assertSame( 'Social description from template', $post['social_description_fallback'] );
+		$this->assertFalse( $post['needs_improvement']['social_title'] );
+		$this->assertFalse( $post['needs_improvement']['social_description'] );
 	}
 
 	/**
@@ -105,16 +209,26 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 
 		$this->assertSame(
 			[
-				'id'                 => 7,
-				'title'              => 'Secret post',
-				'status'             => 'publish',
-				'edit_link'          => '',
-				'focus_keyphrase'    => '',
-				'seo_title'          => '',
-				'meta_description'   => '',
-				'social_title'       => '',
-				'social_description' => '',
-				'editable'           => false,
+				'id'                          => 7,
+				'title'                       => 'Secret post',
+				'status'                      => 'publish',
+				'edit_link'                   => '',
+				'focus_keyphrase'             => '',
+				'seo_title'                   => '',
+				'meta_description'            => '',
+				'social_title'                => '',
+				'social_description'          => '',
+				'seo_title_fallback'          => '',
+				'meta_description_fallback'   => '',
+				'social_title_fallback'       => '',
+				'social_description_fallback' => '',
+				'editable'                    => false,
+				'needs_improvement'           => [
+					'seo_title'          => false,
+					'meta_description'   => false,
+					'social_title'       => false,
+					'social_description' => false,
+				],
 			],
 			$result['posts'][0],
 		);
@@ -239,6 +353,144 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 	}
 
 	/**
+	 * Tests that a post ID restriction narrows the query to those posts.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_restricts_to_the_included_post_ids() {
+		$indexable            = new Indexable_Mock();
+		$indexable->object_id = 5;
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->expects( 'where_in' )->with( 'post_status', self::STATUSES )->andReturnSelf();
+		$query->expects( 'where_in' )->with( 'object_id', [ 5, 3 ] )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		// The page is not full, so the total is derived and build_query runs only once.
+		$query->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+		$query->expects( 'count' )->never();
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 5 ] )->andReturn( [ 5 => true ] );
+
+		Functions\expect( 'get_the_title' )->once()->with( 5 )->andReturn( 'Hello world' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 5, 'raw' )->andReturn( 'edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [], true, [ 5, 3 ] ) )->to_array();
+
+		$this->assertSame( 5, $result['posts'][0]['id'] );
+		$this->assertSame( 1, $result['total'] );
+	}
+
+	/**
+	 * Tests that a post with an empty stored SEO title is flagged as needing improvement when no
+	 * post-type template is configured.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_flags_seo_title_when_no_template_configured_and_stored_value_is_empty() {
+		$indexable                         = new Indexable_Mock();
+		$indexable->object_id              = 7;
+		$indexable->object_sub_type        = 'page';
+		$indexable->post_status            = 'draft';
+		$indexable->primary_focus_keyword  = '';
+		$indexable->title                  = ''; // No stored value.
+		$indexable->description            = 'Explicit description.';
+		$indexable->open_graph_title       = '';
+		$indexable->open_graph_description = '';
+		$indexable->seo_title_score        = 0;
+		$indexable->meta_description_score = 0;
+
+		$query = $this->stub_page_query( [ $indexable ] );
+		$query->expects( 'count' )->never();
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES ) )->to_array();
+		$post   = $result['posts'][0];
+
+		// No template configured: the resolver returns '' → the flag must be true.
+		$this->assertTrue( $post['needs_improvement']['seo_title'] );
+		// Stored description is non-empty, so meta description does not need improvement.
+		$this->assertFalse( $post['needs_improvement']['meta_description'] );
+	}
+
+	/**
+	 * Tests that the needs-improvement SQL filter and the per-row flag agree when the post type has a
+	 * configured SEO title template.
+	 *
+	 * The SQL filter must exclude template-defaulted posts (1 = 0, not IS NULL) and the row flag must
+	 * report them as not needing improvement. A mismatch between the two caused the bug in #23438.
+	 *
+	 * @return void
+	 */
+	public function test_filter_and_row_flag_agree_when_post_type_has_seo_title_template() {
+		$indexable                         = new Indexable_Mock();
+		$indexable->object_id              = 7;
+		$indexable->object_sub_type        = 'page';
+		$indexable->post_status            = 'draft';
+		$indexable->primary_focus_keyword  = '';
+		$indexable->title                  = ''; // No stored value; fallback template applies.
+		$indexable->description            = '';
+		$indexable->open_graph_title       = '';
+		$indexable->open_graph_description = '';
+		$indexable->seo_title_score        = 0;
+		$indexable->meta_description_score = 0;
+
+		// Resolver returns a template for seo_title when called with any post_id, 'page', ''.
+		$this->default_template_resolver->allows( 'resolve_seo_title' )
+			->with( Mockery::any(), 'page', '' )
+			->andReturn( '%%title%% %%sep%% %%sitename%%' );
+
+		$captured = [];
+		$query    = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		// Non-full page (1 row < per_page 20): resolve_total skips the count query, so where_raw fires once.
+		$query->expects( 'where_raw' )
+			->once()
+			->with(
+				Mockery::on(
+					static function ( $clause ) use ( &$captured ) {
+						$captured[] = $clause;
+
+						return true;
+					},
+				),
+				[], // Template configured, scoring disabled — no bound values.
+			)
+			->andReturnSelf();
+		$query->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_the_title' )->once()->with( 7 )->andReturn( 'A page' );
+		Functions\expect( 'get_edit_post_link' )->once()->with( 7, 'raw' )->andReturn( 'post.php?post=7&action=edit' );
+
+		$result = $this->instance->get_posts(
+			new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 'seo_title' ], false ),
+		)->to_array();
+		$post   = $result['posts'][0];
+
+		// SQL: the filter must use the false condition, not an empty-column check.
+		$this->assertStringContainsString( '1 = 0', $captured[0] );
+		$this->assertStringNotContainsString( 'title IS NULL', $captured[0] );
+
+		// Row flag: the post is not needing improvement — the template covers the gap.
+		$this->assertFalse( $post['needs_improvement']['seo_title'] );
+	}
+
+	/**
 	 * Stubs the indexable query for a page that returns the given rows, without constraining count().
 	 *
 	 * @param array<Indexable_Mock> $rows The indexables the page query returns.
@@ -257,5 +509,129 @@ final class Get_Posts_Test extends Abstract_Indexable_Posts_Collector_Test {
 		$this->indexable_repository->allows( 'query' )->andReturn( $query );
 
 		return $query;
+	}
+
+	/**
+	 * Tests that the needs-improvement filter adds an empty-column clause for each selected field.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_filters_on_needs_improvement() {
+		$captured = [];
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		// The clause backs both the page query and the fallback count query, so it is added twice.
+		// Per search-tab field: the empty string plus the bad/ok score range bounds are bound.
+		$query->expects( 'where_raw' )
+			->twice()
+			->with(
+				Mockery::on(
+					static function ( $clause ) use ( &$captured ) {
+						$captured[] = $clause;
+
+						return true;
+					},
+				),
+				[ '', 1, 70, '', 1, 70 ],
+			)
+			->andReturnSelf();
+		$query->allows( 'count' )->andReturn( 0 );
+		$query->expects( 'find_many' )->once()->andReturn( [] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->allows( 'resolve' )->andReturn( [] );
+
+		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 'seo_title', 'meta_description' ] ) );
+
+		$this->assertStringContainsString( 'title IS NULL', $captured[0] );
+		$this->assertStringContainsString( 'seo_title_score BETWEEN %d AND %d', $captured[0] );
+		$this->assertStringContainsString( 'description IS NULL', $captured[0] );
+		$this->assertStringContainsString( 'meta_description_score BETWEEN %d AND %d', $captured[0] );
+	}
+
+	/**
+	 * Tests that the social fields match on emptiness only: they have no persisted score.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_needs_improvement_social_fields_have_no_score_clause() {
+		$captured = [];
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		$query->expects( 'where_raw' )
+			->twice()
+			->with(
+				Mockery::on(
+					static function ( $clause ) use ( &$captured ) {
+						$captured[] = $clause;
+
+						return true;
+					},
+				),
+				[ '', '' ],
+			)
+			->andReturnSelf();
+		$query->allows( 'count' )->andReturn( 0 );
+		$query->expects( 'find_many' )->once()->andReturn( [] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->allows( 'resolve' )->andReturn( [] );
+
+		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 'social_title', 'social_description' ] ) );
+
+		$this->assertStringContainsString( 'open_graph_title IS NULL', $captured[0] );
+		$this->assertStringContainsString( 'open_graph_description IS NULL', $captured[0] );
+		$this->assertStringNotContainsString( 'BETWEEN', $captured[0] );
+	}
+
+	/**
+	 * Tests that the score clause is dropped when scoring is disabled, so the search fields match on
+	 * emptiness only.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_needs_improvement_omits_score_clause_when_scoring_disabled() {
+		$captured = [];
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		// With scoring disabled only the empty string is bound per field: no score range.
+		$query->expects( 'where_raw' )
+			->twice()
+			->with(
+				Mockery::on(
+					static function ( $clause ) use ( &$captured ) {
+						$captured[] = $clause;
+
+						return true;
+					},
+				),
+				[ '', '' ],
+			)
+			->andReturnSelf();
+		$query->allows( 'count' )->andReturn( 0 );
+		$query->expects( 'find_many' )->once()->andReturn( [] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->allows( 'resolve' )->andReturn( [] );
+
+		$this->instance->get_posts( new Posts_Query( 'page', 1, 20, '', self::STATUSES, null, [ 'seo_title', 'meta_description' ], false ) );
+
+		$this->assertStringContainsString( 'title IS NULL', $captured[0] );
+		$this->assertStringNotContainsString( 'BETWEEN', $captured[0] );
 	}
 }

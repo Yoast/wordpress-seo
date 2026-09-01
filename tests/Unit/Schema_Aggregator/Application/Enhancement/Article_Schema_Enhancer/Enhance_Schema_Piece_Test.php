@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Schema_Aggregator\Article_Schema_Enhancer_Do
  *
  * @coversDefaultClass \Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Article_Schema_Enhancer
  */
-final class Enhance_Schema_Piece_Test extends Abstract_Article_Schema_Enhancer_Test {
+final class Enhance_Schema_Piece_Test extends Abstract_Test {
 
 	/**
 	 * The Article_Schema_Enhancer_Double

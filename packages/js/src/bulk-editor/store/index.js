@@ -12,6 +12,14 @@ import {
 	optInNotificationControls,
 	optInNotificationReducer,
 	optInNotificationSelectors,
+	getInitialMyyoastConnectionState,
+	MYYOAST_CONNECTION_NAME,
+	myyoastConnectionActions,
+	myyoastConnectionReducer,
+	myyoastConnectionSelectors,
+	replacementVariablesActions,
+	replacementVariablesReducer,
+	replacementVariablesSelectors,
 } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import activeContentType, { activeContentTypeActions, activeContentTypeSelectors, createInitialActiveContentTypeState } from "./active-content-type";
@@ -43,6 +51,7 @@ const createStore = ( { initialState } ) => {
 		actions: {
 			...linkParamsActions,
 			...preferencesActions,
+			...replacementVariablesActions,
 			...activeFieldSetActions,
 			...activeContentTypeActions,
 			...queryActions,
@@ -52,10 +61,12 @@ const createStore = ( { initialState } ) => {
 			...externalGenerationActions,
 			...pendingSwitchActions,
 			...optInNotificationActions,
+			...myyoastConnectionActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
 			...preferencesSelectors,
+			...replacementVariablesSelectors,
 			...activeFieldSetSelectors,
 			...activeContentTypeSelectors,
 			...querySelectors,
@@ -65,12 +76,14 @@ const createStore = ( { initialState } ) => {
 			...externalGenerationSelectors,
 			...pendingSwitchSelectors,
 			...optInNotificationSelectors,
+			...myyoastConnectionSelectors,
 		},
 		initialState: merge(
 			{},
 			{
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
+
 				activeFieldSet: createInitialActiveFieldSetState(),
 				activeContentType: createInitialActiveContentTypeState(),
 				query: createInitialQueryState(),
@@ -80,12 +93,14 @@ const createStore = ( { initialState } ) => {
 				externalGeneration: createInitialExternalGenerationState(),
 				pendingSwitch: createInitialPendingSwitchState(),
 				[ OPT_IN_NOTIFICATION_NAME ]: getInitialOptInNotificationState(),
+				[ MYYOAST_CONNECTION_NAME ]: getInitialMyyoastConnectionState(),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			preferences,
+			replacementVariables: replacementVariablesReducer,
 			activeFieldSet,
 			activeContentType,
 			query,
@@ -95,6 +110,7 @@ const createStore = ( { initialState } ) => {
 			externalGeneration,
 			pendingSwitch,
 			[ OPT_IN_NOTIFICATION_NAME ]: optInNotificationReducer,
+			[ MYYOAST_CONNECTION_NAME ]: myyoastConnectionReducer,
 		} ),
 		controls: {
 			...optInNotificationControls,

@@ -196,6 +196,8 @@ Each package under `packages/*` has its own `package.json` with local scripts; p
 
 ### Opening a pull request
 
+Before you write any code, check the issue for pull requests that already address it. Any PR that references an issue shows up in that issue's timeline. If one is already there, review or comment on it instead of opening a competing PR: issues that collect two or three parallel PRs take longer to resolve, because each one has to be read and compared before any can be merged. If the existing PR looks stalled, ask on the issue whether it is still being worked on.
+
 1. Fork the repository and create your branch from `trunk`. `trunk` is the active development branch and the default branch on GitHub — every PR should target it unless a maintainer asks otherwise. Do **not** target `main`: that branch tracks the latest released version and is not where new work goes. When the work tracks a GitHub issue, name your branch `<issue-number>-<short-description>` (e.g. `2056-paid-upgrades`).
 2. Make your changes on your fork.
 3. Follow the [Yoast Coding Standards](https://github.com/Yoast/yoastcs) (a superset of the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/)).

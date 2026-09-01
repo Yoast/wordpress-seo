@@ -15,7 +15,7 @@ use WP_User;
  *
  * @covers \Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route::can_edit_posts
  */
-final class Can_Edit_Posts_Test extends Abstract_Free_Sparks_Route_Test {
+final class Can_Edit_Posts_Test extends Abstract_Test {
 
 	/**
 	 * Tests can_edit_posts returns false if no user is logged in.

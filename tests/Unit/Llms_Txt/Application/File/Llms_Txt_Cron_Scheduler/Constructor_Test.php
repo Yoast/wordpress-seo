@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler::__construct
  */
-final class Constructor_Test extends Abstract_Llms_Txt_Cron_Scheduler_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

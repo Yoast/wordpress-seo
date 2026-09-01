@@ -19,10 +19,8 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Posts_Route::get_posts
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Posts_Route::is_valid_content_type
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Posts_Test extends Abstract_Posts_Route_Test {
+final class Get_Posts_Test extends Abstract_Test {
 
 	/**
 	 * Tests that a user who can edit other authors' posts is not restricted by author.
@@ -36,6 +34,10 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
 		$request->expects( 'get_param' )->with( 'search' )->andReturn( 'seo' );
 		$request->expects( 'get_param' )->with( 'status' )->andReturn( [ 'draft', 'pending' ] );
+		$request->expects( 'get_param' )->with( 'needs_improvement' )->andReturn( [ 'seo_title' ] );
+		$request->expects( 'get_param' )->with( 'include' )->andReturn( [] );
+		$this->options_helper->expects( 'get' )->with( 'keyword_analysis_active' )->andReturn( true );
+		$this->post_type_helper->expects( 'has_metabox' )->with( 'page' )->andReturnTrue();
 
 		$this->content_types_repository
 			->expects( 'get_content_types' )
@@ -54,7 +56,7 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$posts_page = Mockery::mock( Posts_Page::class );
 		$posts_page->expects( 'to_array' )->once()->andReturn( [] );
 
-		// The selected statuses are carried through unchanged and no author restriction is applied.
+		// The selected statuses and needs-improvement fields are carried through unchanged and no author restriction is applied.
 		$this->posts_repository
 			->expects( 'get_posts' )
 			->once()
@@ -63,7 +65,114 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 					static function ( $query ) {
 						return $query instanceof Posts_Query
 							&& $query->get_statuses() === [ 'draft', 'pending' ]
-							&& $query->get_author_id() === null;
+							&& $query->get_needs_improvement() === [ 'seo_title' ]
+							&& $query->get_author_id() === null
+							&& $query->are_scores_enabled() === true;
+					},
+				),
+			)
+			->andReturn( $posts_page );
+
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->get_posts( $request ) );
+	}
+
+	/**
+	 * Tests that scoring is disabled in the query when SEO analysis is inactive, so the filter falls back
+	 * to the empty-field check.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_disables_scores_when_seo_analysis_inactive() {
+		$request = Mockery::mock( WP_REST_Request::class );
+		$request->expects( 'get_param' )->with( 'content_type' )->andReturn( 'page' );
+		$request->expects( 'get_param' )->with( 'page' )->andReturn( 1 );
+		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
+		$request->expects( 'get_param' )->with( 'search' )->andReturn( '' );
+		$request->expects( 'get_param' )->with( 'status' )->andReturn( [ 'publish' ] );
+		$request->expects( 'get_param' )->with( 'needs_improvement' )->andReturn( [ 'seo_title' ] );
+		$request->expects( 'get_param' )->with( 'include' )->andReturn( [] );
+		$this->options_helper->expects( 'get' )->with( 'keyword_analysis_active' )->andReturn( false );
+
+		$this->content_types_repository
+			->expects( 'get_content_types' )
+			->once()
+			->andReturn(
+				[
+					[
+						'name'  => 'page',
+						'label' => 'Pages',
+					],
+				],
+			);
+
+		$this->content_type_access_checker->expects( 'can_edit_others' )->with( 'page' )->andReturnTrue();
+
+		$posts_page = Mockery::mock( Posts_Page::class );
+		$posts_page->expects( 'to_array' )->once()->andReturn( [] );
+
+		$this->posts_repository
+			->expects( 'get_posts' )
+			->once()
+			->with(
+				Mockery::on(
+					static function ( $query ) {
+						return $query instanceof Posts_Query
+							&& $query->are_scores_enabled() === false;
+					},
+				),
+			)
+			->andReturn( $posts_page );
+
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->get_posts( $request ) );
+	}
+
+	/**
+	 * Tests that scoring is disabled in the query when the content type does not show Yoast's controls and
+	 * assessments, even while SEO analysis is active globally, so the filter falls back to the empty-field check.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_disables_scores_when_content_type_has_no_metabox() {
+		$request = Mockery::mock( WP_REST_Request::class );
+		$request->expects( 'get_param' )->with( 'content_type' )->andReturn( 'page' );
+		$request->expects( 'get_param' )->with( 'page' )->andReturn( 1 );
+		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
+		$request->expects( 'get_param' )->with( 'search' )->andReturn( '' );
+		$request->expects( 'get_param' )->with( 'status' )->andReturn( [ 'publish' ] );
+		$request->expects( 'get_param' )->with( 'needs_improvement' )->andReturn( [ 'seo_title' ] );
+		$request->expects( 'get_param' )->with( 'include' )->andReturn( [] );
+		$this->options_helper->expects( 'get' )->with( 'keyword_analysis_active' )->andReturn( true );
+		$this->post_type_helper->expects( 'has_metabox' )->with( 'page' )->andReturnFalse();
+
+		$this->content_types_repository
+			->expects( 'get_content_types' )
+			->once()
+			->andReturn(
+				[
+					[
+						'name'  => 'page',
+						'label' => 'Pages',
+					],
+				],
+			);
+
+		$this->content_type_access_checker->expects( 'can_edit_others' )->with( 'page' )->andReturnTrue();
+
+		$posts_page = Mockery::mock( Posts_Page::class );
+		$posts_page->expects( 'to_array' )->once()->andReturn( [] );
+
+		$this->posts_repository
+			->expects( 'get_posts' )
+			->once()
+			->with(
+				Mockery::on(
+					static function ( $query ) {
+						return $query instanceof Posts_Query
+							&& $query->are_scores_enabled() === false;
 					},
 				),
 			)
@@ -86,6 +195,8 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
 		$request->expects( 'get_param' )->with( 'search' )->andReturn( '' );
 		$request->expects( 'get_param' )->with( 'status' )->andReturn( [ 'publish' ] );
+		$request->expects( 'get_param' )->with( 'needs_improvement' )->andReturn( [] );
+		$request->expects( 'get_param' )->with( 'include' )->andReturn( [] );
 
 		$this->content_types_repository
 			->expects( 'get_content_types' )
@@ -101,6 +212,8 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 
 		$this->content_type_access_checker->expects( 'can_edit_others' )->with( 'page' )->andReturnFalse();
 		$this->user_helper->expects( 'get_current_user_id' )->once()->andReturn( 5 );
+		$this->options_helper->expects( 'get' )->with( 'keyword_analysis_active' )->andReturn( true );
+		$this->post_type_helper->expects( 'has_metabox' )->with( 'page' )->andReturnTrue();
 
 		$posts_page = Mockery::mock( Posts_Page::class );
 		$posts_page->expects( 'to_array' )->once()->andReturn( [] );
@@ -135,6 +248,10 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
 		$request->expects( 'get_param' )->with( 'search' )->andReturn( '' );
 		$request->expects( 'get_param' )->with( 'status' )->andReturn( [] );
+		$request->expects( 'get_param' )->with( 'needs_improvement' )->andReturn( [] );
+		$request->expects( 'get_param' )->with( 'include' )->andReturn( [] );
+		$this->options_helper->expects( 'get' )->with( 'keyword_analysis_active' )->andReturn( true );
+		$this->post_type_helper->expects( 'has_metabox' )->with( 'page' )->andReturnTrue();
 
 		$this->content_types_repository
 			->expects( 'get_content_types' )
@@ -161,6 +278,58 @@ final class Get_Posts_Test extends Abstract_Posts_Route_Test {
 					static function ( $query ) {
 						return $query instanceof Posts_Query
 							&& $query->get_statuses() === Posts_Collector_Interface::STATUSES;
+					},
+				),
+			)
+			->andReturn( $posts_page );
+
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->get_posts( $request ) );
+	}
+
+	/**
+	 * Tests that the included post IDs are deduplicated and carried into the query.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_carries_the_included_post_ids() {
+		$request = Mockery::mock( WP_REST_Request::class );
+		$request->expects( 'get_param' )->with( 'content_type' )->andReturn( 'page' );
+		$request->expects( 'get_param' )->with( 'page' )->andReturn( 1 );
+		$request->expects( 'get_param' )->with( 'per_page' )->andReturn( 20 );
+		$request->expects( 'get_param' )->with( 'search' )->andReturn( '' );
+		$request->expects( 'get_param' )->with( 'status' )->andReturn( [ 'publish' ] );
+		$request->expects( 'get_param' )->with( 'needs_improvement' )->andReturn( [] );
+		$request->expects( 'get_param' )->with( 'include' )->andReturn( [ 5, '3', 3, 5 ] );
+		$this->options_helper->expects( 'get' )->with( 'keyword_analysis_active' )->andReturn( true );
+		$this->post_type_helper->expects( 'has_metabox' )->with( 'page' )->andReturnTrue();
+
+		$this->content_types_repository
+			->expects( 'get_content_types' )
+			->once()
+			->andReturn(
+				[
+					[
+						'name'  => 'page',
+						'label' => 'Pages',
+					],
+				],
+			);
+
+		$this->content_type_access_checker->expects( 'can_edit_others' )->with( 'page' )->andReturnTrue();
+
+		$posts_page = Mockery::mock( Posts_Page::class );
+		$posts_page->expects( 'to_array' )->once()->andReturn( [] );
+
+		$this->posts_repository
+			->expects( 'get_posts' )
+			->once()
+			->with(
+				Mockery::on(
+					static function ( $query ) {
+						return $query instanceof Posts_Query
+							&& $query->get_include_ids() === [ 5, 3 ];
 					},
 				),
 			)

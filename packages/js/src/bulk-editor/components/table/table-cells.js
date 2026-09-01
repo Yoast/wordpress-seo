@@ -1,10 +1,12 @@
 import { Slot } from "@wordpress/components";
-import { useCallback, useEffect, useState } from "@wordpress/element";
+import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Table, Textarea } from "@yoast/ui-library";
-import { TABLE_ROW_INDICATOR_SLOT } from "../../constants";
-import { getFieldTextClasses, getStatusLabel } from "./table-helpers";
+import { ReplacementVariableEditor } from "@yoast/replacement-variable-editor";
+import { Table } from "@yoast/ui-library";
+import { TABLE_ROW_INDICATOR_SLOT, FOCUS_KEYPHRASE_KEY } from "../../constants";
+import { getStatusLabel } from "./table-helpers";
 import AnimateHeight from "react-animate-height";
+import { FocusKeyphraseField } from "./focus-keyphrase-field";
 
 /**
  * The title cell (the row header).
@@ -49,40 +51,84 @@ export const TitleCell = ( { item, fieldSetId } ) => {
 };
 
 /**
- * An open field cell: an editable textarea. The row's Save and Cancel actions save or
- * discard all of the row's open fields at once.
+ * An open field cell: an editable replacement-variable editor or textarea. The row's Save and
+ * Cancel actions save or discard all of the row's open fields at once.
  *
- * @param {Object}        props           The props.
- * @param {FieldSetField} props.field     The field this cell edits.
- * @param {number}        props.itemId    The item id, to keep the input id unique across rows.
- * @param {string}        props.itemTitle The item title, for the accessible name.
- * @param {string}        props.value     The current draft value.
- * @param {boolean}       props.isSaving  Whether the row is being saved (disables the input).
- * @param {Function}      props.onChange  Called with { key, value } when the value changes.
+ * @param {Object}        props                              The props.
+ * @param {FieldSetField} props.field                        The field this cell edits.
+ * @param {number}        props.itemId                       The item id, to keep the input id unique across rows.
+ * @param {string}        props.itemTitle                    The item title, for the accessible name.
+ * @param {string}        props.value                        The current draft value.
+ * @param {boolean}       props.isSaving                     Whether the row is being saved (disables the input).
+ * @param {Function}      props.onChange                     Called with { key, value } when the value changes.
+ * @param {Array}         props.replacementVariables         The replacement variables available for this content type.
+ * @param {Array}         props.recommendedReplacementVariables The recommended replacement variables for this content type.
+ * @param {string}        props.fieldSetId  The active field set's id, scopes the input id across tabs.
  *
  * @returns {JSX.Element} The cell.
  */
-export const EditableFieldCell = ( { field, itemId, itemTitle, value, isSaving, onChange } ) => {
-	const handleChange = useCallback( ( event ) => onChange( { key: field.key, value: event.target.value } ), [ onChange, field.key ] );
-
+export const EditableFieldCell = ( {
+	field,
+	itemId,
+	itemTitle,
+	value,
+	isSaving,
+	onChange,
+	replacementVariables,
+	recommendedReplacementVariables,
+	fieldSetId,
+} ) => {
 	// Row expand/collapse animation helper.
 	const [ height, setHeight ] = useState( 0 );
 	useEffect( () => setHeight( "auto" ), [] );
 
-	return (
-		<Table.Cell>
-			<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
-				<Textarea
-					id={ `bulk-editor-edit-${ itemId }-${ field.key }` }
-					rows={ 2 }
-					value={ value }
-					onChange={ handleChange }
-					disabled={ isSaving }
-					className={ `yst-resize-none ${ getFieldTextClasses( field.key, true ) }` }
-					/* translators: %1$s expands to the field label, %2$s to the content item title. */
-					aria-label={ sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle ) }
-				/>
-			</AnimateHeight>
-		</Table.Cell>
-	);
+	// Hooks must be called unconditionally; each handler is used by its respective branch below.
+	const handleReplaceVarChange = useCallback( ( newValue ) => onChange( { key: field.key, value: newValue } ), [ onChange, field.key ] );
+	const handleTextareaChange = useCallback( ( event ) => onChange( { key: field.key, value: event.target.value } ), [ onChange, field.key ] );
+
+	/*
+	 * Preemptively add a trailing space when the value ends with a complete %%var%% token.
+	 * The replacement variable editor auto-adds a space after inserting a variable; if our
+	 * initial content already ends with one and we don't mirror that, the editor sees a
+	 * mismatch on first render and triggers a spurious onChange → save prompt.
+	 */
+	const editorContent = useMemo( () => ( value?.match( /%%\w+%%$/ ) ? `${ value } ` : value ) || "", [ value ] );
+
+	const id = `bulk-editor-edit-${ itemId }-${ fieldSetId }-${ field.key }`;
+	const label = sprintf(
+		/* translators: %1$s expands to the field label, %2$s to the content item title. */
+		__( "%1$s for %2$s", "wordpress-seo" ), field.label, itemTitle );
+
+	if ( field.key === FOCUS_KEYPHRASE_KEY ) {
+		return (
+			<Table.Cell>
+				<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
+					<FocusKeyphraseField
+						id={ id }
+						aria-label={ label }
+						value={ value }
+						disabled={ isSaving }
+						onChange={ handleTextareaChange }
+						rows={ 2 }
+					/>
+				</AnimateHeight>
+			</Table.Cell>
+		);
+	}
+
+	return ( <Table.Cell>
+		<AnimateHeight easing="ease-out" duration={ 100 } height={ height } animateOpacity={ true }>
+			<ReplacementVariableEditor
+				content={ editorContent }
+				onChange={ handleReplaceVarChange }
+				type={ field.type }
+				isDisabled={ isSaving }
+				fieldId={ id }
+				replacementVariables={ replacementVariables }
+				recommendedReplacementVariables={ recommendedReplacementVariables }
+				/* translators: %1$s expands to the field label, %2$s to the content item title. */
+				label={ label }
+			/>
+		</AnimateHeight>
+	</Table.Cell> );
 };

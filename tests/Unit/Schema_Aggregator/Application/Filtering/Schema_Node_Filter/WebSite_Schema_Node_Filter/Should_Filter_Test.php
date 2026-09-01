@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
  *
  * @group schema-aggregator
  */
-final class Should_Filter_Test extends Abstract_WebSite_Schema_Node_Filter_Test {
+final class Should_Filter_Test extends Abstract_Test {
 
 	/**
 	 * Tests the should_filter method.
