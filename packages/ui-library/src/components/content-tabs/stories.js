@@ -1,9 +1,8 @@
-import classNames from "classnames";
 import { noop } from "lodash";
 import React, { useCallback, useState } from "react";
 import Pagination from "../pagination";
 import Table from "../../elements/table";
-import SelectableRow from ".";
+import ContentTabs from ".";
 
 const PAGE_SIZE = 2;
 
@@ -24,6 +23,21 @@ const PRODUCT_IMAGES = {
 	],
 	4: [
 		{ id: 9, file: "coffee-mug-pour-over.jpg", altText: "Ceramic mug set up for pour-over brewing." },
+	],
+};
+
+const PRODUCT_SPECS = {
+	1: [
+		{ label: "Material", value: "Leather & mesh" },
+		{ label: "Weight", value: "310 g" },
+	],
+	2: [
+		{ label: "Material", value: "Synthetic leather" },
+		{ label: "Weight", value: "410 g" },
+	],
+	3: [
+		{ label: "Battery life", value: "30 hours (with case)" },
+		{ label: "Connectivity", value: "Bluetooth 5.3" },
 	],
 };
 
@@ -61,7 +75,7 @@ const PRODUCTS = [
 ];
 
 /**
- * The "N images [· M missing alt]" meta line, reused by the row, the detail panel and the table.
+ * The "N images [· M missing alt]" meta line, reused by the tab, the detail panel and the table.
  *
  * @param {Object} props                  The props.
  * @param {Object} props.product          The product ({ imageCount, missingAltCount }).
@@ -82,26 +96,26 @@ const ProductMeta = ( { product, className = "" } ) => (
 );
 
 /**
- * One product row. Wraps its own `onSelect` call in a stable callback so the list above doesn't
- * need to hand an inline arrow function to `SelectableRow`.
+ * One product tab. Wraps its own `onSelect` call in a stable callback so the list above doesn't
+ * need to hand an inline arrow function to `ContentTabs`.
  *
  * @param {Object}   props            The props.
  * @param {Object}   props.product    The product ({ id, title }).
  * @param {boolean}  props.isSelected Whether this product is selected.
- * @param {Function} props.onSelect   Called with the product id when this row is clicked.
- * @param {string}   props.idPrefix   Prefix for the row's id, so multiple examples on the same docs page don't clash.
+ * @param {Function} props.onSelect   Called with the product id when this tab is clicked.
+ * @param {string}   props.idPrefix   Prefix for the tab's id, so multiple examples on the same docs page don't clash.
  * @param {...any}   [props.rest]     Extra props (e.g. Storybook's `as`/`className` args), spread onto the item.
  *
- * @returns {JSX.Element} The row.
+ * @returns {JSX.Element} The tab.
  */
 const ProductRow = ( { product, isSelected, onSelect, idPrefix, ...rest } ) => {
 	const handleClick = useCallback( () => onSelect( product.id ), [ onSelect, product.id ] );
 
 	return (
-		<SelectableRow { ...rest } id={ `${ idPrefix }-selectable-row-${ product.id }` } isSelected={ isSelected } onClick={ handleClick }>
+		<ContentTabs { ...rest } id={ `${ idPrefix }-content-tabs-${ product.id }` } isSelected={ isSelected } onClick={ handleClick }>
 			<span className="yst-block yst-text-sm yst-font-medium yst-text-slate-800 group-aria-[current=true]:yst-text-primary-500">{ product.title }</span>
 			<ProductMeta product={ product } className="yst-text-xs yst-text-slate-500 group-aria-[current=true]:yst-text-slate-600" />
-		</SelectableRow>
+		</ContentTabs>
 	);
 };
 
@@ -164,27 +178,68 @@ const ProductImagesTable = ( { product } ) => (
 );
 
 /**
+ * A key/value spec sheet a selection can drive — a third, structurally distinct content shape
+ * (alongside the freeform detail panel and the table), to show the content area isn't limited to
+ * one layout.
+ *
+ * @param {Object} props         The props.
+ * @param {Object} props.product The selected product ({ id, title }).
+ *
+ * @returns {JSX.Element} The spec sheet.
+ */
+const ProductSpecs = ( { product } ) => (
+	<div className="yst-flex-1 yst-space-y-3 yst-p-4">
+		<span className="yst-block yst-text-sm yst-font-semibold yst-text-slate-800">{ product.title }</span>
+		<dl className="yst-space-y-1">
+			{ ( PRODUCT_SPECS[ product.id ] ?? [] ).map( ( spec ) => (
+				<div key={ spec.label } className="yst-flex yst-justify-between yst-gap-2 yst-text-sm">
+					<dt className="yst-text-slate-500">{ spec.label }</dt>
+					<dd className="yst-text-slate-800">{ spec.value }</dd>
+				</div>
+			) ) }
+		</dl>
+	</div>
+);
+
+/**
+ * Which content shape each product's tab drives in the "With multiple" story: one freeform detail
+ * panel, one table, one spec sheet — demonstrating that the content area isn't tied to a single
+ * layout, even across tabs in the same list.
+ */
+const CONTENT_TYPE_BY_PRODUCT_ID = {
+	1: "detail",
+	2: "table",
+	3: "specs",
+};
+
+/**
+ * Resolves the content area for a product, given the story's `variant`. Only the "detail" variant
+ * (the "With multiple" story) varies content per product via `CONTENT_TYPE_BY_PRODUCT_ID`; every
+ * other variant that reaches here always shows the freeform detail panel.
+ *
+ * @param {string} variant The story variant.
+ * @param {Object} product The product whose content area to render.
+ *
+ * @returns {JSX.Element} The content area.
+ */
+const getContent = ( variant, product ) => {
+	const contentType = variant === "detail" ? CONTENT_TYPE_BY_PRODUCT_ID[ product.id ] : null;
+
+	if ( contentType === "table" ) {
+		return <ProductImagesTable product={ product } />;
+	}
+	if ( contentType === "specs" ) {
+		return <ProductSpecs product={ product } />;
+	}
+	return <ProductDetail product={ product } />;
+};
+
+/**
  * One template shared by every story, switching content by `variant` (a Storybook-only arg, not a
- * real `SelectableRow` prop — hidden from the props table via `argTypes.variant.table.disable`).
- * All other `props` (i.e. Storybook's args — `children`/`isSelected`/`disabled`/`as`/`className`)
- * pass straight through to the real `SelectableRow`(s). The `displayName` override makes the
- * "Show code" snippet read as `SelectableRow` instead of this wrapper's own name.
+ * real `ContentTabs` prop).
  *
- * The "single" variant (the Factory story) renders one real, fully args-driven `SelectableRow`
- * with nothing hidden, so its "Show code" snippet is accurate. Every other variant wraps dummy
- * data and selection state that the snippet won't reflect — same as this library's other
- * stateful stories (e.g. Modal's — see its own `children`/`isOpen`/`onClose` disclaimer).
- *
- * Several `SelectableRow`s stacked in a plain `<ul>` are what form the "list" in the other
- * variants — there is no dedicated list-wrapper component; the row owns its own
- * background/border, so consecutive rows already read as a list.
- *
- * A single shared template (rather than one per story) is what makes stories actually differ:
- * Storybook's docs canvas renders every story through the file's single `component:` meta field —
- * a per-story `component:` override is not honored — so distinct content has to come from `args`.
- *
- * @param {Object} props          The passed-through `SelectableRow` props.
- * @param {string} props.variant  Which content to show: "single" | "detail" | "table" | "disabled" | "paginated".
+ * @param {Object} props          The passed-through `ContentTabs` props.
+ * @param {string} props.variant  Which content to show: "single" | "detail" | "disabled" | "paginated".
  *
  * @returns {JSX.Element} The example.
  */
@@ -201,8 +256,8 @@ const Template = ( { variant, ...props } ) => {
 	if ( variant === "single" ) {
 		return (
 			<div className="yst-flex yst-border yst-border-slate-200">
-				<ul className={ classNames( "yst-w-72 yst-shrink-0 yst-overflow-hidden", isOpen && "yst-border-e yst-border-slate-200" ) }>
-					<SelectableRow { ...props } onClick={ toggleOpen } />
+				<ul className="yst-w-72 yst-shrink-0 yst-overflow-hidden yst-border-e yst-border-slate-200">
+					<ContentTabs { ...props } onClick={ toggleOpen } />
 				</ul>
 				{ isOpen && <ProductDetail product={ PRODUCTS[ 0 ] } /> }
 			</div>
@@ -212,14 +267,14 @@ const Template = ( { variant, ...props } ) => {
 	const rows = variant === "disabled"
 		? (
 			<>
-				<SelectableRow { ...props } id="selectable-row-disabled-example-active" isSelected={ true } onClick={ noop }>
+				<ContentTabs { ...props } id="content-tabs-disabled-example-active" isSelected={ true } onClick={ noop }>
 					<span className="yst-block yst-text-sm yst-font-medium yst-text-slate-800 group-aria-[current=true]:yst-text-primary-500">{ PRODUCTS[ 0 ].title }</span>
 					<ProductMeta product={ PRODUCTS[ 0 ] } className="yst-text-xs yst-text-slate-500 group-aria-[current=true]:yst-text-slate-600" />
-				</SelectableRow>
-				<SelectableRow { ...props } id="selectable-row-disabled-example-disabled" disabled={ true } onClick={ noop }>
+				</ContentTabs>
+				<ContentTabs { ...props } id="content-tabs-disabled-example-disabled" disabled={ true } onClick={ noop }>
 					<span className="yst-block yst-text-sm yst-font-medium yst-text-slate-800">{ PRODUCTS[ 1 ].title }</span>
 					<ProductMeta product={ PRODUCTS[ 1 ] } className="yst-text-xs yst-text-slate-500" />
-				</SelectableRow>
+				</ContentTabs>
 			</>
 		)
 		: pageProducts.map( ( product ) => (
@@ -233,9 +288,7 @@ const Template = ( { variant, ...props } ) => {
 			/>
 		) );
 
-	const content = variant === "table"
-		? <ProductImagesTable product={ selectedProduct } />
-		: <ProductDetail product={ variant === "disabled" ? PRODUCTS[ 0 ] : selectedProduct } />;
+	const content = getContent( variant, variant === "disabled" ? PRODUCTS[ 0 ] : selectedProduct );
 
 	return (
 		<div className="yst-flex yst-border yst-border-slate-200">
@@ -259,7 +312,7 @@ const Template = ( { variant, ...props } ) => {
 		</div>
 	);
 };
-Template.displayName = "SelectableRow";
+Template.displayName = "ContentTabs";
 
 export const Factory = {
 	args: {
@@ -285,23 +338,18 @@ export const WithMultiple = {
 	},
 	parameters: {
 		controls: { disable: false },
+		docs: {
+			description: {
+				story: "Each tab shows its own content here (a detail panel, a table, and a spec sheet), to show the content area isn't tied to a single layout, even across tabs in the same list.",
+			},
+		},
 	},
 };
 
-export const WithADisabledRow = {
-	name: "With a disabled row",
+export const WithADisabledTab = {
+	name: "With a disabled tab",
 	args: {
 		variant: "disabled",
-	},
-	parameters: {
-		controls: { disable: false },
-	},
-};
-
-export const WithTableContent = {
-	name: "With table content",
-	args: {
-		variant: "table",
 	},
 	parameters: {
 		controls: { disable: false },
@@ -319,31 +367,31 @@ export const WithPagination = {
 };
 
 export default {
-	title: "2) Components/Selectable row",
+	title: "2) Components/Content tabs",
 	component: Template,
 	argTypes: {
 		as: {
-			description: "The element to render the row as.",
+			description: "The element to render the tab as.",
 			options: [ "li", "div" ],
 			table: { type: { summary: "elementType" }, defaultValue: { summary: "li" } },
 		},
 		children: {
-			description: "The row's content.",
+			description: "The tab's content.",
 			control: false,
 			table: { type: { summary: "node" } },
 		},
 		isSelected: {
-			description: "Whether this row is the active/selected one.",
+			description: "Whether this tab is the active/selected one.",
 			control: "boolean",
 			table: { type: { summary: "boolean" }, defaultValue: { summary: "false" } },
 		},
 		disabled: {
-			description: "Whether the row is disabled.",
+			description: "Whether the tab is disabled.",
 			control: "boolean",
 			table: { type: { summary: "boolean" }, defaultValue: { summary: "false" } },
 		},
 		className: {
-			description: "Extra class name for the row element.",
+			description: "Extra class name for the tab element.",
 			control: "text",
 			table: { type: { summary: "string" } },
 		},
@@ -356,7 +404,7 @@ export default {
 		controls: { disable: false },
 		docs: {
 			description: {
-				component: "A single selectable row. Fully agnostic about its content, renders whatever markup you like as its children (a title, a meta line, badges, and so on). The component only owns the row's background, hover/selected state, and trailing chevron. Stack several of the rows in a plain `<ul>` or `<div>` to form a list — there is no dedicated list-wrapper component. Pagination composes the same way: page the underlying data and render `Pagination` alongside the stacked rows, as shown in \"With pagination\".",
+				component: "A single selectable tab. Fully agnostic about its content, renders whatever markup you like as its children (a title, a meta line, badges, and so on). The component only owns the tab's background, hover/selected state, and trailing chevron. Stack several of the tabs in a plain `<ul>` or `<div>` to form a list — there is no dedicated list-wrapper component. Pagination composes the same way: page the underlying data and render `Pagination` alongside the stacked tabs, as shown in \"With pagination\".",
 			},
 		},
 	},

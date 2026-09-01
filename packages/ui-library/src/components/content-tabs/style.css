@@ -1,10 +1,10 @@
 @layer components {
 	.yst-root {
-		.yst-selectable-row {
+		.yst-content-tabs {
 			@apply yst-list-none;
 		}
 
-		.yst-selectable-row__button {
+		.yst-content-tabs__button {
 			@apply
 			yst-flex
 			yst-w-full
@@ -29,15 +29,15 @@
 			focus-visible:yst-ring-primary-500;
 		}
 
-		.yst-selectable-row__button--selected {
+		.yst-content-tabs__button--selected {
 			@apply yst-bg-slate-100;
 		}
 
-		.yst-selectable-row__content {
+		.yst-content-tabs__content {
 			@apply yst-min-w-0 yst-flex-1;
 		}
 
-		.yst-selectable-row__icon {
+		.yst-content-tabs__icon {
 			@apply
 			yst-h-4
 			yst-w-4

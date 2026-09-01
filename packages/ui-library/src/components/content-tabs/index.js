@@ -4,9 +4,9 @@ import React from "react";
 import { useSvgAria } from "../../hooks";
 
 /**
- * A single selectable row whose selection drives a content area shown elsewhere on the page.
+ * A single selectable tab whose selection drives a content area shown elsewhere on the page.
  * Fully agnostic about its content: renders whatever `children` the caller passes,
- * and only owns the row's own background, hover/selected state, and the trailing chevron.
+ * and only owns the tab's own background, hover/selected state, and the trailing chevron.
  * Stacking several of these (in a plain `<ul>`, `<div>`, or any other wrapping
  * element) forms a list on its own. No dedicated list wrapper component is needed.
  *
@@ -14,17 +14,17 @@ import { useSvgAria } from "../../hooks";
  * selection (e.g. the title) can target it with a `group-aria-[current=true]:` variant.
  *
  * @param {JSX.ElementClass} [as="li"] The wrapping element.
- * @param {string} [id] The id for the row's button, e.g. to target this row from a consumer via `aria-controls` or a fragment link.
- * @param {React.ReactNode} children The row's content.
- * @param {boolean} [isSelected=false] Whether this row is the active/selected one.
- * @param {boolean} [disabled=false] Whether the row is disabled.
- * @param {Function} onClick Called when the row is activated.
+ * @param {string} [id] The id for the tab's button, e.g. to target this tab from a consumer via `aria-controls` or a fragment link.
+ * @param {React.ReactNode} children The tab's content.
+ * @param {boolean} [isSelected=false] Whether this tab is the active/selected one.
+ * @param {boolean} [disabled=false] Whether the tab is disabled.
+ * @param {Function} onClick Called when the tab is activated.
  * @param {string} [className=""] Extra class name for the wrapping element.
  * @param {...any} [props] Extra props, spread onto the button.
  *
- * @returns {JSX.Element} The row.
+ * @returns {JSX.Element} The tab.
  */
-const SelectableRow = ( {
+const ContentTabs = ( {
 	as: Component = "li",
 	id,
 	children,
@@ -37,7 +37,7 @@ const SelectableRow = ( {
 	const svgAriaProps = useSvgAria();
 
 	return (
-		<Component className={ classNames( "yst-selectable-row", className ) }>
+		<Component className={ classNames( "yst-content-tabs", className ) }>
 			<button
 				id={ id }
 				type="button"
@@ -45,18 +45,18 @@ const SelectableRow = ( {
 				onClick={ onClick }
 				aria-current={ isSelected }
 				className={ classNames(
-					"yst-selectable-row__button yst-group",
-					isSelected && "yst-selectable-row__button--selected",
+					"yst-content-tabs__button yst-group",
+					isSelected && "yst-content-tabs__button--selected",
 				) }
 				{ ...props }
 			>
-				<span className="yst-selectable-row__content">{ children }</span>
-				<ChevronRightIcon className="yst-selectable-row__icon" { ...svgAriaProps } />
+				<span className="yst-content-tabs__content">{ children }</span>
+				<ChevronRightIcon className="yst-content-tabs__icon" { ...svgAriaProps } />
 			</button>
 		</Component>
 	);
 };
 
-SelectableRow.displayName = "SelectableRow";
+ContentTabs.displayName = "ContentTabs";
 
-export default SelectableRow;
+export default ContentTabs;
