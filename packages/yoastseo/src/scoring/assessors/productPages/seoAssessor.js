@@ -103,6 +103,8 @@ export default class ProductSEOAssessor extends SEOAssessor {
 				recommendedCount: 4,
 				urlTitle: createAnchorOpeningTag( options.imageCountUrlTitle ),
 				urlCallToAction: createAnchorOpeningTag( options.imageCountCTAUrl ),
+				// Absent for platforms that keep the default copy, which `merge` then leaves untouched.
+				callbacks: { getResultTexts: options.imageCountResultTexts },
 			}, options.countVideos ),
 			new ImageKeyphraseAssessment( {
 				urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
