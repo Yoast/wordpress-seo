@@ -52,7 +52,6 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 - [Meta description length](SCORING%20SEO.md#5-meta-description-length)
 - [Single title](SCORING%20SEO.md#6-single-title)
 - [Function words in keyphrase](SCORING%20SEO.md#7-function-words-in-keyphrase)
-- [Images](SCORING%20SEO.md#8-images)
 - [Title](SCORING%20SEO.md#9-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
 
 ### Assessments with different scoring criteria than with the regular SEO assessor
@@ -76,6 +75,33 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 | Green	            | 9	                       | More than or exactly 200 words (cornerstone: 400, Japanese: 400 characters, Japanese cornerstone: 800 characters)		                     | **Text length**: The text contains X words/characters. Good job!                                                                                                                                                                                                                                                        |
 
 
+### 2) Images
+**What it does**: Checks the presence of images. By default it counts the images in the text; a platform can scope
+the count to the product's own images (featured, gallery, variations) instead, by providing the Paper's
+`providedImages` attribute — an empty array counts as a product without images. When the Paper provides its own
+images, text videos are excluded from the count.
+
+**When it applies**: Always.
+
+**Name in code**: ImageCountAssessment
+
+**Product config**: `recommendedCount: 4`, `scores.okay: 6` (see `../assessors/productPages/seoAssessor.js`).
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`, which receives
+`mediaCount`, `recommendedCount`, `countVideos` and `isVariableProduct`. Without a callback the shared defaults
+apply — the table below.
+
+**Title URL**: https://yoa.st/4f4 (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/4f5 (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion        | Feedback (default)                                                                                        |
+|---------------|-------|------------------|-----------------------------------------------------------------------------------------------------------|
+| Red           | 3     | No images        | **Images**: No images appear on this page. **Add some!**                                                   |
+| Orange        | 6     | 1 to 3 images    | **Images**: Only X image(s) appear(s) on this page. We recommend at least 4. **Add more relevant images!** |
+| Green         | 9     | 4 or more images | **Images**: Good job!                                                                                     |
+
+
 ### Assessments unique to product pages
 ### 1) Image alt attributes
 **What it does**: Checks if all assessed images have alt attributes. By default it assesses the images in the text; a platform can scope all image assessments to the product's own images (featured, gallery, variations) instead, by providing the Paper's `providedImages` attribute — an empty array counts as a product without images.
@@ -83,6 +109,10 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 **When it applies**: Always.
 
 **Name in code**: ImageAltTagsAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`, which receives
+`numberOfImagesWithoutAlt`, `totalNumberOfImages` and `isVariableProduct`. Both WooCommerce and Shopify do, so the
+strings a user sees on a product page are the platform's, not the defaults in the table below.
 
 **Title URL**: https://yoa.st/33c (link placement is in bold in the feedback strings)
 
@@ -92,7 +122,8 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 |-------------------|--------|--------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | Red	              | 3	     | No images	                                 | **Image alt attributes**: This page does not have images with alt attributes. **Add some!**                   |
 | Red	              | 3	     | None of the images have alt attributes		   | **Image alt attributes**: None of the images have alt attributes. **Add alt attributes to your images!**      |
-| Red	              | 3	     | Not all of the images have alt attributes	 | **Image alt attributes**: X images out of Y don’t have alt attributes. **Add alt attributes to your images!** |
+| Red	              | 3	     | One image has no alt attribute	            | **Image alt attributes**: One image doesn't have alt attributes. **Add alt attributes to your images!**       |
+| Red	              | 3	     | Not all of the images have alt attributes	 | **Image alt attributes**: Some images don't have alt attributes. **Add alt attributes to your images!**       |
 | Green	            | 9	     | All of the images have alt attributes		    | **Image alt attributes**: All images have alt attributes. Good job!                                           |
 
 ### 2) Product identifier
