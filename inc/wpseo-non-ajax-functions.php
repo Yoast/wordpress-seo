@@ -46,10 +46,20 @@ function allow_custom_field_edits( $required_capabilities, $capabilities, $args 
 		return $required_capabilities;
 	}
 
-	// If the meta key is part of the plugin, grant capabilities accordingly.
-	if ( strpos( $args[3], WPSEO_Meta::$meta_prefix ) === 0 && current_user_can( 'edit_post', $args[2] ) ) {
-		$required_capabilities[ $args[0] ] = true;
+	// If the meta key is not part of the plugin, or the user cannot edit the post, bail.
+	if ( strpos( $args[3], WPSEO_Meta::$meta_prefix ) !== 0 || ! current_user_can( 'edit_post', $args[2] ) ) {
+		return $required_capabilities;
 	}
+
+	// When advanced/schema fields are restricted, do not grant write access to them for users lacking the capability.
+	if ( WPSEO_Options::get( 'disableadvanced_meta' ) && ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) ) {
+		$field_info = WPSEO_Meta::$fields_index[ $args[3] ] ?? null;
+		if ( $field_info && in_array( $field_info['subset'], [ 'advanced', 'schema' ], true ) ) {
+			return $required_capabilities;
+		}
+	}
+
+	$required_capabilities[ $args[0] ] = true;
 
 	return $required_capabilities;
 }
