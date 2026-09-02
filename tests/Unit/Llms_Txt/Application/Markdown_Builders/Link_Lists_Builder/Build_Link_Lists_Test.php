@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\Markdown_Builders\Link_Li
  *
  * @covers  Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Link_Lists_Builder::build_link_lists
  */
-final class Build_Link_Lists_Test extends Abstract_Link_Lists_Builder_Test {
+final class Build_Link_Lists_Test extends Abstract_Test {
 
 	/**
 	 * Tests the build_link_lists method.

@@ -22,7 +22,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Get_Usage_Route::get_usage
  */
-final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
+final class Get_Usage_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_usage method.

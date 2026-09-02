@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
+import { ImageCell } from "./image-cell";
 
 const rowClassNameMap = {
 	variant: {
@@ -132,5 +133,7 @@ Table.Row = Row;
 Table.Row.displayName = "Table.Row";
 Table.Cell = Cell;
 Table.Cell.displayName = "Table.Cell";
+Table.ImageCell = ImageCell;
+Table.ImageCell.displayName = "Table.ImageCell";
 
 export default Table;

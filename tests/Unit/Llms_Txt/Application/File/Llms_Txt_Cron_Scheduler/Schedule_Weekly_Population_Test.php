@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler::schedule_weekly_llms_txt_population
  */
-final class Schedule_Weekly_Population_Test extends Abstract_Llms_Txt_Cron_Scheduler_Test {
+final class Schedule_Weekly_Population_Test extends Abstract_Test {
 
 	/**
 	 * Tests the schedule_weekly_llms_txt_population method when llms txt is enabled.

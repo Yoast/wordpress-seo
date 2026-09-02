@@ -15,6 +15,8 @@ import SeoAssessor from "./scoring/assessors/seoAssessor";
 import TaxonomyAssessor from "./scoring/assessors/taxonomyAssessor";
 import Pluggable from "./pluggable";
 import Paper from "./values/Paper";
+import { ensureTree } from "./parse/ensureTree";
+import { runAssessment } from "./scoring/runAssessment";
 import AssessmentResult from "./values/AssessmentResult";
 import Assessment from "./scoring/assessments/assessment";
 import { DIFFICULTY } from "./languageProcessing/researches/getFleschReadingScore";
@@ -33,6 +35,8 @@ export {
 	Pluggable,
 
 	Paper,
+	ensureTree,
+	runAssessment,
 	AssessmentResult,
 	Assessment,
 

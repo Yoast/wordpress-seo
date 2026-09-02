@@ -148,6 +148,11 @@ const cases = [
 		Component: Table,
 		props: { children: <Table.Body><Table.Row><Table.Cell>Cell</Table.Cell></Table.Row></Table.Body> },
 	},
+	{
+		name: "Table with image cell",
+		Component: Table,
+		props: { children: <Table.Body><Table.Row><Table.ImageCell /></Table.Row></Table.Body> },
+	},
 	{ name: "TagInput", Component: TagInput, props: {} },
 	{
 		name: "TagInput.Tag",

@@ -3,6 +3,8 @@ const SKIP_FIELDS = [
 	"yoast_wpseo_linkdex",
 	"yoast_wpseo_content_score",
 	"yoast_wpseo_inclusive_language_score",
+	"yoast_wpseo_seo_title_score",
+	"yoast_wpseo_meta_description_score",
 	"yoast_wpseo_words_for_linking",
 	"yoast_wpseo_estimated-reading-time-minutes",
 ];

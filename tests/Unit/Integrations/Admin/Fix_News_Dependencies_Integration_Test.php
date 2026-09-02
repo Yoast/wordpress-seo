@@ -8,6 +8,7 @@ use stdClass;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\News_Conditional;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Fix_News_Dependencies_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -19,6 +20,13 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  */
 final class Fix_News_Dependencies_Integration_Test extends TestCase {
+
+	/**
+	 * Holds the Current_Page_Helper.
+	 *
+	 * @var Mockery\MockInterface|Current_Page_Helper
+	 */
+	protected $current_page_helper;
 
 	/**
 	 * Instance under test.
@@ -35,7 +43,8 @@ final class Fix_News_Dependencies_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Fix_News_Dependencies_Integration();
+		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
+		$this->instance            = new Fix_News_Dependencies_Integration( $this->current_page_helper );
 	}
 
 	/**
@@ -70,7 +79,8 @@ final class Fix_News_Dependencies_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $scripts );
 
-		Monkey\Functions\expect( 'get_current_screen' )->never();
+		$this->current_page_helper->expects( 'is_block_editor' )
+			->never();
 
 		$this->instance->add_news_script_dependency();
 
@@ -78,14 +88,14 @@ final class Fix_News_Dependencies_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests dependency selection for block editor, classic editor, and missing screen.
+	 * Tests dependency selection for block editor and classic editor screens.
 	 *
 	 * @dataProvider data_add_news_script_dependency_selects_handle
 	 *
 	 * @covers ::add_news_script_dependency
 	 *
-	 * @param bool|null $is_block_editor Whether the current screen is the block editor. Null means no screen.
-	 * @param string    $expected_suffix Expected post-edit handle suffix.
+	 * @param bool   $is_block_editor Whether the current screen is the block editor.
+	 * @param string $expected_suffix Expected post-edit handle suffix.
 	 *
 	 * @return void
 	 */
@@ -102,21 +112,9 @@ final class Fix_News_Dependencies_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $scripts );
 
-		if ( $is_block_editor === null ) {
-			Monkey\Functions\expect( 'get_current_screen' )
-				->once()
-				->andReturn( null );
-		}
-		else {
-			$screen = Mockery::mock();
-			$screen->expects( 'is_block_editor' )
-				->once()
-				->andReturn( $is_block_editor );
-
-			Monkey\Functions\expect( 'get_current_screen' )
-				->once()
-				->andReturn( $screen );
-		}
+		$this->current_page_helper->expects( 'is_block_editor' )
+			->once()
+			->andReturn( $is_block_editor );
 
 		$this->instance->add_news_script_dependency();
 
@@ -129,20 +127,16 @@ final class Fix_News_Dependencies_Integration_Test extends TestCase {
 	/**
 	 * Data provider for test_add_news_script_dependency_selects_handle.
 	 *
-	 * @return array<string, array<string, bool|string|null>>
+	 * @return array<string, array<string, bool|string>>
 	 */
 	public static function data_add_news_script_dependency_selects_handle() {
 		return [
-			'block editor screen' => [
+			'block editor screen'   => [
 				'is_block_editor' => true,
 				'expected_suffix' => 'post-edit',
 			],
 			'classic editor screen' => [
 				'is_block_editor' => false,
-				'expected_suffix' => 'post-edit-classic',
-			],
-			'no current screen' => [
-				'is_block_editor' => null,
 				'expected_suffix' => 'post-edit-classic',
 			],
 		];

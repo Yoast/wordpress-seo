@@ -32,7 +32,7 @@ concurrency:
 jobs:
   actionlint:
     name: 'Lint GH Action workflows'
-    uses: Yoast/.github/.github/workflows/reusable-actionlint.yml@c14f66005ab514663a48d00712db67617c98728c # v1.0.0
+    uses: Yoast/.github/.github/workflows/reusable-actionlint.yml@c7ea73969576c490c927dd9482de30aa8b6801e4 # v1.1.0
 
   checkcs:
     name: 'Check code style'
@@ -40,7 +40,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: true
 

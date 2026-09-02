@@ -358,8 +358,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
-		$screen          = get_current_screen();
-		$is_block_editor = $screen && $screen->is_block_editor();
+		$is_block_editor = YoastSEO()->helpers->current_page->is_block_editor();
 		if ( $is_block_editor && $this->get_metabox_post()->post_type === 'post' ) {
 			/**
 			 * Filter: 'wpseo_enable_ai_content_planner_inline_banner' - Allows hiding the AI Content Planner inline banner site-wide.
@@ -801,7 +800,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether the given meta value key is disabled.
 	 */
 	public function is_meta_value_disabled( $key ) {
-		if ( $key === 'linkdex' && ! $this->seo_analysis->is_enabled() ) {
+		if ( in_array( $key, [ 'linkdex', 'seo_title_score', 'meta_description_score' ], true ) && ! $this->seo_analysis->is_enabled() ) {
 			return true;
 		}
 
@@ -862,8 +861,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'ai-generator' );
 		$asset_manager->enqueue_style( 'ai-fix-assessments' );
 
-		$current_screen   = get_current_screen();
-		$is_block_editor  = ( $current_screen ) ? $current_screen->is_block_editor() : false;
+		$is_block_editor  = YoastSEO()->helpers->current_page->is_block_editor();
 		$post_edit_handle = 'post-edit';
 		if ( ! $is_block_editor ) {
 			$post_edit_handle = 'post-edit-classic';

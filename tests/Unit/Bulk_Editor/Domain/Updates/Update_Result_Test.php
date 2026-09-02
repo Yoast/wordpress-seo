@@ -72,6 +72,57 @@ final class Update_Result_Test extends TestCase {
 	}
 
 	/**
+	 * Tests a successful result carries its rendered fields.
+	 *
+	 * @covers ::for_success
+	 * @covers ::get_rendered
+	 * @covers ::to_array
+	 *
+	 * @return void
+	 */
+	public function test_for_success_with_rendered_fields() {
+		$rendered = [
+			'seo_title'        => 'Rendered title',
+			'meta_description' => 'Rendered description',
+		];
+		$instance = Update_Result::for_success( 123, $rendered );
+
+		$this->assertSame( $rendered, $instance->get_rendered() );
+		$this->assertSame(
+			[
+				'id'       => 123,
+				'success'  => true,
+				'rendered' => $rendered,
+			],
+			$instance->to_array(),
+		);
+	}
+
+	/**
+	 * Tests a successful result carries its sanitized fields separately from rendered.
+	 *
+	 * @covers ::for_success
+	 * @covers ::get_sanitized
+	 * @covers ::to_array
+	 *
+	 * @return void
+	 */
+	public function test_for_success_with_sanitized_fields() {
+		$sanitized = [ 'focus_keyphrase' => 'clean keyphrase' ];
+		$instance  = Update_Result::for_success( 123, [], $sanitized );
+
+		$this->assertSame( $sanitized, $instance->get_sanitized() );
+		$this->assertSame(
+			[
+				'id'        => 123,
+				'success'   => true,
+				'sanitized' => $sanitized,
+			],
+			$instance->to_array(),
+		);
+	}
+
+	/**
 	 * Tests the array representation of a failed result contains the error code.
 	 *
 	 * @covers ::to_array
