@@ -65,6 +65,67 @@ final class Fix_News_Dependencies_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the enqueue hook is registered on the post edit pages.
+	 *
+	 * @dataProvider data_register_hooks_registers_on_post_edit_pages
+	 *
+	 * @covers ::register_hooks
+	 *
+	 * @param string $page The value of the `$pagenow` global.
+	 *
+	 * @return void
+	 */
+	public function test_register_hooks_registers_on_post_edit_pages( $page ) {
+		global $pagenow;
+		$pagenow = $page;
+
+		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' );
+
+		$this->instance->register_hooks();
+
+		$this->assertSame(
+			11,
+			Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'add_news_script_dependency' ] ),
+		);
+	}
+
+	/**
+	 * Data provider for test_register_hooks_registers_on_post_edit_pages.
+	 *
+	 * @return array<string, array<string, string>>
+	 */
+	public static function data_register_hooks_registers_on_post_edit_pages() {
+		return [
+			'edit post page' => [
+				'page' => 'post.php',
+			],
+			'new post page'  => [
+				'page' => 'post-new.php',
+			],
+		];
+	}
+
+	/**
+	 * Tests that the enqueue hook is not registered outside the post edit pages.
+	 *
+	 * @covers ::register_hooks
+	 *
+	 * @return void
+	 */
+	public function test_register_hooks_does_not_register_elsewhere() {
+		global $pagenow;
+		$pagenow = 'edit.php';
+
+		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' )->never();
+
+		$this->instance->register_hooks();
+
+		$this->assertFalse(
+			Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'add_news_script_dependency' ] ),
+		);
+	}
+
+	/**
 	 * Tests that no dependency is added when the news editor script is missing.
 	 *
 	 * @covers ::add_news_script_dependency
