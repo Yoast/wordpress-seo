@@ -1,7 +1,19 @@
 @layer components {
 	.yst-root {
-		.yst-content-tabs__tab {
-			@apply yst-list-none;
+		.yst-content-tabs {
+			@apply yst-flex yst-border yst-border-slate-200;
+		}
+
+		.yst-content-tabs__tab-list {
+			@apply 
+			yst-w-72 
+			yst-shrink-0
+			yst-overflow-hidden
+			yst-border-e
+			yst-border-slate-200
+			yst-flex
+			yst-flex-col
+			yst-justify-between;
 		}
 
 		.yst-content-tabs__button {
@@ -50,8 +62,12 @@
 			rtl:yst-rotate-180;
 		}
 
+		.yst-content-tabs__content {
+			@apply yst-relative yst-flex-1 yst-grid;
+		}
+
 		.yst-content-tabs__panel {
-			@apply yst-min-w-0 yst-flex-1;
+			@apply yst-col-start-1 yst-row-start-1 yst-min-w-0;
 		}
 	}
 }

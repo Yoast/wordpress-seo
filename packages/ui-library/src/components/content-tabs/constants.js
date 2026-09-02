@@ -1,7 +1,4 @@
-export const PAGE_SIZE = 2;
-
-export const CONTAINER_CLASS = "yst-flex yst-border yst-border-slate-200";
-export const TAB_LIST_CLASS = "yst-w-72 yst-shrink-0 yst-overflow-hidden yst-border-e yst-border-slate-200";
+export const PAGE_SIZE = 3;
 
 export const PRODUCT_VARIANTS = {
 	2: [

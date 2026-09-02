@@ -1,9 +1,7 @@
-import classNames from "classnames";
 import React, { useCallback, useState } from "react";
-import Pagination from "../pagination";
 import ContentTabs from ".";
-import { CONTAINER_CLASS, PAGE_SIZE, PRODUCTS, TAB_LIST_CLASS } from "./constants";
-import { ProductDetail, ProductMeta, ProductTabButton, TabList, getContent, getProductTabId } from "./demo-components";
+import { PAGE_SIZE, PRODUCTS } from "./constants";
+import { ProductDetail, ProductMeta, ProductTabButton, getContent, getProductTabId } from "./demo-components";
 import { component, factory, withMultiple } from "./docs";
 
 export const Factory = {
@@ -16,19 +14,19 @@ export const Factory = {
 				activeTab={ isOpen ? "factory-tab" : null }
 				onTabChange={ toggleOpen }
 				as={ as }
-				className={ classNames( CONTAINER_CLASS, className ) }
+				className={ className }
 			>
-				<TabList className={ TAB_LIST_CLASS }>
+				<ContentTabs.TabList>
 					<ContentTabs.TabButton id="factory-tab">
 						<span className="yst-block yst-text-sm yst-font-medium yst-text-slate-800 group-aria-[current=true]:yst-text-primary-500">{ PRODUCTS[ 0 ].title }</span>
 						<ProductMeta product={ PRODUCTS[ 0 ] } className="yst-text-xs yst-text-slate-500 group-aria-[current=true]:yst-text-slate-600" />
 					</ContentTabs.TabButton>
-				</TabList>
-				{ isOpen && (
-					<ContentTabs.Panel className="yst-flex-1">
+				</ContentTabs.TabList>
+				<ContentTabs.Content>
+					<ContentTabs.Panel tabId="factory-tab" className="yst-flex-1">
 						<ProductDetail product={ PRODUCTS[ 0 ] } />
 					</ContentTabs.Panel>
-				) }
+				</ContentTabs.Content>
 			</ContentTabs>
 		);
 	},
@@ -45,16 +43,16 @@ const [ isOpen, setIsOpen ] = useState( false );
 	activeTab={ isOpen ? "detail-panel-tab" : null }
 	onTabChange={ () => setIsOpen( ( open ) => ! open ) }
 >
-	<ul>
+	<ContentTabs.TabList>
 		<ContentTabs.TabButton id="detail-panel-tab">
 			Click me to see a detail panel
 		</ContentTabs.TabButton>
-	</ul>
-	{ isOpen && (
-		<ContentTabs.Panel>
+	</ContentTabs.TabList>
+	<ContentTabs.Content>
+		<ContentTabs.Panel tabId="detail-panel-tab">
 			{ /* The detail panel. */ }
 		</ContentTabs.Panel>
-	) }
+	</ContentTabs.Content>
 </ContentTabs>
 				`.trim(),
 			},
@@ -68,23 +66,24 @@ const [ isOpen, setIsOpen ] = useState( false );
 
 export const WithMultiple = {
 	name: "With multiple tab buttons",
-	render: () => {
-		const [ selectedTabId, setSelectedTabId ] = useState( getProductTabId( "multiple", PRODUCTS[ 0 ] ) );
-		const selectedProduct = PRODUCTS.find( ( product ) => getProductTabId( "multiple", product ) === selectedTabId );
-
-		return (
-			<ContentTabs activeTab={ selectedTabId } onTabChange={ setSelectedTabId } className={ CONTAINER_CLASS }>
-				<TabList aria-label="Products" className={ TAB_LIST_CLASS }>
-					{ PRODUCTS.map( ( product ) => (
-						<ProductTabButton key={ product.id } product={ product } idPrefix="multiple" />
-					) ) }
-				</TabList>
-				<ContentTabs.Panel className="yst-flex-1">
-					{ getContent( selectedProduct, true ) }
-				</ContentTabs.Panel>
-			</ContentTabs>
-		);
-	},
+	render: () => (
+		<ContentTabs defaultActiveTab={ getProductTabId( "multiple", PRODUCTS[ 0 ] ) }>
+			<ContentTabs.TabList aria-label="Products">
+				{ PRODUCTS.map( ( product ) => (
+					<ContentTabs.TabButton id={ getProductTabId( "multiple", product ) } key={ product.id }>
+						<ProductTabButton product={ product } />
+					</ContentTabs.TabButton>
+				) ) }
+			</ContentTabs.TabList>
+			<ContentTabs.Content>
+				{ PRODUCTS.map( ( product ) => (
+					<ContentTabs.Panel key={ product.id } tabId={ getProductTabId( "multiple", product ) }>
+						{ getContent( product, true ) }
+					</ContentTabs.Panel>
+				) ) }
+			</ContentTabs.Content>
+		</ContentTabs>
+	),
 	parameters: {
 		docs: {
 			description: {
@@ -92,20 +91,21 @@ export const WithMultiple = {
 			},
 			source: {
 				transform: () => `
-const [ selectedId, setSelectedId ] = useState( products[ 0 ].id );
-const selectedProduct = products.find( ( product ) => product.id === selectedId );
-
-<ContentTabs activeTab={ selectedId } onTabChange={ setSelectedId }>
-	<ul aria-label="Products">
+<ContentTabs defaultActiveTab={ products[ 0 ].id }>
+	<ContentTabs.TabList aria-label="Products">
 		{ products.map( ( product ) => (
 			<ContentTabs.TabButton key={ product.id } id={ product.id }>
 				{ product.title }
 			</ContentTabs.TabButton>
 		) ) }
-	</ul>
-	<ContentTabs.Panel>
-		{ /* A detail panel, a table, or a spec sheet — driven by selectedProduct. */ }
-	</ContentTabs.Panel>
+	</ContentTabs.TabList>
+	<ContentTabs.Content>
+		{ products.map( ( product ) => (
+			<ContentTabs.Panel key={ product.id } tabId={ product.id }>
+				{ /* A detail panel, a table, or a spec sheet for this product. */ }
+			</ContentTabs.Panel>
+		) ) }
+	</ContentTabs.Content>
 </ContentTabs>
 				`.trim(),
 			},
@@ -116,8 +116,8 @@ const selectedProduct = products.find( ( product ) => product.id === selectedId 
 export const WithADisabledTab = {
 	name: "With a disabled tab",
 	render: () => (
-		<ContentTabs defaultActiveTab={ PRODUCTS[ 0 ].id } className={ CONTAINER_CLASS }>
-			<TabList className={ TAB_LIST_CLASS }>
+		<ContentTabs defaultActiveTab={ PRODUCTS[ 0 ].id }>
+			<ContentTabs.TabList>
 				<ContentTabs.TabButton id={ PRODUCTS[ 0 ].id }>
 					<span className="yst-block yst-text-sm yst-font-medium yst-text-slate-800 group-aria-[current=true]:yst-text-primary-500">{ PRODUCTS[ 0 ].title }</span>
 					<ProductMeta product={ PRODUCTS[ 0 ] } className="yst-text-xs yst-text-slate-500 group-aria-[current=true]:yst-text-slate-600" />
@@ -126,10 +126,12 @@ export const WithADisabledTab = {
 					<span className="yst-block yst-text-sm yst-font-medium yst-text-slate-800">{ PRODUCTS[ 1 ].title }</span>
 					<ProductMeta product={ PRODUCTS[ 1 ] } className="yst-text-xs yst-text-slate-500" />
 				</ContentTabs.TabButton>
-			</TabList>
-			<ContentTabs.Panel className="yst-flex-1">
-				<ProductDetail product={ PRODUCTS[ 0 ] } />
-			</ContentTabs.Panel>
+			</ContentTabs.TabList>
+			<ContentTabs.Content>
+				<ContentTabs.Panel tabId={ PRODUCTS[ 0 ].id } className="yst-flex-1">
+					<ProductDetail product={ PRODUCTS[ 0 ] } />
+				</ContentTabs.Panel>
+			</ContentTabs.Content>
 		</ContentTabs>
 	),
 	parameters: {
@@ -137,17 +139,19 @@ export const WithADisabledTab = {
 			source: {
 				transform: () => `
 <ContentTabs defaultActiveTab={ products[ 0 ].id }>
-	<ul>
+	<ContentTabs.TabList>
 		<ContentTabs.TabButton id={ products[ 0 ].id }>
 			{ products[ 0 ].title }
 		</ContentTabs.TabButton>
 		<ContentTabs.TabButton id={ products[ 1 ].id } disabled={ true }>
 			{ products[ 1 ].title }
 		</ContentTabs.TabButton>
-	</ul>
-	<ContentTabs.Panel>
-		{ /* The first product's detail panel. */ }
-	</ContentTabs.Panel>
+	</ContentTabs.TabList>
+	<ContentTabs.Content>
+		<ContentTabs.Panel tabId={ products[ 0 ].id }>
+			{ /* The first product's detail panel. */ }
+		</ContentTabs.Panel>
+	</ContentTabs.Content>
 </ContentTabs>
 				`.trim(),
 			},
@@ -158,32 +162,33 @@ export const WithADisabledTab = {
 export const WithPagination = {
 	name: "With pagination",
 	render: () => {
-		const [ selectedTabId, setSelectedTabId ] = useState( getProductTabId( "paginated", PRODUCTS[ 0 ] ) );
 		const [ page, setPage ] = useState( 1 );
-		const selectedProduct = PRODUCTS.find( ( product ) => getProductTabId( "paginated", product ) === selectedTabId );
 		const pageProducts = PRODUCTS.slice( ( page - 1 ) * PAGE_SIZE, page * PAGE_SIZE );
 
+		const paginationProps = {
+			current: page,
+			total: Math.ceil( PRODUCTS.length / PAGE_SIZE ),
+			onNavigate: setPage,
+			screenReaderTextPrevious: "Previous",
+			screenReaderTextNext: "Next",
+		};
+
 		return (
-			<ContentTabs activeTab={ selectedTabId } onTabChange={ setSelectedTabId } className={ CONTAINER_CLASS }>
-				<div className={ TAB_LIST_CLASS }>
-					<TabList aria-label="Products">
-						{ pageProducts.map( ( product ) => (
-							<ProductTabButton key={ product.id } product={ product } idPrefix="paginated" />
-						) ) }
-					</TabList>
-					<div className="yst-flex yst-justify-center yst-p-3">
-						<Pagination
-							current={ page }
-							total={ Math.ceil( PRODUCTS.length / PAGE_SIZE ) }
-							onNavigate={ setPage }
-							screenReaderTextPrevious="Previous"
-							screenReaderTextNext="Next"
-						/>
-					</div>
-				</div>
-				<ContentTabs.Panel className="yst-flex-1">
-					{ getContent( selectedProduct, true ) }
-				</ContentTabs.Panel>
+			<ContentTabs defaultActiveTab={ getProductTabId( "paginated", PRODUCTS[ 0 ] ) }>
+				<ContentTabs.TabList aria-label="Products" className="yst-min-h-80" paginationProps={ paginationProps }>
+					{ pageProducts.map( ( product ) => (
+						<ContentTabs.TabButton id={ getProductTabId( "paginated", product ) } key={ product.id }>
+							<ProductTabButton product={ product } />
+						</ContentTabs.TabButton>
+					) ) }
+				</ContentTabs.TabList>
+				<ContentTabs.Content>
+					{ PRODUCTS.map( ( product ) => (
+						<ContentTabs.Panel key={ product.id } tabId={ getProductTabId( "paginated", product ) }>
+							{ getContent( product, true ) }
+						</ContentTabs.Panel>
+					) ) }
+				</ContentTabs.Content>
 			</ContentTabs>
 		);
 	},
@@ -191,24 +196,25 @@ export const WithPagination = {
 		docs: {
 			source: {
 				transform: () => `
-const [ selectedId, setSelectedId ] = useState( products[ 0 ].id );
 const [ page, setPage ] = useState( 1 );
 const pageProducts = products.slice( ( page - 1 ) * PAGE_SIZE, page * PAGE_SIZE );
+const paginationProps = { current: page, total: totalPages, onNavigate: setPage, ... };
 
-<ContentTabs activeTab={ selectedId } onTabChange={ setSelectedId }>
-	<div>
-		<ul aria-label="Products">
-			{ pageProducts.map( ( product ) => (
-				<ContentTabs.TabButton key={ product.id } id={ product.id }>
-					{ product.title }
-				</ContentTabs.TabButton>
-			) ) }
-		</ul>
-		<Pagination current={ page } total={ totalPages } onNavigate={ setPage } ... />
-	</div>
-	<ContentTabs.Panel>
-		{ /* A detail panel, a table, or a spec sheet — driven by selectedProduct. */ }
-	</ContentTabs.Panel>
+<ContentTabs defaultActiveTab={ products[ 0 ].id }>
+	<ContentTabs.TabList aria-label="Products" paginationProps={ paginationProps }>
+		{ pageProducts.map( ( product ) => (
+			<ContentTabs.TabButton key={ product.id } id={ product.id }>
+				{ product.title }
+			</ContentTabs.TabButton>
+		) ) }
+	</ContentTabs.TabList>
+	<ContentTabs.Content>
+		{ products.map( ( product ) => (
+			<ContentTabs.Panel key={ product.id } tabId={ product.id }>
+				{ /* A detail panel, a table, or a spec sheet for this product. */ }
+			</ContentTabs.Panel>
+		) ) }
+	</ContentTabs.Content>
 </ContentTabs>
 				`.trim(),
 			},

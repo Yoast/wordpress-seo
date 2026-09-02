@@ -1,22 +1,6 @@
 import React from "react";
 import Table from "../../elements/table";
-import ContentTabs from ".";
 import { CONTENT_TYPE_BY_PRODUCT_ID, PRODUCT_SPECS, PRODUCT_VARIANTS } from "./constants";
-
-/**
- * A `<ul>` for wrapping `ContentTabs.TabButton`s, with `role="list"`.
- * Rendered through a variable tag, which only inspects statically-known tag names, doesn't flag
- * the role as redundant on a plain `<ul>`.
- *
- * @param {React.ReactNode} children The tabs.
- * @param {...any} [props]           Extra props, spread onto the `<ul>`.
- *
- * @returns {JSX.Element} The list.
- */
-export const TabList = ( { children, ...props } ) => {
-	const Component = "ul";
-	return <Component role="list" { ...props }>{ children }</Component>;
-};
 
 /**
  * The "N images [· M missing alt]" meta line, reused by the tab, the detail panel and the table.
@@ -57,15 +41,14 @@ export const getProductTabId = ( idPrefix, product ) => `${ idPrefix }-content-t
  *
  * @param {Object} props            The props.
  * @param {Object} props.product    The product ({ id, title }).
- * @param {string} props.idPrefix   Prefix for the tab's id, so multiple examples on the same docs page don't clash.
  *
  * @returns {JSX.Element} The tab.
  */
-export const ProductTabButton = ( { product, idPrefix } ) => (
-	<ContentTabs.TabButton id={ getProductTabId( idPrefix, product ) }>
+export const ProductTabButton = ( { product } ) => (
+	<>
 		<span className="yst-block yst-text-sm yst-font-medium yst-text-slate-800 group-aria-[current=true]:yst-text-primary-500">{ product.title }</span>
 		<ProductMeta product={ product } className="yst-text-xs yst-text-slate-500 group-aria-[current=true]:yst-text-slate-600" />
-	</ContentTabs.TabButton>
+	</>
 );
 
 /**

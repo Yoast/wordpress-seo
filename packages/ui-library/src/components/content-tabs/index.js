@@ -1,8 +1,7 @@
 import classNames from "classnames";
 import React, { useCallback, useMemo, useState } from "react";
 import { ContentTabsContext } from "./context";
-import TabButton from "./tab-button";
-import Panel from "./panel";
+import { TabButton, Panel, TabList, Content } from "./components";
 
 /**
  * A group of tabs whose active one drives a content area (`ContentTabs.Panel`), shown wherever the
@@ -60,7 +59,13 @@ const ContentTabs = ( {
 
 ContentTabs.displayName = "ContentTabs";
 ContentTabs.TabButton = TabButton;
+ContentTabs.TabButton.displayName = "ContentTabs.TabButton";
 ContentTabs.Panel = Panel;
+ContentTabs.Panel.displayName = "ContentTabs.Panel";
+ContentTabs.TabList = TabList;
+ContentTabs.TabList.displayName = "ContentTabs.TabList";
+ContentTabs.Content = Content;
+ContentTabs.Content.displayName = "ContentTabs.Content";
 
 export { useContentTabsContext } from "./context";
 export default ContentTabs;

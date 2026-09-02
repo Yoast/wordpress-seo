@@ -1,2 +1,3 @@
-Click the tab to open the panel. `ContentTabs` is controlled here (`activeTab`/`onTabChange`) so the story can toggle the panel.
-`ContentTabs.TabButton` doesn't need `isSelected`/`onClick` passed at all — it reads both from context.
+Click the tab to open the panel; click again to close it. `ContentTabs` is controlled here (`activeTab`/`onTabChange`) so the parent can toggle visibility by passing `null` as the active tab.
+
+`ContentTabs.TabButton` reads both `isSelected` and the select callback from context — no manual wiring needed. `ContentTabs.Panel` shows itself when its `tabId` matches the active tab and fades in/out via the `Transition` wrapper.

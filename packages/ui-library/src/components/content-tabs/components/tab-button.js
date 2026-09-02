@@ -1,8 +1,8 @@
 import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
 import classNames from "classnames";
 import React, { useId } from "react";
-import { useSvgAria } from "../../hooks";
-import { useContentTabsContext } from "./context";
+import { useSvgAria } from "../../../hooks";
+import { useContentTabsContext } from "../context";
 
 /**
  * A single tab button within `ContentTabs`. Fully agnostic about its content: renders whatever
@@ -22,7 +22,6 @@ import { useContentTabsContext } from "./context";
  * The wrapping button carries `aria-current` and a `group` class, so content that must recolor on
  * selection (e.g. the title) can target it with a `group-aria-[current=true]:` variant.
  *
- * @param {string|Function} [as="li"] The wrapping element.
  * @param {string} [id] This tab's identity and DOM id, e.g. to target it from a consumer via `aria-controls`. Auto-generated when omitted.
  * @param {React.ReactNode} children The tab button's content.
  * @param {boolean} [isSelected] Whether this tab is the active/selected one. Derived from `ContentTabs` context when omitted.
@@ -33,8 +32,7 @@ import { useContentTabsContext } from "./context";
  *
  * @returns {JSX.Element} The tab button.
  */
-const TabButton = ( {
-	as: Component = "li",
+export const TabButton = ( {
 	id,
 	children,
 	isSelected,
@@ -52,7 +50,7 @@ const TabButton = ( {
 	const handleClick = onClick ?? ( () => onTabSelect( tabId ) );
 
 	return (
-		<Component className={ classNames( "yst-content-tabs__tab", className ) }>
+		<li className={ classNames( "yst-content-tabs__tab", className ) }>
 			<button
 				id={ tabId }
 				type="button"
@@ -62,16 +60,15 @@ const TabButton = ( {
 				className={ classNames(
 					"yst-content-tabs__button yst-group",
 					resolvedIsSelected && "yst-content-tabs__button--selected",
+					className,
 				) }
 				{ ...props }
 			>
 				<span className="yst-content-tabs__label">{ children }</span>
 				<ChevronRightIcon className="yst-content-tabs__icon" { ...svgAriaProps } />
 			</button>
-		</Component>
+		</li>
 	);
 };
 
 TabButton.displayName = "ContentTabs.TabButton";
-
-export default TabButton;
