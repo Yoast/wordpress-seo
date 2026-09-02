@@ -94,6 +94,12 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 
 		foreach ( \get_post_types( [ 'show_in_rest' => true ], 'names' ) as $post_type ) {
 			foreach ( WPSEO_Meta::$meta_fields as $subset => $field_group ) {
+				// primary_term is registered per-post-type by register_primary_term_meta() below.
+				// Skipping it here prevents fields added for one post type from bleeding into
+				// the registration of every subsequent post type.
+				if ( $subset === 'primary_term' ) {
+					continue;
+				}
 				$requires_advanced_cap = \in_array( $subset, [ 'advanced', 'schema' ], true );
 				foreach ( $field_group as $key => $field_def ) {
 					$this->register_meta( $post_type, $key, $field_def, $requires_advanced_cap );

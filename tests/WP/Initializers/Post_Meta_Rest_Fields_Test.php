@@ -274,6 +274,48 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 	}
 
 	// -------------------------------------------------------------------------
+	// Primary term registration
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Tests that register_post_meta registers the primary_category field for the
+	 * "post" post type, which has the hierarchical "category" taxonomy.
+	 *
+	 * @covers ::register_post_meta
+	 * @covers ::register_primary_term_meta
+	 *
+	 * @return void
+	 */
+	public function test_primary_term_is_registered_for_post() {
+		$this->instance->register_post_meta();
+		$key        = WPSEO_Meta::$meta_prefix . 'primary_category';
+		$registered = \get_registered_meta_keys( 'post', 'post' );
+
+		$this->assertArrayHasKey( $key, $registered );
+	}
+
+	/**
+	 * Tests that register_post_meta does NOT register primary_category for the
+	 * "page" post type, which has no hierarchical taxonomies.
+	 *
+	 * Regression test: a mutation bug caused WPSEO_Meta::$meta_fields to grow
+	 * during the post-type loop, so each subsequent post type incorrectly
+	 * inherited the primary term fields of all previously processed post types.
+	 *
+	 * @covers ::register_post_meta
+	 * @covers ::register_primary_term_meta
+	 *
+	 * @return void
+	 */
+	public function test_primary_term_is_not_registered_for_page() {
+		$this->instance->register_post_meta();
+		$key        = WPSEO_Meta::$meta_prefix . 'primary_category';
+		$registered = \get_registered_meta_keys( 'post', 'page' );
+
+		$this->assertArrayNotHasKey( $key, $registered );
+	}
+
+	// -------------------------------------------------------------------------
 	// hide_meta_from_unauthorized_rest_response
 	// -------------------------------------------------------------------------
 
