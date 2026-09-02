@@ -171,7 +171,7 @@ export const WithPagination = {
 							<ProductTabButton key={ product.id } product={ product } idPrefix="paginated" />
 						) ) }
 					</TabList>
-					<div className="yst-flex yst-justify-center yst-border-t yst-border-slate-200 yst-p-3">
+					<div className="yst-flex yst-justify-center yst-p-3">
 						<Pagination
 							current={ page }
 							total={ Math.ceil( PRODUCTS.length / PAGE_SIZE ) }
