@@ -1,0 +1,1 @@
+Each tab shows its own content here (a detail panel, a table, and a spec sheet), to show the content area isn't tied to a single layout, even across tabs in the same list. Selection is fully owned by `ContentTabs` and no `isSelected` is computed by hand.
