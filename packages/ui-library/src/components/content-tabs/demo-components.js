@@ -73,7 +73,7 @@ export const ProductTabButton = ( { product, idPrefix } ) => (
  * show elsewhere on the page. The panel is a fully independent slot, not required to echo the tab's label.
  *
  * @param {Object} props         The props.
- * @param {Object} props.product The selected product ({ panelTitle, meta, price, description }).
+ * @param {Object} props.product The selected product ({ panelTitle, imageCount, missingAltCount, price, description }).
  *
  * @returns {JSX.Element} The panel.
  */
@@ -92,7 +92,7 @@ export const ProductDetail = ( { product } ) => (
  * A table a selection can drive instead of a freeform detail panel.
  *
  * @param {Object} props         The props.
- * @param {Object} props.product The selected product ({ id, panelTitle }).
+ * @param {Object} props.product The selected product ({ id, panelTitle, imageCount, missingAltCount }).
  *
  * @returns {JSX.Element} The table.
  */
@@ -149,7 +149,7 @@ export const ProductSpecs = ( { product } ) => (
 );
 
 /**
- * Resolves the content area for a product. Only used by the "With multiple".
+ * Resolves the content area for a product. Used by the "With multiple tab buttons" and "With pagination" stories.
  *
  * @param {Object}  product The product whose content area to render.
  * @param {boolean} mixed   Whether to vary content per product via `CONTENT_TYPE_BY_PRODUCT_ID`.

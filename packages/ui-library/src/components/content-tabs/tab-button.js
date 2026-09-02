@@ -22,7 +22,7 @@ import { useContentTabsContext } from "./context";
  * The wrapping button carries `aria-current` and a `group` class, so content that must recolor on
  * selection (e.g. the title) can target it with a `group-aria-[current=true]:` variant.
  *
- * @param {JSX.ElementClass} [as="li"] The wrapping element.
+ * @param {string|Function} [as="li"] The wrapping element.
  * @param {string} [id] This tab's identity and DOM id, e.g. to target it from a consumer via `aria-controls`. Auto-generated when omitted.
  * @param {React.ReactNode} children The tab button's content.
  * @param {boolean} [isSelected] Whether this tab is the active/selected one. Derived from `ContentTabs` context when omitted.

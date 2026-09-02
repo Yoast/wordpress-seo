@@ -15,10 +15,10 @@ import Panel from "./panel";
  * Uncontrolled: pass `defaultActiveTab` (or nothing) and let `ContentTabs` manage its own state.
  *
  * @param {React.ReactNode} children The tab buttons and the content area — `ContentTabs.TabButton`/`ContentTabs.Panel`, or any other markup.
- * @param {string} [activeTab] The id of the active tab (controlled mode).
+ * @param {string|null} [activeTab] The id of the active tab (controlled mode).
  * @param {string} [defaultActiveTab=null] The id of the initially active tab (uncontrolled mode).
  * @param {Function} [onTabChange] Called with the tab id when a tab is activated.
- * @param {JSX.ElementClass} [as="div"] The wrapping element.
+ * @param {string|Function} [as="div"] The wrapping element.
  * @param {string} [className=""] Extra class name for the wrapping element.
  * @param {...any} [props] Extra props, spread onto the wrapping element.
  *
