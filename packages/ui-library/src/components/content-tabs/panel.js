@@ -7,9 +7,10 @@ import { useContentTabsContext } from "./context";
  * whatever `children` the caller passes — a freeform panel, a table, a spec sheet, anything.
  *
  * Automatically labelled by the active tab's id via `aria-labelledby`, so screen readers announce
- * it as a region owned by that tab. `activeTab` is only ever set through `ContentTabs`'s context
- * (or omitted entirely for standalone usage), so this label always points at a real, rendered tab
- * — never a stale or missing one. Override `aria-labelledby` (or `role`) via props if needed.
+ * it as a region owned by that tab. That id comes from `ContentTabs`'s context (or is omitted
+ * entirely for standalone usage) and isn't validated against what's actually rendered — in
+ * controlled mode, or when tabs are conditionally rendered or paginated, `activeTab` can reference
+ * an id that isn't currently in the DOM. Override `aria-labelledby` (or `role`) via props if needed.
  *
  * @param {React.ReactNode} children The panel's content.
  * @param {string} [className=""] Extra class name for the wrapping element.
