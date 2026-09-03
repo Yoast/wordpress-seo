@@ -134,9 +134,7 @@ Table.Row.displayName = "Table.Row";
 Table.Cell = Cell;
 Table.Cell.displayName = "Table.Cell";
 Table.CheckboxHeader = CheckboxHeader;
-Table.CheckboxHeader.displayName = "Table.CheckboxHeader";
 Table.CheckboxCell = CheckboxCell;
-Table.CheckboxCell.displayName = "Table.CheckboxCell";
 Table.ImageCell = ImageCell;
 Table.ImageCell.displayName = "Table.ImageCell";
 

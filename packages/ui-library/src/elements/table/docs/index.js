@@ -7,4 +7,3 @@ export { default as tableImageCell } from "./table-image-cell.md";
 export { default as tableRow } from "./table-row.md";
 export { default as tableCheckbox } from "./table-checkbox.md";
 export { default as minimal } from "./table-variant-minimal.md";
-
