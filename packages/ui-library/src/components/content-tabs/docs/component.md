@@ -1,4 +1,4 @@
-A group of tabs that drives a content area shown wherever the consumer places it — not necessarily next to the tabs. `ContentTabs` manages only the active-tab state and supports both controlled (`activeTab`/`onTabChange`) and uncontrolled (`defaultActiveTab`) modes.
+A group of tabs and content area. `ContentTabs` manages only the active-tab state and supports both controlled (`activeTab`/`onTabChange`) and uncontrolled (`defaultActiveTab`) modes.
 
 The component is composed of four sub-components:
 
