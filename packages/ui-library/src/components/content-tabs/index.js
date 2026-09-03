@@ -7,8 +7,9 @@ import { TabButton, Panel, TabList, Content } from "./components";
  * A group of tabs whose active one drives a content area (`ContentTabs.Panel`), shown wherever the
  * consumer puts it in the tree — not necessarily right next to the tabs. `ContentTabs` only owns
  * the active-tab state; content stays fully agnostic: `ContentTabs.TabButton` and `ContentTabs.Panel`
- * render whatever `children` you give them, and both also work standalone (outside this wrapper)
- * by passing `isSelected`/`onClick` directly.
+ * render whatever `children` you give them. `ContentTabs.TabButton` also works standalone (outside
+ * this wrapper) by passing `isSelected`/`onClick` directly, while`ContentTabs.Panel` is always driven by
+ * matching its `tabId` against the active tab in context.
  *
  * Controlled: pass `activeTab` and update it yourself via `onTabChange`.
  * Uncontrolled: pass `defaultActiveTab` (or nothing) and let `ContentTabs` manage its own state.

@@ -1,5 +1,3 @@
-export const PAGE_SIZE = 3;
-
 export const PRODUCT_VARIANTS = {
 	2: [
 		{ id: 1, size: "US 8", availability: "In stock", price: "€95.00" },
