@@ -1,6 +1,6 @@
 import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
 import classNames from "classnames";
-import React, { useId, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useSvgAria } from "../../../hooks";
 import { useContentTabsContext } from "../context";
 
@@ -13,13 +13,13 @@ import { useContentTabsContext } from "../context";
  * passed explicitly to override the context-derived value. `onClick` is called in addition to the
  * context's `onTabSelect`, not instead of it.
  *
- * `id` doubles as this tab's identity in context (`activeTab === id`). When omitted, a stable id is
- * generated via `useId()` so two unlabelled tab buttons can never collide and resolve as selected together.
+ * `id` is required — it is matched against `ContentTabs.Panel`'s `tabId` to determine which panel
+ * to show.
  *
  * The wrapping button carries `aria-current` and a `group` class, so content that must recolor on
  * selection (e.g. the title) can target it with a `group-aria-[current=true]:` variant.
  *
- * @param {string} [id] This tab's identity and DOM id, e.g. to target it from a consumer via `aria-controls`. Auto-generated when omitted.
+ * @param {string} id This tab's identity and DOM id. Must match the `tabId` of the corresponding `ContentTabs.Panel`.
  * @param {React.ReactNode} children The tab button's content.
  * @param {boolean} [isSelected] Whether this tab is the active/selected one. Derived from `ContentTabs` context when omitted.
  * @param {boolean} [disabled=false] Whether the tab button is disabled.
@@ -39,20 +39,18 @@ export const TabButton = ( {
 	...props
 } ) => {
 	const svgAriaProps = useSvgAria();
-	const generatedId = useId();
-	const tabId = id ?? generatedId;
 	const { activeTab, onTabSelect } = useContentTabsContext();
 
-	const resolvedIsSelected = isSelected ?? ( tabId === activeTab );
+	const resolvedIsSelected = isSelected ?? ( id === activeTab );
 	const handleClick = useCallback( ( event ) => {
-		onTabSelect( tabId );
+		onTabSelect( id );
 		onClick?.( event );
-	}, [ onTabSelect, tabId, onClick ] );
+	}, [ onTabSelect, id, onClick ] );
 
 	return (
 		<li className={ classNames( "yst-content-tabs__tab", className ) }>
 			<button
-				id={ tabId }
+				id={ id }
 				type="button"
 				disabled={ disabled }
 				aria-current={ resolvedIsSelected }

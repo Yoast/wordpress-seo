@@ -3,6 +3,6 @@ A group of tabs that drives a content area shown wherever the consumer places it
 The component is composed of four sub-components:
 
 - **`ContentTabs.TabList`** — wraps the tab buttons in a `<ul>`.
-- **`ContentTabs.TabButton`** — a single tab. Reads the active tab and the select callback from context, so `isSelected`/`onClick` never need to be wired manually.
+- **`ContentTabs.TabButton`** — a single tab. Requires an `id` that matches the `tabId` of its corresponding `ContentTabs.Panel`. Reads the active tab and the select callback from context, so `isSelected`/`onClick` never need to be wired manually.
 - **`ContentTabs.Content`** — wraps all panels and takes up the remaining space next to the tab list.
-- **`ContentTabs.Panel`** — the content area for one tab. Renders only when its `tabId` matches the active tab in context, and returns `null` otherwise.
+- **`ContentTabs.Panel`** — the content area for one tab. Requires a `tabId` that matches the `id` of its corresponding `ContentTabs.TabButton`. Renders only when the active tab in context matches, and returns `null` otherwise.
