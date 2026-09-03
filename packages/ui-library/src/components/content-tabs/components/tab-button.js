@@ -5,16 +5,13 @@ import { useSvgAria } from "../../../hooks";
 import { useContentTabsContext } from "../context";
 
 /**
- * A single tab button within `ContentTabs`. Fully agnostic about its content: renders whatever
- * `children` the caller passes, and only owns the button's own background, hover/selected state,
- * and the trailing chevron. Stacking several of these (in a plain `<ul>`, `<div>`, or any other
- * wrapping element) forms a list on its own — no dedicated list-wrapper element is needed for that
- * part. If wrapping in a `<ul>`, add `role="list"` to it: this component resets its own
- * `list-style`.
+ * A single tab button within `ContentTabs`. Renders an `<li>` and is meant to be used inside
+ * `ContentTabs.TabList`. Fully agnostic about its content: renders whatever `children` the caller
+ * passes, and only owns the button's own background, hover/selected state, and the trailing chevron.
  *
- * Reads `activeTab`/`onTabSelect` from `ContentTabs`'s context, so `isSelected`/`onClick` can be
- * omitted when nested inside one. Passing them explicitly still works and takes priority — e.g. for
- * standalone usage outside a `ContentTabs` wrapper.
+ * Reads `activeTab`/`onTabSelect` from `ContentTabs`'s context automatically. `isSelected` can be
+ * passed explicitly to override the context-derived value. `onClick` is called in addition to the
+ * context's `onTabSelect`, not instead of it.
  *
  * `id` doubles as this tab's identity in context (`activeTab === id`). When omitted, a stable id is
  * generated via `useId()` so two unlabelled tab buttons can never collide and resolve as selected together.
