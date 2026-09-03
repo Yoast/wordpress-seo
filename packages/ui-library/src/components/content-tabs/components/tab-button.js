@@ -1,6 +1,6 @@
 import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
 import classNames from "classnames";
-import React, { useId } from "react";
+import React, { useId, useCallback } from "react";
 import { useSvgAria } from "../../../hooks";
 import { useContentTabsContext } from "../context";
 
@@ -26,7 +26,7 @@ import { useContentTabsContext } from "../context";
  * @param {React.ReactNode} children The tab button's content.
  * @param {boolean} [isSelected] Whether this tab is the active/selected one. Derived from `ContentTabs` context when omitted.
  * @param {boolean} [disabled=false] Whether the tab button is disabled.
- * @param {Function} [onClick] Called when the tab is activated. Derived from `ContentTabs` context when omitted.
+ * @param {Function} [onClick] Called in addition to the context's `onTabSelect` when the tab is activated.
  * @param {string} [className=""] Extra class name for the wrapping element.
  * @param {...any} [props] Extra props, spread onto the button.
  *
@@ -47,7 +47,10 @@ export const TabButton = ( {
 	const { activeTab, onTabSelect } = useContentTabsContext();
 
 	const resolvedIsSelected = isSelected ?? ( tabId === activeTab );
-	const handleClick = onClick ?? ( () => onTabSelect( tabId ) );
+	const handleClick = useCallback( ( event ) => {
+		onTabSelect( tabId );
+		onClick?.( event );
+	}, [ onTabSelect, tabId, onClick ] );
 
 	return (
 		<li className={ classNames( "yst-content-tabs__tab", className ) }>
@@ -55,7 +58,6 @@ export const TabButton = ( {
 				id={ tabId }
 				type="button"
 				disabled={ disabled }
-				onClick={ handleClick }
 				aria-current={ resolvedIsSelected }
 				className={ classNames(
 					"yst-content-tabs__button yst-group",
@@ -63,6 +65,7 @@ export const TabButton = ( {
 					className,
 				) }
 				{ ...props }
+				onClick={ handleClick }
 			>
 				<span className="yst-content-tabs__label">{ children }</span>
 				<ChevronRightIcon className="yst-content-tabs__icon" { ...svgAriaProps } />
