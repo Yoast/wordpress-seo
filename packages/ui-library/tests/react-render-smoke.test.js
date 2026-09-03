@@ -157,14 +157,14 @@ const cases = [
 					<Table.Head>
 						<Table.Row>
 							<Table.CheckboxHeader
-								inputProps={ { id: "t-all", name: "t-all", checked: false, onChange: noop, "aria-label": "Select all" } }
+								checkboxProps={ { id: "t-all", name: "t-all", value: "all", checked: false, onChange: noop, "aria-label": "Select all" } }
 							/>
 							<Table.Header>Title</Table.Header>
 						</Table.Row>
 					</Table.Head>
 					<Table.Body>
 						<Table.Row>
-							<Table.CheckboxCell checkboxProps={ { id: "t-1", name: "t-1", value: "1", checked: false, onChange: noop } } />
+							<Table.CheckboxCell checkboxProps={ { id: "t-1", name: "t-1", value: "1", checked: false, onChange: noop, "aria-label": "Select row 1" } } />
 							<Table.Cell>Row 1</Table.Cell>
 						</Table.Row>
 					</Table.Body>

@@ -1,22 +1,19 @@
 import classNames from "classnames";
-import React, { forwardRef } from "react";
+import React from "react";
 import Checkbox from "../../checkbox";
 
 /**
- * @param {Object}   [cellProps]         Extra props for the td element (e.g. colSpan, className).
- * @param {Object}   [checkboxProps]     Additional props forwarded to Checkbox (aria-label, data-*, etc.).
+ * @param {Object} [cellProps]     Extra props for the td element (e.g. colSpan, className).
+ * @param {Object} [checkboxProps] Props forwarded to the inner Checkbox (id, name, value, checked, onChange, aria-label, etc.).
  * @returns {JSX.Element} The element.
  */
-export const CheckboxCell = forwardRef( ( { cellProps = {}, checkboxProps = {} }, ref ) => (
+export const CheckboxCell = ( { cellProps = {}, checkboxProps = {} } ) => (
 	<td
 		{ ...cellProps }
 		className={ classNames( "yst-table-checkbox-cell", cellProps?.className ) }
 	>
-		<Checkbox
-			ref={ ref }
-			{ ...checkboxProps }
-		/>
+		<Checkbox { ...checkboxProps } />
 	</td>
-) );
+);
 
 CheckboxCell.displayName = "Table.CheckboxCell";

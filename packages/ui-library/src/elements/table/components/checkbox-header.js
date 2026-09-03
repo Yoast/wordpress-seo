@@ -3,16 +3,16 @@ import classNames from "classnames";
 import Checkbox from "../../checkbox";
 
 /**
- * @param {Object} [cellProps]   Extra props for the th element (e.g. colSpan, className).
- * @param {Object} [inputProps]  Props forwarded to the inner Checkbox. Supports all standard checkbox
- *                               props (id, name, checked, onChange, disabled, aria-label, etc.) plus
- *                               `indeterminate` (boolean) which renders the checkbox in the (−) state.
+ * @param {Object} [cellProps]     Extra props for the th element (e.g. colSpan, className).
+ * @param {Object} [checkboxProps] Props forwarded to the inner Checkbox. Supports all standard checkbox
+ *                                 props (id, name, value, checked, onChange, disabled, aria-label, etc.)
+ *                                 plus `indeterminate` (boolean) which renders the checkbox in the (−) state.
  * @returns {JSX.Element} The element.
  */
-export const CheckboxHeader = ( { cellProps = {}, inputProps = {} } ) => {
+export const CheckboxHeader = ( { cellProps = {}, checkboxProps = {} } ) => {
 	const inputRef = useRef( null );
 
-	const { indeterminate, ...restInputProps } = inputProps;
+	const { indeterminate, ...restCheckboxProps } = checkboxProps;
 
 	useEffect( () => {
 		if ( inputRef.current ) {
@@ -27,8 +27,7 @@ export const CheckboxHeader = ( { cellProps = {}, inputProps = {} } ) => {
 		>
 			<Checkbox
 				ref={ inputRef }
-				value="all"
-				{ ...restInputProps }
+				{ ...restCheckboxProps }
 			/>
 		</th>
 	);
