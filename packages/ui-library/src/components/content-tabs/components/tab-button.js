@@ -57,7 +57,6 @@ export const TabButton = ( {
 				className={ classNames(
 					"yst-content-tabs__button yst-group",
 					resolvedIsSelected && "yst-content-tabs__button--selected",
-					className,
 				) }
 				{ ...props }
 				onClick={ handleClick }
