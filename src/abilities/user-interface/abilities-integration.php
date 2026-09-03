@@ -273,7 +273,8 @@ class Abilities_Integration implements Integration_Interface {
 						'show_in_rest' => true,
 						'annotations'  => [
 							'readonly'    => false,
-							'destructive' => false,
+							// We can't claim this is truly non-destructive because technically there can be data deletions.
+							'destructive' => null,
 							'idempotent'  => true,
 						],
 						'mcp'          => [
