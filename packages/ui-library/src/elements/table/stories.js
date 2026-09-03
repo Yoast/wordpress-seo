@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import Table from ".";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component, tableBody, tableCell, tableHead, tableHeader, tableImageCell, tableRow, minimal, tableCheckbox } from "./docs";
@@ -239,12 +239,6 @@ export const TableCell = {
 	},
 };
 
-const ROWS = [
-	{ id: "1", label: "Row one" },
-	{ id: "2", label: "Row two" },
-	{ id: "3", label: "Row three" },
-];
-
 export const CheckboxTable = {
 	name: "Table with checkboxes",
 	parameters: {
@@ -256,7 +250,15 @@ export const CheckboxTable = {
 			<>
 				<Table.Head>
 					<Table.Row>
-						<Table.CheckboxHeader />
+						<Table.CheckboxHeader
+							checkboxProps={ {
+								id: "story-select-all",
+								name: "story-select-all",
+								value: "all",
+								"aria-label": "Select all rows",
+								indeterminate: true,
+							} }
+						/>
 						<Table.Header>Header 1</Table.Header>
 						<Table.Header>Header 2</Table.Header>
 						<Table.Header>Header 3</Table.Header>
@@ -264,13 +266,28 @@ export const CheckboxTable = {
 				</Table.Head>
 				<Table.Body>
 					<Table.Row>
-						<Table.CheckboxCell />
+						<Table.CheckboxCell
+							checkboxProps={ {
+								id: "story-select-row-1",
+								name: "story-select-row-1",
+								value: "1",
+								"aria-label": "Select row 1",
+								defaultChecked: true,
+							} }
+						/>
 						<Table.Cell>Cell 1</Table.Cell>
 						<Table.Cell>Cell 2</Table.Cell>
 						<Table.Cell>Cell 3</Table.Cell>
 					</Table.Row>
 					<Table.Row>
-						<Table.CheckboxCell />
+						<Table.CheckboxCell
+							checkboxProps={ {
+								id: "story-select-row-2",
+								name: "story-select-row-2",
+								value: "2",
+								"aria-label": "Select row 2",
+							} }
+						/>
 						<Table.Cell>Cell 1</Table.Cell>
 						<Table.Cell>Cell 2</Table.Cell>
 						<Table.Cell>Cell 3</Table.Cell>
