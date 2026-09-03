@@ -15,7 +15,7 @@ export { default as Radio } from "./elements/radio";
 export { default as Select } from "./elements/select";
 export { default as SkeletonLoader } from "./elements/skeleton-loader";
 export { default as Spinner } from "./elements/spinner";
-export { default as Table, useCheckboxTableContext } from "./elements/table";
+export { default as Table } from "./elements/table";
 export { default as TagInput } from "./elements/tag-input";
 export { default as TextInput } from "./elements/text-input";
 export { default as Textarea } from "./elements/textarea";

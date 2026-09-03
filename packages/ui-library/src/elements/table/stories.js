@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import Table from ".";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component, tableBody, tableCell, tableHead, tableHeader, tableImageCell, tableRow, minimal, tableCheckbox } from "./docs";
@@ -245,39 +245,40 @@ const ROWS = [
 	{ id: "3", label: "Row three" },
 ];
 
-const CheckboxTableDemo = () => (
-	<Table.CheckboxProvider allValues={ ROWS.map( ( r ) => r.id ) }>
-		<Table>
-			<Table.Head>
-				<Table.Row>
-					<Table.CheckboxHeader id="story-select-all" name="story-select-all" aria-label="Select all" />
-					<Table.Header scope="col">Label</Table.Header>
-				</Table.Row>
-			</Table.Head>
-			<Table.Body>
-				{ ROWS.map( ( row ) => (
-					<Table.Row key={ row.id }>
-						<Table.CheckboxCell
-							id={ `story-select-${ row.id }` }
-							name={ `story-select-${ row.id }` }
-							value={ row.id }
-							aria-label={ `Select ${ row.label }` }
-						/>
-						<Table.Cell>{ row.label }</Table.Cell>
-					</Table.Row>
-				) ) }
-			</Table.Body>
-		</Table>
-	</Table.CheckboxProvider>
-);
-
 export const CheckboxTable = {
 	name: "Table with checkboxes",
 	parameters: {
 		controls: { disable: true },
 		docs: { description: { story: tableCheckbox } },
 	},
-	render: () => <CheckboxTableDemo />,
+	args: {
+		children: (
+			<>
+				<Table.Head>
+					<Table.Row>
+						<Table.CheckboxHeader />
+						<Table.Header>Header 1</Table.Header>
+						<Table.Header>Header 2</Table.Header>
+						<Table.Header>Header 3</Table.Header>
+					</Table.Row>
+				</Table.Head>
+				<Table.Body>
+					<Table.Row>
+						<Table.CheckboxCell />
+						<Table.Cell>Cell 1</Table.Cell>
+						<Table.Cell>Cell 2</Table.Cell>
+						<Table.Cell>Cell 3</Table.Cell>
+					</Table.Row>
+					<Table.Row>
+						<Table.CheckboxCell />
+						<Table.Cell>Cell 1</Table.Cell>
+						<Table.Cell>Cell 2</Table.Cell>
+						<Table.Cell>Cell 3</Table.Cell>
+					</Table.Row>
+				</Table.Body>
+			</>
+		),
+	},
 };
 
 export const MinimalVariant = {

@@ -149,47 +149,26 @@ const cases = [
 		props: { children: <Table.Body><Table.Row><Table.Cell>Cell</Table.Cell></Table.Row></Table.Body> },
 	},
 	{
-		name: "Table (with checkbox columns, explicit props)",
+		name: "Table (with checkbox columns)",
 		Component: Table,
 		props: {
 			children: (
 				<>
 					<Table.Head>
 						<Table.Row>
-							<Table.CheckboxHeader id="t-all" name="t-all" checked={ false } onChange={ noop } aria-label="Select all" />
+							<Table.CheckboxHeader
+								inputProps={ { id: "t-all", name: "t-all", checked: false, onChange: noop, "aria-label": "Select all" } }
+							/>
 							<Table.Header>Title</Table.Header>
 						</Table.Row>
 					</Table.Head>
 					<Table.Body>
 						<Table.Row>
-							<Table.CheckboxCell id="t-1" name="t-1" value="1" checked={ false } onChange={ noop } />
+							<Table.CheckboxCell checkboxProps={ { id: "t-1", name: "t-1", value: "1", checked: false, onChange: noop } } />
 							<Table.Cell>Row 1</Table.Cell>
 						</Table.Row>
 					</Table.Body>
 				</>
-			),
-		},
-	},
-	{
-		name: "Table (with checkbox columns, provider-driven)",
-		Component: Table.CheckboxProvider,
-		props: {
-			allValues: [ "1" ],
-			children: (
-				<Table>
-					<Table.Head>
-						<Table.Row>
-							<Table.CheckboxHeader id="p-all" name="p-all" aria-label="Select all" />
-							<Table.Header>Title</Table.Header>
-						</Table.Row>
-					</Table.Head>
-					<Table.Body>
-						<Table.Row>
-							<Table.CheckboxCell id="p-1" name="p-1" value="1" aria-label="Select row 1" />
-							<Table.Cell>Row 1</Table.Cell>
-						</Table.Row>
-					</Table.Body>
-				</Table>
 			),
 		},
 	},

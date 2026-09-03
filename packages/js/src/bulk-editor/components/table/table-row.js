@@ -74,16 +74,18 @@ export const BulkEditorRow = ( {
 	return (
 		<Table.Row>
 			<Table.CheckboxCell
-				id={ `bulk-editor-select-${ item.id }-${ fieldSetId }` }
-				name={ `bulk-editor-select-${ item.id }` }
-				value={ String( item.id ) }
-				/* translators: Hidden accessibility text, %s expands to the content item title. */
-				aria-label={ sprintf( __( "Select %s", "wordpress-seo" ), item.title ) }
-				checkboxClassName="yst-mt-0.5"
-				checked={ isSelected }
-				onChange={ handleToggle }
-				// A post the current user cannot edit is shown locked and cannot be selected for bulk editing.
-				disabled={ ! item.editable }
+				checkboxProps={ {
+					id: `bulk-editor-select-${ item.id }-${ fieldSetId }`,
+					name: `bulk-editor-select-${ item.id }`,
+					value: String( item.id ),
+					/* translators: Hidden accessibility text, %s expands to the content item title. */
+					"aria-label": sprintf( __( "Select %s", "wordpress-seo" ), item.title ),
+					className: "yst-mt-0.5",
+					checked: isSelected,
+					onChange: handleToggle,
+					// A post the current user cannot edit is shown locked and cannot be selected for bulk editing.
+					disabled: ! item.editable,
+				} }
 			/>
 			<TitleCell item={ item } fieldSetId={ fieldSetId } />
 			{ fields.map( ( field ) => {

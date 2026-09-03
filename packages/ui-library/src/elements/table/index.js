@@ -1,11 +1,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
-import { CheckboxProvider } from "./checkbox-provider";
-import { CheckboxHeader } from "./checkbox-header";
-import { CheckboxCell } from "./checkbox-cell";
-import { ImageCell } from "./image-cell";
-export { useCheckboxTableContext } from "./hooks";
+import { CheckboxHeader, CheckboxCell, ImageCell } from "./components";
 
 const rowClassNameMap = {
 	variant: {
@@ -138,9 +134,9 @@ Table.Row.displayName = "Table.Row";
 Table.Cell = Cell;
 Table.Cell.displayName = "Table.Cell";
 Table.CheckboxHeader = CheckboxHeader;
+Table.CheckboxHeader.displayName = "Table.CheckboxHeader";
 Table.CheckboxCell = CheckboxCell;
-Table.CheckboxProvider = CheckboxProvider;
-Table.CheckboxProvider.displayName = "Table.CheckboxProvider";
+Table.CheckboxCell.displayName = "Table.CheckboxCell";
 Table.ImageCell = ImageCell;
 Table.ImageCell.displayName = "Table.ImageCell";
 
