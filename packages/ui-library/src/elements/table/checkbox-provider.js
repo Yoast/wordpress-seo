@@ -1,61 +1,53 @@
-import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { CheckboxTableContext } from "./context";
 
 /**
  * Provides internal checkbox selection state for Table.CheckboxHeader and Table.CheckboxCell.
  * When wrapped in this provider, those subcomponents do not need explicit checked/onChange props.
+ * Use `useCheckboxTableContext` inside the provider tree to observe selection state.
  *
  * @param {string[]} props.allValues All selectable values (one per row).
- * @param {Function} [props.onChange] Called with the new selected-values array on every change.
  * @param {JSX.node} props.children  The table and its contents.
  * @returns {JSX.Element} The provider.
  */
-export const CheckboxProvider = ( { allValues, onChange, children } ) => {
+export const CheckboxProvider = ( { allValues, children } ) => {
 	const [ selectedValues, setSelectedValues ] = useState( new Set() );
 
 	const allValuesSet = useMemo( () => new Set( allValues ), [ allValues ] );
 
 	useEffect( () => {
 		setSelectedValues( ( prev ) => {
-			const next = new Set( Array.from( prev ).filter( ( value ) => allValuesSet.has( value ) ) );
-			if ( next.size === prev.size ) {
-				return prev;
-			}
-			onChange?.( Array.from( next ) );
-			return next;
+			const next = new Set( [ ...prev ].filter( ( v ) => allValuesSet.has( v ) ) );
+			return next.size === prev.size ? prev : next;
 		} );
-	}, [ allValuesSet, onChange ] );
+	}, [ allValuesSet ] );
 
 	const isAllSelected = allValuesSet.size > 0 && selectedValues.size === allValuesSet.size;
 	const isIndeterminate = selectedValues.size > 0 && ! isAllSelected;
 
-	const update = useCallback( ( next ) => {
-		setSelectedValues( next );
-		onChange?.( Array.from( next ) );
-	}, [ onChange ] );
-
 	const toggleAll = useCallback( () => {
-		update( selectedValues.size > 0 ? new Set() : new Set( allValues ) );
-	}, [ selectedValues, allValues, update ] );
+		setSelectedValues( selectedValues.size > 0 ? new Set() : new Set( allValues ) );
+	}, [ selectedValues, allValues ] );
 
 	const toggleRow = useCallback( ( value ) => {
-		const next = new Set( selectedValues );
-		if ( next.has( value ) ) {
-			next.delete( value );
-		} else {
-			next.add( value );
-		}
-		update( next );
-	}, [ selectedValues, update ] );
+		setSelectedValues( ( prev ) => {
+			const next = new Set( prev );
+			if ( next.has( value ) ) {
+				next.delete( value );
+			} else {
+				next.add( value );
+			}
+			return next;
+		} );
+	}, [] );
 
 	const selectAll = useCallback( ( values ) => {
-		update( new Set( values ?? allValues ) );
-	}, [ allValues, update ] );
+		setSelectedValues( new Set( values ?? allValues ) );
+	}, [ allValues ] );
 
 	const deselectAll = useCallback( () => {
-		update( new Set() );
-	}, [ update ] );
+		setSelectedValues( new Set() );
+	}, [] );
 
 	const isSelected = useCallback( ( value ) => selectedValues.has( value ), [ selectedValues ] );
 
@@ -66,10 +58,4 @@ export const CheckboxProvider = ( { allValues, onChange, children } ) => {
 			{ children }
 		</CheckboxTableContext.Provider>
 	);
-};
-
-CheckboxProvider.propTypes = {
-	allValues: PropTypes.arrayOf( PropTypes.string ).isRequired,
-	onChange: PropTypes.func,
-	children: PropTypes.node.isRequired,
 };

@@ -5,7 +5,7 @@ import { CheckboxProvider } from "./checkbox-provider";
 import { CheckboxHeader } from "./checkbox-header";
 import { CheckboxCell } from "./checkbox-cell";
 import { ImageCell } from "./image-cell";
-export { useCheckboxTableContext } from "./context";
+export { useCheckboxTableContext } from "./hooks";
 
 const rowClassNameMap = {
 	variant: {
@@ -140,6 +140,7 @@ Table.Cell.displayName = "Table.Cell";
 Table.CheckboxHeader = CheckboxHeader;
 Table.CheckboxCell = CheckboxCell;
 Table.CheckboxProvider = CheckboxProvider;
+Table.CheckboxProvider.displayName = "Table.CheckboxProvider";
 Table.ImageCell = ImageCell;
 Table.ImageCell.displayName = "Table.ImageCell";
 

@@ -22,7 +22,6 @@ Wrap your table in `Table.CheckboxProvider` and pass it the list of all selectab
           id="select-all"
           name="select-all"
           aria-label="Select all"
-          scope="col"
         />
         <Table.Header scope="col">Title</Table.Header>
       </Table.Row>
@@ -100,7 +99,6 @@ When selection state is managed externally (e.g. in a Redux store), skip the pro
         indeterminate={isIndeterminate}
         onChange={onToggleAll}
         aria-label="Select all"
-        scope="col"
       />
     </Table.Row>
   </Table.Head>

@@ -1,31 +1,31 @@
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import React, { forwardRef, useCallback, useContext } from "react";
 import Checkbox from "../checkbox";
 import { CheckboxTableContext } from "./context";
 
 /**
- * @param {string}   id          The checkbox id.
- * @param {string}   name        The checkbox name.
- * @param {string}   value       The checkbox value.
- * @param {boolean}  [checked]   Whether the checkbox is checked. Falls back to context when omitted.
- * @param {Function} [onChange]  Change handler. Falls back to context when omitted.
- * @param {boolean}  [disabled]  Whether the checkbox is disabled.
- * @param {string}   [label]     Optional visible label.
- * @param {string}   [className] Optional class name for the td element.
- * @param {Object}   [props]     Additional props forwarded to Checkbox (aria-label, data-*, etc.).
+ * @param {string}   id                  The checkbox id.
+ * @param {string}   name                The checkbox name.
+ * @param {string}   value               The checkbox value.
+ * @param {boolean}  [checked]           Whether the checkbox is checked. Falls back to context when omitted.
+ * @param {Function} [onChange]          Change handler. Falls back to context when omitted.
+ * @param {boolean}  [disabled]          Whether the checkbox is disabled.
+ * @param {string}   [label]             Optional visible label (or pass aria-label via spread for screen-reader-only labels).
+ * @param {string}   [className]         Optional class name for the td element.
+ * @param {string}   [checkboxClassName] Optional class name forwarded to the inner Checkbox wrapper.
+ * @param {Object}   [cellProps]         Extra props for the td element (e.g. colSpan).
+ * @param {Object}   [props]             Additional props forwarded to Checkbox (aria-label, data-*, etc.).
  * @returns {JSX.Element} The element.
  */
-export const CheckboxCell = forwardRef( ( { id, name, value, checked, onChange, disabled, label, className = "", ...checkboxProps }, ref ) => {
+export const CheckboxCell = forwardRef( ( { id, name, value, checked, onChange, disabled, label, className = "", checkboxClassName = "", cellProps = {}, ...checkboxProps }, ref ) => {
 	const context = useContext( CheckboxTableContext );
-	const contextOnChange = useCallback( () => context?.toggleRow( value ), [ context, value ] );
+	const contextOnChange = useCallback( ( event ) => context?.toggleRow( value, event ), [ context, value ] );
 
-	const resolvedChecked = checked ?? context?.isSelected( value ) ?? false;
-	const resolvedOnChange = onChange ?? ( context ? contextOnChange : null );
-	const resolvedDisabled = disabled ?? false;
+	const resolvedChecked = checked ?? context?.isSelected( value );
+	const resolvedOnChange = onChange ?? ( context ? contextOnChange : undefined );
 
 	return (
-		<td className={ classNames( "yst-table-checkbox-cell", className ) }>
+		<td className={ classNames( "yst-table-checkbox-cell", className ) } { ...cellProps }>
 			<Checkbox
 				ref={ ref }
 				id={ id }
@@ -33,7 +33,8 @@ export const CheckboxCell = forwardRef( ( { id, name, value, checked, onChange, 
 				value={ value }
 				checked={ resolvedChecked }
 				onChange={ resolvedOnChange }
-				disabled={ resolvedDisabled }
+				disabled={ disabled }
+				className={ checkboxClassName }
 				label={ label ?? "" }
 				{ ...checkboxProps }
 			/>
@@ -42,14 +43,3 @@ export const CheckboxCell = forwardRef( ( { id, name, value, checked, onChange, 
 } );
 
 CheckboxCell.displayName = "Table.CheckboxCell";
-
-CheckboxCell.propTypes = {
-	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	value: PropTypes.string.isRequired,
-	checked: PropTypes.bool,
-	onChange: PropTypes.func,
-	disabled: PropTypes.bool,
-	label: PropTypes.string,
-	className: PropTypes.string,
-};

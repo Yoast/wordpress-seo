@@ -250,7 +250,7 @@ const CheckboxTableDemo = () => (
 		<Table>
 			<Table.Head>
 				<Table.Row>
-					<Table.CheckboxHeader id="story-select-all" name="story-select-all" aria-label="Select all" scope="col" />
+					<Table.CheckboxHeader id="story-select-all" name="story-select-all" aria-label="Select all" />
 					<Table.Header scope="col">Label</Table.Header>
 				</Table.Row>
 			</Table.Head>
