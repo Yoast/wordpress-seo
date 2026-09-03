@@ -5,15 +5,13 @@
 		}
 
 		.yst-content-tabs__tab-list {
-			@apply 
-			yst-w-72 
+			@apply
+			yst-w-72
 			yst-shrink-0
-			yst-overflow-hidden
+			yst-overflow-auto
 			yst-border-e
 			yst-border-slate-200
-			yst-flex
-			yst-flex-col
-			yst-justify-between;
+			yst-list-none;
 		}
 
 		.yst-content-tabs__button {
@@ -63,11 +61,11 @@
 		}
 
 		.yst-content-tabs__content {
-			@apply yst-relative yst-flex-1 yst-grid;
+			@apply yst-flex-1;
 		}
 
 		.yst-content-tabs__panel {
-			@apply yst-col-start-1 yst-row-start-1 yst-min-w-0;
+			@apply yst-min-w-0;
 		}
 	}
 }

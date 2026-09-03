@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import ContentTabs from ".";
-import { PAGE_SIZE, PRODUCTS } from "./constants";
+import { PRODUCTS } from "./constants";
 import { ProductDetail, ProductMeta, ProductTabButton, getContent, getProductTabId } from "./demo-components";
 import { component, factory, withMultiple } from "./docs";
 
@@ -67,8 +67,8 @@ const [ isOpen, setIsOpen ] = useState( false );
 export const WithMultiple = {
 	name: "With multiple tab buttons",
 	render: () => (
-		<ContentTabs defaultActiveTab={ getProductTabId( "multiple", PRODUCTS[ 0 ] ) }>
-			<ContentTabs.TabList aria-label="Products">
+		<ContentTabs defaultActiveTab={ getProductTabId( "multiple", PRODUCTS[ 0 ] ) } className="yst-max-h-64">
+			<ContentTabs.TabList aria-label="Products" >
 				{ PRODUCTS.map( ( product ) => (
 					<ContentTabs.TabButton id={ getProductTabId( "multiple", product ) } key={ product.id }>
 						<ProductTabButton product={ product } />
@@ -159,68 +159,6 @@ export const WithADisabledTab = {
 	},
 };
 
-export const WithPagination = {
-	name: "With pagination",
-	render: () => {
-		const [ page, setPage ] = useState( 1 );
-		const pageProducts = PRODUCTS.slice( ( page - 1 ) * PAGE_SIZE, page * PAGE_SIZE );
-
-		const paginationProps = {
-			current: page,
-			total: Math.ceil( PRODUCTS.length / PAGE_SIZE ),
-			onNavigate: setPage,
-			screenReaderTextPrevious: "Previous",
-			screenReaderTextNext: "Next",
-		};
-
-		return (
-			<ContentTabs defaultActiveTab={ getProductTabId( "paginated", PRODUCTS[ 0 ] ) }>
-				<ContentTabs.TabList aria-label="Products" className="yst-min-h-80" paginationProps={ paginationProps }>
-					{ pageProducts.map( ( product ) => (
-						<ContentTabs.TabButton id={ getProductTabId( "paginated", product ) } key={ product.id }>
-							<ProductTabButton product={ product } />
-						</ContentTabs.TabButton>
-					) ) }
-				</ContentTabs.TabList>
-				<ContentTabs.Content>
-					{ PRODUCTS.map( ( product ) => (
-						<ContentTabs.Panel key={ product.id } tabId={ getProductTabId( "paginated", product ) }>
-							{ getContent( product, true ) }
-						</ContentTabs.Panel>
-					) ) }
-				</ContentTabs.Content>
-			</ContentTabs>
-		);
-	},
-	parameters: {
-		docs: {
-			source: {
-				transform: () => `
-const [ page, setPage ] = useState( 1 );
-const pageProducts = products.slice( ( page - 1 ) * PAGE_SIZE, page * PAGE_SIZE );
-const paginationProps = { current: page, total: totalPages, onNavigate: setPage, ... };
-
-<ContentTabs defaultActiveTab={ products[ 0 ].id }>
-	<ContentTabs.TabList aria-label="Products" paginationProps={ paginationProps }>
-		{ pageProducts.map( ( product ) => (
-			<ContentTabs.TabButton key={ product.id } id={ product.id }>
-				{ product.title }
-			</ContentTabs.TabButton>
-		) ) }
-	</ContentTabs.TabList>
-	<ContentTabs.Content>
-		{ products.map( ( product ) => (
-			<ContentTabs.Panel key={ product.id } tabId={ product.id }>
-				{ /* A detail panel, a table, or a spec sheet for this product. */ }
-			</ContentTabs.Panel>
-		) ) }
-	</ContentTabs.Content>
-</ContentTabs>
-				`.trim(),
-			},
-		},
-	},
-};
 
 export default {
 	title: "2) Components/Content tabs",
