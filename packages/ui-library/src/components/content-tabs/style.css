@@ -61,11 +61,11 @@
 		}
 
 		.yst-content-tabs__content {
-			@apply yst-flex-1;
+			@apply yst-flex-1 yst-min-h-0 yst-flex yst-flex-col;
 		}
 
 		.yst-content-tabs__panel {
-			@apply yst-min-w-0;
+			@apply yst-flex-1 yst-min-h-0 yst-min-w-0 yst-overflow-auto;
 		}
 	}
 }
