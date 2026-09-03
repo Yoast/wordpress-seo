@@ -1,8 +1,7 @@
 import { render, screen } from "../../../test-utils";
 import EditorModal from "../../../../src/components/modals/editorModals/EditorModal";
 import SocialAppearanceModal from "../../../../src/components/modals/editorModals/SocialAppearanceModal";
-
-const noop = () => {};
+import { noop } from "lodash";
 
 /**
  * Mocked EditorModal container.
