@@ -68,7 +68,7 @@ export const WithMultiple = {
 	name: "With multiple tab buttons",
 	render: () => (
 		<ContentTabs defaultActiveTab={ getProductTabId( "multiple", PRODUCTS[ 0 ] ) } className="yst-max-h-64">
-			<ContentTabs.TabList aria-label="Products" >
+			<ContentTabs.TabList aria-label="Products">
 				{ PRODUCTS.map( ( product ) => (
 					<ContentTabs.TabButton id={ getProductTabId( "multiple", product ) } key={ product.id }>
 						<ProductTabButton product={ product } />
