@@ -25,9 +25,9 @@ export const PreviewEditableFieldCell = ( { field, item, replacementVariables, r
 	return (
 		<Table.Cell key={ field.key } className="yst-bulk-editor-cell-value">
 			<span id={ `bulk-editor-preview-${ field.key }-${ item.id }` } className="yst-sr-only">
-				{ sprintf(
-					/* translators: %1$s expands to the field label, %2$s to the content item title. */
-					__( "%1$s for %2$s", "wordpress-seo" ), field.label, item.title ) }
+				{
+					/* translators: Hidden accessibility text, %1$s expands to the field label, %2$s to the content item title. */
+					sprintf( __( "%1$s for %2$s", "wordpress-seo" ), field.label, item.title ) }
 			</span>
 			<ReplacementVariableEditorStandalone
 				content={ item[ field.key ] || item[ `${ field.key }Fallback` ] || "" }

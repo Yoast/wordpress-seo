@@ -22,7 +22,9 @@ const App = () => {
 					openButtonScreenReaderText={ __( "Open redirects navigation", "wordpress-seo" ) }
 					/* translators: Hidden accessibility text. */
 					closeButtonScreenReaderText={ __( "Close redirects navigation", "wordpress-seo" ) }
-					aria-label={ __( "Redirects navigation", "wordpress-seo" ) }
+					aria-label={
+						/* translators: Hidden accessibility text. */
+						__( "Redirects navigation", "wordpress-seo" ) }
 				>
 					<Menu idSuffix="-mobile" />
 				</SidebarNavigation.Mobile>

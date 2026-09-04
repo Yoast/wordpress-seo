@@ -79,8 +79,9 @@ export const BulkEditorRow = ( {
 					name={ `bulk-editor-select-${ item.id }` }
 					value={ String( item.id ) }
 					className="yst-mt-0.5"
-					/* translators: %s expands to the content item title. */
-					aria-label={ sprintf( __( "Select %s", "wordpress-seo" ), item.title ) }
+					aria-label={
+						/* translators: Hidden accessibility text, %s expands to the content item title. */
+						sprintf( __( "Select %s", "wordpress-seo" ), item.title ) }
 					checked={ isSelected }
 					onChange={ handleToggle }
 					// A post the current user cannot edit is shown locked and cannot be selected for bulk editing.
