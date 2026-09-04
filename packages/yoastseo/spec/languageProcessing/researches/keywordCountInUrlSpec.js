@@ -292,6 +292,20 @@ describe( "test to check slug for keyword", function() {
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
+	it( "returns matches when keyphrase contains a period and slug uses hyphens", function() {
+		const paper = new Paper( "", { slug: "ubuntu-26-04-available-for-vps", keyword: "Ubuntu 26.04 available" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
+	} );
+
+	it( "returns matches when keyphrase contains a period and slug uses periods", function() {
+		const paper = new Paper( "", { slug: "ubuntu-26.04-available", keyword: "Ubuntu 26.04 available" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
+	} );
+
 	it( "works with different forms of a hyphenated keyphrase in Indonesian that's not a reduplication", function() {
 		const paper = new Paper( "", { slug: "pontang-panting", keyword: "berpontang-panting" } );
 		const researcher = new IndonesianResearcher( paper );
