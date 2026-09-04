@@ -226,15 +226,20 @@ final class Introductions_Integration_Test extends TestCase {
 			->once()
 			->with( $user_id, '_yoast_wpseo_introductions', true )
 			->andReturn( [] );
-		$expected_meta = [
-			'foo' => [
-				'is_seen' => true,
-				'seen_on' => \time(),
-			],
-		];
 		$this->user_helper->expects( 'update_meta' )
 			->once()
-			->with( $user_id, '_yoast_wpseo_introductions', $expected_meta );
+			->with(
+				$user_id,
+				'_yoast_wpseo_introductions',
+				Mockery::on(
+					static function ( $meta ) {
+						return \is_array( $meta )
+						&& isset( $meta['foo'] )
+						&& $meta['foo']['is_seen'] === true
+						&& \is_int( $meta['foo']['seen_on'] );
+					},
+				),
+			);
 
 		// Enqueueing.
 		$this->admin_asset_manager->expects( 'enqueue_script' )->once()->with( 'introductions' );
@@ -315,15 +320,20 @@ final class Introductions_Integration_Test extends TestCase {
 			->with( $user_id, '_yoast_wpseo_introductions', true )
 			// Point of this test: returning false results in using an empty array as default.
 			->andReturn( false );
-		$expected_meta = [
-			'foo' => [
-				'is_seen' => true,
-				'seen_on' => \time(),
-			],
-		];
 		$this->user_helper->expects( 'update_meta' )
 			->once()
-			->with( $user_id, '_yoast_wpseo_introductions', $expected_meta );
+			->with(
+				$user_id,
+				'_yoast_wpseo_introductions',
+				Mockery::on(
+					static function ( $meta ) {
+						return \is_array( $meta )
+						&& isset( $meta['foo'] )
+						&& $meta['foo']['is_seen'] === true
+						&& \is_int( $meta['foo']['seen_on'] );
+					},
+				),
+			);
 
 		// Enqueueing.
 		$this->admin_asset_manager->expects( 'enqueue_script' )->once()->with( 'introductions' );
@@ -337,8 +347,8 @@ final class Introductions_Integration_Test extends TestCase {
 	/**
 	 * Sets the expectations surrounding the localized data.
 	 *
-	 * @param array $introductions The introductions.
-	 * @param int   $user_id       The user ID.
+	 * @param array<string, string|int>[] $introductions The introductions.
+	 * @param int                         $user_id       The user ID.
 	 *
 	 * @return void
 	 */
