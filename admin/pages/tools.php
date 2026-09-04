@@ -34,7 +34,7 @@ if ( $tool_page === '' ) {
 	if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
 		$tools['file-editor'] = [
 			'title' => __( 'File editor', 'wordpress-seo' ),
-			'desc'  => __( 'This tool allows you to quickly change important files for your SEO, like your robots.txt and, if you have one, your .htaccess file.', 'wordpress-seo' ),
+			'desc'  => __( 'This tool lets you edit important SEO-related files like robots.txt. Editing .htaccess is only available on servers that support it (e.g., Apache).', 'wordpress-seo' ),
 		];
 	}
 
