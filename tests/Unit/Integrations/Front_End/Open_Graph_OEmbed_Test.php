@@ -115,6 +115,68 @@ final class Open_Graph_OEmbed_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a nested/re-entrant call to set_oembed_data for a different post -- e.g. a
+	 * theme building an excerpt by re-running the_content filters while the outer oEmbed
+	 * response for another post is still being assembled -- does not leak its data into the
+	 * outer, still in-progress call.
+	 *
+	 * @covers ::set_oembed_data
+	 * @covers ::set_title
+	 * @covers ::set_description
+	 *
+	 * @return void
+	 */
+	public function test_set_oembed_data_is_reentrant_safe() {
+		$post_a = (object) [ 'ID' => 1 ];
+		$post_b = (object) [ 'ID' => 2 ];
+
+		$meta_a = (object) [
+			'open_graph_title'       => 'title-a',
+			'open_graph_description' => 'description-a',
+			'open_graph_images'      => [],
+		];
+		$meta_b = (object) [
+			'open_graph_title'       => 'title-b',
+			'open_graph_description' => 'description-b',
+			'open_graph_images'      => [],
+		];
+
+		$this->meta
+			->expects( 'for_post' )
+			->once()
+			->with( 1 )
+			->andReturnUsing(
+				function () use ( $post_b, $meta_b ) {
+					// Simulate a nested oEmbed call for a different post firing while the
+					// outer call for post A is still in progress.
+					$this->meta->expects( 'for_post' )->once()->with( 2 )->andReturn( $meta_b );
+
+					$nested = $this->instance->set_oembed_data( [], $post_b );
+
+					$this->assertEquals(
+						[
+							'title'       => 'title-b',
+							'description' => 'description-b',
+						],
+						$nested
+					);
+
+					return $meta_a;
+				}
+			);
+
+		$result = $this->instance->set_oembed_data( [], $post_a );
+
+		$this->assertEquals(
+			[
+				'title'       => 'title-a',
+				'description' => 'description-a',
+			],
+			$result
+		);
+	}
+
+	/**
 	 * Returns the data to test with.
 	 *
 	 * @return array
