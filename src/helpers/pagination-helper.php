@@ -70,8 +70,11 @@ class Pagination_Helper {
 		}
 
 		if ( $wp_rewrite->using_permalinks() && ! $key_query_loop ) {
-			$url_parts      = \wp_parse_url( $url );
-			$has_url_params = \array_key_exists( 'query', $url_parts );
+			$url_parts = \wp_parse_url( $url );
+            if ( ! is_array( $url_parts ) ) {
+                return $url;
+            }
+            $has_url_params = \array_key_exists( 'query', $url_parts );
 
 			if ( $has_url_params ) {
 				// We need to first remove the query params, before potentially adding the pagination parts.
