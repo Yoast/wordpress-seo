@@ -61,8 +61,8 @@ export const getFieldSets = ( { isKeywordAnalysisActive = true } = {} ) => {
 		label: __( "Focus keyphrase", "wordpress-seo" ),
 		param: "focus_keyphrase",
 		width: "sm:yst-w-[19%]",
-		// The column keeps showing the keyphrase, but with the SEO analysis off there is nothing to edit it
-		// against, so it never opens for editing. The post editor hides its field entirely; this diverges on purpose.
+		// The column keeps showing the keyphrase, but with the SEO analysis off it never opens for editing.
+		// The post editor hides its field entirely; this diverges on purpose.
 		readOnly: ! isKeywordAnalysisActive,
 	};
 
