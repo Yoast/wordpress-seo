@@ -1,7 +1,7 @@
 import React from "react";
 import Table from ".";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import { component, tableBody, tableCell, tableHead, tableHeader, tableImageCell, tableRow, minimal } from "./docs";
+import { component, tableBody, tableCell, tableHead, tableHeader, tableImageCell, tableRow, minimal, tableCheckbox } from "./docs";
 
 // A stand-in thumbnail, so the story does not depend on a remote image.
 const sampleImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 100'%3E%3Crect width='160' height='100' fill='%23e2e8f0'/%3E%3Ccircle cx='124' cy='28' r='14' fill='%23fbbf24'/%3E%3Cpath d='M0 100 L52 40 L104 100 Z' fill='%2394a3b8'/%3E%3Cpath d='M78 100 L118 58 L160 100 Z' fill='%23cbd5e1'/%3E%3C/svg%3E";
@@ -239,6 +239,65 @@ export const TableCell = {
 	},
 };
 
+export const CheckboxTable = {
+	name: "Table with checkboxes",
+	parameters: {
+		controls: { disable: true },
+		docs: { description: { story: tableCheckbox } },
+	},
+	args: {
+		children: (
+			<>
+				<Table.Head>
+					<Table.Row>
+						<Table.CheckboxHeader
+							checkboxProps={ {
+								id: "story-select-all",
+								name: "story-select-all",
+								value: "all",
+								"aria-label": "Select all rows",
+								indeterminate: true,
+							} }
+						/>
+						<Table.Header>Header 1</Table.Header>
+						<Table.Header>Header 2</Table.Header>
+						<Table.Header>Header 3</Table.Header>
+					</Table.Row>
+				</Table.Head>
+				<Table.Body>
+					<Table.Row>
+						<Table.CheckboxCell
+							checkboxProps={ {
+								id: "story-select-row-1",
+								name: "story-select-row-1",
+								value: "1",
+								"aria-label": "Select row 1",
+								defaultChecked: true,
+							} }
+						/>
+						<Table.Cell>Cell 1</Table.Cell>
+						<Table.Cell>Cell 2</Table.Cell>
+						<Table.Cell>Cell 3</Table.Cell>
+					</Table.Row>
+					<Table.Row>
+						<Table.CheckboxCell
+							checkboxProps={ {
+								id: "story-select-row-2",
+								name: "story-select-row-2",
+								value: "2",
+								"aria-label": "Select row 2",
+							} }
+						/>
+						<Table.Cell>Cell 1</Table.Cell>
+						<Table.Cell>Cell 2</Table.Cell>
+						<Table.Cell>Cell 3</Table.Cell>
+					</Table.Row>
+				</Table.Body>
+			</>
+		),
+	},
+};
+
 export const MinimalVariant = {
 	name: "Table variant minimal",
 	parameters: {
@@ -323,6 +382,7 @@ export default {
 					TableHeader,
 					TableBody,
 					TableCell,
+					CheckboxTable,
 					TableImageCell,
 					MinimalVariant,
 				] }

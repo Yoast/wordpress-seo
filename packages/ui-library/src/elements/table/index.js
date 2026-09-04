@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
-import { ImageCell } from "./image-cell";
+import { CheckboxHeader, CheckboxCell, ImageCell } from "./components";
 
 const rowClassNameMap = {
 	variant: {
@@ -133,6 +133,8 @@ Table.Row = Row;
 Table.Row.displayName = "Table.Row";
 Table.Cell = Cell;
 Table.Cell.displayName = "Table.Cell";
+Table.CheckboxHeader = CheckboxHeader;
+Table.CheckboxCell = CheckboxCell;
 Table.ImageCell = ImageCell;
 Table.ImageCell.displayName = "Table.ImageCell";
 
