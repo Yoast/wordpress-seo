@@ -40,6 +40,7 @@ import {
 	CheckboxGroup,
 	ChildrenLimiter,
 	Code,
+	ContentTabs,
 	Divider,
 	DropdownMenu,
 	ErrorBoundary,
@@ -111,6 +112,23 @@ const cases = [
 		props: { id: "cb", name: "cb", value: "cb" },
 	},
 	{ name: "Code", Component: Code, props: { children: "code" } },
+	{
+		name: "ContentTabs",
+		Component: ContentTabs,
+		props: {
+			children: <><ContentTabs.TabButton id="tab">Tab</ContentTabs.TabButton><ContentTabs.Panel>Panel</ContentTabs.Panel></>,
+		},
+	},
+	{
+		name: "ContentTabs.TabButton",
+		Component: ContentTabs.TabButton,
+		props: { children: "Tab", isSelected: false, onClick: noop },
+	},
+	{
+		name: "ContentTabs.Panel",
+		Component: ContentTabs.Panel,
+		props: { children: "Panel" },
+	},
 	{ name: "Divider", Component: Divider, props: {} },
 	{ name: "Divider (with children)", Component: Divider, props: { children: "or" } },
 	{ name: "Label", Component: Label, props: {} },
@@ -147,6 +165,11 @@ const cases = [
 		name: "Table",
 		Component: Table,
 		props: { children: <Table.Body><Table.Row><Table.Cell>Cell</Table.Cell></Table.Row></Table.Body> },
+	},
+	{
+		name: "Table with image cell",
+		Component: Table,
+		props: { children: <Table.Body><Table.Row><Table.ImageCell /></Table.Row></Table.Body> },
 	},
 	{ name: "TagInput", Component: TagInput, props: {} },
 	{

@@ -32,6 +32,8 @@ final class Get_Content_Types_Test extends Abstract_Test {
 			->once()
 			->andReturn( $indexable_post_type_objects );
 
+		$this->post_type_helper->allows( 'has_metabox' )->andReturnTrue();
+
 		$this->access_checker->allows( 'can_edit_any' )->andReturnTrue();
 
 		Filters\expectApplied( 'wpseo_bulk_editor_excluded_post_types' )
@@ -43,6 +45,54 @@ final class Get_Content_Types_Test extends Abstract_Test {
 
 		$this->assertInstanceOf( Content_Types_List::class, $content_types_list );
 		$this->assertSame( $expected, $content_types_list->to_array() );
+	}
+
+	/**
+	 * Tests that content types with the Yoast metabox disabled are excluded.
+	 *
+	 * @return void
+	 */
+	public function test_get_content_types_excludes_types_with_the_metabox_disabled() {
+		$this->post_type_helper
+			->expects( 'get_indexable_post_type_objects' )
+			->once()
+			->andReturn(
+				[
+					(object) [
+						'name'    => 'post',
+						'label'   => 'Posts',
+						'labels'  => (object) [ 'singular_name' => 'Post' ],
+						'show_ui' => true,
+					],
+					(object) [
+						'name'    => 'page',
+						'label'   => 'Pages',
+						'labels'  => (object) [ 'singular_name' => 'Page' ],
+						'show_ui' => true,
+					],
+				],
+			);
+
+		$this->post_type_helper->expects( 'has_metabox' )->with( 'post' )->andReturnTrue();
+		$this->post_type_helper->expects( 'has_metabox' )->with( 'page' )->andReturnFalse();
+
+		$this->access_checker->allows( 'can_edit_any' )->andReturnTrue();
+
+		Filters\expectApplied( 'wpseo_bulk_editor_excluded_post_types' )
+			->once()
+			->with( [ 'attachment' ] )
+			->andReturnFirstArg();
+
+		$this->assertSame(
+			[
+				[
+					'name'          => 'post',
+					'label'         => 'Posts',
+					'singularLabel' => 'Post',
+				],
+			],
+			$this->instance->get_content_types()->to_array(),
+		);
 	}
 
 	/**
@@ -70,6 +120,8 @@ final class Get_Content_Types_Test extends Abstract_Test {
 					],
 				],
 			);
+
+		$this->post_type_helper->allows( 'has_metabox' )->andReturnTrue();
 
 		$this->access_checker->expects( 'can_edit_any' )->with( 'post' )->andReturnTrue();
 		$this->access_checker->expects( 'can_edit_any' )->with( 'page' )->andReturnFalse();
@@ -117,6 +169,8 @@ final class Get_Content_Types_Test extends Abstract_Test {
 				],
 			);
 
+		$this->post_type_helper->allows( 'has_metabox' )->andReturnTrue();
+
 		$this->access_checker->allows( 'can_edit_any' )->andReturnTrue();
 
 		Filters\expectApplied( 'wpseo_bulk_editor_excluded_post_types' )
@@ -161,6 +215,8 @@ final class Get_Content_Types_Test extends Abstract_Test {
 					],
 				],
 			);
+
+		$this->post_type_helper->allows( 'has_metabox' )->andReturnTrue();
 
 		$this->access_checker->allows( 'can_edit_any' )->andReturnTrue();
 
