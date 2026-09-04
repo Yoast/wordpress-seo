@@ -230,7 +230,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		$images    = $this->get_post_images( $post_id, $content_type );
 
 		if ( ! $editable ) {
-			return new Post( $post_id, $title, $status, '', '', '', '', '', '', false, $images );
+			return new Post( $post_id, $title, $status, '', '', '', '', '', '', false, [], '', '', '', '', $images );
 		}
 
 		// Read each field's value once from its meta suffix, keyed by field param, so the values can be reused for
