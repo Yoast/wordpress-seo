@@ -258,9 +258,14 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		// Group the row's open fields by endpoint — one item per endpoint, all fields merged in.
 		const rowItem = items.find( ( candidate ) => candidate.id === id );
 		const batches = {};
+		// An open field that can never be saved (read-only, or not in this field set). It is closed below: left open it
+		// would keep the row in edit mode for a save that can never come. A missing endpoint is not in this group —
+		// that field stays open so it can be retried once the endpoint exists.
+		const unsavable = [];
 		rowEdit.openFields.forEach( ( key ) => {
 			const field = fieldSet.fields.find( ( candidate ) => candidate.key === key );
 			if ( ! field || field.readOnly ) {
+				unsavable.push( key );
 				return;
 			}
 			const endpointKey = fieldEndpointKey( field, fieldSet );
@@ -276,12 +281,15 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			batches[ endpointKey ].applied.push( { key, value } );
 		} );
 
+		unsavable.forEach( ( key ) => closeField( { id, key } ) );
+
 		const groups = Object.values( batches );
 		if ( groups.length === 0 ) {
 			return;
 		}
 
-		rowEdit.openFields.forEach( ( key ) => setSavingField( { id, key, isSaving: true } ) );
+		// Only the fields actually going out are marked saving; the rest have just been closed.
+		groups.forEach( ( group ) => group.applied.forEach( ( { key } ) => setSavingField( { id, key, isSaving: true } ) ) );
 
 		const requests = groups.map( ( group ) => ( {
 			applied: group.applied,
@@ -325,11 +333,14 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		// Group every row's open drafts by endpoint: each row carries both its request payload (`item`) and the
 		// `applied` entries to reflect locally once it saves.
 		const batches = {};
+		// See onApplyRow: an open field that can never be saved is closed, so it can't hold the row in edit mode.
+		const unsavable = [];
 		Object.entries( editingRows ).forEach( ( [ rowId, row ] ) => {
 			const id = Number( rowId );
 			row.openFields.forEach( ( key ) => {
 				const field = fieldSet.fields.find( ( candidate ) => candidate.key === key );
 				if ( ! field || field.readOnly ) {
+					unsavable.push( { id, key } );
 					return;
 				}
 				const endpointKey = fieldEndpointKey( field, fieldSet );
@@ -349,6 +360,8 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 				batches[ endpointKey ].rows[ id ].applied.push( { id, key, value } );
 			} );
 		} );
+
+		unsavable.forEach( ( { id, key } ) => closeField( { id, key } ) );
 
 		const groups = Object.values( batches );
 		if ( groups.length === 0 ) {

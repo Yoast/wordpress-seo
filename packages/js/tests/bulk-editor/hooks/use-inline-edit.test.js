@@ -565,4 +565,48 @@ describe( "useInlineEdit with a read-only field", () => {
 		// The per-field apply bails out entirely, so no second request goes out.
 		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledTimes( 1 );
 	} );
+
+	it( "closes a read-only open field instead of leaving it saving, so the row can leave edit mode", async() => {
+		editingRows = {
+			7: {
+				openFields: [ "focusKeyphrase", "seoTitle" ],
+				draft: { focusKeyphrase: "", seoTitle: "Title 7" },
+				savingFields: {},
+			},
+		};
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( {} ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyRow( 7 );
+		} );
+
+		// It is never marked saving — only the fields actually going out are.
+		expect( dispatch.setSavingField ).not.toHaveBeenCalledWith( { id: 7, key: "focusKeyphrase", isSaving: true } );
+		expect( dispatch.setSavingField ).toHaveBeenCalledWith( { id: 7, key: "seoTitle", isSaving: true } );
+		// Both fields close, so the row's edit state empties rather than stranding it in edit mode.
+		expect( dispatch.closeField ).toHaveBeenCalledWith( { id: 7, key: "focusKeyphrase" } );
+		expect( dispatch.closeField ).toHaveBeenCalledWith( { id: 7, key: "seoTitle" } );
+	} );
+
+	it( "closes a read-only open field on an apply-all too", async() => {
+		editingRows = {
+			7: {
+				openFields: [ "focusKeyphrase", "seoTitle" ],
+				draft: { focusKeyphrase: "", seoTitle: "Title 7" },
+				savingFields: {},
+			},
+		};
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( {} ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyAll();
+		} );
+
+		const [ , , options ] = remoteDataProvider.fetchJson.mock.calls[ 0 ];
+		// eslint-disable-next-line camelcase -- The REST endpoint expects snake_case parameters.
+		expect( JSON.parse( options.body ) ).toEqual( { items: [ { id: 7, seo_title: "Title 7" } ] } );
+		expect( dispatch.closeField ).toHaveBeenCalledWith( { id: 7, key: "focusKeyphrase" } );
+	} );
 } );
