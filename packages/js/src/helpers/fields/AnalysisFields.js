@@ -1,5 +1,133 @@
+import { dispatch, select, subscribe } from "@wordpress/data";
+import {
+	metaKeyFocusKw,
+	metaKeyIsCornerstone,
+	metaKeyLinkdex,
+	metaKeyContentScore,
+	metaKeyInclusiveLanguageScore,
+	metaKeyMetaDescriptionScore,
+	metaKeySeoTitleScore,
+} from "../../shared-admin/constants";
+import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo, getMetaValue, setMetaValue } from "./rest-meta";
+
+/**
+ * Returns whether the core/editor store has finished loading the post type config.
+ * Dispatching editPost before the entity config is available throws a runtime error.
+ *
+ * @returns {boolean} True when the post type config is loaded and editPost can be called safely.
+ */
+function isEditorReady() {
+	return Boolean( select( "core/editor" ).getCurrentPostType() );
+}
+
+// Pending meta writes buffered before the editor entity config is ready.
+// Each entry is { value: string, undoIgnore: boolean } so the undo-ignore flag survives queuing.
+// Keyed by meta key so that rapid successive writes for the same key collapse to the last value.
+const pendingWrites = new Map();
+let unsubscribeFlush = null;
+
+/**
+ * Drains pendingWrites, routing undoIgnore entries through writeMetaWithoutUndo and the rest
+ * through editPost so that analysis scores never land on the undo stack regardless of when they
+ * were queued.
+ *
+ * @returns {void}
+ */
+function flushPendingWrites() {
+	if ( pendingWrites.size === 0 ) {
+		return;
+	}
+	const scoreMeta = {};
+	const editMeta = {};
+	for ( const [ key, { value, undoIgnore } ] of pendingWrites ) {
+		if ( undoIgnore ) {
+			scoreMeta[ key ] = value;
+		} else {
+			editMeta[ key ] = value;
+		}
+	}
+	pendingWrites.clear();
+	if ( Object.keys( scoreMeta ).length > 0 ) {
+		writeMetaWithoutUndo( scoreMeta );
+	}
+	if ( Object.keys( editMeta ).length > 0 ) {
+		dispatch( "core/editor" ).editPost( { meta: editMeta } );
+	}
+}
+
+/**
+ * Subscribes to core/editor store changes and flushes pending meta writes as soon as the editor
+ * is ready. Unsubscribes immediately after the first successful flush to avoid ongoing overhead.
+ *
+ * @returns {void}
+ */
+function scheduleFlush() {
+	if ( unsubscribeFlush ) {
+		return;
+	}
+	unsubscribeFlush = subscribe( () => {
+		if ( ! isEditorReady() ) {
+			return;
+		}
+		unsubscribeFlush();
+		unsubscribeFlush = null;
+		flushPendingWrites();
+	}, "core/editor" );
+}
+
+/**
+ * Dispatches a meta write immediately if the editor is ready, or queues it for the next flush.
+ * When the editor is already ready any previously queued writes are flushed together with this
+ * one to minimise unnecessary state updates.
+ *
+ * @param {string}  metaKey    The meta key to write.
+ * @param {string}  value      The value to write.
+ * @param {boolean} undoIgnore When true, the write bypasses the undo stack via editEntityRecord.
+ *                             Use for computed values (e.g. analysis scores) that should not
+ *                             be undoable.
+ *
+ * @returns {void}
+ */
+function writeOrQueue( metaKey, value, undoIgnore = false ) {
+	// All meta fields are registered with type: string. Coerce here so callers that pass
+	// numeric scores (e.g. linkdex) don't trigger a REST API type-validation error.
+	pendingWrites.set( metaKey, { value: String( value ), undoIgnore } );
+	if ( ! isEditorReady() ) {
+		scheduleFlush();
+		return;
+	}
+	// Cancel any pending flush subscription — we are dispatching everything now.
+	if ( unsubscribeFlush ) {
+		unsubscribeFlush();
+		unsubscribeFlush = null;
+	}
+	flushPendingWrites();
+}
+
+/**
+ * Sets a meta value either by writing directly to the DOM element when REST meta is inactive, or via the REST API when active.
+ *
+ * @param {string} metaKey The meta key to write.
+ * @param {HTMLElement|null} element The DOM element to write to when REST meta is inactive.
+ * @param {string} value The value to write.
+ * @returns {void}
+ */
+const setScoreMeta = ( metaKey, element, value ) => {
+	if ( isRestMetaActive() ) {
+		writeOrQueue( metaKey, value, true );
+		return;
+	}
+	if ( element ) {
+		element.value = value;
+	}
+};
+
 /**
  * This class is responsible for handling the interaction with the hidden fields for the analysis.
+ *
+ * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM fields are not rendered.
+ * In that case getters read from the `core/editor` store and setters dispatch to it so that
+ * WordPress saves the values via the REST API on post save.
  */
 export default class AnalysisFields {
 	/**
@@ -73,6 +201,12 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set keyphrase( value ) {
+		if ( isRestMetaActive() ) {
+			if ( ! shouldSkipMetaWrite( metaKeyFocusKw, value ) ) {
+				writeOrQueue( metaKeyFocusKw, value );
+			}
+			return;
+		}
 		if ( AnalysisFields.keyphraseElement ) {
 			AnalysisFields.keyphraseElement.value = value;
 		}
@@ -84,7 +218,7 @@ export default class AnalysisFields {
 	 * @returns {string} The keyphrase.
 	 */
 	static get keyphrase() {
-		return AnalysisFields.keyphraseElement?.value ?? "";
+		return getMetaValue( metaKeyFocusKw, AnalysisFields.keyphraseElement, "" );
 	}
 
 	/**
@@ -95,6 +229,13 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set isCornerstone( value ) {
+		if ( isRestMetaActive() ) {
+			const newValue = value ? "1" : "0";
+			if ( ! shouldSkipMetaWrite( metaKeyIsCornerstone, newValue ) ) {
+				writeOrQueue( metaKeyIsCornerstone, newValue );
+			}
+			return;
+		}
 		if ( AnalysisFields.isCornerstoneElement ) {
 			AnalysisFields.isCornerstoneElement.value = value ? "1" : "0";
 		}
@@ -106,7 +247,7 @@ export default class AnalysisFields {
 	 * @returns {boolean} The isCornerstone.
 	 */
 	static get isCornerstone() {
-		return AnalysisFields.isCornerstoneElement?.value === "1";
+		return getMetaValue( metaKeyIsCornerstone, AnalysisFields.isCornerstoneElement, "0" ) === "1";
 	}
 
 	/**
@@ -117,9 +258,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set seoScore( value ) {
-		if ( AnalysisFields.seoScoreElement ) {
-			AnalysisFields.seoScoreElement.value = value;
-		}
+		setScoreMeta( metaKeyLinkdex, AnalysisFields.seoScoreElement, value );
 	}
 
 	/**
@@ -128,7 +267,7 @@ export default class AnalysisFields {
 	 * @returns {string} The SEO (overall) score.
 	 */
 	static get seoScore() {
-		return AnalysisFields.seoScoreElement?.value ?? "";
+		return getMetaValue( metaKeyLinkdex, AnalysisFields.seoScoreElement, "" );
 	}
 
 	/**
@@ -139,9 +278,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set readabilityScore( value ) {
-		if ( AnalysisFields.readabilityScoreElement ) {
-			AnalysisFields.readabilityScoreElement.value = value;
-		}
+		setScoreMeta( metaKeyContentScore, AnalysisFields.readabilityScoreElement, value );
 	}
 
 	/**
@@ -150,7 +287,7 @@ export default class AnalysisFields {
 	 * @returns {string} The Readability (overall) score.
 	 */
 	static get readabilityScore() {
-		return AnalysisFields.readabilityScoreElement?.value ?? "";
+		return getMetaValue( metaKeyContentScore, AnalysisFields.readabilityScoreElement, "" );
 	}
 
 	/**
@@ -161,9 +298,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set inclusiveLanguageScore( value ) {
-		if ( AnalysisFields.inclusiveLanguageScoreElement ) {
-			AnalysisFields.inclusiveLanguageScoreElement.value = value;
-		}
+		setScoreMeta( metaKeyInclusiveLanguageScore, AnalysisFields.inclusiveLanguageScoreElement, value );
 	}
 
 	/**
@@ -172,7 +307,7 @@ export default class AnalysisFields {
 	 * @returns {string} The inclusive language (overall) score.
 	 */
 	static get inclusiveLanguageScore() {
-		return AnalysisFields.inclusiveLanguageScoreElement?.value ?? "";
+		return getMetaValue( metaKeyInclusiveLanguageScore, AnalysisFields.inclusiveLanguageScoreElement, "" );
 	}
 
 	/**
@@ -183,9 +318,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set seoTitleScore( value ) {
-		if ( AnalysisFields.seoTitleScoreElement ) {
-			AnalysisFields.seoTitleScoreElement.value = value;
-		}
+		setMetaValue( metaKeySeoTitleScore, AnalysisFields.seoTitleScoreElement, value );
 	}
 
 	/**
@@ -194,7 +327,7 @@ export default class AnalysisFields {
 	 * @returns {string} The SEO title score.
 	 */
 	static get seoTitleScore() {
-		return AnalysisFields.seoTitleScoreElement?.value ?? "";
+		return getMetaValue( metaKeySeoTitleScore, AnalysisFields.seoTitleScoreElement, "" );
 	}
 
 	/**
@@ -205,9 +338,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set metaDescriptionScore( value ) {
-		if ( AnalysisFields.metaDescriptionScoreElement ) {
-			AnalysisFields.metaDescriptionScoreElement.value = value;
-		}
+		setMetaValue( metaKeyMetaDescriptionScore, AnalysisFields.metaDescriptionScoreElement, value );
 	}
 
 	/**
@@ -216,6 +347,6 @@ export default class AnalysisFields {
 	 * @returns {string} The meta description score.
 	 */
 	static get metaDescriptionScore() {
-		return AnalysisFields.metaDescriptionScoreElement?.value ?? "";
+		return getMetaValue( metaKeyMetaDescriptionScore, AnalysisFields.metaDescriptionScoreElement, "" );
 	}
 }

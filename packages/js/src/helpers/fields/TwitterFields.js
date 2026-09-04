@@ -1,5 +1,17 @@
+import {
+	metaKeyTwitterTitle,
+	metaKeyTwitterDescription,
+	metaKeyTwitterImageId,
+	metaKeyTwitterImage,
+} from "../../shared-admin/constants";
+import { getMetaValue, setMetaValue } from "./rest-meta";
+
 /**
  * This class is responsible for handling the interaction with the hidden fields for Twitter.
+ *
+ * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM fields are not rendered.
+ * In that case getters read from the `core/editor` store and setters dispatch to it so that
+ * WordPress saves the values via the REST API on post save.
  */
 export default class TwitterFields {
 	/**
@@ -44,7 +56,7 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter title.
 	 */
 	static get title() {
-		return TwitterFields.titleElement.value;
+		return getMetaValue( metaKeyTwitterTitle, TwitterFields.titleElement, "" );
 	}
 
 	/**
@@ -55,7 +67,7 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set title( value ) {
-		TwitterFields.titleElement.value = value;
+		setMetaValue( metaKeyTwitterTitle, TwitterFields.titleElement, value );
 	}
 
 	/**
@@ -66,7 +78,7 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set description( value ) {
-		TwitterFields.descriptionElement.value = value;
+		setMetaValue( metaKeyTwitterDescription, TwitterFields.descriptionElement, value );
 	}
 
 	/**
@@ -75,7 +87,7 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter description.
 	 */
 	static get description() {
-		return TwitterFields.descriptionElement.value;
+		return getMetaValue( metaKeyTwitterDescription, TwitterFields.descriptionElement, "" );
 	}
 
 	/**
@@ -86,7 +98,7 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set imageId( value ) {
-		TwitterFields.imageIdElement.value = value;
+		setMetaValue( metaKeyTwitterImageId, TwitterFields.imageIdElement, value );
 	}
 
 	/**
@@ -95,7 +107,7 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter imageId.
 	 */
 	static get imageId() {
-		return TwitterFields.imageIdElement.value;
+		return getMetaValue( metaKeyTwitterImageId, TwitterFields.imageIdElement, "" );
 	}
 
 	/**
@@ -106,7 +118,7 @@ export default class TwitterFields {
 	 * @returns {void}
 	 */
 	static set imageUrl( value ) {
-		TwitterFields.imageUrlElement.value = value;
+		setMetaValue( metaKeyTwitterImage, TwitterFields.imageUrlElement, value );
 	}
 
 	/**
@@ -115,6 +127,6 @@ export default class TwitterFields {
 	 * @returns {string} The Twitter imageUrl.
 	 */
 	static get imageUrl() {
-		return TwitterFields.imageUrlElement.value;
+		return getMetaValue( metaKeyTwitterImage, TwitterFields.imageUrlElement, "" );
 	}
 }

@@ -232,6 +232,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return void
 	 */
 	public function add_meta_box() {
+		if ( $this->is_metabox_disabled_in_block_editor() ) {
+			return;
+		}
+
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 		$post_types = array_filter( $post_types, [ $this, 'display_metabox' ] );
 
@@ -330,8 +334,36 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return void
 	 */
 	public function meta_box() {
-		$this->render_hidden_fields();
+		if ( ! $this->is_metabox_disabled_in_block_editor() ) {
+			$this->render_hidden_fields();
+		}
 		$this->render_tabs();
+	}
+
+	/**
+	 * Returns whether the metabox hidden fields and $_POST-based save are disabled for the block editor.
+	 *
+	 * When this returns true the block editor uses the REST API meta path instead: all WPSEO post meta
+	 * fields are registered with show_in_rest, so core/editor carries and saves them automatically.
+	 *
+	 * Filter: 'wpseo_disable_metabox_in_block_editor'
+	 *
+	 * @return bool
+	 */
+	protected function is_metabox_disabled_in_block_editor() {
+		$screen = WP_Screen::get();
+		if ( ! $screen || ! $screen->is_block_editor() ) {
+			return false;
+		}
+
+		/**
+		 * Filter: 'wpseo_disable_metabox_in_block_editor' - Disables the Yoast metabox hidden fields
+		 * and the $_POST-based save hook in the block editor, so that post meta is saved via the
+		 * WordPress REST API instead (requires all relevant fields to have show_in_rest enabled).
+		 *
+		 * @param bool $disable Whether to disable the metabox. Default false.
+		 */
+		return (bool) apply_filters( 'wpseo_disable_metabox_in_block_editor', false );
 	}
 
 	/**
@@ -699,6 +731,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return false;
 		}
 
+		// Bail when the REST meta path is active and there is no metabox form submission.
+		// core/editor persists meta via the REST API, so $_POST will not contain the Yoast
+		// nonce or hidden-field values. Checking for the nonce absence ensures we only skip
+		// when there is genuinely no $_POST-based save to process.
+		// Note: is_metabox_disabled_in_block_editor() cannot be used here because WP_Screen
+		// is not initialised during REST requests, so the filter is called directly instead.
+		if ( apply_filters( 'wpseo_disable_metabox_in_block_editor', false )
+			&& ( defined( 'REST_REQUEST' ) && REST_REQUEST )
+			&& ! isset( $_POST['yoast_free_metabox_nonce'] ) ) {
+			return false;
+		}
+
 		if ( $post_id === null ) {
 			return false;
 		}
@@ -903,19 +947,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$is_front_page    = $homepage_is_page && $page_on_front === (int) $post_id;
 
 		$script_data = [
-			'metabox'                    => $this->get_metabox_script_data(),
-			'isPost'                     => true,
-			'isBlockEditor'              => $is_block_editor,
-			'postId'                     => $post_id,
-			'postStatus'                 => get_post_status( $post_id ),
-			'postType'                   => get_post_type( $post_id ),
-			'isPage'                     => get_post_type( $post_id ) === 'page',
-			'usedKeywordsNonce'          => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
-			'analysis'                   => [
+			'metabox'                     => $this->get_metabox_script_data(),
+			'isPost'                      => true,
+			'isBlockEditor'               => $is_block_editor,
+			'disableMetaboxInBlockEditor' => $is_block_editor && (bool) apply_filters( 'wpseo_disable_metabox_in_block_editor', false ),
+			'postId'                      => $post_id,
+			'postStatus'                  => get_post_status( $post_id ),
+			'postType'                    => get_post_type( $post_id ),
+			'isPage'                      => get_post_type( $post_id ) === 'page',
+			'usedKeywordsNonce'           => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
+			'analysis'                    => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'isFrontPage'                => $is_front_page,
+			'isFrontPage'                 => $is_front_page,
 		];
 
 		/**
