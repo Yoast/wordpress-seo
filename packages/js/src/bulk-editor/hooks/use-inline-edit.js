@@ -201,8 +201,16 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			return;
 		}
 		const draftValues = Object.fromEntries(
-			fieldSets[ activeFieldSet ].fields.map( ( field ) => [ field.key, item[ field.key ] || item[ `${ field.key }Fallback` ] || "" ] )
+			fieldSets[ activeFieldSet ].fields
+				// A read-only field never enters the draft, so it never becomes an open field: it stays plain text and,
+				// because the save paths iterate the open fields, it can never be shipped in an update payload and blanked.
+				.filter( ( field ) => ! field.readOnly )
+				.map( ( field ) => [ field.key, item[ field.key ] || item[ `${ field.key }Fallback` ] || "" ] )
 		);
+		// Guards against an all-read-only field set opening a row that holds no open field, which nothing could then close.
+		if ( Object.keys( draftValues ).length === 0 ) {
+			return;
+		}
 		startEdit( { id, draft: draftValues } );
 	}, [ items, fieldSets, activeFieldSet, startEdit ] );
 
@@ -212,7 +220,8 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		const fieldSet = fieldSets[ activeFieldSet ];
 		const field = fieldSet.fields.find( ( candidate ) => candidate.key === key );
 		const rowEdit = editingRows[ id ];
-		if ( ! field || ! rowEdit ) {
+		// A read-only field must never reach a request body, even if something else put it in the open fields.
+		if ( ! field || field.readOnly || ! rowEdit ) {
 			return;
 		}
 		const endpoint = dataProvider.getEndpoint( fieldEndpointKey( field, fieldSet ) );
@@ -251,7 +260,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 		const batches = {};
 		rowEdit.openFields.forEach( ( key ) => {
 			const field = fieldSet.fields.find( ( candidate ) => candidate.key === key );
-			if ( ! field ) {
+			if ( ! field || field.readOnly ) {
 				return;
 			}
 			const endpointKey = fieldEndpointKey( field, fieldSet );
@@ -320,7 +329,7 @@ export const useInlineEdit = ( { dataProvider, remoteDataProvider, fieldSets, ac
 			const id = Number( rowId );
 			row.openFields.forEach( ( key ) => {
 				const field = fieldSet.fields.find( ( candidate ) => candidate.key === key );
-				if ( ! field ) {
+				if ( ! field || field.readOnly ) {
 					return;
 				}
 				const endpointKey = fieldEndpointKey( field, fieldSet );

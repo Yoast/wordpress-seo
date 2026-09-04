@@ -32,6 +32,7 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, FOCUS_KEYPHRASE_KEY } from "./const
  * @property {string}  [type]     "title" or "description" for replacement-variable fields; absent for plain text fields.
  * @property {string}  [endpoint] A data-provider endpoint key that saves this field, overriding the field set's
  *                                default endpoint.
+ * @property {boolean} [readOnly] Whether the column is shown but cannot be opened for editing.
  */
 
 /**
@@ -49,14 +50,20 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, FOCUS_KEYPHRASE_KEY } from "./const
  *
  * Returns a factory (not a constant) so labels are translated at call time rather than at module load.
  *
+ * @param {Object}  [props]                             The props.
+ * @param {boolean} [props.isKeywordAnalysisActive=true] Whether the SEO analysis is enabled.
+ *
  * @returns {Object<string, FieldSet>} The field sets, keyed by id.
  */
-export const getFieldSets = () => {
+export const getFieldSets = ( { isKeywordAnalysisActive = true } = {} ) => {
 	const focusKeyphrase = {
 		key: FOCUS_KEYPHRASE_KEY,
 		label: __( "Focus keyphrase", "wordpress-seo" ),
 		param: "focus_keyphrase",
 		width: "sm:yst-w-[19%]",
+		// The column keeps showing the keyphrase, but with the SEO analysis off there is nothing to edit it
+		// against, so it never opens for editing. The post editor hides its field entirely; this diverges on purpose.
+		readOnly: ! isKeywordAnalysisActive,
 	};
 
 	return {
