@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  */
 class Indexable_Posts_Collector implements Posts_Collector_Interface {
 
+	use Post_Images_Trait;
 	use Post_Title_Trait;
 	use Searchable_Fields_Trait;
 
@@ -285,9 +286,10 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	private function build_post( Indexable $indexable, bool $editable, bool $scores_enabled ): Post {
 		$object_id = (int) $indexable->object_id;
 		$title     = $this->get_normalized_title( $object_id );
+		$images    = $this->get_post_images( $object_id, (string) $indexable->object_sub_type );
 
 		if ( ! $editable ) {
-			return new Post( $object_id, $title, (string) $indexable->post_status, '', '', '', '', '', '', false );
+			return new Post( $object_id, $title, (string) $indexable->post_status, '', '', '', '', '', '', false, [], '', '', '', '', $images );
 		}
 
 		$post_type = (string) $indexable->object_sub_type;
@@ -321,6 +323,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			( $raw_meta_description === '' ) ? $resolved_values['meta_description'] : '',
 			( $raw_social_title === '' ) ? $resolved_values['social_title'] : '',
 			( $raw_social_description === '' ) ? $resolved_values['social_description'] : '',
+			$images,
 		);
 	}
 
