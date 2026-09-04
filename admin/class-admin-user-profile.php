@@ -53,8 +53,12 @@ class WPSEO_Admin_User_Profile {
 		if ( ! check_admin_referer( 'wpseo_user_profile_update', 'wpseo_nonce' ) ) {
 			return;
 		}
+$wpseo_author_title = '';
+if ( isset( $_POST['wpseo_author_title'] ) ) {
+    $raw_value = wp_unslash( $_POST['wpseo_author_title'] );
+    $wpseo_author_title = is_scalar( $raw_value ) ? sanitize_text_field( $raw_value ) : '';
+}
 
-		$wpseo_author_title                        = isset( $_POST['wpseo_author_title'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_author_title'] ) ) : '';
 		$wpseo_author_metadesc                     = isset( $_POST['wpseo_author_metadesc'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_author_metadesc'] ) ) : '';
 		$wpseo_author_pronouns                     = isset( $_POST['wpseo_author_pronouns'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_author_pronouns'] ) ) : '';
 		$wpseo_noindex_author                      = isset( $_POST['wpseo_noindex_author'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_noindex_author'] ) ) : '';
