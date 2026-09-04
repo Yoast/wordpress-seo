@@ -207,6 +207,48 @@ final class Get_Posts_Test extends Abstract_Test {
 	}
 
 	/**
+	 * Tests that the images an add-on supplies are added to a post the current user cannot edit.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_adds_filtered_images_to_non_editable_post() {
+		$this->stub_run_query( [ 7 ], 1 );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => false ] );
+
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn(
+			(object) [
+				'post_status' => 'publish',
+				'post_type'   => 'product',
+			],
+		);
+		Functions\expect( 'get_the_title' )->once()->andReturn( 'Secret product' );
+		Functions\expect( 'get_edit_post_link' )->never();
+		Functions\expect( 'get_post_meta' )->never();
+
+		Filters\expectApplied( 'wpseo_bulk_editor_post_images' )
+			->once()
+			->with( [], 7, 'product' )
+			->andReturn( [ 'thumbnail' => 'https://example.com/product1.jpg' ] );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'product', 1, 20, '', self::STATUSES ) )->to_array();
+
+		$this->assertSame( [ 'thumbnail' => 'https://example.com/product1.jpg' ], $result['posts'][0]['images'] );
+		// The SEO data stays withheld, so the images are the only data a locked post exposes.
+		$this->assertSame( '', $result['posts'][0]['seo_title'] );
+		// The images must not end up in the needs-improvement verdict, which sits in the constructor slot before them.
+		$this->assertSame(
+			[
+				'seo_title'          => false,
+				'meta_description'   => false,
+				'social_title'       => false,
+				'social_description' => false,
+			],
+			$result['posts'][0]['needs_improvement'],
+		);
+	}
+
+	/**
 	 * Tests that the SEO title and meta description fall back to the resolved template when the stored
 	 * values are empty, and that the post is not flagged as needing improvement.
 	 *
