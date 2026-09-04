@@ -59,6 +59,3 @@ LinkButton.propTypes = {
 	focusBorderColor: PropTypes.string,
 	focusBoxShadowColor: PropTypes.string,
 };
-
-// Kept for classic-runtime consumers; the `.attrs` above is what applies these on React 19.
-LinkButton.defaultProps = linkButtonDefaults;

@@ -93,13 +93,6 @@ CellBase.propTypes = {
 	ellipsis: PropTypes.bool,
 };
 
-CellBase.defaultProps = {
-	hideOnMobile: false,
-	hideOnTable: false,
-	separator: false,
-	ellipsis: false,
-};
-
 /*
  * Primary cell, the largest one in a row: can grow, cannot shrink, and the
  * initial width is 200 pixels. In the responsive view, can shrink.
