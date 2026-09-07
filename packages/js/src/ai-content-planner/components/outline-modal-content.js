@@ -108,7 +108,9 @@ const LoadingOutlineModalContent = () => {
 			<hr className="yst-border-slate-200 yst-my-6" />
 			<StructureSectionHeader />
 			<ul
-				aria-label={ __( "Blog post structure", "wordpress-seo" ) }
+				aria-label={
+					/* translators: Hidden accessibility text. */
+					__( "Blog post structure", "wordpress-seo" ) }
 				aria-busy={ true }
 				className="yst-list-none yst-p-0 yst-m-0 yst-flex yst-flex-col yst-gap-2"
 			>
@@ -299,7 +301,12 @@ export const OutlineModalContent = ( {
 							<StructureSectionHeader />
 							{ /* Live region announces keyboard reorder results to screen readers. */ }
 							<div aria-live="assertive" aria-atomic="true" className="yst-sr-only">{ reorderMessage }</div>
-							<ul aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2 yst-list-none yst-p-0 yst-m-0">
+							<ul
+								aria-label={
+									/* translators: Hidden accessibility text. */
+									__( "Blog post structure", "wordpress-seo" ) }
+								className="yst-flex yst-flex-col yst-gap-2 yst-list-none yst-p-0 yst-m-0"
+							>
 								{ structure.map( ( item, index ) => (
 									<StructureRow
 										key={ item.id }

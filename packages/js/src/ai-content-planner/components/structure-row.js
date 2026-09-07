@@ -119,11 +119,16 @@ export const StructureRow = ( {
 	>
 		<span className="yst-font-medium yst-text-slate-500">H2</span>
 		<span className="yst-text-slate-600">{ heading }</span>
-		<span className="yst-sr-only">{ sprintf(
-			/* translators: 1: current position, 2: total items. */
-			__( "Position %1$d out of %2$d. Use Alt+Arrow Up/Down to reorder.", "wordpress-seo" ),
-			index + 1,
-			totalItems ) }</span>
+		<span className="yst-sr-only">
+			{
+				/* translators: Hidden accessibility text. */
+				sprintf(
+					/* translators: 1: current position, 2: total items. */
+					__( "Position %1$d out of %2$d. Use Alt+Arrow Up/Down to reorder.", "wordpress-seo" ),
+					index + 1,
+					totalItems )
+			}
+		</span>
 	</Row> );
 };
 

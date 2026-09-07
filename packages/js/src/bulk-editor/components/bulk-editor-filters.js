@@ -105,7 +105,9 @@ export const BulkEditorFilters = () => {
 				setIsVisible={ setIsOpen }
 				position="bottom-left"
 				className="before:yst-hidden !yst-top-full yst-mt-1 yst-py-0.5 yst-px-0 yst-shadow-lg"
-				aria-label={ __( "Filters", "wordpress-seo" ) }
+				aria-label={
+					/* translators: Hidden accessibility text. */
+					__( "Filters", "wordpress-seo" ) }
 			>
 				{ overviewIds.length > 0 && (
 					<CheckboxGroup

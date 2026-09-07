@@ -121,13 +121,19 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 				closeButtonId="button-close-bulk-editor-navigation-mobile"
 				openButtonScreenReaderText={ __( "Open bulk editor navigation", "wordpress-seo" ) }
 				closeButtonScreenReaderText={ __( "Close bulk editor navigation", "wordpress-seo" ) }
-				aria-label={ __( "Bulk editor navigation", "wordpress-seo" ) }
+				aria-label={
+					/* translators: Hidden accessibility text. */
+					__( "Bulk editor navigation", "wordpress-seo" ) }
 			>
 				<BulkEditorNavMenu { ...menuProps } idSuffix="-mobile" />
 			</SidebarNavigation.Mobile>
 			<div className="yst-p-4 min-[783px]:yst-p-8 yst-flex yst-items-start yst-gap-6">
 				<aside className="yst-w-56 yst-shrink-0 yst-hidden min-[783px]:yst-block">
-					<SidebarNavigation.Sidebar aria-label={ __( "Bulk editor menu", "wordpress-seo" ) }>
+					<SidebarNavigation.Sidebar
+						aria-label={
+							/* translators: Hidden accessibility text. */
+							__( "Bulk editor menu", "wordpress-seo" ) }
+					>
 						<BulkEditorNavMenu { ...menuProps } />
 					</SidebarNavigation.Sidebar>
 				</aside>

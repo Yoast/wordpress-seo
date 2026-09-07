@@ -113,7 +113,9 @@ const App = () => {
 					openButtonScreenReaderText={ __( "Open dashboard navigation", "wordpress-seo" ) }
 					/* translators: Hidden accessibility text. */
 					closeButtonScreenReaderText={ __( "Close dashboard navigation", "wordpress-seo" ) }
-					aria-label={ __( "Dashboard navigation", "wordpress-seo" ) }
+					aria-label={
+						/* translators: Hidden accessibility text. */
+						__( "Dashboard navigation", "wordpress-seo" ) }
 				>
 					<Menu idSuffix="-mobile" />
 				</SidebarNavigation.Mobile>

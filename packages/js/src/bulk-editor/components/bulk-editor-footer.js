@@ -60,8 +60,9 @@ export const BulkEditorFooter = ( { total, totalPages, isPending } ) => {
 				// On mobile the pager fills the row: stretch the nav full width and let each button grow
 				// equally with slim padding so multi-digit page numbers fit. Desktop keeps the inline pill.
 				className="max-sm:yst-flex max-sm:yst-w-full max-sm:[&>*]:yst-flex-1 max-sm:[&_button]:yst-justify-center max-sm:[&_button]:!yst-px-1"
-				/* translators: Hidden accessibility label for the pagination navigation landmark. */
-				aria-label={ __( "Results pagination", "wordpress-seo" ) }
+				aria-label={
+					/* translators: Hidden accessibility text, Hidden accessibility label for the pagination navigation landmark. */
+					__( "Results pagination", "wordpress-seo" ) }
 				current={ page }
 				total={ totalPages }
 				onNavigate={ onNavigate }

@@ -48,7 +48,9 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminat
 					id={ `bulk-editor-select-all${ idSuffix }` }
 					name={ `bulk-editor-select-all${ idSuffix }` }
 					value="all"
-					aria-label={ __( "Select all", "wordpress-seo" ) }
+					aria-label={
+						/* translators: Hidden accessibility text. */
+						__( "Select all", "wordpress-seo" ) }
 					checked={ isAllSelected }
 					onChange={ onToggleAll }
 				/>
