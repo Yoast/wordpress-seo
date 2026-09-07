@@ -13,6 +13,31 @@ import normalizeProductData from "../../../contract/normalizeProductData";
  */
 
 /**
+ * The data a `callbacks.getResultTexts` implementation is given, so a platform can word the feedback for the
+ * item it is analyzing without knowing how the assessment reaches its score.
+ *
+ * @typedef {Object} ImageCountResultTextsInput
+ * @property {string} urlTitleAnchorOpeningTag The anchor opening tag for the article about this assessment.
+ * @property {string} urlActionAnchorOpeningTag The anchor opening tag for the call to action.
+ * @property {number} mediaCount The number of assessed images, plus the videos in the text when `countVideos` is true.
+ * @property {number} recommendedCount The configured recommended number of images.
+ * @property {boolean} countVideos Whether videos are included in the count, so the callback can pick its own wording.
+ * @property {boolean} isVariableProduct Whether the analyzed item can carry variants.
+ */
+
+/**
+ * The feedback strings for the three reachable states of this assessment, already formatted with their anchors.
+ *
+ * Every property is required: the object a callback returns is used as is, so an omitted key renders as an empty
+ * result text rather than falling back to the default string.
+ *
+ * @typedef {Object} ImageCountResultTexts
+ * @property {string} noMedia There are no images, or no images and no videos.
+ * @property {string} okay Fewer images than recommended. Only reachable when the config sets `scores.okay`.
+ * @property {string} good Enough images.
+ */
+
+/**
  * Represents the assessment that checks if the text has any images present, including videos in product pages.
  */
 export default class TextImagesAssessment extends Assessment {
@@ -21,7 +46,7 @@ export default class TextImagesAssessment extends Assessment {
 	 *
 	 * @param {object}  config      The configuration to use.
 	 * @param {object}  [config.callbacks] The callbacks to use for the assessment.
-	 * @param {function}  [config.callbacks.getResultTexts]  The function that returns the result texts.
+	 * @param {function(ImageCountResultTextsInput): ImageCountResultTexts} [config.callbacks.getResultTexts] Returns the feedback strings, replacing the defaults.
 	 * @param {boolean} countVideos Whether videos are also included in the assessment or not.
 	 */
 	constructor( config = {}, countVideos = false ) {
@@ -109,30 +134,14 @@ export default class TextImagesAssessment extends Assessment {
 	/**
 	 * Returns the feedback strings for the assessment.
 	 *
-	 * A platform can replace them by passing `callbacks.getResultTexts` in the config. Without that callback the
-	 * defaults below apply, so the hook is opt-in and existing consumers are unaffected.
+	 * A platform can replace them by passing a `callbacks.getResultTexts` in the config, of the shape
+	 * `(ImageCountResultTextsInput) => ImageCountResultTexts`. Without that callback the defaults below apply, so
+	 * the hook is opt-in and existing consumers are unaffected.
 	 *
-	 * The callback is given:
-	 * - urlTitleAnchorOpeningTag: string — anchor opening tag for the article about this assessment
-	 * - urlActionAnchorOpeningTag: string — anchor opening tag for the call to action
-	 * - mediaCount: number — the number of assessed images, plus videos when `countVideos` is true
-	 * - recommendedCount: number — the configured recommended number of images
-	 * - countVideos: boolean — whether videos are included, so the callback can pick its own wording
-	 * - isVariableProduct: boolean — whether the analyzed item can carry variants
+	 * `countVideos` is handed to the callback rather than split into six keys, because three of the six default
+	 * strings are the "Images and videos" variants, which no current consumer can reach.
 	 *
-	 * and must return:
-	 * - noMedia: string — no images (or no images and no videos)
-	 * - okay: string — fewer images than recommended; only reachable when the config sets `scores.okay`
-	 * - good: string — enough images
-	 *
-	 * `countVideos` is passed in rather than split into six keys because three of the six default strings are the
-	 * "Images and videos" variants, which no current consumer can reach.
-	 *
-	 * Note that a returned object is used **as is**: an omitted key renders as an empty result text rather than
-	 * falling back to the default string, so a callback must return all three. This matches
-	 * `ImageAltTagsAssessment`, which behaves the same way.
-	 *
-	 * @returns {{noMedia: string, okay: string, good: string}} The feedback strings.
+	 * @returns {ImageCountResultTexts} The feedback strings.
 	 */
 	getFeedbackStrings() {
 		// Both are already anchor opening tags: the assessor wraps the URLs before passing them in.

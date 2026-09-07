@@ -11,6 +11,31 @@ import normalizeProductData from "../../../contract/normalizeProductData";
  */
 
 /**
+ * The data a `callbacks.getResultTexts` implementation is given, so a platform can word the feedback for the
+ * item it is analyzing without knowing how the assessment reaches its score.
+ *
+ * @typedef {Object} ImageAltTagsResultTextsInput
+ * @property {string} urlTitleAnchorOpeningTag The anchor opening tag for the article about this assessment.
+ * @property {string} urlActionAnchorOpeningTag The anchor opening tag for the call to action.
+ * @property {number} numberOfImagesWithoutAlt The number of assessed images that have no alt attribute.
+ * @property {number} totalNumberOfImages The number of assessed images in total.
+ * @property {boolean} isVariableProduct Whether the analyzed item can carry variants.
+ */
+
+/**
+ * The feedback strings for the four states of this assessment, already formatted with their anchors.
+ *
+ * Every property is required: the object a callback returns is used as is, so an omitted key renders as an empty
+ * result text rather than falling back to the default string.
+ *
+ * @typedef {Object} ImageAltTagsResultTexts
+ * @property {string} good Every assessed image has an alt attribute.
+ * @property {string} noImagesBad There are no images at all.
+ * @property {string} noneHasAltBad No assessed image has an alt attribute.
+ * @property {string} someHaveAltBad Some assessed images have no alt attribute.
+ */
+
+/**
  * Represents the assessment that checks if all images have alt attributes (only applicable for product pages).
  */
 export default class ImageAltTagsAssessment extends Assessment {
@@ -24,7 +49,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 * @param {string}  [config.urlTitle]     The URL to the article about this assessment.
 	 * @param {string}  [config.urlCallToAction]  The URL to the help article for this assessment.
 	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
-	 * @param {function}  [config.callbacks.getResultTexts]  The function that returns the result texts.
+	 * @param {function(ImageAltTagsResultTextsInput): ImageAltTagsResultTexts} [config.callbacks.getResultTexts] Returns the feedback strings, replacing the defaults.
 	 */
 	constructor( config = {} ) {
 		super();
@@ -113,29 +138,15 @@ export default class ImageAltTagsAssessment extends Assessment {
 	/**
 	 * Returns the feedback strings for the assessment.
 	 *
-	 * A platform can replace them by passing `callbacks.getResultTexts` in the config. Without that callback the
-	 * defaults below apply, so the hook is opt-in and existing consumers are unaffected.
+	 * A platform can replace them by passing a `callbacks.getResultTexts` in the config, of the shape
+	 * `(ImageAltTagsResultTextsInput) => ImageAltTagsResultTexts`. Without that callback the defaults below apply,
+	 * so the hook is opt-in and existing consumers are unaffected.
 	 *
-	 * The callback is given:
-	 * - urlTitleAnchorOpeningTag: string — anchor opening tag for the article about this assessment
-	 * - urlActionAnchorOpeningTag: string — anchor opening tag for the call to action
-	 * - numberOfImagesWithoutAlt: number — assessed images with no alt attribute
-	 * - totalNumberOfImages: number — assessed images in total
-	 * - isVariableProduct: boolean — whether the analyzed item can carry variants
+	 * `isVariableProduct` is handed to the callback because a platform that scopes the assessment to a product's own
+	 * images may need to name the places those images live, and on a variable product that includes the variation
+	 * images.
 	 *
-	 * and must return:
-	 * - good: string — every image has an alt attribute
-	 * - noImagesBad: string — there are no images at all
-	 * - noneHasAltBad: string — no image has an alt attribute
-	 * - someHaveAltBad: string — some images have none
-	 *
-	 * `isVariableProduct` is passed in because a platform that scopes the assessment to a product's own images may
-	 * need to name the places those images live, and on a variable product that includes the variation images.
-	 *
-	 * Note that a returned object is used **as is**: an omitted key renders as an empty result text rather than
-	 * falling back to the default string, so a callback must return all four.
-	 *
-	 * @returns {{good: string, noImagesBad: string, noneHasAltBad: string, someHaveAltBad: string}} The feedback strings.
+	 * @returns {ImageAltTagsResultTexts} The feedback strings.
 	 */
 	getFeedbackStrings() {
 		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
