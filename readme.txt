@@ -315,6 +315,10 @@ Release date: 2026-09-15
 
 * Adds a link with more information about social previews to the social appearance sections of the editor.
 
+#### Bugfixes
+
+* Fixes a bug where the SEO data optimization would loop endlessly when an indexing batch was repeatedly returned without being processed.
+
 #### Other
 
 * Updates the plugin's app URL and logo that are used when initiating the MyYoast connection.
