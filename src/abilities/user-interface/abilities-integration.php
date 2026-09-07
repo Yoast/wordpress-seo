@@ -411,8 +411,6 @@ class Abilities_Integration implements Integration_Interface {
 	 * @return array<string, mixed> The input schema.
 	 */
 	private function get_update_post_seo_data_input_schema(): array {
-		$nullable_string = [ 'type' => [ 'string', 'null' ] ];
-
 		return [
 			'type'                 => 'object',
 			'additionalProperties' => false,
@@ -426,16 +424,34 @@ class Abilities_Integration implements Integration_Interface {
 					'type'        => 'string',
 					'description' => \__( 'The permalink (URL) of the post to update.', 'wordpress-seo' ),
 				],
-				'canonical'           => $nullable_string,
-				'is_cornerstone'      => [ 'type' => 'boolean' ],
+				'canonical'           => [
+					'type'        => [ 'string', 'null' ],
+					'description' => \__( 'The custom canonical URL for the post. Use null or an empty string to remove it and fall back to the default canonical.', 'wordpress-seo' ),
+				],
+				'is_cornerstone'      => [
+					'type'        => 'boolean',
+					'description' => \__( 'Whether the post is marked as cornerstone content.', 'wordpress-seo' ),
+				],
 				'noindex'             => [
 					'type'        => [ 'boolean', 'null' ],
 					'description' => \__( 'Whether search engines should be told not to index this post. true sets noindex (the post is excluded from search results); false forces the post to be indexed; null clears the setting and falls back to the post-type default.', 'wordpress-seo' ),
 				],
-				'nofollow'            => [ 'type' => 'boolean' ],
-				'noimageindex'        => [ 'type' => 'boolean' ],
-				'noarchive'           => [ 'type' => 'boolean' ],
-				'nosnippet'           => [ 'type' => 'boolean' ],
+				'nofollow'            => [
+					'type'        => 'boolean',
+					'description' => \__( 'Whether search engines should be told not to follow the links on this post.', 'wordpress-seo' ),
+				],
+				'noimageindex'        => [
+					'type'        => 'boolean',
+					'description' => \__( 'Whether search engines should be told not to index the images on this post.', 'wordpress-seo' ),
+				],
+				'noarchive'           => [
+					'type'        => 'boolean',
+					'description' => \__( 'Whether search engines should be told not to show a cached copy of this post.', 'wordpress-seo' ),
+				],
+				'nosnippet'           => [
+					'type'        => 'boolean',
+					'description' => \__( 'Whether search engines should be told not to show a snippet of this post in the search results.', 'wordpress-seo' ),
+				],
 				'schema_page_type'    => $this->nullable_enum_schema(
 					\array_keys( Schema_Types::PAGE_TYPES ),
 					\__( 'The Schema.org page type for the post. Must be one of the supported page types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
@@ -519,6 +535,18 @@ class Abilities_Integration implements Integration_Interface {
 			];
 		};
 
+		// The raw side of a rendered pair carries the stored per-post value; null means "no custom value set", not "nothing is output".
+		$raw = static function ( $field ) {
+			return [
+				'type'        => [ 'string', 'null' ],
+				'description' => \sprintf(
+					/* translators: %s expands to the name of the SEO field, e.g. "SEO title". */
+					\__( 'The custom %s as stored for the post, which may contain unexpanded replacement variables. Null when no custom value is set; the rendered companion field carries what is actually output.', 'wordpress-seo' ),
+					$field,
+				),
+			];
+		};
+
 		return [
 			'type'       => 'object',
 			'properties' => [
@@ -527,13 +555,19 @@ class Abilities_Integration implements Integration_Interface {
 				'permalink'                       => $nullable_string,
 				'post_type'                       => [ 'type' => 'string' ],
 				'post_status'                     => $nullable_string,
-				'seo_title'                       => $nullable_string,
+				'seo_title'                       => $raw( \__( 'SEO title', 'wordpress-seo' ) ),
 				'seo_title_rendered'              => $rendered( \__( 'SEO title', 'wordpress-seo' ) ),
-				'meta_description'                => $nullable_string,
+				'meta_description'                => $raw( \__( 'meta description', 'wordpress-seo' ) ),
 				'meta_description_rendered'       => $rendered( \__( 'meta description', 'wordpress-seo' ) ),
 				'focus_keyphrase'                 => $nullable_string,
-				'canonical'                       => $nullable_string,
-				'canonical_rendered'              => $rendered( \__( 'canonical URL', 'wordpress-seo' ) ),
+				'canonical'                       => [
+					'type'        => [ 'string', 'null' ],
+					'description' => \__( 'The custom canonical URL as stored for the post. Null when no custom value is set; the rendered companion field carries what is actually output.', 'wordpress-seo' ),
+				],
+				'canonical_rendered'              => [
+					'type'        => [ 'string', 'null' ],
+					'description' => \__( 'The canonical URL as output on the front end: the custom value when set, otherwise the permalink of the post. Null when nothing is output.', 'wordpress-seo' ),
+				],
 				'is_cornerstone'                  => [ 'type' => 'boolean' ],
 				'noindex'                         => [
 					'type'        => [ 'boolean', 'null' ],
@@ -543,16 +577,22 @@ class Abilities_Integration implements Integration_Interface {
 				'noimageindex'                    => [ 'type' => 'boolean' ],
 				'noarchive'                       => [ 'type' => 'boolean' ],
 				'nosnippet'                       => [ 'type' => 'boolean' ],
-				'open_graph_title'                => $nullable_string,
+				'open_graph_title'                => $raw( \__( 'Open Graph title', 'wordpress-seo' ) ),
 				'open_graph_title_rendered'       => $rendered( \__( 'Open Graph title', 'wordpress-seo' ) ),
-				'open_graph_description'          => $nullable_string,
+				'open_graph_description'          => $raw( \__( 'Open Graph description', 'wordpress-seo' ) ),
 				'open_graph_description_rendered' => $rendered( \__( 'Open Graph description', 'wordpress-seo' ) ),
-				'twitter_title'                   => $nullable_string,
-				'twitter_title_rendered'          => $rendered( \__( 'Twitter title', 'wordpress-seo' ) ),
-				'twitter_description'             => $nullable_string,
-				'twitter_description_rendered'    => $rendered( \__( 'Twitter description', 'wordpress-seo' ) ),
-				'schema_page_type'                => $nullable_string,
-				'schema_article_type'             => $nullable_string,
+				'twitter_title'                   => $raw( \__( 'X title', 'wordpress-seo' ) ),
+				'twitter_title_rendered'          => $rendered( \__( 'X title', 'wordpress-seo' ) ),
+				'twitter_description'             => $raw( \__( 'X description', 'wordpress-seo' ) ),
+				'twitter_description_rendered'    => $rendered( \__( 'X description', 'wordpress-seo' ) ),
+				'schema_page_type'                => [
+					'type'        => [ 'string', 'null' ],
+					'description' => \__( 'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies.', 'wordpress-seo' ),
+				],
+				'schema_article_type'             => [
+					'type'        => [ 'string', 'null' ],
+					'description' => \__( 'The Schema.org article type stored for the post. Null means no override is set and the default for the post type applies.', 'wordpress-seo' ),
+				],
 				'seo_score'                       => $score( \__( 'SEO analysis', 'wordpress-seo' ) ),
 				'readability_score'               => $score( \__( 'readability analysis', 'wordpress-seo' ) ),
 				'inclusive_language_score'        => $score( \__( 'inclusive language analysis', 'wordpress-seo' ) ),

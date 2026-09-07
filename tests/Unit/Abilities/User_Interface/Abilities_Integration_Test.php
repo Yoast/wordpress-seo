@@ -551,8 +551,6 @@ final class Abilities_Integration_Test extends TestCase {
 	 * @return array<string, mixed> The schema.
 	 */
 	private function get_expected_update_input_schema(): array {
-		$nullable_string = [ 'type' => [ 'string', 'null' ] ];
-
 		return [
 			'type'                 => 'object',
 			'additionalProperties' => false,
@@ -566,16 +564,34 @@ final class Abilities_Integration_Test extends TestCase {
 					'type'        => 'string',
 					'description' => 'The permalink (URL) of the post to update.',
 				],
-				'canonical'           => $nullable_string,
-				'is_cornerstone'      => [ 'type' => 'boolean' ],
+				'canonical'           => [
+					'type'        => [ 'string', 'null' ],
+					'description' => 'The custom canonical URL for the post. Use null or an empty string to remove it and fall back to the default canonical.',
+				],
+				'is_cornerstone'      => [
+					'type'        => 'boolean',
+					'description' => 'Whether the post is marked as cornerstone content.',
+				],
 				'noindex'             => [
 					'type'        => [ 'boolean', 'null' ],
 					'description' => 'Whether search engines should be told not to index this post. true sets noindex (the post is excluded from search results); false forces the post to be indexed; null clears the setting and falls back to the post-type default.',
 				],
-				'nofollow'            => [ 'type' => 'boolean' ],
-				'noimageindex'        => [ 'type' => 'boolean' ],
-				'noarchive'           => [ 'type' => 'boolean' ],
-				'nosnippet'           => [ 'type' => 'boolean' ],
+				'nofollow'            => [
+					'type'        => 'boolean',
+					'description' => 'Whether search engines should be told not to follow the links on this post.',
+				],
+				'noimageindex'        => [
+					'type'        => 'boolean',
+					'description' => 'Whether search engines should be told not to index the images on this post.',
+				],
+				'noarchive'           => [
+					'type'        => 'boolean',
+					'description' => 'Whether search engines should be told not to show a cached copy of this post.',
+				],
+				'nosnippet'           => [
+					'type'        => 'boolean',
+					'description' => 'Whether search engines should be told not to show a snippet of this post in the search results.',
+				],
 				'schema_page_type'    => [
 					'type'        => [ 'string', 'null' ],
 					'description' => 'The Schema.org page type for the post. Must be one of the supported page types. Use null to clear it and fall back to the default.',
@@ -616,6 +632,15 @@ final class Abilities_Integration_Test extends TestCase {
 				),
 			];
 		};
+		$raw             = static function ( $field ) {
+			return [
+				'type'        => [ 'string', 'null' ],
+				'description' => \sprintf(
+					'The custom %s as stored for the post, which may contain unexpanded replacement variables. Null when no custom value is set; the rendered companion field carries what is actually output.',
+					$field,
+				),
+			];
+		};
 
 		return [
 			'type'       => 'object',
@@ -625,13 +650,19 @@ final class Abilities_Integration_Test extends TestCase {
 				'permalink'                       => $nullable_string,
 				'post_type'                       => [ 'type' => 'string' ],
 				'post_status'                     => $nullable_string,
-				'seo_title'                       => $nullable_string,
+				'seo_title'                       => $raw( 'SEO title' ),
 				'seo_title_rendered'              => $rendered( 'SEO title' ),
-				'meta_description'                => $nullable_string,
+				'meta_description'                => $raw( 'meta description' ),
 				'meta_description_rendered'       => $rendered( 'meta description' ),
 				'focus_keyphrase'                 => $nullable_string,
-				'canonical'                       => $nullable_string,
-				'canonical_rendered'              => $rendered( 'canonical URL' ),
+				'canonical'                       => [
+					'type'        => [ 'string', 'null' ],
+					'description' => 'The custom canonical URL as stored for the post. Null when no custom value is set; the rendered companion field carries what is actually output.',
+				],
+				'canonical_rendered'              => [
+					'type'        => [ 'string', 'null' ],
+					'description' => 'The canonical URL as output on the front end: the custom value when set, otherwise the permalink of the post. Null when nothing is output.',
+				],
 				'is_cornerstone'                  => [ 'type' => 'boolean' ],
 				'noindex'                         => [
 					'type'        => [ 'boolean', 'null' ],
@@ -641,16 +672,22 @@ final class Abilities_Integration_Test extends TestCase {
 				'noimageindex'                    => [ 'type' => 'boolean' ],
 				'noarchive'                       => [ 'type' => 'boolean' ],
 				'nosnippet'                       => [ 'type' => 'boolean' ],
-				'open_graph_title'                => $nullable_string,
+				'open_graph_title'                => $raw( 'Open Graph title' ),
 				'open_graph_title_rendered'       => $rendered( 'Open Graph title' ),
-				'open_graph_description'          => $nullable_string,
+				'open_graph_description'          => $raw( 'Open Graph description' ),
 				'open_graph_description_rendered' => $rendered( 'Open Graph description' ),
-				'twitter_title'                   => $nullable_string,
-				'twitter_title_rendered'          => $rendered( 'Twitter title' ),
-				'twitter_description'             => $nullable_string,
-				'twitter_description_rendered'    => $rendered( 'Twitter description' ),
-				'schema_page_type'                => $nullable_string,
-				'schema_article_type'             => $nullable_string,
+				'twitter_title'                   => $raw( 'X title' ),
+				'twitter_title_rendered'          => $rendered( 'X title' ),
+				'twitter_description'             => $raw( 'X description' ),
+				'twitter_description_rendered'    => $rendered( 'X description' ),
+				'schema_page_type'                => [
+					'type'        => [ 'string', 'null' ],
+					'description' => 'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies.',
+				],
+				'schema_article_type'             => [
+					'type'        => [ 'string', 'null' ],
+					'description' => 'The Schema.org article type stored for the post. Null means no override is set and the default for the post type applies.',
+				],
 				'seo_score'                       => $score( 'SEO analysis' ),
 				'readability_score'               => $score( 'readability analysis' ),
 				'inclusive_language_score'        => $score( 'inclusive language analysis' ),
