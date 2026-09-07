@@ -3,8 +3,8 @@ export const refreshDelay = 500;
 /**
  * The identifier of the Image alt attributes assessment.
  *
- * The assessment is only registered by Yoast WooCommerce SEO, so a result carrying this identifier can only
- * appear while that add-on is active.
+ * The assessment is registered by Yoast WooCommerce SEO and Shopify SEO, not by Yoast SEO itself, so a result
+ * carrying this identifier only appears while one of those is active.
  *
  * @type {string}
  */

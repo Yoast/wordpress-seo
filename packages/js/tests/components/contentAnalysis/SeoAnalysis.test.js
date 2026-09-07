@@ -45,9 +45,15 @@ describe( "SeoAnalysis.renderAIOptimizeButton", () => {
 		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
 	} );
 
-	it( "renders the image alt tags slot even when the AI feature is disabled", () => {
-		// The alt text button is not part of Yoast AI Optimize, so the AI Optimize gates must not suppress it.
+	it( "does not render the image alt tags slot when the AI feature is disabled in Premium", () => {
+		// The slot offers an AI action, so it hides with the AI feature just like every other row's button.
 		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "imageAltTags", false );
+
+		expect( screen.queryByRole( "button", { name: "Generate with AI" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "renders the image alt tags slot for Free users, who have no AI feature toggle", () => {
+		renderResultButton( { isPremium: false, isAiFeatureEnabled: false }, "imageAltTags", false );
 
 		expect( screen.getByRole( "button", { name: "Generate with AI" } ) ).toBeInTheDocument();
 	} );
