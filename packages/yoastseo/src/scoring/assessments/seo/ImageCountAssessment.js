@@ -108,15 +108,29 @@ export default class TextImagesAssessment extends Assessment {
 
 	/**
 	 * Returns the feedback strings for the assessment.
-	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
-	 * This callback function should return an object with the following properties:
-	 * - noMedia: string
-	 * - okay: string
-	 * - good: string
 	 *
-	 * The callback receives `countVideos` so it can pick its own wording for the two variants, which is why this
-	 * method exposes three keys instead of six. It also receives `isVariableProduct`, because a platform that scopes
-	 * the assessment to a product's own images may need to name the places those images live.
+	 * A platform can replace them by passing `callbacks.getResultTexts` in the config. Without that callback the
+	 * defaults below apply, so the hook is opt-in and existing consumers are unaffected.
+	 *
+	 * The callback is given:
+	 * - urlTitleAnchorOpeningTag: string — anchor opening tag for the article about this assessment
+	 * - urlActionAnchorOpeningTag: string — anchor opening tag for the call to action
+	 * - mediaCount: number — the number of assessed images, plus videos when `countVideos` is true
+	 * - recommendedCount: number — the configured recommended number of images
+	 * - countVideos: boolean — whether videos are included, so the callback can pick its own wording
+	 * - isVariableProduct: boolean — whether the analyzed item can carry variants
+	 *
+	 * and must return:
+	 * - noMedia: string — no images (or no images and no videos)
+	 * - okay: string — fewer images than recommended; only reachable when the config sets `scores.okay`
+	 * - good: string — enough images
+	 *
+	 * `countVideos` is passed in rather than split into six keys because three of the six default strings are the
+	 * "Images and videos" variants, which no current consumer can reach.
+	 *
+	 * Note that a returned object is used **as is**: an omitted key renders as an empty result text rather than
+	 * falling back to the default string, so a callback must return all three. This matches
+	 * `ImageAltTagsAssessment`, which behaves the same way.
 	 *
 	 * @returns {{noMedia: string, okay: string, good: string}} The feedback strings.
 	 */

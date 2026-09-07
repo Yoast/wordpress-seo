@@ -112,15 +112,28 @@ export default class ImageAltTagsAssessment extends Assessment {
 
 	/**
 	 * Returns the feedback strings for the assessment.
-	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
-	 * This callback function should return an object with the following properties:
-	 * - good: string
-	 * - noImagesBad: string
-	 * - noneHasAltBad: string
-	 * - someHaveAltBad: string
 	 *
-	 * The callback also receives `isVariableProduct`, because a platform that scopes the assessment to a product's
-	 * own images may need to name the places those images live.
+	 * A platform can replace them by passing `callbacks.getResultTexts` in the config. Without that callback the
+	 * defaults below apply, so the hook is opt-in and existing consumers are unaffected.
+	 *
+	 * The callback is given:
+	 * - urlTitleAnchorOpeningTag: string — anchor opening tag for the article about this assessment
+	 * - urlActionAnchorOpeningTag: string — anchor opening tag for the call to action
+	 * - numberOfImagesWithoutAlt: number — assessed images with no alt attribute
+	 * - totalNumberOfImages: number — assessed images in total
+	 * - isVariableProduct: boolean — whether the analyzed item can carry variants
+	 *
+	 * and must return:
+	 * - good: string — every image has an alt attribute
+	 * - noImagesBad: string — there are no images at all
+	 * - noneHasAltBad: string — no image has an alt attribute
+	 * - someHaveAltBad: string — some images have none
+	 *
+	 * `isVariableProduct` is passed in because a platform that scopes the assessment to a product's own images may
+	 * need to name the places those images live, and on a variable product that includes the variation images.
+	 *
+	 * Note that a returned object is used **as is**: an omitted key renders as an empty result text rather than
+	 * falling back to the default string, so a callback must return all four.
 	 *
 	 * @returns {{good: string, noImagesBad: string, noneHasAltBad: string, someHaveAltBad: string}} The feedback strings.
 	 */

@@ -87,9 +87,11 @@ images, text videos are excluded from the count.
 
 **Product config**: `recommendedCount: 4`, `scores.okay: 6` (see `../assessors/productPages/seoAssessor.js`).
 
-**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`, which receives
-`mediaCount`, `recommendedCount`, `countVideos` and `isVariableProduct`. Without a callback the shared defaults
-apply — the table below.
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `mediaCount`, `recommendedCount`, `countVideos` and
+`isVariableProduct`, and must return all three of `noMedia`, `okay` and `good`. The returned object is used as is,
+so an omitted key renders as an empty result text rather than falling back to the default. Without a callback the
+shared defaults apply — the table below.
 
 **Title URL**: https://yoa.st/4f4 (link placement is in bold in the feedback strings)
 
@@ -110,9 +112,12 @@ apply — the table below.
 
 **Name in code**: ImageAltTagsAssessment
 
-**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`, which receives
-`numberOfImagesWithoutAlt`, `totalNumberOfImages` and `isVariableProduct`. Both WooCommerce and Shopify do, so the
-strings a user sees on a product page are the platform's, not the defaults in the table below.
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `numberOfImagesWithoutAlt`, `totalNumberOfImages` and
+`isVariableProduct`, and must return all four of `good`, `noImagesBad`, `noneHasAltBad` and `someHaveAltBad`. The
+returned object is used as is, so an omitted key renders as an empty result text rather than falling back to the
+default. Both WooCommerce and Shopify supply a callback, so the strings a user sees on a product page are the
+platform's, not the defaults in the table below.
 
 **Title URL**: https://yoa.st/33c (link placement is in bold in the feedback strings)
 
