@@ -349,7 +349,7 @@ export const TableImageCell = {
 				</Table.Head>
 				<Table.Body>
 					<Table.Row>
-						<Table.ImageCell src={ sampleImage } alt="" />
+						<Table.ImageCell imageProps={ { src: sampleImage, alt: "" } } />
 						<Table.Cell>With an image</Table.Cell>
 					</Table.Row>
 					<Table.Row>

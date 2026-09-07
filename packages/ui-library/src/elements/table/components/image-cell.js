@@ -1,33 +1,26 @@
 import PhotographIcon from "@heroicons/react/outline/PhotographIcon";
-import PropTypes from "prop-types";
 import React from "react";
 import classNames from "classnames";
 
 /**
- * The ImageCell component is a specialized table cell that displays an image or a placeholder.
- *
- * @param {Object} [props] Optional cell props.
- * @param {string} [src] The image source. When empty, fallback to a placeholder.
- * @param {string} [alt] The image alt text. Defaults to empty.
- * @param {string} [className] Optional class name.
- * @param {string} [placeholderAlt] Optional alt text for the placeholder image. Defaults to "No image available".
+ * @param {Object} [cellProps]  Extra props for the td element (e.g. colSpan, className).
+ * @param {Object} [imageProps] Props spread onto the img element (src, alt, etc.). When src is absent, a placeholder icon is shown.
  * @returns {JSX.Element} The element.
  */
-export const ImageCell = ( { src = "", alt = "", className = "", placeholderAlt = "No image available", ...props } ) => {
+export const ImageCell = ( { cellProps = {}, imageProps = {} } ) => {
+	const { className: cellClassName, ...restCellProps } = cellProps;
+	const { src, alt = "", className: imageClassName, ...restImageProps } = imageProps;
+
 	return (
-		<td className={ classNames( "yst-table-cell", className ) } { ...props }>
+		<td className={ classNames( "yst-table-cell", cellClassName ) } { ...restCellProps }>
 			<div className="yst-table-image-cell">
 				{ src
-					? <img src={ src } alt={ alt } className="yst-table-image-cell-image" />
-					: <PhotographIcon className="yst-table-image-cell-placeholder" aria-hidden={ false } aria-label={ placeholderAlt } role="img" />  }
+					? <img src={ src } alt={ alt } { ...restImageProps } className={ classNames( "yst-table-image-cell-image", imageClassName ) } />
+					: <PhotographIcon className="yst-table-image-cell-placeholder" aria-hidden="true" />
+				}
 			</div>
 		</td>
 	);
 };
 
-ImageCell.propTypes = {
-	src: PropTypes.string,
-	alt: PropTypes.string,
-	className: PropTypes.string,
-	placeholderAlt: PropTypes.string,
-};
+ImageCell.displayName = "Table.ImageCell";

@@ -136,6 +136,5 @@ Table.Cell.displayName = "Table.Cell";
 Table.CheckboxHeader = CheckboxHeader;
 Table.CheckboxCell = CheckboxCell;
 Table.ImageCell = ImageCell;
-Table.ImageCell.displayName = "Table.ImageCell";
 
 export default Table;
