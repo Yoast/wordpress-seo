@@ -1,14 +1,9 @@
-import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
-
-import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, getIsMultisiteAvailable } from "./helper";
 import { ReactComponent as MastodonLogo } from "../../images/mastodon-logo.svg";
-import { ToggleableIntegration } from "./toggleable-integration";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { MastodonIntegration } from "./mastodon-integration";
 
-const integrations = [];
-
-const mastodonIntegration =	{
+const mastodonIntegration = {
 	name: "Mastodon",
 	claim: safeCreateInterpolateElement(
 		sprintf(
@@ -37,26 +32,12 @@ const mastodonIntegration =	{
 	upsellLink: "https://yoa.st/get-mastodon-integration",
 };
 
-
-export const OtherIntegrations = [
-	integrations.map( ( integration, index ) => {
-		return (
-			<ToggleableIntegration
-				key={ index }
-				integration={ integration }
-				toggleLabel={ __( "Enable integration", "wordpress-seo" ) }
-				initialActivationState={ getInitialState( integration ) }
-				isNetworkControlEnabled={ getIsNetworkControlEnabled( integration ) }
-				isMultisiteAvailable={ getIsMultisiteAvailable( integration ) }
-				beforeToggle={ updateIntegrationState }
-			/>
-		);
-	} ),
-	/* eslint-disable dot-notation */
+/* eslint-disable dot-notation */
+export const verificationIntegrations = [
 	<MastodonIntegration
-		key={ 3 }
+		key="mastodon"
 		integration={ mastodonIntegration }
 		isActive={ Boolean( window.wpseoIntegrationsData[ "mastodon_active" ] ) }
 	/>,
-	/* eslint-enable dot-notation */
 ];
+/* eslint-enable dot-notation */

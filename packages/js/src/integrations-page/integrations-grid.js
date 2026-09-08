@@ -2,12 +2,14 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Title } from "@yoast/ui-library";
 import { get } from "lodash";
 import { PropTypes } from "prop-types";
-import { addLinkToString } from "../helpers/stringHelpers";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
-import { OtherIntegrations } from "./other-integrations";
-import { pluginIntegrations } from "./plugin-integrations";
+import { aiIntegrations } from "./ai-integrations";
+import { contentMediaIntegrations } from "./content-media-integrations";
+import { ecommerceIntegrations } from "./ecommerce-integrations";
 import { RecommendedIntegrations } from "./recommended-integrations";
-import { schemaAPIIntegrations } from "./schema-api-integrations";
+import { searchAnalyticsIntegrations } from "./search-analytics-integrations";
+import { siteBuildingIntegrations } from "./site-building-integrations";
+import { verificationIntegrations } from "./verification-integrations";
 
 /**
  * Renders a section.
@@ -62,6 +64,15 @@ export default function IntegrationsGrid() {
 		}
 	);
 
+	// Schema API partners are spread across two sections now, so the alert is repeated next to each
+	// group of cards it applies to rather than shown once for a section that no longer exists.
+	const buildSchemaDisabledAlert = ( id ) => isSchemaFrameworkDisabled && (
+		<Alert id={ id } variant="info">
+			<span className="yst-block yst-font-medium yst-mb-2">{ __( "All Schema API integrations are disabled", "wordpress-seo" ) }</span>
+			{ schemaDisabledAlert }
+		</Alert>
+	);
+
 	return (
 		<div className="yst-h-full yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-shadow">
 			<header className="yst-border-b yst-border-slate-200">
@@ -95,40 +106,51 @@ export default function IntegrationsGrid() {
 				<hr className="yst-my-12" />
 
 				<Section
-					title={ __( "Schema API integrations", "wordpress-seo" ) }
-					description={
-						addLinkToString(
-							sprintf(
-								/* translators: 1: anchor tag linking to our schema API docs; 2: closing anchor tag. */
-								__( "Unlock rich results in Google search by using plugins that integrate with the %1$sYoast Schema API%2$s.", "wordpress-seo" ),
-								"<a>",
-								"</a>"
-							),
-							"https://developer.yoast.com/features/schema/api/",
-							"schema-api-link"
-						)
-					}
-					alert={ isSchemaFrameworkDisabled && (
-						<Alert id="schema-disabled-alert" variant="info">
-							<span className="yst-block yst-font-medium yst-mb-2">{ __( "All Schema API integrations are disabled", "wordpress-seo" ) }</span>
-							{ schemaDisabledAlert }
-						</Alert>
-					) }
-					elements={ schemaAPIIntegrations }
+					title={ __( "Ecommerce", "wordpress-seo" ) }
+					description={ __( "Store platforms and product data.", "wordpress-seo" ) }
+					alert={ buildSchemaDisabledAlert( "schema-disabled-alert-ecommerce" ) }
+					elements={ ecommerceIntegrations }
 				/>
 
 				<hr className="yst-my-12" />
 
 				<Section
-					title={ __( "Plugin integrations", "wordpress-seo" ) }
-					elements={ pluginIntegrations }
+					title={ __( "Content & media", "wordpress-seo" ) }
+					description={ __( "Rich results and custom content data.", "wordpress-seo" ) }
+					alert={ buildSchemaDisabledAlert( "schema-disabled-alert-content-media" ) }
+					elements={ contentMediaIntegrations }
 				/>
 
 				<hr className="yst-my-12" />
 
 				<Section
-					title={ __( "Other integrations", "wordpress-seo" ) }
-					elements={ OtherIntegrations }
+					title={ __( "Site building & performance", "wordpress-seo" ) }
+					description={ __( "Builders and site management tools.", "wordpress-seo" ) }
+					elements={ siteBuildingIntegrations }
+				/>
+
+				<hr className="yst-my-12" />
+
+				<Section
+					title={ __( "Search & analytics", "wordpress-seo" ) }
+					description={ __( "Keyword research, rank tracking and site search.", "wordpress-seo" ) }
+					elements={ searchAnalyticsIntegrations }
+				/>
+
+				<hr className="yst-my-12" />
+
+				<Section
+					title={ __( "AI & agentic", "wordpress-seo" ) }
+					description={ __( "Making your site legible to AI agents.", "wordpress-seo" ) }
+					elements={ aiIntegrations }
+				/>
+
+				<hr className="yst-my-12" />
+
+				<Section
+					title={ __( "Verification", "wordpress-seo" ) }
+					description={ __( "Prove ownership on other platforms.", "wordpress-seo" ) }
+					elements={ verificationIntegrations }
 				/>
 
 			</div>
