@@ -52,7 +52,12 @@ class Content_Types_Collector {
 		$excluded_post_types = $this->get_excluded_post_types();
 
 		foreach ( $post_types as $post_type_object ) {
-			if ( \in_array( $post_type_object->name, $excluded_post_types, true ) ) {
+			$post_type_name = $post_type_object->name;
+
+			if ( \in_array( $post_type_name, $excluded_post_types, true ) ) {
+				continue;
+			}
+			if ( ! $this->post_type_helper->has_metabox( $post_type_name ) ) {
 				continue;
 			}
 			if ( $post_type_object->show_ui === false ) {
@@ -60,10 +65,10 @@ class Content_Types_Collector {
 			}
 			// Offer the type when the user can edit at least one of its posts; the per-post edit
 			// permission is enforced when the posts themselves are collected.
-			if ( ! $this->access_checker->can_edit_any( $post_type_object->name ) ) {
+			if ( ! $this->access_checker->can_edit_any( $post_type_name ) ) {
 				continue;
 			}
-			$content_type = new Content_Type( $post_type_object->name, $post_type_object->label, $post_type_object->labels->singular_name );
+			$content_type = new Content_Type( $post_type_name, $post_type_object->label, $post_type_object->labels->singular_name );
 			$content_types_list->add( $content_type );
 		}
 

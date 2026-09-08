@@ -31,6 +31,7 @@ export { default as AutocompleteField } from "./components/autocomplete-field";
 export { default as Card } from "./components/card";
 export { default as CheckboxGroup } from "./components/checkbox-group";
 export { default as ChildrenLimiter } from "./components/children-limiter";
+export { default as ContentTabs } from "./components/content-tabs";
 export { default as FeatureUpsell } from "./components/feature-upsell";
 export { default as FileImport } from "./components/file-import";
 export { default as Modal } from "./components/modal";
