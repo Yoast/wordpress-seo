@@ -234,9 +234,10 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 	}
 
 	/**
-	 * Strips REST-exposed Yoast meta fields from the response for users without edit_post capability.
+	 * Strips restricted Yoast meta fields from the REST response based on the current user's capabilities.
 	 *
-	 * The register_meta's auth_callback only covers writes; read access must be restricted separately.
+	 * The register_meta's auth_callback only covers writes; read access must be restricted separately so that
+	 * fields an author may not write never reach their editor and are never sent back in a save payload.
 	 *
 	 * @param WP_REST_Response $response The REST response.
 	 * @param WP_Post          $post     The post object.
@@ -244,11 +245,19 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 	 * @return WP_REST_Response The (possibly modified) response.
 	 */
 	public function hide_meta_from_unauthorized_rest_response( $response, $post ) {
-		if ( \current_user_can( 'edit_post', $post->ID ) ) {
+		$can_edit_post          = \current_user_can( 'edit_post', $post->ID );
+		$can_edit_advanced_meta = $this->auth_callback_for_advanced_meta( false, '', $post->ID );
+
+		if ( $can_edit_post && $can_edit_advanced_meta ) {
 			return $response;
 		}
+
 		$data = $response->get_data();
-		foreach ( WPSEO_Meta::$meta_fields as $field_group ) {
+		foreach ( WPSEO_Meta::$meta_fields as $subset => $field_group ) {
+			// Users who can edit the post but lack the advanced meta permission only need the advanced/schema subsets stripped.
+			if ( $can_edit_post && ! \in_array( $subset, [ 'advanced', 'schema' ], true ) ) {
+				continue;
+			}
 			foreach ( $field_group as $key => $field_def ) {
 				// Mirror the show_in_rest logic from register_meta(): only expose fields whose type is not null.
 				if ( ! \array_key_exists( 'type', $field_def ) || $field_def['type'] !== null ) {

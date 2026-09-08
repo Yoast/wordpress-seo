@@ -349,6 +349,83 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that hide_meta_from_unauthorized_rest_response strips the advanced and
+	 * schema subset fields from the response for an author when disableadvanced_meta
+	 * is on, while leaving general-subset fields intact.
+	 *
+	 * This is the regression test for the 403 save failure: an author who cannot write
+	 * restricted fields must not receive them in the response, because the block editor
+	 * sends every field it holds when the user saves.
+	 *
+	 * @covers ::hide_meta_from_unauthorized_rest_response
+	 *
+	 * @return void
+	 */
+	public function test_hide_meta_strips_advanced_fields_for_author_when_restricted() {
+		$this->set_disable_advanced_meta( true );
+
+		$author_id = $this->factory->user->create( [ 'role' => 'author' ] );
+		$post_id   = $this->factory->post->create( [ 'post_author' => $author_id ] );
+		\wp_set_current_user( $author_id );
+
+		$post   = \get_post( $post_id );
+		$prefix = WPSEO_Meta::$meta_prefix;
+
+		$response = new WP_REST_Response(
+			[
+				'title' => 'My Post',
+				'meta'  => [
+					$prefix . 'title'                   => 'SEO Title',
+					$prefix . 'meta-robots-noindex'     => '0',
+					$prefix . 'schema_page_type'        => 'WebPage',
+					'unrelated_meta_key'                => 'keep_me',
+				],
+			],
+		);
+
+		$result = $this->instance->hide_meta_from_unauthorized_rest_response( $response, $post );
+		$data   = $result->get_data();
+
+		$this->assertArrayHasKey( $prefix . 'title', $data['meta'], 'General fields should remain for author.' );
+		$this->assertArrayNotHasKey( $prefix . 'meta-robots-noindex', $data['meta'], 'Advanced fields should be stripped for author.' );
+		$this->assertArrayNotHasKey( $prefix . 'schema_page_type', $data['meta'], 'Schema fields should be stripped for author.' );
+		$this->assertArrayHasKey( 'unrelated_meta_key', $data['meta'], 'Unrelated meta should remain.' );
+	}
+
+	/**
+	 * Tests that hide_meta_from_unauthorized_rest_response returns the response
+	 * unchanged for an author when disableadvanced_meta is off.
+	 *
+	 * @covers ::hide_meta_from_unauthorized_rest_response
+	 *
+	 * @return void
+	 */
+	public function test_hide_meta_returns_response_unchanged_for_author_when_not_restricted() {
+		$this->set_disable_advanced_meta( false );
+
+		$author_id = $this->factory->user->create( [ 'role' => 'author' ] );
+		$post_id   = $this->factory->post->create( [ 'post_author' => $author_id ] );
+		\wp_set_current_user( $author_id );
+
+		$post   = \get_post( $post_id );
+		$prefix = WPSEO_Meta::$meta_prefix;
+
+		$original_data = [
+			'title' => 'My Post',
+			'meta'  => [
+				$prefix . 'title'               => 'SEO Title',
+				$prefix . 'meta-robots-noindex' => '0',
+				$prefix . 'schema_page_type'    => 'WebPage',
+			],
+		];
+		$response      = new WP_REST_Response( $original_data );
+
+		$result = $this->instance->hide_meta_from_unauthorized_rest_response( $response, $post );
+
+		$this->assertSame( $original_data, $result->get_data() );
+	}
+
+	/**
 	 * Tests that hide_meta_from_unauthorized_rest_response strips all Yoast meta
 	 * fields from the response for a user who cannot edit the post, while leaving
 	 * unrelated meta keys intact.
