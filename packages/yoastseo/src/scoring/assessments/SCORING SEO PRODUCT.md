@@ -88,7 +88,7 @@ images, text videos are excluded from the count.
 **Product config**: `recommendedCount: 4`, `scores.okay: 6` (see `../assessors/productPages/seoAssessor.js`).
 
 **Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
-`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `mediaCount`, `recommendedCount`, `countVideos` and
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `mediaCount`, `recommendedCount`, `includeVideos` and
 `isVariableProduct`, and must return all three of `noMedia`, `okay` and `good`. The returned object is used as is,
 so an omitted key renders as an empty result text rather than falling back to the default. Without a callback the
 shared defaults apply — the table below.

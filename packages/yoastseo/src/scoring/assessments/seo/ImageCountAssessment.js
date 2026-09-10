@@ -19,9 +19,9 @@ import normalizeProductData from "../../../contract/normalizeProductData";
  * @typedef {Object} ImageCountResultTextsInput
  * @property {string} urlTitleAnchorOpeningTag The anchor opening tag for the article about this assessment.
  * @property {string} urlActionAnchorOpeningTag The anchor opening tag for the call to action.
- * @property {number} mediaCount The number of assessed images, plus the videos in the text when `countVideos` is true.
+ * @property {number} mediaCount The number of assessed images, plus the videos in the text when `includeVideos` is true.
  * @property {number} recommendedCount The configured recommended number of images.
- * @property {boolean} countVideos Whether videos are included in the count, so the callback can pick its own wording.
+ * @property {boolean} includeVideos Whether videos are included in the count, so the callback can pick its own wording.
  * @property {boolean} isVariableProduct Whether the analyzed item can carry variants.
  */
 
@@ -138,8 +138,9 @@ export default class TextImagesAssessment extends Assessment {
 	 * `(ImageCountResultTextsInput) => ImageCountResultTexts`. Without that callback the defaults below apply, so
 	 * the hook is opt-in and existing consumers are unaffected.
 	 *
-	 * `countVideos` is handed to the callback rather than split into six keys, because three of the six default
-	 * strings are the "Images and videos" variants, which no current consumer can reach.
+	 * `includeVideos` is handed to the callback rather than split into six keys, because three of the six default
+	 * strings are the "Images and videos" variants, which no current consumer can reach. It is the effective value,
+	 * after the `providedImages` check — not the `countVideos` constructor flag.
 	 *
 	 * @returns {ImageCountResultTexts} The feedback strings.
 	 */
@@ -154,7 +155,7 @@ export default class TextImagesAssessment extends Assessment {
 				urlActionAnchorOpeningTag,
 				mediaCount: this.mediaCount,
 				recommendedCount: this._config.recommendedCount,
-				countVideos: this.includeVideos,
+				includeVideos: this.includeVideos,
 				isVariableProduct: this.isVariableProduct,
 			} );
 		}

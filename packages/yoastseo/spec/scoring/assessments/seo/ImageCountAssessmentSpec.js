@@ -284,9 +284,52 @@ describe( "tests for retrieving the feedback strings.", function() {
 			urlActionAnchorOpeningTag: "<a href='https://yoa.st/4f5' target='_blank'>",
 			mediaCount: 2,
 			recommendedCount: 4,
-			countVideos: false,
+			includeVideos: false,
 			isVariableProduct: true,
 		} );
+	} );
+
+	it( "passes includeVideos true, and a mediaCount that includes the videos, when videos are counted.", function() {
+		const getResultTexts = jest.fn( () => ( { noMedia: "no media", okay: "okay", good: "good" } ) );
+		const assessment = new ImageCountAssessment( {
+			scores: { okay: 6 },
+			recommendedCount: 4,
+			callbacks: { getResultTexts },
+		}, true );
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />. " );
+
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 2,
+			videoCount: 1,
+		}, true ) );
+
+		expect( getResultTexts ).toHaveBeenCalledWith( expect.objectContaining( {
+			mediaCount: 3,
+			includeVideos: true,
+		} ) );
+	} );
+
+	// The provided-images scope turns video counting off, so the callback must see the effective value, not the flag.
+	it( "passes includeVideos false when the paper provides its own images, even though countVideos is on.", function() {
+		const getResultTexts = jest.fn( () => ( { noMedia: "no media", okay: "okay", good: "good" } ) );
+		const assessment = new ImageCountAssessment( {
+			scores: { okay: 6 },
+			recommendedCount: 4,
+			callbacks: { getResultTexts },
+		}, true );
+		const mockPaper = new Paper( "These are just five words <video src=\"movie.mp4\"></video>", {
+			providedImages: [ { src: "image.jpg", alt: "" } ],
+		} );
+
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 1,
+			videoCount: 1,
+		}, true ) );
+
+		expect( getResultTexts ).toHaveBeenCalledWith( expect.objectContaining( {
+			mediaCount: 1,
+			includeVideos: false,
+		} ) );
 	} );
 
 	it( "reports isVariableProduct as false when the paper carries no product data.", function() {
