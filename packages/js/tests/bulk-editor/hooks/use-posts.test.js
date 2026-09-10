@@ -155,6 +155,7 @@ describe( "usePosts", () => {
 						social_description_fallback: "",
 						editable: true,
 						needs_improvement: { seo_title: false, meta_description: true, social_title: false, social_description: false },
+						images: [ { id: 1, url: "https://example.com/image.jpg", alt: "An image" } ],
 					},
 				],
 				total: 42,
@@ -185,6 +186,7 @@ describe( "usePosts", () => {
 				editable: true,
 				// eslint-disable-next-line camelcase -- the needs-improvement map is keyed by backend field params.
 				needsImprovement: { seo_title: false, meta_description: true, social_title: false, social_description: false },
+				images: [ { id: 1, url: "https://example.com/image.jpg", alt: "An image" } ],
 			},
 		] );
 		expect( result.current.total ).toBe( 42 );
