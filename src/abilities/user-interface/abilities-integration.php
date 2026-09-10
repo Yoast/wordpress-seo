@@ -454,11 +454,11 @@ class Abilities_Integration implements Integration_Interface {
 				],
 				'schema_page_type'    => $this->nullable_enum_schema(
 					\array_keys( Schema_Types::PAGE_TYPES ),
-					\__( 'The Schema.org page type for the post. Must be one of the supported page types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
+					\__( 'The Schema.org page type for the post. Must be one of the supported page types. Use null or an empty string to clear it and fall back to the default.', 'wordpress-seo' ),
 				),
 				'schema_article_type' => $this->nullable_enum_schema(
 					$this->get_schema_article_types(),
-					\__( 'The Schema.org article type for the post. Must be one of the supported article types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
+					\__( 'The Schema.org article type for the post. Must be one of the supported article types. Use null or an empty string to clear it and fall back to the default.', 'wordpress-seo' ),
 				),
 			],
 		];

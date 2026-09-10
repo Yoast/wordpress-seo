@@ -594,12 +594,12 @@ final class Abilities_Integration_Test extends TestCase {
 				],
 				'schema_page_type'    => [
 					'type'        => [ 'string', 'null' ],
-					'description' => 'The Schema.org page type for the post. Must be one of the supported page types. Use null to clear it and fall back to the default.',
+					'description' => 'The Schema.org page type for the post. Must be one of the supported page types. Use null or an empty string to clear it and fall back to the default.',
 					'enum'        => \array_merge( \array_keys( Schema_Types::PAGE_TYPES ), [ '', null ] ),
 				],
 				'schema_article_type' => [
 					'type'        => [ 'string', 'null' ],
-					'description' => 'The Schema.org article type for the post. Must be one of the supported article types. Use null to clear it and fall back to the default.',
+					'description' => 'The Schema.org article type for the post. Must be one of the supported article types. Use null or an empty string to clear it and fall back to the default.',
 					'enum'        => \array_merge( \array_keys( Schema_Types::ARTICLE_TYPES ), [ '', null ] ),
 				],
 			],
