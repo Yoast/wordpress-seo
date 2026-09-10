@@ -13,14 +13,18 @@
 				}
 
 				.yst-table-checkbox-header {
-					@apply yst-px-3 yst-py-3.5 yst-text-start yst-text-sm yst-font-semibold yst-text-slate-900;
+					@apply yst-px-3 yst-py-3.5 yst-text-start yst-text-sm yst-font-semibold yst-text-slate-900 yst-w-10;
 				}
 
 				.yst-table-checkbox-cell {
-					@apply yst-px-3 yst-py-3.5 yst-text-sm yst-text-slate-600;
+					@apply yst-px-3 yst-py-3.5 yst-text-sm yst-text-slate-600 yst-w-10;
+				}
+				
+				.yst-table-image-cell {
+					width: 88px;
 				}
 
-				.yst-table-image-cell {
+				.yst-table-image-cell--image-container {
 					@apply
 					yst-flex
 					yst-items-center
@@ -33,7 +37,7 @@
 					yst-bg-white;
 				}
 
-				.yst-table-image-cell-image {
+				.yst-table-image-cell--image {
 					@apply
 					yst-w-full
 					yst-h-full
@@ -41,7 +45,7 @@
 					yst-object-center;
 				}
 
-				.yst-table-image-cell-placeholder {
+				.yst-table-image-cell--placeholder {
 					@apply
 					yst-w-5 yst-h-5
 					yst-text-slate-400;
