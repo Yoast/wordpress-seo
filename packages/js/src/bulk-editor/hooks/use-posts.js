@@ -25,6 +25,7 @@ const formatPost = ( post ) => ( {
 	socialDescriptionFallback: post.social_description_fallback ?? "",
 	editable: post.editable,
 	needsImprovement: post.needs_improvement ?? {},
+	images: post.images ?? [],
 } );
 
 /**
