@@ -19,7 +19,7 @@
 				.yst-table-checkbox-cell {
 					@apply yst-px-3 yst-py-3.5 yst-text-sm yst-text-slate-600 yst-w-10;
 				}
-				
+
 				.yst-table-image-cell {
 					@apply yst-w-[5.5rem];
 				}
