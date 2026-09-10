@@ -12,11 +12,11 @@ export const ImageCell = ( { cellProps = {}, imageProps = {} } ) => {
 	const { src, alt = "", className: imageClassName, ...restImageProps } = imageProps;
 
 	return (
-		<td className={ classNames( "yst-table-cell", cellClassName ) } { ...restCellProps }>
-			<div className="yst-table-image-cell">
+		<td className={ classNames( "yst-table-cell yst-table-image-cell", cellClassName ) } { ...restCellProps }>
+			<div className="yst-table-image-cell--image-container">
 				{ src
-					? <img src={ src } alt={ alt } { ...restImageProps } className={ classNames( "yst-table-image-cell-image", imageClassName ) } />
-					: <PhotographIcon className="yst-table-image-cell-placeholder" aria-hidden="true" />
+					? <img src={ src } alt={ alt } { ...restImageProps } className={ classNames( "yst-table-image-cell--image", imageClassName ) } />
+					: <PhotographIcon className="yst-table-image-cell--placeholder" aria-hidden="true" />
 				}
 			</div>
 		</td>
