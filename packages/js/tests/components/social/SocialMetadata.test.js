@@ -50,4 +50,11 @@ describe( "SocialMetadata", () => {
 
 		expect( screen.getByRole( "link", { name: /Learn more about social previews/ } ) ).toBeInTheDocument();
 	} );
+
+	it( "does not offer the help link when Open Graph is disabled", () => {
+		// Only the X appearance section remains, and that one never carries the link.
+		render( <SocialMetadata useOpenGraphData={ false } useTwitterData={ true } /> );
+
+		expect( screen.queryByRole( "link", { name: /Learn more about social previews/ } ) ).toBeNull();
+	} );
 } );

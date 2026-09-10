@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector;
 
+use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
 use WP_Query;
@@ -12,7 +13,7 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
 /**
  * Tests get_posts.
  *
- * @group bulk-editor
+ * @group  bulk-editor
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector::get_posts
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector::build_needs_improvement
@@ -86,6 +87,7 @@ final class Get_Posts_Test extends Abstract_Test {
 							'social_title'       => false,
 							'social_description' => false,
 						],
+						'images'                      => [],
 					],
 				],
 				'total'       => 1,
@@ -142,6 +144,7 @@ final class Get_Posts_Test extends Abstract_Test {
 					'social_title'       => false,
 					'social_description' => false,
 				],
+				'images'                      => [],
 			],
 			$result['posts'][0],
 		);
@@ -171,6 +174,78 @@ final class Get_Posts_Test extends Abstract_Test {
 
 		$this->assertSame( 42, $result['total'] );
 		$this->assertSame( 3, $result['total_pages'] );
+	}
+
+	/**
+	 * Tests that the images an add-on supplies for the post are added to it, with the queried content type.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_adds_filtered_images() {
+		$this->stub_run_query( [ 7 ], 1 );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => true ] );
+
+		Functions\expect( 'get_post' )->once()->andReturn(
+			(object) [
+				'post_status' => 'publish',
+				'post_type'   => 'page',
+			],
+		);
+		Functions\expect( 'get_the_title' )->once()->andReturn( 'A product' );
+		Functions\expect( 'get_edit_post_link' )->once()->andReturn( 'edit' );
+		Functions\expect( 'get_post_meta' )->times( 7 )->andReturn( '' );
+
+		Filters\expectApplied( 'wpseo_bulk_editor_post_images' )
+			->once()
+			->with( [], 7, 'product' )
+			->andReturn( [ 'thumbnail' => 'https://example.com/product.jpg' ] );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'product', 1, 20, '', self::STATUSES ) )->to_array();
+
+		$this->assertSame( [ 'thumbnail' => 'https://example.com/product.jpg' ], $result['posts'][0]['images'] );
+	}
+
+	/**
+	 * Tests that the images an add-on supplies are added to a post the current user cannot edit.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_adds_filtered_images_to_non_editable_post() {
+		$this->stub_run_query( [ 7 ], 1 );
+
+		$this->post_editability_resolver->expects( 'resolve' )->with( [ 7 ] )->andReturn( [ 7 => false ] );
+
+		Functions\expect( 'get_post' )->once()->with( 7 )->andReturn(
+			(object) [
+				'post_status' => 'publish',
+				'post_type'   => 'product',
+			],
+		);
+		Functions\expect( 'get_the_title' )->once()->andReturn( 'Secret product' );
+		Functions\expect( 'get_edit_post_link' )->never();
+		Functions\expect( 'get_post_meta' )->never();
+
+		Filters\expectApplied( 'wpseo_bulk_editor_post_images' )
+			->once()
+			->with( [], 7, 'product' )
+			->andReturn( [ 'thumbnail' => 'https://example.com/product1.jpg' ] );
+
+		$result = $this->instance->get_posts( new Posts_Query( 'product', 1, 20, '', self::STATUSES ) )->to_array();
+
+		$this->assertSame( [ 'thumbnail' => 'https://example.com/product1.jpg' ], $result['posts'][0]['images'] );
+		// The SEO data stays withheld, so the images are the only data a locked post exposes.
+		$this->assertSame( '', $result['posts'][0]['seo_title'] );
+		// The images must not end up in the needs-improvement verdict, which sits in the constructor slot before them.
+		$this->assertSame(
+			[
+				'seo_title'          => false,
+				'meta_description'   => false,
+				'social_title'       => false,
+				'social_description' => false,
+			],
+			$result['posts'][0]['needs_improvement'],
+		);
 	}
 
 	/**
@@ -324,6 +399,9 @@ final class Get_Posts_Test extends Abstract_Test {
 		$wp_query->posts       = $post_ids;
 		$wp_query->found_posts = $found_posts;
 
-		$this->instance->expects( 'run_query' )->once()->with( Mockery::type( Posts_Query::class ) )->andReturn( $wp_query );
+		$this->instance->expects( 'run_query' )
+			->once()
+			->with( Mockery::type( Posts_Query::class ) )
+			->andReturn( $wp_query );
 	}
 }
