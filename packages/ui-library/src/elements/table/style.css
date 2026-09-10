@@ -21,7 +21,7 @@
 				}
 				
 				.yst-table-image-cell {
-					width: 88px;
+					@apply yst-w-[5.5rem];
 				}
 
 				.yst-table-image-cell--image-container {
