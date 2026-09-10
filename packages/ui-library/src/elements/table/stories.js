@@ -340,7 +340,15 @@ export const MinimalVariant = {
 						<Table.Cell>Cell 3</Table.Cell>
 					</Table.Row>
 					<Table.Row>
-						<Table.ImageCell imageProps={ { src: "", alt: "" } } />
+						<Table.CheckboxCell
+							checkboxProps={ {
+								id: "story-select-row-2",
+								name: "story-select-row-2",
+								value: "2",
+								"aria-label": "Select row 2",
+								defaultChecked: true,
+							} }
+						/>
 						<Table.Cell>Cell 1</Table.Cell>
 						<Table.Cell>Cell 2</Table.Cell>
 						<Table.Cell>Cell 3</Table.Cell>
