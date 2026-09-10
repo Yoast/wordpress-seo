@@ -24,7 +24,7 @@
 					@apply yst-w-[5.5rem];
 				}
 
-				.yst-table-image-cell--image-container {
+				.yst-table-image-cell__image-container {
 					@apply
 					yst-flex
 					yst-items-center
@@ -37,7 +37,7 @@
 					yst-bg-white;
 				}
 
-				.yst-table-image-cell--image {
+				.yst-table-image-cell__image {
 					@apply
 					yst-w-full
 					yst-h-full
@@ -45,7 +45,7 @@
 					yst-object-center;
 				}
 
-				.yst-table-image-cell--placeholder {
+				.yst-table-image-cell__placeholder {
 					@apply
 					yst-w-5 yst-h-5
 					yst-text-slate-400;
