@@ -1,6 +1,8 @@
 # Overview of the SEO assessments scoring criteria on product pages
 These are the scoring criteria applied when using the product pages SEO assessors.
 
+The SEO assessments check your content to make sure it adheres to SEO best practices.
+
 For information on how the assessments scoring system works, check out these explanations:
 * [How are individual and overall traffic lights assigned?](SCORING%20SEO.md#how-are-individual-and-overall-traffic-lights-assigned)
 * [How is the overall score calculated?](SCORING%20SEO.md#how-is-the-overall-score-calculated)

@@ -20,7 +20,7 @@ For information on how the assessments scoring system works, check out these exp
 - [Title](SCORING%20SEO.md#9-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
 
 ### Assessments with the same scoring criteria as with the taxonomy assessor
-- [Text length assessment](SCORING%20TAXONOMY.md#1-text-length-assessment)
+- [Text length assessment](../SCORING%20TAXONOMY.md#1-text-length-assessment)
 
 ### Unavailable assessments
 - Keyphrase in subheadings
