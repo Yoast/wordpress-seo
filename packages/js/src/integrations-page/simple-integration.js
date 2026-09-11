@@ -15,11 +15,18 @@ import { Card } from "./tailwind-components/card";
  * @param {Object} integration The integration.
  * @param {boolean} [isActive=true] The integration state.
  * @param {boolean} [isSchemaFrameworkDisabled=false] Whether the schema framework is disabled.
+ * @param {boolean} [isSchemaPartner=false] Whether to mark the card as a Yoast Schema API partner.
  * @param {React.ReactNode} [children=null] The child components.
  *
  * @returns {JSX.Element} A card representing an integration.
  */
-export const SimpleIntegration = ( { integration, isActive = true, isSchemaFrameworkDisabled = false, children = null } ) => {
+export const SimpleIntegration = ( {
+	integration,
+	isActive = true,
+	isSchemaFrameworkDisabled = false,
+	isSchemaPartner = false,
+	children = null,
+} ) => {
 	const IntegrationLogo = integration.logo;
 
 	const learnMoreLink = useSelect( select => select( "yoast-seo/settings" ).selectLink( integration.learnMoreLink ), [] );
@@ -48,6 +55,13 @@ export const SimpleIntegration = ( { integration, isActive = true, isSchemaFrame
 			</Card.Header>
 			<Card.Content>
 				<div>
+					{ isSchemaPartner && <Badge
+						variant="plain"
+						size="small"
+						className="yst-mb-2"
+					>
+						{ __( "Schema partner", "wordpress-seo" ) }
+					</Badge> }
 					{ integration.claim && <h4 className="yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
 						{ integration.claim }
 					</h4> }
@@ -127,6 +141,7 @@ SimpleIntegration.propTypes = {
 	} ).isRequired,
 	isActive: PropTypes.bool,
 	isSchemaFrameworkDisabled: PropTypes.bool,
+	isSchemaPartner: PropTypes.bool,
 	children: PropTypes.oneOfType( [
 		PropTypes.node,
 		PropTypes.arrayOf( PropTypes.node ),
