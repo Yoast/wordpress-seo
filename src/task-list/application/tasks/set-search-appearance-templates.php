@@ -100,7 +100,7 @@ class Set_Search_Appearance_Templates extends Abstract_Post_Type_Task {
 		$post_type = \get_post_type_object( $this->get_post_type() );
 		$link      = \sprintf(
 			'admin.php?page=wpseo_page_settings#/post-type/%s',
-			$this->route_helper->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
+			$this->route_helper->get_route( $post_type->name, $post_type->rest_base ),
 		);
 
 		return \self_admin_url( $link );

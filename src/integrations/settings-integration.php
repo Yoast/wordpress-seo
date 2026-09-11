@@ -994,7 +994,7 @@ class Settings_Integration implements Integration_Interface {
 		foreach ( $post_types as $post_type ) {
 			$transformed[ $post_type->name ] = [
 				'name'                 => $post_type->name,
-				'route'                => $this->route_helper->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
+				'route'                => $this->route_helper->get_route( $post_type->name, $post_type->rest_base ),
 				'label'                => $post_type->label,
 				'singularLabel'        => $post_type->labels->singular_name,
 				'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
@@ -1047,7 +1047,7 @@ class Settings_Integration implements Integration_Interface {
 		foreach ( $taxonomies as $taxonomy ) {
 			$transformed[ $taxonomy->name ] = [
 				'name'          => $taxonomy->name,
-				'route'         => $this->route_helper->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
+				'route'         => $this->route_helper->get_route( $taxonomy->name, $taxonomy->rest_base ),
 				'label'         => $taxonomy->label,
 				'showUi'        => $taxonomy->show_ui,
 				'singularLabel' => $taxonomy->labels->singular_name,
