@@ -23,19 +23,7 @@ import {
 	updateReadabilityResult,
 	updateSeoResult,
 } from "../../../src/redux/actions/contentAnalysis";
-
-/**
- * Creates an input element.
- * @param {string} id The ID.
- * @returns {HTMLInputElement} The input element.
- */
-const createInputElement = ( id ) => {
-	const inputElement = document.createElement( "input" );
-	inputElement.id = id;
-	document.body.appendChild( inputElement );
-
-	return inputElement;
-};
+import { createInputElement } from "../../test-utils";
 
 describe( "SEO", () => {
 	describe( "setSeoResultsForKeyword action creator", () => {

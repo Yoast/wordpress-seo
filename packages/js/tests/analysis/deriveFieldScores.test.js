@@ -1,5 +1,6 @@
 import { deriveMetaDescriptionScore, deriveSeoTitleScore, saveFieldScores } from "../../src/analysis/deriveFieldScores";
 import AnalysisFields from "../../src/helpers/fields/AnalysisFields";
+import { createInputElement } from "../test-utils";
 
 /**
  * Creates a minimal transported AssessmentResult stand-in.
@@ -92,21 +93,6 @@ describe( "deriveMetaDescriptionScore", () => {
 } );
 
 describe( "saveFieldScores", () => {
-	/**
-	 * Creates a hidden input element.
-	 *
-	 * @param {string} id The ID.
-	 *
-	 * @returns {HTMLInputElement} The input element.
-	 */
-	const createInputElement = ( id ) => {
-		const inputElement = document.createElement( "input" );
-		inputElement.id = id;
-		document.body.appendChild( inputElement );
-
-		return inputElement;
-	};
-
 	it( "writes both derived scores to their hidden fields", () => {
 		const titleElement = createInputElement( "hidden_wpseo_seo_title_score" );
 		const descriptionElement = createInputElement( "hidden_wpseo_meta_description_score" );
@@ -126,8 +112,7 @@ describe( "saveFieldScores", () => {
 	} );
 
 	it( "does not overwrite a saved score with the not-derivable 0", () => {
-		const titleElement = createInputElement( "hidden_wpseo_seo_title_score" );
-		titleElement.value = "63";
+		const titleElement = createInputElement( "hidden_wpseo_seo_title_score", "63" );
 
 		saveFieldScores( [] );
 
