@@ -89,3 +89,42 @@ describe( "WincherTableRow", () => {
 		expect( keyfrase ).toBeInTheDocument();
 	} );
 } );
+
+describe( "WincherTableRow - date-fns date handling", () => {
+	it( "shows position data when updated_at is a recent ISO string", () => {
+		const sixDaysAgo = new Date( Date.now() - 6 * 24 * 60 * 60 * 1000 ).toISOString();
+		render( <WincherTableRow
+			// eslint-disable-next-line camelcase
+			rowData={ { ...keyphrasesData[ "yoast seo" ], updated_at: sixDaysAgo } }
+			keyphrase="yoast seo"
+			onSelectKeyphrases={ noop }
+			isSelected={ false }
+		/> );
+
+		expect( screen.getByText( "View" ) ).toBeInTheDocument();
+	} );
+
+	it( "shows loading when updated_at is an ISO string older than 7 days", () => {
+		const eightDaysAgo = new Date( Date.now() - 8 * 24 * 60 * 60 * 1000 ).toISOString();
+		render( <WincherTableRow
+			// eslint-disable-next-line camelcase
+			rowData={ { ...keyphrasesData[ "yoast seo" ], updated_at: eightDaysAgo } }
+			keyphrase="yoast seo"
+			onSelectKeyphrases={ noop }
+			isSelected={ false }
+		/> );
+
+		expect( screen.getByText( "Tracking the ranking position…" ) ).toBeInTheDocument();
+	} );
+
+	it( "shows the last updated date as relative time with an 'ago' suffix", () => {
+		render( <WincherTableRow
+			rowData={ keyphrasesData[ "yoast seo" ] }
+			keyphrase="yoast seo"
+			onSelectKeyphrases={ noop }
+			isSelected={ false }
+		/> );
+
+		expect( screen.getByText( /ago$/i ) ).toBeInTheDocument();
+	} );
+} );
