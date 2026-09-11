@@ -11167,10 +11167,10 @@
     js-yaml "^3.10.0"
     tslib "^2.4.0"
 
-"@yoast/ai-frontend@^0.25.0":
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/@yoast/ai-frontend/-/ai-frontend-0.25.0.tgz#974b410edf85cf7b349a94bed4300d33a5c66633"
-  integrity sha512-KFPBkQxJhprVipa18A5GfFSEtJpwAwIXub3yJKhlEeEuUadx5gVa5VYkLwA1c1zZBxHLKoWebwtgIam6pjK5ig==
+"@yoast/ai-frontend@^0.26.0":
+  version "0.26.0"
+  resolved "https://registry.yarnpkg.com/@yoast/ai-frontend/-/ai-frontend-0.26.0.tgz#a32f60bb026238a6e7ab2e686606fb51ad7918fb"
+  integrity sha512-elgu9kOKSTPimEznMBRgOR5dvCzpwWmaPQeFDauMByimWvHfjD3qxD31CgmWUfUzv/GWo/TgXVD3eQGluvI2DA==
   dependencies:
     "@draft-js-plugins/mention" "^5.3.0"
     "@heroicons/react" "^2.1.5"
