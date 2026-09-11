@@ -187,7 +187,7 @@ class Pagination_Helper {
 	/**
 	 * Returns the page number from the query loop.
 	 *
-	 * @return string The page number from the query loop.
+	 * @return int|string The page number from the query loop, or an empty string when none applies.
 	 */
 	public function get_page_number_from_query_loop() {
 		$key_query_loop = $this->get_key_query_loop();
