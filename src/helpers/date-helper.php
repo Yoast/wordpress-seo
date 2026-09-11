@@ -39,13 +39,35 @@ class Date_Helper {
 			return $date;
 		}
 
-		$immutable_date = \date_create_immutable_from_format( 'Y-m-d H:i:s', $date, new DateTimeZone( 'UTC' ) );
+		$immutable_date = $this->parse_gmt_date( $date );
 
 		if ( ! $immutable_date ) {
 			return $date;
 		}
 
 		return $immutable_date->format( $format );
+	}
+
+	/**
+	 * Formats a given GMT date string in the site timezone.
+	 *
+	 * @param string $date   String representing the date / time in GMT.
+	 * @param string $format The format that the passed date should be in.
+	 *
+	 * @return string The formatted date.
+	 */
+	public function format_with_site_timezone( $date, $format = \DATE_W3C ) {
+		if ( ! \is_string( $date ) ) {
+			return $date;
+		}
+
+		$immutable_date = $this->parse_gmt_date( $date );
+
+		if ( ! $immutable_date ) {
+			return $date;
+		}
+
+		return $immutable_date->setTimezone( \wp_timezone() )->format( $format );
 	}
 
 	/**
@@ -116,5 +138,16 @@ class Date_Helper {
 		} catch ( Exception $exception ) {
 			return false;
 		}
+	}
+
+	/**
+	 * Parses a datetime string stored in GMT.
+	 *
+	 * @param string $date String representing the date / time in GMT.
+	 *
+	 * @return \DateTimeImmutable|false The immutable datetime object or false on failure.
+	 */
+	private function parse_gmt_date( $date ) {
+		return \date_create_immutable_from_format( 'Y-m-d H:i:s', $date, new DateTimeZone( 'UTC' ) );
 	}
 }
