@@ -47,7 +47,7 @@ export const WooSeoProductUpsellAd = () => {
 				id="woo-seo-product-upsell-ad"
 				className="yst-bg-white yst-border yst-border-woo-light yst-border-opacity-30 yst-rounded-lg yst-shadow-md yst-p-4"
 			>
-				<Title as="h3" size="4" className="yst-text-woo-light yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2">
+				<Title as="h3" size="4" className="yst-text-woo-light yst-text-base yst-leading-6 yst-font-medium yst-mb-2 yst-flex yst-gap-2">
 					Yoast WooCommerce SEO
 					<ShoppingCartIcon className="yst-w-4 yst-scale-x-[-1]" { ...svgAriaProps } />
 				</Title>
