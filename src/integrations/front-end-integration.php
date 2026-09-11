@@ -450,6 +450,8 @@ class Front_End_Integration implements Integration_Interface {
 	public function call_wpseo_head() {
 		global $wp_query;
 
+		\remove_action( 'wp_head', '_block_template_render_title_tag', 1 );
+
 		$old_wp_query = $wp_query;
 		// phpcs:ignore WordPress.WP.DiscouragedFunctions.wp_reset_query_wp_reset_query -- Reason: The recommended function, wp_reset_postdata, doesn't reset wp_query.
 		\wp_reset_query();
