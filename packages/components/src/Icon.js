@@ -11,9 +11,10 @@ import _omit from "lodash/omit";
  * @returns {ReactElement} Icon component.
  */
 const Icon = ( props ) => {
+	const { width = "16px", height = "16px" } = props;
 	const IconComponent = styled( props.icon )`
-		width: ${ props.width };
-		height: ${ props.height };
+		width: ${ width };
+		height: ${ height };
 		${ props.color ? `fill: ${ props.color };` : "" }
 		flex: 0 0 auto;
 	`;
@@ -29,11 +30,6 @@ Icon.propTypes = {
 	width: PropTypes.string,
 	height: PropTypes.string,
 	color: PropTypes.string,
-};
-
-Icon.defaultProps = {
-	width: "16px",
-	height: "16px",
 };
 
 export default Icon;

@@ -16,7 +16,11 @@ import { addButtonStyles } from "./YoastButton";
  * @returns {ReactElement} styled link.
  */
 export const YoastLinkButton = addButtonStyles(
-	styled.a`
+	styled.a.attrs( ( {
+		backgroundColor = colors.$color_green_medium_light,
+		textColor = colors.$color_white,
+		withTextShadow = true,
+	} ) => ( { backgroundColor, textColor, withTextShadow } ) )`
 		text-decoration: none;
 		color: ${ props => props.textColor };
 		background: ${ props => props.backgroundColor };
@@ -29,10 +33,4 @@ YoastLinkButton.propTypes = {
 	backgroundColor: PropTypes.string,
 	textColor: PropTypes.string,
 	withTextShadow: PropTypes.bool,
-};
-
-YoastLinkButton.defaultProps = {
-	backgroundColor: colors.$color_green_medium_light,
-	textColor: colors.$color_white,
-	withTextShadow: true,
 };

@@ -28,10 +28,20 @@ const YoutubeVideoContainer = styled.div`
  *
  * @returns {ReactElement} The YouTubeVideo component.
  */
-export default function YouTubeVideo( props ) {
+export default function YouTubeVideo( {
+	width = 560,
+	height = 315,
+	frameBorder = 0,
+	allowFullScreen = true,
+	...props
+} ) {
 	return (
 		<YoutubeVideoContainer>
 			<IFrame
+				width={ width }
+				height={ height }
+				frameBorder={ frameBorder }
+				allowFullScreen={ allowFullScreen }
 				{ ...props }
 			/>
 		</YoutubeVideoContainer>
@@ -45,11 +55,4 @@ YouTubeVideo.propTypes = {
 	title: PropTypes.string.isRequired,
 	frameBorder: PropTypes.number,
 	allowFullScreen: PropTypes.bool,
-};
-
-YouTubeVideo.defaultProps = {
-	width: 560,
-	height: 315,
-	frameBorder: 0,
-	allowFullScreen: true,
 };

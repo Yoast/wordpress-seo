@@ -77,7 +77,7 @@ export function addButtonStyles( component ) {
  *
  * @returns {ReactElement} The button with inner span.
  */
-export const YoastButtonBase = ( { className, onClick, type, children, isExpanded } ) => (
+export const YoastButtonBase = ( { className, onClick, type = "button", children, isExpanded } ) => (
 	<button className={ className } onClick={ onClick } type={ type } aria-expanded={ isExpanded }>
 		<span>
 			{ children }
@@ -97,10 +97,6 @@ YoastButtonBase.propTypes = {
 	] ),
 };
 
-YoastButtonBase.defaultProps = {
-	type: "button",
-};
-
 /**
  * Returns a Button with the Yoast button style.
  *
@@ -111,7 +107,11 @@ YoastButtonBase.defaultProps = {
  * @returns {ReactElement} styled button.
  */
 export const YoastButton = addButtonStyles(
-	styled( YoastButtonBase )`
+	styled( YoastButtonBase ).attrs( ( {
+		backgroundColor = colors.$color_green_medium_light,
+		textColor = colors.$color_white,
+		withTextShadow = true,
+	} ) => ( { backgroundColor, textColor, withTextShadow } ) )`
 		color: ${ props => props.textColor };
 		background: ${ props => props.backgroundColor };
 		min-width: 152px;
@@ -137,10 +137,4 @@ YoastButton.propTypes = {
 	backgroundColor: PropTypes.string,
 	textColor: PropTypes.string,
 	withTextShadow: PropTypes.bool,
-};
-
-YoastButton.defaultProps = {
-	backgroundColor: colors.$color_green_medium_light,
-	textColor: colors.$color_white,
-	withTextShadow: true,
 };

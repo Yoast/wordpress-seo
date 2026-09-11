@@ -28,8 +28,9 @@ const StyledYoastInputLabel = styled( InputLabel )`
  */
 const SynonymsInput = ( props ) => {
 	const {
-		label,
-		helpLink,
+		label = "",
+		helpLink = null,
+		type = "text",
 		...inputProps
 	} = props;
 
@@ -43,6 +44,7 @@ const SynonymsInput = ( props ) => {
 			</SynonymsFieldLabelContainer>
 			<InputField
 				{ ...inputProps }
+				type={ type }
 				autoComplete="off"
 			/>
 		</InputContainer>
@@ -54,12 +56,6 @@ SynonymsInput.propTypes = {
 	id: PropTypes.string.isRequired,
 	label: PropTypes.string,
 	helpLink: PropTypes.node,
-};
-
-SynonymsInput.defaultProps = {
-	type: "text",
-	label: "",
-	helpLink: null,
 };
 
 export default SynonymsInput;

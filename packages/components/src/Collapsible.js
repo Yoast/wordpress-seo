@@ -115,23 +115,23 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
  */
 export function CollapsibleStateless( props ) {
 	const {
-		children,
-		className,
-		hasPadding,
-		hasSeparator,
-		Heading,
-		id,
+		children = null,
+		className = null,
+		hasPadding = false,
+		hasSeparator = false,
+		Heading = StyledHeading,
+		id = null,
 		isOpen,
 		onToggle,
-		prefixIcon,
-		prefixIconCollapsed,
-		suffixIcon,
-		suffixIconCollapsed,
-		subTitle,
+		prefixIcon = null,
+		prefixIconCollapsed = null,
+		suffixIcon = null,
+		suffixIconCollapsed = null,
+		subTitle = null,
 		title,
-		titleScreenReaderText,
-		renderNewBadgeLabel,
-		hasNewBadgeLabel,
+		titleScreenReaderText = null,
+		renderNewBadgeLabel = () => {},
+		hasNewBadgeLabel = false,
 	} = props;
 
 	let wrappedChildren = children;
@@ -203,23 +203,6 @@ CollapsibleStateless.propTypes = {
 	id: PropTypes.string,
 	renderNewBadgeLabel: PropTypes.func,
 	hasNewBadgeLabel: PropTypes.bool,
-};
-
-CollapsibleStateless.defaultProps = {
-	Heading: StyledHeading,
-	id: null,
-	children: null,
-	className: null,
-	subTitle: null,
-	titleScreenReaderText: null,
-	hasSeparator: false,
-	hasPadding: false,
-	prefixIcon: null,
-	prefixIconCollapsed: null,
-	suffixIcon: null,
-	suffixIconCollapsed: null,
-	renderNewBadgeLabel: () => {},
-	hasNewBadgeLabel: false,
 };
 
 /**
