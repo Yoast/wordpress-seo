@@ -1,7 +1,7 @@
 The aforementioned button variants can be used in four different sizes:
 
 1. **Extra large**<br>
-The extra large button size is often used ads and upsells that require significant user attention. It can also be useful for touch interfaces, where extra large buttons are easier to tap.
+The extra large button size is often used for ads and upsells that require significant user attention. It can also be useful for touch interfaces, where extra large buttons are easier to tap.
 
 2. **Large**<br>
 The large button size is used next to form input fields, by default it has the same height.
