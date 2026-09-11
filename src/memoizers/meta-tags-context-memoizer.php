@@ -132,7 +132,10 @@ class Meta_Tags_Context_Memoizer {
 	 * @return Meta_Tags_Context The meta tags context.
 	 */
 	public function get( Indexable $indexable, $page_type ) {
-		if ( ! isset( $this->cache[ $indexable->id ] ) ) {
+		// An unsaved indexable has a null id; normalise it to a stable integer cache key.
+		$cache_key = (int) $indexable->id;
+
+		if ( ! isset( $this->cache[ $cache_key ] ) ) {
 			$blocks = [];
 			$post   = null;
 			if ( $indexable->object_type === 'post' ) {
@@ -151,10 +154,10 @@ class Meta_Tags_Context_Memoizer {
 
 			$context->presentation = $this->presentation_memoizer->get( $indexable, $context, $page_type );
 
-			$this->cache[ $indexable->id ] = $context;
+			$this->cache[ $cache_key ] = $context;
 		}
 
-		return $this->cache[ $indexable->id ];
+		return $this->cache[ $cache_key ];
 	}
 
 	/**

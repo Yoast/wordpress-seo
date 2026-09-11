@@ -153,6 +153,35 @@ final class Presentation_Memoizer_Test extends TestCase {
 	}
 
 	/**
+	 * Tests getting the presentation of an indexable whose id is null, ensuring it is
+	 * cached under a stable integer key instead of a null array offset.
+	 *
+	 * @covers ::get
+	 *
+	 * @return void
+	 */
+	public function test_get_caches_when_indexable_id_is_null() {
+		$this->indexable->id = null;
+
+		$this->container
+			->expects( 'get' )
+			->once()
+			->andReturn( $this->indexable_presentation );
+
+		$this->indexable_presentation
+			->expects( 'of' )
+			->once()
+			->andReturn( $this->meta_tags_context_mock->presentation );
+
+		$first  = $this->instance->get( $this->indexable, $this->meta_tags_context_mock, 'the_page_type' );
+		$second = $this->instance->get( $this->indexable, $this->meta_tags_context_mock, 'the_page_type' );
+
+		$this->assertSame( $this->meta_tags_context_mock->presentation, $first );
+		$this->assertSame( $first, $second );
+		$this->assertArrayHasKey( 0, $this->instance->get_cache() );
+	}
+
+	/**
 	 * Tests clearing the memoization of an indexable when the indexable is given.
 	 *
 	 * If the cache is indeed empty, the 'get' method must call

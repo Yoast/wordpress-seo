@@ -261,6 +261,36 @@ final class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	}
 
 	/**
+	 * Tests getting the meta tags context for an indexable whose id is null, ensuring it is
+	 * cached under a stable integer key instead of a null array offset.
+	 *
+	 * @covers ::get
+	 *
+	 * @return void
+	 */
+	public function test_get_caches_when_indexable_id_is_null() {
+		$this->indexable->id = null;
+
+		$this->meta_tags_context
+			->expects( 'of' )
+			->once()
+			->andReturn( $this->meta_tags_context_mock );
+
+		$this->presentation_memoizer
+			->expects( 'get' )
+			->once()
+			->with( $this->indexable, $this->meta_tags_context_mock, 'the_page_type' )
+			->andReturn( $this->meta_tags_context_mock->presentation );
+
+		$first  = $this->instance->get( $this->indexable, 'the_page_type' );
+		$second = $this->instance->get( $this->indexable, 'the_page_type' );
+
+		$this->assertEquals( $this->meta_tags_context_mock, $first );
+		$this->assertSame( $first, $second );
+		$this->assertArrayHasKey( 0, $this->instance->get_cache() );
+	}
+
+	/**
 	 * Tests clearing the memoization of a specific indexable.
 	 *
 	 * If the cache is indeed empty, the 'for_current_page' method must call
