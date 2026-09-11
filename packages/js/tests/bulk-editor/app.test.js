@@ -35,6 +35,8 @@ const buildRemote = ( onSave = () => Promise.resolve( {} ) ) => ( {
 
 describe( "App", () => {
 	beforeAll( () => {
+		// The store reads the localized analysis flag when it is created; seed it so the keyphrase stays editable.
+		window.wpseoBulkEditorData = { analysis: { keywordAnalysisActive: true } };
 		registerStore();
 	} );
 

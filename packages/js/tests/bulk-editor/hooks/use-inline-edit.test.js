@@ -494,3 +494,119 @@ describe( "useInlineEdit batch actions", () => {
 		} );
 	} );
 } );
+
+describe( "useInlineEdit with a read-only field", () => {
+	// With the SEO analysis off the focus keyphrase column stays visible but is no longer editable.
+	const fieldSets = getFieldSets( { isKeywordAnalysisActive: false } );
+	const item = { id: 7, focusKeyphrase: "what is seo", seoTitle: "Title 7", metaDescription: "Desc 7" };
+	let editingRows;
+	let dispatch;
+	let dataProvider;
+
+	beforeEach( () => {
+		editingRows = {};
+		dispatch = {
+			startEdit: jest.fn(),
+			updateDraftField: jest.fn(),
+			setSavingField: jest.fn(),
+			closeField: jest.fn(),
+			discardEdit: jest.fn(),
+			stopEdit: jest.fn(),
+		};
+		dataProvider = { getEndpoint: jest.fn( ( key ) => `https://example.com/${ key }` ) };
+
+		useSelect.mockImplementation( ( mapSelect ) => mapSelect( () => ( { selectEditingRows: () => editingRows } ) ) );
+		useDispatch.mockReturnValue( dispatch );
+	} );
+
+	const renderEdit = ( remoteDataProvider ) => renderHook( () => useInlineEdit( {
+		dataProvider,
+		remoteDataProvider,
+		fieldSets,
+		activeFieldSet: FIELD_SET_SEARCH,
+		items: [ item ],
+		updateItem: jest.fn(),
+	} ) );
+
+	it( "leaves the read-only field out of the draft when a row starts editing", () => {
+		const { result } = renderEdit( { fetchJson: jest.fn() } );
+
+		act( () => {
+			result.current.editing.onStartEdit( 7 );
+		} );
+
+		expect( dispatch.startEdit ).toHaveBeenCalledWith( { id: 7, draft: { seoTitle: "Title 7", metaDescription: "Desc 7" } } );
+	} );
+
+	it( "never sends the read-only field, so an existing keyphrase cannot be blanked", async() => {
+		// A read-only field that somehow reached the open fields must still be kept out of the request body.
+		editingRows = {
+			7: {
+				openFields: [ "focusKeyphrase", "seoTitle" ],
+				draft: { focusKeyphrase: "", seoTitle: "Title 7" },
+				savingFields: {},
+			},
+		};
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( {} ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyRow( 7 );
+		} );
+
+		const [ , , options ] = remoteDataProvider.fetchJson.mock.calls[ 0 ];
+		// eslint-disable-next-line camelcase -- The REST endpoint expects snake_case parameters.
+		expect( JSON.parse( options.body ) ).toEqual( { items: [ { id: 7, seo_title: "Title 7" } ] } );
+
+		await act( async() => {
+			await result.current.editing.onApplyField( { id: 7, key: "focusKeyphrase" } );
+		} );
+
+		// The per-field apply bails out entirely, so no second request goes out.
+		expect( remoteDataProvider.fetchJson ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( "closes a read-only open field instead of leaving it saving, so the row can leave edit mode", async() => {
+		editingRows = {
+			7: {
+				openFields: [ "focusKeyphrase", "seoTitle" ],
+				draft: { focusKeyphrase: "", seoTitle: "Title 7" },
+				savingFields: {},
+			},
+		};
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( {} ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyRow( 7 );
+		} );
+
+		// It is never marked saving — only the fields actually going out are.
+		expect( dispatch.setSavingField ).not.toHaveBeenCalledWith( { id: 7, key: "focusKeyphrase", isSaving: true } );
+		expect( dispatch.setSavingField ).toHaveBeenCalledWith( { id: 7, key: "seoTitle", isSaving: true } );
+		// Both fields close, so the row's edit state empties rather than stranding it in edit mode.
+		expect( dispatch.closeField ).toHaveBeenCalledWith( { id: 7, key: "focusKeyphrase" } );
+		expect( dispatch.closeField ).toHaveBeenCalledWith( { id: 7, key: "seoTitle" } );
+	} );
+
+	it( "closes a read-only open field on an apply-all too", async() => {
+		editingRows = {
+			7: {
+				openFields: [ "focusKeyphrase", "seoTitle" ],
+				draft: { focusKeyphrase: "", seoTitle: "Title 7" },
+				savingFields: {},
+			},
+		};
+		const remoteDataProvider = { fetchJson: jest.fn( () => Promise.resolve( {} ) ) };
+		const { result } = renderEdit( remoteDataProvider );
+
+		await act( async() => {
+			await result.current.editing.onApplyAll();
+		} );
+
+		const [ , , options ] = remoteDataProvider.fetchJson.mock.calls[ 0 ];
+		// eslint-disable-next-line camelcase -- The REST endpoint expects snake_case parameters.
+		expect( JSON.parse( options.body ) ).toEqual( { items: [ { id: 7, seo_title: "Title 7" } ] } );
+		expect( dispatch.closeField ).toHaveBeenCalledWith( { id: 7, key: "focusKeyphrase" } );
+	} );
+} );

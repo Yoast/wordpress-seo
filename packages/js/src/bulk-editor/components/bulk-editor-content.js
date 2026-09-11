@@ -66,11 +66,6 @@ export const getHasOverviewNotice = ( { preselectedTotal, hasExcludedPreselected
  * @returns {JSX.Element} The content.
  */
 export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentType, contentTypeLabel } ) => {
-	const fieldSets = useMemo( () => getFieldSets(), [] );
-	const tabs = useMemo(
-		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
-		[ fieldSets ]
-	);
 	const {
 		activeFieldSet,
 		selectedIds,
@@ -80,6 +75,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		hasExternalPendingChanges,
 		hasExternalGeneration,
 		pendingSwitch,
+		isKeywordAnalysisActive,
 	} = useSelect( ( select ) => {
 		const store = select( STORE_NAME );
 		return {
@@ -95,8 +91,15 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			// It also reports an in-flight generation request so row editing can be locked while it runs.
 			hasExternalGeneration: store.selectHasExternalGeneration(),
 			pendingSwitch: store.selectPendingSwitch(),
+			// With the SEO analysis off the focus keyphrase column stays visible but stops being editable.
+			isKeywordAnalysisActive: store.selectIsKeywordAnalysisActive(),
 		};
 	}, [] );
+	const fieldSets = useMemo( () => getFieldSets( { isKeywordAnalysisActive } ), [ isKeywordAnalysisActive ] );
+	const tabs = useMemo(
+		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
+		[ fieldSets ]
+	);
 	const {
 		requestSwitch,
 		commitSwitch,
