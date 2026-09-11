@@ -1,7 +1,7 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { get } from "lodash";
-import { ReactComponent as AbilitiesLogo } from "../../../../images/icon-rest-api-endpoint.svg";
-import { ReactComponent as NlwebLogo } from "../../../../images/icon-schema-aggregation-endpoint.svg";
+import { ReactComponent as AbilitiesLogo } from "../../images/abilities-api-logo.svg";
+import { ReactComponent as NlwebLogo } from "../../images/nlweb-logo.svg";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { AbilitiesIntegration } from "./abilities-integration";
 import { NlwebIntegration } from "./nlweb-integration";
