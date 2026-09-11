@@ -226,3 +226,135 @@ describe( "tests for the provided-images scope.", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!" );
 	} );
 } );
+
+describe( "tests for retrieving the feedback strings.", function() {
+	it( "returns the default feedback strings when no custom callback is provided.", function() {
+		const assessment = new ImageCountAssessment( { scores: { okay: 6 }, recommendedCount: 4 } );
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />. " );
+
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 1,
+		}, true ) );
+
+		expect( assessment.getFeedbackStrings() ).toEqual( {
+			noMedia: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page. " +
+				"<a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
+			okay: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Only 1 image appears on this page. We recommend at least 4. " +
+				"<a href='https://yoa.st/4f5' target='_blank'>Add more relevant images</a>!",
+			good: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!",
+		} );
+	} );
+
+	it( "returns the videos wording by default when videos are counted.", function() {
+		const assessment = new ImageCountAssessment( { scores: { okay: 6 }, recommendedCount: 4 }, true );
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />. " );
+
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 1,
+			videoCount: 1,
+		}, true ) );
+
+		expect( assessment.getFeedbackStrings() ).toEqual( {
+			noMedia: "<a href='https://yoa.st/4f4' target='_blank'>Images and videos</a>: No images or videos appear on this page. " +
+				"<a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
+			okay: "<a href='https://yoa.st/4f4' target='_blank'>Images and videos</a>: Only 2 images or videos appear on this page. " +
+				"We recommend at least 4. <a href='https://yoa.st/4f5' target='_blank'>Add more relevant images or videos</a>!",
+			good: "<a href='https://yoa.st/4f4' target='_blank'>Images and videos</a>: Good job!",
+		} );
+	} );
+
+	it( "returns the custom feedback strings, and passes the counts and the product type, when a callback is provided.", function() {
+		const getResultTexts = jest.fn( () => ( { noMedia: "no media", okay: "okay", good: "good" } ) );
+		const assessment = new ImageCountAssessment( {
+			scores: { okay: 6 },
+			recommendedCount: 4,
+			callbacks: { getResultTexts },
+		} );
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />. ", {
+			productData: { isVariableProduct: true },
+		} );
+
+		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 2,
+		}, true ) );
+
+		expect( result.getText() ).toEqual( "okay" );
+		expect( getResultTexts ).toHaveBeenCalledWith( {
+			urlTitleAnchorOpeningTag: "<a href='https://yoa.st/4f4' target='_blank'>",
+			urlActionAnchorOpeningTag: "<a href='https://yoa.st/4f5' target='_blank'>",
+			mediaCount: 2,
+			recommendedCount: 4,
+			includeVideos: false,
+			isVariableProduct: true,
+		} );
+	} );
+
+	it( "passes includeVideos true, and a mediaCount that includes the videos, when videos are counted.", function() {
+		const getResultTexts = jest.fn( () => ( { noMedia: "no media", okay: "okay", good: "good" } ) );
+		const assessment = new ImageCountAssessment( {
+			scores: { okay: 6 },
+			recommendedCount: 4,
+			callbacks: { getResultTexts },
+		}, true );
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />. " );
+
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 2,
+			videoCount: 1,
+		}, true ) );
+
+		expect( getResultTexts ).toHaveBeenCalledWith( expect.objectContaining( {
+			mediaCount: 3,
+			includeVideos: true,
+		} ) );
+	} );
+
+	// The provided-images scope turns video counting off, so the callback must see the effective value, not the flag.
+	it( "passes includeVideos false when the paper provides its own images, even though countVideos is on.", function() {
+		const getResultTexts = jest.fn( () => ( { noMedia: "no media", okay: "okay", good: "good" } ) );
+		const assessment = new ImageCountAssessment( {
+			scores: { okay: 6 },
+			recommendedCount: 4,
+			callbacks: { getResultTexts },
+		}, true );
+		const mockPaper = new Paper( "These are just five words <video src=\"movie.mp4\"></video>", {
+			providedImages: [ { src: "image.jpg", alt: "" } ],
+		} );
+
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 1,
+			videoCount: 1,
+		}, true ) );
+
+		expect( getResultTexts ).toHaveBeenCalledWith( expect.objectContaining( {
+			mediaCount: 1,
+			includeVideos: false,
+		} ) );
+	} );
+
+	it( "reports isVariableProduct as false when the paper carries no product data.", function() {
+		const getResultTexts = jest.fn( () => ( { noMedia: "no media", okay: "okay", good: "good" } ) );
+		const assessment = new ImageCountAssessment( { callbacks: { getResultTexts } } );
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />. " );
+
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 1,
+		}, true ) );
+
+		expect( getResultTexts.mock.calls[ 0 ][ 0 ].isVariableProduct ).toBe( false );
+	} );
+
+	it( "derives isVariableProduct from the legacy productType when the producer did not send the boolean.", function() {
+		const getResultTexts = jest.fn( () => ( { noMedia: "no media", okay: "okay", good: "good" } ) );
+		const assessment = new ImageCountAssessment( { callbacks: { getResultTexts } } );
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />. ", {
+			customData: { productType: "variable" },
+		} );
+
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 1,
+		}, true ) );
+
+		expect( getResultTexts.mock.calls[ 0 ][ 0 ].isVariableProduct ).toBe( true );
+	} );
+} );
