@@ -376,11 +376,11 @@ export const TableImageCell = {
 				</Table.Head>
 				<Table.Body>
 					<Table.Row>
-						<Table.ImageCell imageProps={ { src: sampleImage, alt: "" } } />
+						<Table.ImageCell cellProps={ { className: "yst-w-24" } } imageProps={ { src: sampleImage, alt: "" } } />
 						<Table.Cell>With an image</Table.Cell>
 					</Table.Row>
 					<Table.Row>
-						<Table.ImageCell />
+						<Table.ImageCell cellProps={ { className: "yst-w-24" } } />
 						<Table.Cell>Without an image, so a placeholder is shown</Table.Cell>
 					</Table.Row>
 				</Table.Body>
