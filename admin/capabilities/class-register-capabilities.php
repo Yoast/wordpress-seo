@@ -25,7 +25,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		/**
 		 * Maybe add manage_privacy_options capability for wpseo_manager user role.
 		 */
-		add_filter( 'map_meta_cap', [ $this, 'map_meta_cap_for_seo_manager' ], 10, 2 );
+		add_filter( 'map_meta_cap', [ $this, 'map_meta_cap_for_seo_manager' ], 10, 3 );
 	}
 
 	/**
@@ -83,20 +83,21 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 	/**
 	 * Maybe add manage_privacy_options capability for wpseo_manager user role.
 	 *
-	 * @param string[] $caps Primitive capabilities required of the user.
-	 * @param string[] $cap  Capability being checked.
+	 * @param string[] $caps    Primitive capabilities required of the user.
+	 * @param string   $cap     Capability being checked.
+	 * @param int      $user_id The user ID.
 	 *
 	 * @return string[] Filtered primitive capabilities required of the user.
 	 */
-	public function map_meta_cap_for_seo_manager( $caps, $cap ) {
-		$user = wp_get_current_user();
-
+	public function map_meta_cap_for_seo_manager( $caps, $cap, $user_id = 0 ) {
 		// No multisite support.
 		if ( is_multisite() ) {
 			return $caps;
 		}
 
-		if ( ! is_array( $user->roles ) ) {
+		$user = $user_id ? get_userdata( $user_id ) : wp_get_current_user();
+
+		if ( ! $user instanceof WP_User || ! is_array( $user->roles ) ) {
 			return $caps;
 		}
 
