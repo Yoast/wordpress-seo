@@ -6,9 +6,9 @@ namespace Yoast\WP\SEO\Abilities\User_Interface;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
-use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Editors\Framework\Inclusive_Language_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
@@ -57,6 +57,13 @@ class Abilities_Integration implements Integration_Interface {
 	private $post_seo_data_updater;
 
 	/**
+	 * The post SEO field map.
+	 *
+	 * @var Post_SEO_Field_Map
+	 */
+	private $post_seo_field_map;
+
+	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array<string> The conditionals.
@@ -76,19 +83,22 @@ class Abilities_Integration implements Integration_Interface {
 	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The enabled analysis features repository.
 	 * @param Post_SEO_Data_Collector              $post_seo_data_collector              The post SEO data collector.
 	 * @param Post_SEO_Data_Updater                $post_seo_data_updater                The post SEO data updater.
+	 * @param Post_SEO_Field_Map                   $post_seo_field_map                   The post SEO field map.
 	 */
 	public function __construct(
 		Score_Retriever $score_retriever,
 		Capability_Helper $capability_helper,
 		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository,
 		Post_SEO_Data_Collector $post_seo_data_collector,
-		Post_SEO_Data_Updater $post_seo_data_updater
+		Post_SEO_Data_Updater $post_seo_data_updater,
+		Post_SEO_Field_Map $post_seo_field_map
 	) {
 		$this->score_retriever                      = $score_retriever;
 		$this->capability_helper                    = $capability_helper;
 		$this->enabled_analysis_features_repository = $enabled_analysis_features_repository;
 		$this->post_seo_data_collector              = $post_seo_data_collector;
 		$this->post_seo_data_updater                = $post_seo_data_updater;
+		$this->post_seo_field_map                   = $post_seo_field_map;
 	}
 
 	/**
@@ -125,6 +135,10 @@ class Abilities_Integration implements Integration_Interface {
 		if ( $enabled_features[ Inclusive_Language_Analysis::NAME ] === true ) {
 			$this->register_inclusive_language_scores_ability();
 		}
+
+		// Metadata read/write is independent of which analysis features are enabled.
+		$this->register_get_post_seo_data_ability();
+		$this->register_update_post_seo_data_ability();
 	}
 
 	/**
@@ -404,88 +418,42 @@ class Abilities_Integration implements Integration_Interface {
 	/**
 	 * Returns the input schema for updating a post's SEO data (write path).
 	 *
+	 * The string field properties come from the field map's editable field
+	 * definitions, so the schema always matches what the write path applies.
+	 *
 	 * @return array<string, mixed> The input schema.
 	 */
 	private function get_update_post_seo_data_input_schema(): array {
-		$nullable_string = [ 'type' => [ 'string', 'null' ] ];
+		$properties = [
+			'post_id'   => [
+				'type'        => 'integer',
+				'description' => \__( 'The ID of the post to update.', 'wordpress-seo' ),
+				'minimum'     => 1,
+			],
+			'permalink' => [
+				'type'        => 'string',
+				'description' => \__( 'The permalink (URL) of the post to update.', 'wordpress-seo' ),
+			],
+		];
+
+		foreach ( $this->post_seo_field_map->get_editable_string_fields() as $field_name => $field ) {
+			$properties[ $field_name ] = $field['schema'];
+		}
+
+		$properties['is_cornerstone'] = [ 'type' => 'boolean' ];
+		$properties['noindex']        = [
+			'type'        => [ 'boolean', 'null' ],
+			'description' => \__( 'Whether search engines should be told not to index this post. true sets noindex (the post is excluded from search results); false forces the post to be indexed; null clears the setting and falls back to the post-type default.', 'wordpress-seo' ),
+		];
+		$properties['nofollow']       = [ 'type' => 'boolean' ];
+		$properties['noimageindex']   = [ 'type' => 'boolean' ];
+		$properties['noarchive']      = [ 'type' => 'boolean' ];
+		$properties['nosnippet']      = [ 'type' => 'boolean' ];
 
 		return [
 			'type'                 => 'object',
 			'additionalProperties' => false,
-			'properties'           => [
-				'post_id'                => [
-					'type'        => 'integer',
-					'description' => \__( 'The ID of the post to update.', 'wordpress-seo' ),
-					'minimum'     => 1,
-				],
-				'permalink'              => [
-					'type'        => 'string',
-					'description' => \__( 'The permalink (URL) of the post to update.', 'wordpress-seo' ),
-				],
-				'seo_title'              => $nullable_string,
-				'meta_description'       => $nullable_string,
-				'focus_keyphrase'        => \array_merge( $nullable_string, [ 'maxLength' => 191 ] ),
-				'canonical'              => $nullable_string,
-				'is_cornerstone'         => [ 'type' => 'boolean' ],
-				'noindex'                => [
-					'type'        => [ 'boolean', 'null' ],
-					'description' => \__( 'Whether search engines should be told not to index this post. true sets noindex (the post is excluded from search results); false forces the post to be indexed; null clears the setting and falls back to the post-type default.', 'wordpress-seo' ),
-				],
-				'nofollow'               => [ 'type' => 'boolean' ],
-				'noimageindex'           => [ 'type' => 'boolean' ],
-				'noarchive'              => [ 'type' => 'boolean' ],
-				'nosnippet'              => [ 'type' => 'boolean' ],
-				'open_graph_title'       => $nullable_string,
-				'open_graph_description' => $nullable_string,
-				'twitter_title'          => $nullable_string,
-				'twitter_description'    => $nullable_string,
-				'schema_page_type'       => $this->nullable_enum_schema(
-					\array_keys( Schema_Types::PAGE_TYPES ),
-					\__( 'The Schema.org page type for the post. Must be one of the supported page types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
-				),
-				'schema_article_type'    => $this->nullable_enum_schema(
-					$this->get_schema_article_types(),
-					\__( 'The Schema.org article type for the post. Must be one of the supported article types. Use null to clear it and fall back to the default.', 'wordpress-seo' ),
-				),
-			],
-		];
-	}
-
-	/**
-	 * Returns the allowed Schema.org article type values.
-	 *
-	 * Mirrors the validation in WPSEO_Option_Titles so the ability accepts exactly the
-	 * article types the editor does, including any registered through the filter.
-	 *
-	 * @return array<int, string> The allowed article type values.
-	 */
-	private function get_schema_article_types(): array {
-		/**
-		 * Filter: 'wpseo_schema_article_types' - Allow developers to filter the available article types.
-		 *
-		 * Make sure when you filter this to also filter `wpseo_schema_article_types_labels`.
-		 *
-		 * @param array $schema_article_types The available schema article types.
-		 */
-		return \array_keys( \apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES ) );
-	}
-
-	/**
-	 * Returns a nullable-string input schema constrained to a fixed set of allowed values.
-	 *
-	 * Null and the empty string are always allowed on top of the enum so the field can be
-	 * cleared, matching the patch-clear semantics of the other write fields.
-	 *
-	 * @param array<int, string> $allowed_values The allowed string values.
-	 * @param string             $description    The field description.
-	 *
-	 * @return array<string, mixed> The input schema fragment.
-	 */
-	private function nullable_enum_schema( array $allowed_values, string $description ): array {
-		return [
-			'type'        => [ 'string', 'null' ],
-			'description' => $description,
-			'enum'        => \array_merge( $allowed_values, [ '', null ] ),
+			'properties'           => $properties,
 		];
 	}
 

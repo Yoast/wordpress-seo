@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Surfaces\Values\Meta;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -41,6 +42,11 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+
+		$this->stubTranslationFunctions();
+
+		// The editable-fields and article-type enums are built from documented filters; return the defaults unfiltered.
+		Monkey\Functions\when( 'apply_filters' )->returnArg( 2 );
 
 		$this->meta_surface = Mockery::mock( Meta_Surface::class );
 		$this->instance     = new Post_SEO_Field_Map( $this->meta_surface );
@@ -213,6 +219,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 * Tests that string fields are set from their value and cleared to null when emptied.
 	 *
 	 * @covers ::apply_to_indexable
+	 * @covers ::get_editable_string_fields
 	 *
 	 * @return void
 	 */
@@ -221,20 +228,178 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 
 		$changed = $this->instance->apply_to_indexable(
 			[
-				'seo_title'        => 'New title',
-				'meta_description' => '',
-				'canonical'        => null,
-				'focus_keyphrase'  => 'a phrase',
+				'canonical'           => 'https://example.com/canonical/',
+				'schema_page_type'    => '',
+				'schema_article_type' => null,
 			],
 			$indexable,
 		);
 
+		$this->assertSame( 'https://example.com/canonical/', $indexable->canonical );
+		$this->assertNull( $indexable->schema_page_type );
+		$this->assertNull( $indexable->schema_article_type );
+		// The order follows the field declaration order, not the input order.
+		$this->assertSame( [ 'canonical', 'schema_page_type', 'schema_article_type' ], $changed );
+	}
+
+	/**
+	 * Tests that string fields outside the default editable set are not applied.
+	 *
+	 * The title, description, Open Graph, and Twitter fields are only editable when a
+	 * plugin (Premium) adds them through the editable-fields filter, and the focus
+	 * keyphrase is not editable at all.
+	 *
+	 * @covers ::apply_to_indexable
+	 * @covers ::get_editable_string_fields
+	 *
+	 * @return void
+	 */
+	public function test_apply_to_indexable_ignores_non_default_string_fields() {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$changed = $this->instance->apply_to_indexable(
+			[
+				'seo_title'              => 'New title',
+				'meta_description'       => 'New description',
+				'focus_keyphrase'        => 'a phrase',
+				'open_graph_title'       => 'New OG title',
+				'open_graph_description' => 'New OG description',
+				'twitter_title'          => 'New Twitter title',
+				'twitter_description'    => 'New Twitter description',
+			],
+			$indexable,
+		);
+
+		$this->assertSame( [], $changed );
+	}
+
+	/**
+	 * Tests the default editable string field definitions: each maps to its indexable
+	 * column and carries the input-schema fragment the ability exposes.
+	 *
+	 * @covers ::get_editable_string_fields
+	 * @covers ::nullable_enum_schema
+	 * @covers ::get_schema_article_types
+	 *
+	 * @return void
+	 */
+	public function test_get_editable_string_fields_defaults() {
+		$fields = $this->instance->get_editable_string_fields();
+
+		$this->assertSame( [ 'canonical', 'schema_page_type', 'schema_article_type' ], \array_keys( $fields ) );
+		$this->assertSame( 'canonical', $fields['canonical']['column'] );
+		$this->assertSame( [ 'type' => [ 'string', 'null' ] ], $fields['canonical']['schema'] );
+		$this->assertSame( 'schema_page_type', $fields['schema_page_type']['column'] );
+		$this->assertSame(
+			\array_merge( \array_keys( Schema_Types::PAGE_TYPES ), [ '', null ] ),
+			$fields['schema_page_type']['schema']['enum'],
+		);
+		$this->assertSame( 'schema_article_type', $fields['schema_article_type']['column'] );
+		$this->assertSame(
+			\array_merge( \array_keys( Schema_Types::ARTICLE_TYPES ), [ '', null ] ),
+			$fields['schema_article_type']['schema']['enum'],
+		);
+	}
+
+	/**
+	 * Tests that a string field added through the editable-fields filter is applied to
+	 * the indexable like a default field.
+	 *
+	 * This is the extension point Premium uses to make its fields editable.
+	 *
+	 * @covers ::apply_to_indexable
+	 * @covers ::get_editable_string_fields
+	 * @covers ::is_valid_string_field
+	 *
+	 * @return void
+	 */
+	public function test_apply_to_indexable_applies_filtered_fields() {
+		Monkey\Functions\when( 'apply_filters' )->alias(
+			static function ( $hook_name, $value ) {
+				if ( $hook_name === 'wpseo_editable_post_seo_data_string_fields' ) {
+					$value['seo_title'] = [
+						'column' => 'title',
+						'schema' => [ 'type' => [ 'string', 'null' ] ],
+					];
+				}
+
+				return $value;
+			},
+		);
+
+		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$changed = $this->instance->apply_to_indexable( [ 'seo_title' => 'New title' ], $indexable );
+
 		$this->assertSame( 'New title', $indexable->title );
-		$this->assertNull( $indexable->description );
-		$this->assertNull( $indexable->canonical );
-		$this->assertSame( 'a phrase', $indexable->primary_focus_keyword );
-		// The order follows the STRING_FIELDS declaration order, not the input order.
-		$this->assertSame( [ 'title', 'description', 'primary_focus_keyword', 'canonical' ], $changed );
+		$this->assertSame( [ 'title' ], $changed );
+	}
+
+	/**
+	 * Tests that malformed or reserved filtered field definitions are discarded.
+	 *
+	 * @covers ::get_editable_string_fields
+	 * @covers ::is_valid_string_field
+	 *
+	 * @return void
+	 */
+	public function test_get_editable_string_fields_discards_invalid_definitions() {
+		$hijack_definition = [
+			'column' => 'title',
+			'schema' => [ 'type' => [ 'string', 'null' ] ],
+		];
+		$invalid_fields    = [
+			'no_column'    => [ 'schema' => [ 'type' => [ 'string', 'null' ] ] ],
+			'no_schema'    => [ 'column' => 'title' ],
+			'empty_column' => [
+				'column' => '',
+				'schema' => [ 'type' => [ 'string', 'null' ] ],
+			],
+			'not_an_array' => 'title',
+			// Reserved input fields cannot be hijacked into string writes.
+			'post_id'      => $hijack_definition,
+			'noindex'      => $hijack_definition,
+			'nofollow'     => $hijack_definition,
+		];
+
+		Monkey\Functions\when( 'apply_filters' )->alias(
+			static function ( $hook_name, $value ) use ( $invalid_fields ) {
+				if ( $hook_name === 'wpseo_editable_post_seo_data_string_fields' ) {
+					return \array_merge( $value, $invalid_fields );
+				}
+
+				return $value;
+			},
+		);
+
+		$this->assertSame(
+			[ 'canonical', 'schema_page_type', 'schema_article_type' ],
+			\array_keys( $this->instance->get_editable_string_fields() ),
+		);
+	}
+
+	/**
+	 * Tests that the default definitions are kept when the filter does not return an array.
+	 *
+	 * @covers ::get_editable_string_fields
+	 *
+	 * @return void
+	 */
+	public function test_get_editable_string_fields_falls_back_on_broken_filter() {
+		Monkey\Functions\when( 'apply_filters' )->alias(
+			static function ( $hook_name, $value ) {
+				if ( $hook_name === 'wpseo_editable_post_seo_data_string_fields' ) {
+					return null;
+				}
+
+				return $value;
+			},
+		);
+
+		$this->assertSame(
+			[ 'canonical', 'schema_page_type', 'schema_article_type' ],
+			\array_keys( $this->instance->get_editable_string_fields() ),
+		);
 	}
 
 	/**
