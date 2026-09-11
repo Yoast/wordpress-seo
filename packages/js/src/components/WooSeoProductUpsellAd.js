@@ -14,23 +14,23 @@ const STORE_NAME_EDITOR = "yoast-seo/editor";
 const WOO_SEO_CTB_ID = "5b32250e-e6f0-44ae-ad74-3cefc8e427f9";
 
 /**
- * Renders an upsell ad for Yoast WooCommerce SEO at the top of the product editor metabox.
+ * Renders an upsell ad for Yoast WooCommerce SEO at the top of the metabox for products and product terms.
  *
- * Only renders for product posts when WooCommerce is active and Yoast WooCommerce SEO is not.
+ * Only renders when WooCommerce is active and Yoast WooCommerce SEO is not.
  *
  * @returns {JSX.Element|null} The upsell ad, or null when it should not be shown.
  */
 export const WooSeoProductUpsellAd = () => {
 	const svgAriaProps = useSvgAria();
-	const { isWooSeoProductUpsell, upsellLink } = useSelect( ( select ) => {
+	const { isWooSeoUpsell, upsellLink } = useSelect( ( select ) => {
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return {
-			isWooSeoProductUpsell: editorSelect.getIsWooSeoUpsell() && editorSelect.getIsProduct(),
+			isWooSeoUpsell: editorSelect.getIsWooSeoUpsell(),
 			upsellLink: editorSelect.selectLink( "https://yoa.st/woo-seo-product-editor-upsell" ),
 		};
 	}, [] );
 
-	if ( ! isWooSeoProductUpsell ) {
+	if ( ! isWooSeoUpsell ) {
 		return null;
 	}
 
@@ -47,7 +47,7 @@ export const WooSeoProductUpsellAd = () => {
 				id="woo-seo-product-upsell-ad"
 				className="yst-bg-white yst-border yst-border-woo-light yst-border-opacity-30 yst-rounded-lg yst-shadow-md yst-p-4"
 			>
-				<Title as="h4" className="yst-text-woo-light yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2">
+				<Title as="h3" size="4" className="yst-text-woo-light yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2">
 					Yoast WooCommerce SEO
 					<ShoppingCartIcon className="yst-w-4 yst-scale-x-[-1]" { ...svgAriaProps } />
 				</Title>

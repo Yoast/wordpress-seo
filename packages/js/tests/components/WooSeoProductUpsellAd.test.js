@@ -11,14 +11,12 @@ jest.mock( "@wordpress/data", () => ( {
  *
  * @param {Object} [overrides] Selector return values to override.
  * @param {boolean} [overrides.isWooSeoUpsell=true] Whether WooCommerce is active without Yoast WooCommerce SEO on a product entity.
- * @param {boolean} [overrides.isProduct=true] Whether the post type is a product.
  *
  * @returns {void}
  */
-const mockEditorStore = ( { isWooSeoUpsell = true, isProduct = true } = {} ) => {
+const mockEditorStore = ( { isWooSeoUpsell = true } = {} ) => {
 	const editorSelect = {
 		getIsWooSeoUpsell: () => isWooSeoUpsell,
-		getIsProduct: () => isProduct,
 		selectLink: ( link ) => `${ link }?shortlink=1`,
 	};
 	useSelect.mockImplementation( ( mapSelect ) => mapSelect( () => editorSelect ) );
@@ -29,11 +27,11 @@ describe( "WooSeoProductUpsellAd", () => {
 		useSelect.mockReset();
 	} );
 
-	it( "renders the Yoast WooCommerce SEO card for a product without the add-on", () => {
+	it( "renders the Yoast WooCommerce SEO card for a product entity without the add-on", () => {
 		mockEditorStore();
 		render( <WooSeoProductUpsellAd /> );
 
-		expect( screen.getByRole( "heading", { name: "Yoast WooCommerce SEO" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "heading", { level: 3, name: "Yoast WooCommerce SEO" } ) ).toBeInTheDocument();
 		expect( screen.getByText(
 			"Get ecommerce schema, product-specific assessments, and AI-generated image alt text, all in one plan."
 		) ).toBeInTheDocument();
@@ -58,15 +56,8 @@ describe( "WooSeoProductUpsellAd", () => {
 		expect( button ).toHaveAttribute( "data-ctb-id", "5b32250e-e6f0-44ae-ad74-3cefc8e427f9" );
 	} );
 
-	it( "renders nothing when Yoast WooCommerce SEO is active or WooCommerce is not", () => {
+	it( "renders nothing when Yoast WooCommerce SEO is active, WooCommerce is not, or this is not a product entity", () => {
 		mockEditorStore( { isWooSeoUpsell: false } );
-		const { container } = render( <WooSeoProductUpsellAd /> );
-
-		expect( container ).toBeEmptyDOMElement();
-	} );
-
-	it( "renders nothing on product terms, only on the product editor itself", () => {
-		mockEditorStore( { isProduct: false } );
 		const { container } = render( <WooSeoProductUpsellAd /> );
 
 		expect( container ).toBeEmptyDOMElement();
