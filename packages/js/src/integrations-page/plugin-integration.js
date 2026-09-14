@@ -2,7 +2,9 @@ import CheckIcon from "@heroicons/react/solid/CheckIcon";
 import XIcon from "@heroicons/react/solid/XIcon";
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { Link } from "@yoast/ui-library";
 import { PropTypes } from "prop-types";
+import { SCHEMA_FRAMEWORK_SETTINGS_LINK } from "./helper";
 import { SimpleIntegration } from "./simple-integration";
 
 // Flag to check if the Schema Framework is enabled.
@@ -30,7 +32,20 @@ export const PluginIntegration = ( { integration, isActive = true, isSchemaAPIIn
 			isSchemaPartner={ isSchemaAPIIntegration }
 		>
 			{ isSchemaFrameworkDisabled && <Fragment>
-				<span className="yst-text-red-600 yst-font-medium">{ __( "Schema Framework disabled", "wordpress-seo" ) }</span>
+				<Link
+					id={ `${ integration.slug }-schema-framework-link` }
+					href={ SCHEMA_FRAMEWORK_SETTINGS_LINK }
+					variant="error"
+					className="yst-font-medium"
+				>
+					{ __( "Schema Framework disabled", "wordpress-seo" ) }
+					<span className="yst-sr-only">
+						{
+							/* translators: Hidden accessibility text. */
+							__( "(Go to the Schema Framework settings)", "wordpress-seo" )
+						}
+					</span>
+				</Link>
 			</Fragment> }
 			{ ! isSchemaFrameworkDisabled && isActive && <Fragment>
 				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
