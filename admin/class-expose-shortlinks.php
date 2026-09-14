@@ -13,7 +13,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 	/**
 	 * Array containing the keys and shortlinks.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	private $shortlinks = [
 		'shortlinks.advanced.allow_search_engines'                  => 'https://yoa.st/allow-search-engines',
@@ -51,6 +51,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.upsell.gsc.create_redirect_button'              => 'https://yoa.st/redirects',
 		'shortlinks.readability_analysis_info'                      => 'https://yoa.st/readability-analysis',
 		'shortlinks.inclusive_language_analysis_info'               => 'https://yoa.st/inclusive-language-analysis',
+		'shortlinks.social_previews_info'                           => 'https://yoa.st/social-preview-admin-bar',
 		'shortlinks.activate_premium_info'                          => 'https://yoa.st/activate-subscription',
 		'shortlinks.wincher.seo_performance'                        => 'https://yoa.st/wincher-integration',
 		'shortlinks-insights-estimated_reading_time'                => 'https://yoa.st/4fd',
@@ -82,9 +83,9 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 	/**
 	 * Adds shortlinks to the passed array.
 	 *
-	 * @param array $input The array to add shortlinks to.
+	 * @param array<string, string|array<string, string>> $input The array to add shortlinks to.
 	 *
-	 * @return array The passed array with the additional shortlinks.
+	 * @return array<string, string|array<string, string>> The passed array with the additional shortlinks.
 	 */
 	public function expose_shortlinks( $input ) {
 		foreach ( $this->get_shortlinks() as $key => $shortlink ) {
@@ -99,7 +100,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 	/**
 	 * Retrieves the shortlinks.
 	 *
-	 * @return array The shortlinks.
+	 * @return array<string, string> The shortlinks.
 	 */
 	private function get_shortlinks() {
 		if ( ! $this->is_term_edit() ) {

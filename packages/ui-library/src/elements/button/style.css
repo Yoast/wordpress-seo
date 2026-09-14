@@ -51,7 +51,9 @@
 			yst-text-white
 			yst-ps-2
 			yst-gap-1.5
-			yst-bg-ai-500;
+			yst-bg-ai-500
+			visited:yst-text-white
+			visited:hover:yst-text-white;
 
 			border-image: none;
 
@@ -73,7 +75,9 @@
 			yst-ps-2
 			yst-gap-1.5
 			hover:yst-bg-ai-100
-			focus:yst-text-slate-800;
+			focus:yst-text-slate-800
+			visited:yst-text-slate-800
+			visited:hover:yst-text-slate-800;
 		}
 
 		.yst-ai-gradient-border {

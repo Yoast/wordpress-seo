@@ -137,6 +137,43 @@ class AbstractIndexation extends Component {
 	}
 
 	/**
+	 * Guards against an endless indexing loop on a cursor endpoint.
+	 *
+	 * A response whose objects are identical to the previous batch, while still pointing at the
+	 * same URL for the next batch, means processing is not marking anything as done — requesting
+	 * again would return the very same batch forever. Only identical whole batches trip the guard:
+	 * comparing a single object would misfire on runs where one object legitimately repeats.
+	 *
+	 * @param {string}      endpoint              The endpoint being indexed.
+	 * @param {string}      url                   The URL the current batch was requested from.
+	 * @param {Object}      response              The indexing response.
+	 * @param {string|null} previousBatchIdentity The identity of the previous batch, if any.
+	 *
+	 * @throws {Error} When the response repeats the previous batch.
+	 *
+	 * @returns {string|null} The identity of the current batch, or null when the guard does not apply.
+	 */
+	detectIndexingLoop( endpoint, url, response, previousBatchIdentity ) {
+		if ( response.next_url !== url || response.objects.length === 0 ) {
+			return null;
+		}
+
+		const batchIdentity = JSON.stringify(
+			response.objects.map( ( object ) => [ object.id, object.object_type, object.object_sub_type, object.object_id ] )
+		);
+
+		if ( batchIdentity === previousBatchIdentity ) {
+			throw new Error(
+				`Optimization of the '${ endpoint }' data is not making progress: the same batch was returned twice. ` +
+				"Stopped to prevent an endless loop. This can happen when a plugin conflict or a failing script " +
+				"prevents the returned objects from being processed."
+			);
+		}
+
+		return batchIdentity;
+	}
+
+	/**
 	 * Does the indexing of a given endpoint.
 	 *
 	 * @param {string} endpoint The endpoint.
@@ -145,12 +182,15 @@ class AbstractIndexation extends Component {
 	 */
 	async doIndexing( endpoint ) {
 		let url = this.settings.restApi.root + this.settings.restApi.indexing_endpoints[ endpoint ];
+		let previousBatchIdentity = null;
 
 		while ( this.isState( STATE.IN_PROGRESS ) && url !== false ) {
 			try {
 				await this.doPreIndexingAction( endpoint );
 				const response = await this.doIndexingRequest( url, this.settings.restApi.nonce );
 				await this.doPostIndexingAction( endpoint, response );
+
+				previousBatchIdentity = this.detectIndexingLoop( endpoint, url, response, previousBatchIdentity );
 
 				flushSync( () => {
 					this.setState( previousState => (
