@@ -95,7 +95,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculates the result based on the availability of images in the text.
+	 * Calculates the result based on how many of the assessed images have an alt attribute.
 	 *
 	 * @returns {{score: number, resultText: string}} The calculated result.
 	 */

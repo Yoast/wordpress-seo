@@ -38,7 +38,8 @@ import normalizeProductData from "../../../contract/normalizeProductData";
  */
 
 /**
- * Represents the assessment that checks if the text has any images present, including videos in product pages.
+ * Represents the assessment that checks how many images are present: the images in the text, or the Paper's
+ * provided images when it supplies them. Videos count too when the assessor enables it.
  */
 export default class TextImagesAssessment extends Assessment {
 	/**
@@ -98,7 +99,7 @@ export default class TextImagesAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculate the result based on the availability of images in the text, including videos in product pages.
+	 * Calculate the result based on how many images are assessed, including videos when they are counted.
 	 *
 	 * @returns {{score: number, resultText: string}} The calculated result.
 	 */
