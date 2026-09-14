@@ -223,3 +223,56 @@ describe( "tests for retrieving the feedback strings.", function() {
 		} );
 	} );
 } );
+
+describe( "tests for the product type passed to the feedback-strings callback.", function() {
+	it( "passes isVariableProduct to a custom callback.", function() {
+		const getResultTexts = jest.fn( () => ( {
+			good: "good",
+			noImagesBad: "no images",
+			noneHasAltBad: "none has alt",
+			someHaveAltBad: "some have alt",
+		} ) );
+		const assessment = new ImageAltTagsAssessment( { callbacks: { getResultTexts } } );
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />. ", {
+			productData: { isVariableProduct: true },
+		} );
+
+		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 4,
+			altTagCount: {
+				noAlt: 2,
+				withAlt: 2,
+			},
+		}, true ) );
+
+		expect( result.getText() ).toEqual( "some have alt" );
+		expect( getResultTexts ).toHaveBeenCalledWith( {
+			urlTitleAnchorOpeningTag: "<a href='' target='_blank'>",
+			urlActionAnchorOpeningTag: "<a href='' target='_blank'>",
+			numberOfImagesWithoutAlt: 2,
+			totalNumberOfImages: 4,
+			isVariableProduct: true,
+		} );
+	} );
+
+	it( "reports isVariableProduct as false when the paper carries no product data.", function() {
+		const getResultTexts = jest.fn( () => ( {
+			good: "good",
+			noImagesBad: "no images",
+			noneHasAltBad: "none has alt",
+			someHaveAltBad: "some have alt",
+		} ) );
+		const assessment = new ImageAltTagsAssessment( { callbacks: { getResultTexts } } );
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />. " );
+
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 4,
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 4,
+			},
+		}, true ) );
+
+		expect( getResultTexts.mock.calls[ 0 ][ 0 ].isVariableProduct ).toBe( false );
+	} );
+} );
