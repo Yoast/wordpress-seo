@@ -224,7 +224,6 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 				'seo_title'        => 'New title',
 				'meta_description' => '',
 				'canonical'        => null,
-				'focus_keyphrase'  => 'a phrase',
 			],
 			$indexable,
 		);
@@ -232,9 +231,8 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 		$this->assertSame( 'New title', $indexable->title );
 		$this->assertNull( $indexable->description );
 		$this->assertNull( $indexable->canonical );
-		$this->assertSame( 'a phrase', $indexable->primary_focus_keyword );
 		// The order follows the STRING_FIELDS declaration order, not the input order.
-		$this->assertSame( [ 'title', 'description', 'primary_focus_keyword', 'canonical' ], $changed );
+		$this->assertSame( [ 'title', 'description', 'canonical' ], $changed );
 	}
 
 	/**

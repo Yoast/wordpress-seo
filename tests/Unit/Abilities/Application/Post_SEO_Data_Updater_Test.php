@@ -110,9 +110,9 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 	 */
 	public function test_update_post_seo_data() {
 		$input                = [
-			'post_id'          => 42,
-			'meta_description' => 'New description',
-			'noindex'          => true,
+			'post_id'   => 42,
+			'canonical' => 'https://example.com/canonical',
+			'noindex'   => true,
 		];
 		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 42;
@@ -134,12 +134,12 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->expects( 'apply_to_indexable' )
 			->once()
 			->with( $input, $indexable )
-			->andReturn( [ 'description', 'is_robots_noindex' ] );
+			->andReturn( [ 'canonical', 'is_robots_noindex' ] );
 
 		$this->indexable_to_postmeta
 			->expects( 'map_column_to_postmeta' )
 			->once()
-			->with( $indexable, 'description', true );
+			->with( $indexable, 'canonical', true );
 		$this->indexable_to_postmeta
 			->expects( 'map_column_to_postmeta' )
 			->once()
@@ -157,15 +157,15 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->with( $rebuilt )
 			->andReturn(
 				[
-					'post_id'          => 42,
-					'meta_description' => 'New description',
+					'post_id'   => 42,
+					'canonical' => 'https://example.com/canonical',
 				],
 			);
 
 		$this->assertSame(
 			[
-				'post_id'          => 42,
-				'meta_description' => 'New description',
+				'post_id'   => 42,
+				'canonical' => 'https://example.com/canonical',
 			],
 			$this->instance->update_post_seo_data( $input ),
 		);
@@ -246,12 +246,12 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->expects( 'apply_to_indexable' )
 			->once()
 			->with( [ 'post_id' => 42 ], $indexable )
-			->andReturn( [ 'description' ] );
+			->andReturn( [ 'canonical' ] );
 
 		$this->indexable_to_postmeta
 			->expects( 'map_column_to_postmeta' )
 			->once()
-			->with( $indexable, 'description', true );
+			->with( $indexable, 'canonical', true );
 
 		$this->indexable_builder
 			->expects( 'build_for_id_and_type' )

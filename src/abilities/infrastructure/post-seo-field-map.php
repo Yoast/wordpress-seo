@@ -11,10 +11,12 @@ use Yoast\WP\SEO\Surfaces\Values\Meta;
 /**
  * Translates between the ability input, an indexable, and the post SEO data value object.
  *
- * This is the single source of truth for the field contract shared by the read
- * (collector) and write (updater) abilities. The write path applies the input
- * onto an indexable; persistence to post meta is delegated to
- * Indexable_To_Postmeta_Helper so the encodings live in one place.
+ * The read path (collector) maps every readable field onto the output array. The
+ * write path (updater) applies whatever validated input it receives onto an
+ * indexable; which fields are exposed for writing is decided by the ability's
+ * input schema, so the writable set may be narrower than the fields known here.
+ * Persistence to post meta is delegated to Indexable_To_Postmeta_Helper so the
+ * encodings live in one place.
  */
 class Post_SEO_Field_Map {
 
@@ -43,7 +45,6 @@ class Post_SEO_Field_Map {
 	private const STRING_FIELDS = [
 		'seo_title'              => 'title',
 		'meta_description'       => 'description',
-		'focus_keyphrase'        => 'primary_focus_keyword',
 		'canonical'              => 'canonical',
 		'open_graph_title'       => 'open_graph_title',
 		'open_graph_description' => 'open_graph_description',
