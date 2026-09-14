@@ -1,4 +1,4 @@
-import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
+import ChevronRightIcon from "@heroicons/react/outline/ChevronRightIcon";
 import classNames from "classnames";
 import React, { useCallback } from "react";
 import { useSvgAria } from "../../../hooks";

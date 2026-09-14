@@ -26,3 +26,7 @@ Give every checkbox an accessible name — either `aria-label` in `checkboxProps
 #### Padding
 
 `Table.CheckboxHeader` and `Table.CheckboxCell` use slightly narrower vertical padding (`py-3.5`) than regular `Table.Header` and `Table.Cell` (`py-4`), sized to keep the checkbox column compact.
+
+#### Fixed width
+
+The checkbox column has a fixed width (`w-10` / 2.5rem). In the minimal variant, the first and last cells lose their horizontal padding, so the fixed width is automatically reduced by `0.75rem` to keep the column tight and avoid a visible gap.
