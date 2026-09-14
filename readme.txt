@@ -311,9 +311,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-09-15
 
-#### Enhancements
-
-* Adds a link with more information about social previews to the social appearance sections of the editor.
+Yoast SEO 28.5 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
 
 #### Bugfixes
 
@@ -321,6 +319,7 @@ Release date: 2026-09-15
 
 #### Other
 
+* Adds a link with more information about social previews to the social appearance sections of the editor.
 * Updates the plugin's app URL and logo that are used when initiating the MyYoast connection.
 
 = 28.4 =
