@@ -312,6 +312,23 @@ describe( "BulkEditorTable", () => {
 		expect( screen.getByRole( "button", { name: "Save On-Page SEO Checklist" } ) ).toBeInTheDocument();
 	} );
 
+	it( "keeps the focus keyphrase column readable but not editable when the SEO analysis is off", () => {
+		const readOnlyFieldSet = getFieldSets( { isKeywordAnalysisActive: false } )[ FIELD_SET_SEARCH ];
+		render(
+			<BulkEditorTable
+				items={ items }
+				fieldSet={ readOnlyFieldSet }
+				editing={ { editingRows: { 2: { openFields: [ "seoTitle" ], draft: { seoTitle: "Draft title" }, savingFields: {} } } } }
+			/>
+		);
+
+		// The column and its value stay; only the edit affordance is gone.
+		expect( screen.getByRole( "columnheader", { name: "Focus keyphrase" } ) ).toBeInTheDocument();
+		expect( screen.getByText( "on page seo" ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "textbox", { name: "Focus keyphrase for On-Page SEO Checklist" } ) ).not.toBeInTheDocument();
+		expect( screen.getByRole( "combobox", { name: "SEO title for On-Page SEO Checklist" } ) ).toBeInTheDocument();
+	} );
+
 	it( "renders only the open fields as inputs, the rest as text", () => {
 		render(
 			<BulkEditorTable
