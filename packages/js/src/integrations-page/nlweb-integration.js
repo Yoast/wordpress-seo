@@ -1,13 +1,9 @@
 import CheckIcon from "@heroicons/react/solid/CheckIcon";
-import { useSelect } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
 import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
-
-// The Site features setting that owns the underlying option, so both places stay in sync.
-const SCHEMA_AGGREGATION_SETTING_LINK = "?page=wpseo_page_settings#/site-features#card-wpseo-enable_schema_aggregation_endpoint";
 
 /**
  * Represents the NLWeb integration.
@@ -21,8 +17,6 @@ const SCHEMA_AGGREGATION_SETTING_LINK = "?page=wpseo_page_settings#/site-feature
  * @returns {JSX.Element} A card representing an integration.
  */
 export const NlwebIntegration = ( { integration, isActive = true } ) => {
-	const settingsLink = useSelect( select => select( "yoast-seo/settings" ).selectLink( SCHEMA_AGGREGATION_SETTING_LINK ), [] );
-
 	return (
 		<SimpleIntegration
 			integration={ integration }
@@ -40,7 +34,7 @@ export const NlwebIntegration = ( { integration, isActive = true } ) => {
 					type="button"
 					as="a"
 					variant="secondary"
-					href={ settingsLink }
+					href="?page=wpseo_page_settings#/site-features#card-wpseo-enable_schema_aggregation_endpoint"
 					className="yst-w-full yst-text-slate-800 yst-text-center"
 				>
 					{ __( "Enable in Site features", "wordpress-seo" ) }

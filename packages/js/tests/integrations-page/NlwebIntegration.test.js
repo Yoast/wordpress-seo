@@ -56,12 +56,12 @@ describe( "NlwebIntegration", () => {
 		expect( screen.queryByText( "Integration active" ) ).not.toBeInTheDocument();
 	} );
 
-	it( "points the button at the Schema aggregation endpoint setting", () => {
+	it( "points the button at the Schema aggregation endpoint setting, without yoa.st link params", () => {
 		render( <NlwebIntegration integration={ integration } isActive={ false } /> );
 
 		expect( screen.getByRole( "link", { name: "Enable in Site features" } ) ).toHaveAttribute(
 			"href",
-			expect.stringContaining( "page=wpseo_page_settings#/site-features#card-wpseo-enable_schema_aggregation_endpoint" )
+			"?page=wpseo_page_settings#/site-features#card-wpseo-enable_schema_aggregation_endpoint"
 		);
 	} );
 
