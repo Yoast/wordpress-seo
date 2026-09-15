@@ -76,7 +76,7 @@ const integrations = {
 		logoLink: "https://yoa.st/integrations-logo-wp-recipemaker",
 		slug: "wp-recipe-maker",
 		description: sprintf(
-			/* translators: 1: Seriously Simple Podcasting, 2: Yoast SEO */
+			/* translators: 1: WP Recipe Maker, 2: Yoast SEO */
 			__( "%1$s integrates with %2$s's Schema API to get rich snippets for your recipes!", "wordpress-seo" ),
 			"WP Recipe Maker",
 			"Yoast SEO"
