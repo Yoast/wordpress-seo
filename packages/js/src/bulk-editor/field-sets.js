@@ -8,7 +8,7 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, FOCUS_KEYPHRASE_KEY } from "./const
  * @property {number} id   The image ID.
  * @property {string} src  The image URL.
  * @property {string} alt  The image alt text.
- * @property {string} type The image type (e.g., "featured", "gallery", "variant").
+ * @property {string} type The image type (e.g., "featured", "gallery", "variation").
  * @property {string} [variationId] The variation ID of the image, if applicable.
  */
 
