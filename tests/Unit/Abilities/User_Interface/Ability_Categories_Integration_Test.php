@@ -80,7 +80,7 @@ final class Ability_Categories_Integration_Test extends TestCase {
 				'yoast-seo',
 				[
 					'label'       => 'Yoast SEO',
-					'description' => 'SEO analysis capabilities provided by Yoast SEO.',
+					'description' => 'Abilities for Yoast SEO data and operations.',
 				],
 			);
 
