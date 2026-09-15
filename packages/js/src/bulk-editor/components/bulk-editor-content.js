@@ -239,7 +239,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 					if ( tab.id === FIELD_SET_IMAGE_ALT_TEXT ) {
 						return (
 							<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-								<Slot name={ IMAGE_ALT_TEXT_SLOT } fillProps={ { dataProvider, remoteDataProvider, contentType } }>
+								<Slot name={ IMAGE_ALT_TEXT_SLOT } fillProps={ { items } }>
 									{ ( fills ) => ( fills.length > 0 ? fills : <ImageAltTextPlaceholder /> ) }
 								</Slot>
 							</BulkEditorTabPanel>

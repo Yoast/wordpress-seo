@@ -2,6 +2,17 @@ import { __ } from "@wordpress/i18n";
 import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, FOCUS_KEYPHRASE_KEY } from "./constants";
 
 /**
+ * An image associated with a post.
+ *
+ * @typedef {Object} Image
+ * @property {number} id   The image ID.
+ * @property {string} src  The image URL.
+ * @property {string} alt  The image alt text.
+ * @property {string} type The image type (e.g., "featured", "gallery", "variation").
+ * @property {string} [variationId] The variation ID of the image, if applicable.
+ */
+
+/**
  * The data for one content item shown in the bulk editor table.
  *
  * The editable fields map to Yoast post meta (prefix `_yoast_wpseo_`): `seoTitle` → `title`,
@@ -19,6 +30,8 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, FOCUS_KEYPHRASE_KEY } from "./const
  * @property {string} socialTitle       The social title.
  * @property {string} socialDescription The social description.
  * @property {boolean} editable         Whether the current user may edit the post; locked rows hide their SEO data.
+ * @property {Object} needsImprovement The "needs improvement" status for various SEO aspects, keyed by concept.
+ * @property {Image[]} images           The images associated with the post (only when Yoast Woocommerce SEO is active).
  */
 
 /**
