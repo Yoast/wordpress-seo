@@ -127,6 +127,16 @@ class KeyphraseDensityAssessment extends Assessment {
 				this._minRecommendedKeyphraseCount = 1;
 				this._maxRecommendedKeyphraseCount = this._textLength > 50 ? 2 : 1;
 				calculatedScore = this.calculateResultShortText();
+				// Calculate the score for short texts in Japanese
+				const matchWordCustomHelper = researcher.getHelper("matchWordCustomHelper");
+				if ( matchWordCustomHelper ) {
+					const customTextLength = researcher.getHelper("wordsCharacterCount");
+					if ( matchWordCustomHelper && customTextLength < 50 ) {
+						this._minRecommendedKeyphraseCount = 1;
+						this._maxRecommendedKeyphraseCount > 25 ? 2 : 1;
+					}
+				}
+				calculatedScore = this.calculateResultShortText();
 			} else {
 				// Calculate the score for long texts.
 				this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
@@ -202,7 +212,7 @@ class KeyphraseDensityAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there is a good number of keyphrase matches in a short text (<= 100 words).
+	 * Checks whether there is a good number of keyphrase matches in a short text (<= 100 words or 50 characters).
 	 *
 	 * @returns {boolean} Returns true if the number of keyphrase occurrences is between the minimum and maximum recommended count.
 	 */
