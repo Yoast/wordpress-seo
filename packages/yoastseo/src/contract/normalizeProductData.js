@@ -26,8 +26,12 @@ import { isEmpty } from "lodash";
  */
 export default function normalizeProductData( paper ) {
 	const productData = paper.getProductData();
-	// Fall back to the legacy flat product keys in customData for unmigrated producers and npm consumers.
-	const source = isEmpty( productData ) ? paper.getCustomData() : productData;
+	/*
+	 * Fall back to the legacy flat product keys in customData for unmigrated producers and npm consumers.
+	 * `?? {}` because Paper fills defaults with lodash `defaults`, which replaces `undefined` but not `null`, so a
+	 * producer passing `customData: null` reaches here as `null`.
+	 */
+	const source = ( isEmpty( productData ) ? paper.getCustomData() : productData ) ?? {};
 
 	return {
 		...source,
