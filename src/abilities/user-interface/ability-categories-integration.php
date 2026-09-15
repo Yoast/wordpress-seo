@@ -41,7 +41,7 @@ class Ability_Categories_Integration implements Integration_Interface {
 			self::CATEGORY_SLUG,
 			[
 				'label'       => 'Yoast SEO',
-				/* translators: %1$s expands to Yoast SEO */
+				/* translators: %s expands to Yoast SEO */
 				'description' => \sprintf( \__( 'Abilities for %s data and operations.', 'wordpress-seo' ), 'Yoast SEO' ),
 			],
 		);
