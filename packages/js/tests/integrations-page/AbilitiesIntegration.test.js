@@ -21,7 +21,7 @@ const integration = {
 	learnMoreLink: "https://yoa.st/integrations-about-abilities-api",
 	logoLink: "https://yoa.st/integrations-logo-abilities-api",
 	slug: "abilities",
-	description: "WordPress's Abilities API lets AI assistants and automations discover and read Yoast SEO's content analysis scores directly.",
+	description: "WordPress's Abilities API lets AI assistants and automations discover and manipulate Yoast SEO data directly — no custom integration required.",
 	isPremium: false,
 	isNew: true,
 	isMultisiteAvailable: true,
