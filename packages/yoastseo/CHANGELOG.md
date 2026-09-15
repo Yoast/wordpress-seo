@@ -3,12 +3,6 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 3.0.0 and onwards.
 
-## Unreleased
-
-Enhancements:
-
-* Adds the _alt text length_ assessment, which flags images whose alt text is 10 characters or fewer, or 200 characters or more. [#TBD](https://github.com/Yoast/wordpress-seo/pull/TBD)
-
 ## 3.6.0 (2026-02-12)
 
 Enhancements:
