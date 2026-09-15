@@ -20,8 +20,8 @@ const integrations = {
 				strong: <strong />,
 			}
 		),
-		learnMoreLink: "https://yoa.st/nlweb-integration-card",
-		logoLink: "https://yoa.st/nlweb-integration-card",
+		learnMoreLink: "https://yoa.st/integrations-about-nlweb",
+		logoLink: "https://yoa.st/integrations-logo-nlweb",
 		slug: "nlweb",
 		description: sprintf(
 			/* translators: 1: NLWeb; 2: Microsoft; 3: Yoast. */
@@ -48,8 +48,8 @@ const integrations = {
 				strong: <strong />,
 			}
 		),
-		learnMoreLink: "https://yoa.st/abilities-api-overview-integration-card",
-		logoLink: "https://yoa.st/abilities-api-overview-integration-card",
+		learnMoreLink: "https://yoa.st/integrations-about-abilities-api",
+		logoLink: "https://yoa.st/integrations-logo-abilities-api",
 		slug: "abilities",
 		description: sprintf(
 			/* translators: 1: WordPress; 2: Yoast SEO. */

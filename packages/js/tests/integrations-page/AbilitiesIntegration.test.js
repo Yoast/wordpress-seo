@@ -18,8 +18,8 @@ const LogoStub = () => <span />;
 const integration = {
 	name: "Abilities API",
 	claim: <span>Expose <strong>Yoast SEO</strong> data to AI tools and workflows</span>,
-	learnMoreLink: "https://yoa.st/abilities-api-overview-integration-card",
-	logoLink: "https://yoa.st/abilities-api-overview-integration-card",
+	learnMoreLink: "https://yoa.st/integrations-about-abilities-api",
+	logoLink: "https://yoa.st/integrations-logo-abilities-api",
 	slug: "abilities",
 	description: "WordPress's Abilities API lets AI assistants and automations discover and read Yoast SEO's content analysis scores directly.",
 	isPremium: false,

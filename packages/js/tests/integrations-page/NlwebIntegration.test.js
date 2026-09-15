@@ -18,8 +18,8 @@ const LogoStub = () => <span />;
 const integration = {
 	name: "NLWeb",
 	claim: <span>Make your site conversational with <strong>NLWeb</strong></span>,
-	learnMoreLink: "https://yoa.st/nlweb-integration-card",
-	logoLink: "https://yoa.st/nlweb-integration-card",
+	learnMoreLink: "https://yoa.st/integrations-about-nlweb",
+	logoLink: "https://yoa.st/integrations-logo-nlweb",
 	slug: "nlweb",
 	description: "NLWeb, Microsoft's open protocol, lets AI agents and assistants query your site in natural language.",
 	isPremium: false,
