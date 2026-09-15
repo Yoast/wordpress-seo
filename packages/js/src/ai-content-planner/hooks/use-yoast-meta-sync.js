@@ -1,5 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
+import { metaKeyTitle, metaKeyMetaDesc, metaKeyFocusKw } from "../../shared-admin/constants";
 
 /**
  * Mirrors core/editor meta changes into yoast-seo/editor. Fires on every meta change,
@@ -15,9 +16,9 @@ export function useYoastMetaSync() {
 		const meta = editor.getEditedPostAttribute( "meta" );
 		const { title, description } = select( "yoast-seo/editor" ).getSnippetEditorTemplates();
 		return {
-			yoastTitle: meta?._yoast_wpseo_title,
-			yoastMetaDesc: meta?._yoast_wpseo_metadesc,
-			yoastFocusKw: meta?._yoast_wpseo_focuskw,
+			yoastTitle: meta?.[ metaKeyTitle ],
+			yoastMetaDesc: meta?.[ metaKeyMetaDesc ],
+			yoastFocusKw: meta?.[ metaKeyFocusKw ],
 			isPost: editor.getCurrentPostType() === "post",
 			titleTemplate: title,
 			descTemplate: description,
@@ -31,9 +32,9 @@ export function useYoastMetaSync() {
 		if ( ! isPost ) {
 			return;
 		}
-		// Only sync non-empty values. An empty string means no custom value has been saved, in
-		// which case the snippet editor should keep showing the SEO title template instead of
-		// being overwritten with an empty string.
+		// Only sync non-empty values. An empty string means no custom value has been saved,
+		// in which case the snippet editor should keep showing the SEO title
+		// template instead of being overwritten with an empty string.
 		const dataToSync = {
 			title: titleTemplate,
 			description: descTemplate,

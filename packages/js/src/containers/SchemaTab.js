@@ -5,7 +5,7 @@ import { useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import SchemaTab from "../components/SchemaTab";
-import SchemaFields from "../helpers/SchemaFields";
+import SchemaFields from "../helpers/fields/SchemaFields";
 import withLocation from "../helpers/withLocation";
 
 /**
@@ -39,11 +39,9 @@ const getLocationBasedProps = ( location ) => {
  * @returns {JSX.Element} The SchemaTab.
  */
 const SchemaTabContainer = ( props ) => {
-	const showArticleTypeInput = SchemaFields.articleTypeInput !== null;
-
 	useEffect( () => {
 		props.loadSchemaPageData();
-		if ( showArticleTypeInput ) {
+		if ( SchemaFields.showArticleInput ) {
 			props.loadSchemaArticleData();
 		}
 	}, [] );
@@ -59,7 +57,7 @@ const SchemaTabContainer = ( props ) => {
 			"This helps search engines understand your website and your content. You can change some of your settings for this page below.",
 			"wordpress-seo"
 		),
-		showArticleTypeInput,
+		showArticleTypeInput: SchemaFields.showArticleInput,
 		pageTypeOptions,
 		articleTypeOptions,
 	};
