@@ -8,10 +8,6 @@ import { Button } from "@yoast/ui-library";
 import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
 
-// Flag to check if the Schema Framework is enabled.
-// eslint-disable-next-line dot-notation
-const isSchemaFrameworkEnabled = Boolean( window.wpseoIntegrationsData[ "schema_framework_enabled" ] );
-
 /**
  * @param {Object} integration The integration object.
  * @param {boolean} [isActive=true] Whether the integration is active.
@@ -29,18 +25,13 @@ export const WoocommerceIntegration = ( {
 	activationLink,
 	isSchemaAPIIntegration = false,
 } ) => {
-	const isSchemaFrameworkDisabled = isSchemaAPIIntegration && ! isSchemaFrameworkEnabled;
-
 	return (
 		<SimpleIntegration
 			integration={ integration }
 			isActive={ isActive }
-			isSchemaFrameworkDisabled={ isSchemaFrameworkDisabled }
+			isSchemaPartner={ isSchemaAPIIntegration }
 		>
-			{ isSchemaFrameworkDisabled && <Fragment>
-				<span className="yst-text-red-600 yst-font-medium">{ __( "Schema Framework disabled", "wordpress-seo" ) }</span>
-			</Fragment> }
-			{ ! isSchemaFrameworkDisabled && ! isPrerequisiteActive && <Fragment>
+			{ ! isPrerequisiteActive && <Fragment>
 				<span className="yst-text-slate-700 yst-font-medium">
 					{
 						__( "Plugin not detected", "wordpress-seo" )
@@ -50,13 +41,13 @@ export const WoocommerceIntegration = ( {
 					className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0"
 				/>
 			</Fragment> }
-			{ ! isSchemaFrameworkDisabled && isPrerequisiteActive && isActive && <Fragment>
+			{ isPrerequisiteActive && isActive && <Fragment>
 				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
 				<CheckIcon
 					className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
 				/>
 			</Fragment> }
-			{ ! isSchemaFrameworkDisabled && isPrerequisiteActive && ! isActive && isInstalled && <Fragment>
+			{ isPrerequisiteActive && ! isActive && isInstalled && <Fragment>
 				<Button
 					id={ `${ integration.name }-upsell-button` }
 					type="button"
@@ -74,7 +65,7 @@ export const WoocommerceIntegration = ( {
 					}
 				</Button>
 			</Fragment> }
-			{ ! isSchemaFrameworkDisabled && isPrerequisiteActive && ! isActive && ! isInstalled && <Fragment>
+			{ isPrerequisiteActive && ! isActive && ! isInstalled && <Fragment>
 				<Button
 					id={ `${ integration.name }-upsell-button` }
 					type="button"
