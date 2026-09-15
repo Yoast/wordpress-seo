@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Batch_Limit;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -129,6 +130,13 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	private $replace_vars;
 
 	/**
+	 * Tells whether Yoast WooCommerce SEO is inactive, which decides between its image alt text tab and the upsell.
+	 *
+	 * @var Woo_SEO_Inactive_Conditional
+	 */
+	private $woo_seo_inactive_conditional;
+
+	/**
 	 * Constructs the instance.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager         $asset_manager                     The WPSEO_Admin_Asset_Manager.
@@ -142,6 +150,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @param User_Helper                       $user_helper                       The User_Helper.
 	 * @param Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter The MyYoast connection data presenter.
 	 * @param WPSEO_Replace_Vars                $replace_vars                      The replace vars handler.
+	 * @param Woo_SEO_Inactive_Conditional      $woo_seo_inactive_conditional      The Yoast WooCommerce SEO inactive conditional.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -154,7 +163,8 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		Options_Helper $options_helper,
 		User_Helper $user_helper,
 		Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter,
-		WPSEO_Replace_Vars $replace_vars
+		WPSEO_Replace_Vars $replace_vars,
+		Woo_SEO_Inactive_Conditional $woo_seo_inactive_conditional
 	) {
 		$this->asset_manager                     = $asset_manager;
 		$this->current_page_helper               = $current_page_helper;
@@ -167,6 +177,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$this->user_helper                       = $user_helper;
 		$this->myyoast_connection_data_presenter = $myyoast_connection_data_presenter;
 		$this->replace_vars                      = $replace_vars;
+		$this->woo_seo_inactive_conditional      = $woo_seo_inactive_conditional;
 	}
 
 	/**
@@ -281,6 +292,8 @@ class Bulk_Editor_Integration implements Integration_Interface {
 				'isPremium'                 => $is_premium,
 				'isPremiumVersionSupported' => $is_version_supported,
 				'isAiEnabled'               => $this->options_helper->get( 'enable_ai_generator' ) === true,
+				// Without Yoast WooCommerce SEO, the products "Image alt text" tab shows the upsell instead.
+				'isWooSeoActive'            => ! $this->woo_seo_inactive_conditional->is_met(),
 				'isRtl'                     => \is_rtl(),
 				'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
 				'premiumUpdateUrl'          => $this->get_premium_update_url(),
