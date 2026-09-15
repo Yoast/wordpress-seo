@@ -307,6 +307,19 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 28.6 =
+
+Release date: 2026-09-29
+
+#### Enhancements
+
+* Don't show a post type in the Bulk editor if `Enable SEO controls and assessments` is turned off for that post type.
+* Introduces 2 new Yoast Abilities, to allow agents to get and update SEO data for given posts.
+
+#### Other
+
+* Adjust the name and description of the setting's toggle controlling the breadcrumbs' rendering to state clearly its intended behaviour.
+
 = 28.5 =
 
 Release date: 2026-09-15
@@ -321,20 +334,6 @@ Yoast SEO 28.5 brings more enhancements and bugfixes. [Find more information abo
 
 * Adds a link with more information about social previews to the social appearance sections of the editor.
 * Updates the plugin's app URL and logo that are used when initiating the MyYoast connection.
-
-= 28.4 =
-
-Release date: 2026-09-01
-
-Yoast SEO 28.4 makes the Bulk editor easier to access by adding a Bulk edit option to the Posts and Pages sections of the WordPress dashboard. This allows you to quickly access the Bulk editor after selecting the posts or pages you want to optimize. [Read the full release post here](https://yoa.st/57m).
-
-#### Enhancements
-
-* Adds an option to access the Yoast SEO Bulk editor from the Bulk actions menu in the Posts and Pages sections of the WordPress dashboard. 
-
-#### Bugfixes
-
-* Fixes a bug where the AI generator's tip to write more content was not shown for posts whose content consisted mostly of block markup, because the markup was counted as content.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
