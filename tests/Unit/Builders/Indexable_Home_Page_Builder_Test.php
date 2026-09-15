@@ -241,6 +241,39 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the build does not error when the timestamp query returns no row.
+	 *
+	 * @covers ::build
+	 *
+	 * @return void
+	 */
+	public function test_build_with_null_timestamps() {
+		// Provide stubs.
+		$image_meta_mock_json = WPSEO_Utils::format_json_encode( $this->image_meta_mock );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
+		$this->open_graph_image_mock->allows( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
+
+		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( 'home_meta_description' );
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'home_meta_description' );
+
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
+
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$GLOBALS['wpdb'] = $this->wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
+		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'PREPARED_QUERY' );
+		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturnNull();
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', null );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', null );
+
+		$this->instance->build( $this->indexable_mock );
+	}
+
+	/**
 	 * Tests the formatting of the indexable data when no meta description for the homepage is set.
 	 *
 	 * @covers ::build
