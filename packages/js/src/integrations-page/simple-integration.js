@@ -5,6 +5,7 @@ import CheckIcon from "@heroicons/react/solid/CheckIcon";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, Link } from "@yoast/ui-library";
+import { get } from "lodash";
 import { PropTypes } from "prop-types";
 import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
 import { Card } from "./tailwind-components/card";
@@ -14,20 +15,14 @@ import { Card } from "./tailwind-components/card";
  *
  * @param {Object} integration The integration.
  * @param {boolean} [isActive=true] The integration state.
- * @param {boolean} [isSchemaFrameworkDisabled=false] Whether the schema framework is disabled.
- * @param {boolean} [isSchemaPartner=false] Whether to mark the card as a Yoast Schema API partner.
+ * @param {boolean} [isSchemaPartner=false] Whether the card is a Yoast Schema API partner.
  * @param {React.ReactNode} [children=null] The child components.
  *
  * @returns {JSX.Element} A card representing an integration.
  */
-export const SimpleIntegration = ( {
-	integration,
-	isActive = true,
-	isSchemaFrameworkDisabled = false,
-	isSchemaPartner = false,
-	children = null,
-} ) => {
+export const SimpleIntegration = ( { integration, isActive = true, isSchemaPartner = false, children = null } ) => {
 	const IntegrationLogo = integration.logo;
+	const isSchemaFrameworkDisabled = isSchemaPartner && ! get( window, "wpseoIntegrationsData.schema_framework_enabled", false );
 
 	const learnMoreLink = useSelect( select => select( "yoast-seo/settings" ).selectLink( integration.learnMoreLink ), [] );
 	const logoLink = useSelect( select => select( "yoast-seo/settings" ).selectLink( integration.logoLink ), [] );
@@ -119,7 +114,21 @@ export const SimpleIntegration = ( {
 				</Button>
 				}
 				{ ( isSchemaFrameworkDisabled || getIsFreeIntegrationOrPremiumAvailable( integration ) ) && <p className="yst-flex yst-items-start yst-justify-between">
-					{ children }
+					{ isSchemaFrameworkDisabled && <Link
+						id={ `${ integration.slug }-schema-framework-link` }
+						href="admin.php?page=wpseo_page_settings#/schema-framework"
+						variant="error"
+						className="yst-font-medium"
+					>
+						{ __( "Schema Framework disabled", "wordpress-seo" ) }
+						<span className="yst-sr-only">
+							{
+								/* translators: Hidden accessibility text. */
+								__( "(Go to the Schema Framework settings)", "wordpress-seo" )
+							}
+						</span>
+					</Link> }
+					{ ! isSchemaFrameworkDisabled && children }
 				</p> }
 			</Card.Footer>
 		</Card>
@@ -140,7 +149,6 @@ SimpleIntegration.propTypes = {
 		upsellLink: PropTypes.string,
 	} ).isRequired,
 	isActive: PropTypes.bool,
-	isSchemaFrameworkDisabled: PropTypes.bool,
 	isSchemaPartner: PropTypes.bool,
 	children: PropTypes.oneOfType( [
 		PropTypes.node,

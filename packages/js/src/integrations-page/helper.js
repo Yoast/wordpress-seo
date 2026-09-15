@@ -1,8 +1,5 @@
 import apiFetch from "@wordpress/api-fetch";
 
-// Schema API partner cards link here when the Schema Framework is disabled, so users can switch it back on.
-export const SCHEMA_FRAMEWORK_SETTINGS_LINK = "admin.php?page=wpseo_page_settings#/schema-framework";
-
 /**
  * Checks if an integration is active.
  *

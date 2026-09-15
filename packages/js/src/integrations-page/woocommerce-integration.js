@@ -4,14 +4,9 @@ import CheckIcon from "@heroicons/react/solid/CheckIcon";
 import XIcon from "@heroicons/react/solid/XIcon";
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Link } from "@yoast/ui-library";
+import { Button } from "@yoast/ui-library";
 import { PropTypes } from "prop-types";
-import { SCHEMA_FRAMEWORK_SETTINGS_LINK } from "./helper";
 import { SimpleIntegration } from "./simple-integration";
-
-// Flag to check if the Schema Framework is enabled.
-// eslint-disable-next-line dot-notation
-const isSchemaFrameworkEnabled = Boolean( window.wpseoIntegrationsData[ "schema_framework_enabled" ] );
 
 /**
  * @param {Object} integration The integration object.
@@ -30,32 +25,13 @@ export const WoocommerceIntegration = ( {
 	activationLink,
 	isSchemaAPIIntegration = false,
 } ) => {
-	const isSchemaFrameworkDisabled = isSchemaAPIIntegration && ! isSchemaFrameworkEnabled;
-
 	return (
 		<SimpleIntegration
 			integration={ integration }
 			isActive={ isActive }
-			isSchemaFrameworkDisabled={ isSchemaFrameworkDisabled }
 			isSchemaPartner={ isSchemaAPIIntegration }
 		>
-			{ isSchemaFrameworkDisabled && <Fragment>
-				<Link
-					id={ `${ integration.slug }-schema-framework-link` }
-					href={ SCHEMA_FRAMEWORK_SETTINGS_LINK }
-					variant="error"
-					className="yst-font-medium"
-				>
-					{ __( "Schema Framework disabled", "wordpress-seo" ) }
-					<span className="yst-sr-only">
-						{
-							/* translators: Hidden accessibility text. */
-							__( "(Go to the Schema Framework settings)", "wordpress-seo" )
-						}
-					</span>
-				</Link>
-			</Fragment> }
-			{ ! isSchemaFrameworkDisabled && ! isPrerequisiteActive && <Fragment>
+			{ ! isPrerequisiteActive && <Fragment>
 				<span className="yst-text-slate-700 yst-font-medium">
 					{
 						__( "Plugin not detected", "wordpress-seo" )
@@ -65,13 +41,13 @@ export const WoocommerceIntegration = ( {
 					className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0"
 				/>
 			</Fragment> }
-			{ ! isSchemaFrameworkDisabled && isPrerequisiteActive && isActive && <Fragment>
+			{ isPrerequisiteActive && isActive && <Fragment>
 				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
 				<CheckIcon
 					className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
 				/>
 			</Fragment> }
-			{ ! isSchemaFrameworkDisabled && isPrerequisiteActive && ! isActive && isInstalled && <Fragment>
+			{ isPrerequisiteActive && ! isActive && isInstalled && <Fragment>
 				<Button
 					id={ `${ integration.name }-upsell-button` }
 					type="button"
@@ -89,7 +65,7 @@ export const WoocommerceIntegration = ( {
 					}
 				</Button>
 			</Fragment> }
-			{ ! isSchemaFrameworkDisabled && isPrerequisiteActive && ! isActive && ! isInstalled && <Fragment>
+			{ isPrerequisiteActive && ! isActive && ! isInstalled && <Fragment>
 				<Button
 					id={ `${ integration.name }-upsell-button` }
 					type="button"

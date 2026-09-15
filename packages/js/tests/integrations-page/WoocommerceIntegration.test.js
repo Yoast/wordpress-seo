@@ -1,6 +1,7 @@
 /* eslint-disable camelcase -- `schema_framework_enabled` is a script-data key emitted by Integrations_Page. */
-import { describe, expect, it } from "@jest/globals";
-import { render, screen, within } from "../test-utils";
+import { beforeEach, describe, expect, it } from "@jest/globals";
+import { WoocommerceIntegration } from "../../src/integrations-page/woocommerce-integration";
+import { render, screen } from "../test-utils";
 
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn( select => select( () => ( {
@@ -8,10 +9,6 @@ jest.mock( "@wordpress/data", () => ( {
 	} ) ) ),
 	registerStore: jest.fn(),
 } ) );
-
-// The card reads the Schema Framework flag when its module loads, so the flag is set before the module is required.
-window.wpseoIntegrationsData = { schema_framework_enabled: false };
-const { WoocommerceIntegration } = require( "../../src/integrations-page/woocommerce-integration" );
 
 /**
  * Stands in for the SVG logo, which is mocked away by the Jest svg transform.
@@ -50,21 +47,15 @@ const renderCard = ( isSchemaAPIIntegration ) => render(
 );
 
 describe( "WoocommerceIntegration with the Schema Framework disabled", () => {
-	it( "links a Schema API partner's 'Schema Framework disabled' notice to the Schema Framework settings", () => {
-		renderCard( true );
-
-		const link = screen.getByRole( "link", { name: /^Schema Framework disabled/ } );
-		expect( link ).toHaveAttribute( "href", "admin.php?page=wpseo_page_settings#/schema-framework" );
-		expect( link ).toHaveAttribute( "id", "woocommerce-schema-framework-link" );
-		expect( screen.queryByText( "Plugin not detected" ) ).not.toBeInTheDocument();
+	beforeEach( () => {
+		window.wpseoIntegrationsData = { schema_framework_enabled: false };
 	} );
 
-	it( "tells screen reader users where the notice leads", () => {
+	it( "shows a Schema API partner the Schema Framework link instead of its plugin status", () => {
 		renderCard( true );
 
-		const link = screen.getByRole( "link", { name: /^Schema Framework disabled/ } );
-		expect( link ).toHaveAccessibleName( /Go to the Schema Framework settings/ );
-		expect( within( link ).getByText( "(Go to the Schema Framework settings)" ) ).toHaveClass( "yst-sr-only" );
+		expect( screen.getByRole( "link", { name: /^Schema Framework disabled/ } ) ).toBeInTheDocument();
+		expect( screen.queryByText( "Plugin not detected" ) ).not.toBeInTheDocument();
 	} );
 
 	it( "leaves a card that isn't a Schema API partner alone", () => {

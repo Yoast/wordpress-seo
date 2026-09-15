@@ -1,6 +1,7 @@
-import { describe, expect, it } from "@jest/globals";
+/* eslint-disable camelcase -- `schema_framework_enabled` is a script-data key emitted by Integrations_Page. */
+import { beforeEach, describe, expect, it } from "@jest/globals";
 import { SimpleIntegration } from "../../src/integrations-page/simple-integration";
-import { render, screen } from "../test-utils";
+import { render, screen, within } from "../test-utils";
 
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn( select => select( () => ( {
@@ -49,7 +50,8 @@ describe( "SimpleIntegration", () => {
 		} );
 
 		it( "keeps showing the chip when the Schema framework is disabled", () => {
-			render( <SimpleIntegration integration={ integration } isSchemaPartner={ true } isSchemaFrameworkDisabled={ true } /> );
+			window.wpseoIntegrationsData = { schema_framework_enabled: false };
+			render( <SimpleIntegration integration={ integration } isSchemaPartner={ true } /> );
 
 			expect( screen.getByText( "Schema partner" ) ).toBeInTheDocument();
 		} );
@@ -60,5 +62,48 @@ describe( "SimpleIntegration", () => {
 
 		expect( screen.getByRole( "heading", { name: "Get rich results for your events in Google search" } ) ).toBeInTheDocument();
 		expect( screen.getByText( /integrates with Yoast SEO's Schema API/ ) ).toBeInTheDocument();
+	} );
+
+	describe( "with the Schema Framework disabled", () => {
+		beforeEach( () => {
+			window.wpseoIntegrationsData = { schema_framework_enabled: false };
+		} );
+
+		it( "links a Schema API partner to the Schema Framework settings instead of rendering its children", () => {
+			render( <SimpleIntegration integration={ integration } isSchemaPartner={ true }><span>Plugin not detected</span></SimpleIntegration> );
+
+			const link = screen.getByRole( "link", { name: /^Schema Framework disabled/ } );
+			expect( link ).toHaveAttribute( "href", "admin.php?page=wpseo_page_settings#/schema-framework" );
+			expect( link ).toHaveAttribute( "id", "tec-schema-framework-link" );
+			expect( screen.queryByText( "Plugin not detected" ) ).not.toBeInTheDocument();
+		} );
+
+		it( "tells screen reader users where the link leads", () => {
+			render( <SimpleIntegration integration={ integration } isSchemaPartner={ true } /> );
+
+			const link = screen.getByRole( "link", { name: /^Schema Framework disabled/ } );
+			expect( link ).toHaveAccessibleName( /Go to the Schema Framework settings/ );
+			expect( within( link ).getByText( "(Go to the Schema Framework settings)" ) ).toHaveClass( "yst-sr-only" );
+		} );
+
+		it( "renders the children of a card that isn't a Schema API partner", () => {
+			render( <SimpleIntegration integration={ integration }><span>Plugin not detected</span></SimpleIntegration> );
+
+			expect( screen.queryByRole( "link", { name: /Schema Framework disabled/ } ) ).not.toBeInTheDocument();
+			expect( screen.getByText( "Plugin not detected" ) ).toBeInTheDocument();
+		} );
+	} );
+
+	describe( "with the Schema Framework enabled", () => {
+		beforeEach( () => {
+			window.wpseoIntegrationsData = { schema_framework_enabled: true };
+		} );
+
+		it( "renders a Schema API partner's children", () => {
+			render( <SimpleIntegration integration={ integration } isSchemaPartner={ true }><span>Integration active</span></SimpleIntegration> );
+
+			expect( screen.queryByRole( "link", { name: /Schema Framework disabled/ } ) ).not.toBeInTheDocument();
+			expect( screen.getByText( "Integration active" ) ).toBeInTheDocument();
+		} );
 	} );
 } );
