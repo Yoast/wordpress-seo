@@ -58,7 +58,7 @@
   "peerDependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
     "@heroicons/react": "^1.0.6",
-    "@yoast/ui-library": "^4.5.0",
+    "@yoast/ui-library": "^4.6.0",
     "draft-js": "^0.11.7"
   },
   "publishConfig": {

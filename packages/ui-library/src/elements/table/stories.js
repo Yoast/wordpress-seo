@@ -1,7 +1,10 @@
 import React from "react";
 import Table from ".";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import { component, tableBody, tableCell, tableHead, tableHeader, tableRow, minimal } from "./docs";
+import { component, tableBody, tableCell, tableHead, tableHeader, tableImageCell, tableRow, minimal } from "./docs";
+
+// A stand-in thumbnail, so the story does not depend on a remote image.
+const sampleImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 100'%3E%3Crect width='160' height='100' fill='%23e2e8f0'/%3E%3Ccircle cx='124' cy='28' r='14' fill='%23fbbf24'/%3E%3Cpath d='M0 100 L52 40 L104 100 Z' fill='%2394a3b8'/%3E%3Cpath d='M78 100 L118 58 L160 100 Z' fill='%23cbd5e1'/%3E%3C/svg%3E";
 
 export const Factory = {
 	parameters: {
@@ -270,6 +273,36 @@ export const MinimalVariant = {
 	},
 };
 
+export const TableImageCell = {
+	name: "Table image cell",
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: tableImageCell } },
+	},
+	args: {
+		children: (
+			<>
+				<Table.Head>
+					<Table.Row>
+						<Table.Header>Image</Table.Header>
+						<Table.Header>Header 2</Table.Header>
+					</Table.Row>
+				</Table.Head>
+				<Table.Body>
+					<Table.Row>
+						<Table.ImageCell src={ sampleImage } alt="" />
+						<Table.Cell>With an image</Table.Cell>
+					</Table.Row>
+					<Table.Row>
+						<Table.ImageCell />
+						<Table.Cell>Without an image, so a placeholder is shown</Table.Cell>
+					</Table.Row>
+				</Table.Body>
+			</>
+		),
+	},
+};
+
 export default {
 	title: "1) Elements/Table",
 	component: Table,
@@ -290,6 +323,7 @@ export default {
 					TableHeader,
 					TableBody,
 					TableCell,
+					TableImageCell,
 					MinimalVariant,
 				] }
 			/>,
