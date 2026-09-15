@@ -5,6 +5,7 @@ import MissingArgument from "../errors/missingArgument";
 
 // All researches in alphabetical order.
 import altTagCount from "./researches/altTagCount.js";
+import altTextLength from "./researches/altTextLength.js";
 import countSentencesFromText from "./researches/countSentencesFromText.js";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
 import findKeyphraseInSEOTitle from "./researches/findKeyphraseInSEOTitle";
@@ -99,6 +100,7 @@ export default class AbstractResearcher {
 		// We expose the deprecated keywordCountInUrl for backwards compatibility.
 		this.defaultResearches = {
 			altTagCount,
+			altTextLength,
 			countSentencesFromText,
 			findKeywordInFirstParagraph,
 			findKeyphraseInSEOTitle,
