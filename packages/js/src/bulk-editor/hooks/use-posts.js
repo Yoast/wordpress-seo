@@ -20,12 +20,12 @@ const formatPost = ( post ) => ( {
 	metaDescription: post.meta_description,
 	socialTitle: post.social_title,
 	socialDescription: post.social_description,
-	seoTitleFallback: get( post, "seo_title_fallback", "" ),
-	metaDescriptionFallback: get( post, "meta_description_fallback", "" ),
-	socialTitleFallback: get( post, "social_title_fallback", "" ),
-	socialDescriptionFallback: get( post, "social_description_fallback", "" ),
+	seoTitleFallback: post.seo_title_fallback ?? "",
+	metaDescriptionFallback: post.meta_description_fallback ?? "",
+	socialTitleFallback: post.social_title_fallback ?? "",
+	socialDescriptionFallback: post.social_description_fallback ?? "",
 	editable: post.editable,
-	needsImprovement: get( post, "needs_improvement", {} ),
+	needsImprovement: post.needs_improvement ?? {},
 	images: get( post, "images", [] ),
 } );
 
