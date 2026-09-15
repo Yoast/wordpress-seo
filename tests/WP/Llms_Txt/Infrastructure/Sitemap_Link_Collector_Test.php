@@ -56,6 +56,47 @@ final class Sitemap_Link_Collector_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the wpseo_llmstxt_sitemap_url filter can override the resolved sitemap URL.
+	 *
+	 * @return void
+	 */
+	public function test_filter_overrides_sitemap_url() {
+		WPSEO_Options::set( 'enable_xml_sitemap', true );
+
+		$filter = static function () {
+			return 'https://example.com/sitemap.xml';
+		};
+		\add_filter( 'wpseo_llmstxt_sitemap_url', $filter );
+
+		$link_result = $this->instance->get_link();
+
+		\remove_filter( 'wpseo_llmstxt_sitemap_url', $filter );
+
+		$this->assertInstanceOf( Link::class, $link_result );
+		$this->assertStringContainsString( 'https://example.com/sitemap.xml', $link_result->render() );
+	}
+
+	/**
+	 * Tests that the wpseo_llmstxt_sitemap_url filter can suppress the sitemap link entirely.
+	 *
+	 * @return void
+	 */
+	public function test_filter_can_suppress_sitemap_url() {
+		WPSEO_Options::set( 'enable_xml_sitemap', true );
+
+		$filter = static function () {
+			return null;
+		};
+		\add_filter( 'wpseo_llmstxt_sitemap_url', $filter );
+
+		$link_result = $this->instance->get_link();
+
+		\remove_filter( 'wpseo_llmstxt_sitemap_url', $filter );
+
+		$this->assertNull( $link_result );
+	}
+
+	/**
 	 * Data provider for test_get_title.
 	 *
 	 * @return Generator
