@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.1
-Stable tag: 28.4
+Stable tag: 28.5
 Requires PHP: 7.4
 
 Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.
@@ -311,12 +311,15 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-09-15
 
-#### Enhancements
+Yoast SEO 28.5 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
 
-* Adds a link with more information about social previews to the social appearance sections of the editor.
+#### Bugfixes
+
+* Fixes a bug where the SEO data optimization would loop endlessly when an indexing batch was repeatedly returned without being processed.
 
 #### Other
 
+* Adds a link with more information about social previews to the social appearance sections of the editor.
 * Updates the plugin's app URL and logo that are used when initiating the MyYoast connection.
 
 = 28.4 =
