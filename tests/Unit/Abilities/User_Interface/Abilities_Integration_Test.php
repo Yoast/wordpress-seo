@@ -5,18 +5,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
-use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
-use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
+use Yoast\WP\SEO\Abilities\Domain\Ability_Interface;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities_Integration;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
-use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
-use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
-use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List;
-use Yoast\WP\SEO\Editors\Framework\Inclusive_Language_Analysis;
-use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
-use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
-use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -29,39 +20,18 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 final class Abilities_Integration_Test extends TestCase {
 
 	/**
-	 * The score retriever mock.
+	 * An ability that is available.
 	 *
-	 * @var Mockery\MockInterface|Score_Retriever
+	 * @var Mockery\MockInterface|Ability_Interface
 	 */
-	private $score_retriever;
+	private $available_ability;
 
 	/**
-	 * The capability helper mock.
+	 * An ability that is not available.
 	 *
-	 * @var Mockery\MockInterface|Capability_Helper
+	 * @var Mockery\MockInterface|Ability_Interface
 	 */
-	private $capability_helper;
-
-	/**
-	 * The enabled analysis features repository mock.
-	 *
-	 * @var Mockery\MockInterface|Enabled_Analysis_Features_Repository
-	 */
-	private $enabled_analysis_features_repository;
-
-	/**
-	 * The post SEO data collector mock.
-	 *
-	 * @var Mockery\MockInterface|Post_SEO_Data_Collector
-	 */
-	private $post_seo_data_collector;
-
-	/**
-	 * The post SEO data updater mock.
-	 *
-	 * @var Mockery\MockInterface|Post_SEO_Data_Updater
-	 */
-	private $post_seo_data_updater;
+	private $unavailable_ability;
 
 	/**
 	 * The instance under test.
@@ -78,38 +48,21 @@ final class Abilities_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->stubTranslationFunctions();
+		$this->available_ability   = Mockery::mock( Ability_Interface::class );
+		$this->unavailable_ability = Mockery::mock( Ability_Interface::class );
 
-		$this->score_retriever                      = Mockery::mock( Score_Retriever::class );
-		$this->capability_helper                    = Mockery::mock( Capability_Helper::class );
-		$this->enabled_analysis_features_repository = Mockery::mock( Enabled_Analysis_Features_Repository::class );
-		$this->post_seo_data_collector              = Mockery::mock( Post_SEO_Data_Collector::class );
-		$this->post_seo_data_updater                = Mockery::mock( Post_SEO_Data_Updater::class );
-
-		$this->instance = new Abilities_Integration(
-			$this->score_retriever,
-			$this->capability_helper,
-			$this->enabled_analysis_features_repository,
-			$this->post_seo_data_collector,
-			$this->post_seo_data_updater,
-		);
+		$this->instance = new Abilities_Integration( $this->available_ability, $this->unavailable_ability );
 	}
 
 	/**
-	 * Tests that get_conditionals returns the Abilities API and indexables conditionals.
+	 * Tests that get_conditionals returns the Abilities API conditional.
 	 *
 	 * @covers ::get_conditionals
 	 *
 	 * @return void
 	 */
 	public function test_get_conditionals() {
-		$this->assertSame(
-			[
-				Abilities_API_Conditional::class,
-				Should_Index_Indexables_Conditional::class,
-			],
-			Abilities_Integration::get_conditionals(),
-		);
+		$this->assertSame( [ Abilities_API_Conditional::class ], Abilities_Integration::get_conditionals() );
 	}
 
 	/**
@@ -128,162 +81,42 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that can_manage_seo checks the manage options capability and returns its result.
+	 * Tests that register_abilities registers the available abilities and skips the unavailable ones.
 	 *
-	 * @covers ::can_manage_seo
-	 *
-	 * @dataProvider provide_can_manage_seo
-	 *
-	 * @param bool $allowed Whether the capability is granted.
-	 *
-	 * @return void
-	 */
-	public function test_can_manage_seo( bool $allowed ) {
-		$this->capability_helper
-			->expects( 'current_user_can' )
-			->once()
-			->with( 'wpseo_manage_options' )
-			->andReturn( $allowed );
-
-		$this->assertSame( $allowed, $this->instance->can_manage_seo() );
-	}
-
-	/**
-	 * Data provider for test_can_manage_seo.
-	 *
-	 * @return array<string, array<bool>> The capability outcomes.
-	 */
-	public static function provide_can_manage_seo(): array {
-		return [
-			'capability granted' => [ true ],
-			'capability denied'  => [ false ],
-		];
-	}
-
-	/**
-	 * Tests that can_edit_advanced_metadata checks the advanced metadata capability and returns its result.
-	 *
-	 * @covers ::can_edit_advanced_metadata
-	 *
-	 * @dataProvider provide_can_manage_seo
-	 *
-	 * @param bool $allowed Whether the capability is granted.
-	 *
-	 * @return void
-	 */
-	public function test_can_edit_advanced_metadata( bool $allowed ) {
-		$this->capability_helper
-			->expects( 'current_user_can' )
-			->once()
-			->with( 'wpseo_edit_advanced_metadata' )
-			->andReturn( $allowed );
-
-		$this->assertSame( $allowed, $this->instance->can_edit_advanced_metadata() );
-	}
-
-	/**
-	 * Tests that register_abilities registers all score abilities when all analyses are enabled.
-	 *
+	 * @covers ::__construct
 	 * @covers ::register_abilities
 	 *
 	 * @return void
 	 */
-	public function test_register_abilities_with_inclusive_language_enabled() {
-		$this->mock_enabled_features(
-			[
-				Keyphrase_Analysis::NAME          => true,
-				Readability_Analysis::NAME        => true,
-				Inclusive_Language_Analysis::NAME => true,
-			],
-		);
+	public function test_register_abilities() {
+		$args = [ 'label' => 'An available ability' ];
 
-		$this->expect_score_ability( 'yoast-seo/get-seo-scores' );
-		$this->expect_score_ability( 'yoast-seo/get-readability-scores' );
-		$this->expect_score_ability( 'yoast-seo/get-inclusive-language-scores' );
+		$this->available_ability->expects( 'is_available' )->once()->andReturnTrue();
+		$this->available_ability->expects( 'get_name' )->once()->andReturn( 'yoast-seo/available' );
+		$this->available_ability->expects( 'get_args' )->once()->andReturn( $args );
 
-		$this->instance->register_abilities();
-	}
+		$this->unavailable_ability->expects( 'is_available' )->once()->andReturnFalse();
+		$this->unavailable_ability->expects( 'get_name' )->never();
+		$this->unavailable_ability->expects( 'get_args' )->never();
 
-	/**
-	 * Tests that no abilities are registered when all analysis features are disabled.
-	 *
-	 * @covers ::register_abilities
-	 *
-	 * @return void
-	 */
-	public function test_register_abilities_with_all_analysis_disabled() {
-		$this->mock_enabled_features(
-			[
-				Keyphrase_Analysis::NAME          => false,
-				Readability_Analysis::NAME        => false,
-				Inclusive_Language_Analysis::NAME => false,
-			],
-		);
-
-		Monkey\Functions\expect( 'wp_register_ability' )->never();
-
-		$this->instance->register_abilities();
-	}
-
-	/**
-	 * Tests that only the keyphrase score ability registers when only that analysis is enabled.
-	 *
-	 * @covers ::register_abilities
-	 *
-	 * @return void
-	 */
-	public function test_register_abilities_with_only_keyphrase_enabled() {
-		$this->mock_enabled_features(
-			[
-				Keyphrase_Analysis::NAME          => true,
-				Readability_Analysis::NAME        => false,
-				Inclusive_Language_Analysis::NAME => false,
-			],
-		);
-
-		$this->expect_score_ability( 'yoast-seo/get-seo-scores' );
-
-		$this->instance->register_abilities();
-	}
-
-	/**
-	 * Registers a loose expectation for a score ability registration.
-	 *
-	 * @param string $slug The ability slug.
-	 *
-	 * @return void
-	 */
-	private function expect_score_ability( string $slug ): void {
 		Monkey\Functions\expect( 'wp_register_ability' )
 			->once()
-			->with( $slug, Mockery::type( 'array' ) );
+			->with( 'yoast-seo/available', $args );
+
+		$this->instance->register_abilities();
 	}
 
 	/**
-	 * Mocks the enabled features repository to return the given features array.
+	 * Tests that register_abilities registers nothing when no abilities were injected.
 	 *
-	 * @param array<string, bool> $features The features array.
+	 * @covers ::__construct
+	 * @covers ::register_abilities
 	 *
 	 * @return void
 	 */
-	private function mock_enabled_features( array $features ): void {
-		$features_list = Mockery::mock( Analysis_Features_List::class );
+	public function test_register_abilities_without_abilities() {
+		Monkey\Functions\expect( 'wp_register_ability' )->never();
 
-		$features_list
-			->expects( 'to_array' )
-			->once()
-			->andReturn( $features );
-
-		$this->enabled_analysis_features_repository
-			->expects( 'get_features_by_keys' )
-			->once()
-			->with(
-				[
-					Keyphrase_Analysis::NAME,
-					Readability_Analysis::NAME,
-					Inclusive_Language_Analysis::NAME,
-				],
-			)
-			->andReturn( $features_list );
+		( new Abilities_Integration() )->register_abilities();
 	}
 }
