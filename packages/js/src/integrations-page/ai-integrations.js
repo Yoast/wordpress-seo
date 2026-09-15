@@ -53,7 +53,7 @@ const integrations = {
 		slug: "abilities",
 		description: sprintf(
 			/* translators: 1: WordPress; 2: Yoast SEO. */
-			__( "%1$s's Abilities API lets AI assistants and automations discover and read %2$s's content analysis scores directly — no custom integration required.", "wordpress-seo" ),
+			__( "%1$s's Abilities API lets AI assistants and automations discover and manipulate SEO data directly — no custom integration required.", "wordpress-seo" ),
 			"WordPress",
 			"Yoast SEO"
 		),
