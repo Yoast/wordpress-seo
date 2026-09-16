@@ -529,31 +529,6 @@ function yoast_wpseo_missing_autoload_notice() {
 }
 
 /**
- * Throw an error if the filter extension is disabled (prevent white screens) and self-deactivate plugin.
- *
- * @since 2.0
- * @deprecated 23.3
- * @codeCoverageIgnore
- *
- * @return void
- */
-function yoast_wpseo_missing_filter() {
-	_deprecated_function( __FUNCTION__, 'Yoast SEO 23.3' );
-}
-
-/**
- * Returns the notice in case of missing filter extension.
- *
- * @deprecated 23.3
- * @codeCoverageIgnore
- *
- * @return void
- */
-function yoast_wpseo_missing_filter_notice() {
-	_deprecated_function( __FUNCTION__, 'Yoast SEO 23.3' );
-}
-
-/**
  * Echo's the Activation failed notice with any given message.
  *
  * @param string $message Message string.
