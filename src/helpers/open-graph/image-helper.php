@@ -11,13 +11,6 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 class Image_Helper {
 
 	/**
-	 * The URL helper.
-	 *
-	 * @var Url_Helper
-	 */
-	private $url;
-
-	/**
 	 * The base image helper.
 	 *
 	 * @var Base_Image_Helper
@@ -29,11 +22,10 @@ class Image_Helper {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Url_Helper        $url   The url helper.
+	 * @param Url_Helper        $url   The url helper. Deprecated since 28.6 and no longer used.
 	 * @param Base_Image_Helper $image The image helper.
 	 */
-	public function __construct( Url_Helper $url, Base_Image_Helper $image ) {
-		$this->url   = $url;
+	public function __construct( Url_Helper $url, Base_Image_Helper $image ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- $url is deprecated, kept for BC reasons.
 		$this->image = $image;
 	}
 
