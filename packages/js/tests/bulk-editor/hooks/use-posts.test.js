@@ -240,6 +240,16 @@ describe( "usePosts", () => {
 		expect( typeof result.current.updateItem ).toBe( "function" );
 	} );
 
+	it( "skips the request and settles empty when there is no content type", () => {
+		const remoteDataProvider = { fetchJson: jest.fn() };
+
+		const { result } = renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "" } ) );
+
+		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
+		expect( result.current ).toMatchObject( { data: [], total: 0, totalPages: 0, error: null, isPending: false } );
+		expect( typeof result.current.updateItem ).toBe( "function" );
+	} );
+
 	it( "ignores a superseded request that resolves after a newer one", async() => {
 		const resolvers = {};
 		const remoteDataProvider = {
