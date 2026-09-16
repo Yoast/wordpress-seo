@@ -70,15 +70,6 @@ export const getHasOverviewNotice = ( { preselectedTotal, hasExcludedPreselected
  * @returns {JSX.Element} The content.
  */
 export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentType, contentTypeLabel } ) => {
-	const fieldSets = useMemo( () => getFieldSets(), [] );
-	const tabs = useMemo( () => {
-		const fieldSetTabs = Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) );
-		// The image-alt-text tab isn't a field set: appended separately, and only for products.
-		if ( contentType !== PRODUCT_CONTENT_TYPE ) {
-			return fieldSetTabs;
-		}
-		return [ ...fieldSetTabs, { id: FIELD_SET_IMAGE_ALT_TEXT, label: __( "Image alt text", "wordpress-seo" ) } ];
-	}, [ fieldSets, contentType ] );
 	const {
 		activeFieldSet,
 		selectedIds,
@@ -88,6 +79,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		hasExternalPendingChanges,
 		hasExternalGeneration,
 		pendingSwitch,
+		isKeywordAnalysisActive,
 	} = useSelect( ( select ) => {
 		const store = select( STORE_NAME );
 		return {
@@ -103,8 +95,19 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			// It also reports an in-flight generation request so row editing can be locked while it runs.
 			hasExternalGeneration: store.selectHasExternalGeneration(),
 			pendingSwitch: store.selectPendingSwitch(),
+			// With the SEO analysis off the focus keyphrase column stays visible but stops being editable.
+			isKeywordAnalysisActive: store.selectIsKeywordAnalysisActive(),
 		};
 	}, [] );
+	const fieldSets = useMemo( () => getFieldSets( { isKeywordAnalysisActive } ), [ isKeywordAnalysisActive ] );
+	const tabs = useMemo( () => {
+		const fieldSetTabs = Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) );
+		// The image-alt-text tab isn't a field set: appended separately, and only for products.
+		if ( contentType !== PRODUCT_CONTENT_TYPE ) {
+			return fieldSetTabs;
+		}
+		return [ ...fieldSetTabs, { id: FIELD_SET_IMAGE_ALT_TEXT, label: __( "Image alt text", "wordpress-seo" ) } ];
+	}, [ fieldSets, contentType ] );
 	const {
 		requestSwitch,
 		commitSwitch,
