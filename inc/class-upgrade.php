@@ -8,6 +8,7 @@
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
+use Yoast\WP\SEO\Integrations\Term_Meta_Migration_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
 
 /**
@@ -91,6 +92,7 @@ class WPSEO_Upgrade {
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
 			'22.6-RC0'   => 'upgrade_226',
+			'28.7-RC0'   => 'upgrade_287',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -1155,6 +1157,20 @@ class WPSEO_Upgrade {
 		if ( get_option( Cleanup_Integration::CURRENT_TASK_OPTION ) === false ) {
 			$cleanup_integration = YoastSEO()->classes->get( Cleanup_Integration::class );
 			$cleanup_integration->start_cron_job( 'clean_selected_empty_usermeta', DAY_IN_SECONDS );
+		}
+	}
+
+	/**
+	 * Performs the 28.7 upgrade routine.
+	 * Schedules the migration of the taxonomy meta option to WordPress term meta.
+	 *
+	 * @return void
+	 */
+	private function upgrade_287() {
+		$tax_meta = get_option( 'wpseo_taxonomy_meta', [] );
+
+		if ( is_array( $tax_meta ) && $tax_meta !== [] && ! wp_next_scheduled( Term_Meta_Migration_Integration::CRON_HOOK ) ) {
+			wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 2 ) ), Term_Meta_Migration_Integration::CRON_HOOK );
 		}
 	}
 
