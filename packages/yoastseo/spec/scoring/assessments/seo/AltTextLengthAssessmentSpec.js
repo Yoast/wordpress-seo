@@ -54,7 +54,7 @@ describe( "an assessment for the length of the alt text of the assessed images",
 		expect( result.getScore() ).toBe( 6 );
 		expect( result.getText() ).toBe(
 			`${ titleAnchor }Alt text length</a>: 1 of your images has alt text of 200 characters or more. ` +
-			`${ actionAnchor }Consider shortening it and putting the long explanation in your content</a>.`
+			`${ actionAnchor }Consider making it more concise</a>.`
 		);
 	} );
 
@@ -64,7 +64,7 @@ describe( "an assessment for the length of the alt text of the assessed images",
 		expect( result.getScore() ).toBe( 6 );
 		expect( result.getText() ).toBe(
 			`${ titleAnchor }Alt text length</a>: 2 of your images have alt text of 200 characters or more. ` +
-			`${ actionAnchor }Consider shortening it and putting the long explanation in your content</a>.`
+			`${ actionAnchor }Consider making it more concise</a>.`
 		);
 	} );
 

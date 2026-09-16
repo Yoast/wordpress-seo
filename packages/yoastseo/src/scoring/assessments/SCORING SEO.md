@@ -451,7 +451,7 @@ renders as an empty result text rather than falling back to the default.
 | Traffic light | Score | Criterion                                                    | Feedback                                                                                                                                                              |
 |---------------|-------|--------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Orange        | 6     | X images have alt text of 10 characters or fewer             | **Alt text length**: X of your images have alt text of 10 characters or fewer. **Consider making it more descriptive.**                                               |
-| Orange        | 6     | X images have alt text of 200 characters or more             | **Alt text length**: X of your images have alt text of 200 characters or more. **Consider shortening it and putting the long explanation in your content.** |
+| Orange        | 6     | X images have alt text of 200 characters or more             | **Alt text length**: X of your images have alt text of 200 characters or more. **Consider making it more concise.** |
 | Orange        | 6     | Both cases occur on the same page                            | **Alt text length**: X of your images have alt text that is either too short (10 characters or fewer) or too long (200 characters or more). **Consider revising them.** |
 
 ### 10) Title (only in Premium)

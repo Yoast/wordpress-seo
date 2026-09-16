@@ -154,8 +154,8 @@ export default class AltTextLengthAssessment extends Assessment {
 				 * %4$d expands to the number of images whose alt text is too long,
 				 * %5$d expands to the number of characters from which alt text counts as too long. */
 				_n(
-					"%1$sAlt text length%3$s: %4$d of your images has alt text of %5$d characters or more. %2$sConsider shortening it and putting the long explanation in your content%3$s.",
-					"%1$sAlt text length%3$s: %4$d of your images have alt text of %5$d characters or more. %2$sConsider shortening it and putting the long explanation in your content%3$s.",
+					"%1$sAlt text length%3$s: %4$d of your images has alt text of %5$d characters or more. %2$sConsider making it more concise%3$s.",
+					"%1$sAlt text length%3$s: %4$d of your images have alt text of %5$d characters or more. %2$sConsider making it more concise%3$s.",
 					this.tooLongCount,
 					"wordpress-seo"
 				),
