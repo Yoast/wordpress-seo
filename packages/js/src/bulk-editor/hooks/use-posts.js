@@ -83,8 +83,9 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 	const endpoint = dataProvider.getEndpoint( "posts" );
 
 	useEffect( () => {
-		// Without an endpoint there is nothing to fetch; surface an empty, settled state.
-		if ( ! endpoint ) {
+		// Without an endpoint or a content type (e.g. none is available to the bulk editor) there is nothing
+		// to fetch; surface an empty, settled state instead of a request the endpoint would reject.
+		if ( ! endpoint || ! contentType ) {
 			setState( { data: [], total: 0, totalPages: 0, error: null, isPending: false } );
 			return;
 		}
