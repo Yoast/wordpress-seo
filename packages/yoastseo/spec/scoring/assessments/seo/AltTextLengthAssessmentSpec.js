@@ -3,8 +3,8 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
 
 const assessment = new AltTextLengthAssessment();
-const titleAnchor = "<a href='https://yoa.st/alt-text-length-1' target='_blank'>";
-const actionAnchor = "<a href='https://yoa.st/alt-text-length-2' target='_blank'>";
+const titleAnchor = "<a href='https://yoa.st/alt-text-length' target='_blank'>";
+const actionAnchor = "<a href='https://yoa.st/alt-text-length-cta' target='_blank'>";
 
 /**
  * Runs the assessment against a mocked `altTextLength` research.
@@ -68,14 +68,21 @@ describe( "an assessment for the length of the alt text of the assessed images",
 		);
 	} );
 
-	it( "gives feedback without counts when both a too short and a too long alt text are found", () => {
+	it( "combines the counts when both a too short and a too long alt text are found", () => {
 		const result = getResult( 2, 1 );
 
 		expect( result.getScore() ).toBe( 6 );
 		expect( result.getText() ).toBe(
-			`${ titleAnchor }Alt text length</a>: Some of your images have alt text that is too short or too long. ` +
-			`${ actionAnchor }Consider revising them</a>.`
+			`${ titleAnchor }Alt text length</a>: 3 of your images have alt text that is either too short ` +
+			`(10 characters or fewer) or too long (200 characters or more). ${ actionAnchor }Consider revising them</a>.`
 		);
+	} );
+
+	it( "uses the singular form of the combined feedback when one image is too short and none is too long", () => {
+		// Not reachable through `both`: a single flagged image takes the tooShort or tooLong string instead.
+		const result = getResult( 1, 0 );
+
+		expect( result.getText() ).toContain( "1 of your images has alt text of 10 characters or fewer" );
 	} );
 
 	it( "uses the score from the config", () => {
@@ -122,6 +129,8 @@ describe( "the feedback strings of the alt text length assessment", () => {
 			urlActionAnchorOpeningTag: actionAnchor,
 			tooShortCount: 1,
 			tooLongCount: 2,
+			tooShortBoundary: 10,
+			tooLongBoundary: 200,
 		} );
 	} );
 } );

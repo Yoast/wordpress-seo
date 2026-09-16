@@ -1,4 +1,4 @@
-import { __, _n, sprintf } from "@wordpress/i18n";
+import { _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
 
 import Assessment from "../assessment";
@@ -20,6 +20,8 @@ import { TOO_LONG_BOUNDARY, TOO_SHORT_BOUNDARY } from "../../../languageProcessi
  * @property {string} urlActionAnchorOpeningTag The anchor opening tag for the call to action.
  * @property {number} tooShortCount The number of assessed images whose alt text is too short.
  * @property {number} tooLongCount The number of assessed images whose alt text is too long.
+ * @property {number} tooShortBoundary The number of characters up to which alt text counts as too short.
+ * @property {number} tooLongBoundary The number of characters from which alt text counts as too long.
  */
 
 /**
@@ -56,8 +58,8 @@ export default class AltTextLengthAssessment extends Assessment {
 			scores: {
 				okay: 6,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/alt-text-length-1" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/alt-text-length-2" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/alt-text-length" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/alt-text-length-cta" ),
 			callbacks: {},
 		};
 
@@ -124,6 +126,9 @@ export default class AltTextLengthAssessment extends Assessment {
 				urlActionAnchorOpeningTag,
 				tooShortCount: this.tooShortCount,
 				tooLongCount: this.tooLongCount,
+				// Handed over so a platform's own strings name the same limits without repeating the numbers.
+				tooShortBoundary: TOO_SHORT_BOUNDARY,
+				tooLongBoundary: TOO_LONG_BOUNDARY,
 			} );
 		}
 
@@ -161,14 +166,22 @@ export default class AltTextLengthAssessment extends Assessment {
 				TOO_LONG_BOUNDARY
 			),
 			both: sprintf(
-				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
-				__(
-					"%1$sAlt text length%3$s: Some of your images have alt text that is too short or too long. %2$sConsider revising them%3$s.",
+				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+				 * %4$d expands to the number of images whose alt text is too long or too short,
+				 * %5$d expands to the maximum number of characters that counts as too short,
+				 * %6$d expands to the number of characters from which alt text counts as too long. */
+				_n(
+					"%1$sAlt text length%3$s: %4$d of your images has alt text that is either too short (%5$d characters or fewer) or too long (%6$d characters or more). %2$sConsider revising them%3$s.",
+					"%1$sAlt text length%3$s: %4$d of your images have alt text that is either too short (%5$d characters or fewer) or too long (%6$d characters or more). %2$sConsider revising them%3$s.",
+					this.tooLongCount + this.tooShortCount,
 					"wordpress-seo"
 				),
 				urlTitleAnchorOpeningTag,
 				urlActionAnchorOpeningTag,
-				"</a>"
+				"</a>",
+				this.tooLongCount + this.tooShortCount,
+				TOO_SHORT_BOUNDARY,
+				TOO_LONG_BOUNDARY
 			),
 		};
 	}

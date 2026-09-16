@@ -440,20 +440,19 @@ Images without alt text are not counted as too short: that case is covered by [I
 **Name in code**: AltTextLengthAssessment
 
 **Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
-`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `tooShortCount` and `tooLongCount`, and must return all three of `tooShort`, `tooLong` and `both`. The returned object is used as is, so an omitted key
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `tooShortCount`, `tooLongCount`, `tooShortBoundary` and
+`tooLongBoundary`, and must return all three of `tooShort`, `tooLong` and `both`. The returned object is used as is, so an omitted key
 renders as an empty result text rather than falling back to the default.
 
-**Title URL**: https://yoa.st/alt-text-length-1 (link placement is in bold in the feedback strings)
+**Title URL**: https://yoa.st/alt-text-length (link placement is in bold in the feedback strings)
 
-**Call to action URL**: https://yoa.st/alt-text-length-2 (link placement is in bold in the feedback strings)
+**Call to action URL**: https://yoa.st/alt-text-length-cta (link placement is in bold in the feedback strings)
 
 | Traffic light | Score | Criterion                                                    | Feedback                                                                                                                                                              |
 |---------------|-------|--------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Orange        | 6     | X images have alt text of 10 characters or fewer             | **Alt text length**: X of your images have alt text of 10 characters or fewer. **Consider making it more descriptive.**                                               |
 | Orange        | 6     | X images have alt text of 200 characters or more             | **Alt text length**: X of your images have alt text of 200 characters or more. **Consider shortening it and putting the long explanation in your content.** |
-| Orange        | 6     | Both cases occur on the same page                            | **Alt text length**: Some of your images have alt text that is too short or too long. **Consider revising them.**                        |
-
-The combined feedback names no counts on purpose: `_n()` picks its plural form from a single number, so one string cannot pluralize a too short count and a too long count at the same time.
+| Orange        | 6     | Both cases occur on the same page                            | **Alt text length**: X of your images have alt text that is either too short (10 characters or fewer) or too long (200 characters or more). **Consider revising them.** |
 
 ### 10) Title (only in Premium)
 **What it does**: Checks for the presence of a title.

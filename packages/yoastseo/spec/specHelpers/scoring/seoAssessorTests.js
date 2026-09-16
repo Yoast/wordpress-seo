@@ -369,9 +369,10 @@ export function checkUrls( assessor, isECommerceAssessor = false ) {
 
 	test( "AltTextLength", () => {
 		const assessment = assessor.getAssessment( "altTextLength" );
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify-alt-text-length" : "https://yoa.st/alt-text-length";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify-alt-text-length-cta" : "https://yoa.st/alt-text-length-cta";
 
-		// Every assessor uses the defaults: no platform has its own shortlinks for this assessment yet.
-		checkAssessmentUrls( assessment, "https://yoa.st/alt-text-length-1", "https://yoa.st/alt-text-length-2" );
+		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "KeyphraseDistribution", () => {
