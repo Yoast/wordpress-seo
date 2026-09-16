@@ -114,6 +114,8 @@ export default class ProductSEOAssessor extends SEOAssessor {
 			new AltTextLengthAssessment( {
 				// Optional: platforms can pass `altTextLengthResultTexts` to override the default feedback strings.
 				callbacks: { getResultTexts: options.altTextLengthResultTexts },
+				urlTitle: createAnchorOpeningTag( options.altTextLengthUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.altTextLengthCTAUrl ),
 			} ),
 		];
 	}

@@ -69,7 +69,10 @@ export default class StorePostsAndPagesSEOAssessor extends SEOAssessor {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify20" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify21" ),
 			} ),
-			new AltTextLengthAssessment(),
+			new AltTextLengthAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-length" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-length-cta" ),
+			} ),
 			new TextLengthAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),

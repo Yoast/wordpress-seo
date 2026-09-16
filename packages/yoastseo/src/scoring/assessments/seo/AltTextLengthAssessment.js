@@ -111,9 +111,6 @@ export default class AltTextLengthAssessment extends Assessment {
 	 * `(AltTextLengthResultTextsInput) => AltTextLengthResultTexts`. Without that callback the defaults below
 	 * apply, so the hook is opt-in and existing consumers are unaffected.
 	 *
-	 * The `both` string carries no counts: `_n()` picks its plural form from a single number, so a sentence that
-	 * names the too short count and the too long count cannot be pluralized correctly in one string.
-	 *
 	 * @returns {AltTextLengthResultTexts} The feedback strings.
 	 */
 	getFeedbackStrings() {
