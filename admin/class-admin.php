@@ -131,18 +131,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Register assets needed on admin pages.
-	 *
-	 * @deprecated 25.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function enqueue_assets() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 25.5' );
-	}
-
-	/**
 	 * Returns the manage_options capability.
 	 *
 	 * @return string The capability to use.
