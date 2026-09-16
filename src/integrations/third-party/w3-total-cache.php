@@ -22,12 +22,13 @@ class W3_Total_Cache implements Integration_Interface {
 	/**
 	 * Initializes the integration.
 	 *
-	 * On successful update/add of the taxonomy meta option, flush the W3TC cache.
+	 * On successful update/add/delete of the taxonomy meta option, flush the W3TC cache.
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'add_option_wpseo_taxonomy_meta', 'w3tc_objectcache_flush' );
 		\add_action( 'update_option_wpseo_taxonomy_meta', 'w3tc_objectcache_flush' );
+		\add_action( 'delete_option_wpseo_taxonomy_meta', 'w3tc_objectcache_flush' );
 	}
 }
