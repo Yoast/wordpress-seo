@@ -321,7 +321,6 @@ function wpseo_load_textdomain() {
  */
 function wpseo_init() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
-	require_once WPSEO_PATH . 'inc/wpseo-functions-deprecated.php';
 
 	// Make sure our option and meta value validation routines and default values are always registered and available.
 	WPSEO_Options::get_instance();
