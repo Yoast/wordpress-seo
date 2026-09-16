@@ -34,7 +34,7 @@ describe( "ImageAltTextUpsell", () => {
 		render( <ImageAltTextUpsell /> );
 
 		expect( mockUseAiUpsell ).toHaveBeenCalledWith( "product" );
-		expect( screen.getByRole( "heading", { name: "From flagged to fixed: image alt text across your whole catalog" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "heading", { level: 3, name: "From flagged to fixed: image alt text across your whole catalog" } ) ).toBeInTheDocument();
 		expect( screen.getByText( /Generate accurate alt text for every product image in your catalog/ ) ).toBeInTheDocument();
 		expect( screen.getByText( "Yoast WooCommerce SEO" ) ).toBeInTheDocument();
 		expect( screen.getByRole( "region", { name: "From flagged to fixed: image alt text across your whole catalog" } ) ).toBeInTheDocument();

@@ -30,16 +30,16 @@ export const ImageAltTextUpsellCard = () => {
 			{ /* Placeholder for the visual that design still has to deliver; sized like the Figma slot. */ }
 			<div aria-hidden="true" className="yst-aspect-[512/244] yst-w-full yst-bg-slate-100" />
 			<div className="yst-flex yst-flex-col yst-items-center yst-gap-6 yst-px-6 yst-pb-8 yst-pt-6 yst-text-center sm:yst-px-10 sm:yst-pb-10">
-				<div className="yst-flex yst-max-w-lg yst-flex-col yst-items-center yst-gap-4">
+				<div className="yst-flex yst-flex-col yst-items-center yst-gap-4">
 					<span className="yst-flex yst-items-center yst-gap-2 yst-text-xs yst-font-medium yst-uppercase yst-tracking-wider yst-text-slate-500">
 						<YoastIcon className="yst-h-4 yst-w-4 yst-shrink-0 yst-fill-primary-500" { ...svgAriaProps } />
 						<span>Yoast WooCommerce SEO</span>
 					</span>
 					<div className="yst-flex yst-flex-col yst-items-center yst-gap-2">
-						<h2 id={ TITLE_ID } className="yst-m-0 yst-text-lg yst-font-medium yst-text-slate-900">
+						<h3 id={ TITLE_ID } className="yst-m-0 yst-text-lg yst-font-medium yst-text-slate-900">
 							{ __( "From flagged to fixed: image alt text across your whole catalog", "wordpress-seo" ) }
-						</h2>
-						<p className="yst-m-0 yst-text-sm yst-text-slate-600">
+						</h3>
+						<p className="yst-m-0 yst-max-w-lg yst-text-sm yst-text-slate-600">
 							{ __(
 								"Generate accurate alt text for every product image in your catalog, grounded in your product data and the photo itself. Preview every suggestion before it saves, so you decide what goes live.",
 								"wordpress-seo"
