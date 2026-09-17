@@ -41,6 +41,8 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	 */
 	private const AI_GENERATE_NAME = 'Yoast AI Generate';
 
+	// @TODO: Pick the shortlink from below that appears more often in tests, rename it to https://yoa.st/ai-generate-ability and remove the other one.
+
 	/**
 	 * The shortlink of the AI Generate upsell placed in the field descriptions.
 	 *
@@ -48,14 +50,14 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	 *
 	 * @var string
 	 */
-	private const AI_GENERATE_DESCRIPTION_SHORTLINK = 'https://yoa.st/ai-generate-ability-description/';
+	private const AI_GENERATE_DESCRIPTION_SHORTLINK = 'https://yoa.st/ai-generate-ability-1/';
 
 	/**
 	 * The shortlink of the AI Generate upsell placed in the response.
 	 *
 	 * @var string
 	 */
-	private const AI_GENERATE_RESPONSE_SHORTLINK = 'https://yoa.st/ai-generate-ability-response/';
+	private const AI_GENERATE_RESPONSE_SHORTLINK = 'https://yoa.st/ai-generate-ability-2/';
 
 	/**
 	 * The post SEO data updater.
@@ -118,7 +120,6 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	 * @return array<string, mixed> The ability registration arguments.
 	 */
 	public function get_args(): array {
-		// Read once and pass down: Premium ships AI Generate, so both schemas drop their upsell parts on Premium.
 		$is_premium = $this->product_helper->is_premium();
 
 		return [
