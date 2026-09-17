@@ -67,13 +67,12 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 	 *
 	 * @param mixed         $shortcode_tags      The WordPress shortcode tags global, or null to leave it unset.
 	 * @param array<string> $expected_shortcodes The shortcode tags expected in the localized script data.
-	 * @param bool          $is_woo_seo_inactive Whether Yoast WooCommerce SEO is inactive.
 	 *
 	 * @dataProvider data_shortcode_tags
 	 *
 	 * @return void
 	 */
-	public function test_enqueue_assets( $shortcode_tags, array $expected_shortcodes, bool $is_woo_seo_inactive ) {
+	public function test_enqueue_assets( $shortcode_tags, array $expected_shortcodes ) {
 		$this->stubEscapeFunctions();
 		$this->stub_wpseo_admin_replace_vars_dependencies();
 
@@ -108,7 +107,6 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 		$this->product_helper->expects( 'is_premium' )->once()->andReturn( false );
 		$this->options_helper->expects( 'get' )->once()->with( 'enable_ai_generator' )->andReturn( true );
 		$this->options_helper->expects( 'get' )->once()->with( 'keyword_analysis_active' )->andReturn( true );
-		$this->woo_seo_inactive_conditional->expects( 'is_met' )->once()->andReturn( $is_woo_seo_inactive );
 		Functions\expect( 'is_rtl' )->once()->withNoArgs()->andReturn( false );
 		Functions\expect( 'get_locale' )->once()->withNoArgs()->andReturn( 'en_US' );
 		Functions\expect( 'plugins_url' )
@@ -154,11 +152,10 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 				Bulk_Editor_Integration::ASSETS_NAME,
 				'wpseoBulkEditorData',
 				Mockery::on(
-					static function ( $data ) use ( $content_types, $expected_shortcodes, $is_woo_seo_inactive ) {
+					static function ( $data ) use ( $content_types, $expected_shortcodes ) {
 						return $data['contentTypes'] === $content_types
 							&& $data['nonce'] === 'rest-nonce'
 							&& $data['preferences']['isPremium'] === false
-							&& $data['preferences']['isWooSeoActive'] === ! $is_woo_seo_inactive
 							&& $data['analysis']['shortcodes'] === $expected_shortcodes
 							&& \array_key_exists( 'replacementVariables', $data )
 							&& \array_key_exists( 'variables', $data['replacementVariables'] )
@@ -188,27 +185,18 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 					'caption' => 'caption_shortcode',
 				],
 				'expected_shortcodes' => [ 'gallery', 'caption' ],
-				'is_woo_seo_inactive' => true,
-			],
-			'woo seo is active'         => [
-				'shortcode_tags'      => [],
-				'expected_shortcodes' => [],
-				'is_woo_seo_inactive' => false,
 			],
 			'no shortcodes registered'  => [
 				'shortcode_tags'      => [],
 				'expected_shortcodes' => [],
-				'is_woo_seo_inactive' => true,
 			],
 			'the global is unset'       => [
 				'shortcode_tags'      => null,
 				'expected_shortcodes' => [],
-				'is_woo_seo_inactive' => true,
 			],
 			'the global is malformed'   => [
 				'shortcode_tags'      => 'not an array',
 				'expected_shortcodes' => [],
-				'is_woo_seo_inactive' => true,
 			],
 		];
 	}
