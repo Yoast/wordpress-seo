@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
 
 /**
@@ -274,6 +275,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 			'links'                 => [
 				'dashboard' => \admin_url( 'admin.php?page=' . General_Page_Integration::PAGE ),
 				'tools'     => \admin_url( 'admin.php?page=wpseo_tools' ),
+				'settings'  => \admin_url( 'admin.php?page=' . Settings_Integration::PAGE ),
 			],
 			'nonce'                 => $this->nonce_repository->get_rest_nonce(),
 			'restRoot'              => \esc_url_raw( \rest_url() ),

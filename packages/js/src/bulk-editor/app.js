@@ -104,6 +104,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 	// Fall back to the WP admin home when the data provider has no link.
 	const backToToolsUrl = dataProvider.getLink( "tools" ) || "/wp-admin/";
 	const logoHref = dataProvider.getLink( "dashboard" ) || "/wp-admin/";
+	const settingsUrl = dataProvider.getLink( "settings" ) || "/wp-admin/admin.php?page=wpseo_page_settings";
 
 	const menuProps = {
 		contentTypes,
@@ -135,7 +136,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 				<div className="yst-grow yst-max-w-page yst-min-w-0 yst-mb-8">
 					<Paper as="main">
 						<BulkEditorPageHeader title={ title } description={ description } />
-						{ contentTypes.length === 0 ? <NoContentTypesNotice /> : (
+						{ contentTypes.length === 0 ? <NoContentTypesNotice settingsUrl={ settingsUrl } /> : (
 							<BulkEditorContent
 								dataProvider={ dataProvider }
 								remoteDataProvider={ remoteDataProvider }
