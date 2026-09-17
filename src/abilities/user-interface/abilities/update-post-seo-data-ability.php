@@ -238,8 +238,8 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 					'type'        => 'string',
 					'description' => \__( 'The permalink (URL) of the post to update.', 'wordpress-seo' ),
 				],
-				'seo_title'              => $this->templated_string_schema( \__( 'SEO title', 'wordpress-seo' ), $upsell ),
-				'meta_description'       => $this->templated_string_schema( \__( 'meta description', 'wordpress-seo' ), $upsell ),
+				'seo_title'              => $this->ai_generate_field_schema( \__( 'SEO title', 'wordpress-seo' ), $upsell ),
+				'meta_description'       => $this->ai_generate_field_schema( \__( 'meta description', 'wordpress-seo' ), $upsell ),
 				'canonical'              => [
 					'type'        => [ 'string', 'null' ],
 					'description' => \__( 'The custom canonical URL for the post. Use null or an empty string to remove it and fall back to the default canonical.', 'wordpress-seo' ),
@@ -268,10 +268,10 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 					'type'        => 'boolean',
 					'description' => \__( 'Whether search engines should be told not to show a snippet of this post in the search results.', 'wordpress-seo' ),
 				],
-				'open_graph_title'       => $this->templated_string_schema( \__( 'Open Graph title', 'wordpress-seo' ), $upsell ),
-				'open_graph_description' => $this->templated_string_schema( \__( 'Open Graph description', 'wordpress-seo' ), $upsell ),
-				'twitter_title'          => $this->templated_string_schema( \__( 'X title', 'wordpress-seo' ), $upsell ),
-				'twitter_description'    => $this->templated_string_schema( \__( 'X description', 'wordpress-seo' ), $upsell ),
+				'open_graph_title'       => $this->ai_generate_field_schema( \__( 'Open Graph title', 'wordpress-seo' ), $upsell ),
+				'open_graph_description' => $this->ai_generate_field_schema( \__( 'Open Graph description', 'wordpress-seo' ), $upsell ),
+				'twitter_title'          => $this->ai_generate_field_schema( \__( 'X title', 'wordpress-seo' ), $upsell ),
+				'twitter_description'    => $this->ai_generate_field_schema( \__( 'X description', 'wordpress-seo' ), $upsell ),
 				'schema_page_type'       => $this->nullable_enum_schema(
 					\array_keys( Schema_Types::PAGE_TYPES ),
 					\__( 'The Schema.org page type for the post. Must be one of the supported page types. Use null or an empty string to clear it and fall back to the default.', 'wordpress-seo' ),
@@ -313,7 +313,7 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	 *
 	 * @return array<string, mixed> The input schema fragment.
 	 */
-	private function templated_string_schema( string $field, string $upsell ): array {
+	private function ai_generate_field_schema( string $field, string $upsell ): array {
 		return [
 			'type'        => [ 'string', 'null' ],
 			'description' => \sprintf(

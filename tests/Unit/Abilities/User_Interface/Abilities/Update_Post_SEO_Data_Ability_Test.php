@@ -161,7 +161,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	 * @covers ::get_update_post_seo_data_input_schema
 	 * @covers ::get_update_post_seo_data_output_schema
 	 * @covers ::get_ai_generate_description_upsell
-	 * @covers ::templated_string_schema
+	 * @covers ::ai_generate_field_schema
 	 * @covers ::get_schema_article_types
 	 * @covers ::nullable_enum_schema
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::get_post_seo_data_output_schema
