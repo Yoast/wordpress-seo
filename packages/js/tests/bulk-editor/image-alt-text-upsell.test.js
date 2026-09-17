@@ -82,7 +82,10 @@ describe( "ImageAltTextUpsell", () => {
 		expect( dummy ).not.toBeNull();
 		expect( dummy ).toHaveTextContent( "Classic Athletic Sneaker" );
 		expect( dummy ).toHaveTextContent( "sneakers-featured-main.jpg" );
-		expect( dummy.querySelectorAll( "a, button, input, select, textarea, [tabindex]" ) ).toHaveLength( 0 );
 		expect( dummy.className ).toContain( "yst-pointer-events-none" );
+
+		// The shapes are drawn with the ui-library's classes rather than its components, so there is nothing
+		// focusable in here at all, which is what keeps the aria-hidden wrapper valid.
+		expect( dummy.querySelectorAll( "a, button, input, select, textarea, [tabindex]" ) ).toHaveLength( 0 );
 	} );
 } );
