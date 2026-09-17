@@ -74,4 +74,31 @@ describe( "UpdateModal", () => {
 
 		expect( screen.queryByRole( "heading", { name: "Your plugin needs an update" } ) ).not.toBeInTheDocument();
 	} );
+
+	it( "can target another plugin, its update URL preference and its own description", () => {
+		useSelect.mockImplementation( ( selector ) =>
+			selector( () => ( {
+				selectPreference: ( key, defaultVal ) => key === "wooSeoUpdateUrl" ? "https://example.com/update.php?plugin=woo" : defaultVal,
+			} ) )
+		);
+
+		render(
+			<UpdateModal
+				{ ...baseProps }
+				pluginName="Yoast WooCommerce SEO"
+				updateUrlPreference="wooSeoUpdateUrl"
+				description="Please update Yoast WooCommerce SEO."
+			/>
+		);
+
+		expect( screen.getByText( "Please update Yoast WooCommerce SEO." ) ).toBeInTheDocument();
+		expect( screen.queryByText( /please update Yoast SEO Premium/ ) ).not.toBeInTheDocument();
+		expect( screen.getByRole( "link", { name: /Update now/ } ) ).toHaveAttribute( "href", "https://example.com/update.php?plugin=woo" );
+	} );
+
+	it( "falls back to the AI features copy for another plugin without a description", () => {
+		render( <UpdateModal { ...baseProps } pluginName="Yoast WooCommerce SEO" /> );
+
+		expect( screen.getByText( /To use AI features, please update Yoast WooCommerce SEO to the latest version\./ ) ).toBeInTheDocument();
+	} );
 } );

@@ -7,6 +7,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Bulk_Editor_Integra
 use Brain\Monkey\Actions;
 use Brain\Monkey\Functions;
 use Mockery;
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
 use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 
@@ -67,12 +68,13 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 	 *
 	 * @param mixed         $shortcode_tags      The WordPress shortcode tags global, or null to leave it unset.
 	 * @param array<string> $expected_shortcodes The shortcode tags expected in the localized script data.
+	 * @param bool          $is_woo_seo_inactive Whether Yoast WooCommerce SEO is inactive.
 	 *
 	 * @dataProvider data_shortcode_tags
 	 *
 	 * @return void
 	 */
-	public function test_enqueue_assets( $shortcode_tags, array $expected_shortcodes ) {
+	public function test_enqueue_assets( $shortcode_tags, array $expected_shortcodes, bool $is_woo_seo_inactive ) {
 		$this->stubEscapeFunctions();
 		$this->stub_wpseo_admin_replace_vars_dependencies();
 
@@ -107,6 +109,17 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 		$this->product_helper->expects( 'is_premium' )->once()->andReturn( false );
 		$this->options_helper->expects( 'get' )->once()->with( 'enable_ai_generator' )->andReturn( true );
 		$this->options_helper->expects( 'get' )->once()->with( 'keyword_analysis_active' )->andReturn( true );
+		$this->woo_seo_inactive_conditional->expects( 'is_met' )->once()->andReturn( $is_woo_seo_inactive );
+		$this->addon_manager->allows( 'get_installed_addons_versions' )
+			->andReturn( [ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG => '17.1' ] );
+		$this->addon_manager->allows( 'get_plugin_file' )
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
+			->andReturn( 'wpseo-woocommerce/wpseo-woocommerce.php' );
+		// The Premium update URL is always built; the Woo SEO one only when the add-on is active.
+		$update_url_calls = 1;
+		if ( ! $is_woo_seo_inactive ) {
+			$update_url_calls = 2;
+		}
 		Functions\expect( 'is_rtl' )->once()->withNoArgs()->andReturn( false );
 		Functions\expect( 'get_locale' )->once()->withNoArgs()->andReturn( 'en_US' );
 		Functions\expect( 'plugins_url' )
@@ -124,19 +137,19 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			->with( 'update_plugins' )
 			->andReturn( true );
 		Functions\expect( 'self_admin_url' )
-			->once()
+			->times( $update_url_calls )
 			->andReturnUsing(
 				static function ( $path ) {
 					return 'https://example.com/wp-admin/' . $path;
 				},
 			);
 		Functions\expect( 'wp_nonce_url' )
-			->once()
-			->with(
-				'https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php',
-				'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php',
-			)
-			->andReturn( 'https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&_wpnonce=92ba59f0da' );
+			->times( $update_url_calls )
+			->andReturnUsing(
+				static function ( $url, $action ) {
+					return $url . '&_wpnonce=' . \md5( $action );
+				},
+			);
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
 		$this->myyoast_connection_data_presenter->expects( 'present' )->once()->andReturnNull();
 		$this->user_helper->expects( 'get_current_user_id' )->once()->andReturn( 1 );
@@ -152,21 +165,44 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 				Bulk_Editor_Integration::ASSETS_NAME,
 				'wpseoBulkEditorData',
 				Mockery::on(
-					static function ( $data ) use ( $content_types, $expected_shortcodes ) {
-						return $data['contentTypes'] === $content_types
-							&& $data['nonce'] === 'rest-nonce'
-							&& $data['preferences']['isPremium'] === false
-							&& $data['analysis']['shortcodes'] === $expected_shortcodes
-							&& \array_key_exists( 'replacementVariables', $data )
-							&& \array_key_exists( 'variables', $data['replacementVariables'] )
-							&& \array_key_exists( 'recommended', $data['replacementVariables'] )
-							&& \array_key_exists( 'specific', $data['replacementVariables'] )
-							&& \array_key_exists( 'shared', $data['replacementVariables'] );
+					static function ( $data ) use ( $content_types, $expected_shortcodes, $is_woo_seo_inactive ) {
+						return self::is_expected_script_data( $data, $content_types, $expected_shortcodes, $is_woo_seo_inactive );
 					},
 				),
 			);
 
 		$this->instance->enqueue_assets();
+	}
+
+	/**
+	 * Checks the localized script data.
+	 *
+	 * @param array<string, mixed>         $data                The localized script data.
+	 * @param array<array<string, string>> $content_types       The expected content types.
+	 * @param array<string>                $expected_shortcodes The expected shortcode tags.
+	 * @param bool                         $is_woo_seo_inactive Whether Yoast WooCommerce SEO is inactive.
+	 *
+	 * @return bool Whether the data is as expected.
+	 */
+	private static function is_expected_script_data( array $data, array $content_types, array $expected_shortcodes, bool $is_woo_seo_inactive ): bool {
+		$preferences = $data['preferences'];
+
+		$expected_woo_seo_update_url = ( ! $is_woo_seo_inactive );
+		$has_woo_seo_update_url      = ( \strpos( $preferences['wooSeoUpdateUrl'], 'plugin=wpseo-woocommerce%2Fwpseo-woocommerce.php' ) !== false );
+
+		return $data['contentTypes'] === $content_types
+			&& $data['nonce'] === 'rest-nonce'
+			&& $preferences['isPremium'] === false
+			&& $preferences['isWooSeoActive'] === ! $is_woo_seo_inactive
+			&& $preferences['isWooSeoVersionSupported'] === ! $is_woo_seo_inactive
+			&& \strpos( $preferences['premiumUpdateUrl'], 'plugin=wordpress-seo-premium%2Fwp-seo-premium.php' ) !== false
+			&& $has_woo_seo_update_url === $expected_woo_seo_update_url
+			&& $data['analysis']['shortcodes'] === $expected_shortcodes
+			&& \array_key_exists( 'replacementVariables', $data )
+			&& \array_key_exists( 'variables', $data['replacementVariables'] )
+			&& \array_key_exists( 'recommended', $data['replacementVariables'] )
+			&& \array_key_exists( 'specific', $data['replacementVariables'] )
+			&& \array_key_exists( 'shared', $data['replacementVariables'] );
 	}
 
 	/**
@@ -185,18 +221,27 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 					'caption' => 'caption_shortcode',
 				],
 				'expected_shortcodes' => [ 'gallery', 'caption' ],
+				'is_woo_seo_inactive' => true,
+			],
+			'woo seo is active'         => [
+				'shortcode_tags'      => [],
+				'expected_shortcodes' => [],
+				'is_woo_seo_inactive' => false,
 			],
 			'no shortcodes registered'  => [
 				'shortcode_tags'      => [],
 				'expected_shortcodes' => [],
+				'is_woo_seo_inactive' => true,
 			],
 			'the global is unset'       => [
 				'shortcode_tags'      => null,
 				'expected_shortcodes' => [],
+				'is_woo_seo_inactive' => true,
 			],
 			'the global is malformed'   => [
 				'shortcode_tags'      => 'not an array',
 				'expected_shortcodes' => [],
+				'is_woo_seo_inactive' => true,
 			],
 		];
 	}
