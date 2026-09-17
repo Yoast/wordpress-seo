@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { usePosts } from "../../../src/bulk-editor/hooks/use-posts";
 import { PAGE_SIZE } from "../../../src/bulk-editor/constants";
@@ -248,6 +248,31 @@ describe( "usePosts", () => {
 		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
 		expect( result.current ).toMatchObject( { data: [], total: 0, totalPages: 0, error: null, isPending: false } );
 		expect( typeof result.current.updateItem ).toBe( "function" );
+	} );
+
+	it( "keeps the empty state when a superseded request resolves after the content type was cleared", async() => {
+		let resolvePage;
+		const pageRequest = new Promise( ( resolve ) => {
+			resolvePage = resolve;
+		} );
+		const remoteDataProvider = { fetchJson: jest.fn( () => pageRequest ) };
+
+		const { result, rerender } = renderHook(
+			( { contentType } ) => usePosts( { dataProvider, remoteDataProvider, contentType } ),
+			{ initialProps: { contentType: "page" } }
+		);
+
+		// Clear the content type before the "page" request settles, then let the stale request resolve late.
+		rerender( { contentType: "" } );
+		expect( result.current ).toMatchObject( { data: [], total: 0, isPending: false } );
+
+		await act( async() => {
+			resolvePage( { posts: [ { id: 1, title: "Page" } ], total: 1 } );
+			// The hook's then-callback was registered first, so awaiting the same promise flushes it.
+			await pageRequest;
+		} );
+
+		expect( result.current ).toMatchObject( { data: [], total: 0, isPending: false } );
 	} );
 
 	it( "ignores a superseded request that resolves after a newer one", async() => {
