@@ -492,6 +492,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 					'hide_empty' => false,
 					'fields'     => 'ids',
 					'exclude'    => [ (int) $current_term_id ],
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Reason: Used to find terms with a matching focus keyphrase.
 					'meta_query' => [
 						[
 							'key'   => 'wpseo_focuskw',
