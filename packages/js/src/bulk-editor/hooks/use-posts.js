@@ -40,22 +40,6 @@ const formatResponse = ( response ) => {
 };
 
 /**
- * Drops the in-flight request, if any: aborts it and clears the ref. Aborting alone is not enough,
- * because a response that already arrived still settles; clearing the ref makes its handler's
- * identity check fail, so it can no longer write stale posts over newer state.
- *
- * @param {import("react").MutableRefObject<?AbortController>} controllerRef The ref holding the current controller.
- *
- * @returns {void}
- */
-const supersedeRequest = ( controllerRef ) => {
-	if ( controllerRef.current ) {
-		controllerRef.current.abort();
-	}
-	controllerRef.current = null;
-};
-
-/**
  * Fetches a page of posts for a content type and maps them to bulk editor rows.
  *
  * Kept self-contained within the bulk editor: it drives the request through the injected
@@ -99,17 +83,18 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 	const endpoint = dataProvider.getEndpoint( "posts" );
 
 	useEffect( () => {
-		// Every run supersedes the request still running, if any (e.g. on content type change): whether this
-		// run fetches again or settles empty, that request's late response must not overwrite the new state.
-		supersedeRequest( controller );
-
-		// Without an endpoint or a content type (e.g. none is available to the bulk editor) there is nothing
-		// to fetch; surface an empty, settled state instead of a request the endpoint would reject.
+		// Without an endpoint or a content type there is nothing to fetch; surface an empty, settled state instead
+		// of a request the endpoint would reject.
 		if ( ! endpoint || ! contentType ) {
+			// The previous effect's cleanup already aborted any in-flight request; clearing the ref is what makes
+			// a late response of that request fail the identity check below instead of overwriting this state.
+			controller.current = null;
 			setState( { data: [], total: 0, totalPages: 0, error: null, isPending: false } );
 			return;
 		}
 
+		// Abort any in-flight request before starting a new one (e.g. on content type change).
+		controller.current?.abort();
 		// Keep this run's controller in the closure: abort is best-effort, so a superseded
 		// request can still settle and must not overwrite the newer request's state.
 		const current = new AbortController();

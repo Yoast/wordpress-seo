@@ -104,7 +104,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 	// Fall back to the WP admin home when the data provider has no link.
 	const backToToolsUrl = dataProvider.getLink( "tools" ) || "/wp-admin/";
 	const logoHref = dataProvider.getLink( "dashboard" ) || "/wp-admin/";
-	const settingsUrl = dataProvider.getLink( "settings" ) || "/wp-admin/admin.php?page=wpseo_page_settings";
+	const settingsUrl = dataProvider.getLink( "settings" ) || "admin.php?page=wpseo_page_settings";
 
 	const menuProps = {
 		contentTypes,

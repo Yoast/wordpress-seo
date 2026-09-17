@@ -269,9 +269,10 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		return [
 			'contentTypes'          => $content_types,
 			'endpoints'             => $this->endpoints_repository->get_all_endpoints()->to_array(),
-			// These must stay server-generated URLs: the bulk editor assigns them to window.location.href for its
-			// "Back to Tools" / logo navigation. If a link ever derives from request input, validate it with
-			// wp_validate_redirect() here before exposing it, to avoid an open redirect on the front-end.
+			// These must stay server-generated URLs: the bulk editor assigns the dashboard and tools links to
+			// window.location.href for its "Back to Tools" / logo navigation (the settings link is rendered as a plain
+			// link). If a link ever derives from request input, validate it with wp_validate_redirect() here before
+			// exposing it, to avoid an open redirect on the front-end.
 			'links'                 => [
 				'dashboard' => \admin_url( 'admin.php?page=' . General_Page_Integration::PAGE ),
 				'tools'     => \admin_url( 'admin.php?page=wpseo_tools' ),
