@@ -103,22 +103,16 @@ class WPSEO_Meta {
 			'focuskw' => [
 				'type'         => 'hidden',
 				'title'        => '',
-				'show_in_rest' => true,
-				'single'       => true,
 			],
 			'title' => [
 				'type'          => 'hidden',
 				'default_value' => '',
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 			'metadesc' => [
 				'type'          => 'hidden',
 				'default_value' => '',
 				'class'         => 'metadesc',
 				'rows'          => 2,
-				'show_in_rest'  => true,
-				'single'        => true,
 			],
 			'linkdex' => [
 				'type'          => 'hidden',
@@ -142,7 +136,11 @@ class WPSEO_Meta {
 			],
 			'is_cornerstone' => [
 				'type'          => 'hidden',
-				'default_value' => 'false',
+				'default_value' => '0',
+			],
+			'estimated-reading-time-minutes' => [
+				'type'          => 'hidden',
+				'default_value' => '',
 			],
 		],
 		'advanced'        => [
@@ -195,13 +193,6 @@ class WPSEO_Meta {
 				'type'          => 'hidden',
 				'hide_on_pages' => true,
 				'options'       => Schema_Types::ARTICLE_TYPES,
-			],
-		],
-		/* Fields we should validate & save, but not show on any form. */
-		'non_form'        => [
-			'linkdex' => [
-				'type'          => null,
-				'default_value' => '0',
 			],
 		],
 		'content_planner' => [
@@ -295,24 +286,6 @@ class WPSEO_Meta {
 					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ],
 				);
 
-				// Re-register for the 'post' subtype with REST exposure and auth callback when show_in_rest is enabled.
-				if ( ! empty( $field_def['show_in_rest'] ) ) {
-					register_meta(
-						'post',
-						self::$meta_prefix . $key,
-						[
-							'show_in_rest'      => true,
-							'single'            => ( $field_def['single'] ?? false ),
-							'type'              => 'string',
-							'object_subtype'    => 'post',
-							'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
-							'auth_callback'     => static function ( $allowed, $meta_key, $object_id ) {
-								return current_user_can( 'edit_post', $object_id );
-							},
-						],
-					);
-				}
-
 				// Set the $fields_index property for efficiency.
 				self::$fields_index[ self::$meta_prefix . $key ] = [
 					'subset' => $subset,
@@ -330,12 +303,6 @@ class WPSEO_Meta {
 			}
 		}
 		unset( $subset, $field_group, $key, $field_def );
-
-		// Strip meta fields that have show_in_rest enabled from REST responses for users
-		// without edit_post capability. register_meta's auth_callback only covers writes,
-		// so read access must be restricted separately via this filter.
-		// Register only for 'post' post type. Other post types don't expose these fields.
-		add_filter( 'rest_prepare_post', [ self::class, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
 
 		self::filter_schema_article_types();
 
@@ -502,6 +469,13 @@ class WPSEO_Meta {
 				 */
 				if ( $meta_value === 'true' ) {
 					$clean = '1';
+				}
+				break;
+
+			case ( strpos( $meta_key, self::$meta_prefix . 'primary_' ) === 0 ):
+				$int = WPSEO_Utils::validate_int( $meta_value );
+				if ( $int !== false && $int >= -1 ) {
+					$clean = (string) $int; // Cast to string to make sure default check works.
 				}
 				break;
 
@@ -1088,30 +1062,6 @@ class WPSEO_Meta {
 		}
 
 		return $post_types;
-	}
-
-	/**
-	 * Strips REST-exposed Yoast meta fields from the response for users without edit_post capability on the post.
-	 *
-	 * @param WP_REST_Response $response The REST response.
-	 * @param WP_Post          $post     The post object.
-	 *
-	 * @return WP_REST_Response The (possibly modified) response.
-	 */
-	public static function hide_meta_from_unauthorized_rest_response( $response, $post ) {
-		if ( current_user_can( 'edit_post', $post->ID ) ) {
-			return $response;
-		}
-		$data = $response->get_data();
-		foreach ( self::$meta_fields as $field_group ) {
-			foreach ( $field_group as $key => $field_def ) {
-				if ( ! empty( $field_def['show_in_rest'] ) ) {
-					unset( $data['meta'][ self::$meta_prefix . $key ] );
-				}
-			}
-		}
-		$response->set_data( $data );
-		return $response;
 	}
 
 	/**
