@@ -93,36 +93,6 @@ class Yoast_Input_Validation {
 	}
 
 	/**
-	 * Sets the error descriptions.
-	 *
-	 * @since      12.1
-	 * @deprecated 23.3
-	 * @codeCoverageIgnore
-	 *
-	 * @param array<string, string> $descriptions An associative array of error descriptions.
-	 *                                            For each entry, the key must be the setting variable.
-	 *
-	 * @return void
-	 */
-	public static function set_error_descriptions( $descriptions = [] ) { // @phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable, Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Needed for BC.
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
-	}
-
-	/**
-	 * Gets all the error descriptions.
-	 *
-	 * @since      12.1
-	 * @deprecated 23.3
-	 * @codeCoverageIgnore
-	 *
-	 * @return array<string, string> An associative array of error descriptions.
-	 */
-	public static function get_error_descriptions() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
-		return [];
-	}
-
-	/**
 	 * Gets a specific error description.
 	 *
 	 * @since 12.1
@@ -215,38 +185,5 @@ class Yoast_Input_Validation {
 				$wp_settings_errors[ $index ]['yoast_dirty_value'] = $dirty_value;
 			}
 		}
-	}
-
-	/**
-	 * Gets an invalid submitted value.
-	 *
-	 * @since      12.1
-	 * @deprecated 23.3
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
-	 *
-	 * @return string The submitted invalid input field value.
-	 */
-	public static function get_dirty_value( $error_code ) {  // @phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable, Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Needed for BC.
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
-		return '';
-	}
-
-	/**
-	 * Gets a specific invalid value message.
-	 *
-	 * @since      12.1
-	 * @deprecated 23.3
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
-	 *
-	 * @return string The error invalid value message or empty string.
-	 */
-	public static function get_dirty_value_message( $error_code ) { // @phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable, Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Needed for BC.
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.3' );
-
-		return '';
 	}
 }

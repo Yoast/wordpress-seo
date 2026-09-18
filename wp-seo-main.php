@@ -321,7 +321,6 @@ function wpseo_load_textdomain() {
  */
 function wpseo_init() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
-	require_once WPSEO_PATH . 'inc/wpseo-functions-deprecated.php';
 
 	// Make sure our option and meta value validation routines and default values are always registered and available.
 	WPSEO_Options::get_instance();
@@ -526,31 +525,6 @@ function yoast_wpseo_missing_autoload_notice() {
 	$message = esc_html__( 'The %1$s plugin installation is incomplete. Please refer to %2$sinstallation instructions%3$s.', 'wordpress-seo' );
 	$message = sprintf( $message, 'Yoast SEO', '<a href="https://github.com/Yoast/wordpress-seo#installation">', '</a>' );
 	yoast_wpseo_activation_failed_notice( $message );
-}
-
-/**
- * Throw an error if the filter extension is disabled (prevent white screens) and self-deactivate plugin.
- *
- * @since 2.0
- * @deprecated 23.3
- * @codeCoverageIgnore
- *
- * @return void
- */
-function yoast_wpseo_missing_filter() {
-	_deprecated_function( __FUNCTION__, 'Yoast SEO 23.3' );
-}
-
-/**
- * Returns the notice in case of missing filter extension.
- *
- * @deprecated 23.3
- * @codeCoverageIgnore
- *
- * @return void
- */
-function yoast_wpseo_missing_filter_notice() {
-	_deprecated_function( __FUNCTION__, 'Yoast SEO 23.3' );
 }
 
 /**
