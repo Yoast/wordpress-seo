@@ -75,7 +75,7 @@ export const PENDING_CHANGES_MODAL_SLOT = "yoast.bulkEditor.pendingChangesModal"
 export const TABLE_ROW_INDICATOR_SLOT = "yoast.bulkEditor.TableRowIndicator";
 
 // The slot the "Image alt text" tab panel renders: the WooCommerce SEO addon fills it with the product image
-// alt-text table when installed and active. Falls back to ImageAltTextPlaceholder (e.g. an upsell) when unfilled.
+// alt-text table when installed and active. Falls back to ImageAltTextUpsell when unfilled.
 // fillProps: { items }.
 export const IMAGE_ALT_TEXT_SLOT = "yoast.bulkEditor.imageAltText";
 
@@ -90,6 +90,9 @@ export const AI_UPSELL = {
 
 // The "Learn more" shortlink for the bulk editor upsell modal.
 export const LEARN_MORE_LINK = "https://yoa.st/bulk-editor-learn-more";
+
+// The Yoast WooCommerce SEO shortlink of the "Image alt text" tab upsell, shown when the add-on is not active.
+export const IMAGE_ALT_TEXT_UPSELL_LINK = "https://yoa.st/bulk-editor-img-alt-upsell-woo";
 
 // The generic (non-product) body copy for the bulk AI upsell modal; also the modal's default description.
 export const AI_UPSELL_DESCRIPTION = __( "Instantly create SEO titles, meta descriptions, and social metadata for all your content. Upgrade to unlock bulk AI generation and streamline your workflow.", "wordpress-seo" );
