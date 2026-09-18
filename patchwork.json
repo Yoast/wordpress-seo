@@ -1,0 +1,5 @@
+{
+  "redefinable-internals": [
+    "function_exists"
+  ]
+}
