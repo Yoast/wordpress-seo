@@ -28,8 +28,9 @@ export const WoocommerceIntegration = ( {
 	return (
 		<SimpleIntegration
 			integration={ integration }
-			isActive={ isActive }
+			isActive={ isPrerequisiteActive && isActive }
 			isSchemaPartner={ isSchemaAPIIntegration }
+			showSchemaFrameworkAlertInBody={ true }
 		>
 			{ ! isPrerequisiteActive && <Fragment>
 				<span className="yst-text-slate-700 yst-font-medium">

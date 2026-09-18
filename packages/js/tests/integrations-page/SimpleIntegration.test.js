@@ -92,6 +92,19 @@ describe( "SimpleIntegration", () => {
 			expect( screen.queryByRole( "link", { name: /Schema Framework disabled/ } ) ).not.toBeInTheDocument();
 			expect( screen.getByText( "Plugin not detected" ) ).toBeInTheDocument();
 		} );
+
+		it( "shows the alert in the body instead, alongside its children, when opted in", () => {
+			render(
+				<SimpleIntegration integration={ integration } isSchemaPartner={ true } showSchemaFrameworkAlertInBody={ true }>
+					<span>Plugin not detected</span>
+				</SimpleIntegration>
+			);
+
+			const link = screen.getByRole( "link", { name: /^Schema framework not active/ } );
+			expect( link ).toHaveAttribute( "href", "admin.php?page=wpseo_page_settings#/schema-framework" );
+			expect( link ).toHaveAttribute( "id", "tec-schema-framework-link" );
+			expect( screen.getByText( "Plugin not detected" ) ).toBeInTheDocument();
+		} );
 	} );
 
 	describe( "with the Schema Framework enabled", () => {

@@ -12,9 +12,12 @@ jest.mock( "@wordpress/data", () => ( {
 
 /**
  * Stands in for the SVG logo, which is mocked away by the Jest svg transform.
+ *
+ * @param {Object} props The props, forwarded so tests can inspect the greyscale class.
+ *
  * @returns {JSX.Element} An empty logo.
  */
-const LogoStub = () => <span />;
+const LogoStub = ( props ) => <span data-testid="logo" { ...props } />;
 
 const integration = {
 	name: "WooCommerce",
@@ -27,6 +30,7 @@ const integration = {
 	isNew: false,
 	isMultisiteAvailable: true,
 	logo: LogoStub,
+	upsellLink: "https://yoa.st/integrations-get-woocommerce",
 };
 
 /**
@@ -51,17 +55,103 @@ describe( "WoocommerceIntegration with the Schema Framework disabled", () => {
 		window.wpseoIntegrationsData = { schema_framework_enabled: false };
 	} );
 
-	it( "shows a Schema API partner the Schema Framework link instead of its plugin status", () => {
+	it( "shows a Schema API partner the Schema Framework link alongside its plugin status", () => {
 		renderCard( true );
 
-		expect( screen.getByRole( "link", { name: /^Schema Framework disabled/ } ) ).toBeInTheDocument();
-		expect( screen.queryByText( "Plugin not detected" ) ).not.toBeInTheDocument();
+		expect( screen.getByRole( "link", { name: /^Schema framework not active/ } ) ).toBeInTheDocument();
+		expect( screen.getByText( "Plugin not detected" ) ).toBeInTheDocument();
 	} );
 
 	it( "leaves a card that isn't a Schema API partner alone", () => {
 		renderCard( false );
 
-		expect( screen.queryByRole( "link", { name: /Schema Framework disabled/ } ) ).not.toBeInTheDocument();
+		expect( screen.queryByRole( "link", { name: /Schema framework not active/ } ) ).not.toBeInTheDocument();
 		expect( screen.getByText( "Plugin not detected" ) ).toBeInTheDocument();
+	} );
+} );
+
+describe( "WoocommerceIntegration's plugin status", () => {
+	beforeEach( () => {
+		window.wpseoIntegrationsData = { schema_framework_enabled: true };
+	} );
+
+	it( "shows 'Integration active' only when Yoast WooCommerce SEO is installed and active", () => {
+		render(
+			<WoocommerceIntegration
+				integration={ integration }
+				isActive={ true }
+				isInstalled={ true }
+				isPrerequisiteActive={ true }
+				activationLink="plugins.php"
+			/>
+		);
+
+		expect( screen.getByText( "Integration active" ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "link", { name: /Buy Yoast WooCommerce SEO/ } ) ).not.toBeInTheDocument();
+		expect( screen.queryByRole( "link", { name: /Activate Yoast WooCommerce SEO/ } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "shows the upsell button when only WooCommerce is installed, not Yoast WooCommerce SEO", () => {
+		render(
+			<WoocommerceIntegration
+				integration={ integration }
+				isActive={ false }
+				isInstalled={ false }
+				isPrerequisiteActive={ true }
+				activationLink="plugins.php"
+			/>
+		);
+
+		expect( screen.getByRole( "link", { name: /Buy Yoast WooCommerce SEO/ } ) ).toBeInTheDocument();
+		expect( screen.queryByText( "Integration active" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "shows the activate button when Yoast WooCommerce SEO is installed but not active", () => {
+		render(
+			<WoocommerceIntegration
+				integration={ integration }
+				isActive={ false }
+				isInstalled={ true }
+				isPrerequisiteActive={ true }
+				activationLink="plugins.php"
+			/>
+		);
+
+		expect( screen.getByRole( "link", { name: /Activate Yoast WooCommerce SEO/ } ) ).toBeInTheDocument();
+		expect( screen.queryByText( "Integration active" ) ).not.toBeInTheDocument();
+	} );
+} );
+
+describe( "WoocommerceIntegration's logo", () => {
+	beforeEach( () => {
+		window.wpseoIntegrationsData = { schema_framework_enabled: true };
+	} );
+
+	it( "greys out the logo when WooCommerce itself isn't active, even though the Yoast WooCommerce SEO plugin file is flagged active", () => {
+		render(
+			<WoocommerceIntegration
+				integration={ integration }
+				isActive={ true }
+				isInstalled={ true }
+				isPrerequisiteActive={ false }
+				activationLink="plugins.php"
+			/>
+		);
+
+		expect( screen.getByTestId( "logo" ) ).toHaveClass( "yst-opacity-50", "yst-filter", "yst-grayscale" );
+	} );
+
+	it( "shows the logo in full color when both WooCommerce and Yoast WooCommerce SEO are active", () => {
+		render(
+			<WoocommerceIntegration
+				integration={ integration }
+				isActive={ true }
+				isInstalled={ true }
+				isPrerequisiteActive={ true }
+				activationLink="plugins.php"
+			/>
+		);
+
+		expect( screen.getByTestId( "logo" ) ).not.toHaveClass( "yst-opacity-50", "yst-filter", "yst-grayscale" );
 	} );
 } );
