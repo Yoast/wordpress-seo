@@ -88,4 +88,23 @@ describe( "ImageAltTextUpsell", () => {
 		// focusable in here at all, which is what keeps the aria-hidden wrapper valid.
 		expect( dummy.querySelectorAll( "a, button, input, select, textarea, [tabindex]" ) ).toHaveLength( 0 );
 	} );
+
+	it( "shows each dummy product's image count, with the missing alt count only when there is one", () => {
+		const { container } = render( <ImageAltTextUpsell /> );
+
+		// Title, image count and the red missing alt count (null when the product has none).
+		const rows = Array.from( container.querySelectorAll( ".yst-content-tabs__tab" ) ).map( ( row ) => [
+			row.querySelector( ".yst-truncate" ).textContent,
+			row.querySelector( ".yst-text-slate-500" ).textContent,
+			row.querySelector( ".yst-text-red-600" )?.textContent ?? null,
+		] );
+		expect( rows ).toEqual( [
+			[ "Classic Athletic Sneaker", "4 images", "2 missing alt" ],
+			[ "Retro Basketball Shoe", "5 images", "4 missing alt" ],
+			[ "Lightweight Running Shoe", "3 images", "1 missing alt" ],
+			[ "Casual Slip-On Sneaker", "2 images", "1 missing alt" ],
+			[ "Trail Running Shoe", "5 images", null ],
+			[ "Fashionable High-Top Sneaker", "7 images", "3 missing alt" ],
+		] );
+	} );
 } );
