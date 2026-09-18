@@ -21,12 +21,14 @@ const wooUpsell = {
 };
 
 const LINK_PARAMS = "?platform=wordpress&screen=wpseo_page_bulk_edit";
+const PLUGIN_URL = "https://example.com/wp-content/plugins/wordpress-seo";
 
 describe( "ImageAltTextUpsell", () => {
 	beforeEach( () => {
 		mockUseAiUpsell.mockReturnValue( wooUpsell );
 		useSelect.mockImplementation( ( selector ) => selector( () => ( {
 			selectLink: ( link ) => link + LINK_PARAMS,
+			selectPreference: ( key, fallback ) => ( key === "pluginUrl" ? PLUGIN_URL : fallback ),
 		} ) ) );
 	} );
 
@@ -61,10 +63,14 @@ describe( "ImageAltTextUpsell", () => {
 		expect( cta ).not.toHaveAttribute( "data-ctb-id" );
 	} );
 
-	it( "renders no image while the visual is pending", () => {
+	it( "shows the decorative visual from the plugin's images folder", () => {
 		render( <ImageAltTextUpsell /> );
 
-		expect( screen.getByRole( "region" ).querySelector( "img" ) ).toBeNull();
+		const image = screen.getByRole( "region" ).querySelector( "img" );
+		expect( image ).toHaveAttribute( "src", PLUGIN_URL + "/images/bulk-editor-image-alt-text-upsell.jpg" );
+		// Decorative: an empty alt keeps it out of the accessibility tree, so the region still reads subtitle, heading, description, link.
+		expect( image ).toHaveAttribute( "alt", "" );
+		expect( screen.queryByRole( "img" ) ).not.toBeInTheDocument();
 	} );
 
 	it( "is not a dialog and cannot be dismissed", () => {

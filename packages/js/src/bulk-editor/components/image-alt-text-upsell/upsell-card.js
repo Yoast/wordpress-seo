@@ -8,6 +8,9 @@ import { useAiUpsell } from "../../hooks/use-ai-upsell";
 
 const TITLE_ID = "yoast-bulk-editor-image-alt-text-upsell-title";
 
+// The card's visual, relative to the plugin URL: the add-on's alt text review flow with AI suggestions.
+const VISUAL_PATH = "/images/bulk-editor-image-alt-text-upsell.jpg";
+
 /**
  * The Yoast WooCommerce SEO upsell card for the "Image alt text" tab.
  *
@@ -19,7 +22,10 @@ export const ImageAltTextUpsellCard = () => {
 	const svgAriaProps = useSvgAria();
 	// The label and click-to-buy id are the Woo ones the bulk AI upsell uses; only the shortlink is specific to this tab.
 	const { upsellLabel, ctbId } = useAiUpsell( PRODUCT_CONTENT_TYPE );
-	const upsellLink = useSelect( ( select ) => select( STORE_NAME ).selectLink( IMAGE_ALT_TEXT_UPSELL_LINK ), [] );
+	const { upsellLink, pluginUrl } = useSelect( ( select ) => ( {
+		upsellLink: select( STORE_NAME ).selectLink( IMAGE_ALT_TEXT_UPSELL_LINK ),
+		pluginUrl: select( STORE_NAME ).selectPreference( "pluginUrl", "" ),
+	} ), [] );
 	const ctbProps = ctbId ? { "data-action": "load-nfd-ctb", "data-ctb-id": ctbId } : {};
 
 	return (
@@ -27,8 +33,15 @@ export const ImageAltTextUpsellCard = () => {
 			aria-labelledby={ TITLE_ID }
 			className="yst-w-full yst-max-w-3xl yst-overflow-hidden yst-rounded-2xl yst-bg-white yst-shadow-2xl"
 		>
-			{ /* Placeholder for the visual that design still has to deliver; sized like the Figma slot. */ }
-			<div aria-hidden="true" className="yst-aspect-[512/244] yst-w-full yst-bg-slate-100" />
+			{ /* Decorative: the heading and description carry the meaning, so the image is hidden from assistive technology. */ }
+			<img
+				src={ pluginUrl + VISUAL_PATH }
+				alt=""
+				width="864"
+				height="488"
+				loading="lazy"
+				className="yst-block yst-w-full yst-h-auto yst-bg-slate-100"
+			/>
 			<div className="yst-flex yst-flex-col yst-items-center yst-gap-6 yst-px-6 yst-pb-8 yst-pt-6 yst-text-center sm:yst-px-10 sm:yst-pb-10">
 				<div className="yst-flex yst-flex-col yst-items-center yst-gap-4">
 					<span className="yst-flex yst-items-center yst-gap-2 yst-text-xs yst-font-medium yst-uppercase yst-tracking-wider yst-text-slate-500">
