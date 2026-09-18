@@ -68,6 +68,24 @@ const IconLabelledBaseButton = addButtonStyles(
 	`
 );
 
+const iconLabeledButtonDefaults = {
+	type: "button",
+	textColor: colors.$color_blue,
+	textFontSize: "inherit",
+	backgroundColor: "transparent",
+	borderColor: "transparent",
+	hoverColor: colors.$color_white,
+	hoverBackgroundColor: colors.$color_blue,
+	hoverBorderColor: colors.$color_button_border_hover,
+	activeColor: colors.$color_white,
+	activeBackgroundColor: colors.$color_blue,
+	activeBorderColor: colors.$color_button_border_active,
+	focusColor: colors.$color_white,
+	focusBackgroundColor: colors.$color_blue,
+	focusBorderColor: colors.$color_blue,
+	focusBoxShadowColor: colors.$color_blue_dark,
+};
+
 /**
  * Returns an icon button that can optionally contain text.
  *
@@ -75,7 +93,8 @@ const IconLabelledBaseButton = addButtonStyles(
  *
  * @returns {ReactElement} Styled icon button.
  */
-const IconLabeledButton = ( props ) => {
+const IconLabeledButton = ( incomingProps ) => {
+	const props = { ...iconLabeledButtonDefaults, ...incomingProps };
 	const { children, icon, textColor } = props;
 
 	const newProps = omit( props, "icon" );
@@ -110,24 +129,6 @@ IconLabeledButton.propTypes = {
 		PropTypes.node,
 		PropTypes.string,
 	] ).isRequired,
-};
-
-IconLabeledButton.defaultProps = {
-	type: "button",
-	textColor: colors.$color_blue,
-	textFontSize: "inherit",
-	backgroundColor: "transparent",
-	borderColor: "transparent",
-	hoverColor: colors.$color_white,
-	hoverBackgroundColor: colors.$color_blue,
-	hoverBorderColor: colors.$color_button_border_hover,
-	activeColor: colors.$color_white,
-	activeBackgroundColor: colors.$color_blue,
-	activeBorderColor: colors.$color_button_border_active,
-	focusColor: colors.$color_white,
-	focusBackgroundColor: colors.$color_blue,
-	focusBorderColor: colors.$color_blue,
-	focusBoxShadowColor: colors.$color_blue_dark,
 };
 
 export default IconLabeledButton;
