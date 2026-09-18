@@ -70,7 +70,7 @@ class API_Client implements API_Client_Interface {
 				$response = \wp_remote_post( $url . $action_path, $arguments );
 				break;
 			case Request::METHOD_GET:
-				$response = \wp_remote_get( $url . $action_path, $arguments );
+				$response = WPSEO_Utils::wp_remote_get( $url . $action_path, $arguments );
 				break;
 			case Request::METHOD_DELETE:
 				$response = \wp_remote_request( $url . $action_path, \array_merge( $arguments, [ 'method' => 'DELETE' ] ) );
