@@ -393,7 +393,7 @@ final class Settings_Integration_Test extends TestCase {
 		$post_type = $post_types['book'];
 		$this->route_helper
 			->expects( 'get_route' )
-			->with( $post_type->name, $post_type->rewrite, $post_type->rest_base )
+			->with( $post_type->name, $post_type->rest_base )
 			->andReturn( $post_type->rewrite['slug'] );
 		$result = $this->instance_double->transform_post_types( $post_types );
 
@@ -486,7 +486,7 @@ final class Settings_Integration_Test extends TestCase {
 		$taxonomy = $taxonomies['book_category'];
 		$this->route_helper
 			->expects( 'get_route' )
-			->with( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base )
+			->with( $taxonomy->name, $taxonomy->rest_base )
 			->andReturn( $taxonomy->rewrite['slug'] );
 
 		$result = $this->instance_double->transform_taxonomies( $taxonomies, $post_type_names );
