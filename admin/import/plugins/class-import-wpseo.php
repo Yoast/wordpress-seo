@@ -193,53 +193,60 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 * @return void
 	 */
 	private function import_taxonomy_metas() {
-		$terms    = get_terms(
+		$terms = get_terms(
 			[
 				'taxonomy'   => get_taxonomies(),
 				'hide_empty' => false,
 			],
 		);
-		$tax_meta = get_option( 'wpseo_taxonomy_meta' );
 
 		foreach ( $terms as $term ) {
-			$this->import_taxonomy_description( $tax_meta, $term->taxonomy, $term->term_id );
-			$this->import_taxonomy_robots( $tax_meta, $term->taxonomy, $term->term_id );
-		}
+			$meta_values = $this->import_taxonomy_description( $term->taxonomy, $term->term_id );
+			$meta_values = array_merge( $meta_values, $this->import_taxonomy_robots( $term->taxonomy, $term->term_id ) );
 
-		update_option( 'wpseo_taxonomy_meta', $tax_meta );
+			if ( $meta_values !== [] ) {
+				$existing_meta = WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy );
+				WPSEO_Taxonomy_Meta::set_values(
+					$term->term_id,
+					$term->taxonomy,
+					array_merge( $existing_meta, $meta_values ),
+				);
+			}
+		}
 	}
 
 	/**
 	 * Imports the meta description to Yoast SEO.
 	 *
-	 * @param array  $tax_meta The array with the current metadata.
 	 * @param string $taxonomy String with the name of the taxonomy.
 	 * @param string $term_id  The ID of the current term.
 	 *
-	 * @return void
+	 * @return array<string, string> The metadata to import, empty if no description was found.
 	 */
-	private function import_taxonomy_description( &$tax_meta, $taxonomy, $term_id ) {
+	private function import_taxonomy_description( $taxonomy, $term_id ) {
 		$description = get_option( 'wpseo_' . $taxonomy . '_' . $term_id, false );
 		if ( $description !== false ) {
 			// Import description.
-			$tax_meta[ $taxonomy ][ $term_id ]['wpseo_desc'] = $description;
+			return [ 'wpseo_desc' => $description ];
 		}
+
+		return [];
 	}
 
 	/**
 	 * Imports the robot value to Yoast SEO.
 	 *
-	 * @param array  $tax_meta The array with the current metadata.
 	 * @param string $taxonomy String with the name of the taxonomy.
 	 * @param string $term_id  The ID of the current term.
 	 *
-	 * @return void
+	 * @return array<string, string> The metadata to import, empty if no robots value was found.
 	 */
-	private function import_taxonomy_robots( &$tax_meta, $taxonomy, $term_id ) {
+	private function import_taxonomy_robots( $taxonomy, $term_id ) {
 		$wpseo_robots = get_option( 'wpseo_' . $taxonomy . '_' . $term_id . '_robots', false );
 		if ( $wpseo_robots === false ) {
-			return;
+			return [];
 		}
+
 		// The value 1, 2 and 6 are the index values in wpSEO.
 		$new_robot_value = 'noindex';
 
@@ -247,7 +254,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 			$new_robot_value = 'index';
 		}
 
-		$tax_meta[ $taxonomy ][ $term_id ]['wpseo_noindex'] = $new_robot_value;
+		return [ 'wpseo_noindex' => $new_robot_value ];
 	}
 
 	/**
