@@ -50,14 +50,14 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	 *
 	 * @var string
 	 */
-	private const AI_GENERATE_DESCRIPTION_SHORTLINK = 'https://yoa.st/ai-generate-ability-1/';
+	private const AI_GENERATE_DESCRIPTION_SHORTLINK = 'https://yoa.st/ai-generate-ability-description/';
 
 	/**
 	 * The shortlink of the AI Generate upsell placed in the response.
 	 *
 	 * @var string
 	 */
-	private const AI_GENERATE_RESPONSE_SHORTLINK = 'https://yoa.st/ai-generate-ability-2/';
+	private const AI_GENERATE_RESPONSE_SHORTLINK = 'https://yoa.st/ai-generate-ability-response/';
 
 	/**
 	 * The post SEO data updater.
