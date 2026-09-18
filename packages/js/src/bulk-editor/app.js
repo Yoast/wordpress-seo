@@ -4,6 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Paper, SidebarNavigation, useBeforeUnload } from "@yoast/ui-library";
 import { BulkEditorContent } from "./components/bulk-editor-content";
 import { BulkEditorNavMenu } from "./components/bulk-editor-nav";
+import { NoContentTypesNotice } from "./components/no-content-types-notice";
 import { BulkEditorPageHeader } from "./components/bulk-editor-page-header";
 import { STORE_NAME } from "./constants";
 
@@ -103,6 +104,7 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 	// Fall back to the WP admin home when the data provider has no link.
 	const backToToolsUrl = dataProvider.getLink( "tools" ) || "/wp-admin/";
 	const logoHref = dataProvider.getLink( "dashboard" ) || "/wp-admin/";
+	const settingsUrl = dataProvider.getLink( "settings" ) || "admin.php?page=wpseo_page_settings";
 
 	const menuProps = {
 		contentTypes,
@@ -134,13 +136,15 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 				<div className="yst-grow yst-max-w-page yst-min-w-0 yst-mb-8">
 					<Paper as="main">
 						<BulkEditorPageHeader title={ title } description={ description } />
-						<BulkEditorContent
-							dataProvider={ dataProvider }
-							remoteDataProvider={ remoteDataProvider }
-							contentType={ activeContentTypeId }
-							contentTypeLabel={ activeContentTypeLabel }
-							contentTypeSingularLabel={ activeContentTypeSingularLabel }
-						/>
+						{ contentTypes.length === 0 ? <NoContentTypesNotice settingsUrl={ settingsUrl } /> : (
+							<BulkEditorContent
+								dataProvider={ dataProvider }
+								remoteDataProvider={ remoteDataProvider }
+								contentType={ activeContentTypeId }
+								contentTypeLabel={ activeContentTypeLabel }
+								contentTypeSingularLabel={ activeContentTypeSingularLabel }
+							/>
+						) }
 					</Paper>
 				</div>
 			</div>
