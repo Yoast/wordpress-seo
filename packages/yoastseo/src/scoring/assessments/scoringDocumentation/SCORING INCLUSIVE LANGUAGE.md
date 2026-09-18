@@ -22,13 +22,13 @@ An orange traffic light means that the targeted word or phrase is _potentially_ 
 
 ## More details on the individual phrases and feedback
 The targeted words and phrases are divided into the following categories:
-* [age](inclusiveLanguage/configuration/ageAssessments.js)
-* [appearance](inclusiveLanguage/configuration/appearanceAssessments.js)
-* [culture](inclusiveLanguage/configuration/cultureAssessments.js)
-* [disability](inclusiveLanguage/configuration/disabilityAssessments.js)
-* [gender](inclusiveLanguage/configuration/genderAssessments.js)
-* [socio-economic status](inclusiveLanguage/configuration/sesAssessments.js)
-* [other](inclusiveLanguage/configuration/otherAssessments.js)
+* [age](../inclusiveLanguage/configuration/ageAssessments.js)
+* [appearance](../inclusiveLanguage/configuration/appearanceAssessments.js)
+* [culture](../inclusiveLanguage/configuration/cultureAssessments.js)
+* [disability](../inclusiveLanguage/configuration/disabilityAssessments.js)
+* [gender](../inclusiveLanguage/configuration/genderAssessments.js)
+* [socio-economic status](../inclusiveLanguage/configuration/sesAssessments.js)
+* [other](../inclusiveLanguage/configuration/otherAssessments.js)
 
 The list of targeted words and phrases, together with the feedback strings that are shown for each found word/phrase,
 can be found in the files linked in the list above.
