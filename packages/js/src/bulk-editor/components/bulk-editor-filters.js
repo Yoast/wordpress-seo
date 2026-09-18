@@ -11,14 +11,18 @@ import { FIELD_SET_SOCIAL, NEEDS_IMPROVEMENT_DESCRIPTION, NEEDS_IMPROVEMENT_FIEL
  *
  * Renders nothing on a tab that has no fields for these options to target, which is not a field set at all.
  *
- * @param {Object}   props                The props.
- * @param {string}   props.activeFieldSet The active tab, which decides both the labels and whether to render.
- * @param {string[]} props.values         The checked options.
- * @param {Function} props.onChange       Called with the checked options when one is toggled.
+ * Reads the active tab itself: it is the only consumer, so threading it through the parent would be prop
+ * drilling. The checked options stay props — the parent needs them for its applied-filters badge, so
+ * selecting them here too would only duplicate the subscription.
+ *
+ * @param {Object}   props          The props.
+ * @param {string[]} props.values   The checked options.
+ * @param {Function} props.onChange Called with the checked options when one is toggled.
  *
  * @returns {JSX.Element|null} The filter group, or null on a tab that has no fields to target.
  */
-const NeedsImprovementFilter = ( { activeFieldSet, values, onChange } ) => {
+const NeedsImprovementFilter = ( { values, onChange } ) => {
+	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const isSocial = activeFieldSet === FIELD_SET_SOCIAL;
 	// The red dot in front of each option (and the group's "needs improvement" legend) carries the
 	// "needs improvement" meaning, so the visible labels are the plain field names.
@@ -76,7 +80,6 @@ const NeedsImprovementFilter = ( { activeFieldSet, values, onChange } ) => {
 export const BulkEditorFilters = () => {
 	const statuses = useSelect( ( select ) => select( STORE_NAME ).selectStatuses(), [] );
 	const needsImprovement = useSelect( ( select ) => select( STORE_NAME ).selectNeedsImprovement(), [] );
-	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const overviewIds = useSelect( ( select ) => select( STORE_NAME ).selectOverviewIds(), [] );
 	const isOverviewFilterActive = useSelect( ( select ) => select( STORE_NAME ).selectIsOverviewFilterActive(), [] );
 	const { setStatuses, setNeedsImprovement, setOverviewFilterActive } = useDispatch( STORE_NAME );
@@ -163,7 +166,6 @@ export const BulkEditorFilters = () => {
 					onChange={ setStatuses }
 				/>
 				<NeedsImprovementFilter
-					activeFieldSet={ activeFieldSet }
 					values={ needsImprovement }
 					onChange={ setNeedsImprovement }
 				/>
