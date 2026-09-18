@@ -239,7 +239,7 @@ describe( "bulk editor initialize", () => {
 		expect( window.yoast.bulkEditor.components ).toHaveProperty( "UpsellModal" );
 		expect( window.yoast.bulkEditor.components ).toHaveProperty( "GenericAlert" );
 		// WooCommerce SEO renders this one in the "Image alt text" tab it fills.
-		expect( window.yoast.bulkEditor.components ).toHaveProperty( "BulkEditorFilters" );
+		expect( window.yoast.bulkEditor.components.BulkEditorFilters ).toEqual( expect.any( Function ) );
 		expect( window.yoast.bulkEditor.hooks ).toHaveProperty( "useAiUpsell" );
 	} );
 
