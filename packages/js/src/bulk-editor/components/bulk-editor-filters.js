@@ -3,14 +3,13 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, CheckboxGroup, Popover, useSvgAria } from "@yoast/ui-library";
-import { FIELD_SET_IMAGE_ALT_TEXT, FIELD_SET_SOCIAL, NEEDS_IMPROVEMENT_DESCRIPTION, NEEDS_IMPROVEMENT_TITLE, STORE_NAME } from "../constants";
+import { FIELD_SET_SOCIAL, NEEDS_IMPROVEMENT_DESCRIPTION, NEEDS_IMPROVEMENT_FIELD_PARAMS, NEEDS_IMPROVEMENT_TITLE, STORE_NAME } from "../constants";
 
 /**
  * The "needs improvement" filter group: the active tab's title and description fields, each prefixed with a
  * red score dot.
  *
- * Renders nothing on the "Image alt text" tab. That tab is not a field set and has no title or description
- * fields of its own, so its options would be checkboxes that filter nothing.
+ * Renders nothing on a tab that has no fields for these options to target, which is not a field set at all.
  *
  * @param {Object}   props                The props.
  * @param {string}   props.activeFieldSet The active tab, which decides both the labels and whether to render.
@@ -38,7 +37,10 @@ const NeedsImprovementFilter = ( { activeFieldSet, values, onChange } ) => {
 		},
 	], [ isSocial ] );
 
-	if ( activeFieldSet === FIELD_SET_IMAGE_ALT_TEXT ) {
+	// A tab with no entry here has no title/description fields for these options to target, so the group
+	// would be checkboxes that filter nothing. Derived from the map rather than from a tab id so this,
+	// the smart-select menu and the request params agree.
+	if ( ! NEEDS_IMPROVEMENT_FIELD_PARAMS[ activeFieldSet ] ) {
 		return null;
 	}
 

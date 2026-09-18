@@ -31,10 +31,10 @@ import { useActionBarFocusReturn } from "./hooks/use-action-bar-focus-return";
 /*
  * Cross-plugin surface consumed by Premium's and WooCommerce SEO's bulk-editor bundles.
  *
- * Both depend on this script, so the globals below are guaranteed to exist
- * before they are read. Free and Premium ship in lockstep (unversioned); WooCommerce SEO
- * ships separately, so it reads this surface defensively.
- *
+ * Premium depends on this script, so the globals below are guaranteed to exist before it reads them;
+ * Free and Premium ship in lockstep (unversioned). WooCommerce SEO declares no such dependency: it reads
+ * them at render time from inside this page's React tree, which this script mounts, so this module has
+ * necessarily already run. It also ships separately, so it reads the surface defensively.
  * Exposed pieces:
  *  - UpsellModal        – Bulk AI upsell dialog.
  *  - BulkEditorFilters  – The Filters button. WooCommerce SEO renders it in the
