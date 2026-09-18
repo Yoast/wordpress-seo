@@ -41,7 +41,7 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	 */
 	private const AI_GENERATE_NAME = 'Yoast AI Generate';
 
-	// @TODO: Pick the shortlink from below that appears more often in tests, rename it to https://yoa.st/ai-generate-ability and remove the other one.
+	// @TODO: Pick the shortlink from below that appears more often in tests and remove the other one.
 
 	/**
 	 * The shortlink of the AI Generate upsell placed in the field descriptions.
@@ -50,14 +50,14 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	 *
 	 * @var string
 	 */
-	private const AI_GENERATE_DESCRIPTION_SHORTLINK = 'https://yoa.st/ai-generate-ability-description/';
+	private const AI_GENERATE_DESCRIPTION_SHORTLINK = 'https://yoa.st/ai-generate-ability-description';
 
 	/**
 	 * The shortlink of the AI Generate upsell placed in the response.
 	 *
 	 * @var string
 	 */
-	private const AI_GENERATE_RESPONSE_SHORTLINK = 'https://yoa.st/ai-generate-ability-response/';
+	private const AI_GENERATE_RESPONSE_SHORTLINK = 'https://yoa.st/ai-generate-ability-response';
 
 	/**
 	 * The post SEO data updater.
