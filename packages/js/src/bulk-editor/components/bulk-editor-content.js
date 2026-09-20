@@ -15,6 +15,7 @@ import { BulkEditorFilters } from "./bulk-editor-filters";
 import { BulkEditorTour } from "./tour/bulk-editor-tour";
 import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./table/bulk-editor-table";
+import { getColumnCount } from "./table/table-helpers";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 import { UnsavedChangesModal } from "./unsaved-changes-modal";
 import { SearchBox } from "./search-box";
@@ -276,7 +277,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 							hasExternalPendingChanges={ hasExternalPendingChanges }
 							hasExternalGeneration={ hasExternalGeneration }
 							footer={ total > 0
-								? <BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
+								? <BulkEditorFooter colSpan={ getColumnCount( fieldSets[ tab.id ].fields ) } total={ total } totalPages={ totalPages } isPending={ isPending } />
 								: null }
 						/>
 					</BulkEditorTabPanel>
