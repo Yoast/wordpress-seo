@@ -19,7 +19,7 @@ import { BulkEditorTour } from "./tour/bulk-editor-tour";
 import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./table/bulk-editor-table";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
-import { ImageAltTextPlaceholder } from "./image-alt-text-placeholder";
+import { ImageAltTextUpsell } from "./image-alt-text-upsell";
 import { UnsavedChangesModal } from "./unsaved-changes-modal";
 import { SearchBox } from "./search-box";
 import { getSelectionView, getSmartSelectItems } from "../helpers";
@@ -243,7 +243,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 						return (
 							<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
 								<Slot name={ IMAGE_ALT_TEXT_SLOT } fillProps={ { items } }>
-									{ ( fills ) => ( fills.length > 0 ? fills : <ImageAltTextPlaceholder /> ) }
+									{ ( fills ) => ( fills.length > 0 ? fills : <ImageAltTextUpsell /> ) }
 								</Slot>
 							</BulkEditorTabPanel>
 						);
