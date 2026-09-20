@@ -276,8 +276,12 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 							isLoading={ isPending }
 							hasExternalPendingChanges={ hasExternalPendingChanges }
 							hasExternalGeneration={ hasExternalGeneration }
-							footer={ total > 0
-								? <BulkEditorFooter colSpan={ getColumnCount( fieldSets[ tab.id ].fields ) } total={ total } totalPages={ totalPages } isPending={ isPending } />
+							footer={ total > 0 ? <BulkEditorFooter
+								colSpan={ getColumnCount( fieldSets[ tab.id ].fields ) }
+								total={ total }
+								totalPages={ totalPages }
+								isPending={ isPending }
+							/>
 								: null }
 						/>
 					</BulkEditorTabPanel>

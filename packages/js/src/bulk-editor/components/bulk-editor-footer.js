@@ -56,6 +56,7 @@ export const BulkEditorFooter = ( { colSpan, total, totalPages, isPending } ) =>
 			onNavigate={ onNavigate }
 			summary={ summary }
 			disabled={ isPending }
+			className="yst-content-type-pagination"
 			/* translators: Hidden accessibility label for the pagination navigation landmark. */
 			aria-label={ __( "Results pagination", "wordpress-seo" ) }
 			/* translators: Hidden accessibility text. */
