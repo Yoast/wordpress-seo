@@ -23,7 +23,7 @@ const integrations = {
 		learnMoreLink: "https://yoa.st/integrations-about-woocommerce",
 		logoLink: "https://yoa.st/integrations-logo-woocommerce",
 		slug: "woocommerce",
-		description: __( "Improve your technical SEO and meta tags, unlock more SEO ecommerce tools, structured data for your products and get rich results in Google search.", "wordpress-seo" ),
+		description: __( "Improve your technical SEO and meta tags, unlock more SEO ecommerce tools, structured data for your products, and get rich results in Google search.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
