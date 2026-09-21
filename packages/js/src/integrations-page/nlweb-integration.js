@@ -1,25 +1,26 @@
 import CheckIcon from "@heroicons/react/solid/CheckIcon";
-import XIcon from "@heroicons/react/solid/XIcon";
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { Button } from "@yoast/ui-library";
 import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
 
 /**
- * Represents an integration.
+ * Represents the NLWeb integration.
+ *
+ * The integration has no toggle of its own: it is driven by the Schema aggregation endpoint
+ * setting, so the card reports that setting's state and links to it rather than duplicating it.
  *
  * @param {Object} integration The integration.
  * @param {boolean} [isActive=true] The integration state.
- * @param {boolean} [isSchemaAPIIntegration=false] Whether this is a Schema API integration.
  *
  * @returns {JSX.Element} A card representing an integration.
  */
-export const PluginIntegration = ( { integration, isActive = true, isSchemaAPIIntegration = false } ) => {
+export const NlwebIntegration = ( { integration, isActive = true } ) => {
 	return (
 		<SimpleIntegration
 			integration={ integration }
 			isActive={ isActive }
-			isSchemaPartner={ isSchemaAPIIntegration }
 		>
 			{ isActive && <Fragment>
 				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
@@ -28,20 +29,22 @@ export const PluginIntegration = ( { integration, isActive = true, isSchemaAPIIn
 				/>
 			</Fragment> }
 			{ ! isActive && <Fragment>
-				<span className="yst-text-slate-700 yst-font-medium">
-					{
-						__( "Plugin not detected", "wordpress-seo" )
-					}
-				</span>
-				<XIcon
-					className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0"
-				/>
+				<Button
+					id={ `${ integration.slug }-enable-button` }
+					type="button"
+					as="a"
+					variant="secondary"
+					href="?page=wpseo_page_settings#/site-features#card-wpseo-enable_schema_aggregation_endpoint"
+					className="yst-w-full yst-text-slate-800 yst-text-center"
+				>
+					{ __( "Enable in Site features", "wordpress-seo" ) }
+				</Button>
 			</Fragment> }
 		</SimpleIntegration>
 	);
 };
 
-PluginIntegration.propTypes = {
+NlwebIntegration.propTypes = {
 	integration: PropTypes.shape( {
 		name: PropTypes.string,
 		claim: PropTypes.node,
@@ -52,5 +55,4 @@ PluginIntegration.propTypes = {
 		isNew: PropTypes.bool,
 	} ).isRequired,
 	isActive: PropTypes.bool,
-	isSchemaAPIIntegration: PropTypes.bool,
 };

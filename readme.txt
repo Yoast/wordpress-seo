@@ -323,7 +323,9 @@ Release date: 2026-09-29
 
 #### Other
 
+* Adds two new cards for the Schema aggregator and the WordPress abilities API features.
 * Adjust the name and description of the setting's toggle controlling the breadcrumbs' rendering to state clearly its intended behaviour.
+* Re-groups the integrations' cards in the `Integrations` page.
 
 = 28.5 =
 
