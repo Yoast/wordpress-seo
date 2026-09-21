@@ -25,7 +25,7 @@ const integrations = {
 		slug: "nlweb",
 		description: sprintf(
 			/* translators: 1: NLWeb; 2: Microsoft; 3: Yoast. */
-			__( "%1$s, %2$s's open protocol, lets AI agents and assistants query your site in natural language — grounded in the schema graph %3$s already builds from your content.", "wordpress-seo" ),
+			__( "%1$s, %2$s's open protocol, lets AI agents and assistants query your site in natural language, grounded in the schema graph %3$s already builds from your content.", "wordpress-seo" ),
 			"NLWeb",
 			"Microsoft",
 			"Yoast"
@@ -53,7 +53,7 @@ const integrations = {
 		slug: "abilities",
 		description: sprintf(
 			/* translators: 1: WordPress; 2: Yoast SEO. */
-			__( "%1$s's Abilities API lets AI assistants and automations discover and manipulate %2$s data directly — no custom integration required.", "wordpress-seo" ),
+			__( "%1$s's Abilities API lets AI assistants and automations discover and manipulate %2$s data directly, no custom integration required.", "wordpress-seo" ),
 			"WordPress",
 			"Yoast SEO"
 		),
