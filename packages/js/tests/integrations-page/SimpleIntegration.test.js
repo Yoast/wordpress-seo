@@ -100,7 +100,7 @@ describe( "SimpleIntegration", () => {
 				</SimpleIntegration>
 			);
 
-			const link = screen.getByRole( "link", { name: /^Schema framework not active/ } );
+			const link = screen.getByRole( "link", { name: /^Schema Framework disabled/ } );
 			expect( link ).toHaveAttribute( "href", "admin.php?page=wpseo_page_settings#/schema-framework" );
 			expect( link ).toHaveAttribute( "id", "tec-schema-framework-link" );
 			expect( screen.getByText( "Plugin not detected" ) ).toBeInTheDocument();

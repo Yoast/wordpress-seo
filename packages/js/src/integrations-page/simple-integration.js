@@ -107,7 +107,7 @@ export const SimpleIntegration = ( {
 								variant="error"
 								className="yst-font-medium"
 							>
-								{ __( "Schema framework not active", "wordpress-seo" ) }
+								{ __( "Schema Framework disabled", "wordpress-seo" ) }
 								<span className="yst-sr-only">
 									{
 										/* translators: Hidden accessibility text. */

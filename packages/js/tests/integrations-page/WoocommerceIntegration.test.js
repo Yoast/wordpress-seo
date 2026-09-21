@@ -58,14 +58,14 @@ describe( "WoocommerceIntegration with the Schema Framework disabled", () => {
 	it( "shows a Schema API partner the Schema Framework link alongside its plugin status", () => {
 		renderCard( true );
 
-		expect( screen.getByRole( "link", { name: /^Schema framework not active/ } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "link", { name: /^Schema Framework disabled/ } ) ).toBeInTheDocument();
 		expect( screen.getByText( "Plugin not detected" ) ).toBeInTheDocument();
 	} );
 
 	it( "leaves a card that isn't a Schema API partner alone", () => {
 		renderCard( false );
 
-		expect( screen.queryByRole( "link", { name: /Schema framework not active/ } ) ).not.toBeInTheDocument();
+		expect( screen.queryByRole( "link", { name: /Schema Framework disabled/ } ) ).not.toBeInTheDocument();
 		expect( screen.getByText( "Plugin not detected" ) ).toBeInTheDocument();
 	} );
 } );
