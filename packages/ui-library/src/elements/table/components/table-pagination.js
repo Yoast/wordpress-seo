@@ -2,6 +2,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import Pagination from "../../../components/pagination";
+import useMediaQuery from "../../../hooks/use-media-query";
 
 /**
  * A `<tfoot>` row that sits inside the table card and carries the pagination controls.
@@ -17,7 +18,7 @@ import Pagination from "../../../components/pagination";
  * @param {string}      props.screenReaderTextPrevious     Accessible label for the "previous" button.
  * @param {string}      props.screenReaderTextNext         Accessible label for the "next" button.
  * @param {JSX.Element} [props.summary]                    Optional "Showing X to Y of Z results" node rendered on the left.
- * @param {number}      [props.maxPageButtons]             Maximum page buttons to show (passed to Pagination).
+ * @param {number}      [props.maxPageButtons]             Maximum page buttons to show. Defaults to 6 on large viewports and 5 on small (≥640 px breakpoint).
  * @param {boolean}     [props.disabled]                   Whether pagination buttons are disabled.
  * @param {string}      [props.className]                  Extra class names for the footer cell.
  *
@@ -36,11 +37,14 @@ const TablePagination = ( {
 	className,
 	...paginationProps
 } ) => {
+	const { matches: isLarge } = useMediaQuery( "(min-width: 640px)" );
 	const showPager = totalPages > 1;
 
 	if ( ! showPager && ! summary ) {
 		return null;
 	}
+
+	const effectiveMaxPageButtons = maxPageButtons ?? ( isLarge ? 6 : 5 );
 
 	return (
 		<tfoot>
@@ -62,7 +66,7 @@ const TablePagination = ( {
 							current={ page }
 							total={ totalPages }
 							onNavigate={ onNavigate }
-							maxPageButtons={ maxPageButtons }
+							maxPageButtons={ effectiveMaxPageButtons }
 							disabled={ disabled }
 							screenReaderTextPrevious={ screenReaderTextPrevious }
 							screenReaderTextNext={ screenReaderTextNext }
@@ -90,7 +94,6 @@ TablePagination.propTypes = {
 
 TablePagination.defaultProps = {
 	summary: null,
-	maxPageButtons: 6,
 	disabled: false,
 	className: "",
 };

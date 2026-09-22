@@ -19,6 +19,22 @@ describe( "BulkEditorFooter", () => {
 		useSelect.mockImplementation( () => page );
 	};
 
+	/**
+	 * Stubs `window.matchMedia` so `useMediaQuery` resolves to a given breakpoint match.
+	 *
+	 * @param {boolean} matches Whether the media query should match (true = large/desktop viewport).
+	 *
+	 * @returns {void}
+	 */
+	const mockViewport = ( matches ) => {
+		window.matchMedia = jest.fn().mockImplementation( ( media ) => ( {
+			matches,
+			media,
+			addEventListener: jest.fn(),
+			removeEventListener: jest.fn(),
+		} ) );
+	};
+
 	beforeEach( () => {
 		requestSwitch = jest.fn();
 		useDispatch.mockReturnValue( { requestSwitch } );
@@ -50,6 +66,16 @@ describe( "BulkEditorFooter", () => {
 		fireEvent.click( screen.getByRole( "button", { name: "3" } ) );
 
 		expect( requestSwitch ).toHaveBeenCalledWith( { kind: "page", target: 3 } );
+	} );
+
+	it( "shows fewer page buttons on a mobile viewport", () => {
+		mockViewport( false );
+
+		render( <BulkEditorFooter colSpan={ 3 } total={ 197 } totalPages={ 10 } isPending={ false } /> );
+
+		// The compact mobile set (5 buttons) drops middle pages, so button "4" is not rendered at page 1.
+		expect( screen.queryByRole( "button", { name: "4" } ) ).not.toBeInTheDocument();
+		expect( screen.getByRole( "button", { name: "10" } ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the summary but no pager when all results fit on one page", () => {

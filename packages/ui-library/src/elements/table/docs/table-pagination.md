@@ -11,7 +11,7 @@ Placing pagination here — rather than outside the table — lets it inherit th
 | `screenReaderTextPrevious` | `string` | ✓ | Accessible label for the previous button. |
 | `screenReaderTextNext` | `string` | ✓ | Accessible label for the next button. |
 | `summary` | `node` | | "Showing X to Y of Z results" content rendered on the left. Hidden on small screens. |
-| `maxPageButtons` | `number` | | Maximum page number buttons to show. Defaults to `6`. |
+| `maxPageButtons` | `number` | | Maximum page number buttons to show. Defaults to `6` on large viewports (≥640 px) and `5` on small. |
 | `disabled` | `boolean` | | Disables all buttons (e.g. while a fetch is in flight). |
 | `className` | `string` | | Extra class names applied to the footer `<td>`. |
 
