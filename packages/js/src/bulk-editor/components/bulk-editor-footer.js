@@ -36,7 +36,12 @@ export const BulkEditorFooter = ( { colSpan, total, totalPages, isPending } ) =>
 	const summary = createInterpolateElement(
 		sprintf(
 			/* translators: %1$s is the first result number, %2$s the last result number, %3$s the total number of results. */
-			__( "Showing %1$s to %2$s of %3$s results", "wordpress-seo" ),
+			_n(
+				"Showing %1$s to %2$s of %3$s result",
+				"Showing %1$s to %2$s of %3$s results",
+				total,
+				"wordpress-seo"
+			),
 			"<from/>",
 			"<to/>",
 			"<total/>"
