@@ -18,6 +18,7 @@ import { BulkEditorFilters } from "./bulk-editor-filters";
 import { BulkEditorTour } from "./tour/bulk-editor-tour";
 import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./table/bulk-editor-table";
+import { getColumnCount } from "./table/table-helpers";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 import { ImageAltTextUpsell } from "./image-alt-text-upsell";
 import { UnsavedChangesModal } from "./unsaved-changes-modal";
@@ -293,8 +294,12 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 								isLoading={ isPending }
 								hasExternalPendingChanges={ hasExternalPendingChanges }
 								hasExternalGeneration={ hasExternalGeneration }
-								footer={ total > 0
-									? <BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
+								footer={ total > 0 ? <BulkEditorFooter
+									total={ total }
+									totalPages={ totalPages }
+									isPending={ isPending }
+									colSpan={ getColumnCount( fieldSets[ tab.id ].fields ) }
+								/>
 									: null }
 							/>
 						</BulkEditorTabPanel>

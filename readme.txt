@@ -316,9 +316,16 @@ Release date: 2026-09-29
 * Don't show a post type in the Bulk editor if `Enable SEO controls and assessments` is turned off for that post type.
 * Introduces 2 new Yoast Abilities, to allow agents to get and update SEO data for given posts.
 
+#### Bugfixes
+
+* Adds a notice to the bulk editor explaining that no content types are available when *Enable SEO controls and assessments* is disabled for all post types, with a link to the settings page.
+* Fixes a bug where a `rest_invalid_content_type` error would be logged in the browser console when opening the bulk editor while *Enable SEO controls and assessments* was disabled for all post types.
+
 #### Other
 
+* Adds two new cards for the Schema aggregator and the WordPress abilities API features.
 * Adjust the name and description of the setting's toggle controlling the breadcrumbs' rendering to state clearly its intended behaviour.
+* Re-groups the integrations' cards in the `Integrations` page.
 
 = 28.5 =
 
