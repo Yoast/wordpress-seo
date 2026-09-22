@@ -122,18 +122,6 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
 
 	/**
-	 * Returns the JSON schema of the feature-specific output attributes, keyed by attribute name.
-	 *
-	 * Features whose output is just the status keep the default; features with more to report
-	 * (like the URL at which they are served) override this and execute() together.
-	 *
-	 * @return array<string, array<string, mixed>> The additional output schema properties.
-	 */
-	protected function get_additional_output_properties(): array {
-		return [];
-	}
-
-	/**
 	 * Returns the arguments to register the ability with.
 	 *
 	 * @return array<string, mixed> The ability registration arguments.
@@ -163,20 +151,17 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 			],
 			'output_schema'       => [
 				'type'       => 'object',
-				'properties' => \array_merge(
-					[
-						'enabled' => [
-							'type'        => 'boolean',
-							'description' => \sprintf(
-								/* translators: %1$s expands to Yoast SEO, %2$s: the name of the feature. */
-								\__( 'Whether %1$s\'s %2$s feature is enabled.', 'wordpress-seo' ),
-								'Yoast SEO',
-								$feature_name,
-							),
-						],
+				'properties' => [
+					'enabled' => [
+						'type'        => 'boolean',
+						'description' => \sprintf(
+							/* translators: %1$s expands to Yoast SEO, %2$s: the name of the feature. */
+							\__( 'Whether %1$s\'s %2$s feature is enabled.', 'wordpress-seo' ),
+							'Yoast SEO',
+							$feature_name,
+						),
 					],
-					$this->get_additional_output_properties(),
-				),
+				],
 			],
 			'permission_callback' => [ $this, 'can_manage_seo' ],
 			'execute_callback'    => [ $this, 'execute' ],

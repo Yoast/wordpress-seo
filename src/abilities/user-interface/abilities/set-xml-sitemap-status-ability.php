@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
-use WPSEO_Sitemaps_Router;
 use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -11,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 /**
  * The ability that enables or disables the XML sitemap feature.
  */
-class Set_Xml_Sitemap_Status_Ability extends Abstract_Url_Feature_Status_Ability {
+class Set_Xml_Sitemap_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 
 	/**
 	 * The options helper.
@@ -76,15 +75,6 @@ class Set_Xml_Sitemap_Status_Ability extends Abstract_Url_Feature_Status_Ability
 	 */
 	protected function get_feature_name(): string {
 		return 'XML sitemap';
-	}
-
-	/**
-	 * Returns the URL of the sitemap index.
-	 *
-	 * @return string The URL.
-	 */
-	protected function get_url(): string {
-		return WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' );
 	}
 
 	/**

@@ -3,10 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
-use Brain\Monkey\Functions;
 use Mockery;
-use WP_Error;
-use WP_Rewrite;
 use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Set_Xml_Sitemap_Status_Ability;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -140,71 +137,21 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that execute delegates to the updater with the XML sitemap option and adds the URL, which is only given when the feature is enabled.
+	 * Tests that execute delegates to the updater with the XML sitemap option and returns its result.
 	 *
 	 * @covers ::get_option_name
-	 * @covers ::get_url
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::execute
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Url_Feature_Status_Ability::execute
-	 *
-	 * @dataProvider provide_boolean_outcomes
-	 *
-	 * @param bool $enabled The requested status.
 	 *
 	 * @return void
 	 */
-	public function test_execute( bool $enabled ) {
+	public function test_execute() {
 		$this->feature_status_updater
 			->expects( 'set_status' )
 			->once()
-			->with( 'enable_xml_sitemap', [ 'enabled' => $enabled ] )
-			->andReturn( [ 'enabled' => $enabled ] );
+			->with( 'enable_xml_sitemap', [ 'enabled' => false ] )
+			->andReturn( [ 'enabled' => false ] );
 
-		global $wp_rewrite;
-		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
-		$wp_rewrite->allows( 'using_index_permalinks' )->andReturnFalse();
-
-		Functions\expect( 'get_option' )
-			->times( ( $enabled === true ) ? 1 : 0 )
-			->with( 'home' )
-			->andReturn( 'https://example.com' );
-
-		Functions\expect( 'wp_parse_url' )
-			->times( ( $enabled === true ) ? 1 : 0 )
-			->with( 'https://example.com', \PHP_URL_SCHEME )
-			->andReturn( 'https' );
-
-		Functions\expect( 'home_url' )
-			->times( ( $enabled === true ) ? 1 : 0 )
-			->with( '/sitemap_index.xml', 'https' )
-			->andReturn( 'https://example.com/sitemap_index.xml' );
-
-		$this->assertSame(
-			[
-				'enabled' => $enabled,
-				'url'     => ( ( $enabled === true ) ? 'https://example.com/sitemap_index.xml' : null ),
-			],
-			$this->instance->execute( [ 'enabled' => $enabled ] ),
-		);
-	}
-
-	/**
-	 * Tests that execute returns the updater's error untouched, without building the URL.
-	 *
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Url_Feature_Status_Ability::execute
-	 *
-	 * @return void
-	 */
-	public function test_execute_error() {
-		$this->feature_status_updater
-			->expects( 'set_status' )
-			->once()
-			->with( 'enable_xml_sitemap', [ 'enabled' => true ] )
-			->andReturn( Mockery::mock( WP_Error::class ) );
-
-		Functions\expect( 'home_url' )->never();
-
-		$this->assertInstanceOf( WP_Error::class, $this->instance->execute( [ 'enabled' => true ] ) );
+		$this->assertSame( [ 'enabled' => false ], $this->instance->execute( [ 'enabled' => false ] ) );
 	}
 
 	/**
@@ -214,7 +161,6 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	 * @covers ::get_label
 	 * @covers ::get_description
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_args
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Url_Feature_Status_Ability::get_additional_output_properties
 	 *
 	 * @return void
 	 */
@@ -241,11 +187,6 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 						'enabled' => [
 							'type'        => 'boolean',
 							'description' => 'Whether Yoast SEO\'s XML sitemap feature is enabled.',
-						],
-						'url'     => [
-							'type'        => [ 'string', 'null' ],
-							'format'      => 'uri',
-							'description' => 'The URL at which Yoast SEO\'s XML sitemap is served. null when the feature is disabled.',
 						],
 					],
 				],

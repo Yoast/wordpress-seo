@@ -3,9 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
-use Brain\Monkey\Functions;
 use Mockery;
-use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Set_Llms_Txt_Status_Ability;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
@@ -135,57 +133,21 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that execute delegates to the updater with the llms.txt option and adds the URL, which is only given when the feature is enabled.
+	 * Tests that execute delegates to the updater with the llms.txt option and returns its result.
 	 *
 	 * @covers ::get_option_name
-	 * @covers ::get_url
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::execute
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Url_Feature_Status_Ability::execute
-	 *
-	 * @dataProvider provide_boolean_outcomes
-	 *
-	 * @param bool $enabled The requested status.
 	 *
 	 * @return void
 	 */
-	public function test_execute( bool $enabled ) {
-		$this->feature_status_updater
-			->expects( 'set_status' )
-			->once()
-			->with( 'enable_llms_txt', [ 'enabled' => $enabled ] )
-			->andReturn( [ 'enabled' => $enabled ] );
-
-		Functions\expect( 'home_url' )
-			->times( ( $enabled === true ) ? 1 : 0 )
-			->with( 'llms.txt' )
-			->andReturn( 'https://example.com/llms.txt' );
-
-		$this->assertSame(
-			[
-				'enabled' => $enabled,
-				'url'     => ( ( $enabled === true ) ? 'https://example.com/llms.txt' : null ),
-			],
-			$this->instance->execute( [ 'enabled' => $enabled ] ),
-		);
-	}
-
-	/**
-	 * Tests that execute returns the updater's error untouched, without building the URL.
-	 *
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Url_Feature_Status_Ability::execute
-	 *
-	 * @return void
-	 */
-	public function test_execute_error() {
+	public function test_execute() {
 		$this->feature_status_updater
 			->expects( 'set_status' )
 			->once()
 			->with( 'enable_llms_txt', [ 'enabled' => true ] )
-			->andReturn( Mockery::mock( WP_Error::class ) );
+			->andReturn( [ 'enabled' => true ] );
 
-		Functions\expect( 'home_url' )->never();
-
-		$this->assertInstanceOf( WP_Error::class, $this->instance->execute( [ 'enabled' => true ] ) );
+		$this->assertSame( [ 'enabled' => true ], $this->instance->execute( [ 'enabled' => true ] ) );
 	}
 
 	/**
@@ -195,7 +157,6 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 	 * @covers ::get_label
 	 * @covers ::get_description
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_args
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Url_Feature_Status_Ability::get_additional_output_properties
 	 *
 	 * @return void
 	 */
@@ -222,11 +183,6 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 						'enabled' => [
 							'type'        => 'boolean',
 							'description' => 'Whether Yoast SEO\'s llms.txt feature is enabled.',
-						],
-						'url'     => [
-							'type'        => [ 'string', 'null' ],
-							'format'      => 'uri',
-							'description' => 'The URL at which Yoast SEO\'s llms.txt is served. null when the feature is disabled.',
 						],
 					],
 				],
