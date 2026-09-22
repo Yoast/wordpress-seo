@@ -5,6 +5,23 @@ import Pagination from "../../../components/pagination";
 import useMediaQuery from "../../../hooks/use-media-query";
 
 /**
+ * Returns the effective max page buttons: the caller's value when provided, otherwise 6 on large (≥640 px)
+ * viewports and 5 on small ones.
+ *
+ * @param {number|undefined} maxPageButtons Caller-supplied cap, or undefined for the responsive default.
+ *
+ * @returns {number} The resolved cap.
+ */
+const useResponsiveMaxPageButtons = ( maxPageButtons ) => {
+	const { matches: isLarge } = useMediaQuery( "(min-width: 640px)" );
+	// eslint-disable-next-line no-undefined
+	if ( maxPageButtons !== undefined ) {
+		return maxPageButtons;
+	}
+	return isLarge ? 6 : 5;
+};
+
+/**
  * A `<tfoot>` row that sits inside the table card and carries the pagination controls.
  *
  * Placing pagination here (rather than outside the table) lets it inherit the card's border-radius
@@ -18,7 +35,7 @@ import useMediaQuery from "../../../hooks/use-media-query";
  * @param {string}      props.screenReaderTextPrevious     Accessible label for the "previous" button.
  * @param {string}      props.screenReaderTextNext         Accessible label for the "next" button.
  * @param {JSX.Element} [props.summary]                    Optional "Showing X to Y of Z results" node rendered on the left.
- * @param {number}      [props.maxPageButtons]             Maximum page buttons to show. Defaults to 6 on large viewports and 5 on small (≥640 px breakpoint).
+ * @param {number}      [props.maxPageButtons]             Maximum page buttons to show. Defaults to 6 on large (≥640 px) and 5 on small viewports.
  * @param {boolean}     [props.disabled]                   Whether pagination buttons are disabled.
  * @param {string}      [props.className]                  Extra class names for the footer cell.
  *
@@ -31,20 +48,19 @@ const TablePagination = ( {
 	onNavigate,
 	screenReaderTextPrevious,
 	screenReaderTextNext,
-	summary,
-	maxPageButtons,
-	disabled,
-	className,
+	summary = null,
+	// eslint-disable-next-line no-undefined
+	maxPageButtons = undefined,
+	disabled = false,
+	className = "",
 	...paginationProps
 } ) => {
-	const { matches: isLarge } = useMediaQuery( "(min-width: 640px)" );
+	const effectiveMaxPageButtons = useResponsiveMaxPageButtons( maxPageButtons );
 	const showPager = totalPages > 1;
 
 	if ( ! showPager && ! summary ) {
 		return null;
 	}
-
-	const effectiveMaxPageButtons = maxPageButtons ?? ( isLarge ? 6 : 5 );
 
 	return (
 		<tfoot>
@@ -92,10 +108,5 @@ TablePagination.propTypes = {
 	className: PropTypes.string,
 };
 
-TablePagination.defaultProps = {
-	summary: null,
-	disabled: false,
-	className: "",
-};
 
 export { TablePagination };
