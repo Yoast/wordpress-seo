@@ -6,7 +6,7 @@ Placing pagination here — rather than outside the table — lets it inherit th
 |---|---|---|---|
 | `colSpan` | `number` | ✓ | Number of columns the footer cell should span (should match your table's column count). |
 | `page` | `number` | ✓ | The current page (1-based). |
-| `totalPages` | `number` | ✓ | Total number of pages. Returns `null` when `≤ 1`. |
+| `totalPages` | `number` | ✓ | Total number of pages. The pager is hidden when `≤ 1`; the footer itself is still rendered if `summary` is provided. |
 | `onNavigate` | `function` | ✓ | Called with the target page number when the user clicks a page button. |
 | `screenReaderTextPrevious` | `string` | ✓ | Accessible label for the previous button. |
 | `screenReaderTextNext` | `string` | ✓ | Accessible label for the next button. |

@@ -21,7 +21,7 @@ import Pagination from "../../../components/pagination";
  * @param {boolean}     [props.disabled]                   Whether pagination buttons are disabled.
  * @param {string}      [props.className]                  Extra class names for the footer cell.
  *
- * @returns {JSX.Element|null} The footer, or null when there is only one page or none.
+ * @returns {JSX.Element|null} The footer, or null when there is nothing to show (no summary and at most one page).
  */
 const TablePagination = ( {
 	colSpan,
@@ -36,7 +36,9 @@ const TablePagination = ( {
 	className,
 	...paginationProps
 } ) => {
-	if ( totalPages <= 1 ) {
+	const showPager = totalPages > 1;
+
+	if ( ! showPager && ! summary ) {
 		return null;
 	}
 
@@ -52,7 +54,7 @@ const TablePagination = ( {
 				>
 					<div className="yst-flex yst-items-center yst-justify-between">
 						{ summary && <p className="yst-text-sm yst-text-slate-600">{ summary }</p> }
-						<Pagination
+						{ showPager && <Pagination
 							className={ classNames(
 								"max-sm:yst-flex max-sm:yst-w-full max-sm:[&>*]:yst-flex-1 max-sm:[&_button]:yst-justify-center max-sm:[&_button]:!yst-px-1",
 								{ "yst-ms-auto": ! summary },
@@ -65,7 +67,7 @@ const TablePagination = ( {
 							screenReaderTextPrevious={ screenReaderTextPrevious }
 							screenReaderTextNext={ screenReaderTextNext }
 							{ ...paginationProps }
-						/>
+						/> }
 					</div>
 				</td>
 			</tr>

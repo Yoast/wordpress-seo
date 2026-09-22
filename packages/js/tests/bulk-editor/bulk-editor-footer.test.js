@@ -52,6 +52,13 @@ describe( "BulkEditorFooter", () => {
 		expect( requestSwitch ).toHaveBeenCalledWith( { kind: "page", target: 3 } );
 	} );
 
+	it( "renders the summary but no pager when all results fit on one page", () => {
+		render( <BulkEditorFooter colSpan={ 3 } total={ 5 } totalPages={ 1 } isPending={ false } /> );
+
+		expect( screen.getByText( /Showing/ ) ).toHaveTextContent( "Showing 1 to 5 of 5 results" );
+		expect( screen.queryByRole( "navigation" ) ).toBeNull();
+	} );
+
 	it( "renders nothing when there are no results", () => {
 		const { container } = render( <BulkEditorFooter colSpan={ 3 } total={ 0 } totalPages={ 0 } isPending={ false } /> );
 

@@ -1,6 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { createInterpolateElement, useCallback } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { Table } from "@yoast/ui-library";
 import { PAGE_SIZE, STORE_NAME } from "../constants";
 
