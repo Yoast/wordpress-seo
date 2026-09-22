@@ -10,8 +10,8 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
 /**
  * The ability that enables or disables the llms.txt feature.
  *
- * Disabling removes the generated file, but it is regenerated on re-enabling, so the
- * ability is not destructive.
+ * Disabling removes the generated file and re-enabling regenerates it. The destructive
+ * annotation is left unknown so that clients decide how to confirm the toggle.
  */
 class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 
