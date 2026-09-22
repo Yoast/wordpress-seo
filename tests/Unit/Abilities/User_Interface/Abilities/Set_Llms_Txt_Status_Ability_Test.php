@@ -164,7 +164,7 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Set llms.txt Status',
-				'description'         => 'Enable or disable the llms.txt feature. Enabling it generates an llms.txt file for the site and keeps it up to date; disabling it removes the file.',
+				'description'         => 'Enable or disable Yoast SEO\'s llms.txt feature. Enabling it generates an llms.txt file for the site and keeps it up to date; disabling it removes the file.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',
@@ -173,7 +173,7 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 					'properties'           => [
 						'enabled' => [
 							'type'        => 'boolean',
-							'description' => 'Whether the llms.txt feature should be enabled. true enables it; false disables it.',
+							'description' => 'Whether Yoast SEO\'s llms.txt feature should be enabled. true enables it; false disables it.',
 						],
 					],
 				],
@@ -182,7 +182,7 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 					'properties' => [
 						'enabled' => [
 							'type'        => 'boolean',
-							'description' => 'Whether the llms.txt feature is enabled.',
+							'description' => 'Whether Yoast SEO\'s llms.txt feature is enabled.',
 						],
 					],
 				],

@@ -141,8 +141,9 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 					'enabled' => [
 						'type'        => 'boolean',
 						'description' => \sprintf(
-							/* translators: %s: the name of the feature. */
-							\__( 'Whether the %s feature should be enabled. true enables it; false disables it.', 'wordpress-seo' ),
+							/* translators: %1$s expands to Yoast SEO, %2$s: the name of the feature. */
+							\__( 'Whether %1$s\'s %2$s feature should be enabled. true enables it; false disables it.', 'wordpress-seo' ),
+							'Yoast SEO',
 							$feature_name,
 						),
 					],
@@ -154,8 +155,9 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 					'enabled' => [
 						'type'        => 'boolean',
 						'description' => \sprintf(
-							/* translators: %s: the name of the feature. */
-							\__( 'Whether the %s feature is enabled.', 'wordpress-seo' ),
+							/* translators: %1$s expands to Yoast SEO, %2$s: the name of the feature. */
+							\__( 'Whether %1$s\'s %2$s feature is enabled.', 'wordpress-seo' ),
+							'Yoast SEO',
 							$feature_name,
 						),
 					],

@@ -168,7 +168,7 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Set XML Sitemap Status',
-				'description'         => 'Enable or disable the XML sitemap feature. Enabling it serves the sitemap index at /sitemap_index.xml and its sub-sitemaps, and replaces the WordPress core sitemaps; disabling it stops serving them.',
+				'description'         => 'Enable or disable Yoast SEO\'s XML sitemap feature. Enabling it serves the sitemap index at /sitemap_index.xml and its sub-sitemaps, and replaces the WordPress core sitemaps; disabling it stops serving them.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',
@@ -177,7 +177,7 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 					'properties'           => [
 						'enabled' => [
 							'type'        => 'boolean',
-							'description' => 'Whether the XML sitemap feature should be enabled. true enables it; false disables it.',
+							'description' => 'Whether Yoast SEO\'s XML sitemap feature should be enabled. true enables it; false disables it.',
 						],
 					],
 				],
@@ -186,7 +186,7 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 					'properties' => [
 						'enabled' => [
 							'type'        => 'boolean',
-							'description' => 'Whether the XML sitemap feature is enabled.',
+							'description' => 'Whether Yoast SEO\'s XML sitemap feature is enabled.',
 						],
 					],
 				],

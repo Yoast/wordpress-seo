@@ -92,6 +92,10 @@ class Set_Xml_Sitemap_Status_Ability extends Abstract_Set_Feature_Status_Ability
 	 * @return string The description.
 	 */
 	protected function get_description(): string {
-		return \__( 'Enable or disable the XML sitemap feature. Enabling it serves the sitemap index at /sitemap_index.xml and its sub-sitemaps, and replaces the WordPress core sitemaps; disabling it stops serving them.', 'wordpress-seo' );
+		return \sprintf(
+			/* translators: %s expands to Yoast SEO */
+			\__( 'Enable or disable %s\'s XML sitemap feature. Enabling it serves the sitemap index at /sitemap_index.xml and its sub-sitemaps, and replaces the WordPress core sitemaps; disabling it stops serving them.', 'wordpress-seo' ),
+			'Yoast SEO',
+		);
 	}
 }

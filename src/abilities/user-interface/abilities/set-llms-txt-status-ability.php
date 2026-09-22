@@ -91,6 +91,10 @@ class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 	 * @return string The description.
 	 */
 	protected function get_description(): string {
-		return \__( 'Enable or disable the llms.txt feature. Enabling it generates an llms.txt file for the site and keeps it up to date; disabling it removes the file.', 'wordpress-seo' );
+		return \sprintf(
+			/* translators: %s expands to Yoast SEO */
+			\__( 'Enable or disable %s\'s llms.txt feature. Enabling it generates an llms.txt file for the site and keeps it up to date; disabling it removes the file.', 'wordpress-seo' ),
+			'Yoast SEO',
+		);
 	}
 }
