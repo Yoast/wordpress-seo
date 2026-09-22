@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
  * Disabling removes the generated file and re-enabling regenerates it. The destructive
  * annotation is left unknown so that clients decide how to confirm the toggle.
  */
-class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
+class Set_Llms_Txt_Status_Ability extends Abstract_Url_Feature_Status_Ability {
 
 	/**
 	 * The non-multisite conditional.
@@ -74,6 +74,15 @@ class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 	 */
 	protected function get_feature_name(): string {
 		return 'llms.txt';
+	}
+
+	/**
+	 * Returns the URL of the llms.txt file.
+	 *
+	 * @return string The URL.
+	 */
+	protected function get_url(): string {
+		return \home_url( 'llms.txt' );
 	}
 
 	/**
