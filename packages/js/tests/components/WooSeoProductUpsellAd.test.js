@@ -50,7 +50,7 @@ describe( "WooSeoProductUpsellAd", () => {
 		render( <WooSeoProductUpsellAd /> );
 
 		const button = screen.getByRole( "link", { name: "Get Yoast WooCommerce SEO" } );
-		expect( button ).toHaveAttribute( "href", "https://yoa.st/woo-seo-product-editor-upsell?shortlink=1" );
+		expect( button ).toHaveAttribute( "href", "https://yoa.st/product-google-preview-metabox?shortlink=1" );
 		expect( button ).toHaveAttribute( "target", "_blank" );
 		expect( button ).toHaveAttribute( "data-action", "load-nfd-ctb" );
 		expect( button ).toHaveAttribute( "data-ctb-id", "5b32250e-e6f0-44ae-ad74-3cefc8e427f9" );

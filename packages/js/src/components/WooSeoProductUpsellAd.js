@@ -26,7 +26,7 @@ export const WooSeoProductUpsellAd = () => {
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return {
 			isWooSeoUpsell: editorSelect.getIsWooSeoUpsell(),
-			upsellLink: editorSelect.selectLink( "https://yoa.st/woo-seo-product-editor-upsell" ),
+			upsellLink: editorSelect.selectLink( "https://yoa.st/product-google-preview-metabox" ),
 		};
 	}, [] );
 
