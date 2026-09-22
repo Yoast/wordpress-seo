@@ -192,7 +192,7 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 					'show_in_rest' => true,
 					'annotations'  => [
 						'readonly'    => false,
-						'destructive' => false,
+						'destructive' => null,
 						'idempotent'  => true,
 					],
 					'mcp'          => [

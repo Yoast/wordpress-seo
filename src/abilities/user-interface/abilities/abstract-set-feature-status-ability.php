@@ -167,7 +167,6 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 				'show_in_rest' => true,
 				'annotations'  => [
 					'readonly'    => false,
-					// Disabling a feature only stops it; re-enabling restores it, so nothing is lost.
 					'destructive' => null,
 					'idempotent'  => true,
 				],
