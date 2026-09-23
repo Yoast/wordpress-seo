@@ -226,12 +226,15 @@ final class Introductions_Integration_Test extends TestCase {
 			->once()
 			->with( $user_id, '_yoast_wpseo_introductions', true )
 			->andReturn( [] );
-		$expected_meta = [
-			'foo' => [
-				'is_seen' => true,
-				'seen_on' => \time(),
-			],
-		];
+		$expected_meta = Mockery::on(
+			static function ( $metadata ) {
+				return isset( $metadata['foo']['is_seen'], $metadata['foo']['seen_on'] )
+					&& $metadata['foo']['is_seen'] === true
+					&& \is_int( $metadata['foo']['seen_on'] )
+					&& $metadata['foo']['seen_on'] >= ( \time() - 5 )
+					&& $metadata['foo']['seen_on'] <= ( \time() + 5 );
+			},
+		);
 		$this->user_helper->expects( 'update_meta' )
 			->once()
 			->with( $user_id, '_yoast_wpseo_introductions', $expected_meta );
@@ -315,12 +318,15 @@ final class Introductions_Integration_Test extends TestCase {
 			->with( $user_id, '_yoast_wpseo_introductions', true )
 			// Point of this test: returning false results in using an empty array as default.
 			->andReturn( false );
-		$expected_meta = [
-			'foo' => [
-				'is_seen' => true,
-				'seen_on' => \time(),
-			],
-		];
+		$expected_meta = Mockery::on(
+			static function ( $metadata ) {
+				return isset( $metadata['foo']['is_seen'], $metadata['foo']['seen_on'] )
+					&& $metadata['foo']['is_seen'] === true
+					&& \is_int( $metadata['foo']['seen_on'] )
+					&& $metadata['foo']['seen_on'] >= ( \time() - 5 )
+					&& $metadata['foo']['seen_on'] <= ( \time() + 5 );
+			},
+		);
 		$this->user_helper->expects( 'update_meta' )
 			->once()
 			->with( $user_id, '_yoast_wpseo_introductions', $expected_meta );
