@@ -1,11 +1,13 @@
 import apiFetch from "@wordpress/api-fetch";
 import { ExternalLink } from "@wordpress/components";
+import { select } from "@wordpress/data";
 import { Component } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { difference, noop } from "lodash";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import PrimaryTermFields from "../helpers/fields/PrimaryTermFields";
 import TaxonomyPicker from "./TaxonomyPicker";
 
 const PrimaryTaxonomyPickerField = styled.div`
@@ -28,8 +30,8 @@ class PrimaryTaxonomyPicker extends Component {
 		this.updateReplacementVariable = this.updateReplacementVariable.bind( this );
 
 		const { fieldId, name } = props.taxonomy;
-		this.input = document.getElementById( fieldId );
-		const parsedPrimaryTaxonomyId = parseInt( this.input.value, 10 );
+		const rawValue = PrimaryTermFields.get( name, fieldId );
+		const parsedPrimaryTaxonomyId = parseInt( rawValue, 10 );
 		// Fallback to -1 when the field is empty or invalid to avoid dispatching NaN.
 		props.setPrimaryTaxonomyId( name, Number.isNaN( parsedPrimaryTaxonomyId ) ? -1 : parsedPrimaryTaxonomyId );
 
@@ -76,6 +78,34 @@ class PrimaryTaxonomyPicker extends Component {
 	}
 
 	/**
+	 * Resolves a stale -1 placeholder by re-reading the saved primary taxonomy ID from the field.
+	 * Returns true if the caller should stop further processing.
+	 *
+	 * A -1 may be written by the constructor before REST entity meta has loaded. Once meta is
+	 * available, sync the real value to the store rather than letting the fallback-to-first-term
+	 * path overwrite the saved primary term without user interaction.
+	 *
+	 * @returns {boolean} Whether the caller should return early.
+	 */
+	resolveStalePrimaryId() {
+		const { primaryTaxonomyId, taxonomy } = this.props;
+		if ( primaryTaxonomyId !== -1 ) {
+			return false;
+		}
+		const rawValue = PrimaryTermFields.get( taxonomy.name, taxonomy.fieldId );
+		const parsed = parseInt( rawValue, 10 );
+		if ( ! Number.isNaN( parsed ) ) {
+			this.props.setPrimaryTaxonomyId( taxonomy.name, parsed );
+			return true;
+		}
+		// Entity meta hasn't loaded yet; skip onChange to avoid dirtying the post.
+		if ( ! select( "core/editor" ).getEditedPostAttribute( "meta" ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Checks if the current value still has a corresponding option, and if not changes
 	 * the value to the first term's id.
 	 *
@@ -84,14 +114,19 @@ class PrimaryTaxonomyPicker extends Component {
 	handleSelectedTermsChange() {
 		const { selectedTerms } = this.state;
 		const { primaryTaxonomyId } = this.props;
-		const selectedTerm = selectedTerms.find( term => {
-			return term.id === primaryTaxonomyId;
-		} );
+
+		// Terms haven't been fetched yet: selectedTerms is derived from an empty list, so any
+		// "primary not found" result here is a false negative. Skip until fetchTerms resolves.
+		if ( this.state.terms.length === 0 ) {
+			return;
+		}
+
+		if ( this.resolveStalePrimaryId() ) {
+			return;
+		}
+
+		const selectedTerm = selectedTerms.find( term => term.id === primaryTaxonomyId );
 		if ( ! selectedTerm ) {
-			/**
-			 * If the selected term is no longer available, set the primary term id to
-			 * the first term, and to -1 if no term is available.
-			 */
 			this.onChange( selectedTerms.length ? selectedTerms[ 0 ].id : -1 );
 		}
 	}
@@ -182,13 +217,13 @@ class PrimaryTaxonomyPicker extends Component {
 	 * @returns {void}
 	 */
 	onChange( termId ) {
-		const { name } = this.props.taxonomy;
+		const { name, fieldId } = this.props.taxonomy;
 
 		this.updateReplacementVariable( termId );
 
 		this.props.setPrimaryTaxonomyId( name, termId );
 
-		this.input.value = termId === -1 ? "" : termId;
+		PrimaryTermFields.set( name, fieldId, termId );
 	}
 
 	/**
