@@ -13,7 +13,10 @@ use Yoast\WP\SEO\Llms_Txt\Application\Health_Check\File_Runner;
  */
 class Llms_Txt_Status_Updater {
 
-	private const OPTION_NAME = 'enable_llms_txt';
+	/**
+	 * The name of the option that enables the llms.txt feature.
+	 */
+	public const OPTION_NAME = 'enable_llms_txt';
 
 	/**
 	 * The feature status updater.

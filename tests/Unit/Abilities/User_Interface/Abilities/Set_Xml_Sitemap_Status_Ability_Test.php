@@ -139,7 +139,8 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	/**
 	 * Tests that execute delegates to the updater with the XML sitemap option and returns its result.
 	 *
-	 * @covers ::execute
+	 * @covers ::get_option_name
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::execute
 	 *
 	 * @return void
 	 */

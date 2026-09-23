@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use WP_Error;
+use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
 use Yoast\WP\SEO\Abilities\Application\Llms_Txt_Status_Updater;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -11,8 +12,7 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
 /**
  * The ability that enables or disables the llms.txt feature.
  *
- * Disabling removes the generated file and re-enabling regenerates it. The destructive
- * annotation is left unknown so that clients decide how to confirm the toggle.
+ * Disabling removes the generated file and re-enabling regenerates it.
  */
 class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 
@@ -34,15 +34,17 @@ class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 	 * Constructor.
 	 *
 	 * @param Capability_Helper         $capability_helper         The capability helper.
+	 * @param Feature_Status_Updater    $feature_status_updater    The feature status updater.
 	 * @param Non_Multisite_Conditional $non_multisite_conditional The non-multisite conditional.
 	 * @param Llms_Txt_Status_Updater   $llms_txt_status_updater   The llms.txt status updater.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
+		Feature_Status_Updater $feature_status_updater,
 		Non_Multisite_Conditional $non_multisite_conditional,
 		Llms_Txt_Status_Updater $llms_txt_status_updater
 	) {
-		parent::__construct( $capability_helper );
+		parent::__construct( $capability_helper, $feature_status_updater );
 
 		$this->non_multisite_conditional = $non_multisite_conditional;
 		$this->llms_txt_status_updater   = $llms_txt_status_updater;
@@ -59,7 +61,18 @@ class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 	}
 
 	/**
+	 * Returns the name of the option that enables the llms.txt feature.
+	 *
+	 * @return string The option name.
+	 */
+	protected function get_option_name(): string {
+		return Llms_Txt_Status_Updater::OPTION_NAME;
+	}
+
+	/**
 	 * Enables or disables the feature and returns its new status, reporting whether the file could be generated.
+	 *
+	 * Overrides the plain option write because generating the file can fail without the option write failing.
 	 *
 	 * @param array<string, bool> $input The input holding the desired `enabled` status.
 	 *

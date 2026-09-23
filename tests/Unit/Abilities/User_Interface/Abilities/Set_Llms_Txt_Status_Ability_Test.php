@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
 use WP_Error;
+use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
 use Yoast\WP\SEO\Abilities\Application\Llms_Txt_Status_Updater;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Set_Llms_Txt_Status_Ability;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
@@ -26,6 +27,13 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 	 * @var Mockery\MockInterface|Capability_Helper
 	 */
 	private $capability_helper;
+
+	/**
+	 * The feature status updater mock.
+	 *
+	 * @var Mockery\MockInterface|Feature_Status_Updater
+	 */
+	private $feature_status_updater;
 
 	/**
 	 * The non-multisite conditional mock.
@@ -59,11 +67,13 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 		$this->stubTranslationFunctions();
 
 		$this->capability_helper         = Mockery::mock( Capability_Helper::class );
+		$this->feature_status_updater    = Mockery::mock( Feature_Status_Updater::class );
 		$this->non_multisite_conditional = Mockery::mock( Non_Multisite_Conditional::class );
 		$this->llms_txt_status_updater   = Mockery::mock( Llms_Txt_Status_Updater::class );
 
 		$this->instance = new Set_Llms_Txt_Status_Ability(
 			$this->capability_helper,
+			$this->feature_status_updater,
 			$this->non_multisite_conditional,
 			$this->llms_txt_status_updater,
 		);
@@ -152,7 +162,7 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that execute delegates to the llms.txt status updater and returns its result untouched.
+	 * Tests that execute delegates to the llms.txt status updater, not the plain feature status updater, and returns its result untouched.
 	 *
 	 * @covers ::execute
 	 *
@@ -163,6 +173,7 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_execute( array $result ) {
+		$this->feature_status_updater->expects( 'set_status' )->never();
 		$this->llms_txt_status_updater
 			->expects( 'set_status' )
 			->once()
