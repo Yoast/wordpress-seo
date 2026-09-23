@@ -269,6 +269,30 @@ class Front_End_Integration implements Integration_Interface {
 		\remove_action( 'wp_head', 'start_post_rel_link' );
 		\remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		\remove_action( 'wp_head', 'noindex', 1 );
+
+		$this->remove_core_title_tag_renderers();
+
+		/*
+		 * Block themes re-register `_block_template_render_title_tag` on `wp_head` during block
+		 * template resolution -- see `locate_block_template()` in wp-includes/block-template.php,
+		 * which runs on `template_include`, long after `init`. The call above therefore cannot
+		 * catch it, leaving a duplicate `<title>` alongside ours. Repeat the removal on `wp_head`
+		 * at a priority lower than the 1 those renderers use.
+		 */
+		\add_action( 'wp_head', [ $this, 'remove_core_title_tag_renderers' ], 0 );
+	}
+
+	/**
+	 * Removes WordPress core's (and the Gutenberg plugin's) title tag renderers.
+	 * Only does this when our own Title presenter is actually going to be output.
+	 *
+	 * @return void
+	 */
+	public function remove_core_title_tag_renderers() {
+		if ( $this->should_title_presenter_be_removed() ) {
+			return;
+		}
+
 		\remove_action( 'wp_head', '_wp_render_title_tag', 1 );
 		\remove_action( 'wp_head', '_block_template_render_title_tag', 1 );
 		\remove_action( 'wp_head', 'gutenberg_render_title_tag', 1 );
