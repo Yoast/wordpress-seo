@@ -72,6 +72,13 @@
 				.yst-table-row:last-of-type .yst-table-checkbox-cell {
 					@apply first:yst-rounded-es-lg last:yst-rounded-ee-lg yst-bg-white;
 				}
+
+				&:has(tfoot) tbody {
+					.yst-table-row:last-of-type .yst-table-cell,
+					.yst-table-row:last-of-type .yst-table-checkbox-cell {
+						@apply first:yst-rounded-none last:yst-rounded-none;
+					}
+				}
 			}
 		}
 
