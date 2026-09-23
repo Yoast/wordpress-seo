@@ -113,13 +113,23 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 	 *
 	 * @param array<string, bool> $input The input holding the desired `enabled` status.
 	 *
-	 * @return array<string, bool>|WP_Error The new status, or an error when it could not be saved.
+	 * @return array<string, bool|string>|WP_Error The new status, or an error when it could not be saved.
 	 */
 	public function execute( array $input ) {
 		return $this->feature_status_updater->set_status( $this->get_option_name(), $input );
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
+
+	/**
+	 * Returns the output schema properties a feature adds next to `enabled`. Features whose
+	 * toggle has side effects worth reporting override this.
+	 *
+	 * @return array<string, array<string, mixed>> The additional output schema properties.
+	 */
+	protected function get_additional_output_properties(): array {
+		return [];
+	}
 
 	/**
 	 * Returns the arguments to register the ability with.
@@ -151,17 +161,20 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 			],
 			'output_schema'       => [
 				'type'       => 'object',
-				'properties' => [
-					'enabled' => [
-						'type'        => 'boolean',
-						'description' => \sprintf(
-							/* translators: %1$s expands to Yoast SEO, %2$s: the name of the feature. */
-							\__( 'Whether %1$s\'s %2$s feature is enabled.', 'wordpress-seo' ),
-							'Yoast SEO',
-							$feature_name,
-						),
+				'properties' => \array_merge(
+					[
+						'enabled' => [
+							'type'        => 'boolean',
+							'description' => \sprintf(
+								/* translators: %1$s expands to Yoast SEO, %2$s: the name of the feature. */
+								\__( 'Whether %1$s\'s %2$s feature is enabled.', 'wordpress-seo' ),
+								'Yoast SEO',
+								$feature_name,
+							),
+						],
 					],
-				],
+					$this->get_additional_output_properties(),
+				),
 			],
 			'permission_callback' => [ $this, 'can_manage_seo' ],
 			'execute_callback'    => [ $this, 'execute' ],

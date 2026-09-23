@@ -161,6 +161,7 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	 * @covers ::get_label
 	 * @covers ::get_description
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_args
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_additional_output_properties
 	 *
 	 * @return void
 	 */
