@@ -49,20 +49,6 @@ final class Introduction_Mock implements Introduction_Interface {
 	}
 
 	/**
-	 * Returns the unique name.
-	 *
-	 * @deprecated 21.6
-	 * @codeCoverageIgnore
-	 *
-	 * @return string
-	 */
-	public function get_name() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 21.6', 'Please use get_id() instead' );
-
-		return $this->id;
-	}
-
-	/**
 	 * Returns the requested pagination priority. Lower means earlier.
 	 *
 	 * @return int
