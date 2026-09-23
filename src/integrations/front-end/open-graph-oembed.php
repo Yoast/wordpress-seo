@@ -21,27 +21,6 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	private $meta;
 
 	/**
-	 * The oEmbed data.
-	 *
-	 * @var array
-	 */
-	private $data;
-
-	/**
-	 * The post ID for the current post.
-	 *
-	 * @var int
-	 */
-	private $post_id;
-
-	/**
-	 * The post meta.
-	 *
-	 * @var Meta|false
-	 */
-	private $post_meta;
-
-	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -84,72 +63,84 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	 * @return array An array of oEmbed data with modified values where appropriate.
 	 */
 	public function set_oembed_data( $data, $post ) {
-		// Data to be returned.
-		$this->data      = $data;
-		$this->post_id   = $post->ID;
-		$this->post_meta = $this->meta->for_post( $this->post_id );
+		$post_meta = $this->meta->for_post( $post->ID );
 
-		if ( ! empty( $this->post_meta ) ) {
-			$this->set_title();
-			$this->set_description();
-			$this->set_image();
+		if ( ! empty( $post_meta ) ) {
+			$data = $this->set_title( $data, $post_meta );
+			$data = $this->set_description( $data, $post_meta );
+			$data = $this->set_image( $data, $post_meta );
 		}
 
-		return $this->data;
+		return $data;
 	}
 
 	/**
 	 * Sets the OpenGraph title if configured.
 	 *
-	 * @return void
+	 * @param array $data      The oEmbed data.
+	 * @param Meta  $post_meta The post meta to read the title from.
+	 *
+	 * @return array The oEmbed data with the title set where appropriate.
 	 */
-	protected function set_title() {
-		$opengraph_title = $this->post_meta->open_graph_title;
+	protected function set_title( $data, $post_meta ) {
+		$opengraph_title = $post_meta->open_graph_title;
 
 		if ( ! empty( $opengraph_title ) ) {
-			$this->data['title'] = $opengraph_title;
+			$data['title'] = $opengraph_title;
 		}
+
+		return $data;
 	}
 
 	/**
 	 * Sets the OpenGraph description if configured.
 	 *
-	 * @return void
+	 * @param array $data      The oEmbed data.
+	 * @param Meta  $post_meta The post meta to read the description from.
+	 *
+	 * @return array The oEmbed data with the description set where appropriate.
 	 */
-	protected function set_description() {
-		$opengraph_description = $this->post_meta->open_graph_description;
+	protected function set_description( $data, $post_meta ) {
+		$opengraph_description = $post_meta->open_graph_description;
 
 		if ( ! empty( $opengraph_description ) ) {
-			$this->data['description'] = $opengraph_description;
+			$data['description'] = $opengraph_description;
 		}
+
+		return $data;
 	}
 
 	/**
 	 * Sets the image if it has been configured.
 	 *
-	 * @return void
+	 * @param array $data      The oEmbed data.
+	 * @param Meta  $post_meta The post meta to read the image from.
+	 *
+	 * @return array The oEmbed data with the image set where appropriate.
 	 */
-	protected function set_image() {
-		$images = $this->post_meta->open_graph_images;
+	protected function set_image( $data, $post_meta ) {
+		$images = $post_meta->open_graph_images;
 
 		if ( ! \is_array( $images ) ) {
-			return;
+			return $data;
 		}
 
 		$image = \reset( $images );
 
 		if ( empty( $image ) || ! isset( $image['url'] ) ) {
-			return;
+			return $data;
 		}
 
-		$this->data['thumbnail_url'] = $image['url'];
+		$data['thumbnail_url'] = $image['url'];
 
 		if ( isset( $image['width'] ) ) {
-			$this->data['thumbnail_width'] = $image['width'];
+			$data['thumbnail_width'] = $image['width'];
 		}
 
 		if ( isset( $image['height'] ) ) {
-			$this->data['thumbnail_height'] = $image['height'];
+			$data['thumbnail_height'] = $image['height'];
 		}
+
+		return $data;
 	}
 }
