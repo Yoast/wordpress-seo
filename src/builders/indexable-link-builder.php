@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use WPSEO_Image_Utils;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -285,7 +286,7 @@ class Indexable_Link_Builder {
 	 */
 	protected function get_post_id( $type, $permalink ) {
 		if ( $type === SEO_Links::TYPE_INTERNAL ) {
-			return \url_to_postid( $permalink );
+			return WPSEO_Utils::url_to_postid( $permalink );
 		}
 
 		return $this->image_helper->get_attachment_by_url( $permalink );
