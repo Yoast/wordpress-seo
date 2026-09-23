@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
+use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -11,6 +12,15 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  * The ability that enables or disables the XML sitemap feature.
  */
 class Set_Xml_Sitemap_Status_Ability extends Abstract_Set_Feature_Status_Ability {
+
+	private const OPTION_NAME = 'enable_xml_sitemap';
+
+	/**
+	 * The feature status updater.
+	 *
+	 * @var Feature_Status_Updater
+	 */
+	private $feature_status_updater;
 
 	/**
 	 * The options helper.
@@ -31,9 +41,10 @@ class Set_Xml_Sitemap_Status_Ability extends Abstract_Set_Feature_Status_Ability
 		Feature_Status_Updater $feature_status_updater,
 		Options_Helper $options_helper
 	) {
-		parent::__construct( $capability_helper, $feature_status_updater );
+		parent::__construct( $capability_helper );
 
-		$this->options_helper = $options_helper;
+		$this->feature_status_updater = $feature_status_updater;
+		$this->options_helper         = $options_helper;
 	}
 
 	/**
@@ -60,12 +71,14 @@ class Set_Xml_Sitemap_Status_Ability extends Abstract_Set_Feature_Status_Ability
 	}
 
 	/**
-	 * Returns the name of the boolean option that enables the feature.
+	 * Enables or disables the feature and returns its new status.
 	 *
-	 * @return string The option name.
+	 * @param array<string, bool> $input The input holding the desired `enabled` status.
+	 *
+	 * @return array<string, bool>|WP_Error The new status, or an error when it could not be saved.
 	 */
-	protected function get_option_name(): string {
-		return 'enable_xml_sitemap';
+	public function execute( array $input ) {
+		return $this->feature_status_updater->set_status( self::OPTION_NAME, $input );
 	}
 
 	/**

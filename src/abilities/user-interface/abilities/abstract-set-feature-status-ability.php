@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use WP_Error;
-use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
 use Yoast\WP\SEO\Abilities\Domain\Ability_Interface;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -22,24 +21,12 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 	private $capability_helper;
 
 	/**
-	 * The feature status updater.
-	 *
-	 * @var Feature_Status_Updater
-	 */
-	private $feature_status_updater;
-
-	/**
 	 * Constructor.
 	 *
-	 * @param Capability_Helper      $capability_helper      The capability helper.
-	 * @param Feature_Status_Updater $feature_status_updater The feature status updater.
+	 * @param Capability_Helper $capability_helper The capability helper.
 	 */
-	public function __construct(
-		Capability_Helper $capability_helper,
-		Feature_Status_Updater $feature_status_updater
-	) {
-		$this->capability_helper      = $capability_helper;
-		$this->feature_status_updater = $feature_status_updater;
+	public function __construct( Capability_Helper $capability_helper ) {
+		$this->capability_helper = $capability_helper;
 	}
 
 	/**
@@ -48,13 +35,6 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 	 * @return string The ability slug.
 	 */
 	abstract protected function get_slug(): string;
-
-	/**
-	 * Returns the name of the boolean option that enables the feature.
-	 *
-	 * @return string The option name.
-	 */
-	abstract protected function get_option_name(): string;
 
 	/**
 	 * Returns the human-readable name of the feature, used in the schema descriptions.
@@ -115,9 +95,7 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 	 *
 	 * @return array<string, bool|string>|WP_Error The new status, or an error when it could not be saved.
 	 */
-	public function execute( array $input ) {
-		return $this->feature_status_updater->set_status( $this->get_option_name(), $input );
-	}
+	abstract public function execute( array $input );
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
 
