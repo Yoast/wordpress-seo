@@ -10,15 +10,15 @@ import "./checkbox.css";
  *
  * @returns {JSX.Element} A React component that wraps around the HTML checkbox.
  */
-export default function Checkbox( props ) {
+export default function Checkbox( { id, label, checked = false, onChange } ) {
 	const handleChange = useCallback( ( event ) => {
-		props.onChange( event.target.value );
-	}, [ props.onChange ] );
+		onChange( event.target.value );
+	}, [ onChange ] );
 
 	return (
 		<FieldGroup wrapperClassName="yoast-field-group yoast-field-group__checkbox">
-			<input type="checkbox" id={ props.id } checked={ props.checked } onChange={ handleChange } />
-			<label htmlFor={ props.id }>{ props.label }</label>
+			<input type="checkbox" id={ id } checked={ checked } onChange={ handleChange } />
+			<label htmlFor={ id }>{ label }</label>
 		</FieldGroup>
 	);
 }
@@ -32,8 +32,4 @@ Checkbox.propTypes = {
 	] ).isRequired,
 	checked: PropTypes.bool,
 	onChange: PropTypes.func.isRequired,
-};
-
-Checkbox.defaultProps = {
-	checked: false,
 };

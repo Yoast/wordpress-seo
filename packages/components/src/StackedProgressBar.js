@@ -28,11 +28,11 @@ StackedProgressBarProgress.propTypes = {
  *
  * @returns {ReactElement} The StackedProgressBarContainer component.
  */
-const StackedProgressBar = ( props ) => {
+const StackedProgressBar = ( { className = "stacked-progress-bar", items, barHeight = "24px" } ) => {
 	let totalValue = 0;
-	for ( let i = 0; i < props.items.length; i++ ) {
-		props.items[ i ].value = Math.max( props.items[ i ].value, 0 );
-		totalValue += props.items[ i ].value;
+	for ( let i = 0; i < items.length; i++ ) {
+		items[ i ].value = Math.max( items[ i ].value, 0 );
+		totalValue += items[ i ].value;
 	}
 
 	if ( totalValue <= 0 ) {
@@ -41,12 +41,12 @@ const StackedProgressBar = ( props ) => {
 
 	return (
 		<StackedProgressBarContainer
-			className={ props.className }
-			barHeight={ props.barHeight }
+			className={ className }
+			barHeight={ barHeight }
 		>
-			{ props.items.map( ( item, index ) =>
+			{ items.map( ( item, index ) =>
 				<StackedProgressBarProgress
-					className={ `${ props.className }__part` }
+					className={ `${ className }__part` }
 					key={ index }
 					progressColor={ item.color }
 					progressWidth={ item.value / totalValue * 100 }
@@ -65,11 +65,6 @@ StackedProgressBar.propTypes = {
 		} )
 	),
 	barHeight: PropTypes.string,
-};
-
-StackedProgressBar.defaultProps = {
-	className: "stacked-progress-bar",
-	barHeight: "24px",
 };
 
 export default StackedProgressBar;

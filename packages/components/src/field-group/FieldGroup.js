@@ -24,14 +24,14 @@ import PremiumBadge from "../premium-badge/PremiumBadge";
  * @returns {React.Component} A div with a label, icon and optional description that renders all children.
  */
 const FieldGroup = ( {
-	htmlFor,
-	label,
-	linkTo,
-	linkText,
-	description,
-	children,
-	wrapperClassName,
-	titleClassName,
+	htmlFor = "",
+	label = "",
+	linkTo = "",
+	linkText = "",
+	description = "",
+	children = [],
+	wrapperClassName = "yoast-field-group",
+	titleClassName = "yoast-field-group__title",
 	hasNewBadge,
 	hasPremiumBadge,
 } ) => {
@@ -82,7 +82,5 @@ export const FieldGroupDefaultProps = {
 };
 
 FieldGroup.propTypes = FieldGroupProps;
-
-FieldGroup.defaultProps = FieldGroupDefaultProps;
 
 export default FieldGroup;
