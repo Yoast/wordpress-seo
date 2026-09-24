@@ -14,7 +14,8 @@ import { getIconForScore } from "./mapResults";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 import { PremiumSeoAnalysisUpsellAd } from "./PremiumSeoAnalysisUpsellAd";
-import { IMAGE_ALT_TAGS_ASSESSMENT_ID } from "../../analysis/constants";
+import { ALT_TEXT_LENGTH_ASSESSMENT_ID, IMAGE_ALT_TAGS_ASSESSMENT_ID } from "../../analysis/constants";
+import AltTextLengthButtonSlot from "../slots/AltTextLengthButtonSlot";
 import ImageAltTagsButtonSlot from "../slots/ImageAltTagsButtonSlot";
 
 // Capture at module-load time, before `openGeneralSidebar` causes WordPress to replace the URL.
@@ -56,8 +57,8 @@ class SeoAnalysis extends Component {
 	/**
 	 * Renders the button that sits next to an assessment result.
 	 *
-	 * For the Image alt attributes assessment this is a slot rather than a button. That assessment is registered
-	 * by Yoast WooCommerce SEO and Shopify SEO, which fill the slot with their own alt text generation button.
+	 * For the Image alt attributes and the Alt text length assessments this is a slot rather than a button. Yoast
+	 * WooCommerce SEO and Shopify SEO can fill these slots with their own alt text generation button.
 	 * Whether a button is warranted is the fill's decision, because it owns the image data that decision depends
 	 * on; without a fill the slot renders nothing. The AI feature gate below still applies, so the slot is not
 	 * offered while a Premium user has AI features switched off.
@@ -84,6 +85,10 @@ class SeoAnalysis extends Component {
 
 		if ( id === IMAGE_ALT_TAGS_ASSESSMENT_ID ) {
 			return <ImageAltTagsButtonSlot />;
+		}
+
+		if ( id === ALT_TEXT_LENGTH_ASSESSMENT_ID ) {
+			return <AltTextLengthButtonSlot />;
 		}
 
 		const shouldRenderAIButton = shouldRenderAIOptimizeButton( hasAIFixes, isElementor, isTerm );
