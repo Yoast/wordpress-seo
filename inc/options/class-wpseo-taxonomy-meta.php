@@ -633,9 +633,10 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @return int The number of terms that were migrated.
 	 */
 	public static function migrate_legacy_term_meta( $limit = 0 ) {
-		$limit    = max( 0, (int) $limit );
-		$tax_meta = self::get_tax_meta();
-		$migrated = 0;
+		$limit                 = max( 0, (int) $limit );
+		$tax_meta              = self::get_tax_meta();
+		$migrated              = 0;
+		$migrated_term_entries = [];
 
 		foreach ( $tax_meta as $taxonomy => $terms ) {
 			if ( ! is_array( $terms ) || ! taxonomy_exists( $taxonomy ) ) {
@@ -697,9 +698,27 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 				}
 
 				if ( $migrated_keys ) {
-					unset( $tax_meta[ $taxonomy ][ $term_id ] );
+					$migrated_term_entries[ $taxonomy ][ $term_id ] = $meta_values;
 					++$migrated;
 				}
+			}
+		}
+
+		/*
+		 * Re-read the option before writing, so entries which another request added or changed
+		 * while this batch was running are not lost. Only entries which are still exactly as
+		 * this batch migrated them are removed; a concurrently changed entry is left behind and
+		 * picked up by a later run. The write still triggers the option validation, which
+		 * cleans up entries for terms which no longer exist.
+		 */
+		$tax_meta = self::get_tax_meta();
+		foreach ( $migrated_term_entries as $taxonomy => $term_entries ) {
+			foreach ( $term_entries as $term_id => $migrated_values ) {
+				if ( ! isset( $tax_meta[ $taxonomy ][ $term_id ] ) || $tax_meta[ $taxonomy ][ $term_id ] !== $migrated_values ) {
+					continue;
+				}
+
+				unset( $tax_meta[ $taxonomy ][ $term_id ] );
 			}
 
 			if ( isset( $tax_meta[ $taxonomy ] ) && $tax_meta[ $taxonomy ] === [] ) {
