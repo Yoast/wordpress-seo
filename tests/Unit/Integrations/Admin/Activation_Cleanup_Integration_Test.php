@@ -93,9 +93,17 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
+		$expected_timestamp = ( \time() + \DAY_IN_SECONDS );
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->once()
-			->with( ( \time() + \DAY_IN_SECONDS ), Cleanup_Integration::START_HOOK );
+			->with(
+				Mockery::on(
+					static function ( $timestamp ) use ( $expected_timestamp ) {
+						return $timestamp >= $expected_timestamp && $timestamp <= ( $expected_timestamp + 1 );
+					},
+				),
+				Cleanup_Integration::START_HOOK,
+			);
 
 		$this->indexable_helper->expects( 'should_index_indexables' )
 			->once()
