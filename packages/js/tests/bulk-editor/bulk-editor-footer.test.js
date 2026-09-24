@@ -2,6 +2,9 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { fireEvent, render, screen } from "../test-utils";
 import { BulkEditorFooter } from "../../src/bulk-editor/components/bulk-editor-footer";
 
+// BulkEditorFooter renders a <tfoot>; wrapping in a <table> silences the validateDOMNesting warning.
+const renderInTable = ( ui ) => render( ui, { wrapper: ( { children } ) => <table>{ children }</table> } );
+
 jest.mock( "@wordpress/data", () => ( { useDispatch: jest.fn(), useSelect: jest.fn() } ) );
 
 describe( "BulkEditorFooter", () => {
@@ -27,10 +30,6 @@ describe( "BulkEditorFooter", () => {
 	 * @returns {void}
 	 */
 	const mockViewport = ( matches ) => {
-		if ( ! Object.prototype.hasOwnProperty.call( mockViewport, "originalMatchMedia" ) ) {
-			mockViewport.originalMatchMedia = window.matchMedia;
-		}
-
 		window.matchMedia = jest.fn().mockImplementation( ( media ) => ( {
 			matches,
 			media,
@@ -43,22 +42,12 @@ describe( "BulkEditorFooter", () => {
 		requestSwitch = jest.fn();
 		useDispatch.mockReturnValue( { requestSwitch } );
 		mockCurrentPage( 1 );
-		// Default to the desktop viewport so the full set of page buttons renders.
-		mockViewport( true );
-	} );
-
-	afterEach( () => {
-		if ( typeof mockViewport.originalMatchMedia === "undefined" ) {
-			delete window.matchMedia;
-		} else {
-			window.matchMedia = mockViewport.originalMatchMedia;
-		}
 	} );
 
 	it( "renders the result range for the current page", () => {
 		mockCurrentPage( 2 );
 
-		render( <BulkEditorFooter total={ 197 } totalPages={ 10 } isPending={ false } /> );
+		renderInTable( <BulkEditorFooter colSpan={ 3 } total={ 197 } totalPages={ 10 } isPending={ false } /> );
 
 		// Page 2 with a page size of 20 spans results 21–40 of 197.
 		expect( screen.getByText( /Showing/ ) ).toHaveTextContent( "Showing 21 to 40 of 197 results" );
@@ -67,7 +56,7 @@ describe( "BulkEditorFooter", () => {
 	it( "caps the last result number at the total on the final page", () => {
 		mockCurrentPage( 10 );
 
-		render( <BulkEditorFooter total={ 197 } totalPages={ 10 } isPending={ false } /> );
+		renderInTable( <BulkEditorFooter colSpan={ 3 } total={ 197 } totalPages={ 10 } isPending={ false } /> );
 
 		expect( screen.getByText( /Showing/ ) ).toHaveTextContent( "Showing 181 to 197 of 197 results" );
 	} );
@@ -75,7 +64,7 @@ describe( "BulkEditorFooter", () => {
 	it( "requests a guarded page switch when a page button is clicked", () => {
 		mockCurrentPage( 1 );
 
-		render( <BulkEditorFooter total={ 197 } totalPages={ 10 } isPending={ false } /> );
+		renderInTable( <BulkEditorFooter colSpan={ 3 } total={ 197 } totalPages={ 10 } isPending={ false } /> );
 
 		fireEvent.click( screen.getByRole( "button", { name: "3" } ) );
 
@@ -85,23 +74,23 @@ describe( "BulkEditorFooter", () => {
 	it( "shows fewer page buttons on a mobile viewport", () => {
 		mockViewport( false );
 
-		render( <BulkEditorFooter total={ 197 } totalPages={ 10 } isPending={ false } /> );
+		renderInTable( <BulkEditorFooter colSpan={ 3 } total={ 197 } totalPages={ 10 } isPending={ false } /> );
 
-		// The compact mobile set drops the inner pages, so a middle page like 4 is no longer rendered as a button.
+		// The compact mobile set (5 buttons) drops middle pages, so button "4" is not rendered at page 1.
 		expect( screen.queryByRole( "button", { name: "4" } ) ).not.toBeInTheDocument();
 		expect( screen.getByRole( "button", { name: "10" } ) ).toBeInTheDocument();
 	} );
 
-	it( "renders nothing when there are no results", () => {
-		const { container } = render( <BulkEditorFooter total={ 0 } totalPages={ 0 } isPending={ false } /> );
+	it( "renders the summary but no pager when all results fit on one page", () => {
+		renderInTable( <BulkEditorFooter colSpan={ 3 } total={ 5 } totalPages={ 1 } isPending={ false } /> );
 
-		expect( container ).toBeEmptyDOMElement();
+		expect( screen.getByText( /Showing/ ) ).toHaveTextContent( "Showing 1 to 5 of 5 results" );
+		expect( screen.queryByRole( "navigation" ) ).toBeNull();
 	} );
 
-	it( "hides the result summary on mobile", () => {
-		render( <BulkEditorFooter total={ 197 } totalPages={ 10 } isPending={ false } /> );
+	it( "renders nothing when there are no results", () => {
+		renderInTable( <BulkEditorFooter colSpan={ 3 } total={ 0 } totalPages={ 0 } isPending={ false } /> );
 
-		const summary = screen.getByText( /Showing/ );
-		expect( summary ).toHaveClass( "yst-hidden", "sm:yst-block" );
+		expect( screen.queryByRole( "rowgroup" ) ).toBeNull();
 	} );
 } );

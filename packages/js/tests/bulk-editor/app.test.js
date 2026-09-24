@@ -36,6 +36,8 @@ const buildRemote = ( onSave = () => Promise.resolve( {} ) ) => ( {
 
 describe( "App", () => {
 	beforeAll( () => {
+		// The store reads the localized analysis flag when it is created; seed it so the keyphrase stays editable.
+		window.wpseoBulkEditorData = { analysis: { keywordAnalysisActive: true } };
 		registerStore();
 	} );
 
@@ -68,6 +70,28 @@ describe( "App", () => {
 		expect(
 			screen.getByText( "The bulk editor for pages is a tool that you can use to quickly make changes to your search and social media appearance for multiple pages." )
 		).toBeInTheDocument();
+	} );
+
+	describe( "without any content type", () => {
+		const emptyDataProvider = new DataProvider( {
+			contentTypes: [],
+			endpoints: { posts: "https://example.com/wp-json/yoast/v1/bulk_editor/posts" },
+			links: { settings: "https://example.com/wp-admin/admin.php?page=wpseo_page_settings" },
+		} );
+
+		it( "shows a warning notice linking to the settings instead of the table", () => {
+			const remote = { fetchJson: jest.fn( () => new Promise( () => {} ) ) };
+
+			render( <App dataProvider={ emptyDataProvider } remoteDataProvider={ remote } /> );
+
+			const notice = screen.getByRole( "status" );
+			expect( notice ).toHaveTextContent( "No content types are available for the bulk editor" );
+			expect( notice ).toHaveTextContent( "Enable SEO controls and assessments for at least one content type in Settings." );
+			expect( screen.getByRole( "link", { name: "Settings" } ) ).toHaveAttribute( "href", "https://example.com/wp-admin/admin.php?page=wpseo_page_settings" );
+			expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Content" } ) ).toBeInTheDocument();
+			expect( screen.queryByRole( "tablist" ) ).not.toBeInTheDocument();
+			expect( remote.fetchJson ).not.toHaveBeenCalled();
+		} );
 	} );
 
 	it( "renders the content type navigation with the first content type active", () => {
