@@ -22,3 +22,21 @@ export const IMAGE_ALT_TAGS_ASSESSMENT_ID = "imageAltTags";
  * @returns {string} The slot name.
  */
 export const getImageAltTagsButtonSlotName = ( location ) => `yoast.seoAnalysis.imageAltTagsButton.${ location }`;
+
+/**
+ * The identifier of the Alt text length assessment.
+ *
+ * @type {string}
+ */
+export const ALT_TEXT_LENGTH_ASSESSMENT_ID = "altTextLength";
+
+/**
+ * Builds the name of the slot rendered next to the Alt text length assessment result.
+ *
+ * Location specific for the same reason as `getImageAltTagsButtonSlotName`: a filler registers one fill per location.
+ *
+ * @param {string} location Where the analysis is rendered, either "metabox" or "sidebar".
+ *
+ * @returns {string} The slot name.
+ */
+export const getAltTextLengthButtonSlotName = ( location ) => `yoast.seoAnalysis.altTextLengthButton.${ location }`;

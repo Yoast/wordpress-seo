@@ -16,6 +16,7 @@ Overview of the used SEO assessors in the `yoastseo` package:
 - Meta description length (`MetaDescriptionLengthAssessment`) -> [Cornerstone scores!](../assessments/SCORING%20SEO.md#5-meta-description-length)
 - Keyphrase in subheadings (`SubHeadingsKeywordAssessment`)
 - Images (`ImageCountAssessment`)
+- Alt text length (`AltTextLengthAssessment`)
 - Image keyphrase (`KeyphraseInImageTextAssessment`) -> [Cornerstone scores!](../assessments/SCORING%20SEO.md#7-image-keyphrase)
 - Text length (`TextLengthAssessment`) -> [Cornerstone scores and boundaries!](../assessments/SCORING%20SEO.md#1-text-length)
 - Outbound links (`OutboundLinksAssessment`)

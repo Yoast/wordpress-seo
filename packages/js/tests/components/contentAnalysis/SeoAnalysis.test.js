@@ -1,6 +1,6 @@
 import { Fill, SlotFillProvider } from "@wordpress/components";
 import { LocationProvider } from "@yoast/externals/contexts";
-import { getImageAltTagsButtonSlotName } from "../../../src/analysis/constants";
+import { getAltTextLengthButtonSlotName, getImageAltTagsButtonSlotName } from "../../../src/analysis/constants";
 import { SeoAnalysis } from "../../../src/components/contentAnalysis/SeoAnalysis";
 import { render, screen } from "../../test-utils";
 
@@ -15,7 +15,7 @@ jest.mock( "../../../src/ai-optimizer/components/ai-optimize-button", () => {
 /**
  * Renders the output of `renderAIOptimizeButton` for the given props and assessment.
  *
- * A fill for the metabox slot is always present, so a rendered slot is visible as its button.
+ * A fill for each metabox slot is always present, so a rendered slot is visible as its button.
  *
  * The props are merged over `defaultProps`, which constructing the class directly does not apply. Without that,
  * `isElementor` and `isTerm` would arrive as `undefined` rather than `false`.
@@ -31,6 +31,9 @@ const renderResultButton = ( props, id, hasAIFixes = true ) => render(
 		<Fill name={ getImageAltTagsButtonSlotName( "metabox" ) }>
 			<button>Generate with AI</button>
 		</Fill>
+		<Fill name={ getAltTextLengthButtonSlotName( "metabox" ) }>
+			<button>Improve alt text with AI</button>
+		</Fill>
 		<LocationProvider value="metabox">
 			{ new SeoAnalysis( { ...SeoAnalysis.defaultProps, ...props } ).renderAIOptimizeButton( hasAIFixes, id ) }
 		</LocationProvider>
@@ -42,6 +45,7 @@ describe( "SeoAnalysis.renderAIOptimizeButton", () => {
 		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "imageAltTags" );
 
 		expect( screen.getByRole( "button", { name: "Generate with AI" } ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
 		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
 	} );
 
@@ -58,11 +62,26 @@ describe( "SeoAnalysis.renderAIOptimizeButton", () => {
 		expect( screen.getByRole( "button", { name: "Generate with AI" } ) ).toBeInTheDocument();
 	} );
 
+	it( "renders the alt text length slot for the Alt text length assessment", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "altTextLength", false );
+
+		expect( screen.getByRole( "button", { name: "Improve alt text with AI" } ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Generate with AI" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "does not render the alt text length slot when the AI feature is disabled in Premium", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "altTextLength", false );
+
+		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
+	} );
+
 	it( "still renders the AI Optimize button for the other assessments", () => {
 		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "keyphraseDensity" );
 
 		expect( screen.getByTestId( "ai-optimize-button" ) ).toHaveAttribute( "data-id", "keyphraseDensity" );
 		expect( screen.queryByRole( "button", { name: "Generate with AI" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
 	} );
 
 	it( "does not render the AI Optimize button when the AI feature is disabled in Premium", () => {
