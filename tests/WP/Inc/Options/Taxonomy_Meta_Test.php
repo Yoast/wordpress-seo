@@ -480,6 +480,107 @@ final class Taxonomy_Meta_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a save which lands in the option while a migration batch is running
+	 * is not overwritten by the option write at the end of that batch.
+	 *
+	 * @covers WPSEO_Taxonomy_Meta::migrate_legacy_term_meta
+	 *
+	 * @return void
+	 */
+	public function test_migrate_legacy_term_meta_keeps_entries_written_during_the_batch() {
+		$migrating = self::factory()->category->create_and_get();
+		$shared    = self::factory()->category->create_and_get();
+		$this->make_term_shared( $shared->term_id );
+
+		\update_option(
+			'wpseo_taxonomy_meta',
+			[
+				'category' => [
+					$migrating->term_id => [ 'wpseo_title' => 'Migrated title' ],
+				],
+			],
+		);
+
+		/*
+		 * Simulate a concurrent save for a shared term landing after the migration has read
+		 * the option, which is the window a batched migration opens for every term it walks.
+		 */
+		$injected = false;
+		$inject   = static function () use ( &$injected, $shared ) {
+			if ( $injected ) {
+				return;
+			}
+			$injected = true;
+
+			$tax_meta                                 = \get_option( 'wpseo_taxonomy_meta', [] );
+			$tax_meta['category'][ $shared->term_id ] = [ 'wpseo_title' => 'Concurrent title' ];
+			$tax_meta['wpseo_already_validated']      = true;
+			\update_option( 'wpseo_taxonomy_meta', $tax_meta );
+		};
+
+		\add_action( 'added_term_meta', $inject );
+		\add_action( 'updated_term_meta', $inject );
+		$this->assertSame( 1, WPSEO_Taxonomy_Meta::migrate_legacy_term_meta() );
+		\remove_action( 'added_term_meta', $inject );
+		\remove_action( 'updated_term_meta', $inject );
+
+		$this->assertTrue( $injected, 'The concurrent save did not run during the migration batch.' );
+		$this->assertSame( 'Migrated title', \get_term_meta( $migrating->term_id, 'wpseo_title', true ) );
+
+		$stored = \get_option( 'wpseo_taxonomy_meta', [] );
+		$this->assertSame( 'Concurrent title', $stored['category'][ $shared->term_id ]['wpseo_title'] );
+		$this->assertFalse( isset( $stored['category'][ $migrating->term_id ] ) );
+	}
+
+	/**
+	 * Tests that keys added to an entry which is being migrated while the batch is running
+	 * are not discarded by the option write at the end of that batch.
+	 *
+	 * @covers WPSEO_Taxonomy_Meta::migrate_legacy_term_meta
+	 *
+	 * @return void
+	 */
+	public function test_migrate_legacy_term_meta_keeps_entry_changed_during_the_batch() {
+		$term = self::factory()->category->create_and_get();
+
+		\update_option(
+			'wpseo_taxonomy_meta',
+			[
+				'category' => [
+					$term->term_id => [ 'wpseo_title' => 'Migrated title' ],
+				],
+			],
+		);
+
+		/*
+		 * Concurrently add a key to the entry of the term the batch is migrating right now.
+		 * The batch cannot have migrated that key, so it must stay in the option.
+		 */
+		$injected = false;
+		$inject   = static function ( $meta_id, $object_id, $meta_key ) use ( &$injected, $term ) {
+			if ( $injected || $object_id !== $term->term_id || $meta_key !== 'wpseo_title' ) {
+				return;
+			}
+			$injected = true;
+
+			$tax_meta = \get_option( 'wpseo_taxonomy_meta', [] );
+			$tax_meta['category'][ $term->term_id ]['wpseo_desc'] = 'Description added during the batch';
+			$tax_meta['wpseo_already_validated']                  = true;
+			\update_option( 'wpseo_taxonomy_meta', $tax_meta );
+		};
+
+		\add_action( 'added_term_meta', $inject, 10, 3 );
+		$this->assertSame( 1, WPSEO_Taxonomy_Meta::migrate_legacy_term_meta() );
+		\remove_action( 'added_term_meta', $inject );
+
+		$this->assertTrue( $injected, 'The concurrent change did not run during the migration batch.' );
+		$this->assertSame( 'Migrated title', \get_term_meta( $term->term_id, 'wpseo_title', true ) );
+
+		$stored = \get_option( 'wpseo_taxonomy_meta', [] );
+		$this->assertSame( 'Description added during the batch', $stored['category'][ $term->term_id ]['wpseo_desc'] );
+	}
+
+	/**
 	 * Tests that saves for terms which are shared between taxonomies keep
 	 * using the option, as term meta cannot hold taxonomy-specific values.
 	 *
