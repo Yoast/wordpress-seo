@@ -34,8 +34,8 @@ describe( "getImagesInScope", function() {
 		const images = getImagesInScope( buildPaperWithTreeImage( { providedImages } ) );
 
 		expect( images ).toEqual( [
-			{ name: "img", attributes: { src: "https://example.com/featured.jpg", alt: "A featured image" } },
-			{ name: "img", attributes: { src: "https://example.com/gallery.jpg", alt: "" } },
+			{ name: "img", attributes: { src: "https://example.com/featured.jpg", alt: "A featured image" }, attachmentId: 1 },
+			{ name: "img", attributes: { src: "https://example.com/gallery.jpg", alt: "" }, attachmentId: 2 },
 		] );
 	} );
 
@@ -45,7 +45,7 @@ describe( "getImagesInScope", function() {
 
 	it( "defaults missing src and alt to empty strings when mapping provided images", function() {
 		expect( getImagesInScope( buildPaperWithTreeImage( { providedImages: [ { id: 3 } ] } ) ) ).toEqual( [
-			{ name: "img", attributes: { src: "", alt: "" } },
+			{ name: "img", attributes: { src: "", alt: "" }, attachmentId: 3 },
 		] );
 	} );
 
