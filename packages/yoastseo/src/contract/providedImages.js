@@ -9,10 +9,11 @@ import { z } from "zod";
  * opts the image assessments into scoring it instead of the images in the text.
  *
  * Field semantics that are load-bearing:
- * - `alt` is the only field the researches read (via the mapped `img` pseudo-node); an empty string means
+ * - `alt` is read by the researches (via the mapped `img` pseudo-node); an empty string means
  *   the image has no alt text and is scored accordingly.
- * - `id` and `src` are producer-side conveniences (deduplication, UI affordances such as an AI button);
- *   `src` also keeps the mapped node shape faithful to a real `img` node.
+ * - `id`, else `src`, tells the Duplicate alt text research whether two entries are the same image, so the
+ *   same image listed twice is not reported as a duplicate. Both are also producer-side conveniences
+ *   (deduplication, UI affordances such as an AI button).
  *
  * `.strict()` rejects unknown keys, catching typos.
  */
