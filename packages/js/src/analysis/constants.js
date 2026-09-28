@@ -1,42 +1,28 @@
 export const refreshDelay = 500;
 
 /**
- * The identifier of the Image alt attributes assessment.
+ * The identifiers of the assessments that get a slot next to their result, instead of the Yoast AI Optimize button.
  *
- * The assessment is registered by Yoast WooCommerce SEO and Shopify SEO, not by Yoast SEO itself, so a result
- * carrying this identifier only appears while one of those is active.
+ * These are the alt text assessments. Yoast WooCommerce SEO and Shopify SEO fill these slots with their own alt text
+ * generation button. Some of these assessments are registered by those add-ons, not by Yoast SEO itself, so a
+ * result with that identifier only appears while one of them is active.
  *
- * @type {string}
+ * To offer a slot next to another assessment, add its identifier here.
+ *
+ * @type {string[]}
  */
-export const IMAGE_ALT_TAGS_ASSESSMENT_ID = "imageAltTags";
+export const ASSESSMENT_BUTTON_SLOT_IDS = [ "imageAltTags", "altTextLength" ];
 
 /**
- * Builds the name of the slot rendered next to the Image alt attributes assessment result.
+ * Builds the name of the slot rendered next to an assessment result.
  *
  * The name is location specific on purpose: the metabox and the sidebar are mounted at the same time, and the
  * slot registry keys slots by name alone, so two slots sharing one name would overwrite each other. A filler
  * therefore registers one fill per location.
  *
+ * @param {string} id       The assessment identifier, one of `ASSESSMENT_BUTTON_SLOT_IDS`.
  * @param {string} location Where the analysis is rendered, either "metabox" or "sidebar".
  *
  * @returns {string} The slot name.
  */
-export const getImageAltTagsButtonSlotName = ( location ) => `yoast.seoAnalysis.imageAltTagsButton.${ location }`;
-
-/**
- * The identifier of the Alt text length assessment.
- *
- * @type {string}
- */
-export const ALT_TEXT_LENGTH_ASSESSMENT_ID = "altTextLength";
-
-/**
- * Builds the name of the slot rendered next to the Alt text length assessment result.
- *
- * Location specific for the same reason as `getImageAltTagsButtonSlotName`: a filler registers one fill per location.
- *
- * @param {string} location Where the analysis is rendered, either "metabox" or "sidebar".
- *
- * @returns {string} The slot name.
- */
-export const getAltTextLengthButtonSlotName = ( location ) => `yoast.seoAnalysis.altTextLengthButton.${ location }`;
+export const getAssessmentButtonSlotName = ( id, location ) => `yoast.seoAnalysis.${ id }Button.${ location }`;

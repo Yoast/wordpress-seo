@@ -1,7 +1,7 @@
 import { Fill, SlotFillProvider } from "@wordpress/components";
 import { LocationProvider } from "@yoast/externals/contexts";
-import { getImageAltTagsButtonSlotName } from "../../../src/analysis/constants";
-import ImageAltTagsButtonSlot from "../../../src/components/slots/ImageAltTagsButtonSlot";
+import { getAssessmentButtonSlotName } from "../../../src/analysis/constants";
+import AssessmentButtonSlot from "../../../src/components/slots/AssessmentButtonSlot";
 import { render, screen } from "../../test-utils";
 
 /**
@@ -16,12 +16,12 @@ const renderSlotWithFills = ( location, fills ) => render(
 	<SlotFillProvider>
 		{ fills }
 		<LocationProvider value={ location }>
-			<ImageAltTagsButtonSlot />
+			<AssessmentButtonSlot id="imageAltTags" />
 		</LocationProvider>
 	</SlotFillProvider>
 );
 
-describe( "ImageAltTagsButtonSlot", () => {
+describe( "AssessmentButtonSlot", () => {
 	it( "renders nothing when nothing fills the slot", () => {
 		const { container } = renderSlotWithFills( "metabox", null );
 
@@ -31,7 +31,7 @@ describe( "ImageAltTagsButtonSlot", () => {
 	it( "renders what fills the slot for its own location", () => {
 		renderSlotWithFills(
 			"metabox",
-			<Fill name={ getImageAltTagsButtonSlotName( "metabox" ) }>
+			<Fill name={ getAssessmentButtonSlotName( "imageAltTags", "metabox" ) }>
 				<button>Generate image alt text</button>
 			</Fill>
 		);
@@ -42,7 +42,7 @@ describe( "ImageAltTagsButtonSlot", () => {
 	it( "ignores a fill meant for another location", () => {
 		renderSlotWithFills(
 			"metabox",
-			<Fill name={ getImageAltTagsButtonSlotName( "sidebar" ) }>
+			<Fill name={ getAssessmentButtonSlotName( "imageAltTags", "sidebar" ) }>
 				<button>Generate image alt text</button>
 			</Fill>
 		);
@@ -53,22 +53,39 @@ describe( "ImageAltTagsButtonSlot", () => {
 	it( "keeps the metabox and the sidebar apart when both are mounted", () => {
 		render(
 			<SlotFillProvider>
-				<Fill name={ getImageAltTagsButtonSlotName( "metabox" ) }>
+				<Fill name={ getAssessmentButtonSlotName( "imageAltTags", "metabox" ) }>
 					<button>Metabox button</button>
 				</Fill>
-				<Fill name={ getImageAltTagsButtonSlotName( "sidebar" ) }>
+				<Fill name={ getAssessmentButtonSlotName( "imageAltTags", "sidebar" ) }>
 					<button>Sidebar button</button>
 				</Fill>
 				<LocationProvider value="metabox">
-					<ImageAltTagsButtonSlot />
+					<AssessmentButtonSlot id="imageAltTags" />
 				</LocationProvider>
 				<LocationProvider value="sidebar">
-					<ImageAltTagsButtonSlot />
+					<AssessmentButtonSlot id="imageAltTags" />
 				</LocationProvider>
 			</SlotFillProvider>
 		);
 
 		expect( screen.getByRole( "button", { name: "Metabox button" } ) ).toBeInTheDocument();
 		expect( screen.getByRole( "button", { name: "Sidebar button" } ) ).toBeInTheDocument();
+	} );
+
+	it( "ignores a fill meant for another assessment", () => {
+		renderSlotWithFills(
+			"metabox",
+			<Fill name={ getAssessmentButtonSlotName( "altTextLength", "metabox" ) }>
+				<button>Fix with AI</button>
+			</Fill>
+		);
+
+		expect( screen.queryByRole( "button" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "keeps the slot names of the existing alt text assessments", () => {
+		// Add-ons build these names with a literal fallback, so changing them would silently break older add-ons.
+		expect( getAssessmentButtonSlotName( "imageAltTags", "metabox" ) ).toBe( "yoast.seoAnalysis.imageAltTagsButton.metabox" );
+		expect( getAssessmentButtonSlotName( "altTextLength", "sidebar" ) ).toBe( "yoast.seoAnalysis.altTextLengthButton.sidebar" );
 	} );
 } );

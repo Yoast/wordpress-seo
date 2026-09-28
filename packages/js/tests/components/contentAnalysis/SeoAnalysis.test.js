@@ -1,6 +1,6 @@
 import { Fill, SlotFillProvider } from "@wordpress/components";
 import { LocationProvider } from "@yoast/externals/contexts";
-import { getAltTextLengthButtonSlotName, getImageAltTagsButtonSlotName } from "../../../src/analysis/constants";
+import { getAssessmentButtonSlotName } from "../../../src/analysis/constants";
 import { SeoAnalysis } from "../../../src/components/contentAnalysis/SeoAnalysis";
 import { render, screen } from "../../test-utils";
 
@@ -28,10 +28,10 @@ jest.mock( "../../../src/ai-optimizer/components/ai-optimize-button", () => {
  */
 const renderResultButton = ( props, id, hasAIFixes = true ) => render(
 	<SlotFillProvider>
-		<Fill name={ getImageAltTagsButtonSlotName( "metabox" ) }>
+		<Fill name={ getAssessmentButtonSlotName( "imageAltTags", "metabox" ) }>
 			<button>Generate with AI</button>
 		</Fill>
-		<Fill name={ getAltTextLengthButtonSlotName( "metabox" ) }>
+		<Fill name={ getAssessmentButtonSlotName( "altTextLength", "metabox" ) }>
 			<button>Improve alt text with AI</button>
 		</Fill>
 		<LocationProvider value="metabox">
