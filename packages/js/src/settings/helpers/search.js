@@ -993,7 +993,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			route: "/breadcrumbs",
 			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-breadcrumbs-enable",
-			fieldLabel: __( "Enable breadcrumbs for your theme", "wordpress-seo" ),
+			fieldLabel: __( "Enable breadcrumbs inserted in your theme's template", "wordpress-seo" ),
 			keywords: [],
 		},
 		...reduce( postTypes, ( acc, postType ) => {
