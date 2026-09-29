@@ -113,7 +113,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			->once()
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
 		Functions\expect( 'admin_url' )
-			->times( 2 )
+			->times( 3 )
 			->andReturnUsing(
 				static function ( $path ) {
 					return 'https://example.com/wp-admin/' . $path;
@@ -154,6 +154,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 				Mockery::on(
 					static function ( $data ) use ( $content_types, $expected_shortcodes ) {
 						return $data['contentTypes'] === $content_types
+							&& $data['links']['settings'] === 'https://example.com/wp-admin/admin.php?page=wpseo_page_settings'
 							&& $data['nonce'] === 'rest-nonce'
 							&& $data['preferences']['isPremium'] === false
 							&& $data['analysis']['shortcodes'] === $expected_shortcodes

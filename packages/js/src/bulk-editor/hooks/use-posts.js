@@ -83,8 +83,12 @@ export const usePosts = ( { dataProvider, remoteDataProvider, contentType } ) =>
 	const endpoint = dataProvider.getEndpoint( "posts" );
 
 	useEffect( () => {
-		// Without an endpoint there is nothing to fetch; surface an empty, settled state.
-		if ( ! endpoint ) {
+		// Without an endpoint or a content type there is nothing to fetch; surface an empty, settled state instead
+		// of a request the endpoint would reject.
+		if ( ! endpoint || ! contentType ) {
+			// The previous effect's cleanup already aborted any in-flight request; clearing the ref is what makes
+			// a late response of that request fail the identity check below instead of overwriting this state.
+			controller.current = null;
 			setState( { data: [], total: 0, totalPages: 0, error: null, isPending: false } );
 			return;
 		}
