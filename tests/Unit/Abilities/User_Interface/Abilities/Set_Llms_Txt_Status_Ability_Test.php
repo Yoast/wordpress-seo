@@ -217,7 +217,7 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Set llms.txt Status',
-				'description'         => 'Enable or disable Yoast SEO\'s llms.txt feature. Enabling it generates an llms.txt file for the site and keeps it up to date; disabling it removes the file.',
+				'description'         => 'Enable or disable Yoast SEO\'s llms.txt feature. Enabling it generates an llms.txt file for the site and keeps it up to date; disabling it removes the generated file.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',
