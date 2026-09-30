@@ -40,12 +40,8 @@ use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Conditionals\New_Premium_Or_Free_AI_Conditional;
 use Yoast\WP\SEO\Conditionals\Old_Premium_AI_Conditional;
-use Yoast\WP\SEO\Helpers\Request_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Unsupported_PHP_Version_Notice;
 
 $deprecated_classes = [
-	Request_Helper::class                               => '23.6',
-	Unsupported_PHP_Version_Notice::class               => '25.0',
 	Google_Site_Kit_Feature_Conditional::class          => '26.7',
 	Old_Premium_AI_Conditional::class                   => '28.4',
 	New_Premium_Or_Free_AI_Conditional::class           => '28.4',
