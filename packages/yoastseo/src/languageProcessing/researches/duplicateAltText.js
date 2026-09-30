@@ -6,19 +6,11 @@ import getImagesInScope from "../helpers/image/getImagesInScope";
  */
 
 /**
- * Matches the class WordPress adds to an image inserted from the media library, e.g. `wp-image-123`.
- * Every size of one attachment gets the same class, while its `src` differs per size.
- *
- * @type {RegExp}
- */
-const WP_IMAGE_CLASS_REGEX = /^wp-image-(\d+)$/;
-
-/**
  * Returns a key that is the same for two entries of the same image, so one image used twice is counted once.
  *
- * In order of preference: the attachment id of a provided image, the attachment id in a `wp-image-<id>` class,
- * the `src`. An image without any of these gets a key of its own, because nothing proves it is the same image
- * as another one.
+ * In order of preference: the attachment id of a provided image, the `src`. An image without either gets a key of
+ * its own, because nothing proves it is the same image as another one. The same image in two sizes has two `src`
+ * values, so on the text path it counts as two images.
  *
  * @param {Object} imageNode The image node, from the tree or mapped from the provided images.
  * @param {number} index     The position of the image in the list, used for an image without any identifier.
@@ -28,15 +20,6 @@ const WP_IMAGE_CLASS_REGEX = /^wp-image-(\d+)$/;
 const getImageKey = ( imageNode, index ) => {
 	if ( imageNode.attachmentId ) {
 		return `attachment:${ imageNode.attachmentId }`;
-	}
-
-	// In the tree, the class attribute is a Set of class names.
-	const classNames = imageNode.attributes.class ? [ ...imageNode.attributes.class ] : [];
-	for ( const className of classNames ) {
-		const match = className.match( WP_IMAGE_CLASS_REGEX );
-		if ( match ) {
-			return `attachment:${ match[ 1 ] }`;
-		}
 	}
 
 	if ( imageNode.attributes.src ) {

@@ -85,28 +85,10 @@ describe( "a research that counts the images that share their alt text with anot
 		expect( duplicateAltText( paper ) ).toBe( 2 );
 	} );
 
-	it( "does not count one WordPress attachment in two sizes, because both carry the same wp-image class", () => {
+	it( "counts one image in two sizes as two images, because only the src identifies an image in the text", () => {
 		const paper = parsedPaper(
 			"<img src='https://example.com/photo.jpg' alt='A dog' class='wp-image-13' />" +
 			"<img src='https://example.com/photo-300x225.jpg' alt='A dog' class='alignnone size-medium wp-image-13' />"
-		);
-
-		expect( duplicateAltText( paper ) ).toBe( 0 );
-	} );
-
-	it( "counts two different WordPress attachments with the same alt text", () => {
-		const paper = parsedPaper(
-			"<img src='https://example.com/photo.jpg' alt='A dog' class='wp-image-13' />" +
-			"<img src='https://example.com/photo.jpg' alt='A dog' class='wp-image-14' />"
-		);
-
-		expect( duplicateAltText( paper ) ).toBe( 2 );
-	} );
-
-	it( "does not read an attachment id from a class that only looks like the wp-image class", () => {
-		const paper = parsedPaper(
-			"<img src='https://example.com/a.jpg' alt='A dog' class='my-wp-image-13' />" +
-			"<img src='https://example.com/b.jpg' alt='A dog' class='my-wp-image-13' />"
 		);
 
 		expect( duplicateAltText( paper ) ).toBe( 2 );

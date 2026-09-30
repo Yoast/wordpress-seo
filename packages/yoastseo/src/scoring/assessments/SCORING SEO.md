@@ -433,7 +433,7 @@ Example: 6/15*100 = 0.4
 ### 9) Duplicate alt text
 **What it does**: Checks whether two or more different assessed images share the same alt text. Alt texts are compared trimmed and lowercased. By default it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
 
-Two entries count as the same image, not as a duplicate, when they have the same attachment id (the `id` of a provided image, or the `wp-image-<id>` class WordPress adds to every size of one attachment), or else the same `src`. An image with none of these counts as a different image. Images without alt text are not counted: several decorative images with an empty alt text are correct.
+Two entries count as the same image, not as a duplicate, when they have the same `id` (provided images only), or else the same `src`. An image with neither counts as a different image. On the text path, the same image in two sizes has two `src` values, so it counts as two images. Images without alt text are not counted: several decorative images with an empty alt text are correct.
 
 X is the number of images that share their alt text with at least one other image. For example, three images with the same alt text count as 3.
 
