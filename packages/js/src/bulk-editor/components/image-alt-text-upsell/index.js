@@ -1,4 +1,5 @@
 import { useSelect } from "@wordpress/data";
+import { useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { useToggleState } from "@yoast/ui-library";
 import { FIELD_SET_IMAGE_ALT_TEXT, STORE_NAME } from "../../constants";
@@ -9,11 +10,11 @@ import { ImageAltTextUpsellCard } from "./upsell-card";
 /**
  * The "Image alt text" tab content while Yoast WooCommerce SEO is not supplying the tab itself.
  *
- * A faded impression of the add-on's tab sits underneath either way. What goes on top depends on why the add-on
- * is not filling the slot: without it, the upsell card; with a version that predates the tab, the update modal.
- * A supported version fills the slot itself, so nothing is overlaid while its script is still loading.
+ * Without the add-on, the upsell card on top of a faded impression of the add-on's tab. With a version that
+ * predates the tab, the update modal over the empty panel. A supported version fills the slot itself, so the panel
+ * stays empty while its script is still loading.
  *
- * @returns {JSX.Element} The upsell block.
+ * @returns {JSX.Element} The upsell block, or the empty panel.
  */
 export const ImageAltTextUpsell = () => {
 	const { isWooSeoActive, isWooSeoVersionSupported, isTabActive } = useSelect( ( select ) => {
@@ -24,21 +25,31 @@ export const ImageAltTextUpsell = () => {
 			isTabActive: store.selectActiveFieldSet() === FIELD_SET_IMAGE_ALT_TEXT,
 		};
 	}, [] );
-	// There is no control in the tab to hang the modal on, so it opens with the panel, as the Premium one does
-	// for the AI bulk buttons.
-	const [ isUpdateModalOpen, , , , closeUpdateModal ] = useToggleState( true );
+	// There is no control in the tab to hang the modal on, so it opens with the panel. The panel stays mounted
+	// while other tabs are shown, so it opens again every time the tab does.
+	const [ isUpdateModalOpen, , , openUpdateModal, closeUpdateModal ] = useToggleState( true );
+	useEffect( () => {
+		if ( isTabActive ) {
+			openUpdateModal();
+		}
+	}, [ isTabActive, openUpdateModal ] );
 
-	return (
-		<div className="yst-grid">
-			<div className="yst-col-start-1 yst-row-start-1 yst-min-w-0">
-				<DummyImageAltTextTable />
-			</div>
-			{ ! isWooSeoActive && (
+	if ( ! isWooSeoActive ) {
+		return (
+			<div className="yst-grid">
+				<div className="yst-col-start-1 yst-row-start-1 yst-min-w-0">
+					<DummyImageAltTextTable />
+				</div>
 				<div className="yst-relative yst-z-10 yst-col-start-1 yst-row-start-1 yst-min-w-0 yst-flex yst-items-center yst-justify-center yst-p-4 sm:yst-p-6">
 					<ImageAltTextUpsellCard />
 				</div>
-			) }
-			{ isTabActive && isWooSeoActive && ! isWooSeoVersionSupported && (
+			</div>
+		);
+	}
+
+	return (
+		<>
+			{ isTabActive && ! isWooSeoVersionSupported && (
 				<UpdateModal
 					isOpen={ isUpdateModalOpen }
 					onClose={ closeUpdateModal }
@@ -51,6 +62,6 @@ export const ImageAltTextUpsell = () => {
 					) }
 				/>
 			) }
-		</div>
+		</>
 	);
 };

@@ -1,5 +1,5 @@
 import { useSelect } from "@wordpress/data";
-import { render, screen } from "../test-utils";
+import { fireEvent, render, screen } from "../test-utils";
 import { ImageAltTextUpsell } from "../../src/bulk-editor/components/image-alt-text-upsell";
 import { FIELD_SET_IMAGE_ALT_TEXT, FIELD_SET_SEARCH, IMAGE_ALT_TEXT_UPSELL_LINK } from "../../src/bulk-editor/constants";
 
@@ -147,6 +147,32 @@ describe( "ImageAltTextUpsell", () => {
 			expect( link ).toHaveAttribute( "target", "_blank" );
 		} );
 
+		it( "leaves the panel empty under the update modal, without the upsell's dummy table", () => {
+			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
+
+			const { container } = render( <ImageAltTextUpsell /> );
+
+			expect( container.querySelector( "[aria-hidden='true']" ) ).toBeNull();
+			expect( screen.queryByText( "Classic Athletic Sneaker" ) ).not.toBeInTheDocument();
+		} );
+
+		it( "opens the modal again every time the tab is shown after it was closed", () => {
+			const preferences = { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL };
+			mockStore( preferences );
+			const { rerender } = render( <ImageAltTextUpsell /> );
+
+			fireEvent.click( screen.getByRole( "button", { name: "Close" } ) );
+			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
+
+			mockStore( preferences, FIELD_SET_SEARCH );
+			rerender( <ImageAltTextUpsell /> );
+			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
+
+			mockStore( preferences );
+			rerender( <ImageAltTextUpsell /> );
+			expect( screen.getByRole( "dialog" ) ).toBeInTheDocument();
+		} );
+
 		it( "hides the update link from users who may not update plugins", () => {
 			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: "" } );
 
@@ -168,10 +194,12 @@ describe( "ImageAltTextUpsell", () => {
 			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
 		} );
 
-		it( "overlays nothing on a supported version, whose own script fills the slot", () => {
+		it( "renders an empty panel on a supported version, whose own script fills the slot", () => {
 			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: true } );
 
-			render( <ImageAltTextUpsell /> );
+			const { container } = render( <ImageAltTextUpsell /> );
+
+			expect( container ).toBeEmptyDOMElement();
 
 			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
 			expect( screen.queryByRole( "heading", { name: /From flagged to fixed/ } ) ).not.toBeInTheDocument();
