@@ -7,6 +7,7 @@
  * @typedef {Object} DummyProduct
  * @property {string} title The product title.
  * @property {number} imageCount The number of product images.
+ * @property {number} missingAltCount The number of those images without alt text.
  */
 
 /**
@@ -18,12 +19,12 @@
 
 /** @type {DummyProduct[]} */
 export const DUMMY_PRODUCTS = [
-	{ title: "Classic Athletic Sneaker", imageCount: 4 },
-	{ title: "Retro Basketball Shoe", imageCount: 5 },
-	{ title: "Lightweight Running Shoe", imageCount: 3 },
-	{ title: "Casual Slip-On Sneaker", imageCount: 2 },
-	{ title: "Trail Running Shoe", imageCount: 5 },
-	{ title: "Fashionable High-Top Sneaker", imageCount: 7 },
+	{ title: "Classic Athletic Sneaker", imageCount: 4, missingAltCount: 2 },
+	{ title: "Retro Basketball Shoe", imageCount: 5, missingAltCount: 4 },
+	{ title: "Lightweight Running Shoe", imageCount: 3, missingAltCount: 1 },
+	{ title: "Casual Slip-On Sneaker", imageCount: 2, missingAltCount: 1 },
+	{ title: "Trail Running Shoe", imageCount: 5, missingAltCount: 0 },
+	{ title: "Fashionable High-Top Sneaker", imageCount: 7, missingAltCount: 3 },
 ];
 
 export const DUMMY_ACTIVE_PRODUCT = {

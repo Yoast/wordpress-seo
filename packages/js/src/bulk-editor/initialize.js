@@ -19,6 +19,7 @@ import {
 // dependency of the other pages that import that barrel.
 import { getVisibleContentLength } from "../shared-admin/helpers/get-visible-content-length";
 import App from "./app";
+import { BulkEditorFilters } from "./components/bulk-editor-filters";
 import { UpsellModal } from "./components/upsell-modal";
 import { BULK_UPDATE_BATCH_SIZE, PLUGIN_SCOPE, ROOT_ID, STORE_NAME } from "./constants";
 import { useAiUpsell } from "./hooks/use-ai-upsell";
@@ -28,13 +29,16 @@ import registerStore from "./store";
 import { useActionBarFocusReturn } from "./hooks/use-action-bar-focus-return";
 
 /*
- * Cross-plugin surface consumed by Premium's bulk-editor bundle.
+ * Cross-plugin surface consumed by Premium's and WooCommerce SEO's bulk-editor bundles.
  *
- * Premium depends on this script, so the globals below are guaranteed to exist
- * before Premium reads them. Free and Premium ship in lockstep (unversioned).
- *
+ * Premium depends on this script, so the globals below are guaranteed to exist before it reads them;
+ * Free and Premium ship in lockstep (unversioned). WooCommerce SEO declares no such dependency: it reads
+ * them at render time from inside this page's React tree, which this script mounts, so this module has
+ * necessarily already run. It also ships separately, so it reads the surface defensively.
  * Exposed pieces:
  *  - UpsellModal        – Bulk AI upsell dialog.
+ *  - BulkEditorFilters  – The Filters button. WooCommerce SEO renders it in the
+ *                         "Image alt text" tab.
  *  - GenericAlert       – Error alert shown when the consent flow fails.
  *  - preparePromptContent – Collects each post's prompt content for bulk AI generation.
  *  - getVisibleContentLength – Measures "limited content" length; shared with the
@@ -45,7 +49,7 @@ import { useActionBarFocusReturn } from "./hooks/use-action-bar-focus-return";
  */
 window.yoast = window.yoast || {};
 window.yoast.bulkEditor = window.yoast.bulkEditor || {};
-window.yoast.bulkEditor.components = { ...window.yoast.bulkEditor.components, UpsellModal, GenericAlert };
+window.yoast.bulkEditor.components = { ...window.yoast.bulkEditor.components, UpsellModal, GenericAlert, BulkEditorFilters };
 window.yoast.bulkEditor.hooks = { ...window.yoast.bulkEditor.hooks, useAiUpsell, useActionBarFocusReturn };
 window.yoast.bulkEditor.helpers = { ...window.yoast.bulkEditor.helpers, preparePromptContent, getVisibleContentLength };
 window.yoast.bulkEditor.constants = { ...window.yoast.bulkEditor.constants, MAX_TOKENS_DEFAULT, MAX_TOKENS_IRREGULAR };

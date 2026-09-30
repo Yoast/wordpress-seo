@@ -126,7 +126,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			->once()
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
 		Functions\expect( 'admin_url' )
-			->times( 2 )
+			->times( 3 )
 			->andReturnUsing(
 				static function ( $path ) {
 					return 'https://example.com/wp-admin/' . $path;
@@ -191,6 +191,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 		$has_woo_seo_update_url      = ( \strpos( $preferences['wooSeoUpdateUrl'], 'plugin=wpseo-woocommerce%2Fwpseo-woocommerce.php' ) !== false );
 
 		return $data['contentTypes'] === $content_types
+			&& $data['links']['settings'] === 'https://example.com/wp-admin/admin.php?page=wpseo_page_settings'
 			&& $data['nonce'] === 'rest-nonce'
 			&& $preferences['isPremium'] === false
 			&& $preferences['isWooSeoActive'] === ! $is_woo_seo_inactive

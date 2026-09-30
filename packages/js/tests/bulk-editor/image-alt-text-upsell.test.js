@@ -14,7 +14,6 @@ jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn(),
 } ) );
 
-
 const wooUpsell = {
 	upsellLabel: "Unlock with Yoast WooCommerce SEO",
 	upsellLink: "https://yoa.st/bulk-editor-ai-upsell-woo?platform=wordpress",
@@ -23,11 +22,13 @@ const wooUpsell = {
 };
 
 const LINK_PARAMS = "?platform=wordpress&screen=wpseo_page_bulk_edit";
+const PLUGIN_URL = "https://example.com/wp-content/plugins/wordpress-seo";
 
 /**
  * Points the store mock at the given preferences.
  *
- * @param {Object} preferences Partial preference overrides; unset keys fall back to the caller's default.
+ * @param {Object} [preferences] Partial preference overrides; unset keys fall back to the caller's default.
+ * @param {string} [activeFieldSet] The field set the store reports as active.
  *
  * @returns {void}
  */
@@ -43,7 +44,7 @@ describe( "ImageAltTextUpsell", () => {
 	beforeEach( () => {
 		mockUseAiUpsell.mockReturnValue( wooUpsell );
 		// Without the add-on, which is what every upsell assertion below is about.
-		mockStore( { isWooSeoActive: false } );
+		mockStore( { isWooSeoActive: false, pluginUrl: PLUGIN_URL } );
 	} );
 
 	it( "renders the upsell copy for Yoast WooCommerce SEO", () => {
@@ -77,10 +78,14 @@ describe( "ImageAltTextUpsell", () => {
 		expect( cta ).not.toHaveAttribute( "data-ctb-id" );
 	} );
 
-	it( "renders no image while the visual is pending", () => {
+	it( "shows the decorative visual from the plugin's images folder", () => {
 		render( <ImageAltTextUpsell /> );
 
-		expect( screen.getByRole( "region" ).querySelector( "img" ) ).toBeNull();
+		const image = screen.getByRole( "region" ).querySelector( "img" );
+		expect( image ).toHaveAttribute( "src", PLUGIN_URL + "/images/bulk-editor-image-alt-text-upsell.jpg" );
+		// Decorative: an empty alt keeps it out of the accessibility tree, so the region still reads subtitle, heading, description, link.
+		expect( image ).toHaveAttribute( "alt", "" );
+		expect( screen.queryByRole( "img" ) ).not.toBeInTheDocument();
 	} );
 
 	it( "is not a dialog and cannot be dismissed", () => {
@@ -103,6 +108,25 @@ describe( "ImageAltTextUpsell", () => {
 		// The shapes are drawn with the ui-library's classes rather than its components, so there is nothing
 		// focusable in here at all, which is what keeps the aria-hidden wrapper valid.
 		expect( dummy.querySelectorAll( "a, button, input, select, textarea, [tabindex]" ) ).toHaveLength( 0 );
+	} );
+
+	it( "shows each dummy product's image count, with the missing alt count only when there is one", () => {
+		const { container } = render( <ImageAltTextUpsell /> );
+
+		// Title, image count and the red missing alt count (null when the product has none).
+		const rows = Array.from( container.querySelectorAll( ".yst-content-tabs__tab" ) ).map( ( row ) => [
+			row.querySelector( ".yst-truncate" ).textContent,
+			row.querySelector( ".yst-text-slate-500" ).textContent,
+			row.querySelector( ".yst-text-red-600" )?.textContent ?? null,
+		] );
+		expect( rows ).toEqual( [
+			[ "Classic Athletic Sneaker", "4 images", "2 missing alt" ],
+			[ "Retro Basketball Shoe", "5 images", "4 missing alt" ],
+			[ "Lightweight Running Shoe", "3 images", "1 missing alt" ],
+			[ "Casual Slip-On Sneaker", "2 images", "1 missing alt" ],
+			[ "Trail Running Shoe", "5 images", null ],
+			[ "Fashionable High-Top Sneaker", "7 images", "3 missing alt" ],
+		] );
 	} );
 
 	describe( "with Yoast WooCommerce SEO active", () => {

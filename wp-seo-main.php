@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '28.6-RC1' );
+define( 'WPSEO_VERSION', '28.7-RC1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -35,7 +35,7 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '7.4' );
-define( 'YOAST_SEO_WP_TESTED', '7.1' );
+define( 'YOAST_SEO_WP_TESTED', '7.1.2' );
 define( 'YOAST_SEO_WP_REQUIRED', '6.9' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
@@ -321,7 +321,6 @@ function wpseo_load_textdomain() {
  */
 function wpseo_init() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
-	require_once WPSEO_PATH . 'inc/wpseo-functions-deprecated.php';
 
 	// Make sure our option and meta value validation routines and default values are always registered and available.
 	WPSEO_Options::get_instance();
@@ -526,31 +525,6 @@ function yoast_wpseo_missing_autoload_notice() {
 	$message = esc_html__( 'The %1$s plugin installation is incomplete. Please refer to %2$sinstallation instructions%3$s.', 'wordpress-seo' );
 	$message = sprintf( $message, 'Yoast SEO', '<a href="https://github.com/Yoast/wordpress-seo#installation">', '</a>' );
 	yoast_wpseo_activation_failed_notice( $message );
-}
-
-/**
- * Throw an error if the filter extension is disabled (prevent white screens) and self-deactivate plugin.
- *
- * @since 2.0
- * @deprecated 23.3
- * @codeCoverageIgnore
- *
- * @return void
- */
-function yoast_wpseo_missing_filter() {
-	_deprecated_function( __FUNCTION__, 'Yoast SEO 23.3' );
-}
-
-/**
- * Returns the notice in case of missing filter extension.
- *
- * @deprecated 23.3
- * @codeCoverageIgnore
- *
- * @return void
- */
-function yoast_wpseo_missing_filter_notice() {
-	_deprecated_function( __FUNCTION__, 'Yoast SEO 23.3' );
 }
 
 /**
