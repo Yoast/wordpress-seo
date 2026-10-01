@@ -9,7 +9,7 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
  * Only the option is written: when the feature is disabled, the schema disabled conditional
  * stops the JSON-LD output on the front end.
  */
-class Set_Schema_Framework_Status_Ability extends Abstract_Set_Feature_Status_Ability {
+class Set_Schema_Framework_Status_Ability extends Abstract_Set_Option_Status_Ability {
 
 	/**
 	 * Returns the part of the ability name that follows the category slug.
