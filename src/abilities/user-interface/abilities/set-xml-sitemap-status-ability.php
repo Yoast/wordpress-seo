@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 /**
  * The ability that enables or disables the XML sitemap feature.
  */
-class Set_Xml_Sitemap_Status_Ability extends Abstract_Set_Feature_Status_Ability {
+class Set_Xml_Sitemap_Status_Ability extends Abstract_Set_Option_Status_Ability {
 
 	/**
 	 * The options helper.
