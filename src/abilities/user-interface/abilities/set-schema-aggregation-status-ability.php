@@ -9,7 +9,7 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
  * Only the option is written: the first time the feature is enabled, the option watcher records
  * the timestamp that the schema aggregator's cache warming and announcements rely on.
  */
-class Set_Schema_Aggregation_Status_Ability extends Abstract_Set_Feature_Status_Ability {
+class Set_Schema_Aggregation_Status_Ability extends Abstract_Set_Option_Status_Ability {
 
 	/**
 	 * Returns the part of the ability name that follows the category slug.
