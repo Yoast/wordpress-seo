@@ -4,13 +4,15 @@
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use WP_Error;
-use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
 use Yoast\WP\SEO\Abilities\Domain\Ability_Interface;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
- * Base class for the abilities that enable or disable a feature backed by a boolean option.
+ * Base class for the abilities that enable or disable a feature.
+ *
+ * Features toggled by writing a boolean option and nothing else extend Abstract_Set_Option_Status_Ability.
+ * Features whose toggle has side effects worth reporting extend this class directly and bring their own updater.
  */
 abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface {
 
@@ -22,29 +24,22 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 	private $capability_helper;
 
 	/**
-	 * The feature status updater.
-	 *
-	 * @var Feature_Status_Updater
-	 */
-	private $feature_status_updater;
-
-	/**
 	 * Constructor.
 	 *
-	 * @param Capability_Helper      $capability_helper      The capability helper.
-	 * @param Feature_Status_Updater $feature_status_updater The feature status updater.
+	 * @param Capability_Helper $capability_helper The capability helper.
 	 */
-	public function __construct( Capability_Helper $capability_helper, Feature_Status_Updater $feature_status_updater ) {
-		$this->capability_helper      = $capability_helper;
-		$this->feature_status_updater = $feature_status_updater;
+	public function __construct( Capability_Helper $capability_helper ) {
+		$this->capability_helper = $capability_helper;
 	}
 
 	/**
-	 * Returns the name of the boolean option that enables the feature.
+	 * Enables or disables the feature and returns its new status.
 	 *
-	 * @return string The option name.
+	 * @param array<string, bool> $input The input holding the desired `enabled` status.
+	 *
+	 * @return array<string, bool|string>|WP_Error The new status, or an error when it could not be saved.
 	 */
-	abstract protected function get_option_name(): string;
+	abstract public function execute( array $input );
 
 	/**
 	 * Returns the part of the ability name that follows the category slug.
@@ -103,18 +98,6 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 	 */
 	public function can_manage_seo(): bool {
 		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
-	}
-
-	/**
-	 * Enables or disables the feature and returns its new status. Features whose toggle has
-	 * side effects worth reporting override this.
-	 *
-	 * @param array<string, bool> $input The input holding the desired `enabled` status.
-	 *
-	 * @return array<string, bool|string>|WP_Error The new status, or an error when it could not be saved.
-	 */
-	public function execute( array $input ) {
-		return $this->feature_status_updater->set_status( $this->get_option_name(), $input );
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
