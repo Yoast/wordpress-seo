@@ -53,7 +53,6 @@ export const ImageAltTextUpsell = () => {
 				<UpdateModal
 					isOpen={ isUpdateModalOpen }
 					onClose={ closeUpdateModal }
-					pluginName="Yoast WooCommerce SEO"
 					updateUrlPreference="wooSeoUpdateUrl"
 					description={ sprintf(
 						/* translators: %s expands to "Yoast WooCommerce SEO". */

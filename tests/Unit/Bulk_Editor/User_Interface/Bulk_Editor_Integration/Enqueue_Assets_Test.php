@@ -117,7 +117,14 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			->andReturn( 'wpseo-woocommerce/wpseo-woocommerce.php' );
 		// An update package is available, so the Woo SEO URL is the one-click update too.
 		Functions\when( 'get_site_transient' )->justReturn(
-			(object) [ 'response' => [ 'wpseo-woocommerce/wpseo-woocommerce.php' => (object) [ 'package' => 'https://example.com/woo.zip' ] ] ],
+			(object) [
+				'response' => [
+					'wpseo-woocommerce/wpseo-woocommerce.php' => (object) [
+						'new_version' => '17.0',
+						'package'     => 'https://example.com/woo.zip',
+					],
+				],
+			],
 		);
 		// The Premium update URL is always built; the Woo SEO one only when the add-on is active.
 		$update_url_calls = 1;

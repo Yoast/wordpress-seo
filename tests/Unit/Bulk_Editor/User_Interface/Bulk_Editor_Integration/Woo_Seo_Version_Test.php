@@ -144,8 +144,26 @@ final class Woo_Seo_Version_Test extends Abstract_Test {
 				'updates'          => (object) [ 'response' => [ $file => (object) [ 'new_version' => '17.0' ] ] ],
 				'stub_plugin_file' => true,
 			],
+			'update predates the tab' => [
+				'updates'          => (object) [
+					'response' => [
+						$file => (object) [
+							'new_version' => '16.9.1',
+							'package'     => 'https://example.com/woo.zip',
+						],
+					],
+				],
+				'stub_plugin_file' => true,
+			],
 			'plugin file unknown' => [
-				'updates'          => (object) [ 'response' => [ $file => (object) [ 'package' => 'https://example.com/woo.zip' ] ] ],
+				'updates'          => (object) [
+					'response' => [
+						$file => (object) [
+							'new_version' => '17.0',
+							'package'     => 'https://example.com/woo.zip',
+						],
+					],
+				],
 				'stub_plugin_file' => false,
 			],
 		];
@@ -171,7 +189,12 @@ final class Woo_Seo_Version_Test extends Abstract_Test {
 	): array {
 		if ( $updates === null ) {
 			$updates = (object) [
-				'response' => [ 'wpseo-woocommerce/wpseo-woocommerce.php' => (object) [ 'package' => 'https://example.com/woo.zip' ] ],
+				'response' => [
+					'wpseo-woocommerce/wpseo-woocommerce.php' => (object) [
+						'new_version' => '17.0',
+						'package'     => 'https://example.com/woo.zip',
+					],
+				],
 			];
 		}
 

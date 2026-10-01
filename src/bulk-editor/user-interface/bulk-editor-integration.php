@@ -55,9 +55,10 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	public const SELECTED_COUNT_PARAM = 'selected_count';
 
 	/**
-	 * The first Yoast WooCommerce SEO version that fills the products "Image alt text" tab.
+	 * The last Yoast WooCommerce SEO version that does not fill the products "Image alt text" tab.
 	 *
-	 * Older active versions leave the tab empty, so the bulk editor asks for an update instead.
+	 * Versions after it fill the tab. With an active version up to this one the tab stays empty, so the bulk editor
+	 * asks for an update instead.
 	 */
 	private const MINIMUM_WOO_SEO_VERSION = '17.0-RC0';
 
@@ -449,18 +450,26 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Checks whether WordPress has an update package ready to install for a plugin.
+	 * Checks whether WordPress has an update package ready to install for Yoast WooCommerce SEO, for a version that
+	 * fills the products "Image alt text" tab.
+	 *
+	 * An update cached before that version came out would install an older one, after which the modal reopens.
 	 *
 	 * @param string $plugin_file The plugin file, relative to the plugins directory.
 	 *
-	 * @return bool Whether update.php can install an update for the plugin.
+	 * @return bool Whether update.php can install a version that fills the tab.
 	 */
 	private function has_update_package( string $plugin_file ): bool {
 		$updates = \get_site_transient( 'update_plugins' );
+		if ( ! \is_object( $updates ) || ! isset( $updates->response[ $plugin_file ] ) ) {
+			return false;
+		}
 
-		return \is_object( $updates )
-			&& isset( $updates->response[ $plugin_file ] )
-			&& ! empty( $updates->response[ $plugin_file ]->package );
+		$update = $updates->response[ $plugin_file ];
+
+		return ! empty( $update->package )
+			&& isset( $update->new_version )
+			&& \version_compare( $update->new_version, self::MINIMUM_WOO_SEO_VERSION, '>' );
 	}
 
 	/**
