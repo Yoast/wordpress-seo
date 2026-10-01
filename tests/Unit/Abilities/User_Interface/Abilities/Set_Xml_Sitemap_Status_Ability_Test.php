@@ -117,6 +117,7 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	/**
 	 * Tests that can_manage_seo checks the management capability and returns its result.
 	 *
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Option_Status_Ability::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::can_manage_seo
 	 *
@@ -140,7 +141,7 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	 * Tests that execute delegates to the updater with the XML sitemap option and returns its result.
 	 *
 	 * @covers ::get_option_name
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::execute
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Option_Status_Ability::execute
 	 *
 	 * @return void
 	 */
