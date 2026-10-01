@@ -414,44 +414,63 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @return string The nonce-protected update URL, or an empty string.
 	 */
 	private function get_premium_update_url( bool $can_update_plugins ): string {
-		return $this->get_plugin_update_url( 'wordpress-seo-premium/wp-seo-premium.php', $can_update_plugins );
+		if ( ! $can_update_plugins ) {
+			return '';
+		}
+
+		return $this->get_plugin_update_url( 'wordpress-seo-premium/wp-seo-premium.php' );
 	}
 
 	/**
-	 * Returns the one-click Yoast WooCommerce SEO update URL for the current user, or an empty string when the
-	 * add-on is not active or the user lacks the `update_plugins` capability.
+	 * Returns where the current user can update Yoast WooCommerce SEO, or an empty string when the add-on is not
+	 * active or the user lacks the `update_plugins` capability.
+	 *
+	 * The one-click update URL only works when WordPress has an update package for the add-on. Without a (valid)
+	 * subscription, or before the update check has run, there is nothing to install and update.php only reports
+	 * that the plugin is at the latest version or that the package is not available. The Plugins screen then shows
+	 * the update or the add-on manager's subscription notice instead.
 	 *
 	 * @param bool $is_woo_seo_active  Whether Yoast WooCommerce SEO is active.
 	 * @param bool $can_update_plugins Whether the current user may update plugins.
 	 *
-	 * @return string The nonce-protected update URL, or an empty string.
+	 * @return string The one-click update URL, the Plugins screen URL, or an empty string.
 	 */
 	private function get_woo_seo_update_url( bool $is_woo_seo_active, bool $can_update_plugins ): string {
-		if ( ! $is_woo_seo_active ) {
+		if ( ! $is_woo_seo_active || ! $can_update_plugins ) {
 			return '';
 		}
 
 		$plugin_file = $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
-		if ( ! \is_string( $plugin_file ) || $plugin_file === '' ) {
-			return '';
+		if ( \is_string( $plugin_file ) && $plugin_file !== '' && $this->has_update_package( $plugin_file ) ) {
+			return $this->get_plugin_update_url( $plugin_file );
 		}
 
-		return $this->get_plugin_update_url( $plugin_file, $can_update_plugins );
+		return \self_admin_url( 'plugins.php' );
+	}
+
+	/**
+	 * Checks whether WordPress has an update package ready to install for a plugin.
+	 *
+	 * @param string $plugin_file The plugin file, relative to the plugins directory.
+	 *
+	 * @return bool Whether update.php can install an update for the plugin.
+	 */
+	private function has_update_package( string $plugin_file ): bool {
+		$updates = \get_site_transient( 'update_plugins' );
+
+		return \is_object( $updates )
+			&& isset( $updates->response[ $plugin_file ] )
+			&& ! empty( $updates->response[ $plugin_file ]->package );
 	}
 
 	/**
 	 * Builds the nonce-protected one-click update URL of a plugin, as the Plugins screen links it.
 	 *
-	 * @param string $plugin_file        The plugin file, relative to the plugins directory.
-	 * @param bool   $can_update_plugins Whether the current user may update plugins.
+	 * @param string $plugin_file The plugin file, relative to the plugins directory.
 	 *
-	 * @return string The update URL, or an empty string when the user may not update plugins.
+	 * @return string The update URL.
 	 */
-	private function get_plugin_update_url( string $plugin_file, bool $can_update_plugins ): string {
-		if ( ! $can_update_plugins ) {
-			return '';
-		}
-
+	private function get_plugin_update_url( string $plugin_file ): string {
 		return \html_entity_decode(
 			\wp_nonce_url(
 				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . \rawurlencode( $plugin_file ) ),

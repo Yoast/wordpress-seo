@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::get_script_data
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::is_woo_seo_version_supported
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::get_woo_seo_update_url
+ * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::has_update_package
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::get_plugin_update_url
  */
 final class Woo_Seo_Version_Test extends Abstract_Test {
@@ -102,16 +103,52 @@ final class Woo_Seo_Version_Test extends Abstract_Test {
 	}
 
 	/**
-	 * Tests that no update URL is built when the add-on manager does not know the plugin file.
+	 * Tests that the update URL falls back to the Plugins screen when WordPress has nothing to install, as
+	 * update.php would only report that the plugin is at the latest version or that the package is missing.
+	 *
+	 * @dataProvider data_plugins_screen_fallback
+	 *
+	 * @param mixed $updates          The update_plugins site transient.
+	 * @param bool  $stub_plugin_file Whether the add-on manager knows the plugin file.
 	 *
 	 * @return void
 	 */
-	public function test_no_update_url_without_plugin_file(): void {
-		$this->addon_manager->allows( 'get_plugin_file' )->andReturn( false );
+	public function test_falls_back_to_the_plugins_screen( $updates, bool $stub_plugin_file ): void {
+		if ( ! $stub_plugin_file ) {
+			$this->addon_manager->allows( 'get_plugin_file' )->andReturn( false );
+		}
 
-		$preferences = $this->get_preferences( true, '16.9', true, false );
+		$preferences = $this->get_preferences( true, '16.9', true, $stub_plugin_file, $updates );
 
-		$this->assertSame( '', $preferences['wooSeoUpdateUrl'] );
+		$this->assertSame( 'https://example.com/wp-admin/plugins.php', $preferences['wooSeoUpdateUrl'] );
+	}
+
+	/**
+	 * Data provider for test_falls_back_to_the_plugins_screen.
+	 *
+	 * @return array<string, array<string, mixed>> The test data.
+	 */
+	public static function data_plugins_screen_fallback(): array {
+		$file = 'wpseo-woocommerce/wpseo-woocommerce.php';
+
+		return [
+			'no update check yet' => [
+				'updates'          => false,
+				'stub_plugin_file' => true,
+			],
+			'no update offered, no subscription' => [
+				'updates'          => (object) [ 'response' => [] ],
+				'stub_plugin_file' => true,
+			],
+			'package removed, expired subscription' => [
+				'updates'          => (object) [ 'response' => [ $file => (object) [ 'new_version' => '17.0' ] ] ],
+				'stub_plugin_file' => true,
+			],
+			'plugin file unknown' => [
+				'updates'          => (object) [ 'response' => [ $file => (object) [ 'package' => 'https://example.com/woo.zip' ] ] ],
+				'stub_plugin_file' => false,
+			],
+		];
 	}
 
 	/**
@@ -121,10 +158,23 @@ final class Woo_Seo_Version_Test extends Abstract_Test {
 	 * @param string|null $version            The installed version, or null for none.
 	 * @param bool        $can_update_plugins Whether the user may update plugins.
 	 * @param bool        $stub_plugin_file   Whether to let the add-on manager return the plugin file.
+	 * @param mixed       $updates            The update_plugins site transient; defaults to an available package.
 	 *
 	 * @return array<string, bool|string> The preferences from the script data.
 	 */
-	private function get_preferences( bool $is_active, ?string $version, bool $can_update_plugins, bool $stub_plugin_file = true ): array {
+	private function get_preferences(
+		bool $is_active,
+		?string $version,
+		bool $can_update_plugins,
+		bool $stub_plugin_file = true,
+		$updates = null
+	): array {
+		if ( $updates === null ) {
+			$updates = (object) [
+				'response' => [ 'wpseo-woocommerce/wpseo-woocommerce.php' => (object) [ 'package' => 'https://example.com/woo.zip' ] ],
+			];
+		}
+
 		$this->stub_wpseo_admin_replace_vars_dependencies();
 		$this->replace_vars->allows( 'get_replacement_variables_with_labels' )->andReturn( [] );
 		$this->stubEscapeFunctions();
@@ -147,6 +197,7 @@ final class Woo_Seo_Version_Test extends Abstract_Test {
 			],
 		);
 		Functions\when( 'current_user_can' )->justReturn( $can_update_plugins );
+		Functions\when( 'get_site_transient' )->justReturn( $updates );
 
 		$endpoint_list = Mockery::mock( Endpoint_List::class );
 		$endpoint_list->allows( 'to_array' )->andReturn( [] );
