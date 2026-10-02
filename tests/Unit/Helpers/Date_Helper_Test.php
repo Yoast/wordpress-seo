@@ -50,6 +50,43 @@ final class Date_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests formatting a GMT date in the site timezone.
+	 *
+	 * @dataProvider format_with_site_timezone_provider
+	 * @covers       ::format_with_site_timezone
+	 *
+	 * @param string $date     The GMT date to format.
+	 * @param string $format   The format.
+	 * @param string $timezone The timezone to format the date in.
+	 * @param string $expected The expected value.
+	 *
+	 * @return void
+	 */
+	public function test_format_with_site_timezone( $date, $format, $timezone, $expected ) {
+		Monkey\Functions\expect( 'wp_timezone' )
+			->once()
+			->andReturn( new \DateTimeZone( $timezone ) );
+
+		$this->assertSame( $expected, $this->instance->format_with_site_timezone( $date, $format ) );
+	}
+
+	/**
+	 * Tests that invalid site timezone input is returned unchanged.
+	 *
+	 * @covers ::format_with_site_timezone
+	 *
+	 * @return void
+	 */
+	public function test_format_with_site_timezone_with_invalid_date() {
+		Monkey\Functions\expect( 'wp_timezone' )->never();
+
+		$this->assertSame(
+			'2020-12-31',
+			$this->instance->format_with_site_timezone( '2020-12-31' ),
+		);
+	}
+
+	/**
 	 * Provides data to the test_format.
 	 *
 	 * @return array The test data.
@@ -100,6 +137,40 @@ final class Date_Helper_Test extends TestCase {
 				'date'     => '2020-12-31',
 				'format'   => \DATE_W3C,
 				'expected' => '2020-12-31',
+			],
+		];
+	}
+
+	/**
+	 * Provides data to the test_format_with_site_timezone.
+	 *
+	 * @return array The test data.
+	 */
+	public static function format_with_site_timezone_provider() {
+		return [
+			'Test formatting in UTC' => [
+				'date'     => '2020-12-31 13:37:00',
+				'format'   => \DATE_W3C,
+				'timezone' => 'UTC',
+				'expected' => '2020-12-31T13:37:00+00:00',
+			],
+			'Test formatting in Europe/Amsterdam' => [
+				'date'     => '2026-04-01 07:10:34',
+				'format'   => \DATE_W3C,
+				'timezone' => 'Europe/Amsterdam',
+				'expected' => '2026-04-01T09:10:34+02:00',
+			],
+			'Test formatting in UTC+8:45' => [
+				'date'     => '2026-04-01 07:10:34',
+				'format'   => \DATE_W3C,
+				'timezone' => '+08:45',
+				'expected' => '2026-04-01T15:55:34+08:45',
+			],
+			'Test formatting in UTC-3:30' => [
+				'date'     => '2026-04-01 07:10:34',
+				'format'   => \DATE_W3C,
+				'timezone' => '-03:30',
+				'expected' => '2026-04-01T03:40:34-03:30',
 			],
 		];
 	}
