@@ -234,7 +234,8 @@ final class Site_Representation_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that update combines the warnings of all the settings it skipped.
+	 * Tests that update combines the warnings of all the settings it skipped, and says no other settings
+	 * were saved when none were.
 	 *
 	 * @covers ::update
 	 *
@@ -256,7 +257,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 		);
 
 		$this->assertSame(
-			'The site was not set to represent a person, because Yoast Local SEO is active and requires the site to represent an organization. The user to represent was not changed, because no user exists with the given ID. The other settings were saved.',
+			'The site was not set to represent a person, because Yoast Local SEO is active and requires the site to represent an organization. The user to represent was not changed, because no user exists with the given ID. No other settings were saved.',
 			$result['warning'],
 		);
 	}

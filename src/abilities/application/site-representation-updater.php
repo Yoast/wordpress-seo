@@ -91,18 +91,26 @@ class Site_Representation_Updater {
 			$warnings[] = \__( 'The user to represent was not changed, because no user exists with the given ID.', 'wordpress-seo' );
 		}
 
-		$fields = $this->field_map->get_fields();
+		$fields    = $this->field_map->get_fields();
+		$any_saved = false;
 
 		foreach ( \array_keys( $fields ) as $field_name ) {
+			if ( ! \array_key_exists( $field_name, $input ) ) {
+				continue;
+			}
+
+			if ( $this->options_helper->set( $field_name, $input[ $field_name ] ) === true ) {
+				$any_saved = true;
+				continue;
+			}
+
 			// A failed save is also reported when the value was invalid or the option sanitized it into
 			// something else, so the warning points to the returned value rather than claiming nothing was stored.
-			if ( \array_key_exists( $field_name, $input ) && $this->options_helper->set( $field_name, $input[ $field_name ] ) !== true ) {
-				$warnings[] = \sprintf(
-					/* translators: %s expands to the name of a setting. */
-					\__( 'The %s setting could not be saved as provided, so its current value is returned.', 'wordpress-seo' ),
-					$field_name,
-				);
-			}
+			$warnings[] = \sprintf(
+				/* translators: %s expands to the name of a setting. */
+				\__( 'The %s setting could not be saved as provided, so its current value is returned.', 'wordpress-seo' ),
+				$field_name,
+			);
 		}
 
 		// @TODO: Check if the watcher takes care of the below. If so, remove this loop.
@@ -115,7 +123,7 @@ class Site_Representation_Updater {
 		$result = $this->get_settings( $fields );
 
 		if ( $warnings !== [] ) {
-			$warnings[]        = \__( 'The other settings were saved.', 'wordpress-seo' );
+			$warnings[]        = ( $any_saved ) ? \__( 'The other settings were saved.', 'wordpress-seo' ) : \__( 'No other settings were saved.', 'wordpress-seo' );
 			$result['warning'] = \implode( ' ', $warnings );
 		}
 
