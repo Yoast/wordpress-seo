@@ -52,7 +52,7 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 - [Meta description length](SCORING%20SEO.md#5-meta-description-length)
 - [Single title](SCORING%20SEO.md#6-single-title)
 - [Function words in keyphrase](SCORING%20SEO.md#7-function-words-in-keyphrase)
-- [Title](SCORING%20SEO.md#9-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
+- [Title](SCORING%20SEO.md#10-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
 
 ### Assessments with different scoring criteria than with the regular SEO assessor
 ### 1) Text length
@@ -103,6 +103,41 @@ shared defaults apply — the table below.
 | Orange        | 6     | 1 to 3 images    | **Images**: Only X image(s) appear(s) on this page. We recommend at least 4. **Add more relevant images!** |
 | Green         | 9     | 4 or more images | **Images**: Good job!                                                                                     |
 
+
+### 3) Alt text length
+**What it does**: Checks whether the assessed images have alt text that is likely too short or too long. By default
+it assesses the images in the text; a platform can scope it to the product's own images (featured, gallery,
+variations) instead, by providing the Paper's `providedImages` attribute.
+
+Images without alt text are not counted as too short: that case is covered by [Image alt attributes](#1-image-alt-attributes).
+
+**When it applies**: Only when at least one assessed image has alt text that is too short or too long. There is no
+good range for alt text length, so there is no green traffic light: when nothing is flagged the assessment returns
+a result without a score and without a text, which `Assessor.isValidResult` drops, and the assessment is not shown.
+
+**Name in code**: AltTextLengthAssessment
+
+**Product config**: the limits and the score are the same as in the regular SEO assessor — 10 characters or fewer,
+200 characters or more, orange with a score of 6. Only the feedback strings differ: on a product page the images
+being assessed are the product's own, so they say "product images" where the defaults say "images".
+
+**Feedback strings**: a platform supplies these through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `tooShortCount`, `tooLongCount`, `tooShortBoundary` and
+`tooLongBoundary`, and must return all three of `tooShort`, `tooLong` and `both`. The returned object is used as is,
+so an omitted key renders as an empty result text rather than falling back to the default. Both WooCommerce and
+Shopify supply a callback, so the strings a user sees on a product page are the platform's, not the defaults in
+[the regular table](SCORING%20SEO.md#9-alt-text-length). The boundaries are handed over so a platform's strings name
+the same limits without repeating the numbers.
+
+**Title URL**: https://yoa.st/alt-text-length in WooCommerce, https://yoa.st/shopify-alt-text-length in Shopify (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/alt-text-length-cta in WooCommerce, https://yoa.st/shopify-alt-text-length-cta in Shopify (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                        | Feedback                                                                                                                                                                      |
+|---------------|-------|--------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | X images have alt text of 10 characters or fewer | **Alt text length**: X of your product images have alt text of 10 characters or fewer. **Consider making it more descriptive.**                                               |
+| Orange        | 6     | X images have alt text of 200 characters or more | **Alt text length**: X of your product images have alt text of 200 characters or more. **Consider making it more concise.**                                                   |
+| Orange        | 6     | Both cases occur on the same product             | **Alt text length**: X of your product images have alt text that is either too short (10 characters or fewer) or too long (200 characters or more). **Consider revising them.** |
 
 ### Assessments unique to product pages
 ### 1) Image alt attributes
