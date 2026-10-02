@@ -2,6 +2,7 @@
 import React from "react";
 import Editor from "@draft-js-plugins/editor";
 import createMentionPlugin from "@draft-js-plugins/mention";
+import { EditorState, Modifier, SelectionState } from "draft-js";
 import createSingleLinePlugin from "draft-js-single-line-plugin";
 import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
@@ -16,7 +17,7 @@ import styled, { withTheme } from "styled-components";
 
 // Internal dependencies.
 import { replacementVariablesShape, recommendedReplacementVariablesShape } from "./constants";
-import { Mention } from "./Mention";
+import { Mention, MentionRemovalContext } from "./Mention";
 import { serializeEditor, unserializeEditor, replaceReplacementVariables, serializeSelection } from "./helpers/serialization";
 import {
 	getTrigger,
@@ -28,7 +29,7 @@ import {
 	moveCaret,
 	removeEmojiCompletely,
 } from "./helpers/replaceText";
-import { selectReplacementVariables } from "./helpers/selection";
+import { getEntityRange, selectReplacementVariables } from "./helpers/selection";
 
 /**
  * Needed to avoid styling issues on the settings pages with the
@@ -129,6 +130,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.handleCopyCutEvent = this.handleCopyCutEvent.bind( this );
 		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
 		this.onSuggestionsOpenChange = this.onSuggestionsOpenChange.bind( this );
+		this.removeMention = this.removeMention.bind( this );
 	}
 
 	/**
@@ -450,6 +452,51 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	}
 
 	/**
+	 * Removes a replacement variable from the editor.
+	 *
+	 * The entity can be in any block, so the block that holds it is looked up first.
+	 * The selection is then stretched over the entire entity so that the whole
+	 * replacement variable is removed instead of a single character of it.
+	 *
+	 * @param {string} entityKey The key of the entity to remove.
+	 *
+	 * @returns {void}
+	 */
+	removeMention( entityKey ) {
+		const contentState = this.state.editorState.getCurrentContent();
+		let entityRange = null;
+		let blockKey = null;
+
+		contentState.getBlockMap().forEach( ( block ) => {
+			if ( entityRange !== null ) {
+				return;
+			}
+
+			const range = getEntityRange( contentState, block.getKey(), entityKey );
+
+			if ( range !== null ) {
+				entityRange = range;
+				blockKey = block.getKey();
+			}
+		} );
+
+		if ( entityRange === null ) {
+			return;
+		}
+
+		const selectionState = SelectionState.createEmpty( blockKey ).merge( {
+			anchorOffset: entityRange.start,
+			focusOffset: entityRange.end,
+		} );
+
+		const newContent = Modifier.removeRange( contentState, selectionState, "backward" );
+		const editorState = EditorState.push( this.state.editorState, newContent, "remove-range" );
+
+		// Save the editor state and then focus the editor.
+		this.onChange( editorState ).then( () => this.focus() );
+	}
+
+	/**
 	 * Sets the editor reference on this component instance.
 	 *
 	 * @param {Object} editorRef The editor React reference.
@@ -625,22 +672,24 @@ class ReplacementVariableEditorStandalone extends React.Component {
 
 		return (
 			<React.Fragment>
-				<Editor
-					key={ this.state.editorKey }
-					textDirectionality={ theme.isRtl ? "RTL" : "LTR" }
-					editorState={ editorState }
-					handleKeyCommand={ this.handleKeyCommand }
-					onChange={ this.onChange }
-					onFocus={ onFocus }
-					onBlur={ onBlur }
-					plugins={ Object.values( this.pluginList ) }
-					ref={ this.setEditorRef }
-					stripPastedStyles={ true }
-					ariaLabelledBy={ ariaLabelledBy }
-					placeholder={ placeholder }
-					spellCheck={ true }
-					readOnly={ isDisabled }
-				/>
+				<MentionRemovalContext.Provider value={ isDisabled ? null : this.removeMention }>
+					<Editor
+						key={ this.state.editorKey }
+						textDirectionality={ theme.isRtl ? "RTL" : "LTR" }
+						editorState={ editorState }
+						handleKeyCommand={ this.handleKeyCommand }
+						onChange={ this.onChange }
+						onFocus={ onFocus }
+						onBlur={ onBlur }
+						plugins={ Object.values( this.pluginList ) }
+						ref={ this.setEditorRef }
+						stripPastedStyles={ true }
+						ariaLabelledBy={ ariaLabelledBy }
+						placeholder={ placeholder }
+						spellCheck={ true }
+						readOnly={ isDisabled }
+					/>
+				</MentionRemovalContext.Provider>
 
 				{ applyFilters(
 					"yoast.replacementVariableEditor.additionalPlugins",
