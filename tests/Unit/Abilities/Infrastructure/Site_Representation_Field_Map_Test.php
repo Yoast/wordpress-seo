@@ -122,7 +122,7 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 		$this->local_seo_active_conditional->expects( 'is_met' )->once()->andReturnTrue();
 
 		$this->assertSame(
-			'Whether the site represents an organization ("company") or a person ("person"). Yoast Local SEO is active on this site and requires the site to represent an organization, so "person" cannot be set.',
+			'Whether the site represents an organization ("company") or a person ("person"). Yoast Local SEO is active on this site and requires the site to represent an organization, so it always does.',
 			$this->instance->get_fields()['company_or_person']['description'],
 		);
 	}

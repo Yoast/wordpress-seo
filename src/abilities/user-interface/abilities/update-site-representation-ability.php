@@ -108,7 +108,7 @@ class Update_Site_Representation_Ability implements Ability_Interface {
 			'label'               => \__( 'Update Site Representation', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: %s expands to Yoast SEO. */
-				\__( 'Update %s\'s site representation settings, which tell search engines whether the site represents an organization or a person, and provide its name, logo and social profiles for the structured data. Only the settings you provide are changed; a provided empty value clears that setting.', 'wordpress-seo' ),
+				\__( 'Update %s\'s site representation settings, which tell search engines whether the site represents an organization or a person, and provide its name, logo and social profiles for the structured data. Only the settings you provide are changed; a provided empty value (an empty string, 0 or an empty array) clears that setting, and a provided list replaces the current one.', 'wordpress-seo' ),
 				'Yoast SEO',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,

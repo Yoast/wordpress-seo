@@ -157,46 +157,46 @@ class Site_Representation_Field_Map {
 			],
 			'company_name'              => [
 				'type'        => 'string',
-				'description' => \__( 'The name of the organization the site represents. Use an empty string to clear it and fall back to the site name.', 'wordpress-seo' ),
+				'description' => \__( 'The name of the organization the site represents. When empty, the site name is used.', 'wordpress-seo' ),
 			],
 			'company_alternate_name'    => [
 				'type'        => 'string',
-				'description' => \__( 'An alternate name of the organization the site represents, like an acronym or a shorter version of its name. Use an empty string to clear it.', 'wordpress-seo' ),
+				'description' => \__( 'An alternate name of the organization the site represents, like an acronym or a shorter version of its name.', 'wordpress-seo' ),
 			],
 			'company_logo'              => [
 				'type'              => 'string',
-				'description'       => \__( 'The URL of the organization logo, which must be an image from the media library. Use an empty string to clear it and fall back to the site logo.', 'wordpress-seo' ),
+				'description'       => \__( 'The URL of the organization logo, an image from the media library. When empty, the site logo is used.', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_logo' ],
 			],
 			'company_or_person_user_id' => [
 				'type'              => 'integer',
 				'minimum'           => 0,
-				'description'       => \__( 'The ID of the user the site represents when it represents a person. The profile information of that user is used in search results. Use 0 to clear it.', 'wordpress-seo' ),
+				'description'       => \__( 'The ID of the user the site represents when it represents a person, whose profile information is used in search results. 0 when no user is set.', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_user_id' ],
 			],
 			'person_name'               => [
 				'type'        => 'string',
-				'description' => \__( 'The name of the person the site represents. Use an empty string to clear it.', 'wordpress-seo' ),
+				'description' => \__( 'The name of the person the site represents.', 'wordpress-seo' ),
 			],
 			'person_logo'               => [
 				'type'              => 'string',
-				'description'       => \__( 'The URL of the personal logo or avatar, which must be an image from the media library. Use an empty string to clear it and fall back to the site logo.', 'wordpress-seo' ),
+				'description'       => \__( 'The URL of the personal logo or avatar, an image from the media library. When empty, the site logo is used.', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_logo' ],
 			],
 			'facebook_site'             => [
 				'type'        => 'string',
-				'description' => \__( 'The URL of the Facebook page of the organization. Use an empty string to clear it.', 'wordpress-seo' ),
+				'description' => \__( 'The URL of the Facebook page of the organization.', 'wordpress-seo' ),
 			],
 			'twitter_site'              => [
 				'type'        => 'string',
-				'description' => \__( 'The X username of the organization, without the @. Use an empty string to clear it.', 'wordpress-seo' ),
+				'description' => \__( 'The X username of the organization, without the @.', 'wordpress-seo' ),
 			],
 			'other_social_urls'         => [
 				'type'        => 'array',
 				'items'       => [
 					'type' => 'string',
 				],
-				'description' => \__( 'The URLs of the other social profiles of the organization, like Instagram, LinkedIn or YouTube. The provided list replaces the current one, so include the URLs to keep. Use an empty array to clear them.', 'wordpress-seo' ),
+				'description' => \__( 'The URLs of the other social profiles of the organization, like Instagram, LinkedIn or YouTube.', 'wordpress-seo' ),
 			],
 		];
 	}
@@ -218,7 +218,7 @@ class Site_Representation_Field_Map {
 
 		return $description . ' ' . \sprintf(
 			/* translators: %s expands to Yoast Local SEO. */
-			\__( '%s is active on this site and requires the site to represent an organization, so "person" cannot be set.', 'wordpress-seo' ),
+			\__( '%s is active on this site and requires the site to represent an organization, so it always does.', 'wordpress-seo' ),
 			'Yoast Local SEO',
 		);
 	}
