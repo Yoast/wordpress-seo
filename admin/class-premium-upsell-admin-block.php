@@ -161,6 +161,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 
 		if ( $is_woocommerce_active ) {
 			$arguments[1] = esc_html__( 'Boost visibility for your products, from 10 or 10,000+', 'wordpress-seo' );
+			$arguments[5] = esc_html__( 'Bulk AI-generated alt text for product images', 'wordpress-seo' );
 		}
 
 		return $arguments;
