@@ -95,12 +95,7 @@ class Site_Representation_Field_Map {
 			],
 			'company_logo'              => [
 				'type'        => 'string',
-				'description' => \__( 'The URL of the organization logo. Set it together with company_logo_id, to the URL of that attachment. Use an empty string to clear it.', 'wordpress-seo' ),
-			],
-			'company_logo_id'           => [
-				'type'        => 'integer',
-				'minimum'     => 0,
-				'description' => \__( 'The attachment ID of the organization logo, which should be an image from the media library. Set it together with company_logo. Use 0 to clear it and fall back to the site logo.', 'wordpress-seo' ),
+				'description' => \__( 'The URL of the organization logo, which must be an image from the media library. Use an empty string to clear it and fall back to the site logo.', 'wordpress-seo' ),
 			],
 			'company_or_person_user_id' => [
 				'type'        => 'integer',
@@ -113,12 +108,7 @@ class Site_Representation_Field_Map {
 			],
 			'person_logo'               => [
 				'type'        => 'string',
-				'description' => \__( 'The URL of the personal logo or avatar. Set it together with person_logo_id, to the URL of that attachment. Use an empty string to clear it.', 'wordpress-seo' ),
-			],
-			'person_logo_id'            => [
-				'type'        => 'integer',
-				'minimum'     => 0,
-				'description' => \__( 'The attachment ID of the personal logo or avatar, which should be an image from the media library. Set it together with person_logo. Use 0 to clear it and fall back to the site logo.', 'wordpress-seo' ),
+				'description' => \__( 'The URL of the personal logo or avatar, which must be an image from the media library. Use an empty string to clear it and fall back to the site logo.', 'wordpress-seo' ),
 			],
 			'facebook_site'             => [
 				'type'        => 'string',

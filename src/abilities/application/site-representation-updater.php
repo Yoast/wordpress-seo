@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Abilities\Application;
 
 use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Field_Map;
 use Yoast\WP\SEO\Conditionals\Local_SEO_Active_Conditional;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
@@ -44,20 +45,30 @@ class Site_Representation_Updater {
 	private $local_seo_active_conditional;
 
 	/**
+	 * The image helper.
+	 *
+	 * @var Image_Helper
+	 */
+	private $image_helper;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Options_Helper                $options_helper               The options helper.
 	 * @param Site_Representation_Field_Map $field_map                    The site representation field map.
 	 * @param Local_SEO_Active_Conditional  $local_seo_active_conditional The Local SEO active conditional.
+	 * @param Image_Helper                  $image_helper                 The image helper.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		Site_Representation_Field_Map $field_map,
-		Local_SEO_Active_Conditional $local_seo_active_conditional
+		Local_SEO_Active_Conditional $local_seo_active_conditional,
+		Image_Helper $image_helper
 	) {
 		$this->options_helper               = $options_helper;
 		$this->field_map                    = $field_map;
 		$this->local_seo_active_conditional = $local_seo_active_conditional;
+		$this->image_helper                 = $image_helper;
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The fields added through the filter can hold any option value.
@@ -91,8 +102,15 @@ class Site_Representation_Updater {
 			$warnings[] = \__( 'The user to represent was not changed, because no user exists with the given ID.', 'wordpress-seo' );
 		}
 
-		$fields    = $this->field_map->get_fields();
-		$any_saved = false;
+		foreach ( self::LOGOS as $logo ) {
+			$warning = $this->resolve_logo( $logo, $input );
+			if ( $warning !== null ) {
+				$warnings[] = $warning;
+			}
+		}
+
+		$fields       = $this->field_map->get_fields();
+		$saved_fields = [];
 
 		foreach ( \array_keys( $fields ) as $field_name ) {
 			if ( ! \array_key_exists( $field_name, $input ) ) {
@@ -100,7 +118,7 @@ class Site_Representation_Updater {
 			}
 
 			if ( $this->options_helper->set( $field_name, $input[ $field_name ] ) === true ) {
-				$any_saved = true;
+				$saved_fields[] = $field_name;
 				continue;
 			}
 
@@ -113,9 +131,11 @@ class Site_Representation_Updater {
 			);
 		}
 
-		// @TODO: Check if the watcher takes care of the below. If so, remove this loop.
+		// The ID is only saved along with its URL, so the two never point to different images.
 		foreach ( self::LOGOS as $logo ) {
-			if ( \array_key_exists( $logo, $input ) || \array_key_exists( $logo . '_id', $input ) ) {
+			if ( \in_array( $logo, $saved_fields, true ) ) {
+				$this->options_helper->set( $logo . '_id', $input[ $logo . '_id' ] );
+				// @TODO: Check if the watcher takes care of the below. If so, remove it.
 				$this->options_helper->set( $logo . '_meta', false );
 			}
 		}
@@ -123,11 +143,50 @@ class Site_Representation_Updater {
 		$result = $this->get_settings( $fields );
 
 		if ( $warnings !== [] ) {
-			$warnings[]        = ( $any_saved ) ? \__( 'The other settings were saved.', 'wordpress-seo' ) : \__( 'No other settings were saved.', 'wordpress-seo' );
+			$warnings[]        = ( $saved_fields !== [] ) ? \__( 'The other settings were saved.', 'wordpress-seo' ) : \__( 'No other settings were saved.', 'wordpress-seo' );
 			$result['warning'] = \implode( ' ', $warnings );
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Adds the attachment ID of a logo to the input, looked up from its URL.
+	 *
+	 * The schema reads the logo by its ID while the first-time configuration shows it by its URL, so deriving
+	 * the ID keeps both pointing to the same image. A URL that does not point to an image in the media library
+	 * is dropped from the input.
+	 *
+	 * @param string               $logo  The option name of the logo URL.
+	 * @param array<string, mixed> $input The site representation settings to change, resolved in place.
+	 *
+	 * @return string|null A warning when the provided URL was dropped, null otherwise.
+	 */
+	private function resolve_logo( string $logo, array &$input ): ?string {
+		$id_field = $logo . '_id';
+
+		if ( ! \array_key_exists( $logo, $input ) ) {
+			return null;
+		}
+
+		if ( $input[ $logo ] === '' ) {
+			$input[ $id_field ] = 0;
+			return null;
+		}
+
+		$attachment_id = (int) $this->image_helper->get_attachment_by_url( $input[ $logo ] );
+		if ( $attachment_id > 0 && $this->image_helper->is_valid_attachment( $attachment_id ) ) {
+			$input[ $id_field ] = $attachment_id;
+			return null;
+		}
+
+		unset( $input[ $logo ] );
+
+		return \sprintf(
+			/* translators: %s expands to the name of a setting. */
+			\__( 'The %s setting was not changed, because it is not the URL of an image in the media library.', 'wordpress-seo' ),
+			$logo,
+		);
 	}
 
 	/**
