@@ -42,6 +42,18 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	private $post_meta;
 
 	/**
+	 * Whether `set_oembed_data()` is currently running.
+	 *
+	 * Guards against recursive invocations of the `oembed_response_data` filter,
+	 * which can be triggered when this callback's work causes additional oEmbed
+	 * resolutions to fire the same filter from within the same request.
+	 *
+	 * @since [version]
+	 * @var bool
+	 */
+	private $in_set_oembed_data = false;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -84,18 +96,32 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	 * @return array An array of oEmbed data with modified values where appropriate.
 	 */
 	public function set_oembed_data( $data, $post ) {
-		// Data to be returned.
-		$this->data      = $data;
-		$this->post_id   = $post->ID;
-		$this->post_meta = $this->meta->for_post( $this->post_id );
-
-		if ( ! empty( $this->post_meta ) ) {
-			$this->set_title();
-			$this->set_description();
-			$this->set_image();
+		// Prevent nested invocations of this filter. When `oembed_response_data`
+		// re-fires while the callback is still running the outer frame would
+		// otherwise be clobbered and any new oEmbed resolutions could trigger
+		// additional recursive meta writes.
+		if ( $this->in_set_oembed_data ) {
+			return $data;
 		}
 
-		return $this->data;
+		$this->in_set_oembed_data = true;
+
+		try {
+			// Data to be returned.
+			$this->data      = $data;
+			$this->post_id   = $post->ID;
+			$this->post_meta = $this->meta->for_post( $this->post_id );
+
+			if ( ! empty( $this->post_meta ) ) {
+				$this->set_title();
+				$this->set_description();
+				$this->set_image();
+			}
+
+			return $this->data;
+		} finally {
+			$this->in_set_oembed_data = false;
+		}
 	}
 
 	/**

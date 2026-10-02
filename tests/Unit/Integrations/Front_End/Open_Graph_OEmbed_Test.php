@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
+use RuntimeException;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End\Open_Graph_OEmbed;
@@ -112,6 +113,151 @@ final class Open_Graph_OEmbed_Test extends TestCase {
 			->andReturn( (object) $meta_data );
 
 		$this->assertEquals( $expected, $this->instance->set_oembed_data( $expected, $post ) );
+	}
+
+	/**
+	 * Tests that a recursive invocation of `set_oembed_data()` returns the
+	 * unaltered data instead of re-running the meta lookup, and that the outer
+	 * call still enriches the result.
+	 *
+	 * @covers ::set_oembed_data
+	 *
+	 * @return void
+	 */
+	public function test_set_oembed_data_bails_on_reentry() {
+		$post         = (object) [ 'ID' => 1337 ];
+		$inner_data   = [ 'title' => 'core-title' ];
+		$inner_result = null;
+
+		// Simulate the recursive path: the meta lookup itself triggers a nested
+		// `oembed_response_data` filter callback via `set_oembed_data()`.
+		$this->meta
+			->expects( 'for_post' )
+			->once()
+			->with( 1337 )
+			->andReturnUsing(
+				function () use ( $post, $inner_data, &$inner_result ) {
+					$inner_result = $this->instance->set_oembed_data( $inner_data, $post );
+					return (object) [
+						'open_graph_title'       => 'yoast-title',
+						'open_graph_description' => 'yoast-description',
+						'open_graph_images'      => [],
+					];
+				},
+			);
+
+		$outer_result = $this->instance->set_oembed_data( [], $post );
+
+		// Inner call: returned unaltered.
+		$this->assertSame( $inner_data, $inner_result );
+		// Outer call: enriched.
+		$this->assertEquals(
+			[
+				'title'       => 'yoast-title',
+				'description' => 'yoast-description',
+			],
+			$outer_result,
+		);
+	}
+
+	/**
+	 * Tests that the reentrancy flag is reset between calls so subsequent
+	 * non-recursive invocations still enrich the response data.
+	 *
+	 * @covers ::set_oembed_data
+	 *
+	 * @return void
+	 */
+	public function test_set_oembed_data_resets_flag_between_calls() {
+		$post = (object) [ 'ID' => 1337 ];
+
+		$this->meta
+			->expects( 'for_post' )
+			->twice()
+			->with( 1337 )
+			->andReturn(
+				(object) [
+					'open_graph_title'       => 'title',
+					'open_graph_description' => 'description',
+					'open_graph_images'      => [],
+				],
+				(object) [
+					'open_graph_title'       => 'title',
+					'open_graph_description' => 'description',
+					'open_graph_images'      => [],
+				],
+			);
+
+		$first  = $this->instance->set_oembed_data( [], $post );
+		$second = $this->instance->set_oembed_data( [], $post );
+
+		$this->assertEquals(
+			[
+				'title'       => 'title',
+				'description' => 'description',
+			],
+			$first,
+		);
+		$this->assertEquals(
+			[
+				'title'       => 'title',
+				'description' => 'description',
+			],
+			$second,
+		);
+	}
+
+	/**
+	 * Tests that the reentrancy flag is reset after the meta lookup throws,
+	 * so a follow-up (non-recursive) call still runs the meta lookup and
+	 * returns the enriched data.
+	 *
+	 * @covers ::set_oembed_data
+	 *
+	 * @return void
+	 */
+	public function test_set_oembed_data_resets_flag_after_throw() {
+		$post     = (object) [ 'ID' => 1337 ];
+		$invoked  = 0;
+		$enriched = (object) [
+			'open_graph_title'       => 'title',
+			'open_graph_description' => 'description',
+			'open_graph_images'      => [],
+		];
+
+		// First invocation throws, second returns the meta object. Mockery does
+		// not have a fluent API for per-call exception returns, so drive it via
+		// a counter and `andReturnUsing`.
+		$this->meta
+			->expects( 'for_post' )
+			->twice()
+			->with( 1337 )
+			->andReturnUsing(
+				static function () use ( &$invoked, $enriched ) {
+					$invoked++;
+					if ( $invoked === 1 ) {
+						throw new RuntimeException( 'boom' );
+					}
+					return $enriched;
+				},
+			);
+
+		try {
+			$this->instance->set_oembed_data( [], $post );
+			$this->fail( 'Expected RuntimeException was not thrown.' );
+		} catch ( RuntimeException $e ) {
+			$this->assertSame( 'boom', $e->getMessage() );
+		}
+
+		// The flag must have been reset by the `finally` block, so this call
+		// reaches `for_post` and returns the enriched data.
+		$this->assertEquals(
+			[
+				'title'       => 'title',
+				'description' => 'description',
+			],
+			$this->instance->set_oembed_data( [], $post ),
+		);
 	}
 
 	/**
