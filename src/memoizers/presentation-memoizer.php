@@ -46,7 +46,10 @@ class Presentation_Memoizer {
 	 * @return Indexable_Presentation The indexable presentation.
 	 */
 	public function get( Indexable $indexable, Meta_Tags_Context $context, $page_type ) {
-		if ( ! isset( $this->cache[ $indexable->id ] ) ) {
+		// An unsaved indexable has a null id; normalise it to a stable integer cache key.
+		$cache_key = (int) $indexable->id;
+
+		if ( ! isset( $this->cache[ $cache_key ] ) ) {
 			$presentation = $this->container->get( "Yoast\WP\SEO\Presentations\Indexable_{$page_type}_Presentation", ContainerInterface::NULL_ON_INVALID_REFERENCE );
 
 			if ( ! $presentation ) {
@@ -60,10 +63,10 @@ class Presentation_Memoizer {
 				],
 			);
 
-			$this->cache[ $indexable->id ] = $context->presentation;
+			$this->cache[ $cache_key ] = $context->presentation;
 		}
 
-		return $this->cache[ $indexable->id ];
+		return $this->cache[ $cache_key ];
 	}
 
 	/**
