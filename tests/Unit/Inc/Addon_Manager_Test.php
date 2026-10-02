@@ -591,6 +591,80 @@ final class Addon_Manager_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a Premium update is held back until the matching Yoast SEO Free version is available.
+	 *
+	 * @dataProvider holds_back_premium_provider
+	 *
+	 * @covers ::check_for_updates
+	 * @covers ::is_held_back_until_free_available
+	 * @covers ::get_major_minor
+	 *
+	 * @param string $plugin_file       The add-on plugin file.
+	 * @param string $slug              The add-on subscription slug.
+	 * @param string $installed_version The installed add-on version.
+	 * @param string $offered_version   The add-on version offered by the My Yoast API.
+	 * @param string $free_new_version  The latest Yoast SEO Free version the site can see.
+	 * @param string $expected_location Where the add-on should end up: 'response' or 'no_update'.
+	 * @param string $message           Message to show when the test fails.
+	 *
+	 * @return void
+	 */
+	public function test_check_for_updates_holds_back_premium_until_free_available( $plugin_file, $slug, $installed_version, $offered_version, $free_new_version, $expected_location, $message ) {
+		$this->stubTranslationFunctions();
+
+		$addons = [ $plugin_file => [ 'Version' => $installed_version ] ];
+
+		$this->instance
+			->shouldReceive( 'get_installed_addons' )
+			->andReturn( $addons );
+
+		$this->instance
+			->shouldReceive( 'get_subscriptions' )
+			->andReturn( $this->build_subscriptions( $plugin_file, $slug, $offered_version ) );
+
+		$this->instance
+			->shouldReceive( 'extract_yoast_data' )
+			->andReturn(
+				(object) [
+					'requires'    => \YOAST_SEO_WP_REQUIRED,
+					'new_version' => $free_new_version,
+				],
+			);
+
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->shouldReceive( 'is_premium' )->andReturn( false );
+
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			],
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->zeroOrMoreTimes()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
+
+		global $wp_version;
+		$wp_version = \YOAST_SEO_WP_REQUIRED;
+
+		$data = (object) [
+			'response'  => [],
+			'no_update' => [],
+		];
+
+		$result = $this->instance->check_for_updates( $data );
+
+		if ( $expected_location === 'response' ) {
+			$this->assertArrayHasKey( $plugin_file, $result->response, $message );
+			$this->assertArrayNotHasKey( $plugin_file, $result->no_update, $message );
+		}
+		else {
+			$this->assertArrayHasKey( $plugin_file, $result->no_update, $message );
+			$this->assertArrayNotHasKey( $plugin_file, $result->response, $message );
+		}
+	}
+
+	/**
 	 * Tests checking if given value is a Yoast addon.
 	 *
 	 * @covers ::is_yoast_addon
@@ -971,6 +1045,52 @@ final class Addon_Manager_Test extends TestCase {
 	}
 
 	/**
+	 * Provides data to the Premium hold-back test.
+	 *
+	 * @return array<string, array<string, string>> Values for the test.
+	 */
+	public static function holds_back_premium_provider() {
+		return [
+			'Premium ahead of Free is hidden'                 => [
+				'plugin_file'       => 'wp-seo-premium.php',
+				'slug'              => 'yoast-seo-wordpress-premium',
+				'installed_version' => '9.0',
+				'offered_version'   => '10.0',
+				'free_new_version'  => '9.0',
+				'expected_location' => 'no_update',
+				'message'           => 'Premium 10.0 must be hidden while Free is only 9.0.',
+			],
+			'Premium matching Free is shown'                  => [
+				'plugin_file'       => 'wp-seo-premium.php',
+				'slug'              => 'yoast-seo-wordpress-premium',
+				'installed_version' => '9.0',
+				'offered_version'   => '10.0',
+				'free_new_version'  => '10.0',
+				'expected_location' => 'response',
+				'message'           => 'Premium 10.0 must be shown once Free 10.0 is available.',
+			],
+			'Premium patch with matching Free minor is shown' => [
+				'plugin_file'       => 'wp-seo-premium.php',
+				'slug'              => 'yoast-seo-wordpress-premium',
+				'installed_version' => '10.0',
+				'offered_version'   => '10.0.1',
+				'free_new_version'  => '10.0',
+				'expected_location' => 'response',
+				'message'           => 'Premium patch 10.0.1 must be shown when Free 10.0 is available.',
+			],
+			'Non-Premium add-on ahead of Free is shown'       => [
+				'plugin_file'       => 'wpseo-news.php',
+				'slug'              => 'yoast-seo-news',
+				'installed_version' => '9.0',
+				'offered_version'   => '10.0',
+				'free_new_version'  => '9.0',
+				'expected_location' => 'response',
+				'message'           => 'Only Premium is held back, so News must still be shown.',
+			],
+		];
+	}
+
+	/**
 	 * Provides data to the get_plugin_information test.
 	 *
 	 * @return array Values for the test.
@@ -1060,6 +1180,37 @@ final class Addon_Manager_Test extends TestCase {
 							'version'      => '10.0',
 							'name'         => 'Extension',
 							'slug'         => 'yoast-seo-news',
+							'last_updated' => 'yesterday',
+							'store_url'    => 'https://example.org/store',
+							'download'     => 'https://example.org/extension.zip',
+							'changelog'    => 'changelog',
+						],
+					],
+				],
+			),
+			false,
+		);
+	}
+
+	/**
+	 * Builds a single-subscription object mirroring the My Yoast API response.
+	 *
+	 * @param string $plugin_file The add-on plugin file.
+	 * @param string $slug        The add-on subscription slug.
+	 * @param string $version     The add-on version offered by the API.
+	 *
+	 * @return stdClass The subscriptions object.
+	 */
+	protected function build_subscriptions( $plugin_file, $slug, $version ) {
+		return \json_decode(
+			WPSEO_Utils::format_json_encode(
+				[
+					$plugin_file => [
+						'expiry_date' => $this->get_future_date(),
+						'product'     => [
+							'version'      => $version,
+							'name'         => 'Extension',
+							'slug'         => $slug,
 							'last_updated' => 'yesterday',
 							'store_url'    => 'https://example.org/store',
 							'download'     => 'https://example.org/extension.zip',

@@ -349,7 +349,9 @@ class WPSEO_Addon_Manager {
 					continue;
 				}
 
-				if ( version_compare( $plugin_data->requires, $wp_version, '<=' ) ) {
+				if ( version_compare( $plugin_data->requires, $wp_version, '<=' )
+					&& ! $this->is_held_back_until_free_available( $subscription_slug, $plugin_data->new_version, $yoast_free_data )
+				) {
 					// The add-on has an available update *and* the Yoast Free requirements for the WP version are also met, so go ahead and show the upgrade info to the user.
 					$is_no_update                   = false;
 					$data->response[ $plugin_file ] = $plugin_data;
@@ -390,6 +392,52 @@ class WPSEO_Addon_Manager {
 		}
 
 		return (object) [];
+	}
+
+	/**
+	 * Determines whether an add-on update should be hidden because the matching Yoast SEO Free version is not yet available to this site.
+	 *
+	 * Premium x.y requires Free x.y, while patch releases (x.y.z) do not tighten that requirement, so only the major and minor components are compared.
+	 *
+	 * @param string        $subscription_slug The add-on's subscription slug.
+	 * @param string        $addon_version     The add-on version offered by the My Yoast API.
+	 * @param stdClass|null $yoast_free_data   Yoast Free's entry from the wp.org update data.
+	 *
+	 * @return bool True when the add-on update should be held back.
+	 */
+	private function is_held_back_until_free_available( $subscription_slug, $addon_version, $yoast_free_data ) {
+		if ( $subscription_slug !== self::PREMIUM_SLUG ) {
+			return false;
+		}
+
+		// Without the latest available Free version we cannot tell whether the pairing is met, so we do not hold the update back.
+		if ( ! isset( $yoast_free_data->new_version ) ) {
+			return false;
+		}
+
+		$addon_major_minor = $this->get_major_minor( $addon_version );
+		$free_major_minor  = $this->get_major_minor( $yoast_free_data->new_version );
+
+		if ( $addon_major_minor === null || $free_major_minor === null ) {
+			return false;
+		}
+
+		return version_compare( $addon_major_minor, $free_major_minor, '>' );
+	}
+
+	/**
+	 * Extracts the major.minor part of a version string, ignoring any patch or pre-release suffix.
+	 *
+	 * @param string $version The version string.
+	 *
+	 * @return string|null The major.minor version, or null when it cannot be determined.
+	 */
+	private function get_major_minor( $version ) {
+		if ( ! is_string( $version ) || ! preg_match( '/^(\d+)\.(\d+)/', $version, $matches ) ) {
+			return null;
+		}
+
+		return $matches[1] . '.' . $matches[2];
 	}
 
 	/**
