@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Field_Map;
+use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Field_Validators;
 use Yoast\WP\SEO\Conditionals\Local_SEO_Active_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -26,6 +27,13 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 	private $local_seo_active_conditional;
 
 	/**
+	 * The site representation field validators mock.
+	 *
+	 * @var Mockery\MockInterface|Site_Representation_Field_Validators
+	 */
+	private $field_validators;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Site_Representation_Field_Map
@@ -43,8 +51,9 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 		$this->stubTranslationFunctions();
 
 		$this->local_seo_active_conditional = Mockery::mock( Local_SEO_Active_Conditional::class );
+		$this->field_validators             = Mockery::mock( Site_Representation_Field_Validators::class );
 
-		$this->instance = new Site_Representation_Field_Map( $this->local_seo_active_conditional );
+		$this->instance = new Site_Representation_Field_Map( $this->local_seo_active_conditional, $this->field_validators );
 	}
 
 	/**
@@ -53,6 +62,7 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_fields
 	 * @covers ::resolve_fields
+	 * @covers ::get_validators
 	 * @covers ::get_default_fields
 	 * @covers ::get_company_or_person_description
 	 *
@@ -88,6 +98,15 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 		);
 		$this->assertSame( 'integer', $fields['company_or_person_user_id']['type'] );
 		$this->assertSame( 0, $fields['company_or_person_user_id']['minimum'] );
+		$this->assertSame(
+			[
+				'company_or_person'         => [ $this->field_validators, 'validate_company_or_person' ],
+				'company_logo'              => [ $this->field_validators, 'validate_logo' ],
+				'company_or_person_user_id' => [ $this->field_validators, 'validate_user_id' ],
+				'person_logo'               => [ $this->field_validators, 'validate_logo' ],
+			],
+			$this->instance->get_validators(),
+		);
 	}
 
 	/**
@@ -192,7 +211,10 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 			$fields['org-email'],
 		);
 		$this->assertArrayNotHasKey( 'org-phone', $fields );
-		$this->assertSame( [ 'org-email' => $validate_org_email ], $this->instance->get_validators() );
+
+		$validators = $this->instance->get_validators();
+		$this->assertSame( $validate_org_email, $validators['org-email'] );
+		$this->assertArrayNotHasKey( 'org-phone', $validators );
 	}
 
 	/**

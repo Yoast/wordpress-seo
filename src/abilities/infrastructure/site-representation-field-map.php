@@ -20,6 +20,13 @@ class Site_Representation_Field_Map {
 	 */
 	private $local_seo_active_conditional;
 
+	/**
+	 * The validators of the site representation fields of Yoast SEO.
+	 *
+	 * @var Site_Representation_Field_Validators
+	 */
+	private $field_validators;
+
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
 
 	/**
@@ -30,7 +37,7 @@ class Site_Representation_Field_Map {
 	private $fields;
 
 	/**
-	 * The validators that add-ons registered along with their fields, keyed by option name.
+	 * The validators registered along with the fields, keyed by option name.
 	 *
 	 * @var array<string, callable>|null
 	 */
@@ -39,10 +46,15 @@ class Site_Representation_Field_Map {
 	/**
 	 * Constructor.
 	 *
-	 * @param Local_SEO_Active_Conditional $local_seo_active_conditional The Local SEO active conditional.
+	 * @param Local_SEO_Active_Conditional         $local_seo_active_conditional The Local SEO active conditional.
+	 * @param Site_Representation_Field_Validators $field_validators             The validators of the site representation fields of Yoast SEO.
 	 */
-	public function __construct( Local_SEO_Active_Conditional $local_seo_active_conditional ) {
+	public function __construct(
+		Local_SEO_Active_Conditional $local_seo_active_conditional,
+		Site_Representation_Field_Validators $field_validators
+	) {
 		$this->local_seo_active_conditional = $local_seo_active_conditional;
+		$this->field_validators             = $field_validators;
 	}
 
 	/**
@@ -57,7 +69,7 @@ class Site_Representation_Field_Map {
 	}
 
 	/**
-	 * Returns the validators that add-ons registered along with their fields.
+	 * Returns the validators registered along with the fields.
 	 *
 	 * @return array<string, callable> The validator of each field that has one, keyed by option name.
 	 */
@@ -90,7 +102,8 @@ class Site_Representation_Field_Map {
 		 * Validation beyond the schema goes in an optional 'validate_callback' key next to the schema. It receives
 		 * the value and the option name, and returns a warning to skip saving the field or null to save it. The
 		 * warning is relayed to the user, so it should explain why the value was not saved. A field whose
-		 * 'validate_callback' is not callable is dropped, so it is never saved unvalidated.
+		 * 'validate_callback' is not callable is dropped, so it is never saved unvalidated. The fields of Yoast SEO
+		 * come with their own 'validate_callback', which must be kept.
 		 *
 		 * Organization social profiles are validated by the validator they are registered with through the
 		 * 'wpseo_organization_social_profile_fields' filter instead.
@@ -137,9 +150,10 @@ class Site_Representation_Field_Map {
 	private function get_default_fields(): array {
 		return [
 			'company_or_person'         => [
-				'type'        => 'string',
-				'enum'        => [ 'company', 'person' ],
-				'description' => $this->get_company_or_person_description(),
+				'type'              => 'string',
+				'enum'              => [ 'company', 'person' ],
+				'description'       => $this->get_company_or_person_description(),
+				'validate_callback' => [ $this->field_validators, 'validate_company_or_person' ],
 			],
 			'company_name'              => [
 				'type'        => 'string',
@@ -150,21 +164,24 @@ class Site_Representation_Field_Map {
 				'description' => \__( 'An alternate name of the organization the site represents, like an acronym or a shorter version of its name. Use an empty string to clear it.', 'wordpress-seo' ),
 			],
 			'company_logo'              => [
-				'type'        => 'string',
-				'description' => \__( 'The URL of the organization logo, which must be an image from the media library. Use an empty string to clear it and fall back to the site logo.', 'wordpress-seo' ),
+				'type'              => 'string',
+				'description'       => \__( 'The URL of the organization logo, which must be an image from the media library. Use an empty string to clear it and fall back to the site logo.', 'wordpress-seo' ),
+				'validate_callback' => [ $this->field_validators, 'validate_logo' ],
 			],
 			'company_or_person_user_id' => [
-				'type'        => 'integer',
-				'minimum'     => 0,
-				'description' => \__( 'The ID of the user the site represents when it represents a person. The profile information of that user is used in search results. Use 0 to clear it.', 'wordpress-seo' ),
+				'type'              => 'integer',
+				'minimum'           => 0,
+				'description'       => \__( 'The ID of the user the site represents when it represents a person. The profile information of that user is used in search results. Use 0 to clear it.', 'wordpress-seo' ),
+				'validate_callback' => [ $this->field_validators, 'validate_user_id' ],
 			],
 			'person_name'               => [
 				'type'        => 'string',
 				'description' => \__( 'The name of the person the site represents. Use an empty string to clear it.', 'wordpress-seo' ),
 			],
 			'person_logo'               => [
-				'type'        => 'string',
-				'description' => \__( 'The URL of the personal logo or avatar, which must be an image from the media library. Use an empty string to clear it and fall back to the site logo.', 'wordpress-seo' ),
+				'type'              => 'string',
+				'description'       => \__( 'The URL of the personal logo or avatar, which must be an image from the media library. Use an empty string to clear it and fall back to the site logo.', 'wordpress-seo' ),
+				'validate_callback' => [ $this->field_validators, 'validate_logo' ],
 			],
 			'facebook_site'             => [
 				'type'        => 'string',

@@ -3,13 +3,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
-use Brain\Monkey;
-use Exception;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Site_Representation_Updater;
 use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Field_Map;
-use Yoast\WP\SEO\Conditionals\Local_SEO_Active_Conditional;
-use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Logo_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -51,18 +48,11 @@ final class Site_Representation_Updater_Test extends TestCase {
 	private $field_map;
 
 	/**
-	 * The Local SEO active conditional mock.
+	 * The site representation logo helper mock.
 	 *
-	 * @var Mockery\MockInterface|Local_SEO_Active_Conditional
+	 * @var Mockery\MockInterface|Site_Representation_Logo_Helper
 	 */
-	private $local_seo_active_conditional;
-
-	/**
-	 * The image helper mock.
-	 *
-	 * @var Mockery\MockInterface|Image_Helper
-	 */
-	private $image_helper;
+	private $logo_helper;
 
 	/**
 	 * The social profiles helper mock.
@@ -95,11 +85,10 @@ final class Site_Representation_Updater_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->options_helper               = Mockery::mock( Options_Helper::class );
-		$this->field_map                    = Mockery::mock( Site_Representation_Field_Map::class );
-		$this->local_seo_active_conditional = Mockery::mock( Local_SEO_Active_Conditional::class );
-		$this->image_helper                 = Mockery::mock( Image_Helper::class );
-		$this->social_profiles_helper       = Mockery::mock( Social_Profiles_Helper::class );
+		$this->options_helper         = Mockery::mock( Options_Helper::class );
+		$this->field_map              = Mockery::mock( Site_Representation_Field_Map::class );
+		$this->logo_helper            = Mockery::mock( Site_Representation_Logo_Helper::class );
+		$this->social_profiles_helper = Mockery::mock( Social_Profiles_Helper::class );
 
 		$this->field_map->allows( 'get_fields' )->andReturn( self::FIELDS );
 		$this->field_map->allows( 'get_validators' )->andReturnUsing(
@@ -118,8 +107,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 		$this->instance = new Site_Representation_Updater(
 			$this->options_helper,
 			$this->field_map,
-			$this->local_seo_active_conditional,
-			$this->image_helper,
+			$this->logo_helper,
 			$this->social_profiles_helper,
 		);
 	}
@@ -146,18 +134,12 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * @covers ::update_field
 	 * @covers ::validate_field
 	 * @covers ::save_field
-	 * @covers ::get_logo_id
-	 * @covers ::validate_company_or_person
-	 * @covers ::validate_logo
 	 * @covers ::get_settings
 	 *
 	 * @return void
 	 */
 	public function test_update() {
-		$this->local_seo_active_conditional->expects( 'is_met' )->never();
-
-		$this->image_helper->expects( 'get_attachment_by_url' )->twice()->with( 'https://example.com/logo.png' )->andReturn( 12 );
-		$this->image_helper->expects( 'is_valid_attachment' )->once()->with( 12 )->andReturnTrue();
+		$this->logo_helper->expects( 'get_logo_id' )->once()->with( 'https://example.com/logo.png' )->andReturn( 12 );
 
 		$this->options_helper->expects( 'set' )->once()->with( 'company_or_person', 'company' )->andReturnTrue();
 		$this->social_profiles_helper->expects( 'set_organization_social_profiles' )->once()->with( [ 'facebook_site' => 'https://facebook.com/yoast' ] )->andReturn( [] );
@@ -197,115 +179,22 @@ final class Site_Representation_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that update sets the site to represent an existing person when Local SEO is not active.
-	 *
-	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_company_or_person
-	 * @covers ::validate_user_id
-	 *
-	 * @return void
-	 */
-	public function test_update_person() {
-		$this->local_seo_active_conditional->expects( 'is_met' )->once()->andReturnFalse();
-
-		Monkey\Functions\expect( 'get_userdata' )->once()->with( 3 )->andReturn( (object) [ 'ID' => 3 ] );
-
-		$this->options_helper->expects( 'set' )->once()->with( 'company_or_person', 'person' )->andReturnTrue();
-		$this->options_helper->expects( 'set' )->once()->with( 'company_or_person_user_id', 3 )->andReturnTrue();
-
-		$this->options_helper->allows( 'get' )->andReturn( '' );
-
-		$result = $this->instance->update(
-			[
-				'company_or_person'         => 'person',
-				'company_or_person_user_id' => 3,
-			],
-		);
-
-		$this->assertArrayNotHasKey( 'warning', $result );
-	}
-
-	/**
-	 * Tests that update skips representing a person when Local SEO is active, saves the other settings and
-	 * returns a warning.
-	 *
-	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_company_or_person
-	 *
-	 * @return void
-	 */
-	public function test_update_person_with_local_seo() {
-		$this->local_seo_active_conditional->expects( 'is_met' )->once()->andReturnTrue();
-
-		$this->validators['company_or_person'] = static function () {
-			throw new Exception( 'The validator of an add-on should not run once Yoast SEO skipped the field.' );
-		};
-
-		$this->options_helper->expects( 'set' )->never()->with( 'company_or_person', 'person' );
-		$this->options_helper->expects( 'set' )->once()->with( 'company_name', 'Yoast' )->andReturnTrue();
-
-		$this->options_helper->allows( 'get' )->andReturn( '' );
-
-		$result = $this->instance->update(
-			[
-				'company_or_person' => 'person',
-				'company_name'      => 'Yoast',
-			],
-		);
-
-		$this->assertSame(
-			'The site was not set to represent a person, because Yoast Local SEO is active and requires the site to represent an organization. The other settings were saved.',
-			$result['warning'],
-		);
-	}
-
-	/**
-	 * Tests that update skips the user to represent when it does not exist, saves the other settings and
-	 * returns a warning.
-	 *
-	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_user_id
-	 *
-	 * @return void
-	 */
-	public function test_update_invalid_user() {
-		Monkey\Functions\expect( 'get_userdata' )->once()->with( 99 )->andReturnFalse();
-
-		$this->social_profiles_helper->expects( 'set_organization_social_profiles' )->once()->with( [ 'facebook_site' => 'https://facebook.com/yoast' ] )->andReturn( [] );
-
-		$this->options_helper->allows( 'get' )->andReturn( '' );
-
-		$result = $this->instance->update(
-			[
-				'company_or_person_user_id' => 99,
-				'facebook_site'             => 'https://facebook.com/yoast',
-			],
-		);
-
-		$this->assertSame(
-			'The user to represent was not changed, because no user exists with the given ID. The other settings were saved.',
-			$result['warning'],
-		);
-	}
-
-	/**
 	 * Tests that update combines the warnings of all the settings it skipped, and says no other settings
 	 * were saved when none were.
 	 *
 	 * @covers ::update
 	 * @covers ::update_field
-	 * @covers ::validate_company_or_person
-	 * @covers ::validate_user_id
+	 * @covers ::validate_field
 	 *
 	 * @return void
 	 */
 	public function test_update_multiple_warnings() {
-		$this->local_seo_active_conditional->expects( 'is_met' )->once()->andReturnTrue();
-
-		Monkey\Functions\expect( 'get_userdata' )->once()->with( 99 )->andReturnFalse();
+		$this->validators['company_or_person']         = static function () {
+			return 'The company_or_person setting was not changed.';
+		};
+		$this->validators['company_or_person_user_id'] = static function () {
+			return 'The company_or_person_user_id setting was not changed.';
+		};
 
 		$this->options_helper->expects( 'set' )->never();
 		$this->options_helper->allows( 'get' )->andReturn( '' );
@@ -318,7 +207,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 		);
 
 		$this->assertSame(
-			'The site was not set to represent a person, because Yoast Local SEO is active and requires the site to represent an organization. The user to represent was not changed, because no user exists with the given ID. No other settings were saved.',
+			'The company_or_person setting was not changed. The company_or_person_user_id setting was not changed. No other settings were saved.',
 			$result['warning'],
 		);
 	}
@@ -329,13 +218,11 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @covers ::update
 	 * @covers ::update_field
-	 * @covers ::get_logo_id
 	 *
 	 * @return void
 	 */
 	public function test_update_not_saved() {
-		$this->image_helper->expects( 'get_attachment_by_url' )->twice()->with( 'https://example.com/logo.png' )->andReturn( 12 );
-		$this->image_helper->expects( 'is_valid_attachment' )->once()->with( 12 )->andReturnTrue();
+		$this->logo_helper->expects( 'get_logo_id' )->once()->with( 'https://example.com/logo.png' )->andReturn( 12 );
 
 		$this->options_helper->expects( 'set' )->once()->with( 'company_or_person', 'company' )->andReturnFalse();
 		$this->options_helper->expects( 'set' )->once()->with( 'company_name', 'Yoast' )->andReturnFalse();
@@ -360,17 +247,15 @@ final class Site_Representation_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that update clears the ID of a logo whose URL is cleared, without looking it up.
+	 * Tests that update clears the ID of a logo whose URL is cleared.
 	 *
 	 * @covers ::update
 	 * @covers ::update_field
-	 * @covers ::get_logo_id
-	 * @covers ::validate_logo
 	 *
 	 * @return void
 	 */
 	public function test_update_clear_logo() {
-		$this->image_helper->expects( 'get_attachment_by_url' )->never();
+		$this->logo_helper->expects( 'get_logo_id' )->once()->with( '' )->andReturn( 0 );
 
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', '' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_id', 0 )->andReturnTrue();
@@ -388,14 +273,11 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @covers ::update
 	 * @covers ::update_field
-	 * @covers ::get_logo_id
-	 * @covers ::validate_logo
 	 *
 	 * @return void
 	 */
 	public function test_update_logo_id_ignored() {
-		$this->image_helper->expects( 'get_attachment_by_url' )->twice()->with( 'https://example.com/logo.png' )->andReturn( 12 );
-		$this->image_helper->expects( 'is_valid_attachment' )->once()->with( 12 )->andReturnTrue();
+		$this->logo_helper->expects( 'get_logo_id' )->once()->with( 'https://example.com/logo.png' )->andReturn( 12 );
 
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', 'https://example.com/logo.png' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_id', 12 )->andReturnTrue();
@@ -420,13 +302,11 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @covers ::update
 	 * @covers ::update_field
-	 * @covers ::get_logo_id
 	 *
 	 * @return void
 	 */
 	public function test_update_logo_url_not_saved() {
-		$this->image_helper->expects( 'get_attachment_by_url' )->once()->with( 'https://example.com/logo.png' )->andReturn( 12 );
-		$this->image_helper->expects( 'is_valid_attachment' )->once()->with( 12 )->andReturnTrue();
+		$this->logo_helper->expects( 'get_logo_id' )->never();
 
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', 'https://example.com/logo.png' )->andReturnFalse();
 		$this->options_helper->expects( 'set' )->never()->with( 'company_logo_id', 12 );
@@ -438,67 +318,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 
 		$this->assertSame(
 			'The company_logo setting could not be saved as provided, so its current value is returned. No other settings were saved.',
-			$result['warning'],
-		);
-	}
-
-	/**
-	 * Data provider for test_update_logo_url_not_an_image.
-	 *
-	 * @return array<string, array<string, int|bool|null>>
-	 */
-	public static function data_update_logo_url_not_an_image() {
-		return [
-			'Not in the media library' => [
-				'attachment_id' => 0,
-				'is_valid'      => null,
-			],
-			'Not an image'             => [
-				'attachment_id' => 12,
-				'is_valid'      => false,
-			],
-		];
-	}
-
-	/**
-	 * Tests that update skips a logo URL that is not an image in the media library, saves the other settings
-	 * and returns a warning.
-	 *
-	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::get_logo_id
-	 * @covers ::validate_logo
-	 *
-	 * @dataProvider data_update_logo_url_not_an_image
-	 *
-	 * @param int       $attachment_id The attachment ID found for the URL.
-	 * @param bool|null $is_valid      Whether the attachment is a valid image, null when it is not checked.
-	 *
-	 * @return void
-	 */
-	public function test_update_logo_url_not_an_image( int $attachment_id, ?bool $is_valid ) {
-		$this->image_helper->expects( 'get_attachment_by_url' )->once()->with( 'https://example.com/logo.pdf' )->andReturn( $attachment_id );
-
-		if ( $is_valid === null ) {
-			$this->image_helper->expects( 'is_valid_attachment' )->never();
-		}
-		else {
-			$this->image_helper->expects( 'is_valid_attachment' )->once()->with( $attachment_id )->andReturn( $is_valid );
-		}
-
-		$this->options_helper->expects( 'set' )->once()->with( 'company_name', 'Yoast' )->andReturnTrue();
-
-		$this->options_helper->allows( 'get' )->andReturn( '' );
-
-		$result = $this->instance->update(
-			[
-				'company_logo' => 'https://example.com/logo.pdf',
-				'company_name' => 'Yoast',
-			],
-		);
-
-		$this->assertSame(
-			'The company_logo setting was not changed, because it is not the URL of an image in the media library. The other settings were saved.',
 			$result['warning'],
 		);
 	}
@@ -535,7 +354,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that update skips a field whose add-on validator returns a warning, saves the other settings and
+	 * Tests that update skips a field whose validator returns a warning, saves the other settings and
 	 * returns that warning.
 	 *
 	 * @covers ::update
@@ -544,7 +363,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_update_add_on_validator_warning() {
+	public function test_update_validator_warning() {
 		$received = [];
 
 		$this->validators['company_name'] = static function ( $value, $field_name ) use ( &$received ) {
@@ -570,7 +389,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider for test_update_add_on_validator_no_warning.
+	 * Data provider for test_update_validator_no_warning.
 	 *
 	 * @return array<string, array<string, string|bool|array<string>|null>>
 	 */
@@ -584,7 +403,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that update saves a field when its add-on validator returns something other than a non-empty string.
+	 * Tests that update saves a field when its validator returns something other than a non-empty string.
 	 *
 	 * @covers ::update
 	 * @covers ::update_field
@@ -596,7 +415,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_update_add_on_validator_no_warning( $warning ) {
+	public function test_update_validator_no_warning( $warning ) {
 		$this->validators['company_name'] = static function () use ( $warning ) {
 			return $warning;
 		};
