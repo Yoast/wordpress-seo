@@ -124,33 +124,6 @@ final class Woo_Seo_Version_Test extends Abstract_Test {
 	}
 
 	/**
-	 * Tests that an add-on without a valid subscription links to MyYoast to activate it, since updates come from there.
-	 *
-	 * @return void
-	 */
-	public function test_links_to_myyoast_without_a_valid_subscription(): void {
-		$preferences = $this->get_preferences( true, '16.9', true, true, null, false );
-
-		$this->assertFalse( $preferences['hasWooSeoSubscription'] );
-		$this->assertSame(
-			'https://yoa.st/ai-bulk-editor-activate-yoast-woocommerce?foo=bar',
-			$preferences['wooSeoUpdateUrl'],
-		);
-	}
-
-	/**
-	 * Tests that the subscription is not looked up when the add-on does not need an update.
-	 *
-	 * @return void
-	 */
-	public function test_skips_the_subscription_without_an_outdated_add_on(): void {
-		$this->addon_manager->expects( 'has_valid_subscription' )->never();
-
-		$this->assertTrue( $this->get_preferences( false, '16.9', true, true, null, null )['hasWooSeoSubscription'] );
-		$this->assertTrue( $this->get_preferences( true, '17.0', true, true, null, null )['hasWooSeoSubscription'] );
-	}
-
-	/**
 	 * Data provider for test_falls_back_to_the_updates_screen.
 	 *
 	 * @return array<string, array<string, mixed>> The test data.
@@ -204,7 +177,6 @@ final class Woo_Seo_Version_Test extends Abstract_Test {
 	 * @param bool        $can_update_plugins Whether the user may update plugins.
 	 * @param bool        $stub_plugin_file   Whether to let the add-on manager return the plugin file.
 	 * @param mixed       $updates            The update_plugins site transient; defaults to an available package.
-	 * @param bool|null   $has_subscription   Whether the add-on has a valid subscription, or null to leave it unstubbed.
 	 *
 	 * @return array<string, bool|string> The preferences from the script data.
 	 */
@@ -213,8 +185,7 @@ final class Woo_Seo_Version_Test extends Abstract_Test {
 		?string $version,
 		bool $can_update_plugins,
 		bool $stub_plugin_file = true,
-		$updates = null,
-		?bool $has_subscription = true
+		$updates = null
 	): array {
 		if ( $updates === null ) {
 			$updates = (object) [
@@ -260,11 +231,6 @@ final class Woo_Seo_Version_Test extends Abstract_Test {
 		$this->product_helper->allows( 'is_premium' )->andReturn( false );
 		$this->options_helper->allows( 'get' )->andReturn( true );
 		$this->short_link_helper->allows( 'get_query_params' )->andReturn( [] );
-		$this->short_link_helper->allows( 'get' )->andReturnUsing(
-			static function ( $url ) {
-				return $url . '?foo=bar';
-			},
-		);
 		$this->myyoast_connection_data_presenter->allows( 'present' )->andReturn( null );
 		$this->user_helper->allows( 'get_current_user_id' )->andReturn( 1 );
 		$this->user_helper->allows( 'get_meta' )->andReturn( false );
@@ -272,11 +238,6 @@ final class Woo_Seo_Version_Test extends Abstract_Test {
 		$this->woo_seo_inactive_conditional->allows( 'is_met' )->andReturn( ! $is_active );
 		$this->addon_manager->allows( 'get_installed_addons_versions' )
 			->andReturn( ( $version === null ) ? [] : [ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG => $version ] );
-		if ( $has_subscription !== null ) {
-			$this->addon_manager->allows( 'has_valid_subscription' )
-				->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
-				->andReturn( $has_subscription );
-		}
 		if ( $stub_plugin_file ) {
 			$this->addon_manager->allows( 'get_plugin_file' )
 				->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )

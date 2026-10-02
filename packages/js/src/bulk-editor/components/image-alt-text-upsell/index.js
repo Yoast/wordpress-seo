@@ -17,12 +17,11 @@ import { ImageAltTextUpsellCard } from "./upsell-card";
  * @returns {JSX.Element} The upsell block, or the empty panel.
  */
 export const ImageAltTextUpsell = () => {
-	const { isWooSeoActive, isWooSeoVersionSupported, hasWooSeoSubscription, isTabActive } = useSelect( ( select ) => {
+	const { isWooSeoActive, isWooSeoVersionSupported, isTabActive } = useSelect( ( select ) => {
 		const store = select( STORE_NAME );
 		return {
 			isWooSeoActive: store.selectPreference( "isWooSeoActive", false ),
 			isWooSeoVersionSupported: store.selectPreference( "isWooSeoVersionSupported", false ),
-			hasWooSeoSubscription: store.selectPreference( "hasWooSeoSubscription", true ),
 			isTabActive: store.selectActiveFieldSet() === FIELD_SET_IMAGE_ALT_TEXT,
 		};
 	}, [] );
@@ -48,7 +47,6 @@ export const ImageAltTextUpsell = () => {
 		);
 	}
 
-	// Updates come from MyYoast, so without a valid subscription the button links there to activate it.
 	return (
 		<>
 			{ isTabActive && ! isWooSeoVersionSupported && (
@@ -56,20 +54,11 @@ export const ImageAltTextUpsell = () => {
 					isOpen={ isUpdateModalOpen }
 					onClose={ closeUpdateModal }
 					updateUrlPreference="wooSeoUpdateUrl"
-					description={ hasWooSeoSubscription
-						? sprintf(
-							/* translators: %s expands to "Yoast WooCommerce SEO". */
-							__( "To manage the alt text of your product images here, please update %s to the latest version.", "wordpress-seo" ),
-							"Yoast WooCommerce SEO"
-						)
-						: sprintf(
-							/* translators: %1$s expands to "Yoast WooCommerce SEO", %2$s expands to "MyYoast". */
-							__( "To manage the alt text of your product images here, please activate your %1$s subscription in %2$s and update the plugin to the latest version.", "wordpress-seo" ),
-							"Yoast WooCommerce SEO",
-							"MyYoast"
-						)
-					}
-					buttonLabel={ hasWooSeoSubscription ? __( "Update now", "wordpress-seo" ) : __( "Activate subscription", "wordpress-seo" ) }
+					description={ sprintf(
+						/* translators: %s expands to "Yoast WooCommerce SEO". */
+						__( "To manage the alt text of your product images here, please update %s to the latest version.", "wordpress-seo" ),
+						"Yoast WooCommerce SEO"
+					) }
 				/>
 			) }
 		</>

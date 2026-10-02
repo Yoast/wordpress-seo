@@ -112,7 +112,6 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 		$this->woo_seo_inactive_conditional->expects( 'is_met' )->once()->andReturn( $is_woo_seo_inactive );
 		$this->addon_manager->allows( 'get_installed_addons_versions' )
 			->andReturn( [ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG => '17.1' ] );
-		$this->addon_manager->expects( 'has_valid_subscription' )->never();
 		Functions\expect( 'is_rtl' )->once()->withNoArgs()->andReturn( false );
 		Functions\expect( 'get_locale' )->once()->withNoArgs()->andReturn( 'en_US' );
 		Functions\expect( 'plugins_url' )
@@ -187,7 +186,6 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			&& $preferences['isWooSeoActive'] === ! $is_woo_seo_inactive
 			&& $preferences['isWooSeoVersionSupported'] === ! $is_woo_seo_inactive
 			&& \strpos( $preferences['premiumUpdateUrl'], 'plugin=wordpress-seo-premium%2Fwp-seo-premium.php' ) !== false
-			&& $preferences['hasWooSeoSubscription'] === true
 			&& $preferences['wooSeoUpdateUrl'] === ''
 			&& $data['analysis']['shortcodes'] === $expected_shortcodes
 			&& \array_key_exists( 'replacementVariables', $data )
