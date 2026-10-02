@@ -60,7 +60,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * Versions after it fill the tab. With an active version up to this one the tab stays empty, so the bulk editor
 	 * asks for an update instead.
 	 */
-	private const MINIMUM_WOO_SEO_VERSION = '17.0-RC0';
+	private const LAST_UNSUPPORTED_WOO_SEO_VERSION = '17.0-RC0';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -296,7 +296,12 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$is_premium           = $this->product_helper->is_premium();
 		$is_version_supported = $this->is_premium_version_supported( $is_premium );
 		$is_woo_seo_active    = ! $this->woo_seo_inactive_conditional->is_met();
+		$is_woo_seo_supported = $this->is_woo_seo_version_supported( $is_woo_seo_active );
+		$woo_seo_needs_update = $is_woo_seo_active && ! $is_woo_seo_supported;
 		$can_update_plugins   = \current_user_can( 'update_plugins' );
+		// Only an add-on that needs an update asks for one, so only then is its subscription looked up.
+		$has_woo_seo_subscription = ! $woo_seo_needs_update
+			|| $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
 
 		return [
 			'contentTypes'          => $content_types,
@@ -319,11 +324,16 @@ class Bulk_Editor_Integration implements Integration_Interface {
 				// Without Yoast WooCommerce SEO, the products "Image alt text" tab shows the upsell instead; with an
 				// active version that predates the tab, it asks for an update.
 				'isWooSeoActive'            => $is_woo_seo_active,
-				'isWooSeoVersionSupported'  => $this->is_woo_seo_version_supported( $is_woo_seo_active ),
+				'isWooSeoVersionSupported'  => $is_woo_seo_supported,
+				'hasWooSeoSubscription'     => $has_woo_seo_subscription,
 				'isRtl'                     => \is_rtl(),
 				'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
 				'premiumUpdateUrl'          => $this->get_premium_update_url( $can_update_plugins ),
-				'wooSeoUpdateUrl'           => $this->get_woo_seo_update_url( $is_woo_seo_active, $can_update_plugins ),
+				'wooSeoUpdateUrl'           => $this->get_woo_seo_update_url(
+					$woo_seo_needs_update,
+					$has_woo_seo_subscription,
+					$can_update_plugins,
+				),
 			],
 			'linkParams'            => $this->short_link_helper->get_query_params(),
 			'analysis'              => [
@@ -403,7 +413,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 			return false;
 		}
 
-		return \version_compare( $versions[ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ], self::MINIMUM_WOO_SEO_VERSION, '>' );
+		return \version_compare( $versions[ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ], self::LAST_UNSUPPORTED_WOO_SEO_VERSION, '>' );
 	}
 
 	/**
@@ -423,22 +433,27 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns where the current user can update Yoast WooCommerce SEO, or an empty string when the add-on is not
-	 * active or the user lacks the `update_plugins` capability.
+	 * Returns where the current user can update Yoast WooCommerce SEO, or an empty string when it needs no update or
+	 * the user lacks the `update_plugins` capability.
 	 *
-	 * The one-click update URL only works when WordPress has an update package for the add-on. Without a (valid)
-	 * subscription, or before the update check has run, there is nothing to install and update.php only reports
-	 * that the plugin is at the latest version or that the package is not available. The Plugins screen then shows
-	 * the update or the add-on manager's subscription notice instead.
+	 * Updates come from MyYoast, so without a valid subscription there is nothing to install: the user is sent to
+	 * MyYoast to activate it. With one, the one-click update URL when WordPress has a package for a version that fills
+	 * the tab. Otherwise the Updates screen, which checks for updates again and, on multisite, redirects to the
+	 * network screen, where plugin updates are listed.
 	 *
-	 * @param bool $is_woo_seo_active  Whether Yoast WooCommerce SEO is active.
+	 * @param bool $needs_update       Whether an active Yoast WooCommerce SEO predates the tab.
+	 * @param bool $has_subscription   Whether the add-on has a valid subscription.
 	 * @param bool $can_update_plugins Whether the current user may update plugins.
 	 *
-	 * @return string The one-click update URL, the Plugins screen URL, or an empty string.
+	 * @return string The MyYoast activation, one-click update or Updates screen URL, or an empty string.
 	 */
-	private function get_woo_seo_update_url( bool $is_woo_seo_active, bool $can_update_plugins ): string {
-		if ( ! $is_woo_seo_active || ! $can_update_plugins ) {
+	private function get_woo_seo_update_url( bool $needs_update, bool $has_subscription, bool $can_update_plugins ): string {
+		if ( ! $needs_update || ! $can_update_plugins ) {
 			return '';
+		}
+
+		if ( ! $has_subscription ) {
+			return $this->short_link_helper->get( 'https://yoa.st/ai-bulk-editor-activate-yoast-woocommerce' );
 		}
 
 		$plugin_file = $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
@@ -446,7 +461,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 			return $this->get_plugin_update_url( $plugin_file );
 		}
 
-		return \self_admin_url( 'plugins.php' );
+		return \self_admin_url( 'update-core.php' );
 	}
 
 	/**
@@ -469,7 +484,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 
 		return ! empty( $update->package )
 			&& isset( $update->new_version )
-			&& \version_compare( $update->new_version, self::MINIMUM_WOO_SEO_VERSION, '>' );
+			&& \version_compare( $update->new_version, self::LAST_UNSUPPORTED_WOO_SEO_VERSION, '>' );
 	}
 
 	/**

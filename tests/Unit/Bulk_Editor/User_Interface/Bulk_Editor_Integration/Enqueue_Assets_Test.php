@@ -112,25 +112,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 		$this->woo_seo_inactive_conditional->expects( 'is_met' )->once()->andReturn( $is_woo_seo_inactive );
 		$this->addon_manager->allows( 'get_installed_addons_versions' )
 			->andReturn( [ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG => '17.1' ] );
-		$this->addon_manager->allows( 'get_plugin_file' )
-			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
-			->andReturn( 'wpseo-woocommerce/wpseo-woocommerce.php' );
-		// An update package is available, so the Woo SEO URL is the one-click update too.
-		Functions\when( 'get_site_transient' )->justReturn(
-			(object) [
-				'response' => [
-					'wpseo-woocommerce/wpseo-woocommerce.php' => (object) [
-						'new_version' => '17.0',
-						'package'     => 'https://example.com/woo.zip',
-					],
-				],
-			],
-		);
-		// The Premium update URL is always built; the Woo SEO one only when the add-on is active.
-		$update_url_calls = 1;
-		if ( ! $is_woo_seo_inactive ) {
-			$update_url_calls = 2;
-		}
+		$this->addon_manager->expects( 'has_valid_subscription' )->never();
 		Functions\expect( 'is_rtl' )->once()->withNoArgs()->andReturn( false );
 		Functions\expect( 'get_locale' )->once()->withNoArgs()->andReturn( 'en_US' );
 		Functions\expect( 'plugins_url' )
@@ -148,14 +130,14 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			->with( 'update_plugins' )
 			->andReturn( true );
 		Functions\expect( 'self_admin_url' )
-			->times( $update_url_calls )
+			->once()
 			->andReturnUsing(
 				static function ( $path ) {
 					return 'https://example.com/wp-admin/' . $path;
 				},
 			);
 		Functions\expect( 'wp_nonce_url' )
-			->times( $update_url_calls )
+			->once()
 			->andReturnUsing(
 				static function ( $url, $action ) {
 					return $url . '&_wpnonce=' . \md5( $action );
@@ -198,9 +180,6 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 	private static function is_expected_script_data( array $data, array $content_types, array $expected_shortcodes, bool $is_woo_seo_inactive ): bool {
 		$preferences = $data['preferences'];
 
-		$expected_woo_seo_update_url = ( ! $is_woo_seo_inactive );
-		$has_woo_seo_update_url      = ( \strpos( $preferences['wooSeoUpdateUrl'], 'plugin=wpseo-woocommerce%2Fwpseo-woocommerce.php' ) !== false );
-
 		return $data['contentTypes'] === $content_types
 			&& $data['links']['settings'] === 'https://example.com/wp-admin/admin.php?page=wpseo_page_settings'
 			&& $data['nonce'] === 'rest-nonce'
@@ -208,7 +187,8 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			&& $preferences['isWooSeoActive'] === ! $is_woo_seo_inactive
 			&& $preferences['isWooSeoVersionSupported'] === ! $is_woo_seo_inactive
 			&& \strpos( $preferences['premiumUpdateUrl'], 'plugin=wordpress-seo-premium%2Fwp-seo-premium.php' ) !== false
-			&& $has_woo_seo_update_url === $expected_woo_seo_update_url
+			&& $preferences['hasWooSeoSubscription'] === true
+			&& $preferences['wooSeoUpdateUrl'] === ''
 			&& $data['analysis']['shortcodes'] === $expected_shortcodes
 			&& \array_key_exists( 'replacementVariables', $data )
 			&& \array_key_exists( 'variables', $data['replacementVariables'] )
