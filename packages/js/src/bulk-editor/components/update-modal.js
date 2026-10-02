@@ -9,23 +9,23 @@ import { STORE_NAME } from "../constants";
  * The update modal shown when an installed Yoast plugin is too old for a bulk editor feature.
  *
  * Defaults to Yoast SEO Premium, whose AI bulk actions need a recent version; the products "Image alt text" tab
- * uses it for Yoast WooCommerce SEO.
+ * passes its own copy, URL preference and button label for Yoast WooCommerce SEO.
  *
  * @param {Object} props The props.
  * @param {Function} props.onClose The callback to close the modal.
  * @param {boolean} props.isOpen Whether the modal is open.
- * @param {string} [props.pluginName] The plugin to update.
- * @param {string} [props.updateUrlPreference] The preference holding the plugin's one-click update URL.
- * @param {string} [props.description] The body copy; defaults to the AI features copy.
+ * @param {string} [props.updateUrlPreference] The preference holding where the plugin can be updated.
+ * @param {string} [props.description] The body copy; defaults to the Premium AI features copy.
+ * @param {string} [props.buttonLabel] The label of the link to that URL; defaults to "Update now".
  *
  * @returns {JSX.Element} The update modal.
  */
 export const UpdateModal = ( {
 	onClose,
 	isOpen,
-	pluginName = "Yoast SEO Premium",
 	updateUrlPreference = "premiumUpdateUrl",
 	description = "",
+	buttonLabel = __( "Update now", "wordpress-seo" ),
 } ) => {
 	const ariaProps = useSvgAria();
 	const updateUrl = useSelect( ( select ) => select( STORE_NAME ).selectPreference( updateUrlPreference, "" ), [ updateUrlPreference ] );
@@ -35,7 +35,7 @@ export const UpdateModal = ( {
 				{ description || sprintf(
 					/** translators: %s: plugin name */
 					__( "To use AI features, please update %s to the latest version.", "wordpress-seo" ),
-					pluginName
+					"Yoast SEO Premium"
 				) }
 			</ModalDescription>
 			<Actions>
@@ -48,7 +48,7 @@ export const UpdateModal = ( {
 					rel="noopener noreferrer"
 					as="a"
 				>
-					{ __( "Update now", "wordpress-seo" ) }
+					{ buttonLabel }
 					<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
 					<ArrowNarrowRightIcon className="yst-h-4 yst-w-4 rtl:yst-rotate-180 yst-shrink-0" { ...ariaProps } />
 				</Button> }

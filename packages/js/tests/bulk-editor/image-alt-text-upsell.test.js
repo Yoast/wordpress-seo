@@ -173,6 +173,22 @@ describe( "ImageAltTextUpsell", () => {
 			expect( screen.getByRole( "dialog" ) ).toBeInTheDocument();
 		} );
 
+		it( "asks to activate the subscription in MyYoast without a valid one, since updates come from there", () => {
+			const ACTIVATE_URL = "https://yoa.st/ai-bulk-editor-activate-yoast-woocommerce?platform=wordpress";
+			mockStore( {
+				isWooSeoActive: true,
+				isWooSeoVersionSupported: false,
+				hasWooSeoSubscription: false,
+				wooSeoUpdateUrl: ACTIVATE_URL,
+			} );
+
+			render( <ImageAltTextUpsell /> );
+
+			expect( screen.getByText( /please activate your Yoast WooCommerce SEO subscription in MyYoast/ ) ).toBeInTheDocument();
+			expect( screen.queryByRole( "link", { name: /Update now/ } ) ).not.toBeInTheDocument();
+			expect( screen.getByRole( "link", { name: /Activate subscription/ } ) ).toHaveAttribute( "href", ACTIVATE_URL );
+		} );
+
 		it( "hides the update link from users who may not update plugins", () => {
 			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: "" } );
 

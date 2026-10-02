@@ -75,7 +75,7 @@ describe( "UpdateModal", () => {
 		expect( screen.queryByRole( "heading", { name: "Your plugin needs an update" } ) ).not.toBeInTheDocument();
 	} );
 
-	it( "can use another update URL preference and its own description", () => {
+	it( "can use another update URL preference, its own description and its own button label", () => {
 		useSelect.mockImplementation( ( selector ) =>
 			selector( () => ( {
 				selectPreference: ( key, defaultVal ) => key === "wooSeoUpdateUrl" ? "https://example.com/update.php?plugin=woo" : defaultVal,
@@ -87,11 +87,13 @@ describe( "UpdateModal", () => {
 				{ ...baseProps }
 				updateUrlPreference="wooSeoUpdateUrl"
 				description="Please update Yoast WooCommerce SEO."
+				buttonLabel="Activate subscription"
 			/>
 		);
 
 		expect( screen.getByText( "Please update Yoast WooCommerce SEO." ) ).toBeInTheDocument();
 		expect( screen.queryByText( /please update Yoast SEO Premium/ ) ).not.toBeInTheDocument();
-		expect( screen.getByRole( "link", { name: /Update now/ } ) ).toHaveAttribute( "href", "https://example.com/update.php?plugin=woo" );
+		expect( screen.queryByRole( "link", { name: /Update now/ } ) ).not.toBeInTheDocument();
+		expect( screen.getByRole( "link", { name: /Activate subscription/ } ) ).toHaveAttribute( "href", "https://example.com/update.php?plugin=woo" );
 	} );
 } );
