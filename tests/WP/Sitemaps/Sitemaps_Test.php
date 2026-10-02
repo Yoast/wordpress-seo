@@ -123,6 +123,19 @@ final class Sitemaps_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the main sitemap no longer ships an XSL stylesheet.
+	 *
+	 * @covers WPSEO_Sitemaps::xsl_output
+	 *
+	 * @return void
+	 */
+	public function test_xsl_output_main_outputs_nothing() {
+		self::$class_instance->xsl_output( 'main' );
+
+		$this->expectOutputString( '' );
+	}
+
+	/**
 	 * Tests the wpseo_sitemap_index_links filter.
 	 *
 	 * @covers WPSEO_Sitemaps::build_root_map

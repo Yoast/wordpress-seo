@@ -443,7 +443,9 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Spits out the XSL for the XML sitemap.
+	 * Spits out the XSL for XML sitemaps registered through `register_xsl()`.
+	 *
+	 * The main XML sitemap is styled with CSS, see `css_output()`.
 	 *
 	 * @since 1.4.13
 	 *
@@ -463,19 +465,9 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		header( $this->http_protocol . ' 200 OK', true, 200 );
-		// Prevent the search engines from indexing the XML Sitemap.
-		header( 'X-Robots-Tag: noindex, follow', true );
-		header( 'Content-Type: text/xml' );
-
-		// Make the browser cache this file properly.
-		$expires = YEAR_IN_SECONDS;
-		header( 'Pragma: public' );
-		header( 'Cache-Control: max-age=' . $expires );
-		header( 'Expires: ' . YoastSEO()->helpers->date->format_timestamp( ( time() + $expires ), 'D, d M Y H:i:s' ) . ' GMT' );
-
-		// Don't use WP_Filesystem() here because that's not initialized yet. See https://yoast.atlassian.net/browse/QAK-2043.
-		readfile( WPSEO_PATH . 'css/main-sitemap.xsl' );
+		if ( ! headers_sent() ) {
+			header( $this->http_protocol . ' 404 Not Found', true, 404 );
+		}
 	}
 
 	/**
