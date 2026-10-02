@@ -430,7 +430,30 @@ Example: 6/15*100 = 0.4
 | Red           | 3     | No images                  | **Images**: No images appear on this page. **Add some!** |
 | Green         | 9     | There are at least 1 image | **Images**: Good job!                                    |
 
-### 9) Title (only in Premium)
+### 9) Duplicate alt text
+**What it does**: Checks whether two or more different assessed images share the same alt text. Alt texts are compared trimmed and lowercased. By default it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
+
+Two entries count as the same image, not as a duplicate, when they have the same `id` (provided images only), or else the same `src`. An image with neither counts as a different image. On the text path, the same image in two sizes has two `src` values, so it counts as two images. Images without alt text are not counted: several decorative images with an empty alt text are correct.
+
+X is the number of images that share their alt text with at least one other image. For example, three images with the same alt text count as 3.
+
+**When it applies**: Only when at least two different assessed images share the same alt text. There is no green traffic light: "all your images have unique alt text" would be misleading when some or all alt texts are empty. When nothing is flagged the assessment returns a result without a score and without a text, which `Assessor.isValidResult` drops, and the assessment is not shown at all.
+
+**Name in code**: DuplicateAltTextAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `duplicateCount`, and must return `duplicate`. The
+returned object is used as is, so an omitted key renders as an empty result text rather than falling back to the default.
+
+**Title URL**: https://yoa.st/duplicate-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/duplicate-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                            | Feedback                                                                                                                 |
+|---------------|-------|------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your images share the same alt text with another image. **Make sure each image has unique alt text.** |
+
+### 10) Title (only in Premium)
 **What it does**: Checks for the presence of a title.
 
 **When it applies**: Always. Does not apply to taxonomies.

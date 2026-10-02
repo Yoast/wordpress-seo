@@ -12,11 +12,17 @@ import getImagesInTree from "./getImagesInTree";
  * required and `toPaper()` rejects a DTO without it, but a Paper constructed directly bypasses that
  * validation, and an empty `alt` degrades to the correct "no alt text" score instead of a hard failure.
  *
+ * The image's `id` is kept as `attachmentId`, outside `attributes`, so it cannot be mistaken for an HTML `id`.
+ *
  * @param {ProvidedImage} image The provided image to map.
  *
- * @returns {{name: string, attributes: {src: string, alt: string}}} The mapped `img` pseudo-node.
+ * @returns {{name: string, attributes: {src: string, alt: string}, attachmentId: (number|undefined)}} The mapped `img` pseudo-node.
  */
-const toImageNode = ( image ) => ( { name: "img", attributes: { src: image.src || "", alt: image.alt || "" } } );
+const toImageNode = ( image ) => ( {
+	name: "img",
+	attributes: { src: image.src || "", alt: image.alt || "" },
+	attachmentId: image.id,
+} );
 
 /**
  * Retrieves the images the image researches should assess. The scope travels with the Paper,
