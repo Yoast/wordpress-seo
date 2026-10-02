@@ -26,11 +26,6 @@ const changingIconButtonDefaults = {
  * @returns {ReactElement} ChangingIconButton component.
  */
 const ChangingIconButton = function( componentProps ) {
-	/*
-	 * React 19's automatic JSX runtime no longer applies defaultProps to function components, which
-	 * would drop these colours to undefined and render the button unstyled. Merging the defaults here
-	 * keeps them on both runtimes; defaultProps is kept as well for classic consumers.
-	 */
 	const props = { ...changingIconButtonDefaults, ...componentProps };
 	const buttonsAreDisabled = props.marksButtonStatus === "disabled";
 
@@ -85,8 +80,5 @@ ChangingIconButton.propTypes = {
 	disabledIconColor: PropTypes.string,
 	className: PropTypes.string,
 };
-
-// Kept for classic-runtime consumers; the in-component merge applies these on React 19.
-ChangingIconButton.defaultProps = changingIconButtonDefaults;
 
 export default ChangingIconButton;

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import FieldGroup, { FieldGroupDefaultProps, FieldGroupProps } from "../field-group/FieldGroup";
+import FieldGroup, { FieldGroupProps } from "../field-group/FieldGroup";
 // Import the required CSS.
 import "./input.css";
 
@@ -44,26 +44,40 @@ const onChangeHandler = onChange => {
  * @returns {React.Component} Component that can be used inside a form.
  */
 const TextInput = ( props ) => {
+	const {
+		id = "",
+		name = "",
+		value = "",
+		type = "text",
+		ariaDescribedBy = "",
+		placeholder,
+		readOnly = false,
+		min,
+		max,
+		step,
+		onChange = () => {},
+	} = props;
+
 	const fieldGroupProps = { ...props };
-	if ( props.id ) {
-		fieldGroupProps.htmlFor = props.id;
+	if ( id ) {
+		fieldGroupProps.htmlFor = id;
 	}
 
 	return (
 		<FieldGroup { ...fieldGroupProps }>
 			<input
-				id={ props.id }
-				name={ props.name }
-				value={ props.value }
-				type={ props.type }
+				id={ id }
+				name={ name }
+				value={ value }
+				type={ type }
 				className="yoast-field-group__inputfield"
-				aria-describedby={ props.ariaDescribedBy }
-				placeholder={ props.placeholder }
-				readOnly={ props.readOnly }
-				min={ props.min }
-				max={ props.max }
-				step={ props.step }
-				onChange={ onChangeHandler( props.onChange ) }
+				aria-describedby={ ariaDescribedBy }
+				placeholder={ placeholder }
+				readOnly={ readOnly }
+				min={ min }
+				max={ max }
+				step={ step }
+				onChange={ onChangeHandler( onChange ) }
 			/>
 		</FieldGroup>
 	);
@@ -82,24 +96,6 @@ TextInput.propTypes = {
 	step: PropTypes.number,
 	onChange: PropTypes.func,
 	...FieldGroupProps,
-};
-
-TextInput.defaultProps = {
-	id: "",
-	name: "",
-	value: "",
-	ariaDescribedBy: "",
-	readOnly: false,
-	type: "text",
-	// React automatically removes these values when passed as props.
-	/* eslint-disable no-undefined */
-	placeholder: undefined,
-	min: undefined,
-	max: undefined,
-	step: undefined,
-	onChange: undefined,
-	/* eslint-enable */
-	...FieldGroupDefaultProps,
 };
 
 export default TextInput;

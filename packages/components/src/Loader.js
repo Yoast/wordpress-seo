@@ -9,7 +9,7 @@ import styled, { keyframes } from "styled-components";
  *
  * @returns {React.Element} The Loader component.
  */
-const Loader = ( { className } ) => {
+const Loader = ( { className = "" } ) => {
 	if ( className !== "" ) {
 		className += " ";
 	}
@@ -75,10 +75,6 @@ const Loader = ( { className } ) => {
 
 Loader.propTypes = {
 	className: PropTypes.string,
-};
-
-Loader.defaultProps = {
-	className: "",
 };
 
 const heartbeat = keyframes`

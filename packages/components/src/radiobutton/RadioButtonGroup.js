@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { noop } from "lodash";
-import FieldGroup, { FieldGroupDefaultProps, FieldGroupProps } from "../field-group/FieldGroup";
+import FieldGroup, { FieldGroupProps } from "../field-group/FieldGroup";
 import { getId } from "../GenerateId";
 
 import "./radiobutton.css";
@@ -12,10 +12,6 @@ const radioButtonsProps = {
 	groupName: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	selected: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ),
-};
-
-const radioButtonsDefaultProps = {
-	selected: null,
 };
 
 /**
@@ -30,7 +26,7 @@ const radioButtonsDefaultProps = {
  *
  * @returns {React.Component} A single radiobutton field with label.
  */
-const LabeledRadioButton = ( { value, label, checked, onChange, groupName, id } ) => <Fragment>
+const LabeledRadioButton = ( { value, label, checked = false, onChange = noop, groupName, id } ) => <Fragment>
 	<input
 		type="radio"
 		name={ groupName }
@@ -55,11 +51,6 @@ LabeledRadioButton.propTypes = {
 	id: PropTypes.string.isRequired,
 };
 
-LabeledRadioButton.defaultProps = {
-	checked: false,
-	onChange: noop,
-};
-
 /**
  * Returns a set of radiobuttons that are on the same line.
  *
@@ -71,7 +62,7 @@ LabeledRadioButton.defaultProps = {
  *
  * @returns {React.Component} A div with radiobuttons in it.
  */
-const HorizontalRadioButtons = ( { options, onChange, groupName, id, selected } ) => (
+const HorizontalRadioButtons = ( { options, onChange, groupName, id, selected = null } ) => (
 	<div className="yoast-field-group__radiobutton">
 		{ options.map( option => {
 			return (
@@ -89,7 +80,6 @@ const HorizontalRadioButtons = ( { options, onChange, groupName, id, selected } 
 );
 
 HorizontalRadioButtons.propTypes = radioButtonsProps;
-HorizontalRadioButtons.defaultProps = radioButtonsDefaultProps;
 
 /**
  * Returns a set of radiobuttons that are vertically aligned.
@@ -102,7 +92,7 @@ HorizontalRadioButtons.defaultProps = radioButtonsDefaultProps;
  *
  * @returns {React.Component} A lot of divs with one radiobutton in it.
  */
-const VerticalRadioButtons = ( { options, onChange, groupName, id, selected } ) => (
+const VerticalRadioButtons = ( { options, onChange, groupName, id, selected = null } ) => (
 	<div onChange={ onChange }>
 		{ options.map( option => <div
 			className="yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical"
@@ -120,7 +110,6 @@ const VerticalRadioButtons = ( { options, onChange, groupName, id, selected } ) 
 );
 
 VerticalRadioButtons.propTypes = radioButtonsProps;
-VerticalRadioButtons.defaultProps = radioButtonsDefaultProps;
 
 /**
  * Component that generates a group of radio buttons.
@@ -131,12 +120,12 @@ VerticalRadioButtons.defaultProps = radioButtonsDefaultProps;
  */
 const RadioButtonGroup = props => {
 	const {
-		id,
+		id = "",
 		options,
 		groupName,
-		onChange,
-		vertical,
-		selected,
+		onChange = () => {},
+		vertical = false,
+		selected = null,
 		...fieldGroupProps
 	} = props;
 	const componentId = getId( id );
@@ -172,14 +161,6 @@ RadioButtonGroup.propTypes = {
 	onChange: PropTypes.func,
 	vertical: PropTypes.bool,
 	...FieldGroupProps,
-};
-
-RadioButtonGroup.defaultProps = {
-	id: "",
-	vertical: false,
-	selected: null,
-	onChange: () => {},
-	...FieldGroupDefaultProps,
 };
 
 export default RadioButtonGroup;

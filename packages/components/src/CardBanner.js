@@ -37,10 +37,14 @@ const BannerTriangle = styled.span`
  * @returns {ReactElement} The banner element.
  * @constructor
  */
-export default function Banner( props ) {
+export default function Banner( {
+	backgroundColor = colors.$color_pink_dark,
+	textColor = colors.$color_white,
+	children = null,
+} ) {
 	return <Fragment>
-		<BannerContents backgroundColor={ props.backgroundColor } textColor={ props.textColor }>
-			{ props.children }
+		<BannerContents backgroundColor={ backgroundColor } textColor={ textColor }>
+			{ children }
 		</BannerContents>
 		<BannerTriangle />
 	</Fragment>;
@@ -50,10 +54,4 @@ Banner.propTypes = {
 	backgroundColor: PropTypes.string,
 	textColor: PropTypes.string,
 	children: PropTypes.any,
-};
-
-Banner.defaultProps = {
-	backgroundColor: colors.$color_pink_dark,
-	textColor: colors.$color_white,
-	children: null,
 };

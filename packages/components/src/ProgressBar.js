@@ -12,7 +12,14 @@ import { colors } from "@yoast/style-guide";
  *
  * @returns {ReactElement} The ProgressBar component.
  */
-const ProgressBar = styled.progress`
+const ProgressBar = styled.progress.attrs( ( {
+	max = 1,
+	value = 0,
+	progressColor = colors.$color_good,
+	backgroundColor = colors.$color_background_light,
+	borderColor = colors.$color_input_border,
+	"aria-hidden": ariaHidden = "true",
+} ) => ( { max, value, progressColor, backgroundColor, borderColor, "aria-hidden": ariaHidden } ) )`
 	box-sizing: border-box;
 	width: 100%;
 	height: 8px;
@@ -40,16 +47,6 @@ const ProgressBar = styled.progress`
 		border: 0;
 	}
 `;
-
-
-ProgressBar.defaultProps = {
-	max: 1,
-	value: 0,
-	progressColor: colors.$color_good,
-	backgroundColor: colors.$color_background_light,
-	borderColor: colors.$color_input_border,
-	"aria-hidden": "true",
-};
 
 ProgressBar.propTypes = {
 	max: PropTypes.number,
