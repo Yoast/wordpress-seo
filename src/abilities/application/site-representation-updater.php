@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Field_Map;
 use Yoast\WP\SEO\Conditionals\Local_SEO_Active_Conditional;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
 
 /**
  * Application service that updates the site representation settings.
@@ -66,23 +67,33 @@ class Site_Representation_Updater {
 	private $image_helper;
 
 	/**
+	 * The social profiles helper.
+	 *
+	 * @var Social_Profiles_Helper
+	 */
+	private $social_profiles_helper;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Options_Helper                $options_helper               The options helper.
 	 * @param Site_Representation_Field_Map $field_map                    The site representation field map.
 	 * @param Local_SEO_Active_Conditional  $local_seo_active_conditional The Local SEO active conditional.
 	 * @param Image_Helper                  $image_helper                 The image helper.
+	 * @param Social_Profiles_Helper        $social_profiles_helper       The social profiles helper.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		Site_Representation_Field_Map $field_map,
 		Local_SEO_Active_Conditional $local_seo_active_conditional,
-		Image_Helper $image_helper
+		Image_Helper $image_helper,
+		Social_Profiles_Helper $social_profiles_helper
 	) {
 		$this->options_helper               = $options_helper;
 		$this->field_map                    = $field_map;
 		$this->local_seo_active_conditional = $local_seo_active_conditional;
 		$this->image_helper                 = $image_helper;
+		$this->social_profiles_helper       = $social_profiles_helper;
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The fields added through the filter can hold any option value.
@@ -131,14 +142,12 @@ class Site_Representation_Updater {
 	 * @return string|null A warning when the field could not be saved, null otherwise.
 	 */
 	private function update_field( string $field_name, $value ): ?string {
-		if ( isset( self::VALIDATORS[ $field_name ] ) ) {
-			$warning = $this->{ self::VALIDATORS[ $field_name ] }( $field_name, $value );
-			if ( $warning !== null ) {
-				return $warning;
-			}
+		$warning = $this->validate_field( $field_name, $value );
+		if ( $warning !== null ) {
+			return $warning;
 		}
 
-		if ( $this->options_helper->set( $field_name, $value ) !== true ) {
+		if ( ! $this->save_field( $field_name, $value ) ) {
 			// A failed save is also reported when the value was invalid or the option sanitized it into
 			// something else, so the warning points to the returned value rather than claiming nothing was stored.
 			return \sprintf(
@@ -156,6 +165,58 @@ class Site_Representation_Updater {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Validates a single field, first against the rules of Yoast SEO and then against the validator its add-on
+	 * registered along with it.
+	 *
+	 * @param string $field_name The option name of the field.
+	 * @param mixed  $value      The value to save.
+	 *
+	 * @return string|null A warning when the value cannot be saved, null otherwise.
+	 */
+	private function validate_field( string $field_name, $value ): ?string {
+		if ( isset( self::VALIDATORS[ $field_name ] ) ) {
+			$warning = $this->{ self::VALIDATORS[ $field_name ] }( $field_name, $value );
+			if ( $warning !== null ) {
+				return $warning;
+			}
+		}
+
+		$validators = $this->field_map->get_validators();
+		if ( ! isset( $validators[ $field_name ] ) ) {
+			return null;
+		}
+
+		$warning = \call_user_func( $validators[ $field_name ], $value, $field_name );
+
+		// Anything but a non-empty string cannot be relayed as a warning, so the value is saved instead.
+		if ( ! \is_string( $warning ) || $warning === '' ) {
+			return null;
+		}
+
+		return $warning;
+	}
+
+	/**
+	 * Saves a single field.
+	 *
+	 * Organization social profiles are saved through the social profiles helper, so they are validated like they
+	 * are in the first-time configuration, including the ones that add-ons register there.
+	 *
+	 * @param string $field_name The option name of the field.
+	 * @param mixed  $value      The value to save.
+	 *
+	 * @return bool Whether the field was saved.
+	 */
+	private function save_field( string $field_name, $value ): bool {
+		if ( \array_key_exists( $field_name, $this->social_profiles_helper->get_organization_social_profile_fields() ) ) {
+			// One profile at a time, as the helper saves none of the provided profiles when one of them is invalid.
+			return $this->social_profiles_helper->set_organization_social_profiles( [ $field_name => $value ] ) === [];
+		}
+
+		return $this->options_helper->set( $field_name, $value ) === true;
 	}
 
 	/**

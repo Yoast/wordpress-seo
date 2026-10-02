@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Conditionals\Local_SEO_Active_Conditional;
  * Describes the site representation settings that the abilities can write, keyed by option name.
  *
  * The map is the single source of truth for both the ability schemas and the updater, so a field
- * added through the filter is exposed and written without further changes.
+ * added through the filter is exposed, validated and written without further changes.
  */
 class Site_Representation_Field_Map {
 
@@ -30,6 +30,13 @@ class Site_Representation_Field_Map {
 	private $fields;
 
 	/**
+	 * The validators that add-ons registered along with their fields, keyed by option name.
+	 *
+	 * @var array<string, callable>|null
+	 */
+	private $validators;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Local_SEO_Active_Conditional $local_seo_active_conditional The Local SEO active conditional.
@@ -44,8 +51,30 @@ class Site_Representation_Field_Map {
 	 * @return array<string, array<string, mixed>> The JSON schema of each field, keyed by option name.
 	 */
 	public function get_fields(): array {
+		$this->resolve_fields();
+
+		return $this->fields;
+	}
+
+	/**
+	 * Returns the validators that add-ons registered along with their fields.
+	 *
+	 * @return array<string, callable> The validator of each field that has one, keyed by option name.
+	 */
+	public function get_validators(): array {
+		$this->resolve_fields();
+
+		return $this->validators;
+	}
+
+	/**
+	 * Resolves the fields and their validators, once, so the schemas and the updater always agree on them.
+	 *
+	 * @return void
+	 */
+	private function resolve_fields(): void {
 		if ( $this->fields !== null ) {
-			return $this->fields;
+			return;
 		}
 
 		$default_fields = $this->get_default_fields();
@@ -54,8 +83,17 @@ class Site_Representation_Field_Map {
 		 * Filter: 'wpseo_site_representation_ability_fields' - Allows adding site representation settings that
 		 * the site representation abilities can write.
 		 *
-		 * Each field is keyed by its option name and maps to the JSON schema of its value. The value is saved
-		 * through the options helper, so it is sanitized like it is when saved from the settings page.
+		 * Each field is keyed by its option name and maps to the JSON schema of its value. The option has to be
+		 * a Yoast SEO option, as the value is saved through the options helper, so it is sanitized like it is
+		 * when saved from the settings page.
+		 *
+		 * Validation beyond the schema goes in an optional 'validate_callback' key next to the schema. It receives
+		 * the value and the option name, and returns a warning to skip saving the field or null to save it. The
+		 * warning is relayed to the user, so it should explain why the value was not saved. A field whose
+		 * 'validate_callback' is not callable is dropped, so it is never saved unvalidated.
+		 *
+		 * Organization social profiles are validated by the validator they are registered with through the
+		 * 'wpseo_organization_social_profile_fields' filter instead.
 		 *
 		 * @internal
 		 *
@@ -67,10 +105,28 @@ class Site_Representation_Field_Map {
 			$fields = $default_fields;
 		}
 
-		// A field without a schema can neither be described to agents nor validated, so it is dropped.
-		$this->fields = \array_filter( $fields, 'is_array' );
+		$this->fields     = [];
+		$this->validators = [];
 
-		return $this->fields;
+		foreach ( $fields as $field_name => $schema ) {
+			// A field without a schema can neither be described to agents nor validated, so it is dropped.
+			if ( ! \is_array( $schema ) ) {
+				continue;
+			}
+
+			if ( \array_key_exists( 'validate_callback', $schema ) ) {
+				if ( ! \is_callable( $schema['validate_callback'] ) ) {
+					continue;
+				}
+
+				$this->validators[ $field_name ] = $schema['validate_callback'];
+
+				// The callback is not part of the JSON schema that is published to agents.
+				unset( $schema['validate_callback'] );
+			}
+
+			$this->fields[ $field_name ] = $schema;
+		}
 	}
 
 	/**
@@ -117,6 +173,13 @@ class Site_Representation_Field_Map {
 			'twitter_site'              => [
 				'type'        => 'string',
 				'description' => \__( 'The X username of the organization, without the @. Use an empty string to clear it.', 'wordpress-seo' ),
+			],
+			'other_social_urls'         => [
+				'type'        => 'array',
+				'items'       => [
+					'type' => 'string',
+				],
+				'description' => \__( 'The URLs of the other social profiles of the organization, like Instagram, LinkedIn or YouTube. The provided list replaces the current one, so include the URLs to keep. Use an empty array to clear them.', 'wordpress-seo' ),
 			],
 		];
 	}

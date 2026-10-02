@@ -52,6 +52,7 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_fields
+	 * @covers ::resolve_fields
 	 * @covers ::get_default_fields
 	 * @covers ::get_company_or_person_description
 	 *
@@ -73,6 +74,7 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 				'person_logo',
 				'facebook_site',
 				'twitter_site',
+				'other_social_urls',
 			],
 			\array_keys( $fields ),
 		);
@@ -92,6 +94,7 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 	 * Tests that the company_or_person description tells agents when Local SEO prevents representing a person.
 	 *
 	 * @covers ::get_fields
+	 * @covers ::resolve_fields
 	 * @covers ::get_company_or_person_description
 	 *
 	 * @return void
@@ -110,6 +113,7 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 	 * schema and caches the result.
 	 *
 	 * @covers ::get_fields
+	 * @covers ::resolve_fields
 	 *
 	 * @return void
 	 */
@@ -141,9 +145,61 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the validators registered along with the fields are kept out of the schemas, and that a field
+	 * whose validator is not callable is dropped.
+	 *
+	 * @covers ::get_fields
+	 * @covers ::get_validators
+	 * @covers ::resolve_fields
+	 *
+	 * @return void
+	 */
+	public function test_get_validators() {
+		$this->local_seo_active_conditional->expects( 'is_met' )->once()->andReturnFalse();
+
+		$validate_org_email = static function () {
+			return null;
+		};
+
+		$add_on_fields = [
+			'org-email' => [
+				'type'              => 'string',
+				'description'       => 'The email address of the organization.',
+				'validate_callback' => $validate_org_email,
+			],
+			'org-phone' => [
+				'type'              => 'string',
+				'description'       => 'The phone number of the organization.',
+				'validate_callback' => 'not_a_function',
+			],
+		];
+
+		Monkey\Filters\expectApplied( 'wpseo_site_representation_ability_fields' )
+			->once()
+			->andReturnUsing(
+				static function ( $fields ) use ( $add_on_fields ) {
+					return \array_merge( $fields, $add_on_fields );
+				},
+			);
+
+		$fields = $this->instance->get_fields();
+
+		$this->assertSame(
+			[
+				'type'        => 'string',
+				'description' => 'The email address of the organization.',
+			],
+			$fields['org-email'],
+		);
+		$this->assertArrayNotHasKey( 'org-phone', $fields );
+		$this->assertSame( [ 'org-email' => $validate_org_email ], $this->instance->get_validators() );
+	}
+
+	/**
 	 * Tests that get_fields falls back to the defaults when the filter does not return an array.
 	 *
 	 * @covers ::get_fields
+	 * @covers ::resolve_fields
 	 *
 	 * @return void
 	 */
@@ -154,6 +210,6 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 			->once()
 			->andReturn( 'invalid' );
 
-		$this->assertCount( 9, $this->instance->get_fields() );
+		$this->assertCount( 10, $this->instance->get_fields() );
 	}
 }
