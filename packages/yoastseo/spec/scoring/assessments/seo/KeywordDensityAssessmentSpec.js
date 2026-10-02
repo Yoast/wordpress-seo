@@ -336,6 +336,92 @@ describe( "Tests for the keyphrase density assessment for short texts", function
 			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
 		expect( result.hasAIFixes() ).toBeTruthy();
 	} );
+	// Tests for the keyphrase density for short texts in Japanese
+	it( "gives a GOOD result for a text shorter than 101 characters when the keyphrase is found once", function() {
+		const paper = new Paper( nonkeyword.repeat( 80 ) + keyword.repeat( 1 ), { keyword: "keyword", locale: "ja_JA" } );
+		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 1 time. This is great!" );
+		expect( result.hasAIFixes() ).toBeFalsy();
+	} );
+	it( "gives a BAD result for a text shorter than 101 characters when the keyphrase is found twice", function() {
+		const paper = new Paper( nonkeyword.repeat( 75 ) + keyword.repeat( 2 ), { keyword: "keyword", locale: "ja_JA" } );
+		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( -10 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 2 times. That's more than the recommended maximum of 1 time for a text of this length. " +
+			"<a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
+		expect( result.hasAIFixes() ).toBeFalsy();
+	} );
+	it( "gives a BAD result for a text shorter than 101 characters when the keyphrase is found three times", function() {
+		const paper = new Paper( nonkeyword.repeat( 50 ) + keyword.repeat( 3 ), { keyword: "keyword", locale: "ja_JA" } );
+		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( -50 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 3 times. That's way more than the recommended maximum of 1 time for a text of this length. " +
+			"<a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
+		expect( result.hasAIFixes() ).toBeFalsy();
+	} );
+	it( "gives a GOOD result for a text between 101 and 199 characters when the keyphrase is found once", function() {
+		const paper = new Paper( nonkeyword.repeat( 150 ) + keyword.repeat( 1 ), { keyword: "keyword", locale: "ja_JA" } );
+		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 1 time. This is great!" );
+		expect( result.hasAIFixes() ).toBeFalsy();
+	} );
+	it( "gives a GOOD result for a text between 101 and 199 characters when the keyphrase is found twice", function() {
+		const paper = new Paper( nonkeyword.repeat( 50 ) + keyword.repeat( 2 ), { keyword: "keyword", locale: "ja_JA" } );
+		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 2 times. This is great!" );
+		expect( result.hasAIFixes() ).toBeFalsy();
+	} );
+	it( "gives a BAD result for a text between 101 and 199 characters when the keyphrase is found three times", function() {
+		const paper = new Paper( nonkeyword.repeat( 175 ) + keyword.repeat( 3 ), { keyword: "keyword", locale: "ja_JA" } );
+		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( -10 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 3 times. That's more than the recommended maximum of 2 times for a text of this length. " +
+			"<a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
+		expect( result.hasAIFixes() ).toBeFalsy();
+	} );
+	it( "gives a BAD result for a text between 101 and 199 characters when the keyphrase is found four times", function() {
+		const paper = new Paper( nonkeyword.repeat( 170 ) + keyword.repeat( 4 ), { keyword: "keyword", locale: "ja_JA" } );
+		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( -50 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 4 times. That's way more than the recommended maximum of 2 times for a text of this length. " +
+			"<a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
+		expect( result.hasAIFixes() ).toBeFalsy();
+	} );
+	it( "gives a BAD result when the keyphrase is not found", function() {
+		const paper = new Paper( nonkeyword.repeat( 101 ), { keyword: "keyword", locale: "ja_JA" } );
+		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( 4 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 0 times. That's less than the recommended minimum of 1 time for a text of this length. " +
+			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
+		expect( result.hasAIFixes() ).toBeTruthy();
+	} );
 } );
 
 describe( "A test for marking the keyphrase", function() {
