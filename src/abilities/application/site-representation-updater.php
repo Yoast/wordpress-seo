@@ -98,31 +98,50 @@ class Site_Representation_Updater {
 	 * @return array<string, mixed> The new site representation settings, plus a warning when some could not be changed.
 	 */
 	public function update( array $input ): array {
-		$fields       = $this->field_map->get_fields();
-		$warnings     = [];
-		$saved_fields = [];
+		$fields    = $this->field_map->get_fields();
+		$warnings  = [];
+		$saved_any = false;
 
-		foreach ( \array_keys( $fields ) as $field_name ) {
-			if ( ! \array_key_exists( $field_name, $input ) ) {
+		foreach ( \array_keys( \array_intersect_key( $fields, $input ) ) as $field_name ) {
+			$warning = $this->update_field( $field_name, $input[ $field_name ] );
+			if ( $warning === null ) {
+				$saved_any = true;
 				continue;
 			}
 
-			if ( isset( self::VALIDATORS[ $field_name ] ) ) {
-				$warning = $this->{ self::VALIDATORS[ $field_name ] }( $field_name, $input );
-				if ( $warning !== null ) {
-					$warnings[] = $warning;
-					continue;
-				}
-			}
+			$warnings[] = $warning;
+		}
 
-			if ( $this->options_helper->set( $field_name, $input[ $field_name ] ) === true ) {
-				$saved_fields[] = $field_name;
-				continue;
-			}
+		$result = $this->get_settings( $fields );
 
+		if ( $warnings !== [] ) {
+			$warnings[]        = ( $saved_any ) ? \__( 'The other settings were saved.', 'wordpress-seo' ) : \__( 'No other settings were saved.', 'wordpress-seo' );
+			$result['warning'] = \implode( ' ', $warnings );
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Validates and saves a single field.
+	 *
+	 * @param string $field_name The option name of the field.
+	 * @param mixed  $value      The value to save.
+	 *
+	 * @return string|null A warning when the field could not be saved, null otherwise.
+	 */
+	private function update_field( string $field_name, $value ): ?string {
+		if ( isset( self::VALIDATORS[ $field_name ] ) ) {
+			$warning = $this->{ self::VALIDATORS[ $field_name ] }( $field_name, $value );
+			if ( $warning !== null ) {
+				return $warning;
+			}
+		}
+
+		if ( $this->options_helper->set( $field_name, $value ) !== true ) {
 			// A failed save is also reported when the value was invalid or the option sanitized it into
 			// something else, so the warning points to the returned value rather than claiming nothing was stored.
-			$warnings[] = \sprintf(
+			return \sprintf(
 				/* translators: %s expands to the name of a setting. */
 				\__( 'The %s setting could not be saved as provided, so its current value is returned.', 'wordpress-seo' ),
 				$field_name,
@@ -130,22 +149,13 @@ class Site_Representation_Updater {
 		}
 
 		// The ID is only saved along with its URL, so the two never point to different images.
-		foreach ( self::LOGOS as $logo ) {
-			if ( \in_array( $logo, $saved_fields, true ) ) {
-				$this->options_helper->set( $logo . '_id', $input[ $logo . '_id' ] );
-				// @TODO: Check if the watcher takes care of the below. If so, remove it.
-				$this->options_helper->set( $logo . '_meta', false );
-			}
+		if ( \in_array( $field_name, self::LOGOS, true ) ) {
+			$this->options_helper->set( $field_name . '_id', $this->get_logo_id( $value ) );
+			// @TODO: Check if the watcher takes care of the below. If so, remove it.
+			$this->options_helper->set( $field_name . '_meta', false );
 		}
 
-		$result = $this->get_settings( $fields );
-
-		if ( $warnings !== [] ) {
-			$warnings[]        = ( $saved_fields !== [] ) ? \__( 'The other settings were saved.', 'wordpress-seo' ) : \__( 'No other settings were saved.', 'wordpress-seo' );
-			$result['warning'] = \implode( ' ', $warnings );
-		}
-
-		return $result;
+		return null;
 	}
 
 	/**
@@ -154,13 +164,13 @@ class Site_Representation_Updater {
 	 * Local SEO forces the site to represent an organization when reading the option, so writing "person"
 	 * would be undone right away and reported as a failed save.
 	 *
-	 * @param string               $field_name The option name of the field.
-	 * @param array<string, mixed> $input      The site representation settings to change.
+	 * @param string $field_name The option name of the field.
+	 * @param mixed  $value      The value to save.
 	 *
 	 * @return string|null A warning when the value cannot be saved, null otherwise.
 	 */
-	private function validate_company_or_person( string $field_name, array &$input ): ?string {
-		if ( $input[ $field_name ] !== 'person' || ! $this->local_seo_active_conditional->is_met() ) {
+	private function validate_company_or_person( string $field_name, $value ): ?string {
+		if ( $value !== 'person' || ! $this->local_seo_active_conditional->is_met() ) {
 			return null;
 		}
 
@@ -174,13 +184,13 @@ class Site_Representation_Updater {
 	/**
 	 * Validates that the user to represent exists. 0 clears the setting, so it is not looked up.
 	 *
-	 * @param string               $field_name The option name of the field.
-	 * @param array<string, mixed> $input      The site representation settings to change.
+	 * @param string $field_name The option name of the field.
+	 * @param mixed  $value      The value to save.
 	 *
 	 * @return string|null A warning when the value cannot be saved, null otherwise.
 	 */
-	private function validate_user_id( string $field_name, array &$input ): ?string {
-		if ( empty( $input[ $field_name ] ) || \get_userdata( $input[ $field_name ] ) !== false ) {
+	private function validate_user_id( string $field_name, $value ): ?string {
+		if ( empty( $value ) || \get_userdata( $value ) !== false ) {
 			return null;
 		}
 
@@ -188,27 +198,20 @@ class Site_Representation_Updater {
 	}
 
 	/**
-	 * Validates that a logo URL points to an image in the media library, and adds its attachment ID to the input.
+	 * Validates that a logo URL is cleared or points to an image in the media library.
 	 *
-	 * The schema reads the logo by its ID while the first-time configuration shows it by its URL, so deriving
-	 * the ID keeps both pointing to the same image.
-	 *
-	 * @param string               $field_name The option name of the logo URL.
-	 * @param array<string, mixed> $input      The site representation settings to change, resolved in place.
+	 * @param string $field_name The option name of the logo URL.
+	 * @param string $value      The logo URL to save.
 	 *
 	 * @return string|null A warning when the value cannot be saved, null otherwise.
 	 */
-	private function validate_logo( string $field_name, array &$input ): ?string {
-		$id_field = $field_name . '_id';
-
-		if ( $input[ $field_name ] === '' ) {
-			$input[ $id_field ] = 0;
+	private function validate_logo( string $field_name, string $value ): ?string {
+		if ( $value === '' ) {
 			return null;
 		}
 
-		$attachment_id = (int) $this->image_helper->get_attachment_by_url( $input[ $field_name ] );
+		$attachment_id = $this->get_logo_id( $value );
 		if ( $attachment_id > 0 && $this->image_helper->is_valid_attachment( $attachment_id ) ) {
-			$input[ $id_field ] = $attachment_id;
 			return null;
 		}
 
@@ -217,6 +220,24 @@ class Site_Representation_Updater {
 			\__( 'The %s setting was not changed, because it is not the URL of an image in the media library.', 'wordpress-seo' ),
 			$field_name,
 		);
+	}
+
+	/**
+	 * Returns the attachment ID of a logo URL, or 0 when the logo is cleared or not in the media library.
+	 *
+	 * The schema reads the logo by its ID while the first-time configuration shows it by its URL, so deriving
+	 * the ID keeps both pointing to the same image.
+	 *
+	 * @param string $url The logo URL.
+	 *
+	 * @return int The attachment ID.
+	 */
+	private function get_logo_id( string $url ): int {
+		if ( $url === '' ) {
+			return 0;
+		}
+
+		return (int) $this->image_helper->get_attachment_by_url( $url );
 	}
 
 	/**

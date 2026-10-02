@@ -113,6 +113,8 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::update
+	 * @covers ::update_field
+	 * @covers ::get_logo_id
 	 * @covers ::validate_company_or_person
 	 * @covers ::validate_logo
 	 * @covers ::get_settings
@@ -122,7 +124,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	public function test_update() {
 		$this->local_seo_active_conditional->expects( 'is_met' )->never();
 
-		$this->image_helper->expects( 'get_attachment_by_url' )->once()->with( 'https://example.com/logo.png' )->andReturn( 12 );
+		$this->image_helper->expects( 'get_attachment_by_url' )->twice()->with( 'https://example.com/logo.png' )->andReturn( 12 );
 		$this->image_helper->expects( 'is_valid_attachment' )->once()->with( 12 )->andReturnTrue();
 
 		$this->options_helper->expects( 'set' )->once()->with( 'company_or_person', 'company' )->andReturnTrue();
@@ -166,6 +168,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * Tests that update sets the site to represent an existing person when Local SEO is not active.
 	 *
 	 * @covers ::update
+	 * @covers ::update_field
 	 * @covers ::validate_company_or_person
 	 * @covers ::validate_user_id
 	 *
@@ -196,6 +199,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * returns a warning.
 	 *
 	 * @covers ::update
+	 * @covers ::update_field
 	 * @covers ::validate_company_or_person
 	 *
 	 * @return void
@@ -226,6 +230,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * returns a warning.
 	 *
 	 * @covers ::update
+	 * @covers ::update_field
 	 * @covers ::validate_user_id
 	 *
 	 * @return void
@@ -255,6 +260,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * were saved when none were.
 	 *
 	 * @covers ::update
+	 * @covers ::update_field
 	 * @covers ::validate_company_or_person
 	 * @covers ::validate_user_id
 	 *
@@ -286,11 +292,13 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * others and clearing the cached meta of the changed logo.
 	 *
 	 * @covers ::update
+	 * @covers ::update_field
+	 * @covers ::get_logo_id
 	 *
 	 * @return void
 	 */
 	public function test_update_not_saved() {
-		$this->image_helper->expects( 'get_attachment_by_url' )->once()->with( 'https://example.com/logo.png' )->andReturn( 12 );
+		$this->image_helper->expects( 'get_attachment_by_url' )->twice()->with( 'https://example.com/logo.png' )->andReturn( 12 );
 		$this->image_helper->expects( 'is_valid_attachment' )->once()->with( 12 )->andReturnTrue();
 
 		$this->options_helper->expects( 'set' )->once()->with( 'company_or_person', 'company' )->andReturnFalse();
@@ -319,6 +327,8 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * Tests that update clears the ID of a logo whose URL is cleared, without looking it up.
 	 *
 	 * @covers ::update
+	 * @covers ::update_field
+	 * @covers ::get_logo_id
 	 * @covers ::validate_logo
 	 *
 	 * @return void
@@ -341,12 +351,14 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * Tests that update ignores a provided logo ID, so it cannot point to another image than the URL.
 	 *
 	 * @covers ::update
+	 * @covers ::update_field
+	 * @covers ::get_logo_id
 	 * @covers ::validate_logo
 	 *
 	 * @return void
 	 */
 	public function test_update_logo_id_ignored() {
-		$this->image_helper->expects( 'get_attachment_by_url' )->once()->with( 'https://example.com/logo.png' )->andReturn( 12 );
+		$this->image_helper->expects( 'get_attachment_by_url' )->twice()->with( 'https://example.com/logo.png' )->andReturn( 12 );
 		$this->image_helper->expects( 'is_valid_attachment' )->once()->with( 12 )->andReturnTrue();
 
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', 'https://example.com/logo.png' )->andReturnTrue();
@@ -371,6 +383,8 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * to the same image.
 	 *
 	 * @covers ::update
+	 * @covers ::update_field
+	 * @covers ::get_logo_id
 	 *
 	 * @return void
 	 */
@@ -415,6 +429,8 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * and returns a warning.
 	 *
 	 * @covers ::update
+	 * @covers ::update_field
+	 * @covers ::get_logo_id
 	 * @covers ::validate_logo
 	 *
 	 * @dataProvider data_update_logo_url_not_an_image
