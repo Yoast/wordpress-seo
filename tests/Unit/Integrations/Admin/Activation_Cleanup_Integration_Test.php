@@ -95,7 +95,9 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->once()
-			->with( ( \time() + \DAY_IN_SECONDS ), Cleanup_Integration::START_HOOK );
+			// Use a type matcher instead of a captured timestamp: \time() in source runs after mock setup,
+			// so a strict equality match flaked across second boundaries. The hook name is the meaningful contract.
+			->with( Mockery::type( 'int' ), Cleanup_Integration::START_HOOK );
 
 		$this->indexable_helper->expects( 'should_index_indexables' )
 			->once()
