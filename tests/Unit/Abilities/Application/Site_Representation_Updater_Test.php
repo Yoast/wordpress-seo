@@ -113,6 +113,8 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::update
+	 * @covers ::validate_company_or_person
+	 * @covers ::validate_logo
 	 * @covers ::get_settings
 	 *
 	 * @return void
@@ -164,6 +166,8 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * Tests that update sets the site to represent an existing person when Local SEO is not active.
 	 *
 	 * @covers ::update
+	 * @covers ::validate_company_or_person
+	 * @covers ::validate_user_id
 	 *
 	 * @return void
 	 */
@@ -192,6 +196,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * returns a warning.
 	 *
 	 * @covers ::update
+	 * @covers ::validate_company_or_person
 	 *
 	 * @return void
 	 */
@@ -221,6 +226,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * returns a warning.
 	 *
 	 * @covers ::update
+	 * @covers ::validate_user_id
 	 *
 	 * @return void
 	 */
@@ -249,6 +255,8 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * were saved when none were.
 	 *
 	 * @covers ::update
+	 * @covers ::validate_company_or_person
+	 * @covers ::validate_user_id
 	 *
 	 * @return void
 	 */
@@ -311,7 +319,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * Tests that update clears the ID of a logo whose URL is cleared, without looking it up.
 	 *
 	 * @covers ::update
-	 * @covers ::resolve_logo
+	 * @covers ::validate_logo
 	 *
 	 * @return void
 	 */
@@ -333,7 +341,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * Tests that update ignores a provided logo ID, so it cannot point to another image than the URL.
 	 *
 	 * @covers ::update
-	 * @covers ::resolve_logo
+	 * @covers ::validate_logo
 	 *
 	 * @return void
 	 */
@@ -407,7 +415,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * and returns a warning.
 	 *
 	 * @covers ::update
-	 * @covers ::resolve_logo
+	 * @covers ::validate_logo
 	 *
 	 * @dataProvider data_update_logo_url_not_an_image
 	 *
