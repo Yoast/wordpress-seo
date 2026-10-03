@@ -1,29 +1,27 @@
-[![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
-[![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
-[![Code Climate](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/gpa.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/feed)
-[![Test Coverage](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/coverage.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/coverage)
-[![Inline docs](http://inch-ci.org/github/yoast/yoastseo.js.svg?branch=master)](http://inch-ci.org/github/yoast/yoastseo.js)
-
 # YoastSEO.js
 
-Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
+YoastSEO.js is a text analysis and assessment library in JavaScript.
+This library is used in the Yoast SEO plugin for WordPress to analyze and assess the content of a post or page.
+This library can generate metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
-![Screenshot of the assessment of the given text](/packages/yoastseo/images/assessments.png)
-
-Also included is a preview of the Google search results which can be assessed using the library.
+![Screenshot of the assessment of the given text](images/assessments.png)
 
 ## Documentation
-* A list of all the [assessors](src/scoring/README.md)
-* Information on the [scoring system of the assessments](src/scoring/assessments/README.md)
-  * [SEO analysis scoring](src/scoring/assessments/SCORING%20SEO.md)
-  * [Readability analysis scoring](src/scoring/assessments/SCORING%20READABILITY.md)
-* The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
-* Information on the design decisions within the package can be found [here](DESIGN%20DECISIONS.md).
-* Information on how morphology works in `yoastseo` package can be found [here](MORPHOLOGY.md).
-
+* A high-level [architecture overview](docs/OVERVIEW.md) of the package.
+* A [glossary](docs/GLOSSARY.md) of the core domain concepts (Paper, Assessor, Researcher, etc.).
+* A list of all the [assessors](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessors/ASSESSORS%20OVERVIEW.md).
+* Information on the [scoring system of the assessments](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/README.md)
+  * [SEO analysis scoring](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20SEO.md)
+  * [Readability analysis scoring](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md)
+  * [Inclusive language analysis scoring](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20INCLUSIVE%20LANGUAGE.md)
+  * [How keyphrase matching works](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/KEYPHRASE%20MATCHING.md)
+  * [Scoring on taxonomy pages](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20TAXONOMY.md)
+* The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, check out the [customization documentation](docs/Customization.md).
+* Information on the design decisions within the package can be found [here](docs/DESIGN%20DECISIONS.md).
+* Information on how morphology works in `yoastseo` package can be found [here](docs/MORPHOLOGY.md).
+* The [serializable contract](docs/CONTRACT.md) (`yoastseo/contract`) that lets non-WordPress consumers exchange a `PaperDto` input and `ResultDto` output with the engine.
 
 ## Installation
-
 You can install YoastSEO.js using npm:
 
 ```bash
@@ -40,31 +38,61 @@ yarn add yoastseo
 
 You can either use YoastSEO.js using the web worker API or use the internal components directly.
 
-Because a web worker must be a separate script in the browser you first need to create a script for inside the web worker:
+### Entry points
+
+The package exposes three supported public entry points:
+
+| Import                | Provides                                                                                                                                                                               | Use it for                                                                                                                      |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `yoastseo`            | The core analysis library: `Paper`, the assessors, the web-worker API (`AnalysisWebWorker`, `AnalysisWorkerWrapper`), `AbstractResearcher`, `helpers`, and related building blocks.    | Orchestrating analysis.                                                                                                         |
+| `yoastseo/researcher` | A `getResearcher( language )` factory that returns the language-specific `Researcher` **class** (falling back to the default, language-agnostic Researcher for unsupported languages). | Resolving a per-language Researcher (Node, custom bundlers, web workers).                                                       |
+| `yoastseo/contract`   | The serializable input/output contract: `toPaper`/`paperDtoSchema` and `toResultDto`/`resultDtoSchema`, for validating and mapping analysis input and output.                           | Exchanging documented, serializable shapes with the engine from non-WordPress consumers. See [`CONTRACT.md`](docs/CONTRACT.md). |
+
+> **Why separate entry points?** The split is intentional. Each language `Researcher` transitively pulls in that language's data — function words, stemmers, transition words, and so on. Re-exporting the factory from the package root would bundle *every* language (~2.4 MB) into whatever bundle imports the root. That especially hurts consumers that load `yoastseo` as a bundler **external** — where the package root is provided once as a shared global (or shared chunk) rather than bundled into each consumer. (Yoast SEO for WordPress does this, exposing the root as the `window.yoast.analysis` global, but any webpack/Rollup setup can configure `yoastseo` as an external the same way.) Keeping `getResearcher` on its own entry keeps that shared root lean and lets consumers load only the languages they need. The `yoastseo/contract` entry follows the same principle: it isolates the contract's runtime dependency (`zod`) so only consumers that import the contract pay for it, keeping the shared root free of it.
+>
+> Deep imports such as `yoastseo/build/...` and `yoastseo/src/...` reach internal modules. They work, but they are implementation details — not part of the supported surface — so prefer the entry points above.
+
+Resolving a language Researcher (the language codes are listed under [Supported languages](#supported-languages); see the `getResearcher` factory for the full set):
+
+```js
+// CommonJS
+const getResearcher = require( "yoastseo/researcher" );
+// ESM
+import getResearcher from "yoastseo/researcher";
+
+const DutchResearcher = getResearcher( "nl" ); // Returns the class, not an instance.
+const researcher = new DutchResearcher();
+```
+
+> **Bundle-size note.** `getResearcher` statically references every supported language, so a bundler that follows this entry includes all of them (~2.4 MB of language data) — the map cannot be tree-shaken down to one language. Size-sensitive consumers that only ever need a single language can instead deep-import just that one (`yoastseo/build/languageProcessing/languages/<lang>/Researcher`), accepting that deep paths are internal and unsupported.
+
+### Web Worker API
+
+Because a web worker must be a separate script in the browser, you first need to create a script to use inside the web worker:
 
 ```js
 import { AnalysisWebWorker } from "yoastseo";
+import getResearcher from "yoastseo/researcher";
 
-const worker = new AnalysisWebWorker( self );
+const EnglishResearcher = getResearcher( "en" );
+const worker = new AnalysisWebWorker( self, new EnglishResearcher() );
+// Any custom registration should be done here (or send messages via postMessage to the wrapper).
 worker.register();
 ```
 
-Then in a different script you have the following code:
+Then, in a different script, you have the following code:
 
 ```js
-import { AnalysisWorkerWrapper, createWorker, Paper } from "yoastseo";
+import { AnalysisWorkerWrapper, Paper } from "yoastseo";
 
 // `url` needs to be the full URL to the script for the browser to know where to load the worker script from.
 // This should be the script created by the previous code-snippet.
 const url = "https://my-site-url.com/path-to-webworker-script.js"
 
-const worker = new AnalysisWorkerWrapper( createWorker( url ) );
+const worker = new AnalysisWorkerWrapper( new Worker( url ) );
 
 worker.initialize( {
-    locale: "en_US",
-    contentAnalysisActive: true,
-    keywordAnalysisActive: true,
-    logLevel: "ERROR",
+    logLevel: "TRACE", // Optional, see https://github.com/pimterry/loglevel#documentation
 } ).then( () => {
     // The worker has been configured, we can now analyze a Paper.
     const paper = new Paper( "Text to analyze", {
@@ -76,14 +104,17 @@ worker.initialize( {
     console.log( 'Analysis results:' );
     console.log( results );
 } ).catch( ( error ) => {
-    console.error( 'An error occured while analyzing the text:' );
+    console.error( 'An error occurred while analyzing the text:' );
     console.error( error );
 } );
 ```
 
+There is a basic example [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis-webworker), which also contains a basic setup with Webpack.
+There is also a more involved example [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis), which has a basic React implementation.
+
 ### Usage of internal components
 
-If you want to have a more barebones API, or are in an environment without access to Web Worker you can use the internal objects:
+If you want to have a more bare-bones API or are in an environment without access to Web Worker, you can use the internal objects:
 
 ```js
 import { AbstractResearcher, Paper } from "yoastseo";
@@ -96,57 +127,108 @@ const researcher = new AbstractResearcher( paper );
 console.log( researcher.getResearch( "wordCountInText" ) );
 ```
 
-**Note: This is currently a synchronous API, but will become an asynchronous API in the future.**
+There is a basic example of this setup [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis-api).
+
+#### Running a single assessment
+
+If you only need the result of **one** assessment, use `runAssessment` instead of constructing an assessor. It runs the single-assessment slice of `Assessor.assess()`: it wires the researcher to the paper, builds the HTML tree when one is needed (so tree-dependent assessments such as text length or keyphrase density work, not just data-only ones), gates on applicability, stamps the result identifier, and isolates errors to a `-1` result.
+
+```js
+import { Paper, runAssessment, assessments } from "yoastseo";
+import getResearcher from "yoastseo/researcher";
+
+// 1. Construct the assessment with its (optional) config.
+const textLength = new assessments.seo.TextLengthAssessment();
+
+// 2. Build the Paper to analyze. (Pass `productData` here for the e-commerce assessments.)
+const paper = new Paper( "Text to analyze", {
+    keyword: "analyze",
+} );
+
+// 3. Resolve a language Researcher and instantiate it. One is required even for
+//    assessments that don't read it, because building the tree needs its language data.
+const EnglishResearcher = getResearcher( "en" );
+const researcher = new EnglishResearcher();
+
+// 4. Run the assessment.
+const result = runAssessment( textLength, paper, researcher );
+
+if ( result === null ) {
+    // The assessment was not applicable to this paper and was skipped.
+} else {
+    console.log( result.getScore(), result.getText() );
+}
+```
+
+For a data-only assessment that does not read the tree, pass `{ buildTree: false }` as the fourth argument to skip the tree-build cost.
 
 ## Supported languages
-| Language   	| Transition words 	| Flesch reading ease 	| Passive voice 	| Sentence beginnings 	| Sentence length<sup>1</sup> 	| Function words<sup>2</sup> 	|
-|------------	|------------------	|---------------------	|---------------	|---------------------	|-----------------------------	|----------------------------	|
-| English    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| German     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Dutch      	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| French     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Spanish    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Portuguese 	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Catalan    	| ✅                	| ❌<sup>4</sup>         | ❌<sup>4</sup>    | ❌<sup>4</sup>        | ❌<sup>4</sup>                 |  ❌<sup>4</sup>                  |
-| Polish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Swedish    	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Hungarian  	| ✅                	| ❌<sup>3</sup>        |  ✅          	    | ✅           	        | ✅             	            | ✅                 	        |
-| Indonesian 	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Arabic    	| ✅                	| ❌<sup>3</sup>        | ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Hebrew        | ✅                    | ❌<sup>3</sup>        | ✅                | ✅                     | ✅                            | ✅                             |
-| Farsi    	    | ✅                    | ❌<sup>3</sup>        | ✅              	| ✅                    | ✅                             | ✅                          	|
-| Turkish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Norwegian     | ✅                	| ❌<sup>3</sup>        | ✅                 | ✅                   	| ✅                           	| ✅                          	|
-| Czech     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Slovak     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Greek     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Japanese     	| ✅                	| ❌<sup>3</sup>       	| ❌<sup>5</sup>    | ✅                    | ✅                            | ✅                             |
+
+### SEO analysis
+**Function word support**, which is used for internal linking, insights, and keyphrase-related analysis, is available in the following languages:
+
+English, German, Dutch, French, Spanish, Italian, Portuguese, Russian, Polish, Swedish, Hungarian, Indonesian, Arabic,
+Hebrew, Farsi, Turkish, Norwegian, Czech, Slovak, Greek, Japanese
+
+### Readability analysis
+
+| Language   	| Transition words 	| Flesch reading ease 	| Passive voice 	| Sentence beginnings 	| Sentence length<sup>1</sup> 	|
+|------------	|------------------	|---------------------	|---------------	|---------------------	|-----------------------------	|
+| English    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| German     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Dutch      	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| French     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Spanish    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Portuguese 	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Catalan    	| ✅                	| ❌<sup>3</sup>         | ❌<sup>3</sup>    | ❌<sup>3</sup>        | ✅                 |
+| Polish     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Swedish    	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Hungarian  	| ✅                	| ❌<sup>2</sup>        |  ✅          	    | ✅           	        | ✅             	            |
+| Indonesian 	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Arabic    	| ✅                	| ❌<sup>2</sup>        | ✅             	| ✅                   	| ✅                           	|
+| Hebrew        | ✅                    | ❌<sup>2</sup>        | ✅                | ✅                     | ✅                            |
+| Farsi    	    | ✅                    | ❌<sup>2</sup>        | ✅              	| ✅                    | ✅                             |
+| Turkish     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Norwegian     | ✅                	| ❌<sup>2</sup>        | ✅                 | ✅                   	| ✅                           	|
+| Czech     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Slovak     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Greek     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Japanese     	| ✅                	| ❌<sup>2</sup>       	| ❌<sup>4</sup>    | ✅                    | ✅                            |
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 
-<sup>2</sup> These are used for internal linking, insights and keyphrase-related analyses.
+<sup>2</sup> There is no existing Flesch reading ease formula for these languages.
 
-<sup>3</sup> There is no existing Flesch reading ease formula for these languages.
+<sup>3</sup> This means that the functionality for this assessment is currently not available for these languages.
 
-<sup>4</sup> This means that the functionality for this assessment is currently not available for these languages.
-
-<sup>5</sup> The Passive voice check for Japanese is not implemented since the structure is the same as the potential form and can additionally be used for an honorific purpose. Identifying whether a verb is in its passive, honorific or potential form is problematic without contextual information.
+<sup>4</sup> The Passive voice check for Japanese is not implemented since the structure is the same as the potential form and can additionally be used for an honorific purpose. Identifying whether a verb is in its passive, honorific or potential form is problematic without contextual information.
 
 The following readability assessments are available for all languages:
-- sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
+- sentence length (with a default upper limit of 20 words, see<sup>1</sup> above)
 - paragraph length
 - subheading distribution
+- text presence
+
+### Inclusive language analysis
+
+The inclusive language analysis is currently available in English.
 
 ## Change log
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Testing
 
 ```bash
 npm test
+```
+
+Or using yarn:
+
+```bash
+yarn test
 ```
 
 Generate coverage using the `--coverage` flag.
@@ -156,7 +238,7 @@ Generate coverage using the `--coverage` flag.
 To test your code style:
 
 ```bash
-grunt check
+yarn lint
 ```
 
 ## Testing with Yoast SEO
@@ -167,16 +249,32 @@ In the YoastSEO.js directory, run:
 npm link
 ```
 
-Then, in the [Yoast SEO](https://github.com/Yoast/wordpress-seo) directory, assuming you have a complete development version, run:
+Or using yarn:
+
+```bash
+yarn link
+```
+
+Then, in the project directory where you want to test the package, assuming you have a complete development version, run:
 
 ```bash
 npm link yoastseo
+```
+Or using yarn:
+
+```bash
+yarn link yoastseo
 ```
 
 If you want to unlink, simply do:
 
 ```bash
 npm unlink yoastseo
+```
+Or using yarn:
+
+```bash
+yarn unlink yoastseo
 ```
 
 ## Contributing
@@ -185,13 +283,13 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security related issues, please email security [at] yoast.com instead of using the issue tracker.
+If you discover any security-related issues, please email security [at] yoast.com instead of using the issue tracker.
 
 ## Credits
 
 - [Team Yoast](https://github.com/orgs/Yoast/people)
-- [All Contributors](https://github.com/Yoast/YoastSEO.js/graphs/contributors)
+- [All Contributors](https://github.com/Yoast/wordpress-seo/graphs/contributors)
 
 ## License
 
-We follow the GPL. Please see [License](LICENSE) file for more information.
+We follow the GPL. Please see [the License](LICENSE) file for more information.

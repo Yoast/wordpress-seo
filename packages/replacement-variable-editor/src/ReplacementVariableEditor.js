@@ -1,19 +1,21 @@
 /* eslint-disable react/jsx-no-bind */
+import { applyFilters } from "@wordpress/hooks";
 // External dependencies.
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 import { Slot } from "@wordpress/components";
+import { Button, Root } from "@yoast/ui-library";
 
 // Yoast dependencies.
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
 import { withCaretStyles } from "@yoast/style-guide";
 import {
+	ButtonsContainer,
 	DescriptionInputContainer,
 	FormSection,
 	TitleInputContainer,
-	TriggerReplacementVariableSuggestionsButton,
 } from "./shared";
 import {
 	replacementVariablesShape,
@@ -87,21 +89,16 @@ class ReplacementVariableEditor extends React.Component {
 			hasNewBadge,
 			isDisabled,
 			hasPremiumBadge,
+			type,
 		} = this.props;
 
 		const InputContainer = this.InputContainer;
 
-		const addVariableButton = <TriggerReplacementVariableSuggestionsButton
-			className="yst-replacevar__button-insert"
-			onClick={ this.triggerReplacementVariableSuggestions }
-			disabled={ isDisabled }
-		>
-			{ __( "Insert variable", "wordpress-seo" ) }
-		</TriggerReplacementVariableSuggestionsButton>;
+		const buttons = applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId, type } );
 
 		return (
 			<FormSection
-				className="yst-replacevar"
+				className={ [ "yst-replacevar yst-justify-between", isDisabled && "yst-replacevar--disabled" ].filter( Boolean ).join( " " ) }
 				onMouseEnter={ onMouseEnter }
 				onMouseLeave={ onMouseLeave }
 			>
@@ -112,10 +109,32 @@ class ReplacementVariableEditor extends React.Component {
 				>
 					{ label }
 				</SimulatedLabel>
+
 				{ hasPremiumBadge && <PremiumBadge inLabel={ true } /> }
-				<Slot key={ `PluginComponent-${ fieldId }` } name={ `PluginComponent-${ fieldId }` } />
 				{ hasNewBadge && <NewBadge inLabel={ true } /> }
-				{ addVariableButton }
+				<Root>
+					<ButtonsContainer className="yst-replacevar__buttons">
+						<Slot key={ `PluginComponent-${ fieldId }` } name={ `PluginComponent-${ fieldId }` } />
+
+						<Button
+							className="yst-replacevar__button-insert yst-h-7"
+							onClick={ this.triggerReplacementVariableSuggestions }
+							disabled={ isDisabled }
+							variant="secondary"
+							size="small"
+						>
+							{ __( "Insert variable", "wordpress-seo" ) }
+						</Button>
+
+						<Slot name={ `yoast.replacementVariableEditor.additionalButtons.${ fieldId }` } />
+						{ buttons.map( ( button, index ) => (
+							<Fragment key={ `additional-button-${ index }-${ fieldId }` }>
+								{ button }
+							</Fragment>
+						) ) }
+					</ButtonsContainer>
+				</Root>
+
 				<InputContainer
 					className="yst-replacevar__editor"
 					onClick={ onFocus }

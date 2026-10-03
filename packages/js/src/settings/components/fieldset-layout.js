@@ -1,42 +1,37 @@
-import { Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
+import { FieldsetLayout as PureFieldsetLayout } from "../../shared-admin/components/fieldset-layout";
+import { useSelectSettings } from "../hooks";
 
 /**
  * @param {string} [id] The ID.
- * @param {JSX.ElementClass} [as] The field component.
- * @param {JSX.node} children The children nodes.
- * @param {JSX.node} title The title.
- * @param {JSX.node} [description] The description.
- * @returns {JSX.Element} The form layout component.
+ * @param {React.ReactNode} children The children nodes.
+ * @param {React.ReactNode} title The title.
+ * @param {React.ReactNode} [description] The description.
+ * @returns {JSX.Element} The FieldsetLayout element.
  */
 const FieldsetLayout = ( {
 	// eslint-disable-next-line no-undefined
 	id = undefined,
-	as: Component = "fieldset",
 	children,
 	title,
 	description = null,
 } ) => {
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+
 	return (
-		<Component id={ id } className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
-			<div className="lg:yst-col-span-1">
-				<div className="max-w-screen-sm">
-					<Title as={ Component === "fieldset" ? "legend" : "h4" } size="4">
-						{ title }
-					</Title>
-					{ description && <p className="yst-mt-2">{ description }</p> }
-				</div>
-			</div>
-			<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
-				{ children }
-			</div>
-		</Component>
+		<PureFieldsetLayout
+			id={ id }
+			title={ title }
+			description={ description }
+			variant={ isPremium ? "xl" : "2xl" }
+		>
+			{ children }
+		</PureFieldsetLayout>
 	);
 };
 
 FieldsetLayout.propTypes = {
 	id: PropTypes.string,
-	as: PropTypes.elementType,
 	children: PropTypes.node.isRequired,
 	title: PropTypes.node.isRequired,
 	description: PropTypes.node,

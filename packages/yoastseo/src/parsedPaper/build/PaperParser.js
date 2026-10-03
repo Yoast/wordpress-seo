@@ -1,5 +1,5 @@
 import ParsedPaper from "../ParsedPaper";
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
 
 /**
  * A class responsible for pre-processing the Paper, returning a ParsedPaper.

@@ -99,7 +99,7 @@ class Sentence {
 	 *
 	 * @returns {Sentence} The parsed Sentence.
 	 */
-	parse( serialized ) {
+	static parse( serialized ) {
 		const sentence = new Sentence( serialized.sentenceText );
 		sentence.setClauses( serialized.clauses );
 		sentence.setPassive( serialized.isPassive );

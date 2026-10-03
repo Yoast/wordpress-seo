@@ -30,7 +30,7 @@ class Url_Helper {
 			return $home_url;
 		}
 
-		if ( \is_null( $home_path ) ) { // Home at site root, always slash.
+		if ( $home_path === null ) { // Home at site root, always slash.
 			return \trailingslashit( $home_url );
 		}
 
@@ -106,13 +106,29 @@ class Url_Helper {
 	 */
 	public function get_url_path( $url ) {
 		if ( \is_string( $url ) === false
-			&& \is_object( $url ) === false
-			|| ( \is_object( $url ) === true && \method_exists( $url, '__toString' ) === false )
+			&& ( \is_object( $url ) === false || \method_exists( $url, '__toString' ) === false )
 		) {
 			return '';
 		}
 
 		return (string) \wp_parse_url( $url, \PHP_URL_PATH );
+	}
+
+	/**
+	 * Gets the host from the passed URL.
+	 *
+	 * @param string $url The URL to get the host from.
+	 *
+	 * @return string The host of the URL. Returns an empty string if URL parsing fails.
+	 */
+	public function get_url_host( $url ) {
+		if ( \is_string( $url ) === false
+			&& ( \is_object( $url ) === false || \method_exists( $url, '__toString' ) === false )
+		) {
+			return '';
+		}
+
+		return (string) \wp_parse_url( $url, \PHP_URL_HOST );
 	}
 
 	/**
@@ -169,7 +185,7 @@ class Url_Helper {
 
 		$base_url = \trailingslashit( $url_parts['scheme'] . '://' . $url_parts['host'] );
 
-		if ( ! \is_null( $path ) ) {
+		if ( \is_string( $path ) ) {
 			$base_url .= \ltrim( $path, '/' );
 		}
 
@@ -197,9 +213,7 @@ class Url_Helper {
 			return ( $is_image ) ? SEO_Links::TYPE_EXTERNAL_IMAGE : SEO_Links::TYPE_EXTERNAL;
 		}
 
-		if ( \is_null( $home_url ) ) {
-			$home_url = \wp_parse_url( \home_url() );
-		}
+		$home_url ??= \wp_parse_url( \home_url() );
 
 		// When the base host is equal to the host.
 		if ( isset( $url['host'] ) && $url['host'] !== $home_url['host'] ) {
@@ -260,5 +274,20 @@ class Url_Helper {
 		}
 
 		return $current_url;
+	}
+
+	/**
+	 * Parses a URL and returns its components, this wrapper function was created to support unit tests.
+	 *
+	 * @param string $parsed_url The URL to parse.
+	 * @return array The parsed components of the URL.
+	 */
+	public function parse_str_params( $parsed_url ) {
+		$array = [];
+
+		// @todo parse_str changes spaces in param names into `_`, we should find a better way to support them.
+		\wp_parse_str( $parsed_url, $array );
+
+		return $array;
 	}
 }

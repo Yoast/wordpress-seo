@@ -4,7 +4,7 @@
 
 import getLanguage from "../languageProcessing/helpers/language/getLanguage.js";
 
-import { isUndefined } from "lodash-es";
+import { isUndefined } from "lodash";
 
 
 const transliterationsGeneral =	[
@@ -346,10 +346,10 @@ const transliterationsGeneral =	[
 	 * | U+1EF9   | ỹ     | y           | Latin small letter y with tilde                       |
 	 */
 
-	 // Currency signs:
+	// Currency signs:
 	{ letter: /[\u00A3]/g, alternative: "" },
 	{ letter: /[\u20AC]/g, alternative: "E" },
-	 // Decompositions for Latin-1 Supplement:
+	// Decompositions for Latin-1 Supplement:
 	{ letter: /[\u00AA]/g, alternative: "a" },
 	{ letter: /[\u00BA]/g, alternative: "o" },
 	{ letter: /[\u00C0]/g, alternative: "A" },
@@ -414,7 +414,7 @@ const transliterationsGeneral =	[
 	{ letter: /[\u00FD]/g, alternative: "y" },
 	{ letter: /[\u00FE]/g, alternative: "th" },
 	{ letter: /[\u00FF]/g, alternative: "y" },
-	 // Decompositions for Latin Extended-A:
+	// Decompositions for Latin Extended-A:
 	{ letter: /[\u0100]/g, alternative: "A" },
 	{ letter: /[\u0101]/g, alternative: "a" },
 	{ letter: /[\u0102]/g, alternative: "A" },
@@ -563,12 +563,12 @@ const transliterationsGeneral =	[
 	{ letter: /[\u01DA]/g, alternative: "u" },
 	{ letter: /[\u01DB]/g, alternative: "U" },
 	{ letter: /[\u01DC]/g, alternative: "u" },
-	 // Decompositions for Latin Extended-B:
+	// Decompositions for Latin Extended-B:
 	{ letter: /[\u0218]/g, alternative: "S" },
 	{ letter: /[\u0219]/g, alternative: "s" },
 	{ letter: /[\u021A]/g, alternative: "T" },
 	{ letter: /[\u021B]/g, alternative: "t" },
-	 // Vowels with diacritic (Chinese, Hanyu Pinyin):
+	// Vowels with diacritic (Chinese, Hanyu Pinyin):
 	{ letter: /[\u0251]/g, alternative: "a" },
 	{ letter: /[\u1EA0]/g, alternative: "A" },
 	{ letter: /[\u1EA1]/g, alternative: "a" },

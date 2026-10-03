@@ -13,7 +13,7 @@
 			yst-transition-colors
 			yst-ease-in-out
 			yst-duration-200
-			yst-bg-gray-200
+			yst-bg-slate-300
 			yst-cursor-pointer
 			focus:yst-outline-none
 			focus:yst-ring-2
@@ -26,7 +26,7 @@
 			@apply yst-bg-primary-500;
 
 			.yst-toggle__handle {
-				@apply yst-translate-x-5;
+				@apply yst-translate-x-5 rtl:yst--translate-x-5;
 			}
 		}
 
@@ -78,14 +78,7 @@
 		}
 
 		.yst-toggle__icon--x {
-			@apply yst-text-gray-400;
-		}
-	}
-
-	/* RTL styles */
-	[dir=rtl] .yst-root {
-		.yst-toggle--checked .yst-toggle__handle {
-			@apply yst--translate-x-5;
+			@apply yst-text-slate-500;
 		}
 	}
 }

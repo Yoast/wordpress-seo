@@ -58,10 +58,10 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 			/* Translators: %1$s expands to an opening anchor tag for a link leading to the Yoast SEO tools page, %2$s expands to a closing anchor tag. */
 			\esc_html__(
 				'Something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please %1$sre-start the process%2$s.',
-				'wordpress-seo'
+				'wordpress-seo',
 			),
 			'<a href="' . \get_admin_url( null, 'admin.php?page=wpseo_tools' ) . '">',
-			'</a>'
+			'</a>',
 		);
 
 		if ( $this->product_helper->is_premium() ) {
@@ -76,10 +76,10 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 					/* Translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag. */
 					\esc_html__(
 						'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.',
-						'wordpress-seo'
+						'wordpress-seo',
 					),
 					'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/3wv' ) ) . '">',
-					'</a>'
+					'</a>',
 				);
 			}
 		}

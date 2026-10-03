@@ -1,0 +1,463 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`updateNotificationsCount updates the total in the admin bar to 0 [wpseo-no-adminbar-notifications class triggering hidden css] 1`] = `
+<div>
+  <div
+    class="no-js"
+    id="wpadminbar"
+  >
+    <div
+      aria-label="Toolbar"
+      class="quicklinks"
+      id="wp-toolbar"
+      role="navigation"
+    >
+      <ul
+        class="ab-top-menu"
+        id="wp-admin-bar-root-default"
+        role="menu"
+      >
+        <li
+          class="menupop"
+          id="wp-admin-bar-wpseo-menu"
+          role="group"
+        >
+          <a
+            aria-expanded="false"
+            class="ab-item"
+            href="/wp-admin/admin.php?page=wpseo_dashboard"
+            role="menuitem"
+          >
+            <div
+              class="wp-core-ui wp-ui-notification yoast-issue-counter wpseo-no-adminbar-notifications"
+            >
+              <span
+                aria-hidden="true"
+                class="yoast-issues-count"
+              >
+                0
+              </span>
+              <span
+                class="screen-reader-text"
+              >
+                0 notifications
+              </span>
+            </div>
+          </a>
+          <div
+            class="ab-sub-wrapper"
+          >
+            <ul
+              class="ab-submenu"
+              id="wp-admin-bar-wpseo-menu-default"
+              role="menu"
+            >
+              <li
+                id="wp-admin-bar-wpseo-notifications"
+                role="group"
+              >
+                <a
+                  class="ab-item"
+                  href="/wp-admin/admin.php?page=wpseo_dashboard"
+                  role="menuitem"
+                >
+                  Notifications 
+                  <div
+                    class="wp-core-ui wp-ui-notification yoast-issue-counter wpseo-no-adminbar-notifications"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="yoast-issues-count"
+                    >
+                      0
+                    </span>
+                    <span
+                      class="screen-reader-text"
+                    >
+                      0 notifications
+                    </span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`updateNotificationsCount updates the total in the admin bar to 1 [screen-reader singular in English] 1`] = `
+<div>
+  <div
+    class="no-js"
+    id="wpadminbar"
+  >
+    <div
+      aria-label="Toolbar"
+      class="quicklinks"
+      id="wp-toolbar"
+      role="navigation"
+    >
+      <ul
+        class="ab-top-menu"
+        id="wp-admin-bar-root-default"
+        role="menu"
+      >
+        <li
+          class="menupop"
+          id="wp-admin-bar-wpseo-menu"
+          role="group"
+        >
+          <a
+            aria-expanded="false"
+            class="ab-item"
+            href="/wp-admin/admin.php?page=wpseo_dashboard"
+            role="menuitem"
+          >
+            <div
+              class="wp-core-ui wp-ui-notification yoast-issue-counter"
+            >
+              <span
+                aria-hidden="true"
+                class="yoast-issues-count"
+              >
+                1
+              </span>
+              <span
+                class="screen-reader-text"
+              >
+                1 notification
+              </span>
+            </div>
+          </a>
+          <div
+            class="ab-sub-wrapper"
+          >
+            <ul
+              class="ab-submenu"
+              id="wp-admin-bar-wpseo-menu-default"
+              role="menu"
+            >
+              <li
+                id="wp-admin-bar-wpseo-notifications"
+                role="group"
+              >
+                <a
+                  class="ab-item"
+                  href="/wp-admin/admin.php?page=wpseo_dashboard"
+                  role="menuitem"
+                >
+                  Notifications 
+                  <div
+                    class="wp-core-ui wp-ui-notification yoast-issue-counter"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="yoast-issues-count"
+                    >
+                      1
+                    </span>
+                    <span
+                      class="screen-reader-text"
+                    >
+                      1 notification
+                    </span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`updateNotificationsCount updates the total in the admin bar to 3 [screen-reader plural in English] 1`] = `
+<div>
+  <div
+    class="no-js"
+    id="wpadminbar"
+  >
+    <div
+      aria-label="Toolbar"
+      class="quicklinks"
+      id="wp-toolbar"
+      role="navigation"
+    >
+      <ul
+        class="ab-top-menu"
+        id="wp-admin-bar-root-default"
+        role="menu"
+      >
+        <li
+          class="menupop"
+          id="wp-admin-bar-wpseo-menu"
+          role="group"
+        >
+          <a
+            aria-expanded="false"
+            class="ab-item"
+            href="/wp-admin/admin.php?page=wpseo_dashboard"
+            role="menuitem"
+          >
+            <div
+              class="wp-core-ui wp-ui-notification yoast-issue-counter"
+            >
+              <span
+                aria-hidden="true"
+                class="yoast-issues-count"
+              >
+                3
+              </span>
+              <span
+                class="screen-reader-text"
+              >
+                3 notifications
+              </span>
+            </div>
+          </a>
+          <div
+            class="ab-sub-wrapper"
+          >
+            <ul
+              class="ab-submenu"
+              id="wp-admin-bar-wpseo-menu-default"
+              role="menu"
+            >
+              <li
+                id="wp-admin-bar-wpseo-notifications"
+                role="group"
+              >
+                <a
+                  class="ab-item"
+                  href="/wp-admin/admin.php?page=wpseo_dashboard"
+                  role="menuitem"
+                >
+                  Notifications 
+                  <div
+                    class="wp-core-ui wp-ui-notification yoast-issue-counter"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="yoast-issues-count"
+                    >
+                      3
+                    </span>
+                    <span
+                      class="screen-reader-text"
+                    >
+                      3 notifications
+                    </span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`updateNotificationsCount updates the total in the admin menu to 0 [count-0 class triggering hidden css] 1`] = `
+<div>
+  <div
+    id="adminmenuwrap"
+  >
+    <ul
+      id="adminmenu"
+    >
+      <li
+        id="toplevel_page_wpseo_dashboard"
+      >
+        <a
+          href="admin.php?page=wpseo_dashboard"
+        >
+          <div
+            class="wp-menu-name"
+          >
+            Yoast SEO 
+            <span
+              class="update-plugins count-0"
+            >
+              <span
+                aria-hidden="true"
+                class="plugin-count"
+              >
+                0
+              </span>
+              <span
+                class="screen-reader-text"
+              >
+                0 notifications
+              </span>
+            </span>
+          </div>
+        </a>
+        <ul
+          class="wp-submenu wp-submenu-wrap"
+        >
+          <li
+            aria-hidden="true"
+            class="wp-submenu-head"
+          >
+            Yoast SEO 
+            <span
+              class="update-plugins count-0"
+            >
+              <span
+                aria-hidden="true"
+                class="plugin-count"
+              >
+                0
+              </span>
+              <span
+                class="screen-reader-text"
+              >
+                0 notifications
+              </span>
+            </span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`updateNotificationsCount updates the total in the admin menu to 1 [screen-reader singular in English] 1`] = `
+<div>
+  <div
+    id="adminmenuwrap"
+  >
+    <ul
+      id="adminmenu"
+    >
+      <li
+        id="toplevel_page_wpseo_dashboard"
+      >
+        <a
+          href="admin.php?page=wpseo_dashboard"
+        >
+          <div
+            class="wp-menu-name"
+          >
+            Yoast SEO 
+            <span
+              class="update-plugins count-1"
+            >
+              <span
+                aria-hidden="true"
+                class="plugin-count"
+              >
+                1
+              </span>
+              <span
+                class="screen-reader-text"
+              >
+                1 notification
+              </span>
+            </span>
+          </div>
+        </a>
+        <ul
+          class="wp-submenu wp-submenu-wrap"
+        >
+          <li
+            aria-hidden="true"
+            class="wp-submenu-head"
+          >
+            Yoast SEO 
+            <span
+              class="update-plugins count-1"
+            >
+              <span
+                aria-hidden="true"
+                class="plugin-count"
+              >
+                1
+              </span>
+              <span
+                class="screen-reader-text"
+              >
+                1 notification
+              </span>
+            </span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`updateNotificationsCount updates the total in the admin menu to 3 [screen-reader plural in English] 1`] = `
+<div>
+  <div
+    id="adminmenuwrap"
+  >
+    <ul
+      id="adminmenu"
+    >
+      <li
+        id="toplevel_page_wpseo_dashboard"
+      >
+        <a
+          href="admin.php?page=wpseo_dashboard"
+        >
+          <div
+            class="wp-menu-name"
+          >
+            Yoast SEO 
+            <span
+              class="update-plugins count-3"
+            >
+              <span
+                aria-hidden="true"
+                class="plugin-count"
+              >
+                3
+              </span>
+              <span
+                class="screen-reader-text"
+              >
+                3 notifications
+              </span>
+            </span>
+          </div>
+        </a>
+        <ul
+          class="wp-submenu wp-submenu-wrap"
+        >
+          <li
+            aria-hidden="true"
+            class="wp-submenu-head"
+          >
+            Yoast SEO 
+            <span
+              class="update-plugins count-3"
+            >
+              <span
+                aria-hidden="true"
+                class="plugin-count"
+              >
+                3
+              </span>
+              <span
+                class="screen-reader-text"
+              >
+                3 notifications
+              </span>
+            </span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

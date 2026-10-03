@@ -44,6 +44,8 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	 * Initializes the integration.
 	 *
 	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_page_on_front', [ $this, 'update_static_homepage_permalink' ], 10, 2 );
@@ -54,6 +56,8 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	 *
 	 * @param string $old_value The previous homepage's ID.
 	 * @param int    $value     The new homepage's ID.
+	 *
+	 * @return void
 	 */
 	public function update_static_homepage_permalink( $old_value, $value ) {
 		if ( \is_string( $old_value ) ) {
@@ -72,6 +76,8 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	 * Updates the permalink based on the selected homepage settings.
 	 *
 	 * @param int $page_id The page's id.
+	 *
+	 * @return void
 	 */
 	private function update_permalink_for_page( $page_id ) {
 		if ( $page_id === 0 ) {

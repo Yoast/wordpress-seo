@@ -1,48 +1,57 @@
-import { __, sprintf } from "@wordpress/i18n";
-import { merge } from "lodash-es";
+import { mapValues, merge } from "lodash";
 
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import getSentences from "../../../languageProcessing/helpers/sentence/getSentences";
 import AssessmentResult from "../../../values/AssessmentResult";
+import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
- * Returns a score based on the largest percentage of text in
- * which no keyword occurs.
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
+ * Represents an assessment that returns a score based on the largest percentage of text in which no keyphrase occurs.
  */
 class KeyphraseDistributionAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} [config] The configuration to use.
-	 * @param {number} [config.parameters.goodDistributionScore]
-	 *      The average distribution score that needs to be received from the step function to get a GOOD result.
-	 * @param {number} [config.parameters.acceptableDistributionScore]
-	 *      The average distribution score that needs to be received from the step function to get an OKAY result.
-	 * @param {number} [config.scores.good]             The score to return if keyword occurrences are evenly distributed.
-	 * @param {number} [config.scores.okay]             The score to return if keyword occurrences are somewhat unevenly distributed.
-	 * @param {number} [config.scores.bad]              The score to return if there is way too much text between keyword occurrences.
-	 * @param {number} [config.scores.consideration]    The score to return if there are no keyword occurrences.
-	 * @param {string} [config.url]                     The URL to the relevant KB article.
+	 * @param {Object} [config] 							The configuration to use.
+	 * @param {Object} [config.scores] 						The scores to use.
+	 * @param {Object} [config.parameters] 					The parameters to use.
+	 * @param {number} [config.parameters.maxGoodDistractionPercentage]
+	 *      The maximum distraction percentage allowed to receive a GOOD result.
+	 *      The percentage represents the largest portion of text without the keyphrase.
+	 * @param {number} [config.parameters.maxAcceptableDistractionPercentage]
+	 *      The maximum distraction percentage allowed to receive an OKAY result.
+	 * @param {Object} [config.scores]                		The scores to use.
+	 * @param {number} [config.scores.good]             	The score to return if keyword occurrences are evenly distributed.
+	 * @param {number} [config.scores.okay]             	The score to return if keyword occurrences are somewhat unevenly distributed.
+	 * @param {number} [config.scores.bad]              	The score to return if there is way too much text between keyword occurrences.
+	 * @param {number} [config.scores.noKeyphraseOrText]  	The score to return if there is no text and/or no keyphrase set.
+	 * @param {string} [config.urlTitle]                	The URL to the article about this assessment.
+	 * @param {string} [config.urlCallToAction]         	The URL to the help article for this assessment.
+	 * @param {object} [config.callbacks] 					The callbacks to use for the assessment.
+	 * @param {function} [config.callbacks.getResultTexts]	The function that returns the result texts.
 	 *
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
 
 		const defaultConfig = {
 			parameters: {
-				goodDistributionScore: 30,
-				acceptableDistributionScore: 50,
+				maxGoodDistractionPercentage: 30,
+				maxAcceptableDistractionPercentage: 50,
 			},
 			scores: {
 				good: 9,
 				okay: 6,
 				bad: 1,
-				consideration: 0,
+				noKeyphraseOrText: 1,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33q" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33u" ),
+			urlTitle: "https://yoa.st/33q",
+			urlCallToAction: "https://yoa.st/33u",
+			callbacks: {},
 		};
 
 		this.identifier = "keyphraseDistribution";
@@ -58,7 +67,13 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher ) {
+		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
+		this._canAssess = false;
 		this._keyphraseDistribution = researcher.getResearch( "keyphraseDistribution" );
+
+		if ( paper.hasKeyword() && paper.hasText() ) {
+			this._canAssess = true;
+		}
 
 		const assessmentResult = new AssessmentResult();
 
@@ -66,110 +81,104 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasMarks( this._keyphraseDistribution.sentencesToHighlight.length > 0 );
-
+		assessmentResult.setHasMarks( calculatedResult.hasMarks );
+		// Shows the AI Optimize button even when there's no keyphrase or text.
+		// The button will handle its own disabled state and tooltip.
+		if ( calculatedResult.score < 9 ) {
+			assessmentResult.setHasAIFixes( true );
+		}
 		return assessmentResult;
 	}
 
 	/**
-	 * Calculates the result based on the keyphraseDistribution research.
+	 * Calculates the result based on the keyphrase distraction percentage from the keyphraseDistribution research.
 	 *
-	 * @returns {Object} Object with score and feedback text.
+	 * @returns {{score: number, hasMarks: boolean, resultText: string}} The calculated result.
 	 */
 	calculateResult() {
-		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
+		const {
+			good: goodResultText,
+			okay: okayResultText,
+			bad: badResultText,
+			noKeyphraseOrText: noKeyphraseOrTextResultText,
+		} = this.getFeedbackStrings();
 
-		if ( distributionScore === 100 ) {
+		const distractionPercentage = this._keyphraseDistribution.keyphraseDistractionPercentage;
+		const hasMarks = this._keyphraseDistribution.sentencesToHighlight?.length > 0;
+
+		if ( ! this._canAssess || distractionPercentage === 100 ) {
 			return {
-				score: this._config.scores.consideration,
-				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
-					%3$s expands to the anchor end tag */
-					__(
-						// eslint-disable-next-line max-len
-						"%1$sKeyphrase distribution%3$s: %2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s.",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
+				score: this._config.scores.noKeyphraseOrText,
+				hasMarks: hasMarks,
+				resultText: noKeyphraseOrTextResultText,
 			};
 		}
 
-		if ( distributionScore > this._config.parameters.acceptableDistributionScore ) {
+		if ( distractionPercentage > this._config.parameters.maxAcceptableDistractionPercentage ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
-					%3$s expands to the anchor end tag */
-					__(
-						// eslint-disable-next-line max-len
-						"%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
+				hasMarks: hasMarks,
+				resultText: badResultText,
 			};
 		}
 
-		if ( distributionScore > this._config.parameters.goodDistributionScore &&
-			distributionScore <= this._config.parameters.acceptableDistributionScore
+		if ( distractionPercentage > this._config.parameters.maxGoodDistractionPercentage &&
+			distractionPercentage <= this._config.parameters.maxAcceptableDistractionPercentage
 		) {
 			return {
 				score: this._config.scores.okay,
-				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
-					%3$s expands to the anchor end tag */
-					__(
-						// eslint-disable-next-line max-len
-						"%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
+				hasMarks: hasMarks,
+				resultText: okayResultText,
 			};
 		}
 
 		return {
 			score: this._config.scores.good,
-			resultText: sprintf(
-				/* Translators: %1$s expands to links to Yoast.com articles, %2$s expands to the anchor end tag */
-				__(
-					"%1$sKeyphrase distribution%2$s: Good job!",
-					"wordpress-seo"
-				),
-				this._config.urlTitle,
-				"</a>"
-			),
+			hasMarks: hasMarks,
+			resultText: goodResultText,
 		};
+	}
+
+	/**
+	 * Gets the feedback strings for the keyphrase distribution assessment.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
+	 * The callback function should return an object with the following properties:
+	 * - good: string
+	 * - okay: string
+	 * - bad: string
+	 * - noKeyphraseOrText: string
+	 *
+	 * @returns {{good: string, okay: string, bad: string, noKeyphraseOrText: string}} The feedback strings.
+	 */
+	getFeedbackStrings() {
+		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
+		const urlTitleAnchorOpeningTag = createAnchorOpeningTag( this._config.urlTitle );
+		// `urlActionAnchorOpeningTag` represents the anchor opening tag with the URL for the call to action.
+		const urlActionAnchorOpeningTag = createAnchorOpeningTag( this._config.urlCallToAction );
+
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
+				good: "%1$sKeyphrase distribution%3$s: Good job!",
+				okay: "%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
+				bad: "%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
+				noKeyphraseOrText: "%1$sKeyphrase distribution%3$s: %2$sPlease add both a keyphrase and some text containing the keyphrase or its synonyms%3$s.",
+			};
+			return mapValues(
+				defaultResultTexts,
+				( resultText ) => this.formatResultText( resultText, urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag )
+			);
+		}
+
+		return this._config.callbacks.getResultTexts( { urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag } );
 	}
 
 	/**
 	 * Creates a marker for all content words in keyphrase and synonyms.
 	 *
-	 * @returns {Array} All markers for the current text.
+	 * @returns {string[]} All markers for the current text.
 	 */
 	getMarks() {
 		return this._keyphraseDistribution.sentencesToHighlight;
-	}
-
-	/**
-	 * Checks whether the paper has a text with at least 15 sentences and a keyword.
-	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The researcher object.
-	 *
-	 * @returns {boolean} True when there is a keyword and a text with 15 sentences or more.
-	 */
-	isApplicable( paper, researcher ) {
-		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
-
-		return paper.hasText() && paper.hasKeyword() && getSentences( paper.getText(), memoizedTokenizer ).length >= 15;
 	}
 }
 

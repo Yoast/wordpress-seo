@@ -1,7 +1,5 @@
 import apiFetch from "@wordpress/api-fetch";
 
-const isPremiumInstalled = Boolean( window.wpseoScriptData.isPremium );
-
 /**
  * Checks if an integration is active.
  *
@@ -56,10 +54,9 @@ export const getIsMultisiteAvailable = ( integration ) => {
  * @returns {bool} True if the integration is available to the user.
  */
 export const getIsFreeIntegrationOrPremiumAvailable = ( integration ) => {
-	return ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium;
+	return ( integration.isPremium && Boolean( window.wpseoScriptData.isPremium ) ) || ! integration.isPremium;
 };
 
-/* eslint-disable complexity */
 /**
  * Checks the conditions for which a card is active
  *
@@ -80,12 +77,11 @@ export const getIsCardActive = ( integration, activeState ) => {
 
 	return networkControlEnabled && multisiteAvailable;
 };
-/* eslint-enable complexity */
 
 /**
  * Updates an integration state.
  *
- * @param {string} integration The integration.
+ * @param {object} integration The integration.
  * @param {bool} setActive If the integration must be activated.
  *
  * @returns {Promise|bool} A promise, or false if the call fails.
@@ -94,9 +90,9 @@ export const updateIntegrationState = async( integration, setActive ) => {
 	const basePath = "yoast/v1/integrations";
 
 	const response = await apiFetch( {
-		path: `${basePath}/set_${integration.slug}_active`,
+		path: `${basePath}/set_active`,
 		method: "POST",
-		data: { active: setActive },
+		data: { active: setActive, integration: integration.slug },
 	} );
 	return await response.json;
 };

@@ -1,9 +1,13 @@
+/* eslint-disable complexity */
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, ExclamationCircleIcon, SelectorIcon } from "@heroicons/react/solid";
-import { Fragment, useCallback, useMemo } from "@wordpress/element";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import SelectorIcon from "@heroicons/react/solid/SelectorIcon";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef, Fragment, useCallback, useMemo } from "react";
 import { useSvgAria } from "../../hooks";
+import Label from "../label";
+import { ValidationInput } from "../validation";
 
 const optionPropType = {
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
@@ -17,22 +21,20 @@ const optionPropType = {
  */
 const Option = ( { value, label } ) => {
 	const svgAriaProps = useSvgAria();
-	const getClassName = useCallback( ( { active } ) => classNames(
+	const getClassName = useCallback( ( { active, selected } ) => classNames(
 		"yst-select__option",
 		active && "yst-select__option--active",
+		selected && "yst-select__option--selected",
 	), [] );
 
 	return (
 		<Listbox.Option value={ value } className={ getClassName }>
-			{ ( { selected, active } ) => <>
-				<span className={ classNames( "yst-select__option-label", selected && "yst-select__option-label--selected" ) }>
+			{ ( { selected } ) => <>
+				<span className={ classNames( "yst-select__option-label", selected && "yst-font-semibold" ) }>
 					{ label }
 				</span>
 				{ selected && (
-					<CheckIcon
-						className={ classNames( "yst-select__option-icon", active && "yst-select__option-icon--active" ) }
-						{ ...svgAriaProps }
-					/>
+					<CheckIcon className="yst-select__option-check" { ...svgAriaProps } />
 				) }
 			</> }
 		</Listbox.Option>
@@ -40,6 +42,12 @@ const Option = ( { value, label } ) => {
 };
 
 Option.propTypes = optionPropType;
+
+// Stable references matching the old defaultProps single instance, so they keep a constant identity across renders.
+const DEFAULT_OPTIONS = [];
+const DEFAULT_LABEL_PROPS = {};
+const DEFAULT_VALIDATION = {};
+const DEFAULT_BUTTON_PROPS = {};
 
 /**
  * @param {string} id Identifier.
@@ -49,27 +57,31 @@ Option.propTypes = optionPropType;
  * @param {string} [selectedLabel] When using children instead of options, pass the label of the selected option.
  * @param {string} [label] Label.
  * @param {Object} [labelProps] Extra label props.
+ * @param {JSX.node} [labelSuffix] Optional label suffix.
  * @param {Function} onChange Change callback.
- * @param {boolean} [isError] Error message.
+ * @param {boolean} [disabled] Disabled state.
+ * @param {Object} [validation] The validation state.
  * @param {string} [className] CSS class.
  * @param {Object} [buttonProps] Any extra props for the button.
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} Select component.
  */
-const Select = ( {
+const Select = forwardRef( ( {
 	id,
 	value,
-	options = [],
+	options = DEFAULT_OPTIONS,
 	children = null,
 	selectedLabel = "",
 	label = "",
-	labelProps = {},
+	labelProps = DEFAULT_LABEL_PROPS,
+	labelSuffix = null,
 	onChange,
-	isError = false,
+	disabled = false,
+	validation = DEFAULT_VALIDATION,
 	className = "",
-	buttonProps,
+	buttonProps = DEFAULT_BUTTON_PROPS,
 	...props
-} ) => {
+}, ref ) => {
 	const selectedOption = useMemo( () => (
 		// Default to first option if value is missing.
 		options.find( ( option ) => value === option?.value ) || options[ 0 ]
@@ -78,31 +90,42 @@ const Select = ( {
 
 	return (
 		<Listbox
-			id={ id }
+			ref={ ref }
 			as="div"
 			value={ value }
 			onChange={ onChange }
+			disabled={ disabled }
 			className={ classNames(
 				"yst-select",
-				isError && "yst-select--error",
+				disabled && "yst-select--disabled",
 				className,
 			) }
 			{ ...props }
 		>
-			{ label && <Listbox.Label { ...labelProps }>{ label }</Listbox.Label> }
-			<Listbox.Button className="yst-select__button" { ...buttonProps }>
+			{ label && <div className="yst-flex yst-items-center yst-mb-2">
+				<Listbox.Label as={ Label } { ...labelProps }>{ label }</Listbox.Label>
+				{ labelSuffix }
+			</div> }
+			<ValidationInput
+				as={ Listbox.Button }
+				data-id={ id }
+				className="yst-select__button"
+				validation={ validation }
+				{ ...buttonProps }
+			>
 				<span className="yst-select__button-label">{ selectedLabel || selectedOption?.label || "" }</span>
-				{ isError ? (
-					<ExclamationCircleIcon className="yst-select__button-icon yst-select__button-icon--error" { ...svgAriaProps } />
-				) : (
+				{ ! validation?.message && (
 					<SelectorIcon className="yst-select__button-icon" { ...svgAriaProps } />
 				) }
-			</Listbox.Button>
+			</ValidationInput>
 			<Transition
 				as={ Fragment }
-				leave="yst-transition yst-ease-in yst-duration-100"
-				leaveFrom="yst-opacity-100"
-				leaveTo="yst-opacity-0"
+				enter="yst-transition yst-duration-100 yst-ease-out"
+				enterFrom="yst-transform yst-scale-95 yst-opacity-0"
+				enterTo="yst-transform yst-scale-100 yst-opacity-100"
+				leave="yst-transition yst-duration-75 yst-ease-out"
+				leaveFrom="yst-transform yst-scale-100 yst-opacity-100"
+				leaveTo="yst-transform yst-scale-95 yst-opacity-0"
 			>
 				<Listbox.Options className="yst-select__options">
 					{ children || options.map( option => <Option key={ option.value } { ...option } /> ) }
@@ -110,8 +133,9 @@ const Select = ( {
 			</Transition>
 		</Listbox>
 	);
-};
+} );
 
+Select.displayName = "Select";
 Select.propTypes = {
 	id: PropTypes.string.isRequired,
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
@@ -120,12 +144,18 @@ Select.propTypes = {
 	selectedLabel: PropTypes.string,
 	label: PropTypes.string,
 	labelProps: PropTypes.object,
+	labelSuffix: PropTypes.node,
 	onChange: PropTypes.func.isRequired,
-	isError: PropTypes.bool,
+	disabled: PropTypes.bool,
+	validation: PropTypes.shape( {
+		variant: PropTypes.string,
+		message: PropTypes.node,
+	} ),
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
 };
 
 Select.Option = Option;
+Select.Option.displayName = "Select.Option";
 
 export default Select;

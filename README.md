@@ -4,11 +4,12 @@
 [![Lint](https://github.com/Yoast/wordpress-seo/actions/workflows/lint.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/lint.yml)
 [![LintJS](https://github.com/Yoast/wordpress-seo/actions/workflows/jslint.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/jslint.yml)
 [![TestJS](https://github.com/Yoast/wordpress-seo/actions/workflows/jstest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/jstest.yml)
-[![Unit Tests](https://github.com/Yoast/wordpress-seo/actions/workflows/unittest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/unittest.yml)
-[![Integration Tests](https://github.com/Yoast/wordpress-seo/actions/workflows/integrationtest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/integrationtest.yml)
+[![Test](https://github.com/Yoast/wordpress-seo/actions/workflows/test.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/test.yml)
 [![Deployment](https://github.com/Yoast/wordpress-seo/actions/workflows/deploy.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/deploy.yml)
-[![Stable Version](https://poser.pugx.org/yoast/wordpress-seo/v/stable.svg)](https://packagist.org/packages/yoast/wordpress-seo)
-[![License](https://poser.pugx.org/yoast/wordpress-seo/license.svg)](https://packagist.org/packages/yoast/wordpress-seo)
+[![Coverage Status](https://coveralls.io/repos/github/Yoast/wordpress-seo/badge.svg?branch=trunk)](https://coveralls.io/github/Yoast/wordpress-seo?branch=trunk)
+
+[![Stable Version](https://img.shields.io/packagist/v/yoast/wordpress-seo)](https://packagist.org/packages/yoast/wordpress-seo)
+[![License](https://img.shields.io/packagist/l/yoast/wordpress-seo)](https://packagist.org/packages/yoast/wordpress-seo)
 
 ## Welcome to the Yoast SEO GitHub repository
 
@@ -55,15 +56,26 @@ Please note that if you change anything in the JavaScript or CSS, you'll have to
 
 For active development, you could run `grunt watch` to keep the build up-to-date and run checks right away.
 
-For JavaScript only, a webpack development server is available. To enable the dev-server, you'll have to add this to your WordPress install's `config.php`:
-```php
-define( 'YOAST_SEO_DEV_SERVER', true );
-```
-and you can start it by running `yarn start` in the `wordpress-seo` folder.
+For JavaScript only, you start a Webpack watch by running `yarn start`, this command will keep the JS files up-to-date. You'll have to refresh the page yourself.
+When working in other folders than `packages/js`, you can refer to their individual readme or package.json scripts. If the package offers a watch, you still have to build the plugin afterwards.
 
-Another JavaScript alternative is `grunt webpack:watch`, this command will keep the JS files up-to-date. You'll have to refresh the page yourself since this does not run a development server.
+For example, the `packages/ui-library` package has its own `yarn watch` (and js/css) commands. You can either `cd` into that folder or target it from the root using the workspace command:
+```bash
+yarn workspace @yoast/ui-library watch:js
+```
+or using Lerna:
+```bash
+yarn lerna run watch:js --scope @yoast/ui-library --stream
+```
 
 This repository uses [the Yoast grunt tasks plugin](https://github.com/Yoast/plugin-grunt-tasks).
+
+## Testing packages
+
+To run tests for js packages, run the following command from the root of the repository:
+```bash
+yarn test
+```
 
 ## Support
 

@@ -43,7 +43,7 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 			[
 				'name' => $name,
 				'src'  => $analysis_worker,
-			]
+			],
 		);
 	}
 

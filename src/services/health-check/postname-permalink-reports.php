@@ -56,7 +56,7 @@ class Postname_Permalink_Reports {
 		return \sprintf(
 			/* translators: %s expands to '/%postname%/' */
 			\__( 'It\'s highly recommended to have your postname in the URL of your posts and pages. Consider setting your permalink structure to %s.', 'wordpress-seo' ),
-			'<strong>/%postname%/</strong>'
+			'<strong>/%postname%/</strong>',
 		);
 	}
 
@@ -70,7 +70,7 @@ class Postname_Permalink_Reports {
 			/* translators: %1$s is a link start tag to the permalink settings page, %2$s is the link closing tag. */
 			\__( 'You can fix this on the %1$sPermalink settings page%2$s.', 'wordpress-seo' ),
 			'<a href="' . \admin_url( 'options-permalink.php' ) . '">',
-			'</a>'
+			'</a>',
 		);
 	}
 }

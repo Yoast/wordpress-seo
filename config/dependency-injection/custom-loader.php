@@ -135,9 +135,7 @@ class Custom_Loader extends PhpFileLoader {
 		if ( $excludePattern ) {
 			$excludePattern = $parameter_bag->unescapeValue( $parameter_bag->resolveValue( $excludePattern ) );
 			foreach ( $this->glob( $excludePattern, true, $resource ) as $path => $info ) {
-				if ( $exclude_prefix === null ) {
-					$exclude_prefix = $resource->getPrefix();
-				}
+				$exclude_prefix ??= $resource->getPrefix();
 
 				// Normalize Windows slashes.
 				$path                   = $this->normalize_slashes( $path );
@@ -181,7 +179,7 @@ class Custom_Loader extends PhpFileLoader {
 					'While discovering services from namespace "%s", an error was thrown when processing the class "%s": "%s".',
 					$namespace,
 					$class,
-					$e->getMessage()
+					$e->getMessage(),
 				);
 				continue;
 			}

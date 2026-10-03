@@ -15,14 +15,14 @@ class WPSEO_Remote_Request {
 	 *
 	 * @var string
 	 */
-	const METHOD_POST = 'post';
+	public const METHOD_POST = 'post';
 
 	/**
 	 * Holds the get method.
 	 *
 	 * @var string
 	 */
-	const METHOD_GET = 'get';
+	public const METHOD_GET = 'get';
 
 	/**
 	 * Holds the endpoint to send the request to.
@@ -70,6 +70,8 @@ class WPSEO_Remote_Request {
 	 * Sets the request body.
 	 *
 	 * @param mixed $body The body to set.
+	 *
+	 * @return void
 	 */
 	public function set_body( $body ) {
 		$this->args['body'] = $body;

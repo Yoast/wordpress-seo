@@ -128,7 +128,7 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 				'order'      => 'ASC',
 				'fields'     => 'ids',
 				'nopaging'   => true,
-			]
+			],
 		);
 		if ( empty( $posts ) ) {
 			return false;

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WP_Error;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -19,10 +20,7 @@ class Permalink_Helper {
 	public function get_permalink_for_indexable( $indexable ) {
 		switch ( true ) {
 			case $indexable->object_type === 'post':
-				if ( $indexable->object_sub_type === 'attachment' ) {
-					return \wp_get_attachment_url( $indexable->object_id );
-				}
-				return \get_permalink( $indexable->object_id );
+				return $this->get_permalink_for_post( $indexable->object_sub_type, $indexable->object_id );
 			case $indexable->object_type === 'home-page':
 				return \home_url( '/' );
 			case $indexable->object_type === 'term':
@@ -42,5 +40,21 @@ class Permalink_Helper {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Retrieves the permalink for a post with the given post type and ID.
+	 *
+	 * @param string $post_type The post type.
+	 * @param int    $post_id   The post ID.
+	 *
+	 * @return WP_Error|string|false The permalink.
+	 */
+	public function get_permalink_for_post( $post_type, $post_id ) {
+		if ( $post_type !== 'attachment' ) {
+			return \get_permalink( $post_id );
+		}
+
+		return \wp_get_attachment_url( $post_id );
 	}
 }

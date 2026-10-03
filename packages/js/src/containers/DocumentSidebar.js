@@ -5,31 +5,49 @@ import AnalysisChecklist from "../components/AnalysisChecklist";
 import {
 	maybeAddReadabilityCheck,
 	maybeAddSEOCheck,
-	maybeAddSchemaBlocksValidationCheck,
 	maybeAddInclusiveLanguageCheck,
 } from "../helpers/addCheckToChecklist";
 
 /**
  * Maps the select function to props for the checklist.
  *
- * @param {function} select The WordPress select function.
+ * Uses output memoization: returns the same array reference whenever the
+ * computed checklist content has not changed. This prevents `withSelect`
+ * from seeing a new reference on every render, which would cause unnecessary
+ * re-renders.
  *
- * @returns {{checklist: []}} The props for the checklist.
+ * @returns {Function} A memoized mapSelectToProps function.
  */
-export function mapSelectToProps( select ) {
-	const yoastStore = select( "yoast-seo/editor" );
-	const yoastSchemaStore = select( "yoast-seo/schema-blocks" );
-	const wpBlockEditorStore = select( "core/block-editor" );
+const makeMapSelectToProps = () => {
+	let lastChecklist = [];
 
-	const checklist = [];
+	return ( select ) => {
+		const yoastStore = select( "yoast-seo/editor" );
 
-	maybeAddReadabilityCheck( checklist, yoastStore );
-	maybeAddSEOCheck( checklist, yoastStore );
-	maybeAddInclusiveLanguageCheck( checklist, yoastStore );
-	maybeAddSchemaBlocksValidationCheck( checklist, yoastSchemaStore, wpBlockEditorStore );
+		const checklist = [];
+		maybeAddSEOCheck( checklist, yoastStore );
+		maybeAddReadabilityCheck( checklist, yoastStore );
+		maybeAddInclusiveLanguageCheck( checklist, yoastStore );
+		checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
 
-	return { checklist };
-}
+		// Return the previous reference when content is identical to avoid triggering re-renders.
+		if (
+			checklist.length === lastChecklist.length &&
+			checklist.every( ( item, i ) =>
+				item.label === lastChecklist[ i ].label &&
+				item.score === lastChecklist[ i ].score &&
+				item.scoreValue === lastChecklist[ i ].scoreValue
+			)
+		) {
+			return { checklist: lastChecklist };
+		}
+
+		lastChecklist = checklist;
+		return { checklist };
+	};
+};
+
+export const mapSelectToProps = makeMapSelectToProps();
 
 /**
  * Maps the dispatch function to props for the checklist.

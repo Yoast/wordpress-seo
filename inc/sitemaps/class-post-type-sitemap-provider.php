@@ -94,7 +94,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_index_links( $max_entries ) {
 		global $wpdb;
-
 		$post_types          = WPSEO_Post_Type::get_accessible_post_types();
 		$post_types          = array_filter( $post_types, [ $this, 'is_valid_post_type' ] );
 		$last_modified_times = WPSEO_Sitemaps::get_last_modified_gmt( $post_types, true );
@@ -116,19 +115,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$all_dates = [];
 
 			if ( $max_pages > 1 ) {
-				$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
-
-				$sql = "
-				SELECT post_modified_gmt
-				    FROM ( SELECT @rownum:=0 ) init
-				    JOIN {$wpdb->posts} USE INDEX( type_status_date )
-				    WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
-				      AND post_type = %s
-				      AND ( @rownum:=@rownum+1 ) %% %d = 0
-				    ORDER BY post_modified_gmt ASC
-				";
-
-				$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $max_entries ) );
+				$all_dates = version_compare( $wpdb->db_version(), '8.0', '>=' ) ? $this->get_all_dates_using_with_clause( $post_type, $max_entries ) : $this->get_all_dates( $post_type, $max_entries );
 			}
 
 			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
@@ -251,6 +238,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Check for relevant post type before invalidation.
 	 *
 	 * @param int $post_id Post ID to possibly invalidate for.
+	 *
+	 * @return void
 	 */
 	public function save_post( $post_id ) {
 
@@ -302,7 +291,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter: 'wpseo_exclude_from_sitemap_by_post_ids' - Allow extending and modifying the posts to exclude.
 		 *
-		 * @api array $posts_to_exclude The posts to exclude.
+		 * @param array $posts_to_exclude The posts to exclude.
 		 */
 		$excluded_posts_ids = apply_filters( 'wpseo_exclude_from_sitemap_by_post_ids', $excluded_posts_ids );
 		if ( ! is_array( $excluded_posts_ids ) ) {
@@ -376,7 +365,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$page_on_front_id = (int) get_option( 'page_on_front' );
 			if ( $page_on_front_id > 0 ) {
 				$front_page = $this->get_url(
-					get_post( $page_on_front_id )
+					get_post( $page_on_front_id ),
 				);
 			}
 
@@ -390,6 +379,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$front_page['chf'] = 'daily';
 			$front_page['pri'] = 1;
 
+			$images = ( $front_page['images'] ?? [] );
+
+			/**
+			 * Filter images to be included for the term in XML sitemap.
+			 *
+			 * @param array  $images Array of image items.
+			 * @return array $image_list Array of image items.
+			 */
+			$image_list = apply_filters( 'wpseo_sitemap_urlimages_front_page', $images );
+			if ( is_array( $image_list ) ) {
+				$front_page['images'] = $image_list;
+			}
+
 			$links[] = $front_page;
 		}
 		elseif ( $post_type !== 'page' ) {
@@ -402,7 +404,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$archive_url = apply_filters(
 				'wpseo_sitemap_post_type_archive_link',
 				$this->get_post_type_archive_link( $post_type ),
-				$post_type
+				$post_type,
 			);
 		}
 
@@ -421,7 +423,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filters the first post type links.
 		 *
-		 * @param array $links      The first post type links.
+		 * @param array  $links     The first post type links.
 		 * @param string $post_type The post type this archive is for.
 		 */
 		return apply_filters( 'wpseo_sitemap_post_type_first_links', $links, $post_type );
@@ -564,7 +566,25 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$post_ids[] = $sanitized_post->ID;
 		}
 
+		/**
+		 * Filter to disable priming the post, term and featured-image caches for the sitemap.
+		 *
+		 * @since 28.3
+		 *
+		 * @param bool $disable_cache_priming Whether to disable priming the caches. Defaults to false.
+		 */
+		$disable_priming = apply_filters( 'wpseo_disable_xml_sitemap_cache_priming', false );
+
+		if ( ! $disable_priming ) {
+			// Warm the post and term caches in bulk, so permalink and image building doesn't query per post.
+			_prime_post_caches( $post_ids, true, false );
+		}
+
 		update_meta_cache( 'post', $post_ids );
+
+		if ( ! $disable_priming && $this->include_images ) {
+			$this->get_image_parser()->prime_thumbnail_caches( $posts );
+		}
 
 		return $posts;
 	}
@@ -624,7 +644,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', get_permalink( $post ), $post );
 		$link_type  = YoastSEO()->helpers->url->get_link_type(
 			wp_parse_url( $url['loc'] ),
-			$this->get_parsed_home_url()
+			$this->get_parsed_home_url(),
 		);
 
 		/*
@@ -663,5 +683,102 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Get all dates for a post type by using the WITH clause for performance.
+	 *
+	 * @param string $post_type   Post type to retrieve dates for.
+	 * @param int    $max_entries Maximum number of entries to retrieve.
+	 *
+	 * @return array Array of dates.
+	 */
+	private function get_all_dates_using_with_clause( $post_type, $max_entries ) {
+		global $wpdb;
+
+		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
+
+		$replacements = array_merge(
+			[
+				'ordering',
+				'post_modified_gmt',
+				$wpdb->posts,
+				'type_status_date',
+				'post_status',
+			],
+			$post_statuses,
+			[
+				'post_type',
+				$post_type,
+				'post_modified_gmt',
+				'post_modified_gmt',
+				'ordering',
+				$max_entries,
+			],
+		);
+
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		return $wpdb->get_col(
+			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+			$wpdb->prepare(
+				'
+			WITH %i AS (SELECT ROW_NUMBER() OVER (ORDER BY %i) AS n, post_modified_gmt
+							  FROM %i USE INDEX ( %i )
+							  WHERE %i IN (' . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
+								 AND %i = %s
+							  ORDER BY %i)
+			SELECT %i
+			FROM %i
+			WHERE MOD(n, %d) = 0;
+			',
+				$replacements,
+			),
+		);
+	}
+
+	/**
+	 * Get all dates for a post type.
+	 *
+	 * @param string $post_type   Post type to retrieve dates for.
+	 * @param int    $max_entries Maximum number of entries to retrieve.
+	 *
+	 * @return array Array of dates.
+	 */
+	private function get_all_dates( $post_type, $max_entries ) {
+		global $wpdb;
+
+		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
+		$replacements  = array_merge(
+			[
+				'post_modified_gmt',
+				$wpdb->posts,
+				'type_status_date',
+				'post_status',
+			],
+			$post_statuses,
+			[
+				'post_type',
+				$post_type,
+				$max_entries,
+				'post_modified_gmt',
+			],
+		);
+
+		return $wpdb->get_col(
+			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+			$wpdb->prepare(
+				'
+			SELECT %i
+			    FROM ( SELECT @rownum:=0 ) init
+			    JOIN %i USE INDEX( %i )
+			    WHERE %i IN (' . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
+			      AND %i = %s
+			      AND ( @rownum:=@rownum+1 ) %% %d = 0
+			    ORDER BY %i ASC
+			',
+				$replacements,
+			),
+		);
 	}
 }

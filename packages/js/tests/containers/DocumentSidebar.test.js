@@ -19,17 +19,11 @@ describe( "The DocumentSidebar container", () => {
 			scoreValue: "OK",
 		} );
 
-		expect( props.checklist ).toContainEqual( {
-			label: "Schema analysis:",
-			score: "bad",
-			scoreValue: "Needs improvement",
-		} );
-
 		expect( props.intro ).toEqual( undefined );
 	} );
 
 	it( "maps the select function to props when no schema validation results are present", () => {
-		const select = mockSelectors( name, { "1234-abcde": { result: 0 } } );
+		const select = mockSelectors( name );
 
 		const props = mapSelectToProps( select );
 
@@ -45,13 +39,27 @@ describe( "The DocumentSidebar container", () => {
 			scoreValue: "OK",
 		} );
 
-		expect( props.checklist ).toContainEqual( {
-			label: "Schema analysis:",
-			score: "good",
-			scoreValue: "Good",
-		} );
-
 		expect( props.intro ).toEqual( undefined );
+	} );
+
+	it( "returns the same checklist reference when called twice with the same content", () => {
+		const select = mockSelectors();
+
+		const first = mapSelectToProps( select );
+		const second = mapSelectToProps( select );
+
+		expect( second.checklist ).toBe( first.checklist );
+	} );
+
+	it( "returns a new checklist reference when the content changes", () => {
+		const selectA = mockSelectors();
+		const selectB = mockSelectors();
+		selectB( "yoast-seo/editor" ).getResultsForFocusKeyword.mockReturnValue( { overallScore: 0 } );
+
+		const first = mapSelectToProps( selectA );
+		const second = mapSelectToProps( selectB );
+
+		expect( second.checklist ).not.toBe( first.checklist );
 	} );
 
 	it( "maps the dispatch function to props", () => {

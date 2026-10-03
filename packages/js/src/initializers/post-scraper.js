@@ -2,17 +2,14 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import {
-	isUndefined,
-	debounce,
-} from "lodash-es";
+import { debounce, isUndefined } from "lodash";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
 // Internal dependencies.
 import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
 import YoastReusableBlocksPlugin from "../analysis/plugins/reusable-blocks-plugin";
-import YoastShortcodePlugin from "../analysis/plugins/shortcode-plugin";
+import YoastShortcodePlugin, { initShortcodePlugin } from "../analysis/plugins/shortcode-plugin";
 import YoastMarkdownPlugin from "../analysis/plugins/markdown-plugin";
 import * as tinyMCEHelper from "../lib/tinymce";
 import CompatibilityHelper from "../compatibility/compatibilityHelper";
@@ -30,11 +27,16 @@ import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis
 import collectAnalysisData from "../analysis/collectAnalysisData";
 import PostDataCollector from "../analysis/PostDataCollector";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
-import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
-import snippetEditorHelpers from "../analysis/snippetEditor";
+import {
+	getDataFromCollector,
+	getDataFromStore,
+	getDataWithoutTemplates,
+	getDataWithTemplates,
+	getTemplatesFromL10n,
+} from "../analysis/snippetEditor";
 import CustomAnalysisData from "../analysis/CustomAnalysisData";
 import getApplyMarks from "../analysis/getApplyMarks";
 import { refreshDelay } from "../analysis/constants";
@@ -47,10 +49,8 @@ import { actions } from "@yoast/externals/redux";
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
 
-
 const {
 	setFocusKeyword,
-	setMarkerStatus,
 	updateData,
 	setCornerstoneContent,
 	refreshSnippetEditor,
@@ -81,7 +81,6 @@ export default function initPostScraper( $, store, editorData ) {
 	let postDataCollector;
 	const customAnalysisData = new CustomAnalysisData();
 
-
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
 	 *
@@ -105,7 +104,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 */
 	jQuery( document ).on( "ajaxComplete", function( ev, response, ajaxOptions ) {
 		const ajaxEndPoint = "/admin-ajax.php";
-		if ( ajaxEndPoint !== ajaxOptions.url.substr( 0 - ajaxEndPoint.length ) ) {
+		if ( ajaxEndPoint !== ajaxOptions.url.substring( ajaxOptions.url.length - ajaxEndPoint.length ) ) {
 			return;
 		}
 
@@ -123,30 +122,6 @@ export default function initPostScraper( $, store, editorData ) {
 			store.dispatch( updateData( snippetEditorData ) );
 		}
 	} );
-
-	/**
-	 * Determines if markers should be shown.
-	 *
-	 * @returns {boolean} True when markers should be shown.
-	 */
-	function displayMarkers() {
-		return ! isBlockEditor() && wpseoScriptData.metabox.show_markers === "1";
-	}
-
-	/**
-	 * Updates the store to indicate if the markers should be hidden.
-	 *
-	 * @param {Object} store The store.
-	 *
-	 * @returns {void}
-	 */
-	function updateMarkerStatus( store ) {
-		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
-		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
-		if ( typeof window.tinyMCE === "undefined" || ! displayMarkers() ) {
-			store.dispatch( setMarkerStatus( "disabled" ) );
-		}
-	}
 
 	/**
 	 * Initializes keyword analysis.
@@ -183,15 +158,14 @@ export default function initPostScraper( $, store, editorData ) {
 		activePublishBox.updateScore( "content", indicator.className );
 	}
 
-
 	/**
-	 * Initializes readability analysis in the classic-editor publish box.
+	 * Initializes the inclusive language analysis.
 	 *
 	 * @param {Object} activePublishBox The publish box object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeReadabilityAnalysis( activePublishBox ) {
+	function initializeInclusiveLanguageAnalysis( activePublishBox ) {
 		const savedContentScore = $( "#yoast_wpseo_inclusive_language_score" ).val();
 
 		const indicator = getIndicatorForScore( savedContentScore );
@@ -254,7 +228,6 @@ export default function initPostScraper( $, store, editorData ) {
 	 * @returns {Object} The arguments to initialize the app
 	 */
 	function getAppArgs( store ) {
-		updateMarkerStatus( store );
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
@@ -273,7 +246,6 @@ export default function initPostScraper( $, store, editorData ) {
 			marker: getApplyMarks( store ),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			hasSnippetPreview: false,
 			debouncedRefresh: false,
 			// eslint-disable-next-line new-cap
 			researcher: new window.yoast.Researcher.default(),
@@ -301,10 +273,6 @@ export default function initPostScraper( $, store, editorData ) {
 
 		titleElement = $( "#title" );
 
-		const translations = getTranslations();
-		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
-			args.translations = translations;
-		}
 		return args;
 	}
 
@@ -323,7 +291,7 @@ export default function initPostScraper( $, store, editorData ) {
 		}
 
 		if ( isInclusiveLanguageAnalysisActive() ) {
-			initializeReadabilityAnalysis( publishBox );
+			initializeInclusiveLanguageAnalysis( publishBox );
 		}
 	}
 
@@ -366,7 +334,6 @@ export default function initPostScraper( $, store, editorData ) {
 
 	/**
 	 * Handles page builder compatibility, regarding the marker buttons.
-	 *
 	 * @returns {void}
 	 */
 	function handlePageBuilderCompatibility() {
@@ -393,24 +360,6 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
-	 * Toggles the markers status in the state, based on the editor mode.
-	 *
-	 * @param {string} editorMode The editor mode.
-	 * @param {Object} store      The store to update.
-	 *
-	 * @returns {void}
-	 */
-	function toggleMarkers( editorMode, store ) {
-		if ( editorMode === "visual" ) {
-			store.dispatch( setMarkerStatus( "enabled" ) );
-
-			return;
-		}
-
-		store.dispatch( setMarkerStatus( "disabled" ) );
-	}
-
-	/**
 	 * Gets the current editor mode from the state.
 	 *
 	 * @returns {string} The current editor mode.
@@ -429,6 +378,7 @@ export default function initPostScraper( $, store, editorData ) {
 
 		tinyMCEHelper.setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
+
 		handlePageBuilderCompatibility();
 
 		// Avoid error when snippet metabox is not rendered.
@@ -453,7 +403,8 @@ export default function initPostScraper( $, store, editorData ) {
 			store,
 			customAnalysisData,
 			app.pluggable,
-			select( "core/block-editor" )
+			select( "core/block-editor" ),
+			select( "core/editor" )
 		);
 		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks()( paper, marks );
 
@@ -482,7 +433,7 @@ export default function initPostScraper( $, store, editorData ) {
 			window.YoastSEO.app.refresh();
 		};
 
-		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage", store );
+		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage_and_post_types", store );
 		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
 
 		// Backwards compatibility.
@@ -491,19 +442,11 @@ export default function initPostScraper( $, store, editorData ) {
 		// Analysis plugins
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		initShortcodePlugin( app, store );
 
 		if ( isBlockEditor() ) {
 			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, window.YoastSEO.app.refresh );
 			reusableBlocksPlugin.register();
-		}
-		// Only process shortcodes (for analysis) in the post text for editors other than the block editor.
-		if ( ! isBlockEditor() ) {
-			window.YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( {
-				registerPlugin: app.registerPlugin,
-				registerModification: app.registerModification,
-				pluginReady: app.pluginReady,
-				pluginReloaded: app.pluginReloaded,
-			} );
 		}
 		if ( wpseoScriptData.metabox.markdownEnabled ) {
 			const markdownPlugin = new YoastMarkdownPlugin( app.registerPlugin, app.registerModification );
@@ -543,9 +486,9 @@ export default function initPostScraper( $, store, editorData ) {
 		}
 
 		// Initialize the snippet editor data.
-		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
-		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
-		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+		let snippetEditorData = getDataFromCollector( postDataCollector );
+		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
+		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
@@ -572,8 +515,8 @@ export default function initPostScraper( $, store, editorData ) {
 				refreshAfterFocusKeywordChange();
 			}
 
-			const data = snippetEditorHelpers.getDataFromStore( store );
-			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
+			const data = getDataFromStore( store );
+			const dataWithoutTemplates = getDataWithoutTemplates( data, snippetEditorTemplates );
 
 
 			if ( snippetEditorData.title !== data.title ) {
@@ -606,9 +549,6 @@ export default function initPostScraper( $, store, editorData ) {
 
 		if ( isBlockEditor() ) {
 			let editorMode = getEditorMode();
-
-			toggleMarkers( editorMode, store );
-
 			subscribe( () => {
 				const currentEditorMode = getEditorMode();
 
@@ -617,7 +557,6 @@ export default function initPostScraper( $, store, editorData ) {
 				}
 
 				editorMode = currentEditorMode;
-				toggleMarkers( editorMode, store );
 			} );
 		}
 

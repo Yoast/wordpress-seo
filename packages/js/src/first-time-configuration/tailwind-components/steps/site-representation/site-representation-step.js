@@ -1,14 +1,15 @@
-import { Fragment, useState, useCallback } from "@wordpress/element";
+import { Fragment, useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import classNames from "classnames";
 import PropTypes from "prop-types";
 import ReactAnimateHeight from "react-animate-height";
-import classNames from "classnames";
 
-import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import Alert, { FadeInAlert } from "../../base/alert";
 import SingleSelect from "../../base/single-select";
+import TextInput from "../../base/text-input";
 import { OrganizationSection } from "./organization-section";
 import { PersonSection } from "./person-section";
+import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 
 /* eslint-disable complexity */
 
@@ -26,17 +27,32 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 	const [ sectionOpacity, setSectionOpacity ] = useState( state.companyOrPerson === "emptyChoice" ? "yst-opacity-0" : "yst-opacity-100" );
 	const startOpacityTransition = useCallback( () => {
 		setSectionOpacity( "yst-opacity-100" );
-	} );
+	}, [ setSectionOpacity ] );
 
-	const richResultsMessage = addLinkToString(
+	const handleWebsiteNameChange = useCallback( ( event ) => {
+		dispatch( { type: "CHANGE_WEBSITE_NAME", payload: event.target.value } );
+	}, [ dispatch ] );
+
+	const richResultsMessage = safeCreateInterpolateElement(
 		sprintf(
-			/* translators: %1$s expands to opening 'a' HTML tag, %2$s expands to closing 'a' HTML tag */
-			__( "Completing this step will help Google to understand your website, and improve your chance of getting %1$srich results%2$s.", "wordpress-seo" ),
+			/* translators: %1$s expands to opening 'span' HTML tag, %2$s expands to closing 'span' HTML tag,
+			%3$s expands to opening 'a' HTML tag, %4$s expands to closing 'a' HTML tag. */
+			__( "Completing this step helps Google to understand your site even better. %1$sBonus%2$s: You'll improve your chance of getting %3$srich results%4$s!", "wordpress-seo" ),
+			"<span>",
+			"</span>",
 			"<a>",
 			"</a>"
 		),
-		"https://yoa.st/config-workout-rich-results",
-		"yoast-configuration-rich-text-link"
+		{
+			span: <span className="yst-text-slate-800 yst-font-medium" />,
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a
+				id="yoast-configuration-rich-text-link"
+				href="https://yoa.st/config-workout-rich-results"
+				target="_blank"
+				rel="noopener noreferrer"
+			/>,
+		}
 	);
 
 	/**
@@ -73,11 +89,13 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				state.shouldForceCompany
 					? richResultsMessage
 					: <Fragment>
-						{ __( "Help us out here! Is your site about an organization or a person? ", "wordpress-seo" ) }
+						{ __( "Tell us! Is your site about an organization or a person?", "wordpress-seo" ) }
+						<br />
 						{ richResultsMessage }
 					</Fragment>
 			}
 		</p>
+
 		<SingleSelect
 			id="organization-person-select"
 			htmlFor="organization-person-select"
@@ -90,8 +108,22 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		/>
 
 		{ shouldDisplayDefaultValuesNotice() && <Alert type="info" className="yst-mt-6">
-			{ __( "We took the liberty of using your site title and logo for the organization name and logo. Feel free to change them below.", "wordpress-seo" ) }
+			{ __( "We took the liberty of using your website name and logo for the organization name and logo. Feel free to change them below.", "wordpress-seo" ) }
 		</Alert> }
+
+		<TextInput
+			className="yst-my-6"
+			id="website-name-input"
+			name="website-name"
+			label={ __( "Website name", "wordpress-seo" ) }
+			value={ state.websiteName || state.fallbackWebsiteName }
+			onChange={ handleWebsiteNameChange }
+			feedback={ {
+				isVisible: state.errorFields.includes( "website_name" ),
+				message: [ __( "We could not save the website name. Please check the value.", "wordpress-seo" ) ],
+				type: "error",
+			} }
+		/>
 
 		<ReactAnimateHeight
 			height={ [ "company", "person" ].includes( state.companyOrPerson ) ? "auto" : 0 }
@@ -126,20 +158,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			isVisible={ siteRepresentationEmpty }
 			className="yst-mt-6"
 		>
-			{
-				addLinkToString(
-					sprintf(
-						__(
-							"Please be aware that you need to fill out all settings in this step to get the most value out of structured data. %1$sRead more about the importance of structured data%2$s.",
-							"wordpress-seo"
-						),
-						"<a>",
-						"</a>"
-					),
-					"https://yoa.st/config-workout-structured-data",
-					"yoast-configuration-structured-data-link"
-				)
-			}
+			{ __( "You're almost there! Complete all settings in this step so search engines know what your site is about.", "wordpress-seo" ) }
 		</FadeInAlert>
 	</Fragment>;
 }

@@ -16,7 +16,7 @@ class Exclude_Elementor_Post_Types extends Abstract_Exclude_Post_Type {
 	 * This integration is only active when the Elementor plugin
 	 * is installed and activated.
 	 *
-	 * @return array|string[] The conditionals.
+	 * @return string[] The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Elementor_Activated_Conditional::class ];

@@ -1,8 +1,9 @@
-import { UPDATE_SNIPPET_DATA, RUN_ANALYSIS } from "../actions";
+import { UPDATE_SNIPPET_DATA, RUN_ANALYSIS, UPDATE_SHORTCODES_FOR_PARSING } from "../actions";
 
 const INITIAL_STATE = {
 	snippet: {},
 	timestamp: 0,
+	shortcodesForParsing: [],
 };
 
 /**
@@ -24,6 +25,11 @@ function analysisDataReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				timestamp: action.timestamp,
+			};
+		case UPDATE_SHORTCODES_FOR_PARSING:
+			return {
+				...state,
+				shortcodesForParsing: action.shortcodesForParsing,
 			};
 	}
 

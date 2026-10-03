@@ -1,90 +1,69 @@
-/* External dependencies */
-import { __ } from "@wordpress/i18n";
-import { Fragment } from "@wordpress/element";
-import { useState, useCallback } from "@wordpress/element";
+/* global wpseoAdminL10n */
+import { __, sprintf } from "@wordpress/i18n";
+import { addQueryArgs } from "@wordpress/url";
+import { useRootContext } from "@yoast/externals/contexts";
 import PropTypes from "prop-types";
-import styled from "styled-components";
-
-/* Internal dependencies */
-import { YoastSeoIcon, CollapsibleStateless } from "@yoast/components";
-import { colors } from "@yoast/style-guide";
-import { ModalContainer, ModalIcon } from "./Container";
-import Modal, { defaultModalClassName } from "./Modal";
-import SidebarButton from "../SidebarButton";
-import PremiumSEOAnalysisUpsell from "./PremiumSEOAnalysisUpsell";
-
-const MetaboxModalButton = styled( CollapsibleStateless )`
-	h2 > button {
-		padding-left: 24px;
-		padding-top: 16px;
-
-		&:hover {
-			background-color: #f0f0f0;
-		}
-	}
-`;
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
+import { UpsellModal } from "./UpsellModal";
 
 /**
- * The Premium SEO Analysis Modal.
+ * Creates the content for a PremiumSEOAnalysisModal modal.
  *
- * @returns {React.Component} The Premium SEO Analysis Modal.
+ * @param {boolean} isOpen     Whether the modal is open.
+ * @param {Function} closeModal Function to close the modal.
+ * @param {string} id          The id of the modal.
+ * @param {string} upsellLink  The upsell link to use.
+ *
+ * @returns {wp.Element} The PremiumSEOAnalysisModal component.
  */
-const PremiumSEOAnalysisModal = ( { location } ) => {
-	const [ isOpen, setIsOpen ] = useState( false );
-
-	const closeModal = useCallback( () => setIsOpen( false ), [] );
-	const openModal = useCallback( () => setIsOpen( true ), [] );
+export const PremiumSEOAnalysisModal = ( { isOpen, closeModal, id, upsellLink } ) => {
+	const { locationContext } = useRootContext();
+	const link = addQueryArgs( wpseoAdminL10n[ upsellLink ], { context: locationContext } );
+	const benefits = [
+		safeCreateInterpolateElement(
+			sprintf(
+				/* translators: %1$s and %2$s are opening and closing span tags. */
+				__( "%1$sKeyphrase distribution:%2$s See if your keywords are spread evenly so search engines understand your topic", "wordpress-seo" ),
+				"<span>",
+				"</span>"
+			), { span: <span className="yst-font-medium yst-text-slate-800" /> } ),
+		safeCreateInterpolateElement(
+			sprintf(
+				/* translators: %1$s and %2$s are opening and closing span tags. */
+				__( "%1$sTitle check:%2$s Instantly spot missing titles and fix them for better click-through rates", "wordpress-seo" ),
+				"<span>",
+				"</span>"
+			), { span: <span className="yst-font-medium yst-text-slate-800" /> } ),
+		safeCreateInterpolateElement(
+			sprintf(
+				/* translators: %1$s and %2$s are opening and closing span tags. */
+				__( "%1$sSynonyms:%2$s Include synonyms of your keyphrase for a more natural flow and smarter suggestions", "wordpress-seo" ),
+				"<span>",
+				"</span>"
+			), { span: <span className="yst-font-medium yst-text-slate-800" /> } ),
+	];
 
 	return (
-		<Fragment>
-			{ isOpen && <Modal
-				title={ __( "Get Yoast SEO Premium", "wordpress-seo" ) }
-				onRequestClose={ closeModal }
-				additionalClassName=""
-				className={ defaultModalClassName }
-				id="yoast-premium-seo-analysis-modal"
-				shouldCloseOnClickOutside={ true }
-			>
-				<ModalContainer>
-					<ModalIcon icon={ YoastSeoIcon } />
-					{
-						<h2>{ __( "Optimize even further with our premium SEO analysis", "wordpress-seo" ) }</h2>
-					}
-
-					<PremiumSEOAnalysisUpsell buyLink={ `shortlinks.upsell.${ location }.premium_seo_analysis_button` } />
-				</ModalContainer>
-			</Modal> }
-			{ location === "sidebar" && <SidebarButton
-				id={  "yoast-premium-seo-analysis-modal-open-button" }
-				title={ __( "Premium SEO analysis", "wordpress-seo" ) }
-				prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey } }
-				suffixIcon={ { icon: "pencil-square", size: "20px" } }
-				onClick={ openModal }
-			/> }
-			{ location === "metabox" && <MetaboxModalButton
-				hasPadding={ false }
-				hasSeparator={ true }
-				isOpen={ false }
-				id={  "yoast-premium-seo-analysis-metabox-modal-open-button" }
-				title={ __( "Premium SEO analysis", "wordpress-seo" ) }
-				prefixIconCollapsed={ { icon: "seo-score-none", color: colors.$color_grey, size: "16px" } }
-				suffixIconCollapsed={ {
-					icon: "pencil-square",
-					color: colors.$black,
-					size: "20px",
-				} }
-				onToggle={ openModal }
-			/> }
-		</Fragment>
+		<UpsellModal
+			isOpen={ isOpen }
+			onClose={ closeModal }
+			id={ id }
+			modalTitle={ __( "Get deeper SEO insights with Premium", "wordpress-seo" ) }
+			title={ __( "Find new ways to grow your rankings.", "wordpress-seo" ) }
+			description={ __( "Premium gives you advanced content checks that reveal new ranking opportunities and help you reach more readers.", "wordpress-seo" ) }
+			upsellLink={ link }
+			benefits={ benefits }
+			note={ __( "Upgrade to optimize with precision", "wordpress-seo" ) }
+			ctbId="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
+		/>
 	);
 };
 
 PremiumSEOAnalysisModal.propTypes = {
-	location: PropTypes.string,
-};
-
-PremiumSEOAnalysisModal.defaultProps = {
-	location: "sidebar",
+	isOpen: PropTypes.bool.isRequired,
+	closeModal: PropTypes.func.isRequired,
+	id: PropTypes.string.isRequired,
+	upsellLink: PropTypes.string.isRequired,
 };
 
 export default PremiumSEOAnalysisModal;

@@ -1,11 +1,12 @@
+/* eslint-disable complexity */
 /* global wpseoAdminL10n */
 import { Fragment, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/components";
-import { join } from "@yoast/helpers";
-import PropTypes from "prop-types";
 import { LocationConsumer } from "@yoast/externals/contexts";
-import WordProofTimestampToggle from "./WordProofTimestampToggle";
+import { join } from "@yoast/helpers";
+import { noop } from "lodash";
+import PropTypes from "prop-types";
 
 /**
  * Boolean that tells whether the current object refers to a post or a taxonomy.
@@ -31,8 +32,8 @@ const getNoIndexOptions = ( editorContext ) => {
 		return [
 			{
 				name: sprintf(
-					/* Translators: %s translates to "yes" or "no", %s translates to the Post Label in plural form */
-					__( "%s (current default for %s)", "wordpress-seo" ),
+					/* translators: %1$s translates to "yes" or "no", %2$s translates to the content type label in plural form */
+					__( "%1$s (current default for %2$s)", "wordpress-seo" ),
 					noIndex,
 					editorContext.postTypeNamePlural
 				),
@@ -45,8 +46,8 @@ const getNoIndexOptions = ( editorContext ) => {
 	return [
 		{
 			name: sprintf(
-				/* Translators: %s translates to the "yes" or "no" ,%s translates to the Post Label in plural form */
-				__( "%s (current default for %s)", "wordpress-seo" ),
+				/* translators: %1$s translates to "yes" or "no", %2$s translates to the content type label in plural form */
+				__( "%1$s (current default for %2$s)", "wordpress-seo" ),
 				noIndex,
 				editorContext.postTypeNamePlural
 			),
@@ -60,11 +61,19 @@ const getNoIndexOptions = ( editorContext ) => {
 /**
  * Functional component for the Meta Robots No-Index option.
  *
- * @param {Object} props The props object
+ * @param {string} noIndex The current noIndex value.
+ * @param {function} onNoIndexChange Callback for when the noIndex value changes.
+ * @param {Object} editorContext The editor context object.
+ * @param {boolean} [isPrivateBlog=false] Whether the blog is private.
  *
  * @returns {JSX.Element} The Meta Robots No-Index.
  */
-const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivateBlog } ) => {
+const MetaRobotsNoIndex = ( {
+	noIndex,
+	onNoIndexChange,
+	editorContext,
+	isPrivateBlog = false,
+} ) => {
 	const metaRobotsNoIndexOptions = getNoIndexOptions( editorContext );
 
 	return <LocationConsumer>
@@ -74,24 +83,19 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 					isPrivateBlog &&
 					<Alert type="warning">
 						{ __(
-							// eslint-disable-next-line max-len
 							"Even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won't have an effect.",
 							"wordpress-seo"
 						) }
 					</Alert>
 				}
 				<Select
-					label={
-						sprintf(
-							/* Translators: %s translates to the Post Label in singular form */
-							__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
-							editorContext.postTypeNameSingular
-						) }
+					label={ __( "Allow search engines to show this content in search results?", "wordpress-seo" ) }
 					onChange={ onNoIndexChange }
 					id={ join( [ "yoast-meta-robots-noindex", location ] ) }
 					options={ metaRobotsNoIndexOptions }
 					selected={ noIndex }
 					linkTo={ wpseoAdminL10n[ "shortlinks.advanced.allow_search_engines" ] }
+					/* translators: Hidden accessibility text. */
 					linkText={ __( "Learn more about the no-index setting on our help page.", "wordpress-seo" ) }
 				/>
 			</Fragment>;
@@ -106,16 +110,15 @@ MetaRobotsNoIndex.propTypes = {
 	isPrivateBlog: PropTypes.bool,
 };
 
-MetaRobotsNoIndex.defaultProps = {
-	isPrivateBlog: false,
-};
-
 /**
  * Functional component for the Meta Robots No-Follow option.
  *
+ * @param {string} noFollow The current noFollow value.
+ * @param {function} onNoFollowChange Callback for when the noFollow value changes.
+ *
  * @returns {JSX.Element} The Meta Robots No-Follow option.
  */
-const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
+const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange } ) => {
 	return <LocationConsumer>
 		{ location => {
 			const id = join( [ "yoast-meta-robots-nofollow", location ] );
@@ -123,15 +126,12 @@ const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 			return <RadioButtonGroup
 				id={ id }
 				options={ [ { value: "0", label: "Yes" }, { value: "1", label: "No" } ] }
-				label={ sprintf(
-					/* Translators: %s translates to the Post Label in singular form */
-					__( "Should search engines follow links on this %s", "wordpress-seo" ),
-					postTypeName
-				) }
+				label={ __( "Should search engines follow links on this content?", "wordpress-seo" ) }
 				groupName={ id }
 				onChange={ onNoFollowChange }
 				selected={ noFollow }
 				linkTo={ wpseoAdminL10n[ "shortlinks.advanced.follow_links" ] }
+				/* translators: Hidden accessibility text. */
 				linkText={ __( "Learn more about the no-follow setting on our help page.", "wordpress-seo" ) }
 			/>;
 		} }
@@ -141,13 +141,13 @@ const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 MetaRobotsNoFollow.propTypes = {
 	noFollow: PropTypes.string.isRequired,
 	onNoFollowChange: PropTypes.func.isRequired,
-	postTypeName: PropTypes.string.isRequired,
 };
 
 /**
  * Functional component for the Meta Robots Advanced field.
  *
- * @param {Object} props The props object
+ * @param {Array} advanced The selected advanced options.
+ * @param {function} onAdvancedChange Callback for when the advanced options change.
  *
  * @returns {JSX.Element} The Meta Robots advanced field.
  */
@@ -169,6 +169,7 @@ const MetaRobotsAdvanced = ( { advanced, onAdvancedChange } ) => {
 				] }
 				selected={ advanced }
 				linkTo={ wpseoAdminL10n[ "shortlinks.advanced.meta_robots" ] }
+				/* translators: Hidden accessibility text. */
 				linkText={ __( "Learn more about advanced meta robots settings on our help page.", "wordpress-seo" ) }
 			/>;
 		} }
@@ -183,7 +184,8 @@ MetaRobotsAdvanced.propTypes = {
 /**
  * Functional component for the Breadcrumbs Title.
  *
- * @param {Object} props The props object
+ * @param {string} breadcrumbsTitle The breadcrumbs title value.
+ * @param {function} onBreadcrumbsTitleChange Callback for when the breadcrumbs title changes.
  *
  * @returns {JSX.Element} The Breadcrumbs title.
  */
@@ -197,6 +199,7 @@ const BreadcrumbsTitle = ( { breadcrumbsTitle, onBreadcrumbsTitleChange } ) => {
 					onChange={ onBreadcrumbsTitleChange }
 					value={ breadcrumbsTitle }
 					linkTo={ wpseoAdminL10n[ "shortlinks.advanced.breadcrumbs_title" ] }
+					/* translators: Hidden accessibility text. */
 					linkText={ __( "Learn more about the breadcrumbs title setting on our help page.", "wordpress-seo" ) }
 				/>;
 			}
@@ -212,7 +215,8 @@ BreadcrumbsTitle.propTypes = {
 /**
  * Functional component for the Canonical URL.
  *
- * @param {Object} props The props object
+ * @param {string} canonical The canonical URL value.
+ * @param {function} onCanonicalChange Callback for when the canonical URL changes.
  *
  * @returns {JSX.Element} The canonical URL.
  */
@@ -226,6 +230,7 @@ const CanonicalURL = ( { canonical, onCanonicalChange } ) => {
 					onChange={ onCanonicalChange }
 					value={ canonical }
 					linkTo={ "https://yoa.st/canonical-url" }
+					/* translators: Hidden accessibility text. */
 					linkText={ __( "Learn more about canonical URLs on our help page.", "wordpress-seo" ) }
 				/>;
 			}
@@ -239,62 +244,43 @@ CanonicalURL.propTypes = {
 };
 
 /**
- * Functional component for the WordProof timestamp toggle.
- *
- * @param {Object} props The props object
- *
- * @returns {JSX.Element} The canonical URL.
- */
-const WordProofTimestamp = ( { wordproofTimestamp, onWordProofTimestampChange, postTypeName } ) => {
-	return <LocationConsumer>
-		{
-			location => {
-				return <WordProofTimestampToggle
-					id={ join( [ "yoast-wordproof-timestamp", location ] ) }
-					isEnabled={ wordproofTimestamp }
-					onToggle={ onWordProofTimestampChange }
-					postTypeName={ postTypeName }
-				/>;
-			}
-		}
-	</LocationConsumer>;
-};
-
-WordProofTimestamp.propTypes = {
-	wordproofTimestamp: PropTypes.bool.isRequired,
-	onWordProofTimestampChange: PropTypes.func.isRequired,
-	postTypeName: PropTypes.string.isRequired,
-};
-
-/**
  * The Advanced Settings component.
  *
- * @param {Object} props The props object
+ * @param {string} noIndex The current noIndex value.
+ * @param {string} canonical The canonical URL value.
+ * @param {function} onNoIndexChange Callback for when the noIndex value changes.
+ * @param {function} onCanonicalChange Callback for when the canonical URL changes.
+ * @param {function} onLoad Callback for when the component loads.
+ * @param {boolean} isLoading Whether the component is loading.
+ * @param {Object} editorContext The editor context object.
+ * @param {boolean} isBreadcrumbsDisabled Whether breadcrumbs are disabled.
+ * @param {Array} [advanced=[]] The selected advanced options.
+ * @param {function} [onAdvancedChange=noop] Callback for when the advanced options change.
+ * @param {string} [noFollow=""] The current noFollow value.
+ * @param {function} [onNoFollowChange=noop] Callback for when the noFollow value changes.
+ * @param {string} [breadcrumbsTitle=""] The breadcrumbs title value.
+ * @param {function} [onBreadcrumbsTitleChange=noop] Callback for when the breadcrumbs title changes.
+ * @param {boolean} [isPrivateBlog=false] Whether the blog is private.
  *
- * @returns {wp.Element} The AdvancedSettings component.
+ * @returns {JSX.Element} The AdvancedSettings component.
  */
-const AdvancedSettings = ( props ) => {
-	const {
-		noIndex,
-		noFollow,
-		advanced,
-		breadcrumbsTitle,
-		canonical,
-		wordproofTimestamp,
-		onNoIndexChange,
-		onNoFollowChange,
-		onAdvancedChange,
-		onBreadcrumbsTitleChange,
-		onCanonicalChange,
-		onWordProofTimestampChange,
-		onLoad,
-		isLoading,
-		editorContext,
-		isBreadcrumbsDisabled,
-		isPrivateBlog,
-		isWordProofIntegrationActive,
-	} = props;
-
+const AdvancedSettings = ( {
+	noIndex,
+	canonical,
+	onNoIndexChange,
+	onCanonicalChange,
+	onLoad,
+	isLoading,
+	editorContext,
+	isBreadcrumbsDisabled,
+	advanced = [],
+	onAdvancedChange = noop,
+	noFollow = "",
+	onNoFollowChange = noop,
+	breadcrumbsTitle = "",
+	onBreadcrumbsTitleChange = noop,
+	isPrivateBlog = false,
+} ) => {
 	useEffect( () => {
 		setTimeout( () => {
 			if ( isLoading ) {
@@ -313,7 +299,6 @@ const AdvancedSettings = ( props ) => {
 	const noFollowProps = {
 		noFollow,
 		onNoFollowChange,
-		postTypeName: editorContext.postTypeNameSingular,
 	};
 
 	const advancedProps = {
@@ -330,12 +315,6 @@ const AdvancedSettings = ( props ) => {
 		onCanonicalChange,
 	};
 
-	const wordproofTimestampProps = {
-		wordproofTimestamp,
-		onWordProofTimestampChange,
-		postTypeName: editorContext.postTypeNameSingular,
-	};
-
 	if ( isLoading ) {
 		return null;
 	}
@@ -349,7 +328,6 @@ const AdvancedSettings = ( props ) => {
 				! isBreadcrumbsDisabled && <BreadcrumbsTitle { ...breadcrumbsTitleProps } />
 			}
 			<CanonicalURL { ...canonicalProps } />
-			{ isWordProofIntegrationActive && <WordProofTimestamp { ...wordproofTimestampProps } /> }
 		</Fragment>
 	);
 };
@@ -357,10 +335,8 @@ const AdvancedSettings = ( props ) => {
 AdvancedSettings.propTypes = {
 	noIndex: PropTypes.string.isRequired,
 	canonical: PropTypes.string.isRequired,
-	wordproofTimestamp: PropTypes.bool,
 	onNoIndexChange: PropTypes.func.isRequired,
 	onCanonicalChange: PropTypes.func.isRequired,
-	onWordProofTimestampChange: PropTypes.func,
 	onLoad: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	editorContext: PropTypes.object.isRequired,
@@ -372,19 +348,6 @@ AdvancedSettings.propTypes = {
 	onNoFollowChange: PropTypes.func,
 	breadcrumbsTitle: PropTypes.string,
 	onBreadcrumbsTitleChange: PropTypes.func,
-	isWordProofIntegrationActive: PropTypes.bool.isRequired,
-};
-
-AdvancedSettings.defaultProps = {
-	advanced: [],
-	onAdvancedChange: () => {},
-	noFollow: "",
-	onNoFollowChange: () => {},
-	breadcrumbsTitle: "",
-	onBreadcrumbsTitleChange: () => {},
-	isPrivateBlog: false,
-	onWordProofTimestampChange: () => {},
-	wordproofTimestamp: false,
 };
 
 export default AdvancedSettings;

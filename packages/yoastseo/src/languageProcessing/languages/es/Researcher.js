@@ -1,6 +1,5 @@
 import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
-import checkIfWordIsComplex from "./helpers/checkIfWordIsComplex";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
@@ -17,7 +16,7 @@ import getStemmer from "./helpers/getStemmer";
 import fleschReadingScore from "./helpers/calculateFleschReadingScore";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class Researcher extends AbstractResearcher {
 	/**
@@ -44,7 +43,6 @@ export default class Researcher extends AbstractResearcher {
 			getClauses,
 			getStemmer,
 			fleschReadingScore,
-			checkIfWordIsComplex,
 		} );
 	}
 }

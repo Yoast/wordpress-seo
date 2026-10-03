@@ -1,6 +1,6 @@
 import MetaDescriptionLengthAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 
 const descriptionLengthAssessment = new MetaDescriptionLengthAssessment();
@@ -12,10 +12,11 @@ describe( "a test for assessing the meta description length", function() {
 
 		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length" +
-			"</a>:  No meta description has been specified. Search engines will display copy from the page instead. " +
+			"</a>: No meta description has been specified. Search engines will display copy from the page instead. " +
 			"<a href='https://yoa.st/34e' target='_blank'>Make sure to write one</a>!" );
 		expect( assessment.hasJumps() ).toBeTruthy();
-		expect( assessment.getEditFieldName() ).toBe( "meta description" );
+		expect( assessment.getEditFieldName() ).toBe( "description" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your meta description" );
 	} );
 
 	it( "assesses a short description", function() {
@@ -62,7 +63,7 @@ describe( "a test for assessing the meta description length in Japanese", functi
 
 			expect( assessment.getScore() ).toEqual( 1 );
 			expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length" +
-				"</a>:  No meta description has been specified. Search engines will display copy from the page instead. " +
+				"</a>: No meta description has been specified. Search engines will display copy from the page instead. " +
 				"<a href='https://yoa.st/34e' target='_blank'>Make sure to write one</a>!" );
 		} );
 
@@ -120,7 +121,7 @@ describe( "a test for assessing the meta description length in Japanese", functi
 
 			expect( metaDescriptionLengthResult.getScore() ).toEqual( 1 );
 			expect( metaDescriptionLengthResult.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length" +
-				"</a>:  No meta description has been specified. Search engines will display copy from the page instead. " +
+				"</a>: No meta description has been specified. Search engines will display copy from the page instead. " +
 				"<a href='https://yoa.st/34e' target='_blank'>Make sure to write one</a>!" );
 		} );
 
@@ -131,7 +132,7 @@ describe( "a test for assessing the meta description length in Japanese", functi
 			const metaDescriptionLengthResult = cornerstoneDescriptionLengthAssessment.getResult( mockPaper, researcher );
 
 			expect( metaDescriptionLengthResult.getScore() ).toEqual( 3 );
-			expect( metaDescriptionLengthResult.getText() ).toEqual(   "<a href='https://yoa.st/34d' target='_blank'>" +
+			expect( metaDescriptionLengthResult.getText() ).toEqual(  "<a href='https://yoa.st/34d' target='_blank'>" +
 				"Meta description length</a>: The meta description is too short (under 60 characters). Up to 80 characters are available." +
 				" <a href='https://yoa.st/34e' target='_blank'>Use the space</a>!"
 			);
@@ -159,7 +160,7 @@ describe( "a test for assessing the meta description length in Japanese", functi
 			const metaDescriptionLengthResult = cornerstoneDescriptionLengthAssessment.getResult( mockPaper, researcher );
 
 			expect( metaDescriptionLengthResult.getScore() ).toEqual( 9 );
-			expect( metaDescriptionLengthResult.getText() ).toEqual(  "<a href='https://yoa.st/34d' target='_blank'>" +
+			expect( metaDescriptionLengthResult.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>" +
 				"Meta description length</a>: Well done!" );
 		} );
 	} );

@@ -44,9 +44,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 	 * @return array Formatted submenu.
 	 */
 	protected function get_submenu_page( $page_title, $page_slug, $callback = null, $hook = null ) {
-		if ( $callback === null ) {
-			$callback = $this->get_admin_page_callback();
-		}
+		$callback ??= $this->get_admin_page_callback();
 
 		return [
 			$this->get_page_identifier(),
@@ -131,7 +129,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 			$submenu_page[4],
 			$submenu_page[5],
 			$this->get_icon_svg(),
-			99
+			99,
 		);
 
 		// If necessary, add hooks for the submenu page.
@@ -164,11 +162,6 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 	protected function register_submenu_page( $submenu_page ) {
 		$page_title = $submenu_page[2];
 
-		// We cannot use $submenu_page[1] because add-ons define that, so hard-code this value.
-		if ( $submenu_page[4] === 'wpseo_licenses' ) {
-			$page_title = $this->get_license_page_title();
-		}
-
 		/*
 		 * Handle the Google Search Console special case by passing a fake parent
 		 * page slug. This way, the sub-page is stil registered and can be accessed
@@ -188,7 +181,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 			$submenu_page[2],
 			$submenu_page[3],
 			$submenu_page[4],
-			$submenu_page[5]
+			$submenu_page[5],
 		);
 
 		// If necessary, add hooks for the submenu page.
@@ -244,21 +237,6 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 	 */
 	protected function get_admin_page_callback() {
 		return [ $this->menu, 'load_page' ];
-	}
-
-	/**
-	 * Returns the page title to use for the licenses page.
-	 *
-	 * @return string The title for the license page.
-	 */
-	protected function get_license_page_title() {
-		static $title = null;
-
-		if ( $title === null ) {
-			$title = __( 'Premium', 'wordpress-seo' );
-		}
-
-		return $title;
 	}
 
 	/**

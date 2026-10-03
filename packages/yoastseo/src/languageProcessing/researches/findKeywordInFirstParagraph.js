@@ -1,92 +1,9 @@
 /** @module analyses/findKeywordInFirstParagraph */
+import { inRange, isEmpty } from "lodash";
 
-import matchParagraphs from "../helpers/html/matchParagraphs.js";
-import getSentences from "../helpers/sentence/getSentences.js";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
-import imageInText from "../helpers/image/imageInText";
-import findEmptyDivisions from "../helpers/html/findEmptyDivisions";
-import getAnchorsFromText from "../helpers/link/getAnchorsFromText";
-import matchStringWithRegex from "../helpers/regex/matchStringWithRegex";
-import excludeEstimatedReadingTime from "../helpers/sanitize/excludeEstimatedReadingTime";
+import { createShortcodeTagsRegex } from "../helpers";
 
-import { reject } from "lodash-es";
-import { isEmpty } from "lodash-es";
-
-/**
- * Removes links from text.
- *
- * @param {string} text The text string to analyze.
- *
- * @returns {string} The text with links stripped away.
- */
-function removeLinksFromText( text ) {
-	const anchors = getAnchorsFromText( text );
-	if ( anchors.length > 0 ) {
-		anchors.forEach( function( anchor ) {
-			text = text.replace( anchor, "" );
-		} );
-	}
-
-	return text;
-}
-
-
-/**
- * Removes images from text.
- *
- * @param {string} text The text string to analyze.
- *
- * @returns {string} The text with images stripped away.
- */
-function removeImagesFromText( text ) {
-	const images = imageInText( text );
-	const imageTags = matchStringWithRegex( text, "</img>" );
-
-	if ( images.length > 0 ) {
-		images.forEach( function( image ) {
-			text = text.replace( image, "" );
-		} );
-
-		imageTags.forEach( function( imageTag ) {
-			text = text.replace( imageTag, "" );
-		} );
-	}
-
-	return text;
-}
-
-
-/**
- * Checks if the paragraph has no text.
- *
- * @param {string} text The text string to analyze.
- *
- * @returns {boolean} True if the paragraph has no text, false otherwise.
- */
-function paragraphHasNoText( text ) {
-	// Strip links and check if paragraph consists of links only
-	text = removeLinksFromText( text );
-	if ( text === "" ) {
-		return true;
-	}
-
-	text = removeImagesFromText( text );
-	if ( text === "" ) {
-		return true;
-	}
-
-	// Remove empty divisions from the text
-	const emptyDivisions = findEmptyDivisions( text );
-	if ( emptyDivisions.length < 1 ) {
-		return false;
-	}
-
-	emptyDivisions.forEach( function( emptyDivision ) {
-		text = text.replace( emptyDivision, "" );
-	} );
-
-	return text === "";
-}
 
 /**
  * Checks if the introductory paragraph contains keyphrase or synonyms.
@@ -108,37 +25,60 @@ function paragraphHasNoText( text ) {
  * the paragraph, whether a keyphrase or a synonym phrase was matched.
  */
 export default function( paper, researcher ) {
+	let paragraphs = researcher.getResearch( "getParagraphs" );
+	const tree = paper.getTree();
+	// Filter captions from non-Classic editors.
+	paragraphs = paragraphs.filter( paragraph => {
+		const parentNode = paragraph.getParentNode( tree );
+		return ! ( paragraph.isImplicit && parentNode && parentNode.name === "figcaption" );
+	} );
+	// Filter captions from classic block inside Block editor.
+	// Filter caption, gallery, embed and playlist shortcodes from Classic editor.
+	paragraphs = paragraphs.filter( paragraph => {
+		return ! ( paragraph.childNodes && paragraph.childNodes[ 0 ] &&
+			createShortcodeTagsRegex( [ "caption", "gallery", "embed", "playlist" ] ).test( paragraph.childNodes[ 0 ].value ) );
+	} );
+	const firstParagraph = paragraphs[ 0 ];
+
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
-	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const locale = paper.getLocale();
+	const startOffset = firstParagraph && firstParagraph.sourceCodeLocation.startOffset;
 
-	let paragraphs = matchParagraphs( excludeEstimatedReadingTime( paper.getText() ) );
-	paragraphs = reject( paragraphs, isEmpty );
-	paragraphs = reject( paragraphs, paragraphHasNoText )[ 0 ] || "";
-
+	// Block editor-specific processing to retrieve the parent block of the introduction node.
+	const mappedBlocks = paper._attributes.wpBlocks;
+	const filteredIntroductionBlock = mappedBlocks && mappedBlocks.filter( block => inRange( startOffset, block.startOffset, block.endOffset ) )[ 0 ];
+	// In case of non-Block editor, we return the introduction's parent node.
+	const introductionParentNode = firstParagraph?.getParentNode( tree );
 	const result = {
 		foundInOneSentence: false,
 		foundInParagraph: false,
 		keyphraseOrSynonym: "",
+		introduction: firstParagraph,
+		parentBlock: filteredIntroductionBlock || introductionParentNode,
 	};
 
-	const sentences = getSentences( paragraphs, memoizedTokenizer );
+	if ( isEmpty( firstParagraph ) ) {
+		return result;
+	}
+
+	const sentences = firstParagraph.sentences.map( sentence => sentence.text );
 	// Use both keyphrase and synonyms to match topic words in the first paragraph.
 	const useSynonyms = true;
 
 	if ( ! isEmpty( sentences ) ) {
-		sentences.forEach( function( sentence ) {
-			const resultSentence = findTopicFormsInString( topicForms, sentence, useSynonyms, locale, matchWordCustomHelper );
-			if ( resultSentence.percentWordMatches === 100 ) {
-				result.foundInOneSentence = true;
-				result.foundInParagraph = true;
-				result.keyphraseOrSynonym = resultSentence.keyphraseOrSynonym;
-				return result;
-			}
-		} );
+		const firstResultSentence = sentences
+			.map( sentence => findTopicFormsInString( topicForms, sentence, useSynonyms, locale, matchWordCustomHelper ) )
+			.find( resultSentence => resultSentence.percentWordMatches === 100 );
 
-		const resultParagraph = findTopicFormsInString( topicForms, paragraphs, useSynonyms, locale, matchWordCustomHelper );
+		if ( firstResultSentence ) {
+			result.foundInOneSentence = true;
+			result.foundInParagraph = true;
+			result.keyphraseOrSynonym = firstResultSentence.keyphraseOrSynonym;
+			return result;
+		}
+
+		const resultParagraph = findTopicFormsInString( topicForms, firstParagraph.innerText(), useSynonyms, locale, matchWordCustomHelper );
 		if ( resultParagraph.percentWordMatches === 100 ) {
 			result.foundInParagraph = true;
 			result.keyphraseOrSynonym = resultParagraph.keyphraseOrSynonym;

@@ -3,7 +3,6 @@ global.jQuery = {};
 
 import BlockEditorData from "../src/analysis/blockEditorData.js";
 
-// eslint-disable-next-line require-jsdoc
 const refresh = () => {
 	return true;
 };
@@ -11,21 +10,30 @@ const store = {
 	dispatch: jest.fn(),
 };
 
-// Mocks the getEditedPostAttribute function.
+// Mocks the getEditedPostAttribute/getBlocks functions.
 const mockGetEditedPostAttribute = jest.fn().mockImplementation( value => value );
+const mockGetEditorBlocks = jest.fn().mockImplementation( value => value );
 
-// Ensures mockSelect.getEditedPostAttribute is a function.
 jest.mock( "@wordpress/data", () => {
 	return {
 		select: () => {
 			return {
 				getEditedPostAttribute: mockGetEditedPostAttribute,
-				getEditedPostContent: jest.fn().mockReturnValue( "" ),
+				getEditedPostContent: jest.fn().mockReturnValue( "test block test" ),
 				getActiveMarker: () => null,
-				getPermalink: jest.fn().mockReturnValue( "https://www.yoast.com/" ),
+				getPermalinkParts: jest.fn().mockReturnValue( { prefix: "https://www.yoast.com/", postName: "", suffix: "/" } ),
+				isEditedPostNew: jest.fn().mockReturnValue( false ),
+				getEditorBlocks: mockGetEditorBlocks,
 			};
 		},
 		subscribe: () => {},
+		combineReducers: jest.requireActual( "@wordpress/data" ).combineReducers,
+	};
+} );
+
+jest.mock( "@wordpress/blocks", () => {
+	return {
+		getBlockContent: jest.fn().mockReturnValue( "test classic test" ),
 	};
 } );
 
@@ -33,7 +41,6 @@ const data = new BlockEditorData( refresh, store );
 
 describe( "setRefresh", () => {
 	it( "sets the refresh function", () => {
-		// eslint-disable-next-line require-jsdoc
 		const expected = () => {
 			return "refresh";
 		};
@@ -93,7 +100,7 @@ describe( "getPostAttribute", () => {
 describe( "collectGutenbergData", () => {
 	it( "collects the GutenbergData", () => {
 		const expected = {
-			content: "content",
+			content: "test block test",
 			contentImage: "",
 			title: "title",
 			slug: "slug",
@@ -108,12 +115,37 @@ describe( "collectGutenbergData", () => {
 		mockGetFeaturedImage.mockReturnValue( "featured-image" );
 		data.getFeaturedImage = mockGetFeaturedImage;
 
+		mockGetEditorBlocks.mockReturnValueOnce( [ { name: "core/paragraph" } ] );
+
+		const actual = data.collectGutenbergData();
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "collects the GutenbergData when the post has been converted from the Classic editor", () => {
+		const expected = {
+			content: "test classic test",
+			contentImage: "",
+			title: "title",
+			slug: "slug",
+			excerpt: "excerpt",
+			// eslint-disable-next-line camelcase
+			excerpt_only: "excerpt",
+			snippetPreviewImageURL: "featured-image",
+			baseUrl: "https://www.yoast.com/",
+		};
+
+		mockGetEditorBlocks.mockReturnValueOnce( [ { name: "core/freeform" } ] );
+
 		const actual = data.collectGutenbergData();
 		expect( actual ).toEqual( expected );
 	} );
 } );
 
 describe( "refreshYoastSEO", () => {
+	beforeEach( () =>
+		mockGetEditorBlocks.mockReturnValueOnce( [ { name: "core/paragraph" } ] )
+	);
+
 	/*
 		After the first call of collectGutenbergData in refreshYoastSEO, the Gutenberg data is always dirty,
 		because data is initially an empty object.

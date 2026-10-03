@@ -1,12 +1,14 @@
-import { useState, useCallback } from "@wordpress/element";
-import { isEmpty } from "lodash";
-import PropTypes from "prop-types";
+import DocumentAddIcon from "@heroicons/react/outline/DocumentAddIcon";
 import classNames from "classnames";
-import { DocumentAddIcon } from "@heroicons/react/outline";
+import { isEmpty, noop } from "lodash";
+import PropTypes from "prop-types";
+import React, { forwardRef, useCallback, useState } from "react";
 
 import Link from "../link";
 
 /**
+ * File input with drag-and-drop support.
+ *
  * @param {string} id Id.
  * @param {string} name Name.
  * @param {string} value Value.
@@ -14,13 +16,14 @@ import Link from "../link";
  * @param {string} dropLabel Label for drop area.
  * @param {string} screenReaderLabel Screen reader label.
  * @param {string} selectDescription Description for select area.
- * @param {boolean} isDisabled Disabled state.
+ * @param {boolean} disabled Disabled state.
  * @param {JSX.Element} iconAs Icon to show in select area.
  * @param {Function} onChange The callback for when a file is uploaded.
+ * @param {Function} onDrop The callback for when a file is dropped.
  * @param {string} className Classname.
  * @returns {JSX.Element} The FileInput component.
  */
-const FileInput = ( {
+const FileInput = forwardRef( ( {
 	id,
 	name,
 	value,
@@ -28,12 +31,13 @@ const FileInput = ( {
 	dropLabel,
 	screenReaderLabel,
 	selectDescription = "",
-	isDisabled = false,
+	disabled = false,
 	iconAs: IconComponent = DocumentAddIcon,
 	onChange,
+	onDrop = noop,
 	className = "",
 	...props
-} ) => {
+}, ref ) => {
 	const [ isDragOver, setIsDragOver ] = useState( false );
 
 	const handleDragEnter = useCallback( ( event ) => {
@@ -55,10 +59,8 @@ const FileInput = ( {
 	const handleDrop = useCallback( ( event ) => {
 		event.preventDefault();
 		setIsDragOver( false );
-		if ( ! isEmpty( event.dataTransfer.files ) ) {
-			onChange( event.dataTransfer.files[ 0 ] );
-		}
-	}, [ setIsDragOver, onChange ] );
+		onDrop( event );
+	}, [ setIsDragOver, onDrop ] );
 
 	return (
 		<div
@@ -68,7 +70,7 @@ const FileInput = ( {
 			onDrop={ handleDrop }
 			className={ classNames( "yst-file-input", {
 				"yst-is-drag-over": isDragOver,
-				"yst-is-disabled": isDisabled,
+				"yst-is-disabled": disabled,
 				className,
 			} ) }
 		>
@@ -76,6 +78,7 @@ const FileInput = ( {
 				<IconComponent className="yst-file-input__icon" />
 				<div className="yst-file-input__labels">
 					<input
+						ref={ ref }
 						type="file"
 						id={ id }
 						name={ name }
@@ -83,7 +86,7 @@ const FileInput = ( {
 						onChange={ onChange }
 						className="yst-file-input__input"
 						aria-labelledby={ screenReaderLabel }
-						disabled={ isDisabled }
+						disabled={ disabled }
 						{ ...props }
 					/>
 					<Link as="label" htmlFor={ id } className="yst-file-input__select-label">{ selectLabel }</Link>
@@ -94,8 +97,9 @@ const FileInput = ( {
 			</div>
 		</div>
 	);
-};
+} );
 
+FileInput.displayName = "FileInput";
 FileInput.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
@@ -104,9 +108,10 @@ FileInput.propTypes = {
 	dropLabel: PropTypes.string.isRequired,
 	screenReaderLabel: PropTypes.string.isRequired,
 	selectDescription: PropTypes.string,
-	isDisabled: PropTypes.bool,
+	disabled: PropTypes.bool,
 	iconAs: PropTypes.elementType,
 	onChange: PropTypes.func.isRequired,
+	onDrop: PropTypes.func,
 	className: PropTypes.string,
 };
 

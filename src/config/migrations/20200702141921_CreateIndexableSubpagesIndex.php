@@ -30,12 +30,12 @@ class CreateIndexableSubpagesIndex extends Migration {
 			[
 				'null'  => true,
 				'limit' => 20,
-			]
+			],
 		);
 		$this->add_index(
 			$this->get_table_name(),
 			[ 'post_parent', 'object_type', 'post_status', 'object_id' ],
-			[ 'name' => 'subpages' ]
+			[ 'name' => 'subpages' ],
 		);
 	}
 
@@ -52,12 +52,12 @@ class CreateIndexableSubpagesIndex extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 		$this->remove_index(
 			$this->get_table_name(),
 			[ 'post_parent', 'object_type', 'post_status', 'object_id' ],
-			[ 'name' => 'subpages' ]
+			[ 'name' => 'subpages' ],
 		);
 	}
 

@@ -1,4 +1,4 @@
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
 

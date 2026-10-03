@@ -4,6 +4,7 @@ import {
 	SET_REQUEST_LIMIT_REACHED,
 	SET_REQUEST_FAILED,
 	SET_REQUEST_SUCCEEDED,
+	SET_REQUEST_PENDING,
 	NEW_REQUEST,
 	CHANGE_COUNTRY,
 	NO_DATA_FOUND,
@@ -30,10 +31,14 @@ const INITIAL_STATE = {
  */
 function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
-		case NEW_REQUEST:
+		case SET_REQUEST_PENDING:
 			return {
 				...state,
 				isRequestPending: true,
+			};
+		case NEW_REQUEST:
+			return {
+				...state,
 				keyphrase: action.keyphrase,
 				countryCode: action.countryCode,
 				isSuccess: false,

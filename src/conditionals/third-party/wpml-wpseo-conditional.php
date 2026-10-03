@@ -15,7 +15,7 @@ class WPML_WPSEO_Conditional implements Conditional {
 	 *
 	 * @internal
 	 */
-	const PATH_TO_WPML_WPSEO_PLUGIN_FILE = 'wp-seo-multilingual/plugin.php';
+	public const PATH_TO_WPML_WPSEO_PLUGIN_FILE = 'wp-seo-multilingual/plugin.php';
 
 	/**
 	 * Returns whether or not the Yoast SEO Multilingual plugin is active.

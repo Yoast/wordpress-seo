@@ -13,8 +13,8 @@ class WPSEO_Content_Images {
 	/**
 	 * Retrieves images from the post content.
 	 *
-	 * @param int           $post_id The post ID.
-	 * @param \WP_Post|null $post    The post object.
+	 * @param int          $post_id The post ID.
+	 * @param WP_Post|null $post    The post object.
 	 *
 	 * @return array An array of images found in this post.
 	 */
@@ -35,11 +35,11 @@ class WPSEO_Content_Images {
 		}
 
 		$content_images = $this->get_img_tags_from_content( $content );
-		$images         = array_map( [ $this, 'get_img_tag_source' ], $content_images );
-		$images         = array_filter( $images );
-		$images         = array_unique( $images );
-		$images         = array_values( $images ); // Reset the array keys.
 
+		$images = array_map( [ $this, 'get_img_tag_source' ], $content_images );
+		$images = array_filter( $images );
+		$images = array_unique( $images );
+		$images = array_values( $images ); // Reset the array keys.
 		return $images;
 	}
 
@@ -87,9 +87,7 @@ class WPSEO_Content_Images {
 	 * @return string The content of the supplied post.
 	 */
 	private function get_post_content( $post_id, $post ) {
-		if ( $post === null ) {
-			$post = get_post( $post_id );
-		}
+		$post ??= get_post( $post_id );
 
 		if ( $post === null ) {
 			return '';
@@ -98,7 +96,8 @@ class WPSEO_Content_Images {
 		/**
 		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis.
 		 *
-		 * @api string $post_content The Post content string.
+		 * @param string  $post_content The Post content string.
+		 * @param WP_Post $post         The current post.
 		 */
 		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 

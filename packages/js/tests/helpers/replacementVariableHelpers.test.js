@@ -3,7 +3,7 @@ import {
 	prepareCustomTaxonomyForDispatch,
 	replaceSpaces,
 } from "../../src/helpers/replacementVariableHelpers";
-import { UPDATE_REPLACEMENT_VARIABLE } from "../../src/redux/actions/snippetEditor";
+import { UPDATE_REPLACEMENT_VARIABLE, UPDATE_REPLACEMENT_VARIABLES_BATCH } from "../../src/redux/actions/snippetEditor";
 
 describe( "replaceSpaces", () => {
 	it( "replaces single spaces in a string with underscores", () => {
@@ -199,29 +199,20 @@ describe( "mapCustomTaxonomies", () => {
 	};
 
 	it( "dispatches the SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE action to redux twice per custom taxonomy", () => {
-		const numberOfCustomTaxonomies = Object.keys( replaceVars.custom_taxonomies ).length;
-
 		mapCustomTaxonomies( replaceVars, store );
 
 		expect( store.dispatch ).toHaveBeenCalledWith( expect.objectContaining( {
-			type: UPDATE_REPLACEMENT_VARIABLE,
+			type: UPDATE_REPLACEMENT_VARIABLES_BATCH,
 		} ) );
-		expect( store.dispatch ).toHaveBeenCalledTimes( numberOfCustomTaxonomies * 2 );
+		expect( store.dispatch ).toHaveBeenCalledTimes( 1 );
 	} );
 
-	it( "passes a label that contains ' (custom taxonomies)'", () => {
+	it( "passes a name that is prefixed with 'ct_' and a label that contains ' (custom taxonomies)'", () => {
 		mapCustomTaxonomies( replaceVars, store );
-
 		expect( store.dispatch ).toHaveBeenCalledWith( expect.objectContaining( {
-			label: expect.stringContaining( " (custom taxonomy)" ),
-		} ) );
-	} );
-
-	it( "passes a name that is prefixed with 'ct_'", () => {
-		mapCustomTaxonomies( replaceVars, store );
-
-		expect( store.dispatch ).toHaveBeenCalledWith( expect.objectContaining( {
-			name: expect.stringContaining( "ct_" ),
+			type: UPDATE_REPLACEMENT_VARIABLES_BATCH,
+			// eslint-disable-next-line camelcase
+			updatedVariables: { ct_customTaxOne: { label: "CustomTaxOne (custom taxonomy)", value: "customTaxOne" }, ct_customTaxTwo: { label: "CustomTaxTwo (custom taxonomy)", value: "customTaxTwo" }, ct_desc_customTaxOne: { label: "CustomTaxOne description (custom taxonomy)", value: "customTaxOneDescription" }, ct_desc_customTaxTwo: { label: "CustomTaxTwo description (custom taxonomy)", value: "customTaxTwoDescription" } },
 		} ) );
 	} );
 

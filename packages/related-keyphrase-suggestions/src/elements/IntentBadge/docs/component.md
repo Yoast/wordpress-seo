@@ -1,0 +1,1 @@
+A colored initial badge for the intent. Used for i, t, c, and n only. When hovering on the badge, the tooltip will show the intent info.

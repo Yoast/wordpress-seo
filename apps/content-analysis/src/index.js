@@ -2,10 +2,10 @@
 import "./index.css";
 
 // External dependencies.
-import AnalysisWorkerWrapper from "../../../packages/yoastseo/src/worker/AnalysisWorkerWrapper";
+import AnalysisWorkerWrapper from "yoastseo/src/worker/AnalysisWorkerWrapper";
 
 // Internal dependencies.
-import AnalysisWebWorker from "./analysis.worker";
+const AnalysisWebWorker = require( "./analysis.worker" );
 import App from "./App";
 import { createStorageMiddleware, getStorageData } from "./redux/utils/localstorage";
 import { renderReactApp } from "./redux/utils/render";
@@ -17,6 +17,7 @@ const storageStates = [
 	"configuration",
 	"options",
 	"paper",
+	"performance",
 ];
 const preloadedState = {
 	configuration: {
@@ -40,12 +41,17 @@ const preloadedState = {
 		slug: "",
 		permalink: "https://example.org/",
 	},
+	performance: {
+		batchSize: 50,
+		researches: [],
+		results: {},
+	},
 };
 
 const initialState = getStorageData( storageStates, preloadedState );
 const storageMiddleware = createStorageMiddleware( storageStates );
 
-const store = configureStore( initialState, [ storageMiddleware  ] );
+const store = configureStore( initialState, [ storageMiddleware ] );
 const workerUnwrapped = new AnalysisWebWorker();
 // Pass language so that the right researcher is loaded.
 workerUnwrapped.postMessage( { language: window.localStorage.language } );

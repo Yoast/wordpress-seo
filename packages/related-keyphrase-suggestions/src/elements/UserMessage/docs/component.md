@@ -1,0 +1,1 @@
+The alert to display to the user related to the related keyphrases suggestions request or action.

@@ -1,0 +1,1 @@
+The Toast.Close subcomponent renders a button that allows users to manually dismiss the toast. This can be useful when you want to provide manual control, even though toasts are primarily designed to be non-interactive and informational. For notifications that require more user interaction (close buttons, confirm or dismiss actions), use `ModalNotification` instead.

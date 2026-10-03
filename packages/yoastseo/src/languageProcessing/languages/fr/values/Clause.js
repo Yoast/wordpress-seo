@@ -1,4 +1,4 @@
-import { includes } from "lodash-es";
+import { includes } from "lodash";
 import getParticiples from "../helpers/internal/getParticiples.js";
 import { languageProcessing } from "yoastseo";
 const { precedenceException, directPrecedenceException, values } = languageProcessing;

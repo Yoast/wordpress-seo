@@ -35,8 +35,7 @@ class Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 		/**
 		 * Filter: 'wpseo_opengraph_desc' - Allow changing the Yoast SEO generated Open Graph description.
 		 *
-		 * @api string The description.
-		 *
+		 * @param string                 $description  The description.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		$meta_og_description = \apply_filters( 'wpseo_opengraph_desc', $meta_og_description, $this->presentation );

@@ -1,4 +1,4 @@
-import { includes, intersection, isEmpty } from "lodash-es";
+import { includes, intersection, isEmpty } from "lodash";
 import {
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
 	cannotDirectlyPrecedePassiveParticiple,

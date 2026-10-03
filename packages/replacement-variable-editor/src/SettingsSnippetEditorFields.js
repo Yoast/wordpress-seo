@@ -83,7 +83,7 @@ class SettingsSnippetEditorFields extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	 setDescriptionRef( ref ) {
+	setDescriptionRef( ref ) {
 		this.setRef( "description", ref );
 	}
 
@@ -152,7 +152,7 @@ class SettingsSnippetEditorFields extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	 onFocusDescription() {
+	onFocusDescription() {
 		this.props.onFocus( "description" );
 	}
 

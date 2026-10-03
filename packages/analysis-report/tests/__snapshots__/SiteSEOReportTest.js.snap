@@ -5,35 +5,35 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
   className="test_SiteSEOReport"
 >
   <p
-    className="gDoSQG test_SiteSEOReport__text"
+    className="kBVise test_SiteSEOReport__text"
   >
     Test assessment
   </p>
   <div
-    className="eFtDnv progress"
+    className="bjXoTs progress"
   >
     <span
-      className="pPvst progress__part"
+      className="zSbSj progress__part"
     />
     <span
-      className="kIFhAU progress__part"
+      className="jFdQTa progress__part"
     />
     <span
-      className="bXkyX progress__part"
+      className="jnzOIl progress__part"
     />
   </div>
   <ul
-    className="iTRYwb assessments"
+    className="cVQvbD assessments"
     role="list"
   >
     <li
-      className="gshrRU assessments__item"
+      className="eYuGur assessments__item"
     >
       <span
-        className="hHvnje dFqjzq assessments__item-bullet"
+        className="hNYQft jLZaQs assessments__item-bullet"
       />
       <span
-        className="hHvnje dsIkPT assessments__item-text"
+        className="hNYQft kXgChN assessments__item-text"
         dangerouslySetInnerHTML={
           Object {
             "__html": "<div></div>",
@@ -41,19 +41,19 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
         }
       />
       <span
-        className="hHvnje cKSbYs assessments__item-score"
+        className="hNYQft cFTcQJ assessments__item-score"
       >
         10
       </span>
     </li>
     <li
-      className="gshrRU assessments__item"
+      className="eYuGur assessments__item"
     >
       <span
-        className="hHvnje hpnNZT assessments__item-bullet"
+        className="hNYQft eEkVPZ assessments__item-bullet"
       />
       <span
-        className="hHvnje dsIkPT assessments__item-text"
+        className="hNYQft kXgChN assessments__item-text"
         dangerouslySetInnerHTML={
           Object {
             "__html": "<div></div>",
@@ -61,19 +61,19 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
         }
       />
       <span
-        className="hHvnje cKSbYs assessments__item-score"
+        className="hNYQft cFTcQJ assessments__item-score"
       >
         15
       </span>
     </li>
     <li
-      className="gshrRU assessments__item"
+      className="eYuGur assessments__item"
     >
       <span
-        className="hHvnje jPwpmU assessments__item-bullet"
+        className="hNYQft kWkurS assessments__item-bullet"
       />
       <span
-        className="hHvnje dsIkPT assessments__item-text"
+        className="hNYQft kXgChN assessments__item-text"
         dangerouslySetInnerHTML={
           Object {
             "__html": "<div></div>",
@@ -81,7 +81,7 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
         }
       />
       <span
-        className="hHvnje cKSbYs assessments__item-score"
+        className="hNYQft cFTcQJ assessments__item-score"
       >
         20
       </span>

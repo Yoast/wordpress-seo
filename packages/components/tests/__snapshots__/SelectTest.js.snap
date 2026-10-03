@@ -14,6 +14,7 @@ exports[`Select should render a select 1`] = `
     </label>
   </div>
   <select
+    disabled={false}
     id="my-awesome-multiselect"
     name="my-selection"
     onBlur={[Function]}

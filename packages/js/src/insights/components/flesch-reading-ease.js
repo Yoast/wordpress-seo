@@ -48,7 +48,6 @@ function getDifficultyFeedback( difficulty ) {
 function getCallToAction( difficulty ) {
 	switch ( difficulty ) {
 		case DIFFICULTY.FAIRLY_DIFFICULT:
-			return __( "Try to make shorter sentences to improve readability", "wordpress-seo" );
 		case DIFFICULTY.DIFFICULT:
 		case DIFFICULTY.VERY_DIFFICULT:
 			return __( "Try to make shorter sentences, using less difficult words to improve readability", "wordpress-seo" );
@@ -71,17 +70,14 @@ function getDescription( score, difficulty ) {
 	// A score of -1 signals that no valid FRE was calculated.
 
 	if ( score === -1 ) {
-		return sprintf(
-			__(
-				"Your text should be slightly longer to calculate your Flesch reading ease score.",
-				"wordpress-seo"
-			)
+		return __(
+			"Your text should be slightly longer to calculate your Flesch reading ease score.",
+			"wordpress-seo"
 		);
 	}
 	return sprintf(
 		/* Translators: %1$s expands to the numeric Flesch reading ease score,
-				%2$s expands to the easiness of reading (e.g. 'easy' or 'very difficult').
-			 */
+		%2$s expands to the easiness of reading (e.g. 'easy' or 'very difficult') */
 		__(
 			"The copy scores %1$s in the test, which is considered %2$s to read.",
 			"wordpress-seo"
@@ -132,11 +128,11 @@ const FleschReadingEase = () => {
 
 	return (
 		<InsightsCard
-			id={ "yoastseo-flesch-reading-ease-insights" }
 			amount={ score }
 			unit={ __( "out of 100", "wordpress-seo" ) }
 			title={ __( "Flesch reading ease", "wordpress-seo" ) }
 			linkTo={ link }
+			/* translators: Hidden accessibility text. */
 			linkText={ __( "Learn more about Flesch reading ease", "wordpress-seo" ) }
 			description={ description }
 		/>

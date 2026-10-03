@@ -1,9 +1,15 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { isEmpty, merge } from "lodash-es";
+import { isEmpty, merge } from "lodash";
 
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
+
+/**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../languageProcessing/researches/getLinkStatistics").LinkStatistics} LinkStatistics
+ * @typedef {import("../../../values/").Paper } Paper
+ */
 
 /**
  * Assessment for calculating the outbound links in the text.
@@ -13,8 +19,6 @@ export default class OutboundLinksAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 *
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
@@ -53,22 +57,11 @@ export default class OutboundLinksAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether paper has text.
-	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 *
-	 * @returns {boolean} True when there is text.
-	 */
-	isApplicable( paper ) {
-		return paper.hasText();
-	}
-
-	/**
 	 * Returns a score based on the linkStatistics object.
 	 *
-	 * @param {object} linkStatistics The object with all link statistics.
+	 * @param {LinkStatistics} linkStatistics The object with all link statistics.
 	 *
-	 * @returns {number|null} The calculated score.
+	 * @returns {number} The calculated score.
 	 */
 	calculateScore( linkStatistics ) {
 		if ( linkStatistics.externalTotal === 0 ) {
@@ -87,20 +80,20 @@ export default class OutboundLinksAssessment extends Assessment {
 			return this._config.scores.allFollowed;
 		}
 
-		return null;
+		return 0;
 	}
 
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {Object}  linkStatistics  The object with all link statistics.
+	 * @param {LinkStatistics}  linkStatistics  The object with all link statistics.
 	 *
 	 * @returns {string} The translated string.
 	 */
 	translateScore( linkStatistics ) {
 		if ( linkStatistics.externalTotal === 0 ) {
 			return sprintf(
-				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				__(
 					"%1$sOutbound links%3$s: No outbound links appear in this page. %2$sAdd some%3$s!",
 					"wordpress-seo"
@@ -113,7 +106,7 @@ export default class OutboundLinksAssessment extends Assessment {
 
 		if ( linkStatistics.externalNofollow === linkStatistics.externalTotal ) {
 			return sprintf(
-				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				__(
 					"%1$sOutbound links%3$s: All outbound links on this page are nofollowed. %2$sAdd some normal links%3$s.",
 					"wordpress-seo"
@@ -126,7 +119,7 @@ export default class OutboundLinksAssessment extends Assessment {
 
 		if ( linkStatistics.externalDofollow === linkStatistics.externalTotal ) {
 			return sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				__(
 					"%1$sOutbound links%2$s: Good job!",
 					"wordpress-seo"
@@ -138,7 +131,7 @@ export default class OutboundLinksAssessment extends Assessment {
 
 		if ( linkStatistics.externalDofollow < linkStatistics.externalTotal ) {
 			return sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				__(
 					"%1$sOutbound links%2$s: There are both nofollowed and normal outbound links on this page. Good job!",
 					"wordpress-seo"

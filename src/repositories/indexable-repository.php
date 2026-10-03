@@ -19,6 +19,21 @@ use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 class Indexable_Repository {
 
 	/**
+	 * The maximum number of comma-separated phrases honoured by a title-keyword search.
+	 * Any phrases beyond this are ignored so an oversized list cannot blow up the query.
+	 *
+	 * @var int
+	 */
+	public const MAX_TITLE_KEYWORD_PHRASES = 10;
+
+	/**
+	 * The maximum page size honoured by a title-keyword search.
+	 *
+	 * @var int
+	 */
+	public const MAX_TITLE_KEYWORD_PAGE_SIZE = 100;
+
+	/**
 	 * The indexable builder.
 	 *
 	 * @var Indexable_Builder
@@ -107,7 +122,8 @@ class Indexable_Repository {
 	 * This may be the result of the indexable not existing or of being unable to determine what type of page the
 	 * current page is.
 	 *
-	 * @return bool|Indexable The indexable, false if none could be found.
+	 * @return bool|Indexable The indexable. If no indexable is found returns an empty indexable. Returns false if
+	 *                        there is a database error.
 	 */
 	public function for_current_page() {
 		$indexable = false;
@@ -148,7 +164,7 @@ class Indexable_Repository {
 					'object_type' => 'unknown',
 					'post_status' => 'unindexed',
 					'version'     => 1,
-				]
+				],
 			);
 		}
 
@@ -212,6 +228,27 @@ class Indexable_Repository {
 			->where( 'object_type', $object_type )
 			->where( 'object_sub_type', $object_sub_type )
 			->find_many();
+
+		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
+	}
+
+	/**
+	 * Retrieves a paginated set of indexable instances of public indexables.
+	 *
+	 * @param int    $page      The page number (1-based).
+	 * @param int    $page_size The number of items per page.
+	 * @param string $post_type The post type indexables to find.
+	 *
+	 * @return Indexable[] The array with the paginated indexable instances which are public.
+	 */
+	public function find_all_public_paginated( int $page, int $page_size, string $post_type ): array {
+		$offset = ( ( $page - 1 ) * $page_size );
+
+		$query = $this->query()->where_raw( '( is_public IS NULL OR is_public = 1 ) AND ( is_robots_noindex IS NULL OR is_robots_noindex = 0 )' );
+		$query->where( 'object_sub_type', $post_type );
+		$query->where( 'post_status', 'publish' );
+
+		$indexables = $query->order_by_asc( 'id' )->limit( $page_size )->offset( $offset )->find_many();
 
 		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
 	}
@@ -376,6 +413,16 @@ class Indexable_Repository {
 
 			$indexables_to_create = \array_diff( $object_ids, $indexables_available );
 
+			if ( ! empty( $indexables_to_create ) ) {
+				// Warm the object caches for the whole batch, so each build below does not trigger its own uncached queries.
+				if ( $object_type === 'post' ) {
+					\_prime_post_caches( $indexables_to_create );
+				}
+				elseif ( $object_type === 'term' ) {
+					\_prime_term_caches( $indexables_to_create );
+				}
+			}
+
 			foreach ( $indexables_to_create as $indexable_to_create ) {
 				$indexables[] = $this->builder->build_for_id_and_type( $indexable_to_create, $object_type );
 			}
@@ -387,7 +434,7 @@ class Indexable_Repository {
 	/**
 	 * Finds the indexables by id's.
 	 *
-	 * @param array $indexable_ids The indexable id's.
+	 * @param int[] $indexable_ids The indexable id's.
 	 *
 	 * @return Indexable[] The found indexables.
 	 */
@@ -444,7 +491,7 @@ class Indexable_Repository {
 	 * Returns all subpages with a given post_parent.
 	 *
 	 * @param int   $post_parent The post parent.
-	 * @param array $exclude_ids The id's to exclude.
+	 * @param int[] $exclude_ids The id's to exclude.
 	 *
 	 * @return Indexable[] array of indexables.
 	 */
@@ -458,6 +505,234 @@ class Indexable_Repository {
 			$query->where_not_in( 'object_id', $exclude_ids );
 		}
 		return $query->find_many();
+	}
+
+	/**
+	 * Returns most recently modified posts of a post type.
+	 *
+	 * @param string $post_type                   The post type.
+	 * @param int    $limit                       The maximum number of posts to return.
+	 * @param bool   $exclude_older_than_one_year Whether to exclude posts older than one year.
+	 * @param string $search_filter               Optional. A search filter to apply to the breadcrumb title.
+	 *
+	 * @return Indexable[] array of indexables.
+	 */
+	public function get_recently_modified_posts( string $post_type, int $limit, bool $exclude_older_than_one_year, string $search_filter = '' ) {
+		$query = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
+			->order_by_desc( 'object_last_modified' )
+			->limit( $limit );
+
+		if ( $exclude_older_than_one_year === true ) {
+			$query->where_gte( 'object_published_at', \gmdate( 'Y-m-d H:i:s', \strtotime( '-1 year' ) ) );
+		}
+
+		if ( $search_filter !== '' ) {
+			$query->where_like( 'breadcrumb_title', '%' . $search_filter . '%' );
+		}
+
+		$query->order_by_desc( 'object_last_modified' )
+			->limit( $limit );
+
+		return $query->find_many();
+	}
+
+	/**
+	 * Finds posts whose breadcrumb title contains any of the given comma-separated phrases.
+	 *
+	 * The search string is a comma-separated list. Each value is matched as a whole
+	 * contiguous substring of the breadcrumb title, and a post is returned when it
+	 * contains any one of the values (a logical OR between values). For example,
+	 * "hiking boots, trail" returns posts whose title contains "hiking boots" or "trail".
+	 *
+	 * Results are paginated and ordered most recently modified first (with the indexable
+	 * id as a stable tiebreaker), so requesting a later page returns older matches.
+	 *
+	 * At most self::MAX_TITLE_KEYWORD_PHRASES phrases are honoured; any beyond that are ignored.
+	 * The page size is clamped to the range 1..self::MAX_TITLE_KEYWORD_PAGE_SIZE.
+	 *
+	 * @param string $keywords  The comma-separated phrases to match against the breadcrumb title.
+	 * @param int    $page      The page of results to return, 1-based.
+	 * @param int    $page_size The number of posts per page.
+	 * @param string $post_type The post type to restrict the search to.
+	 *
+	 * @return Indexable[] The matching indexables for the requested page, ordered by most recently modified.
+	 */
+	public function find_posts_by_title_keywords( string $keywords, int $page = 1, int $page_size = 10, string $post_type = 'post' ) {
+		$phrases = \array_map( 'trim', \explode( ',', $keywords ) );
+		$phrases = \array_filter(
+			$phrases,
+			static function ( $phrase ) {
+				return $phrase !== '';
+			},
+		);
+		$phrases = \array_slice( $phrases, 0, self::MAX_TITLE_KEYWORD_PHRASES );
+
+		// An empty search must not degrade into matching every post.
+		if ( empty( $phrases ) ) {
+			return [];
+		}
+
+		$likes  = \array_fill( 0, \count( $phrases ), 'breadcrumb_title LIKE %s' );
+		$params = \array_map(
+			function ( $phrase ) {
+				return '%' . $this->wpdb->esc_like( $phrase ) . '%';
+			},
+			$phrases,
+		);
+
+		$page_size = \min( \max( 1, $page_size ), self::MAX_TITLE_KEYWORD_PAGE_SIZE );
+		$offset    = ( ( \max( 1, $page ) - 1 ) * $page_size );
+
+		$indexables = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_raw( '( ' . \implode( ' OR ', $likes ) . ' )', \array_values( $params ) )
+			->order_by_desc( 'object_last_modified' )
+			->order_by_desc( 'id' )
+			->limit( $page_size )
+			->offset( $offset )
+			->find_many();
+
+		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
+	}
+
+	/**
+	 * Returns the most recently modified cornerstone content of a post type.
+	 *
+	 * @param string   $post_type The post type.
+	 * @param int|null $limit     The maximum number of posts to return.
+	 *
+	 * @return Indexable[] array of indexables.
+	 */
+	public function get_recent_cornerstone_for_post_type( string $post_type, ?int $limit ) {
+		$query = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
+			->where( 'is_cornerstone', 1 )
+			->order_by_desc( 'object_last_modified' );
+
+		if ( $limit !== null ) {
+			$query->limit( $limit );
+		}
+
+		return $query->find_many();
+	}
+
+	/**
+	 * Returns the most recently modified about page based on schema_page_type.
+	 *
+	 * @param string $post_type The post type.
+	 *
+	 * @return Indexable|false The about page if its there.
+	 */
+	public function get_most_recent_about_page( $post_type ) {
+		$query = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where( 'schema_page_type', 'AboutPage' )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
+			->order_by_desc( 'object_last_modified' );
+
+		return $query->find_one();
+	}
+
+	/**
+	 * Returns the most recently modified posts with keywords of a post type.
+	 *
+	 * @param string      $post_type  The post type.
+	 * @param int|null    $limit      The maximum number of posts to return.
+	 * @param string|null $date_limit Only include content modified after this date.
+	 *
+	 * @return array<array<string, string>>|false The array of indexable columns. False if the query failed.
+	 */
+	public function get_recent_posts_with_keywords_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
+		$query = $this->query()
+			->select( 'object_id' )
+			->select( 'primary_focus_keyword_score' )
+			->select( 'breadcrumb_title' )
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_not_equal( 'primary_focus_keyword_score', 0 )
+			->where_not_null( 'primary_focus_keyword_score' )
+			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
+			->where_raw( '( is_robots_noindex IS NULL OR is_robots_noindex <> 1 )' )
+			->order_by_desc( 'object_last_modified' );
+
+		if ( $limit !== null ) {
+			$query->limit( $limit );
+		}
+
+		if ( $date_limit !== null ) {
+			$query->where_gte( 'object_last_modified', $date_limit );
+		}
+
+		return $query->find_array();
+	}
+
+	/**
+	 * Returns the most recently modified posts with readability scores of a post type.
+	 *
+	 * @param string      $post_type  The post type.
+	 * @param int|null    $limit      The maximum number of posts to return.
+	 * @param string|null $date_limit Only include content modified after this date.
+	 *
+	 * @return array<array<string, string|null>>|false The array of indexable columns. False if the query failed.
+	 */
+	public function get_recent_posts_with_readability_scores_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
+		$query = $this->query()
+			->select( 'object_id' )
+			->select( 'readability_score' )
+			->select( 'breadcrumb_title' )
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_not_null( 'estimated_reading_time_minutes' )
+			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
+			->order_by_desc( 'object_last_modified' );
+
+		if ( $limit !== null ) {
+			$query->limit( $limit );
+		}
+
+		if ( $date_limit !== null ) {
+			$query->where_gte( 'object_last_modified', $date_limit );
+		}
+
+		return $query->find_array();
+	}
+
+	/**
+	 * Returns the most recently modified posts for a post type.
+	 *
+	 * @param string      $post_type  The post type.
+	 * @param int|null    $limit      The maximum number of posts to return.
+	 * @param string|null $date_limit Only include content modified after this date.
+	 *
+	 * @return array<array<string, string|null>>|false The array of indexable columns. False if the query failed.
+	 */
+	public function get_recent_posts_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
+		$query = $this->query()
+			->select( 'object_id' )
+			->select( 'breadcrumb_title' )
+			->select( 'description' )
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
+			->where_raw( '( is_robots_noindex IS NULL OR is_robots_noindex <> 1 )' )
+			->order_by_desc( 'object_last_modified' );
+
+		if ( $limit !== null ) {
+			$query->limit( $limit );
+		}
+
+		if ( $date_limit !== null ) {
+			$query->where_gte( 'object_last_modified', $date_limit );
+		}
+
+		return $query->find_array();
 	}
 
 	/**
@@ -489,7 +764,7 @@ class Indexable_Repository {
 	public function ensure_permalink( $indexable ) {
 		// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- self::class is safe.
 		// @phpcs:ignore Squiz.PHP.CommentedOutCode.Found
-		// _deprecated_function( __METHOD__, 'WPSEO 17.3', self::class . '::upgrade_indexable' );
+		// _deprecated_function( __METHOD__, 'Yoast SEO 17.3', self::class . '::upgrade_indexable' );
 
 		return $this->upgrade_indexable( $indexable );
 	}
@@ -511,18 +786,19 @@ class Indexable_Repository {
 	/**
 	 * Resets the permalinks of the passed object type and subtype.
 	 *
-	 * @param string|null $type    The type of the indexable. Can be null.
-	 * @param string|null $subtype The subtype. Can be null.
+	 * @param string|null $type      The type of the indexable. Can be null.
+	 * @param string|null $subtype   The subtype. Can be null.
+	 * @param int|null    $object_id The object ID. Can be null.
 	 *
 	 * @return int|bool The number of permalinks changed if the query was succesful. False otherwise.
 	 */
-	public function reset_permalink( $type = null, $subtype = null ) {
+	public function reset_permalink( $type = null, $subtype = null, $object_id = null ) {
 		$query = $this->query()->set(
 			[
 				'permalink'      => null,
 				'permalink_hash' => null,
 				'version'        => 0,
-			]
+			],
 		);
 
 		if ( $type !== null ) {
@@ -533,6 +809,19 @@ class Indexable_Repository {
 			$query->where( 'object_sub_type', $subtype );
 		}
 
+		if ( $object_id !== null ) {
+			$query->where( 'object_id', $object_id );
+		}
+
 		return $query->update_many();
+	}
+
+	/**
+	 * Gets the total number of stored indexables.
+	 *
+	 * @return int The total number of stored indexables.
+	 */
+	public function get_total_number_of_indexables() {
+		return $this->query()->count();
 	}
 }

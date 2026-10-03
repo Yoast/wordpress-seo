@@ -1,13 +1,20 @@
+/* eslint-disable complexity */
 import { createPortal, Fragment, useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, FieldGroup, Select } from "@yoast/components";
-import { Slot } from "@wordpress/components";
 import { makeOutboundLink, join } from "@yoast/helpers";
-import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { schemaTypeOptionsPropType } from "./SchemaSettings";
-import { isFeatureEnabled } from "@yoast/feature-flag";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
+import WooCommerceUpsell from "./WooCommerceUpsell";
+import { useSelect } from "@wordpress/data";
+import { noop } from "lodash";
+
+/**
+ * @typedef {Object} SchemaTypeOption
+ * @property {string} name The name.
+ * @property {string} value The value.
+ */
 
 const NewsLandingPageLink = makeOutboundLink();
 
@@ -15,13 +22,15 @@ const SchemaContainer = styled.div`
 	padding: 16px;
 `;
 
+const STORE = "yoast-seo/editor";
+
 /**
  * The NewsAlert upsell.
  *
- * @param {Object} props      The props Object.
- * @param {Object} props.show Whether or not to show the NewsAlert
+ * @param {string} location The location identifier.
+ * @param {boolean} show Whether or not to show the NewsAlert.
  *
- * @returns {WPElement|Null} The NewsAlert component.
+ * @returns {JSX.Element} The NewsAlert, or null if not showing.
  */
 function NewsAlert( { location, show } ) {
 	if ( ! show ) {
@@ -67,7 +76,10 @@ NewsAlert.propTypes = {
  * @returns {Object[]} A copy of the schema type options.
  */
 const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) => {
-	const schemaOption = schemaTypeOptions.find( option => option.value === defaultType );
+	const isProduct = useSelect( ( select ) => select( STORE ).getIsProduct(), [] );
+	const isWooSeoActive = useSelect( select => select( STORE ).getIsWooSeoActive(), [] );
+	const disablePageTypeSelect = isProduct && isWooSeoActive;
+	const schemaOption = disablePageTypeSelect ? { name: __( "Item Page", "wordpress-seo" ), value: "ItemPage" } : schemaTypeOptions.find( option => option.value === defaultType );
 	return [
 		{
 			name: sprintf(
@@ -90,41 +102,43 @@ const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) =>
  * @returns {string} A string that contains tags that will be interpolated.
  */
 const footerText = ( postTypeName ) => sprintf(
-	/* translators: %1$s expands to the plural name of the current post type, %2$s and %3$s expand to a link to the Search Appearance Settings page */
-	__( "You can change the default type for %1$s in your %2$sSearch Appearance Settings%3$s.", "wordpress-seo" ),
+	/* translators: %1$s expands to the plural name of the current post type, %2$s and %3$s expand to a link to the Settings page */
+	__( "You can change the default type for %1$s under Content types in the %2$sSettings%3$s.", "wordpress-seo" ),
 	postTypeName,
-	"{{link}}",
-	"{{/link}}"
+	"<link>",
+	"</link>"
 );
 
 /**
  * Interpolates the footerText string with an actual link component.
  *
  * @param {string} postTypeName  The name of the current post type.
+ * @param {string} href          The href for the link.
  *
  * @returns {string} A link to the Search Appearance settings.
  */
-const footerWithLink = ( postTypeName ) => interpolateComponents(
-	{
-		mixedString: footerText( postTypeName ),
-		// eslint-disable-next-line jsx-a11y/anchor-has-content
-		components: { link: <a href="/wp-admin/admin.php?page=wpseo_titles#top#post-types" target="_blank" /> },
-	}
+const footerWithLink = ( postTypeName, href ) => safeCreateInterpolateElement(
+	footerText( postTypeName ),
+	// eslint-disable-next-line jsx-a11y/anchor-has-content
+	{ link: <a href={ href } target="_blank" rel="noreferrer" /> }
 );
 
 /**
  * The 'normal' header for the Schema tab, for when the Schema blocks have not been enabled.
  *
- * @param {Object} props The props.
+ * @param {string} helpTextTitle The help text title.
+ * @param {string} helpTextLink The help text link.
+ * @param {string} helpTextDescription The help text description.
  *
  * @returns {JSX.Element} The header.
  */
-const Header = ( props ) => {
+const Header = ( { helpTextTitle, helpTextLink, helpTextDescription } ) => {
 	return <FieldGroup
-		label={ props.helpTextTitle }
-		linkTo={ props.helpTextLink }
+		label={ helpTextTitle }
+		linkTo={ helpTextLink }
+		/* translators: Hidden accessibility text. */
 		linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
-		description={ props.helpTextDescription }
+		description={ helpTextDescription }
 	/>;
 };
 
@@ -132,25 +146,6 @@ Header.propTypes = {
 	helpTextTitle: PropTypes.string.isRequired,
 	helpTextLink: PropTypes.string.isRequired,
 	helpTextDescription: PropTypes.string.isRequired,
-};
-
-/**
- * The header for the Schema tab, for when the Schema blocks have been enabled.
- *
- * @param {Object} props The props.
- *
- * @returns {JSX.Element} The header.
- */
-const SchemaBlocksHeader = ( props ) => {
-	return <p>
-		{ props.helpTextDescription + " " }
-		<a href={ props.helpTextLink }>{ __( "Read more about Schema.", "wordpress-seo" ) }</a>
-	</p>;
-};
-
-SchemaBlocksHeader.propTypes = {
-	helpTextDescription: PropTypes.string.isRequired,
-	helpTextLink: PropTypes.string.isRequired,
 };
 
 /**
@@ -171,63 +166,111 @@ function isNewsArticleType( selectedValue, defaultValue ) {
 /**
  * Returns the content of the schema tab.
  *
- * @param {object} props Component props.
+ * @param {function} [schemaPageTypeChange=noop] Callback for page type change.
+ * @param {?string} [schemaPageTypeSelected=null] The selected page type.
+ * @param {Array<SchemaTypeOption>} pageTypeOptions The page type options.
+ * @param {function} [schemaArticleTypeChange=noop] Callback for article type change.
+ * @param {?string} [schemaArticleTypeSelected=null] The selected article type.
+ * @param {Array<SchemaTypeOption>} articleTypeOptions The article type options.
+ * @param {boolean} showArticleTypeInput Whether to show the article type input.
+ * @param {string} additionalHelpTextLink The additional help text link.
+ * @param {string} helpTextLink The help text link.
+ * @param {string} helpTextTitle The help text title.
+ * @param {string} helpTextDescription The help text description.
+ * @param {string} postTypeName The post type name.
+ * @param {boolean} [displayFooter=false] Whether to display the footer.
+ * @param {string} defaultPageType The default page type.
+ * @param {string} defaultArticleType The default article type.
+ * @param {string} location The location identifier.
+ * @param {boolean} [isNewsEnabled=false] Whether news is enabled.
  *
  * @returns {JSX.Element} The schema tab content.
  */
-const Content = ( props ) => {
-	const schemaPageTypeOptions = getSchemaTypeOptions( props.pageTypeOptions, props.defaultPageType, props.postTypeName );
-	const schemaArticleTypeOptions = getSchemaTypeOptions( props.articleTypeOptions, props.defaultArticleType, props.postTypeName );
+const Content = ( {
+	schemaPageTypeChange = noop,
+	schemaPageTypeSelected = null,
+	pageTypeOptions,
+	schemaArticleTypeChange = noop,
+	schemaArticleTypeSelected = null,
+	articleTypeOptions,
+	showArticleTypeInput,
+	additionalHelpTextLink,
+	helpTextLink,
+	helpTextTitle,
+	helpTextDescription,
+	postTypeName,
+	displayFooter = false,
+	defaultPageType,
+	defaultArticleType,
+	location,
+	isNewsEnabled = false,
+} ) => {
+	const schemaPageTypeOptions = getSchemaTypeOptions( pageTypeOptions, defaultPageType, postTypeName );
+	const schemaArticleTypeOptions = getSchemaTypeOptions( articleTypeOptions, defaultArticleType, postTypeName );
+	const woocommerceUpsellLink = useSelect( select => select( STORE ).selectLink( "https://yoa.st/product-schema-metabox" ), [] );
+	const woocommerceUpsell = useSelect( ( select ) => select( STORE ).getIsWooSeoUpsell(), [] );
+	const [ focusedArticleType, setFocusedArticleType ] = useState( schemaArticleTypeSelected );
+	const woocommerceUpsellText = __( "Want your products stand out in search results with rich results like price, reviews and more?", "wordpress-seo" );
+	const isProduct = useSelect( ( select ) => select( STORE ).getIsProduct(), [] );
+	const isWooSeoActive = useSelect( select => select( STORE ).getIsWooSeoActive(), [] );
+	const settingsLink = useSelect( select => select( STORE ).selectAdminLink( "?page=wpseo_page_settings" ), [] );
 
-	const schemaBlocksEnabled = isFeatureEnabled( "SCHEMA_BLOCKS" );
+	const disablePageTypeSelect = isProduct && isWooSeoActive;
 
-	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
+	const handleOptionChange = useCallback( ( _, value ) => {
+		setFocusedArticleType( value );
+	}, [] );
 
-	const handleOptionChange = useCallback(
-		( _, value ) => {
-			setFocusedArticleType( value );
-		},
-		[ focusedArticleType ] );
-
-	useEffect(
-		() => {
-			handleOptionChange( null, props.schemaArticleTypeSelected );
-		},
-		[ props.schemaArticleTypeSelected ]
-	);
+	useEffect( () => {
+		handleOptionChange( null, schemaArticleTypeSelected );
+	}, [ schemaArticleTypeSelected ] );
 
 	return (
 		<Fragment>
-			{ schemaBlocksEnabled ? <SchemaBlocksHeader { ...props } /> : <Header { ...props } /> }
-			{ schemaBlocksEnabled && <Slot name={ join( [ "yoast-schema-blocks-analysis", props.location ] ) } /> }
+			<Header helpTextLink={ helpTextLink } helpTextTitle={ helpTextTitle } helpTextDescription={ helpTextDescription } />
 			<FieldGroup
 				label={ __( "What type of page or content is this?", "wordpress-seo" ) }
-				linkTo={ props.additionalHelpTextLink }
+				linkTo={ additionalHelpTextLink }
+				/* translators: Hidden accessibility text. */
 				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
 			/>
+			{ woocommerceUpsell && <WooCommerceUpsell link={ woocommerceUpsellLink } text={ woocommerceUpsellText } /> }
 			<Select
-				id={ join( [ "yoast-schema-page-type", props.location ] ) }
+				id={ join( [ "yoast-schema-page-type", location ] ) }
 				options={ schemaPageTypeOptions }
 				label={ __( "Page type", "wordpress-seo" ) }
-				onChange={ props.schemaPageTypeChange }
-				selected={ props.schemaPageTypeSelected }
+				onChange={ schemaPageTypeChange }
+				selected={ disablePageTypeSelect ? "ItemPage" : schemaPageTypeSelected }
+				disabled={ disablePageTypeSelect }
 			/>
-			{ props.showArticleTypeInput && <Select
-				id={ join( [ "yoast-schema-article-type", props.location ] ) }
+			{ showArticleTypeInput && <Select
+				id={ join( [ "yoast-schema-article-type", location ] ) }
 				options={ schemaArticleTypeOptions }
 				label={ __( "Article type", "wordpress-seo" ) }
-				onChange={ props.schemaArticleTypeChange }
-				selected={ props.schemaArticleTypeSelected }
+				onChange={ schemaArticleTypeChange }
+				selected={ schemaArticleTypeSelected }
 				onOptionFocus={ handleOptionChange }
 			/> }
 			<NewsAlert
-				location={ props.location }
-				show={ ! props.isNewsEnabled && isNewsArticleType( focusedArticleType, props.defaultArticleType ) }
+				location={ location }
+				show={ ! isNewsEnabled && isNewsArticleType( focusedArticleType, defaultArticleType ) }
 			/>
-			{ props.displayFooter && <p>{ footerWithLink( props.postTypeName ) }</p> }
+			{ displayFooter && ! disablePageTypeSelect && <p>{ footerWithLink( postTypeName, settingsLink ) }</p> }
+			{ disablePageTypeSelect && <p>
+				{ sprintf(
+					/* translators: %1$s expands to Yoast WooCommerce SEO. */
+					__( "You have %1$s activated on your site, automatically setting the Page type for your products to 'Item Page'. As a result, the Page type selection is disabled.", "wordpress-seo" ),
+					"Yoast WooCommerce SEO"
+				) }
+			</p> }
 		</Fragment>
 	);
 };
+
+const schemaTypeOptionsPropType = PropTypes.arrayOf( PropTypes.shape( {
+	name: PropTypes.string,
+	value: PropTypes.string,
+} ) );
 
 Content.propTypes = {
 	schemaPageTypeChange: PropTypes.func,
@@ -249,38 +292,73 @@ Content.propTypes = {
 	isNewsEnabled: PropTypes.bool,
 };
 
-Content.defaultProps = {
-	schemaPageTypeChange: () => {},
-	schemaPageTypeSelected: null,
-	schemaArticleTypeChange: () => {},
-	schemaArticleTypeSelected: null,
-	displayFooter: false,
-	isNewsEnabled: false,
-};
-
 /**
  * Renders the schema tab.
  *
- * @param {object} props The component props.
+ * @param {boolean} [showArticleTypeInput=false] Whether to show the article type input.
+ * @param {string} [articleTypeLabel=""] The article type label.
+ * @param {string} [additionalHelpTextLink=""] The additional help text link.
+ * @param {string} pageTypeLabel The page type label.
+ * @param {string} helpTextLink The help text link.
+ * @param {string} helpTextTitle The help text title.
+ * @param {string} helpTextDescription The help text description.
+ * @param {boolean} isMetabox Whether this is in the metabox.
+ * @param {string} postTypeName The post type name.
+ * @param {boolean} [displayFooter=false] Whether to display the footer.
+ * @param {function} loadSchemaArticleData Callback to load schema article data.
+ * @param {function} loadSchemaPageData Callback to load schema page data.
+ * @param {string} location The location identifier.
+ * @param {...Object} [props] Additional props.
  *
- * @returns {React.Component} The schema tab.
+ * @returns {JSX.Element} The schema tab.
  */
-const SchemaTab = ( props ) => {
-	if ( props.isMetabox ) {
+const SchemaTab = ( {
+	isMetabox,
+	showArticleTypeInput = false,
+	articleTypeLabel = "",
+	additionalHelpTextLink = "",
+	pageTypeLabel,
+	helpTextLink,
+	helpTextTitle,
+	helpTextDescription,
+	postTypeName,
+	displayFooter = false,
+	loadSchemaArticleData,
+	loadSchemaPageData,
+	location,
+	...props
+} ) => {
+	// Leaving out the "isMetabox" prop.
+	const content = <Content
+		showArticleTypeInput={ showArticleTypeInput }
+		articleTypeLabel={ articleTypeLabel }
+		additionalHelpTextLink={ additionalHelpTextLink }
+		pageTypeLabel={ pageTypeLabel }
+		helpTextLink={ helpTextLink }
+		helpTextTitle={ helpTextTitle }
+		helpTextDescription={ helpTextDescription }
+		postTypeName={ postTypeName }
+		displayFooter={ displayFooter }
+		loadSchemaArticleData={ loadSchemaArticleData }
+		loadSchemaPageData={ loadSchemaPageData }
+		location={ location }
+		{ ...props }
+	/>;
+
+	if ( isMetabox ) {
 		return createPortal(
 			<SchemaContainer>
-				<Content { ...props } />
+				{ content }
 			</SchemaContainer>,
 			document.getElementById( "wpseo-meta-section-schema" )
 		);
 	}
 
-	return (
-		<Content { ...props } />
-	);
+	return content;
 };
 
 SchemaTab.propTypes = {
+	isMetabox: PropTypes.bool.isRequired,
 	showArticleTypeInput: PropTypes.bool,
 	articleTypeLabel: PropTypes.string,
 	additionalHelpTextLink: PropTypes.string,
@@ -288,19 +366,11 @@ SchemaTab.propTypes = {
 	helpTextLink: PropTypes.string.isRequired,
 	helpTextTitle: PropTypes.string.isRequired,
 	helpTextDescription: PropTypes.string.isRequired,
-	isMetabox: PropTypes.bool.isRequired,
 	postTypeName: PropTypes.string.isRequired,
 	displayFooter: PropTypes.bool,
 	loadSchemaArticleData: PropTypes.func.isRequired,
 	loadSchemaPageData: PropTypes.func.isRequired,
 	location: PropTypes.string.isRequired,
-};
-
-SchemaTab.defaultProps = {
-	showArticleTypeInput: false,
-	articleTypeLabel: "",
-	additionalHelpTextLink: "",
-	displayFooter: false,
 };
 
 export default SchemaTab;

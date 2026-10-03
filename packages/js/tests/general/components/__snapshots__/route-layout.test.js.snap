@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RouteLayout renders the component correctly for custom props 1`] = `
+<div>
+  <header
+    class="yst-p-8 yst-border-b yst-border-slate-200"
+  >
+    <div
+      class="yst-max-w-screen-sm"
+    >
+      <h1
+        class="yst-title yst-title--1"
+      >
+        Custom title
+      </h1>
+      <p
+        class="yst-text-tiny yst-mt-3"
+      >
+        custom description
+      </p>
+    </div>
+  </header>
+  empty component 
+  <div>
+    <div
+      aria-live="assertive"
+      role="log"
+      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
+    />
+    <div
+      aria-live="assertive"
+      role="log"
+      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
+    />
+    <div
+      aria-live="polite"
+      role="log"
+      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
+    >
+      Custom title Dashboard - Yoast SEO
+    </div>
+    <div
+      aria-live="polite"
+      role="log"
+      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
+    />
+  </div>
+</div>
+`;
+
+exports[`RouteLayout renders the component correctly for default props 1`] = `
+<div>
+  <header
+    class="yst-p-8 yst-border-b yst-border-slate-200"
+  >
+    <div
+      class="yst-max-w-screen-sm"
+    >
+      <h1
+        class="yst-title yst-title--1"
+      >
+        Title
+      </h1>
+      <p
+        class="yst-text-tiny yst-mt-3"
+      >
+        Description
+      </p>
+    </div>
+  </header>
+  empty component 
+  <div>
+    <div
+      aria-live="assertive"
+      role="log"
+      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
+    />
+    <div
+      aria-live="assertive"
+      role="log"
+      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
+    />
+    <div
+      aria-live="polite"
+      role="log"
+      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
+    >
+      Title Dashboard - Yoast SEO
+    </div>
+    <div
+      aria-live="polite"
+      role="log"
+      style="border: 0px; height: 1px; margin: -1px; overflow: hidden; white-space: nowrap; padding: 0px; width: 1px; position: absolute;"
+    />
+  </div>
+</div>
+`;

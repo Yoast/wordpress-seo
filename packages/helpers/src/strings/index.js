@@ -1,7 +1,3 @@
-import { stripFullTags as stripHTMLTags } from "./stripHTMLTags";
-import stripSpaces from "./stripSpaces";
-
-export {
-	stripHTMLTags,
-	stripSpaces,
-};
+export { stripFullTags as stripHTMLTags } from "./stripHTMLTags";
+export { default as stripSpaces } from "./stripSpaces";
+export { stripTagsFromHtmlString } from "./stripTagsFromHtmlString";

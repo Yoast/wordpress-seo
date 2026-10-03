@@ -79,7 +79,8 @@ class WPSEO_Sitemap_Image_Parser {
 			return $images;
 		}
 
-		$thumbnail_id = get_post_thumbnail_id( $post->ID );
+		// Pass the post object rather than its ID, so the post does not get re-fetched from the database.
+		$thumbnail_id = get_post_thumbnail_id( $post );
 
 		if ( $thumbnail_id ) {
 
@@ -124,9 +125,40 @@ class WPSEO_Sitemap_Image_Parser {
 		 * @param array $images  Array of image items.
 		 * @param int   $post_id ID of the post.
 		 */
-		$images = apply_filters( 'wpseo_sitemap_urlimages', $images, $post->ID );
+		$image_list = apply_filters( 'wpseo_sitemap_urlimages', $images, $post->ID );
+		if ( isset( $image_list ) && is_array( $image_list ) ) {
+			$images = $image_list;
+		}
 
 		return $images;
+	}
+
+	/**
+	 * Primes the meta caches of the featured images of the given posts.
+	 *
+	 * This parser reads each post's featured image file location from the attachment's
+	 * meta individually; warming that meta cache in bulk avoids one query per post on
+	 * setups without a persistent object cache.
+	 *
+	 * @param WP_Post[] $posts The posts to prime the featured-image caches for.
+	 *
+	 * @return void
+	 */
+	public function prime_thumbnail_caches( $posts ) {
+
+		$thumbnail_ids = [];
+
+		foreach ( $posts as $post ) {
+			$thumbnail_id = get_post_thumbnail_id( $post );
+
+			if ( $thumbnail_id ) {
+				$thumbnail_ids[] = $thumbnail_id;
+			}
+		}
+
+		if ( ! empty( $thumbnail_ids ) ) {
+			update_meta_cache( 'post', array_unique( $thumbnail_ids ) );
+		}
 	}
 
 	/**
@@ -145,6 +177,17 @@ class WPSEO_Sitemap_Image_Parser {
 			$images[] = [
 				'src'   => $this->get_absolute_url( $this->image_url( $attachment->ID ) ),
 			];
+		}
+
+		/**
+		 * Filter images to be included for the term in XML sitemap.
+		 *
+		 * @param array $image_list Array of image items.
+		 * @param int   $term_id    ID of the post.
+		 */
+		$image_list = apply_filters( 'wpseo_sitemap_urlimages_term', $images, $term->term_id );
+		if ( isset( $image_list ) && is_array( $image_list ) ) {
+			$images = $image_list;
 		}
 
 		return $images;
@@ -199,7 +242,12 @@ class WPSEO_Sitemap_Image_Parser {
 				&& preg_match( '|wp-image-(?P<id>\d+)|', $class, $matches )
 				&& get_post_status( $matches['id'] )
 			) {
-				$src = $this->image_url( $matches['id'] );
+				$query_params = wp_parse_url( $src, PHP_URL_QUERY );
+				$src          = $this->image_url( $matches['id'] );
+
+				if ( $query_params ) {
+					$src .= '?' . $query_params;
+				}
 			}
 
 			$src = $this->get_absolute_url( $src );
@@ -238,7 +286,7 @@ class WPSEO_Sitemap_Image_Parser {
 			$id = $post_id;
 
 			if ( ! empty( $gallery['id'] ) ) {
-				$id = intval( $gallery['id'] );
+				$id = (int) $gallery['id'];
 			}
 
 			// Forked from core gallery_shortcode() to have exact same logic. R.
@@ -448,11 +496,11 @@ class WPSEO_Sitemap_Image_Parser {
 			[
 				'posts_per_page' => count( $ids_to_include ),
 				'post__in'       => $ids_to_include,
-			]
+			],
 		);
 
 		$gallery_attachments = [];
-		foreach ( $attachments as $key => $val ) {
+		foreach ( $attachments as $val ) {
 			$gallery_attachments[ $val->ID ] = $val;
 		}
 

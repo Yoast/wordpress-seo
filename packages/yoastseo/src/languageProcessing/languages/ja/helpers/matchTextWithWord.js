@@ -1,5 +1,6 @@
 import getContentWords from "./getContentWords";
 import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest";
+import { normalizeSingle } from "../../../helpers/sanitize/quotes";
 
 /**
  * Checks for word matches in a text and returns an array containing the matched word(s).
@@ -10,9 +11,24 @@ import processExactMatchRequest from "../../../helpers/match/processExactMatchRe
  * @returns {Array} An array of the matched word(s).
  */
 export default function( text, wordToMatch ) {
+	/*
+     * Lowercase the text so that it matches the wordToMatch which is already lowercased.
+     * Note that Japanese doesn't differentiate between upper and lower case, so this is only needed in case
+     * the text contains non-Japanese characters.
+     */
+	text = text.toLowerCase();
+
 	// Check if the exact match is requested.
 	const isExactMatchRequested = processExactMatchRequest( wordToMatch );
 	if ( isExactMatchRequested.exactMatchRequested ) {
+		/*
+		 * Normalize single quotes in case they differ between the text and the word to match.
+		 * Normalizing is only needed for exact matching, because with non-exact matching single quotes are considered
+		 * word boundaries.
+		 * Quotes in wordToMatch are already normalized at an earlier point.
+		*/
+		text = normalizeSingle( text );
+
 		const keyphrase = isExactMatchRequested.keyphrase;
 		const matches = [];
 

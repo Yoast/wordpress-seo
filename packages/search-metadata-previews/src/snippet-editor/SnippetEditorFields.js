@@ -6,21 +6,20 @@ import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
-import { colors } from "@yoast/style-guide";
+import { withCaretStyles } from "@yoast/style-guide";
 import {
 	ReplacementVariableEditor,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 	StyledEditor,
 } from "@yoast/replacement-variable-editor";
-import { ProgressBar } from "@yoast/components";
-import { VariableEditorInputContainer, SimulatedLabel } from "@yoast/components";
-import { withCaretStyles } from "@yoast/style-guide";
+import { ProgressBar, VariableEditorInputContainer, SimulatedLabel } from "@yoast/components";
 
 // Internal dependencies.
 import {
 	lengthProgressShape,
 } from "./constants";
+import { getProgressColor } from "../helpers/progress";
 
 const SlugInput = styled.input`
 	border: none;
@@ -191,7 +190,7 @@ class SnippetEditorFields extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	 onFocusTitle() {
+	onFocusTitle() {
 		this.props.onFocus( "title" );
 	}
 
@@ -231,7 +230,7 @@ class SnippetEditorFields extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	 onChangeSlug( event ) {
+	onChangeSlug( event ) {
 		this.props.onChange( "slug", event.target.value );
 	}
 
@@ -240,7 +239,7 @@ class SnippetEditorFields extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	 onFocusDescription() {
+	onFocusDescription() {
 		this.props.onFocus( "description" );
 	}
 
@@ -307,7 +306,7 @@ class SnippetEditorFields extends React.Component {
 				<ProgressBar
 					max={ titleLengthProgress.max }
 					value={ titleLengthProgress.actual }
-					progressColor={ this.getProgressColor( titleLengthProgress.score ) }
+					progressColor={ getProgressColor( titleLengthProgress.score ) }
 				/>
 				<SimulatedLabel
 					id={ slugLabelId }
@@ -350,29 +349,10 @@ class SnippetEditorFields extends React.Component {
 				<ProgressBar
 					max={ descriptionLengthProgress.max }
 					value={ descriptionLengthProgress.actual }
-					progressColor={ this.getProgressColor( descriptionLengthProgress.score ) }
+					progressColor={ getProgressColor( descriptionLengthProgress.score ) }
 				/>
 			</StyledEditor>
 		);
-	}
-
-	/**
-	 * Returns the progress color for a given score.
-	 *
-	 * @param {number} score The score to determine a color for.
-	 *
-	 * @returns {string} A hex color.
-	 */
-	getProgressColor( score ) {
-		if ( score >= 7 ) {
-			return colors.$color_good;
-		}
-
-		if ( score >= 5 ) {
-			return colors.$color_ok;
-		}
-
-		return colors.$color_bad;
 	}
 }
 

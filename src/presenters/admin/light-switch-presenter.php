@@ -137,7 +137,7 @@ class Light_Switch_Presenter extends Abstract_Presenter {
 			$strong_class, // phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $strong_class output is hardcoded.
 			\esc_attr( $this->var . '-label' ),
 			\esc_html( $this->label ),
-			$this->help // phpcs:ignore WordPress.Security.EscapeOutput -- Reason: The help contains HTML.
+			$this->help, // phpcs:ignore WordPress.Security.EscapeOutput -- Reason: The help contains HTML.
 		);
 		$output .= '<label class="' . $class . '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>';
 		$output .= \sprintf(
@@ -146,7 +146,7 @@ class Light_Switch_Presenter extends Abstract_Presenter {
 			\esc_attr( $this->var ),
 			\esc_attr( $this->name ),
 			\checked( $this->value, 'on', false ), // phpcs:ignore WordPress.Security.EscapeOutput -- Reason: The output is hardcoded by WordPress.
-			$this->disabled_attribute // phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded.
+			$this->disabled_attribute, // phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded.
 		);
 		$output .= '<span aria-hidden="true">';
 		$output .= '<span>' . \esc_html( $off_button ) . '</span>';

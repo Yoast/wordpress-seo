@@ -1,5 +1,7 @@
-/** @module config/transitionWords */
-
+/**
+ * Returns an array with the transition words to be used by the assessments.
+ * @type {string[][]} The array filled with the transition words.
+ */
 export default [
 	[ "だから" ],
 	[ "その", "ため" ],

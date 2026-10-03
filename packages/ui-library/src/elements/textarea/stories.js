@@ -1,24 +1,20 @@
 import Textarea from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
+import { component } from "./docs";
 
-export default {
-	title: "1. Elements/Textarea",
-	component: Textarea,
-	argTypes: {
-		cols: { defaultValue: 20 },
-		rows: { defaultValue: 2 },
-	},
+export const Factory = {
 	parameters: {
-		docs: {
-			description: {
-				component: "A simple textarea component.",
-			},
-		},
+		controls: { disable: false },
 	},
 };
 
-export const Factory = {
-	component: ( args ) => <Textarea { ...args } />,
+export default {
+	title: "1) Elements/Textarea",
+	component: Textarea,
 	parameters: {
-		controls: { disable: false },
+		docs: {
+			description: { component },
+			page: InteractiveDocsPage,
+		},
 	},
 };

@@ -13,10 +13,9 @@ import syllables from "./config/syllables.json";
 import getClauses from "./helpers/getClauses";
 import getStemmer from "./helpers/getStemmer";
 import fleschReadingScore from "./helpers/calculateFleschReadingScore";
-import checkIfWordIsComplex from "./helpers/checkIfWordIsComplex";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class Researcher extends AbstractResearcher {
 	/**
@@ -42,7 +41,6 @@ export default class Researcher extends AbstractResearcher {
 			getClauses,
 			getStemmer,
 			fleschReadingScore,
-			checkIfWordIsComplex,
 		} );
 	}
 }

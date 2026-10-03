@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Nektar, çiçeklerin ürettiği, şekerce zengin, böcek ve kuş benzeri tozlaşmaya yardımcı hayvanları kendine çeken salgıdır.",
 	title: "Nektar",
 	titleWidth: 450,
+	textTitle: "Nektar",
 	locale: "tr_TR",
 	permalink: "https://tr.wikipedia.org/wiki/Nektar",
 	slug: "Nektar",
@@ -28,7 +29,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: -50,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 5 times. That's way more than the recommended maximum of 3 times for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 8 times. That's way more than the recommended maximum of 4 times for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -43,17 +44,17 @@ const expectedResults = {
 	subheadingsKeyword: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!",
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: More than 75% of your H2 and H3 subheadings reflect the topic of your copy. That's too much. <a href='https://yoa.st/33n' target='_blank'>Don't over-optimize</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: There are no links which use your keyphrase or synonym as their anchor text. Nice!",
 	},
 	textLength: {
 		isApplicable: true,
 		score: -10,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 112 words. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' target='_blank'>Add more content</a>.",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 124 words. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' target='_blank'>Add more content</a>.",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -89,8 +90,9 @@ const expectedResults = {
 		isApplicable: false,
 	},
 	keyphraseDistribution: {
-		// The text doesnt contain more than 15 sentences.
-		isApplicable: false,
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -100,7 +102,7 @@ const expectedResults = {
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: There are no paragraphs that are too long. Great job!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -108,13 +110,14 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
-		// This assessment is not applicable to this paper as the text contains less than 200 words.
-		isApplicable: false,
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You are not using too much passive voice. That's great!",
 	},
 	textPresence: {
 		isApplicable: true,
@@ -124,12 +127,12 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!",
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings. That's great!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes with at least" +
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Images on this page do not have alt attributes with at least" +
 			" half of the words from your keyphrase. <a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!",
 	},
 	imageCount: {
@@ -139,6 +142,16 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

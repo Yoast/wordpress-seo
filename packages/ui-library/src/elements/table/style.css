@@ -1,0 +1,115 @@
+@layer components {
+	.yst-root {
+		.yst-table-wrapper {
+			table {
+				@apply yst-min-w-full;
+
+				.yst-table-header {
+					@apply yst-px-3 yst-py-4 yst-text-start yst-text-sm yst-font-semibold yst-text-slate-900;
+				}
+
+				.yst-table-cell {
+					@apply yst-px-3 yst-py-4 yst-text-sm yst-text-slate-600;
+				}
+
+				.yst-table-checkbox-header {
+					@apply yst-px-3 yst-py-3.5 yst-text-start yst-text-sm yst-font-semibold yst-text-slate-900 yst-w-10;
+				}
+
+				.yst-table-checkbox-cell {
+					@apply yst-px-3 yst-py-3.5 yst-text-sm yst-text-slate-600 yst-w-10;
+				}
+
+				.yst-table-image-cell__image-container {
+					@apply
+					yst-flex
+					yst-items-center
+					yst-justify-center
+					yst-w-16 yst-h-16
+					yst-overflow-hidden
+					yst-rounded
+					yst-border
+					yst-border-slate-300
+					yst-bg-white;
+				}
+
+				.yst-table-image-cell__image {
+					@apply
+					yst-w-full
+					yst-h-full
+					yst-object-cover
+					yst-object-center;
+				}
+
+				.yst-table-image-cell__placeholder {
+					@apply
+					yst-w-5 yst-h-5
+					yst-text-slate-400;
+				}
+			}
+		}
+
+		.yst-table--default {
+			@apply yst-rounded-lg yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5;
+
+			table {
+				/* Firefox drops collapsed dividers next to tall cells; separate borders fix this. */
+				border-collapse: separate;
+				border-spacing: 0;
+
+				thead {
+					.yst-table-header,
+					.yst-table-checkbox-header {
+						@apply first:yst-rounded-ss-lg last:yst-rounded-se-lg yst-bg-slate-50 yst-border-b yst-border-slate-300;
+					}
+				}
+
+				tbody > tr:not(:first-child) > * {
+					@apply yst-border-t yst-border-gray-200;
+				}
+
+				.yst-table-row:last-of-type .yst-table-cell,
+				.yst-table-row:last-of-type .yst-table-checkbox-cell {
+					@apply first:yst-rounded-es-lg last:yst-rounded-ee-lg yst-bg-white;
+				}
+
+				&:has(tfoot) tbody {
+					.yst-table-row:last-of-type .yst-table-cell,
+					.yst-table-row:last-of-type .yst-table-checkbox-cell {
+						@apply first:yst-rounded-none last:yst-rounded-none;
+					}
+				}
+			}
+		}
+
+		.yst-table--minimal {
+			table {
+				@apply yst-divide-y yst-divide-slate-300;
+
+				.yst-table-header,
+				.yst-table-checkbox-header {
+					@apply yst-align-bottom yst-py-2;
+				}
+
+				.yst-table-cell,
+				.yst-table-checkbox-cell {
+					@apply yst-py-2 first:yst-ps-0 last:yst-pe-0;
+				}
+
+				.yst-table-header,
+				.yst-table-checkbox-header {
+					@apply first:yst-ps-0 last:yst-pe-0;
+				}
+
+				.yst-table-checkbox-header,
+				.yst-table-checkbox-cell {
+					@apply first:yst-w-7 last:yst-w-7;
+				}
+
+				tbody {
+					@apply yst-divide-y yst-divide-gray-200 yst-bg-white;
+				}
+			}
+		}
+	}
+}

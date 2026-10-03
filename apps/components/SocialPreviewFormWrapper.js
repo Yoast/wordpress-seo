@@ -55,7 +55,7 @@ const SocialPreviewFormWrapper = () =>
 	<ExamplesContainer>
 		<h1>Regular Facebook</h1>
 		<SocialMetadataPreviewForm
-			socialMediumName="Facebook"
+			socialMediumName="Social"
 			replacementVariables={ replacementVariables }
 			recommendedReplacementVariables={ recommendedReplacementVariables }
 			description=""
@@ -67,9 +67,9 @@ const SocialPreviewFormWrapper = () =>
 			imageWarnings={ [] }
 			imageSelected={ false }
 		/>
-		<h1>Regular Twitter with selected image</h1>
+		<h1>Regular X with selected image</h1>
 		<SocialMetadataPreviewForm
-			socialMediumName="Twitter"
+			socialMediumName="X"
 			replacementVariables={ replacementVariables }
 			recommendedReplacementVariables={ recommendedReplacementVariables }
 			description=""
@@ -81,9 +81,9 @@ const SocialPreviewFormWrapper = () =>
 			imageWarnings={ [] }
 			imageSelected={ true }
 		/>
-		<h1>Twitter with warnings</h1>
+		<h1>X with warnings</h1>
 		<SocialMetadataPreviewForm
-			socialMediumName="Twitter"
+			socialMediumName="X"
 			replacementVariables={ replacementVariables }
 			recommendedReplacementVariables={ recommendedReplacementVariables }
 			description=""

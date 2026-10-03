@@ -1,12 +1,15 @@
-/* eslint-disable no-undefined */
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 
 const classNameMap = {
 	variant: {
 		info: "yst-badge--info",
 		upsell: "yst-badge--upsell",
 		plain: "yst-badge--plain",
+		success: "yst-badge--success",
+		error: "yst-badge--error",
+		ai: "yst-badge--ai",
 	},
 	size: {
 		"default": "",
@@ -23,15 +26,16 @@ const classNameMap = {
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Badge component.
  */
-const Badge = ( {
+const Badge = forwardRef( ( {
 	children,
 	as: Component = "span",
 	variant = "info",
 	size = "default",
 	className = "",
 	...props
-} ) => (
+}, ref ) => (
 	<Component
+		ref={ ref }
 		className={ classNames(
 			"yst-badge",
 			classNameMap.variant[ variant ],
@@ -42,14 +46,17 @@ const Badge = ( {
 	>
 		{ children }
 	</Component>
-);
+) );
 
-Badge.propTypes = {
+const propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	size: PropTypes.oneOf( Object.keys( classNameMap.size ) ),
 	className: PropTypes.string,
 };
+
+Badge.displayName = "Badge";
+Badge.propTypes = propTypes;
 
 export default Badge;

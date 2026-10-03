@@ -19,6 +19,8 @@ class AddIndexableObjectIdAndTypeIndex extends Migration {
 
 	/**
 	 * Migration up.
+	 *
+	 * @return void
 	 */
 	public function up() {
 		$this->add_index(
@@ -29,12 +31,14 @@ class AddIndexableObjectIdAndTypeIndex extends Migration {
 			],
 			[
 				'name' => 'object_id_and_type',
-			]
+			],
 		);
 	}
 
 	/**
 	 * Migration down.
+	 *
+	 * @return void
 	 */
 	public function down() {
 		$this->remove_index(
@@ -45,7 +49,7 @@ class AddIndexableObjectIdAndTypeIndex extends Migration {
 			],
 			[
 				'name' => 'object_id_and_type',
-			]
+			],
 		);
 	}
 

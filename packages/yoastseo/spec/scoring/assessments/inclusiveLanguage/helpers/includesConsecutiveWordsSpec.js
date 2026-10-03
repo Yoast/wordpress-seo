@@ -11,7 +11,7 @@ describe( "The includesConsecutiveWords helper", () => {
 		const words = "with some".split( " " );
 		expect( includesConsecutiveWords( sentence, words ) ).toEqual( [ 2, 6 ] );
 	} );
-	it( "should return an empty array when no consecutive words are found", function() {
+	it( "should return an empty array when no consecutive words are found", () => {
 		const sentence = "a sentence with some words".split( " " );
 		const words = "no other words".split( " " );
 		expect( includesConsecutiveWords( sentence, words ) ).toEqual( [] );

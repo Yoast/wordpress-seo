@@ -1,8 +1,6 @@
-/** @module config/twoPartTransitionWords */
-
 /**
  * Returns an array with two-part transition words to be used by the assessments.
- * @returns {Array} The array filled with two-part transition words.
+ * @type {string[][]} The array filled with two-part transition words.
  */
 export default [
 	[ "à première vue", "mais à bien considérer les choses" ], [ "à première vue", "mais toute réflexion faite" ],

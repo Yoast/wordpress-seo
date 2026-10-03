@@ -8169,7 +8169,8 @@ const wordsToStem = [
 const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( wordsToStem, functionWords );
 
 describe( "Generate stems for Spanish words", () => {
-	const corpusWithStems = wordsToStemWithoutFunctionWords.map( word => [ word, stem( word, morphologyDataES ) ] );
-
-	console.log( JSON.stringify( corpusWithStems ) );
+	it( "Generate stems for Spanish words", () => {
+		const corpusWithStems = wordsToStemWithoutFunctionWords.map( word => [ word, stem( word, morphologyDataES ) ] );
+		console.log( JSON.stringify( corpusWithStems ) );
+	} );
 } );

@@ -29,7 +29,7 @@ class SocialPreviewEditor extends Component {
 			hoveredField: "",
 		};
 
-		this.SocialPreview = props.socialMediumName === "Facebook" ? FacebookPreview : TwitterPreview;
+		this.SocialPreview = props.socialMediumName === "Social" ? FacebookPreview : TwitterPreview;
 		this.setHoveredField = this.setHoveredField.bind( this );
 		this.setActiveField = this.setActiveField.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
@@ -174,6 +174,7 @@ class SocialPreviewEditor extends Component {
 					onRemoveImageClick={ onRemoveImageClick }
 					imageSelected={ !! imageUrl }
 					imageUrl={ imageUrl }
+					imageFallbackUrl={ imageFallbackUrl }
 					onTitleChange={ onTitleChange }
 					onSelectImageClick={ onSelectImageClick }
 					description={ description }

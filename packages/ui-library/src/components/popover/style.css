@@ -1,0 +1,255 @@
+@layer components {
+	.yst-root {
+
+		.yst-popover__backdrop {
+			@apply
+			yst-fixed
+			yst-inset-0
+			yst-bg-slate-500
+			yst-bg-opacity-75
+			yst-z-20;
+		}
+
+		.yst-popover__close {
+			@apply
+			yst-block
+			yst-absolute
+			yst-top-4
+			yst-end-4;
+		}
+
+		.yst-popover__close-button {
+				@apply
+				yst-bg-white
+				yst-rounded-md
+				yst-text-slate-400
+				hover:yst-text-slate-500
+				focus:yst-outline-none
+				focus:yst-ring-2
+				focus:yst-ring-offset-2
+				focus:yst-ring-primary-500;
+		}
+
+		.yst-popover__title {
+			@apply
+			yst-text-slate-800
+			rtl:yst-text-right;
+		}
+
+		.yst-popover__content {
+			@apply
+			yst-overflow-hidden
+			rtl:yst-text-right;
+		}
+
+		.yst-popover {
+			@apply
+			yst-absolute
+			yst-whitespace-normal
+			yst-p-4
+			yst-rounded-lg
+			yst-w-max
+			yst-max-w-xs
+			sm:yst-max-w-sm
+			yst-z-30
+			yst-bg-white
+			yst-shadow-2xl
+			yst-border
+			yst-pointer-events-auto /*needed to make the popover clickable on top of the backdrop */
+			before:yst-absolute;
+		}
+
+		.yst-popover--no-arrow {
+			@apply
+			yst--translate-x-1/2
+			yst-start-1/2
+			rtl:yst-translate-x-1/2
+		}
+
+		.yst-popover--right {
+			@apply
+			yst-translate-x-5
+			yst--translate-y-1/2
+			yst-top-1/2
+			yst-start-full
+			yst-shadow-[-25px_0_50px_-12px_rgba(30,41,59,0.25)]  /* shadow for the left arrows */
+			before:yst-content-['']
+			before:yst-block
+			before:yst-end-full
+			before:yst-top-1/2
+			before:yst--translate-y-1/2
+			rtl:yst--translate-x-5
+			rtl:before:yst--start-full
+			rtl:before:yst-end-0
+			rtl:before:yst-translate-x-1/2;
+
+			&::before {
+				border-left: 14px solid transparent;
+				border-right: 14px solid white;
+				border-top: 14px solid transparent;
+				border-bottom: 14px solid transparent;
+
+				/* Arrow direction for RTL */
+				[dir='rtl'] & {
+					border-left: 14px solid white;
+					border-right: 14px solid transparent;
+				}
+			}
+		}
+
+		.yst-popover--top {
+			@apply
+			yst--translate-y-full
+			yst-translate-x-1/2
+			rtl:yst--translate-x-1/2
+			yst-end-1/2
+			yst--top-5
+			before:yst-content-['']
+			before:yst-start-1/2
+			before:yst-top-full
+			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
+			before:yst-translate-y-0;
+
+			&::before {
+				border-right: 14px solid transparent;
+				border-top: 14px solid white;
+				border-left: 14px solid transparent;
+			}
+		}
+
+		.yst-popover--top-left {
+			@apply
+			yst--translate-y-full
+			yst--top-5
+			yst-end-0
+			yst-translate-x-0
+			before:yst-content-['']
+			before:yst-end-2  /* move arrow to the right */
+			before:yst-top-full
+			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
+			before:yst-translate-y-0
+			before:yst-border-transparent;
+
+			&::before {
+				border-right: 14px solid transparent;
+				border-top: 14px solid white;
+				border-left: 14px solid transparent;
+			}
+		}
+
+		.yst-popover--top-right {
+			@apply
+			yst--translate-y-full
+			yst--top-5
+			yst--start-0
+			before:yst-content-['']
+			before:yst-start-8 /* move arrow to the left */
+			before:yst-top-full
+			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
+			before:yst-translate-y-0
+			before:yst-border-transparent;
+
+			&::before {
+				border-right: 14px solid transparent;
+				border-top: 14px solid white;
+				border-left: 14px solid transparent;
+			}
+		}
+
+		.yst-popover--left {
+			@apply
+			yst-top-1/2
+			yst-end-full
+			yst--start-5
+			yst--translate-x-full
+			yst--translate-y-1/2
+			yst-shadow-[25px_0_50px_-12px_rgba(30,41,59,0.25)] /* shadow for the right arrows */
+			before:yst-content-['']
+			before:yst-start-full
+			before:yst-top-1/2
+			before:yst--translate-y-1/2
+			rtl:yst--end-full
+			rtl:yst-translate-x-full
+			rtl:before:yst--start-0
+			rtl:before:yst--end-full
+			rtl:before:yst--translate-x-1/2;
+
+			&::before {
+				border-right: 14px solid transparent;
+				border-top: 14px solid transparent;
+				border-bottom: 14px solid transparent;
+				border-left: 14px solid white;
+
+				/* Arrow direction for RTL */
+				[dir='rtl'] & {
+					border-right: 14px solid white;
+					border-left: 14px solid transparent;
+				}
+			}
+		}
+
+		.yst-popover--bottom {
+			@apply
+			yst--translate-x-1/2
+			yst-start-1/2
+			yst-top-14
+			yst-shadow-[0_-25px_50px_-12px_rgba(30,41,59,0.25)] /* shadow for the top arrows */
+			before:yst-content-['']
+			before:yst-start-1/2
+			before:yst-bottom-full
+			before:yst--translate-x-1/2
+			before:yst-translate-y-0
+			rtl:yst-translate-x-1/2
+			rtl:before:yst-translate-x-1/2;
+
+			&::before {
+				border-right: 14px solid transparent;
+				border-bottom: 14px solid white;
+				border-left: 14px solid transparent;
+			}
+		}
+
+		.yst-popover--bottom-left {
+			@apply
+			yst-end-0
+			yst-top-14
+			yst-shadow-[0_-25px_50px_-12px_rgba(30,41,59,0.25)] /* shadow for the top arrows */
+			before:yst-content-['']
+			before:yst-end-0
+			before:yst-bottom-full
+			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
+			before:yst-translate-y-0
+			before:yst-border-transparent;
+
+			&::before {
+				border-right: 14px solid transparent;
+				border-bottom: 14px solid white;
+				border-left: 14px solid transparent;
+			}
+		}
+
+		.yst-popover--bottom-right {
+			@apply
+			yst-start-0
+			yst-top-14
+			yst-shadow-[0_-25px_50px_-12px_rgba(30,41,59,0.25)] /* shadow for the top arrows */
+			before:yst-content-['']
+			before:yst-start-8
+			before:yst-bottom-full
+			before:yst--translate-x-1/2
+			rtl:before:yst-translate-x-1/2
+			before:yst-translate-y-0
+			before:yst-border-transparent;
+
+			&::before {
+				border-right: 14px solid transparent;
+				border-bottom: 14px solid white;
+				border-left: 14px solid transparent;
+			}
+		}
+	}
+}

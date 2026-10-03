@@ -7,7 +7,7 @@ import {
 	isString,
 	isUndefined,
 	reduce,
-} from "lodash-es";
+} from "lodash";
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.

@@ -1,21 +1,14 @@
-import "error-polyfill";
-import util from "util";
-
 /**
- * Error that means that an argument should be passed that wasn't passed.
- *
- * @constructor
- *
- * @param {string} message The message for this error.
- *
- * @returns {void}
+ * The MissingArgumentError is thrown when a required argument is not passed.
  */
-function MissingArgumentError( message ) {
-	Error.captureStackTrace( this, this.constructor );
-	this.name = this.constructor.name;
-	this.message = message;
+export default class MissingArgumentError extends Error {
+	/**
+	 * Constructs a MissingArgumentError.
+	 * @param {string} message The message to show when the error is thrown.
+	 * @constructor
+	 */
+	constructor( message )  {
+		super( message );
+		this.name = "MissingArgumentError";
+	}
 }
-
-util.inherits( MissingArgumentError, Error );
-
-export default MissingArgumentError;

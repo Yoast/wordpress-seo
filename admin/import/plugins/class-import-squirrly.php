@@ -89,8 +89,8 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 		return $wpdb->get_results(
 			$wpdb->prepare(
 				$this->retrieve_posts_query(),
-				get_current_blog_id()
-			)
+				get_current_blog_id(),
+			),
 		);
 	}
 
@@ -135,7 +135,7 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 		global $wpdb;
 
 		$result = $wpdb->get_var( "SHOW TABLES LIKE '{$this->table_name}'" );
-		if ( is_wp_error( $result ) || is_null( $result ) ) {
+		if ( is_wp_error( $result ) || $result === null ) {
 			return false;
 		}
 
@@ -196,8 +196,8 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 		$data = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT seo FROM {$this->table_name} WHERE blog_id = %d AND " . $query_where,
-				$replacements
-			)
+				$replacements,
+			),
 		);
 		if ( ! $data || is_wp_error( $data ) ) {
 			return false;

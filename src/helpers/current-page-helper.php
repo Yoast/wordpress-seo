@@ -24,9 +24,7 @@ class Current_Page_Helper {
 	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wrapper for WP_Query.
 	 */
-	public function __construct(
-		WP_Query_Wrapper $wp_query_wrapper
-	) {
+	public function __construct( WP_Query_Wrapper $wp_query_wrapper ) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
 	}
 
@@ -90,7 +88,7 @@ class Current_Page_Helper {
 		/**
 		 * Filter: Allow changing the default page id.
 		 *
-		 * @api int $page_id The default page id.
+		 * @param int $page_id The default page id.
 		 */
 		return \apply_filters( 'wpseo_frontend_page_type_simple_page_id', 0 );
 	}
@@ -129,13 +127,7 @@ class Current_Page_Helper {
 	public function get_term_id() {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
-		if ( $wp_query->is_category() ) {
-			return $wp_query->get( 'cat' );
-		}
-		if ( $wp_query->is_tag() ) {
-			return $wp_query->get( 'tag_id' );
-		}
-		if ( $wp_query->is_tax() ) {
+		if ( $wp_query->is_tax() || $wp_query->is_tag() || $wp_query->is_category() ) {
 			$queried_object = $wp_query->get_queried_object();
 			if ( $queried_object && ! \is_wp_error( $queried_object ) ) {
 				return $queried_object->term_id;
@@ -407,19 +399,40 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Determines whether the current admin screen is the block editor.
+	 *
+	 * Deliberately uses get_current_screen() and not WP_Screen::get(): the latter re-applies
+	 * the replace_editor filter on every call, which is a render hook with side effects
+	 * (e.g. it breaks the WooCommerce block email editor).
+	 *
+	 * Only reliable after set_current_screen() has run (during admin page load, after
+	 * admin_init); earlier calls return false.
+	 *
+	 * @return bool Whether the current screen is the block editor.
+	 */
+	public function is_block_editor() {
+		if ( ! \function_exists( 'get_current_screen' ) ) {
+			return false;
+		}
+
+		$screen = \get_current_screen();
+
+		return $screen !== null && $screen->is_block_editor();
+	}
+
+	/**
 	 * Check if the current opened page is a Yoast SEO page.
 	 *
 	 * @return bool True when current page is a yoast seo plugin page.
 	 */
 	public function is_yoast_seo_page() {
-		static $is_yoast_seo;
-
-		if ( $is_yoast_seo === null ) {
-			$current_page = \filter_input( \INPUT_GET, 'page' );
-			$is_yoast_seo = ( \is_string( $current_page ) && \strpos( $current_page, 'wpseo_' ) === 0 );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only using the variable in the strpos function.
+			$current_page = \wp_unslash( $_GET['page'] );
+			return \strpos( $current_page, 'wpseo_' ) === 0;
 		}
-
-		return $is_yoast_seo;
+		return false;
 	}
 
 	/**
@@ -429,13 +442,25 @@ class Current_Page_Helper {
 	 * @return string The current Yoast SEO page.
 	 */
 	public function get_current_yoast_seo_page() {
-		static $current_yoast_seo_page;
-
-		if ( $current_yoast_seo_page === null ) {
-			$current_yoast_seo_page = \filter_input( \INPUT_GET, 'page' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
 		}
 
-		return $current_yoast_seo_page;
+		return '';
+	}
+
+	/**
+	 * Returns whether the current admin overview (list table) shows the trash.
+	 *
+	 * Mirrors the check WP_Posts_List_Table itself uses to decide it is on the trash view.
+	 *
+	 * @return bool Whether the current admin overview shows the trash.
+	 */
+	public function is_trash_overview(): bool {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		return isset( $_REQUEST['post_status'] ) && $_REQUEST['post_status'] === 'trash';
 	}
 
 	/**
@@ -450,7 +475,7 @@ class Current_Page_Helper {
 			return false;
 		}
 
-		return \intval( $post->ID ) === \intval( \get_option( 'wp_page_for_privacy_policy', false ) );
+		return (int) $post->ID === (int) \get_option( 'wp_page_for_privacy_policy', false );
 	}
 
 	/**
@@ -483,13 +508,85 @@ class Current_Page_Helper {
 	 * @return int The amoumt of queried terms.
 	 */
 	protected function count_queried_terms() {
-		$wp_query      = $this->wp_query_wrapper->get_main_query();
-		$term          = $wp_query->get_queried_object();
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+		$term     = $wp_query->get_queried_object();
+
 		$queried_terms = $wp_query->tax_query->queried_terms;
-		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
+		if ( $term === null || empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
 			return 0;
 		}
 
 		return \count( $queried_terms[ $term->taxonomy ]['terms'] );
+	}
+
+	/**
+	 * Retrieves the current post id.
+	 * Returns 0 if no post id is found.
+	 *
+	 * @return int The post id.
+	 */
+	public function get_current_post_id(): int {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are casting to an integer.
+		if ( isset( $_GET['post'] ) && \is_string( $_GET['post'] ) && (int) \wp_unslash( $_GET['post'] ) > 0 ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are casting to an integer, also this is a helper function.
+			return (int) \wp_unslash( $_GET['post'] );
+		}
+		return 0;
+	}
+
+	/**
+	 * Retrieves the current post type.
+	 *
+	 * @return string The post type.
+	 */
+	public function get_current_post_type(): string {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['post_type'] ) && \is_string( $_GET['post_type'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return \sanitize_text_field( \wp_unslash( $_GET['post_type'] ) );
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: should be done outside the helper function.
+		if ( isset( $_POST['post_type'] ) && \is_string( $_POST['post_type'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: should be done outside the helper function.
+			return \sanitize_text_field( \wp_unslash( $_POST['post_type'] ) );
+		}
+
+		$post_id = $this->get_current_post_id();
+
+		if ( $post_id ) {
+			return \get_post_type( $post_id );
+		}
+
+		return 'post';
+	}
+
+	/**
+	 * Retrieves the current taxonomy.
+	 *
+	 * @return string The taxonomy.
+	 */
+	public function get_current_taxonomy(): string {
+		if ( ! isset( $_SERVER['REQUEST_METHOD'] ) || ! \in_array( $_SERVER['REQUEST_METHOD'], [ 'GET', 'POST' ], true ) ) {
+			return '';
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification -- Reason: We are not processing form information.
+		if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: should be done outside the helper function.
+			if ( isset( $_POST['taxonomy'] ) && \is_string( $_POST['taxonomy'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: should be done outside the helper function.
+				return \sanitize_text_field( \wp_unslash( $_POST['taxonomy'] ) );
+			}
+			return '';
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['taxonomy'] ) && \is_string( $_GET['taxonomy'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return \sanitize_text_field( \wp_unslash( $_GET['taxonomy'] ) );
+		}
+
+		return '';
 	}
 }

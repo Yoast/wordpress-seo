@@ -1,7 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { AnalysisList } from "yoast-components";
-import { AnalysisResult } from "../src";
+import { AnalysisResult, AnalysisList } from "../src";
 
 describe( "The AnalysisList component", () => {
 	it( "renders a list of analysis results", () => {
@@ -18,6 +17,7 @@ describe( "The AnalysisList component", () => {
 						"There is enough variety in your sentences. That's great!",
 				markerId: "sentenceBeginnings",
 				editFieldName: "",
+				editFieldAriaLabel: "",
 			},
 			{
 				score: 6,
@@ -35,6 +35,7 @@ describe( "The AnalysisList component", () => {
 					  "Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
 				markerId: "imageKeyphrase",
 				editFieldName: "",
+				editFieldAriaLabel: "",
 			},
 			{
 				score: 3,
@@ -50,6 +51,7 @@ describe( "The AnalysisList component", () => {
 					  "&days_active=6-30&user_language=en_US' target='_blank'>Use some</a>.",
 				markerId: "textTransitionWords",
 				editFieldName: "",
+				editFieldAriaLabel: "",
 			},
 		];
 
@@ -82,6 +84,7 @@ describe( "The AnalysisList component", () => {
 						"There is enough variety in your sentences. That's great!",
 				markerId: "sentenceBeginnings",
 				editFieldName: "",
+				editFieldAriaLabel: "",
 			},
 		];
 
@@ -90,7 +93,7 @@ describe( "The AnalysisList component", () => {
 
 		expect( analysisResults ).toHaveLength( results.length );
 
-		expect( analysisResults[ 0 ].props.ariaLabelMarks ).toEqual( "Marks are disabled in current view" );
+		expect( analysisResults[ 0 ].props.ariaLabelMarks ).toEqual( "Highlighting is currently disabled" );
 	} );
 
 	it( "renders a list of analysis results with one upsell result", () => {
@@ -105,6 +108,7 @@ describe( "The AnalysisList component", () => {
 						"Have you evenly distributed your focus keyphrase throughout the whole text? Yoast SEO Premium will tell you!",
 				markerId: "someUpsell",
 				editFieldName: "",
+				editFieldAriaLabel: "",
 			},
 			{
 				score: 9,
@@ -118,6 +122,7 @@ describe( "The AnalysisList component", () => {
 						"There is enough variety in your sentences. That's great!",
 				markerId: "sentenceBeginnings",
 				editFieldName: "",
+				editFieldAriaLabel: "",
 			},
 		];
 

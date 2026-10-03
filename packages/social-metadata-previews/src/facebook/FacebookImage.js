@@ -6,14 +6,12 @@ import { __ } from "@wordpress/i18n";
 import { noop } from "lodash";
 
 /* Yoast dependencies */
+import { FACEBOOK_IMAGE_SIZES } from "@yoast/social-metadata-forms";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
 import { SocialImage } from "../shared/SocialImage";
-import {
-	handleImage,
-	FACEBOOK_IMAGE_SIZES,
-} from "../helpers/determineImageProperties";
+import { handleImage } from "../helpers/determineImageProperties";
 
 const FacebookImageContainer = styled.div`
 	position: relative;

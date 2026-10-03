@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 
 /**
  * @param {string} label Content of the Label. Note that this is a string ONLY for a11y reasons.
@@ -8,21 +9,23 @@ import PropTypes from "prop-types";
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Label component.
  */
-const Label = ( {
+const Label = forwardRef( ( {
 	as: Component = "label",
 	className = "",
 	label = "",
 	children = "",
 	...props
-} ) => (
+}, ref ) => (
 	<Component
+		ref={ ref }
 		className={ classNames( "yst-label", className ) }
 		{ ...props }
 	>
-		{ label || children }
+		{ label || children || null }
 	</Component>
-);
+) );
 
+Label.displayName = "Label";
 Label.propTypes = {
 	label: PropTypes.string,
 	children: PropTypes.string,

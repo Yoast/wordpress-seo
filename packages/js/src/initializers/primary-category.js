@@ -5,7 +5,7 @@ import { Component } from "@wordpress/element";
 import {
 	get,
 	noop,
-} from "lodash-es";
+} from "lodash";
 
 /* Internal dependencies */
 import PrimaryTaxonomyFilter from "../components/PrimaryTaxonomyFilter";

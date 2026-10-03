@@ -1,0 +1,1 @@
+Alerts provide immediate feedback to users about their actions or system status. They should be noticeable, labeled clearly, and visually distinct from other user interface elements. The copy in these alerts should be concise and informative. Generally, alerts are placed directly above the section that they apply to.

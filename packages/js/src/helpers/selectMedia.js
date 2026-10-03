@@ -1,6 +1,6 @@
 import { get } from "lodash";
 import { validateFacebookImage, validateTwitterImage } from "@yoast/helpers";
-import { FACEBOOK_IMAGE_SIZES, determineFacebookImageMode, TWITTER_IMAGE_SIZES } from "@yoast/social-metadata-previews";
+import { determineFacebookImageMode, FACEBOOK_IMAGE_SIZES, TWITTER_IMAGE_SIZES } from "@yoast/social-metadata-forms";
 
 /**
  * Strips an attachment to an object with what we want.

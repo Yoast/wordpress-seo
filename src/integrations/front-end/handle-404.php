@@ -97,6 +97,8 @@ class Handle_404 implements Integration_Interface {
 
 	/**
 	 * Sets the 404 status code.
+	 *
+	 * @return void
 	 */
 	protected function set_404() {
 		$wp_query          = $this->query_wrapper->get_query();
@@ -109,6 +111,8 @@ class Handle_404 implements Integration_Interface {
 	 * Sets the headers for http.
 	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	protected function set_headers() {
 		// Overwrite Content-Type header.

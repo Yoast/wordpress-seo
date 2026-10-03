@@ -6,15 +6,15 @@ import removePunctuation from "../sanitize/removePunctuation.js";
 import { unifyAllSpaces as unifyWhitespace } from "../sanitize/unifyWhitespace.js";
 import matchStringWithTransliteration from "./matchTextWithTransliteration.js";
 import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
-import { map } from "lodash-es";
+import { map } from "lodash";
 
 /**
  * Returns the number of matches in a given string
  *
  * @param {string}      text                    The text to use for matching the wordToMatch.
- * @param {string}      wordToMatch             The word to match in the text
- * @param {string}      locale                  The locale used for transliteration.
- * @param {function}    matchWordCustomHelper   The helper function to match word in text.
+ * @param {string}      wordToMatch             The word to match in the text.
+ * @param {string}      locale   				The locale used for transliteration.
+ * @param {function}    matchWordCustomHelper  	The helper function to match word in text.
  *
  * @returns {Object} An array with all matches of the text, the number of the matches, and the lowest number of positions of the matches.
  */

@@ -22,9 +22,7 @@ class Aioseo_Robots_Provider_Service {
 	 *
 	 * @param Aioseo_Helper $aioseo_helper The AIOSEO helper.
 	 */
-	public function __construct(
-		Aioseo_Helper $aioseo_helper
-	) {
+	public function __construct( Aioseo_Helper $aioseo_helper ) {
 		$this->aioseo_helper = $aioseo_helper;
 	}
 

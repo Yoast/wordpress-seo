@@ -63,7 +63,7 @@ class Indexing_Error_Presenter extends Abstract_Presenter {
 	protected function generate_first_paragraph( $is_premium, $has_valid_premium_subscription ) {
 		$message = \__(
 			'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please click the button again to re-start the process. ',
-			'wordpress-seo'
+			'wordpress-seo',
 		);
 
 		if ( $is_premium ) {
@@ -75,10 +75,10 @@ class Indexing_Error_Presenter extends Abstract_Presenter {
 					/* translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag. */
 					\__(
 						'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.',
-						'wordpress-seo'
+						'wordpress-seo',
 					),
 					'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/3wv' ) ) . '">',
-					'</a>'
+					'</a>',
 				);
 			}
 		}
@@ -101,10 +101,10 @@ class Indexing_Error_Presenter extends Abstract_Presenter {
 			/* translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag. */
 			\__(
 				'Below are the technical details for the error. See %1$sthis page%2$s for a more detailed explanation.',
-				'wordpress-seo'
+				'wordpress-seo',
 			),
 			'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/4f3' ) ) . '">',
-			'</a>'
+			'</a>',
 		);
 	}
 

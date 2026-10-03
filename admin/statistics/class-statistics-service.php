@@ -15,7 +15,7 @@ class WPSEO_Statistics_Service {
 	 *
 	 * @var string
 	 */
-	const CACHE_TRANSIENT_KEY = 'wpseo-statistics-totals';
+	public const CACHE_TRANSIENT_KEY = 'wpseo-statistics-totals';
 
 	/**
 	 * Class that generates interesting statistics about things.
@@ -47,7 +47,7 @@ class WPSEO_Statistics_Service {
 	 */
 	public function get_statistics() {
 		// Switch to the user locale with fallback to the site locale.
-		switch_to_locale( \get_user_locale() );
+		switch_to_locale( get_user_locale() );
 
 		$this->labels = $this->labels();
 		$statistics   = $this->statistic_items();
@@ -209,22 +209,22 @@ class WPSEO_Statistics_Service {
 				/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
 				__( 'Posts %1$swithout%2$s a focus keyphrase', 'wordpress-seo' ),
 				'<strong>',
-				'</strong>'
+				'</strong>',
 			),
 			WPSEO_Rank::BAD      => sprintf(
 				/* translators: %s expands to the score */
 				__( 'Posts with the SEO score: %s', 'wordpress-seo' ),
-				'<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>'
+				'<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>',
 			),
 			WPSEO_Rank::OK       => sprintf(
 				/* translators: %s expands to the score */
 				__( 'Posts with the SEO score: %s', 'wordpress-seo' ),
-				'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>'
+				'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>',
 			),
 			WPSEO_Rank::GOOD     => sprintf(
 				/* translators: %s expands to the score */
 				__( 'Posts with the SEO score: %s', 'wordpress-seo' ),
-				'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
+				'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>',
 			),
 			WPSEO_Rank::NO_INDEX => __( 'Posts that should not show up in search results', 'wordpress-seo' ),
 		];

@@ -1,66 +1,84 @@
-import { ExclamationCircleIcon } from "@heroicons/react/solid";
+/* eslint-disable complexity */
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Label from "../../elements/label";
 import Textarea from "../../elements/textarea";
-import { useDescribedBy, useSvgAria } from "../../hooks";
+import { ValidationInput, ValidationMessage } from "../../elements/validation";
+import { useDescribedBy } from "../../hooks";
+
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_VALIDATION = {};
 
 /**
- * @param {string} id The ID of the input.
- * @param {function} onChange The input change handler.
- * @param {string} label The label.
+ * @param {string}  id       The ID of the input.
+ * @param {string} [label]  The label. When omitted, supply an `aria-label` or `aria-labelledby` on the field instead.
  * @param {string} [className] The HTML class.
  * @param {JSX.node} [description] A description.
- * @param {JSX.node} [error] An error "message".
+ * @param {Object} [validation] The validation state.
+ * @param {boolean} disabled Whether the input is disabled.
+ * @param {boolean} readOnly Whether the input is read-only.
  * @param {Object} [props] Any extra properties for the Textarea.
  * @returns {JSX.Element} The textarea field.
  */
-const TextareaField = ( {
+const TextareaField = forwardRef( ( {
 	id,
 	label,
-	className,
-	description,
-	error,
+	className = "",
+	description = null,
+	validation = DEFAULT_VALIDATION,
+	disabled = false,
+	readOnly = false,
 	...props
-} ) => {
-	const { ids, describedBy } = useDescribedBy( id, { error, description } );
-	const svgAriaProps = useSvgAria();
+}, ref ) => {
+	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
 
 	return (
-		<div className={ classNames( "yst-textarea-field", className ) }>
-			<Label className="yst-textarea-field__label" htmlFor={ id } label={ label } />
-			<div className="yst-relative">
-				<Textarea
-					id={ id }
-					className={ classNames(
-						"yst-textarea-field__input",
-						error && "yst-textarea-field__input--error",
-					) }
-					aria-describedby={ describedBy }
-					{ ...props }
-				/>
-				{ error && <div className="yst-textarea-field__error-icon">
-					<ExclamationCircleIcon { ...svgAriaProps } />
-				</div> }
-			</div>
-			{ error && <p id={ ids.error } className="yst-textarea-field__error">{ error }</p> }
+		<div
+			className={ classNames(
+				"yst-textarea-field",
+				disabled && "yst-textarea-field--disabled",
+				readOnly && "yst-textarea-field--read-only",
+				className ) }
+		>
+			{ label && (
+				<div className="yst-flex yst-items-center yst-mb-2">
+					<Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label>
+				</div>
+			) }
+			<ValidationInput
+				as={ Textarea }
+				ref={ ref }
+				id={ id }
+				className="yst-textarea-field__input"
+				aria-describedby={ describedBy }
+				validation={ validation }
+				disabled={ disabled }
+				readOnly={ readOnly }
+				{ ...props }
+			/>
+			{ validation?.message && (
+				<ValidationMessage variant={ validation?.variant } id={ ids.validation } className="yst-textarea-field__validation">
+					{ validation.message }
+				</ValidationMessage>
+			) }
 			{ description && <p id={ ids.description } className="yst-textarea-field__description">{ description }</p> }
 		</div>
 	);
-};
+} );
 
+TextareaField.displayName = "TextareaField";
 TextareaField.propTypes = {
 	id: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
+	label: PropTypes.string,
 	className: PropTypes.string,
 	description: PropTypes.node,
-	error: PropTypes.node,
-};
-
-TextareaField.defaultProps = {
-	className: "",
-	description: null,
-	error: null,
+	disabled: PropTypes.bool,
+	readOnly: PropTypes.bool,
+	validation: PropTypes.shape( {
+		variant: PropTypes.string,
+		message: PropTypes.node,
+	} ),
 };
 
 export default TextareaField;

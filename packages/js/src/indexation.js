@@ -1,13 +1,16 @@
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import jQuery from "jquery";
 
 import Indexation from "./components/Indexation";
-
-const preIndexingActions = {};
-const indexingActions = {};
+import { doAjaxRequest } from "./helpers/ajaxHelper";
 
 window.yoast = window.yoast || {};
 window.yoast.indexing = window.yoast.indexing || {};
+
+window.yoast.indexing.preIndexingActions = {};
+window.yoast.indexing.indexingActions = {};
+// Add-ons registering indexing actions need this helper on pages where the editor bundles are absent.
+window.yoast.indexing.helpers = { doAjaxRequest };
 
 let root;
 
@@ -17,16 +20,10 @@ let root;
  * @returns {void}
  */
 function renderRoot() {
-	if ( ! root ) {
-		root = document.getElementById( "yoast-seo-indexing-action" );
-	}
-
-	if ( root ) {
-		render( <Indexation
-			preIndexingActions={ preIndexingActions }
-			indexingActions={ indexingActions }
-		/>, root );
-	}
+	root?.render( <Indexation
+		preIndexingActions={ window.yoast.indexing.preIndexingActions }
+		indexingActions={ window.yoast.indexing.indexingActions }
+	/> );
 }
 
 /**
@@ -41,7 +38,7 @@ function renderRoot() {
  * @returns {void}
  */
 window.yoast.indexing.registerPreIndexingAction = ( endpoint, action ) => {
-	preIndexingActions[ endpoint ] = action;
+	window.yoast.indexing.preIndexingActions[ endpoint ] = action;
 	renderRoot();
 };
 
@@ -57,51 +54,16 @@ window.yoast.indexing.registerPreIndexingAction = ( endpoint, action ) => {
  * @returns {void}
  */
 window.yoast.indexing.registerIndexingAction = ( endpoint, action ) => {
-	indexingActions[ endpoint ] = action;
+	window.yoast.indexing.indexingActions[ endpoint ] = action;
 	renderRoot();
 };
 
-/**
- * @deprecated Deprecated since 15.1. Use `window.yoast.indexing` instead.
- */
-window.yoast.indexation = window.yoast.indexing;
-
-/**
- * Registers a pre-indexing action on the given indexing endpoint.
- *
- * This action is executed before the endpoint is first called with the indexing
- * settings as its first argument.
- *
- * @deprecated Deprecated since 15.1. Use `window.yoast.indexing.registerPreIndexingAction` instead.
- *
- * @param {string}   endpoint The endpoint on which to register the action.
- * @param {function} action   The action to register.
- *
- * @returns {void}
- */
-window.yoast.indexation.registerPreIndexationAction = ( endpoint, action ) => {
-	console.warn( "Deprecated since 15.1. Use 'window.yoast.indexing.registerPreIndexingAction' instead." );
-	window.yoast.indexing.registerPreIndexingAction( endpoint, action );
-};
-
-/**
- * Registers an action on the given indexing endpoint.
- *
- * This action is executed each time after the endpoint is called, with the objects
- * returned from the endpoint as its first argument and the indexing settings as its second argument.
- *
- * @deprecated Deprecated since 15.1. Use `window.yoast.indexing.registerIndexingAction` instead.
- *
- * @param {string}   endpoint The endpoint on which to register the action.
- * @param {function(Object[], Object[])} action   The action to register.
- *
- * @returns {void}
- */
-window.yoast.indexation.registerIndexationAction = ( endpoint, action ) => {
-	console.warn( "Deprecated since 15.1. Use 'window.yoast.indexing.registerIndexingAction' instead." );
-	window.yoast.indexing.registerIndexingAction( endpoint, action );
-};
-
 jQuery( function() {
+	// Create the root first.
+	const rootElement = document.getElementById( "yoast-seo-indexing-action" );
+	if ( rootElement ) {
+		root = createRoot( rootElement );
+	}
+
 	renderRoot();
 } );

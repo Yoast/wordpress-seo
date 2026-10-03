@@ -21,8 +21,9 @@ describe( "A Label component", () => {
 
 		expect( console.error ).toBeCalled();
 
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type" );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] ).toBe( "The prop `for` is marked as required in `Label`, but its value is `undefined`." );
 	} );
 
 	it( "generates a warning when a faulty htmlFor prop is passed", () => {
@@ -31,8 +32,9 @@ describe( "A Label component", () => {
 		renderer.render( <Label for={ 0 } /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `for` of type `number` supplied to `Label`, expected `string`." );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] ).toBe( "Invalid prop `for` of type `number` supplied to `Label`, expected `string`." );
 	} );
 
 	it( "generates a warning when a faulty onChange callback is passed", () => {
@@ -41,7 +43,9 @@ describe( "A Label component", () => {
 		renderer.render( <Label name="customLabel" optionalAttributes={ { onClick: 0 } } /> );
 
 		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type" );
+		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
+		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
+		expect( console.error.mock.calls[ 0 ][ 2 ] )
+			.toBe( "Invalid prop `optionalAttributes.onClick` of type `number` supplied to `Label`, expected `function`." );
 	} );
 } );

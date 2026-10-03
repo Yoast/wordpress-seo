@@ -59,5 +59,6 @@ HelpText.propTypes = {
 };
 
 HelpText.defaultProps = {
+	// eslint-disable-next-line react/default-props-match-prop-types -- Rule doesn't recognize the above expansion.
 	textColor: colors.$color_help_text,
 };

@@ -1,8 +1,7 @@
-/* eslint-disable react/jsx-no-bind */
-import { shallow } from "enzyme";
+import React from "react";
+import { render } from "./test-utils";
 import ReplacementVariableEditorStandalone, { ReplacementVariableEditorStandaloneInnerComponent }
 	from "../src/ReplacementVariableEditorStandalone";
-import React from "react";
 
 jest.mock( "draft-js/lib/generateRandomKey", () => () => {
 	let randomKey = global._testDraftJSRandomNumber;
@@ -17,19 +16,21 @@ jest.mock( "draft-js/lib/generateRandomKey", () => () => {
 	return randomKey + "";
 } );
 
-describe( "ReplacementVariableEditor", () => {
+describe( "ReplacementVariableEditorStandalone", () => {
 	it( "wraps a Draft.js editor instance", () => {
-		const editor = shallow(
+		const { container } = render(
 			<ReplacementVariableEditorStandalone
 				replacementVariables={ [] }
 				content="Dummy content"
+				// eslint-disable-next-line react/jsx-no-bind
 				onChange={ () => {} }
 				ariaLabelledBy="id"
+				fieldId="test-field-id"
 				theme={ { isRtl: "false" } }
 			/>
 		);
 
-		expect( editor ).toMatchSnapshot();
+		expect( container ).toMatchSnapshot();
 	} );
 } );
 
@@ -68,11 +69,11 @@ describe( "suggestionsFilter", () => {
 			ariaLabelledBy: "id",
 			theme: { isRtl: false },
 		};
-
+		suggestions = [
+			{ name: "cat", value: "meow" },
+		];
 		replacementVariablesEditor = new ReplacementVariableEditorStandaloneInnerComponent( props );
-
 		suggestions = replacementVariablesEditor.mapReplacementVariablesToSuggestions( props.replacementVariables );
-
 		expected = [
 			{
 				replaceName: "category",

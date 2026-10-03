@@ -1,46 +1,4 @@
-export const TWITTER_IMAGE_SIZES = {
-	squareWidth: 125,
-	squareHeight: 125,
-	landscapeWidth: 506,
-	landscapeHeight: 265,
-	aspectRatio: ( 0.502 / 1 ) * 100,
-};
-
-export const FACEBOOK_IMAGE_SIZES = {
-	squareWidth: 158,
-	squareHeight: 158,
-	landscapeWidth: 527,
-	landscapeHeight: 273,
-	portraitWidth: 158,
-	portraitHeight: 237,
-	aspectRatio: ( 0.522 / 1 ) * 100,
-	largeThreshold: { width: 446, height: 233 },
-};
-
-/**
- * Determines the image display mode for Facebook images, given its dimensions.
- *
- * @param {Object} originalDimensions The dimensions of the original image.
- *
- * @returns {string} The display mode of the image.
- */
-export function determineFacebookImageMode( originalDimensions ) {
-	const { largeThreshold } = FACEBOOK_IMAGE_SIZES;
-
-	if ( originalDimensions.height > originalDimensions.width ) {
-		return "portrait";
-	}
-
-	if (  originalDimensions.width < largeThreshold.width || originalDimensions.height < largeThreshold.height ) {
-		return "square";
-	}
-
-	if ( originalDimensions.height === originalDimensions.width ) {
-		return "square";
-	}
-
-	return "landscape";
-}
+import { determineFacebookImageMode, FACEBOOK_IMAGE_SIZES, TWITTER_IMAGE_SIZES } from "@yoast/social-metadata-forms";
 
 /**
  * Retrieves the image sizes.

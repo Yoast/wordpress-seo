@@ -11,6 +11,7 @@ const paper = new Paper( content, {
 	description: "Para indivíduos de muitas culturas, a música está extremamente ligada à sua vida.",
 	title: "Música",
 	titleWidth: 450,
+	textTitle: "Música",
 	locale: "pt_PT",
 	permalink: "https://pt.wikipedia.org/wiki/M%C3%BAsica",
 	slug: "Música",
@@ -31,7 +32,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 4,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 4 times. That's less" +
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 4 times. That's less" +
 			" than the recommended minimum of 22 times for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Focus on your" +
 			" keyphrase</a>!",
 	},
@@ -116,7 +117,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 3,
 		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 10 of the paragraphs contain more than the recommended" +
-			" maximum of 150 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
+			" maximum number of words (150). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -143,13 +144,13 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences." +
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings." +
 			" That's great!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes " +
+		resultText: "<a href='https://yoa.st/33c' target='_blank'>Keyphrase in image alt attributes</a>: Images on this page do not have alt attributes " +
 			"that reflect the topic of your text. <a href='https://yoa.st/33d' target='_blank'>Add your keyphrase or synonyms to the alt tags " +
 			"of relevant images</a>!",
 	},

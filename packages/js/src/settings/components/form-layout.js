@@ -1,48 +1,77 @@
-import PropTypes from "prop-types";
-import { Form, useFormikContext } from "formik";
+import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Title, Button } from "@yoast/ui-library";
+import { Button, useToggleState } from "@yoast/ui-library";
+import { Form, useFormikContext } from "formik";
+import { includes, values } from "lodash";
+import PropTypes from "prop-types";
+import AnimateHeight from "react-animate-height";
+import { useSelectSettings } from "../hooks";
+import { UnsavedChangesModal } from "../../shared-admin/components";
 
 /**
  * @returns {JSX.Element} The form layout component.
  */
-const FormLayout = ( {
-	children,
-	title,
-	description = null,
-} ) => {
-	const { isSubmitting } = useFormikContext();
+const FormLayout = ( { children } ) => {
+	const { isSubmitting, status, dirty, resetForm, initialValues } = useFormikContext();
+	const isMediaLoading = useSelectSettings( "selectIsMediaLoading" );
+	const isStatusBlocked = useMemo( () => includes( values( status ), true ), [ status ] );
+
+	const [ isRequestUndo, , , setRequestUndo, unsetRequestUndo ] = useToggleState( false );
+	const handleUndo = useCallback( () => {
+		unsetRequestUndo();
+		resetForm( { values: initialValues } );
+	}, [ resetForm, initialValues, unsetRequestUndo ] );
+
 	return (
-		<div className="yst-rounded-lg yst-bg-white yst-shadow">
-			<Form className="yst-flex yst-flex-col yst-h-full yst-min-h-[75vh]">
-				<header className="yst-border-b yst-border-gray-200">
-					<div className="yst-max-w-screen-sm yst-p-8">
-						<Title>{ title }</Title>
-						{ description && <p className="yst-text-tiny yst-mt-3">{ description }</p> }
+		<Form className="yst-flex yst-flex-col yst-h-full">
+			<div className="yst-flex-grow yst-p-8">
+				{ children }
+			</div>
+			<footer className="yst-sticky yst-bottom-0 yst-z-10">
+				<AnimateHeight
+					easing="ease-in-out"
+					duration={ 300 }
+					height={ dirty ? "auto" : 0 }
+					animateOpacity={ true }
+				>
+					<div className="yst-bg-slate-50 yst-border-slate-200 yst-border-t yst-rounded-b-lg">
+						<div className="yst-flex yst-align-middle yst-space-x-3 rtl:yst-space-x-reverse yst-p-8">
+							<Button
+								id="button-submit-settings"
+								type="submit"
+								isLoading={ isSubmitting }
+								disabled={ isSubmitting || isMediaLoading || isStatusBlocked }
+							>
+								{ __( "Save changes", "wordpress-seo" ) }
+							</Button>
+							<Button
+								id="button-undo-settings"
+								type="button"
+								variant="secondary"
+								disabled={ ! dirty }
+								onClick={ setRequestUndo }
+							>
+								{ __( "Discard changes", "wordpress-seo" ) }
+							</Button>
+							<UnsavedChangesModal
+								isOpen={ isRequestUndo }
+								onClose={ unsetRequestUndo }
+								title={ __( "Discard all changes", "wordpress-seo" ) }
+								description={ __( "You are about to discard all unsaved changes. All of your settings will be reset to the point where you last saved. Are you sure you want to do this?", "wordpress-seo" ) }
+								onDiscard={ handleUndo }
+								dismissLabel={ __( "No, continue editing", "wordpress-seo" ) }
+								discardLabel={ __( "Yes, discard changes", "wordpress-seo" ) }
+							/>
+						</div>
 					</div>
-				</header>
-				<div className="yst-flex-grow yst-p-8 yst-max-w-5xl">
-					{ children }
-				</div>
-				<footer className="yst-rounded-b-lg yst-p-8 yst-bg-gray-50">
-					<Button
-						id="button-submit-settings"
-						type="submit"
-						isLoading={ isSubmitting }
-						disabled={ isSubmitting }
-					>
-						{ __( "Save changes", "wordpress-seo" ) }
-					</Button>
-				</footer>
-			</Form>
-		</div>
+				</AnimateHeight>
+			</footer>
+		</Form>
 	);
 };
 
 FormLayout.propTypes = {
 	children: PropTypes.node.isRequired,
-	title: PropTypes.node.isRequired,
-	description: PropTypes.node,
 };
 
 export default FormLayout;

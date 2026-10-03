@@ -93,7 +93,7 @@ export default class IndexingService {
 	 *
 	 * @returns {Promise} The request promise.
 	 */
-	 async doIndexingRequest( url ) {
+	async doIndexingRequest( url ) {
 		const response = await fetch( url, {
 			method: "POST",
 			headers: {
@@ -135,7 +135,7 @@ export default class IndexingService {
 	 *
 	 * @returns {Promise<void>} An empty promise.
 	 */
-	 async doPreIndexingAction( endpoint ) {
+	async doPreIndexingAction( endpoint ) {
 		if ( this.preIndexingActions[ endpoint ] ) {
 			await this.preIndexingActions[ endpoint ]( this.settings );
 		}

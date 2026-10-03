@@ -1,0 +1,27 @@
+@layer components {
+	.yst-root {
+		.yst-difficulty--very-easy {
+			@apply yst-bg-emerald-300;
+		}
+
+		.yst-difficulty--easy {
+			@apply yst-bg-emerald-600;
+		}
+
+		.yst-difficulty--possible {
+			@apply yst-bg-amber-400;
+		}
+
+		.yst-difficulty--difficult {
+			@apply yst-bg-orange-400;
+		}
+
+		.yst-difficulty--hard {
+			@apply yst-bg-red-500;
+		}
+
+		.yst-difficulty--very-hard {
+			@apply yst-bg-red-700;
+		}
+	}
+}

@@ -2,7 +2,21 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 import WordOccurrences from "../src/WordOccurrences";
-import ProminentWord from "yoastseo/src/languageProcessing/values/ProminentWord";
+
+/**
+ * Dummy version of "yoastseo.languageProcessing.values.ProminentWord".
+ *
+ * @param {string} word             The word.
+ * @param {string} [stem]           The stem / base form of the word, defaults to the word.
+ * @param {number} [occurrences]    The number of occurrences, defaults to 0.
+ * @constructor
+ */
+function ProminentWord( word, stem, occurrences ) {
+	return {
+		getWord: () => word,
+		getOccurrences: () => occurrences,
+	};
+}
 
 const showBeforeList = <p>{ "I'm a before list paragraph" }</p>;
 const showAfterList = <p>{ "I'm an after list paragraph" }</p>;

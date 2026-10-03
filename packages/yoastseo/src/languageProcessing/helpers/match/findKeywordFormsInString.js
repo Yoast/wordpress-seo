@@ -1,11 +1,14 @@
+import { isEmpty, sum } from "lodash";
 import matchTextWithArray from "./matchTextWithArray.js";
-import { sum } from "lodash-es";
-import { isEmpty } from "lodash-es";
+
+/**
+ * @typedef {import("../../researches/getWordForms").TopicFormsResult} TopicFormsResult
+ */
 
 /**
  * Matches forms of words in the keyphrase against a given text.
  *
- * @param {Array}       keywordForms    The array with word forms of all (content) words from the keyphrase in a shape
+ * @param {string[][]}       keywordForms    The array with word forms of all (content) words from the keyphrase in a shape
  *                                      [ [ form1, form2, ... ], [ form1, form2, ... ] ].
  * @param {string}      text            The string to match the word forms against.
  * @param {string}      locale          The locale of the paper.
@@ -18,16 +21,19 @@ const findWordFormsInString = function( keywordForms, text, locale, matchWordCus
 	const wordNumber = keywordForms.length;
 	const foundWords = Array( wordNumber );
 	let positions = [];
+	let matches = [];
 
 	for ( let i = 0; i < wordNumber; i++ ) {
 		const matchedKeyphrase = matchTextWithArray( text, keywordForms[ i ], locale, matchWordCustomHelper );
 		foundWords[ i ] = matchedKeyphrase.count > 0 ? 1 : 0;
 		positions.push( matchedKeyphrase.position );
+		matches = matches.concat( matchedKeyphrase.matches );
 	}
 	const foundNumberOfWords = sum( foundWords );
 	const result = {
 		countWordMatches: foundNumberOfWords,
 		percentWordMatches: 0,
+		matches: matches,
 	};
 
 	if ( wordNumber > 0 ) {
@@ -43,7 +49,7 @@ const findWordFormsInString = function( keywordForms, text, locale, matchWordCus
 /**
  * Matches forms of words in the keyphrase and in the synonyms against a given text.
  *
- * @param {Object}      topicForms       The object with word forms of all (content) words from the keyphrase and eventually synonyms,
+ * @param {TopicFormsResult}      topicForms       The object with word forms of all (content) words from the keyphrase and eventually synonyms,
  * comes in a shape {
  *                     keyphraseForms: [[ form1, form2, ... ], [ form1, form2, ... ]],
  *                     synonymsForms: [

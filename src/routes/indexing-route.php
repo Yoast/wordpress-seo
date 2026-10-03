@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Exceptions\Indexable\Indexing_Failed_Exception;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
@@ -34,126 +35,126 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const COMPLETE_ROUTE = 'indexing/complete';
+	public const COMPLETE_ROUTE = 'indexing/complete';
 
 	/**
 	 * The full indexing complete route constant.
 	 *
 	 * @var string
 	 */
-	const FULL_COMPLETE_ROUTE = Main::API_V1_NAMESPACE . '/' . self::COMPLETE_ROUTE;
+	public const FULL_COMPLETE_ROUTE = Main::API_V1_NAMESPACE . '/' . self::COMPLETE_ROUTE;
 
 	/**
 	 * The indexables complete route constant.
 	 *
 	 * @var string
 	 */
-	const INDEXABLES_COMPLETE_ROUTE = 'indexing/indexables-complete';
+	public const INDEXABLES_COMPLETE_ROUTE = 'indexing/indexables-complete';
 
 	/**
 	 * The full indexing complete route constant.
 	 *
 	 * @var string
 	 */
-	const FULL_INDEXABLES_COMPLETE_ROUTE = Main::API_V1_NAMESPACE . '/' . self::INDEXABLES_COMPLETE_ROUTE;
+	public const FULL_INDEXABLES_COMPLETE_ROUTE = Main::API_V1_NAMESPACE . '/' . self::INDEXABLES_COMPLETE_ROUTE;
 
 	/**
 	 * The indexing prepare route constant.
 	 *
 	 * @var string
 	 */
-	const PREPARE_ROUTE = 'indexing/prepare';
+	public const PREPARE_ROUTE = 'indexing/prepare';
 
 	/**
 	 * The full indexing prepare route constant.
 	 *
 	 * @var string
 	 */
-	const FULL_PREPARE_ROUTE = Main::API_V1_NAMESPACE . '/' . self::PREPARE_ROUTE;
+	public const FULL_PREPARE_ROUTE = Main::API_V1_NAMESPACE . '/' . self::PREPARE_ROUTE;
 
 	/**
 	 * The posts route constant.
 	 *
 	 * @var string
 	 */
-	const POSTS_ROUTE = 'indexing/posts';
+	public const POSTS_ROUTE = 'indexing/posts';
 
 	/**
 	 * The full posts route constant.
 	 *
 	 * @var string
 	 */
-	const FULL_POSTS_ROUTE = Main::API_V1_NAMESPACE . '/' . self::POSTS_ROUTE;
+	public const FULL_POSTS_ROUTE = Main::API_V1_NAMESPACE . '/' . self::POSTS_ROUTE;
 
 	/**
 	 * The terms route constant.
 	 *
 	 * @var string
 	 */
-	const TERMS_ROUTE = 'indexing/terms';
+	public const TERMS_ROUTE = 'indexing/terms';
 
 	/**
 	 * The full terms route constant.
 	 *
 	 * @var string
 	 */
-	const FULL_TERMS_ROUTE = Main::API_V1_NAMESPACE . '/' . self::TERMS_ROUTE;
+	public const FULL_TERMS_ROUTE = Main::API_V1_NAMESPACE . '/' . self::TERMS_ROUTE;
 
 	/**
 	 * The terms route constant.
 	 *
 	 * @var string
 	 */
-	const POST_TYPE_ARCHIVES_ROUTE = 'indexing/post-type-archives';
+	public const POST_TYPE_ARCHIVES_ROUTE = 'indexing/post-type-archives';
 
 	/**
 	 * The full terms route constant.
 	 *
 	 * @var string
 	 */
-	const FULL_POST_TYPE_ARCHIVES_ROUTE = Main::API_V1_NAMESPACE . '/' . self::POST_TYPE_ARCHIVES_ROUTE;
+	public const FULL_POST_TYPE_ARCHIVES_ROUTE = Main::API_V1_NAMESPACE . '/' . self::POST_TYPE_ARCHIVES_ROUTE;
 
 	/**
 	 * The general route constant.
 	 *
 	 * @var string
 	 */
-	const GENERAL_ROUTE = 'indexing/general';
+	public const GENERAL_ROUTE = 'indexing/general';
 
 	/**
 	 * The full general route constant.
 	 *
 	 * @var string
 	 */
-	const FULL_GENERAL_ROUTE = Main::API_V1_NAMESPACE . '/' . self::GENERAL_ROUTE;
+	public const FULL_GENERAL_ROUTE = Main::API_V1_NAMESPACE . '/' . self::GENERAL_ROUTE;
 
 	/**
 	 * The posts route constant.
 	 *
 	 * @var string
 	 */
-	const POST_LINKS_INDEXING_ROUTE = 'link-indexing/posts';
+	public const POST_LINKS_INDEXING_ROUTE = 'link-indexing/posts';
 
 	/**
 	 * The full posts route constant.
 	 *
 	 * @var string
 	 */
-	const FULL_POST_LINKS_INDEXING_ROUTE = Main::API_V1_NAMESPACE . '/' . self::POST_LINKS_INDEXING_ROUTE;
+	public const FULL_POST_LINKS_INDEXING_ROUTE = Main::API_V1_NAMESPACE . '/' . self::POST_LINKS_INDEXING_ROUTE;
 
 	/**
 	 * The terms route constant.
 	 *
 	 * @var string
 	 */
-	const TERM_LINKS_INDEXING_ROUTE = 'link-indexing/terms';
+	public const TERM_LINKS_INDEXING_ROUTE = 'link-indexing/terms';
 
 	/**
 	 * The full terms route constant.
 	 *
 	 * @var string
 	 */
-	const FULL_TERM_LINKS_INDEXING_ROUTE = Main::API_V1_NAMESPACE . '/' . self::TERM_LINKS_INDEXING_ROUTE;
+	public const FULL_TERM_LINKS_INDEXING_ROUTE = Main::API_V1_NAMESPACE . '/' . self::TERM_LINKS_INDEXING_ROUTE;
 
 	/**
 	 * The post indexing action.
@@ -267,8 +268,6 @@ class Indexing_Route extends Abstract_Indexation_Route {
 		$this->indexable_indexing_complete_action  = $indexable_indexing_complete_action;
 		$this->indexing_complete_action            = $indexing_complete_action;
 		$this->prepare_indexing_action             = $prepare_indexing_action;
-		$this->post_link_indexing_action           = $post_link_indexing_action;
-		$this->term_link_indexing_action           = $term_link_indexing_action;
 		$this->options_helper                      = $options_helper;
 		$this->post_link_indexing_action           = $post_link_indexing_action;
 		$this->term_link_indexing_action           = $term_link_indexing_action;
@@ -277,6 +276,8 @@ class Indexing_Route extends Abstract_Indexation_Route {
 
 	/**
 	 * Registers the routes used to index indexables.
+	 *
+	 * @return void
 	 */
 	public function register_routes() {
 		$route_args = [
@@ -418,13 +419,27 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	protected function run_indexation_action( Indexation_Action_Interface $indexation_action, $url ) {
 		try {
 			return parent::run_indexation_action( $indexation_action, $url );
+		} catch ( Indexing_Failed_Exception $exception ) {
+			$this->indexing_helper->indexing_failed();
+
+			$previous = $exception->getPrevious();
+
+			return new WP_Error(
+				'wpseo_error_indexing',
+				$exception->getMessage(),
+				[
+					'stackTrace'  => ( $previous !== null ) ? $previous->getTraceAsString() : $exception->getTraceAsString(),
+					'object_id'   => $exception->get_object_id(),
+					'object_type' => $exception->get_object_type(),
+				],
+			);
 		} catch ( Exception $exception ) {
 			$this->indexing_helper->indexing_failed();
 
 			return new WP_Error(
 				'wpseo_error_indexing',
 				$exception->getMessage(),
-				[ 'stackTrace' => $exception->getTraceAsString() ]
+				[ 'stackTrace' => $exception->getTraceAsString() ],
 			);
 		}
 	}

@@ -1,5 +1,5 @@
 /* External dependencies */
-import { get } from "lodash-es";
+import { get } from "lodash";
 
 /* Internal dependencies */
 import getL10nObject from "./getL10nObject";
@@ -14,4 +14,3 @@ export default function isMultilingualPluginActive() {
 
 	return get( l10nObject, "multilingualPluginActive", false );
 }
-

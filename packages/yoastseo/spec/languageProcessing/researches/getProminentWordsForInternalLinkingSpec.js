@@ -5,6 +5,7 @@ import CatalanResearcher from "../../../src/languageProcessing/languages/ca/Rese
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import ProminentWord from "../../../src/languageProcessing/values/ProminentWord";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
+import baseStemmer from "../../../src/languageProcessing/helpers/morphology/baseStemmer";
 
 
 const morphologyData = getMorphologyData( "en" );
@@ -130,7 +131,7 @@ describe( "relevantWords research", function() {
 				new ProminentWord( "work", "work", 12 ),
 				new ProminentWord( "SEO", "seo", 9 ),
 				new ProminentWord( "yoast", "yoast", 9 ),
-				new ProminentWord( "customer", "custome", 6 ),
+				new ProminentWord( "customer", "customer", 6 ),
 				new ProminentWord( "delete", "delete", 6 ),
 				new ProminentWord( "end", "end", 6 ),
 				new ProminentWord( "free", "free", 6 ),
@@ -171,6 +172,10 @@ describe( "relevantWords research", function() {
 								   "Romeo and Juliet. " ) );
 
 		const researcher = new Researcher( paper );
+
+		// Use the base stemmer so the research will return prominent words with less than 4 hits.
+		// eslint-disable-next-line no-unused-vars
+		researcher.addHelper( "customGetStemmer", dummy => baseStemmer );
 
 		const expected = {
 			prominentWords: [
@@ -367,12 +372,84 @@ describe( "test for prominent words research for languages that have custom help
 
 		const researcher = new JapaneseResearcher( paper );
 
+		// Use the base stemmer so the research will return prominent words with less than 4 hits.
+		// eslint-disable-next-line no-unused-vars
+		researcher.addHelper( "customGetStemmer", dummy => baseStemmer );
+
 		const expected = {
 			prominentWords: [
 				new ProminentWord( "猫", "猫", 181 ),
 				new ProminentWord( "美しい", "美しい", 181 ),
 				new ProminentWord( "題名", "題名", 3 ),
 			],
+			hasMetaDescription: false,
+			hasTitle: true,
+		};
+
+		const words = prominentWordsResearch( paper, researcher );
+
+		expect( words ).toEqual( expected );
+	} );
+
+	it( "does not count URLs and email addresses as prominent words", function() {
+		const paper = new Paper( "http://blog.example.com/examples ".repeat( 180 ) + "example@something.com ".repeat( 180 ),
+			{ title: "example@something.com example@something.com example@something.com" } );
+
+		const researcher = new Researcher( paper );
+
+		const expected = {
+			prominentWords: [],
+			hasMetaDescription: false,
+			hasTitle: true,
+		};
+
+		const words = prominentWordsResearch( paper, researcher );
+
+		expect( words ).toEqual( expected );
+	} );
+
+	it( "counts domain names as prominent words", function() {
+		const paper = new Paper( "yoast.com ".repeat( 180 ) );
+
+		const researcher = new Researcher( paper );
+
+		const expected = {
+			prominentWords: [ new ProminentWord( "yoast.com", "yoast.com", 180 ) ],
+			hasMetaDescription: false,
+			hasTitle: false,
+		};
+
+		const words = prominentWordsResearch( paper, researcher );
+
+		expect( words ).toEqual( expected );
+	} );
+
+	it( "does not return prominent words when the text is longer than 100 words including URLs and emails, but shorter" +
+		"than 100 words when they are excluded", function() {
+		const paper = new Paper( "http://blog.example.com/examples ".repeat( 180 ) + "example@something.com ".repeat( 180 ) +
+			" cats".repeat( 50 ), { title: "example@something.com example@something.com example@something.com" } );
+
+		const researcher = new Researcher( paper );
+
+		const expected = {
+			prominentWords: [],
+			hasMetaDescription: false,
+			hasTitle: true,
+		};
+
+		const words = prominentWordsResearch( paper, researcher );
+
+		expect( words ).toEqual( expected );
+	} );
+
+	it( "returns prominent words when the text is longer than 100 words after excluding URLs and emails", function() {
+		const paper = new Paper( "http://blog.example.com/examples ".repeat( 180 ) + "example@something.com ".repeat( 180 ) +
+			" cats".repeat( 101 ), { title: "example@something.com example@something.com example@something.com" } );
+
+		const researcher = new Researcher( paper );
+
+		const expected = {
+			prominentWords: [ new ProminentWord( "cats", "cats", 101 ) ],
 			hasMetaDescription: false,
 			hasTitle: true,
 		};

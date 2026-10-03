@@ -93,6 +93,12 @@
   text-align: right;
 }
 
+.schema-how-to-duration {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
 .schema-how-to-duration-flex-container {
   display: flex;
   align-items: center;
@@ -137,6 +143,16 @@ legend.schema-how-to-duration-legend {
 
 .schema-how-to-description {
   margin: 8px 0;
+}
+
+body.is-dark-theme button.components-button.schema-faq-section-button,
+body.is-dark-theme button.components-button.schema-faq-add-question,
+body.is-dark-theme button.components-button.schema-how-to-duration-button,
+body.is-dark-theme button.components-button.schema-how-to-step-button,
+body.is-dark-theme button.components-button.schema-how-to-add-step,
+body.is-dark-theme .schema-how-to-step-mover button.components-button,
+body.is-dark-theme .schema-faq-section-mover button.components-button {
+  color: #e8eaed;
 }
 
 /*# sourceMappingURL=structured-data-blocks.css.map */

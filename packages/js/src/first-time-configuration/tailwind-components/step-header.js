@@ -1,10 +1,8 @@
-import { StepCircle } from "./step-circle";
-import PropTypes from "prop-types";
 import { useEffect, useState } from "@wordpress/element";
+import PropTypes from "prop-types";
 import { stepperTimings } from "../stepper-helper";
+import { StepCircle } from "./step-circle";
 import { useStepperContext } from "./stepper";
-
-/* eslint-disable complexity */
 
 /**
  * Gets the classnames for the step name.
@@ -19,25 +17,25 @@ function getNameClassNames( isFinished, isActiveStep, isLastStep ) {
 	if ( isActiveStep && ! isLastStep ) {
 		return "yst-text-primary-500";
 	}
-	return isFinished ? "yst-text-gray-900" : "yst-text-gray-500";
+	return isFinished ? "yst-text-slate-900" : "yst-text-slate-600";
 }
 
-/* eslint-disable complexity */
 /**
  * The Step header component.
  *
- * @param {Object}   props                   The props object.
- * @param {Object}   props.step              An object representing a step.
- * @param {boolean}  props.isActiveStep      Whether the step is active.
- * @param {boolean}  props.isFinished        Whether the step is finished.
- * @param {boolean}  props.isLastStep        Whether it is the last step.
- * @param {boolean}  props.isStepBeingEdited Whether the step is being open for editing or not.
- * @param {boolean}  props.showEditButton    Whether to show the edit button or not.
- * @param {function} props.editStep          A function to call when the "Edit" button is pressed.
+ * @param {string} name The name of the step.
+ * @param {string} [description=""] The description of the step.
+ * @param {boolean} isFinished Whether the step is finished.
+ * @param {React.ReactNode} [children=null] Additional children.
  *
- * @returns {WPElement} The StepHeader component.
+ * @returns {JSX.Element} The StepHeader element.
  */
-export default function StepHeader( { name, description, isFinished, children } ) {
+export default function StepHeader( {
+	name,
+	description = "",
+	isFinished,
+	children = null,
+} ) {
 	const { stepIndex, activeStepIndex, lastStepIndex } = useStepperContext();
 	const isActiveStep = activeStepIndex === stepIndex;
 	const isLastStep = lastStepIndex === stepIndex;
@@ -65,11 +63,13 @@ export default function StepHeader( { name, description, isFinished, children } 
 			/>
 		</span>
 		{ /* Name and description. */ }
-		<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
-			<span className={ `yst-transition-colors yst-duration-500 yst-text-xs yst-font-[650] yst-tracking-wide yst-uppercase ${ nameClassNames }` }>
+		<span className="yst-ms-4 yst-min-w-0 yst-flex yst-flex-col">
+			<span
+				className={ `yst-transition-colors yst-duration-500 yst-text-xs yst-font-[650] yst-tracking-wide yst-uppercase ${ nameClassNames }` }
+			>
 				{ name }
 			</span>
-			{ description && <span className="yst-text-sm yst-text-gray-500">{ description }</span> }
+			{ description && <span className="yst-text-sm yst-text-slate-600">{ description }</span> }
 		</span>
 		{ children }
 	</div>;
@@ -81,10 +81,3 @@ StepHeader.propTypes = {
 	description: PropTypes.string,
 	children: PropTypes.node,
 };
-
-StepHeader.defaultProps = {
-	description: "",
-	children: [],
-};
-
-/* eslint-enable complexity */

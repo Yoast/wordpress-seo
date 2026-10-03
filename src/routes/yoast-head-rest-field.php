@@ -21,14 +21,14 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const YOAST_HEAD_ATTRIBUTE_NAME = 'yoast_head';
+	public const YOAST_HEAD_ATTRIBUTE_NAME = 'yoast_head';
 
 	/**
 	 * The name of the Yoast head JSON field.
 	 *
 	 * @var string
 	 */
-	const YOAST_JSON_HEAD_ATTRIBUTE_NAME = 'yoast_head_json';
+	public const YOAST_JSON_HEAD_ATTRIBUTE_NAME = 'yoast_head_json';
 
 	/**
 	 * The post type helper.
@@ -93,13 +93,13 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
-		$public_post_types = $this->post_type_helper->get_public_post_types();
+		$public_post_types = $this->post_type_helper->get_indexable_post_types();
 
 		foreach ( $public_post_types as $post_type ) {
 			$this->register_rest_fields( $post_type, 'for_post' );
 		}
 
-		$public_taxonomies = $this->taxonomy_helper->get_public_taxonomies();
+		$public_taxonomies = $this->taxonomy_helper->get_indexable_taxonomies();
 
 		foreach ( $public_taxonomies as $taxonomy ) {
 			if ( $taxonomy === 'post_tag' ) {

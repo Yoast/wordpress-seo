@@ -7,7 +7,9 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/en
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/en/config/twoPartTransitionWords";
 import stopWords from "../../../../src/languageProcessing/languages/en/config/stopWords";
 import syllables from "../../../../src/languageProcessing/languages/en/config/syllables.json";
-const morphologyDataEN = getMorphologyData( "en" );
+import checkIfWordIsComplex from "../../../../src/languageProcessing/languages/en/helpers/checkIfWordIsComplex";
+import wordComplexityConfig from "../../../../src/languageProcessing/languages/en/config/wordComplexity";
+const premiumData = getMorphologyData( "en" );
 
 describe( "a test for the English Researcher", function() {
 	const researcher = new Researcher( new Paper( "This is another paper!" ) );
@@ -53,7 +55,7 @@ describe( "a test for the English Researcher", function() {
 	} );
 
 	it( "stems a word using the English stemmer", function() {
-		researcher.addResearchData( "morphology", morphologyDataEN );
+		researcher.addResearchData( "morphology", premiumData );
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "cats" ) ).toEqual( "cat" );
 	} );
 
@@ -78,7 +80,9 @@ describe( "a test for the English Researcher", function() {
 	} );
 
 	it( "checks if a word is complex in English", function() {
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( "polygonal" ) ).toEqual( true );
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( "investigations" ) ).toEqual( false );
+		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
+
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "polygonal", premiumData.en ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "investigations", premiumData.en ) ).toEqual( false );
 	} );
 } );

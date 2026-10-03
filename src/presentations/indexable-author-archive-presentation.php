@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
@@ -28,13 +27,6 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	 * @var Author_Archive_Helper
 	 */
 	protected $author_archive;
-
-	/**
-	 * Holds the Pagination_Helper instance.
-	 *
-	 * @var Pagination_Helper
-	 */
-	protected $pagination;
 
 	/**
 	 * Indexable_Author_Archive_Presentation constructor.

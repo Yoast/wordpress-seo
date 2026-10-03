@@ -9,10 +9,12 @@ const paper = new Paper( content, {
 	description: "העיר היא עיר הבירה של פרובינציית נאפולי ובירת מחוז קמפניה. בנאפולי מתגוררים " +
 		"כ-959,000 תושבים ובאזור המטרופוליטני, הכולל גם חלקים מנפות קזרטה, אבלינו וסלרנו מתגוררים כ-4,000,000 תושבים.",
 	title: "נאפולי",
+	textTitle: "נאפולי",
 	titleWidth: 450,
 	locale: "he_IL",
 	permalink: "https://he.wikipedia.org/wiki/%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
 	slug: "%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
+	writingDirection: "RTL",
 } );
 
 const expectedResults = {
@@ -29,7 +31,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 6 times. This is great!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 6 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -45,12 +47,14 @@ const expectedResults = {
 			" <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 2,
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: You are not using any higher-level subheadings containing the keyphrase or its synonyms. <a href='https://yoa.st/33n' target='_blank'>Fix that</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: There are no links which use your keyphrase or synonym as their anchor text. Nice!",
 	},
 	textLength: {
 		isApplicable: true,
@@ -71,7 +75,8 @@ const expectedResults = {
 	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus keyphrase " +
+			"appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -81,7 +86,8 @@ const expectedResults = {
 	slugKeyword: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!",
+		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear " +
+			"in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!",
 	},
 	urlLength: {
 		isApplicable: true,
@@ -110,13 +116,14 @@ const expectedResults = {
 		isApplicable: true,
 		score: 3,
 		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: " +
-			"1 of the paragraphs contains more than the recommended maximum of 150 words." +
+			"1 of the paragraphs contains more than the recommended maximum number of words (150)." +
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 66.7% of the sentences contain more than 15 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 78.9% of the sentences contain more than 15 words," +
+			" which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
@@ -126,7 +133,9 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 14.3% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 14.3% of the sentences contain passive voice, " +
+			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
+			"Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,
@@ -137,11 +146,12 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>:" +
-			" There is enough variety in your sentences. That's great!",
+			" There are no repetitive sentence beginnings. That's great!",
 	},
 	imageKeyphrase: {
-		// This is not applicable to this paper since the text doesn't have any image in it.
-		isApplicable: false,
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!",
 	},
 	imageCount: {
 		isApplicable: true,
@@ -151,6 +161,16 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

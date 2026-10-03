@@ -15,14 +15,14 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_unindexed_post_link_count';
+	public const UNINDEXED_COUNT_TRANSIENT = 'wpseo_unindexed_post_link_count';
 
 	/**
 	 * The transient cache key for limited counts.
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
+	public const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
 
 	/**
 	 * The post type helper.
@@ -63,7 +63,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 					'content' => $post->post_content,
 				];
 			},
-			$posts
+			$posts,
 		);
 	}
 
@@ -73,7 +73,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 * @return string The prepared query string.
 	 */
 	protected function get_count_query() {
-		$public_post_types = $this->post_type_helper->get_accessible_post_types();
+		$public_post_types = $this->post_type_helper->get_indexable_post_types();
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 
@@ -81,20 +81,25 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		return $this->wpdb->prepare(
 			"SELECT COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
-			LEFT JOIN $indexable_table AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN $links_table AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
-				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ')',
-			$public_post_types
+			WHERE P.post_status = 'publish'
+				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ')
+				AND (
+					NOT EXISTS (
+						SELECT 1 FROM ' . $indexable_table . " AS I
+						WHERE I.object_id = P.ID
+							AND I.link_count IS NOT NULL
+							AND I.object_type = 'post'
+					)
+					OR EXISTS (
+						SELECT 1 FROM $links_table AS L
+						WHERE L.post_id = P.ID
+							AND L.target_indexable_id IS NULL
+							AND L.type = 'internal'
+							AND L.target_post_id IS NOT NULL
+							AND L.target_post_id != 0
+					)
+				)",
+			$public_post_types,
 		);
 	}
 
@@ -106,7 +111,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 * @return string The prepared query string.
 	 */
 	protected function get_select_query( $limit = false ) {
-		$public_post_types = $this->post_type_helper->get_accessible_post_types();
+		$public_post_types = $this->post_type_helper->get_indexable_post_types();
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 		$replacements      = $public_post_types;
@@ -122,21 +127,26 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			"
 			SELECT P.ID, P.post_content
 			FROM {$this->wpdb->posts} AS P
-			LEFT JOIN $indexable_table AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN $links_table AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
-				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ")
+			WHERE P.post_status = 'publish'
+				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ')
+				AND (
+					NOT EXISTS (
+						SELECT 1 FROM ' . $indexable_table . " AS I
+						WHERE I.object_id = P.ID
+							AND I.link_count IS NOT NULL
+							AND I.object_type = 'post'
+					)
+					OR EXISTS (
+						SELECT 1 FROM $links_table AS L
+						WHERE L.post_id = P.ID
+							AND L.target_indexable_id IS NULL
+							AND L.type = 'internal'
+							AND L.target_post_id IS NOT NULL
+							AND L.target_post_id != 0
+					)
+				)
 			$limit_query",
-			$replacements
+			$replacements,
 		);
 	}
 }

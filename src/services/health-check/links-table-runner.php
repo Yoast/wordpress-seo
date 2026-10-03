@@ -37,10 +37,7 @@ class Links_Table_Runner implements Runner_Interface {
 	 * @param Migration_Status $migration_status Object used to determine whether the links table is accessible.
 	 * @param Options_Helper   $options_helper   Object used to determine whether the health check should run.
 	 */
-	public function __construct(
-		Migration_Status $migration_status,
-		Options_Helper $options_helper
-	) {
+	public function __construct( Migration_Status $migration_status, Options_Helper $options_helper ) {
 		$this->migration_status = $migration_status;
 		$this->options_helper   = $options_helper;
 	}
@@ -51,32 +48,13 @@ class Links_Table_Runner implements Runner_Interface {
 	 * @return void
 	 */
 	public function run() {
-		if ( ! $this->should_run() ) {
-			return;
-		}
-
 		$this->links_table_accessible = $this->migration_status->is_version( 'free', \WPSEO_VERSION );
-	}
-
-	/**
-	 * Determines whether the health check should run or not.
-	 *
-	 * @return bool True if the text link counter feature is enabled.
-	 */
-	public function should_run() {
-		$text_link_counter_enabled = $this->options_helper->get( 'enable_text_link_counter' );
-
-		if ( ! \is_bool( $text_link_counter_enabled ) ) {
-			return false;
-		}
-
-		return $text_link_counter_enabled;
 	}
 
 	/**
 	 * Returns true if the links table is accessible
 	 *
-	 * @return bool The boolean indicating if the health check was succesful.
+	 * @return bool The boolean indicating if the health check was successful.
 	 */
 	public function is_successful() {
 		return $this->links_table_accessible;

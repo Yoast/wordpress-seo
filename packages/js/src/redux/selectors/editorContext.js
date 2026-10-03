@@ -1,4 +1,11 @@
+import { createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
+
+const EDITOR_TYPE_TO_API_VALUE = {
+	blockEditor: "gutenberg",
+	elementorEditor: "elementor",
+	classicEditor: "classic",
+};
 
 /**
  * Gets the editor context.
@@ -12,7 +19,7 @@ export function getEditorContext( state ) {
 }
 
 /**
- * Returns whether your or on a page or post.
+ * Returns whether you're on a page or post.
  *
  * @param {Object} state The state.
  *
@@ -21,6 +28,53 @@ export function getEditorContext( state ) {
 export function getPostOrPageString( state ) {
 	return get( state, "editorContext.postTypeNameSingular" ) === "Page" ? "page" : "post";
 }
+
+/**
+ * Returns post type.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The post type.
+ */
+export function getPostType( state ) {
+	return get( state, "editorContext.postType" );
+}
+
+/**
+ * Returns whether you're editing a product.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether you're editing a product.
+ */
+export const getIsProduct = createSelector(
+	[ getPostType ],
+	( postType ) => postType === "product"
+);
+
+/**
+ * Returns whether you're editing a product term.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether you're editing a product term.
+ */
+export const getIsProductTerm = createSelector(
+	[ getPostType ],
+	( postType ) => [ "product_cat", "product_tag" ].includes( postType )
+);
+
+/**
+ * Returns whether you're editing a product entity.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether you're editing a product entity.
+ */
+export const getIsProductEntity = createSelector(
+	[ getIsProduct, getIsProductTerm ],
+	( isProduct, isProductTerm ) => isProduct || isProductTerm
+);
 
 /**
  * Returns whether this is the block editor or not.
@@ -42,6 +96,17 @@ export function getIsBlockEditor( state ) {
  */
 export function getIsElementorEditor( state ) {
 	return get( state, "editorContext.isElementorEditor", false );
+}
+
+/**
+ * Returns whether this is the current page is frontpage or not.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {Boolean} Whether this is a frontpage.
+ */
+export function getIsFrontPage( state ) {
+	return get( state, "editorContext.isFrontPage", false );
 }
 
 /**
@@ -81,6 +146,22 @@ export function getEditorType( state ) {
 		return "blockEditor";
 	}
 	return "classicEditor";
+}
+
+/**
+ * Returns the editor type as the API-expected value.
+ *
+ * Maps internal editor type identifiers to the strings the REST API expects:
+ * - "blockEditor" → "gutenberg"
+ * - "elementorEditor" → "elementor"
+ * - "classicEditor" → "classic"
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The editor type API value.
+ */
+export function getEditorTypeApiValue( state ) {
+	return EDITOR_TYPE_TO_API_VALUE[ getEditorType( state ) ] || "classic";
 }
 
 /**

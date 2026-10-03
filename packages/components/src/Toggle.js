@@ -123,7 +123,6 @@ class Toggle extends React.Component {
 	render() {
 		return (
 			<ToggleDiv>
-				{ /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */ }
 				{ this.props.labelText && <ToggleLabel
 					id={ this.props.id }
 					onClick={ this.onClick }
@@ -157,7 +156,7 @@ Toggle.propTypes = {
 	disable: PropTypes.bool,
 	onToggleDisabled: PropTypes.func,
 	id: PropTypes.string.isRequired,
-	labelText: PropTypes.string.isRequired,
+	labelText: PropTypes.string,
 	showToggleStateLabel: PropTypes.bool,
 };
 

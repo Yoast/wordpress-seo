@@ -70,4 +70,14 @@ class Language_Helper {
 		}
 		return $researcher_language;
 	}
+
+	/**
+	 * Returns The site language code without region
+	 * (e.g. 'en' for 'en_US' or 'en_GB').
+	 *
+	 * @return string The site language code without region.
+	 */
+	public function get_language() {
+		return WPSEO_Language_Utils::get_language( \get_locale() );
+	}
 }

@@ -1,24 +1,15 @@
+/* eslint-disable complexity */
 /* global wpseoAdminGlobalL10n */
-
-/* External dependencies */
-import PropTypes from "prop-types";
-import { Fragment, useRef, useState, useEffect, useCallback, useMemo } from "@wordpress/element";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { isEmpty, filter, debounce, without, difference } from "lodash-es";
-import styled from "styled-components";
-
-/* Yoast dependencies */
+import { Checkbox } from "@yoast/components";
 import { getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
-
-/* Internal dependencies */
-import WincherTableRow from "./WincherTableRow";
-import {
-	getKeyphrases,
-	trackKeyphrases,
-	untrackKeyphrase,
-} from "../helpers/wincherEndpoints";
-
+import { difference, filter, isEmpty, orderBy, without } from "lodash";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 import { handleAPIResponse } from "../helpers/api";
+import { getKeyphrases, trackKeyphrases, untrackKeyphrase } from "../helpers/wincherEndpoints";
+import WincherTableRow from "./WincherTableRow";
 
 const GetMoreInsightsLink = makeOutboundLink();
 
@@ -33,13 +24,22 @@ const FocusKeyphraseFootnote = styled.span`
 	}
 `;
 
-const ViewColumn = styled.th`
-	min-width: 60px;
-`;
-
 const TableWrapper = styled.div`
 	width: 100%;
 	overflow-y: auto;
+`;
+
+const SelectKeyphraseCheckboxWrapper = styled.th`
+	pointer-events: ${ props => props.isDisabled ? "none" : "initial" };
+	padding-right: 0 !important;
+
+	& > div {
+		margin: 0px;
+	}
+`;
+
+const KeyphraseThWrapper = styled.th`
+	padding-left: 2px !important;
 `;
 
 /**
@@ -57,38 +57,52 @@ const usePrevious = ( value ) => {
 	return ref.current;
 };
 
-const debouncedGetKeyphrases = debounce( getKeyphrases, 500, {
-	leading: true,
-} );
-
 /**
  * The WincherKeyphrasesTable component.
  *
- * @param {Object} props The props to use.
+ * @param {function} addTrackedKeyphrase Callback to add a tracked keyphrase.
+ * @param {boolean} [isLoggedIn=false] Whether the user is logged in.
+ * @param {boolean} [isNewlyAuthenticated=false] Whether the user is newly authenticated.
+ * @param {Array} [keyphrases=[]] The keyphrases.
+ * @param {function} newRequest Callback for new request.
+ * @param {function} removeTrackedKeyphrase Callback to remove a tracked keyphrase.
+ * @param {function} setRequestFailed Callback to set request failed.
+ * @param {function} setKeyphraseLimitReached Callback to set keyphrase limit reached.
+ * @param {function} setRequestSucceeded Callback to set request succeeded.
+ * @param {function} setTrackedKeyphrases Callback to set tracked keyphrases.
+ * @param {function} setHasTrackedAll Callback to set has tracked all.
+ * @param {boolean} [trackAll=false] Whether to track all keyphrases.
+ * @param {?Object} [trackedKeyphrases=null] The tracked keyphrases.
+ * @param {string} [websiteId=""] The website ID.
+ * @param {string} permalink The permalink.
+ * @param {string} [focusKeyphrase=""] The focus keyphrase.
+ * @param {?string} [startAt=null] The start date.
+ * @param {Array<string>} selectedKeyphrases The selected keyphrases.
+ * @param {function} onSelectKeyphrases Callback to select keyphrases.
  *
- * @returns {wp.Element} The WincherKeyphrasesTable.
- *
+ * @returns {JSX.Element} The WincherKeyphrasesTable.
  */
-const WincherKeyphrasesTable = ( props ) => {
-	const {
-		addTrackedKeyphrase,
-		isLoggedIn,
-		keyphrases,
-		permalink,
-		removeTrackedKeyphrase,
-		setKeyphraseLimitReached,
-		setRequestFailed,
-		setRequestSucceeded,
-		setTrackedKeyphrases,
-		setHasTrackedAll,
-		trackAll,
-		trackedKeyphrases,
-		isNewlyAuthenticated,
-		websiteId,
-		focusKeyphrase,
-		newRequest,
-	} = props;
-
+const WincherKeyphrasesTable = ( {
+	addTrackedKeyphrase,
+	isLoggedIn = false,
+	isNewlyAuthenticated = false,
+	keyphrases = [],
+	newRequest,
+	removeTrackedKeyphrase,
+	setRequestFailed,
+	setKeyphraseLimitReached,
+	setRequestSucceeded,
+	setTrackedKeyphrases,
+	setHasTrackedAll,
+	trackAll = false,
+	trackedKeyphrases = null,
+	websiteId = "",
+	permalink,
+	focusKeyphrase = "",
+	startAt = null,
+	selectedKeyphrases,
+	onSelectKeyphrases,
+} ) => {
 	const interval = useRef();
 	const abortController = useRef();
 	const hasFetchedKeyphrasesAfterConnect = useRef( false );
@@ -104,7 +118,7 @@ const WincherKeyphrasesTable = ( props ) => {
 	const getKeyphraseData = useCallback( ( keyphrase ) => {
 		const targetKeyphrase = keyphrase.toLowerCase();
 
-		if ( trackedKeyphrases && ! isEmpty( trackedKeyphrases ) && trackedKeyphrases.hasOwnProperty( targetKeyphrase ) ) {
+		if ( trackedKeyphrases && ! isEmpty( trackedKeyphrases ) && Object.prototype.hasOwnProperty.call( trackedKeyphrases, targetKeyphrase ) ) {
 			return trackedKeyphrases[ targetKeyphrase ];
 		}
 
@@ -124,7 +138,7 @@ const WincherKeyphrasesTable = ( props ) => {
 					abortController.current.abort();
 				}
 				abortController.current = typeof AbortController === "undefined" ? null : new AbortController();
-				return debouncedGetKeyphrases( keyphrases, permalink, abortController.current.signal );
+				return getKeyphrases( keyphrases, startAt, permalink, abortController.current?.signal );
 			},
 			( response ) => {
 				setRequestSucceeded( response );
@@ -140,6 +154,7 @@ const WincherKeyphrasesTable = ( props ) => {
 		setTrackedKeyphrases,
 		keyphrases,
 		permalink,
+		startAt,
 	] );
 
 	/**
@@ -227,8 +242,12 @@ const WincherKeyphrasesTable = ( props ) => {
 	// Fetch initial data and re-fetch if the permalink or keyphrases change.
 	const prevPermalink = usePrevious( permalink );
 	const prevKeyphrases = usePrevious( keyphrases );
+	const prevStartAt = usePrevious( startAt );
+	const hasParams = permalink && startAt;
+
 	useEffect( () => {
-		if ( isLoggedIn && permalink && ( permalink !== prevPermalink || difference( keyphrases, prevKeyphrases ).length ) ) {
+		if ( isLoggedIn && hasParams &&
+			( permalink !== prevPermalink || difference( keyphrases, prevKeyphrases ).length || startAt !== prevStartAt ) ) {
 			getTrackedKeyphrases();
 		}
 	}, [
@@ -238,6 +257,9 @@ const WincherKeyphrasesTable = ( props ) => {
 		keyphrases,
 		prevKeyphrases,
 		getTrackedKeyphrases,
+		hasParams,
+		startAt,
+		prevStartAt,
 	] );
 
 	// Tracks remaining keyphrases if trackAll is set and we have data.
@@ -298,24 +320,48 @@ const WincherKeyphrasesTable = ( props ) => {
 
 	const isDataLoading = isLoggedIn && trackedKeyphrases === null;
 
+	const trackedKeywordsWithHistory = useMemo( () => isEmpty( trackedKeyphrases ) ? [] : Object.values( trackedKeyphrases )
+		.filter( keyword => ! isEmpty( keyword?.position?.history ) )
+		.map( keyword => keyword.keyword ), [ trackedKeyphrases ] );
+
+	const areAllSelected = useMemo( () => selectedKeyphrases.length > 0 && trackedKeywordsWithHistory.length > 0 &&
+			trackedKeywordsWithHistory.every( selected => selectedKeyphrases.includes( selected ) ),
+	[ selectedKeyphrases, trackedKeywordsWithHistory ] );
+
+	/**
+	 * Select or deselect all keyphrases.
+	 *
+	 * @returns {void}
+	 */
+	const onSelectAllKeyphrases = useCallback( () => {
+		onSelectKeyphrases( areAllSelected ? [] : trackedKeywordsWithHistory );
+	}, [ onSelectKeyphrases, areAllSelected, trackedKeywordsWithHistory ] );
+
+	const sortedKeyphrases = useMemo( () => orderBy( keyphrases, [
+		( keyphrase ) => Object.values( trackedKeyphrases || {} )
+			.map( trackedKeyphrase => trackedKeyphrase.keyword ).includes( keyphrase ),
+	], [ "desc" ] ), [ keyphrases, trackedKeyphrases ] );
+
 	return (
 		keyphrases && ! isEmpty( keyphrases ) && <Fragment>
 			<TableWrapper>
 				<table className="yoast yoast-table">
 					<thead>
 						<tr>
-							<th
-								scope="col"
-								abbr={ __( "Tracking", "wordpress-seo" ) }
-							>
-								{ __( "Tracking", "wordpress-seo" ) }
-							</th>
-							<th
+							<SelectKeyphraseCheckboxWrapper isDisabled={ trackedKeywordsWithHistory.length === 0 }>
+								<Checkbox
+									id="select-all"
+									onChange={ onSelectAllKeyphrases }
+									checked={ areAllSelected }
+									label=""
+								/>
+							</SelectKeyphraseCheckboxWrapper>
+							<KeyphraseThWrapper
 								scope="col"
 								abbr={ __( "Keyphrase", "wordpress-seo" ) }
 							>
 								{ __( "Keyphrase", "wordpress-seo" ) }
-							</th>
+							</KeyphraseThWrapper>
 							<th
 								scope="col"
 								abbr={ __( "Position", "wordpress-seo" ) }
@@ -328,14 +374,25 @@ const WincherKeyphrasesTable = ( props ) => {
 							>
 								{ __( "Position over time", "wordpress-seo" ) }
 							</th>
-							<ViewColumn className="yoast-table--nobreak" />
+							<th
+								scope="col"
+								abbr={ __( "Last updated", "wordpress-seo" ) }
+							>
+								{ __( "Last updated", "wordpress-seo" ) }
+							</th>
+							<th
+								scope="col"
+								abbr={ __( "Tracking", "wordpress-seo" ) }
+							>
+								{ __( "Tracking", "wordpress-seo" ) }
+							</th>
 						</tr>
 					</thead>
 					<tbody>
 						{
-							keyphrases.map( ( keyphrase, index ) => {
+							sortedKeyphrases.map( ( keyphrase, index ) => {
 								return ( <WincherTableRow
-									key={ `trackable-keyphrase-${index}` }
+									key={ `trackable-keyphrase-${ index }` }
 									keyphrase={ keyphrase }
 									onTrackKeyphrase={ onTrackKeyphrase }
 									onUntrackKeyphrase={ onUntrackKeyphrase }
@@ -344,6 +401,8 @@ const WincherKeyphrasesTable = ( props ) => {
 									websiteId={ websiteId }
 									isDisabled={ ! isLoggedIn }
 									isLoading={ isDataLoading || loadingKeyphrases.indexOf( keyphrase.toLowerCase() ) >= 0 }
+									isSelected={ selectedKeyphrases.includes( keyphrase ) }
+									onSelectKeyphrases={ onSelectKeyphrases }
 								/> );
 							} )
 						}
@@ -385,16 +444,9 @@ WincherKeyphrasesTable.propTypes = {
 	websiteId: PropTypes.string,
 	permalink: PropTypes.string.isRequired,
 	focusKeyphrase: PropTypes.string,
-};
-
-WincherKeyphrasesTable.defaultProps = {
-	isLoggedIn: false,
-	isNewlyAuthenticated: false,
-	keyphrases: [],
-	trackAll: false,
-	trackedKeyphrases: null,
-	websiteId: "",
-	focusKeyphrase: "",
+	startAt: PropTypes.string,
+	selectedKeyphrases: PropTypes.arrayOf( PropTypes.string ).isRequired,
+	onSelectKeyphrases: PropTypes.func.isRequired,
 };
 
 export default WincherKeyphrasesTable;

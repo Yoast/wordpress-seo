@@ -1,5 +1,3 @@
-import wordComplexity from "../config/internal/wordComplexity";
-import functionWords from "../config/functionWords";
 import { normalizeSingle } from "../../../helpers/sanitize/quotes";
 
 const contractionPrefixes = "^(c'|d'|l'|s')";
@@ -7,15 +5,17 @@ const contractionRegex = new RegExp( contractionPrefixes );
 
 /**
  * Checks if a word is complex.
+ * This is a helper for the Word Complexity assessment. As such, this helper is not bundled in Yoast SEO.
  *
+ * @param {object} config The configuration needed for assessing the word's complexity, e.g., the frequency list.
  * @param {string} word The word to check.
+ * @param {object}	premiumData The object that contains data for the assessment including the frequency list.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( word ) {
-	const wordComplexityConfig = wordComplexity;
-	const lengthLimit = wordComplexityConfig.wordLength;
-	const frequencyList = wordComplexityConfig.frequencyList;
+export default function checkIfWordIsComplex( config, word, premiumData ) {
+	const lengthLimit = config.wordLength;
+	const frequencyList = premiumData.frequencyList.list;
 
 	// Normalize single quotes before checking for contractions.
 	word = normalizeSingle( word );
@@ -28,13 +28,13 @@ export default function checkIfWordIsComplex( word ) {
 		word = word.replace( contractionRegex, "" );
 	}
 
-	// The word is not complex if it's less than the length limit, i.e. 9 characters for French.
+	// The word is not complex if it's less than or the same as the length limit, i.e. 9 characters for French.
 	if ( word.length <= lengthLimit ) {
 		return false;
 	}
 
 	// The word is not complex if it's in the frequency list.
-	if ( frequencyList.includes( word ) || functionWords.all.includes( word ) ) {
+	if ( frequencyList.includes( word ) ) {
 		return false;
 	}
 
@@ -43,17 +43,24 @@ export default function checkIfWordIsComplex( word ) {
 	 * word longer than 9 characters is not complex if it starts with capital letter.
 	 */
 	if ( word[ 0 ].toLowerCase() === word[ 0 ] ) {
+		const standardSPluralSuffixesRegex = new RegExp( premiumData.suffixGroupsComplexity.standardSuffixesWithSplural );
+		const standardXPluralSuffixesRegex = new RegExp( premiumData.suffixGroupsComplexity.standardSuffixesWithXplural );
+		const irregularPluralSingularSuffixes = premiumData.suffixGroupsComplexity.irregularPluralSingularSuffixes;
+		const irregularPluralSuffixRegex = new RegExp( irregularPluralSingularSuffixes[ 0 ] );
+
 		/*
 		 * If a word is longer than 9 characters and doesn't start with capital letter,
-		 * we check further whether it is a plural ending in -s. If it is, we remove the -s suffix
+		 * we check further whether it is a plural that ends on the -s or -x plural suffix. If it is, we remove the plural suffix
 		 * and check if the singular word can be found in the frequency list.
+		 * if it is a plural that does not end on -s or -x but on -aux, we replace the plural -aux suffix with the singular suffix -al.
 		 * The word is not complex if the singular form is in the list.
 		 */
-		if ( word.endsWith( "s" ) ) {
+		if ( standardSPluralSuffixesRegex.test( word ) || standardXPluralSuffixesRegex.test( word ) ) {
 			word = word.substring( 0, word.length - 1 );
-			return ! frequencyList.includes( word );
+		} else if ( irregularPluralSuffixRegex.test( word ) ) {
+			word = word.replace( irregularPluralSuffixRegex, irregularPluralSingularSuffixes[ 1 ] );
 		}
-		return true;
+		return ! frequencyList.includes( word );
 	}
 
 	return false;

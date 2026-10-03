@@ -7,6 +7,7 @@ import Alert from "../../base/alert";
 import { makeOutboundLink } from "@yoast/helpers";
 import { NewsletterSignup } from "./newsletter-signup";
 import RadioGroup from "../../base/radio-group";
+import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 
 const Link = makeOutboundLink();
 
@@ -20,19 +21,31 @@ const Link = makeOutboundLink();
  */
 export default function PersonalPreferencesStep( { state, setTracking } ) {
 	return <Fragment>
-		<h4 className="yst-text-gray-900 yst-text-base yst-leading-6 yst-font-normal">
+		{ ( ! state.isPremium ) && <Fragment>
+			<NewsletterSignup gdprLink={ window.wpseoFirstTimeConfigurationData.shortlinks.gdpr } />
+			<hr className="yst-bg-slate-200 yst-my-6" />
+		</Fragment> }
+		<h4 className="yst-text-slate-800 yst-text-sm yst-leading-6 yst-font-medium">
 			{
-				// translators: %s is replaced by "Yoast SEO"
-				sprintf( __( "%s usage tracking", "wordpress-seo" ), "Yoast SEO" )
+				__( "Are you open to help us improve our services?",
+					"wordpress-seo" )
 			}
 		</h4>
-		{ !! state.isMainSite && ! state.isTrackingAllowedMultisite && <Alert type={ "warning" } className="yst-mt-2">
+		{ !! state.isMainSite && ! state.isTrackingAllowedMultisite && <Alert type={ "warning" }>
 			{ __( "This feature has been disabled by the network admin.", "wordpress-seo" ) }
 		</Alert> }
-		{ ! state.isMainSite && <Alert type={ "warning" } className="yst-mt-2">
+		{ ! state.isMainSite && <Alert type={ "warning" }>
 			{ __( "This feature has been disabled since subsites never send tracking data.", "wordpress-seo" ) }
 		</Alert> }
-		<p className={ classNames( "yst-text-normal yst-mt-2 yst-mb-4", state.isMainSite && state.isTrackingAllowedMultisite ? "" : "yst-opacity-50" ) }>{ __( "We need your help to improve Yoast SEO. Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }</p>
+		<p className={ classNames( "yst-text-normal yst-mb-4", state.isMainSite && state.isTrackingAllowedMultisite ? "" : "yst-opacity-50" ) }>
+			{
+				sprintf(
+					/* translators: 1: Yoast SEO. */
+					__( "Can we collect anonymous information about your website to enhance %1$s?", "wordpress-seo" ),
+					"Yoast SEO"
+				)
+			}
+		</p>
 		{ <RadioGroup
 			id="yoast-configuration-tracking-radio-button"
 			name="yoast-configuration-tracking"
@@ -43,11 +56,11 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 			options={ [
 				{
 					value: 0,
-					label: __( "No, don’t track my site data", "wordpress-seo" ),
+					label: __( "No, I don't want to share my site data", "wordpress-seo" ),
 				},
 				{
 					value: 1,
-					label: __( "Yes, you can track my site data", "wordpress-seo" ),
+					label: __( "Yes, you can collect my site data", "wordpress-seo" ),
 				},
 			] }
 		/> }
@@ -56,17 +69,26 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 				className="yst-inline-block yst-mt-4"
 				href={ "https://yoa.st/config-workout-tracking" }
 			>
-				{ __( "What data will be tracked and for what reasons?", "wordpress-seo" ) }
+				{ __( "What data will be collected and why?", "wordpress-seo" ) }
 			</Link>
-			<p className="yst-my-2">
-				<i>{
-					__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors.", "wordpress-seo" )
-				}</i>
+			<p className="yst-my-2 yst-italic">
+				{
+					safeCreateInterpolateElement(
+						sprintf(
+							/* translators: %1$s expands to opening 'span' HTML tag, %2$s expands to closing 'span' HTML tag. */
+							__(
+								"%1$sImportant:%2$s We won't sell this data, and we won't collect any personal information about you or your visitors.",
+								"wordpress-seo"
+							),
+							"<span>",
+							"</span>"
+						),
+						{
+							span: <span className="yst-text-slate-800 yst-font-medium" />,
+						}
+					)
+				}
 			</p>
-		</Fragment> }
-		{ ( ! state.isPremium ) && <Fragment>
-			<br />
-			<NewsletterSignup gdprLink={ window.wpseoFirstTimeConfigurationData.shortlinks.gdpr } />
 		</Fragment> }
 	</Fragment>;
 }

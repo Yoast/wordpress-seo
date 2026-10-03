@@ -1,12 +1,14 @@
 import classNames from "classnames";
 import { keys } from "lodash";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import { useSvgAria } from "../../hooks";
 
-const classNameMap = {
+export const classNameMap = {
 	variant: {
 		// Default is currentColor.
 		"default": "",
+		primary: "yst-text-primary-500",
 		white: "yst-text-white",
 	},
 	size: {
@@ -22,15 +24,16 @@ const classNameMap = {
  * @param {string} [className] The HTML class.
  * @returns {JSX.Element} The spinner.
  */
-const Spinner = ( {
-	variant,
-	size,
-	className,
-} ) => {
+const Spinner = forwardRef( ( {
+	variant = "default",
+	size = "4",
+	className = "",
+}, ref ) => {
 	const svgAriaProps = useSvgAria();
 
 	return (
 		<svg
+			ref={ ref }
 			xmlns="http://www.w3.org/2000/svg/"
 			fill="none"
 			viewBox="0 0 24 24"
@@ -42,26 +45,20 @@ const Spinner = ( {
 			) }
 			{ ...svgAriaProps }
 		>
-			<circle className="yst-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+			<circle className="yst-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
 			<path
-				className="yst-opacity-75"
-				fill="currentColor"
+				className="yst-opacity-75" fill="currentColor"
 				d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
 			/>
 		</svg>
 	);
-};
+} );
 
+Spinner.displayName = "Spinner";
 Spinner.propTypes = {
 	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
 	size: PropTypes.oneOf( keys( classNameMap.size ) ),
 	className: PropTypes.string,
-};
-
-Spinner.defaultProps = {
-	variant: "default",
-	size: "4",
-	className: "",
 };
 
 export default Spinner;

@@ -1,16 +1,15 @@
-import PropTypes from "prop-types";
 import { Fragment, useMemo } from "@wordpress/element";
 import { last } from "lodash";
+import PropTypes from "prop-types";
 
 /**
- * @param {Object}           props       The props object.
- * @param {string[]}         props.texts Array of text strings to render in multi-line format.
- * @param {string}           props.id    An unique identifier id to use in keying.
- * @param {string|WPElement} props.as    Component to render as.
+ * @param {string[]} texts Array of text strings to render in multi-line format.
+ * @param {string} id An unique identifier id to use in keying.
+ * @param {string|React.ReactNode} [as="p"] Component to render as.
  *
- * @returns {WPElement} The MultiLineText component.
+ * @returns {JSX.Element} The MultiLineText component.
  */
-const MultiLineText  = ( { texts, id, as: Component, ...rest } ) => {
+const MultiLineText = ( { texts, id, as: Component = "p", ...rest } ) => {
 	const lastText = useMemo( () => last( texts ), [ texts ] );
 	return (
 		<Component id={ id } { ...rest }>
@@ -22,10 +21,6 @@ const MultiLineText  = ( { texts, id, as: Component, ...rest } ) => {
 			) ) }
 		</Component>
 	);
-};
-
-MultiLineText.defaultProps = {
-	as: "p",
 };
 
 MultiLineText.propTypes = {

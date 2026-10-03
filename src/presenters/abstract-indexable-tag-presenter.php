@@ -9,10 +9,10 @@ namespace Yoast\WP\SEO\Presenters;
  */
 abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Presenter {
 
-	const META_PROPERTY_CONTENT = '<meta property="%2$s" content="%1$s"%3$s />';
-	const META_NAME_CONTENT     = '<meta name="%2$s" content="%1$s"%3$s />';
-	const LINK_REL_HREF         = '<link rel="%2$s" href="%1$s"%3$s />';
-	const DEFAULT_TAG_FORMAT    = self::META_NAME_CONTENT;
+	public const META_PROPERTY_CONTENT = '<meta property="%2$s" content="%1$s"%3$s />';
+	public const META_NAME_CONTENT     = '<meta name="%2$s" content="%1$s"%3$s />';
+	public const LINK_REL_HREF         = '<link rel="%2$s" href="%1$s"%3$s />';
+	public const DEFAULT_TAG_FORMAT    = self::META_NAME_CONTENT;
 
 	/**
 	 * The tag format including placeholders.
@@ -48,7 +48,7 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 			$this->tag_format,
 			$this->escape_value( $value ),
 			$this->key,
-			\is_admin_bar_showing() ? ' class="yoast-seo-meta-tag"' : ''
+			\is_admin_bar_showing() ? ' class="yoast-seo-meta-tag"' : '',
 		);
 	}
 

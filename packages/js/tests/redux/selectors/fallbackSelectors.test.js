@@ -34,7 +34,7 @@ beforeEach(
 
 afterEach(
 	() => {
-	  windowSpy.mockRestore();
+		windowSpy.mockRestore();
 	}
 );
 
@@ -63,7 +63,7 @@ describe( getImageFallback, () => {
 		);
 
 		const state = {
-			 ...testState,
+			...testState,
 			snippetEditor: {
 				data: {
 					snippetPreviewImageURL: undefined,
@@ -93,7 +93,7 @@ describe( getImageFallback, () => {
 		);
 
 		const state = {
-			 ...testState,
+			...testState,
 			snippetEditor: {
 				data: {
 					snippetPreviewImageURL: undefined,

@@ -14,6 +14,8 @@ use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Exceptions\Indexable\Indexing_Failed_Exception;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Main;
 
 /**
@@ -78,6 +80,13 @@ class Index_Command implements Command_Interface {
 	private $prepare_indexing_action;
 
 	/**
+	 * Represents the indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * Generate_Indexables_Command constructor.
 	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation_action              The post indexation
@@ -96,6 +105,7 @@ class Index_Command implements Command_Interface {
 	 *                                                                                           action.
 	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action           The term link indexation
 	 *                                                                                           action.
+	 * @param Indexable_Helper                              $indexable_helper                    The indexable helper.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation_action,
@@ -105,7 +115,8 @@ class Index_Command implements Command_Interface {
 		Indexable_Indexing_Complete_Action $complete_indexation_action,
 		Indexing_Prepare_Action $prepare_indexing_action,
 		Post_Link_Indexing_Action $post_link_indexing_action,
-		Term_Link_Indexing_Action $term_link_indexing_action
+		Term_Link_Indexing_Action $term_link_indexing_action,
+		Indexable_Helper $indexable_helper
 	) {
 		$this->post_indexation_action              = $post_indexation_action;
 		$this->term_indexation_action              = $term_indexation_action;
@@ -115,6 +126,7 @@ class Index_Command implements Command_Interface {
 		$this->prepare_indexing_action             = $prepare_indexing_action;
 		$this->post_link_indexing_action           = $post_link_indexing_action;
 		$this->term_link_indexing_action           = $term_link_indexing_action;
+		$this->indexable_helper                    = $indexable_helper;
 	}
 
 	/**
@@ -152,12 +164,20 @@ class Index_Command implements Command_Interface {
 	 *
 	 * @when after_wp_load
 	 *
-	 * @param array|null $args       The arguments.
-	 * @param array|null $assoc_args The associative arguments.
+	 * @param array<string>|null              $args       The arguments.
+	 * @param array<string, string|bool>|null $assoc_args The associative arguments.
 	 *
 	 * @return void
 	 */
 	public function index( $args = null, $assoc_args = null ) {
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			WP_CLI::log(
+				\__( 'Your WordPress environment is running on a non-production site. Indexables can only be created on production environments. Please check your `WP_ENVIRONMENT_TYPE` settings.', 'wordpress-seo' ),
+			);
+
+			return;
+		}
+
 		if ( ! isset( $assoc_args['network'] ) ) {
 			$this->run_indexation_actions( $assoc_args );
 
@@ -183,7 +203,7 @@ class Index_Command implements Command_Interface {
 	/**
 	 * Runs all indexation actions.
 	 *
-	 * @param array $assoc_args The associative arguments.
+	 * @param array<string, string|bool> $assoc_args The associative arguments.
 	 *
 	 * @return void
 	 */
@@ -239,8 +259,24 @@ class Index_Command implements Command_Interface {
 			$limit    = $indexation_action->get_limit();
 			$progress = Utils\make_progress_bar( 'Indexing ' . $name, $total );
 			do {
-				$indexables = $indexation_action->index();
-				$count      = \count( $indexables );
+				try {
+					$indexables = $indexation_action->index();
+				} catch ( Indexing_Failed_Exception $exception ) {
+					$progress->finish();
+
+					$previous = $exception->getPrevious();
+					WP_CLI::error(
+						\sprintf(
+							'Could not optimize %1$s while indexing %2$s: %3$s',
+							$exception->get_object_description(),
+							$name,
+							( $previous !== null ) ? $previous->getMessage() : $exception->getMessage(),
+						),
+					);
+
+					return;
+				}
+				$count = \count( $indexables );
 				$progress->tick( $count );
 				\usleep( $interval );
 				Utils\wp_clear_object_cache();
@@ -251,6 +287,8 @@ class Index_Command implements Command_Interface {
 
 	/**
 	 * Clears the database related to the indexables.
+	 *
+	 * @return void
 	 */
 	protected function clear() {
 		global $wpdb;
@@ -261,14 +299,14 @@ class Index_Command implements Command_Interface {
 		$wpdb->query(
 			$wpdb->prepare(
 				'TRUNCATE TABLE %1$s',
-				Model::get_table_name( 'Indexable' )
-			)
+				Model::get_table_name( 'Indexable' ),
+			),
 		);
 		$wpdb->query(
 			$wpdb->prepare(
 				'TRUNCATE TABLE %1$s',
-				Model::get_table_name( 'Indexable_Hierarchy' )
-			)
+				Model::get_table_name( 'Indexable_Hierarchy' ),
+			),
 		);
 		// phpcs:enable
 	}

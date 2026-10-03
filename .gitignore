@@ -25,7 +25,10 @@ premium/node_modules/
 phpcs.xml
 .phpcs.xml
 phpunit.xml
+phpunit-integration.xml
+phpunit-wp.xml
 .phpunit.result.cache
+build/
 
 ############
 ## OSes
@@ -56,6 +59,7 @@ temp/
 .Trashes
 .env
 .svn
+.wp-env.override.json
 .tmp
 
 ############
@@ -92,6 +96,7 @@ test.sh
 /js/dist/*
 /css/dist/*
 /packages/*/dist
+/blocks/**
 yarn-error.log
 coverage
 dependencies.json
@@ -104,3 +109,13 @@ dependencies.md
 # Temp files
 ############
 /.tmp
+.cache/phpunit/cache/
+
+############
+# AI
+############
+/.claude/*
+# Keep the shared security-guidance plugin config under version control.
+!/.claude/claude-security-guidance.md
+!/.claude/security-patterns.json
+!/.claude/skills/

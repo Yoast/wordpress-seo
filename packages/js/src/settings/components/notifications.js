@@ -1,23 +1,19 @@
-/* eslint-disable complexity */
+import { useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
-import { useState, useEffect, useMemo } from "@wordpress/element";
-import { map, get } from "lodash";
-import { useDispatch } from "@wordpress/data";
 import { Notifications as NotificationsUi } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
+import { get, map } from "lodash";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { useDispatchSettings, useNewContentTypeNotification, useSelectSettings } from "../hooks";
 import { flattenObject } from "../utils";
-import { useSelectSettings } from "../store";
-import { STORE_NAME } from "../constants";
 
 /**
  * @returns {void}
  */
 const useValidationErrorsNotification = () => {
-	const { submitCount, isValid, errors } = useFormikContext();
-	const { addNotification, removeNotification } = useDispatch( STORE_NAME );
-	const [ prevSubmitCount, setPrevSubmitCount ] = useState( 0 );
+	const { isValid, errors, isSubmitting } = useFormikContext();
+	const { addNotification, removeNotification } = useDispatchSettings();
 	const validationErrorsNotification = useSelectSettings( "selectNotification", [], "validation-errors" );
 
 	useEffect( () => {
@@ -27,7 +23,7 @@ const useValidationErrorsNotification = () => {
 	}, [ isValid, validationErrorsNotification ] );
 
 	useEffect( () => {
-		if ( ! isValid && submitCount > prevSubmitCount ) {
+		if ( isSubmitting && ! isValid ) {
 			addNotification( {
 				id: "validation-errors",
 				variant: "error",
@@ -35,29 +31,26 @@ const useValidationErrorsNotification = () => {
 				title: __( "Oh no! It seems your form contains invalid data. Please review the following fields:", "wordpress-seo" ),
 			} );
 		}
-		if ( submitCount > prevSubmitCount ) {
-			setPrevSubmitCount( submitCount );
-		}
-	}, [ submitCount, errors, isValid ] );
+	}, [ isSubmitting, errors, isValid ] );
 };
 
 /**
- *
  * @param {string} id The id.
+ * @param {...Object} props Extra props for the Notification.
  * @returns {JSX.Element} The validation errors notification.
  */
-const ValidationErrorsNotification = ( { id, onDismiss, ...props } ) => {
+const ValidationErrorsNotification = ( { id, ...props } ) => {
 	const { errors } = useFormikContext();
 	const searchIndex = useSelectSettings( "selectSearchIndex" );
 	const flatErrors = useMemo( () => flattenObject( errors ), [ errors ] );
 
 	return (
-		<NotificationsUi.Notification key={ id } id={ id } onDismiss={ onDismiss } { ...props }>
-			<ul className="yst-list-disc yst-mt-1 yst-ml-4 yst-space-y-2">
-				{ map( flatErrors, ( error, name ) => (
+		<NotificationsUi.Notification key={ id } id={ id } { ...props }>
+			<ul className="yst-list-disc yst-mt-1 yst-ms-4 yst-space-y-2">
+				{ map( flatErrors, ( error, name ) => error && (
 					<li key={ name }>
 						<Link to={ `${ get( searchIndex, `${ name }.route`, "404" ) }#${ get( searchIndex, `${ name }.fieldId`, "" ) }` }>
-							{ `${get( searchIndex, `${ name }.routeLabel`, "" )} - ${get( searchIndex, `${ name }.fieldLabel`, "" )}` }
+							{ `${ get( searchIndex, `${ name }.routeLabel`, "" ) } - ${ get( searchIndex, `${ name }.fieldLabel`, "" ) }` }
 						</Link>
 						:&nbsp;
 						{ error }
@@ -70,7 +63,6 @@ const ValidationErrorsNotification = ( { id, onDismiss, ...props } ) => {
 
 ValidationErrorsNotification.propTypes = {
 	id: PropTypes.string.isRequired,
-	onDismiss: PropTypes.func,
 };
 
 /**
@@ -79,12 +71,15 @@ ValidationErrorsNotification.propTypes = {
  */
 const Notifications = () => {
 	useValidationErrorsNotification();
-	const { removeNotification } = useDispatch( STORE_NAME );
+	useNewContentTypeNotification();
+	const { removeNotification } = useDispatchSettings();
 	const notifications = useSelectSettings( "selectNotifications" );
+
 	const enrichedNotifications = useMemo( () => map( notifications, notification => ( {
 		...notification,
 		onDismiss: removeNotification,
 		autoDismiss: notification.variant === "success" ? 5000 : null,
+		/* translators: Hidden accessibility text. */
 		dismissScreenReaderLabel: __( "Dismiss", "wordpress-seo" ),
 	} ) ), [ notifications ] );
 

@@ -10,6 +10,7 @@ const paper = new Paper( content, {
 		" a domácich mačiek s mohutnou stavbou tela a zo začiatku ich chovali výhradne v módnej modrej farbe.",
 	title: "Britská mačka",
 	titleWidth: 450,
+	textTitle: "Britská mačka",
 	locale: "sk_SK",
 	permalink: "https://sk.wikipedia.org/wiki/Britsk%C3%A1_ma%C4%8Dka",
 	slug: "Britsk%C3%A1_ma%C4%8Dka",
@@ -31,7 +32,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 10 times. This is great!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 10 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -53,13 +54,13 @@ const expectedResults = {
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: There are no links which use your keyphrase or synonym as their anchor text. Nice!",
 	},
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 519 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 509 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -110,7 +111,7 @@ const expectedResults = {
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: There are no paragraphs that are too long. Great job!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -119,14 +120,14 @@ const expectedResults = {
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 12.9% of the sentences contain transition words," +
+		score: 6,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 21.1% of the sentences contain transition words," +
 			" which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You are not using too much passive voice. That's great!",
 	},
 	textPresence: {
 		isApplicable: true,
@@ -135,14 +136,13 @@ const expectedResults = {
 	},
 	sentenceBeginnings: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: The text contains 3 consecutive sentences " +
-			"starting with the same word. <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings. That's great!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes with at least" +
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Images on this page do not have alt attributes with at least" +
 			" half of the words from your keyphrase. <a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!",
 	},
 	imageCount: {
@@ -152,6 +152,16 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

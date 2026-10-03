@@ -2,8 +2,10 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WPSEO_Option_Llmstxt;
 use WPSEO_Option_Social;
 use WPSEO_Option_Titles;
+use WPSEO_Option_Tracking_Only;
 use WPSEO_Options;
 
 /**
@@ -28,13 +30,14 @@ class Options_Helper {
 	/**
 	 * Sets a single field to the options.
 	 *
-	 * @param string $key   The key to set.
-	 * @param mixed  $value The value to set.
+	 * @param string $key          The key to set.
+	 * @param mixed  $value        The value to set.
+	 * @param string $option_group The lookup table which represents the option_group where the key is stored.
 	 *
 	 * @return mixed|null Returns value if found.
 	 */
-	public function set( $key, $value ) {
-		return WPSEO_Options::set( $key, $value );
+	public function set( $key, $value, $option_group = '' ) {
+		return WPSEO_Options::set( $key, $value, $option_group );
 	}
 
 	/**
@@ -76,7 +79,7 @@ class Options_Helper {
 		/**
 		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s).
 		 *
-		 * @api string $replacement The current separator.
+		 * @param string $replacement The current separator.
 		 */
 		return \apply_filters( 'wpseo_replacements_filter_sep', $replacement );
 	}
@@ -109,6 +112,17 @@ class Options_Helper {
 	}
 
 	/**
+	 * Retrieves the tracking only options.
+	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
+	 * @return string[] The tracking only options.
+	 */
+	public function get_tracking_only_options() {
+		return \array_keys( WPSEO_Option_Tracking_Only::get_instance()->get_defaults() );
+	}
+
+	/**
 	 * Get the available separator options.
 	 *
 	 * @return array
@@ -118,25 +132,33 @@ class Options_Helper {
 	}
 
 	/**
-	 * Validates a social URL.
+	 * Checks whether a social URL is valid, with empty strings being valid social URLs.
 	 *
-	 * @param string $url The url to be validated.
+	 * @param string $url The url to be checked.
 	 *
-	 * @return string|false The validated URL or false if the URL is not valid.
+	 * @return bool Whether the URL is valid.
 	 */
-	public function validate_social_url( $url ) {
+	public function is_social_url_valid( $url ) {
 		return $url === '' || WPSEO_Option_Social::get_instance()->validate_social_url( $url );
 	}
 
 	/**
-	 * Validates a twitter id.
+	 * Checks whether a twitter id is valid, with empty strings being valid twitter id.
 	 *
-	 * @param string $twitter_id    The twitter id to be validated.
-	 * @param bool   $strip_at_sign Whether or not to strip the `@` sign.
+	 * @param string $twitter_id The twitter id to be checked.
 	 *
-	 * @return string|false The validated twitter id or false if it is not valid.
+	 * @return bool Whether the twitter id is valid.
 	 */
-	public function validate_twitter_id( $twitter_id, $strip_at_sign = true ) {
-		return WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, $strip_at_sign );
+	public function is_twitter_id_valid( $twitter_id ) {
+		return empty( $twitter_id ) || WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, false );
+	}
+
+	/**
+	 * Gets the limit for the other included pages.
+	 *
+	 * @return int The limit for the other included pages.
+	 */
+	public function get_other_included_pages_limit() {
+		return WPSEO_Option_Llmstxt::get_instance()->get_other_included_pages_limit();
 	}
 }

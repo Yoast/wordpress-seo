@@ -1,9 +1,24 @@
-import { analysis } from "yoast-components";
 import insights from "../../insights/redux/reducer";
+import {
+	ADMIN_URL_NAME,
+	adminUrlReducer,
+	DOCUMENT_TITLE_NAME,
+	documentTitleReducer,
+	LINK_PARAMS_NAME,
+	linkParamsReducer,
+	PLUGIN_URL_NAME,
+	pluginUrlReducer,
+	WISTIA_EMBED_PERMISSION_NAME,
+	wistiaEmbedPermissionReducer,
+} from "../../shared-admin/store";
+import analysis from "../reducers/contentAnalysis";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
+import AIButton from "./AIButton";
 import analysisData from "./analysisData";
+import checklist from "./checklist";
 import isCornerstone from "./cornerstoneContent";
+import currentPromotions from "./currentPromotions";
 import dismissedAlerts from "./dismissedAlerts";
 import editorContext from "./editorContext";
 import editorData from "./editorData";
@@ -11,9 +26,9 @@ import editorModals from "./editorModals";
 import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
 import isPremium from "./isPremium";
-import postId from "./postId";
 import marksButtonStatus from "./markerButtons";
 import isMarkerPaused from "./markerPauseStatus";
+import postId from "./postId";
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
 import schemaTab from "./schemaTab";
@@ -30,10 +45,15 @@ import WincherSEOPerformance from "./WincherSEOPerformance";
 
 export default {
 	activeMarker,
+	[ ADMIN_URL_NAME ]: adminUrlReducer,
 	advancedSettings,
+	AIButton,
 	analysis,
 	analysisData,
+	checklist,
+	currentPromotions,
 	dismissedAlerts,
+	[ DOCUMENT_TITLE_NAME ]: documentTitleReducer,
 	editorContext,
 	editorData,
 	editorModals,
@@ -43,6 +63,8 @@ export default {
 	isCornerstone,
 	isMarkerPaused,
 	isPremium,
+	[ LINK_PARAMS_NAME ]: linkParamsReducer,
+	[ PLUGIN_URL_NAME ]: pluginUrlReducer,
 	postId,
 	marksButtonStatus,
 	preferences,
@@ -58,4 +80,5 @@ export default {
 	WincherModal,
 	WincherRequest,
 	WincherSEOPerformance,
+	[ WISTIA_EMBED_PERMISSION_NAME ]: wistiaEmbedPermissionReducer,
 };

@@ -13,36 +13,32 @@
 
 # Grunt command to only build CSS and JS
 'build:dev':
-  - 'build:ts'
   - 'build:packages'
   - 'build:js'
   - 'build:css'
 
-# Compile the TypeScript in the `schema-blocks` package
-'build:ts':
-  - 'shell:install-schema-blocks'
-
 # Compile the JavaScript packages that need it.
 'build:packages':
-  - 'shell:build-ui-library'
+  - 'shell:yarn:build --ignore @yoast/wordpress-seo'
 
 # Build JavaScript from assets to development
 'build:js':
   - 'clean:build-assets-js'
-  - 'copy:js-dependencies'
-  - 'shell:webpack'
+  - 'shell:yarn:build --scope @yoast/wordpress-seo'
 
 # Build CSS for development
 'build:css':
   - 'clean:build-assets-css'
-  - 'copy:css-dependencies'
   - 'copy:css-files'
-  - 'shell:postcss-dev'
+  - 'shell:yarn:build:css'
   - 'rtlcss:build'
 
 clean:build-assets:
   - 'clean:build-assets-js'
   - 'clean:build-assets-css'
+
+'eslint':
+  - 'shell:yarn:lint'
 
 # Update all versions except the stable tag
 'update-version-trunk':
@@ -57,6 +53,8 @@ clean:build-assets:
   - 'shell:composer-install-production'
   # Build like we normally would
   - 'release'
+  # Bake fresh MyYoast credentials into Issuer_Config (or fall back to v0)
+  - 'update-myyoast-credentials'
   # Remove build folder
   - 'clean:artifact'
   # Copy only the relevant files to the folder
@@ -74,7 +72,6 @@ clean:build-assets:
   - 'sync-gutenberg-version'
   - 'artifact'
   - 'github-pre-release'
-  - 'notify-slack:beta'
   - 'sync-readme-stable-tag'
   - 'check-deploy-allowed'
   - 'wp_deploy:trunk'
@@ -91,7 +88,6 @@ clean:build-assets:
   - 'sync-gutenberg-version'
   - 'artifact'
   - 'github-pre-release'
-  - 'notify-slack:rc'
   - 'sync-readme-stable-tag'
   - 'check-deploy-allowed'
   - 'wp_deploy:trunk'
@@ -106,25 +102,20 @@ clean:build-assets:
 release:
   - 'clean:build-assets'
   - 'build:images'
-  - 'release:ts'
   - 'release:packages'
   - 'release:js'
   - 'release:css'
-'release:ts':
-  - 'shell:install-schema-blocks'
 # Compile the JavaScript packages that need it.
 'release:packages':
-  - 'shell:build-ui-library'
+  - 'shell:yarn-prod:build --ignore @yoast/wordpress-seo'
 'release:js':
-  - 'copy:js-dependencies'
-  - 'shell:webpack-prod'
+  - 'shell:yarn-prod:build --scope @yoast/wordpress-seo'
 
 # Build CSS for production
 'release:css':
   - 'clean:build-assets-css'
-  - 'copy:css-dependencies'
   - 'copy:css-files'
-  - 'shell:postcss-release'
+  - 'shell:yarn-prod:build:css'
   - 'rtlcss:build'
 
 'deploy:master':
@@ -136,24 +127,6 @@ release:
   - 'update-version-trunk'
   - 'artifact'
   - 'wp_deploy:trunk'
-
-'update-changelog:file':
-  - 'get-latest-pr-texts'
-  - 'update-changelog-with-latest-pr-texts'
-  - 'extract-extra-pr-texts-from-yoast-cli-md'
-  - 'update-package-changelog'
-'update-changelog:qa':
-  - 'get-latest-pr-texts'
-  - 'download-qa-changelog'
-  - 'build-qa-changelog'
-
-'update-changelog:all':
-  - 'get-latest-pr-texts'
-  - 'update-changelog-with-latest-pr-texts'
-  - 'download-qa-changelog'
-  - 'build-qa-changelog'
-  - 'extract-extra-pr-texts-from-yoast-cli-md'
-  - 'update-package-changelog'
 
 # Default task
 default:

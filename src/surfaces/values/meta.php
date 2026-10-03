@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Surfaces\Values;
 
-use Exception;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Exceptions\Forbidden_Property_Mutation_Exception;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
@@ -97,15 +97,19 @@ class Meta {
 	protected $replace_vars;
 
 	/**
+	 * Collection of properties dynamically set via the magic __get() method.
+	 *
+	 * @var array<string, mixed> Key is the property name.
+	 */
+	private $properties_bin = [];
+
+	/**
 	 * Create a meta value object.
 	 *
 	 * @param Meta_Tags_Context  $context   The indexable presentation.
 	 * @param ContainerInterface $container The DI container.
 	 */
-	public function __construct(
-		Meta_Tags_Context $context,
-		ContainerInterface $container
-	) {
+	public function __construct( Meta_Tags_Context $context, ContainerInterface $container ) {
 		$this->container = $container;
 		$this->context   = $context;
 
@@ -154,18 +158,20 @@ class Meta {
 	 *
 	 * @param string $name The property to get.
 	 *
-	 * @return mixed The value, as presented by teh appropriate presenter.
-	 *
-	 * @throws Exception If an invalid property is accessed.
+	 * @return mixed The value, as presented by the appropriate presenter.
 	 */
 	public function __get( $name ) {
+		if ( \array_key_exists( $name, $this->properties_bin ) ) {
+			return $this->properties_bin[ $name ];
+		}
+
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
 
 		if ( ! isset( $presentation->{$name} ) ) {
 			if ( isset( $this->context->{$name} ) ) {
-				$this->{$name} = $this->context->{$name};
-				return $this->{$name};
+				$this->properties_bin[ $name ] = $this->context->{$name};
+				return $this->properties_bin[ $name ];
 			}
 			return null;
 		}
@@ -187,7 +193,7 @@ class Meta {
 			/**
 			 * The indexable presenter.
 			 *
-			 * @var Abstract_Indexable_Presenter
+			 * @var Abstract_Indexable_Presenter $presenter
 			 */
 			$presenter               = new $presenter_class();
 			$presenter->presentation = $presentation;
@@ -199,8 +205,8 @@ class Meta {
 			$value = $presentation->{$name};
 		}
 
-		$this->{$name} = $value;
-		return $this->{$name};
+		$this->properties_bin[ $name ] = $value;
+		return $this->properties_bin[ $name ];
 	}
 
 	/**
@@ -211,7 +217,40 @@ class Meta {
 	 * @return bool Whether or not the requested property exists.
 	 */
 	public function __isset( $name ) {
+		if ( \array_key_exists( $name, $this->properties_bin ) ) {
+			return true;
+		}
+
 		return isset( $this->context->presentation->{$name} );
+	}
+
+	/**
+	 * Prevents setting dynamic properties and overwriting the value of declared properties
+	 * from an inaccessible context.
+	 *
+	 * @param string $name  The property name.
+	 * @param mixed  $value The property value.
+	 *
+	 * @return void
+	 *
+	 * @throws Forbidden_Property_Mutation_Exception Set is never meant to be called.
+	 */
+	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- __set must have a name and value - PHPCS #3715.
+		throw Forbidden_Property_Mutation_Exception::cannot_set_because_property_is_immutable( $name );
+	}
+
+	/**
+	 * Prevents unsetting dynamic properties and unsetting declared properties
+	 * from an inaccessible context.
+	 *
+	 * @param string $name The property name.
+	 *
+	 * @return void
+	 *
+	 * @throws Forbidden_Property_Mutation_Exception Unset is never meant to be called.
+	 */
+	public function __unset( $name ) {
+		throw Forbidden_Property_Mutation_Exception::cannot_unset_because_property_is_immutable( $name );
 	}
 
 	/**

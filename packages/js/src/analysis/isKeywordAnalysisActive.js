@@ -1,6 +1,6 @@
 import getL10nObject from "./getL10nObject";
 
-import { get } from "lodash-es";
+import { get } from "lodash";
 
 /**
  * Returns whether or not the keyword analysis is active
@@ -10,5 +10,5 @@ import { get } from "lodash-es";
 export default function isKeywordAnalysisActive() {
 	const l10nObject = getL10nObject();
 
-	return get( l10nObject, "keywordAnalysisActive", 0 ) === 1;
+	return get( l10nObject, "keywordAnalysisActive", false ) === true;
 }

@@ -16,7 +16,7 @@ import getStemmer from "./helpers/getStemmer";
 import fleschReadingScore from "./helpers/calculateFleschReadingScore";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class Researcher extends AbstractResearcher {
 	/**
@@ -26,8 +26,6 @@ export default class Researcher extends AbstractResearcher {
 	 */
 	constructor( paper ) {
 		super( paper );
-
-		delete this.defaultResearches.wordComplexity;
 
 		Object.assign( this.config, {
 			language: "pt",

@@ -1,0 +1,1 @@
+Progress bars are visual elements designed to provide users with feedback on the completion status of a task or process. They enhance the user experience by conveying progress, imparting a sense of completion, and managing user expectations.

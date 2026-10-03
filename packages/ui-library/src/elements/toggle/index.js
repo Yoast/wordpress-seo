@@ -1,11 +1,15 @@
+/* eslint-disable complexity */
 import { Switch, Transition } from "@headlessui/react";
-import { CheckIcon, XIcon } from "@heroicons/react/solid";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import XIcon from "@heroicons/react/solid/XIcon";
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import { useSvgAria } from "../../hooks";
 
 /**
+ * @param {string} id ID.
  * @param {string|JSX.Element} [as="button"] Base component.
  * @param {boolean} checked Default state.
  * @param {string} screenReaderLabel The label for screen readers.
@@ -13,22 +17,27 @@ import { useSvgAria } from "../../hooks";
  * @param {boolean} [disabled] Disabled flag.
  * @param {string} [type] Type.
  * @param {string} [className] CSS class.
+ * @param {JSX.Element} [checkedIcon] Icon to show when checked.
+ * @param {JSX.Element} [unCheckedIcon] Icon to show when unchecked.
  * @returns {JSX.Element} Toggle component.
  */
-const Toggle = ( {
+const Toggle = forwardRef( ( {
+	id,
 	as: Component = "button",
-	checked,
+	checked = false,
 	screenReaderLabel,
 	onChange,
 	disabled = false,
 	className = "",
 	type = "",
+	checkedIcon,
+	unCheckedIcon,
 	...props
-} ) => {
+}, ref ) => {
 	const svgAriaProps = useSvgAria();
-
 	return (
 		<Switch
+			ref={ ref }
 			as={ Component }
 			checked={ checked }
 			disabled={ disabled }
@@ -39,6 +48,7 @@ const Toggle = ( {
 				disabled && "yst-toggle--disabled",
 				className,
 			) }
+			data-id={ id }
 			{ ...props }
 			// Force type button when component is button for proper behavior in HTML forms.
 			type={ Component === "button" ? "button" : type }
@@ -56,7 +66,7 @@ const Toggle = ( {
 					leaveFrom="yst-opacity-100"
 					leaveTo="yst-opacity-0 yst-hidden"
 				>
-					<CheckIcon className="yst-toggle__icon yst-toggle__icon--check" { ...svgAriaProps } />
+					{ checkedIcon || <CheckIcon className="yst-toggle__icon yst-toggle__icon--check" { ...svgAriaProps } /> }
 				</Transition>
 				<Transition
 					show={ ! checked }
@@ -68,21 +78,25 @@ const Toggle = ( {
 					leaveFrom="yst-opacity-100"
 					leaveTo="yst-opacity-0 yst-hidden"
 				>
-					<XIcon className="yst-toggle__icon yst-toggle__icon--x" { ...svgAriaProps } />
+					{ unCheckedIcon || <XIcon className="yst-toggle__icon yst-toggle__icon--x" { ...svgAriaProps } /> }
 				</Transition>
 			</span>
 		</Switch>
 	);
-};
+} );
 
+Toggle.displayName = "Toggle";
 Toggle.propTypes = {
 	as: PropTypes.elementType,
+	id: PropTypes.string.isRequired,
 	checked: PropTypes.bool,
 	screenReaderLabel: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	disabled: PropTypes.bool,
 	type: PropTypes.string,
 	className: PropTypes.string,
+	checkedIcon: PropTypes.node,
+	unCheckedIcon: PropTypes.node,
 };
 
 export default Toggle;

@@ -1,5 +1,4 @@
-/* eslint-disable capitalized-comments, spaced-comment */
-import { merge } from "lodash-es";
+import { merge } from "lodash";
 
 import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
 import Paper from "../../../../src/values/Paper.js";
@@ -11,17 +10,18 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 
 import { primeLanguageSpecificData } from "../../../../src/languageProcessing/helpers/morphology/buildTopicStems";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
+
+const productConfig = {
+	parameters: {
+		recommendedMinimum: 4,
+		recommendedMaximum: 6,
+		acceptableMaximum: 8,
+		acceptableMinimum: 1,
+	},
+};
 
 describe( "the keyphrase length assessment for product pages", function() {
-	const productConfig = {
-		parameters: {
-			recommendedMinimum: 4,
-			recommendedMaximum: 6,
-			acceptableMaximum: 8,
-			acceptableMinimum: 1,
-		},
-	};
-
 	it( "should assess a product page without a keyword as extremely bad", function() {
 		const paper = new Paper( "", { keyword: "" } );
 		const result = new KeyphraseLengthAssessment( productConfig ).getResult( paper, new EnglishResearcher( paper ) );
@@ -99,7 +99,55 @@ describe( "the keyphrase length assessment for product pages", function() {
 	} );
 } );
 
+describe( "the keyphrase length assessment for product pages in a language that doesn't have function word support", function() {
+	it( "should clear the memoized data", function() {
+		primeLanguageSpecificData.cache.clear();
+		const mockPaper = new Paper( "", { keyword: "a test" } );
+		const mockResearcher = new CatalanResearcher( mockPaper );
+
+		expect( mockResearcher.getConfig( "functionWords" ) ).toEqual( [] );
+	} );
+	it( "should assess a paper with a 3-word keyphrase as okay for a language that doesn't support function words", function() {
+		const paper = new Paper( "", { keyword: "test ".repeat( 3 ) } );
+		const result = new KeyphraseLengthAssessment( productConfig, true ).getResult( paper, new CatalanResearcher( paper ) );
+
+		expect( result.getScore() ).toEqual( 6 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"The keyphrase contains 3 words. That's less than the recommended minimum of 4 words. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
+	} );
+	it( "should assess a paper with a 1-word keyphrase as bad for a language that doesn't support function words", function() {
+		const paper = new Paper( "", { keyword: "test" } );
+		const result = new KeyphraseLengthAssessment( productConfig, true ).getResult( paper, new CatalanResearcher( paper ) );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"The keyphrase contains 1 word. That's way less than the recommended minimum of 4 words. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
+	} );
+	it( "should assess a paper with a 9-word keyphrase as okay for a language that doesn't support function words", function() {
+		const paper = new Paper( "", { keyword: "test ".repeat( 9 ) } );
+		const result = new KeyphraseLengthAssessment( productConfig, true ).getResult( paper, new CatalanResearcher( paper ) );
+
+		expect( result.getScore() ).toEqual( 6 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"The keyphrase contains 9 words. That's more than the recommended maximum of 6 words. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
+	} );
+	it( "should assess a paper with a 10-word keyphrase as bad for a language that doesn't support function words", function() {
+		const paper = new Paper( "", { keyword: "test ".repeat( 10 ) } );
+		const result = new KeyphraseLengthAssessment( productConfig, true ).getResult( paper, new CatalanResearcher( paper ) );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"The keyphrase contains 10 words. That's way more than the recommended maximum of 6 words. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
+	} );
+} );
+
 describe( "the keyphrase length assessment for languages with custom configuration", function() {
+	const morphologyData = getMorphologyData( "de" );
+
 	it( "should clear the memoized data", function() {
 		primeLanguageSpecificData.cache.clear();
 		const mockPaper = new Paper( "", { keyword: "ein Test" } );
@@ -110,7 +158,9 @@ describe( "the keyphrase length assessment for languages with custom configurati
 
 	it( "should assess a German product page with one-word keyphrase as bad ", function() {
 		const paper = new Paper( "", { keyword: "ein Test" } );
-		const result = new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, new GermanResearcher( paper ) );
+		const researcher = new GermanResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result =  new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, researcher );
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
@@ -120,7 +170,9 @@ describe( "the keyphrase length assessment for languages with custom configurati
 
 	it( "should assess a German product page with a slightly too short keyphrase as okay", function() {
 		const paper = new Paper( "", { keyword: "ein Test ".repeat( 2 ) } );
-		const result = new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, new GermanResearcher( paper ) );
+		const researcher = new GermanResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result =  new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, researcher );
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
@@ -130,7 +182,9 @@ describe( "the keyphrase length assessment for languages with custom configurati
 
 	it( "should assess a German product page with a keyphrase that's the correct length", function() {
 		const paper = new Paper( "", { keyword: "ein Test ".repeat( 3 ) } );
-		const result = new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, new GermanResearcher( paper ) );
+		const researcher = new GermanResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result =  new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, researcher );
 
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!" );
@@ -138,7 +192,9 @@ describe( "the keyphrase length assessment for languages with custom configurati
 
 	it( "should assess a German product page with a keyphrase that's slightly too long as okay", function() {
 		const paper = new Paper( "", { keyword: "ein Test ".repeat( 7 ) } );
-		const result = new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, new GermanResearcher( paper ) );
+		const researcher = new GermanResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result =  new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, researcher );
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
@@ -148,7 +204,9 @@ describe( "the keyphrase length assessment for languages with custom configurati
 
 	it( "should assess a German product page with a keyphrase that's too long as bad", function() {
 		const paper = new Paper( "", { keyword: "ein Test ".repeat( 9 ) } );
-		const result = new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, new GermanResearcher( paper ) );
+		const researcher = new GermanResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result =  new KeyphraseLengthAssessment( deProductConfig, true ).getResult( paper, researcher );
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
@@ -166,7 +224,7 @@ describe( "the keyphrase length assessment for languages without function words"
 		expect( mockResearcher.getConfig( "functionWords" ) ).toEqual( [] );
 	} );
 
-	it( "should assess a paper with an 6-word keyphrase as good for a language that doesn't support function words", function() {
+	it( "should assess a paper with a 6-word keyphrase as good for a language that doesn't support function words", function() {
 		const paper = new Paper( "", { keyword: "test ".repeat( 6 ) } );
 		const result = new KeyphraseLengthAssessment().getResult( paper, new CatalanResearcher( paper ) );
 
@@ -174,13 +232,23 @@ describe( "the keyphrase length assessment for languages without function words"
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!" );
 	} );
 
-	it( "should assess a paper with an 9-word keyphrase as okay for a language that doesn't support function words", function() {
+	it( "should assess a paper with a 9-word keyphrase as okay for a language that doesn't support function words", function() {
 		const paper = new Paper( "", { keyword: "test ".repeat( 9 ) } );
 		const result = new KeyphraseLengthAssessment().getResult( paper, new CatalanResearcher( paper ) );
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase contains 9 words. That's more than the recommended maximum of 6 words. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
+	} );
+
+	it( "should assess a paper with a 10-word keyphrase as bad for a language that doesn't support function words", function() {
+		const paper = new Paper( "", { keyword: "test ".repeat( 10 ) } );
+		const result = new KeyphraseLengthAssessment().getResult( paper, new CatalanResearcher( paper ) );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"The keyphrase contains 10 words. That's way more than the recommended maximum of 6 words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 } );
@@ -251,7 +319,7 @@ describe( "the keyphrase length assessment for regular posts and pages", functio
 	} );
 } );
 
-//Japanese tests do test character specific logic. So not removed.
+// Japanese tests do test character specific logic. So not removed.
 describe( "the keyphrase length assessment for Japanese", function() {
 	it( "should clear the memoized data", function() {
 		primeLanguageSpecificData.cache.clear();

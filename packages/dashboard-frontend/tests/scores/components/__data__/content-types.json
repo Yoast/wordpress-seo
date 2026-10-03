@@ -1,0 +1,29 @@
+[
+  {
+    "name": "post",
+    "label": "Posts",
+    "taxonomy": {
+      "name": "category",
+      "label": "Categories",
+      "links": {
+        "search": "https://example.com/categories"
+      }
+    }
+  },
+  {
+    "name": "page",
+    "label": "Pages",
+    "taxonomy": null
+  },
+  {
+    "name": "product",
+    "label": "Products",
+    "taxonomy": {
+      "name": "product_cat",
+      "label": "Product categories",
+      "links": {
+        "search": "https://example.com/product_cat"
+      }
+    }
+  }
+]

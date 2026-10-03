@@ -1,4 +1,4 @@
-import { has, get } from "lodash-es";
+import { has, get } from "lodash";
 import SourceCodeLocation from "../SourceCodeLocation";
 
 /**

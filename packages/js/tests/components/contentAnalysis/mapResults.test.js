@@ -11,6 +11,7 @@ const analysisResults = [
 		text: "feedback string",
 		_hasBetaBadge: false,
 		_hasJumps: false,
+		_hasAIFixes: false,
 		editFieldName: "keyphrase",
 	} ),
 	new AssessmentResult( {
@@ -19,6 +20,7 @@ const analysisResults = [
 		text: "feedback string",
 		_hasBetaBadge: false,
 		_hasJumps: false,
+		_hasAIFixes: false,
 		editFieldName: "keyphrase",
 	} ),
 	new AssessmentResult( {
@@ -27,6 +29,7 @@ const analysisResults = [
 		text: "feedback string",
 		_hasBetaBadge: false,
 		_hasJumps: false,
+		_hasAIFixes: false,
 		editFieldName: "keyphrase",
 	} ),
 	new AssessmentResult( {
@@ -35,6 +38,7 @@ const analysisResults = [
 		text: "feedback string",
 		_hasBetaBadge: true,
 		_hasJumps: true,
+		_hasAIFixes: false,
 		editFieldName: "keyphrase",
 	} ),
 	new AssessmentResult( {
@@ -43,6 +47,7 @@ const analysisResults = [
 		text: "feedback string",
 		_hasBetaBadge: false,
 		_hasJumps: false,
+		_hasAIFixes: false,
 		editFieldName: "",
 	} ),
 	new AssessmentResult( {
@@ -51,6 +56,7 @@ const analysisResults = [
 		text: "",
 		_hasBetaBadge: false,
 		_hasJumps: false,
+		_hasAIFixes: false,
 		editFieldName: "",
 	} ),
 ];
@@ -106,6 +112,7 @@ describe( "mapResults", () => {
 		expect( result.hasBetaBadge ).toBe( expectedResult._hasBetaBadge );
 		expect( result.hasJumps ).toBe( expectedResult._hasJumps );
 		expect( result.editFieldName ).toBe( expectedResult.editFieldName );
+		expect( result.hasAIFixes ).toBe( expectedResult._hasAIFixes );
 	} );
 
 	it( "maps a result, using a keywordKey", () => {
@@ -128,8 +135,8 @@ describe( "mapResults", () => {
 } );
 
 describe( "getIconForScore", () => {
-	it( "has a fallback icon", () => {
-		const expected = { icon: "seo-score-none", color: colors.$color_red };
+	it( "has a fallback (default) icon", () => {
+		const expected = { icon: "seo-score-bad", color: colors.$color_red };
 		const actual = getIconForScore( "non-existing score" );
 
 		expect( actual.icon ).toBe( expected.icon );
@@ -152,7 +159,7 @@ describe( "getIconForScore", () => {
 		expect( actual.color ).toBe( expected.color );
 	} );
 
-	it( "has a ok icon", () => {
+	it( "has an ok icon", () => {
 		const expected = { icon: "seo-score-ok", color: colors.$color_ok };
 		const actual = getIconForScore( "ok" );
 

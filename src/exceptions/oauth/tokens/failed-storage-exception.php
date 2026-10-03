@@ -9,7 +9,7 @@ use Exception;
  */
 class Failed_Storage_Exception extends Exception {
 
-	const DEFAULT_MESSAGE = 'Token storing failed. Please try again.';
+	public const DEFAULT_MESSAGE = 'Token storing failed. Please try again.';
 
 	/**
 	 * Failed_Storage_Exception constructor.

@@ -1,32 +1,34 @@
-import { __ } from "@wordpress/i18n";
-import { CheckIcon, XIcon } from "@heroicons/react/solid";
-import { PropTypes } from "prop-types";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import XIcon from "@heroicons/react/solid/XIcon";
 import { Fragment } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
 
-/* eslint-disable complexity */
 /**
  * Represents an integration.
  *
- * @param {object}  integration The integration.
- * @param {boolean} isActive    The integration state.
+ * @param {Object} integration The integration.
+ * @param {boolean} [isActive=true] The integration state.
+ * @param {boolean} [isSchemaAPIIntegration=false] Whether this is a Schema API integration.
  *
- * @returns {WPElement} A card representing an integration.
+ * @returns {JSX.Element} A card representing an integration.
  */
-export const PluginIntegration = ( { integration, isActive } ) => {
+export const PluginIntegration = ( { integration, isActive = true, isSchemaAPIIntegration = false } ) => {
 	return (
 		<SimpleIntegration
 			integration={ integration }
 			isActive={ isActive }
+			isSchemaPartner={ isSchemaAPIIntegration }
 		>
 			{ isActive && <Fragment>
-				<span className="yst-text-gray-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
+				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
 				<CheckIcon
 					className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
 				/>
 			</Fragment> }
 			{ ! isActive && <Fragment>
-				<span className="yst-text-gray-700 yst-font-medium">
+				<span className="yst-text-slate-700 yst-font-medium">
 					{
 						__( "Plugin not detected", "wordpress-seo" )
 					}
@@ -38,13 +40,11 @@ export const PluginIntegration = ( { integration, isActive } ) => {
 		</SimpleIntegration>
 	);
 };
-/* eslint-enable complexity */
 
 PluginIntegration.propTypes = {
 	integration: PropTypes.shape( {
 		name: PropTypes.string,
-		claim: PropTypes.string,
-		type: PropTypes.string,
+		claim: PropTypes.node,
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,
@@ -52,8 +52,5 @@ PluginIntegration.propTypes = {
 		isNew: PropTypes.bool,
 	} ).isRequired,
 	isActive: PropTypes.bool,
-};
-
-PluginIntegration.defaultProps = {
-	isActive: true,
+	isSchemaAPIIntegration: PropTypes.bool,
 };

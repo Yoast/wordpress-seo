@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "El terme clàssic fa referència a un conjunt difús i alhora ampli de conceptes estètics que abracen la majoria " +
 		"de disciplines artístiques considerades canòniques. El significat és variable segons el país o l'època. Aquest conjunt " +
 		"té sentit en comparació a moviments estètics més recents.",
+	textTitle: "Clàssic",
 	title: "Clàssic",
 	titleWidth: 450,
 	locale: "ca",
@@ -31,7 +32,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The focus keyphrase was found 10 times. This is great!",
+			"The keyphrase was found 11 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -53,13 +54,13 @@ const expectedResults = {
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: There are no links which use your keyphrase or synonym as their anchor text. Nice!",
 	},
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 770 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 772 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -98,22 +99,21 @@ const expectedResults = {
 	},
 	keyphraseDistribution: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text " +
-			"do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: 1 section of your text is longer than " +
-			"300 words and is not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>Add subheadings " +
-			"to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: The beginning of your " +
+			"text is longer than 300 words and is not separated by any subheadings. " +
+			"<a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability.</a>",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs contains more than " +
-			"the recommended maximum of 150 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
+			"the recommended maximum number of words (150). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -123,7 +123,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 17.8% of the sentences contain transition words, " +
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 19.5% of the sentences contain transition words, " +
 			"which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
@@ -140,8 +140,9 @@ const expectedResults = {
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes that reflect" +
-			" the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Images on this page do not have alt attributes that reflect" +
+			" the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt " +
+			"tags of relevant images</a>!",
 	},
 	imageCount: {
 		isApplicable: true,
@@ -150,6 +151,16 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

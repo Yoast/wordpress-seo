@@ -1,19 +1,27 @@
+/* eslint-disable complexity */
 import classNames from "classnames";
-import PropTypes from "prop-types";
-import Spinner from "../spinner";
 import { keys } from "lodash";
+import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
+import Spinner from "../spinner";
+import { SparklesIcon } from "./sparkles-icon";
+import { useSvgAria } from "../../hooks";
 
-const classNameMap = {
+export const classNameMap = {
 	variant: {
 		primary: "yst-button--primary",
 		secondary: "yst-button--secondary",
+		tertiary: "yst-button--tertiary",
 		error: "yst-button--error",
 		upsell: "yst-button--upsell",
+		"ai-primary": "yst-button--ai-primary",
+		"ai-secondary": "yst-button--ai-secondary yst-ai-gradient-border",
 	},
 	size: {
 		"default": "",
 		small: "yst-button--small",
 		large: "yst-button--large",
+		"extra-large": "yst-button--extra-large",
 	},
 };
 
@@ -28,20 +36,24 @@ const classNameMap = {
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Button component.
  */
-const Button = ( {
+const Button = forwardRef( ( {
 	children,
-	as: Component,
+	as: Component = "button",
 	type,
-	variant,
-	size,
-	isLoading,
-	disabled,
-	className,
+	variant = "primary",
+	size = "default",
+	isLoading = false,
+	disabled = false,
+	className = "",
 	...props
-} ) => (
-	<Component
-		type={ type || ( Component === "button" && "button" ) }
+}, ref ) => {
+	const svgAriaProps = useSvgAria();
+
+	return <Component
+		// eslint-disable-next-line no-undefined
+		type={ type || ( Component === "button" && "button" ) || undefined }
 		disabled={ disabled }
+		ref={ ref }
 		className={ classNames(
 			"yst-button",
 			classNameMap.variant[ variant ],
@@ -52,31 +64,21 @@ const Button = ( {
 		) }
 		{ ...props }
 	>
-		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst-mr-2" /> }
+		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst-button--loading"  { ...svgAriaProps } /> }
+		{ variant.startsWith( "ai-" ) && <SparklesIcon className="yst-button--sparkles-icon yst-shrink-0" { ...svgAriaProps } /> }
 		{ children }
-	</Component>
-);
+	</Component>;
+} );
 
+Button.displayName = "Button";
 Button.propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
-	type: PropTypes.oneOf( [ "button", "submit" ] ),
+	type: PropTypes.oneOf( [ "button", "submit", "reset" ] ),
 	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
 	size: PropTypes.oneOf( keys( classNameMap.size ) ),
 	isLoading: PropTypes.bool,
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
-
-Button.defaultProps = {
-	as: "button",
-	// eslint-disable-next-line no-undefined
-	type: undefined,
-	variant: "primary",
-	size: "default",
-	isLoading: false,
-	disabled: false,
-	className: "",
-};
-
 export default Button;

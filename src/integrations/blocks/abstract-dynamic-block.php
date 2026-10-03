@@ -54,7 +54,7 @@ abstract class Dynamic_Block implements Integration_Interface {
 						'type'    => 'string',
 					],
 				],
-			]
+			],
 		);
 	}
 

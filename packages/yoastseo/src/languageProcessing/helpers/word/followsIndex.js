@@ -1,4 +1,4 @@
-import { isEmpty, forEach, includes } from "lodash-es";
+import { isEmpty, forEach, includes } from "lodash";
 
 /**
  * Checks whether a given word is followed by any word from a given list.

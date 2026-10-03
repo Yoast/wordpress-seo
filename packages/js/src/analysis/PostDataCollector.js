@@ -2,7 +2,7 @@
 
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
-import { get } from "lodash-es";
+import { get } from "lodash";
 import { markers } from "yoastseo";
 import { select } from "@wordpress/data";
 
@@ -134,7 +134,7 @@ PostDataCollector.prototype.getTitle = function() {
  */
 PostDataCollector.prototype.getUrl = function() {
 	const editorSelectors = select( "core/editor" );
-	if ( editorSelectors ) {
+	if ( editorSelectors && editorSelectors.getCurrentPostAttribute( "slug" ) ) {
 		return editorSelectors.getCurrentPostAttribute( "slug" );
 	}
 
@@ -435,5 +435,6 @@ PostDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
 
 	$( "#yoast_wpseo_inclusive_language_score" ).val( score );
 };
+
 
 export default PostDataCollector;

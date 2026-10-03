@@ -1,25 +1,31 @@
 import ProgressBar from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
+import { component } from "./docs";
 
-export default {
-	title: "1. Elements/Progress Bar",
-	component: ProgressBar,
+export const Factory = {
 	parameters: {
-		docs: {
-			description: {
-				component: "A simple progress bar component.",
-			},
-		},
+		controls: { disable: false },
+	},
+	args: {
+		min: 0,
+		max: 100,
+		progress: 50,
 	},
 };
 
-export const Factory = ( { children, ...args } ) => (
-	<ProgressBar { ...args } />
-);
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	min: 0,
-	max: 100,
-	progress: 50,
+export default {
+	title: "1) Elements/Progress bar",
+	component: ProgressBar,
+	parameters: {
+		docs: {
+			description: { component },
+			page: InteractiveDocsPage,
+		},
+	},
+	argTypes: {
+		progressClassName: {
+			description: "Class names for the progress indicator.",
+			control: "text",
+		},
+	},
 };

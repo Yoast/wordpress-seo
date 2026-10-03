@@ -1,5 +1,5 @@
 // "use strict";
-import { isUndefined } from "lodash-es";
+import { isUndefined } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { buildFormRule, createRulesFromArrays } = languageProcessing;
 

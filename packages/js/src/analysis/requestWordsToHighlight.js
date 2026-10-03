@@ -1,5 +1,5 @@
 import { actions } from "@yoast/externals/redux";
-import { flatten, uniq } from "lodash-es";
+import { flatten, uniq } from "lodash";
 import { Paper } from "yoastseo";
 
 /**

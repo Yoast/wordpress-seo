@@ -25,6 +25,8 @@ class Images extends Base_Images {
 	 * @codeCoverageIgnore - Is handled by DI-container.
 	 *
 	 * @param Open_Graph_Image_Helper $open_graph_image Image helper for Open Graph.
+	 *
+	 * @return void
 	 */
 	public function set_helpers( Open_Graph_Image_Helper $open_graph_image ) {
 		$this->open_graph_image = $open_graph_image;

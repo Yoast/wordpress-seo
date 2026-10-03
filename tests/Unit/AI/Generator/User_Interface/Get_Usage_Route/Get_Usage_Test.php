@@ -1,0 +1,252 @@
+<?php
+
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\User_Interface\Get_Usage_Route;
+
+use Brain\Monkey\Functions;
+use Mockery;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_User;
+use WPSEO_Addon_Manager;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
+
+/**
+ * Tests the Get_Usage_Route's get_usage method.
+ *
+ * @group ai-generator
+ *
+ * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Get_Usage_Route::get_usage
+ */
+final class Get_Usage_Test extends Abstract_Test {
+
+	/**
+	 * Tests the get_usage method.
+	 *
+	 * @return void
+	 */
+	public function test_get_usage() {
+		$user = Mockery::mock( WP_User::class );
+
+		Functions\expect( 'wp_get_current_user' )
+			->once()
+			->withNoArgs()
+			->andReturn( $user );
+
+		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
+		$wp_rest_request
+			->expects( 'get_param' )
+			->once()
+			->with( 'is_woo_product_entity' )
+			->andReturn( true );
+
+		$wp_rest_response = Mockery::mock( 'overload:' . WP_REST_Response::class );
+		$http_response    = Mockery::mock( Response::class );
+
+		$this->addon_manager
+			->expects( 'has_valid_subscription' )
+			->once()
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
+			->andReturn( true );
+
+		$this->ai_request_sender_factory->expects( 'create' )->once()->with( $user )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender->expects( 'get_usage' )->once()->andReturn( $http_response );
+
+		$http_response
+			->expects( 'get_body' )
+			->once()
+			->withNoArgs()
+			->andReturn( '' );
+
+		$wp_rest_response
+			->expects( '__construct' )
+			->once()
+			->with( [] );
+
+		$result = $this->instance->get_usage( $wp_rest_request );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $result );
+	}
+
+	/**
+	 * Tests a bad HTTP request — the auth strategy throws and the route surfaces the structured error body.
+	 *
+	 * @return void
+	 */
+	public function test_get_usage_with_bad_http_request() {
+		$user = Mockery::mock( WP_User::class );
+
+		Functions\expect( 'wp_get_current_user' )
+			->once()
+			->withNoArgs()
+			->andReturn( $user );
+
+		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
+		$wp_rest_request
+			->expects( 'get_param' )
+			->once()
+			->with( 'is_woo_product_entity' )
+			->andReturn( true );
+
+		$wp_rest_response  = Mockery::mock( 'overload:' . WP_REST_Response::class );
+		$request_exception = Mockery::mock( Remote_Request_Exception::class );
+
+		$this->addon_manager
+			->expects( 'has_valid_subscription' )
+			->once()
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
+			->andReturn( true );
+
+		$this->ai_request_sender_factory->expects( 'create' )->once()->with( $user )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender->expects( 'get_usage' )->once()->andThrow( $request_exception );
+
+		$request_exception
+			->expects( 'get_error_identifier' )
+			->once()
+			->withNoArgs()
+			->andReturn( 'test' );
+
+		$wp_rest_response
+			->expects( '__construct' )
+			->once()
+			->with(
+				[
+					'errorMessage'    => '',
+					'errorIdentifier' => 'test',
+					'errorCode'       => 0,
+				],
+				0,
+			);
+
+		$result = $this->instance->get_usage( $wp_rest_request );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $result );
+	}
+
+	/**
+	 * Tests that a Forbidden_Exception triggers a consent revocation before the error response is returned.
+	 *
+	 * @return void
+	 */
+	public function test_get_usage_with_forbidden_exception_revokes_consent() {
+		$user     = Mockery::mock( WP_User::class );
+		$user->ID = 42;
+
+		Functions\expect( 'wp_get_current_user' )
+			->once()
+			->withNoArgs()
+			->andReturn( $user );
+
+		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
+		$wp_rest_request
+			->expects( 'get_param' )
+			->once()
+			->with( 'is_woo_product_entity' )
+			->andReturn( true );
+
+		$wp_rest_response  = Mockery::mock( 'overload:' . WP_REST_Response::class );
+		$request_exception = Mockery::mock( Forbidden_Exception::class );
+
+		$this->addon_manager
+			->expects( 'has_valid_subscription' )
+			->once()
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
+			->andReturn( true );
+
+		$this->ai_request_sender_factory->expects( 'create' )->once()->with( $user )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender->expects( 'get_usage' )->once()->andThrow( $request_exception );
+
+		$this->consent_handler
+			->expects( 'revoke_consent' )
+			->once()
+			->with( 42 );
+
+		$request_exception
+			->expects( 'get_error_identifier' )
+			->once()
+			->withNoArgs()
+			->andReturn( 'forbidden' );
+
+		$wp_rest_response
+			->expects( '__construct' )
+			->once()
+			->with(
+				[
+					'errorMessage'    => '',
+					'errorIdentifier' => 'forbidden',
+					'errorCode'       => 0,
+				],
+				0,
+			);
+
+		$result = $this->instance->get_usage( $wp_rest_request );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $result );
+	}
+
+	/**
+	 * Tests the "Too many requests" exception.
+	 *
+	 * @return void
+	 */
+	public function test_get_usage_with_too_many_requests_exception() {
+		$user = Mockery::mock( WP_User::class );
+
+		Functions\expect( 'wp_get_current_user' )
+			->once()
+			->withNoArgs()
+			->andReturn( $user );
+
+		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
+		$wp_rest_request
+			->expects( 'get_param' )
+			->once()
+			->with( 'is_woo_product_entity' )
+			->andReturn( true );
+
+		$wp_rest_response  = Mockery::mock( 'overload:' . WP_REST_Response::class );
+		$request_exception = Mockery::mock( Too_Many_Requests_Exception::class );
+
+		$this->addon_manager
+			->expects( 'has_valid_subscription' )
+			->once()
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
+			->andReturn( true );
+
+		$this->ai_request_sender_factory->expects( 'create' )->once()->with( $user )->andReturn( $this->ai_request_sender );
+		$this->ai_request_sender->expects( 'get_usage' )->once()->andThrow( $request_exception );
+
+		$request_exception
+			->expects( 'get_error_identifier' )
+			->once()
+			->withNoArgs()
+			->andReturn( 'test' );
+
+		$request_exception
+			->expects( 'get_missing_licenses' )
+			->once()
+			->withNoArgs()
+			->andReturn( 'test' );
+
+		$wp_rest_response
+			->expects( '__construct' )
+			->once()
+			->with(
+				[
+					'errorMessage'    => '',
+					'errorIdentifier' => 'test',
+					'errorCode'       => 0,
+					'missingLicenses' => 'test',
+				],
+				0,
+			);
+
+		$result = $this->instance->get_usage( $wp_rest_request );
+
+		$this->assertInstanceOf( WP_REST_Response::class, $result );
+	}
+}

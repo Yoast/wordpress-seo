@@ -1,4 +1,4 @@
-import { flatten } from "lodash-es";
+import { flatten } from "lodash";
 import { languageProcessing } from "yoastseo";
 const {
 	flattenSortLength,

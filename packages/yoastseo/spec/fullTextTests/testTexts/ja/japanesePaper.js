@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "完了形（かんりょうけい）とは、述語で表現される事象が、叙述中で基準となる時点で完了していることを表現する文法的形式。" +
 		"英語の\"have＋過去分詞\"などが代表的である。",
 	title: "完了形",
+	textTitle: "完了形",
 	titleWidth: 450,
 	locale: "ja",
 	permalink: "https://ja.wikipedia.org/wiki/%E5%AE%8C%E4%BA%86%E5%BD%A2",
@@ -29,7 +30,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 4,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 3 times. " +
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 3 times. " +
 			"That's less than the recommended minimum of 8 times for a text of this length. " +
 			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
 	},
@@ -53,8 +54,8 @@ const expectedResults = {
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: There are no links which use your keyphrase or synonym as their anchor text. Nice!",
 	},
 	textImages: {
 		isApplicable: true,
@@ -65,7 +66,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 3165 characters. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 2734 characters. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -109,21 +110,21 @@ const expectedResults = {
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
-		score: 3,
+		score: 6,
 		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"2 sections of your text are longer than 600 characters and are not separated by any subheadings. " +
+			"1 section of your text is longer than the recommended number of characters (600) and is not separated by any subheadings. " +
 			"<a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 4 of the paragraphs contain more " +
-			"than the recommended maximum of 300 characters. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain more " +
+			"than the recommended maximum number of characters (300). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 50.8% of the sentences contain more than 40 characters, " +
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 46.8% of the sentences contain more than 40 characters, " +
 			"which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
@@ -147,7 +148,9 @@ const expectedResults = {
 			"<a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!",
 	},
 	imageKeyphrase: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!",
 	},
 	imageCount: {
 		isApplicable: true,
@@ -157,6 +160,16 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

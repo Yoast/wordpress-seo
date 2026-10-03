@@ -1,0 +1,1 @@
+The `GetTasksErrorRow` component displays an error message when fetching tasks fails. It provides a user-friendly way to inform users about the issue and suggests refreshing the page. If a specific error message is provided, it will be displayed in the console.

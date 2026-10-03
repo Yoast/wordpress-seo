@@ -11,21 +11,59 @@ use Yoast\WP\SEO\Conditionals\Conditional;
 class Elementor_Edit_Conditional implements Conditional {
 
 	/**
-	 * Returns whether or not this conditional is met.
+	 * Returns whether this conditional is met.
 	 *
-	 * @return bool Whether or not the conditional is met.
+	 * @return bool Whether the conditional is met.
 	 */
 	public function is_met() {
 		global $pagenow;
 
-		// Check if we are on an Elementor edit page.
-		$get_action = \filter_input( \INPUT_GET, 'action', \FILTER_SANITIZE_STRING );
-		if ( $pagenow === 'post.php' && $get_action === 'elementor' ) {
+		// Editing a post/page in Elementor.
+		if ( $pagenow === 'post.php' && $this->is_elementor_get_action() ) {
 			return true;
 		}
 
-		// Check if we are in our Elementor ajax request.
-		$post_action = \filter_input( \INPUT_POST, 'action', \FILTER_SANITIZE_STRING );
-		return \wp_doing_ajax() && $post_action === 'wpseo_elementor_save';
+		// Request for us saving a post/page in Elementor (submits our form via AJAX).
+		return \wp_doing_ajax() && $this->is_yoast_save_post_action();
+	}
+
+	/**
+	 * Checks if the current request' GET action is 'elementor'.
+	 *
+	 * @return bool True when the GET action is 'elementor'.
+	 */
+	private function is_elementor_get_action(): bool {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( ! isset( $_GET['action'] ) ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( ! \is_string( $_GET['action'] ) ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, we are only strictly comparing.
+		return \wp_unslash( $_GET['action'] ) === 'elementor';
+	}
+
+	/**
+	 * Checks if the current request' POST action is 'wpseo_elementor_save'.
+	 *
+	 * @return bool True when the POST action is 'wpseo_elementor_save'.
+	 */
+	private function is_yoast_save_post_action(): bool {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
+		if ( ! isset( $_POST['action'] ) ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
+		if ( ! \is_string( $_POST['action'] ) ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, we are only strictly comparing.
+		return \wp_unslash( $_POST['action'] ) === 'wpseo_elementor_save';
 	}
 }

@@ -19,7 +19,7 @@ class Meta_Search_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const META_SEARCH_ROUTE = '/meta/search';
+	public const META_SEARCH_ROUTE = '/meta/search';
 
 	/**
 	 * Registers routes with WordPress.
@@ -53,7 +53,7 @@ class Meta_Search_Route implements Route_Interface {
 		$post_type        = \get_post_type( $request['post_id'] );
 		$post_type_object = \get_post_type_object( $post_type );
 
-		return \current_user_can( $post_type_object->cap->edit_posts );
+		return \current_user_can( $post_type_object->cap->edit_post, $request['post_id'] );
 	}
 
 	/**

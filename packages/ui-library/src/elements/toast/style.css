@@ -1,0 +1,24 @@
+@layer components {
+	.yst-root {
+
+		.yst-toast {
+			@apply
+			yst-w-80
+			yst-max-w-full
+			yst-overflow-y-auto
+			yst-p-4
+			yst-bg-white
+			yst-shadow-lg
+			yst-rounded-lg
+			yst-ring-1
+			yst-ring-black
+			yst-ring-opacity-5
+			yst-z-20
+			yst-pointer-events-auto;
+		}
+
+		.yst-toast--large {
+			@apply yst-w-96;
+		}
+	}
+}

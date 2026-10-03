@@ -96,6 +96,10 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 			return $caps;
 		}
 
+		if ( ! is_array( $user->roles ) ) {
+			return $caps;
+		}
+
 		// User must be of role wpseo_manager.
 		if ( ! in_array( 'wpseo_manager', $user->roles, true ) ) {
 			return $caps;

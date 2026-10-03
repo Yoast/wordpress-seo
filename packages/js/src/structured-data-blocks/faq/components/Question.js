@@ -2,13 +2,13 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
-
-import { Component } from "@wordpress/element";
-import { IconButton } from "@wordpress/components";
+import { Component, renderToString } from "@wordpress/element";
+import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
 
 /* Internal dependencies */
 import appendSpace from "../../../components/higherorder/appendSpace";
+import { convertToHTMLString } from "../../shared-utils";
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
@@ -43,22 +43,22 @@ export default class Question extends Component {
 	 * @param {Object}   props      The received props.
 	 * @param {function} props.open Opens the media upload dialog.
 	 *
-	 * @returns {wp.Element} The media upload button.
+	 * @returns {JSX.Element} The media upload button.
 	 */
 	getMediaUploadButton( props ) {
 		return (
-			<IconButton
+			<Button
 				className="schema-faq-section-button faq-section-add-media"
 				icon="insert"
 				onClick={ props.open }
 			>
 				{ __( "Add image", "wordpress-seo" ) }
-			</IconButton>
+			</Button>
 		);
 	}
 
 	/**
-	 * Handle the focus event on the question editor.
+	 * Handles the focus event in the question editor.
 	 *
 	 * @returns {void}
 	 */
@@ -67,7 +67,7 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Handle the focus event on the answer editor.
+	 * Handles the focus event on the answer editor.
 	 *
 	 * @returns {void}
 	 */
@@ -76,7 +76,7 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Handles the on change event on the question editor.
+	 * Handles the on change event in the question editor.
 	 *
 	 * @param {string} value The new question.
 	 *
@@ -102,7 +102,7 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Handles the on change event on the answer editor.
+	 * Handles the on change event in the answer editor.
 	 *
 	 * @param {string} value The new answer.
 	 *
@@ -146,7 +146,7 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Handle the move up button action.
+	 * Handles the move up button action.
 	 *
 	 * @returns {void}
 	 */
@@ -158,7 +158,7 @@ export default class Question extends Component {
 		this.props.onMoveUp( this.props.index );
 	}
 	/**
-	 * Handle the move down button action.
+	 * Handles the move down button action.
 	 *
 	 * @returns {void}
 	 */
@@ -171,9 +171,9 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * The insert and remove question buttons.
+	 * Gets the buttons for inserting and removing question and for uploading images.
 	 *
-	 * @returns {Component} The buttons.
+	 * @returns {JSX.Element} The buttons.
 	 */
 	getButtons() {
 		const {
@@ -187,13 +187,13 @@ export default class Question extends Component {
 				value={ attributes.id }
 				render={ this.getMediaUploadButton }
 			/>
-			<IconButton
+			<Button
 				className="schema-faq-section-button"
 				icon="trash"
 				label={ __( "Delete question", "wordpress-seo" ) }
 				onClick={ this.onRemoveQuestion }
 			/>
-			<IconButton
+			<Button
 				className="schema-faq-section-button"
 				icon="insert"
 				label={ __( "Insert question", "wordpress-seo" ) }
@@ -205,18 +205,18 @@ export default class Question extends Component {
 	/**
 	 * The mover buttons.
 	 *
-	 * @returns {Component} The buttons.
+	 * @returns {JSX.Element} The buttons.
 	 */
 	getMover() {
 		return <div className="schema-faq-section-mover">
-			<IconButton
+			<Button
 				className="editor-block-mover__control"
 				onClick={ this.onMoveUp }
 				icon="arrow-up-alt2"
 				label={ __( "Move question up", "wordpress-seo" ) }
 				aria-disabled={ this.props.isFirst }
 			/>
-			<IconButton
+			<Button
 				className="editor-block-mover__control"
 				onClick={ this.onMoveDown }
 				icon="arrow-down-alt2"
@@ -242,84 +242,61 @@ export default class Question extends Component {
 			index,
 		} = this.props;
 
-		let newAnswer = answer.slice();
-		const image   = <img className={ `wp-image-${ media.id }` } alt={ media.alt } src={ media.url } style="max-width:100%;" />;
+		const image = <img className={ `wp-image-${ media.id }` } alt={ media.alt || "" } src={ media.url } style={ { maxWidth: "100%" } } />;
 
-		if ( newAnswer.push ) {
-			newAnswer.push( image );
-		} else {
-			newAnswer = [ newAnswer, image ];
-		}
+		// Serializes the image element to string and append it to the existing answer (which is now a string).
+		// renderToString is used to convert the image element to an HTML string instead of just creating an image string manually,
+		// to ensure safe and secure rendering. renderToString handles any necessary escaping and encoding that lowers the risk of XSS attacks.
+		const newAnswer = ( answer || "" ) + renderToString( image );
 
 		this.props.onChange( question, newAnswer, question, answer, index );
-	}
-
-	/**
-	 * Returns the image src from step contents.
-	 *
-	 * @param {array} contents The step contents.
-	 *
-	 * @returns {string|boolean} The image src or false if none is found.
-	 */
-	static getImageSrc( contents ) {
-		if ( ! contents || ! contents.filter ) {
-			return false;
-		}
-
-		const image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
-
-		if ( ! image ) {
-			return false;
-		}
-
-		return image.props.src;
 	}
 
 	/**
 	 * Returns the component of the given question and answer to be rendered in a WordPress post
 	 * (e.g. not in the editor).
 	 *
-	 * @param {object} question The question and its answer.
+	 * @param {Object} question The question and its answer.
 	 *
-	 * @returns {Component} The component to be rendered.
+	 * @returns {JSX.Element} The component to be rendered.
 	 */
 	static Content( question ) {
+		// Backwards compatibility for questions and answers stored as arrays.
+		const questionItem = Array.isArray( question.question ) ? convertToHTMLString( question.question ) : question.question;
+		const answerItem = Array.isArray( question.answer ) ? convertToHTMLString( question.answer ) : question.answer;
 		return (
 			<div className={ "schema-faq-section" } id={ question.id } key={ question.id }>
 				<RichTextWithAppendedSpace
 					tagName="strong"
 					className="schema-faq-question"
 					key={ question.id + "-question" }
-					value={ question.question }
+					value={ questionItem }
 				/>
 				<RichTextWithAppendedSpace
 					tagName="p"
 					className="schema-faq-answer"
 					key={ question.id + "-answer" }
-					value={ question.answer }
+					value={ answerItem }
 				/>
 			</div>
 		);
 	}
 
 	/**
-	 * Perform a shallow equal to prevent every step from being rerendered.
+	 * Performs a shallow equal to prevent every question from being rerendered.
 	 *
-	 * @param {object} nextProps The next props the component will receive.
+	 * @param {Object} nextProps The next props the component will receive.
 	 *
 	 * @returns {boolean} Whether or not the component should perform an update.
 	 */
 	shouldComponentUpdate( nextProps ) {
-		if ( ! isShallowEqualObjects( nextProps, this.props ) ) {
-			return true;
-		}
-		return false;
+		return ! isShallowEqualObjects( nextProps, this.props );
 	}
 
 	/**
 	 * Renders this component.
 	 *
-	 * @returns {Component} The how-to step editor.
+	 * @returns {JSX.Element} The FAQ question editor.
 	 */
 	render() {
 		const {
@@ -336,22 +313,24 @@ export default class Question extends Component {
 		return (
 			<div className="schema-faq-section" key={ id }>
 				<RichText
+					identifier={ id + "-question" }
 					className="schema-faq-question"
 					tagName="p"
 					key={ id + "-question" }
 					value={ question }
 					onChange={ this.onChangeQuestion }
-					unstableOnFocus={ this.onFocusQuestion }
+					onFocus={ this.onFocusQuestion }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
-					formattingControls={ [ "italic", "strikethrough", "link" ] }
+					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link", "core/annotation" ] }
 				/>
 				<RichText
+					identifier={ id + "-answer" }
 					className="schema-faq-answer"
 					tagName="p"
 					key={ id + "-answer" }
 					value={ answer }
 					onChange={ this.onChangeAnswer }
-					unstableOnFocus={ this.onFocusAnswer }
+					onFocus={ this.onFocusAnswer }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
 				/>
 				{ isSelected &&

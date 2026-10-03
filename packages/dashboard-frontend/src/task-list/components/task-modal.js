@@ -1,0 +1,165 @@
+import { Alert, Button, Modal, Title } from "@yoast/ui-library";
+import { __ } from "@wordpress/i18n";
+import { useMemo, useRef, useEffect, useCallback } from "@wordpress/element";
+import DOMPurify from "dompurify";
+import { CallToActionButton } from "./call-to-action-button";
+import { Priority } from "./priority";
+import { Duration } from "./duration";
+import { TasksProgressBadge } from "./tasks-progress-badge";
+import { TaskStatusIcon } from "../../icons";
+import { TaskAnalyzer } from "./task-analyzer";
+
+/**
+ * The type of callToAction prop.
+ *
+ * @typedef {Object} CallToAction
+ * @property {string} label The label for the call-to-action button.
+ * @property {string} type The variant of the call-to-action button: it can be 'link', 'add', 'delete' or 'default'.
+ * @property {string} [href] The URL to navigate to (for 'link' variant).
+ * @property {Function} [onClick] The onClick handler for the button.
+ * @property {boolean} [disabled] Whether the button is disabled.
+ * @property {boolean} [isLoading] Whether the button is in a loading state.
+ */
+
+/**
+ * @typedef {import('../../store/task-list').Analyzer} Analyzer
+ */
+
+/**
+ * A modal component to display task details.
+ *
+ * @param {boolean}  isOpen        Whether the modal is open.
+ * @param {Function} onClose       Function to call when closing the modal.
+ * @param {CallToAction}   callToAction  Call to action button details.
+ * @param {string}   title         Title of the modal.
+ * @param {number}   duration      Estimated duration to complete the task.
+ * @param {string}   priority      Priority of the task: 'low', 'medium', 'high'.
+ * @param {string}   about         HTML string describing the task. Can contain HTML tags like <strong> and <p>.
+ * @param {string}   taskId        The ID of the task associated with the modal.
+ * @param {boolean}  isCompleted   Whether the task is completed.
+ * @param {boolean}	 isLoading	Whether the modal content is loading.
+ * @param {boolean}  [isError=false]   Whether there was an error loading the task.
+ * @param {string}   [errorMessage=""]  Error message to display in the modal.
+ * @param {number}   [totalTasks]     Total number of child tasks.
+ * @param {number}   [completedTasks] Number of completed child tasks.
+ * @param {string}   [parentTaskTitle] Title of the parent task for child tasks progress badge.
+ * @param {Function} [onProgressBadgeClick] Callback function when the progress badge is clicked.
+ * @param {string}   [parentTaskId]  The ID of the parent task, if applicable.
+ * @param {JSX.Element} [children]   Additional child elements to render inside the modal.
+ * @param {Analyzer} [analyzer]      Analyzer details for the task.
+ *
+ * @returns {JSX.Element} The TaskModal component.
+ */
+export const TaskModal = ( {
+	isOpen,
+	onClose,
+	callToAction,
+	title,
+	duration,
+	priority,
+	about,
+	taskId,
+	isCompleted,
+	isLoading = false,
+	isError = false,
+	errorMessage,
+	totalTasks,
+	completedTasks,
+	parentTaskTitle,
+	onProgressBadgeClick,
+	parentTaskId,
+	children,
+	analyzer,
+} ) => {
+	// Sanitize the about content to prevent XSS attacks
+	const sanitizedAbout = useMemo( () => DOMPurify.sanitize( about ), [ about ] );
+	const closeButtonRef = useRef();
+
+	useEffect( () => {
+		if ( taskId && closeButtonRef.current ) {
+			closeButtonRef.current.focus();
+		}
+	}, [ taskId ] );
+
+	const shouldRenderProgressBadge = useCallback( ( parentTaskCheck ) => {
+		if ( parentTaskCheck ) {
+			return totalTasks > 0;
+		}
+		return false;
+	}, [ totalTasks, completedTasks ] );
+
+	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
+		<Modal.Panel className="yst-p-0 yst-max-w-2xl" hasCloseButton={ false }>
+			<Modal.Container>
+				<Modal.Container.Header className="yst-p-6 yst-border-b yst-border-slate-200">
+					{ shouldRenderProgressBadge( parentTaskTitle ) &&
+					<TasksProgressBadge
+						completedTasks={ completedTasks }
+						totalTasks={ totalTasks }
+						label={ parentTaskTitle }
+						onClick={ onProgressBadgeClick }
+						parentTaskId={ parentTaskId }
+						className="yst-mb-2"
+						as="button"
+					/> }
+					<div className="yst-flex yst-gap-3 yst-items-start yst-justify-between">
+						<TaskStatusIcon isCompleted={ isCompleted } isLoading={ isLoading } />
+						<div className="yst-flex-grow">
+							<Modal.Title as="h3" className={ `yst-mb-2 yst-text-lg yst-max-w-lg ${isCompleted ? "yst-text-slate-500" : ""}` }>
+								{ title }
+							</Modal.Title>
+							<div className="yst-flex yst-gap-2 yst-items-center">
+								{ shouldRenderProgressBadge( ! parentTaskTitle ) && <>
+									<TasksProgressBadge
+										completedTasks={ completedTasks }
+										totalTasks={ totalTasks }
+									/>
+									<span aria-hidden="true">·</span>
+								</> }
+								<Priority level={ priority } isCompleted={ isCompleted } />
+								<span aria-hidden="true">·</span> <Duration minutes={ duration } isCompleted={ isCompleted } />
+							</div>
+						</div>
+						<Modal.CloseButton ref={ closeButtonRef } onClick={ onClose } />
+					</div>
+				</Modal.Container.Header>
+				<Modal.Container.Content className="yst-pt-6 yst-px-6 yst-mx-0 yst-overflow-y-auto yst-relative">
+					{ isError && <Alert
+						role="alert"
+						variant="error"
+						className="yst-mb-3"
+					>
+						<p className="yst-font-medium yst-mb-2">{ __( "Oops! Something went wrong.", "wordpress-seo" ) }</p>
+
+						<p>
+							{ errorMessage ? errorMessage : __( "Please try again.", "wordpress-seo" ) }
+							{ " " }
+							{ __( "If the issue continues, our support team is here to help!", "wordpress-seo" ) }</p>
+					</Alert> }
+
+					{ analyzer && <TaskAnalyzer { ...analyzer } /> }
+
+					<Title as="h4" size="5" className="yst-text-slate-800 yst-mb-2">
+						{ __( "About this task", "wordpress-seo" ) }
+					</Title>
+					<div
+						className="yst-text-sm yst-text-slate-600 [&>p:not(:last-child)]:yst-mb-4 yst-mb-6"
+						dangerouslySetInnerHTML={ { __html: sanitizedAbout } }
+					/>
+
+					{ children }
+					{ children && <div
+						className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
+						aria-hidden="true"
+					/> }
+				</Modal.Container.Content>
+				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-3 yst-p-6 yst-border-t yst-border-slate-200">
+					<Button variant="secondary" onClick={ onClose }>
+						{ __( "Close", "wordpress-seo" ) }
+					</Button>
+					<CallToActionButton { ...callToAction } taskId={ taskId } disabled={ isCompleted } isLoading={ isLoading } />
+				</Modal.Container.Footer>
+			</Modal.Container>
+		</Modal.Panel>
+	</Modal>;
+};

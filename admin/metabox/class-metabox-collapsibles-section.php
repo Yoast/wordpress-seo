@@ -34,6 +34,8 @@ class WPSEO_Metabox_Collapsibles_Sections extends WPSEO_Abstract_Metabox_Tab_Wit
 
 	/**
 	 * Outputs the section content if any tab has been added.
+	 *
+	 * @return void
 	 */
 	public function display_content() {
 		if ( $this->has_sections() ) {

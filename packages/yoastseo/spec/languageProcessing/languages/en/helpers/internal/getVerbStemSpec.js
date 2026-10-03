@@ -4,7 +4,7 @@ import {
 	checkIrregulars,
 	normalizePrefixed,
 } from "../../../../../../src/languageProcessing/languages/en/helpers/internal/getVerbStem";
-import isUndefined from "lodash-es/isUndefined";
+import isUndefined from "lodash/isUndefined";
 
 const morphologyData = getMorphologyData( "en" );
 const regexVerb = morphologyData.en.verbs.regexVerb;

@@ -1,0 +1,17 @@
+{
+  "include": [
+    "src/**/*.js",
+    "vendor"
+  ],
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "allowJs": true,
+    "checkJs": false,
+    "outDir": "./types",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+  }
+}

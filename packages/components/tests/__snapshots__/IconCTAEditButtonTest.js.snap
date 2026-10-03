@@ -10,16 +10,27 @@ exports[`the IconCTAEditButton matches the snapshot 1`] = `
 }
 
 .c0 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   box-sizing: border-box;
   min-width: 32px;
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
   box-shadow: #ccc;
   border-radius: 3px;
   cursor: pointer;
   padding: 0;
-  height: "24px";
+  height: 24px;
 }
 
 .c0:hover {

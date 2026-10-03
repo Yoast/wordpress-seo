@@ -4,13 +4,13 @@ import baseStemmer from "../../../../src/languageProcessing/helpers/morphology/b
 describe( "A test for building stems for an array of words", function() {
 	it( "returns an empty array if the input keyphrase is undefined", function() {
 		let keyphrase;
-		const forms = buildStems( keyphrase, baseStemmer, [] );
+		const forms = buildStems( keyphrase, baseStemmer, [], true );
 		expect( forms ).toEqual( new TopicPhrase( [], false )  );
 	} );
 
 	it( "returns the exact match if the input string is embedded in quotation marks (the language and morphAnalyzer do not matter)", function() {
 		const keyphrase = "\"I am going for a walk\"";
-		const forms = buildStems( keyphrase, baseStemmer, [] );
+		const forms = buildStems( keyphrase, baseStemmer, [], true );
 		expect( forms ).toEqual(
 			new TopicPhrase(
 				[ new StemOriginalPair( "I am going for a walk", keyphrase.substring( 1, keyphrase.length - 1 ) ) ],
@@ -21,7 +21,7 @@ describe( "A test for building stems for an array of words", function() {
 
 	it( "returns all (content) words if there is function words and no language specific stemmer for this language yet ", function() {
 		const functionWords = [ "kowe", "iki" ];
-		const forms = buildStems( "kowe budal makaryo", baseStemmer, functionWords );
+		const forms = buildStems( "kowe budal makaryo", baseStemmer, functionWords, true );
 		expect( forms ).toEqual(
 			new TopicPhrase(
 				[ new StemOriginalPair( "budal", "budal" ), new StemOriginalPair( "makaryo", "makaryo" ) ],
@@ -30,16 +30,32 @@ describe( "A test for building stems for an array of words", function() {
 	} );
 
 	it( "returns all (content) words if there is no language specific stemmer and no function words for this language yet", function() {
-		const forms = buildStems( "kowe lungo", baseStemmer, [] );
+		const forms = buildStems( "kowe lungo", baseStemmer, [], true );
 		expect( forms ).toEqual(
 			new TopicPhrase(
 				[ new StemOriginalPair( "kowe", "kowe" ), new StemOriginalPair( "lungo", "lungo" ) ],
 				false )
 		);
 	} );
+	it( "splits keyphrase on hyphen when hyphens should be considered word boundaries", function() {
+		const forms = buildStems( "kowe-lungo", baseStemmer, [], true );
+		expect( forms ).toEqual(
+			new TopicPhrase(
+				[ new StemOriginalPair( "kowe", "kowe" ), new StemOriginalPair( "lungo", "lungo" ) ],
+				false )
+		);
+	} );
+	it( "does not split keyphrase on hyphen when hyphens shouldn't be considered word boundaries", function() {
+		const forms = buildStems( "kowe-lungo", baseStemmer, [], false );
+		expect( forms ).toEqual(
+			new TopicPhrase(
+				[ new StemOriginalPair( "kowe-lungo", "kowe-lungo" ) ],
+				false )
+		);
+	} );
 	it( "returns all words if all words in keyphrase are function words", function() {
 		const functionWords = [ "I", "am", "small" ];
-		const forms = buildStems( "I am small", baseStemmer, functionWords );
+		const forms = buildStems( "I am small", baseStemmer, functionWords, true );
 		expect( forms ).toEqual(
 			new TopicPhrase(
 				[ new StemOriginalPair( "I", "I" ),
@@ -172,7 +188,7 @@ describe( "A test for topic phrase objects", function() {
 			new StemOriginalPair( "movie", "movies" ),
 			new StemOriginalPair( "work", "work" ),
 		],
-		false,
+		false
 	);
 
 	it( "constructs a topic phrase", () => {
@@ -206,7 +222,7 @@ describe( "A test for topic phrase objects", function() {
 				new StemOriginalPair( "movie", "movie" ),
 				new StemOriginalPair( "work", "work" ),
 			],
-			true,
+			true
 		);
 		expect( exactMatchTopicPhrase.getStems() ).toEqual( [] );
 	} );

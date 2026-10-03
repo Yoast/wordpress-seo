@@ -1,22 +1,23 @@
 /* eslint-disable complexity */
-import { Button } from "@yoast/ui-library";
-import { __, sprintf } from "@wordpress/i18n";
-import { CheckIcon, XIcon } from "@heroicons/react/solid";
-import { PropTypes } from "prop-types";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import XIcon from "@heroicons/react/solid/XIcon";
 import { Fragment } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { Button } from "@yoast/ui-library";
+import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
 
 /**
  * Represents the ACF logo.
  *
- * @param {object}  props The props.
+ * @param {Object} props The props.
  *
- * @returns {WPElement} A card representing an integration.
+ * @returns {JSX.Element} A card representing an integration.
  */
 const AcfLogo = ( props ) => {
 	return (
 		<img
-			src={ window.wpseoIntegrationsData.plugin_url + "/images/acf-logo.png" }
+			src={ window.wpseoIntegrationsData.plugin_url + "/images/acf-logo.svg" }
 			height="50"
 			width="50"
 			alt={
@@ -35,19 +36,19 @@ const AcfLogo = ( props ) => {
 /**
  * Represents an integration.
  *
- * @param {object}  integration          The integration.
- * @param {boolean} isActive             The integration state.
- * @param {boolean} isInstalled          The integration state.
+ * @param {Object} integration The integration.
+ * @param {boolean} [isActive=true] The integration state.
+ * @param {boolean} [isInstalled=true] The integration state.
  * @param {boolean} isPrerequisiteActive Whether the plugin to which we want to integrate is active.
- * @param {string}  installationLink     The URL to install ACF Content Analysis for Yoast SEO.
- * @param {string}  activationLink       The URL to activate ACF Content Analysis for Yoast SEO.
+ * @param {string} installationLink The URL to install ACF Content Analysis for Yoast SEO.
+ * @param {string} activationLink The URL to activate ACF Content Analysis for Yoast SEO.
  *
- * @returns {WPElement} A card representing an integration.
+ * @returns {JSX.Element} A card representing an integration.
  */
 export const AcfIntegration = ( {
 	integration,
-	isActive,
-	isInstalled,
+	isActive = true,
+	isInstalled = true,
 	isPrerequisiteActive,
 	installationLink,
 	activationLink,
@@ -60,7 +61,7 @@ export const AcfIntegration = ( {
 			isActive={ isActive }
 		>
 			{ ! isPrerequisiteActive && <Fragment>
-				<span className="yst-text-gray-700 yst-font-medium">
+				<span className="yst-text-slate-700 yst-font-medium">
 					{
 						__( "Plugin not detected", "wordpress-seo" )
 					}
@@ -70,7 +71,7 @@ export const AcfIntegration = ( {
 				/>
 			</Fragment> }
 			{ isPrerequisiteActive && isActive && <Fragment>
-				<span className="yst-text-gray-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
+				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
 				<CheckIcon
 					className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
 				/>
@@ -82,7 +83,7 @@ export const AcfIntegration = ( {
 					as="a"
 					variant="secondary"
 					href={ activationLink }
-					className="yst-w-full yst-text-gray-800 yst-text-center"
+					className="yst-w-full yst-text-slate-800 yst-text-center"
 				>
 					{
 						sprintf(
@@ -101,7 +102,7 @@ export const AcfIntegration = ( {
 					as="a"
 					href={ installationLink }
 					variant="secondary"
-					className="yst-w-full yst-text-gray-800 yst-text-center"
+					className="yst-w-full yst-text-slate-800 yst-text-center"
 				>
 					{
 						sprintf(
@@ -121,8 +122,7 @@ export const AcfIntegration = ( {
 AcfIntegration.propTypes = {
 	integration: PropTypes.shape( {
 		name: PropTypes.string,
-		claim: PropTypes.string,
-		type: PropTypes.string,
+		claim: PropTypes.node,
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,
@@ -131,12 +131,7 @@ AcfIntegration.propTypes = {
 	} ).isRequired,
 	isActive: PropTypes.bool,
 	isInstalled: PropTypes.bool,
-	isPrerequisiteActive: PropTypes.bool,
-	installationLink: PropTypes.string,
-	activationLink: PropTypes.string,
-};
-
-AcfIntegration.defaultProps = {
-	isActive: true,
-	isInstalled: true,
+	isPrerequisiteActive: PropTypes.bool.isRequired,
+	installationLink: PropTypes.string.isRequired,
+	activationLink: PropTypes.string.isRequired,
 };

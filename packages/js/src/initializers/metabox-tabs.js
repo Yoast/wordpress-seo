@@ -1,5 +1,7 @@
 /* Browser:true */
+import { subscribe, select } from "@wordpress/data";
 import createCustomEvent from "../helpers/createCustomEvent";
+import isBlockEditor from "../helpers/isBlockEditor";
 
 /**
  * @summary Initializes the metabox tabs script.
@@ -157,34 +159,6 @@ export default function initTabs( jQuery ) {
 	 * @returns {void}
 	 */
 	function wpseoInitTabs() {
-		// When there's only one add-on tab, change its link to a span element.
-		var addonsTabsLinks = jQuery( "#wpseo-meta-section-addons .wpseo_tablink" );
-		if ( addonsTabsLinks.length === 1 ) {
-			addonsTabsLinks.replaceWith( "<span class='" + addonsTabsLinks[ 0 ].className + "'>" + addonsTabsLinks.text() + "</span>" );
-		}
-
-		// Tabs within the main tabs, e.g.: Facebook, Twitter, Video, and News.
-		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
-			jQuery( ".wpseo-metabox-tabs" )
-				.on( "click", "a.wpseo_tablink", function( ev ) {
-					ev.preventDefault();
-
-					jQuery( ".wpseo-meta-section.active .wpseo-metabox-tabs li" ).removeClass( "active" );
-					jQuery( ".wpseo-meta-section.active .wpseotab" ).removeClass( "active" );
-
-					var targetElem = jQuery( jQuery( this ).attr( "href" ) );
-					targetElem.addClass( "active" );
-					jQuery( this ).parent( "li" ).addClass( "active" );
-
-					// Not used at the moment.
-					if ( jQuery( this ).hasClass( "scroll" ) ) {
-						jQuery( "html, body" ).animate( {
-							scrollTop: jQuery( targetElem ).offset().top,
-						}, 500 );
-					}
-				} );
-		}
-
 		// Main tabs.
 		if ( jQuery( ".wpseo-meta-section" ).length > 0 ) {
 			const tabLinks = jQuery( ".wpseo-meta-section-link" );
@@ -232,8 +206,6 @@ export default function initTabs( jQuery ) {
 					wpseoAriaTabSetActiveAttributes( this, tabLinks );
 				} );
 		}
-
-		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code.
 	}
 
@@ -243,7 +215,6 @@ export default function initTabs( jQuery ) {
 
 	// Set up the first tab and panel within the main tabs.
 	jQuery( ".wpseo-meta-section" ).each( function( index, el ) {
-		jQuery( el ).find( ".wpseo-metabox-tabs li:first" ).addClass( "active" );
 		jQuery( el ).find( ".wpseotab:first" ).addClass( "active" );
 	} );
 
@@ -251,4 +222,36 @@ export default function initTabs( jQuery ) {
 	window.wpseo_init_tabs();
 
 	wpseoAriaTabsInit();
+
+	const isGutenberg = isBlockEditor();
+	// If a `yoast-tab` URL parameter is present, programmatically activate and focus the matching tab.
+	const yoastTab = new URLSearchParams( window.location.search ).get( "yoast-tab" );
+	if ( yoastTab === "readability" ) {
+		const unsubscribe = subscribe( () => {
+			// Check if the readability results are available, which indicates that the editor has loaded and the readability analysis.
+			// In the metabox the readability is a tab, and in the sidebar it's a collapsible, that why we deal with each in a different way.
+			const { overallScore } = select( "yoast-seo/editor" ).getReadabilityResults();
+			const readabilityTab = jQuery( "#wpseo-meta-tab-readability" );
+			if ( overallScore !== null ) {
+				unsubscribe();
+				readabilityTab.trigger( "click" );
+				if ( ! isGutenberg ) {
+					// If not on block editor, we want to focus the readability tab in the metabox.
+					readabilityTab.focus();
+				}
+			}
+		} );
+	}
+
+	if ( yoastTab === "seo" && ! isGutenberg ) {
+		const unsubscribe = subscribe( () => {
+			// Check if the SEO results are available, which indicates that the SEO analysis has completed.
+			const { overallScore } = select( "yoast-seo/editor" ).getSeoResults();
+			if ( overallScore !== null ) {
+				unsubscribe();
+				// We set the initialIsOpen in the SeoAnalysis component which applies both for metabox and sidebar.
+				jQuery( "#yoast-seo-analysis-collapsible-metabox" ).focus();
+			}
+		} );
+	}
 }

@@ -1,17 +1,28 @@
+import { mapValues, merge } from "lodash";
+
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
-import { merge } from "lodash-es";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { __, sprintf } from "@wordpress/i18n";
+import { createAnchorOpeningTag } from "../../../helpers";
+import normalizeProductData from "../../../contract/normalizeProductData";
 
 /**
- * Represents the assessment for the product SKU.
+ * Represents the assessment checks whether the product has a SKU.
  */
 export default class ProductSKUAssessment extends Assessment {
 	/**
 	 * Constructs a product SKU assessment.
 	 *
 	 * @param {Object} config   Potential additional config for the assessment.
+	 * @param {Object} [config.scores] The scores to use for the assessment.
+	 * @param {number} [config.scores.good] The score to return if the product has a SKU.
+	 * @param {number} [config.scores.ok] The score to return if the product doesn't have a SKU.
+	 * @param {string} [config.urlTitle] The URL to the article about this assessment.
+	 * @param {string} [config.urlCallToAction] The URL to the help article for this assessment.
+	 * @param {boolean} [config.assessVariants] Whether to assess variants.
+	 * @param {boolean} [config.shouldShowEditButton] Whether to show edit button.
+	 * @param {string} [config.editFieldName] The name of the field to edit.
+	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
+	 * @param {function} [config.callbacks.getResultTexts] The function that returns the result texts.
 	 *
 	 * @returns {void}
 	 */
@@ -23,9 +34,12 @@ export default class ProductSKUAssessment extends Assessment {
 				good: 9,
 				ok: 6,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
+			urlTitle: "https://yoa.st/4lw",
+			urlCallToAction: "https://yoa.st/4lx",
 			assessVariants: false,
+			shouldShowEditButton: false,
+			editFieldAriaLabel: "Edit your SKU",
+			callbacks: {},
 		};
 
 		this.identifier = "productSKU";
@@ -33,15 +47,14 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
-	 * Tests whether a product has a SKU and returns an assessment result based on the research.
+	 * Executes the assessment and returns a result based on the research.
 	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The researcher used for calling the research.
+	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
-	getResult( paper, researcher ) {
-		const productSKUData = researcher.getResearch( "getProductSKUData" );
+	getResult( paper ) {
+		const productSKUData = normalizeProductData( paper );
 
 		const result = this.scoreProductSKU( productSKUData, this._config );
 
@@ -52,114 +65,129 @@ export default class ProductSKUAssessment extends Assessment {
 			assessmentResult.setText( result.text );
 		}
 
+		if ( assessmentResult.getScore() < 9 && this._config.shouldShowEditButton ) {
+			assessmentResult.setHasJumps( true );
+			assessmentResult.setEditFieldName( "productSKU" );
+			// Provide `this._config.editFieldAriaLabel` when initialize this assessment with the value "Edit your SKU". We recommend to provide the string as a translation string.
+			assessmentResult.setEditFieldAriaLabel( this._config.editFieldAriaLabel );
+		}
+
 		return assessmentResult;
 	}
 
 	/**
-	 * Contains extra logic for the isApplicable method.
-	 *
-	 * @param {object} customData The custom data part of the Paper object.
-	 *
-	 * @returns {bool} Whether the productSKUAssessment is applicable.
-	 */
-	applicabilityHelper( customData ) {
-		// Checks if we are in Woo or Shopify. assessVariants is always true in Woo
-		if ( ! this._config.assessVariants ) {
-			return false;
-		}
-
-		// If we have a variable product with no (active) variants. (active variant = variant with a price)
-		if (  customData.productType === "variable" && ! customData.hasVariants ) {
-			return false;
-		}
-		return ( customData.hasPrice || customData.hasVariants );
-	}
-
-	/**
 	 * Checks whether the assessment is applicable.
+	 * It is not applicable when the product has variants, and we don't want to assess variants (this is the case for Shopify
+	 * since we cannot at the moment easily access variant data in Shopify).
+	 * It is also not applicable when we cannot retrieve the SKU (this can be the case if other plugins remove/change the SKU
+	 * input field in such as way that we cannot detect it).
 	 *
 	 * @param {Paper} paper The paper to check.
 	 *
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable( paper ) {
-		const customData = paper.getCustomData();
-		return this.applicabilityHelper( customData );
+		const productData = normalizeProductData( paper );
+
+		/*
+	    * If the global SKU cannot be retrieved, the assessment shouldn't be applicable if the product is not a
+	    * variable product, or doesn't have variants. Even though in reality a non-variable product doesn't have variants,
+	    * this double check is added because the hasVariants variable doesn't always update correctly when changing product type.
+	    */
+		if ( productData.canRetrieveGlobalSku === false &&
+			( ! productData.isVariableProduct || productData.hasVariants === false ) ) {
+			return false;
+		}
+
+		// If variant identifiers cannot be retrieved for a variable product with variants, the assessment shouldn't be applicable.
+		if ( productData.canRetrieveVariantSkus === false && productData.hasVariants === true && productData.isVariableProduct ) {
+			return false;
+		}
+
+		// Assessment is not applicable if we don't want to assess variants and the product has variants.
+		return ! ( this._config.assessVariants === false && productData.hasVariants );
 	}
 
 	/**
 	 * Returns a score based on whether the product (variants) have a SKU.
 	 *
-	 * @param {Object} productSKUData         Whether product has variants, global SKU, and variant SKU.
-	 * @param {Object} config                 The configuration to use.
+	 * @param {Object} productSKUData	Whether product has variants, global SKU, and variant SKU.
+	 * @param {Object} config			The configuration to use.
 	 *
 	 * @returns {{score: number, text: string} | {}}	The result object with score and text
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductSKU( productSKUData, config ) {
-		// NOTE: product types might not be available in shopify or they might differ.
-		// So take this into account when implementing SKUAssessment for shopify.
-		if (  [ "simple", "external" ].includes( productSKUData.productType ) ) {
+		const { good, okay } = this.getFeedbackStrings();
+		// Apply the following scoring conditions to products that are assessed as a single unit (i.e. not as variants).
+		if ( ! ( productSKUData.isVariableProduct && productSKUData.hasVariants ) ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
 				return {
 					score: config.scores.ok,
-					text: sprintf(
-						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
-						__(
-							"%1$sSKU%3$s: Your product is missing a SKU. %2$sInclude this if you can, as it" +
-							" will help search engines to better understand your content.%3$s",
-							"wordpress-seo"
-						),
-						this._config.urlTitle,
-						this._config.urlCallToAction,
-						"</a>"
-					),
+					text: okay.withoutVariants,
 				};
 			}
 			return {
 				score: config.scores.good,
-				text: sprintf(
-					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-					__(
-						"%1$sSKU%2$s: Your product has a SKU. Good job!",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					"</a>"
-				),
+				text: good.withoutVariants,
 			};
-		} else if ( productSKUData.productType === "variable" ) {
+		} else if ( productSKUData.isVariableProduct && productSKUData.hasVariants ) {
 			// If we want to assess variants, if product has variants and not all variants have a SKU, return orange bullet.
 			// If all variants have a SKU, return green bullet.
 			if ( ! productSKUData.doAllVariantsHaveSKU ) {
 				return {
 					score: config.scores.ok,
-					text: sprintf(
-						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
-						__(
-							"%1$sSKU%3$s: Not all your product variants have a SKU. %2$sInclude this if you can, as it" +
-							" will help search engines to better understand your content.%3$s",
-							"wordpress-seo"
-						),
-						this._config.urlTitle,
-						this._config.urlCallToAction,
-						"</a>"
-					),
+					text: okay.withVariants,
 				};
 			}
 			return {
 				score: config.scores.good,
-				text: sprintf(
-					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-					__(
-						"%1$sSKU%2$s: All your product variants have a SKU. Good job!",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					"</a>"
-				),
+				text: good.withVariants,
 			};
 		}
 		return {};
+	}
+
+	/**
+	 * Gets the feedback strings for the assessment.
+	 * If you want to override the feedback strings, you can do so by providing a custom callback in the config: `this._config.callbacks.getResultTexts`.
+	 * The callback function should return an object with the following properties:
+	 * - good: {withoutVariants: string, withVariants: string}
+	 * - okay: {withoutVariants: string, withVariants: string}
+	 *
+	 * @returns {{good: {withoutVariants: string, withVariants: string}, okay: {withoutVariants: string, withVariants: string}}} The feedback strings.
+	 */
+	getFeedbackStrings() {
+		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
+		const urlTitleAnchorOpeningTag = createAnchorOpeningTag( this._config.urlTitle );
+		// `urlActionAnchorOpeningTag` represents the anchor opening tag with the URL for the call to action.
+		const urlActionAnchorOpeningTag = createAnchorOpeningTag( this._config.urlCallToAction );
+
+		if ( ! this._config.callbacks.getResultTexts ) {
+			const defaultResultTexts = {
+				good: {
+					withoutVariants: "%1$sSKU%3$s: Your product has a SKU. Good job!",
+					withVariants: "%1$sSKU%3$s: All your product variants have a SKU. Good job!",
+				},
+				okay: {
+					withoutVariants: "%1$sSKU%3$s: Your product is missing a SKU. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
+					withVariants: "%1$sSKU%3$s: Not all your product variants have a SKU. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
+				},
+			};
+			defaultResultTexts.good = mapValues(
+				defaultResultTexts.good,
+				( resultText ) => this.formatResultText( resultText, urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag )
+			);
+			defaultResultTexts.okay = mapValues(
+				defaultResultTexts.okay,
+				( resultText ) => this.formatResultText( resultText, urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag )
+			);
+			return defaultResultTexts;
+		}
+
+		return this._config.callbacks.getResultTexts( {
+			urlTitleAnchorOpeningTag,
+			urlActionAnchorOpeningTag,
+		} );
 	}
 }

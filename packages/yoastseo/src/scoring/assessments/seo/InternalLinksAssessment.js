@@ -1,26 +1,32 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { merge } from "lodash-es";
+import { merge } from "lodash";
 
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
+
+/**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../languageProcessing/researches/getLinkStatistics").LinkStatistics} LinkStatistics
+ * @typedef {import("../../../values/").Paper } Paper
+ */
 
 /**
  * Assessment to check whether the text has internal links and whether they are followed or no-followed.
  */
-class InternalLinksAssessment extends Assessment {
+export default class InternalLinksAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
+	 * @param {Object} [config.parameters] The parameters to use.
 	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum number of internal links in the text.
+	 * @param {Object} [config.scores] The scores to use.
 	 * @param {number} [config.scores.allInternalFollow] The score to return if all internal links are do-follow.
 	 * @param {number} [config.scores.someInternalFollow] The score to return if some but not all internal links are do-follow.
 	 * @param {number} [config.scores.noneInternalFollow] The score to return if all internal links are no-follow.
 	 * @param {number} [config.scores.noInternal] The score to return if there are no internal links.
 	 * @param {string} [config.url] The URL to the relevant KB article.
-	 *
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
@@ -63,27 +69,16 @@ class InternalLinksAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks if assessment is applicable to the paper.
-	 *
-	 * @param {Paper} paper The paper to be analyzed.
-	 *
-	 * @returns {boolean} Whether the paper has text.
-	 */
-	isApplicable( paper ) {
-		return paper.hasText();
-	}
-
-	/**
 	 * Returns a score and text based on the linkStatistics object.
 	 *
-	 * @returns {Object} ResultObject with score and text
+	 * @returns {{score: number, resultText: string}} ResultObject with score and text
 	 */
 	calculateResult() {
 		if ( this.linkStatistics.internalTotal === 0 ) {
 			return {
 				score: this._config.scores.noInternal,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sInternal links%3$s: No internal links appear in this page, %2$smake sure to add some%3$s!",
 						"wordpress-seo"
@@ -99,7 +94,7 @@ class InternalLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.noneInternalFollow,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sInternal links%3$s: The internal links in this page are all nofollowed. %2$sAdd some good internal links%3$s.",
 						"wordpress-seo"
@@ -115,7 +110,7 @@ class InternalLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.allInternalFollow,
 				resultText: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 					__( "%1$sInternal links%2$s: You have enough internal links. Good job!", "wordpress-seo" ),
 					this._config.urlTitle,
 					"</a>"
@@ -125,7 +120,7 @@ class InternalLinksAssessment extends Assessment {
 		return {
 			score: this._config.scores.someInternalFollow,
 			resultText: sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				__(
 					"%1$sInternal links%2$s: There are both nofollowed and normal internal links on this page. Good job!",
 					"wordpress-seo"
@@ -136,5 +131,3 @@ class InternalLinksAssessment extends Assessment {
 		};
 	}
 }
-
-export default InternalLinksAssessment;

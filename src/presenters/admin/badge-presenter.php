@@ -77,14 +77,14 @@ class Badge_Presenter extends Abstract_Presenter {
 				'<a class="yoast-badge yoast-badge__is-link yoast-new-badge" id="%1$s-new-badge" href="%2$s">%3$s</a>',
 				\esc_attr( $this->id ),
 				\esc_url( $this->link ),
-				\esc_html__( 'New', 'wordpress-seo' )
+				\esc_html__( 'New', 'wordpress-seo' ),
 			);
 		}
 
 		return \sprintf(
 			'<span class="yoast-badge yoast-new-badge" id="%1$s-new-badge">%2$s</span>',
 			\esc_attr( $this->id ),
-			\esc_html__( 'New', 'wordpress-seo' )
+			\esc_html__( 'New', 'wordpress-seo' ),
 		);
 	}
 

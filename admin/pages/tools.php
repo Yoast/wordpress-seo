@@ -11,7 +11,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$tool_page = (string) filter_input( INPUT_GET, 'tool' );
+$tool_page = '';
+
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+if ( isset( $_GET['tool'] ) && is_string( $_GET['tool'] ) ) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+	$tool_page = sanitize_text_field( wp_unslash( $_GET['tool'] ) );
+}
 
 $yform = Yoast_Form::get_instance();
 $yform->admin_header( false );
@@ -35,13 +41,14 @@ if ( $tool_page === '' ) {
 	$tools['bulk-editor'] = [
 		'title' => __( 'Bulk editor', 'wordpress-seo' ),
 		'desc'  => __( 'This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page.', 'wordpress-seo' ),
+		'url'   => admin_url( 'admin.php?page=wpseo_page_bulk_edit' ),
 	];
 
 	echo '<p>';
 	printf(
 		/* translators: %1$s expands to Yoast SEO */
 		esc_html__( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ),
-		'Yoast SEO'
+		'Yoast SEO',
 	);
 	echo '</p>';
 
@@ -50,7 +57,15 @@ if ( $tool_page === '' ) {
 	$admin_url = admin_url( 'admin.php?page=wpseo_tools' );
 
 	foreach ( $tools as $slug => $tool ) {
-		$href = ( ! empty( $tool['href'] ) ) ? $admin_url . $tool['href'] : add_query_arg( [ 'tool' => $slug ], $admin_url );
+		if ( ! empty( $tool['url'] ) ) {
+			$href = $tool['url'];
+		}
+		elseif ( ! empty( $tool['href'] ) ) {
+			$href = $admin_url . $tool['href'];
+		}
+		else {
+			$href = add_query_arg( [ 'tool' => $slug ], $admin_url );
+		}
 		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
 
 		echo '<li>';
@@ -60,16 +75,17 @@ if ( $tool_page === '' ) {
 	}
 
 	/**
-	 * Action: 'wpseo_tools_overview_list_items' - Hook to add additional tools to the overview.
+	 * WARNING: This hook is intended for internal use only.
+	 * Don't use it in your code as it will be removed shortly.
 	 */
-	do_action( 'wpseo_tools_overview_list_items' );
+	do_action( 'wpseo_tools_overview_list_items_internal' );
 
 	echo '</ul>';
 }
 else {
 	echo '<a href="', esc_url( admin_url( 'admin.php?page=wpseo_tools' ) ), '">', esc_html__( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
 
-	$tool_pages = [ 'bulk-editor', 'import-export' ];
+	$tool_pages = [ 'import-export' ];
 
 	if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
 		$tool_pages[] = 'file-editor';

@@ -1,0 +1,326 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SectionTitle renders with new badge label 1`] = `
+.c1 {
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c2 {
+  display: block;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+.c0 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+<div
+  className="c0"
+>
+  <span
+    className="c1"
+  >
+    <span
+      className="c2"
+    >
+      Test Title
+    </span>
+  </span>
+  <span>
+    New
+  </span>
+</div>
+`;
+
+exports[`SectionTitle renders with new badge label, subtitle, and screen reader text 1`] = `
+.c1 {
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c2 {
+  display: block;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+.c3 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 0.8125rem;
+  margin-top: 2px;
+}
+
+.c0 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+<div
+  className="c0"
+>
+  <span
+    className="c1"
+  >
+    <span
+      className="c2"
+    >
+      Test Title
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+         Additional screen reader text
+      </span>
+    </span>
+    <span
+      className="c3"
+    >
+      Test Subtitle
+    </span>
+  </span>
+  <span>
+    New
+  </span>
+</div>
+`;
+
+exports[`SectionTitle renders with only title 1`] = `
+.c0 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c1 {
+  display: block;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+<span
+  className="c0"
+>
+  <span
+    className="c1"
+  >
+    Test Title
+  </span>
+</span>
+`;
+
+exports[`SectionTitle renders with title and screen reader text 1`] = `
+.c0 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c1 {
+  display: block;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+<span
+  className="c0"
+>
+  <span
+    className="c1"
+  >
+    Test Title
+    <span
+      className="screen-reader-text"
+      style={
+        Object {
+          "clip": "rect(1px, 1px, 1px, 1px)",
+          "height": "1px",
+          "overflow": "hidden",
+          "position": "absolute",
+          "width": "1px",
+        }
+      }
+    >
+       Additional screen reader text
+    </span>
+  </span>
+</span>
+`;
+
+exports[`SectionTitle renders with title and subtitle 1`] = `
+.c0 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c1 {
+  display: block;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+.c2 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 0.8125rem;
+  margin-top: 2px;
+}
+
+<span
+  className="c0"
+>
+  <span
+    className="c1"
+  >
+    Test Title
+  </span>
+  <span
+    className="c2"
+  >
+    Test Subtitle
+  </span>
+</span>
+`;
+
+exports[`SectionTitle renders with title, subtitle, and screen reader text 1`] = `
+.c0 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c1 {
+  display: block;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+.c2 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 0.8125rem;
+  margin-top: 2px;
+}
+
+<span
+  className="c0"
+>
+  <span
+    className="c1"
+  >
+    Test Title
+    <span
+      className="screen-reader-text"
+      style={
+        Object {
+          "clip": "rect(1px, 1px, 1px, 1px)",
+          "height": "1px",
+          "overflow": "hidden",
+          "position": "absolute",
+          "width": "1px",
+        }
+      }
+    >
+       Additional screen reader text
+    </span>
+  </span>
+  <span
+    className="c2"
+  >
+    Test Subtitle
+  </span>
+</span>
+`;
+
+exports[`SectionTitle renders without new badge label when hasNewBadgeLabel is false 1`] = `
+.c0 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c1 {
+  display: block;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+<span
+  className="c0"
+>
+  <span
+    className="c1"
+  >
+    Test Title
+  </span>
+</span>
+`;

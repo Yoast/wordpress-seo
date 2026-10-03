@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Actions\Wincher;
 
 use Exception;
 use WP_Post;
-use WPSEO_Meta;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -20,21 +19,21 @@ class Wincher_Keyphrases_Action {
 	 *
 	 * @var string
 	 */
-	const KEYPHRASES_ADD_URL = 'https://api.wincher.com/beta/websites/%s/keywords/bulk';
+	public const KEYPHRASES_ADD_URL = 'https://api.wincher.com/beta/websites/%s/keywords/bulk';
 
 	/**
 	 * The Wincher tracked keyphrase retrieval URL.
 	 *
 	 * @var string
 	 */
-	const KEYPHRASES_URL = 'https://api.wincher.com/beta/yoast/%s';
+	public const KEYPHRASES_URL = 'https://api.wincher.com/beta/yoast/%s';
 
 	/**
 	 * The Wincher delete tracked keyphrase URL.
 	 *
 	 * @var string
 	 */
-	const KEYPHRASE_DELETE_URL = 'https://api.wincher.com/beta/websites/%s/keywords/%s';
+	public const KEYPHRASE_DELETE_URL = 'https://api.wincher.com/beta/websites/%s/keywords/%s';
 
 	/**
 	 * The Wincher_Client instance.
@@ -86,7 +85,7 @@ class Wincher_Keyphrases_Action {
 		try {
 			$endpoint = \sprintf(
 				self::KEYPHRASES_ADD_URL,
-				$this->options_helper->get( 'wincher_website_id' )
+				$this->options_helper->get( 'wincher_website_id' ),
 			);
 
 			// Enforce arrrays to ensure a consistent way of preparing the request.
@@ -114,8 +113,8 @@ class Wincher_Keyphrases_Action {
 							'groups'  => [],
 						];
 					},
-					$keyphrases
-				)
+					$keyphrases,
+				),
 			);
 
 			$results = $this->client->post( $endpoint, WPSEO_Utils::format_json_encode( $formatted_keyphrases ) );
@@ -126,18 +125,18 @@ class Wincher_Keyphrases_Action {
 
 			// The endpoint returns a lot of stuff that we don't want/need.
 			$results['data'] = \array_map(
-				static function( $keyphrase ) {
+				static function ( $keyphrase ) {
 					return [
 						'id'         => $keyphrase['id'],
 						'keyword'    => $keyphrase['keyword'],
 					];
 				},
-				$results['data']
+				$results['data'],
 			);
 
 			$results['data'] = \array_combine(
 				\array_column( $results['data'], 'keyword' ),
-				\array_values( $results['data'] )
+				\array_values( $results['data'] ),
 			);
 
 			return $this->to_result_object( $results );
@@ -161,7 +160,7 @@ class Wincher_Keyphrases_Action {
 			$endpoint = \sprintf(
 				self::KEYPHRASE_DELETE_URL,
 				$this->options_helper->get( 'wincher_website_id' ),
-				$keyphrase_id
+				$keyphrase_id,
 			);
 
 			$this->client->delete( $endpoint );
@@ -183,14 +182,13 @@ class Wincher_Keyphrases_Action {
 	 *
 	 * @param array|null  $used_keyphrases The currently used keyphrases. Optional.
 	 * @param string|null $permalink       The current permalink. Optional.
+	 * @param string|null $start_at        The position start date. Optional.
 	 *
 	 * @return object The keyphrase chart data.
 	 */
-	public function get_tracked_keyphrases( $used_keyphrases = null, $permalink = null ) {
+	public function get_tracked_keyphrases( $used_keyphrases = null, $permalink = null, $start_at = null ) {
 		try {
-			if ( $used_keyphrases === null ) {
-				$used_keyphrases = $this->collect_all_keyphrases();
-			}
+			$used_keyphrases ??= $this->collect_all_keyphrases();
 
 			// If we still have no keyphrases the API will return an error, so
 			// don't even bother sending a request.
@@ -199,13 +197,13 @@ class Wincher_Keyphrases_Action {
 					[
 						'data'   => [],
 						'status' => 200,
-					]
+					],
 				);
 			}
 
 			$endpoint = \sprintf(
 				self::KEYPHRASES_URL,
-				$this->options_helper->get( 'wincher_website_id' )
+				$this->options_helper->get( 'wincher_website_id' ),
 			);
 
 			$results = $this->client->post(
@@ -214,11 +212,12 @@ class Wincher_Keyphrases_Action {
 					[
 						'keywords' => $used_keyphrases,
 						'url'      => $permalink,
-					]
+						'start_at' => $start_at,
+					],
 				),
 				[
 					'timeout' => 60,
-				]
+				],
 			);
 
 			if ( ! \array_key_exists( 'data', $results ) ) {
@@ -230,7 +229,7 @@ class Wincher_Keyphrases_Action {
 			// Extract the positional data and assign it to the keyphrase.
 			$results['data'] = \array_combine(
 				\array_column( $results['data'], 'keyword' ),
-				\array_values( $results['data'] )
+				\array_values( $results['data'] ),
 			);
 
 			return $this->to_result_object( $results );
@@ -261,13 +260,13 @@ class Wincher_Keyphrases_Action {
 			$keyphrases[] = $primary_keyphrase->primary_focus_keyword;
 		}
 
-		if ( \YoastSEO()->helpers->product->is_premium() ) {
-			$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
-
-			$keyphrases = \array_merge( $keyphrases, $additional_keywords );
-		}
-
-		return $keyphrases;
+		/**
+		 * Filters the keyphrases collected by the Wincher integration from the post.
+		 *
+		 * @param array $keyphrases The keyphrases array.
+		 * @param int   $post_id    The ID of the post.
+		 */
+		return \apply_filters( 'wpseo_wincher_keyphrases_from_post', $keyphrases, $post->ID );
 	}
 
 	/**
@@ -276,8 +275,6 @@ class Wincher_Keyphrases_Action {
 	 * @return array
 	 */
 	protected function collect_all_keyphrases() {
-		global $wpdb;
-
 		// Collect primary keyphrases first.
 		$keyphrases = \array_column(
 			$this->indexable_repository
@@ -288,33 +285,15 @@ class Wincher_Keyphrases_Action {
 				->where_not_equal( 'post_status', 'trash' )
 				->distinct()
 				->find_array(),
-			'primary_focus_keyword'
+			'primary_focus_keyword',
 		);
 
-		if ( \YoastSEO()->helpers->product->is_premium() ) {
-			// Collect all related keyphrases.
-			$meta_key = WPSEO_Meta::$meta_prefix . 'focuskeywords';
-
-			$query = "
-				SELECT meta_value
-				FROM $wpdb->postmeta
-				JOIN $wpdb->posts ON {$wpdb->posts}.id = {$wpdb->postmeta}.post_id
-				WHERE meta_key = '$meta_key' AND post_status != 'trash'
-			";
-
-			// phpcs:ignore -- ignoring since it's complaining about not using prepare when it's perfectly safe here.
-			$results = $wpdb->get_results( $query );
-
-			if ( $results ) {
-				foreach ( $results as $row ) {
-					$additional_keywords = \json_decode( $row->meta_value, true );
-					if ( $additional_keywords !== null ) {
-						$additional_keywords = \array_column( $additional_keywords, 'keyword' );
-						$keyphrases          = \array_merge( $keyphrases, $additional_keywords );
-					}
-				}
-			}
-		}
+		/**
+		 * Filters the keyphrases collected by the Wincher integration from all the posts.
+		 *
+		 * @param array $keyphrases The keyphrases array.
+		 */
+		$keyphrases = \apply_filters( 'wpseo_wincher_all_keyphrases', $keyphrases );
 
 		// Filter out empty entries.
 		return \array_filter( $keyphrases );
@@ -331,9 +310,9 @@ class Wincher_Keyphrases_Action {
 	protected function filter_results_by_used_keyphrases( $results, $used_keyphrases ) {
 		return \array_filter(
 			$results,
-			static function( $result ) use ( $used_keyphrases ) {
+			static function ( $result ) use ( $used_keyphrases ) {
 				return \in_array( $result['keyword'], \array_map( 'strtolower', $used_keyphrases ), true );
-			}
+			},
 		);
 	}
 
@@ -350,7 +329,7 @@ class Wincher_Keyphrases_Action {
 			$keyphrases = [ $keyphrases ];
 		}
 
-		if ( \is_null( $limits->limit ) ) {
+		if ( $limits->limit === null ) {
 			return false;
 		}
 
@@ -366,7 +345,7 @@ class Wincher_Keyphrases_Action {
 	 */
 	protected function to_result_object( $result ) {
 		if ( \array_key_exists( 'data', $result ) ) {
-			$result['results'] = $result['data'];
+			$result['results'] = (object) $result['data'];
 
 			unset( $result['data'] );
 		}

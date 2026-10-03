@@ -1,24 +1,22 @@
-import { useState, useCallback } from "@wordpress/element";
 import { noop, values } from "lodash";
-
-import Alert from "../../elements/alert";
-
+import React, { useCallback, useState } from "react";
 import FileImport, { FILE_IMPORT_STATUS } from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
+import Alert from "../../elements/alert";
+import { success } from "../notifications/docs";
+import { aborted, component, error, loading, selected } from "./docs";
 
-export default {
-	title: "2. Components/File Import",
-	component: FileImport,
-	argTypes: {
-		children: { control: "text" },
-		status: { options: values( FILE_IMPORT_STATUS ) },
-	},
-	parameters: {
-		docs: {
-			description: {
-				component: "A file import component.",
-			},
-		},
-	},
+const defaultArgs = {
+	selectLabel: "Select a file",
+	dropLabel: "or drag and drop",
+	screenReaderLabel: "Import a file",
+	abortScreenReaderLabel: "Abort import",
+	selectDescription: "CSV files only, up to 10MB",
+	feedbackTitle: "file.csv",
+	progressMin: 0,
+	progressMax: 100,
+	onChange: noop,
+	onAbort: noop,
 };
 
 const Template = ( { endStatus, ...args } ) => {
@@ -72,92 +70,155 @@ const Template = ( { endStatus, ...args } ) => {
 	);
 };
 
-export const Factory = ( args ) => <FileImport { ...args } />;
-Factory.controls = { disable: false };
-Factory.args = {
-	children: (
-		<>
-			<FileImport.Success>
-				Success message
-			</FileImport.Success>
-			<FileImport.Error>
-				Error message
-			</FileImport.Error>
-		</>
-	),
-	id: "file-import-1",
-	name: "file-import-1",
-	selectLabel: "Select label",
-	dropLabel: "drag an drop label",
-	screenReaderLabel: "Screen reader label",
-	abortScreenReaderLabel: "Abort screen reader label",
-	selectDescription: "Select description",
-	feedbackTitle: "Progress title",
-	feedbackDescription: "Progress description",
-	progressMin: 0,
-	progressMax: 100,
-	onChange: noop,
-	onAbort: noop,
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		children: (
+			<>
+				<FileImport.Success>
+					Success message
+				</FileImport.Success>
+				<FileImport.Error>
+					Error message
+				</FileImport.Error>
+			</>
+		),
+		id: "file-import-1",
+		name: "file-import-1",
+		...defaultArgs,
+		endStatus: FILE_IMPORT_STATUS.success,
+	},
 };
 
-export const EndingInSuccess = Template.bind( {} );
-EndingInSuccess.args = {
-	children: (
-		<>
+export const Selected = {
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: selected } },
+	},
+	args: {
+		children: (
+			<FileImport.Selected>
+				<Alert variant="info" role="alert">
+					A file has been selected for import.
+				</Alert>
+			</FileImport.Selected>
+		),
+		id: "file-import-selected",
+		name: "file-import-selected",
+		...defaultArgs,
+		progress: 60,
+		status: FILE_IMPORT_STATUS.selected,
+	},
+};
+
+export const Loading = {
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: loading } },
+	},
+	args: {
+		children: (
+			<FileImport.Loading>
+				<Alert variant="info" role="alert">
+					The import is loading.
+				</Alert>
+			</FileImport.Loading>
+		),
+		id: "file-import-loading",
+		name: "file-import-loading",
+		...defaultArgs,
+		progress: 60,
+		status: FILE_IMPORT_STATUS.loading,
+	},
+};
+
+export const Aborted = {
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: aborted } },
+	},
+	args: {
+		children: (
+			<FileImport.Aborted>
+				<Alert variant="warning" role="alert">
+					The import was aborted.
+				</Alert>
+			</FileImport.Aborted>
+		),
+		id: "file-import-aborted",
+		name: "file-import-aborted",
+		...defaultArgs,
+		progress: 60,
+		status: FILE_IMPORT_STATUS.aborted,
+	},
+};
+
+export const Success = {
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: success } },
+	},
+	args: {
+		children: (
 			<FileImport.Success>
 				<Alert variant="success" role="alert" className="yst-mb-2">SEO data successfully imported!</Alert>
 				<Alert variant="warning" role="alert">
 					However, there were some slight problems with the following data:
-					<ul className="yst-list-disc yst-ml-4 yst-mt-4 yst-space-y-2">
+					<ul className="yst-list-disc yst-ms-4 yst-mt-4 yst-space-y-2">
 						<li>This went wrong</li>
 						<li>This also went wrong</li>
 					</ul>
 				</Alert>
 			</FileImport.Success>
-			<FileImport.Error>
-				<Alert variant="error" role="alert">Whoops! Something went terribly wrong.</Alert>
-			</FileImport.Error>
-		</>
-	),
-	id: "file-import-2",
-	name: "file-import-2",
-	selectLabel: "Select a file",
-	dropLabel: "or drag and drop",
-	screenReaderLabel: "Import a file",
-	abortScreenReaderLabel: "Abort import",
-	selectDescription: "CSV files only, up to 10MB",
-	progressMin: 0,
-	progressMax: 100,
-	endStatus: FILE_IMPORT_STATUS.success,
+		),
+		id: "file-import-success",
+		name: "file-import-success",
+		...defaultArgs,
+		progress: 100,
+		status: FILE_IMPORT_STATUS.success,
+	},
 };
 
-export const EndingInError = Template.bind( {} );
-EndingInError.args = {
-	children: (
-		<>
-			<FileImport.Success>
-				<Alert variant="success" role="alert" className="yst-mb-2">SEO data successfully imported!</Alert>
-				<Alert variant="warning" role="alert">
-					However, there were some slight problems with the following data:
-					<ul className="yst-list-disc yst-ml-4 yst-mt-4 yst-space-y-2">
-						<li>This went wrong</li>
-						<li>This also went wrong</li>
-					</ul>
-				</Alert>
-			</FileImport.Success>
+export const Error = {
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: error } },
+	},
+	args: {
+		children: (
 			<FileImport.Error>
 				<Alert variant="error" role="alert">Whoops! Something went terribly wrong.</Alert>
 			</FileImport.Error>
-		</>
-	),
-	id: "file-import-3",
-	name: "file-import-3",
-	selectLabel: "Select a file",
-	dropLabel: "or drag and drop",
-	screenReaderLabel: "Import a file",
-	abortScreenReaderLabel: "Abort import",
-	selectDescription: "CSV files only, up to 10MB",
-	progressMin: 0,
-	progressMax: 100,
-	endStatus: FILE_IMPORT_STATUS.error,
+		),
+		id: "file-import-error",
+		name: "file-import-error",
+		...defaultArgs,
+		progress: 60,
+		status: FILE_IMPORT_STATUS.error,
+	},
+};
+
+export default {
+	title: "2) Components/File import",
+	component: FileImport,
+	argTypes: {
+		children: { control: "text" },
+		status: { options: values( FILE_IMPORT_STATUS ) },
+		endStatus: {
+			options: values( FILE_IMPORT_STATUS ),
+			type: "select",
+			description: "The status to end the import with (only for testing).",
+		},
+	},
+	parameters: {
+		docs: {
+			description: {
+				component,
+			},
+			page: () => <InteractiveDocsPage stories={ [ Selected, Loading, Aborted, Success, Error ] } />,
+		},
+	},
 };

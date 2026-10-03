@@ -1,13 +1,11 @@
-/* External dependencies */
-import { Component } from "@wordpress/element";
-import PropTypes from "prop-types";
-import { sprintf, __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
+import { ExternalLink } from "@wordpress/components";
+import { Component } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
+import { difference, noop } from "lodash";
+import PropTypes from "prop-types";
 import styled from "styled-components";
-import { difference } from "lodash-es";
-
-/* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";
 
 const PrimaryTaxonomyPickerField = styled.div`
@@ -18,6 +16,11 @@ const PrimaryTaxonomyPickerField = styled.div`
  * A component for selecting a primary taxonomy term.
  */
 class PrimaryTaxonomyPicker extends Component {
+	/**
+	 * Constructs a PrimaryTaxonomyPicker component.
+	 *
+	 * @param {Object} props The component's props.
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -26,7 +29,9 @@ class PrimaryTaxonomyPicker extends Component {
 
 		const { fieldId, name } = props.taxonomy;
 		this.input = document.getElementById( fieldId );
-		props.setPrimaryTaxonomyId( name, parseInt( this.input.value, 10 ) );
+		const parsedPrimaryTaxonomyId = parseInt( this.input.value, 10 );
+		// Fallback to -1 when the field is empty or invalid to avoid dispatching NaN.
+		props.setPrimaryTaxonomyId( name, Number.isNaN( parsedPrimaryTaxonomyId ) ? -1 : parsedPrimaryTaxonomyId );
 
 		this.state = {
 			selectedTerms: [],
@@ -86,7 +91,7 @@ class PrimaryTaxonomyPicker extends Component {
 			/**
 			 * If the selected term is no longer available, set the primary term id to
 			 * the first term, and to -1 if no term is available.
- 			 */
+			 */
 			this.onChange( selectedTerms.length ? selectedTerms[ 0 ].id : -1 );
 		}
 	}
@@ -217,6 +222,7 @@ class PrimaryTaxonomyPicker extends Component {
 		const {
 			primaryTaxonomyId,
 			taxonomy,
+			learnMoreLink,
 		} = this.props;
 
 		if ( this.state.selectedTerms.length < 2 ) {
@@ -227,24 +233,25 @@ class PrimaryTaxonomyPicker extends Component {
 
 		return (
 			<PrimaryTaxonomyPickerField className="components-base-control__field">
-				<label
-					htmlFor={ fieldId }
-					className="components-base-control__label"
-				>
-					{
+				<TaxonomyPicker
+					label={
 						sprintf(
 							/* translators: %s expands to the taxonomy name. */
 							__( "Select the primary %s", "wordpress-seo" ),
 							taxonomy.singularLabel.toLowerCase()
 						)
 					}
-				</label>
-				<TaxonomyPicker
 					value={ primaryTaxonomyId }
 					onChange={ this.onChange }
 					id={ fieldId }
 					terms={ this.state.selectedTerms }
 				/>
+				<ExternalLink className="yst-inline-block yst-mt-2" href={ learnMoreLink }>
+					{ __( "Learn more", "wordpress-seo" ) }
+					<span className="screen-reader-text">
+						{ __( "Learn more about the primary category.", "wordpress-seo" ) }
+					</span>
+				</ExternalLink>
 			</PrimaryTaxonomyPickerField>
 		);
 	}
@@ -255,13 +262,21 @@ PrimaryTaxonomyPicker.propTypes = {
 	primaryTaxonomyId: PropTypes.number,
 	setPrimaryTaxonomyId: PropTypes.func,
 	updateReplacementVariable: PropTypes.func,
-	receiveEntityRecords: PropTypes.func,
 	taxonomy: PropTypes.shape( {
 		name: PropTypes.string,
 		fieldId: PropTypes.string,
 		restBase: PropTypes.string,
 		singularLabel: PropTypes.string,
 	} ),
+	learnMoreLink: PropTypes.string.isRequired,
+};
+
+PrimaryTaxonomyPicker.defaultProps = {
+	selectedTermIds: [],
+	primaryTaxonomyId: -1,
+	setPrimaryTaxonomyId: noop,
+	updateReplacementVariable: noop,
+	taxonomy: {},
 };
 
 export default PrimaryTaxonomyPicker;

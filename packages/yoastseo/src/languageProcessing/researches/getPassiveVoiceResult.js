@@ -2,7 +2,9 @@ import getSentences from "../helpers/sentence/getSentences.js";
 import { stripFullTags as stripHTMLTags } from "../helpers/sanitize/stripHTMLTags.js";
 import Sentence from "../../languageProcessing/values/Sentence.js";
 
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../helpers";
 
 /**
  * Looks for morphological passive voice.
@@ -15,11 +17,11 @@ import { forEach } from "lodash-es";
  */
 export const getMorphologicalPassives = function( paper, researcher ) {
 	const isPassiveSentence = researcher.getHelper( "isPassiveSentence" );
-	const text = paper.getText();
-	// eslint-disable-next-line max-len
-	// It's not necessary to pass the memoized tokenizer from the researcher here, since only Japanese and German have the language specific tokenizer.
-	// Passive voice analysis is not supported in Japanese. In German, passive voice is periphrastic.
-	const sentences = getSentences( text )
+	let text = paper.getText();
+	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
+	const sentences = getSentences( text, memoizedTokenizer )
 		.map( function( sentence ) {
 			return new Sentence( sentence );
 		} );
@@ -53,7 +55,9 @@ export const getMorphologicalPassives = function( paper, researcher ) {
  */
 export const getPeriphrasticPassives = function( paper, researcher ) {
 	const getClauses = researcher.getHelper( "getClauses" );
-	const text = paper.getText();
+	let text = paper.getText();
+	text = removeHtmlBlocks( text );
+	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const sentences = getSentences( text, memoizedTokenizer )
 		.map( function( sentence ) {

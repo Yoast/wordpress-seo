@@ -1,15 +1,45 @@
 name: TestJS
 
 on:
-  # Run on pushes to select branches and on all pull requests.
+  # Run on relevant pushes to select branches and on all relevant pull requests.
   push:
     branches:
-      - master
+      - main
       - trunk
       - 'release/**'
       - 'hotfix/[0-9]+.[0-9]+*'
       - 'feature/**'
+    paths:
+      - '**.js' # Includes Gruntfile.js.
+      - '.browserslistrc'
+      - '.eslintignore'
+      - '.eslintrc'
+      - '.nvmrc'
+      - '.yarnrc'
+      - 'lerna.json'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/jstest.yml'
+      - '.yarn/**'
+      - 'apps/**'
+      - 'config/grunt/**'
+      - 'packages/**'
   pull_request:
+    paths:
+      - '**.js' # Includes Gruntfile.js.
+      - '.browserslistrc'
+      - '.eslintignore'
+      - '.eslintrc'
+      - '.nvmrc'
+      - '.yarnrc'
+      - 'lerna.json'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/jstest.yml'
+      - '.yarn/**'
+      - 'apps/**'
+      - 'config/grunt/**'
+      - 'packages/**'
   # Allow manually triggering the workflow.
   workflow_dispatch:
 
@@ -34,22 +64,23 @@ jobs:
           - 'analysis-report'
           - 'browserslist-config'
           - 'components'
-          - 'configuration-wizard'
+          - 'dashboard-frontend'
           - 'feature-flag'
           - 'helpers'
           - 'js'
           - 'replacement-variable-editor'
-          - 'schema-blocks'
           - 'search-metadata-previews'
           - 'social-metadata-forms'
           - 'social-metadata-previews'
-          - 'yoast-components'
+          - 'ui-library'
 
     name: "TestJS - ${{ matrix.package }} (full)"
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       # The ubuntu images come with Node, npm and yarn pre-installed.
       # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
@@ -57,9 +88,9 @@ jobs:
       # This action also handles the caching of the Yarn dependencies.
       # https://github.com/actions/setup-node
       - name: Set up node and enable caching of dependencies
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '14'
+          node-version-file: './.nvmrc'
           cache: 'yarn'
 
       - name: Yarn install
@@ -73,6 +104,9 @@ jobs:
           grunt --version
           yarn run jest --version
 
+      - name: Build all packages
+        run: yarn run build --ignore "@yoast/wordpress-seo"
+
       - name: Show Jest version
         run: yarn run jest --version
         working-directory: packages/${{ matrix.package }}
@@ -82,8 +116,16 @@ jobs:
         working-directory: packages/${{ matrix.package }}
 
       - name: Run Javascript tests
-        run: yarn test --ci
+        run: yarn test --ci --coverage
         working-directory: packages/${{ matrix.package }}
+
+      - name: Upload coverage results to Coveralls
+        uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
+        env:
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
+        with:
+          flag-name: package-${{ matrix.package }}
+          parallel: true
 
 
   #########################################################################################
@@ -107,31 +149,34 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
-      # The base branch is used to allow the PR checks to only run the tests relevant for changes files.
-      # Note: we need to actually check out the base branch and then go back to the original branch that
-      # is being tested as `changedSince` does not work if there is no local branch for the base ref.
-      # When switching back to the original branch we use the GitHub SHA because that will allow us to
-      # switch back to the merge commit (which is not a branch) that is created for pull requests.
-      - name: "Fetch base branch (for onlyChanged test runs)"
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          BASE_REF: ${{ github.base_ref }}
+      - name: Checks for changes
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # dorny/paths-filter@v4.0.3
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'packages/${{ matrix.package }}/**'
+
+      # For pull requests, only run the full tests when touching this package.
+      - name: Checks if tests should be run
+        id: checks-run
         run: |
-          git fetch --no-tags --depth=1 origin $BASE_REF
-          git checkout -b $BASE_REF
-          git checkout $GITHUB_SHA
+          echo "should=${{ github.event_name != 'pull_request' || steps.changes.outputs.src == 'true' }}" >> "$GITHUB_OUTPUT"
 
       # Check out the premium config repo ahead of running the tests to prevent issues with permissions.
       - name: Checkout premium configuration
-        if: ${{ matrix.needs_premium_config == true }}
-        uses: actions/checkout@v3
+        if: ${{ steps.checks-run.outputs.should == 'true' && matrix.needs_premium_config == true }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: Yoast/YoastSEO.js-premium-configuration
           path: packages/yoastseo/premium-configuration
           fetch-depth: 0
           token: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
+          persist-credentials: true
 
       # The ubuntu images come with Node, npm and yarn pre-installed.
       # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
@@ -139,15 +184,18 @@ jobs:
       # This action also handles the caching of the Yarn dependencies.
       # https://github.com/actions/setup-node
       - name: Set up node and enable caching of dependencies
-        uses: actions/setup-node@v3
+        if: ${{ steps.checks-run.outputs.should == 'true' }}
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '14'
+          node-version-file: './.nvmrc'
           cache: 'yarn'
 
       - name: Yarn install
+        if: ${{ steps.checks-run.outputs.should == 'true' }}
         run: yarn install
 
       - name: Show debug info
+        if: ${{ steps.checks-run.outputs.should == 'true' }}
         run: |
           npm --version
           node --version
@@ -155,24 +203,78 @@ jobs:
           grunt --version
           yarn run jest --version
 
+      - name: Build all packages
+        if: ${{ steps.checks-run.outputs.should == 'true' }}
+        run: yarn run build --ignore "@yoast/wordpress-seo"
+
       - name: Show Jest version
+        if: ${{ steps.checks-run.outputs.should == 'true' }}
         run: yarn run jest --version
         working-directory: packages/${{ matrix.package }}
 
       - name: Show Config
+        if: ${{ steps.checks-run.outputs.should == 'true' }}
         run: yarn test --showConfig
         working-directory: packages/${{ matrix.package }}
 
-      # For pull requests, only the relevant tests will be run based on the changed files.
-      - name: Run Javascript tests - onlyChanged files
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          BASE_REF: ${{ github.base_ref }}
-        run: yarn test --ci --changedSince="$BASE_REF"
+      - name: Run Javascript tests
+        if: ${{ steps.checks-run.outputs.should == 'true' }}
+        run: yarn test --ci --coverage
         working-directory: packages/${{ matrix.package }}
 
-      # In all other cases, the full test suite will be run.
-      - name: Run Javascript tests - full test run
-        if: ${{ github.event_name != 'pull_request' }}
+      - name: Upload coverage results to Coveralls
+        if: ${{ steps.checks-run.outputs.should == 'true' }}
+        uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
+        env:
+          COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
+        with:
+          flag-name: package-${{ matrix.package }}
+          parallel: true
+
+
+  #########################################################################################
+  # React 19 compatibility leg: run a package's tests against the React version that
+  # WordPress 7.1 / the Gutenberg 23.3 RC ships (19.2.4), in addition to the default
+  # React 18.3 run in `yarn-test-full`. Scoped to ui-library for now; add packages to the
+  # matrix as they become React-19-ready (e.g. once `components` drops react-test-renderer).
+  #########################################################################################
+  yarn-test-react19:
+    runs-on: ubuntu-latest
+
+    strategy:
+      # Each package/version is independent; don't stop the others when one fails.
+      fail-fast: false
+      matrix:
+        package:
+          - 'ui-library'
+        react:
+          - '19.2.4'
+
+    name: "TestJS - ${{ matrix.package }} (React ${{ matrix.react }})"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up node and enable caching of dependencies
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: './.nvmrc'
+          cache: 'yarn'
+
+      # Force the target React across every workspace via a yarn resolution, then install.
+      # A plain `yarn add -W` would not override packages that pin react@^18 in their own
+      # dependencies; `resolutions` overrides every range. @testing-library/react v16
+      # supports both React 18 and 19, so it is left untouched.
+      - name: Force React ${{ matrix.react }}
+        env:
+          REACT_VERSION: ${{ matrix.react }}
+        run: |
+          node -e "const fs = require('fs'); const p = JSON.parse(fs.readFileSync('package.json', 'utf8')); const v = process.env.REACT_VERSION; p.resolutions = { ...(p.resolutions || {}), react: v, 'react-dom': v }; fs.writeFileSync('package.json', JSON.stringify(p, null, 2));"
+          yarn install --force
+
+      - name: Run Javascript tests
         run: yarn test --ci
         working-directory: packages/${{ matrix.package }}

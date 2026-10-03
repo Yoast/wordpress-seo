@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import metaDescriptionKeyword from "../../../src/languageProcessing/researches/metaDescriptionKeyword.js";
 import Paper from "../../../src/values/Paper.js";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";

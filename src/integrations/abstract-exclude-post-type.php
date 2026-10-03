@@ -9,6 +9,8 @@ abstract class Abstract_Exclude_Post_Type implements Integration_Interface {
 
 	/**
 	 * Initializes the integration.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_filter( 'wpseo_indexable_excluded_post_types', [ $this, 'exclude_post_types' ] );
@@ -28,7 +30,7 @@ abstract class Abstract_Exclude_Post_Type implements Integration_Interface {
 	/**
 	 * This integration is only active when the child class's conditionals are met.
 	 *
-	 * @return array|string[] The conditionals.
+	 * @return string[] The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [];

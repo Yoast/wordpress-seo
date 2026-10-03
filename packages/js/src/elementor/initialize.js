@@ -1,0 +1,111 @@
+import { dispatch } from "@wordpress/data";
+import { doAction } from "@wordpress/hooks";
+import initAnalysis, { collectData } from "../initializers/analysis";
+import { applyModifications, pluginReady, pluginReloaded, registerModification, registerPlugin } from "../initializers/pluggable";
+import initializeInsights from "../insights/initializer";
+import { initializeElementEditorIntegration } from "./initializers/editor-integration";
+import initEditorStore from "./initializers/editor-store";
+import initElementorWatcher from "./initializers/editor-watcher";
+import initHighlightFocusKeyphraseForms from "./initializers/highlightFocusKeyphraseForms";
+import initializeIntroduction from "./initializers/introduction";
+import initializeIntroductionEditorV2 from "./initializers/introduction-editor-v2";
+import { initializePanel } from "./initializers/panel";
+import initializeUsedKeywords from "./initializers/used-keywords-assessment";
+import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./replaceVars/elementor-replacevar-plugin";
+
+
+/**
+ * Returns true when Elementor's V4 atomic editor is active.
+ *
+ * @returns {boolean} Whether V4 atomic editor mode is active.
+ */
+function isElementorV4AtomicActive() {
+	const flag = window.wpseoScriptData?.isElementorV4Atomic;
+	// WP localised booleans may arrive as `true` or `"1"`.
+	return flag === true || flag === "1";
+}
+
+/**
+ * Initializes the appropriate introduction component based on feature flags.
+ *
+ * @returns {void}
+ */
+function initIntroductionComponent() {
+	if ( window.wpseoScriptData.isAlwaysIntroductionV2 === "1" || window.elementorFrontend.config.experimentalFeatures.editor_v2 ) {
+		initializeIntroductionEditorV2();
+		return;
+	}
+	initializeIntroduction();
+}
+
+/**
+ * Initializes Yoast SEO for Elementor.
+ *
+ * @returns {void}
+ */
+function initialize() {
+	// Initialize the editor store and set it on the window.
+	window.YoastSEO = window.YoastSEO || {};
+	window.YoastSEO.store = initEditorStore();
+
+	// The V4 atomic editor uses its own watcher (`elementor-v4` bundle) so the legacy
+	// DOM watcher is skipped to avoid double-dispatch on `setEditorDataContent`.
+	if ( ! isElementorV4AtomicActive() ) {
+		initElementorWatcher();
+	}
+
+	/*
+	 * Expose pluggable.
+	 *
+	 * Note: this is exposed on YoastSEO directly instead of in a pluggable scope.
+	 * This is so we don't have to adapt Premium or plugins.
+	 */
+	window.YoastSEO.pluginReady = pluginReady;
+	window.YoastSEO.pluginReloaded = pluginReloaded;
+	window.YoastSEO.registerModification = registerModification;
+	window.YoastSEO.registerPlugin = registerPlugin;
+	window.YoastSEO.applyModifications = applyModifications;
+
+	// Initialize analysis.
+	window.YoastSEO.analysis = window.YoastSEO.analysis || {};
+	window.YoastSEO.analysis.run = dispatch( "yoast-seo/editor" ).runAnalysis;
+	window.YoastSEO.analysis.worker = initAnalysis();
+	window.YoastSEO.analysis.collectData = collectData;
+
+	// Initialize replacement variables plugin.
+	initReplaceVarPlugin();
+	window.YoastSEO.wp = window.YoastSEO.wp || {};
+	window.YoastSEO.wp.replaceVarsPlugin = {
+		addReplacement,
+		ReplaceVar,
+	};
+
+	// Initialize the Used Keywords Assessment.
+	initializeUsedKeywords();
+
+	// Initialize insights.
+	initializeInsights();
+
+	// Initialize focus keyphrase forms highlighting.
+	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );
+
+	// Initialize the introduction.
+	initIntroductionComponent();
+	// Initialize the editor integration.
+	initializeElementEditorIntegration();
+
+	// Initialize the Elements panel integration.
+	initializePanel();
+
+	// Offer an action after our load.
+	doAction( "yoast.elementor.loaded" );
+}
+
+
+// Wait on `window.elementor`.
+jQuery( window ).on( "elementor:init", () => {
+	// Wait on Elementor app to have started.
+	window.elementor.on( "panel:init", () => {
+		setTimeout( initialize );
+	} );
+} );

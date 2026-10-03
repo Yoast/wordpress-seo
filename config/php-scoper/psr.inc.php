@@ -15,6 +15,8 @@ return array(
 	 */
 	'finders'                    => [
 		Finder::create()->files()->in( 'vendor/psr/container' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
+		Finder::create()->files()->in( 'vendor/psr/http-client' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
+		Finder::create()->files()->in( 'vendor/psr/http-factory' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
 		Finder::create()->files()->in( 'vendor/psr/http-message' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
 		Finder::create()->files()->in( 'vendor/psr/log' )->exclude( 'Test' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
 	],

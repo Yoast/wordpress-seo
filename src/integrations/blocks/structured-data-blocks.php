@@ -55,19 +55,17 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
 	 * @param Image_Helper              $image_helper  The image helper.
 	 */
-	public function __construct(
-		WPSEO_Admin_Asset_Manager $asset_manager,
-		Image_Helper $image_helper
-	) {
+	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Image_Helper $image_helper ) {
 		$this->asset_manager = $asset_manager;
 		$this->image_helper  = $image_helper;
 	}
 
 	/**
 	 * Registers hooks for Structured Data Blocks with WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
 		$this->register_blocks();
 	}
 
@@ -77,84 +75,27 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_blocks() {
-		\register_block_type(
-			'yoast/faq-block',
-			[
-				'render_callback' => [ $this, 'optimize_faq_images' ],
-				'attributes'      => [
-					'className' => [
-						'default' => '',
-						'type'    => 'string',
-					],
-					'questions' => [
-						'type' => 'array',
-					],
-					'additionalListCssClasses' => [
-						'type' => 'string',
-					],
-				],
-			]
-		);
-		\register_block_type(
-			'yoast/how-to-block',
-			[
-				'render_callback' => [ $this, 'optimize_how_to_images' ],
-				'attributes'      => [
-					'hasDuration' => [
-						'type' => 'boolean',
-					],
-					'days' => [
-						'type' => 'string',
-					],
-					'hours' => [
-						'type' => 'string',
-					],
-					'minutes' => [
-						'type' => 'string',
-					],
-					'description' => [
-						'type'     => 'array',
-						'source'   => 'children',
-						'selector' => '.schema-how-to-description',
-					],
-					'jsonDescription' => [
-						'type' => 'string',
-					],
-					'steps' => [
-						'type' => 'array',
-					],
-					'additionalListCssClasses' => [
-						'type' => 'string',
-					],
-					'unorderedList' => [
-						'type' => 'boolean',
-					],
-					'durationText' => [
-						'type' => 'string',
-					],
-					'defaultDurationText' => [
-						'type' => 'string',
-					],
-				],
-			]
-		);
-	}
-
-	/**
-	 * Enqueue Gutenberg block assets for backend editor.
-	 */
-	public function enqueue_block_editor_assets() {
 		/**
 		 * Filter: 'wpseo_enable_structured_data_blocks' - Allows disabling Yoast's schema blocks entirely.
 		 *
-		 * @api bool If false, our structured data blocks won't show.
+		 * @param bool $enable If false, our structured data blocks won't show.
 		 */
 		if ( ! \apply_filters( 'wpseo_enable_structured_data_blocks', true ) ) {
 			return;
 		}
 
-		$this->asset_manager->enqueue_script( 'structured-data-blocks' );
-		$this->asset_manager->enqueue_style( 'structured-data-blocks' );
+		\register_block_type(
+			\WPSEO_PATH . 'blocks/structured-data-blocks/faq/block.json',
+			[
+				'render_callback' => [ $this, 'optimize_faq_images' ],
+			],
+		);
+		\register_block_type(
+			\WPSEO_PATH . 'blocks/structured-data-blocks/how-to/block.json',
+			[
+				'render_callback' => [ $this, 'optimize_how_to_images' ],
+			],
+		);
 	}
 
 	/**
@@ -174,6 +115,100 @@ class Structured_Data_Blocks implements Integration_Interface {
 	}
 
 	/**
+	 * Transforms the durations into a translated string containing the count, and either singular or plural unit.
+	 * For example (in en-US): If 'days' is 1, it returns "1 day". If 'days' is 2, it returns "2 days".
+	 * If a number value is 0, we don't output the string.
+	 *
+	 * @param number $days    Number of days.
+	 * @param number $hours   Number of hours.
+	 * @param number $minutes Number of minutes.
+	 * @return array Array of pluralized durations.
+	 */
+	private function transform_duration_to_string( $days, $hours, $minutes ) {
+		$strings = [];
+		if ( $days ) {
+			$strings[] = \sprintf(
+			/* translators: %d expands to the number of day/days. */
+				\_n( '%d day', '%d days', $days, 'wordpress-seo' ),
+				$days,
+			);
+		}
+		if ( $hours ) {
+			$strings[] = \sprintf(
+			/* translators: %d expands to the number of hour/hours. */
+				\_n( '%d hour', '%d hours', $hours, 'wordpress-seo' ),
+				$hours,
+			);
+		}
+		if ( $minutes ) {
+			$strings[] = \sprintf(
+			/* translators: %d expands to the number of minute/minutes. */
+				\_n( '%d minute', '%d minutes', $minutes, 'wordpress-seo' ),
+				$minutes,
+			);
+		}
+		return $strings;
+	}
+
+	/**
+	 * Formats the durations into a translated string.
+	 *
+	 * @param array $attributes The attributes.
+	 * @return string The formatted duration.
+	 */
+	private function build_duration_string( $attributes ) {
+		$days            = ( $attributes['days'] ?? 0 );
+		$hours           = ( $attributes['hours'] ?? 0 );
+		$minutes         = ( $attributes['minutes'] ?? 0 );
+		$elements        = $this->transform_duration_to_string( $days, $hours, $minutes );
+		$elements_length = \count( $elements );
+
+		switch ( $elements_length ) {
+			case 1:
+				return $elements[0];
+			case 2:
+				return \sprintf(
+				/* translators: %s expands to a unit of time (e.g. 1 day). */
+					\__( '%1$s and %2$s', 'wordpress-seo' ),
+					...$elements,
+				);
+			case 3:
+				return \sprintf(
+				/* translators: %s expands to a unit of time (e.g. 1 day). */
+					\__( '%1$s, %2$s and %3$s', 'wordpress-seo' ),
+					...$elements,
+				);
+			default:
+				return '';
+		}
+	}
+
+	/**
+	 * Presents the duration text of the How-To block in the site language.
+	 *
+	 * @param array  $attributes The attributes.
+	 * @param string $content    The content.
+	 *
+	 * @return string The content with the duration text in the site language.
+	 */
+	public function present_duration_text( $attributes, $content ) {
+		$duration = $this->build_duration_string( $attributes );
+		// 'Time needed:' is the default duration text that will be shown if a user doesn't add one.
+		$duration_text = \__( 'Time needed:', 'wordpress-seo' );
+
+		if ( isset( $attributes['durationText'] ) && $attributes['durationText'] !== '' ) {
+			$duration_text = $attributes['durationText'];
+		}
+
+		return \preg_replace(
+			'/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/',
+			'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">' . \esc_html( $duration_text ) . '&nbsp;</span>' . $duration . '</p>',
+			$content,
+			1,
+		);
+	}
+
+	/**
 	 * Optimizes images in the How-To blocks.
 	 *
 	 * @param array  $attributes The attributes.
@@ -185,6 +220,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 		if ( ! isset( $attributes['steps'] ) ) {
 			return $content;
 		}
+
+		$content = $this->present_duration_text( $attributes, $content );
 
 		return $this->optimize_images( $attributes['steps'], 'text', $content );
 	}
@@ -209,58 +246,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 		// Then replace all images with optimized versions in the content.
 		$content = \preg_replace_callback(
 			'/<img[^>]+>/',
-			function ( $matches ) {
-				\preg_match( '/src="([^"]+)"/', $matches[0], $src_matches );
-				if ( ! $src_matches || ! isset( $src_matches[1] ) ) {
-					return $matches[0];
-				}
-				$attachment_id = $this->attachment_src_to_id( $src_matches[1] );
-				if ( $attachment_id === 0 ) {
-					return $matches[0];
-				}
-				$image_size  = 'full';
-				$image_style = [ 'style' => 'max-width: 100%; height: auto;' ];
-				\preg_match( '/style="[^"]*width:\s*(\d+)px[^"]*"/', $matches[0], $style_matches );
-				if ( $style_matches && isset( $style_matches[1] ) ) {
-					$width     = (int) $style_matches[1];
-					$meta_data = \wp_get_attachment_metadata( $attachment_id );
-					if ( isset( $meta_data['height'] ) && isset( $meta_data['width'] ) && $meta_data['height'] > 0 && $meta_data['width'] > 0 ) {
-						$aspect_ratio = ( $meta_data['height'] / $meta_data['width'] );
-						$height       = ( $width * $aspect_ratio );
-						$image_size   = [ $width, $height ];
-					}
-					$image_style = '';
-				}
-
-				/**
-				 * Filter: 'wpseo_structured_data_blocks_image_size' - Allows adjusting the image size in structured data blocks.
-				 *
-				 * @since 18.2
-				 *
-				 * @param string|int[] $image_size     The image size. Accepts any registered image size name, or an array of width and height values in pixels (in that order).
-				 * @param int          $attachment_id  The id of the attachment.
-				 * @param string       $attachment_src The attachment src.
-				 */
-				$image_size = \apply_filters(
-					'wpseo_structured_data_blocks_image_size',
-					$image_size,
-					$attachment_id,
-					$src_matches[1]
-				);
-				$image_html = \wp_get_attachment_image(
-					$attachment_id,
-					$image_size,
-					false,
-					$image_style
-				);
-
-				if ( empty( $image_html ) ) {
-					return $matches[0];
-				}
-
-				return $image_html;
-			},
-			$content
+			[ $this, 'replace_image_with_optimized_version' ],
+			$content,
 		);
 
 		if ( ! $this->registered_shutdown_function ) {
@@ -269,6 +256,82 @@ class Structured_Data_Blocks implements Integration_Interface {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Replaces an image tag with an optimized version while preserving inline alt text.
+	 *
+	 * @param string[] $matches The regex matches from preg_replace_callback.
+	 *
+	 * @return string The optimized image HTML or original if optimization fails.
+	 */
+	private function replace_image_with_optimized_version( $matches ) {
+		\preg_match( '/src="([^"]+)"/', $matches[0], $src_matches );
+		if ( ! $src_matches || ! isset( $src_matches[1] ) ) {
+			return $matches[0];
+		}
+		$attachment_id = $this->attachment_src_to_id( $src_matches[1] );
+		if ( $attachment_id === 0 ) {
+			return $matches[0];
+		}
+
+		// Extract the alt text from the original image HTML, only if an alt attribute is present.
+		$has_alt = (bool) \preg_match( '/alt="([^"]*)"/', $matches[0], $alt_matches );
+
+		$image_size  = 'full';
+		$image_attrs = [
+			'style' => 'max-width: 100%; height: auto;',
+		];
+
+		// Only override alt when the original image had an explicit alt attribute.
+		if ( $has_alt ) {
+			// Decode HTML entities since wp_get_attachment_image() will encode them again.
+			$image_attrs['alt'] = \html_entity_decode( $alt_matches[1], ( \ENT_QUOTES | \ENT_HTML5 ), 'UTF-8' );
+		}
+
+		\preg_match( '/style="[^"]*width:\s*(\d+)px[^"]*"/', $matches[0], $style_matches );
+		if ( $style_matches && isset( $style_matches[1] ) ) {
+			$width     = (int) $style_matches[1];
+			$meta_data = \wp_get_attachment_metadata( $attachment_id );
+			if ( isset( $meta_data['height'] ) && isset( $meta_data['width'] ) && $meta_data['height'] > 0 && $meta_data['width'] > 0 ) {
+				$aspect_ratio = ( $meta_data['height'] / $meta_data['width'] );
+				$height       = ( $width * $aspect_ratio );
+				$image_size   = [ $width, $height ];
+			}
+			// When using a specific image size, don't include the style attribute.
+			$image_attrs = [];
+			if ( $has_alt ) {
+				$image_attrs['alt'] = \html_entity_decode( $alt_matches[1], ( \ENT_QUOTES | \ENT_HTML5 ), 'UTF-8' );
+			}
+		}
+
+		/**
+		 * Filter: 'wpseo_structured_data_blocks_image_size' - Allows adjusting the image size in structured data blocks.
+		 *
+		 * @since 18.2
+		 *
+		 * @param string|int[] $image_size     The image size. Accepts any registered image size name, or an array of width and height values in pixels (in that order).
+		 * @param int          $attachment_id  The id of the attachment.
+		 * @param string       $attachment_src The attachment src.
+		 */
+		$image_size = \apply_filters(
+			'wpseo_structured_data_blocks_image_size',
+			$image_size,
+			$attachment_id,
+			$src_matches[1],
+		);
+		$image_html = \wp_get_attachment_image(
+			$attachment_id,
+			$image_size,
+			false,
+			$image_attrs,
+		);
+
+		if ( empty( $image_html ) ) {
+			return $matches[0];
+		}
+
+		return $image_html;
 	}
 
 	/**
@@ -340,22 +403,40 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	private function add_images_from_attributes_to_used_cache( $post_id, $elements, $key ) {
-		// First grab all image IDs from the attributes.
+		// First, grab all image IDs from the attributes.
 		$images = [];
 		foreach ( $elements as $element ) {
-			if ( ! isset( $element[ $key ] ) ) {
+			// Check if the key "images" exists in any of the elements, grab the image IDs.
+			if ( isset( $element['images'] ) && \is_array( $element['images'] ) && \count( $element['images'] ) > 0 ) {
+				$image_data = $element['images'];
+				foreach ( $image_data as $image ) {
+					if ( ! isset( $image['type'] ) || $image['type'] !== 'img' ) {
+						continue;
+					}
+
+					if ( ! isset( $image['key'] ) || ! isset( $image['props']['src'] ) ) {
+						continue;
+					}
+
+					$images[ $image['props']['src'] ] = (int) $image['key'];
+				}
+			}
+			// Don't process the key again if we've already processed the "images" key.
+			if ( ! isset( $element[ $key ] ) || ! \is_array( $element[ $key ] ) || isset( $element['images'] ) ) {
 				continue;
 			}
-			foreach ( $element[ $key ] as $part ) {
-				if ( ! \is_array( $part ) || ! isset( $part['type'] ) || $part['type'] !== 'img' ) {
-					continue;
-				}
+			if ( isset( $element[ $key ] ) && \is_array( $element[ $key ] ) ) {
+				foreach ( $element[ $key ] as $part ) {
+					if ( ! \is_array( $part ) || ! isset( $part['type'] ) || $part['type'] !== 'img' ) {
+						continue;
+					}
 
-				if ( ! isset( $part['key'] ) || ! isset( $part['props']['src'] ) ) {
-					continue;
-				}
+					if ( ! isset( $part['key'] ) || ! isset( $part['props']['src'] ) ) {
+						continue;
+					}
 
-				$images[ $part['props']['src'] ] = (int) $part['key'];
+					$images[ $part['props']['src'] ] = (int) $part['key'];
+				}
 			}
 		}
 

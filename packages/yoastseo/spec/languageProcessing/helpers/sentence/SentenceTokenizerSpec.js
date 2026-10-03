@@ -265,8 +265,10 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "sentence", src: '" in The Musical Times in , who commented "Praise is due to Mr Mercer' },
 			{ type: "full-stop", src: "." },
 		];
-		// eslint-disable-next-line max-len
-		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "The reprint was favourably reviewed by \"A. B.\" in The Musical Times in , who commented \"Praise is due to Mr Mercer." ]  );
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(
+			[
+				"The reprint was favourably reviewed by \"A. B.\" in The Musical Times in , who commented \"Praise is due to Mr Mercer.",
+			]  );
 	} );
 
 	it( "recognizes sentence boundary when a sentence starts with initials", function() {
@@ -288,8 +290,9 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "full-stop", src: "." },
 
 		];
-		// eslint-disable-next-line max-len
-		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "This is a sentence.", "E.F. is a good writer.",  "G. H. is a very very great personality." ]  );
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(
+			[ "This is a sentence.", "E.F. is a good writer.",  "G. H. is a very very great personality." ]
+		);
 	} );
 
 	it( "recognizes sentence boundary when a sentence ends with initials", function() {
@@ -419,3 +422,48 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 	} );
 } );
 
+describe( "Tests for isBreakTag", () => {
+	it( "returns true for a break tag", () => {
+		expect( mockTokenizer.isBreakTag( "<br" ) ).toBe( true );
+	} );
+	it( "returns false for a non-break tag", () => {
+		expect( mockTokenizer.isBreakTag( "<p" ) ).toBe( false );
+	} );
+	it( "returns true for a self-closing break tag", () => {
+		expect( mockTokenizer.isBreakTag( "<br/>" ) ).toBe( true );
+	} );
+	it( "returns true for a closing break tag", () => {
+		expect( mockTokenizer.isBreakTag( "</br>" ) ).toBe( true );
+	} );
+} );
+describe( "testing the isValidTagPair helper method", function() {
+	it( "returns true if the tags are of the same type and the correct type", function() {
+		[ "p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "span" ].forEach( function( tagType ) {
+			const mockOpenTag = { src: `<${tagType}>` };
+			const mockCloseTag = { src: `</${tagType}>` };
+			expect( mockTokenizer.isValidTagPair( mockOpenTag, mockCloseTag ) ).toBe( true );
+		} );
+	} );
+	it( "returns true if the tags are of the same type and the correct type and the have attributes", function() {
+		[ "p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "span" ].forEach( function( tagType ) {
+			const mockOpenTag = { src: `<${tagType} class="onzin" messy="1">` };
+			const mockCloseTag = { src: `</${tagType}>` };
+			expect( mockTokenizer.isValidTagPair( mockOpenTag, mockCloseTag ) ).toBe( true );
+		} );
+	} );
+	it( "returns false if the tags are of the same type but not of the correct type", function() {
+		const mockOpenTag = { src: "<i>" };
+		const mockCloseTag = { src: "</i>" };
+		expect( mockTokenizer.isValidTagPair( mockOpenTag, mockCloseTag ) ).toBe( false );
+	} );
+	it( "returns false if the tags are of te correct type but not of the same type", function() {
+		const mockOpenTag = { src: "<div>" };
+		const mockCloseTag = { src: "</span>" };
+		expect( mockTokenizer.isValidTagPair( mockOpenTag, mockCloseTag ) ).toBe( false );
+	} );
+	it( "returns false if the tags are of te wrong type and not of the same type", function() {
+		const mockOpenTag = { src: "<i>" };
+		const mockCloseTag = { src: "</b>" };
+		expect( mockTokenizer.isValidTagPair( mockOpenTag, mockCloseTag ) ).toBe( false );
+	} );
+} );

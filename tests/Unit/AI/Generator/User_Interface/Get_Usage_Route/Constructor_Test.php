@@ -1,0 +1,41 @@
+<?php
+
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\User_Interface\Get_Usage_Route;
+
+use WPSEO_Addon_Manager;
+use Yoast\WP\SEO\AI\Authentication\Application\AI_Request_Sender_Factory;
+use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
+
+/**
+ * Tests the Get_Usage_Route's construct method.
+ *
+ * @group  ai-generator
+ *
+ * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Get_Usage_Route::__construct
+ */
+final class Constructor_Test extends Abstract_Test {
+
+	/**
+	 * Tests the constructor.
+	 *
+	 * @return void
+	 */
+	public function test_constructor() {
+		$this->assertInstanceOf(
+			AI_Request_Sender_Factory::class,
+			$this->getPropertyValue( $this->instance, 'ai_request_sender_factory' ),
+		);
+
+		$this->assertInstanceOf(
+			Consent_Handler::class,
+			$this->getPropertyValue( $this->instance, 'consent_handler' ),
+		);
+
+		$this->assertInstanceOf(
+			WPSEO_Addon_Manager::class,
+			$this->getPropertyValue( $this->instance, 'addon_manager' ),
+		);
+	}
+}

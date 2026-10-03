@@ -17,6 +17,7 @@ import countCharacters from "../helpers/countCharacters";
  */
 export default function( paper ) {
 	return {
+		text: paper.getText(),
 		count: countCharacters( paper.getText() ),
 		unit: "character",
 	};

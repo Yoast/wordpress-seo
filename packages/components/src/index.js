@@ -20,6 +20,7 @@ export * from "./new-badge";
 export * from "./premium-badge";
 export * from "./beta-badge";
 
+
 // Referenced index.js explicitly due to case-sensitive path conflicts.
 export * from "./toggle/index.js";
 
@@ -61,6 +62,7 @@ export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as Heading } from "./Heading";
 export { default as HelpText } from "./HelpText";
 export { default as Icon } from "./Icon";
+export { default as IconButtonBase } from "./IconButtonBase";
 export { default as IconButtonToggle } from "./IconButtonToggle.js";
 export { default as IconCTAEditButton } from "./IconCTAEditButton.js";
 export { default as IFrame } from "./IFrame";
@@ -74,7 +76,7 @@ export { default as Notification } from "./Notification";
 export { default as Paper } from "./Paper";
 export { default as ProgressBar } from "./ProgressBar";
 export { default as Section } from "./Section";
-export { SectionTitle } from "./SectionTitle";
+export { SectionTitle, StyledTitle } from "./SectionTitle";
 export { default as ScoreAssessments } from "./ScoreAssessments";
 export { default as StackedProgressBar } from "./StackedProgressBar";
 export { default as SvgIcon, icons } from "./SvgIcon";
@@ -90,13 +92,11 @@ export { YoastLinkButton } from "./buttons/YoastLinkButton";
 export { default as Logo } from "./Logo";
 export { default as Modal } from "./Modal";
 export { default as YoastSeoIcon } from "./YoastSeoIcon";
-export { default as Tabs } from "./Tabs";
 export { default as Warning } from "./Warning";
 export { default as YouTubeVideo } from "./YouTubeVideo";
 export { default as WordList } from "./WordList";
 export { default as WordOccurrences } from "./WordOccurrences";
 export { VariableEditorInputContainer } from "./input/InputContainer";
-export { default as InsightsCard } from "./insights-card/InsightsCard";
 
 export { ListTable, ZebrafiedListTable } from "./table/ListTable";
 export { Row } from "./table/Row";

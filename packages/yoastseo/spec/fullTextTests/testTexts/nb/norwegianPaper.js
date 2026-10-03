@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Maine coon (MCO) er en storvokst semi-langhåret rasekatt med opprinnelse fra delstaten Maine, " +
 		"i det nord-østligste hjørnet av USA. Katterasen regnes i dag som verdens største tamkattrase, men selve opprinnelsen er uklar.",
 	title: "Maine coon",
+	textTitle: "Maine coon",
 	titleWidth: 450,
 	locale: "nb_NO",
 	permalink: "https://no.wikipedia.org/wiki/Maine_coon",
@@ -30,7 +31,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The focus keyphrase was found 18 times. This is great!",
+			"The keyphrase was found 18 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -53,13 +54,13 @@ const expectedResults = {
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: There are no links which use your keyphrase or synonym as their anchor text. Nice!",
 	},
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 1260 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 1264 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -105,13 +106,13 @@ const expectedResults = {
 		isApplicable: true,
 		score: 3,
 		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: 2 sections of your text are " +
-			"longer than 300 words and are not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>" +
+			"longer than the recommended number of words (300) and are not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>" +
 			"Add subheadings to improve readability</a>.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: There are no paragraphs that are too long. Great job!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -125,10 +126,8 @@ const expectedResults = {
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 10.6% of the sentences contain passive voice, " +
-			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
-			"Try to use their active counterparts</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You are not using too much passive voice. That's great!",
 	},
 	textPresence: {
 		isApplicable: true,
@@ -138,13 +137,13 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. " +
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings. " +
 			"That's great!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes that reflect" +
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Images on this page do not have alt attributes that reflect" +
 			" the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
 	},
 	imageCount: {
@@ -154,6 +153,16 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

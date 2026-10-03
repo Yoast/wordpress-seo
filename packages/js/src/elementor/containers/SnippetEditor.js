@@ -7,8 +7,7 @@ import PropTypes from "prop-types";
 import SnippetPreviewSection from "../../components/SnippetPreviewSection";
 import withLocation from "../../helpers/withLocation";
 import { strings } from "@yoast/helpers";
-import { applyModifications } from "../initializers/pluggable";
-import { getCurrentReplacementVariablesForEditor } from "../replaceVars/elementor-replacevar-plugin";
+import { applyModifications } from "../../initializers/pluggable";
 
 const { stripHTMLTags } = strings;
 
@@ -20,6 +19,7 @@ const { stripHTMLTags } = strings;
  * @param {string} data.title               The snippet preview title.
  * @param {string} data.url                 The snippet preview url: baseUrl with the slug.
  * @param {string} data.description         The snippet preview description.
+ * @param {string} data.filteredSEOTitle	The SEO title without separator and site title.
  * @param {Object} context                  The context surrounding the snippet editor form data.
  * @param {string} context.shortenedBaseUrl The baseUrl of the snippet preview url.
  *
@@ -57,6 +57,7 @@ const mapEditorDataToPreview = ( data, context ) => {
 		url: data.url,
 		title: stripHTMLTags( applyModifications( "data_page_title", data.title ) ),
 		description: stripHTMLTags( applyModifications( "data_meta_desc", data.description ) ),
+		filteredSEOTitle: stripHTMLTags( applyModifications( "data_page_title", data.filteredSEOTitle ) ),
 	};
 };
 
@@ -118,6 +119,8 @@ export default compose( [
 			getSnippetEditorWordsToHighlight,
 			isCornerstoneContent,
 			getContentLocale,
+			getSiteName,
+			getReplaceVars,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -130,10 +133,11 @@ export default compose( [
 			mobileImageSrc: getEditorDataImageUrl(),
 			mode: getSnippetEditorMode(),
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
-			replacementVariables: getCurrentReplacementVariablesForEditor(),
+			replacementVariables: getReplaceVars(),
 			wordsToHighlight: getSnippetEditorWordsToHighlight(),
 			isCornerstone: isCornerstoneContent(),
 			locale: getContentLocale(),
+			siteName: getSiteName(),
 		};
 	} ),
 	withDispatch( dispatch => {

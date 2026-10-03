@@ -9,8 +9,8 @@ import Portal from "./Portal";
 /**
  * Renders a score icon in a specified dom element.
  *
- * @param {string} target A target element ID in which to render the portal.
- * @param {string} scoreIndicator The score indicator.
+ * @param {string} target 			A target element ID in which to render the portal.
+ * @param {string} scoreIndicator 	The score indicator.
  *
  * @returns {wp.Element} The score element.
  */

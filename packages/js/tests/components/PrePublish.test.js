@@ -1,8 +1,32 @@
-import { shallow } from "enzyme";
-
 import PrePublish from "../../src/components/PrePublish";
+import { render, screen } from "../test-utils";
+import { select, useDispatch } from "@wordpress/data";
+
+// Mock WordPress dependencies
+jest.mock( "@wordpress/data", () => ( {
+	useDispatch: jest.fn(),
+	select: jest.fn(),
+} ) );
 
 describe( "The PrePublish component", () => {
+	const mockClosePublishSidebar = jest.fn();
+	const mockOpenGeneralSidebar = jest.fn();
+	const mockOpenEditorModal = jest.fn();
+
+	beforeEach( () => {
+		jest.clearAllMocks();
+		useDispatch.mockReturnValue(
+			{ closePublishSidebar: mockClosePublishSidebar, openGeneralSidebar: mockOpenGeneralSidebar, openEditorModal: mockOpenEditorModal }
+		);
+		select.mockReturnValue( {
+			getPostType: jest.fn( () => "post" ),
+		} );
+	} );
+
+	afterEach( () => {
+		jest.clearAllMocks();
+	} );
+
 	it( "renders a checklist with an introduction text indicating that there is room for improvement when not all checks are good", () => {
 		const checks = [
 			{
@@ -21,13 +45,16 @@ describe( "The PrePublish component", () => {
 				scoreValue: "Good",
 			},
 		];
-
 		const onClick = jest.fn();
 
-		const checklist = shallow( <PrePublish checklist={ checks } onClick={ onClick } /> );
+		const isSeoDataDefault = {
+			isAllTitlesDefault: false,
+			isAllDescriptionsDefault: false,
+		};
 
-		const introductionText = checklist.find( "p" );
-		expect( introductionText.text() ).toEqual( "We've analyzed your post. There is still room for improvement!" );
+		render( <PrePublish checklist={ checks } onClick={ onClick } isSeoDataDefault={ isSeoDataDefault } /> );
+
+		expect( screen.getByText( "We've analyzed your post. There is still room for improvement!" ) ).toBeInTheDocument();
 	} );
 
 	it( "renders a checklist with an introduction text indicating that there everything is OK when all checks are good", () => {
@@ -43,12 +70,10 @@ describe( "The PrePublish component", () => {
 				scoreValue: "Needs improvement",
 			},
 		];
-
 		const onClick = jest.fn();
 
-		const checklist = shallow( <PrePublish checklist={ checks } onClick={ onClick } /> );
+		render( <PrePublish checklist={ checks } onClick={ onClick } /> );
 
-		const introductionText = checklist.find( "p" );
-		expect( introductionText.text() ).toEqual( "We've analyzed your post. Everything looks good. Well done!" );
+		expect( screen.getByText( "We've analyzed your post. Everything looks good. Well done!" ) ).toBeInTheDocument();
 	} );
 } );

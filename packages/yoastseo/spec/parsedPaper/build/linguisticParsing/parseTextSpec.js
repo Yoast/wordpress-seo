@@ -1,5 +1,5 @@
 import { parseTextIntoSentences } from "../../../../src/parsedPaper/build/linguisticParsing/parseText";
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
 import Sentence from "../../../../src/parsedPaper/build/linguisticParsing/Sentence";
 
 /**

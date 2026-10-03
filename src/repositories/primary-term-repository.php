@@ -33,17 +33,17 @@ class Primary_Term_Repository {
 		/**
 		 * Instance of the primary term.
 		 *
-		 * @var Primary_Term $primary_term
+		 * @var Primary_Term $primary_term_indexable
 		 */
-		$primary_term = $this->query()
+		$primary_term_indexable = $this->query()
 			->where( 'post_id', $post_id )
 			->where( 'taxonomy', $taxonomy )
 			->find_one();
 
-		if ( $auto_create && ! $primary_term ) {
-			$primary_term = $this->query()->create();
+		if ( $auto_create && ! $primary_term_indexable ) {
+			$primary_term_indexable = $this->query()->create();
 		}
 
-		return $primary_term;
+		return $primary_term_indexable;
 	}
 }

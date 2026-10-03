@@ -1,4 +1,4 @@
-/* eslint-disable require-jsdoc */
+/* eslint-disable jsdoc/require-jsdoc */
 
 import { sprintf, setLocaleData } from "@wordpress/i18n";
 
@@ -20,8 +20,12 @@ function _n( single, plural, number ) {
 }
 
 function _nx( single, plural, number ) {
-	// eslint-disable-next-line no-restricted-syntax
+	// eslint-disable-next-line no-restricted-syntax,@wordpress/i18n-no-variables
 	return _n( single, plural, number );
+}
+
+function isRTL() {
+	return false;
 }
 
 export {
@@ -31,4 +35,5 @@ export {
 	_nx,
 	setLocaleData,
 	sprintf,
+	isRTL,
 };

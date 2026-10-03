@@ -1,7 +1,8 @@
-/* global require, process */
-var timeGrunt = require( "time-grunt" );
-var path = require( "path" );
-var loadGruntConfig = require( "load-grunt-config" );
+// eslint-disable-next-line import/no-extraneous-dependencies
+const timeGrunt = require( "time-grunt" );
+const path = require( "path" );
+// eslint-disable-next-line import/no-extraneous-dependencies
+const loadGruntConfig = require( "load-grunt-config" );
 const { flattenVersionForFile } = require( "./config/webpack/paths" );
 require( "dotenv" ).config();
 
@@ -12,7 +13,7 @@ module.exports = function( grunt ) {
 	const pluginVersion = pkg.yoast.pluginVersion;
 
 	/* Used to switch between development and release builds.
-	Switches based on the grunt command (which is the third 'argv', after node and grunt,  so index 2).*/
+	 Switches based on the grunt command (which is the third 'argv', after node and grunt,  so index 2).*/
 	const developmentBuild = ! [ "create-rc", "release", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] );
 
 	// Define project configuration.
@@ -77,7 +78,6 @@ module.exports = function( grunt ) {
 				 */
 				yoastJsAnalysisReport: "<%= paths.languages %>yoast-js-analysis-report.pot",
 				yoastJsComponents: "<%= paths.languages %>yoast-js-components.pot",
-				yoastJsConfigurationWizard: "<%= paths.languages %>yoast-js-configuration-wizard.pot",
 				yoastJsHelpers: "<%= paths.languages %>yoast-js-helpers.pot",
 				yoastJsSearchMetadataPreviews: "<%= paths.languages %>yoast-js-search-metadata-previews.pot",
 				yoastJsSocialMetadataForms: "<%= paths.languages %>yoast-js-social-metadata-forms.pot",
@@ -85,7 +85,6 @@ module.exports = function( grunt ) {
 
 				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
 				yoastComponents: "<%= paths.languages %>yoast-components.pot",
-				yoastComponentsConfigurationWizard: "<%= paths.languages %>yoast-components1.pot",
 				yoastComponentsRemaining: "gettext.pot",
 				wordpressSeoJs: "<%= paths.languages %>wordpress-seojs.pot",
 
@@ -141,16 +140,13 @@ module.exports = function( grunt ) {
 				postcss: "@lodder/grunt-postcss",
 				"update-version": "@yoast/grunt-plugin-tasks",
 				"set-version": "@yoast/grunt-plugin-tasks",
-				"update-changelog-with-latest-pr-texts": "@yoast/grunt-plugin-tasks",
-				"get-latest-pr-texts": "@yoast/grunt-plugin-tasks",
-				"update-changelog": "@yoast/grunt-plugin-tasks",
-				"build-qa-changelog": "@yoast/grunt-plugin-tasks",
-				"download-qa-changelog": "@yoast/grunt-plugin-tasks",
-				"extract-extra-pr-texts-from-yoast-cli-md": "@yoast/grunt-plugin-tasks",
-				"update-package-changelog": "@yoast/grunt-plugin-tasks",
 				"update-changelog-to-latest": "@yoast/grunt-plugin-tasks",
 				"register-prompt": "grunt-prompt",
 				"notify-slack": "notify-slack",
+				// `update-myyoast-credentials` and `sign-v0-myyoast-credentials`
+				// are both registered by `update-myyoast-credentials.js`;
+				// jit-grunt needs an explicit mapping for the secondary task.
+				"sign-v0-myyoast-credentials": "./config/grunt/custom-tasks/update-myyoast-credentials.js",
 			},
 			customTasksDir: "config/grunt/custom-tasks",
 		},

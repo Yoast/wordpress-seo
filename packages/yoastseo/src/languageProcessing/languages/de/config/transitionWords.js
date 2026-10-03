@@ -1,5 +1,3 @@
-/** @module config/transitionWords */
-
 export const singleWords = [ "aber", "abschließend", "abschliessend", "alldieweil", "allerdings", "also", "anderenteils",
 	"andererseits", "andernteils", "anfaenglich", "anfänglich", "anfangs", "angenommen", "anschliessend", "anschließend",
 	"aufgrund",	"ausgenommen", "ausserdem", "außerdem", "beispielsweise", "bevor", "beziehungsweise", "bspw", "bzw", "d.h",
@@ -24,7 +22,7 @@ export const multipleWords = [ "abgesehen von", "abgesehen davon", "als dass", "
 	"das heisst", "das heißt", "des weiteren", "dessen ungeachtet", "ebenso wie", "genauso wie", "geschweige denn", "im fall",
 	"im falle", "im folgenden", "im gegensatz dazu", "im gegenteil", "im grunde genommen", "in diesem sinne", "je nachdem", "kurz gesagt",
 	"mit anderen worten", "ohne dass", "so dass", "umso mehr als", "umso weniger als", "umso mehr, als", "umso weniger, als",
-	"unbeschadet dessen", "und zwar", "ungeachtet dessen", "unter dem strich", "zum beispiel", "zunächts einmal" ];
+	"unbeschadet dessen", "und zwar", "ungeachtet dessen", "unter dem strich", "zum beispiel", "zunächst einmal" ];
 
 export const allWords = singleWords.concat( multipleWords );
 

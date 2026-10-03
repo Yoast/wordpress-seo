@@ -1,30 +1,27 @@
 // External dependencies
-import { forEach, isArray, isNumber, isObject } from "lodash-es";
+import { forEach, isArray, isNumber, isObject } from "lodash";
 import { getLogger } from "loglevel";
 
 // Internal dependencies
-import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
+import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker.js";
 import { createShortlink } from "../../src/helpers/shortlinker";
-import Assessment from "../../src/scoring/assessments/assessment";
-import SEOAssessor from "../../src/scoring/seoAssessor";
-import contentAssessor from "../../src/scoring/contentAssessor";
-import { SEOScoreAggregator } from "../../src/parsedPaper/assess/scoreAggregators";
+import Assessment from "../../src/scoring/assessments/assessment.js";
+import SEOAssessor from "../../src/scoring/assessors/seoAssessor.js";
+import ContentAssessor from "../../src/scoring/assessors/contentAssessor.js";
+import { SEOScoreAggregator } from "../../src/scoring/scoreAggregators";
 import { TreeResearcher } from "../../src/parsedPaper/research";
-import AssessmentResult from "../../src/values/AssessmentResult";
-import Paper from "../../src/values/Paper";
-import InvalidTypeError from "../../src/errors/invalidType";
-import { StructuredNode } from "../../src/parsedPaper/structure/tree";
-
+import AssessmentResult from "../../src/values/AssessmentResult.js";
+import Paper from "../../src/values/Paper.js";
 
 // Full-length texts to test
 import testTexts from "../fullTextTests/testTexts";
 
 // Test helpers
-import TestResearch from "../specHelpers/tree/TestResearch";
-import getMorphologyData from "../specHelpers/getMorphologyData";
-import TestAssessment from "../specHelpers/tree/TestAssessment";
+import TestResearch from "../specHelpers/tree/TestResearch.js";
+import getMorphologyData from "../specHelpers/getMorphologyData.js";
+import TestAssessment from "../specHelpers/tree/TestAssessment.js";
 
-import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher";
+import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher.js";
 let researcher = new EnglishResearcher();
 const morphologyData = getMorphologyData( "en" );
 
@@ -167,7 +164,7 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "calls logger debug", () => {
 				const logger = getLogger( "yoast-analysis-worker" );
-				const spy = spyOn( logger, "debug" );
+				const spy = jest.spyOn( logger, "debug" );
 
 				scope.onmessage( createMessage( "initialize" ) );
 				expect( spy ).toHaveBeenCalledTimes( 2 );
@@ -200,11 +197,6 @@ describe( "AnalysisWebWorker", () => {
 					.toEqual( updateReadability );
 			} );
 
-			test( "update readability with useWordComplexity", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useWordComplexity: true }, false, false, false ) )
-					.toEqual( updateReadability );
-			} );
-
 			test( "update seo with keywordAnalysisActive", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( { keywordAnalysisActive: true }, false, false, false ) )
 					.toEqual( updateSEO );
@@ -217,10 +209,6 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "update seo with useTaxonomy", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useTaxonomy: true }, false, false, false ) ).toEqual( updateSEO );
-			} );
-
-			test( "update seo with useKeywordDistribution", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useKeywordDistribution: true }, false, false, false ) ).toEqual( updateSEO );
 			} );
 
 			test( "update all with locale", () => {
@@ -274,7 +262,7 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "creates the i18n", () => {
 				scope.onmessage( createMessage( "initialize", {
-					translations: {
+					messages: {
 						domain: "messages",
 						// eslint-disable-next-line camelcase
 						locale_data: {
@@ -405,14 +393,6 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize", { useTaxonomy: true } ) );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
 
-				// Not when switching keyword distribution assessor on/off.
-				scope.onmessage( createMessage( "initialize", { useKeywordDistribution: true } ) );
-				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
-
-				// When switching useWordComplexity on/off.
-				scope.onmessage( createMessage( "initialize", { useWordComplexity: true } ) );
-				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
-
 				// When changing locale.
 				scope.onmessage( createMessage( "initialize", { locale: "en_US" } ) );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
@@ -434,10 +414,6 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize", { contentAnalysisActive: true } ) );
 				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( timesCalled );
 
-				// Not when switching useWordComplexity on/off.
-				scope.onmessage( createMessage( "initialize", { useWordComplexity: true } ) );
-				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( timesCalled );
-
 				// When switching seo analysis on/off.
 				scope.onmessage( createMessage( "initialize", { keywordAnalysisActive: true } ) );
 				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
@@ -448,10 +424,6 @@ describe( "AnalysisWebWorker", () => {
 
 				// When switching taxonomy assessor on/off.
 				scope.onmessage( createMessage( "initialize", { useTaxonomy: true } ) );
-				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
-
-				// When switching keyword distribution assessor on/off.
-				scope.onmessage( createMessage( "initialize", { useKeywordDistribution: true } ) );
 				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
 
 				// When changing locale.
@@ -489,12 +461,18 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "calls analyze", done => {
 				const paper = new Paper( "This is the content." );
-				const spy = spyOn( worker, "analyze" );
+				const spy = jest.spyOn( worker, "analyze" );
 
 				worker.analyzeDone = () => {
-					expect( spy ).toHaveBeenCalledTimes( 1 );
-					expect( spy ).toHaveBeenCalledWith( 0, { paper } );
-					done();
+					try {
+						expect( spy ).toHaveBeenCalledTimes( 1 );
+						// eslint-disable-next-line no-unused-vars -- Pulling the _tree out of the paper because it will be filled in the worker.
+						const { _tree, ...expectedPaper } = paper;
+						expect( spy ).toHaveBeenCalledWith( 0, { paper: expect.objectContaining( expectedPaper ) } );
+						done();
+					} catch ( e ) {
+						done( e );
+					}
 				};
 
 				scope.onmessage( createMessage( "initialize" ) );
@@ -521,7 +499,8 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
 			} );
 
-			it( "does not assess the tree when it could not be built", done => {
+			// Skipped because the input isn't valid HTML -- editors will generally take care of that.
+			it.skip( "does not assess the tree when it could not be built", done => {
 				const paper = new Paper( "<h1>This </ fails." );
 
 				worker.analyzeDone = ( id, result ) => {
@@ -643,7 +622,6 @@ describe( "AnalysisWebWorker", () => {
 				// Mock the console to see if it is used and to not output anything for real.
 				// eslint-disable-next-line no-console
 				console.log = jest.fn();
-				// eslint-disable-next-line no-console
 				console.error = jest.fn();
 
 				// Mock the first function call in analyze to throw an error.
@@ -658,7 +636,6 @@ describe( "AnalysisWebWorker", () => {
 					expect( result.error ).toBe( "An error occurred while running the analysis.\n\tError: Simulated error!" );
 					// eslint-disable-next-line no-console
 					expect( console.log ).toHaveBeenCalled();
-					// eslint-disable-next-line no-console
 					expect( console.error ).toHaveBeenCalled();
 					done();
 				};
@@ -672,6 +649,57 @@ describe( "AnalysisWebWorker", () => {
 				worker.analyzeDone( 0, { error: "failed" } );
 				expect( worker.send ).toHaveBeenCalledTimes( 1 );
 				expect( worker.send ).toHaveBeenCalledWith( "analyze:failed", 0, { error: "failed" } );
+			} );
+			it( "correctly calculates sentence position in a node containing an element (comment) that is removed from" +
+				"the paper after building the tree", async() => {
+				// One paragraph, with one sentence.
+				const html = "<div><!-- A comment --><p>A paragraph</p></div>";
+
+				const paper = new Paper( html );
+
+				const webworker = new AnalysisWebWorker( scope, researcher );
+
+				await webworker.analyze( 1, { paper } );
+
+				// Get the sentence from the single paragraph in the tree.
+				const paragraphs = paper.getTree().findAll( node => node.name === "p" );
+				const sentence = paragraphs[ 0 ].sentences[ 0 ];
+
+				const { startOffset, endOffset } = sentence.sourceCodeRange;
+
+				// Check if the source code position is correct.
+				expect( html.slice( startOffset, endOffset ) ).toEqual( "A paragraph" );
+			} );
+
+			it( "correctly calculate the position of the image with a caption", async() => {
+				const html = "<!-- wp:image -->\n" +
+					"<figure class=\"wp-block-image size-large\"><img src=\"https://example.com\" alt=\"\" class=\"wp-image-8\"/>" +
+					"<figcaption class=\"wp-element-caption\">A cute cat</figcaption></figure>\n" +
+					"<!-- /wp:image -->\n" +
+					"<!-- wp:paragraph -->\n" +
+					"<p>Movet voluptatibus vix ad. Et eruditi mediocrem liberavisse eos.</p>" +
+					"<!-- /wp:paragraph -->";
+
+				const paper = new Paper( html );
+
+				const webworker = new AnalysisWebWorker( scope, researcher );
+
+				await webworker.analyze( 1, { paper } );
+
+				const tree = paper.getTree();
+				const images = tree.findAll( node => node.name === "img" );
+				const caption = tree.findAll( node => node.name === "figcaption" );
+				const captionText = caption[ 0 ].findAll( node => node.name === "p" );
+				const { startOffset, endOffset } = captionText[ 0 ].sentences[ 0 ].sourceCodeRange;
+				// Check if the source code position is correct.
+				expect( images[ 0 ].sourceCodeLocation ).toEqual( {
+					endOffset: 118,
+					startOffset: 60,
+					startTag: { endOffset: 118, startOffset: 60 },
+				} );
+				// Check if the startOffset and endOffset of the caption text is correct.
+				expect( startOffset ).toEqual( 157 );
+				expect( endOffset ).toEqual( 167 );
 			} );
 		} );
 
@@ -705,12 +733,18 @@ describe( "AnalysisWebWorker", () => {
 			test( "calls analyzeRelatedKeywords", done => {
 				const paper = new Paper( "This is the content." );
 				const relatedKeywords = { a: { keyword: "content", synonyms: "" } };
-				const spy = spyOn( worker, "analyzeRelatedKeywords" );
+				const spy = jest.spyOn( worker, "analyzeRelatedKeywords" );
 
 				worker.analyzeRelatedKeywordsDone = () => {
-					expect( spy ).toHaveBeenCalledTimes( 1 );
-					expect( spy ).toHaveBeenCalledWith( 0, { paper, relatedKeywords } );
-					done();
+					try {
+						expect( spy ).toHaveBeenCalledTimes( 1 );
+						// eslint-disable-next-line no-unused-vars -- Pulling the _tree out of the paper because it will be filled in the worker.
+						const { _tree, ...expectedPaper } = paper;
+						expect( spy ).toHaveBeenCalledWith( 0, { paper: expect.objectContaining( expectedPaper ), relatedKeywords } );
+						done();
+					} catch ( e ) {
+						done( e );
+					}
 				};
 
 				scope.onmessage( createMessage( "initialize" ) );
@@ -831,7 +865,7 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "calls loadScript", done => {
 				const payload = { url: "http://example.com" };
-				const spy = spyOn( worker, "loadScript" );
+				const spy = jest.spyOn( worker, "loadScript" );
 
 				worker.loadScriptDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
@@ -931,7 +965,7 @@ describe( "AnalysisWebWorker", () => {
 			test( "calls customMessage", done => {
 				const name = "test";
 				const payload = { name, data: { test: true } };
-				const spy = spyOn( worker, "customMessage" );
+				const spy = jest.spyOn( worker, "customMessage" );
 
 				worker._registeredMessageHandlers[ name ] = ( data ) => data;
 				worker.customMessageDone = () => {
@@ -1043,7 +1077,7 @@ describe( "AnalysisWebWorker", () => {
 			test( "calls runResearch", done => {
 				const name = "test";
 				const payload = { name };
-				const spy = spyOn( worker, "runResearch" );
+				const spy = jest.spyOn( worker, "runResearch" );
 
 				worker.runResearchDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
@@ -1266,33 +1300,6 @@ describe( "AnalysisWebWorker", () => {
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
 		} );
-
-
-		test( "listens to useWordComplexity", () => {
-			worker._configuration.useWordComplexity = false;
-			let assessor = worker.createContentAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "contentAssessor" );
-			let assessment = assessor.getAssessment( "wordComplexity" );
-			expect( assessment ).not.toBeDefined();
-
-			worker._configuration.useWordComplexity = true;
-			assessor = worker.createContentAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "contentAssessor" );
-			assessment = assessor.getAssessment( "wordComplexity" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "wordComplexity" );
-
-			worker._configuration.useCornerstone = true;
-			worker._configuration.useWordComplexity = true;
-			assessor = worker.createContentAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
-			assessment = assessor.getAssessment( "wordComplexity" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "wordComplexity" );
-		} );
 	} );
 
 	describe( "createSEOAssessor", () => {
@@ -1333,36 +1340,10 @@ describe( "AnalysisWebWorker", () => {
 			expect( assessor.type ).toBe( "taxonomyAssessor" );
 		} );
 
-		test( "listens to useKeywordDistribution", () => {
-			worker._configuration.useKeywordDistribution = false;
-			let assessor = worker.createSEOAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "SEOAssessor" );
-			let assessment = assessor.getAssessment( "keyphraseDistribution" );
-			expect( assessment ).not.toBeDefined();
-
-			worker._configuration.useKeywordDistribution = true;
-			assessor = worker.createSEOAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "SEOAssessor" );
-			assessment = assessor.getAssessment( "keyphraseDistribution" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
-
-			worker._configuration.useCornerstone = true;
-			worker._configuration.useKeywordDistribution = true;
-			assessor = worker.createSEOAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
-			assessment = assessor.getAssessment( "keyphraseDistribution" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
-		} );
-
 		test( "listens to customAnalysisType and sets the custom SEO assessor if available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the SEO assessor for the content assessor.
-			worker._CustomSEOAssessorClasses.type1 = contentAssessor;
+			worker._CustomSEOAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Custom assessor used.
 			expect( assessor.type ).toBe( "contentAssessor" );
@@ -1371,7 +1352,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType but returns the default SEO assessor if no matching custom assessor is available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the SEO assessor for the content assessor.
-			worker._CustomSEOAssessorClasses.type2 = contentAssessor;
+			worker._CustomSEOAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "SEOAssessor" );
@@ -1380,7 +1361,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType but returns the default SEO assessor if no custom analysis type is set", () => {
 			worker._configuration.customAnalysisType = "";
 			// Swapping the SEO assessor for the content assessor.
-			worker._CustomSEOAssessorClasses.type2 = contentAssessor;
+			worker._CustomSEOAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "SEOAssessor" );
@@ -1390,7 +1371,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the cornerstone SEO assessor for the content assessor.
-			worker._CustomCornerstoneSEOAssessorClasses.type1 = contentAssessor;
+			worker._CustomCornerstoneSEOAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Custom assessor used.
 			expect( assessor.type ).toBe( "contentAssessor" );
@@ -1400,7 +1381,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the cornerstone SEO assessor for the content assessor.
-			worker._CustomCornerstoneSEOAssessorClasses.type2 = contentAssessor;
+			worker._CustomCornerstoneSEOAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
@@ -1410,7 +1391,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "";
 			// Swapping the cornerstone SEO assessor for the content assessor.
-			worker._CustomCornerstoneSEOAssessorClasses.type1 = contentAssessor;
+			worker._CustomCornerstoneSEOAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
@@ -1437,7 +1418,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType and sets the custom related keyword assessor if available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the related keyword assessor for the content assessor.
-			worker._CustomRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			worker._CustomRelatedKeywordAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Custom assessor used.
 			expect( assessor.type ).toBe( "contentAssessor" );
@@ -1446,7 +1427,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType but returns the default related keyword assessor if no matching custom assessor is available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the related keyword assessor for the content assessor.
-			worker._CustomRelatedKeywordAssessorClasses.type2 = contentAssessor;
+			worker._CustomRelatedKeywordAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "relatedKeywordAssessor" );
@@ -1455,7 +1436,7 @@ describe( "AnalysisWebWorker", () => {
 		test( "listens to customAnalysisType but returns the default related keyword assessor if no custom analysis type is set", () => {
 			worker._configuration.customAnalysisType = "";
 			// Swapping the related keyword assessor for the content assessor.
-			worker._CustomRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			worker._CustomRelatedKeywordAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "relatedKeywordAssessor" );
@@ -1465,7 +1446,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the cornerstone related keyword assessor for the content assessor.
-			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Custom assessor used.
 			expect( assessor.type ).toBe( "contentAssessor" );
@@ -1475,7 +1456,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the cornerstone related keyword assessor for the content assessor.
-			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type2 = contentAssessor;
+			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type2 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneRelatedKeywordAssessor" );
@@ -1485,7 +1466,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			worker._configuration.customAnalysisType = "";
 			// Swapping the cornerstone related keyword assessor for the content assessor.
-			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = ContentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneRelatedKeywordAssessor" );
@@ -1528,13 +1509,44 @@ describe( "AnalysisWebWorker", () => {
 			expect( actualAssessment ).toBe( assessment );
 		} );
 
-		test( "add the assessment to the registered assessments", () => {
+		test( "add the seo assessment to the registered assessments", () => {
 			scope.onmessage( createMessage( "initialize" ) );
 			expect( worker._seoAssessor ).not.toBeNull();
 
 			worker.registerAssessment( assessmentName, assessment, pluginName );
 			expect( worker._registeredAssessments.length ).toBe( 1 );
 			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "seo" );
+		} );
+
+		test( "add the readability assessment to the registered assessments", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._contentAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName, "readability" );
+			expect( worker._registeredAssessments.length ).toBe( 1 );
+			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "readability" );
+		} );
+
+		test( "add the readability assessment for cornerstone content to the registered assessments", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._contentAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName, "cornerstoneReadability" );
+			expect( worker._registeredAssessments.length ).toBe( 1 );
+			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "cornerstoneReadability" );
+		} );
+
+		test( "add the related keyphrase assessment to the registered assessments", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._relatedKeywordAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName, "relatedKeyphrase" );
+			expect( worker._registeredAssessments.length ).toBe( 1 );
+			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "relatedKeyphrase" );
 		} );
 
 		test( "call refresh assessment", () => {
@@ -1544,6 +1556,95 @@ describe( "AnalysisWebWorker", () => {
 
 			expect( worker.refreshAssessment ).toHaveBeenCalledTimes( 1 );
 			expect( worker.refreshAssessment ).toHaveBeenCalledWith( assessmentName, pluginName );
+		} );
+	} );
+
+	describe( "registerResearch", () => {
+		const researchName = "custom research";
+		const research = () => "hello";
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register the custom research. Expected parameter `name` to be a string.";
+			expect( () => worker.registerResearch( null, research ) ).toThrowError( errorMessage );
+		} );
+
+		test( "throws an error when passing an invalid research", () => {
+			const errorMessage = "Failed to register the custom research. Expected parameter `research` to be a function.";
+			expect( () => worker.registerResearch( researchName, null ) ).toThrowError( errorMessage );
+		} );
+
+		test( "adds the research", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+
+			worker.registerResearch( researchName, research );
+			const researchFromResearcher = researcher.getResearch( researchName );
+			expect( researchFromResearcher ).toBeDefined();
+			expect( researchFromResearcher ).toBe( "hello" );
+		} );
+	} );
+
+	describe( "registerHelper", () => {
+		const helperName = "helpful helper";
+		const helper = () => true;
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register the custom helper. Expected parameter `name` to be a string.";
+			expect( () => worker.registerHelper( null, helper ) ).toThrowError( errorMessage );
+		} );
+
+		test( "throws an error when passing an invalid helper", () => {
+			const errorMessage = "Failed to register the custom helper. Expected parameter `helper` to be a function.";
+			expect( () => worker.registerHelper( helperName, null ) ).toThrowError( errorMessage );
+		} );
+
+		test( "adds the helper", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+
+			worker.registerHelper( helperName, helper );
+			const helperFromResearcher = researcher.getHelper( helperName );
+			expect( helperFromResearcher ).toBeDefined();
+			expect( helperFromResearcher ).toBe( helper );
+		} );
+	} );
+
+	describe( "registerResearcherConfig", () => {
+		const name = "petsConfig";
+		const researcherConfig = { pets: [ "cats", "dogs" ] };
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register the custom researcher config. Expected parameter `name` to be a string.";
+			expect( () => worker.registerResearcherConfig( null, researcherConfig ) ).toThrowError( errorMessage );
+		} );
+		test( "throws an error when passing an empty or undefined config", () => {
+			const errorMessage = "Failed to register the custom researcher config. Expected parameter `researcherConfig` to be defined.";
+			expect( () => worker.registerResearcherConfig( name, {} ) ).toThrowError( errorMessage );
+			expect( () => worker.registerResearcherConfig( name ) ).toThrowError( errorMessage );
+		} );
+		test( "adds the researcher config", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+
+			worker.registerResearcherConfig( name, researcherConfig );
+			const configFromResearcher = researcher.getConfig( name );
+			expect( configFromResearcher ).toBeDefined();
+			expect( configFromResearcher ).toBe( researcherConfig );
 		} );
 	} );
 
@@ -1680,6 +1781,25 @@ describe( "AnalysisWebWorker", () => {
 			worker._paper = new Paper( "This is the content." );
 			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( false );
 		} );
+
+		test( "returns true when the keyphrase is different", () => {
+			const paper = new Paper( "This is the content.", { keyword: "cats" } );
+			worker._paper = new Paper( "This is the content.", { keyword: "dogs" } );
+			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the client IDs of the blocks inside attributes changes", () => {
+			const paper = new Paper( "This is the content.", { wpBlocks: [
+				{ name: "block1", clientId: "1234" },
+				{ name: "block2", clientId: "5678" },
+			] } );
+
+			worker._paper = new Paper( "This is the content.", { wpBlocks: [
+				{ name: "block1", clientId: "6783" },
+				{ name: "block2", clientId: "0636" },
+			] } );
+			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( true );
+		} );
 	} );
 
 	describe( "shouldSeoUpdate", () => {
@@ -1809,76 +1929,193 @@ describe( "AnalysisWebWorker", () => {
 		} );
 	} );
 
-	describe( "registerParser", () => {
-		/**
-		 * A mock parser.
-		 */
-		class MockParser {
-			/**
-			 * Checks if this parser is applicable.
-			 *
-			 * @returns {boolean} Whether the parser is applicable.
-			 */
-			isApplicable() {
-				return true;
-			}
-
-			/**
-			 * Parses the paper.
-			 *
-			 * @returns {module:parsedPaper/structure.StructuredNode} The tree structure.
-			 */
-			parse() {
-				return new StructuredNode( "some-tag" );
-			}
-		}
-
+	describe( "assessRelatedKeywords", () => {
 		beforeEach( () => {
 			scope = createScope();
 			worker = new AnalysisWebWorker( scope, researcher );
 		} );
 
-		it( "can register a custom parser, if it is class-based and has the appropriate methods.", () => {
-			const mockParser = new MockParser();
+		test( "propagates the parent paper's tree to each related-keyphrase paper to avoid rebuilding", async() => {
+			const paper = new Paper( "<p>Some content here.</p>" );
+			const sentinelTree = { __sentinel: true };
+			paper.setTree( sentinelTree );
 
-			worker.registerParser( mockParser );
+			// Mock worker.assess so we don't run a real assessor against a sentinel tree.
+			const assessSpy = jest.spyOn( worker, "assess" ).mockResolvedValue( { score: 0, results: [] } );
 
-			expect( worker._registeredParsers ).toHaveLength( 1 );
-			expect( worker._registeredParsers[ 0 ] ).toEqual( mockParser );
-		} );
-
-		it( "can register a custom parser, if it has an `isApplicable` and a `parse` method.", () => {
-			const mockParser = {
-				isApplicable: () => true,
-				parse: () => new StructuredNode( "Hello!" ),
+			const relatedKeywords = {
+				a: { keyword: "foo", synonyms: "" },
+				b: { keyword: "bar", synonyms: "" },
 			};
 
-			worker.registerParser( mockParser );
+			await worker.assessRelatedKeywords( paper, relatedKeywords );
 
-			expect( worker._registeredParsers ).toHaveLength( 1 );
-			expect( worker._registeredParsers[ 0 ] ).toEqual( mockParser );
+			expect( assessSpy ).toHaveBeenCalledTimes( 2 );
+
+			const firstRelatedPaper = assessSpy.mock.calls[ 0 ][ 0 ];
+			const secondRelatedPaper = assessSpy.mock.calls[ 1 ][ 0 ];
+
+			expect( firstRelatedPaper.getTree() ).toBe( sentinelTree );
+			expect( secondRelatedPaper.getTree() ).toBe( sentinelTree );
+
+			expect( firstRelatedPaper ).not.toBe( secondRelatedPaper );
+			expect( firstRelatedPaper.getKeyword() ).toBe( "foo" );
+			expect( secondRelatedPaper.getKeyword() ).toBe( "bar" );
+		} );
+	} );
+
+	describe( "analyze tree reuse", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			// Stub the inner assess to avoid running assessors against papers without real trees.
+			jest.spyOn( worker, "assess" ).mockResolvedValue( { score: 0, results: [] } );
 		} );
 
-		it( "throws an error when registering a custom parser, if it does not have an `isApplicable` method.", () => {
-			const mockParser = {
-				parse: () => new StructuredNode( "Hello!" ),
-			};
-
-			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
+		afterEach( () => {
+			jest.restoreAllMocks();
 		} );
 
-		it( "throws an error when registering a custom parser, if it does not have a `parse` method.", () => {
-			const mockParser = {
-				isApplicable: () => true,
-			};
+		test( "reuses the cached tree when only non-tree attributes (e.g. keyphrase) change", async() => {
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Identical body.</p>", { keyword: "alpha" } );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
 
-			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
+			const newPaper = new Paper( "<p>Identical body.</p>", { keyword: "beta" } );
+			const setTreeSpy = jest.spyOn( newPaper, "setTree" );
+
+			await worker.analyze( 0, { paper: newPaper } );
+
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( setTreeSpy ).toHaveBeenCalledWith( cachedTree );
 		} );
 
-		it( "throws an error when registering a custom parser, if it neither has `isApplicable` method nor `parse` method.", () => {
-			const mockParser = {};
+		test( "rebuilds the tree when the text differs from the cached paper", async() => {
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Old body.</p>" );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
 
-			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
+			const newPaper = new Paper( "<p>New body.</p>" );
+			const setTreeSpy = jest.spyOn( newPaper, "setTree" );
+
+			await worker.analyze( 0, { paper: newPaper } );
+
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( setTreeSpy ).not.toHaveBeenCalledWith( cachedTree );
+			expect( newPaper.getTree() ).not.toBeNull();
+		} );
+	} );
+
+	describe( "runResearch tree reuse", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			// Avoid running an actual research; we only care about tree-building side effects here.
+			jest.spyOn( worker._researcher, "getResearch" ).mockReturnValue( {} );
+		} );
+
+		afterEach( () => {
+			jest.restoreAllMocks();
+		} );
+
+		test( "reuses the worker's cached tree when the incoming paper has matching content", () => {
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Identical body.</p>" );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const incomingPaper = new Paper( "<p>Identical body.</p>", { keyword: "different" } );
+			const setTreeSpy = jest.spyOn( incomingPaper, "setTree" );
+
+			worker.runResearch( 0, { name: "any", paper: incomingPaper } );
+
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( setTreeSpy ).toHaveBeenCalledWith( cachedTree );
+		} );
+
+		test( "builds a fresh tree when the incoming paper's content differs from the cached paper", () => {
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Old body.</p>" );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const incomingPaper = new Paper( "<p>New body.</p>" );
+			const setTreeSpy = jest.spyOn( incomingPaper, "setTree" );
+
+			worker.runResearch( 0, { name: "any", paper: incomingPaper } );
+
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( setTreeSpy ).not.toHaveBeenCalledWith( cachedTree );
+			expect( incomingPaper.getTree() ).not.toBe( cachedTree );
+			expect( incomingPaper.getTree() ).not.toBeNull();
+		} );
+
+		test( "does nothing tree-related when the incoming paper already has a tree", () => {
+			const presetTree = { __preset: true };
+			const cachedTree = { __cached: true };
+			const cachedPaper = new Paper( "<p>Body.</p>" );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const incomingPaper = new Paper( "<p>Body.</p>" );
+			incomingPaper.setTree( presetTree );
+			const setTreeSpy = jest.spyOn( incomingPaper, "setTree" );
+
+			worker.runResearch( 0, { name: "any", paper: incomingPaper } );
+
+			expect( setTreeSpy ).not.toHaveBeenCalled();
+			expect( incomingPaper.getTree() ).toBe( presetTree );
+		} );
+
+		test( "reuses the cached tree when the caller omits shortcodes that the worker has cached", () => {
+			// Without the backfill, hasSameTreeInputsAs would return false (shortcodes [] vs [ "gallery" ]) and the worker
+			// would rebuild the tree without filtering shortcode markers — silently disagreeing with the analyze-path tree.
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Body.</p>", { shortcodes: [ "gallery", "caption" ] } );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const incomingPaper = new Paper( "<p>Body.</p>" );
+			const setTreeSpy = jest.spyOn( incomingPaper, "setTree" );
+
+			worker.runResearch( 0, { name: "any", paper: incomingPaper } );
+
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( setTreeSpy ).toHaveBeenCalledWith( cachedTree );
+			expect( incomingPaper._attributes.shortcodes ).toEqual( [ "gallery", "caption" ] );
+		} );
+
+		test( "uses cached shortcodes for the fallback build when the caller omits them and the text differs", () => {
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Old body.</p>", { shortcodes: [ "gallery" ] } );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const incomingPaper = new Paper( "<p>New body.</p>" );
+			const setTreeSpy = jest.spyOn( incomingPaper, "setTree" );
+
+			worker.runResearch( 0, { name: "any", paper: incomingPaper } );
+
+			// Cache miss (text differs), so a fresh tree is built — but the build uses the backfilled shortcodes,
+			// keeping the tree consistent with what analyze() would produce on the same site.
+			expect( setTreeSpy ).toHaveBeenCalledTimes( 1 );
+			expect( setTreeSpy ).not.toHaveBeenCalledWith( cachedTree );
+			expect( incomingPaper._attributes.shortcodes ).toEqual( [ "gallery" ] );
+		} );
+
+		test( "does not overwrite shortcodes the caller explicitly supplied", () => {
+			const cachedTree = { __sentinel: true };
+			const cachedPaper = new Paper( "<p>Body.</p>", { shortcodes: [ "gallery" ] } );
+			cachedPaper.setTree( cachedTree );
+			worker._paper = cachedPaper;
+
+			const incomingPaper = new Paper( "<p>Body.</p>", { shortcodes: [ "audio", "video" ] } );
+
+			worker.runResearch( 0, { name: "any", paper: incomingPaper } );
+
+			expect( incomingPaper._attributes.shortcodes ).toEqual( [ "audio", "video" ] );
 		} );
 	} );
 

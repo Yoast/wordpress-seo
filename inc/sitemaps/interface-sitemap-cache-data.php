@@ -15,21 +15,21 @@ interface WPSEO_Sitemap_Cache_Data_Interface {
 	 *
 	 * @var string
 	 */
-	const OK = 'ok';
+	public const OK = 'ok';
 
 	/**
 	 * Status for unusable sitemap.
 	 *
 	 * @var string
 	 */
-	const ERROR = 'error';
+	public const ERROR = 'error';
 
 	/**
 	 * Status for unusable sitemap because it cannot be identified.
 	 *
 	 * @var string
 	 */
-	const UNKNOWN = 'unknown';
+	public const UNKNOWN = 'unknown';
 
 	/**
 	 * Set the content of the sitemap.

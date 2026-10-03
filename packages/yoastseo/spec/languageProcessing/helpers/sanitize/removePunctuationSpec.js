@@ -8,7 +8,6 @@ describe( "a test for removing punctuation from a string", function() {
 	it( "returns string without dash at the beginning", function() {
 		expect( removePunctuation( "-test" ) ).toBe( "test" );
 	} );
-
 	it( "returns string with punctuation in middle of word untouched", function() {
 		expect( removePunctuation( "te-st" ) ).toBe( "te-st" );
 	} );

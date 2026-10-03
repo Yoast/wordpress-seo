@@ -30,7 +30,7 @@ class AddObjectTimestamps extends Migration {
 			[
 				'null'    => true,
 				'default' => null,
-			]
+			],
 		);
 		$this->add_column(
 			$this->get_table_name(),
@@ -39,7 +39,7 @@ class AddObjectTimestamps extends Migration {
 			[
 				'null'    => true,
 				'default' => null,
-			]
+			],
 		);
 		$this->add_index(
 			$this->get_table_name(),
@@ -51,7 +51,7 @@ class AddObjectTimestamps extends Migration {
 			],
 			[
 				'name' => 'published_sitemap_index',
-			]
+			],
 		);
 	}
 
@@ -73,7 +73,7 @@ class AddObjectTimestamps extends Migration {
 			],
 			[
 				'name' => 'published_sitemap_index',
-			]
+			],
 		);
 	}
 

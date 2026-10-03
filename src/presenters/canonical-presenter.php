@@ -43,10 +43,9 @@ class Canonical_Presenter extends Abstract_Indexable_Tag_Presenter {
 		/**
 		 * Filter: 'wpseo_canonical' - Allow filtering of the canonical URL put out by Yoast SEO.
 		 *
-		 * @api string $canonical The canonical URL.
-		 *
+		 * @param string                 $canonical    The canonical URL.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \urldecode( (string) \trim( \apply_filters( 'wpseo_canonical', $this->presentation->canonical, $this->presentation ) ) );
+		return \urldecode( \trim( (string) \apply_filters( 'wpseo_canonical', $this->presentation->canonical, $this->presentation ) ) );
 	}
 }

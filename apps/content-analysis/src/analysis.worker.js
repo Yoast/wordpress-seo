@@ -1,29 +1,33 @@
 import "babel-polyfill";
-import AnalysisWebWorker from "../../../packages/yoastseo/src/worker/AnalysisWebWorker";
-import getResearcher from "../../../packages/yoastseo/spec/specHelpers/getResearcher";
-// Product page assessors.
-import productSEOAssessor from "yoastseo/src/scoring/productPages/seoAssessor";
-import productCornerstoneSEOAssessor from "yoastseo/src/scoring/productPages/cornerstone/seoAssessor";
-import productContentAssessor from "yoastseo/src/scoring/productPages/contentAssessor";
-import productCornerstoneContentAssessor from "yoastseo/src/scoring/productPages/cornerstone/contentAssessor";
-import productRelatedKeywordAssessor from "yoastseo/src/scoring/productPages/relatedKeywordAssessor";
-import productCornerstoneRelatedKeywordAssessor from "yoastseo/src/scoring/productPages/cornerstone/relatedKeywordAssessor";
-// Store blog assessors.
-import StoreBlogSEOAssessor from "yoastseo/src/scoring/storeBlog/seoAssessor";
-import StoreBlogCornerstoneSEOAssessor from "yoastseo/src/scoring/storeBlog/cornerstone/seoAssessor";
-// Store blog posts and pages assessors.
-import StorePostsAndPagesSEOAssessor from "yoastseo/src/scoring/storePostsAndPages/seoAssessor";
-import StorePostsAndPagesCornerstoneSEOAssessor from "yoastseo/src/scoring/storePostsAndPages/cornerstone/seoAssessor";
-import StorePostsAndPagesContentAssessor from "yoastseo/src/scoring/storePostsAndPages/contentAssessor";
-import StorePostsAndPagesCornerstoneContentAssessor from "yoastseo/src/scoring/storePostsAndPages/cornerstone/contentAssessor";
-import StorePostsAndPagesRelatedKeywordAssessor from "yoastseo/src/scoring/storePostsAndPages/relatedKeywordAssessor";
-import StorePostsAndPagesCornerstoneRelatedKeywordAssessor from "yoastseo/src/scoring/storePostsAndPages/cornerstone/relatedKeywordAssessor";
-// Collection page assessors.
-import CollectionSEOAssessor from "yoastseo/src/scoring/collectionPages/seoAssessor";
-import CollectionCornerstoneSEOAssessor from "yoastseo/src/scoring/collectionPages/cornerstone/seoAssessor";
-import CollectionRelatedKeywordAssessor from "yoastseo/src/scoring/collectionPages/relatedKeywordAssessor";
-import CollectionCornerstoneRelatedKeywordAssessor from "yoastseo/src/scoring/collectionPages/cornerstone/relatedKeywordAssessor";
+import { AnalysisWebWorker, assessors } from "yoastseo";
+import getResearcher from "yoastspec/specHelpers/getResearcher";
 
+const {
+	// Product page assessors.
+	ProductSEOAssessor,
+	ProductCornerstoneSEOAssessor,
+	ProductContentAssessor,
+	ProductCornerstoneContentAssessor,
+	ProductRelatedKeywordAssessor,
+	ProductCornerstoneRelatedKeywordAssessor,
+	// Store blog assessors.
+	StoreBlogSEOAssessor,
+	StoreBlogCornerstoneSEOAssessor,
+	// Store posts and pages assessors.
+	StorePostsAndPagesSEOAssessor,
+	StorePostsAndPagesCornerstoneSEOAssessor,
+	StorePostsAndPagesContentAssessor,
+	StorePostsAndPagesCornerstoneContentAssessor,
+	StorePostsAndPagesRelatedKeywordAssessor,
+	StorePostsAndPagesCornerstoneRelatedKeywordAssessor,
+	// Store collection page assessors.
+	CollectionSEOAssessor,
+	CollectionCornerstoneSEOAssessor,
+	CollectionRelatedKeywordAssessor,
+	CollectionCornerstoneRelatedKeywordAssessor,
+} = assessors;
+
+import registerPremiumAssessments from "./utils/registerPremiumAssessments";
 
 self.onmessage = ( event ) => {
 	const language = event.data.language;
@@ -36,9 +40,11 @@ self.onmessage = ( event ) => {
 
 	const worker = new AnalysisWebWorker( self, new Researcher() );
 
+	registerPremiumAssessments( worker, language );
+
 	// Set custom assessors.
 	// Store product pages.
-	worker.setCustomSEOAssessorClass( productSEOAssessor, "productPage", { introductionKeyphraseUrlTitle: "https://yoa.st/shopify8",
+	worker.setCustomSEOAssessorClass( ProductSEOAssessor, "productPage", { introductionKeyphraseUrlTitle: "https://yoa.st/shopify8",
 		introductionKeyphraseCTAUrl: "https://yoa.st/shopify9",
 		keyphraseLengthUrlTitle: "https://yoa.st/shopify10",
 		keyphraseLengthCTAUrl: "https://yoa.st/shopify11",
@@ -73,7 +79,8 @@ self.onmessage = ( event ) => {
 		keyphraseDistributionUrlTitle: "https://yoa.st/shopify30",
 		keyphraseDistributionCTAUrl: "https://yoa.st/shopify31",
 	} );
-	worker.setCustomCornerstoneSEOAssessorClass( productCornerstoneSEOAssessor, "productPage", { introductionKeyphraseUrlTitle: "https://yoa.st/shopify8",
+	worker.setCustomCornerstoneSEOAssessorClass( ProductCornerstoneSEOAssessor, "productPage", {
+		introductionKeyphraseUrlTitle: "https://yoa.st/shopify8",
 		introductionKeyphraseCTAUrl: "https://yoa.st/shopify9",
 		keyphraseLengthUrlTitle: "https://yoa.st/shopify10",
 		keyphraseLengthCTAUrl: "https://yoa.st/shopify11",
@@ -108,7 +115,7 @@ self.onmessage = ( event ) => {
 		keyphraseDistributionUrlTitle: "https://yoa.st/shopify30",
 		keyphraseDistributionCTAUrl: "https://yoa.st/shopify31",
 	} );
-	worker.setCustomContentAssessorClass( productContentAssessor, "productPage", {
+	worker.setCustomContentAssessorClass( ProductContentAssessor, "productPage", {
 		subheadingUrlTitle: "https://yoa.st/shopify68",
 		subheadingCTAUrl: "https://yoa.st/shopify69",
 		paragraphUrlTitle: "https://yoa.st/shopify66",
@@ -124,7 +131,7 @@ self.onmessage = ( event ) => {
 		listsUrlTitle: "https://yoa.st/shopify38",
 		listsCTAUrl: "https://yoa.st/shopify39",
 	}  );
-	worker.setCustomCornerstoneContentAssessorClass( productCornerstoneContentAssessor, "productPage", {
+	worker.setCustomCornerstoneContentAssessorClass( ProductCornerstoneContentAssessor, "productPage", {
 		subheadingUrlTitle: "https://yoa.st/shopify68",
 		subheadingCTAUrl: "https://yoa.st/shopify69",
 		paragraphUrlTitle: "https://yoa.st/shopify66",
@@ -140,7 +147,7 @@ self.onmessage = ( event ) => {
 		listsUrlTitle: "https://yoa.st/shopify38",
 		listsCTAUrl: "https://yoa.st/shopify39",
 	}  );
-	worker.setCustomRelatedKeywordAssessorClass( productRelatedKeywordAssessor, "productPage", {
+	worker.setCustomRelatedKeywordAssessorClass( ProductRelatedKeywordAssessor, "productPage", {
 		introductionKeyphraseUrlTitle: "https://yoa.st/shopify8",
 		introductionKeyphraseCTAUrl: "https://yoa.st/shopify9",
 		keyphraseLengthUrlTitle: "https://yoa.st/shopify10",
@@ -156,7 +163,7 @@ self.onmessage = ( event ) => {
 		imageKeyphraseUrlTitle: "https://yoa.st/shopify22",
 		imageKeyphraseCTAUrl: "https://yoa.st/shopify23",
 	}  );
-	worker.setCustomCornerstoneRelatedKeywordAssessorClass( productCornerstoneRelatedKeywordAssessor, "productPage", {
+	worker.setCustomCornerstoneRelatedKeywordAssessorClass( ProductCornerstoneRelatedKeywordAssessor, "productPage", {
 		introductionKeyphraseUrlTitle: "https://yoa.st/shopify8",
 		introductionKeyphraseCTAUrl: "https://yoa.st/shopify9",
 		keyphraseLengthUrlTitle: "https://yoa.st/shopify10",

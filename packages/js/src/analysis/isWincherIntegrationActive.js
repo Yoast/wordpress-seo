@@ -1,5 +1,5 @@
 /* External dependencies */
-import { get } from "lodash-es";
+import { get } from "lodash";
 
 /* Internal dependencies */
 import getL10nObject from "./getL10nObject";
@@ -12,5 +12,5 @@ import getL10nObject from "./getL10nObject";
 export default function isWincherIntegrationActive() {
 	const l10nObject = getL10nObject();
 
-	return get( l10nObject, "wincherIntegrationActive", 0 ) === 1;
+	return get( l10nObject, "wincherIntegrationActive", false ) === true;
 }

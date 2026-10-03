@@ -26,6 +26,24 @@ describe( "test for matching Japanese word in the text", function() {
 		expect( words ).toEqual( [ "者数", "者数" ] );
 	} );
 
+	it( "finds a match even when different types of single quotes are used in the text and in the word to match", function() {
+		const words = matchTextWithWord( "cat’sこれによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな者数。", "\"cat's\"" );
+
+		expect( words ).toEqual( [ "cat's" ] );
+	} );
+
+	it( "finds a match when the keyphrase occurrence in the text is in upper case", function() {
+		const words = matchTextWithWord( "Catこれによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな者数。", "cat" );
+
+		expect( words ).toEqual( [ "cat" ] );
+	} );
+
+	it( "finds an exact match when the keyphrase occurrence in the text is in upper case", function() {
+		const words = matchTextWithWord( "Catこれによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな者数。", "\"cat\"" );
+
+		expect( words ).toEqual( [ "cat" ] );
+	} );
+
 	it( "doesn't break when the word to match is empty", function() {
 		const words = matchTextWithWord( "これによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな者数。", "" );
 

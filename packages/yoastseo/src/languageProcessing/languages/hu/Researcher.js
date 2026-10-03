@@ -14,7 +14,7 @@ import getClauses from "./helpers/getClauses";
 import isPassiveSentence from "./helpers/isPassiveSentence";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class Researcher extends AbstractResearcher {
 	/**
@@ -28,7 +28,6 @@ export default class Researcher extends AbstractResearcher {
 		// Deletes researches that are currently not available in Hungarian.
 		// When the research is available, this line should be removed.
 		delete this.defaultResearches.getFleschReadingScore;
-		delete this.defaultResearches.wordComplexity;
 
 		Object.assign( this.config, {
 			language: "hu",

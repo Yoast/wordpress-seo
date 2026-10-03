@@ -1,6 +1,6 @@
 import getL10nObject from "./getL10nObject";
 
-import { get } from "lodash-es";
+import { get } from "lodash";
 
 /**
  * Returns whether or not the content analysis is active
@@ -10,5 +10,5 @@ import { get } from "lodash-es";
 export default function isContentAnalysisActive() {
 	const l10nObject = getL10nObject();
 
-	return get( l10nObject, "contentAnalysisActive", 0 ) === 1;
+	return get( l10nObject, "contentAnalysisActive", false ) === true;
 }

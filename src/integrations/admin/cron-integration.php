@@ -30,9 +30,7 @@ class Cron_Integration implements Integration_Interface {
 	 *
 	 * @param Date_Helper $date_helper The date helper.
 	 */
-	public function __construct(
-		Date_Helper $date_helper
-	) {
+	public function __construct( Date_Helper $date_helper ) {
 		$this->date_helper = $date_helper;
 	}
 
@@ -44,7 +42,7 @@ class Cron_Integration implements Integration_Interface {
 			\wp_schedule_event(
 				$this->date_helper->current_time(),
 				'daily',
-				Indexing_Notification_Integration::NOTIFICATION_ID
+				Indexing_Notification_Integration::NOTIFICATION_ID,
 			);
 		}
 	}

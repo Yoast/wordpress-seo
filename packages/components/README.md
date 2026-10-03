@@ -1,17 +1,23 @@
+## Deprecated
+We have not released changes in this package since May 18, 2021. And are not planning to do so in the future.
+We are not actively maintaining this package for a while now and are using the `@yoast/ui-library` package in our newer projects.
+The package will remain available in its current state on NPM, but will be marked as deprecated.
+The package will remain available in this repo on GitHub, until we ourselves are no longer using it.
+
 ## Requirements
 The Yoast/Components package is not pre-build. So if you would like to include `@yoast/components` into your project we will need a few steps to set it up.
 
-### Loading Javascript. 
+### Loading Javascript.
 
 1. Install the package by running `yarn add @yoast/components`.
-2. Include Yoast/components into the babel-loader of your `webpack.config`. This will look something like this: `include: [ paths.appSrc, /node_modules[/\\](yoast-components|@yoast)[/\\].*/ ]`
+2. Include Yoast/components into the babel-loader of your `webpack.config`. This will look something like this: `include: [ paths.appSrc, /node_modules[/\\](@yoast)[/\\].*/ ]`
 3. It can be that you will need presets for the `babel-loader`. These are: `presets: [ "@babel/preset-env", "@babel/preset-react" ]`
-	
+
 	Note that you will also need to install these presets. Run `yarn add --dev @babel/preset-env @babel/preset-react`
 
 ### Loading CSS
 
-Because we are importing CSS in our JavaScript, your JavaScript bundler needs to be able to interpret CSS.  
+Because we are importing CSS in our JavaScript, your JavaScript bundler needs to be able to interpret CSS.
 
 Therefore, you will need to use a css-loader in your bundler in order to use this package.
 

@@ -1,27 +1,26 @@
-// External dependencies
+const { dirname } = require( "path" );
 const DependencyExtractionWebpackPlugin = require( "@wordpress/dependency-extraction-webpack-plugin" );
 const defaultConfig = require( "@wordpress/scripts/config/webpack.config" );
-const MiniCSSExtractPlugin = require( "mini-css-extract-plugin" );
+const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 const { BundleAnalyzerPlugin } = require( "webpack-bundle-analyzer" );
-
-// Internal dependencies
 const { yoastExternals } = require( "./externals" );
 
 let analyzerPort = 8888;
 
-module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName } ) {
-	const exclude = /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress|@yoast|parse5)[/\\]).*/;
-	// The index of the babel-loader rule.
-	let ruleIndex = 0;
-	if ( process.env.NODE_ENV !== "production" ) {
-		ruleIndex = 1;
-		defaultConfig.module.rules[ 0 ].exclude = [ exclude ];
-	}
-	defaultConfig.module.rules[ ruleIndex ].exclude = exclude;
-
+module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName, plugins = [] } ) {
 	return {
 		...defaultConfig,
-		devtool: process.env.environment === "development" ? "cheap-module-eval-source-map" : false,
+		resolve: {
+			...defaultConfig.resolve,
+			alias: {
+				...defaultConfig.resolve?.alias,
+				"@emotion/react": dirname( require.resolve( "@emotion/react/package.json" ) ),
+			},
+		},
+		optimization: {
+			...defaultConfig.optimization,
+			usedExports: process.env.NODE_ENV === "production",
+		},
 		entry,
 		output: {
 			...defaultConfig.output,
@@ -31,7 +30,7 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 			...defaultConfig.plugins.filter(
 				( plugin ) =>
 					plugin.constructor.name !== "DependencyExtractionWebpackPlugin" &&
-					plugin.constructor.name !== "MiniCSSExtractPlugin" &&
+					plugin.constructor.name !== "MiniCssExtractPlugin" &&
 					plugin.constructor.name !== "CleanWebpackPlugin" &&
 					plugin.constructor.name !== "BundleAnalyzerPlugin"
 			),
@@ -47,23 +46,22 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 				 * @returns {string|null} The external.
 				 */
 				requestToExternal( request ) {
+					// Elementor Marionette global mapping.
+					if ( request === "Marionette" ) {
+						// Map directly to window.Marionette.
+						return "Marionette";
+					}
 					if ( yoastExternals[ request ] ) {
 						return [ "yoast", yoastExternals[ request ] ];
 					}
 					if ( request.startsWith( "lodash/" ) ) {
-						return [ "lodash", request.substr( 7 ) ];
+						return [ "lodash", request.substring( 7 ) ];
 					}
 					if ( request.startsWith( "lodash-es/" ) ) {
-						return [ "lodash", request.substr( 10 ) ];
-					}
-					if ( request === "react-select" ) {
-						return [ "yoast", "reactSelect" ];
-					}
-					if ( request === "react-select/async" ) {
-						return [ "yoast", "reactSelectAsync" ];
+						return [ "lodash", request.substring( 10 ) ];
 					}
 					if ( request.startsWith( "@yoast/externals/" ) ) {
-						return [ "yoast", "externals", request.substr( 17 ) ];
+						return [ "yoast", "externals", request.substring( 17 ) ];
 					}
 				},
 				/**
@@ -74,6 +72,10 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 				 * @returns {string|null} The external.
 				 */
 				requestToHandle( request ) {
+					// Provide WordPress script handle for Elementor Marionette.
+					if ( request === "Marionette" ) {
+						return "elementor-common";
+					}
 					if ( yoastExternals[ request ] ) {
 						const handle = yoastExternals[ request ].replace( /([A-Z])/g, "-$1" ).toLowerCase();
 						return "yoast-seo-" + handle + "-package";
@@ -81,18 +83,16 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					if ( request.startsWith( "lodash/" ) || request.startsWith( "lodash-es/" ) ) {
 						return "lodash";
 					}
-					if ( request === "react-select" || request === "react-select/async" ) {
-						return "yoast-seo-react-select";
-					}
 					if ( request.startsWith( "@yoast/externals/" ) ) {
-						return "yoast-seo-externals-" + request.substr( 17 );
+						return "yoast-seo-externals-" + request.substring( 17 );
 					}
 				},
 			} ),
-			new MiniCSSExtractPlugin( { filename: cssExtractFileName } ),
+			new MiniCssExtractPlugin( { filename: cssExtractFileName } ),
 			process.env.WP_BUNDLE_ANALYZER && new BundleAnalyzerPlugin( {
 				analyzerPort: analyzerPort++,
 			} ),
+			...plugins,
 		].filter( Boolean ),
 	};
 };

@@ -1,0 +1,5 @@
+# The UI library team owns any files in the packages/ui-library
+# directory at the root of the repository and any of its
+# subdirectories.
+
+/packages/ui-library/ @Yoast/team-ui-library

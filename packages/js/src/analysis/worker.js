@@ -1,15 +1,10 @@
 // External dependencies.
-import {
-	get,
-	isUndefined,
-	merge,
-} from "lodash-es";
+import { get, merge } from "lodash";
 import { AnalysisWorkerWrapper, createWorker } from "yoastseo";
 
 // Internal dependencies.
 import getContentLocale from "./getContentLocale";
 import getDefaultQueryParams from "./getDefaultQueryParams";
-import getTranslations from "./getTranslations";
 import isContentAnalysisActive from "./isContentAnalysisActive";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "./isInclusiveLanguageAnalysisActive";
@@ -51,7 +46,12 @@ export function createAnalysisWorker() {
 		const split = text.indexOf( "," );
 		const domain = text.slice( 0, split - 1 );
 		try {
-			const translationData = JSON.parse( text.slice( split + 1, -4 ) );
+			// Since WP 6.9 the translation script has some extra code at the end, we need to find the proper end of the JSON.
+			const endRegex = /}}\s*\);/;
+			const match = endRegex.exec( text );
+			// Find the end index of the JSON data, after the curly braces.
+			const jsonEnd = match.index + 2;
+			const translationData = JSON.parse( text.slice( split + 1, jsonEnd ) );
 			translations.push( [ domain, translationData ] );
 		} catch ( e ) {
 			console.warn( `Failed to parse translation data for ${dependency} to send to the Yoast SEO worker` );
@@ -75,7 +75,7 @@ export function createAnalysisWorker() {
  * @returns {Object} The analysis configuration.
  */
 export function getAnalysisConfiguration( customConfiguration = {} ) {
-	let configuration = {
+	const configuration = {
 		locale: getContentLocale(),
 		contentAnalysisActive: isContentAnalysisActive(),
 		keywordAnalysisActive: isKeywordAnalysisActive(),
@@ -85,12 +85,5 @@ export function getAnalysisConfiguration( customConfiguration = {} ) {
 		enabledFeatures: enabledFeatures(),
 	};
 
-	configuration = merge( configuration, customConfiguration );
-
-	const translations = getTranslations();
-	if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
-		configuration.translations = translations;
-	}
-
-	return configuration;
+	return merge( configuration, customConfiguration );
 }

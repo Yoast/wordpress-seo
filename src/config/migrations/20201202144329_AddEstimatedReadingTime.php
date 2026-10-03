@@ -32,7 +32,7 @@ class AddEstimatedReadingTime extends Migration {
 			[
 				'null'     => true,
 				'default'  => null,
-			]
+			],
 		);
 	}
 

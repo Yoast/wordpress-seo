@@ -1,3 +1,5 @@
+import { singleWords as transitionWords } from "./transitionWords";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
 /**
  * Returns an object with function words.
  *
@@ -21,7 +23,7 @@ const cardinalNumerals = [
 ];
 
 const ordinalNumerals = [
-	// Ordinals for 1-10; for higher humbers ordinal numerals are the same as the cardinals.
+	// Ordinals for 1-10; for higher numbers ordinal numerals are the same as the cardinals.
 	"ראשון", "ראשונה", "שני", "שניה", "שלישי", "שלישית", "רביעי", "רביעית", "חמישי", "חמישית", "ששי", "ששית", "שביעי",
 	"שביעית", "שמיני", "שמינית", "תשיעי", "תשיעית", "עשירי", "עשירית",
 ];
@@ -89,7 +91,7 @@ const quantifiers = [
 const reflexivePronouns = [
 	"עצמי", "לעצמי", "בעצמי",
 	"עצמך", "לעצמך", "בעצמך",
-	"עצמך",  "לעצמך", "בעצמך",
+	"עצמך", "לעצמך", "בעצמך",
 	"עצמו",	"עצמה", "עצמנו", "עצמכם", "עצמכן", "עצמם", "עצמן",
 ];
 
@@ -114,7 +116,7 @@ const prepositions = [
 	"על", "עליי", "עלינו", "עליך", "עלייך", "עליכם", "עליכן", "עליו", "עליה", "עליהם", "עליהן",
 	"גבי", "גבנו", "גבך", "גבה", "גבנו", "גבכם", "גבכן", "גבם", "גבן",
 	// To/towards/into
-	"אל", "אליי", "אלינו", "אליך", "אלייך", "אליכם", "אליכן", "אליו", "אליה", "אליהם", "אליהן",  "ואל",
+	"אל", "אליי", "אלינו", "אליך", "אלייך", "אליכם", "אליכן", "אליו", "אליה", "אליהם", "אליהן", "ואל",
 	// With
 	"עם", "איתי", "עימי", "איתנו", "עימנו", "איתך", "עימך", "איתכם", "איתכן", "איתו", "איתה", "איתם", "עימם",
 	// As
@@ -362,7 +364,7 @@ const generalAdjectivesAdverbs = [
 	"כבר",
 	// Here
 	"פה",
-	// Slighly
+	// Slightly
 	"קצת",
 	// Still
 	"עדיין",
@@ -438,7 +440,7 @@ const generalAdjectivesAdverbs = [
 	// Special
 	"מיוחד", "מיוחדת", "מיוחדים", "מיוחדות",
 	// Simple
-	"פשוט", "פשוטה",  "פשוטים", "פשוטות",
+	"פשוט", "פשוטה", "פשוטים", "פשוטות",
 	// Small
 	"קטן", "קטנה", "קטנים", "קטנות",
 	// Long
@@ -554,9 +556,9 @@ const miscellaneous = [
 	"אדם",
 ];
 
-export const all = [].concat( cardinalNumerals, ordinalNumerals, personalPronouns, demonstrativePronouns, interrogatives,
+export const all = transformWordsWithHyphens( [].concat( cardinalNumerals, ordinalNumerals, personalPronouns, demonstrativePronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-	timeWords, vagueNouns, miscellaneous  );
+	timeWords, vagueNouns, miscellaneous, transitionWords ) );
 
 export default all;

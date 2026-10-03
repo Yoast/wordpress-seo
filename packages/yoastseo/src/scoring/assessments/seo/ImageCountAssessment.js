@@ -1,10 +1,15 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { merge } from "lodash-es";
+import { merge } from "lodash";
 import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
 
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
+
+/**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
 
 /**
  * Represents the assessment that checks if the text has any images present, including videos in product pages.
@@ -15,8 +20,6 @@ export default class TextImagesAssessment extends Assessment {
 	 *
 	 * @param {object}  config      The configuration to use.
 	 * @param {boolean} countVideos Whether videos are also included in the assessment or not.
-	 *
-	 * @returns {void}
 	 */
 	constructor( config = {}, countVideos = false ) {
 		super();
@@ -58,20 +61,9 @@ export default class TextImagesAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has text.
-	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 *
-	 * @returns {boolean} True when there is text.
-	 */
-	isApplicable( paper ) {
-		return paper.hasText();
-	}
-
-	/**
 	 * Calculate the result based on the availability of images in the text, including videos in product pages.
 	 *
-	 * @returns {Object} The calculated result.
+	 * @returns {{score: number, resultText: string}} The calculated result.
 	 */
 	calculateResult() {
 		// If "countVideos" is on, we include videos in the assessment
@@ -83,7 +75,7 @@ export default class TextImagesAssessment extends Assessment {
 				return {
 					score: this._config.scores.bad,
 					resultText: sprintf(
-						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+						/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 						__(
 							"%1$sImages and videos%3$s: No images or videos appear on this page. %2$sAdd some%3$s!",
 							"wordpress-seo"
@@ -97,7 +89,7 @@ export default class TextImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sImages%3$s: No images appear on this page. %2$sAdd some%3$s!",
 						"wordpress-seo"
@@ -114,7 +106,7 @@ export default class TextImagesAssessment extends Assessment {
 				return {
 					score: this._config.scores.okay,
 					resultText: sprintf(
-						/* Translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+						/* translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 						* %1$d expands to the number of images found in the text,
 						* %2$d expands to the recommended number of images in the text, */
 						_n(
@@ -134,13 +126,11 @@ export default class TextImagesAssessment extends Assessment {
 				return {
 					score: this._config.scores.okay,
 					resultText: sprintf(
-						/* Translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+						/* translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 						* %1$d expands to the number of images found in the text,
 						* %2$d expands to the recommended number of images in the text, */
 						_n(
-							// eslint-disable-next-line max-len
 							"%3$sImages and videos%5$s: Only %1$d image or video appears on this page. We recommend at least %2$d. %4$sAdd more relevant images or videos%5$s!",
-							// eslint-disable-next-line max-len
 							"%3$sImages and videos%5$s: Only %1$d images or videos appear on this page. We recommend at least %2$d. %4$sAdd more relevant images or videos%5$s!",
 							mediaCount,
 							"wordpress-seo"
@@ -160,7 +150,7 @@ export default class TextImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com,
+					/* translators: %1$s expands to a link on yoast.com,
 					 * %2$s expands to the anchor end tag. */
 					__(
 						"%1$sImages and videos%2$s: Good job!",
@@ -176,7 +166,7 @@ export default class TextImagesAssessment extends Assessment {
 		return {
 			score: this._config.scores.good,
 			resultText: sprintf(
-				/* Translators: %1$s expands to a link on yoast.com,
+				/* translators: %1$s expands to a link on yoast.com,
 				 * %2$s expands to the anchor end tag. */
 				__(
 					"%1$sImages%2$s: Good job!",

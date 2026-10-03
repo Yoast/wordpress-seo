@@ -36,46 +36,14 @@
  *
  * Metabox Tabs
  */
-ul.wpseo-metabox-tabs {
-  display: none;
-  margin-top: 6px;
-  margin-bottom: 0;
-}
-
-/* Contain floated list items and have overflow visible for the active tab */
-ul.wpseo-metabox-tabs:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.wpseo-metabox-tabs-div {
-  margin: 0 5px 5px;
-}
-
-.wpseo-metabox-tabs-div ul {
-  list-style: none;
-}
-
-#wpseo-meta-section-addons {
-  padding: 0 5px 5px;
-}
-
-#wpseo-meta-section-addons .wpseo-metabox-tabs-div {
-  margin: 0;
-}
-
-ul.wpseo-metabox-tabs li.active {
-  background-color: #fdfdfd;
-}
 
 .wpseo-meta-section,
 .wpseo-meta-section-react {
   display: none;
   max-width: 600px;
   width: 100%;
-  min-height: 100%;
   height: auto;
+  min-height: 100%;
   vertical-align: top;
   border: 1px solid rgba( 0,0,0,0.2 );
 }
@@ -106,10 +74,38 @@ ul.wpseo-metabox-tabs li.active {
   padding-top: 16px;
 }
 
+/* Target only the block-editor. */
+.edit-post-meta-boxes-area__container {
+  .wpseo-metabox {
+    .postbox-header {
+      border-bottom: 1px solid #ddd;
+    }
+
+    .inside {
+      background-color: #f1f5f9;
+    }
+
+    .wpseo-metabox-content {
+      max-width: none;
+      padding-top: 32px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+    }
+
+    .wpseo-metabox-menu, .wpseo-meta-section {
+      margin: 0 auto;
+    }
+
+    .wpseo-meta-section.active {
+      display: block;
+    }
+  }
+}
+
 .wpseo-metabox-menu {
   max-width: 600px;
   padding: 0;
-  background-color: #fff;
 }
 
 .wpseo-metabox-menu ul {
@@ -219,26 +215,6 @@ ul.wpseo-metabox-tabs li.active {
   text-decoration: none;
 }
 
-/* Floated to reset white space between list items */
-ul.wpseo-metabox-tabs li {
-  float: left;
-  margin-right: 5px;
-  margin-bottom: -1px;
-  padding: 0;
-  border: 1px solid #dfdfdf;
-  border-bottom: 0 none;
-}
-
-ul.wpseo-metabox-tabs li .wpseo-keyword {
-  display: inline-block;
-  vertical-align: top;
-  max-width: 8em;
-  max-width: 8rem;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 .wpseotab {
   display: none;
   padding: 16px;
@@ -258,43 +234,10 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
   display: block;
 }
 
-/* Tab links. */
-.wpseo-metabox-tabs .wpseo_tablink {
-  display: inline-block;
-  vertical-align: top;
-  padding: 5px 12px 6px 12px;
-  text-decoration: none;
-}
-
-/* Bigger right padding only for the content tab and the main keyword tabs */
-.wpseo-metabox-tabs .wpseo_content_tab a {
-  padding-right: 12px;
-}
-
-.wpseo-metabox-tabs .wpseo-score-icon {
-  margin-left: 0;
-}
-
-#wpseo-meta-section-social .wpseo-metabox-tabs .wpseo_tablink {
-  padding: 5px 7px;
-}
-
-.wpseo-metabox-tabs .wpseo_tablink .dashicons {
-  width: 16px;
-  height: 16px;
-  font-size: 16px;
-}
-
 .wpseo-metabox-sidebar .dashicons {
   width: 30px;
   height: 30px;
   font-size: 30px;
-}
-
-.wpseo-metabox-tabs-div div.wpseo-tabs-panel {
-  overflow: auto;
-  padding: 0.5em 0.9em;
-  border: 1px solid;
 }
 
 #wpseo_meta .inside {
@@ -324,7 +267,6 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 .wpseo-form input,
 .wpseo-form label,
 .wpseo-form textarea,
-.wpseo-form .select2-container,
 .wpseo-form p.error-message {
   max-width: 600px;
 }
@@ -394,10 +336,6 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
   margin: 0.5em 0;
 }
 
-.wpseo_image_upload_button {
-  margin-left: 3px;
-}
-
 .good,
 .warn,
 .wrong {
@@ -446,43 +384,6 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
   background-color: lightYellow;
 }
 
-ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
-  border: 1px dashed #dfdfdf;
-  border-bottom: none;
-}
-
-.wpseo-tab-add-keyword .wpseo-add-keyword.button {
-  height: auto;
-  padding: 5px 12px 5px 10px;
-  vertical-align: top;
-  font-size: inherit;
-  line-height: inherit;
-  font-weight: bold;
-  box-shadow: none;
-  background: none;
-  text-decoration: none;
-}
-
-.wpseo-tab-add-keyword .wpseo-add-keyword.button:focus {
-  box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
-}
-
-.wpseo-tab-add-keyword .wpseo-add-keyword.button:active {
-  transform: none;
-}
-
-.wpseo-add-keyword-plus {
-  display: inline-block;
-  vertical-align: top;
-  margin: -1px 3px 0 0;
-  font-size: 20px;
-}
-
-#wpseo-add-keyword-popup-title {
-  margin: 1em 0;
-  font-size: 1.3em;
-}
-
 /**
  * Edit Snippet Button focus style.
  *
@@ -516,76 +417,10 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   margin: 10px 0 5px 0;
 }
 
-.wpseo-metabox-tabs .active a {
-  color: #333;
-}
-
 #wpseotab .ui-widget-content .ui-state-hover {
   border: 1px solid #dfdfdf;
   color: #333;
   background: #f1f1f1;
-}
-
-.yst-traffic-light {
-  width: 19px;
-  height: 30px;
-  margin: 0 0 0 5px;
-}
-
-.yst-traffic-light .traffic-light-color {
-  display: none;
-}
-
-.yst-traffic-light.init .traffic-light-init {
-  display: inline;
-}
-
-.yst-traffic-light.bad .traffic-light-red {
-  display: inline;
-}
-
-.yst-traffic-light.ok .traffic-light-orange {
-  display: inline;
-}
-
-.yst-traffic-light.good .traffic-light-green {
-  display: inline;
-}
-
-.yst-traffic-light.na .traffic-light-empty {
-  display: inline;
-}
-
-/**
-* Content and SEO score in publish bar
-*/
-.yoast-seo-score .yoast-logo.svg {
-  float: left;
-  width: 18px;
-  margin-right: 7px;
-  height: 18px;
-  background: var(--yoast-svg-icon-yoast) no-repeat;
-  background-size: 18px;
-}
-
-.yoast-seo-score .yoast-logo.svg.good {
-  background-image: var(--yoast-svg-icon-yoast-good);
-}
-
-.yoast-seo-score .yoast-logo.svg.ok {
-  background-image: var(--yoast-svg-icon-yoast-ok);
-}
-
-.yoast-seo-score .yoast-logo.svg.bad {
-  background-image: var(--yoast-svg-icon-yoast-bad);
-}
-
-.yoast-seo-score .yoast-logo.svg.na {
-  background-image: var(--yoast-svg-icon-yoast);
-}
-
-.yoast-seo-score .yoast-logo.svg.noindex {
-  background-image: var(--yoast-svg-icon-yoast);
 }
 
 .term-php .wpseo-taxonomy-metabox-postbox > h2 {
@@ -645,8 +480,19 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   margin: 0;
 }
 
-.editor-styles-wrapper mark.annotation-text-yoast {
-  background-color: #e1bee7;
+.emoji-select-button{
+	width: 28px!important;
+	min-height: 28px!important;
+	padding: 6px!important;
+
+	/* yst-button -- minus the padding */
+	border-radius: 0.375rem!important;
+	--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+	--tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)!important;
+	/* yst-button--secondary */
+	--tw-ring-opacity: 1;
+	--tw-ring-color: rgb(203 213 225 / var(--tw-ring-opacity, 1));
 }
 
 @media screen and (max-width: 782px) {
@@ -689,6 +535,20 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   align-items: center;
 }
 
+.yoast-seo-sidebar-panel .yoast-analysis-check {
+  display: flex;
+}
+
+.yoast-seo-sidebar-panel .yoast-analysis-check svg {
+  margin-right: 5px;
+  margin-top: 6px;
+}
+
+.yoast-seo-sidebar-panel .yoast-analysis-check span {
+  line-height: 1.5;
+  margin-top: 3px;
+}
+
 .yoast-seo-sidebar-panel div {
 	line-height: 2;
 }
@@ -699,7 +559,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 ul.yoast-seo-social-share-buttons li {
 	display: inline-block;
-	margin-right: 16px;
+	margin-right: 24px;
+}
+
+ul.yoast-seo-social-share-buttons li .x-share svg{
+	width: 30px;
+	height: 30px;
+	fill: #000000;
 }
 
 ul.yoast-seo-social-share-buttons svg {
@@ -714,10 +580,14 @@ ul.yoast-seo-social-share-buttons a {
 	align-items: center;
 }
 
-div.interface-pinned-items button.components-button[aria-label="Yoast SEO"] > svg,
-div.interface-pinned-items button.components-button[aria-label="Yoast SEO Premium"] > svg,
-.edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO"] > svg,
-.edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO Premium"] > svg {
+.yoast-field-group.yoast-wincher-post-publish {
+  margin-bottom: 10px;
+}
+
+div.interface-pinned-items button.components-button:not(.is-compact)[aria-label="Yoast SEO"] > svg,
+div.interface-pinned-items button.components-button:not(.is-compact)[aria-label="Yoast SEO Premium"] > svg,
+.edit-post-pinned-plugins button.components-button:not(.is-compact)[aria-label="Yoast SEO"] > svg,
+.edit-post-pinned-plugins button.components-button:not(.is-compact)[aria-label="Yoast SEO Premium"] > svg {
 	max-width: 28px;
 	max-height: 28px;
 	width: 28px;
@@ -752,6 +622,14 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 
 .yoast.components-panel__body {
 	border-top: 0;
+}
+
+/* Restore the top border on the sidebar's Focus keyphrase collapsible so the intro section above it
+   gets a visible separator. The id-based selector beats the (0,2,0) specificity of the rule above.
+   Other sidebar collapsibles keep the rule above because the previous panel's border-bottom already
+   provides the separator; EditorIntro is not a panel and has no border-bottom of its own. */
+#yoast-focus-keyphrase-collapsible-sidebar.yoast.components-panel__body {
+	border-top: 1px solid #e0e0e0;
 }
 
 .components-button > .yoast-title-container {
@@ -799,11 +677,6 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 	color: var(--yoast-color-white);
 }
 
-.yoast-wordproof-metabox-alert.yoast-wordproof-metabox-alert {
-	margin-top: 18px;
-	margin-bottom: 0px;
-}
-
 /* Insights */
 .yoast .yoast-insights {
 	color: #404040;
@@ -821,7 +694,9 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 .yoast .yoast-insights-card__description {
 	line-height: 1.4em;
 }
-.yoast .yoast-prominent-words p, .yoast .yoast-prominent-words ul {
+.yoast .yoast-prominent-words p,
+.yoast .yoast-prominent-words ul,
+.yoast .yoast-text-formality p {
 	margin-block: 1.2em;
 }
 .yoast #wpseo-metabox-root .yoast-prominent-words {
@@ -834,6 +709,41 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 }
 .yoast .yoast-insights .yoast-data-model--upsell li:after {
 	background: #fdf4f8;
+}
+
+/* Content blocks: AddBlockButton component styles */
+.yoast-add-block-button {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  padding: 6px;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  border-radius: 6px;
+  background-color: #ffffff;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.yoast-add-block-button--clicked {
+  background-color: var(--yoast-color-primary);
+}
+
+.yoast-add-block-button:hover:not(.yoast-add-block-button--clicked),
+.yoast-add-block-button:focus:not(.yoast-add-block-button--clicked) {
+  background-color: #F8FAFC;
+}
+
+.yoast-add-block-button__icon {
+  height: 16px;
+  width: 16px;
+}
+
+.yoast-add-block-button__icon--clicked {
+  stroke: #ffffff;
 }
 
 /*# sourceMappingURL=metabox.css.map */

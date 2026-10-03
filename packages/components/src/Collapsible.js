@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import IconsButton from "./buttons/IconsButton";
-import { SectionTitle } from "./SectionTitle";
+import { SectionTitle, StyledTitle } from "./SectionTitle";
 
 const Content = styled.div`
 	padding: 0 16px;
@@ -70,6 +70,12 @@ export function wrapInHeading( Component, props ) {
 		padding: 0 !important;
 		font-size: ${ props.fontSize } !important;
 		font-weight: ${ props.fontWeight } !important;
+		color: ${ props.color } !important;
+
+		${StyledTitle} {
+			font-weight: ${ props.fontWeight };
+			color: ${ props.color };
+		}
 	`;
 
 	return function Wrapped( componentProps ) {
@@ -101,36 +107,61 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
  * @param {Object}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
  * @param {string}      props.title                 Title for the Heading.
  * @param {string}      props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
+ * @param {string}      props.id                    The id for the Heading button.
+ * @param {function}    props.renderNewBadgeLabel   Function to render a "New" badge label.
+ * @param {boolean}     props.hasNewBadgeLabel      Whether to show a "New" badge label.
  *
  * @returns {ReactElement} A collapsible panel.
  */
 export function CollapsibleStateless( props ) {
-	let children = null;
-	if ( props.isOpen ) {
-		children = ( props.hasPadding ) ? <Content className="collapsible_content">{ props.children }</Content> : props.children;
+	const {
+		children,
+		className,
+		hasPadding,
+		hasSeparator,
+		Heading,
+		id,
+		isOpen,
+		onToggle,
+		prefixIcon,
+		prefixIconCollapsed,
+		suffixIcon,
+		suffixIconCollapsed,
+		subTitle,
+		title,
+		titleScreenReaderText,
+		renderNewBadgeLabel,
+		hasNewBadgeLabel,
+	} = props;
+
+	let wrappedChildren = children;
+	if ( isOpen && hasPadding ) {
+		wrappedChildren = <Content className="collapsible_content">{ children }</Content>;
 	}
-	const Container = ( props.hasSeparator ) ? StyledContainerTopLevel : StyledContainer;
+	const Container = ( hasSeparator ) ? StyledContainerTopLevel : StyledContainer;
 
 	return (
 		<Container
 			// Pass the classname to allow re-styling with styled-components.
-			className={ props.className }
+			className={ className }
 		>
-			<props.Heading
-				id={ props.id }
-				aria-expanded={ props.isOpen }
-				onClick={ props.onToggle }
-				prefixIcon={ props.isOpen ? props.prefixIcon : props.prefixIconCollapsed }
-				suffixIcon={ props.isOpen ? props.suffixIcon : props.suffixIconCollapsed }
-				hasSubTitle={ !! props.subTitle }
+			<Heading
+				id={ id }
+				aria-expanded={ isOpen }
+				onClick={ onToggle }
+				prefixIcon={ isOpen ? prefixIcon : prefixIconCollapsed }
+				suffixIcon={ isOpen ? suffixIcon : suffixIconCollapsed }
+				hasSubTitle={ !! subTitle }
 			>
 				<SectionTitle
-					title={ props.title }
-					titleScreenReaderText={ props.titleScreenReaderText }
-					subTitle={ props.subTitle }
+					title={ title }
+					titleScreenReaderText={ titleScreenReaderText }
+					subTitle={ subTitle }
+					renderNewBadgeLabel={ renderNewBadgeLabel }
+					hasNewBadgeLabel={ hasNewBadgeLabel }
 				/>
-			</props.Heading>
-			{ children }
+			</Heading>
+			{ wrappedChildren }
 		</Container>
 	);
 }
@@ -145,7 +176,6 @@ CollapsibleStateless.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	hasSeparator: PropTypes.bool,
 	hasPadding: PropTypes.bool,
-	initialIsOpen: PropTypes.bool,
 	onToggle: PropTypes.func.isRequired,
 	prefixIcon: PropTypes.shape( {
 		icon: PropTypes.string,
@@ -171,6 +201,8 @@ CollapsibleStateless.propTypes = {
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 	id: PropTypes.string,
+	renderNewBadgeLabel: PropTypes.func,
+	hasNewBadgeLabel: PropTypes.bool,
 };
 
 CollapsibleStateless.defaultProps = {
@@ -182,11 +214,12 @@ CollapsibleStateless.defaultProps = {
 	titleScreenReaderText: null,
 	hasSeparator: false,
 	hasPadding: false,
-	initialIsOpen: false,
 	prefixIcon: null,
 	prefixIconCollapsed: null,
 	suffixIcon: null,
 	suffixIconCollapsed: null,
+	renderNewBadgeLabel: () => {},
+	hasNewBadgeLabel: false,
 };
 
 /**
@@ -199,6 +232,8 @@ export class Collapsible extends React.Component {
 	 * @param {Object}  props                       The properties for the component.
 	 * @param {string}  props.className             The name of the collapsible CSS class.
 	 * @param {Object}  props.headingProps          Props to use in the Heading.
+	 * @param {IconsButton} props.Heading           Optional replacement for the heading wrapped around the
+	 *                                              button here. Its caller owns the styling, headingProps included.
 	 * @param {boolean} props.initialIsOpen         Determines if the initial isOpen state is open or closed.
 	 * @param {Object}  props.prefixIcon            Heading icon before the title.
 	 * @param {Object}  props.prefixIconCollapsed   Prefix icon when in collapsed state.
@@ -239,7 +274,8 @@ export class Collapsible extends React.Component {
 		if (
 			props.headingProps.level !== state.headingProps.level ||
 			props.headingProps.fontSize !== state.headingProps.fontSize ||
-			props.headingProps.fontWeight !== state.headingProps.fontWeight
+			props.headingProps.fontWeight !== state.headingProps.fontWeight ||
+			props.headingProps.color !== state.headingProps.color
 		) {
 			return {
 				...state,
@@ -273,13 +309,14 @@ export class Collapsible extends React.Component {
 	 */
 	render() {
 		const { isOpen } = this.state;
-		const { children } = this.props;
+		const { children, Heading } = this.props;
 
-		const newProps = omit( this.props, [ "children", "onToggle" ] );
+		const newProps = omit( this.props, [ "children", "onToggle", "Heading" ] );
 
 		return (
 			<CollapsibleStateless
-				Heading={ this.state.Heading }
+				// A heading passed in replaces the one wrapped in the constructor.
+				Heading={ Heading || this.state.Heading }
 				isOpen={ isOpen }
 				onToggle={ this.toggleCollapse }
 				{ ...newProps }
@@ -296,6 +333,7 @@ Collapsible.propTypes = {
 		PropTypes.node,
 	] ),
 	className: PropTypes.string,
+	Heading: PropTypes.func,
 	initialIsOpen: PropTypes.bool,
 	hasSeparator: PropTypes.bool,
 	hasPadding: PropTypes.bool,
@@ -326,11 +364,15 @@ Collapsible.propTypes = {
 		level: PropTypes.number,
 		fontSize: PropTypes.string,
 		fontWeight: PropTypes.string,
+		color: PropTypes.string,
 	} ),
 	onToggle: PropTypes.func,
+	renderNewBadgeLabel: PropTypes.func,
+	hasNewBadgeLabel: PropTypes.bool,
 };
 
 Collapsible.defaultProps = {
+	Heading: null,
 	hasSeparator: false,
 	hasPadding: false,
 	initialIsOpen: false,
@@ -354,8 +396,11 @@ Collapsible.defaultProps = {
 		level: 2,
 		fontSize: "1rem",
 		fontWeight: "normal",
+		color: colors.$color_headings,
 	},
 	onToggle: null,
+	renderNewBadgeLabel: () => {},
+	hasNewBadgeLabel: false,
 };
 
 export default Collapsible;

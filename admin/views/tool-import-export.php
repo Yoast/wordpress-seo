@@ -20,29 +20,30 @@ $yoast_seo_import = false;
  * In case of POST the user is on the Yoast SEO import page and in case of the GET the user sees a notice from
  * Yoast SEO that we can import stuff for that plugin.
  */
-if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' ) ) {
-	check_admin_referer( 'wpseo-import' );
-
-	$yoast_seo_post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-	$yoast_seo_action     = 'import';
-}
-elseif ( filter_input( INPUT_POST, 'import_external' ) ) {
+// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing the variable so no need to sanitize.
+if ( isset( $_POST['import_external'] ) && wp_unslash( $_POST['import_external'] ) === __( 'Import', 'wordpress-seo' ) ) {
 	check_admin_referer( 'wpseo-import-plugins' );
-
-	$yoast_seo_class = filter_input( INPUT_POST, 'import_external_plugin' );
-	if ( class_exists( $yoast_seo_class ) ) {
-		$yoast_seo_import = new WPSEO_Import_Plugin( new $yoast_seo_class(), 'import' );
+	if ( isset( $_POST['import_external_plugin'] ) && is_string( $_POST['import_external_plugin'] ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are using the variable as a class name.
+		$yoast_seo_class = wp_unslash( $_POST['import_external_plugin'] );
+		if ( class_exists( $yoast_seo_class ) ) {
+			$yoast_seo_import = new WPSEO_Import_Plugin( new $yoast_seo_class(), 'import' );
+		}
 	}
 }
-elseif ( filter_input( INPUT_POST, 'clean_external' ) ) {
+// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing the variable so no need to sanitize.
+elseif ( isset( $_POST['clean_external'] ) && wp_unslash( $_POST['clean_external'] ) === __( 'Clean up', 'wordpress-seo' ) ) {
 	check_admin_referer( 'wpseo-clean-plugins' );
-
-	$yoast_seo_class = filter_input( INPUT_POST, 'clean_external_plugin' );
-	if ( class_exists( $yoast_seo_class ) ) {
-		$yoast_seo_import = new WPSEO_Import_Plugin( new $yoast_seo_class(), 'cleanup' );
+	if ( isset( $_POST['clean_external_plugin'] ) && is_string( $_POST['clean_external_plugin'] ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are using the variable as a class name.
+		$yoast_seo_class = wp_unslash( $_POST['clean_external_plugin'] );
+		if ( class_exists( $yoast_seo_class ) ) {
+			$yoast_seo_import = new WPSEO_Import_Plugin( new $yoast_seo_class(), 'cleanup' );
+		}
 	}
 }
-elseif ( filter_input( INPUT_POST, 'settings_import' ) ) {
+// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing to an empty string.
+elseif ( isset( $_POST['settings_import'] ) && wp_unslash( $_POST['settings_import'] ) !== '' ) {
 	$yoast_seo_import = new WPSEO_Import_Settings();
 	$yoast_seo_import->import();
 }
@@ -50,7 +51,7 @@ elseif ( filter_input( INPUT_POST, 'settings_import' ) ) {
 /**
  * Allow custom import actions.
  *
- * @api WPSEO_Import_Status $yoast_seo_import Contains info about the handled import.
+ * @param WPSEO_Import_Status $yoast_seo_import Contains info about the handled import.
  */
 $yoast_seo_import = apply_filters( 'wpseo_handle_import', $yoast_seo_import );
 
@@ -64,7 +65,7 @@ if ( $yoast_seo_import ) {
 	/**
 	 * Allow customization of import/export message.
 	 *
-	 * @api  string  $yoast_seo_msg  The message.
+	 * @param string $yoast_seo_msg The message.
 	 */
 	$yoast_seo_msg = apply_filters( 'wpseo_import_message', $yoast_seo_message );
 

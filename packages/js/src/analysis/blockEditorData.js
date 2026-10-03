@@ -1,7 +1,8 @@
 /* eslint-disable complexity */
+import { getBlockContent } from "@wordpress/blocks";
 import { select, subscribe } from "@wordpress/data";
 import { actions } from "@yoast/externals/redux";
-import { debounce } from "lodash-es";
+import { debounce } from "lodash";
 import { languageProcessing } from "yoastseo";
 import { reapplyAnnotationsForSelectedBlock } from "../decorator/gutenberg";
 import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";
@@ -66,7 +67,7 @@ export default class BlockEditorData {
 	 * @returns {Object} The initial data.
 	 */
 	getInitialData( replaceVars ) {
-		const gutenbergData = this.collectGutenbergData( this.getPostAttribute );
+		const gutenbergData = this.collectGutenbergData();
 
 		// Custom_fields and custom_taxonomies are objects instead of strings, which causes console errors.
 		replaceVars = mapCustomFields( replaceVars, this._store );
@@ -171,29 +172,37 @@ export default class BlockEditorData {
 
 		// When no custom slug is provided we should use the generated_slug attribute.
 		const slug = this.getPostAttribute( "slug" ) || generatedSlug;
-		return decodeURIComponent( slug );
+		try {
+			return decodeURI( slug );
+		} catch ( e ) {
+			return slug;
+		}
 	}
 
 	/**
-	 * Gets the base url from the permalink. The base url is the full url retrieved from permalink minus the slug.
-	 *
-	 * @param {string} slug The slug to strip from the permalink.
+	 * Gets the base url from the permalink parts.
 	 *
 	 * @returns {string} The base url.
 	 */
-	getPostBaseUrl( slug ) {
-		const permalink = select( "core/editor" ).getPermalink();
-		let url;
-		let baseUrl = "";
-		try {
-			url = new URL( permalink );
-			baseUrl = url.href;
-		} catch ( e ) {
+	getPostBaseUrl() {
+		const permalinkParts = select( "core/editor" ).getPermalinkParts();
+		if ( permalinkParts === null || ! permalinkParts?.prefix ) {
 			// Fallback on the base url retrieved from the wpseoScriptData.
-			baseUrl = window.wpseoScriptData.metabox.base_url;
+			return window.wpseoScriptData.metabox.base_url;
 		}
-		// Strip slug from the url.
-		baseUrl = baseUrl.replace( new RegExp( slug + "/$" ), "" );
+
+		let baseUrl = permalinkParts.prefix;
+		const isAutoDraft = select( "core/editor" ).isEditedPostNew();
+		if ( isAutoDraft ) {
+			// For post auto-drafts, the `baseUrl` includes the `?={ID}` that we do not want.
+			try {
+				const url = new URL( baseUrl );
+				baseUrl = url.origin + url.pathname;
+			} catch ( e ) {
+				// Ignore this error.
+			}
+		}
+
 		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
 		if ( ! baseUrl.endsWith( "/" ) ) {
 			baseUrl += "/";
@@ -203,26 +212,35 @@ export default class BlockEditorData {
 	}
 
 	/**
-	 * Collects the content, title, slug and excerpt of a post from Gutenberg.
+	 * Collects the data of a post from Gutenberg.
 	 *
-	 * @returns {{content: string, title: string, slug: string, excerpt: string}} The content, title, slug and excerpt.
+	 * @returns {{content: string, title: string, slug: string, excerpt: string, excerpt_only: string,
+	 * 			snippetPreviewImageURL: string, contentImage: string, baseUrl: string}} The collected data.
 	 */
 	collectGutenbergData() {
-		const content = this.getPostAttribute( "content" );
+		let content = select( "core/editor" ).getEditedPostContent();
+
+		// Gutenberg applies the `autop` function under the hood to all Classic (core/freeform) blocks.
+		// The most likely situation for these to appear in posts is through converting a post from Classic to Block editor.
+		// We account for that below, but not for the (unlikely) case when a Classic block is added to a post consisting of other blocks.
+		const blocks = select( "core/editor" ).getEditorBlocks();
+		if ( blocks.length === 1 && blocks[ 0 ].name === "core/freeform" ) {
+			content = getBlockContent( blocks[ 0 ] );
+		}
+
 		const contentImage = this.calculateContentImage( content );
 		const excerpt = this.getPostAttribute( "excerpt" ) || "";
-		const slug = this.getSlug();
 
 		return {
 			content,
 			title: this.getPostAttribute( "title" ) || "",
-			slug,
+			slug: this.getSlug(),
 			excerpt: excerpt || excerptFromContent( content, getContentLocale() === "ja" ? 80 : 156 ),
 			// eslint-disable-next-line camelcase
 			excerpt_only: excerpt,
 			snippetPreviewImageURL: this.getFeaturedImage() || contentImage,
 			contentImage,
-			baseUrl: this.getPostBaseUrl( slug ),
+			baseUrl: this.getPostBaseUrl(),
 		};
 	}
 
@@ -383,12 +401,21 @@ export default class BlockEditorData {
 	}
 
 	/**
-	 * Listens to the Gutenberg data.
+	 * Listens to the Gutenberg data and rendering mode changes.
 	 *
 	 * @returns {void}
 	 */
 	subscribeToGutenberg() {
-		this.subscriber = debounce( this.refreshYoastSEO, 500 );
+		this._previousRenderingMode = select( "core/editor" ).getRenderingMode && select( "core/editor" ).getRenderingMode();
+		this.subscriber = debounce( () => {
+			const currentRenderingMode = select( "core/editor" ).getRenderingMode && select( "core/editor" ).getRenderingMode();
+			if ( currentRenderingMode !== this._previousRenderingMode ) {
+				this._previousRenderingMode = currentRenderingMode;
+				this._refresh();
+				return;
+			}
+			this.refreshYoastSEO();
+		}, 500 );
 		subscribe( this.subscriber );
 	}
 

@@ -31,16 +31,14 @@ class InsightsCard extends React.Component {
 	 */
 	render() {
 		return (
-			<div id={ this.props.id }>
-				<FieldGroup
-					label={ this.props.title }
-					linkTo={ this.props.linkTo }
-					linkText={ this.props.linkText }
-					wrapperClassName={ "yoast-insights-card" }
-				>
-					{ this.getInsightsCardContent() }
-				</FieldGroup>
-			</div>
+			<FieldGroup
+				label={ this.props.title }
+				linkTo={ this.props.linkTo }
+				linkText={ this.props.linkText }
+				wrapperClassName={ "yoast-insights-card" }
+			>
+				{ this.getInsightsCardContent() }
+			</FieldGroup>
 		);
 	}
 }
@@ -48,7 +46,6 @@ class InsightsCard extends React.Component {
 export default InsightsCard;
 
 InsightsCard.propTypes = {
-	id: PropTypes.string.isRequired,
 	title: PropTypes.string,
 	amount: PropTypes.oneOfType( [ PropTypes.number, PropTypes.oneOf( [ "?" ] ) ] ).isRequired,
 	description: PropTypes.element,

@@ -48,15 +48,16 @@ class Image_Helper {
 	/**
 	 * Find an image based on its URL and generate a Schema object for it.
 	 *
-	 * @param string $schema_id The `@id` to use for the returned image.
-	 * @param string $url       The image URL to base our object on.
-	 * @param string $caption   An optional caption.
-	 * @param bool   $add_hash  Whether a hash will be added as a suffix in the @id.
+	 * @param string $schema_id      The `@id` to use for the returned image.
+	 * @param string $url            The image URL to base our object on.
+	 * @param string $caption        An optional caption.
+	 * @param bool   $add_hash       Whether a hash will be added as a suffix in the @id.
+	 * @param bool   $use_link_table Whether the SEO Links table will be used to retrieve the id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
-	public function generate_from_url( $schema_id, $url, $caption = '', $add_hash = false ) {
-		$attachment_id = $this->image->get_attachment_by_url( $url );
+	public function generate_from_url( $schema_id, $url, $caption = '', $add_hash = false, $use_link_table = true ) {
+		$attachment_id = $this->image->get_attachment_by_url( $url, $use_link_table );
 		if ( $attachment_id > 0 ) {
 			return $this->generate_from_attachment_id( $schema_id, $attachment_id, $caption, $add_hash );
 		}

@@ -17,7 +17,7 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @var string
 	 */
-	const PAGE_IDENTIFIER = 'wpseo_dashboard';
+	public const PAGE_IDENTIFIER = 'wpseo_dashboard';
 
 	/**
 	 * List of classes that add admin functionality.
@@ -59,8 +59,12 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function load_page() {
-		$page = filter_input( INPUT_GET, 'page' );
-		$this->show_page( $page );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+			$this->show_page( $page );
+		}
 	}
 
 	/**
@@ -76,24 +80,11 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 				require_once WPSEO_PATH . 'admin/pages/tools.php';
 				break;
 
-			case 'wpseo_titles':
-				require_once WPSEO_PATH . 'admin/pages/metas.php';
-				break;
-
-			case 'wpseo_social':
-				require_once WPSEO_PATH . 'admin/pages/social.php';
-				break;
-
-			case 'wpseo_licenses':
-				require_once WPSEO_PATH . 'admin/pages/licenses.php';
-				break;
-
 			case 'wpseo_files':
 				require_once WPSEO_PATH . 'admin/views/tool-file-editor.php';
 				break;
 
 			default:
-				require_once WPSEO_PATH . 'admin/pages/dashboard.php';
 				break;
 		}
 	}

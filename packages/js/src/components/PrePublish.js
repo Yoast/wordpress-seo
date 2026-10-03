@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { LocationProvider } from "@yoast/externals/contexts";
 
 import AnalysisChecklist from "./AnalysisChecklist";
+import DefaultSeoDataAlert from "./DefaultSeoDataAlert";
 
 /**
  * Renders the analysis checklist.
@@ -12,6 +14,7 @@ import AnalysisChecklist from "./AnalysisChecklist";
 export default function PrePublish( {
 	checklist,
 	onClick,
+	isSeoDataDefault,
 } ) {
 	let intro;
 
@@ -24,12 +27,16 @@ export default function PrePublish( {
 	}
 
 	return <Fragment>
-		<p>{ intro }</p>
-		<AnalysisChecklist checklist={ checklist } onClick={ onClick } />
+		<LocationProvider value="pre-publish">
+			<p>{ intro }</p>
+			<AnalysisChecklist checklist={ checklist } onClick={ onClick } />
+			<DefaultSeoDataAlert isSeoDataDefault={ isSeoDataDefault } />
+		</LocationProvider>
 	</Fragment>;
 }
 
 PrePublish.propTypes = {
 	checklist: PropTypes.array.isRequired,
 	onClick: PropTypes.func.isRequired,
+	isSeoDataDefault: PropTypes.object.isRequired,
 };

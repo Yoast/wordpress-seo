@@ -1,9 +1,10 @@
 /* global tinyMCE */
-import { isUndefined, noop } from "lodash-es";
+import { isUndefined, noop } from "lodash";
 import { select } from "@wordpress/data";
 import * as tinyMCEHelper from "../lib/tinymce";
 import { tinyMCEDecorator } from "../decorator/tinyMCE";
 import { isAnnotationAvailable, applyAsAnnotations } from "../decorator/gutenberg";
+import { doAction } from "@wordpress/hooks";
 
 /**
  * Create decorators for each editor and applies marks to each editor
@@ -47,8 +48,10 @@ function applyMarks( paper, marks ) {
 		// Apply marks to Classic editor blocks
 		applyMarksTinyMCE( paper, marks );
 		// Apply marks to other blocks
-		applyAsAnnotations( paper, marks );
+		applyAsAnnotations( marks );
 	}
+
+	doAction( "yoast.analysis.applyMarks", marks );
 }
 
 /**
@@ -58,8 +61,9 @@ function applyMarks( paper, marks ) {
  */
 export default function getApplyMarks() {
 	const showMarkers = select( "yoast-seo/editor" ).isMarkingAvailable();
+	const markersPaused = select( "yoast-seo/editor" ).getMarkerPauseStatus();
 
-	if ( ! showMarkers ) {
+	if ( ! showMarkers || markersPaused ) {
 		return noop;
 	}
 

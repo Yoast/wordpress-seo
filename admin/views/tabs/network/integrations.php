@@ -22,10 +22,10 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 	<h2><?php esc_html_e( 'Integrations', 'wordpress-seo' ); ?></h2>
 	<div class="yoast-measure">
 		<?php
-		echo sprintf(
+		printf(
 		/* translators: %1$s expands to Yoast SEO */
 			esc_html__( 'This tab allows you to selectively disable %1$s integrations with third-party products for all sites in the network. By default all integrations are enabled, which allows site admins to choose for themselves if they want to toggle an integration on or off for their site. When you disable an integration here, site admins will not be able to use that integration at all.', 'wordpress-seo' ),
-			'Yoast SEO'
+			'Yoast SEO',
 		);
 
 		foreach ( $integration_toggles as $integration ) {
@@ -40,15 +40,15 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 				$help_text .= sprintf(
 					'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
 					esc_url( WPSEO_Shortlinker::get( $integration->read_more_url ) ),
-					esc_html( $integration->read_more_label )
+					esc_html( $integration->read_more_label ),
 				);
 			}
 
 			$feature_help = new WPSEO_Admin_Help_Panel(
 				WPSEO_Option::ALLOW_KEY_PREFIX . $integration->setting,
-				/* translators: %s expands to an integration's name */
+				/* translators: Hidden accessibility text; %s expands to an integration's name. */
 				sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $integration->name ) ),
-				$help_text
+				$help_text,
 			);
 
 			$name = $integration->name;
@@ -88,7 +88,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 					'preserve_disabled_value' => $preserve_disabled_value,
 					'show_premium_upsell'     => $show_premium_upsell,
 					'premium_upsell_url'      => $premium_upsell_url,
-				]
+				],
 			);
 
 			do_action( 'Yoast\WP\SEO\admin_network_integration_after', $integration );

@@ -1,14 +1,13 @@
 import { sprintf } from "@wordpress/i18n";
-import { isString } from "lodash-es";
+import { isString } from "lodash";
 
-import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import addMark from "../../../markers/addMark";
+import { createAnchorOpeningTag } from "../../../helpers";
 import { getWords } from "../../../languageProcessing";
-import getSentences from "../../../languageProcessing/helpers/sentence/getSentences";
+
 import { includesConsecutiveWords } from "./helpers/includesConsecutiveWords";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 
 /**
  * An inclusive language assessment.
@@ -17,7 +16,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
  * whether a paper's text contains potentially non-inclusive phrases and
  * suggests a potentially more inclusive alternative.
  */
-export default class InclusiveLanguageAssessment extends Assessment {
+export default class InclusiveLanguageAssessment {
 	/**
 	 * Creates a new inclusive language assessment.
 	 *
@@ -32,14 +31,14 @@ export default class InclusiveLanguageAssessment extends Assessment {
 	 * 									and `%2$s` (and potentially further replacements) for the suggested alternative(s).
 	 * @param {string} config.learnMoreUrl The URL to an article explaining more about this specific assessment.
 	 * @param {function} [config.rule] A potential additional rule for targeting the non-inclusive phrases.
+	 * @param {string} [config.ruleDescription] A description of the rule.
 	 * @param {boolean} [config.caseSensitive=false] If the inclusive phrase is case-sensitive, defaults to `false`.
+	 * @param {string} [config.category] The category of the assessment.
 	 *
 	 * @returns {void}
 	 */
 	constructor( { identifier, nonInclusivePhrases, inclusiveAlternatives,
-		score, feedbackFormat, learnMoreUrl, rule, caseSensitive } ) {
-		super();
-
+		score, feedbackFormat, learnMoreUrl, rule, ruleDescription, caseSensitive, category } ) {
 		this.identifier = identifier;
 		this.nonInclusivePhrases = nonInclusivePhrases;
 		this.inclusiveAlternatives = inclusiveAlternatives;
@@ -48,9 +47,12 @@ export default class InclusiveLanguageAssessment extends Assessment {
 		}
 		this.score = score;
 		this.feedbackFormat = feedbackFormat;
-		this.learnMoreUrl = learnMoreUrl;
+		this.learnMoreUrl = createAnchorOpeningTag( learnMoreUrl );
+
 		this.rule = rule || includesConsecutiveWords;
+		this.ruleDescription = ruleDescription;
 		this.caseSensitive = caseSensitive || false;
+		this.category = category;
 	}
 
 	/**
@@ -62,9 +64,7 @@ export default class InclusiveLanguageAssessment extends Assessment {
 	 * @returns {boolean} Whether the assessment is applicable for the given paper.
 	 */
 	isApplicable( paper, researcher ) {
-		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
-		const text = paper.getText();
-		const sentences = getSentences( text, memoizedTokenizer );
+		const sentences = researcher.getResearch( "sentences" );
 
 		// Also include the text title in the analysis as a separate sentence.
 		const textTitle = paper.getTextTitle();
@@ -73,11 +73,12 @@ export default class InclusiveLanguageAssessment extends Assessment {
 		this.foundPhrases = [];
 
 		sentences.forEach( sentence => {
-			let words = getWords( sentence );
+			let words = getWords( sentence, "\\s", false );
 			if ( ! this.caseSensitive ) {
 				words = words.map( word => word.toLocaleLowerCase() );
 			}
-			const foundPhrase = this.nonInclusivePhrases.find( phrase => this.rule( words, phrase.split( " " ) ).length >= 1 );
+
+			const foundPhrase = this.nonInclusivePhrases.find( phrase => this.rule( words, getWords( phrase, "\\s", false ) ).length >= 1 );
 
 			if ( foundPhrase ) {
 				this.foundPhrases.push( {
@@ -86,7 +87,6 @@ export default class InclusiveLanguageAssessment extends Assessment {
 				} );
 			}
 		} );
-
 		return this.foundPhrases.length >= 1;
 	}
 
@@ -98,10 +98,11 @@ export default class InclusiveLanguageAssessment extends Assessment {
 	getResult() {
 		const link = sprintf(
 			"%1$sLearn more.%2$s",
-			createAnchorOpeningTag( this.learnMoreUrl ),
+			this.learnMoreUrl,
 			"</a>"
 		);
 
+		// eslint-disable-next-line @wordpress/valid-sprintf -- The sprintf function is used to replace placeholders in the feedbackFormat variable.
 		const text = sprintf(
 			this.feedbackFormat,
 			this.foundPhrases[ 0 ].phrase,

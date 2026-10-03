@@ -87,7 +87,7 @@ class WPSEO_Metabox_Section_Additional implements WPSEO_Metabox_Section {
 			esc_attr( $this->name ),
 			esc_attr( $this->link_class ),
 			( $this->link_aria_label !== '' ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
-			$this->link_content
+			$this->link_content,
 		);
 	}
 
@@ -100,7 +100,7 @@ class WPSEO_Metabox_Section_Additional implements WPSEO_Metabox_Section {
 		$html  = sprintf(
 			'<div role="tabpanel" id="wpseo-meta-section-%1$s" aria-labelledby="wpseo-meta-tab-%1$s" tabindex="0" class="wpseo-meta-section %2$s">',
 			esc_attr( $this->name ),
-			esc_attr( $this->content_class )
+			esc_attr( $this->content_class ),
 		);
 		$html .= $this->content;
 		$html .= '</div>';

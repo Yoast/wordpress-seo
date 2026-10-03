@@ -25,6 +25,8 @@ class Conflicting_Plugins_Service {
 	 * Deactivates the specified plugin(s) if any, or the entire list of known conflicting plugins.
 	 *
 	 * @param string|array|false $plugins Optional. The plugin filename, or array of plugin filenames, to deactivate.
+	 *
+	 * @return void
 	 */
 	public function deactivate_conflicting_plugins( $plugins = false ) {
 		// If no plugins are specified, deactivate any known conflicting plugins that are active.
@@ -67,7 +69,7 @@ class Conflicting_Plugins_Service {
 	/**
 	 * Get a list of all plugins active in the current WordPress instance.
 	 *
-	 * @return false|array The names of all active plugins.
+	 * @return array|false The names of all active plugins.
 	 */
 	protected function get_active_plugins() {
 		// Request a list of active plugins from WordPress.
@@ -84,8 +86,9 @@ class Conflicting_Plugins_Service {
 	 * @return array The remaining active plugins.
 	 */
 	protected function ignore_deactivating_plugin( $all_active_plugins ) {
-		if ( isset( $_GET['action'] ) && isset( $_GET['plugin'] ) && \filter_var( \wp_unslash( $_GET['action'] ) ) === 'deactivate' ) {
-			$deactivated_plugin = \filter_var( \wp_unslash( $_GET['plugin'] ) );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are strictly comparing only.
+		if ( isset( $_GET['action'] ) && isset( $_GET['plugin'] ) && \is_string( $_GET['action'] ) && \is_string( $_GET['plugin'] ) && \wp_unslash( $_GET['action'] ) === 'deactivate' ) {
+			$deactivated_plugin = \sanitize_text_field( \wp_unslash( $_GET['plugin'] ) );
 
 			\check_admin_referer( 'deactivate-plugin_' . $deactivated_plugin );
 

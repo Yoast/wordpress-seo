@@ -6,7 +6,7 @@ This package aims to provide a Tailwind CSS preset for building Yoast packages.
 Start with installing the package and its peer dependencies from NPM:
 
 ```shell
-yarn add --dev @yoast/tailwindcss-preset tailwindcss @tailwindcss/forms
+yarn add --dev @yoast/tailwindcss-preset tailwindcss @tailwindcss/container-queries @tailwindcss/forms
 ```
 
 Then, in your `tailwind.config.js` file, extend the preset like so:

@@ -42,6 +42,8 @@ class Disable_Core_Sitemaps implements Initializer_Interface {
 
 	/**
 	 * Disable the WP core XML sitemaps.
+	 *
+	 * @return void
 	 */
 	public function initialize() {
 		// This needs to be on priority 15 as that is after our options initialize.

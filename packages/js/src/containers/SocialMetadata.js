@@ -7,12 +7,12 @@ export default withSelect( select => {
 	} = select( "yoast-seo/editor" );
 
 	const {
-		displayFacebook,
-		displayTwitter,
+		useOpenGraphData,
+		useTwitterData,
 	} = getPreferences();
 
 	return {
-		displayFacebook,
-		displayTwitter,
+		useOpenGraphData,
+		useTwitterData,
 	};
 } )( SocialMetadata );

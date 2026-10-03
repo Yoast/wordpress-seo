@@ -82,7 +82,7 @@ class WPSEO_Replacevar_Field {
 			esc_attr( $this->field_id ),
 			esc_attr( $this->label ),
 			esc_attr( $this->page_type_recommended ),
-			esc_attr( $this->page_type_specific )
+			esc_attr( $this->page_type_specific ),
 		);
 	}
 }

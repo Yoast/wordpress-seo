@@ -13,17 +13,17 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo
 	/**
 	 * The plugin of the action.
 	 */
-	const PLUGIN = 'aioseo';
+	public const PLUGIN = 'aioseo';
 
 	/**
 	 * The type of the action.
 	 */
-	const TYPE = 'posttype_default_settings';
+	public const TYPE = 'posttype_default_settings';
 
 	/**
 	 * The option_name of the AIOSEO option that contains the settings.
 	 */
-	const SOURCE_OPTION_NAME = 'aioseo_options_dynamic';
+	public const SOURCE_OPTION_NAME = 'aioseo_options_dynamic';
 
 	/**
 	 * The map of aioseo_options to yoast settings.

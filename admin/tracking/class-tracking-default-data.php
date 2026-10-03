@@ -27,7 +27,24 @@ class WPSEO_Tracking_Default_Data implements WPSEO_Collection {
 			'gmt_offset'      => get_option( 'gmt_offset' ),
 			'timezoneString'  => get_option( 'timezone_string' ),
 			'migrationStatus' => get_option( 'yoast_migrations_free' ),
+			'countPosts'      => $this->get_post_count( 'post' ),
+			'countPages'      => $this->get_post_count( 'page' ),
 		];
+	}
+
+	/**
+	 * Returns the number of posts of a certain type.
+	 *
+	 * @param string $post_type The post type return the count for.
+	 *
+	 * @return int The count for this post type.
+	 */
+	protected function get_post_count( $post_type ) {
+		$count = wp_count_posts( $post_type );
+		if ( isset( $count->publish ) ) {
+			return $count->publish;
+		}
+		return 0;
 	}
 
 	/**

@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Με τον όρο αρχαία ελληνική γλώσσα εννοείται μια μορφή της ελληνικής γλώσσας που ομιλείτο κατά τους αρχαϊκούς" +
 		" χρόνους και την κλασική αρχαιότητα.",
 	title: "Ελληνική γλώσσα",
+	textTitle: "Ελληνική γλώσσα",
 	titleWidth: 450,
 	locale: "el",
 	permalink: "https://el.wikipedia.org/wiki/%CE%95%CE%BB%CE%BB%CE%B7%CE%BD%CE%B9%CE%BA%CE%AE_%CE%B3%CE%BB%CF%8E%CF%83%CF%83%CE%B1",
@@ -18,8 +19,10 @@ const paper = new Paper( content, {
 const expectedResults = {
 	introductionKeyword: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Your keyphrase or its " +
+			"synonyms appear in the first paragraph of the copy, but not within one sentence. <a href='https://yoa.st/33f' " +
+			"target='_blank'>Fix that</a>!",
 	},
 	keyphraseLength: {
 		isApplicable: true,
@@ -29,7 +32,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 38 times. This is great!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 38 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -51,8 +54,8 @@ const expectedResults = {
 	textCompetingLinks: {
 		isApplicable: true,
 		score: 2,
-		resultText: "<a href='https://yoa.st/34l' target='_blank'>Link keyphrase</a>: You're linking to another page with " +
-			"the words you want this page to rank for. <a href='https://yoa.st/34m' target='_blank'>Don't do that</a>!",
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: You have a link which uses your " +
+			"keyphrase or synonym as its anchor text. <a href='https://yoa.st/34m' target='_blank'>Fix that</a>!",
 	},
 	textImages: {
 		isApplicable: true,
@@ -63,7 +66,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 2912 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 2910 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -109,30 +112,30 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: 1 section of your text is longer" +
-			" than 300 words and is not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>Add subheadings" +
+			" than the recommended number of words (300) and is not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>Add subheadings" +
 			" to improve readability</a>.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain more than the recommended maximum number of words (150). <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 27.8% of the sentences contain more than 20 words, " +
+		score: 3,
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 30.9% of the sentences contain more than 20 words, " +
 			"which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 19.7% of the sentences contain" +
+		score: 6,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 28.7% of the sentences contain" +
 			" transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 25.9% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 26.6% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},
@@ -144,13 +147,13 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences." +
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings." +
 			" That's great!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes " +
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Images on this page do not have alt attributes " +
 			"with at least half of the words from your keyphrase. <a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!",
 	},
 	imageCount: {
@@ -160,6 +163,16 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

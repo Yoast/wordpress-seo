@@ -1,0 +1,140 @@
+### Creates a new request for all analysis types
+GET http://localhost:3000/analyze
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>",
+    "keyword": "Yoast SEO"
+}
+
+### Creates a new request for an SEO analysis
+GET http://localhost:3000/analyze/seo
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>",
+    "keyword": "Yoast SEO"
+}
+
+### Creates a new request for a readability analysis
+GET http://localhost:3000/analyze/readability
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>"
+}
+
+### Creates a new request for a related keyphrase analysis
+GET http://localhost:3000/analyze/related-keyphrase
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>",
+    "keyword": "Yoast SEO"
+}
+
+### Creates a new request for an inclusive language analysis
+GET http://localhost:3000/analyze/inclusive-language
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>",
+    "keyword": "Yoast SEO"
+}
+
+### Run a request for all analysis in a different language
+GET http://localhost:3000/analyze
+Content-Type: application/json
+
+{
+    "text": "<p>Zoekmachineoptimalisatie (Engels: <em>search engine optimization (SEO)</em>) is een onderdeel van zoekmachinemarketing en kan worden gedefinieerd als het geheel aan activiteiten bedoeld om een webpagina hoog te laten scoren in de organische zoekresultaten van een zoekmachine, op de voor die webpagina relevante trefwoorden. Aangezien een vermelding in die organische resultaten gratis is, vormen deze zoekresultaten een interessant alternatief voor zoekmachineadverteren. SEO kan een bedrijf concurrentievoordeel opleveren.</p>",
+    "keyword": "SEO",
+    "locale": "nl"
+}
+
+### Runs the estimated reading time research
+GET http://localhost:3000/research/estimated-reading-time
+Content-Type: application/json
+
+{
+	"text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>"
+}
+
+### Runs the Flesch reading ease research
+GET http://localhost:3000/research/flesch-reading-ease
+Content-Type: application/json
+
+{
+	"text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>"
+}
+
+### Runs the word count research
+GET http://localhost:3000/research/word-count
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>"
+}
+
+### Runs the word count research in Spanish
+GET http://localhost:3000/research/word-count
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>",
+    "locale": "es"
+}
+
+### Runs the sentence count research
+GET http://localhost:3000/research/sentence-count
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>"
+}
+
+### Runs the paragraph count research
+GET http://localhost:3000/research/paragraph-count
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>"
+}
+
+### Runs the analysis for meta description
+GET http://localhost:3000/analyze/meta-description
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>",
+    "description": "Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.",
+    "keyword": "Yoast SEO"
+}
+
+### Runs the analysis for SEO title
+GET http://localhost:3000/analyze/seo-title
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>",
+    "keyword": "Yoast SEO",
+    "title": "Yoast SEO"
+}
+
+### Runs the analysis for the keyphrase
+GET http://localhost:3000/analyze/keyphrase
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>",
+    "keyword": "The best thing"
+}
+
+### Runs the analysis for the keyphrase use
+GET http://localhost:3000/analyze/keyphrase-use
+Content-Type: application/json
+
+{
+    "text": "<p>Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant. Yoast SEO is a search engine optimization (SEO) tool plug-in for WordPress.</p><p>Yoast SEO created its first WordPress SEO plugin in 2007 - originally named WordPress SEO: it was developed as a WordPress plugin by SEO consultant Joost de Valk. In 2012, the plug-in was renamed Yoast SEO. In 2015, Yoast hosted the inaugural YoastCon conference at the Lindenberg Nijmegen Culture House in Nijmegen, Netherlands. In 2015, a flaw was discovered in version 1.7.3.3 and earlier versions. The flaw could have left users of Yoast SEO open to hackers and was discovered by a security consultant.</p>",
+    "keyword": "Yoast SEO"
+}

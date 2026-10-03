@@ -1,4 +1,4 @@
-import { take } from "lodash-es";
+import { take } from "lodash";
 import countWords from "../helpers/word/countWords";
 import {
 	collapseProminentWordsOnStem,
@@ -10,6 +10,27 @@ import {
 } from "../helpers/prominentWords/determineProminentWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../helpers/html/getSubheadings";
 import baseStemmer from "../helpers/morphology/baseStemmer";
+import removeURLs from "../helpers/sanitize/removeURLs.js";
+import removeEmailAddresses from "../helpers/sanitize/removeEmailAddresses";
+
+/**
+ * Removes URLs and email addresses from the text.
+ *
+ * @param {string}	text	The text to sanitize.
+ *
+ * @returns {string} The text without URLs and email addresses.
+ */
+const sanitizeText = function( text ) {
+	text = removeURLs( text );
+	return removeEmailAddresses( text );
+};
+
+/**
+ * @typedef ProminentWordsForInternalLinking
+ * @property {ProminentWord[]} prominentWords     Prominent words for this paper, filtered and sorted.
+ * @property {boolean}         hasMetaDescription Whether the metadescription is available in the input paper.
+ * @property {boolean}         hasTitle           Whether the title is available in the input paper.
+ */
 
 /**
  * Retrieves the prominent words from the given paper.
@@ -17,10 +38,7 @@ import baseStemmer from "../helpers/morphology/baseStemmer";
  * @param {Paper}       paper       The paper to determine the prominent words of.
  * @param {Researcher}  researcher  The researcher to use for analysis.
  *
- * @returns {Object}          result                    A compound result object.
- * @returns {ProminentWord[]} result.prominentWords     Prominent words for this paper, filtered and sorted.
- * @returns {boolean}         result.hasMetaDescription Whether the metadescription is available in the input paper.
- * @returns {boolean}         result.hasTitle           Whether the title is available in the input paper.
+ * @returns {ProminentWordsForInternalLinking} result A compound result object.
  */
 function getProminentWordsForInternalLinking( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
@@ -32,9 +50,9 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	// An optional custom helper to count length to use instead of countWords.
 	const customCountLength = researcher.getHelper( "customCountLength" );
 
-	const text = paper.getText();
-	const metadescription = paper.getDescription();
-	const title = paper.getTitle();
+	const text = sanitizeText( paper.getText() );
+	const metadescription = sanitizeText( paper.getDescription() );
+	const title = sanitizeText( paper.getTitle() );
 
 	const result = {};
 	result.hasMetaDescription = metadescription !== "";

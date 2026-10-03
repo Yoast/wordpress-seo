@@ -1,8 +1,7 @@
-/* eslint-disable no-undefined */
-import { useCallback } from "@wordpress/element";
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
+import React, { useCallback } from "react";
 import Label from "../../elements/label";
 
 import Radio from "../../elements/radio";
@@ -14,39 +13,46 @@ const classNameMap = {
 	},
 };
 
+// Stable reference so the empty-array default keeps a constant identity across renders.
+const DEFAULT_OPTIONS = [];
+
 /**
- * @param {JSX.node} children Children are rendered below the radio group.
- * @param {string} [id] Identifier.
- * @param {string} [name] Name.
- * @param {string} [value] Value.
- * @param {string} [label] Label.
- * @param {string} [description] Description.
- * @param {{ value: string, label: string, screenReaderLabel: string }[]} options Options to choose from.
- * @param {Function} [onChange] Change handler.
- * @param {string} [variant] Variant.
- * @param {string} [className] CSS class.
- * @param {Object} [props] Extra Radio props.
+ * @param {JSX.node} [children=null] Children are rendered below the radio group. Either use this or the `options` prop.
+ * @param {string} [id=""] Identifier.
+ * @param {string} [name=""] Name.
+ * @param {string} [value=""] Value.
+ * @param {string} [label=""] Label.
+ * @param {string} [description=""] Description.
+ * @param {{value: string, label: string, screenReaderLabel: string}[]} [options=[]] Options to choose from. Either use this or the `children` prop.
+ * @param {Function} [onChange=noop] Change handler.
+ * @param {string} [variant="default"] Variant. Either `default` or `inline-block`.
+ * @param {boolean} [disabled=false] Disabled state.
+ * @param {string} [className=""] CSS class.
+ * @param {...any} [props] Extra Radio props.
  * @returns {JSX.Element} RadioGroup component.
  */
 const RadioGroup = ( {
-	children,
-	id,
-	name,
-	value,
-	label,
-	description,
-	options,
-	onChange,
-	variant,
-	className,
+	children = null,
+	id = "",
+	name = "",
+	value = "",
+	label = "",
+	description = "",
+	options = DEFAULT_OPTIONS,
+	onChange = noop,
+	variant = "default",
+	disabled = false,
+	className = "",
 	...props
 } ) => {
 	const handleChange = useCallback( ( { target } ) => target.checked && onChange( target.value ), [ onChange ] );
 
 	return (
 		<fieldset
+			id={ `radio-group-${ id }` }
 			className={ classNames(
 				"yst-radio-group",
+				disabled && "yst-radio-group--disabled",
 				classNameMap.variant[ variant ],
 				className,
 			) }
@@ -55,7 +61,7 @@ const RadioGroup = ( {
 			{ description && <div className="yst-radio-group__description">{ description }</div> }
 			<div className="yst-radio-group__options">
 				{ children || options.map( ( option, index ) => {
-					const optionId = `${ id }-${ index }`;
+					const optionId = `radio-${ id }-${ index }`;
 					return <Radio
 						key={ optionId }
 						id={ optionId }
@@ -66,6 +72,7 @@ const RadioGroup = ( {
 						variant={ variant }
 						checked={ value === option.value }
 						onChange={ handleChange }
+						disabled={ disabled }
 						{ ...props }
 					/>;
 				} ) }
@@ -88,19 +95,11 @@ RadioGroup.propTypes = {
 	} ) ),
 	onChange: PropTypes.func,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
+	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
 
-RadioGroup.defaultProps = {
-	children: null,
-	id: "",
-	name: "",
-	value: "",
-	label: "",
-	variant: "default",
-	description: "",
-	onChange: noop,
-	className: "",
-};
+RadioGroup.Radio = Radio;
+RadioGroup.Radio.displayName = "RadioGroup.Radio";
 
 export default RadioGroup;

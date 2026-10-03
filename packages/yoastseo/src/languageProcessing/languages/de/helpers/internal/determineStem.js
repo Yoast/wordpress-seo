@@ -1,23 +1,21 @@
-import { flatten } from "lodash-es";
+import { flatten } from "lodash";
 import { languageProcessing } from "yoastseo";
-const { flattenSortLength } = languageProcessing;
-
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 
 import stem from "./stem";
 
+const { flattenSortLength } = languageProcessing;
+
 /**
  * Returns a stem for a word that appears on the noun exception lists.
  *
- * @param {Object}  morphologyDataNouns The German morphology data for nouns.
- * @param {string}  stemmedWord         The stem to check.
+ * @param {array[]}	exceptionList	The exception list to check.
+ * @param {string}	stemmedWord		The stem to check.
  *
  * @returns {string|null} The stemmed word or null if none was found.
  */
-const findStemOnNounExceptionList = function( morphologyDataNouns, stemmedWord ) {
-	const exceptionStems = morphologyDataNouns.exceptionStems;
-
-	for ( const exceptionStemSet of exceptionStems ) {
+const findStemOnNounExceptionList = function( exceptionList, stemmedWord ) {
+	for ( const exceptionStemSet of exceptionList ) {
 		const matchedStem = exceptionStemSet.find( exceptionStem => stemmedWord.endsWith( exceptionStem ) );
 
 		if ( matchedStem ) {
@@ -108,6 +106,13 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
  * @returns {string} Stemmed form of the word.
  */
 export default function determineStem( word, morphologyDataGerman ) {
+	// Already return the stem here if the word contains umlaut and ends with an ending that looks like a valid suffix, e.g. "läden" stemmed to "laden".
+	const umlautException = morphologyDataGerman.nouns.umlautException || [];
+	const findUmlautException = findStemOnNounExceptionList( umlautException, word );
+	if ( findUmlautException ) {
+		return findUmlautException;
+	}
+
 	const verbData = morphologyDataGerman.verbs;
 	const stemmedWord = stem( verbData, word );
 
@@ -115,7 +120,7 @@ export default function determineStem( word, morphologyDataGerman ) {
 	 * Goes through the stem exception functions from left to right, returns the first stem it finds.
 	 * If no stem has been found, return the original, programmatically created, stem.
 	 */
-	return findStemOnNounExceptionList( morphologyDataGerman.nouns, stemmedWord ) ||
+	return findStemOnNounExceptionList( morphologyDataGerman.nouns.exceptionStems, stemmedWord ) ||
 		findStemOnAdjectiveExceptionList( morphologyDataGerman.adjectives, stemmedWord ) ||
 		findStemOnVerbExceptionList( verbData, stemmedWord ) ||
 		detectAndStemRegularParticiple( verbData, word ) ||

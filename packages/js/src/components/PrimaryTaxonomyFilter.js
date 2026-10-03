@@ -4,7 +4,7 @@ import { Component, Fragment } from "@wordpress/element";
 import {
 	get,
 	values,
-} from "lodash-es";
+} from "lodash";
 import { __, sprintf } from "@wordpress/i18n";
 import { ClipboardButton } from "@wordpress/components";
 import styled from "styled-components";
@@ -19,7 +19,13 @@ const ErrorContainer = styled.div`
 	margin: 16px 0 8px;
 `;
 
+/**
+ * A component for filtering a primary taxonomy term.
+ */
 class PrimaryTaxonomyFilter extends Component {
+	/**
+	 * Constructs a PrimaryTaxonomyFilter component.
+	 */
 	constructor() {
 		super();
 

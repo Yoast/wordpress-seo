@@ -421,7 +421,7 @@ describe( "replaceReplacementVariables", () => {
 			} );
 
 		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
-		    editorState = EditorState.acceptSelection( editorState, selection );
+		editorState = EditorState.acceptSelection( editorState, selection );
 		const replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
 
 		const actual = replaceReplacementVariables( editorState, replacementVariables ).getSelection();

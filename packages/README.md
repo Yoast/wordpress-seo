@@ -10,16 +10,12 @@ This monorepo includes reusable packages:
   - React components that can be used to visualise the outcome of the Yoast content analysis provided by [the yoastseo package](packages/yoastseo).
 - [@yoast/components](components)
   - All-purpose React components.
-- [@yoast/configuration-wizard](configuration-wizard)
-  - A wizard that guides users trough their initial Yoast SEO plugin setup.
 - [@yoast/feature-flag](feature-flag)
   - A utility that keeps track of enabled and disabled features.
 - [@yoast/helpers](helpers)
   - A set of helper functions that can be used across multiple projects.
 - [@yoast/replacement-variable-editor](replacement-variable-editor)
   - The replacement variable editor currently used in the Search Metadata previews. In the future, this component will also be used in the Social Metadata previews.
-- [@yoast/schema-blocks](schema-blocks)
-  - classes and React components used in generating schema blocks from wordpress posts.
 - [@yoast/search-metadata-previews](search-metadata-previews)
   - React components that can be used to generate a preview of what a page will look like in Google's search results.
 - [@yoast/social-metadata-forms](social-metadata-forms)
@@ -30,8 +26,6 @@ This monorepo includes reusable packages:
   - A combination of style constants and functions that can be used to conform to the Yoast corporate identity.
 - [eslint-config-yoast](eslint)
   - ESLint configuration for Yoast projects.
-- [yoast-components](yoast-components) *[deprecated. replaced by [@yoast/components](packages/components)]*
-  - All-purpose React components.
 - [yoastseo](yoastseo) *[Replaces [YoastSEO.js](https://github.com/yoast//yoastseo.js)]*
   - Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 

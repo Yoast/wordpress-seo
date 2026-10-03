@@ -1,4 +1,4 @@
-import { get } from "lodash-es";
+import { get } from "lodash";
 import { languageProcessing } from "yoastseo";
 import stem from "./internal/stem";
 const { baseStemmer } = languageProcessing;

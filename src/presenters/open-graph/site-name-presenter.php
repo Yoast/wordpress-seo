@@ -33,8 +33,7 @@ class Site_Name_Presenter extends Abstract_Indexable_Tag_Presenter {
 		/**
 		 * Filter: 'wpseo_opengraph_site_name' - Allow changing the Yoast SEO generated Open Graph site name.
 		 *
-		 * @api string $site_name The site_name.
-		 *
+		 * @param string                 $site_name    The site_name.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return (string) \trim( \apply_filters( 'wpseo_opengraph_site_name', $this->presentation->open_graph_site_name, $this->presentation ) );

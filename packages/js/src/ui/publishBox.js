@@ -1,29 +1,61 @@
 /* global wpseoScriptData */
+import { get } from "lodash";
+import { __ } from "@wordpress/i18n";
+import { select } from "@wordpress/data";
 
 var scoreDescriptionClass = "score-text";
 var imageScoreClass = "image yoast-logo svg";
 var $ = jQuery;
-
-/* eslint-disable no-extend-native */
-/**
- * Converts the first letter to uppercase in a string.
- *
- * @returns {string} The string with the first letter uppercased.
- */
-String.prototype.ucfirst = function() {
-	return this.charAt( 0 ).toUpperCase() + this.substr( 1 );
-};
-/* eslint-enable no-extend-native */
 
 /**
  * Creates a text with the label and description for a seo score.
  *
  * @param {String} scoreType The type of score, this is used for the label.
  * @param {String} status The status for the score, this is the descriptive status text.
+ * @param {Object|null} [labels] The score labels, instead of using the free script data.
+ *
  * @returns {String} A string with label and description with correct text decoration.
  */
-function createSEOScoreLabel( scoreType, status ) {
-	return wpseoScriptData.metabox.publish_box.labels[ scoreType ][ status ] || "";
+export function createSEOScoreLabel( scoreType, status, labels = null ) {
+	if ( labels !== null ) {
+		return get( labels, status, "" );
+	}
+
+	const isPremium = select( "yoast-seo/editor" ).getIsPremium();
+
+	const statusTranslation = {
+		na: __( "Not available", "wordpress-seo" ),
+		bad: __( "Needs improvement", "wordpress-seo" ),
+		ok: __( "OK", "wordpress-seo" ),
+		good: __( "Good", "wordpress-seo" ),
+	};
+
+	const translations = {
+		keyword: {
+			label: isPremium ? __( "Premium SEO analysis:", "wordpress-seo" ) : __( "SEO analysis:", "wordpress-seo" ),
+			anchor: "yoast-seo-analysis-collapsible-metabox",
+			status: statusTranslation,
+		},
+		content: {
+			label: __( "Readability analysis:", "wordpress-seo" ),
+			anchor: "yoast-readability-analysis-collapsible-metabox",
+			status: statusTranslation,
+		},
+		"inclusive-language": {
+			label: __( "Inclusive language:", "wordpress-seo" ),
+			anchor: "yoast-inclusive-language-analysis-collapsible-metabox",
+			status: {
+				...statusTranslation,
+				ok: __( "Potentially non-inclusive", "wordpress-seo" ),
+			},
+		},
+	};
+
+	if ( ! translations?.[ scoreType ]?.status?.[ status ] ) {
+		return "";
+	}
+
+	return `<a href="#${translations[ scoreType ]?.anchor}">${translations[ scoreType ]?.label}</a> <strong>${ translations[ scoreType ]?.status[ status ] }</strong>`;
 }
 
 /**
@@ -31,16 +63,17 @@ function createSEOScoreLabel( scoreType, status ) {
  *
  * @param {String} type The score type to update (content or seo).
  * @param {String} status The status is the class name that is used to update the image.
+ * @param {Object|null} [labels] The score labels, instead of using the free script data.
  *
  * @returns {void}
  */
-export function updateScore( type, status ) {
+export function updateScore( type, status, labels = null ) {
 	var publishSection = $( "#" + type + "-score" );
 
 	var imageClass = imageScoreClass + " " + status;
 	publishSection.children( ".image" ).attr( "class", imageClass );
 
-	var text = createSEOScoreLabel( type, status );
+	var text = createSEOScoreLabel( type, status, labels );
 	publishSection.children( "." + scoreDescriptionClass ).html( text );
 }
 
@@ -49,21 +82,22 @@ export function updateScore( type, status ) {
  *
  * @param {String} type The score type, for example content score or keyword score.
  * @param {String} status The status for the score initialisation.
+ * @param {Object|null} [labels] The score labels, instead of using the free script data.
  *
  * @returns {void}
  */
-function createScoresInPublishBox( type, status ) {
-	var publishSection = $( "<div />", {
+export function createScoresInPublishBox( type, status, labels = null ) {
+	const publishSection = $( "<div />", {
 		"class": "misc-pub-section yoast yoast-seo-score " + type + "-score",
 		id: type + "-score",
 	} );
 
-	var spanElem = $( "<span />", {
+	const spanElem = $( "<span />", {
 		"class": scoreDescriptionClass,
-		html: createSEOScoreLabel( type, status ),
+		html: createSEOScoreLabel( type, status, labels ),
 	} );
 
-	var imgElem = $( "<span>" )
+	const imgElem = $( "<span>" )
 		.attr( "class", imageScoreClass + " na" );
 
 	publishSection.append( imgElem ).append( spanElem );
@@ -77,7 +111,7 @@ function createScoresInPublishBox( type, status ) {
  *
  * @returns {void}
  */
-function scrollToCollapsible( id ) {
+export function scrollToCollapsible( id ) {
 	const $adminbar = $( "#wpadminbar" );
 	const $collapsible = $( id );
 

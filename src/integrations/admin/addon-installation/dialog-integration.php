@@ -52,6 +52,8 @@ class Dialog_Integration implements Integration_Interface {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'start_addon_installation' ] );
@@ -86,16 +88,16 @@ class Dialog_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function throw_no_owned_addons_warning() {
-		echo '<div class="notice notice-warning"><p>' .
-			\sprintf(
+		echo '<div class="notice notice-warning"><p>'
+			. \sprintf(
 				/* translators: %1$s expands to Yoast SEO */
 				\esc_html__(
 					'No %1$s plugins have been installed. You don\'t seem to own any active subscriptions.',
-					'wordpress-seo'
+					'wordpress-seo',
 				),
-				'Yoast SEO'
-			) .
-			'</p></div>';
+				'Yoast SEO',
+			)
+			. '</p></div>';
 	}
 
 	/**
@@ -110,7 +112,7 @@ class Dialog_Integration implements Integration_Interface {
 			[
 				'addons' => $this->owned_addons,
 				'nonce'  => \wp_create_nonce( 'wpseo_addon_installation' ),
-			]
+			],
 		);
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();

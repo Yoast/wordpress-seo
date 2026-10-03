@@ -22,9 +22,8 @@ var greaterThanContentRegex = /^<[^><]*$/;
 
 var commentRegex = /<!--(.|[\r\n])*?-->/g;
 
+import { forEach, memoize } from "lodash";
 import core from "tokenizer2/core";
-import { forEach } from "lodash-es";
-import { memoize } from "lodash-es";
 
 var tokens = [];
 var htmlBlockTokenizer;

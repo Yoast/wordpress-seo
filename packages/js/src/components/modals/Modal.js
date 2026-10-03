@@ -1,5 +1,6 @@
-import PropTypes from "prop-types";
+/* eslint-disable complexity */
 import { Modal as WpModal } from "@wordpress/components";
+import PropTypes from "prop-types";
 
 /**
  * Default className for our Modal.
@@ -11,19 +12,24 @@ export const defaultModalClassName = "yoast yoast-gutenberg-modal";
  *
  * Accepts all props that the Gutenberg modal accepts.
  *
- * @param {object} props Functional Component props.
+ * @param {React.ReactNode} [title="Yoast SEO"] The modal title. A node allows a help link next to it; pair that with
+ *                                            `contentLabel` so the accessible name stays the title text alone.
+ * @param {string} [className=defaultModalClassName] The modal className.
+ * @param {boolean} [showYoastIcon=true] Whether to show the Yoast icon.
+ * @param {React.ReactNode} [children=null] The modal content.
+ * @param {string} [additionalClassName=""] Additional className for the modal.
+ * @param {...Object} [props] Additional props passed to the Gutenberg modal.
  *
- * @returns {object} The modal.
+ * @returns {JSX.Element} The modal.
  */
-const Modal = ( props ) => {
-	const {
-		title,
-		className,
-		showYoastIcon,
-		additionalClassName,
-		...wpModalProps
-	} = props;
-
+const Modal = ( {
+	title = "Yoast SEO",
+	className = defaultModalClassName,
+	showYoastIcon = true,
+	children = null,
+	additionalClassName = "",
+	...props
+} ) => {
 	const icon = showYoastIcon ? <span className="yoast-icon" /> : null;
 
 	return (
@@ -31,27 +37,19 @@ const Modal = ( props ) => {
 			title={ title }
 			className={ `${ className } ${ additionalClassName }` }
 			icon={ icon }
-			{ ...wpModalProps }
+			{ ...props }
 		>
-			{ props.children }
+			{ children }
 		</WpModal>
 	);
 };
 
 Modal.propTypes = {
-	title: PropTypes.string,
+	title: PropTypes.node,
 	className: PropTypes.string,
 	showYoastIcon: PropTypes.bool,
 	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
 	additionalClassName: PropTypes.string,
-};
-
-Modal.defaultProps = {
-	title: "Yoast SEO",
-	className: defaultModalClassName,
-	showYoastIcon: true,
-	children: null,
-	additionalClassName: "",
 };
 
 export default Modal;

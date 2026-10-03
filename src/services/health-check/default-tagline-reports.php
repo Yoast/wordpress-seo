@@ -15,7 +15,6 @@ class Default_Tagline_Reports {
 	 * @param  Report_Builder_Factory $report_builder_factory The factory for result builder objects.
 	 *                                                        This class uses the report builder to generate WordPress-friendly
 	 *                                                        health check results.
-	 * @return void
 	 */
 	public function __construct( Report_Builder_Factory $report_builder_factory ) {
 		$this->report_builder_factory = $report_builder_factory;
@@ -63,7 +62,7 @@ class Default_Tagline_Reports {
 			/* translators: 1: link open tag; 2: link close tag. */
 			\esc_html__( '%1$sYou can change the tagline in the customizer%2$s.', 'wordpress-seo' ),
 			'<a href="' . \esc_url( $customize_url ) . '">',
-			'</a>'
+			'</a>',
 		);
 	}
 }

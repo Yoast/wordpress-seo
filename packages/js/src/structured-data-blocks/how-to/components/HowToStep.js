@@ -3,12 +3,11 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import appendSpace from "../../../components/higherorder/appendSpace";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
-
-import { Component } from "@wordpress/element";
-import { IconButton } from "@wordpress/components";
+import { Component, renderToString } from "@wordpress/element";
+import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
+import { convertToHTMLString, getImageSrc } from "../../shared-utils";
 
-const RichTextWithAppendedSpace = appendSpace( RichText );
 const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
 
 /**
@@ -97,7 +96,7 @@ export default class HowToStep extends Component {
 	}
 
 	/**
-	 * Handles the on change event on the title editor.
+	 * Handles the on change event in the title editor.
 	 *
 	 * @param {string} value The new title.
 	 *
@@ -117,7 +116,7 @@ export default class HowToStep extends Component {
 	}
 
 	/**
-	 * Handles the on change event on the text editor.
+	 * Handles the on change event in the text editor.
 	 *
 	 * @param {string} value The new text.
 	 *
@@ -139,27 +138,27 @@ export default class HowToStep extends Component {
 	/**
 	 * Renders the media upload button.
 	 *
-	 * @param {object} props      The receive props.
-	 * @param {func}   props.open Opens the media upload dialog.
+	 * @param {Object}		props      The receive props.
+	 * @param {Function}	props.open Opens the media upload dialog.
 	 *
-	 * @returns {wp.Element} The media upload button.
+	 * @returns {JSX.Element} The media upload button.
 	 */
 	getMediaUploadButton( props ) {
 		return (
-			<IconButton
+			<Button
 				className="schema-how-to-step-button how-to-step-add-media"
 				icon="insert"
 				onClick={ props.open }
 			>
 				{ __( "Add image", "wordpress-seo" ) }
-			</IconButton>
+			</Button>
 		);
 	}
 
 	/**
-	 * The insert and remove step buttons.
+	 * Gets the buttons for inserting and removing a step and for adding an image.
 	 *
-	 * @returns {wp.Element} The buttons.
+	 * @returns {JSX.Element} The buttons.
 	 */
 	getButtons() {
 		const {
@@ -167,7 +166,7 @@ export default class HowToStep extends Component {
 		} = this.props;
 
 		return <div className="schema-how-to-step-button-container">
-			{ ! HowToStep.getImageSrc( step.text ) &&
+			{ ! getImageSrc( step.text ) &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
 				allowedTypes={ [ "image" ] }
@@ -175,13 +174,13 @@ export default class HowToStep extends Component {
 				render={ this.getMediaUploadButton }
 			/>
 			}
-			<IconButton
+			<Button
 				className="schema-how-to-step-button"
 				icon="trash"
 				label={ __( "Delete step", "wordpress-seo" ) }
 				onClick={ this.onRemoveStep }
 			/>
-			<IconButton
+			<Button
 				className="schema-how-to-step-button"
 				icon="insert"
 				label={ __( "Insert step", "wordpress-seo" ) }
@@ -193,18 +192,18 @@ export default class HowToStep extends Component {
 	/**
 	 * The mover buttons.
 	 *
-	 * @returns {Component} the buttons.
+	 * @returns {JSX.Element} the buttons.
 	 */
 	getMover() {
 		return <div className="schema-how-to-step-mover">
-			<IconButton
+			<Button
 				className="editor-block-mover__control"
 				onClick={ this.onMoveStepUp }
 				icon="arrow-up-alt2"
 				label={ __( "Move step up", "wordpress-seo" ) }
 				aria-disabled={ this.props.isFirst }
 			/>
-			<IconButton
+			<Button
 				className="editor-block-mover__control"
 				onClick={ this.onMoveStepDown }
 				icon="arrow-down-alt2"
@@ -230,43 +229,20 @@ export default class HowToStep extends Component {
 			},
 		} = this.props;
 
-		let newText = text.slice();
-		const image = <img className={ `wp-image-${ media.id }` } alt={ media.alt } src={ media.url } style="max-width:100%;" />;
+		const image = <img className={ `wp-image-${ media.id }` } alt={ media.alt || "" } src={ media.url } style={ { maxWidth: "100%" } } />;
 
-		if ( newText.push ) {
-			newText.push( image );
-		} else {
-			newText = [ newText, image ];
-		}
+		// Serializes the image element to string and append it to the existing text (which is now a string).
+		// renderToString is used to convert the image element to an HTML string instead of just creating an image string manually,
+		// to ensure safe and secure rendering. renderToString handles any necessary escaping and encoding that lowers the risk of XSS attacks.
+		const newText = ( text || "" ) + renderToString( image );
 
 		this.props.onChange( name, newText, name, text, index );
 	}
 
 	/**
-	 * Returns the image src from step contents.
+	 * Performs a shallow equal to prevent every step from being rerendered.
 	 *
-	 * @param {array} contents The step contents.
-	 *
-	 * @returns {string|boolean} The image src or false if none is found.
-	 */
-	static getImageSrc( contents ) {
-		if ( ! contents || ! contents.filter ) {
-			return false;
-		}
-
-		const image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
-
-		if ( ! image ) {
-			return false;
-		}
-
-		return image.props.src;
-	}
-
-	/**
-	 * Perform a shallow equal to prevent every step from being rerendered.
-	 *
-	 * @param {object} nextProps The next props the component will receive.
+	 * @param {Object} nextProps The next props the component will receive.
 	 *
 	 * @returns {boolean} Whether or not the component should perform an update.
 	 */
@@ -278,24 +254,29 @@ export default class HowToStep extends Component {
 	 * Returns the component of the given How-to step to be rendered in a WordPress post
 	 * (e.g. not in the editor).
 	 *
-	 * @param {object} step The how-to step.
+	 * @param {Object} step The how-to step.
 	 *
-	 * @returns {wp.Element} The component to be rendered.
+	 * @returns {JSX.Element} The component to be rendered.
 	 */
 	static Content( step ) {
+		const { name, text, id } = step;
+		// Backward compatibility for legacy array format.
+		const stepName = Array.isArray( name ) ? convertToHTMLString( name ) : name;
+		const stepText = Array.isArray( text ) ? convertToHTMLString( text ) : text;
+
 		return (
-			<li className={ "schema-how-to-step" } id={ step.id } key={ step.id }>
+			<li className={ "schema-how-to-step" } id={ id } key={ id }>
 				<RichTextContentWithAppendedSpace
 					tagName="strong"
 					className="schema-how-to-step-name"
-					key={ step.id + "-name" }
-					value={ step.name }
+					key={ id + "-name" }
+					value={ stepName }
 				/>
 				<RichTextContentWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-step-text"
-					key={ step.id + "-text" }
-					value={ step.text }
+					key={ id + "-text" }
+					value={ stepText }
 				/>
 			</li>
 		);
@@ -304,7 +285,7 @@ export default class HowToStep extends Component {
 	/**
 	 * Renders this component.
 	 *
-	 * @returns {wp.Element} The how-to step editor.
+	 * @returns {JSX.Element} The how-to step editor.
 	 */
 	render() {
 		const {
@@ -324,24 +305,26 @@ export default class HowToStep extends Component {
 						: ( index + 1 ) + "."
 					}
 				</span>
-				<RichTextWithAppendedSpace
+				<RichText
+					identifier={ `${ id }-name` }
 					className="schema-how-to-step-name"
 					tagName="p"
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ this.onChangeTitle }
+					onFocus={ this.onFocusTitle }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
-					unstableOnFocus={ this.onFocusTitle }
-					formattingControls={ [ "italic", "strikethrough", "link" ] }
+					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link", "core/annotation" ] }
 				/>
-				<RichTextWithAppendedSpace
+				<RichText
+					identifier={ `${ id }-text` }
 					className="schema-how-to-step-text"
 					tagName="p"
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ this.onChangeText }
+					onFocus={ this.onFocusText }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
-					unstableOnFocus={ this.onFocusText }
 				/>
 				{ isSelected &&
 					<div className="schema-how-to-step-controls-container">

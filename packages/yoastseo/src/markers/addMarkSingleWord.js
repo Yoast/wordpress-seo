@@ -1,5 +1,5 @@
 import { stripWordBoundariesStart, stripWordBoundariesEnd } from "../languageProcessing/helpers/sanitize/stripWordBoundaries";
-import { escapeRegExp } from "lodash-es";
+import { escapeRegExp } from "lodash";
 
 /**
  * Marks a text with HTML tags, deals with word boundaries that were matched by regexes, but which should not be marked.
@@ -17,7 +17,7 @@ export default function( text ) {
 	// Get the actual word boundaries from the start of the text.
 	if ( strippedTextStart !== text ) {
 		const wordBoundaryStartIndex = text.search( escapeRegExp( strippedTextStart ) );
-		wordBoundaryStart = text.substr( 0, wordBoundaryStartIndex );
+		wordBoundaryStart = text.substring( 0, wordBoundaryStartIndex );
 	}
 
 	// Strip word boundaries at the end of the text.
@@ -25,7 +25,7 @@ export default function( text ) {
 	// Get the actual word boundaries from the end of the text.
 	if ( strippedTextEnd !== strippedTextStart ) {
 		const wordBoundaryEndIndex = strippedTextStart.search( escapeRegExp( strippedTextEnd ) ) + strippedTextEnd.length;
-		wordBoundaryEnd = strippedTextStart.substr( wordBoundaryEndIndex );
+		wordBoundaryEnd = strippedTextStart.substring( wordBoundaryEndIndex );
 	}
 
 	return wordBoundaryStart + "<yoastmark class='yoast-text-mark'>" + strippedTextEnd + "</yoastmark>" + wordBoundaryEnd;

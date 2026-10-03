@@ -1,34 +1,89 @@
-@import "@yoast/ui-library";
+body.seo_page_wpseo_page_settings {
+	@apply yst-bg-slate-100;
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+	/* Move WP footer behind our content. */
+	z-index: -1;
 
-@layer base {
-	.yst-root {
-		a {
-			@apply focus:yst-shadow-none;
-		}
+	#wpcontent {
+		padding-left: 0 !important;
+	}
 
-		.yst-radio__input {
-			@apply
-			yst-transition-none
-			yst-shadow-none
-			checked:before:yst-hidden;
+	#wpfooter {
+		@apply yst-pr-4;
+
+		@media (min-width: 768px) {
+			@apply yst-pr-8;
+
+			padding-left: 17rem;
 		}
 	}
-}
 
-@layer components {
-	.yst-root {
+	.wp-responsive-open #wpbody {
+		@media screen and (max-width: 782px) {
+			right: -190px; /* Override to not leave space between the mobile menu and the content. */
+		}
+	}
+
+	#modal-search .yst-modal__close {
+		margin-top: -0.25rem;
+	}
+
+	&.sticky-menu {
+		.yst-root .yst-notifications--bottom-left {
+			@media (min-width: 783px) and (max-width: 962px) {
+				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
+			}
+		}
+
+		&.folded, &.auto-fold {
+			.yst-root .yst-notifications--bottom-left {
+				@media (min-width: 783px) and (max-width: 963px) {
+					left: calc(32px + 2rem); /* Next to admin menu. 32px is the collapsed admin menu width. */
+				}
+			}
+		}
+
+		&.folded {
+			.yst-root .yst-notifications--bottom-left {
+				@media (min-width: 962px) {
+					left: calc(32px + 2rem); /* Next to admin menu. 32px is the collapsed admin menu width. */
+				}
+			}
+		}
+	}
+
+	&:not(.sticky-menu) .wp-responsive-open .yst-root {
 		.yst-notifications--bottom-left {
-			left: calc( 160px + 2rem ); /* Next to admin menu. 160px is admin menu width */
+			@media (max-width: 783px) {
+				left: calc(190px + 2rem); /* Next to admin menu. 190px is the responsive admin menu width. */
+			}
+		}
+	}
+
+	.yst-root {
+		.yst-notifications {
+			max-height: calc(100% - 4rem - 32px); /* Extra 32px for the height of the WP admin bar. */
+
+			@media (max-width: 782px) {
+				max-height: calc(100% - 4rem - 48px); /* Extra 48px for the height of the mobile WP admin bar. */
+			}
+		}
+
+		.yst-notifications--bottom-left {
 			z-index: 9991; /* 1 above admin menu */
+
+			@media (min-width: 783px) {
+				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
+			}
 		}
 
 		.yst-mobile-navigation__top {
 			@media (min-width: 601px) and (max-width: 768px) {
 				top: 46px;
+			}
+
+			@media (min-width: 783px) {
+				@apply yst-hidden;
 			}
 		}
 
@@ -36,20 +91,33 @@
 			z-index: 99999;
 		}
 
-		.yst-toggle-field--grid {
-			@apply lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12 lg:yst-max-w-none;
+		.yst-replacevar {
+			@apply yst-relative;
 
-			.yst-toggle-field__text {
-				@apply lg:yst-col-span-1;
-			}
+			/* This needs additional nesting, specificity wise. */
 
-			.yst-toggle {
-				@apply lg:yst-col-span-2;
+			.emoji-select-popover {
+				@apply yst-z-20 yst-right-auto yst-left-0;
 			}
 		}
 
-		.yst-replacevar {
-			@apply yst-relative;
+		.yst-replacevar--disabled {
+			.yst-replacevar__label,
+			.yst-replacevar__editor,
+			.emoji-select-button {
+				@apply yst-opacity-50;
+			}
+
+			.yst-replacevar__button-insert,
+			.yst-replacevar__label,
+			.yst-replacevar__editor,
+			.emoji-select-button {
+				@apply yst-cursor-not-allowed;
+			}
+
+			.emoji-select-button {
+				@apply yst-pointer-events-none;
+			}
 		}
 
 		.yst-replacevar__label {
@@ -60,43 +128,24 @@
 			yst-flex
 			yst-text-sm
 			yst-font-medium
-			yst-text-gray-700;
+			yst-text-slate-800;
 		}
 
-		.yst-replacevar__button-insert {
-			@apply yst-mb-2;
+		.yst-replacevar__buttons {
+			@apply yst-inline-flex yst-gap-1.5 yst-mb-2;
 
-			/* .yst-button */
-			@apply
-			yst-inline-flex
-			yst-items-center
-			yst-py-2
-			yst-px-3
-			yst-border
-			yst-shadow-sm
-			yst-no-underline
-			yst-cursor-pointer
-			yst-rounded-md
-			yst-text-sm
-			yst-font-medium
-			yst-leading-4
+			.emoji-select-button {
+				width: 28px!important;
+				min-height: 28px!important;
+				height: 28px!important;
+				padding: 6px!important;
 
-			focus:yst-outline-none
-			focus:yst-ring-2
-			focus:yst-ring-offset-2
-			focus:yst-ring-primary-500
+				svg {
+					height: 16px!important;
+					width: 16px!important;
+				}
 
-			disabled:yst-cursor-not-allowed
-			disabled:yst-pointer-events-none
-			disabled:yst-opacity-50;
-
-			/* .yst-button--secondary */
-			@apply
-			yst-text-gray-700
-			yst-bg-white
-			yst-border-gray-300
-
-			hover:yst-bg-gray-50;
+			}
 		}
 
 		.yst-replacevar__editor {
@@ -106,14 +155,14 @@
 			yst-py-2
 			yst-px-3
 			yst-border
-			yst-border-gray-300
+			yst-border-slate-300
 			yst-rounded-md
 			yst-shadow-sm
 			yst-bg-white
 			yst-text-sm
 			yst-leading-6
-			yst-text-gray-700
-			yst-placeholder-gray-500
+			yst-text-slate-800
+			yst-placeholder-slate-500
 			focus-within:yst-outline-none
 			focus-within:yst-ring-primary-500
 			focus-within:yst-border-primary-500
@@ -131,7 +180,7 @@
 				yst-ring-black
 				yst-ring-opacity-5
 				focus:yst-outline-none
-				yst-z-10;
+				yst-z-20;
 
 				div > div {
 					@apply
@@ -139,14 +188,14 @@
 					yst-px-4
 					yst-py-2
 					yst-text-sm
-					yst-text-gray-800
+					yst-text-slate-800
 					yst-no-underline
-					hover:yst-bg-gray-100
-					hover:yst-text-gray-900
+					hover:yst-bg-slate-200
+					hover:yst-text-slate-900
 					yst-cursor-pointer;
 
 					&[aria-selected] {
-						@apply yst-bg-gray-100 yst-text-gray-900
+						@apply yst-bg-slate-200 yst-text-slate-900
 					}
 				}
 			}
@@ -158,19 +207,24 @@
 
 		.yst-replacevar__mention {
 			@apply
-			yst-inline-flex
+			yst-inline-block
 			yst-py-0.5
 			yst-px-2
 			yst-mx-0.5
 			yst-rounded-full
-			yst-items-center
 			yst-leading-tight
 			yst-text-xs
 			yst-font-medium
-			yst-bg-gray-100
-			yst-text-gray-800;
+			yst-bg-slate-200
+			yst-text-slate-900;
+		}
+	}
+
+	/* RTL */
+
+	&.rtl {
+		.yst-root .yst-replacevar .emoji-select-popover {
+			@apply yst-left-0 yst-right-auto;
 		}
 	}
 }
-
-

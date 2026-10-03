@@ -1,17 +1,9 @@
 /**
- * Keep constants centralized to avoid circulr dependency problems.
+ * Keep constants centralized to avoid circular dependency problems.
  */
 export const STORE_NAME = "@yoast/settings";
 
-export const ASYNC_ACTION_NAMES = {
-	request: "request",
-	success: "success",
-	error: "error",
-};
-
-export const ASYNC_ACTION_STATUS = {
-	idle: "idle",
-	loading: "loading",
-	success: "success",
-	error: "error",
+export const LLMS_TXT_GENERATION_FAILURE_REASONS = {
+	filesystemPermissions: "filesystem_permissions",
+	notManagedByYoastSeo: "not_managed_by_yoast_seo",
 };

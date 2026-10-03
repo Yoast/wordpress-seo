@@ -4,21 +4,20 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-// Yoast dependencies.
-import { colors } from "@yoast/style-guide";
-
 const StyledMention = styled.span`
-	color: ${ colors.$color_white };
-	background-color: ${ colors.$color_pink_dark };
-	padding: 0 8px;
-	margin: 0 2px;
-	line-height: 1.71428571; // 24px based on 14px font-size
+	color: rgb(15 23 42);
+	background-color: rgb(226 232 240);
+	padding: 0.125rem 0.5rem;
+	margin: 0 0.125rem;
 	border-radius: 17px;
-	cursor: default;
-
+  	font-size: .75rem;
+  	font-weight: 500;
+  	line-height: 1.25;
+}
 	&:hover {
-		color: ${ colors.$color_white };
-		background-color: ${ colors.$color_pink_dark };
+      color: rgb(15 23 42);
+	  background-color: rgb(226 232 240);
+	  cursor: auto;
 	}
 `;
 

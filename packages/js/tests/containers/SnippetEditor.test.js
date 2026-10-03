@@ -5,6 +5,7 @@ describe( "SnippetEditor container", () => {
 		const select = jest.fn( name => {
 			if ( name === "yoast-seo/editor" ) {
 				return {
+					getSiteName: jest.fn().mockReturnValue( "Site Name" ),
 					getBaseUrlFromSettings: jest.fn().mockReturnValue( "https://localhost.test" ),
 					getDateFromSettings: jest.fn().mockReturnValue( "01-01-1970" ),
 					getFocusKeyphrase: jest.fn().mockReturnValue( "active" ),
@@ -22,6 +23,7 @@ describe( "SnippetEditor container", () => {
 					] ),
 					getShoppingData: jest.fn().mockReturnValue( {
 						rating: 1,
+						bestRating: 10,
 						reviewCount: 2,
 						avalability: "in stock",
 						price: "&euro; 123",
@@ -43,6 +45,7 @@ describe( "SnippetEditor container", () => {
 		} );
 
 		const expected = {
+			siteName: "Site Name",
 			baseUrl: "https://localhost.test",
 			data: {
 				title: "Title",
@@ -68,6 +71,7 @@ describe( "SnippetEditor container", () => {
 			],
 			shoppingData: {
 				rating: 1,
+				bestRating: 10,
 				reviewCount: 2,
 				avalability: "in stock",
 				price: "&euro; 123",

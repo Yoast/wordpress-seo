@@ -1,16 +1,11 @@
-import indicesProcessing from "../../word/indices";
-const getIndicesOfList = indicesProcessing.getIndicesByWordList;
-const filterIndices = indicesProcessing.filterIndices;
-const sortIndices = indicesProcessing.sortIndices;
+import { getIndicesByWordList as getIndicesOfList, filterIndices, sortIndices } from "../../word/indices";
 import stripSpaces from "../../sanitize/stripSpaces.js";
 import { normalizeSingle as normalizeSingleQuotes } from "../../sanitize/quotes.js";
 import getWordIndices from "./getIndicesWithRegex.js";
 import includesIndex from "../../word/includesIndex";
 import followsIndex from "../../word/followsIndex";
 
-import { isUndefined } from "lodash-es";
-import { map } from "lodash-es";
-import { forEach } from "lodash-es";
+import { forEach, isUndefined, map } from "lodash";
 
 /**
  * Gets stop characters to determine sentence breakers.
@@ -210,7 +205,7 @@ const getClauses = function( sentence, options ) {
 		}
 
 		// Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
-		const clause = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
+		const clause = stripSpaces( sentence.substring( indices[ i ].index, endIndex ) );
 
 		const auxiliaryMatches = getAuxiliaryMatches( clause, options.regexes );
 		// If a clause doesn't have an auxiliary, we don't need it, so it can be filtered out.

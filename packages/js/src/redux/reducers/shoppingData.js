@@ -13,7 +13,7 @@ const INITIAL_STATE = {};
  */
 function shoppingDataReducer( state = INITIAL_STATE, action ) {
 	if ( action.type === SET_SHOPPING_DATA ) {
-		const shoppingData = pick( action.shoppingData, [ "rating", "reviewCount", "availability", "price" ] );
+		const shoppingData = pick( action.shoppingData, [ "rating", "bestRating", "reviewCount", "availability", "price" ] );
 		return {
 			...state,
 			...shoppingData,

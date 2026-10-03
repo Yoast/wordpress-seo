@@ -3,6 +3,7 @@
 /* jshint -W097 */
 /* jshint unused:false */
 import jQuery from "jquery";
+import { getAdminSubmenuBackground } from "./helpers/adminColorSchemeHelpers";
 
 ( function( $ ) {
 	/**
@@ -152,6 +153,48 @@ import jQuery from "jquery";
 	}
 
 	/**
+	 * Makes the upgrade links in the admin sidebar open in a new tab.
+	 *
+	 * @returns {void}
+	 */
+	function makeUpgradesOpenInNewTab() {
+		var element = $( "a[href=\"admin.php?page=wpseo_upgrade_sidebar\"]" );
+		if ( element.length ) {
+			element.attr( "target", "_blank" );
+		}
+	}
+
+	/**
+	 * Makes the Brand Insight link in the admin sidebar open in a new tab.
+	 *
+	 * @returns {void}
+	 */
+	function makeBrandInsightsLinkOpenInNewTab() {
+		var elements = $( "a[href$='admin.php?page=wpseo_brand_insights']" );
+		if ( elements.length ) {
+			elements.each( function() {
+				var element = $( this );
+				element.attr( "target", "_blank" );
+			} );
+		}
+	}
+
+	/**
+	 * Makes the Brand Insight link in the admin sidebar open in a new tab, when Premium is enabled.
+	 *
+	 * @returns {void}
+	 */
+	function makeBrandInsightsPremiumLinkOpenInNewTab() {
+		var elements = $( "a[href$='admin.php?page=wpseo_brand_insights_premium']" );
+		if ( elements.length ) {
+			elements.each( function() {
+				var element = $( this );
+				element.attr( "target", "_blank" );
+			} );
+		}
+	}
+
+	/**
 	 * Handles dismiss and restore AJAX responses.
 	 *
 	 * @param {Object} $source Object that triggered the request.
@@ -241,6 +284,16 @@ import jQuery from "jquery";
 				"json"
 			);
 		} );
+	}
+
+	/**
+	 * Sets the --yoast-adminbar-submenu-bg CSS variable to match the WordPress admin color scheme.
+	 *
+	 * @returns {void}
+	 */
+	function setAdminBarSubmenuBackground() {
+		const backgroundColor = getAdminSubmenuBackground( document.body.className );
+		document.documentElement.style.setProperty( "--yoast-adminbar-submenu-bg", backgroundColor );
 	}
 
 	/**
@@ -367,6 +420,36 @@ import jQuery from "jquery";
 		} );
 	}
 
+	/**
+	 * Resolves potential mismatches in the notification counts between the sidebar and the adminbar.
+	 *
+	 * @returns {void}
+	 */
+	function resolveNotificationMismatch() {
+		const adminbarCount = jQuery( ".yoast-issue-counter .yoast-issues-count" ).first();
+		const sidebarCounts = jQuery( "#toplevel_page_wpseo_dashboard .plugin-count" );
+
+		if ( adminbarCount.text() === sidebarCounts.first().text() ) {
+			return;
+		}
+
+		const sidebarClass = jQuery( "#toplevel_page_wpseo_dashboard .update-plugins" );
+		const adminbarScreenReader = jQuery( ".yoast-issue-counter .screen-reader-text" ).first();
+		const sidebarScreenReader = jQuery( "#toplevel_page_wpseo_dashboard .update-plugins .screen-reader-text" );
+
+		if ( adminbarCount.length ) {
+			sidebarCounts.text( adminbarCount.text() );
+			sidebarClass.removeClass().addClass( "update-plugins count-" + adminbarCount.text() );
+			sidebarScreenReader.text( adminbarScreenReader.text() );
+
+			return;
+		}
+
+		sidebarCounts.text( "0" );
+		sidebarClass.removeClass().addClass( "update-plugins count-0" );
+		sidebarScreenReader.remove();
+	}
+
 	/*
 	 * When the viewport size changes, check again the scrollable tables width.
 	 * About the events: technically `wp-window-resized` is triggered on the
@@ -407,7 +490,12 @@ import jQuery from "jquery";
 	$( document ).ready( function() {
 		showAlertPopup();
 		hookDismissRestoreButtons();
+		setAdminBarSubmenuBackground();
 		setPremiumIndicatorColor();
 		createScrollableTables();
+		resolveNotificationMismatch();
+		makeUpgradesOpenInNewTab();
+		makeBrandInsightsLinkOpenInNewTab();
+		makeBrandInsightsPremiumLinkOpenInNewTab();
 	} );
 }( jQuery ) );

@@ -1,6 +1,10 @@
 @import url(../src/icons.css);
 @import "../src/tooltips.css";
 
+.rtl .yst-icon-rtl {
+	@apply yst-rotate-180;
+}
+
 .wpseo-premium-indicator {
   width: 1px;
   height: 1px;
@@ -53,36 +57,6 @@
 .edit-tags-php .column-description img {
   max-width: 100%;
   height: auto;
-}
-
-/* Select2 specific fixes for WordPress: they generally need high specificity */
-.select2-container .select2-search--dropdown .select2-search__field {
-  margin: 0;
-  padding: 0 8px;
-  min-height: 30px;
-}
-
-.select2-results__option,
-.select2-selection__choice,
-.select2-search--inline {
-  margin-bottom: 0;
-}
-
-.select2-container .select2-search--inline .select2-search__field {
-  margin-top: 6px !important;
-  line-height: inherit;
-  min-height: 0;
-}
-
-/* Turn off select2 fixed height */
-.wpseo-metabox .select2-container .select2-selection--single,
-.wpseo-admin-page .select2-container .select2-selection--single {
-  height: auto;
-}
-
-.wpseo-metabox .select2-container .select2-selection--single .select2-selection__arrow,
-.wpseo-admin-page .select2-container .select2-selection--single .select2-selection__arrow {
-  height: 100%;
 }
 
 .yoast-label-strong {
@@ -633,6 +607,7 @@ body.folded .wpseo-admin-submit-fixed {
 .yoast-new-badge {
 	background-color: #cce5ff;
 	color: #004973;
+
 }
 
 .yoast-premium-badge {
@@ -661,9 +636,53 @@ body.folded .wpseo-admin-submit-fixed {
 	vertical-align: bottom;
 }
 
-/* Disabled toggles in the Crawl settings tab */
+/* AI Brand Insights menu button styling */
+.wp-submenu .yoast-brand-insights-gradient-border {
+	@apply
+	yst-relative
+	yst-inline-flex
+	yst-rounded-md
+	yst-p-px
+	yst-w-full;
+	background: linear-gradient(97.38deg, #CD82AB 0%, #A5B4FC 100%);
+}
 
-.yoast #crawl-settings fieldset[id$="_disabled"] ,
+.wp-submenu .yoast-brand-insights-content {
+	@apply
+	yst-relative
+	yst-rounded-md
+	yst-py-1.5
+	yst-pr-2
+	yst-pl-2.5
+	yst-inline-flex
+	yst-items-center
+	yst-justify-center
+	yst-gap-1
+	yst-text-xs
+	yst-font-medium
+	yst-whitespace-nowrap
+	yst-w-full;
+	background: var(--yoast-adminbar-submenu-bg, #2c3338);
+}
+
+/* External link icon for the AI Brand Insights button */
+.yst-external-link-icon {
+	@apply
+	yst-inline-block
+	yst-w-3.5
+	yst-h-3.5
+	yst-align-middle
+	yst-mb-0.5;
+	background-color: currentColor;
+	mask-image: var(--yoast-svg-icon-external-link);
+	-webkit-mask-image: var(--yoast-svg-icon-external-link);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
+}
+
+/* Disabled toggles in the Crawl settings tab */
+.yoast #crawl-settings fieldset[id$="_disabled"],
+.yoast #crawl-settings p.disabled,
 .yoast label[for="search_character_limit_free"],
 .yoast label[for="clean_permalinks_extra_variables_free"],
 .yoast p.yoast-extra-variables-label-free {
@@ -728,6 +747,10 @@ body.folded .wpseo-admin-submit-fixed {
 	margin-top: 20px;
 }
 
+#black-friday-2023-product-editor-checklist .notice-yoast__container {
+	padding: 0px 5px;
+}
+
 .notice-yoast.is-dismissible {
 	padding-right: 38px;
     position: relative;
@@ -746,7 +769,7 @@ body.folded .wpseo-admin-submit-fixed {
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: row;
-	justify-content: left;
+	justify-content: flex-start;
 	align-items: center;
 	width: 100%;
 }
@@ -838,6 +861,10 @@ body.folded .wpseo-admin-submit-fixed {
   color: #d63638;
 }
 
+.yoast-notice-migrated-header {
+  margin-top: 10px;
+}
+
 .privacy-settings .notice-yoast {
   margin: 0 20px;
 }
@@ -861,5 +888,133 @@ body.folded .wpseo-admin-submit-fixed {
 
 .yoast .yoast-crawl-settings-disabled {
   opacity: 0.5;
+}
+.yoast .indexables-indexing-error p {
+  margin-bottom: 13px;
+}
+
+.yoast .indexables-indexing-error strong {
+  font-weight: 500;
+}
+
+.yoast .indexables-indexing-error summary {
+  font-weight: 700;
+}
+.yoast-dashicons-notice {
+	color: #dba617;
+}
+
+#black-friday-promotion-sidebar.notice-yoast {
+	border-color: #fcd34d;
+	border-width: 2px;
+	border-radius: 8px;
+	background: #fff;
+
+	margin: 5px 0 15px;
+	padding: 1px 12px;
+
+	margin-left: 0;
+	margin-top: 20px;
+}
+
+#black-friday-promotion-sidebar .notice-yoast__header {
+	margin-bottom: 2px;
+    padding-right: 20px;
+}
+
+#black-friday-promotion-metabox.notice-yoast {
+	border-color: #fcd34d;
+	border-width: 2px;
+	border-radius: 8px;
+	background: #fff;
+
+	margin: 20px;
+}
+
+#black-friday-promotion-metabox h2.notice-yoast__header-heading {
+	padding: 0px;
+}
+
+#black-friday-promotion-metabox .notice-yoast__container {
+	padding-bottom: 0px;
+}
+
+#black-friday-promotion-metabox .notice-yoast__container p {
+	display: inline;
+}
+
+#black-friday-promotion-metabox .notice-yoast__header {
+	margin-bottom: 8px;
+}
+
+#black-friday-promotion-metabox .notice-yoast__header a {
+	font-weight: 400;
+	margin-left: 13px;
+}
+
+.yoast-bf-sale-badge {
+	display: block;
+	position:absolute;
+	border-radius: 8px;
+	top: -10px;
+	left: 12px;
+	background-color: #1F2937;
+	color: #FCD34D;
+	padding: 2px 8px;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: normal;
+}
+
+.yoast-menu-bf-sale-badge {
+	margin-left: 5px;
+	border-radius: 8px;
+	border: 1px solid #FCD34D;
+	background-color: #1F2937;
+	color: #FCD34D;
+	padding: 2px 8px;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: normal;
+	text-wrap: nowrap;
+}
+
+.yoast-update-plugin-bf-sale-badge {
+	margin: auto 8px;
+	border-radius: 16px;
+	background-color: #000;
+	color: #FCD34D;
+	padding: 2px 8px;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: normal;
+	display: inline-block;
+	height: 13px;
+}
+
+#wpseo-new-badge-upgrade {
+	@apply
+	yst-inline-flex
+	yst-items-center
+	yst-justify-center
+	yst-whitespace-nowrap
+	yst-m-0.5
+	yst-mt-0.5
+	yst-mb-0.5
+	yst-ml-2
+	yst-mr-2
+	yst-w-[2.375rem]
+	yst-h-4
+	yst-rounded-[18px]
+	yst-bg-blue-200
+	yst-text-blue-800
+	yst-text-xs
+	yst-font-semibold
+}
+
+@media (min-width: 768px) {
+	.wpseo_table_page .tablenav.bottom {
+		margin-bottom: 40px;
+	}
 }
 /*# sourceMappingURL=admin-global.css.map */

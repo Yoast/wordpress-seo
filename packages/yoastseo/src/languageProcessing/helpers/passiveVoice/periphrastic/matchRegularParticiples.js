@@ -1,4 +1,4 @@
-import { flattenDeep } from "lodash-es";
+import { flattenDeep } from "lodash";
 
 /**
  * Returns words that have been determined to be a regular participle.

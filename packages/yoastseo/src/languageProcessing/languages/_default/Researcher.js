@@ -5,7 +5,7 @@ const { AbstractResearcher } = languageProcessing;
 import getStemmer from "./helpers/getStemmer";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class Researcher extends AbstractResearcher {
 	/**
@@ -22,7 +22,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.findTransitionWords;
 		delete this.defaultResearches.functionWordsInKeyphrase;
-		delete this.defaultResearches.wordComplexity;
 
 		Object.assign( this.config, {
 			functionWords: [],

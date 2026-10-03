@@ -14,16 +14,17 @@ const TextLength = () => {
 
 	let unitString = _n( "word", "words", textLength.count, "wordpress-seo" );
 	let titleString = __( "Word count", "wordpress-seo" );
+	/* translators: Hidden accessibility text. */
 	let linkText =  __( "Learn more about word count", "wordpress-seo" );
 	if ( textLength.unit === "character" ) {
 		unitString = _n( "character", "characters", textLength.count, "wordpress-seo" );
 		titleString = __( "Character count", "wordpress-seo" );
+		/* translators: Hidden accessibility text. */
 		linkText =  __( "Learn more about character count", "wordpress-seo" );
 	}
 
 	return (
 		<InsightsCard
-			id={ "yoastseo-text-length-insights" }
 			amount={ textLength.count }
 			unit={ unitString }
 			title={ titleString }

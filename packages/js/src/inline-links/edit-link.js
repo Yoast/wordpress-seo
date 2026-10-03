@@ -30,8 +30,13 @@ export const link = {
 	className: null,
 	attributes: {
 		url: "href",
+		type: "data-type",
+		id: "data-id",
+		// _id matches WP core: reads the HTML id attribute on anchors but is never written by our link format.
+		_id: "id",
 		target: "target",
 		rel: "rel",
+		"class": "class",
 	},
 	replaces: "core/link",
 	__unstablePasteRule( value, { html, plainText } ) {
@@ -106,6 +111,11 @@ export const link = {
 				speak( __( "Link removed.", "wordpress-seo" ), "assertive" );
 			}
 
+			/**
+			 * Renders the link edit component.
+			 *
+			 * @returns {JSX.Element} The rendered component.
+			 */
 			render() {
 				const {
 					isActive,
@@ -169,6 +179,7 @@ export const link = {
 								activeAttributes={ activeAttributes }
 								value={ value }
 								onChange={ onChange }
+								contentRef={ this.props.contentRef }
 							/>
 						) }
 					</Fragment>

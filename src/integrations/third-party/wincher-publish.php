@@ -102,15 +102,6 @@ class Wincher_Publish implements Integration_Interface {
 	}
 
 	/**
-	 * Determines whether the current request is a REST request.
-	 *
-	 * @return bool Whether the request is a REST request.
-	 */
-	public function is_rest_request() {
-		return \defined( 'REST_REQUEST' ) && \REST_REQUEST;
-	}
-
-	/**
 	 * Sends the keyphrases associated with the post to Wincher for automatic tracking.
 	 *
 	 * @param WP_Post $post The post to extract the keyphrases from.
@@ -153,7 +144,7 @@ class Wincher_Publish implements Integration_Interface {
 	 * @return void
 	 */
 	public function track_after_post_request( $post_id, $post ) {
-		if ( $this->is_rest_request() ) {
+		if ( \wp_is_serving_rest_request() ) {
 			return;
 		}
 

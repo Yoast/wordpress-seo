@@ -15,6 +15,7 @@ export default compose( [
 			getWincherRequestIsSuccess,
 			getWincherRequestResponse,
 			getWincherTrackableKeyphrases,
+			getWincherTrackedKeyphrases,
 			getWincherAllKeyphrasesMissRanking,
 			getWincherPermalink,
 			shouldWincherAutomaticallyTrackAll,
@@ -22,6 +23,7 @@ export default compose( [
 
 		return {
 			keyphrases: getWincherTrackableKeyphrases(),
+			trackedKeyphrases: getWincherTrackedKeyphrases(),
 			allKeyphrasesMissRanking: getWincherAllKeyphrasesMissRanking(),
 			isLoggedIn: getWincherLoginStatus(),
 			isNewlyAuthenticated: isWincherNewlyAuthenticated(),
@@ -38,6 +40,8 @@ export default compose( [
 			setWincherWebsiteId,
 			setWincherRequestSucceeded,
 			setWincherRequestFailed,
+			setWincherTrackingForKeyphrase,
+			setWincherSetKeyphraseLimitReached,
 			setWincherLoginStatus,
 		} = dispatch( "yoast-seo/editor" );
 
@@ -47,6 +51,12 @@ export default compose( [
 			},
 			setRequestFailed: ( response ) => {
 				setWincherRequestFailed( response );
+			},
+			addTrackedKeyphrase: ( keyphraseObject ) => {
+				setWincherTrackingForKeyphrase( keyphraseObject );
+			},
+			setKeyphraseLimitReached: ( limit ) => {
+				setWincherSetKeyphraseLimitReached( limit );
 			},
 			onAuthentication: ( status, newlyAuthenticated, websiteId ) => {
 				setWincherWebsiteId( websiteId );

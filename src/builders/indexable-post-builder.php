@@ -2,10 +2,11 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use WP_Error;
 use WP_Post;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -43,6 +44,13 @@ class Indexable_Post_Builder {
 	protected $post_type_helper;
 
 	/**
+	 * The permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	protected $permalink_helper;
+
+	/**
 	 * Knows the latest version of the Indexable post builder type.
 	 *
 	 * @var int
@@ -63,17 +71,20 @@ class Indexable_Post_Builder {
 	 * @param Post_Type_Helper           $post_type_helper The post type helper.
 	 * @param Indexable_Builder_Versions $versions         The indexable builder versions.
 	 * @param Meta_Helper                $meta             The meta helper.
+	 * @param Permalink_Helper           $permalink_helper The permalink helper.
 	 */
 	public function __construct(
 		Post_Helper $post_helper,
 		Post_Type_Helper $post_type_helper,
 		Indexable_Builder_Versions $versions,
-		Meta_Helper $meta
+		Meta_Helper $meta,
+		Permalink_Helper $permalink_helper
 	) {
 		$this->post_helper      = $post_helper;
 		$this->post_type_helper = $post_type_helper;
 		$this->version          = $versions->get_latest_version_for_type( 'post' );
 		$this->meta             = $meta;
+		$this->permalink_helper = $permalink_helper;
 	}
 
 	/**
@@ -82,6 +93,8 @@ class Indexable_Post_Builder {
 	 * @required
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 *
+	 * @return void
 	 */
 	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
 		$this->indexable_repository = $indexable_repository;
@@ -96,10 +109,11 @@ class Indexable_Post_Builder {
 	 * @return bool|Indexable The extended indexable. False when unable to build.
 	 *
 	 * @throws Post_Not_Found_Exception When the post could not be found.
+	 * @throws Post_Not_Built_Exception When the post should not be indexed.
 	 */
 	public function build( $post_id, $indexable ) {
 		if ( ! $this->post_helper->is_post_indexable( $post_id ) ) {
-			return false;
+			throw Post_Not_Built_Exception::because_not_indexable( $post_id );
 		}
 
 		$post = $this->post_helper->get_post( $post_id );
@@ -109,24 +123,30 @@ class Indexable_Post_Builder {
 		}
 
 		if ( $this->should_exclude_post( $post ) ) {
-			return false;
+			throw Post_Not_Built_Exception::because_post_type_excluded( $post_id );
 		}
 
 		$indexable->object_id       = $post_id;
 		$indexable->object_type     = 'post';
 		$indexable->object_sub_type = $post->post_type;
-		$indexable->permalink       = $this->get_permalink( $post->post_type, $post_id );
+		$indexable->permalink       = $this->permalink_helper->get_permalink_for_post( $post->post_type, $post_id );
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->meta->get_value( 'focuskw', $post_id ),
-			(int) $this->meta->get_value( 'linkdex', $post_id )
+			(int) $this->meta->get_value( 'linkdex', $post_id ),
 		);
 
 		$indexable->readability_score = (int) $this->meta->get_value( 'content_score', $post_id );
 
+		$indexable->inclusive_language_score = (int) $this->meta->get_value( 'inclusive_language_score', $post_id );
+
+		$indexable->seo_title_score = (int) $this->meta->get_value( 'seo_title_score', $post_id );
+
+		$indexable->meta_description_score = (int) $this->meta->get_value( 'meta_description_score', $post_id );
+
 		$indexable->is_cornerstone    = ( $this->meta->get_value( 'is_cornerstone', $post_id ) === '1' );
 		$indexable->is_robots_noindex = $this->get_robots_noindex(
-			(int) $this->meta->get_value( 'meta-robots-noindex', $post_id )
+			(int) $this->meta->get_value( 'meta-robots-noindex', $post_id ),
 		);
 
 		// Set additional meta-robots values.
@@ -169,22 +189,6 @@ class Indexable_Post_Builder {
 		$indexable->version = $this->version;
 
 		return $indexable;
-	}
-
-	/**
-	 * Retrieves the permalink for a post with the given post type and ID.
-	 *
-	 * @param string $post_type The post type.
-	 * @param int    $post_id   The post ID.
-	 *
-	 * @return false|string|WP_Error The permalink.
-	 */
-	protected function get_permalink( $post_type, $post_id ) {
-		if ( $post_type !== 'attachment' ) {
-			return \get_permalink( $post_id );
-		}
-
-		return \wp_get_attachment_url( $post_id );
 	}
 
 	/**

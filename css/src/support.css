@@ -1,0 +1,26 @@
+.seo_page_wpseo_page_support {
+	@apply yst-bg-slate-100;
+
+	/* Move WP footer behind our content. */
+	z-index: -1;
+
+	#wpcontent {
+		padding-left: 0 !important;
+	}
+
+	#wpfooter {
+		@apply yst-pr-4;
+
+		@media (min-width: 768px) {
+			@apply yst-pr-8;
+
+			padding-left: 17rem;
+		}
+	}
+
+	.wp-responsive-open #wpbody {
+		@media screen and (max-width: 782px) {
+			right: -190px; /* Override to not leave space between the mobile menu and the content. */
+		}
+	}
+}

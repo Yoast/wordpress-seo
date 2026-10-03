@@ -1,0 +1,226 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SEMrushRelatedKeyphrasesModalContent RelatedKeyphraseModalContent table content should render the trends svgs 1`] = `
+NodeList [
+  <svg
+    aria-hidden="true"
+    class="yst-block"
+    focusable="false"
+    height="24"
+    role="img"
+    viewBox="0 0 66 24"
+    width="66"
+  >
+    <polygon
+      class="yst-fill-sky-200"
+      points="0,24 0,14.232000000000001 6,1.8 12,14.232000000000001 18,14.232000000000001 24,14.232000000000001 30,18.672 36,18.672 42,16.008 48,14.232000000000001 54,14.232000000000001 60,14.232000000000001 66,14.232000000000001 66,24"
+    />
+    <polyline
+      class="yst-stroke-blue-500"
+      fill="none"
+      points="0,14.232000000000001 6,1.8 12,14.232000000000001 18,14.232000000000001 24,14.232000000000001 30,18.672 36,18.672 42,16.008 48,14.232000000000001 54,14.232000000000001 60,14.232000000000001 66,14.232000000000001"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    />
+  </svg>,
+  <svg
+    aria-hidden="true"
+    class="yst-block"
+    focusable="false"
+    height="24"
+    role="img"
+    viewBox="0 0 66 24"
+    width="66"
+  >
+    <polygon
+      class="yst-fill-sky-200"
+      points="0,24 0,24 6,24 12,24 18,24 24,24 30,24 36,24 42,24 48,24 54,24 60,5.796000000000002 66,24 66,24"
+    />
+    <polyline
+      class="yst-stroke-blue-500"
+      fill="none"
+      points="0,24 6,24 12,24 18,24 24,24 30,24 36,24 42,24 48,24 54,24 60,5.796000000000002 66,24"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    />
+  </svg>,
+  <svg
+    aria-hidden="true"
+    class="yst-block"
+    focusable="false"
+    height="24"
+    role="img"
+    viewBox="0 0 66 24"
+    width="66"
+  >
+    <polygon
+      class="yst-fill-sky-200"
+      points="0,24 0,19.56 6,18.672 12,18.672 18,20.448 24,16.008 30,17.562 36,9.347999999999999 42,6.018 48,16.008 54,16.008 60,19.56 66,20.448 66,24"
+    />
+    <polyline
+      class="yst-stroke-blue-500"
+      fill="none"
+      points="0,19.56 6,18.672 12,18.672 18,20.448 24,16.008 30,17.562 36,9.347999999999999 42,6.018 48,16.008 54,16.008 60,19.56 66,20.448"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    />
+  </svg>,
+  <svg
+    aria-hidden="true"
+    class="yst-block"
+    focusable="false"
+    height="24"
+    role="img"
+    viewBox="0 0 66 24"
+    width="66"
+  >
+    <polygon
+      class="yst-fill-sky-200"
+      points="0,24 0,16.008 6,19.782 12,17.562 18,20.448 24,20.448 30,20.448 36,20.448 42,17.562 48,20.448 54,19.782 60,20.448 66,19.782 66,24"
+    />
+    <polyline
+      class="yst-stroke-blue-500"
+      fill="none"
+      points="0,16.008 6,19.782 12,17.562 18,20.448 24,20.448 30,20.448 36,20.448 42,17.562 48,20.448 54,19.782 60,20.448 66,19.782"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    />
+  </svg>,
+  <svg
+    aria-hidden="true"
+    class="yst-block"
+    focusable="false"
+    height="24"
+    role="img"
+    viewBox="0 0 66 24"
+    width="66"
+  >
+    <polygon
+      class="yst-fill-sky-200"
+      points="0,24 0,1.8 6,14.232000000000001 12,14.232000000000001 18,14.232000000000001 24,12.012 30,14.232000000000001 36,14.232000000000001 42,12.012 48,12.012 54,12.012 60,12.012 66,12.012 66,24"
+    />
+    <polyline
+      class="yst-stroke-blue-500"
+      fill="none"
+      points="0,1.8 6,14.232000000000001 12,14.232000000000001 18,14.232000000000001 24,12.012 30,14.232000000000001 36,14.232000000000001 42,12.012 48,12.012 54,12.012 60,12.012 66,12.012"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    />
+  </svg>,
+  <svg
+    aria-hidden="true"
+    class="yst-block"
+    focusable="false"
+    height="24"
+    role="img"
+    viewBox="0 0 66 24"
+    width="66"
+  >
+    <polygon
+      class="yst-fill-sky-200"
+      points="0,24 0,11.79 6,11.79 12,11.79 18,14.01 24,16.008 30,11.79 36,11.79 42,11.79 48,14.01 54,16.008 60,16.008 66,11.79 66,24"
+    />
+    <polyline
+      class="yst-stroke-blue-500"
+      fill="none"
+      points="0,11.79 6,11.79 12,11.79 18,14.01 24,16.008 30,11.79 36,11.79 42,11.79 48,14.01 54,16.008 60,16.008 66,11.79"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    />
+  </svg>,
+  <svg
+    aria-hidden="true"
+    class="yst-block"
+    focusable="false"
+    height="24"
+    role="img"
+    viewBox="0 0 66 24"
+    width="66"
+  >
+    <polygon
+      class="yst-fill-sky-200"
+      points="0,24 0,16.008 6,14.232000000000001 12,14.232000000000001 18,14.232000000000001 24,14.232000000000001 30,12.012 36,14.232000000000001 42,12.012 48,16.008 54,14.232000000000001 60,14.232000000000001 66,17.562 66,24"
+    />
+    <polyline
+      class="yst-stroke-blue-500"
+      fill="none"
+      points="0,16.008 6,14.232000000000001 12,14.232000000000001 18,14.232000000000001 24,14.232000000000001 30,12.012 36,14.232000000000001 42,12.012 48,16.008 54,14.232000000000001 60,14.232000000000001 66,17.562"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    />
+  </svg>,
+  <svg
+    aria-hidden="true"
+    class="yst-block"
+    focusable="false"
+    height="24"
+    role="img"
+    viewBox="0 0 66 24"
+    width="66"
+  >
+    <polygon
+      class="yst-fill-sky-200"
+      points="0,24 0,9.347999999999999 6,12.012 12,12.012 18,12.012 24,9.347999999999999 30,12.012 36,9.347999999999999 42,9.347999999999999 48,12.012 54,14.232000000000001 60,14.232000000000001 66,12.012 66,24"
+    />
+    <polyline
+      class="yst-stroke-blue-500"
+      fill="none"
+      points="0,9.347999999999999 6,12.012 12,12.012 18,12.012 24,9.347999999999999 30,12.012 36,9.347999999999999 42,9.347999999999999 48,12.012 54,14.232000000000001 60,14.232000000000001 66,12.012"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    />
+  </svg>,
+  <svg
+    aria-hidden="true"
+    class="yst-block"
+    focusable="false"
+    height="24"
+    role="img"
+    viewBox="0 0 66 24"
+    width="66"
+  >
+    <polygon
+      class="yst-fill-sky-200"
+      points="0,24 0,9.347999999999999 6,9.347999999999999 12,12.012 18,6.018 24,1.8 30,6.018 36,6.018 42,6.018 48,9.347999999999999 54,12.012 60,12.012 66,12.012 66,24"
+    />
+    <polyline
+      class="yst-stroke-blue-500"
+      fill="none"
+      points="0,9.347999999999999 6,9.347999999999999 12,12.012 18,6.018 24,1.8 30,6.018 36,6.018 42,6.018 48,9.347999999999999 54,12.012 60,12.012 66,12.012"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    />
+  </svg>,
+  <svg
+    aria-hidden="true"
+    class="yst-block"
+    focusable="false"
+    height="24"
+    role="img"
+    viewBox="0 0 66 24"
+    width="66"
+  >
+    <polygon
+      class="yst-fill-sky-200"
+      points="0,24 0,6.018 6,12.012 12,14.232000000000001 18,12.012 24,14.232000000000001 30,21.114 36,19.56 42,23.112 48,22.668 54,22.446 60,19.56 66,17.562 66,24"
+    />
+    <polyline
+      class="yst-stroke-blue-500"
+      fill="none"
+      points="0,6.018 6,12.012 12,14.232000000000001 18,12.012 24,14.232000000000001 30,21.114 36,19.56 42,23.112 48,22.668 54,22.446 60,19.56 66,17.562"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    />
+  </svg>,
+]
+`;

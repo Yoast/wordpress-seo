@@ -1,4 +1,4 @@
-import { isUndefined } from "lodash-es";
+import { isUndefined } from "lodash";
 
 /**
  * Shows and error trace of the error message in the console if the console is available.

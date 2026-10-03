@@ -43,6 +43,14 @@ export const getPermalink = ( state ) => get( state, "analysisData.snippet.url",
 export const getAnalysisTimestamp = ( state ) => parseInt( get( state, "analysisData.timestamp", 0 ), 10 );
 
 /**
+ * Gets the list of shortcodes that will be parsed.
+ *
+ * @param {Object} state The state.
+ * @returns {string[]} And array of shortcodes that will be parsed.
+ */
+export const getShortcodesForParsing = ( state ) => get( state, "analysisData.shortcodesForParsing", [] );
+
+/**
  * Gets the analysis data.
  *
  * @param {Object} state The state.

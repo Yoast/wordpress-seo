@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import { detectAndStemRegularParticiple } from "../../../../../../src/languageProcessing/languages/nl/helpers/internal/detectAndStemRegularParticiple";
 import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 

@@ -37,7 +37,7 @@ class ReplacePermalinkHashIndex extends Migration {
 			[
 				'null'  => true,
 				'limit' => 40,
-			]
+			],
 		);
 
 		if ( $adapter->has_index( $table_name, [ 'permalink_hash' ], [ 'name' => 'permalink_hash' ] ) ) {
@@ -48,7 +48,7 @@ class ReplacePermalinkHashIndex extends Migration {
 				],
 				[
 					'name' => 'permalink_hash',
-				]
+				],
 			);
 		}
 
@@ -61,7 +61,7 @@ class ReplacePermalinkHashIndex extends Migration {
 				],
 				[
 					'name' => 'permalink_hash_and_object_type',
-				]
+				],
 			);
 		}
 	}
@@ -88,7 +88,7 @@ class ReplacePermalinkHashIndex extends Migration {
 				],
 				[
 					'name' => 'permalink_hash_and_object_type',
-				]
+				],
 			);
 		}
 
@@ -99,7 +99,7 @@ class ReplacePermalinkHashIndex extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 
 		if ( ! $adapter->has_index( $table_name, [ 'permalink_hash' ], [ 'name' => 'permalink_hash' ] ) ) {
@@ -110,7 +110,7 @@ class ReplacePermalinkHashIndex extends Migration {
 				],
 				[
 					'name' => 'permalink_hash',
-				]
+				],
 			);
 		}
 	}

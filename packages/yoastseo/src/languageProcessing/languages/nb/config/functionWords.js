@@ -1,4 +1,6 @@
 import { singleWords as transitionWords } from "./transitionWords";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
+
 /**
  * Returns an object with function words.
  *
@@ -85,7 +87,7 @@ const recipeWords = [ "g" ];
 
 const timeWords = [ "år", "året", "går", "dag", "nå", "tid", "tiden", "morgen", "dager", "minutt", "minutter", "dagen", "uke",
 	"uker", "måneder", "stund", "timer", "time", "morges", "ettermiddag", "tidlig", "fjor", "kveld", "natt", "fogårs", "vinter",
-	"sommer", "vår", "høst"  ];
+	"sommer", "vår", "høst" ];
 
 const vagueNouns = [ "ting", "tingene" ];
 
@@ -94,11 +96,11 @@ const miscellaneous = [ "ok", "okay", "ja", "jo", "jaså", "nei", "ikke", "unnsk
 	"en halvdel", "en halv", "to halve", "en tredel", "tredjedel", "to tredeler", "tredjedeler", "en firedel", "fjerdedel",
 	"kvart", "en trettendedel", "en fjortendedel", "en promille", "en tusendel", "halvannen", "en og en halv" ];
 
-export const cannotBeBetweenPassiveAuxiliaryAndParticiple = [].concat( auxiliariesAndDelexicalizedVerbs, interviewVerbs );
+export const cannotBeBetweenPassiveAuxiliaryAndParticiple = transformWordsWithHyphens( auxiliariesAndDelexicalizedVerbs.concat( interviewVerbs ) );
 
-export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
+export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-	timeWords, vagueNouns, miscellaneous, cannotBeBetweenPassiveAuxiliaryAndParticiple, transitionWords );
+	timeWords, vagueNouns, miscellaneous, cannotBeBetweenPassiveAuxiliaryAndParticiple, transitionWords ) );
 
 export default all;

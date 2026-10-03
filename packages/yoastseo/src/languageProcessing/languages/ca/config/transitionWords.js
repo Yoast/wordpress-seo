@@ -1,5 +1,3 @@
-/** @module config/transitionWords */
-
 export const singleWords = [ "abans", "així", "alhora", "aleshores", "altrament", "anteriorment", "breument", "bàsicament",
 	"contràriament", "després", "doncs", "efectivament", "endemés", "especialment", "evidentment", "finalment", "fins a",
 	"fins que", "generalment", "igualment", "malgrat", "mentre", "mentrestant", "parallelament", "paral·lelament", "però",

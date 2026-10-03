@@ -1,7 +1,7 @@
 import { get, isEmpty } from "lodash";
 
+const emptyArray = [];
 const emptyObject = {};
-const emptyArray  = [];
 
 /**
  * Gets the SEO results.

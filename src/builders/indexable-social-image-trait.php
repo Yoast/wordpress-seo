@@ -44,6 +44,8 @@ trait Indexable_Social_Image_Trait {
 	 * @param Image_Helper            $image            The image helper.
 	 * @param Open_Graph_Image_Helper $open_graph_image The Open Graph image helper.
 	 * @param Twitter_Image_Helper    $twitter_image    The Twitter image helper.
+	 *
+	 * @return void
 	 */
 	public function set_social_image_helpers(
 		Image_Helper $image,
@@ -60,6 +62,8 @@ trait Indexable_Social_Image_Trait {
 	 *
 	 * @param array     $alternative_image The alternative image to set.
 	 * @param Indexable $indexable         The indexable to set image for.
+	 *
+	 * @return void
 	 */
 	protected function set_alternative_image( array $alternative_image, Indexable $indexable ) {
 		if ( ! empty( $alternative_image['image_id'] ) ) {
@@ -94,6 +98,8 @@ trait Indexable_Social_Image_Trait {
 	 * Sets the Open Graph image meta data for an og image
 	 *
 	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return void
 	 */
 	protected function set_open_graph_image_meta_data( Indexable $indexable ) {
 		if ( ! $indexable->open_graph_image_id ) {
@@ -112,6 +118,8 @@ trait Indexable_Social_Image_Trait {
 	 * Handles the social images.
 	 *
 	 * @param Indexable $indexable The indexable to handle.
+	 *
+	 * @return void
 	 */
 	protected function handle_social_images( Indexable $indexable ) {
 		// When the image or image id is set.
@@ -144,6 +152,8 @@ trait Indexable_Social_Image_Trait {
 	 * Resets the social images.
 	 *
 	 * @param Indexable $indexable The indexable to set images for.
+	 *
+	 * @return void
 	 */
 	protected function reset_social_images( Indexable $indexable ) {
 		$indexable->open_graph_image        = null;

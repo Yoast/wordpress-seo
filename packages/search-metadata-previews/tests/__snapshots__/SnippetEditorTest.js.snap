@@ -1,0 +1,983 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
+.c25 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c18 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c19:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c20::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c20:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c21:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c22 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c22 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c2 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c3 {
+  width: 600px;
+}
+
+.c1 {
+  background-color: #fff;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c13 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c14 {
+  color: #1a0dab;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c15 {
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c11 {
+  display: inline-block;
+  max-width: 240px;
+  overflow: hidden;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  margin-left: 4px;
+}
+
+.c16 {
+  white-space: nowrap;
+}
+
+.c4 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  width: calc( 100% + 7px );
+  white-space: nowrap;
+  font-size: 14px;
+  line-height: 16px;
+  vertical-align: top;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  overflow: hidden;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 12px;
+  padding-top: 1px;
+  line-height: 20px;
+  vertical-align: bottom;
+  -webkit-column-gap: 12px;
+  column-gap: 12px;
+}
+
+.c8 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #4d5156;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c10 {
+  color: #4d5156;
+}
+
+.c6 {
+  width: 28px;
+  height: 28px;
+  border-radius: 50px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: #f1f3f4;
+  min-width: 28px;
+}
+
+.c17 {
+  color: #4d5156;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.58;
+}
+
+.c9 {
+  line-height: 18px;
+  font-size: 14px;
+  color: black;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.c12 {
+  display: inline-block;
+  height: 18px;
+  line-height: 18px;
+  padding-left: 8px;
+  vertical-align: bottom;
+}
+
+.c7 {
+  width: 18px;
+  height: 18px;
+  margin: 0 5px;
+  vertical-align: middle;
+}
+
+.c0 {
+  margin: 0 0 16px;
+  padding: 0;
+  color: #555;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.c23 {
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
+.c24 {
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
+}
+
+.c24 svg {
+  margin-right: 7px;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c22::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div>
+  <div>
+    <legend
+      class="c0"
+    >
+      Determine how your post should look in the search results.
+    </legend>
+    <div
+      class="yst-root"
+    >
+      <div
+        class="yst-flex yst-justify-between yst-mb-4"
+      >
+        <label
+          class="yst-label"
+        >
+          Google preview
+        </label>
+        <div
+          class="yst-flex yst-gap-3 yst-items-center"
+          role="group"
+        >
+          <span
+            aria-hidden="true"
+            class="yst-text-slate-500"
+          >
+            Mobile
+          </span>
+          <button
+            aria-checked="true"
+            class="yst-toggle yst-toggle--checked yst-bg-primary-500"
+            data-headlessui-state="checked"
+            data-id="yoast-google-preview-mode-switcher-"
+            id="headlessui-switch-:r1:"
+            role="switch"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="yst-sr-only"
+            >
+              Google preview: Switch to mobile preview. Currently showing desktop preview.
+            </span>
+            <span
+              class="yst-toggle__handle"
+            >
+              <span
+                aria-hidden="false"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="yst-shrink-0 yst-grow-0 yst-transition-opacity yst-ease-out yst-duration-100 yst-text-slate-800 yst-stroke-0 yst-h-4 yst-w-4"
+                  fill="currentColor"
+                  role="img"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              <span
+                aria-hidden="true"
+                hidden=""
+                style="display: none;"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="yst-toggle__icon yst-text-slate-800 yst-h-4 yst-w-4"
+                  fill="none"
+                  role="img"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </span>
+          </button>
+          <span
+            aria-hidden="true"
+            class="yst-text-slate-800"
+          >
+            Desktop
+          </span>
+        </div>
+      </div>
+    </div>
+    <section
+      class="yoast-snippet-preview-section"
+    >
+      <div
+        class="c1 yoast-snippet-preview-container__wrapper"
+      >
+        <div
+          class="c2 c1 yoast-snippet-preview-container"
+          id="yoast-snippet-preview-container"
+        >
+          <div
+            class="c3"
+          >
+            <div
+              class="SnippetPreview__DesktopPartContainer-sc-1hxg8jo-20"
+            >
+              <span
+                class="screen-reader-text"
+                style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;"
+              >
+                Url preview:
+              </span>
+              <div
+                class="c4"
+              >
+                <div
+                  class="c4 c5"
+                >
+                  <div
+                    class="c6"
+                  >
+                    <img
+                      alt=""
+                      class="c7"
+                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
+                    />
+                  </div>
+                  <span
+                    class="c8"
+                  >
+                    <div
+                      class="c9"
+                    >
+                      Test site name
+                    </div>
+                    <span
+                      class="c10"
+                    >
+                      example.org
+                    </span>
+                    <span
+                      class="c11"
+                    >
+                       › test-slug
+                    </span>
+                    <span
+                      class="c12"
+                    >
+                      <svg
+                        fill="#4d5156"
+                        style="width: 18px;"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <span
+                class="screen-reader-text"
+                style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;"
+              >
+                SEO title preview:
+              </span>
+              <div
+                class="c13"
+              >
+                <div
+                  class="c14 c15"
+                >
+                  <span
+                    class="c16"
+                  >
+                    Test title
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="SnippetPreview__DesktopPartContainer-sc-1hxg8jo-20"
+            >
+              <span
+                class="screen-reader-text"
+                style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;"
+              >
+                Meta description preview:
+              </span>
+              <div
+                class="c17"
+              >
+                Test description, %%replacement_variable%%
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <button
+      aria-expanded="false"
+      class="c18 c19 c20 c21 c22 c23 c24"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="c25 yoast-svg-icon yoast-svg-icon-edit"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+        />
+      </svg>
+      Edit snippet
+    </button>
+  </div>
+</div>
+`;
+
+exports[`SnippetEditor Mobile mode 1`] = `
+.c22 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c15 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c16:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c17::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c17:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c18:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c19 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c19 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c1 {
+  border-bottom: 1px hidden #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  max-width: 400px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.c10 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c11 {
+  color: #1558d6;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c12 {
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c13 {
+  display: inline-block;
+  max-height: 52px;
+  padding-top: 1px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  width: calc( 100% + 7px );
+  white-space: nowrap;
+  font-size: 14px;
+  line-height: 16px;
+  vertical-align: top;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  overflow: hidden;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 12px;
+  padding-top: 1px;
+  line-height: 20px;
+  vertical-align: bottom;
+  -webkit-column-gap: 12px;
+  column-gap: 12px;
+}
+
+.c7 {
+  font-size: 12px;
+  line-height: 20px;
+  color: #3c4043;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c9 {
+  color: #70757a;
+}
+
+.c5 {
+  width: 28px;
+  height: 28px;
+  border-radius: 50px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: #f1f3f4;
+  min-width: 28px;
+}
+
+.c14 {
+  color: #3c4043;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  line-height: 1.4;
+  max-width: 600px;
+}
+
+.c14:after {
+  display: table;
+  content: "";
+  clear: both;
+}
+
+.c2 {
+  padding: 12px 16px;
+}
+
+.c2:first-child {
+  margin-bottom: -16px;
+}
+
+.c8 {
+  line-height: 18px;
+  font-size: 14px;
+  color: black;
+  max-width: 300px;
+  overflow: hidden;
+}
+
+.c6 {
+  width: 18px;
+  height: 18px;
+  margin: 0 5px;
+  vertical-align: middle;
+}
+
+.c0 {
+  margin: 0 0 16px;
+  padding: 0;
+  color: #555;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.c20 {
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
+.c21 {
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
+}
+
+.c21 svg {
+  margin-right: 7px;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c19::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div>
+  <div>
+    <legend
+      class="c0"
+    >
+      Determine how your post should look in the search results.
+    </legend>
+    <div
+      class="yst-root"
+    >
+      <div
+        class="yst-flex yst-justify-between yst-mb-4"
+      >
+        <label
+          class="yst-label"
+        >
+          Google preview
+        </label>
+        <div
+          class="yst-flex yst-gap-3 yst-items-center"
+          role="group"
+        >
+          <span
+            aria-hidden="true"
+            class="yst-text-slate-800"
+          >
+            Mobile
+          </span>
+          <button
+            aria-checked="false"
+            class="yst-toggle yst-bg-primary-500"
+            data-headlessui-state=""
+            data-id="yoast-google-preview-mode-switcher-"
+            id="headlessui-switch-:r0:"
+            role="switch"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="yst-sr-only"
+            >
+              Google preview: Switch to desktop preview. Currently showing mobile preview.
+            </span>
+            <span
+              class="yst-toggle__handle"
+            >
+              <span
+                aria-hidden="true"
+                hidden=""
+                style="display: none;"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="yst-shrink-0 yst-grow-0 yst-transition-opacity yst-ease-out yst-duration-100 yst-text-slate-800 yst-stroke-0 yst-h-4 yst-w-4"
+                  fill="currentColor"
+                  role="img"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              <span
+                aria-hidden="false"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="yst-toggle__icon yst-text-slate-800 yst-h-4 yst-w-4"
+                  fill="none"
+                  role="img"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </span>
+          </button>
+          <span
+            aria-hidden="true"
+            class="yst-text-slate-500"
+          >
+            Desktop
+          </span>
+        </div>
+      </div>
+    </div>
+    <section
+      class="yoast-snippet-preview-section"
+    >
+      <div
+        class="c1 yoast-snippet-preview-container"
+        id="yoast-snippet-preview-container"
+      >
+        <div
+          class="c2"
+        >
+          <span
+            class="screen-reader-text"
+            style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;"
+          >
+            Url preview:
+          </span>
+          <div
+            class="c3"
+          >
+            <div
+              class="c3 c4"
+            >
+              <div
+                class="c5"
+              >
+                <img
+                  alt=""
+                  class="c6"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
+                />
+              </div>
+              <span
+                class="c7"
+              >
+                <div
+                  class="c8"
+                >
+                  Test site name
+                </div>
+                <span
+                  class="c9"
+                >
+                  example.org
+                </span>
+              </span>
+              <svg
+                fill="#70757a"
+                style="width: 18px;"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                />
+              </svg>
+            </div>
+          </div>
+          <span
+            class="screen-reader-text"
+            style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;"
+          >
+            SEO title preview:
+          </span>
+          <div
+            class="c10"
+          >
+            <div
+              class="c11 c12"
+            >
+              <span
+                class="c13"
+              >
+                Test title
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="c2"
+        >
+          <span
+            class="screen-reader-text"
+            style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;"
+          >
+            Meta description preview:
+          </span>
+          <div
+            class="c14"
+          >
+            <div
+              class="c14"
+            >
+              Test description, %%replacement_variable%%
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <button
+      aria-expanded="false"
+      class="c15 c16 c17 c18 c19 c20 c21"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="c22 yoast-svg-icon yoast-svg-icon-edit"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+        />
+      </svg>
+      Edit snippet
+    </button>
+  </div>
+</div>
+`;

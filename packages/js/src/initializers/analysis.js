@@ -1,12 +1,14 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
-import { applyFilters } from "@wordpress/hooks";
+import { applyFilters, doAction } from "@wordpress/hooks";
 import { debounce, isEqual } from "lodash";
 import { Paper } from "yoastseo";
 import { refreshDelay } from "../analysis/constants";
+import { saveFieldScores } from "../analysis/deriveFieldScores";
 import handleWorkerError from "../analysis/handleWorkerError";
 import { sortResultsByIdentifier } from "../analysis/refreshAnalysis";
 import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
-import { applyModifications } from "../elementor/initializers/pluggable";
+import { applyModifications } from "./pluggable";
+import getApplyMarks from "../analysis/getApplyMarks";
 
 /**
  * Runs the analysis.
@@ -28,13 +30,24 @@ async function runAnalysis( worker, data ) {
 			// Only update the main results, which are located under the empty string key.
 			const seoResults = seo[ "" ];
 
+			// Recreate the getMarker function after the worker is done.
+			seoResults.results.forEach( result => {
+				result.getMarker = () => () => window.YoastSEO.analysis.applyMarks( paper, result.marks );
+			} );
+
 			seoResults.results = sortResultsByIdentifier( seoResults.results );
 
 			dispatch( "yoast-seo/editor" ).setSeoResultsForKeyword( paper.getKeyword(), seoResults.results );
 			dispatch( "yoast-seo/editor" ).setOverallSeoScore( seoResults.score, paper.getKeyword() );
+			saveFieldScores( seoResults.results );
 		}
 
 		if ( readability ) {
+			// Recreate the getMarker function after the worker is done.
+			readability.results.forEach( result => {
+				result.getMarker = () => () => window.YoastSEO.analysis.applyMarks( paper, result.marks );
+			} );
+
 			readability.results = sortResultsByIdentifier( readability.results );
 
 			dispatch( "yoast-seo/editor" ).setReadabilityResults( readability.results );
@@ -42,11 +55,18 @@ async function runAnalysis( worker, data ) {
 		}
 
 		if ( inclusiveLanguage ) {
+			// Recreate the getMarker function after the worker is done.
+			inclusiveLanguage.results.forEach( result => {
+				result.getMarker = () => () => window.YoastSEO.analysis.applyMarks( paper, result.marks );
+			} );
+
 			inclusiveLanguage.results = sortResultsByIdentifier( inclusiveLanguage.results );
 
 			dispatch( "yoast-seo/editor" ).setInclusiveLanguageResults( inclusiveLanguage.results );
 			dispatch( "yoast-seo/editor" ).setOverallInclusiveLanguageScore( inclusiveLanguage.score );
 		}
+
+		doAction( "yoast.analysis.run", results, { paper } );
 	} catch ( error ) {
 		handleWorkerError();
 	}
@@ -77,11 +97,15 @@ function applyAnalysisModifications( analysisData ) {
  * @returns {Object} The analysis data.
  */
 export function collectData() {
-	const { getAnalysisData, getEditorDataTitle } = select( "yoast-seo/editor" );
+	const { getAnalysisData, getEditorDataTitle, getIsFrontPage } = select( "yoast-seo/editor" );
 	let data = getAnalysisData();
 	data = {
 		...data,
 		textTitle: getEditorDataTitle(),
+		isFrontPage: getIsFrontPage(),
+		shortcodes: Array.isArray( window.wpseoScriptData.analysis.plugins.shortcodes?.wpseo_shortcode_tags )
+			? window.wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags
+			: [],
 	};
 
 	const analysisData = applyAnalysisModifications( data );
@@ -104,10 +128,14 @@ export default function initAnalysis() {
 	// Create and initialize the worker.
 	const worker = createAnalysisWorker();
 	worker.initialize(
-		// Get the analysis configuration and extend it with the is cornerstone content value.
-		getAnalysisConfiguration( { useCornerstone: isCornerstoneContent() } )
+		// Get the analysis configuration and extend it with the is cornerstone content value and the marker function.
+		getAnalysisConfiguration( {
+			useCornerstone: isCornerstoneContent(),
+			marker: getApplyMarks(),
+		} )
 	).catch( handleWorkerError );
 
+	window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks()( paper, marks );
 	// Initialize the data for the "is dirty" checks.
 	let previousAnalysisData = collectData();
 	let previousIsCornerstone = isCornerstoneContent();

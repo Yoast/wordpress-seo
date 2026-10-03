@@ -1,0 +1,1 @@
+Autocomplete selects combine the functionality of an autocomplete feature with a selection mechanism, allowing users to efficiently find and choose options from a large set of choices.

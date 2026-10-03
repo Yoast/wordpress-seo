@@ -1,7 +1,7 @@
 import InternalLinksAssessment from "../../../../src/scoring/assessments/seo/InternalLinksAssessment";
 
 import Paper from "../../../../src/values/Paper.js";
-import factory from "../../../specHelpers/factory.js";
+import factory from "../../../../src/helpers/factory.js";
 
 describe( "An assessor running the linkStatistics for internal links", function() {
 	it( "A paper with one internal link, which is do-follow", function() {
@@ -48,6 +48,6 @@ describe( "An assessor running the linkStatistics for internal links", function(
 
 	it( "A paper without text", function() {
 		const isApplicableResult = new InternalLinksAssessment().isApplicable( new Paper( "", { keyword: "some keyword" } ) );
-		expect( isApplicableResult ).toBe( false );
+		expect( isApplicableResult ).toBe( true );
 	} );
 } );

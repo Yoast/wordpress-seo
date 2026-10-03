@@ -72,14 +72,15 @@ class Help_Link_Presenter extends Abstract_Presenter {
 
 		if ( $this->opens_in_new_browser_tab ) {
 			$target_blank_attribute = ' target="_blank"';
-			$new_tab_message        = ' ' . \__( '(Opens in a new browser tab)', 'wordpress-seo' );
+			/* translators: Hidden accessibility text. */
+			$new_tab_message = ' ' . \__( '(Opens in a new browser tab)', 'wordpress-seo' );
 		}
 
 		return \sprintf(
 			'<a href="%1$s"%2$s class="yoast_help yoast-help-link dashicons"><span class="yoast-help-icon" aria-hidden="true"></span><span class="screen-reader-text">%3$s</span></a>',
 			\esc_url( $this->link ),
 			$target_blank_attribute,
-			\esc_html( $this->link_text . $new_tab_message )
+			\esc_html( $this->link_text . $new_tab_message ),
 		);
 	}
 }

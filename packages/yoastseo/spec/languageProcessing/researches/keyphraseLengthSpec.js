@@ -18,7 +18,7 @@ describe( "the keyphrase length research", function() {
 } );
 
 describe( "the keyphrase length research", function() {
-	it( "should count the words in the input and filters function words", function() {
+	it( "should count the words in the input and filter function words", function() {
 		const paper = new Paper( "", { keyword: "word word the word" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
@@ -42,7 +42,7 @@ Describe( "the keyphrase length research", function() {
 } );
 */
 
-describe( "the keyphrase length research for empty keyword", function() {
+describe( "the keyphrase length research for an empty keyword", function() {
 	it( "should count the words in the input", function() {
 		const paper = new Paper( "", { keyword: "" } );
 		const researcher = new EnglishResearcher( paper );
@@ -53,3 +53,4 @@ describe( "the keyphrase length research for empty keyword", function() {
 		expect( result.keyphraseLength ).toBe( 0 );
 	} );
 } );
+

@@ -1,4 +1,4 @@
-import { includes } from "lodash-es";
+import { includes } from "lodash";
 import getWords from "../../word/getWords";
 
 /**

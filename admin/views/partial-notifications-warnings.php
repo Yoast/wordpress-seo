@@ -23,7 +23,7 @@ $yoast_seo_i18n_no_issues          = __( 'No new notifications.', 'wordpress-seo
 $yoast_seo_i18n_muted_issues_title = sprintf(
 	/* translators: %d expands the amount of hidden notifications. */
 	_n( 'You have %d hidden notification:', 'You have %d hidden notifications:', $yoast_seo_dismissed_total, 'wordpress-seo' ),
-	$yoast_seo_dismissed_total
+	$yoast_seo_dismissed_total,
 );
 
 require WPSEO_PATH . 'admin/views/partial-notifications-template.php';

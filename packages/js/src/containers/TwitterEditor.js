@@ -9,7 +9,7 @@ import withLocation from "../helpers/withLocation";
 import { openMedia, prepareTwitterPreviewImage } from "../helpers/selectMedia";
 import getMemoizedFindCustomFields from "../helpers/getMemoizedFindCustomFields";
 
-const socialMediumName = "Twitter";
+const socialMediumName = "X";
 
 /**
  * Lazy function to open the media instance.

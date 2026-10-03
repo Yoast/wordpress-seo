@@ -1,6 +1,4 @@
-import { isArray } from "lodash-es";
-import { isObject } from "lodash-es";
-import { mapValues } from "lodash-es";
+import { isArray, isObject, mapValues } from "lodash";
 
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
@@ -33,9 +31,7 @@ export default function parse( thing ) {
 	const thingIsObject = isObject( thing );
 
 	if ( thingIsObject && thing._parseClass && PARSE_CLASSES[ thing._parseClass ] ) {
-		return thing._parseClass === "Sentence" || thing._parseClass === "Clause"
-			? PARSE_CLASSES[ thing._parseClass ].prototype.parse( thing )
-			: PARSE_CLASSES[ thing._parseClass ].parse( thing );
+		return PARSE_CLASSES[ thing._parseClass ].parse( thing );
 	}
 
 	if ( thingIsObject ) {

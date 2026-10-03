@@ -11,7 +11,7 @@ export const singleWords = [ "accordingly", "additionally", "afterward", "afterw
 	"shortly", "significantly", "similarly", "simultaneously", "since", "so", "soon", "specifically", "still", "straightaway",
 	"subsequently", "surely", "surprisingly", "than", "then", "thereafter", "therefore", "thereupon", "thirdly", "though",
 	"thus", "till", "undeniably", "undoubtedly", "unless", "unlike", "unquestionably", "until", "when", "whenever",
-	"whereas", "while" ];
+	"whereas", "while", "whether", "if", "actually", "anyway", "anyways", "anyhow", "mostly", "namely", "including", "suddenly" ];
 export const multipleWords = [ "above all", "after all", "after that", "all in all", "all of a sudden", "all things considered",
 	"analogous to", "although this may be true", "analogous to", "another key point", "as a matter of fact", "as a result",
 	"as an illustration", "as can be seen", "as has been noted", "as I have noted", "as I have said", "as I have shown",
@@ -23,7 +23,7 @@ export const multipleWords = [ "above all", "after all", "after that", "all in a
 	"for one thing", "for that reason", "for the most part", "for the purpose of", "for the same reason", "for this purpose",
 	"for this reason", "from time to time", "given that", "given these points", "important to realize", "in a word", "in addition",
 	"in another case", "in any case", "in any event", "in brief", "in case", "in conclusion", "in contrast",
-	"in detail", "in due time", "in effect", "in either case", "in essence", "in fact", "in general", "in light of",
+	"in detail", "in due time", "in effect", "in either case", "either way", "in essence", "in fact", "in general", "in light of",
 	"in like fashion", "in like manner", "in order that", "in order to", "in other words", "in particular", "in reality",
 	"in short", "in similar fashion", "in spite of", "in sum", "in summary", "in that case", "in the event that",
 	"in the final analysis", "in the first place", "in the fourth place", "in the hope that", "in the light of",
@@ -31,16 +31,17 @@ export const multipleWords = [ "above all", "after all", "after that", "all in a
 	"in the third place", "in this case", "in this situation", "in time", "in truth", "in view of", "inasmuch as",
 	"most compelling evidence", "most important", "must be remembered", "not only", "not to mention", "note that",
 	"now that", "of course", "on account of", "on balance", "on condition that", "on one hand", "on the condition that", "on the contrary",
-	"on the negative side", "on the other hand", "on the positive side", "on the whole", "on this occasion", "once",
+	"on the negative side", "on the other hand", "on the positive side", "on the whole", "on this occasion", "all at once",
 	"once in a while", 	"only if", "owing to", "point often overlooked", "prior to", "provided that", "seeing that",
 	"so as to", "so far", "so long as", "so that", "sooner or later", "such as", "summing up", "take the case of",
 	"that is", "that is to say", "then again", "this time", "to be sure", "to begin with", "to clarify", "to conclude",
 	"to demonstrate", "to emphasize", "to enumerate", "to explain", "to illustrate", "to list", "to point out",
 	"to put it another way", "to put it differently", "to repeat", "to rephrase it", "to say nothing of", "to sum up",
 	"to summarize", "to that end", "to the end that", "to this end", "together with", "under those circumstances", "until now",
-	"up against", "up to the present time", "vis a vis", "what's more", "while it may be true", "while this may be true",
+	"up against", "up to the present time", "vis a vis", "what's more", "what is more", "while it may be true", "while this may be true",
 	"with attention to", "with the result that", "with this in mind", "with this intention", "with this purpose in mind",
-	"without a doubt", "without delay", "without doubt", "without reservation" ];
+	"without a doubt", "without delay", "without doubt", "without reservation", "according to", "no sooner", "at most", "at the most",
+	"from now on" ];
 
 export const allWords = singleWords.concat( multipleWords );
 

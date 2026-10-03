@@ -1,37 +1,39 @@
 /* eslint-disable complexity */
-import { Button } from "@yoast/ui-library";
-import { __, sprintf } from "@wordpress/i18n";
-import { CheckIcon, XIcon } from "@heroicons/react/solid";
-import { PropTypes } from "prop-types";
-import { LockOpenIcon } from "@heroicons/react/outline";
+import LockOpenIcon from "@heroicons/react/outline/LockOpenIcon";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import XIcon from "@heroicons/react/solid/XIcon";
 import { Fragment } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { Button } from "@yoast/ui-library";
+import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
 
 /**
- * Represents an integration.
- *
- * @param {object}  integration          The integration.
- * @param {boolean} isActive             Whether the integration state is active.
- * @param {boolean} isInstalled          Whether the integration state is active.
- * @param {boolean} isPrerequisiteActive Whether the plugin to which we want to integrate is active.
- * @param {string}  activationLink       The URL to activate Yoast WooCommerce SEO.
- *
- * @returns {WPElement} A card representing an integration.
+ * @param {Object} integration The integration object.
+ * @param {boolean} [isActive=true] Whether the integration is active.
+ * @param {boolean} [isInstalled=true] Whether the integration is installed.
+ * @param {boolean} [isPrerequisiteActive=true] Whether the prerequisite plugin is active.
+ * @param {string} activationLink The URL to activate Yoast WooCommerce SEO.
+ * @param {boolean} [isSchemaAPIIntegration=false] Whether this is a Schema API integration.
+ * @returns {JSX.Element} A card representing an integration.
  */
 export const WoocommerceIntegration = ( {
 	integration,
-	isActive,
-	isInstalled,
-	isPrerequisiteActive,
+	isActive = true,
+	isInstalled = true,
+	isPrerequisiteActive = true,
 	activationLink,
+	isSchemaAPIIntegration = false,
 } ) => {
 	return (
 		<SimpleIntegration
 			integration={ integration }
-			isActive={ isActive }
+			isActive={ isPrerequisiteActive && isActive }
+			isSchemaPartner={ isSchemaAPIIntegration }
+			showSchemaFrameworkAlertInBody={ true }
 		>
 			{ ! isPrerequisiteActive && <Fragment>
-				<span className="yst-text-gray-700 yst-font-medium">
+				<span className="yst-text-slate-700 yst-font-medium">
 					{
 						__( "Plugin not detected", "wordpress-seo" )
 					}
@@ -41,7 +43,7 @@ export const WoocommerceIntegration = ( {
 				/>
 			</Fragment> }
 			{ isPrerequisiteActive && isActive && <Fragment>
-				<span className="yst-text-gray-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
+				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
 				<CheckIcon
 					className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
 				/>
@@ -53,7 +55,7 @@ export const WoocommerceIntegration = ( {
 					as="a"
 					variant="secondary"
 					href={ activationLink }
-					className="yst-w-full yst-text-gray-800 yst-text-center"
+					className="yst-w-full yst-text-slate-800 yst-text-center"
 				>
 					{
 						sprintf(
@@ -71,11 +73,11 @@ export const WoocommerceIntegration = ( {
 					as="a"
 					href={ integration.upsellLink }
 					variant="upsell"
-					className="yst-w-full yst-text-gray-800"
+					className="yst-w-full yst-text-slate-800"
 					target="_blank"
 				>
 					<LockOpenIcon
-						className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900"
+						className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5 yst-text-yellow-900"
 					/>
 					{
 						sprintf(
@@ -86,6 +88,7 @@ export const WoocommerceIntegration = ( {
 					}
 					<span className="yst-sr-only">
 						{
+							/* translators: Hidden accessibility text. */
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>
@@ -94,13 +97,11 @@ export const WoocommerceIntegration = ( {
 		</SimpleIntegration>
 	);
 };
-/* eslint-enable complexity */
 
 WoocommerceIntegration.propTypes = {
 	integration: PropTypes.shape( {
 		name: PropTypes.string,
-		claim: PropTypes.string,
-		type: PropTypes.string,
+		claim: PropTypes.node,
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,
@@ -112,10 +113,5 @@ WoocommerceIntegration.propTypes = {
 	isInstalled: PropTypes.bool,
 	isPrerequisiteActive: PropTypes.bool,
 	activationLink: PropTypes.string.isRequired,
-};
-
-WoocommerceIntegration.defaultProps = {
-	isActive: true,
-	isInstalled: true,
-	isPrerequisiteActive: true,
+	isSchemaAPIIntegration: PropTypes.bool,
 };

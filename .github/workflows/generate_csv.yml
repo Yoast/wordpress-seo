@@ -1,0 +1,26 @@
+name: Generate CSV
+on:
+  workflow_dispatch:
+
+jobs:
+  run-commands:
+    runs-on: ubuntu-latest
+
+    name: Generate CSV
+
+    steps:
+      # Check out the repository
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Install dependencies
+      - name: Install dependencies
+        working-directory: packages/yoastseo
+        run: yarn install --ignore-scripts
+
+      # Run tests
+      - name: Run tests
+        working-directory: packages/yoastseo
+        run: yarn export:inclusive-language --collectCoverage=false

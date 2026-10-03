@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { flattenVersionForFile } = require( "../../webpack/paths" );
 
 /**
@@ -11,6 +12,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask(
 		"bump-beta-version",
 		"Bumps the versions to the next beta and commits the changes to the current branch.",
+		// eslint-disable-next-line max-statements
 		function() {
 			// Parse the command line options.
 			const pluginVersionArgument = grunt.option( "plugin-version" );
@@ -32,7 +34,7 @@ module.exports = function( grunt ) {
 			 * be used: --no-version-bump.
 			 */
 			const gruntFlags = grunt.option.flags();
-			const noBump = -1 !== gruntFlags.indexOf( '--no-version-bump' );
+			const noBump = -1 !== gruntFlags.indexOf( "--no-version-bump" );
 
 			// Retrieve the current plugin version from package.json.
 			const packageJson = grunt.file.readJSON( "package.json" );
@@ -51,7 +53,7 @@ module.exports = function( grunt ) {
 			let bumpedBetaVersion = parseInt( parsedVersion[ 1 ] || "0", 10 );
 
 			// Set the previousPluginVersion, we need this variable for the GitHub release entry.
-			grunt.config.data.previousPluginVersion = grunt.config.get( 'pluginVersion' );
+			grunt.config.data.previousPluginVersion = grunt.config.get( "pluginVersion" );
 
 			/*
 			If the package.json had a version that contained "-beta", the number following that will be incremented by 1.
@@ -62,7 +64,7 @@ module.exports = function( grunt ) {
 					console.log( "Skipping version bumping, flag --no-version-bump detected." );
 
 					// Adapt the previousPluginVersion because there was no version bump.
-					let previousBetaVersion = bumpedBetaVersion - 1;
+					const previousBetaVersion = bumpedBetaVersion - 1;
 					grunt.config.data.previousPluginVersion = strippedVersion + "-beta" + previousBetaVersion;
 				} else {
 					bumpedBetaVersion += 1;
@@ -92,7 +94,7 @@ module.exports = function( grunt ) {
 				grunt.task.run( "update-version-trunk" );
 
 				// Stage the version files.
-				grunt.config( "gitadd.versionBump.files", { src: grunt.config.get( 'files.versionFiles' ) } );
+				grunt.config( "gitadd.versionBump.files", { src: grunt.config.get( "files.versionFiles" ) } );
 				grunt.task.run( "gitadd:versionBump" );
 
 				grunt.config( "gitcommit.versionBump.options.message", "Update the plugin version to " + grunt.config.data.pluginVersion );

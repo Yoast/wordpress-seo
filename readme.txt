@@ -1,186 +1,246 @@
-=== Yoast SEO ===
-Contributors: yoast, joostdevalk, omarreiss
+=== Yoast SEO - Advanced SEO with real-time guidance and built-in AI ===
+Contributors: yoast, joostdevalk, tdevalk
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.0
-Stable tag: 19.6
-Requires PHP: 5.6.20
+Tested up to: 7.1
+Stable tag: 28.6
+Requires PHP: 7.4
 
-Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
+Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.
 
 == Description ==
 
-### Yoast SEO: the #1 WordPress SEO plugin
+## Yoast SEO: the #1 WordPress SEO plugin
 
-Since 2008 Yoast SEO has helped millions of websites worldwide to **rank higher in search engines**.
+Since 2008, Yoast SEO has helped site owners get their content found. More than 10 million websites now run it, from small local businesses to some of the most visited sites on the web.
 
-Yoast’s mission is **SEO for Everyone**. Our plugin’s users range from the bakery around the corner to some of the most popular sites on the planet.
+Our mission is SEO for everyone. You should not need a specialist, a big budget, or a technical background to give your content a fair chance of being discovered.
 
-Yoast SEO Free contains everything that you need to manage your SEO, and the [Yoast SEO Premium](https://yoa.st/1v8) plugin and its extensions unlock even more tools and functionality.
+Yoast SEO gives you everything you need to manage your on-site SEO. The [Yoast SEO Premium](https://yoa.st/1v8) plugin and its extensions unlock more advanced and AI-powered tools.
 
-#### GET AHEAD OF THE COMPETITION
-To rank highly in search engines, you need to beat the competition. You need a better, faster, stronger website than the people who sell or do the same kinds of things as you.
+---
 
-Yoast SEO is the most-used WordPress SEO plugin, and has helped millions of people like you to get ahead, and to stay ahead.
+### Ready for search, and ready for AI
+People no longer only type queries into Google. They ask AI assistants, and those answers are built from content the AI has crawled, understood, and trusted. Yoast SEO helps you prepare for both.
 
-#### TAKING CARE OF YOUR WORDPRESS SEO
-Yoast SEO is packed full of features, designed to help visitors and search engines to get the most out of your website. Some of our favourites are:
+- **Schema.org structured data**, so search engines and AI systems can understand what your content is actually about. Premium outputs significantly more schema types, including the E-E-A-T signals (experience, expertise, authoritativeness, and trustworthiness) that help AI systems understand who you are.
+- **Schema aggregation for NLWeb** (Premium), which combines your site's structured data into a single, deduplicated graph, so AI agents get a complete picture of your content in one request. Turn it on with a single toggle.
+- **LLMs.txt management**, to guide how large language models interact with your content, including manual control over which pages are included.
+- **Bot blocker** (Premium), to control which AI crawlers can use your content for training, including GPTBot, CCBot, and Google-Extended.
+- **Abilities API**, so AI tools, dashboards, and automated workflows can read your SEO, readability, and inclusive language scores directly.
 
-* Automated technical SEO improvements, like **canonical URLs** and **meta tags**.
-* Advanced **XML sitemaps**; making it easy for Google to understand your site structure.
-* Title and meta description templating, for **better branding** and consistent snippets in the search results.
-* An in-depth Schema.org integration that will **increase your chance of getting rich results**, by helping search engines to understand your content.
-* Full control over **site breadcrumbs**, so that users and search engines always know where they are.
-* **Faster loading times** for your whole website, due to an innovative way of managing data in WordPress.
-* **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
-* **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
-* **[Premium]** **New!** Yoast SEO Premium comes with wide-ranging crawl settings that help you improve how search engines crawl your site.
-* **[Premium]** **New!** Yoast SEO Premium comes with an IndexNow integration to ping search engines like Microsoft Bing whenever you publish or update content.
+Algorithm changes have been arriving for over 15 years, and Yoast has tracked every one of them. Keeping the plugin updated means you benefit from ongoing technical improvements, schema updates, and AI advancements automatically, all guided by our signature traffic light approach.
 
-#### WRITE KILLER CONTENT WITH YOAST SEO
-We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
+---
 
-* **SEO analysis**: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
-* **Readability analysis**: ensures that humans and search engines can read and understand your content.
-* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian, Turkish, Czech, Norwegian, Slovak and Greek.
-* **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
-* **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results. Plus a breadcrumbs block to guide your users.
-* **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
-* **[Premium]** Social previews to show you how your content will be shown on Twitter and Facebook. Plus: Social Appearance Templates to guarantee a consistent look.
-* **[Premium]** The Insights tool that shows you what your text focuses on. This way you can keep your article in line with your keyphrases.
-* **[Premium]** Optimize your content for synonyms and related keyphrases.
-* **[Premium]** Optimize your article for different word forms of your keyphrases, as the singular and plural. But also different verb forms, synonyms, and related keyphrases. This makes for more natural content!
-* **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to!
-* **[Premium]** An orphaned content filter to detect posts that have no links pointing towards them!
-* **[Premium]** SEO workouts to make working on your site as easy as ABC. These SEO workflows will get your site into shape in no time!
-* **[Premium]** **New!** Yoast SEO Premium comes with a new word complexity feature that gives you actionable feedback on using difficult words. This feature is in beta and English only for now.
-* **[Premium]** **New!** Yoast SEO Premium comes with a new inclusive language analysis that helps you write inclusive content. This feature is opt-in, in beta and English only for now.
+### Real-time guidance while you write
 
-#### KEEP YOUR SITE IN PERFECT SHAPE
+SEO is one of the most consistent and cost-effective sources of website traffic, though it can be complex. Whether you are just starting out or you have done this for years, Yoast SEO tells you what to fix before you publish, not after.
 
-Whether you are an online entrepreneur, blogger or content creator, a developer, a (WordPress) SEO expert or a business owner, Yoast SEO helps you keep your website in perfect shape by:
+Red, orange, green. That is the whole idea. You get in-depth content and readability analysis that helps you create content designed to perform well in search, without needing to learn a new discipline first.
 
-* Tuning the engine of your website, so you can work on creating great content!
-* Giving you **cornerstone content** and **internal linking** features to help you optimize your site structure in a breeze.
-* Translating your content to **structured data** where possible, to help search engines understand your website.
-* Helping you manage your team: with our **SEO roles** you can give colleagues access to specific sections of the Yoast SEO plugin.
-* **[Premium] Automatically creating redirects** when URLs change or when pages are deleted, and providing tools to manage or create redirects.
-* **[Premium]** Showing you **social previews** to manage the way your page is shared on social networks like Facebook and Twitter.
+---
 
-#### TRUST THE EXPERTS
+### Quick and easy setup
 
-Yoast is powered by a team of expert developers, testers, software architects, and SEO consultants. They work constantly to stay at the cutting edge of WordPress SEO, and to improve the plugin with every release.
+Setting up Yoast SEO is quick and straightforward. No technical background required.
 
-Yoast SEO is the **only WordPress SEO plugin made by world-renowned SEO experts**.
+Our step-by-step configuration wizard walks you through the essentials, so Yoast SEO can generate accurate structured data that helps search engines understand your site.
 
-### GET PREMIUM SUPPORT
+Switching from another SEO plugin? Migration is seamless. You can import your existing SEO data and settings safely with our built-in import and export tools.
 
-The Yoast team offers regular support on the WordPress.org forums. But we hope you understand that we prioritize our Premium customers. This one-on-one email support is available to people who have purchased Yoast SEO Premium.
+---
 
-Did you know that [Yoast SEO Premium](https://yoa.st/1v8) contains a lot of extra features:
+### AI tools built into your workflow
 
-* A **redirect manager** that prevents “404: page not found” errors
-* Optimize without worrying about over-optimization with **intelligent word form recognition** available in multiple languages.
-* **Internal linking blocks** to structure your site easily.
-* **Internal linking suggestions** while you’re writing.
-* Preview your content to see what it will look like in the search results and when shared on social media using the **Google preview** and **social preview**.
-* **Cornerstone content checks** that point search engines to your most important pages.
-* Connect Yoast SEO to Zapier to easily **create zaps that instantly share your published posts** with 2000+ destinations like Twitter, Facebook, and much more.
+Yoast's AI tools come with Yoast SEO Premium, and they sit inside the editor you already use. There is no separate AI subscription, no extra login, and no credit top-up to buy. Every suggestion waits for your approval before anything saves.
 
-If you are serious about your WordPress SEO, install the [Yoast SEO Premium plugin](https://yoa.st/1v8)! **Costs a little, saves a lot of time!**
+- **[Yoast AI Generate](https://yoa.st/51c)**: creates five SEO-friendly titles and meta descriptions instantly, with one-click regeneration for more options.
+- **Yoast AI Optimize**: suggests improvements to keyphrase placement, including introduction, distribution, and density, with the option to apply or dismiss each edit.
+- **Yoast AI Summarize**: generates a quick summary of your post to place anywhere in the block editor, so readers grasp the value fast.
+- **Yoast AI Content Planner** (Premium): suggests five site-specific post ideas and builds a structured starter draft the moment you open a new post. Ideas are grounded in your own site, not generic topics, so your team never begins from a blank page.
+- **Bulk editor with AI drafts**: review and fix titles, meta descriptions, and focus keyphrases across your whole site from one workspace, with search and status filters and a dedicated view per content type. The bulk editor is free. With Premium, select what needs work and AI drafts the metadata, including social sharing titles and descriptions, for you to approve.
+- **All AI tools included**: no extra accounts, no separate credit purchase, no hidden costs.
 
-#### OUR EXTENSIONS TO FURTHER IMPROVE YOUR WORDPRESS SEO
-Check out these SEO add-ons by Yoast:
+---
 
-* **[Yoast Local SEO](https://yoa.st/1uu)** optimizes your website for a local audience.
-* **[Yoast Video SEO](https://yoa.st/1uw)** ensures that Google understands what your video is about, increasing the chances of ranking in the video results.
-* **[Yoast News SEO](https://yoa.st/1uv)** for news websites that want to improve their visibility and performance in Google News.
-* **[WooCommerce SEO](https://yoa.st/3rh)** for all online shops that want to perform better in the search results and social media.
+### Content analysis and optimization
 
-These extensions work fine with the free version of Yoast SEO. Of course, the premium extensions also include 24/7 support.
+- **SEO analysis** to guide your keyword targeting, with up to 5 keyphrases in Premium and support for 20+ languages.
+- **Readability analysis** for clear, engaging, user-friendly writing.
+- **Inclusive language analysis**, so your content is more considerate and accessible.
+- **SERP previews** for both desktop and mobile results.
+- **HowTo and FAQ blocks** with built-in schema support.
+- **Breadcrumbs block** for improved navigation.
+- **Semrush integration** for keyword research directly inside Yoast SEO.
+- **Wincher integration** to track keyword performance from your dashboard.
+- **Elementor integration** for optimization inside your favorite builder.
 
-Oh, don't forget: our **[Yoast Academy](https://yoa.st/3ri)** is for all entrepreneurs, bloggers, and anyone who wants to learn more about optimizing websites, improving your WordPress SEO, and if you want to take your content to the next level!
+---
 
-### INTEGRATIONS
+### Technical SEO, handled for you
 
-Yoast SEO integrates seamlessly into a range of themes and plugins. We work particularly well with:
+Yoast SEO takes care of much of your site's technical SEO automatically, which frees you to focus on your content.
 
-* The [WordPress block editor](https://wordpress.org/support/article/wordpress-editor/) (or ‘Gutenberg’ editor).
-* The official [AMP](https://wordpress.org/plugins/amp/) plugin, which changes your templates to use the ‘AMP’ HTML format.
-* Google’s [Web Stories](https://wordpress.org/plugins/web-stories/) plugin, which helps you to create ‘[web stories](https://amp.dev/about/stories/)’.
-* The [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) plugin, when you also activate the [ACF Content Analysis for Yoast SEO](https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/) plugin.
-* The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
-* [Zapier](https://zapier.com/apps/yoast-seo/integrations), which helps you automate your publishing flow.
-* [Algolia](https://wordpress.org/plugins/wp-search-with-algolia/) integration to improve the quality of your site search.
-* [WordProof](https://wordproof.com/), which helps you prove ownership by adding timestamps.
+- **Automated meta tag optimization** right out of the box.
+- **Canonical URLs** to prevent duplicate content issues.
+- **Advanced XML sitemaps** for clear site indexing.
+- **Deep Schema.org integration** to improve how search engines and AI systems understand your site.
+- **Complete breadcrumb control** for visitors and crawlers.
+- **Performance improvements** that help reduce load times.
+- **Crawl settings** to manage how bots access your site and reduce unnecessary server load.
 
-### BUG REPORTS
+Every update delivers ongoing technical SEO enhancements automatically.
 
-Do you want to report a bug for Yoast SEO? Best to do so in the WordPress SEO [repository on GitHub](https://github.com/Yoast/wordpress-seo). Please note that GitHub is not a support forum and issues will be closed if they don’t meet the bug requirements.
+---
 
-### READ MORE
+### Keep your website in perfect shape
 
-Want more information on search engine optimization and Yoast SEO? Have a look at:
+Whether you are a creator, a business owner, or a developer, Yoast SEO helps you maintain your site's SEO health:
 
-* The [Yoast SEO Plugin](https://yoa.st/1v8) official homepage.
-* The [Yoast SEO Help center](https://yoa.st/1va).
-* [WordPress SEO - The definitive Guide by Yoast](https://yoa.st/1v6).
-* Other [WordPress Plugins](https://yoa.st/1v9) by Team Yoast.
-* Also follow Yoast on [Facebook](https://facebook.com/yoast), [Instagram](https://www.instagram.com/yoast/) & [Twitter](https://twitter.com/yoast).
+- **Cornerstone content tools** to organize and prioritize your key pages.
+- **Front-end SEO inspector** to view and edit titles, descriptions, and schema live.
+- **SEO roles** to delegate plugin access securely across your team.
+- **Regular 2-week update cycle**, so you stay compatible with the latest SEO standards and search engine changes.
+
+---
+
+### Powerful integrations
+
+Yoast SEO works seamlessly with popular WordPress tools:
+
+- **[Google Site Kit](https://en-gb.wordpress.org/plugins/google-site-kit/):** access insights from Search Console, Analytics, and PageSpeed inside WordPress.
+- **[Advanced Custom Fields (ACF)](https://wordpress.org/plugins/advanced-custom-fields/):** combine with [ACF Content Analysis for Yoast SEO](https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/) for advanced field optimization.
+- **[Elementor](https://wordpress.org/plugins/elementor/):** use full Yoast SEO functionality inside Elementor's editor.
+- **[Algolia](https://wordpress.org/plugins/wp-search-with-algolia/):** improve internal search accuracy and performance.
+- **[Semrush](https://www.semrush.com/):** discover and optimize for high-value keywords.
+- **[Wincher](https://wincher.com/):** track keyword positions and trends in Google Search.
+- **[Jetpack](https://wordpress.org/plugins/jetpack/):** manage SEO and social previews in one place.
+- **[Easy Digital Downloads (EDD)](https://en-gb.wordpress.org/plugins/easy-digital-downloads/):** improve digital product visibility with integrated schema.
+- **[Mastodon](https://mastodon.social/):** verify your website on Mastodon with Yoast SEO Premium.
+- **[WooCommerce](https://en-gb.wordpress.org/plugins/woocommerce/):** optimize ecommerce SEO with the dedicated WooCommerce extension.
+
+---
+
+## Yoast SEO Premium: AI-powered SEO for WordPress
+
+[Yoast SEO Premium](https://yoa.st/1v8) builds on everything above with advanced automation, AI tools, and professional support. It helps you optimize efficiently for both traditional search and AI-driven discovery.
+
+**What it helps you tackle:**
+
+- Keeping pace with algorithm changes and AI search.
+- Reaching the right audience.
+- Automating redirects, crawl controls, and internal linking.
+- Finding orphaned content and improving your site structure.
+- Getting expert help when you need it.
+
+**Premium highlights:**
+
+- **AI-generated titles and meta descriptions**, page by page or in bulk.
+- **AI Content Planner**, so you never open a blank page.
+- **Smart internal linking suggestions** to strengthen your site structure.
+- **Social previews** for Facebook and X.
+- **Redirect manager** with bulk tools, CSV import and export, and automatic prompts when you move or delete content.
+- **Bot blocker** for AI crawlers, including GPTBot, CCBot, and Google-Extended.
+- **Schema aggregation for NLWeb**, plus significantly more schema types than free.
+- **IndexNow** integration, so search engines hear about your updates the moment you publish.
+- **Front-end SEO inspector** for real-time editing.
+- **SEO workouts** for orphaned and cornerstone content.
+- **Task list**, unlocked in full, showing what to work on next with priority levels and time estimates.
+- **[Google Docs add-on](https://yoa.st/52u)**, so writers can run the full Yoast analysis before content ever reaches WordPress. One seat included.
+- **24/7 premium support** from SEO specialists.
+
+**Included at no extra cost:**
+
+- [Yoast Local SEO](https://yoa.st/1uu): help nearby customers find you, with local schema, a store locator, and opening hours management.
+- [Yoast Video SEO](https://yoa.st/1uw): help Google understand your videos, with video sitemaps and schema.
+- [Yoast News SEO](https://yoa.st/1uv): help your news content get discovered in Google News and Top Stories.
+
+---
+
+## Yoast WooCommerce SEO: advanced SEO for online stores
+
+Yoast WooCommerce SEO builds on Yoast SEO Premium with ecommerce-specific tools for your store's visibility.
+
+**Key ecommerce features:**
+
+- **WooCommerce-specific XML sitemap** that excludes non-shopping content.
+- **Product structured data** for rich results, including price, reviews, and availability.
+- **Canonical URL management** to prevent duplicates.
+- **Ecommerce-focused content analysis** for GTINs, SKUs, and short descriptions.
+- **AI Generate for ecommerce**: optimized titles and meta descriptions for product and category pages, at page level or drafted in bulk for products and categories.
+
+**What that gets you:**
+
+- Better product visibility through automated structured data.
+- More efficient crawling for large catalogs.
+- Time saved through metadata templates and automation.
+- Metadata across your whole catalog without editing rows one at a time.
+
+Built for WooCommerce, trusted by thousands of online stores worldwide.
+
+---
+
+## For developers
+
+Yoast SEO is built with developers in mind. With modern APIs, hooks, and a unified indexables system, you can extend or integrate SEO functionality across custom themes, plugins, or headless setups.
+
+### REST API
+Retrieve SEO metadata for any post or URL, including meta tags, Open Graph, Twitter Cards, and Schema.org data. [Learn more about the REST API](https://yoa.st/53l).
+
+### Surfaces API
+Access SEO data directly in code via `YoastSEO()->meta->for_current_page()`. Supports titles, descriptions, canonicals, and schema. [Read the Surfaces API documentation](https://yoa.st/53m).
+
+### Metadata API
+Use the [Metadata API](https://yoa.st/53n) to filter, override, or extend meta tags with WordPress hooks such as `wpseo_title`, `wpseo_metadesc`, and `wpseo_canonical`.
+
+### Schema API
+The [Schema API](https://yoa.st/53o) lets you modify or extend Schema.org graph pieces, including Article, Organization, Person, Breadcrumb, and WebPage entities.
+
+### Abilities API integration
+Let AI tools, dashboards, and automated workflows read Yoast SEO data programmatically, including SEO, readability, and inclusive language scores for recent posts.
+
+### Block editor compatibility
+Yoast SEO integrates directly with the WordPress block editor. It outputs schema for HowTo and FAQ blocks by default, and you can extend schema for custom blocks.
+
+### Indexables
+At the core of Yoast SEO lies the [indexables system](https://yoa.st/53q), unifying all SEO data for faster queries and consistent metadata across outputs.
+
+---
+
+## Ongoing support and education
+
+Yoast is powered by expert developers, testers, and SEO specialists who keep improving the plugin. We are committed to helping you grow your SEO skills:
+
+- [Yoast SEO Academy](https://yoa.st/3ri): free and premium SEO courses, included in all paid plans.
+- [Yoast SEO blog](https://yoast.com/seo-blog/), newsletter, and webinars.
+- [Yoast SEO Update podcast](https://yoa.st/53i) for the latest SEO insights.
+- [Bug reports on GitHub](https://github.com/Yoast/wordpress-seo), for issue tracking rather than support.
+
+Yoast SEO: built to make search optimization accessible, reliable, and ready for the future of AI search.
 
 == Installation ==
-Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO first-time configuration as explained in the ‘after activation’ step!
-
-### INSTALL YOAST SEO FROM WITHIN WORDPRESS
-
-1. Visit the plugins page within your dashboard and select ‘Add New’;
-1. Search for ‘Yoast SEO’;
-1. Activate Yoast SEO from your Plugins page;
-1. Go to ‘after activation’ below.
-
-### INSTALL YOAST SEO MANUALLY
-
-1. Upload the ‘wordpress-seo’ folder to the /wp-content/plugins/ directory;
-1. Activate the Yoast SEO plugin through the ‘Plugins’ menu in WordPress;
-1. Go to ‘after activation’ below.
-
-### AFTER ACTIVATION
-
-1. You should see (a notice to start) the Yoast SEO first-time configuration;
-1. Go through this configuration and set up the plugin for your site;
-1. You’re done!
+Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site's specific needs, so do not forget to go through the Yoast SEO first-time configuration as explained in the 'after activation' step. For the most up-to-date guidance on how to install Yoast SEO products, [please visit our help center](https://yoast.com/help/yoast-installation-manuals/#h-yoast-seo-and-yoast-seo-premium-for-wordpress).
 
 == Frequently Asked Questions ==
 
-= How do the XML Sitemaps in the Yoast SEO plugin work? =
+= Is Yoast SEO ready for AI search? =
 
-Having an XML sitemap can be beneficial for SEO, as Google can retrieve essential pages of a website very fast, even if the internal linking of a site isn’t flawless.
-The sitemap index and individual sitemaps are updated automatically as you add or remove content and will include the post types you want search engines to index. Post Types marked as noindex will not appear in the sitemap. [Learn more about XML Sitemaps](https://yoa.st/3qt).
+Yes. Yoast SEO helps you prepare for discovery in AI-driven search as well as traditional search results. Schema.org structured data helps AI systems understand what your content is about, schema aggregation gives AI agents a complete picture of your site in one request, LLMs.txt management lets you guide how large language models interact with your content, and the bot blocker in Premium lets you control which AI crawlers can use your content for training. Nobody can guarantee that an AI assistant will mention your site, however you can make sure it understands your content correctly.
 
-= How can I add my website to Google Search Console? =
+= How do the XML sitemaps in the Yoast SEO plugin work? =
 
-It is straightforward to add your website to Google Search Console.
-1. Create a Google Search Console account and login into your account.
-2. Click ‘Add a property’ under the search drop-down.
-3. Enter your website URL in the box and click ‘Continue’.
-4. Click the arrow next to ‘HTML tag’ to expand the option.
-5. Copy the meta tag.
-6. Log in to your WordPress website.
-7. Click on ‘SEO’ in the dashboard.
-8. Click on ‘General’.
-9. Click on the ‘Webmaster Tools’ tab.
-10. Paste the code in the Google field and click ‘Save Changes’.
-11. Go back to Google Search Console and click ‘Verify’.
+Having an XML sitemap can be beneficial for SEO, as Google can retrieve essential pages of a website very fast, even if the internal linking of a site is not flawless.
+The sitemap index and individual sitemaps are updated automatically as you add or remove content, and will include the post types you want search engines to index. Post types marked as noindex will not appear in the sitemap. [Learn more about XML sitemaps](https://yoa.st/3qt).
 
-If you want more details steps, please visit [our article on our help center](https://yoa.st/3qu).
 
 = How do I implement Yoast SEO breadcrumbs? =
 
-The steps below are a temporary solution as manual edits made to theme files may be overwritten with future theme updates. Please contact the theme developer for a permanent solution. We’ve written an article about the [importance of breadcrumbs for SEO](https://yoa.st/3qv).
+The steps below are a temporary solution, as manual edits made to theme files may be overwritten with future theme updates. Please contact the theme developer for a permanent solution. We have written an article about the [importance of breadcrumbs for SEO](https://yoa.st/3qv).
 
-To implement the [breadcrumbs](https://yoa.st/3qw) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
+To implement the [breadcrumbs](https://yoa.st/3qw) function in Yoast SEO, you will have to edit your theme. We recommend that a backup is taken prior to any editing of the theme files. Your host provider can help you take a backup.
 Copy the following code into your theme where you want the breadcrumbs to be. If you are not sure, you will need to experiment with placement:
 
 <code>
@@ -191,40 +251,44 @@ if ( function_exists( 'yoast_breadcrumb' ) ) {
 ?>
 </code>
 
-Common places where you could place your breadcrumbs are inside your `single.php` and/or `page.php` file just above the page’s title. Another option that makes it really easy in some themes is by just pasting the code in `header.php` at the very end.
+Common places to put your breadcrumbs are inside your `single.php` or `page.php` file, just above the page's title. Another option that is easy in some themes is pasting the code at the very end of `header.php`.
 
 In most non-WooTheme themes, this code snippet should not be added to your `functions.php` file.
 Alternatively, you can manually add the breadcrumb shortcode to individual posts or pages: `[wpseo_breadcrumb]`
 
-If you need more details or a step by step guide, read our [Implementation guide for Yoast SEO breadcrumbs](https://yoa.st/3qx).
+If you need more details or a step-by-step guide, read our [implementation guide for Yoast SEO breadcrumbs](https://yoa.st/3qx).
 
-= How do I noindex URLS? =
+= How do I noindex URLs? =
 
 Yoast SEO provides multiple options for setting a URL or group of URLs to noindex. [Read more about how to do this in this guide](https://yoa.st/3qy/).
 
 = Google shows the wrong description, how do I fix this? =
 
-If you’ve crafted nice meta descriptions for your blog posts, nothing is more annoying than Google showing another description for your site completely in the search result snippet.
+If you have crafted nice meta descriptions for your blog posts, nothing is more annoying than Google showing a completely different description in the search result snippet.
 
-Possible causes could be:
-1. wrong description in code
-2. Google cache is outdated
-3. Search term manipulation
-4. Google ignored the meta description
+Possible causes include:
+1. the wrong description in your code
+2. an outdated Google cache
+3. search term manipulation
+4. Google ignoring the meta description
 
 You can [read more here on how to solve the issue with the wrong description](https://yoa.st/3qz).
 
 = How often is Yoast SEO updated? =
 
-Yoast SEO is updated every two weeks. If you want to know why, please read [this post on why we release every two weeks](https://yoa.st/3q-)!
+Yoast SEO is updated every two weeks. If you want to know why, please read [this post on why we release every two weeks](https://yoa.st/3q-).
 
 = How do I get support? =
 
-As our free plugin is used by millions of people worldwide, we cannot offer you all one on one support. If you have trouble with the Yoast SEO for WordPress plugin, you can get help on the support forums here at [wordpress.org](https://wordpress.org/support/plugin/wordpress-seo/) or by checking out our help center at [yoast.com/help/](https://yoa.st/3r1).
+Our free plugin is used by millions of people worldwide, so we cannot offer one-to-one support to everyone. If you have trouble with the Yoast SEO for WordPress plugin, you can get help on the support forums here at [wordpress.org](https://wordpress.org/support/plugin/wordpress-seo/) or by checking out our help center at [yoast.com/help/](https://yoa.st/3r1).
 
-The plugins you buy at Yoast are called ‘premium plugins’ (even if Premium isn’t in its name) and include a complete year of free updates and premium support. This means you can contact our support team if you have any questions about that plugin.
+The plugins you buy at Yoast are called 'premium plugins' (even if Premium is not in the name) and include a complete year of free updates and premium support. This means you can contact our support team if you have any questions about that plugin.
 
 [Read more on how to get support](https://yoa.st/3r2)
+
+= What happens to my data if I enable usage tracking? =
+
+[This page on yoast.com explains what data we collect to improve Yoast SEO](https://yoa.st/4w7). We only collect data when you explicitly opt in. Read more about how we handle your data in [our privacy policy](https://yoa.st/4w8).
 
 = I have a different question than listed here =
 
@@ -232,61 +296,44 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Screenshots ==
 
-1. The Yoast SEO plugin general meta box. You'll see this on edit post pages, for posts, pages and custom post types.
-2. Example of the SEO analysis functionality.
-3. Example of the readability analysis functionality.
-4. Overview of site-wide SEO problems and possible improvements.
-5. Control over which features you want to use.
-6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
+1. The modern interface makes Yoast SEO easy to work with.
+2. Easily manage how your posts and pages appear in SERPs.
+3. Yoast SEO Premium has extra crawl optimization options.
+4. Yoast SEO integrates with tools like Semrush and Wincher.
+5. The famous SEO and readability analyses in Yoast SEO.
+6. See what your post looks like in Google.
+7. The First-time configuration helps you get started quickly.
+8. The inclusive language analysis in Yoast SEO.
 
 == Changelog ==
 
-= 19.6 =
-Release Date: August 23rd, 2022
+= 28.7 =
 
-Yoast SEO 19.6 is out today! In this release, we’ve rolled out some general enhancements. In addition, we’ve improved the performance of Yoast SEO on bigger, more complex sites. Read more about what's new in Yoast SEO 19.6 in [our release post in English](https://yoa.st/release-23-8-22) or [our release post in Spanish](https://yoa.st/release-23-8-22-spanish)!
+Release date: 2026-10-13
 
-Bugfixes:
+#### Enhancements
 
-* Fixes a bug in the Classic Editor where clicking on the SEO link inside the publish box would not always scroll the SEO analysis into view.
-* Fixes a bug where an emoji in our replacement variable editors would not be entirely removed when the backspace/delete button is hit.
-* Fixes a bug where a redirect to our installation success page could happen on admin AJAX calls.
+* Allows agents to update titles and descriptions via the respective Yoast Ability.
 
-Other:
+= 28.6 =
 
-* Adds a "Search engines discouraged" notification in the Yoast SEO dashboard when the "Discourage search engines from indexing this site" WordPress setting is turned on.
-* Removes the Ryte integration and deprecates all the relevant classes. More information about this can be found at [yoa.st/ryte-deprecation](https://yoa.st/ryte-deprecation).
+Release date: 2026-09-29
 
-= 19.5.1 =
-Release Date: August 9th, 2022
+#### Enhancements
 
-Bugfixes:
+* Don't show a post type in the Bulk editor if `Enable SEO controls and assessments` is turned off for that post type.
+* Introduces 2 new Yoast Abilities, to allow agents to get and update SEO data for given posts.
 
-* Fixes a bug where a fatal error would be thrown on the front-end when Yoast SEO 19.5 was used with an older version of Yoast SEO Premium.
+#### Bugfixes
 
-= 19.5 =
-Release Date: August 9th, 2022
+* Adds a notice to the bulk editor explaining that no content types are available when *Enable SEO controls and assessments* is disabled for all post types, with a link to the settings page.
+* Fixes a bug where a `rest_invalid_content_type` error would be logged in the browser console when opening the bulk editor while *Enable SEO controls and assessments* was disabled for all post types.
 
-Yoast SEO 19.5 is out today! This release includes more fixes and enhancements to enjoy. We've also made adjustments to our schema implementation, changing the order in which schema nodes are output. Read more about what's new in Yoast SEO 19.5 in [our release post in English](https://yoa.st/release-9-8-22) or [our release post in Spanish](https://yoa.st/release-9-8-22-spanish)!
+#### Other
 
-
-Enhancements:
-
-* Adds the site logo and name as default values in the first time configuration and search appearance.
-* Changes the order in which Schema nodes are output from `Organization / Person > WebSite > WebPage > Article` to `Article > WebPage > WebSite > Organization / Person`. This fixes validation issues for the Schema validator and puts the most important Schema content first.
-
-Bugfixes:
-
-* Fixes a bug where a text starting with a double quotation mark followed by a space(s) broke the analysis.
-* Fixes a bug where text which includes the non-breaking space character (`&nbsp;`) is not highlighted correctly.
-* Fixes a bug where the Algolia integration could not be controlled at network level.
-* Fixes a bug where the score indicator in the classic editor would not update the hovering text when the score changed.
-* Fixes a bug where the score indicators of the overview pages and admin bar where inconsistent. The taxonomy overview and admin bar score indicators now uses red to indicate `Focus keyphrase not set`. The admin bar score indicator now shows blue when set to `noindex`.
-
-Other:
-
-* Hides the \"Save changes\" button in the \"Integrations\" tab in the \"Yoast SEO  > General\" page.
-* Sets the minimum supported WordPress version to 5.9.
+* Adds two new cards for the Schema aggregator and the WordPress abilities API features.
+* Adjust the name and description of the setting's toggle controlling the breadcrumbs' rendering to state clearly its intended behaviour.
+* Re-groups the integrations' cards in the `Integrations` page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

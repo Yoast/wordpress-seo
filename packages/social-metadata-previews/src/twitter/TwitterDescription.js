@@ -1,6 +1,5 @@
-/* External dependencies */
+import { TWITTER_IMAGE_SIZES } from "@yoast/social-metadata-forms";
 import styled from "styled-components";
-import { TWITTER_IMAGE_SIZES } from "../helpers/determineImageProperties";
 
 /**
  * Renders a TwitterDescription component.

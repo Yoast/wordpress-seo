@@ -19,6 +19,8 @@ class AddColumnsToIndexables extends Migration {
 
 	/**
 	 * Migration up.
+	 *
+	 * @return void
 	 */
 	public function up() {
 		$tables  = $this->get_tables();
@@ -32,7 +34,7 @@ class AddColumnsToIndexables extends Migration {
 					'null'    => false,
 					'limit'   => 20,
 					'default' => $blog_id,
-				]
+				],
 			);
 		}
 
@@ -54,6 +56,8 @@ class AddColumnsToIndexables extends Migration {
 
 	/**
 	 * Migration down.
+	 *
+	 * @return void
 	 */
 	public function down() {
 		$tables = $this->get_tables();

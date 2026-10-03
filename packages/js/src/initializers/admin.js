@@ -1,8 +1,6 @@
-/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS */
-
+/* global ajaxurl */
 import { __ } from "@wordpress/i18n";
-import a11ySpeak from "a11y-speak";
-import { debounce } from "lodash-es";
+import { debounce } from "lodash";
 
 /**
  * @summary Initializes the admin script.
@@ -24,72 +22,6 @@ export default function initAdmin( jQuery ) {
 
 		return elementTop > viewportTop && elementBottom < viewportBottom;
 	};
-
-	/**
-	 * Detects the wrong use of variables in title and description templates
-	 *
-	 * @param {element} e The element to verify.
-	 *
-	 * @returns {void}
-	 */
-	function wpseoDetectWrongVariables( e ) {
-		var warn = false;
-		var errorId = "";
-		var wrongVariables = [];
-		var authorVariables = [ "userid", "name", "user_description" ];
-		var dateVariables = [ "date" ];
-		var postVariables = [ "title", "parent_title", "excerpt", "excerpt_only", "caption", "focuskw", "pt_single", "pt_plural", "modified", "id" ];
-		var specialVariables = [ "term404", "searchphrase" ];
-		var taxonomyVariables = [ "term_title", "term_description" ];
-		var taxonomyPostVariables = [ "category", "category_description", "tag", "tag_description" ];
-		if ( e.hasClass( "posttype-template" ) ) {
-			wrongVariables = wrongVariables.concat( specialVariables, taxonomyVariables );
-		} else if ( e.hasClass( "homepage-template" ) ) {
-			wrongVariables = wrongVariables.concat(
-				authorVariables, dateVariables, postVariables, specialVariables, taxonomyVariables, taxonomyPostVariables
-			);
-		} else if ( e.hasClass( "taxonomy-template" ) ) {
-			wrongVariables = wrongVariables.concat( authorVariables, dateVariables, postVariables, specialVariables );
-		} else if ( e.hasClass( "author-template" ) ) {
-			wrongVariables = wrongVariables.concat( postVariables, dateVariables, specialVariables, taxonomyVariables, taxonomyPostVariables );
-		} else if ( e.hasClass( "date-template" ) ) {
-			wrongVariables = wrongVariables.concat( authorVariables, postVariables, specialVariables, taxonomyVariables, taxonomyPostVariables );
-		} else if ( e.hasClass( "search-template" ) ) {
-			wrongVariables = wrongVariables.concat(
-				authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "term404" ]
-			);
-		} else if ( e.hasClass( "error404-template" ) ) {
-			wrongVariables = wrongVariables.concat(
-				authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "searchphrase" ]
-			);
-		}
-		jQuery.each( wrongVariables, function( index, variable ) {
-			errorId = e.attr( "id" ) + "-" + variable + "-warning";
-			// Disable reason: legacy code, will be removed at some point.
-			/* eslint-disable no-negated-condition */
-			if ( e.val().search( "%%" + variable + "%%" ) !== -1 ) {
-				e.addClass( "wpseo-variable-warning-element" );
-				var msg = wpseoAdminGlobalL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
-				if ( jQuery( "#" + errorId ).length ) {
-					jQuery( "#" + errorId ).html( msg );
-				} else {
-					e.after( ' <div id="' + errorId + '" class="wpseo-variable-warning">' + msg + "</div>" );
-				}
-
-				a11ySpeak( wpseoAdminGlobalL10n.variable_warning.replace( "%s", variable ), "assertive" );
-
-				warn = true;
-			} else {
-				if ( jQuery( "#" + errorId ).length ) {
-					jQuery( "#" + errorId ).remove();
-				}
-			}
-			/* eslint-enable no-negated-condition */
-		} );
-		if ( warn === false ) {
-			e.removeClass( "wpseo-variable-warning-element" );
-		}
-	}
 
 	/**
 	 * Sets a specific WP option
@@ -144,7 +76,7 @@ export default function initAdmin( jQuery ) {
 	 *
 	 * @returns {void}
 	 */
-	 function setInitialActiveTab() {
+	function setInitialActiveTab() {
 		var activeTabId = window.location.hash.replace( "#top#", "" );
 		/* In some cases, the second # gets replace by %23, which makes the tab
 		 * switching not work unless we do this. */
@@ -175,28 +107,7 @@ export default function initAdmin( jQuery ) {
 	jQuery( window ).on( "hashchange", function() {
 		setInitialActiveTab();
 		wpseoSetTabHash();
-	 } );
-
-	/**
-	 * Adds select2 for selected fields.
-	 *
-	 * @returns {void}
-	 */
-	function initSelect2() {
-		var select2Width = "400px";
-
-		// Select2 for Twitter card meta data in Settings
-		jQuery( "#twitter_card_type" ).select2( {
-			width: select2Width,
-			language: wpseoScriptData.userLanguageCode,
-		} );
-
-		// Select2 for taxonomy breadcrumbs in Advanced
-		jQuery( "#breadcrumbs select" ).select2( {
-			width: select2Width,
-			language: wpseoScriptData.userLanguageCode,
-		} );
-	}
+	} );
 
 	/**
 	 * Hides or shows the Author without posts toggle.
@@ -281,32 +192,7 @@ export default function initAdmin( jQuery ) {
 	}
 
 	/**
-	 * Initializes the Copy to clipboard button for the Zapier API Key.
-	 *
-	 * @returns {void}
-	 */
-	function initCopyZapierKeyToClipboard() {
-		if ( typeof ClipboardJS !== "undefined" ) {
-			const copyZapierKeyToClipboard = new ClipboardJS( "#copy-zapier-api-key" );
-
-			/**
-			 * Copies the Zapier API Key to the clipboard.
-			 *
-			 * @param {MouseEvent} event The click event on the Copy button.
-			 *
-			 * @return {void}
-			 */
-			copyZapierKeyToClipboard.on( "success", function( event ) {
-				// Clear the selection and move focus back to the trigger.
-				event.clearSelection();
-				// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
-				jQuery( event.trigger ).trigger( "focus" );
-			} );
-		}
-	}
-
-	/**
-	 * Checks wether or not the confirmation dialog should be displayed upom switching tab.
+	 * Checks whether or not the confirmation dialog should be displayed upon switching tab.
 	 *
 	 * @param {object} target The clicked tab.
 	 *
@@ -327,10 +213,8 @@ export default function initAdmin( jQuery ) {
 		return ( comingFromFTCTab && ( ! goingToFTCTab ) && window.isStepBeingEdited );
 	}
 
-	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
-	// eslint-disable-next-line
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {
@@ -338,6 +222,10 @@ export default function initAdmin( jQuery ) {
 		 * When the hash changes, get the base url from the action and then add the current hash.
 		 */
 		wpseoSetTabHash();
+
+		if ( typeof window.wpseoRedirectOldFeaturesTabToNewSettings === "function" ) {
+			window.wpseoRedirectOldFeaturesTabToNewSettings();
+		}
 
 		// Toggle the Author archives section.
 		jQuery( "#disable-author input[type='radio']" ).on( "change", function() {
@@ -389,22 +277,6 @@ export default function initAdmin( jQuery ) {
 			jQuery( "#post_format-titles-metas" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).trigger( "change" );
 
-		// Toggle the Zapier connection section.
-		jQuery( "#zapier_integration_active input[type='radio']" ).on( "change", function() {
-			// The value on is enabled, off is disabled.
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#zapier-connection" ).toggle( jQuery( this ).val() === "on" );
-			}
-		} ).trigger( "change" );
-
-		// Toggle the Wincher section.
-		jQuery( "#wincher_integration_active input[type='radio']" ).change( function() {
-			// The value on is enabled, off is disabled.
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#wincher-connection" ).toggle( jQuery( this ).val() === "on" );
-			}
-		} ).change();
-
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function( event ) {
 			var canChangeTab = true;
@@ -431,9 +303,17 @@ export default function initAdmin( jQuery ) {
 
 				jQuery( window ).trigger( "yoast-seo-tab-change" );
 				if ( id === "first-time-configuration" ) {
-					jQuery( "#yoast-first-time-configuration-notice" ).slideUp();
+					// All notices when in the first time configuration tab.
+					jQuery( ".notice-yoast" ).slideUp();
+					// Hide the premium upsell when in the first time configuration tab.
+					jQuery( ".yoast_premium_upsell" ).slideUp();
+					jQuery( "#sidebar-container" ).hide();
 				} else {
-					jQuery( "#yoast-first-time-configuration-notice" ).slideDown();
+					// Show the notices when not in the first time configuration tab.
+					jQuery( ".notice-yoast" ).slideDown();
+					// Show the premium upsell when not in the first time configuration tab.
+					jQuery( ".yoast_premium_upsell" ).slideDown();
+					jQuery( "#sidebar-container" ).show();
 				}
 			} else {
 				// Re-establish the focus on the first time configuration tab if the user clicks 'Cancel' on the pop-up
@@ -461,11 +341,6 @@ export default function initAdmin( jQuery ) {
 				jQuery( "#knowledge-graph-person" ).hide();
 			}
 		} ).trigger( "change" );
-
-		// Check correct variables usage in title and description templates.
-		jQuery( ".template" ).on( "input", function() {
-			wpseoDetectWrongVariables( jQuery( this ) );
-		} );
 
 		// Prevent form submission when pressing Enter on the switch-toggles.
 		jQuery( ".switch-yoast-seo input" ).on( "keydown", function( event ) {
@@ -497,10 +372,8 @@ export default function initAdmin( jQuery ) {
 
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
-		initSelect2();
 		initXmlSitemapsWarning();
 		// Should be called after the initial active tab has been set.
 		setFixedSubmitButtonVisibility();
-		initCopyZapierKeyToClipboard();
 	} );
 }

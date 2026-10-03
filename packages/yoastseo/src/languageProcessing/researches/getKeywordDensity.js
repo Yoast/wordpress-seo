@@ -1,29 +1,55 @@
-/** @module analyses/getKeywordDensity */
-
-import countWords from "../helpers/word/countWords.js";
+import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree";
 
 /**
- * Calculates the keyword density.
- *
- * @param {Object} paper        The paper containing keyword and text.
- * @param {Object} researcher   The researcher.
- *
- * @returns {Object} The keyword density.
+ * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../values/").Paper } Paper
  */
-export default function( paper, researcher ) {
-	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
-	let wordCount = countWords( paper.getText() );
 
-	// If there is a custom getWords helper use its output for countWords.
+/**
+ * Calculates the keyphrase density.
+ *
+ * @param {Paper} paper The paper containing keyphrase and text.
+ * @param {Researcher} researcher The researcher.
+ *
+ * @returns {{density: number, textLength: number}} The keyphrase density and text length.
+ */
+export default function getKeyphraseDensity( paper, researcher ) {
+	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
+	let wordCount = 0;
+
+	// If there is a custom getWords helper, use its output for countWords.
 	if ( getWordsCustomHelper ) {
-		wordCount =  getWordsCustomHelper( paper.getText() ).length;
+		wordCount = getWordsCustomHelper( paper.getText() ).length;
+	} else {
+		wordCount = getAllWordsFromTree( paper ).length;
 	}
 
 	if ( wordCount === 0 ) {
-		return 0;
+		return {
+			density: 0,
+			textLength: 0,
+		};
 	}
 
-	const keywordCount = researcher.getResearch( "keywordCount" );
+	const keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
 
-	return ( keywordCount.count / wordCount ) * 100;
+	return {
+		density: ( keyphraseCount.count / wordCount ) * 100,
+		textLength: wordCount,
+	};
+}
+
+/**
+ * Calculates the keyphrase density.
+ *
+ * @deprecated Use getKeyphraseDensity instead.
+ *
+ * @param {Paper} paper The paper containing keyphrase and text.
+ * @param {Researcher} researcher The researcher.
+ *
+ * @returns {{density: number, textLength: number}} The keyphrase density and text length.
+ */
+export function getKeywordDensity( paper, researcher ) {
+	console.warn( "This function is deprecated, use getKeyphraseDensity instead." );
+	return getKeyphraseDensity( paper, researcher );
 }

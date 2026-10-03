@@ -17,19 +17,19 @@ class Yoast_Notification_Center {
 	 *
 	 * @var string
 	 */
-	const STORAGE_KEY = 'yoast_notifications';
+	public const STORAGE_KEY = 'yoast_notifications';
 
 	/**
 	 * The singleton instance of this object.
 	 *
-	 * @var \Yoast_Notification_Center
+	 * @var Yoast_Notification_Center|null
 	 */
 	private static $instance = null;
 
 	/**
 	 * Holds the notifications.
 	 *
-	 * @var \Yoast_Notification[][]
+	 * @var Yoast_Notification[][]
 	 */
 	private $notifications = [];
 
@@ -90,23 +90,32 @@ class Yoast_Notification_Center {
 	 */
 	public static function get() {
 
-		if ( self::$instance === null ) {
-			self::$instance = new self();
-		}
+		self::$instance ??= new self();
 
 		return self::$instance;
 	}
 
 	/**
 	 * Dismiss a notification.
+	 *
+	 * @return void
 	 */
 	public static function ajax_dismiss_notification() {
-
 		$notification_center = self::get();
 
-		$notification_id = filter_input( INPUT_POST, 'notification' );
+		if ( ! isset( $_POST['notification'] ) || ! is_string( $_POST['notification'] ) ) {
+			exit( '-1' );
+		}
+
+		$notification_id = sanitize_text_field( wp_unslash( $_POST['notification'] ) );
+
 		if ( empty( $notification_id ) ) {
-			die( '-1' );
+			exit( '-1' );
+		}
+
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are using the variable as a nonce.
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['nonce'] ), $notification_id ) ) {
+			exit( '-1' );
 		}
 
 		$notification = $notification_center->get_notification_by_id( $notification_id );
@@ -121,10 +130,10 @@ class Yoast_Notification_Center {
 		}
 
 		if ( self::maybe_dismiss_notification( $notification ) ) {
-			die( '1' );
+			exit( '1' );
 		}
 
-		die( '-1' );
+		exit( '-1' );
 	}
 
 	/**
@@ -295,6 +304,8 @@ class Yoast_Notification_Center {
 	 * Add notification to the cookie.
 	 *
 	 * @param Yoast_Notification $notification Notification object instance.
+	 *
+	 * @return void
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
 
@@ -317,11 +328,11 @@ class Yoast_Notification_Center {
 
 			// If notification ID exists in notifications, don't add again.
 			$present_notification = $this->get_notification_by_id( $notification_id, $user_id );
-			if ( ! is_null( $present_notification ) ) {
+			if ( $present_notification !== null ) {
 				$this->remove_notification( $present_notification, false );
 			}
 
-			if ( is_null( $present_notification ) ) {
+			if ( $present_notification === null ) {
 				$this->new[] = $notification_id;
 			}
 		}
@@ -402,6 +413,8 @@ class Yoast_Notification_Center {
 	 *
 	 * @param Yoast_Notification $notification Notification to remove.
 	 * @param bool               $resolve      Resolve as fixed.
+	 *
+	 * @return void
 	 */
 	public function remove_notification( Yoast_Notification $notification, $resolve = true ) {
 
@@ -498,7 +511,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Return the notifications sorted on type and priority.
 	 *
-	 * @return array|Yoast_Notification[] Sorted Notifications
+	 * @return Yoast_Notification[] Sorted Notifications
 	 */
 	public function get_sorted_notifications() {
 		$notifications = $this->get_notifications_for_user( get_current_user_id() );
@@ -514,19 +527,28 @@ class Yoast_Notification_Center {
 
 	/**
 	 * AJAX display notifications.
+	 *
+	 * @return void
 	 */
 	public function ajax_get_notifications() {
-		$echo = filter_input( INPUT_POST, 'version' ) === '2';
+		$echo = false;
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form data.
+		if ( isset( $_POST['version'] ) && is_string( $_POST['version'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing the variable in a condition.
+			$echo = wp_unslash( $_POST['version'] ) === '2';
+		}
 
 		// Display the notices.
 		$this->display_notifications( $echo );
 
 		// AJAX die.
-		exit;
+		exit();
 	}
 
 	/**
 	 * Remove storage when the plugin is deactivated.
+	 *
+	 * @return void
 	 */
 	public function deactivate_hook() {
 
@@ -554,7 +576,7 @@ class Yoast_Notification_Center {
 	 * In other terms, it returns an associative array,
 	 * mapping user ID to a list of notifications for this user.
 	 *
-	 * @param array|Yoast_Notification[] $notifications The notifications to split.
+	 * @param Yoast_Notification[] $notifications The notifications to split.
 	 *
 	 * @return array The notifications, split on user ID.
 	 */
@@ -576,6 +598,12 @@ class Yoast_Notification_Center {
 	 * @return void
 	 */
 	public function update_storage() {
+		/**
+		 * Plugins might exit on the plugins_loaded hook.
+		 * This prevents the pluggable.php file from loading, as it's loaded after the plugins_loaded hook.
+		 * As we need functions defined in pluggable.php, make sure it's loaded.
+		 */
+		require_once ABSPATH . WPINC . '/pluggable.php';
 
 		$notifications = $this->notifications;
 
@@ -592,7 +620,7 @@ class Yoast_Notification_Center {
 		/**
 		 * Filter: 'yoast_notifications_before_storage' - Allows developer to filter notifications before saving them.
 		 *
-		 * @api Yoast_Notification[] $notifications
+		 * @param Yoast_Notification[] $notifications
 		 */
 		$filtered_merged_notifications = apply_filters( 'yoast_notifications_before_storage', $merged_notifications );
 
@@ -620,8 +648,8 @@ class Yoast_Notification_Center {
 	/**
 	 * Stores the notifications to its respective user's storage.
 	 *
-	 * @param array|Yoast_Notification[] $notifications The notifications to store.
-	 * @param int                        $user_id       The ID of the user for which to store the notifications.
+	 * @param Yoast_Notification[] $notifications The notifications to store.
+	 * @param int                  $user_id       The ID of the user for which to store the notifications.
 	 *
 	 * @return void
 	 */
@@ -633,7 +661,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Provide a way to verify present notifications.
 	 *
-	 * @return array|Yoast_Notification[] Registered notifications.
+	 * @return Yoast_Notification[] Registered notifications.
 	 */
 	public function get_notifications() {
 		if ( ! $this->notifications ) {
@@ -669,20 +697,27 @@ class Yoast_Notification_Center {
 	/**
 	 * Get information from the User input.
 	 *
+	 * Note that this function does not handle nonce verification.
+	 *
 	 * @param string $key Key to retrieve.
 	 *
-	 * @return mixed value of key if set.
+	 * @return string non-sanitized value of key if set, an empty string otherwise.
 	 */
 	private static function get_user_input( $key ) {
-
-		$filter_input_type = INPUT_GET;
-		$request_method    = isset( $_SERVER['REQUEST_METHOD'] ) ? filter_var( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '';
-
-		if ( strtoupper( $request_method ) === 'POST' ) {
-			$filter_input_type = INPUT_POST;
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information and only using this variable in a comparison.
+		$request_method = isset( $_SERVER['REQUEST_METHOD'] ) && is_string( $_SERVER['REQUEST_METHOD'] ) ? strtoupper( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '';
+		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: This function does not sanitize variables.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing -- Reason: This function does not verify a nonce.
+		if ( $request_method === 'POST' ) {
+			if ( isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ) {
+				return wp_unslash( $_POST[ $key ] );
+			}
 		}
-
-		return filter_input( $filter_input_type, $key );
+		elseif ( isset( $_GET[ $key ] ) && is_string( $_GET[ $key ] ) ) {
+			return wp_unslash( $_GET[ $key ] );
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		return '';
 	}
 
 	/**
@@ -693,7 +728,6 @@ class Yoast_Notification_Center {
 	 * @return void
 	 */
 	private function retrieve_notifications_from_storage( $user_id ) {
-
 		if ( $this->notifications_retrieved ) {
 			return;
 		}
@@ -709,6 +743,7 @@ class Yoast_Notification_Center {
 
 		if ( is_array( $stored_notifications ) ) {
 			$notifications = array_map( [ $this, 'array_to_notification' ], $stored_notifications );
+
 			// Apply array_values to ensure we get a 0-indexed array.
 			$notifications = array_values( array_filter( $notifications, [ $this, 'filter_notification_current_user' ] ) );
 
@@ -746,6 +781,8 @@ class Yoast_Notification_Center {
 
 	/**
 	 * Clear local stored notifications.
+	 *
+	 * @return void
 	 */
 	private function clear_notifications() {
 
@@ -813,14 +850,21 @@ class Yoast_Notification_Center {
 		}
 
 		if ( isset( $notification_data['message'] )
-			&& \is_subclass_of( $notification_data['message'], Abstract_Presenter::class, false )
+			&& is_subclass_of( $notification_data['message'], Abstract_Presenter::class, false )
 		) {
 			$notification_data['message'] = $notification_data['message']->present();
 		}
 
+		if ( isset( $notification_data['options']['user'] ) ) {
+			$notification_data['options']['user_id'] = $notification_data['options']['user']->ID;
+			unset( $notification_data['options']['user'] );
+
+			$this->notifications_need_storage = true;
+		}
+
 		return new Yoast_Notification(
 			$notification_data['message'],
-			$notification_data['options']
+			$notification_data['options'],
 		);
 	}
 
@@ -869,6 +913,8 @@ class Yoast_Notification_Center {
 	 *
 	 * @param callable $callback Callback that performs the transaction.
 	 * @param array    $args     Arguments to pass to the callback.
+	 *
+	 * @return void
 	 */
 	private function add_transaction_to_queue( $callback, $args ) {
 		$this->queued_transactions[] = [ $callback, $args ];

@@ -1,6 +1,11 @@
+import { strings } from "@yoast/helpers";
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+
+const { stripTagsFromHtmlString } = strings;
+
+const ALLOWED_TAGS = [ "a", "b", "strong", "em", "i", "span", "p", "ul", "ol", "li", "div" ];
 
 const ScoreAssessmentItem = styled.li`
 	display: table-row;
@@ -55,7 +60,7 @@ const ScoreAssessment = ( props ) => {
 			/>
 			<ScoreAssessmentText
 				className={ `${ props.className }-text` }
-				dangerouslySetInnerHTML={ { __html: props.html } }
+				dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.html, ALLOWED_TAGS ) } }
 			/>
 			{ props.value &&
 				<ScoreAssessmentScore
@@ -85,6 +90,13 @@ const ScoreAssessmentList = styled.ul`
 	padding: 0 8px;
 `;
 
+/**
+ * The score assessments component, for displaying the results of a number of assessments.
+ *
+ * @param {Object} props The component's props.
+ *
+ * @returns {ReactElement} The rendered component.
+ */
 const ScoreAssessments = ( props ) => {
 	return (
 		<ScoreAssessmentList

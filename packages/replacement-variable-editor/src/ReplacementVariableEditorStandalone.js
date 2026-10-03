@@ -51,7 +51,6 @@ const MentionSuggestionsStyleWrapper = styled.div`
 `;
 
 // Regex sources from https://github.com/facebook/draft-js/issues/1105
-// eslint-disable-next-line max-len
 const emojiRegExp = new RegExp( "(?:\\p{RI}\\p{RI}|\\p{Emoji}(?:\\p{Emoji_Modifier}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(?:\\u{200D}\\p{Emoji}(?:\\p{Emoji_Modifier}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?)*)", "gu" );
 
 /**
@@ -425,6 +424,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		if ( suggestions.length ) {
 			this.debouncedA11ySpeak(
 				sprintf(
+					/* translators: %d expands to the number of results found. */
 					_n(
 						"%d result found, use up and down arrow keys to navigate",
 						"%d results found, use up and down arrow keys to navigate",
@@ -511,30 +511,33 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	/**
 	 * Sets the state of this editor when the incoming content changes.
 	 *
-	 * @param {Object} nextProps The props this component receives.
+	 * @param {Object} prevProps The previous props this component has received.
+	 * @param {Object} prevState The previous state this component has been in.
 	 *
 	 * @returns {void}
 	 */
-	componentWillReceiveProps( nextProps ) {
-		const { content, replacementVariables, recommendedReplacementVariables } = this.props;
+	componentDidUpdate( prevProps, prevState ) {
+		const { content, replacementVariables, recommendedReplacementVariables } = prevProps;
 		const { searchValue } = this.state;
 		const nextState = {};
+		const nextProps = this.props;
+		const isContentChanged = nextProps.content !== this._serializedContent && nextProps.content !== content;
+		const isReplacementVariablesChanged = nextProps.replacementVariables !== replacementVariables;
+		const newReplacementVariableNames = nextProps.replacementVariables.map( rv => rv.name )
+			.filter( rvName => ! replacementVariables.map( rv => rv.name ).includes( rvName ) );
+		const isNewReplacementVariableNames = newReplacementVariableNames.some( rvName => content.includes( "%%" + rvName + "%%" ) );
 
-		if ( nextProps.content !== this._serializedContent && nextProps.content !== content ) {
+		if ( isContentChanged ) {
 			this._serializedContent = nextProps.content;
 			nextState.editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
-		} else if ( nextProps.replacementVariables !== replacementVariables ) {
-			const newReplacementVariableNames = nextProps.replacementVariables
-				.map( rv => rv.name )
-				.filter( rvName => ! replacementVariables.map( rv => rv.name ).includes( rvName ) );
-
-			if ( newReplacementVariableNames.some( rvName => content.includes( "%%" + rvName + "%%" ) ) ) {
-				this._serializedContent = nextProps.content;
-				nextState.editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
-			}
 		}
 
-		if ( nextProps.replacementVariables !== replacementVariables ) {
+		if ( ! isContentChanged && isReplacementVariablesChanged && isNewReplacementVariableNames ) {
+			this._serializedContent = nextProps.content;
+			nextState.editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+		}
+
+		if ( isReplacementVariablesChanged ) {
 			const currentReplacementVariables = this.determineCurrentReplacementVariables(
 				nextProps.replacementVariables,
 				recommendedReplacementVariables,
@@ -545,8 +548,9 @@ class ReplacementVariableEditorStandalone extends React.Component {
 				this.mapReplacementVariablesToSuggestions( currentReplacementVariables )
 			);
 		}
-
-		this.setState( nextState );
+		if ( isReplacementVariablesChanged || isContentChanged ) {
+			this.setState( { ...prevState, ...nextState } );
+		}
 	}
 
 	/**

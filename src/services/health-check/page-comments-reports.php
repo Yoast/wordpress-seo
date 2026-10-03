@@ -57,7 +57,7 @@ class Page_Comments_Reports {
 			/* translators: 1: Opening tag of the link to the discussion settings page, 2: Link closing tag. */
 			\esc_html__( '%1$sGo to the Discussion Settings page%2$s', 'wordpress-seo' ),
 			'<a href="' . \esc_url( \admin_url( 'options-discussion.php' ) ) . '">',
-			'</a>'
+			'</a>',
 		);
 	}
 }

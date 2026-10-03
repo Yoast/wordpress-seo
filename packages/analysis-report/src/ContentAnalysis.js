@@ -20,13 +20,10 @@ const ContentAnalysisContainer = styled.div`
 const StyledCollapsible = styled( Collapsible )`
 	margin-bottom: 8px;
 
-	button:first-child svg {
-		margin: -2px 8px 0 -2px; // Compensate icon size set to 18px.
-	}
-
 	${ StyledIconsButton } {
 		padding: 8px 0;
-		color: ${ colors.$color_blue }
+		color: ${ colors.$color_blue };
+		margin: -2px 8px 0 -2px; // Compensate icon size set to 18px.
 	}
 `;
 
@@ -37,24 +34,26 @@ const StyledCollapsible = styled( Collapsible )`
  */
 class ContentAnalysis extends React.Component {
 	/**
-	 * Renders a Collapsible component with a liset of Analysis results.
+	 * Renders a Collapsible component with a list of Analysis results.
 	 *
 	 * @param {string} title        The title of the collapsible section.
 	 * @param {number} headingLevel Heading level: 1 for h1, 2 for h2, etc.
 	 * @param {object} results      The list of results to display.
+	 * @param {string} id           An optional ID to use for the collapsible section, used for accessibility.
 	 *
 	 * @returns {ReactElement} The collapsible section with list of results.
 	 */
-	renderCollapsible( title, headingLevel, results ) {
+	renderCollapsible( title, headingLevel, results, id = null ) {
 		return (
 			<StyledCollapsible
+				id={ id ? `${ id }-collapsible` : null }
 				initialIsOpen={ true }
 				title={ `${ title } (${ results.length })` }
 				prefixIcon={ { icon: "angle-up", color: colors.$color_grey_dark, size: "18px" } }
 				prefixIconCollapsed={ { icon: "angle-down", color: colors.$color_grey_dark, size: "18px" } }
 				suffixIcon={ null }
 				suffixIconCollapsed={ null }
-				headingProps={ { level: headingLevel, fontSize: "13px", fontWeight: "bold" } }
+				headingProps={ { level: headingLevel, fontSize: "13px", fontWeight: "500", color: "#1e1e1e" } }
 			>
 				<AnalysisList
 					results={ results }
@@ -62,9 +61,14 @@ class ContentAnalysis extends React.Component {
 					marksButtonStatus={ this.props.marksButtonStatus }
 					marksButtonClassName={ this.props.marksButtonClassName }
 					editButtonClassName={ this.props.editButtonClassName }
+					markButtonFactory={ this.props.markButtonFactory }
 					onMarksButtonClick={ this.props.onMarkButtonClick }
 					onEditButtonClick={ this.props.onEditButtonClick }
+					renderAIOptimizeButton={ this.props.renderAIOptimizeButton }
 					isPremium={ this.props.isPremium }
+					onResultChange={ this.props.onResultChange }
+					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+					renderHighlightingUpsell={ this.props.renderHighlightingUpsell }
 				/>
 			</StyledCollapsible>
 		);
@@ -85,6 +89,7 @@ class ContentAnalysis extends React.Component {
 			upsellResults,
 			headingLevel,
 			resultCategoryLabels,
+			id,
 		} = this.props;
 		const errorsFound = errorsResults.length;
 		const problemsFound = problemsResults.length;
@@ -110,7 +115,12 @@ class ContentAnalysis extends React.Component {
 					this.renderCollapsible( labels.errors, headingLevel, errorsResults )
 				}
 				{ ( problemsFound + numberOfUpsellResults ) > 0 &&
-					this.renderCollapsible( labels.problems, headingLevel, [ ...upsellResults, ...problemsResults ] )
+					this.renderCollapsible(
+						labels.problems,
+						headingLevel,
+						[ ...upsellResults, ...problemsResults ],
+						id ? `${ id }-problems` : null
+					)
 				}
 				{ improvementsFound > 0 &&
 					this.renderCollapsible( labels.improvements, headingLevel, improvementsResults )
@@ -138,6 +148,7 @@ ContentAnalysis.propTypes = {
 	headingLevel: PropTypes.number,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
+	markButtonFactory: PropTypes.func,
 	editButtonClassName: PropTypes.string,
 	activeMarker: PropTypes.string,
 	isPremium: PropTypes.bool,
@@ -148,6 +159,11 @@ ContentAnalysis.propTypes = {
 		considerations: PropTypes.string,
 		goodResults: PropTypes.string,
 	} ),
+	onResultChange: PropTypes.func,
+	shouldUpsellHighlighting: PropTypes.bool,
+	renderHighlightingUpsell: PropTypes.func,
+	renderAIOptimizeButton: PropTypes.func,
+	id: PropTypes.string,
 };
 
 ContentAnalysis.defaultProps = {
@@ -162,10 +178,16 @@ ContentAnalysis.defaultProps = {
 	headingLevel: 4,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	markButtonFactory: null,
 	editButtonClassName: "",
 	activeMarker: "",
 	isPremium: false,
 	resultCategoryLabels: {},
+	onResultChange: () => {},
+	shouldUpsellHighlighting: false,
+	renderHighlightingUpsell: () => {},
+	renderAIOptimizeButton: () => {},
+	id: "",
 };
 
 export default ContentAnalysis;

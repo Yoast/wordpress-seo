@@ -4,8 +4,10 @@ import { __, sprintf } from "@wordpress/i18n";
 import { makeOutboundLink } from "@yoast/helpers";
 import { get } from "lodash";
 import PropTypes from "prop-types";
-import createInterpolateElement from "../../helpers/createInterpolateElement";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import DataModel from "./data-model";
+import { addQueryArgs } from "@wordpress/url";
+import { useRootContext }  from "@yoast/externals/contexts";
 
 const OutboundLink = makeOutboundLink();
 
@@ -21,8 +23,9 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 	const upsellLink = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-upsell-${ location }-prominent_words`, "" ), [ location ] );
 	const keywordsResearchInfo = useMemo( () => {
 		const link = get( window, "wpseoAdminL10n.shortlinks-insights-keyword_research_link", "" );
-		return createInterpolateElement(
+		return safeCreateInterpolateElement(
 			sprintf(
+				// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 				__( "Read our %1$sultimate guide to keyword research%2$s to learn more about keyword research and keyword strategy.", "wordpress-seo" ),
 				"<a>",
 				"</a>"
@@ -33,7 +36,7 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 		);
 	}, [] );
 	const upsellDescription = useMemo( () => {
-		return createInterpolateElement(
+		return safeCreateInterpolateElement(
 			sprintf(
 				// translators: %1$s expands to a starting `b` tag, %1$s expands to a closing `b` tag and %3$s expands to `Yoast SEO Premium`.
 				__( "With %1$s%3$s%2$s, this section will show you which words occur most often in your text. By checking these prominent words against your intended keyword(s), you'll know how to edit your text to be more focused.", "wordpress-seo" ),
@@ -64,6 +67,8 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 		return null;
 	}
 
+	const { locationContext } = useRootContext();
+
 	return (
 		<div className="yoast-prominent-words">
 			<div className="yoast-field-group__title">
@@ -82,7 +87,7 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 				}
 			</p> }
 			{ shouldUpsell && <p>{ upsellDescription }</p> }
-			{ shouldUpsell && <OutboundLink href={ upsellLink } className="yoast-button yoast-button-upsell">
+			{ shouldUpsell && <OutboundLink href={ addQueryArgs( upsellLink, { context: locationContext } ) } data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" className="yoast-button yoast-button-upsell">
 				{ sprintf(
 					// translators: %s expands to `Premium` (part of add-on name).
 					__( "Unlock with %s", "wordpress-seo" ),
@@ -90,11 +95,11 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 				) }
 				<span aria-hidden="true" className="yoast-button-upsell__caret" />
 			</OutboundLink> }
-			 <p>{ keywordsResearchInfo }</p>
+			<p>{ keywordsResearchInfo }</p>
 			<DataModel
 				data={ data }
 				itemScreenReaderText={
-					// translators: %d expands to the number of occurrences.
+					/* translators: Hidden accessibility text; %d expands to the number of occurrences. */
 					__( "%d occurrences", "wordpress-seo" )
 				}
 				aria-label={ __( "Prominent words", "wordpress-seo" ) }

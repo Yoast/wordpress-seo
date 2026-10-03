@@ -1,4 +1,5 @@
 import { singleWords as transitionWords } from "./transitionWords.js";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
 
 /**
  * Returns an array with exceptions for the prominent words researcher.
@@ -186,34 +187,34 @@ const titles = [ "sr", "sra", "sras", "dr", "dra", "prof" ];
 
 
 // These word categories are filtered at the beginning of word combinations.
-export const filteredAtBeginning = generalAdjectivesAdverbs;
+export const filteredAtBeginning = transformWordsWithHyphens( generalAdjectivesAdverbs );
 
 // These word categories are filtered at the ending of word combinations.
-export const filteredAtEnding = [].concat( ordinalNumerals, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive,
-	generalAdjectivesPreceding );
+export const filteredAtEnding = transformWordsWithHyphens( [].concat( ordinalNumerals, otherAuxiliariesInfinitive,
+	copulaInfinitive, delexicalizedVerbsInfinitive, generalAdjectivesPreceding ) );
 
 // These word categories are filtered at the beginning and ending of word combinations.
-export const filteredAtBeginningAndEnding = [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
-	quantifiers, possessivePronouns );
+export const filteredAtBeginningAndEnding = transformWordsWithHyphens( [].concat( articles, prepositions, coordinatingConjunctions,
+	demonstrativePronouns, intensifiers, quantifiers, possessivePronouns ) );
 
 // These word categories are filtered everywhere within word combinations.
-export const filteredAnywhere = [].concat( transitionWords, cardinalNumerals, personalPronounsNominative, personalPronounsAccusative,
-	personalPronounsPrepositional, personalPronounsComitative, reflexivePronouns, indefinitePronouns, interrogativePronouns,
-	interrogativeProAdverbs, locativeAdverbs, otherAuxiliaries, copula, subordinatingConjunctions, interviewVerbs, additionalTransitionWords,
-	delexicalizedVerbs, interjections, recipeWords, timeWords, vagueNouns, miscellaneous, titles );
+export const filteredAnywhere = transformWordsWithHyphens( [].concat( transitionWords, cardinalNumerals, personalPronounsNominative,
+	personalPronounsAccusative, personalPronounsPrepositional, personalPronounsComitative, reflexivePronouns, indefinitePronouns,
+	interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, otherAuxiliaries, copula, subordinatingConjunctions,
+	interviewVerbs, additionalTransitionWords, delexicalizedVerbs, interjections, recipeWords, timeWords, vagueNouns, miscellaneous, titles ) );
 
 // These word categories cannot directly precede a passive participle.
-export const cannotDirectlyPrecedePassiveParticiple = [].concat( articles, prepositions, personalPronounsAccusative, possessivePronouns,
-	indefinitePronouns, interrogativeProAdverbs, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalizedVerbsInfinitive,
-	interviewVerbs );
+export const cannotDirectlyPrecedePassiveParticiple = transformWordsWithHyphens( [].concat( articles, prepositions, personalPronounsAccusative,
+	possessivePronouns, indefinitePronouns, interrogativeProAdverbs, cardinalNumerals, ordinalNumerals, delexicalizedVerbs,
+	delexicalizedVerbsInfinitive, interviewVerbs ) );
 
 // This export contains all of the above words.
-export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, personalPronounsNominative, personalPronounsAccusative,
-	personalPronounsPrepositional, personalPronounsComitative, reflexivePronouns, demonstrativePronouns, possessivePronouns, quantifiers,
-	indefinitePronouns, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive,
-	copula, copulaInfinitive, prepositions, coordinatingConjunctions, subordinatingConjunctions, interviewVerbs, additionalTransitionWords,
-	intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, generalAdjectivesAdverbs, generalAdjectivesPreceding, interjections,
-	recipeWords, timeWords, vagueNouns, miscellaneous, titles );
+export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, personalPronounsNominative,
+	personalPronounsAccusative, personalPronounsPrepositional, personalPronounsComitative, reflexivePronouns, demonstrativePronouns,
+	possessivePronouns, quantifiers, indefinitePronouns, interrogativePronouns, interrogativeProAdverbs, locativeAdverbs,
+	otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions,
+	subordinatingConjunctions, interviewVerbs, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
+	generalAdjectivesAdverbs, generalAdjectivesPreceding, interjections, recipeWords, timeWords, vagueNouns, miscellaneous, titles ) );
 
 export default {
 	filteredAtBeginning,

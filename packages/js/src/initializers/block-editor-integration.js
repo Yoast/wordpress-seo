@@ -1,37 +1,34 @@
-/* External dependencies */
+import { updateCategory } from "@wordpress/blocks";
+import { dispatch, select } from "@wordpress/data";
+import { getQueryArg } from "@wordpress/url";
 import {
-	PluginPrePublishPanel,
-	PluginPostPublishPanel,
 	PluginDocumentSettingPanel,
+	PluginPostPublishPanel,
+	PluginPrePublishPanel,
 	PluginSidebar,
 	PluginSidebarMoreMenuItem,
-} from "@wordpress/edit-post";
-import { registerPlugin } from "@wordpress/plugins";
+} from "@wordpress/editor";
 import { Fragment } from "@wordpress/element";
-import { updateCategory } from "@wordpress/blocks";
-import { select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
+import { registerPlugin } from "@wordpress/plugins";
 import { registerFormatType } from "@wordpress/rich-text";
-import { get } from "lodash-es";
-import { Slot } from "@wordpress/components";
+import { Root } from "@yoast/externals/contexts";
 import { actions } from "@yoast/externals/redux";
-import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
-
-/* Internal dependencies */
-import PluginIcon from "../containers/PluginIcon";
-import SidebarFill from "../containers/SidebarFill";
-import MetaboxPortal from "../components/portals/MetaboxPortal";
-import { isAnnotationAvailable } from "../decorator/gutenberg";
-import SidebarSlot from "../components/slots/SidebarSlot";
-import { link } from "../inline-links/edit-link";
-import PrePublish from "../containers/PrePublish";
-import DocumentSidebar from "../containers/DocumentSidebar";
-import PostPublish from "../containers/PostPublish";
-import WincherPostPublish from "../containers/WincherPostPublish";
+import { get } from "lodash";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
-import { isWordProofIntegrationActive } from "../helpers/wordproof";
-
+import MetaboxPortal from "../components/portals/MetaboxPortal";
+import SidebarSlot from "../components/slots/SidebarSlot";
+import DocumentSidebar from "../containers/DocumentSidebar";
+import PluginIcon from "../containers/PluginIcon";
+import PostPublish from "../containers/PostPublish";
+import PrePublish from "../containers/PrePublish";
+import SidebarFill from "../containers/SidebarFill";
+import WincherPostPublish from "../containers/WincherPostPublish";
+import { isAnnotationAvailable } from "../decorator/gutenberg";
+import { link } from "../inline-links/edit-link";
+import initContentPlanner from "../ai-content-planner/initialize";
+import { getIsAiFeatureEnabled } from "../redux/selectors/preferences";
 
 /**
  * Registers the Yoast inline link format.
@@ -42,6 +39,17 @@ import { isWordProofIntegrationActive } from "../helpers/wordproof";
  */
 function registerFormats() {
 	if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
+		// Store the original core/link settings before removing it
+		// This ensures we preserve all internal WordPress capabilities and references
+		const coreLinkSettings = select( "core/rich-text" ).getFormatType( "core/link" );
+
+		const unknownSettings = select( "core/rich-text" )
+			.getFormatType( "core/unknown" );
+
+		if ( typeof( unknownSettings ) !== "undefined" ) {
+			dispatch( "core/rich-text" ).removeFormatTypes( "core/unknown" );
+		}
+
 		[
 			link,
 		].forEach( ( { name, replaces, ...settings } ) => {
@@ -49,14 +57,23 @@ function registerFormats() {
 				dispatch( "core/rich-text" ).removeFormatTypes( replaces );
 			}
 			if ( name ) {
-				registerFormatType( name, settings );
+				// Merge core link settings with our custom settings to preserve WordPress capabilities
+				const mergedSettings = coreLinkSettings && name === "core/link"
+					? { ...coreLinkSettings, ...settings }
+					: settings;
+				registerFormatType( name, mergedSettings );
 			}
 		} );
+
+		if ( typeof( unknownSettings ) !== "undefined" ) {
+			registerFormatType( "core/unknown", unknownSettings );
+		}
 	} else {
 		console.warn(
 			__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
 			" " +
 			sprintf(
+				// translators: %1$s expands to Yoast SEO.
 				__( "Please upgrade your WordPress version or install the Gutenberg plugin to get this %1$s feature.", "wordpress-seo" ),
 				"Yoast SEO"
 			)
@@ -70,9 +87,12 @@ function registerFormats() {
  * @returns {void}
  */
 function initiallyOpenDocumentSettings() {
-	const firstLoad = ! select( "core/edit-post" ).getPreferences().panels[ "yoast-seo/document-panel" ];
-	if ( firstLoad ) {
-		dispatch( "core/edit-post" ).toggleEditorPanelOpened( "yoast-seo/document-panel" );
+	const PANEL_NAME = "yoast-seo/document-panel";
+
+	const openPanels = select( "core/preferences" )?.get( "core", "openPanels" );
+
+	if ( openPanels && ! openPanels.includes( PANEL_NAME ) ) {
+		dispatch( "core/editor" )?.toggleEditorPanelOpened( PANEL_NAME );
 	}
 }
 
@@ -92,15 +112,18 @@ function registerFills( store ) {
 	const icon = <YoastIcon />;
 	updateCategory( "yoast-structured-data-blocks", { icon } );
 	updateCategory( "yoast-internal-linking-blocks", { icon } );
+	updateCategory( "yoast-ai-blocks", { icon } );
 
 	const theme = {
 		isRtl: localizedData.isRtl,
 	};
 	const preferences = store.getState().preferences;
 	const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
-	const showZapierPanel = preferences.isZapierIntegrationActive && ! preferences.isZapierConnected;
 	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
+
+	const blockSidebarContext = { locationContext: "block-sidebar" };
+	const blockMetaboxContext = { locationContext: "block-metabox" };
 
 	/**
 	 * Renders the yoast editor fills.
@@ -119,11 +142,15 @@ function registerFills( store ) {
 				name="seo-sidebar"
 				title={ pluginTitle }
 			>
-				<SidebarSlot store={ store } theme={ theme } />
+				<Root context={ blockSidebarContext }>
+					<SidebarSlot store={ store } theme={ theme } />
+				</Root>
 			</PluginSidebar>
 			<Fragment>
 				<SidebarFill store={ store } theme={ theme } />
-				<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				<Root context={ blockMetaboxContext }>
+					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				</Root>
 			</Fragment>
 			{ analysesEnabled && <PluginPrePublishPanel
 				className="yoast-seo-sidebar-panel"
@@ -132,14 +159,6 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PrePublish />
-			</PluginPrePublishPanel> }
-			{ isPremium && showZapierPanel && <PluginPrePublishPanel
-				className="yoast-seo-sidebar-panel"
-				title="Zapier"
-				initialOpen={ true }
-				icon={ <Fragment /> }
-			>
-				<Slot name="YoastZapierPrePublish" />
 			</PluginPrePublishPanel> }
 			<PluginPostPublishPanel
 				className="yoast-seo-sidebar-panel"
@@ -191,8 +210,12 @@ export default function initBlockEditorIntegration( store ) {
 	registerFills( store );
 	registerFormats();
 	initializeAnnotations( store );
+	if ( getIsAiFeatureEnabled() ) {
+		initContentPlanner();
+	}
 
-	if ( isWordProofIntegrationActive() ) {
-		initializeWordProofForBlockEditor();
+	const yoastTab = getQueryArg( window.location.href, "yoast-tab" );
+	if ( yoastTab === "readability" || yoastTab === "seo" ) {
+		dispatch( "core/edit-post" ).openGeneralSidebar( "yoast-seo/seo-sidebar" );
 	}
 }

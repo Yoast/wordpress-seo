@@ -1,4 +1,5 @@
 import { singleWords as transitionWords } from "./transitionWords.js";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
 
 /**
  * Returns an object with exceptions for the prominent words researcher
@@ -64,7 +65,7 @@ const copulaInfinitive = [ "vara", "bli", "finnas", "befinna", "tyckas" ];
 
 const delexicalizedVerbs = [ "gående", "gällande", "gällde", "gäller", "gällt", "går", "gått", "gav", "ger", "gett", "gick",
 	"givande", "giver", "gjorde", "gjort", "gör", "görande", "kom", "kommande", "kommer", "kommit", "ligger", "ligges", "lå",
-	"ligget", "liggande",  "ställer", "ställde", "ställt", "ställ", "ställande", "ställd", "ställas", "ställs", "ställes", "ställdes",
+	"ligget", "liggande", "ställer", "ställde", "ställt", "ställ", "ställande", "ställd", "ställas", "ställs", "ställes", "ställdes",
 	"ställts", "tagande", "tager", "tagit", "tar", "tog", "utgör", "utgjorde", "utgjort", "utgörande", "utgjord", "utgöras",
 	"utgörs", "utgöres", "utgjordes", "utgjorts" ];
 
@@ -101,7 +102,7 @@ const generalAdverbs = [ "aldrig", "allmänt", "alltid", "delvis", "direkt", "hu
 const vagueNouns = [ "antal", "antalet", "antals", "antalets", "antalen", "antalens", "bit", "bitar", "bitarna", "bitarnas",
 	"bitars", "biten", "bitens", "bits", "del", "delar", "delarna", "delarnas", "delars", "delen", "delens", "dels", "detalj",
 	"detaljen", "detaljens", "detaljer", "detaljerna", "detaljernas", "detaljers", "detaljs", "exempel", "exempels", "exemplet",
-	"exemplets", "exemplen", "exemplens",  "person", "personen", "personens", "personer", "personerna", "personernas",
+	"exemplets", "exemplen", "exemplens", "person", "personen", "personens", "personer", "personerna", "personernas",
 	"personers", "persons", "procent", "punkt", "punkten", "punktens", "punkter", "punkterna", "punkternas", "punkters",
 	"sak", "saken", "sakens", "saker", "sakerna", "sakernas", "sakers", "saks", "sätt", "sätten", "sättens", "sättet",
 	"sättets", "sätts", "skillnad", "skillnaden", "skillnadens", "skillnader", "skillnaderna", "skillnadernas",
@@ -145,27 +146,27 @@ const miscellaneous = [ "förlåt", "ja", "jo", "ju", "m.m", "nej", "ok", "okej"
  */
 
 // These word categories are filtered at the ending of word combinations.
-export const filteredAtEnding = [].concat( ordinalNumerals, generalAdjectives, generalAdverbs, auxiliariesInfinitive,
-	delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive );
+export const filteredAtEnding = transformWordsWithHyphens( [].concat( ordinalNumerals, generalAdjectives, generalAdverbs, auxiliariesInfinitive,
+	delexicalizedVerbsInfinitive, copulaInfinitive, interviewVerbsInfinitive ) );
 
 // These word categories are filtered at the beginning and ending of word combinations.
-export const filteredAtBeginningAndEnding = [].concat( articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers,
-	quantifiers, possessivePronouns );
+export const filteredAtBeginningAndEnding = transformWordsWithHyphens( [].concat( articles, prepositions, coordinatingConjunctions,
+	demonstrativePronouns, intensifiers, quantifiers, possessivePronouns ) );
 
 // These word categories are filtered everywhere within word combinations.
-export const filteredAnywhere = [].concat( transitionWords, personalPronounsNominative, personalPronounsObjective,
+export const filteredAnywhere = transformWordsWithHyphens( [].concat( transitionWords, personalPronounsNominative, personalPronounsObjective,
 	reflexivePronouns, relativePronouns, interjections, cardinalNumerals, copula, auxiliaries, interviewVerbs,
 	delexicalizedVerbs, indefinitePronouns, otherPronouns, subordinatingConjunctions,
 	interrogativePronouns, interrogativeProAdverbs, miscellaneous, pronominalAdverbs,
-	recipeWords, timeWords, titles, vagueNouns );
+	recipeWords, timeWords, titles, vagueNouns ) );
 
 // This export contains all of the above words.
-export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, personalPronounsNominative, personalPronounsObjective,
-	reflexivePronouns, possessivePronouns, demonstrativePronouns, relativePronouns, interrogativePronouns,
+export const all = transformWordsWithHyphens( [].concat( articles, cardinalNumerals, ordinalNumerals, personalPronounsNominative,
+	personalPronounsObjective, reflexivePronouns, possessivePronouns, demonstrativePronouns, relativePronouns, interrogativePronouns,
 	interrogativeProAdverbs, indefinitePronouns, otherPronouns, quantifiers, pronominalAdverbs, auxiliaries,
 	auxiliariesInfinitive, copula, copulaInfinitive, delexicalizedVerbs, delexicalizedVerbsInfinitive, interviewVerbs,
 	interviewVerbsInfinitive, generalAdjectives, generalAdverbs, vagueNouns, prepositions, intensifiers,
-	coordinatingConjunctions, subordinatingConjunctions, timeWords, titles, interjections, recipeWords, miscellaneous );
+	coordinatingConjunctions, subordinatingConjunctions, timeWords, titles, interjections, recipeWords, miscellaneous ) );
 
 export default {
 	filteredAtEnding,

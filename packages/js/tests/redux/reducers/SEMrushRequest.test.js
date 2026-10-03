@@ -42,10 +42,19 @@ describe( "semrushRequestReducer", () => {
 			hasData: true,
 		};
 
-		const action = setSEMrushNewRequest( "nl", "yoast" );
+		const generator = setSEMrushNewRequest( "nl", "yoast" );
+		const actualPending = generator.next().value;
+
+		const expectedPending = {
+			type: "SET_REQUEST_PENDING",
+		};
+
+		expect( actualPending ).toEqual( expectedPending );
+
+		const actualNewRequest = generator.next().value;
 
 		const expected = {
-			isRequestPending: true,
+			isRequestPending: false,
 			keyphrase: "yoast",
 			countryCode: "nl",
 			isSuccess: false,
@@ -53,7 +62,7 @@ describe( "semrushRequestReducer", () => {
 			limitReached: false,
 			hasData: true,
 		};
-		const actual = requestReducerSEMrush( state, action );
+		const actual = requestReducerSEMrush( state, actualNewRequest );
 
 		expect( actual ).toEqual( expected );
 	} );
