@@ -64,28 +64,62 @@ final class Can_Edit_Others_Test extends Abstract_Test {
 	}
 
 	/**
-	 * Tests that the singular capability is used when meta-cap mapping is disabled,
-	 * since editing then does not depend on authorship.
+	 * Tests that the plural edit_others_posts capability is used when meta-cap mapping
+	 * is disabled, instead of the singular meta capability, which would require a post ID.
+	 *
+	 * Mirrors post types like the bbPress/BuddyBoss forum, topic and reply types, where
+	 * e.g. only moderators and keymasters hold the edit_others_* capability.
 	 *
 	 * @return void
 	 */
-	public function test_can_edit_others_uses_singular_capability_when_mapping_disabled() {
+	public function test_can_edit_others_uses_plural_capability_when_mapping_disabled() {
 		Functions\expect( 'get_post_type_object' )
 			->once()
-			->with( 'book' )
+			->with( 'forum' )
 			->andReturn(
 				(object) [
 					'map_meta_cap' => false,
-					'cap'          => (object) [ 'edit_post' => 'edit_book' ],
+					'cap'          => (object) [
+						'edit_post'         => 'edit_forum',
+						'edit_others_posts' => 'edit_others_forums',
+					],
 				],
 			);
 
 		Functions\expect( 'current_user_can' )
 			->once()
-			->with( 'edit_book' )
+			->with( 'edit_others_forums' )
 			->andReturnTrue();
 
-		$this->assertTrue( $this->instance->can_edit_others( 'book' ) );
+		$this->assertTrue( $this->instance->can_edit_others( 'forum' ) );
+	}
+
+	/**
+	 * Tests that can_edit_others returns false when mapping is disabled and the user only
+	 * holds their own editing capability, e.g. a bbPress participant editing their own topics.
+	 *
+	 * @return void
+	 */
+	public function test_can_edit_others_without_edit_others_capability_when_mapping_disabled() {
+		Functions\expect( 'get_post_type_object' )
+			->once()
+			->with( 'topic' )
+			->andReturn(
+				(object) [
+					'map_meta_cap' => false,
+					'cap'          => (object) [
+						'edit_posts'        => 'edit_topics',
+						'edit_others_posts' => 'edit_others_topics',
+					],
+				],
+			);
+
+		Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'edit_others_topics' )
+			->andReturnFalse();
+
+		$this->assertFalse( $this->instance->can_edit_others( 'topic' ) );
 	}
 
 	/**
