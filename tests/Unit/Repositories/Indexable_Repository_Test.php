@@ -340,6 +340,40 @@ final class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a request which is a term archive *and* a post type archive at the same time
+	 * (e.g. `index.php?post_type=event&event_category=concerts`) resolves to the term indexable.
+	 *
+	 * This mirrors `WP_Query::get_queried_object()` and has to stay in sync with
+	 * `Current_Page_Helper::get_page_type()`, which must return `Term_Archive` for the same request.
+	 *
+	 * @covers ::for_current_page
+	 *
+	 * @return void
+	 */
+	public function test_for_current_page_prefers_term_archive_over_post_type_archive() {
+		$this->current_page->expects( 'is_simple_page' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_static_page' )->andReturnFalse();
+		$this->current_page->expects( 'is_home_posts_page' )->andReturnFalse();
+		$this->current_page->expects( 'is_term_archive' )->andReturnTrue();
+		$this->current_page->allows( 'is_post_type_archive' )->andReturnTrue();
+		$this->current_page->expects( 'get_term_id' )->andReturn( 7 );
+		$this->current_page->expects( 'get_queried_post_type' )->never();
+
+		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$this->instance
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 7, 'term' )
+			->andReturn( $indexable );
+		$this->instance
+			->expects( 'find_for_post_type_archive' )
+			->never();
+
+		$this->assertSame( $indexable, $this->instance->for_current_page() );
+	}
+
+	/**
 	 * Tests retrieval of the child indexables with no children found for indexable.
 	 *
 	 * @covers ::find_by_ids

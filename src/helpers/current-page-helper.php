@@ -31,7 +31,9 @@ class Current_Page_Helper {
 	/**
 	 * Returns the page type for the current request.
 	 *
-	 * @codeCoverageIgnore It just depends on other functions for its result.
+	 * Note: a request can be a term archive and a post type archive at the same time
+	 * (e.g. `index.php?post_type=event&event_category=concerts`). Like WP_Query::get_queried_object()
+	 * and Indexable_Repository::for_current_page(), the term archive takes precedence.
 	 *
 	 * @return string Page type.
 	 */
