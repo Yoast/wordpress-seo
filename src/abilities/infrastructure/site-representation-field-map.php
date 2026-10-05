@@ -157,42 +157,42 @@ class Site_Representation_Field_Map {
 			],
 			'company_name'              => [
 				'type'        => 'string',
-				'description' => \__( 'The name of the organization the site represents. When empty, the site name is used.', 'wordpress-seo' ),
+				'description' => \__( 'The name of the organization the site represents. When empty, the site name is used. Only used when company_or_person is "company".', 'wordpress-seo' ),
 			],
 			'company_alternate_name'    => [
 				'type'        => 'string',
-				'description' => \__( 'An alternate name of the organization the site represents, like an acronym or a shorter version of its name.', 'wordpress-seo' ),
+				'description' => \__( 'An alternate name of the organization the site represents, like an acronym or a shorter version of its name. Only used when company_or_person is "company".', 'wordpress-seo' ),
 			],
 			'company_logo'              => [
 				'type'              => 'string',
-				'description'       => \__( 'The URL of the organization logo, an image from the media library. When empty, the site logo is used.', 'wordpress-seo' ),
+				'description'       => \__( 'The URL of the organization logo, an image from the media library. When empty, the site logo is used. Only used when company_or_person is "company".', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_logo' ],
 			],
 			'company_or_person_user_id' => [
 				'type'              => 'integer',
 				'minimum'           => 0,
-				'description'       => \__( 'The ID of the user the site represents when it represents a person, whose profile information is used in search results. The person\'s name is taken from the display name of this user. 0 when no user is set.', 'wordpress-seo' ),
+				'description'       => \__( 'The ID of the user the site represents, whose profile information is used in search results. The person\'s name is taken from the display name of this user. 0 when no user is set. Only used when company_or_person is "person".', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_user_id' ],
 			],
 			'person_logo'               => [
 				'type'              => 'string',
-				'description'       => \__( 'The URL of the personal logo or avatar, an image from the media library. When empty, the site logo is used.', 'wordpress-seo' ),
+				'description'       => \__( 'The URL of the personal logo or avatar, an image from the media library. When empty, the site logo is used. Only used when company_or_person is "person".', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_logo' ],
 			],
 			'facebook_site'             => [
 				'type'        => 'string',
-				'description' => \__( 'The URL of the Facebook page of the organization.', 'wordpress-seo' ),
+				'description' => \__( 'The URL of the Facebook page of the organization. Only used when company_or_person is "company". For a person, the Facebook URL from the user\'s profile is used instead.', 'wordpress-seo' ),
 			],
 			'twitter_site'              => [
 				'type'        => 'string',
-				'description' => \__( 'The X username of the organization, without the @.', 'wordpress-seo' ),
+				'description' => \__( 'The X username of the organization, without the @. Only added to the schema when company_or_person is "company". It is also used in the X card meta tags: as the site\'s X account, unless the site represents a person whose profile has an X username, and as the X account of posts whose author has no X username.', 'wordpress-seo' ),
 			],
 			'other_social_urls'         => [
 				'type'        => 'array',
 				'items'       => [
 					'type' => 'string',
 				],
-				'description' => \__( 'The URLs of the other social profiles of the organization, like Instagram, LinkedIn or YouTube.', 'wordpress-seo' ),
+				'description' => \__( 'The URLs of the other social profiles of the organization, like Instagram, LinkedIn or YouTube. Only used when company_or_person is "company". For a person, the social profiles from the user\'s profile are used instead.', 'wordpress-seo' ),
 			],
 		];
 	}
