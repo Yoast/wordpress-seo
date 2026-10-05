@@ -10,7 +10,7 @@ const condensedWooBenefits = [
 	__( "Add product details to help your listings stand out", "wordpress-seo" ),
 	__( "Make sure search engines show the right version of your product page", "wordpress-seo" ),
 	__( "Create optimized SEO titles & meta descriptions with AI", "wordpress-seo" ),
-	__( "Receive clear SEO and readability guidance to optimize your products", "wordpress-seo" ),
+	__( "Bulk AI-generated alt text for product images", "wordpress-seo" ),
 ];
 const fullBenefits = [
 	__( "Generate SEO optimized metadata in seconds with AI", "wordpress-seo" ),
@@ -34,6 +34,7 @@ export const getWooSeoBenefits = ( condensed = false ) => {
 
 	const wooSeoBenefits = [ ...fullBenefits ];
 	wooSeoBenefits[ 1 ] = __( "Boost visibility for your products, from 10 or 10,000+", "wordpress-seo" );
+	wooSeoBenefits[ 5 ] = __( "Bulk AI-generated alt text for product images", "wordpress-seo" );
 	return wooSeoBenefits;
 };
 

@@ -64,26 +64,6 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Checks if the WordProof integration is disabled; if so, deletes the tokens
-	 *
-	 * We delete them if the WordProof integration is disabled, no matter if the
-	 * value has actually changed or not.
-	 *
-	 * @deprecated 22.10
-	 * @codeCoverageIgnore
-	 *
-	 * @param array $old_value The old value of the option.
-	 * @param array $new_value The new value of the option.
-	 *
-	 * @return bool Whether the WordProof tokens have been deleted or not.
-	 */
-	public function check_wordproof_option_disabled( $old_value, $new_value ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 22.10' );
-
-		return true;
-	}
-
-	/**
 	 * Checks if the usage tracking feature is toggled; if so, set an option to stop us from messing with it.
 	 *
 	 * @param array $old_value The old value of the option.
