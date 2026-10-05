@@ -89,6 +89,10 @@ class AssessmentResult {
 		this.marks = [];
 		this.editFieldName = "";
 		this.editFieldAriaLabel = "";
+		/**
+		 * @type {Array<string|number>}
+		 */
+		this.flaggedItems = [];
 		this._setValues( values );
 	}
 
@@ -138,6 +142,38 @@ class AssessmentResult {
 		if ( ! isUndefined( values._hasAIFixes ) ) {
 			this.setHasAIFixes( values._hasAIFixes );
 		}
+
+		if ( ! isUndefined( values.flaggedItems ) ) {
+			this.setFlaggedItems( values.flaggedItems );
+		}
+	}
+
+	/**
+	 * Sets the identifiers of the items in the content this result is about.
+	 *
+	 * The identifiers are opaque: they are produced by the research that found them and handed to the consumer
+	 * unchanged, so the analysis stays independent of how a platform names its content. An assessment that has
+	 * nothing to point at leaves this empty.
+	 *
+	 * Several assessments can flag the same item — an alt text can be both too short and a duplicate — so a
+	 * consumer merges the lists of the results it receives, keyed by each result's identifier. Every assessment
+	 * must therefore derive its identifiers the same way, or the same item is counted twice.
+	 *
+	 * @param {Array<string|number>} flaggedItems The identifiers.
+	 *
+	 * @returns {void}
+	 */
+	setFlaggedItems( flaggedItems ) {
+		this.flaggedItems = flaggedItems;
+	}
+
+	/**
+	 * Returns the identifiers of the items in the content this result is about.
+	 *
+	 * @returns {Array<string|number>} The identifiers, empty when the assessment has nothing to point at.
+	 */
+	getFlaggedItems() {
+		return this.flaggedItems;
 	}
 
 	/**
@@ -454,6 +490,7 @@ class AssessmentResult {
 			_hasAIFixes: this._hasAIFixes,
 			editFieldName: this.editFieldName,
 			editFieldAriaLabel: this.editFieldAriaLabel,
+			flaggedItems: this.flaggedItems,
 		};
 	}
 
@@ -474,6 +511,7 @@ class AssessmentResult {
 			_hasAIFixes: serialized._hasAIFixes,
 			editFieldName: serialized.editFieldName,
 			editFieldAriaLabel: serialized.editFieldAriaLabel,
+			flaggedItems: serialized.flaggedItems,
 		} );
 		result.setIdentifier( serialized.identifier );
 
