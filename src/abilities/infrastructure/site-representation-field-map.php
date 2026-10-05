@@ -171,12 +171,8 @@ class Site_Representation_Field_Map {
 			'company_or_person_user_id' => [
 				'type'              => 'integer',
 				'minimum'           => 0,
-				'description'       => \__( 'The ID of the user the site represents when it represents a person, whose profile information is used in search results. 0 when no user is set.', 'wordpress-seo' ),
+				'description'       => \__( 'The ID of the user the site represents when it represents a person, whose profile information is used in search results. The person\'s name is taken from the display name of this user. 0 when no user is set.', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_user_id' ],
-			],
-			'person_name'               => [
-				'type'        => 'string',
-				'description' => \__( 'The name of the person the site represents.', 'wordpress-seo' ),
 			],
 			'person_logo'               => [
 				'type'              => 'string',

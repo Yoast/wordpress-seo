@@ -80,7 +80,6 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 				'company_alternate_name',
 				'company_logo',
 				'company_or_person_user_id',
-				'person_name',
 				'person_logo',
 				'facebook_site',
 				'twitter_site',
@@ -232,6 +231,6 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 			->once()
 			->andReturn( 'invalid' );
 
-		$this->assertCount( 10, $this->instance->get_fields() );
+		$this->assertCount( 9, $this->instance->get_fields() );
 	}
 }
