@@ -14,9 +14,17 @@ import getImagesInTree from "./getImagesInTree";
  *
  * @param {ProvidedImage} image The provided image to map.
  *
- * @returns {{name: string, attributes: {src: string, alt: string}}} The mapped `img` pseudo-node.
+ * The producer's `id` is kept on the node, outside `attributes`, so it is not mistaken for an HTML attribute.
+ * It is what lets an assessment report which images it flagged (see `getImageIdentifier`); it is optional in the
+ * contract, and images from the text tree never have one.
+ *
+ * @returns {{name: string, id: (number|undefined), attributes: {src: string, alt: string}}} The mapped `img` pseudo-node.
  */
-const toImageNode = ( image ) => ( { name: "img", attributes: { src: image.src || "", alt: image.alt || "" } } );
+const toImageNode = ( image ) => ( {
+	name: "img",
+	id: image.id,
+	attributes: { src: image.src || "", alt: image.alt || "" },
+} );
 
 /**
  * Retrieves the images the image researches should assess. The scope travels with the Paper,
