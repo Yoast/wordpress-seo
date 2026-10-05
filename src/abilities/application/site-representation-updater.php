@@ -135,7 +135,7 @@ class Site_Representation_Updater {
 		// The ID is only saved along with its URL, so the two never point to different images.
 		if ( \in_array( $field_name, self::LOGOS, true ) ) {
 			$this->options_helper->set( $field_name . '_id', $this->logo_helper->get_logo_id( $value ) );
-			// @TODO: Check if the watcher takes care of the below. If so, remove it.
+			// Much like saving the logo from the settings/FTC, let's also clear its meta information so that it can lazily be generated when needed.
 			$this->options_helper->set( $field_name . '_meta', false );
 		}
 
