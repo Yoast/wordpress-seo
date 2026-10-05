@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Field_Validators;
-use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Logo_Helper;
 use Yoast\WP\SEO\Conditionals\Local_SEO_Active_Conditional;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -35,13 +34,6 @@ final class Site_Representation_Field_Validators_Test extends TestCase {
 	private $image_helper;
 
 	/**
-	 * The site representation logo helper mock.
-	 *
-	 * @var Mockery\MockInterface|Site_Representation_Logo_Helper
-	 */
-	private $logo_helper;
-
-	/**
 	 * The instance under test.
 	 *
 	 * @var Site_Representation_Field_Validators
@@ -60,12 +52,10 @@ final class Site_Representation_Field_Validators_Test extends TestCase {
 
 		$this->local_seo_active_conditional = Mockery::mock( Local_SEO_Active_Conditional::class );
 		$this->image_helper                 = Mockery::mock( Image_Helper::class );
-		$this->logo_helper                  = Mockery::mock( Site_Representation_Logo_Helper::class );
 
 		$this->instance = new Site_Representation_Field_Validators(
 			$this->local_seo_active_conditional,
 			$this->image_helper,
-			$this->logo_helper,
 		);
 	}
 
@@ -162,68 +152,37 @@ final class Site_Representation_Field_Validators_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_validate_logo_cleared() {
-		$this->logo_helper->expects( 'get_logo_id' )->never();
+		$this->image_helper->expects( 'is_valid_attachment' )->never();
 
-		$this->assertNull( $this->instance->validate_logo( '', 'company_logo' ) );
+		$this->assertNull( $this->instance->validate_logo( 0, 'company_logo_id' ) );
 	}
 
 	/**
-	 * Tests that a logo URL of an image in the media library is allowed.
+	 * Tests that the ID of an image in the media library is allowed.
 	 *
 	 * @covers ::validate_logo
 	 *
 	 * @return void
 	 */
 	public function test_validate_logo_image() {
-		$this->logo_helper->expects( 'get_logo_id' )->once()->with( 'https://example.com/logo.png' )->andReturn( 12 );
 		$this->image_helper->expects( 'is_valid_attachment' )->once()->with( 12 )->andReturnTrue();
 
-		$this->assertNull( $this->instance->validate_logo( 'https://example.com/logo.png', 'company_logo' ) );
+		$this->assertNull( $this->instance->validate_logo( 12, 'company_logo_id' ) );
 	}
 
 	/**
-	 * Data provider for test_validate_logo_not_an_image.
-	 *
-	 * @return array<string, array<string, int|bool|null>>
-	 */
-	public static function data_validate_logo_not_an_image() {
-		return [
-			'Not in the media library' => [
-				'attachment_id' => 0,
-				'is_valid'      => null,
-			],
-			'Not an image'             => [
-				'attachment_id' => 12,
-				'is_valid'      => false,
-			],
-		];
-	}
-
-	/**
-	 * Tests that a logo URL that is not an image in the media library is rejected.
+	 * Tests that an ID that is not an image in the media library is rejected.
 	 *
 	 * @covers ::validate_logo
 	 *
-	 * @dataProvider data_validate_logo_not_an_image
-	 *
-	 * @param int       $attachment_id The attachment ID found for the URL.
-	 * @param bool|null $is_valid      Whether the attachment is a valid image, null when it is not checked.
-	 *
 	 * @return void
 	 */
-	public function test_validate_logo_not_an_image( int $attachment_id, ?bool $is_valid ) {
-		$this->logo_helper->expects( 'get_logo_id' )->once()->with( 'https://example.com/logo.pdf' )->andReturn( $attachment_id );
-
-		if ( $is_valid === null ) {
-			$this->image_helper->expects( 'is_valid_attachment' )->never();
-		}
-		else {
-			$this->image_helper->expects( 'is_valid_attachment' )->once()->with( $attachment_id )->andReturn( $is_valid );
-		}
+	public function test_validate_logo_not_an_image() {
+		$this->image_helper->expects( 'is_valid_attachment' )->once()->with( 12 )->andReturnFalse();
 
 		$this->assertSame(
-			'The company_logo setting was not changed, because it is not the URL of an image in the media library.',
-			$this->instance->validate_logo( 'https://example.com/logo.pdf', 'company_logo' ),
+			'The company_logo_id setting was not changed, because it is not the ID of an image in the media library.',
+			$this->instance->validate_logo( 12, 'company_logo_id' ),
 		);
 	}
 }

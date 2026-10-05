@@ -163,9 +163,10 @@ class Site_Representation_Field_Map {
 				'type'        => 'string',
 				'description' => \__( 'An alternate name of the organization the site represents, like an acronym or a shorter version of its name. Only used when company_or_person is "company".', 'wordpress-seo' ),
 			],
-			'company_logo'              => [
-				'type'              => 'string',
-				'description'       => \__( 'The URL of the organization logo, an image from the media library. When empty, the site logo is used. Only used when company_or_person is "company".', 'wordpress-seo' ),
+			'company_logo_id'           => [
+				'type'              => 'integer',
+				'minimum'           => 0,
+				'description'       => \__( 'The attachment ID of the organization logo, an image from the media library. 0 when no logo is set, in which case the site logo is used. Only used when company_or_person is "company".', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_logo' ],
 			],
 			'company_or_person_user_id' => [
@@ -174,9 +175,10 @@ class Site_Representation_Field_Map {
 				'description'       => \__( 'The ID of the user the site represents, whose profile information is used in search results. The person\'s name is taken from the display name of this user. 0 when no user is set. Only used when company_or_person is "person".', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_user_id' ],
 			],
-			'person_logo'               => [
-				'type'              => 'string',
-				'description'       => \__( 'The URL of the personal logo or avatar, an image from the media library. When empty, the site logo is used. Only used when company_or_person is "person".', 'wordpress-seo' ),
+			'person_logo_id'            => [
+				'type'              => 'integer',
+				'minimum'           => 0,
+				'description'       => \__( 'The attachment ID of the personal logo or avatar, an image from the media library. 0 when no logo is set, in which case the site logo is used. Only used when company_or_person is "person".', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_logo' ],
 			],
 			'facebook_site'             => [

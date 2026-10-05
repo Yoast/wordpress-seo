@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Site_Representation_Updater;
 use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Field_Map;
-use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Logo_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -28,7 +28,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	private const FIELDS = [
 		'company_or_person'         => [ 'type' => 'string' ],
 		'company_name'              => [ 'type' => 'string' ],
-		'company_logo'              => [ 'type' => 'string' ],
+		'company_logo_id'           => [ 'type' => 'integer' ],
 		'company_or_person_user_id' => [ 'type' => 'integer' ],
 		'facebook_site'             => [ 'type' => 'string' ],
 	];
@@ -48,11 +48,11 @@ final class Site_Representation_Updater_Test extends TestCase {
 	private $field_map;
 
 	/**
-	 * The site representation logo helper mock.
+	 * The image helper mock.
 	 *
-	 * @var Mockery\MockInterface|Site_Representation_Logo_Helper
+	 * @var Mockery\MockInterface|Image_Helper
 	 */
-	private $logo_helper;
+	private $image_helper;
 
 	/**
 	 * The social profiles helper mock.
@@ -87,7 +87,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 
 		$this->options_helper         = Mockery::mock( Options_Helper::class );
 		$this->field_map              = Mockery::mock( Site_Representation_Field_Map::class );
-		$this->logo_helper            = Mockery::mock( Site_Representation_Logo_Helper::class );
+		$this->image_helper           = Mockery::mock( Image_Helper::class );
 		$this->social_profiles_helper = Mockery::mock( Social_Profiles_Helper::class );
 
 		$this->field_map->allows( 'get_fields' )->andReturn( self::FIELDS );
@@ -107,7 +107,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 		$this->instance = new Site_Representation_Updater(
 			$this->options_helper,
 			$this->field_map,
-			$this->logo_helper,
+			$this->image_helper,
 			$this->social_profiles_helper,
 		);
 	}
@@ -126,37 +126,35 @@ final class Site_Representation_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that update saves the provided settings only, saves the ID of the changed logo along with it,
+	 * Tests that update saves the provided settings only, saves the URL of the changed logo along with its ID,
 	 * clears its cached meta and returns all settings cast to their type.
 	 *
 	 * @covers ::__construct
 	 * @covers ::update
 	 * @covers ::update_field
-	 * @covers ::save_logo
 	 * @covers ::validate_field
 	 * @covers ::save_field
+	 * @covers ::save_logo
 	 * @covers ::get_settings
 	 *
 	 * @return void
 	 */
 	public function test_update() {
-		$this->logo_helper->expects( 'get_logo_id' )->once()->with( 'https://example.com/logo.png' )->andReturn( 12 );
+		$this->image_helper->expects( 'get_attachment_image_url' )->once()->with( 12, 'full' )->andReturn( 'https://example.com/logo.png' );
 
 		$this->options_helper->expects( 'set' )->once()->with( 'company_or_person', 'company' )->andReturnTrue();
 		$this->social_profiles_helper->expects( 'set_organization_social_profiles' )->once()->with( [ 'facebook_site' => 'https://facebook.com/yoast' ] )->andReturn( [] );
 		$this->options_helper->expects( 'set' )->once()->with( 'company_name', 'Yoast' )->andReturnTrue();
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', 'https://example.com/logo.png' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_id', 12 )->andReturnTrue();
+		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', 'https://example.com/logo.png' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->never()->with( 'person_logo_meta', false );
 
-		// The logo URL is read once before it is saved.
-		$this->options_helper->expects( 'get' )->once()->with( 'company_logo' )->andReturn( '' );
 		$this->expect_settings_read(
 			[
 				'company_or_person'         => 'company',
 				'company_name'              => 'Yoast',
-				'company_logo'              => 'https://example.com/logo.png',
+				'company_logo_id'           => 12,
 				'company_or_person_user_id' => false,
 				'facebook_site'             => 'https://facebook.com/yoast',
 			],
@@ -166,7 +164,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 			[
 				'company_or_person'         => 'company',
 				'company_name'              => 'Yoast',
-				'company_logo'              => 'https://example.com/logo.png',
+				'company_logo_id'           => 12,
 				'company_or_person_user_id' => 0,
 				'facebook_site'             => 'https://facebook.com/yoast',
 			],
@@ -174,7 +172,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 				[
 					'company_or_person' => 'company',
 					'company_name'      => 'Yoast',
-					'company_logo'      => 'https://example.com/logo.png',
+					'company_logo_id'   => 12,
 					'facebook_site'     => 'https://facebook.com/yoast',
 				],
 			),
@@ -226,12 +224,12 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_not_saved() {
-		$this->logo_helper->expects( 'get_logo_id' )->once()->with( 'https://example.com/logo.png' )->andReturn( 12 );
+		$this->image_helper->expects( 'get_attachment_image_url' )->once()->with( 12, 'full' )->andReturn( 'https://example.com/logo.png' );
 
 		$this->options_helper->expects( 'set' )->once()->with( 'company_or_person', 'company' )->andReturnFalse();
 		$this->options_helper->expects( 'set' )->once()->with( 'company_name', 'Yoast' )->andReturnFalse();
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', 'https://example.com/logo.png' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_id', 12 )->andReturnTrue();
+		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', 'https://example.com/logo.png' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue();
 
 		$this->options_helper->allows( 'get' )->andReturn( '' );
@@ -240,7 +238,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 			[
 				'company_or_person' => 'company',
 				'company_name'      => 'Yoast',
-				'company_logo'      => 'https://example.com/logo.png',
+				'company_logo_id'   => 12,
 			],
 		);
 
@@ -251,7 +249,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that update clears the ID of a logo whose URL is cleared.
+	 * Tests that update clears the URL of a logo whose ID is cleared, without looking it up.
 	 *
 	 * @covers ::update
 	 * @covers ::update_field
@@ -260,77 +258,40 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_clear_logo() {
-		$this->logo_helper->expects( 'get_logo_id' )->once()->with( '' )->andReturn( 0 );
+		$this->image_helper->expects( 'get_attachment_image_url' )->never();
 
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', '' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_id', 0 )->andReturnTrue();
+		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', '' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue();
 
-		$this->options_helper->allows( 'get' )->andReturn( '' );
+		$this->options_helper->allows( 'get' )->andReturn( 0 );
 
-		$result = $this->instance->update( [ 'company_logo' => '' ] );
+		$result = $this->instance->update( [ 'company_logo_id' => 0 ] );
 
 		$this->assertArrayNotHasKey( 'warning', $result );
 	}
 
 	/**
-	 * Tests that update ignores a provided logo ID, so it cannot point to another image than the URL.
+	 * Tests that update ignores a provided logo URL, so it cannot point to another image than the ID.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::save_logo
 	 *
 	 * @return void
 	 */
-	public function test_update_logo_id_ignored() {
-		$this->logo_helper->expects( 'get_logo_id' )->once()->with( 'https://example.com/logo.png' )->andReturn( 12 );
+	public function test_update_logo_url_ignored() {
+		$this->image_helper->expects( 'get_attachment_image_url' )->never();
 
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', 'https://example.com/logo.png' )->andReturnTrue();
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_id', 12 )->andReturnTrue();
-		$this->options_helper->expects( 'set' )->never()->with( 'company_logo_id', 13 );
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue();
-
-		$this->options_helper->allows( 'get' )->andReturn( '' );
-
-		$result = $this->instance->update(
-			[
-				'company_logo'    => 'https://example.com/logo.png',
-				'company_logo_id' => 13,
-			],
-		);
-
-		$this->assertArrayNotHasKey( 'warning', $result );
-	}
-
-	/**
-	 * Tests that update does not save the ID of a logo whose URL could not be saved, so the two keep pointing
-	 * to the same image.
-	 *
-	 * @covers ::update
-	 * @covers ::update_field
-	 *
-	 * @return void
-	 */
-	public function test_update_logo_url_not_saved() {
-		$this->logo_helper->expects( 'get_logo_id' )->never();
-
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', 'https://example.com/logo.png' )->andReturnFalse();
-		$this->options_helper->expects( 'set' )->never()->with( 'company_logo_id', 12 );
-		$this->options_helper->expects( 'set' )->never()->with( 'company_logo_meta', false );
-
+		$this->options_helper->expects( 'set' )->never();
 		$this->options_helper->allows( 'get' )->andReturn( '' );
 
 		$result = $this->instance->update( [ 'company_logo' => 'https://example.com/logo.png' ] );
 
-		$this->assertSame(
-			'The company_logo setting could not be saved as provided, so its current value is returned. No other settings were saved.',
-			$result['warning'],
-		);
+		$this->assertArrayNotHasKey( 'company_logo', $result );
 	}
 
 	/**
-	 * Tests that update saves the ID of a logo whose URL was stored in a sanitized form, even though the save
-	 * is reported as failed, so the two keep pointing to the same image.
+	 * Tests that update does not save the URL of a logo whose ID could not be saved, so the two keep pointing
+	 * to the same image.
 	 *
 	 * @covers ::update
 	 * @covers ::update_field
@@ -338,21 +299,19 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_update_logo_url_sanitized() {
-		$this->logo_helper->expects( 'get_logo_id' )->once()->with( 'https://example.com/logo-ü.png' )->andReturn( 12 );
+	public function test_update_logo_not_saved() {
+		$this->image_helper->expects( 'get_attachment_image_url' )->never();
 
-		$this->options_helper->expects( 'get' )->once()->with( 'company_logo' )->andReturn( 'https://example.com/old.png' );
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', 'https://example.com/logo-ü.png' )->andReturnFalse();
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_id', 12 )->andReturnTrue();
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue();
+		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_id', 12 )->andReturnFalse();
+		$this->options_helper->expects( 'set' )->never()->with( 'company_logo', Mockery::any() );
+		$this->options_helper->expects( 'set' )->never()->with( 'company_logo_meta', false );
 
-		$this->options_helper->allows( 'get' )->andReturn( 'https://example.com/logo-%C3%BC.png' );
+		$this->options_helper->allows( 'get' )->andReturn( 0 );
 
-		$result = $this->instance->update( [ 'company_logo' => 'https://example.com/logo-ü.png' ] );
+		$result = $this->instance->update( [ 'company_logo_id' => 12 ] );
 
-		$this->assertSame( 'https://example.com/logo-%C3%BC.png', $result['company_logo'] );
 		$this->assertSame(
-			'The company_logo setting could not be saved as provided, so its current value is returned. No other settings were saved.',
+			'The company_logo_id setting could not be saved as provided, so its current value is returned. No other settings were saved.',
 			$result['warning'],
 		);
 	}

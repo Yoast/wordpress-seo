@@ -78,9 +78,9 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 				'company_or_person',
 				'company_name',
 				'company_alternate_name',
-				'company_logo',
+				'company_logo_id',
 				'company_or_person_user_id',
-				'person_logo',
+				'person_logo_id',
 				'facebook_site',
 				'twitter_site',
 				'other_social_urls',
@@ -97,12 +97,14 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 		);
 		$this->assertSame( 'integer', $fields['company_or_person_user_id']['type'] );
 		$this->assertSame( 0, $fields['company_or_person_user_id']['minimum'] );
+		$this->assertSame( 'integer', $fields['company_logo_id']['type'] );
+		$this->assertSame( 0, $fields['company_logo_id']['minimum'] );
 		$this->assertSame(
 			[
 				'company_or_person'         => [ $this->field_validators, 'validate_company_or_person' ],
-				'company_logo'              => [ $this->field_validators, 'validate_logo' ],
+				'company_logo_id'           => [ $this->field_validators, 'validate_logo' ],
 				'company_or_person_user_id' => [ $this->field_validators, 'validate_user_id' ],
-				'person_logo'               => [ $this->field_validators, 'validate_logo' ],
+				'person_logo_id'            => [ $this->field_validators, 'validate_logo' ],
 			],
 			$this->instance->get_validators(),
 		);

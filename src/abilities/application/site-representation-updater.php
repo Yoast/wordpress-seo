@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\Application;
 
 use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Field_Map;
-use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Logo_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
 
@@ -17,11 +17,14 @@ use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
 class Site_Representation_Updater {
 
 	/**
-	 * The logos whose cached attachment meta is invalidated when either their URL or their ID changes.
+	 * The logo ID settings, mapped to the logo URL setting that is saved along with them.
 	 *
-	 * @var array<string>
+	 * @var array<string, string>
 	 */
-	private const LOGOS = [ 'company_logo', 'person_logo' ];
+	private const LOGOS = [
+		'company_logo_id' => 'company_logo',
+		'person_logo_id'  => 'person_logo',
+	];
 
 	/**
 	 * The options helper.
@@ -38,11 +41,11 @@ class Site_Representation_Updater {
 	private $field_map;
 
 	/**
-	 * The site representation logo helper.
+	 * The image helper.
 	 *
-	 * @var Site_Representation_Logo_Helper
+	 * @var Image_Helper
 	 */
-	private $logo_helper;
+	private $image_helper;
 
 	/**
 	 * The social profiles helper.
@@ -54,20 +57,20 @@ class Site_Representation_Updater {
 	/**
 	 * Constructor.
 	 *
-	 * @param Options_Helper                  $options_helper         The options helper.
-	 * @param Site_Representation_Field_Map   $field_map              The site representation field map.
-	 * @param Site_Representation_Logo_Helper $logo_helper            The site representation logo helper.
-	 * @param Social_Profiles_Helper          $social_profiles_helper The social profiles helper.
+	 * @param Options_Helper                $options_helper         The options helper.
+	 * @param Site_Representation_Field_Map $field_map              The site representation field map.
+	 * @param Image_Helper                  $image_helper           The image helper.
+	 * @param Social_Profiles_Helper        $social_profiles_helper The social profiles helper.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		Site_Representation_Field_Map $field_map,
-		Site_Representation_Logo_Helper $logo_helper,
+		Image_Helper $image_helper,
 		Social_Profiles_Helper $social_profiles_helper
 	) {
 		$this->options_helper         = $options_helper;
 		$this->field_map              = $field_map;
-		$this->logo_helper            = $logo_helper;
+		$this->image_helper           = $image_helper;
 		$this->social_profiles_helper = $social_profiles_helper;
 	}
 
@@ -163,8 +166,8 @@ class Site_Representation_Updater {
 	 * Saves a single field.
 	 *
 	 * Organization social profiles are saved through the social profiles helper, so they are validated like they
-	 * are in the first-time configuration, including the ones that add-ons register there. Logos are saved along
-	 * with their ID.
+	 * are in the first-time configuration, including the ones that add-ons register there. Logo IDs are saved along
+	 * with their URL.
 	 *
 	 * @param string $field_name The option name of the field.
 	 * @param mixed  $value      The value to save.
@@ -177,7 +180,7 @@ class Site_Representation_Updater {
 			return $this->social_profiles_helper->set_organization_social_profiles( [ $field_name => $value ] ) === [];
 		}
 
-		if ( \in_array( $field_name, self::LOGOS, true ) ) {
+		if ( isset( self::LOGOS[ $field_name ] ) ) {
 			return $this->save_logo( $field_name, $value );
 		}
 
@@ -185,26 +188,28 @@ class Site_Representation_Updater {
 	}
 
 	/**
-	 * Saves a logo URL along with its ID, so the two never point to different images.
+	 * Saves a logo ID along with its URL, like the media library does in the settings and the first-time configuration.
 	 *
-	 * @param string $field_name The option name of the logo URL.
-	 * @param string $url        The logo URL.
+	 * The schema reads the logo by its ID, while the settings and the first-time configuration show it by its URL.
 	 *
-	 * @return bool Whether the logo URL was saved.
+	 * @param string $field_name    The option name of the logo ID.
+	 * @param int    $attachment_id The attachment ID of the logo, 0 to clear it.
+	 *
+	 * @return bool Whether the logo ID was saved.
 	 */
-	private function save_logo( string $field_name, string $url ): bool {
-		$previous_url = $this->options_helper->get( $field_name );
-		$saved        = $this->options_helper->set( $field_name, $url ) === true;
-
-		// A sanitized URL (trimmed or percent-encoded, for example) is stored even though the save is reported as failed,
-		// so the ID follows any change of the stored URL. It is derived from the validated URL, as it points to the same image.
-		if ( $saved || $this->options_helper->get( $field_name ) !== $previous_url ) {
-			$this->options_helper->set( $field_name . '_id', $this->logo_helper->get_logo_id( $url ) );
-			// Much like saving the logo from the settings/FTC, let's also clear its meta information so that it can lazily be generated when needed.
-			$this->options_helper->set( $field_name . '_meta', false );
+	private function save_logo( string $field_name, int $attachment_id ): bool {
+		if ( $this->options_helper->set( $field_name, $attachment_id ) !== true ) {
+			return false;
 		}
 
-		return $saved;
+		$logo = self::LOGOS[ $field_name ];
+		$url  = ( $attachment_id === 0 ) ? '' : $this->image_helper->get_attachment_image_url( $attachment_id, 'full' );
+
+		$this->options_helper->set( $logo, $url );
+		// Much like saving the logo from the settings/FTC, let's also clear its meta information so that it can lazily be generated when needed.
+		$this->options_helper->set( $logo . '_meta', false );
+
+		return true;
 	}
 
 	/**

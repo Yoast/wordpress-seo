@@ -29,27 +29,17 @@ class Site_Representation_Field_Validators {
 	private $image_helper;
 
 	/**
-	 * The site representation logo helper.
-	 *
-	 * @var Site_Representation_Logo_Helper
-	 */
-	private $logo_helper;
-
-	/**
 	 * Constructor.
 	 *
-	 * @param Local_SEO_Active_Conditional    $local_seo_active_conditional The Local SEO active conditional.
-	 * @param Image_Helper                    $image_helper                 The image helper.
-	 * @param Site_Representation_Logo_Helper $logo_helper                  The site representation logo helper.
+	 * @param Local_SEO_Active_Conditional $local_seo_active_conditional The Local SEO active conditional.
+	 * @param Image_Helper                 $image_helper                 The image helper.
 	 */
 	public function __construct(
 		Local_SEO_Active_Conditional $local_seo_active_conditional,
-		Image_Helper $image_helper,
-		Site_Representation_Logo_Helper $logo_helper
+		Image_Helper $image_helper
 	) {
 		$this->local_seo_active_conditional = $local_seo_active_conditional;
 		$this->image_helper                 = $image_helper;
-		$this->logo_helper                  = $logo_helper;
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The validators share the signature of a validate_callback, which receives any option value.
@@ -94,26 +84,21 @@ class Site_Representation_Field_Validators {
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
 
 	/**
-	 * Validates that a logo URL is cleared or points to an image in the media library.
+	 * Validates that a logo is cleared or is an image in the media library.
 	 *
-	 * @param string $value      The logo URL to save.
-	 * @param string $field_name The option name of the logo URL.
+	 * @param int    $value      The attachment ID of the logo to save.
+	 * @param string $field_name The option name of the logo ID.
 	 *
 	 * @return string|null A warning when the value cannot be saved, null otherwise.
 	 */
-	public function validate_logo( string $value, string $field_name ): ?string {
-		if ( $value === '' ) {
-			return null;
-		}
-
-		$attachment_id = $this->logo_helper->get_logo_id( $value );
-		if ( $attachment_id > 0 && $this->image_helper->is_valid_attachment( $attachment_id ) ) {
+	public function validate_logo( int $value, string $field_name ): ?string {
+		if ( $value === 0 || $this->image_helper->is_valid_attachment( $value ) ) {
 			return null;
 		}
 
 		return \sprintf(
 			/* translators: %s expands to the name of a setting. */
-			\__( 'The %s setting was not changed, because it is not the URL of an image in the media library.', 'wordpress-seo' ),
+			\__( 'The %s setting was not changed, because it is not the ID of an image in the media library.', 'wordpress-seo' ),
 			$field_name,
 		);
 	}
