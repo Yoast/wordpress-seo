@@ -9,16 +9,18 @@ import { z } from "zod";
  * opts the image assessments into scoring it instead of the images in the text.
  *
  * Field semantics that are load-bearing:
- * - `alt` is read by the researches (via the mapped `img` pseudo-node); an empty string means
+ * - `alt` is the only field the researches read (via the mapped `img` pseudo-node); an empty string means
  *   the image has no alt text and is scored accordingly.
- * - `id`, else `src`, tells the Duplicate alt text research whether two entries are the same image, so the
- *   same image listed twice is not reported as a duplicate. Both are also producer-side conveniences
- *   (deduplication, UI affordances such as an AI button).
+ * - `id` is how the producer names this image, and it is load-bearing in both directions: it is a producer-side
+ *   convenience (deduplication, UI affordances such as an AI button), and it is what the assessments hand back in
+ *   `flaggedItems` to point at the images that need work. A producer that omits it gets the `src` back instead,
+ *   which is weaker: two images sharing a src cannot be told apart.
+ * - `src` keeps the mapped node shape faithful to a real `img` node, and doubles as the fallback identifier.
  *
  * `.strict()` rejects unknown keys, catching typos.
  */
 export const providedImageSchema = z.object( {
-	id: z.number().optional().describe( "The attachment/media ID of the image." ),
+	id: z.number().optional().describe( "The producer's ID for the image (e.g. the attachment/media ID). Echoed back in a result's `flaggedItems`." ),
 	src: z.string().optional().describe( "The URL of the image." ),
 	alt: z.string().describe( "The alt text of the image; an empty string means no alt text." ),
 } ).strict();

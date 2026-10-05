@@ -34,9 +34,23 @@ describe( "getImagesInScope", function() {
 		const images = getImagesInScope( buildPaperWithTreeImage( { providedImages } ) );
 
 		expect( images ).toEqual( [
-			{ name: "img", attributes: { src: "https://example.com/featured.jpg", alt: "A featured image" }, attachmentId: 1 },
-			{ name: "img", attributes: { src: "https://example.com/gallery.jpg", alt: "" }, attachmentId: 2 },
+			{ name: "img", id: 1, attributes: { src: "https://example.com/featured.jpg", alt: "A featured image" } },
+			{ name: "img", id: 2, attributes: { src: "https://example.com/gallery.jpg", alt: "" } },
 		] );
+	} );
+
+	it( "keeps the producer's id on the node, so an assessment can report which images it flagged", function() {
+		const [ featured ] = getImagesInScope( buildPaperWithTreeImage( { providedImages } ) );
+
+		expect( featured.id ).toBe( 1 );
+		// Outside `attributes`: it is the producer's identifier, not an HTML attribute of the image.
+		expect( featured.attributes.id ).toBeUndefined();
+	} );
+
+	it( "leaves the id undefined when the producer sends none, because it is optional in the contract", function() {
+		const [ image ] = getImagesInScope( buildPaperWithTreeImage( { providedImages: [ { src: "a.jpg", alt: "b" } ] } ) );
+
+		expect( image.id ).toBeUndefined();
 	} );
 
 	it( "returns an empty array when the producer opted in with an empty providedImages array, even when the text has images", function() {
@@ -45,7 +59,7 @@ describe( "getImagesInScope", function() {
 
 	it( "defaults missing src and alt to empty strings when mapping provided images", function() {
 		expect( getImagesInScope( buildPaperWithTreeImage( { providedImages: [ { id: 3 } ] } ) ) ).toEqual( [
-			{ name: "img", attributes: { src: "", alt: "" }, attachmentId: 3 },
+			{ name: "img", id: 3, attributes: { src: "", alt: "" } },
 		] );
 	} );
 

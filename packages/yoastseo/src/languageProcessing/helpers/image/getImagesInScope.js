@@ -12,16 +12,18 @@ import getImagesInTree from "./getImagesInTree";
  * required and `toPaper()` rejects a DTO without it, but a Paper constructed directly bypasses that
  * validation, and an empty `alt` degrades to the correct "no alt text" score instead of a hard failure.
  *
- * The image's `id` is kept as `attachmentId`, outside `attributes`, so it cannot be mistaken for an HTML `id`.
- *
  * @param {ProvidedImage} image The provided image to map.
  *
- * @returns {{name: string, attributes: {src: string, alt: string}, attachmentId: (number|undefined)}} The mapped `img` pseudo-node.
+ * The producer's `id` is kept on the node, outside `attributes`, so it is not mistaken for an HTML attribute.
+ * It is what lets an assessment report which images it flagged (see `getImageIdentifier`); it is optional in the
+ * contract, and images from the text tree never have one.
+ *
+ * @returns {{name: string, id: (number|undefined), attributes: {src: string, alt: string}}} The mapped `img` pseudo-node.
  */
 const toImageNode = ( image ) => ( {
 	name: "img",
+	id: image.id,
 	attributes: { src: image.src || "", alt: image.alt || "" },
-	attachmentId: image.id,
 } );
 
 /**
