@@ -68,7 +68,7 @@ describe( "App", () => {
 
 		expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Pages" } ) ).toBeInTheDocument();
 		expect(
-			screen.getByText( "The bulk editor for pages is a tool that you can use to quickly make changes to your search and social media appearance for multiple pages." )
+			screen.getByText( "The bulk editor for pages is a tool that you can use to quickly make changes to your search and social media appearance for multiple pages.", { exact: false } )
 		).toBeInTheDocument();
 	} );
 
@@ -111,8 +111,12 @@ describe( "App", () => {
 		expect( screen.getByRole( "button", { name: "Posts" } ) ).toHaveAttribute( "aria-current", "page" );
 		expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Posts" } ) ).toBeInTheDocument();
 		expect(
-			screen.getByText( "The bulk editor for posts is a tool that you can use to quickly make changes to your search and social media appearance for multiple posts." )
+			screen.getByText( "The bulk editor for posts is a tool that you can use to quickly make changes to your search and social media appearance for multiple posts.", { exact: false } )
 		).toBeInTheDocument();
+
+		const learnMore = screen.getByRole( "link", { name: /Learn more about bulk editor features/ } );
+		expect( learnMore ).toHaveAttribute( "href", "https://yoa.st/bulk-editor-learn-more" );
+		expect( learnMore ).toHaveAttribute( "target", "_blank" );
 	} );
 
 	it( "shows the products-specific header copy with a learn-more link", () => {
