@@ -132,6 +132,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::update
 	 * @covers ::update_field
+	 * @covers ::save_logo
 	 * @covers ::validate_field
 	 * @covers ::save_field
 	 * @covers ::get_settings
@@ -149,6 +150,8 @@ final class Site_Representation_Updater_Test extends TestCase {
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->never()->with( 'person_logo_meta', false );
 
+		// The logo URL is read once before it is saved.
+		$this->options_helper->expects( 'get' )->once()->with( 'company_logo' )->andReturn( '' );
 		$this->expect_settings_read(
 			[
 				'company_or_person'         => 'company',
@@ -218,6 +221,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @covers ::update
 	 * @covers ::update_field
+	 * @covers ::save_logo
 	 *
 	 * @return void
 	 */
@@ -251,6 +255,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @covers ::update
 	 * @covers ::update_field
+	 * @covers ::save_logo
 	 *
 	 * @return void
 	 */
@@ -273,6 +278,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @covers ::update
 	 * @covers ::update_field
+	 * @covers ::save_logo
 	 *
 	 * @return void
 	 */
@@ -316,6 +322,35 @@ final class Site_Representation_Updater_Test extends TestCase {
 
 		$result = $this->instance->update( [ 'company_logo' => 'https://example.com/logo.png' ] );
 
+		$this->assertSame(
+			'The company_logo setting could not be saved as provided, so its current value is returned. No other settings were saved.',
+			$result['warning'],
+		);
+	}
+
+	/**
+	 * Tests that update saves the ID of a logo whose URL was stored in a sanitized form, even though the save
+	 * is reported as failed, so the two keep pointing to the same image.
+	 *
+	 * @covers ::update
+	 * @covers ::update_field
+	 * @covers ::save_logo
+	 *
+	 * @return void
+	 */
+	public function test_update_logo_url_sanitized() {
+		$this->logo_helper->expects( 'get_logo_id' )->once()->with( 'https://example.com/logo-ü.png' )->andReturn( 12 );
+
+		$this->options_helper->expects( 'get' )->once()->with( 'company_logo' )->andReturn( 'https://example.com/old.png' );
+		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', 'https://example.com/logo-ü.png' )->andReturnFalse();
+		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_id', 12 )->andReturnTrue();
+		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue();
+
+		$this->options_helper->allows( 'get' )->andReturn( 'https://example.com/logo-%C3%BC.png' );
+
+		$result = $this->instance->update( [ 'company_logo' => 'https://example.com/logo-ü.png' ] );
+
+		$this->assertSame( 'https://example.com/logo-%C3%BC.png', $result['company_logo'] );
 		$this->assertSame(
 			'The company_logo setting could not be saved as provided, so its current value is returned. No other settings were saved.',
 			$result['warning'],

@@ -132,13 +132,6 @@ class Site_Representation_Updater {
 			);
 		}
 
-		// The ID is only saved along with its URL, so the two never point to different images.
-		if ( \in_array( $field_name, self::LOGOS, true ) ) {
-			$this->options_helper->set( $field_name . '_id', $this->logo_helper->get_logo_id( $value ) );
-			// Much like saving the logo from the settings/FTC, let's also clear its meta information so that it can lazily be generated when needed.
-			$this->options_helper->set( $field_name . '_meta', false );
-		}
-
 		return null;
 	}
 
@@ -170,7 +163,8 @@ class Site_Representation_Updater {
 	 * Saves a single field.
 	 *
 	 * Organization social profiles are saved through the social profiles helper, so they are validated like they
-	 * are in the first-time configuration, including the ones that add-ons register there.
+	 * are in the first-time configuration, including the ones that add-ons register there. Logos are saved along
+	 * with their ID.
 	 *
 	 * @param string $field_name The option name of the field.
 	 * @param mixed  $value      The value to save.
@@ -183,7 +177,34 @@ class Site_Representation_Updater {
 			return $this->social_profiles_helper->set_organization_social_profiles( [ $field_name => $value ] ) === [];
 		}
 
+		if ( \in_array( $field_name, self::LOGOS, true ) ) {
+			return $this->save_logo( $field_name, $value );
+		}
+
 		return $this->options_helper->set( $field_name, $value ) === true;
+	}
+
+	/**
+	 * Saves a logo URL along with its ID, so the two never point to different images.
+	 *
+	 * @param string $field_name The option name of the logo URL.
+	 * @param string $url        The logo URL.
+	 *
+	 * @return bool Whether the logo URL was saved.
+	 */
+	private function save_logo( string $field_name, string $url ): bool {
+		$previous_url = $this->options_helper->get( $field_name );
+		$saved        = $this->options_helper->set( $field_name, $url ) === true;
+
+		// A sanitized URL (trimmed or percent-encoded, for example) is stored even though the save is reported as failed,
+		// so the ID follows any change of the stored URL. It is derived from the validated URL, as it points to the same image.
+		if ( $saved || $this->options_helper->get( $field_name ) !== $previous_url ) {
+			$this->options_helper->set( $field_name . '_id', $this->logo_helper->get_logo_id( $url ) );
+			// Much like saving the logo from the settings/FTC, let's also clear its meta information so that it can lazily be generated when needed.
+			$this->options_helper->set( $field_name . '_meta', false );
+		}
+
+		return $saved;
 	}
 
 	/**
