@@ -15,9 +15,9 @@ const actionAnchor = "<a href='https://yoa.st/alt-text-length-cta' target='_blan
  *
  * @returns {AssessmentResult} The result of the assessment.
  */
-const getResult = ( tooShort, tooLong, attributes = {} ) => assessment.getResult(
+const getResult = ( tooShort, tooLong, attributes = {}, flagged = [] ) => assessment.getResult(
 	new Paper( "", attributes ),
-	Factory.buildMockResearcher( { altTextLength: { tooShort, tooLong } }, true )
+	Factory.buildMockResearcher( { altTextLength: { tooShort, tooLong, flagged } }, true )
 );
 
 describe( "an assessment for the length of the alt text of the assessed images", () => {
@@ -132,5 +132,19 @@ describe( "the feedback strings of the alt text length assessment", () => {
 			tooShortBoundary: 10,
 			tooLongBoundary: 200,
 		} );
+	} );
+} );
+
+describe( "the images the alt text length assessment flags", () => {
+	it( "reports the identifiers the research found, so a consumer can point at those images", () => {
+		const result = getResult( 2, 1, {}, [ 8, 12, 9 ] );
+
+		expect( result.getFlaggedItems() ).toEqual( [ 8, 12, 9 ] );
+	} );
+
+	it( "reports nothing when no image is flagged", () => {
+		const result = getResult( 0, 0 );
+
+		expect( result.getFlaggedItems() ).toEqual( [] );
 	} );
 } );

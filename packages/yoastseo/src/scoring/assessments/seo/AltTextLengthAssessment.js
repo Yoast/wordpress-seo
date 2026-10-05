@@ -80,10 +80,11 @@ export default class AltTextLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher ) {
-		const { tooShort, tooLong } = researcher.getResearch( "altTextLength" );
+		const { tooShort, tooLong, flagged } = researcher.getResearch( "altTextLength" );
 
 		this.tooShortCount = tooShort;
 		this.tooLongCount = tooLong;
+		this.flagged = flagged;
 
 		const assessmentResult = new AssessmentResult();
 
@@ -94,6 +95,11 @@ export default class AltTextLengthAssessment extends Assessment {
 		const { tooShort: tooShortResultText, tooLong: tooLongResultText, both } = this.getFeedbackStrings();
 
 		assessmentResult.setScore( this._config.scores.okay );
+		/*
+		 * Carried on the result so a consumer can point at the images that need work, for example to filter them
+		 * in a product's image table. Only set when there is something to flag, so an empty result stays empty.
+		 */
+		assessmentResult.setFlaggedItems( this.flagged );
 
 		if ( this.tooShortCount > 0 && this.tooLongCount > 0 ) {
 			assessmentResult.setText( both );
