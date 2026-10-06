@@ -1,15 +1,15 @@
 import { useSelect } from "@wordpress/data";
-import { fireEvent, render, screen } from "../test-utils";
+import { render, screen } from "../test-utils";
 import { ImageAltTextUpsell } from "../../src/bulk-editor/components/image-alt-text-upsell";
-import { FIELD_SET_IMAGE_ALT_TEXT, FIELD_SET_SEARCH, IMAGE_ALT_TEXT_UPSELL_LINK } from "../../src/bulk-editor/constants";
+import { IMAGE_ALT_TEXT_UPSELL_LINK } from "../../src/bulk-editor/constants";
 
 const mockUseAiUpsell = jest.fn();
 jest.mock( "../../src/bulk-editor/hooks/use-ai-upsell", () => ( {
 	useAiUpsell: ( ...args ) => mockUseAiUpsell( ...args ),
 } ) );
 
-// The block reads its preferences and the card its shortlink from the store; useSelect is fully mocked so the
-// store never needs registering.
+// The block and the notice read their preferences and the card its shortlink from the store; useSelect is fully
+// mocked so the store never needs registering.
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn(),
 } ) );
@@ -28,15 +28,13 @@ const PLUGIN_URL = "https://example.com/wp-content/plugins/wordpress-seo";
  * Points the store mock at the given preferences.
  *
  * @param {Object} [preferences] Partial preference overrides; unset keys fall back to the caller's default.
- * @param {string} [activeFieldSet] The field set the store reports as active.
  *
  * @returns {void}
  */
-const mockStore = ( preferences = {}, activeFieldSet = FIELD_SET_IMAGE_ALT_TEXT ) => {
+const mockStore = ( preferences = {} ) => {
 	useSelect.mockImplementation( ( selector ) => selector( () => ( {
 		selectLink: ( link ) => link + LINK_PARAMS,
 		selectPreference: ( key, defaultValue ) => ( key in preferences ? preferences[ key ] : defaultValue ),
-		selectActiveFieldSet: () => activeFieldSet,
 	} ) ) );
 };
 
@@ -132,45 +130,37 @@ describe( "ImageAltTextUpsell", () => {
 	describe( "with Yoast WooCommerce SEO active", () => {
 		const UPDATE_URL = "https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wpseo-woocommerce%2Fwpseo-woocommerce.php&_wpnonce=abc";
 
-		it( "asks to update an add-on whose version predates the tab, instead of upselling it", () => {
+		it( "asks in the panel to update an add-on whose version predates the tab, instead of upselling it", () => {
 			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
 
 			render( <ImageAltTextUpsell /> );
 
 			expect( screen.queryByRole( "heading", { name: /From flagged to fixed/ } ) ).not.toBeInTheDocument();
-			expect( screen.getByRole( "dialog" ) ).toBeInTheDocument();
-			expect( screen.getByRole( "heading", { name: "Your plugin needs an update" } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "status" ) ).toHaveTextContent( "Your plugin needs an update" );
 			expect( screen.getByText( /please update Yoast WooCommerce SEO to the latest version/ ) ).toBeInTheDocument();
+			expect( screen.getByText( /Updates need an active Yoast WooCommerce SEO subscription in MyYoast/ ) ).toBeInTheDocument();
 
 			const link = screen.getByRole( "link", { name: /Update now/ } );
 			expect( link ).toHaveAttribute( "href", UPDATE_URL );
 			expect( link ).toHaveAttribute( "target", "_blank" );
+			expect( link ).toHaveAttribute( "rel", "noopener noreferrer" );
 		} );
 
-		it( "leaves the panel empty under the update modal, without the upsell's dummy table", () => {
+		it( "does not open a dialog, so keyboard users can move through the tabs", () => {
 			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
 
-			const { container } = render( <ImageAltTextUpsell /> );
+			render( <ImageAltTextUpsell /> );
 
-			expect( container.querySelector( "[aria-hidden='true']" ) ).toBeNull();
-			expect( screen.queryByText( "Classic Athletic Sneaker" ) ).not.toBeInTheDocument();
+			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
 		} );
 
-		it( "opens the modal again every time the tab is shown after it was closed", () => {
-			const preferences = { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL };
-			mockStore( preferences );
-			const { rerender } = render( <ImageAltTextUpsell /> );
+		it( "shows the notice without the upsell's dummy table", () => {
+			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
 
-			fireEvent.click( screen.getByRole( "button", { name: "Close" } ) );
-			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
+			render( <ImageAltTextUpsell /> );
 
-			mockStore( preferences, FIELD_SET_SEARCH );
-			rerender( <ImageAltTextUpsell /> );
-			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
-
-			mockStore( preferences );
-			rerender( <ImageAltTextUpsell /> );
-			expect( screen.getByRole( "dialog" ) ).toBeInTheDocument();
+			// The dummy table's first product; the notice's own icon is aria-hidden too, so check the content.
+			expect( screen.queryByText( "Classic Athletic Sneaker" ) ).not.toBeInTheDocument();
 		} );
 
 		it( "hides the update link from users who may not update plugins", () => {
@@ -178,20 +168,8 @@ describe( "ImageAltTextUpsell", () => {
 
 			render( <ImageAltTextUpsell /> );
 
-			expect( screen.getByRole( "dialog" ) ).toBeInTheDocument();
-			expect( screen.queryByRole( "link", { name: /Update now/ } ) ).not.toBeInTheDocument();
-			expect( screen.getByRole( "button", { name: "Close" } ) ).toBeInTheDocument();
-		} );
-
-		it( "keeps the modal closed while another tab is shown, since the panel stays mounted", () => {
-			mockStore(
-				{ isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL },
-				FIELD_SET_SEARCH
-			);
-
-			render( <ImageAltTextUpsell /> );
-
-			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
+			expect( screen.getByRole( "status" ) ).toHaveTextContent( "Your plugin needs an update" );
+			expect( screen.queryByRole( "link" ) ).not.toBeInTheDocument();
 		} );
 
 		it( "renders an empty panel on a supported version, whose own script fills the slot", () => {
@@ -200,10 +178,6 @@ describe( "ImageAltTextUpsell", () => {
 			const { container } = render( <ImageAltTextUpsell /> );
 
 			expect( container ).toBeEmptyDOMElement();
-
-			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
-			expect( screen.queryByRole( "heading", { name: /From flagged to fixed/ } ) ).not.toBeInTheDocument();
-			expect( screen.queryByRole( "link" ) ).not.toBeInTheDocument();
 		} );
 	} );
 } );

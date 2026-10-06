@@ -6,31 +6,21 @@ import { DangerModal, ModalDescription, Actions, CloseButton } from "../../share
 import { STORE_NAME } from "../constants";
 
 /**
- * The update modal shown when an installed Yoast plugin is too old for a bulk editor feature.
- *
- * Defaults to Yoast SEO Premium, whose AI bulk actions need a recent version; the products "Image alt text" tab
- * passes its own copy and URL preference for Yoast WooCommerce SEO.
+ * The update modal shown when a Free user has the Premium version that is not supported for AI bulk actions.
  *
  * @param {Object} props The props.
  * @param {Function} props.onClose The callback to close the modal.
  * @param {boolean} props.isOpen Whether the modal is open.
- * @param {string} [props.updateUrlPreference] The preference holding where the plugin can be updated.
- * @param {string} [props.description] The body copy; defaults to the Premium AI features copy.
  *
  * @returns {JSX.Element} The update modal.
  */
-export const UpdateModal = ( {
-	onClose,
-	isOpen,
-	updateUrlPreference = "premiumUpdateUrl",
-	description = "",
-} ) => {
+export const UpdateModal = ( { onClose, isOpen } ) => {
 	const ariaProps = useSvgAria();
-	const updateUrl = useSelect( ( select ) => select( STORE_NAME ).selectPreference( updateUrlPreference, "" ), [ updateUrlPreference ] );
+	const premiumUpdateUrl = useSelect( ( select ) => select( STORE_NAME ).selectPreference( "premiumUpdateUrl", "" ) );
 	return (
 		<DangerModal isOpen={ isOpen } onClose={ onClose } title={ __( "Your plugin needs an update", "wordpress-seo" ) }>
 			<ModalDescription>
-				{ description || sprintf(
+				{ sprintf(
 					/** translators: %s: plugin name */
 					__( "To use AI features, please update %s to the latest version.", "wordpress-seo" ),
 					"Yoast SEO Premium"
@@ -38,10 +28,10 @@ export const UpdateModal = ( {
 			</ModalDescription>
 			<Actions>
 				<CloseButton onClick={ onClose } />
-				{ updateUrl && <Button
+				{ premiumUpdateUrl && <Button
 					id="yst-bulk-editor-update-modal"
 					className="yst-pe-2.5 yst-flex yst-gap-1.5 yst-items-center"
-					href={ updateUrl }
+					href={ premiumUpdateUrl }
 					target="_blank"
 					rel="noopener noreferrer"
 					as="a"
