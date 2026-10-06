@@ -4,7 +4,7 @@ import { act, fireEvent, render, screen, waitFor } from "../test-utils";
 import { BulkEditorContent, getHasOverviewNotice, shouldShowBulkActions } from "../../src/bulk-editor/components/bulk-editor-content";
 import { getTabId } from "../../src/bulk-editor/components/bulk-editor-tabs";
 import { getSelectionView, getSmartSelectItems } from "../../src/bulk-editor/helpers";
-import { FIELD_SET_IMAGE_ALT_TEXT, FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PENDING_CHANGES_MODAL_SLOT, PRODUCT_CONTENT_TYPE, STORE_NAME } from "../../src/bulk-editor/constants";
+import { FIELD_SET_IMAGE_ALT_TEXT, FIELD_SET_SEARCH, FIELD_SET_SOCIAL, IMAGE_ALT_TEXT_SLOT, PENDING_CHANGES_MODAL_SLOT, PRODUCT_CONTENT_TYPE, STORE_NAME } from "../../src/bulk-editor/constants";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
 import { usePosts } from "../../src/bulk-editor/hooks/use-posts";
@@ -29,6 +29,20 @@ const SlotProbe = () => (
 			<button type="button" data-testid="slot-probe" data-open={ String( isOpen ) } onClick={ onCommit }>
 				commit
 			</button>
+		) }
+	</Fill>
+);
+
+// Reports IMAGE_ALT_TEXT_SLOT fillProps into the DOM so tests can assert they are forwarded correctly.
+const AltTextSlotProbe = () => (
+	<Fill name={ IMAGE_ALT_TEXT_SLOT }>
+		{ ( { items, totalPages, isPending } ) => (
+			<div
+				data-testid="alt-text-slot-probe"
+				data-item-count={ items.length }
+				data-total-pages={ totalPages }
+				data-is-pending={ String( isPending ) }
+			/>
 		) }
 	</Fill>
 );
@@ -421,6 +435,31 @@ describe( "BulkEditorContent image-alt-text tab", () => {
 		const tab = screen.getByRole( "tab", { name: "Image alt text" } );
 		expect( tab ).toHaveAttribute( "aria-selected", "true" );
 		expect( tab ).toHaveFocus();
+	} );
+
+	it( "forwards items, totalPages, and isPending from usePosts through the IMAGE_ALT_TEXT_SLOT fillProps", () => {
+		usePosts.mockReturnValue( { data: [ { id: 1 }, { id: 2 } ], total: 2, totalPages: 4, isPending: false, updateItem: jest.fn() } );
+
+		render(
+			<SlotFillProvider>
+				<BulkEditorContent
+					dataProvider={ dataProvider }
+					remoteDataProvider={ remoteDataProvider }
+					contentType={ PRODUCT_CONTENT_TYPE }
+					contentTypeLabel="Products"
+					contentTypeSingularLabel="Product"
+				/>
+				<SlotProbe />
+				<AltTextSlotProbe />
+			</SlotFillProvider>
+		);
+
+		fireEvent.click( screen.getByRole( "tab", { name: "Image alt text" } ) );
+
+		const probe = screen.getByTestId( "alt-text-slot-probe" );
+		expect( probe ).toHaveAttribute( "data-item-count", "2" );
+		expect( probe ).toHaveAttribute( "data-total-pages", "4" );
+		expect( probe ).toHaveAttribute( "data-is-pending", "false" );
 	} );
 } );
 
