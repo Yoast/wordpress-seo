@@ -8,7 +8,8 @@ jest.mock( "../../src/bulk-editor/hooks/use-ai-upsell", () => ( {
 	useAiUpsell: ( ...args ) => mockUseAiUpsell( ...args ),
 } ) );
 
-// The card resolves its own shortlink through the store; useSelect is fully mocked so the store never needs registering.
+// The block and the notice read their preferences and the card its shortlink from the store; useSelect is fully
+// mocked so the store never needs registering.
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn(),
 } ) );
@@ -23,13 +24,25 @@ const wooUpsell = {
 const LINK_PARAMS = "?platform=wordpress&screen=wpseo_page_bulk_edit";
 const PLUGIN_URL = "https://example.com/wp-content/plugins/wordpress-seo";
 
+/**
+ * Points the store mock at the given preferences.
+ *
+ * @param {Object} [preferences] Partial preference overrides; unset keys fall back to the caller's default.
+ *
+ * @returns {void}
+ */
+const mockStore = ( preferences = {} ) => {
+	useSelect.mockImplementation( ( selector ) => selector( () => ( {
+		selectLink: ( link ) => link + LINK_PARAMS,
+		selectPreference: ( key, defaultValue ) => ( key in preferences ? preferences[ key ] : defaultValue ),
+	} ) ) );
+};
+
 describe( "ImageAltTextUpsell", () => {
 	beforeEach( () => {
 		mockUseAiUpsell.mockReturnValue( wooUpsell );
-		useSelect.mockImplementation( ( selector ) => selector( () => ( {
-			selectLink: ( link ) => link + LINK_PARAMS,
-			selectPreference: ( key, fallback ) => ( key === "pluginUrl" ? PLUGIN_URL : fallback ),
-		} ) ) );
+		// Without the add-on, which is what every upsell assertion below is about.
+		mockStore( { isWooSeoActive: false, pluginUrl: PLUGIN_URL } );
 	} );
 
 	it( "renders the upsell copy for Yoast WooCommerce SEO", () => {
@@ -112,5 +125,59 @@ describe( "ImageAltTextUpsell", () => {
 			[ "Trail Running Shoe", "5 images", null ],
 			[ "Fashionable High-Top Sneaker", "7 images", "3 missing alt" ],
 		] );
+	} );
+
+	describe( "with Yoast WooCommerce SEO active", () => {
+		const UPDATE_URL = "https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wpseo-woocommerce%2Fwpseo-woocommerce.php&_wpnonce=abc";
+
+		it( "asks in the panel to update an add-on whose version predates the tab, instead of upselling it", () => {
+			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
+
+			render( <ImageAltTextUpsell /> );
+
+			expect( screen.queryByRole( "heading", { name: /From flagged to fixed/ } ) ).not.toBeInTheDocument();
+			expect( screen.getByRole( "status" ) ).toHaveTextContent( "Your plugin needs an update" );
+			expect( screen.getByText( /please update Yoast WooCommerce SEO to the latest version/ ) ).toBeInTheDocument();
+			expect( screen.getByText( /Updates need an active Yoast WooCommerce SEO subscription in MyYoast/ ) ).toBeInTheDocument();
+
+			const link = screen.getByRole( "link", { name: /Update now/ } );
+			expect( link ).toHaveAttribute( "href", UPDATE_URL );
+			expect( link ).toHaveAttribute( "target", "_blank" );
+			expect( link ).toHaveAttribute( "rel", "noopener noreferrer" );
+		} );
+
+		it( "does not open a dialog, so keyboard users can move through the tabs", () => {
+			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
+
+			render( <ImageAltTextUpsell /> );
+
+			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
+		} );
+
+		it( "shows the notice without the upsell's dummy table", () => {
+			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
+
+			render( <ImageAltTextUpsell /> );
+
+			// The dummy table's first product; the notice's own icon is aria-hidden too, so check the content.
+			expect( screen.queryByText( "Classic Athletic Sneaker" ) ).not.toBeInTheDocument();
+		} );
+
+		it( "hides the update link from users who may not update plugins", () => {
+			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: "" } );
+
+			render( <ImageAltTextUpsell /> );
+
+			expect( screen.getByRole( "status" ) ).toHaveTextContent( "Your plugin needs an update" );
+			expect( screen.queryByRole( "link" ) ).not.toBeInTheDocument();
+		} );
+
+		it( "renders an empty panel on a supported version, whose own script fills the slot", () => {
+			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: true } );
+
+			const { container } = render( <ImageAltTextUpsell /> );
+
+			expect( container ).toBeEmptyDOMElement();
+		} );
 	} );
 } );
