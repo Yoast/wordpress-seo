@@ -1,5 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { createInterpolateElement, useCallback, useRef } from "@wordpress/element";
+import { useCallback, useRef } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Paper, SidebarNavigation, useBeforeUnload } from "@yoast/ui-library";
 import { OutboundLink } from "../shared-admin/components";
@@ -19,33 +20,30 @@ import { LEARN_MORE_LINK, PRODUCT_CONTENT_TYPE, STORE_NAME } from "./constants";
  */
 const getHeaderCopy = ( contentType, learnMoreLink ) => {
 	const label = contentType ? contentType.label : __( "Content", "wordpress-seo" );
-	const lowercaseLabel = label.toLowerCase();
 	const title = sprintf(
 		/* translators: %s expands to the content type label, e.g. "Pages". */
 		__( "Bulk editor: %s", "wordpress-seo" ),
 		label
 	);
+	const learnMoreLinkElement = <OutboundLink href={ learnMoreLink }>{ __( "Learn more about bulk editor features.", "wordpress-seo" ) }</OutboundLink>;
 
 	if ( contentType && contentType.id === PRODUCT_CONTENT_TYPE ) {
 		return {
 			title,
-			description: createInterpolateElement(
+			description: safeCreateInterpolateElement(
 				/* translators: <link/> expands to a "Learn more about bulk editor features." link. */
 				__( "The bulk editor enables you to make multiple changes across product catalogs. <link/>", "wordpress-seo" ),
-				{
-					link: <OutboundLink href={ learnMoreLink }>{ __( "Learn more about bulk editor features.", "wordpress-seo" ) }</OutboundLink>,
-				}
+				{ link: learnMoreLinkElement }
 			),
 		};
 	}
 
 	return {
 		title,
-		description: sprintf(
-			/* translators: %1$s and %2$s expand to the lowercase content type label, e.g. "pages". */
-			__( "The bulk editor for %1$s is a tool that you can use to quickly make changes to your search and social media appearance for multiple %2$s.", "wordpress-seo" ),
-			lowercaseLabel,
-			lowercaseLabel
+		description: safeCreateInterpolateElement(
+			/* translators: <link/> expands to a "Learn more about bulk editor features." link. */
+			__( "The bulk editor is a tool that you can use to quickly make changes to your search and social media appearance. <link/>", "wordpress-seo" ),
+			{ link: learnMoreLinkElement }
 		),
 	};
 };
