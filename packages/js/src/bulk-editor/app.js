@@ -20,12 +20,12 @@ import { LEARN_MORE_LINK, PRODUCT_CONTENT_TYPE, STORE_NAME } from "./constants";
  */
 const getHeaderCopy = ( contentType, learnMoreLink ) => {
 	const label = contentType ? contentType.label : __( "Content", "wordpress-seo" );
-	const lowercaseLabel = label.toLowerCase();
 	const title = sprintf(
 		/* translators: %s expands to the content type label, e.g. "Pages". */
 		__( "Bulk editor: %s", "wordpress-seo" ),
 		label
 	);
+	const learnMoreLinkElement = <OutboundLink href={ learnMoreLink }>{ __( "Learn more about bulk editor features.", "wordpress-seo" ) }</OutboundLink>;
 
 	if ( contentType && contentType.id === PRODUCT_CONTENT_TYPE ) {
 		return {
@@ -33,9 +33,7 @@ const getHeaderCopy = ( contentType, learnMoreLink ) => {
 			description: safeCreateInterpolateElement(
 				/* translators: <link/> expands to a "Learn more about bulk editor features." link. */
 				__( "The bulk editor enables you to make multiple changes across product catalogs. <link/>", "wordpress-seo" ),
-				{
-					link: <OutboundLink href={ learnMoreLink }>{ __( "Learn more about bulk editor features.", "wordpress-seo" ) }</OutboundLink>,
-				}
+				{ link: learnMoreLinkElement }
 			),
 		};
 	}
@@ -43,16 +41,9 @@ const getHeaderCopy = ( contentType, learnMoreLink ) => {
 	return {
 		title,
 		description: safeCreateInterpolateElement(
-			sprintf(
-				/* translators: %1$s and %2$s expand to the lowercase content type label, e.g. "pages".
-				<link/> expands to a "Learn more about bulk editor features." link. */
-				__( "The bulk editor for %1$s is a tool that you can use to quickly make changes to your search and social media appearance for multiple %2$s. <link/>", "wordpress-seo" ),
-				lowercaseLabel,
-				lowercaseLabel
-			),
-			{
-				link: <OutboundLink href={ learnMoreLink }>{ __( "Learn more about bulk editor features.", "wordpress-seo" ) }</OutboundLink>,
-			}
+			/* translators: <link/> expands to a "Learn more about bulk editor features." link. */
+			__( "The bulk editor is a tool that you can use to quickly make changes to your search and social media appearance. <link/>", "wordpress-seo" ),
+			{ link: learnMoreLinkElement }
 		),
 	};
 };
