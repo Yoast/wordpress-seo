@@ -3,16 +3,37 @@ import getAltAttribute from "../helpers/image/getAltAttribute";
 import getImageIdentifier from "../helpers/image/getImageIdentifier";
 
 /**
- * The number of characters up to which an alt text is considered too short.
+ * @typedef {import("../AbstractResearcher").default } Researcher
+ * @typedef {import("../../values/").Paper } Paper
+ */
+
+/**
+ * The number of characters up to which an alt text is considered too short, unless the language sets its own.
  * @type {number}
  */
 export const TOO_SHORT_BOUNDARY = 10;
 
 /**
- * The number of characters from which an alt text is considered too long.
+ * The number of characters from which an alt text is considered too long, unless the language sets its own.
  * @type {number}
  */
 export const TOO_LONG_BOUNDARY = 200;
+
+/**
+ * Returns the boundaries for the language of the researcher: its `altTextLength` config when it has one,
+ * the defaults above otherwise.
+ *
+ * @param {Researcher} researcher The researcher to read the language-specific config from.
+ *
+ * @returns {{tooShortBoundary: number, tooLongBoundary: number}} The character boundaries to use.
+ */
+export function getAltTextLengthBoundaries( researcher ) {
+	return {
+		tooShortBoundary: TOO_SHORT_BOUNDARY,
+		tooLongBoundary: TOO_LONG_BOUNDARY,
+		...researcher.getConfig( "altTextLength" ),
+	};
+}
 
 /**
  * Counts how many of the images in scope have an alt text that is too short or too long.
@@ -30,13 +51,17 @@ export const TOO_LONG_BOUNDARY = 200;
  * that carries neither an id nor a src cannot be pointed at and is left out. The counts stay authoritative for
  * the feedback string.
  *
- * @param {Paper} paper The paper to check for images.
+ * The boundaries depend on the language: see `getAltTextLengthBoundaries`.
+ *
+ * @param {Paper}      paper      The paper to check for images.
+ * @param {Researcher} researcher The researcher, for the language-specific boundaries.
  *
  * @returns {{tooShort: number, tooLong: number, flagged: Array<string|number>}} The number of images whose alt
  *                                                                              text is too short and too long,
  *                                                                              and the identifiers of those images.
  */
-export default function altTextLength( paper ) {
+export default function altTextLength( paper, researcher ) {
+	const { tooShortBoundary, tooLongBoundary } = getAltTextLengthBoundaries( researcher );
 	const result = {
 		tooShort: 0,
 		tooLong: 0,
@@ -50,9 +75,9 @@ export default function altTextLength( paper ) {
 			return;
 		}
 
-		if ( altText.length <= TOO_SHORT_BOUNDARY ) {
+		if ( altText.length <= tooShortBoundary ) {
 			result.tooShort++;
-		} else if ( altText.length >= TOO_LONG_BOUNDARY ) {
+		} else if ( altText.length >= tooLongBoundary ) {
 			result.tooLong++;
 		} else {
 			return;

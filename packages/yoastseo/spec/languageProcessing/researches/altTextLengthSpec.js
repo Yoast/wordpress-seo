@@ -21,6 +21,15 @@ const paperWithImages = ( altTexts ) => {
 };
 
 /**
+ * Runs the research with an English researcher, so the default boundaries apply.
+ *
+ * @param {Paper} paper The paper to run the research on.
+ *
+ * @returns {{tooShort: number, tooLong: number, flagged: Array<string|number>}} The research result.
+ */
+const research = ( paper ) => altTextLength( paper, new Researcher( paper ) );
+
+/**
  * Repeats "a" to build an alt text of an exact length.
  *
  * @param {number} length The number of characters the alt text should have.
@@ -31,18 +40,18 @@ const altTextOfLength = ( length ) => "a".repeat( length );
 
 describe( "a research that counts the images whose alt text is too short or too long", () => {
 	it( "counts no images when the paper has no images", () => {
-		expect( altTextLength( paperWithImages( [] ) ) ).toEqual( { tooShort: 0, tooLong: 0, flagged: [] } );
+		expect( research( paperWithImages( [] ) ) ).toEqual( { tooShort: 0, tooLong: 0, flagged: [] } );
 	} );
 
 	it( "does not count an image without alt text as too short", () => {
 		const paper = new Paper( "<img src='https://example.com/image.jpg' /><img src='https://example.com/image.jpg' alt='' />" );
 		buildTree( paper, new Researcher( paper ) );
 
-		expect( altTextLength( paper ) ).toEqual( { tooShort: 0, tooLong: 0, flagged: [] } );
+		expect( research( paper ) ).toEqual( { tooShort: 0, tooLong: 0, flagged: [] } );
 	} );
 
 	it( "does not count alt text that is only whitespace, because `getAltAttribute` strips it", () => {
-		expect( altTextLength( paperWithImages( [ "   " ] ) ) ).toEqual( { tooShort: 0, tooLong: 0, flagged: [] } );
+		expect( research( paperWithImages( [ "   " ] ) ) ).toEqual( { tooShort: 0, tooLong: 0, flagged: [] } );
 	} );
 
 	it.each( [
@@ -50,7 +59,7 @@ describe( "a research that counts the images whose alt text is too short or too 
 		[ 10, { tooShort: 1, tooLong: 0, flagged: [ src( 0 ) ] } ],
 		[ 11, { tooShort: 0, tooLong: 0, flagged: [] } ],
 	] )( "counts an alt text of %i characters at the lower boundary", ( length, expected ) => {
-		expect( altTextLength( paperWithImages( [ altTextOfLength( length ) ] ) ) ).toEqual( expected );
+		expect( research( paperWithImages( [ altTextOfLength( length ) ] ) ) ).toEqual( expected );
 	} );
 
 	it.each( [
@@ -58,13 +67,13 @@ describe( "a research that counts the images whose alt text is too short or too 
 		[ 200, { tooShort: 0, tooLong: 1, flagged: [ src( 0 ) ] } ],
 		[ 201, { tooShort: 0, tooLong: 1, flagged: [ src( 0 ) ] } ],
 	] )( "counts an alt text of %i characters at the upper boundary", ( length, expected ) => {
-		expect( altTextLength( paperWithImages( [ altTextOfLength( length ) ] ) ) ).toEqual( expected );
+		expect( research( paperWithImages( [ altTextOfLength( length ) ] ) ) ).toEqual( expected );
 	} );
 
 	it( "counts too short and too long images on the same page separately", () => {
 		const paper = paperWithImages( [ altTextOfLength( 5 ), altTextOfLength( 8 ), altTextOfLength( 250 ), altTextOfLength( 50 ) ] );
 
-		expect( altTextLength( paper ) ).toEqual( {
+		expect( research( paper ) ).toEqual( {
 			tooShort: 2,
 			tooLong: 1,
 			flagged: [ src( 0 ), src( 1 ), src( 2 ) ],
@@ -80,7 +89,7 @@ describe( "a research that counts the images whose alt text is too short or too 
 			],
 		} );
 
-		expect( altTextLength( paper ) ).toEqual( {
+		expect( research( paper ) ).toEqual( {
 			tooShort: 1,
 			tooLong: 1,
 			flagged: [ "https://example.com/featured.jpg", "https://example.com/gallery.jpg" ],
@@ -96,19 +105,19 @@ describe( "a research that counts the images whose alt text is too short or too 
 			],
 		} );
 
-		expect( altTextLength( paper ) ).toEqual( { tooShort: 1, tooLong: 1, flagged: [ 8, 12 ] } );
+		expect( research( paper ) ).toEqual( { tooShort: 1, tooLong: 1, flagged: [ 8, 12 ] } );
 	} );
 
 	it( "lists one identifier for images in the text that share a src, while still counting both", () => {
 		const paper = new Paper( "<img src='a.jpg' alt='short' /><img src='a.jpg' alt='tiny' />" );
 		buildTree( paper, new Researcher( paper ) );
 
-		expect( altTextLength( paper ) ).toEqual( { tooShort: 2, tooLong: 0, flagged: [ "a.jpg" ] } );
+		expect( research( paper ) ).toEqual( { tooShort: 2, tooLong: 0, flagged: [ "a.jpg" ] } );
 	} );
 
 	it( "counts nothing when the producer opts in with an empty list of provided images", () => {
 		const paper = new Paper( "<img src='https://example.com/in-text.jpg' alt='short' />", { providedImages: [] } );
 
-		expect( altTextLength( paper ) ).toEqual( { tooShort: 0, tooLong: 0, flagged: [] } );
+		expect( research( paper ) ).toEqual( { tooShort: 0, tooLong: 0, flagged: [] } );
 	} );
 } );

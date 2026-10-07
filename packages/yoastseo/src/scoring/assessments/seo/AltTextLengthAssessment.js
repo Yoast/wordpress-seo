@@ -4,7 +4,7 @@ import { merge } from "lodash";
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
-import { TOO_LONG_BOUNDARY, TOO_SHORT_BOUNDARY } from "../../../languageProcessing/researches/altTextLength";
+import { getAltTextLengthBoundaries } from "../../../languageProcessing/researches/altTextLength";
 
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
@@ -85,6 +85,8 @@ export default class AltTextLengthAssessment extends Assessment {
 		this.tooShortCount = tooShort;
 		this.tooLongCount = tooLong;
 		this.flagged = flagged;
+		// The same boundaries the research counted with, so the feedback names the limits that applied.
+		this.boundaries = getAltTextLengthBoundaries( researcher );
 
 		const assessmentResult = new AssessmentResult();
 
@@ -125,6 +127,7 @@ export default class AltTextLengthAssessment extends Assessment {
 		// Both are already anchor opening tags: the config wraps the URLs before they get here.
 		const urlTitleAnchorOpeningTag = this._config.urlTitle;
 		const urlActionAnchorOpeningTag = this._config.urlCallToAction;
+		const { tooShortBoundary, tooLongBoundary } = this.boundaries;
 
 		if ( this._config.callbacks.getResultTexts ) {
 			return this._config.callbacks.getResultTexts( {
@@ -133,8 +136,8 @@ export default class AltTextLengthAssessment extends Assessment {
 				tooShortCount: this.tooShortCount,
 				tooLongCount: this.tooLongCount,
 				// Handed over so a platform's own strings name the same limits without repeating the numbers.
-				tooShortBoundary: TOO_SHORT_BOUNDARY,
-				tooLongBoundary: TOO_LONG_BOUNDARY,
+				tooShortBoundary,
+				tooLongBoundary,
 			} );
 		}
 
@@ -153,7 +156,7 @@ export default class AltTextLengthAssessment extends Assessment {
 				urlActionAnchorOpeningTag,
 				"</a>",
 				this.tooShortCount,
-				TOO_SHORT_BOUNDARY
+				tooShortBoundary
 			),
 			tooLong: sprintf(
 				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
@@ -169,7 +172,7 @@ export default class AltTextLengthAssessment extends Assessment {
 				urlActionAnchorOpeningTag,
 				"</a>",
 				this.tooLongCount,
-				TOO_LONG_BOUNDARY
+				tooLongBoundary
 			),
 			both: sprintf(
 				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
@@ -186,8 +189,8 @@ export default class AltTextLengthAssessment extends Assessment {
 				urlActionAnchorOpeningTag,
 				"</a>",
 				this.tooLongCount + this.tooShortCount,
-				TOO_SHORT_BOUNDARY,
-				TOO_LONG_BOUNDARY
+				tooShortBoundary,
+				tooLongBoundary
 			),
 		};
 	}
