@@ -359,6 +359,14 @@ export function checkUrls( assessor, isECommerceAssessor = false ) {
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
+	test( "DuplicateAltText", () => {
+		const assessment = assessor.getAssessment( "duplicateAltText" );
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify-duplicate-alt-text" : "https://yoa.st/duplicate-alt-text";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify-duplicate-alt-text-cta" : "https://yoa.st/duplicate-alt-text-cta";
+
+		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
+	} );
+
 	test( "ImageKeyphrase", () => {
 		const assessment = assessor.getAssessment( "imageKeyphrase" );
 		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify22" : "https://yoa.st/4f7";
