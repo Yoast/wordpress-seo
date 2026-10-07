@@ -437,6 +437,8 @@ Two entries count as the same image, not as a duplicate, when they have the same
 
 X is the number of images that share their alt text with at least one other image. For example, three images with the same alt text count as 3.
 
+**Flagged items**: the result names the flagged images in `flaggedItems`, by their `id`, else their `src`. An image with neither is counted but not named.
+
 **When it applies**: Only when at least two different assessed images share the same alt text. There is no green traffic light: "all your images have unique alt text" would be misleading when some or all alt texts are empty. When nothing is flagged the assessment returns a result without a score and without a text, which `Assessor.isValidResult` drops, and the assessment is not shown at all.
 
 **Name in code**: DuplicateAltTextAssessment

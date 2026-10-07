@@ -11,12 +11,13 @@ const actionAnchor = "<a href='https://yoa.st/duplicate-alt-text-cta' target='_b
  *
  * @param {number} duplicateCount The number of images that share their alt text with another image.
  * @param {DuplicateAltTextAssessment} [assessmentToRun] The assessment to run.
+ * @param {Array<string|number>} [flagged] The identifiers of those images.
  *
  * @returns {AssessmentResult} The result of the assessment.
  */
-const getResult = ( duplicateCount, assessmentToRun = assessment ) => assessmentToRun.getResult(
+const getResult = ( duplicateCount, assessmentToRun = assessment, flagged = [] ) => assessmentToRun.getResult(
 	new Paper( "" ),
-	Factory.buildMockResearcher( { duplicateAltText: duplicateCount }, true )
+	Factory.buildMockResearcher( { duplicateAltText: { count: duplicateCount, flagged } }, true )
 );
 
 describe( "an assessment for alt text shared by different images", () => {
@@ -39,6 +40,14 @@ describe( "an assessment for alt text shared by different images", () => {
 
 	it( "reports the number of images it is given", () => {
 		expect( getResult( 5 ).getText() ).toContain( "5 of your images share the same alt text with another image." );
+	} );
+
+	it( "names the flagged images in the result", () => {
+		expect( getResult( 2, assessment, [ 11, "https://example.com/b.jpg" ] ).getFlaggedItems() ).toEqual( [ 11, "https://example.com/b.jpg" ] );
+	} );
+
+	it( "names no images when nothing is flagged", () => {
+		expect( getResult( 0, assessment, [ 11 ] ).getFlaggedItems() ).toEqual( [] );
 	} );
 
 	it( "uses the score from the config", () => {

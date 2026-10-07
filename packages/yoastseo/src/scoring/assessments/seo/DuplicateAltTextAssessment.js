@@ -64,6 +64,8 @@ export default class DuplicateAltTextAssessment extends Assessment {
 	/**
 	 * Executes the Assessment and returns a result.
 	 *
+	 * The result names the flagged images in `flaggedItems`, so a platform can point the user to them.
+	 *
 	 * Returns an empty result — no score and no text — when no two different images share their alt text.
 	 * `Assessor.isValidResult` drops a result without a score and a text, so the assessment is not shown. There is
 	 * no green result: "all your images have unique alt text" would be misleading when some alt texts are empty.
@@ -74,7 +76,8 @@ export default class DuplicateAltTextAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher ) {
-		this.duplicateCount = researcher.getResearch( "duplicateAltText" );
+		const { count, flagged } = researcher.getResearch( "duplicateAltText" );
+		this.duplicateCount = count;
 
 		const assessmentResult = new AssessmentResult();
 
@@ -83,6 +86,7 @@ export default class DuplicateAltTextAssessment extends Assessment {
 		}
 
 		assessmentResult.setScore( this._config.scores.okay );
+		assessmentResult.setFlaggedItems( flagged );
 		assessmentResult.setText( this.getFeedbackStrings().duplicate );
 
 		return assessmentResult;
