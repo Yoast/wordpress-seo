@@ -101,6 +101,25 @@ class KeyphraseDensityAssessment extends Assessment {
 	}
 
 	/**
+	 * Counts the number of characters in the text, for languages that measure the text length in characters.
+	 *
+	 * @param {Paper} paper The paper to count the characters of.
+	 * @param {Researcher} researcher The researcher used for retrieving the helpers.
+	 *
+	 * @returns {number} The number of characters in the text, or the text length in words when the helpers are unavailable.
+	 */
+	getCharacterCount( paper, researcher ) {
+		const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
+		const wordsCharacterCount = researcher.getHelper( "wordsCharacterCount" );
+
+		if ( ! getWordsCustomHelper || ! wordsCharacterCount ) {
+			return this._textLength;
+		}
+
+		return wordsCharacterCount( getWordsCustomHelper( paper.getText() ) );
+	}
+
+	/**
 	 * Runs the keyphrase density module, based on this returns an assessment
 	 * result with a score.
 	 *
@@ -122,20 +141,20 @@ class KeyphraseDensityAssessment extends Assessment {
 			this._keyphraseDensityResult = researcher.getResearch( "getKeyphraseDensity" );
 			this._textLength = this._keyphraseDensityResult.textLength;
 			assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
-			if ( this._textLength < 100 ) {
+
+			/*
+			 * Languages like Japanese measure the length of a text in characters instead of words, so they need their own
+			 * boundaries. The character boundaries are twice the word boundaries used for the other languages.
+			 */
+			const countsCharacters = !! researcher.getConfig( "countCharacters" );
+			const shortTextLength = countsCharacters ? this.getCharacterCount( paper, researcher ) : this._textLength;
+			const shortTextBoundary = countsCharacters ? 200 : 100;
+			const singleOccurrenceBoundary = countsCharacters ? 100 : 50;
+
+			if ( shortTextLength < shortTextBoundary ) {
 				// Calculate the score for short texts.
 				this._minRecommendedKeyphraseCount = 1;
-				this._maxRecommendedKeyphraseCount = this._textLength > 50 ? 2 : 1;
-				calculatedScore = this.calculateResultShortText();
-				// Calculate the score for short texts in Japanese
-				const matchWordCustomHelper = researcher.getHelper("matchWordCustomHelper");
-				if ( matchWordCustomHelper ) {
-					const customTextLength = researcher.getHelper("wordsCharacterCount");
-					if ( matchWordCustomHelper && customTextLength < 50 ) {
-						this._minRecommendedKeyphraseCount = 1;
-						this._maxRecommendedKeyphraseCount > 25 ? 2 : 1;
-					}
-				}
+				this._maxRecommendedKeyphraseCount = shortTextLength > singleOccurrenceBoundary ? 2 : 1;
 				calculatedScore = this.calculateResultShortText();
 			} else {
 				// Calculate the score for long texts.

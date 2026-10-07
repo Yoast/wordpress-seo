@@ -338,7 +338,7 @@ describe( "Tests for the keyphrase density assessment for short texts", function
 	} );
 	// Tests for the keyphrase density for short texts in Japanese
 	it( "gives a GOOD result for a text shorter than 101 characters when the keyphrase is found once", function() {
-		const paper = new Paper( nonkeyword.repeat( 80 ) + keyword.repeat( 1 ), { keyword: "keyword", locale: "ja_JA" } );
+		const paper = new Paper( nonkeyword.repeat( 9 ) + keyword.repeat( 1 ), { keyword: "keyword", locale: "ja_JA" } );
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
@@ -348,7 +348,7 @@ describe( "Tests for the keyphrase density assessment for short texts", function
 		expect( result.hasAIFixes() ).toBeFalsy();
 	} );
 	it( "gives a BAD result for a text shorter than 101 characters when the keyphrase is found twice", function() {
-		const paper = new Paper( nonkeyword.repeat( 75 ) + keyword.repeat( 2 ), { keyword: "keyword", locale: "ja_JA" } );
+		const paper = new Paper( nonkeyword.repeat( 8 ) + keyword.repeat( 2 ), { keyword: "keyword", locale: "ja_JA" } );
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
@@ -359,7 +359,7 @@ describe( "Tests for the keyphrase density assessment for short texts", function
 		expect( result.hasAIFixes() ).toBeFalsy();
 	} );
 	it( "gives a BAD result for a text shorter than 101 characters when the keyphrase is found three times", function() {
-		const paper = new Paper( nonkeyword.repeat( 50 ) + keyword.repeat( 3 ), { keyword: "keyword", locale: "ja_JA" } );
+		const paper = new Paper( nonkeyword.repeat( 7 ) + keyword.repeat( 3 ), { keyword: "keyword", locale: "ja_JA" } );
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
@@ -370,7 +370,7 @@ describe( "Tests for the keyphrase density assessment for short texts", function
 		expect( result.hasAIFixes() ).toBeFalsy();
 	} );
 	it( "gives a GOOD result for a text between 101 and 199 characters when the keyphrase is found once", function() {
-		const paper = new Paper( nonkeyword.repeat( 150 ) + keyword.repeat( 1 ), { keyword: "keyword", locale: "ja_JA" } );
+		const paper = new Paper( nonkeyword.repeat( 15 ) + keyword.repeat( 1 ), { keyword: "keyword", locale: "ja_JA" } );
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
@@ -380,7 +380,7 @@ describe( "Tests for the keyphrase density assessment for short texts", function
 		expect( result.hasAIFixes() ).toBeFalsy();
 	} );
 	it( "gives a GOOD result for a text between 101 and 199 characters when the keyphrase is found twice", function() {
-		const paper = new Paper( nonkeyword.repeat( 50 ) + keyword.repeat( 2 ), { keyword: "keyword", locale: "ja_JA" } );
+		const paper = new Paper( nonkeyword.repeat( 15 ) + keyword.repeat( 2 ), { keyword: "keyword", locale: "ja_JA" } );
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
@@ -390,7 +390,7 @@ describe( "Tests for the keyphrase density assessment for short texts", function
 		expect( result.hasAIFixes() ).toBeFalsy();
 	} );
 	it( "gives a BAD result for a text between 101 and 199 characters when the keyphrase is found three times", function() {
-		const paper = new Paper( nonkeyword.repeat( 175 ) + keyword.repeat( 3 ), { keyword: "keyword", locale: "ja_JA" } );
+		const paper = new Paper( nonkeyword.repeat( 17 ) + keyword.repeat( 3 ), { keyword: "keyword", locale: "ja_JA" } );
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
@@ -401,7 +401,7 @@ describe( "Tests for the keyphrase density assessment for short texts", function
 		expect( result.hasAIFixes() ).toBeFalsy();
 	} );
 	it( "gives a BAD result for a text between 101 and 199 characters when the keyphrase is found four times", function() {
-		const paper = new Paper( nonkeyword.repeat( 170 ) + keyword.repeat( 4 ), { keyword: "keyword", locale: "ja_JA" } );
+		const paper = new Paper( nonkeyword.repeat( 17 ) + keyword.repeat( 4 ), { keyword: "keyword", locale: "ja_JA" } );
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
@@ -412,7 +412,7 @@ describe( "Tests for the keyphrase density assessment for short texts", function
 		expect( result.hasAIFixes() ).toBeFalsy();
 	} );
 	it( "gives a BAD result when the keyphrase is not found", function() {
-		const paper = new Paper( nonkeyword.repeat( 101 ), { keyword: "keyword", locale: "ja_JA" } );
+		const paper = new Paper( nonkeyword.repeat( 10 ), { keyword: "keyword", locale: "ja_JA" } );
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
