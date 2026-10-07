@@ -9,10 +9,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Infrastructure\Elements_Cont
  * @covers \Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Elements_Context_Map\Elements_Context_Map_Repository::get_map
  *
  * @group schema-aggregator
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Map_Test extends Abstract_Elements_Context_Map_Repository_Test {
+final class Get_Map_Test extends Abstract_Test {
 
 	/**
 	 * Tests that get_map loads the map from the loader on first call.

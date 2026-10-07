@@ -13,10 +13,8 @@ use Mockery;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Get_Outline_Route::register_routes
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Register_Routes_Test extends Abstract_Get_Outline_Route_Test {
+final class Register_Routes_Test extends Abstract_Test {
 
 	/**
 	 * Tests that register_routes registers the expected route configuration.

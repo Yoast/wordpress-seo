@@ -13,7 +13,7 @@ use Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Handler;
  *
  * @covers \Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Handler::start
  */
-final class Start_Test extends Abstract_Free_Sparks_Handler_Test {
+final class Start_Test extends Abstract_Test {
 
 	/**
 	 * Tests start now (no timestamp given).

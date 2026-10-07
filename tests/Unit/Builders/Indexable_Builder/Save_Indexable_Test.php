@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Builder_Double;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Indexable_Helper
  */
-final class Save_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
+final class Save_Indexable_Test extends Abstract_TestCase {
 
 	/**
 	 * Sets up the test.
@@ -36,6 +36,7 @@ final class Save_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
 			$this->indexable_helper,
 			$this->version_manager,
 			$this->link_builder,
+			$this->logger,
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -44,7 +45,7 @@ final class Save_Indexable_Test extends Abstract_Indexable_Builder_TestCase {
 	/**
 	 * Provider for testing save_indexable method.
 	 *
-	 * @return array The test data.
+	 * @return array<string, array<string, Indexable|null>> The test data.
 	 */
 	public static function save_indexable_provider() {
 		$before = Mockery::mock( Indexable::class );

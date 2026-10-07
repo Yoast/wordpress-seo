@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Posts\Posts_Collector_Interface;
 use Yoast\WP\SEO\Bulk_Editor\Application\Posts\Posts_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -80,23 +82,43 @@ class Posts_Route implements Route_Interface {
 	private $user_helper;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
+	 * The post type helper.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Posts_Repository                      $posts_repository            The posts repository.
 	 * @param Content_Types_Repository              $content_types_repository    The content types repository.
 	 * @param Content_Type_Access_Checker_Interface $content_type_access_checker The content type access checker.
 	 * @param User_Helper                           $user_helper                 The user helper.
+	 * @param Options_Helper                        $options_helper              The options helper.
+	 * @param Post_Type_Helper                      $post_type_helper            The post type helper.
 	 */
 	public function __construct(
 		Posts_Repository $posts_repository,
 		Content_Types_Repository $content_types_repository,
 		Content_Type_Access_Checker_Interface $content_type_access_checker,
-		User_Helper $user_helper
+		User_Helper $user_helper,
+		Options_Helper $options_helper,
+		Post_Type_Helper $post_type_helper
 	) {
 		$this->posts_repository            = $posts_repository;
 		$this->content_types_repository    = $content_types_repository;
 		$this->content_type_access_checker = $content_type_access_checker;
 		$this->user_helper                 = $user_helper;
+		$this->options_helper              = $options_helper;
+		$this->post_type_helper            = $post_type_helper;
 	}
 
 	/**
@@ -111,13 +133,13 @@ class Posts_Route implements Route_Interface {
 			[
 				'methods'             => 'GET',
 				'args'                => [
-					'content_type' => [
+					'content_type'      => [
 						'required'          => true,
 						'type'              => 'string',
 						'description'       => 'The content type to fetch posts for.',
 						'sanitize_callback' => 'sanitize_text_field',
 					],
-					'per_page'     => [
+					'per_page'          => [
 						'required'          => false,
 						'type'              => 'integer',
 						'default'           => self::DEFAULT_PER_PAGE,
@@ -126,7 +148,7 @@ class Posts_Route implements Route_Interface {
 						'description'       => 'The number of posts to fetch.',
 						'sanitize_callback' => 'absint',
 					],
-					'page'         => [
+					'page'              => [
 						'required'          => false,
 						'type'              => 'integer',
 						'default'           => 1,
@@ -134,14 +156,14 @@ class Posts_Route implements Route_Interface {
 						'description'       => 'The page of posts to fetch.',
 						'sanitize_callback' => 'absint',
 					],
-					'search'       => [
+					'search'            => [
 						'required'          => false,
 						'type'              => 'string',
 						'default'           => '',
 						'description'       => 'The term to search posts by.',
 						'sanitize_callback' => 'sanitize_text_field',
 					],
-					'status'       => [
+					'status'            => [
 						'required'    => false,
 						'type'        => 'array',
 						'default'     => Posts_Collector_Interface::STATUSES,
@@ -150,6 +172,27 @@ class Posts_Route implements Route_Interface {
 							'enum' => Posts_Collector_Interface::STATUSES,
 						],
 						'description' => 'The post statuses to include.',
+					],
+					'needs_improvement' => [
+						'required'    => false,
+						'type'        => 'array',
+						'default'     => [],
+						'items'       => [
+							'type' => 'string',
+							'enum' => Posts_Collector_Interface::NEEDS_IMPROVEMENT_FIELDS,
+						],
+						'description' => 'The fields to filter posts by; a field matches when it is empty, or (for search fields, while SEO analysis is enabled and the content type shows Yoast\'s controls and assessments) when its score needs improvement.',
+					],
+					'include'           => [
+						'required'    => false,
+						'type'        => 'array',
+						'default'     => [],
+						'maxItems'    => self::MAX_PER_PAGE,
+						'items'       => [
+							'type'    => 'integer',
+							'minimum' => 1,
+						],
+						'description' => 'Limits the posts to these post IDs, e.g. a selection carried over from the posts overview.',
 					],
 				],
 				'callback'            => [ $this, 'get_posts' ],
@@ -189,6 +232,15 @@ class Posts_Route implements Route_Interface {
 			$author_id = $this->user_helper->get_current_user_id();
 		}
 
+		// The per-field scores only back the filter while SEO analysis is on globally and the content type
+		// shows Yoast's controls and assessments; otherwise they go stale and the filter falls back to the
+		// empty-field check.
+		$scores_enabled = $this->options_helper->get( 'keyword_analysis_active' ) === true
+			&& $this->post_type_helper->has_metabox( $content_type );
+
+		// The schema already coerces the items to positive integers; deduplicate on top of that.
+		$include = \array_values( \array_unique( \array_map( 'intval', (array) $request->get_param( 'include' ) ) ) );
+
 		$query = new Posts_Query(
 			$content_type,
 			(int) $request->get_param( 'page' ),
@@ -196,6 +248,9 @@ class Posts_Route implements Route_Interface {
 			(string) $request->get_param( 'search' ),
 			$statuses,
 			$author_id,
+			(array) $request->get_param( 'needs_improvement' ),
+			$scores_enabled,
+			$include,
 		);
 
 		// Posts the current user cannot edit are returned locked and without their SEO data; the per-post

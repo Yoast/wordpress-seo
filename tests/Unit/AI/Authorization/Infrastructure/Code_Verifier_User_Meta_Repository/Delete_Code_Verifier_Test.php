@@ -12,7 +12,7 @@ use Brain\Monkey;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::delete_code_verifier
  */
-final class Delete_Code_Verifier_Test extends Abstract_Code_Verifier_User_Meta_Repository_Test {
+final class Delete_Code_Verifier_Test extends Abstract_Test {
 
 	/**
 	 * Tests the delete_code_verifier.

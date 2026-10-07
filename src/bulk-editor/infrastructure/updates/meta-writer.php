@@ -65,26 +65,50 @@ class Meta_Writer implements Meta_Writer_Interface {
 	 * Writes the focus keyphrase for a post. The focus keyphrase is channel-agnostic,
 	 * so it does not depend on the update type.
 	 *
+	 * Returns the sanitized value that was actually stored, so callers can detect
+	 * when the input was silently altered (e.g. HTML stripped by sanitize_text_field).
+	 *
 	 * @param int    $post_id         The ID of the post.
 	 * @param string $focus_keyphrase The focus keyphrase to write.
 	 *
+	 * @return string The sanitized focus keyphrase that was persisted.
+	 */
+	public function write_focus_keyphrase( int $post_id, string $focus_keyphrase ): string {
+		return $this->write( 'focuskw', $post_id, $focus_keyphrase );
+	}
+
+	/**
+	 * Writes a per-field score for a post.
+	 *
+	 * The score is routed through the same sanitization as a normal post save, which clamps it to a
+	 * 0-100 integer.
+	 *
+	 * @param int    $post_id The ID of the post.
+	 * @param string $key     The score meta key (without prefix) to write.
+	 * @param int    $score   The 0-100 score to write.
+	 *
 	 * @return void
 	 */
-	public function write_focus_keyphrase( int $post_id, string $focus_keyphrase ): void {
-		$this->write( 'focuskw', $post_id, $focus_keyphrase );
+	public function write_score( int $post_id, string $key, int $score ): void {
+		$this->write( $key, $post_id, (string) $score );
 	}
 
 	/**
 	 * Sanitizes and persists a value under the given meta key.
 	 *
+	 * Returns the sanitized value so callers that need the stored value (e.g. to echo
+	 * it back in the REST response) do not have to re-read from the database.
+	 *
 	 * @param string $key     The meta key (without prefix) to store the value under.
 	 * @param int    $post_id The ID of the post.
 	 * @param string $value   The value to write.
 	 *
-	 * @return void
+	 * @return string The sanitized value that was persisted.
 	 */
-	private function write( string $key, int $post_id, string $value ): void {
-		$this->meta_helper->set_value( $key, $this->sanitize( $key, $value ), $post_id );
+	private function write( string $key, int $post_id, string $value ): string {
+		$sanitized = $this->sanitize( $key, $value );
+		$this->meta_helper->set_value( $key, $sanitized, $post_id );
+		return $sanitized;
 	}
 
 	/**

@@ -13,7 +13,7 @@ use Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint;
  *
  * @covers \Yoast\WP\SEO\Routes\Endpoint\Endpoint_List::add_endpoint
  */
-final class Add_Endpoint_Test extends Abstract_Endpoint_List_Test {
+final class Add_Endpoint_Test extends Abstract_Test {
 
 	/**
 	 * Tests the add_endpoint method.

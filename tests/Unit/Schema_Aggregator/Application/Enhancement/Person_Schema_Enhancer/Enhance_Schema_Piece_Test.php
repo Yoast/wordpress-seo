@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Schema_Aggregator\Person_Schema_Enhancer_Dou
  *
  * @group schema-aggregator
  */
-final class Enhance_Schema_Piece_Test extends Abstract_Person_Schema_Enhancer_Test {
+final class Enhance_Schema_Piece_Test extends Abstract_Test {
 
 	/**
 	 * The Person_Schema_Enhancer_Double

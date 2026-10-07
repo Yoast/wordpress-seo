@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Surfaces\Meta_Surface;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Description_Adapter::__construct
  */
-final class Constructor_Test extends Abstract_Description_Adapter_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

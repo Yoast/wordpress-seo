@@ -13,7 +13,7 @@ use Brain\Monkey;
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Xml_Manager::invalidate
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Xml_Manager::get_cache_key
  */
-final class Invalidate_Test extends Abstract_Xml_Manager_Test {
+final class Invalidate_Test extends Abstract_Test {
 
 	/**
 	 * Tests invalidate() deletes cache successfully.

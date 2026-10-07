@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Loggers\Logger;
  *
  * @covers \Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::__construct
  */
-final class Constructor_Test extends Abstract_Consent_Route_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

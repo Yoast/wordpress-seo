@@ -7,18 +7,19 @@ This library can generate metrics about a text and assess these metrics to give 
 ![Screenshot of the assessment of the given text](images/assessments.png)
 
 ## Documentation
-* A high-level [architecture overview](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/OVERVIEW.md) of the package.
-* A [glossary](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/GLOSSARY.md) of the core domain concepts (Paper, Assessor, Researcher, etc.).
-* A list of all the [assessors](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessors/ASSESSORS%20OVERVIEW.md)
+* A high-level [architecture overview](docs/OVERVIEW.md) of the package.
+* A [glossary](docs/GLOSSARY.md) of the core domain concepts (Paper, Assessor, Researcher, etc.).
+* A list of all the [assessors](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessors/ASSESSORS%20OVERVIEW.md).
 * Information on the [scoring system of the assessments](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/README.md)
   * [SEO analysis scoring](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20SEO.md)
   * [Readability analysis scoring](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md)
   * [Inclusive language analysis scoring](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20INCLUSIVE%20LANGUAGE.md)
   * [How keyphrase matching works](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/KEYPHRASE%20MATCHING.md)
   * [Scoring on taxonomy pages](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/scoring/assessments/SCORING%20TAXONOMY.md)
-* The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/docs/Customization.md).
-* Information on the design decisions within the package can be found [here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/DESIGN%20DECISIONS.md).
-* Information on how morphology works in `yoastseo` package can be found [here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/MORPHOLOGY.md).
+* The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, check out the [customization documentation](docs/Customization.md).
+* Information on the design decisions within the package can be found [here](docs/DESIGN%20DECISIONS.md).
+* Information on how morphology works in `yoastseo` package can be found [here](docs/MORPHOLOGY.md).
+* The [serializable contract](docs/CONTRACT.md) (`yoastseo/contract`) that lets non-WordPress consumers exchange a `PaperDto` input and `ResultDto` output with the engine.
 
 ## Installation
 You can install YoastSEO.js using npm:
@@ -39,14 +40,15 @@ You can either use YoastSEO.js using the web worker API or use the internal comp
 
 ### Entry points
 
-The package exposes two supported public entry points:
+The package exposes three supported public entry points:
 
-| Import | Provides | Use it for |
-| --- | --- | --- |
-| `yoastseo` | The core analysis library: `Paper`, the assessors, the web-worker API (`AnalysisWebWorker`, `AnalysisWorkerWrapper`), `AbstractResearcher`, `helpers`, and related building blocks. | Orchestrating analysis. |
-| `yoastseo/researcher` | A `getResearcher( language )` factory that returns the language-specific `Researcher` **class** (falling back to the default, language-agnostic Researcher for unsupported languages). | Resolving a per-language Researcher (Node, custom bundlers, web workers). |
+| Import                | Provides                                                                                                                                                                               | Use it for                                                                                                                      |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `yoastseo`            | The core analysis library: `Paper`, the assessors, the web-worker API (`AnalysisWebWorker`, `AnalysisWorkerWrapper`), `AbstractResearcher`, `helpers`, and related building blocks.    | Orchestrating analysis.                                                                                                         |
+| `yoastseo/researcher` | A `getResearcher( language )` factory that returns the language-specific `Researcher` **class** (falling back to the default, language-agnostic Researcher for unsupported languages). | Resolving a per-language Researcher (Node, custom bundlers, web workers).                                                       |
+| `yoastseo/contract`   | The serializable input/output contract: `toPaper`/`paperDtoSchema` and `toResultDto`/`resultDtoSchema`, for validating and mapping analysis input and output.                           | Exchanging documented, serializable shapes with the engine from non-WordPress consumers. See [`CONTRACT.md`](docs/CONTRACT.md). |
 
-> **Why two entry points?** The split is intentional. Each language `Researcher` transitively pulls in that language's data — function words, stemmers, transition words, and so on. Re-exporting the factory from the package root would bundle *every* language (~2.4 MB) into whatever bundle imports the root. That especially hurts consumers that load `yoastseo` as a bundler **external** — where the package root is provided once as a shared global (or shared chunk) rather than bundled into each consumer. (Yoast SEO for WordPress does this, exposing the root as the `window.yoast.analysis` global, but any webpack/Rollup setup can configure `yoastseo` as an external the same way.) Keeping `getResearcher` on its own entry keeps that shared root lean and lets consumers load only the languages they need.
+> **Why separate entry points?** The split is intentional. Each language `Researcher` transitively pulls in that language's data — function words, stemmers, transition words, and so on. Re-exporting the factory from the package root would bundle *every* language (~2.4 MB) into whatever bundle imports the root. That especially hurts consumers that load `yoastseo` as a bundler **external** — where the package root is provided once as a shared global (or shared chunk) rather than bundled into each consumer. (Yoast SEO for WordPress does this, exposing the root as the `window.yoast.analysis` global, but any webpack/Rollup setup can configure `yoastseo` as an external the same way.) Keeping `getResearcher` on its own entry keeps that shared root lean and lets consumers load only the languages they need. The `yoastseo/contract` entry follows the same principle: it isolates the contract's runtime dependency (`zod`) so only consumers that import the contract pay for it, keeping the shared root free of it.
 >
 > Deep imports such as `yoastseo/build/...` and `yoastseo/src/...` reach internal modules. They work, but they are implementation details — not part of the supported surface — so prefer the entry points above.
 
@@ -112,7 +114,7 @@ There is also a more involved example [over here](https://github.com/Yoast/wordp
 
 ### Usage of internal components
 
-If you want to have a more bare-bones API, or are in an environment without access to Web Worker you can use the internal objects:
+If you want to have a more bare-bones API or are in an environment without access to Web Worker, you can use the internal objects:
 
 ```js
 import { AbstractResearcher, Paper } from "yoastseo";
@@ -127,28 +129,38 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 
 There is a basic example of this setup [over here](https://github.com/Yoast/wordpress-seo/tree/trunk/apps/content-analysis-api).
 
-### Serializable input contract (`yoastseo/contract`)
+#### Running a single assessment
 
-Non-WordPress consumers (a web API, the Shopify app, the Google Docs extension, …) can send a documented, serializable input shape — a `PaperDTO` — instead of constructing a `Paper` by hand. The contract is a separate, opt-in entry point, so its validation dependency is only loaded by consumers that import it; the package root is unaffected.
+If you only need the result of **one** assessment, use `runAssessment` instead of constructing an assessor. It runs the single-assessment slice of `Assessor.assess()`: it wires the researcher to the paper, builds the HTML tree when one is needed (so tree-dependent assessments such as text length or keyphrase density work, not just data-only ones), gates on applicability, stamps the result identifier, and isolates errors to a `-1` result.
 
 ```js
-import { toPaper } from "yoastseo/contract";
+import { Paper, runAssessment, assessments } from "yoastseo";
+import getResearcher from "yoastseo/researcher";
 
-// `toPaper` validates the input and returns an engine `Paper`.
-const paper = toPaper( {
-    text: "Text to analyze",
-    keyphrase: "analyze",
-    locale: "en_US",
+// 1. Construct the assessment with its (optional) config.
+const textLength = new assessments.seo.TextLengthAssessment();
+
+// 2. Build the Paper to analyze. (Pass `productData` here for the e-commerce assessments.)
+const paper = new Paper( "Text to analyze", {
+    keyword: "analyze",
 } );
 
-// `paper` can now be passed to `worker.analyze( paper )` or `assessor.assess( paper )`.
+// 3. Resolve a language Researcher and instantiate it. One is required even for
+//    assessments that don't read it, because building the tree needs its language data.
+const EnglishResearcher = getResearcher( "en" );
+const researcher = new EnglishResearcher();
+
+// 4. Run the assessment.
+const result = runAssessment( textLength, paper, researcher );
+
+if ( result === null ) {
+    // The assessment was not applicable to this paper and was skipped.
+} else {
+    console.log( result.getScore(), result.getText() );
+}
 ```
 
-Notes:
-- **Covers the analysis inputs.** The neutral core is `text`, `keyphrase`, `synonyms`, `locale`, `description`, `title`, `slug`, `permalink`, `titleWidth`, `textTitle`, `date`, `writingDirection`, and an opaque `customData` object. The contract also carries optional, **deprecated** WordPress-transitional fields (`wpBlocks`, `shortcodes`, `isFrontPage`): they are real analysis inputs that change WordPress scores, so a remote/API analysis needs them to reproduce in-browser results. They are marked deprecated. Non-WordPress consumers simply omit them.
-- **`keyphrase` is the canonical field name.** `keyword` is accepted as a deprecated alias, so existing consumers can adopt the contract without renaming.
-- **Validation.** `toPaper` throws on structurally invalid input (wrong types, unknown keys). Omitting an optional field is fine — the assessments that need it are simply skipped, matching the engine's existing behaviour.
-- **Custom analysis.** A consumer that registers its own analysis (e.g., assessments, researcher) can pass their inputs through the opaque `customData` object. Its contents are not validated, so the consumer's own analysis is responsible for reading and validating them.
+For a data-only assessment that does not read the tree, pass `{ buildTree: false }` as the fourth argument to skip the tree-build cost.
 
 ## Supported languages
 
@@ -205,7 +217,7 @@ The inclusive language analysis is currently available in English.
 
 ## Change log
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Testing
 
@@ -271,7 +283,7 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security related issues, please email security [at] yoast.com instead of using the issue tracker.
+If you discover any security-related issues, please email security [at] yoast.com instead of using the issue tracker.
 
 ## Credits
 
@@ -280,4 +292,4 @@ If you discover any security related issues, please email security [at] yoast.co
 
 ## License
 
-We follow the GPL. Please see [License](LICENSE) file for more information.
+We follow the GPL. Please see [the License](LICENSE) file for more information.

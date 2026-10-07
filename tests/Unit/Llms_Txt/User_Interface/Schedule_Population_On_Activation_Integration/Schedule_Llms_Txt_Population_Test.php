@@ -13,7 +13,7 @@ use Brain\Monkey;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Schedule_Population_On_Activation_Integration::schedule_llms_txt_population
  */
-final class Schedule_Llms_Txt_Population_Test extends Abstract_Schedule_Population_On_Activation_Integration_Test {
+final class Schedule_Llms_Txt_Population_Test extends Abstract_Test {
 
 	/**
 	 * Tests the toggle schedule_llms_txt_population functionality with the feature enabled.

@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\User_Interface\Cleanup_Llms_Txt_On_De
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Cleanup_Llms_Txt_On_Deactivation::maybe_remove_llms_file
  */
-final class Maybe_Remove_Llms_File_Test extends Abstract_Cleanup_Llms_Txt_On_Deactivation_Test {
+final class Maybe_Remove_Llms_File_Test extends Abstract_Test {
 
 	/**
 	 * Tests the registration of the hooks.

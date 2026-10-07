@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Domain\Token;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Domain\Token::is_expired
  */
-final class Is_Expired_Test extends Abstract_Token_Test {
+final class Is_Expired_Test extends Abstract_Test {
 
 	/**
 	 * Test is_expired method.

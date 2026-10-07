@@ -12,10 +12,8 @@ use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command_Handler;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Get_Outline_Route::__construct
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Constructor_Test extends Abstract_Get_Outline_Route_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

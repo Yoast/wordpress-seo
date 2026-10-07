@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Terms_Collector;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Link_Lists_Builder::__construct
  */
-final class Constructor_Test extends Abstract_Link_Lists_Builder_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
  *
  * @group schema-aggregator
  */
-final class Filter_Test extends Abstract_Default_Filter_Test {
+final class Filter_Test extends Abstract_Test {
 
 	/**
 	 * Tests the filter method of Default_Filter.

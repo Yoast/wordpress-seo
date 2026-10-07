@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Infrastructure\Schema_Aggreg
  *
  * @covers \Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Watcher::register_hooks
  */
-final class Register_Hooks_Test extends Abstract_Schema_Aggregator_Watcher_Test {
+final class Register_Hooks_Test extends Abstract_Test {
 
 	/**
 	 * Tests the registration of the hooks.

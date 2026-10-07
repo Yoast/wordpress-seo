@@ -15,7 +15,7 @@ use WP_User;
  *
  * @covers \Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::check_permissions
  */
-final class Check_Permissions_Test extends Abstract_Consent_Route_Test {
+final class Check_Permissions_Test extends Abstract_Test {
 
 	/**
 	 * Tests the check_permissions method.

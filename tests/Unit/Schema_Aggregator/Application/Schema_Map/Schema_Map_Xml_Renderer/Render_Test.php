@@ -11,10 +11,8 @@ use DOMDocument;
  * @group schema-aggregator
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map\Schema_Map_Xml_Renderer::render
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Render_Test extends Abstract_Schema_Map_Xml_Renderer_Test {
+final class Render_Test extends Abstract_Test {
 
 	/**
 	 * Tests rendering a schema map with a single entry.

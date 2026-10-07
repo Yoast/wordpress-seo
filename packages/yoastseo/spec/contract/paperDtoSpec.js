@@ -1,7 +1,7 @@
 import Paper from "../../src/values/Paper.js";
 import { paperDtoSchema, toPaper } from "../../src/contract";
 
-describe( "the Paper input contract (PaperDTO)", function() {
+describe( "the Paper input contract (PaperDto)", function() {
 	describe( "toPaper", function() {
 		it( "maps a valid keyphrase-core DTO onto a Paper", function() {
 			const paper = toPaper( {
@@ -60,6 +60,36 @@ describe( "the Paper input contract (PaperDTO)", function() {
 
 		it( "rejects a non-object customData (shape is validated)", function() {
 			expect( () => toPaper( { text: "x", customData: "not an object" } ) ).toThrow();
+		} );
+
+		it( "maps a typed productData object onto the Paper", function() {
+			const productData = {
+				isVariableProduct: true,
+				hasVariants: true,
+				hasGlobalSKU: false,
+				doAllVariantsHaveSKU: true,
+			};
+			const paper = toPaper( { text: "x", productData } );
+
+			expect( paper.getProductData() ).toEqual( productData );
+		} );
+
+		it( "accepts the deprecated `productType` in productData (back-compat source for isVariableProduct)", function() {
+			const paper = toPaper( { text: "x", productData: { productType: "variable" } } );
+
+			expect( paper.getProductData() ).toEqual( { productType: "variable" } );
+		} );
+
+		it( "leaves absent productData to Paper's default empty object", function() {
+			const paper = toPaper( { text: "x" } );
+
+			expect( paper.getProductData() ).toEqual( {} );
+		} );
+
+		it( "type-checks productData fields (booleans) and rejects unknown keys (strict)", function() {
+			expect( () => toPaper( { text: "x", productData: { isVariableProduct: "yes" } } ) ).toThrow();
+			expect( () => toPaper( { text: "x", productData: { hasGlobalSKU: 1 } } ) ).toThrow();
+			expect( () => toPaper( { text: "x", productData: { hasGlobalSku: true } } ) ).toThrow();
 		} );
 
 		it( "accepts the deprecated WP-transitional fields and maps them onto the Paper", function() {

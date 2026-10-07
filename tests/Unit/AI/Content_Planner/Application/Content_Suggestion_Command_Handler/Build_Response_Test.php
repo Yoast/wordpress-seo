@@ -16,7 +16,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Application\Content_Suggestion_Command_Handler::build_response
  */
-final class Build_Response_Test extends Abstract_Content_Suggestion_Command_Handler_Test {
+final class Build_Response_Test extends Abstract_Test {
 
 	/**
 	 * Tests that build_response returns a Content_Suggestion_Response bundling suggestions and recent content.

@@ -12,10 +12,8 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
  *
  * @group schema-aggregator
  * @group introductions
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Constructor_Test extends Abstract_Schema_Aggregator_Announcement_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

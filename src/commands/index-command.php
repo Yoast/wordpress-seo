@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Exceptions\Indexable\Indexing_Failed_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Main;
 
@@ -163,8 +164,8 @@ class Index_Command implements Command_Interface {
 	 *
 	 * @when after_wp_load
 	 *
-	 * @param array|null $args       The arguments.
-	 * @param array|null $assoc_args The associative arguments.
+	 * @param array<string>|null              $args       The arguments.
+	 * @param array<string, string|bool>|null $assoc_args The associative arguments.
 	 *
 	 * @return void
 	 */
@@ -202,7 +203,7 @@ class Index_Command implements Command_Interface {
 	/**
 	 * Runs all indexation actions.
 	 *
-	 * @param array $assoc_args The associative arguments.
+	 * @param array<string, string|bool> $assoc_args The associative arguments.
 	 *
 	 * @return void
 	 */
@@ -258,8 +259,24 @@ class Index_Command implements Command_Interface {
 			$limit    = $indexation_action->get_limit();
 			$progress = Utils\make_progress_bar( 'Indexing ' . $name, $total );
 			do {
-				$indexables = $indexation_action->index();
-				$count      = \count( $indexables );
+				try {
+					$indexables = $indexation_action->index();
+				} catch ( Indexing_Failed_Exception $exception ) {
+					$progress->finish();
+
+					$previous = $exception->getPrevious();
+					WP_CLI::error(
+						\sprintf(
+							'Could not optimize %1$s while indexing %2$s: %3$s',
+							$exception->get_object_description(),
+							$name,
+							( $previous !== null ) ? $previous->getMessage() : $exception->getMessage(),
+						),
+					);
+
+					return;
+				}
+				$count = \count( $indexables );
 				$progress->tick( $count );
 				\usleep( $interval );
 				Utils\wp_clear_object_cache();

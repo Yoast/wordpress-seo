@@ -18,7 +18,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
  *
  * @covers \Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::consent
  */
-final class Consent_Test extends Abstract_Consent_Route_Test {
+final class Consent_Test extends Abstract_Test {
 
 	/**
 	 * The consent handler instance.

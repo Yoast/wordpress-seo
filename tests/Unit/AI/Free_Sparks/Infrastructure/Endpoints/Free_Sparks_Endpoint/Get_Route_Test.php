@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Free_Sparks\Infrastructure\Endpoints\Free_S
  *
  * @covers \Yoast\WP\SEO\AI\Free_Sparks\Infrastructure\Endpoints\Free_Sparks_Endpoint::get_route
  */
-final class Get_Route_Test extends Abstract_Free_Sparks_Endpoint_Test {
+final class Get_Route_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_route method.

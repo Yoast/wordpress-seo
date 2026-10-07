@@ -11,10 +11,8 @@ use Brain\Monkey\Functions;
  * @group schema-aggregator
  *
  * @covers \Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Aggregator_Xml_Route::register_routes
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Register_Routes_Test extends Abstract_Site_Schema_Aggregator_Xml_Route_Test {
+final class Register_Routes_Test extends Abstract_Test {
 
 	/**
 	 * Tests that register_routes registers the expected route.

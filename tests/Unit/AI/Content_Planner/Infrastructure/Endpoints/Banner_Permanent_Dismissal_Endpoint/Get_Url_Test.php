@@ -13,10 +13,8 @@ use Brain\Monkey\Functions;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Endpoints\Banner_Permanent_Dismissal_Endpoint::get_url
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Url_Test extends Abstract_Banner_Permanent_Dismissal_Endpoint_Test {
+final class Get_Url_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_url method.

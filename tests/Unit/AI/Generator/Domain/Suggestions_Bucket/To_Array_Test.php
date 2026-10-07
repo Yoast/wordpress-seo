@@ -13,7 +13,7 @@ use Yoast\WP\SEO\AI\Generator\Domain\Suggestion;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket::to_array
  */
-final class To_Array_Test extends Abstract_Suggestions_Bucket_Test {
+final class To_Array_Test extends Abstract_Test {
 
 	/**
 	 * Tests the to_array method.

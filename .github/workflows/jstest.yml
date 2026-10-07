@@ -120,7 +120,7 @@ jobs:
         working-directory: packages/${{ matrix.package }}
 
       - name: Upload coverage results to Coveralls
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
+        uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
         env:
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
@@ -154,7 +154,7 @@ jobs:
           persist-credentials: false
 
       - name: Checks for changes
-        uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # dorny/paths-filter@v4.0.2
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # dorny/paths-filter@v4.0.3
         id: changes
         with:
           filters: |
@@ -224,7 +224,7 @@ jobs:
 
       - name: Upload coverage results to Coveralls
         if: ${{ steps.checks-run.outputs.should == 'true' }}
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
+        uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
         env:
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:

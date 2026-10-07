@@ -14,7 +14,7 @@ use Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint;
  *
  * @covers \Yoast\WP\SEO\Routes\Endpoint\Endpoint_List::to_array
  */
-final class To_Array_Test extends Abstract_Endpoint_List_Test {
+final class To_Array_Test extends Abstract_Test {
 
 	/**
 	 * Tests the to_array method.

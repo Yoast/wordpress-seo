@@ -13,7 +13,7 @@ use Yoast\WP\SEO\AI\Generator\Domain\Suggestion;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Domain\Suggestion::__construct
  */
-final class Constructor_Test extends Abstract_Suggestion_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

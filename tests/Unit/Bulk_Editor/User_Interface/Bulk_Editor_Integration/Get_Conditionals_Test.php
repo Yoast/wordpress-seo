@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::get_conditionals
  */
-final class Get_Conditionals_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Get_Conditionals_Test extends Abstract_Test {
 
 	/**
 	 * Tests the retrieval of the conditionals.

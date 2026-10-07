@@ -177,11 +177,6 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			return;
 		}
 
-		if ( \is_a( $post, Indexable::class ) ) {
-			\_deprecated_argument( __FUNCTION__, '17.7', 'The $old_indexable argument has been deprecated.' );
-			$post = $this->post->get_post( $indexable->object_id );
-		}
-
 		$this->update_relations( $post );
 	}
 

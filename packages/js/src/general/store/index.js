@@ -9,10 +9,16 @@ import {
 	adminUrlSelectors,
 	getInitialAdminUrlState,
 	getInitialLinkParamsState,
+	getInitialOptInNotificationState,
 	LINK_PARAMS_NAME,
 	linkParamsActions,
 	linkParamsReducer,
 	linkParamsSelectors,
+	OPT_IN_NOTIFICATION_NAME,
+	optInNotificationActions,
+	optInNotificationControls,
+	optInNotificationReducer,
+	optInNotificationSelectors,
 } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import { ADMIN_NOTICES_NAME, adminNoticesActions, adminNoticesReducer, adminNoticesSelectors, getInitialAdminNoticesState } from "./admin-notices";
@@ -25,14 +31,6 @@ import {
 	getInitialAlertCenterState,
 } from "./alert-center";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
-import {
-	OPT_IN_NOTIFICATION_NAME,
-	optInNotificationActions,
-	optInNotificationReducer,
-	optInNotificationSelectors,
-	optInNotificationControls,
-	getInitialOptInNotificationState,
-} from "./opt-in";
 import {
 	TASK_LIST_NAME,
 	taskListActions,

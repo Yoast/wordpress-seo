@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Terms_Collector::__construct
  */
-final class Constructor_Test extends Abstract_Terms_Collector_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

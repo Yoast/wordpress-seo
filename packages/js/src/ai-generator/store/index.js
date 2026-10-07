@@ -7,6 +7,11 @@ import {
 	hasAiGeneratorConsentControls,
 	hasAiGeneratorConsentReducer,
 	hasAiGeneratorConsentSelectors,
+	getInitialMyyoastConnectionState,
+	MYYOAST_CONNECTION_NAME,
+	myyoastConnectionActions,
+	myyoastConnectionReducer,
+	myyoastConnectionSelectors,
 } from "../../shared-admin/store";
 import { STORE_NAME_AI } from "../constants";
 import {
@@ -53,13 +58,6 @@ import {
 	freeSparksReducer,
 	freeSparksControls,
 } from "./free-sparks";
-import {
-	getInitialMyyoastConnectionState,
-	MYYOAST_CONNECTION_NAME,
-	myyoastConnectionActions,
-	myyoastConnectionReducer,
-	myyoastConnectionSelectors,
-} from "./myyoast-connection";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 

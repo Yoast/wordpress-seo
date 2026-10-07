@@ -26,7 +26,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::token_refresh
  */
-final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
+final class Token_Refresh_Test extends Abstract_Test {
 
 	/**
 	 * Tests token_refresh when refresh token exists and request succeeds.

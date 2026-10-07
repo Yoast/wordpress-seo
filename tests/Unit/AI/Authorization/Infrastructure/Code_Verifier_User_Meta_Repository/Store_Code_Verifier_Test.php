@@ -12,7 +12,7 @@ use Brain\Monkey;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::store_code_verifier
  */
-final class Store_Code_Verifier_Test extends Abstract_Code_Verifier_User_Meta_Repository_Test {
+final class Store_Code_Verifier_Test extends Abstract_Test {
 
 	/**
 	 * Tests the store_code_verifier method.

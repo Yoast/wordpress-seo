@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
  *
  * @covers \Yoast\WP\SEO\General\User_Interface\Opt_In_Route::get_conditionals
  */
-final class Get_Conditional_Test extends Abstract_Opt_In_Route_Test {
+final class Get_Conditional_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_conditionals method.

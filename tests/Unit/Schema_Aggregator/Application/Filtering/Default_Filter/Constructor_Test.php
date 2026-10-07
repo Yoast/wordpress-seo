@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Elements_Context_Map\Elements_
  *
  * @group schema-aggregator
  */
-final class Constructor_Test extends Abstract_Default_Filter_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

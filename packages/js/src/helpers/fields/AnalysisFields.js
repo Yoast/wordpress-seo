@@ -48,6 +48,24 @@ export default class AnalysisFields {
 	}
 
 	/**
+	 * Getter for the SEO title score hidden field.
+	 *
+	 * @returns {HTMLElement|null} The SEO title score hidden field.
+	 */
+	static get seoTitleScoreElement() {
+		return document.getElementById( window.wpseoScriptData?.isPost ? "yoast_wpseo_seo_title_score" : "hidden_wpseo_seo_title_score" );
+	}
+
+	/**
+	 * Getter for the meta description score hidden field.
+	 *
+	 * @returns {HTMLElement|null} The meta description score hidden field.
+	 */
+	static get metaDescriptionScoreElement() {
+		return document.getElementById( window.wpseoScriptData?.isPost ? "yoast_wpseo_meta_description_score" : "hidden_wpseo_meta_description_score" );
+	}
+
+	/**
 	 * Setter for the keyphrase.
 	 *
 	 * @param {string} value The keyphrase.
@@ -155,5 +173,49 @@ export default class AnalysisFields {
 	 */
 	static get inclusiveLanguageScore() {
 		return AnalysisFields.inclusiveLanguageScoreElement?.value ?? "";
+	}
+
+	/**
+	 * Setter for the SEO title score.
+	 *
+	 * @param {string} value The SEO title score.
+	 *
+	 * @returns {void}
+	 */
+	static set seoTitleScore( value ) {
+		if ( AnalysisFields.seoTitleScoreElement ) {
+			AnalysisFields.seoTitleScoreElement.value = value;
+		}
+	}
+
+	/**
+	 * Getter for the SEO title score.
+	 *
+	 * @returns {string} The SEO title score.
+	 */
+	static get seoTitleScore() {
+		return AnalysisFields.seoTitleScoreElement?.value ?? "";
+	}
+
+	/**
+	 * Setter for the meta description score.
+	 *
+	 * @param {string} value The meta description score.
+	 *
+	 * @returns {void}
+	 */
+	static set metaDescriptionScore( value ) {
+		if ( AnalysisFields.metaDescriptionScoreElement ) {
+			AnalysisFields.metaDescriptionScoreElement.value = value;
+		}
+	}
+
+	/**
+	 * Getter for the meta description score.
+	 *
+	 * @returns {string} The meta description score.
+	 */
+	static get metaDescriptionScore() {
+		return AnalysisFields.metaDescriptionScoreElement?.value ?? "";
 	}
 }

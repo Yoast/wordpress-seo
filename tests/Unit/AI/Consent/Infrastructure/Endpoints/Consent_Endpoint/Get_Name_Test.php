@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\Infrastructure\Endpoints\Consent_En
  *
  * @covers \Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_name
  */
-final class Get_Name_Test extends Abstract_Consent_Endpoint_Test {
+final class Get_Name_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_name method.

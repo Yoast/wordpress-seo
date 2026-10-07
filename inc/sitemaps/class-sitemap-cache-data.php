@@ -174,27 +174,43 @@ class WPSEO_Sitemap_Cache_Data implements Serializable, WPSEO_Sitemap_Cache_Data
 	/**
 	 * Constructs the object.
 	 *
-	 * {@internal The magic methods take precedence over the Serializable interface.
-	 * This means that in practice, this method will now only be called on PHP < 7.4.
-	 * For PHP 7.4 and higher, the magic methods will be used instead.}
+	 * {@internal Unlike `serialize()` above, this method is NOT superseded by its magic counterpart
+	 * on PHP 7.4 and higher, so it is live code on every supported PHP version. PHP selects the
+	 * handler based on the *format* of the payload being read, not on the PHP version: `O:`-format
+	 * payloads are routed to `__unserialize()`, whereas `C:`-format payloads are dispatched here,
+	 * because this class implements `Serializable`. Verified on PHP 7.4 through 8.3.
+	 * There is no call to this method anywhere in the codebase; the engine invokes it.}
+	 *
+	 * {@internal `$data` must be treated as untrusted. `C:`-format payloads survive WordPress
+	 * unaltered on the way into the database, because `is_serialized()` has no case for `C` and
+	 * `maybe_serialize()` therefore stores such a string verbatim rather than escaping it. Any code
+	 * path that unserializes third-party data can consequently reach this method with a crafted
+	 * payload.
+	 * The nested call is restricted with `allowed_classes => false` for that reason: a legitimate
+	 * payload only ever contains the two strings produced by `__serialize()`, so instantiating a
+	 * class here is never valid, and permitting it turns this method into an object-injection sink
+	 * that ends in an arbitrary `__destruct()`. Do not relax that restriction.}
 	 *
 	 * {@internal The Serializable interface is being phased out, in favour of the magic methods.
-	 * This method should be deprecated and removed and the class should no longer
-	 * implement the `Serializable` interface.
-	 * This change, however, can't be made until the minimum PHP version goes up to PHP 7.4 or higher.}
+	 * This method should be deprecated and removed and the class should no longer implement the
+	 * `Serializable` interface. The minimum supported PHP version has since risen to 7.4, so that is
+	 * now possible, but it is deliberately left as a separate change: dropping the interface alters
+	 * how sitemap caches originally written on PHP < 7.4 are handled, as PHP then returns an empty
+	 * instance for those payloads instead of a populated one.}
 	 *
 	 * @link http://php.net/manual/en/serializable.unserialize.php
 	 * @link https://wiki.php.net/rfc/phase_out_serializable
 	 *
 	 * @since 5.1.0
 	 *
-	 * @param string $data The string representation of the object in C or O-format.
+	 * @param string $data Untrusted serialized representation of the data array, as carried in the
+	 *                     body of a `C:`-format payload naming this class.
 	 *
 	 * @return void
 	 */
 	public function unserialize( $data ) {
 
-		$data = unserialize( $data );
+		$data = unserialize( $data, [ 'allowed_classes' => false ] );
 		$this->__unserialize( $data );
 	}
 }

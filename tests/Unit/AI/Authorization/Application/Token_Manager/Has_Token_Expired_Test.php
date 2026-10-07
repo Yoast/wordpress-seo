@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Application\Token_Manager;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::has_token_expired
  */
-final class Has_Token_Expired_Test extends Abstract_Token_Manager_Test {
+final class Has_Token_Expired_Test extends Abstract_Test {
 
 	/**
 	 * Tests has_token_expired with a valid non-expired JWT token.

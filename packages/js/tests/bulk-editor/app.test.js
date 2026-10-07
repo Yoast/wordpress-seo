@@ -35,6 +35,8 @@ const buildRemote = ( onSave = () => Promise.resolve( {} ) ) => ( {
 
 describe( "App", () => {
 	beforeAll( () => {
+		// The store reads the localized analysis flag when it is created; seed it so the keyphrase stays editable.
+		window.wpseoBulkEditorData = { analysis: { keywordAnalysisActive: true } };
 		registerStore();
 	} );
 
@@ -67,6 +69,28 @@ describe( "App", () => {
 		expect(
 			screen.getByText( "The bulk editor for pages is a tool that you can use to quickly make changes to your search and social media appearance for multiple pages." )
 		).toBeInTheDocument();
+	} );
+
+	describe( "without any content type", () => {
+		const emptyDataProvider = new DataProvider( {
+			contentTypes: [],
+			endpoints: { posts: "https://example.com/wp-json/yoast/v1/bulk_editor/posts" },
+			links: { settings: "https://example.com/wp-admin/admin.php?page=wpseo_page_settings" },
+		} );
+
+		it( "shows a warning notice linking to the settings instead of the table", () => {
+			const remote = { fetchJson: jest.fn( () => new Promise( () => {} ) ) };
+
+			render( <App dataProvider={ emptyDataProvider } remoteDataProvider={ remote } /> );
+
+			const notice = screen.getByRole( "status" );
+			expect( notice ).toHaveTextContent( "No content types are available for the bulk editor" );
+			expect( notice ).toHaveTextContent( "Enable SEO controls and assessments for at least one content type in Settings." );
+			expect( screen.getByRole( "link", { name: "Settings" } ) ).toHaveAttribute( "href", "https://example.com/wp-admin/admin.php?page=wpseo_page_settings" );
+			expect( screen.getByRole( "heading", { level: 1, name: "Bulk editor: Content" } ) ).toBeInTheDocument();
+			expect( screen.queryByRole( "tablist" ) ).not.toBeInTheDocument();
+			expect( remote.fetchJson ).not.toHaveBeenCalled();
+		} );
 	} );
 
 	it( "renders the content type navigation with the first content type active", () => {
@@ -115,7 +139,7 @@ describe( "App", () => {
 		// Opens an edit on the Search tab, then clicks the Social tab to trigger the guard.
 		const openEditAndSwitch = async() => {
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 			fireEvent.click( screen.getByRole( "tab", { name: "Social appearance" } ) );
 		};
 
@@ -139,20 +163,26 @@ describe( "App", () => {
 			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
 			expect( screen.getByRole( "tab", { name: "Search appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
 			// The edit is preserved.
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 		} );
 
 		it( "discards the edit and switches when Continue without saving is clicked", async() => {
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
 
 			await openEditAndSwitch();
-			fireEvent.click( screen.getByRole( "button", { name: "Continue without saving" } ) );
+			// Both clicks commit a field-set switch (setActiveFieldSet), which re-triggers usePosts via
+			// the needsImprovementFields dep. Wrap in act so the fetch microtask is flushed before assertions.
+			await act( async() => {
+				fireEvent.click( screen.getByRole( "button", { name: "Continue without saving" } ) );
+			} );
 
 			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
 			expect( screen.getByRole( "tab", { name: "Social appearance" } ) ).toHaveAttribute( "aria-selected", "true" );
 			// Back on Search the row is no longer in edit mode.
-			fireEvent.click( screen.getByRole( "tab", { name: "Search appearance" } ) );
-			expect( screen.queryByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument();
+			await act( async() => {
+				fireEvent.click( screen.getByRole( "tab", { name: "Search appearance" } ) );
+			} );
+			expect( screen.queryByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument();
 			expect( screen.getByRole( "button", { name: `Edit ${ rowTitle }` } ) ).toBeEnabled();
 		} );
 
@@ -193,13 +223,15 @@ describe( "App", () => {
 		fireEvent.click( secondEdit );
 
 		// Both rows are in edit mode simultaneously.
-		expect( screen.getByRole( "textbox", { name: "SEO title for What Is SEO and How It Works" } ) ).toBeInTheDocument();
-		expect( screen.getByRole( "textbox", { name: "SEO title for Keyword Research for Beginners" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "combobox", { name: "SEO title for What Is SEO and How It Works" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "combobox", { name: "SEO title for Keyword Research for Beginners" } ) ).toBeInTheDocument();
 	} );
 
 	describe( "saving a row (Save)", () => {
 		const searchSet = getFieldSets()[ FIELD_SET_SEARCH ];
+		const focusKeyphraseParam = searchSet.fields.find( ( field ) => field.key === "focusKeyphrase" ).param;
 		const seoTitleParam = searchSet.fields.find( ( field ) => field.key === "seoTitle" ).param;
+		const metaDescriptionParam = searchSet.fields.find( ( field ) => field.key === "metaDescription" ).param;
 		const endpointUrl = "https://example.com/wp-json/yoast/v1/bulk_editor/update_search";
 		const savingDataProvider = new DataProvider( {
 			contentTypes: [ { name: "post", label: "Posts" } ],
@@ -208,24 +240,23 @@ describe( "App", () => {
 		} );
 		const rowTitle = "What Is SEO and How It Works";
 
-		it( "posts the edited field to the active tab's endpoint and collapses it on success", async() => {
+		it( "posts all open fields to the active tab's endpoint in one request and collapses on success", async() => {
 			const remote = buildRemote( () => Promise.resolve( {} ) );
 			render( <App dataProvider={ savingDataProvider } remoteDataProvider={ remote } /> );
 
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			fireEvent.change(
-				screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ),
-				{ target: { value: "New SEO title" } }
-			);
-			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
+			await act( async() => {
+				fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
+			} );
 
+			// onApplyRow batches all open fields into one POST; Edit opens all fields in the active field set.
 			expect( remote.fetchJson ).toHaveBeenCalledWith(
 				endpointUrl,
 				{},
-				{ method: "POST", body: JSON.stringify( { items: [ { id: 1, [ seoTitleParam ]: "New SEO title" } ] } ) }
+				{ method: "POST", body: JSON.stringify( { items: [ { id: 1, [ focusKeyphraseParam ]: "what is seo", [ seoTitleParam ]: "What Is SEO? Complete Guide", [ metaDescriptionParam ]: "Learn what SEO is." } ] } ) }
 			);
 			// On success the field collapses/closes back to text.
-			await waitFor( () => expect( screen.queryByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument() );
+			await waitFor( () => expect( screen.queryByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).not.toBeInTheDocument() );
 		} );
 
 		it( "keeps the field open and re-enables it when the save fails", async() => {
@@ -236,14 +267,14 @@ describe( "App", () => {
 			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
 
 			// The field stays open and becomes editable again once the failed save settles.
-			await waitFor( () => expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeEnabled() );
+			await waitFor( () => expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeEnabled() );
 		} );
 
 		it( "does not post to the save endpoint when it is unavailable", async() => {
 			const remote = buildRemote();
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ remote } /> );
-
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
+
 			fireEvent.click( screen.getByRole( "button", { name: `Save ${ rowTitle }` } ) );
 
 			// The active tab's save endpoint is not configured, so no POST is made and the field stays open.
@@ -252,7 +283,7 @@ describe( "App", () => {
 				expect.anything(),
 				expect.objectContaining( { method: "POST" } )
 			);
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 		} );
 	} );
 
@@ -263,7 +294,7 @@ describe( "App", () => {
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
 
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 			fireEvent.click( screen.getByRole( "button", { name: "Posts" } ) );
 
 			expect( screen.getByText( "Unsaved changes" ) ).toBeInTheDocument();
@@ -309,7 +340,7 @@ describe( "App", () => {
 
 			// Enter edit mode so any spurious switch would be guarded by the modal.
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 
 			// "Pages" is the resolved default while the stored active name is still "" (never switched).
 			expect( screen.getByRole( "button", { name: "Pages" } ) ).toHaveAttribute( "aria-current", "page" );
@@ -317,7 +348,7 @@ describe( "App", () => {
 
 			// Clicking the content type you are already on is a no-op: no confirmation modal, the edit stays open.
 			expect( screen.queryByText( "Unsaved changes" ) ).not.toBeInTheDocument();
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 		} );
 	} );
 
@@ -354,7 +385,7 @@ describe( "App", () => {
 			render( <App dataProvider={ dataProvider } remoteDataProvider={ buildRemote() } /> );
 
 			fireEvent.click( await screen.findByRole( "button", { name: `Edit ${ rowTitle }` } ) );
-			expect( screen.getByRole( "textbox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "combobox", { name: `SEO title for ${ rowTitle }` } ) ).toBeInTheDocument();
 
 			fireEvent.click( screen.getByRole( "link", { name: "Back to Tools" } ) );
 

@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Description_Adapter;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Description_Builder::__construct
  */
-final class Constructor_Test extends Abstract_Description_Builder_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

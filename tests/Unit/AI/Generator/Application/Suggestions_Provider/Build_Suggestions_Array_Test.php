@@ -15,7 +15,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider::build_suggestions_array
  */
-final class Build_Suggestions_Array_Test extends Abstract_Suggestions_Provider_Test {
+final class Build_Suggestions_Array_Test extends Abstract_Test {
 
 	/**
 	 * Tests the build_suggestions_array method.

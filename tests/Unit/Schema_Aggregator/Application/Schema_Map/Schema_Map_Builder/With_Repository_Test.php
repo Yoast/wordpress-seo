@@ -14,10 +14,8 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Reposito
  * @group schema-aggregator
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map\Schema_Map_Builder::with_repository
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class With_Repository_Test extends Abstract_Schema_Map_Builder_Test {
+final class With_Repository_Test extends Abstract_Test {
 
 	/**
 	 * Tests that with_repository returns the instance for fluent interface.

@@ -36,14 +36,27 @@ class Bulk_Updater implements LoggerAwareInterface {
 	private $meta_writer;
 
 	/**
+	 * The field renderer.
+	 *
+	 * @var Field_Renderer_Interface
+	 */
+	private $field_renderer;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Post_Access_Checker_Interface $post_access_checker The post access checker.
 	 * @param Meta_Writer_Interface         $meta_writer         The meta writer.
+	 * @param Field_Renderer_Interface      $field_renderer      The field renderer.
 	 */
-	public function __construct( Post_Access_Checker_Interface $post_access_checker, Meta_Writer_Interface $meta_writer ) {
+	public function __construct(
+		Post_Access_Checker_Interface $post_access_checker,
+		Meta_Writer_Interface $meta_writer,
+		Field_Renderer_Interface $field_renderer
+	) {
 		$this->post_access_checker = $post_access_checker;
 		$this->meta_writer         = $meta_writer;
+		$this->field_renderer      = $field_renderer;
 		$this->logger              = new NullLogger();
 	}
 
@@ -89,6 +102,7 @@ class Bulk_Updater implements LoggerAwareInterface {
 			return Update_Result::for_failure( $post_id, Update_Error::FORBIDDEN );
 		}
 
+		$saved_focus_keyphrase = null;
 		try {
 			if ( $update->has_title() ) {
 				$this->meta_writer->write_title( $type, $post_id, $update->get_title() );
@@ -99,7 +113,7 @@ class Bulk_Updater implements LoggerAwareInterface {
 			}
 
 			if ( $update->has_focus_keyphrase() ) {
-				$this->meta_writer->write_focus_keyphrase( $post_id, $update->get_focus_keyphrase() );
+				$saved_focus_keyphrase = $this->meta_writer->write_focus_keyphrase( $post_id, $update->get_focus_keyphrase() );
 			}
 		} catch ( Exception $exception ) {
 			$this->logger->warning(
@@ -113,6 +127,49 @@ class Bulk_Updater implements LoggerAwareInterface {
 			return Update_Result::for_failure( $post_id, Update_Error::SAVE_FAILED );
 		}
 
-		return Update_Result::for_success( $post_id );
+		return Update_Result::for_success(
+			$post_id,
+			$this->render_fields( $type, $post_id ),
+			$this->sanitized_fields( $saved_focus_keyphrase ),
+		);
+	}
+
+	/**
+	 * Renders the search fields with replacement variables resolved, for re-scoring after a save.
+	 *
+	 * Only called for search updates; social updates carry no scored fields.
+	 *
+	 * @param Update_Type $type    The appearance the update targets.
+	 * @param int         $post_id The ID of the post.
+	 *
+	 * @return array<string, string> The rendered fields, keyed by field.
+	 */
+	private function render_fields( Update_Type $type, int $post_id ): array {
+		if ( ! $type->is_search() ) {
+			return [];
+		}
+
+		return [
+			'seo_title'        => $this->field_renderer->render( $post_id, 'title' ),
+			'meta_description' => $this->field_renderer->render( $post_id, 'metadesc' ),
+		];
+	}
+
+	/**
+	 * Builds the sanitized-literals payload for the response.
+	 *
+	 * The focus keyphrase is echoed back when it was part of the update, so the frontend can detect
+	 * when sanitization silently altered the submitted value (e.g. HTML stripped).
+	 *
+	 * @param string|null $saved_focus_keyphrase The sanitized focus keyphrase that was stored, or null if not updated.
+	 *
+	 * @return array<string, string> The sanitized literals, keyed by field.
+	 */
+	private function sanitized_fields( ?string $saved_focus_keyphrase ): array {
+		if ( $saved_focus_keyphrase === null ) {
+			return [];
+		}
+
+		return [ 'focus_keyphrase' => $saved_focus_keyphrase ];
 	}
 }

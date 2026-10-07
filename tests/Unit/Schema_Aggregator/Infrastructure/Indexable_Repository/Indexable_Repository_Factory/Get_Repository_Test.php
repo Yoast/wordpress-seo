@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Infrastructure\Indexable_Rep
  *
  * @group schema-aggregator
  */
-final class Get_Repository_Test extends Abstract_Indexable_Repository_Factory_Test {
+final class Get_Repository_Test extends Abstract_Test {
 
 	/**
 	 * Tests if get_repository returns the correct repository based on availability.

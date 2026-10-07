@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\WordPress
  *
  * @group schema-aggregator
  */
-final class Constructor_Test extends Abstract_Indexable_Repository_Factory_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

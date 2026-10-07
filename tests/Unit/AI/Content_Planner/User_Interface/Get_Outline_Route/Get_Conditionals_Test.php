@@ -12,10 +12,8 @@ use Yoast\WP\SEO\Conditionals\AI_Conditional;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Get_Outline_Route::get_conditionals
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Conditionals_Test extends Abstract_Get_Outline_Route_Test {
+final class Get_Conditionals_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_conditionals method.

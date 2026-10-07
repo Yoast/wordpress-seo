@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Post_Collection_Factory;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::__construct
  */
-final class Constructor_Test extends Abstract_Content_Types_Collector_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

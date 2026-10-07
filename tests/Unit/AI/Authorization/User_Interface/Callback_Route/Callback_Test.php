@@ -16,7 +16,7 @@ use Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier;
  *
  * @covers \Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::callback
  */
-final class Callback_Test extends Abstract_Callback_Route_Test {
+final class Callback_Test extends Abstract_Test {
 
 	/**
 	 * Tests the callback method.

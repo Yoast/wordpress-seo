@@ -16,7 +16,7 @@ use WP_REST_Response;
  * @covers Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector::get_content_types
  * @covers Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Types_List::add
  */
-final class Excluded_Content_Type_Test extends Abstract_Readability_Scores_Test {
+final class Excluded_Content_Type_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_scores by sending an excluded-from-indexable-creation content type.

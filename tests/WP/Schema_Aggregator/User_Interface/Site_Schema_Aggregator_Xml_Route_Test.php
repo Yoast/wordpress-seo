@@ -2,14 +2,8 @@
 // @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Tests\WP\Schema_Aggregator\User_Interface;
 
-use Mockery;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command_Handler;
-use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Xml_Manager;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
-use Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Aggregator_Xml_Route;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -18,37 +12,9 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * @group  schema-aggregator
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Aggregator_Xml_Route::render_schema_xml
- * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Aggregator_Xml_Route::__construct
+ * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map\Schema_Map_Xml_Provider::get_xml
  */
 final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
-
-	/**
-	 * Holds the instance.
-	 *
-	 * @var Site_Schema_Aggregator_Xml_Route
-	 */
-	private $instance;
-
-	/**
-	 * Holds the aggregate site schema map command handler mock.
-	 *
-	 * @var Aggregate_Site_Schema_Map_Command_Handler
-	 */
-	private $aggregate_site_schema_map_command_handler;
-
-	/**
-	 * Holds the XML cache manager mock.
-	 *
-	 * @var Xml_Manager
-	 */
-	private $xml_cache_manager;
-
-	/**
-	 * Holds the aggregator config mock.
-	 *
-	 * @var Aggregator_Config
-	 */
-	private $aggregator_config;
 
 	/**
 	 * Set up the test.
@@ -56,31 +22,19 @@ final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 	 * @return void
 	 */
 	public function set_up() {
-		$this->aggregate_site_schema_map_command_handler = Mockery::mock( Aggregate_Site_Schema_Map_Command_Handler::class );
-		$this->xml_cache_manager                         = Mockery::mock( Xml_Manager::class );
-		$this->aggregator_config                         = Mockery::mock( Aggregator_Config::class );
-		$this->instance                                  = new Site_Schema_Aggregator_Xml_Route( $this->aggregate_site_schema_map_command_handler, $this->xml_cache_manager, $this->aggregator_config );
+		parent::set_up();
+
 		\YoastSEO()->helpers->options->set( 'enable_schema_aggregation_endpoint', true );
 
 		\do_action( 'rest_api_init' );
 	}
 
 	/**
-	 * Tests the xml map without cache.
+	 * Tests that the route renders the schema map as XML.
 	 *
 	 * @return void
 	 */
-	public function test_render_schema_xml_no_cache() {
-
-		$this->xml_cache_manager->expects( 'get' )
-			->once()
-			->andReturn( null );
-		$this->aggregator_config->expects( 'get_allowed_post_types' )
-			->once()
-			->andReturn( [ 'page' ] );
-		$this->xml_cache_manager->expects( 'set' )
-			->once();
-
+	public function test_render_schema_xml() {
 		$request  = new WP_REST_Request( 'GET', '/yoast/v1/schema-aggregator/get-xml' );
 		$response = \rest_get_server()->dispatch( $request );
 
@@ -94,29 +48,15 @@ final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the xml map with cache.
+	 * Tests that rendering stores the XML in the transient the front-end route also reads.
 	 *
 	 * @return void
 	 */
-	public function test_render_schema_xml_with_cache() {
-		$this->xml_cache_manager->expects( 'get' )
-			->once()
-			->andReturn( '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
-		$this->aggregator_config->expects( 'get_allowed_post_types' )
-			->never();
-		$this->xml_cache_manager->expects( 'set' )
-			->never();
+	public function test_render_schema_xml_populates_the_cache() {
+		\delete_transient( 'yoast_schema_aggregator_xml_sitemap_v1' );
 
-		$request  = new WP_REST_Request( 'GET', '/yoast/v1/schema-aggregator/get-xml' );
-		$response = \rest_get_server()->dispatch( $request );
+		$response = \rest_get_server()->dispatch( new WP_REST_Request( 'GET', '/yoast/v1/schema-aggregator/get-xml' ) );
 
-		$this->assertInstanceOf( WP_REST_Response::class, $response );
-
-		$response_data = $response->get_data();
-
-		$this->assertSame( 200, $response->status );
-		$this->assertStringContainsString( '<urlset', $response_data );
-		$this->assertSame( 'application/xml; charset=UTF-8', $response->get_headers()['Content-Type'] );
-		$this->assertSame( 'public, max-age=300', $response->get_headers()['Cache-Control'] );
+		$this->assertSame( $response->get_data(), \get_transient( 'yoast_schema_aggregator_xml_sitemap_v1' ) );
 	}
 }

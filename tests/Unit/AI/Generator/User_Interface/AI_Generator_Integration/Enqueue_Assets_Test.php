@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\AI_Generator_Integration::enqueue_assets
  */
-final class Enqueue_Assets_Test extends Abstract_AI_Generator_Integration_Test {
+final class Enqueue_Assets_Test extends Abstract_Test {
 
 	/**
 	 * Tests enqueuing the assets.
@@ -69,8 +69,7 @@ final class Enqueue_Assets_Test extends Abstract_AI_Generator_Integration_Test {
 		$generator_endpoint_list->expects( 'merge_with' )->once()->with( $free_sparks_endpoint_list )->andReturnSelf();
 		$generator_endpoint_list->expects( 'to_paths_array' )->once()->andReturn( [] );
 
-		// The MyYoast connection feature flag is disabled, so the payload is null.
-		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturnFalse();
+		$this->myyoast_connection_data_presenter->expects( 'present' )->once()->andReturnNull();
 
 		// Enqueueing.
 		$this->asset_manager->expects( 'enqueue_script' )->once()->with( 'ai-generator' );

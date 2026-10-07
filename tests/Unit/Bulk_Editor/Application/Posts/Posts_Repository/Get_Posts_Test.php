@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\Application\Posts\Posts_Repository::get_posts
  */
-final class Get_Posts_Test extends Abstract_Posts_Repository_Test {
+final class Get_Posts_Test extends Abstract_Test {
 
 	/**
 	 * Tests that the indexable collector is used when indexables are active.

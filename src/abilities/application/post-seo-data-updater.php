@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\Application;
 
 use WP_Error;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_Access_Checker;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
@@ -34,6 +35,13 @@ class Post_SEO_Data_Updater {
 	private $field_map;
 
 	/**
+	 * The post access checker.
+	 *
+	 * @var Post_Access_Checker
+	 */
+	private $post_access_checker;
+
+	/**
 	 * The indexable-to-postmeta helper.
 	 *
 	 * @var Indexable_To_Postmeta_Helper
@@ -52,17 +60,20 @@ class Post_SEO_Data_Updater {
 	 *
 	 * @param Post_Identifier_Resolver     $resolver              The post identifier resolver.
 	 * @param Post_SEO_Field_Map           $field_map             The post SEO field map.
+	 * @param Post_Access_Checker          $post_access_checker   The post access checker.
 	 * @param Indexable_To_Postmeta_Helper $indexable_to_postmeta The indexable-to-postmeta helper.
 	 * @param Indexable_Builder            $indexable_builder     The indexable builder.
 	 */
 	public function __construct(
 		Post_Identifier_Resolver $resolver,
 		Post_SEO_Field_Map $field_map,
+		Post_Access_Checker $post_access_checker,
 		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
 		Indexable_Builder $indexable_builder
 	) {
 		$this->resolver              = $resolver;
 		$this->field_map             = $field_map;
+		$this->post_access_checker   = $post_access_checker;
 		$this->indexable_to_postmeta = $indexable_to_postmeta;
 		$this->indexable_builder     = $indexable_builder;
 	}
@@ -82,6 +93,14 @@ class Post_SEO_Data_Updater {
 
 		if ( $indexable instanceof WP_Error ) {
 			return $indexable;
+		}
+
+		// The capability gate on the ability is site-wide; the write itself is
+		// only allowed on posts the user could also edit through the regular editors.
+		$can_edit = $this->post_access_checker->ensure_can_edit( (int) $indexable->object_id );
+
+		if ( $can_edit instanceof WP_Error ) {
+			return $can_edit;
 		}
 
 		$changed_columns = $this->field_map->apply_to_indexable( $input, $indexable );

@@ -13,7 +13,7 @@ use Brain\Monkey;
  *
  * @covers \Yoast\WP\SEO\AI\Free_Sparks\Infrastructure\Endpoints\Free_Sparks_Endpoint::get_url
  */
-final class Get_Url_Test extends Abstract_Free_Sparks_Endpoint_Test {
+final class Get_Url_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_url method.

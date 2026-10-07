@@ -15,7 +15,7 @@ use Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Reposit
  *
  * @covers \Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::__construct
  */
-final class Constructor_Test extends Abstract_Callback_Route_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

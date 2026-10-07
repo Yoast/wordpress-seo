@@ -12,10 +12,8 @@ use Brain\Monkey;
  *
  * @group schema-aggregator
  * @group introductions
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Should_Show_Test extends Abstract_Schema_Aggregator_Announcement_Test {
+final class Should_Show_Test extends Abstract_Test {
 
 	/**
 	 * Tests the conditional should_show.

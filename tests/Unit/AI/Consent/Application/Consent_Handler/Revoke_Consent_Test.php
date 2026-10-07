@@ -16,7 +16,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\WP_Request_Exception;
  *
  * @covers \Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::revoke_consent
  */
-final class Revoke_Consent_Test extends Abstract_Consent_Handler_Test {
+final class Revoke_Consent_Test extends Abstract_Test {
 
 	/**
 	 * Tests that revoke_consent throws a RuntimeException when the user is not found, and does not

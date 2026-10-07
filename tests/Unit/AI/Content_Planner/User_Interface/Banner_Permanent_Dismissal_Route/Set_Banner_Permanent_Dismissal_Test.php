@@ -16,10 +16,8 @@ use Yoast\WP\SEO\AI\Content_Planner\User_Interface\Banner_Permanent_Dismissal_Ro
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Banner_Permanent_Dismissal_Route::set_banner_permanent_dismissal
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Set_Banner_Permanent_Dismissal_Test extends Abstract_Banner_Permanent_Dismissal_Route_Test {
+final class Set_Banner_Permanent_Dismissal_Test extends Abstract_Test {
 
 	/**
 	 * Tests that set_banner_permanent_dismissal returns a 200 success response when the meta is updated.

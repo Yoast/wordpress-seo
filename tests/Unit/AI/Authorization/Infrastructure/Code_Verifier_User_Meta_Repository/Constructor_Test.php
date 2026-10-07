@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::__construct
  */
-final class Constructor_Test extends Abstract_Code_Verifier_User_Meta_Repository_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

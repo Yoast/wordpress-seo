@@ -15,7 +15,7 @@ use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Get_Usage_Route::__construct
  */
-final class Constructor_Test extends Abstract_Get_Usage_Route_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

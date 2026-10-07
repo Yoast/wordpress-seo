@@ -11,10 +11,8 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Infrastructure\Endpoints\Ba
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Endpoints\Banner_Permanent_Dismissal_Endpoint::get_route
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Route_Test extends Abstract_Banner_Permanent_Dismissal_Endpoint_Test {
+final class Get_Route_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_route method.

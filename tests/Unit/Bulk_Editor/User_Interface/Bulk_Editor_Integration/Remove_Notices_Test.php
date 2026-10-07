@@ -13,7 +13,7 @@ use Brain\Monkey\Functions;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::remove_notices
  */
-final class Remove_Notices_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Remove_Notices_Test extends Abstract_Test {
 
 	/**
 	 * Tests removing notices in the admin header.

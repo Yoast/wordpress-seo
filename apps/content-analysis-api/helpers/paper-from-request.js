@@ -1,7 +1,7 @@
 const { toPaper } = require( "yoastseo/contract" );
 
 /**
- * Builds a Paper from the request body via the PaperDTO contract (`yoastseo/contract`).
+ * Builds a Paper from the request body via the PaperDto contract (`yoastseo/contract`).
  *
  * On a structurally invalid body (wrong types, unknown keys, missing `text`) it responds with a 400 and
  * returns null, so callers should bail when the result is falsy.

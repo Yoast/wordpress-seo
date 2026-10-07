@@ -7,6 +7,7 @@ import {
 	documentTitleSelectors,
 	getInitialLinkParamsState,
 	getInitialNotificationsState,
+	getReplacementVariablesInitialState,
 	LINK_PARAMS_NAME,
 	linkParamsActions,
 	linkParamsReducer,
@@ -15,6 +16,10 @@ import {
 	notificationsActions,
 	notificationsReducer,
 	notificationsSelectors,
+	REPLACEMENT_VARIABLES_NAME,
+	replacementVariablesActions,
+	replacementVariablesReducer,
+	replacementVariablesSelectors,
 } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import { breadcrumbsSelectors } from "./breadcrumbs";
@@ -47,11 +52,6 @@ import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelec
 import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
 import postTypes, { createInitialPostTypesState, postTypeControls, postTypesActions, postTypesSelectors } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
-import replacementVariables, {
-	createInitialReplacementVariablesState,
-	replacementVariablesActions,
-	replacementVariablesSelectors,
-} from "./replacement-variables";
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
 import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
 import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors, taxonomyControls } from "./taxonomies";
@@ -130,7 +130,7 @@ const createStore = ( { initialState } ) => {
 				[ PAGE_NAME ]: getPageInitialState(),
 				postTypes: createInitialPostTypesState(),
 				preferences: createInitialPreferencesState(),
-				replacementVariables: createInitialReplacementVariablesState(),
+				[ REPLACEMENT_VARIABLES_NAME ]: getReplacementVariablesInitialState(),
 				schema: createInitialSchemaState(),
 				[ SCHEMA_FRAMEWORK_NAME ]: createInitialSchemaFrameworkState(),
 				search: createInitialSearchState(),
@@ -153,7 +153,7 @@ const createStore = ( { initialState } ) => {
 			[ PAGE_NAME ]: pageReducer,
 			postTypes,
 			preferences,
-			replacementVariables,
+			[ REPLACEMENT_VARIABLES_NAME ]: replacementVariablesReducer,
 			schema,
 			schemaFramework,
 			search,

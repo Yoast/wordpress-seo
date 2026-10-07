@@ -10,10 +10,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Schema_Aggregato
  *
  * @group schema-aggregator
  * @group introductions
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Id_Test extends Abstract_Schema_Aggregator_Announcement_Test {
+final class Get_Id_Test extends Abstract_Test {
 
 	/**
 	 * Tests getting the ID.

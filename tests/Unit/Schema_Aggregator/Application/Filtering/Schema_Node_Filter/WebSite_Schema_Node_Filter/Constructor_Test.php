@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\WordPress_Current_Site_URL_Pro
  *
  * @group schema-aggregator
  */
-final class Constructor_Test extends Abstract_WebSite_Schema_Node_Filter_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

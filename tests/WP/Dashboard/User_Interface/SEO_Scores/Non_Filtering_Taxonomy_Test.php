@@ -14,7 +14,7 @@ use WP_REST_Response;
  * @covers Yoast\WP\SEO\Dashboard\User_Interface\Scores\SEO_Scores_Route::get_taxonomy
  * @covers Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository::get_content_type_taxonomy
  */
-final class Non_Filtering_Taxonomy_Test extends Abstract_SEO_Scores_Test {
+final class Non_Filtering_Taxonomy_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_scores by sending a non filtering taxonomy for this content type.

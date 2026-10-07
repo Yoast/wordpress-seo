@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\Infrastructure\Endpoints\Get_Usag
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Usage_Endpoint::get_namespace
  */
-final class Get_Namespace_Test extends Abstract_Get_Usage_Endpoint_Test {
+final class Get_Namespace_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_namespace method.

@@ -13,7 +13,7 @@ use Brain\Monkey\Functions;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Post_Editability_Resolver::resolve
  */
-final class Resolve_Test extends Abstract_Post_Editability_Resolver_Test {
+final class Resolve_Test extends Abstract_Test {
 
 	/**
 	 * Tests that no post IDs yields an empty map without priming caches or checking permissions.

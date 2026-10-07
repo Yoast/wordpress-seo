@@ -25,12 +25,14 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, FOCUS_KEYPHRASE_KEY } from "./const
  * One editable column within a field set.
  *
  * @typedef {Object} FieldSetField
- * @property {string}  key       The {@link BulkEditorItem} property this column edits.
- * @property {string}  label     The column header label.
- * @property {string}  param     The request parameter name the save endpoint expects for this field.
- * @property {string} width      The column width.
- * @property {string} [endpoint] A data-provider endpoint key that saves this field, overriding the field set's
- *                               default endpoint.
+ * @property {string}  key        The {@link BulkEditorItem} property this column edits.
+ * @property {string}  label      The column header label.
+ * @property {string}  param      The request parameter name the save endpoint expects for this field.
+ * @property {string}  width      The column width.
+ * @property {string}  [type]     "title" or "description" for replacement-variable fields; absent for plain text fields.
+ * @property {string}  [endpoint] A data-provider endpoint key that saves this field, overriding the field set's
+ *                                default endpoint.
+ * @property {boolean} [readOnly] Whether the column is shown but cannot be opened for editing.
  */
 
 /**
@@ -48,14 +50,20 @@ import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, FOCUS_KEYPHRASE_KEY } from "./const
  *
  * Returns a factory (not a constant) so labels are translated at call time rather than at module load.
  *
+ * @param {Object}  [props]                             The props.
+ * @param {boolean} [props.isKeywordAnalysisActive=true] Whether the SEO analysis is enabled.
+ *
  * @returns {Object<string, FieldSet>} The field sets, keyed by id.
  */
-export const getFieldSets = () => {
+export const getFieldSets = ( { isKeywordAnalysisActive = true } = {} ) => {
 	const focusKeyphrase = {
 		key: FOCUS_KEYPHRASE_KEY,
 		label: __( "Focus keyphrase", "wordpress-seo" ),
 		param: "focus_keyphrase",
 		width: "sm:yst-w-[19%]",
+		// The column keeps showing the keyphrase, but with the SEO analysis off it never opens for editing.
+		// The post editor hides its field entirely; this diverges on purpose.
+		readOnly: ! isKeywordAnalysisActive,
 	};
 
 	return {
@@ -65,8 +73,8 @@ export const getFieldSets = () => {
 			endpoint: "update_search",
 			fields: [
 				focusKeyphrase,
-				{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ), param: "seo_title", width: "sm:yst-w-[19%]" },
-				{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ), param: "meta_description", width: "sm:yst-w-[33%]" },
+				{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ), param: "seo_title", width: "sm:yst-w-[19%]", type: "title" },
+				{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ), param: "meta_description", width: "sm:yst-w-[33%]", type: "description" },
 			],
 		},
 		[ FIELD_SET_SOCIAL ]: {
@@ -75,8 +83,8 @@ export const getFieldSets = () => {
 			endpoint: "update_social",
 			fields: [
 				focusKeyphrase,
-				{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ), param: "social_title", width: "sm:yst-w-[19%]" },
-				{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ), param: "social_description", width: "sm:yst-w-[33%]" },
+				{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ), param: "social_title", width: "sm:yst-w-[19%]", type: "title" },
+				{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ), param: "social_description", width: "sm:yst-w-[33%]", type: "description" },
 			],
 		},
 	};

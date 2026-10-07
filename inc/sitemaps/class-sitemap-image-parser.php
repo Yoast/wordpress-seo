@@ -79,7 +79,8 @@ class WPSEO_Sitemap_Image_Parser {
 			return $images;
 		}
 
-		$thumbnail_id = get_post_thumbnail_id( $post->ID );
+		// Pass the post object rather than its ID, so the post does not get re-fetched from the database.
+		$thumbnail_id = get_post_thumbnail_id( $post );
 
 		if ( $thumbnail_id ) {
 
@@ -130,6 +131,34 @@ class WPSEO_Sitemap_Image_Parser {
 		}
 
 		return $images;
+	}
+
+	/**
+	 * Primes the meta caches of the featured images of the given posts.
+	 *
+	 * This parser reads each post's featured image file location from the attachment's
+	 * meta individually; warming that meta cache in bulk avoids one query per post on
+	 * setups without a persistent object cache.
+	 *
+	 * @param WP_Post[] $posts The posts to prime the featured-image caches for.
+	 *
+	 * @return void
+	 */
+	public function prime_thumbnail_caches( $posts ) {
+
+		$thumbnail_ids = [];
+
+		foreach ( $posts as $post ) {
+			$thumbnail_id = get_post_thumbnail_id( $post );
+
+			if ( $thumbnail_id ) {
+				$thumbnail_ids[] = $thumbnail_id;
+			}
+		}
+
+		if ( ! empty( $thumbnail_ids ) ) {
+			update_meta_cache( 'post', array_unique( $thumbnail_ids ) );
+		}
 	}
 
 	/**

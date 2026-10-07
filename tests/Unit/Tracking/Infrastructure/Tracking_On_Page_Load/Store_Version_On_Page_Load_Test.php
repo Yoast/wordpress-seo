@@ -13,7 +13,7 @@ use Generator;
  *
  * @covers Yoast\WP\SEO\Tracking\Infrastructure\Tracking_On_Page_Load_Integration::store_version_on_page_load
  */
-final class Store_Version_On_Page_Load_Test extends Abstract_Tracking_On_Page_Load_Integration_Test {
+final class Store_Version_On_Page_Load_Test extends Abstract_Test {
 
 	/**
 	 * Tests store_version_on_page_load.

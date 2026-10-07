@@ -29,7 +29,7 @@ class MyYoast_Connection_Conditional extends Gradual_Rollout_Conditional {
 	 * @return int The rollout share in per-mille.
 	 */
 	protected function get_rollout_share(): int {
-		// 1%.
-		return 10;
+		// 20%.
+		return 200;
 	}
 }

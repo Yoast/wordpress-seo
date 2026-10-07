@@ -103,16 +103,10 @@ export const FETCH_RESPONSE_STATUS = {
 	abort: "abort",
 };
 
-/**
- * The maximum number of tokens to consider for default content types.
- * @type {number}
+/*
+ * The prompt's token budgets (MAX_TOKENS_DEFAULT / MAX_TOKENS_IRREGULAR) live in
+ * shared-admin/helpers/prompt-content.js, so the in-editor generator and the bulk editor share one definition.
  */
-export const MAX_TOKENS_DEFAULT = 300;
-/**
- * The maximum number of tokens to consider for irregular content types (e.g. products or terms).
- * @type {number}
- */
-export const MAX_TOKENS_IRREGULAR = 150;
 
 /**
  * The expected minimum character length of content for default content types.

@@ -425,4 +425,37 @@ describe( "a test for the applicability of the assessment", function() {
 
 		expect( isApplicable ).toBe( true );
 	} );
+
+	it( "stays applicable when canRetrieve keys are absent (undefined ≠ false)", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: false } );
+		// Mirrors Shopify, which never sets the canRetrieve* keys.
+		const productPaper = new Paper( "", { productData: { isVariableProduct: false, hasVariants: false, hasGlobalIdentifier: false } } );
+
+		expect( assessment.isApplicable( productPaper ) ).toBe( true );
+	} );
+} );
+
+describe( "a test for the Product identifiers assessment reading the first-class product field", () => {
+	const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+
+	it( "scores 9 for a single-unit product with a global identifier, without a legacy productType", () => {
+		const productPaper = new Paper( "", { productData: { isVariableProduct: false, hasVariants: false, hasGlobalIdentifier: true } } );
+		expect( assessment.getResult( productPaper ).getScore() ).toEqual( 9 );
+	} );
+
+	it( "scores 6 for a variable product with variants when not all variants have an identifier", () => {
+		const productPaper = new Paper( "", {
+			productData: { isVariableProduct: true, hasVariants: true, hasGlobalIdentifier: false, doAllVariantsHaveIdentifier: false },
+		} );
+		expect( assessment.getResult( productPaper ).getScore() ).toEqual( 6 );
+	} );
+
+	it( "prefers the product field over legacy customData", () => {
+		const productPaper = new Paper( "", {
+			productData: { isVariableProduct: false, hasVariants: false, hasGlobalIdentifier: true },
+			customData: { productType: "simple", hasVariants: false, hasGlobalIdentifier: false },
+		} );
+		// The product field reports a global identifier (score 9); the legacy customData would score 6.
+		expect( assessment.getResult( productPaper ).getScore() ).toEqual( 9 );
+	} );
 } );

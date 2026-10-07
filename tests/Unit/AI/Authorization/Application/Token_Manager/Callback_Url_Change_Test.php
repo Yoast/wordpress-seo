@@ -21,7 +21,7 @@ use Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier;
  * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::get_or_request_access_token
  * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::token_request
  */
-final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
+final class Callback_Url_Change_Test extends Abstract_Test {
 
 	/**
 	 * Tests that tokens are deleted and re-requested when the callback URL hash has changed.

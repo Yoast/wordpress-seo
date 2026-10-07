@@ -95,9 +95,7 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->once()
-			// Use a type matcher instead of a captured timestamp: \time() in source runs after mock setup,
-			// so a strict equality match flaked across second boundaries. The hook name is the meaningful contract.
-			->with( Mockery::type( 'int' ), Cleanup_Integration::START_HOOK );
+			->with( $this->timestamp_from_now( \DAY_IN_SECONDS ), Cleanup_Integration::START_HOOK );
 
 		$this->indexable_helper->expects( 'should_index_indexables' )
 			->once()
@@ -192,5 +190,27 @@ final class Activation_Cleanup_Integration_Test extends TestCase {
 			->never();
 
 		$this->instance->register_cleanup_routine();
+	}
+
+	/**
+	 * Builds a matcher for a timestamp that is a given offset from now.
+	 *
+	 * The code under test computes the timestamp with its own `time()` call, so an exact match against a timestamp
+	 * taken in the test is flaky around second boundaries. Accept any timestamp between now and the actual call.
+	 *
+	 * @param int $offset The number of seconds the expected timestamp lies in the future.
+	 *
+	 * @return Mockery\Matcher\Closure The argument matcher.
+	 */
+	private function timestamp_from_now( $offset ) {
+		$not_before = ( \time() + $offset );
+
+		return Mockery::on(
+			static function ( $timestamp ) use ( $not_before, $offset ) {
+				return \is_int( $timestamp )
+					&& $timestamp >= $not_before
+					&& $timestamp <= ( \time() + $offset );
+			},
+		);
 	}
 }

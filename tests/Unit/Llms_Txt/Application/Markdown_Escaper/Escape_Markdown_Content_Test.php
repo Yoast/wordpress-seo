@@ -13,7 +13,7 @@ use Generator;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Markdown_Escaper::escape_markdown_content
  */
-final class Escape_Markdown_Content_Test extends Abstract_Markdown_Escaper_Test {
+final class Escape_Markdown_Content_Test extends Abstract_Test {
 
 	/**
 	 * Tests escape_markdown_content().

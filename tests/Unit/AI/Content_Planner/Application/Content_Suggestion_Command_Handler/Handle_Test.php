@@ -20,10 +20,8 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Application\Content_Suggestion_Command_Handler::handle
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Handle_Test extends Abstract_Content_Suggestion_Command_Handler_Test {
+final class Handle_Test extends Abstract_Test {
 
 	/**
 	 * Builds a Content_Suggestion_Command with a WP_User mock whose ID is 1.

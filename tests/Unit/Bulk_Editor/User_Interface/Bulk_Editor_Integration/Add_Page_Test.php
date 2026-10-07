@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration::add_page
  */
-final class Add_Page_Test extends Abstract_Bulk_Editor_Integration_Test {
+final class Add_Page_Test extends Abstract_Test {
 
 	/**
 	 * Tests adding the bulk editor page.

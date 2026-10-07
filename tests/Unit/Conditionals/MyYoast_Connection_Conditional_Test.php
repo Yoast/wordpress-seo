@@ -45,14 +45,14 @@ final class MyYoast_Connection_Conditional_Test extends TestCase {
 
 	/**
 	 * Tests that, with no constant defined, the decision falls back to the gradual-rollout
-	 * cohort. For the harness site URL the connection's bucket sits above the current rollout
-	 * share, so the site is not (yet) in the cohort.
+	 * cohort. For the harness site URL the connection's bucket (35) sits below the current
+	 * rollout share (200 per-mille, 20%), so the site is in the cohort.
 	 *
 	 * @covers ::is_met
 	 *
 	 * @return void
 	 */
 	public function test_is_met_falls_back_to_cohort_when_constant_not_defined() {
-		$this->assertFalse( $this->instance->is_met() );
+		$this->assertTrue( $this->instance->is_met() );
 	}
 }

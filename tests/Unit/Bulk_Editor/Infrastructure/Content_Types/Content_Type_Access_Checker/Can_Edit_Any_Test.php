@@ -13,7 +13,7 @@ use Brain\Monkey\Functions;
  *
  * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Content_Types\Content_Type_Access_Checker::can_edit_any
  */
-final class Can_Edit_Any_Test extends Abstract_Content_Type_Access_Checker_Test {
+final class Can_Edit_Any_Test extends Abstract_Test {
 
 	/**
 	 * Tests that the type is editable when the user can edit its own drafts.

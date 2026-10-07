@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Enhancement\Article_Config;
  *
  * @group schema-aggregator
  */
-final class Set_Article_Config_Test extends Abstract_Article_Schema_Enhancer_Test {
+final class Set_Article_Config_Test extends Abstract_Test {
 
 	/**
 	 * The Article_Config mock.

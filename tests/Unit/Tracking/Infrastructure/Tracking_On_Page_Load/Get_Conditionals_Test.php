@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
  *
  * @covers Yoast\WP\SEO\Tracking\Infrastructure\Tracking_On_Page_Load_Integration::get_conditionals
  */
-final class Get_Conditionals_Test extends Abstract_Tracking_On_Page_Load_Integration_Test {
+final class Get_Conditionals_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_conditionals method.

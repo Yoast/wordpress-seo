@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Application\Updates;
 
 use Mockery;
 use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Bulk_Updater;
+use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Field_Renderer_Interface;
 use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Meta_Writer_Interface;
 use Yoast\WP\SEO\Bulk_Editor\Application\Updates\Post_Access_Checker_Interface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -30,6 +31,13 @@ abstract class Abstract_Bulk_Updater_Test extends TestCase {
 	protected $meta_writer;
 
 	/**
+	 * The field renderer.
+	 *
+	 * @var Mockery\MockInterface|Field_Renderer_Interface
+	 */
+	protected $field_renderer;
+
+	/**
 	 * The logger.
 	 *
 	 * @var Mockery\MockInterface|LoggerInterface
@@ -53,9 +61,17 @@ abstract class Abstract_Bulk_Updater_Test extends TestCase {
 
 		$this->post_access_checker = Mockery::mock( Post_Access_Checker_Interface::class );
 		$this->meta_writer         = Mockery::mock( Meta_Writer_Interface::class );
+		$this->field_renderer      = Mockery::mock( Field_Renderer_Interface::class );
 		$this->logger              = Mockery::mock( LoggerInterface::class )->shouldIgnoreMissing();
 
-		$this->instance = new Bulk_Updater( $this->post_access_checker, $this->meta_writer );
+		// Search updates render the search fields for re-scoring; default to a key-based value.
+		$this->field_renderer->allows( 'render' )->andReturnUsing(
+			static function ( $post_id, $meta_key ) {
+				return 'rendered-' . $meta_key;
+			},
+		);
+
+		$this->instance = new Bulk_Updater( $this->post_access_checker, $this->meta_writer, $this->field_renderer );
 		$this->instance->setLogger( $this->logger );
 	}
 

@@ -3,11 +3,49 @@ import { isArray, isNumber, isUndefined } from "lodash";
 import Mark from "./Mark";
 
 /**
- * A function that only returns an empty that can be used as an empty marker
+ * @typedef {Object} SerializedAssessmentResult
+ * @property {string} [_parseClass] The name of the class, used for parsing. Should be "AssessmentResult" for AssessmentResult instances.
+ * @property {string} identifier The identifier of the assessment result.
+ * @property {boolean} _hasJumps Whether the result causes a jump to a different field.
+ * @property {boolean} _hasAIFixes Whether the assessment result has AI fixes.
+ * @property {boolean} _hasBetaBadge Whether the assessment is in beta.
+ * @property {string} editFieldName The edit field name for this assessment result, used to determine where an edit button should jump to when clicked.
+ * @property {string} editFieldAriaLabel The edit field aria label for this assessment result.
+ * @property {number} score The score for this assessment result.
+ * @property {string} text The feedback text for this assessment result.
+ * @property {Object[]} marks The serialized marks (the output of Mark.serialize()).
+ */
+
+/**
+ * A function that only returns an empty array that can be used as an empty marker.
  *
- * @returns {Array} A list of empty marks.
+ * @returns {Mark[]} A list of empty marks.
  */
 const emptyMarker = () => [];
+
+/**
+ * Tracks which deprecated getters have already logged a notice, so the warning is emitted once per
+ * session instead of on every analysis result (these getters are read per result, e.g., in result mappers).
+ *
+ * @type {Object<string, boolean>}
+ */
+const deprecationNoticed = {};
+
+/**
+ * Logs a one-time deprecation notice for a getter that has been renamed to a contract-neutral name.
+ *
+ * @param {string} oldName The deprecated getter name.
+ * @param {string} newName The replacement getter name.
+ *
+ * @returns {void}
+ */
+function warnRenamedGetterOnce( oldName, newName ) {
+	if ( deprecationNoticed[ oldName ] ) {
+		return;
+	}
+	deprecationNoticed[ oldName ] = true;
+	console.warn( `AssessmentResult.${ oldName }() is deprecated; use ${ newName }() instead.` );
+}
 
 /**
  * Represents the assessment result.
@@ -19,16 +57,15 @@ class AssessmentResult {
 	 * @param {Object} [values] The values for this assessment result.
 	 * @param {number} [values.score] The score for this assessment result.
 	 * @param {string} [values.text] The text for this assessment result. This is the text that can be used as a feedback message associated with the score.
-	 * @param {array} [values.marks] The marks for this assessment result.
+	 * @param {Mark[]} [values.marks] The marks for this assessment result.
 	 * @param {boolean} [values._hasBetaBadge] Whether this result has a beta badge.
 	 * @param {boolean} [values._hasJumps] Whether this result causes a jump to a different field.
 	 * @param {string} [values.editFieldName] The edit field name for this assessment result.
 	 * @param {string} [values.editFieldAriaLabel] The edit field aria label for this assessment result.
 	 * @param {boolean} [values._hasAIFixes] Whether this result has AI fixes.
 	 * @constructor
-	 * @returns {void}
 	 */
-	constructor( values ) {
+	constructor( values = {} ) {
 		this._hasScore = false;
 		this._identifier = "";
 		this._hasAIFixes = false;
@@ -36,18 +73,40 @@ class AssessmentResult {
 		this._hasJumps = false;
 		this._hasEditFieldName = false;
 		this._hasEditFieldAriaLabel = false;
+		/**
+		 * The assessor-supplied marker is invoked for its side effect and returns nothing; the no-op
+		 * default returns an empty array, which is why the declared type is the wider callback shape.
+		 *
+		 * @type {function(): void}
+		 */
 		this._marker = emptyMarker;
 		this._hasBetaBadge = false;
 		this.score = 0;
 		this.text = "";
+		/**
+		 * @type {Mark[]}
+		 */
 		this.marks = [];
 		this.editFieldName = "";
 		this.editFieldAriaLabel = "";
+		this._setValues( values );
+	}
 
-		if ( isUndefined( values ) ) {
-			values = {};
-		}
-
+	/**
+	 * Sets the values for the AssessmentResult.
+	 *
+	 * @param {Object} values The values for this assessment result.
+	 * @param {number} [values.score] The score for this assessment result.
+	 * @param {string} [values.text] The text for this assessment result. This is the text that can be used as a feedback message associated with the score.
+	 * @param {Mark[]} [values.marks] The marks for this assessment result.
+	 * @param {boolean} [values._hasBetaBadge] Whether this result has a beta badge.
+	 * @param {boolean} [values._hasJumps] Whether this result causes a jump to a different field.
+	 * @param {string} [values.editFieldName] The edit field name for this assessment result.
+	 * @param {string} [values.editFieldAriaLabel] The edit field aria label for this assessment result.
+	 * @param {boolean} [values._hasAIFixes] Whether this result has AI fixes.
+	 * @private
+	 */
+	_setValues( values ) {
 		if ( ! isUndefined( values.score ) ) {
 			this.setScore( values.score );
 		}
@@ -141,7 +200,7 @@ class AssessmentResult {
 	/**
 	 * Gets the available marks.
 	 *
-	 * @returns {array} The marks associated with the AssessmentResult.
+	 * @returns {Mark[]} The marks associated with the AssessmentResult.
 	 */
 	getMarks() {
 		return this.marks;
@@ -150,7 +209,7 @@ class AssessmentResult {
 	/**
 	 * Sets the marks for the assessment.
 	 *
-	 * @param {array} marks The marks to be used for the marks property.
+	 * @param {Mark[]} marks The marks to be used for the marks property.
 	 *
 	 * @returns {void}
 	 */
@@ -181,9 +240,13 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Sets the marker, a pure function that can return the marks for a given Paper.
+	 * Sets the marker: a callback that computes this result's marks for the Paper it was created for and
+	 * hands them to the marker configured on the assessor.
 	 *
-	 * @param {Function} marker The marker to set.
+	 * It is invoked for that side effect and returns nothing — read the marks off the result with
+	 * {@link AssessmentResult#getMarks} instead.
+	 *
+	 * @param {function(): void} marker The marker to set.
 	 * @returns {void}
 	 */
 	setMarker( marker ) {
@@ -200,9 +263,10 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Gets the marker, a pure function that can return the marks for a given Paper.
+	 * Gets the marker: a callback that applies this result's marks through the marker configured on the
+	 * assessor. It returns nothing; see {@link AssessmentResult#setMarker}.
 	 *
-	 * @returns {Function} The marker.
+	 * @returns {function(): void} The marker.
 	 */
 	getMarker() {
 		return this._marker;
@@ -240,9 +304,25 @@ class AssessmentResult {
 	/**
 	 * Returns the value of _hasBetaBadge to determine if the result has a beta badge.
 	 *
-	 * @returns {bool} Whether this result has a beta badge.
+	 * @deprecated Use {@link AssessmentResult#isBeta} instead. The result contract exposes this signal under
+	 * the neutral `isBeta` name; this UI-branded getter is kept for backwards compatibility and will be
+	 * removed at a future major version.
+	 *
+	 * @returns {boolean} Whether this result has a beta badge.
 	 */
 	hasBetaBadge() {
+		warnRenamedGetterOnce( "hasBetaBadge", "isBeta" );
+		return this._hasBetaBadge;
+	}
+
+	/**
+	 * Returns whether this result belongs to an assessment that is still in beta/experimental status.
+	 *
+	 * Replaces the UI-branded {@link AssessmentResult#hasBetaBadge}.
+	 *
+	 * @returns {boolean} Whether this result is from a beta assessment.
+	 */
+	isBeta() {
 		return this._hasBetaBadge;
 	}
 
@@ -259,14 +339,14 @@ class AssessmentResult {
 	/**
 	 * Returns the value of _hasJumps to determine whether it's needed to jump to a different field.
 	 *
-	 * @returns {bool} Whether this result causes a jump to a different field.
+	 * @returns {boolean} Whether this result causes a jump to a different field.
 	 */
 	hasJumps() {
 		return this._hasJumps;
 	}
 
 	/**
-	 * Check if an edit field name is available.
+	 * Checks if an edit field name is available.
 	 * @returns {boolean} Whether or not an edit field name is available.
 	 */
 	hasEditFieldName() {
@@ -294,7 +374,7 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Check if an edit field aria label is available.
+	 * Checks if an edit field aria label is available.
 	 * @returns {boolean} Whether or not an edit field aria label is available.
 	 */
 	hasEditFieldAriaLabel() {
@@ -334,16 +414,33 @@ class AssessmentResult {
 	/**
 	 * Returns the value of _hasAIFixes to determine if the result has AI fixes.
 	 *
-	 * @returns {bool} Whether this result has AI fixes.
+	 * @deprecated Use {@link AssessmentResult#isOptimizable} instead. The result contract exposes this signal
+	 * under the neutral `isOptimizable` name; this Yoast-AI-branded getter is kept for backwards
+	 * compatibility and will be removed at a future major version.
+	 *
+	 * @returns {boolean} Whether this result has AI fixes.
 	 */
 	hasAIFixes() {
+		warnRenamedGetterOnce( "hasAIFixes", "isOptimizable" );
+		return this._hasAIFixes;
+	}
+
+	/**
+	 * Returns whether this result is optimizable, i.e., whether an automated fix is available for it.
+	 *
+	 * Replaces the Yoast-AI-branded {@link AssessmentResult#hasAIFixes}. Eligibility is computed by the
+	 * assessment from the result's score, so it stays an engine-side signal a consumer cannot reconstruct.
+	 *
+	 * @returns {boolean} Whether an automated fix is available for this result.
+	 */
+	isOptimizable() {
 		return this._hasAIFixes;
 	}
 
 	/**
 	 * Serializes the AssessmentResult instance to an object.
 	 *
-	 * @returns {Object} The serialized AssessmentResult.
+	 * @returns {SerializedAssessmentResult} The serialized AssessmentResult.
 	 */
 	serialize() {
 		return {
@@ -363,7 +460,7 @@ class AssessmentResult {
 	/**
 	 * Parses the object to an AssessmentResult.
 	 *
-	 * @param {Object} serialized The serialized object.
+	 * @param {SerializedAssessmentResult} serialized The serialized object.
 	 *
 	 * @returns {AssessmentResult} The parsed AssessmentResult.
 	 */

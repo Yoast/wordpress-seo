@@ -15,7 +15,6 @@ export { default as RouteLayout } from "./route-layout";
 export { default as Search } from "./search";
 export { ErrorFallback } from "./error-fallback";
 export { LlmsTxtAlert } from "./llms-txt-alert";
-export { LlmTxtPopover } from "./llm-txt-popover";
 export { LlmsTxtUnsavedChangesModal } from "./llms-txt-unsaved-changes-modal";
 export { AdvancedMenu } from "./advanced-menu";
 export { SchemaDisableConfirmationModal } from "./schema-disable-confirmation-modal";

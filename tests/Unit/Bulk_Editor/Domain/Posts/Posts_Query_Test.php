@@ -22,13 +22,33 @@ final class Posts_Query_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_getters() {
-		$instance = new Posts_Query( 'page', 2, 20, 'seo', [ 'publish', 'draft' ] );
+		$instance = new Posts_Query( 'page', 2, 20, 'seo', [ 'publish', 'draft' ], null, [ 'seo_title' ] );
 
 		$this->assertSame( 'page', $instance->get_content_type() );
 		$this->assertSame( 2, $instance->get_page() );
 		$this->assertSame( 20, $instance->get_per_page() );
 		$this->assertSame( 'seo', $instance->get_search() );
 		$this->assertSame( [ 'publish', 'draft' ], $instance->get_statuses() );
+		$this->assertSame( [ 'seo_title' ], $instance->get_needs_improvement() );
+	}
+
+	/**
+	 * Tests that the needs-improvement filter defaults to none.
+	 *
+	 * @return void
+	 */
+	public function test_needs_improvement_defaults_to_empty() {
+		$this->assertSame( [], ( new Posts_Query( 'page', 1, 20, '', [] ) )->get_needs_improvement() );
+	}
+
+	/**
+	 * Tests that scoring defaults to enabled and is carried through when set.
+	 *
+	 * @return void
+	 */
+	public function test_are_scores_enabled() {
+		$this->assertTrue( ( new Posts_Query( 'page', 1, 20, '', [] ) )->are_scores_enabled() );
+		$this->assertFalse( ( new Posts_Query( 'page', 1, 20, '', [], null, [ 'seo_title' ], false ) )->are_scores_enabled() );
 	}
 
 	/**
@@ -77,5 +97,33 @@ final class Posts_Query_Test extends TestCase {
 	public function test_has_author_filter() {
 		$this->assertTrue( ( new Posts_Query( 'page', 1, 20, '', [], 5 ) )->has_author_filter() );
 		$this->assertFalse( ( new Posts_Query( 'page', 1, 20, '', [] ) )->has_author_filter() );
+	}
+
+	/**
+	 * Tests that the included post IDs default to no restriction.
+	 *
+	 * @return void
+	 */
+	public function test_get_include_defaults_to_empty() {
+		$this->assertSame( [], ( new Posts_Query( 'page', 1, 20, '', [] ) )->get_include_ids() );
+	}
+
+	/**
+	 * Tests that the included post IDs are carried through when set.
+	 *
+	 * @return void
+	 */
+	public function test_get_include() {
+		$this->assertSame( [ 5, 3 ], ( new Posts_Query( 'page', 1, 20, '', [], null, [], true, [ 5, 3 ] ) )->get_include_ids() );
+	}
+
+	/**
+	 * Tests that has_include reflects whether a post ID restriction is set.
+	 *
+	 * @return void
+	 */
+	public function test_has_include() {
+		$this->assertTrue( ( new Posts_Query( 'page', 1, 20, '', [], null, [], true, [ 5, 3 ] ) )->has_include() );
+		$this->assertFalse( ( new Posts_Query( 'page', 1, 20, '', [] ) )->has_include() );
 	}
 }

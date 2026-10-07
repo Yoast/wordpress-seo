@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\Application;
 
 use WP_Error;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_Access_Checker;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 
@@ -12,6 +13,7 @@ use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
  *
  * Doubles as a discovery tool: a title keyword search returns full SEO data for
  * every matching post. A request must carry an identifier; an empty request is an error.
+ * Only posts the current user may edit are exposed.
  */
 class Post_SEO_Data_Collector {
 
@@ -30,17 +32,27 @@ class Post_SEO_Data_Collector {
 	private $field_map;
 
 	/**
+	 * The post access checker.
+	 *
+	 * @var Post_Access_Checker
+	 */
+	private $post_access_checker;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param Post_Identifier_Resolver $resolver  The post identifier resolver.
-	 * @param Post_SEO_Field_Map       $field_map The post SEO field map.
+	 * @param Post_Identifier_Resolver $resolver            The post identifier resolver.
+	 * @param Post_SEO_Field_Map       $field_map           The post SEO field map.
+	 * @param Post_Access_Checker      $post_access_checker The post access checker.
 	 */
 	public function __construct(
 		Post_Identifier_Resolver $resolver,
-		Post_SEO_Field_Map $field_map
+		Post_SEO_Field_Map $field_map,
+		Post_Access_Checker $post_access_checker
 	) {
-		$this->resolver  = $resolver;
-		$this->field_map = $field_map;
+		$this->resolver            = $resolver;
+		$this->field_map           = $field_map;
+		$this->post_access_checker = $post_access_checker;
 	}
 
 	/**
@@ -57,6 +69,14 @@ class Post_SEO_Data_Collector {
 			return $indexables;
 		}
 
-		return $this->field_map->indexables_to_arrays( $indexables );
+		$editable = $this->post_access_checker->filter_editable( $indexables );
+
+		// Every match was a post the user may not edit; an already empty match list
+		// (a title-search page past the last result) stays a valid empty result.
+		if ( $editable === [] && $indexables !== [] ) {
+			return $this->post_access_checker->forbidden_error();
+		}
+
+		return $this->field_map->indexables_to_arrays( $editable );
 	}
 }

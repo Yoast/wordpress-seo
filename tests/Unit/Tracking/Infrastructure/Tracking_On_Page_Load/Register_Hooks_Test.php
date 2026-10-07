@@ -12,7 +12,7 @@ use Brain\Monkey;
  *
  * @covers Yoast\WP\SEO\Tracking\Infrastructure\Tracking_On_Page_Load_Integration::register_hooks
  */
-final class Register_Hooks_Test extends Abstract_Tracking_On_Page_Load_Integration_Test {
+final class Register_Hooks_Test extends Abstract_Test {
 
 	/**
 	 * Tests the register_hooks method.

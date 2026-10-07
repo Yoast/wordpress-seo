@@ -13,7 +13,7 @@ use Brain\Monkey\Functions;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Infrastructure\WordPress_URLs::get_callback_url
  */
-final class Get_Callback_Url_Test extends Abstract_WordPress_URLs_Test {
+final class Get_Callback_Url_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_callback_url method.

@@ -1,36 +1,32 @@
 Yoast SEO
 =========
-Requires at least: 6.8
-Tested up to: 7.0
+Requires at least: 6.9
+Tested up to: 7.1
 Requires PHP: 7.4
 
 Changelog
 =========
 
-## 28.1
+## 28.3
 
-Release date: 2026-07-20
-
-#### Enhancements
-
-* Redesigns the bulk editor page, which allows users to edit Metadata for multiple posts at once.
-* Adds a MyYoast connection card on the Integrations page to connect, verify, and disconnect a site using MyYoast OAuth.
-
-## 28.0
-
-Release date: 2026-07-06
+Release date: 2026-08-18
 
 #### Enhancements
 
-* Improves the compatibility with the atomic editor in Elementor V4.
+* Adds a schemamap.xml file at the site root that exposes the aggregated schema map.
+* Adds the failing object's type and ID to the SEO data optimization error report when an indexable cannot be built.
+* Improves performance when running the SEO optimization by warming post and term caches in bulk.
+* Improves the performance of generating XML sitemaps by warming post, term and featured-image caches in bulk.
 
 #### Bugfixes
 
-* Fixes a bug where raw `type` and `id` attributes were written on a link instead of `data-type` and `data-id`, when the link was added by selecting a suggestion in the block editor link popover.
+* Fixes a bug where the AI Content Planner inserted an empty paragraph block before the template blocks when a post type had a block template registered.
 
 #### Other
 
-* Updates the guzzlehttp/guzzle and guzzlehttp/psr7 dependencies to patched releases that address known security advisories.
+* Sets the _WordPress tested up to_ version to 7.1.
+* Sets the minimum supported WordPress version to 6.9.
+* Adds a first-time guided tour to the bulk editor.
 
 
 ### Earlier versions

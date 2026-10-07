@@ -55,6 +55,10 @@ class Indexable_Mock extends Indexable {
 
 	public $primary_focus_keyword_score;
 
+	public $seo_title_score;
+
+	public $meta_description_score;
+
 	public $readability_score;
 
 	public $inclusive_language_score;

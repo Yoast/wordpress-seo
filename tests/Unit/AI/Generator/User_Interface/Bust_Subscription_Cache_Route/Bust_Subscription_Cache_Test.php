@@ -14,7 +14,7 @@ use WP_REST_Response;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Bust_Subscription_Cache_Route::bust_subscription_cache
  */
-final class Bust_Subscription_Cache_Test extends Abstract_Bust_Subscription_Cache_Route_Test {
+final class Bust_Subscription_Cache_Test extends Abstract_Test {
 
 	/**
 	 * Tests the bust_subscription_cache method.

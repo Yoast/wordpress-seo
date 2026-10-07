@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  *
  * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::__construct
  */
-final class Constructor_Test extends Abstract_Token_Manager_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

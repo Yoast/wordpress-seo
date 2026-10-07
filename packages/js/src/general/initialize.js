@@ -10,7 +10,7 @@ import { Dashboard } from "../dashboard";
 import { DataProvider } from "../dashboard/services/data-provider";
 import { DataTracker } from "../dashboard/services/data-tracker";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
-import { ADMIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
+import { ADMIN_URL_NAME, LINK_PARAMS_NAME, OPT_IN_NOTIFICATION_NAME } from "../shared-admin/store";
 import App from "./app";
 import { RouteErrorFallback } from "./components";
 import { ConnectedPremiumUpsellList } from "./components/connected-premium-upsell-list";
@@ -20,7 +20,6 @@ import { AlertCenter, FirstTimeConfiguration, ROUTES, TaskList } from "./routes"
 import registerStore from "./store";
 import { ADMIN_NOTICES_NAME } from "./store/admin-notices";
 import { ALERT_CENTER_NAME } from "./store/alert-center";
-import { OPT_IN_NOTIFICATION_NAME } from "./store/opt-in";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -45,7 +44,7 @@ domReady( () => {
 			dismissedAlerts: get( window, "wpseoScriptData.dismissedAlerts", {} ),
 			isPremium: get( window, "wpseoScriptData.preferences.isPremium", false ),
 			[ ADMIN_NOTICES_NAME ]: { resolvedNotices: [] },
-			[ OPT_IN_NOTIFICATION_NAME ]: { seen: get( window, "wpseoScriptData.optInNotificationSeen", false ) },
+			[ OPT_IN_NOTIFICATION_NAME ]: { seen: get( window, "wpseoScriptData.optInNotificationSeen", {} ) },
 			[ TASK_LIST_NAME ]: {
 				enabled: get( window, "wpseoScriptData.taskListConfiguration.enabled", false ),
 				endpoints: get( window, "wpseoScriptData.taskListConfiguration.endpoints", {} ),
