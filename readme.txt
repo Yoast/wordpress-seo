@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.1
-Stable tag: 28.5
+Stable tag: 28.6
 Requires PHP: 7.4
 
 Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.
@@ -307,6 +307,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 28.7 =
+
+Release date: 2026-10-13
+
+#### Enhancements
+
+* Allows agents to update titles and descriptions via the respective Yoast Ability.
+
 = 28.6 =
 
 Release date: 2026-09-29
@@ -316,24 +324,16 @@ Release date: 2026-09-29
 * Don't show a post type in the Bulk editor if `Enable SEO controls and assessments` is turned off for that post type.
 * Introduces 2 new Yoast Abilities, to allow agents to get and update SEO data for given posts.
 
-#### Other
-
-* Adjust the name and description of the setting's toggle controlling the breadcrumbs' rendering to state clearly its intended behaviour.
-
-= 28.5 =
-
-Release date: 2026-09-15
-
-Yoast SEO 28.5 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
 #### Bugfixes
 
-* Fixes a bug where the SEO data optimization would loop endlessly when an indexing batch was repeatedly returned without being processed.
+* Adds a notice to the bulk editor explaining that no content types are available when *Enable SEO controls and assessments* is disabled for all post types, with a link to the settings page.
+* Fixes a bug where a `rest_invalid_content_type` error would be logged in the browser console when opening the bulk editor while *Enable SEO controls and assessments* was disabled for all post types.
 
 #### Other
 
-* Adds a link with more information about social previews to the social appearance sections of the editor.
-* Updates the plugin's app URL and logo that are used when initiating the MyYoast connection.
+* Adds two new cards for the Schema aggregator and the WordPress abilities API features.
+* Adjust the name and description of the setting's toggle controlling the breadcrumbs' rendering to state clearly its intended behaviour.
+* Re-groups the integrations' cards in the `Integrations` page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

@@ -232,3 +232,8 @@
 .yst-root .DraftEditor-editorContainer {
 	@apply yst-leading-6;
 }
+
+/* Hides the pagination summary on mobile for content type pagination */
+.yst-root .yst-content-type-pagination p {
+	@apply yst-hidden sm:yst-block;
+}

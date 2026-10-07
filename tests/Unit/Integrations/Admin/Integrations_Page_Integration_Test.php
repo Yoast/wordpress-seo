@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
@@ -83,6 +84,13 @@ final class Integrations_Page_Integration_Test extends TestCase {
 	private $myyoast_connection_script_data;
 
 	/**
+	 * The Abilities API conditional.
+	 *
+	 * @var Mockery\MockInterface|Abilities_API_Conditional
+	 */
+	private $abilities_api_conditional;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Integrations_Page
@@ -107,6 +115,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->site_kit_consent_management_endpoint = Mockery::mock( Site_Kit_Consent_Management_Endpoint::class );
 		$this->schema_configuration                 = Mockery::mock( Schema_Configuration::class );
 		$this->myyoast_connection_script_data       = Mockery::mock( Integrations_Page_Script_Data::class );
+		$this->abilities_api_conditional            = Mockery::mock( Abilities_API_Conditional::class );
 
 		$this->instance = new Integrations_Page(
 			$this->admin_asset_manager,
@@ -117,6 +126,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 			$this->site_kit_consent_management_endpoint,
 			$this->schema_configuration,
 			$this->myyoast_connection_script_data,
+			$this->abilities_api_conditional,
 		);
 	}
 
@@ -199,7 +209,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'plugins_url' )->andReturn( 'https://www.example.com' );
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://www.example.com' );
 
-		$this->options_helper->expects( 'get' )->times( 6 )->andReturnTrue();
+		$this->options_helper->expects( 'get' )->times( 7 )->andReturnTrue();
 
 		$this->elementor_conditional->expects( 'is_met' )->andReturnFalse();
 		$this->jetpack_conditional->expects( 'is_met' )->andReturnFalse();
@@ -222,6 +232,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 			->andReturn( 'https://www.example.com/manage-consent' );
 		$this->schema_configuration->expects( 'is_schema_disabled_programmatically' )->andReturnFalse();
 		$this->myyoast_connection_script_data->expects( 'present' )->andReturnNull();
+		$this->abilities_api_conditional->expects( 'is_met' )->andReturnTrue();
 
 		$this->admin_asset_manager->expects( 'localize_script' )->with(
 			'integrations-page',
@@ -256,6 +267,8 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'site_kit_consent_management_url'    => 'https://www.example.com/manage-consent',
 				'schema_framework_enabled'           => true,
 				'myyoast_connection'                 => null,
+				'schema_aggregation_active'          => true,
+				'abilities_api_active'               => true,
 			],
 		);
 
