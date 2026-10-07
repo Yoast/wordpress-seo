@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Bulk_Editor\User_Interface;
 
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Editor_Specific_Replace_Vars;
 use WPSEO_Admin_Recommended_Replace_Vars;
@@ -12,6 +13,7 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Batch_Limit;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -51,6 +53,14 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * The URL parameter carrying how many posts were selected on the overview the user came from.
 	 */
 	public const SELECTED_COUNT_PARAM = 'selected_count';
+
+	/**
+	 * The last Yoast WooCommerce SEO version that does not fill the products "Image alt text" tab.
+	 *
+	 * Versions after it fill the tab. With an active version up to this one the tab stays empty, so the bulk editor
+	 * asks for an update instead.
+	 */
+	private const LAST_UNSUPPORTED_WOO_SEO_VERSION = '17.0-RC0';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -130,6 +140,20 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	private $replace_vars;
 
 	/**
+	 * Tells whether Yoast WooCommerce SEO is inactive, which decides between its image alt text tab and the upsell.
+	 *
+	 * @var Woo_SEO_Inactive_Conditional
+	 */
+	private $woo_seo_inactive_conditional;
+
+	/**
+	 * Reads the installed add-on versions and plugin files.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	private $addon_manager;
+
+	/**
 	 * Constructs the instance.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager         $asset_manager                     The WPSEO_Admin_Asset_Manager.
@@ -143,6 +167,8 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @param User_Helper                       $user_helper                       The User_Helper.
 	 * @param Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter The MyYoast connection data presenter.
 	 * @param WPSEO_Replace_Vars                $replace_vars                      The replace vars handler.
+	 * @param Woo_SEO_Inactive_Conditional      $woo_seo_inactive_conditional      The Yoast WooCommerce SEO inactive conditional.
+	 * @param WPSEO_Addon_Manager               $addon_manager                     The add-on manager.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -155,7 +181,9 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		Options_Helper $options_helper,
 		User_Helper $user_helper,
 		Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter,
-		WPSEO_Replace_Vars $replace_vars
+		WPSEO_Replace_Vars $replace_vars,
+		Woo_SEO_Inactive_Conditional $woo_seo_inactive_conditional,
+		WPSEO_Addon_Manager $addon_manager
 	) {
 		$this->asset_manager                     = $asset_manager;
 		$this->current_page_helper               = $current_page_helper;
@@ -168,6 +196,8 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$this->user_helper                       = $user_helper;
 		$this->myyoast_connection_data_presenter = $myyoast_connection_data_presenter;
 		$this->replace_vars                      = $replace_vars;
+		$this->woo_seo_inactive_conditional      = $woo_seo_inactive_conditional;
+		$this->addon_manager                     = $addon_manager;
 	}
 
 	/**
@@ -265,6 +295,10 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$content_types        = $this->content_types_repository->get_content_types();
 		$is_premium           = $this->product_helper->is_premium();
 		$is_version_supported = $this->is_premium_version_supported( $is_premium );
+		$is_woo_seo_active    = ! $this->woo_seo_inactive_conditional->is_met();
+		$is_woo_seo_supported = $this->is_woo_seo_version_supported( $is_woo_seo_active );
+		$woo_seo_needs_update = $is_woo_seo_active && ! $is_woo_seo_supported;
+		$can_update_plugins   = \current_user_can( 'update_plugins' );
 
 		return [
 			'contentTypes'          => $content_types,
@@ -284,9 +318,14 @@ class Bulk_Editor_Integration implements Integration_Interface {
 				'isPremium'                 => $is_premium,
 				'isPremiumVersionSupported' => $is_version_supported,
 				'isAiEnabled'               => $this->options_helper->get( 'enable_ai_generator' ) === true,
+				// Without Yoast WooCommerce SEO, the products "Image alt text" tab shows the upsell instead; with an
+				// active version that predates the tab, it asks for an update.
+				'isWooSeoActive'            => $is_woo_seo_active,
+				'isWooSeoVersionSupported'  => $is_woo_seo_supported,
 				'isRtl'                     => \is_rtl(),
 				'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
-				'premiumUpdateUrl'          => $this->get_premium_update_url(),
+				'premiumUpdateUrl'          => $this->get_premium_update_url( $can_update_plugins ),
+				'wooSeoUpdateUrl'           => $this->get_woo_seo_update_url( $woo_seo_needs_update, $can_update_plugins ),
 			],
 			'linkParams'            => $this->short_link_helper->get_query_params(),
 			'analysis'              => [
@@ -350,20 +389,102 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Checks whether the active Yoast WooCommerce SEO version fills the products "Image alt text" tab.
+	 *
+	 * @param bool $is_woo_seo_active Whether Yoast WooCommerce SEO is active.
+	 *
+	 * @return bool False when the add-on is not active or needs an update.
+	 */
+	private function is_woo_seo_version_supported( bool $is_woo_seo_active ): bool {
+		if ( ! $is_woo_seo_active ) {
+			return false;
+		}
+
+		$versions = $this->addon_manager->get_installed_addons_versions();
+		if ( ! isset( $versions[ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ] ) ) {
+			return false;
+		}
+
+		return \version_compare( $versions[ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ], self::LAST_UNSUPPORTED_WOO_SEO_VERSION, '>' );
+	}
+
+	/**
 	 * Returns the one-click Premium update URL for the current user, or an empty string when the user
 	 * lacks the `update_plugins` capability (and would hit a wp_die permission error on update.php).
 	 *
+	 * @param bool $can_update_plugins Whether the current user may update plugins.
+	 *
 	 * @return string The nonce-protected update URL, or an empty string.
 	 */
-	private function get_premium_update_url(): string {
-		if ( ! \current_user_can( 'update_plugins' ) ) {
+	private function get_premium_update_url( bool $can_update_plugins ): string {
+		if ( ! $can_update_plugins ) {
 			return '';
 		}
 
+		return $this->get_plugin_update_url( 'wordpress-seo-premium/wp-seo-premium.php' );
+	}
+
+	/**
+	 * Returns where the current user can update Yoast WooCommerce SEO, or an empty string when it needs no update or
+	 * the user lacks the `update_plugins` capability.
+	 *
+	 * The one-click update URL when WordPress has a package for a version that fills the tab. Otherwise the Updates
+	 * screen, which checks for updates again and, on multisite, redirects to the network screen, where plugin updates
+	 * are listed. Subscriptions are left to Yoast WooCommerce SEO, which handles them once it fills the tab.
+	 *
+	 * @param bool $needs_update       Whether an active Yoast WooCommerce SEO predates the tab.
+	 * @param bool $can_update_plugins Whether the current user may update plugins.
+	 *
+	 * @return string The one-click update or Updates screen URL, or an empty string.
+	 */
+	private function get_woo_seo_update_url( bool $needs_update, bool $can_update_plugins ): string {
+		if ( ! $needs_update || ! $can_update_plugins ) {
+			return '';
+		}
+
+		$plugin_file = $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
+		if ( \is_string( $plugin_file ) && $plugin_file !== '' && $this->has_update_package( $plugin_file ) ) {
+			return $this->get_plugin_update_url( $plugin_file );
+		}
+
+		return \self_admin_url( 'update-core.php' );
+	}
+
+	/**
+	 * Checks whether WordPress has an update package ready to install for Yoast WooCommerce SEO, for a version that
+	 * fills the products "Image alt text" tab.
+	 *
+	 * An update cached before that version came out would install an older one, after which the modal reopens.
+	 *
+	 * @param string $plugin_file The plugin file, relative to the plugins directory.
+	 *
+	 * @return bool Whether update.php can install a version that fills the tab.
+	 */
+	private function has_update_package( string $plugin_file ): bool {
+		$updates = \get_site_transient( 'update_plugins' );
+		if ( ! \is_object( $updates ) || ! isset( $updates->response[ $plugin_file ] ) ) {
+			return false;
+		}
+
+		$update = $updates->response[ $plugin_file ];
+
+		return ! empty( $update->package )
+			&& isset( $update->new_version )
+			&& \version_compare( $update->new_version, self::LAST_UNSUPPORTED_WOO_SEO_VERSION, '>' );
+	}
+
+	/**
+	 * Builds the nonce-protected one-click update URL of a plugin, as the Plugins screen links it.
+	 *
+	 * @param string $plugin_file The plugin file, relative to the plugins directory.
+	 *
+	 * @return string The update URL.
+	 */
+	private function get_plugin_update_url( string $plugin_file ): string {
 		return \html_entity_decode(
 			\wp_nonce_url(
-				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php' ),
-				'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php',
+				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . \rawurlencode( $plugin_file ) ),
+				'upgrade-plugin_' . $plugin_file,
 			),
 			\ENT_COMPAT,
 		);

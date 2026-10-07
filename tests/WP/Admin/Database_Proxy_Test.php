@@ -230,10 +230,6 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key2',
 				'testval' => 'value2',
 			],
-			[
-				'id' => 2,
-			],
-			[ '%d', '%s', '%s' ],
 		);
 
 		$this->assertSame( 1, $result );
@@ -262,10 +258,6 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key10',
 				'testval' => 'value10-2',
 			],
-			[
-				'id' => 10,
-			],
-			[ '%d', '%s', '%s' ],
 		);
 
 		/*
