@@ -1,5 +1,6 @@
 import altTextLength from "../../../src/languageProcessing/researches/altTextLength";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
+import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import Paper from "../../../src/values/Paper";
 import buildTree from "../../specHelpers/parse/buildTree";
 
@@ -119,5 +120,18 @@ describe( "a research that counts the images whose alt text is too short or too 
 		const paper = new Paper( "<img src='https://example.com/in-text.jpg' alt='short' />", { providedImages: [] } );
 
 		expect( research( paper ) ).toEqual( { tooShort: 0, tooLong: 0, flagged: [] } );
+	} );
+} );
+
+describe( "the alt text length boundaries for Japanese", () => {
+	it.each( [
+		[ 5, { tooShort: 1, tooLong: 0, flagged: [ src( 0 ) ] } ],
+		[ 6, { tooShort: 0, tooLong: 0, flagged: [] } ],
+		[ 99, { tooShort: 0, tooLong: 0, flagged: [] } ],
+		[ 100, { tooShort: 0, tooLong: 1, flagged: [ src( 0 ) ] } ],
+	] )( "counts an alt text of %i characters against the Japanese boundaries", ( length, expected ) => {
+		const paper = paperWithImages( [ "画".repeat( length ) ] );
+
+		expect( altTextLength( paper, new JapaneseResearcher( paper ) ) ).toEqual( expected );
 	} );
 } );

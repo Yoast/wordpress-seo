@@ -1,6 +1,7 @@
 import AltTextLengthAssessment from "../../../../src/scoring/assessments/seo/AltTextLengthAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
+import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/altTextLength";
 
 const assessment = new AltTextLengthAssessment();
 const titleAnchor = "<a href='https://yoa.st/alt-text-length' target='_blank'>";
@@ -146,5 +147,32 @@ describe( "the images the alt text length assessment flags", () => {
 		const result = getResult( 0, 0 );
 
 		expect( result.getFlaggedItems() ).toEqual( [] );
+	} );
+} );
+
+describe( "the alt text length assessment for a language with its own boundaries", () => {
+	const japaneseResearcher = ( tooShort, tooLong ) => Factory.buildMockResearcher(
+		{ altTextLength: { tooShort, tooLong, flagged: [] } }, true, false, { altTextLength: japaneseConfig }
+	);
+
+	it( "names the language's boundaries in the feedback", () => {
+		const result = assessment.getResult( new Paper( "" ), japaneseResearcher( 2, 1 ) );
+
+		expect( result.getText() ).toBe(
+			`${ titleAnchor }Alt text length</a>: 3 of your images have alt text that is either too short ` +
+			`(5 characters or fewer) or too long (100 characters or more). ${ actionAnchor }Consider revising them</a>.`
+		);
+	} );
+
+	it( "passes the language's boundaries to a custom callback", () => {
+		const getResultTexts = jest.fn().mockReturnValue( { tooShort: "x", tooLong: "", both: "" } );
+		const callbackAssessment = new AltTextLengthAssessment( { callbacks: { getResultTexts } } );
+
+		callbackAssessment.getResult( new Paper( "" ), japaneseResearcher( 1, 0 ) );
+
+		expect( getResultTexts ).toHaveBeenCalledWith( expect.objectContaining( {
+			tooShortBoundary: 5,
+			tooLongBoundary: 100,
+		} ) );
 	} );
 } );

@@ -118,7 +118,7 @@ a result without a score and without a text, which `Assessor.isValidResult` drop
 **Name in code**: AltTextLengthAssessment
 
 **Product config**: the limits and the score are the same as in the regular SEO assessor — 10 characters or fewer,
-200 characters or more, orange with a score of 6. Only the feedback strings differ: on a product page the images
+200 characters or more (Japanese: 5 and 100), orange with a score of 6. Only the feedback strings differ: on a product page the images
 being assessed are the product's own, so they say "product images" where the defaults say "images".
 
 **Feedback strings**: a platform supplies these through `callbacks.getResultTexts`. It receives

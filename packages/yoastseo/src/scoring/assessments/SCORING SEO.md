@@ -431,7 +431,7 @@ Example: 6/15*100 = 0.4
 | Green         | 9     | There are at least 1 image | **Images**: Good job!                                    |
 
 ### 9) Alt text length
-**What it does**: Checks whether the assessed images have alt text that is likely too short (10 characters or fewer) or too long (200 characters or more). By default it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
+**What it does**: Checks whether the assessed images have alt text that is likely too short (10 characters or fewer; Japanese: 5) or too long (200 characters or more; Japanese: 100). By default, it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
 
 Images without alt text are not counted as too short: that case is covered by [Image alt attributes](SCORING%20SEO%20PRODUCT.md#1-image-alt-attributes).
 
