@@ -167,6 +167,30 @@ const cases = [
 		props: { children: <Table.Body><Table.Row><Table.Cell>Cell</Table.Cell></Table.Row></Table.Body> },
 	},
 	{
+		name: "Table (with checkbox columns)",
+		Component: Table,
+		props: {
+			children: (
+				<>
+					<Table.Head>
+						<Table.Row>
+							<Table.CheckboxHeader
+								checkboxProps={ { id: "t-all", name: "t-all", value: "all", checked: false, onChange: noop, "aria-label": "Select all" } }
+							/>
+							<Table.Header>Title</Table.Header>
+						</Table.Row>
+					</Table.Head>
+					<Table.Body>
+						<Table.Row>
+							<Table.CheckboxCell checkboxProps={ { id: "t-1", name: "t-1", value: "1", checked: false, onChange: noop, "aria-label": "Select row 1" } } />
+							<Table.Cell>Row 1</Table.Cell>
+						</Table.Row>
+					</Table.Body>
+				</>
+			),
+		},
+	},
+	{
 		name: "Table with image cell",
 		Component: Table,
 		props: { children: <Table.Body><Table.Row><Table.ImageCell /></Table.Row></Table.Body> },
