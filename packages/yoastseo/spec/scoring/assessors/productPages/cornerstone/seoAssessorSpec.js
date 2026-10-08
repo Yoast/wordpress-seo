@@ -32,8 +32,6 @@ const assessor = new Assessor( new EnglishResearcher( mockPaper ), {
 	singleH1CTAUrl: "https://yoast.com/26",
 	imageCountUrlTitle: "https://yoast.com/27",
 	imageCountCTAUrl: "https://yoast.com/28",
-	imageKeyphraseUrlTitle: "https://yoast.com/29",
-	imageKeyphraseCTAUrl: "https://yoast.com/30",
 } );
 
 describe( "has configuration overrides", () => {
@@ -183,17 +181,5 @@ describe( "has configuration overrides", () => {
 		expect( assessment._config.recommendedCount ).toBe( 4 );
 		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/27' target='_blank'>" );
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/28' target='_blank'>" );
-	} );
-
-	test( "ImageKeyphrase", () => {
-		const assessment = assessor.getAssessment( "imageKeyphrase" );
-
-		expect( assessment ).toBeDefined();
-		expect( assessment._config ).toBeDefined();
-		expect( assessment._config.scores ).toBeDefined();
-		expect( assessment._config.scores.withAltNonKeyword ).toBe( 3 );
-		expect( assessment._config.scores.noAlt ).toBe( 3 );
-		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/29' target='_blank'>" );
-		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/30' target='_blank'>" );
 	} );
 } );
