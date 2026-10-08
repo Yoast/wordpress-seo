@@ -72,8 +72,6 @@ self.onmessage = ( event ) => {
 		singleH1CTAUrl: "https://yoa.st/shopify55",
 		imageCountUrlTitle: "https://yoa.st/shopify20",
 		imageCountCTAUrl: "https://yoa.st/shopify21",
-		imageKeyphraseUrlTitle: "https://yoa.st/shopify22",
-		imageKeyphraseCTAUrl: "https://yoa.st/shopify23",
 		imageAltTagsUrlTitle: "https://yoa.st/shopify40",
 		imageAltTagsCTAUrl: "https://yoa.st/shopify41",
 		keyphraseDistributionUrlTitle: "https://yoa.st/shopify30",
@@ -108,8 +106,6 @@ self.onmessage = ( event ) => {
 		singleH1CTAUrl: "https://yoa.st/shopify55",
 		imageCountUrlTitle: "https://yoa.st/shopify20",
 		imageCountCTAUrl: "https://yoa.st/shopify21",
-		imageKeyphraseUrlTitle: "https://yoa.st/shopify22",
-		imageKeyphraseCTAUrl: "https://yoa.st/shopify23",
 		imageAltTagsUrlTitle: "https://yoa.st/shopify40",
 		imageAltTagsCTAUrl: "https://yoa.st/shopify41",
 		keyphraseDistributionUrlTitle: "https://yoa.st/shopify30",
@@ -160,8 +156,6 @@ self.onmessage = ( event ) => {
 		textCompetingLinksCTAUrl: "https://yoa.st/shopify19",
 		functionWordsInKeyphraseUrlTitle: "https://yoa.st/shopify50",
 		functionWordsInKeyphraseCTAUrl: "https://yoa.st/shopify51",
-		imageKeyphraseUrlTitle: "https://yoa.st/shopify22",
-		imageKeyphraseCTAUrl: "https://yoa.st/shopify23",
 	}  );
 	worker.setCustomCornerstoneRelatedKeywordAssessorClass( ProductCornerstoneRelatedKeywordAssessor, "productPage", {
 		introductionKeyphraseUrlTitle: "https://yoa.st/shopify8",
@@ -176,8 +170,6 @@ self.onmessage = ( event ) => {
 		textCompetingLinksCTAUrl: "https://yoa.st/shopify19",
 		functionWordsInKeyphraseUrlTitle: "https://yoa.st/shopify50",
 		functionWordsInKeyphraseCTAUrl: "https://yoa.st/shopify51",
-		imageKeyphraseUrlTitle: "https://yoa.st/shopify22",
-		imageKeyphraseCTAUrl: "https://yoa.st/shopify23",
 	}  );
 	// Store blog.
 	worker.setCustomSEOAssessorClass( StoreBlogSEOAssessor, "storeBlog" );
