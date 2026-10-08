@@ -16,7 +16,6 @@ Overview of the used SEO assessors in the `yoastseo` package:
 - Meta description length (`MetaDescriptionLengthAssessment`) -> [Cornerstone scores!](../assessments/SCORING%20SEO.md#5-meta-description-length)
 - Keyphrase in subheadings (`SubHeadingsKeywordAssessment`)
 - Images (`ImageCountAssessment`)
-- Image keyphrase (`KeyphraseInImageTextAssessment`) -> [Cornerstone scores!](../assessments/SCORING%20SEO.md#7-image-keyphrase)
 - Text length (`TextLengthAssessment`) -> [Cornerstone scores and boundaries!](../assessments/SCORING%20SEO.md#1-text-length)
 - Outbound links (`OutboundLinksAssessment`)
 - SEO title width (`PageTitleWidthAssesment`)
@@ -41,7 +40,6 @@ Overview of the used SEO assessors in the `yoastseo` package:
 - Keyphrase length (`KeyphraseLengthAssessment`)
 - Keyphrase density (`KeywordDensityAssessment`)
 - Keyphrase in meta description (`MetaDescriptionKeywordAssessment`)
-- Image keyphrase (`KeyphraseInImageTextAssessment`) -> [Cornerstone scores!](../assessments/SCORING%20SEO.md#7-image-keyphrase)
 - Competing links (`TextCompetingLinksAssessment`)
 - Previously used keyphrase (`previouslyUsedKeywords`)
 ### Related keywords taxonomy
