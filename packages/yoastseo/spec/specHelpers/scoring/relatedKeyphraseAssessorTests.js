@@ -12,7 +12,7 @@ export function checkAssessmentAvailability( assessor ) {
 		const assessments = getResults( assessor.getValidResults() );
 
 		let defaultAssessments = [ "introductionKeyword", "keyphraseLength", "keyphraseDensity", "metaDescriptionKeyword",
-			"textCompetingLinks", "imageKeyphrase" ];
+			"textCompetingLinks" ];
 
 		// The introduction keyword, single title and text length assessments are not available on store blogs.
 		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
@@ -32,7 +32,6 @@ export function checkAssessmentAvailability( assessor ) {
 			"metaDescriptionKeyword",
 			"functionWordsInKeyphrase",
 			"textCompetingLinks",
-			"imageKeyphrase",
 		];
 		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
 			defaultAssessments = defaultAssessments.slice( 0, 5 );
@@ -58,7 +57,6 @@ export function checkAssessmentAvailability( assessor ) {
 			"keyphraseDensity",
 			"metaDescriptionKeyword",
 			"textCompetingLinks",
-			"imageKeyphrase",
 		];
 		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
 			defaultAssessments = defaultAssessments.slice( 0, 4 );
@@ -132,18 +130,5 @@ export function checkUrls( assessor ) {
 		expect( assessment._config ).toBeDefined();
 		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify50' target='_blank'>" );
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify51' target='_blank'>" );
-	} );
-
-	test( "ImageKeyphrase", () => {
-		const assessment = assessor.getAssessment( "imageKeyphrase" );
-
-		if ( isCollection ) {
-			expect( assessment ).toBeUndefined();
-		} else {
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify22' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify23' target='_blank'>" );
-		}
 	} );
 }

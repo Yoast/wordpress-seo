@@ -13,6 +13,9 @@ import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
  * Represents the assessment that checks if there are keyphrase or synonyms in the alt attributes of images.
+ * No assessor uses it anymore. We keep (and expose) it for backwards compatibility.
+ *
+ * @deprecated Replaced by the alt text quality assessments. It will be removed in a future major version.
  */
 export default class KeyphraseInImagesAssessment extends Assessment {
 	/**
@@ -52,6 +55,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 
 		this.identifier = "imageKeyphrase";
 		this._config = merge( defaultConfig, config );
+		console.warn( "KeyphraseInImagesAssessment is deprecated and will be removed in a future major version." );
 	}
 
 	/**
