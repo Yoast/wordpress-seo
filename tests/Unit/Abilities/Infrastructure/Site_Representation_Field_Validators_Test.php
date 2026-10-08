@@ -8,6 +8,7 @@ use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Field_Validators;
 use Yoast\WP\SEO\Conditionals\Local_SEO_Active_Conditional;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -34,6 +35,13 @@ final class Site_Representation_Field_Validators_Test extends TestCase {
 	private $image_helper;
 
 	/**
+	 * The options helper mock.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Site_Representation_Field_Validators
@@ -52,10 +60,12 @@ final class Site_Representation_Field_Validators_Test extends TestCase {
 
 		$this->local_seo_active_conditional = Mockery::mock( Local_SEO_Active_Conditional::class );
 		$this->image_helper                 = Mockery::mock( Image_Helper::class );
+		$this->options_helper               = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Site_Representation_Field_Validators(
 			$this->local_seo_active_conditional,
 			$this->image_helper,
+			$this->options_helper,
 		);
 	}
 
@@ -110,36 +120,143 @@ final class Site_Representation_Field_Validators_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_validate_user_id_cleared() {
+		$this->options_helper->expects( 'get' )->never();
 		Monkey\Functions\expect( 'get_userdata' )->never();
 
 		$this->assertNull( $this->instance->validate_user_id( 0 ) );
 	}
 
 	/**
-	 * Tests that an existing user to represent is allowed.
+	 * Tests that keeping the current user to represent is allowed without looking it up.
 	 *
 	 * @covers ::validate_user_id
 	 *
 	 * @return void
 	 */
-	public function test_validate_user_id_existing() {
+	public function test_validate_user_id_current() {
+		$this->options_helper->expects( 'get' )->once()->with( 'company_or_person_user_id' )->andReturn( 1 );
+		Monkey\Functions\expect( 'get_userdata' )->never();
+
+		$this->assertNull( $this->instance->validate_user_id( 1 ) );
+	}
+
+	/**
+	 * Tests that any existing user is allowed when the current user can list users.
+	 *
+	 * @covers ::validate_user_id
+	 * @covers ::can_select_user
+	 *
+	 * @return void
+	 */
+	public function test_validate_user_id_with_list_users() {
+		$this->options_helper->expects( 'get' )->once()->with( 'company_or_person_user_id' )->andReturnFalse();
 		Monkey\Functions\expect( 'get_userdata' )->once()->with( 3 )->andReturn( (object) [ 'ID' => 3 ] );
+		Monkey\Functions\expect( 'current_user_can' )->once()->with( 'list_users' )->andReturnTrue();
+		Monkey\Functions\expect( 'count_user_posts' )->never();
 
 		$this->assertNull( $this->instance->validate_user_id( 3 ) );
 	}
 
 	/**
-	 * Tests that a user to represent that does not exist is rejected.
+	 * Tests that a user with published posts is allowed when the current user cannot list users.
 	 *
 	 * @covers ::validate_user_id
+	 * @covers ::can_select_user
+	 * @covers ::has_published_posts
+	 *
+	 * @return void
+	 */
+	public function test_validate_user_id_with_published_posts() {
+		$post_types = [
+			'post' => 'post',
+			'page' => 'page',
+		];
+
+		$this->options_helper->expects( 'get' )->once()->with( 'company_or_person_user_id' )->andReturn( 1 );
+		Monkey\Functions\expect( 'get_userdata' )->once()->with( 3 )->andReturn( (object) [ 'ID' => 3 ] );
+		Monkey\Functions\expect( 'current_user_can' )->once()->with( 'list_users' )->andReturnFalse();
+		Monkey\Functions\expect( 'get_post_types' )->once()->with( [ 'show_in_rest' => true ] )->andReturn( $post_types );
+		Monkey\Functions\expect( 'count_user_posts' )->once()->with( 3, $post_types, true )->andReturn( '2' );
+
+		$this->assertNull( $this->instance->validate_user_id( 3 ) );
+	}
+
+	/**
+	 * Tests that a user without published posts is rejected when the current user cannot list users.
+	 *
+	 * @covers ::validate_user_id
+	 * @covers ::can_select_user
+	 * @covers ::has_published_posts
+	 *
+	 * @return void
+	 */
+	public function test_validate_user_id_without_published_posts() {
+		$this->options_helper->expects( 'get' )->once()->with( 'company_or_person_user_id' )->andReturn( 1 );
+		Monkey\Functions\expect( 'get_userdata' )->once()->with( 3 )->andReturn( (object) [ 'ID' => 3 ] );
+		Monkey\Functions\expect( 'current_user_can' )->once()->with( 'list_users' )->andReturnFalse();
+		Monkey\Functions\expect( 'get_post_types' )->once()->andReturn( [ 'post' => 'post' ] );
+		Monkey\Functions\expect( 'count_user_posts' )->once()->andReturn( '0' );
+
+		$this->assertSame(
+			'The user to represent was not changed, because no user that you can select exists with the given ID.',
+			$this->instance->validate_user_id( 3 ),
+		);
+	}
+
+	/**
+	 * Tests that a member of the site is allowed on multisite.
+	 *
+	 * @covers ::validate_user_id
+	 * @covers ::can_select_user
+	 *
+	 * @return void
+	 */
+	public function test_validate_user_id_multisite_member() {
+		$this->options_helper->expects( 'get' )->once()->with( 'company_or_person_user_id' )->andReturn( 1 );
+		Monkey\Functions\expect( 'get_userdata' )->once()->with( 3 )->andReturn( (object) [ 'ID' => 3 ] );
+		Monkey\Functions\stubs( [ 'is_multisite' => true ] );
+		Monkey\Functions\expect( 'is_user_member_of_blog' )->once()->with( 3 )->andReturnTrue();
+		Monkey\Functions\expect( 'current_user_can' )->once()->with( 'list_users' )->andReturnTrue();
+
+		$this->assertNull( $this->instance->validate_user_id( 3 ) );
+	}
+
+	/**
+	 * Tests that a user who is not a member of the site is rejected on multisite, even when the current user can list users.
+	 *
+	 * @covers ::validate_user_id
+	 * @covers ::can_select_user
+	 *
+	 * @return void
+	 */
+	public function test_validate_user_id_multisite_non_member() {
+		$this->options_helper->expects( 'get' )->once()->with( 'company_or_person_user_id' )->andReturn( 1 );
+		Monkey\Functions\expect( 'get_userdata' )->once()->with( 3 )->andReturn( (object) [ 'ID' => 3 ] );
+		Monkey\Functions\stubs( [ 'is_multisite' => true ] );
+		Monkey\Functions\expect( 'is_user_member_of_blog' )->once()->with( 3 )->andReturnFalse();
+		Monkey\Functions\expect( 'current_user_can' )->never();
+
+		$this->assertSame(
+			'The user to represent was not changed, because no user that you can select exists with the given ID.',
+			$this->instance->validate_user_id( 3 ),
+		);
+	}
+
+	/**
+	 * Tests that a user to represent that does not exist is rejected with the same warning as a disallowed user.
+	 *
+	 * @covers ::validate_user_id
+	 * @covers ::can_select_user
 	 *
 	 * @return void
 	 */
 	public function test_validate_user_id_not_existing() {
+		$this->options_helper->expects( 'get' )->once()->with( 'company_or_person_user_id' )->andReturn( 1 );
 		Monkey\Functions\expect( 'get_userdata' )->once()->with( 99 )->andReturnFalse();
+		Monkey\Functions\expect( 'current_user_can' )->never();
 
 		$this->assertSame(
-			'The user to represent was not changed, because no user exists with the given ID.',
+			'The user to represent was not changed, because no user that you can select exists with the given ID.',
 			$this->instance->validate_user_id( 99 ),
 		);
 	}

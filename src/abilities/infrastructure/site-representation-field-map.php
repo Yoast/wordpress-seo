@@ -172,7 +172,7 @@ class Site_Representation_Field_Map {
 			'company_or_person_user_id' => [
 				'type'              => 'integer',
 				'minimum'           => 0,
-				'description'       => \__( 'The ID of the user the site represents, whose profile information is used in search results. The person\'s name is taken from the display name of this user. 0 when no user is set. Only used when company_or_person is "person".', 'wordpress-seo' ),
+				'description'       => \__( 'The ID of the user the site represents, whose profile information is used in search results. The person\'s name is taken from the display name of this user. Unless you can list users, only users with published posts can be set. 0 when no user is set. Only used when company_or_person is "person".', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_user_id' ],
 			],
 			'person_logo_id'            => [

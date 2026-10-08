@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Abilities\Infrastructure;
 
 use Yoast\WP\SEO\Conditionals\Local_SEO_Active_Conditional;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Validates the site representation settings of Yoast SEO beyond what their JSON schema covers.
@@ -29,20 +30,30 @@ class Site_Representation_Field_Validators {
 	private $image_helper;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Local_SEO_Active_Conditional $local_seo_active_conditional The Local SEO active conditional.
 	 * @param Image_Helper                 $image_helper                 The image helper.
+	 * @param Options_Helper               $options_helper               The options helper.
 	 */
 	public function __construct(
 		Local_SEO_Active_Conditional $local_seo_active_conditional,
-		Image_Helper $image_helper
+		Image_Helper $image_helper,
+		Options_Helper $options_helper
 	) {
 		$this->local_seo_active_conditional = $local_seo_active_conditional;
 		$this->image_helper                 = $image_helper;
+		$this->options_helper               = $options_helper;
 	}
 
-	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The validators share the signature of a validate_callback, which receives any option value.
+	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The validator shares the signature of a validate_callback, which receives any option value.
 
 	/**
 	 * Validates the represented entity type.
@@ -66,22 +77,68 @@ class Site_Representation_Field_Validators {
 		);
 	}
 
+	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+
 	/**
-	 * Validates that the user to represent exists. 0 clears the setting, so it is not looked up.
+	 * Validates that the user to represent is one the current user could pick in the settings.
 	 *
-	 * @param mixed $value The value to save.
+	 * 0 clears the setting and the current value can be kept, so neither is looked up.
+	 *
+	 * @param int $value The ID of the user to save.
 	 *
 	 * @return string|null A warning when the value cannot be saved, null otherwise.
 	 */
-	public function validate_user_id( $value ): ?string {
-		if ( empty( $value ) || \get_userdata( $value ) !== false ) {
+	public function validate_user_id( int $value ): ?string {
+		if ( $value === 0 || $value === $this->options_helper->get( 'company_or_person_user_id' ) ) {
 			return null;
 		}
 
-		return \__( 'The user to represent was not changed, because no user exists with the given ID.', 'wordpress-seo' );
+		if ( $this->can_select_user( $value ) ) {
+			return null;
+		}
+
+		// A single warning for both a missing and a disallowed user, so it cannot be used to find out which users exist.
+		return \__( 'The user to represent was not changed, because no user that you can select exists with the given ID.', 'wordpress-seo' );
 	}
 
-	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+	/**
+	 * Checks whether the current user could pick a user to represent in the settings.
+	 *
+	 * Like the user picker in the settings, which relies on the users REST endpoint, users who cannot list users
+	 * can only pick users with published posts, so they cannot make any account, like an administrator's, the
+	 * public face of the site.
+	 *
+	 * @param int $user_id The ID of the user to represent.
+	 *
+	 * @return bool Whether the user can be picked.
+	 */
+	private function can_select_user( int $user_id ): bool {
+		if ( \get_userdata( $user_id ) === false ) {
+			return false;
+		}
+
+		// Users and their profiles are shared across the network, so only members can represent this site.
+		if ( \is_multisite() && ! \is_user_member_of_blog( $user_id ) ) {
+			return false;
+		}
+
+		if ( \current_user_can( 'list_users' ) ) {
+			return true;
+		}
+
+		return $this->has_published_posts( $user_id );
+	}
+
+	/**
+	 * Checks whether a user has published posts, of the post types the users REST endpoint considers for this.
+	 *
+	 * @param int $user_id The ID of the user.
+	 *
+	 * @return bool Whether the user has published posts.
+	 */
+	private function has_published_posts( int $user_id ): bool {
+		return (int) \count_user_posts( $user_id, \get_post_types( [ 'show_in_rest' => true ] ), true ) > 0;
+	}
 
 	/**
 	 * Validates that a logo is cleared or is an image in the media library.
