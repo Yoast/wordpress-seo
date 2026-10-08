@@ -5,6 +5,8 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import buildTree from "../../../specHelpers/parse/buildTree";
 // import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";   // Variable is used in language specific test (and thus removed)
 
+// The assessment is deprecated and warns on construction; keep the test output clean.
+const warnSpy = jest.spyOn( console, "warn" ).mockImplementation( () => {} );
 const keyphraseInImagesAssessment = new KeyphraseInImagesAssessment();
 
 describe( "An image count assessment", function() {
@@ -370,5 +372,13 @@ describe( "tests for the provided-images scope.", function() {
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Good job!" );
+	} );
+} );
+
+describe( "tests for the deprecation.", function() {
+	it( "warns that the assessment is deprecated when it is constructed", function() {
+		warnSpy.mockClear();
+		new KeyphraseInImagesAssessment();
+		expect( warnSpy ).toHaveBeenCalledWith( "KeyphraseInImagesAssessment is deprecated and will be removed in a future major version." );
 	} );
 } );
