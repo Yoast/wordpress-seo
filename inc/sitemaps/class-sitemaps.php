@@ -488,7 +488,7 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		wp_remote_get( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
+		WPSEO_Utils::wp_remote_get( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
 	}
 
 	/**
