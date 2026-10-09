@@ -132,7 +132,8 @@ class Meta_Tags_Context_Memoizer {
 	 * @return Meta_Tags_Context The meta tags context.
 	 */
 	public function get( Indexable $indexable, $page_type ) {
-		if ( ! isset( $this->cache[ $indexable->id ] ) ) {
+		$cache_key = $indexable->id ?? '';
+		if ( ! isset( $this->cache[ $cache_key ] ) ) {
 			$blocks = [];
 			$post   = null;
 			if ( $indexable->object_type === 'post' ) {
@@ -151,10 +152,10 @@ class Meta_Tags_Context_Memoizer {
 
 			$context->presentation = $this->presentation_memoizer->get( $indexable, $context, $page_type );
 
-			$this->cache[ $indexable->id ] = $context;
+			$this->cache[ $cache_key ] = $context;
 		}
 
-		return $this->cache[ $indexable->id ];
+		return $this->cache[ $cache_key ];
 	}
 
 	/**
@@ -166,7 +167,7 @@ class Meta_Tags_Context_Memoizer {
 	 */
 	public function clear( $indexable = null ) {
 		if ( $indexable instanceof Indexable ) {
-			unset( $this->cache[ $indexable->id ] );
+			unset( $this->cache[ $indexable->id ?? '' ] );
 			$this->presentation_memoizer->clear( $indexable->id );
 			return;
 		}
