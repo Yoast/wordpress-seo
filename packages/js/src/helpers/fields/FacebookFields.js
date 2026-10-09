@@ -1,5 +1,17 @@
+import {
+	metaKeyOgTitle,
+	metaKeyOgDescription,
+	metaKeyOgImageId,
+	metaKeyOgImage,
+} from "../../shared-admin/constants";
+import { getMetaValue, setMetaValue } from "./rest-meta";
+
 /**
  * This class is responsible for handling the interaction with the hidden fields for Facebook.
+ *
+ * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM fields are not rendered.
+ * In that case getters read from the `core/editor` store and setters dispatch to it so that
+ * WordPress saves the values via the REST API on post save.
  */
 export default class FacebookFields {
 	/**
@@ -44,7 +56,7 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook title.
 	 */
 	static get title() {
-		return FacebookFields.titleElement.value;
+		return getMetaValue( metaKeyOgTitle, FacebookFields.titleElement, "" );
 	}
 
 	/**
@@ -55,7 +67,7 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set title( value ) {
-		FacebookFields.titleElement.value = value;
+		setMetaValue( metaKeyOgTitle, FacebookFields.titleElement, value );
 	}
 
 	/**
@@ -66,7 +78,7 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set description( value ) {
-		FacebookFields.descriptionElement.value = value;
+		setMetaValue( metaKeyOgDescription, FacebookFields.descriptionElement, value );
 	}
 
 	/**
@@ -75,7 +87,7 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook description.
 	 */
 	static get description() {
-		return FacebookFields.descriptionElement.value;
+		return getMetaValue( metaKeyOgDescription, FacebookFields.descriptionElement, "" );
 	}
 
 	/**
@@ -86,7 +98,7 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set imageId( value ) {
-		FacebookFields.imageIdElement.value = value;
+		setMetaValue( metaKeyOgImageId, FacebookFields.imageIdElement, value );
 	}
 
 	/**
@@ -95,7 +107,7 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook imageId.
 	 */
 	static get imageId() {
-		return FacebookFields.imageIdElement.value;
+		return getMetaValue( metaKeyOgImageId, FacebookFields.imageIdElement, "" );
 	}
 
 	/**
@@ -106,7 +118,7 @@ export default class FacebookFields {
 	 * @returns {void}
 	 */
 	static set imageUrl( value ) {
-		FacebookFields.imageUrlElement.value = value;
+		setMetaValue( metaKeyOgImage, FacebookFields.imageUrlElement, value );
 	}
 
 	/**
@@ -115,6 +127,6 @@ export default class FacebookFields {
 	 * @returns {string} The Facebook imageUrl.
 	 */
 	static get imageUrl() {
-		return FacebookFields.imageUrlElement.value;
+		return getMetaValue( metaKeyOgImage, FacebookFields.imageUrlElement, "" );
 	}
 }

@@ -36,7 +36,10 @@ const setupUseSelect = ( meta = {}, postType = "post", templates = { title: "", 
 beforeEach( () => {
 	mockUpdateData.mockClear();
 	mockSetFocusKeyword.mockClear();
-	useDispatch.mockReturnValue( { updateData: mockUpdateData, setFocusKeyword: mockSetFocusKeyword } );
+	useDispatch.mockReturnValue( {
+		updateData: mockUpdateData,
+		setFocusKeyword: mockSetFocusKeyword,
+	} );
 	setupUseSelect();
 } );
 

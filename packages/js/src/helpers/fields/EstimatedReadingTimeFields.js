@@ -1,5 +1,12 @@
+import { metaKeyEstimatedReadingTime } from "../../shared-admin/constants";
+import { getMetaValue, setMetaValue } from "./rest-meta";
+
 /**
  * This class is responsible for handling the interaction with the hidden fields for Estimated Reading Time (ert).
+ *
+ * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM field is not rendered.
+ * In that case the getter reads from the `core/editor` store and the setter dispatches to it so that
+ * WordPress saves the value via the REST API on post save.
  */
 export default class EstimatedReadingTimeFields {
 	/**
@@ -17,8 +24,7 @@ export default class EstimatedReadingTimeFields {
 	 * @returns {string} The estimated reading time.
 	 */
 	static get estimatedReadingTime() {
-		return EstimatedReadingTimeFields.estimatedReadingTimeElement &&
-		EstimatedReadingTimeFields.estimatedReadingTimeElement.value || "";
+		return getMetaValue( metaKeyEstimatedReadingTime, EstimatedReadingTimeFields.estimatedReadingTimeElement, "" );
 	}
 
 	/**
@@ -29,8 +35,6 @@ export default class EstimatedReadingTimeFields {
 	 * @returns {void}
 	 */
 	static set estimatedReadingTime( value ) {
-		if ( EstimatedReadingTimeFields.estimatedReadingTimeElement ) {
-			EstimatedReadingTimeFields.estimatedReadingTimeElement.value = value;
-		}
+		setMetaValue( metaKeyEstimatedReadingTime, EstimatedReadingTimeFields.estimatedReadingTimeElement, value, true );
 	}
 }
