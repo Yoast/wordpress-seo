@@ -20,4 +20,13 @@ final class Presentation_Memoizer_Double extends Presentation_Memoizer {
 	public function set_cache( $key, $value ) {
 		$this->cache[ $key ] = $value;
 	}
+
+	/**
+	 * Used to retrieve the internal cache for testing purposes.
+	 *
+	 * @return array<int|string, mixed> The cache.
+	 */
+	public function get_cache() {
+		return $this->cache;
+	}
 }
