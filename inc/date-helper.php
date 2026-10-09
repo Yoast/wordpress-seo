@@ -28,7 +28,7 @@ class WPSEO_Date_Helper {
 	 * Formats the given timestamp to the needed format.
 	 *
 	 * @param int    $timestamp The timestamp to use for the formatting.
-	 * @param string $format    The format that the passed date should be in.
+	 * @param string $format    The format that the passed timestamp should be in.
 	 *
 	 * @return string The formatted date.
 	 */
@@ -53,7 +53,7 @@ class WPSEO_Date_Helper {
 	 *
 	 * @param string $datetime String input to check as valid input for DateTime class.
 	 *
-	 * @return bool True when datatime is valid.
+	 * @return bool True when datetime is valid.
 	 */
 	public function is_valid_datetime( $datetime ) {
 		return YoastSEO()->helpers->date->is_valid_datetime( $datetime );
