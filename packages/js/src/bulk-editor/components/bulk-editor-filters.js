@@ -3,7 +3,64 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, CheckboxGroup, Popover, useSvgAria } from "@yoast/ui-library";
-import { FIELD_SET_SOCIAL, NEEDS_IMPROVEMENT_DESCRIPTION, NEEDS_IMPROVEMENT_TITLE, STORE_NAME } from "../constants";
+import { FIELD_SET_SOCIAL, NEEDS_IMPROVEMENT_DESCRIPTION, NEEDS_IMPROVEMENT_FIELD_PARAMS, NEEDS_IMPROVEMENT_TITLE, STORE_NAME } from "../constants";
+
+/**
+ * The "needs improvement" filter group: the active tab's title and description fields, each prefixed with a
+ * red score dot.
+ *
+ * Renders nothing on a tab that has no fields for these options to target, which is not a field set at all.
+ *
+ * Reads the active tab itself: it is the only consumer, so threading it through the parent would be prop
+ * drilling. The checked options stay props — the parent needs them for its applied-filters badge, so
+ * selecting them here too would only duplicate the subscription.
+ *
+ * @param {Object}   props          The props.
+ * @param {string[]} props.values   The checked options.
+ * @param {Function} props.onChange Called with the checked options when one is toggled.
+ *
+ * @returns {JSX.Element|null} The filter group, or null on a tab that has no fields to target.
+ */
+const NeedsImprovementFilter = ( { values, onChange } ) => {
+	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
+	const isSocial = activeFieldSet === FIELD_SET_SOCIAL;
+	// The red dot in front of each option (and the group's "needs improvement" legend) carries the
+	// "needs improvement" meaning, so the visible labels are the plain field names.
+	const options = useMemo( () => [
+		{
+			value: NEEDS_IMPROVEMENT_TITLE,
+			label: isSocial
+				? __( "Social titles", "wordpress-seo" )
+				: __( "SEO titles", "wordpress-seo" ),
+		},
+		{
+			value: NEEDS_IMPROVEMENT_DESCRIPTION,
+			label: isSocial
+				? __( "Social descriptions", "wordpress-seo" )
+				: __( "Meta descriptions", "wordpress-seo" ),
+		},
+	], [ isSocial ] );
+
+	// A tab with no entry here has no title/description fields for these options to target, so the group
+	// would be checkboxes that filter nothing. Derived from the map rather than from a tab id so this,
+	// the smart-select menu and the request params agree.
+	if ( ! NEEDS_IMPROVEMENT_FIELD_PARAMS[ activeFieldSet ] ) {
+		return null;
+	}
+
+	return (
+		<CheckboxGroup
+			id="bulk-editor-needs-improvement-filter"
+			// The divider, the red score dot on each option, and the visually-hidden group legend all live in the
+			// `yst-bulk-editor-needs-improvement` rule in the page stylesheet.
+			label={ __( "Needs improvement", "wordpress-seo" ) }
+			className="yst-bulk-editor-filter-group yst-bulk-editor-needs-improvement"
+			options={ options }
+			values={ values }
+			onChange={ onChange }
+		/>
+	);
+};
 
 /**
  * The Filters button and popover: narrows the table by post status, by which fields need improvement
@@ -12,14 +69,17 @@ import { FIELD_SET_SOCIAL, NEEDS_IMPROVEMENT_DESCRIPTION, NEEDS_IMPROVEMENT_TITL
  *
  * The "needs improvement" options are tab-agnostic (values {@link NEEDS_IMPROVEMENT_TITLE} /
  * {@link NEEDS_IMPROVEMENT_DESCRIPTION}); only their labels change with the active tab, and the query store
- * clears the selection on a tab switch so the filter never silently re-targets the other tab's field.
+ * clears the selection on a tab switch so the filter never silently re-targets the other tab's field. The
+ * group is left out entirely on the "Image alt text" tab.
+ *
+ * WooCommerce SEO renders this same component in the "Image alt text" tab it fills, through
+ * `window.yoast.bulkEditor.components` — prop-free and store-driven so both callers stay in sync.
  *
  * @returns {JSX.Element} The filters control.
  */
 export const BulkEditorFilters = () => {
 	const statuses = useSelect( ( select ) => select( STORE_NAME ).selectStatuses(), [] );
 	const needsImprovement = useSelect( ( select ) => select( STORE_NAME ).selectNeedsImprovement(), [] );
-	const activeFieldSet = useSelect( ( select ) => select( STORE_NAME ).selectActiveFieldSet(), [] );
 	const overviewIds = useSelect( ( select ) => select( STORE_NAME ).selectOverviewIds(), [] );
 	const isOverviewFilterActive = useSelect( ( select ) => select( STORE_NAME ).selectIsOverviewFilterActive(), [] );
 	const { setStatuses, setNeedsImprovement, setOverviewFilterActive } = useDispatch( STORE_NAME );
@@ -43,24 +103,6 @@ export const BulkEditorFilters = () => {
 		( values ) => setOverviewFilterActive( values.includes( "overview" ) ),
 		[ setOverviewFilterActive ]
 	);
-
-	const isSocial = activeFieldSet === FIELD_SET_SOCIAL;
-	// The red dot in front of each option (and the group's "needs improvement" legend) carries the
-	// "needs improvement" meaning, so the visible labels are the plain field names.
-	const needsImprovementOptions = useMemo( () => [
-		{
-			value: NEEDS_IMPROVEMENT_TITLE,
-			label: isSocial
-				? __( "Social titles", "wordpress-seo" )
-				: __( "SEO titles", "wordpress-seo" ),
-		},
-		{
-			value: NEEDS_IMPROVEMENT_DESCRIPTION,
-			label: isSocial
-				? __( "Social descriptions", "wordpress-seo" )
-				: __( "Meta descriptions", "wordpress-seo" ),
-		},
-	], [ isSocial ] );
 
 	const toggleOpen = useCallback( () => setIsOpen( ( open ) => ! open ), [] );
 
@@ -123,13 +165,7 @@ export const BulkEditorFilters = () => {
 					values={ statuses }
 					onChange={ setStatuses }
 				/>
-				<CheckboxGroup
-					id="bulk-editor-needs-improvement-filter"
-					// The divider, the red score dot on each option, and the visually-hidden group legend all live in the
-					// `yst-bulk-editor-needs-improvement` rule in the page stylesheet.
-					label={ __( "Needs improvement", "wordpress-seo" ) }
-					className="yst-bulk-editor-filter-group yst-bulk-editor-needs-improvement"
-					options={ needsImprovementOptions }
+				<NeedsImprovementFilter
 					values={ needsImprovement }
 					onChange={ setNeedsImprovement }
 				/>

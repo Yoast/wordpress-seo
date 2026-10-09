@@ -4,7 +4,10 @@ import { useCallback, useEffect, useMemo, useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import {
 	BULK_UPDATE_BATCH_SIZE,
+	FIELD_SET_IMAGE_ALT_TEXT,
+	IMAGE_ALT_TEXT_SLOT,
 	PENDING_CHANGES_MODAL_SLOT,
+	PRODUCT_CONTENT_TYPE,
 	STORE_NAME,
 } from "../constants";
 import { getFieldSets } from "../field-sets";
@@ -17,6 +20,7 @@ import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./table/bulk-editor-table";
 import { getColumnCount } from "./table/table-helpers";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
+import { ImageAltTextUpsell } from "./image-alt-text-upsell";
 import { UnsavedChangesModal } from "./unsaved-changes-modal";
 import { SearchBox } from "./search-box";
 import { getSelectionView, getSmartSelectItems } from "../helpers";
@@ -97,10 +101,14 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		};
 	}, [] );
 	const fieldSets = useMemo( () => getFieldSets( { isKeywordAnalysisActive } ), [ isKeywordAnalysisActive ] );
-	const tabs = useMemo(
-		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
-		[ fieldSets ]
-	);
+	const tabs = useMemo( () => {
+		const fieldSetTabs = Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) );
+		// The image-alt-text tab isn't a field set: appended separately, and only for products.
+		if ( contentType !== PRODUCT_CONTENT_TYPE ) {
+			return fieldSetTabs;
+		}
+		return [ ...fieldSetTabs, { id: FIELD_SET_IMAGE_ALT_TEXT, label: __( "Image alt text", "wordpress-seo" ) } ];
+	}, [ fieldSets, contentType ] );
 	const {
 		requestSwitch,
 		commitSwitch,
@@ -231,61 +239,72 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 					{ /* key remounts on content-type switch, resetting local state; a prop change alone would not. */ }
 					<SearchBox key={ contentType } contentTypeLabel={ contentTypeLabel } />
 				</div>
-				{ tabs.map( ( tab ) => (
-					<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
-						<BulkEditorTable
-							items={ items }
-							fieldSet={ fieldSets[ tab.id ] }
-							selection={ selection }
-							editing={ editing }
-							selectionToolbar={
-								<SelectionToolbar
-									idSuffix={ `-${ tab.id }` }
-									isAllSelected={ isAllSelected }
-									isIndeterminate={ isIndeterminate }
-									onToggleAll={ onToggleAll }
-									onSelectAll={ onSelectAll }
-									onDeselectAll={ handleDeselectAll }
-									selectedCount={ selectedCount }
-									totalCount={ totalCount }
-									contentTypeLabel={ contentTypeLabel }
-									smartSelectItems={ smartSelectItems }
+				{ tabs.map( ( tab ) => {
+					if ( tab.id === FIELD_SET_IMAGE_ALT_TEXT ) {
+						return (
+							<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
+								<Slot name={ IMAGE_ALT_TEXT_SLOT } fillProps={ { items } }>
+									{ ( fills ) => ( fills.length > 0 ? fills : <ImageAltTextUpsell /> ) }
+								</Slot>
+							</BulkEditorTabPanel>
+						);
+					}
+					return (
+						<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
+							<BulkEditorTable
+								items={ items }
+								fieldSet={ fieldSets[ tab.id ] }
+								selection={ selection }
+								editing={ editing }
+								selectionToolbar={
+									<SelectionToolbar
+										idSuffix={ `-${ tab.id }` }
+										isAllSelected={ isAllSelected }
+										isIndeterminate={ isIndeterminate }
+										onToggleAll={ onToggleAll }
+										onSelectAll={ onSelectAll }
+										onDeselectAll={ handleDeselectAll }
+										selectedCount={ selectedCount }
+										totalCount={ totalCount }
+										contentTypeLabel={ contentTypeLabel }
+										smartSelectItems={ smartSelectItems }
+									/>
+								}
+								bulkActions={
+									<BulkActions
+										isActive={ tab.id === activeFieldSet }
+										selectedIds={ selectedIds }
+										activeFieldSet={ activeFieldSet }
+										contentType={ contentType }
+										hasUnsavedEdits={ hasUnsavedEdits }
+										editCount={ editCount }
+										onApplyAll={ editing.onApplyAll }
+										onDiscardAll={ editing.onDiscardAll }
+										isApplyingAll={ editing.isApplyingAll }
+										hasSaveError={ editing.hasSaveError }
+										onDismissSaveError={ editing.dismissSaveError }
+										preselectedTotal={ preselectedTotal }
+										onDismissPreselection={ dismissPreselectionNotice }
+										hasExcludedPreselected={ hasExcludedPreselected }
+										onDismissExclusion={ dismissExclusionNotice }
+									/>
+								}
+								showBulkActions={ showBulkActions }
+								filters={ <BulkEditorFilters /> }
+								isLoading={ isPending }
+								hasExternalPendingChanges={ hasExternalPendingChanges }
+								hasExternalGeneration={ hasExternalGeneration }
+								footer={ total > 0 ? <BulkEditorFooter
+									total={ total }
+									totalPages={ totalPages }
+									isPending={ isPending }
+									colSpan={ getColumnCount( fieldSets[ tab.id ].fields ) }
 								/>
-							}
-							bulkActions={
-								<BulkActions
-									isActive={ tab.id === activeFieldSet }
-									selectedIds={ selectedIds }
-									activeFieldSet={ activeFieldSet }
-									contentType={ contentType }
-									hasUnsavedEdits={ hasUnsavedEdits }
-									editCount={ editCount }
-									onApplyAll={ editing.onApplyAll }
-									onDiscardAll={ editing.onDiscardAll }
-									isApplyingAll={ editing.isApplyingAll }
-									hasSaveError={ editing.hasSaveError }
-									onDismissSaveError={ editing.dismissSaveError }
-									preselectedTotal={ preselectedTotal }
-									onDismissPreselection={ dismissPreselectionNotice }
-									hasExcludedPreselected={ hasExcludedPreselected }
-									onDismissExclusion={ dismissExclusionNotice }
-								/>
-							}
-							showBulkActions={ showBulkActions }
-							filters={ <BulkEditorFilters /> }
-							isLoading={ isPending }
-							hasExternalPendingChanges={ hasExternalPendingChanges }
-							hasExternalGeneration={ hasExternalGeneration }
-							footer={ total > 0 ? <BulkEditorFooter
-								colSpan={ getColumnCount( fieldSets[ tab.id ].fields ) }
-								total={ total }
-								totalPages={ totalPages }
-								isPending={ isPending }
+									: null }
 							/>
-								: null }
-						/>
-					</BulkEditorTabPanel>
-				) ) }
+						</BulkEditorTabPanel>
+					);
+				} ) }
 				<UnsavedChangesModal
 					isOpen={ hasUnsavedEdits && pendingSwitch !== null }
 					isSaving={ editing.isApplyingAll }
