@@ -86,6 +86,13 @@ class Post {
 	private $images;
 
 	/**
+	 * Additional context data supplied by add-ons (e.g. product short description).
+	 *
+	 * @var array<string, string>
+	 */
+	private $context;
+
+	/**
 	 * Whether each field needs improvement, keyed by field param (e.g. `seo_title`). Empty for a post whose
 	 * fields are not editable.
 	 *
@@ -140,6 +147,7 @@ class Post {
 	 * @param string                    $social_title_fallback       The post type's social title template (empty when stored value is set).
 	 * @param string                    $social_description_fallback The post type's social description template (empty when stored value is set).
 	 * @param array<string, int|string> $images                      The images and their variations for this post.
+	 * @param array<string, string>     $context                     Additional context data supplied by add-ons.
 	 */
 	public function __construct(
 		int $id,
@@ -157,7 +165,8 @@ class Post {
 		string $meta_description_fallback = '',
 		string $social_title_fallback = '',
 		string $social_description_fallback = '',
-		array $images = []
+		array $images = [],
+		array $context = []
 	) {
 		$this->id                          = $id;
 		$this->title                       = $title;
@@ -175,6 +184,7 @@ class Post {
 		$this->social_title_fallback       = $social_title_fallback;
 		$this->social_description_fallback = $social_description_fallback;
 		$this->images                      = $images;
+		$this->context                     = $context;
 	}
 
 	/**
@@ -208,6 +218,7 @@ class Post {
 				$this->needs_improvement,
 			),
 			'images'                      => $this->images,
+			'context'                     => $this->context,
 		];
 	}
 }

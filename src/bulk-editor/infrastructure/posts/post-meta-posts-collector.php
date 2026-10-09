@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
  */
 class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 
+	use Post_Context_Trait;
 	use Post_Images_Trait;
 	use Post_Title_Trait;
 	use Searchable_Fields_Trait;
@@ -228,9 +229,10 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 		$post_type = ( $post !== null ) ? (string) $post->post_type : '';
 		$title     = $this->get_normalized_title( $post_id );
 		$images    = $this->get_post_images( $post_id, $content_type );
+		$context   = $this->get_post_context( $post_id, $content_type );
 
 		if ( ! $editable ) {
-			return new Post( $post_id, $title, $status, '', '', '', '', '', '', false, [], '', '', '', '', $images );
+			return new Post( $post_id, $title, $status, '', '', '', '', '', '', false, [], '', '', '', '', $images, $context );
 		}
 
 		// Read each field's value once from its meta suffix, keyed by field param, so the values can be reused for
@@ -268,6 +270,7 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			( $raw_social_title === '' ) ? $fields['social_title'] : '',
 			( $raw_social_description === '' ) ? $fields['social_description'] : '',
 			$images,
+			$context,
 		);
 	}
 

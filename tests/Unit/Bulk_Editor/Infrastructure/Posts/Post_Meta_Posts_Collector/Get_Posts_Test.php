@@ -88,6 +88,7 @@ final class Get_Posts_Test extends Abstract_Test {
 							'social_description' => false,
 						],
 						'images'                      => [],
+						'context'                     => [],
 					],
 				],
 				'total'       => 1,
@@ -145,6 +146,7 @@ final class Get_Posts_Test extends Abstract_Test {
 					'social_description' => false,
 				],
 				'images'                      => [],
+				'context'                     => [],
 			],
 			$result['posts'][0],
 		);
