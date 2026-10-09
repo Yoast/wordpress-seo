@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  */
 class Indexable_Posts_Collector implements Posts_Collector_Interface {
 
+	use Post_Context_Trait;
 	use Post_Images_Trait;
 	use Post_Title_Trait;
 	use Searchable_Fields_Trait;
@@ -285,14 +286,14 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 	 */
 	private function build_post( Indexable $indexable, bool $editable, bool $scores_enabled ): Post {
 		$object_id = (int) $indexable->object_id;
+		$post_type = (string) $indexable->object_sub_type;
 		$title     = $this->get_normalized_title( $object_id );
-		$images    = $this->get_post_images( $object_id, (string) $indexable->object_sub_type );
+		$images    = $this->get_post_images( $object_id, $post_type );
+		$context   = $this->get_post_context( $object_id, $post_type );
 
 		if ( ! $editable ) {
-			return new Post( $object_id, $title, (string) $indexable->post_status, '', '', '', '', '', '', false, [], '', '', '', '', $images );
+			return new Post( $object_id, $title, (string) $indexable->post_status, '', '', '', '', '', '', false, [], '', '', '', '', $images, $context );
 		}
-
-		$post_type = (string) $indexable->object_sub_type;
 
 		$raw_seo_title          = (string) $indexable->title;
 		$raw_meta_description   = (string) $indexable->description;
@@ -324,6 +325,7 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			( $raw_social_title === '' ) ? $resolved_values['social_title'] : '',
 			( $raw_social_description === '' ) ? $resolved_values['social_description'] : '',
 			$images,
+			$context,
 		);
 	}
 
