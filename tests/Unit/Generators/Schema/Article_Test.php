@@ -594,4 +594,41 @@ final class Article_Test extends TestCase {
 			],
 		];
 	}
+
+    /**
+     * Tests that word_count() gracefully falls back to strtoupper()
+     * when mbstring is not available.
+     *
+     * @covers ::word_count
+     *
+     * @return void
+     */
+    public function test_word_count_without_mbstring() {
+        // Make function_exists('mb_strtoupper') return false.
+        \Brain\Monkey\Functions\when( 'function_exists' )
+            ->alias( static function( $fn ) {
+                if ( $fn === 'mb_strtoupper' ) {
+                    return false;
+                }
+                return \function_exists( $fn );
+            });
+
+        // Use reflection to access the private method.
+        $reflection = new \ReflectionClass( \Yoast\WP\SEO\Generators\Schema\Article::class );
+        $method     = $reflection->getMethod( 'word_count' );
+        $method->setAccessible( true );
+
+        // Provide Cyrillic content that normally requires mbstring.
+        $content = 'пример'; // "example" in Russian.
+        $title   = '';
+
+        $count = $method->invokeArgs( $this->instance, [ $content, $title ] );
+
+        // Assert that fallback strtoupper() still counts correctly.
+        $this->assertEquals(
+            1,
+            $count,
+            'Fallback strtoupper should correctly count words without mbstring.'
+        );
+    }
 }
