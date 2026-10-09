@@ -80,23 +80,32 @@ const StyledIcon = styled( SvgIcon )`
  *
  * @returns {ReactElement} styled notification.
  */
-function Notification( props ) {
-	const Heading = `${ props.headingLevel }`;
+function Notification( {
+	imageSrc,
+	imageWidth,
+	imageHeight,
+	title,
+	html,
+	isDismissable = false,
+	onClick,
+	headingLevel = "h3",
+} ) {
+	const Heading = `${ headingLevel }`;
 
 	return <Paper>
-		<NotificationContainer isDismissable={ props.isDismissable }>
-			{ props.imageSrc && <NotificationImage
-				src={ props.imageSrc }
-				imageWidth={ props.imageWidth }
-				imageHeight={ props.imageHeight }
+		<NotificationContainer isDismissable={ isDismissable }>
+			{ imageSrc && <NotificationImage
+				src={ imageSrc }
+				imageWidth={ imageWidth }
+				imageHeight={ imageHeight }
 				alt=""
 			/> }
 			<NotificationContent>
-				<Heading>{ props.title }</Heading>
-				<p className="prova" dangerouslySetInnerHTML={ { __html: props.html } } />
+				<Heading>{ title }</Heading>
+				<p className="prova" dangerouslySetInnerHTML={ { __html: html } } />
 			</NotificationContent>
-			{ props.isDismissable && <DismissButton
-				onClick={ props.onClick }
+			{ isDismissable && <DismissButton
+				onClick={ onClick }
 				type="button"
 				aria-label={ __( "Dismiss this notice", "wordpress-seo" ) }
 			>
@@ -115,11 +124,6 @@ Notification.propTypes = {
 	isDismissable: PropTypes.bool,
 	onClick: PropTypes.func,
 	headingLevel: PropTypes.string,
-};
-
-Notification.defaultProps = {
-	isDismissable: false,
-	headingLevel: "h3",
 };
 
 export default Notification;

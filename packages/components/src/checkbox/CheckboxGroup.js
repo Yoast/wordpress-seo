@@ -35,7 +35,7 @@ const isChecked = ( id, checkedIds ) => checkedIds.indexOf( id ) !== -1;
  *
  * @returns {React.Component} A React component that wraps around the HTML checkbox.
  */
-const Checkbox = ( { id, label, checked } ) => <Fragment>
+const Checkbox = ( { id, label, checked = false } ) => <Fragment>
 	<input type="checkbox" id={ id } defaultChecked={ checked } />
 	<label htmlFor={ id } className="yoast-field-group__checkbox">{ label }</label>
 </Fragment>;
@@ -44,10 +44,6 @@ Checkbox.propTypes = {
 	label: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	checked: PropTypes.bool,
-};
-
-Checkbox.defaultProps = {
-	checked: false,
 };
 
 /**

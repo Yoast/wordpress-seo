@@ -97,15 +97,15 @@ const ScoreAssessmentList = styled.ul`
  *
  * @returns {ReactElement} The rendered component.
  */
-const ScoreAssessments = ( props ) => {
+const ScoreAssessments = ( { className = "score-assessments", items } ) => {
 	return (
 		<ScoreAssessmentList
-			className={ props.className }
+			className={ className }
 			role="list"
 		>
-			{ props.items.map( ( item, index ) =>
+			{ items.map( ( item, index ) =>
 				<ScoreAssessment
-					className={ `${ props.className }__item` }
+					className={ `${ className }__item` }
 					key={ index }
 					scoreColor={ item.color }
 					html={ item.html }
@@ -125,10 +125,6 @@ ScoreAssessments.propTypes = {
 			value: PropTypes.number,
 		} )
 	),
-};
-
-ScoreAssessments.defaultProps = {
-	className: "score-assessments",
 };
 
 export default ScoreAssessments;

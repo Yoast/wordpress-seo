@@ -72,10 +72,10 @@ export const YoastReactSelect = ( props ) => {
 		isMulti,
 		isSearchable,
 		inputId,
-		selected,
+		selected = [],
 		options,
-		name,
-		onChange,
+		name = "",
+		onChange = () => {},
 		...fieldGroupProps
 	} = props;
 
@@ -110,7 +110,6 @@ export const YoastReactSelect = ( props ) => {
 };
 
 YoastReactSelect.propTypes = selectProps;
-YoastReactSelect.defaultProps = selectDefaultProps;
 
 /**
  * SingleSelect component.
@@ -119,7 +118,7 @@ YoastReactSelect.defaultProps = selectDefaultProps;
  * @returns {React.Component} The react-select MultiSelect component.
  */
 export const SingleSelect = ( props ) => {
-	const { onChange } = props;
+	const { onChange = () => {} } = props;
 
 	const onChangeHandler = useCallback( selection => onChange( selection.value ) );
 	return <YoastReactSelect
@@ -131,7 +130,6 @@ export const SingleSelect = ( props ) => {
 };
 
 SingleSelect.propTypes = selectProps;
-SingleSelect.defaultProps = selectDefaultProps;
 
 /**
  * MultiSelect component.
@@ -140,7 +138,7 @@ SingleSelect.defaultProps = selectDefaultProps;
  * @returns {React.Component} The react-select MultiSelect component.
  */
 export const MultiSelect = ( props ) => {
-	const { onChange } = props;
+	const { onChange = () => {} } = props;
 
 	const onChangeHandler = useCallback( selection => {
 		// Make sure that selection is always an array.
@@ -161,7 +159,6 @@ export const MultiSelect = ( props ) => {
 };
 
 MultiSelect.propTypes = selectProps;
-MultiSelect.defaultProps = selectDefaultProps;
 
 /**
  * React wrapper for a basic HTML select.

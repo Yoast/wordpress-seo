@@ -9,15 +9,15 @@ import Heading from "./Heading";
  * @param {Object} props The props to use.
  * @returns {ReactElement} The rendered component.
  */
-const Section = ( props ) => {
+const Section = ( { className, headingText, headingLevel = 1, headingClassName, children } ) => {
 	return (
-		<section className={ props.className }>
-			{ props.headingText &&
-				<Heading level={ props.headingLevel } className={ props.headingClassName }>
-					{ props.headingText }
+		<section className={ className }>
+			{ headingText &&
+				<Heading level={ headingLevel } className={ headingClassName }>
+					{ headingText }
 				</Heading>
 			}
-			{ props.children }
+			{ children }
 		</section>
 	);
 };
@@ -28,10 +28,6 @@ Section.propTypes = {
 	headingLevel: PropTypes.number,
 	headingClassName: PropTypes.string,
 	children: PropTypes.any,
-};
-
-Section.defaultProps = {
-	headingLevel: 1,
 };
 
 export default Section;
