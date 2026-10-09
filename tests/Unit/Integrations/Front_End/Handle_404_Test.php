@@ -275,4 +275,51 @@ final class Handle_404_Test extends TestCase {
 
 		$this->assertTrue( $this->instance->handle_404( false ) );
 	}
+
+	/**
+	 * A feed 404 must drop the feed query var so later header generation stays HTML.
+	 *
+	 * @covers ::handle_404
+	 * @covers ::set_404
+	 *
+	 * @return void
+	 */
+	public function test_feed_404_clears_feed_query_var() {
+		global $wp;
+
+		$wp             = new stdClass();
+		$wp->query_vars = [
+			'feed'      => 'rss2',
+			'post_type' => 'post',
+		];
+
+		$wp_query = Mockery::mock( WP_Query::class );
+		$wp_query->expects( 'set_404' )->once()->andReturnNull();
+
+		$this->query_wrapper
+			->expects( 'get_query' )
+			->once()
+			->andReturn( $wp_query );
+
+		$this->query_wrapper
+			->expects( 'set_query' )
+			->once()
+			->with( $wp_query )
+			->andReturnNull();
+
+		$this->instance
+			->expects( 'is_feed_404' )
+			->once()
+			->andReturnTrue();
+
+		$this->instance
+			->expects( 'set_headers' )
+			->once()
+			->andReturnNull();
+
+		$this->assertTrue( $this->instance->handle_404( false ) );
+		$this->assertFalse( $wp_query->is_feed );
+		$this->assertSame( '404', $wp->query_vars['error'] );
+		$this->assertArrayNotHasKey( 'feed', $wp->query_vars );
+	}
 }
