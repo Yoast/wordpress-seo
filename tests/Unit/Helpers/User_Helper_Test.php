@@ -53,6 +53,45 @@ final class User_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Data provider for test_user_exists.
+	 *
+	 * @return array<string, array<string, object|bool>>
+	 */
+	public static function data_user_exists() {
+		return [
+			'Existing user'     => [
+				'user_data' => (object) [ 'ID' => 1 ],
+				'expected'  => true,
+			],
+			'Non-existing user' => [
+				'user_data' => false,
+				'expected'  => false,
+			],
+		];
+	}
+
+	/**
+	 * Tests that user_exists checks whether WordPress has the user's data.
+	 *
+	 * @covers ::user_exists
+	 *
+	 * @dataProvider data_user_exists
+	 *
+	 * @param object|bool $user_data The user data get_userdata returns.
+	 * @param bool        $expected  The expected result.
+	 *
+	 * @return void
+	 */
+	public function test_user_exists( $user_data, $expected ) {
+		Functions\expect( 'get_userdata' )
+			->with( 1 )
+			->once()
+			->andReturn( $user_data );
+
+		$this->assertSame( $expected, $this->instance->user_exists( 1 ) );
+	}
+
+	/**
 	 * Tests that `count_posts` converts a string to an integer.
 	 *
 	 * @covers ::count_posts
