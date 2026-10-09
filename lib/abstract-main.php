@@ -42,11 +42,13 @@ abstract class Abstract_Main {
 
 		try {
 			$this->container = $this->get_container();
-			Container_Registry::register( $this->get_name(), $this->container );
 
 			if ( ! $this->container ) {
 				return;
 			}
+			
+			Container_Registry::register( $this->get_name(), $this->container );
+
 			if ( ! $this->container->has( Loader::class ) ) {
 				return;
 			}
