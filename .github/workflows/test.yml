@@ -11,7 +11,7 @@ on:
       - "feature/**"
     paths:
       - '**.php' # Includes config/*.php and lib/*.php files.
-      - '**.xsl'
+      - 'css/main-sitemap.css'
       - 'composer.json'
       - 'composer.lock'
       - 'phpunit.xml.dist'
@@ -23,7 +23,7 @@ on:
   pull_request:
     paths:
       - '**.php' # Includes config/*.php and lib/*.php files.
-      - '**.xsl'
+      - 'css/main-sitemap.css'
       - 'composer.json'
       - 'composer.lock'
       - 'phpunit.xml.dist'
