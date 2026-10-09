@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
