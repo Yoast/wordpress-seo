@@ -21,6 +21,17 @@ class User_Helper {
 	}
 
 	/**
+	 * Checks whether a user exists.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return bool Whether the user exists.
+	 */
+	public function user_exists( $user_id ) {
+		return \get_userdata( $user_id ) !== false;
+	}
+
+	/**
 	 * Counts the number of posts the user has written in this post type.
 	 *
 	 * @param int          $user_id   User ID.
