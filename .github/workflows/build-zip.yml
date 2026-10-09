@@ -59,6 +59,10 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.issue.number
             });
+            if (pr.head.repo?.full_name !== `${context.repo.owner}/${context.repo.repo}`) {
+              core.setFailed('Building pull requests from forks is not supported.');
+              return;
+            }
             core.setOutput('ref', pr.head.ref);
 
       - name: Checkout code

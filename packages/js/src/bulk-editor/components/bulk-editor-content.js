@@ -15,6 +15,7 @@ import { BulkEditorFilters } from "./bulk-editor-filters";
 import { BulkEditorTour } from "./tour/bulk-editor-tour";
 import { BulkEditorFooter } from "./bulk-editor-footer";
 import { BulkEditorTable } from "./table/bulk-editor-table";
+import { getColumnCount } from "./table/table-helpers";
 import { BulkEditorTabPanel, BulkEditorTabs } from "./bulk-editor-tabs";
 import { UnsavedChangesModal } from "./unsaved-changes-modal";
 import { SearchBox } from "./search-box";
@@ -66,11 +67,6 @@ export const getHasOverviewNotice = ( { preselectedTotal, hasExcludedPreselected
  * @returns {JSX.Element} The content.
  */
 export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentType, contentTypeLabel } ) => {
-	const fieldSets = useMemo( () => getFieldSets(), [] );
-	const tabs = useMemo(
-		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
-		[ fieldSets ]
-	);
 	const {
 		activeFieldSet,
 		selectedIds,
@@ -80,6 +76,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		hasExternalPendingChanges,
 		hasExternalGeneration,
 		pendingSwitch,
+		isKeywordAnalysisActive,
 	} = useSelect( ( select ) => {
 		const store = select( STORE_NAME );
 		return {
@@ -95,8 +92,15 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			// It also reports an in-flight generation request so row editing can be locked while it runs.
 			hasExternalGeneration: store.selectHasExternalGeneration(),
 			pendingSwitch: store.selectPendingSwitch(),
+			// With the SEO analysis off the focus keyphrase column stays visible but stops being editable.
+			isKeywordAnalysisActive: store.selectIsKeywordAnalysisActive(),
 		};
 	}, [] );
+	const fieldSets = useMemo( () => getFieldSets( { isKeywordAnalysisActive } ), [ isKeywordAnalysisActive ] );
+	const tabs = useMemo(
+		() => Object.values( fieldSets ).map( ( { id, label } ) => ( { id, label } ) ),
+		[ fieldSets ]
+	);
 	const {
 		requestSwitch,
 		commitSwitch,
@@ -272,8 +276,12 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 							isLoading={ isPending }
 							hasExternalPendingChanges={ hasExternalPendingChanges }
 							hasExternalGeneration={ hasExternalGeneration }
-							footer={ total > 0
-								? <BulkEditorFooter total={ total } totalPages={ totalPages } isPending={ isPending } />
+							footer={ total > 0 ? <BulkEditorFooter
+								colSpan={ getColumnCount( fieldSets[ tab.id ].fields ) }
+								total={ total }
+								totalPages={ totalPages }
+								isPending={ isPending }
+							/>
 								: null }
 						/>
 					</BulkEditorTabPanel>

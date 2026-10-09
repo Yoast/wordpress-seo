@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.1
-Stable tag: 28.3
+Stable tag: 28.6
 Requires PHP: 7.4
 
 Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.
@@ -307,40 +307,33 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 28.4 =
+= 28.7 =
 
-Release date: 2026-09-01
-
-#### Enhancements
-
-* Adds the Yoast bulk editor to the WordPress admin bulk-actions menu, with needs-improvement filtering, smart selection, and AI-powered SEO title and description generation.
-
-#### Bugfixes
-
-* Fixes a bug where the AI generator's tip to write more content was not shown for posts whose content consisted mostly of block markup, because the markup was counted as content.
-
-= 28.3 =
-
-Release date: 2026-08-18
-
-Yoast SEO 28.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+Release date: 2026-10-13
 
 #### Enhancements
 
-* Adds a schemamap.xml file at the site root that exposes the aggregated schema map.
-* Adds the failing object's type and ID to the SEO data optimization error report when an indexable cannot be built.
-* Improves performance when running the SEO optimization by warming post and term caches in bulk.
-* Improves the performance of generating XML sitemaps by warming post, term and featured-image caches in bulk.
+* Allows agents to update titles and descriptions via the respective Yoast Ability.
+
+= 28.6 =
+
+Release date: 2026-09-29
+
+#### Enhancements
+
+* Don't show a post type in the Bulk editor if `Enable SEO controls and assessments` is turned off for that post type.
+* Introduces 2 new Yoast Abilities, to allow agents to get and update SEO data for given posts.
 
 #### Bugfixes
 
-* Fixes a bug where the AI Content Planner inserted an empty paragraph block before the template blocks when a post type had a block template registered.
+* Adds a notice to the bulk editor explaining that no content types are available when *Enable SEO controls and assessments* is disabled for all post types, with a link to the settings page.
+* Fixes a bug where a `rest_invalid_content_type` error would be logged in the browser console when opening the bulk editor while *Enable SEO controls and assessments* was disabled for all post types.
 
 #### Other
 
-* Adds a first-time guided tour to the bulk editor.
-* Sets the minimum supported WordPress version to 6.9.
-* Sets the _WordPress tested up to_ version to 7.1.
+* Adds two new cards for the Schema aggregator and the WordPress abilities API features.
+* Adjust the name and description of the setting's toggle controlling the breadcrumbs' rendering to state clearly its intended behaviour.
+* Re-groups the integrations' cards in the `Integrations` page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

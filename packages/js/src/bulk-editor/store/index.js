@@ -23,6 +23,7 @@ import {
 } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import activeContentType, { activeContentTypeActions, activeContentTypeSelectors, createInitialActiveContentTypeState } from "./active-content-type";
+import analysis, { analysisActions, analysisSelectors, createInitialAnalysisState } from "./analysis";
 import activeFieldSet, { activeFieldSetActions, activeFieldSetSelectors, createInitialActiveFieldSetState } from "./active-field-set";
 import edits, { createInitialEditsState, editsActions, editsSelectors } from "./edits";
 import externalPendingChanges, {
@@ -51,6 +52,7 @@ const createStore = ( { initialState } ) => {
 		actions: {
 			...linkParamsActions,
 			...preferencesActions,
+			...analysisActions,
 			...replacementVariablesActions,
 			...activeFieldSetActions,
 			...activeContentTypeActions,
@@ -66,6 +68,7 @@ const createStore = ( { initialState } ) => {
 		selectors: {
 			...linkParamsSelectors,
 			...preferencesSelectors,
+			...analysisSelectors,
 			...replacementVariablesSelectors,
 			...activeFieldSetSelectors,
 			...activeContentTypeSelectors,
@@ -83,6 +86,7 @@ const createStore = ( { initialState } ) => {
 			{
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				preferences: createInitialPreferencesState(),
+				analysis: createInitialAnalysisState(),
 
 				activeFieldSet: createInitialActiveFieldSetState(),
 				activeContentType: createInitialActiveContentTypeState(),
@@ -100,6 +104,7 @@ const createStore = ( { initialState } ) => {
 		reducer: combineReducers( {
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			preferences,
+			analysis,
 			replacementVariables: replacementVariablesReducer,
 			activeFieldSet,
 			activeContentType,
