@@ -172,7 +172,7 @@ final class Update_Site_Representation_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Update Site Representation',
-				'description'         => 'Update Yoast SEO\'s site representation settings, which tell search engines whether the site represents an organization or a person, and provide its name, logo, social profiles and, depending on the active add-ons, other details for the site\'s organization schema. Only the settings you provide are changed; a provided empty value (an empty string, 0 or an empty array) clears that setting, and a provided list replaces the current one.',
+				'description'         => 'Update Yoast SEO\'s site representation settings, which tell search engines whether the site represents an organization or a person, and provide its name, logo, social profiles and, depending on the active add-ons, other details for the site\'s organization schema. Only the settings you provide are changed; a provided empty value (an empty string, 0 or an empty array) clears that setting, and a provided list replaces the current one. These settings are public facts about who owns the site: only use values the user provided or that come from the site itself, never guessed or found elsewhere, and confirm them with the user before saving.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',
