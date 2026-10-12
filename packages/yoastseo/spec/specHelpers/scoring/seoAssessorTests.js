@@ -4,7 +4,6 @@ import Paper from "../../../src/values/Paper";
 import KeyphraseDistributionAssessment from "../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import keyphraseDistribution from "../../../src/languageProcessing/researches/keyphraseDistribution";
 
-
 /**
  * Checks which assessment are available for an SEO assessor, given a certain Paper.
  * @param {Assessor} assessor The SEO assessor.
@@ -58,7 +57,7 @@ export function checkAssessmentAvailability( assessor, isECommerceAssessor = fal
 		defaultAssessments = defaultAssessments.filter( assessment => assessment !== "subheadingsKeyword" );
 	}
 
-	let extraDefaultAssessments = [ "images", "externalLinks", "internalLinks", "imageKeyphrase", "textCompetingLinks" ];
+	let extraDefaultAssessments = [ "images", "externalLinks", "internalLinks", "textCompetingLinks" ];
 	if ( isCollection || isStoreBlog || isTaxonomy ) {
 		extraDefaultAssessments = [];
 	}
@@ -143,7 +142,6 @@ export function checkAssessmentAvailability( assessor, isECommerceAssessor = fal
 	} );
 }
 
-
 /**
  * Checks the config overrides for a given SEO assessor.
  * @param {Assessor} assessor The SEO assessor.
@@ -158,16 +156,6 @@ export function checkConfigOverrides( assessor ) {
 		expect( assessment._config.scores ).toBeDefined();
 		expect( assessment._config.scores.tooLong ).toBe( 3 );
 		expect( assessment._config.scores.tooShort ).toBe( 3 );
-	} );
-
-	test( "ImageKeyphrase", () => {
-		const assessment = assessor.getAssessment( "imageKeyphrase" );
-
-		expect( assessment ).toBeDefined();
-		expect( assessment._config ).toBeDefined();
-		expect( assessment._config.scores ).toBeDefined();
-		expect( assessment._config.scores.withAltNonKeyword ).toBe( 3 );
-		expect( assessment._config.scores.noAlt ).toBe( 3 );
 	} );
 
 	test( "TextLengthAssessment", () => {
@@ -355,14 +343,6 @@ export function checkUrls( assessor, isECommerceAssessor = false ) {
 		const assessment = assessor.getAssessment( "images" );
 		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify20" : "https://yoa.st/4f4";
 		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify21" : "https://yoa.st/4f5";
-
-		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
-	} );
-
-	test( "ImageKeyphrase", () => {
-		const assessment = assessor.getAssessment( "imageKeyphrase" );
-		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify22" : "https://yoa.st/4f7";
-		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify23" : "https://yoa.st/4f6";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );

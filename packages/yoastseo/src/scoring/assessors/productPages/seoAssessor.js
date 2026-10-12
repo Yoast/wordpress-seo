@@ -5,7 +5,6 @@ import KeyphraseDensityAssessment from "../../assessments/seo/KeywordDensityAsse
 import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment.js";
 import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
-import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment.js";
 import MetaDescriptionLengthAssessment from "../../assessments/seo/MetaDescriptionLengthAssessment.js";
 import SubheadingsKeywordAssessment from "../../assessments/seo/SubHeadingsKeywordAssessment.js";
 import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment.js";
@@ -106,10 +105,6 @@ export default class ProductSEOAssessor extends SEOAssessor {
 				// Optional: platforms can pass `imageCountResultTexts` to override the default feedback strings.
 				callbacks: { getResultTexts: options.imageCountResultTexts },
 			}, options.countVideos ),
-			new ImageKeyphraseAssessment( {
-				urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
-				urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
-			} ),
 		];
 	}
 }

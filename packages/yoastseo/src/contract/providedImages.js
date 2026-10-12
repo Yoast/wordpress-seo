@@ -2,7 +2,7 @@ import { z } from "zod";
 
 /**
  * Serializable contract for a single provided image consumed by the image assessments
- * (Images, Image alt attributes, Keyphrase in image alt). It is the image slice of the {@link PaperDto}
+ * (Images, Image alt attributes). It is the image slice of the {@link PaperDto}
  * input contract: a producer (WooCommerce, Shopify, or any headless consumer) maps the analyzed item's
  * own images — e.g. a product's featured, gallery and variation images — onto this shape, and the
  * assessments score from it without knowing the platform. Providing the `providedImages` array — even empty —
