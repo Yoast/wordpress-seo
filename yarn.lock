@@ -2998,10 +2998,10 @@
   resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-2.2.0.tgz#0c05124af50434a800773abec8d3af6a297d904b"
   integrity sha512-LMcepvRaS9LYHJGsF0zzmgKCUim/X3N/DQKc4jepAXJ7l8QxJ1PmxJzqplF2Z3FE4PqBAIGyJAQ/w4B5dsqbtQ==
 
-"@hono/node-server@^1.19.9":
-  version "1.19.17"
-  resolved "https://registry.yarnpkg.com/@hono/node-server/-/node-server-1.19.17.tgz#99bd8625cdbae82652a135c71363cd6322fae483"
-  integrity sha512-dSneS5qhiauZWGDCeK4o695Xd9nUNjviSZCMQrj10eetr8Uln1ucn6bbphOM6UynAMMtNIzZNSpL9vnASJwrPQ==
+"@hono/node-server@^1.19.9 || ^2.0.5":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@hono/node-server/-/node-server-2.1.4.tgz#12160a6a8b7a947a9371f48ca53bf2e24be5119f"
+  integrity sha512-2g1qeHl4BduwDn6L8nkAvDrPUWPMlkQ//a5NhP/zIyaXKMjZNRV+cG9Csu+BiJFf6+68pqzjf4Hi5sJGKHuS1g==
 
 "@humanfs/core@^0.19.2":
   version "0.19.2"
@@ -4466,11 +4466,11 @@
     "@types/mdx" "^2.0.0"
 
 "@modelcontextprotocol/sdk@^1.8.0":
-  version "1.26.0"
-  resolved "https://registry.yarnpkg.com/@modelcontextprotocol/sdk/-/sdk-1.26.0.tgz#5b35d73062125f126cc70b0be83cbab53bcdde74"
-  integrity sha512-Y5RmPncpiDtTXDbLKswIJzTqu2hyBKxTNsgKqKclDbhIgg1wgtf1fRuvxgTnRfcnxtvvgbIEcqUOzZrJ6iSReg==
+  version "1.32.1"
+  resolved "https://registry.yarnpkg.com/@modelcontextprotocol/sdk/-/sdk-1.32.1.tgz#853286b3240b6d8143f5f8e6d58af85c77d475ab"
+  integrity sha512-2DdE+SJDtzLEEWzY1ZjY7Q+VcPhcV1KisD3zI4u0XZyktsjHum1mwbMI+JaulUBi2OZk+KJAi2uPXzxichPkdw==
   dependencies:
-    "@hono/node-server" "^1.19.9"
+    "@hono/node-server" "^1.19.9 || ^2.0.5"
     ajv "^8.17.1"
     ajv-formats "^3.0.1"
     content-type "^1.0.5"
