@@ -6,6 +6,7 @@ import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescript
 import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
 import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment.js";
+import KeyphraseStuffingInAltTextAssessment from "../../assessments/seo/KeyphraseStuffingInAltTextAssessment.js";
 import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
@@ -50,6 +51,10 @@ export default class StorePostsAndPagesRelatedKeywordAssessor extends RelatedKey
 			new ImageKeyphraseAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
+			} ),
+			new KeyphraseStuffingInAltTextAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-keyphrase-stuffing" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-keyphrase-stuffing-cta" ),
 			} ),
 		];
 	}

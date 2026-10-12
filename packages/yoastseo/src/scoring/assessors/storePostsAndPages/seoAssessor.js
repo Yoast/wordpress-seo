@@ -10,6 +10,7 @@ import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWo
 import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment.js";
 import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment.js";
 import AltTextLengthAssessment from "../../assessments/seo/AltTextLengthAssessment.js";
+import KeyphraseStuffingInAltTextAssessment from "../../assessments/seo/KeyphraseStuffingInAltTextAssessment.js";
 import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment.js";
 import OutboundLinksAssessment from "../../assessments/seo/OutboundLinksAssessment.js";
 import KeyphraseInSEOTitleAssessment from "../../assessments/seo/KeyphraseInSEOTitleAssessment.js";
@@ -72,6 +73,10 @@ export default class StorePostsAndPagesSEOAssessor extends SEOAssessor {
 			new AltTextLengthAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-length" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-length-cta" ),
+			} ),
+			new KeyphraseStuffingInAltTextAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-keyphrase-stuffing" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-keyphrase-stuffing-cta" ),
 			} ),
 			new TextLengthAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
