@@ -5,8 +5,6 @@
  * @package WPSEO\Admin\Menu
  */
 
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
-
 /**
  * Admin menu base class.
  */
@@ -239,28 +237,6 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 	 */
 	protected function get_admin_page_callback() {
 		return [ $this->menu, 'load_page' ];
-	}
-
-	/**
-	 * Returns the page title to use for the licenses page.
-	 *
-	 * @deprecated 25.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return string The title for the license page.
-	 */
-	protected function get_license_page_title() {
-		static $title = null;
-
-		_deprecated_function( __METHOD__, 'Yoast SEO 25.5' );
-
-		$title ??= __( 'Upgrades', 'wordpress-seo' );
-
-		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) && ! YoastSEO()->helpers->product->is_premium() ) {
-			$title = __( 'Upgrades', 'wordpress-seo' ) . '<span class="yoast-menu-bf-sale-badge">' . __( '30% OFF', 'wordpress-seo' ) . '</span>';
-		}
-
-		return $title;
 	}
 
 	/**
