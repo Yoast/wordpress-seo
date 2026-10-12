@@ -42,7 +42,7 @@ if ( ! \defined( 'WPSEO_BASENAME' ) ) {
 
 \define( 'YOAST_SEO_PHP_REQUIRED', '7.4' );
 \define( 'YOAST_SEO_WP_TESTED', '7.1.2' );
-\define( 'YOAST_SEO_WP_REQUIRED', '6.9' );
+\define( 'YOAST_SEO_WP_REQUIRED', '7.0' );
 
 if ( ! \defined( 'WPSEO_NAMESPACES' ) ) {
 	\define( 'WPSEO_NAMESPACES', true );
