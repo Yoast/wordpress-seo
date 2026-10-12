@@ -113,6 +113,22 @@ describe( "mapResults", () => {
 		expect( result.hasJumps ).toBe( expectedResult._hasJumps );
 		expect( result.editFieldName ).toBe( expectedResult.editFieldName );
 		expect( result.hasAIFixes ).toBe( expectedResult._hasAIFixes );
+		expect( result.flaggedItems ).toEqual( expectedResult.getFlaggedItems() );
+	} );
+
+	it( "hands the flagged items over, which is how a consumer finds the content a result is about", () => {
+		const flagging = new AssessmentResult( { _identifier: "altTextLength", score: 6, text: "feedback string" } );
+		flagging.setFlaggedItems( [ 9, "https://example.com/a.jpg" ] );
+
+		const { improvementsResults } = mapResults( [ flagging ] );
+
+		expect( improvementsResults[ 0 ].flaggedItems ).toEqual( [ 9, "https://example.com/a.jpg" ] );
+	} );
+
+	it( "hands over an empty list for an assessment that flags nothing, so the field is always present", () => {
+		const results = mapResults( analysisResults );
+
+		expect( results.goodResults[ 0 ].flaggedItems ).toEqual( [] );
 	} );
 
 	it( "maps a result, using a keywordKey", () => {

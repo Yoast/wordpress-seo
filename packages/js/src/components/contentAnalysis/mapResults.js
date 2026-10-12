@@ -5,6 +5,7 @@ import { interpreters } from "yoastseo";
  * Mapped result definition.
  * @typedef {Object} MappedResult
  * @property {string} rating
+ * @property {Array<string|number>} flaggedItems The identifiers of the content items this result is about.
  * @property {bool} hasMarks
  * @property {string} text
  * @property {string} id
@@ -50,6 +51,7 @@ function mapResult( result, key = "" ) {
 		hasAIFixes: result.isOptimizable(),
 		editFieldName: result.editFieldName,
 		editFieldAriaLabel: result.editFieldAriaLabel,
+		flaggedItems: result.getFlaggedItems(),
 	};
 
 	// Because of inconsistency between YoastSEO and yoast-components.

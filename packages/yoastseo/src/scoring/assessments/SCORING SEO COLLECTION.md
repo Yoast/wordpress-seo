@@ -17,7 +17,7 @@ For information on how the assessments scoring system works, check out these exp
 - [Meta description length](SCORING%20SEO.md#5-meta-description-length)
 - [Single title](SCORING%20SEO.md#6-single-title)
 - [Function words in keyphrase](SCORING%20SEO.md#7-function-words-in-keyphrase)
-- [Title](SCORING%20SEO.md#9-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
+- [Title](SCORING%20SEO.md#10-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
 
 ### Assessments with the same scoring criteria as with the taxonomy assessor
 - [Text length assessment](SCORING%20TAXONOMY.md#1-text-length-assessment)

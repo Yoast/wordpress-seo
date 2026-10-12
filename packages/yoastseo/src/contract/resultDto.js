@@ -48,6 +48,12 @@ export const resultDtoSchema = z.object( {
 		.describe( "Whether an automated fix is available for this result (engine-computed, score-gated)." ),
 	isBeta: z.boolean().default( false )
 		.describe( "Whether this result is from an assessment still in beta/experimental status." ),
+	flaggedItems: z.array( z.union( [ z.string(), z.number() ] ) ).default( [] )
+		.describe( "Identifiers of the content items this result is about, as the producer identified them " +
+			"(e.g. the `id` of a provided image, or its `src` when no id was sent). Empty when the assessment " +
+			"has nothing to point at. The engine never interprets these; it hands back what it was given, so a " +
+			"consumer can match them to its own data. Several results can name the same item, so merge them " +
+			"keyed by `identifier`." ),
 } );
 
 /**
@@ -81,5 +87,6 @@ export function toResultDto( result ) {
 		editFieldAriaLabel: result.getEditFieldAriaLabel(),
 		isOptimizable: result.isOptimizable(),
 		isBeta: result.isBeta(),
+		flaggedItems: result.getFlaggedItems(),
 	} );
 }
