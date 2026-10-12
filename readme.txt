@@ -311,6 +311,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-10-13
 
+Yoast SEO 28.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Allows agents to update titles and descriptions via the respective Yoast Ability.
@@ -318,6 +320,8 @@ Release date: 2026-10-13
 = 28.6 =
 
 Release date: 2026-09-29
+
+Yoast SEO 28.6 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
 
 #### Enhancements
 
