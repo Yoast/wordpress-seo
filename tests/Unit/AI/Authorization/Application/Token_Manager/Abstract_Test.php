@@ -1,0 +1,131 @@
+<?php
+
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Application\Token_Manager;
+
+use Brain\Monkey;
+use Mockery;
+use Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler;
+use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository_Interface;
+use Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
+use Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository_Interface;
+use Yoast\WP\SEO\AI\Generator\Infrastructure\WordPress_URLs;
+use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
+
+/**
+ * Abstract class for Token_Manager tests.
+ *
+ * @group ai-authorization
+ */
+abstract class Abstract_Test extends TestCase {
+
+	/**
+	 * The access token repository.
+	 *
+	 * @var Mockery\MockInterface|Access_Token_User_Meta_Repository_Interface
+	 */
+	protected $access_token_repository;
+
+	/**
+	 * The code verifier service.
+	 *
+	 * @var Mockery\MockInterface|Code_Verifier_Handler
+	 */
+	protected $code_verifier;
+
+	/**
+	 * The refresh token repository mock.
+	 *
+	 * @var Mockery\MockInterface|Refresh_Token_User_Meta_Repository_Interface
+	 */
+	protected $refresh_token_repository;
+
+	/**
+	 * The user helper mock.
+	 *
+	 * @var Mockery\MockInterface|User_Helper
+	 */
+	protected $user_helper;
+
+	/**
+	 * The code verifier repository mock.
+	 *
+	 * @var Mockery\MockInterface|Code_Verifier_User_Meta_Repository
+	 */
+	protected $code_verifier_repository;
+
+	/**
+	 * The URLs service mock.
+	 *
+	 * @var Mockery\MockInterface|WordPress_URLs
+	 */
+	protected $urls;
+
+	/**
+	 * The request handler mock.
+	 *
+	 * @var Mockery\MockInterface|Request_Handler
+	 */
+	protected $request_handler;
+
+	/**
+	 * The URL helper mock.
+	 *
+	 * @var Mockery\MockInterface|Url_Helper
+	 */
+	protected $url_helper;
+
+	/**
+	 * The instance to test.
+	 *
+	 * @var Token_Manager
+	 */
+	protected $instance;
+
+	/**
+	 * Setup the test.
+	 *
+	 * @return void
+	 */
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->access_token_repository  = Mockery::mock( Access_Token_User_Meta_Repository_Interface::class );
+		$this->code_verifier            = Mockery::mock( Code_Verifier_Handler::class );
+		$this->refresh_token_repository = Mockery::mock( Refresh_Token_User_Meta_Repository_Interface::class );
+		$this->user_helper              = Mockery::mock( User_Helper::class );
+		$this->request_handler          = Mockery::mock( Request_Handler::class );
+		$this->code_verifier_repository = Mockery::mock( Code_Verifier_User_Meta_Repository::class );
+		$this->urls                     = Mockery::mock( WordPress_URLs::class );
+		$this->url_helper               = Mockery::mock( Url_Helper::class );
+
+		// Default: have_callback_urls_changed() returns false by providing a matching per-user hash.
+		$default_callback_url = 'https://example.com/wp-json/yoast/v1/ai_generator/callback';
+		$this->user_helper->shouldReceive( 'get_meta' )
+			->with( Mockery::any(), '_yoast_wpseo_ai_generator_callback_url_hash', true )
+			->andReturn( \md5( $default_callback_url ) )
+			->byDefault();
+		$this->user_helper->shouldReceive( 'update_meta' )->zeroOrMoreTimes()->byDefault();
+		$this->urls->shouldReceive( 'get_callback_url' )->andReturn( $default_callback_url )->byDefault();
+		$this->urls->shouldReceive( 'get_refresh_callback_url' )->andReturn( 'https://example.com/wp-json/yoast/v1/ai_generator/refresh_callback' )->byDefault();
+
+		$this->instance = new Token_Manager( $this->access_token_repository, $this->code_verifier, $this->refresh_token_repository, $this->user_helper, $this->request_handler, $this->code_verifier_repository, $this->urls );
+	}
+
+	/**
+	 * Mock YoastSEO function for WPSEO_Utils::get_home_url().
+	 *
+	 * @return void
+	 */
+	protected function WPSEO_Utils_get_home_url() {
+		$this->url_helper->expects( 'network_safe_home_url' )->once()->andReturn( 'https://example.com' );
+		$container = $this->create_container_with( [ Url_Helper::class => $this->url_helper ] );
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
+	}
+}

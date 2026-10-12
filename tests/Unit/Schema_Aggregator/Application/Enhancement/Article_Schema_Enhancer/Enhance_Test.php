@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  *
  * @group schema-aggregator
  */
-final class Enhance_Test extends Abstract_Article_Schema_Enhancer_Test {
+final class Enhance_Test extends Abstract_Test {
 
 	/**
 	 * Test.

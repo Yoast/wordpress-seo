@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Person_Schema_Enhance
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Schema_Enhancement_Factory::get_enhancer
  */
-final class Get_Enhancer_Test extends Abstract_Schema_Enhancement_Factory_Test {
+final class Get_Enhancer_Test extends Abstract_Test {
 
 	/**
 	 * Tests get_enhancer() returns Article enhancer for Article type.

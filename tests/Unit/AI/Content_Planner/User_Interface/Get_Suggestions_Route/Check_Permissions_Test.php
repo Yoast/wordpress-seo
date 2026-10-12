@@ -16,10 +16,8 @@ use WP_User;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Get_Suggestions_Route::check_permissions
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Check_Permissions_Test extends Abstract_Get_Suggestions_Route_Test {
+final class Check_Permissions_Test extends Abstract_Test {
 
 	/**
 	 * Builds a request whose `post_type` parameter returns the given value.

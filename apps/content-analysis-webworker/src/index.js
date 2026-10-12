@@ -1,4 +1,5 @@
-import { AnalysisWorkerWrapper, Paper, interpreters } from "yoastseo";
+import { AnalysisWorkerWrapper, interpreters } from "yoastseo";
+import { toPaper } from "yoastseo/contract";
 
 const loadWebWorker = ( language ) => {
 	const workerUnwrapped = new Worker( new URL("./worker.js", import.meta.url) );
@@ -40,9 +41,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			logLevel: "TRACE", // Optional, see https://github.com/pimterry/loglevel#documentation
 		} ).then( () => {
 			// The worker has been configured, we can now analyze a Paper.
-			const paper = new Paper( paperText, {
-				keyword: keyphrase,
-			} );
+			// Build the Paper through the serializable input contract (`yoastseo/contract`).
+			const paper = toPaper( { text: paperText, keyphrase } );
 
 			return worker.analyze( paper );
 		} ).then( ( results ) => {

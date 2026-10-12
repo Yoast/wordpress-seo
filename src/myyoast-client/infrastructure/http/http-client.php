@@ -134,14 +134,36 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 	}
 
 	/**
-	 * Checks if the response indicates a use_dpop_nonce error.
+	 * Checks if the response indicates a use_dpop_nonce challenge.
+	 *
+	 * Covers both signalling shapes per RFC 9449 §§5.2 and 8:
+	 *  - Authorization-server style: response body carries `{"error":"use_dpop_nonce"}`.
+	 *  - Resource-server style: HTTP 401 with `WWW-Authenticate: DPoP error="use_dpop_nonce"` and a fresh `DPoP-Nonce` header.
 	 *
 	 * @param HTTP_Response $result The parsed response.
 	 *
-	 * @return bool Whether this is a DPoP nonce error.
+	 * @return bool Whether this is a DPoP nonce challenge.
 	 */
 	private function is_dpop_nonce_error( HTTP_Response $result ): bool {
-		return ( $result->get_body_value( 'error' ) === 'use_dpop_nonce' );
+		if ( $result->get_body_value( 'error' ) === 'use_dpop_nonce' ) {
+			return true;
+		}
+
+		if ( $result->get_status() !== 401 ) {
+			return false;
+		}
+
+		$headers = $result->get_headers();
+		if ( ! isset( $headers['www-authenticate'], $headers['dpop-nonce'] ) ) {
+			return false;
+		}
+
+		$www_authenticate = $headers['www-authenticate'];
+		if ( \is_array( $www_authenticate ) ) {
+			$www_authenticate = (string) \reset( $www_authenticate );
+		}
+
+		return ( \stripos( (string) $www_authenticate, 'use_dpop_nonce' ) !== false );
 	}
 
 	/**

@@ -201,6 +201,104 @@ final class HTTP_Client_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that request() retries once on a header-based nonce challenge (401 + DPoP-Nonce + WWW-Authenticate).
+	 *
+	 * @covers ::request
+	 * @covers ::is_dpop_nonce_error
+	 *
+	 * @return void
+	 */
+	public function test_request_retries_on_header_based_dpop_nonce_challenge() {
+		$this->expiring_store->expects( 'get' )->once()->andThrow( new Key_Not_Found_Exception() );
+
+		$this->dpop_handler->expects( 'create_proof' )->twice()->andReturn( 'dpop-proof-jwt' );
+		$this->dpop_handler->expects( 'handle_nonce_response' )->twice();
+
+		Functions\expect( 'wp_parse_url' )->andReturn(
+			[
+				'host' => 'ai.example.com',
+				'path' => '/api/v1/openai/suggestions/seo-title',
+			],
+		);
+		Functions\expect( 'wp_remote_request' )
+			->twice()
+			->andReturn(
+				[ 'response' => [ 'code' => 401 ] ],
+				[ 'response' => [ 'code' => 200 ] ],
+			);
+
+		Functions\expect( 'is_wp_error' )->andReturn( false );
+		Functions\expect( 'wp_remote_retrieve_response_code' )->andReturn( 401, 200 );
+		Functions\expect( 'wp_remote_retrieve_headers' )->andReturn(
+			[
+				'www-authenticate' => 'DPoP error="use_dpop_nonce", error_description="Resource server requires nonce"',
+				'dpop-nonce'       => 'fresh-nonce-value',
+			],
+			[],
+		);
+		Functions\expect( 'wp_remote_retrieve_body' )->andReturn(
+			'',
+			'{"result":"ok"}',
+		);
+
+		$result = $this->instance->request(
+			'POST',
+			'https://ai.example.com/api/v1/openai/suggestions/seo-title',
+			[
+				'headers'      => [ 'Content-Type' => 'application/json' ],
+				'body'         => '{"prompt":"x"}',
+				'dpop'         => true,
+				'access_token' => 'opaque-token',
+			],
+		);
+
+		$this->assertSame( 200, $result->get_status() );
+		$this->assertSame( 'ok', $result->get_body_value( 'result' ) );
+	}
+
+	/**
+	 * Tests that request() does NOT retry when the 401 response carries a `use_dpop_nonce` header but no DPoP-Nonce.
+	 *
+	 * Without a nonce to use, retrying would just hit the same challenge again.
+	 *
+	 * @covers ::request
+	 * @covers ::is_dpop_nonce_error
+	 *
+	 * @return void
+	 */
+	public function test_request_does_not_retry_when_nonce_header_missing() {
+		$this->expiring_store->expects( 'get' )->once()->andThrow( new Key_Not_Found_Exception() );
+
+		$this->dpop_handler->expects( 'create_proof' )->once()->andReturn( 'dpop-proof-jwt' );
+		$this->dpop_handler->expects( 'handle_nonce_response' )->once();
+
+		Functions\expect( 'wp_parse_url' )->andReturn(
+			[
+				'host' => 'ai.example.com',
+				'path' => '/api/v1/openai/suggestions/seo-title',
+			],
+		);
+		Functions\expect( 'wp_remote_request' )->once()->andReturn( [ 'response' => [ 'code' => 401 ] ] );
+		Functions\expect( 'is_wp_error' )->andReturn( false );
+		Functions\expect( 'wp_remote_retrieve_response_code' )->andReturn( 401 );
+		Functions\expect( 'wp_remote_retrieve_headers' )->andReturn(
+			[ 'www-authenticate' => 'DPoP error="use_dpop_nonce"' ],
+		);
+		Functions\expect( 'wp_remote_retrieve_body' )->andReturn( '' );
+
+		$result = $this->instance->request(
+			'POST',
+			'https://ai.example.com/api/v1/openai/suggestions/seo-title',
+			[
+				'dpop'         => true,
+				'access_token' => 'opaque-token',
+			],
+		);
+
+		$this->assertSame( 401, $result->get_status() );
+	}
+
+	/**
 	 * Tests that request() returns cached 429 response when endpoint is rate limited.
 	 *
 	 * @covers ::request

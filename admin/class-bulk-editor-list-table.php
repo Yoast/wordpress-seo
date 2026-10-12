@@ -8,6 +8,9 @@
 
 /**
  * Implements table for bulk editing.
+ *
+ * @deprecated 28.1
+ * @codeCoverageIgnore
  */
 class WPSEO_Bulk_List_Table extends WP_List_Table {
 
@@ -125,6 +128,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @param array $args The arguments.
 	 */
 	public function __construct( $args = [] ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 28.1' );
+
 		parent::__construct( $this->settings );
 
 		$args = wp_parse_args(

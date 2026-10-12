@@ -15,7 +15,7 @@ use Yoast\WP\SEO\AI\Content_Planner\Domain\Category;
  * @group ai-content-planner
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Infrastructure\WordPress_Category_Repository::find_by_name
  */
-final class Find_By_Name_Test extends Abstract_WordPress_Category_Repository_Test {
+final class Find_By_Name_Test extends Abstract_Test {
 
 	/**
 	 * Tests that a Category is returned with the correct data when the term exists.

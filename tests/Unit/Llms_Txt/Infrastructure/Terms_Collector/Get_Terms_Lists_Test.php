@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Terms_Collector::get_terms_lists
  */
-final class Get_Terms_Lists_Test extends Abstract_Terms_Collector_Test {
+final class Get_Terms_Lists_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_terms_lists method.

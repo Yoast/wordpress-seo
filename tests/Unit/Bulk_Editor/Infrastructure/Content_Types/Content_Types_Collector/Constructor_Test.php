@@ -1,0 +1,34 @@
+<?php
+
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Content_Types\Content_Types_Collector;
+
+use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Type_Access_Checker_Interface;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+
+/**
+ * Tests the Content_Types_Collector constructor.
+ *
+ * @group bulk-editor
+ *
+ * @covers Yoast\WP\SEO\Bulk_Editor\Infrastructure\Content_Types\Content_Types_Collector::__construct
+ */
+final class Constructor_Test extends Abstract_Test {
+
+	/**
+	 * Tests the constructor.
+	 *
+	 * @return void
+	 */
+	public function test_constructor() {
+		$this->assertInstanceOf(
+			Post_Type_Helper::class,
+			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
+		);
+		$this->assertInstanceOf(
+			Content_Type_Access_Checker_Interface::class,
+			$this->getPropertyValue( $this->instance, 'access_checker' ),
+		);
+	}
+}

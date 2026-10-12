@@ -1,5 +1,6 @@
 export { useApplyReplacementVariables } from "./use-apply-replacement-variables";
 export { useDescriptionTemplate } from "./use-description-template";
+export { useFeatureErrorDescriptor } from "./use-feature-error-descriptor";
 export { useEffectOneAtATime } from "./use-effect-one-at-a-time";
 export { useGetDescriptionTemplate } from "./use-get-description-template";
 export { useGetTitleTemplate } from "./use-get-title-template";

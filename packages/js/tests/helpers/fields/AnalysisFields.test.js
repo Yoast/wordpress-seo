@@ -387,3 +387,81 @@ describe( "inclusiveLanguageScore", () => {
 		} );
 	} );
 } );
+
+describe( "seoTitleScore", () => {
+	const id = {
+		terms: "hidden_wpseo_seo_title_score",
+		posts: "yoast_wpseo_seo_title_score",
+	};
+
+	describe( "get seoTitleScoreElement", () => {
+		it( "returns null when no element is present", () => {
+			expect( AnalysisFields.seoTitleScoreElement ).toBeNull();
+		} );
+
+		it( "gets the element for posts", () => {
+			const inputElement = createInputElement( id.posts );
+			const windowSpy = mockWindow( { wpseoScriptData: { isPost: true } } );
+
+			expect( AnalysisFields.seoTitleScoreElement ).toBe( inputElement );
+
+			inputElement.remove();
+			windowSpy.mockRestore();
+		} );
+	} );
+
+	describe( "set seoTitleScore", () => {
+		it( "does nothing when no element is present", () => {
+			AnalysisFields.seoTitleScore = "63";
+			expect( AnalysisFields.seoTitleScoreElement ).toBeNull();
+		} );
+
+		it( "sets the seoTitleScore", () => {
+			const inputElement = createInputElement( id.terms );
+
+			AnalysisFields.seoTitleScore = "63";
+			expect( AnalysisFields.seoTitleScore ).toBe( "63" );
+
+			inputElement.remove();
+		} );
+	} );
+} );
+
+describe( "metaDescriptionScore", () => {
+	const id = {
+		terms: "hidden_wpseo_meta_description_score",
+		posts: "yoast_wpseo_meta_description_score",
+	};
+
+	describe( "get metaDescriptionScoreElement", () => {
+		it( "returns null when no element is present", () => {
+			expect( AnalysisFields.metaDescriptionScoreElement ).toBeNull();
+		} );
+
+		it( "gets the element for posts", () => {
+			const inputElement = createInputElement( id.posts );
+			const windowSpy = mockWindow( { wpseoScriptData: { isPost: true } } );
+
+			expect( AnalysisFields.metaDescriptionScoreElement ).toBe( inputElement );
+
+			inputElement.remove();
+			windowSpy.mockRestore();
+		} );
+	} );
+
+	describe( "set metaDescriptionScore", () => {
+		it( "does nothing when no element is present", () => {
+			AnalysisFields.metaDescriptionScore = "85";
+			expect( AnalysisFields.metaDescriptionScoreElement ).toBeNull();
+		} );
+
+		it( "sets the metaDescriptionScore", () => {
+			const inputElement = createInputElement( id.terms );
+
+			AnalysisFields.metaDescriptionScore = "85";
+			expect( AnalysisFields.metaDescriptionScore ).toBe( "85" );
+
+			inputElement.remove();
+		} );
+	} );
+} );

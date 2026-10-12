@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Main;
  *
  * @covers \Yoast\WP\SEO\General\User_Interface\Opt_In_Route::register_routes
  */
-final class Register_Routes_Test extends Abstract_Opt_In_Route_Test {
+final class Register_Routes_Test extends Abstract_Test {
 
 	/**
 	 * Tests the registration of the routes.

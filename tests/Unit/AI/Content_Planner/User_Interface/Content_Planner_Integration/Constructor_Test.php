@@ -16,10 +16,8 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Content_Planner_Integration::__construct
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Constructor_Test extends Abstract_Content_Planner_Integration_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

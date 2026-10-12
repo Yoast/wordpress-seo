@@ -94,7 +94,7 @@ final class OAuth_Grant_Handler_Test extends TestCase {
 	 */
 	public function test_request_token_success() {
 		$credentials = new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' );
-		$this->client_registration->expects( 'ensure_registered' )->andReturn( $credentials );
+		$this->client_registration->expects( 'get_registered_client' )->andReturn( $credentials );
 
 		$this->client_authenticator
 			->expects( 'create_client_assertion' )
@@ -148,7 +148,7 @@ final class OAuth_Grant_Handler_Test extends TestCase {
 	 */
 	public function test_request_token_sends_resource_indicator_in_body_and_stamps_result() {
 		$credentials = new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' );
-		$this->client_registration->expects( 'ensure_registered' )->andReturn( $credentials );
+		$this->client_registration->expects( 'get_registered_client' )->andReturn( $credentials );
 		$this->client_authenticator->expects( 'create_client_assertion' )->andReturn( 'jwt' );
 
 		$grant = Mockery::mock( Grant_Interface::class );
@@ -194,7 +194,7 @@ final class OAuth_Grant_Handler_Test extends TestCase {
 	 */
 	public function test_request_token_omits_resource_when_null() {
 		$credentials = new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' );
-		$this->client_registration->expects( 'ensure_registered' )->andReturn( $credentials );
+		$this->client_registration->expects( 'get_registered_client' )->andReturn( $credentials );
 		$this->client_authenticator->expects( 'create_client_assertion' )->andReturn( 'jwt' );
 
 		$grant = Mockery::mock( Grant_Interface::class );
@@ -244,7 +244,7 @@ final class OAuth_Grant_Handler_Test extends TestCase {
 	 */
 	public function test_request_token_ignores_as_echoed_resource() {
 		$credentials = new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' );
-		$this->client_registration->expects( 'ensure_registered' )->andReturn( $credentials );
+		$this->client_registration->expects( 'get_registered_client' )->andReturn( $credentials );
 		$this->client_authenticator->expects( 'create_client_assertion' )->andReturn( 'jwt' );
 
 		$grant = Mockery::mock( Grant_Interface::class );
@@ -280,7 +280,7 @@ final class OAuth_Grant_Handler_Test extends TestCase {
 	 */
 	public function test_request_token_throws_on_error() {
 		$credentials = new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' );
-		$this->client_registration->expects( 'ensure_registered' )->andReturn( $credentials );
+		$this->client_registration->expects( 'get_registered_client' )->andReturn( $credentials );
 
 		$this->client_authenticator
 			->expects( 'create_client_assertion' )
@@ -316,7 +316,7 @@ final class OAuth_Grant_Handler_Test extends TestCase {
 	 */
 	public function test_request_token_throws_on_non_json_error() {
 		$credentials = new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' );
-		$this->client_registration->expects( 'ensure_registered' )->andReturn( $credentials );
+		$this->client_registration->expects( 'get_registered_client' )->andReturn( $credentials );
 
 		$this->client_authenticator
 			->expects( 'create_client_assertion' )
@@ -339,6 +339,31 @@ final class OAuth_Grant_Handler_Test extends TestCase {
 		$this->expectException( Token_Request_Failed_Exception::class );
 		$this->expectExceptionMessage( 'HTTP 500' );
 		$this->instance->request_token( $grant, Resource_Indicator::default() );
+	}
+
+	/**
+	 * Tests that request_token throws not_registered when the site has no stored registration,
+	 * without triggering DCR or contacting the token endpoint.
+	 *
+	 * @covers ::request_token
+	 *
+	 * @return void
+	 */
+	public function test_request_token_throws_when_not_registered() {
+		$this->client_registration->expects( 'get_registered_client' )->once()->andReturn( null );
+
+		$this->client_authenticator->shouldNotReceive( 'create_client_assertion' );
+		$this->token_endpoint_client->shouldNotReceive( 'request' );
+
+		$grant = Mockery::mock( Grant_Interface::class );
+
+		try {
+			$this->instance->request_token( $grant, Resource_Indicator::default() );
+			$this->fail( 'Expected Token_Request_Failed_Exception.' );
+		}
+		catch ( Token_Request_Failed_Exception $exception ) {
+			$this->assertSame( 'not_registered', $exception->get_error_code() );
+		}
 	}
 
 	/**

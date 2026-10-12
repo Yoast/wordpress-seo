@@ -18,10 +18,8 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Content_Planner_Integration::get_script_data
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Content_Planner_Integration::is_minimum_posts_met
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Content_Planner_Integration::is_banner_permanently_dismissed
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Script_Data_Test extends Abstract_Content_Planner_Integration_Test {
+final class Get_Script_Data_Test extends Abstract_Test {
 
 	/**
 	 * Tests that get_script_data returns all expected keys when the threshold is met and the banner is dismissed.

@@ -16,16 +16,16 @@ interface API_Client_Interface {
 	/**
 	 * Performs a request to the API.
 	 *
-	 * @param string        $action_path The action path for the request.
-	 * @param array<string> $body        The body of the request.
-	 * @param array<string> $headers     The headers for the request.
-	 * @param bool          $is_post     Whether the request is a POST request.
+	 * @param string             $action_path The action path for the request.
+	 * @param array<string>|null $body        The body of the request, or null/empty to send no body.
+	 * @param array<string>      $headers     The headers for the request.
+	 * @param string             $http_method The HTTP method for the request. One of `Request::METHOD_*`.
 	 *
 	 * @return array<int|string|array<string>> The response from the API.
 	 *
-	 * @throws WP_Request_Exception When the wp_remote_post() returns an error.
+	 * @throws WP_Request_Exception When the underlying WordPress HTTP call returns an error.
 	 */
-	public function perform_request( string $action_path, $body, $headers, bool $is_post ): array;
+	public function perform_request( string $action_path, $body, $headers, string $http_method ): array;
 
 	/**
 	 * Gets the timeout of the requests in seconds.
@@ -33,4 +33,20 @@ interface API_Client_Interface {
 	 * @return int The timeout of the suggestion requests in seconds.
 	 */
 	public function get_request_timeout(): int;
+
+	/**
+	 * Builds the full URL for a request to the AI API, applying the same filter perform_request() uses.
+	 *
+	 * @param string $action_path The action path for the request.
+	 *
+	 * @return string The full URL for the request.
+	 */
+	public function get_url( string $action_path ): string;
+
+	/**
+	 * Returns the RFC 8707 resource indicator for the AI API: the origin of the configured base URL.
+	 *
+	 * @return string The AI resource server origin (e.g. https://ai.yoa.st).
+	 */
+	public function get_resource_url(): string;
 }

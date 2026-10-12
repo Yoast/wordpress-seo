@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Llms_Txt\Infrastructure\File\WordPress_Llms_Txt_Permission_Gate
  *
  * @phpcs :disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Constructor_Test extends Abstract_Populate_File_Command_Handler_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

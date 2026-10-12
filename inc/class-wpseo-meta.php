@@ -69,8 +69,6 @@ class WPSEO_Meta {
 	 * Meta box field definitions for the meta box form.
 	 *
 	 * {@internal
-	 * - Titles, help texts, description text and option labels are added via a translate_meta_boxes() method
-	 *   in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin) as they are only needed there.
 	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!}}
 	 *
 	 * @var array
@@ -129,6 +127,14 @@ class WPSEO_Meta {
 				'default_value' => '0',
 			],
 			'inclusive_language_score' => [
+				'type'          => 'hidden',
+				'default_value' => '0',
+			],
+			'seo_title_score' => [
+				'type'          => 'hidden',
+				'default_value' => '0',
+			],
+			'meta_description_score' => [
 				'type'          => 'hidden',
 				'default_value' => '0',
 			],
@@ -439,6 +445,14 @@ class WPSEO_Meta {
 			case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int >= 0 ) {
+					$clean = (string) $int; // Convert to string to make sure default check works.
+				}
+				break;
+
+			case ( in_array( $meta_key, [ self::$meta_prefix . 'seo_title_score', self::$meta_prefix . 'meta_description_score' ], true ) ):
+				// Per-field scores are 0-100 percentages; out-of-range input keeps the "never scored" default.
+				$int = WPSEO_Utils::validate_int( $meta_value );
+				if ( $int !== false && $int >= 0 && $int <= 100 ) {
 					$clean = (string) $int; // Convert to string to make sure default check works.
 				}
 				break;

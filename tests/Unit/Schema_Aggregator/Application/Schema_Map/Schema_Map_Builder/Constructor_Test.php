@@ -11,10 +11,8 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
  * @group schema-aggregator
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map\Schema_Map_Builder::__construct
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Constructor_Test extends Abstract_Schema_Map_Builder_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

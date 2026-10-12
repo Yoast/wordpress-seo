@@ -13,10 +13,8 @@ use Brain\Monkey;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\User_Interface\Content_Planner_Integration::register_hooks
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Register_Hooks_Test extends Abstract_Content_Planner_Integration_Test {
+final class Register_Hooks_Test extends Abstract_Test {
 
 	/**
 	 * Tests the registration of the hooks.

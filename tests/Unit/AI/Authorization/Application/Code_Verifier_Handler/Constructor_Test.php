@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Helpers\Date_Helper;
  *
  * @covers \Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::__construct
  */
-final class Constructor_Test extends Abstract_Code_Verifier_Handler_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

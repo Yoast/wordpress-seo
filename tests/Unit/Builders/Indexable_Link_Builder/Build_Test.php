@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
-final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
+final class Build_Test extends Abstract_TestCase {
 
 	/**
 	 * Data provider to test the build.
@@ -385,8 +385,8 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	 * @covers ::build
 	 * @dataProvider provide_no_content_scan
 	 *
-	 * @param string $input_content The input content.
-	 * @param array  $output_result The expected result.
+	 * @param string           $input_content The input content.
+	 * @param array<SEO_Links> $output_result The expected result.
 	 *
 	 * @return void
 	 */
@@ -432,10 +432,10 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 	/**
 	 * Expectation for update_related_indexables.
 	 *
-	 * @param object $indexable    The indexable object.
-	 * @param array  $new_seo_link The new seo link.
-	 * @param array  $old_seo_link The old seo link.
-	 * @param array  $delete_ids   The delete ids.
+	 * @param object           $indexable    The indexable object.
+	 * @param array<SEO_Links> $new_seo_link The new seo link.
+	 * @param array<SEO_Links> $old_seo_link The old seo link.
+	 * @param array<int>       $delete_ids   The delete ids.
 	 *
 	 * @return void
 	 */

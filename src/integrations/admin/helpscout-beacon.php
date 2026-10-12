@@ -6,6 +6,7 @@ use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Tracking_Server_Data;
 use WPSEO_Utils;
+use Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Config\Migration_Status;
@@ -98,7 +99,8 @@ class HelpScout_Beacon implements Integration_Interface {
 		'wpseo_tools',
 		Plans_Page_Integration::PAGE,
 		'wpseo_workouts',
-		'wpseo_integrations',
+		Integrations_Page::PAGE,
+		Bulk_Editor_Integration::PAGE,
 	];
 
 	/**

@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\User_Interface\File_Failure_Llms_Txt_
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\File_Failure_Llms_Txt_Notification_Integration::register_hooks
  */
-final class Register_Hooks_Test extends Abstract_File_Failure_Llms_Txt_Notification_Integration_Test {
+final class Register_Hooks_Test extends Abstract_Test {
 
 	/**
 	 * Tests the registration of the hooks.

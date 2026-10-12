@@ -15,7 +15,7 @@ use Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::token_request
  */
-final class Token_Request_Test extends Abstract_Token_Manager_Test {
+final class Token_Request_Test extends Abstract_Test {
 
 	/**
 	 * Tests token_request when the request succeeds.

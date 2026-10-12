@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  *
  * @covers \Yoast\WP\SEO\AI\Consent\User_Interface\Ai_Consent_Integration::get_script_data
  */
-final class Get_Script_Data_Test extends Abstract_AI_Consent_Integration_Test {
+final class Get_Script_Data_Test extends Abstract_Test {
 
 	/**
 	 * Tests getting the script data.
@@ -41,6 +41,11 @@ final class Get_Script_Data_Test extends Abstract_AI_Consent_Integration_Test {
 		$endpoint_list = Mockery::mock( Endpoint_List::class );
 		$endpoint_list->expects( 'to_paths_array' )->once()->andReturn( [] );
 		$this->endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $endpoint_list );
+
+		// Admin URL.
+		Monkey\Functions\expect( 'admin_url' )
+			->once()
+			->andReturn( 'https://example.com/wp-admin/' );
 
 		$this->instance->get_script_data();
 	}

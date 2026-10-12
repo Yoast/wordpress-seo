@@ -15,7 +15,7 @@ use Yoast_Notification_Center;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\File_Failure_Llms_Txt_Notification_Integration::__construct
  */
-final class Constructor_Test extends Abstract_File_Failure_Llms_Txt_Notification_Integration_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

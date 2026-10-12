@@ -12,6 +12,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
 use Yoast\WP\SEO\MyYoast_Client\Application\OAuth_Grant_Handler;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Redirect_URI_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Site_URL_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Token_Storage_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\User_Token_Storage_Interface;
@@ -93,6 +94,13 @@ final class MyYoast_Client_Test extends TestCase {
 	private $http_client;
 
 	/**
+	 * The redirect URI provider mock.
+	 *
+	 * @var Redirect_URI_Provider_Interface|Mockery\MockInterface
+	 */
+	private $redirect_uri_provider;
+
+	/**
 	 * Set up the test fixtures.
 	 *
 	 * @return void
@@ -112,6 +120,9 @@ final class MyYoast_Client_Test extends TestCase {
 		$site_url_provider = Mockery::mock( Site_URL_Provider_Interface::class );
 		$site_url_provider->allows( 'get' )->andReturn( 'https://example.com/' );
 
+		$this->redirect_uri_provider = Mockery::mock( Redirect_URI_Provider_Interface::class );
+		$this->redirect_uri_provider->allows( 'get_redirect_uris' )->andReturn( [ 'https://example.com/callback' ] );
+
 		$this->instance = new MyYoast_Client(
 			$this->client_registration,
 			$this->auth_code_handler,
@@ -122,6 +133,7 @@ final class MyYoast_Client_Test extends TestCase {
 			$this->token_storage,
 			$this->user_token_storage,
 			$site_url_provider,
+			$this->redirect_uri_provider,
 		);
 	}
 
@@ -139,7 +151,7 @@ final class MyYoast_Client_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that is_registered delegates to client_registration.
+	 * Tests that is_registered reflects whether a registered client is stored.
 	 *
 	 * @covers ::is_registered
 	 *
@@ -147,11 +159,12 @@ final class MyYoast_Client_Test extends TestCase {
 	 */
 	public function test_is_registered() {
 		$this->client_registration
-			->expects( 'is_registered' )
-			->once()
-			->andReturn( true );
+			->expects( 'get_registered_client' )
+			->twice()
+			->andReturn( new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' ), null );
 
 		$this->assertTrue( $this->instance->is_registered() );
+		$this->assertFalse( $this->instance->is_registered() );
 	}
 
 	/**
@@ -376,6 +389,9 @@ final class MyYoast_Client_Test extends TestCase {
 			->once()
 			->andReturn( null );
 
+		$this->client_registration->expects( 'get_registered_client' )->once()->andReturn( new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' ) );
+		$this->client_registration->shouldNotReceive( 'ensure_registered' );
+
 		$fresh = new Token_Set( 'new-site-token', ( \time() + 900 ) );
 
 		$this->grant_handler
@@ -518,6 +534,9 @@ final class MyYoast_Client_Test extends TestCase {
 			->once()
 			->andReturn( $cached );
 
+		$this->client_registration->expects( 'get_registered_client' )->once()->andReturn( new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' ) );
+		$this->client_registration->shouldNotReceive( 'ensure_registered' );
+
 		$fresh = new Token_Set( 'new-token', ( \time() + 900 ), 'DPoP', null, null, 'service:licenses:read service:subscriptions:read' );
 
 		$this->grant_handler
@@ -532,6 +551,34 @@ final class MyYoast_Client_Test extends TestCase {
 		$result = $this->instance->get_site_token( [ 'service:subscriptions:read' ] );
 
 		$this->assertSame( 'new-token', $result->get_access_token() );
+	}
+
+	/**
+	 * Tests that get_site_token refuses to issue a token when the site isn't registered with MyYoast.
+	 * Registration is a precondition handled by the user-driven connect flow; this method never
+	 * triggers DCR on its own. Callers (e.g. the AI auth sender) see a typed Token_Request_Failed
+	 * with `not_registered` and fall back accordingly.
+	 *
+	 * @covers ::get_site_token
+	 *
+	 * @return void
+	 */
+	public function test_get_site_token_throws_when_site_not_registered() {
+		$this->token_storage->expects( 'get' )->once()->andReturn( null );
+
+		$this->client_registration->expects( 'get_registered_client' )->once()->andReturn( null );
+		$this->client_registration->shouldNotReceive( 'ensure_registered' );
+
+		$this->grant_handler->shouldNotReceive( 'request_token' );
+		$this->token_storage->shouldNotReceive( 'store' );
+
+		try {
+			$this->instance->get_site_token();
+			$this->fail( 'Expected Token_Request_Failed_Exception.' );
+		}
+		catch ( Token_Request_Failed_Exception $exception ) {
+			$this->assertSame( 'not_registered', $exception->get_error_code() );
+		}
 	}
 
 	/**
@@ -662,6 +709,7 @@ final class MyYoast_Client_Test extends TestCase {
 
 		$this->client_registration
 			->expects( 'ensure_registered' )
+			->with( [ 'https://example.com/callback' ] )
 			->once()
 			->andReturn( $registered );
 
@@ -729,6 +777,24 @@ final class MyYoast_Client_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that get_registered_client delegates to the client registration port.
+	 *
+	 * @covers ::get_registered_client
+	 *
+	 * @return void
+	 */
+	public function test_get_registered_client_delegates() {
+		$registered = new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' );
+
+		$this->client_registration
+			->expects( 'get_registered_client' )
+			->once()
+			->andReturn( $registered );
+
+		$this->assertSame( $registered, $this->instance->get_registered_client() );
+	}
+
+	/**
 	 * Tests that get_site_token forwards the resource indicator to storage and grant.
 	 *
 	 * @covers ::get_site_token
@@ -749,6 +815,11 @@ final class MyYoast_Client_Test extends TestCase {
 				},
 			)
 			->andReturn( null );
+
+		$this->client_registration
+			->expects( 'get_registered_client' )
+			->once()
+			->andReturn( new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' ) );
 
 		$fresh = ( new Token_Set( 'ai-tok', ( \time() + 900 ) ) )->with_resource_indicator( new Resource_Indicator( 'https://ai.yoa.st' ) );
 

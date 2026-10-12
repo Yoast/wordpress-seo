@@ -1,6 +1,11 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import {
+	ADMIN_URL_NAME,
+	adminUrlActions,
+	adminUrlReducer,
+	adminUrlSelectors,
+	getInitialAdminUrlState,
 	getInitialHasAiGeneratorConsentState,
 	getInitialLinkParamsState,
 	getInitialPluginUrlState,
@@ -32,11 +37,13 @@ const createStore = ( initialState ) => {
 			...hasAiGeneratorConsentActions,
 			...pluginUrlActions,
 			...linkParamsActions,
+			...adminUrlActions,
 		},
 		selectors: {
 			...hasAiGeneratorConsentSelectors,
 			...pluginUrlSelectors,
 			...linkParamsSelectors,
+			...adminUrlSelectors,
 		},
 		initialState: merge(
 			{},
@@ -44,6 +51,7 @@ const createStore = ( initialState ) => {
 				[ HAS_AI_GENERATOR_CONSENT_NAME ]: getInitialHasAiGeneratorConsentState(),
 				[ PLUGIN_URL_NAME ]: getInitialPluginUrlState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
+				[ ADMIN_URL_NAME ]: getInitialAdminUrlState(),
 			},
 			initialState
 		),
@@ -51,6 +59,7 @@ const createStore = ( initialState ) => {
 			[ HAS_AI_GENERATOR_CONSENT_NAME ]: hasAiGeneratorConsentReducer,
 			[ PLUGIN_URL_NAME ]: pluginUrlReducer,
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
+			[ ADMIN_URL_NAME ]: adminUrlReducer,
 		} ),
 		controls: {
 			...hasAiGeneratorConsentControls,

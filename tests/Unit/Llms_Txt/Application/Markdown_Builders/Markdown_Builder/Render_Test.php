@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Title;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Markdown_Builder::render
  */
-final class Render_Test extends Abstract_Markdown_Builder_Test {
+final class Render_Test extends Abstract_Test {
 
 	/**
 	 * Tests the render method.

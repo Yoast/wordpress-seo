@@ -13,10 +13,8 @@ use WP_REST_Request;
  * @group schema-aggregator
  *
  * @covers \Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Aggregator_Route::aggregate_site_schema
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Aggregate_Site_Schema_Test extends Abstract_Site_Schema_Aggregator_Route_Test {
+final class Aggregate_Site_Schema_Test extends Abstract_Test {
 
 	/**
 	 * Sets up the test fixtures.

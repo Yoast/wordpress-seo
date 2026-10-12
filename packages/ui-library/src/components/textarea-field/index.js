@@ -11,8 +11,8 @@ import { useDescribedBy } from "../../hooks";
 const DEFAULT_VALIDATION = {};
 
 /**
- * @param {string} id The ID of the input.
- * @param {string} label The label.
+ * @param {string}  id       The ID of the input.
+ * @param {string} [label]  The label. When omitted, supply an `aria-label` or `aria-labelledby` on the field instead.
  * @param {string} [className] The HTML class.
  * @param {JSX.node} [description] A description.
  * @param {Object} [validation] The validation state.
@@ -41,9 +41,11 @@ const TextareaField = forwardRef( ( {
 				readOnly && "yst-textarea-field--read-only",
 				className ) }
 		>
-			<div className="yst-flex yst-items-center yst-mb-2">
-				<Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label>
-			</div>
+			{ label && (
+				<div className="yst-flex yst-items-center yst-mb-2">
+					<Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label>
+				</div>
+			) }
 			<ValidationInput
 				as={ Textarea }
 				ref={ ref }
@@ -68,7 +70,7 @@ const TextareaField = forwardRef( ( {
 TextareaField.displayName = "TextareaField";
 TextareaField.propTypes = {
 	id: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
+	label: PropTypes.string,
 	className: PropTypes.string,
 	description: PropTypes.node,
 	disabled: PropTypes.bool,

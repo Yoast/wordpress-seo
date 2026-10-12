@@ -1,0 +1,129 @@
+name: Zip Size (report)
+
+# Privileged half of the zip-size feature. Triggered by the completion of the
+# unprivileged "Zip Size (build)" workflow, it downloads that run's size-map artifact and
+# publishes a check-run with the net contribution to the plugin zip.
+#
+# SECURITY: this workflow has write access (checks: write) and therefore MUST NOT check
+# out or execute any pull-request code. It only reads the artifact as untrusted DATA, and
+# it attaches the check-run to the head SHA taken from the trusted event payload
+# (workflow_run.head_sha), never from the artifact. The `zip-size-diff.js` helper it runs
+# comes from the repository's default branch (workflow_run always uses default-branch
+# workflow source), not from the PR.
+# See: https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/
+
+on:
+  # zizmor: ignore[dangerous-triggers]
+  # workflow_run is the *recommended* trigger here, not a misuse: it is the privileged
+  # half of the split "pwn request" mitigation. It never checks out or executes PR code —
+  # it only reads the build artifact as data — so the usual workflow_run risk does not
+  # apply. See the SECURITY note above and https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/
+  workflow_run:
+    workflows: [ "Zip Size (build)" ]
+    types: [ completed ]
+
+# Deny-all default; the job below grants only what it needs.
+permissions: {}
+
+# One report per build run is enough; drop superseded runs for the same head commit.
+concurrency:
+  group: zip-size-report-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: true
+
+jobs:
+  report:
+    name: Report zip size
+    runs-on: ubuntu-latest
+    # Job-scoped least privilege.
+    permissions:
+      checks: write    # Publish the "Zip size" check-run.
+      actions: read    # Download the build workflow's artifact via the API.
+      contents: read   # Check out this repo's default-branch reporting script.
+    # Deliberately does not gate on a *failed* conclusion: when the build failed we still
+    # want to publish the neutral "Failed to determine zip size" check. A *cancelled* run is
+    # different — the concurrency group cancels superseded builds, whose completion would
+    # otherwise publish a stale report against an already-outdated commit — so skip those.
+    if: >
+      github.repository_owner == 'Yoast' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion != 'cancelled'
+
+    steps:
+      # Only the diff helper is needed; check out the trusted default-branch code.
+      - name: Checkout reporting scripts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: './.nvmrc'
+
+      # continue-on-error so a missing artifact (e.g. the build job never uploaded one)
+      # does not fail the job; the reporting step below then emits the neutral fallback.
+      - name: Download size maps
+        id: download
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: zip-size-report
+          path: zip-size-report
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - name: Publish zip-size check
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require("fs");
+            const path = require("path");
+
+            // Trust the head SHA from the event payload, never from the artifact.
+            const headSha = context.payload.workflow_run.head_sha;
+
+            const base = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: "Zip size",
+              head_sha: headSha,
+              status: "completed",
+              // Always neutral: this report must never block a merge.
+              conclusion: "neutral",
+            };
+
+            // Read a size map as DATA only. Shape/number validation lives in buildReport
+            // (normalizeMap); a parse failure here or a malformed map there both fall
+            // through to the "failed to determine" path below.
+            const readMap = (file) =>
+              JSON.parse(fs.readFileSync(path.join("zip-size-report", file), "utf8"));
+
+            try {
+              const baseMap = readMap("base-size.json");
+              const headMap = readMap("head-size.json");
+              const { buildReport } = require(path.resolve(".github/scripts/zip-size-diff.js"));
+              const report = buildReport(baseMap, headMap);
+              if (report.truncated > 0) {
+                core.info(`Zip-size report truncated ${report.truncated} row(s); largest changes shown in the check summary.`);
+              }
+              await github.rest.checks.create({
+                ...base,
+                output: { title: report.title, summary: report.summary },
+              });
+              core.info(`Published zip-size check: ${report.title}`);
+            } catch (error) {
+              // The artifact is untrusted: log the real error to the (trusted) run log,
+              // but never reflect its message into the check summary, which renders
+              // markdown and would otherwise let a tampered artifact spoof CI output.
+              core.warning(`Could not determine zip size: ${error.message}`);
+              await github.rest.checks.create({
+                ...base,
+                output: {
+                  title: "Failed to determine zip size",
+                  summary: "The zip-size build did not produce usable size data for this run, " +
+                    "so the net contribution could not be computed. This does not block the pull request.\n\n" +
+                    "See the workflow run log for the underlying reason.",
+                },
+              });
+            }

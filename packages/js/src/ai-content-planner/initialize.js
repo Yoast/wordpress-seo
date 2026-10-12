@@ -58,14 +58,17 @@ export function insertFirstParagraph( blocks, insertBlock, isBannerRendered ) {
 export const ContentPlannerEditorPlugin = () => {
 	const hasInserted = useRef( false );
 
-	const { isNewPost, postType, blocks, minPostsMet, isBannerRendered } = useSelect( select => {
+	const { isNewPost, postType, blocks, minPostsMet, isBannerRendered, hasBlockTemplate } = useSelect( select => {
 		const coreEditor = select( "core/editor" );
+		const currentPostType = coreEditor.getCurrentPostType();
+		const postTypeObject = select( "core" ).getPostType( currentPostType );
 		return {
 			isNewPost: coreEditor.isEditedPostNew(),
-			postType: coreEditor.getCurrentPostType(),
+			postType: currentPostType,
 			blocks: select( "core/block-editor" ).getBlocks(),
 			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
 			isBannerRendered: select( CONTENT_PLANNER_STORE ).selectIsBannerRendered(),
+			hasBlockTemplate: Array.isArray( postTypeObject?.template ) && postTypeObject.template.length > 0,
 		};
 	}, [] );
 	const hasAiStore = useSelect( select => isObject( select( STORE_NAME_AI ) ), [] );
@@ -76,12 +79,12 @@ export const ContentPlannerEditorPlugin = () => {
 	useYoastMetaSync();
 
 	useEffect( () => {
-		if ( hasInserted.current || ! isNewPost || postType !== "post" || ! minPostsMet ) {
+		if ( hasInserted.current || ! isNewPost || postType !== "post" || ! minPostsMet || hasBlockTemplate ) {
 			return;
 		}
 
 		hasInserted.current = insertFirstParagraph( blocks, insertBlock, isBannerRendered );
-	}, [ blocks, isNewPost, postType, insertBlock, minPostsMet ] );
+	}, [ blocks, isNewPost, postType, insertBlock, minPostsMet, hasBlockTemplate ] );
 
 	if ( ! hasAiStore ) {
 		return null;

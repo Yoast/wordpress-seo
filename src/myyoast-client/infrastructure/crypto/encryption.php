@@ -113,7 +113,7 @@ class Encryption {
 			throw new Encryption_Exception( 'The sodium PHP extension is required but not available.' );
 		}
 
-		if ( ! \defined( 'AUTH_KEY' ) || \AUTH_KEY === '' || \AUTH_KEY === 'put your unique phrase here' ) {
+		if ( ! \defined( 'AUTH_KEY' ) || ! \is_string( \AUTH_KEY ) || \AUTH_KEY === '' || \AUTH_KEY === 'put your unique phrase here' ) {
 			throw new Encryption_Exception( 'AUTH_KEY is not configured. Please set a unique AUTH_KEY in wp-config.php.' );
 		}
 

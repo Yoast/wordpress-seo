@@ -26,7 +26,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::get_or_request_access_token
  */
-final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test {
+final class Get_Or_Request_Access_Token_Test extends Abstract_Test {
 
 	/**
 	 * Tests get_or_request_access_token when valid non-expired token exists.

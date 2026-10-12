@@ -13,7 +13,7 @@ use Brain\Monkey\Functions;
  *
  * @covers Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client::get_request_timeout
  */
-final class Request_Timeout_Filter_Test extends Abstract_API_Client_Test {
+final class Request_Timeout_Filter_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_request_timeout method with a custom timeout.

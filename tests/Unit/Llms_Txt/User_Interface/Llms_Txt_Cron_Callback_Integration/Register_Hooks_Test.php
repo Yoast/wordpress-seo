@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Llms_Txt_Cron_Callback_Integration::register_hooks
  */
-final class Register_Hooks_Test extends Abstract_Llms_Txt_Cron_Callback_Integration_Test {
+final class Register_Hooks_Test extends Abstract_Test {
 
 	/**
 	 * Tests the registration of the hooks.

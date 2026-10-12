@@ -12,7 +12,7 @@ use Generator;
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Abstract_Schema_Enhancer::trim_content_to_max_length
  */
-final class Trim_Content_To_Max_Length_Test extends Abstract_Abstract_Schema_Enhancer_Test {
+final class Trim_Content_To_Max_Length_Test extends Abstract_Test {
 
 	/**
 	 * Tests trim_content_to_max_length() returns content unchanged when max_length is 0.

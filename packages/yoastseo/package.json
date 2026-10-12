@@ -22,7 +22,9 @@
     "!*.map",
     "vendor",
     "images",
-    "researcher"
+    "researcher",
+    "contract",
+    "docs/**/*.md"
   ],
   "sideEffects": false,
   "scripts": {
@@ -33,7 +35,7 @@
     "pretest": "grunt get-premium-configuration",
     "export:inclusive-language": "jest exportInclusiveLanguage",
     "test": "jest",
-    "lint": "eslint . --max-warnings 19",
+    "lint": "eslint . --max-warnings 18",
     "watch": "yarn clean && yarn watch:js",
     "watch:js": "yarn build:js --watch",
     "watch:types": "tsc --watch"
@@ -71,7 +73,8 @@
     "loglevel": "^1.9.2",
     "parse5": "^8.0.0",
     "tiny-segmenter": "^0.2.0",
-    "tokenizer2": "^2.0.1"
+    "tokenizer2": "^2.0.1",
+    "zod": "^3.25.76"
   },
   "yoast": {
     "premiumConfiguration": ""

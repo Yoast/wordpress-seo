@@ -82,6 +82,18 @@ class Indexable_To_Postmeta_Helper {
 			'post_meta_key' => 'meta-robots-adv',
 			'map_method'    => 'robots_adv_map',
 		],
+		'is_cornerstone'         => [
+			'post_meta_key' => 'is_cornerstone',
+			'map_method'    => 'cornerstone_map',
+		],
+		'schema_page_type'       => [
+			'post_meta_key' => 'schema_page_type',
+			'map_method'    => 'simple_map',
+		],
+		'schema_article_type'    => [
+			'post_meta_key' => 'schema_article_type',
+			'map_method'    => 'simple_map',
+		],
 	];
 
 	/**
@@ -96,14 +108,40 @@ class Indexable_To_Postmeta_Helper {
 	/**
 	 * Creates postmeta from a Yoast indexable.
 	 *
-	 * @param Indexable $indexable The Yoast indexable.
+	 * @param Indexable $indexable    The Yoast indexable.
+	 * @param bool      $delete_empty Whether an empty indexable value should delete the post meta
+	 *                                instead of being left untouched. Defaults to false so importers,
+	 *                                which only fill in missing data, keep their set-only behaviour.
 	 *
 	 * @return void
 	 */
-	public function map_to_postmeta( $indexable ) {
-		foreach ( $this->yoast_to_postmeta as $indexable_column => $map_info ) {
-			\call_user_func( [ $this, $map_info['map_method'] ], $indexable, $map_info['post_meta_key'], $indexable_column );
+	public function map_to_postmeta( $indexable, $delete_empty = false ) {
+		foreach ( \array_keys( $this->yoast_to_postmeta ) as $indexable_column ) {
+			$this->map_column_to_postmeta( $indexable, $indexable_column, $delete_empty );
 		}
+	}
+
+	/**
+	 * Creates postmeta from a single indexable column.
+	 *
+	 * @param Indexable $indexable        The Yoast indexable.
+	 * @param string    $indexable_column The indexable column to map.
+	 * @param bool      $delete_empty     Whether an empty value should delete the post meta key.
+	 *
+	 * @return void
+	 */
+	public function map_column_to_postmeta( $indexable, $indexable_column, $delete_empty = false ) {
+		// The advanced-robots flags are persisted together under one meta key, so they cascade through it.
+		if ( \in_array( $indexable_column, [ 'is_robots_noimageindex', 'is_robots_noarchive', 'is_robots_nosnippet' ], true ) ) {
+			$indexable_column = 'meta_robots_adv';
+		}
+
+		if ( ! isset( $this->yoast_to_postmeta[ $indexable_column ] ) ) {
+			return;
+		}
+
+		$map_info = $this->yoast_to_postmeta[ $indexable_column ];
+		\call_user_func( [ $this, $map_info['map_method'] ], $indexable, $map_info['post_meta_key'], $indexable_column, $delete_empty );
 	}
 
 	/**
@@ -112,15 +150,43 @@ class Indexable_To_Postmeta_Helper {
 	 * @param Indexable $indexable        The Yoast indexable.
 	 * @param string    $post_meta_key    The post_meta key that will be populated.
 	 * @param string    $indexable_column The indexable data that will be mapped to post_meta.
+	 * @param bool      $delete_empty     Whether an empty value should delete the post meta key.
 	 *
 	 * @return void
 	 */
-	public function simple_map( $indexable, $post_meta_key, $indexable_column ) {
-		if ( empty( $indexable->{$indexable_column} ) ) {
+	public function simple_map( $indexable, $post_meta_key, $indexable_column, $delete_empty = false ) {
+		$value = $indexable->{$indexable_column};
+
+		// Strict emptiness check because empty() would treat the literal string '0' as empty and drop it.
+		if ( $value === null || $value === '' ) {
+			if ( $delete_empty ) {
+				$this->meta->delete( $post_meta_key, $indexable->object_id );
+			}
 			return;
 		}
 
-		$this->meta->set_value( $post_meta_key, $indexable->{$indexable_column}, $indexable->object_id );
+		$this->meta->set_value( $post_meta_key, $value, $indexable->object_id );
+	}
+
+	/**
+	 * Maps the cornerstone flag, which is stored as '1' when on and absent when off.
+	 *
+	 * @param Indexable $indexable        The Yoast indexable.
+	 * @param string    $post_meta_key    The post_meta key that will be populated.
+	 * @param string    $indexable_column The indexable data that will be mapped to post_meta.
+	 * @param bool      $delete_empty     Whether a disabled flag should delete the post meta key.
+	 *
+	 * @return void
+	 */
+	public function cornerstone_map( $indexable, $post_meta_key, $indexable_column, $delete_empty = false ) {
+		if ( $indexable->is_cornerstone === true ) {
+			$this->meta->set_value( $post_meta_key, '1', $indexable->object_id );
+			return;
+		}
+
+		if ( $delete_empty ) {
+			$this->meta->delete( $post_meta_key, $indexable->object_id );
+		}
 	}
 
 	/**

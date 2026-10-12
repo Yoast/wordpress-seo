@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { PropTypes } from "prop-types";
 
 /**
@@ -40,18 +41,23 @@ Footer.propTypes = {
 };
 
 /**
- * @param {Object} [children=null] The children.
+ * @param {Object}      [children=null] The children.
+ * @param {string}      [className=""]  Extra classes, appended so a consumer can override the defaults.
  * @returns {JSX.Element} The card.
  */
-export const Card = ( { children = null } ) => (
+export const Card = ( { children = null, className = "" } ) => (
 	<div
-		className="yst-relative yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-border yst-p-6 yst-space-y-6 yst-overflow-hidden yst-transition-transform yst-ease-in-out yst-duration-200 yst-shadow-sm"
+		className={ classNames(
+			"yst-relative yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-border yst-p-6 yst-space-y-6 yst-overflow-hidden yst-transition-transform yst-ease-in-out yst-duration-200 yst-shadow-sm",
+			className
+		) }
 	>
 		{ children }
 	</div>
 );
 Card.propTypes = {
 	children: PropTypes.node,
+	className: PropTypes.string,
 };
 
 Card.Header = Header;

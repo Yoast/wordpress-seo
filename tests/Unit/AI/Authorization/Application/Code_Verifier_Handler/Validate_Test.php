@@ -14,7 +14,7 @@ use Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::validate
  */
-final class Validate_Test extends Abstract_Code_Verifier_Handler_Test {
+final class Validate_Test extends Abstract_Test {
 
 	/**
 	 * Tests the validate method.

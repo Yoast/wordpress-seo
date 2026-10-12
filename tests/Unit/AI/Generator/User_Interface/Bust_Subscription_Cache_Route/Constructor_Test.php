@@ -13,7 +13,7 @@ use WPSEO_Addon_Manager;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Bust_Subscription_Cache_Route::__construct
  */
-final class Constructor_Test extends Abstract_Bust_Subscription_Cache_Route_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

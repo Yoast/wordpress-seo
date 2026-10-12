@@ -133,6 +133,49 @@ final class Redirect_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the legacy bulk editor tool URL is redirected to the new page.
+	 *
+	 * @covers ::settings_redirect
+	 *
+	 * @return void
+	 */
+	public function test_settings_redirect_bulk_editor() {
+		$_GET['page'] = 'wpseo_tools';
+		$_GET['tool'] = 'bulk-editor';
+
+		Monkey\Functions\expect( 'admin_url' )
+			->once()
+			->with( 'admin.php?page=wpseo_page_bulk_edit' )
+			->andReturn( 'https://example.com/wp-admin/admin.php?page=wpseo_page_bulk_edit' );
+
+		$this->redirect->expects( 'do_safe_redirect' )
+			->once()
+			->with( 'https://example.com/wp-admin/admin.php?page=wpseo_page_bulk_edit', 301 );
+
+		$this->instance->settings_redirect();
+
+		unset( $_GET['page'], $_GET['tool'] );
+	}
+
+	/**
+	 * Tests that the Tools page itself is not redirected when no bulk editor tool is requested.
+	 *
+	 * @covers ::settings_redirect
+	 *
+	 * @return void
+	 */
+	public function test_settings_redirect_tools_without_bulk_editor() {
+		$_GET['page'] = 'wpseo_tools';
+
+		$this->redirect->expects( 'do_safe_redirect' )->never();
+		$this->redirect->expects( 'do_unsafe_redirect' )->never();
+
+		$this->instance->settings_redirect();
+
+		unset( $_GET['page'] );
+	}
+
+	/**
 	 * Data provider for test_settings_redirect().
 	 *
 	 * @return array

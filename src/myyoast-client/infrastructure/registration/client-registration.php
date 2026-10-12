@@ -7,10 +7,14 @@ use InvalidArgumentException;
 use Yoast\WP\SEO\Exceptions\Locking\Lock_Timeout_Exception;
 use Yoast\WP\SEO\Helpers\Lock_Helper;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Discovery_Failed_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Rate_Limited_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Failed_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Not_Found_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Temporarily_Unavailable_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Server_Capability_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Auth_Token_Type;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption_Exception;
@@ -175,6 +179,7 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 				$rat,
 				( $stored['registration_client_uri'] ?? '' ),
 				( $stored['metadata'] ?? [] ),
+				( $stored['validated_uris'] ?? [] ),
 			);
 		} catch ( InvalidArgumentException $e ) {
 			$this->logger->error( 'Stored registration data is invalid, clearing registration: {error}', [ 'error' => $e->getMessage() ] );
@@ -186,51 +191,33 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	}
 
 	/**
-	 * Whether the plugin is registered as an OAuth client.
+	 * Ensures the registration's redirect URIs exactly match the given set.
 	 *
-	 * When redirect URIs are provided, also verifies that all of them
-	 * are included in the stored registration.
+	 * Performs DCR when not yet registered; when registered with a different set, updates the
+	 * registration in place via RFC 7592 (preserving the client_id, RAT, and key pair, and the
+	 * verification state of unchanged URIs) rather than re-registering.
 	 *
-	 * @param string[] $redirect_uris Optional redirect URIs to verify against the stored registration.
-	 *
-	 * @return bool
-	 */
-	public function is_registered( array $redirect_uris = [] ): bool {
-		$registered_client = $this->get_registered_client();
-		if ( $registered_client === null ) {
-			return false;
-		}
-
-		if ( $redirect_uris === [] ) {
-			return true;
-		}
-
-		$stored_uris = ( $registered_client->get_metadata()['redirect_uris'] ?? [] );
-
-		return \array_diff( $redirect_uris, $stored_uris ) === [];
-	}
-
-	/**
-	 * Ensures the plugin is registered, performing DCR if needed.
-	 *
-	 * @param string[] $redirect_uris The OAuth redirect URIs to register with.
+	 * @param string[] $redirect_uris The exact set of OAuth redirect URIs the registration should have.
 	 *
 	 * @return Registered_Client The client credentials.
 	 *
 	 * @throws Registration_Failed_Exception If registration fails.
 	 */
-	public function ensure_registered( array $redirect_uris = [] ): Registered_Client {
-		if ( $this->is_registered( $redirect_uris ) ) {
-			return $this->get_registered_client();
-		}
+	public function ensure_registered( array $redirect_uris ): Registered_Client {
+		$registered_client = $this->get_registered_client();
 
-		// Registered with stale redirect URIs — deregister first.
-		if ( $this->get_registered_client() !== null ) {
-			$this->deregister();
+		if ( $registered_client !== null && $registered_client->has_redirect_uris( $redirect_uris ) ) {
+			return $registered_client;
 		}
 
 		if ( $redirect_uris === [] ) {
 			throw new Registration_Failed_Exception( 'At least one redirect URI is required for initial registration.' );
+		}
+
+		// Registered, but the redirect-URI set differs — update in place (RFC 7592 PUT) so the
+		// client_id survives and unchanged URIs keep their verification state and tokens.
+		if ( $registered_client !== null ) {
+			return $this->update_redirect_uris( $redirect_uris );
 		}
 
 		return $this->register( $redirect_uris );
@@ -241,7 +228,9 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	 *
 	 * @return array<string, string|string[]> The registration metadata.
 	 *
-	 * @throws Registration_Failed_Exception If the read fails.
+	 * @throws Registration_Not_Found_Exception If the server reports the registration is gone (HTTP 401/404).
+	 * @throws Rate_Limited_Exception           If the server rate-limited the request (HTTP 429).
+	 * @throws Registration_Failed_Exception    If the read fails for any other reason.
 	 */
 	public function read_registration(): array {
 		$registered_client = $this->get_registered_client();
@@ -269,10 +258,16 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 		if ( $result->get_status() === 401 || $result->get_status() === 404 ) {
 			$this->logger->warning( 'Registration is no longer valid (HTTP {status}), clearing local registration.', [ 'status' => $result->get_status() ] );
 			$this->forget_registration();
-			throw new Registration_Failed_Exception(
+			throw new Registration_Not_Found_Exception(
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 				'Registration is no longer valid (HTTP ' . $result->get_status() . ').',
 			);
+		}
+
+		if ( $result->get_status() === 429 ) {
+			$this->logger->warning( 'Registration read was rate-limited (HTTP 429).' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+			throw new Rate_Limited_Exception( 'Registration read was rate-limited (HTTP 429).', $this->get_retry_after_seconds( $result ) );
 		}
 
 		if ( ! $result->is_successful() ) {
@@ -284,9 +279,15 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 		}
 
 		$body = $result->get_body();
-		if ( ! \is_array( $body ) ) {
+		if ( ! \is_array( $body ) || empty( $body['client_id'] ) ) {
 			throw new Registration_Failed_Exception( 'Invalid response from registration endpoint.' );
 		}
+
+		// The server is authoritative: heal local data that has drifted from it (for example when a
+		// site migration rewrote the stored redirect URIs directly in the database, bypassing the
+		// registration round-trip). The GET body carries no RAT, so store_credentials preserves the
+		// stored one.
+		$this->store_credentials( $body );
 
 		return $body;
 	}
@@ -356,6 +357,83 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	}
 
 	/**
+	 * Updates the registered redirect URIs in place (RFC 7592 PUT).
+	 *
+	 * Preserves the client_id, registration access token, and key pair. Verification state for
+	 * URIs that remain in the set is preserved; URIs no longer present are dropped.
+	 *
+	 * @param string[] $redirect_uris The new exact set of redirect URIs.
+	 *
+	 * @return Registered_Client The updated credentials.
+	 *
+	 * @throws Registration_Not_Found_Exception If the server reports the registration is gone (HTTP 401/404).
+	 * @throws Rate_Limited_Exception           If the server rate-limited the request (HTTP 429).
+	 * @throws Registration_Failed_Exception    If the update fails for any other reason.
+	 */
+	private function update_redirect_uris( array $redirect_uris ): Registered_Client {
+		$registered_client = $this->get_registered_client();
+		if ( $registered_client === null ) {
+			throw new Registration_Failed_Exception( 'Not registered.' );
+		}
+
+		// Per RFC 7592 §2.2, server-assigned fields MUST NOT be included; keep the existing key pair.
+		$request_body                       = $this->build_update_request_body( $registered_client->get_metadata() );
+		$request_body['redirect_uris']      = \array_values( $redirect_uris );
+		$request_body['software_statement'] = $this->issuer_config->get_software_statement();
+
+		// phpcs:ignore Yoast.Yoast.JsonEncodeAlternative.Found -- Encoding for HTTP request body, not user-facing output.
+		$json = \wp_json_encode( $request_body );
+		if ( $json === false ) {
+			throw new Registration_Failed_Exception( 'Failed to JSON-encode registration request body.' );
+		}
+
+		$result = $this->http_client->authenticated_request(
+			'PUT',
+			$registered_client->get_registration_client_uri(),
+			$registered_client->get_registration_access_token(),
+			Auth_Token_Type::BEARER,
+			[
+				'headers' => [
+					'Content-Type' => 'application/json',
+					'Accept'       => 'application/json',
+				],
+				'body'    => $json,
+				'timeout' => 15,
+			],
+		);
+
+		if ( $result->get_status() === 401 || $result->get_status() === 404 ) {
+			$this->logger->warning( 'Registration is no longer valid on update (HTTP {status}), clearing local registration.', [ 'status' => $result->get_status() ] );
+			$this->forget_registration();
+			throw new Registration_Not_Found_Exception(
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+				'Registration is no longer valid (HTTP ' . $result->get_status() . ').',
+			);
+		}
+
+		if ( $result->get_status() === 429 ) {
+			$this->logger->warning( 'Registration update was rate-limited (HTTP 429).' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+			throw new Rate_Limited_Exception( 'Registration update was rate-limited (HTTP 429).', $this->get_retry_after_seconds( $result ) );
+		}
+
+		if ( ! $result->is_successful() ) {
+			$error_message = (string) $result->get_body_value( 'error_description', $result->get_body_value( 'error', '' ) );
+			throw new Registration_Failed_Exception(
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+				\sprintf( 'Redirect URI update returned HTTP %d: %s', $result->get_status(), $error_message ),
+			);
+		}
+
+		$body = $result->get_body();
+		if ( ! \is_array( $body ) || empty( $body['client_id'] ) ) {
+			throw new Registration_Failed_Exception( 'Redirect URI update returned invalid response.' );
+		}
+
+		return $this->store_credentials( $body );
+	}
+
+	/**
 	 * Deletes the client registration from the server (RFC 7592 DELETE) and clears local data.
 	 *
 	 * @return bool True if deleted or already not registered, false on network failure.
@@ -414,22 +492,98 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	}
 
 	/**
+	 * Whether the given redirect URI has completed the OAuth authorization-code flow on this site.
+	 *
+	 * The state lives on the stored registration: it is pruned to the current redirect-URI set
+	 * whenever those change, and invalidated when the client is deregistered.
+	 *
+	 * @param string $redirect_uri The redirect URI to check.
+	 *
+	 * @return bool
+	 */
+	public function is_uri_validated( string $redirect_uri ): bool {
+		$registered_client = $this->get_registered_client();
+
+		return $registered_client !== null && $registered_client->is_uri_validated( $redirect_uri );
+	}
+
+	/**
+	 * Records that the given redirect URI has completed the authorization-code flow.
+	 *
+	 * No-op when the site is not registered or the URI was already recorded. Idempotent:
+	 * `update_option()` short-circuits when the stored value is unchanged.
+	 *
+	 * @param string $redirect_uri The redirect URI that completed the auth-code flow.
+	 *
+	 * @return void
+	 */
+	public function mark_uri_validated( string $redirect_uri ): void {
+		$registered_client = $this->get_registered_client();
+		if ( $registered_client === null ) {
+			return;
+		}
+
+		$validated_uris = $registered_client->get_validated_uris();
+		if ( \in_array( $redirect_uri, $validated_uris, true ) ) {
+			return;
+		}
+
+		$validated_uris[] = $redirect_uri;
+
+		$option_key = $this->get_option_key();
+		$stored     = \get_option( $option_key, [] );
+		if ( \is_array( $stored ) ) {
+			$stored['validated_uris'] = $validated_uris;
+			\update_option( $option_key, $stored, false );
+		}
+
+		$this->cached_registered_clients[ $option_key ] = $registered_client->with_validated_uris( $validated_uris );
+	}
+
+	/**
 	 * Stores the DCR response credentials securely.
+	 *
+	 * A registration read (RFC 7592 GET) response carries no registration access token; when the
+	 * body omits the RAT, the existing stored RAT is preserved rather than overwritten with an
+	 * empty value.
 	 *
 	 * @param array<string, string|array<string>> $response_body The parsed DCR response body.
 	 *
 	 * @return Registered_Client The stored credentials.
 	 */
 	private function store_credentials( array $response_body ): Registered_Client {
-		$option_key    = $this->get_option_key();
-		$encrypted_rat = $this->encryption->encrypt(
-			( $response_body['registration_access_token'] ?? '' ),
-			self::ENCRYPTION_CONTEXT,
-		);
+		$option_key = $this->get_option_key();
+		$existing   = $this->get_registered_client();
+
+		// The RFC 7592 GET response never re-sends the RAT, so a missing key means "keep the stored
+		// one" — encrypting the absent value would brick every future management call. Only a body
+		// that explicitly carries a RAT (DCR / PUT) replaces it.
+		if ( \array_key_exists( 'registration_access_token', $response_body ) ) {
+			$rat           = $response_body['registration_access_token'];
+			$encrypted_rat = $this->encryption->encrypt( $rat, self::ENCRYPTION_CONTEXT );
+		}
+		else {
+			// Reuse the already-decrypted RAT and its stored ciphertext rather than re-encrypting.
+			$rat           = ( $existing !== null ) ? $existing->get_registration_access_token() : '';
+			$stored        = \get_option( $option_key, [] );
+			$encrypted_rat = ( \is_array( $stored ) ) ? ( $stored['encrypted_rat'] ?? '' ) : '';
+		}
 
 		// Strip the RAT from metadata — it is stored encrypted separately.
 		$metadata = $response_body;
 		unset( $metadata['registration_access_token'] );
+
+		// Preserve validation state across an in-place update or key rotation (same client_id), but
+		// reset it for a fresh registration: a new client_id means the redirect URIs must be
+		// re-validated from scratch. Always prune to the new redirect-URI set so a removed URI loses
+		// its verification and an added one starts unverified.
+		$validated_uris = [];
+		if ( $existing !== null && $existing->get_client_id() === $response_body['client_id'] ) {
+			$new_redirect_uris = ( $metadata['redirect_uris'] ?? [] );
+			if ( \is_array( $new_redirect_uris ) ) {
+				$validated_uris = \array_values( \array_intersect( $existing->get_validated_uris(), $new_redirect_uris ) );
+			}
+		}
 
 		\update_option(
 			$option_key,
@@ -438,15 +592,17 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 				'encrypted_rat'           => $encrypted_rat,
 				'registration_client_uri' => ( $response_body['registration_client_uri'] ?? '' ),
 				'metadata'                => $metadata,
+				'validated_uris'          => $validated_uris,
 			],
 			false,
 		);
 
 		$this->cached_registered_clients[ $option_key ] = new Registered_Client(
 			$response_body['client_id'],
-			( $response_body['registration_access_token'] ?? '' ),
+			$rat,
 			( $response_body['registration_client_uri'] ?? '' ),
 			$metadata,
+			$validated_uris,
 		);
 
 		return $this->cached_registered_clients[ $option_key ];
@@ -462,13 +618,27 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 	}
 
 	/**
+	 * Extracts the `Retry-After` value (in seconds) from a 429 response, if any.
+	 *
+	 * @param HTTP_Response $result The 429 response.
+	 *
+	 * @return int|null Seconds until retry, or null when absent or unparseable.
+	 */
+	private function get_retry_after_seconds( HTTP_Response $result ): ?int {
+		$headers = $result->get_headers();
+		return Rate_Limited_Exception::parse_retry_after( ( $headers['retry-after'] ?? null ) );
+	}
+
+	/**
 	 * Performs the actual DCR registration request.
 	 *
 	 * @param string[] $redirect_uris The OAuth redirect URIs to register.
 	 *
 	 * @return Registered_Client The registration result.
 	 *
-	 * @throws Registration_Failed_Exception If registration fails.
+	 * @throws Registration_Temporarily_Unavailable_Exception If the server temporarily refuses new registrations (HTTP 503).
+	 * @throws Rate_Limited_Exception                          If the server rate-limited the request (HTTP 429).
+	 * @throws Registration_Failed_Exception                   If registration fails for any other reason.
 	 */
 	private function do_register( array $redirect_uris ): Registered_Client {
 		try {
@@ -522,6 +692,20 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			$error_message = (string) $result->get_body_value( 'error_description', '' );
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 			throw new Registration_Failed_Exception( 'DCR request failed: ' . $error_message );
+		}
+
+		// The server temporarily refuses new registrations (rollout brake engaged).
+		// Surface it as a typed transient failure carrying the (display-only) retry hint.
+		if ( $result->get_status() === 503 && $result->get_body_value( 'error' ) === 'temporarily_unavailable' ) {
+			$error_message = (string) $result->get_body_value( 'error_description', 'Client registration is temporarily disabled.' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+			throw new Registration_Temporarily_Unavailable_Exception( $error_message, $this->get_retry_after_seconds( $result ) );
+		}
+
+		if ( $result->get_status() === 429 ) {
+			$this->logger->warning( 'DCR was rate-limited (HTTP 429).' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+			throw new Rate_Limited_Exception( 'DCR was rate-limited (HTTP 429).', $this->get_retry_after_seconds( $result ) );
 		}
 
 		if ( $result->get_status() !== 201 ) {

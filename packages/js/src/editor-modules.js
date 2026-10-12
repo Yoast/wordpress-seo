@@ -36,7 +36,7 @@ import {
 	SidebarLayout,
 	ErrorFallback,
 } from "./shared-admin/components";
-import { Introduction, SuggestionError, SparksLimitNotification, FeatureError } from "./ai-generator/components";
+import { AIErrorModal, Introduction, SuggestionError, SparksLimitNotification, FeatureError } from "./ai-generator/components";
 import { removesLocaleVariantSuffixes, fetchSuggestions } from "./ai-generator/helpers";
 import SynonymsInputField from "./components/contentAnalysis/SynonymsInput";
 
@@ -51,6 +51,7 @@ window.yoast.editorModules = {
 	},
 	aiGenerator: {
 		components: {
+			AIErrorModal,
 			Introduction,
 			SuggestionError,
 			SparksLimitNotification,
