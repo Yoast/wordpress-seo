@@ -141,57 +141,98 @@ export default class AltTextLengthAssessment extends Assessment {
 			} );
 		}
 
-		return {
-			tooShort: sprintf(
-				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
-				 * %4$d expands to the number of images whose alt text is too short,
-				 * %5$d expands to the maximum number of characters that counts as too short. */
-				_n(
-					"%1$sAlt text length%3$s: %4$d of your images has alt text of %5$d characters or fewer. %2$sConsider making it more descriptive%3$s.",
-					"%1$sAlt text length%3$s: %4$d of your images have alt text of %5$d characters or fewer. %2$sConsider making it more descriptive%3$s.",
-					this.tooShortCount,
-					"wordpress-seo"
-				),
-				urlTitleAnchorOpeningTag,
-				urlActionAnchorOpeningTag,
-				"</a>",
+		/*
+		 * Each text is a count sentence plus an action sentence, translated separately: the count and the character
+		 * limit each need their own plural form, which one combined string cannot give in every language.
+		 */
+		const tooShortCountSentence = sprintf(
+			/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+			 * %3$d expands to the number of images with very short alt text. */
+			_n(
+				"%1$sAlt text length%2$s: %3$d of your images has very short alt text.",
+				"%1$sAlt text length%2$s: %3$d of your images have very short alt text.",
 				this.tooShortCount,
-				tooShortBoundary
+				"wordpress-seo"
 			),
-			tooLong: sprintf(
-				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
-				 * %4$d expands to the number of images whose alt text is too long,
-				 * %5$d expands to the number of characters from which alt text counts as too long. */
-				_n(
-					"%1$sAlt text length%3$s: %4$d of your images has alt text of %5$d characters or more. %2$sConsider making it more concise%3$s.",
-					"%1$sAlt text length%3$s: %4$d of your images have alt text of %5$d characters or more. %2$sConsider making it more concise%3$s.",
-					this.tooLongCount,
-					"wordpress-seo"
-				),
-				urlTitleAnchorOpeningTag,
-				urlActionAnchorOpeningTag,
-				"</a>",
+			urlTitleAnchorOpeningTag,
+			"</a>",
+			this.tooShortCount
+		);
+		const tooLongCountSentence = sprintf(
+			/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+			 * %3$d expands to the number of images with very long alt text. */
+			_n(
+				"%1$sAlt text length%2$s: %3$d of your images has very long alt text.",
+				"%1$sAlt text length%2$s: %3$d of your images have very long alt text.",
 				this.tooLongCount,
-				tooLongBoundary
+				"wordpress-seo"
 			),
-			both: sprintf(
-				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
-				 * %4$d expands to the number of images whose alt text is too long or too short,
-				 * %5$d expands to the maximum number of characters that counts as too short,
-				 * %6$d expands to the number of characters from which alt text counts as too long. */
-				_n(
-					"%1$sAlt text length%3$s: %4$d of your images has alt text that is either too short (%5$d characters or fewer) or too long (%6$d characters or more). %2$sConsider revising them%3$s.",
-					"%1$sAlt text length%3$s: %4$d of your images have alt text that is either too short (%5$d characters or fewer) or too long (%6$d characters or more). %2$sConsider revising them%3$s.",
-					this.tooLongCount + this.tooShortCount,
-					"wordpress-seo"
-				),
-				urlTitleAnchorOpeningTag,
-				urlActionAnchorOpeningTag,
-				"</a>",
-				this.tooLongCount + this.tooShortCount,
+			urlTitleAnchorOpeningTag,
+			"</a>",
+			this.tooLongCount
+		);
+		const bothCountSentence = sprintf(
+			/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+			 * %3$d expands to the number of images with very short or very long alt text. */
+			_n(
+				"%1$sAlt text length%2$s: %3$d of your images has very short or very long alt text.",
+				"%1$sAlt text length%2$s: %3$d of your images have very short or very long alt text.",
+				this.tooShortCount + this.tooLongCount,
+				"wordpress-seo"
+			),
+			urlTitleAnchorOpeningTag,
+			"</a>",
+			this.tooShortCount + this.tooLongCount
+		);
+
+		const tooShortActionSentence = sprintf(
+			/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+			 * %3$d expands to the minimum alt text length in characters. This value comes from the
+			 * SITE language, which can differ from the admin language this sentence appears in. */
+			_n(
+				"%1$sConsider making the alt text longer than %3$d character%2$s.",
+				"%1$sConsider making the alt text longer than %3$d characters%2$s.",
 				tooShortBoundary,
-				tooLongBoundary
+				"wordpress-seo"
 			),
+			urlActionAnchorOpeningTag,
+			"</a>",
+			tooShortBoundary
+		);
+		const tooLongActionSentence = sprintf(
+			/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+			 * %3$d expands to the maximum alt text length in characters. This value comes from the
+			 * SITE language, which can differ from the admin language this sentence appears in. */
+			_n(
+				"%1$sConsider making the alt text shorter than %3$d character%2$s.",
+				"%1$sConsider making the alt text shorter than %3$d characters%2$s.",
+				tooLongBoundary,
+				"wordpress-seo"
+			),
+			urlActionAnchorOpeningTag,
+			"</a>",
+			tooLongBoundary
+		);
+		const bothActionSentence = sprintf(
+			/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+			 * %3$d expands to the minimum and %4$d to the maximum alt text length in characters. These values
+			 * come from the SITE language, which can differ from the admin language this sentence appears in. */
+			_n(
+				"%1$sConsider making the alt text longer than %3$d and shorter than %4$d character%2$s.",
+				"%1$sConsider making the alt text longer than %3$d and shorter than %4$d characters%2$s.",
+				tooLongBoundary,
+				"wordpress-seo"
+			),
+			urlActionAnchorOpeningTag,
+			"</a>",
+			tooShortBoundary,
+			tooLongBoundary
+		);
+
+		return {
+			tooShort: `${ tooShortCountSentence } ${ tooShortActionSentence }`,
+			tooLong: `${ tooLongCountSentence } ${ tooLongActionSentence }`,
+			both: `${ bothCountSentence } ${ bothActionSentence }`,
 		};
 	}
 }

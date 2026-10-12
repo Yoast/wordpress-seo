@@ -34,8 +34,8 @@ describe( "an assessment for the length of the alt text of the assessed images",
 
 		expect( result.getScore() ).toBe( 6 );
 		expect( result.getText() ).toBe(
-			`${ titleAnchor }Alt text length</a>: 1 of your images has alt text of 10 characters or fewer. ` +
-			`${ actionAnchor }Consider making it more descriptive</a>.`
+			`${ titleAnchor }Alt text length</a>: 1 of your images has very short alt text. ` +
+			`${ actionAnchor }Consider making the alt text longer than 10 characters</a>.`
 		);
 	} );
 
@@ -44,8 +44,8 @@ describe( "an assessment for the length of the alt text of the assessed images",
 
 		expect( result.getScore() ).toBe( 6 );
 		expect( result.getText() ).toBe(
-			`${ titleAnchor }Alt text length</a>: 3 of your images have alt text of 10 characters or fewer. ` +
-			`${ actionAnchor }Consider making it more descriptive</a>.`
+			`${ titleAnchor }Alt text length</a>: 3 of your images have very short alt text. ` +
+			`${ actionAnchor }Consider making the alt text longer than 10 characters</a>.`
 		);
 	} );
 
@@ -54,8 +54,8 @@ describe( "an assessment for the length of the alt text of the assessed images",
 
 		expect( result.getScore() ).toBe( 6 );
 		expect( result.getText() ).toBe(
-			`${ titleAnchor }Alt text length</a>: 1 of your images has alt text of 200 characters or more. ` +
-			`${ actionAnchor }Consider making it more concise</a>.`
+			`${ titleAnchor }Alt text length</a>: 1 of your images has very long alt text. ` +
+			`${ actionAnchor }Consider making the alt text shorter than 200 characters</a>.`
 		);
 	} );
 
@@ -64,8 +64,8 @@ describe( "an assessment for the length of the alt text of the assessed images",
 
 		expect( result.getScore() ).toBe( 6 );
 		expect( result.getText() ).toBe(
-			`${ titleAnchor }Alt text length</a>: 2 of your images have alt text of 200 characters or more. ` +
-			`${ actionAnchor }Consider making it more concise</a>.`
+			`${ titleAnchor }Alt text length</a>: 2 of your images have very long alt text. ` +
+			`${ actionAnchor }Consider making the alt text shorter than 200 characters</a>.`
 		);
 	} );
 
@@ -74,8 +74,8 @@ describe( "an assessment for the length of the alt text of the assessed images",
 
 		expect( result.getScore() ).toBe( 6 );
 		expect( result.getText() ).toBe(
-			`${ titleAnchor }Alt text length</a>: 3 of your images have alt text that is either too short ` +
-			`(10 characters or fewer) or too long (200 characters or more). ${ actionAnchor }Consider revising them</a>.`
+			`${ titleAnchor }Alt text length</a>: 3 of your images have very short or very long alt text. ` +
+			`${ actionAnchor }Consider making the alt text longer than 10 and shorter than 200 characters</a>.`
 		);
 	} );
 
@@ -83,7 +83,7 @@ describe( "an assessment for the length of the alt text of the assessed images",
 		// Not reachable through `both`: a single flagged image takes the tooShort or tooLong string instead.
 		const result = getResult( 1, 0 );
 
-		expect( result.getText() ).toContain( "1 of your images has alt text of 10 characters or fewer" );
+		expect( result.getText() ).toContain( "1 of your images has very short alt text." );
 	} );
 
 	it( "uses the score from the config", () => {
@@ -159,8 +159,8 @@ describe( "the alt text length assessment for a language with its own boundaries
 		const result = assessment.getResult( new Paper( "" ), japaneseResearcher( 2, 1 ) );
 
 		expect( result.getText() ).toBe(
-			`${ titleAnchor }Alt text length</a>: 3 of your images have alt text that is either too short ` +
-			`(5 characters or fewer) or too long (100 characters or more). ${ actionAnchor }Consider revising them</a>.`
+			`${ titleAnchor }Alt text length</a>: 3 of your images have very short or very long alt text. ` +
+			`${ actionAnchor }Consider making the alt text longer than 5 and shorter than 100 characters</a>.`
 		);
 	} );
 
@@ -174,5 +174,18 @@ describe( "the alt text length assessment for a language with its own boundaries
 			tooShortBoundary: 5,
 			tooLongBoundary: 100,
 		} ) );
+	} );
+} );
+
+describe( "the plural form of the character limit in the alt text length feedback", () => {
+	it( "uses the singular form when the limit is one character", () => {
+		const result = assessment.getResult(
+			new Paper( "" ),
+			Factory.buildMockResearcher(
+				{ altTextLength: { tooShort: 1, tooLong: 0, flagged: [] } }, true, false, { altTextLength: { tooShortBoundary: 1 } }
+			)
+		);
+
+		expect( result.getText() ).toContain( "Consider making the alt text longer than 1 character</a>." );
 	} );
 } );

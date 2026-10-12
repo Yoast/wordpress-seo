@@ -135,9 +135,9 @@ the same limits without repeating the numbers.
 
 | Traffic light | Score | Criterion                                        | Feedback                                                                                                                                                                      |
 |---------------|-------|--------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Orange        | 6     | X images have alt text of 10 characters or fewer | **Alt text length**: X of your product images have alt text of 10 characters or fewer. **Consider making it more descriptive.**                                               |
-| Orange        | 6     | X images have alt text of 200 characters or more | **Alt text length**: X of your product images have alt text of 200 characters or more. **Consider making it more concise.**                                                   |
-| Orange        | 6     | Both cases occur on the same product             | **Alt text length**: X of your product images have alt text that is either too short (10 characters or fewer) or too long (200 characters or more). **Consider revising them.** |
+| Orange        | 6     | X images have alt text of 10 characters or fewer | **Alt text length**: X of your product images have very short alt text. **Consider making the alt text longer than 10 characters.** |
+| Orange        | 6     | X images have alt text of 200 characters or more | **Alt text length**: X of your product images have very long alt text. **Consider making the alt text shorter than 200 characters.** |
+| Orange        | 6     | Both cases occur on the same product             | **Alt text length**: X of your product images have very short or very long alt text. **Consider making the alt text longer than 10 and shorter than 200 characters.** |
 
 ### Assessments unique to product pages
 ### 1) Image alt attributes
