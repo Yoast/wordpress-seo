@@ -6,12 +6,14 @@ namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Bulk_Editor_Integra
 
 use Brain\Monkey\Functions;
 use Mockery;
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -112,6 +114,20 @@ abstract class Abstract_Test extends TestCase {
 	protected $replace_vars;
 
 	/**
+	 * Holds the Woo_SEO_Inactive_Conditional mock.
+	 *
+	 * @var Mockery\MockInterface|Woo_SEO_Inactive_Conditional
+	 */
+	protected $woo_seo_inactive_conditional;
+
+	/**
+	 * Holds the WPSEO_Addon_Manager mock.
+	 *
+	 * @var Mockery\MockInterface|WPSEO_Addon_Manager
+	 */
+	protected $addon_manager;
+
+	/**
 	 * Stubs the WP globals and functions consumed by WPSEO_Admin_Editor_Specific_Replace_Vars::__construct().
 	 *
 	 * Must be called before any test that exercises get_script_data() / enqueue_assets().
@@ -147,6 +163,8 @@ abstract class Abstract_Test extends TestCase {
 		$this->user_helper                       = Mockery::mock( User_Helper::class );
 		$this->myyoast_connection_data_presenter = Mockery::mock( Myyoast_Connection_Data_Presenter::class );
 		$this->replace_vars                      = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->woo_seo_inactive_conditional      = Mockery::mock( Woo_SEO_Inactive_Conditional::class );
+		$this->addon_manager                     = Mockery::mock( WPSEO_Addon_Manager::class );
 
 		$this->instance = new Bulk_Editor_Integration(
 			$this->asset_manager,
@@ -160,6 +178,8 @@ abstract class Abstract_Test extends TestCase {
 			$this->user_helper,
 			$this->myyoast_connection_data_presenter,
 			$this->replace_vars,
+			$this->woo_seo_inactive_conditional,
+			$this->addon_manager,
 		);
 	}
 }
