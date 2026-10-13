@@ -92,7 +92,7 @@ class WPSEO_Upgrade {
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
 			'22.6-RC0'   => 'upgrade_226',
-			'28.7-RC0'   => 'upgrade_287',
+			'28.9-RC0'   => 'upgrade_289',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -1161,12 +1161,12 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 28.7 upgrade routine.
+	 * Performs the 28.9 upgrade routine.
 	 * Schedules the migration of the taxonomy meta option to WordPress term meta.
 	 *
 	 * @return void
 	 */
-	private function upgrade_287() {
+	private function upgrade_289() {
 		$tax_meta = get_option( 'wpseo_taxonomy_meta', [] );
 
 		if ( is_array( $tax_meta ) && $tax_meta !== [] && ! wp_next_scheduled( Term_Meta_Migration_Integration::CRON_HOOK ) ) {
