@@ -34,6 +34,9 @@ const renderResultButton = ( props, id, hasAIFixes = true ) => render(
 		<Fill name={ getAssessmentButtonSlotName( "altTextLength", "metabox" ) }>
 			<button>Improve alt text with AI</button>
 		</Fill>
+		<Fill name={ getAssessmentButtonSlotName( "keyphraseStuffingInAltText", "metabox" ) }>
+			<button>Rewrite alt text with AI</button>
+		</Fill>
 		<LocationProvider value="metabox">
 			{ new SeoAnalysis( { ...SeoAnalysis.defaultProps, ...props } ).renderAIOptimizeButton( hasAIFixes, id ) }
 		</LocationProvider>
@@ -74,6 +77,20 @@ describe( "SeoAnalysis.renderAIOptimizeButton", () => {
 		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "altTextLength", false );
 
 		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "renders the keyphrase stuffing slot for the Keyphrase stuffing in alt text assessment", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "keyphraseStuffingInAltText", false );
+
+		expect( screen.getByRole( "button", { name: "Rewrite alt text with AI" } ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "does not render the keyphrase stuffing slot when the AI feature is disabled in Premium", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "keyphraseStuffingInAltText", false );
+
+		expect( screen.queryByRole( "button", { name: "Rewrite alt text with AI" } ) ).not.toBeInTheDocument();
 	} );
 
 	it( "still renders the AI Optimize button for the other assessments", () => {

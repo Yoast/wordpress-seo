@@ -15,5 +15,6 @@ export default class RelatedKeywordTaxonomyAssessor extends RelatedKeywordAssess
 
 		this.removeAssessment( "textCompetingLinks" );
 		this.removeAssessment( "imageKeyphrase" );
+		this.removeAssessment( "keyphraseStuffingInAltText" );
 	}
 }

@@ -146,4 +146,16 @@ export function checkUrls( assessor ) {
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify23' target='_blank'>" );
 		}
 	} );
+
+	test( "KeyphraseStuffingInAltText", () => {
+		const assessment = assessor.getAssessment( "keyphraseStuffingInAltText" );
+
+		if ( isCollection || isTaxonomy ) {
+			expect( assessment ).toBeUndefined();
+		} else {
+			expect( assessment ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify-alt-text-keyphrase-stuffing' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify-alt-text-keyphrase-stuffing-cta' target='_blank'>" );
+		}
+	} );
 }

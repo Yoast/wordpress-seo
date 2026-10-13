@@ -19,6 +19,8 @@ const assessor = new Assessor( new EnglishResearcher( mockPaper ), {
 	functionWordsInKeyphraseCTAUrl: "https://yoast.com/12",
 	imageKeyphraseUrlTitle: "https://yoast.com/13",
 	imageKeyphraseCTAUrl: "https://yoast.com/14",
+	keyphraseStuffingInAltTextUrlTitle: "https://yoast.com/15",
+	keyphraseStuffingInAltTextCTAUrl: "https://yoast.com/16",
 } );
 
 describe( "running assessments in the cornerstone related keyword product assessor", function() {
@@ -87,5 +89,13 @@ describe( "has configuration overrides", () => {
 		expect( assessment._config ).toBeDefined();
 		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/13' target='_blank'>" );
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/14' target='_blank'>" );
+	} );
+
+	test( "KeyphraseStuffingInAltTextAssessment", () => {
+		const assessment = assessor.getAssessment( "keyphraseStuffingInAltText" );
+
+		expect( assessment ).toBeDefined();
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/15' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/16' target='_blank'>" );
 	} );
 } );
