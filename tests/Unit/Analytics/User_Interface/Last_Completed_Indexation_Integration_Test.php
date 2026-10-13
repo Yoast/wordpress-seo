@@ -60,13 +60,31 @@ final class Last_Completed_Indexation_Integration_Test extends TestCase {
 	/**
 	 * Tests if the method sets the option on 0 indexables.
 	 *
+	 * time() runs inside the method. An exact timestamp taken here misses when the
+	 * clock moves to the next second before set() runs.
+	 *
 	 * @covers ::maybe_set_indexables_unindexed_calculated
 	 *
 	 * @return void
 	 */
 	public function test_maybe_set_indexables_unindexed_calculated_with_zero_indexables(): void {
+		$not_before = \time();
+
 		$this->options_helper_mock->expects()->get( 'last_known_no_unindexed', [] );
-		$this->options_helper_mock->expects()->set( 'last_known_no_unindexed', [ 'name' => \time() ] );
+		$this->options_helper_mock
+			->expects( 'set' )
+			->with(
+				'last_known_no_unindexed',
+				Mockery::on(
+					static function ( $value ) use ( $not_before ) {
+						return \is_array( $value )
+							&& \array_keys( $value ) === [ 'name' ]
+							&& \is_int( $value['name'] )
+							&& $value['name'] >= $not_before
+							&& $value['name'] <= \time();
+					},
+				),
+			);
 
 		Monkey\Functions\expect( 'remove_action' )
 			->with( 'update_option_wpseo', [ 'WPSEO_Utils', 'clear_cache' ] )
