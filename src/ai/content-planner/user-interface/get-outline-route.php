@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route to get a content outline from the AI API.
  *
- * @internal This route powers the Yoast SEO admin UI's Content Planner feature. It is not part of the plugin's public REST API surface, requires the `edit_posts` capability (see {@see self::check_permissions()}), and may change at any time without notice.
+ * @internal This route powers the Yoast SEO admin UI's Content Planner feature. It is not part of the plugin's public REST API surface, requires the capability to edit posts of the requested post type (see {@see self::check_permissions()}), and may change at any time without notice.
  *
  * @makePublic
  *
@@ -137,6 +137,28 @@ class Get_Outline_Route implements Route_Interface {
 						],
 						'description' => 'The category of the chosen content suggestion. Use name "" and id -1 to indicate no category.',
 					],
+					'recent_content'   => [
+						'required'    => true,
+						'type'        => 'array',
+						'maxItems'    => 100,
+						'items'       => [
+							'type'                 => 'object',
+							'properties'           => [
+								'title'       => [
+									'type'      => 'string',
+									'required'  => true,
+									'maxLength' => 500,
+								],
+								'description' => [
+									'type'      => 'string',
+									'required'  => true,
+									'maxLength' => 1000,
+								],
+							],
+							'additionalProperties' => false,
+						],
+						'description' => 'The recent content returned by the get_suggestions response.',
+					],
 				],
 				'callback'            => [ $this, 'get_outline' ],
 				'permission_callback' => [ $this, 'check_permissions' ],
@@ -169,6 +191,7 @@ class Get_Outline_Route implements Route_Interface {
 				$request->get_param( 'meta_description' ),
 				$category_param['name'],
 				(int) $category_param['id'],
+				$request->get_param( 'recent_content' ),
 			);
 			$data    = $this->command_handler->handle( $command );
 		} catch ( Remote_Request_Exception $e ) {
@@ -191,16 +214,29 @@ class Get_Outline_Route implements Route_Interface {
 	}
 
 	/**
-	 * Checks if the user is logged in and can edit posts.
+	 * Checks if the user is logged in and can edit posts of the requested post type.
 	 *
-	 * @return bool Whether the user is logged in and can edit posts.
+	 * The requested post_type is caller-controlled, so the permission must be evaluated
+	 * against that post type's own edit_posts meta-capability — not the generic
+	 * 'edit_posts' string, which would let a user with edit_posts but no edit_pages
+	 * (e.g. an Author) trigger outline generation for pages or arbitrary CPTs.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return bool Whether the user can edit posts of the requested post type.
 	 */
-	public function check_permissions(): bool {
+	public function check_permissions( WP_REST_Request $request ): bool {
 		$user = \wp_get_current_user();
 		if ( $user === null || $user->ID < 1 ) {
 			return false;
 		}
 
-		return \user_can( $user, 'edit_posts' );
+		$post_type        = $request->get_param( 'post_type' );
+		$post_type_object = \get_post_type_object( $post_type );
+		if ( $post_type_object === null ) {
+			return false;
+		}
+
+		return \user_can( $user, $post_type_object->cap->edit_posts );
 	}
 }

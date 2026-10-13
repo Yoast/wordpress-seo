@@ -1,3 +1,4 @@
+const { dirname } = require( "path" );
 const DependencyExtractionWebpackPlugin = require( "@wordpress/dependency-extraction-webpack-plugin" );
 const defaultConfig = require( "@wordpress/scripts/config/webpack.config" );
 const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
@@ -9,6 +10,13 @@ let analyzerPort = 8888;
 module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName, plugins = [] } ) {
 	return {
 		...defaultConfig,
+		resolve: {
+			...defaultConfig.resolve,
+			alias: {
+				...defaultConfig.resolve?.alias,
+				"@emotion/react": dirname( require.resolve( "@emotion/react/package.json" ) ),
+			},
+		},
 		optimization: {
 			...defaultConfig.optimization,
 			usedExports: process.env.NODE_ENV === "production",

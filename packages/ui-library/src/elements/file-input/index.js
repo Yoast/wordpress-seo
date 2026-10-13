@@ -1,4 +1,4 @@
-import { DocumentAddIcon } from "@heroicons/react/outline";
+import DocumentAddIcon from "@heroicons/react/outline/DocumentAddIcon";
 import classNames from "classnames";
 import { isEmpty, noop } from "lodash";
 import PropTypes from "prop-types";
@@ -30,12 +30,12 @@ const FileInput = forwardRef( ( {
 	selectLabel,
 	dropLabel,
 	screenReaderLabel,
-	selectDescription,
-	disabled,
-	iconAs: IconComponent,
+	selectDescription = "",
+	disabled = false,
+	iconAs: IconComponent = DocumentAddIcon,
 	onChange,
-	onDrop,
-	className,
+	onDrop = noop,
+	className = "",
 	...props
 }, ref ) => {
 	const [ isDragOver, setIsDragOver ] = useState( false );
@@ -113,13 +113,6 @@ FileInput.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onDrop: PropTypes.func,
 	className: PropTypes.string,
-};
-FileInput.defaultProps = {
-	selectDescription: "",
-	disabled: false,
-	iconAs: DocumentAddIcon,
-	className: "",
-	onDrop: noop,
 };
 
 export default FileInput;

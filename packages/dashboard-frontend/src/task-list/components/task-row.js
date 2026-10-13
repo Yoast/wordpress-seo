@@ -1,4 +1,4 @@
-import { ChevronRightIcon } from "@heroicons/react/outline";
+import ChevronRightIcon from "@heroicons/react/outline/ChevronRightIcon";
 import { Table, useSvgAria, SkeletonLoader, useToggleState } from "@yoast/ui-library";
 import { Priority } from "./priority";
 import { Duration } from "./duration";

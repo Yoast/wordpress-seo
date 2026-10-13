@@ -1,4 +1,3 @@
-/* eslint-disable no-undefined */
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
@@ -19,9 +18,9 @@ export const classNameMap = {
  */
 const Title = forwardRef( ( {
 	children,
-	as: Component,
+	as: Component = "h1",
 	size,
-	className,
+	className = "",
 	...props
 }, ref ) => {
 	return (
@@ -46,10 +45,4 @@ Title.propTypes = {
 	size: PropTypes.oneOf( Object.keys( classNameMap.size ) ),
 	className: PropTypes.string,
 };
-Title.defaultProps = {
-	as: "h1",
-	size: undefined,
-	className: "",
-};
-
 export default Title;

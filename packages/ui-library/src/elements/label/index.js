@@ -10,10 +10,10 @@ import React, { forwardRef } from "react";
  * @returns {JSX.Element} Label component.
  */
 const Label = forwardRef( ( {
-	as: Component,
-	className,
-	label,
-	children,
+	as: Component = "label",
+	className = "",
+	label = "",
+	children = "",
 	...props
 }, ref ) => (
 	<Component
@@ -31,12 +31,6 @@ Label.propTypes = {
 	children: PropTypes.string,
 	as: PropTypes.elementType,
 	className: PropTypes.string,
-};
-Label.defaultProps = {
-	label: "",
-	children: "",
-	as: "label",
-	className: "",
 };
 
 export default Label;

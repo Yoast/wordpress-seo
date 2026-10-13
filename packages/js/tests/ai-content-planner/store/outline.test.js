@@ -29,6 +29,8 @@ const mockSuggestion = {
 };
 /* eslint-enable camelcase */
 
+const mockRecentContent = [ { title: "My Post", description: "A description." } ];
+
 describe( "content outline store", () => {
 	describe( "getInitialContentOutlineState", () => {
 		it( "should return the initial state", () => {
@@ -290,6 +292,7 @@ describe( "content outline store", () => {
 			language: "en",
 			editor: "gutenberg",
 			suggestion: mockSuggestion,
+			recentContent: mockRecentContent,
 		};
 
 		it( "should yield a request action, a control action, a success action, then complete", () => {
@@ -312,6 +315,7 @@ describe( "content outline store", () => {
 					postType: params.postType,
 					language: params.language,
 					editor: params.editor,
+					recentContent: mockRecentContent,
 					...mockSuggestion,
 				},
 			} );
@@ -382,6 +386,7 @@ describe( "content outline store", () => {
 				// eslint-disable-next-line camelcase
 				meta_description: mockSuggestion.meta_description,
 				category: mockSuggestion.category,
+				recentContent: mockRecentContent,
 			};
 			contentPlannerFetch.mockResolvedValue( { outline: [] } );
 
@@ -402,6 +407,7 @@ describe( "content outline store", () => {
 						keyphrase: payload.keyphrase,
 						meta_description: payload.meta_description,
 						category: payload.category,
+						recent_content: mockRecentContent,
 					} ),
 				} )
 			);

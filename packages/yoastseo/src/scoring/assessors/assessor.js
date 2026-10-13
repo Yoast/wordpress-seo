@@ -142,15 +142,31 @@ class Assessor {
 	/**
 	 * Runs the researches defined in the task list or the default researches.
 	 *
+	 * Tree precondition (changed behaviour): this method only builds the HTML tree when the paper
+	 * does not already carry one. Callers are responsible for ensuring that any tree pre-set on the
+	 * paper is valid for its current text, shortcodes, locale, and block markup — otherwise the
+	 * assessments will run against stale content.
+	 *
+	 * The expected usage pattern is one of:
+	 * - pass a paper without a tree (`paper.getTree() === null`) and let `assess` build it, or
+	 * - pre-build the tree once (e.g. in the worker) and reuse it across multiple assessor passes
+	 *   on the same paper.
+	 *
+	 * Before this change `assess` rebuilt the tree on every call; consumers of the `yoastseo`
+	 * package that call `assess` directly should audit their usage to make sure they are not
+	 * passing a stale tree.
+	 *
 	 * @param {Paper} paper The paper to run assessments on.
 	 * @returns {void}
 	 */
 	assess( paper ) {
 		this._researcher.setPaper( paper );
 
-		const languageProcessor = new LanguageProcessor( this._researcher );
-		const shortcodes = paper._attributes && paper._attributes.shortcodes;
-		paper.setTree( build( paper, languageProcessor, shortcodes ) );
+		if ( paper.getTree() === null ) {
+			const languageProcessor = new LanguageProcessor( this._researcher );
+			const shortcodes = paper._attributes && paper._attributes.shortcodes;
+			paper.setTree( build( paper, languageProcessor, shortcodes ) );
+		}
 
 		let assessments = this.getAvailableAssessments();
 

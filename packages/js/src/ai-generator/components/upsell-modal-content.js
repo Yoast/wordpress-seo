@@ -3,8 +3,8 @@ import { useMemo, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
 import { useUpsellProps } from "../hooks";
-import { LockOpenIcon } from "@heroicons/react/outline";
-import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
+import LockOpenIcon from "@heroicons/react/outline/LockOpenIcon";
+import ArrowNarrowRightIcon from "@heroicons/react/solid/ArrowNarrowRightIcon";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Badge, Button, useModalContext, Alert } from "@yoast/ui-library";
 import { OutboundLink, VideoFlow } from "../../shared-admin/components";
@@ -36,7 +36,7 @@ export const UpsellModalContent = ( { onActivateFreeSparks } ) => {
 			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
 			isProductPost: editorSelect.getIsProduct(),
 			learnMoreLink: editorSelect.selectLink( "https://yoa.st/ai-generator-learn-more" ),
-			imageLink: editorSelect.selectImageLink( "ai-generator-preview.png" ),
+			imageLink: editorSelect.selectImageLink( "ai-generator-preview.jpg" ),
 			wistiaEmbedPermissionValue: editorSelect.selectWistiaEmbedPermissionValue(),
 			wistiaEmbedPermissionStatus: editorSelect.selectWistiaEmbedPermissionStatus(),
 			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),

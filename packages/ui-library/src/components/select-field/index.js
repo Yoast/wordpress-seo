@@ -1,9 +1,13 @@
+/* eslint-disable complexity */
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
 import Select from "../../elements/select";
 import { ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
+
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_VALIDATION = {};
 
 /**
  * @param {string} id Identifier.
@@ -18,10 +22,10 @@ import { useDescribedBy } from "../../hooks";
 const SelectField = forwardRef( ( {
 	id,
 	label,
-	description,
-	disabled,
-	validation,
-	className,
+	description = null,
+	disabled = false,
+	validation = DEFAULT_VALIDATION,
+	className = "",
 	...props
 }, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
@@ -63,12 +67,6 @@ SelectField.propTypes = {
 		message: PropTypes.node,
 	} ),
 	className: PropTypes.string,
-};
-SelectField.defaultProps = {
-	description: null,
-	disabled: false,
-	validation: {},
-	className: "",
 };
 
 SelectField.Option = Select.Option;

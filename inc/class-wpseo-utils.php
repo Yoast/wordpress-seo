@@ -183,6 +183,20 @@ class WPSEO_Utils {
 	 */
 	public static function sanitize_url( $value, $allowed_protocols = [ 'http', 'https' ] ) {
 
+		// Percent-encode non-ASCII bytes in the path/query/fragment before parsing, so wp_parse_url()
+		// does not corrupt multibyte UTF-8 characters. The authority (userinfo + host) is left untouched
+		// to avoid double-encoding it during the sanitization below.
+		if ( preg_match( '/[\x80-\xff]/', $value ) === 1 ) {
+			preg_match( '`^((?:[a-z][a-z0-9+.\-]*:)?//[^/?#]*)?(.*)$`is', $value, $split );
+			$value = $split[1] . preg_replace_callback(
+				'/[\x80-\xff]/',
+				static function ( $bytes ) {
+					return rawurlencode( $bytes[0] );
+				},
+				$split[2],
+			);
+		}
+
 		$url   = '';
 		$parts = wp_parse_url( $value );
 

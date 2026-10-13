@@ -13,6 +13,7 @@ import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Res
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import { realWorldULExample1, realWorldULExample2 } from "../helpers/sanitize/mergeListItemsSpec";
 import buildTree from "../../specHelpers/parse/buildTree";
+import getSentencesFromTree from "../../../src/languageProcessing/helpers/sentence/getSentencesFromTree";
 import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 
 const morphologyData = getMorphologyData( "en" );
@@ -1459,6 +1460,71 @@ describe( "Test for the research", function() {
 
 		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistractionPercentage ).toEqual(
 			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistractionPercentage );
+	} );
+
+	describe( "leaves no sentenceParentNode back-references on the tree", () => {
+		// The research uses getSentencesFromTree( tree, true ) which sets `sentence.sentenceParentNode = parentNode`
+		// on every sentence in the tree. The parent paragraph in turn holds the sentence in its `sentences` array,
+		// which creates a paragraph -> sentence -> sentenceParentNode -> paragraph cycle. When the tree is reused
+		// across calls (post tree-build dedup), that cycle escapes into downstream research/analyze results and
+		// blows Transporter.serialize. Assert the research cleans up after itself so the tree stays acyclic.
+		it( "strips sentenceParentNode from tree sentences after running on a paragraph-only paper", () => {
+			const paper = new Paper(
+				"<p>The keyphrase appears here. The keyphrase appears again.</p>" +
+				"<p>This is a distinct paragraph without the keyphrase. Another sentence.</p>",
+				{ locale: "en_US", keyword: "keyphrase" }
+			);
+			const researcher = new Researcher( paper );
+			buildTree( paper, researcher );
+			researcher.addResearchData( "morphology", morphologyData );
+
+			keyphraseDistributionResearcher( paper, researcher );
+
+			const sentences = getSentencesFromTree( paper.getTree() );
+			expect( sentences.length ).toBeGreaterThan( 0 );
+			sentences.forEach( sentence => {
+				expect( sentence.sentenceParentNode ).toBeUndefined();
+			} );
+		} );
+
+		it( "strips sentenceParentNode from tree sentences after running on a paper with list items", () => {
+			// The list-items code path merges sentences and writes sentenceParentNode (as an array) on the merged
+			// sentence as well. The tree's original sentences also carry the back-ref and must be cleaned up.
+			const paper = new Paper(
+				"<p>The keyphrase intro paragraph.</p>" +
+				"<ul><li>First list item with the keyphrase.</li><li>Second list item without it.</li></ul>",
+				{ locale: "en_US", keyword: "keyphrase" }
+			);
+			const researcher = new Researcher( paper );
+			buildTree( paper, researcher );
+			researcher.addResearchData( "morphology", morphologyData );
+
+			keyphraseDistributionResearcher( paper, researcher );
+
+			const sentences = getSentencesFromTree( paper.getTree() );
+			expect( sentences.length ).toBeGreaterThan( 0 );
+			sentences.forEach( sentence => {
+				expect( sentence.sentenceParentNode ).toBeUndefined();
+			} );
+		} );
+
+		it( "leaves the tree JSON-stringifiable (no cycle) after running", () => {
+			// JSON.stringify throws "Converting circular structure to JSON" on cycles, which is exactly the failure
+			// mode the bug produced downstream. A successful stringify is the strongest end-to-end guarantee that
+			// the cleanup actually broke the cycle, independent of which specific property held the back-reference.
+			const paper = new Paper(
+				"<p>The keyphrase appears here. The keyphrase appears again.</p>" +
+				"<ul><li>First list item with the keyphrase.</li><li>Second list item without it.</li></ul>",
+				{ locale: "en_US", keyword: "keyphrase" }
+			);
+			const researcher = new Researcher( paper );
+			buildTree( paper, researcher );
+			researcher.addResearchData( "morphology", morphologyData );
+
+			keyphraseDistributionResearcher( paper, researcher );
+
+			expect( () => JSON.stringify( paper.getTree() ) ).not.toThrow();
+		} );
 	} );
 } );
 

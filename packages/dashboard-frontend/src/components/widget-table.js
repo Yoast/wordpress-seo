@@ -1,7 +1,7 @@
 import { Table, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
 import classNames from "classnames";
 import { SCORE_META } from "../scores/score-meta";
-import { XIcon } from "@heroicons/react/solid";
+import XIcon from "@heroicons/react/solid/XIcon";
 import { __ } from "@wordpress/i18n";
 
 /**

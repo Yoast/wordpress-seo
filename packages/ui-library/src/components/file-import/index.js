@@ -1,5 +1,6 @@
 import { Transition } from "@headlessui/react";
-import { DocumentTextIcon, XIcon } from "@heroicons/react/outline";
+import DocumentTextIcon from "@heroicons/react/outline/DocumentTextIcon";
+import XIcon from "@heroicons/react/outline/XIcon";
 import { capitalize, includes, isEmpty, isNull, values } from "lodash";
 import PropTypes from "prop-types";
 import React, { createContext, forwardRef, useCallback, useContext, useMemo } from "react";
@@ -85,22 +86,22 @@ const createStatusConditionalRender = ( status ) => {
  * @returns {JSX.Element} The FileImport component.
  */
 const FileImport = forwardRef( ( {
-	children = "",
+	children = null,
 	id,
 	name,
 	selectLabel,
 	dropLabel,
 	screenReaderLabel,
 	abortScreenReaderLabel,
-	selectDescription,
-	status,
+	selectDescription = "",
+	status = FILE_IMPORT_STATUS.idle,
 	onChange,
 	onAbort,
 	feedbackTitle,
-	feedbackDescription,
-	progressMin,
-	progressMax,
-	progress,
+	feedbackDescription = "",
+	progressMin = null,
+	progressMax = null,
+	progress = null,
 }, ref ) => {
 	const isSelected = useMemo( () => status === FILE_IMPORT_STATUS.selected, [ status ] );
 	const isLoading = useMemo( () => status === FILE_IMPORT_STATUS.loading, [ status ] );
@@ -210,15 +211,6 @@ FileImport.propTypes = {
 	status: PropTypes.oneOf( values( FILE_IMPORT_STATUS ) ),
 	onChange: PropTypes.func.isRequired,
 	onAbort: PropTypes.func.isRequired,
-};
-FileImport.defaultProps = {
-	children: null,
-	selectDescription: "",
-	feedbackDescription: "",
-	progressMin: null,
-	progressMax: null,
-	progress: null,
-	status: FILE_IMPORT_STATUS.idle,
 };
 
 FileImport.Selected = createStatusConditionalRender( FILE_IMPORT_STATUS.selected );

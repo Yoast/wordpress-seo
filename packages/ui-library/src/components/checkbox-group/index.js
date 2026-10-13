@@ -5,6 +5,10 @@ import React, { useCallback } from "react";
 import Checkbox from "../../elements/checkbox";
 import Label from "../../elements/label";
 
+// Stable references so the empty-array defaults keep a constant identity across renders.
+const DEFAULT_VALUES = [];
+const DEFAULT_OPTIONS = [];
+
 /**
  * @param {JSX.node} [children=null] Children are rendered below the checkbox group. Either use this or the `options` prop.
  * @param {string} [id] Identifier.
@@ -23,11 +27,11 @@ const CheckboxGroup = ( {
 	children = null,
 	id = "",
 	name = "",
-	values = [],
+	values = DEFAULT_VALUES,
 	label = "",
 	description = "",
 	disabled = false,
-	options = [],
+	options = DEFAULT_OPTIONS,
 	onChange = noop,
 	className = "",
 	...props

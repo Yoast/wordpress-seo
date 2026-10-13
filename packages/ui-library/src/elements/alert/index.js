@@ -60,11 +60,5 @@ const propTypes = {
 
 Alert.displayName = "Alert";
 Alert.propTypes = propTypes;
-Alert.defaultProps = {
-	as: "span",
-	variant: "info",
-	className: "",
-	role: "status",
-};
 
 export default Alert;

@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection;
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection::get_recent_cornerstone_content
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection::get_recently_modified_posts_indexables
  */
-final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collector_Test {
+final class Get_Content_Types_Lists_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_content_types_lists method.

@@ -57,7 +57,7 @@ final class MyYoast_Cleanup_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that register_hooks registers the uninstall hook.
+	 * Tests that register_hooks registers the uninstall hook and the public clear-state action.
 	 *
 	 * @covers ::register_hooks
 	 *
@@ -66,6 +66,9 @@ final class MyYoast_Cleanup_Integration_Test extends TestCase {
 	public function test_register_hooks() {
 		Functions\expect( 'add_action' )
 			->with( 'uninstall_' . \WPSEO_BASENAME, [ $this->instance, 'cleanup' ] )
+			->once();
+		Functions\expect( 'add_action' )
+			->with( 'wpseo_myyoast_clear_client_state', [ $this->instance, 'cleanup' ] )
 			->once();
 
 		$this->instance->register_hooks();

@@ -13,10 +13,8 @@ use Yoast\WP\SEO\Llms_Txt\Infrastructure\File\WordPress_Llms_Txt_Permission_Gate
  * @group llms.txt
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Remove_File_Command_Handler::__construct
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Constructor_Test extends Abstract_Remove_File_Command_Handler_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

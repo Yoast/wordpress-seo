@@ -19,7 +19,7 @@ export const ModalContent = () => {
 
 		return {
 			link: isComingFromToolsPage ? "https://yoa.st/redirect-manager-upsell-tools" : "https://yoa.st/redirect-manager-upsell",
-			imageLink: storeSelect.selectImageLink( "redirect-manager-thumbnail.png"  ),
+			imageLink: storeSelect.selectImageLink( "redirect-manager-thumbnail.jpg" ),
 			wistiaEmbedPermissionValue: storeSelect.selectWistiaEmbedPermissionValue(),
 			wistiaEmbedPermissionStatus: storeSelect.selectWistiaEmbedPermissionStatus(),
 		};

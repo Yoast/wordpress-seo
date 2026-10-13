@@ -1,4 +1,4 @@
-import { ClockIcon } from "@heroicons/react/outline";
+import ClockIcon from "@heroicons/react/outline/ClockIcon";
 import { useSvgAria, SkeletonLoader } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useTaskListContext } from "../task-list-context";

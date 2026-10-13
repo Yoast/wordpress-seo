@@ -11,7 +11,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\User_Interface\Schedule_Population_On
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Schedule_Population_On_Activation_Integration::register_hooks
  */
-final class Register_Hooks_Test extends Abstract_Schedule_Population_On_Activation_Integration_Test {
+final class Register_Hooks_Test extends Abstract_Test {
 
 	/**
 	 * Tests the registration of the hooks.

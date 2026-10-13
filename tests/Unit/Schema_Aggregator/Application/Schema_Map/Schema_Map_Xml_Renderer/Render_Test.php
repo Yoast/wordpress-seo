@@ -11,10 +11,8 @@ use DOMDocument;
  * @group schema-aggregator
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map\Schema_Map_Xml_Renderer::render
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Render_Test extends Abstract_Schema_Map_Xml_Renderer_Test {
+final class Render_Test extends Abstract_Test {
 
 	/**
 	 * Tests rendering a schema map with a single entry.
@@ -47,10 +45,16 @@ final class Render_Test extends Abstract_Schema_Map_Xml_Renderer_Test {
 		$url_set = $dom->getElementsByTagName( 'urlset' );
 		$this->assertSame( 1, $url_set->length );
 		$this->assertSame( 'http://www.sitemaps.org/schemas/sitemap/0.9', $url_set->item( 0 )->getAttribute( 'xmlns' ) );
+		$this->assertSame( 'http://schema.org/schemas/schemafeed/0.1', $url_set->item( 0 )->lookupNamespaceURI( 'sf' ) );
+		$this->assertSame( 1, \substr_count( $result, 'xmlns:sf=' ) );
 
 		$urls = $dom->getElementsByTagName( 'url' );
 		$this->assertSame( 1, $urls->length );
 		$this->assertSame( 'structuredData/schema.org', $urls->item( 0 )->getAttribute( 'contentType' ) );
+
+		$content_types = $urls->item( 0 )->getElementsByTagNameNS( 'http://schema.org/schemas/schemafeed/0.1', 'contentType' );
+		$this->assertSame( 1, $content_types->length );
+		$this->assertSame( 'structuredData/schema.org', $content_types->item( 0 )->textContent );
 
 		$this->assertSame( 'https://example.com/wp-json/yoast/v1/schema-aggregator/get-schema/post', $dom->getElementsByTagName( 'loc' )->item( 0 )->textContent );
 		$this->assertSame( '2025-01-01T00:00:00Z', $dom->getElementsByTagName( 'lastmod' )->item( 0 )->textContent );
@@ -96,6 +100,12 @@ final class Render_Test extends Abstract_Schema_Map_Xml_Renderer_Test {
 		$locs = $dom->getElementsByTagName( 'loc' );
 		$this->assertSame( 'https://example.com/wp-json/yoast/v1/schema-aggregator/get-schema/post', $locs->item( 0 )->textContent );
 		$this->assertSame( 'https://example.com/wp-json/yoast/v1/schema-aggregator/get-schema/page', $locs->item( 1 )->textContent );
+
+		foreach ( $urls as $url ) {
+			$content_types = $url->getElementsByTagNameNS( 'http://schema.org/schemas/schemafeed/0.1', 'contentType' );
+			$this->assertSame( 1, $content_types->length );
+			$this->assertSame( 'structuredData/schema.org', $content_types->item( 0 )->textContent );
+		}
 	}
 
 	/**

@@ -1,7 +1,8 @@
-import classNames from "classnames";
+/* eslint-disable complexity */
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import withPersistentDismiss from "./withPersistentDismiss";
+import classNames from "classnames";
 
 /**
  * @param {string} id The id.
@@ -10,11 +11,9 @@ import withPersistentDismiss from "./withPersistentDismiss";
  * @param {JSX.Element|null} image The image or null if no image.
  * @param {boolean} isAlertDismissed Whether or not the notification is dismissed.
  * @param {Function} onDismissed The dismissal prop to be renamed for Notification component.
- * @param {boolean} [inEditorIntro=false] Whether rendered inside EditorIntro. Adds a small top margin under the logo.
  *
  * @returns {Component} The composed Notification component.
  */
-/* eslint-disable-next-line complexity */
 export const PersistentDismissableNotification = ( {
 	children,
 	id,
@@ -23,10 +22,10 @@ export const PersistentDismissableNotification = ( {
 	image: Image = null,
 	isAlertDismissed,
 	onDismissed,
-	inEditorIntro = false,
+	className = "",
 } ) => {
 	return isAlertDismissed ? null : (
-		<div id={ id } className={ classNames( "notice-yoast yoast is-dismissible yoast-webinar-dashboard yoast-general-page-notices", inEditorIntro && "yst-mt-3" ) }>
+		<div id={ id } className={ classNames( "notice-yoast yoast is-dismissible", className ) }>
 			<div className="notice-yoast__container">
 				<div>
 					<div className="notice-yoast__header">
@@ -59,7 +58,7 @@ PersistentDismissableNotification.propTypes = {
 	image: PropTypes.elementType,
 	isAlertDismissed: PropTypes.bool.isRequired,
 	onDismissed: PropTypes.func.isRequired,
-	inEditorIntro: PropTypes.bool,
+	className: PropTypes.string,
 };
 
 export default withPersistentDismiss( PersistentDismissableNotification );

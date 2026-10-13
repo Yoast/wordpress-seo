@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Title;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Title_Adapter::get_title
  */
-final class Get_Title_Test extends Abstract_Title_Adapter_Test {
+final class Get_Title_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_title method.

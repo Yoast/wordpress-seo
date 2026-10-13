@@ -1,4 +1,4 @@
-import { DotsVerticalIcon } from "@heroicons/react/outline";
+import DotsVerticalIcon from "@heroicons/react/outline/DotsVerticalIcon";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";

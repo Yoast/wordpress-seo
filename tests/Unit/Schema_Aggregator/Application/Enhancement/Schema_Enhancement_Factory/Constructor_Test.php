@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Person_Schema_Enhance
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Schema_Enhancement_Factory::__construct
  */
-final class Constructor_Test extends Abstract_Schema_Enhancement_Factory_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

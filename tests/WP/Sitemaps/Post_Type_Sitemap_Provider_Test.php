@@ -405,6 +405,141 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that generating sitemap links runs a constant number of queries, regardless of the post count.
+	 *
+	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
+	 */
+	public function test_get_sitemap_links_query_count_does_not_grow_with_post_count() {
+		$original_structure = \get_option( 'permalink_structure' );
+
+		try {
+			// A %category% permalink structure makes get_permalink() look up each post's terms.
+			$this->set_permalink_structure( '/%category%/%postname%/' );
+
+			$this->create_posts_with_own_category( 3 );
+			$queries_for_three_posts = $this->count_sitemap_links_queries();
+
+			$this->create_posts_with_own_category( 7 );
+			$queries_for_ten_posts = $this->count_sitemap_links_queries();
+
+			$this->assertSame(
+				$queries_for_three_posts,
+				$queries_for_ten_posts,
+				'Generating sitemap links should not run more queries when there are more posts',
+			);
+		}
+		finally {
+			$this->set_permalink_structure( $original_structure );
+		}
+	}
+
+	/**
+	 * Tests that the cache priming can be disabled through the wpseo_disable_xml_sitemap_cache_priming filter.
+	 *
+	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
+	 */
+	public function test_cache_priming_can_be_disabled_via_filter() {
+		$original_structure = \get_option( 'permalink_structure' );
+
+		try {
+			// A %category% permalink structure makes get_permalink() look up each post's terms.
+			$this->set_permalink_structure( '/%category%/%postname%/' );
+
+			$this->create_posts_with_own_category( 3 );
+			$queries_with_priming = $this->count_sitemap_links_queries();
+
+			\add_filter( 'wpseo_disable_xml_sitemap_cache_priming', '__return_true' );
+			$queries_without_priming = $this->count_sitemap_links_queries();
+
+			$this->assertGreaterThan(
+				$queries_with_priming,
+				$queries_without_priming,
+				'Disabling the cache priming through the filter should make per-post queries return',
+			);
+		}
+		finally {
+			\remove_filter( 'wpseo_disable_xml_sitemap_cache_priming', '__return_true' );
+			$this->set_permalink_structure( $original_structure );
+		}
+	}
+
+	/**
+	 * Tests that generating sitemap links for posts with featured images runs a constant number
+	 * of queries, regardless of the post count.
+	 *
+	 * @covers ::get_sitemap_links
+	 *
+	 * @return void
+	 */
+	public function test_get_sitemap_links_query_count_does_not_grow_with_featured_image_count() {
+		$this->create_posts_with_featured_images( 3 );
+		$queries_for_three_posts = $this->count_sitemap_links_queries();
+
+		$this->create_posts_with_featured_images( 7 );
+		$queries_for_ten_posts = $this->count_sitemap_links_queries();
+
+		$this->assertSame(
+			$queries_for_three_posts,
+			$queries_for_ten_posts,
+			'Generating sitemap links should not run more queries when there are more posts with featured images',
+		);
+	}
+
+	/**
+	 * Creates posts that each have their own featured image.
+	 *
+	 * @param int $count The number of posts to create.
+	 *
+	 * @return void
+	 */
+	private function create_posts_with_featured_images( $count ) {
+		$attachment_data = [
+			'post_mime_type' => 'image/jpeg',
+			'post_title'     => 'Test image',
+			'post_content'   => '',
+			'post_status'    => 'inherit',
+		];
+
+		for ( $i = 0; $i < $count; $i++ ) {
+			$post_id      = $this->factory->post->create();
+			$thumbnail_id = \wp_insert_attachment( $attachment_data, 'featured.jpg', $post_id );
+			\set_post_thumbnail( $post_id, $thumbnail_id );
+		}
+	}
+
+	/**
+	 * Creates posts that each have their own category.
+	 *
+	 * @param int $count The number of posts to create.
+	 *
+	 * @return void
+	 */
+	private function create_posts_with_own_category( $count ) {
+		for ( $i = 0; $i < $count; $i++ ) {
+			$category_id = $this->factory->category->create();
+			$this->factory->post->create( [ 'post_category' => [ $category_id ] ] );
+		}
+	}
+
+	/**
+	 * Counts the number of database queries run to generate the post sitemap links, starting from a cold cache.
+	 *
+	 * @return int The number of queries.
+	 */
+	private function count_sitemap_links_queries() {
+		\wp_cache_flush();
+
+		$queries_before = \get_num_queries();
+		self::$class_instance->get_sitemap_links( 'post', 100, 1 );
+
+		return ( \get_num_queries() - $queries_before );
+	}
+
+	/**
 	 * Filter to exclude desired posts from the sitemap.
 	 *
 	 * @param array $post_ids List of post ids.

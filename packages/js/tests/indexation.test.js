@@ -153,4 +153,113 @@ describe( "Indexation", () => {
 			expect( postIndexingAction ).toHaveBeenCalledWith( response.objects, global.yoastIndexingData );
 		}, { timeout: 1000 } );
 	} );
+
+	it( "stops with an error when the same batch is returned twice", async() => {
+		global.yoastIndexingData = {
+			amount: 50,
+			restApi: {
+				root: "https://example.com/",
+				// eslint-disable-next-line camelcase
+				indexing_endpoints: {
+					posts: "indexing-endpoint",
+				},
+				nonce: "nonsense",
+			},
+			errorMessage: "An error message.",
+		};
+
+		// The server keeps serving the identical batch and keeps pointing at the same URL.
+		global.fetch = jest.fn().mockImplementation( () => fetchResponse( {
+			objects: [
+				// eslint-disable-next-line camelcase
+				{ object_id: 1, object_type: "post" },
+				// eslint-disable-next-line camelcase
+				{ object_id: 2, object_type: "post" },
+			],
+			// eslint-disable-next-line camelcase
+			next_url: "https://example.com/indexing-endpoint",
+		} ) );
+
+		render( <Indexation /> );
+		fireEvent.click( screen.getByRole( "button" ) );
+
+		await waitFor( () => {
+			expect( screen.queryByText( "An error message." ) ).toBeInTheDocument();
+		}, { timeout: 1000 } );
+
+		// Without the loop guard this would keep requesting forever.
+		expect( global.fetch ).toHaveBeenCalledTimes( 2 );
+	} );
+
+	it( "keeps indexing while consecutive batches differ", async() => {
+		global.yoastIndexingData = {
+			amount: 6,
+			restApi: {
+				root: "https://example.com/",
+				// eslint-disable-next-line camelcase
+				indexing_endpoints: {
+					posts: "indexing-endpoint",
+				},
+				nonce: "nonsense",
+			},
+		};
+
+		const batches = [
+			// eslint-disable-next-line camelcase
+			{ objects: [ { object_id: 1, object_type: "post" }, { object_id: 2, object_type: "post" } ], next_url: "https://example.com/indexing-endpoint" },
+			// eslint-disable-next-line camelcase
+			{ objects: [ { object_id: 3, object_type: "post" }, { object_id: 4, object_type: "post" } ], next_url: "https://example.com/indexing-endpoint" },
+			// eslint-disable-next-line camelcase
+			{ objects: [ { object_id: 5, object_type: "post" } ], next_url: false },
+		];
+		global.fetch = jest.fn().mockImplementation( () => fetchResponse( batches[ global.fetch.mock.calls.length - 1 ] ) );
+
+		render( <Indexation /> );
+		fireEvent.click( screen.getByRole( "button" ) );
+
+		await waitFor( () => {
+			expect( screen.queryByText( "SEO data optimization complete" ) ).toBeInTheDocument();
+		}, { timeout: 1000 } );
+
+		expect( global.fetch ).toHaveBeenCalledTimes( 3 );
+	} );
+
+	it( "shows the failing object when the backend reports one", async() => {
+		global.yoastIndexingData = {
+			amount: 5,
+			restApi: {
+				root: "https://example.com/",
+				// eslint-disable-next-line camelcase
+				indexing_endpoints: {
+					posts: "indexing-endpoint",
+				},
+				nonce: "nonsense",
+			},
+			errorMessage: "An error message.",
+		};
+
+		global.fetch = jest.fn().mockImplementation( () => Promise.resolve( {
+			ok: false,
+			status: 500,
+			text: () => Promise.resolve( JSON.stringify( {
+				message: "Indexing failed.",
+				data: {
+					stackTrace: "the stack trace",
+					// eslint-disable-next-line camelcase
+					object_id: 42,
+					// eslint-disable-next-line camelcase
+					object_type: "post",
+				},
+			} ) ),
+		} ) );
+
+		render( <Indexation /> );
+		fireEvent.click( screen.getByRole( "button" ) );
+
+		await waitFor( () => {
+			expect( screen.queryByText( "An error message." ) ).toBeInTheDocument();
+		}, { timeout: 1000 } );
+
+		expect( screen.getByText( /post #42/ ) ).toBeInTheDocument();
+	} );
 } );

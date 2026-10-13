@@ -1,4 +1,5 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
+import ChevronLeftIcon from "@heroicons/react/solid/ChevronLeftIcon";
+import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
 import classNames from "classnames";
 import { parseInt } from "lodash";
 import PropTypes from "prop-types";

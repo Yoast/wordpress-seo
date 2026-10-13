@@ -53,6 +53,10 @@ const getCurrentStepPercentage = ( percentage, step ) => {
 	return 0;
 };
 
+// Stable reference so the `steps` dependency of the layout effect below keeps a
+// constant identity across renders (defaultProps used to provide a single instance).
+const DEFAULT_STEPS = [];
+
 /**
  *
  * @param {JSX.Node} [children] Content of the stepper.
@@ -62,7 +66,7 @@ const getCurrentStepPercentage = ( percentage, step ) => {
  *
  * @returns {JSX.Element} The Stepper element.
  */
-export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps = [], ProgressBar = StepperProgressBar }, ref ) => {
+export const Stepper = forwardRef( ( { children, currentStep = 0, className = "", steps = DEFAULT_STEPS, ProgressBar = StepperProgressBar }, ref ) => {
 	const [ progressBarPosition, setProgressBarPosition ] = useState( { left: 0, right: 0, stepsLengthPercentage: [] } );
 	const [ stepRefs, setStepRefs ] = useState( [] );
 
@@ -154,14 +158,6 @@ Stepper.propTypes = {
 		children: PropTypes.node.isRequired,
 	} ) ),
 	ProgressBar: PropTypes.elementType,
-};
-Stepper.defaultProps = {
-	className: "",
-	steps: [],
-	// eslint-disable-next-line no-undefined
-	children: undefined,
-	currentStep: 0,
-	ProgressBar: StepperProgressBar,
 };
 
 Stepper.Context = StepperContext;

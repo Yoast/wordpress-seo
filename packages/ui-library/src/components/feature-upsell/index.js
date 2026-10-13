@@ -1,4 +1,4 @@
-import { LockOpenIcon } from "@heroicons/react/outline";
+import LockOpenIcon from "@heroicons/react/outline/LockOpenIcon";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React from "react";

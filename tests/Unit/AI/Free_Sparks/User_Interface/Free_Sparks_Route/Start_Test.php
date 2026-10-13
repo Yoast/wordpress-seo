@@ -14,7 +14,7 @@ use WP_REST_Response;
  *
  * @covers \Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route::start
  */
-final class Start_Test extends Abstract_Free_Sparks_Route_Test {
+final class Start_Test extends Abstract_Test {
 
 	/**
 	 * Tests start method when successful.

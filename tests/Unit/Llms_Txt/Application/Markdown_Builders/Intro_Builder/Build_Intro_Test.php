@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Intro;
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Intro_Builder::build_intro
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Intro_Builder::get_generator_version
  */
-final class Build_Intro_Test extends Abstract_Intro_Builder_Test {
+final class Build_Intro_Test extends Abstract_Test {
 
 	/**
 	 * Tests the build_description method when a Yoast sitemap exists.

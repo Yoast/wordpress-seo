@@ -21,7 +21,7 @@ export const ModalContent = () => {
 			premiumUpsellLink: storeSelect.selectLink( "https://yoa.st/ai-fix-assessments-upsell" ),
 			wooUpsellLink: storeSelect.selectLink( "https://yoa.st/ai-fix-assessments-upsell-woo-seo" ),
 			learnMoreLink: storeSelect.selectLink( "https://yoa.st/ai-fix-assessments-upsell-learn-more" ),
-			imageLink: storeSelect.selectImageLink( "ai-fix-assessments-thumbnail.png" ),
+			imageLink: storeSelect.selectImageLink( "ai-optimize-preview.jpg" ),
 			wistiaEmbedPermissionValue: storeSelect.selectWistiaEmbedPermissionValue(),
 			wistiaEmbedPermissionStatus: storeSelect.selectWistiaEmbedPermissionStatus(),
 		};

@@ -19,9 +19,9 @@ const classNameMap = {
  * @returns {JSX.Element} The link.
  */
 const Link = forwardRef( ( {
-	as: Component,
-	variant,
-	className,
+	as: Component = "a",
+	variant = "default",
+	className = "",
 	children,
 	...props
 }, ref ) => (
@@ -44,11 +44,6 @@ Link.propTypes = {
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	as: PropTypes.elementType,
 	className: PropTypes.string,
-};
-Link.defaultProps = {
-	as: "a",
-	variant: "default",
-	className: "",
 };
 
 export default Link;

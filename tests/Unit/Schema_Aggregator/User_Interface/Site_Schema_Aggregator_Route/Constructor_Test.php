@@ -15,10 +15,8 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
  * @covers \Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Aggregator_Route::__construct
  *
  * @group schema-aggregator
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Constructor_Test extends Abstract_Site_Schema_Aggregator_Route_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

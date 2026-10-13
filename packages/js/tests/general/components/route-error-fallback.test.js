@@ -9,6 +9,8 @@ const LINK = "https://yoa.st/general-error-support";
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn( () => LINK ),
 	registerStore: jest.fn(),
+	withSelect: jest.fn( () => component => component ),
+	withDispatch: jest.fn( () => component => component ),
 } ) );
 
 /**

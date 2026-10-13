@@ -995,12 +995,22 @@ export default class AnalysisWebWorker {
 
 		// Only set the paper and build the tree if the paper has any changes.
 		if ( paperHasChanges ) {
+			// Capture whether the cached paper's tree is still valid for the new paper before we overwrite this._paper.
+			const previousTree = this._paper !== null && this._paper.hasSameTreeInputsAs( paper )
+				? this._paper.getTree()
+				: null;
+
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
-			const languageProcessor = new LanguageProcessor( this._researcher );
-			const shortcodes = this._paper._attributes && this._paper._attributes.shortcodes;
-			this._paper.setTree( build( this._paper, languageProcessor, shortcodes ) );
+			if ( previousTree === null ) {
+				const languageProcessor = new LanguageProcessor( this._researcher );
+				const shortcodes = this._paper._attributes && this._paper._attributes.shortcodes;
+				this._paper.setTree( build( this._paper, languageProcessor, shortcodes ) );
+			} else {
+				// Only non-tree attributes (keyword, title, description, …) changed — reuse the existing tree.
+				this._paper.setTree( previousTree );
+			}
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
@@ -1080,6 +1090,15 @@ export default class AnalysisWebWorker {
 	 *
 	 * The old assessor is used and their results are combined.
 	 *
+	 * Tree-sharing invariant: each related-keyphrase paper reuses the focus paper's HTML tree, since
+	 * the text and shortcodes are identical and only `keyword`/`synonyms` differ between them. This
+	 * means the same tree object is shared across the focus paper and every related-keyphrase paper
+	 * within one analyze cycle. Any research that mutates tree nodes (e.g. adds sentence-level
+	 * back-references like `sentenceParentNode`, or attaches transient state to nodes) must clean up
+	 * after itself before returning, otherwise, the mutation will leak into subsequent assessor passes
+	 * and into later `runResearch` calls that consume the cached tree. See `keyphraseDistribution` research
+	 * for an example of such a cleanup.
+	 *
 	 * @param {Paper}                 paper           The paper to analyze.
 	 * @param {Object}                relatedKeywords The related keyphrases to use in the analysis.
 	 *
@@ -1095,6 +1114,7 @@ export default class AnalysisWebWorker {
 				keyword: this._relatedKeywords[ key ].keyword,
 				synonyms: this._relatedKeywords[ key ].synonyms,
 			} );
+			relatedPaper.setTree( paper.getTree() );
 
 			// We need to remember the key, since the SEO results are stored in an object, not an array.
 			return this.assess( relatedPaper, this._relatedKeywordAssessor ).then(
@@ -1239,10 +1259,20 @@ export default class AnalysisWebWorker {
 	/**
 	 * Runs the specified research in the worker. Optionally pass a paper.
 	 *
+	 * Tree handling: when a paper is passed without a pre-built tree, the worker reuses its cached tree
+	 * if the paper's tree-relevant inputs match (see `Paper.hasSameTreeInputsAs`), otherwise it builds a
+	 * fresh one.
+	 *
+	 * Shortcode backfill (mutates the incoming paper): shortcodes are a site-wide registry that only
+	 * `analyze` receives from the main thread. A `runResearch` from a different source could potentially
+	 * arrive with no shortcodes set. When that happens, we copy the cached paper's shortcodes onto the incoming paper
+	 * so (a) `hasSameTreeInputsAs` can recognize the inputs as compatible and reuse the cached tree,
+	 * and (b) the fallback `build()` filters shortcode markers the same way the analyze tree did.
+	 * The cached array is cloned, so a later mutation on the incoming paper cannot leak back into the worker's cached paper.
+	 *
 	 * @param {number} id     The request id.
 	 * @param {string} name   The name of the research to run.
-	 * @param {Paper} [paper] The paper to run the research on if it shouldn't
-	 *                        be run on the latest paper.
+	 * @param {Paper} [paper=null] The paper to run the research on if it shouldn't be run on the latest paper.
 	 *
 	 * @returns {Object} The result of the research.
 	 */
@@ -1251,16 +1281,24 @@ export default class AnalysisWebWorker {
 		const morphologyData = this._researcher.getData( "morphology" );
 
 		const researcher = this._researcher;
-		// When a specific paper is passed we create a temporary new researcher.
+		// When a specific paper is passed, we reuse the worker's researcher but rebind it to the passed paper.
 		if ( paper !== null ) {
 			researcher.setPaper( paper );
 			researcher.addResearchData( "morphology", morphologyData );
 
-			// Build and set the tree if it's not been set before.
 			if ( paper.getTree() === null ) {
-				const languageProcessor = new LanguageProcessor( researcher );
-				const shortcodes = paper._attributes && paper._attributes.shortcodes;
-				paper.setTree( build( paper, languageProcessor, shortcodes ) );
+				const callerShortcodes = paper._attributes && paper._attributes.shortcodes;
+				const cachedShortcodes = this._paper && this._paper._attributes && this._paper._attributes.shortcodes;
+				if ( ( ! callerShortcodes || callerShortcodes.length === 0 ) && cachedShortcodes && cachedShortcodes.length > 0 ) {
+					paper._attributes.shortcodes = [ ...cachedShortcodes ];
+				}
+
+				if ( this._paper !== null && this._paper.getTree() !== null && this._paper.hasSameTreeInputsAs( paper ) ) {
+					paper.setTree( this._paper.getTree() );
+				} else {
+					const languageProcessor = new LanguageProcessor( researcher );
+					paper.setTree( build( paper, languageProcessor, paper._attributes.shortcodes ) );
+				}
 			}
 		}
 

@@ -57,5 +57,6 @@ final class Client_Credentials_Grant_Test extends TestCase {
 
 		$this->assertSame( 'https://example.com/', $params['site_url'] );
 		$this->assertArrayNotHasKey( 'scope', $params );
+		$this->assertArrayNotHasKey( 'resource', $params );
 	}
 }

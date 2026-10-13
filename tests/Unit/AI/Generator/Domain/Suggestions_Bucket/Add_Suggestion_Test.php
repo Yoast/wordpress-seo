@@ -13,7 +13,7 @@ use Yoast\WP\SEO\AI\Generator\Domain\Suggestion;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket::add_suggestion
  */
-final class Add_Suggestion_Test extends Abstract_Suggestions_Bucket_Test {
+final class Add_Suggestion_Test extends Abstract_Test {
 
 	/**
 	 * Tests the add_suggestion method.

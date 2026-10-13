@@ -48,13 +48,21 @@ class Auth_Flow_State {
 	private $return_url;
 
 	/**
+	 * The RFC 8707 resource indicator this flow targets.
+	 *
+	 * @var Resource_Indicator
+	 */
+	private $resource_indicator;
+
+	/**
 	 * Auth_Flow_State constructor.
 	 *
-	 * @param string      $code_verifier The PKCE code verifier.
-	 * @param string      $state         The CSRF state parameter.
-	 * @param string|null $nonce         The nonce for ID token validation (only when openid scope is requested).
-	 * @param string      $redirect_uri  The callback redirect URI.
-	 * @param string|null $return_url    The URL to return the user to after authorization.
+	 * @param string             $code_verifier      The PKCE code verifier.
+	 * @param string             $state              The CSRF state parameter.
+	 * @param string|null        $nonce              The nonce for ID token validation (only when openid scope is requested).
+	 * @param string             $redirect_uri       The callback redirect URI.
+	 * @param string|null        $return_url         The URL to return the user to after authorization.
+	 * @param Resource_Indicator $resource_indicator The resource indicator (RFC 8707) this flow targets. Use Resource_Indicator::default() for the default resource.
 	 *
 	 * @throws InvalidArgumentException If required fields are empty.
 	 */
@@ -63,17 +71,19 @@ class Auth_Flow_State {
 		string $state,
 		?string $nonce,
 		string $redirect_uri,
-		?string $return_url = null
+		?string $return_url,
+		Resource_Indicator $resource_indicator
 	) {
 		if ( $code_verifier === '' || $state === '' || $redirect_uri === '' ) {
 			throw new InvalidArgumentException( 'Auth_Flow_State requires non-empty code_verifier, state, and redirect_uri.' );
 		}
 
-		$this->code_verifier = $code_verifier;
-		$this->state         = $state;
-		$this->nonce         = $nonce;
-		$this->redirect_uri  = $redirect_uri;
-		$this->return_url    = $return_url;
+		$this->code_verifier      = $code_verifier;
+		$this->state              = $state;
+		$this->nonce              = $nonce;
+		$this->redirect_uri       = $redirect_uri;
+		$this->return_url         = $return_url;
+		$this->resource_indicator = $resource_indicator;
 	}
 
 	/**
@@ -122,17 +132,27 @@ class Auth_Flow_State {
 	}
 
 	/**
+	 * Returns the RFC 8707 resource indicator this flow targets.
+	 *
+	 * @return Resource_Indicator
+	 */
+	public function get_resource_indicator(): Resource_Indicator {
+		return $this->resource_indicator;
+	}
+
+	/**
 	 * Converts the state to an associative array for storage.
 	 *
 	 * @return array<string, string|null>
 	 */
 	public function to_array(): array {
 		return [
-			'code_verifier' => $this->code_verifier,
-			'state'         => $this->state,
-			'nonce'         => $this->nonce,
-			'redirect_uri'  => $this->redirect_uri,
-			'return_url'    => $this->return_url,
+			'code_verifier'      => $this->code_verifier,
+			'state'              => $this->state,
+			'nonce'              => $this->nonce,
+			'redirect_uri'       => $this->redirect_uri,
+			'return_url'         => $this->return_url,
+			'resource_indicator' => $this->resource_indicator->value(),
 		];
 	}
 
@@ -153,7 +173,7 @@ class Auth_Flow_State {
 				throw new InvalidArgumentException( "Auth_Flow_State::from_array() requires a string value for '{$key}'." );
 			}
 		}
-		$optional_strings = [ 'nonce', 'return_url' ];
+		$optional_strings = [ 'nonce', 'return_url', 'resource_indicator' ];
 		foreach ( $optional_strings as $key ) {
 			if ( isset( $data[ $key ] ) && ! \is_string( $data[ $key ] ) ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
@@ -161,12 +181,15 @@ class Auth_Flow_State {
 			}
 		}
 
+		$stored_indicator = ( $data['resource_indicator'] ?? null );
+
 		return new self(
 			$data['code_verifier'],
 			$data['state'],
 			( $data['nonce'] ?? null ),
 			$data['redirect_uri'],
 			( $data['return_url'] ?? null ),
+			new Resource_Indicator( ( \is_string( $stored_indicator ) && $stored_indicator !== '' ) ? $stored_indicator : null ),
 		);
 	}
 }

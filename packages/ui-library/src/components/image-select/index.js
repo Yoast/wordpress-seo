@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import { useImageSelectContext } from "./hooks";
 import { ImageSelectContext } from "./context";
 import classNames from "classnames";
-import { PhotographIcon } from "@heroicons/react/outline";
+import PhotographIcon from "@heroicons/react/outline/PhotographIcon";
 import { Button, Link, useSvgAria } from "../../index";
 
 /**

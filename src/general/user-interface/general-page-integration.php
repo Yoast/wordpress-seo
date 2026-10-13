@@ -93,18 +93,18 @@ class General_Page_Integration implements Integration_Interface {
 	private $alert_dismissal_action;
 
 	/**
-	 * Holds the user helper.
-	 *
-	 * @var User_Helper
-	 */
-	private $user_helper;
-
-	/**
 	 * Holds the options helper.
 	 *
 	 * @var Options_Helper
 	 */
 	private $options_helper;
+
+	/**
+	 * Holds the user helper.
+	 *
+	 * @var User_Helper
+	 */
+	private $user_helper;
 
 	/**
 	 * Holds the WooCommerce conditional.
@@ -131,8 +131,8 @@ class General_Page_Integration implements Integration_Interface {
 	 * @param Alert_Dismissal_Action    $alert_dismissal_action  The alert dismissal action.
 	 * @param Promotion_Manager         $promotion_manager       The promotion manager.
 	 * @param Dashboard_Configuration   $dashboard_configuration The dashboard configuration.
-	 * @param User_Helper               $user_helper             The user helper.
 	 * @param Options_Helper            $options_helper          The options helper.
+	 * @param User_Helper               $user_helper             The user helper.
 	 * @param WooCommerce_Conditional   $woocommerce_conditional The WooCommerce conditional.
 	 * @param WPSEO_Addon_Manager       $addon_manager           The WPSEO_Addon_Manager.
 	 * @param Task_List_Configuration   $task_list_configuration The task list configuration.
@@ -146,8 +146,8 @@ class General_Page_Integration implements Integration_Interface {
 		Alert_Dismissal_Action $alert_dismissal_action,
 		Promotion_Manager $promotion_manager,
 		Dashboard_Configuration $dashboard_configuration,
-		User_Helper $user_helper,
 		Options_Helper $options_helper,
+		User_Helper $user_helper,
 		WooCommerce_Conditional $woocommerce_conditional,
 		WPSEO_Addon_Manager $addon_manager,
 		Task_List_Configuration $task_list_configuration
@@ -160,8 +160,8 @@ class General_Page_Integration implements Integration_Interface {
 		$this->alert_dismissal_action  = $alert_dismissal_action;
 		$this->promotion_manager       = $promotion_manager;
 		$this->dashboard_configuration = $dashboard_configuration;
-		$this->user_helper             = $user_helper;
 		$this->options_helper          = $options_helper;
+		$this->user_helper             = $user_helper;
 		$this->woocommerce_conditional = $woocommerce_conditional;
 		$this->addon_manager           = $addon_manager;
 		$this->task_list_configuration = $task_list_configuration;
@@ -250,7 +250,7 @@ class General_Page_Integration implements Integration_Interface {
 	/**
 	 * Creates the script data.
 	 *
-	 * @return array The script data.
+	 * @return array<string, string|array<string, string|bool|array<string, string|bool>>> The script data.
 	 */
 	private function get_script_data() {
 		return [
@@ -280,20 +280,21 @@ class General_Page_Integration implements Integration_Interface {
 			'currentPromotions'     => $this->promotion_manager->get_current_promotions(),
 			'dismissedAlerts'       => $this->alert_dismissal_action->all_dismissed(),
 			'dashboard'             => $this->dashboard_configuration->get_configuration(),
-			'optInNotificationSeen' => [
-				'task_list' => $this->is_task_list_opt_in_notification_seen(),
-			],
 			'taskListConfiguration' => $this->task_list_configuration->get_configuration(),
+			'optInNotificationSeen' => [
+				'bulk_editor_tour' => $this->is_bulk_editor_tour_seen(),
+			],
 		];
 	}
 
 	/**
-	 * Gets if the llms.txt opt-in notification has been seen.
+	 * Gets whether the bulk editor guided tour has been seen by the current user.
 	 *
-	 * @return bool True if the notification has been seen, false otherwise.
+	 * @return bool True when the tour has been seen, false otherwise.
 	 */
-	private function is_task_list_opt_in_notification_seen(): bool {
+	private function is_bulk_editor_tour_seen(): bool {
 		$current_user_id = $this->user_helper->get_current_user_id();
-		return (bool) $this->user_helper->get_meta( $current_user_id, '_yoast_wpseo_task_list_opt_in_notification_seen', true );
+
+		return (bool) $this->user_helper->get_meta( $current_user_id, '_yoast_wpseo_bulk_editor_tour_opt_in_notification_seen', true );
 	}
 }

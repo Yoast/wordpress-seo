@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 /* eslint-disable complexity */
-import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
+import QuestionMarkCircleIcon from "@heroicons/react/solid/QuestionMarkCircleIcon";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useState, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -13,9 +13,9 @@ import {
 	STORE_NAME_EDITOR,
 } from "../constants";
 import { focusFocusKeyphraseInput, isConsideredEmpty } from "../helpers";
-import { useLocation, useMeasuredRef, useModalTitle, useTypeContext } from "../hooks";
+import { useFeatureErrorDescriptor, useLocation, useMeasuredRef, useModalTitle, useTypeContext } from "../hooks";
 import { FETCH_USAGE_COUNT_ERROR_ACTION_NAME } from "../store/usage-count";
-import { FeatureError } from "./feature-error";
+import { AIErrorModal } from "./ai-error-modal";
 import { Introduction } from "./introduction";
 import { ModalContent } from "./modal-content";
 import { UpsellModalContent } from "./upsell-modal-content";
@@ -101,7 +101,6 @@ export const DISPLAY = {
 	inactive: "inactive",
 	askConsent: "askConsent",
 	upsell: "upsell",
-	error: "error",
 	generate: "generate",
 };
 
@@ -163,7 +162,37 @@ export const App = ( { onUseAi } ) => {
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
 
+	// The fatal/precondition error shown as a danger modal that replaces the AI
+	// modal. Kept in App state (not the AI modal) so it survives that modal
+	// closing — a fatal error closes the AI modal and surfaces the error instead.
+	const [ errorModal, setErrorModal ] = useState( null );
+	const resolveFeatureError = useFeatureErrorDescriptor();
+
 	const closeModal = useCallback( () => {
+		setDisplay( DISPLAY.inactive );
+	}, [] );
+
+	const dismissErrorModal = useCallback( () => setErrorModal( null ), [] );
+
+	// Retry a fatal generate-flow error: dismiss the danger modal and reopen the AI
+	// modal. ModalContent remounts (it only renders while generating), resetting its
+	// initialFetch state to "" and re-running the initial fetch from scratch.
+	const handleErrorModalRetry = useCallback( () => {
+		setErrorModal( null );
+		setDisplay( DISPLAY.generate );
+	}, [] );
+
+	// Surfaces a feature-precondition error as a danger modal and closes the AI
+	// modal. The descriptor mirrors what the old inline FeatureError chose to render.
+	const showFeatureError = useCallback( () => {
+		setErrorModal( resolveFeatureError( { currentSubscriptions, isSeoAnalysisActive } ) );
+		setDisplay( DISPLAY.inactive );
+	}, [ resolveFeatureError, currentSubscriptions, isSeoAnalysisActive ] );
+
+	// A fatal error from the generate flow (failed initial fetch / subscription
+	// error): close the AI modal and surface the error as a danger modal.
+	const handleModalFatalError = useCallback( ( descriptor ) => {
+		setErrorModal( descriptor );
 		setDisplay( DISPLAY.inactive );
 	}, [] );
 
@@ -203,7 +232,7 @@ export const App = ( { onUseAi } ) => {
 
 		// The analysis feature is not active, so we cannot use AI.
 		if ( ! isSeoAnalysisActive ) {
-			setDisplay( DISPLAY.error );
+			showFeatureError();
 			return;
 		}
 
@@ -219,14 +248,14 @@ export const App = ( { onUseAi } ) => {
 
 		// User has no subscription, but premium and woo are installed and it a product entity.
 		if ( ! subscriptions && isPremium && isWooSeoActive && isWooProductEntity ) {
-			setDisplay( DISPLAY.error );
+			showFeatureError();
 			return;
 		}
 
 		// User has no subscription but premium or woo is installed.
 		if ( ! subscriptions && isPremium && ! isWooProductEntity ) {
 			// Let the user know that they need to activate their subscription.
-			setDisplay( DISPLAY.error );
+			showFeatureError();
 			return;
 		}
 
@@ -246,7 +275,7 @@ export const App = ( { onUseAi } ) => {
 
 		setLoading( false );
 		if ( rateLimited ) {
-			setDisplay( DISPLAY.error );
+			showFeatureError();
 			return;
 		}
 		// User revoked consent on a different window after clicking on the "Try for free" AI button or has subscription.
@@ -257,13 +286,13 @@ export const App = ( { onUseAi } ) => {
 
 		// The usage count endpoint returned an error that is not related to the limit or consent.
 		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload?.errorCode !== 429 && payload?.errorCode !== 403 ) {
-			setDisplay( DISPLAY.error );
+			showFeatureError();
 			return;
 		}
 
 		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload?.errorCode === 429 && subscriptions ) {
 			// If the user has a subscription, but the usage count limit is reached, we show the error.
-			setDisplay( DISPLAY.error );
+			showFeatureError();
 			return;
 		}
 
@@ -297,6 +326,7 @@ export const App = ( { onUseAi } ) => {
 		isSeoAnalysisActive,
 		checkFocusKeyphrase,
 		showFocusKeyphrase,
+		showFeatureError,
 		usageCountEndpoint,
 		fetchUsageCount,
 		isWooSeoActive,
@@ -322,12 +352,12 @@ export const App = ( { onUseAi } ) => {
 
 		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME ) {
 			// User revoked consent after clicking on the "Try for free" AI button.
-			setDisplay( DISPLAY.error );
+			showFeatureError();
 			return;
 		}
 
 		setDisplay( DISPLAY.generate );
-	}, [ setDisplay, usageCountEndpoint, fetchUsageCount, checkSubscriptions, isWooProductEntity ] );
+	}, [ setDisplay, showFeatureError, usageCountEndpoint, fetchUsageCount, checkSubscriptions, isWooProductEntity ] );
 
 	/**
 	 * Callback to activate free sparks on the upsell modal
@@ -386,16 +416,11 @@ export const App = ( { onUseAi } ) => {
 
 			<MainModal
 				{ ...commonModalProps }
-				isOpen={ [ DISPLAY.error, DISPLAY.generate ].includes( display ) }
+				isOpen={ display === DISPLAY.generate }
 				aiModalHelperLink={ aiModalHelperLink }
 				panelRef={ panelRef }
 				title={ title }
 			>
-				{ display === DISPLAY.error && (
-					<Modal.Container.Content className="yst-pt-6">
-						<FeatureError currentSubscriptions={ currentSubscriptions } isSeoAnalysisActive={ isSeoAnalysisActive } />
-					</Modal.Container.Content>
-				) }
 				{ display === DISPLAY.generate && (
 					<>
 						<UsageCounter
@@ -406,10 +431,24 @@ export const App = ( { onUseAi } ) => {
 							mentionBetaInTooltip={ isPremium }
 							mentionResetInTooltip={ isPremium }
 						/>
-						<ModalContent height={ panelHeight } />
+						<ModalContent height={ panelHeight } onFatalError={ handleModalFatalError } />
 					</>
 				) }
 			</MainModal>
+
+			{ /* The error modal lives outside the AI modal so a fatal error can close it and still show. */ }
+			{ errorModal && (
+				<AIErrorModal
+					isOpen={ true }
+					errorCode={ errorModal.errorCode }
+					errorIdentifier={ errorModal.errorIdentifier }
+					invalidSubscriptions={ errorModal.invalidSubscriptions }
+					errorMessage={ errorModal.errorMessage }
+					showActions={ true }
+					onRetry={ handleErrorModalRetry }
+					onClose={ dismissErrorModal }
+				/>
+			) }
 		</>
 	);
 };

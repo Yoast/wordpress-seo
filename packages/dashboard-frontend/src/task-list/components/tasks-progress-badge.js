@@ -1,6 +1,6 @@
 import { Badge, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
-import { CheckCircleIcon } from "@heroicons/react/outline";
+import CheckCircleIcon from "@heroicons/react/outline/CheckCircleIcon";
 import classNames from "classnames";
 
 /**

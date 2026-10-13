@@ -1,23 +1,41 @@
 import { render } from "../test-utils";
-import { ContentPlannerEditorPlugin, registerInlineBanner } from "../../src/ai-content-planner/initialize";
+import { ContentPlannerEditorPlugin, insertFirstParagraph, registerInlineBanner } from "../../src/ai-content-planner/initialize";
 import { addFilter } from "@wordpress/hooks";
+
+const mockSelectHasAiGeneratorConsent = jest.fn( () => false );
+const mockSelectIsMinPostsMet = jest.fn( () => false );
+const mockSelectIsBannerRendered = jest.fn( () => false );
+
+const buildMockSelect = ( { postTypeTemplate = null } = {} ) => {
+	const storeMap = {
+		"yoast-seo/ai-generator": { selectHasAiGeneratorConsent: mockSelectHasAiGeneratorConsent },
+		"yoast-seo/content-planner": {
+			selectIsMinPostsMet: mockSelectIsMinPostsMet,
+			selectIsBannerRendered: mockSelectIsBannerRendered,
+		},
+		"core/editor": {
+			isEditedPostNew: () => false,
+			getCurrentPostType: () => "post",
+			getEditedPostAttribute: () => "",
+		},
+		"core/block-editor": { getBlocks: () => [] },
+		core: { getPostType: () => ( { template: postTypeTemplate } ) },
+		"yoast-seo/editor": { getSnippetEditorTemplates: () => ( { title: "", description: "" } ) },
+	};
+	return ( storeName ) => storeMap[ storeName ] ?? {};
+};
 
 jest.mock( "@wordpress/data", () => ( {
 	dispatch: jest.fn( () => ( {
 		updateData: jest.fn(),
 		setFocusKeyword: jest.fn(),
 	} ) ),
-	useSelect: jest.fn( () => ( {
-		isNewPost: false,
-		postType: "post",
-		blocks: [],
-		minPostsMet: false,
-		isBannerRendered: false,
-		yoastTitle: "",
-		yoastMetaDesc: "",
-		yoastFocusKw: "",
+	useSelect: jest.fn( ( mapSelect ) => mapSelect( buildMockSelect() ) ),
+	useDispatch: jest.fn( () => ( {
+		insertBlock: jest.fn(),
+		updateData: jest.fn(),
+		setFocusKeyword: jest.fn(),
 	} ) ),
-	useDispatch: jest.fn( () => ( { insertBlock: jest.fn() } ) ),
 	select: jest.fn( () => ( {
 		getBlocks: () => [],
 		isEditedPostNew: () => true,
@@ -52,12 +70,17 @@ jest.mock( "@wordpress/wordcount", () => ( {
 	count: jest.fn( () => 0 ),
 } ) );
 
+jest.mock( "@yoast/ui-library", () => ( {
+	ErrorBoundary: ( { children } ) => children,
+} ) );
+
 jest.mock( "../../src/ai-content-planner/components/inline-banner", () => ( {
 	InlineBanner: () => null,
 } ) );
 
 jest.mock( "../../src/ai-content-planner/components/app", () => ( {
-	App: () => <div data-testid="app" />,
+
+	App: ( { hasConsent } ) => <div data-testid="app" data-has-consent={ String( hasConsent ) } />,
 } ) );
 
 jest.mock( "../../src/ai-content-planner/components/content-suggestion-block", () => ( {
@@ -68,6 +91,112 @@ describe( "ContentPlannerEditorPlugin", () => {
 	test( "renders the App without crashing", () => {
 		const { getByTestId } = render( <ContentPlannerEditorPlugin /> );
 		expect( getByTestId( "app" ) ).toBeInTheDocument();
+	} );
+
+	test( "renders null when the AI generator store is not registered", () => {
+		const { useSelect } = require( "@wordpress/data" );
+		useSelect.mockImplementation( ( mapSelect ) => mapSelect( buildMockSelect() ) );
+
+		// Override only the ai-generator store to simulate it being absent.
+		useSelect.mockImplementation( ( mapSelect ) => mapSelect( ( storeName ) => {
+			if ( storeName === "yoast-seo/ai-generator" ) {
+				return undefined;
+			}
+			return buildMockSelect()( storeName );
+		} ) );
+
+		const { container } = render( <ContentPlannerEditorPlugin /> );
+		expect( container.firstChild ).toBeNull();
+	} );
+
+	test( "passes hasConsent=true to App when consent is granted", () => {
+		mockSelectHasAiGeneratorConsent.mockReturnValue( true );
+
+		const { useSelect } = require( "@wordpress/data" );
+		useSelect.mockImplementation( ( mapSelect ) => mapSelect( buildMockSelect() ) );
+
+		const { getByTestId } = render( <ContentPlannerEditorPlugin /> );
+		expect( getByTestId( "app" ).dataset.hasConsent ).toBe( "true" );
+
+		mockSelectHasAiGeneratorConsent.mockReturnValue( false );
+	} );
+
+	test( "passes hasConsent=false to App when consent is not granted", () => {
+		mockSelectHasAiGeneratorConsent.mockReturnValue( false );
+
+		const { getByTestId } = render( <ContentPlannerEditorPlugin /> );
+		expect( getByTestId( "app" ).dataset.hasConsent ).toBe( "false" );
+	} );
+} );
+
+describe( "insertFirstParagraph", () => {
+	const mockInsertBlock = jest.fn();
+
+	beforeEach( () => {
+		mockInsertBlock.mockClear();
+	} );
+
+	test( "returns true immediately when the banner is already rendered", () => {
+		const result = insertFirstParagraph( [], mockInsertBlock, true );
+
+		expect( result ).toBe( true );
+		expect( mockInsertBlock ).not.toHaveBeenCalled();
+	} );
+
+	test( "inserts a paragraph and returns false when the canvas is empty", () => {
+		const result = insertFirstParagraph( [], mockInsertBlock, false );
+
+		expect( mockInsertBlock ).toHaveBeenCalledTimes( 1 );
+		expect( result ).toBe( false );
+	} );
+
+	test( "returns true without inserting when the canvas already has a paragraph", () => {
+		const blocks = [ { name: "core/paragraph" } ];
+
+		const result = insertFirstParagraph( blocks, mockInsertBlock, false );
+
+		expect( mockInsertBlock ).not.toHaveBeenCalled();
+		expect( result ).toBe( true );
+	} );
+
+	test( "returns false without inserting when blocks exist but none is a paragraph", () => {
+		const blocks = [ { name: "core/heading" } ];
+
+		const result = insertFirstParagraph( blocks, mockInsertBlock, false );
+
+		expect( mockInsertBlock ).not.toHaveBeenCalled();
+		expect( result ).toBe( false );
+	} );
+} );
+
+describe( "ContentPlannerEditorPlugin — block template guard", () => {
+	const mockInsertBlock = jest.fn();
+
+	beforeEach( () => {
+		mockInsertBlock.mockClear();
+	} );
+
+	test( "does not insert a paragraph when the post type has a block template", () => {
+		const { useSelect, useDispatch } = require( "@wordpress/data" );
+
+		mockSelectIsMinPostsMet.mockReturnValue( true );
+		useDispatch.mockImplementation( () => ( { insertBlock: mockInsertBlock, updateData: jest.fn(), setFocusKeyword: jest.fn() } ) );
+		useSelect.mockImplementation( ( mapSelect ) => mapSelect( ( storeName ) => {
+			if ( storeName === "core/editor" ) {
+				return {
+					isEditedPostNew: () => true,
+					getCurrentPostType: () => "post",
+					getEditedPostAttribute: () => "",
+				};
+			}
+			return buildMockSelect( { postTypeTemplate: [ [ "core/group", {} ] ] } )( storeName );
+		} ) );
+
+		render( <ContentPlannerEditorPlugin /> );
+
+		expect( mockInsertBlock ).not.toHaveBeenCalled();
+
+		mockSelectIsMinPostsMet.mockReturnValue( false );
 	} );
 } );
 

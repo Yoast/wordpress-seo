@@ -14,9 +14,50 @@ return [
 	 * For more see: https://github.com/humbug/php-scoper#finders-and-paths
 	 */
 	'finders' => [
-		Finder::create()->files()->in( 'vendor/guzzlehttp/guzzle' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
+		// Excluded: Guzzle's own cURL and stream handlers, cookie jars, pools, retry and log middleware, multipart bodies.
+		Finder::create()->files()->in( 'vendor/guzzlehttp/guzzle' )->name( [ '*.php', 'LICENSE', 'composer.json' ] )
+			->exclude( 'src/Cookie' )
+			->notName(
+				[
+					'CurlFactory.php',
+					'CurlFactoryInterface.php',
+					'CurlHandler.php',
+					'CurlMultiHandler.php',
+					'CurlVersion.php',
+					'EasyHandle.php',
+					'HeaderProcessor.php',
+					'HostValidator.php',
+					'MockHandler.php',
+					'Proxy.php',
+					'ProxyEnvironment.php',
+					'StreamHandler.php',
+					'TlsVersion.php',
+					'MessageFormatter.php',
+					'MessageFormatterInterface.php',
+					'Pool.php',
+					'RetryMiddleware.php',
+				],
+			),
 		Finder::create()->files()->in( 'vendor/guzzlehttp/promises' )->exclude( 'vendor-bin' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
-		Finder::create()->files()->in( 'vendor/guzzlehttp/psr7' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
+		Finder::create()->files()->in( 'vendor/guzzlehttp/psr7' )->name( [ '*.php', 'LICENSE', 'composer.json' ] )
+			->notName(
+				[
+					'AppendStream.php',
+					'CachingStream.php',
+					'FnStream.php',
+					'HttpFactory.php',
+					'InflateStream.php',
+					'LazyOpenStream.php',
+					'LimitStream.php',
+					'MimeType.php',
+					'MultipartStream.php',
+					'NoSeekStream.php',
+					'ServerRequest.php',
+					'StreamWrapper.php',
+					'UploadedFile.php',
+					'UriNormalizer.php',
+				],
+			),
 	],
 
 	/*

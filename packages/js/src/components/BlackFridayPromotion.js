@@ -4,7 +4,9 @@ import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import PropTypes from "prop-types";
 import { Button, Badge, useSvgAria } from "@yoast/ui-library";
-import { XIcon, ArrowNarrowRightIcon, ShoppingCartIcon } from "@heroicons/react/solid";
+import XIcon from "@heroicons/react/solid/XIcon";
+import ArrowNarrowRightIcon from "@heroicons/react/solid/ArrowNarrowRightIcon";
+import ShoppingCartIcon from "@heroicons/react/solid/ShoppingCartIcon";
 import { useCallback } from "@wordpress/element";
 import { ReactComponent as CrownIcon } from "../../images/icon-crown.svg";
 import classNames from "classnames";
@@ -14,14 +16,12 @@ import classNames from "classnames";
  *
  * @param {string} store The store to use. Defaults to {@code yoast-seo/editor}
  * @param {string} location Where the notice will be shown. Defaults to {@code sidebar}
- * @param {boolean} [inEditorIntro=false] Whether rendered inside EditorIntro. Tightens margins.
  *
  * @returns {JSX.Element} The BlackFridayPromotion component.
  */
 export const BlackFridayPromotion = ( {
 	store = "yoast-seo/editor",
 	location = "sidebar",
-	inEditorIntro = false,
 } ) => {
 	const alertKey = "black-friday-promotion";
 	const isPremium = useSelect( select => select( store ).getIsPremium(), [ store ] );
@@ -29,7 +29,6 @@ export const BlackFridayPromotion = ( {
 	const promotionActive = useSelect( select => select( store ).isPromotionActive( alertKey ), [ store ] );
 	const isWooCommerceActive = useSelect( select => select( store ).getIsWooCommerceActive(), [ store ] );
 	const isAlertDismissed = useSelect( select => select( store ).isAlertDismissed( alertKey ), [ store ] );
-	const isElementorEditor = useSelect( select => select( store ).getIsElementorEditor(), [ store ] );
 
 	const onDismiss = useCallback( () => {
 		dispatch( store ).dismissAlert( alertKey );
@@ -50,16 +49,10 @@ export const BlackFridayPromotion = ( {
 			<div
 				className={
 					classNames(
-						inEditorIntro
-							? "yst-mx-0 yst-mt-3"
-							: [
-								location === "sidebar" && ! isElementorEditor ? "yst-mx-0" : "yst-mx-4",
-								"yst-mt-6",
-							],
-						"yst-border yst-rounded-lg yst-p-4 yst-max-w-md yst-relative yst-shadow-sm",
+						"yst-border yst-rounded-lg yst-p-4 yst-max-w-md yst-relative yst-shadow-sm yst-mt-2",
 						isWooCommerceActive ? "yst-border-woo-light" : "yst-border-primary-200" ) }
 			>
-				<Badge size="small"className="yst-text-[10px] yst-bg-black yst-text-amber-300 yst-absolute yst--top-2">
+				<Badge size="small" className="yst-text-[10px] yst-bg-black yst-text-amber-300 yst-absolute yst--top-2">
 					{ __( "BLACK FRIDAY", "wordpress-seo" ) } </Badge>
 				<button className="yst-absolute yst-top-4 yst-end-4" onClick={ onDismiss }>
 					<XIcon className="yst-w-4 yst-text-slate-400 yst-shrink-0 yst--mt-0.5" />

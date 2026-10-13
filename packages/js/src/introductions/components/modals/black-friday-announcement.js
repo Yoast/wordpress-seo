@@ -2,7 +2,7 @@ import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
-import { LockOpenIcon } from "@heroicons/react/outline";
+import LockOpenIcon from "@heroicons/react/outline/LockOpenIcon";
 import { STORE_NAME_INTRODUCTIONS } from "../../constants";
 import { Modal } from "../modal";
 import { get } from "lodash";
@@ -135,7 +135,7 @@ const BlackFridayAnnouncementContent = ( {
  * @returns {JSX.Element} The element.
  */
 export const BlackFridayAnnouncement = () => {
-	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "black-friday-2025.gif" ), [] );
+	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "black-friday-introduction.gif" ), [] );
 	const isWooEnabled = useMemo( () => Boolean( get( window, "wpseoIntroductions.isWooEnabled", false ) ), [] );
 	const buttonPremiumLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/black-friday-modal-premium/" ), [] );
 	const buttonWooLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/black-friday-modal-ecommerce/" ), [] );

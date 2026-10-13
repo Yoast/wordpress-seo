@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  *
  * @covers \Yoast\WP\SEO\AI\Consent\User_Interface\Ai_Consent_Integration::enqueue_assets
  */
-final class Enqueue_Assets_Test extends Abstract_AI_Consent_Integration_Test {
+final class Enqueue_Assets_Test extends Abstract_Test {
 
 	/**
 	 * Tests enqueuing the assets.
@@ -40,6 +40,11 @@ final class Enqueue_Assets_Test extends Abstract_AI_Consent_Integration_Test {
 		$endpoint_list->expects( 'to_paths_array' )->once()->andReturn( [] );
 		$this->endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $endpoint_list );
 
+		// Admin URL.
+		Monkey\Functions\expect( 'admin_url' )
+			->once()
+			->andReturn( 'https://example.com/wp-admin/' );
+
 		// Enqueueing.
 		$this->asset_manager->expects( 'enqueue_style' )->once()->with( 'ai-generator' );
 		$this->asset_manager->expects( 'enqueue_script' )->once()->with( 'ai-consent' );
@@ -51,6 +56,7 @@ final class Enqueue_Assets_Test extends Abstract_AI_Consent_Integration_Test {
 				'pluginUrl'  => 'https://example.com/wp-content/plugins/wordpress-seo',
 				'linkParams' => [],
 				'endpoints'  => [],
+				'adminUrl'   => 'https://example.com/wp-admin/',
 			],
 		);
 

@@ -1,5 +1,7 @@
+/* eslint-disable complexity */
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import SelectorIcon from "@heroicons/react/solid/SelectorIcon";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef, Fragment, useCallback, useMemo } from "react";
@@ -41,6 +43,12 @@ const Option = ( { value, label } ) => {
 
 Option.propTypes = optionPropType;
 
+// Stable references matching the old defaultProps single instance, so they keep a constant identity across renders.
+const DEFAULT_OPTIONS = [];
+const DEFAULT_LABEL_PROPS = {};
+const DEFAULT_VALIDATION = {};
+const DEFAULT_BUTTON_PROPS = {};
+
 /**
  * @param {string} id Identifier.
  * @param {string} value Selected value.
@@ -61,17 +69,17 @@ Option.propTypes = optionPropType;
 const Select = forwardRef( ( {
 	id,
 	value,
-	options,
-	children,
-	selectedLabel,
-	label,
-	labelProps,
-	labelSuffix,
+	options = DEFAULT_OPTIONS,
+	children = null,
+	selectedLabel = "",
+	label = "",
+	labelProps = DEFAULT_LABEL_PROPS,
+	labelSuffix = null,
 	onChange,
-	disabled,
-	validation,
-	className,
-	buttonProps,
+	disabled = false,
+	validation = DEFAULT_VALIDATION,
+	className = "",
+	buttonProps = DEFAULT_BUTTON_PROPS,
 	...props
 }, ref ) => {
 	const selectedOption = useMemo( () => (
@@ -145,18 +153,6 @@ Select.propTypes = {
 	} ),
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
-};
-Select.defaultProps = {
-	options: [],
-	children: null,
-	selectedLabel: "",
-	label: "",
-	labelProps: {},
-	labelSuffix: null,
-	disabled: false,
-	validation: {},
-	className: "",
-	buttonProps: {},
 };
 
 Select.Option = Option;

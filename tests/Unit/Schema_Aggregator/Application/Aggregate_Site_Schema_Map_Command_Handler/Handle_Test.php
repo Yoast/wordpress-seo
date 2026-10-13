@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Reposito
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command_Handler::handle
  */
-final class Handle_Test extends Abstract_Aggregate_Site_Schema_Map_Command_Handler_Test {
+final class Handle_Test extends Abstract_Test {
 
 	/**
 	 * Tests handle method orchestrates the schema map generation process with indexables enabled.

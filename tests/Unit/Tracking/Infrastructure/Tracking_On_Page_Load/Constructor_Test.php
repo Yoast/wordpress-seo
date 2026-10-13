@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tracking\Application\Action_Tracker;
  *
  * @covers Yoast\WP\SEO\Tracking\Infrastructure\Tracking_On_Page_Load_Integration::__construct
  */
-final class Constructor_Test extends Abstract_Tracking_On_Page_Load_Integration_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

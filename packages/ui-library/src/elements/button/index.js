@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import classNames from "classnames";
 import { keys } from "lodash";
 import PropTypes from "prop-types";
@@ -37,13 +38,13 @@ export const classNameMap = {
  */
 const Button = forwardRef( ( {
 	children,
-	as: Component,
+	as: Component = "button",
 	type,
-	variant,
-	size,
-	isLoading,
-	disabled,
-	className,
+	variant = "primary",
+	size = "default",
+	isLoading = false,
+	disabled = false,
+	className = "",
 	...props
 }, ref ) => {
 	const svgAriaProps = useSvgAria();
@@ -80,15 +81,4 @@ Button.propTypes = {
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
-Button.defaultProps = {
-	as: "button",
-	// eslint-disable-next-line no-undefined
-	type: undefined,
-	variant: "primary",
-	size: "default",
-	isLoading: false,
-	disabled: false,
-	className: "",
-};
-
 export default Button;

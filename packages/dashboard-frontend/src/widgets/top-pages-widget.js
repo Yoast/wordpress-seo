@@ -1,4 +1,4 @@
-import { PencilIcon } from "@heroicons/react/outline";
+import PencilIcon from "@heroicons/react/outline/PencilIcon";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, SkeletonLoader, TooltipContainer, TooltipTrigger, TooltipWithContext } from "@yoast/ui-library";
 import { useCallback, useMemo } from "react";

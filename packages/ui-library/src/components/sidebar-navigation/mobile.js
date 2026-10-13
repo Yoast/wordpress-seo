@@ -1,5 +1,6 @@
 import { Dialog } from "@headlessui/react";
-import { MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
+import MenuAlt2Icon from "@heroicons/react/outline/MenuAlt2Icon";
+import XIcon from "@heroicons/react/outline/XIcon";
 import PropTypes from "prop-types";
 import React, { useCallback } from "react";
 import { useNavigationContext } from "./index";

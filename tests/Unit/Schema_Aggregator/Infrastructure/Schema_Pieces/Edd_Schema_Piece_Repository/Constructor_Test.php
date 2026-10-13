@@ -12,10 +12,8 @@ use Yoast\WP\SEO\Surfaces\Meta_Surface;
  * @covers \Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Pieces\Edd_Schema_Piece_Repository::__construct
  *
  * @group schema-aggregator
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Constructor_Test extends Abstract_Edd_Schema_Piece_Repository_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests if the constructor sets properties correctly.

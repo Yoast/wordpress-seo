@@ -1,4 +1,8 @@
+import { link } from "../../src/inline-links/edit-link";
 import { createLinkFormat, isValidHref } from "../../src/inline-links/utils";
+
+// The test suite mocks @wordpress/rich-text with a bare stub, so pull the real implementation for serialization.
+const { applyFormat, create, registerFormatType, toHTMLString } = jest.requireActual( "@wordpress/rich-text" );
 
 describe( "createLinkFormat", () => {
 	it( "creates a basic link format with just a URL", () => {
@@ -116,6 +120,25 @@ describe( "createLinkFormat", () => {
 		expect( result.attributes.target ).toBeUndefined();
 		expect( result.attributes.rel ).toBeUndefined();
 		expect( result.attributes.class ).toBeUndefined();
+	} );
+} );
+
+describe( "core/link format serialization", () => {
+	beforeAll( () => {
+		registerFormatType( link.name, link );
+	} );
+
+	it( "serializes the link entity type and id as data-type and data-id, not raw type and id", () => {
+		// Mirrors selecting a link suggestion in the popover, which submits type and id alongside the URL.
+		const format = createLinkFormat( { url: "tel:12345", type: "tel", id: "tel:12345" } );
+		const value = applyFormat( create( { text: "test" } ), format, 0, "test".length );
+
+		const html = toHTMLString( { value } );
+
+		expect( html ).toBe( '<a href="tel:12345" data-type="tel" data-id="tel:12345">test</a>' );
+		// Guard against the raw attributes regressing; the leading space avoids matching the data- prefixed ones.
+		expect( html ).not.toContain( ' type="tel"' );
+		expect( html ).not.toContain( ' id="tel:12345"' );
 	} );
 } );
 

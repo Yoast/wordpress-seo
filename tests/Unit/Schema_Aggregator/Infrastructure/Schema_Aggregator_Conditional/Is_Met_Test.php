@@ -12,7 +12,7 @@ use Generator;
  *
  * @covers \Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional::is_met
  */
-final class Is_Met_Test extends Abstract_Schema_Aggregator_Conditional_Test {
+final class Is_Met_Test extends Abstract_Test {
 
 	/**
 	 * Tests is_met returns the expected result based on the option value.

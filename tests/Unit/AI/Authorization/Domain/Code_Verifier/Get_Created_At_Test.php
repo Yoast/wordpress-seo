@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Domain\Code_Verifier;
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::get_created_at
  */
-final class Get_Created_At_Test extends Abstract_Code_Verifier_Test {
+final class Get_Created_At_Test extends Abstract_Test {
 
 	/**
 	 * Test get_created_at method.

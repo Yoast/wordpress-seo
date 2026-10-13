@@ -25,10 +25,6 @@ Paper.propTypes = {
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired,
 };
-Paper.defaultProps = {
-	as: "div",
-	className: "",
-};
 
 Paper.Header = Header;
 Paper.Header.displayName = "Paper.Header";

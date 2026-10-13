@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  *
  * @covers \Yoast\WP\SEO\General\User_Interface\Opt_In_Route::__construct
  */
-final class Constructor_Test extends Abstract_Opt_In_Route_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

@@ -2,15 +2,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\User_Interface;
 
-use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
-use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command;
-use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command_Handler;
-use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Xml_Manager;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
+use Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map\Schema_Map_Xml_Provider;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional;
 
 /**
@@ -34,25 +29,11 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	public const GET_SCHEMA_ROUTE = self::ROUTE_PREFIX . '/get-xml';
 
 	/**
-	 * The command handler instance.
+	 * The schema map XML provider.
 	 *
-	 * @var Aggregate_Site_Schema_Map_Command_Handler
+	 * @var Schema_Map_Xml_Provider
 	 */
-	private $aggregate_site_schema_map_command_handler;
-
-	/**
-	 * The XML cache manager instance.
-	 *
-	 * @var Xml_Manager
-	 */
-	private $xml_cache_manager;
-
-	/**
-	 * The aggregator configuration instance.
-	 *
-	 * @var Aggregator_Config
-	 */
-	private $aggregator_config;
+	private $schema_map_xml_provider;
 
 	/**
 	 * Returns the conditional for this route.
@@ -66,20 +47,10 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	/**
 	 * Site_Schema_Aggregator_Route constructor.
 	 *
-	 * @param Aggregate_Site_Schema_Map_Command_Handler $aggregate_site_schema_map_command_handler The command handler.
-	 * @param Xml_Manager                               $xml_cache_manager                         The XML cache
-	 *                                                                                             manager.
-	 * @param Aggregator_Config                         $aggregator_config                         The aggregator
-	 *                                                                                             configuration.
+	 * @param Schema_Map_Xml_Provider $schema_map_xml_provider The schema map XML provider.
 	 */
-	public function __construct(
-		Aggregate_Site_Schema_Map_Command_Handler $aggregate_site_schema_map_command_handler,
-		Xml_Manager $xml_cache_manager,
-		Aggregator_Config $aggregator_config
-	) {
-		$this->aggregate_site_schema_map_command_handler = $aggregate_site_schema_map_command_handler;
-		$this->xml_cache_manager                         = $xml_cache_manager;
-		$this->aggregator_config                         = $aggregator_config;
+	public function __construct( Schema_Map_Xml_Provider $schema_map_xml_provider ) {
+		$this->schema_map_xml_provider = $schema_map_xml_provider;
 	}
 
 	/**
@@ -109,25 +80,12 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	}
 
 	/**
-	 * Returns a XML representation of the possible post types that can be used for schema.
+	 * Returns a XML representation of the post types that are used for schema.
 	 *
-	 * @return WP_REST_Response|WP_Error The success or failure response.
+	 * @return WP_REST_Response The response.
 	 */
 	public function render_schema_xml() {
-		$cached_xml = $this->xml_cache_manager->get();
-		if ( $cached_xml !== null ) {
-			$xml = $cached_xml;
-		}
-		else {
-
-			$post_types = $this->aggregator_config->get_allowed_post_types();
-
-			$command = new Aggregate_Site_Schema_Map_Command( $post_types );
-			$xml     = $this->aggregate_site_schema_map_command_handler->handle( $command );
-
-			$this->xml_cache_manager->set( $xml );
-		}
-		$response = new WP_REST_Response( $xml, 200 );
+		$response = new WP_REST_Response( $this->schema_map_xml_provider->get_xml(), 200 );
 		$response->header( 'Content-Type', 'application/xml; charset=UTF-8' );
 		$response->header( 'Cache-Control', 'public, max-age=300' );
 

@@ -2,7 +2,7 @@ import { Duration } from "./duration";
 import { Priority } from "./priority";
 import { TasksProgressBadge } from "./tasks-progress-badge";
 import { TaskStatusIcon } from "../../icons";
-import { ChevronRightIcon } from "@heroicons/react/outline";
+import ChevronRightIcon from "@heroicons/react/outline/ChevronRightIcon";
 import classNames from "classnames";
 import { useCallback } from "@wordpress/element";
 

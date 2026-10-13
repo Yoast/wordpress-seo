@@ -13,6 +13,9 @@ const classNameMap = {
 	},
 };
 
+// Stable reference so the empty-array default keeps a constant identity across renders.
+const DEFAULT_OPTIONS = [];
+
 /**
  * @param {JSX.node} [children=null] Children are rendered below the radio group. Either use this or the `options` prop.
  * @param {string} [id=""] Identifier.
@@ -35,7 +38,7 @@ const RadioGroup = ( {
 	value = "",
 	label = "",
 	description = "",
-	options = [],
+	options = DEFAULT_OPTIONS,
 	onChange = noop,
 	variant = "default",
 	disabled = false,

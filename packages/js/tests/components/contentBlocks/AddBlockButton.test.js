@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { createBlock } from "@wordpress/blocks";
 import { ContentBlocksUpsell } from "../../../src/components/modals/ContentBlocksUpsell";
@@ -16,9 +16,10 @@ jest.mock( "@wordpress/blocks", () => ( {
 } ) );
 
 // Mock Heroicons
-jest.mock( "@heroicons/react/outline", () => ( {
-	PlusIcon: ( { className } ) => <svg className={ className } data-testid="plus-icon" />,
-} ) );
+jest.mock( "@heroicons/react/outline/PlusIcon", () => {
+	const PlusIcon = ( { className } ) => <svg className={ className } data-testid="plus-icon" />;
+	return PlusIcon;
+} );
 
 jest.mock( "../../../src/components/modals/ContentBlocksUpsell", () => ( {
 	ContentBlocksUpsell: jest.fn( () => <div data-testid="upsell-modal" /> ),
@@ -155,7 +156,7 @@ describe( "AddBlockButton", () => {
 			expect( button ).toHaveClass( "yoast-add-block-button--clicked" );
 
 			// Fast-forward the timeout
-			jest.advanceTimersByTime( 300 );
+			await act( async() => jest.advanceTimersByTime( 300 ) );
 
 			await waitFor( () => {
 				expect( createBlock ).toHaveBeenCalledWith( "test/block" );
@@ -199,13 +200,13 @@ describe( "AddBlockButton", () => {
 			expect( mockInsertBlock ).not.toHaveBeenCalled();
 		} );
 
-		it( "does not show clicked state when upsell badge is shown", () => {
+		it( "does not show clicked state when upsell badge is shown", async() => {
 			render( <AddBlockButton { ...defaultProps } showUpsellBadge={ true } /> );
 
 			const button = screen.getByRole( "button" );
 			fireEvent.click( button );
 
-			jest.advanceTimersByTime( 300 );
+			await act( async() => jest.advanceTimersByTime( 300 ) );
 
 			expect( button ).not.toHaveClass( "yoast-add-block-button__icon--clicked" );
 		} );
@@ -230,7 +231,7 @@ describe( "AddBlockButton", () => {
 			const button = screen.getByRole( "button" );
 			fireEvent.click( button );
 
-			jest.advanceTimersByTime( 300 );
+			await act( async() => jest.advanceTimersByTime( 300 ) );
 
 			await waitFor( () => {
 				expect( createBlock ).toHaveBeenCalledWith( "test/block" );
@@ -257,7 +258,7 @@ describe( "AddBlockButton", () => {
 			const button = screen.getByRole( "button" );
 			fireEvent.click( button );
 
-			jest.advanceTimersByTime( 300 );
+			await act( async() => jest.advanceTimersByTime( 300 ) );
 
 			await waitFor( () => {
 				expect( createBlock ).toHaveBeenCalledWith( "test/block" );
@@ -284,7 +285,7 @@ describe( "AddBlockButton", () => {
 			const button = screen.getByRole( "button" );
 			fireEvent.click( button );
 
-			jest.advanceTimersByTime( 300 );
+			await act( async() => jest.advanceTimersByTime( 300 ) );
 
 			await waitFor( () => {
 				expect( mockInsertBlock ).toHaveBeenCalledWith( { name: "test/block" }, 1 );
@@ -304,7 +305,7 @@ describe( "AddBlockButton", () => {
 			const button = screen.getByRole( "button" );
 			fireEvent.click( button );
 
-			jest.advanceTimersByTime( 300 );
+			await act( async() => jest.advanceTimersByTime( 300 ) );
 
 			await waitFor( () => {
 				expect( mockInsertBlock ).toHaveBeenCalledWith( { name: "test/block" }, 2 );
@@ -330,7 +331,7 @@ describe( "AddBlockButton", () => {
 			const button = screen.getByRole( "button" );
 			fireEvent.click( button );
 
-			jest.advanceTimersByTime( 300 );
+			await act( async() => jest.advanceTimersByTime( 300 ) );
 
 			await waitFor( () => {
 				expect( mockInsertBlock ).toHaveBeenCalledWith( { name: "test/block" }, 1 );
@@ -356,7 +357,7 @@ describe( "AddBlockButton", () => {
 			const button = screen.getByRole( "button" );
 			fireEvent.click( button );
 
-			jest.advanceTimersByTime( 300 );
+			await act( async() => jest.advanceTimersByTime( 300 ) );
 
 			await waitFor( () => {
 				expect( mockInsertBlock ).toHaveBeenCalledWith( { name: "test/block" }, 1 );
@@ -395,7 +396,7 @@ describe( "AddBlockButton", () => {
 			const button = screen.getByRole( "button" );
 			fireEvent.click( button );
 
-			jest.advanceTimersByTime( 300 );
+			await act( async() => jest.advanceTimersByTime( 300 ) );
 
 			await waitFor( () => {
 				expect( createBlock ).toHaveBeenCalledWith( "test/block" );
@@ -421,7 +422,7 @@ describe( "AddBlockButton", () => {
 			const button = screen.getByRole( "button" );
 			fireEvent.click( button );
 
-			jest.advanceTimersByTime( 300 );
+			await act( async() => jest.advanceTimersByTime( 300 ) );
 
 			await waitFor( () => {
 				expect( createBlock ).toHaveBeenCalledWith( "test/block" );
@@ -444,7 +445,7 @@ describe( "AddBlockButton", () => {
 			const button = screen.getByRole( "button" );
 			fireEvent.click( button );
 
-			jest.advanceTimersByTime( 300 );
+			await act( async() => jest.advanceTimersByTime( 300 ) );
 
 			await waitFor( () => {
 				expect( createBlock ).toHaveBeenCalledWith( "test/block" );
@@ -471,7 +472,7 @@ describe( "AddBlockButton", () => {
 			const button = screen.getByRole( "button" );
 			fireEvent.click( button );
 
-			jest.advanceTimersByTime( 300 );
+			await act( async() => jest.advanceTimersByTime( 300 ) );
 
 			await waitFor( () => {
 				expect( createBlock ).toHaveBeenCalledWith( "test/block" );

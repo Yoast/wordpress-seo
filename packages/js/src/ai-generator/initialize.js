@@ -3,7 +3,7 @@ import { select } from "@wordpress/data";
 import { addAction, addFilter } from "@wordpress/hooks";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
-import { HAS_AI_GENERATOR_CONSENT_NAME } from "../shared-admin/store";
+import { getMyyoastConnectionState, HAS_AI_GENERATOR_CONSENT_NAME, MYYOAST_CONNECTION_NAME } from "../shared-admin/store";
 import { App, TypeProvider } from "./components";
 import { PREVIEW_TYPE, STORE_NAME_EDITOR } from "./constants";
 import { filterFocusKeyphraseErrors, initializePromptContent, updateInteractedWithFeature } from "./initialize/index";
@@ -77,6 +77,8 @@ const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editT
  * @returns {void}
  */
 const initializeAiGenerator = () => {
+	// Null when the MyYoast connection feature is unavailable (flag off / not provisioned).
+	const myyoastConnection = get( window, "wpseoAiGenerator.myyoastConnection", null );
 	registerStore( {
 		[ HAS_AI_GENERATOR_CONSENT_NAME ]: {
 			hasConsent: get( window, "wpseoAiGenerator.hasConsent", false ) === "1",
@@ -94,6 +96,7 @@ const initializeAiGenerator = () => {
 			getSuggestions: get( window, "wpseoAiGenerator.endpoints.getSuggestions", "" ),
 			bustSubscriptionCache: get( window, "wpseoAiGenerator.endpoints.bustSubscriptionCache", "" ),
 		},
+		[ MYYOAST_CONNECTION_NAME ]: getMyyoastConnectionState( myyoastConnection ),
 	} );
 
 	window.jQuery( window ).on( "YoastSEO:ready", () => {

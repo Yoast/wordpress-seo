@@ -30,7 +30,7 @@ export const AiGrantConsent = ( { storeName, onConsentGranted, linkStoreName, li
 				termsOfServiceLink: linkStore.selectLink( resolvedLinks.termsOfService ),
 				privacyPolicyLink: linkStore.selectLink( resolvedLinks.privacyPolicy ),
 				learnMoreLink: linkStore.selectLink( resolvedLinks.learnMore ),
-				imageLink: linkStore.selectImageLink( "ai-consent.png" ),
+				imageLink: linkStore.selectImageLink( "ai-consent.jpg" ),
 				endpoint: consentStore.selectAiGeneratorConsentEndpoint(),
 			};
 		},
@@ -39,8 +39,12 @@ export const AiGrantConsent = ( { storeName, onConsentGranted, linkStoreName, li
 
 	const { storeAiGeneratorConsent } = useDispatch( storeName );
 	const onGiveConsent = useCallback( async() => {
-		await storeAiGeneratorConsent( true, endpoint );
-		onConsentGranted();
+		const response = await storeAiGeneratorConsent( true, endpoint );
+
+		if ( response !== false ) {
+			onConsentGranted();
+		}
+		return response;
 	}, [ storeAiGeneratorConsent, onConsentGranted, endpoint ] );
 
 	return (
@@ -50,6 +54,7 @@ export const AiGrantConsent = ( { storeName, onConsentGranted, linkStoreName, li
 			learnMoreLink={ learnMoreLink }
 			imageLink={ imageLink }
 			onGiveConsent={ onGiveConsent }
+			linkStoreName={ linkStoreName }
 		/>
 	);
 };

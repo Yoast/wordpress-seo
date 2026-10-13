@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 /* External dependencies */
-import { ShareIcon } from "@heroicons/react/solid";
+import ShareIcon from "@heroicons/react/solid/ShareIcon";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
@@ -11,6 +11,7 @@ import EditorModal from "../../../containers/EditorModal";
 import FacebookEditor from "../../../containers/FacebookEditor";
 import TwitterEditor from "../../../containers/TwitterEditor";
 import ModalCollapsible from "../../ModalCollapsible";
+import SocialPreviewsHelpLink from "../../social/SocialPreviewsHelpLink";
 import { StyledDescription, StyledDescriptionTop } from "../../../helpers/styledDescription";
 import { useSvgAria } from "@yoast/ui-library/src";
 
@@ -45,6 +46,7 @@ const SocialAppearanceModal = ( props ) => {
 			id="yoast-social-appearance-modal"
 			shouldCloseOnClickOutside={ false }
 			SuffixHeroIcon={ <StyledHeroIcon className="yst-text-slate-500" { ...svgAriaProps } /> }
+			titleHelpLink={ useOpenGraphData ? <SocialPreviewsHelpLink /> : null }
 		>
 			{ useOpenGraphData &&
 				<Fragment>

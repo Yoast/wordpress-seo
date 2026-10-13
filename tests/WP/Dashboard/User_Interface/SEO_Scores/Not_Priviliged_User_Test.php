@@ -13,7 +13,7 @@ use WP_REST_Response;
  *
  * @covers Yoast\WP\SEO\Dashboard\User_Interface\Scores\SEO_Scores_Route::permission_manage_options
  */
-final class Not_Priviliged_User_Test extends Abstract_SEO_Scores_Test {
+final class Not_Priviliged_User_Test extends Abstract_Test {
 
 	/**
 	 * Tests trying to get_scores with an unauthorized user.

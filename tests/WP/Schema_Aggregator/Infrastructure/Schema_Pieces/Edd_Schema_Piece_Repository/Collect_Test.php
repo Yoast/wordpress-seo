@@ -45,6 +45,13 @@ final class Collect_Test extends TestCase {
 	public function set_up(): void {
 		parent::set_up();
 
+		// EDD's bootstrap defines the EDD() function only when the environment meets its minimum PHP and WP requirements.
+		if ( ! \function_exists( 'EDD' ) ) {
+			$this->markTestSkipped(
+				"\n" . 'The Easy Digital Downloads plugin file was included but the plugin did not load. Skipping all tests in class ' . self::class . '.',
+			);
+		}
+
 		// This initializes the singleton which loads all required EDD files.
 		\EDD();
 

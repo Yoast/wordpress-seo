@@ -1,4 +1,4 @@
-import { ExternalLinkIcon } from "@heroicons/react/outline";
+import ExternalLinkIcon from "@heroicons/react/outline/ExternalLinkIcon";
 import { useSvgAria } from "@yoast/ui-library";
 import { OutboundButtonLink } from "./outbound-button-link";
 

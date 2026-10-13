@@ -2,7 +2,6 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded -- Needed in the folder structure.
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Infrastructure\Recent_Content\Recent_Content_Collector;
 
 use Brain\Monkey\Functions;
@@ -18,7 +17,7 @@ use WPSEO_Meta;
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Recent_Content\Recent_Content_Collector::collect
  */
-final class Collect_Test extends Abstract_Recent_Content_Collector_Test {
+final class Collect_Test extends Abstract_Test {
 
 	/**
 	 * Builds a plain object mirroring the Indexable fields the collector reads.

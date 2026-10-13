@@ -13,7 +13,7 @@ use Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Handler_Interface;
  *
  * @covers \Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route::__construct
  */
-final class Constructor_Test extends Abstract_Free_Sparks_Route_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

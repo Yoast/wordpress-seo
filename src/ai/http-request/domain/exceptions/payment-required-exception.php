@@ -22,15 +22,16 @@ class Payment_Required_Exception extends Remote_Request_Exception {
 	/**
 	 * Payment_Required_Exception constructor.
 	 *
-	 * @param string          $message          The error message.
-	 * @param int             $code             The error status code.
-	 * @param string          $error_identifier The error code identifier, used to identify a type of error.
-	 * @param Throwable| null $previous         The previously thrown exception.
-	 * @param string[]        $missing_licenses The missing plugin licenses.
+	 * @param string                              $message          The error message.
+	 * @param int                                 $code             The error status code.
+	 * @param string                              $error_identifier The error code identifier, used to identify a type of error.
+	 * @param Throwable| null                     $previous         The previously thrown exception.
+	 * @param string[]                            $missing_licenses The missing plugin licenses.
+	 * @param array<string, string|array<string>> $response_headers The response headers associated with the error.
 	 */
-	public function __construct( $message = '', $code = 0, $error_identifier = '', $previous = null, $missing_licenses = [] ) {
+	public function __construct( $message = '', $code = 0, $error_identifier = '', $previous = null, $missing_licenses = [], array $response_headers = [] ) {
 		$this->missing_licenses = $missing_licenses;
-		parent::__construct( $message, $code, $error_identifier, $previous );
+		parent::__construct( $message, $code, $error_identifier, $previous, $response_headers );
 	}
 
 	/**

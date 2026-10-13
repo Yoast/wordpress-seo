@@ -13,7 +13,7 @@ use WP_REST_Response;
  *
  * @covers Yoast\WP\SEO\Dashboard\User_Interface\Scores\SEO_Scores_Route::get_validated_term_id
  */
-final class Invalid_Term_Test extends Abstract_SEO_Scores_Test {
+final class Invalid_Term_Test extends Abstract_Test {
 
 	/**
 	 * Tests the get_scores by sending an invalid term for this taxonomy and content type.

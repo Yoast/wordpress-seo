@@ -1,5 +1,5 @@
 import { Dialog, Portal, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
+import XIcon from "@heroicons/react/outline/XIcon";
 import classNames from "classnames";
 import { isArray, noop } from "lodash";
 import PropTypes from "prop-types";

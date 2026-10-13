@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "@heroicons/react/outline";
+import ChevronDownIcon from "@heroicons/react/outline/ChevronDownIcon";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect } from "react";

@@ -56,7 +56,6 @@ final class Taxonomy_Fields_Presenter_Test extends TestCase {
 		);
 
 		$expected = '<label for="wpseo_fieldname">test field</label><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/><p id="wpseo_fieldname-desc" class="yoast-metabox__description">this is a test field</p>';
-		$expected = \sprintf( $expected, \plugins_url( 'images/question-mark.png', \WPSEO_FILE ) );
 
 		$this->assertEquals( $expected, $output );
 	}
@@ -81,7 +80,6 @@ final class Taxonomy_Fields_Presenter_Test extends TestCase {
 		);
 
 		$expected = '<input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/><p id="wpseo_fieldname-desc" class="yoast-metabox__description">this is a test field</p>';
-		$expected = \sprintf( $expected, \plugins_url( 'images/question-mark.png', \WPSEO_FILE ) );
 
 		$this->assertEquals( $expected, $output );
 	}

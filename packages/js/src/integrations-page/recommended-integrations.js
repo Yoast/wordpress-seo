@@ -4,6 +4,7 @@ import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
 import { getInitialState, getIsMultisiteAvailable, getIsNetworkControlEnabled, updateIntegrationState } from "./helper";
+import { MyyoastIntegration } from "./myyoast-connection/myyoast-integration";
 import { SiteKitIntegration } from "./site-kit-integration";
 import { ToggleableIntegration } from "./toggleable-integration";
 
@@ -77,6 +78,12 @@ const RecommendedIntegrations = [
 		);
 	} ),
 ];
+
+// The payload is only localized when the MyYoast connection feature flag is on.
+const isMyyoastConnectionAvailable = get( window, "wpseoIntegrationsData.myyoast_connection", null ) !== null;
+if ( isMyyoastConnectionAvailable ) {
+	RecommendedIntegrations.unshift( <MyyoastIntegration key="myyoast" /> );
+}
 
 const isSiteKitFeatureEnabled = get( window, "wpseoIntegrationsData.site_kit_configuration.isFeatureEnabled", false );
 if ( isSiteKitFeatureEnabled ) {

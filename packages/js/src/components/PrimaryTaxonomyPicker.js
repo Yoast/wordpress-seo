@@ -29,7 +29,9 @@ class PrimaryTaxonomyPicker extends Component {
 
 		const { fieldId, name } = props.taxonomy;
 		this.input = document.getElementById( fieldId );
-		props.setPrimaryTaxonomyId( name, parseInt( this.input.value, 10 ) );
+		const parsedPrimaryTaxonomyId = parseInt( this.input.value, 10 );
+		// Fallback to -1 when the field is empty or invalid to avoid dispatching NaN.
+		props.setPrimaryTaxonomyId( name, Number.isNaN( parsedPrimaryTaxonomyId ) ? -1 : parsedPrimaryTaxonomyId );
 
 		this.state = {
 			selectedTerms: [],

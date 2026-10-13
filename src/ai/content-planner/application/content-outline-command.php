@@ -82,19 +82,27 @@ class Content_Outline_Command {
 	private $category;
 
 	/**
+	 * The recent content from the suggestions response.
+	 *
+	 * @var array<array<string, string|bool|array<string, int>>>
+	 */
+	private $recent_content;
+
+	/**
 	 * The constructor.
 	 *
-	 * @param WP_User $user             The user.
-	 * @param string  $post_type        The post type.
-	 * @param string  $language         The language.
-	 * @param string  $editor           The editor.
-	 * @param string  $title            The title.
-	 * @param string  $intent           The intent.
-	 * @param string  $explanation      The explanation.
-	 * @param string  $keyphrase        The keyphrase.
-	 * @param string  $meta_description The meta description.
-	 * @param string  $category_name    The category name.
-	 * @param int     $category_id      The category ID.
+	 * @param WP_User                                              $user             The user.
+	 * @param string                                               $post_type        The post type.
+	 * @param string                                               $language         The language.
+	 * @param string                                               $editor           The editor.
+	 * @param string                                               $title            The title.
+	 * @param string                                               $intent           The intent.
+	 * @param string                                               $explanation      The explanation.
+	 * @param string                                               $keyphrase        The keyphrase.
+	 * @param string                                               $meta_description The meta description.
+	 * @param string                                               $category_name    The category name.
+	 * @param int                                                  $category_id      The category ID.
+	 * @param array<array<string, string|bool|array<string, int>>> $recent_content   The recent content from the suggestions response.
 	 */
 	public function __construct(
 		WP_User $user,
@@ -107,7 +115,8 @@ class Content_Outline_Command {
 		string $keyphrase,
 		string $meta_description,
 		string $category_name,
-		int $category_id
+		int $category_id,
+		array $recent_content
 	) {
 		$this->user             = $user;
 		$this->post_type        = $post_type;
@@ -119,6 +128,7 @@ class Content_Outline_Command {
 		$this->keyphrase        = $keyphrase;
 		$this->meta_description = $meta_description;
 		$this->category         = new Category( $category_name, $category_id );
+		$this->recent_content   = $recent_content;
 	}
 
 	/**
@@ -209,5 +219,14 @@ class Content_Outline_Command {
 	 */
 	public function get_category(): Category {
 		return $this->category;
+	}
+
+	/**
+	 * Returns the recent content from the suggestions response.
+	 *
+	 * @return array<array<string, string|bool|array<string, int>>> The recent content.
+	 */
+	public function get_recent_content(): array {
+		return $this->recent_content;
 	}
 }

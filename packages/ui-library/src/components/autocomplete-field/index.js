@@ -1,9 +1,13 @@
+/* eslint-disable complexity */
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
 import Autocomplete from "../../elements/autocomplete";
 import { ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
+
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_VALIDATION = {};
 
 /**
  * @param {string} id Identifier.
@@ -18,10 +22,10 @@ import { useDescribedBy } from "../../hooks";
 const AutocompleteField = forwardRef( ( {
 	id,
 	label,
-	disabled,
-	description,
-	validation,
-	className,
+	disabled = false,
+	description = null,
+	validation = DEFAULT_VALIDATION,
+	className = "",
 	...props
 }, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
@@ -65,12 +69,6 @@ AutocompleteField.propTypes = {
 		message: PropTypes.node,
 	} ),
 	className: PropTypes.string,
-};
-AutocompleteField.defaultProps = {
-	disabled: false,
-	description: null,
-	validation: {},
-	className: "",
 };
 
 AutocompleteField.Option = Autocomplete.Option;

@@ -40,21 +40,21 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 
 	describe( "onModalOpen", () => {
 		it( "successfully opens the modal when the user is logged in, " +
-			"a keyphrase is present and the 'Get related keyphrases' button is clicked", () => {
+			"a keyphrase is present and the 'Discover related keyphrases' button is clicked", () => {
 			render( <SEMrushRelatedKeyphrasesModal { ...props } keyphrase="yoast seo" isLoggedIn={ true } /> );
 
 			const openModalButton = screen.getByRole( "button" );
-			expect( openModalButton ).toHaveTextContent( "Get related keyphrases" );
+			expect( openModalButton ).toHaveTextContent( "Discover related keyphrases" );
 			fireEvent.click( openModalButton );
 
 			expect( props.onOpen ).toHaveBeenCalledWith( props.location );
 		} );
 
-		it( "returns a message when no keyphrase is present and the 'Get related keyphrases' button is clicked", () => {
+		it( "returns a message when no keyphrase is present and the 'Discover related keyphrases' button is clicked", () => {
 			render( <SEMrushRelatedKeyphrasesModal { ...props } keyphrase="" isLoggedIn={ true } /> );
 
 			const openModalButton = screen.getByRole( "button" );
-			expect( openModalButton ).toHaveTextContent( "Get related keyphrases" );
+			expect( openModalButton ).toHaveTextContent( "Discover related keyphrases" );
 			fireEvent.click( openModalButton );
 
 			expect( props.onOpenWithNoKeyphrase ).toHaveBeenCalled();
@@ -63,7 +63,7 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 
 	describe( "onLinkClick", () => {
 		it( "successfully opens the popup when the user is not logged in, " +
-			"a keyphrase is present and the 'Get related keyphrases' button is clicked", () => {
+			"a keyphrase is present and the 'Discover related keyphrases' button is clicked", () => {
 			global.open = jest.fn();
 
 			render( <SEMrushRelatedKeyphrasesModal { ...props } keyphrase="yoast seo" isLoggedIn={ false } /> );
@@ -74,7 +74,7 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 			expect( props.onOpenWithNoKeyphrase ).not.toHaveBeenCalled();
 		} );
 
-		it( "returns a message when no keyphrase is present and the 'Get related keyphrases' button is clicked", () => {
+		it( "returns a message when no keyphrase is present and the 'Discover related keyphrases' button is clicked", () => {
 			global.open = jest.fn();
 
 			render( <SEMrushRelatedKeyphrasesModal { ...props } keyphrase="" isLoggedIn={ false } /> );

@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
 import ValidationIcon from "./validation-icon";
 
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_VALIDATION = {};
+
 const CLASSNAME_MAP = {
 	variant: {
 		success: "yst-validation-input--success",
@@ -20,7 +23,7 @@ const CLASSNAME_MAP = {
  */
 const ValidationInput = forwardRef( ( {
 	as: Component,
-	validation = {},
+	validation = DEFAULT_VALIDATION,
 	className = "",
 	...props
 }, ref ) => {
@@ -46,10 +49,6 @@ ValidationInput.propTypes = {
 		message: PropTypes.node,
 	} ),
 	className: PropTypes.string,
-};
-ValidationInput.defaultProps = {
-	validation: {},
-	className: "",
 };
 
 export default ValidationInput;

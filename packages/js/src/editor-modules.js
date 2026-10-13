@@ -6,6 +6,7 @@ import getL10nObject from "./analysis/getL10nObject";
 import * as refreshAnalysis from "./analysis/refreshAnalysis";
 import KeywordInput from "./components/contentAnalysis/KeywordInputComponent";
 import * as mapResults from "./components/contentAnalysis/mapResults";
+import RelatedKeyphraseInputField from "./components/contentAnalysis/RelatedKeyphraseInputField";
 import HelpLink from "./components/HelpLink";
 import withYoastSidebarPriority from "./components/higherorder/withYoastSidebarPriority";
 import MetaboxCollapsible from "./components/MetaboxCollapsible";
@@ -35,8 +36,9 @@ import {
 	SidebarLayout,
 	ErrorFallback,
 } from "./shared-admin/components";
-import { Introduction, SuggestionError, SparksLimitNotification, FeatureError } from "./ai-generator/components";
+import { AIErrorModal, Introduction, SuggestionError, SparksLimitNotification, FeatureError } from "./ai-generator/components";
 import { removesLocaleVariantSuffixes, fetchSuggestions } from "./ai-generator/helpers";
+import SynonymsInputField from "./components/contentAnalysis/SynonymsInput";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -49,6 +51,7 @@ window.yoast.editorModules = {
 	},
 	aiGenerator: {
 		components: {
+			AIErrorModal,
 			Introduction,
 			SuggestionError,
 			SparksLimitNotification,
@@ -67,6 +70,8 @@ window.yoast.editorModules = {
 		},
 		contentAnalysis: {
 			KeywordInput,
+			RelatedKeyphraseInputField,
+			SynonymsInputField,
 			mapResults,
 		},
 		contexts: {

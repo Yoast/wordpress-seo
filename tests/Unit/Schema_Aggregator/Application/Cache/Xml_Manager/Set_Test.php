@@ -15,7 +15,7 @@ use Generator;
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Xml_Manager::set
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Xml_Manager::get_cache_key
  */
-final class Set_Test extends Abstract_Xml_Manager_Test {
+final class Set_Test extends Abstract_Test {
 
 	/**
 	 * Tests set() caches data successfully.

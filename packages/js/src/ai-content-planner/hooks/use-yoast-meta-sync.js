@@ -1,4 +1,4 @@
-import { dispatch, useSelect } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
 
 /**
@@ -7,23 +7,23 @@ import { useEffect } from "@wordpress/element";
  * Direct sidebar edits (yoast-seo/editor only) will be overwritten if core/editor meta
  * changes afterwards — accepted trade-off for correct undo behaviour.
  *
- * dispatch() is called inside the effect (not via useDispatch) because yoast-seo/editor
- * is registered after the Gutenberg store and may not be available at component mount;
- * resolving it lazily avoids the need for a conditional hook.
- *
  * @returns {void}
  */
 export function useYoastMetaSync() {
-	const { yoastTitle, yoastMetaDesc, yoastFocusKw, isPost } = useSelect( select => {
+	const { yoastTitle, yoastMetaDesc, yoastFocusKw, isPost, titleTemplate, descTemplate } = useSelect( select => {
 		const editor = select( "core/editor" );
 		const meta = editor.getEditedPostAttribute( "meta" );
+		const { title, description } = select( "yoast-seo/editor" ).getSnippetEditorTemplates();
 		return {
 			yoastTitle: meta?._yoast_wpseo_title,
 			yoastMetaDesc: meta?._yoast_wpseo_metadesc,
 			yoastFocusKw: meta?._yoast_wpseo_focuskw,
 			isPost: editor.getCurrentPostType() === "post",
+			titleTemplate: title,
+			descTemplate: description,
 		};
 	}, [] );
+	const { updateData, setFocusKeyword } = useDispatch( "yoast-seo/editor" );
 
 	useEffect( () => {
 		// These meta keys are only registered for the 'post' subtype; bail on all other post types
@@ -31,8 +31,20 @@ export function useYoastMetaSync() {
 		if ( ! isPost ) {
 			return;
 		}
-		const yoastEditor = dispatch( "yoast-seo/editor" );
-		yoastEditor?.updateData?.( { title: yoastTitle, description: yoastMetaDesc } );
-		yoastEditor?.setFocusKeyword?.( yoastFocusKw );
-	}, [ isPost, yoastTitle, yoastMetaDesc, yoastFocusKw ] );
+		// Only sync non-empty values. An empty string means no custom value has been saved, in
+		// which case the snippet editor should keep showing the SEO title template instead of
+		// being overwritten with an empty string.
+		const dataToSync = {
+			title: titleTemplate,
+			description: descTemplate,
+		};
+		if ( yoastTitle ) {
+			dataToSync.title = yoastTitle;
+		}
+		if ( yoastMetaDesc ) {
+			dataToSync.description = yoastMetaDesc;
+		}
+		updateData( dataToSync );
+		setFocusKeyword( yoastFocusKw || "" );
+	}, [ isPost, yoastTitle, yoastMetaDesc, yoastFocusKw, titleTemplate, descTemplate ] );
 }

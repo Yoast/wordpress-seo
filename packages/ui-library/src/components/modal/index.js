@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
+import XIcon from "@heroicons/react/outline/XIcon";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef, Fragment } from "react";
@@ -16,7 +16,7 @@ import { ModalContext, useModalContext } from "./hooks";
  * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The title.
  */
-const Title = forwardRef( ( { children, size, className, as, ...props }, ref ) => {
+const Title = forwardRef( ( { children, size, className = "", as = "h1", ...props }, ref ) => {
 	return (
 		<Dialog.Title
 			as={ as }
@@ -39,12 +39,6 @@ Title.propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
 };
-Title.defaultProps = {
-	// eslint-disable-next-line no-undefined
-	size: undefined,
-	className: "",
-	as: "h1",
-};
 
 /**
  * @param {string} [className] Additional classname for the button.
@@ -53,7 +47,7 @@ Title.defaultProps = {
  * @param {JSX.node} [children] Possible to override the default screen reader text and X icon.
  * @returns {JSX.Element} The close button.
  */
-const CloseButton = forwardRef( ( { className, onClick, screenReaderText, children, ...props }, ref ) => {
+const CloseButton = forwardRef( ( { className = "", onClick, screenReaderText = "Close", children, ...props }, ref ) => {
 	const { onClose } = useModalContext();
 	const svgAriaProps = useSvgAria();
 
@@ -81,14 +75,6 @@ CloseButton.propTypes = {
 	onClick: PropTypes.func,
 	screenReaderText: PropTypes.string,
 	children: PropTypes.node,
-};
-CloseButton.defaultProps = {
-	className: "",
-	// eslint-disable-next-line no-undefined
-	onClick: undefined,
-	screenReaderText: "Close",
-	// eslint-disable-next-line no-undefined
-	children: undefined,
 };
 
 /**
@@ -118,11 +104,6 @@ Panel.propTypes = {
 	className: PropTypes.string,
 	hasCloseButton: PropTypes.bool,
 	closeButtonScreenReaderText: PropTypes.string,
-};
-Panel.defaultProps = {
-	className: "",
-	hasCloseButton: true,
-	closeButtonScreenReaderText: "Close",
 };
 
 export const classNameMap = {
@@ -202,11 +183,6 @@ Modal.propTypes = {
 	className: PropTypes.string,
 	position: PropTypes.oneOf( Object.keys( classNameMap.position ) ),
 	initialFocus: PropTypes.oneOfType( [ PropTypes.func, PropTypes.object ] ),
-};
-Modal.defaultProps = {
-	className: "",
-	position: "center",
-	initialFocus: null,
 };
 
 Modal.Panel = Panel;

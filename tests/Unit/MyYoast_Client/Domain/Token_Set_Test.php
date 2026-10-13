@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\MyYoast_Client\Domain;
 
 use InvalidArgumentException;
+use Yoast\WP\SEO\MyYoast_Client\Domain\Resource_Indicator;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -360,5 +361,84 @@ final class Token_Set_Test extends TestCase {
 		$token_set = new Token_Set( 'token', ( \time() + 3600 ) );
 
 		$this->assertFalse( $token_set->has_scopes( [ 'openid' ] ) );
+	}
+
+	/**
+	 * Tests that the resource indicator defaults to null and round-trips through serialization.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_resource_indicator
+	 * @covers ::to_array
+	 * @covers ::from_array
+	 *
+	 * @return void
+	 */
+	public function test_resource_indicator_round_trip() {
+		$default = new Token_Set( 'token', ( \time() + 3600 ) );
+		$this->assertTrue( $default->get_resource_indicator()->is_default() );
+
+		$indicator = new Resource_Indicator( 'https://ai.yoa.st' );
+		$bound     = new Token_Set( 'token', ( \time() + 3600 ), 'DPoP', null, null, null, 0, $indicator );
+		$this->assertSame( 'https://ai.yoa.st', $bound->get_resource_indicator()->value() );
+
+		$restored = Token_Set::from_array( $bound->to_array() );
+		$this->assertSame( 'https://ai.yoa.st', $restored->get_resource_indicator()->value() );
+	}
+
+	/**
+	 * Tests that with_resource_indicator returns a new bound instance.
+	 *
+	 * @covers ::with_resource_indicator
+	 * @covers ::get_resource_indicator
+	 *
+	 * @return void
+	 */
+	public function test_with_resource_indicator() {
+		$original  = new Token_Set( 'token', ( \time() + 3600 ) );
+		$indicator = new Resource_Indicator( 'https://ai.yoa.st' );
+		$bound     = $original->with_resource_indicator( $indicator );
+
+		$this->assertTrue( $original->get_resource_indicator()->is_default() );
+		$this->assertSame( 'https://ai.yoa.st', $bound->get_resource_indicator()->value() );
+		$this->assertNotSame( $original, $bound );
+	}
+
+	/**
+	 * Tests that with_incremented_error_count preserves the resource indicator.
+	 *
+	 * @covers ::with_incremented_error_count
+	 *
+	 * @return void
+	 */
+	public function test_with_incremented_error_count_preserves_resource_indicator() {
+		$indicator   = new Resource_Indicator( 'https://ai.yoa.st' );
+		$original    = new Token_Set( 'token', ( \time() + 3600 ), 'DPoP', 'refresh', null, null, 0, $indicator );
+		$incremented = $original->with_incremented_error_count();
+
+		$this->assertSame( 'https://ai.yoa.st', $incremented->get_resource_indicator()->value() );
+	}
+
+	/**
+	 * Tests that from_response ignores any AS-echoed resource field.
+	 *
+	 * Per RFC 8707's trust model the client is authoritative for the canonical
+	 * resource indicator. The caller (OAuth_Grant_Handler) stamps the
+	 * requested indicator on the result rather than trusting the AS echo.
+	 *
+	 * @covers ::from_response
+	 * @covers ::get_resource_indicator
+	 *
+	 * @return void
+	 */
+	public function test_from_response_ignores_echoed_resource_field() {
+		$token_set = Token_Set::from_response(
+			[
+				'access_token' => 'tok',
+				'expires_in'   => 900,
+				'resource'     => 'https://ai.yoa.st',
+			],
+		);
+
+		$this->assertTrue( $token_set->get_resource_indicator()->is_default() );
 	}
 }

@@ -32,9 +32,5 @@ Code.propTypes = {
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	className: PropTypes.string,
 };
-Code.defaultProps = {
-	variant: "default",
-	className: "",
-};
 
 export default Code;

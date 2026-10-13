@@ -1,47 +1,32 @@
 Yoast SEO
 =========
-Requires at least: 6.8
-Tested up to: 7.0
+Requires at least: 6.9
+Tested up to: 7.1
 Requires PHP: 7.4
 
 Changelog
 =========
 
-## 27.5
+## 28.3
 
-Release date: 2026-04-28
+Release date: 2026-08-18
 
 #### Enhancements
 
-* Adds a Yoast ability for retrieving scores for Yoast analyses for recent posts, using the Abilities API.
-* Adds Qatar to the list of available countries for the Semrush related keyphrase suggestions.
+* Adds a schemamap.xml file at the site root that exposes the aggregated schema map.
+* Adds the failing object's type and ID to the SEO data optimization error report when an indexable cannot be built.
+* Improves performance when running the SEO optimization by warming post and term caches in bulk.
+* Improves the performance of generating XML sitemaps by warming post, term and featured-image caches in bulk.
 
 #### Bugfixes
 
-* Fixes a bug where the AI Generator's "Generate with AI" feature failed after a site's domain was changed, because stale callback URLs remained registered with the Yoast API from the original domain.
+* Fixes a bug where the AI Content Planner inserted an empty paragraph block before the template blocks when a post type had a block template registered.
 
 #### Other
 
-* Removes the schemamap line from the `robots.txt` file.
-* Introduces a performance increase when calculating if the SEO optimization is completed for internal links. Props to [@adconecto](https://github.com/adconecto).
-
-## 27.4
-
-Release date: 2026-04-14
-
-Yoast SEO 27.4 adds new tasks to the Task List, improves navigation within the editor, and fixes a bug where tasks were displaying in the wrong language. [Read the full release post here.](https://yoa.st/task-list)
-
-#### Enhancements
-
-* Enhances the task list with a task about customizing meta descriptions in recent content.
-* Enhances the task list with a task about deleting the "Sample Page".
-* Improves the UX of completing tasks that require users to go to specific part of the post editor, by redirecting them to the exact spot they need to be.
-* Adds a "Yoast" tab to the WordPress Plugins screen that groups all installed Yoast plugins when two or more are present. Requires WordPress 7.0+.
-
-#### Bugfixes
-
-* Fixes a bug where the task list copies were displayed in the site language instead of the user language.
-* Fixes a bug where alt text changes made via the inline image editor in How-to and FAQ blocks were not being reflected on the frontend. Props to [@param-chandarana](https://github.com/param-chandarana).
+* Sets the _WordPress tested up to_ version to 7.1.
+* Sets the minimum supported WordPress version to 6.9.
+* Adds a first-time guided tour to the bulk editor.
 
 
 ### Earlier versions

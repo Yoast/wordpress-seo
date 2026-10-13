@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
+use Elementor\Plugin;
 use WP_Post;
-use WP_Screen;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Meta;
@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Elementor\Infrastructure\Request_Post;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
@@ -62,6 +63,13 @@ class Elementor implements Integration_Interface {
 	 * @var Request_Post
 	 */
 	private $request_post;
+
+	/**
+	 * Holds the current page helper.
+	 *
+	 * @var Current_Page_Helper
+	 */
+	private $current_page_helper;
 
 	/**
 	 * Holds whether the socials are enabled.
@@ -117,21 +125,24 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
-	 * @param Options_Helper            $options       The options helper.
-	 * @param Capability_Helper         $capability    The capability helper.
-	 * @param Request_Post              $request_post  The Request_Post.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The asset manager.
+	 * @param Options_Helper            $options             The options helper.
+	 * @param Capability_Helper         $capability          The capability helper.
+	 * @param Request_Post              $request_post        The Request_Post.
+	 * @param Current_Page_Helper       $current_page_helper The current page helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
 		Capability_Helper $capability,
-		Request_Post $request_post
+		Request_Post $request_post,
+		Current_Page_Helper $current_page_helper
 	) {
-		$this->asset_manager = $asset_manager;
-		$this->options       = $options;
-		$this->capability    = $capability;
-		$this->request_post  = $request_post;
+		$this->asset_manager       = $asset_manager;
+		$this->options             = $options;
+		$this->capability          = $capability;
+		$this->request_post        = $request_post;
+		$this->current_page_helper = $current_page_helper;
 
 		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
@@ -421,6 +432,12 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->enqueue_script( 'admin-global' );
 		$this->asset_manager->enqueue_script( 'elementor' );
 
+		$is_v4_atomic = $this->is_elementor_v4_atomic_active();
+
+		if ( $is_v4_atomic ) {
+			$this->asset_manager->enqueue_script( 'elementor-v4' );
+		}
+
 		$this->asset_manager->localize_script( 'elementor', 'wpseoAdminGlobalL10n', \YoastSEO()->helpers->wincher->get_admin_global_links() );
 		$this->asset_manager->localize_script( 'elementor', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 		$this->asset_manager->localize_script( 'elementor', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
@@ -456,9 +473,10 @@ class Elementor implements Integration_Interface {
 		$script_data = [
 			'metabox'                   => $this->get_metabox_script_data( $permalink ),
 			'isPost'                    => true,
-			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
+			'isBlockEditor'             => $this->current_page_helper->is_block_editor(),
 			'isElementorEditor'         => true,
 			'isAlwaysIntroductionV2'    => $this->is_elementor_version_compatible_with_introduction_v2(),
+			'isElementorV4Atomic'       => $is_v4_atomic,
 			'postStatus'                => \get_post_status( $post_id ),
 			'postType'                  => \get_post_type( $post_id ),
 			'analysis'                  => [
@@ -501,6 +519,34 @@ class Elementor implements Integration_Interface {
 
 		// Check if the version is 3.30.0 or higher. This is where the editor v2 was taken out of the experimental into the default state.
 		return \version_compare( $version, '3.30.0', '>=' );
+	}
+
+	/**
+	 * Checks whether Elementor V4 (the atomic editor) is currently active on this site.
+	 *
+	 * Mirrors Elementor's own atomic check (`Atomic_Widgets\OptIn\Opt_In::EXPERIMENT_NAME`):
+	 * the `e_opt_in_v4` experiment is the authoritative signal for the atomic editor and is
+	 * only registered on Elementor versions that ship it, so `is_feature_active()` already
+	 * returns false on older versions or partial installs. No separate version gate is used:
+	 * the experiment is an opt-in to V4 that can be enabled before the major version bump, so
+	 * a version comparison would wrongly suppress sites that opt in early. Defensive at each
+	 * step so missing Elementor internals never throw.
+	 *
+	 * @return bool Whether the V4 atomic editor path should be used.
+	 */
+	private function is_elementor_v4_atomic_active(): bool {
+		if ( ! \class_exists( '\Elementor\Plugin' ) ) {
+			return false;
+		}
+		$elementor = ( Plugin::$instance ?? null );
+		if ( $elementor === null || ! isset( $elementor->experiments ) ) {
+			return false;
+		}
+		if ( ! \method_exists( $elementor->experiments, 'is_feature_active' ) ) {
+			return false;
+		}
+
+		return (bool) $elementor->experiments->is_feature_active( 'e_opt_in_v4' );
 	}
 
 	/**

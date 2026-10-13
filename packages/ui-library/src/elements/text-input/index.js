@@ -11,10 +11,10 @@ import React, { forwardRef } from "react";
  * @returns {JSX.Element} TextInput component.
  */
 const TextInput = forwardRef( ( {
-	type,
-	className,
-	disabled,
-	readOnly,
+	type = "text",
+	className = "",
+	disabled = false,
+	readOnly = false,
 	...props
 }, ref ) => (
 	<input
@@ -38,12 +38,6 @@ TextInput.propTypes = {
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 	readOnly: PropTypes.bool,
-};
-TextInput.defaultProps = {
-	type: "text",
-	className: "",
-	disabled: false,
-	readOnly: false,
 };
 
 export default TextInput;

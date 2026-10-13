@@ -10,10 +10,10 @@ import React, { forwardRef } from "react";
  * @returns {JSX.Element} Textarea component.
  */
 const Textarea = forwardRef( ( {
-	disabled,
-	cols,
-	rows,
-	className,
+	disabled = false,
+	cols = 20,
+	rows = 2,
+	className = "",
 	...props
 }, ref ) => (
 	<textarea
@@ -36,12 +36,6 @@ Textarea.propTypes = {
 	disabled: PropTypes.bool,
 	cols: PropTypes.number,
 	rows: PropTypes.number,
-};
-Textarea.defaultProps = {
-	className: "",
-	disabled: false,
-	cols: 20,
-	rows: 2,
 };
 
 export default Textarea;

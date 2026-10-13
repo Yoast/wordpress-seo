@@ -13,7 +13,7 @@ use Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider;
  *
  * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Get_Suggestions_Route::__construct
  */
-final class Constructor_Test extends Abstract_Get_Suggestions_Route_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

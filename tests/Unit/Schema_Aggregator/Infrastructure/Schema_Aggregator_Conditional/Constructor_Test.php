@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  *
  * @covers \Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional::__construct
  */
-final class Constructor_Test extends Abstract_Schema_Aggregator_Conditional_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.

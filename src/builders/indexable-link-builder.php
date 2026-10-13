@@ -134,6 +134,9 @@ class Indexable_Link_Builder {
 			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
 			$post = $this->post_helper->get_post( $indexable->object_id );
 			\setup_postdata( $post );
+
+			// The below hook primes the post and meta caches for all wp-image-<ID> images.
+			// So the image loop in create_links() hits warm caches — no additional priming is needed there.
 			$content = \apply_filters( 'the_content', $content );
 			\wp_reset_postdata();
 			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.

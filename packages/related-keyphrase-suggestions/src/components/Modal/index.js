@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { Link, Modal as BaseModal } from "@yoast/ui-library";
-import { ExternalLinkIcon, ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import ExternalLinkIcon from "@heroicons/react/outline/ExternalLinkIcon";
+import ArrowNarrowRightIcon from "@heroicons/react/outline/ArrowNarrowRightIcon";
 import { YoastIcon } from "./YoastIcon";
 
 /**

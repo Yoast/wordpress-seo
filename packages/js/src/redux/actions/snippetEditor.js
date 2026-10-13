@@ -154,3 +154,17 @@ export function hideReplacementVariables( replacementVariableNamesToBeHidden ) {
 		data: replacementVariableNamesToBeHidden,
 	};
 }
+
+/**
+ * Updates the snippet editor data in redux.
+ *
+ * @param {Object} data The snippet editor data.
+ *
+ * @returns {Object} An action for redux.
+ */
+export function loadSnippetEditorData( data ) {
+	return {
+		type: LOAD_SNIPPET_EDITOR_DATA,
+		...data,
+	};
+}

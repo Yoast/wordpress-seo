@@ -1,5 +1,6 @@
 /* eslint-disable complexity */
-import { CheckIcon, XIcon } from "@heroicons/react/solid";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import XIcon from "@heroicons/react/solid/XIcon";
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
@@ -16,7 +17,7 @@ import { SimpleIntegration } from "./simple-integration";
 const AcfLogo = ( props ) => {
 	return (
 		<img
-			src={ window.wpseoIntegrationsData.plugin_url + "/images/acf-logo.png" }
+			src={ window.wpseoIntegrationsData.plugin_url + "/images/acf-logo.svg" }
 			height="50"
 			width="50"
 			alt={

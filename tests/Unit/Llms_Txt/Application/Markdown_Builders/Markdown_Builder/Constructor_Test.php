@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Llms_Txt_Renderer;
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Markdown_Builder::__construct
  */
-final class Constructor_Test extends Abstract_Markdown_Builder_Test {
+final class Constructor_Test extends Abstract_Test {
 
 	/**
 	 * Tests the constructor.
