@@ -89,6 +89,24 @@ describe( "a research that counts the keyphrase and synonyms in the alt text of 
 		expect( research( paper ).images[ 0 ].count ).toBe( 1 );
 	} );
 
+	it( "does not count the words of a keyphrase that are spread over different sentences", () => {
+		const paper = paperWithImages( [ "Red dress on a chair. Black shoes on the floor." ], { keyword: "red shoes" } );
+
+		expect( research( paper ).images[ 0 ].count ).toBe( 0 );
+	} );
+
+	it( "adds up the matches of each sentence", () => {
+		const paper = paperWithImages( [ "Red shoes on a chair. More red shoes on the floor. A blue hat." ], { keyword: "red shoes" } );
+
+		expect( research( paper ).images[ 0 ].count ).toBe( 2 );
+	} );
+
+	it( "adds up the keyphrase and a synonym that are in different sentences", () => {
+		const paper = paperWithImages( [ "A cat on a sofa. A kitten on the floor." ], { keyword: "cat", synonyms: "kitten" } );
+
+		expect( research( paper ).images[ 0 ].count ).toBe( 2 );
+	} );
+
 	it( "adds up the keyphrase and the synonyms", () => {
 		const paper = paperWithImages( [ "red shoes next to crimson sneakers" ], { keyword: "red shoes", synonyms: "crimson sneakers" } );
 
@@ -163,6 +181,16 @@ describe( "a research that counts the keyphrase and synonyms in the alt text of 
 	} );
 
 	describe( "in Japanese", () => {
+		it( "does not count the words of a keyphrase that are spread over different sentences", () => {
+			const paper = new Paper( "", {
+				keyword: "猫の写真",
+				locale: "ja",
+				providedImages: [ { id: 1, src: "a.jpg", alt: "猫が寝ています。写真は古いです。" } ],
+			} );
+
+			expect( altTextKeyphraseCount( paper, new JapaneseResearcher( paper ) ).images ).toEqual( [ { identifier: 1, count: 0 } ] );
+		} );
+
 		it( "counts the keyphrase with the Japanese word matching", () => {
 			const paper = new Paper( "", {
 				keyword: "猫",

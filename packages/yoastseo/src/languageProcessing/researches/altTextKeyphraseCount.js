@@ -5,6 +5,7 @@ import getAltAttribute from "../helpers/image/getAltAttribute";
 import getImageIdentifier from "../helpers/image/getImageIdentifier";
 import matchWords from "../helpers/match/matchTextWithArray";
 import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
+import getSentences from "../helpers/sentence/getSentences";
 
 /**
  * @typedef {import("../AbstractResearcher").default } Researcher
@@ -59,6 +60,9 @@ const countTopicPhrase = ( text, topicPhraseForms, locale, matchWordCustomHelper
  * alt text that has the keyphrase once and a synonym once counts 2. Each topic phrase only matches words that the
  * ones before it did not match, so overlapping synonyms do not count the same words twice.
  *
+ * The alt text is counted per sentence, like the keyphrase in the meta description, so the words of a keyphrase
+ * that are spread over different sentences do not form a match.
+ *
  * Exact matching (a keyphrase in double quotes) is already applied by the morphology research, which then returns
  * the quoted phrase as a single form. It is still reported here, because it changes how many occurrences count as
  * stuffing.
@@ -81,6 +85,7 @@ export default function altTextKeyphraseCount( paper, researcher ) {
 	}
 
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const locale = paper.getLocale();
 	const topicPhrases = [ topicForms.keyphraseForms, ...topicForms.synonymsForms ];
 
@@ -91,12 +96,14 @@ export default function altTextKeyphraseCount( paper, researcher ) {
 			return;
 		}
 
-		let remainingText = altText;
 		let count = 0;
-		topicPhrases.forEach( topicPhraseForms => {
-			const topicPhraseResult = countTopicPhrase( remainingText, topicPhraseForms, locale, matchWordCustomHelper );
-			count += topicPhraseResult.count;
-			remainingText = topicPhraseResult.remainingText;
+		getSentences( altText, memoizedTokenizer ).forEach( sentence => {
+			let remainingText = sentence;
+			topicPhrases.forEach( topicPhraseForms => {
+				const topicPhraseResult = countTopicPhrase( remainingText, topicPhraseForms, locale, matchWordCustomHelper );
+				count += topicPhraseResult.count;
+				remainingText = topicPhraseResult.remainingText;
+			} );
 		} );
 
 		result.images.push( { identifier: getImageIdentifier( image ), count } );

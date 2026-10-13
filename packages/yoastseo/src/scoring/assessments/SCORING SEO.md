@@ -291,7 +291,7 @@ Example: 6/15*100 = 0.4
 
 **Uses synonyms**: yes. The keyphrase and synonym matches in one alt text are added up, so the keyphrase once plus a synonym once counts as 2. Words that one topic phrase matched are not matched again by the next one.
 
-**What is counted as a keyphrase match**: all (content) words of the keyphrase or of a synonym. With exact matching (keyphrase in double quotes), the exact phrase.
+**What is counted as a keyphrase match**: all (content) words of the keyphrase or of a synonym, within one sentence of the alt text. With exact matching (keyphrase in double quotes), the exact phrase.
 
 **When it applies**: Only when a keyphrase is set and at least one assessed image overuses it. A keyphrase that is used once can still be stuffed, and a missing keyphrase is not good either, so there is no green traffic light: when nothing is flagged the assessment returns a result without a score and without a text, which `Assessor.isValidResult` drops, and the assessment is not shown at all. Red criteria are checked first.
 
