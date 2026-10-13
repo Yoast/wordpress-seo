@@ -60,7 +60,7 @@ final class Last_Completed_Indexation_Integration_Test extends TestCase {
 	/**
 	 * Tests if the method sets the option on 0 indexables.
 	 *
-	 * time() runs inside the method. An exact timestamp taken here misses when the
+	 * The method calls time() itself. An exact timestamp taken here misses when the
 	 * clock moves to the next second before set() runs.
 	 *
 	 * @covers ::maybe_set_indexables_unindexed_calculated
