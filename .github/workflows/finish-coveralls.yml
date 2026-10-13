@@ -99,7 +99,20 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           check-regexp: Test|TestJS
 
+      # Fork pull requests do not receive repository secrets, so Coveralls has no token there.
+      - name: Check for Coveralls token
+        id: coveralls-token
+        env:
+          COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+        run: |
+          if [ -n "$COVERALLS_TOKEN" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: "Coveralls Finished"
+        if: steps.coveralls-token.outputs.present == 'true'
         uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
         env:
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
