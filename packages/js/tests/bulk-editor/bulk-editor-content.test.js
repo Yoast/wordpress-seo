@@ -2,8 +2,9 @@ import { Fill, SlotFillProvider } from "@wordpress/components";
 import { dispatch } from "@wordpress/data";
 import { act, fireEvent, render, screen, waitFor } from "../test-utils";
 import { BulkEditorContent, getHasOverviewNotice, shouldShowBulkActions } from "../../src/bulk-editor/components/bulk-editor-content";
+import { getTabId } from "../../src/bulk-editor/components/bulk-editor-tabs";
 import { getSelectionView, getSmartSelectItems } from "../../src/bulk-editor/helpers";
-import { FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PENDING_CHANGES_MODAL_SLOT, STORE_NAME } from "../../src/bulk-editor/constants";
+import { FIELD_SET_IMAGE_ALT_TEXT, FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PENDING_CHANGES_MODAL_SLOT, PRODUCT_CONTENT_TYPE, STORE_NAME } from "../../src/bulk-editor/constants";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
 import { usePosts } from "../../src/bulk-editor/hooks/use-posts";
@@ -388,6 +389,38 @@ describe( "BulkEditorContent pending changes across query changes", () => {
 
 		// No unsaved-changes modal: filters never request a guarded switch.
 		expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
+	} );
+} );
+
+describe( "BulkEditorContent image-alt-text tab", () => {
+	it( "does not show the Image alt text tab for a non-product content type", () => {
+		renderContent( { contentType: "post", contentTypeLabel: "Posts" } );
+
+		expect( screen.queryByRole( "tab", { name: "Image alt text" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "shows the Image alt text tab for products, and activates its panel when selected", () => {
+		renderContent( { contentType: PRODUCT_CONTENT_TYPE, contentTypeLabel: "Products" } );
+
+		const tab = screen.getByRole( "tab", { name: "Image alt text" } );
+		fireEvent.click( tab );
+
+		expect( tab ).toHaveAttribute( "aria-selected", "true" );
+		// getByRole( "tabpanel" ) only matches the visible panel: the other panels stay in the DOM but hidden.
+		expect( screen.getByRole( "tabpanel" ) ).toHaveAttribute( "aria-labelledby", getTabId( FIELD_SET_IMAGE_ALT_TEXT ) );
+	} );
+
+	it( "reaches and activates the Image alt text tab with arrow-key navigation", () => {
+		renderContent( { contentType: PRODUCT_CONTENT_TYPE, contentTypeLabel: "Products" } );
+
+		// The tablist has a single tab stop (the active tab); arrow keys move focus and activate
+		// across every tab, including the third, products-only one — same roving-tabindex pattern
+		// already covered for the two built-in tabs in bulk-editor-tabs.test.js.
+		fireEvent.keyDown( screen.getByRole( "tab", { name: "Search appearance" } ), { key: "ArrowLeft" } );
+
+		const tab = screen.getByRole( "tab", { name: "Image alt text" } );
+		expect( tab ).toHaveAttribute( "aria-selected", "true" );
+		expect( tab ).toHaveFocus();
 	} );
 } );
 

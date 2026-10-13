@@ -79,6 +79,20 @@ class Post {
 	private $editable;
 
 	/**
+	 * The images and their variations for this post.
+	 *
+	 * @var array<string, int|string>
+	 */
+	private $images;
+
+	/**
+	 * Additional context data supplied by add-ons (e.g. product short description).
+	 *
+	 * @var array<string, string>
+	 */
+	private $context;
+
+	/**
 	 * Whether each field needs improvement, keyed by field param (e.g. `seo_title`). Empty for a post whose
 	 * fields are not editable.
 	 *
@@ -117,21 +131,23 @@ class Post {
 	/**
 	 * The constructor.
 	 *
-	 * @param int                 $id                          The post ID.
-	 * @param string              $title                       The post title.
-	 * @param string              $status                      The post status.
-	 * @param string              $edit_link                   The URL to edit the post.
-	 * @param string              $focus_keyphrase             The focus keyphrase.
-	 * @param string              $seo_title                   The raw stored SEO title.
-	 * @param string              $meta_description            The raw stored meta description.
-	 * @param string              $social_title                The raw stored social title.
-	 * @param string              $social_description          The raw stored social description.
-	 * @param bool                $editable                    Whether the current user may edit this post.
-	 * @param array<string, bool> $needs_improvement           Whether each field needs improvement, keyed by field param.
-	 * @param string              $seo_title_fallback          The post type's SEO title template (empty when stored value is set).
-	 * @param string              $meta_description_fallback   The post type's meta description template (empty when stored value is set).
-	 * @param string              $social_title_fallback       The post type's social title template (empty when stored value is set).
-	 * @param string              $social_description_fallback The post type's social description template (empty when stored value is set).
+	 * @param int                       $id                          The post ID.
+	 * @param string                    $title                       The post title.
+	 * @param string                    $status                      The post status.
+	 * @param string                    $edit_link                   The URL to edit the post.
+	 * @param string                    $focus_keyphrase             The focus keyphrase.
+	 * @param string                    $seo_title                   The raw stored SEO title.
+	 * @param string                    $meta_description            The raw stored meta description.
+	 * @param string                    $social_title                The raw stored social title.
+	 * @param string                    $social_description          The raw stored social description.
+	 * @param bool                      $editable                    Whether the current user may edit this post.
+	 * @param array<string, bool>       $needs_improvement           Whether each field needs improvement, keyed by field param.
+	 * @param string                    $seo_title_fallback          The post type's SEO title template (empty when stored value is set).
+	 * @param string                    $meta_description_fallback   The post type's meta description template (empty when stored value is set).
+	 * @param string                    $social_title_fallback       The post type's social title template (empty when stored value is set).
+	 * @param string                    $social_description_fallback The post type's social description template (empty when stored value is set).
+	 * @param array<string, int|string> $images                      The images and their variations for this post.
+	 * @param array<string, string>     $context                     Additional context data supplied by add-ons.
 	 */
 	public function __construct(
 		int $id,
@@ -148,7 +164,9 @@ class Post {
 		string $seo_title_fallback = '',
 		string $meta_description_fallback = '',
 		string $social_title_fallback = '',
-		string $social_description_fallback = ''
+		string $social_description_fallback = '',
+		array $images = [],
+		array $context = []
 	) {
 		$this->id                          = $id;
 		$this->title                       = $title;
@@ -165,6 +183,8 @@ class Post {
 		$this->meta_description_fallback   = $meta_description_fallback;
 		$this->social_title_fallback       = $social_title_fallback;
 		$this->social_description_fallback = $social_description_fallback;
+		$this->images                      = $images;
+		$this->context                     = $context;
 	}
 
 	/**
@@ -197,6 +217,8 @@ class Post {
 				],
 				$this->needs_improvement,
 			),
+			'images'                      => $this->images,
+			'context'                     => $this->context,
 		];
 	}
 }
