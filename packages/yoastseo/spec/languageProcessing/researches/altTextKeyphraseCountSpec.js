@@ -137,6 +137,38 @@ describe( "a research that counts the keyphrase and synonyms in the alt text of 
 		expect( research( paper, true ).images[ 0 ].count ).toBe( 2 );
 	} );
 
+	describe( "with a word that the keyphrase repeats", () => {
+		it.each( [
+			[ "bora bora", "Holiday in bora bora", 1 ],
+			[ "bora bora", "Bora bora beach and a bora bora island", 2 ],
+			[ "bora bora", "Bora bora beach and a bora island", 1 ],
+			[ "bora bora", "A bora island", 0 ],
+			[ "cat cat dog", "A cat and a dog", 0 ],
+			[ "cat cat dog", "cat dog cat dog", 1 ],
+			[ "cat cat dog", "cat cat dog and cat cat dog", 2 ],
+		] )( "counts the keyphrase '%s' in '%s' as %i", ( keyword, altText, count ) => {
+			expect( research( paperWithImages( [ altText ], { keyword } ) ).images[ 0 ].count ).toBe( count );
+		} );
+
+		it( "counts an exact-match keyphrase that repeats a word only where the whole phrase occurs", () => {
+			const paper = paperWithImages( [ "Bora bora beach and a bora island" ], { keyword: "\"bora bora\"" } );
+
+			expect( research( paper ).images[ 0 ].count ).toBe( 1 );
+		} );
+	} );
+
+	it( "counts a keyphrase next to punctuation", () => {
+		const paper = paperWithImages( [ "Cat, cat! (cat)" ], { keyword: "cat" } );
+
+		expect( research( paper ).images[ 0 ].count ).toBe( 3 );
+	} );
+
+	it( "matches a keyphrase with diacritics against alt text without them", () => {
+		const paper = new Paper( "", { keyword: "acción", locale: "es_ES", providedImages: [ { id: 1, src: "a.jpg", alt: "accion y accion" } ] } );
+
+		expect( research( paper ).images ).toEqual( [ { identifier: 1, count: 2 } ] );
+	} );
+
 	describe( "with exact matching", () => {
 		it( "reports that exact matching is requested", () => {
 			const paper = paperWithImages( [ "red shoes" ], { keyword: "\"red shoes\"" } );
