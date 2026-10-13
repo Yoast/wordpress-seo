@@ -24,6 +24,9 @@ Thus, this calculation make the overall score work on a 0-100/0-10 scale rather 
 * For reference in the code, see [this file](https://github.com/Yoast/wordpress-seo/blob/ef27594180f1477166b5c0cd29d606e9d82ed8fe/packages/yoastseo/src/scoring/assessor.js#L228)
 
 ## Keyphrase-based SEO assessments scoring criteria
+
+Some of the SEO assessments are language-independent (e.g. keyphrase in introduction, keyphrase density), but many are language-specific (e.g. keyphrase length, text length) and are made available for different languages on a case-by-case basis.
+
 ### 1) Keyphrase in introduction
 **What it does**: Checks whether words from the keyphrase can be found in the first paragraph of the text.
 
