@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Abilities\Application;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_Schema_Field_Map;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
@@ -14,7 +13,8 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Application service that updates the author schema settings of a user.
  *
  * Social profiles are saved through the social profiles helper, so they are validated exactly like they are
- * in the first-time configuration. The other settings are sanitized like they are on the user profile page.
+ * in the first-time configuration. The other settings are saved by the repository they are registered with in the
+ * field map.
  */
 class Author_Schema_Updater {
 
@@ -54,33 +54,23 @@ class Author_Schema_Updater {
 	private $options_helper;
 
 	/**
-	 * The sanitization helper.
-	 *
-	 * @var Sanitization_Helper
-	 */
-	private $sanitization_helper;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param User_Helper             $user_helper            The user helper.
 	 * @param Author_Schema_Field_Map $field_map              The author schema field map.
 	 * @param Social_Profiles_Helper  $social_profiles_helper The social profiles helper.
 	 * @param Options_Helper          $options_helper         The options helper.
-	 * @param Sanitization_Helper     $sanitization_helper    The sanitization helper.
 	 */
 	public function __construct(
 		User_Helper $user_helper,
 		Author_Schema_Field_Map $field_map,
 		Social_Profiles_Helper $social_profiles_helper,
-		Options_Helper $options_helper,
-		Sanitization_Helper $sanitization_helper
+		Options_Helper $options_helper
 	) {
 		$this->user_helper            = $user_helper;
 		$this->field_map              = $field_map;
 		$this->social_profiles_helper = $social_profiles_helper;
 		$this->options_helper         = $options_helper;
-		$this->sanitization_helper    = $sanitization_helper;
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The fields added through the filter can hold any user meta value.
@@ -93,7 +83,7 @@ class Author_Schema_Updater {
 	 * settings are still saved.
 	 *
 	 * @param int                  $user_id The ID of the user.
-	 * @param array<string, mixed> $input   The author schema settings to change, keyed by user meta key.
+	 * @param array<string, mixed> $input   The author schema settings to change, keyed by field name.
 	 *
 	 * @return array<string, mixed>|WP_Error The new author schema settings, plus a warning when some could not be changed,
 	 *                                       or an error when the user does not exist.
@@ -135,7 +125,7 @@ class Author_Schema_Updater {
 	 * Validates and saves a single field.
 	 *
 	 * @param int    $user_id    The ID of the user.
-	 * @param string $field_name The user meta key of the field.
+	 * @param string $field_name The name of the field.
 	 * @param mixed  $value      The value to save.
 	 *
 	 * @return string|null A warning when the field could not be saved, null otherwise.
@@ -162,7 +152,7 @@ class Author_Schema_Updater {
 	/**
 	 * Validates a single field with the validator it is registered with in the field map, if any.
 	 *
-	 * @param string $field_name The user meta key of the field.
+	 * @param string $field_name The name of the field.
 	 * @param mixed  $value      The value to save.
 	 *
 	 * @return string|null A warning when the value cannot be saved, null otherwise.
@@ -188,10 +178,10 @@ class Author_Schema_Updater {
 	 *
 	 * Person social profiles are saved through the social profiles helper, so they are validated like they are
 	 * in the first-time configuration, including the ones that add-ons register there. The other fields are
-	 * sanitized like the user profile page does.
+	 * saved by their repository.
 	 *
 	 * @param int    $user_id    The ID of the user.
-	 * @param string $field_name The user meta key of the field.
+	 * @param string $field_name The name of the field.
 	 * @param mixed  $value      The value to save.
 	 *
 	 * @return bool Whether the field was saved as provided.
@@ -206,10 +196,7 @@ class Author_Schema_Updater {
 			return $this->social_profiles_helper->set_person_social_profiles( $user_id, [ $field_name => $value ] ) === [];
 		}
 
-		$this->user_helper->update_meta( $user_id, $field_name, $this->sanitization_helper->sanitize_text_field( $value ) );
-
-		// Updating user meta also returns false when the value did not change, so the stored value is checked instead.
-		return $this->user_helper->get_meta( $user_id, $field_name, true ) === $value;
+		return $this->field_map->get_repositories()[ $field_name ]->save( $user_id, $field_name, $value );
 	}
 
 	/**
@@ -234,18 +221,19 @@ class Author_Schema_Updater {
 	}
 
 	/**
-	 * Returns the current value of each field, cast to the type its schema declares.
+	 * Returns the current value of each field, read from its repository and cast to the type its schema declares.
 	 *
 	 * @param int                                 $user_id The ID of the user.
-	 * @param array<string, array<string, mixed>> $fields  The JSON schema of each field, keyed by user meta key.
+	 * @param array<string, array<string, mixed>> $fields  The JSON schema of each field, keyed by field name.
 	 *
 	 * @return array<string, mixed> The current value of each field.
 	 */
 	private function get_settings( int $user_id, array $fields ): array {
-		$settings = [];
+		$settings     = [];
+		$repositories = $this->field_map->get_repositories();
 
 		foreach ( $fields as $field_name => $schema ) {
-			$value = $this->user_helper->get_meta( $user_id, $field_name, true );
+			$value = $repositories[ $field_name ]->get( $user_id, $field_name );
 
 			// Unset user meta comes back as an empty string, which is not always of the declared type.
 			switch ( ( $schema['type'] ?? null ) ) {
@@ -254,6 +242,9 @@ class Author_Schema_Updater {
 					break;
 				case 'string':
 					$value = (string) $value;
+					break;
+				case 'array':
+					$value = ( \is_array( $value ) ) ? $value : [];
 					break;
 			}
 

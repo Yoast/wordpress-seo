@@ -79,7 +79,7 @@ class Update_Author_Schema_Ability implements Ability_Interface {
 	/**
 	 * Updates the author schema settings of the user and returns their new state.
 	 *
-	 * @param array<string, mixed> $input The ID of the user, plus the author schema settings to change, keyed by user meta key.
+	 * @param array<string, mixed> $input The ID of the user, plus the author schema settings to change, keyed by field name.
 	 *
 	 * @return array<string, mixed>|WP_Error The new author schema settings, plus a warning when some could not be changed,
 	 *                                       or an error when the user does not exist.
