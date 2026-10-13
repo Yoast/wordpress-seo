@@ -6,7 +6,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 use Mockery;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Author_Schema_Updater;
+use Yoast\WP\SEO\Abilities\Domain\Author_Schema_Field_Repository_Interface;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_Schema_Field_Map;
+use Yoast\WP\SEO\Abilities\Infrastructure\Author_Schema_User_Meta_Repository;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
@@ -76,6 +78,20 @@ final class Author_Schema_Updater_Test extends TestCase {
 	private $sanitization_helper;
 
 	/**
+	 * The repositories the field map returns, on top of the user meta repository of the default fields.
+	 *
+	 * @var array<string, Author_Schema_Field_Repository_Interface>
+	 */
+	private $repositories = [];
+
+	/**
+	 * The schema of the fields registered with their own repository, when it is not a string.
+	 *
+	 * @var array<string, array<string, string>>
+	 */
+	private $repository_schemas = [];
+
+	/**
 	 * The validators the field map returns.
 	 *
 	 * @var array<string, callable>
@@ -106,7 +122,21 @@ final class Author_Schema_Updater_Test extends TestCase {
 		$this->sanitization_helper    = Mockery::mock( Sanitization_Helper::class );
 
 		$this->user_helper->allows( 'user_exists' )->with( self::USER_ID )->andReturnTrue();
-		$this->field_map->allows( 'get_fields' )->andReturn( self::FIELDS );
+		$this->field_map->allows( 'get_fields' )->andReturnUsing(
+			function () {
+				return \array_merge(
+					self::FIELDS,
+					\array_fill_keys( \array_keys( $this->repositories ), [ 'type' => 'string' ] ),
+					$this->repository_schemas,
+				);
+			},
+		);
+		$user_meta_repository = new Author_Schema_User_Meta_Repository( $this->user_helper, $this->sanitization_helper );
+		$this->field_map->allows( 'get_repositories' )->andReturnUsing(
+			function () use ( $user_meta_repository ) {
+				return \array_merge( \array_fill_keys( \array_keys( self::FIELDS ), $user_meta_repository ), $this->repositories );
+			},
+		);
 		$this->field_map->allows( 'get_validators' )->andReturnUsing(
 			function () {
 				return $this->validators;
@@ -125,7 +155,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 			$this->field_map,
 			$this->social_profiles_helper,
 			$this->options_helper,
-			$this->sanitization_helper,
 		);
 	}
 
@@ -438,5 +467,100 @@ final class Author_Schema_Updater_Test extends TestCase {
 		$result = $this->instance->update( self::USER_ID, [ 'wpseo_pronouns' => 'they/them' ] );
 
 		$this->assertArrayNotHasKey( 'warning', $result );
+	}
+
+	/**
+	 * Tests that update saves and reads a field registered with its own repository through that repository.
+	 *
+	 * @covers ::update
+	 * @covers ::update_field
+	 * @covers ::save_field
+	 * @covers ::get_settings
+	 *
+	 * @return void
+	 */
+	public function test_update_with_repository() {
+		$repository                     = Mockery::mock( Author_Schema_Field_Repository_Interface::class );
+		$this->repositories['jobTitle'] = $repository;
+
+		$repository->expects( 'save' )->once()->with( self::USER_ID, 'jobTitle', 'Engineer' )->andReturnTrue();
+		$repository->expects( 'get' )->once()->with( self::USER_ID, 'jobTitle' )->andReturn( 'Engineer' );
+
+		$this->user_helper->expects( 'update_meta' )->never();
+		$this->user_helper->allows( 'get_meta' )->andReturn( '' );
+
+		$result = $this->instance->update( self::USER_ID, [ 'jobTitle' => 'Engineer' ] );
+
+		$this->assertSame( 'Engineer', $result['jobTitle'] );
+		$this->assertArrayNotHasKey( 'warning', $result );
+	}
+
+	/**
+	 * Tests that update reports a field that its repository could not save as provided in a warning.
+	 *
+	 * @covers ::update
+	 * @covers ::update_field
+	 * @covers ::save_field
+	 *
+	 * @return void
+	 */
+	public function test_update_with_repository_not_saved() {
+		$repository                     = Mockery::mock( Author_Schema_Field_Repository_Interface::class );
+		$this->repositories['jobTitle'] = $repository;
+
+		$repository->expects( 'save' )->once()->with( self::USER_ID, 'jobTitle', 'Engineer' )->andReturnFalse();
+		$repository->expects( 'get' )->once()->with( self::USER_ID, 'jobTitle' )->andReturn( '' );
+
+		$this->user_helper->allows( 'get_meta' )->andReturn( '' );
+
+		$result = $this->instance->update( self::USER_ID, [ 'jobTitle' => 'Engineer' ] );
+
+		$this->assertSame(
+			'The jobTitle setting could not be saved as provided, so its current value is returned. No other settings were saved.',
+			$result['warning'],
+		);
+	}
+
+	/**
+	 * Data provider for test_update_array_field.
+	 *
+	 * @return array<string, array<string, string|array<string>>>
+	 */
+	public static function data_update_array_field() {
+		return [
+			'Set'   => [
+				'stored'   => [ 'PHP', 'SEO' ],
+				'expected' => [ 'PHP', 'SEO' ],
+			],
+			'Unset' => [
+				'stored'   => '',
+				'expected' => [],
+			],
+		];
+	}
+
+	/**
+	 * Tests that update returns an array field as an array, also when it is not set.
+	 *
+	 * @covers ::update
+	 * @covers ::get_settings
+	 *
+	 * @dataProvider data_update_array_field
+	 *
+	 * @param string|array<string> $stored   The value the repository returns.
+	 * @param array<string>        $expected The value that is returned.
+	 *
+	 * @return void
+	 */
+	public function test_update_array_field( $stored, $expected ) {
+		$repository                             = Mockery::mock( Author_Schema_Field_Repository_Interface::class );
+		$this->repositories['knowsAbout']       = $repository;
+		$this->repository_schemas['knowsAbout'] = [ 'type' => 'array' ];
+
+		$repository->expects( 'get' )->once()->with( self::USER_ID, 'knowsAbout' )->andReturn( $stored );
+
+		$this->user_helper->allows( 'get_meta' )->andReturn( '' );
+
+		$this->assertSame( $expected, $this->instance->update( self::USER_ID, [] )['knowsAbout'] );
 	}
 }

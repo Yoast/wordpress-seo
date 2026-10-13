@@ -5,7 +5,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Abilities\Domain\Author_Schema_Field_Repository_Interface;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_Schema_Field_Map;
+use Yoast\WP\SEO\Abilities\Infrastructure\Author_Schema_User_Meta_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Author_Pronouns;
 
@@ -26,6 +28,13 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	private $author_pronouns;
 
 	/**
+	 * The user meta repository mock.
+	 *
+	 * @var Mockery\MockInterface|Author_Schema_User_Meta_Repository
+	 */
+	private $user_meta_repository;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Author_Schema_Field_Map
@@ -44,7 +53,9 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 
 		$this->author_pronouns = Mockery::mock( Author_Pronouns::class );
 
-		$this->instance = new Author_Schema_Field_Map( $this->author_pronouns );
+		$this->user_meta_repository = Mockery::mock( Author_Schema_User_Meta_Repository::class );
+
+		$this->instance = new Author_Schema_Field_Map( $this->author_pronouns, $this->user_meta_repository );
 	}
 
 	/**
@@ -54,6 +65,7 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	 * @covers ::get_fields
 	 * @covers ::resolve_fields
 	 * @covers ::get_validators
+	 * @covers ::get_repositories
 	 * @covers ::get_default_fields
 	 * @covers ::get_pronouns_description
 	 *
@@ -98,6 +110,7 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 			],
 			$this->instance->get_validators(),
 		);
+		$this->assertSame( \array_fill_keys( \array_keys( $fields ), $this->user_meta_repository ), $this->instance->get_repositories() );
 	}
 
 	/**
@@ -206,6 +219,66 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 		$validators = $this->instance->get_validators();
 		$this->assertSame( $validate_job_title, $validators['job_title'] );
 		$this->assertArrayNotHasKey( 'knows_about', $validators );
+	}
+
+	/**
+	 * Tests that the repositories registered along with the fields are kept out of the schemas, and that a field whose
+	 * repository is not an author schema field repository is dropped.
+	 *
+	 * @covers ::get_fields
+	 * @covers ::get_validators
+	 * @covers ::get_repositories
+	 * @covers ::resolve_fields
+	 *
+	 * @return void
+	 */
+	public function test_get_repositories() {
+		$this->author_pronouns->expects( 'is_setting_enabled' )->once()->andReturnTrue();
+
+		$repository = Mockery::mock( Author_Schema_Field_Repository_Interface::class );
+
+		$validate_works_for = static function () {
+			return null;
+		};
+
+		$add_on_fields = [
+			'jobTitle' => [
+				'type'        => 'string',
+				'description' => 'The job title of the user.',
+				'repository'  => $repository,
+			],
+			'worksFor' => [
+				'type'              => 'string',
+				'description'       => 'The employer of the user.',
+				'repository'        => 'not_a_repository',
+				'validate_callback' => $validate_works_for,
+			],
+		];
+
+		Monkey\Filters\expectApplied( 'wpseo_author_schema_ability_fields' )
+			->once()
+			->andReturnUsing(
+				static function ( $fields ) use ( $add_on_fields ) {
+					return \array_merge( $fields, $add_on_fields );
+				},
+			);
+
+		$fields = $this->instance->get_fields();
+
+		$this->assertSame(
+			[
+				'type'        => 'string',
+				'description' => 'The job title of the user.',
+			],
+			$fields['jobTitle'],
+		);
+		$this->assertArrayNotHasKey( 'worksFor', $fields );
+
+		$repositories = $this->instance->get_repositories();
+		$this->assertSame( $repository, $repositories['jobTitle'] );
+		$this->assertSame( $this->user_meta_repository, $repositories['facebook'] );
+		$this->assertArrayNotHasKey( 'worksFor', $repositories );
+		$this->assertArrayNotHasKey( 'worksFor', $this->instance->get_validators() );
 	}
 
 	/**
