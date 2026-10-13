@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.1
-Stable tag: 28.6
+Stable tag: 28.7
 Requires PHP: 7.4
 
 Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.
@@ -311,6 +311,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-10-13
 
+Yoast SEO 28.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Allows agents to update titles and descriptions via the respective Yoast Ability.
@@ -318,6 +320,8 @@ Release date: 2026-10-13
 = 28.6 =
 
 Release date: 2026-09-29
+
+Yoast SEO 28.6 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
 
 #### Enhancements
 
