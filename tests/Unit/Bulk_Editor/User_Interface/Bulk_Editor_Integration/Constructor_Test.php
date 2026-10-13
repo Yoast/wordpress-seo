@@ -4,11 +4,13 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
 
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -74,6 +76,14 @@ final class Constructor_Test extends Abstract_Test {
 		$this->assertInstanceOf(
 			WPSEO_Replace_Vars::class,
 			$this->getPropertyValue( $this->instance, 'replace_vars' ),
+		);
+		$this->assertInstanceOf(
+			Woo_SEO_Inactive_Conditional::class,
+			$this->getPropertyValue( $this->instance, 'woo_seo_inactive_conditional' ),
+		);
+		$this->assertInstanceOf(
+			WPSEO_Addon_Manager::class,
+			$this->getPropertyValue( $this->instance, 'addon_manager' ),
 		);
 	}
 }
