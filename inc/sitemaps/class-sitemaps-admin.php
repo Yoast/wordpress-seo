@@ -56,18 +56,6 @@ class WPSEO_Sitemaps_Admin {
 	}
 
 	/**
-	 * Notify Google of the updated sitemap.
-	 *
-	 * @deprecated 22.0
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function ping_search_engines() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 22.0' );
-	}
-
-	/**
 	 * While bulk importing, just save unique post_types.
 	 *
 	 * When importing is done, if we have a post_type that is saved in the sitemap

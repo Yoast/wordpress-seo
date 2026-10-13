@@ -57,18 +57,6 @@ class WPSEO_Sitemaps_Router {
 	}
 
 	/**
-	 * Sets up rewrite rules.
-	 *
-	 * @deprecated 21.8
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function init() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 21.8' );
-	}
-
-	/**
 	 * Stop trailing slashes on sitemap.xml URLs.
 	 *
 	 * @param string $redirect The redirect URL currently determined.
