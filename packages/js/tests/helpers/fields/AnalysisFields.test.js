@@ -552,4 +552,17 @@ describe( "pending writes (REST meta mode)", () => {
 		);
 		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { [ metaKeyFocusKw ]: "mixed" } } );
 	} );
+
+	it( "clamps a negative seoScore to '0' so the post is not marked dirty on every load", () => {
+		AnalysisFields.seoScore = "-665";
+
+		mockCurrentPostType.mockReturnValue( "post" );
+		mockCapturedSubscribers[ 0 ]();
+
+		expect( mockEditEntityRecord ).toHaveBeenCalledWith(
+			"postType", "post", 1,
+			{ meta: { [ metaKeyLinkdex ]: "0" } },
+			{ undoIgnore: true }
+		);
+	} );
 } );

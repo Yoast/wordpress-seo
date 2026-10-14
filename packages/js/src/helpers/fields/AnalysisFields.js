@@ -114,7 +114,12 @@ function writeOrQueue( metaKey, value, undoIgnore = false ) {
  */
 const setScoreMeta = ( metaKey, element, value ) => {
 	if ( isRestMetaActive() ) {
-		writeOrQueue( metaKey, value, true );
+		// Mirror the PHP sanitizer: only non-negative integers are valid; anything else becomes "0".
+		// This prevents a negative score (e.g. -665 when no keyphrase is set) from differing with the
+		// stored "0" on every page load, which would incorrectly mark the post as unsaved.
+		const parsed = parseInt( value, 10 );
+		const sanitized = ( Number.isInteger( parsed ) && parsed >= 0 ) ? String( parsed ) : "0";
+		writeOrQueue( metaKey, sanitized, true );
 		return;
 	}
 	if ( element ) {
