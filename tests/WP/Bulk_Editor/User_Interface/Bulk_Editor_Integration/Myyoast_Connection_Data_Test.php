@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\WP\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
 
 use Mockery;
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
@@ -12,6 +13,7 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
 use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -142,6 +144,8 @@ final class Myyoast_Connection_Data_Test extends TestCase {
 			$this->user_helper,
 			$myyoast_connection_data_presenter,
 			$this->replace_vars,
+			new Woo_SEO_Inactive_Conditional(),
+			new WPSEO_Addon_Manager(),
 		);
 	}
 

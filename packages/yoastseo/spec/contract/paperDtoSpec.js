@@ -92,6 +92,38 @@ describe( "the Paper input contract (PaperDto)", function() {
 			expect( () => toPaper( { text: "x", productData: { hasGlobalSku: true } } ) ).toThrow();
 		} );
 
+		it( "maps a typed providedImages array onto the Paper", function() {
+			const providedImages = [
+				{ id: 1, src: "https://example.com/image.jpg", alt: "An image" },
+				{ alt: "" },
+			];
+			const paper = toPaper( { text: "x", providedImages } );
+
+			expect( paper.getProvidedImages() ).toEqual( providedImages );
+		} );
+
+		it( "leaves absent providedImages to Paper's default null, meaning the producer did not opt in", function() {
+			const paper = toPaper( { text: "x" } );
+
+			expect( paper.getProvidedImages() ).toBeNull();
+			expect( paper.hasProvidedImages() ).toBe( false );
+		} );
+
+		it( "accepts an empty providedImages array as a valid opt-in: an item without images", function() {
+			const paper = toPaper( { text: "x", providedImages: [] } );
+
+			expect( paper.getProvidedImages() ).toEqual( [] );
+			expect( paper.hasProvidedImages() ).toBe( true );
+		} );
+
+		it( "type-checks providedImages fields and rejects unknown keys (strict)", function() {
+			expect( () => toPaper( { text: "x", providedImages: { alt: "not an array" } } ) ).toThrow();
+			expect( () => toPaper( { text: "x", providedImages: [ { src: "https://example.com/image.jpg" } ] } ) ).toThrow();
+			expect( () => toPaper( { text: "x", providedImages: [ { alt: 1 } ] } ) ).toThrow();
+			expect( () => toPaper( { text: "x", providedImages: [ { id: "1", alt: "" } ] } ) ).toThrow();
+			expect( () => toPaper( { text: "x", providedImages: [ { alt: "", altText: "typo" } ] } ) ).toThrow();
+		} );
+
 		it( "accepts the deprecated WP-transitional fields and maps them onto the Paper", function() {
 			const wpBlocks = [ { name: "core/paragraph" } ];
 			const paper = toPaper( {
