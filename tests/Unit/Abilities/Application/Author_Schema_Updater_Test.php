@@ -177,8 +177,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_field
 	 * @covers ::save_field
 	 * @covers ::get_settings
 	 *
@@ -297,7 +295,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * profiles helper to reject.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_field
 	 * @covers ::get_x_username
 	 *
@@ -345,7 +342,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * while still saving the other settings.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_field
 	 *
 	 * @return void
@@ -375,7 +371,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * social profiles helper does not report failed saves.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_field
 	 *
 	 * @return void
@@ -399,7 +394,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * sanitized into something else in a warning.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_field
 	 *
 	 * @return void
@@ -422,8 +416,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * returns that warning.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_field
 	 *
 	 * @return void
 	 */
@@ -471,8 +463,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * Tests that update saves a field when its validator returns something other than a non-empty string.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_field
 	 *
 	 * @dataProvider data_update_validator_no_warning
 	 *
@@ -498,7 +488,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * Tests that update saves and reads a field registered with its own repository through that repository.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_field
 	 * @covers ::get_settings
 	 *
@@ -524,7 +513,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * Tests that update reports a field that its repository could not save as provided in a warning.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_field
 	 *
 	 * @return void
