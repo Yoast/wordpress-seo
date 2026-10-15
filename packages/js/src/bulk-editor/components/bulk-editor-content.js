@@ -246,7 +246,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 						return (
 							<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
 								<Slot name={ IMAGE_ALT_TEXT_SLOT } fillProps={ { items } }>
-									{ ( fills ) => ( fills.length > 0 && isPremium ? fills : <ImageAltTextUpsell /> ) }
+									{ ( fills ) => ( fills.length > 0 && isPremium ) ? fills : <ImageAltTextUpsell /> }
 								</Slot>
 							</BulkEditorTabPanel>
 						);
