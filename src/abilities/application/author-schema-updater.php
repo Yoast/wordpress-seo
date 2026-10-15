@@ -7,7 +7,6 @@ use WP_Error;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_Schema_Field_Map;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
-use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
  * Application service that updates the author schema settings of a user.
@@ -24,13 +23,6 @@ class Author_Schema_Updater {
 	 * @var string
 	 */
 	private const X_USERNAME = 'twitter';
-
-	/**
-	 * The user helper.
-	 *
-	 * @var User_Helper
-	 */
-	private $user_helper;
 
 	/**
 	 * The author schema field map.
@@ -56,18 +48,15 @@ class Author_Schema_Updater {
 	/**
 	 * Constructor.
 	 *
-	 * @param User_Helper             $user_helper            The user helper.
 	 * @param Author_Schema_Field_Map $field_map              The author schema field map.
 	 * @param Social_Profiles_Helper  $social_profiles_helper The social profiles helper.
 	 * @param Options_Helper          $options_helper         The options helper.
 	 */
 	public function __construct(
-		User_Helper $user_helper,
 		Author_Schema_Field_Map $field_map,
 		Social_Profiles_Helper $social_profiles_helper,
 		Options_Helper $options_helper
 	) {
-		$this->user_helper            = $user_helper;
 		$this->field_map              = $field_map;
 		$this->social_profiles_helper = $social_profiles_helper;
 		$this->options_helper         = $options_helper;
@@ -89,7 +78,7 @@ class Author_Schema_Updater {
 	 *                                       or an error when the user does not exist.
 	 */
 	public function update( int $user_id, array $input ) {
-		if ( ! $this->user_helper->user_exists( $user_id ) ) {
+		if ( \get_userdata( $user_id ) === false ) {
 			return new WP_Error(
 				'yoast_seo_user_not_found',
 				\__( 'No user exists with the given ID.', 'wordpress-seo' ),

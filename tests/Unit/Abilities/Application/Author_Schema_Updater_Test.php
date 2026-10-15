@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
+use Brain\Monkey;
 use Mockery;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Author_Schema_Updater;
@@ -121,7 +122,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 		$this->options_helper         = Mockery::mock( Options_Helper::class );
 		$this->sanitization_helper    = Mockery::mock( Sanitization_Helper::class );
 
-		$this->user_helper->allows( 'user_exists' )->with( self::USER_ID )->andReturnTrue();
+		Monkey\Functions\expect( 'get_userdata' )->zeroOrMoreTimes()->with( self::USER_ID )->andReturn( (object) [ 'ID' => self::USER_ID ] );
 		$this->field_map->allows( 'get_fields' )->andReturnUsing(
 			function () {
 				return \array_merge(
@@ -151,7 +152,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 		$this->sanitization_helper->allows( 'sanitize_text_field' )->andReturnUsing( 'trim' );
 
 		$this->instance = new Author_Schema_Updater(
-			$this->user_helper,
 			$this->field_map,
 			$this->social_profiles_helper,
 			$this->options_helper,
@@ -255,7 +255,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_user_not_found() {
-		$this->user_helper->expects( 'user_exists' )->once()->with( 99 )->andReturnFalse();
+		Monkey\Functions\expect( 'get_userdata' )->once()->with( 99 )->andReturnFalse();
 		$this->user_helper->expects( 'update_meta' )->never();
 		$this->user_helper->expects( 'get_meta' )->never();
 		$this->social_profiles_helper->expects( 'set_person_social_profiles' )->never();
