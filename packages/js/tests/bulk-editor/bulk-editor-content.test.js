@@ -1,10 +1,10 @@
 import { Fill, SlotFillProvider } from "@wordpress/components";
-import { dispatch } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 import { act, fireEvent, render, screen, waitFor } from "../test-utils";
 import { BulkEditorContent, getHasOverviewNotice, shouldShowBulkActions } from "../../src/bulk-editor/components/bulk-editor-content";
 import { getTabId } from "../../src/bulk-editor/components/bulk-editor-tabs";
 import { getSelectionView, getSmartSelectItems } from "../../src/bulk-editor/helpers";
-import { FIELD_SET_IMAGE_ALT_TEXT, FIELD_SET_SEARCH, FIELD_SET_SOCIAL, PENDING_CHANGES_MODAL_SLOT, PRODUCT_CONTENT_TYPE, STORE_NAME } from "../../src/bulk-editor/constants";
+import { FIELD_SET_IMAGE_ALT_TEXT, FIELD_SET_SEARCH, FIELD_SET_SOCIAL, IMAGE_ALT_TEXT_SLOT, PENDING_CHANGES_MODAL_SLOT, PRODUCT_CONTENT_TYPE, STORE_NAME } from "../../src/bulk-editor/constants";
 import { DataProvider } from "../../src/bulk-editor/services";
 import registerStore from "../../src/bulk-editor/store";
 import { usePosts } from "../../src/bulk-editor/hooks/use-posts";
@@ -496,5 +496,52 @@ describe( "BulkEditorContent shift+click range selection", () => {
 		expect( screen.getByRole( "checkbox", { name: "Select Post 3" } ) ).toBeChecked();
 		expect( screen.getByRole( "checkbox", { name: "Select Post 1" } ) ).not.toBeChecked();
 		expect( screen.getByRole( "checkbox", { name: "Select Post 2" } ) ).not.toBeChecked();
+	} );
+} );
+
+describe( "BulkEditorContent image-alt-text slot fill guard", () => {
+	// A sentinel rendered by the WooSeo-side Fill to verify it appears or is suppressed.
+	const FILL_TEXT = "Alt text generator content";
+
+	const renderWithFill = () => render(
+		<SlotFillProvider>
+			<Fill name={ IMAGE_ALT_TEXT_SLOT }>
+				<div>{ FILL_TEXT }</div>
+			</Fill>
+			<BulkEditorContent
+				dataProvider={ dataProvider }
+				remoteDataProvider={ remoteDataProvider }
+				contentType={ PRODUCT_CONTENT_TYPE }
+				contentTypeLabel="Products"
+			/>
+		</SlotFillProvider>
+	);
+
+	afterEach( () => {
+		jest.restoreAllMocks();
+	} );
+
+	it( "hides slot fills and shows the upsell when Premium is not active", () => {
+		// isPremium defaults to false in the test store (window.wpseoBulkEditorData is unset).
+		renderWithFill();
+		fireEvent.click( screen.getByRole( "tab", { name: "Image alt text" } ) );
+
+		expect( screen.queryByText( FILL_TEXT ) ).not.toBeInTheDocument();
+		expect( screen.getByRole( "heading", { name: /From flagged to fixed/ } ) ).toBeInTheDocument();
+	} );
+
+	it( "shows slot fills and hides the upsell when Premium is active", () => {
+		// The preferences slice has no runtime-update actions, so spy on selectPreference to inject isPremium.
+		const originalSelectPreference = select( STORE_NAME ).selectPreference;
+		jest.spyOn( select( STORE_NAME ), "selectPreference" )
+			.mockImplementation( ( pref, defaultValue ) =>
+				pref === "isPremium" ? true : originalSelectPreference( pref, defaultValue )
+			);
+
+		renderWithFill();
+		fireEvent.click( screen.getByRole( "tab", { name: "Image alt text" } ) );
+
+		expect( screen.getByText( FILL_TEXT ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "heading", { name: /From flagged to fixed/ } ) ).not.toBeInTheDocument();
 	} );
 } );
