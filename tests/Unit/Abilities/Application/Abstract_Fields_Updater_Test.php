@@ -86,6 +86,18 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 			public function update( array $fields, array $validators, array $input, array $context = [] ): ?string {
 				return $this->update_fields( $fields, $validators, $input, $context );
 			}
+
+			/**
+			 * Exposes cast_to_schema_type.
+			 *
+			 * @param mixed                $value  The stored value.
+			 * @param array<string, mixed> $schema The JSON schema of the field.
+			 *
+			 * @return mixed The cast value.
+			 */
+			public function cast( $value, array $schema ) {
+				return $this->cast_to_schema_type( $value, $schema );
+			}
 		};
 	}
 
@@ -234,5 +246,68 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 		$this->instance->update( self::FIELDS, [], [ 'first' => 'one' ], [ 'user_id' => 7 ] );
 
 		$this->assertSame( [ 'first' => [ 'one', [ 'user_id' => 7 ] ] ], $this->instance->saved );
+	}
+
+	/**
+	 * Data provider for test_cast_to_schema_type.
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
+	public static function data_cast_to_schema_type() {
+		return [
+			'Unset integer' => [
+				'value'    => false,
+				'schema'   => [ 'type' => 'integer' ],
+				'expected' => 0,
+			],
+			'Numeric string' => [
+				'value'    => '5',
+				'schema'   => [ 'type' => 'integer' ],
+				'expected' => 5,
+			],
+			'Unset string' => [
+				'value'    => false,
+				'schema'   => [ 'type' => 'string' ],
+				'expected' => '',
+			],
+			'Unset array' => [
+				'value'    => '',
+				'schema'   => [ 'type' => 'array' ],
+				'expected' => [],
+			],
+			'Array' => [
+				'value'    => [ 'https://example.com' ],
+				'schema'   => [ 'type' => 'array' ],
+				'expected' => [ 'https://example.com' ],
+			],
+			'Other type' => [
+				'value'    => true,
+				'schema'   => [ 'type' => 'boolean' ],
+				'expected' => true,
+			],
+			'No type' => [
+				'value'    => false,
+				'schema'   => [],
+				'expected' => false,
+			],
+		];
+	}
+
+	/**
+	 * Tests that cast_to_schema_type casts the value to the type its schema declares, and leaves other types as
+	 * they are.
+	 *
+	 * @covers ::cast_to_schema_type
+	 *
+	 * @dataProvider data_cast_to_schema_type
+	 *
+	 * @param mixed                $value    The stored value.
+	 * @param array<string, mixed> $schema   The JSON schema of the field.
+	 * @param mixed                $expected The expected value.
+	 *
+	 * @return void
+	 */
+	public function test_cast_to_schema_type( $value, $schema, $expected ) {
+		$this->assertSame( $expected, $this->instance->cast( $value, $schema ) );
 	}
 }
