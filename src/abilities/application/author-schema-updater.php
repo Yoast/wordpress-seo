@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
  * in the first-time configuration. The other settings are saved by the repository they are registered with in the
  * field map.
  */
-class Author_Schema_Updater {
+class Author_Schema_Updater extends Abstract_Fields_Updater {
 
 	/**
 	 * The user meta key of the X username.
@@ -86,80 +86,16 @@ class Author_Schema_Updater {
 			);
 		}
 
-		$fields    = $this->field_map->get_fields();
-		$warnings  = [];
-		$saved_any = false;
-
-		foreach ( \array_keys( \array_intersect_key( $fields, $input ) ) as $field_name ) {
-			$warning = $this->update_field( $user_id, $field_name, $input[ $field_name ] );
-			if ( $warning === null ) {
-				$saved_any = true;
-				continue;
-			}
-
-			$warnings[] = $warning;
-		}
+		$fields  = $this->field_map->get_fields();
+		$warning = $this->update_fields( $fields, $this->field_map->get_validators(), $input, [ 'user_id' => $user_id ] );
 
 		$result = \array_merge( [ 'user_id' => $user_id ], $this->get_settings( $user_id, $fields ) );
 
-		if ( $warnings !== [] ) {
-			$warnings[]        = ( $saved_any ) ? \__( 'The other settings were saved.', 'wordpress-seo' ) : \__( 'No other settings were saved.', 'wordpress-seo' );
-			$result['warning'] = \implode( ' ', $warnings );
+		if ( $warning !== null ) {
+			$result['warning'] = $warning;
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Validates and saves a single field.
-	 *
-	 * @param int    $user_id    The ID of the user.
-	 * @param string $field_name The name of the field.
-	 * @param mixed  $value      The value to save.
-	 *
-	 * @return string|null A warning when the field could not be saved, null otherwise.
-	 */
-	private function update_field( int $user_id, string $field_name, $value ): ?string {
-		$warning = $this->validate_field( $field_name, $value );
-		if ( $warning !== null ) {
-			return $warning;
-		}
-
-		if ( ! $this->save_field( $user_id, $field_name, $value ) ) {
-			// A failed save is also reported when the value was invalid or got sanitized into something else,
-			// so the warning points to the returned value rather than claiming nothing was stored.
-			return \sprintf(
-				/* translators: %s expands to the name of a setting. */
-				\__( 'The %s setting could not be saved as provided, so its current value is returned.', 'wordpress-seo' ),
-				$field_name,
-			);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Validates a single field with the validator it is registered with in the field map, if any.
-	 *
-	 * @param string $field_name The name of the field.
-	 * @param mixed  $value      The value to save.
-	 *
-	 * @return string|null A warning when the value cannot be saved, null otherwise.
-	 */
-	private function validate_field( string $field_name, $value ): ?string {
-		$validators = $this->field_map->get_validators();
-		if ( ! isset( $validators[ $field_name ] ) ) {
-			return null;
-		}
-
-		$warning = \call_user_func( $validators[ $field_name ], $value, $field_name );
-
-		// Anything but a non-empty string cannot be relayed as a warning, so the value is saved instead.
-		if ( ! \is_string( $warning ) || $warning === '' ) {
-			return null;
-		}
-
-		return $warning;
 	}
 
 	/**
@@ -169,13 +105,14 @@ class Author_Schema_Updater {
 	 * in the first-time configuration, including the ones that add-ons register there. The other fields are
 	 * saved by their repository.
 	 *
-	 * @param int    $user_id    The ID of the user.
-	 * @param string $field_name The name of the field.
-	 * @param mixed  $value      The value to save.
+	 * @param string               $field_name The name of the field.
+	 * @param mixed                $value      The value to save.
+	 * @param array<string, mixed> $context    The ID of the user, under 'user_id'.
 	 *
 	 * @return bool Whether the field was saved as provided.
 	 */
-	private function save_field( int $user_id, string $field_name, $value ): bool {
+	protected function save_field( string $field_name, $value, array $context ): bool {
+		$user_id    = $context['user_id'];
 		$repository = $this->field_map->get_repositories()[ $field_name ];
 
 		if ( \array_key_exists( $field_name, $this->social_profiles_helper->get_person_social_profile_fields() ) ) {
