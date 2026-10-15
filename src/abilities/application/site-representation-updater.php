@@ -161,20 +161,7 @@ class Site_Representation_Updater extends Abstract_Fields_Updater {
 		$settings = [];
 
 		foreach ( $fields as $field_name => $schema ) {
-			$value = $this->options_helper->get( $field_name );
-
-			// Unset options come back as their default, which is not always of the declared type
-			// (the user ID defaults to false, for example).
-			switch ( ( $schema['type'] ?? null ) ) {
-				case 'integer':
-					$value = (int) $value;
-					break;
-				case 'string':
-					$value = (string) $value;
-					break;
-			}
-
-			$settings[ $field_name ] = $value;
+			$settings[ $field_name ] = $this->cast_to_schema_type( $this->options_helper->get( $field_name ), $schema );
 		}
 
 		return $settings;

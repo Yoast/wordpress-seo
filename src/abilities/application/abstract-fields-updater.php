@@ -113,5 +113,29 @@ abstract class Abstract_Fields_Updater {
 		return $warning;
 	}
 
+	/**
+	 * Casts a stored value to the type its schema declares.
+	 *
+	 * Unset settings come back as a default that is not always of the declared type, like an empty string for
+	 * user meta or false for some options, which would fail the output schema.
+	 *
+	 * @param mixed                $value  The stored value.
+	 * @param array<string, mixed> $schema The JSON schema of the field.
+	 *
+	 * @return mixed The value, cast to the declared type.
+	 */
+	protected function cast_to_schema_type( $value, array $schema ) {
+		switch ( ( $schema['type'] ?? null ) ) {
+			case 'integer':
+				return (int) $value;
+			case 'string':
+				return (string) $value;
+			case 'array':
+				return ( \is_array( $value ) ) ? $value : [];
+			default:
+				return $value;
+		}
+	}
+
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
 }

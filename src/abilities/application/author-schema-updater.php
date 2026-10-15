@@ -166,22 +166,7 @@ class Author_Schema_Updater extends Abstract_Fields_Updater {
 		$repositories = $this->field_map->get_repositories();
 
 		foreach ( $fields as $field_name => $schema ) {
-			$value = $repositories[ $field_name ]->get( $user_id, $field_name );
-
-			// Unset user meta comes back as an empty string, which is not always of the declared type.
-			switch ( ( $schema['type'] ?? null ) ) {
-				case 'integer':
-					$value = (int) $value;
-					break;
-				case 'string':
-					$value = (string) $value;
-					break;
-				case 'array':
-					$value = ( \is_array( $value ) ) ? $value : [];
-					break;
-			}
-
-			$settings[ $field_name ] = $value;
+			$settings[ $field_name ] = $this->cast_to_schema_type( $repositories[ $field_name ]->get( $user_id, $field_name ), $schema );
 		}
 
 		return $settings;
