@@ -81,6 +81,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 		hasExternalGeneration,
 		pendingSwitch,
 		isKeywordAnalysisActive,
+		isPremium,
 	} = useSelect( ( select ) => {
 		const store = select( STORE_NAME );
 		return {
@@ -98,6 +99,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 			pendingSwitch: store.selectPendingSwitch(),
 			// With the SEO analysis off the focus keyphrase column stays visible but stops being editable.
 			isKeywordAnalysisActive: store.selectIsKeywordAnalysisActive(),
+			isPremium: store.selectPreference( "isPremium", false ),
 		};
 	}, [] );
 	const fieldSets = useMemo( () => getFieldSets( { isKeywordAnalysisActive } ), [ isKeywordAnalysisActive ] );
@@ -244,7 +246,7 @@ export const BulkEditorContent = ( { dataProvider, remoteDataProvider, contentTy
 						return (
 							<BulkEditorTabPanel key={ tab.id } tabId={ tab.id } isActive={ tab.id === activeFieldSet }>
 								<Slot name={ IMAGE_ALT_TEXT_SLOT } fillProps={ { items } }>
-									{ ( fills ) => ( fills.length > 0 ? fills : <ImageAltTextUpsell /> ) }
+									{ ( fills ) => ( fills.length > 0 && isPremium ? fills : <ImageAltTextUpsell /> ) }
 								</Slot>
 							</BulkEditorTabPanel>
 						);
