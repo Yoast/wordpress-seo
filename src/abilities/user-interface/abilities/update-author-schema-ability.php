@@ -105,7 +105,7 @@ class Update_Author_Schema_Ability implements Ability_Interface {
 			'label'               => \__( 'Update Author Schema', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: %s expands to Yoast SEO. */
-				\__( 'Update %s\'s author schema settings of a user, which provide their pronouns, social profiles and, depending on the active add-ons, other details for the user\'s Person schema. That schema describes the user as the author of their posts, on their author archive, and as the site itself when the site represents this user. Only the settings you provide are changed; a provided empty string clears that setting. Provide only the user ID to read the current settings without changing anything.', 'wordpress-seo' ),
+				\__( 'Update %s\'s author schema settings of a user, which provide their pronouns, social profiles and, depending on the active add-ons, other details for the user\'s Person schema. That schema describes the user as the author of their posts, on their author archive, and as the site itself when the site represents this user. Only the settings you provide are changed; a provided empty string clears that setting. Provide only the user ID to read the current settings without changing anything. These settings are published as personal details about the user: only use values you were given, never guessed, inferred (for example pronouns from a name) or found elsewhere, and confirm them before saving.', 'wordpress-seo' ),
 				'Yoast SEO',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
