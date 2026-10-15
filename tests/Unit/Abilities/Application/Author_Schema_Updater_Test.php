@@ -188,6 +188,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 		$this->user_helper->expects( 'update_meta' )->once()->with( self::USER_ID, 'wpseo_pronouns', 'they/them' );
 		$this->user_helper->expects( 'get_meta' )->once()->with( self::USER_ID, 'wpseo_pronouns', true )->andReturn( 'they/them' );
 		$this->social_profiles_helper->expects( 'set_person_social_profiles' )->once()->with( self::USER_ID, [ 'facebook' => 'https://facebook.com/yoast' ] )->andReturn( [] );
+		$this->user_helper->expects( 'get_meta' )->once()->with( self::USER_ID, 'facebook', true )->andReturn( 'https://facebook.com/yoast' );
 
 		$this->expect_settings_read(
 			[
@@ -312,7 +313,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 		$this->options_helper->expects( 'get_twitter_id' )->once()->with( $value )->andReturn( $x_username );
 		$this->social_profiles_helper->expects( 'set_person_social_profiles' )->once()->with( self::USER_ID, [ 'twitter' => $expected ] )->andReturn( [] );
 
-		$this->user_helper->allows( 'get_meta' )->andReturn( '' );
+		$this->user_helper->allows( 'get_meta' )->andReturn( $expected );
 
 		$result = $this->instance->update( self::USER_ID, [ 'twitter' => $value ] );
 
@@ -370,6 +371,30 @@ final class Author_Schema_Updater_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that update reports a valid social profile in a warning when it is not stored as provided, as the
+	 * social profiles helper does not report failed saves.
+	 *
+	 * @covers ::update
+	 * @covers ::update_field
+	 * @covers ::save_field
+	 *
+	 * @return void
+	 */
+	public function test_update_social_profile_not_stored() {
+		$this->social_profiles_helper->expects( 'set_person_social_profiles' )->once()->with( self::USER_ID, [ 'facebook' => 'https://facebook.com/yoast' ] )->andReturn( [] );
+
+		$this->user_helper->allows( 'get_meta' )->andReturn( 'https://facebook.com/old' );
+
+		$result = $this->instance->update( self::USER_ID, [ 'facebook' => 'https://facebook.com/yoast' ] );
+
+		$this->assertSame( 'https://facebook.com/old', $result['facebook'] );
+		$this->assertSame(
+			'The facebook setting could not be saved as provided, so its current value is returned. No other settings were saved.',
+			$result['warning'],
+		);
+	}
+
+	/**
 	 * Tests that update sanitizes the settings that are not social profiles, and reports a value that got
 	 * sanitized into something else in a warning.
 	 *
@@ -414,7 +439,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 		$this->user_helper->expects( 'update_meta' )->never();
 		$this->social_profiles_helper->expects( 'set_person_social_profiles' )->once()->with( self::USER_ID, [ 'facebook' => 'https://facebook.com/yoast' ] )->andReturn( [] );
 
-		$this->user_helper->allows( 'get_meta' )->andReturn( '' );
+		$this->user_helper->allows( 'get_meta' )->andReturn( 'https://facebook.com/yoast' );
 
 		$result = $this->instance->update(
 			self::USER_ID,

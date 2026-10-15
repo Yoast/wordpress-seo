@@ -187,16 +187,23 @@ class Author_Schema_Updater {
 	 * @return bool Whether the field was saved as provided.
 	 */
 	private function save_field( int $user_id, string $field_name, $value ): bool {
+		$repository = $this->field_map->get_repositories()[ $field_name ];
+
 		if ( \array_key_exists( $field_name, $this->social_profiles_helper->get_person_social_profile_fields() ) ) {
 			if ( $field_name === self::X_USERNAME ) {
 				$value = $this->get_x_username( $value );
 			}
 
 			// One profile at a time, as the helper saves none of the provided profiles when one of them is invalid.
-			return $this->social_profiles_helper->set_person_social_profiles( $user_id, [ $field_name => $value ] ) === [];
+			if ( $this->social_profiles_helper->set_person_social_profiles( $user_id, [ $field_name => $value ] ) !== [] ) {
+				return false;
+			}
+
+			// The helper only reports invalid profiles, not failed saves, so the stored value is checked instead.
+			return $repository->get( $user_id, $field_name ) === $value;
 		}
 
-		return $this->field_map->get_repositories()[ $field_name ]->save( $user_id, $field_name, $value );
+		return $repository->save( $user_id, $field_name, $value );
 	}
 
 	/**
