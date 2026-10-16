@@ -148,6 +148,11 @@ final class Front_End_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_hooks() {
+		Monkey\Functions\expect( 'get_theme_support' )
+			->once()
+			->with( 'title-tag' )
+			->andReturn( true );
+
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'wp_head', [ $this->instance, 'call_wpseo_head' ] ), 'Does not have expected wp_head action' );
@@ -155,6 +160,56 @@ final class Front_End_Integration_Test extends TestCase {
 		$this->assertNotFalse( \has_filter( 'wp_title', [ $this->instance, 'filter_title' ] ), 'Does not have expected wp_title filter' );
 		$this->assertNotFalse( \has_filter( 'wpseo_frontend_presenter_classes', [ $this->instance, 'filter_robots_presenter' ] ), 'Does not have expected wpseo_frontend_presenter_classes filter' );
 		$this->assertNotFalse( \has_filter( 'render_block', [ $this->instance, 'query_loop_next_prev' ] ), 'Filter for checking query loop block' );
+		$this->assertSame( 0, \has_action( 'wp_head', [ $this->instance, 'remove_core_title_tag_renderers' ] ), 'Does not have expected wp_head action at priority 0' );
+	}
+
+	/**
+	 * Tests that core's and Gutenberg's title tag renderers are removed.
+	 *
+	 * @covers ::remove_core_title_tag_renderers
+	 *
+	 * @return void
+	 */
+	public function test_remove_core_title_tag_renderers() {
+		Monkey\Functions\expect( 'get_theme_support' )
+			->once()
+			->with( 'title-tag' )
+			->andReturn( true );
+
+		\add_action( 'wp_head', '_wp_render_title_tag', 1 );
+		\add_action( 'wp_head', '_block_template_render_title_tag', 1 );
+		\add_action( 'wp_head', 'gutenberg_render_title_tag', 1 );
+
+		$this->instance->remove_core_title_tag_renderers();
+
+		$this->assertFalse( \has_action( 'wp_head', '_wp_render_title_tag' ), 'Core title tag renderer was not removed' );
+		$this->assertFalse( \has_action( 'wp_head', '_block_template_render_title_tag' ), 'Block template title tag renderer was not removed' );
+		$this->assertFalse( \has_action( 'wp_head', 'gutenberg_render_title_tag' ), 'Gutenberg title tag renderer was not removed' );
+	}
+
+	/**
+	 * Tests that core's title tag renderers are kept when our own title presenter is removed.
+	 *
+	 * @covers ::remove_core_title_tag_renderers
+	 *
+	 * @return void
+	 */
+	public function test_remove_core_title_tag_renderers_keeps_renderers_when_presenter_is_removed() {
+		Monkey\Functions\expect( 'get_theme_support' )
+			->once()
+			->with( 'title-tag' )
+			->andReturn( false );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'forcerewritetitle', false )
+			->andReturn( false );
+
+		\add_action( 'wp_head', '_block_template_render_title_tag', 1 );
+
+		$this->instance->remove_core_title_tag_renderers();
+
+		$this->assertSame( 1, \has_action( 'wp_head', '_block_template_render_title_tag' ), 'Renderer should be kept so the page still has a title' );
 	}
 
 	/**
