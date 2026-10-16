@@ -52,6 +52,13 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 			public $save_result = true;
 
 			/**
+			 * Whether update_fields reported that any field was saved.
+			 *
+			 * @var bool|null
+			 */
+			public $saved_any;
+
+			/**
 			 * The fields that were saved, with their value and context.
 			 *
 			 * @var array<string, array<int, mixed>>
@@ -84,7 +91,10 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 			 * @return string|null The warning.
 			 */
 			public function update( array $fields, array $validators, array $input, array $context = [] ): ?string {
-				return $this->update_fields( $fields, $validators, $input, $context );
+				$result          = $this->update_fields( $fields, $validators, $input, $context );
+				$this->saved_any = $result['saved_any'];
+
+				return $result['warning'];
 			}
 
 			/**
@@ -121,6 +131,7 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 		);
 
 		$this->assertNull( $warning );
+		$this->assertTrue( $this->instance->saved_any );
 		$this->assertSame( [ 'first' => [ 'one', [] ] ], $this->instance->saved );
 	}
 
@@ -133,6 +144,7 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 	 */
 	public function test_update_no_fields() {
 		$this->assertNull( $this->instance->update( self::FIELDS, [], [ 'user_id' => 7 ] ) );
+		$this->assertFalse( $this->instance->saved_any );
 		$this->assertSame( [], $this->instance->saved );
 	}
 
@@ -168,6 +180,7 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 		$this->assertSame( [ 'one', 'first' ], $received );
 		$this->assertSame( [ 'second' => [ 'two', [] ] ], $this->instance->saved );
 		$this->assertSame( 'The first setting was not changed. The other settings were saved.', $warning );
+		$this->assertTrue( $this->instance->saved_any );
 	}
 
 	/**
@@ -232,6 +245,7 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 			'The first setting could not be saved as provided, so its current value is returned. The second setting could not be saved as provided, so its current value is returned. No other settings were saved.',
 			$warning,
 		);
+		$this->assertFalse( $this->instance->saved_any );
 	}
 
 	/**

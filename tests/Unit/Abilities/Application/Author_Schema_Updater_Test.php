@@ -155,6 +155,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 			$this->field_map,
 			$this->social_profiles_helper,
 			$this->options_helper,
+			$this->user_helper,
 		);
 	}
 
@@ -172,6 +173,24 @@ final class Author_Schema_Updater_Test extends TestCase {
 	}
 
 	/**
+	 * Expects the time the profile was updated to be saved, which the author sitemap uses, or not.
+	 *
+	 * @param bool $updated Whether any setting is saved.
+	 *
+	 * @return void
+	 */
+	private function expect_profile_updated( bool $updated ): void {
+		$expectation = $this->user_helper->expects( 'update_meta' )->with( self::USER_ID, '_yoast_wpseo_profile_updated', Mockery::type( 'int' ) );
+
+		if ( $updated ) {
+			$expectation->once();
+			return;
+		}
+
+		$expectation->never();
+	}
+
+	/**
 	 * Tests that update saves the provided settings only, saves the social profiles through the social profiles
 	 * helper and returns all settings along with the user ID.
 	 *
@@ -183,6 +202,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update() {
+		$this->expect_profile_updated( true );
 		$this->user_helper->expects( 'update_meta' )->once()->with( self::USER_ID, 'wpseo_pronouns', 'they/them' );
 		$this->user_helper->expects( 'get_meta' )->once()->with( self::USER_ID, 'wpseo_pronouns', true )->andReturn( 'they/them' );
 		$this->social_profiles_helper->expects( 'set_person_social_profiles' )->once()->with( self::USER_ID, [ 'facebook' => 'https://facebook.com/yoast' ] )->andReturn( [] );
@@ -223,6 +243,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_read_only() {
+		$this->expect_profile_updated( false );
 		$this->user_helper->expects( 'update_meta' )->never();
 		$this->social_profiles_helper->expects( 'set_person_social_profiles' )->never();
 
@@ -312,6 +333,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_x_username( $value, $x_username, $expected ) {
+		$this->expect_profile_updated( true );
 		$this->options_helper->expects( 'get_twitter_id' )->once()->with( $value )->andReturn( $x_username );
 		$this->social_profiles_helper->expects( 'set_person_social_profiles' )->once()->with( self::USER_ID, [ 'twitter' => $expected ] )->andReturn( [] );
 
@@ -332,6 +354,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_clear_x_username() {
+		$this->expect_profile_updated( true );
 		$this->options_helper->expects( 'get_twitter_id' )->never();
 		$this->social_profiles_helper->expects( 'set_person_social_profiles' )->once()->with( self::USER_ID, [ 'twitter' => '' ] )->andReturn( [] );
 
@@ -352,6 +375,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_social_profile_not_saved() {
+		$this->expect_profile_updated( true );
 		$this->social_profiles_helper->expects( 'set_person_social_profiles' )->once()->with( self::USER_ID, [ 'facebook' => 'not-a-url' ] )->andReturn( [ 'facebook' ] );
 		$this->user_helper->expects( 'update_meta' )->once()->with( self::USER_ID, 'wpseo_pronouns', 'they/them' );
 
@@ -381,6 +405,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_social_profile_not_stored() {
+		$this->expect_profile_updated( false );
 		$this->social_profiles_helper->expects( 'set_person_social_profiles' )->once()->with( self::USER_ID, [ 'facebook' => 'https://facebook.com/yoast' ] )->andReturn( [] );
 
 		$this->user_helper->allows( 'get_meta' )->andReturn( 'https://facebook.com/old' );
@@ -404,6 +429,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_sanitized() {
+		$this->expect_profile_updated( false );
 		$this->user_helper->expects( 'update_meta' )->once()->with( self::USER_ID, 'wpseo_pronouns', 'they/them' );
 
 		$this->user_helper->allows( 'get_meta' )->andReturn( 'they/them' );
@@ -425,6 +451,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_validator_warning() {
+		$this->expect_profile_updated( true );
 		$received = [];
 
 		$this->validators['wpseo_pronouns'] = static function ( $value, $field_name ) use ( &$received ) {
@@ -476,6 +503,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_validator_no_warning( $warning ) {
+		$this->expect_profile_updated( true );
 		$this->validators['wpseo_pronouns'] = static function () use ( $warning ) {
 			return $warning;
 		};
@@ -499,6 +527,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_with_repository() {
+		$this->expect_profile_updated( true );
 		$repository                     = Mockery::mock( Author_Schema_Field_Repository_Interface::class );
 		$this->repositories['jobTitle'] = $repository;
 
@@ -523,6 +552,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_update_with_repository_not_saved() {
+		$this->expect_profile_updated( false );
 		$repository                     = Mockery::mock( Author_Schema_Field_Repository_Interface::class );
 		$this->repositories['jobTitle'] = $repository;
 
