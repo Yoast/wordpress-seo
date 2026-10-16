@@ -20,14 +20,19 @@ export const ContentTabsContext = createContext( {
 	isAccordion: false,
 	isExpanded: true,
 	keepMounted: false,
-	panelSlots: {},
 	registerPanelSlot: () => {},
 } );
 
 /**
+ * The element below the active accordion tab's button that its panel renders into, as `{ tabId, element }`, or null.
+ * In its own context so a change only re-renders the panels.
+ */
+export const PanelSlotContext = createContext( null );
+
+/**
  * @returns {{activeTab: ?string, onTabSelect: Function, isAccordion: boolean, isExpanded: boolean, keepMounted: boolean,
- *   panelSlots: Object<string, HTMLElement>, registerPanelSlot: Function}} The active tab's id, the callback to activate
- *   another one, whether the tabs are an accordion and its active tab is open, whether a collapsed panel stays mounted,
- *   and the elements the accordion panels render into.
+ *   registerPanelSlot: Function}} The active tab's id, the callback to activate another one, whether the tabs are an
+ *   accordion and its active tab is open, whether a collapsed panel stays mounted, and the callback that registers
+ *   the element an accordion panel renders into.
  */
 export const useContentTabsContext = () => useContext( ContentTabsContext );

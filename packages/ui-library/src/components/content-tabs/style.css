@@ -47,17 +47,31 @@
 			@apply yst-min-w-0 yst-flex-1;
 		}
 
-		.yst-content-tabs__icon {
+		/* The chevron: pointing to the inline end, or, in an accordion, down while collapsed and up while open. */
+		.yst-content-tabs__icon,
+		.yst-content-tabs__accordion-icon {
 			@apply
 			yst-h-4
 			yst-w-4
 			yst-shrink-0
 			yst-text-slate-400
-			yst-transition-colors
+			yst-transition
 			yst-duration-150
-			yst-ease-in-out
-			group-hover:yst-text-slate-600
-			rtl:yst-rotate-180;
+			yst-ease-in-out;
+		}
+
+		.yst-content-tabs__icon {
+			@apply rtl:yst-rotate-180;
+		}
+
+		/* Explicit selectors: `group-*` variants nested in `.yst-root` compile to `.yst-group … .yst-root …`, which never matches. */
+		.yst-content-tabs__button:hover .yst-content-tabs__icon,
+		.yst-content-tabs__button:hover .yst-content-tabs__accordion-icon {
+			@apply yst-text-slate-600;
+		}
+
+		.yst-content-tabs__button[aria-expanded="true"] .yst-content-tabs__accordion-icon {
+			@apply yst-rotate-180;
 		}
 
 		.yst-content-tabs__content {
@@ -84,27 +98,6 @@
 
 		.yst-content-tabs__accordion-panel {
 			@apply yst-border-b yst-border-slate-200;
-		}
-
-		/* Chevron down while the tab is collapsed, and up while it is open. */
-		.yst-content-tabs__accordion-icon {
-			@apply
-			yst-h-4
-			yst-w-4
-			yst-shrink-0
-			yst-text-slate-400
-			yst-transition
-			yst-duration-150
-			yst-ease-in-out;
-		}
-
-		/* Explicit selectors: `group-*` variants nested in `.yst-root` compile to `.yst-group … .yst-root …`, which never matches. */
-		.yst-content-tabs__button:hover .yst-content-tabs__accordion-icon {
-			@apply yst-text-slate-600;
-		}
-
-		.yst-content-tabs__button[aria-expanded="true"] .yst-content-tabs__accordion-icon {
-			@apply yst-rotate-180;
 		}
 	}
 }

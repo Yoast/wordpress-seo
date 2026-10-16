@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import { useIsNarrowerThan } from "../../hooks";
-import { ContentTabsContext } from "./context";
+import { ContentTabsContext, PanelSlotContext } from "./context";
 import { TabButton, Panel, TabList, Content } from "./components";
 
 /**
@@ -17,8 +17,9 @@ import { TabButton, Panel, TabList, Content } from "./components";
  *
  * Accordion: pass `accordionBreakpoint` to turn the tabs into an accordion when the wrapping element is narrower
  * than that given width. The active tab's panel then opens right below its button, and clicking the open tab again
- * collapses it. Pass `keepMounted` to only hide a collapsed panel, so its state
- * survives a collapse. Crossing the breakpoint moves the panel, which remounts it.
+ * collapses it. Pass `keepMounted` to only hide a collapsed panel, so its state survives a collapse.
+ * Crossing the breakpoint moves the panel, which remounts it. With `accordionBreakpoint`, a component passed as `as`
+ * receives the ref that measures it, so it must forward it to its element.
  *
  * @param {React.ReactNode} children The tab buttons and the content area — `ContentTabs.TabButton`/`ContentTabs.Panel`, or any other markup.
  * @param {string|null} [activeTab] The id of the active tab (controlled mode).
@@ -50,10 +51,12 @@ const ContentTabs = ( {
 	const [ rootRef, isAccordion ] = useIsNarrowerThan( accordionBreakpoint );
 	// Whether the active tab is open in the accordion.
 	const [ isExpanded, setIsExpanded ] = useState( true );
-	// The element below each accordion tab button that its panel renders into, by tab id.
-	const [ panelSlots, setPanelSlots ] = useState( {} );
+	// The element below the active accordion tab's button that its panel renders into: `{ tabId, element }`.
+	const [ panelSlot, setPanelSlot ] = useState( null );
 
-	useEffect( () => {
+	// A tab that becomes active opens, also when that is not from a click (like a controlled change), and so does the
+	// active tab when the accordion takes over. A layout effect, so a stale collapsed state never paints.
+	useLayoutEffect( () => {
 		setIsExpanded( true );
 	}, [ resolvedActiveTab, isAccordion ] );
 
@@ -69,18 +72,13 @@ const ContentTabs = ( {
 		onTabChange?.( tabId );
 	}, [ isAccordion, resolvedActiveTab, isControlled, onTabChange ] );
 
+	// Only clears the slot if it is still this tab's: the next tab's slot can register first.
 	const registerPanelSlot = useCallback( ( tabId, element ) => {
-		setPanelSlots( ( slots ) => {
-			if ( ( slots[ tabId ] ?? null ) === element ) {
-				return slots;
-			}
-			const next = { ...slots };
+		setPanelSlot( ( slot ) => {
 			if ( element ) {
-				next[ tabId ] = element;
-			} else {
-				delete next[ tabId ];
+				return slot?.tabId === tabId && slot.element === element ? slot : { tabId, element };
 			}
-			return next;
+			return slot?.tabId === tabId ? null : slot;
 		} );
 	}, [] );
 
@@ -91,21 +89,23 @@ const ContentTabs = ( {
 			isAccordion,
 			isExpanded,
 			keepMounted,
-			panelSlots,
 			registerPanelSlot,
 		} ),
-		[ resolvedActiveTab, handleTabSelect, isAccordion, isExpanded, keepMounted, panelSlots, registerPanelSlot ],
+		[ resolvedActiveTab, handleTabSelect, isAccordion, isExpanded, keepMounted, registerPanelSlot ],
 	);
 
+	// The slot is in its own context, which only panels read: a slot change does not re-render every tab button.
 	return (
 		<ContentTabsContext.Provider value={ contextValue }>
-			<Component
-				ref={ accordionBreakpoint ? rootRef : null }
-				className={ classNames( "yst-content-tabs", isAccordion && "yst-content-tabs--accordion", className ) }
-				{ ...props }
-			>
-				{ children }
-			</Component>
+			<PanelSlotContext.Provider value={ panelSlot }>
+				<Component
+					ref={ accordionBreakpoint ? rootRef : null }
+					className={ classNames( "yst-content-tabs", isAccordion && "yst-content-tabs--accordion", className ) }
+					{ ...props }
+				>
+					{ children }
+				</Component>
+			</PanelSlotContext.Provider>
 		</ContentTabsContext.Provider>
 	);
 };

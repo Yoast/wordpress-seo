@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useContext } from "react";
 import { createPortal } from "react-dom";
-import { useContentTabsContext } from "../context";
+import { PanelSlotContext, useContentTabsContext } from "../context";
 
 /**
  * The content area for one tab. Renders only when `tabId` matches the active tab in `ContentTabs`
@@ -24,7 +24,8 @@ import { useContentTabsContext } from "../context";
  * @returns {JSX.Element|null} The panel, or null when inactive (or collapsed, unless kept mounted).
  */
 export const Panel = ( { children, className = "", tabId = "", ...props } ) => {
-	const { activeTab, isAccordion, isExpanded, keepMounted, panelSlots } = useContentTabsContext();
+	const { activeTab, isAccordion, isExpanded, keepMounted } = useContentTabsContext();
+	const panelSlot = useContext( PanelSlotContext );
 
 	if ( activeTab !== tabId ) {
 		return null;
@@ -45,11 +46,10 @@ export const Panel = ( { children, className = "", tabId = "", ...props } ) => {
 	if ( ! isAccordion ) {
 		return panel;
 	}
-	const slot = panelSlots[ tabId ];
-	if ( ! slot || ( ! isExpanded && ! keepMounted ) ) {
+	if ( panelSlot?.tabId !== tabId || ( ! isExpanded && ! keepMounted ) ) {
 		return null;
 	}
-	return createPortal( panel, slot );
+	return createPortal( panel, panelSlot.element );
 };
 
 Panel.displayName = "ContentTabs.Panel";

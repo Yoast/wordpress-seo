@@ -39,7 +39,7 @@ class ResizeObserverMock {
  * @returns {void}
  */
 const resizeTo = ( width ) => act( () => {
-	ResizeObserverMock.instances.forEach( ( observer ) => observer.callback( [ { contentRect: { width } } ] ) );
+	ResizeObserverMock.instances.forEach( ( observer ) => observer.callback( [ { borderBoxSize: [ { inlineSize: width } ] } ] ) );
 } );
 
 /**
@@ -84,9 +84,11 @@ const isHidden = ( element ) => Boolean( element.closest( "[hidden]" ) );
 
 describe( "ContentTabs accordion", () => {
 	let originalResizeObserver;
+	let originalRequestAnimationFrame;
 
 	beforeEach( () => {
 		originalResizeObserver = window.ResizeObserver;
+		originalRequestAnimationFrame = window.requestAnimationFrame;
 		window.ResizeObserver = ResizeObserverMock;
 		ResizeObserverMock.instances = [];
 		window.requestAnimationFrame = ( callback ) => callback();
@@ -94,6 +96,7 @@ describe( "ContentTabs accordion", () => {
 
 	afterEach( () => {
 		window.ResizeObserver = originalResizeObserver;
+		window.requestAnimationFrame = originalRequestAnimationFrame;
 	} );
 
 	it( "renders side by side without an accordionBreakpoint", () => {
