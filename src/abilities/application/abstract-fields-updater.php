@@ -35,9 +35,10 @@ abstract class Abstract_Fields_Updater {
 	 * @param array<string, mixed>                $input      The fields to change, keyed by field name.
 	 * @param array<string, mixed>                $context    What the extending class needs to save the fields.
 	 *
-	 * @return string|null A warning when some fields could not be changed, null otherwise.
+	 * @return array{warning: string|null, saved_any: bool} A warning when some fields could not be changed, and
+	 *                                                      whether any field was saved.
 	 */
-	protected function update_fields( array $fields, array $validators, array $input, array $context = [] ): ?string {
+	protected function update_fields( array $fields, array $validators, array $input, array $context = [] ): array {
 		$warnings  = [];
 		$saved_any = false;
 
@@ -51,13 +52,16 @@ abstract class Abstract_Fields_Updater {
 			$warnings[] = $warning;
 		}
 
-		if ( $warnings === [] ) {
-			return null;
+		$warning = null;
+		if ( $warnings !== [] ) {
+			$warnings[] = ( $saved_any ) ? \__( 'The other settings were saved.', 'wordpress-seo' ) : \__( 'No other settings were saved.', 'wordpress-seo' );
+			$warning    = \implode( ' ', $warnings );
 		}
 
-		$warnings[] = ( $saved_any ) ? \__( 'The other settings were saved.', 'wordpress-seo' ) : \__( 'No other settings were saved.', 'wordpress-seo' );
-
-		return \implode( ' ', $warnings );
+		return [
+			'warning'   => $warning,
+			'saved_any' => $saved_any,
+		];
 	}
 
 	/**

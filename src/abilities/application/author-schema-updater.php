@@ -7,6 +7,7 @@ use WP_Error;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_Schema_Field_Map;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
  * Application service that updates the author schema settings of a user.
@@ -46,20 +47,30 @@ class Author_Schema_Updater extends Abstract_Fields_Updater {
 	private $options_helper;
 
 	/**
+	 * The user helper.
+	 *
+	 * @var User_Helper
+	 */
+	private $user_helper;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Author_Schema_Field_Map $field_map              The author schema field map.
 	 * @param Social_Profiles_Helper  $social_profiles_helper The social profiles helper.
 	 * @param Options_Helper          $options_helper         The options helper.
+	 * @param User_Helper             $user_helper            The user helper.
 	 */
 	public function __construct(
 		Author_Schema_Field_Map $field_map,
 		Social_Profiles_Helper $social_profiles_helper,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		User_Helper $user_helper
 	) {
 		$this->field_map              = $field_map;
 		$this->social_profiles_helper = $social_profiles_helper;
 		$this->options_helper         = $options_helper;
+		$this->user_helper            = $user_helper;
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The fields added through the filter can hold any user meta value.
@@ -86,13 +97,18 @@ class Author_Schema_Updater extends Abstract_Fields_Updater {
 			);
 		}
 
-		$fields  = $this->field_map->get_fields();
-		$warning = $this->update_fields( $fields, $this->field_map->get_validators(), $input, [ 'user_id' => $user_id ] );
+		$fields = $this->field_map->get_fields();
+		$update = $this->update_fields( $fields, $this->field_map->get_validators(), $input, [ 'user_id' => $user_id ] );
+
+		if ( $update['saved_any'] ) {
+			// Like saving the user profile page does, so the author sitemap gets the right last modified date.
+			$this->user_helper->update_meta( $user_id, '_yoast_wpseo_profile_updated', \time() );
+		}
 
 		$result = \array_merge( [ 'user_id' => $user_id ], $this->get_settings( $user_id, $fields ) );
 
-		if ( $warning !== null ) {
-			$result['warning'] = $warning;
+		if ( $update['warning'] !== null ) {
+			$result['warning'] = $update['warning'];
 		}
 
 		return $result;

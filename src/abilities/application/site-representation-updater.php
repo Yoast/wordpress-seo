@@ -88,7 +88,7 @@ class Site_Representation_Updater extends Abstract_Fields_Updater {
 	 */
 	public function update( array $input ): array {
 		$fields  = $this->field_map->get_fields();
-		$warning = $this->update_fields( $fields, $this->field_map->get_validators(), $input );
+		$warning = $this->update_fields( $fields, $this->field_map->get_validators(), $input )['warning'];
 
 		$result = $this->get_settings( $fields );
 
