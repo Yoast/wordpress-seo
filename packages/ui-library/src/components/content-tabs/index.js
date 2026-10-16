@@ -17,7 +17,8 @@ import { TabButton, Panel, TabList, Content } from "./components";
  *
  * Accordion: pass `accordionBreakpoint` to turn the tabs into an accordion when the wrapping element is narrower
  * than that given width. The active tab's panel then opens right below its button, and clicking the open tab again
- * collapses it. Pass `keepMounted` to only hide a collapsed panel, so its state survives a collapse.
+ * collapses it. A collapsed panel is only hidden, so its state survives a collapse; pass `keepMounted={ false }` to
+ * unmount it instead.
  * Crossing the breakpoint moves the panel, which remounts it. With `accordionBreakpoint`, a component passed as `as`
  * receives the ref that measures it, so it must forward it to its element.
  *
@@ -26,7 +27,7 @@ import { TabButton, Panel, TabList, Content } from "./components";
  * @param {string} [defaultActiveTab=null] The id of the initially active tab (uncontrolled mode).
  * @param {Function} [onTabChange] Called with the tab id when a tab is activated.
  * @param {number} [accordionBreakpoint] The width in pixels of the wrapping element below which the tabs are an accordion.
- * @param {boolean} [keepMounted=false] Whether a collapsed accordion panel stays mounted (hidden) instead of unmounting.
+ * @param {boolean} [keepMounted=true] Whether a collapsed accordion panel stays mounted (hidden) instead of unmounting.
  * @param {string|Function} [as="div"] The wrapping element.
  * @param {string} [className=""] Extra class name for the wrapping element.
  * @param {...any} [props] Extra props, spread onto the wrapping element.
@@ -39,7 +40,7 @@ const ContentTabs = ( {
 	defaultActiveTab = null,
 	onTabChange,
 	accordionBreakpoint,
-	keepMounted = false,
+	keepMounted = true,
 	as: Component = "div",
 	className = "",
 	...props
@@ -100,7 +101,7 @@ const ContentTabs = ( {
 			<PanelSlotContext.Provider value={ panelSlot }>
 				<Component
 					ref={ accordionBreakpoint ? rootRef : null }
-					className={ classNames( "yst-content-tabs", isAccordion && "yst-content-tabs--accordion", className ) }
+					className={ classNames( "yst-content-tabs", { "yst-content-tabs--accordion": isAccordion }, className ) }
 					{ ...props }
 				>
 					{ children }

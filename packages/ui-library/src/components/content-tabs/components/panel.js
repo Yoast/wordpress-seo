@@ -13,7 +13,7 @@ import { PanelSlotContext, useContentTabsContext } from "../context";
  * switch. Override via props if needed.
  *
  * In an accordion layout, it renders right below its tab button and only while that tab is open:
- * a collapsed panel unmounts, or stays mounted but hidden with `keepMounted` set to true.
+ * a collapsed panel stays mounted but hidden, or unmounts with `keepMounted` set to false.
  *
  * @param {React.ReactNode} children The panel's content.
  * @param {string} [tabId=""] The id of the tab this panel belongs to. Matched against `activeTab`
@@ -27,10 +27,6 @@ export const Panel = ( { children, className = "", tabId = "", ...props } ) => {
 	const { activeTab, isAccordion, isExpanded, keepMounted } = useContentTabsContext();
 	const panelSlot = useContext( PanelSlotContext );
 
-	if ( activeTab !== tabId ) {
-		return null;
-	}
-
 	const panel = (
 		<div
 			role="region"
@@ -43,13 +39,11 @@ export const Panel = ( { children, className = "", tabId = "", ...props } ) => {
 		</div>
 	);
 
-	if ( ! isAccordion ) {
-		return panel;
+	if ( activeTab !== tabId || ! isAccordion ) {
+		return activeTab === tabId ? panel : null;
 	}
-	if ( panelSlot?.tabId !== tabId || ( ! isExpanded && ! keepMounted ) ) {
-		return null;
-	}
-	return createPortal( panel, panelSlot.element );
+	const canPortal = panelSlot?.tabId === tabId && ( isExpanded || keepMounted );
+	return canPortal ? createPortal( panel, panelSlot.element ) : null;
 };
 
 Panel.displayName = "ContentTabs.Panel";

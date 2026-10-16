@@ -17,7 +17,7 @@ export const Content = ( { children, className = "", ...props } ) => {
 	const { isAccordion } = useContentTabsContext();
 
 	return (
-		<div className={ classNames( "yst-content-tabs__content", isAccordion && "yst-content-tabs__content--accordion", className ) } { ...props }>
+		<div className={ classNames( "yst-content-tabs__content", { "yst-content-tabs__content--accordion": isAccordion }, className ) } { ...props }>
 			{ children }
 		</div>
 	);

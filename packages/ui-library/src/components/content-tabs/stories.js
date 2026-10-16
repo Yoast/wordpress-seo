@@ -192,7 +192,7 @@ export const Accordion = {
 			},
 			source: {
 				transform: () => `
-<ContentTabs defaultActiveTab={ products[ 0 ].id } accordionBreakpoint={ 640 } keepMounted={ true }>
+<ContentTabs defaultActiveTab={ products[ 0 ].id } accordionBreakpoint={ 640 }>
 	<ContentTabs.TabList aria-label="Products">
 		{ products.map( ( product ) => (
 			<ContentTabs.TabButton key={ product.id } id={ product.id }>
@@ -248,7 +248,7 @@ export default {
 		},
 		keepMounted: {
 			control: "boolean",
-			table: { type: { summary: "bool" }, defaultValue: { summary: false } },
+			table: { type: { summary: "bool" }, defaultValue: { summary: true } },
 		},
 		as: {
 			control: { type: "select" },

@@ -6,30 +6,20 @@ import { useSvgAria } from "../../../hooks";
 import { getAccordionPanelId, useContentTabsContext } from "../context";
 
 /**
- * The accordion state of a tab button: whether the tabs are an accordion, whether this tab is open, and the props and
- * ref for its button and for the element below it that its panel renders into.
+ * Gets the accordion attributes of a tab button: `aria-expanded` in an accordion, and `aria-controls` when its panel
+ * renders below it.
  *
- * @param {string} id The tab id.
+ * @param {string}  id           The tab id.
+ * @param {boolean} isAccordion  Whether the tabs are an accordion.
+ * @param {boolean} hasPanelSlot Whether the tab's panel renders below its button.
+ * @param {boolean} isOpen       Whether the tab is open.
  *
- * @returns {{isAccordion: boolean, isOpen: boolean, hasPanelSlot: boolean, buttonProps: Object, panelSlotRef: Function}}
- *   The accordion state.
+ * @returns {Object} The attributes.
  */
-const useAccordionTab = ( id ) => {
-	const { activeTab, isAccordion, isExpanded, registerPanelSlot } = useContentTabsContext();
-	const hasPanelSlot = isAccordion && id === activeTab;
-	const isOpen = hasPanelSlot && isExpanded;
-	const panelSlotRef = useCallback( ( element ) => registerPanelSlot( id, element ), [ registerPanelSlot, id ] );
-
-	const buttonProps = {};
-	if ( isAccordion ) {
-		buttonProps[ "aria-expanded" ] = isOpen;
-	}
-	if ( hasPanelSlot ) {
-		buttonProps[ "aria-controls" ] = getAccordionPanelId( id );
-	}
-
-	return { isAccordion, isOpen, hasPanelSlot, buttonProps, panelSlotRef };
-};
+const getAccordionButtonProps = ( id, isAccordion, hasPanelSlot, isOpen ) => ( {
+	...( isAccordion && { "aria-expanded": isOpen } ),
+	...( hasPanelSlot && { "aria-controls": getAccordionPanelId( id ) } ),
+} );
 
 /**
  * A single tab button within `ContentTabs`. Renders an `<li>` and is meant to be used inside
@@ -70,8 +60,11 @@ export const TabButton = ( {
 	...props
 } ) => {
 	const svgAriaProps = useSvgAria();
-	const { activeTab, onTabSelect } = useContentTabsContext();
-	const { isAccordion, isOpen, hasPanelSlot, buttonProps, panelSlotRef } = useAccordionTab( id );
+	const { activeTab, onTabSelect, isAccordion, isExpanded, registerPanelSlot } = useContentTabsContext();
+	const hasPanelSlot = isAccordion && id === activeTab;
+	const isOpen = hasPanelSlot && isExpanded;
+	const panelSlotRef = useCallback( ( element ) => registerPanelSlot( id, element ), [ registerPanelSlot, id ] );
+	const buttonProps = getAccordionButtonProps( id, isAccordion, hasPanelSlot, isOpen );
 
 	const resolvedIsSelected = isSelected ?? ( id === activeTab );
 	const [ Icon, iconClassName ] = isAccordion

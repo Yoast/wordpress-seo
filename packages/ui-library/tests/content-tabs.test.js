@@ -143,7 +143,7 @@ describe( "ContentTabs accordion", () => {
 
 		expect( onTabChange ).not.toHaveBeenCalled();
 		expect( getTabButton( "One" ).getAttribute( "aria-expanded" ) ).toBe( "false" );
-		expect( screen.queryByText( "Panel one 0" ) ).toBeNull();
+		expect( isHidden( screen.getByText( "Panel one 0" ) ) ).toBe( true );
 	} );
 
 	it( "opens another tab when it is activated", () => {
@@ -168,8 +168,8 @@ describe( "ContentTabs accordion", () => {
 		expect( isHidden( screen.getByText( "Panel one 0" ) ) ).toBe( false );
 	} );
 
-	it( "unmounts a collapsed panel, so its state resets", () => {
-		renderTabs( { accordionBreakpoint: 640 } );
+	it( "unmounts a collapsed panel with keepMounted set to false, so its state resets", () => {
+		renderTabs( { accordionBreakpoint: 640, keepMounted: false } );
 		resizeTo( 400 );
 		fireEvent.click( screen.getByText( "Panel one 0" ) );
 
@@ -179,8 +179,8 @@ describe( "ContentTabs accordion", () => {
 		expect( screen.queryByText( "Panel one 0" ) ).not.toBeNull();
 	} );
 
-	it( "only hides a collapsed panel with keepMounted, so its state survives", () => {
-		renderTabs( { accordionBreakpoint: 640, keepMounted: true } );
+	it( "only hides a collapsed panel by default, so its state survives", () => {
+		renderTabs( { accordionBreakpoint: 640 } );
 		resizeTo( 400 );
 		fireEvent.click( screen.getByText( "Panel one 0" ) );
 
@@ -209,6 +209,18 @@ describe( "ContentTabs accordion", () => {
 		resizeTo( 0 );
 
 		expect( isAccordion( container ) ).toBe( false );
+	} );
+
+	it( "measures the layout width first, the same width the observer reports, not a transformed one", () => {
+		// Scaled to 50%: the transformed width is narrower than the breakpoint, the layout width is not.
+		const offsetWidth = jest.spyOn( HTMLElement.prototype, "offsetWidth", "get" ).mockReturnValue( 800 );
+		const boundingClientRect = jest.spyOn( HTMLElement.prototype, "getBoundingClientRect" ).mockReturnValue( { width: 400 } );
+
+		const { container } = renderTabs( { accordionBreakpoint: 640 } );
+
+		expect( isAccordion( container ) ).toBe( false );
+		offsetWidth.mockRestore();
+		boundingClientRect.mockRestore();
 	} );
 
 	it( "observes the border box, which it measures", () => {

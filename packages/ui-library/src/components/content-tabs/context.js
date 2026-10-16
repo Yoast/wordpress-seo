@@ -19,7 +19,7 @@ export const ContentTabsContext = createContext( {
 	onTabSelect: () => {},
 	isAccordion: false,
 	isExpanded: true,
-	keepMounted: false,
+	keepMounted: true,
 	registerPanelSlot: () => {},
 } );
 

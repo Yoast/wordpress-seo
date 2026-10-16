@@ -17,7 +17,7 @@ export const TabList = ( { children, className = "", ...props } ) => {
 
 	return (
 		<ul
-			className={ classNames( "yst-content-tabs__tab-list", isAccordion && "yst-content-tabs__tab-list--accordion", className ) }
+			className={ classNames( "yst-content-tabs__tab-list", { "yst-content-tabs__tab-list--accordion": isAccordion }, className ) }
 			{ ...props }
 		>
 			{ children }
