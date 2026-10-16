@@ -65,8 +65,21 @@ final class Last_Completed_Indexation_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_maybe_set_indexables_unindexed_calculated_with_zero_indexables(): void {
+		$not_before = \time();
+
 		$this->options_helper_mock->expects()->get( 'last_known_no_unindexed', [] );
-		$this->options_helper_mock->expects()->set( 'last_known_no_unindexed', [ 'name' => \time() ] );
+		$this->options_helper_mock->expects()->set(
+			'last_known_no_unindexed',
+			Mockery::on(
+				static function ( $no_index ) use ( $not_before ) {
+					return \is_array( $no_index )
+						&& \array_keys( $no_index ) === [ 'name' ]
+						&& \is_int( $no_index['name'] )
+						&& $no_index['name'] >= $not_before
+						&& $no_index['name'] <= \time();
+				},
+			),
+		);
 
 		Monkey\Functions\expect( 'remove_action' )
 			->with( 'update_option_wpseo', [ 'WPSEO_Utils', 'clear_cache' ] )

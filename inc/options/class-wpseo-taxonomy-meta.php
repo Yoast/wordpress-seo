@@ -482,20 +482,49 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @return array
 	 */
 	public static function get_keyword_usage( $keyword, $current_term_id, $current_taxonomy ) {
-		$tax_meta = self::get_tax_meta();
-
 		$found = [];
-		// @todo Check for terms of all taxonomies, not only the current taxonomy.
-		foreach ( $tax_meta as $taxonomy_name => $terms ) {
+
+		/* Terms that already store their metadata in core term meta. */
+		if ( $keyword !== '' ) {
+			$terms = get_terms(
+				[
+					'taxonomy'   => get_taxonomies( [], 'names' ),
+					'hide_empty' => false,
+					'fields'     => 'ids',
+					'exclude'    => [ (int) $current_term_id ],
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Reason: Used to find terms with a matching focus keyphrase.
+					'meta_query' => [
+						[
+							'key'   => 'wpseo_focuskw',
+							'value' => $keyword,
+						],
+					],
+				],
+			);
+			if ( ! is_wp_error( $terms ) ) {
+				$found = array_map( 'intval', $terms );
+			}
+		}
+
+		/* Terms whose metadata has not been migrated to term meta yet. */
+		foreach ( self::get_tax_meta() as $taxonomy_name => $terms ) {
+			if ( ! is_array( $terms ) || ! taxonomy_exists( $taxonomy_name ) ) {
+				continue;
+			}
+
 			foreach ( $terms as $term_id => $meta_values ) {
+				if ( ! is_array( $meta_values ) ) {
+					continue;
+				}
+
 				$is_current = ( $current_taxonomy === $taxonomy_name && (string) $current_term_id === (string) $term_id );
 				if ( ! $is_current && ! empty( $meta_values['wpseo_focuskw'] ) && $meta_values['wpseo_focuskw'] === $keyword ) {
-					$found[] = $term_id;
+					$found[] = (int) $term_id;
 				}
 			}
 		}
 
-		return [ $keyword => $found ];
+		return [ $keyword => array_values( array_unique( $found ) ) ];
 	}
 
 	/**
@@ -508,23 +537,74 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @return void
 	 */
 	private static function save_clean_values( $term_id, $taxonomy, array $clean ) {
-		$tax_meta = self::get_tax_meta();
+		/*
+		 * Core term meta is keyed by term id only, so it cannot hold separate data for a term
+		 * which is still shared between taxonomies. Fall back to option storage for those.
+		 */
+		if ( wp_term_is_shared( (int) $term_id ) ) {
+			$tax_meta = self::get_tax_meta();
+			if ( $clean !== [] ) {
+				$tax_meta[ $taxonomy ][ $term_id ] = $clean;
+			}
+			else {
+				unset( $tax_meta[ $taxonomy ][ $term_id ] );
+			}
 
-		/* Add/remove the result to/from the original option value. */
-		if ( $clean !== [] ) {
-			$tax_meta[ $taxonomy ][ $term_id ] = $clean;
-		}
-		else {
-			unset( $tax_meta[ $taxonomy ][ $term_id ] );
 			if ( isset( $tax_meta[ $taxonomy ] ) && $tax_meta[ $taxonomy ] === [] ) {
 				unset( $tax_meta[ $taxonomy ] );
 			}
+
+			// Prevent complete array validation.
+			$tax_meta['wpseo_already_validated'] = true;
+
+			self::save_tax_meta( $tax_meta );
+			return;
 		}
 
-		// Prevent complete array validation.
-		$tax_meta['wpseo_already_validated'] = true;
+		$stored = true;
+		foreach ( array_keys( self::$defaults_per_term ) as $key ) {
+			if ( array_key_exists( $key, $clean ) ) {
+				/*
+				 * Slash the data, because `update_metadata` will unslash it and we have already unslashed it.
+				 * Same approach as in WPSEO_Meta::set_value().
+				 */
+				$result = update_term_meta( $term_id, $key, wp_slash( $clean[ $key ] ) );
 
-		self::save_tax_meta( $tax_meta );
+				/*
+				 * update_term_meta() also returns false when the stored value is already up to date,
+				 * so only treat it as a failure when the new value really did not get stored.
+				 */
+				if ( is_wp_error( $result ) || ( $result === false && get_term_meta( $term_id, $key, true ) !== $clean[ $key ] ) ) {
+					$stored = false;
+				}
+			}
+			elseif ( ! delete_term_meta( $term_id, $key ) && metadata_exists( 'term', $term_id, $key ) ) {
+				/* delete_term_meta() also returns false when the key was not stored in the first place, which is not a failure. */
+				$stored = false;
+			}
+		}
+
+		if ( ! $stored ) {
+			/*
+			 * At least one term meta operation failed, so keep the legacy option entry.
+			 * Its values remain readable through the fallback in get_term_tax_meta()
+			 * and will be cleaned up when a later save succeeds.
+			 */
+			return;
+		}
+
+		$tax_meta = self::get_tax_meta();
+		if ( isset( $tax_meta[ $taxonomy ][ $term_id ] ) ) {
+			unset( $tax_meta[ $taxonomy ][ $term_id ] );
+			if ( $tax_meta[ $taxonomy ] === [] ) {
+				unset( $tax_meta[ $taxonomy ] );
+			}
+
+			// Prevent complete array validation.
+			$tax_meta['wpseo_already_validated'] = true;
+
+			self::save_tax_meta( $tax_meta );
+		}
 	}
 
 	/**
@@ -533,7 +613,122 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @return array|void
 	 */
 	private static function get_tax_meta() {
-		return get_option( self::$name );
+		$tax_meta = get_option( self::$name, [] );
+
+		return is_array( $tax_meta ) ? $tax_meta : [];
+	}
+
+	/**
+	 * Migrates the metadata stored in the legacy option to WordPress term meta.
+	 *
+	 * Entries for taxonomies which are not registered are left in the option, so they can be
+	 * picked up by a later migration run or by third party code. Entries for terms which no
+	 * longer exist are removed by the option validation on save. Metadata for terms which are
+	 * shared between taxonomies also stays in the option, as core term meta cannot hold
+	 * taxonomy-specific values for those terms. Values which are already present in term meta
+	 * are kept there, as they were written after the legacy option entry was created.
+	 *
+	 * @param int $limit Optional. Maximum number of terms to migrate in one run. 0 means no limit.
+	 *
+	 * @return int The number of terms that were migrated.
+	 */
+	public static function migrate_legacy_term_meta( $limit = 0 ) {
+		$limit                 = max( 0, (int) $limit );
+		$tax_meta              = self::get_tax_meta();
+		$migrated              = 0;
+		$migrated_term_entries = [];
+
+		foreach ( $tax_meta as $taxonomy => $terms ) {
+			if ( ! is_array( $terms ) || ! taxonomy_exists( $taxonomy ) ) {
+				continue;
+			}
+
+			foreach ( $terms as $term_id => $meta_values ) {
+				if ( $limit > 0 && $migrated >= $limit ) {
+					break 2;
+				}
+
+				if ( ! is_array( $meta_values ) ) {
+					continue;
+				}
+
+				$term = get_term( (int) $term_id, $taxonomy );
+				if ( ! $term instanceof WP_Term ) {
+					continue;
+				}
+
+				/*
+				 * Core term meta is keyed by term id only, so terms shared between taxonomies
+				 * keep their taxonomy-specific data in the option. Same as save_clean_values().
+				 */
+				if ( wp_term_is_shared( (int) $term_id ) ) {
+					continue;
+				}
+
+				$migrated_keys = true;
+				foreach ( $meta_values as $key => $value ) {
+					/* Default values do not need to be stored, the read path already applies them. */
+					if ( array_key_exists( $key, self::$defaults_per_term ) && self::$defaults_per_term[ $key ] === $value ) {
+						continue;
+					}
+
+					/*
+					 * The read path already prefers core term meta over the option, so when both
+					 * have a value for this key, keep the newer term meta value and just drop the
+					 * legacy one along with the entry.
+					 */
+					if ( metadata_exists( 'term', $term->term_id, $key ) ) {
+						continue;
+					}
+
+					$result = update_term_meta( $term->term_id, $key, wp_slash( $value ) );
+					if ( is_wp_error( $result ) ) {
+						$migrated_keys = false;
+						break;
+					}
+
+					/*
+					 * update_term_meta() can also return false when a concurrent write already
+					 * brought the value up to date, so verify which of the two it was.
+					 */
+					if ( $result === false && get_term_meta( $term->term_id, $key, true ) !== $value ) {
+						$migrated_keys = false;
+						break;
+					}
+				}
+
+				if ( $migrated_keys ) {
+					$migrated_term_entries[ $taxonomy ][ $term_id ] = $meta_values;
+					++$migrated;
+				}
+			}
+		}
+
+		/*
+		 * Re-read the option before writing, so entries which another request added or changed
+		 * while this batch was running are not lost. Only entries which are still exactly as
+		 * this batch migrated them are removed; a concurrently changed entry is left behind and
+		 * picked up by a later run. The write still triggers the option validation, which
+		 * cleans up entries for terms which no longer exist.
+		 */
+		$tax_meta = self::get_tax_meta();
+		foreach ( $migrated_term_entries as $taxonomy => $term_entries ) {
+			foreach ( $term_entries as $term_id => $migrated_values ) {
+				if ( ! isset( $tax_meta[ $taxonomy ][ $term_id ] ) || $tax_meta[ $taxonomy ][ $term_id ] !== $migrated_values ) {
+					continue;
+				}
+
+				unset( $tax_meta[ $taxonomy ][ $term_id ] );
+			}
+
+			if ( isset( $tax_meta[ $taxonomy ] ) && $tax_meta[ $taxonomy ] === [] ) {
+				unset( $tax_meta[ $taxonomy ] );
+			}
+		}
+
+		self::save_tax_meta( $tax_meta );
+
+		return $migrated;
 	}
 
 	/**
@@ -544,6 +739,12 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @return void
 	 */
 	private static function save_tax_meta( $tax_meta ) {
+		if ( $tax_meta === [] ) {
+			/* The legacy option is no longer needed, remove it so it does not keep loading on every request. */
+			delete_option( self::$name );
+			return;
+		}
+
 		update_option( self::$name, $tax_meta );
 	}
 
@@ -557,12 +758,19 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 */
 	private static function get_term_tax_meta( $term_id, $taxonomy ) {
 		$tax_meta = self::get_tax_meta();
+		$legacy   = [];
 
-		/* If we have data for the term, merge with defaults for complete array, otherwise set defaults. */
-		if ( isset( $tax_meta[ $taxonomy ][ $term_id ] ) ) {
-			return array_merge( self::$defaults_per_term, $tax_meta[ $taxonomy ][ $term_id ] );
+		if ( isset( $tax_meta[ $taxonomy ][ $term_id ] ) && is_array( $tax_meta[ $taxonomy ][ $term_id ] ) ) {
+			$legacy = $tax_meta[ $taxonomy ][ $term_id ];
 		}
 
-		return self::$defaults_per_term;
+		$meta = array_merge( self::$defaults_per_term, $legacy );
+		foreach ( self::$defaults_per_term as $key => $default ) {
+			if ( metadata_exists( 'term', $term_id, $key ) ) {
+				$meta[ $key ] = get_term_meta( $term_id, $key, true );
+			}
+		}
+
+		return $meta;
 	}
 }

@@ -221,6 +221,16 @@ function wpseo_split_shared_term( $old_term_id, $new_term_id, $term_taxonomy_id,
 		unset( $tax_meta[ $taxonomy ][ $old_term_id ] );
 		update_option( 'wpseo_taxonomy_meta', $tax_meta );
 	}
+
+	/*
+	 * WordPress does not copy term meta on a term split, so the metadata of the new term
+	 * has to be duplicated manually. The old term keeps its metadata for the other taxonomies.
+	 */
+	foreach ( array_keys( WPSEO_Taxonomy_Meta::$defaults_per_term ) as $meta_key ) {
+		if ( metadata_exists( 'term', $old_term_id, $meta_key ) ) {
+			update_term_meta( $new_term_id, $meta_key, wp_slash( get_term_meta( $old_term_id, $meta_key, true ) ) );
+		}
+	}
 }
 
 add_action( 'split_shared_term', 'wpseo_split_shared_term', 10, 4 );
