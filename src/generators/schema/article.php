@@ -49,11 +49,11 @@ class Article extends Abstract_Schema_Piece {
 				'@id'  => $this->helpers->schema->id->get_user_schema_id( $this->context->post->post_author, $this->context ),
 			],
 			'headline'         => $this->helpers->schema->html->smart_strip_tags( $this->helpers->post->get_post_title_with_fallback( $this->context->id ) ),
-			'datePublished'    => $this->helpers->date->format( $this->context->post->post_date_gmt ),
+			'datePublished'    => $this->helpers->date->format_with_site_timezone( $this->context->post->post_date_gmt ),
 		];
 
 		if ( \strtotime( $this->context->post->post_modified_gmt ) > \strtotime( $this->context->post->post_date_gmt ) ) {
-			$data['dateModified'] = $this->helpers->date->format( $this->context->post->post_modified_gmt );
+			$data['dateModified'] = $this->helpers->date->format_with_site_timezone( $this->context->post->post_modified_gmt );
 		}
 
 		$data['mainEntityOfPage'] = [ '@id' => $this->context->main_schema_id ];
