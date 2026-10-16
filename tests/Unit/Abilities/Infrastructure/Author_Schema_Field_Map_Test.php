@@ -62,9 +62,8 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	 * Tests that get_fields returns the author schema fields of Yoast SEO with their schema.
 	 *
 	 * @covers ::__construct
-	 * @covers ::get_fields
-	 * @covers ::resolve_fields
-	 * @covers ::get_validators
+	 * @covers ::get_filtered_fields
+	 * @covers ::resolve_extra_keys
 	 * @covers ::get_repositories
 	 * @covers ::get_default_fields
 	 * @covers ::get_pronouns_description
@@ -116,8 +115,8 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	/**
 	 * Tests that the pronouns description tells agents when the pronouns cannot be changed.
 	 *
-	 * @covers ::get_fields
-	 * @covers ::resolve_fields
+	 * @covers ::get_filtered_fields
+	 * @covers ::resolve_extra_keys
 	 * @covers ::get_pronouns_description
 	 *
 	 * @return void
@@ -135,8 +134,8 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	 * Tests that get_fields includes the fields added through the filter, drops the ones without a
 	 * schema and caches the result.
 	 *
-	 * @covers ::get_fields
-	 * @covers ::resolve_fields
+	 * @covers ::get_filtered_fields
+	 * @covers ::resolve_extra_keys
 	 *
 	 * @return void
 	 */
@@ -171,9 +170,8 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	 * Tests that the validators registered along with the fields are kept out of the schemas, and that a field
 	 * whose validator is not callable is dropped.
 	 *
-	 * @covers ::get_fields
-	 * @covers ::get_validators
-	 * @covers ::resolve_fields
+	 * @covers ::get_filtered_fields
+	 * @covers ::resolve_extra_keys
 	 *
 	 * @return void
 	 */
@@ -225,10 +223,9 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	 * Tests that the repositories registered along with the fields are kept out of the schemas, and that a field whose
 	 * repository is not an author schema field repository is dropped.
 	 *
-	 * @covers ::get_fields
-	 * @covers ::get_validators
 	 * @covers ::get_repositories
-	 * @covers ::resolve_fields
+	 * @covers ::get_filtered_fields
+	 * @covers ::resolve_extra_keys
 	 *
 	 * @return void
 	 */
@@ -284,8 +281,8 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	/**
 	 * Tests that get_fields falls back to the defaults when the filter does not return an array.
 	 *
-	 * @covers ::get_fields
-	 * @covers ::resolve_fields
+	 * @covers ::get_filtered_fields
+	 * @covers ::resolve_extra_keys
 	 *
 	 * @return void
 	 */
