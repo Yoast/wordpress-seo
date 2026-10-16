@@ -282,6 +282,11 @@ final class Author_Schema_Updater_Test extends TestCase {
 				'x_username' => 'yoast',
 				'expected'   => 'yoast',
 			],
+			'Username is saved without the @'      => [
+				'value'      => '@yoast',
+				'x_username' => 'yoast',
+				'expected'   => 'yoast',
+			],
 			'Invalid value is left to the helper'  => [
 				'value'      => 'not a valid handle!!',
 				'x_username' => false,
