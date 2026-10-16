@@ -1,8 +1,8 @@
 export const PRODUCT_VARIANTS = {
 	2: [
-		{ id: 1, size: "US 8", availability: "In stock", price: "€95.00" },
-		{ id: 2, size: "US 9", availability: "Low stock", price: "€95.00" },
-		{ id: 3, size: "US 10", availability: "Out of stock", price: "€99.00" },
+		{ id: 1, size: "EU 41", availability: "In stock", price: "€95.00" },
+		{ id: 2, size: "EU 42", availability: "Low stock", price: "€95.00" },
+		{ id: 3, size: "EU 43", availability: "Out of stock", price: "€99.00" },
 	],
 };
 
