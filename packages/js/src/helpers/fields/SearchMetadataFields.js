@@ -1,5 +1,12 @@
+import { metaKeyTitle, metaKeyMetaDesc } from "../../shared-admin/constants";
+import { getMetaValue, setMetaValue } from "./rest-meta";
+
 /**
  * This class is responsible for handling the interaction with the hidden fields for the search metadata.
+ *
+ * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM fields are not rendered.
+ * In that case getters read from the `core/editor` store and setters dispatch to it so that
+ * WordPress saves the values via the REST API on post save.
  */
 export default class SearchMetadataFields {
 	/**
@@ -35,7 +42,7 @@ export default class SearchMetadataFields {
 	 * @returns {string} The title.
 	 */
 	static get title() {
-		return SearchMetadataFields.titleElement.value;
+		return getMetaValue( metaKeyTitle, SearchMetadataFields.titleElement, "" );
 	}
 
 	/**
@@ -46,7 +53,7 @@ export default class SearchMetadataFields {
 	 * @returns {void}
 	 */
 	static set title( value ) {
-		SearchMetadataFields.titleElement.value = value;
+		setMetaValue( metaKeyTitle, SearchMetadataFields.titleElement, value );
 	}
 
 	/**
@@ -55,7 +62,7 @@ export default class SearchMetadataFields {
 	 * @returns {string} The description.
 	 */
 	static get description() {
-		return SearchMetadataFields.descriptionElement.value;
+		return getMetaValue( metaKeyMetaDesc, SearchMetadataFields.descriptionElement, "" );
 	}
 
 	/**
@@ -66,7 +73,7 @@ export default class SearchMetadataFields {
 	 * @returns {void}
 	 */
 	static set description( value ) {
-		SearchMetadataFields.descriptionElement.value = value;
+		setMetaValue( metaKeyMetaDesc, SearchMetadataFields.descriptionElement, value );
 	}
 
 	/**
