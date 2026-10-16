@@ -44,21 +44,17 @@ DataItem.propTypes = dataItemProps;
  *
  * @returns {HTMLElement} A <ul> with <li> items.
  */
-const DataModel = ( props ) => (
+const DataModel = ( { items = [] } ) => (
 	<ul
 		className="yoast-data-model"
 		aria-label={ __( "Prominent words", "wordpress-seo" ) }
 	>
-		{ props.items.map( DataItem ) }
+		{ items.map( DataItem ) }
 	</ul>
 );
 
 DataModel.propTypes = {
 	items: PropTypes.arrayOf( PropTypes.shape( dataItemProps ) ),
-};
-
-DataModel.defaultProps = {
-	items: [],
 };
 
 export default DataModel;

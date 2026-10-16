@@ -103,23 +103,23 @@ ArticleListItem.propTypes = {
  *
  * @returns {ReactElement} The ArticleList component.
  */
-const ArticleList = ( props ) => {
+const ArticleList = ( { className = "articlelist-feed", feed, title, footerLinkText, feedLink } ) => {
 	return (
 		<ArticleListContainer
-			className={ props.className }
+			className={ className }
 		>
 			<ArticleListHeader
-				className={ `${ props.className }__header` }
+				className={ `${ className }__header` }
 			>
-				{ props.title ? props.title : props.feed.title }
+				{ title ? title : feed.title }
 			</ArticleListHeader>
 			<FeedList
-				className={ `${ props.className }__posts` }
+				className={ `${ className }__posts` }
 				role="list"
 			>
-				{ props.feed.items.map( item => (
+				{ feed.items.map( item => (
 					<ArticleListItem
-						className={ `${ props.className }__post` }
+						className={ `${ className }__post` }
 						key={ item.link }
 						title={ item.title }
 						link={ item.link }
@@ -127,15 +127,15 @@ const ArticleList = ( props ) => {
 					/>
 				) ) }
 			</FeedList>
-			{ props.footerLinkText &&
+			{ footerLinkText &&
 			<ArticleListFooter
-				className={ `${ props.className }__footer` }
+				className={ `${ className }__footer` }
 			>
 				<ArticleListLink
-					className={ `${ props.className }__footer-link` }
-					href={ props.feedLink ? props.feedLink : props.feed.link }
+					className={ `${ className }__footer-link` }
+					href={ feedLink ? feedLink : feed.link }
 				>
-					{ props.footerLinkText }
+					{ footerLinkText }
 				</ArticleListLink>
 			</ArticleListFooter>
 			}
@@ -149,10 +149,6 @@ ArticleList.propTypes = {
 	title: PropTypes.string,
 	footerLinkText: PropTypes.string,
 	feedLink: PropTypes.string,
-};
-
-ArticleList.defaultProps = {
-	className: "articlelist-feed",
 };
 
 export default ArticleList;

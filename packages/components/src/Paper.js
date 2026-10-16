@@ -11,7 +11,7 @@ import { colors } from "@yoast/style-guide";
  *
  * @returns {ReactElement} The paper-styled div.
  */
-const Paper = styled.div`
+const Paper = styled.div.attrs( ( { backgroundColor = colors.$color_white, minHeight = "0" } ) => ( { backgroundColor, minHeight } ) )`
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	background-color: ${ props => props.backgroundColor };
 	min-height: ${ props => props.minHeight };
@@ -20,11 +20,6 @@ const Paper = styled.div`
 Paper.propTypes = {
 	backgroundColor: PropTypes.string,
 	minHeight: PropTypes.string,
-};
-
-Paper.defaultProps = {
-	backgroundColor: colors.$color_white,
-	minHeight: "0",
 };
 
 export default Paper;

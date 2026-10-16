@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import FieldGroup, { FieldGroupDefaultProps, FieldGroupProps } from "../field-group/FieldGroup";
+import FieldGroup, { FieldGroupProps } from "../field-group/FieldGroup";
 // Import the required CSS.
 import "./input.css";
 import "../base";
@@ -13,22 +13,32 @@ import "../base";
  * @returns {React.Component} A react component that can be used in our forms.
  */
 const TextArea = ( props ) => {
+	const {
+		id = "",
+		name = "",
+		value = "",
+		ariaDescribedBy = "",
+		onChange = () => {},
+		readOnly = false,
+		placeholder,
+	} = props;
+
 	const fieldGroupProps = { ...props };
-	if ( props.id ) {
-		fieldGroupProps.htmlFor = props.id;
+	if ( id ) {
+		fieldGroupProps.htmlFor = id;
 	}
 
 	return (
 		<FieldGroup { ...fieldGroupProps }>
 			<textarea
-				id={ props.id }
-				name={ props.name }
-				value={ props.value }
+				id={ id }
+				name={ name }
+				value={ value }
 				className="yoast-field-group__textarea"
-				aria-describedby={ props.ariaDescribedBy }
-				onChange={ props.onChange }
-				readOnly={ props.readOnly }
-				placeholder={ props.placeholder }
+				aria-describedby={ ariaDescribedBy }
+				onChange={ onChange }
+				readOnly={ readOnly }
+				placeholder={ placeholder }
 			/>
 		</FieldGroup>
 	);
@@ -43,19 +53,6 @@ TextArea.propTypes = {
 	readOnly: PropTypes.bool,
 	placeholder: PropTypes.string,
 	...FieldGroupProps,
-};
-
-TextArea.defaultProps = {
-	id: "",
-	name: "",
-	value: "",
-	ariaDescribedBy: "",
-	onChange: () => {},
-	readOnly: false,
-	/* eslint-disable no-undefined */
-	placeholder: undefined,
-	/* eslint-enable */
-	...FieldGroupDefaultProps,
 };
 
 export default TextArea;

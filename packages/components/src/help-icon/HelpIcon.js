@@ -28,7 +28,7 @@ export const helpIconDefaultProps = {
  *
  * @returns {React.Component} The HelpIcon.
  */
-const HelpIcon = ( { linkTo, linkText } ) => (
+const HelpIcon = ( { linkTo = "", linkText = "" } ) => (
 	<a
 		className="yoast-help"
 		target="_blank"
@@ -56,6 +56,5 @@ const HelpIcon = ( { linkTo, linkText } ) => (
 );
 
 HelpIcon.propTypes = helpIconProps;
-HelpIcon.defaultProps = helpIconDefaultProps;
 
 export default HelpIcon;
