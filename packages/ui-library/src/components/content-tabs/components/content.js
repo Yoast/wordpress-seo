@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React from "react";
+import { useContentTabsContext } from "../context";
 
 /**
  * Container for `ContentTabs.Panel` elements. Stacks all panels in the same grid cell so they
@@ -11,10 +12,15 @@ import React from "react";
  *
  * @returns {JSX.Element} The content container.
  */
-export const Content = ( { children, className = "", ...props } ) => (
-	<div className={ classNames( "yst-content-tabs__content", className ) } { ...props }>
-		{ children }
-	</div>
-);
+export const Content = ( { children, className = "", ...props } ) => {
+	// From its own `ContentTabs`, so a nested `ContentTabs` that is not an accordion is not styled as one.
+	const { isAccordion } = useContentTabsContext();
+
+	return (
+		<div className={ classNames( "yst-content-tabs__content", isAccordion && "yst-content-tabs__content--accordion", className ) } { ...props }>
+			{ children }
+		</div>
+	);
+};
 
 Content.displayName = "ContentTabs.Content";

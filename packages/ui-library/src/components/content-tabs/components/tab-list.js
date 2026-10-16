@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import { useContentTabsContext } from "../context";
 
 /**
  * A list wrapper for `ContentTabs.TabButton`s.
@@ -10,8 +11,16 @@ import classNames from "classnames";
  *
  * @returns {JSX.Element} The list.
  */
-export const TabList = ( { children, className = "", ...props } ) => (
-	<ul className={ classNames( "yst-content-tabs__tab-list", className ) } { ...props }>
-		{ children }
-	</ul>
-);
+export const TabList = ( { children, className = "", ...props } ) => {
+	// From its own `ContentTabs`, so a nested `ContentTabs` that is not an accordion is not styled as one.
+	const { isAccordion } = useContentTabsContext();
+
+	return (
+		<ul
+			className={ classNames( "yst-content-tabs__tab-list", isAccordion && "yst-content-tabs__tab-list--accordion", className ) }
+			{ ...props }
+		>
+			{ children }
+		</ul>
+	);
+};

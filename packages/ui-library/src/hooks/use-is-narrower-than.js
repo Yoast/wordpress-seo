@@ -44,7 +44,8 @@ const useIsNarrowerThan = ( width ) => {
 			return;
 		}
 		const observer = new window.ResizeObserver( ( [ entry ] ) => update( getBorderBoxWidth( entry ) ) );
-		observer.observe( element );
+		// The border box, the one it measures: by default it would only notify on content box changes.
+		observer.observe( element, { box: "border-box" } );
 		return () => observer.disconnect();
 	}, [ element, width ] );
 

@@ -19,9 +19,14 @@ class ResizeObserverMock {
 	/**
 	 * Starts observing.
 	 *
+	 * @param {Element} element The element.
+	 * @param {Object}  options The options.
+	 *
 	 * @returns {void}
 	 */
-	observe() {}
+	observe( element, options ) {
+		this.options = options;
+	}
 
 	/**
 	 * Stops observing.
@@ -204,5 +209,39 @@ describe( "ContentTabs accordion", () => {
 		resizeTo( 0 );
 
 		expect( isAccordion( container ) ).toBe( false );
+	} );
+
+	it( "observes the border box, which it measures", () => {
+		renderTabs( { accordionBreakpoint: 640 } );
+
+		expect( ResizeObserverMock.instances[ 0 ].options ).toEqual( { box: "border-box" } );
+	} );
+
+	it( "does not style a nested ContentTabs that is not an accordion as one", () => {
+		const { container } = render(
+			<ContentTabs defaultActiveTab="outer" accordionBreakpoint={ 640 }>
+				<ContentTabs.TabList>
+					<ContentTabs.TabButton id="outer">Outer</ContentTabs.TabButton>
+				</ContentTabs.TabList>
+				<ContentTabs.Content>
+					<ContentTabs.Panel tabId="outer">
+						<ContentTabs defaultActiveTab="inner">
+							<ContentTabs.TabList data-testid="inner-list">
+								<ContentTabs.TabButton id="inner">Inner</ContentTabs.TabButton>
+							</ContentTabs.TabList>
+							<ContentTabs.Content data-testid="inner-content">
+								<ContentTabs.Panel tabId="inner">Inner panel</ContentTabs.Panel>
+							</ContentTabs.Content>
+						</ContentTabs>
+					</ContentTabs.Panel>
+				</ContentTabs.Content>
+			</ContentTabs>,
+		);
+		resizeTo( 400 );
+
+		expect( container.querySelector( ".yst-content-tabs__tab-list" ).classList.contains( "yst-content-tabs__tab-list--accordion" ) ).toBe( true );
+		expect( screen.getByTestId( "inner-list" ).classList.contains( "yst-content-tabs__tab-list--accordion" ) ).toBe( false );
+		expect( screen.getByTestId( "inner-content" ).classList.contains( "yst-content-tabs__content--accordion" ) ).toBe( false );
+		expect( getTabButton( "Inner" ).hasAttribute( "aria-expanded" ) ).toBe( false );
 	} );
 } );
