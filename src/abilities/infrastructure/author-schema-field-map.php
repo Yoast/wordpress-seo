@@ -12,7 +12,7 @@ use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Author_Pronouns;
  * The map is the single source of truth for both the ability schemas and the updater, so a field
  * added through the filter is exposed, validated and written without further changes.
  */
-class Author_Schema_Field_Map {
+class Author_Schema_Field_Map extends Abstract_Field_Map {
 
 	/**
 	 * The author pronouns user meta.
@@ -31,25 +31,11 @@ class Author_Schema_Field_Map {
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
 
 	/**
-	 * The fields, cached so the schemas and the updater always agree on them.
-	 *
-	 * @var array<string, array<string, mixed>>|null
-	 */
-	private $fields;
-
-	/**
-	 * The validators registered along with the fields, keyed by user meta key.
-	 *
-	 * @var array<string, callable>|null
-	 */
-	private $validators;
-
-	/**
 	 * The repository of each field, keyed by field name.
 	 *
-	 * @var array<string, Author_Schema_Field_Repository_Interface>|null
+	 * @var array<string, Author_Schema_Field_Repository_Interface>
 	 */
-	private $repositories;
+	private $repositories = [];
 
 	/**
 	 * Constructor.
@@ -67,51 +53,25 @@ class Author_Schema_Field_Map {
 	}
 
 	/**
-	 * Returns the writable author schema fields, mapped to their JSON schema.
-	 *
-	 * @return array<string, array<string, mixed>> The JSON schema of each field, keyed by field name.
-	 */
-	public function get_fields(): array {
-		$this->resolve_fields();
-
-		return $this->fields;
-	}
-
-	/**
-	 * Returns the validators registered along with the fields.
-	 *
-	 * @return array<string, callable> The validator of each field that has one, keyed by field name.
-	 */
-	public function get_validators(): array {
-		$this->resolve_fields();
-
-		return $this->validators;
-	}
-
-	/**
 	 * Returns the repository of each field, which reads and saves it.
 	 *
 	 * @return array<string, Author_Schema_Field_Repository_Interface> The repository of each field, keyed by field name.
 	 */
 	public function get_repositories(): array {
-		$this->resolve_fields();
+		// The repositories are resolved along with the fields.
+		$this->get_fields();
 
 		return $this->repositories;
 	}
 
 	/**
-	 * Resolves the fields, their validators and their repositories, once, so the schemas and the updater always agree
-	 * on them.
+	 * Passes the default fields through the filter that lets add-ons add fields.
 	 *
-	 * @return void
+	 * @param array<string, array<string, mixed>> $default_fields The JSON schema of each field, keyed by field name.
+	 *
+	 * @return mixed The filtered fields, which are not guaranteed to be an array.
 	 */
-	private function resolve_fields(): void {
-		if ( $this->fields !== null ) {
-			return;
-		}
-
-		$default_fields = $this->get_default_fields();
-
+	protected function get_filtered_fields( array $default_fields ) {
 		/**
 		 * Filter: 'wpseo_author_schema_ability_fields' - Allows adding author schema settings that the author
 		 * schema abilities can write.
@@ -137,41 +97,30 @@ class Author_Schema_Field_Map {
 		 *
 		 * @param array<string, array<string, mixed>> $fields The JSON schema of each field, keyed by field name.
 		 */
-		$fields = \apply_filters( 'wpseo_author_schema_ability_fields', $default_fields );
+		return \apply_filters( 'wpseo_author_schema_ability_fields', $default_fields );
+	}
 
-		if ( ! \is_array( $fields ) ) {
-			$fields = $default_fields;
+	/**
+	 * Resolves the repository of a field, which defaults to the user meta repository.
+	 *
+	 * @param string               $field_name The name of the field.
+	 * @param array<string, mixed> $schema     The JSON schema of the field, along with its 'repository' key.
+	 *
+	 * @return array<string, mixed>|null The JSON schema without the 'repository' key, or null to drop the field when
+	 *                                   its repository is not one.
+	 */
+	protected function resolve_extra_keys( string $field_name, array $schema ): ?array {
+		$repository = ( $schema['repository'] ?? $this->user_meta_repository );
+		if ( ! $repository instanceof Author_Schema_Field_Repository_Interface ) {
+			return null;
 		}
 
-		$this->fields       = [];
-		$this->validators   = [];
-		$this->repositories = [];
+		$this->repositories[ $field_name ] = $repository;
 
-		foreach ( $fields as $field_name => $schema ) {
-			// A field without a schema can neither be described to agents nor validated, so it is dropped.
-			if ( ! \is_array( $schema ) ) {
-				continue;
-			}
+		// The repository is not part of the JSON schema that is published to agents.
+		unset( $schema['repository'] );
 
-			$repository = ( $schema['repository'] ?? $this->user_meta_repository );
-			if ( ! $repository instanceof Author_Schema_Field_Repository_Interface ) {
-				continue;
-			}
-
-			if ( \array_key_exists( 'validate_callback', $schema ) ) {
-				if ( ! \is_callable( $schema['validate_callback'] ) ) {
-					continue;
-				}
-
-				$this->validators[ $field_name ] = $schema['validate_callback'];
-			}
-
-			// The repository and the callback are not part of the JSON schema that is published to agents.
-			unset( $schema['repository'], $schema['validate_callback'] );
-
-			$this->fields[ $field_name ]       = $schema;
-			$this->repositories[ $field_name ] = $repository;
-		}
+		return $schema;
 	}
 
 	/**
@@ -179,7 +128,7 @@ class Author_Schema_Field_Map {
 	 *
 	 * @return array<string, array<string, mixed>> The JSON schema of each field, keyed by user meta key.
 	 */
-	private function get_default_fields(): array {
+	protected function get_default_fields(): array {
 		return [
 			'wpseo_pronouns' => [
 				'type'              => 'string',
