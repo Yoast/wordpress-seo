@@ -220,8 +220,9 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the repositories registered along with the fields are kept out of the schemas, and that a field whose
-	 * repository is not an author schema field repository is dropped.
+	 * Tests that the repositories registered along with the fields are kept out of the schemas, that a field whose
+	 * repository is not an author schema field repository is dropped, and that a field that is not a string is
+	 * dropped unless it comes with its own repository.
 	 *
 	 * @covers ::get_repositories
 	 * @covers ::get_filtered_fields
@@ -239,16 +240,28 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 		};
 
 		$add_on_fields = [
-			'jobTitle' => [
+			'jobTitle'  => [
 				'type'        => 'string',
 				'description' => 'The job title of the user.',
 				'repository'  => $repository,
 			],
-			'worksFor' => [
+			'worksFor'  => [
 				'type'              => 'string',
 				'description'       => 'The employer of the user.',
 				'repository'        => 'not_a_repository',
 				'validate_callback' => $validate_works_for,
+			],
+			'birthYear' => [
+				'type'        => 'integer',
+				'description' => 'The birth year of the user.',
+				'repository'  => $repository,
+			],
+			'age'       => [
+				'type'        => 'integer',
+				'description' => 'The age of the user.',
+			],
+			'nicknames' => [
+				'description' => 'The nicknames of the user, without a type.',
 			],
 		];
 
@@ -270,11 +283,16 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 			$fields['jobTitle'],
 		);
 		$this->assertArrayNotHasKey( 'worksFor', $fields );
+		$this->assertArrayHasKey( 'birthYear', $fields );
+		$this->assertArrayNotHasKey( 'age', $fields );
+		$this->assertArrayNotHasKey( 'nicknames', $fields );
 
 		$repositories = $this->instance->get_repositories();
 		$this->assertSame( $repository, $repositories['jobTitle'] );
 		$this->assertSame( $this->user_meta_repository, $repositories['facebook'] );
 		$this->assertArrayNotHasKey( 'worksFor', $repositories );
+		$this->assertSame( $repository, $repositories['birthYear'] );
+		$this->assertArrayNotHasKey( 'age', $repositories );
 		$this->assertArrayNotHasKey( 'worksFor', $this->instance->get_validators() );
 	}
 

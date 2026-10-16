@@ -77,7 +77,9 @@ class Author_Schema_Field_Map extends Abstract_Field_Map {
 		 * schema abilities can write.
 		 *
 		 * Each field is keyed by its name and maps to the JSON schema of its value. By default, the value is saved
-		 * as a single user meta value, keyed by the name of the field.
+		 * as a single user meta value, keyed by the name of the field. That only works for a field whose schema
+		 * type is 'string', as the value is sanitized as text, so a field of any other type without its own
+		 * 'repository' is dropped.
 		 *
 		 * A field stored differently, for example as an entry of an array user meta value, comes with a
 		 * 'repository' key next to the schema, holding an Author_Schema_Field_Repository_Interface that reads,
@@ -107,11 +109,17 @@ class Author_Schema_Field_Map extends Abstract_Field_Map {
 	 * @param array<string, mixed> $schema     The JSON schema of the field, along with its 'repository' key.
 	 *
 	 * @return array<string, mixed>|null The JSON schema without the 'repository' key, or null to drop the field when
-	 *                                   its repository is not one.
+	 *                                   its repository is not one, or when it is not a string field stored by the
+	 *                                   user meta repository.
 	 */
 	protected function resolve_extra_keys( string $field_name, array $schema ): ?array {
 		$repository = ( $schema['repository'] ?? $this->user_meta_repository );
 		if ( ! $repository instanceof Author_Schema_Field_Repository_Interface ) {
+			return null;
+		}
+
+		// The user meta repository sanitizes the value as text, so it would mangle values of any other type.
+		if ( $repository === $this->user_meta_repository && ( $schema['type'] ?? null ) !== 'string' ) {
 			return null;
 		}
 
