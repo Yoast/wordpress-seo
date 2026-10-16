@@ -1,5 +1,6 @@
 import classNames from "classnames";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useIsNarrowerThan } from "../../hooks";
 import { ContentTabsContext } from "./context";
 import { TabButton, Panel, TabList, Content } from "./components";
 
@@ -14,10 +15,17 @@ import { TabButton, Panel, TabList, Content } from "./components";
  * Controlled: pass `activeTab` and update it yourself via `onTabChange`.
  * Uncontrolled: pass `defaultActiveTab` (or nothing) and let `ContentTabs` manage its own state.
  *
+ * Accordion: pass `accordionBreakpoint` to turn the tabs into an accordion when the wrapping element is narrower
+ * than that given width. The active tab's panel then opens right below its button, and clicking the open tab again
+ * collapses it. Pass `keepMounted` to only hide a collapsed panel, so its state
+ * survives a collapse. Crossing the breakpoint moves the panel, which remounts it.
+ *
  * @param {React.ReactNode} children The tab buttons and the content area — `ContentTabs.TabButton`/`ContentTabs.Panel`, or any other markup.
  * @param {string|null} [activeTab] The id of the active tab (controlled mode).
  * @param {string} [defaultActiveTab=null] The id of the initially active tab (uncontrolled mode).
  * @param {Function} [onTabChange] Called with the tab id when a tab is activated.
+ * @param {number} [accordionBreakpoint] The width in pixels of the wrapping element below which the tabs are an accordion.
+ * @param {boolean} [keepMounted=false] Whether a collapsed accordion panel stays mounted (hidden) instead of unmounting.
  * @param {string|Function} [as="div"] The wrapping element.
  * @param {string} [className=""] Extra class name for the wrapping element.
  * @param {...any} [props] Extra props, spread onto the wrapping element.
@@ -29,6 +37,8 @@ const ContentTabs = ( {
 	activeTab,
 	defaultActiveTab = null,
 	onTabChange,
+	accordionBreakpoint,
+	keepMounted = false,
 	as: Component = "div",
 	className = "",
 	...props
@@ -37,21 +47,63 @@ const ContentTabs = ( {
 	const isControlled = typeof activeTab !== "undefined";
 	const resolvedActiveTab = isControlled ? activeTab : internalActiveTab;
 
+	const [ rootRef, isAccordion ] = useIsNarrowerThan( accordionBreakpoint );
+	// Whether the active tab is open in the accordion.
+	const [ isExpanded, setIsExpanded ] = useState( true );
+	// The element below each accordion tab button that its panel renders into, by tab id.
+	const [ panelSlots, setPanelSlots ] = useState( {} );
+
+	useEffect( () => {
+		setIsExpanded( true );
+	}, [ resolvedActiveTab, isAccordion ] );
+
 	const handleTabSelect = useCallback( ( tabId ) => {
+		if ( isAccordion && tabId === resolvedActiveTab ) {
+			setIsExpanded( ( expanded ) => ! expanded );
+			return;
+		}
+		setIsExpanded( true );
 		if ( ! isControlled ) {
 			setInternalActiveTab( tabId );
 		}
 		onTabChange?.( tabId );
-	}, [ isControlled, onTabChange ] );
+	}, [ isAccordion, resolvedActiveTab, isControlled, onTabChange ] );
+
+	const registerPanelSlot = useCallback( ( tabId, element ) => {
+		setPanelSlots( ( slots ) => {
+			if ( ( slots[ tabId ] ?? null ) === element ) {
+				return slots;
+			}
+			const next = { ...slots };
+			if ( element ) {
+				next[ tabId ] = element;
+			} else {
+				delete next[ tabId ];
+			}
+			return next;
+		} );
+	}, [] );
 
 	const contextValue = useMemo(
-		() => ( { activeTab: resolvedActiveTab, onTabSelect: handleTabSelect } ),
-		[ resolvedActiveTab, handleTabSelect ],
+		() => ( {
+			activeTab: resolvedActiveTab,
+			onTabSelect: handleTabSelect,
+			isAccordion,
+			isExpanded,
+			keepMounted,
+			panelSlots,
+			registerPanelSlot,
+		} ),
+		[ resolvedActiveTab, handleTabSelect, isAccordion, isExpanded, keepMounted, panelSlots, registerPanelSlot ],
 	);
 
 	return (
 		<ContentTabsContext.Provider value={ contextValue }>
-			<Component className={ classNames( "yst-content-tabs", className ) } { ...props }>
+			<Component
+				ref={ accordionBreakpoint ? rootRef : null }
+				className={ classNames( "yst-content-tabs", isAccordion && "yst-content-tabs--accordion", className ) }
+				{ ...props }
+			>
 				{ children }
 			</Component>
 		</ContentTabsContext.Provider>
