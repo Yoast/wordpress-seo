@@ -38,7 +38,7 @@ class Meta_Author_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 * @return string The author's display name.
 	 */
 	public function get() {
-		if ( $this->presentation->model->object_sub_type !== 'post' ) {
+		if ( ! \post_type_supports( $this->presentation->model->object_sub_type, 'author' ) ) {
 			return '';
 		}
 
