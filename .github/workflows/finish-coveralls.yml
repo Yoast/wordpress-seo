@@ -10,7 +10,7 @@ on:
     paths:
       # From test.yml
       - '**.php' # Includes config/*.php and lib/*.php files.
-      - '**.xsl'
+      - 'css/main-sitemap.css'
       - 'composer.json'
       - 'composer.lock'
       - 'phpunit.xml.dist'
@@ -38,7 +38,7 @@ on:
     paths:
       # From test.yml
       - '**.php' # Includes config/*.php and lib/*.php files.
-      - '**.xsl'
+      - 'css/main-sitemap.css'
       - 'composer.json'
       - 'composer.lock'
       - 'phpunit.xml.dist'

@@ -11,7 +11,7 @@
 class WPSEO_Sitemaps_Renderer {
 
 	/**
-	 * XSL stylesheet for styling a sitemap for web browsers.
+	 * Stylesheet processing instruction for styling a sitemap for web browsers.
 	 *
 	 * @var string
 	 */
@@ -42,8 +42,8 @@ class WPSEO_Sitemaps_Renderer {
 	 * Set up object properties.
 	 */
 	public function __construct() {
-		$stylesheet_url       = preg_replace( '/(^http[s]?:)/', '', $this->get_xsl_url() );
-		$this->stylesheet     = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '"?>';
+		$stylesheet_url       = preg_replace( '/(^http[s]?:)/', '', $this->get_stylesheet_url() );
+		$this->stylesheet     = '<?xml-stylesheet type="text/css" href="' . esc_url( $stylesheet_url ) . '"?>';
 		$this->charset        = get_bloginfo( 'charset' );
 		$this->output_charset = $this->charset;
 
@@ -329,27 +329,46 @@ class WPSEO_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Retrieves the XSL URL that should be used in the current environment
+	 * Retrieves the stylesheet URL that should be used in the current environment.
 	 *
 	 * When home_url and site_url are not the same, the home_url should be used.
-	 * This is because the XSL needs to be served from the same domain, protocol and port
+	 * This is because the stylesheet needs to be served from the same domain, protocol and port
 	 * as the XML file that is loading it.
 	 *
-	 * @return string The XSL URL that needs to be used.
+	 * @return string The stylesheet URL that needs to be used.
 	 */
-	protected function get_xsl_url() {
+	protected function get_stylesheet_url() {
 		if ( home_url() !== site_url() ) {
-			return apply_filters( 'wpseo_sitemap_public_url', home_url( 'main-sitemap.xsl' ) );
+			/**
+			 * Filter the public URL of the sitemap stylesheet.
+			 *
+			 * @param string $url The stylesheet URL.
+			 */
+			return apply_filters( 'wpseo_sitemap_public_url', home_url( 'main-sitemap.css' ) );
 		}
 
 		/*
-		 * Fallback to circumvent a cross-domain security problem when the XLS file is
+		 * Fallback to circumvent a cross-domain security problem when the stylesheet is
 		 * loaded from a different (sub)domain.
 		 */
 		if ( strpos( plugins_url(), home_url() ) !== 0 ) {
-			return home_url( 'main-sitemap.xsl' );
+			return home_url( 'main-sitemap.css' );
 		}
 
-		return plugin_dir_url( WPSEO_FILE ) . 'css/main-sitemap.xsl';
+		return plugin_dir_url( WPSEO_FILE ) . 'css/main-sitemap.css';
+	}
+
+	/**
+	 * Retrieves the stylesheet URL that should be used in the current environment.
+	 *
+	 * @deprecated 28.8
+	 * @codeCoverageIgnore
+	 *
+	 * @return string The stylesheet URL that needs to be used.
+	 */
+	protected function get_xsl_url() {
+		_deprecated_function( __METHOD__, 'Yoast SEO 28.8', 'WPSEO_Sitemaps_Renderer::get_stylesheet_url' );
+
+		return $this->get_stylesheet_url();
 	}
 }
