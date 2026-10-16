@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\Infrastructure;
 
 use Yoast\WP\SEO\Abilities\Domain\Author_Schema_Field_Repository_Interface;
+use Yoast\WP\SEO\Conditionals\User_Can_Edit_Users_Conditional;
 use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Author_Pronouns;
 
 /**
@@ -28,6 +29,13 @@ class Author_Schema_Field_Map extends Abstract_Field_Map {
 	 */
 	private $user_meta_repository;
 
+	/**
+	 * The conditional that checks whether the current user can edit other users.
+	 *
+	 * @var User_Can_Edit_Users_Conditional
+	 */
+	private $user_can_edit_users_conditional;
+
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
 
 	/**
@@ -40,16 +48,20 @@ class Author_Schema_Field_Map extends Abstract_Field_Map {
 	/**
 	 * Constructor.
 	 *
-	 * @param Author_Pronouns                    $author_pronouns      The author pronouns user meta.
-	 * @param Author_Schema_User_Meta_Repository $user_meta_repository The repository of the fields that are stored as
-	 *                                                                 a single user meta value.
+	 * @param Author_Pronouns                    $author_pronouns                 The author pronouns user meta.
+	 * @param Author_Schema_User_Meta_Repository $user_meta_repository            The repository of the fields that are
+	 *                                                                            stored as a single user meta value.
+	 * @param User_Can_Edit_Users_Conditional    $user_can_edit_users_conditional The conditional that checks whether
+	 *                                                                            the current user can edit other users.
 	 */
 	public function __construct(
 		Author_Pronouns $author_pronouns,
-		Author_Schema_User_Meta_Repository $user_meta_repository
+		Author_Schema_User_Meta_Repository $user_meta_repository,
+		User_Can_Edit_Users_Conditional $user_can_edit_users_conditional
 	) {
-		$this->author_pronouns      = $author_pronouns;
-		$this->user_meta_repository = $user_meta_repository;
+		$this->author_pronouns                 = $author_pronouns;
+		$this->user_meta_repository            = $user_meta_repository;
+		$this->user_can_edit_users_conditional = $user_can_edit_users_conditional;
 	}
 
 	/**
@@ -188,7 +200,7 @@ class Author_Schema_Field_Map extends Abstract_Field_Map {
 
 	/**
 	 * Validates that the pronouns can be set: the user profile page only shows the pronouns, and saves them,
-	 * when author archives are enabled.
+	 * when author archives are enabled and to users who can edit other users.
 	 *
 	 * @param mixed  $value      The value to save.
 	 * @param string $field_name The name of the field.
@@ -196,15 +208,24 @@ class Author_Schema_Field_Map extends Abstract_Field_Map {
 	 * @return string|null A warning when the value cannot be saved, null otherwise.
 	 */
 	public function validate_pronouns( $value, string $field_name ): ?string {
-		if ( $this->author_pronouns->is_setting_enabled() ) {
-			return null;
+		if ( ! $this->author_pronouns->is_setting_enabled() ) {
+			return \sprintf(
+				/* translators: %s expands to the name of a setting. */
+				\__( 'The %s setting was not changed, because author archives are disabled on this site.', 'wordpress-seo' ),
+				$field_name,
+			);
 		}
 
-		return \sprintf(
-			/* translators: %s expands to the name of a setting. */
-			\__( 'The %s setting was not changed, because author archives are disabled on this site.', 'wordpress-seo' ),
-			$field_name,
-		);
+		// Like on the user profile page, which only shows the pronouns to users who can edit other users.
+		if ( ! $this->user_can_edit_users_conditional->is_met() ) {
+			return \sprintf(
+				/* translators: %s expands to the name of a setting. */
+				\__( 'The %s setting was not changed, because only users who can edit other users can change it.', 'wordpress-seo' ),
+				$field_name,
+			);
+		}
+
+		return null;
 	}
 
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
@@ -217,10 +238,11 @@ class Author_Schema_Field_Map extends Abstract_Field_Map {
 	private function get_pronouns_description(): string {
 		$description = \__( 'The pronouns of the user, like "she/her", "he/him" or "they/them".', 'wordpress-seo' );
 
-		if ( $this->author_pronouns->is_setting_enabled() ) {
-			return $description;
+		if ( ! $this->author_pronouns->is_setting_enabled() ) {
+			return $description . ' ' . \__( 'Author archives are disabled on this site, so the pronouns cannot be changed.', 'wordpress-seo' );
 		}
 
-		return $description . ' ' . \__( 'Author archives are disabled on this site, so the pronouns cannot be changed.', 'wordpress-seo' );
+		// The current user is not known yet when the abilities are registered, so this cannot depend on them.
+		return $description . ' ' . \__( 'Only users who can edit other users can change them.', 'wordpress-seo' );
 	}
 }

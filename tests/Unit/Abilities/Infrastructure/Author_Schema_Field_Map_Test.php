@@ -8,6 +8,7 @@ use Mockery;
 use Yoast\WP\SEO\Abilities\Domain\Author_Schema_Field_Repository_Interface;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_Schema_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_Schema_User_Meta_Repository;
+use Yoast\WP\SEO\Conditionals\User_Can_Edit_Users_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Author_Pronouns;
 
@@ -35,6 +36,13 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	private $user_meta_repository;
 
 	/**
+	 * The user can edit users conditional mock.
+	 *
+	 * @var Mockery\MockInterface|User_Can_Edit_Users_Conditional
+	 */
+	private $user_can_edit_users_conditional;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Author_Schema_Field_Map
@@ -55,7 +63,9 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 
 		$this->user_meta_repository = Mockery::mock( Author_Schema_User_Meta_Repository::class );
 
-		$this->instance = new Author_Schema_Field_Map( $this->author_pronouns, $this->user_meta_repository );
+		$this->user_can_edit_users_conditional = Mockery::mock( User_Can_Edit_Users_Conditional::class );
+
+		$this->instance = new Author_Schema_Field_Map( $this->author_pronouns, $this->user_meta_repository, $this->user_can_edit_users_conditional );
 	}
 
 	/**
@@ -94,7 +104,7 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 		$this->assertSame(
 			[
 				'type'        => 'string',
-				'description' => 'The pronouns of the user, like "she/her", "he/him" or "they/them".',
+				'description' => 'The pronouns of the user, like "she/her", "he/him" or "they/them". Only users who can edit other users can change them.',
 			],
 			$fields['wpseo_pronouns'],
 		);
@@ -315,7 +325,7 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the pronouns can be set when author archives are enabled.
+	 * Tests that the pronouns can be set when author archives are enabled and the current user can edit other users.
 	 *
 	 * @covers ::validate_pronouns
 	 *
@@ -323,6 +333,7 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	 */
 	public function test_validate_pronouns_enabled() {
 		$this->author_pronouns->expects( 'is_setting_enabled' )->once()->andReturnTrue();
+		$this->user_can_edit_users_conditional->expects( 'is_met' )->once()->andReturnTrue();
 
 		$this->assertNull( $this->instance->validate_pronouns( 'they/them', 'wpseo_pronouns' ) );
 	}
@@ -336,9 +347,27 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	 */
 	public function test_validate_pronouns_disabled() {
 		$this->author_pronouns->expects( 'is_setting_enabled' )->once()->andReturnFalse();
+		$this->user_can_edit_users_conditional->expects( 'is_met' )->never();
 
 		$this->assertSame(
 			'The wpseo_pronouns setting was not changed, because author archives are disabled on this site.',
+			$this->instance->validate_pronouns( 'they/them', 'wpseo_pronouns' ),
+		);
+	}
+
+	/**
+	 * Tests that the pronouns cannot be set by users who cannot edit other users, like on the user profile page.
+	 *
+	 * @covers ::validate_pronouns
+	 *
+	 * @return void
+	 */
+	public function test_validate_pronouns_cannot_edit_users() {
+		$this->author_pronouns->expects( 'is_setting_enabled' )->once()->andReturnTrue();
+		$this->user_can_edit_users_conditional->expects( 'is_met' )->once()->andReturnFalse();
+
+		$this->assertSame(
+			'The wpseo_pronouns setting was not changed, because only users who can edit other users can change it.',
 			$this->instance->validate_pronouns( 'they/them', 'wpseo_pronouns' ),
 		);
 	}
