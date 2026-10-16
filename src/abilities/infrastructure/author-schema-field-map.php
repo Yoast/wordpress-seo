@@ -165,7 +165,7 @@ class Author_Schema_Field_Map extends Abstract_Field_Map {
 			],
 			'twitter'        => [
 				'type'        => 'string',
-				'description' => \__( 'The X username of the user, without the @. An X profile URL is also accepted, and is saved as the username. It is also used in the X card meta tags: as the creator of the user\'s posts, and as the site\'s X account when the site represents this user.', 'wordpress-seo' ),
+				'description' => \__( 'The X username of the user. A leading @ is removed, and an X profile URL is also accepted and saved as the username. It is also used in the X card meta tags: as the creator of the user\'s posts, and as the site\'s X account when the site represents this user.', 'wordpress-seo' ),
 			],
 			'youtube'        => [
 				'type'        => 'string',

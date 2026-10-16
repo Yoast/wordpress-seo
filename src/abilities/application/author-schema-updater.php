@@ -133,7 +133,8 @@ class Author_Schema_Updater extends Abstract_Fields_Updater {
 	}
 
 	/**
-	 * Returns the X username from an X username or profile URL.
+	 * Returns the X username from an X username, with or without a leading @, or profile URL, cleaned up like the
+	 * organization's X username.
 	 *
 	 * Unlike the organization's X username, the user's one is not cleaned up when saved, while the schema and
 	 * the meta tags expect a username.
