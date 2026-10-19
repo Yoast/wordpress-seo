@@ -430,7 +430,33 @@ Example: 6/15*100 = 0.4
 | Red           | 3     | No images                  | **Images**: No images appear on this page. **Add some!** |
 | Green         | 9     | There are at least 1 image | **Images**: Good job!                                    |
 
-### 9) Duplicate alt text
+### 9) Alt text length
+**What it does**: Checks whether the assessed images have alt text that is likely too short (10 characters or fewer; Japanese: 5) or too long (200 characters or more; Japanese: 100). By default, it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
+
+Images without alt text are not counted as too short: that case is covered by [Image alt attributes](SCORING%20SEO%20PRODUCT.md#1-image-alt-attributes).
+
+**When it applies**: Only when at least one assessed image has alt text that is too short or too long. There is no good range for alt text length, so there is no green traffic light: when nothing is flagged the assessment returns a result without a score and without a text, which `Assessor.isValidResult` drops, and the assessment is not shown at all.
+
+**Name in code**: AltTextLengthAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `tooShortCount`, `tooLongCount`, `tooShortBoundary` and
+`tooLongBoundary`, and must return all three of `tooShort`, `tooLong` and `both`. The returned object is used as is, so an omitted key
+renders as an empty result text rather than falling back to the default.
+
+Each feedback text is two separately translated sentences: the count, then the action with the character limit. For Japanese, the limits in the action sentence are 5 and 100.
+
+**Title URL**: https://yoa.st/alt-text-length (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/alt-text-length-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                                    | Feedback                                                                                                                                                              |
+|---------------|-------|--------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | X images have alt text of 10 characters or fewer             | **Alt text length**: X of your images have very short alt text. **Consider making the alt text longer than 10 characters.** |
+| Orange        | 6     | X images have alt text of 200 characters or more             | **Alt text length**: X of your images have very long alt text. **Consider making the alt text shorter than 200 characters.** |
+| Orange        | 6     | Both cases occur on the same page                            | **Alt text length**: X of your images have very short or very long alt text. **Consider making the alt text longer than 10 and shorter than 200 characters.** |
+
+### 10) Duplicate alt text
 **What it does**: Checks whether two or more different assessed images share the same alt text. Alt texts are compared trimmed and lowercased. By default it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
 
 Two entries count as the same image, not as a duplicate, when they have the same `id` (provided images only), or else the same `src`. An image with neither counts as a different image. On the text path, the same image in two sizes has two `src` values, so it counts as two images. Images without alt text are not counted: several decorative images with an empty alt text are correct.
@@ -455,7 +481,7 @@ returned object is used as is, so an omitted key renders as an empty result text
 |---------------|-------|------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
 | Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your images share the same alt text with another image. **Make sure each image has unique alt text.** |
 
-### 10) Title (only in Premium)
+### 11) Title (only in Premium)
 **What it does**: Checks for the presence of a title.
 
 **When it applies**: Always. Does not apply to taxonomies.

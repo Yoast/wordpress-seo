@@ -36,6 +36,19 @@ const assessor = new Assessor( new EnglishResearcher( mockPaper ), {
 	imageKeyphraseCTAUrl: "https://yoast.com/30",
 } );
 
+describe( "the alt text length assessment URLs", () => {
+	test( "uses the platform's URLs when the options are set", () => {
+		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
+			altTextLengthUrlTitle: "https://yoast.com/31",
+			altTextLengthCTAUrl: "https://yoast.com/32",
+		} );
+		const assessment = configured.getAssessment( "altTextLength" );
+
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/31' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/32' target='_blank'>" );
+	} );
+} );
+
 describe( "the duplicate alt text assessment", () => {
 	test( "uses the platform's URLs and result texts when the options are set", () => {
 		const duplicateAltTextResultTexts = jest.fn();

@@ -32,6 +32,7 @@ import KeyphraseInSEOTitleAssessment from "./seo/KeyphraseInSEOTitleAssessment";
 import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAssessment";
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
+import AltTextLengthAssessment from "./seo/AltTextLengthAssessment";
 import DuplicateAltTextAssessment from "./seo/DuplicateAltTextAssessment";
 
 // SEO assessments (premium)
@@ -60,6 +61,7 @@ const readability = {
 
 // We expose the deprecated assessments for backwards compatibility.
 const seo = {
+	AltTextLengthAssessment,
 	DuplicateAltTextAssessment,
 	FunctionWordsInKeyphraseAssessment,
 	ImageAltTagsAssessment,
