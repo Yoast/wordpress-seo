@@ -6,16 +6,14 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Term_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
+use Yoast\WP\SEO\Abilities\User_Interface\AI_Generate_Upsell;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 
 /**
  * The ability that updates the SEO data of a single term.
  */
 class Update_Term_SEO_Data_Ability extends Abstract_Term_SEO_Data_Ability {
-
-	use AI_Generate_Upsell_Trait;
 
 	/**
 	 * The term SEO data updater.
@@ -25,11 +23,11 @@ class Update_Term_SEO_Data_Ability extends Abstract_Term_SEO_Data_Ability {
 	private $term_seo_data_updater;
 
 	/**
-	 * The product helper.
+	 * The AI Generate upsell.
 	 *
-	 * @var Product_Helper
+	 * @var AI_Generate_Upsell
 	 */
-	private $product_helper;
+	private $ai_generate_upsell;
 
 	/**
 	 * Constructor.
@@ -37,18 +35,18 @@ class Update_Term_SEO_Data_Ability extends Abstract_Term_SEO_Data_Ability {
 	 * @param Capability_Helper                   $capability_helper                   The capability helper.
 	 * @param Should_Index_Indexables_Conditional $should_index_indexables_conditional The should index indexables conditional.
 	 * @param Term_SEO_Data_Updater               $term_seo_data_updater               The term SEO data updater.
-	 * @param Product_Helper                      $product_helper                      The product helper.
+	 * @param AI_Generate_Upsell                  $ai_generate_upsell                  The AI Generate upsell.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
 		Should_Index_Indexables_Conditional $should_index_indexables_conditional,
 		Term_SEO_Data_Updater $term_seo_data_updater,
-		Product_Helper $product_helper
+		AI_Generate_Upsell $ai_generate_upsell
 	) {
 		parent::__construct( $capability_helper, $should_index_indexables_conditional );
 
 		$this->term_seo_data_updater = $term_seo_data_updater;
-		$this->product_helper        = $product_helper;
+		$this->ai_generate_upsell    = $ai_generate_upsell;
 	}
 
 	/**
@@ -73,7 +71,7 @@ class Update_Term_SEO_Data_Ability extends Abstract_Term_SEO_Data_Ability {
 			'description'         => \__( 'Update the SEO data for a single taxonomy term, such as a category or a tag. Identify the term by term_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only terms the current user is allowed to edit can be updated.', 'wordpress-seo' ),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => $this->get_update_term_seo_data_input_schema(),
-			'output_schema'       => $this->add_ai_generate_hint_to_output_schema( $this->get_term_seo_data_output_schema(), $this->product_helper ),
+			'output_schema'       => $this->ai_generate_upsell->add_to_schema( $this->get_term_seo_data_output_schema() ),
 			'permission_callback' => [ $this, 'can_edit_advanced_metadata' ],
 			'execute_callback'    => [ $this, 'execute' ],
 			'meta'                => [
@@ -100,11 +98,7 @@ class Update_Term_SEO_Data_Ability extends Abstract_Term_SEO_Data_Ability {
 	 * @return array<string, int|string|bool|null>|WP_Error The updated SEO data, or an error.
 	 */
 	public function execute( array $input ) {
-		return $this->add_ai_generate_hint(
-			$this->term_seo_data_updater->update_term_seo_data( $input ),
-			$input,
-			$this->product_helper,
-		);
+		return $this->ai_generate_upsell->add_hint( $this->term_seo_data_updater->update_term_seo_data( $input ), $input );
 	}
 
 	/**
