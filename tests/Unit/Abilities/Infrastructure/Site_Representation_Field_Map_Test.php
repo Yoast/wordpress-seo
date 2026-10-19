@@ -60,9 +60,7 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 	 * Tests that get_fields returns the site representation fields of Yoast SEO with their schema.
 	 *
 	 * @covers ::__construct
-	 * @covers ::get_fields
-	 * @covers ::resolve_fields
-	 * @covers ::get_validators
+	 * @covers ::get_filtered_fields
 	 * @covers ::get_default_fields
 	 * @covers ::get_company_or_person_description
 	 *
@@ -113,8 +111,7 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 	/**
 	 * Tests that the company_or_person description tells agents when Local SEO prevents representing a person.
 	 *
-	 * @covers ::get_fields
-	 * @covers ::resolve_fields
+	 * @covers ::get_filtered_fields
 	 * @covers ::get_company_or_person_description
 	 *
 	 * @return void
@@ -132,8 +129,7 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 	 * Tests that get_fields includes the fields added through the filter, drops the ones without a
 	 * schema and caches the result.
 	 *
-	 * @covers ::get_fields
-	 * @covers ::resolve_fields
+	 * @covers ::get_filtered_fields
 	 *
 	 * @return void
 	 */
@@ -168,9 +164,7 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 	 * Tests that the validators registered along with the fields are kept out of the schemas, and that a field
 	 * whose validator is not callable is dropped.
 	 *
-	 * @covers ::get_fields
-	 * @covers ::get_validators
-	 * @covers ::resolve_fields
+	 * @covers ::get_filtered_fields
 	 *
 	 * @return void
 	 */
@@ -221,8 +215,7 @@ final class Site_Representation_Field_Map_Test extends TestCase {
 	/**
 	 * Tests that get_fields falls back to the defaults when the filter does not return an array.
 	 *
-	 * @covers ::get_fields
-	 * @covers ::resolve_fields
+	 * @covers ::get_filtered_fields
 	 *
 	 * @return void
 	 */
