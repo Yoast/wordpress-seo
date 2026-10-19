@@ -375,6 +375,16 @@ export function checkUrls( assessor, isECommerceAssessor = false ) {
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
+	test( "RedundantPhraseInAltText", () => {
+		const assessment = assessor.getAssessment( "redundantPhraseInAltText" );
+		const urlTitle = isECommerceAssessor
+			? "https://yoa.st/shopify-redundant-phrase-in-alt-text" : "https://yoa.st/redundant-phrase-in-alt-text";
+		const urlCallToAction = isECommerceAssessor
+			? "https://yoa.st/shopify-redundant-phrase-in-alt-text-cta" : "https://yoa.st/redundant-phrase-in-alt-text-cta";
+
+		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
+	} );
+
 	test( "KeyphraseDistribution", () => {
 		const assessment = assessor.getAssessment( "keyphraseDistribution" );
 		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify30" : "https://yoa.st/33q";
