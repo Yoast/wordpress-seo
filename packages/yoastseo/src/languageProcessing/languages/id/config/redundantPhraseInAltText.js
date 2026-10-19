@@ -22,7 +22,6 @@ const prepositionalVerb = "terlihat";
  * "gambar latar" (background image, also "gambar latar belakang"), "gambar unggulan" (the Indonesian WordPress
  * term for the featured image), "foto sampul" (cover photo), "foto arsip" (archive photo), "foto stok" (stock
  * photo) or "foto udara" (aerial photo) the opening names the image type, so removing it would be wrong advice.
- * A provisional list, to be reviewed by a native speaker.
  */
 const exceptions = {
 	gambar: [ "latar", "profil", "sampul", "unggulan", "stok" ],

@@ -12,7 +12,7 @@ import { letter, wordEnd } from "../../../helpers/regex/wordBoundaries";
  *   the work to its maker or giver ("Obrazek od babci" — an image from grandma). A compound naming a kind of
  *   image is excepted too: in "zdjęcie profilu" or the more common "zdjęcie profilowe" (profile photo),
  *   "grafika tła" (background image) or "zdjęcie okładki" (cover photo) the opening names the image type, so
- *   removing it would be wrong advice. The compound list is provisional, to be reviewed by a native speaker;
+ *   removing it would be wrong advice;
  * - a demonstrative, the noun, and a finite verb, each noun with the demonstrative of its own gender —
  *   "Ten obrazek przedstawia" (this picture presents), "ta grafika pokazuje" (this graphic shows),
  *   "to zdjęcie ilustruje" (this photo illustrates);

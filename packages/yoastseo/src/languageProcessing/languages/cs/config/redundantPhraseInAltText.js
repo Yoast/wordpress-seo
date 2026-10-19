@@ -12,8 +12,7 @@ import { letter, wordEnd } from "../../../helpers/regex/wordBoundaries";
  *   "obrázek pozadí" or "obrázek na pozadí" (background image) and "obrázek záhlaví" (header image) the opening
  *   names the image type, so removing it would be wrong advice. Czech names most image types with an adjective
  *   before the noun ("profilová fotka", "náhledový obrázek", "letecký snímek"), which the noun-first pattern
- *   never matches, so only these genitive forms need an exception. A provisional list, to be reviewed by
- *   a native speaker;
+ *   never matches, so only these genitive forms need an exception.
  * - a demonstrative, the noun, and a finite verb — "Tento obrázek zobrazuje" (this picture depicts),
  *   "tato fotka ukazuje" (this photo shows);
  * - a prepositional opening placing what is shown in the image, with an optional demonstrative —
