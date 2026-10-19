@@ -456,7 +456,25 @@ Each feedback text is two separately translated sentences: the count, then the a
 | Orange        | 6     | X images have alt text of 200 characters or more             | **Alt text length**: X of your images have very long alt text. **Consider making the alt text shorter than 200 characters.** |
 | Orange        | 6     | Both cases occur on the same page                            | **Alt text length**: X of your images have very short or very long alt text. **Consider making the alt text longer than 10 and shorter than 200 characters.** |
 
-### 10) Title (only in Premium)
+### 10) Redundant phrase in alt text
+**What it does**: Checks whether the assessed images have alt text with a redundant phrase such as "Image of", "A picture showing" or "This image depicts" — usually opening the alt text, but sometimes occurring in the middle or at the end in some languages (Hungarian, Japanese, Turkish).
+
+**When it applies**: Only when at least one assessed image has alt text with a redundant phrase.
+
+**Name in code**: RedundantPhraseInAltTextAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `redundantPhraseCount`, and must return `redundantPhrase`. The returned object is used as is.
+
+**Title URL**: https://yoa.st/redundant-phrase-in-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/redundant-phrase-in-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                             | Feedback                                                                                                                                                                                 |
+|---------------|-------|-------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | At least 1 image has alt text with a redundant phrase | **Redundant phrase in alt text**: X of your images have alt text with a phrase like "Image of" or similar. **Remove it as screen readers already announce that it's an image. You may keep phrases that describe the type of image (e.g. “photograph”, “illustration”, “screenshot”) if the type is worth pointing out.** |
+
+### 11) Title (only in Premium)
 **What it does**: Checks for the presence of a title.
 
 **When it applies**: Always. Does not apply to taxonomies.
