@@ -33,6 +33,7 @@ import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAss
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
 import AltTextLengthAssessment from "./seo/AltTextLengthAssessment";
+import RedundantPhraseInAltTextAssessment from "./seo/RedundantPhraseInAltTextAssessment";
 
 // SEO assessments (premium)
 import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
@@ -78,6 +79,7 @@ const seo = {
 	PageTitleWidthAssessment,
 	ProductIdentifiersAssessment,
 	ProductSKUAssessment,
+	RedundantPhraseInAltTextAssessment,
 	SingleH1Assessment,
 	SubheadingsKeywordAssessment,
 	TextCompetingLinksAssessment,
