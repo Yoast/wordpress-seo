@@ -105,7 +105,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	/**
 	 * Tests that is_available follows whether the indexables are being built.
 	 *
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::is_available
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_SEO_Data_Ability::is_available
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
@@ -122,8 +122,8 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	/**
 	 * Tests that can_edit_advanced_metadata checks the advanced metadata capability and returns its result.
 	 *
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::__construct
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::can_edit_advanced_metadata
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_SEO_Data_Ability::__construct
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_SEO_Data_Ability::can_edit_advanced_metadata
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
@@ -148,7 +148,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_args
 	 * @covers ::get_update_post_seo_data_input_schema
-	 * @covers ::get_update_post_seo_data_output_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\AI_Generate_Upsell_Trait::add_ai_generate_hint_to_output_schema
 	 * @covers ::ai_generate_field_schema
 	 * @covers ::get_schema_article_types
 	 * @covers ::nullable_enum_schema
@@ -193,7 +193,8 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	 * and only when a field AI Generate can write was set.
 	 *
 	 * @covers ::execute
-	 * @covers ::should_upsell_ai_generate
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\AI_Generate_Upsell_Trait::add_ai_generate_hint
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\AI_Generate_Upsell_Trait::should_upsell_ai_generate
 	 *
 	 * @dataProvider provide_execute_cases
 	 *
