@@ -15,6 +15,7 @@ import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment.js
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment.js";
 import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment.js";
 import AltTextLengthAssessment from "../../assessments/seo/AltTextLengthAssessment.js";
+import RedundantPhraseInAltTextAssessment from "../../assessments/seo/RedundantPhraseInAltTextAssessment.js";
 import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
@@ -116,6 +117,12 @@ export default class ProductSEOAssessor extends SEOAssessor {
 				callbacks: { getResultTexts: options.altTextLengthResultTexts },
 				urlTitle: createAnchorOpeningTag( options.altTextLengthUrlTitle ),
 				urlCallToAction: createAnchorOpeningTag( options.altTextLengthCTAUrl ),
+			} ),
+			new RedundantPhraseInAltTextAssessment( {
+				// Optional: platforms can pass `redundantPhraseInAltTextResultTexts` to override the default feedback strings.
+				callbacks: { getResultTexts: options.redundantPhraseInAltTextResultTexts },
+				urlTitle: createAnchorOpeningTag( options.redundantPhraseInAltTextUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.redundantPhraseInAltTextCTAUrl ),
 			} ),
 		];
 	}
