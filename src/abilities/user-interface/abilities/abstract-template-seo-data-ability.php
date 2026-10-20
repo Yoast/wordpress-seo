@@ -1,0 +1,133 @@
+<?php
+
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
+
+use Yoast\WP\SEO\Abilities\Domain\Ability_Interface;
+use Yoast\WP\SEO\Abilities\Infrastructure\Template_Fields\Template_Field_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets\Template_Target_Repository;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
+
+/**
+ * Shared base for the abilities that read and update the template SEO data of the pages that are neither posts nor
+ * terms, like the homepage and the archives.
+ */
+abstract class Abstract_Template_SEO_Data_Ability implements Ability_Interface {
+
+	/**
+	 * The capability helper.
+	 *
+	 * @var Capability_Helper
+	 */
+	private $capability_helper;
+
+	/**
+	 * The template field repository.
+	 *
+	 * @var Template_Field_Repository
+	 */
+	protected $field_repository;
+
+	/**
+	 * The template target repository.
+	 *
+	 * @var Template_Target_Repository
+	 */
+	protected $target_repository;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param Capability_Helper          $capability_helper The capability helper.
+	 * @param Template_Field_Repository  $field_repository  The template field repository.
+	 * @param Template_Target_Repository $target_repository The template target repository.
+	 */
+	public function __construct(
+		Capability_Helper $capability_helper,
+		Template_Field_Repository $field_repository,
+		Template_Target_Repository $target_repository
+	) {
+		$this->capability_helper = $capability_helper;
+		$this->field_repository  = $field_repository;
+		$this->target_repository = $target_repository;
+	}
+
+	/**
+	 * Returns whether the ability is available.
+	 *
+	 * @return bool Whether the ability is available.
+	 */
+	public function is_available(): bool {
+		return true;
+	}
+
+	/**
+	 * Checks whether the current user can manage Yoast SEO.
+	 *
+	 * Gates the ability behind the same capability that gates the settings page where the templates are set.
+	 *
+	 * @return bool Whether the current user can manage Yoast SEO.
+	 */
+	public function can_manage_seo(): bool {
+		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
+	}
+
+	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
+
+	/**
+	 * Returns the output schema of the template SEO data of a single target.
+	 *
+	 * @return array<string, mixed> The output schema.
+	 */
+	protected function get_target_output_schema(): array {
+		return [
+			'type'       => 'object',
+			'properties' => \array_merge(
+				[
+					'target'    => [
+						'type'        => 'string',
+						'enum'        => $this->target_repository->get_names(),
+						'description' => \__( 'The page type, as expected by yoast-seo/update-template-seo-data.', 'wordpress-seo' ),
+					],
+					'post_type' => [
+						'type'        => 'string',
+						'description' => \__( 'Only present for the post_type_archive target: the post type of the content type, as expected by yoast-seo/update-template-seo-data.', 'wordpress-seo' ),
+					],
+					'label'     => [
+						'type'        => 'string',
+						'description' => \__( 'Only present for the post_type_archive target: the name of the content type.', 'wordpress-seo' ),
+					],
+				],
+				\array_map( [ $this, 'to_output_schema' ], $this->field_repository->get_schemas( $this->field_repository->get_all() ) ),
+				[
+					'enabled' => [
+						'type'        => 'boolean',
+						'description' => \__( 'Whether these pages are in use on the site. Read-only: it can only be changed in the Yoast SEO settings. The template SEO data of disabled pages can still be changed, but has no effect until they are enabled.', 'wordpress-seo' ),
+					],
+					'shared'  => [
+						'type'        => 'boolean',
+						'description' => \__( 'Whether the template is shared by many pages, like all author archives. A shared template applies to every one of those pages, so it has to use replacement variables instead of text about one specific page.', 'wordpress-seo' ),
+					],
+					'url'     => [
+						'type'        => [ 'string', 'null' ],
+						'description' => \__( 'The URL of the page or, for a shared template, the URL pattern of its pages, with placeholders between % signs. Use it to tell which template a crawled URL belongs to. null when the pages have no URL of their own.', 'wordpress-seo' ),
+					],
+				],
+			),
+		];
+	}
+
+	/**
+	 * Reduces a field's input schema to its output schema: the input constraints would only make the output
+	 * validation fail on values that were saved before.
+	 *
+	 * @param array<string, mixed> $schema The input schema of the field.
+	 *
+	 * @return array<string, mixed> The output schema of the field.
+	 */
+	private function to_output_schema( array $schema ): array {
+		return \array_intersect_key( $schema, \array_flip( [ 'type', 'description' ] ) );
+	}
+
+	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+}

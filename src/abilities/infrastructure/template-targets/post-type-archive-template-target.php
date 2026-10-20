@@ -1,0 +1,157 @@
+<?php
+
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets;
+
+use WP_Post_Type;
+use Yoast\WP\SEO\Abilities\Domain\Exceptions\Unavailable_Template_Target_Exception;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+
+/**
+ * The archive of a content type, identified by its post type.
+ *
+ * Created per post type by the Post_Type_Archive_Target_Factory, so it is never injected by itself.
+ */
+class Post_Type_Archive_Template_Target extends Abstract_Template_Target {
+
+	/**
+	 * The name of the target.
+	 *
+	 * @var string
+	 */
+	public const NAME = 'post_type_archive';
+
+	/**
+	 * The post type of the content type.
+	 *
+	 * @var string
+	 */
+	private $post_type;
+
+	/**
+	 * The post type helper.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
+	 * The WooCommerce helper.
+	 *
+	 * @var Woocommerce_Helper
+	 */
+	private $woocommerce_helper;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param string             $post_type          The post type of the content type.
+	 * @param Post_Type_Helper   $post_type_helper   The post type helper.
+	 * @param Woocommerce_Helper $woocommerce_helper The WooCommerce helper.
+	 */
+	public function __construct( string $post_type, Post_Type_Helper $post_type_helper, Woocommerce_Helper $woocommerce_helper ) {
+		$this->post_type          = $post_type;
+		$this->post_type_helper   = $post_type_helper;
+		$this->woocommerce_helper = $woocommerce_helper;
+	}
+
+	/**
+	 * Returns the name of the target.
+	 *
+	 * @return string The name.
+	 */
+	public function get_name(): string {
+		return self::NAME;
+	}
+
+	/**
+	 * Returns the name of the target, the post type and the name of the content type.
+	 *
+	 * @return array<string, string> The identifiers, keyed by input name.
+	 */
+	public function get_identifiers(): array {
+		$post_type_object = \get_post_type_object( $this->post_type );
+
+		return [
+			'target'    => self::NAME,
+			'post_type' => $this->post_type,
+			'label'     => ( $post_type_object instanceof WP_Post_Type ) ? $post_type_object->label : $this->post_type,
+		];
+	}
+
+	/**
+	 * Returns the URL of the archive.
+	 *
+	 * @return string|null The URL, or null when the content type has no archive.
+	 */
+	public function get_url(): ?string {
+		$url = \get_post_type_archive_link( $this->post_type );
+
+		return ( \is_string( $url ) ) ? $url : null;
+	}
+
+	/**
+	 * Fills the post type into the option pattern, as each content type archive has its own options.
+	 *
+	 * @param string $option_pattern The option pattern, like `title-ptarchive-%s`.
+	 *
+	 * @return string The option name.
+	 */
+	public function format_option_name( string $option_pattern ): string {
+		return \sprintf( $option_pattern, $this->post_type );
+	}
+
+	/**
+	 * Ensures the content type has an archive with template SEO data.
+	 *
+	 * @return void
+	 *
+	 * @throws Unavailable_Template_Target_Exception When the post type is missing or has no such archive.
+	 */
+	public function ensure_available(): void {
+		if ( $this->post_type === '' ) {
+			$message = \__( 'Provide the post_type of the content type whose archive to update.', 'wordpress-seo' );
+
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- This is an exception message, not output.
+			throw new Unavailable_Template_Target_Exception( 'yoast_seo_missing_post_type', $message );
+		}
+
+		if ( $this->post_type === 'product' && $this->woocommerce_helper->is_active() ) {
+			throw $this->get_woocommerce_shop_exception();
+		}
+
+		if ( ! \array_key_exists( $this->post_type, $this->post_type_helper->get_indexable_post_archives() ) ) {
+			$message = \__( 'No content type archive with SEO data exists for the given post_type. The yoast-seo/get-template-seo-data ability lists the ones that do.', 'wordpress-seo' );
+
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- This is an exception message, not output.
+			throw new Unavailable_Template_Target_Exception( 'yoast_seo_invalid_post_type', $message );
+		}
+	}
+
+	/**
+	 * Returns the exception that points to the Shop page, which the product archive takes its SEO data from when
+	 * WooCommerce is active.
+	 *
+	 * @return Unavailable_Template_Target_Exception The exception.
+	 */
+	private function get_woocommerce_shop_exception(): Unavailable_Template_Target_Exception {
+		$shop_page_id = (int) $this->woocommerce_helper->get_shop_page_id();
+
+		if ( $shop_page_id < 1 ) {
+			return new Unavailable_Template_Target_Exception(
+				'yoast_seo_woocommerce_shop_page',
+				\__( 'With WooCommerce active, the product archive takes its SEO data from the Shop page, but no Shop page is set in the WooCommerce settings.', 'wordpress-seo' ),
+			);
+		}
+
+		return new Unavailable_Template_Target_Exception(
+			'yoast_seo_woocommerce_shop_page',
+			\sprintf(
+				/* translators: %d expands to the ID of a page. */
+				\__( 'With WooCommerce active, the product archive takes its SEO data from the Shop page (ID %d), so it is set on that page with the yoast-seo/update-post-seo-data ability instead.', 'wordpress-seo' ),
+				$shop_page_id,
+			),
+		);
+	}
+}
