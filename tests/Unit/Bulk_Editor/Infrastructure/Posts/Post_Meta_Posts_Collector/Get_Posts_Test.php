@@ -88,6 +88,7 @@ final class Get_Posts_Test extends Abstract_Test {
 							'social_description' => false,
 						],
 						'images'                      => [],
+						'context'                     => [],
 					],
 				],
 				'total'       => 1,
@@ -145,6 +146,7 @@ final class Get_Posts_Test extends Abstract_Test {
 					'social_description' => false,
 				],
 				'images'                      => [],
+				'context'                     => [],
 			],
 			$result['posts'][0],
 		);
@@ -199,11 +201,11 @@ final class Get_Posts_Test extends Abstract_Test {
 		Filters\expectApplied( 'wpseo_bulk_editor_post_images' )
 			->once()
 			->with( [], 7, 'product' )
-			->andReturn( [ 'thumbnail' => 'https://example.com/product.jpg' ] );
+			->andReturn( [ [ 'src' => 'https://example.com/product.jpg' ] ] );
 
 		$result = $this->instance->get_posts( new Posts_Query( 'product', 1, 20, '', self::STATUSES ) )->to_array();
 
-		$this->assertSame( [ 'thumbnail' => 'https://example.com/product.jpg' ], $result['posts'][0]['images'] );
+		$this->assertSame( [ [ 'src' => 'https://example.com/product.jpg' ] ], $result['posts'][0]['images'] );
 	}
 
 	/**
@@ -229,11 +231,11 @@ final class Get_Posts_Test extends Abstract_Test {
 		Filters\expectApplied( 'wpseo_bulk_editor_post_images' )
 			->once()
 			->with( [], 7, 'product' )
-			->andReturn( [ 'thumbnail' => 'https://example.com/product1.jpg' ] );
+			->andReturn( [ [ 'src' => 'https://example.com/product1.jpg' ] ] );
 
 		$result = $this->instance->get_posts( new Posts_Query( 'product', 1, 20, '', self::STATUSES ) )->to_array();
 
-		$this->assertSame( [ 'thumbnail' => 'https://example.com/product1.jpg' ], $result['posts'][0]['images'] );
+		$this->assertSame( [ [ 'src' => 'https://example.com/product1.jpg' ] ], $result['posts'][0]['images'] );
 		// The SEO data stays withheld, so the images are the only data a locked post exposes.
 		$this->assertSame( '', $result['posts'][0]['seo_title'] );
 		// The images must not end up in the needs-improvement verdict, which sits in the constructor slot before them.

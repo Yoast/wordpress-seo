@@ -14,15 +14,16 @@ import { WooSeoUpdateNotice } from "./woo-seo-update-notice";
  * @returns {JSX.Element|null} The upsell block, the update notice, or nothing.
  */
 export const ImageAltTextUpsell = () => {
-	const { isWooSeoActive, isWooSeoVersionSupported } = useSelect( ( select ) => {
+	const { isWooSeoActive, isWooSeoVersionSupported, isPremium } = useSelect( ( select ) => {
 		const store = select( STORE_NAME );
 		return {
 			isWooSeoActive: store.selectPreference( "isWooSeoActive", false ),
 			isWooSeoVersionSupported: store.selectPreference( "isWooSeoVersionSupported", false ),
+			isPremium: store.selectPreference( "isPremium", false ),
 		};
 	}, [] );
 
-	if ( isWooSeoActive ) {
+	if ( isWooSeoActive && isPremium ) {
 		return isWooSeoVersionSupported ? null : <WooSeoUpdateNotice />;
 	}
 

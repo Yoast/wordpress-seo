@@ -68,6 +68,7 @@ final class Post_Test extends TestCase {
 					'social_description' => true,
 				],
 				'images'                      => [],
+				'context'                     => [],
 			],
 			$instance->to_array(),
 		);
@@ -80,8 +81,12 @@ final class Post_Test extends TestCase {
 	 */
 	public function test_to_array_with_images() {
 		$images = [
-			'thumbnail' => 'https://example.com/product.jpg',
-			'count'     => 3,
+			[
+				'id'   => 12,
+				'src'  => 'https://example.com/product.jpg',
+				'alt'  => 'A blue mug',
+				'type' => 'featured',
+			],
 		];
 
 		$instance = new Post(
@@ -109,6 +114,17 @@ final class Post_Test extends TestCase {
 		);
 
 		$this->assertSame( $images, $instance->to_array()['images'] );
+	}
+
+	/**
+	 * Tests that a post without images sends them to the client as an empty JSON array, since the images are a list.
+	 *
+	 * @return void
+	 */
+	public function test_to_array_without_images_encodes_as_empty_json_array() {
+		$instance = new Post( 7, 'Hello world', 'draft', '', '', '', '', '', '', true );
+
+		$this->assertSame( '[]', \json_encode( $instance->to_array()['images'] ) );
 	}
 
 	/**
@@ -142,6 +158,7 @@ final class Post_Test extends TestCase {
 					'social_description' => false,
 				],
 				'images'                      => [],
+				'context'                     => [],
 			],
 			$instance->to_array(),
 		);
