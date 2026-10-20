@@ -34,6 +34,7 @@ import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
 import AltTextLengthAssessment from "./seo/AltTextLengthAssessment";
 import RedundantPhraseInAltTextAssessment from "./seo/RedundantPhraseInAltTextAssessment";
+import NonDescriptiveAltTextAssessment from "./seo/NonDescriptiveAltTextAssessment";
 
 // SEO assessments (premium)
 import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
@@ -75,6 +76,7 @@ const seo = {
 	KeywordDensityAssessment,
 	MetaDescriptionKeywordAssessment,
 	MetaDescriptionLengthAssessment,
+	NonDescriptiveAltTextAssessment,
 	OutboundLinksAssessment,
 	PageTitleWidthAssessment,
 	ProductIdentifiersAssessment,
