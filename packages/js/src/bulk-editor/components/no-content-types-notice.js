@@ -1,4 +1,4 @@
-import { createInterpolateElement } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __ } from "@wordpress/i18n";
 import { Alert, Link } from "@yoast/ui-library";
 
@@ -17,7 +17,7 @@ export const NoContentTypesNotice = ( { settingsUrl } ) => (
 			<div className="yst-flex yst-flex-col yst-gap-1">
 				<span className="yst-block yst-font-medium">{ __( "No content types are available for the bulk editor", "wordpress-seo" ) }</span>
 				<span className="yst-font-normal">
-					{ createInterpolateElement(
+					{ safeCreateInterpolateElement(
 						__( "Enable SEO controls and assessments for at least one content type in <link>Settings</link>.", "wordpress-seo" ),
 						// The placeholder child satisfies Link's required children; interpolation replaces it with the label.
 						{ link: <Link href={ settingsUrl }> </Link> }

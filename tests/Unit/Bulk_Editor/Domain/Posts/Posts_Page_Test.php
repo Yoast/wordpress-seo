@@ -54,6 +54,7 @@ final class Posts_Page_Test extends TestCase {
 							'social_description' => false,
 						],
 						'images'                      => [],
+						'context'                     => [],
 					],
 				],
 				'total'       => 45,
