@@ -1,5 +1,5 @@
 import createAlternation from "../../../helpers/regex/createAlternation";
-import { wordEnd } from "../../../helpers/regex/wordBoundaries";
+import { letter, wordEnd } from "../../../helpers/regex/wordBoundaries";
 
 /*
  * The French redundant openings come in three grammatical shapes, kept as word lists and small patterns so the
@@ -50,7 +50,8 @@ const addExceptionsGuard = ( noun ) => `${ noun }\\s+(?!(?:${ createAlternation(
 // Each complete-word connector ends on `wordEnd`; the elided "d'" instead requires a letter right after the
 // apostrophe, in any script — an ASCII `\b` would miss "d'élite".
 const connectorShape =
-	`(?:(?:${ createAlternation( indefiniteArticles ) })\\s+)?(?:${ nouns.map( addExceptionsGuard ).join( "|" ) })(?:(?:${ createAlternation( connectors ) })${ wordEnd }|d${ apostrophe }(?=\\p{L}))`;
+	`(?:(?:${ createAlternation( indefiniteArticles ) })\\s+)?(?:${ nouns.map( addExceptionsGuard ).join( "|" ) })` +
+	`(?:(?:${ createAlternation( connectors ) })${ wordEnd }|d${ apostrophe }(?=${ letter }))`;
 // Matches e.g. "cette photo montre": the noun with its elided or plain article or "cette", and a finite verb.
 const finiteVerbShape = `(?:${ articledNouns }|cette\\s+(?:${ nounAlternation }))\\s+(?:${ createAlternation( finiteVerbs ) })`;
 // Matches "sur l'image(,) on voit" and "on voit sur la photo": the articled noun inside the impersonal "one sees".
