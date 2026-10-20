@@ -70,4 +70,16 @@ describe( "SeoAnalysis.renderAIOptimizeButton", () => {
 
 		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
 	} );
+
+	it( "renders the AI Optimize button when the AI feature is enabled in Free", () => {
+		renderResultButton( { isPremium: false, isAiFeatureEnabled: true }, "keyphraseDensity" );
+
+		expect( screen.getByTestId( "ai-optimize-button" ) ).toHaveAttribute( "data-id", "keyphraseDensity" );
+	} );
+
+	it( "does not render the AI Optimize button when the AI feature is disabled in Free", () => {
+		renderResultButton( { isPremium: false, isAiFeatureEnabled: false }, "keyphraseDensity" );
+
+		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
+	} );
 } );
