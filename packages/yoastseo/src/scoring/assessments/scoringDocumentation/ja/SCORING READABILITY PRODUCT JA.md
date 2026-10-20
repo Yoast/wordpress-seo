@@ -6,6 +6,13 @@ Readability analysis is a collection of assessments that check how easy to read 
 This file describes the Japanese scoring criteria for readability assessments on product pages. Not all assessments have language-specific scoring criteria in Japanese. To find general information on readability assessments on product pages, you can consult the following page:
 * [Scoring criteria for readability assessments on product pages](../SCORING%20READABILITY%20PRODUCT.md)
 
+## Scoring criteria for the readability assessments
+### Assessments with the same scoring criteria as with the regular SEO assessor
+* [Subheading distribution](SCORING%20READABILITY.md#1-subheading-distribution)
+* [Sentence length](SCORING%20READABILITY.md#3-sentence-length)
+* [Transition words](SCORING%20READABILITY.md#6-transition-words)
+* [Text presence](SCORING%20READABILITY.md#7-text-presence)
+
 ### Assessments with a language specific scoring criteria that is different from the regular SEO assessor
 ### 1) Paragraph length
 **What it does**: Checks whether the paragraphs exceed the recommended maximum length.
@@ -18,11 +25,11 @@ This file describes the Japanese scoring criteria for readability assessments on
 
 **Call to action URL**: [https://yoa.st/35e](https://yoast.com/paragraph-length-check/#utm_source=yoast-seo&utm_medium=software&utm_term=paragraph-length-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light 	 | Score	| Criterion                             | Feedback                                                                                                                                            |
-|------------|------------------	|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red        |3	                | > 200 characters	   	                 | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of words/characters (X). **Shorten your paragraphs!** |
-| Orange     |6                 | Between 140 and 200 characters | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of words/characters (X). **Shorten your paragraphs!** |
-| Green      |9                 | ≤ 140 characters	 | **Paragraph length**: There are no paragraphs that are too long. Great job!                                                                         |
+| Traffic light 	 | Score	| Criterion                             | Feedback                                                                                                                                              |
+|------------|------------------	|---------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red        |3	                | > 200 characters	   	                 | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of words/characters (140). **Shorten your paragraphs!** |
+| Orange     |6                 | Between 140 and 200 characters | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of words/characters (140). **Shorten your paragraphs!** |
+| Green      |9                 | ≤ 140 characters	 | **Paragraph length**: There are no paragraphs that are too long. Great job!                                                                           |
 
 ### Assessments unique to product pages
 ### 1) Lists

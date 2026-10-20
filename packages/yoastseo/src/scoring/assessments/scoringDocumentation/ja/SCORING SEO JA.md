@@ -1,6 +1,6 @@
 # Overview of the SEO assessments scoring criteria for Japanese
 
-This file describes the language-specific scoring criteria for SEO assessments in Japanese. To find more general information on the scoring criteria of the SEO assessments, you can consult the following pages:
+This file describes the scoring criteria for SEO assessments in Japanese. To find more general information on the scoring criteria of the SEO assessments, you can consult the following pages:
 * [Scoring criteria for SEO assessments](../SCORING%20SEO.md)
 
 
@@ -22,7 +22,7 @@ This file describes the language-specific scoring criteria for SEO assessments i
 |-------------------|--------|------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Red   	           | -999	  | No focus keyphrase set		                       | **Keyphrase length**: No focus keyphrase was set for this page. **Set a focus keyphrase in order to calculate your SEO score**.                                   |
 | Red   	           | 3		    | Keyphrase length > 18 characters	              | **Keyphrase length**: The keyphrase contains X (content) characters. That's way more than the recommended maximum of X (content) characters. **Make it shorter!** |
-| Orange   	        | 6	     | Keyphrase length between 13 and 18 characters)		 | **Keyphrase length**: The keyphrase contains X (content) words/characters. That's more than the recommended maximum of X (content) words/characters. **Make it shorter!** |
+| Orange   	        | 6	     | Keyphrase length between 13 and 18 characters)		 | **Keyphrase length**: The keyphrase contains X (content) characters. That's more than the recommended maximum of X (content) words/characters. **Make it shorter!** |
 | Green   	         | 9	     | Keyphrase length between 1 and 12 characters)		 | **Keyphrase length**: Good job!                                                                                                                                   |
 
 
@@ -49,8 +49,28 @@ This file describes the language-specific scoring criteria for SEO assessments i
 | Green	            | 9	     | The only H2/H3 subheading used in the text reflects the topic		                                                                                                                                             | **Keyphrase in subheading**: Your higher-level subheading reflects the topic of your copy. Good job!                                              |
 | Green	            | 9	     | A text with 600 (cornerstone: 500) or less characters and no subheading is present.		   | **Keyphrase in subheading**: You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them.                                              |
 
+### 3) Previously used keyphrase
 
-### 3) Keyphrase distribution (only in Premium)
+**What it does**: Checks if the words from the keyphrase were previously used in a keyphrase for a different post.
+
+**Uses synonyms**: no
+
+**When it applies**: Always.
+
+**Name in code**: PreviouslyUsedKeyword
+
+**Title URL**: [https://yoa.st/33x](https://yoast.com/use-focus-keyword-once/#utm_source=yoast-seo&utm_medium=software&utm_term=previously-used-keywords-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
+
+**Call to action URL**: [https://yoa.st/33y](https://yoast.com/use-focus-keyword-once/#utm_source=yoast-seo&utm_medium=software&utm_term=previously-used-keywords-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
+
+| Traffic light   	 | Score	 | Criterion                                        | Feedback                                                                                                                                             |
+|-------------------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	              | 1	     | There is no keyphrase	                           | **Previously used keyphrase**: No focus keyphrase was set for this page. **Please add a focus keyphrase you haven't used before on other content**.	 |
+| Red	              | 1	     | The keyphrase is previously used more than once	 | **Previously used keyphrase**: You've used this keyphrase X times before. **Do not use your keyphrase more than once.**	                             |
+| Orange	           | 6	     | The keyphrase is previously used once	           | **Previously used keyphrase**: You've used this keyphrase once before. **Do not use your keyphrase more than once.**	                                |
+| Green	            | 9	     | The keyphrase hasn't been used before	           | **Previously used keyphrase**: You've not used this keyphrase before, very good.	                                                                    |
+
+### 4) Keyphrase distribution (only in Premium)
 The only difference between the default and the Japanese assessment is the length of the keyphrase, explained here. Specifically, in Japanese for a short topic (< 7 characters), 100% of the keyphrase needs to be in a sentence. For a long topic (≥ 7 characters), ≥50% of the keyphrase needs to be in the sentence. Function words are not taken into account.
 **What it does**: Checks how well the words from the keyphrase are distributed throughout the text. For exact implementation check out https://github.com/Yoast/YoastSEO.js/issues/1558 and https://github.com/Yoast/YoastSEO.js/issues/1868.
 
@@ -111,12 +131,12 @@ Example: 6/15*100 = 0.4
 
 **Call to action URL**: [https://yoa.st/34e](https://yoast.com/meta-descriptions/#utm_source=yoast-seo&utm_medium=software&utm_term=length-meta-description-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	            | Score	                | Criterion                                                   | Feedback                                                                                                                                                     |
-|------------------------------|-----------------------|-------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red	                         | 1	                    | No meta description		                                       | **Meta description length**: No meta description has been specified. Search engines will display copy from the page instead. **Make sure to write one!**     |
-| Orange (corner stone: red)		 | 6 (corner stone: 3)		 | Meta description (incl. the date)  ≤ 60 characters		        | **Meta description length**: The meta description is too short (under X characters). Up to X characters are available. **Use the space!**                    |
-| Orange (corner stone: red)		 | 6 (corner stone: 3)		 | Meta description (incl. the date)  ≥ 80 characters 		       | **Meta description length**: The meta description is over X characters. **To ensure the entire description will be visible, you should reduce the length!**	 |
-| Green	                       | 9	                    | Meta description (incl. the date) > 60 and < 80 characters	 | **Meta description length**: Well done!                                                                                                                      |
+| Traffic light   	            | Score	                | Criterion                                                   | Feedback                                                                                                                                                      |
+|------------------------------|-----------------------|-------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	                         | 1	                    | No meta description		                                       | **Meta description length**: No meta description has been specified. Search engines will display copy from the page instead. **Make sure to write one!**      |
+| Orange (corner stone: red)		 | 6 (corner stone: 3)		 | Meta description (incl. the date)  ≤ 60 characters		        | **Meta description length**: The meta description is too short (under 60 characters). Up to X characters are available. **Use the space!**                    |
+| Orange (corner stone: red)		 | 6 (corner stone: 3)		 | Meta description (incl. the date)  ≥ 80 characters 		       | **Meta description length**: The meta description is over 80 characters. **To ensure the entire description will be visible, you should reduce the length!**	 |
+| Green	                       | 9	                    | Meta description (incl. the date) > 60 and < 80 characters	 | **Meta description length**: Well done!                                                                                                                       |
 
 
 <sup>1</sup> In case of the Google Docs add-on, an H1 at the top of the document is excluded from the count, since we treat it as the title.

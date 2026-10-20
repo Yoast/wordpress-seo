@@ -2,7 +2,7 @@
 
 Readability analysis is a collection of assessments that check how easy to read a text is.
 
-This file describes the language-specific scoring criteria for readability assessments in Japanese. To find more general information on the scoring criteria of the readability assessments, you can consult the following pages:
+This file describes the language-specific scoring criteria for readability assessments in Japanese. The assessments that are not available in Japanese are Consecutive sentences, Passive voice, Word complexity, and Text Alignment. To find more general information on the scoring criteria of the readability assessments, you can consult the following page:
 * [Scoring criteria for readability assessments](../SCORING%20READABILITY.md)
 
 ## Scoring criteria for the readability assessments
@@ -38,11 +38,11 @@ This file describes the language-specific scoring criteria for readability asses
 
 **Call to action URL**: [https://yoa.st/35e](https://yoast.com/paragraph-length-check/#utm_source=yoast-seo&utm_medium=software&utm_term=paragraph-length-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light 	 | Score	| Criterion                             | Feedback                                                                                                                                      |
-|------------|------------------	|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| Red        |3	                | > 400 characters	   	                 | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of characters (X). **Shorten your paragraphs!** |
-| Orange     |6                 | Between 300 and 400 characters        | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of characters (X). **Shorten your paragraphs!** |
-| Green      |9                 | ≤ 300 characters	 | **Paragraph length**: There are no paragraphs that are too long. Great job!                                                                   |
+| Traffic light 	 | Score	| Criterion                             | Feedback                                                                                                                                        |
+|------------|------------------	|---------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red        |3	                | > 400 characters	   	                 | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of characters (300). **Shorten your paragraphs!** |
+| Orange     |6                 | Between 300 and 400 characters        | **Paragraph length**: X of the paragraphs contain(s) more than the recommended maximum number of characters (300). **Shorten your paragraphs!** |
+| Green      |9                 | ≤ 300 characters	 | **Paragraph length**: There are no paragraphs that are too long. Great job!                                                                     |
 
 ### 3) Sentence length
 **What it does**: Checks whether the sentences exceed the recommended maximum length (40 characters).
