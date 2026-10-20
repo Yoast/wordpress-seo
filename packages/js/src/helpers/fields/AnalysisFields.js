@@ -1,3 +1,4 @@
+import apiFetch from "@wordpress/api-fetch";
 import { dispatch, select, subscribe } from "@wordpress/data";
 import {
 	metaKeyFocusKw,
@@ -112,14 +113,47 @@ function writeOrQueue( metaKey, value, undoIgnore = false ) {
  * @param {string} value The value to write.
  * @returns {void}
  */
+
+/**
+ * Buffer for score meta writes that should not dirty the post independently.
+ * Keyed by meta key; holds the latest sanitized score string.
+ * Injected into the outgoing save payload by initScoreInjectMiddleware.
+ */
+const pendingScoreWrites = new Map();
+
+/**
+ * Mirrors the PHP sanitizer: only non-negative integers are valid; anything else becomes "0".
+ *
+ * @param {string} value The raw score value.
+ * @returns {string} The sanitized score string.
+ */
+const sanitizeScore = ( value ) => {
+	const parsed = parseInt( value, 10 );
+	return ( Number.isInteger( parsed ) && parsed >= 0 ) ? String( parsed ) : "0";
+};
+
+/**
+ * Returns true when buffering the score would be a no-op.
+ *
+ * Skips when the sanitized value already matches the committed meta, or when
+ * the score is "0" and the committed value is "" (the register_post_meta default
+ * for a score that was never persisted — semantically the same as "0").
+ *
+ * @param {string} metaKey   The meta key to check.
+ * @param {string} sanitized The sanitized score string.
+ * @returns {boolean} Whether the write should be skipped.
+ */
+const shouldSkipScoreWrite = ( metaKey, sanitized ) => {
+	const currentValue = select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKey ] ?? "";
+	return sanitized === currentValue || ( sanitized === "0" && currentValue === "" );
+};
+
 const setScoreMeta = ( metaKey, element, value ) => {
 	if ( isRestMetaActive() ) {
-		// Mirror the PHP sanitizer: only non-negative integers are valid; anything else becomes "0".
-		// This prevents a negative score (e.g. -665 when no keyphrase is set) from differing with the
-		// stored "0" on every page load, which would incorrectly mark the post as unsaved.
-		const parsed = parseInt( value, 10 );
-		const sanitized = ( Number.isInteger( parsed ) && parsed >= 0 ) ? String( parsed ) : "0";
-		writeOrQueue( metaKey, sanitized, true );
+		const sanitized = sanitizeScore( value );
+		if ( ! shouldSkipScoreWrite( metaKey, sanitized ) ) {
+			pendingScoreWrites.set( metaKey, sanitized );
+		}
 		return;
 	}
 	if ( element ) {
@@ -355,3 +389,99 @@ export default class AnalysisFields {
 		return getMetaValue( metaKeyMetaDescriptionScore, AnalysisFields.metaDescriptionScoreElement, "" );
 	}
 }
+
+/**
+ * Returns true when the request method is PUT or POST.
+ *
+ * @param {Object} options The apiFetch request options.
+ * @returns {boolean} Whether the method is a save method.
+ */
+function isSaveMethod( options ) {
+	const method = options.method?.toUpperCase() ?? "";
+	return method === "PUT" || method === "POST";
+}
+
+/**
+ * Returns the REST base and post ID for the currently edited post.
+ *
+ * @returns {{restBase: string|undefined, postId: number|undefined}} The REST base and post ID.
+ */
+function getCurrentPostRestContext() {
+	const editor   = select( "core/editor" );
+	const postType = editor?.getCurrentPostType();
+	const postId   = editor?.getCurrentPostId();
+	const restBase = select( "core" ).getPostType( postType )?.rest_base;
+	return { restBase, postId };
+}
+
+/**
+ * Returns true when the path targets the given post's REST endpoint (not an autosave).
+ *
+ * @param {string} path     The request path.
+ * @param {string} restBase The post type REST base.
+ * @param {number} postId   The post ID.
+ * @returns {boolean} Whether the path is a save request for this post.
+ */
+function matchesPostEndpoint( path, restBase, postId ) {
+	const pattern = new RegExp( `/${ restBase }/${ postId }(?:\\?|$)` );
+	return pattern.test( path ) && ! path.includes( "autosave" );
+}
+
+/**
+ * Returns true when the request is a save (PUT/POST) to the current post's REST endpoint
+ * and not an autosave sub-resource.
+ *
+ * @param {Object} options The apiFetch request options.
+ * @returns {boolean} Whether scores should be injected into this request.
+ */
+function isScoreSaveRequest( options ) {
+	if ( ! isSaveMethod( options ) ) {
+		return false;
+	}
+	const { restBase, postId } = getCurrentPostRestContext();
+	if ( ! restBase || ! postId ) {
+		return false;
+	}
+	return matchesPostEndpoint( options.path ?? "", restBase, postId );
+}
+
+/**
+ * apiFetch middleware that injects buffered score writes into post save requests.
+ *
+ * @param {Object}   options The apiFetch request options.
+ * @param {Function} next    The next middleware in the chain.
+ * @returns {*} The apiFetch response.
+ */
+function scoreInjectMiddleware( options, next ) {
+	if ( pendingScoreWrites.size === 0 || ! isScoreSaveRequest( options ) ) {
+		return next( options );
+	}
+	const scores = Object.fromEntries( pendingScoreWrites );
+	pendingScoreWrites.clear();
+	return next( {
+		...options,
+		data: { ...options.data, meta: { ...( options.data?.meta ?? {} ), ...scores } },
+	} );
+}
+
+/**
+ * Registers the score inject middleware with apiFetch.
+ *
+ * Detecting save via a store subscriber has a timing problem: Gutenberg's save
+ * action reads entity edits before the subscriber fires, so any write at that
+ * moment lands as a pending edit after the save rather than inside the payload.
+ * The middleware approach sidesteps this by operating at the HTTP layer: it
+ * intercepts the PUT/POST to the post endpoint and merges the buffered scores
+ * into the request body before it goes out. Gutenberg's normal response handling
+ * then commits the scores to the core store, so subsequent analysis runs see no
+ * difference and skip — no separate PATCH or manual receiveEntityRecords needed.
+ *
+ * @returns {void}
+ */
+function initScoreInjectMiddleware() {
+	apiFetch.use( scoreInjectMiddleware );
+}
+
+// Always register — the buffer is only populated when isRestMetaActive() is true
+// (inside setScoreMeta), so the middleware is a safe no-op in classic-editor mode.
+initScoreInjectMiddleware();
