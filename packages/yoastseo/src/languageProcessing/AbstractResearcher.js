@@ -32,6 +32,7 @@ import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings";
 import metaDescriptionKeyword from "./researches/metaDescriptionKeyword";
 import metaDescriptionLength from "./researches/metaDescriptionLength.js";
 import morphology from "./researches/getWordForms";
+import nonDescriptiveAltText from "./researches/nonDescriptiveAltText.js";
 import pageTitleWidth from "./researches/pageTitleWidth.js";
 import readingTime from "./researches/readingTime";
 import redundantPhraseInAltText from "./researches/redundantPhraseInAltText.js";
@@ -130,6 +131,7 @@ export default class AbstractResearcher {
 			metaDescriptionKeyword,
 			metaDescriptionLength,
 			morphology,
+			nonDescriptiveAltText,
 			pageTitleWidth,
 			readingTime,
 			redundantPhraseInAltText,
