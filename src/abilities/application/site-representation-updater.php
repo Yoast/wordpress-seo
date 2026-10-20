@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
  * The values are saved through the options helper, so they are sanitized and validated exactly like
  * they are when saved from the settings page.
  */
-class Site_Representation_Updater {
+class Site_Representation_Updater extends Abstract_Fields_Updater {
 
 	/**
 	 * The logo ID settings, mapped to the logo URL setting that is saved along with them.
@@ -87,79 +87,16 @@ class Site_Representation_Updater {
 	 * @return array<string, mixed> The new site representation settings, plus a warning when some could not be changed.
 	 */
 	public function update( array $input ): array {
-		$fields    = $this->field_map->get_fields();
-		$warnings  = [];
-		$saved_any = false;
-
-		foreach ( \array_keys( \array_intersect_key( $fields, $input ) ) as $field_name ) {
-			$warning = $this->update_field( $field_name, $input[ $field_name ] );
-			if ( $warning === null ) {
-				$saved_any = true;
-				continue;
-			}
-
-			$warnings[] = $warning;
-		}
+		$fields  = $this->field_map->get_fields();
+		$warning = $this->update_fields( $fields, $this->field_map->get_validators(), $input )['warning'];
 
 		$result = $this->get_settings( $fields );
 
-		if ( $warnings !== [] ) {
-			$warnings[]        = ( $saved_any ) ? \__( 'The other settings were saved.', 'wordpress-seo' ) : \__( 'No other settings were saved.', 'wordpress-seo' );
-			$result['warning'] = \implode( ' ', $warnings );
+		if ( $warning !== null ) {
+			$result['warning'] = $warning;
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Validates and saves a single field.
-	 *
-	 * @param string $field_name The option name of the field.
-	 * @param mixed  $value      The value to save.
-	 *
-	 * @return string|null A warning when the field could not be saved, null otherwise.
-	 */
-	private function update_field( string $field_name, $value ): ?string {
-		$warning = $this->validate_field( $field_name, $value );
-		if ( $warning !== null ) {
-			return $warning;
-		}
-
-		if ( ! $this->save_field( $field_name, $value ) ) {
-			// A failed save is also reported when the value was invalid or the option sanitized it into
-			// something else, so the warning points to the returned value rather than claiming nothing was stored.
-			return \sprintf(
-				/* translators: %s expands to the name of a setting. */
-				\__( 'The %s setting could not be saved as provided, so its current value is returned.', 'wordpress-seo' ),
-				$field_name,
-			);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Validates a single field with the validator it is registered with in the field map, if any.
-	 *
-	 * @param string $field_name The option name of the field.
-	 * @param mixed  $value      The value to save.
-	 *
-	 * @return string|null A warning when the value cannot be saved, null otherwise.
-	 */
-	private function validate_field( string $field_name, $value ): ?string {
-		$validators = $this->field_map->get_validators();
-		if ( ! isset( $validators[ $field_name ] ) ) {
-			return null;
-		}
-
-		$warning = \call_user_func( $validators[ $field_name ], $value, $field_name );
-
-		// Anything but a non-empty string cannot be relayed as a warning, so the value is saved instead.
-		if ( ! \is_string( $warning ) || $warning === '' ) {
-			return null;
-		}
-
-		return $warning;
 	}
 
 	/**
@@ -169,12 +106,13 @@ class Site_Representation_Updater {
 	 * are in the first-time configuration, including the ones that add-ons register there. Logo IDs are saved along
 	 * with their URL.
 	 *
-	 * @param string $field_name The option name of the field.
-	 * @param mixed  $value      The value to save.
+	 * @param string               $field_name The option name of the field.
+	 * @param mixed                $value      The value to save.
+	 * @param array<string, mixed> $context    Unused, as the settings are site-wide.
 	 *
 	 * @return bool Whether the field was saved.
 	 */
-	private function save_field( string $field_name, $value ): bool {
+	protected function save_field( string $field_name, $value, array $context ): bool { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Required by the parent class; the settings are site-wide.
 		if ( \array_key_exists( $field_name, $this->social_profiles_helper->get_organization_social_profile_fields() ) ) {
 			// One profile at a time, as the helper saves none of the provided profiles when one of them is invalid.
 			return $this->social_profiles_helper->set_organization_social_profiles( [ $field_name => $value ] ) === [];
@@ -223,20 +161,7 @@ class Site_Representation_Updater {
 		$settings = [];
 
 		foreach ( $fields as $field_name => $schema ) {
-			$value = $this->options_helper->get( $field_name );
-
-			// Unset options come back as their default, which is not always of the declared type
-			// (the user ID defaults to false, for example).
-			switch ( ( $schema['type'] ?? null ) ) {
-				case 'integer':
-					$value = (int) $value;
-					break;
-				case 'string':
-					$value = (string) $value;
-					break;
-			}
-
-			$settings[ $field_name ] = $value;
+			$settings[ $field_name ] = $this->cast_to_schema_type( $this->options_helper->get( $field_name ), $schema );
 		}
 
 		return $settings;
