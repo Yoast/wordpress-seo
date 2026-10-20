@@ -59,8 +59,7 @@ class SeoAnalysis extends Component {
 	 * For the Image alt attributes assessment this is a slot rather than a button. That assessment is registered
 	 * by Yoast WooCommerce SEO and Shopify SEO, which fill the slot with their own alt text generation button.
 	 * Whether a button is warranted is the fill's decision, because it owns the image data that decision depends
-	 * on; without a fill the slot renders nothing. The slot is not offered while a Premium user has AI features
-	 * switched off.
+	 * on; without a fill the slot renders nothing. The slot is not offered while AI features are switched off.
 	 *
 	 * For every other assessment this is the Yoast AI Optimize button, which is shown when:
 	 * - The assessment can be fixed through Yoast AI Optimize.
@@ -77,14 +76,13 @@ class SeoAnalysis extends Component {
 	renderAIOptimizeButton = ( hasAIFixes, id ) => {
 		const { isElementor, isAiFeatureEnabled, isPremium, isTerm } = this.props;
 
-		if ( id === IMAGE_ALT_TAGS_ASSESSMENT_ID ) {
-			// Don't show the slot if the AI feature is not enabled for Yoast SEO Premium users.
-			return ( isPremium && ! isAiFeatureEnabled ) ? null : <ImageAltTagsButtonSlot />;
-		}
-
-		// Don't show the button if the AI feature is not enabled.
+		// Don't show the button or slot if the AI feature is not enabled.
 		if ( ! isAiFeatureEnabled ) {
 			return;
+		}
+
+		if ( id === IMAGE_ALT_TAGS_ASSESSMENT_ID ) {
+			return <ImageAltTagsButtonSlot />;
 		}
 
 		const shouldRenderAIButton = shouldRenderAIOptimizeButton( hasAIFixes, isElementor, isTerm );

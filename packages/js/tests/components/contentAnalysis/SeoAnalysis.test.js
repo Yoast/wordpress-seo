@@ -52,10 +52,16 @@ describe( "SeoAnalysis.renderAIOptimizeButton", () => {
 		expect( screen.queryByRole( "button", { name: "Generate with AI" } ) ).not.toBeInTheDocument();
 	} );
 
-	it( "renders the image alt tags slot for Free users, who have no AI feature toggle", () => {
-		renderResultButton( { isPremium: false, isAiFeatureEnabled: false }, "imageAltTags", false );
+	it( "renders the image alt tags slot when the AI feature is enabled in Free", () => {
+		renderResultButton( { isPremium: false, isAiFeatureEnabled: true }, "imageAltTags", false );
 
 		expect( screen.getByRole( "button", { name: "Generate with AI" } ) ).toBeInTheDocument();
+	} );
+
+	it( "does not render the image alt tags slot when the AI feature is disabled in Free", () => {
+		renderResultButton( { isPremium: false, isAiFeatureEnabled: false }, "imageAltTags", false );
+
+		expect( screen.queryByRole( "button", { name: "Generate with AI" } ) ).not.toBeInTheDocument();
 	} );
 
 	it( "still renders the AI Optimize button for the other assessments", () => {
