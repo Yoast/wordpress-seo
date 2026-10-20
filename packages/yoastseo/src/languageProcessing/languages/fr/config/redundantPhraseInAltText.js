@@ -48,7 +48,7 @@ const addExceptionsGuard = ( noun ) => `${ noun }\\s+(?!(?:${ createAlternation(
 
 // Matches e.g. "une photo de": an optional article, the noun — unless an excepted compound follows — and a connector.
 const connectorShape =
-	`(?:(?:${ createAlternation( indefiniteArticles ) })\\s+)?(?:${ nouns.map( addExceptionsGuard ).join( "|" ) })(?:${ createAlternation( connectors ) }|d${ apostrophe })`;
+	`(?:(?:${ createAlternation( indefiniteArticles ) })\\s+)?(?:${ nouns.map( addExceptionsGuard ).join( "|" ) })(?:(?:${ createAlternation( connectors ) })${ wordEnd }|d${ apostrophe }(?=\\p{L}))`;
 // Matches e.g. "cette photo montre": the noun with its elided or plain article or "cette", and a finite verb.
 const finiteVerbShape = `(?:${ articledNouns }|cette\\s+(?:${ nounAlternation }))\\s+(?:${ createAlternation( finiteVerbs ) })`;
 // Matches "sur l'image(,) on voit" and "on voit sur la photo": the articled noun inside the impersonal "one sees".
@@ -56,7 +56,7 @@ const impersonalShape = `(?:sur\\s+${ articledNouns },?\\s+on\\s+voit|on\\s+voit
 
 /**
  * The pattern the `redundantPhraseInAltText` research tests alt texts against: anchored at the start,
- * case-insensitive, and ending on a word boundary so "La photo montre" does not match "La photo montrera".
+ * case-insensitive, with Unicode word guards and a following-letter check after elided connectors.
  * See the research for the contract a language's pattern has to follow.
  */
-export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape }|${ impersonalShape })\\b`, "iu" );
+export default new RegExp( `^(?:${ connectorShape }|(?:${ finiteVerbShape }|${ impersonalShape })${ wordEnd })`, "iu" );
