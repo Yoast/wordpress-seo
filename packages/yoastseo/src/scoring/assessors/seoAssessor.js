@@ -10,6 +10,7 @@ import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
 import ImageCount from "../assessments/seo/ImageCountAssessment";
+import AltTextLength from "../assessments/seo/AltTextLengthAssessment";
 import TextLength from "../assessments/seo/TextLengthAssessment";
 import OutboundLinks from "../assessments/seo/OutboundLinksAssessment";
 import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
@@ -39,6 +40,7 @@ export default class SEOAssessor extends Assessor {
 			new SubheadingsKeyword(),
 			new TextCompetingLinksAssessment(),
 			new ImageCount(),
+			new AltTextLength(),
 			new TextLength(),
 			new OutboundLinks(),
 			new KeyphraseInSEOTitleAssessment(),

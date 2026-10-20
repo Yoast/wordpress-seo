@@ -34,6 +34,19 @@ const assessor = new Assessor( new EnglishResearcher( mockPaper ), {
 	imageCountCTAUrl: "https://yoast.com/28",
 } );
 
+describe( "the alt text length assessment URLs", () => {
+	test( "uses the platform's URLs when the options are set", () => {
+		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
+			altTextLengthUrlTitle: "https://yoast.com/31",
+			altTextLengthCTAUrl: "https://yoast.com/32",
+		} );
+		const assessment = configured.getAssessment( "altTextLength" );
+
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/31' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/32' target='_blank'>" );
+	} );
+} );
+
 describe( "has configuration overrides", () => {
 	test( "IntroductionKeywordAssessment", () => {
 		const assessment = assessor.getAssessment( "introductionKeyword" );

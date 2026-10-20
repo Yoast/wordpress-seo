@@ -68,6 +68,7 @@ final class Post_Test extends TestCase {
 					'social_description' => true,
 				],
 				'images'                      => [],
+				'context'                     => [],
 			],
 			$instance->to_array(),
 		);
@@ -142,6 +143,7 @@ final class Post_Test extends TestCase {
 					'social_description' => false,
 				],
 				'images'                      => [],
+				'context'                     => [],
 			],
 			$instance->to_array(),
 		);

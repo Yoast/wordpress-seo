@@ -13,6 +13,7 @@ import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssess
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment.js";
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment.js";
 import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment.js";
+import AltTextLengthAssessment from "../../assessments/seo/AltTextLengthAssessment.js";
 import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
@@ -105,6 +106,12 @@ export default class ProductSEOAssessor extends SEOAssessor {
 				// Optional: platforms can pass `imageCountResultTexts` to override the default feedback strings.
 				callbacks: { getResultTexts: options.imageCountResultTexts },
 			}, options.countVideos ),
+			new AltTextLengthAssessment( {
+				// Optional: platforms can pass `altTextLengthResultTexts` to override the default feedback strings.
+				callbacks: { getResultTexts: options.altTextLengthResultTexts },
+				urlTitle: createAnchorOpeningTag( options.altTextLengthUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.altTextLengthCTAUrl ),
+			} ),
 		];
 	}
 }
