@@ -60,4 +60,94 @@ final class Option_WPSEO_Test extends TestCase {
 		$expected = \array_fill_keys( $this->feature_vars, false );
 		$this->assertEqualSets( $expected, \array_intersect_key( $options, $expected ) );
 	}
+
+	/**
+	 * Tests the validation of the timestamp options.
+	 *
+	 * @dataProvider provider_validate_timestamps
+	 * @covers WPSEO_Option_Wpseo::validate_option
+	 *
+	 * @param string          $key      The option key.
+	 * @param bool            $posted   Whether the key is part of the posted values.
+	 * @param string|int|null $dirty    The posted value.
+	 * @param string|int|null $old      The stored value.
+	 * @param int|null        $expected The expected validated value.
+	 *
+	 * @return void
+	 */
+	public function test_validate_timestamps( $key, $posted, $dirty, $old, $expected ) {
+		global $wpdb;
+
+		$wpdb->update(
+			$wpdb->options,
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Reason: There's no security risk, because users don't interact with tests.
+			[ 'option_value' => \serialize( \array_merge( \get_option( 'wpseo' ), [ $key => $old ] ) ) ],
+			[ 'option_name' => 'wpseo' ],
+		);
+		\wp_cache_delete( 'wpseo', 'options' );
+		\wp_cache_delete( 'alloptions', 'options' );
+		WPSEO_Options::clear_cache();
+
+		$option_instance = WPSEO_Options::get_option_instance( 'wpseo' );
+		$posted_values   = [ 'enable_schema_aggregation_endpoint' => true ];
+		if ( $posted ) {
+			$posted_values[ $key ] = $dirty;
+		}
+
+		$clean = $option_instance->validate( $posted_values );
+
+		$this->assertSame( $expected, $clean[ $key ] );
+	}
+
+	/**
+	 * Data provider for test_validate_timestamps.
+	 *
+	 * @return array<string, array<string, bool|string|int|null>>
+	 */
+	public static function provider_validate_timestamps() {
+		return [
+			'posted timestamp is stored as an integer'    => [
+				'key'      => 'schema_aggregation_endpoint_enabled_on',
+				'posted'   => true,
+				'dirty'    => '1700000000',
+				'old'      => null,
+				'expected' => 1_700_000_000,
+			],
+			'posted text null is dropped'                 => [
+				'key'      => 'schema_aggregation_endpoint_enabled_on',
+				'posted'   => true,
+				'dirty'    => 'null',
+				'old'      => null,
+				'expected' => null,
+			],
+			'missing key keeps the stored timestamp'      => [
+				'key'      => 'schema_aggregation_endpoint_enabled_on',
+				'posted'   => false,
+				'dirty'    => null,
+				'old'      => 1_700_000_000,
+				'expected' => 1_700_000_000,
+			],
+			'missing key drops the stored text null'      => [
+				'key'      => 'schema_aggregation_endpoint_enabled_on',
+				'posted'   => false,
+				'dirty'    => null,
+				'old'      => 'null',
+				'expected' => null,
+			],
+			'missing key keeps the free sparks timestamp' => [
+				'key'      => 'ai_free_sparks_started_on',
+				'posted'   => false,
+				'dirty'    => null,
+				'old'      => 1_600_000_000,
+				'expected' => 1_600_000_000,
+			],
+			'missing key drops the free sparks text null' => [
+				'key'      => 'ai_free_sparks_started_on',
+				'posted'   => false,
+				'dirty'    => null,
+				'old'      => 'null',
+				'expected' => null,
+			],
+		];
+	}
 }
