@@ -619,6 +619,8 @@ describe( "the redundant alt text phrases for Arabic", () => {
 		[ "صور الفريق", "pictures of the team", "the plural noun is not listed" ],
 		[ "الصورة جميلة جدا", "the picture is very beautiful", "the word after the noun is not one of the listed verbs" ],
 		[ "الصورة تمثلنا في المؤتمر", "the picture represents us at the conference", "a verb with an attached object suffix is not matched" ],
+		[ "الصورة تُمَثِّلُنا في المؤتمر", "the picture represents us at the conference",
+			"a vocalized verb with an attached object suffix is not matched either" ],
 		[ "رجل أمام صورة قطة", "a man in front of a picture of a cat", "the phrase is not at the start" ],
 	] )( "does not count the alt text \"%s\" (%s): %s", ( altText ) => {
 		expect( researchInArabic( altText ) ).toEqual( { count: 0, flagged: [] } );

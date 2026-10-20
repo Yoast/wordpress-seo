@@ -6,11 +6,16 @@
  * `\p{L}` silently matches the literal letter "p".
  */
 
-// Ends a word or phrase: the next character may not be a letter, digit or underscore.
-export const wordEnd = "(?![\\p{L}\\p{N}_])";
+/*
+ * Ends a word or phrase: the next character may not be a letter, combining mark, digit or underscore.
+ * Combining marks count as word-internal: without `\p{M}`, a pattern with optional Arabic diacritics could
+ * backtrack and declare a boundary right before a vowel mark, flagging "تُمَثِّلُنا" (represents-us, vocalized)
+ * while its unvocalized spelling "تمثلنا" is correctly excluded.
+ */
+export const wordEnd = "(?![\\p{L}\\p{M}\\p{N}_])";
 
-// Starts a word: the start of the text, or anything that is not a letter, digit or underscore.
-export const wordStart = "(?:^|[^\\p{L}\\p{N}_])";
+// Starts a word: the start of the text, or anything that is not a letter, combining mark, digit or underscore.
+export const wordStart = "(?:^|[^\\p{L}\\p{M}\\p{N}_])";
 
 // A single letter in any script, for requiring that a word follows.
 export const letter = "\\p{L}";
