@@ -474,7 +474,27 @@ Each feedback text is two separately translated sentences: the count, then the a
 |---------------|-------|-------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Orange        | 6     | At least 1 image has alt text with a redundant phrase | **Redundant phrase in alt text**: X of your images have alt text with a phrase like "Image of" or similar. **Remove it as screen readers already announce that it's an image. You may keep phrases that describe the type of image (e.g. “photograph”, “illustration”, “screenshot”) if the type is worth pointing out.** |
 
-### 11) Title (only in Premium)
+### 11) Non-descriptive alt text
+**What it does**: Checks whether the assessed images have alt text that consists only of a meaningless phrase: a placeholder ("Untitled", "N/A", "Alt text"), a file name ("IMG_1234", "red-shoes.jpg", or the image's own file name), or a generic default that says nothing about the image ("Product image", "Image 1"). The whole alt text is matched: "Product image" is flagged, "Product image of a red bike on a beach" is not.
+
+Some checks work in every language: only numbers or punctuation, a name ending in an image file extension, file names that cameras, phones or WhatsApp generate, and the image's own file name. The phrases are language-specific.
+
+**When it applies**: Only when at least one assessed image has non-descriptive alt text. Empty alt text is not flagged: that case is covered by the _image alt attributes_ assessment.
+
+**Name in code**: NonDescriptiveAltTextAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `nonDescriptiveCount`, and must return `nonDescriptive`. The returned object is used as is.
+
+**Title URL**: https://yoa.st/non-descriptive-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/non-descriptive-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                         | Feedback                                                                                                                                                              |
+|---------------|-------|---------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red           | 3     | At least 1 image has non-descriptive alt text     | **Non-descriptive alt text**: X of your images have alt text that doesn't describe the image. **Describe what the image shows, or leave the alt text empty if the image is decorative.** |
+
+### 12) Title (only in Premium)
 **What it does**: Checks for the presence of a title.
 
 **When it applies**: Always. Does not apply to taxonomies.
