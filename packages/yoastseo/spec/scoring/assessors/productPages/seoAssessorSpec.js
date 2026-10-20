@@ -62,6 +62,19 @@ describe( "the redundant phrase in alt text assessment URLs", () => {
 	} );
 } );
 
+describe( "the non-descriptive alt text assessment URLs", () => {
+	test( "uses the platform's URLs when the options are set", () => {
+		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
+			nonDescriptiveAltTextUrlTitle: "https://yoast.com/35",
+			nonDescriptiveAltTextCTAUrl: "https://yoast.com/36",
+		} );
+		const assessment = configured.getAssessment( "nonDescriptiveAltText" );
+
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/35' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/36' target='_blank'>" );
+	} );
+} );
+
 describe( "has configuration overrides", () => {
 	test( "IntroductionKeywordAssessment", () => {
 		const assessment = assessor.getAssessment( "introductionKeyword" );
