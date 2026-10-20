@@ -208,7 +208,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 	 */
 	public static function data_shortcode_tags(): array {
 		return [
-			'registered shortcode tags' => [
+			'registered shortcode tags'     => [
 				'shortcode_tags'             => [
 					'gallery' => 'gallery_shortcode',
 					'caption' => 'caption_shortcode',
@@ -217,19 +217,19 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 				'is_woo_seo_inactive'        => true,
 				'is_keyword_analysis_active' => true,
 			],
-			'woo seo is active' => [
+			'woo seo is active'             => [
 				'shortcode_tags'             => [],
 				'expected_shortcodes'        => [],
 				'is_woo_seo_inactive'        => false,
 				'is_keyword_analysis_active' => true,
 			],
-			'no shortcodes registered' => [
+			'no shortcodes registered'      => [
 				'shortcode_tags'             => [],
 				'expected_shortcodes'        => [],
 				'is_woo_seo_inactive'        => true,
 				'is_keyword_analysis_active' => true,
 			],
-			'the global is unset' => [
+			'the global is unset'           => [
 				'shortcode_tags'             => null,
 				'expected_shortcodes'        => [],
 				'is_woo_seo_inactive'        => true,
@@ -241,7 +241,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 				'is_woo_seo_inactive'        => true,
 				'is_keyword_analysis_active' => false,
 			],
-			'the global is malformed' => [
+			'the global is malformed'       => [
 				'shortcode_tags'             => 'not an array',
 				'expected_shortcodes'        => [],
 				'is_woo_seo_inactive'        => true,
