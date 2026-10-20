@@ -146,7 +146,7 @@ variations) instead, by providing the Paper's `providedImages` attribute. Provid
 one image, so a product image that is also in the gallery is not a duplicate.
 
 **When it applies**: Only when at least two different assessed images share the same alt text. There is no green
-traffic light; see [the regular assessment](SCORING%20SEO.md#9-duplicate-alt-text).
+traffic light; see [the regular assessment](SCORING%20SEO.md#10-duplicate-alt-text).
 
 **Name in code**: DuplicateAltTextAssessment
 
@@ -158,7 +158,7 @@ Only the feedback strings differ: on a product page the images being assessed ar
 `urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `duplicateCount`, and must return `duplicate`. The
 returned object is used as is, so an omitted key renders as an empty result text rather than falling back to the
 default. Both WooCommerce and Shopify supply a callback, so the string a user sees on a product page is the
-platform's, not the default in [the regular table](SCORING%20SEO.md#9-duplicate-alt-text).
+platform's, not the default in [the regular table](SCORING%20SEO.md#10-duplicate-alt-text).
 
 **Title URL**: https://yoa.st/duplicate-alt-text in WooCommerce, https://yoa.st/shopify-duplicate-alt-text in Shopify (link placement is in bold in the feedback strings)
 
@@ -166,7 +166,7 @@ platform's, not the default in [the regular table](SCORING%20SEO.md#9-duplicate-
 
 | Traffic light | Score | Criterion                                            | Feedback                                                                                                                         |
 |---------------|-------|------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your product images share the same alt text with another image. **Make sure each image has unique alt text.** |
+| Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your product images share the same alt text with another product image. **Make sure each image has unique alt text.** |
 
 ### Assessments unique to product pages
 ### 1) Image alt attributes
