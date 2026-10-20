@@ -1,5 +1,5 @@
 import createAlternation from "../../../helpers/regex/createAlternation";
-import { wordEnd } from "../../../helpers/regex/wordBoundaries";
+import { letter, wordEnd } from "../../../helpers/regex/wordBoundaries";
 
 /*
  * The Italian redundant openings come in three grammatical shapes, kept as word lists and small patterns so the
@@ -53,10 +53,12 @@ const exceptions = {
 const addExceptionsGuard = ( articledNoun, compounds ) =>
 	`${ articledNoun }(?!\\s+(?:${ createAlternation( compounds ) })${ wordEnd })`;
 
+// Each complete-word connector ends on `wordEnd`; the elided "dell'" instead requires a letter right after the
+// apostrophe, in any script — an ASCII `\b` would miss "dell'élite".
 const connectors = [
-	`\\s+(?:${ createAlternation( simpleConnectors ) }|dell${ apostrophe })`,
-	`\\s+che\\s+(?:${ createAlternation( relativeVerbs ) })`,
-	"\\s+raffigurante",
+	`\\s+(?:(?:${ createAlternation( simpleConnectors ) })${ wordEnd }|dell${ apostrophe }(?=${ letter }))`,
+	`\\s+che\\s+(?:${ createAlternation( relativeVerbs ) })${ wordEnd }`,
+	`\\s+raffigurante${ wordEnd }`,
 ];
 // "si vede"/"si vedono" and the participle agree with what is shown, so both numbers and genders are matched.
 const seen = "(?:si\\s+ved(?:e|ono)|è\\s+(?:raffigurat|ritratt)[ao])";
@@ -72,8 +74,10 @@ const finiteVerbShape =
 const prepositionalShape = `(?:nell${ apostrophe }${ image }|nella\\s+${ photo })\\s+${ seen }`;
 
 /**
- * The pattern the `redundantPhraseInAltText` research tests alt texts against: anchored at the start,
- * case-insensitive, and ending on a word boundary so "La foto mostra" does not match "La foto mostrava".
+ * The pattern the `redundantPhraseInAltText` research tests alt texts against: anchored at the start and
+ * case-insensitive. Each branch ends on a Unicode word-end guard, so "La foto mostra" does not match
+ * "La foto mostrava"; the connector shape carries its guards per connector, because the elided "dell'" ends on
+ * a following letter instead.
  * See the research for the contract a language's pattern has to follow.
  */
-export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape }|${ prepositionalShape })\\b`, "iu" );
+export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape }${ wordEnd }|${ prepositionalShape }${ wordEnd })`, "iu" );

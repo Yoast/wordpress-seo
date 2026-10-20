@@ -47,6 +47,8 @@ const articledNouns = `(?:l${ apostrophe }image|la\\s+photo)`;
 const addExceptionsGuard = ( noun ) => `${ noun }\\s+(?!(?:${ createAlternation( exceptions[ noun ] ).replace( /'/g, apostrophe ) })${ wordEnd })`;
 
 // Matches e.g. "une photo de": an optional article, the noun — unless an excepted compound follows — and a connector.
+// Each complete-word connector ends on `wordEnd`; the elided "d'" instead requires a letter right after the
+// apostrophe, in any script — an ASCII `\b` would miss "d'élite".
 const connectorShape =
 	`(?:(?:${ createAlternation( indefiniteArticles ) })\\s+)?(?:${ nouns.map( addExceptionsGuard ).join( "|" ) })(?:(?:${ createAlternation( connectors ) })${ wordEnd }|d${ apostrophe }(?=\\p{L}))`;
 // Matches e.g. "cette photo montre": the noun with its elided or plain article or "cette", and a finite verb.
