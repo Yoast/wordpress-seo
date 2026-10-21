@@ -166,7 +166,7 @@ platform's, not the default in [the regular table](SCORING%20SEO.md#10-duplicate
 
 | Traffic light | Score | Criterion                                            | Feedback                                                                                                                         |
 |---------------|-------|------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your product images share the same alt text with another product image. **Make sure each image has unique alt text.** |
+| Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your product images don't have unique alt text. **Give each image its own alt text.** |
 
 ### Assessments unique to product pages
 ### 1) Image alt attributes

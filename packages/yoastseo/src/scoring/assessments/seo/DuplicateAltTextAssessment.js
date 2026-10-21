@@ -119,8 +119,8 @@ export default class DuplicateAltTextAssessment extends Assessment {
 				/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 				 * %4$d expands to the number of images that share their alt text with another image. */
 				_n(
-					"%1$sDuplicate alt text%3$s: %4$d of your images shares the same alt text with another image. %2$sMake sure each image has unique alt text%3$s.",
-					"%1$sDuplicate alt text%3$s: %4$d of your images share the same alt text with another image. %2$sMake sure each image has unique alt text%3$s.",
+					"%1$sDuplicate alt text%3$s: %4$d of your images doesn't have unique alt text. %2$sGive each image its own alt text%3$s.",
+					"%1$sDuplicate alt text%3$s: %4$d of your images don't have unique alt text. %2$sGive each image its own alt text%3$s.",
 					this.duplicateCount,
 					"wordpress-seo"
 				),

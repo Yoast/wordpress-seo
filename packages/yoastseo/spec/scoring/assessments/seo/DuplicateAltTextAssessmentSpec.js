@@ -33,13 +33,13 @@ describe( "an assessment for alt text shared by different images", () => {
 
 		expect( result.getScore() ).toBe( 6 );
 		expect( result.getText() ).toBe(
-			`${ titleAnchor }Duplicate alt text</a>: 2 of your images share the same alt text with another image. ` +
-			`${ actionAnchor }Make sure each image has unique alt text</a>.`
+			`${ titleAnchor }Duplicate alt text</a>: 2 of your images don't have unique alt text. ` +
+			`${ actionAnchor }Give each image its own alt text</a>.`
 		);
 	} );
 
 	it( "reports the number of images it is given", () => {
-		expect( getResult( 5 ).getText() ).toContain( "5 of your images share the same alt text with another image." );
+		expect( getResult( 5 ).getText() ).toContain( "5 of your images don't have unique alt text." );
 	} );
 
 	it( "names the flagged images in the result", () => {

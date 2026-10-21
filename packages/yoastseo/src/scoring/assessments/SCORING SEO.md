@@ -479,7 +479,7 @@ returned object is used as is, so an omitted key renders as an empty result text
 
 | Traffic light | Score | Criterion                                            | Feedback                                                                                                                 |
 |---------------|-------|------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your images share the same alt text with another image. **Make sure each image has unique alt text.** |
+| Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your images don't have unique alt text. **Give each image its own alt text.** |
 
 ### 11) Title (only in Premium)
 **What it does**: Checks for the presence of a title.
