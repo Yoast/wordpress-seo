@@ -324,3 +324,39 @@ describe( "the research for a language without a phrase list", () => {
 			.toEqual( { count: 1, flagged: [ "https://example.com/photo.jpg" ] } );
 	} );
 } );
+
+describe( "the research on very long input", () => {
+	/*
+	 * A regex that backtracks on these inputs took 14 to 35 seconds at this length, so a slow version fails here
+	 * instead of slipping through. A linear version takes about a millisecond; one second leaves room for slow machines.
+	 */
+	const LENGTH = 100000;
+
+	it.each( [
+		[ "digits", "a" + "1".repeat( LENGTH ) + "b" ],
+		[ "hyphens", "a" + "-".repeat( LENGTH ) + "b" ],
+		[ "spaces and hyphens", "a" + " -".repeat( LENGTH / 2 ) + "b" ],
+	] )( "checks an alt text of %s ending in a letter quickly, and does not count it", ( name, altText ) => {
+		const start = Date.now();
+		const result = researchProvidedImage( "https://example.com/photo.jpg", altText );
+
+		expect( Date.now() - start ).toBeLessThan( 1000 );
+		expect( result.count ).toBe( 0 );
+	} );
+
+	it( "checks a long file name full of edit timestamps quickly", () => {
+		// Three times longer than the alt texts: testing the whole name took about a second at LENGTH, and grows with its square.
+		const fileName = "red-bike" + "-e1234567890".repeat( LENGTH / 4 ) + "z";
+		const start = Date.now();
+		const result = researchProvidedImage( `https://example.com/${ fileName }.jpg`, "red-bike", DefaultResearcher );
+
+		expect( Date.now() - start ).toBeLessThan( 1000 );
+		expect( result.count ).toBe( 0 );
+	} );
+
+	it( "still removes the suffix at the end of a long file name", () => {
+		const fileName = "a".repeat( LENGTH ) + "-edited-scaled-1024x576";
+
+		expect( researchProvidedImage( `https://example.com/${ fileName }.jpg`, "a".repeat( LENGTH ), DefaultResearcher ).count ).toBe( 1 );
+	} );
+} );

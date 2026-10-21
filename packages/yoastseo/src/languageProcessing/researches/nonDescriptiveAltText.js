@@ -21,12 +21,70 @@ const CAMERA_FILE_NAME = /^(?:img|dscn?|pxl|dji|gopr|mvimg)[_-]?\d[\d_-]*(?:\s*\
 // second word, so any word is accepted there, as long as a number follows.
 const WHATSAPP_FILE_NAME = new RegExp( `^whatsapp\\s+\\p{L}+(?=\\s+\\p{N})${ atMostFiveLetters }$`, "iu" );
 
-// A trailing number with optional brackets and the punctuation around it, e.g. " 1", "1", " (1)" or "-1.".
-const TRAILING_NUMBER = /(?:[\s_-]*\(?\p{N}+\)?)?[\s\p{P}]*$/u;
+// Single characters for `removeTrailingNumber`.
+const SPACE_OR_PUNCTUATION = /[\s\p{P}]/u;
+const DIGIT = /\p{N}/u;
+const SPACE_UNDERSCORE_OR_HYPHEN = /[\s_-]/;
 
 // The suffixes of a scaled, edited or resized copy at the end of a file name: "-scaled", "-edited", "-edited-1" or an
 // edit timestamp ("-e1700000000000"), then a size ("-1024x576", "_800x600", "_800x", "_x600"). Each one may be missing.
 const SIZE_SUFFIX = /(?:-(?:scaled|edited(?:-\d+)?|e\d{10,}))*(?:[-_](?:\d+x\d*|x\d+))?$/;
+
+// How much of the end of a file name `SIZE_SUFFIX` is tested against. The longest real suffix is about 40 characters.
+const SIZE_SUFFIX_SEARCH_LENGTH = 64;
+
+/**
+ * Removes a trailing number with optional brackets and the surrounding punctuation, e.g. " 1", "1", " (1)" or "-1.",
+ * so "Image (1)." becomes "Image".
+ *
+ * This walks back from the end once instead of using a regex. The equivalent regex,
+ * `/(?:[\s_-]*\(?\p{N}+\)?)?[\s\p{P}]*$/u`, cannot be anchored at the start, so it is retried at every position, and its
+ * two runs overlap on spaces and hyphens. That makes it quadratic: an alt text of 100,000 digits or hyphens followed by
+ * a letter took 14 to 35 seconds. Alt text is user input, and `yoastseo` also runs on servers, so that would let anyone
+ * who can write alt text keep the analysis busy. The loop gives the same result in linear time.
+ *
+ * @param {string} text The text to remove the trailing number from.
+ *
+ * @returns {string} The text without the trailing number.
+ */
+const removeTrailingNumber = ( text ) => {
+	let end = text.length;
+	while ( end > 0 && SPACE_OR_PUNCTUATION.test( text[ end - 1 ] ) ) {
+		end--;
+	}
+
+	let start = end;
+	while ( start > 0 && DIGIT.test( text[ start - 1 ] ) ) {
+		start--;
+	}
+	if ( start === end ) {
+		return text.slice( 0, end );
+	}
+
+	if ( text[ start - 1 ] === "(" ) {
+		start--;
+	}
+	while ( start > 0 && SPACE_UNDERSCORE_OR_HYPHEN.test( text[ start - 1 ] ) ) {
+		start--;
+	}
+	return text.slice( 0, start );
+};
+
+/**
+ * Removes the suffix of a scaled, edited or resized copy from the end of a file name (see `SIZE_SUFFIX`).
+ *
+ * Only the last `SIZE_SUFFIX_SEARCH_LENGTH` characters are tested. `SIZE_SUFFIX` cannot be anchored at the start
+ * either, and its repeated group makes it slower than linear on a long name full of "-e1234567890" parts. Real
+ * suffixes are short, so testing the end only gives the same result for real file names.
+ *
+ * @param {string} fileName The file name, without its extension.
+ *
+ * @returns {string} The file name without the suffix.
+ */
+const removeSizeSuffix = ( fileName ) => {
+	const headLength = Math.max( 0, fileName.length - SIZE_SUFFIX_SEARCH_LENGTH );
+	return fileName.slice( 0, headLength ) + fileName.slice( headLength ).replace( SIZE_SUFFIX, "" );
+};
 
 /**
  * Returns the file name of an image source in lowercase: with its extension, without it, and without a size suffix,
@@ -52,7 +110,7 @@ const getFileNames = ( src ) => {
 
 	fileName = fileName.toLowerCase();
 	const withoutExtension = fileName.replace( /\.[^.]+$/, "" );
-	return [ fileName, withoutExtension, withoutExtension.replace( SIZE_SUFFIX, "" ) ];
+	return [ fileName, withoutExtension, removeSizeSuffix( withoutExtension ) ];
 };
 
 /**
@@ -118,7 +176,7 @@ export default function nonDescriptiveAltText( paper, researcher ) {
 		}
 
 		const isNonDescriptive = isNonDescriptiveInAnyLanguage( altText, image.attributes?.src || "" ) ||
-			( !! phrasePattern && phrasePattern.test( altText.replace( TRAILING_NUMBER, "" ) ) );
+			( !! phrasePattern && phrasePattern.test( removeTrailingNumber( altText ) ) );
 
 		if ( ! isNonDescriptive ) {
 			return;
