@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\Application;
 
 use WP_Error;
-use Yoast\WP\SEO\Abilities\Infrastructure\Term_Access_Checker;
+use Yoast\WP\SEO\Abilities\Infrastructure\Indexable_Access_Checker;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_SEO_Field_Map;
 
@@ -30,27 +30,27 @@ class Term_SEO_Data_Collector {
 	private $field_map;
 
 	/**
-	 * The term access checker.
+	 * The indexable access checker.
 	 *
-	 * @var Term_Access_Checker
+	 * @var Indexable_Access_Checker
 	 */
-	private $term_access_checker;
+	private $access_checker;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param Term_Identifier_Resolver $resolver            The term identifier resolver.
-	 * @param Term_SEO_Field_Map       $field_map           The term SEO field map.
-	 * @param Term_Access_Checker      $term_access_checker The term access checker.
+	 * @param Term_Identifier_Resolver $resolver       The term identifier resolver.
+	 * @param Term_SEO_Field_Map       $field_map      The term SEO field map.
+	 * @param Indexable_Access_Checker $access_checker The indexable access checker.
 	 */
 	public function __construct(
 		Term_Identifier_Resolver $resolver,
 		Term_SEO_Field_Map $field_map,
-		Term_Access_Checker $term_access_checker
+		Indexable_Access_Checker $access_checker
 	) {
-		$this->resolver            = $resolver;
-		$this->field_map           = $field_map;
-		$this->term_access_checker = $term_access_checker;
+		$this->resolver       = $resolver;
+		$this->field_map      = $field_map;
+		$this->access_checker = $access_checker;
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Term_SEO_Data_Collector {
 			return $indexable;
 		}
 
-		$can_edit = $this->term_access_checker->ensure_can_edit( (int) $indexable->object_id );
+		$can_edit = $this->access_checker->ensure_can_edit( $indexable );
 
 		if ( $can_edit instanceof WP_Error ) {
 			return $can_edit;
