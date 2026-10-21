@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Abilities\Domain;
 
 /**
- * Describes a piece of template SEO data, like the SEO title: its schema, and where each page type stores it.
+ * Describes a template setting, like the SEO title template: its schema, and the option each target stores it in.
  */
 interface Template_Field_Interface {
 

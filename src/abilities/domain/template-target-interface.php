@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Abilities\Domain;
 use Yoast\WP\SEO\Abilities\Domain\Exceptions\Unavailable_Template_Target_Exception;
 
 /**
- * Describes a page type whose SEO data comes from a template setting instead of a post or a term, like the homepage
- * or the author archives.
+ * Describes a group of pages that are neither posts nor terms and share their SEO settings, like the homepage or
+ * the author archives.
  */
 interface Template_Target_Interface {
 

@@ -7,12 +7,12 @@ use Yoast\WP\SEO\Abilities\Domain\Exceptions\Unavailable_Template_Target_Excepti
 use Yoast\WP\SEO\Abilities\Domain\Template_Target_Interface;
 
 /**
- * Provides the template targets: the ones that are a single page type each, and the content type archives.
+ * Provides the template targets: the ones that are a single group of pages each, and the content type archives.
  */
 class Template_Target_Repository {
 
 	/**
-	 * The targets that are a single page type each, keyed by name.
+	 * The targets that are a single group of pages each, keyed by name.
 	 *
 	 * @var array<string, Template_Target_Interface>
 	 */
@@ -64,8 +64,8 @@ class Template_Target_Repository {
 	}
 
 	/**
-	 * Returns all targets whose template SEO data exists on the site: the single page types and the content type
-	 * archives that have template SEO data.
+	 * Returns all targets whose template settings exist on the site: the single targets and the content type
+	 * archives that have them.
 	 *
 	 * @return array<Template_Target_Interface> The targets.
 	 */
@@ -92,7 +92,7 @@ class Template_Target_Repository {
 			return $this->single_targets[ $name ];
 		}
 
-		$message = \__( 'No page type with SEO data exists for the given target.', 'wordpress-seo' );
+		$message = \__( 'No such pages exist for the given target.', 'wordpress-seo' );
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- This is an exception message, not output.
 		throw new Unavailable_Template_Target_Exception( 'yoast_seo_invalid_target', $message );

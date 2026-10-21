@@ -71,7 +71,7 @@ class Get_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Ability {
 			'label'               => \__( 'Get Template SEO Data', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: %s expands to Yoast SEO. */
-				\__( 'Get the SEO data of the pages that are neither posts nor terms, as set in the %s settings: the homepage when it shows the latest posts, the author archives, the date archives, the search results page, the 404 page and the archives of content types. Most of these values are templates with replacement variables, returned as stored rather than as shown on the site. The WooCommerce product archive is left out, as it takes its SEO data from the Shop page. Each page type also tells whether it is in use, whether its template is shared by many pages, and its URL or URL pattern. Use yoast-seo/update-template-seo-data to change them.', 'wordpress-seo' ),
+				\__( 'Get the SEO title template, meta description template and other %s settings of the pages that are not posts or terms, like the homepage when it shows the latest posts, the author archives, the date archives, the search results page, the 404 page and the archives of content types. The templates can contain replacement variables, and are returned as stored rather than as shown on the site. Each result also tells whether its pages are in use, whether its settings are shared by many pages, and its URL or URL pattern.', 'wordpress-seo' ),
 				'Yoast SEO',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,

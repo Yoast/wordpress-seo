@@ -48,7 +48,7 @@ class Template_Field_Repository {
 		 * Filter: 'wpseo_template_seo_data_fields' - Allows adding fields to the template SEO data abilities.
 		 *
 		 * Each field is a Template_Field_Interface, which describes its schema and the option it is stored in for
-		 * each page type that has it. The value is saved through the options helper, so it is sanitized like it is
+		 * each target that has it. The value is saved through the options helper, so it is sanitized like it is
 		 * when saved from the settings page. Anything that is not a Template_Field_Interface is ignored.
 		 *
 		 * @internal

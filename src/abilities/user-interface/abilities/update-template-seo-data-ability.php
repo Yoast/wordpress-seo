@@ -11,8 +11,8 @@ use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
- * The ability that updates the template SEO data of one of the page types that are neither posts nor terms, like
- * the homepage or the author archives.
+ * The ability that updates the SEO data of the pages that are neither posts nor terms, like the homepage or the
+ * author archives.
  */
 class Update_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Ability {
 
@@ -81,7 +81,7 @@ class Update_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Abilit
 			'label'               => \__( 'Update Template SEO Data', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: %s expands to Yoast SEO. */
-				\__( 'Update the %s SEO data of one page type that is neither a post nor a term: the homepage when it shows the latest posts, the author archives, the date archives, the search results page, the 404 page or the archive of a content type. Only the settings you provide are changed, and each page type only supports the settings that yoast-seo/get-template-seo-data returns for it. The author archives, date archives, search results page and 404 page share one template across all their pages, so use replacement variables in them instead of text about one specific page. Only use replacement variables that are appropriate to each page type, as the ones that do not apply to a page are silently removed from it. Setting noindex to true removes these pages from search results and the XML sitemaps, so confirm it with the user before saving. Use yoast-seo/update-post-seo-data instead for a static homepage or the WooCommerce Shop page.', 'wordpress-seo' ),
+				\__( 'Update the SEO title template, meta description template and other %s settings of the pages that are not posts or terms, like the homepage when it shows the latest posts, the author archives, the date archives, the search results page, the 404 page or the archive of a content type. Only the settings you provide are changed. Only use replacement variables that apply to the pages you update, as the ones that do not are silently removed.', 'wordpress-seo' ),
 				'Yoast SEO',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
@@ -95,7 +95,7 @@ class Update_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Abilit
 						'target'    => [
 							'type'        => 'string',
 							'enum'        => $this->target_repository->get_names(),
-							'description' => \__( 'The page type to update.', 'wordpress-seo' ),
+							'description' => \__( 'The pages to update.', 'wordpress-seo' ),
 						],
 						'post_type' => [
 							'type'        => 'string',

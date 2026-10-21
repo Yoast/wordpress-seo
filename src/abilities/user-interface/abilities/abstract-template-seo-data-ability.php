@@ -87,11 +87,11 @@ abstract class Abstract_Template_SEO_Data_Ability implements Ability_Interface {
 					'target'    => [
 						'type'        => 'string',
 						'enum'        => $this->target_repository->get_names(),
-						'description' => \__( 'The page type, as expected by yoast-seo/update-template-seo-data.', 'wordpress-seo' ),
+						'description' => \__( 'The pages these settings belong to.', 'wordpress-seo' ),
 					],
 					'post_type' => [
 						'type'        => 'string',
-						'description' => \__( 'Only present for the post_type_archive target: the post type of the content type, as expected by yoast-seo/update-template-seo-data.', 'wordpress-seo' ),
+						'description' => \__( 'Only present for the post_type_archive target: the post type of the content type.', 'wordpress-seo' ),
 					],
 					'label'     => [
 						'type'        => 'string',
@@ -102,15 +102,15 @@ abstract class Abstract_Template_SEO_Data_Ability implements Ability_Interface {
 				[
 					'enabled' => [
 						'type'        => 'boolean',
-						'description' => \__( 'Whether these pages are in use on the site. Read-only: it can only be changed in the Yoast SEO settings. The template SEO data of disabled pages can still be changed, but has no effect until they are enabled.', 'wordpress-seo' ),
+						'description' => \__( 'Whether these pages are in use on the site. Read-only: it can only be changed in the Yoast SEO settings. The settings of disabled pages can still be changed, but have no effect until they are enabled.', 'wordpress-seo' ),
 					],
 					'shared'  => [
 						'type'        => 'boolean',
-						'description' => \__( 'Whether the template is shared by many pages, like all author archives. A shared template applies to every one of those pages, so it has to use replacement variables instead of text about one specific page.', 'wordpress-seo' ),
+						'description' => \__( 'Whether these settings are shared by many pages, like all author archives. Shared settings apply to every one of those pages, so their templates have to use replacement variables instead of text about one specific page.', 'wordpress-seo' ),
 					],
 					'url'     => [
 						'type'        => [ 'string', 'null' ],
-						'description' => \__( 'The URL of the page or, for a shared template, the URL pattern of its pages, with placeholders between % signs. Use it to tell which template a crawled URL belongs to. null when the pages have no URL of their own.', 'wordpress-seo' ),
+						'description' => \__( 'The URL of the page or, for shared settings, the URL pattern of its pages, with placeholders between % signs. Use it to tell which result a crawled URL belongs to: paginated pages, like …/page/2/, share the settings of their first page. null when the pages have no URL of their own.', 'wordpress-seo' ),
 					],
 				],
 			),
