@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
 use Mockery;
-use Yoast\WP\SEO\Abilities\Application\Template_SEO_Data_Collector;
+use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Domain\Template_Field_Interface;
 use Yoast\WP\SEO\Abilities\Domain\Template_Target_Interface;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Fields\Template_Field_Repository;
@@ -13,13 +13,13 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the Template_SEO_Data_Collector class.
+ * Tests the Archive_And_Special_Page_SEO_Data_Collector class.
  *
  * @group abilities
  *
- * @coversDefaultClass \Yoast\WP\SEO\Abilities\Application\Template_SEO_Data_Collector
+ * @coversDefaultClass \Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Data_Collector
  */
-final class Template_SEO_Data_Collector_Test extends TestCase {
+final class Archive_And_Special_Page_SEO_Data_Collector_Test extends TestCase {
 
 	/**
 	 * The template field repository mock.
@@ -45,7 +45,7 @@ final class Template_SEO_Data_Collector_Test extends TestCase {
 	/**
 	 * The instance under test.
 	 *
-	 * @var Template_SEO_Data_Collector
+	 * @var Archive_And_Special_Page_SEO_Data_Collector
 	 */
 	private $instance;
 
@@ -61,7 +61,7 @@ final class Template_SEO_Data_Collector_Test extends TestCase {
 		$this->target_repository = Mockery::mock( Template_Target_Repository::class );
 		$this->options_helper    = Mockery::mock( Options_Helper::class );
 
-		$this->instance = new Template_SEO_Data_Collector( $this->field_repository, $this->target_repository, $this->options_helper );
+		$this->instance = new Archive_And_Special_Page_SEO_Data_Collector( $this->field_repository, $this->target_repository, $this->options_helper );
 	}
 
 	/**

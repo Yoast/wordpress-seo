@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use WP_Error;
-use Yoast\WP\SEO\Abilities\Application\Template_SEO_Data_Updater;
+use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Fields\Template_Field_Repository;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets\Post_Type_Archive_Template_Target;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets\Template_Target_Repository;
@@ -12,15 +12,14 @@ use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
- * The ability that updates the SEO data of the pages that are neither posts nor terms, like the homepage or the
- * author archives.
+ * The ability that updates the SEO data of the homepage, an archive or a special page.
  */
-class Update_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Ability {
+class Update_Archive_And_Special_Page_SEO_Data_Ability extends Abstract_Archive_And_Special_Page_SEO_Data_Ability {
 
 	/**
-	 * The template SEO data updater.
+	 * The archive and special page SEO data updater.
 	 *
-	 * @var Template_SEO_Data_Updater
+	 * @var Archive_And_Special_Page_SEO_Data_Updater
 	 */
 	private $updater;
 
@@ -30,13 +29,13 @@ class Update_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Abilit
 	 * @param Capability_Helper          $capability_helper The capability helper.
 	 * @param Template_Field_Repository  $field_repository  The template field repository.
 	 * @param Template_Target_Repository $target_repository The template target repository.
-	 * @param Template_SEO_Data_Updater  $updater           The template SEO data updater.
+	 * @param Archive_And_Special_Page_SEO_Data_Updater  $updater           The archive and special page SEO data updater.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
 		Template_Field_Repository $field_repository,
 		Template_Target_Repository $target_repository,
-		Template_SEO_Data_Updater $updater
+		Archive_And_Special_Page_SEO_Data_Updater $updater
 	) {
 		parent::__construct( $capability_helper, $field_repository, $target_repository );
 
@@ -49,7 +48,7 @@ class Update_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Abilit
 	 * @return string The ability name.
 	 */
 	public function get_name(): string {
-		return Ability_Categories_Integration::CATEGORY_SLUG . '/update-template-seo-data';
+		return Ability_Categories_Integration::CATEGORY_SLUG . '/update-archive-and-special-page-seo-data';
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays and the option values are heterogeneous by nature.
@@ -79,11 +78,12 @@ class Update_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Abilit
 		];
 
 		return [
-			'label'               => \__( 'Update Template SEO Data', 'wordpress-seo' ),
+			'label'               => \__( 'Update SEO Data for Archives and Special Pages', 'wordpress-seo' ),
 			'description'         => \sprintf(
-				/* translators: %s expands to Yoast SEO. */
-				\__( 'Update the SEO title template, meta description template and other %s settings of the pages that are not posts or terms, like the homepage when it shows the latest posts, the author archives, the date archives, the search results page, the 404 page or the archive of a content type. Only the settings you provide are changed. Only use replacement variables that apply to the pages you update, as the ones that do not are silently removed.', 'wordpress-seo' ),
+				/* translators: 1: Yoast SEO, 2: the name of an ability. */
+				\__( 'Update the SEO title template, meta description template and other %1$s settings of the homepage when it shows the latest posts, an archive or a special page: the author archives, the date archives, the archive of a content type, the search results page or the 404 page. Category, tag and other term archives are not included; use the %2$s ability for those. Only the settings you provide are changed. Only use replacement variables that apply to the pages you update, as the ones that do not are silently removed.', 'wordpress-seo' ),
 				'Yoast SEO',
+				'yoast-seo/update-term-seo-data',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => [

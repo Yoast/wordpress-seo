@@ -9,9 +9,9 @@ use Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets\Template_Target_Repos
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Application service that collects the template SEO data of the pages that are neither posts nor terms.
+ * Application service that collects the SEO data of the homepage, the archives and the special pages.
  */
-class Template_SEO_Data_Collector {
+class Archive_And_Special_Page_SEO_Data_Collector {
 
 	use Schema_Type_Cast_Trait;
 

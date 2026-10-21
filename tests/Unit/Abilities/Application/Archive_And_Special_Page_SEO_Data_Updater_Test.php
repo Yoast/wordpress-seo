@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
 use Mockery;
 use WP_Error;
-use Yoast\WP\SEO\Abilities\Application\Template_SEO_Data_Collector;
-use Yoast\WP\SEO\Abilities\Application\Template_SEO_Data_Updater;
+use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Data_Collector;
+use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Domain\Exceptions\Unavailable_Template_Target_Exception;
 use Yoast\WP\SEO\Abilities\Domain\Template_Field_Interface;
 use Yoast\WP\SEO\Abilities\Domain\Template_Target_Interface;
@@ -16,13 +16,13 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the Template_SEO_Data_Updater class.
+ * Tests the Archive_And_Special_Page_SEO_Data_Updater class.
  *
  * @group abilities
  *
- * @coversDefaultClass \Yoast\WP\SEO\Abilities\Application\Template_SEO_Data_Updater
+ * @coversDefaultClass \Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Data_Updater
  */
-final class Template_SEO_Data_Updater_Test extends TestCase {
+final class Archive_And_Special_Page_SEO_Data_Updater_Test extends TestCase {
 
 	/**
 	 * The template field repository mock.
@@ -39,9 +39,9 @@ final class Template_SEO_Data_Updater_Test extends TestCase {
 	private $target_repository;
 
 	/**
-	 * The template SEO data collector mock.
+	 * The archive and special page SEO data collector mock.
 	 *
-	 * @var Mockery\MockInterface|Template_SEO_Data_Collector
+	 * @var Mockery\MockInterface|Archive_And_Special_Page_SEO_Data_Collector
 	 */
 	private $collector;
 
@@ -62,7 +62,7 @@ final class Template_SEO_Data_Updater_Test extends TestCase {
 	/**
 	 * The instance under test.
 	 *
-	 * @var Template_SEO_Data_Updater
+	 * @var Archive_And_Special_Page_SEO_Data_Updater
 	 */
 	private $instance;
 
@@ -78,7 +78,7 @@ final class Template_SEO_Data_Updater_Test extends TestCase {
 
 		$this->field_repository  = Mockery::mock( Template_Field_Repository::class );
 		$this->target_repository = Mockery::mock( Template_Target_Repository::class );
-		$this->collector         = Mockery::mock( Template_SEO_Data_Collector::class );
+		$this->collector         = Mockery::mock( Archive_And_Special_Page_SEO_Data_Collector::class );
 		$this->options_helper    = Mockery::mock( Options_Helper::class );
 
 		$this->fields = [
@@ -99,7 +99,7 @@ final class Template_SEO_Data_Updater_Test extends TestCase {
 			},
 		);
 
-		$this->instance = new Template_SEO_Data_Updater(
+		$this->instance = new Archive_And_Special_Page_SEO_Data_Updater(
 			$this->field_repository,
 			$this->target_repository,
 			$this->collector,
@@ -307,7 +307,7 @@ final class Template_SEO_Data_Updater_Test extends TestCase {
 	public function test_save_field_without_field() {
 		$this->options_helper->expects( 'set' )->never();
 
-		$instance = new class( $this->field_repository, $this->target_repository, $this->collector, $this->options_helper ) extends Template_SEO_Data_Updater {
+		$instance = new class( $this->field_repository, $this->target_repository, $this->collector, $this->options_helper ) extends Archive_And_Special_Page_SEO_Data_Updater {
 
 			/**
 			 * Exposes save_field.

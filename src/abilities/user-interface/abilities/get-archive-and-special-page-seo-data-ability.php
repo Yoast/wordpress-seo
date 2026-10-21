@@ -3,22 +3,21 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
-use Yoast\WP\SEO\Abilities\Application\Template_SEO_Data_Collector;
+use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Fields\Template_Field_Repository;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets\Template_Target_Repository;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
- * The ability that gets the template SEO data of the pages that are neither posts nor terms, like the homepage and
- * the archives.
+ * The ability that gets the SEO data of the homepage, the archives and the special pages.
  */
-class Get_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Ability {
+class Get_Archive_And_Special_Page_SEO_Data_Ability extends Abstract_Archive_And_Special_Page_SEO_Data_Ability {
 
 	/**
-	 * The template SEO data collector.
+	 * The archive and special page SEO data collector.
 	 *
-	 * @var Template_SEO_Data_Collector
+	 * @var Archive_And_Special_Page_SEO_Data_Collector
 	 */
 	private $collector;
 
@@ -28,13 +27,13 @@ class Get_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Ability {
 	 * @param Capability_Helper           $capability_helper The capability helper.
 	 * @param Template_Field_Repository   $field_repository  The template field repository.
 	 * @param Template_Target_Repository  $target_repository The template target repository.
-	 * @param Template_SEO_Data_Collector $collector         The template SEO data collector.
+	 * @param Archive_And_Special_Page_SEO_Data_Collector $collector         The archive and special page SEO data collector.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
 		Template_Field_Repository $field_repository,
 		Template_Target_Repository $target_repository,
-		Template_SEO_Data_Collector $collector
+		Archive_And_Special_Page_SEO_Data_Collector $collector
 	) {
 		parent::__construct( $capability_helper, $field_repository, $target_repository );
 
@@ -47,7 +46,7 @@ class Get_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Ability {
 	 * @return string The ability name.
 	 */
 	public function get_name(): string {
-		return Ability_Categories_Integration::CATEGORY_SLUG . '/get-template-seo-data';
+		return Ability_Categories_Integration::CATEGORY_SLUG . '/get-archive-and-special-page-seo-data';
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays and the option values are heterogeneous by nature.
@@ -68,11 +67,12 @@ class Get_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Ability {
 	 */
 	public function get_args(): array {
 		return [
-			'label'               => \__( 'Get Template SEO Data', 'wordpress-seo' ),
+			'label'               => \__( 'Get SEO Data for Archives and Special Pages', 'wordpress-seo' ),
 			'description'         => \sprintf(
-				/* translators: %s expands to Yoast SEO. */
-				\__( 'Get the SEO title template, meta description template and other %s settings of the pages that are not posts or terms, like the homepage when it shows the latest posts, the author archives, the date archives, the search results page, the 404 page and the archives of content types. The templates can contain replacement variables, and are returned as stored rather than as shown on the site. Each result also tells whether its pages are in use and whether its settings are shared by many pages.', 'wordpress-seo' ),
+				/* translators: 1: Yoast SEO, 2: the name of an ability. */
+				\__( 'Get the SEO title template, meta description template and other %1$s settings of the homepage when it shows the latest posts, the archives and the special pages: the author archives, the date archives, the archives of content types, the search results page and the 404 page. Category, tag and other term archives are not included; use the %2$s ability for those. The templates can contain replacement variables, and are returned as stored rather than as shown on the site. Each result also tells whether its pages are in use and whether its settings are shared by many pages.', 'wordpress-seo' ),
 				'Yoast SEO',
+				'yoast-seo/get-term-seo-data',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'output_schema'       => [

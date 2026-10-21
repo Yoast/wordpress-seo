@@ -4,21 +4,21 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
-use Yoast\WP\SEO\Abilities\Application\Template_SEO_Data_Updater;
+use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Fields\Template_Field_Repository;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets\Template_Target_Repository;
-use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Update_Template_SEO_Data_Ability;
+use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Update_Archive_And_Special_Page_SEO_Data_Ability;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the Update_Template_SEO_Data_Ability class.
+ * Tests the Update_Archive_And_Special_Page_SEO_Data_Ability class.
  *
  * @group abilities
  *
- * @coversDefaultClass \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Update_Template_SEO_Data_Ability
+ * @coversDefaultClass \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Update_Archive_And_Special_Page_SEO_Data_Ability
  */
-final class Update_Template_SEO_Data_Ability_Test extends TestCase {
+final class Update_Archive_And_Special_Page_SEO_Data_Ability_Test extends TestCase {
 
 	/**
 	 * The capability helper mock.
@@ -42,16 +42,16 @@ final class Update_Template_SEO_Data_Ability_Test extends TestCase {
 	private $target_repository;
 
 	/**
-	 * The template SEO data updater mock.
+	 * The archive and special page SEO data updater mock.
 	 *
-	 * @var Mockery\MockInterface|Template_SEO_Data_Updater
+	 * @var Mockery\MockInterface|Archive_And_Special_Page_SEO_Data_Updater
 	 */
 	private $updater;
 
 	/**
 	 * The instance under test.
 	 *
-	 * @var Update_Template_SEO_Data_Ability
+	 * @var Update_Archive_And_Special_Page_SEO_Data_Ability
 	 */
 	private $instance;
 
@@ -68,11 +68,11 @@ final class Update_Template_SEO_Data_Ability_Test extends TestCase {
 		$this->capability_helper = Mockery::mock( Capability_Helper::class );
 		$this->field_repository  = Mockery::mock( Template_Field_Repository::class );
 		$this->target_repository = Mockery::mock( Template_Target_Repository::class );
-		$this->updater           = Mockery::mock( Template_SEO_Data_Updater::class );
+		$this->updater           = Mockery::mock( Archive_And_Special_Page_SEO_Data_Updater::class );
 
 		$this->target_repository->allows( 'get_names' )->andReturn( [ 'homepage', 'author_archives', 'date_archives', 'search_page', 'not_found_page', 'post_type_archive' ] );
 
-		$this->instance = new Update_Template_SEO_Data_Ability( $this->capability_helper, $this->field_repository, $this->target_repository, $this->updater );
+		$this->instance = new Update_Archive_And_Special_Page_SEO_Data_Ability( $this->capability_helper, $this->field_repository, $this->target_repository, $this->updater );
 	}
 
 	/**
@@ -83,7 +83,7 @@ final class Update_Template_SEO_Data_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_name() {
-		$this->assertSame( 'yoast-seo/update-template-seo-data', $this->instance->get_name() );
+		$this->assertSame( 'yoast-seo/update-archive-and-special-page-seo-data', $this->instance->get_name() );
 	}
 
 	/**
@@ -125,7 +125,7 @@ final class Update_Template_SEO_Data_Ability_Test extends TestCase {
 
 		$args = $this->instance->get_args();
 
-		$this->assertSame( 'Update Template SEO Data', $args['label'] );
+		$this->assertSame( 'Update SEO Data for Archives and Special Pages', $args['label'] );
 		$this->assertSame( [ 'target' ], $args['input_schema']['required'] );
 		$this->assertSame( 2, $args['input_schema']['minProperties'] );
 		$this->assertFalse( $args['input_schema']['additionalProperties'] );

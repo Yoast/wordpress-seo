@@ -119,7 +119,7 @@ class Post_Type_Archive_Template_Target extends Abstract_Template_Target {
 				/* translators: 1: the name of a parameter, 2: the name of an ability. */
 				\__( 'No content type archive with SEO data exists for the given %1$s. The %2$s ability lists the ones that do.', 'wordpress-seo' ),
 				'post_type',
-				'yoast-seo/get-template-seo-data',
+				'yoast-seo/get-archive-and-special-page-seo-data',
 			);
 
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- This is an exception message, not output.

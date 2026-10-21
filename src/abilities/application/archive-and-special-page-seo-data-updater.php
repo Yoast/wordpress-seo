@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  * The values are saved through the options helper, so they are sanitized and validated exactly like they are when
  * saved from the settings page.
  */
-class Template_SEO_Data_Updater extends Abstract_Fields_Updater {
+class Archive_And_Special_Page_SEO_Data_Updater extends Abstract_Fields_Updater {
 
 	/**
 	 * The template field repository.
@@ -34,9 +34,9 @@ class Template_SEO_Data_Updater extends Abstract_Fields_Updater {
 	private $target_repository;
 
 	/**
-	 * The template SEO data collector.
+	 * The archive and special page SEO data collector.
 	 *
-	 * @var Template_SEO_Data_Collector
+	 * @var Archive_And_Special_Page_SEO_Data_Collector
 	 */
 	private $collector;
 
@@ -52,13 +52,13 @@ class Template_SEO_Data_Updater extends Abstract_Fields_Updater {
 	 *
 	 * @param Template_Field_Repository   $field_repository  The template field repository.
 	 * @param Template_Target_Repository  $target_repository The template target repository.
-	 * @param Template_SEO_Data_Collector $collector         The template SEO data collector.
+	 * @param Archive_And_Special_Page_SEO_Data_Collector $collector         The archive and special page SEO data collector.
 	 * @param Options_Helper              $options_helper    The options helper.
 	 */
 	public function __construct(
 		Template_Field_Repository $field_repository,
 		Template_Target_Repository $target_repository,
-		Template_SEO_Data_Collector $collector,
+		Archive_And_Special_Page_SEO_Data_Collector $collector,
 		Options_Helper $options_helper
 	) {
 		$this->field_repository  = $field_repository;

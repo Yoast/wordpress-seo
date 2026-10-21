@@ -10,10 +10,10 @@ use Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets\Template_Target_Repos
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
- * Shared base for the abilities that read and update the template SEO data of the pages that are neither posts nor
- * terms, like the homepage and the archives.
+ * Shared base for the abilities that read and update the SEO data of the homepage, the archives and the special
+ * pages.
  */
-abstract class Abstract_Template_SEO_Data_Ability implements Ability_Interface {
+abstract class Abstract_Archive_And_Special_Page_SEO_Data_Ability implements Ability_Interface {
 
 	/**
 	 * The capability helper.

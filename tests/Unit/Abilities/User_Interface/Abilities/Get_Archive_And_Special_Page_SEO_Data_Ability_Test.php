@@ -4,21 +4,21 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
-use Yoast\WP\SEO\Abilities\Application\Template_SEO_Data_Collector;
+use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Fields\Template_Field_Repository;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets\Template_Target_Repository;
-use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Template_SEO_Data_Ability;
+use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Archive_And_Special_Page_SEO_Data_Ability;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the Get_Template_SEO_Data_Ability class.
+ * Tests the Get_Archive_And_Special_Page_SEO_Data_Ability class.
  *
  * @group abilities
  *
- * @coversDefaultClass \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Template_SEO_Data_Ability
+ * @coversDefaultClass \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Archive_And_Special_Page_SEO_Data_Ability
  */
-final class Get_Template_SEO_Data_Ability_Test extends TestCase {
+final class Get_Archive_And_Special_Page_SEO_Data_Ability_Test extends TestCase {
 
 	/**
 	 * The capability helper mock.
@@ -42,16 +42,16 @@ final class Get_Template_SEO_Data_Ability_Test extends TestCase {
 	private $target_repository;
 
 	/**
-	 * The template SEO data collector mock.
+	 * The archive and special page SEO data collector mock.
 	 *
-	 * @var Mockery\MockInterface|Template_SEO_Data_Collector
+	 * @var Mockery\MockInterface|Archive_And_Special_Page_SEO_Data_Collector
 	 */
 	private $collector;
 
 	/**
 	 * The instance under test.
 	 *
-	 * @var Get_Template_SEO_Data_Ability
+	 * @var Get_Archive_And_Special_Page_SEO_Data_Ability
 	 */
 	private $instance;
 
@@ -68,11 +68,11 @@ final class Get_Template_SEO_Data_Ability_Test extends TestCase {
 		$this->capability_helper = Mockery::mock( Capability_Helper::class );
 		$this->field_repository  = Mockery::mock( Template_Field_Repository::class );
 		$this->target_repository = Mockery::mock( Template_Target_Repository::class );
-		$this->collector         = Mockery::mock( Template_SEO_Data_Collector::class );
+		$this->collector         = Mockery::mock( Archive_And_Special_Page_SEO_Data_Collector::class );
 
 		$this->target_repository->allows( 'get_names' )->andReturn( [ 'homepage', 'author_archives', 'date_archives', 'search_page', 'not_found_page', 'post_type_archive' ] );
 
-		$this->instance = new Get_Template_SEO_Data_Ability( $this->capability_helper, $this->field_repository, $this->target_repository, $this->collector );
+		$this->instance = new Get_Archive_And_Special_Page_SEO_Data_Ability( $this->capability_helper, $this->field_repository, $this->target_repository, $this->collector );
 	}
 
 	/**
@@ -83,13 +83,13 @@ final class Get_Template_SEO_Data_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_name() {
-		$this->assertSame( 'yoast-seo/get-template-seo-data', $this->instance->get_name() );
+		$this->assertSame( 'yoast-seo/get-archive-and-special-page-seo-data', $this->instance->get_name() );
 	}
 
 	/**
 	 * Tests that the ability is always available.
 	 *
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Template_SEO_Data_Ability::is_available
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Data_Ability::is_available
 	 *
 	 * @return void
 	 */
@@ -101,8 +101,8 @@ final class Get_Template_SEO_Data_Ability_Test extends TestCase {
 	 * Tests that can_manage_seo checks the management capability and returns its result.
 	 *
 	 * @covers ::__construct
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Template_SEO_Data_Ability::__construct
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Template_SEO_Data_Ability::can_manage_seo
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Data_Ability::__construct
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Data_Ability::can_manage_seo
 	 *
 	 * @return void
 	 */
@@ -132,8 +132,8 @@ final class Get_Template_SEO_Data_Ability_Test extends TestCase {
 	 * output schema, and registers the ability as read-only without an input.
 	 *
 	 * @covers ::get_args
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Template_SEO_Data_Ability::get_target_output_schema
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Template_SEO_Data_Ability::to_output_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Data_Ability::get_target_output_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Data_Ability::to_output_schema
 	 *
 	 * @return void
 	 */
