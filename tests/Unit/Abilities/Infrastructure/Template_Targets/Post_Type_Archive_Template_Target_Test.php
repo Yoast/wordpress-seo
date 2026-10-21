@@ -61,12 +61,11 @@ final class Post_Type_Archive_Template_Target_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the name, identifiers, URL and option names of a content type archive.
+	 * Tests the name, identifiers and option names of a content type archive.
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_name
 	 * @covers ::get_identifiers
-	 * @covers ::get_url
 	 * @covers ::format_option_name
 	 *
 	 * @return void
@@ -77,7 +76,6 @@ final class Post_Type_Archive_Template_Target_Test extends TestCase {
 		$post_type_object->label = 'Portfolio';
 
 		Monkey\Functions\expect( 'get_post_type_object' )->with( 'portfolio' )->andReturn( $post_type_object );
-		Monkey\Functions\expect( 'get_post_type_archive_link' )->once()->with( 'portfolio' )->andReturn( 'https://example.com/portfolio/' );
 
 		$instance = $this->create( 'portfolio' );
 
@@ -91,26 +89,22 @@ final class Post_Type_Archive_Template_Target_Test extends TestCase {
 			$instance->get_identifiers(),
 		);
 		$this->assertFalse( $instance->is_shared() );
-		$this->assertSame( 'https://example.com/portfolio/', $instance->get_url() );
 		$this->assertSame( 'title-ptarchive-portfolio', $instance->format_option_name( 'title-ptarchive-%s' ) );
 	}
 
 	/**
-	 * Tests that the identifiers fall back to the post type as label, and the URL to null, for an unknown post type.
+	 * Tests that the identifiers fall back to the post type as label for an unknown post type.
 	 *
 	 * @covers ::get_identifiers
-	 * @covers ::get_url
 	 *
 	 * @return void
 	 */
 	public function test_identity_of_unknown_post_type() {
 		Monkey\Functions\expect( 'get_post_type_object' )->once()->with( 'gone' )->andReturnNull();
-		Monkey\Functions\expect( 'get_post_type_archive_link' )->once()->with( 'gone' )->andReturnFalse();
 
 		$instance = $this->create( 'gone' );
 
 		$this->assertSame( 'gone', $instance->get_identifiers()['label'] );
-		$this->assertNull( $instance->get_url() );
 	}
 
 	/**

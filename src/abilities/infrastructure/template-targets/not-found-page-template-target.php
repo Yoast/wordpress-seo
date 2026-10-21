@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets;
 
 /**
- * The 404 pages, which share one template and have no URL of their own.
+ * The 404 pages, which share one template.
  */
 class Not_Found_Page_Template_Target extends Abstract_Template_Target {
 

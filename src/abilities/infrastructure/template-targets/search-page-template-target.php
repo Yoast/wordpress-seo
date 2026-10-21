@@ -32,13 +32,4 @@ class Search_Page_Template_Target extends Abstract_Template_Target {
 	public function is_shared(): bool {
 		return true;
 	}
-
-	/**
-	 * Returns the URL pattern of the search results pages.
-	 *
-	 * @return string The URL pattern.
-	 */
-	public function get_url(): string {
-		return $this->get_url_pattern( 'get_search_permastruct', '?s=%search%' );
-	}
 }

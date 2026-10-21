@@ -41,13 +41,6 @@ interface Template_Target_Interface {
 	public function is_enabled(): bool;
 
 	/**
-	 * Returns the URL of the page or, for a shared template, the URL pattern of its pages.
-	 *
-	 * @return string|null The URL or URL pattern, or null when the pages have no URL of their own.
-	 */
-	public function get_url(): ?string;
-
-	/**
 	 * Turns the option pattern a field uses for this target into the name of the option, for targets whose options
 	 * depend on more than the target itself, like the post type of a content type archive.
 	 *

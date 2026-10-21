@@ -69,16 +69,14 @@ final class Template_SEO_Data_Collector_Test extends TestCase {
 	 *
 	 * @param array<string, string> $identifiers The identifiers of the target.
 	 * @param bool                  $shared      Whether the template is shared.
-	 * @param string|null           $url         The URL of the target.
 	 *
 	 * @return Mockery\MockInterface|Template_Target_Interface The target mock.
 	 */
-	private function mock_target( array $identifiers, bool $shared, ?string $url ) {
+	private function mock_target( array $identifiers, bool $shared ) {
 		$target = Mockery::mock( Template_Target_Interface::class );
 		$target->allows( 'get_identifiers' )->andReturn( $identifiers );
 		$target->allows( 'is_enabled' )->andReturnTrue();
 		$target->allows( 'is_shared' )->andReturn( $shared );
-		$target->allows( 'get_url' )->andReturn( $url );
 
 		return $target;
 	}
@@ -99,7 +97,7 @@ final class Template_SEO_Data_Collector_Test extends TestCase {
 			'label'     => 'Portfolio',
 		];
 
-		$target = $this->mock_target( $identifiers, false, 'https://example.com/portfolio/' );
+		$target = $this->mock_target( $identifiers, false );
 
 		$seo_title = Mockery::mock( Template_Field_Interface::class );
 		$seo_title->allows( 'get_schema' )->andReturn( [ 'type' => 'string' ] );
@@ -127,7 +125,6 @@ final class Template_SEO_Data_Collector_Test extends TestCase {
 				'noindex'   => false,
 				'enabled'   => true,
 				'shared'    => false,
-				'url'       => 'https://example.com/portfolio/',
 			],
 			$this->instance->get_target( $target ),
 		);
@@ -141,8 +138,8 @@ final class Template_SEO_Data_Collector_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_all() {
-		$homepage = $this->mock_target( [ 'target' => 'homepage' ], false, 'https://example.com/' );
-		$search   = $this->mock_target( [ 'target' => 'search_page' ], true, null );
+		$homepage = $this->mock_target( [ 'target' => 'homepage' ], false );
+		$search   = $this->mock_target( [ 'target' => 'search_page' ], true );
 
 		$this->target_repository->expects( 'get_all' )->once()->andReturn( [ $homepage, $search ] );
 		$this->field_repository->allows( 'get_for_target' )->andReturn( [] );

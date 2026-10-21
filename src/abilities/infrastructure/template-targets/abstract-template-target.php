@@ -6,8 +6,8 @@ namespace Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets;
 use Yoast\WP\SEO\Abilities\Domain\Template_Target_Interface;
 
 /**
- * Shared base for the template targets: a single page that is enabled, can always be changed and has no URL, unless
- * the extending class says otherwise.
+ * Shared base for the template targets: a single page that is enabled and can always be changed, unless the extending
+ * class says otherwise.
  */
 abstract class Abstract_Template_Target implements Template_Target_Interface {
 
@@ -39,15 +39,6 @@ abstract class Abstract_Template_Target implements Template_Target_Interface {
 	}
 
 	/**
-	 * Returns the URL of the page, or the URL pattern of its pages.
-	 *
-	 * @return string|null The URL or URL pattern, or null when the pages have no URL of their own.
-	 */
-	public function get_url(): ?string {
-		return null;
-	}
-
-	/**
 	 * Ensures the template SEO data of the target can be changed, which it always can unless the extending class
 	 * says otherwise.
 	 *
@@ -65,24 +56,5 @@ abstract class Abstract_Template_Target implements Template_Target_Interface {
 	 */
 	public function format_option_name( string $option_pattern ): string {
 		return $option_pattern;
-	}
-
-	/**
-	 * Returns the URL pattern of the pages that share this template, based on their permalink structure.
-	 *
-	 * @param string $permastruct_method The WP_Rewrite method that returns the permalink structure.
-	 * @param string $query_string       The query string that is used without pretty permalinks.
-	 *
-	 * @return string The URL pattern, with placeholders between % signs.
-	 */
-	protected function get_url_pattern( string $permastruct_method, string $query_string ): string {
-		global $wp_rewrite;
-
-		$permastruct = $wp_rewrite->{$permastruct_method}();
-		if ( ! \is_string( $permastruct ) || $permastruct === '' ) {
-			return \home_url( '/' . $query_string );
-		}
-
-		return \home_url( \user_trailingslashit( $permastruct ) );
 	}
 }

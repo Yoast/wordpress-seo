@@ -44,12 +44,11 @@ final class Abstract_Template_Target_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the defaults: identified by its name only, not shared, enabled, without URL, and always available.
+	 * Tests the defaults: identified by its name only, not shared, enabled and always available.
 	 *
 	 * @covers ::get_identifiers
 	 * @covers ::is_shared
 	 * @covers ::is_enabled
-	 * @covers ::get_url
 	 * @covers ::ensure_available
 	 *
 	 * @return void
@@ -60,7 +59,6 @@ final class Abstract_Template_Target_Test extends TestCase {
 		$this->assertSame( [ 'target' => 'test_target' ], $this->instance->get_identifiers() );
 		$this->assertFalse( $this->instance->is_shared() );
 		$this->assertTrue( $this->instance->is_enabled() );
-		$this->assertNull( $this->instance->get_url() );
 	}
 
 	/**

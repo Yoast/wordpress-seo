@@ -55,19 +55,15 @@ final class Homepage_Template_Target_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the name, sharing and URL of the homepage.
+	 * Tests the name and sharing of the homepage.
 	 *
 	 * @covers ::get_name
-	 * @covers ::get_url
 	 *
 	 * @return void
 	 */
 	public function test_identity() {
-		Monkey\Functions\expect( 'home_url' )->once()->with( '/' )->andReturn( 'https://example.com/' );
-
 		$this->assertSame( 'homepage', $this->instance->get_name() );
 		$this->assertFalse( $this->instance->is_shared() );
-		$this->assertSame( 'https://example.com/', $this->instance->get_url() );
 	}
 
 	/**

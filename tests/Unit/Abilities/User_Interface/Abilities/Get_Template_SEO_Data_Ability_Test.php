@@ -157,7 +157,7 @@ final class Get_Template_SEO_Data_Ability_Test extends TestCase {
 		$properties = $args['output_schema']['items']['properties'];
 
 		$this->assertSame(
-			[ 'target', 'post_type', 'label', 'seo_title', 'enabled', 'shared', 'url' ],
+			[ 'target', 'post_type', 'label', 'seo_title', 'enabled', 'shared' ],
 			\array_keys( $properties ),
 		);
 		$this->assertSame(

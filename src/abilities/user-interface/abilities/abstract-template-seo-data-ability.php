@@ -117,15 +117,6 @@ abstract class Abstract_Template_SEO_Data_Ability implements Ability_Interface {
 						'type'        => 'boolean',
 						'description' => \__( 'Whether these settings are shared by many pages, like all author archives. Shared settings apply to every one of those pages, so their templates have to use replacement variables instead of text about one specific page.', 'wordpress-seo' ),
 					],
-					'url'     => [
-						'type'        => [ 'string', 'null' ],
-						'description' => \sprintf(
-							/* translators: 1: the % sign, 2: the end of a URL. */
-							\__( 'The URL of the page or, for shared settings, the URL pattern of its pages, with placeholders between %1$s signs. Use it to tell which result a crawled URL belongs to: paginated pages, like %2$s, share the settings of their first page. null when the pages have no URL of their own.', 'wordpress-seo' ),
-							'%',
-							'…/page/2/',
-						),
-					],
 				],
 			),
 		];

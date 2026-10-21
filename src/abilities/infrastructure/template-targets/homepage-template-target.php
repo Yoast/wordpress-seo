@@ -36,15 +36,6 @@ class Homepage_Template_Target extends Abstract_Template_Target {
 	}
 
 	/**
-	 * Returns the URL of the homepage.
-	 *
-	 * @return string The URL.
-	 */
-	public function get_url(): string {
-		return \home_url( '/' );
-	}
-
-	/**
 	 * Ensures the homepage shows the latest posts.
 	 *
 	 * @return void

@@ -59,13 +59,4 @@ class Date_Archives_Template_Target extends Abstract_Template_Target {
 	public function is_enabled(): bool {
 		return ! $this->options_helper->get( 'disable-date', false );
 	}
-
-	/**
-	 * Returns the URL pattern of the date archives.
-	 *
-	 * @return string The URL pattern.
-	 */
-	public function get_url(): string {
-		return $this->get_url_pattern( 'get_date_permastruct', '?m=%year%%monthnum%%day%' );
-	}
 }

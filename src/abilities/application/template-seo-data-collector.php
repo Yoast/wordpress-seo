@@ -81,7 +81,6 @@ class Template_SEO_Data_Collector {
 
 		$data['enabled'] = $target->is_enabled();
 		$data['shared']  = $target->is_shared();
-		$data['url']     = $target->get_url();
 
 		return $data;
 	}

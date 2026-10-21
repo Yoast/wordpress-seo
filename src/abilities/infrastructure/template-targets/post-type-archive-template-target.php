@@ -81,17 +81,6 @@ class Post_Type_Archive_Template_Target extends Abstract_Template_Target {
 	}
 
 	/**
-	 * Returns the URL of the archive.
-	 *
-	 * @return string|null The URL, or null when the content type has no archive.
-	 */
-	public function get_url(): ?string {
-		$url = \get_post_type_archive_link( $this->post_type );
-
-		return ( \is_string( $url ) ) ? $url : null;
-	}
-
-	/**
 	 * Fills the post type into the option pattern, as each content type archive has its own options.
 	 *
 	 * @param string $option_pattern The option pattern, like `title-ptarchive-%s`.

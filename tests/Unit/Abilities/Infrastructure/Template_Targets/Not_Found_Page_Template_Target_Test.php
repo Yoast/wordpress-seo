@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 final class Not_Found_Page_Template_Target_Test extends TestCase {
 
 	/**
-	 * Tests the name, sharing and URL of the 404 pages.
+	 * Tests the name and sharing of the 404 pages.
 	 *
 	 * @covers ::get_name
 	 * @covers ::is_shared
@@ -28,6 +28,5 @@ final class Not_Found_Page_Template_Target_Test extends TestCase {
 
 		$this->assertSame( 'not_found_page', $instance->get_name() );
 		$this->assertTrue( $instance->is_shared() );
-		$this->assertNull( $instance->get_url() );
 	}
 }
