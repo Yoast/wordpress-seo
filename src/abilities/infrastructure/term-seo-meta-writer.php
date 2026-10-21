@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\Infrastructure;
 
 use WPSEO_Taxonomy_Meta;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -61,6 +62,18 @@ class Term_SEO_Meta_Writer {
 	}
 
 	/**
+	 * Checks whether a canonical URL survives the term meta validation, which silently
+	 * drops a canonical it cannot sanitize instead of rejecting it.
+	 *
+	 * @param string $canonical The canonical URL.
+	 *
+	 * @return bool Whether the canonical URL would be stored.
+	 */
+	public function is_valid_canonical( string $canonical ): bool {
+		return $this->sanitize_url( $canonical ) !== '';
+	}
+
+	/**
 	 * Returns the full stored term meta, merged with the defaults.
 	 *
 	 * @param int    $term_id  The term ID.
@@ -83,6 +96,17 @@ class Term_SEO_Meta_Writer {
 	 */
 	protected function save_meta( int $term_id, string $taxonomy, array $meta ): void {
 		WPSEO_Taxonomy_Meta::set_values( $term_id, $taxonomy, $meta );
+	}
+
+	/**
+	 * Sanitizes a URL the way the term meta validation does.
+	 *
+	 * @param string $url The URL.
+	 *
+	 * @return string The sanitized URL, or an empty string when it is not a valid URL.
+	 */
+	protected function sanitize_url( string $url ): string {
+		return WPSEO_Utils::sanitize_url( $url );
 	}
 
 	/**
