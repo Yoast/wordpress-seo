@@ -78,6 +78,8 @@ class Settings_Integration implements Integration_Interface {
 			'show_new_content_type_notification',
 			'new_post_types',
 			'new_taxonomies',
+			'ai_free_sparks_started_on',
+			'schema_aggregation_endpoint_enabled_on',
 		],
 		'wpseo_titles' => [
 			'company_logo_meta',
