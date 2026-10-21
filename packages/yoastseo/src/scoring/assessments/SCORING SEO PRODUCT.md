@@ -52,7 +52,7 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 - [Meta description length](SCORING%20SEO.md#5-meta-description-length)
 - [Single title](SCORING%20SEO.md#6-single-title)
 - [Function words in keyphrase](SCORING%20SEO.md#7-function-words-in-keyphrase)
-- [Title](SCORING%20SEO.md#10-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
+- [Title](SCORING%20SEO.md#11-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
 
 ### Assessments with different scoring criteria than with the regular SEO assessor
 ### 1) Text length
@@ -138,6 +138,35 @@ the same limits without repeating the numbers.
 | Orange        | 6     | X images have alt text of 10 characters or fewer | **Alt text length**: X of your product images have very short alt text. **Consider making the alt text longer than 10 characters.** |
 | Orange        | 6     | X images have alt text of 200 characters or more | **Alt text length**: X of your product images have very long alt text. **Consider making the alt text shorter than 200 characters.** |
 | Orange        | 6     | Both cases occur on the same product             | **Alt text length**: X of your product images have very short or very long alt text. **Consider making the alt text longer than 10 and shorter than 200 characters.** |
+
+### 4) Duplicate alt text
+**What it does**: Checks whether two or more different assessed images share the same alt text. By default it
+assesses the images in the text; a platform can scope it to the product's own images (featured, gallery,
+variations) instead, by providing the Paper's `providedImages` attribute. Provided images with the same `id` count as
+one image, so a product image that is also in the gallery is not a duplicate.
+
+**When it applies**: Only when at least two different assessed images share the same alt text. There is no green
+traffic light; see [the regular assessment](SCORING%20SEO.md#10-duplicate-alt-text).
+
+**Name in code**: DuplicateAltTextAssessment
+
+**Product config**: the criterion and the score are the same as in the regular SEO assessor — orange with a score of 6.
+Only the feedback strings differ: on a product page the images being assessed are the product's own, so they say
+"product images" where the defaults say "images".
+
+**Feedback strings**: a platform supplies these through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `duplicateCount`, and must return `duplicate`. The
+returned object is used as is, so an omitted key renders as an empty result text rather than falling back to the
+default. Both WooCommerce and Shopify supply a callback, so the string a user sees on a product page is the
+platform's, not the default in [the regular table](SCORING%20SEO.md#10-duplicate-alt-text).
+
+**Title URL**: https://yoa.st/duplicate-alt-text in WooCommerce, https://yoa.st/shopify-duplicate-alt-text in Shopify (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/duplicate-alt-text-cta in WooCommerce, https://yoa.st/shopify-duplicate-alt-text-cta in Shopify (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                            | Feedback                                                                                                                         |
+|---------------|-------|------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your product images don't have unique alt text. **Give each image its own alt text.** |
 
 ### Assessments unique to product pages
 ### 1) Image alt attributes
