@@ -102,6 +102,15 @@ class Term_SEO_Data_Updater {
 			return $can_edit;
 		}
 
+		// The term meta drops a canonical it cannot sanitize, so reject it rather than silently clearing the stored one.
+		if ( isset( $input['canonical'] ) && $input['canonical'] !== '' && ! $this->meta_writer->is_valid_canonical( $input['canonical'] ) ) {
+			return new WP_Error(
+				'ability_invalid_input',
+				\__( 'The canonical is not a valid URL. Use a full http or https URL, such as https://example.com/page/.', 'wordpress-seo' ),
+				[ 'status' => 400 ],
+			);
+		}
+
 		$changed_columns = $this->field_map->apply_to_indexable( $input, $indexable );
 
 		if ( ! $this->meta_writer->write_columns( $indexable, $changed_columns ) ) {
