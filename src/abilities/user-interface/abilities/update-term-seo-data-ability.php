@@ -135,7 +135,7 @@ class Update_Term_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 				'meta_description'       => $this->ai_generate_field_schema( \__( 'meta description', 'wordpress-seo' ) ),
 				'canonical'              => [
 					'type'        => [ 'string', 'null' ],
-					'description' => \__( 'The custom canonical URL for the term archive. Use a full http or https URL; an invalid URL is rejected. Use null or an empty string to remove it and fall back to the default canonical.', 'wordpress-seo' ),
+					'description' => \__( 'The custom canonical URL for the term archive. Use null or an empty string to remove it and fall back to the default canonical.', 'wordpress-seo' ),
 				],
 				'is_cornerstone'         => [
 					'type'        => 'boolean',

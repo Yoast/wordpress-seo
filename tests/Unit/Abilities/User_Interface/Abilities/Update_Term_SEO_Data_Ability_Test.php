@@ -299,7 +299,7 @@ final class Update_Term_SEO_Data_Ability_Test extends TestCase {
 				'meta_description'       => $templated( 'meta description' ),
 				'canonical'              => [
 					'type'        => [ 'string', 'null' ],
-					'description' => 'The custom canonical URL for the term archive. Use a full http or https URL; an invalid URL is rejected. Use null or an empty string to remove it and fall back to the default canonical.',
+					'description' => 'The custom canonical URL for the term archive. Use null or an empty string to remove it and fall back to the default canonical.',
 				],
 				'is_cornerstone'         => [
 					'type'        => 'boolean',
