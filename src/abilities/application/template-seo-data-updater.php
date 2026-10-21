@@ -155,7 +155,12 @@ class Template_SEO_Data_Updater extends Abstract_Fields_Updater {
 		$warnings = [];
 
 		if ( isset( $input['post_type'] ) && ! \array_key_exists( 'post_type', $target->get_identifiers() ) ) {
-			$warnings[] = \__( 'The post_type is only used for the post_type_archive target, so it was ignored.', 'wordpress-seo' );
+			$warnings[] = \sprintf(
+				/* translators: 1: the name of a parameter, 2: the name of a target. */
+				\__( 'The %1$s is only used for the %2$s target, so it was ignored.', 'wordpress-seo' ),
+				'post_type',
+				'post_type_archive',
+			);
 		}
 
 		$unsupported = \array_keys( \array_diff_key( \array_intersect_key( $this->field_repository->get_all(), $input ), $target_fields ) );

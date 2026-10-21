@@ -111,7 +111,11 @@ class Post_Type_Archive_Template_Target extends Abstract_Template_Target {
 	 */
 	public function ensure_available(): void {
 		if ( $this->post_type === '' ) {
-			$message = \__( 'Provide the post_type of the content type whose archive to update.', 'wordpress-seo' );
+			$message = \sprintf(
+				/* translators: %s expands to the name of a parameter. */
+				\__( 'Provide the %s of the content type whose archive to update.', 'wordpress-seo' ),
+				'post_type',
+			);
 
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- This is an exception message, not output.
 			throw new Unavailable_Template_Target_Exception( 'yoast_seo_missing_post_type', $message );
@@ -122,7 +126,12 @@ class Post_Type_Archive_Template_Target extends Abstract_Template_Target {
 		}
 
 		if ( ! \array_key_exists( $this->post_type, $this->post_type_helper->get_indexable_post_archives() ) ) {
-			$message = \__( 'No content type archive with SEO data exists for the given post_type. The yoast-seo/get-template-seo-data ability lists the ones that do.', 'wordpress-seo' );
+			$message = \sprintf(
+				/* translators: 1: the name of a parameter, 2: the name of an ability. */
+				\__( 'No content type archive with SEO data exists for the given %1$s. The %2$s ability lists the ones that do.', 'wordpress-seo' ),
+				'post_type',
+				'yoast-seo/get-template-seo-data',
+			);
 
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- This is an exception message, not output.
 			throw new Unavailable_Template_Target_Exception( 'yoast_seo_invalid_post_type', $message );
@@ -141,16 +150,22 @@ class Post_Type_Archive_Template_Target extends Abstract_Template_Target {
 		if ( $shop_page_id < 1 ) {
 			return new Unavailable_Template_Target_Exception(
 				'yoast_seo_woocommerce_shop_page',
-				\__( 'With WooCommerce active, the product archive takes its SEO data from the Shop page, but no Shop page is set in the WooCommerce settings.', 'wordpress-seo' ),
+				\sprintf(
+					/* translators: %1$s expands to WooCommerce. */
+					\__( 'With %1$s active, the product archive takes its SEO data from the Shop page, but no Shop page is set in the %1$s settings.', 'wordpress-seo' ),
+					'WooCommerce',
+				),
 			);
 		}
 
 		return new Unavailable_Template_Target_Exception(
 			'yoast_seo_woocommerce_shop_page',
 			\sprintf(
-				/* translators: %d expands to the ID of a page. */
-				\__( 'With WooCommerce active, the product archive takes its SEO data from the Shop page (ID %d), so it is set on that page with the yoast-seo/update-post-seo-data ability instead.', 'wordpress-seo' ),
+				/* translators: 1: WooCommerce, 2: the ID of a page, 3: the name of an ability. */
+				\__( 'With %1$s active, the product archive takes its SEO data from the Shop page (ID %2$d), so it is set on that page with the %3$s ability instead.', 'wordpress-seo' ),
+				'WooCommerce',
 				$shop_page_id,
+				'yoast-seo/update-post-seo-data',
 			),
 		);
 	}

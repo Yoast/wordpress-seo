@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use Yoast\WP\SEO\Abilities\Domain\Ability_Interface;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Fields\Template_Field_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets\Post_Type_Archive_Template_Target;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets\Template_Target_Repository;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
@@ -91,11 +92,19 @@ abstract class Abstract_Template_SEO_Data_Ability implements Ability_Interface {
 					],
 					'post_type' => [
 						'type'        => 'string',
-						'description' => \__( 'Only present for the post_type_archive target: the post type of the content type.', 'wordpress-seo' ),
+						'description' => \sprintf(
+							/* translators: %s expands to the name of a target. */
+							\__( 'Only present for the %s target: the post type of the content type.', 'wordpress-seo' ),
+							Post_Type_Archive_Template_Target::NAME,
+						),
 					],
 					'label'     => [
 						'type'        => 'string',
-						'description' => \__( 'Only present for the post_type_archive target: the name of the content type.', 'wordpress-seo' ),
+						'description' => \sprintf(
+							/* translators: %s expands to the name of a target. */
+							\__( 'Only present for the %s target: the name of the content type.', 'wordpress-seo' ),
+							Post_Type_Archive_Template_Target::NAME,
+						),
 					],
 				],
 				\array_map( [ $this, 'to_output_schema' ], $this->field_repository->get_schemas( $this->field_repository->get_all() ) ),
@@ -110,7 +119,12 @@ abstract class Abstract_Template_SEO_Data_Ability implements Ability_Interface {
 					],
 					'url'     => [
 						'type'        => [ 'string', 'null' ],
-						'description' => \__( 'The URL of the page or, for shared settings, the URL pattern of its pages, with placeholders between % signs. Use it to tell which result a crawled URL belongs to: paginated pages, like …/page/2/, share the settings of their first page. null when the pages have no URL of their own.', 'wordpress-seo' ),
+						'description' => \sprintf(
+							/* translators: 1: the % sign, 2: the end of a URL. */
+							\__( 'The URL of the page or, for shared settings, the URL pattern of its pages, with placeholders between %1$s signs. Use it to tell which result a crawled URL belongs to: paginated pages, like %2$s, share the settings of their first page. null when the pages have no URL of their own.', 'wordpress-seo' ),
+							'%',
+							'…/page/2/',
+						),
 					],
 				],
 			),

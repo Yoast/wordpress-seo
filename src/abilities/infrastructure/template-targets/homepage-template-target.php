@@ -58,9 +58,10 @@ class Homepage_Template_Target extends Abstract_Template_Target {
 		}
 
 		$message = \sprintf(
-			/* translators: %d expands to the ID of a page. */
-			\__( 'The homepage of this site is a static page (ID %d), so its SEO data is set on that page with the yoast-seo/update-post-seo-data ability instead.', 'wordpress-seo' ),
+			/* translators: 1: the ID of a page, 2: the name of an ability. */
+			\__( 'The homepage of this site is a static page (ID %1$d), so its SEO data is set on that page with the %2$s ability instead.', 'wordpress-seo' ),
 			$front_page_id,
+			'yoast-seo/update-post-seo-data',
 		);
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- This is an exception message, not output.

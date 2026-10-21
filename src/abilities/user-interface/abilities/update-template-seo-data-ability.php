@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Template_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Fields\Template_Field_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets\Post_Type_Archive_Template_Target;
 use Yoast\WP\SEO\Abilities\Infrastructure\Template_Targets\Template_Target_Repository;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -99,7 +100,11 @@ class Update_Template_SEO_Data_Ability extends Abstract_Template_SEO_Data_Abilit
 						],
 						'post_type' => [
 							'type'        => 'string',
-							'description' => \__( 'The post type of the content type whose archive to update. Required for the post_type_archive target, ignored for the others.', 'wordpress-seo' ),
+							'description' => \sprintf(
+								/* translators: %s expands to the name of a target. */
+								\__( 'The post type of the content type whose archive to update. Required for the %s target, ignored for the others.', 'wordpress-seo' ),
+								Post_Type_Archive_Template_Target::NAME,
+							),
 						],
 					],
 					$this->field_repository->get_schemas( $this->field_repository->get_all() ),
