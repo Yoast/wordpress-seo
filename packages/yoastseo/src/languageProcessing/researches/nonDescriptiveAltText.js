@@ -24,8 +24,13 @@ const WHATSAPP_FILE_NAME = new RegExp( `^whatsapp\\s+\\p{L}+(?=\\s+\\p{N})${ atM
 // A trailing number with optional brackets and the punctuation around it, e.g. " 1", "1", " (1)" or "-1.".
 const TRAILING_NUMBER = /(?:[\s_-]*\(?\p{N}+\)?)?[\s\p{P}]*$/u;
 
+// The suffixes of a scaled, edited or resized copy at the end of a file name: "-scaled", "-edited", "-edited-1" or an
+// edit timestamp ("-e1700000000000"), then a size ("-1024x576", "_800x600", "_800x", "_x600"). Each one may be missing.
+const SIZE_SUFFIX = /(?:-(?:scaled|edited(?:-\d+)?|e\d{10,}))*(?:[-_](?:\d+x\d*|x\d+))?$/;
+
 /**
- * Returns the file name of an image source, with and without its extension, in lowercase.
+ * Returns the file name of an image source in lowercase: with its extension, without it, and without a size suffix,
+ * so a resized copy such as `red-bike-1024x576.jpg` also yields `red-bike`.
  *
  * @param {string} src The image source.
  *
@@ -46,7 +51,8 @@ const getFileNames = ( src ) => {
 	}
 
 	fileName = fileName.toLowerCase();
-	return [ fileName, fileName.replace( /\.[^.]+$/, "" ) ];
+	const withoutExtension = fileName.replace( /\.[^.]+$/, "" );
+	return [ fileName, withoutExtension, withoutExtension.replace( SIZE_SUFFIX, "" ) ];
 };
 
 /**
@@ -74,7 +80,8 @@ const isNonDescriptiveInAnyLanguage = ( altText, src ) => ONLY_NUMBERS_AND_PUNCT
  * Two kinds of checks apply:
  * - checks that work in every language, also in a language without its own phrases: only numbers or punctuation,
  *   a name ending in an image file extension, a file name that cameras, phones or WhatsApp generate, and the exact
- *   file name of the image (with or without the extension, ignoring case);
+ *   file name of the image (with or without the extension, or without the suffix of a scaled, edited or resized copy
+ *   such as "-1024x576", "_800x", "-scaled", "-edited" or "-e1700000000000", ignoring case);
  * - language-specific phrases. A language supplies them as a regex through the `nonDescriptiveAltText` config.
  *   The regex is tested against the alt text without a trailing number, so a phrase such as "image" also matches
  *   "image 1", "image1" and "image (1)". The regex has to match the whole text, so it needs `^` and `$`.

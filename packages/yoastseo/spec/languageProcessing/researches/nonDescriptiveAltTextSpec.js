@@ -162,6 +162,53 @@ describe( "the non-descriptive alt text checks for every language", () => {
 		expect( researchProvidedImage( "https://example.com/uploads/red-running-shoes.jpg", altText, DefaultResearcher ).count ).toBe( 0 );
 	} );
 
+	it.each( [
+		[ "red-bike", "the file name without its size suffix" ],
+		[ "Red-Bike", "the file name without its size suffix, in another case" ],
+		[ "red-bike-1024x576", "the file name with its size suffix" ],
+	] )( "counts the alt text \"%s\" for the resized copy red-bike-1024x576.jpg: %s", ( altText ) => {
+		expect( researchProvidedImage( "https://example.com/uploads/red-bike-1024x576.jpg", altText, DefaultResearcher ).count ).toBe( 1 );
+	} );
+
+	it.each( [
+		[ "red bike", "only an exact match with the file name counts" ],
+		[ "red", "only the size suffix is removed, not other parts of the name" ],
+		[ "red-bike-1024", "a size suffix needs both a width and a height" ],
+	] )( "does not count the alt text \"%s\" for the resized copy red-bike-1024x576.jpg: %s", ( altText ) => {
+		expect( researchProvidedImage( "https://example.com/uploads/red-bike-1024x576.jpg", altText, DefaultResearcher ).count ).toBe( 0 );
+	} );
+
+	it.each( [
+		[ "red-bike_800x600.jpg", "a resized copy with a width and a height" ],
+		[ "red-bike_800x.jpg", "a resized copy with a width only" ],
+		[ "red-bike_x600.jpg", "a resized copy with a height only" ],
+		[ "red-bike-e1700000000000.jpg", "an edited copy" ],
+		[ "red-bike-e1700000000000-1024x576.jpg", "a resized copy of an edited image" ],
+		[ "red-bike-scaled.jpg", "a scaled copy of a large upload" ],
+		[ "red-bike-edited.jpg", "a copy edited in the block editor" ],
+		[ "red-bike-edited-2.jpg", "a second copy edited in the block editor" ],
+		[ "red-bike-edited-576x1024.jpg", "a resized copy of an image edited in the block editor" ],
+		[ "red-bike-edited-2-576x1024.jpg", "a resized copy of a second image edited in the block editor" ],
+		[ "red-bike-scaled-edited.jpg", "a scaled copy edited in the block editor" ],
+		[ "red-bike-edited-scaled.jpg", "a large upload edited in the block editor, as WordPress names it" ],
+	] )( "counts the alt text \"red-bike\" for %s: %s", ( fileName ) => {
+		expect( researchProvidedImage( `https://example.com/uploads/${ fileName }?v=2`, "red-bike", DefaultResearcher ).count ).toBe( 1 );
+	} );
+
+	it.each( [
+		[ "red-bike-e17.jpg", "an edit timestamp has at least ten digits" ],
+		[ "red-bike-1024.jpg", "a size has an \"x\"" ],
+		[ "red-bike-1024x576-e1700000000000.jpg", "the edit timestamp comes before the size, not after it" ],
+		[ "red-bike-upscaled.jpg", "\"scaled\" has to be a separate part of the name" ],
+		[ "red-bike-edit.jpg", "only \"edited\" is a suffix" ],
+	] )( "does not count the alt text \"red-bike\" for %s: %s", ( fileName ) => {
+		expect( researchProvidedImage( `https://example.com/uploads/${ fileName }`, "red-bike", DefaultResearcher ).count ).toBe( 0 );
+	} );
+
+	it( "keeps a name that only looks like a size, when nothing is left in front of it", () => {
+		expect( researchProvidedImage( "https://example.com/uploads/1024x576.jpg", "1024x576", DefaultResearcher ).count ).toBe( 1 );
+	} );
+
 	it( "compares with the decoded file name", () => {
 		expect( researchProvidedImage( "https://example.com/rode%20schoenen.jpg", "rode schoenen", DefaultResearcher ).count ).toBe( 1 );
 	} );
