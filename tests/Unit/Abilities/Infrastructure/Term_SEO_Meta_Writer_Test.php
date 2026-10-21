@@ -204,4 +204,34 @@ final class Term_SEO_Meta_Writer_Test extends TestCase {
 
 		return $indexable;
 	}
+
+	/**
+	 * Tests that a canonical is valid only when the term meta sanitization keeps it.
+	 *
+	 * @covers ::is_valid_canonical
+	 *
+	 * @dataProvider provide_canonical_sanitizations
+	 *
+	 * @param string $sanitized The sanitized canonical.
+	 * @param bool   $expected  Whether the canonical is valid.
+	 *
+	 * @return void
+	 */
+	public function test_is_valid_canonical( string $sanitized, bool $expected ) {
+		$this->instance->expects( 'sanitize_url' )->once()->with( 'a canonical' )->andReturn( $sanitized );
+
+		$this->assertSame( $expected, $this->instance->is_valid_canonical( 'a canonical' ) );
+	}
+
+	/**
+	 * Data provider for the canonical sanitization outcomes.
+	 *
+	 * @return array<string, array<string|bool>> The sanitized canonical and whether it is valid.
+	 */
+	public static function provide_canonical_sanitizations(): array {
+		return [
+			'kept'    => [ 'https://example.com/page/', true ],
+			'dropped' => [ '', false ],
+		];
+	}
 }

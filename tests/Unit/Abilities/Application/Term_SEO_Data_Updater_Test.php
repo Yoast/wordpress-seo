@@ -182,6 +182,74 @@ final class Term_SEO_Data_Updater_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a canonical the term meta would silently drop is refused and nothing is written.
+	 *
+	 * @covers ::update_term_seo_data
+	 *
+	 * @return void
+	 */
+	public function test_update_term_seo_data_invalid_canonical() {
+		$input                = [
+			'term_id'   => 7,
+			'canonical' => 'not a url',
+		];
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_id = 7;
+
+		$this->resolver->expects( 'resolve_one' )->once()->andReturn( $indexable );
+		$this->access_checker->expects( 'ensure_can_edit' )->once()->andReturn( true );
+		$this->meta_writer->expects( 'is_valid_canonical' )->once()->with( 'not a url' )->andReturnFalse();
+		$this->field_map->expects( 'apply_to_indexable' )->never();
+		$this->meta_writer->expects( 'write_columns' )->never();
+
+		$this->assertInstanceOf( WP_Error::class, $this->instance->update_term_seo_data( $input ) );
+	}
+
+	/**
+	 * Tests that a valid canonical, or one being cleared, is written without being refused.
+	 *
+	 * @covers ::update_term_seo_data
+	 *
+	 * @dataProvider provide_accepted_canonicals
+	 *
+	 * @param string|null $canonical        The canonical input.
+	 * @param int         $validation_calls How often the canonical is validated.
+	 *
+	 * @return void
+	 */
+	public function test_update_term_seo_data_accepted_canonical( $canonical, int $validation_calls ) {
+		$input                = [
+			'term_id'   => 7,
+			'canonical' => $canonical,
+		];
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_id = 7;
+
+		$this->resolver->expects( 'resolve_one' )->once()->andReturn( $indexable );
+		$this->access_checker->expects( 'ensure_can_edit' )->once()->andReturn( true );
+		$this->meta_writer->expects( 'is_valid_canonical' )->times( $validation_calls )->andReturnTrue();
+		$this->field_map->expects( 'apply_to_indexable' )->once()->andReturn( [ 'canonical' ] );
+		$this->meta_writer->expects( 'write_columns' )->once()->andReturnTrue();
+		$this->indexable_builder->expects( 'build_for_id_and_type' )->once()->andReturn( Mockery::mock() );
+		$this->field_map->expects( 'to_seo_array' )->once()->andReturn( [ 'term_id' => 7 ] );
+
+		$this->assertSame( [ 'term_id' => 7 ], $this->instance->update_term_seo_data( $input ) );
+	}
+
+	/**
+	 * Data provider for the canonical inputs that are written.
+	 *
+	 * @return array<string, array<string|int|null>> The canonical input and how often it is validated.
+	 */
+	public static function provide_accepted_canonicals(): array {
+		return [
+			'valid URL'    => [ 'https://example.com/page/', 1 ],
+			'empty string' => [ '', 0 ],
+			'null'         => [ null, 0 ],
+		];
+	}
+
+	/**
 	 * Tests that a failed term meta write returns an error and skips the rebuild.
 	 *
 	 * @covers ::update_term_seo_data
