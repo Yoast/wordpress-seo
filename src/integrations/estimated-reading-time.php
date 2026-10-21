@@ -50,7 +50,7 @@ class Estimated_Reading_Time implements Integration_Interface {
 	/**
 	 * Adds an estimated-reading-time hidden field.
 	 *
-	 * @deprecated 28.5
+	 * @deprecated 28.9
 	 * @codeCoverageIgnore
 	 *
 	 * @param array<string, array<string, mixed>> $field_defs The $fields_defs.
@@ -58,7 +58,7 @@ class Estimated_Reading_Time implements Integration_Interface {
 	 * @return array<string, array<string, mixed>>
 	 */
 	public function add_estimated_reading_time_hidden_fields( $field_defs ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 28.5', 'Estimated_Reading_Time::filter_estimated_reading_time_field_def' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 28.9', 'Estimated_Reading_Time::filter_estimated_reading_time_field_def' );
 		if ( \is_array( $field_defs ) ) {
 			$field_defs['estimated-reading-time-minutes'] = [
 				'type'  => 'hidden',
