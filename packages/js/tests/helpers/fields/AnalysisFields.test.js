@@ -9,7 +9,10 @@ const mockGetPostType = jest.fn();
 const mockEditPost = jest.fn();
 const mockEditEntityRecord = jest.fn();
 const mockCapturedSubscribers = [];
-let capturedMiddleware = null;
+// var without initializer — jest.mock factories are hoisted above let/const (TDZ),
+// and `= null` would reset the value set by the factory once the module body runs.
+
+var capturedMiddleware;
 
 jest.mock( "@wordpress/api-fetch", () => {
 	const mock = jest.fn();
