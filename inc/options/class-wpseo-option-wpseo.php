@@ -420,9 +420,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'activation_redirect_timestamp_free':
 				case 'last_updated_on':
 					$clean[ $key ] = false;
-					if ( isset( $dirty[ $key ] ) ) {
-						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
-							$clean[ $key ] = $dirty[ $key ];
+					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== false ) {
+						$validated = WPSEO_Utils::validate_int( $dirty[ $key ] );
+						if ( $validated ) {
+							$clean[ $key ] = $validated;
 						}
 					}
 					break;
@@ -430,9 +431,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'first_activated_by':
 					// A slight change from the other integer fields, as we want to allow '0' here, but don't want to have much impact elsewhere.
 					$clean[ $key ] = false;
-					if ( isset( $dirty[ $key ] ) ) {
-						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) !== false ) {
-							$clean[ $key ] = $dirty[ $key ];
+					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== false ) {
+						$validated = WPSEO_Utils::validate_int( $dirty[ $key ] );
+						if ( $validated !== false ) {
+							$clean[ $key ] = $validated;
 						}
 					}
 					break;
