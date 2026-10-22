@@ -2,6 +2,9 @@ import nonDescriptiveAltText from "../../../src/languageProcessing/researches/no
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import DutchResearcher from "../../../src/languageProcessing/languages/nl/Researcher";
+import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
+import HebrewResearcher from "../../../src/languageProcessing/languages/he/Researcher";
+import FarsiResearcher from "../../../src/languageProcessing/languages/fa/Researcher";
 import Paper from "../../../src/values/Paper";
 import buildTree from "../../specHelpers/parse/buildTree";
 
@@ -426,5 +429,49 @@ describe( "the HTML entities in alt text from the text", () => {
 
 	it( "does not change the alt text of a provided image, where \"#nbsp;\" is real text", () => {
 		expect( researchProvidedImage( "https://example.com/photo.jpg", "Product#nbsp;image" ).count ).toBe( 0 );
+	} );
+} );
+
+describe( "the alt text on right-to-left sites", () => {
+	const RLM = "\u200F";
+	const LRM = "\u200E";
+	const ALM = "\u061C";
+
+	it.each( [
+		[ RLM + "IMG_1234", "a right-to-left mark before a camera name", ArabicResearcher ],
+		[ "IMG_1234" + RLM, "a right-to-left mark after a camera name", ArabicResearcher ],
+		[ LRM + "IMG_1234" + LRM, "left-to-right marks around a camera name", HebrewResearcher ],
+		[ RLM + "-", "a right-to-left mark before a dash", ArabicResearcher ],
+		[ ALM + "٢٠٢٦", "an Arabic letter mark before a year in Arabic-Indic digits", ArabicResearcher ],
+		[ "photo.jpg" + RLM, "a right-to-left mark after a file name", ArabicResearcher ],
+		[ "\u2067IMG_1234\u2069", "a right-to-left isolate around a camera name", FarsiResearcher ],
+		[ RLM, "only a right-to-left mark", ArabicResearcher ],
+	] )( "counts %j: %s, because direction marks are invisible and removed before matching", ( altText, description, ResearcherType ) => {
+		expect( researchProvidedImage( "https://example.com/photo.jpg", altText, ResearcherType ).count ).toBe( 1 );
+	} );
+
+	it.each( [
+		[ "٢٠٢٦-٠٣-١٤", "a date in Arabic-Indic digits", ArabicResearcher ],
+		[ "۱۴۰۵/۰۱/۲۵", "a date in Persian digits", FarsiResearcher ],
+		[ "Screenshot ٢٠٢٦-٠٣-١٤", "a screenshot name with Arabic-Indic digits", ArabicResearcher ],
+	] )( "counts %j: %s", ( altText, description, ResearcherType ) => {
+		expect( researchProvidedImage( "https://example.com/photo.jpg", altText, ResearcherType ).count ).toBe( 1 );
+	} );
+
+	it( "removes direction marks from an image in the text too", () => {
+		const paper = new Paper( `<p>دراجات حمراء.</p><img src="https://example.com/photo.jpg" alt="${ RLM }IMG_1234" />` );
+		const researcher = new ArabicResearcher( paper );
+		buildTree( paper, researcher );
+
+		expect( nonDescriptiveAltText( paper, researcher ).count ).toBe( 1 );
+	} );
+
+	it( "keeps zero-width non-joiners, which are part of the spelling of Farsi words", () => {
+		// "IMG" + ZWNJ + "_1234" is not a camera name, so it would only be counted if the joiner were removed.
+		expect( researchProvidedImage( "https://example.com/photo.jpg", "IMG\u200C_1234", FarsiResearcher ).count ).toBe( 0 );
+	} );
+
+	it( "does not count an Arabic description", () => {
+		expect( researchProvidedImage( "https://example.com/photo.jpg", RLM + "دراجة حمراء على الشاطئ", ArabicResearcher ).count ).toBe( 0 );
 	} );
 } );

@@ -33,6 +33,11 @@ const SCREENSHOT_FILE_NAME = new RegExp( `^(?:screenshot|screen\\s+shot)(?:\\s+f
 // The HTML entities that the tree builder protects as "#nbsp;", "#mdash;" and so on (see `build`).
 const HASHED_HTML_ENTITY = new RegExp( [ ...hashedHtmlEntities.keys() ].join( "|" ), "gi" );
 
+// Invisible characters that only set the text direction: the left-to-right and right-to-left marks, the Arabic letter
+// mark, and the embedding, override and isolate controls. Zero-width (non-)joiners are not here: they are part of the
+// spelling of Farsi and Indic words.
+const DIRECTION_MARKS = /[\u200E\u200F\u061C\u202A-\u202E\u2066-\u2069]/g;
+
 // Single characters for `removeTrailingNumber`.
 const SPACE_OR_PUNCTUATION = /[\s\p{P}]/u;
 const DIGIT = /\p{N}/u;
@@ -143,12 +148,15 @@ const isNonDescriptiveInAnyLanguage = ( altText, src ) => ONLY_NUMBERS_AND_PUNCT
 
 /**
  * Returns the alt text of an image, prepared for matching: with the protected HTML entities of a text image turned
- * back into their characters, the whitespace collapsed, and trimmed.
+ * back into their characters, the direction marks removed, the whitespace collapsed, and trimmed.
  *
  * The tree builder changes "&nbsp;" into "#nbsp;" in the whole text, attributes included, and `getAltAttribute` does
  * not change it back. Without this, `alt="Product&nbsp;image"` would be read as "Product#nbsp;image" and missed.
  * The alt text of a provided image is not changed: it never went through the tree builder, so a "#nbsp;" in it is
  * real text.
+ *
+ * Direction marks are removed from every alt text. Typing or pasting Latin text in a right-to-left field often adds
+ * one, invisibly, and a single mark is enough to stop "IMG_1234" from matching.
  *
  * @param {string}  altText         The alt text, as `getAltAttribute` returns it.
  * @param {boolean} isFromTheText   Whether the image comes from the text, rather than from the provided images.
@@ -160,7 +168,7 @@ const prepareAltText = ( altText, isFromTheText ) => {
 		? altText.replace( HASHED_HTML_ENTITY, ( entity ) => hashedHtmlEntities.get( entity.toLowerCase() ) )
 		: altText;
 
-	return restored.replace( /\s+/g, " " ).trim();
+	return restored.replace( DIRECTION_MARKS, "" ).replace( /\s+/g, " " ).trim();
 };
 
 /**
@@ -168,8 +176,8 @@ const prepareAltText = ( altText, isFromTheText ) => {
  * a file name, or a generic default such as "Product image" that says nothing about the image.
  *
  * The whole alt text is matched, not a part of it: "Product image" is counted, "Product image of a red bike on a
- * beach" is not. Before matching, HTML entities are turned back into characters and the whitespace inside the alt
- * text is collapsed (see `prepareAltText`).
+ * beach" is not. Before matching, HTML entities are turned back into characters, direction marks are removed and the
+ * whitespace inside the alt text is collapsed (see `prepareAltText`).
  *
  * Two kinds of checks apply:
  * - checks that work in every language, also in a language without its own phrases: only numbers or punctuation,
