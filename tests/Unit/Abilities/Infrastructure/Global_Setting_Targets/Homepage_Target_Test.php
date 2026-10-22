@@ -3,9 +3,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure\Global_Setting_Targets;
 
-use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Abilities\Domain\Exceptions\Unavailable_Global_Setting_Target_Exception;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Homepage_Target;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -16,6 +17,13 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Homepage_Target
  */
 final class Homepage_Target_Test extends TestCase {
+
+	/**
+	 * The current page helper mock.
+	 *
+	 * @var Mockery\MockInterface|Current_Page_Helper
+	 */
+	private $current_page_helper;
 
 	/**
 	 * The instance under test.
@@ -34,29 +42,15 @@ final class Homepage_Target_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->instance = new Homepage_Target();
-	}
+		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 
-	/**
-	 * Mocks the homepage settings.
-	 *
-	 * @param string $show_on_front What the homepage shows.
-	 * @param int    $page_on_front The ID of the static front page.
-	 *
-	 * @return void
-	 */
-	private function mock_homepage( string $show_on_front, int $page_on_front ): void {
-		// The base test case already expects get_option, so it cannot be stubbed.
-		Monkey\Functions\expect( 'get_option' )->andReturnUsing(
-			static function ( $option ) use ( $show_on_front, $page_on_front ) {
-				return ( $option === 'show_on_front' ) ? $show_on_front : $page_on_front;
-			},
-		);
+		$this->instance = new Homepage_Target( $this->current_page_helper );
 	}
 
 	/**
 	 * Tests the name and sharing of the homepage.
 	 *
+	 * @covers ::__construct
 	 * @covers ::get_name
 	 *
 	 * @return void
@@ -71,12 +65,11 @@ final class Homepage_Target_Test extends TestCase {
 	 *
 	 * @covers ::is_enabled
 	 * @covers ::ensure_available
-	 * @covers ::get_static_front_page_id
 	 *
 	 * @return void
 	 */
 	public function test_latest_posts() {
-		$this->mock_homepage( 'posts', 0 );
+		$this->current_page_helper->expects( 'get_front_page_id' )->twice()->andReturn( 0 );
 
 		$this->instance->ensure_available();
 
@@ -88,12 +81,11 @@ final class Homepage_Target_Test extends TestCase {
 	 *
 	 * @covers ::is_enabled
 	 * @covers ::ensure_available
-	 * @covers ::get_static_front_page_id
 	 *
 	 * @return void
 	 */
 	public function test_static_homepage() {
-		$this->mock_homepage( 'page', 42 );
+		$this->current_page_helper->expects( 'get_front_page_id' )->times( 3 )->andReturn( 42 );
 
 		$this->assertFalse( $this->instance->is_enabled() );
 
