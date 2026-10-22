@@ -17,6 +17,7 @@ Overview of the used SEO assessors in the `yoastseo` package:
 - Keyphrase in subheadings (`SubHeadingsKeywordAssessment`)
 - Images (`ImageCountAssessment`)
 - Alt text length (`AltTextLengthAssessment`)
+- Duplicate alt text (`DuplicateAltTextAssessment`)
 - Text length (`TextLengthAssessment`) -> [Cornerstone scores and boundaries!](../assessments/SCORING%20SEO.md#1-text-length)
 - Outbound links (`OutboundLinksAssessment`)
 - SEO title width (`PageTitleWidthAssesment`)
