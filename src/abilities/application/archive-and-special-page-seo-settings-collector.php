@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\Application;
 
 use Yoast\WP\SEO\Abilities\Domain\Global_Setting_Target_Interface;
-use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Fields\Global_Setting_Field_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
@@ -18,11 +18,11 @@ class Archive_And_Special_Page_SEO_Settings_Collector {
 	use Schema_Type_Cast_Trait;
 
 	/**
-	 * The global setting field repository.
+	 * The global setting field map.
 	 *
-	 * @var Global_Setting_Field_Repository
+	 * @var Global_Setting_Field_Map
 	 */
-	private $field_repository;
+	private $field_map;
 
 	/**
 	 * The global setting target repository.
@@ -41,16 +41,16 @@ class Archive_And_Special_Page_SEO_Settings_Collector {
 	/**
 	 * Constructor.
 	 *
-	 * @param Global_Setting_Field_Repository  $field_repository  The global setting field repository.
+	 * @param Global_Setting_Field_Map         $field_map         The global setting field map.
 	 * @param Global_Setting_Target_Repository $target_repository The global setting target repository.
 	 * @param Options_Helper                   $options_helper    The options helper.
 	 */
 	public function __construct(
-		Global_Setting_Field_Repository $field_repository,
+		Global_Setting_Field_Map $field_map,
 		Global_Setting_Target_Repository $target_repository,
 		Options_Helper $options_helper
 	) {
-		$this->field_repository  = $field_repository;
+		$this->field_map         = $field_map;
 		$this->target_repository = $target_repository;
 		$this->options_helper    = $options_helper;
 	}
@@ -77,8 +77,13 @@ class Archive_And_Special_Page_SEO_Settings_Collector {
 	public function get_target( Global_Setting_Target_Interface $target ): array {
 		$data = $target->get_identifiers();
 
-		foreach ( $this->field_repository->get_for_target( $target ) as $field_name => $field ) {
-			$data[ $field_name ] = $this->cast_to_schema_type( $this->options_helper->get( $field->get_option_name( $target ) ), $field->get_schema() );
+		foreach ( $this->field_map->get_fields() as $field_name => $schema ) {
+			$option_name = $this->field_map->get_option_name( $field_name, $target );
+			if ( $option_name === null ) {
+				continue;
+			}
+
+			$data[ $field_name ] = $this->cast_to_schema_type( $this->options_helper->get( $option_name ), $schema );
 		}
 
 		$data['enabled'] = $target->is_enabled();

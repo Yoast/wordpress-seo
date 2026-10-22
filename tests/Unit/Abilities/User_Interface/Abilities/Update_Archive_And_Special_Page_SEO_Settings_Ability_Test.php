@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Settings_Updater;
-use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Fields\Global_Setting_Field_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Update_Archive_And_Special_Page_SEO_Settings_Ability;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -30,11 +30,11 @@ final class Update_Archive_And_Special_Page_SEO_Settings_Ability_Test extends Te
 	private $capability_helper;
 
 	/**
-	 * The global setting field repository mock.
+	 * The global setting field map mock.
 	 *
-	 * @var Mockery\MockInterface|Global_Setting_Field_Repository
+	 * @var Mockery\MockInterface|Global_Setting_Field_Map
 	 */
-	private $field_repository;
+	private $field_map;
 
 	/**
 	 * The global setting target repository mock.
@@ -68,13 +68,13 @@ final class Update_Archive_And_Special_Page_SEO_Settings_Ability_Test extends Te
 		$this->stubTranslationFunctions();
 
 		$this->capability_helper = Mockery::mock( Capability_Helper::class );
-		$this->field_repository  = Mockery::mock( Global_Setting_Field_Repository::class );
+		$this->field_map         = Mockery::mock( Global_Setting_Field_Map::class );
 		$this->target_repository = Mockery::mock( Global_Setting_Target_Repository::class );
 		$this->updater           = Mockery::mock( Archive_And_Special_Page_SEO_Settings_Updater::class );
 
 		$this->target_repository->allows( 'get_names' )->andReturn( [ 'homepage', 'author_archives', 'date_archives', 'search_page', 'not_found_page', 'post_type_archive' ] );
 
-		$this->instance = new Update_Archive_And_Special_Page_SEO_Settings_Ability( $this->capability_helper, $this->field_repository, $this->target_repository, $this->updater );
+		$this->instance = new Update_Archive_And_Special_Page_SEO_Settings_Ability( $this->capability_helper, $this->field_map, $this->target_repository, $this->updater );
 	}
 
 	/**
@@ -122,8 +122,7 @@ final class Update_Archive_And_Special_Page_SEO_Settings_Ability_Test extends Te
 			'description' => 'The SEO title.',
 		];
 
-		$this->field_repository->allows( 'get_all' )->andReturn( [] );
-		$this->field_repository->allows( 'get_schemas' )->andReturn( [ 'seo_title' => $seo_title ] );
+		$this->field_map->allows( 'get_fields' )->andReturn( [ 'seo_title' => $seo_title ] );
 
 		$args = $this->instance->get_args();
 

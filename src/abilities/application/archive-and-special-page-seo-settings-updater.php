@@ -5,9 +5,7 @@ namespace Yoast\WP\SEO\Abilities\Application;
 
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Domain\Exceptions\Unavailable_Global_Setting_Target_Exception;
-use Yoast\WP\SEO\Abilities\Domain\Global_Setting_Field_Interface;
-use Yoast\WP\SEO\Abilities\Domain\Global_Setting_Target_Interface;
-use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Fields\Global_Setting_Field_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
@@ -22,11 +20,11 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Updater {
 
 	/**
-	 * The global setting field repository.
+	 * The global setting field map.
 	 *
-	 * @var Global_Setting_Field_Repository
+	 * @var Global_Setting_Field_Map
 	 */
-	private $field_repository;
+	private $field_map;
 
 	/**
 	 * The global setting target repository.
@@ -52,18 +50,18 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 	/**
 	 * Constructor.
 	 *
-	 * @param Global_Setting_Field_Repository                 $field_repository  The global setting field repository.
+	 * @param Global_Setting_Field_Map                        $field_map         The global setting field map.
 	 * @param Global_Setting_Target_Repository                $target_repository The global setting target repository.
 	 * @param Archive_And_Special_Page_SEO_Settings_Collector $collector         The archive and special page SEO settings collector.
 	 * @param Options_Helper                                  $options_helper    The options helper.
 	 */
 	public function __construct(
-		Global_Setting_Field_Repository $field_repository,
+		Global_Setting_Field_Map $field_map,
 		Global_Setting_Target_Repository $target_repository,
 		Archive_And_Special_Page_SEO_Settings_Collector $collector,
 		Options_Helper $options_helper
 	) {
-		$this->field_repository  = $field_repository;
+		$this->field_map         = $field_map;
 		$this->target_repository = $target_repository;
 		$this->collector         = $collector;
 		$this->options_helper    = $options_helper;
@@ -75,7 +73,8 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 	 * Updates the global settings of a target and returns its new state.
 	 *
 	 * Only fields present in the input are changed (patch semantics). Fields the target does not have, or that
-	 * cannot be saved, are reported in a warning, while the other fields are still saved.
+	 * cannot be saved, are reported in a warning, while the other fields are still saved. A post type is only used
+	 * for the archive of a content type, and ignored for the other targets.
 	 *
 	 * @param array<string, mixed> $input The target, the post type for the archive of a content type, and the fields
 	 *                                    to change.
@@ -91,18 +90,8 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 			return new WP_Error( $exception->get_error_code(), $exception->getMessage(), [ 'status' => $exception->getCode() ] );
 		}
 
-		$target_fields = $this->field_repository->get_for_target( $target );
-		$warnings      = $this->get_input_warnings( $input, $target, $target_fields );
-
-		$result = $this->update_fields(
-			$this->field_repository->get_schemas( $target_fields ),
-			[],
-			$input,
-			[
-				'target' => $target,
-				'fields' => $target_fields,
-			],
-		);
+		$warnings = [];
+		$result   = $this->update_fields( $this->field_map->get_fields(), $this->field_map->get_validators_for_target( $target ), $input, [ 'target' => $target ] );
 
 		if ( $result['warning'] !== null ) {
 			$warnings[] = $result['warning'];
@@ -126,56 +115,17 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 	 *
 	 * @param string               $field_name The name of the field.
 	 * @param mixed                $value      The value to save.
-	 * @param array<string, mixed> $context    The target in 'target', and the fields it has in 'fields'.
+	 * @param array<string, mixed> $context    The target, under 'target'.
 	 *
 	 * @return bool Whether the field was saved.
 	 */
 	protected function save_field( string $field_name, $value, array $context ): bool {
-		$field = ( $context['fields'][ $field_name ] ?? null );
-		if ( ! $field instanceof Global_Setting_Field_Interface ) {
-			return false;
-		}
-
-		$option_name = $field->get_option_name( $context['target'] );
+		$option_name = $this->field_map->get_option_name( $field_name, $context['target'] );
 		if ( $option_name === null ) {
 			return false;
 		}
 
 		return $this->options_helper->set( $option_name, $value ) === true;
-	}
-
-	/**
-	 * Returns the warnings about the input that is ignored for the target.
-	 *
-	 * @param array<string, mixed>                          $input         The ability input.
-	 * @param Global_Setting_Target_Interface               $target        The target.
-	 * @param array<string, Global_Setting_Field_Interface> $target_fields The fields the target has, keyed by name.
-	 *
-	 * @return array<string> The warnings.
-	 */
-	private function get_input_warnings( array $input, Global_Setting_Target_Interface $target, array $target_fields ): array {
-		$warnings = [];
-
-		if ( isset( $input['post_type'] ) && ! \array_key_exists( 'post_type', $target->get_identifiers() ) ) {
-			$warnings[] = \sprintf(
-				/* translators: 1: the name of a parameter, 2: the name of a target. */
-				\__( 'The %1$s is only used for the %2$s target, so it was ignored.', 'wordpress-seo' ),
-				'post_type',
-				'post_type_archive',
-			);
-		}
-
-		$unsupported = \array_keys( \array_diff_key( \array_intersect_key( $this->field_repository->get_all(), $input ), $target_fields ) );
-		if ( $unsupported !== [] ) {
-			$warnings[] = \sprintf(
-				/* translators: 1: a list of setting names, 2: the name of a target. */
-				\__( 'These settings are not available for %2$s, so they were not saved: %1$s.', 'wordpress-seo' ),
-				\implode( ', ', $unsupported ),
-				$target->get_name(),
-			);
-		}
-
-		return $warnings;
 	}
 
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint

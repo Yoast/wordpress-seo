@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Settings_Collector;
-use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Fields\Global_Setting_Field_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Archive_And_Special_Page_SEO_Settings_Ability;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -30,11 +30,11 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 	private $capability_helper;
 
 	/**
-	 * The global setting field repository mock.
+	 * The global setting field map mock.
 	 *
-	 * @var Mockery\MockInterface|Global_Setting_Field_Repository
+	 * @var Mockery\MockInterface|Global_Setting_Field_Map
 	 */
-	private $field_repository;
+	private $field_map;
 
 	/**
 	 * The global setting target repository mock.
@@ -68,13 +68,13 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 		$this->stubTranslationFunctions();
 
 		$this->capability_helper = Mockery::mock( Capability_Helper::class );
-		$this->field_repository  = Mockery::mock( Global_Setting_Field_Repository::class );
+		$this->field_map         = Mockery::mock( Global_Setting_Field_Map::class );
 		$this->target_repository = Mockery::mock( Global_Setting_Target_Repository::class );
 		$this->collector         = Mockery::mock( Archive_And_Special_Page_SEO_Settings_Collector::class );
 
 		$this->target_repository->allows( 'get_names' )->andReturn( [ 'homepage', 'author_archives', 'date_archives', 'search_page', 'not_found_page', 'post_type_archive' ] );
 
-		$this->instance = new Get_Archive_And_Special_Page_SEO_Settings_Ability( $this->capability_helper, $this->field_repository, $this->target_repository, $this->collector );
+		$this->instance = new Get_Archive_And_Special_Page_SEO_Settings_Ability( $this->capability_helper, $this->field_map, $this->target_repository, $this->collector );
 	}
 
 	/**
@@ -140,8 +140,7 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 	 * @return void
 	 */
 	public function test_get_args() {
-		$this->field_repository->expects( 'get_all' )->once()->andReturn( [] );
-		$this->field_repository->expects( 'get_schemas' )->once()->andReturn(
+		$this->field_map->expects( 'get_fields' )->once()->andReturn(
 			[
 				'seo_title' => [
 					'type'        => 'string',

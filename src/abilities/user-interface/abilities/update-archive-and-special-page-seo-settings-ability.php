@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Settings_Updater;
-use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Fields\Global_Setting_Field_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Post_Type_Archive_Target;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
@@ -29,17 +29,17 @@ class Update_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Arch
 	 * Constructor.
 	 *
 	 * @param Capability_Helper                             $capability_helper The capability helper.
-	 * @param Global_Setting_Field_Repository               $field_repository  The global setting field repository.
+	 * @param Global_Setting_Field_Map                      $field_map         The global setting field map.
 	 * @param Global_Setting_Target_Repository              $target_repository The global setting target repository.
 	 * @param Archive_And_Special_Page_SEO_Settings_Updater $updater           The archive and special page SEO settings updater.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
-		Global_Setting_Field_Repository $field_repository,
+		Global_Setting_Field_Map $field_map,
 		Global_Setting_Target_Repository $target_repository,
 		Archive_And_Special_Page_SEO_Settings_Updater $updater
 	) {
-		parent::__construct( $capability_helper, $field_repository, $target_repository );
+		parent::__construct( $capability_helper, $field_map, $target_repository );
 
 		$this->updater = $updater;
 	}
@@ -109,7 +109,7 @@ class Update_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Arch
 							),
 						],
 					],
-					$this->field_repository->get_schemas( $this->field_repository->get_all() ),
+					$this->field_map->get_fields(),
 				),
 			],
 			'output_schema'       => $output_schema,

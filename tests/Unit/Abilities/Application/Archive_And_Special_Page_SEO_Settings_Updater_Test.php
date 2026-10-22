@@ -8,9 +8,8 @@ use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Settings_Collector;
 use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Settings_Updater;
 use Yoast\WP\SEO\Abilities\Domain\Exceptions\Unavailable_Global_Setting_Target_Exception;
-use Yoast\WP\SEO\Abilities\Domain\Global_Setting_Field_Interface;
 use Yoast\WP\SEO\Abilities\Domain\Global_Setting_Target_Interface;
-use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Fields\Global_Setting_Field_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -27,11 +26,11 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase {
 
 	/**
-	 * The global setting field repository mock.
+	 * The global setting field map mock.
 	 *
-	 * @var Mockery\MockInterface|Global_Setting_Field_Repository
+	 * @var Mockery\MockInterface|Global_Setting_Field_Map
 	 */
-	private $field_repository;
+	private $field_map;
 
 	/**
 	 * The global setting target repository mock.
@@ -55,13 +54,6 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 	private $options_helper;
 
 	/**
-	 * All field mocks, keyed by name.
-	 *
-	 * @var array<string, Mockery\MockInterface|Global_Setting_Field_Interface>
-	 */
-	private $fields;
-
-	/**
 	 * The instance under test.
 	 *
 	 * @var Archive_And_Special_Page_SEO_Settings_Updater
@@ -78,31 +70,26 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 
 		$this->stubTranslationFunctions();
 
-		$this->field_repository  = Mockery::mock( Global_Setting_Field_Repository::class );
+		$this->field_map         = Mockery::mock( Global_Setting_Field_Map::class );
 		$this->target_repository = Mockery::mock( Global_Setting_Target_Repository::class );
 		$this->collector         = Mockery::mock( Archive_And_Special_Page_SEO_Settings_Collector::class );
 		$this->options_helper    = Mockery::mock( Options_Helper::class );
 
-		$this->fields = [
-			'seo_title'        => $this->mock_field( 'string' ),
-			'meta_description' => $this->mock_field( 'string' ),
-			'noindex'          => $this->mock_field( 'boolean' ),
-		];
-
-		$this->field_repository->allows( 'get_all' )->andReturn( $this->fields );
-		$this->field_repository->allows( 'get_schemas' )->andReturnUsing(
-			static function ( $fields ) {
-				return \array_map(
-					static function ( $field ) {
-						return $field->get_schema();
-					},
-					$fields,
-				);
+		$this->field_map->allows( 'get_fields' )->andReturn(
+			[
+				'seo_title'        => [ 'type' => 'string' ],
+				'meta_description' => [ 'type' => 'string' ],
+				'noindex'          => [ 'type' => 'boolean' ],
+			],
+		);
+		$this->field_map->allows( 'get_option_name' )->andReturnUsing(
+			static function ( $field_name, $target ) {
+				return $field_name . '-' . $target->get_name();
 			},
 		);
 
 		$this->instance = new Archive_And_Special_Page_SEO_Settings_Updater(
-			$this->field_repository,
+			$this->field_map,
 			$this->target_repository,
 			$this->collector,
 			$this->options_helper,
@@ -110,38 +97,22 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 	}
 
 	/**
-	 * Creates a field mock that is stored in an option named after the target.
-	 *
-	 * @param string $type The schema type of the field.
-	 *
-	 * @return Mockery\MockInterface|Global_Setting_Field_Interface The field mock.
-	 */
-	private function mock_field( string $type ) {
-		$field = Mockery::mock( Global_Setting_Field_Interface::class );
-		$field->allows( 'get_schema' )->andReturn( [ 'type' => $type ] );
-		$field->allows( 'get_option_name' )->andReturnUsing(
-			static function ( $target ) use ( $type ) {
-				return $type . '-option-' . $target->get_name();
-			},
-		);
-
-		return $field;
-	}
-
-	/**
 	 * Creates a target mock that is available.
 	 *
-	 * @param array<string, string> $identifiers The identifiers of the target.
-	 * @param bool                  $enabled     Whether the target is enabled.
+	 * @param array<string, string>   $identifiers The identifiers of the target.
+	 * @param bool                    $enabled     Whether the target is enabled.
+	 * @param array<string, callable> $validators  The validators the field map returns for the target.
 	 *
 	 * @return Mockery\MockInterface|Global_Setting_Target_Interface The target mock.
 	 */
-	private function mock_target( array $identifiers, bool $enabled ) {
+	private function mock_target( array $identifiers, bool $enabled, array $validators = [] ) {
 		$target = Mockery::mock( Global_Setting_Target_Interface::class );
 		$target->allows( 'ensure_available' );
 		$target->allows( 'get_name' )->andReturn( $identifiers['target'] );
 		$target->allows( 'get_identifiers' )->andReturn( $identifiers );
 		$target->allows( 'is_enabled' )->andReturn( $enabled );
+
+		$this->field_map->allows( 'get_validators_for_target' )->with( $target )->andReturn( $validators );
 
 		return $target;
 	}
@@ -152,7 +123,6 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 	 * @covers ::__construct
 	 * @covers ::update
 	 * @covers ::save_field
-	 * @covers ::get_input_warnings
 	 *
 	 * @return void
 	 */
@@ -166,9 +136,8 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 		);
 
 		$this->target_repository->expects( 'get' )->once()->with( 'post_type_archive', 'portfolio' )->andReturn( $target );
-		$this->field_repository->expects( 'get_for_target' )->once()->with( $target )->andReturn( $this->fields );
-		$this->options_helper->expects( 'set' )->once()->with( 'string-option-post_type_archive', '%%pt_plural%% Archive' )->andReturnTrue();
-		$this->options_helper->expects( 'set' )->once()->with( 'boolean-option-post_type_archive', true )->andReturnTrue();
+		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-post_type_archive', '%%pt_plural%% Archive' )->andReturnTrue();
+		$this->options_helper->expects( 'set' )->once()->with( 'noindex-post_type_archive', true )->andReturnTrue();
 		$this->collector->expects( 'get_target' )->once()->with( $target )->andReturn( [ 'seo_title' => '%%pt_plural%% Archive' ] );
 
 		$this->assertSame(
@@ -228,26 +197,35 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 	}
 
 	/**
-	 * Tests that update skips the fields the target does not have, ignores a post type the target does not use,
-	 * still saves the other fields, and warns about all of it.
+	 * Tests that update skips the fields their validator for the target warns about, still saves the other fields,
+	 * and silently ignores a post type the target does not use.
 	 *
 	 * @covers ::update
-	 * @covers ::get_input_warnings
 	 *
 	 * @return void
 	 */
-	public function test_update_with_ignored_input() {
-		$target = $this->mock_target( [ 'target' => 'search_page' ], true );
+	public function test_update_with_invalid_fields() {
+		$warn = static function ( $value, $field_name ) {
+			return 'The ' . $field_name . ' setting is invalid.';
+		};
+
+		$target = $this->mock_target(
+			[ 'target' => 'search_page' ],
+			true,
+			[
+				'meta_description' => $warn,
+				'noindex'          => $warn,
+			],
+		);
 
 		$this->target_repository->expects( 'get' )->once()->with( 'search_page', 'page' )->andReturn( $target );
-		$this->field_repository->expects( 'get_for_target' )->once()->with( $target )->andReturn( [ 'seo_title' => $this->fields['seo_title'] ] );
-		$this->options_helper->expects( 'set' )->once()->with( 'string-option-search_page', 'Search' )->andReturnTrue();
+		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-search_page', 'Search' )->andReturnTrue();
 		$this->collector->expects( 'get_target' )->once()->with( $target )->andReturn( [ 'seo_title' => 'Search' ] );
 
 		$this->assertSame(
 			[
 				'seo_title' => 'Search',
-				'warning'   => 'The post_type is only used for the post_type_archive target, so it was ignored. These settings are not available for search_page, so they were not saved: meta_description, noindex.',
+				'warning'   => 'The meta_description setting is invalid. The noindex setting is invalid. The other settings were saved.',
 			],
 			$this->instance->update(
 				[
@@ -274,14 +252,8 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 		$target = $this->mock_target( [ 'target' => 'author_archives' ], false );
 
 		$this->target_repository->expects( 'get' )->once()->with( 'author_archives', '' )->andReturn( $target );
-		$this->field_repository->expects( 'get_for_target' )->once()->with( $target )->andReturn(
-			[
-				'seo_title'        => $this->fields['seo_title'],
-				'meta_description' => $this->fields['meta_description'],
-			],
-		);
-		$this->options_helper->expects( 'set' )->once()->with( 'string-option-author_archives', '%%name%%' )->andReturnTrue();
-		$this->options_helper->expects( 'set' )->once()->with( 'string-option-author_archives', '<b>Bold</b>' )->andReturnFalse();
+		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-author_archives', '%%name%%' )->andReturnTrue();
+		$this->options_helper->expects( 'set' )->once()->with( 'meta_description-author_archives', '<b>Bold</b>' )->andReturnFalse();
 		$this->collector->expects( 'get_target' )->once()->with( $target )->andReturn( [ 'seo_title' => '%%name%%' ] );
 
 		$this->assertSame(
@@ -306,17 +278,22 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 	 *
 	 * @return void
 	 */
-	public function test_save_field_without_field() {
+	public function test_save_field_without_option() {
+		$target = Mockery::mock( Global_Setting_Target_Interface::class );
+
+		$field_map = Mockery::mock( Global_Setting_Field_Map::class );
+		$field_map->expects( 'get_option_name' )->once()->with( 'noindex', $target )->andReturnNull();
+
 		$this->options_helper->expects( 'set' )->never();
 
-		$instance = new class( $this->field_repository, $this->target_repository, $this->collector, $this->options_helper ) extends Archive_And_Special_Page_SEO_Settings_Updater {
+		$instance = new class( $field_map, $this->target_repository, $this->collector, $this->options_helper ) extends Archive_And_Special_Page_SEO_Settings_Updater {
 
 			/**
 			 * Exposes save_field.
 			 *
 			 * @param string               $field_name The name of the field.
 			 * @param mixed                $value      The value to save.
-			 * @param array<string, mixed> $context    The target in 'target', and the fields it has in 'fields'.
+			 * @param array<string, mixed> $context    The target, under 'target'.
 			 *
 			 * @return bool Whether the field was saved.
 			 */
@@ -325,15 +302,6 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 			}
 		};
 
-		$this->assertFalse(
-			$instance->save(
-				'noindex',
-				true,
-				[
-					'target' => Mockery::mock( Global_Setting_Target_Interface::class ),
-					'fields' => [],
-				],
-			),
-		);
+		$this->assertFalse( $instance->save( 'noindex', true, [ 'target' => $target ] ) );
 	}
 }

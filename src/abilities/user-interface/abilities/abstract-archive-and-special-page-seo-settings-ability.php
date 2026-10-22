@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use Yoast\WP\SEO\Abilities\Domain\Ability_Interface;
-use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Fields\Global_Setting_Field_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Post_Type_Archive_Target;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -25,11 +25,11 @@ abstract class Abstract_Archive_And_Special_Page_SEO_Settings_Ability implements
 	private $capability_helper;
 
 	/**
-	 * The global setting field repository.
+	 * The global setting field map.
 	 *
-	 * @var Global_Setting_Field_Repository
+	 * @var Global_Setting_Field_Map
 	 */
-	protected $field_repository;
+	protected $field_map;
 
 	/**
 	 * The global setting target repository.
@@ -42,16 +42,16 @@ abstract class Abstract_Archive_And_Special_Page_SEO_Settings_Ability implements
 	 * Constructor.
 	 *
 	 * @param Capability_Helper                $capability_helper The capability helper.
-	 * @param Global_Setting_Field_Repository  $field_repository  The global setting field repository.
+	 * @param Global_Setting_Field_Map         $field_map         The global setting field map.
 	 * @param Global_Setting_Target_Repository $target_repository The global setting target repository.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
-		Global_Setting_Field_Repository $field_repository,
+		Global_Setting_Field_Map $field_map,
 		Global_Setting_Target_Repository $target_repository
 	) {
 		$this->capability_helper = $capability_helper;
-		$this->field_repository  = $field_repository;
+		$this->field_map         = $field_map;
 		$this->target_repository = $target_repository;
 	}
 
@@ -109,7 +109,7 @@ abstract class Abstract_Archive_And_Special_Page_SEO_Settings_Ability implements
 						),
 					],
 				],
-				\array_map( [ $this, 'to_output_schema' ], $this->field_repository->get_schemas( $this->field_repository->get_all() ) ),
+				\array_map( [ $this, 'to_output_schema' ], $this->field_map->get_fields() ),
 				[
 					'enabled' => [
 						'type'        => 'boolean',

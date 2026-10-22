@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Settings_Collector;
-use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Fields\Global_Setting_Field_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -27,17 +27,17 @@ class Get_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Archive
 	 * Constructor.
 	 *
 	 * @param Capability_Helper                               $capability_helper The capability helper.
-	 * @param Global_Setting_Field_Repository                 $field_repository  The global setting field repository.
+	 * @param Global_Setting_Field_Map                        $field_map         The global setting field map.
 	 * @param Global_Setting_Target_Repository                $target_repository The global setting target repository.
 	 * @param Archive_And_Special_Page_SEO_Settings_Collector $collector         The archive and special page SEO settings collector.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
-		Global_Setting_Field_Repository $field_repository,
+		Global_Setting_Field_Map $field_map,
 		Global_Setting_Target_Repository $target_repository,
 		Archive_And_Special_Page_SEO_Settings_Collector $collector
 	) {
-		parent::__construct( $capability_helper, $field_repository, $target_repository );
+		parent::__construct( $capability_helper, $field_map, $target_repository );
 
 		$this->collector = $collector;
 	}
