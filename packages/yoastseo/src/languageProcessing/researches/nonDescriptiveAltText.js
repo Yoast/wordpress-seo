@@ -142,17 +142,41 @@ const isNonDescriptiveInAnyLanguage = ( altText, src ) => ONLY_NUMBERS_AND_PUNCT
 	getFileNames( src ).includes( altText.toLowerCase() );
 
 /**
+ * Returns the alt text of an image, prepared for matching: with the protected HTML entities of a text image turned
+ * back into their characters, the whitespace collapsed, and trimmed.
+ *
+ * The tree builder changes "&nbsp;" into "#nbsp;" in the whole text, attributes included, and `getAltAttribute` does
+ * not change it back. Without this, `alt="Product&nbsp;image"` would be read as "Product#nbsp;image" and missed.
+ * The alt text of a provided image is not changed: it never went through the tree builder, so a "#nbsp;" in it is
+ * real text.
+ *
+ * @param {string}  altText         The alt text, as `getAltAttribute` returns it.
+ * @param {boolean} isFromTheText   Whether the image comes from the text, rather than from the provided images.
+ *
+ * @returns {string} The prepared alt text.
+ */
+const prepareAltText = ( altText, isFromTheText ) => {
+	const restored = isFromTheText
+		? altText.replace( HASHED_HTML_ENTITY, ( entity ) => hashedHtmlEntities.get( entity.toLowerCase() ) )
+		: altText;
+
+	return restored.replace( /\s+/g, " " ).trim();
+};
+
+/**
  * Counts how many of the images in scope have alt text that consists only of a meaningless phrase: a placeholder,
  * a file name, or a generic default such as "Product image" that says nothing about the image.
  *
  * The whole alt text is matched, not a part of it: "Product image" is counted, "Product image of a red bike on a
- * beach" is not. Before matching, the whitespace inside the alt text is collapsed.
+ * beach" is not. Before matching, HTML entities are turned back into characters and the whitespace inside the alt
+ * text is collapsed (see `prepareAltText`).
  *
  * Two kinds of checks apply:
  * - checks that work in every language, also in a language without its own phrases: only numbers or punctuation,
- *   a name ending in an image file extension, a file name that cameras, phones or WhatsApp generate, and the exact
- *   file name of the image (with or without the extension, or without the suffix of a scaled, edited or resized copy
- *   such as "-1024x576", "_800x", "-scaled", "-edited" or "-e1700000000000", ignoring case);
+ *   a name ending in an image file extension, a file name that cameras, phones, WhatsApp or screenshot tools
+ *   generate, and the exact file name of the image (with or without the extension, or without the suffix of a
+ *   scaled, edited or resized copy such as "-1024x576", "_800x", "-scaled", "-edited" or "-e1700000000000", ignoring
+ *   case);
  * - language-specific phrases. A language supplies them as a regex through the `nonDescriptiveAltText` config.
  *   The regex is tested against the alt text without a trailing number, so a phrase such as "image" also matches
  *   "image 1", "image1" and "image (1)". The regex has to match the whole text, so it needs `^` and `$`.
@@ -181,14 +205,18 @@ export default function nonDescriptiveAltText( paper, researcher ) {
 		flagged: [],
 	};
 
-	getImagesInScope( paper ).forEach( ( image ) => {
-		const altText = getAltAttribute( image ).replace( /\s+/g, " " );
+	const isFromTheText = ! paper.hasProvidedImages();
 
-		if ( altText === "" ) {
+	getImagesInScope( paper ).forEach( ( image ) => {
+		const rawAltText = getAltAttribute( image );
+
+		if ( rawAltText === "" ) {
 			return;
 		}
 
-		const isNonDescriptive = isNonDescriptiveInAnyLanguage( altText, image.attributes?.src || "" ) ||
+		// Empty after preparing means the alt text is only non-breaking spaces, which is as meaningless as "-".
+		const altText = prepareAltText( rawAltText, isFromTheText );
+		const isNonDescriptive = altText === "" || isNonDescriptiveInAnyLanguage( altText, image.attributes?.src || "" ) ||
 			( !! phrasePattern && phrasePattern.test( removeTrailingNumber( altText ) ) );
 
 		if ( ! isNonDescriptive ) {
