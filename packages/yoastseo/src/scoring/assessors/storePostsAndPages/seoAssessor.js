@@ -10,6 +10,7 @@ import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWo
 import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment.js";
 import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment.js";
 import AltTextLengthAssessment from "../../assessments/seo/AltTextLengthAssessment.js";
+import DuplicateAltTextAssessment from "../../assessments/seo/DuplicateAltTextAssessment.js";
 import RedundantPhraseInAltTextAssessment from "../../assessments/seo/RedundantPhraseInAltTextAssessment.js";
 import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment.js";
 import OutboundLinksAssessment from "../../assessments/seo/OutboundLinksAssessment.js";
@@ -73,6 +74,10 @@ export default class StorePostsAndPagesSEOAssessor extends SEOAssessor {
 			new AltTextLengthAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-length" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-length-cta" ),
+			} ),
+			new DuplicateAltTextAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-duplicate-alt-text" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify-duplicate-alt-text-cta" ),
 			} ),
 			new RedundantPhraseInAltTextAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-redundant-phrase-in-alt-text" ),
