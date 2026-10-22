@@ -139,7 +139,7 @@ class ReadabilityAnalysis extends Component {
 	 * Renders the Yoast AI Optimize button.
 	 * The button is shown when:
 	 * - The assessment can be fixed through Yoast AI Optimize.
-	 * - The AI feature is enabled (for Yoast SEO Premium users; for Free users, the button is shown with an upsell).
+	 * - The AI feature is enabled (in Free, the button is shown with an upsell).
 	 * - We are in the block editor or classic editor.
 	 * - We are not in the Elementor editor, nor in the Elementor in-between screen.
 	 * - We are not in a Taxonomy.
@@ -153,8 +153,8 @@ class ReadabilityAnalysis extends Component {
 		const { isElementor, isAiFeatureEnabled, isTerm } = this.props;
 		const isPremium = getL10nObject().isPremium;
 
-		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
-		if ( isPremium && ! isAiFeatureEnabled ) {
+		// Don't show the button if the AI feature is not enabled.
+		if ( ! isAiFeatureEnabled ) {
 			return;
 		}
 		const shouldRenderAIButton = shouldRenderAIOptimizeButton( hasAIFixes, isElementor, isTerm );

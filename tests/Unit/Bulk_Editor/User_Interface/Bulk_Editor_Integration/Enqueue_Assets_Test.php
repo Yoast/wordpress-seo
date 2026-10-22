@@ -66,15 +66,16 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 	/**
 	 * Tests enqueuing the assets.
 	 *
-	 * @param mixed         $shortcode_tags      The WordPress shortcode tags global, or null to leave it unset.
-	 * @param array<string> $expected_shortcodes The shortcode tags expected in the localized script data.
-	 * @param bool          $is_woo_seo_inactive Whether Yoast WooCommerce SEO is inactive.
+	 * @param mixed         $shortcode_tags             The WordPress shortcode tags global, or null to leave it unset.
+	 * @param array<string> $expected_shortcodes        The shortcode tags expected in the localized script data.
+	 * @param bool          $is_woo_seo_inactive        Whether Yoast WooCommerce SEO is inactive.
+	 * @param bool          $is_keyword_analysis_active Whether the SEO analysis is on for the current user.
 	 *
 	 * @dataProvider data_shortcode_tags
 	 *
 	 * @return void
 	 */
-	public function test_enqueue_assets( $shortcode_tags, array $expected_shortcodes, bool $is_woo_seo_inactive ) {
+	public function test_enqueue_assets( $shortcode_tags, array $expected_shortcodes, bool $is_woo_seo_inactive, bool $is_keyword_analysis_active ) {
 		$this->stubEscapeFunctions();
 		$this->stub_wpseo_admin_replace_vars_dependencies();
 
@@ -108,7 +109,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 		Functions\expect( 'rest_url' )->once()->withNoArgs()->andReturn( 'https://example.com/wp-json/' );
 		$this->product_helper->expects( 'is_premium' )->once()->andReturn( false );
 		$this->options_helper->expects( 'get' )->once()->with( 'enable_ai_generator' )->andReturn( true );
-		$this->options_helper->expects( 'get' )->once()->with( 'keyword_analysis_active' )->andReturn( true );
+		$this->keyphrase_analysis->expects( 'is_enabled' )->once()->andReturn( $is_keyword_analysis_active );
 		$this->woo_seo_inactive_conditional->expects( 'is_met' )->once()->andReturn( $is_woo_seo_inactive );
 		$this->addon_manager->allows( 'get_installed_addons_versions' )
 			->andReturn( [ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG => '17.1' ] );
@@ -157,8 +158,8 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 				Bulk_Editor_Integration::ASSETS_NAME,
 				'wpseoBulkEditorData',
 				Mockery::on(
-					static function ( $data ) use ( $content_types, $expected_shortcodes, $is_woo_seo_inactive ) {
-						return self::is_expected_script_data( $data, $content_types, $expected_shortcodes, $is_woo_seo_inactive );
+					static function ( $data ) use ( $content_types, $expected_shortcodes, $is_woo_seo_inactive, $is_keyword_analysis_active ) {
+						return self::is_expected_script_data( $data, $content_types, $expected_shortcodes, $is_woo_seo_inactive, $is_keyword_analysis_active );
 					},
 				),
 			);
@@ -169,14 +170,15 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 	/**
 	 * Checks the localized script data.
 	 *
-	 * @param array<string, mixed>         $data                The localized script data.
-	 * @param array<array<string, string>> $content_types       The expected content types.
-	 * @param array<string>                $expected_shortcodes The expected shortcode tags.
-	 * @param bool                         $is_woo_seo_inactive Whether Yoast WooCommerce SEO is inactive.
+	 * @param array<string, mixed>         $data                       The localized script data.
+	 * @param array<array<string, string>> $content_types              The expected content types.
+	 * @param array<string>                $expected_shortcodes        The expected shortcode tags.
+	 * @param bool                         $is_woo_seo_inactive        Whether Yoast WooCommerce SEO is inactive.
+	 * @param bool                         $is_keyword_analysis_active Whether the SEO analysis is on for the current user.
 	 *
 	 * @return bool Whether the data is as expected.
 	 */
-	private static function is_expected_script_data( array $data, array $content_types, array $expected_shortcodes, bool $is_woo_seo_inactive ): bool {
+	private static function is_expected_script_data( array $data, array $content_types, array $expected_shortcodes, bool $is_woo_seo_inactive, bool $is_keyword_analysis_active ): bool {
 		$preferences = $data['preferences'];
 
 		return $data['contentTypes'] === $content_types
@@ -188,6 +190,7 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			&& \strpos( $preferences['premiumUpdateUrl'], 'plugin=wordpress-seo-premium%2Fwp-seo-premium.php' ) !== false
 			&& $preferences['wooSeoUpdateUrl'] === ''
 			&& $data['analysis']['shortcodes'] === $expected_shortcodes
+			&& $data['analysis']['keywordAnalysisActive'] === $is_keyword_analysis_active
 			&& \array_key_exists( 'replacementVariables', $data )
 			&& \array_key_exists( 'variables', $data['replacementVariables'] )
 			&& \array_key_exists( 'recommended', $data['replacementVariables'] )
@@ -205,33 +208,44 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 	 */
 	public static function data_shortcode_tags(): array {
 		return [
-			'registered shortcode tags' => [
-				'shortcode_tags'      => [
+			'registered shortcode tags'     => [
+				'shortcode_tags'             => [
 					'gallery' => 'gallery_shortcode',
 					'caption' => 'caption_shortcode',
 				],
-				'expected_shortcodes' => [ 'gallery', 'caption' ],
-				'is_woo_seo_inactive' => true,
+				'expected_shortcodes'        => [ 'gallery', 'caption' ],
+				'is_woo_seo_inactive'        => true,
+				'is_keyword_analysis_active' => true,
 			],
-			'woo seo is active'         => [
-				'shortcode_tags'      => [],
-				'expected_shortcodes' => [],
-				'is_woo_seo_inactive' => false,
+			'woo seo is active'             => [
+				'shortcode_tags'             => [],
+				'expected_shortcodes'        => [],
+				'is_woo_seo_inactive'        => false,
+				'is_keyword_analysis_active' => true,
 			],
-			'no shortcodes registered'  => [
-				'shortcode_tags'      => [],
-				'expected_shortcodes' => [],
-				'is_woo_seo_inactive' => true,
+			'no shortcodes registered'      => [
+				'shortcode_tags'             => [],
+				'expected_shortcodes'        => [],
+				'is_woo_seo_inactive'        => true,
+				'is_keyword_analysis_active' => true,
 			],
-			'the global is unset'       => [
-				'shortcode_tags'      => null,
-				'expected_shortcodes' => [],
-				'is_woo_seo_inactive' => true,
+			'the global is unset'           => [
+				'shortcode_tags'             => null,
+				'expected_shortcodes'        => [],
+				'is_woo_seo_inactive'        => true,
+				'is_keyword_analysis_active' => true,
 			],
-			'the global is malformed'   => [
-				'shortcode_tags'      => 'not an array',
-				'expected_shortcodes' => [],
-				'is_woo_seo_inactive' => true,
+			'seo analysis off for the user' => [
+				'shortcode_tags'             => [],
+				'expected_shortcodes'        => [],
+				'is_woo_seo_inactive'        => true,
+				'is_keyword_analysis_active' => false,
+			],
+			'the global is malformed'       => [
+				'shortcode_tags'             => 'not an array',
+				'expected_shortcodes'        => [],
+				'is_woo_seo_inactive'        => true,
+				'is_keyword_analysis_active' => true,
 			],
 		];
 	}
