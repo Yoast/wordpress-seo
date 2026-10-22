@@ -195,6 +195,34 @@ say "product images" where the defaults say "images".
 |---------------|-------|----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Orange        | 6     | At least 1 image has alt text with a redundant phrase | **Redundant phrase in alt text**: X of your product images have alt text with a phrase like "Image of" or similar. **Remove it as screen readers already announce that it's an image. You may keep phrases that describe the type of image (e.g. “photograph”, “illustration”, “screenshot”) if the type is worth pointing out.** |
 
+### 5) Non-descriptive alt text
+**What it does**: Checks whether the assessed images have alt text that consists only of a meaningless phrase, such as
+a placeholder, a file name or "Product image". By default it assesses the images in the text; a platform can scope it to
+the product's own images (featured, gallery, variations) instead, by providing the Paper's `providedImages` attribute.
+
+Some checks work in every language; the phrases are language-specific. See
+[the regular assessment](SCORING%20SEO.md#11-non-descriptive-alt-text) for what is flagged.
+
+**When it applies**: Only when at least one assessed image has non-descriptive alt text.
+
+**Name in code**: NonDescriptiveAltTextAssessment
+
+**Product config**: the checks and the score are the same as in the regular SEO assessor — red with a score of 3.
+Only the feedback strings differ: on a product page the images being assessed are the product's own, so a platform can
+say "product images" where the defaults say "images".
+
+**Feedback strings**: a platform supplies these through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `nonDescriptiveCount`, and must return
+`nonDescriptive`. The returned object is used as is.
+
+**Title URL**: https://yoa.st/non-descriptive-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/non-descriptive-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                     | Feedback                                                                                                                                                                       |
+|---------------|-------|-----------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red           | 3     | At least 1 image has non-descriptive alt text | **Non-descriptive alt text**: X of your product images have alt text that doesn't describe the image. **Describe what the image shows, or leave the alt text empty if the image is decorative.** |
+
 ### Assessments unique to product pages
 ### 1) Image alt attributes
 **What it does**: Checks if all assessed images have alt attributes. By default it assesses the images in the text; a platform can scope all image assessments to the product's own images (featured, gallery, variations) instead, by providing the Paper's `providedImages` attribute — an empty array counts as a product without images.

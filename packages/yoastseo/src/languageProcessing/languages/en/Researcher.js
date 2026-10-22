@@ -4,6 +4,7 @@ const { AbstractResearcher } = languageProcessing;
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
 import { all as functionWords } from "./config/functionWords";
+import nonDescriptiveAltText from "./config/nonDescriptiveAltText";
 import redundantPhraseInAltText from "./config/redundantPhraseInAltText";
 import stopWords from "./config/stopWords";
 import transitionWords from "./config/transitionWords";
@@ -32,6 +33,7 @@ export default class Researcher extends AbstractResearcher {
 			passiveConstructionType: "periphrastic",
 			firstWordExceptions,
 			functionWords,
+			nonDescriptiveAltText,
 			redundantPhraseInAltText,
 			stopWords,
 			transitionWords,
