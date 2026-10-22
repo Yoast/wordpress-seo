@@ -37,6 +37,9 @@ const renderResultButton = ( props, id, hasAIFixes = true ) => render(
 		<Fill name={ getAssessmentButtonSlotName( "nonDescriptiveAltText", "metabox" ) }>
 			<button>Fix alt text with AI</button>
 		</Fill>
+		<Fill name={ getAssessmentButtonSlotName( "duplicateAltText", "metabox" ) }>
+			<button>Fix duplicate alt text with AI</button>
+		</Fill>
 		<LocationProvider value="metabox">
 			{ new SeoAnalysis( { ...SeoAnalysis.defaultProps, ...props } ).renderAIOptimizeButton( hasAIFixes, id ) }
 		</LocationProvider>
@@ -91,6 +94,20 @@ describe( "SeoAnalysis.renderAIOptimizeButton", () => {
 		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "nonDescriptiveAltText", false );
 
 		expect( screen.queryByRole( "button", { name: "Fix alt text with AI" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "renders the duplicate alt text slot for the Duplicate alt text assessment", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "duplicateAltText", false );
+
+		expect( screen.getByRole( "button", { name: "Fix duplicate alt text with AI" } ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "does not render the duplicate alt text slot when the AI feature is disabled in Premium", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "duplicateAltText", false );
+
+		expect( screen.queryByRole( "button", { name: "Fix duplicate alt text with AI" } ) ).not.toBeInTheDocument();
 	} );
 
 	it( "still renders the AI Optimize button for the other assessments", () => {
