@@ -5,6 +5,9 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 /**
  * Base class for the abilities that read or write the SEO data of a post.
+ *
+ * @TODO: Deprecate in favour of SEO_Data_Output_Schema, as the term abilities already do. Add a get_post_output_schema()
+ *        built on its shared properties, inject it into the post abilities and have them extend Abstract_SEO_Data_Ability.
  */
 abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 

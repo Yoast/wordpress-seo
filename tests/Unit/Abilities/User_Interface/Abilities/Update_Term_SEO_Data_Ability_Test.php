@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Abilities\Infrastructure\Term_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_SEO_Meta_Writer;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Update_Term_SEO_Data_Ability;
 use Yoast\WP\SEO\Abilities\User_Interface\AI_Generate_Upsell;
+use Yoast\WP\SEO\Abilities\User_Interface\SEO_Data_Output_Schema;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
@@ -55,6 +56,13 @@ final class Update_Term_SEO_Data_Ability_Test extends TestCase {
 	private $ai_generate_upsell;
 
 	/**
+	 * The SEO data output schema mock.
+	 *
+	 * @var Mockery\MockInterface|SEO_Data_Output_Schema
+	 */
+	private $output_schema;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Update_Term_SEO_Data_Ability
@@ -75,12 +83,14 @@ final class Update_Term_SEO_Data_Ability_Test extends TestCase {
 		$this->should_index_indexables_conditional = Mockery::mock( Should_Index_Indexables_Conditional::class );
 		$this->term_seo_data_updater               = Mockery::mock( Term_SEO_Data_Updater::class );
 		$this->ai_generate_upsell                  = Mockery::mock( AI_Generate_Upsell::class );
+		$this->output_schema                       = Mockery::mock( SEO_Data_Output_Schema::class );
 
 		$this->instance = new Update_Term_SEO_Data_Ability(
 			$this->capability_helper,
 			$this->should_index_indexables_conditional,
 			$this->term_seo_data_updater,
 			$this->ai_generate_upsell,
+			$this->output_schema,
 		);
 	}
 
@@ -125,17 +135,18 @@ final class Update_Term_SEO_Data_Ability_Test extends TestCase {
 	 * @covers ::get_args
 	 * @covers ::get_update_term_seo_data_input_schema
 	 * @covers ::ai_generate_field_schema
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Term_SEO_Data_Ability::get_term_seo_data_output_schema
 	 *
 	 * @return void
 	 */
 	public function test_get_args() {
-		$output_schema = [ 'decorated' => true ];
+		$term_output_schema = [ 'type' => 'object' ];
+		$output_schema      = [ 'decorated' => true ];
 
+		$this->output_schema->expects( 'get_term_output_schema' )->once()->andReturn( $term_output_schema );
 		$this->ai_generate_upsell
 			->expects( 'add_to_schema' )
 			->once()
-			->with( $this->get_expected_output_schema() )
+			->with( $term_output_schema )
 			->andReturn( $output_schema );
 
 		$this->assertSame(
@@ -208,6 +219,7 @@ final class Update_Term_SEO_Data_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_every_writable_input_field_cascades_to_term_meta() {
+		$this->output_schema->expects( 'get_term_output_schema' )->once()->andReturn( [] );
 		$this->ai_generate_upsell->expects( 'add_to_schema' )->once()->andReturnArg( 0 );
 
 		$input_schema = $this->instance->get_args()['input_schema'];

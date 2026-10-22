@@ -7,7 +7,7 @@ use Brain\Monkey;
 use Mockery;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Term_SEO_Data_Updater;
-use Yoast\WP\SEO\Abilities\Infrastructure\Term_Access_Checker;
+use Yoast\WP\SEO\Abilities\Infrastructure\Indexable_Access_Checker;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_SEO_Meta_Writer;
@@ -39,11 +39,11 @@ final class Term_SEO_Data_Updater_Test extends TestCase {
 	private $field_map;
 
 	/**
-	 * The term access checker mock.
+	 * The indexable access checker mock.
 	 *
-	 * @var Mockery\MockInterface|Term_Access_Checker
+	 * @var Mockery\MockInterface|Indexable_Access_Checker
 	 */
-	private $term_access_checker;
+	private $access_checker;
 
 	/**
 	 * The term SEO meta writer mock.
@@ -84,16 +84,16 @@ final class Term_SEO_Data_Updater_Test extends TestCase {
 			],
 		);
 
-		$this->resolver            = Mockery::mock( Term_Identifier_Resolver::class );
-		$this->field_map           = Mockery::mock( Term_SEO_Field_Map::class );
-		$this->term_access_checker = Mockery::mock( Term_Access_Checker::class );
-		$this->meta_writer         = Mockery::mock( Term_SEO_Meta_Writer::class );
-		$this->indexable_builder   = Mockery::mock( Indexable_Builder::class );
+		$this->resolver          = Mockery::mock( Term_Identifier_Resolver::class );
+		$this->field_map         = Mockery::mock( Term_SEO_Field_Map::class );
+		$this->access_checker    = Mockery::mock( Indexable_Access_Checker::class );
+		$this->meta_writer       = Mockery::mock( Term_SEO_Meta_Writer::class );
+		$this->indexable_builder = Mockery::mock( Indexable_Builder::class );
 
 		$this->instance = new Term_SEO_Data_Updater(
 			$this->resolver,
 			$this->field_map,
-			$this->term_access_checker,
+			$this->access_checker,
 			$this->meta_writer,
 			$this->indexable_builder,
 		);
@@ -119,7 +119,7 @@ final class Term_SEO_Data_Updater_Test extends TestCase {
 		$rebuilt              = Mockery::mock();
 
 		$this->resolver->expects( 'resolve_one' )->once()->with( $input )->andReturn( $indexable );
-		$this->term_access_checker->expects( 'ensure_can_edit' )->once()->with( 7 )->andReturn( true );
+		$this->access_checker->expects( 'ensure_can_edit' )->once()->with( $indexable )->andReturn( true );
 		$this->field_map
 			->expects( 'apply_to_indexable' )
 			->once()
@@ -173,7 +173,7 @@ final class Term_SEO_Data_Updater_Test extends TestCase {
 		$error                = Mockery::mock( WP_Error::class );
 
 		$this->resolver->expects( 'resolve_one' )->once()->andReturn( $indexable );
-		$this->term_access_checker->expects( 'ensure_can_edit' )->once()->with( 7 )->andReturn( $error );
+		$this->access_checker->expects( 'ensure_can_edit' )->once()->with( $indexable )->andReturn( $error );
 		$this->field_map->expects( 'apply_to_indexable' )->never();
 		$this->meta_writer->expects( 'write_columns' )->never();
 		$this->indexable_builder->expects( 'build_for_id_and_type' )->never();
@@ -194,7 +194,7 @@ final class Term_SEO_Data_Updater_Test extends TestCase {
 		$indexable->object_id = 7;
 
 		$this->resolver->expects( 'resolve_one' )->once()->andReturn( $indexable );
-		$this->term_access_checker->expects( 'ensure_can_edit' )->once()->andReturn( true );
+		$this->access_checker->expects( 'ensure_can_edit' )->once()->andReturn( true );
 		$this->field_map->expects( 'apply_to_indexable' )->once()->andReturn( [ 'title' ] );
 		$this->meta_writer->expects( 'write_columns' )->once()->with( $indexable, [ 'title' ] )->andReturnFalse();
 		$this->indexable_builder->expects( 'build_for_id_and_type' )->never();
@@ -215,7 +215,7 @@ final class Term_SEO_Data_Updater_Test extends TestCase {
 		$indexable->object_id = 7;
 
 		$this->resolver->expects( 'resolve_one' )->once()->andReturn( $indexable );
-		$this->term_access_checker->expects( 'ensure_can_edit' )->once()->andReturn( true );
+		$this->access_checker->expects( 'ensure_can_edit' )->once()->andReturn( true );
 		$this->field_map->expects( 'apply_to_indexable' )->once()->andReturn( [ 'title' ] );
 		$this->meta_writer->expects( 'write_columns' )->once()->andReturnTrue();
 		$this->indexable_builder

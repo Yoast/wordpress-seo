@@ -5,12 +5,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Term_SEO_Data_Collector;
-use Yoast\WP\SEO\Abilities\Infrastructure\Term_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Term_SEO_Data_Ability;
+use Yoast\WP\SEO\Abilities\User_Interface\SEO_Data_Output_Schema;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
-use Yoast\WP\SEO\Surfaces\Meta_Surface;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -46,6 +44,13 @@ final class Get_Term_SEO_Data_Ability_Test extends TestCase {
 	private $term_seo_data_collector;
 
 	/**
+	 * The SEO data output schema mock.
+	 *
+	 * @var Mockery\MockInterface|SEO_Data_Output_Schema
+	 */
+	private $output_schema;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Get_Term_SEO_Data_Ability
@@ -65,11 +70,13 @@ final class Get_Term_SEO_Data_Ability_Test extends TestCase {
 		$this->capability_helper                   = Mockery::mock( Capability_Helper::class );
 		$this->should_index_indexables_conditional = Mockery::mock( Should_Index_Indexables_Conditional::class );
 		$this->term_seo_data_collector             = Mockery::mock( Term_SEO_Data_Collector::class );
+		$this->output_schema                       = Mockery::mock( SEO_Data_Output_Schema::class );
 
 		$this->instance = new Get_Term_SEO_Data_Ability(
 			$this->capability_helper,
 			$this->should_index_indexables_conditional,
 			$this->term_seo_data_collector,
+			$this->output_schema,
 		);
 	}
 
@@ -129,11 +136,14 @@ final class Get_Term_SEO_Data_Ability_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_args
 	 * @covers ::get_term_identifier_input_schema
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Term_SEO_Data_Ability::get_term_seo_data_output_schema
 	 *
 	 * @return void
 	 */
 	public function test_get_args() {
+		$output_schema = [ 'type' => 'object' ];
+
+		$this->output_schema->expects( 'get_term_output_schema' )->once()->andReturn( $output_schema );
+
 		$this->assertSame(
 			[
 				'label'               => 'Get Term SEO Data',
@@ -154,7 +164,7 @@ final class Get_Term_SEO_Data_Ability_Test extends TestCase {
 						],
 					],
 				],
-				'output_schema'       => $this->get_expected_output_schema(),
+				'output_schema'       => $output_schema,
 				'permission_callback' => [ $this->instance, 'can_edit_advanced_metadata' ],
 				'execute_callback'    => [ $this->term_seo_data_collector, 'get_term_seo_data' ],
 				'meta'                => [
@@ -170,39 +180,6 @@ final class Get_Term_SEO_Data_Ability_Test extends TestCase {
 				],
 			],
 			$this->instance->get_args(),
-		);
-	}
-
-	/**
-	 * Tests that the SEO data array built by the field map exposes exactly the
-	 * properties documented in the output schema.
-	 *
-	 * The field contract is spread over hand-maintained structures (the output schema
-	 * and Term_SEO_Field_Map) which fail silently when they drift: a field missing from
-	 * either side is simply never surfaced to the ability's consumers. This test turns
-	 * that drift into a failure.
-	 *
-	 * @covers ::get_args
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Term_SEO_Data_Ability::get_term_seo_data_output_schema
-	 *
-	 * @return void
-	 */
-	public function test_output_schema_matches_field_map_output() {
-		$output_schema = $this->instance->get_args()['output_schema'];
-
-		$meta_surface = Mockery::mock( Meta_Surface::class );
-		$meta_surface->expects( 'for_indexable' )->andReturnFalse();
-		$field_map = new Term_SEO_Field_Map( $meta_surface );
-
-		$schema_properties = \array_keys( $output_schema['properties'] );
-		$output_fields     = \array_keys( $field_map->to_seo_array( Mockery::mock( Indexable_Mock::class ) ) );
-		\sort( $schema_properties );
-		\sort( $output_fields );
-
-		$this->assertSame(
-			$schema_properties,
-			$output_fields,
-			'The output schema and Term_SEO_Field_Map::to_seo_array() must describe the same set of fields.',
 		);
 	}
 }

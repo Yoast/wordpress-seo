@@ -32,7 +32,7 @@ trait Term_SEO_Data_Schema_Trait {
 				'type'        => 'string',
 				'enum'        => [ 'na', 'bad', 'ok', 'good' ],
 				'description' => \sprintf(
-					'The result of the %s that ran on the term when it was last saved.',
+					'The result of the %s as calculated at the last save in the editor.',
 					$analysis,
 				),
 			];
@@ -50,7 +50,7 @@ trait Term_SEO_Data_Schema_Trait {
 			return [
 				'type'        => [ 'string', 'null' ],
 				'description' => \sprintf(
-					'The custom %s as stored for the term, which may contain unexpanded replacement variables. Null when no custom value is set; the rendered companion field carries what is actually output.',
+					'The custom %s as stored, which may contain unexpanded replacement variables. Null when no custom value is set; the rendered companion field carries what is actually output.',
 					$field,
 				),
 			];
@@ -68,19 +68,7 @@ trait Term_SEO_Data_Schema_Trait {
 				'meta_description'                => $raw( 'meta description' ),
 				'meta_description_rendered'       => $rendered( 'meta description' ),
 				'focus_keyphrase'                 => $nullable_string,
-				'canonical'                       => [
-					'type'        => [ 'string', 'null' ],
-					'description' => 'The custom canonical URL as stored for the term. Null when no custom value is set; the rendered companion field carries what is actually output.',
-				],
-				'canonical_rendered'              => [
-					'type'        => [ 'string', 'null' ],
-					'description' => 'The canonical URL as output on the front end: the custom value when set, otherwise the permalink of the term. Null when nothing is output.',
-				],
 				'is_cornerstone'                  => [ 'type' => 'boolean' ],
-				'noindex'                         => [
-					'type'        => [ 'boolean', 'null' ],
-					'description' => 'Whether search engines are told not to index this term archive. true means noindex (the archive is excluded from search results); false means the archive is forced to be indexed; null means no setting is stored and the taxonomy default applies.',
-				],
 				'open_graph_title'                => $raw( 'Open Graph title' ),
 				'open_graph_title_rendered'       => $rendered( 'Open Graph title' ),
 				'open_graph_description'          => $raw( 'Open Graph description' ),
@@ -92,6 +80,18 @@ trait Term_SEO_Data_Schema_Trait {
 				'seo_score'                       => $score( 'SEO analysis' ),
 				'readability_score'               => $score( 'readability analysis' ),
 				'inclusive_language_score'        => $score( 'inclusive language analysis' ),
+				'canonical'                       => [
+					'type'        => [ 'string', 'null' ],
+					'description' => 'The custom canonical URL as stored for the term. Null when no custom value is set; the rendered companion field carries what is actually output.',
+				],
+				'canonical_rendered'              => [
+					'type'        => [ 'string', 'null' ],
+					'description' => 'The canonical URL as output on the front end: the custom value when set, otherwise the permalink of the term. Null when nothing is output.',
+				],
+				'noindex'                         => [
+					'type'        => [ 'boolean', 'null' ],
+					'description' => 'Whether search engines are told not to index this term archive. true means noindex (the archive is excluded from search results); false means the archive is forced to be indexed; null means no setting is stored and the taxonomy default applies.',
+				],
 			],
 		];
 	}

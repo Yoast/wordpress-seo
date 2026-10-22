@@ -7,13 +7,14 @@ use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Term_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Abilities\User_Interface\AI_Generate_Upsell;
+use Yoast\WP\SEO\Abilities\User_Interface\SEO_Data_Output_Schema;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
  * The ability that updates the SEO data of a single term.
  */
-class Update_Term_SEO_Data_Ability extends Abstract_Term_SEO_Data_Ability {
+class Update_Term_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 
 	/**
 	 * The term SEO data updater.
@@ -30,23 +31,33 @@ class Update_Term_SEO_Data_Ability extends Abstract_Term_SEO_Data_Ability {
 	private $ai_generate_upsell;
 
 	/**
+	 * The SEO data output schema.
+	 *
+	 * @var SEO_Data_Output_Schema
+	 */
+	private $output_schema;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Capability_Helper                   $capability_helper                   The capability helper.
 	 * @param Should_Index_Indexables_Conditional $should_index_indexables_conditional The should index indexables conditional.
 	 * @param Term_SEO_Data_Updater               $term_seo_data_updater               The term SEO data updater.
 	 * @param AI_Generate_Upsell                  $ai_generate_upsell                  The AI Generate upsell.
+	 * @param SEO_Data_Output_Schema              $output_schema                       The SEO data output schema.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
 		Should_Index_Indexables_Conditional $should_index_indexables_conditional,
 		Term_SEO_Data_Updater $term_seo_data_updater,
-		AI_Generate_Upsell $ai_generate_upsell
+		AI_Generate_Upsell $ai_generate_upsell,
+		SEO_Data_Output_Schema $output_schema
 	) {
 		parent::__construct( $capability_helper, $should_index_indexables_conditional );
 
 		$this->term_seo_data_updater = $term_seo_data_updater;
 		$this->ai_generate_upsell    = $ai_generate_upsell;
+		$this->output_schema         = $output_schema;
 	}
 
 	/**
@@ -71,7 +82,7 @@ class Update_Term_SEO_Data_Ability extends Abstract_Term_SEO_Data_Ability {
 			'description'         => \__( 'Update the SEO data for a single taxonomy term, such as a category or a tag. Identify the term by term_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only terms the current user is allowed to edit can be updated.', 'wordpress-seo' ),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => $this->get_update_term_seo_data_input_schema(),
-			'output_schema'       => $this->ai_generate_upsell->add_to_schema( $this->get_term_seo_data_output_schema() ),
+			'output_schema'       => $this->ai_generate_upsell->add_to_schema( $this->output_schema->get_term_output_schema() ),
 			'permission_callback' => [ $this, 'can_edit_advanced_metadata' ],
 			'execute_callback'    => [ $this, 'execute' ],
 			'meta'                => [

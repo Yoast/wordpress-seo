@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\Application;
 
 use WP_Error;
-use Yoast\WP\SEO\Abilities\Infrastructure\Term_Access_Checker;
+use Yoast\WP\SEO\Abilities\Infrastructure\Indexable_Access_Checker;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_SEO_Meta_Writer;
@@ -34,11 +34,11 @@ class Term_SEO_Data_Updater {
 	private $field_map;
 
 	/**
-	 * The term access checker.
+	 * The indexable access checker.
 	 *
-	 * @var Term_Access_Checker
+	 * @var Indexable_Access_Checker
 	 */
-	private $term_access_checker;
+	private $access_checker;
 
 	/**
 	 * The term SEO meta writer.
@@ -57,24 +57,24 @@ class Term_SEO_Data_Updater {
 	/**
 	 * Constructor.
 	 *
-	 * @param Term_Identifier_Resolver $resolver            The term identifier resolver.
-	 * @param Term_SEO_Field_Map       $field_map           The term SEO field map.
-	 * @param Term_Access_Checker      $term_access_checker The term access checker.
-	 * @param Term_SEO_Meta_Writer     $meta_writer         The term SEO meta writer.
-	 * @param Indexable_Builder        $indexable_builder   The indexable builder.
+	 * @param Term_Identifier_Resolver $resolver          The term identifier resolver.
+	 * @param Term_SEO_Field_Map       $field_map         The term SEO field map.
+	 * @param Indexable_Access_Checker $access_checker    The indexable access checker.
+	 * @param Term_SEO_Meta_Writer     $meta_writer       The term SEO meta writer.
+	 * @param Indexable_Builder        $indexable_builder The indexable builder.
 	 */
 	public function __construct(
 		Term_Identifier_Resolver $resolver,
 		Term_SEO_Field_Map $field_map,
-		Term_Access_Checker $term_access_checker,
+		Indexable_Access_Checker $access_checker,
 		Term_SEO_Meta_Writer $meta_writer,
 		Indexable_Builder $indexable_builder
 	) {
-		$this->resolver            = $resolver;
-		$this->field_map           = $field_map;
-		$this->term_access_checker = $term_access_checker;
-		$this->meta_writer         = $meta_writer;
-		$this->indexable_builder   = $indexable_builder;
+		$this->resolver          = $resolver;
+		$this->field_map         = $field_map;
+		$this->access_checker    = $access_checker;
+		$this->meta_writer       = $meta_writer;
+		$this->indexable_builder = $indexable_builder;
 	}
 
 	/**
@@ -96,7 +96,7 @@ class Term_SEO_Data_Updater {
 
 		// The capability gate on the ability is site-wide; the write itself is
 		// only allowed on terms the user could also edit through the term editor.
-		$can_edit = $this->term_access_checker->ensure_can_edit( (int) $indexable->object_id );
+		$can_edit = $this->access_checker->ensure_can_edit( $indexable );
 
 		if ( $can_edit instanceof WP_Error ) {
 			return $can_edit;
