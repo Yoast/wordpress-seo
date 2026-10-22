@@ -35,6 +35,7 @@ import metaDescriptionLength from "./researches/metaDescriptionLength.js";
 import morphology from "./researches/getWordForms";
 import pageTitleWidth from "./researches/pageTitleWidth.js";
 import readingTime from "./researches/readingTime";
+import redundantPhraseInAltText from "./researches/redundantPhraseInAltText.js";
 import sentences from "./researches/sentences";
 import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
@@ -133,6 +134,7 @@ export default class AbstractResearcher {
 			morphology,
 			pageTitleWidth,
 			readingTime,
+			redundantPhraseInAltText,
 			sentences,
 			wordCountInText,
 			videoCount,

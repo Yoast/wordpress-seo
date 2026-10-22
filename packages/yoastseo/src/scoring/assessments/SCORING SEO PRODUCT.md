@@ -52,7 +52,7 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 - [Meta description length](SCORING%20SEO.md#5-meta-description-length)
 - [Single title](SCORING%20SEO.md#6-single-title)
 - [Function words in keyphrase](SCORING%20SEO.md#7-function-words-in-keyphrase)
-- [Title](SCORING%20SEO.md#11-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
+- [Title](SCORING%20SEO.md#12-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
 
 ### Assessments with different scoring criteria than with the regular SEO assessor
 ### 1) Text length
@@ -167,6 +167,33 @@ platform's, not the default in [the regular table](SCORING%20SEO.md#10-duplicate
 | Traffic light | Score | Criterion                                            | Feedback                                                                                                                         |
 |---------------|-------|------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your product images don't have unique alt text. **Give each image its own alt text.** |
+
+### 5) Redundant phrase in alt text
+**What it does**: Checks whether the assessed images have alt text with a redundant phrase such as "Image of".
+By default it assesses the images in the text; a platform can scope it to the product's own images (featured, gallery,
+variations) instead, by providing the Paper's `providedImages` attribute.
+
+The phrases are language-specific.
+
+**When it applies**: Only when at least one assessed image has alt text with a redundant phrase.
+
+**Name in code**: RedundantPhraseInAltTextAssessment
+
+**Product config**: the phrases and the score are the same as in the regular SEO assessor — orange with a score of 6.
+Only the feedback strings differ: on a product page the images being assessed are the product's own, so a platform can
+say "product images" where the defaults say "images".
+
+**Feedback strings**: a platform supplies these through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `redundantPhraseCount`, and must return
+`redundantPhrase`. The returned object is used as is. Both WooCommerce and Shopify supply a callback, so the strings a user sees on a product page are the platform's, not the defaults
+
+**Title URL**: https://yoa.st/redundant-phrase-in-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/redundant-phrase-in-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                                | Feedback                                                                                                                                                                                                                                                                                                                          |
+|---------------|-------|----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | At least 1 image has alt text with a redundant phrase | **Redundant phrase in alt text**: X of your product images have alt text with a phrase like "Image of" or similar. **Remove it as screen readers already announce that it's an image. You may keep phrases that describe the type of image (e.g. “photograph”, “illustration”, “screenshot”) if the type is worth pointing out.** |
 
 ### Assessments unique to product pages
 ### 1) Image alt attributes

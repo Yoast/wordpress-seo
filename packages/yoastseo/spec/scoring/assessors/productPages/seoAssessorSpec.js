@@ -65,6 +65,19 @@ describe( "the duplicate alt text assessment", () => {
 	} );
 } );
 
+describe( "the redundant phrase in alt text assessment URLs", () => {
+	test( "uses the platform's URLs when the options are set", () => {
+		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
+			redundantPhraseInAltTextUrlTitle: "https://yoast.com/33",
+			redundantPhraseInAltTextCTAUrl: "https://yoast.com/34",
+		} );
+		const assessment = configured.getAssessment( "redundantPhraseInAltText" );
+
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/33' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/34' target='_blank'>" );
+	} );
+} );
+
 describe( "has configuration overrides", () => {
 	test( "IntroductionKeywordAssessment", () => {
 		const assessment = assessor.getAssessment( "introductionKeyword" );
