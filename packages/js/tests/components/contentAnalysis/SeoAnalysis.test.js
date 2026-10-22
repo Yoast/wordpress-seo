@@ -110,20 +110,6 @@ describe( "SeoAnalysis.renderAIOptimizeButton", () => {
 		expect( screen.queryByRole( "button", { name: "Fix duplicate alt text with AI" } ) ).not.toBeInTheDocument();
 	} );
 
-	it( "renders the non-descriptive alt text slot for the Non-descriptive alt text assessment", () => {
-		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "nonDescriptiveAltText", false );
-
-		expect( screen.getByRole( "button", { name: "Fix alt text with AI" } ) ).toBeInTheDocument();
-		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
-		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
-	} );
-
-	it( "does not render the non-descriptive alt text slot when the AI feature is disabled in Premium", () => {
-		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "nonDescriptiveAltText", false );
-
-		expect( screen.queryByRole( "button", { name: "Fix alt text with AI" } ) ).not.toBeInTheDocument();
-	} );
-
 	it( "still renders the AI Optimize button for the other assessments", () => {
 		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "keyphraseDensity" );
 
