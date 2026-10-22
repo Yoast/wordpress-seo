@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
+use stdClass;
 use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Settings_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
@@ -131,7 +132,7 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 
 	/**
 	 * Tests that get_args describes a list of targets with a single item schema, with the fields reduced to their
-	 * output schema, and registers the ability as read-only without an input.
+	 * output schema, and registers the ability as read-only with an empty, optional input.
 	 *
 	 * @covers ::get_args
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Settings_Ability::get_target_output_schema
@@ -152,7 +153,14 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 
 		$args = $this->instance->get_args();
 
-		$this->assertArrayNotHasKey( 'input_schema', $args );
+		$this->assertEquals(
+			[
+				'type'                 => 'object',
+				'additionalProperties' => false,
+				'default'              => new stdClass(),
+			],
+			$args['input_schema'],
+		);
 		$this->assertSame( 'array', $args['output_schema']['type'] );
 
 		$properties = $args['output_schema']['items']['properties'];

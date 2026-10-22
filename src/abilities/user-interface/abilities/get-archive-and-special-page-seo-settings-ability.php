@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
+use stdClass;
 use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Settings_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
@@ -77,6 +78,14 @@ class Get_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Archive
 				'yoast-seo/get-term-seo-data',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
+			// Core rejects any input for an ability without an input schema, and some callers always send `{}`. The
+			// default lets a call without input pass validation, and is an object so that it serializes to `{}` where
+			// the schema is output as is, like in the REST API.
+			'input_schema'        => [
+				'type'                 => 'object',
+				'additionalProperties' => false,
+				'default'              => new stdClass(),
+			],
 			'output_schema'       => [
 				'type'  => 'array',
 				'items' => $this->get_target_output_schema(),
