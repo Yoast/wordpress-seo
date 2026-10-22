@@ -3,10 +3,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\Infrastructure;
 
-use WPSEO_Rank;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
-use Yoast\WP\SEO\Surfaces\Values\Meta;
 
 /**
  * Translates between the ability input, an indexable, and the post SEO data value object.
@@ -18,24 +16,7 @@ use Yoast\WP\SEO\Surfaces\Values\Meta;
  * Persistence to post meta is delegated to Indexable_To_Postmeta_Helper so the
  * encodings live in one place.
  */
-class Post_SEO_Field_Map {
-
-	/**
-	 * Maps each rendered output field to the Meta property holding the value as
-	 * it is actually output on the front end (template applied, replacement
-	 * variables expanded).
-	 *
-	 * @var array<string, string>
-	 */
-	private const RENDERED_FIELDS = [
-		'seo_title'              => 'title',
-		'meta_description'       => 'meta_description',
-		'canonical'              => 'canonical',
-		'open_graph_title'       => 'open_graph_title',
-		'open_graph_description' => 'open_graph_description',
-		'twitter_title'          => 'twitter_title',
-		'twitter_description'    => 'twitter_description',
-	];
+class Post_SEO_Field_Map extends Abstract_SEO_Field_Map {
 
 	/**
 	 * Maps the string input fields to the indexable column they write to.
@@ -87,12 +68,7 @@ class Post_SEO_Field_Map {
 	}
 
 	/**
-	 * Builds the post SEO data array from an indexable.
-	 *
-	 * Alongside the raw stored fields, each rendered companion (`*_rendered`)
-	 * carries the value as it is actually output on the front end: the global
-	 * default template is applied where no custom value is set, and replacement
-	 * variables are expanded.
+	 * Builds the post SEO data array from an indexable: the identity fields of the post, the shared SEO fields, then the post-only robots and schema fields.
 	 *
 	 * @param Indexable $indexable The indexable to read from.
 	 *
@@ -101,40 +77,24 @@ class Post_SEO_Field_Map {
 	public function to_seo_array( $indexable ): array {
 		$meta = $this->meta_surface->for_indexable( $indexable, 'Post_Type' );
 
-		return [
-			'post_id'                         => (int) $indexable->object_id,
-			'post_title'                      => $indexable->breadcrumb_title,
-			'permalink'                       => $indexable->permalink,
-			'post_type'                       => $indexable->object_sub_type,
-			'post_status'                     => $indexable->post_status,
-			'seo_title'                       => $indexable->title,
-			'seo_title_rendered'              => $this->rendered( $meta, 'seo_title' ),
-			'meta_description'                => $indexable->description,
-			'meta_description_rendered'       => $this->rendered( $meta, 'meta_description' ),
-			'focus_keyphrase'                 => $indexable->primary_focus_keyword,
-			'canonical'                       => $indexable->canonical,
-			'canonical_rendered'              => $this->rendered( $meta, 'canonical' ),
-			'is_cornerstone'                  => (bool) $indexable->is_cornerstone,
-			'noindex'                         => $indexable->is_robots_noindex,
-			'nofollow'                        => (bool) $indexable->is_robots_nofollow,
-			'noimageindex'                    => (bool) $indexable->is_robots_noimageindex,
-			'noarchive'                       => (bool) $indexable->is_robots_noarchive,
-			'nosnippet'                       => (bool) $indexable->is_robots_nosnippet,
-			'open_graph_title'                => $indexable->open_graph_title,
-			'open_graph_title_rendered'       => $this->rendered( $meta, 'open_graph_title' ),
-			'open_graph_description'          => $indexable->open_graph_description,
-			'open_graph_description_rendered' => $this->rendered( $meta, 'open_graph_description' ),
-			'twitter_title'                   => $indexable->twitter_title,
-			'twitter_title_rendered'          => $this->rendered( $meta, 'twitter_title' ),
-			'twitter_description'             => $indexable->twitter_description,
-			'twitter_description_rendered'    => $this->rendered( $meta, 'twitter_description' ),
-			'schema_page_type'                => $indexable->schema_page_type,
-			'schema_article_type'             => $indexable->schema_article_type,
-			'seo_score'                       => WPSEO_Rank::from_numeric_score( (int) $indexable->primary_focus_keyword_score )->get_rank(),
-			'readability_score'               => WPSEO_Rank::from_numeric_score( (int) $indexable->readability_score )->get_rank(),
-			// A zero score maps to NO_FOCUS ("not available") via the rank ranges, same as the scores above.
-			'inclusive_language_score'        => WPSEO_Rank::from_numeric_score( (int) $indexable->inclusive_language_score )->get_rank(),
-		];
+		return \array_merge(
+			[
+				'post_id'     => (int) $indexable->object_id,
+				'post_title'  => $indexable->breadcrumb_title,
+				'permalink'   => $indexable->permalink,
+				'post_type'   => $indexable->object_sub_type,
+				'post_status' => $indexable->post_status,
+			],
+			$this->get_shared_seo_fields( $indexable, $meta ),
+			[
+				'nofollow'            => (bool) $indexable->is_robots_nofollow,
+				'noimageindex'        => (bool) $indexable->is_robots_noimageindex,
+				'noarchive'           => (bool) $indexable->is_robots_noarchive,
+				'nosnippet'           => (bool) $indexable->is_robots_nosnippet,
+				'schema_page_type'    => $indexable->schema_page_type,
+				'schema_article_type' => $indexable->schema_article_type,
+			],
+		);
 	}
 
 	/**
@@ -161,67 +121,20 @@ class Post_SEO_Field_Map {
 	}
 
 	/**
-	 * Returns the front-end output for a rendered field, or null when nothing is output.
+	 * Returns the string input fields mapped to the indexable column they write to.
 	 *
-	 * @param Meta|false $meta         The meta values for the post, or false when unavailable.
-	 * @param string     $output_field The rendered output field name.
-	 *
-	 * @return string|null The rendered value, or null when empty or unavailable.
+	 * @return array<string, string> The string fields.
 	 */
-	private function rendered( $meta, string $output_field ): ?string {
-		if ( ! $meta instanceof Meta ) {
-			return null;
-		}
-
-		$value = $meta->{ self::RENDERED_FIELDS[ $output_field ] };
-
-		// Treat an empty presented value as "nothing is output" rather than an empty string.
-		if ( $value === null || $value === '' ) {
-			return null;
-		}
-
-		return (string) $value;
+	protected function get_string_fields(): array {
+		return self::STRING_FIELDS;
 	}
 
 	/**
-	 * Applies a validated input patch onto an indexable.
+	 * Returns the boolean input fields mapped to the indexable column they write to.
 	 *
-	 * Only fields present in the input are touched (patch semantics); a present but
-	 * empty/null value clears the field by setting its column to null. The mutated
-	 * indexable is the desired state, which the caller cascades to post meta. Flags
-	 * left out of the patch keep their current value, so advanced-robots flags merge
-	 * for free.
-	 *
-	 * @param array<string, int|string|bool|null> $input     The validated input patch.
-	 * @param Indexable                           $indexable The indexable to mutate.
-	 *
-	 * @return array<string> The indexable columns the patch touched, so the caller can cascade
-	 *                       only those to post meta.
+	 * @return array<string, string> The boolean fields.
 	 */
-	public function apply_to_indexable( array $input, Indexable $indexable ): array {
-		$changed_columns = [];
-
-		foreach ( self::STRING_FIELDS as $input_key => $column ) {
-			if ( \array_key_exists( $input_key, $input ) ) {
-				$value                = $input[ $input_key ];
-				$indexable->{$column} = ( $value === null || $value === '' ) ? null : (string) $value;
-				$changed_columns[]    = $column;
-			}
-		}
-
-		foreach ( self::BOOLEAN_FIELDS as $input_key => $column ) {
-			if ( \array_key_exists( $input_key, $input ) ) {
-				$indexable->{$column} = (bool) $input[ $input_key ];
-				$changed_columns[]    = $column;
-			}
-		}
-
-		if ( \array_key_exists( 'noindex', $input ) ) {
-			// Tri-state: null resets to the post-type default, true = noindex, false = index.
-			$indexable->is_robots_noindex = ( $input['noindex'] === null ) ? null : (bool) $input['noindex'];
-			$changed_columns[]            = 'is_robots_noindex';
-		}
-
-		return $changed_columns;
+	protected function get_boolean_fields(): array {
+		return self::BOOLEAN_FIELDS;
 	}
 }

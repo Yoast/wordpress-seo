@@ -5,16 +5,15 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Brain\Monkey;
 use Mockery;
-use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Update_Post_SEO_Data_Ability;
+use Yoast\WP\SEO\Abilities\User_Interface\AI_Generate_Upsell;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -52,11 +51,11 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	private $post_seo_data_updater;
 
 	/**
-	 * The product helper mock.
+	 * The AI Generate upsell mock.
 	 *
-	 * @var Mockery\MockInterface|Product_Helper
+	 * @var Mockery\MockInterface|AI_Generate_Upsell
 	 */
-	private $product_helper;
+	private $ai_generate_upsell;
 
 	/**
 	 * The instance under test.
@@ -81,13 +80,13 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 		$this->capability_helper                   = Mockery::mock( Capability_Helper::class );
 		$this->should_index_indexables_conditional = Mockery::mock( Should_Index_Indexables_Conditional::class );
 		$this->post_seo_data_updater               = Mockery::mock( Post_SEO_Data_Updater::class );
-		$this->product_helper                      = Mockery::mock( Product_Helper::class );
+		$this->ai_generate_upsell                  = Mockery::mock( AI_Generate_Upsell::class );
 
 		$this->instance = new Update_Post_SEO_Data_Ability(
 			$this->capability_helper,
 			$this->should_index_indexables_conditional,
 			$this->post_seo_data_updater,
-			$this->product_helper,
+			$this->ai_generate_upsell,
 		);
 	}
 
@@ -105,7 +104,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	/**
 	 * Tests that is_available follows whether the indexables are being built.
 	 *
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::is_available
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_SEO_Data_Ability::is_available
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
@@ -122,8 +121,8 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	/**
 	 * Tests that can_edit_advanced_metadata checks the advanced metadata capability and returns its result.
 	 *
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::__construct
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::can_edit_advanced_metadata
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_SEO_Data_Ability::__construct
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_SEO_Data_Ability::can_edit_advanced_metadata
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
@@ -142,26 +141,27 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get_args returns the expected registration arguments, with the AI Generate
-	 * hint in the output schema on the free plugin only.
+	 * Tests that get_args returns the expected registration arguments, with the output schema
+	 * passed through the AI Generate upsell.
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_args
 	 * @covers ::get_update_post_seo_data_input_schema
-	 * @covers ::get_update_post_seo_data_output_schema
 	 * @covers ::ai_generate_field_schema
 	 * @covers ::get_schema_article_types
 	 * @covers ::nullable_enum_schema
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::get_post_seo_data_output_schema
 	 *
-	 * @dataProvider provide_boolean_outcomes
-	 *
-	 * @param bool $is_premium Whether Premium is active.
-	 *
 	 * @return void
 	 */
-	public function test_get_args( bool $is_premium ) {
-		$this->product_helper->expects( 'is_premium' )->once()->andReturn( $is_premium );
+	public function test_get_args() {
+		$output_schema = [ 'decorated' => true ];
+
+		$this->ai_generate_upsell
+			->expects( 'add_to_schema' )
+			->once()
+			->with( $this->get_expected_output_schema() )
+			->andReturn( $output_schema );
 
 		$this->assertSame(
 			[
@@ -169,7 +169,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 				'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => $this->get_expected_update_input_schema(),
-				'output_schema'       => $this->get_expected_update_output_schema( $is_premium ),
+				'output_schema'       => $output_schema,
 				'permission_callback' => [ $this->instance, 'can_edit_advanced_metadata' ],
 				'execute_callback'    => [ $this->instance, 'execute' ],
 				'meta'                => [
@@ -189,105 +189,32 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that execute adds the AI Generate hint to the response only on the free plugin
-	 * and only when a field AI Generate can write was set.
+	 * Tests that execute passes the updater result and the input through the AI Generate upsell.
 	 *
 	 * @covers ::execute
-	 * @covers ::should_upsell_ai_generate
-	 *
-	 * @dataProvider provide_execute_cases
-	 *
-	 * @param bool                 $is_premium  Whether Premium is active.
-	 * @param array<string, mixed> $input       The ability input.
-	 * @param bool                 $expect_hint Whether the hint is expected in the response.
 	 *
 	 * @return void
 	 */
-	public function test_execute( bool $is_premium, array $input, bool $expect_hint ) {
-		$updated = [
+	public function test_execute() {
+		$input   = [
 			'post_id'   => 42,
 			'seo_title' => 'A title',
 		];
+		$updated = \array_merge( $input, [ 'canonical' => '' ] );
+		$hinted  = \array_merge( $updated, [ 'ai_generate_hint' => 'A hint' ] );
 
 		$this->post_seo_data_updater
 			->expects( 'update_post_seo_data' )
 			->once()
 			->with( $input )
 			->andReturn( $updated );
-		$this->product_helper->expects( 'is_premium' )->once()->andReturn( $is_premium );
-
-		if ( $expect_hint ) {
-			$updated['ai_generate_hint'] = 'Yoast AI Generate can write SEO-optimised titles and descriptions, more details here: https://yoa.st/ai-generate-ability-response';
-		}
-
-		$this->assertSame( $updated, $this->instance->execute( $input ) );
-	}
-
-	/**
-	 * Data provider for test_execute.
-	 *
-	 * @return array<string, array<string, mixed>> The cases.
-	 */
-	public static function provide_execute_cases(): array {
-		return [
-			'free, AI Generate field set' => [
-				'is_premium'  => false,
-				'input'       => [
-					'post_id'   => 42,
-					'seo_title' => 'A title',
-				],
-				'expect_hint' => true,
-			],
-			'free, AI Generate field cleared' => [
-				'is_premium'  => false,
-				'input'       => [
-					'post_id'             => 42,
-					'twitter_description' => null,
-				],
-				'expect_hint' => true,
-			],
-			'free, only other fields set' => [
-				'is_premium'  => false,
-				'input'       => [
-					'post_id'   => 42,
-					'canonical' => 'https://example.com/canonical',
-					'noindex'   => true,
-				],
-				'expect_hint' => false,
-			],
-			'premium, AI Generate field set' => [
-				'is_premium'  => true,
-				'input'       => [
-					'post_id'          => 42,
-					'meta_description' => 'A description',
-				],
-				'expect_hint' => false,
-			],
-		];
-	}
-
-	/**
-	 * Tests that execute passes an error from the updater through untouched.
-	 *
-	 * @covers ::execute
-	 *
-	 * @return void
-	 */
-	public function test_execute_passes_errors_through() {
-		$input = [
-			'post_id'   => 42,
-			'seo_title' => 'A title',
-		];
-		$error = Mockery::mock( WP_Error::class );
-
-		$this->post_seo_data_updater
-			->expects( 'update_post_seo_data' )
+		$this->ai_generate_upsell
+			->expects( 'add_hint' )
 			->once()
-			->with( $input )
-			->andReturn( $error );
-		$this->product_helper->expects( 'is_premium' )->never();
+			->with( $updated, $input )
+			->andReturn( $hinted );
 
-		$this->assertSame( $error, $this->instance->execute( $input ) );
+		$this->assertSame( $hinted, $this->instance->execute( $input ) );
 	}
 
 	/**
@@ -307,8 +234,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_every_writable_input_field_cascades_to_post_meta() {
-		// Premium or free makes no difference to the input schema.
-		$this->product_helper->expects( 'is_premium' )->once()->andReturnTrue();
+		$this->ai_generate_upsell->expects( 'add_to_schema' )->once()->andReturnArg( 0 );
 
 		$input_schema = $this->instance->get_args()['input_schema'];
 
@@ -433,28 +359,5 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 				],
 			],
 		];
-	}
-
-	/**
-	 * Returns the expected update output schema: the shared post SEO data schema plus, on
-	 * the free plugin, the optional AI Generate hint.
-	 *
-	 * @param bool $is_premium Whether Premium is active, which drops the AI Generate hint from the schema.
-	 *
-	 * @return array<string, mixed> The schema.
-	 */
-	private function get_expected_update_output_schema( bool $is_premium ): array {
-		$schema = $this->get_expected_output_schema();
-
-		if ( $is_premium ) {
-			return $schema;
-		}
-
-		$schema['properties']['ai_generate_hint'] = [
-			'type'        => 'string',
-			'description' => 'A hint about Yoast AI Generate to relay to the user. Only present when a title or description field was updated on a site without Yoast SEO Premium. Meant to be assisting users that seek SEO-optimised titles and descriptions.',
-		];
-
-		return $schema;
 	}
 }
