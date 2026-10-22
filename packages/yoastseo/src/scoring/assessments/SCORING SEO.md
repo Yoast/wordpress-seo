@@ -477,7 +477,7 @@ Each feedback text is two separately translated sentences: the count, then the a
 ### 11) Non-descriptive alt text
 **What it does**: Checks whether the assessed images have alt text that consists only of a meaningless phrase: a placeholder ("Untitled", "N/A", "Alt text"), a file name ("IMG_1234", "red-shoes.jpg", or the image's own file name), or a generic default that says nothing about the image ("Product image", "Image 1"). The whole alt text is matched: "Product image" is flagged, "Product image of a red bike on a beach" is not.
 
-Some checks work in every language: only numbers or punctuation, a name ending in an image file extension, file names that cameras, phones or WhatsApp generate, and the image's own file name. The phrases are language-specific.
+Some checks work in every language: only numbers or punctuation, a name ending in an image file extension, file names that cameras, phones or WhatsApp generate, English screenshot names ("Screenshot 2026-03-14 at 10.32.45"), and the image's own file name, also when the image is a resized, scaled or edited copy ("red-bike" for `red-bike-1024x576.jpg`). The phrases are language-specific; only English has them for now.
 
 **When it applies**: Only when at least one assessed image has non-descriptive alt text. Empty alt text is not flagged: that case is covered by the _image alt attributes_ assessment.
 
