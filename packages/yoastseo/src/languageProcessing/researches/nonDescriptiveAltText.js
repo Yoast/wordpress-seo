@@ -2,6 +2,7 @@ import getImagesInScope from "../helpers/image/getImagesInScope";
 import getAltAttribute from "../helpers/image/getAltAttribute";
 import getImageIdentifier from "../helpers/image/getImageIdentifier";
 import { atMostFiveLetters } from "../helpers/regex/wordBoundaries";
+import { hashedHtmlEntities } from "../../helpers/htmlEntities";
 
 /**
  * @typedef {import("../AbstractResearcher").default } Researcher
@@ -18,8 +19,19 @@ const IMAGE_FILE_EXTENSION = /\.(?:jpe?g|png|gif|webp|avif|svg|heic|heif|bmp|tif
 const CAMERA_FILE_NAME = /^(?:img|dscn?|pxl|dji|gopr|mvimg)[_-]?\d[\d_-]*(?:\s*\(\d+\))?$/i;
 
 // File names that WhatsApp generates, e.g. "WhatsApp Image 2026-03-14 at 10.32.45". WhatsApp translates the
-// second word, so any word is accepted there, as long as a number follows.
-const WHATSAPP_FILE_NAME = new RegExp( `^whatsapp\\s+\\p{L}+(?=\\s+\\p{N})${ atMostFiveLetters }$`, "iu" );
+// second word, so any word is accepted there, as long as a number follows. The word may contain combining marks,
+// such as the vowel signs in "छवि" (Hindi for "image").
+const WHATSAPP_FILE_NAME = new RegExp( `^whatsapp\\s+[\\p{L}\\p{M}]+(?=\\s+\\p{N})${ atMostFiveLetters }$`, "iu" );
+
+// Screenshot names that operating systems generate in English: "Screenshot 2026-03-14 at 10.32.45" (macOS),
+// "Screen Shot 2026-03-14 at 10.32.45 AM" (older macOS), "Screenshot (12)" (Windows), "Screenshot_20260314_103245"
+// (Android) and "Screenshot from 2026-03-14 10-32-45" (GNOME). The number has to follow the name directly, so
+// "Screenshot of iOS 17.5" is not matched. These count in every language, because the language of the computer that
+// took the screenshot is often not the language of the site.
+const SCREENSHOT_FILE_NAME = new RegExp( `^(?:screenshot|screen\\s+shot)(?:\\s+from)?[\\s_(-]*(?=\\p{N})${ atMostFiveLetters }$`, "iu" );
+
+// The HTML entities that the tree builder protects as "#nbsp;", "#mdash;" and so on (see `build`).
+const HASHED_HTML_ENTITY = new RegExp( [ ...hashedHtmlEntities.keys() ].join( "|" ), "gi" );
 
 // Single characters for `removeTrailingNumber`.
 const SPACE_OR_PUNCTUATION = /[\s\p{P}]/u;
@@ -126,6 +138,7 @@ const isNonDescriptiveInAnyLanguage = ( altText, src ) => ONLY_NUMBERS_AND_PUNCT
 	IMAGE_FILE_EXTENSION.test( altText ) ||
 	CAMERA_FILE_NAME.test( altText ) ||
 	WHATSAPP_FILE_NAME.test( altText ) ||
+	SCREENSHOT_FILE_NAME.test( altText ) ||
 	getFileNames( src ).includes( altText.toLowerCase() );
 
 /**

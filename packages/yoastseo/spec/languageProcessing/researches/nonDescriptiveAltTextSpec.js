@@ -1,6 +1,7 @@
 import nonDescriptiveAltText from "../../../src/languageProcessing/researches/nonDescriptiveAltText";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
+import DutchResearcher from "../../../src/languageProcessing/languages/nl/Researcher";
 import Paper from "../../../src/values/Paper";
 import buildTree from "../../specHelpers/parse/buildTree";
 
@@ -358,5 +359,72 @@ describe( "the research on very long input", () => {
 		const fileName = "a".repeat( LENGTH ) + "-edited-scaled-1024x576";
 
 		expect( researchProvidedImage( `https://example.com/${ fileName }.jpg`, "a".repeat( LENGTH ), DefaultResearcher ).count ).toBe( 1 );
+	} );
+} );
+
+describe( "the screenshot names that operating systems generate", () => {
+	it.each( [
+		[ "Screenshot 2026-03-14 at 10.32.45", "macOS" ],
+		[ "Screen Shot 2026-03-14 at 10.32.45 AM", "older macOS" ],
+		[ "Screenshot (12)", "Windows" ],
+		[ "Screenshot_20260314_103245", "Android" ],
+		[ "Screenshot from 2026-03-14 10-32-45", "GNOME" ],
+	] )( "counts \"%s\" (%s) in a language without a phrase list", ( altText ) => {
+		expect( researchProvidedImage( "https://example.com/photo.jpg", altText, DefaultResearcher ).count ).toBe( 1 );
+	} );
+
+	it( "counts an English screenshot name on a Dutch site, because the computer's language can differ from the site's", () => {
+		expect( researchProvidedImage( "https://example.com/photo.jpg", "Screenshot 2026-03-14 at 10.32.45", DutchResearcher ).count ).toBe( 1 );
+	} );
+
+	it.each( [
+		[ "Screenshot of iOS 17.5" ],
+		[ "Screenshot of app 2.0" ],
+		[ "Screenshot 1 of the checkout page" ],
+	] )( "does not count \"%s\": the number does not follow the name directly, or more than five letters follow", ( altText ) => {
+		expect( researchProvidedImage( "https://example.com/photo.jpg", altText, DefaultResearcher ).count ).toBe( 0 );
+		expect( researchProvidedImage( "https://example.com/photo.jpg", altText ).count ).toBe( 0 );
+	} );
+} );
+
+describe( "the WhatsApp names in other scripts", () => {
+	it( "counts a translated name whose word contains combining marks, such as the Hindi \"छवि\" (image)", () => {
+		expect( researchProvidedImage( "https://example.com/photo.jpg", "WhatsApp छवि 2026-03-14 at 10.32.45", DefaultResearcher ).count )
+			.toBe( 1 );
+	} );
+} );
+
+describe( "the HTML entities in alt text from the text", () => {
+	/**
+	 * Builds a Paper with one image in its text and parses it, so the tree builder protects the HTML entities.
+	 *
+	 * @param {string} alt The alt attribute, as it is written in the HTML.
+	 *
+	 * @returns {{count: number, flagged: Array<string|number>}} The research result.
+	 */
+	const researchParsedImage = ( alt ) => {
+		const paper = new Paper( `<p>Red bikes are great.</p><img src="https://example.com/photo.jpg" alt="${ alt }" />` );
+		const researcher = new Researcher( paper );
+		buildTree( paper, researcher );
+
+		return nonDescriptiveAltText( paper, researcher );
+	};
+
+	it.each( [
+		[ "Product&nbsp;image", "a non-breaking space inside a phrase" ],
+		[ "&nbsp;Product image&nbsp;", "non-breaking spaces around a phrase" ],
+		[ "&mdash;", "only a dash" ],
+		[ "&NDASH;", "only a dash, with the entity in uppercase" ],
+		[ "&nbsp;", "only a non-breaking space" ],
+	] )( "counts the alt attribute \"%s\": %s", ( alt ) => {
+		expect( researchParsedImage( alt ) ).toEqual( { count: 1, flagged: [ "https://example.com/photo.jpg" ] } );
+	} );
+
+	it( "does not count a description that contains non-breaking spaces", () => {
+		expect( researchParsedImage( "A&nbsp;red&nbsp;bike&nbsp;on&nbsp;a&nbsp;beach" ).count ).toBe( 0 );
+	} );
+
+	it( "does not change the alt text of a provided image, where \"#nbsp;\" is real text", () => {
+		expect( researchProvidedImage( "https://example.com/photo.jpg", "Product#nbsp;image" ).count ).toBe( 0 );
 	} );
 } );
