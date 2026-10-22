@@ -456,7 +456,32 @@ Each feedback text is two separately translated sentences: the count, then the a
 | Orange        | 6     | X images have alt text of 200 characters or more             | **Alt text length**: X of your images have very long alt text. **Consider making the alt text shorter than 200 characters.** |
 | Orange        | 6     | Both cases occur on the same page                            | **Alt text length**: X of your images have very short or very long alt text. **Consider making the alt text longer than 10 and shorter than 200 characters.** |
 
-### 10) Redundant phrase in alt text
+### 10) Duplicate alt text
+**What it does**: Checks whether two or more different assessed images share the same alt text. Alt texts are compared trimmed and lowercased. By default it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
+
+Two entries count as the same image, not as a duplicate, when they have the same `id` (provided images only), or else the same `src`. An image with neither counts as a different image. On the text path, the same image in two sizes has two `src` values, so it counts as two images. Images without alt text are not counted: several decorative images with an empty alt text are correct.
+
+X is the number of images that share their alt text with at least one other image. For example, three images with the same alt text count as 3.
+
+**Flagged items**: the result names the flagged images in `flaggedItems`, by their `id`, else their `src`. An image with neither is counted but not named.
+
+**When it applies**: Only when at least two different assessed images share the same alt text. There is no green traffic light: "all your images have unique alt text" would be misleading when some or all alt texts are empty. When nothing is flagged the assessment returns a result without a score and without a text, which `Assessor.isValidResult` drops, and the assessment is not shown at all.
+
+**Name in code**: DuplicateAltTextAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `duplicateCount`, and must return `duplicate`. The
+returned object is used as is, so an omitted key renders as an empty result text rather than falling back to the default.
+
+**Title URL**: https://yoa.st/duplicate-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/duplicate-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                            | Feedback                                                                                                                 |
+|---------------|-------|------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your images don't have unique alt text. **Give each image its own alt text.** |
+
+### 11) Redundant phrase in alt text
 **What it does**: Checks whether the assessed images have alt text with a redundant phrase such as "Image of", "A picture showing" or "This image depicts" — usually opening the alt text, but sometimes occurring in the middle or at the end in some languages (Hungarian, Japanese, Turkish).
 
 **When it applies**: Only when at least one assessed image has alt text with a redundant phrase.
@@ -474,7 +499,7 @@ Each feedback text is two separately translated sentences: the count, then the a
 |---------------|-------|-------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Orange        | 6     | At least 1 image has alt text with a redundant phrase | **Redundant phrase in alt text**: X of your images have alt text with a phrase like "Image of" or similar. **Remove it as screen readers already announce that it's an image. You may keep phrases that describe the type of image (e.g. “photograph”, “illustration”, “screenshot”) if the type is worth pointing out.** |
 
-### 11) Non-descriptive alt text
+### 12) Non-descriptive alt text
 **What it does**: Checks whether the assessed images have alt text that consists only of a meaningless phrase: a placeholder ("Untitled", "N/A", "Alt text"), a file name ("IMG_1234", "red-shoes.jpg", or the image's own file name), or a generic default that says nothing about the image ("Product image", "Image 1"). The whole alt text is matched: "Product image" is flagged, "Product image of a red bike on a beach" is not.
 
 Some checks work in every language: only numbers or punctuation, a name ending in an image file extension, file names that cameras, phones or WhatsApp generate, English screenshot names ("Screenshot 2026-03-14 at 10.32.45"), and the image's own file name, also when the image is a resized, scaled or edited copy ("red-bike" for `red-bike-1024x576.jpg`). The phrases are language-specific; only English has them for now.
@@ -494,7 +519,7 @@ Some checks work in every language: only numbers or punctuation, a name ending i
 |---------------|-------|---------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Red           | 3     | At least 1 image has non-descriptive alt text     | **Non-descriptive alt text**: X of your images have alt text that doesn't describe the image. **Describe what the image shows, or leave the alt text empty if the image is decorative.** |
 
-### 12) Title (only in Premium)
+### 13) Title (only in Premium)
 **What it does**: Checks for the presence of a title.
 
 **When it applies**: Always. Does not apply to taxonomies.

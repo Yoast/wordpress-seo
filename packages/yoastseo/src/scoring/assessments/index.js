@@ -33,6 +33,7 @@ import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAss
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
 import AltTextLengthAssessment from "./seo/AltTextLengthAssessment";
+import DuplicateAltTextAssessment from "./seo/DuplicateAltTextAssessment";
 import RedundantPhraseInAltTextAssessment from "./seo/RedundantPhraseInAltTextAssessment";
 import NonDescriptiveAltTextAssessment from "./seo/NonDescriptiveAltTextAssessment";
 
@@ -63,6 +64,7 @@ const readability = {
 // We expose the deprecated assessments for backwards compatibility.
 const seo = {
 	AltTextLengthAssessment,
+	DuplicateAltTextAssessment,
 	FunctionWordsInKeyphraseAssessment,
 	ImageAltTagsAssessment,
 	ImageCountAssessment,

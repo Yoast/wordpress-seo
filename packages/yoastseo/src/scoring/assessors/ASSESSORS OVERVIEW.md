@@ -17,6 +17,7 @@ Overview of the used SEO assessors in the `yoastseo` package:
 - Keyphrase in subheadings (`SubHeadingsKeywordAssessment`)
 - Images (`ImageCountAssessment`)
 - Alt text length (`AltTextLengthAssessment`)
+- Duplicate alt text (`DuplicateAltTextAssessment`)
 - Redundant phrase in alt text (`RedundantPhraseInAltTextAssessment`)
 - Non-descriptive alt text (`NonDescriptiveAltTextAssessment`)
 - Image keyphrase (`KeyphraseInImageTextAssessment`) -> [Cornerstone scores!](../assessments/SCORING%20SEO.md#7-image-keyphrase)

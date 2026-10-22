@@ -49,6 +49,22 @@ describe( "the alt text length assessment URLs", () => {
 	} );
 } );
 
+describe( "the duplicate alt text assessment", () => {
+	test( "uses the platform's URLs and result texts when the options are set", () => {
+		const duplicateAltTextResultTexts = jest.fn();
+		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
+			duplicateAltTextUrlTitle: "https://yoast.com/31",
+			duplicateAltTextCTAUrl: "https://yoast.com/32",
+			duplicateAltTextResultTexts,
+		} );
+		const assessment = configured.getAssessment( "duplicateAltText" );
+
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/31' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/32' target='_blank'>" );
+		expect( assessment._config.callbacks.getResultTexts ).toBe( duplicateAltTextResultTexts );
+	} );
+} );
+
 describe( "the redundant phrase in alt text assessment URLs", () => {
 	test( "uses the platform's URLs when the options are set", () => {
 		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
