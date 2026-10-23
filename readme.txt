@@ -311,7 +311,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-10-27
 
-New Yoast Abilities for AI agents, Schema Feeds support, and the groundwork for Yoast AI Generate for image alt text in Yoast WooCommerce SEO 17.0. [Read the release post here](https://yoast.com/yoast-seo-oct-27-2026/).
+New Yoast Abilities for AI agents, Schema Feeds support, and the groundwork for Yoast AI Generate for image alt text in Yoast WooCommerce SEO 17.0. [Read the release post here](https://yoa.st/57v).
 
 #### Enhancements
 
