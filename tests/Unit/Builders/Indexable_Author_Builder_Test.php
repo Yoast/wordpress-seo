@@ -228,6 +228,78 @@ final class Indexable_Author_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the build does not error when the timestamp query returns no row.
+	 *
+	 * @covers ::build
+	 *
+	 * @return void
+	 */
+	public function test_build_with_null_timestamps() {
+		$this->author_archive
+			->expects( 'author_has_public_posts_wp' )
+			->with( 1 )
+			->once()
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( 'title' );
+		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( 'description' );
+		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( 'on' );
+
+		$this->indexable_mock = $this->mock_indexable();
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'version', 2 );
+
+		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image' );
+		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'open_graph_image_id' );
+		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'open_graph_image_source' );
+		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image' );
+		$this->indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
+		$this->indexable_mock->orm->expects( 'get' )->with( 'object_id' );
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', 'avatar_image.jpg' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'gravatar-image' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'avatar_image.jpg' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'gravatar-image' );
+
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		Monkey\Filters\expectApplied( 'wpseo_should_build_and_save_user_indexable' )
+			->with( 1 )
+			->andReturn( null );
+
+		$this->author_archive
+			->expects( 'author_has_public_posts' )
+			->with( 1 )
+			->once()
+			->andReturn( true );
+		$this->author_archive
+			->expects( 'are_disabled' )
+			->andReturn( false );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'noindex-author-noposts-wpseo', false )
+			->andReturn( true );
+
+		$GLOBALS['wpdb'] = $this->wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
+		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'PREPARED_QUERY' );
+		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturnNull();
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', null );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', null );
+
+		Monkey\Functions\expect( 'get_avatar_url' )
+			->once()
+			->andReturn( 'avatar_image.jpg' );
+
+		$this->instance->build( 1, $this->indexable_mock );
+	}
+
+	/**
 	 * Tests whether the author is being built when it is explicitly included by the `'wpseo_should_build_and_save_user_indexable'` filter.
 	 *
 	 * @covers ::build
