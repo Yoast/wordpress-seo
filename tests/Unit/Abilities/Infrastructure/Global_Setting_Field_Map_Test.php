@@ -199,40 +199,30 @@ final class Global_Setting_Field_Map_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get_validators_for_target warns about the fields the target does not have, and otherwise lets the
-	 * validator of the field, if any, validate the value.
+	 * Tests whether each target has each field of Yoast SEO, which it does when the field is stored in an option for it.
 	 *
-	 * @covers ::get_validators_for_target
+	 * @covers ::target_has_field
+	 *
+	 * @dataProvider data_get_option_name
+	 *
+	 * @param string      $field_name  The name of the field.
+	 * @param string      $target_name The name of the target.
+	 * @param string|null $option_name The option the field is stored in for the target, if any.
 	 *
 	 * @return void
 	 */
-	public function test_get_validators_for_target() {
-		Monkey\Filters\expectApplied( 'wpseo_global_setting_ability_fields' )->once()->andReturn(
-			[
-				'seo_title'    => [
-					'type'            => 'string',
-					'option_patterns' => [ 'search_page' => 'title-search-wpseo' ],
-				],
-				'social_title' => [
-					'type'              => 'string',
-					'option_patterns'   => [ 'search_page' => 'social-title-search-wpseo' ],
-					'validate_callback' => static function ( $value, $field_name ) {
-						return ( $value === 'Invalid' ) ? 'The ' . $field_name . ' setting is invalid.' : null;
-					},
-				],
-				'noindex'      => [
-					'type'            => 'boolean',
-					'option_patterns' => [ 'author_archives' => 'noindex-author-wpseo' ],
-				],
-			],
-		);
+	public function test_target_has_field( $field_name, $target_name, $option_name ) {
+		$this->assertSame( $option_name !== null, $this->instance->target_has_field( $field_name, $this->mock_target( $target_name ) ) );
+	}
 
-		$validators = $this->instance->get_validators_for_target( $this->mock_target( 'search_page' ) );
-
-		$this->assertSame( [ 'seo_title', 'social_title', 'noindex' ], \array_keys( $validators ) );
-		$this->assertNull( $validators['seo_title']( 'Search', 'seo_title' ) );
-		$this->assertNull( $validators['social_title']( 'Search', 'social_title' ) );
-		$this->assertSame( 'The social_title setting is invalid.', $validators['social_title']( 'Invalid', 'social_title' ) );
-		$this->assertSame( 'The noindex setting is not available for search_page, so it was not saved.', $validators['noindex']( true, 'noindex' ) );
+	/**
+	 * Tests that target_has_field returns false for an unknown field.
+	 *
+	 * @covers ::target_has_field
+	 *
+	 * @return void
+	 */
+	public function test_target_has_field_unknown_field() {
+		$this->assertFalse( $this->instance->target_has_field( 'unknown', $this->mock_target( 'homepage' ) ) );
 	}
 }

@@ -38,49 +38,26 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 	 * @return string|null The option name, or null when the field does not exist or the target does not have it.
 	 */
 	public function get_option_name( string $field_name, Global_Setting_Target_Interface $target ): ?string {
-		// The option patterns are resolved along with the fields.
-		$this->get_fields();
-
-		$option_pattern = ( $this->option_patterns[ $field_name ][ $target->get_name() ] ?? null );
-		if ( $option_pattern === null ) {
+		if ( ! $this->target_has_field( $field_name, $target ) ) {
 			return null;
 		}
 
-		return $target->format_option_name( $option_pattern );
+		return $target->format_option_name( $this->option_patterns[ $field_name ][ $target->get_name() ] );
 	}
 
 	/**
-	 * Returns the validator of each field for a target.
+	 * Returns whether a target has a field, without formatting its option name.
 	 *
-	 * A field the target does not have is not saved, otherwise the field is validated by its own validator, if any.
+	 * @param string                          $field_name The name of the field.
+	 * @param Global_Setting_Target_Interface $target     The target.
 	 *
-	 * @param Global_Setting_Target_Interface $target The target the values are saved for.
-	 *
-	 * @return array<string, callable> The validator of each field, keyed by field name.
+	 * @return bool Whether the field exists and the target has it.
 	 */
-	public function get_validators_for_target( Global_Setting_Target_Interface $target ): array {
-		$field_validators = $this->get_validators();
-		$validators       = [];
+	public function target_has_field( string $field_name, Global_Setting_Target_Interface $target ): bool {
+		// The option patterns are resolved along with the fields.
+		$this->get_fields();
 
-		foreach ( \array_keys( $this->get_fields() ) as $field_name ) {
-			$field_validator = ( $field_validators[ $field_name ] ?? null );
-
-			// Validators only receive the value and the field name, so the target is bound here.
-			$validators[ $field_name ] = function ( $value, $field_name ) use ( $target, $field_validator ) {
-				if ( $this->get_option_name( $field_name, $target ) === null ) {
-					return \sprintf(
-						/* translators: 1: the name of a setting, 2: the name of a target. */
-						\__( 'The %1$s setting is not available for %2$s, so it was not saved.', 'wordpress-seo' ),
-						$field_name,
-						$target->get_name(),
-					);
-				}
-
-				return ( $field_validator === null ) ? null : \call_user_func( $field_validator, $value, $field_name );
-			};
-		}
-
-		return $validators;
+		return isset( $this->option_patterns[ $field_name ][ $target->get_name() ] );
 	}
 
 	/**

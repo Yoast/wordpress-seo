@@ -99,20 +99,26 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 	/**
 	 * Creates a target mock that is available.
 	 *
-	 * @param array<string, string>   $identifiers The identifiers of the target.
-	 * @param bool                    $enabled     Whether the target is enabled.
-	 * @param array<string, callable> $validators  The validators the field map returns for the target.
+	 * @param array<string, string>   $identifiers    The identifiers of the target.
+	 * @param bool                    $enabled        Whether the target is enabled.
+	 * @param array<string, callable> $validators     The validators the field map returns.
+	 * @param array<string>           $missing_fields The fields the target does not have.
 	 *
 	 * @return Mockery\MockInterface|Global_Setting_Target_Interface The target mock.
 	 */
-	private function mock_target( array $identifiers, bool $enabled, array $validators = [] ) {
+	private function mock_target( array $identifiers, bool $enabled, array $validators = [], array $missing_fields = [] ) {
 		$target = Mockery::mock( Global_Setting_Target_Interface::class );
 		$target->allows( 'ensure_available' );
 		$target->allows( 'get_name' )->andReturn( $identifiers['target'] );
 		$target->allows( 'get_identifiers' )->andReturn( $identifiers );
 		$target->allows( 'is_enabled' )->andReturn( $enabled );
 
-		$this->field_map->allows( 'get_validators_for_target' )->with( $target )->andReturn( $validators );
+		$this->field_map->allows( 'get_validators' )->andReturn( $validators );
+		$this->field_map->allows( 'target_has_field' )->andReturnUsing(
+			static function ( $field_name ) use ( $missing_fields ) {
+				return ! \in_array( $field_name, $missing_fields, true );
+			},
+		);
 
 		return $target;
 	}
@@ -197,10 +203,11 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 	}
 
 	/**
-	 * Tests that update skips the fields their validator for the target warns about, still saves the other fields,
-	 * and silently ignores a post type the target does not use.
+	 * Tests that update skips the fields the target does not have, whatever their validator, and the fields their
+	 * validator warns about, still saves the other fields, and silently ignores a post type the target does not use.
 	 *
 	 * @covers ::update
+	 * @covers ::update_field
 	 *
 	 * @return void
 	 */
@@ -216,6 +223,7 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 				'meta_description' => $warn,
 				'noindex'          => $warn,
 			],
+			[ 'noindex' ],
 		);
 
 		$this->target_repository->expects( 'get' )->once()->with( 'search_page', 'page' )->andReturn( $target );
@@ -225,7 +233,7 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 		$this->assertSame(
 			[
 				'seo_title' => 'Search',
-				'warning'   => 'The meta_description setting is invalid. The noindex setting is invalid. The other settings were saved.',
+				'warning'   => 'The meta_description setting is invalid. The noindex setting is not available for search_page, so it was not saved. The other settings were saved.',
 			],
 			$this->instance->update(
 				[

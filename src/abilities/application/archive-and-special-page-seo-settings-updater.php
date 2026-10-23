@@ -91,7 +91,7 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 		}
 
 		$warnings = [];
-		$result   = $this->update_fields( $this->field_map->get_fields(), $this->field_map->get_validators_for_target( $target ), $input, [ 'target' => $target ] );
+		$result   = $this->update_fields( $this->field_map->get_fields(), $this->field_map->get_validators(), $input, [ 'target' => $target ] );
 
 		if ( $result['warning'] !== null ) {
 			$warnings[] = $result['warning'];
@@ -108,6 +108,30 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Validates and saves a single field, unless the target does not have it, which is never saved, whatever its
+	 * own validator would say.
+	 *
+	 * @param array<string, callable> $validators The validator of each field that has one, keyed by field name.
+	 * @param string                  $field_name The name of the field.
+	 * @param mixed                   $value      The value to save.
+	 * @param array<string, mixed>    $context    The target, under 'target'.
+	 *
+	 * @return string|null A warning when the field could not be saved, null otherwise.
+	 */
+	protected function update_field( array $validators, string $field_name, $value, array $context ): ?string {
+		if ( ! $this->field_map->target_has_field( $field_name, $context['target'] ) ) {
+			return \sprintf(
+				/* translators: 1: the name of a setting, 2: the name of a target. */
+				\__( 'The %1$s setting is not available for %2$s, so it was not saved.', 'wordpress-seo' ),
+				$field_name,
+				$context['target']->get_name(),
+			);
+		}
+
+		return parent::update_field( $validators, $field_name, $value, $context );
 	}
 
 	/**

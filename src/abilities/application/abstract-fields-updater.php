@@ -76,7 +76,7 @@ abstract class Abstract_Fields_Updater {
 	 *
 	 * @return string|null A warning when the field could not be saved, null otherwise.
 	 */
-	private function update_field( array $validators, string $field_name, $value, array $context ): ?string {
+	protected function update_field( array $validators, string $field_name, $value, array $context ): ?string {
 		$warning = $this->validate_field( $validators, $field_name, $value );
 		if ( $warning !== null ) {
 			return $warning;
