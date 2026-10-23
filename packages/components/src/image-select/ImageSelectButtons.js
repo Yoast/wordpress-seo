@@ -12,13 +12,13 @@ import PropTypes from "prop-types";
  */
 const ImageSelectButtons = ( props ) => {
 	const {
-		imageSelected,
-		onClick,
-		onRemoveImageClick,
-		selectImageButtonId,
-		replaceImageButtonId,
-		removeImageButtonId,
-		isDisabled,
+		imageSelected = false,
+		onClick = () => {},
+		onRemoveImageClick = () => {},
+		selectImageButtonId = "",
+		replaceImageButtonId = "",
+		removeImageButtonId = "",
+		isDisabled = false,
 	} = props;
 
 	const removeImage = useCallback( ( event ) => {
@@ -64,14 +64,4 @@ ImageSelectButtons.propTypes = {
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
 	isDisabled: PropTypes.bool,
-};
-
-ImageSelectButtons.defaultProps = {
-	imageSelected: false,
-	onClick: () => {},
-	onRemoveImageClick: () => {},
-	selectImageButtonId: "",
-	replaceImageButtonId: "",
-	removeImageButtonId: "",
-	isDisabled: false,
 };

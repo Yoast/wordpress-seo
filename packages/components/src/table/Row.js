@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { colors } from "@yoast/style-guide";
 
 // The Rows are flex containers.
-export const Row = styled.li`
+export const Row = styled.li.attrs( ( { background = colors.$color_white, hasHeaderLabels = true } ) => ( { background, hasHeaderLabels } ) )`
 	background: ${ props => props.background };
 	display: flex;
 	min-height: ${ props => props.rowHeight };
@@ -17,11 +17,6 @@ Row.propTypes = {
 	background: PropTypes.string,
 	hasHeaderLabels: PropTypes.bool,
 	rowHeight: PropTypes.string,
-};
-
-Row.defaultProps = {
-	background: colors.$color_white,
-	hasHeaderLabels: true,
 };
 
 /*

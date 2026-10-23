@@ -21,14 +21,14 @@ export const SimulatedLabel = styled.div`
  * @returns {JSX} A representation of the label HTML element based on the passed props.
  * @constructor
  */
-const Label = ( props ) => {
+const Label = ( { "for": htmlFor, className = "", optionalAttributes = {}, children } ) => {
 	return (
 		<label
-			htmlFor={ props.for }
-			className={ props.className }
-			{ ...props.optionalAttributes }
+			htmlFor={ htmlFor }
+			className={ className }
+			{ ...optionalAttributes }
 		>
-			{ props.children }
+			{ children }
 		</label>
 	);
 };
@@ -47,16 +47,6 @@ Label.propTypes = {
 	} ),
 	children: PropTypes.any.isRequired,
 	className: PropTypes.string,
-};
-
-/**
- * Defines the default values for the properties.
- *
- * @type {{for: string, text: string}}
- */
-Label.defaultProps = {
-	className: "",
-	optionalAttributes: {},
 };
 
 export default Label;
