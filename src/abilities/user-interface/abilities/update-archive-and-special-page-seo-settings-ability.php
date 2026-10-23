@@ -83,7 +83,7 @@ class Update_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Arch
 			'label'               => \__( 'Update SEO Settings for Archives and Special Pages', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: 1: Yoast SEO, 2: the name of an ability. */
-				\__( 'Update the SEO title template, meta description template and other %1$s settings of the homepage when it shows the latest posts, an archive or a special page: the author archives, the date archives, the archive of a content type, the search results page or the 404 page. Category, tag and other term archives are not included; use the %2$s ability for those. Only the settings you provide are changed; a provided empty string clears a template. Only use snippet variables that apply to the pages you update, as the ones that do not are silently removed.', 'wordpress-seo' ),
+				\__( 'Update the SEO title template, meta description template and other %1$s settings of the homepage when it shows the latest posts, an archive or a special page: the author archives, the date archives, the archive of a content type, the search results page or the 404 page. Category, tag and other term archives are not included; use the %2$s ability for those. Only the settings you provide are changed; a provided empty string clears a template. Only use snippet variables that apply to the pages you update, as the ones that do not are silently removed when the page is rendered.', 'wordpress-seo' ),
 				'Yoast SEO',
 				'yoast-seo/update-term-seo-data',
 			),
