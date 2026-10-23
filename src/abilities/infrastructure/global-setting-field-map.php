@@ -131,7 +131,7 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 				'type'            => 'string',
 				'description'     => \sprintf(
 					/* translators: %s: the format of a snippet variable. */
-					\__( 'The SEO title template, shown in search results and in the browser tab. It can contain snippet variables in the %s format, which are replaced with the values of the page it is shown on. When empty, the default title is used.', 'wordpress-seo' ),
+					\__( 'The SEO title template. It can contain snippet variables in the %s format, which are replaced with the values of the page it is shown on. When empty, the default title is used.', 'wordpress-seo' ),
 					'%%variable%%',
 				),
 				'option_patterns' => [
@@ -159,7 +159,7 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 			],
 			'noindex'          => [
 				'type'            => 'boolean',
-				'description'     => \__( 'Whether search engines are told not to index these pages. true hides them from search results and excludes them from the XML sitemaps; false lets them be shown in search results.', 'wordpress-seo' ),
+				'description'     => \__( 'Whether search engines are told not to index these pages. true hides them from search results; false lets them be shown in search results.', 'wordpress-seo' ),
 				'option_patterns' => [
 					Author_Archives_Target::NAME   => 'noindex-author-wpseo',
 					Date_Archives_Target::NAME     => 'noindex-archive-wpseo',
