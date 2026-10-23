@@ -131,7 +131,7 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 				'type'            => 'string',
 				'description'     => \sprintf(
 					/* translators: %s: the format of a snippet variable. */
-					\__( 'The SEO title template, shown in search results and in the browser tab. It can contain snippet variables in the %s format, which are replaced with the values of the page it is shown on.', 'wordpress-seo' ),
+					\__( 'The SEO title template, shown in search results and in the browser tab. It can contain snippet variables in the %s format, which are replaced with the values of the page it is shown on. When empty, the default title is used.', 'wordpress-seo' ),
 					'%%variable%%',
 				),
 				'option_patterns' => [
@@ -147,7 +147,7 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 				'type'            => 'string',
 				'description'     => \sprintf(
 					/* translators: %s: the format of a snippet variable. */
-					\__( 'The meta description template, shown below the title in search results. It can contain snippet variables in the %s format, which are replaced with the values of the page it is shown on.', 'wordpress-seo' ),
+					\__( 'The meta description template, shown below the title in search results. It can contain snippet variables in the %s format, which are replaced with the values of the page it is shown on. When empty, no meta description is output.', 'wordpress-seo' ),
 					'%%variable%%',
 				),
 				'option_patterns' => [
