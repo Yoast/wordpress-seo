@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Generators\Schema;
 
 use Brain\Monkey;
 use Mockery;
+use ReflectionMethod;
 use stdClass;
 use WP_User;
 use Yoast\WP\SEO\Generators\Schema\Article;
@@ -591,6 +592,78 @@ final class Article_Test extends TestCase {
 					'wordCount'        => 6,
 				],
 				'message'        => 'The terms are empty.',
+			],
+		];
+	}
+
+	/**
+	 * Tests the word_count method with content in various scripts.
+	 *
+	 * @covers ::word_count
+	 *
+	 * @dataProvider provider_for_word_count
+	 *
+	 * @param string $post_content The post content to count.
+	 * @param string $post_title   The post title to count.
+	 * @param int    $expected     The expected word count.
+	 * @param string $message      The failure message.
+	 *
+	 * @return void
+	 */
+	public function test_word_count( $post_content, $post_title, $expected, $message ) {
+		$reflection = new ReflectionMethod( Article::class, 'word_count' );
+
+		$this->assertSame( $expected, $reflection->invoke( $this->instance, $post_content, $post_title ), $message );
+	}
+
+	/**
+	 * Provides data to the word_count test.
+	 *
+	 * @return array<string, array<int, string|int>> The data to use.
+	 */
+	public static function provider_for_word_count() {
+		return [
+			'English content'          => [
+				'This is test content.',
+				'Test title',
+				6,
+				'Latin-script content should still count correctly.',
+			],
+			'Cyrillic content'         => [
+				'Привет привет мир тест текст',
+				'',
+				5,
+				'Cyrillic words should be counted individually.',
+			],
+			'Arabic content'           => [
+				'مرحبا بالعالم هذا اختبار',
+				'',
+				4,
+				'Arabic words should be counted individually.',
+			],
+			'Japanese content'         => [
+				'これは日本語のテストです',
+				'',
+				12,
+				'Japanese has no spaces between words, so characters are counted instead.',
+			],
+			'Chinese content'          => [
+				'你好世界这是一个测试',
+				'',
+				10,
+				'Chinese characters are counted individually, including Han ideographs beyond the basic block.',
+			],
+			'Mixed Latin and Japanese' => [
+				'Hello world これは日本語です end',
+				'',
+				11,
+				'Latin words and Japanese characters should both be counted.',
+			],
+			'Accented Latin content'   => [
+				'café résumé naïve',
+				'',
+				3,
+				'Accented Latin letters should not be treated as HTML entities.',
 			],
 		];
 	}
