@@ -101,7 +101,7 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 			$warnings[] = \__( 'The settings were saved, but these pages are disabled on this site, so the settings have no effect until the pages are enabled in the Yoast SEO settings.', 'wordpress-seo' );
 		}
 
-		$data = $this->collector->get_target( $target );
+		$data = $this->collector->get_target_settings( $target );
 
 		if ( $warnings !== [] ) {
 			$data['warning'] = \implode( ' ', $warnings );

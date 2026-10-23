@@ -138,7 +138,7 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 		$this->target_repository->expects( 'get' )->once()->with( 'post_type_archive', 'portfolio' )->andReturn( $target );
 		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-post_type_archive', '%%pt_plural%% Archive' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'noindex-post_type_archive', true )->andReturnTrue();
-		$this->collector->expects( 'get_target' )->once()->with( $target )->andReturn( [ 'seo_title' => '%%pt_plural%% Archive' ] );
+		$this->collector->expects( 'get_target_settings' )->once()->with( $target )->andReturn( [ 'seo_title' => '%%pt_plural%% Archive' ] );
 
 		$this->assertSame(
 			[ 'seo_title' => '%%pt_plural%% Archive' ],
@@ -220,7 +220,7 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 
 		$this->target_repository->expects( 'get' )->once()->with( 'search_page', 'page' )->andReturn( $target );
 		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-search_page', 'Search' )->andReturnTrue();
-		$this->collector->expects( 'get_target' )->once()->with( $target )->andReturn( [ 'seo_title' => 'Search' ] );
+		$this->collector->expects( 'get_target_settings' )->once()->with( $target )->andReturn( [ 'seo_title' => 'Search' ] );
 
 		$this->assertSame(
 			[
@@ -254,7 +254,7 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 		$this->target_repository->expects( 'get' )->once()->with( 'author_archives', '' )->andReturn( $target );
 		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-author_archives', '%%name%%' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'meta_description-author_archives', '<b>Bold</b>' )->andReturnFalse();
-		$this->collector->expects( 'get_target' )->once()->with( $target )->andReturn( [ 'seo_title' => '%%name%%' ] );
+		$this->collector->expects( 'get_target_settings' )->once()->with( $target )->andReturn( [ 'seo_title' => '%%name%%' ] );
 
 		$this->assertSame(
 			[

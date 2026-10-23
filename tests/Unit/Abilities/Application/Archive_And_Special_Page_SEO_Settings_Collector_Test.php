@@ -83,15 +83,15 @@ final class Archive_And_Special_Page_SEO_Settings_Collector_Test extends TestCas
 	}
 
 	/**
-	 * Tests that get_target returns the identifiers of the target, the value of each field it has cast to its
+	 * Tests that get_target_settings returns the identifiers of the target, the value of each field it has cast to its
 	 * type, skipping the fields it does not have, and what agents need to know about the target.
 	 *
 	 * @covers ::__construct
-	 * @covers ::get_target
+	 * @covers ::get_target_settings
 	 *
 	 * @return void
 	 */
-	public function test_get_target() {
+	public function test_get_target_settings() {
 		$identifiers = [
 			'target'    => 'post_type_archive',
 			'post_type' => 'portfolio',
@@ -123,7 +123,7 @@ final class Archive_And_Special_Page_SEO_Settings_Collector_Test extends TestCas
 				'enabled'   => true,
 				'shared'    => false,
 			],
-			$this->instance->get_target( $target ),
+			$this->instance->get_target_settings( $target ),
 		);
 	}
 

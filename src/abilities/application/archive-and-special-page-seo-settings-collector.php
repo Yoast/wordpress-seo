@@ -63,7 +63,7 @@ class Archive_And_Special_Page_SEO_Settings_Collector {
 	 * @return array<array<string, mixed>> The global settings of each target.
 	 */
 	public function get_all(): array {
-		return \array_map( [ $this, 'get_target' ], $this->target_repository->get_all() );
+		return \array_map( [ $this, 'get_target_settings' ], $this->target_repository->get_all() );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Archive_And_Special_Page_SEO_Settings_Collector {
 	 *
 	 * @return array<string, mixed> The global settings of the target.
 	 */
-	public function get_target( Global_Setting_Target_Interface $target ): array {
+	public function get_target_settings( Global_Setting_Target_Interface $target ): array {
 		$data = $target->get_identifiers();
 
 		foreach ( $this->field_map->get_fields() as $field_name => $schema ) {
