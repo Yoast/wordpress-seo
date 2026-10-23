@@ -7,7 +7,6 @@ import MetaDescriptionLengthAssessment from "../../assessments/seo/MetaDescripti
 import SubheadingsKeywordAssessment from "../../assessments/seo/SubHeadingsKeywordAssessment.js";
 import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
-import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment.js";
 import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment.js";
 import AltTextLengthAssessment from "../../assessments/seo/AltTextLengthAssessment.js";
 import DuplicateAltTextAssessment from "../../assessments/seo/DuplicateAltTextAssessment.js";
@@ -61,10 +60,6 @@ export default class StorePostsAndPagesSEOAssessor extends SEOAssessor {
 			new TextCompetingLinksAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
-			} ),
-			new ImageKeyphraseAssessment( {
-				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
-				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
 			} ),
 			new ImageCountAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify20" ),
