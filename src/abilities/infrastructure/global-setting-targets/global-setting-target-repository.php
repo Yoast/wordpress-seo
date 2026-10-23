@@ -92,7 +92,7 @@ class Global_Setting_Target_Repository {
 			return $this->single_targets[ $name ];
 		}
 
-		$message = \__( 'No such pages exist for the given target.', 'wordpress-seo' );
+		$message = \__( 'The given target is not valid.', 'wordpress-seo' );
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- This is an exception message, not output.
 		throw new Unavailable_Global_Setting_Target_Exception( 'yoast_seo_invalid_target', $message );
