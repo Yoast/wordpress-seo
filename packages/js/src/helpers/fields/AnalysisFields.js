@@ -1,5 +1,172 @@
+import apiFetch from "@wordpress/api-fetch";
+import { dispatch, select, subscribe } from "@wordpress/data";
+import {
+	metaKeyFocusKw,
+	metaKeyIsCornerstone,
+	metaKeyLinkdex,
+	metaKeyContentScore,
+	metaKeyInclusiveLanguageScore,
+	metaKeyMetaDescriptionScore,
+	metaKeySeoTitleScore,
+} from "../../shared-admin/constants";
+import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo, getMetaValue, setMetaValue } from "./rest-meta";
+
+/**
+ * Returns whether the core/editor store has finished loading the post type config.
+ * Dispatching editPost before the entity config is available throws a runtime error.
+ *
+ * @returns {boolean} True when the post type config is loaded and editPost can be called safely.
+ */
+function isEditorReady() {
+	return Boolean( select( "core/editor" ).getCurrentPostType() );
+}
+
+// Pending meta writes buffered before the editor entity config is ready.
+// Each entry is { value: string, undoIgnore: boolean } so the undo-ignore flag survives queuing.
+// Keyed by meta key so that rapid successive writes for the same key collapse to the last value.
+const pendingWrites = new Map();
+let unsubscribeFlush = null;
+
+/**
+ * Drains pendingWrites, routing undoIgnore entries through writeMetaWithoutUndo and the rest
+ * through editPost so that analysis scores never land on the undo stack regardless of when they
+ * were queued.
+ *
+ * @returns {void}
+ */
+function flushPendingWrites() {
+	if ( pendingWrites.size === 0 ) {
+		return;
+	}
+	const scoreMeta = {};
+	const editMeta = {};
+	for ( const [ key, { value, undoIgnore } ] of pendingWrites ) {
+		if ( undoIgnore ) {
+			scoreMeta[ key ] = value;
+		} else {
+			editMeta[ key ] = value;
+		}
+	}
+	pendingWrites.clear();
+	if ( Object.keys( scoreMeta ).length > 0 ) {
+		writeMetaWithoutUndo( scoreMeta );
+	}
+	if ( Object.keys( editMeta ).length > 0 ) {
+		dispatch( "core/editor" ).editPost( { meta: editMeta } );
+	}
+}
+
+/**
+ * Subscribes to core/editor store changes and flushes pending meta writes as soon as the editor
+ * is ready. Unsubscribes immediately after the first successful flush to avoid ongoing overhead.
+ *
+ * @returns {void}
+ */
+function scheduleFlush() {
+	if ( unsubscribeFlush ) {
+		return;
+	}
+	unsubscribeFlush = subscribe( () => {
+		if ( ! isEditorReady() ) {
+			return;
+		}
+		unsubscribeFlush();
+		unsubscribeFlush = null;
+		flushPendingWrites();
+	}, "core/editor" );
+}
+
+/**
+ * Dispatches a meta write immediately if the editor is ready, or queues it for the next flush.
+ * When the editor is already ready any previously queued writes are flushed together with this
+ * one to minimise unnecessary state updates.
+ *
+ * @param {string}  metaKey    The meta key to write.
+ * @param {string}  value      The value to write.
+ * @param {boolean} undoIgnore When true, the write bypasses the undo stack via editEntityRecord.
+ *                             Use for computed values (e.g. analysis scores) that should not
+ *                             be undoable.
+ *
+ * @returns {void}
+ */
+function writeOrQueue( metaKey, value, undoIgnore = false ) {
+	// All meta fields are registered with type: string. Coerce here so callers that pass
+	// numeric scores (e.g. linkdex) don't trigger a REST API type-validation error.
+	pendingWrites.set( metaKey, { value: String( value ), undoIgnore } );
+	if ( ! isEditorReady() ) {
+		scheduleFlush();
+		return;
+	}
+	// Cancel any pending flush subscription — we are dispatching everything now.
+	if ( unsubscribeFlush ) {
+		unsubscribeFlush();
+		unsubscribeFlush = null;
+	}
+	flushPendingWrites();
+}
+
+/**
+ * Sets a meta value either by writing directly to the DOM element when REST meta is inactive, or via the REST API when active.
+ *
+ * @param {string} metaKey The meta key to write.
+ * @param {HTMLElement|null} element The DOM element to write to when REST meta is inactive.
+ * @param {string} value The value to write.
+ * @returns {void}
+ */
+
+/**
+ * Buffer for score meta writes that should not dirty the post independently.
+ * Keyed by meta key; holds the latest sanitized score string.
+ * Injected into the outgoing save payload by initScoreInjectMiddleware.
+ */
+const pendingScoreWrites = new Map();
+
+/**
+ * Mirrors the PHP sanitizer: only non-negative integers are valid; anything else becomes "0".
+ *
+ * @param {string} value The raw score value.
+ * @returns {string} The sanitized score string.
+ */
+const sanitizeScore = ( value ) => {
+	const parsed = parseInt( value, 10 );
+	return ( Number.isInteger( parsed ) && parsed >= 0 ) ? String( parsed ) : "0";
+};
+
+/**
+ * Returns true when buffering the score would be a no-op.
+ *
+ * Skips when the sanitized value already matches the committed meta, or when
+ * the score is "0" and the committed value is "" (the register_post_meta default
+ * for a score that was never persisted — semantically the same as "0").
+ *
+ * @param {string} metaKey   The meta key to check.
+ * @param {string} sanitized The sanitized score string.
+ * @returns {boolean} Whether the write should be skipped.
+ */
+const shouldSkipScoreWrite = ( metaKey, sanitized ) => {
+	const currentValue = select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKey ] ?? "";
+	return sanitized === currentValue || ( sanitized === "0" && currentValue === "" );
+};
+
+const setScoreMeta = ( metaKey, element, value ) => {
+	if ( isRestMetaActive() ) {
+		const sanitized = sanitizeScore( value );
+		if ( ! shouldSkipScoreWrite( metaKey, sanitized ) ) {
+			pendingScoreWrites.set( metaKey, sanitized );
+		}
+		return;
+	}
+	if ( element ) {
+		element.value = value;
+	}
+};
+
 /**
  * This class is responsible for handling the interaction with the hidden fields for the analysis.
+ *
+ * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM fields are not rendered.
+ * In that case getters read from the `core/editor` store and setters dispatch to it so that
+ * WordPress saves the values via the REST API on post save.
  */
 export default class AnalysisFields {
 	/**
@@ -73,6 +240,12 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set keyphrase( value ) {
+		if ( isRestMetaActive() ) {
+			if ( ! shouldSkipMetaWrite( metaKeyFocusKw, value ) ) {
+				writeOrQueue( metaKeyFocusKw, value );
+			}
+			return;
+		}
 		if ( AnalysisFields.keyphraseElement ) {
 			AnalysisFields.keyphraseElement.value = value;
 		}
@@ -84,7 +257,7 @@ export default class AnalysisFields {
 	 * @returns {string} The keyphrase.
 	 */
 	static get keyphrase() {
-		return AnalysisFields.keyphraseElement?.value ?? "";
+		return getMetaValue( metaKeyFocusKw, AnalysisFields.keyphraseElement, "" );
 	}
 
 	/**
@@ -95,6 +268,13 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set isCornerstone( value ) {
+		if ( isRestMetaActive() ) {
+			const newValue = value ? "1" : "0";
+			if ( ! shouldSkipMetaWrite( metaKeyIsCornerstone, newValue ) ) {
+				writeOrQueue( metaKeyIsCornerstone, newValue );
+			}
+			return;
+		}
 		if ( AnalysisFields.isCornerstoneElement ) {
 			AnalysisFields.isCornerstoneElement.value = value ? "1" : "0";
 		}
@@ -106,7 +286,7 @@ export default class AnalysisFields {
 	 * @returns {boolean} The isCornerstone.
 	 */
 	static get isCornerstone() {
-		return AnalysisFields.isCornerstoneElement?.value === "1";
+		return getMetaValue( metaKeyIsCornerstone, AnalysisFields.isCornerstoneElement, "0" ) === "1";
 	}
 
 	/**
@@ -117,9 +297,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set seoScore( value ) {
-		if ( AnalysisFields.seoScoreElement ) {
-			AnalysisFields.seoScoreElement.value = value;
-		}
+		setScoreMeta( metaKeyLinkdex, AnalysisFields.seoScoreElement, value );
 	}
 
 	/**
@@ -128,7 +306,7 @@ export default class AnalysisFields {
 	 * @returns {string} The SEO (overall) score.
 	 */
 	static get seoScore() {
-		return AnalysisFields.seoScoreElement?.value ?? "";
+		return getMetaValue( metaKeyLinkdex, AnalysisFields.seoScoreElement, "" );
 	}
 
 	/**
@@ -139,9 +317,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set readabilityScore( value ) {
-		if ( AnalysisFields.readabilityScoreElement ) {
-			AnalysisFields.readabilityScoreElement.value = value;
-		}
+		setScoreMeta( metaKeyContentScore, AnalysisFields.readabilityScoreElement, value );
 	}
 
 	/**
@@ -150,7 +326,7 @@ export default class AnalysisFields {
 	 * @returns {string} The Readability (overall) score.
 	 */
 	static get readabilityScore() {
-		return AnalysisFields.readabilityScoreElement?.value ?? "";
+		return getMetaValue( metaKeyContentScore, AnalysisFields.readabilityScoreElement, "" );
 	}
 
 	/**
@@ -161,9 +337,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set inclusiveLanguageScore( value ) {
-		if ( AnalysisFields.inclusiveLanguageScoreElement ) {
-			AnalysisFields.inclusiveLanguageScoreElement.value = value;
-		}
+		setScoreMeta( metaKeyInclusiveLanguageScore, AnalysisFields.inclusiveLanguageScoreElement, value );
 	}
 
 	/**
@@ -172,7 +346,7 @@ export default class AnalysisFields {
 	 * @returns {string} The inclusive language (overall) score.
 	 */
 	static get inclusiveLanguageScore() {
-		return AnalysisFields.inclusiveLanguageScoreElement?.value ?? "";
+		return getMetaValue( metaKeyInclusiveLanguageScore, AnalysisFields.inclusiveLanguageScoreElement, "" );
 	}
 
 	/**
@@ -183,9 +357,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set seoTitleScore( value ) {
-		if ( AnalysisFields.seoTitleScoreElement ) {
-			AnalysisFields.seoTitleScoreElement.value = value;
-		}
+		setMetaValue( metaKeySeoTitleScore, AnalysisFields.seoTitleScoreElement, value );
 	}
 
 	/**
@@ -194,7 +366,7 @@ export default class AnalysisFields {
 	 * @returns {string} The SEO title score.
 	 */
 	static get seoTitleScore() {
-		return AnalysisFields.seoTitleScoreElement?.value ?? "";
+		return getMetaValue( metaKeySeoTitleScore, AnalysisFields.seoTitleScoreElement, "" );
 	}
 
 	/**
@@ -205,9 +377,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set metaDescriptionScore( value ) {
-		if ( AnalysisFields.metaDescriptionScoreElement ) {
-			AnalysisFields.metaDescriptionScoreElement.value = value;
-		}
+		setMetaValue( metaKeyMetaDescriptionScore, AnalysisFields.metaDescriptionScoreElement, value );
 	}
 
 	/**
@@ -216,6 +386,102 @@ export default class AnalysisFields {
 	 * @returns {string} The meta description score.
 	 */
 	static get metaDescriptionScore() {
-		return AnalysisFields.metaDescriptionScoreElement?.value ?? "";
+		return getMetaValue( metaKeyMetaDescriptionScore, AnalysisFields.metaDescriptionScoreElement, "" );
 	}
 }
+
+/**
+ * Returns true when the request method is PUT or POST.
+ *
+ * @param {Object} options The apiFetch request options.
+ * @returns {boolean} Whether the method is a save method.
+ */
+function isSaveMethod( options ) {
+	const method = options.method?.toUpperCase() ?? "";
+	return method === "PUT" || method === "POST";
+}
+
+/**
+ * Returns the REST base and post ID for the currently edited post.
+ *
+ * @returns {{restBase: string|undefined, postId: number|undefined}} The REST base and post ID.
+ */
+function getCurrentPostRestContext() {
+	const editor   = select( "core/editor" );
+	const postType = editor?.getCurrentPostType();
+	const postId   = editor?.getCurrentPostId();
+	const restBase = select( "core" ).getPostType( postType )?.rest_base;
+	return { restBase, postId };
+}
+
+/**
+ * Returns true when the path targets the given post's REST endpoint (not an autosave).
+ *
+ * @param {string} path     The request path.
+ * @param {string} restBase The post type REST base.
+ * @param {number} postId   The post ID.
+ * @returns {boolean} Whether the path is a save request for this post.
+ */
+function matchesPostEndpoint( path, restBase, postId ) {
+	const pattern = new RegExp( `/${ restBase }/${ postId }(?:\\?|$)` );
+	return pattern.test( path ) && ! path.includes( "autosave" );
+}
+
+/**
+ * Returns true when the request is a save (PUT/POST) to the current post's REST endpoint
+ * and not an autosave sub-resource.
+ *
+ * @param {Object} options The apiFetch request options.
+ * @returns {boolean} Whether scores should be injected into this request.
+ */
+function isScoreSaveRequest( options ) {
+	if ( ! isSaveMethod( options ) ) {
+		return false;
+	}
+	const { restBase, postId } = getCurrentPostRestContext();
+	if ( ! restBase || ! postId ) {
+		return false;
+	}
+	return matchesPostEndpoint( options.path ?? "", restBase, postId );
+}
+
+/**
+ * apiFetch middleware that injects buffered score writes into post save requests.
+ *
+ * @param {Object}   options The apiFetch request options.
+ * @param {Function} next    The next middleware in the chain.
+ * @returns {*} The apiFetch response.
+ */
+function scoreInjectMiddleware( options, next ) {
+	if ( pendingScoreWrites.size === 0 || ! isScoreSaveRequest( options ) ) {
+		return next( options );
+	}
+	const scores = Object.fromEntries( pendingScoreWrites );
+	pendingScoreWrites.clear();
+	return next( {
+		...options,
+		data: { ...options.data, meta: { ...( options.data?.meta ?? {} ), ...scores } },
+	} );
+}
+
+/**
+ * Registers the score inject middleware with apiFetch.
+ *
+ * Detecting save via a store subscriber has a timing problem: Gutenberg's save
+ * action reads entity edits before the subscriber fires, so any write at that
+ * moment lands as a pending edit after the save rather than inside the payload.
+ * The middleware approach sidesteps this by operating at the HTTP layer: it
+ * intercepts the PUT/POST to the post endpoint and merges the buffered scores
+ * into the request body before it goes out. Gutenberg's normal response handling
+ * then commits the scores to the core store, so subsequent analysis runs see no
+ * difference and skip — no separate PATCH or manual receiveEntityRecords needed.
+ *
+ * @returns {void}
+ */
+function initScoreInjectMiddleware() {
+	apiFetch.use( scoreInjectMiddleware );
+}
+
+// Always register — the buffer is only populated when isRestMetaActive() is true
+// (inside setScoreMeta), so the middleware is a safe no-op in classic-editor mode.
+initScoreInjectMiddleware();

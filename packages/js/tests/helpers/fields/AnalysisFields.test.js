@@ -1,18 +1,60 @@
 import AnalysisFields from "../../../src/helpers/fields/AnalysisFields";
-import { mockWindow } from "../../test-utils";
+import { mockWindow, createInputElement } from "../../test-utils";
+import { metaKeyFocusKw, metaKeyLinkdex } from "../../../src/shared-admin/constants";
 
-/**
- * Creates an input element.
- * @param {string} id The ID.
- * @returns {HTMLInputElement} The input element.
- */
-const createInputElement = ( id ) => {
-	const inputElement = document.createElement( "input" );
-	inputElement.id = id;
-	document.body.appendChild( inputElement );
+const mockGetEditedPostAttribute = jest.fn();
+const mockCurrentPostType = jest.fn();
+const mockCurrentPostId = jest.fn().mockReturnValue( 1 );
+const mockGetPostType = jest.fn();
+const mockEditPost = jest.fn();
+const mockEditEntityRecord = jest.fn();
+const mockCapturedSubscribers = [];
+// var without initializer — jest.mock factories are hoisted above let/const (TDZ),
+// and `= null` would reset the value set by the factory once the module body runs.
 
-	return inputElement;
-};
+var capturedMiddleware;
+
+jest.mock( "@wordpress/api-fetch", () => {
+	const mock = jest.fn();
+	mock.use = jest.fn( ( middleware ) => {
+		capturedMiddleware = middleware;
+	} );
+	return mock;
+} );
+
+jest.mock( "@wordpress/data", () => ( {
+	select: ( store ) => {
+		if ( store === "core/editor" ) {
+			return {
+				getCurrentPostType: mockCurrentPostType,
+				getCurrentPostId: mockCurrentPostId,
+				getEditedPostAttribute: mockGetEditedPostAttribute,
+			};
+		}
+		if ( store === "core" ) {
+			return { getPostType: mockGetPostType };
+		}
+		return {};
+	},
+	dispatch: ( store ) => {
+		if ( store === "core/editor" ) {
+			return { editPost: mockEditPost };
+		}
+		if ( store === "core" ) {
+			return { editEntityRecord: mockEditEntityRecord };
+		}
+		return {};
+	},
+	subscribe: jest.fn( ( fn ) => {
+		mockCapturedSubscribers.push( fn );
+		return () => {
+			const index = mockCapturedSubscribers.indexOf( fn );
+			if ( index > -1 ) {
+				mockCapturedSubscribers.splice( index, 1 );
+			}
+		};
+	} ),
+} ) );
 
 describe( "keyphrase", () => {
 	const id = {
@@ -60,8 +102,7 @@ describe( "keyphrase", () => {
 		} );
 
 		it( "gets the keyphrase", () => {
-			const inputElement = createInputElement( id.terms );
-			inputElement.value = "foo";
+			const inputElement = createInputElement( id.terms, "foo" );
 
 			expect( AnalysisFields.keyphrase ).toBe( "foo" );
 
@@ -132,8 +173,7 @@ describe( "isCornerstone", () => {
 		} );
 
 		it( "gets isCornerstone", () => {
-			const inputElement = createInputElement( id.terms );
-			inputElement.value = "1";
+			const inputElement = createInputElement( id.terms, "1" );
 
 			expect( AnalysisFields.isCornerstone ).toBe( true );
 
@@ -218,8 +258,7 @@ describe( "seoScore", () => {
 		} );
 
 		it( "gets the seoScore", () => {
-			const inputElement = createInputElement( id.terms );
-			inputElement.value = "9";
+			const inputElement = createInputElement( id.terms, "9" );
 
 			expect( AnalysisFields.seoScore ).toBe( "9" );
 
@@ -290,8 +329,7 @@ describe( "readabilityScore", () => {
 		} );
 
 		it( "gets the readabilityScore", () => {
-			const inputElement = createInputElement( id.terms );
-			inputElement.value = "9";
+			const inputElement = createInputElement( id.terms, "9" );
 
 			expect( AnalysisFields.readabilityScore ).toBe( "9" );
 
@@ -362,8 +400,7 @@ describe( "inclusiveLanguageScore", () => {
 		} );
 
 		it( "gets the inclusiveLanguageScore", () => {
-			const inputElement = createInputElement( id.terms );
-			inputElement.value = "9";
+			const inputElement = createInputElement( id.terms, "9" );
 
 			expect( AnalysisFields.inclusiveLanguageScore ).toBe( "9" );
 
@@ -463,5 +500,158 @@ describe( "metaDescriptionScore", () => {
 
 			inputElement.remove();
 		} );
+	} );
+} );
+
+describe( "pending writes (REST meta mode)", () => {
+	beforeEach( () => {
+		// Flush leftover module state (pendingWrites from writeOrQueue) by simulating the editor becoming ready.
+		mockCurrentPostType.mockReturnValue( "post" );
+		[ ...mockCapturedSubscribers ].forEach( fn => fn() );
+		mockCapturedSubscribers.length = 0;
+
+		window.wpseoScriptData = { isPost: true, disableMetaboxInBlockEditor: true };
+		mockCurrentPostType.mockReturnValue( null );
+		mockGetEditedPostAttribute.mockReturnValue( {} );
+		mockEditPost.mockClear();
+		mockEditEntityRecord.mockClear();
+	} );
+
+	afterEach( () => {
+		delete window.wpseoScriptData;
+	} );
+
+	it( "buffers a score write without dispatching to core/editor", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "47" } );
+		AnalysisFields.seoScore = "50";
+
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+		expect( mockEditPost ).not.toHaveBeenCalled();
+	} );
+
+	it( "skips buffering when the score matches the committed value", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "50" } );
+		AnalysisFields.seoScore = "50";
+
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+		expect( mockEditPost ).not.toHaveBeenCalled();
+	} );
+
+	it( "treats a committed empty string as equivalent to '0' and skips buffering", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "" } );
+		// -665 sanitizes to "0"; "" is treated as "0" → skip.
+		AnalysisFields.seoScore = "-665";
+
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+		expect( mockEditPost ).not.toHaveBeenCalled();
+	} );
+
+	it( "clamps a negative score to '0' and buffers it when committed value differs", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "50" } );
+		// -665 sanitizes to "0"; "50" ≠ "0" → buffer.
+		AnalysisFields.seoScore = "-665";
+
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+		expect( mockEditPost ).not.toHaveBeenCalled();
+	} );
+
+	it( "flushes user-editable writes via editPost when the editor becomes ready", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyFocusKw ]: "" } );
+		AnalysisFields.keyphrase = "test keyword";
+
+		expect( mockEditPost ).not.toHaveBeenCalled();
+		expect( mockCapturedSubscribers ).toHaveLength( 1 );
+
+		mockCurrentPostType.mockReturnValue( "post" );
+		mockCapturedSubscribers[ 0 ]();
+
+		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { [ metaKeyFocusKw ]: "test keyword" } } );
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+	} );
+} );
+
+describe( "score inject middleware", () => {
+	beforeEach( () => {
+		// Flush any leftover score buffer from previous tests.
+		mockCurrentPostType.mockReturnValue( "post" );
+		mockCurrentPostId.mockReturnValue( 1 );
+		// eslint-disable-next-line camelcase
+		mockGetPostType.mockReturnValue( { rest_base: "posts" } );
+
+		window.wpseoScriptData = { isPost: true, disableMetaboxInBlockEditor: true };
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "47" } );
+
+		// Drain the buffer so each test starts clean.
+		if ( capturedMiddleware ) {
+			capturedMiddleware( { method: "PUT", path: "/wp/v2/posts/1", data: {} }, jest.fn() );
+		}
+	} );
+
+	afterEach( () => {
+		delete window.wpseoScriptData;
+	} );
+
+	it( "injects buffered scores into the save payload", () => {
+		AnalysisFields.seoScore = "50";
+
+		const next = jest.fn();
+		capturedMiddleware( { method: "PUT", path: "/wp/v2/posts/1", data: { title: "My Post", meta: {} } }, next );
+
+		expect( next ).toHaveBeenCalledWith( {
+			method: "PUT",
+			path: "/wp/v2/posts/1",
+			data: { title: "My Post", meta: { [ metaKeyLinkdex ]: "50" } },
+		} );
+	} );
+
+	it( "passes the request through unchanged when the buffer is empty", () => {
+		const next = jest.fn();
+		const options = { method: "PUT", path: "/wp/v2/posts/1", data: {} };
+		capturedMiddleware( options, next );
+
+		expect( next ).toHaveBeenCalledWith( options );
+	} );
+
+	it( "passes the request through unchanged for GET requests", () => {
+		AnalysisFields.seoScore = "50";
+
+		const next = jest.fn();
+		const options = { method: "GET", path: "/wp/v2/posts/1" };
+		capturedMiddleware( options, next );
+
+		expect( next ).toHaveBeenCalledWith( options );
+	} );
+
+	it( "passes the request through unchanged for autosave requests", () => {
+		AnalysisFields.seoScore = "50";
+
+		const next = jest.fn();
+		const options = { method: "POST", path: "/wp/v2/posts/1/autosaves" };
+		capturedMiddleware( options, next );
+
+		expect( next ).toHaveBeenCalledWith( options );
+	} );
+
+	it( "passes the request through unchanged when the path does not match the current post", () => {
+		AnalysisFields.seoScore = "50";
+
+		const next = jest.fn();
+		const options = { method: "PUT", path: "/wp/v2/posts/999" };
+		capturedMiddleware( options, next );
+
+		expect( next ).toHaveBeenCalledWith( options );
+	} );
+
+	it( "clears the buffer after injecting so a second save does not re-inject stale scores", () => {
+		AnalysisFields.seoScore = "50";
+
+		const first = jest.fn();
+		capturedMiddleware( { method: "PUT", path: "/wp/v2/posts/1", data: {} }, first );
+
+		const second = jest.fn();
+		capturedMiddleware( { method: "PUT", path: "/wp/v2/posts/1", data: {} }, second );
+
+		expect( first ).toHaveBeenCalledWith( expect.objectContaining( { data: expect.objectContaining( { meta: { [ metaKeyLinkdex ]: "50" } } ) } ) );
+		expect( second ).toHaveBeenCalledWith( { method: "PUT", path: "/wp/v2/posts/1", data: {} } );
 	} );
 } );
