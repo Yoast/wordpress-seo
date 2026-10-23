@@ -64,13 +64,25 @@ class Global_Setting_Target_Repository {
 	}
 
 	/**
-	 * Returns all targets whose global settings exist on the site: the single targets and the content type
-	 * archives that have them.
+	 * Returns all targets whose global settings can be changed on the site, leaving out the ones that cannot, like
+	 * a static homepage or the WooCommerce Shop page.
 	 *
 	 * @return array<Global_Setting_Target_Interface> The targets.
 	 */
 	public function get_all(): array {
-		return \array_merge( \array_values( $this->single_targets ), $this->post_type_archive_factory->create_all() );
+		$targets = [];
+
+		foreach ( \array_merge( \array_values( $this->single_targets ), $this->post_type_archive_factory->create_all() ) as $target ) {
+			try {
+				$target->ensure_available();
+			} catch ( Unavailable_Global_Setting_Target_Exception $exception ) {
+				continue;
+			}
+
+			$targets[] = $target;
+		}
+
+		return $targets;
 	}
 
 	/**

@@ -61,15 +61,14 @@ final class Homepage_Target_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the homepage is enabled and available when it shows the latest posts.
+	 * Tests that the homepage is available when it shows the latest posts.
 	 *
-	 * @covers ::is_enabled
 	 * @covers ::ensure_available
 	 *
 	 * @return void
 	 */
 	public function test_latest_posts() {
-		$this->current_page_helper->expects( 'get_front_page_id' )->twice()->andReturn( 0 );
+		$this->current_page_helper->expects( 'get_front_page_id' )->once()->andReturn( 0 );
 
 		$this->instance->ensure_available();
 
@@ -77,17 +76,14 @@ final class Homepage_Target_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that a static homepage is disabled and points to its page.
+	 * Tests that a static homepage is not available and points to its page.
 	 *
-	 * @covers ::is_enabled
 	 * @covers ::ensure_available
 	 *
 	 * @return void
 	 */
 	public function test_static_homepage() {
-		$this->current_page_helper->expects( 'get_front_page_id' )->times( 3 )->andReturn( 42 );
-
-		$this->assertFalse( $this->instance->is_enabled() );
+		$this->current_page_helper->expects( 'get_front_page_id' )->once()->andReturn( 42 );
 
 		try {
 			$this->instance->ensure_available();

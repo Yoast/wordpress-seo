@@ -71,8 +71,8 @@ final class Post_Type_Archive_Target_Factory_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that create_all returns the targets of the archives with global settings, leaving out the ones their
-	 * target rejects, like the WooCommerce Shop page.
+	 * Tests that create_all returns a target for each archive, leaving it to the targets to tell which ones have
+	 * global settings.
 	 *
 	 * @covers ::create_all
 	 *
@@ -85,13 +85,11 @@ final class Post_Type_Archive_Target_Factory_Test extends TestCase {
 				'product'   => Mockery::mock( WP_Post_Type::class ),
 			],
 		);
-		$this->woocommerce_helper->allows( 'is_active' )->andReturnTrue();
-		$this->woocommerce_helper->allows( 'get_shop_page_id' )->andReturn( 12 );
-		$this->stubTranslationFunctions();
 
 		$targets = $this->instance->create_all();
 
-		$this->assertCount( 1, $targets );
+		$this->assertCount( 2, $targets );
 		$this->assertSame( 'title-ptarchive-portfolio', $targets[0]->format_option_name( 'title-ptarchive-%s' ) );
+		$this->assertSame( 'title-ptarchive-product', $targets[1]->format_option_name( 'title-ptarchive-%s' ) );
 	}
 }

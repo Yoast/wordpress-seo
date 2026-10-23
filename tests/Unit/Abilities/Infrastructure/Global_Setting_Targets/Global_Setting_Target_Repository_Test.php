@@ -34,6 +34,13 @@ final class Global_Setting_Target_Repository_Test extends TestCase {
 	private $homepage;
 
 	/**
+	 * The current page helper mock.
+	 *
+	 * @var Mockery\MockInterface|Current_Page_Helper
+	 */
+	private $current_page_helper;
+
+	/**
 	 * The factory of the content type archive targets mock.
 	 *
 	 * @var Mockery\MockInterface|Post_Type_Archive_Target_Factory
@@ -57,7 +64,8 @@ final class Global_Setting_Target_Repository_Test extends TestCase {
 
 		$options_helper = Mockery::mock( Options_Helper::class );
 
-		$this->homepage                  = new Homepage_Target( Mockery::mock( Current_Page_Helper::class ) );
+		$this->current_page_helper       = Mockery::mock( Current_Page_Helper::class );
+		$this->homepage                  = new Homepage_Target( $this->current_page_helper );
 		$this->post_type_archive_factory = Mockery::mock( Post_Type_Archive_Target_Factory::class );
 
 		$this->instance = new Global_Setting_Target_Repository(
@@ -94,7 +102,9 @@ final class Global_Setting_Target_Repository_Test extends TestCase {
 	 */
 	public function test_get_all() {
 		$archive = Mockery::mock( Post_Type_Archive_Target::class );
+		$archive->expects( 'ensure_available' )->once();
 
+		$this->current_page_helper->expects( 'get_front_page_id' )->once()->andReturn( 0 );
 		$this->post_type_archive_factory->expects( 'create_all' )->once()->andReturn( [ $archive ] );
 
 		$targets = $this->instance->get_all();
@@ -102,6 +112,38 @@ final class Global_Setting_Target_Repository_Test extends TestCase {
 		$this->assertCount( 6, $targets );
 		$this->assertSame( $this->homepage, $targets[0] );
 		$this->assertSame( $archive, $targets[5] );
+	}
+
+	/**
+	 * Tests that get_all leaves out the targets whose global settings cannot be changed, like a static homepage or
+	 * the WooCommerce Shop page.
+	 *
+	 * @covers ::get_all
+	 *
+	 * @return void
+	 */
+	public function test_get_all_without_unavailable_targets() {
+		$this->stubTranslationFunctions();
+
+		$shop_archive = Mockery::mock( Post_Type_Archive_Target::class );
+		$shop_archive->expects( 'ensure_available' )
+			->once()
+			->andThrow( new Unavailable_Global_Setting_Target_Exception( 'yoast_seo_woocommerce_shop_page', 'Shop page.' ) );
+
+		$this->current_page_helper->expects( 'get_front_page_id' )->once()->andReturn( 42 );
+		$this->post_type_archive_factory->expects( 'create_all' )->once()->andReturn( [ $shop_archive ] );
+
+		$targets = $this->instance->get_all();
+
+		$this->assertSame(
+			[ 'author_archives', 'date_archives', 'search_page', 'not_found_page' ],
+			\array_map(
+				static function ( $target ) {
+					return $target->get_name();
+				},
+				$targets,
+			),
+		);
 	}
 
 	/**

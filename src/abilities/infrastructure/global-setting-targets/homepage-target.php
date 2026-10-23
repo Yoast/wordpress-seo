@@ -44,30 +44,25 @@ class Homepage_Target extends Abstract_Global_Setting_Target {
 	}
 
 	/**
-	 * Returns whether the homepage shows the latest posts.
-	 *
-	 * @return bool Whether the target is enabled.
-	 */
-	public function is_enabled(): bool {
-		return $this->current_page_helper->get_front_page_id() === 0;
-	}
-
-	/**
 	 * Ensures the homepage shows the latest posts.
+	 *
+	 * Unlike disabled archives, a static homepage is refused rather than reported as disabled: its settings are hidden
+	 * on the settings page too, and its live SEO data belongs to the page.
 	 *
 	 * @return void
 	 *
 	 * @throws Unavailable_Global_Setting_Target_Exception When the homepage is a static page.
 	 */
 	public function ensure_available(): void {
-		if ( $this->is_enabled() ) {
+		$front_page_id = $this->current_page_helper->get_front_page_id();
+		if ( $front_page_id === 0 ) {
 			return;
 		}
 
 		$message = \sprintf(
 			/* translators: 1: the ID of a page, 2: the name of an ability. */
 			\__( 'The homepage of this site is a static page (ID %1$d), so its SEO data is set on that page with the %2$s ability instead.', 'wordpress-seo' ),
-			$this->current_page_helper->get_front_page_id(),
+			$front_page_id,
 			'yoast-seo/update-post-seo-data',
 		);
 

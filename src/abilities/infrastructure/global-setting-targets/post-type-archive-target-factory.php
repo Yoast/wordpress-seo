@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets;
 
-use Yoast\WP\SEO\Abilities\Domain\Exceptions\Unavailable_Global_Setting_Target_Exception;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 
@@ -49,26 +48,11 @@ class Post_Type_Archive_Target_Factory {
 	}
 
 	/**
-	 * Creates the targets of the content type archives that have global settings.
+	 * Creates the targets of all content type archives, whether or not they have global settings.
 	 *
 	 * @return array<Post_Type_Archive_Target> The targets.
 	 */
 	public function create_all(): array {
-		$targets = [];
-
-		foreach ( \array_keys( $this->post_type_helper->get_indexable_post_archives() ) as $post_type ) {
-			$target = $this->create( $post_type );
-
-			try {
-				$target->ensure_available();
-			} catch ( Unavailable_Global_Setting_Target_Exception $exception ) {
-				// The target tells which archives have no global settings, like the WooCommerce Shop page.
-				continue;
-			}
-
-			$targets[] = $target;
-		}
-
-		return $targets;
+		return \array_map( [ $this, 'create' ], \array_keys( $this->post_type_helper->get_indexable_post_archives() ) );
 	}
 }
