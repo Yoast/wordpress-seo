@@ -117,7 +117,7 @@ abstract class Abstract_Archive_And_Special_Page_SEO_Settings_Ability implements
 					],
 					'shared'  => [
 						'type'        => 'boolean',
-						'description' => \__( 'Whether these settings are shared by many pages, like all author archives. Shared settings apply to every one of those pages, so their templates have to use replacement variables instead of text about one specific page.', 'wordpress-seo' ),
+						'description' => \__( 'Whether these settings are shared by many pages, like all author archives. Shared settings apply to every one of those pages, so their templates have to use snippet variables instead of text about one specific page.', 'wordpress-seo' ),
 					],
 				],
 			),

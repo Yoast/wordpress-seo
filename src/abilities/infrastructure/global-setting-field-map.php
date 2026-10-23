@@ -152,7 +152,11 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 		return [
 			'seo_title'        => [
 				'type'            => 'string',
-				'description'     => \__( 'The SEO title template, shown in search results and in the browser tab. It can contain replacement variables. An empty string clears it.', 'wordpress-seo' ),
+				'description'     => \sprintf(
+					/* translators: %s: the format of a snippet variable. */
+					\__( 'The SEO title template, shown in search results and in the browser tab. It can contain snippet variables in the %s format, which are replaced with the values of the page it is shown on. An empty string clears it.', 'wordpress-seo' ),
+					'%%variable%%',
+				),
 				'option_patterns' => [
 					Homepage_Target::NAME          => 'title-home-wpseo',
 					Author_Archives_Target::NAME   => 'title-author-wpseo',
@@ -164,7 +168,11 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 			],
 			'meta_description' => [
 				'type'            => 'string',
-				'description'     => \__( 'The meta description template, shown below the title in search results. It can contain replacement variables. An empty string clears it.', 'wordpress-seo' ),
+				'description'     => \sprintf(
+					/* translators: %s: the format of a snippet variable. */
+					\__( 'The meta description template, shown below the title in search results. It can contain snippet variables in the %s format, which are replaced with the values of the page it is shown on. An empty string clears it.', 'wordpress-seo' ),
+					'%%variable%%',
+				),
 				'option_patterns' => [
 					Homepage_Target::NAME          => 'metadesc-home-wpseo',
 					Author_Archives_Target::NAME   => 'metadesc-author-wpseo',

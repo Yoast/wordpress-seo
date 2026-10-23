@@ -26,7 +26,7 @@ interface Global_Setting_Target_Interface {
 	public function get_identifiers(): array;
 
 	/**
-	 * Returns whether the template is shared by many pages, so it has to use replacement variables instead of
+	 * Returns whether the template is shared by many pages, so it has to use snippet variables instead of
 	 * page-specific text.
 	 *
 	 * @return bool Whether the template is shared.
