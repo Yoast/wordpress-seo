@@ -69,12 +69,6 @@ const MarkButtonInner = ( { ariaLabel, id, className = "", status = "enabled", o
 	const { show, hide } = useTooltipContext();
 	const tooltipId = `${ id }-tooltip`;
 
-	const handleShow = useCallback( () => {
-		if ( ! isPressed ) {
-			show();
-		}
-	}, [ isPressed, show ] );
-
 	return <>
 		<Button
 			variant={ isPressed ? "primary" : "secondary" }
@@ -86,9 +80,9 @@ const MarkButtonInner = ( { ariaLabel, id, className = "", status = "enabled", o
 			aria-pressed={ isPressed }
 			aria-label={ ariaLabel }
 			aria-describedby={ isPressed ? null : tooltipId }
-			onPointerEnter={ handleShow }
+			onPointerEnter={ show }
 			onPointerLeave={ hide }
-			onFocus={ handleShow }
+			onFocus={ show }
 			onBlur={ hide }
 		>
 			<EyeIcon className="yst-w-4 yst-h-4" />
