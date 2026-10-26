@@ -51,7 +51,7 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 - [Meta description length](SCORING%20SEO.md#5-meta-description-length)
 - [Single title](SCORING%20SEO.md#6-single-title)
 - [Function words in keyphrase](SCORING%20SEO.md#7-function-words-in-keyphrase)
-- [Title](SCORING%20SEO.md#12-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
+- [Title](SCORING%20SEO.md#13-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
 
 ### Assessments with different scoring criteria than with the regular SEO assessor
 ### 1) Text length
@@ -200,7 +200,7 @@ a placeholder, a file name or "Product image". By default it assesses the images
 the product's own images (featured, gallery, variations) instead, by providing the Paper's `providedImages` attribute.
 
 Some checks work in every language; the phrases are language-specific. See
-[the regular assessment](SCORING%20SEO.md#11-non-descriptive-alt-text) for what is flagged.
+[the regular assessment](SCORING%20SEO.md#12-non-descriptive-alt-text) for what is flagged.
 
 **When it applies**: Only when at least one assessed image has non-descriptive alt text.
 
