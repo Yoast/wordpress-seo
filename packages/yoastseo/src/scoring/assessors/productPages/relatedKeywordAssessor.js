@@ -5,7 +5,6 @@ import KeyphraseDensityAssessment from "../../assessments/seo/KeywordDensityAsse
 import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment.js";
 import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
-import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment.js";
 import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
@@ -52,10 +51,6 @@ export default class ProductRelatedKeywordAssessor extends RelatedKeywordAssesso
 			new TextCompetingLinksAssessment( {
 				urlTitle: createAnchorOpeningTag( options.textCompetingLinksUrlTitle ),
 				urlCallToAction: createAnchorOpeningTag( options.textCompetingLinksCTAUrl ),
-			} ),
-			new ImageKeyphraseAssessment( {
-				urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
-				urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
 			} ),
 		];
 	}
