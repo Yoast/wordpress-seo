@@ -26,6 +26,7 @@ import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
 import ContentPlannerEditorItem from "../../ai-content-planner/containers/content-planner-editor-item";
 import { EditorIntro, EditorIntroText } from "../EditorIntro";
+import { WooSeoProductUpsellAd } from "../WooSeoProductUpsellAd";
 
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 
@@ -69,6 +70,7 @@ export default function MetaboxFill( { settings } ) {
 							withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }
 						/>
 						{ isPost && isBlockEditorActive && isAiFeatureActive && <ContentPlannerEditorItem location="metabox" /> }
+						<WooSeoProductUpsellAd />
 					</EditorIntro>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>

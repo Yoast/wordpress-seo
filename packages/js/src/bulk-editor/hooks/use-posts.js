@@ -1,6 +1,7 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect, useMemo, useRef, useState } from "@wordpress/element";
 import { NEEDS_IMPROVEMENT_FIELD_PARAMS, PAGE_SIZE, STORE_NAME } from "../constants";
+import { get } from "lodash";
 
 /**
  * Maps a single API row (snake_case) to a {@link BulkEditorItem} (camelCase).
@@ -25,6 +26,7 @@ const formatPost = ( post ) => ( {
 	socialDescriptionFallback: post.social_description_fallback ?? "",
 	editable: post.editable,
 	needsImprovement: post.needs_improvement ?? {},
+	images: get( post, "images", [] ),
 } );
 
 /**
