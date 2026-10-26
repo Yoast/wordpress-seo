@@ -1,7 +1,7 @@
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { Badge, Button, Root, TooltipContainer, TooltipWithContext, useTooltipContext } from "@yoast/ui-library";
-import { EyeIcon } from "@heroicons/react/outline";
-import { LockClosedIcon } from "@heroicons/react/solid";
+import EyeIcon from "@heroicons/react/outline/EyeIcon";
+import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon";
 import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
 import { Component, Fragment, useCallback } from "@wordpress/element";
