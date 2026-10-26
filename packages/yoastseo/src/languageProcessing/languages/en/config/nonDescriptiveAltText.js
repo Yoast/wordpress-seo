@@ -24,10 +24,8 @@ const placeholders = [
 	"alternative text", "description", "image description", "picture description", "insert description here",
 	// Ecommerce defaults.
 	"no image", "no image available", "image not found", "coming soon", "thumbnail",
-	// Layout and structural defaults.
-	"banner", "avatar", "profile picture", "slide", "divider", "line", "shape",
-	// Logos without the name of the brand.
-	"logo", "company logo", "site logo", "brand logo", "our logo",
+	// A default for a person's picture.
+	"profile picture",
 ];
 
 // Matches e.g. "the main photo": an optional article, whitespace, an optional modifier, whitespace, and a noun.
