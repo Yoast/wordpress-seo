@@ -28,14 +28,43 @@ const placeholders = [
 	"profile picture",
 ];
 
-// Matches e.g. "the main photo": an optional article, whitespace, an optional modifier, whitespace, and a noun.
-const imageShape =
-	`(?:(?:${ createAlternation( articles ) })\\s+)?(?:(?:${ createAlternation( modifiers ) })\\s+)?(?:${ createAlternation( nouns ) })`;
-// Matches e.g. "the gallery": an optional article, whitespace, and a word that is non-descriptive on its own.
-const standaloneShape = `(?:(?:${ createAlternation( articles ) })\\s+)?(?:${ createAlternation( standaloneWords ) })`;
+/*
+ * Words left out of the English phrases that are checked in other languages (see `inOtherLanguages`), because they
+ * are ordinary words there: "file" (Dutch "traffic jam", French "queue"), "pic" (French "peak", "woodpecker"),
+ * "alt" (German, Dutch, Norwegian and Swedish "old"), "null" (German "zero"), "to do" written as one word (Spanish,
+ * Portuguese and Catalan "everything") and "na" (Polish, Czech, Slovak and Portuguese "on").
+ */
+const ordinaryWordsInOtherLanguages = [ "file", "pic", "alt", "null", "todo", "na" ];
 
 /**
- * The pattern the `nonDescriptiveAltText` research tests alt texts against: it matches the whole alt text and is
- * case-insensitive. See the research for the contract a language's pattern has to follow.
+ * Builds the pattern from the word lists: it matches the whole alt text and is case-insensitive.
+ *
+ * @param {string[]} [excludedWords] Words to leave out of the lists.
+ *
+ * @returns {RegExp} The pattern.
  */
-export default new RegExp( `^(?:${ imageShape }|${ standaloneShape }|${ createAlternation( placeholders ) })$`, "iu" );
+const buildPattern = ( excludedWords = [] ) => {
+	const keep = ( words ) => words.filter( ( word ) => ! excludedWords.includes( word ) );
+
+	// Matches e.g. "the main photo": an optional article, whitespace, an optional modifier, whitespace, and a noun.
+	const imageShape =
+		`(?:(?:${ createAlternation( articles ) })\\s+)?(?:(?:${ createAlternation( modifiers ) })\\s+)?(?:${ createAlternation( keep( nouns ) ) })`;
+	// Matches e.g. "the gallery": an optional article, whitespace, and a word that is non-descriptive on its own.
+	const standaloneShape = `(?:(?:${ createAlternation( articles ) })\\s+)?(?:${ createAlternation( standaloneWords ) })`;
+
+	return new RegExp( `^(?:${ imageShape }|${ standaloneShape }|${ createAlternation( keep( placeholders ) ) })$`, "iu" );
+};
+
+/**
+ * The English phrases that are also checked in every other supported language: many languages use English terms such
+ * as "alt text" or "thumbnail", and many tools that name images by default are in English ("Untitled", "Download").
+ * The words in `ordinaryWordsInOtherLanguages` are left out. Languages without a researcher of their own do not use
+ * this: their words are unknown, so the risk of flagging a real word is too high.
+ */
+export const inOtherLanguages = buildPattern( ordinaryWordsInOtherLanguages );
+
+/**
+ * The pattern the `nonDescriptiveAltText` research tests English alt texts against. See the research for the contract
+ * a language's pattern has to follow.
+ */
+export default buildPattern();

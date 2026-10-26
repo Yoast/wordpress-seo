@@ -5,6 +5,8 @@ import DutchResearcher from "../../../src/languageProcessing/languages/nl/Resear
 import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
 import HebrewResearcher from "../../../src/languageProcessing/languages/he/Researcher";
 import FarsiResearcher from "../../../src/languageProcessing/languages/fa/Researcher";
+import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
+import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
 import Paper from "../../../src/values/Paper";
 import buildTree from "../../specHelpers/parse/buildTree";
 
@@ -473,5 +475,38 @@ describe( "the alt text on right-to-left sites", () => {
 
 	it( "does not count an Arabic description", () => {
 		expect( researchProvidedImage( "https://example.com/photo.jpg", RLM + "دراجة حمراء على الشاطئ", ArabicResearcher ).count ).toBe( 0 );
+	} );
+} );
+
+describe( "the English phrases in other languages", () => {
+	it.each( [
+		[ "Product image", DutchResearcher ],
+		[ "Untitled", DutchResearcher ],
+		[ "Alt text", GermanResearcher ],
+		[ "Thumbnail", GermanResearcher ],
+		[ "Download 2", JapaneseResearcher ],
+		[ "Image (1)", ArabicResearcher ],
+	] )( "counts %j in a language that has a researcher of its own", ( altText, ResearcherType ) => {
+		expect( researchProvidedImage( "https://example.com/photo.jpg", altText, ResearcherType ).count ).toBe( 1 );
+	} );
+
+	it.each( [
+		[ "File", "\"traffic jam\" in Dutch", DutchResearcher ],
+		[ "Pic", "\"peak\" in French", GermanResearcher ],
+		[ "Alt", "\"old\" in German", GermanResearcher ],
+		[ "Null", "\"zero\" in German", GermanResearcher ],
+		[ "Todo", "\"everything\" in Spanish", DutchResearcher ],
+		[ "Na", "\"on\" in Polish", DutchResearcher ],
+		[ "The pic", "\"peak\" in French", DutchResearcher ],
+	] )( "does not count %j in another language, because it is an ordinary word there: %s", ( altText, description, ResearcherType ) => {
+		expect( researchProvidedImage( "https://example.com/photo.jpg", altText, ResearcherType ).count ).toBe( 0 );
+	} );
+
+	it.each( [ [ "File" ], [ "Pic" ], [ "Alt" ], [ "Null" ], [ "Todo" ], [ "Na" ] ] )( "still counts %j in English", ( altText ) => {
+		expect( researchProvidedImage( "https://example.com/photo.jpg", altText ).count ).toBe( 1 );
+	} );
+
+	it( "does not use the English phrases in a language without a researcher of its own", () => {
+		expect( researchProvidedImage( "https://example.com/photo.jpg", "Untitled", DefaultResearcher ).count ).toBe( 0 );
 	} );
 } );

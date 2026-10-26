@@ -3,6 +3,7 @@ import getAltAttribute from "../helpers/image/getAltAttribute";
 import getImageIdentifier from "../helpers/image/getImageIdentifier";
 import { atMostFiveLetters } from "../helpers/regex/wordBoundaries";
 import { hashedHtmlEntities } from "../../helpers/htmlEntities";
+import { inOtherLanguages as englishPhrasesInOtherLanguages } from "../languages/en/config/nonDescriptiveAltText";
 
 /**
  * @typedef {import("../AbstractResearcher").default } Researcher
@@ -172,6 +173,16 @@ const prepareAltText = ( altText, isFromTheText ) => {
 };
 
 /**
+ * Checks whether a text matches one of the phrase patterns.
+ *
+ * @param {string}                 text     The text to test.
+ * @param {Array<RegExp|false|null>} patterns The patterns; a missing one is skipped.
+ *
+ * @returns {boolean} Whether one of the patterns matches.
+ */
+const matchesPhrase = ( text, patterns ) => patterns.some( ( pattern ) => !! pattern && pattern.test( text ) );
+
+/**
  * Counts how many of the images in scope have alt text that consists only of a meaningless phrase: a placeholder,
  * a file name, or a generic default such as "Product image" that says nothing about the image.
  *
@@ -179,12 +190,15 @@ const prepareAltText = ( altText, isFromTheText ) => {
  * beach" is not. Before matching, HTML entities are turned back into characters, direction marks are removed and the
  * whitespace inside the alt text is collapsed (see `prepareAltText`).
  *
- * Two kinds of checks apply:
+ * Three kinds of checks apply:
  * - checks that work in every language, also in a language without its own phrases: only numbers or punctuation,
  *   a name ending in an image file extension, a file name that cameras, phones, WhatsApp or screenshot tools
  *   generate, and the exact file name of the image (with or without the extension, or without the suffix of a
  *   scaled, edited or resized copy such as "-1024x576", "_800x", "-scaled", "-edited" or "-e1700000000000", ignoring
  *   case);
+ * - the English phrases, in every language that has a researcher of its own, without the words that are ordinary
+ *   words in other languages (see `inOtherLanguages` in the English config). Not in the default researcher, which
+ *   has no `language` config: its language is unknown;
  * - language-specific phrases. A language supplies them as a regex through the `nonDescriptiveAltText` config.
  *   The regex is tested against the alt text without a trailing number, so a phrase such as "image" also matches
  *   "image 1", "image1" and "image (1)". The regex has to match the whole text, so it needs `^` and `$`.
@@ -208,6 +222,7 @@ const prepareAltText = ( altText, isFromTheText ) => {
  */
 export default function nonDescriptiveAltText( paper, researcher ) {
 	const phrasePattern = researcher.getConfig( "nonDescriptiveAltText" );
+	const englishPhrasePattern = researcher.getConfig( "language" ) ? englishPhrasesInOtherLanguages : null;
 	const result = {
 		count: 0,
 		flagged: [],
@@ -225,7 +240,7 @@ export default function nonDescriptiveAltText( paper, researcher ) {
 		// Empty after preparing means the alt text is only non-breaking spaces, which is as meaningless as "-".
 		const altText = prepareAltText( rawAltText, isFromTheText );
 		const isNonDescriptive = altText === "" || isNonDescriptiveInAnyLanguage( altText, image.attributes?.src || "" ) ||
-			( !! phrasePattern && phrasePattern.test( removeTrailingNumber( altText ) ) );
+			matchesPhrase( removeTrailingNumber( altText ), [ phrasePattern, englishPhrasePattern ] );
 
 		if ( ! isNonDescriptive ) {
 			return;
