@@ -203,6 +203,39 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 	}
 
 	/**
+	 * Tests that update returns an error when the input has no field to change, without saving anything.
+	 *
+	 * @covers ::update
+	 *
+	 * @return void
+	 */
+	public function test_update_without_fields() {
+		$target = $this->mock_target(
+			[
+				'target'    => 'post_type_archive',
+				'post_type' => 'book',
+			],
+			true,
+		);
+
+		$this->target_repository->expects( 'get' )->once()->with( 'post_type_archive', 'book' )->andReturn( $target );
+		$this->options_helper->expects( 'set' )->never();
+		$this->collector->expects( 'get_target_settings' )->never();
+
+		$result = $this->instance->update(
+			[
+				'target'    => 'post_type_archive',
+				'post_type' => 'book',
+			],
+		);
+
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'yoast_seo_no_settings', $result->get_error_code() );
+		$this->assertSame( 'Provide at least one setting to change.', $result->get_error_message() );
+		$this->assertSame( [ 'status' => 400 ], $result->get_error_data() );
+	}
+
+	/**
 	 * Tests that update skips the fields the target does not have, whatever their validator, and the fields their
 	 * validator warns about, still saves the other fields, and silently ignores a post type the target does not use.
 	 *

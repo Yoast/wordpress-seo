@@ -80,7 +80,8 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 	 *                                    to change.
 	 *
 	 * @return array<string, mixed>|WP_Error The new global settings of the target, plus a warning when some fields
-	 *                                       could not be changed, or an error when the target cannot be changed.
+	 *                                       could not be changed, or an error when the target cannot be changed or
+	 *                                       no field is provided.
 	 */
 	public function update( array $input ) {
 		try {
@@ -90,8 +91,19 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 			return new WP_Error( $exception->get_error_code(), $exception->getMessage(), [ 'status' => $exception->getCode() ] );
 		}
 
+		$fields = $this->field_map->get_fields();
+
+		// The post type identifies the target rather than being a setting, so the input schema cannot catch this.
+		if ( \array_intersect_key( $fields, $input ) === [] ) {
+			return new WP_Error(
+				'yoast_seo_no_settings',
+				\__( 'Provide at least one setting to change.', 'wordpress-seo' ),
+				[ 'status' => 400 ],
+			);
+		}
+
 		$warnings = [];
-		$result   = $this->update_fields( $this->field_map->get_fields(), $this->field_map->get_validators(), $input, [ 'target' => $target ] );
+		$result   = $this->update_fields( $fields, $this->field_map->get_validators(), $input, [ 'target' => $target ] );
 
 		if ( $result['warning'] !== null ) {
 			$warnings[] = $result['warning'];
