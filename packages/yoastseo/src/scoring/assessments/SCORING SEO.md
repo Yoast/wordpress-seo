@@ -260,7 +260,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 Example: 6/15*100 = 0.4
 
 ### 12) Keyphrase stuffing in alt text
-**What it does**: Checks whether the alt text of the assessed images uses the keyphrase or its synonyms too often. By default, it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
+**What it does**: Checks whether the alt text of the assessed images uses the topic phrase (the keyphrase or its synonyms) too often. By default, it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
 
 **Uses synonyms**: yes. The keyphrase and synonym matches in one alt text are added up, so the keyphrase once plus a synonym once counts as 2. Words that one topic phrase matched are not matched again by the next one.
 

@@ -109,11 +109,12 @@ const countPhraseInTokens = ( tokens, phrase, splitter, locale ) => {
 };
 
 /**
- * Counts the full matches of one topic phrase (the keyphrase or one synonym) in the tokens of a sentence, and marks
- * the matched tokens as used, so the next topic phrase cannot match them again.
+ * Counts how many full matches of one topic phrase (the keyphrase or one synonym) occur in the tokens of a sentence.
  *
- * A full match needs a token for every word of the topic phrase, in any order. Each token counts for one word only,
- * so a repeated word ("bora" in "bora bora") needs as many tokens as the topic phrase repeats it.
+ * - A full match needs a token for every word of the topic phrase, in any order.
+ * - A token can only be used for one word of one match. Once counted, it is marked as used, so later topic phrases
+ *   (the synonyms) cannot count it again.
+ * - So a repeated word needs a token for every repetition: "bora bora" needs two "bora" tokens.
  *
  * @param {AltTextToken[]} tokens           The tokens of the sentence.
  * @param {string[][]}     topicPhraseForms The forms of each word of the topic phrase.
