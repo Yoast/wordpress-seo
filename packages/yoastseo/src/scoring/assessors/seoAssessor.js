@@ -9,7 +9,6 @@ import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitl
 import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
-import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCount from "../assessments/seo/ImageCountAssessment";
 import AltTextLength from "../assessments/seo/AltTextLengthAssessment";
 import DuplicateAltText from "../assessments/seo/DuplicateAltTextAssessment";
@@ -43,7 +42,6 @@ export default class SEOAssessor extends Assessor {
 			new MetaDescriptionLength(),
 			new SubheadingsKeyword(),
 			new TextCompetingLinksAssessment(),
-			new ImageKeyphrase(),
 			new ImageCount(),
 			new AltTextLength(),
 			new DuplicateAltText(),

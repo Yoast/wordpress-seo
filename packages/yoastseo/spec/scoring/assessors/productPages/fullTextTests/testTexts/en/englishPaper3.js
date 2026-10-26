@@ -113,11 +113,6 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Not all your product variants have a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include " +
 			"it if you can, as it will help search engines to better understand your content.</a>",
 	},
-	imageKeyphrase: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Keyphrase in image alt attributes</a>: Good job!",
-	},
 	imageCount: {
 		isApplicable: true,
 		score: 6,

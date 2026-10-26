@@ -39,7 +39,12 @@ const connectorShape = `(?:(?:${ createAlternation( indefiniteArticles ) })\\s+)
 // "De foto beeldt … af" (the photo portrays …), "deze afbeelding stelt … voor" (this image depicts …), "de foto toont" (the photo shows), "Deze afbeelding laat … zien" (this image shows …).
 const finiteVerbs = [
 	`beeldt\\s+${ gap }af`,
-	`stelt\\s+${ gap }voor`,
+	// In "stelt … voor", a "voor" directly followed by a determiner heads a prepositional phrase and is not the
+	// separated particle: "De foto stelt mij voor een raadsel" (the photo presents me with a riddle) does not mean
+	// "depicts". Only a determiner is excluded, because the particle itself can be followed by extraposed material,
+	// as in "stelt een vrouw voor die lacht" (depicts a woman who is laughing). The gap is greedy, so when a later
+	// "voor" is the particle, as in "stelt de haven voor de kust voor", the phrase still matches on that one.
+	`stelt\\s+${ gap }voor\\b(?!\\s+(?:de|het|een)\\b)`,
 	"toont",
 	`laat\\s+${ gap }zien`,
 ];

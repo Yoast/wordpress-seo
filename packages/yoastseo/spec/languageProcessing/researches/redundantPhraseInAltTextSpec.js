@@ -328,6 +328,11 @@ describe( "the redundant alt text phrases for Dutch", () => {
 		[ "deze foto beeldt de situatie af", "this photo portrays the situation" ],
 		[ "de foto stelt een hond voor", "the photo depicts a dog" ],
 		[ "Deze afbeelding stelt het proces voor", "this image depicts the process" ],
+		[ "De afbeelding stelt een vrouw voor die lacht", "the image depicts a woman who is laughing; the relative clause follows the particle" ],
+		[ "Deze foto stelt een man voor met een hoed", "this photo depicts a man with a hat; the prepositional phrase follows the particle" ],
+		[ "De foto stelt de haven voor de kust voor", "the photo depicts the harbour off the coast; the particle is the last \"voor\"" ],
+		[ "De foto stelt de camera voor grote uitdagingen",
+			"the photo confronts the camera with big challenges; a prepositional phrase without a determiner after \"voor\" is the known trade-off of the determiner exclusion" ],
 		[ "De afbeelding toont het park", "the image shows the park" ],
 		[ "deze foto toont de resultaten", "this photo shows the results" ],
 		[ "De foto laat de resultaten zien", "the photo shows the results" ],
@@ -359,6 +364,10 @@ describe( "the redundant alt text phrases for Dutch", () => {
 			"the image is hard to describe, but you have to see it", "a gap does not run across a comma" ],
 		[ "De foto laat, zoals gezegd, de resultaten zien", "the photo shows, as said, the results",
 			"a genuine opening with a parenthetical in the gap is the known trade-off of the comma restriction" ],
+		[ "Deze afbeelding stelt hoge eisen voor de printer", "this image sets high requirements for the printer",
+			"\"voor\" heads a prepositional phrase, it is not the separated particle of \"voorstellen\"" ],
+		[ "De foto stelt mij voor een raadsel", "the photo presents me with a riddle",
+			"\"voor\" heads a prepositional phrase, it is not the separated particle of \"voorstellen\"" ],
 	] )( "does not count the alt text \"%s\" (%s): %s", ( altText ) => {
 		expect( researchInDutch( altText ) ).toEqual( { count: 0, flagged: [] } );
 	} );
