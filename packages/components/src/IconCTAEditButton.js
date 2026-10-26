@@ -29,11 +29,15 @@ const IconButtonBase = styled.button`
 /**
  * Returns the IconCTAEditButton component.
  *
+ * @deprecated Use the Button component from @yoast/ui-library instead.
+ *
  * @param {Object} props Component props.
  *
  * @returns {ReactElement} IconCTAEditButton component.
  */
 const IconCTAEditButton = function( props ) {
+	console.warn( "The IconCTAEditButton component has been deprecated and will be removed in a future release. Use the Button component from @yoast/ui-library instead." );
+
 	return (
 		<IconButtonBase
 			type="button"
