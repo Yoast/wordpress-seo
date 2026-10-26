@@ -7,9 +7,9 @@ import MetaDescriptionLengthAssessment from "../../assessments/seo/MetaDescripti
 import SubheadingsKeywordAssessment from "../../assessments/seo/SubHeadingsKeywordAssessment.js";
 import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
-import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment.js";
 import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment.js";
 import AltTextLengthAssessment from "../../assessments/seo/AltTextLengthAssessment.js";
+import DuplicateAltTextAssessment from "../../assessments/seo/DuplicateAltTextAssessment.js";
 import KeyphraseStuffingInAltTextAssessment from "../../assessments/seo/KeyphraseStuffingInAltTextAssessment.js";
 import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment.js";
 import OutboundLinksAssessment from "../../assessments/seo/OutboundLinksAssessment.js";
@@ -62,10 +62,6 @@ export default class StorePostsAndPagesSEOAssessor extends SEOAssessor {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
 			} ),
-			new ImageKeyphraseAssessment( {
-				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
-				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
-			} ),
 			new ImageCountAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify20" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify21" ),
@@ -73,6 +69,10 @@ export default class StorePostsAndPagesSEOAssessor extends SEOAssessor {
 			new AltTextLengthAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-length" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-length-cta" ),
+			} ),
+			new DuplicateAltTextAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-duplicate-alt-text" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify-duplicate-alt-text-cta" ),
 			} ),
 			new KeyphraseStuffingInAltTextAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-keyphrase-stuffing" ),

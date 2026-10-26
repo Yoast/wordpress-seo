@@ -2,7 +2,6 @@ import ProductSEOAssessor from "../seoAssessor.js";
 import MetaDescriptionLengthAssessment from "../../../assessments/seo/MetaDescriptionLengthAssessment.js";
 import TextLengthAssessment from "../../../assessments/seo/TextLengthAssessment.js";
 import SlugKeywordAssessment from "../../../assessments/seo/UrlKeywordAssessment.js";
-import ImageKeyphraseAssessment from "../../../assessments/seo/KeyphraseInImageTextAssessment.js";
 import SubHeadingsKeywordAssessment from "../../../assessments/seo/SubHeadingsKeywordAssessment";
 
 import { createAnchorOpeningTag } from "../../../../helpers";
@@ -39,11 +38,6 @@ export default class ProductCornerstoneSEOAssessor extends ProductSEOAssessor {
 			scores: { okay: 3 },
 			urlTitle: createAnchorOpeningTag( options.urlKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.urlKeyphraseCTAUrl ),
-		} ) );
-		this.addAssessment( "imageKeyphrase", new ImageKeyphraseAssessment( {
-			scores: { withAltNonKeyword: 3, noAlt: 3 },
-			urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
-			urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
 		} ) );
 		this.addAssessment( "subheadingsKeyword", new SubHeadingsKeywordAssessment( {
 			cornerstoneContent: true,

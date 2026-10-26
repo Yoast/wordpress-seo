@@ -168,34 +168,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | cat		             | no	                          | partial match of keyphrase not regarded as competing link                                                 |
 | cat and dog food	 | no 	                         | full match of keyphrase not regarded as competing link if the link text contains additional content words |
 
-### 7) Keyphrase in image alt attributes
-
-**What it does**: Checks if there are keyphrase or synonyms in the alt attributes of images.
-
-**Uses synonyms**: yes
-
-**When it applies**: Always, except in taxonomies.
-
-**Name in code**: ImageKeyphraseAssessment
-
-**Title URL**: [https://yoa.st/4f7](https://yoast.com/image-seo-alt-tag-and-title-tag-optimization/#utm_source=yoast-seo&utm_medium=software&utm_term=images-keyphrase-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
-
-**Call to action URL**: [https://yoa.st/4f6](https://yoast.com/image-seo-alt-tag-and-title-tag-optimization/#utm_source=yoast-seo&utm_medium=software&utm_term=images-keyphrase-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
-
-**What is counted as a keyphrase match**: ≥50% of all (content) words from the keyphrase in the alt attributes.
-
-| Traffic light   	           | Score	               | Criterion                                                                                                     | Feedback                                                                                                                                                                                                                |
-|-----------------------------|----------------------|---------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red		                       | 3		                  | No images or no keyphrase set		                                                                               | **Keyphrase in image alt attributes**: This page does not have images, a keyphrase, or both. **Add some images with alt attributes that include the keyphrase or synonyms!**                                            |
-| Orange (cornerstone: red)		 | 6 (cornerstone: 3)		 | No images with alt attributes while the keyphrase is set	                                                     | **Keyphrase in image alt attributes**: Images on this page do not have alt attributes that reflect the topic of your text. **Add your keyphrase or synonyms to the alt tags of relevant images!**                       |
-| Orange (cornerstone: red)		 | 6 (cornerstone: 3)		 | There are images with alt attributes, but they don't contain the keyphrase even though the keyphrase is set		 | **Keyphrase in image alt attributes**: Images on this page do not have alt attributes with at least half of the words from your keyphrase. **Fix that!**                                                                |
-| Orange	                     | 6	                   | There are at least 5 images and less than 30% have an alt-tag with keyphrase/synonym		                        | **Keyphrase in image alt attributes**: Out of X images on this page, only X have alt attribute that reflect the topic of your text. **Add your keyphrase or synonyms to the alt tags of more relevant images!**         |
-| Orange	                     | 6	                   | There are at least 5 images and more than 75% have an alt-tag with keyphrase/synonym		                        | **Keyphrase in image alt attributes**: Out of X images on this page, X have alt attributes with words from your keyphrase or synonyms. That's a bit much. **Only include the keyphrase when it really fits the image**. |
-| Green	                      | 9	                   | There are 5 images and 2-4 images have an alt-tag with keyphrase/synonym		                                    | **Keyphrase in image alt attributes**: Good job!                                                                                                                                                                        |
-| Green	                      | 9	                   | There are less than 5 images and at least one has an alt-tag with a keyphrase/synonym		                       | **Keyphrase in image alt attributes**: Good job!                                                                                                                                                                        |
-| Green	                      | 9	                   | There are at least 5 images and between 30 and 75% have an alt-tag with a keyphrase/synonym		                 | **Keyphrase in image alt attributes**: Good job!                                                                                                                                                                        |
-
-### 8) Keyphrase in SEO title
+### 7) Keyphrase in SEO title
 **What it does**: Checks if the keyphrase is used in the page title (when function words precede the keyphrase in the title they are filtered out when determining the position of the keyphrase in the title).
 
 **Uses synonyms**: no
@@ -217,7 +190,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Orange	           | 6	     | SEO title does not contain an exact match of your keyphrase		                                          | **Keyphrase in SEO title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.**                                                                                  |
 | Green	            | 9	     | SEO title contains the exact match of the focus keyphrase at beginning		                               | **Keyphrase in SEO title**: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!                                                                                                                                      |
 
-### 9) Keyphrase in slug
+### 8) Keyphrase in slug
 **What it does**: Checks if the keyphrase is used in the slug.
 
 **Uses synonyms**: no
@@ -237,7 +210,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	                         | 9	                      | For short keyphrases (1-2 content words): All content words are in the slug			           | **Keyphrase in slug**: Great work!                                                            |
 | Green	                         | 9	                      | For longer keyphrases (>2 content words): More than half content words are in the slug		 | **Keyphrase in slug**: More than half of your keyphrase appears in the slug. That's great!    |
 
-### 10) Previously used keyphrase
+### 9) Previously used keyphrase
 
 **What it does**: Checks if the words from the keyphrase were previously used in a keyphrase for a different post.
 
@@ -258,7 +231,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Orange	           | 6	     | The keyphrase is previously used once	           | **Previously used keyphrase**: You've used this keyphrase once before. **Do not use your keyphrase more than once.**	                                |
 | Green	            | 9	     | The keyphrase hasn't been used before	           | **Previously used keyphrase**: You've not used this keyphrase before, very good.	                                                                    |
 
-### 11) Keyphrase distribution (only in Premium)
+### 10) Keyphrase distribution (only in Premium)
 **What it does**: Checks how well the words from the keyphrase are distributed throughout the text. For exact implementation check out https://github.com/Yoast/YoastSEO.js/issues/1558 and https://github.com/Yoast/YoastSEO.js/issues/1868.
 
 **Uses synonyms**: yes
@@ -485,7 +458,32 @@ Each feedback text is two separately translated sentences: the count, then the a
 | Orange        | 6     | X images have alt text of 200 characters or more             | **Alt text length**: X of your images have very long alt text. **Consider making the alt text shorter than 200 characters.** |
 | Orange        | 6     | Both cases occur on the same page                            | **Alt text length**: X of your images have very short or very long alt text. **Consider making the alt text longer than 10 and shorter than 200 characters.** |
 
-### 10) Title (only in Premium)
+### 10) Duplicate alt text
+**What it does**: Checks whether two or more different assessed images share the same alt text. Alt texts are compared trimmed and lowercased. By default it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
+
+Two entries count as the same image, not as a duplicate, when they have the same `id` (provided images only), or else the same `src`. An image with neither counts as a different image. On the text path, the same image in two sizes has two `src` values, so it counts as two images. Images without alt text are not counted: several decorative images with an empty alt text are correct.
+
+X is the number of images that share their alt text with at least one other image. For example, three images with the same alt text count as 3.
+
+**Flagged items**: the result names the flagged images in `flaggedItems`, by their `id`, else their `src`. An image with neither is counted but not named.
+
+**When it applies**: Only when at least two different assessed images share the same alt text. There is no green traffic light: "all your images have unique alt text" would be misleading when some or all alt texts are empty. When nothing is flagged the assessment returns a result without a score and without a text, which `Assessor.isValidResult` drops, and the assessment is not shown at all.
+
+**Name in code**: DuplicateAltTextAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `duplicateCount`, and must return `duplicate`. The
+returned object is used as is, so an omitted key renders as an empty result text rather than falling back to the default.
+
+**Title URL**: https://yoa.st/duplicate-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/duplicate-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                            | Feedback                                                                                                                 |
+|---------------|-------|------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your images don't have unique alt text. **Give each image its own alt text.** |
+
+### 11) Title (only in Premium)
 **What it does**: Checks for the presence of a title.
 
 **When it applies**: Always. Does not apply to taxonomies.

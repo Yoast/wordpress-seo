@@ -37,8 +37,8 @@ export const ImageAltTextUpsellCard = () => {
 			<img
 				src={ pluginUrl + VISUAL_PATH }
 				alt=""
-				width="864"
-				height="488"
+				width="900"
+				height="509"
 				loading="lazy"
 				className="yst-block yst-w-full yst-h-auto yst-bg-slate-100"
 			/>

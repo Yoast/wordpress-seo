@@ -11,7 +11,7 @@ export const refreshDelay = 500;
  *
  * @type {string[]}
  */
-export const ASSESSMENT_BUTTON_SLOT_IDS = [ "imageAltTags", "altTextLength", "keyphraseStuffingInAltText" ];
+export const ASSESSMENT_BUTTON_SLOT_IDS = [ "imageAltTags", "altTextLength", "duplicateAltText", "keyphraseStuffingInAltText" ];
 
 /**
  * Builds the name of the slot rendered next to an assessment result.

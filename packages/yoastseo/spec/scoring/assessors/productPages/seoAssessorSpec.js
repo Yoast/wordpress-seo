@@ -32,8 +32,6 @@ const assessor = new Assessor( new EnglishResearcher( mockPaper ), {
 	singleH1CTAUrl: "https://yoast.com/26",
 	imageCountUrlTitle: "https://yoast.com/27",
 	imageCountCTAUrl: "https://yoast.com/28",
-	imageKeyphraseUrlTitle: "https://yoast.com/29",
-	imageKeyphraseCTAUrl: "https://yoast.com/30",
 } );
 
 describe( "the alt text length assessment URLs", () => {
@@ -46,6 +44,22 @@ describe( "the alt text length assessment URLs", () => {
 
 		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/31' target='_blank'>" );
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/32' target='_blank'>" );
+	} );
+} );
+
+describe( "the duplicate alt text assessment", () => {
+	test( "uses the platform's URLs and result texts when the options are set", () => {
+		const duplicateAltTextResultTexts = jest.fn();
+		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
+			duplicateAltTextUrlTitle: "https://yoast.com/31",
+			duplicateAltTextCTAUrl: "https://yoast.com/32",
+			duplicateAltTextResultTexts,
+		} );
+		const assessment = configured.getAssessment( "duplicateAltText" );
+
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/31' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/32' target='_blank'>" );
+		expect( assessment._config.callbacks.getResultTexts ).toBe( duplicateAltTextResultTexts );
 	} );
 } );
 
@@ -200,14 +214,5 @@ describe( "has configuration overrides", () => {
 		expect( assessment._config.recommendedCount ).toBe( 4 );
 		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/27' target='_blank'>" );
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/28' target='_blank'>" );
-	} );
-
-	test( "ImageKeyphrase", () => {
-		const assessment = assessor.getAssessment( "imageKeyphrase" );
-
-		expect( assessment ).toBeDefined();
-		expect( assessment._config ).toBeDefined();
-		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/29' target='_blank'>" );
-		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/30' target='_blank'>" );
 	} );
 } );
