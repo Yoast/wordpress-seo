@@ -23,8 +23,10 @@ import { letter, wordEnd, wordStart } from "../../../helpers/regex/wordBoundarie
  */
 // A figure label ("Kép: kapcsolási rajz") is not a redundant opening.
 const notColon = "(?!\\s*:)";
-// The ending of rule 4 and 5: the end of the (first) sentence, or a clause break.
-const clauseEnd = "(?=[.,;]|\\s*$)";
+// The ending of rule 4 and 5: the end of the (first) sentence, or a clause break. A clause break is attached
+// punctuation ("képe!", "képe)") or a free-standing dash ("képe – éjjel"); an attached hyphen joins a suffix
+// instead, so it does not count.
+const clauseEnd = "(?=[.,;!?)\\]]|\\s+[-–—]|\\s*$)";
 
 // "Picture", its possessive "picture-its", and its locative "in the picture".
 const noun = "kép";

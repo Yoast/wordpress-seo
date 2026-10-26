@@ -23,8 +23,10 @@ import { letter, wordEnd, wordStart } from "../../../helpers/regex/wordBoundarie
  */
 // A run of letters: the word carrying a participle ending in rule 1b.
 const letterRun = `${ letter }+`;
-// The ending of rule 1a and 1b: the end of the (first) sentence, or a clause break.
-const clauseEnd = "(?=[.,;]|\\s*$)";
+// The ending of rule 1a and 1b: the end of the (first) sentence, or a clause break. A clause break is attached
+// punctuation ("fotoğrafı!", "fotoğrafı)") or a free-standing dash ("fotoğrafı - 2024"); an attached hyphen joins
+// a suffix instead, so it does not count.
+const clauseEnd = "(?=[.,;!?)\\]]|\\s+[-–—]|\\s*$)";
 
 /*
  * Compounds that name a kind of image rather than describe what it depicts: in "profil resmi" (profile picture)

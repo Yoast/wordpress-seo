@@ -16,8 +16,8 @@
 const nouns = "(?:画像|写真)";
 
 // E.g. "犬の画像です" (it is an image of a dog): the noun right after "の" (of) or a verb ending, and right
-// before "です" (is), "で" (is, and …), punctuation or the end.
-const endOfClauseRule = `[のたるす]${ nouns }(?=です|で|[。．.、,]|$)`;
+// before "です" (is), "で" (is, and …), punctuation — full-width or half-width — or the end.
+const endOfClauseRule = `[のたるす]${ nouns }(?=です|で|[。．.、,！？!?]|$)`;
 // E.g. "この写真には" (in this photo): an optional "この" (this), the noun, and the topic particle "は" or
 // "には" (as for …/in …), at the start.
 const startRule = `^(?:この)?${ nouns }(?:には|は)`;
