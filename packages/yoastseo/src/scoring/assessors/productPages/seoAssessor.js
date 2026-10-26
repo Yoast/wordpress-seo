@@ -16,6 +16,7 @@ import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment.js"
 import AltTextLengthAssessment from "../../assessments/seo/AltTextLengthAssessment.js";
 import DuplicateAltTextAssessment from "../../assessments/seo/DuplicateAltTextAssessment.js";
 import RedundantPhraseInAltTextAssessment from "../../assessments/seo/RedundantPhraseInAltTextAssessment.js";
+import NonDescriptiveAltTextAssessment from "../../assessments/seo/NonDescriptiveAltTextAssessment.js";
 import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
@@ -125,6 +126,12 @@ export default class ProductSEOAssessor extends SEOAssessor {
 				callbacks: { getResultTexts: options.redundantPhraseInAltTextResultTexts },
 				urlTitle: createAnchorOpeningTag( options.redundantPhraseInAltTextUrlTitle ),
 				urlCallToAction: createAnchorOpeningTag( options.redundantPhraseInAltTextCTAUrl ),
+			} ),
+			new NonDescriptiveAltTextAssessment( {
+				// Optional: platforms can pass `nonDescriptiveAltTextResultTexts` to override the default feedback strings.
+				callbacks: { getResultTexts: options.nonDescriptiveAltTextResultTexts },
+				urlTitle: createAnchorOpeningTag( options.nonDescriptiveAltTextUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.nonDescriptiveAltTextCTAUrl ),
 			} ),
 		];
 	}

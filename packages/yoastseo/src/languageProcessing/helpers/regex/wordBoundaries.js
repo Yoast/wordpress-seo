@@ -19,3 +19,6 @@ export const wordStart = "(?:^|[^\\p{L}\\p{M}\\p{N}_])";
 
 // A single letter in any script, for requiring that a word follows.
 export const letter = "\\p{L}";
+
+// A run of text with at most five letters in any script, for generated names such as "Screenshot 2026-03-14 at 10.32.45".
+export const atMostFiveLetters = "(?:[^\\p{L}]*\\p{L}){0,5}[^\\p{L}]*";

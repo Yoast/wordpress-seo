@@ -11,6 +11,7 @@ import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment.js"
 import AltTextLengthAssessment from "../../assessments/seo/AltTextLengthAssessment.js";
 import DuplicateAltTextAssessment from "../../assessments/seo/DuplicateAltTextAssessment.js";
 import RedundantPhraseInAltTextAssessment from "../../assessments/seo/RedundantPhraseInAltTextAssessment.js";
+import NonDescriptiveAltTextAssessment from "../../assessments/seo/NonDescriptiveAltTextAssessment.js";
 import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment.js";
 import OutboundLinksAssessment from "../../assessments/seo/OutboundLinksAssessment.js";
 import KeyphraseInSEOTitleAssessment from "../../assessments/seo/KeyphraseInSEOTitleAssessment.js";
@@ -77,6 +78,10 @@ export default class StorePostsAndPagesSEOAssessor extends SEOAssessor {
 			new RedundantPhraseInAltTextAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-redundant-phrase-in-alt-text" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify-redundant-phrase-in-alt-text-cta" ),
+			} ),
+			new NonDescriptiveAltTextAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-non-descriptive-alt-text" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify-non-descriptive-alt-text-cta" ),
 			} ),
 			new TextLengthAssessment( {
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
