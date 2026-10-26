@@ -884,6 +884,8 @@ describe( "the redundant alt text phrases for Hungarian", () => {
 		[ "Ezen a képen két gyerek játszik", "in this picture two children play" ],
 		[ "Egy kutya képe", "a dog's picture; literally: a dog picture-its" ],
 		[ "Egy futó kutya képe, a háttérben fák", "picture of a running dog, trees in the background" ],
+		[ "Egy futó kutya képe!", "picture of a running dog!; attached punctuation also ends the clause" ],
+		[ "Egy futó kutya képe – éjjel", "picture of a running dog – at night; a free-standing dash also ends the clause" ],
 		[ "Egy kutyát ábrázoló kép", "a picture depicting a dog; literally: a dog-ACC depicting picture" ],
 		[ "Az új irodát mutató kép", "a picture showing the new office" ],
 		[ "A Parlamentet bemutató kép, éjszaka", "a picture presenting the Parliament, at night" ],
@@ -925,6 +927,7 @@ describe( "the redundant alt text phrases for Japanese", () => {
 
 	it.each( [
 		[ "犬の画像", "image of a dog; literally: dog-of image" ],
+		[ "犬の画像！", "image of a dog!; the full-width exclamation mark also ends the clause" ],
 		[ "犬の写真です", "it is a photo of a dog" ],
 		[ "公園で遊ぶ犬の写真。", "photo of a dog playing in the park" ],
 		[ "チームの画像、2024年撮影", "image of the team, taken in 2024" ],
@@ -1081,6 +1084,8 @@ describe( "the redundant alt text phrases for Turkish", () => {
 	it.each( [
 		[ "Bir köpeğin resmi", "a dog's picture" ],
 		[ "Ekibin fotoğrafı", "the team's photo" ],
+		[ "Ekibin fotoğrafı!", "the team's photo!; attached punctuation also ends the clause" ],
+		[ "Ekibin fotoğrafı - 2024", "the team's photo - 2024; a free-standing dash also ends the clause" ],
 		[ "Dağların görseli", "image of the mountains" ],
 		[ "Çocukların resimleri, parkta", "pictures of the children, in the park" ],
 		[ "Ürünün görselleri", "images of the product" ],
