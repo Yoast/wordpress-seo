@@ -1,4 +1,5 @@
 import createAlternation from "../../../helpers/regex/createAlternation";
+import { wordEnd } from "../../../helpers/regex/wordBoundaries";
 
 /*
  * The English redundant openings come in two grammatical shapes, kept as separate word lists so the config
@@ -24,7 +25,8 @@ const finiteVerbShape = `(?:${ createAlternation( definiteDeterminers ) })\\s+(?
 
 /**
  * The pattern the `redundantPhraseInAltText` research tests alt texts against: anchored at the start,
- * case-insensitive, and ending on a word boundary so "Image of" does not match "Image offering".
+ * case-insensitive, and ending on `wordEnd` so "Image of" does not match "Image offering". The guard is `wordEnd`
+ * rather than `\b`, so every language's pattern treats non-ASCII letters the same way.
  * See the research for the contract a language's pattern has to follow.
  */
-export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape })\\b`, "i" );
+export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape })${ wordEnd }`, "iu" );

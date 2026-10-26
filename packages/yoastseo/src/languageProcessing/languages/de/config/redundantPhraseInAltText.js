@@ -1,4 +1,5 @@
 import createAlternation from "../../../helpers/regex/createAlternation";
+import { wordEnd } from "../../../helpers/regex/wordBoundaries";
 
 /*
  * The German redundant openings come in three grammatical shapes, kept as word lists and small patterns so the
@@ -62,7 +63,9 @@ const prepositionalShape = nounForms.map( ( { noun, prepositionalArticle } ) =>
 
 /**
  * The pattern the `redundantPhraseInAltText` research tests alt texts against: anchored at the start,
- * case-insensitive, and ending on a word boundary so "Das Bild zeigt" does not match "Das Bild zeigte".
+ * case-insensitive, and ending on `wordEnd` so "Das Bild zeigt" does not match "Das Bild zeigte". The guard is
+ * `wordEnd` rather than `\b`, because `\b` only knows ASCII word characters: it would let "stellt … dar" match
+ * inside "Das Bild stellt eine Frage darüber", where "dar" is only the start of "darüber".
  * See the research for the contract a language's pattern has to follow.
  */
-export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape }|${ prepositionalShape })\\b`, "i" );
+export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape }|${ prepositionalShape })${ wordEnd }`, "iu" );

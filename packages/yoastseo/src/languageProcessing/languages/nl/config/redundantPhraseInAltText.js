@@ -1,4 +1,5 @@
 import createAlternation from "../../../helpers/regex/createAlternation";
+import { wordEnd } from "../../../helpers/regex/wordBoundaries";
 
 /*
  * The Dutch redundant openings come in three grammatical shapes, kept as word lists and small patterns so the
@@ -44,7 +45,7 @@ const finiteVerbs = [
 	// "depicts". Only a determiner is excluded, because the particle itself can be followed by extraposed material,
 	// as in "stelt een vrouw voor die lacht" (depicts a woman who is laughing). The gap is greedy, so when a later
 	// "voor" is the particle, as in "stelt de haven voor de kust voor", the phrase still matches on that one.
-	`stelt\\s+${ gap }voor\\b(?!\\s+(?:de|het|een)\\b)`,
+	`stelt\\s+${ gap }voor${ wordEnd }(?!\\s+(?:de|het|een)${ wordEnd })`,
 	"toont",
 	`laat\\s+${ gap }zien`,
 ];
@@ -58,7 +59,8 @@ const prepositionalShape = `op\\s+de\\s+(?:${ nounAlternation })\\s+(?:${ prepos
 
 /**
  * The pattern the `redundantPhraseInAltText` research tests alt texts against: anchored at the start,
- * case-insensitive, and ending on a word boundary so "De foto toont" does not match "De foto toonde".
+ * case-insensitive, and ending on `wordEnd` so "foto van" does not match inside "Foto vandaag genomen". The guard
+ * is `wordEnd` rather than `\b`, so every language's pattern treats non-ASCII letters the same way.
  * See the research for the contract a language's pattern has to follow.
  */
-export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape }|${ prepositionalShape })\\b`, "i" );
+export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape }|${ prepositionalShape })${ wordEnd }`, "iu" );

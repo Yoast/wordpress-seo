@@ -64,7 +64,8 @@ const prepositionalShape = `en\\s+la\\s+(?:${ nounAlternation })\\s+(?:${ create
 
 /**
  * The pattern the `redundantPhraseInAltText` research tests alt texts against: anchored at the start,
- * case-insensitive, and ending on a word boundary so "En la imagen se ve" does not match "En la imagen se venden".
+ * case-insensitive, and ending on `wordEnd` so "En la imagen se ve" does not match "En la imagen se venden" —
+ * also before a non-ASCII letter, so "se ve" does not match inside "se veía" either.
  * See the research for the contract a language's pattern has to follow.
  */
-export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape }|${ prepositionalShape })\\b`, "iu" );
+export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape }|${ prepositionalShape })${ wordEnd }`, "iu" );

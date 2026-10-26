@@ -1,4 +1,5 @@
 import createAlternation from "../../../helpers/regex/createAlternation";
+import { wordEnd } from "../../../helpers/regex/wordBoundaries";
 
 /*
  * The Norwegian redundant openings come in three grammatical shapes, kept as word lists so the config encodes
@@ -31,7 +32,8 @@ const prepositionalShape = `på\\s+${ definiteNoun }\\s+(?:${ createAlternation(
 
 /**
  * The pattern the `redundantPhraseInAltText` research tests alt texts against: anchored at the start,
- * case-insensitive, and ending on a word boundary so "bildet" does not match "bildetekst".
+ * case-insensitive, and ending on `wordEnd` so "bildet" does not match "bildetekst". The guard is `wordEnd`
+ * rather than `\b`, so every language's pattern treats non-ASCII letters the same way.
  * See the research for the contract a language's pattern has to follow.
  */
-export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape }|${ prepositionalShape })\\b`, "i" );
+export default new RegExp( `^(?:${ connectorShape }|${ finiteVerbShape }|${ prepositionalShape })${ wordEnd }`, "iu" );

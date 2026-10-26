@@ -50,7 +50,8 @@ const prepositionalShape =
 
 /**
  * The pattern the `redundantPhraseInAltText` research tests alt texts against: anchored at the start,
- * case-insensitive, and ending on a word boundary so "gambar" does not match "gambaran".
+ * case-insensitive, and ending on `wordEnd` so "gambar" does not match "gambaran". The guard is `wordEnd`
+ * rather than `\b`, so every language's pattern treats non-ASCII letters the same way.
  * See the research for the contract a language's pattern has to follow.
  */
-export default new RegExp( `^(?:${ bareNounShape }|${ prepositionalShape })\\b`, "iu" );
+export default new RegExp( `^(?:${ bareNounShape }|${ prepositionalShape })${ wordEnd }`, "iu" );

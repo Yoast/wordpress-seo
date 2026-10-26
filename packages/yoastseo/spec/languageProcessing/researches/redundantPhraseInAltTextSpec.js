@@ -204,6 +204,8 @@ describe( "the redundant alt text phrases for Spanish", () => {
 		[ "Una imagen muestra el parque", "an image shows the park", "a finite verb requires a definite determiner" ],
 		[ "Fotografía del parque", "photograph of the park", "\"fotografía\" is not one of the listed nouns" ],
 		[ "En la imagen se venden coches", "in the image cars are sold", "the verb has to end on a word boundary" ],
+		[ "En la imagen se veía un perro", "in the image a dog was seen",
+			"\"se ve\" is only the start of \"se veía\", the word end is Unicode-aware" ],
 		[ "La imagen muestran los resultados", "the image show the results", "a verb agreeing with the image is only listed in singular" ],
 		[ "Una imagen que representan los valores", "an image that represent the values", "a verb agreeing with the image is only listed in singular" ],
 		[ "Un perro delante de una foto de un gato", "a dog in front of a photo of a cat", "the phrase is not at the start" ],
@@ -352,7 +354,9 @@ describe( "the redundant alt text phrases for Dutch", () => {
 		[ "Een afbeelding toont het park", "an image shows the park", "a finite verb requires a definite determiner" ],
 		[ "Fotograaf in het park", "photographer in the park", "\"fotograaf\" is not one of the listed nouns" ],
 		[ "Een foto die mijn oma heeft gemaakt", "a photo that my grandma took", "the relative clause does not end on one of the listed verbs" ],
-		[ "De afbeelding toonde het park", "the image showed the park", "the finite verb has to end on a word boundary" ],
+		[ "De afbeelding toonde het park", "the image showed the park", "the past tense \"toonde\" is not a listed verb form" ],
+		[ "Foto vandaag genomen in het park", "photo taken today in the park",
+			"the connector has to end on a word boundary: \"van\" is only the start of \"vandaag\"" ],
 		[ "Een hond voor een foto van een kat", "a dog in front of a photo of a cat", "the phrase is not at the start" ],
 		[ "Een foto die mijn oma maakte. Dit kunstwerk toont haar liefde voor kleur",
 			"a photo my grandma took. This artwork shows her love of colour", "a gap does not run across a sentence boundary" ],
@@ -438,6 +442,9 @@ describe( "the redundant alt text phrases for German", () => {
 		[ "Ein Bild, das mir gefällt, weil es viel zeigt", "an image that I like, because it shows a lot", "a gap does not run across a comma" ],
 		[ "Ein Bild, das ich mag. Es zeigt den Park", "an image that I like. It shows the park", "a gap does not run across a sentence boundary" ],
 		[ "Ein Hund vor einem Bild von einer Katze", "a dog in front of an image of a cat", "the phrase is not at the start" ],
+		[ "Das Bild stellt eine Frage darüber", "the image raises a question about it",
+			"\"dar\" is only the start of \"darüber\", the word end is Unicode-aware" ],
+		[ "Das Bild stellt eine Frage darin", "the image raises a question in it", "\"dar\" is only the start of \"darin\"" ],
 	] )( "does not count the alt text \"%s\" (%s): %s", ( altText ) => {
 		expect( researchInGerman( altText ) ).toEqual( { count: 0, flagged: [] } );
 	} );
