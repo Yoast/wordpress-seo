@@ -110,10 +110,6 @@ class Post_Type_Archive_Target extends Abstract_Global_Setting_Target {
 			throw new Unavailable_Global_Setting_Target_Exception( 'yoast_seo_missing_post_type', $message );
 		}
 
-		if ( $this->post_type === 'product' && $this->woocommerce_helper->is_active() ) {
-			throw $this->get_woocommerce_shop_exception();
-		}
-
 		if ( ! \array_key_exists( $this->post_type, $this->post_type_helper->get_indexable_post_archives() ) ) {
 			$message = \sprintf(
 				/* translators: 1: the name of a parameter, 2: the name of an ability. */
@@ -124,6 +120,11 @@ class Post_Type_Archive_Target extends Abstract_Global_Setting_Target {
 
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- This is an exception message, not output.
 			throw new Unavailable_Global_Setting_Target_Exception( 'yoast_seo_invalid_post_type', $message );
+		}
+
+		// Checked after the archive, so the Shop page is only pointed to when the product archive has SEO data.
+		if ( $this->post_type === 'product' && $this->woocommerce_helper->is_active() ) {
+			throw $this->get_woocommerce_shop_exception();
 		}
 	}
 

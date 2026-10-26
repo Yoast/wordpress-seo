@@ -187,4 +187,22 @@ final class Post_Type_Archive_Target_Test extends TestCase {
 
 		$this->assertNull( $expected_code );
 	}
+
+	/**
+	 * Tests that ensure_available does not point to the Shop page when the product archive has no global settings.
+	 *
+	 * @covers ::ensure_available
+	 *
+	 * @return void
+	 */
+	public function test_ensure_available_product_without_archive_with_woocommerce() {
+		$this->post_type_helper->expects( 'get_indexable_post_archives' )->andReturn( [] );
+		$this->woocommerce_helper->allows( 'is_active' )->andReturn( true );
+		$this->woocommerce_helper->expects( 'get_shop_page_id' )->never();
+
+		$this->expectException( Unavailable_Global_Setting_Target_Exception::class );
+		$this->expectExceptionMessage( 'No content type archive with SEO data exists for the given post_type.' );
+
+		$this->create( 'product' )->ensure_available();
+	}
 }
