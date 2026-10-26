@@ -63,6 +63,9 @@ export { default as Heading } from "./Heading";
 export { default as HelpText } from "./HelpText";
 export { default as Icon } from "./Icon";
 export { default as IconButtonBase } from "./IconButtonBase";
+// Deprecated, kept in place because moving them changes the generated styled-components class names.
+export { default as IconButtonToggle } from "./IconButtonToggle.js";
+export { default as IconCTAEditButton } from "./IconCTAEditButton.js";
 export { default as IFrame } from "./IFrame";
 export { default as Input } from "./input/Input";
 export { default as WordOccurrenceInsights } from "./WordOccurrenceInsights";
@@ -104,5 +107,3 @@ export { default as ScreenReaderShortcut } from "./a11y/ScreenReaderShortcut";
 
 // Deprecated:
 export { default as KeywordSuggestions } from "./WordOccurrenceInsights";
-export { default as IconButtonToggle } from "./IconButtonToggle.js";
-export { default as IconCTAEditButton } from "./IconCTAEditButton.js";
