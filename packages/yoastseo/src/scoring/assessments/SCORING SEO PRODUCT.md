@@ -175,6 +175,8 @@ platform's, not the default in [the regular table](SCORING%20SEO.md#10-duplicate
 
 **Name in code**: ImageAltTagsAssessment
 
+**Flagged items**: the result names the images without alt text in `flaggedItems`, each once, by their `id`, else their `src`. An image with neither is counted but not named. An alt text of only whitespace counts as missing.
+
 **Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
 `urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `numberOfImagesWithoutAlt`, `totalNumberOfImages` and
 `isVariableProduct`, and must return all four of `good`, `noImagesBad`, `noneHasAltBad` and `someHaveAltBad`. The
