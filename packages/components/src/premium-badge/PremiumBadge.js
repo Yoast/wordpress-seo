@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
  *
  * @returns {React.Component} The PremiumBadge.
  */
-const PremiumBadge = ( { inLabel } ) => (
+const PremiumBadge = ( { inLabel = false } ) => (
 	<span className={ inLabel ? "yoast-badge yoast-badge__in-label yoast-premium-badge" : "yoast-badge yoast-premium-badge" }>
 		{ /* We don't want this string to be translatable. */ }
 		Premium
@@ -17,10 +17,6 @@ const PremiumBadge = ( { inLabel } ) => (
 
 PremiumBadge.propTypes = {
 	inLabel: PropTypes.bool,
-};
-
-PremiumBadge.defaultProps = {
-	inLabel: false,
 };
 
 export default PremiumBadge;
