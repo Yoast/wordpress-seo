@@ -442,6 +442,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -757,6 +758,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -1239,6 +1241,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -1554,6 +1557,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -2723,6 +2727,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -3038,6 +3043,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -3560,6 +3566,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -3875,6 +3882,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -4357,6 +4365,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -4672,6 +4681,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -5236,6 +5246,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -5800,6 +5811,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -6453,6 +6465,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg
@@ -6928,6 +6941,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
+                  onKeyDown={[Function]}
                   type="button"
                 >
                   <svg

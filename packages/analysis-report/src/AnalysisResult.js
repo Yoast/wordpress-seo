@@ -6,7 +6,7 @@ import EyeIcon from "@heroicons/react/outline/EyeIcon";
 import PencilIcon from "@heroicons/react/outline/PencilIcon";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 const { stripTagsFromHtmlString } = strings;
@@ -53,35 +53,76 @@ const areMarkButtonsHidden = function( hasMarksButton, marksButtonStatus ) {
 	return ! hasMarksButton || marksButtonStatus === "hidden";
 };
 
+// Gives the pointer time to cross the gap between the trigger and the tooltip.
+const TOOLTIP_HIDE_DELAY = 100;
+
+/**
+ * Whether the element got focus in a way the browser shows a focus ring for, e.g. the keyboard rather than a click.
+ *
+ * @param {HTMLElement} element The focused element.
+ *
+ * @returns {boolean} True if the element matches :focus-visible, or if the browser can't tell.
+ */
+const isFocusVisible = ( element ) => {
+	try {
+		return element.matches( ":focus-visible" );
+	} catch {
+		return true;
+	}
+};
+
 /**
  * Keeps the tooltip visible while its trigger is hovered or focused.
  *
- * The pointer handlers belong on an element that wraps both the trigger and the tooltip, so the pointer can move onto the
- * tooltip without hiding it. Escape hides the tooltip until the next hover or focus.
+ * The hover props belong on an element that wraps both the trigger and the tooltip, so the pointer can move onto the
+ * tooltip without hiding it. Only keyboard focus keeps it open, so it closes after a click once the pointer leaves.
+ * Escape on the trigger dismisses the tooltip until the next pointer enter or focus.
  *
- * @returns {{hoverProps: Object, focusProps: Object}} The props for the wrapping element and for the trigger.
+ * @returns {{hoverProps: Object, triggerProps: Object}} The props for the wrapping element and for the trigger.
  */
 const useHoverFocusTooltip = () => {
 	const { show, hide } = useTooltipContext();
 	const [ isHovered, setIsHovered ] = useState( false );
 	const [ isFocused, setIsFocused ] = useState( false );
+	const [ isDismissed, setIsDismissed ] = useState( false );
+	const hideTimeout = useRef( null );
 
 	useEffect( () => {
-		if ( isHovered || isFocused ) {
+		if ( ( isHovered || isFocused ) && ! isDismissed ) {
 			show();
 		} else {
 			hide();
 		}
-	}, [ isHovered, isFocused, show, hide ] );
+	}, [ isHovered, isFocused, isDismissed, show, hide ] );
 
-	const handlePointerEnter = useCallback( () => setIsHovered( true ), [] );
-	const handlePointerLeave = useCallback( () => setIsHovered( false ), [] );
-	const handleFocus = useCallback( () => setIsFocused( true ), [] );
+	useEffect( () => () => clearTimeout( hideTimeout.current ), [] );
+
+	const handlePointerEnter = useCallback( () => {
+		clearTimeout( hideTimeout.current );
+		setIsHovered( true );
+		setIsDismissed( false );
+	}, [] );
+	const handlePointerLeave = useCallback( () => {
+		hideTimeout.current = setTimeout( () => setIsHovered( false ), TOOLTIP_HIDE_DELAY );
+	}, [] );
+	const handleFocus = useCallback( ( event ) => {
+		// A click also focuses the button; only keyboard focus should keep the tooltip open after the pointer leaves.
+		if ( ! isFocusVisible( event.target ) ) {
+			return;
+		}
+		setIsFocused( true );
+		setIsDismissed( false );
+	}, [] );
 	const handleBlur = useCallback( () => setIsFocused( false ), [] );
+	const handleKeyDown = useCallback( ( event ) => {
+		if ( event.key === "Escape" ) {
+			setIsDismissed( true );
+		}
+	}, [] );
 
 	return {
 		hoverProps: { onPointerEnter: handlePointerEnter, onPointerLeave: handlePointerLeave },
-		focusProps: { onFocus: handleFocus, onBlur: handleBlur },
+		triggerProps: { onFocus: handleFocus, onBlur: handleBlur, onKeyDown: handleKeyDown },
 	};
 };
 
@@ -98,7 +139,7 @@ const useHoverFocusTooltip = () => {
  * @returns {JSX.Element} The inner mark button with tooltip context.
  */
 const MarkButtonInner = ( { ariaLabel, id, className = "", status = "enabled", onClick, isPressed } ) => {
-	const { hoverProps, focusProps } = useHoverFocusTooltip();
+	const { hoverProps, triggerProps } = useHoverFocusTooltip();
 
 	return <span className="yst-inline-flex" { ...hoverProps }>
 		<Button
@@ -110,7 +151,7 @@ const MarkButtonInner = ( { ariaLabel, id, className = "", status = "enabled", o
 			disabled={ status === "disabled" }
 			aria-pressed={ isPressed }
 			aria-label={ ariaLabel }
-			{ ...focusProps }
+			{ ...triggerProps }
 		>
 			<EyeIcon className="yst-w-4 yst-h-4" />
 		</Button>
@@ -167,7 +208,7 @@ MarkButton.propTypes = {
  * @returns {JSX.Element} The inner edit button with tooltip context.
  */
 const EditButtonInner = ( { ariaLabel, id, className = "", onClick } ) => {
-	const { hoverProps, focusProps } = useHoverFocusTooltip();
+	const { hoverProps, triggerProps } = useHoverFocusTooltip();
 
 	return <span className="yst-inline-flex" { ...hoverProps }>
 		<Button
@@ -177,7 +218,7 @@ const EditButtonInner = ( { ariaLabel, id, className = "", onClick } ) => {
 			onClick={ onClick }
 			id={ id }
 			aria-label={ ariaLabel }
-			{ ...focusProps }
+			{ ...triggerProps }
 		>
 			<PencilIcon className="yst-w-4 yst-h-4" />
 		</Button>

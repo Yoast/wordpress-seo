@@ -96,6 +96,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
+            onKeyDown={[Function]}
             type="button"
           >
             <svg
@@ -233,6 +234,7 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
+            onKeyDown={[Function]}
             type="button"
           >
             <svg
@@ -444,6 +446,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
+            onKeyDown={[Function]}
             type="button"
           >
             <svg
@@ -655,6 +658,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
+            onKeyDown={[Function]}
             type="button"
           >
             <svg
