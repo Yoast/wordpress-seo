@@ -1,12 +1,11 @@
 import { compose } from "@wordpress/compose";
-import { withDispatch, withSelect, useSelect } from "@wordpress/data";
+import { withDispatch, withSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { LocationConsumer } from "@yoast/externals/contexts";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
 import { applyReplaceUsingPlugin } from "../helpers/replacementVariableHelpers";
 import getMemoizedFindCustomFields from "../helpers/getMemoizedFindCustomFields";
-import WooCommerceUpsell from "../components/WooCommerceUpsell";
 
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.
@@ -49,10 +48,6 @@ export const mapEditorDataToPreview = function( data, context ) {
  * @returns {wp.Element} The component.
  */
 const SnippetEditorWrapper = ( props ) => {
-	const woocommerceUpsellLink = useSelect( select => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/product-google-preview-metabox" ), [] );
-	const woocommerceUpsell = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsWooSeoUpsell(), [] );
-	const woocommerceUpsellText = __( "Want an enhanced Google preview of how your WooCommerce products look in the search results?", "wordpress-seo" );
-
 	return <LocationConsumer>
 		{ location =>
 			<SnippetPreviewSection
@@ -60,7 +55,6 @@ const SnippetEditorWrapper = ( props ) => {
 				hasPaperStyle={ props.hasPaperStyle }
 			>
 				<>
-					{ woocommerceUpsell && <WooCommerceUpsell link={ woocommerceUpsellLink } text={ woocommerceUpsellText } /> }
 					<SnippetEditor
 						{ ...props }
 						descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }

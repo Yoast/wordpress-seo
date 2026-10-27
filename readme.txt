@@ -307,6 +307,30 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 28.8 =
+
+Release date: 2026-10-27
+
+New Yoast Abilities for AI agents, Schema Feeds support, and the groundwork for Yoast AI Generate for image alt text in Yoast WooCommerce SEO 17.0. [Read the release post here](https://yoa.st/57v).
+
+#### Enhancements
+
+* Adds AI-powered image alt text generation for WooCommerce product images, including a dedicated Image alt text tab in the bulk editor for Yoast WooCommerce SEO.
+* Adds Yoast abilities that let agents turn site-wide features on and off: llms.txt, Open Graph data, Schema Aggregator, Schema Framework, X card data, and XML sitemaps.
+* Adds a Yoast ability that lets agents update Site representation settings.
+* Adds the `sf:contentType` element from NLWeb's Schema Feeds specification to the schema map.
+
+#### Bugfixes
+
+* Fixes a bug where AI Optimize buttons were shown in the content analysis when AI features were turned off.
+* Fixes a bug where the AI features' free trial was treated as already started after the Yoast SEO settings were saved.
+* Fixes a bug where the bulk editor kept the SEO analysis active when the user had turned it off in their profile.
+* Fixes a bug where the time the schema aggregation endpoint was enabled was not recorded when the setting was saved from the Site features page.
+
+#### Other
+
+* Sets the minimum supported WordPress version to 7.0.
+
 = 28.7 =
 
 Release date: 2026-10-13
@@ -316,28 +340,6 @@ Yoast SEO 28.7 brings more enhancements and bugfixes. [Find more information abo
 #### Enhancements
 
 * Allows agents to update titles and descriptions via the respective Yoast Ability.
-
-= 28.6 =
-
-Release date: 2026-09-29
-
-Yoast SEO 28.6 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Don't show a post type in the Bulk editor if `Enable SEO controls and assessments` is turned off for that post type.
-* Introduces 2 new Yoast Abilities, to allow agents to get and update SEO data for given posts.
-
-#### Bugfixes
-
-* Adds a notice to the bulk editor explaining that no content types are available when *Enable SEO controls and assessments* is disabled for all post types, with a link to the settings page.
-* Fixes a bug where a `rest_invalid_content_type` error would be logged in the browser console when opening the bulk editor while *Enable SEO controls and assessments* was disabled for all post types.
-
-#### Other
-
-* Adds two new cards for the Schema aggregator and the WordPress abilities API features.
-* Adjust the name and description of the setting's toggle controlling the breadcrumbs' rendering to state clearly its intended behaviour.
-* Re-groups the integrations' cards in the `Integrations` page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
