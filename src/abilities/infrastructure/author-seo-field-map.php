@@ -80,15 +80,22 @@ class Author_SEO_Field_Map extends Abstract_SEO_Field_Map {
 	 * Builds the author SEO data array from an indexable that could not be built, because the author archive is
 	 * not output: the stored values without rendered companions, plus a warning that they have no effect.
 	 *
-	 * @param Indexable $indexable The indexable to read from.
+	 * The values are read from the user meta, as the indexable is not updated while the author archive is not
+	 * output, so it holds outdated values until the indexable cleanup removes it.
+	 *
+	 * @param Indexable $indexable The indexable of the user.
 	 *
 	 * @return array<string, int|string|bool|null> The author SEO data, keyed by output-schema property name.
 	 */
 	public function to_unbuilt_seo_array( $indexable ): array {
+		$user_id   = (int) $indexable->object_id;
 		$seo_array = $this->build_seo_array( $indexable, false );
 
-		$seo_array['permalink'] = null;
-		$seo_array['warning']   = \__( 'These settings are saved, but have no effect while this author archive is excluded, for example because the user has no posts and author archives without posts are not shown in search results.', 'wordpress-seo' );
+		$seo_array['permalink']        = null;
+		$seo_array['seo_title']        = $this->get_string_meta( $user_id, 'wpseo_title' );
+		$seo_array['meta_description'] = $this->get_string_meta( $user_id, 'wpseo_metadesc' );
+		$seo_array['noindex']          = ( $this->user_helper->get_meta( $user_id, 'wpseo_noindex_author', true ) === 'on' );
+		$seo_array['warning']          = \__( 'These settings are saved, but have no effect while this author archive is excluded, for example because the user has no posts and author archives without posts are not shown in search results.', 'wordpress-seo' );
 
 		if ( $this->author_archive_helper->are_disabled() ) {
 			$seo_array['warning'] = \__( 'Author archives are disabled, so these settings are saved but have no effect until author archives are enabled.', 'wordpress-seo' );
@@ -119,6 +126,20 @@ class Author_SEO_Field_Map extends Abstract_SEO_Field_Map {
 			'meta_description_rendered' => $this->rendered( $meta, 'meta_description' ),
 			'noindex'                   => (bool) $indexable->is_robots_noindex,
 		];
+	}
+
+	/**
+	 * Returns a string user meta value, encoded like the author indexable builder does.
+	 *
+	 * @param int    $user_id The user ID.
+	 * @param string $key     The meta key.
+	 *
+	 * @return string|null The value, or null when it is not set.
+	 */
+	private function get_string_meta( int $user_id, string $key ): ?string {
+		$value = $this->user_helper->get_meta( $user_id, $key, true );
+
+		return ( \is_string( $value ) && $value !== '' ) ? $value : null;
 	}
 
 	/**
