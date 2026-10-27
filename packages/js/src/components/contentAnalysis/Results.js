@@ -1,8 +1,6 @@
-import { ContentAnalysis } from "@yoast/analysis-report";
-import { Badge, Button, Root, TooltipContainer, TooltipWithContext, useTooltipContext } from "@yoast/ui-library";
-import EyeIcon from "@heroicons/react/outline/EyeIcon";
+import { ContentAnalysis, MarkButton } from "@yoast/analysis-report";
+import { Badge } from "@yoast/ui-library";
 import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon";
-import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
 import { Component, Fragment } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
@@ -13,55 +11,6 @@ import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
 import { PremiumSEOAnalysisModal } from "../modals/PremiumSEOAnalysisModal";
-
-/**
- * Inner mark button that accesses the TooltipContainer context.
- *
- * @param {string} ariaLabel 	The button aria-label.
- * @param {string} id 			The button id.
- * @param {string} className 	The button class name.
- * @param {string} status 		Status of the buttons. Supports: "enabled", "disabled", "hidden".
- * @param {function} onClick 	Onclick handler.
- * @param {boolean} isPressed 	Whether the button is in a pressed state.
- *
- * @returns {JSX.Element} The inner mark button with tooltip context.
- */
-const MarkButtonInner = ( { ariaLabel, id, className = "", status = "enabled", onClick, isPressed } ) => {
-	const { show, hide } = useTooltipContext();
-	const tooltipId = `${ id }-tooltip`;
-
-	return <>
-		<Button
-			variant={ isPressed ? "primary" : "secondary" }
-			size="small"
-			className={ classNames( className, "yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10" ) }
-			onClick={ onClick }
-			id={ id }
-			disabled={ status === "disabled" }
-			aria-pressed={ isPressed }
-			aria-label={ ariaLabel }
-			aria-describedby={ isPressed ? null : tooltipId }
-			onPointerEnter={ show }
-			onPointerLeave={ hide }
-			onFocus={ show }
-			onBlur={ hide }
-		>
-			<EyeIcon className="yst-w-4 yst-h-4" />
-		</Button>
-		<TooltipWithContext id={ tooltipId } position="left">
-			{ ariaLabel }
-		</TooltipWithContext>
-	</>;
-};
-
-MarkButtonInner.propTypes = {
-	ariaLabel: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	className: PropTypes.string,
-	status: PropTypes.string,
-	onClick: PropTypes.func.isRequired,
-	isPressed: PropTypes.bool.isRequired,
-};
 
 /**
  * Mark button with optional upsell badge and tooltip.
@@ -79,25 +28,20 @@ const MarkButtonWithUpsell = ( {
 	isPressed,
 	shouldUpsellHighlighting = false,
 } ) => {
-	return <Root>
-		<TooltipContainer as="div" className="yst-relative yst-inline-flex">
-			<MarkButtonInner
-				ariaLabel={ ariaLabel }
-				id={ id }
-				className={ className }
-				status={ status }
-				onClick={ onClick }
-				isPressed={ isPressed }
-			/>
-		</TooltipContainer>
+	return <MarkButton
+		ariaLabel={ ariaLabel }
+		id={ id }
+		className={ className }
+		status={ status }
+		onClick={ onClick }
+		isPressed={ isPressed }
+	>
 		{ shouldUpsellHighlighting &&
-			<div>
-				<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
-					<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
-				</Badge>
-			</div>
+			<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
+				<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
+			</Badge>
 		}
-	</Root>;
+	</MarkButton>;
 };
 
 MarkButtonWithUpsell.propTypes = {

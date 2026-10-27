@@ -54,6 +54,38 @@ const areMarkButtonsHidden = function( hasMarksButton, marksButtonStatus ) {
 };
 
 /**
+ * Keeps the tooltip visible while its trigger is hovered or focused.
+ *
+ * The pointer handlers belong on an element that wraps both the trigger and the tooltip, so the pointer can move onto the
+ * tooltip without hiding it. Escape hides the tooltip until the next hover or focus.
+ *
+ * @returns {{hoverProps: Object, focusProps: Object}} The props for the wrapping element and for the trigger.
+ */
+const useHoverFocusTooltip = () => {
+	const { show, hide } = useTooltipContext();
+	const [ isHovered, setIsHovered ] = useState( false );
+	const [ isFocused, setIsFocused ] = useState( false );
+
+	useEffect( () => {
+		if ( isHovered || isFocused ) {
+			show();
+		} else {
+			hide();
+		}
+	}, [ isHovered, isFocused, show, hide ] );
+
+	const handlePointerEnter = useCallback( () => setIsHovered( true ), [] );
+	const handlePointerLeave = useCallback( () => setIsHovered( false ), [] );
+	const handleFocus = useCallback( () => setIsFocused( true ), [] );
+	const handleBlur = useCallback( () => setIsFocused( false ), [] );
+
+	return {
+		hoverProps: { onPointerEnter: handlePointerEnter, onPointerLeave: handlePointerLeave },
+		focusProps: { onFocus: handleFocus, onBlur: handleBlur },
+	};
+};
+
+/**
  * Inner mark button that accesses the TooltipContainer context.
  *
  * @param {string} ariaLabel 	The button aria-label.
@@ -66,10 +98,9 @@ const areMarkButtonsHidden = function( hasMarksButton, marksButtonStatus ) {
  * @returns {JSX.Element} The inner mark button with tooltip context.
  */
 const MarkButtonInner = ( { ariaLabel, id, className = "", status = "enabled", onClick, isPressed } ) => {
-	const { show, hide } = useTooltipContext();
-	const tooltipId = `${ id }-tooltip`;
+	const { hoverProps, focusProps } = useHoverFocusTooltip();
 
-	return <>
+	return <span className="yst-inline-flex" { ...hoverProps }>
 		<Button
 			variant={ isPressed ? "primary" : "secondary" }
 			size="small"
@@ -79,18 +110,14 @@ const MarkButtonInner = ( { ariaLabel, id, className = "", status = "enabled", o
 			disabled={ status === "disabled" }
 			aria-pressed={ isPressed }
 			aria-label={ ariaLabel }
-			aria-describedby={ isPressed ? null : tooltipId }
-			onPointerEnter={ show }
-			onPointerLeave={ hide }
-			onFocus={ show }
-			onBlur={ hide }
+			{ ...focusProps }
 		>
 			<EyeIcon className="yst-w-4 yst-h-4" />
 		</Button>
-		<TooltipWithContext id={ tooltipId } position="left">
+		<TooltipWithContext position="left">
 			{ ariaLabel }
 		</TooltipWithContext>
-	</>;
+	</span>;
 };
 
 MarkButtonInner.propTypes = {
@@ -106,14 +133,16 @@ MarkButtonInner.propTypes = {
  * The default mark button component.
  *
  * @param {Object} props The mark button props.
+ * @param {JSX.node} [props.children] Extra content rendered next to the button, e.g. an upsell badge.
  *
  * @returns {JSX.Element} A new mark button.
  */
-const MarkButton = ( { className = "", status = "enabled", ...props } ) => {
+export const MarkButton = ( { className = "", status = "enabled", children = null, ...props } ) => {
 	return <Root>
 		<TooltipContainer as="div" className="yst-relative yst-inline-flex">
 			<MarkButtonInner className={ className } status={ status } { ...props } />
 		</TooltipContainer>
+		{ children }
 	</Root>;
 };
 
@@ -124,6 +153,7 @@ MarkButton.propTypes = {
 	status: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
 	isPressed: PropTypes.bool.isRequired,
+	children: PropTypes.node,
 };
 
 /**
@@ -137,10 +167,9 @@ MarkButton.propTypes = {
  * @returns {JSX.Element} The inner edit button with tooltip context.
  */
 const EditButtonInner = ( { ariaLabel, id, className = "", onClick } ) => {
-	const { show, hide } = useTooltipContext();
-	const tooltipId = `${ id }-tooltip`;
+	const { hoverProps, focusProps } = useHoverFocusTooltip();
 
-	return <>
+	return <span className="yst-inline-flex" { ...hoverProps }>
 		<Button
 			variant="secondary"
 			size="small"
@@ -148,18 +177,14 @@ const EditButtonInner = ( { ariaLabel, id, className = "", onClick } ) => {
 			onClick={ onClick }
 			id={ id }
 			aria-label={ ariaLabel }
-			aria-describedby={ tooltipId }
-			onPointerEnter={ show }
-			onPointerLeave={ hide }
-			onFocus={ show }
-			onBlur={ hide }
+			{ ...focusProps }
 		>
 			<PencilIcon className="yst-w-4 yst-h-4" />
 		</Button>
-		<TooltipWithContext id={ tooltipId } position="left">
+		<TooltipWithContext position="left">
 			{ ariaLabel }
 		</TooltipWithContext>
-	</>;
+	</span>;
 };
 
 EditButtonInner.propTypes = {

@@ -428,49 +428,51 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="1Mark-tooltip"
-                aria-label="Highlight this result in the text"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={false}
-                id="1Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlight this result in the text"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={false}
+                  id="1Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="1Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlight this result in the text
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlight this result in the text
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -741,49 +743,51 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="3Mark-tooltip"
-                aria-label="Highlight this result in the text"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={false}
-                id="3Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlight this result in the text"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={false}
+                  id="3Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="3Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlight this result in the text
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlight this result in the text
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -1221,49 +1225,51 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="1Mark-tooltip"
-                aria-label="Highlighting is currently disabled"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={true}
-                id="1Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlighting is currently disabled"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={true}
+                  id="1Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="1Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlighting is currently disabled
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlighting is currently disabled
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -1534,49 +1540,51 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="3Mark-tooltip"
-                aria-label="Highlighting is currently disabled"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={true}
-                id="3Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlighting is currently disabled"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={true}
+                  id="3Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="3Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlighting is currently disabled
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlighting is currently disabled
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -2701,49 +2709,51 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="1Mark-tooltip"
-                aria-label="Highlight this result in the text"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={false}
-                id="1Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlight this result in the text"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={false}
+                  id="1Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="1Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlight this result in the text
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlight this result in the text
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -3014,49 +3024,51 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="3Mark-tooltip"
-                aria-label="Highlight this result in the text"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={false}
-                id="3Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlight this result in the text"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={false}
+                  id="3Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="3Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlight this result in the text
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlight this result in the text
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -3534,49 +3546,51 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="1Mark-tooltip"
-                aria-label="Highlight this result in the text"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={false}
-                id="1Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlight this result in the text"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={false}
+                  id="1Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="1Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlight this result in the text
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlight this result in the text
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -3847,49 +3861,51 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="3Mark-tooltip"
-                aria-label="Highlight this result in the text"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={false}
-                id="3Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlight this result in the text"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={false}
+                  id="3Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="3Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlight this result in the text
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlight this result in the text
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -4327,49 +4343,51 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="1Mark-tooltip"
-                aria-label="Highlight this result in the text"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={false}
-                id="1Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlight this result in the text"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={false}
+                  id="1Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="1Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlight this result in the text
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlight this result in the text
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -4640,49 +4658,51 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="3Mark-tooltip"
-                aria-label="Highlight this result in the text"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={false}
-                id="3Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlight this result in the text"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={false}
+                  id="3Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="3Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlight this result in the text
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlight this result in the text
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -5202,49 +5222,51 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="3Mark-tooltip"
-                aria-label="Highlight this result in the text"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={false}
-                id="3Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlight this result in the text"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={false}
+                  id="3Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="3Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlight this result in the text
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlight this result in the text
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -5764,49 +5786,51 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="3Mark-tooltip"
-                aria-label="Highlight this result in the text"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={false}
-                id="3Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlight this result in the text"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={false}
+                  id="3Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="3Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlight this result in the text
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlight this result in the text
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -6415,49 +6439,51 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="3Mark-tooltip"
-                aria-label="Highlight this result in the text"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={false}
-                id="3Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlight this result in the text"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={false}
+                  id="3Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="3Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlight this result in the text
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlight this result in the text
+                </div>
+              </span>
             </div>
           </div>
         </div>
@@ -6888,49 +6914,51 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
               className="yst-tooltip-container yst-relative yst-inline-flex"
               onKeyDown={[Function]}
             >
-              <button
-                aria-describedby="3Mark-tooltip"
-                aria-label="Highlight this result in the text"
-                aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-                disabled={false}
-                id="3Mark"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
+              <span
+                className="yst-inline-flex"
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
-                type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  className="yst-w-4 yst-h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  aria-label="Highlight this result in the text"
+                  aria-pressed={false}
+                  className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+                  disabled={false}
+                  id="3Mark"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  type="button"
                 >
-                  <path
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <div
-                className="yst-tooltip yst-tooltip--left yst-hidden"
-                id="3Mark-tooltip"
-                role="tooltip"
-                variant="dark"
-              >
-                Highlight this result in the text
-              </div>
+                  <svg
+                    aria-hidden="true"
+                    className="yst-w-4 yst-h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className="yst-tooltip yst-tooltip--left yst-hidden"
+                  role="tooltip"
+                  variant="dark"
+                >
+                  Highlight this result in the text
+                </div>
+              </span>
             </div>
           </div>
         </div>

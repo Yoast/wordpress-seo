@@ -82,49 +82,51 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
         className="yst-tooltip-container yst-relative yst-inline-flex"
         onKeyDown={[Function]}
       >
-        <button
-          aria-describedby={null}
-          aria-label="SEOResult"
-          aria-pressed={true}
-          className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-          disabled={false}
-          id="Result button"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
+        <span
+          className="yst-inline-flex"
           onPointerEnter={[Function]}
           onPointerLeave={[Function]}
-          type="button"
         >
-          <svg
-            aria-hidden="true"
-            className="yst-w-4 yst-h-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+          <button
+            aria-label="SEOResult"
+            aria-pressed={true}
+            className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+            disabled={false}
+            id="Result button"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            type="button"
           >
-            <path
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-        <div
-          className="yst-tooltip yst-tooltip--left yst-hidden"
-          id="Result button-tooltip"
-          role="tooltip"
-          variant="dark"
-        >
-          SEOResult
-        </div>
+            <svg
+              aria-hidden="true"
+              className="yst-w-4 yst-h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          <div
+            className="yst-tooltip yst-tooltip--left yst-hidden"
+            role="tooltip"
+            variant="dark"
+          >
+            SEOResult
+          </div>
+        </span>
       </div>
     </div>
   </div>
@@ -218,43 +220,45 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
         className="yst-tooltip-container yst-relative yst-inline-flex"
         onKeyDown={[Function]}
       >
-        <button
-          aria-describedby="Result button edit-tooltip"
-          aria-label="SEOResultEdit"
-          className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0"
-          disabled={false}
-          id="Result button edit"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
+        <span
+          className="yst-inline-flex"
           onPointerEnter={[Function]}
           onPointerLeave={[Function]}
-          type="button"
         >
-          <svg
-            aria-hidden="true"
-            className="yst-w-4 yst-h-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+          <button
+            aria-label="SEOResultEdit"
+            className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0"
+            disabled={false}
+            id="Result button edit"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            type="button"
           >
-            <path
-              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-        <div
-          className="yst-tooltip yst-tooltip--left yst-hidden"
-          id="Result button edit-tooltip"
-          role="tooltip"
-          variant="dark"
-        >
-          SEOResultEdit
-        </div>
+            <svg
+              aria-hidden="true"
+              className="yst-w-4 yst-h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          <div
+            className="yst-tooltip yst-tooltip--left yst-hidden"
+            role="tooltip"
+            variant="dark"
+          >
+            SEOResultEdit
+          </div>
+        </span>
       </div>
     </div>
   </div>
@@ -426,49 +430,51 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
         className="yst-tooltip-container yst-relative yst-inline-flex"
         onKeyDown={[Function]}
       >
-        <button
-          aria-describedby={null}
-          aria-label="SEOResult"
-          aria-pressed={true}
-          className="yst-button yst-button--primary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-          disabled={true}
-          id="Result button"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
+        <span
+          className="yst-inline-flex"
           onPointerEnter={[Function]}
           onPointerLeave={[Function]}
-          type="button"
         >
-          <svg
-            aria-hidden="true"
-            className="yst-w-4 yst-h-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+          <button
+            aria-label="SEOResult"
+            aria-pressed={true}
+            className="yst-button yst-button--primary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+            disabled={true}
+            id="Result button"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            type="button"
           >
-            <path
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-        <div
-          className="yst-tooltip yst-tooltip--left yst-hidden"
-          id="Result button-tooltip"
-          role="tooltip"
-          variant="dark"
-        >
-          SEOResult
-        </div>
+            <svg
+              aria-hidden="true"
+              className="yst-w-4 yst-h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          <div
+            className="yst-tooltip yst-tooltip--left yst-hidden"
+            role="tooltip"
+            variant="dark"
+          >
+            SEOResult
+          </div>
+        </span>
       </div>
     </div>
   </div>
@@ -635,49 +641,51 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
         className="yst-tooltip-container yst-relative yst-inline-flex"
         onKeyDown={[Function]}
       >
-        <button
-          aria-describedby={null}
-          aria-label="SEOResult"
-          aria-pressed={true}
-          className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-          disabled={false}
-          id="Result button"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
+        <span
+          className="yst-inline-flex"
           onPointerEnter={[Function]}
           onPointerLeave={[Function]}
-          type="button"
         >
-          <svg
-            aria-hidden="true"
-            className="yst-w-4 yst-h-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+          <button
+            aria-label="SEOResult"
+            aria-pressed={true}
+            className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+            disabled={false}
+            id="Result button"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            type="button"
           >
-            <path
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-        <div
-          className="yst-tooltip yst-tooltip--left yst-hidden"
-          id="Result button-tooltip"
-          role="tooltip"
-          variant="dark"
-        >
-          SEOResult
-        </div>
+            <svg
+              aria-hidden="true"
+              className="yst-w-4 yst-h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          <div
+            className="yst-tooltip yst-tooltip--left yst-hidden"
+            role="tooltip"
+            variant="dark"
+          >
+            SEOResult
+          </div>
+        </span>
       </div>
     </div>
   </div>
