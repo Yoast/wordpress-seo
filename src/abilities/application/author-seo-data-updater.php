@@ -9,19 +9,50 @@ use Yoast\WP\SEO\Abilities\Infrastructure\Author_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_SEO_Meta_Writer;
 use Yoast\WP\SEO\Abilities\Infrastructure\Indexable_Access_Checker;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
-use Yoast\WP\SEO\Models\Indexable;
 
 /**
- * Application service that updates the SEO data of a single author archive, stored in the user meta.
+ * Application service that updates the SEO data of a single author archive.
+ *
+ * The input is applied onto the resolved indexable (the desired state), cascaded
+ * to the user meta (the source of truth), and the indexable is then rebuilt from
+ * that meta so reads and the rest of the plugin stay consistent.
  */
-class Author_SEO_Data_Updater extends Abstract_SEO_Data_Updater {
+class Author_SEO_Data_Updater {
+
+	/**
+	 * The author identifier resolver.
+	 *
+	 * @var Author_Identifier_Resolver
+	 */
+	private $resolver;
 
 	/**
 	 * The author SEO field map.
 	 *
 	 * @var Author_SEO_Field_Map
 	 */
-	private $author_field_map;
+	private $field_map;
+
+	/**
+	 * The indexable access checker.
+	 *
+	 * @var Indexable_Access_Checker
+	 */
+	private $access_checker;
+
+	/**
+	 * The author SEO meta writer.
+	 *
+	 * @var Author_SEO_Meta_Writer
+	 */
+	private $meta_writer;
+
+	/**
+	 * The indexable builder.
+	 *
+	 * @var Indexable_Builder
+	 */
+	private $indexable_builder;
 
 	/**
 	 * Constructor.
@@ -39,53 +70,58 @@ class Author_SEO_Data_Updater extends Abstract_SEO_Data_Updater {
 		Author_SEO_Meta_Writer $meta_writer,
 		Indexable_Builder $indexable_builder
 	) {
-		parent::__construct( $resolver, $field_map, $access_checker, $meta_writer, $indexable_builder );
-
-		$this->author_field_map = $field_map;
+		$this->resolver          = $resolver;
+		$this->field_map         = $field_map;
+		$this->access_checker    = $access_checker;
+		$this->meta_writer       = $meta_writer;
+		$this->indexable_builder = $indexable_builder;
 	}
 
 	/**
 	 * Updates the SEO data of the author matching the input and returns its new state.
+	 *
+	 * Only fields present in the input are changed (patch semantics); a present but
+	 * empty value clears the field.
 	 *
 	 * @param array<string, int|string|bool|null> $input The input identifying the author plus the SEO fields to change.
 	 *
 	 * @return array<string, int|string|bool|null>|WP_Error The updated SEO data, or an error.
 	 */
 	public function update_author_seo_data( array $input ) {
-		return $this->update( $input );
-	}
+		$indexable = $this->resolver->resolve_one( $input );
 
-	/**
-	 * Returns the indexable object type of authors.
-	 *
-	 * @return string The object type.
-	 */
-	protected function get_object_type(): string {
-		return 'user';
-	}
+		if ( $indexable instanceof WP_Error ) {
+			return $indexable;
+		}
 
-	/**
-	 * Builds the error for author SEO data that could not be saved.
-	 *
-	 * @return WP_Error The error.
-	 */
-	protected function save_failed_error(): WP_Error {
-		return new WP_Error(
-			'yoast_seo_author_data_unavailable',
-			\__( 'The author SEO data could not be saved.', 'wordpress-seo' ),
-			[ 'status' => 500 ],
-		);
-	}
+		// The capability gate on the ability is site-wide; the write itself is
+		// only allowed on users the user could also edit through the user profile.
+		$can_edit = $this->access_checker->ensure_can_edit( $indexable );
 
-	/**
-	 * Returns the saved author SEO data with a warning, as the author indexable is not built when the author archive
-	 * is not output, like when author archives are disabled. The user profile saves the settings anyway.
-	 *
-	 * @param Indexable $indexable The indexable holding the saved values.
-	 *
-	 * @return array<string, int|string|bool|null> The saved SEO data.
-	 */
-	protected function rebuild_failed_result( Indexable $indexable ): array {
-		return $this->author_field_map->to_unbuilt_seo_array( $indexable );
+		if ( $can_edit instanceof WP_Error ) {
+			return $can_edit;
+		}
+
+		$changed_columns = $this->field_map->apply_to_indexable( $input, $indexable );
+
+		if ( ! $this->meta_writer->write_columns( $indexable, $changed_columns ) ) {
+			return new WP_Error(
+				'yoast_seo_author_data_unavailable',
+				\__( 'The author SEO data could not be saved.', 'wordpress-seo' ),
+				[ 'status' => 500 ],
+			);
+		}
+
+		// A user meta write does not trigger the indexable watcher, so rebuild the read model
+		// explicitly from the meta we just wrote.
+		$rebuilt = $this->indexable_builder->build_for_id_and_type( (int) $indexable->object_id, 'user', $indexable );
+
+		// The author indexable is not built when the author archive is not output, like when author archives are
+		// disabled. The user profile saves the settings anyway, so the saved state is returned with a warning.
+		if ( ! $rebuilt ) {
+			return $this->field_map->to_unbuilt_seo_array( $indexable );
+		}
+
+		return $this->field_map->to_seo_array( $rebuilt );
 	}
 }
