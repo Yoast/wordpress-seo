@@ -67,7 +67,7 @@ class Update_Author_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 	public function get_args(): array {
 		return [
 			'label'               => \__( 'Update Author SEO Data', 'wordpress-seo' ),
-			'description'         => \__( 'Update the SEO data for the author archive of a single user: its SEO title, meta description and whether search engines are told not to index it. Identify the user by user_id or by the permalink (URL) of their author archive. Only the fields you provide are changed; a provided empty value clears that field. Provide only the identifier to get the current values without changing anything. Only users the current user is allowed to edit can be updated.', 'wordpress-seo' ),
+			'description'         => \__( 'Update the SEO data for the author archive of a single user: its SEO title, meta description and whether search engines are told not to index it. Identify the user by user_id or by the permalink (URL) of their author archive. Only the fields you provide are changed; a provided empty value clears that field. Provide only the user ID or permalink to read the current values without changing anything. Only users who can edit other users can use this, and only on users they are allowed to edit.', 'wordpress-seo' ),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => $this->get_update_author_seo_data_input_schema(),
 			'output_schema'       => $this->output_schema->get_author_output_schema(),
@@ -117,7 +117,7 @@ class Update_Author_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 				],
 				'noindex'          => [
 					'type'        => 'boolean',
-					'description' => \__( 'Whether search engines should be told not to index this author archive. true sets noindex (the archive is excluded from search results); false removes it. When the site settings set all author archives to noindex, that setting applies regardless of this one. This changes whether the archive can appear in search results, so confirm it with the user before saving.', 'wordpress-seo' ),
+					'description' => \__( 'Whether search engines should be told not to index this author archive. true sets noindex (the archive is excluded from search results); false removes it. When the site settings set all author archives to noindex, that setting applies regardless of this one.', 'wordpress-seo' ),
 				],
 			],
 		];
