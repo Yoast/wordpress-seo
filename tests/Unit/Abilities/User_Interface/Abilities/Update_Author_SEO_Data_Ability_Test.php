@@ -73,6 +73,9 @@ final class Update_Author_SEO_Data_Ability_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		// The inputs are real booleans, which WordPress returns as is.
+		Monkey\Functions\when( 'rest_sanitize_boolean' )->alias( 'boolval' );
+
 		$this->stubTranslationFunctions();
 
 		$this->capability_helper                   = Mockery::mock( Capability_Helper::class );
@@ -138,7 +141,7 @@ final class Update_Author_SEO_Data_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Update Author SEO Data',
-				'description'         => 'Update the SEO data for the author archive of a single user: its SEO title, meta description and whether search engines are told not to index it. Identify the user by user_id or by the permalink (URL) of their author archive. Only the fields you provide are changed; a provided empty value clears that field. Provide only the identifier to get the current values without changing anything. Only users the current user is allowed to edit can be updated.',
+				'description'         => 'Update the SEO data for the author archive of a single user: its SEO title, meta description and whether search engines are told not to index it. Identify the user by user_id or by the permalink (URL) of their author archive. Only the fields you provide are changed; a provided empty value clears that field. Provide only the user ID or permalink to read the current values without changing anything. Only users who can edit other users can use this, and only on users they are allowed to edit.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => $this->get_expected_update_input_schema(),
 				'output_schema'       => $output_schema,
@@ -266,7 +269,7 @@ final class Update_Author_SEO_Data_Ability_Test extends TestCase {
 				],
 				'noindex'          => [
 					'type'        => 'boolean',
-					'description' => 'Whether search engines should be told not to index this author archive. true sets noindex (the archive is excluded from search results); false removes it. When the site settings set all author archives to noindex, that setting applies regardless of this one. This changes whether the archive can appear in search results, so confirm it with the user before saving.',
+					'description' => 'Whether search engines should be told not to index this author archive. true sets noindex (the archive is excluded from search results); false removes it. When the site settings set all author archives to noindex, that setting applies regardless of this one.',
 				],
 			],
 		];

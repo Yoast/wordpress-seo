@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_SEO_Field_Map;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
@@ -186,6 +187,8 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 	public function test_apply_to_indexable() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
 
+		Monkey\Functions\when( 'rest_sanitize_boolean' )->alias( 'boolval' );
+
 		$changed = $this->instance->apply_to_indexable(
 			[
 				'seo_title'        => 'New title',
@@ -199,6 +202,24 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 		$this->assertNull( $indexable->description );
 		$this->assertFalse( $indexable->is_robots_noindex );
 		$this->assertSame( [ 'title', 'description', 'is_robots_noindex' ], $changed );
+	}
+
+	/**
+	 * Tests that a boolean string like 'false', which passes the input validation when the ability is executed
+	 * directly instead of over REST, is converted like WordPress does instead of being cast to true.
+	 *
+	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::apply_to_indexable
+	 *
+	 * @return void
+	 */
+	public function test_apply_to_indexable_sanitizes_boolean_strings() {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		Monkey\Functions\expect( 'rest_sanitize_boolean' )->once()->with( 'false' )->andReturnFalse();
+
+		$this->instance->apply_to_indexable( [ 'noindex' => 'false' ], $indexable );
+
+		$this->assertFalse( $indexable->is_robots_noindex );
 	}
 
 	/**
