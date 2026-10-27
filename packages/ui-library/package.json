@@ -1,6 +1,6 @@
 {
   "name": "@yoast/ui-library",
-  "version": "4.5.0",
+  "version": "4.6.0",
   "description": "Yoast UI library",
   "main": "build/index.js",
   "style": "build/css/style.css",
@@ -28,7 +28,7 @@
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
     "publish:storybook": "./scripts/publish-storybook.sh",
-    "test": "jest tests/react-render-smoke.test.js",
+    "test": "jest",
     "test:storyshots": "yarn build:storybook --test --quiet && jest tests/storyshots.js",
     "t_st": "yarn test:storyshots",
     "lint": "eslint . --max-warnings=2"

@@ -2,7 +2,7 @@ import { Slot, __experimentalUseSlotFills as useSlotFills } from "@wordpress/com
 import { Fragment, useCallback } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Checkbox, Table } from "@yoast/ui-library";
+import { Button, Table } from "@yoast/ui-library";
 import { STORE_NAME, TABLE_CELL_FIELD_SLOT } from "../../constants";
 import { EditableFieldCell, TitleCell } from "./table-cells";
 import { getRowEditState, isRowEditDisabled } from "./table-helpers";
@@ -73,20 +73,20 @@ export const BulkEditorRow = ( {
 
 	return (
 		<Table.Row>
-			<Table.Cell>
-				<Checkbox
-					id={ `bulk-editor-select-${ item.id }-${ fieldSetId }` }
-					name={ `bulk-editor-select-${ item.id }` }
-					value={ String( item.id ) }
-					className="yst-mt-0.5"
-					/* translators: %s expands to the content item title. */
-					aria-label={ sprintf( __( "Select %s", "wordpress-seo" ), item.title ) }
-					checked={ isSelected }
-					onChange={ handleToggle }
+			<Table.CheckboxCell
+				checkboxProps={ {
+					id: `bulk-editor-select-${ item.id }-${ fieldSetId }`,
+					name: `bulk-editor-select-${ item.id }`,
+					value: String( item.id ),
+					/* translators: Hidden accessibility text, %s expands to the content item title. */
+					"aria-label": sprintf( __( "Select %s", "wordpress-seo" ), item.title ),
+					className: "yst-mt-0.5",
+					checked: isSelected,
+					onChange: handleToggle,
 					// A post the current user cannot edit is shown locked and cannot be selected for bulk editing.
-					disabled={ ! item.editable }
-				/>
-			</Table.Cell>
+					disabled: ! item.editable,
+				} }
+			/>
 			<TitleCell item={ item } fieldSetId={ fieldSetId } />
 			{ fields.map( ( field ) => {
 				return (

@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { usePosts } from "../../../src/bulk-editor/hooks/use-posts";
 import { PAGE_SIZE } from "../../../src/bulk-editor/constants";
@@ -155,6 +155,7 @@ describe( "usePosts", () => {
 						social_description_fallback: "",
 						editable: true,
 						needs_improvement: { seo_title: false, meta_description: true, social_title: false, social_description: false },
+						images: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" } ],
 					},
 				],
 				total: 42,
@@ -185,10 +186,48 @@ describe( "usePosts", () => {
 				editable: true,
 				// eslint-disable-next-line camelcase -- the needs-improvement map is keyed by backend field params.
 				needsImprovement: { seo_title: false, meta_description: true, social_title: false, social_description: false },
+				images: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" } ],
 			},
 		] );
 		expect( result.current.total ).toBe( 42 );
 		expect( result.current.totalPages ).toBe( 3 );
+	} );
+
+	it( "defaults images to an empty array when the API row omits the field", async() => {
+		const remoteDataProvider = {
+			/* eslint-disable camelcase -- The REST endpoint returns snake_case fields. */
+			fetchJson: jest.fn( () => Promise.resolve( {
+				posts: [
+					{
+						id: 8,
+						title: "No images",
+						status: "publish",
+						edit_link: "post.php?post=8&action=edit",
+						focus_keyphrase: "",
+						seo_title: "",
+						meta_description: "",
+						social_title: "",
+						social_description: "",
+						seo_title_fallback: "",
+						meta_description_fallback: "",
+						social_title_fallback: "",
+						social_description_fallback: "",
+						editable: true,
+						needs_improvement: {},
+						// `images` intentionally omitted to exercise the [] default.
+					},
+				],
+				total: 1,
+				total_pages: 1,
+			} ) ),
+			/* eslint-enable camelcase -- The REST endpoint returns snake_case fields. */
+		};
+
+		const { result } = renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "page" } ) );
+
+		await waitFor( () => expect( result.current.isPending ).toBe( false ) );
+
+		expect( result.current.data[ 0 ].images ).toEqual( [] );
 	} );
 
 	it( "maps a missing response to an empty list", async() => {
@@ -238,6 +277,41 @@ describe( "usePosts", () => {
 		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
 		expect( result.current ).toMatchObject( { data: [], total: 0, totalPages: 0, error: null, isPending: false } );
 		expect( typeof result.current.updateItem ).toBe( "function" );
+	} );
+
+	it( "skips the request and settles empty when there is no content type", () => {
+		const remoteDataProvider = { fetchJson: jest.fn() };
+
+		const { result } = renderHook( () => usePosts( { dataProvider, remoteDataProvider, contentType: "" } ) );
+
+		expect( remoteDataProvider.fetchJson ).not.toHaveBeenCalled();
+		expect( result.current ).toMatchObject( { data: [], total: 0, totalPages: 0, error: null, isPending: false } );
+		expect( typeof result.current.updateItem ).toBe( "function" );
+	} );
+
+	it( "keeps the empty state when a superseded request resolves after the content type was cleared", async() => {
+		let resolvePage;
+		const pageRequest = new Promise( ( resolve ) => {
+			resolvePage = resolve;
+		} );
+		const remoteDataProvider = { fetchJson: jest.fn( () => pageRequest ) };
+
+		const { result, rerender } = renderHook(
+			( { contentType } ) => usePosts( { dataProvider, remoteDataProvider, contentType } ),
+			{ initialProps: { contentType: "page" } }
+		);
+
+		// Clear the content type before the "page" request settles, then let the stale request resolve late.
+		rerender( { contentType: "" } );
+		expect( result.current ).toMatchObject( { data: [], total: 0, isPending: false } );
+
+		await act( async() => {
+			resolvePage( { posts: [ { id: 1, title: "Page" } ], total: 1 } );
+			// The hook's then-callback was registered first, so awaiting the same promise flushes it.
+			await pageRequest;
+		} );
+
+		expect( result.current ).toMatchObject( { data: [], total: 0, isPending: false } );
 	} );
 
 	it( "ignores a superseded request that resolves after a newer one", async() => {

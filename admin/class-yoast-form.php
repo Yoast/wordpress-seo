@@ -718,63 +718,6 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Media input.
-	 *
-	 * @since 2.0
-	 * @deprecated 23.5
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $variable Option name.
-	 * @param string $label    Label message.
-	 * @param array  $attr     Extra attributes to add to the media input and buttons.
-	 *
-	 * @return void
-	 */
-	public function media_input( $variable, $label, $attr = [] ) {
-
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.5' );
-
-		$val      = $this->get_field_value( $variable, '' );
-		$id_value = $this->get_field_value( $variable . '_id', '' );
-
-		$var_esc = esc_attr( $variable );
-
-		$defaults = [
-			'disabled' => false,
-		];
-		$attr     = wp_parse_args( $attr, $defaults );
-
-		$this->label(
-			$label,
-			[
-				'for'   => 'wpseo_' . $variable,
-				'class' => 'select',
-			],
-		);
-
-		$id_field_id = 'wpseo_' . $var_esc . '_id';
-
-		echo '<span>';
-			echo '<input',
-				' class="textinput"',
-				' id="wpseo_', $var_esc, '"', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
-				' type="text" size="36"',
-				' name="', esc_attr( $this->option_name ), '[', $var_esc, ']"', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
-				' value="', esc_attr( $val ), '"',
-				' readonly="readonly"',
-				' /> ';
-			echo '<input',
-				' type="hidden"',
-				' id="', esc_attr( $id_field_id ), '"',
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
-				' name="', esc_attr( $this->option_name ), '[', $var_esc, '_id]"',
-				' value="', esc_attr( $id_value ), '"',
-				' />';
-		echo '</span>';
-		echo '<br class="clear"/>';
-	}
-
-	/**
 	 * Create a Radio input field.
 	 *
 	 * @since 2.0

@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Posts\Posts_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Domain\Posts\Posts_Query;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -88,6 +89,13 @@ class Posts_Route implements Route_Interface {
 	private $options_helper;
 
 	/**
+	 * The post type helper.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Posts_Repository                      $posts_repository            The posts repository.
@@ -95,19 +103,22 @@ class Posts_Route implements Route_Interface {
 	 * @param Content_Type_Access_Checker_Interface $content_type_access_checker The content type access checker.
 	 * @param User_Helper                           $user_helper                 The user helper.
 	 * @param Options_Helper                        $options_helper              The options helper.
+	 * @param Post_Type_Helper                      $post_type_helper            The post type helper.
 	 */
 	public function __construct(
 		Posts_Repository $posts_repository,
 		Content_Types_Repository $content_types_repository,
 		Content_Type_Access_Checker_Interface $content_type_access_checker,
 		User_Helper $user_helper,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Post_Type_Helper $post_type_helper
 	) {
 		$this->posts_repository            = $posts_repository;
 		$this->content_types_repository    = $content_types_repository;
 		$this->content_type_access_checker = $content_type_access_checker;
 		$this->user_helper                 = $user_helper;
 		$this->options_helper              = $options_helper;
+		$this->post_type_helper            = $post_type_helper;
 	}
 
 	/**
@@ -170,7 +181,7 @@ class Posts_Route implements Route_Interface {
 							'type' => 'string',
 							'enum' => Posts_Collector_Interface::NEEDS_IMPROVEMENT_FIELDS,
 						],
-						'description' => 'The fields to filter posts by; a field matches when it is empty, or (for search fields with SEO analysis enabled) when its score needs improvement.',
+						'description' => 'The fields to filter posts by; a field matches when it is empty, or (for search fields, while SEO analysis is enabled and the content type shows Yoast\'s controls and assessments) when its score needs improvement.',
 					],
 					'include'           => [
 						'required'    => false,
@@ -221,9 +232,11 @@ class Posts_Route implements Route_Interface {
 			$author_id = $this->user_helper->get_current_user_id();
 		}
 
-		// The per-field scores only back the filter while SEO analysis is on; otherwise they go stale and
-		// the filter falls back to the empty-field check.
-		$scores_enabled = $this->options_helper->get( 'keyword_analysis_active' ) === true;
+		// The per-field scores only back the filter while SEO analysis is on globally and the content type
+		// shows Yoast's controls and assessments; otherwise they go stale and the filter falls back to the
+		// empty-field check.
+		$scores_enabled = $this->options_helper->get( 'keyword_analysis_active' ) === true
+			&& $this->post_type_helper->has_metabox( $content_type );
 
 		// The schema already coerces the items to positive integers; deduplicate on top of that.
 		$include = \array_values( \array_unique( \array_map( 'intval', (array) $request->get_param( 'include' ) ) ) );

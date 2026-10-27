@@ -76,7 +76,7 @@ export { default as Notification } from "./Notification";
 export { default as Paper } from "./Paper";
 export { default as ProgressBar } from "./ProgressBar";
 export { default as Section } from "./Section";
-export { SectionTitle } from "./SectionTitle";
+export { SectionTitle, StyledTitle } from "./SectionTitle";
 export { default as ScoreAssessments } from "./ScoreAssessments";
 export { default as StackedProgressBar } from "./StackedProgressBar";
 export { default as SvgIcon, icons } from "./SvgIcon";

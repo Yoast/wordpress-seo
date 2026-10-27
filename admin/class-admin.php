@@ -131,18 +131,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Register assets needed on admin pages.
-	 *
-	 * @deprecated 25.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function enqueue_assets() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 25.5' );
-	}
-
-	/**
 	 * Returns the manage_options capability.
 	 *
 	 * @return string The capability to use.
@@ -288,35 +276,6 @@ class WPSEO_Admin {
 	public function enqueue_global_style() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'admin-global' );
-	}
-
-	/**
-	 * Filter the $contactmethods array and add a set of social profiles.
-	 *
-	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
-	 *
-	 * @deprecated 22.6
-	 * @codeCoverageIgnore
-	 *
-	 * @param array<string, string> $contactmethods Currently set contactmethods.
-	 *
-	 * @return array<string, string> Contactmethods with added contactmethods.
-	 */
-	public function update_contactmethods( $contactmethods ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 22.6' );
-
-		$contactmethods['facebook']   = __( 'Facebook profile URL', 'wordpress-seo' );
-		$contactmethods['instagram']  = __( 'Instagram profile URL', 'wordpress-seo' );
-		$contactmethods['linkedin']   = __( 'LinkedIn profile URL', 'wordpress-seo' );
-		$contactmethods['myspace']    = __( 'MySpace profile URL', 'wordpress-seo' );
-		$contactmethods['pinterest']  = __( 'Pinterest profile URL', 'wordpress-seo' );
-		$contactmethods['soundcloud'] = __( 'SoundCloud profile URL', 'wordpress-seo' );
-		$contactmethods['tumblr']     = __( 'Tumblr profile URL', 'wordpress-seo' );
-		$contactmethods['twitter']    = __( 'X username (without @)', 'wordpress-seo' );
-		$contactmethods['youtube']    = __( 'YouTube profile URL', 'wordpress-seo' );
-		$contactmethods['wikipedia']  = __( 'Wikipedia page about you', 'wordpress-seo' ) . '<br/><small>' . __( '(if one exists)', 'wordpress-seo' ) . '</small>';
-
-		return $contactmethods;
 	}
 
 	/**

@@ -21,6 +21,8 @@ import Modal from "../Modal";
  * @param {boolean} [shouldCloseOnClickOutside=true] Whether the modal should close when clicking outside.
  * @param {boolean} [showChangesWarning=true] Whether to show the changes warning.
  * @param {JSX.Element} [SuffixHeroIcon=null] Optional icon component.
+ * @param {JSX.Element} [titleHelpLink=null] A help link next to the modal title. Kept out of `title`, which also
+ *                                          renders in the sidebar's open button, where a nested link would be invalid.
  *
  * @returns {JSX.Element} The modal and its open button.
  */
@@ -35,12 +37,18 @@ const EditorModal = ( {
 	shouldCloseOnClickOutside = true,
 	showChangesWarning = true,
 	SuffixHeroIcon = null,
+	titleHelpLink = null,
 } ) => (
 	<Fragment>
 		{ isOpen &&
 			<LocationProvider value="modal">
 				<Modal
-					title={ title }
+					title={ titleHelpLink ? <>{ title }{ titleHelpLink }</> : title }
+					/*
+					 * The modal is named by its heading, so with a help link in there the link's screen reader text
+					 * would become part of the modal name. Setting contentLabel keeps the name to the title alone.
+					 */
+					contentLabel={ titleHelpLink ? title : null }
 					onRequestClose={ close }
 					additionalClassName="yoast-collapsible-modal yoast-post-settings-modal"
 					id="id"
@@ -97,6 +105,7 @@ EditorModal.propTypes = {
 	shouldCloseOnClickOutside: PropTypes.bool,
 	showChangesWarning: PropTypes.bool,
 	SuffixHeroIcon: PropTypes.element,
+	titleHelpLink: PropTypes.element,
 };
 
 export default EditorModal;

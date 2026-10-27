@@ -211,6 +211,9 @@ final class Get_Initial_Selection_Test extends Abstract_Test {
 		$this->product_helper->allows( 'is_premium' )->andReturn( false );
 		$this->product_helper->allows( 'get_premium_version' )->andReturn( null );
 		$this->options_helper->allows( 'get' )->andReturn( true );
+		$this->woo_seo_inactive_conditional->allows( 'is_met' )->andReturn( true );
+		$this->addon_manager->allows( 'get_installed_addons_versions' )->andReturn( [] );
+		$this->addon_manager->allows( 'get_plugin_file' )->andReturn( false );
 		$this->short_link_helper->allows( 'get_query_params' )->andReturn( [] );
 		$this->myyoast_connection_data_presenter->allows( 'present' )->andReturn( null );
 		$this->user_helper->allows( 'get_current_user_id' )->andReturn( 1 );
