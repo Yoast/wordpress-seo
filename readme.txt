@@ -307,6 +307,15 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 28.9 =
+
+Release date: 2026-11-10
+
+#### Enhancements
+
+* Introduces a new Yoast ability that lets agents update author Schema data.
+* Introduces two new Yoast abilities that let agents get and set SEO data for specific terms.
+
 = 28.8 =
 
 Release date: 2026-10-27
@@ -330,16 +339,6 @@ New Yoast Abilities for AI agents, Schema Feeds support, and the groundwork for 
 #### Other
 
 * Sets the minimum supported WordPress version to 7.0.
-
-= 28.7 =
-
-Release date: 2026-10-13
-
-Yoast SEO 28.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Allows agents to update titles and descriptions via the respective Yoast Ability.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
