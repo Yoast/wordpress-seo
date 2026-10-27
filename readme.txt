@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.1
-Stable tag: 28.7
+Stable tag: 28.8
 Requires PHP: 7.4
 
 Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.
@@ -311,17 +311,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-10-27
 
+New Yoast Abilities for AI agents, Schema Feeds support, and the groundwork for Yoast AI Generate for image alt text in Yoast WooCommerce SEO 17.0. [Read the release post here](https://yoa.st/57v).
+
 #### Enhancements
 
 * Adds AI-powered image alt text generation for WooCommerce product images, including a dedicated Image alt text tab in the bulk editor for Yoast WooCommerce SEO.
+* Adds Yoast abilities that let agents turn site-wide features on and off: llms.txt, Open Graph data, Schema Aggregator, Schema Framework, X card data, and XML sitemaps.
+* Adds a Yoast ability that lets agents update Site representation settings.
 * Adds the `sf:contentType` element from NLWeb's Schema Feeds specification to the schema map.
-* Introduces a new Yoast Ability to allow agents to toggle the llms.txt feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the Open Graph data feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the Schema Aggregator feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the Schema Framework feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the X card data feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the XML sitemaps feature on and off.
-* Introduces a new Yoast Ability to allow agents to update Site representation settings.
 
 #### Bugfixes
 
