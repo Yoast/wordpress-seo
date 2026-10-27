@@ -454,7 +454,45 @@ returned object is used as is, so an omitted key renders as an empty result text
 |---------------|-------|------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
 | Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your images don't have unique alt text. **Give each image its own alt text.** |
 
-### 11) Title (only in Premium)
+### 11) Redundant phrase in alt text
+**What it does**: Checks whether the assessed images have alt text with a redundant phrase such as "Image of", "A picture showing" or "This image depicts" — usually opening the alt text, but sometimes occurring in the middle or at the end in some languages (Hungarian, Japanese, Turkish).
+
+**When it applies**: Only when at least one assessed image has alt text with a redundant phrase.
+
+**Name in code**: RedundantPhraseInAltTextAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `redundantPhraseCount`, and must return `redundantPhrase`. The returned object is used as is.
+
+**Title URL**: https://yoa.st/redundant-phrase-in-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/redundant-phrase-in-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                             | Feedback                                                                                                                                                                                 |
+|---------------|-------|-------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | At least 1 image has alt text with a redundant phrase | **Redundant phrase in alt text**: X of your images have alt text with a phrase like "Image of" or similar. **Remove it as screen readers already announce that it's an image. You may keep phrases that describe the type of image (e.g. “photograph”, “illustration”, “screenshot”) if the type is worth pointing out.** |
+
+### 12) Non-descriptive alt text
+**What it does**: Checks whether the assessed images have alt text that consists only of a meaningless phrase: a placeholder ("Untitled", "N/A", "Alt text"), a file name ("IMG_1234", "red-shoes.jpg", or the image's own file name), or a generic default that says nothing about the image ("Product image", "Image 1"). The whole alt text is matched: "Product image" is flagged, "Product image of a red bike on a beach" is not.
+
+Some checks work in every language: only numbers or punctuation, a name ending in an image file extension, file names that cameras, phones or WhatsApp generate, English screenshot names ("Screenshot 2026-03-14 at 10.32.45"), and the image's own file name, also when the image is a resized, scaled or edited copy ("red-bike" for `red-bike-1024x576.jpg`). The English phrases are also checked in every other language that has a researcher of its own, without words that are ordinary words in other languages ("file", "pic", "alt", "null", "todo", "na"). Languages without a researcher of their own only get the checks above. Each language can add phrases of its own; only English has them for now.
+
+**When it applies**: Only when at least one assessed image has non-descriptive alt text. Empty alt text is not flagged: that case is covered by the _image alt attributes_ assessment.
+
+**Name in code**: NonDescriptiveAltTextAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `nonDescriptiveCount`, and must return `nonDescriptive`. The returned object is used as is.
+
+**Title URL**: https://yoa.st/non-descriptive-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/non-descriptive-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                         | Feedback                                                                                                                                                              |
+|---------------|-------|---------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red           | 3     | At least 1 image has non-descriptive alt text     | **Non-descriptive alt text**: X of your images have alt text that doesn't describe the image. **Describe what the image shows, or leave the alt text empty if the image is decorative.** |
+
+### 13) Title (only in Premium)
 **What it does**: Checks for the presence of a title.
 
 **When it applies**: Always. Does not apply to taxonomies.
