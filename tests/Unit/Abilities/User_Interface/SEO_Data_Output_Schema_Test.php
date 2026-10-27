@@ -127,6 +127,7 @@ final class SEO_Data_Output_Schema_Test extends TestCase {
 		$meta_surface->expects( 'for_indexable' )->andReturnFalse();
 		$user_helper = Mockery::mock( User_Helper::class );
 		$user_helper->allows( 'get_the_author_meta' )->andReturn( 'Jane' );
+		$user_helper->allows( 'get_meta' )->andReturn( '' );
 		$author_archive_helper = Mockery::mock( Author_Archive_Helper::class );
 		$author_archive_helper->allows( 'are_disabled' )->andReturnTrue();
 		$field_map = new Author_SEO_Field_Map( $meta_surface, $user_helper, $author_archive_helper );

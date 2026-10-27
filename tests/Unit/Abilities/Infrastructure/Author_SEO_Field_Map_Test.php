@@ -130,11 +130,12 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that to_unbuilt_seo_array returns the stored values without rendered companions or permalink,
-	 * plus a warning naming why they have no effect.
+	 * Tests that to_unbuilt_seo_array returns the values stored in the user meta, not the outdated ones of the
+	 * indexable, without rendered companions or permalink, plus a warning naming why they have no effect.
 	 *
 	 * @covers ::to_unbuilt_seo_array
 	 * @covers ::build_seo_array
+	 * @covers ::get_string_meta
 	 *
 	 * @dataProvider provide_unbuilt_warnings
 	 *
@@ -146,11 +147,15 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 	public function test_to_unbuilt_seo_array( bool $are_disabled, string $warning ) {
 		$this->meta_surface->expects( 'for_indexable' )->never();
 		$this->author_archive_helper->expects( 'are_disabled' )->once()->andReturn( $are_disabled );
+		$this->user_helper->expects( 'get_meta' )->once()->with( 7, 'wpseo_title', true )->andReturn( 'Stored SEO title' );
+		$this->user_helper->expects( 'get_meta' )->once()->with( 7, 'wpseo_metadesc', true )->andReturn( '' );
+		$this->user_helper->expects( 'get_meta' )->once()->with( 7, 'wpseo_noindex_author', true )->andReturn( '' );
 
 		$result = $this->instance->to_unbuilt_seo_array( $this->make_indexable() );
 
-		$this->assertSame( 'My SEO title', $result['seo_title'] );
-		$this->assertTrue( $result['noindex'] );
+		$this->assertSame( 'Stored SEO title', $result['seo_title'] );
+		$this->assertNull( $result['meta_description'] );
+		$this->assertFalse( $result['noindex'] );
 		$this->assertNull( $result['permalink'] );
 		$this->assertNull( $result['seo_title_rendered'] );
 		$this->assertNull( $result['meta_description_rendered'] );
