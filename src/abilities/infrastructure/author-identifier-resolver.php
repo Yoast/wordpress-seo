@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Abilities\Infrastructure;
 
 use WP_Error;
-use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -13,7 +12,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  *
  * No user indexable is built while author archives are disabled, or for users excluded from them, like users
  * without posts when author archives without posts are set to noindex. The user profile still saves the SEO
- * settings of those users, so an unsaved indexable holding them is resolved instead.
+ * settings of those users, so an unsaved indexable is resolved instead, for the settings to be saved all the same.
  */
 class Author_Identifier_Resolver {
 
@@ -25,21 +24,12 @@ class Author_Identifier_Resolver {
 	private $indexable_repository;
 
 	/**
-	 * The user helper.
-	 *
-	 * @var User_Helper
-	 */
-	private $user_helper;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 * @param User_Helper          $user_helper          The user helper.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository, User_Helper $user_helper ) {
+	public function __construct( Indexable_Repository $indexable_repository ) {
 		$this->indexable_repository = $indexable_repository;
-		$this->user_helper          = $user_helper;
 	}
 
 	/**
@@ -80,7 +70,7 @@ class Author_Identifier_Resolver {
 		$indexable = $this->indexable_repository->find_by_id_and_type( $user_id, 'user' );
 
 		if ( ! $indexable ) {
-			return $this->from_user_meta( $user_id );
+			return $this->unbuilt_indexable( $user_id );
 		}
 
 		return $indexable;
@@ -109,24 +99,17 @@ class Author_Identifier_Resolver {
 	}
 
 	/**
-	 * Creates an unsaved user indexable holding the SEO settings stored in the user meta,
-	 * encoded like the author indexable builder does.
+	 * Creates an unsaved user indexable, for a user whose indexable cannot be built.
 	 *
 	 * @param int $user_id The user ID.
 	 *
 	 * @return Indexable The unsaved indexable.
 	 */
-	private function from_user_meta( int $user_id ): Indexable {
-		$title       = $this->user_helper->get_meta( $user_id, 'wpseo_title', true );
-		$description = $this->user_helper->get_meta( $user_id, 'wpseo_metadesc', true );
-
+	private function unbuilt_indexable( int $user_id ): Indexable {
 		return $this->indexable_repository->query()->create(
 			[
-				'object_id'         => $user_id,
-				'object_type'       => 'user',
-				'title'             => ( $title === '' ) ? null : $title,
-				'description'       => ( $description === '' ) ? null : $description,
-				'is_robots_noindex' => ( $this->user_helper->get_meta( $user_id, 'wpseo_noindex_author', true ) === 'on' ),
+				'object_id'   => $user_id,
+				'object_type' => 'user',
 			],
 		);
 	}
