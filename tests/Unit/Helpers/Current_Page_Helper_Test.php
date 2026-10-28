@@ -364,6 +364,38 @@ final class Current_Page_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests retrieval of the term id when a term archive is flagged but the
+	 * queried object is not a term (e.g. a WP_Post_Type set by another plugin).
+	 *
+	 * @covers ::get_term_id
+	 *
+	 * @return void
+	 */
+	public function test_get_term_id_for_taxonomy_with_non_term_queried_object() {
+		$wp_query = Mockery::mock( WP_Query::class );
+
+		$wp_query
+			->expects( 'is_tax' )
+			->once()
+			->andReturnTrue();
+
+		$wp_query
+			->expects( 'get_queried_object' )
+			->andReturn( (object) [ 'name' => 'tribe_events' ] );
+
+		$this->wp_query_wrapper
+			->expects( 'get_main_query' )
+			->once()
+			->andReturn( $wp_query );
+
+		Monkey\Functions\expect( 'is_wp_error' )
+			->once()
+			->andReturn( false );
+
+		$this->assertSame( 0, $this->instance->get_term_id() );
+	}
+
+	/**
 	 * Tests the retrieval of the queried post type.
 	 *
 	 * @covers ::get_queried_post_type
