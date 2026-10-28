@@ -5,11 +5,10 @@
  * Source: https://raw.githubusercontent.com/tailwindlabs/tailwindcss/refs/tags/v3.4.16/src/css/preflight.css
  * Changed `html` and `body` to affect the `.yst-root` instead.
  *
- * Element selectors are wrapped in `:where()` to reduce specificity to 0,
- * allowing component-level styles (e.g. `.yst-button`) to override these resets
- * without needing higher specificity. The `@layer base` already has lower priority
- * than `@layer components`, and `:where()` ensures element selectors don't
- * accidentally win via specificity (0,1,1 vs 0,1,0).
+ * Element and pseudo-class selectors are wrapped in `:where()`, so each reset has the
+ * specificity of `.yst-root` alone (0,1,0), the same as a component class like `.yst-button`.
+ * Tailwind emits the base layer before the components layer, so on that tie the component wins
+ * by source order. Pseudo-elements cannot go inside `:where()` and are left as they are.
  */
 @layer base {
 	.yst-root {
@@ -203,7 +202,7 @@
 		Use the modern Firefox focus style for all focusable elements.
 		*/
 
-		:-moz-focusring {
+		:where(:-moz-focusring) {
 			outline: auto;
 		}
 
@@ -211,7 +210,7 @@
 		Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
 		*/
 
-		:-moz-ui-invalid {
+		:where(:-moz-ui-invalid) {
 			box-shadow: none;
 		}
 
@@ -330,7 +329,7 @@
 		Make sure disabled buttons don't get the pointer cursor.
 		*/
 
-		:disabled {
+		:where(:disabled) {
 			cursor: default;
 		}
 

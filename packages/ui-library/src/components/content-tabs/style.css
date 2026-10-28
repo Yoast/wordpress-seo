@@ -63,7 +63,6 @@
 		@apply rtl:yst-rotate-180;
 	}
 
-	/* Explicit selectors: `group-*` variants nested in `.yst-root` compile to `.yst-group … .yst-root …`, which never matches. */
 	.yst-content-tabs__button:hover .yst-content-tabs__icon,
 	.yst-content-tabs__button:hover .yst-content-tabs__accordion-icon {
 		@apply yst-text-slate-600;
