@@ -60,6 +60,30 @@ describe( "HTML entities in the alt attribute", () => {
 		expect( imageAlt( imageFromTree( alt ) ) ).toBe( expected );
 	} );
 
+	// The expected texts are written out instead of read from `htmlEntities`, so the test does not check the map against itself.
+	it.each( [
+		[ "Red&amp;bike", "Red&bike" ],
+		[ "Red&lt;bike", "Red<bike" ],
+		[ "Red&gt;bike", "Red>bike" ],
+		[ "Red&quot;bike", "Red\"bike" ],
+		[ "Red&apos;bike", "Red'bike" ],
+		[ "Red&ndash;bike", "Red–bike" ],
+		[ "Red&mdash;bike", "Red—bike" ],
+		[ "Red&copy;bike", "Red©bike" ],
+		[ "Red&reg;bike", "Red®bike" ],
+		[ "Red&trade;bike", "Red™bike" ],
+		[ "Red&pound;bike", "Red£bike" ],
+		[ "Red&yen;bike", "Red¥bike" ],
+		[ "Red&euro;bike", "Red€bike" ],
+		[ "Red&dollar;bike", "Red$bike" ],
+		[ "Red&deg;bike", "Red°bike" ],
+		[ "Red&asymp;bike", "Red≈bike" ],
+		[ "Red&ne;bike", "Red≠bike" ],
+		[ "Red&nbsp;bike", "Red bike" ],
+	] )( "turns the entity in the alt attribute %s of an image from the text into its character", ( alt, expected ) => {
+		expect( imageAlt( imageFromTree( alt ) ) ).toBe( expected );
+	} );
+
 	it( "keeps \"#nbsp;\" in the alt text of a provided image, where it is real text", () => {
 		const paper = new Paper( "", { providedImages: [ { src: "https://example.com/bike.jpg", alt: "Red#nbsp;bike" } ] } );
 
