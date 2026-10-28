@@ -333,6 +333,11 @@ class Meta_Surface {
 		if ( ! $indexable ) {
 			return false;
 		}
+
+		if ( $indexable->object_type === 'post' && ! $this->is_post_readable( (int) $indexable->object_id ) ) {
+			return false;
+		}
+
 		$page_type = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 
 		if ( $page_type === false ) {
@@ -367,6 +372,27 @@ class Meta_Surface {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Checks if the current user is allowed to read a given post.
+	 *
+	 * @param int $post_id The post ID.
+	 *
+	 * @return bool Whether the post is publicly viewable or readable by the current user.
+	 */
+	public function is_post_readable( $post_id ) {
+		$post = \get_post( $post_id );
+
+		if ( ! $post ) {
+			return false;
+		}
+
+		if ( \is_post_publicly_viewable( $post ) ) {
+			return true;
+		}
+
+		return \current_user_can( 'read_post', $post->ID );
 	}
 
 	/**
