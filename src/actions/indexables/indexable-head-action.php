@@ -101,6 +101,11 @@ class Indexable_Head_Action {
 	 * @return object Object with head and status properties.
 	 */
 	public function for_posts_page() {
+		$posts_page_id = (int) \get_option( 'page_for_posts' );
+		if ( $posts_page_id !== 0 && ! $this->meta_surface->is_post_readable( $posts_page_id ) ) {
+			return $this->for_404();
+		}
+
 		return $this->with_404_fallback( $this->with_cache( 'posts_page' ) );
 	}
 
