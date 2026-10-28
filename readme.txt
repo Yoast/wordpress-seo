@@ -309,7 +309,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 28.9 =
 
-Release date: 2026-11-10
+Release date: 2026-11-17
 
 #### Enhancements
 
