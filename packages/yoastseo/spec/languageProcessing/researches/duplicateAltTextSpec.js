@@ -187,4 +187,10 @@ describe( "a research that counts the images that share their alt text with anot
 
 		expect( duplicateAltText( paper ) ).toEqual( { count: 2, flagged: [ "https://example.com/b.jpg" ] } );
 	} );
+
+	it( "counts alt texts that only differ in a non-breaking space entity as duplicates", () => {
+		const paper = parsedPaper( "<img src='https://example.com/a.jpg' alt='Red&nbsp;bike' /><img src='https://example.com/b.jpg' alt='Red bike' />" );
+
+		expect( duplicateAltText( paper ) ).toEqual( { count: 2, flagged: [ "https://example.com/a.jpg", "https://example.com/b.jpg" ] } );
+	} );
 } );
