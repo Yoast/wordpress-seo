@@ -361,13 +361,13 @@ class WPSEO_Sitemaps_Renderer {
 	/**
 	 * Retrieves the stylesheet URL that should be used in the current environment.
 	 *
-	 * @deprecated 28.8
+	 * @deprecated 28.9
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The stylesheet URL that needs to be used.
 	 */
 	protected function get_xsl_url() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 28.8', 'WPSEO_Sitemaps_Renderer::get_stylesheet_url' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 28.9', 'WPSEO_Sitemaps_Renderer::get_stylesheet_url' );
 
 		return $this->get_stylesheet_url();
 	}
