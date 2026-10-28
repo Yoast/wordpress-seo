@@ -24,6 +24,12 @@ describe( "Checks for an alt attribute in an image", function() {
 
 		expect( imageAlt( imageNode ) ).toBe( "" );
 	} );
+	it( "returns empty string for a node that is not an image", function() {
+		const tree = adapt( parseFragment( "<p title='a test'>A paragraph</p>", { sourceCodeLocationInfo: true } ) );
+		const paragraphNode = tree.findAll( node => node.name === "p" )[ 0 ];
+
+		expect( imageAlt( paragraphNode ) ).toBe( "" );
+	} );
 } );
 
 describe( "HTML entities in the alt attribute", () => {
