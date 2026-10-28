@@ -159,7 +159,7 @@ const Autocomplete = forwardRef( ( {
 					{ ...buttonProps }
 				>
 					<Combobox.Input
-						className="yst-autocomplete__input yst-border-0"
+						className="yst-autocomplete__input"
 						autoComplete="off"
 						placeholder={ placeholder }
 						displayValue={ getDisplayValue }

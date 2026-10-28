@@ -12,8 +12,12 @@
 		}
 	}
 
-	.yst-checkbox__input {
+	/* See text-input/style.css for why this is `html input`. */
+	html input.yst-checkbox__input {
 		@apply
+		yst-form-checkbox
+		yst-m-0
+		yst-leading-normal
 		yst-h-4
 		yst-w-4
 		yst-text-primary-500
@@ -21,6 +25,9 @@
 		yst-border-slate-300
 		yst-rounded
 
+		checked:before:yst-content-none
+		disabled:yst-opacity-50
+		disabled:yst-cursor-not-allowed
 		focus:yst-ring-primary-500;
 	}
 

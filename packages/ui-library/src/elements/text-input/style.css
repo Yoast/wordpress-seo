@@ -1,6 +1,8 @@
 @layer components {
-	.yst-text-input {
+	/* `html input` lifts this above WP admin's `input[type=…]` (0,1,1) specificity, but keeps it below two-class consumer overrides (0,2,0). */
+	html input.yst-text-input {
 		@apply
+		yst-form-input
 		yst-w-full
 		yst-py-2
 		yst-px-3
@@ -18,14 +20,14 @@
 		focus:yst-ring-2;
 	}
 
-	.yst-text-input--disabled {
+	html input.yst-text-input--disabled {
 		@apply
 		yst-opacity-50
 		yst-cursor-not-allowed
 		focus:yst-ring-0;
 	}
 
-	.yst-text-input--read-only {
+	html input.yst-text-input--read-only {
 		@apply
 		yst-border-slate-200
 		yst-shadow-none

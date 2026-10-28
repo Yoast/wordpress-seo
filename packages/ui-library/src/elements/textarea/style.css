@@ -1,6 +1,7 @@
 @layer components {
 	.yst-textarea {
 		@apply
+		yst-form-textarea
 		yst-w-full
 		yst-py-2
 		yst-px-3

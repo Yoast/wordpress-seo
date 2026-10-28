@@ -75,8 +75,10 @@
 		@apply yst-ms-0.5 yst-w-0.5 yst-h-7 yst-bg-slate-200;
 	}
 
-	.yst-autocomplete__input {
+	/* See text-input/style.css for why this is `html input`. */
+	html input.yst-autocomplete__input {
 		@apply
+		yst-form-input
 		yst-w-full
 		yst-border-0
 		yst-px-0

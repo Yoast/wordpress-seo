@@ -21,7 +21,7 @@ const TextInput = forwardRef( ( {
 		ref={ ref }
 		type={ type }
 		className={ classNames(
-			"yst-text-input yst-border-0",
+			"yst-text-input",
 			disabled && "yst-text-input--disabled",
 			readOnly && "yst-text-input--read-only",
 			className,
