@@ -1,5 +1,6 @@
 import { get } from "lodash";
 import { dispatch, select } from "@wordpress/data";
+import { addFilter } from "@wordpress/hooks";
 
 /**
  * Returns whether the block-editor REST meta path is active (metabox hidden fields disabled).
@@ -101,6 +102,35 @@ const writeMeta = ( metaKey, value ) => {
 		dispatch( "core/editor" ).editPost( { meta: { [ metaKey ]: stringValue } } );
 	}
 };
+
+/**
+ * Buffer for meta writes that should be injected at save time without dirtying the post.
+ * Keyed by meta key; holds the latest value as a string.
+ */
+const pendingDeferredMeta = new Map();
+
+/**
+ * Queues a meta value for injection into the next non-autosave payload via the editor.preSavePost
+ * filter. Use for derived values that should be persisted on save but must not mark the post dirty
+ * (e.g. auto-selected primary category on initial load).
+ *
+ * @param {string} metaKey The meta key to write.
+ * @param {string} value   The value to write. Coerced to string.
+ *
+ * @returns {void}
+ */
+export const deferMetaWrite = ( metaKey, value ) => {
+	pendingDeferredMeta.set( metaKey, String( value ) );
+};
+
+addFilter( "editor.preSavePost", "yoast/deferred-meta", ( edits, options ) => {
+	if ( pendingDeferredMeta.size === 0 || options?.isAutosave ) {
+		return edits;
+	}
+	const deferred = Object.fromEntries( pendingDeferredMeta );
+	pendingDeferredMeta.clear();
+	return { ...edits, meta: { ...( edits.meta ?? {} ), ...deferred } };
+} );
 
 /**
  * Sets Meta value on the DOM when REST meta is inactive, or dispatches to core/editor when active.

@@ -3,6 +3,10 @@ jest.mock( "@wordpress/data", () => ( {
 	dispatch: jest.fn(),
 } ) );
 
+jest.mock( "@wordpress/hooks", () => ( {
+	addFilter: jest.fn(),
+} ) );
+
 import { select, dispatch } from "@wordpress/data";
 import { shouldSkipMetaWrite, writeMetaWithoutUndo, getMetaValue, setMetaValue } from "../../../src/helpers/fields/rest-meta";
 import { metaKeyTitle, metaKeyLinkdex, metaKeyContentScore } from "../../../src/shared-admin/constants/meta-keys";
@@ -108,6 +112,7 @@ describe( "getMetaValue (REST meta active)", () => {
 	beforeEach( () => {
 		jest.resetModules();
 		window.wpseoScriptData = { disableMetaboxInBlockEditor: true };
+		jest.doMock( "@wordpress/hooks", () => ( { addFilter: jest.fn() } ) );
 		jest.doMock( "@wordpress/data", () => ( {
 			select: jest.fn( () => ( { getEditedPostAttribute: mockGetEditedPostAttribute } ) ),
 			dispatch: jest.fn(),
@@ -145,6 +150,7 @@ describe( "setMetaValue (REST meta active)", () => {
 	beforeEach( () => {
 		jest.resetModules();
 		window.wpseoScriptData = { disableMetaboxInBlockEditor: true };
+		jest.doMock( "@wordpress/hooks", () => ( { addFilter: jest.fn() } ) );
 		jest.doMock( "@wordpress/data", () => ( {
 			select: jest.fn( () => ( {
 				getEditedPostAttribute: mockGetEditedPostAttribute,
@@ -201,5 +207,86 @@ describe( "setMetaValue (REST meta active)", () => {
 		const element = { value: "original" };
 		setMetaValueActive( metaKeyTitle, element, "new" );
 		expect( element.value ).toBe( "original" );
+	} );
+} );
+
+describe( "deferMetaWrite and deferred meta preSavePost filter", () => {
+	// Reload the module fresh so earlier describe blocks' clearAllMocks() calls don't wipe the
+	// addFilter registration. Capture the filter directly in the mock factory.
+	let deferMetaWriteLocal;
+	let capturedFilter;
+
+	beforeAll( () => {
+		jest.resetModules();
+		jest.doMock( "@wordpress/hooks", () => ( {
+			addFilter: ( hookName, namespace, fn ) => {
+				if ( namespace === "yoast/deferred-meta" ) {
+					capturedFilter = fn;
+				}
+			},
+		} ) );
+		jest.doMock( "@wordpress/data", () => ( { select: jest.fn(), dispatch: jest.fn() } ) );
+		( { deferMetaWrite: deferMetaWriteLocal } = require( "../../../src/helpers/fields/rest-meta" ) );
+	} );
+
+	// Drain any buffer left by a previous test so each test starts clean.
+	const drainBuffer = () => capturedFilter?.( {}, {} );
+
+	beforeEach( () => {
+		drainBuffer();
+	} );
+
+	it( "registers the editor.preSavePost filter on module load", () => {
+		expect( capturedFilter ).toBeDefined();
+	} );
+
+	it( "injects a deferred value into the save edits", () => {
+		deferMetaWriteLocal( metaKeyLinkdex, "99" );
+
+		const result = capturedFilter( { meta: {} }, {} );
+
+		expect( result.meta[ metaKeyLinkdex ] ).toBe( "99" );
+	} );
+
+	it( "coerces the value to string", () => {
+		deferMetaWriteLocal( metaKeyLinkdex, 42 );
+
+		const result = capturedFilter( { meta: {} }, {} );
+
+		expect( result.meta[ metaKeyLinkdex ] ).toBe( "42" );
+	} );
+
+	it( "merges with existing meta rather than replacing it", () => {
+		deferMetaWriteLocal( metaKeyLinkdex, "50" );
+
+		const result = capturedFilter( { meta: { [ metaKeyContentScore ]: "keep" } }, {} );
+
+		expect( result.meta[ metaKeyContentScore ] ).toBe( "keep" );
+		expect( result.meta[ metaKeyLinkdex ] ).toBe( "50" );
+	} );
+
+	it( "passes edits through unchanged when the buffer is empty", () => {
+		const edits = { meta: {} };
+
+		const result = capturedFilter( edits, {} );
+
+		expect( result ).toBe( edits );
+	} );
+
+	it( "does not inject on autosaves", () => {
+		deferMetaWriteLocal( metaKeyLinkdex, "50" );
+
+		const result = capturedFilter( { meta: {} }, { isAutosave: true } );
+
+		expect( result.meta?.[ metaKeyLinkdex ] ).toBeUndefined();
+	} );
+
+	it( "clears the buffer after injecting so a second save does not re-inject", () => {
+		deferMetaWriteLocal( metaKeyLinkdex, "50" );
+		capturedFilter( { meta: {} }, {} );
+
+		const result = capturedFilter( { meta: {} }, {} );
+
+		expect( result.meta?.[ metaKeyLinkdex ] ).toBeUndefined();
 	} );
 } );
