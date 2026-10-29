@@ -101,5 +101,7 @@
 		yst-text-inherit
 		focus:yst-outline-none
 		focus:yst-ring-0;
+
+		font-family: inherit;
 	}
 }

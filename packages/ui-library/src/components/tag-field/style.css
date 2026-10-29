@@ -11,7 +11,7 @@
 	}
 
 	.yst-tag-field__description {
-		@apply yst-mt-2;
+		@apply yst-mt-2 yst-mb-0;
 	}
 
 	.yst-tag-field__validation {

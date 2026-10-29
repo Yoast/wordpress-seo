@@ -18,6 +18,8 @@
 		focus:yst-outline-none
 		focus:yst-ring-primary-500
 		focus:yst-ring-2;
+
+		font-family: inherit;
 	}
 
 	html input.yst-text-input--disabled {

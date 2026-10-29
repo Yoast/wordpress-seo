@@ -87,6 +87,8 @@
 		yst-text-sm
 		focus:yst-ring-0
 		yst-text-slate-800;
+
+		font-family: inherit;
 	}
 
 	.yst-autocomplete__options {

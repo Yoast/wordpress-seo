@@ -17,7 +17,7 @@
 	}
 
 	.yst-text-field__description {
-		@apply yst-mt-2;
+		@apply yst-mt-2 yst-mb-0;
 	}
 
 	.yst-text-field__validation {

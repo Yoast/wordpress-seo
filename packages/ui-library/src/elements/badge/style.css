@@ -2,6 +2,7 @@
 	.yst-badge {
 		@apply
 		yst-inline-flex
+		yst-font-sans
 		yst-items-center
 		yst-px-2
 		yst-py-0.5
