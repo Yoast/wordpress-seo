@@ -55,19 +55,19 @@ export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
 	};
 
 	return (
-		<div id={ `premium-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-primary-200 yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2">
-			<Title as="h3" variant="h3" className="yst-text-primary-500 yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
+		<div id={ `premium-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-solid yst-border-primary-200 yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2 yst-text-sm yst-font-normal yst-font-sans yst-text-slate-600 yst-leading-normal yst-antialiased">
+			<Title as="h3" variant="h3" className="yst-text-primary-500 yst-text-base yst-font-medium yst-mt-0 yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
 				{ __( "Premium SEO Analysis", "wordpress-seo" ) }
 				<CrownIcon className="yst-w-4" { ...svgAriaProps } />
 			</Title>
-			<p>
+			<p className="yst-my-0">
 				{ __(
 					"Get deeper keyphrase insights and stronger headlines",
 					"wordpress-seo"
 				) }
 			</p>
 			<div className="yst-py-2 yst-ps-6">
-				<ul className="yst-list-disc yst-list-outside marker:yst-mr-0">
+				<ul className="yst-list-disc yst-list-outside marker:yst-mr-0 yst-my-0 yst-p-0">
 					<li className="yst-mb-2 yst-list-item">{
 						safeCreateInterpolateElement(
 							sprintf(
@@ -76,12 +76,12 @@ export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
 								"<strong>",
 								"</strong>"
 							), {
-								strong: <strong />,
+								strong: <strong className="yst-font-bold" />,
 							}
 						)
 					}
 					</li>
-					<li className="yst-list-item">{
+					<li className="yst-list-item yst-mb-0">{
 						safeCreateInterpolateElement(
 							sprintf(
 								/* translators: 1: Bold open tag, 2: Bold close tag */
@@ -89,7 +89,7 @@ export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
 								"<strong>",
 								"</strong>"
 							), {
-								strong: <strong />,
+								strong: <strong className="yst-font-bold" />,
 							}
 						)
 					}</li>
