@@ -24,7 +24,7 @@ const Row = ( { children, className, dragProps, buttonProps } ) => {
 		<button
 			type="button"
 			className={ classNames(
-				"yst-h-10 yst-w-full yst-border yst-rounded-md yst-shadow yst-flex yst-items-center yst-gap-3 yst-px-3 yst-select-none",
+				"yst-h-10 yst-w-full yst-border yst-rounded-md yst-shadow yst-flex yst-items-center yst-gap-3 yst-px-3 yst-select-none yst-border-solid",
 				className
 			) }
 			{ ...buttonProps }
@@ -112,7 +112,7 @@ export const StructureRow = ( {
 	return ( <Row
 		className={ classNames(
 			"yst-bg-slate-50 yst-text-slate-400 yst-border-slate-300 yst-text-sm yst-cursor-grab yst-transition-all focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500",
-			dragOverIndex === index && "yst-border-primary-500 yst-border-2"
+			dragOverIndex === index && "yst-border-primary-500 yst-border-2 yst-border-solid"
 		) }
 		buttonProps={ { onKeyDown: handleKeyDown } }
 		dragProps={ dragProps }

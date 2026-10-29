@@ -450,7 +450,7 @@ export const MyyoastIntegration = () => {
 	return (
 		<>
 			{ /* The purple outline flags the card as a call to action; once connected it's dropped so the card blends in with the others. */ }
-			<Card className={ status.isRegistered ? "" : "yst-border-2 yst-border-primary-200" }>
+			<Card className={ status.isRegistered ? "" : "yst-border-2 yst-border-primary-200 yst-border-solid" }>
 				<Card.Header>
 					<MyYoastLogo className="yst-h-8 yst-w-auto" />
 				</Card.Header>

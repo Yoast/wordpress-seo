@@ -32,7 +32,7 @@ const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "", reso
 	return (
 		<li
 			key={ id }
-			className="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
+			className="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0 yst-border-solid"
 		>
 			<div className={ classNames( "yst-mt-1", dismissed && "yst-opacity-50" ) }>
 				<svg width="11" height="11" className={ bulletClass }>

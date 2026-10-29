@@ -150,7 +150,7 @@ export const BulkEditorRow = ( {
 							>
 								{ __( "Save", "wordpress-seo" ) }
 							</Button>
-							<span aria-hidden="true" className="yst-w-full yst-border-t yst-border-slate-200" />
+							<span aria-hidden="true" className="yst-w-full yst-border-t yst-border-slate-200 yst-border-solid" />
 							<Button
 								variant="tertiary"
 								size="small"

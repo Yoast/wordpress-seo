@@ -16,7 +16,7 @@ import { CardLink } from "../actions/card-link";
  * @returns {JSX.Element} The element.
  */
 const CardBadge = ( { variant, className, children } ) => <div className="yst-absolute yst-top-0 yst--translate-y-1/2 yst-w-full yst-text-center">
-	<Badge size="small" className={ classNames( "yst-border", className ) } variant={ variant }>
+	<Badge size="small" className={ classNames( "yst-border yst-border-solid", className ) } variant={ variant }>
 		{ children }
 	</Badge>
 </div>;
@@ -106,7 +106,7 @@ export const BaseCard = ( {
 				<Card.Content className="yst-flex yst-flex-col">
 					<Title as="h2">{ title }</Title>
 					<p className="yst-mt-3">{ description }</p>
-					<hr className="yst-my-6 yst-border-t yst-border-slate-200" />
+					<hr className="yst-my-6 yst-border-t yst-border-slate-200 yst-border-solid" />
 					{ listDescription && <p className="yst-mb-3">{ listDescription }</p> }
 					<div className="yst-flex yst-flex-col yst-gap-y-2" role="list">
 						{ list.map( ( item, index ) => (
@@ -122,7 +122,7 @@ export const BaseCard = ( {
 						<>
 							<span className="yst-block yst-font-medium yst-leading-none">{ __( "Now includes:", "wordpress-seo" ) }</span>
 							<span className="yst-text-xxs yst-text-slate-500">{ includes }</span>
-							<hr className="yst-mt-4 yst-mb-6 yst-border-t yst-border-slate-200" />
+							<hr className="yst-mt-4 yst-mb-6 yst-border-t yst-border-slate-200 yst-border-solid" />
 						</>
 					) }
 					<div className="yst-flex yst-flex-col yst-gap-y-1">
