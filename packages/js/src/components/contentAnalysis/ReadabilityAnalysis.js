@@ -74,7 +74,6 @@ class ReadabilityAnalysis extends Component {
 				<Results
 					results={ this.props.results }
 					upsellResults={ upsellResults }
-					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ this.props.marksButtonStatus }
 					location={ location }
 					id={ location ? `yoast-readability-analysis-results-${ location }` : "" }
