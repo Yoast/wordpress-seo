@@ -1,4 +1,4 @@
-import apiFetch from "@wordpress/api-fetch";
+import { addFilter } from "@wordpress/hooks";
 import { dispatch, select, subscribe } from "@wordpress/data";
 import {
 	metaKeyFocusKw,
@@ -117,7 +117,7 @@ function writeOrQueue( metaKey, value, undoIgnore = false ) {
 /**
  * Buffer for score meta writes that should not dirty the post independently.
  * Keyed by meta key; holds the latest sanitized score string.
- * Injected into the outgoing save payload by initScoreInjectMiddleware.
+ * Injected into the save payload by the editor.preSavePost filter.
  */
 const pendingScoreWrites = new Map();
 
@@ -390,98 +390,13 @@ export default class AnalysisFields {
 	}
 }
 
-/**
- * Returns true when the request method is PUT or POST.
- *
- * @param {Object} options The apiFetch request options.
- * @returns {boolean} Whether the method is a save method.
- */
-function isSaveMethod( options ) {
-	const method = options.method?.toUpperCase() ?? "";
-	return method === "PUT" || method === "POST";
-}
-
-/**
- * Returns the REST base and post ID for the currently edited post.
- *
- * @returns {{restBase: string|undefined, postId: number|undefined}} The REST base and post ID.
- */
-function getCurrentPostRestContext() {
-	const editor   = select( "core/editor" );
-	const postType = editor?.getCurrentPostType();
-	const postId   = editor?.getCurrentPostId();
-	const restBase = select( "core" ).getPostType( postType )?.rest_base;
-	return { restBase, postId };
-}
-
-/**
- * Returns true when the path targets the given post's REST endpoint (not an autosave).
- *
- * @param {string} path     The request path.
- * @param {string} restBase The post type REST base.
- * @param {number} postId   The post ID.
- * @returns {boolean} Whether the path is a save request for this post.
- */
-function matchesPostEndpoint( path, restBase, postId ) {
-	const pattern = new RegExp( `/${ restBase }/${ postId }(?:\\?|$)` );
-	return pattern.test( path ) && ! path.includes( "autosave" );
-}
-
-/**
- * Returns true when the request is a save (PUT/POST) to the current post's REST endpoint
- * and not an autosave sub-resource.
- *
- * @param {Object} options The apiFetch request options.
- * @returns {boolean} Whether scores should be injected into this request.
- */
-function isScoreSaveRequest( options ) {
-	if ( ! isSaveMethod( options ) ) {
-		return false;
-	}
-	const { restBase, postId } = getCurrentPostRestContext();
-	if ( ! restBase || ! postId ) {
-		return false;
-	}
-	return matchesPostEndpoint( options.path ?? "", restBase, postId );
-}
-
-/**
- * apiFetch middleware that injects buffered score writes into post save requests.
- *
- * @param {Object}   options The apiFetch request options.
- * @param {Function} next    The next middleware in the chain.
- * @returns {*} The apiFetch response.
- */
-function scoreInjectMiddleware( options, next ) {
-	if ( pendingScoreWrites.size === 0 || ! isScoreSaveRequest( options ) ) {
-		return next( options );
+// Always register — the buffer is only populated when isRestMetaActive() is true
+// (inside setScoreMeta), so the filter is a safe no-op in classic-editor mode.
+addFilter( "editor.preSavePost", "yoast/analysis-scores", ( edits, options ) => {
+	if ( pendingScoreWrites.size === 0 || options?.isAutosave ) {
+		return edits;
 	}
 	const scores = Object.fromEntries( pendingScoreWrites );
 	pendingScoreWrites.clear();
-	return next( {
-		...options,
-		data: { ...options.data, meta: { ...( options.data?.meta ?? {} ), ...scores } },
-	} );
-}
-
-/**
- * Registers the score inject middleware with apiFetch.
- *
- * Detecting save via a store subscriber has a timing problem: Gutenberg's save
- * action reads entity edits before the subscriber fires, so any write at that
- * moment lands as a pending edit after the save rather than inside the payload.
- * The middleware approach sidesteps this by operating at the HTTP layer: it
- * intercepts the PUT/POST to the post endpoint and merges the buffered scores
- * into the request body before it goes out. Gutenberg's normal response handling
- * then commits the scores to the core store, so subsequent analysis runs see no
- * difference and skip — no separate PATCH or manual receiveEntityRecords needed.
- *
- * @returns {void}
- */
-function initScoreInjectMiddleware() {
-	apiFetch.use( scoreInjectMiddleware );
-}
-
-// Always register — the buffer is only populated when isRestMetaActive() is true
-// (inside setScoreMeta), so the middleware is a safe no-op in classic-editor mode.
-initScoreInjectMiddleware();
+	return { ...edits, meta: { ...( edits.meta ?? {} ), ...scores } };
+} );

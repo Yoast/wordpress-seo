@@ -1,6 +1,7 @@
 import AnalysisFields from "../../../src/helpers/fields/AnalysisFields";
 import { mockWindow, createInputElement } from "../../test-utils";
 import { metaKeyFocusKw, metaKeyLinkdex } from "../../../src/shared-admin/constants";
+import { addFilter } from "@wordpress/hooks";
 
 const mockGetEditedPostAttribute = jest.fn();
 const mockCurrentPostType = jest.fn();
@@ -9,18 +10,10 @@ const mockGetPostType = jest.fn();
 const mockEditPost = jest.fn();
 const mockEditEntityRecord = jest.fn();
 const mockCapturedSubscribers = [];
-// var without initializer — jest.mock factories are hoisted above let/const (TDZ),
-// and `= null` would reset the value set by the factory once the module body runs.
 
-var capturedMiddleware;
-
-jest.mock( "@wordpress/api-fetch", () => {
-	const mock = jest.fn();
-	mock.use = jest.fn( ( middleware ) => {
-		capturedMiddleware = middleware;
-	} );
-	return mock;
-} );
+jest.mock( "@wordpress/hooks", () => ( {
+	addFilter: jest.fn(),
+} ) );
 
 jest.mock( "@wordpress/data", () => ( {
 	select: ( store ) => {
@@ -570,88 +563,67 @@ describe( "pending writes (REST meta mode)", () => {
 	} );
 } );
 
-describe( "score inject middleware", () => {
-	beforeEach( () => {
-		// Flush any leftover score buffer from previous tests.
-		mockCurrentPostType.mockReturnValue( "post" );
-		mockCurrentPostId.mockReturnValue( 1 );
-		// eslint-disable-next-line camelcase
-		mockGetPostType.mockReturnValue( { rest_base: "posts" } );
+describe( "score inject filter", () => {
+	const getFilter = () =>
+		addFilter.mock.calls.find( ( [ hookName ] ) => hookName === "editor.preSavePost" )?.[ 2 ];
 
+	// Drain the buffer so each test starts clean.
+	const drainBuffer = () => getFilter()?.( { meta: {} }, {} );
+
+	beforeEach( () => {
 		window.wpseoScriptData = { isPost: true, disableMetaboxInBlockEditor: true };
 		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "47" } );
-
-		// Drain the buffer so each test starts clean.
-		if ( capturedMiddleware ) {
-			capturedMiddleware( { method: "PUT", path: "/wp/v2/posts/1", data: {} }, jest.fn() );
-		}
+		drainBuffer();
 	} );
 
 	afterEach( () => {
 		delete window.wpseoScriptData;
 	} );
 
-	it( "injects buffered scores into the save payload", () => {
-		AnalysisFields.seoScore = "50";
-
-		const next = jest.fn();
-		capturedMiddleware( { method: "PUT", path: "/wp/v2/posts/1", data: { title: "My Post", meta: {} } }, next );
-
-		expect( next ).toHaveBeenCalledWith( {
-			method: "PUT",
-			path: "/wp/v2/posts/1",
-			data: { title: "My Post", meta: { [ metaKeyLinkdex ]: "50" } },
-		} );
+	it( "registers the editor.preSavePost filter on module load", () => {
+		expect( addFilter ).toHaveBeenCalledWith( "editor.preSavePost", "yoast/analysis-scores", expect.any( Function ) );
 	} );
 
-	it( "passes the request through unchanged when the buffer is empty", () => {
-		const next = jest.fn();
-		const options = { method: "PUT", path: "/wp/v2/posts/1", data: {} };
-		capturedMiddleware( options, next );
-
-		expect( next ).toHaveBeenCalledWith( options );
-	} );
-
-	it( "passes the request through unchanged for GET requests", () => {
+	it( "injects buffered scores into the save edits", () => {
 		AnalysisFields.seoScore = "50";
 
-		const next = jest.fn();
-		const options = { method: "GET", path: "/wp/v2/posts/1" };
-		capturedMiddleware( options, next );
+		const result = getFilter()( { meta: {} }, {} );
 
-		expect( next ).toHaveBeenCalledWith( options );
+		expect( result.meta[ metaKeyLinkdex ] ).toBe( "50" );
 	} );
 
-	it( "passes the request through unchanged for autosave requests", () => {
+	it( "merges with existing meta rather than replacing it", () => {
 		AnalysisFields.seoScore = "50";
 
-		const next = jest.fn();
-		const options = { method: "POST", path: "/wp/v2/posts/1/autosaves" };
-		capturedMiddleware( options, next );
+		// eslint-disable-next-line camelcase
+		const result = getFilter()( { meta: { _other_key: "keep" } }, {} );
 
-		expect( next ).toHaveBeenCalledWith( options );
+		expect( result.meta._other_key ).toBe( "keep" );
+		expect( result.meta[ metaKeyLinkdex ] ).toBe( "50" );
 	} );
 
-	it( "passes the request through unchanged when the path does not match the current post", () => {
+	it( "passes edits through unchanged when the buffer is empty", () => {
+		const edits = { meta: {} };
+
+		const result = getFilter()( edits, {} );
+
+		expect( result ).toBe( edits );
+	} );
+
+	it( "does not inject on autosaves", () => {
 		AnalysisFields.seoScore = "50";
 
-		const next = jest.fn();
-		const options = { method: "PUT", path: "/wp/v2/posts/999" };
-		capturedMiddleware( options, next );
+		const result = getFilter()( { meta: {} }, { isAutosave: true } );
 
-		expect( next ).toHaveBeenCalledWith( options );
+		expect( result.meta[ metaKeyLinkdex ] ).toBeUndefined();
 	} );
 
 	it( "clears the buffer after injecting so a second save does not re-inject stale scores", () => {
 		AnalysisFields.seoScore = "50";
+		getFilter()( { meta: {} }, {} );
 
-		const first = jest.fn();
-		capturedMiddleware( { method: "PUT", path: "/wp/v2/posts/1", data: {} }, first );
+		const result = getFilter()( { meta: {} }, {} );
 
-		const second = jest.fn();
-		capturedMiddleware( { method: "PUT", path: "/wp/v2/posts/1", data: {} }, second );
-
-		expect( first ).toHaveBeenCalledWith( expect.objectContaining( { data: expect.objectContaining( { meta: { [ metaKeyLinkdex ]: "50" } } ) } ) );
-		expect( second ).toHaveBeenCalledWith( { method: "PUT", path: "/wp/v2/posts/1", data: {} } );
+		expect( result.meta[ metaKeyLinkdex ] ).toBeUndefined();
 	} );
 } );
