@@ -64,7 +64,7 @@ const Description = ( {
 			) ) }
 		</ul>
 	) : (
-		<p className={ className }>{ description }</p>
+		<p className={ classNames( "yst-toast__description", className ) }>{ description }</p>
 	);
 };
 

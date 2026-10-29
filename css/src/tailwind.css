@@ -54,3 +54,40 @@
 		}
 	}
 }
+
+/* The same WordPress resets for elements that carry a yst- class themselves, so they also apply without a `.yst-root` ancestor. */
+@layer base {
+	a:where([class^="yst-"], [class*=" yst-"]) {
+		@apply focus:yst-shadow-none;
+	}
+
+	li:where([class^="yst-"], [class*=" yst-"]),
+	dd:where([class^="yst-"], [class*=" yst-"]) {
+		margin-bottom: 0;
+	}
+
+	input[type=date]:where([class^="yst-"], [class*=" yst-"]),
+	input[type=datetime-local]:where([class^="yst-"], [class*=" yst-"]),
+	input[type=datetime]:where([class^="yst-"], [class*=" yst-"]),
+	input[type=email]:where([class^="yst-"], [class*=" yst-"]),
+	input[type=month]:where([class^="yst-"], [class*=" yst-"]),
+	input[type=number]:where([class^="yst-"], [class*=" yst-"]),
+	input[type=password]:where([class^="yst-"], [class*=" yst-"]),
+	input[type=search]:where([class^="yst-"], [class*=" yst-"]),
+	input[type=tel]:where([class^="yst-"], [class*=" yst-"]),
+	input[type=text]:where([class^="yst-"], [class*=" yst-"]),
+	input[type=time]:where([class^="yst-"], [class*=" yst-"]),
+	input[type=url]:where([class^="yst-"], [class*=" yst-"]),
+	input[type=week]:where([class^="yst-"], [class*=" yst-"]) {
+		@apply yst-min-h-0;
+	}
+
+	input[type=checkbox]:where([class^="yst-"], [class*=" yst-"]) {
+		@apply
+		yst-min-h-0
+		yst-min-w-0
+		yst-shadow-none
+		yst-transition-none
+		before:yst-content-none;
+	}
+}

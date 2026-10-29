@@ -362,6 +362,234 @@
 }
 
 /**
+ * The same preflight, for elements that carry a yst- class themselves, so components also render without a
+ * `.yst-root` ancestor. Element selectors are (0,0,1): they tie with host element rules such as WordPress's
+ * `p { margin: 1em 0 }` and win by load order, while any component class (0,1,0) or utility still overrides
+ * them. The typography `.yst-root` sets on itself is left out, so components keep inheriting it.
+ */
+@layer base {
+	:where([class^="yst-"], [class*=" yst-"]),
+	:where([class^="yst-"], [class*=" yst-"])::before,
+	:where([class^="yst-"], [class*=" yst-"])::after {
+		box-sizing: border-box; /* 1 */
+		border-width: 0; /* 2 */
+		border-style: solid; /* 2 */
+		border-color: theme('borderColor.DEFAULT', currentColor); /* 2 */
+	}
+
+	:where([class^="yst-"], [class*=" yst-"])::before,
+	:where([class^="yst-"], [class*=" yst-"])::after {
+		--tw-content: '';
+	}
+
+	hr:where([class^="yst-"], [class*=" yst-"]) {
+		height: 0; /* 1 */
+		color: inherit; /* 2 */
+		border-top-width: 1px; /* 3 */
+	}
+
+	abbr:where([title]):where([class^="yst-"], [class*=" yst-"]) {
+		text-decoration: underline dotted;
+	}
+
+	h1:where([class^="yst-"], [class*=" yst-"]),
+	h2:where([class^="yst-"], [class*=" yst-"]),
+	h3:where([class^="yst-"], [class*=" yst-"]),
+	h4:where([class^="yst-"], [class*=" yst-"]),
+	h5:where([class^="yst-"], [class*=" yst-"]),
+	h6:where([class^="yst-"], [class*=" yst-"]) {
+		font-size: inherit;
+		font-weight: inherit;
+	}
+
+	a:where([class^="yst-"], [class*=" yst-"]) {
+		color: inherit;
+		text-decoration: inherit;
+	}
+
+	b:where([class^="yst-"], [class*=" yst-"]),
+	strong:where([class^="yst-"], [class*=" yst-"]) {
+		font-weight: bolder;
+	}
+
+	code:where([class^="yst-"], [class*=" yst-"]),
+	kbd:where([class^="yst-"], [class*=" yst-"]),
+	samp:where([class^="yst-"], [class*=" yst-"]),
+	pre:where([class^="yst-"], [class*=" yst-"]) {
+		font-family: theme('fontFamily.mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace); /* 1 */
+		font-feature-settings: theme('fontFamily.mono[1].fontFeatureSettings', normal); /* 2 */
+		font-variation-settings: theme('fontFamily.mono[1].fontVariationSettings', normal); /* 3 */
+		font-size: 1em; /* 4 */
+	}
+
+	small:where([class^="yst-"], [class*=" yst-"]) {
+		font-size: 80%;
+	}
+
+	sub:where([class^="yst-"], [class*=" yst-"]),
+	sup:where([class^="yst-"], [class*=" yst-"]) {
+		font-size: 75%;
+		line-height: 0;
+		position: relative;
+		vertical-align: baseline;
+	}
+
+	sub:where([class^="yst-"], [class*=" yst-"]) {
+		bottom: -0.25em;
+	}
+
+	sup:where([class^="yst-"], [class*=" yst-"]) {
+		top: -0.5em;
+	}
+
+	table:where([class^="yst-"], [class*=" yst-"]) {
+		text-indent: 0; /* 1 */
+		border-color: inherit; /* 2 */
+		border-collapse: collapse; /* 3 */
+	}
+
+	button:where([class^="yst-"], [class*=" yst-"]),
+	input:where([class^="yst-"], [class*=" yst-"]),
+	optgroup:where([class^="yst-"], [class*=" yst-"]),
+	select:where([class^="yst-"], [class*=" yst-"]),
+	textarea:where([class^="yst-"], [class*=" yst-"]) {
+		font-family: inherit; /* 1 */
+		font-feature-settings: inherit; /* 1 */
+		font-variation-settings: inherit; /* 1 */
+		font-size: 100%; /* 1 */
+		font-weight: inherit; /* 1 */
+		line-height: inherit; /* 1 */
+		letter-spacing: inherit; /* 1 */
+		color: inherit; /* 1 */
+		margin: 0; /* 2 */
+		padding: 0; /* 3 */
+	}
+
+	button:where([class^="yst-"], [class*=" yst-"]),
+	select:where([class^="yst-"], [class*=" yst-"]) {
+		text-transform: none;
+	}
+
+	button:where([class^="yst-"], [class*=" yst-"]),
+	input:where([type='button']):where([class^="yst-"], [class*=" yst-"]),
+	input:where([type='reset']):where([class^="yst-"], [class*=" yst-"]),
+	input:where([type='submit']):where([class^="yst-"], [class*=" yst-"]) {
+		-webkit-appearance: button; /* 1 */
+		background-color: transparent; /* 2 */
+		background-image: none; /* 2 */
+	}
+
+	:where(:-moz-focusring):where([class^="yst-"], [class*=" yst-"]) {
+		outline: auto;
+	}
+
+	:where(:-moz-ui-invalid):where([class^="yst-"], [class*=" yst-"]) {
+		box-shadow: none;
+	}
+
+	progress:where([class^="yst-"], [class*=" yst-"]) {
+		vertical-align: baseline;
+	}
+
+	:where([class^="yst-"], [class*=" yst-"])::-webkit-inner-spin-button,
+	:where([class^="yst-"], [class*=" yst-"])::-webkit-outer-spin-button {
+		height: auto;
+	}
+
+	:where([type='search']):where([class^="yst-"], [class*=" yst-"]) {
+		-webkit-appearance: textfield; /* 1 */
+		outline-offset: -2px; /* 2 */
+	}
+
+	:where([class^="yst-"], [class*=" yst-"])::-webkit-search-decoration {
+		-webkit-appearance: none;
+	}
+
+	:where([class^="yst-"], [class*=" yst-"])::-webkit-file-upload-button {
+		-webkit-appearance: button; /* 1 */
+		font: inherit; /* 2 */
+	}
+
+	summary:where([class^="yst-"], [class*=" yst-"]) {
+		display: list-item;
+	}
+
+	blockquote:where([class^="yst-"], [class*=" yst-"]),
+	dl:where([class^="yst-"], [class*=" yst-"]),
+	dd:where([class^="yst-"], [class*=" yst-"]),
+	h1:where([class^="yst-"], [class*=" yst-"]),
+	h2:where([class^="yst-"], [class*=" yst-"]),
+	h3:where([class^="yst-"], [class*=" yst-"]),
+	h4:where([class^="yst-"], [class*=" yst-"]),
+	h5:where([class^="yst-"], [class*=" yst-"]),
+	h6:where([class^="yst-"], [class*=" yst-"]),
+	hr:where([class^="yst-"], [class*=" yst-"]),
+	figure:where([class^="yst-"], [class*=" yst-"]),
+	p:where([class^="yst-"], [class*=" yst-"]),
+	pre:where([class^="yst-"], [class*=" yst-"]) {
+		margin: 0;
+	}
+
+	fieldset:where([class^="yst-"], [class*=" yst-"]) {
+		margin: 0;
+		padding: 0;
+	}
+
+	legend:where([class^="yst-"], [class*=" yst-"]) {
+		padding: 0;
+	}
+
+	ol:where([class^="yst-"], [class*=" yst-"]),
+	ul:where([class^="yst-"], [class*=" yst-"]),
+	menu:where([class^="yst-"], [class*=" yst-"]) {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	dialog:where([class^="yst-"], [class*=" yst-"]) {
+		padding: 0;
+	}
+
+	textarea:where([class^="yst-"], [class*=" yst-"]) {
+		resize: vertical;
+	}
+
+	input:where([class^="yst-"], [class*=" yst-"])::placeholder,
+	textarea:where([class^="yst-"], [class*=" yst-"])::placeholder {
+		opacity: 1; /* 1 */
+		color: theme('colors.gray.400', #9ca3af); /* 2 */
+	}
+
+	button:where([class^="yst-"], [class*=" yst-"]),
+	:where([role="button"]):where([class^="yst-"], [class*=" yst-"]) {
+		cursor: pointer;
+	}
+
+	:where(:disabled):where([class^="yst-"], [class*=" yst-"]) {
+		cursor: default;
+	}
+
+	img:where([class^="yst-"], [class*=" yst-"]),
+	svg:where([class^="yst-"], [class*=" yst-"]),
+	video:where([class^="yst-"], [class*=" yst-"]),
+	canvas:where([class^="yst-"], [class*=" yst-"]),
+	audio:where([class^="yst-"], [class*=" yst-"]),
+	iframe:where([class^="yst-"], [class*=" yst-"]),
+	embed:where([class^="yst-"], [class*=" yst-"]),
+	object:where([class^="yst-"], [class*=" yst-"]) {
+		display: block; /* 1 */
+		vertical-align: middle; /* 2 */
+	}
+
+	img:where([class^="yst-"], [class*=" yst-"]),
+	video:where([class^="yst-"], [class*=" yst-"]) {
+		max-width: 100%;
+		height: auto;
+	}
+}
+
+/**
  * Styles from Tailwind CSS forms, but scoped to the Yoast root class.
  *
  * See: https://github.com/tailwindlabs/tailwindcss-forms#using-classes-to-style
