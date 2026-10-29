@@ -52,12 +52,13 @@ final class Post_Type_Archive_Target_Test extends TestCase {
 	/**
 	 * Creates the instance under test.
 	 *
-	 * @param string $post_type The post type.
+	 * @param string $post_type        The post type.
+	 * @param bool   $is_known_archive Whether the post type is already known to have an archive.
 	 *
 	 * @return Post_Type_Archive_Target The instance.
 	 */
-	private function create( string $post_type ): Post_Type_Archive_Target {
-		return new Post_Type_Archive_Target( $post_type, $this->post_type_helper, $this->woocommerce_helper );
+	private function create( string $post_type, bool $is_known_archive = false ): Post_Type_Archive_Target {
+		return new Post_Type_Archive_Target( $post_type, $this->post_type_helper, $this->woocommerce_helper, $is_known_archive );
 	}
 
 	/**
@@ -204,5 +205,24 @@ final class Post_Type_Archive_Target_Test extends TestCase {
 		$this->expectExceptionMessage( 'No content type archive with SEO data exists for the given post_type.' );
 
 		$this->create( 'product' )->ensure_available();
+	}
+
+	/**
+	 * Tests that ensure_available does not look up the archives again for a known archive, while still pointing to
+	 * the Shop page.
+	 *
+	 * @covers ::ensure_available
+	 *
+	 * @return void
+	 */
+	public function test_ensure_available_known_archive() {
+		$this->post_type_helper->expects( 'get_indexable_post_archives' )->never();
+		$this->woocommerce_helper->expects( 'is_active' )->andReturn( true );
+		$this->woocommerce_helper->expects( 'get_shop_page_id' )->andReturn( 12 );
+
+		$this->expectException( Unavailable_Global_Setting_Target_Exception::class );
+		$this->expectExceptionMessage( 'the product archive takes its SEO data from the Shop page (ID 12)' );
+
+		$this->create( 'product', true )->ensure_available();
 	}
 }

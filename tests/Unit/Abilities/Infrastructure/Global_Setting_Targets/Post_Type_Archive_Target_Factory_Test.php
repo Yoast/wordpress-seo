@@ -71,15 +71,14 @@ final class Post_Type_Archive_Target_Factory_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that create_all returns a target for each archive, leaving it to the targets to tell which ones have
-	 * global settings.
+	 * Tests that create_all returns a target for each archive, looking the archives up only once.
 	 *
 	 * @covers ::create_all
 	 *
 	 * @return void
 	 */
 	public function test_create_all() {
-		$this->post_type_helper->allows( 'get_indexable_post_archives' )->andReturn(
+		$this->post_type_helper->expects( 'get_indexable_post_archives' )->once()->andReturn(
 			[
 				'portfolio' => Mockery::mock( WP_Post_Type::class ),
 				'product'   => Mockery::mock( WP_Post_Type::class ),
@@ -91,5 +90,11 @@ final class Post_Type_Archive_Target_Factory_Test extends TestCase {
 		$this->assertCount( 2, $targets );
 		$this->assertSame( 'title-ptarchive-portfolio', $targets[0]->format_option_name( 'title-ptarchive-%s' ) );
 		$this->assertSame( 'title-ptarchive-product', $targets[1]->format_option_name( 'title-ptarchive-%s' ) );
+
+		$this->woocommerce_helper->allows( 'is_active' )->andReturn( false );
+
+		foreach ( $targets as $target ) {
+			$target->ensure_available();
+		}
 	}
 }

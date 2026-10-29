@@ -44,16 +44,26 @@ class Post_Type_Archive_Target extends Abstract_Global_Setting_Target {
 	private $woocommerce_helper;
 
 	/**
+	 * Whether the post type is already known to have an archive with global settings.
+	 *
+	 * @var bool
+	 */
+	private $is_known_archive;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param string             $post_type          The post type of the content type.
 	 * @param Post_Type_Helper   $post_type_helper   The post type helper.
 	 * @param Woocommerce_Helper $woocommerce_helper The WooCommerce helper.
+	 * @param bool               $is_known_archive   Whether the post type is already known to have an archive with
+	 *                                               global settings, so it is not looked up again.
 	 */
-	public function __construct( string $post_type, Post_Type_Helper $post_type_helper, Woocommerce_Helper $woocommerce_helper ) {
+	public function __construct( string $post_type, Post_Type_Helper $post_type_helper, Woocommerce_Helper $woocommerce_helper, bool $is_known_archive = false ) {
 		$this->post_type          = $post_type;
 		$this->post_type_helper   = $post_type_helper;
 		$this->woocommerce_helper = $woocommerce_helper;
+		$this->is_known_archive   = $is_known_archive;
 	}
 
 	/**
@@ -110,7 +120,8 @@ class Post_Type_Archive_Target extends Abstract_Global_Setting_Target {
 			throw new Unavailable_Global_Setting_Target_Exception( 'yoast_seo_missing_post_type', $message );
 		}
 
-		if ( ! \array_key_exists( $this->post_type, $this->post_type_helper->get_indexable_post_archives() ) ) {
+		// Targets built from the list of archives skip the lookup, so listing them does not rebuild that list per archive.
+		if ( ! $this->is_known_archive && ! \array_key_exists( $this->post_type, $this->post_type_helper->get_indexable_post_archives() ) ) {
 			$message = \sprintf(
 				/* translators: 1: the name of a parameter, 2: the name of an ability. */
 				\__( 'No content type archive with SEO data exists for the given %1$s. The %2$s ability lists the ones that do.', 'wordpress-seo' ),

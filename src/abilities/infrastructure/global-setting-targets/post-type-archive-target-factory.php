@@ -53,6 +53,12 @@ class Post_Type_Archive_Target_Factory {
 	 * @return array<Post_Type_Archive_Target> The targets.
 	 */
 	public function create_all(): array {
-		return \array_map( [ $this, 'create' ], \array_keys( $this->post_type_helper->get_indexable_post_archives() ) );
+		$targets = [];
+
+		foreach ( \array_keys( $this->post_type_helper->get_indexable_post_archives() ) as $post_type ) {
+			$targets[] = new Post_Type_Archive_Target( $post_type, $this->post_type_helper, $this->woocommerce_helper, true );
+		}
+
+		return $targets;
 	}
 }
