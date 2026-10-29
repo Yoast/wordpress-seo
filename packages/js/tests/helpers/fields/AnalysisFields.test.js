@@ -5,9 +5,22 @@ import { metaKeyFocusKw, metaKeyLinkdex } from "../../../src/shared-admin/consta
 const mockGetEditedPostAttribute = jest.fn();
 const mockCurrentPostType = jest.fn();
 const mockCurrentPostId = jest.fn().mockReturnValue( 1 );
+const mockGetPostType = jest.fn();
 const mockEditPost = jest.fn();
 const mockEditEntityRecord = jest.fn();
 const mockCapturedSubscribers = [];
+// var without initializer — jest.mock factories are hoisted above let/const (TDZ),
+// and `= null` would reset the value set by the factory once the module body runs.
+
+var capturedMiddleware;
+
+jest.mock( "@wordpress/api-fetch", () => {
+	const mock = jest.fn();
+	mock.use = jest.fn( ( middleware ) => {
+		capturedMiddleware = middleware;
+	} );
+	return mock;
+} );
 
 jest.mock( "@wordpress/data", () => ( {
 	select: ( store ) => {
@@ -17,6 +30,9 @@ jest.mock( "@wordpress/data", () => ( {
 				getCurrentPostId: mockCurrentPostId,
 				getEditedPostAttribute: mockGetEditedPostAttribute,
 			};
+		}
+		if ( store === "core" ) {
+			return { getPostType: mockGetPostType };
 		}
 		return {};
 	},
@@ -489,7 +505,7 @@ describe( "metaDescriptionScore", () => {
 
 describe( "pending writes (REST meta mode)", () => {
 	beforeEach( () => {
-		// Flush any leftover module state from a previous test by simulating the editor becoming ready.
+		// Flush leftover module state (pendingWrites from writeOrQueue) by simulating the editor becoming ready.
 		mockCurrentPostType.mockReturnValue( "post" );
 		[ ...mockCapturedSubscribers ].forEach( fn => fn() );
 		mockCapturedSubscribers.length = 0;
@@ -505,21 +521,37 @@ describe( "pending writes (REST meta mode)", () => {
 		delete window.wpseoScriptData;
 	} );
 
-	it( "flushes score writes via writeMetaWithoutUndo when the editor becomes ready", () => {
-		AnalysisFields.seoScore = "9";
+	it( "buffers a score write without dispatching to core/editor", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "47" } );
+		AnalysisFields.seoScore = "50";
 
 		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
 		expect( mockEditPost ).not.toHaveBeenCalled();
-		expect( mockCapturedSubscribers ).toHaveLength( 1 );
+	} );
 
-		mockCurrentPostType.mockReturnValue( "post" );
-		mockCapturedSubscribers[ 0 ]();
+	it( "skips buffering when the score matches the committed value", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "50" } );
+		AnalysisFields.seoScore = "50";
 
-		expect( mockEditEntityRecord ).toHaveBeenCalledWith(
-			"postType", "post", 1,
-			{ meta: { [ metaKeyLinkdex ]: "9" } },
-			{ undoIgnore: true }
-		);
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+		expect( mockEditPost ).not.toHaveBeenCalled();
+	} );
+
+	it( "treats a committed empty string as equivalent to '0' and skips buffering", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "" } );
+		// -665 sanitizes to "0"; "" is treated as "0" → skip.
+		AnalysisFields.seoScore = "-665";
+
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+		expect( mockEditPost ).not.toHaveBeenCalled();
+	} );
+
+	it( "clamps a negative score to '0' and buffers it when committed value differs", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "50" } );
+		// -665 sanitizes to "0"; "50" ≠ "0" → buffer.
+		AnalysisFields.seoScore = "-665";
+
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
 		expect( mockEditPost ).not.toHaveBeenCalled();
 	} );
 
@@ -536,33 +568,90 @@ describe( "pending writes (REST meta mode)", () => {
 		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { [ metaKeyFocusKw ]: "test keyword" } } );
 		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
 	} );
+} );
 
-	it( "splits mixed writes into separate editEntityRecord and editPost dispatches on flush", () => {
-		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyFocusKw ]: "" } );
-		AnalysisFields.seoScore = "5";
-		AnalysisFields.keyphrase = "mixed";
-
+describe( "score inject middleware", () => {
+	beforeEach( () => {
+		// Flush any leftover score buffer from previous tests.
 		mockCurrentPostType.mockReturnValue( "post" );
-		mockCapturedSubscribers[ 0 ]();
+		mockCurrentPostId.mockReturnValue( 1 );
+		// eslint-disable-next-line camelcase
+		mockGetPostType.mockReturnValue( { rest_base: "posts" } );
 
-		expect( mockEditEntityRecord ).toHaveBeenCalledWith(
-			"postType", "post", 1,
-			{ meta: { [ metaKeyLinkdex ]: "5" } },
-			{ undoIgnore: true }
-		);
-		expect( mockEditPost ).toHaveBeenCalledWith( { meta: { [ metaKeyFocusKw ]: "mixed" } } );
+		window.wpseoScriptData = { isPost: true, disableMetaboxInBlockEditor: true };
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "47" } );
+
+		// Drain the buffer so each test starts clean.
+		if ( capturedMiddleware ) {
+			capturedMiddleware( { method: "PUT", path: "/wp/v2/posts/1", data: {} }, jest.fn() );
+		}
 	} );
 
-	it( "clamps a negative seoScore to '0' so the post is not marked dirty on every load", () => {
-		AnalysisFields.seoScore = "-665";
+	afterEach( () => {
+		delete window.wpseoScriptData;
+	} );
 
-		mockCurrentPostType.mockReturnValue( "post" );
-		mockCapturedSubscribers[ 0 ]();
+	it( "injects buffered scores into the save payload", () => {
+		AnalysisFields.seoScore = "50";
 
-		expect( mockEditEntityRecord ).toHaveBeenCalledWith(
-			"postType", "post", 1,
-			{ meta: { [ metaKeyLinkdex ]: "0" } },
-			{ undoIgnore: true }
-		);
+		const next = jest.fn();
+		capturedMiddleware( { method: "PUT", path: "/wp/v2/posts/1", data: { title: "My Post", meta: {} } }, next );
+
+		expect( next ).toHaveBeenCalledWith( {
+			method: "PUT",
+			path: "/wp/v2/posts/1",
+			data: { title: "My Post", meta: { [ metaKeyLinkdex ]: "50" } },
+		} );
+	} );
+
+	it( "passes the request through unchanged when the buffer is empty", () => {
+		const next = jest.fn();
+		const options = { method: "PUT", path: "/wp/v2/posts/1", data: {} };
+		capturedMiddleware( options, next );
+
+		expect( next ).toHaveBeenCalledWith( options );
+	} );
+
+	it( "passes the request through unchanged for GET requests", () => {
+		AnalysisFields.seoScore = "50";
+
+		const next = jest.fn();
+		const options = { method: "GET", path: "/wp/v2/posts/1" };
+		capturedMiddleware( options, next );
+
+		expect( next ).toHaveBeenCalledWith( options );
+	} );
+
+	it( "passes the request through unchanged for autosave requests", () => {
+		AnalysisFields.seoScore = "50";
+
+		const next = jest.fn();
+		const options = { method: "POST", path: "/wp/v2/posts/1/autosaves" };
+		capturedMiddleware( options, next );
+
+		expect( next ).toHaveBeenCalledWith( options );
+	} );
+
+	it( "passes the request through unchanged when the path does not match the current post", () => {
+		AnalysisFields.seoScore = "50";
+
+		const next = jest.fn();
+		const options = { method: "PUT", path: "/wp/v2/posts/999" };
+		capturedMiddleware( options, next );
+
+		expect( next ).toHaveBeenCalledWith( options );
+	} );
+
+	it( "clears the buffer after injecting so a second save does not re-inject stale scores", () => {
+		AnalysisFields.seoScore = "50";
+
+		const first = jest.fn();
+		capturedMiddleware( { method: "PUT", path: "/wp/v2/posts/1", data: {} }, first );
+
+		const second = jest.fn();
+		capturedMiddleware( { method: "PUT", path: "/wp/v2/posts/1", data: {} }, second );
+
+		expect( first ).toHaveBeenCalledWith( expect.objectContaining( { data: expect.objectContaining( { meta: { [ metaKeyLinkdex ]: "50" } } ) } ) );
+		expect( second ).toHaveBeenCalledWith( { method: "PUT", path: "/wp/v2/posts/1", data: {} } );
 	} );
 } );
