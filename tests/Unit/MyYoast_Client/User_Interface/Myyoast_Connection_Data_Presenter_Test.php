@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\MyYoast_Client\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Connection_Permission;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\Myyoast_Connection_Data_Presenter;
@@ -54,13 +53,6 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * The MyYoast connection feature-flag conditional mock.
-	 *
-	 * @var Mockery\MockInterface|MyYoast_Connection_Conditional
-	 */
-	private $myyoast_connection_conditional;
-
-	/**
 	 * The MyYoast connection status presenter mock.
 	 *
 	 * @var Mockery\MockInterface|Status_Presenter
@@ -89,13 +81,11 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->myyoast_connection_conditional = Mockery::mock( MyYoast_Connection_Conditional::class );
-		$this->status_presenter               = Mockery::mock( Status_Presenter::class );
-		$this->connection_permission          = Mockery::mock( Connection_Permission::class );
-		$this->short_link_helper              = Mockery::mock( Short_Link_Helper::class );
+		$this->status_presenter      = Mockery::mock( Status_Presenter::class );
+		$this->connection_permission = Mockery::mock( Connection_Permission::class );
+		$this->short_link_helper     = Mockery::mock( Short_Link_Helper::class );
 
 		$this->instance = new Myyoast_Connection_Data_Presenter(
-			$this->myyoast_connection_conditional,
 			$this->status_presenter,
 			$this->connection_permission,
 			$this->short_link_helper,
@@ -111,10 +101,6 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
-			MyYoast_Connection_Conditional::class,
-			$this->getPropertyValue( $this->instance, 'myyoast_connection_conditional' ),
-		);
-		$this->assertInstanceOf(
 			Status_Presenter::class,
 			$this->getPropertyValue( $this->instance, 'status_presenter' ),
 		);
@@ -129,19 +115,6 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the payload is null when the feature flag is disabled.
-	 *
-	 * @covers ::present
-	 *
-	 * @return void
-	 */
-	public function test_returns_null_when_feature_flag_disabled() {
-		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturnFalse();
-
-		$this->assertNull( $this->instance->present() );
-	}
-
-	/**
 	 * Tests that `isProvisioned` is false when the site is not yet provisioned.
 	 *
 	 * @covers ::present
@@ -149,7 +122,6 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_is_provisioned_false_when_site_not_provisioned() {
-		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturnTrue();
 		$this->status_presenter->expects( 'present' )->once()->andReturn( self::UNPROVISIONED_STATUS );
 		$this->connection_permission->expects( 'can_manage' )->once()->andReturnFalse();
 
@@ -177,7 +149,6 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 		$status                   = self::UNPROVISIONED_STATUS;
 		$status['is_provisioned'] = 'yes';
 
-		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturnTrue();
 		$this->status_presenter->expects( 'present' )->once()->andReturn( $status );
 		$this->connection_permission->expects( 'can_manage' )->once()->andReturnFalse();
 
@@ -209,7 +180,6 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_returns_connect_url_with_plain_separators_when_user_can_connect() {
-		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturnTrue();
 		$this->status_presenter->expects( 'present' )->once()->andReturn( self::PROVISIONED_STATUS );
 		$this->connection_permission->expects( 'can_manage' )->once()->andReturnTrue();
 
@@ -254,7 +224,6 @@ final class Myyoast_Connection_Data_Presenter_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_omits_connect_url_when_user_cannot_connect() {
-		$this->myyoast_connection_conditional->expects( 'is_met' )->once()->andReturnTrue();
 		$this->status_presenter->expects( 'present' )->once()->andReturn( self::PROVISIONED_STATUS );
 		$this->connection_permission->expects( 'can_manage' )->once()->andReturnFalse();
 

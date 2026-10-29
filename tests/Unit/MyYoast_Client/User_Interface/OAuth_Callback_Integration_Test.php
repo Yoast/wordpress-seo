@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\MyYoast_Client\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\MyYoast_Client\Application\Authorization_Code_Handler;
 use Yoast\WP\SEO\MyYoast_Client\Application\Callback_Outcome;
@@ -106,10 +105,7 @@ final class OAuth_Callback_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_conditionals() {
-		$this->assertSame(
-			[ MyYoast_Connection_Conditional::class ],
-			OAuth_Callback_Integration::get_conditionals(),
-		);
+		$this->assertSame( [], OAuth_Callback_Integration::get_conditionals() );
 	}
 
 	/**

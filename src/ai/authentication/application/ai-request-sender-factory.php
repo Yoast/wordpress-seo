@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\AI\Authentication\Application;
 
 use WP_User;
 use Yoast\WP\SEO\AI\Authentication\Domain\Auth_Method;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
 use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
 use YoastSEO_Vendor\Psr\Log\NullLogger;
@@ -15,22 +14,15 @@ use YoastSEO_Vendor\Psr\Log\NullLogger;
  * Builds an AI_Request_Sender configured with the right auth strategy (primary + optional fallback)
  * for each outbound AI request.
  *
- * Selection order (first match wins): wpseo_ai_auth_method filter override → MyYoast connection
- * feature flag. The auth model is site-wide: once any admin has completed the auth-code flow,
- * every WP user on the site uses the OAuth path.
+ * Unless the wpseo_ai_auth_method filter pins a strategy, OAuth is primary with a fallback to legacy
+ * token auth. The auth model is site-wide: once any admin has completed the auth-code flow, every WP
+ * user on the site uses the OAuth path.
  *
  * @makePublic
  */
 class AI_Request_Sender_Factory implements LoggerAwareInterface {
 
 	use LoggerAwareTrait;
-
-	/**
-	 * The MyYoast connection feature flag conditional.
-	 *
-	 * @var MyYoast_Connection_Conditional
-	 */
-	private $myyoast_connection_conditional;
 
 	/**
 	 * The OAuth strategy.
@@ -49,19 +41,16 @@ class AI_Request_Sender_Factory implements LoggerAwareInterface {
 	/**
 	 * Constructor.
 	 *
-	 * @param MyYoast_Connection_Conditional $myyoast_connection_conditional The MyYoast connection feature flag.
-	 * @param OAuth_Auth_Strategy            $oauth_strategy                 The OAuth strategy.
-	 * @param Token_Auth_Strategy            $token_strategy                 The Token strategy.
+	 * @param OAuth_Auth_Strategy $oauth_strategy The OAuth strategy.
+	 * @param Token_Auth_Strategy $token_strategy The Token strategy.
 	 */
 	public function __construct(
-		MyYoast_Connection_Conditional $myyoast_connection_conditional,
 		OAuth_Auth_Strategy $oauth_strategy,
 		Token_Auth_Strategy $token_strategy
 	) {
-		$this->myyoast_connection_conditional = $myyoast_connection_conditional;
-		$this->oauth_strategy                 = $oauth_strategy;
-		$this->token_strategy                 = $token_strategy;
-		$this->logger                         = new NullLogger();
+		$this->oauth_strategy = $oauth_strategy;
+		$this->token_strategy = $token_strategy;
+		$this->logger         = new NullLogger();
 	}
 
 	/**
@@ -83,14 +72,8 @@ class AI_Request_Sender_Factory implements LoggerAwareInterface {
 				$sender = new AI_Request_Sender( $this->token_strategy );
 				break;
 			default:
-				if ( $this->myyoast_connection_conditional->is_met() ) {
-					$this->logger->debug( 'AI auth: routing to oauth strategy (feature flag on) with a fallback to legacy token auth.' );
-					$sender = new AI_Request_Sender( $this->oauth_strategy, $this->token_strategy );
-				}
-				else {
-					$this->logger->debug( 'AI auth: routing to token strategy (MYYOAST_CONNECTION feature flag is off).' );
-					$sender = new AI_Request_Sender( $this->token_strategy );
-				}
+				$this->logger->debug( 'AI auth: routing to oauth strategy with a fallback to legacy token auth.' );
+				$sender = new AI_Request_Sender( $this->oauth_strategy, $this->token_strategy );
 				break;
 		}
 
