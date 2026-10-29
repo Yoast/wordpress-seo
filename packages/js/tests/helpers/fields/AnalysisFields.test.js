@@ -1,6 +1,6 @@
 import AnalysisFields from "../../../src/helpers/fields/AnalysisFields";
 import { mockWindow, createInputElement } from "../../test-utils";
-import { metaKeyFocusKw, metaKeyLinkdex } from "../../../src/shared-admin/constants";
+import { metaKeyFocusKw, metaKeyLinkdex, metaKeySeoTitleScore, metaKeyMetaDescriptionScore } from "../../../src/shared-admin/constants";
 import { addFilter } from "@wordpress/hooks";
 
 const mockGetEditedPostAttribute = jest.fn();
@@ -548,6 +548,22 @@ describe( "pending writes (REST meta mode)", () => {
 		expect( mockEditPost ).not.toHaveBeenCalled();
 	} );
 
+	it( "buffers seoTitleScore without dispatching to core/editor", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeySeoTitleScore ]: "47" } );
+		AnalysisFields.seoTitleScore = "61";
+
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+		expect( mockEditPost ).not.toHaveBeenCalled();
+	} );
+
+	it( "buffers metaDescriptionScore without dispatching to core/editor", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyMetaDescriptionScore ]: "10" } );
+		AnalysisFields.metaDescriptionScore = "22";
+
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+		expect( mockEditPost ).not.toHaveBeenCalled();
+	} );
+
 	it( "flushes user-editable writes via editPost when the editor becomes ready", () => {
 		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyFocusKw ]: "" } );
 		AnalysisFields.keyphrase = "test keyword";
@@ -565,7 +581,7 @@ describe( "pending writes (REST meta mode)", () => {
 
 describe( "score inject filter", () => {
 	const getFilter = () =>
-		addFilter.mock.calls.find( ( [ hookName ] ) => hookName === "editor.preSavePost" )?.[ 2 ];
+		addFilter.mock.calls.find( ( [ hookName, namespace ] ) => hookName === "editor.preSavePost" && namespace === "yoast/analysis-scores" )?.[ 2 ];
 
 	// Drain the buffer so each test starts clean.
 	const drainBuffer = () => getFilter()?.( { meta: {} }, {} );
@@ -625,5 +641,23 @@ describe( "score inject filter", () => {
 		const result = getFilter()( { meta: {} }, {} );
 
 		expect( result.meta[ metaKeyLinkdex ] ).toBeUndefined();
+	} );
+
+	it( "injects seoTitleScore into the save edits", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeySeoTitleScore ]: "47" } );
+		AnalysisFields.seoTitleScore = "61";
+
+		const result = getFilter()( { meta: {} }, {} );
+
+		expect( result.meta[ metaKeySeoTitleScore ] ).toBe( "61" );
+	} );
+
+	it( "injects metaDescriptionScore into the save edits", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyMetaDescriptionScore ]: "10" } );
+		AnalysisFields.metaDescriptionScore = "22";
+
+		const result = getFilter()( { meta: {} }, {} );
+
+		expect( result.meta[ metaKeyMetaDescriptionScore ] ).toBe( "22" );
 	} );
 } );

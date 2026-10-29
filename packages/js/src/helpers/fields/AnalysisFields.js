@@ -9,7 +9,7 @@ import {
 	metaKeyMetaDescriptionScore,
 	metaKeySeoTitleScore,
 } from "../../shared-admin/constants";
-import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo, getMetaValue, setMetaValue } from "./rest-meta";
+import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo, getMetaValue } from "./rest-meta";
 
 /**
  * Returns whether the core/editor store has finished loading the post type config.
@@ -148,7 +148,7 @@ const shouldSkipScoreWrite = ( metaKey, sanitized ) => {
 	return sanitized === currentValue || ( sanitized === "0" && currentValue === "" );
 };
 
-const setScoreMeta = ( metaKey, element, value ) => {
+export const setScoreMeta = ( metaKey, element, value ) => {
 	if ( isRestMetaActive() ) {
 		const sanitized = sanitizeScore( value );
 		if ( ! shouldSkipScoreWrite( metaKey, sanitized ) ) {
@@ -357,7 +357,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set seoTitleScore( value ) {
-		setMetaValue( metaKeySeoTitleScore, AnalysisFields.seoTitleScoreElement, value );
+		setScoreMeta( metaKeySeoTitleScore, AnalysisFields.seoTitleScoreElement, value );
 	}
 
 	/**
@@ -377,7 +377,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set metaDescriptionScore( value ) {
-		setMetaValue( metaKeyMetaDescriptionScore, AnalysisFields.metaDescriptionScoreElement, value );
+		setScoreMeta( metaKeyMetaDescriptionScore, AnalysisFields.metaDescriptionScoreElement, value );
 	}
 
 	/**

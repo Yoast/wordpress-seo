@@ -1,5 +1,6 @@
 import { metaKeyEstimatedReadingTime } from "../../shared-admin/constants";
-import { getMetaValue, setMetaValue } from "./rest-meta";
+import { getMetaValue } from "./rest-meta";
+import { setScoreMeta } from "./AnalysisFields";
 
 /**
  * This class is responsible for handling the interaction with the hidden fields for Estimated Reading Time (ert).
@@ -35,6 +36,6 @@ export default class EstimatedReadingTimeFields {
 	 * @returns {void}
 	 */
 	static set estimatedReadingTime( value ) {
-		setMetaValue( metaKeyEstimatedReadingTime, EstimatedReadingTimeFields.estimatedReadingTimeElement, value, true );
+		setScoreMeta( metaKeyEstimatedReadingTime, EstimatedReadingTimeFields.estimatedReadingTimeElement, value );
 	}
 }
