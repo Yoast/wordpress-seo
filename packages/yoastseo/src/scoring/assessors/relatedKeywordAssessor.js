@@ -5,6 +5,7 @@ import KeyphraseDensityAssessment from "../assessments/seo/KeywordDensityAssessm
 import MetaDescriptionKeyword from "../assessments/seo/MetaDescriptionKeywordAssessment.js";
 import TextCompetingLinks from "../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import KeyphraseStuffingInAltText from "../assessments/seo/KeyphraseStuffingInAltTextAssessment";
 import ValidOnlyResultsScoreAggregator from "../scoreAggregators/ValidOnlyResultsScoreAggregator";
 
 /**
@@ -27,6 +28,7 @@ export default class RelatedKeywordAssessor extends Assessor {
 			new MetaDescriptionKeyword(),
 			new FunctionWordsInKeyphrase(),
 			new TextCompetingLinks(),
+			new KeyphraseStuffingInAltText(),
 		];
 
 		this._scoreAggregator = new ValidOnlyResultsScoreAggregator();
