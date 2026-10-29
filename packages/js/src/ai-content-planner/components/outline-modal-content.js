@@ -72,7 +72,7 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
 		<span className="yst-font-medium yst-text-sm yst-text-slate-800">{ label }</span>
 		<div
 			className={ classNames(
-				"yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-px-3 yst-py-2",
+				"yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-px-3 yst-py-2 yst-border-solid",
 				multiline ? "yst-min-h-20 yst-flex yst-flex-col yst-gap-1" : "yst-h-10 yst-flex yst-items-center"
 			) }
 		>
@@ -334,7 +334,7 @@ export const OutlineModalContent = ( {
 					aria-hidden="true"
 				/>
 			</Modal.Container.Content>
-			<Modal.Container.Footer className="yst-flex yst-items-center yst-justify-between yst-p-6 yst-border-t yst-border-slate-200">
+			<Modal.Container.Footer className="yst-flex yst-items-center yst-justify-between yst-p-6 yst-border-t yst-border-slate-200 yst-border-solid">
 				<Button variant="secondary" onClick={ handleBackToSuggestions } className="yst-flex yst-items-center yst-gap-1.5" disabled={ isLoading }>
 					<ArrowLeftIcon className="yst-w-4 yst-h-4" />
 					{ __( "Content suggestions", "wordpress-seo" ) }

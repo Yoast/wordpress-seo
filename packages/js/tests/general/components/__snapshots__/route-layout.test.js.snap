@@ -3,7 +3,7 @@
 exports[`RouteLayout renders the component correctly for custom props 1`] = `
 <div>
   <header
-    class="yst-p-8 yst-border-b yst-border-slate-200"
+    class="yst-p-8 yst-border-b yst-border-slate-200 yst-border-solid"
   >
     <div
       class="yst-max-w-screen-sm"
@@ -51,7 +51,7 @@ exports[`RouteLayout renders the component correctly for custom props 1`] = `
 exports[`RouteLayout renders the component correctly for default props 1`] = `
 <div>
   <header
-    class="yst-p-8 yst-border-b yst-border-slate-200"
+    class="yst-p-8 yst-border-b yst-border-slate-200 yst-border-solid"
   >
     <div
       class="yst-max-w-screen-sm"

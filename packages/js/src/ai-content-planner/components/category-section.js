@@ -17,7 +17,7 @@ import { noop } from "lodash";
  */
 const CategoryBadge = ( { categoryName, isEnabled, isLoading } ) => {
 	if ( isLoading ) {
-		return <div className="yst-inline-flex yst-items-center yst-w-20 yst-h-5 yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300">
+		return <div className="yst-inline-flex yst-items-center yst-w-20 yst-h-5 yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300 yst-border-solid">
 			<SkeletonLoader className="yst-w-16 yst-h-3 yst-rounded" />
 		</div>;
 	}

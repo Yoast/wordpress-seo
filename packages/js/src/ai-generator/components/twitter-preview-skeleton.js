@@ -4,7 +4,7 @@ import { SkeletonLoader } from "@yoast/ui-library";
  * @returns {JSX.Element} The element.
  */
 export const TwitterPreviewSkeleton = () => (
-	<div className="yst-flex yst-flex-col yst-max-h-[370px] yst-w-[507px] yst-border yst-rounded-t-[14px] yst-overflow-hidden yst-mx-auto">
+	<div className="yst-flex yst-flex-col yst-max-h-[370px] yst-w-[507px] yst-border yst-rounded-t-[14px] yst-overflow-hidden yst-mx-auto yst-border-solid">
 		<SkeletonLoader className="yst-h-[265px] yst-w-full yst-rounded-none yst-border yst-border-dashed" />
 		<div className="yst-w-full yst-p-4 yst-space-y-1">
 			<SkeletonLoader className="yst-h-3 yst-w-1/3" />

@@ -28,7 +28,7 @@ export const InlineBanner = ( { isPremium, onDismiss, onDismissPermanently, onCl
 			/>
 			<DropdownMenu.List className="yst-mt-8 yst-w-56">
 				<DropdownMenu.ButtonItem
-					className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal"
+					className="yst-text-slate-600 yst-border-b yst-border-slate-200 yst-flex yst-py-2 yst-justify-start yst-gap-2 yst-px-4 yst-font-normal yst-border-solid"
 					onClick={ onDismiss }
 				>
 					<XIcon className="yst-w-4 yst-text-slate-400 yst-shrink-0" { ...ariaProps } />
