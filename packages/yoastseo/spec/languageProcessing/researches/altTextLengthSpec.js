@@ -123,6 +123,23 @@ describe( "a research that counts the images whose alt text is too short or too 
 	} );
 } );
 
+describe( "HTML entities in the alt text of an image from the text", () => {
+	it( "counts the characters of the alt text as it renders, with a non-breaking space as one character", () => {
+		// "Red bike" has 8 characters; read as "Red#nbsp;bike" it would have 13.
+		expect( research( paperWithImages( [ "Red&nbsp;bike" ] ) ) ).toEqual( { tooShort: 1, tooLong: 0, flagged: [ src( 0 ) ] } );
+	} );
+
+	it( "does not count an alt text that is only a non-breaking space: it is empty", () => {
+		expect( research( paperWithImages( [ "&nbsp;" ] ) ) ).toEqual( { tooShort: 0, tooLong: 0, flagged: [] } );
+	} );
+
+	it( "keeps \"#nbsp;\" in the alt text of a provided image, where it is real text", () => {
+		const paper = new Paper( "", { providedImages: [ { src: "a.jpg", alt: "Red#nbsp;bike" } ] } );
+
+		expect( research( paper ) ).toEqual( { tooShort: 0, tooLong: 0, flagged: [] } );
+	} );
+} );
+
 describe( "the alt text length boundaries for Japanese", () => {
 	it.each( [
 		[ 5, { tooShort: 1, tooLong: 0, flagged: [ src( 0 ) ] } ],
