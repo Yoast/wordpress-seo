@@ -1,5 +1,6 @@
 import globals from "globals";
 import yoastConfig, { reactConfig } from "@yoast/eslint-config";
+import borderRequiresStyle from "./eslint-rules/border-requires-style.js";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -95,6 +96,16 @@ export default [
 		},
 	},
 	{
+		files: [ "src/**" ],
+		plugins: {
+			"yoast-local": { rules: { "border-requires-style": borderRequiresStyle } },
+		},
+		rules: {
+			// Our preflight, which sets `border-style: solid`, is scoped to `.yst-root`.
+			"yoast-local/border-requires-style": "error",
+		},
+	},
+	{
 		files: [ "src/externals/**" ],
 		languageOptions: {
 			globals: {
@@ -109,7 +120,7 @@ export default [
 		},
 	},
 	{
-		files: [ "*.config.*" ],
+		files: [ "*.config.*", "eslint-rules/**" ],
 		languageOptions: {
 			globals: {
 				...globals.node,
