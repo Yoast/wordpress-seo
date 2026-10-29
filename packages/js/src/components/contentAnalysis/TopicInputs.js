@@ -149,7 +149,7 @@ const TopicInputs = ( {
 			{ /* Block layout (not flex) so vertical margins collapse: this keeps the spacing at 16px when
 			 the old Premium SynonymsInput (which carries `margin: 1em 0` on its InputContainer) fills the slot,
 			 instead of the 32px we'd get from `gap-4` stacking on top of that margin. */ }
-			<div className="yst-space-y-4">
+			<div className="yst-space-y-4 yst-text-sm yst-font-normal yst-font-sans yst-text-slate-600 yst-leading-normal yst-antialiased">
 				<KeywordInput
 					location={ location }
 					keyword={ keyword }

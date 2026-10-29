@@ -46,19 +46,19 @@ export const WooSeoAnalysisUpsellAd = ( { location } ) => {
 	const locationKey = getLocationKey( location, isElementorEditor );
 
 	return (
-		<div id={ `woo-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-woo-light yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2 yst-border-opacity-30">
-			<Title as="h3" variant="h3" className="yst-text-woo-light yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
+		<div id={ `woo-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-solid yst-border-woo-light yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2 yst-border-opacity-30 yst-text-sm yst-font-normal yst-font-sans yst-text-slate-600 yst-leading-normal yst-antialiased">
+			<Title as="h3" variant="h3" className="yst-text-woo-light yst-text-base yst-font-medium yst-mt-0 yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
 				{ __( "Premium SEO Analysis", "wordpress-seo" ) }
 				<ShoppingCartIcon className="yst-w-5 yst-scale-x-[-1]" { ...svgAriaProps } />
 			</Title>
-			<p>
+			<p className="yst-my-0">
 				{ __(
 					"Benefit from all premium SEO analyses, plus product-specific checks like:",
 					"wordpress-seo"
 				) }
 			</p>
 			<div className="yst-pt-2 yst-mb-1">
-				<ul className="yst-font-semibold">
+				<ul className="yst-font-semibold yst-my-0 yst-p-0 yst-list-none">
 					{ list.map( ( item ) => (
 						<li key={ item.text } className="yst-flex yst-items-center yst-gap-2 yst-mb-1">
 							<item.icon className="yst-w-4 yst-text-slate-400" />

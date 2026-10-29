@@ -49,12 +49,12 @@ export const BlackFridayPromotion = ( {
 			<div
 				className={
 					classNames(
-						"yst-border yst-rounded-lg yst-p-4 yst-max-w-md yst-relative yst-shadow-sm yst-mt-2",
+						"yst-border yst-border-solid yst-rounded-lg yst-p-4 yst-max-w-md yst-relative yst-shadow-sm yst-mt-2 yst-text-sm yst-font-normal yst-font-sans yst-text-slate-600 yst-leading-normal yst-antialiased",
 						isWooCommerceActive ? "yst-border-woo-light" : "yst-border-primary-200" ) }
 			>
 				<Badge size="small" className="yst-text-[10px] yst-bg-black yst-text-amber-300 yst-absolute yst--top-2">
 					{ __( "BLACK FRIDAY", "wordpress-seo" ) } </Badge>
-				<button className="yst-absolute yst-top-4 yst-end-4" onClick={ onDismiss }>
+				<button className="yst-absolute yst-top-4 yst-end-4 yst-m-0 yst-p-0 yst-border-0 yst-bg-transparent yst-cursor-pointer" onClick={ onDismiss }>
 					<XIcon className="yst-w-4 yst-text-slate-400 yst-shrink-0 yst--mt-0.5" />
 					<div className="yst-sr-only">{ __( "Dismiss", "wordpress-seo" ) }</div>
 				</button>
