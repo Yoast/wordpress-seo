@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure\Global_Setting_Target
 
 use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Author_Archives_Target;
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -18,11 +18,11 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 final class Author_Archives_Target_Test extends TestCase {
 
 	/**
-	 * The options helper mock.
+	 * The author archive helper mock.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var Mockery\MockInterface|Author_Archive_Helper
 	 */
-	private $options_helper;
+	private $author_archive_helper;
 
 	/**
 	 * The instance under test.
@@ -39,9 +39,9 @@ final class Author_Archives_Target_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options_helper = Mockery::mock( Options_Helper::class );
+		$this->author_archive_helper = Mockery::mock( Author_Archive_Helper::class );
 
-		$this->instance = new Author_Archives_Target( $this->options_helper );
+		$this->instance = new Author_Archives_Target( $this->author_archive_helper );
 	}
 
 	/**
@@ -71,19 +71,19 @@ final class Author_Archives_Target_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that is_enabled reflects the option that disables the author archives.
+	 * Tests that is_enabled reflects whether the author archives are disabled.
 	 *
 	 * @covers ::is_enabled
 	 *
 	 * @dataProvider data_is_enabled
 	 *
-	 * @param bool $disabled The value of the option that disables the author archives.
+	 * @param bool $disabled Whether the author archives are disabled.
 	 * @param bool $expected Whether the author archives are expected to be enabled.
 	 *
 	 * @return void
 	 */
 	public function test_is_enabled( $disabled, $expected ) {
-		$this->options_helper->expects( 'get' )->once()->with( 'disable-author', false )->andReturn( $disabled );
+		$this->author_archive_helper->expects( 'are_disabled' )->once()->andReturn( $disabled );
 
 		$this->assertSame( $expected, $this->instance->is_enabled() );
 	}

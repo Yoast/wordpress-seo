@@ -3,7 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 
 /**
  * The author archives, which share one template.
@@ -18,19 +18,19 @@ class Author_Archives_Target extends Abstract_Global_Setting_Target {
 	public const NAME = 'author_archives';
 
 	/**
-	 * The options helper.
+	 * The author archive helper.
 	 *
-	 * @var Options_Helper
+	 * @var Author_Archive_Helper
 	 */
-	private $options_helper;
+	private $author_archive_helper;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Author_Archive_Helper $author_archive_helper The author archive helper.
 	 */
-	public function __construct( Options_Helper $options_helper ) {
-		$this->options_helper = $options_helper;
+	public function __construct( Author_Archive_Helper $author_archive_helper ) {
+		$this->author_archive_helper = $author_archive_helper;
 	}
 
 	/**
@@ -57,6 +57,6 @@ class Author_Archives_Target extends Abstract_Global_Setting_Target {
 	 * @return bool Whether the target is enabled.
 	 */
 	public function is_enabled(): bool {
-		return ! $this->options_helper->get( 'disable-author', false );
+		return ! $this->author_archive_helper->are_disabled();
 	}
 }

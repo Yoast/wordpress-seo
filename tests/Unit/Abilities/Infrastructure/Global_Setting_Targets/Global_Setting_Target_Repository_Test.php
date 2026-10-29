@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Not_Found_Page_
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Post_Type_Archive_Target;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Post_Type_Archive_Target_Factory;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Search_Page_Target;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -70,7 +71,7 @@ final class Global_Setting_Target_Repository_Test extends TestCase {
 
 		$this->instance = new Global_Setting_Target_Repository(
 			$this->homepage,
-			new Author_Archives_Target( $options_helper ),
+			new Author_Archives_Target( Mockery::mock( Author_Archive_Helper::class ) ),
 			new Date_Archives_Target( $options_helper ),
 			new Search_Page_Target(),
 			new Not_Found_Page_Target(),
