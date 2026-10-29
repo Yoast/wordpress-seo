@@ -4,17 +4,22 @@ import imageAltAttribute from "../helpers/image/getAltAttribute";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
 import { isEmpty } from "lodash";
 import getImagesInScope from "../helpers/image/getImagesInScope";
+import getImageIdentifier from "../helpers/image/getImageIdentifier";
 
 /**
  * Matches the alt-tags in the images found in the text.
  * Returns an object with the totals and different alt-tags.
+ *
+ * `flagged` lists the identifier of every image without alt text, each once, so a consumer can point at those images.
+ * An image without an identifier cannot be pointed at and is left out, so `flagged` can be shorter than `noAlt`.
  *
  * @param {Array}       imageNodes        		Array with all the image nodes in the text
  * @param {Object}      topicForms          	The object with the keyphrase and the synonyms forms from the paper.
  * @param {string}      locale              	The locale used for transliteration.
  * @param {function}    matchWordCustomHelper 	A language-specific helper function to match word in text.
  *
- * @returns {object} altProperties Object with all alt-tags that were found.
+ * @returns {{noAlt: number, withAlt: number, withAltKeyword: number, withAltNonKeyword: number,
+ *   flagged: Array<string|number>}} altProperties Object with all alt-tags that were found.
  */
 const matchAltProperties = function( imageNodes, topicForms, locale, matchWordCustomHelper ) {
 	const altProperties = {
@@ -22,6 +27,7 @@ const matchAltProperties = function( imageNodes, topicForms, locale, matchWordCu
 		withAlt: 0,
 		withAltKeyword: 0,
 		withAltNonKeyword: 0,
+		flagged: [],
 	};
 
 	imageNodes.forEach( imageNode => {
@@ -30,6 +36,10 @@ const matchAltProperties = function( imageNodes, topicForms, locale, matchWordCu
 		// If no alt-tag is set
 		if ( alttag === "" ) {
 			altProperties.noAlt++;
+			const identifier = getImageIdentifier( imageNode );
+			if ( identifier !== "" && ! altProperties.flagged.includes( identifier ) ) {
+				altProperties.flagged.push( identifier );
+			}
 			return;
 		}
 

@@ -18,6 +18,8 @@ Overview of the used SEO assessors in the `yoastseo` package:
 - Images (`ImageCountAssessment`)
 - Alt text length (`AltTextLengthAssessment`)
 - Duplicate alt text (`DuplicateAltTextAssessment`)
+- Redundant phrase in alt text (`RedundantPhraseInAltTextAssessment`)
+- Non-descriptive alt text (`NonDescriptiveAltTextAssessment`)
 - Keyphrase stuffing in alt text (`KeyphraseStuffingInAltTextAssessment`)
 - Text length (`TextLengthAssessment`) -> [Cornerstone scores and boundaries!](../assessments/SCORING%20SEO.md#1-text-length)
 - Outbound links (`OutboundLinksAssessment`)

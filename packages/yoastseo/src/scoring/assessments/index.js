@@ -34,6 +34,8 @@ import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
 import AltTextLengthAssessment from "./seo/AltTextLengthAssessment";
 import DuplicateAltTextAssessment from "./seo/DuplicateAltTextAssessment";
+import RedundantPhraseInAltTextAssessment from "./seo/RedundantPhraseInAltTextAssessment";
+import NonDescriptiveAltTextAssessment from "./seo/NonDescriptiveAltTextAssessment";
 import KeyphraseStuffingInAltTextAssessment from "./seo/KeyphraseStuffingInAltTextAssessment";
 
 // SEO assessments (premium)
@@ -78,10 +80,12 @@ const seo = {
 	KeywordDensityAssessment,
 	MetaDescriptionKeywordAssessment,
 	MetaDescriptionLengthAssessment,
+	NonDescriptiveAltTextAssessment,
 	OutboundLinksAssessment,
 	PageTitleWidthAssessment,
 	ProductIdentifiersAssessment,
 	ProductSKUAssessment,
+	RedundantPhraseInAltTextAssessment,
 	SingleH1Assessment,
 	SubheadingsKeywordAssessment,
 	TextCompetingLinksAssessment,

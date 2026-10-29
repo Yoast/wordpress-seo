@@ -363,6 +363,26 @@ export function checkUrls( assessor, isECommerceAssessor = false ) {
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
+	test( "RedundantPhraseInAltText", () => {
+		const assessment = assessor.getAssessment( "redundantPhraseInAltText" );
+		const urlTitle = isECommerceAssessor
+			? "https://yoa.st/shopify-redundant-phrase-in-alt-text" : "https://yoa.st/redundant-phrase-in-alt-text";
+		const urlCallToAction = isECommerceAssessor
+			? "https://yoa.st/shopify-redundant-phrase-in-alt-text-cta" : "https://yoa.st/redundant-phrase-in-alt-text-cta";
+
+		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
+	} );
+
+	test( "NonDescriptiveAltText", () => {
+		const assessment = assessor.getAssessment( "nonDescriptiveAltText" );
+		const urlTitle = isECommerceAssessor
+			? "https://yoa.st/shopify-non-descriptive-alt-text" : "https://yoa.st/non-descriptive-alt-text";
+		const urlCallToAction = isECommerceAssessor
+			? "https://yoa.st/shopify-non-descriptive-alt-text-cta" : "https://yoa.st/non-descriptive-alt-text-cta";
+
+		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
+	} );
+
 	test( "KeyphraseStuffingInAltText", () => {
 		const assessment = assessor.getAssessment( "keyphraseStuffingInAltText" );
 		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify-alt-text-keyphrase-stuffing" : "https://yoa.st/alt-text-keyphrase-stuffing";
