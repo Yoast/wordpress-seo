@@ -30019,9 +30019,9 @@ seroval-plugins@^1.4.0:
   integrity sha512-X7p4MEDTi+60o2sXZ4bnDBhgsUYDSkQEvzYZuJyFqWg9jcoPsHts5nrg5O956py2wyt28lUrBxk0M0/wU8URpA==
 
 seroval@^1.4.1:
-  version "1.6.8"
-  resolved "https://registry.yarnpkg.com/seroval/-/seroval-1.6.8.tgz#916c4a293cfadcd9e0efdb73a8bfbe061f81866b"
-  integrity sha512-HlSgSAkTk4EqHcje1ptJjfZi1YDv5KbhVJ/d3P7T/nAXua2VmDu+AKDX5VTdFfZf48nDkWB2TKYt0DrCSa+3wg==
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/seroval/-/seroval-1.7.3.tgz#2e275d0cb9fc27691f63a27fa3ad510a1426efe9"
+  integrity sha512-fYkZS/GrMJhj1CW+IDoPlILRmYl5/S9L/OYju/sA2K/HQ3G5JBWDZHxaUWVZV/0hfAC2n1+9ysBRDtqMbMXvzA==
 
 serve-index@^1.9.1:
   version "1.9.1"
