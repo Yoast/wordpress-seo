@@ -590,6 +590,28 @@ describe( "the redundant alt text phrases for Greek", () => {
 	] )( "does not count the alt text \"%s\" (%s): it opens with an Orthodox icon named as a product", ( altText ) => {
 		expect( researchInGreek( altText ) ).toEqual( { count: 0, flagged: [] } );
 	} );
+
+	it.each( [
+		[ "ΕΙΚΟΝΑ ΤΟΥ ΣΚΥΛΟΥ", "image of the dog, in capitals without accents" ],
+		[ "ΕΙΚΌΝΑ ΤΟΥ ΣΚΎΛΟΥ", "image of the dog, in capitals with accents as toUpperCase() writes them" ],
+		[ "ΜΙΑ ΕΙΚΟΝΑ ΕΝΟΣ ΣΚΥΛΟΥ", "an image of a dog" ],
+		[ "ΜΙΑ ΦΩΤΟΓΡΑΦΙΑ ΠΟΥ ΔΕΙΧΝΕΙ ΤΗΝ ΟΜΑΔΑ", "a photo that shows the team" ],
+		[ "ΑΥΤΗ Η ΕΙΚΟΝΑ ΑΠΕΙΚΟΝΙΖΕΙ ΤΗ ΔΙΑΔΙΚΑΣΙΑ", "this image depicts the process" ],
+		[ "Η ΦΩΤΟΓΡΑΦΙΑ ΠΑΡΟΥΣΙΑΖΕΙ ΤΑ ΑΠΟΤΕΛΕΣΜΑΤΑ", "the photo presents the results" ],
+		[ "ΣΤΗΝ ΕΙΚΟΝΑ ΦΑΙΝΕΤΑΙ ΕΝΑΣ ΣΚΥΛΟΣ", "in the image a dog appears" ],
+		[ "ΣΤΗ ΦΩΤΟΓΡΑΦΙΑ ΑΠΕΙΚΟΝΙΖΕΤΑΙ ΤΟ ΠΑΡΚΟ", "in the photo the park is depicted" ],
+		[ "εικονα του σκυλου", "image of the dog, in lowercase without accents" ],
+	] )( "counts an alt text starting with \"%s\" (%s)", ( altText ) => {
+		expect( researchInGreek( altText ) ).toEqual( { count: 1, flagged: [ buildSrc( 0 ) ] } );
+	} );
+
+	it.each( [
+		[ "ΕΙΚΟΝΑ ΤΟΥ ΑΓΙΟΥ ΝΙΚΟΛΑΟΥ", "icon of Saint Nicholas", "the icon exceptions also apply in capitals" ],
+		[ "ΕΙΚΟΝΑ ΤΗΣ ΠΑΝΑΓΙΑΣ", "icon of the Virgin Mary", "the icon exceptions also apply in capitals" ],
+		[ "Η ΕΙΚΟΝΑ ΔΕΙΧΝΕΙΣ ΕΔΩ", "the image you-show here", "the verb has to end on a word boundary" ],
+	] )( "does not count the alt text \"%s\" (%s): %s", ( altText ) => {
+		expect( researchInGreek( altText ) ).toEqual( { count: 0, flagged: [] } );
+	} );
 } );
 
 describe( "the redundant alt text phrases for Arabic", () => {
@@ -1152,6 +1174,36 @@ describe( "the redundant alt text phrases for Turkish", () => {
 		[ "Kullanıcıların profil resimleri, because the exceptions cover the singular only", "the users' profile pictures" ],
 	] )( "counts an alt text of \"%s\" (%s)", ( altText ) => {
 		expect( researchInTurkish( altText ) ).toEqual( { count: 1, flagged: [ buildSrc( 0 ) ] } );
+	} );
+
+	it.each( [
+		[ "EKİBİN FOTOĞRAFI", "the team's photo" ],
+		[ "BİR KÖPEĞİN RESMİDİR", "it is a dog's picture" ],
+		[ "ÇOCUKLARIN RESİMLERİ, PARKTA", "pictures of the children, in the park" ],
+		[ "ÜRÜNÜN GÖRSELLERİ", "images of the product" ],
+		[ "EKİBİN ÇEKTİĞİ FOTOĞRAF", "the photo the team took" ],
+		[ "KADINI GÖSTEREN FOTOĞRAFTIR", "it is a photo showing the woman" ],
+		[ "RESİMDE EKİP GÖRÜNÜYOR", "in the picture the team appears" ],
+		[ "GÖRSEL BİR KÖPEĞİ GÖSTERİYOR", "the image shows a dog" ],
+		[ "FOTOĞRAF DAĞLARI TASVİR EDİYOR", "the photo depicts the mountains" ],
+		[ "BIR KÖPEĞIN RESMI", "a dog's picture, uppercased without the Turkish dotted İ" ],
+		[ "Ekibin fotoğrafi", "the team's photo, with the typo \"i\" for \"ı\"; an accepted over-match" ],
+	] )( "counts an alt text of \"%s\" (%s)", ( altText ) => {
+		expect( researchInTurkish( altText ) ).toEqual( { count: 1, flagged: [ buildSrc( 0 ) ] } );
+	} );
+
+	it.each( [
+		[ "KULLANICININ PROFİL RESMİ", "the user's profile picture" ],
+		[ "KULLANICININ PROFIL RESMI", "the user's profile picture, uppercased without the Turkish dotted İ" ],
+		[ "SAYFANIN KAPAK FOTOĞRAFI", "the page's cover photo" ],
+		[ "SİTENİN ARKA PLAN GÖRSELİ", "the site's background image" ],
+		[ "SANATÇININ YAĞLI BOYA RESMİ", "the artist's oil painting" ],
+	] )( "does not count the alt text \"%s\" (%s): the exceptions also apply in capitals", ( altText ) => {
+		expect( researchInTurkish( altText ) ).toEqual( { count: 0, flagged: [] } );
+	} );
+
+	it( "does not count a plural noun that is not listed, also with the i's widened", () => {
+		expect( researchInTurkish( "Ekibin fotoğraflar" ) ).toEqual( { count: 0, flagged: [] } );
 	} );
 } );
 
