@@ -22,7 +22,7 @@ export const roleMap = {
  * @param {string} [role] The role of the Alert.
  * @param {string|function} [as="span"] Base component.
  * @param {string} [variant="info"] Alert variant. See `classNameMap` for the options.
- * @param {string} [className] CSS class.
+ * @param {string} [className=""] CSS class.
  * @returns {JSX.Element} Alert component.
  */
 const Alert = forwardRef( ( {

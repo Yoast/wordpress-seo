@@ -54,3 +54,28 @@
 		}
 	}
 }
+
+/* The same WordPress resets for elements that carry a yst- class themselves, so they also apply without a `.yst-root` ancestor. */
+@layer base {
+	a:where([class^="yst-"], [class*=" yst-"]) {
+		@apply focus:yst-shadow-none;
+	}
+
+	li:where([class^="yst-"], [class*=" yst-"]),
+	dd:where([class^="yst-"], [class*=" yst-"]) {
+		margin-bottom: 0;
+	}
+
+	input:is([type=date], [type=datetime-local], [type=datetime], [type=email], [type=month], [type=number], [type=password], [type=search], [type=tel], [type=text], [type=time], [type=url], [type=week]):where([class^="yst-"], [class*=" yst-"]) {
+		@apply yst-min-h-0;
+	}
+
+	input[type=checkbox]:where([class^="yst-"], [class*=" yst-"]) {
+		@apply
+		yst-min-h-0
+		yst-min-w-0
+		yst-shadow-none
+		yst-transition-none
+		before:yst-content-none;
+	}
+}
