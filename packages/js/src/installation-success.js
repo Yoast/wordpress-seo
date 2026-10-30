@@ -14,7 +14,7 @@ import CheckIcon from "@heroicons/react/solid/CheckIcon";
  */
 export function InstallationSuccessPage() {
 	return (
-		<div className="yst-root yst-my-auto yst-flex yst-flex-col yst-min-h-[84vh] yst-py-12 yst-justify-center">
+		<div className="yst-my-auto yst-flex yst-flex-col yst-min-h-[84vh] yst-py-12 yst-justify-center yst-text-sm yst-font-normal yst-font-sans yst-text-slate-600 yst-leading-normal yst-antialiased">
 			<div className="yst-bg-green-200 yst-w-20 yst-h-20 yst-rounded-full yst-mx-auto yst-my-0 yst-flex yst-items-center yst-justify-center">
 				<CheckIcon className="yst-w-8 yst-text-green-600" />
 			</div>
@@ -48,7 +48,7 @@ export function InstallationSuccessPage() {
 			<div className="installation-success-content">
 				<div className="yst-flex yst-flex-col yst-justify-center yst-items-center yst-gap-8">
 					<div id="installation-success-card-configuration" className="yst-shrink-0 yst-shadow-xl yst-bg-primary-500 yst-rounded-lg yst-p-6 yst-flex yst-flex-col yst-max-w-sm yst-h-4/5 yst-leading-6">
-						<h2 className=" yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold">
+						<h2 className="yst-my-0 yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold">
 							{
 								__( "Get better results with the First-time configuration", "wordpress-seo" )
 							}
@@ -62,24 +62,24 @@ export function InstallationSuccessPage() {
 							<a
 								id="installation-successful-configuration-link"
 								href={ window.wpseoInstallationSuccess.firstTimeConfigurationUrl }
-								className="yst-inline-flex yst-items-center yst-w-full yst-justify-center yst-no-underline yst-px-6 yst-py-3 yst-border yst-border-transparent yst-text-base yst-font-medium yst-rounded-md yst-shadow-none yst-text-primary-500 yst-bg-white hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-white yst-ring-offset-2 yst-ring-offset-primary-500"
+								className="yst-inline-flex yst-items-center yst-w-full yst-justify-center yst-no-underline yst-px-6 yst-py-3 yst-border yst-border-solid yst-border-transparent yst-text-base yst-font-medium yst-rounded-md yst-shadow-none yst-text-primary-500 yst-bg-white hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-white yst-ring-offset-2 yst-ring-offset-primary-500"
 								data-hiive-event-name="clicked_start_first_time_configuration"
 							>
 								{ __( "Start configuration", "wordpress-seo" ) }
 								<ArrowNarrowRightIcon className="yst-w-5 yst-h-5 yst-ms-3 yst-me-1 rtl:yst-rotate-180" />
 							</a>
 						</div>
-						<p className="yst-font-normal yst-italic yst-text-center yst-text-white yst-text-sm yst-mt-3">
+						<p className="yst-font-normal yst-italic yst-text-center yst-text-white yst-text-sm yst-mt-3 yst-mb-0">
 							{
 								__( "Takes a few minutes · Recommended", "wordpress-seo" )
 							}
 						</p>
 					</div>
 					<div id="installation-success-card-optimized-site" className="yst-shrink-0 yst-bg-white yst-rounded-lg yst-p-4 yst-flex yst-flex-col yst-max-w-xs yst-shadow-md yst-h-4/5 yst-leading-6">
-						<h2 className="yst-tracking-tight yst-text-primary-500 yst-text-lg yst-leading-8 yst-font-extrabold">
+						<h2 className="yst-my-0 yst-tracking-tight yst-text-primary-500 yst-text-lg yst-leading-8 yst-font-extrabold">
 							{ __( "Unlock more powerful SEO tools", "wordpress-seo" ) }
 						</h2>
-						<p className="yst-text-slate-600 yst-text-sm yst-mb-1">
+						<p className="yst-text-slate-600 yst-text-sm yst-mt-0 yst-mb-1">
 							{ sprintf(
 								/* translators: %s expands to Yoast SEO Premium. */
 								__( "Consider %s for faster, easier SEO with AI features that save time.",
@@ -105,7 +105,7 @@ export function InstallationSuccessPage() {
 							</span>
 							<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-text-slate-400" />
 						</Button>
-						<p className="yst-font-normal yst-italic yst-text-center yst-text-slate-500 yst-text-xs yst-mt-2">
+						<p className="yst-font-normal yst-italic yst-text-center yst-text-slate-500 yst-text-xs yst-mt-2 yst-mb-0">
 							{
 								__( "Trusted by millions of site owners", "wordpress-seo" )
 							}
@@ -117,7 +117,7 @@ export function InstallationSuccessPage() {
 					</div>
 					<a
 						id="installation-success-skip-link"
-						className="yst-bottom-12 yst-right-0 yst-mr-5 yst-self-end yst-text-base md:yst-absolute"
+						className="yst-bottom-12 yst-right-0 yst-mr-5 yst-self-end yst-text-base md:yst-absolute yst-underline yst-text-indigo-600 hover:yst-text-indigo-500 focus:yst-text-indigo-500 focus:yst-shadow-none focus:yst-outline focus:yst-outline-offset-1 focus:yst-outline-indigo-600 focus:yst-rounded-sm"
 						href={ window.wpseoInstallationSuccess.dashboardUrl }
 						data-hiive-event-name="clicked_skip_button | installation successful screen"
 					>

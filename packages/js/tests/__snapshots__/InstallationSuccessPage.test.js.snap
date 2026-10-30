@@ -3,7 +3,7 @@
 exports[`InstallationSuccessPage should match the snapshot 1`] = `
 <div>
   <div
-    class="yst-root yst-my-auto yst-flex yst-flex-col yst-min-h-[84vh] yst-py-12 yst-justify-center"
+    class="yst-my-auto yst-flex yst-flex-col yst-min-h-[84vh] yst-py-12 yst-justify-center yst-text-sm yst-font-normal yst-font-sans yst-text-slate-600 yst-leading-normal yst-antialiased"
   >
     <div
       class="yst-bg-green-200 yst-w-20 yst-h-20 yst-rounded-full yst-mx-auto yst-my-0 yst-flex yst-items-center yst-justify-center"
@@ -51,7 +51,7 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
           id="installation-success-card-configuration"
         >
           <h2
-            class=" yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold"
+            class="yst-my-0 yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold"
           >
             Get better results with the First-time configuration
           </h2>
@@ -64,7 +64,7 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
             class="yst-flex yst-grow-1 yst-mt-auto"
           >
             <a
-              class="yst-inline-flex yst-items-center yst-w-full yst-justify-center yst-no-underline yst-px-6 yst-py-3 yst-border yst-border-transparent yst-text-base yst-font-medium yst-rounded-md yst-shadow-none yst-text-primary-500 yst-bg-white hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-white yst-ring-offset-2 yst-ring-offset-primary-500"
+              class="yst-inline-flex yst-items-center yst-w-full yst-justify-center yst-no-underline yst-px-6 yst-py-3 yst-border yst-border-solid yst-border-transparent yst-text-base yst-font-medium yst-rounded-md yst-shadow-none yst-text-primary-500 yst-bg-white hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-white yst-ring-offset-2 yst-ring-offset-primary-500"
               data-hiive-event-name="clicked_start_first_time_configuration"
               href="http://wordpress.test/wp-admin/admin.php?page=wpseo_dashboard#/first-time-configuration"
               id="installation-successful-configuration-link"
@@ -88,7 +88,7 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
             </a>
           </div>
           <p
-            class="yst-font-normal yst-italic yst-text-center yst-text-white yst-text-sm yst-mt-3"
+            class="yst-font-normal yst-italic yst-text-center yst-text-white yst-text-sm yst-mt-3 yst-mb-0"
           >
             Takes a few minutes · Recommended
           </p>
@@ -98,12 +98,12 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
           id="installation-success-card-optimized-site"
         >
           <h2
-            class="yst-tracking-tight yst-text-primary-500 yst-text-lg yst-leading-8 yst-font-extrabold"
+            class="yst-my-0 yst-tracking-tight yst-text-primary-500 yst-text-lg yst-leading-8 yst-font-extrabold"
           >
             Unlock more powerful SEO tools
           </h2>
           <p
-            class="yst-text-slate-600 yst-text-sm yst-mb-1"
+            class="yst-text-slate-600 yst-text-sm yst-mt-0 yst-mb-1"
           >
             Consider Yoast SEO Premium for faster, easier SEO with AI features that save time.
           </p>
@@ -136,7 +136,7 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
             </svg>
           </a>
           <p
-            class="yst-font-normal yst-italic yst-text-center yst-text-slate-500 yst-text-xs yst-mt-2"
+            class="yst-font-normal yst-italic yst-text-center yst-text-slate-500 yst-text-xs yst-mt-2 yst-mb-0"
           >
             Trusted by millions of site owners
             <br />
@@ -144,7 +144,7 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
           </p>
         </div>
         <a
-          class="yst-bottom-12 yst-right-0 yst-mr-5 yst-self-end yst-text-base md:yst-absolute"
+          class="yst-bottom-12 yst-right-0 yst-mr-5 yst-self-end yst-text-base md:yst-absolute yst-underline yst-text-indigo-600 hover:yst-text-indigo-500 focus:yst-text-indigo-500 focus:yst-shadow-none focus:yst-outline focus:yst-outline-offset-1 focus:yst-outline-indigo-600 focus:yst-rounded-sm"
           data-hiive-event-name="clicked_skip_button | installation successful screen"
           href="http://wordpress.test/wp-admin/admin.php?page=wpseo_dashboard"
           id="installation-success-skip-link"
