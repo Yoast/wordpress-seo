@@ -87,5 +87,8 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-optional-chaining": "^7.27.1"
+  },
+  "resolutions": {
+    "elliptic": "6.6.1"
   }
 }
