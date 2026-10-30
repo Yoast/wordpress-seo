@@ -127,7 +127,7 @@ class PrimaryTaxonomyPicker extends Component {
 
 		const selectedTerm = selectedTerms.find( term => term.id === primaryTaxonomyId );
 		if ( ! selectedTerm ) {
-			this.onChange( selectedTerms.length ? selectedTerms[ 0 ].id : -1 );
+			this.initPrimaryTerm( selectedTerms.length ? selectedTerms[ 0 ].id : -1 );
 		}
 	}
 
@@ -205,6 +205,25 @@ class PrimaryTaxonomyPicker extends Component {
 		this.setState( {
 			selectedTerms,
 		} );
+	}
+
+	/**
+	 * Sets the initial primary term without dirtying the post.
+	 *
+	 * Called by handleSelectedTermsChange when no primary is saved and the first available
+	 * term is auto-selected. Uses PrimaryTermFields.setDeferred so the value is injected into
+	 * the save payload via the editor.preSavePost filter rather than written to the store
+	 * immediately (which would activate the save button without user interaction).
+	 *
+	 * @param {number} termId The term's id.
+	 *
+	 * @returns {void}
+	 */
+	initPrimaryTerm( termId ) {
+		const { name, fieldId } = this.props.taxonomy;
+		this.updateReplacementVariable( termId );
+		this.props.setPrimaryTaxonomyId( name, termId );
+		PrimaryTermFields.setDeferred( name, fieldId, termId );
 	}
 
 	/**

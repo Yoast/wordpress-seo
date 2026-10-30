@@ -1,4 +1,4 @@
-import { getMetaValue, setMetaValue } from "./rest-meta";
+import { getMetaValue, setMetaValue, deferMetaWrite, isRestMetaActive } from "./rest-meta";
 
 /**
  * Returns the REST meta key for the given taxonomy.
@@ -60,5 +60,30 @@ export default class PrimaryTermFields {
 	static set( taxonomyName, fieldId, termId ) {
 		const value = termId === -1 ? "" : String( termId );
 		setMetaValue( metaKey( taxonomyName ), PrimaryTermFields.getPrimaryTermElement( fieldId ), value );
+	}
+
+	/**
+	 * Queues the primary term ID to be injected at save time without dirtying the post.
+	 *
+	 * Use for derived initial values (e.g. auto-selecting the first checked category on new-post
+	 * load) that should be persisted on save but must not activate the save button on their own.
+	 * In classic-editor mode the hidden input is written directly (it does not affect dirty state).
+	 *
+	 * @param {string} taxonomyName The taxonomy name.
+	 * @param {string} fieldId      The field ID of the hidden input element.
+	 * @param {number} termId       The term ID. Pass -1 to clear.
+	 *
+	 * @returns {void}
+	 */
+	static setDeferred( taxonomyName, fieldId, termId ) {
+		const value = termId === -1 ? "" : String( termId );
+		if ( isRestMetaActive() ) {
+			deferMetaWrite( metaKey( taxonomyName ), value );
+			return;
+		}
+		const element = PrimaryTermFields.getPrimaryTermElement( fieldId );
+		if ( element ) {
+			element.value = value;
+		}
 	}
 }
