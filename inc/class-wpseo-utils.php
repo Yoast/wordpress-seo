@@ -645,6 +645,55 @@ class WPSEO_Utils {
 	}
 
 	/**
+	 * Retrieves a post ID from a permalink.
+	 *
+	 * @since 28.7
+	 *
+	 * @param string $url The permalink.
+	 *
+	 * @return int The post ID.
+	 */
+	public static function url_to_postid( $url ) {
+		if ( function_exists( 'wpcom_vip_url_to_postid' ) ) {
+			// @codeCoverageIgnoreStart -- VIP only, cannot be tested outside that platform.
+			return (int) wpcom_vip_url_to_postid( $url );
+			// @codeCoverageIgnoreEnd
+		}
+
+		return (int) url_to_postid( $url );
+	}
+
+	/**
+	 * Retrieves a URL with a GET request.
+	 *
+	 * @since 28.7
+	 *
+	 * @param string            $url  The URL to retrieve.
+	 * @param array<string|int> $args Request arguments.
+	 *
+	 * @return array<int|string|array<string>>|WP_Error The response or WP_Error on failure.
+	 */
+	public static function wp_remote_get( $url, $args = [] ) {
+		if ( function_exists( 'vip_safe_wp_remote_get' ) ) {
+			// @codeCoverageIgnoreStart -- VIP only, cannot be tested outside that platform.
+			// VIP caps request timeouts, so this only bounds the request, it does not extend it.
+			$timeout = isset( $args['timeout'] ) ? (int) $args['timeout'] : 5;
+
+			// wp_remote_get always uses GET, while the VIP helper honours a method argument.
+			unset( $args['method'] );
+
+			return vip_safe_wp_remote_get( $url, '', 3, $timeout, 20, $args );
+			// @codeCoverageIgnoreEnd
+		}
+
+		if ( empty( $args ) ) {
+			return wp_remote_get( $url );
+		}
+
+		return wp_remote_get( $url, $args );
+	}
+
+	/**
 	 * Retrieves the sitename.
 	 *
 	 * @since 3.0.0

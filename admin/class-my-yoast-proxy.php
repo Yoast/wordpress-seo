@@ -117,7 +117,7 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 * @throws Exception When the response code is not 200.
 	 */
 	protected function get_remote_url_body( $url ) {
-		$response = wp_remote_get( $url );
+		$response = WPSEO_Utils::wp_remote_get( $url );
 
 		if ( $response instanceof WP_Error ) {
 			throw new Exception( 'Unable to retrieve file from MyYoast' );
