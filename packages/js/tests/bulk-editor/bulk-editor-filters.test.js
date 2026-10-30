@@ -1,7 +1,7 @@
 import { dispatch, select } from "@wordpress/data";
 import { act, fireEvent, render, screen } from "../test-utils";
 import { BulkEditorFilters } from "../../src/bulk-editor/components/bulk-editor-filters";
-import { FIELD_SET_SOCIAL, STORE_NAME } from "../../src/bulk-editor/constants";
+import { FIELD_SET_IMAGE_ALT_TEXT, FIELD_SET_SOCIAL, STORE_NAME } from "../../src/bulk-editor/constants";
 import registerStore from "../../src/bulk-editor/store";
 
 describe( "BulkEditorFilters", () => {
@@ -114,6 +114,42 @@ describe( "BulkEditorFilters", () => {
 		fireEvent.click( screen.getByRole( "checkbox", { name: "Overview selection" } ) );
 
 		expect( select( STORE_NAME ).selectIsOverviewFilterActive() ).toBe( true );
+		expect( screen.getByText( "1" ) ).toBeInTheDocument();
+	} );
+
+	it( "leaves out the needs-improvement options on the image alt text tab, which has no fields for them to target", () => {
+		dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_IMAGE_ALT_TEXT );
+		render( <BulkEditorFilters /> );
+
+		fireEvent.click( screen.getByRole( "button", { name: /Filters/ } ) );
+
+		expect( screen.queryByRole( "group", { name: "Needs improvement" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByRole( "checkbox", { name: "SEO titles" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByRole( "checkbox", { name: "Meta descriptions" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "keeps the status and overview options on the image alt text tab", () => {
+		dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_IMAGE_ALT_TEXT );
+		render( <BulkEditorFilters /> );
+
+		fireEvent.click( screen.getByRole( "button", { name: /Filters/ } ) );
+
+		expect( screen.getByRole( "checkbox", { name: "Published" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "checkbox", { name: "Scheduled" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "checkbox", { name: "Pending" } ) ).toBeInTheDocument();
+		expect( screen.getByRole( "checkbox", { name: "Draft" } ) ).toBeInTheDocument();
+		// The carried-over selection must stay releasable from this tab too.
+		expect( screen.getByRole( "checkbox", { name: "Overview selection" } ) ).toBeInTheDocument();
+	} );
+
+	it( "applies a status filter from the image alt text tab", () => {
+		dispatch( STORE_NAME ).setActiveFieldSet( FIELD_SET_IMAGE_ALT_TEXT );
+		render( <BulkEditorFilters /> );
+
+		fireEvent.click( screen.getByRole( "button", { name: /Filters/ } ) );
+		fireEvent.click( screen.getByRole( "checkbox", { name: "Draft" } ) );
+
+		expect( select( STORE_NAME ).selectStatuses() ).toEqual( [ "draft" ] );
 		expect( screen.getByText( "1" ) ).toBeInTheDocument();
 	} );
 

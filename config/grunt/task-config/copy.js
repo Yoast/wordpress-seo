@@ -21,7 +21,7 @@ module.exports = {
 				src: [
 					"admin/**",
 					"css/dist/**/*.css",
-					"css/main-sitemap.xsl",
+					"css/main-sitemap.css",
 					"deprecated/**",
 					"frontend/**",
 					"images/**",

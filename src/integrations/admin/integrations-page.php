@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
@@ -82,6 +83,13 @@ class Integrations_Page implements Integration_Interface {
 	private $myyoast_connection_script_data;
 
 	/**
+	 * The Abilities API conditional.
+	 *
+	 * @var Abilities_API_Conditional
+	 */
+	private $abilities_api_conditional;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -102,6 +110,7 @@ class Integrations_Page implements Integration_Interface {
 	 * @param Schema_Configuration                 $schema_configuration                 The schema configuration.
 	 * @param MyYoast_Connection_Script_Data       $myyoast_connection_script_data       The MyYoast connection
 	 *                                                                                   script-data provider.
+	 * @param Abilities_API_Conditional            $abilities_api_conditional            The Abilities API conditional.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -111,7 +120,8 @@ class Integrations_Page implements Integration_Interface {
 		Site_Kit $site_kit_integration_data,
 		Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint,
 		Schema_Configuration $schema_configuration,
-		MyYoast_Connection_Script_Data $myyoast_connection_script_data
+		MyYoast_Connection_Script_Data $myyoast_connection_script_data,
+		Abilities_API_Conditional $abilities_api_conditional
 	) {
 		$this->admin_asset_manager                  = $admin_asset_manager;
 		$this->options_helper                       = $options_helper;
@@ -121,6 +131,7 @@ class Integrations_Page implements Integration_Interface {
 		$this->site_kit_consent_management_endpoint = $site_kit_consent_management_endpoint;
 		$this->schema_configuration                 = $schema_configuration;
 		$this->myyoast_connection_script_data       = $myyoast_connection_script_data;
+		$this->abilities_api_conditional            = $abilities_api_conditional;
 	}
 
 	/**
@@ -247,6 +258,8 @@ class Integrations_Page implements Integration_Interface {
 				'site_kit_consent_management_url'    => $this->site_kit_consent_management_endpoint->get_url(),
 				'schema_framework_enabled'           => $this->options_helper->get( 'enable_schema', true ) === true && ! $this->schema_configuration->is_schema_disabled_programmatically(),
 				'myyoast_connection'                 => $this->myyoast_connection_script_data->present(),
+				'schema_aggregation_active'          => $this->options_helper->get( 'enable_schema_aggregation_endpoint', false ) === true,
+				'abilities_api_active'               => $this->abilities_api_conditional->is_met(),
 			],
 		);
 	}

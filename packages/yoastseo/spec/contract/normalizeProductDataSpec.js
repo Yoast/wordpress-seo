@@ -60,4 +60,20 @@ describe( "normalizeProductData", () => {
 		const paper = new Paper( "" );
 		expect( normalizeProductData( paper ).isVariableProduct ).toBe( false );
 	} );
+
+	/*
+	 * Paper fills its defaults with lodash `defaults`, which replaces `undefined` but not `null`, so these reach
+	 * the narrower as `null`. Now that the image assessments call this on every content type, a producer sending
+	 * either one would otherwise throw for every post.
+	 */
+	it.each( [
+		[ "customData", { customData: null } ],
+		[ "productData", { productData: null } ],
+		[ "both", { customData: null, productData: null } ],
+	] )( "does not throw when %s is null", ( _, attributes ) => {
+		const paper = new Paper( "", attributes );
+
+		expect( () => normalizeProductData( paper ) ).not.toThrow();
+		expect( normalizeProductData( paper ).isVariableProduct ).toBe( false );
+	} );
 } );

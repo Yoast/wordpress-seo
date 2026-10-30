@@ -59,3 +59,22 @@ describe( "Test for getting all words found in the text, title, slug and meta de
 			"Texas", "a", "test" ] );
 	} );
 } );
+
+describe( "Test for getting all words from a paper with provided images", () => {
+	it( "gets the alt texts from the images in the text when the paper has no provided images", () => {
+		const paper = new Paper( "A text. <img src='https://example.com/tree.jpg' alt='treeword' />" );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+
+		expect( getAllWordsFromPaper( paper, true ) ).toEqual( [ "A", "text", "treeword" ] );
+	} );
+	it( "gets the alt texts from the provided images instead of the images in the text when the paper has provided images", () => {
+		const paper = new Paper( "A text. <img src='https://example.com/tree.jpg' alt='treeword' />", {
+			providedImages: [ { id: 1, src: "https://example.com/gallery.jpg", alt: "providedword" } ],
+		} );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+
+		expect( getAllWordsFromPaper( paper, true ) ).toEqual( [ "A", "text", "providedword" ] );
+	} );
+} );

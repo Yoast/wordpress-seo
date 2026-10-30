@@ -108,6 +108,7 @@ final class Sitemaps_Router_Test extends TestCase {
 		$this->assertContains( 'sitemap', $this->instance->add_query_vars( [] ), 'sitemap is not in the query vars' );
 		$this->assertContains( 'sitemap_n', $this->instance->add_query_vars( [] ), 'sitemap_n is not in the query vars' );
 		$this->assertContains( 'yoast-sitemap-xsl', $this->instance->add_query_vars( [] ), 'yoast-sitemap-xsl is not in the query vars' );
+		$this->assertContains( 'yoast-sitemap-css', $this->instance->add_query_vars( [] ), 'yoast-sitemap-css is not in the query vars' );
 	}
 
 	/**
@@ -132,6 +133,10 @@ final class Sitemaps_Router_Test extends TestCase {
 			->with( '([a-z]+)?-?sitemap\.xsl$', 'index.php?yoast-sitemap-xsl=$matches[1]', 'top' )
 			->once();
 
+		$dynamic_rewrites->expects( 'add_rule' )
+			->with( 'main-sitemap\.css$', 'index.php?yoast-sitemap-css=1', 'top' )
+			->once();
+
 		$this->instance->add_rewrite_rules( $dynamic_rewrites );
 	}
 
@@ -144,12 +149,13 @@ final class Sitemaps_Router_Test extends TestCase {
 	 *
 	 * @param bool $is_sitemap           Whether the sitemap query var is set.
 	 * @param bool $is_yoast_sitemap_xsl Whether the yoast-sitemap-xsl query var is set.
+	 * @param bool $is_yoast_sitemap_css Whether the yoast-sitemap-css query var is set.
 	 * @param bool $redirect             Whether to redirect.
 	 * @param bool $expected             Whether to redirect.
 	 *
 	 * @return void
 	 */
-	public function test_redirect_canonical( $is_sitemap, $is_yoast_sitemap_xsl, $redirect, $expected ) {
+	public function test_redirect_canonical( $is_sitemap, $is_yoast_sitemap_xsl, $is_yoast_sitemap_css, $redirect, $expected ) {
 		Functions\expect( 'get_query_var' )
 			->with( 'sitemap' )
 			->once()
@@ -159,6 +165,11 @@ final class Sitemaps_Router_Test extends TestCase {
 			->with( 'yoast-sitemap-xsl' )
 			->times( (int) ! $is_sitemap )
 			->andReturn( $is_yoast_sitemap_xsl );
+
+		Functions\expect( 'get_query_var' )
+			->with( 'yoast-sitemap-css' )
+			->times( (int) ( ! $is_sitemap && ! $is_yoast_sitemap_xsl ) )
+			->andReturn( $is_yoast_sitemap_css );
 
 		$this->assertSame( $expected, $this->instance->redirect_canonical( $redirect ) );
 	}
@@ -173,30 +184,42 @@ final class Sitemaps_Router_Test extends TestCase {
 			'no sitemap' => [
 				'is_sitemap'           => false,
 				'is_yoast_sitemap_xsl' => false,
+				'is_yoast_sitemap_css' => false,
 				'redirect'             => false,
 				'expected'             => false,
 			],
 			'sitemap' => [
 				'is_sitemap'           => true,
 				'is_yoast_sitemap_xsl' => false,
+				'is_yoast_sitemap_css' => false,
 				'redirect'             => false,
 				'expected'             => false,
 			],
 			'yoast-sitemap-xsl' => [
 				'is_sitemap'           => false,
 				'is_yoast_sitemap_xsl' => true,
+				'is_yoast_sitemap_css' => false,
 				'redirect'             => false,
+				'expected'             => false,
+			],
+			'yoast-sitemap-css' => [
+				'is_sitemap'           => false,
+				'is_yoast_sitemap_xsl' => false,
+				'is_yoast_sitemap_css' => true,
+				'redirect'             => true,
 				'expected'             => false,
 			],
 			'both' => [
 				'is_sitemap'           => true,
 				'is_yoast_sitemap_xsl' => true,
+				'is_yoast_sitemap_css' => false,
 				'redirect'             => false,
 				'expected'             => false,
 			],
 			'redirect' => [
 				'is_sitemap'           => false,
 				'is_yoast_sitemap_xsl' => false,
+				'is_yoast_sitemap_css' => false,
 				'redirect'             => true,
 				'expected'             => true,
 			],

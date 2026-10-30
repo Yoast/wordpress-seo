@@ -232,25 +232,6 @@ describe( "BulkEditorTable", () => {
 		expect( screen.getByText( "Bulk actions" ) ).toBeInTheDocument();
 	} );
 
-	it( "renders the footer in a tfoot and squares the last body row only when a footer is present", () => {
-		const { rerender, container } = render(
-			<BulkEditorTable items={ items } fieldSet={ searchFieldSet } footer={ <span>Footer content</span> } />
-		);
-
-		// The footer renders inside the table's own tfoot, so it sits in the table card.
-		const tfoot = container.querySelector( "table tfoot" );
-		expect( tfoot ).toBeInTheDocument();
-		expect( tfoot ).toContainElement( screen.getByText( "Footer content" ) );
-		// With a footer, the last body row's bottom corners are squared so the footer owns them.
-		expect( screen.getByRole( "table" ).className ).toContain( "yst-rounded-none" );
-
-		// Without a footer: no tfoot row, and the last-row rounding override is dropped.
-		rerender( <BulkEditorTable items={ items } fieldSet={ searchFieldSet } footer={ null } /> );
-		expect( container.querySelector( "table tfoot" ) ).not.toBeInTheDocument();
-		expect( screen.queryByText( "Footer content" ) ).not.toBeInTheDocument();
-		expect( screen.getByRole( "table" ).className ).not.toContain( "yst-rounded-none" );
-	} );
-
 	it( "renders editable fields per open field with a single row-level Save and Cancel", () => {
 		render(
 			<BulkEditorTable
@@ -310,6 +291,23 @@ describe( "BulkEditorTable", () => {
 		const input = screen.getByRole( "textbox", { name: "Focus keyphrase for On-Page SEO Checklist" } );
 		expect( input ).toHaveValue( "draft keyphrase" );
 		expect( screen.getByRole( "button", { name: "Save On-Page SEO Checklist" } ) ).toBeInTheDocument();
+	} );
+
+	it( "keeps the focus keyphrase column readable but not editable when the SEO analysis is off", () => {
+		const readOnlyFieldSet = getFieldSets( { isKeywordAnalysisActive: false } )[ FIELD_SET_SEARCH ];
+		render(
+			<BulkEditorTable
+				items={ items }
+				fieldSet={ readOnlyFieldSet }
+				editing={ { editingRows: { 2: { openFields: [ "seoTitle" ], draft: { seoTitle: "Draft title" }, savingFields: {} } } } }
+			/>
+		);
+
+		// The column and its value stay; only the edit affordance is gone.
+		expect( screen.getByRole( "columnheader", { name: "Focus keyphrase" } ) ).toBeInTheDocument();
+		expect( screen.getByText( "on page seo" ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "textbox", { name: "Focus keyphrase for On-Page SEO Checklist" } ) ).not.toBeInTheDocument();
+		expect( screen.getByRole( "combobox", { name: "SEO title for On-Page SEO Checklist" } ) ).toBeInTheDocument();
 	} );
 
 	it( "renders only the open fields as inputs, the rest as text", () => {

@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Elementor\Plugin;
 use WP_Post;
-use WP_Screen;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Meta;
@@ -19,6 +18,7 @@ use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
 use Yoast\WP\SEO\Elementor\Infrastructure\Request_Post;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
@@ -63,6 +63,13 @@ class Elementor implements Integration_Interface {
 	 * @var Request_Post
 	 */
 	private $request_post;
+
+	/**
+	 * Holds the current page helper.
+	 *
+	 * @var Current_Page_Helper
+	 */
+	private $current_page_helper;
 
 	/**
 	 * Holds whether the socials are enabled.
@@ -118,21 +125,24 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
-	 * @param Options_Helper            $options       The options helper.
-	 * @param Capability_Helper         $capability    The capability helper.
-	 * @param Request_Post              $request_post  The Request_Post.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The asset manager.
+	 * @param Options_Helper            $options             The options helper.
+	 * @param Capability_Helper         $capability          The capability helper.
+	 * @param Request_Post              $request_post        The Request_Post.
+	 * @param Current_Page_Helper       $current_page_helper The current page helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
 		Capability_Helper $capability,
-		Request_Post $request_post
+		Request_Post $request_post,
+		Current_Page_Helper $current_page_helper
 	) {
-		$this->asset_manager = $asset_manager;
-		$this->options       = $options;
-		$this->capability    = $capability;
-		$this->request_post  = $request_post;
+		$this->asset_manager       = $asset_manager;
+		$this->options             = $options;
+		$this->capability          = $capability;
+		$this->request_post        = $request_post;
+		$this->current_page_helper = $current_page_helper;
 
 		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
@@ -463,7 +473,7 @@ class Elementor implements Integration_Interface {
 		$script_data = [
 			'metabox'                   => $this->get_metabox_script_data( $permalink ),
 			'isPost'                    => true,
-			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
+			'isBlockEditor'             => $this->current_page_helper->is_block_editor(),
 			'isElementorEditor'         => true,
 			'isAlwaysIntroductionV2'    => $this->is_elementor_version_compatible_with_introduction_v2(),
 			'isElementorV4Atomic'       => $is_v4_atomic,

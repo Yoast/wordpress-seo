@@ -113,19 +113,6 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Retrieve the user to show the notification for.
-	 *
-	 * @deprecated 21.6
-	 * @codeCoverageIgnore
-	 *
-	 * @return WP_User|null The user to show this notification for.
-	 */
-	public function get_user() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 21.6' );
-		return null;
-	}
-
-	/**
 	 * Retrieve the id of the user to show the notification for.
 	 *
 	 * Returns the id of the current user if not user has been sent.

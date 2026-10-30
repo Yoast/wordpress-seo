@@ -46,7 +46,7 @@ const SocialAppearanceModal = ( props ) => {
 			id="yoast-social-appearance-modal"
 			shouldCloseOnClickOutside={ false }
 			SuffixHeroIcon={ <StyledHeroIcon className="yst-text-slate-500" { ...svgAriaProps } /> }
-			titleHelpLink={ <SocialPreviewsHelpLink /> }
+			titleHelpLink={ useOpenGraphData ? <SocialPreviewsHelpLink /> : null }
 		>
 			{ useOpenGraphData &&
 				<Fragment>

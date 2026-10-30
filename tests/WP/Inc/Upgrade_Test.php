@@ -1070,4 +1070,93 @@ final class Upgrade_Test extends TestCase {
 			[ 'option_name' => $option_name ],
 		);
 	}
+
+	/**
+	 * Tests the 28.8 upgrade routine.
+	 *
+	 * @dataProvider provider_upgrade_288
+	 * @covers WPSEO_Upgrade::upgrade_288
+	 *
+	 * @param bool            $enabled             Whether the schema aggregation endpoint is enabled.
+	 * @param string|int|null $stored_enabled_on   The stored schema aggregation timestamp.
+	 * @param string|int|null $stored_started_on   The stored free sparks timestamp.
+	 * @param string|int|null $expected_enabled_on The expected schema aggregation timestamp, or 'now' for the current time.
+	 * @param string|int|null $expected_started_on The expected free sparks timestamp.
+	 *
+	 * @return void
+	 */
+	public function test_upgrade_288( $enabled, $stored_enabled_on, $stored_started_on, $expected_enabled_on, $expected_started_on ) {
+		$this->write_unvalidated_wpseo_option(
+			[
+				'enable_schema_aggregation_endpoint'     => $enabled,
+				'schema_aggregation_endpoint_enabled_on' => $stored_enabled_on,
+				'ai_free_sparks_started_on'              => $stored_started_on,
+			],
+		);
+
+		$before = \time();
+		$this->get_instance()->upgrade_288();
+		$option = \get_option( 'wpseo' );
+
+		if ( $expected_enabled_on === 'now' ) {
+			$this->assertGreaterThanOrEqual( $before, $option['schema_aggregation_endpoint_enabled_on'] );
+			$this->assertLessThanOrEqual( \time(), $option['schema_aggregation_endpoint_enabled_on'] );
+		}
+		else {
+			$this->assertSame( $expected_enabled_on, $option['schema_aggregation_endpoint_enabled_on'] );
+		}
+		$this->assertSame( $expected_started_on, $option['ai_free_sparks_started_on'] );
+	}
+
+	/**
+	 * Data provider for test_upgrade_288.
+	 *
+	 * @return array<string, array<string, bool|string|int|null>>
+	 */
+	public static function provider_upgrade_288() {
+		return [
+			'enabled endpoint with the text null gets the upgrade time' => [
+				'enabled'             => true,
+				'stored_enabled_on'   => 'null',
+				'stored_started_on'   => 'null',
+				'expected_enabled_on' => 'now',
+				'expected_started_on' => null,
+			],
+			'disabled endpoint with the text null is cleared' => [
+				'enabled'             => false,
+				'stored_enabled_on'   => 'null',
+				'stored_started_on'   => 'null',
+				'expected_enabled_on' => null,
+				'expected_started_on' => null,
+			],
+			'existing timestamps are kept' => [
+				'enabled'             => true,
+				'stored_enabled_on'   => 1_700_000_000,
+				'stored_started_on'   => 1_600_000_000,
+				'expected_enabled_on' => 1_700_000_000,
+				'expected_started_on' => 1_600_000_000,
+			],
+			'enabled endpoint without a timestamp gets the upgrade time' => [
+				'enabled'             => true,
+				'stored_enabled_on'   => null,
+				'stored_started_on'   => null,
+				'expected_enabled_on' => 'now',
+				'expected_started_on' => null,
+			],
+		];
+	}
+
+	/**
+	 * Writes values into the wpseo option directly in the database, bypassing validation and update hooks.
+	 *
+	 * @param array<string, bool|string|int|null> $values The values to write.
+	 *
+	 * @return void
+	 */
+	private function write_unvalidated_wpseo_option( $values ) {
+		$this->set_option_in_database( 'wpseo', \array_merge( \get_option( 'wpseo' ), $values ) );
+		\wp_cache_delete( 'wpseo', 'options' );
+		\wp_cache_delete( 'alloptions', 'options' );
+		WPSEO_Options::clear_cache();
+	}
 }

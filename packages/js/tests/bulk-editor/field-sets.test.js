@@ -22,7 +22,7 @@ describe( "getFieldSets", () => {
 
 		expect( fieldSet.endpoint ).toBe( "update_search" );
 		expect( fieldSet.fields ).toEqual( [
-			{ key: "focusKeyphrase", label: "Focus keyphrase", param: "focus_keyphrase", width: "sm:yst-w-[19%]" },
+			{ key: "focusKeyphrase", label: "Focus keyphrase", param: "focus_keyphrase", width: "sm:yst-w-[19%]", readOnly: false },
 			{ key: "seoTitle", label: "SEO title", param: "seo_title", width: "sm:yst-w-[19%]", type: "title" },
 			{ key: "metaDescription", label: "Meta description", param: "meta_description", width: "sm:yst-w-[33%]", type: "description" },
 		] );
@@ -33,10 +33,21 @@ describe( "getFieldSets", () => {
 
 		expect( fieldSet.endpoint ).toBe( "update_social" );
 		expect( fieldSet.fields ).toEqual( [
-			{ key: "focusKeyphrase", label: "Focus keyphrase", param: "focus_keyphrase", width: "sm:yst-w-[19%]" },
+			{ key: "focusKeyphrase", label: "Focus keyphrase", param: "focus_keyphrase", width: "sm:yst-w-[19%]", readOnly: false },
 			{ key: "socialTitle", label: "Social title", param: "social_title", width: "sm:yst-w-[19%]", type: "title" },
 			{ key: "socialDescription", label: "Social description", param: "social_description", width: "sm:yst-w-[33%]", type: "description" },
 		] );
+	} );
+
+	it( "keeps the focus keyphrase leading both field sets, but read-only, when the SEO analysis is off", () => {
+		const fieldSets = getFieldSets( { isKeywordAnalysisActive: false } );
+
+		[ FIELD_SET_SEARCH, FIELD_SET_SOCIAL ].forEach( ( id ) => {
+			const [ keyphrase, ...rest ] = fieldSets[ id ].fields;
+			expect( keyphrase.key ).toBe( "focusKeyphrase" );
+			expect( keyphrase.readOnly ).toBe( true );
+			rest.forEach( ( field ) => expect( field.readOnly ).toBeUndefined() );
+		} );
 	} );
 
 	it( "returns a fresh object each call so callers cannot mutate shared state", () => {

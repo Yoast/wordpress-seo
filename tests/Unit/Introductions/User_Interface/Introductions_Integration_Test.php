@@ -226,15 +226,9 @@ final class Introductions_Integration_Test extends TestCase {
 			->once()
 			->with( $user_id, '_yoast_wpseo_introductions', true )
 			->andReturn( [] );
-		$expected_meta = [
-			'foo' => [
-				'is_seen' => true,
-				'seen_on' => \time(),
-			],
-		];
 		$this->user_helper->expects( 'update_meta' )
 			->once()
-			->with( $user_id, '_yoast_wpseo_introductions', $expected_meta );
+			->with( $user_id, '_yoast_wpseo_introductions', $this->seen_meta_for( 'foo' ) );
 
 		// Enqueueing.
 		$this->admin_asset_manager->expects( 'enqueue_script' )->once()->with( 'introductions' );
@@ -315,15 +309,9 @@ final class Introductions_Integration_Test extends TestCase {
 			->with( $user_id, '_yoast_wpseo_introductions', true )
 			// Point of this test: returning false results in using an empty array as default.
 			->andReturn( false );
-		$expected_meta = [
-			'foo' => [
-				'is_seen' => true,
-				'seen_on' => \time(),
-			],
-		];
 		$this->user_helper->expects( 'update_meta' )
 			->once()
-			->with( $user_id, '_yoast_wpseo_introductions', $expected_meta );
+			->with( $user_id, '_yoast_wpseo_introductions', $this->seen_meta_for( 'foo' ) );
 
 		// Enqueueing.
 		$this->admin_asset_manager->expects( 'enqueue_script' )->once()->with( 'introductions' );
@@ -369,6 +357,31 @@ final class Introductions_Integration_Test extends TestCase {
 				'wistiaEmbedPermission' => $wistia_embed_permission,
 				'isWooEnabled'          => true,
 			],
+		);
+	}
+
+	/**
+	 * Builds a matcher for the metadata that marks an introduction as seen.
+	 *
+	 * The code under test stamps `seen_on` with its own `time()` call, so an exact match against a timestamp
+	 * taken in the test is flaky around second boundaries. Accept any timestamp between now and the actual call.
+	 *
+	 * @param string $introduction_id The ID of the introduction that should be marked as seen.
+	 *
+	 * @return Mockery\Matcher\Closure The argument matcher.
+	 */
+	private function seen_meta_for( $introduction_id ) {
+		$not_before = \time();
+
+		return Mockery::on(
+			static function ( $metadata ) use ( $introduction_id, $not_before ) {
+				return \is_array( $metadata )
+					&& \array_keys( $metadata ) === [ $introduction_id ]
+					&& $metadata[ $introduction_id ]['is_seen'] === true
+					&& \is_int( $metadata[ $introduction_id ]['seen_on'] )
+					&& $metadata[ $introduction_id ]['seen_on'] >= $not_before
+					&& $metadata[ $introduction_id ]['seen_on'] <= \time();
+			},
 		);
 	}
 }
