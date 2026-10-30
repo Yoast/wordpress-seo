@@ -623,4 +623,24 @@ final class Pagination_Helper_Test extends TestCase {
 
 		$this->assertEquals( $expects, $this->instance->get_page_number_from_query_loop() );
 	}
+
+	/**
+	 * @covers ::get_page_number_from_query_loop
+	 *
+	 * @return void
+	 */
+	public function test_query_loop_page_number_returns_int_when_above_one() {
+		$_GET = [ 'query-1-page' => '2' ];
+		$this->assertSame( 2, $this->instance->get_page_number_from_query_loop() );
+	}
+
+	/**
+	 * @covers ::get_page_number_from_query_loop
+	 *
+	 * @return void
+	 */
+	public function test_query_loop_page_number_returns_empty_string_when_absent() {
+		$_GET = [];
+		$this->assertSame( '', $this->instance->get_page_number_from_query_loop() );
+	}
 }
