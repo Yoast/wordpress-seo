@@ -313,8 +313,14 @@ Release date: 2026-11-17
 
 #### Enhancements
 
+* Adds Yoast abilities to read and write SEO settings for archives, special pages and non-static homepages.
 * Introduces a new Yoast ability that lets agents update author Schema data.
 * Introduces two new Yoast abilities that let agents get and set SEO data for specific terms.
+* Replaces the XSLT stylesheet of the XML sitemaps with a CSS one, so they keep rendering as a readable table after browsers drop XSLT support.
+
+#### Bugfixes
+
+* Fixes a bug where the abilities to read and write the SEO data of posts could not find a static homepage by its URL.
 
 = 28.8 =
 
