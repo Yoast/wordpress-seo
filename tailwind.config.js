@@ -8,6 +8,7 @@ module.exports = {
 		"./packages/related-keyphrase-suggestions/src/**/!(stories).js",
 		"./packages/dashboard-frontend/src/**/!(stories).js",
 		"./packages/js/src/**/*.js",
+		"./node_modules/@yoast/ai-frontend/dist/build.js",
 		"./src/integrations/settings-integration.php",
 	],
 	theme: {
