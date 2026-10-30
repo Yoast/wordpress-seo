@@ -87,7 +87,6 @@ const InclusiveLanguageAnalysis = ( {
 				</AnalysisHeader>
 				<Results
 					results={ results }
-					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ marksButtonStatus }
 					resultCategoryLabels={ {
 						problems: __( "Non-inclusive", "wordpress-seo" ),
