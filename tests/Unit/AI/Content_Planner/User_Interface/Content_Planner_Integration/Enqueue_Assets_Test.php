@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 final class Enqueue_Assets_Test extends Abstract_Test {
 
 	/**
-	 * Tests that enqueue_assets enqueues the script and localizes it with the script data.
+	 * Tests that enqueue_assets localizes the script data on the block editor script.
 	 *
 	 * @return void
 	 */
@@ -46,12 +46,12 @@ final class Enqueue_Assets_Test extends Abstract_Test {
 			->with( 1, Banner_Permanent_Dismissal_Route::USER_META_KEY, true )
 			->andReturn( '1' );
 
-		$this->asset_manager->expects( 'enqueue_script' )->once()->with( 'ai-content-planner' );
+		$this->asset_manager->expects( 'enqueue_script' )->never();
 		$this->asset_manager
 			->expects( 'localize_script' )
 			->once()
 			->with(
-				'ai-content-planner',
+				'block-editor',
 				'wpseoContentPlanner',
 				[
 					'endpoints'                    => $endpoints,

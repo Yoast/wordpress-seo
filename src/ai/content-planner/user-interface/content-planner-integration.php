@@ -111,8 +111,8 @@ class Content_Planner_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		$this->asset_manager->enqueue_script( 'ai-content-planner' );
-		$this->asset_manager->localize_script( 'ai-content-planner', 'wpseoContentPlanner', $this->get_script_data() );
+		// The content planner is bundled in and initialized by the block editor script, so the data is attached to it.
+		$this->asset_manager->localize_script( 'block-editor', 'wpseoContentPlanner', $this->get_script_data() );
 	}
 
 	/**
