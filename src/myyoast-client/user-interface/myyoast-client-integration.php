@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\MyYoast_Client\User_Interface;
 
 use Exception;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
@@ -43,7 +42,7 @@ class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareIn
 	 * @return array<string> The array of conditionals.
 	 */
 	public static function get_conditionals() {
-		return [ MyYoast_Connection_Conditional::class ];
+		return [];
 	}
 
 	/**

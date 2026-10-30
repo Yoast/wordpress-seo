@@ -22,10 +22,6 @@ namespace Yoast\WP\SEO\Conditionals;
  * The hash input deliberately includes the feature name, so a site that buckets low for one
  * feature is not automatically early for every feature - there are no permanently "lucky" sites
  * that always receive new features first.
- *
- * This machinery is temporary by design: once a feature reaches a 100% share with no
- * regressions, the concrete conditional reverts to extending {@see Feature_Flag_Conditional}
- * directly and this class can be removed.
  */
 abstract class Gradual_Rollout_Conditional extends Feature_Flag_Conditional {
 

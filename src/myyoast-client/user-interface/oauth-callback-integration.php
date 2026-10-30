@@ -4,7 +4,6 @@
 
 namespace Yoast\WP\SEO\MyYoast_Client\User_Interface;
 
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -74,7 +73,7 @@ class OAuth_Callback_Integration implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ MyYoast_Connection_Conditional::class ];
+		return [];
 	}
 
 	/**
