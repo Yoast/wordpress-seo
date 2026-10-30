@@ -259,6 +259,35 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 Example: 6/15*100 = 0.4
 
+### 12) Keyphrase stuffing in alt text
+**What it does**: Checks whether the alt text of the assessed images uses the topic phrase (the keyphrase or its synonyms) too often. By default, it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
+
+**Uses synonyms**: yes. The keyphrase and synonym matches in one alt text are added up, so the keyphrase once plus a synonym once counts as 2. Words that one topic phrase matched are not matched again by the next one.
+
+**What is counted as a keyphrase match**: all (content) words of the keyphrase or of a synonym, within one sentence of the alt text. With exact matching (keyphrase in double quotes), the exact phrase.
+
+**When it applies**: Only when a keyphrase is set and at least one assessed image overuses it. Using the keyphrase once does not prove that the alt text is good: it can still read unnaturally, which we cannot judge without the context. A missing keyphrase is not good either. So there is no green traffic light: when nothing is flagged the assessment returns a result without a score and without a text, which `Assessor.isValidResult` drops, and the assessment is not shown at all. Red criteria are checked first.
+
+**Name in code**: KeyphraseStuffingInAltTextAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `overusedCount`, `twiceCount` and `exactMatchRequested`, and must
+return all four of `moreThanTwice`, `multipleTimes`, `twice` and `twiceOrMore`. The returned object is used as is, so an
+omitted key renders as an empty result text rather than falling back to the default.
+
+**Title URL**: https://yoa.st/alt-text-keyphrase-stuffing (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/alt-text-keyphrase-stuffing-cta (link placement is in bold in the feedback strings)
+
+X is the number of images, not the number of keyphrase occurrences.
+
+| Traffic light | Score | Criterion                                                                         | Feedback                                                                                                                                                       |
+|---------------|-------|-----------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red           | 3     | Images with more than 2 occurrences and images with exactly 2 on the same page    | **Keyphrase stuffing in alt text**: X of your images have alt text that uses the keyphrase or its synonym twice or more. **Do not overuse the keyphrase!**      |
+| Red           | 3     | X images with more than 2 occurrences                                             | **Keyphrase stuffing in alt text**: X of your images have alt text that uses the keyphrase or its synonym more than twice. **Do not overuse the keyphrase!**    |
+| Red           | 3     | X images with more than 1 occurrence, and exact matching is requested             | **Keyphrase stuffing in alt text**: X of your images have alt text that uses the keyphrase or its synonym multiple times. **Do not overuse the keyphrase!**     |
+| Orange        | 6     | X images with exactly 2 occurrences                                               | **Keyphrase stuffing in alt text**: X of your images have alt text that uses the keyphrase or its synonym twice. **Do not overuse the keyphrase!**               |
+
 
 ## Other SEO assessments scoring criteria
 ### 1) Text length

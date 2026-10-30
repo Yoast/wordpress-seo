@@ -21,11 +21,15 @@ const changingIconButtonDefaults = {
 /**
  * Returns the ChangingIconButton component.
  *
+ * @deprecated Use the Button component from @yoast/ui-library instead.
+ *
  * @param {Object} componentProps Component props.
  *
  * @returns {ReactElement} ChangingIconButton component.
  */
 const ChangingIconButton = function( componentProps ) {
+	console.warn( "The IconButtonToggle component has been deprecated and will be removed in a future release. Use the Button component from @yoast/ui-library instead." );
+
 	/*
 	 * React 19's automatic JSX runtime no longer applies defaultProps to function components, which
 	 * would drop these colours to undefined and render the button unstyled. Merging the defaults here

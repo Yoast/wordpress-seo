@@ -14,6 +14,7 @@ import AltTextLength from "../assessments/seo/AltTextLengthAssessment";
 import DuplicateAltText from "../assessments/seo/DuplicateAltTextAssessment";
 import RedundantPhraseInAltText from "../assessments/seo/RedundantPhraseInAltTextAssessment";
 import NonDescriptiveAltText from "../assessments/seo/NonDescriptiveAltTextAssessment";
+import KeyphraseStuffingInAltText from "../assessments/seo/KeyphraseStuffingInAltTextAssessment";
 import TextLength from "../assessments/seo/TextLengthAssessment";
 import OutboundLinks from "../assessments/seo/OutboundLinksAssessment";
 import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
@@ -47,6 +48,7 @@ export default class SEOAssessor extends Assessor {
 			new DuplicateAltText(),
 			new RedundantPhraseInAltText(),
 			new NonDescriptiveAltText(),
+			new KeyphraseStuffingInAltText(),
 			new TextLength(),
 			new OutboundLinks(),
 			new KeyphraseInSEOTitleAssessment(),
