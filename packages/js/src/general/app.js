@@ -14,7 +14,8 @@ import { BulkEditorTourNotification, Notices } from "./components";
 import { STORE_NAME } from "./constants";
 import { deleteMigratingNotices } from "../helpers/migrateNotices";
 import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
-import { MenuItemLink, YoastLogo } from "../shared-admin/components";
+import { YoastLogo } from "../shared-admin/components";
+import { MenuItemLink } from "../shared-admin/components/menu-item-link";
 import { ROUTES } from "./routes";
 
 /**
