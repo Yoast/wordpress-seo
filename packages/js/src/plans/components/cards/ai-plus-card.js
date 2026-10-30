@@ -20,7 +20,7 @@ const AiPlusCardBadge = ( { isBlackFridayPromotionActive, text } ) => {
 	if ( isBlackFridayPromotionActive ) {
 		return (
 			<div className="yst-absolute yst-top-0 yst--translate-y-1/2 yst-w-full yst-text-center">
-				<Badge size="small" className="yst-border yst-bg-black yst-text-amber-300 yst-border-amber-300">
+				<Badge size="small" className="yst-border yst-bg-black yst-text-amber-300 yst-border-amber-300 yst-border-solid">
 					{ __( "30% off - Black Friday", "wordpress-seo" ) }
 				</Badge>
 			</div>
@@ -33,7 +33,7 @@ const AiPlusCardBadge = ( { isBlackFridayPromotionActive, text } ) => {
 
 	return (
 		<div className="yst-absolute yst-top-0 yst--translate-y-1/2 yst-w-full yst-text-center">
-			<Badge size="small" className="yst-border" variant="info">
+			<Badge size="small" className="yst-border yst-border-solid" variant="info">
 				{ text }
 			</Badge>
 		</div>
@@ -105,7 +105,7 @@ const BaseAiPlusCard = ( {
 				<Card.Content className="yst-flex yst-flex-col">
 					<Title as="h2">{ title }</Title>
 					<p className="yst-mt-3">{ description }</p>
-					<hr className="yst-my-6 yst-border-t yst-border-slate-200" />
+					<hr className="yst-my-6 yst-border-t yst-border-slate-200 yst-border-solid" />
 					{ listDescription && <p className="yst-mb-3">{ listDescription }</p> }
 					<div className="yst-flex yst-flex-col yst-gap-y-2" role="list">
 						{ list.map( ( item, index ) => (
@@ -121,7 +121,7 @@ const BaseAiPlusCard = ( {
 						<>
 							<span className="yst-block yst-font-medium yst-leading-none">{ __( "Now includes:", "wordpress-seo" ) }</span>
 							<span className="yst-text-xxs yst-text-slate-500">{ includes }</span>
-							<hr className="yst-mt-4 yst-mb-6 yst-border-t yst-border-slate-200" />
+							<hr className="yst-mt-4 yst-mb-6 yst-border-t yst-border-slate-200 yst-border-solid" />
 						</>
 					) }
 					<AiPlusCardActions learnMoreLink={ learnMoreLink } buyLink={ buyLink } buyLabel={ buyLabel } />

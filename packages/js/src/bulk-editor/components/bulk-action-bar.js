@@ -220,7 +220,7 @@ const BulkActionsNotices = ( {
 const BulkActionsBand = ( {
 	isActive, selectedIds, activeFieldSet, contentType, hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll,
 } ) => (
-	<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
+	<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3 yst-border-solid">
 		<div className="yst-flex yst-items-center yst-gap-3" data-tour-id="generate-actions">
 			<FreeBulkActions contentType={ contentType } />
 			{ isActive && (

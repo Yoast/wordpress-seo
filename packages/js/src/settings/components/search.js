@@ -59,7 +59,7 @@ SearchResultLabel.propTypes = {
  * @returns {JSX.Element} The SearchNoResultsContent component.
  */
 const SearchNoResultsContent = ( { title, children } ) => (
-	<div className="yst-border-t yst-border-slate-100 yst-p-6 yst-py-12 yst-space-3 yst-text-center yst-text-sm">
+	<div className="yst-border-t yst-border-slate-100 yst-p-6 yst-py-12 yst-space-3 yst-text-center yst-text-sm yst-border-solid">
 		<span className="yst-block yst-font-semibold yst-text-slate-900">{ title }</span>
 		{ children }
 	</div>
@@ -211,7 +211,7 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 		<button
 			id={ buttonId }
 			type="button"
-			className="yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
+			className="yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500 yst-border-solid"
 			onClick={ setOpen }
 		>
 			<SearchIcon

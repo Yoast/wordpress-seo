@@ -63,7 +63,7 @@ const fetchJson = async( options ) => {
  * @returns {JSX.Element} The top footer wrapper.
  */
 const ContentWithBottomDivider = ( { children, className = "" } ) => {
-	return <span className={ classNames( "yst-pb-4 yst-border-b yst-mb-6 yst-border-slate-200 yst--mt-2", className ) }>
+	return <span className={ classNames( "yst-pb-4 yst-border-b yst-mb-6 yst-border-slate-200 yst--mt-2 yst-border-solid", className ) }>
 		{ children }
 	</span>;
 };

@@ -12,7 +12,7 @@ export const Collapsible = ( { label, children } ) => {
 	return (
 		<Disclosure>
 			{ ( { open } ) => (
-				<div className="yst-shadow-sm yst-border-slate-300 yst-rounded-md yst-border">
+				<div className="yst-shadow-sm yst-border-slate-300 yst-rounded-md yst-border yst-border-solid">
 					<Disclosure.Button className="yst-w-full yst-flex yst-justify-between yst-py-4 yst-pe-4 yst-ps-6 yst-items-center">
 						<div className="yst-font-medium">{ label }</div>
 						<ChevronDownIcon

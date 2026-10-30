@@ -22,11 +22,11 @@ export const SuggestionButton = ( { suggestion, onClick } ) => {
 		<button
 			type="button"
 			onClick={ handleClick }
-			className="hover:yst-bg-slate-50 yst-group yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500"
+			className="hover:yst-bg-slate-50 yst-group yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500 yst-border-solid"
 		>
 			<IntentBadge intent={ intent } className="yst-mb-2" cursor="pointer" />
 			<div className="yst-font-medium yst-text-sm yst-mb-2 yst-text-slate-800 group-hover:yst-text-slate-900">
-				<span className="group-hover:yst-border-b group-hover:yst-border-slate-900">{ title }</span>
+				<span className="group-hover:yst-border-b group-hover:yst-border-slate-900 yst-border-solid">{ title }</span>
 			</div>
 			<p className="yst-text-slate-600">{ explanation }</p>
 		</button>
@@ -39,8 +39,8 @@ export const SuggestionButton = ( { suggestion, onClick } ) => {
  * @returns {JSX.Element} The LoadingSuggestionButton component.
  */
 export const LoadingSuggestionButton = () => (
-	<div className="yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm">
-		<div className="yst-px-2 yst-py-1 yst-bg-white yst-inline-flex yst-gap-1 yst-items-center yst-justify-start yst-mb-2 yst-rounded-3xl yst-border yst-border-slate-300">
+	<div className="yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm yst-border-solid">
+		<div className="yst-px-2 yst-py-1 yst-bg-white yst-inline-flex yst-gap-1 yst-items-center yst-justify-start yst-mb-2 yst-rounded-3xl yst-border yst-border-slate-300 yst-border-solid">
 			<SkeletonLoader className="yst-w-2 yst-h-2 yst-rounded-full" />
 			<SkeletonLoader className="yst-w-20 yst-h-3 yst-rounded" />
 		</div>

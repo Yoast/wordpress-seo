@@ -66,7 +66,7 @@ export const SearchBox = ( { contentTypeLabel } ) => {
 			<label htmlFor={ SEARCH_ID } className="yst-sr-only">
 				{ label }
 			</label>
-			<div className="yst-flex yst-h-10 yst-items-stretch yst-rounded-md yst-border yst-border-slate-300 yst-bg-white yst-shadow-sm focus-within:yst-border-primary-500 focus-within:yst-ring-1 focus-within:yst-ring-primary-500">
+			<div className="yst-flex yst-h-10 yst-items-stretch yst-rounded-md yst-border yst-border-slate-300 yst-bg-white yst-shadow-sm focus-within:yst-border-primary-500 focus-within:yst-ring-1 focus-within:yst-ring-primary-500 yst-border-solid">
 				<div className="yst-relative yst-flex-1">
 					<SearchIcon
 						className="yst-pointer-events-none yst-absolute yst-top-1/2 yst--translate-y-1/2 yst-start-3 yst-h-5 yst-w-5 yst-text-slate-400"
@@ -84,7 +84,7 @@ export const SearchBox = ( { contentTypeLabel } ) => {
 				<Button
 					type="submit"
 					variant="tertiary"
-					className="yst-flex-none yst-rounded-none yst-border-s yst-border-slate-300 yst-px-4 yst-text-slate-700 hover:yst-text-slate-900 focus-visible:yst-outline-none focus-visible:yst-ring-2 focus-visible:yst-ring-inset focus-visible:yst-ring-primary-500"
+					className="yst-flex-none yst-rounded-none yst-border-s yst-border-slate-300 yst-px-4 yst-text-slate-700 hover:yst-text-slate-900 focus-visible:yst-outline-none focus-visible:yst-ring-2 focus-visible:yst-ring-inset focus-visible:yst-ring-primary-500 yst-border-solid"
 				>
 					{ __( "Search", "wordpress-seo" ) }
 				</Button>
