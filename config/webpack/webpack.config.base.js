@@ -17,6 +17,19 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 				"@emotion/react": dirname( require.resolve( "@emotion/react/package.json" ) ),
 			},
 		},
+		module: {
+			...defaultConfig.module,
+			rules: [
+				...defaultConfig.module.rules,
+				{
+					// `packages/js` declares no `sideEffects`, so importing these folders' barrel files evaluated every
+					// re-exported module (AI error components, the inlined Site Kit SVG) in every bundle that used one export.
+					// Any future top-level side effect in these folders (store registration, filters, bare CSS imports) is dropped when unused.
+					test: /packages[\\/]js[\\/]src[\\/](shared-admin|ai-generator)[\\/].*\.(js|svg)$/,
+					sideEffects: false,
+				},
+			],
+		},
 		optimization: {
 			...defaultConfig.optimization,
 			usedExports: process.env.NODE_ENV === "production",
