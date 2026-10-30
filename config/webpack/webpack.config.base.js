@@ -15,6 +15,8 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 			alias: {
 				...defaultConfig.resolve?.alias,
 				"@emotion/react": dirname( require.resolve( "@emotion/react/package.json" ) ),
+				// `draft-js-single-line-plugin` otherwise bundles its own nested copy of `immutable` next to the one the other Draft.js plugins use.
+				immutable: dirname( require.resolve( "immutable/package.json" ) ),
 			},
 		},
 		optimization: {
