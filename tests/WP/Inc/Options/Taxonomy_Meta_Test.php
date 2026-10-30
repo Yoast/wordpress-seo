@@ -99,6 +99,99 @@ final class Taxonomy_Meta_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the taxonomy meta option is autoloaded by default.
+	 *
+	 * @covers WPSEO_Taxonomy_Meta::set_values
+	 *
+	 * @return void
+	 */
+	public function test_save_tax_meta_autoloads_by_default() {
+		$term = self::factory()->term->create_and_get( [ 'taxonomy' => 'category' ] );
+
+		WPSEO_Taxonomy_Meta::set_values(
+			$term->term_id,
+			'category',
+			[ 'wpseo_title' => 'Test title' ],
+		);
+
+		$this->assertSame( 'on', $this->get_autoload_value( 'wpseo_taxonomy_meta' ) );
+	}
+
+	/**
+	 * Tests that the taxonomy meta option autoload can be disabled via filter.
+	 *
+	 * @covers WPSEO_Taxonomy_Meta::set_values
+	 *
+	 * @return void
+	 */
+	public function test_save_tax_meta_respects_autoload_filter() {
+		\add_filter( 'Yoast\WP\SEO\taxonomy_meta_option_autoload', '__return_false' );
+
+		$term = self::factory()->term->create_and_get( [ 'taxonomy' => 'category' ] );
+
+		WPSEO_Taxonomy_Meta::set_values(
+			$term->term_id,
+			'category',
+			[ 'wpseo_title' => 'Test title' ],
+		);
+
+		$this->assertSame( 'off', $this->get_autoload_value( 'wpseo_taxonomy_meta' ) );
+
+		\remove_filter( 'Yoast\WP\SEO\taxonomy_meta_option_autoload', '__return_false' );
+	}
+
+	/**
+	 * Tests that removing the filter restores autoload to on.
+	 *
+	 * @covers WPSEO_Taxonomy_Meta::set_values
+	 *
+	 * @return void
+	 */
+	public function test_save_tax_meta_restores_autoload_when_filter_removed() {
+		// First, disable autoload via filter.
+		\add_filter( 'Yoast\WP\SEO\taxonomy_meta_option_autoload', '__return_false' );
+
+		$term = self::factory()->term->create_and_get( [ 'taxonomy' => 'category' ] );
+
+		WPSEO_Taxonomy_Meta::set_values(
+			$term->term_id,
+			'category',
+			[ 'wpseo_title' => 'Test title' ],
+		);
+
+		$this->assertSame( 'off', $this->get_autoload_value( 'wpseo_taxonomy_meta' ) );
+
+		// Remove the filter and save again.
+		\remove_filter( 'Yoast\WP\SEO\taxonomy_meta_option_autoload', '__return_false' );
+
+		WPSEO_Taxonomy_Meta::set_values(
+			$term->term_id,
+			'category',
+			[ 'wpseo_title' => 'Updated title' ],
+		);
+
+		$this->assertSame( 'on', $this->get_autoload_value( 'wpseo_taxonomy_meta' ) );
+	}
+
+	/**
+	 * Gets the autoload value for an option directly from the database.
+	 *
+	 * @param string $option_name The option name.
+	 *
+	 * @return string The autoload value ('on' or 'off').
+	 */
+	private function get_autoload_value( $option_name ) {
+		global $wpdb;
+
+		return $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT autoload FROM {$wpdb->options} WHERE option_name = %s",
+				$option_name,
+			),
+		);
+	}
+
+	/**
 	 * Tests if data gets validated as expected.
 	 *
 	 * @covers WPSEO_Taxonomy_Meta::validate_term_meta_data
