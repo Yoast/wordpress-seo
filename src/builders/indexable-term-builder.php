@@ -128,8 +128,8 @@ class Indexable_Term_Builder {
 		$indexable->is_robots_nosnippet    = null;
 
 		$timestamps                      = $this->get_object_timestamps( $term_id, $term->taxonomy );
-		$indexable->object_published_at  = $timestamps->published_at;
-		$indexable->object_last_modified = $timestamps->last_modified;
+		$indexable->object_published_at  = ( $timestamps->published_at ?? null );
+		$indexable->object_last_modified = ( $timestamps->last_modified ?? null );
 
 		$indexable->version = $this->version;
 
@@ -242,7 +242,8 @@ class Indexable_Term_Builder {
 	 * @param int    $term_id  The term ID.
 	 * @param string $taxonomy The taxonomy.
 	 *
-	 * @return object An object with last_modified and published_at timestamps.
+	 * @return object|null An object with last_modified and published_at timestamps, or null
+	 *                     when the query fails or returns no row.
 	 */
 	protected function get_object_timestamps( $term_id, $taxonomy ) {
 		global $wpdb;
