@@ -11,6 +11,16 @@ namespace Yoast\WP\SEO\Conditionals;
 class MyYoast_Connection_Conditional extends Feature_Flag_Conditional {
 
 	/**
+	 * Constructs the deprecated conditional.
+	 *
+	 * @deprecated 29.0
+	 * @codeCoverageIgnore
+	 */
+	public function __construct() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 29.0' );
+	}
+
+	/**
 	 * Returns `true`: the MyYoast connection is available on every site.
 	 *
 	 * @deprecated 29.0
