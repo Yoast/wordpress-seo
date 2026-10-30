@@ -217,9 +217,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				/**
 				 * Filter URL entry before it gets added to the sitemap.
 				 *
-				 * @param array  $url  Array of URL parts.
-				 * @param string $type URL type.
-				 * @param object $post Data object for the URL.
+				 * @param array  $url  Array of URL entry data, e.g. `loc`, `mod`, `chf` and `pri`.
+				 * @param string $type The object type: `post`, `user` or `term`.
+				 * @param object $post The object the entry is for: a WP_Post, WP_User or WP_Term.
 				 */
 				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $post );
 
