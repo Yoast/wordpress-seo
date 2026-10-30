@@ -66,19 +66,7 @@
 		margin-bottom: 0;
 	}
 
-	input[type=date]:where([class^="yst-"], [class*=" yst-"]),
-	input[type=datetime-local]:where([class^="yst-"], [class*=" yst-"]),
-	input[type=datetime]:where([class^="yst-"], [class*=" yst-"]),
-	input[type=email]:where([class^="yst-"], [class*=" yst-"]),
-	input[type=month]:where([class^="yst-"], [class*=" yst-"]),
-	input[type=number]:where([class^="yst-"], [class*=" yst-"]),
-	input[type=password]:where([class^="yst-"], [class*=" yst-"]),
-	input[type=search]:where([class^="yst-"], [class*=" yst-"]),
-	input[type=tel]:where([class^="yst-"], [class*=" yst-"]),
-	input[type=text]:where([class^="yst-"], [class*=" yst-"]),
-	input[type=time]:where([class^="yst-"], [class*=" yst-"]),
-	input[type=url]:where([class^="yst-"], [class*=" yst-"]),
-	input[type=week]:where([class^="yst-"], [class*=" yst-"]) {
+	input:is([type=date], [type=datetime-local], [type=datetime], [type=email], [type=month], [type=number], [type=password], [type=search], [type=tel], [type=text], [type=time], [type=url], [type=week]):where([class^="yst-"], [class*=" yst-"]) {
 		@apply yst-min-h-0;
 	}
 
