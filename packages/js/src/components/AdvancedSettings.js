@@ -2,7 +2,7 @@
 /* global wpseoAdminL10n */
 import { Fragment, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/components";
+import { Alert, MultiSelect, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { LocationConsumer } from "@yoast/externals/contexts";
 import { join } from "@yoast/helpers";
 import { noop } from "lodash";
@@ -78,6 +78,9 @@ const MetaRobotsNoIndex = ( {
 
 	return <LocationConsumer>
 		{ location => {
+			const id = join( [ "yoast-meta-robots-noindex", location ] );
+			const inputId = `${ id }-input`;
+
 			return <Fragment>
 				{
 					isPrivateBlog &&
@@ -88,10 +91,11 @@ const MetaRobotsNoIndex = ( {
 						) }
 					</Alert>
 				}
-				<Select
+				<SingleSelect
 					label={ __( "Allow search engines to show this content in search results?", "wordpress-seo" ) }
 					onChange={ onNoIndexChange }
-					id={ join( [ "yoast-meta-robots-noindex", location ] ) }
+					id={ id }
+					inputId={ inputId }
 					options={ metaRobotsNoIndexOptions }
 					selected={ noIndex }
 					linkTo={ wpseoAdminL10n[ "shortlinks.advanced.allow_search_engines" ] }
