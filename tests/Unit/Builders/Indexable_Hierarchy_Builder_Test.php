@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Error;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -1067,6 +1068,85 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
+
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
+	}
+
+	/**
+	 * Tests building the hierarchy of a term when get_term() returns a WP_Error for the term itself.
+	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
+	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::get_term_parents
+	 *
+	 * @return void
+	 */
+	public function test_term_with_wp_error() {
+		$indexable = $this->get_indexable( 1, 'term' );
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn( new WP_Error( 'invalid_taxonomy', 'Invalid taxonomy.' ) );
+
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
+		$this->indexable_repository->expects( 'find_by_id_and_type' )->never();
+		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
+
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
+	}
+
+	/**
+	 * Tests building the hierarchy of a term when get_term() returns a WP_Error for a parent term.
+	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
+	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 *
+	 * @return void
+	 */
+	public function test_term_with_wp_error_parent() {
+		$indexable        = $this->get_indexable( 1, 'term' );
+		$parent_indexable = $this->get_indexable( 2, 'term' );
+		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'term_id'  => 1,
+					'taxonomy' => 'tag',
+					'parent'   => 2,
+				],
+			);
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 2, 'tag' )
+			->andReturn(
+				(object) [
+					'term_id'  => 2,
+					'taxonomy' => 'tag',
+					'parent'   => 3,
+				],
+			);
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 3, 'tag' )
+			->andReturn( new WP_Error( 'invalid_term', 'Empty Term.' ) );
+
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
+		$this->indexable_repository->expects( 'find_by_id_and_type' )->once()->with( 2, 'term' )->andReturn( $parent_indexable );
+		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
 
 		$actual = $this->instance->build( $indexable );
 		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
