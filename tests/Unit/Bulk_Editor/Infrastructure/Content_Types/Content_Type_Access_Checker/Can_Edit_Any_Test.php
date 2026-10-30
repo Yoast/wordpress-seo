@@ -126,51 +126,57 @@ final class Can_Edit_Any_Test extends Abstract_Test {
 	}
 
 	/**
-	 * Tests that the singular capability is used when meta-cap mapping is disabled.
+	 * Tests that the plural primitive capability is used when meta-cap mapping is disabled,
+	 * instead of the singular meta capability, which would require a post ID.
+	 *
+	 * Mirrors post types like the bbPress/BuddyBoss forum, topic and reply types.
 	 *
 	 * @return void
 	 */
-	public function test_can_edit_any_uses_singular_capability_when_mapping_disabled() {
+	public function test_can_edit_any_uses_plural_capability_when_mapping_disabled() {
 		Functions\expect( 'get_post_type_object' )
 			->once()
-			->with( 'book' )
+			->with( 'forum' )
 			->andReturn(
 				(object) [
 					'map_meta_cap' => false,
-					'cap'          => (object) [ 'edit_post' => 'edit_book' ],
+					'cap'          => (object) [
+						'edit_post'  => 'edit_forum',
+						'edit_posts' => 'edit_forums',
+					],
 				],
 			);
 
 		Functions\expect( 'current_user_can' )
 			->once()
-			->with( 'edit_book' )
+			->with( 'edit_forums' )
 			->andReturnTrue();
 
-		$this->assertTrue( $this->instance->can_edit_any( 'book' ) );
+		$this->assertTrue( $this->instance->can_edit_any( 'forum' ) );
 	}
 
 	/**
-	 * Tests that the type is not editable when mapping is disabled and the singular capability is missing.
+	 * Tests that the type is not editable when mapping is disabled and the plural capability is missing.
 	 *
 	 * @return void
 	 */
-	public function test_can_edit_any_without_singular_capability_when_mapping_disabled() {
+	public function test_can_edit_any_without_plural_capability_when_mapping_disabled() {
 		Functions\expect( 'get_post_type_object' )
 			->once()
-			->with( 'book' )
+			->with( 'forum' )
 			->andReturn(
 				(object) [
 					'map_meta_cap' => false,
-					'cap'          => (object) [ 'edit_post' => 'edit_book' ],
+					'cap'          => (object) [ 'edit_posts' => 'edit_forums' ],
 				],
 			);
 
 		Functions\expect( 'current_user_can' )
 			->once()
-			->with( 'edit_book' )
+			->with( 'edit_forums' )
 			->andReturnFalse();
 
-		$this->assertFalse( $this->instance->can_edit_any( 'book' ) );
+		$this->assertFalse( $this->instance->can_edit_any( 'forum' ) );
 	}
 
 	/**
