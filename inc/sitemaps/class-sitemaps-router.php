@@ -39,6 +39,7 @@ class WPSEO_Sitemaps_Router {
 		$dynamic_rewrites->add_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 		$dynamic_rewrites->add_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
 		$dynamic_rewrites->add_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?yoast-sitemap-xsl=$matches[1]', 'top' );
+		$dynamic_rewrites->add_rule( 'main-sitemap\.css$', 'index.php?yoast-sitemap-css=1', 'top' );
 	}
 
 	/**
@@ -52,6 +53,7 @@ class WPSEO_Sitemaps_Router {
 		$query_vars[] = 'sitemap';
 		$query_vars[] = 'sitemap_n';
 		$query_vars[] = 'yoast-sitemap-xsl';
+		$query_vars[] = 'yoast-sitemap-css';
 
 		return $query_vars;
 	}
@@ -65,7 +67,7 @@ class WPSEO_Sitemaps_Router {
 	 */
 	public function redirect_canonical( $redirect ) {
 
-		if ( get_query_var( 'sitemap' ) || get_query_var( 'yoast-sitemap-xsl' ) ) {
+		if ( get_query_var( 'sitemap' ) || get_query_var( 'yoast-sitemap-xsl' ) || get_query_var( 'yoast-sitemap-css' ) ) {
 			return false;
 		}
 

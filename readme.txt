@@ -309,12 +309,18 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 28.9 =
 
-Release date: 2026-11-10
+Release date: 2026-11-17
 
 #### Enhancements
 
+* Introduces two new Yoast abilities that let agents get and set SEO settings for archives, special pages and non-static homepages.
 * Introduces a new Yoast ability that lets agents update author Schema data.
 * Introduces two new Yoast abilities that let agents get and set SEO data for specific terms.
+* Replaces the XSLT stylesheet of the XML sitemaps with a CSS one, so they keep rendering as a readable table after browsers drop XSLT support.
+
+#### Bugfixes
+
+* Fixes a bug where the abilities to read and write the SEO data of posts could not find a static homepage by its URL.
 
 = 28.8 =
 
