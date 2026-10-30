@@ -7,6 +7,7 @@ use Brain\Monkey;
 use Mockery;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_Identifier_Resolver;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -26,6 +27,13 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
 	private $indexable_repository;
+
+	/**
+	 * The current page helper mock.
+	 *
+	 * @var Mockery\MockInterface|Current_Page_Helper
+	 */
+	private $current_page_helper;
 
 	/**
 	 * The instance under test.
@@ -53,9 +61,11 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 		);
 
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
+		$this->current_page_helper  = Mockery::mock( Current_Page_Helper::class );
 
 		$this->instance = new Post_Identifier_Resolver(
 			$this->indexable_repository,
+			$this->current_page_helper,
 		);
 	}
 
@@ -168,6 +178,110 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 		$this->assertInstanceOf(
 			WP_Error::class,
 			$this->instance->resolve_one( [ 'permalink' => 'https://example.com/category/news/' ] ),
+		);
+	}
+
+	/**
+	 * Tests resolve_one by permalink resolves the static front page when the home-page indexable matches its URL.
+	 *
+	 * @covers ::resolve_one
+	 * @covers ::by_permalink
+	 *
+	 * @return void
+	 */
+	public function test_resolve_one_by_permalink_static_front_page() {
+		$home_page              = Mockery::mock();
+		$home_page->object_type = 'home-page';
+
+		$front_page              = Mockery::mock();
+		$front_page->object_type = 'post';
+
+		$this->indexable_repository
+			->expects( 'find_by_permalink' )
+			->once()
+			->with( 'https://example.com/' )
+			->andReturn( $home_page );
+
+		$this->current_page_helper
+			->expects( 'get_front_page_id' )
+			->once()
+			->andReturn( 146 );
+
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 146, 'post', false )
+			->andReturn( $front_page );
+
+		$this->assertSame(
+			$front_page,
+			$this->instance->resolve_one( [ 'permalink' => 'https://example.com/' ] ),
+		);
+	}
+
+	/**
+	 * Tests resolve_one by permalink rejects the home-page indexable when the front page shows the latest posts.
+	 *
+	 * @covers ::resolve_one
+	 * @covers ::by_permalink
+	 *
+	 * @return void
+	 */
+	public function test_resolve_one_by_permalink_home_page_without_static_front_page() {
+		$home_page              = Mockery::mock();
+		$home_page->object_type = 'home-page';
+
+		$this->indexable_repository
+			->expects( 'find_by_permalink' )
+			->once()
+			->with( 'https://example.com/' )
+			->andReturn( $home_page );
+
+		$this->current_page_helper
+			->expects( 'get_front_page_id' )
+			->once()
+			->andReturn( 0 );
+
+		$this->indexable_repository->expects( 'find_by_id_and_type' )->never();
+
+		$this->assertInstanceOf(
+			WP_Error::class,
+			$this->instance->resolve_one( [ 'permalink' => 'https://example.com/' ] ),
+		);
+	}
+
+	/**
+	 * Tests resolve_one by permalink returns an error when the static front page has no indexable.
+	 *
+	 * @covers ::resolve_one
+	 * @covers ::by_permalink
+	 *
+	 * @return void
+	 */
+	public function test_resolve_one_by_permalink_static_front_page_not_found() {
+		$home_page              = Mockery::mock();
+		$home_page->object_type = 'home-page';
+
+		$this->indexable_repository
+			->expects( 'find_by_permalink' )
+			->once()
+			->with( 'https://example.com/' )
+			->andReturn( $home_page );
+
+		$this->current_page_helper
+			->expects( 'get_front_page_id' )
+			->once()
+			->andReturn( 146 );
+
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 146, 'post', false )
+			->andReturn( false );
+
+		$this->assertInstanceOf(
+			WP_Error::class,
+			$this->instance->resolve_one( [ 'permalink' => 'https://example.com/' ] ),
 		);
 	}
 
