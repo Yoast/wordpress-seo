@@ -1,8 +1,9 @@
 import ArrowNarrowRightIcon from "@heroicons/react/solid/ArrowNarrowRightIcon";
-import { createInterpolateElement, useCallback, useEffect, useRef } from "@wordpress/element";
+import { useCallback, useEffect, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Popover, useSvgAria } from "@yoast/ui-library";
 import { ReactComponent as YoastIcon } from "../../../../images/Yoast_icon_kader.svg";
+import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 
 /**
  * Keeps Tab focus within a container.
@@ -116,7 +117,7 @@ export const TourCard = ( {
 			<div className="yst-flex yst-gap-3 yst-justify-between yst-items-center yst-mt-3">
 				<span className="yst-ms-8 yst-text-slate-500">
 					<span dir="ltr">
-						{ createInterpolateElement(
+						{ safeCreateInterpolateElement(
 							sprintf(
 								/* translators: %1$s is the current step number, %2$s is the total number of steps. */
 								__( "<current>%1$s</current> / %2$s", "wordpress-seo" ),

@@ -28,7 +28,7 @@
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
     "publish:storybook": "./scripts/publish-storybook.sh",
-    "test": "jest tests/react-render-smoke.test.js",
+    "test": "jest",
     "test:storyshots": "yarn build:storybook --test --quiet && jest tests/storyshots.js",
     "t_st": "yarn test:storyshots",
     "lint": "eslint . --max-warnings=2"

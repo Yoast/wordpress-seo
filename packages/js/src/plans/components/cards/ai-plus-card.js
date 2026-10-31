@@ -9,13 +9,24 @@ import { CardLink } from "../actions/card-link";
 import { ReactComponent as AiPlusSvg } from "../../../../images/ai-plus-plans.svg";
 
 /**
- * Renders a badge at the top of the card when text is provided.
+ * Renders a badge at the top of the card.
  *
+ * @param {boolean} isBlackFridayPromotionActive Whether the Black Friday promotion is active.
  * @param {?string} text The badge text. If null, nothing is rendered.
  *
  * @returns {?JSX.Element} The badge element or null.
  */
-const AiPlusCardBadge = ( { text } ) => {
+const AiPlusCardBadge = ( { isBlackFridayPromotionActive, text } ) => {
+	if ( isBlackFridayPromotionActive ) {
+		return (
+			<div className="yst-absolute yst-top-0 yst--translate-y-1/2 yst-w-full yst-text-center">
+				<Badge size="small" className="yst-border yst-bg-black yst-text-amber-300 yst-border-amber-300">
+					{ __( "30% off - Black Friday", "wordpress-seo" ) }
+				</Badge>
+			</div>
+		);
+	}
+
 	if ( ! text ) {
 		return null;
 	}
@@ -69,6 +80,7 @@ const AiPlusCardActions = ( { learnMoreLink, buyLink, buyLabel } ) => {
  * @param {?string} badge An optional badge text to display at the top of the card.
  * @param {?string} buyLink An optional URL for the primary CTA button.
  * @param {?string} buyLabel An optional label for the primary CTA button.
+ * @param {boolean} isBlackFridayPromotionActive Whether the Black Friday promotion is active.
  *
  * @returns {JSX.Element} The element.
  */
@@ -82,6 +94,7 @@ const BaseAiPlusCard = ( {
 	badge = null,
 	buyLink = null,
 	buyLabel = null,
+	isBlackFridayPromotionActive,
 } ) => {
 	const svgAriaProps = useSvgAria();
 
@@ -114,7 +127,7 @@ const BaseAiPlusCard = ( {
 					<AiPlusCardActions learnMoreLink={ learnMoreLink } buyLink={ buyLink } buyLabel={ buyLabel } />
 				</Card.Footer>
 			</Card>
-			<AiPlusCardBadge text={ badge } />
+			<AiPlusCardBadge isBlackFridayPromotionActive={ isBlackFridayPromotionActive } text={ badge } />
 		</div>
 	);
 };
@@ -124,12 +137,13 @@ const BaseAiPlusCard = ( {
  * @returns {JSX.Element} The element.
  */
 export const AiPlusCard = () => {
-	const { isPremiumActive, learnMoreLink, freeTrialLink } = useSelect( ( select ) => {
+	const { isPremiumActive, learnMoreLink, freeTrialLink, isBlackFridayPromotionActive } = useSelect( ( select ) => {
 		const plansSelect = select( STORE_NAME );
 		return {
 			isPremiumActive: plansSelect.selectAddOnIsActive( ADD_ONS.premium ),
 			learnMoreLink: plansSelect.selectLink( "https://yoa.st/plans-ai-plus-learn-more" ),
 			freeTrialLink: plansSelect.selectLink( "https://yoa.st/aibi-plans-free-trial" ),
+			isBlackFridayPromotionActive: plansSelect.isPromotionActive( "black-friday-promotion" ),
 		};
 	}, [] );
 
@@ -158,6 +172,7 @@ export const AiPlusCard = () => {
 			badge={ isPremiumActive ? __( "Free trial available", "wordpress-seo" ) : null }
 			buyLink={ isPremiumActive ? freeTrialLink : null }
 			buyLabel={ isPremiumActive ? __( "Start your free trial", "wordpress-seo" ) : null }
+			isBlackFridayPromotionActive={ isBlackFridayPromotionActive }
 		/>
 	);
 };

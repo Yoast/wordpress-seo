@@ -1,8 +1,9 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { createInterpolateElement, useCallback } from "@wordpress/element";
+import { useCallback } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Table } from "@yoast/ui-library";
 import { PAGE_SIZE, STORE_NAME } from "../constants";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
  * The results footer: a "Showing X to Y of Z results" summary and the page navigation.
@@ -33,7 +34,7 @@ export const BulkEditorFooter = ( { colSpan, total, totalPages, isPending } ) =>
 	const from = ( page - 1 ) * PAGE_SIZE + 1;
 	const to = Math.min( page * PAGE_SIZE, total );
 
-	const summary = createInterpolateElement(
+	const summary = safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s is the first result number, %2$s the last result number, %3$s the total number of results. */
 			_n(

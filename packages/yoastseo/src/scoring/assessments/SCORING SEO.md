@@ -418,6 +418,9 @@ Example: 6/15*100 = 0.4
 
 **Name in code**: ImageCountAssessment
 
+**Feedback strings**: the strings below are the defaults. A platform can replace them by passing
+`callbacks.getResultTexts` in the assessment config; see [Images on product pages](SCORING%20SEO%20PRODUCT.md#2-images).
+
 **Title URL**: [https://yoa.st/4f4](https://yoast.com/using-images-in-your-blog-post/#utm_source=yoast-seo&utm_medium=software&utm_term=images-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
 **Call to action URL**: [https://yoa.st/4f5](https://yoast.com/using-images-in-your-blog-post/#utm_source=yoast-seo&utm_medium=software&utm_term=images-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
