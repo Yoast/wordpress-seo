@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
  * @param {boolean} [props.checked=undefined] Whether the toggle is checked.
  * @returns {JSX.Element} The Formik compatible element.
  */
-// eslint-disable-next-line no-undefined -- `undefined` is used to indicate that the `checked` prop is not set.
+
 const FormikFlippedToggleField = ( { name, checked = undefined, ...props } ) => {
 	const [ field, , { setTouched, setValue } ] = useField( { name, checked, ...props, type: "checkbox" } );
 

@@ -54,7 +54,7 @@ const migrateToStringFormat = ( attributes ) => {
 		questions: migratedQuestions,
 	};
 
-	// eslint-disable-next-line no-undefined
+
 	return pickBy( migratedAttributes, ( value ) => value !== undefined );
 };
 

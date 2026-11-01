@@ -174,7 +174,7 @@ class WincherDashboardWidget extends Component {
 
 		const { url } = await getAuthorizationUrl();
 
-		// eslint-disable-next-line no-undefined
+
 		if ( ! url || ( url === undefined ) ) {
 			this.onNetworkDisconnectionError();
 			return;

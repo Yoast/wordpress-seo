@@ -10,7 +10,7 @@ import { useSelectSettings } from "../hooks";
  * @returns {JSX.Element} The FieldsetLayout element.
  */
 const FieldsetLayout = ( {
-	// eslint-disable-next-line no-undefined
+
 	id = undefined,
 	children,
 	title,

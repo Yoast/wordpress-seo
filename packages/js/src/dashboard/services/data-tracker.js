@@ -40,7 +40,7 @@ export class DataTracker {
 		const trackingData = cloneDeep( this.#data );
 
 		let hasDataChanged = false;
-		/* eslint-disable no-undefined */
+
 		Object.entries( values ).forEach( ( [ key, value ] ) => {
 			if ( trackingData[ key ] !== undefined && trackingData[ key ] !== value ) {
 				trackingData[ key ] = value;
