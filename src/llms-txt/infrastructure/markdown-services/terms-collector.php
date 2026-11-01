@@ -36,10 +36,18 @@ class Terms_Collector {
 	public function get_terms_lists(): array {
 		$taxonomies = $this->taxonomy_helper->get_indexable_taxonomy_objects();
 		$link_list  = [];
+		$tax_meta   = \get_option( 'wpseo_taxonomy_meta' );
 
 		foreach ( $taxonomies as $taxonomy ) {
 			if ( $this->taxonomy_helper->is_indexable( $taxonomy->name ) === false ) {
 				continue;
+			}
+
+			$excluded_term_ids = [];
+			foreach ( ( $tax_meta[ $taxonomy->name ] ?? [] ) as $term_id => $term_meta ) {
+				if ( ( $term_meta['wpseo_noindex'] ?? null ) === 'noindex' ) {
+					$excluded_term_ids[] = (int) $term_id;
+				}
 			}
 
 			$terms = \get_categories(
@@ -48,6 +56,7 @@ class Terms_Collector {
 					'number'   => 5,
 					'orderby'  => 'count',
 					'order'    => 'DESC',
+					'exclude'  => $excluded_term_ids,
 				],
 			);
 
