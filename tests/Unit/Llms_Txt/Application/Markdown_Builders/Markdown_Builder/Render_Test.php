@@ -53,6 +53,8 @@ final class Render_Test extends Abstract_Test {
 			->once()
 			->andReturn( $optional_built_link_list );
 
+		$this->llms_txt_renderer->shouldReceive( 'reset' )->once();
+
 		$this->llms_txt_renderer->shouldReceive( 'add_section' )->once()->with( $built_intro );
 		$this->llms_txt_renderer->shouldReceive( 'add_section' )->once()->with( $built_title );
 		$this->llms_txt_renderer->shouldReceive( 'add_section' )->once()->with( $built_description );

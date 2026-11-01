@@ -15,7 +15,16 @@ class Llms_Txt_Renderer {
 	 *
 	 * @var Section_Interface[]
 	 */
-	private $sections;
+	private $sections = [];
+
+	/**
+	 * Removes all the sections, so a new render starts from a clean slate.
+	 *
+	 * @return void
+	 */
+	public function reset(): void {
+		$this->sections = [];
+	}
 
 	/**
 	 * Adds a section.
