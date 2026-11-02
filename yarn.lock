@@ -11185,10 +11185,10 @@
     lodash "^4.17.21"
     react "^18.3.1"
 
-"@yoast/eslint-config@^8.1.0":
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/@yoast/eslint-config/-/eslint-config-8.1.0.tgz#85887d6e5b7b2d3b634938c7f7f025c41d81bbdc"
-  integrity sha512-cb3jIAxoZ5Zg6zRKKQv4YIrtMA3X7Yb8qYBrrd61iilcmY1nUOi6+hzZJ0IWgNDR0VS5MpvH5w6YD9c82ocJIA==
+"@yoast/eslint-config@^8.1.0", "@yoast/eslint-config@^8.3.0":
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/@yoast/eslint-config/-/eslint-config-8.3.0.tgz#9a0ff6f4f86c39952931274505ace4db79609c79"
+  integrity sha512-rhBfC0NngLHs8vbDTkOsl7LholwMWlltGbySDD3bj5yBXK9sO1qj9DPkTJWdSAgniEz0E5Qpo7AMM/C7aoHsJA==
   dependencies:
     "@eslint/compat" "^1.2.6"
     "@eslint/eslintrc" "^3.2.0"
