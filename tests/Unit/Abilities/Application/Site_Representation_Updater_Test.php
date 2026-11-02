@@ -113,7 +113,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Expects the given settings to be read once.
+	 * Expects the given settings to be read back once.
 	 *
 	 * @param array<string, string|int|bool> $values The stored value of each field.
 	 *
@@ -148,14 +148,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->never()->with( 'person_logo_meta', false );
 
-		$this->expect_settings_read(
-			[
-				'company_or_person' => 'person',
-				'company_name'      => '',
-				'company_logo_id'   => 0,
-				'facebook_site'     => '',
-			],
-		);
 		$this->expect_settings_read(
 			[
 				'company_or_person'         => 'company',
@@ -247,31 +239,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 
 		$this->assertSame(
 			'The company_or_person setting could not be saved as provided, so its current value is returned. The company_name setting could not be saved as provided, so its current value is returned. The other settings were saved.',
-			$result['warning'],
-		);
-	}
-
-	/**
-	 * Tests that update reports a setting whose value got sanitized as saved, instead of claiming its current value
-	 * was kept.
-	 *
-	 * @covers ::update
-	 * @covers ::save_field
-	 * @covers ::get_field_value
-	 *
-	 * @return void
-	 */
-	public function test_update_sanitized() {
-		$this->options_helper->expects( 'set' )->once()->with( 'company_name', '   ' )->andReturnFalse();
-
-		$this->expect_settings_read( [ 'company_name' => 'Acme B.V.' ] );
-		$this->options_helper->allows( 'get' )->andReturn( '' );
-
-		$result = $this->instance->update( [ 'company_name' => '   ' ] );
-
-		$this->assertSame( '', $result['company_name'] );
-		$this->assertSame(
-			'The company_name setting was saved after being cleaned up, so its saved value differs from the one provided.',
 			$result['warning'],
 		);
 	}

@@ -203,12 +203,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 */
 	public function test_update() {
 		$this->expect_profile_updated( true );
-		$this->expect_settings_read(
-			[
-				'wpseo_pronouns' => '',
-				'facebook'       => '',
-			],
-		);
 		$this->user_helper->expects( 'update_meta' )->once()->with( self::USER_ID, 'wpseo_pronouns', 'they/them' );
 		$this->user_helper->expects( 'get_meta' )->once()->with( self::USER_ID, 'wpseo_pronouns', true )->andReturn( 'they/them' );
 		$this->social_profiles_helper->expects( 'set_person_social_profiles' )->once()->with( self::USER_ID, [ 'facebook' => 'https://facebook.com/yoast' ] )->andReturn( [] );
@@ -427,7 +421,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 
 	/**
 	 * Tests that update sanitizes the settings that are not social profiles, and reports a value that got
-	 * sanitized into the stored one as not saved, as nothing changed.
+	 * sanitized into something else in a warning.
 	 *
 	 * @covers ::update
 	 * @covers ::save_field
@@ -537,7 +531,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 		$repository                     = Mockery::mock( Author_Schema_Field_Repository_Interface::class );
 		$this->repositories['jobTitle'] = $repository;
 
-		$repository->expects( 'get' )->once()->with( self::USER_ID, 'jobTitle' )->andReturn( '' );
 		$repository->expects( 'save' )->once()->with( self::USER_ID, 'jobTitle', 'Engineer' )->andReturnTrue();
 		$repository->expects( 'get' )->once()->with( self::USER_ID, 'jobTitle' )->andReturn( 'Engineer' );
 
@@ -564,7 +557,7 @@ final class Author_Schema_Updater_Test extends TestCase {
 		$this->repositories['jobTitle'] = $repository;
 
 		$repository->expects( 'save' )->once()->with( self::USER_ID, 'jobTitle', 'Engineer' )->andReturnFalse();
-		$repository->expects( 'get' )->times( 3 )->with( self::USER_ID, 'jobTitle' )->andReturn( '' );
+		$repository->expects( 'get' )->once()->with( self::USER_ID, 'jobTitle' )->andReturn( '' );
 
 		$this->user_helper->allows( 'get_meta' )->andReturn( '' );
 
@@ -572,36 +565,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 
 		$this->assertSame(
 			'The jobTitle setting could not be saved as provided, so its current value is returned. No other settings were saved.',
-			$result['warning'],
-		);
-	}
-
-	/**
-	 * Tests that update reports a field that its repository saved in a sanitized form as saved, and still marks
-	 * the profile as updated.
-	 *
-	 * @covers ::update
-	 * @covers ::save_field
-	 * @covers ::get_field_value
-	 *
-	 * @return void
-	 */
-	public function test_update_with_repository_sanitized() {
-		$this->expect_profile_updated( true );
-		$repository                     = Mockery::mock( Author_Schema_Field_Repository_Interface::class );
-		$this->repositories['jobTitle'] = $repository;
-
-		$repository->expects( 'get' )->once()->with( self::USER_ID, 'jobTitle' )->andReturn( 'Designer' );
-		$repository->expects( 'save' )->once()->with( self::USER_ID, 'jobTitle', '<b>Engineer</b>' )->andReturnFalse();
-		$repository->expects( 'get' )->twice()->with( self::USER_ID, 'jobTitle' )->andReturn( 'Engineer' );
-
-		$this->user_helper->allows( 'get_meta' )->andReturn( '' );
-
-		$result = $this->instance->update( self::USER_ID, [ 'jobTitle' => '<b>Engineer</b>' ] );
-
-		$this->assertSame( 'Engineer', $result['jobTitle'] );
-		$this->assertSame(
-			'The jobTitle setting was saved after being cleaned up, so its saved value differs from the one provided.',
 			$result['warning'],
 		);
 	}

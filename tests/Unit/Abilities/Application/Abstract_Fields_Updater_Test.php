@@ -59,20 +59,6 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 			public $saved_any;
 
 			/**
-			 * The values stored when a field is not saved as provided, as if they got sanitized, keyed by field name.
-			 *
-			 * @var array<string, mixed>
-			 */
-			public $sanitized = [];
-
-			/**
-			 * The stored value of each field, keyed by field name.
-			 *
-			 * @var array<string, mixed>
-			 */
-			public $stored = [];
-
-			/**
 			 * The fields that were saved, with their value and context.
 			 *
 			 * @var array<string, array<int, mixed>>
@@ -80,7 +66,7 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 			public $saved = [];
 
 			/**
-			 * Records the field, stores its value as configured and returns the configured result.
+			 * Records the field and returns the configured result.
 			 *
 			 * @param string               $field_name The name of the field.
 			 * @param mixed                $value      The value to save.
@@ -91,26 +77,7 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 			protected function save_field( string $field_name, $value, array $context ): bool {
 				$this->saved[ $field_name ] = [ $value, $context ];
 
-				if ( $this->save_result ) {
-					$this->stored[ $field_name ] = $value;
-				}
-				elseif ( \array_key_exists( $field_name, $this->sanitized ) ) {
-					$this->stored[ $field_name ] = $this->sanitized[ $field_name ];
-				}
-
 				return $this->save_result;
-			}
-
-			/**
-			 * Returns the stored value of a field.
-			 *
-			 * @param string               $field_name The name of the field.
-			 * @param array<string, mixed> $context    The context.
-			 *
-			 * @return mixed The stored value.
-			 */
-			protected function get_field_value( string $field_name, array $context ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Required by the parent class.
-				return ( $this->stored[ $field_name ] ?? '' );
 			}
 
 			/**
@@ -279,55 +246,6 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 			$warning,
 		);
 		$this->assertFalse( $this->instance->saved_any );
-	}
-
-	/**
-	 * Tests that update reports a field whose value got sanitized as saved, without claiming that its current value
-	 * was kept.
-	 *
-	 * @covers ::update_fields
-	 * @covers ::update_field
-	 *
-	 * @return void
-	 */
-	public function test_update_sanitized() {
-		$this->instance->save_result = false;
-		$this->instance->stored      = [ 'first' => 'Acme B.V.' ];
-		$this->instance->sanitized   = [ 'first' => '' ];
-
-		$warning = $this->instance->update( self::FIELDS, [], [ 'first' => '   ' ] );
-
-		$this->assertSame( 'The first setting was saved after being cleaned up, so its saved value differs from the one provided.', $warning );
-		$this->assertTrue( $this->instance->saved_any );
-	}
-
-	/**
-	 * Tests that update reports a sanitized field as one of the other settings that were saved, when another field
-	 * could not be saved.
-	 *
-	 * @covers ::update_fields
-	 * @covers ::update_field
-	 *
-	 * @return void
-	 */
-	public function test_update_sanitized_and_not_saved() {
-		$this->instance->save_result = false;
-		$this->instance->sanitized   = [ 'first' => 'one' ];
-
-		$warning = $this->instance->update(
-			self::FIELDS,
-			[],
-			[
-				'first'  => ' one ',
-				'second' => 'two',
-			],
-		);
-
-		$this->assertSame(
-			'The first setting was saved after being cleaned up, so its saved value differs from the one provided. The second setting could not be saved as provided, so its current value is returned. The other settings were saved.',
-			$warning,
-		);
-		$this->assertTrue( $this->instance->saved_any );
 	}
 
 	/**

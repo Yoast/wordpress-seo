@@ -129,7 +129,6 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 	 * @covers ::__construct
 	 * @covers ::update
 	 * @covers ::save_field
-	 * @covers ::get_field_value
 	 *
 	 * @return void
 	 */
@@ -143,8 +142,6 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 		);
 
 		$this->target_repository->expects( 'get' )->once()->with( 'post_type_archive', 'portfolio' )->andReturn( $target );
-		$this->options_helper->expects( 'get' )->once()->with( 'seo_title-post_type_archive' )->andReturn( '' );
-		$this->options_helper->expects( 'get' )->once()->with( 'noindex-post_type_archive' )->andReturnFalse();
 		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-post_type_archive', '%%pt_plural%% Archive' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'noindex-post_type_archive', true )->andReturnTrue();
 		$this->collector->expects( 'get_target_settings' )->once()->with( $target )->andReturn( [ 'seo_title' => '%%pt_plural%% Archive' ] );
@@ -263,7 +260,6 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 		);
 
 		$this->target_repository->expects( 'get' )->once()->with( 'search_page', 'page' )->andReturn( $target );
-		$this->options_helper->expects( 'get' )->once()->with( 'seo_title-search_page' )->andReturn( '' );
 		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-search_page', 'Search' )->andReturnTrue();
 		$this->collector->expects( 'get_target_settings' )->once()->with( $target )->andReturn( [ 'seo_title' => 'Search' ] );
 
@@ -290,7 +286,6 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 	 *
 	 * @covers ::update
 	 * @covers ::save_field
-	 * @covers ::get_field_value
 	 *
 	 * @return void
 	 */
@@ -298,8 +293,6 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 		$target = $this->mock_target( [ 'target' => 'author_archives' ], false );
 
 		$this->target_repository->expects( 'get' )->once()->with( 'author_archives', '' )->andReturn( $target );
-		$this->options_helper->expects( 'get' )->once()->with( 'seo_title-author_archives' )->andReturn( '' );
-		$this->options_helper->expects( 'get' )->twice()->with( 'meta_description-author_archives' )->andReturn( 'Authors' );
 		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-author_archives', '%%name%%' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'meta_description-author_archives', '<b>Bold</b>' )->andReturnFalse();
 		$this->collector->expects( 'get_target_settings' )->once()->with( $target )->andReturn( [ 'seo_title' => '%%name%%' ] );
@@ -320,41 +313,9 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 	}
 
 	/**
-	 * Tests that update reports a field that got sanitized into something else as saved, with a warning about it.
-	 *
-	 * @covers ::update
-	 * @covers ::save_field
-	 * @covers ::get_field_value
-	 *
-	 * @return void
-	 */
-	public function test_update_with_sanitized_save() {
-		$target = $this->mock_target( [ 'target' => 'search_page' ], true );
-
-		$this->target_repository->expects( 'get' )->once()->with( 'search_page', '' )->andReturn( $target );
-		$this->options_helper->expects( 'get' )->twice()->with( 'seo_title-search_page' )->andReturn( 'Search', 'Bold' );
-		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-search_page', '<b>Bold</b>' )->andReturnFalse();
-		$this->collector->expects( 'get_target_settings' )->once()->with( $target )->andReturn( [ 'seo_title' => 'Bold' ] );
-
-		$this->assertSame(
-			[
-				'seo_title' => 'Bold',
-				'warning'   => 'The seo_title setting was saved after being cleaned up, so its saved value differs from the one provided.',
-			],
-			$this->instance->update(
-				[
-					'target'    => 'search_page',
-					'seo_title' => '<b>Bold</b>',
-				],
-			),
-		);
-	}
-
-	/**
-	 * Tests that save_field does not save, and get_field_value does not read, a field the target does not have.
+	 * Tests that save_field does not save a field the target does not have.
 	 *
 	 * @covers ::save_field
-	 * @covers ::get_field_value
 	 *
 	 * @return void
 	 */
@@ -362,10 +323,9 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 		$target = Mockery::mock( Global_Setting_Target_Interface::class );
 
 		$field_map = Mockery::mock( Global_Setting_Field_Map::class );
-		$field_map->expects( 'get_option_name' )->twice()->with( 'noindex', $target )->andReturnNull();
+		$field_map->expects( 'get_option_name' )->once()->with( 'noindex', $target )->andReturnNull();
 
 		$this->options_helper->expects( 'set' )->never();
-		$this->options_helper->expects( 'get' )->never();
 
 		$instance = new class( $field_map, $this->target_repository, $this->collector, $this->options_helper ) extends Archive_And_Special_Page_SEO_Settings_Updater {
 
@@ -381,21 +341,8 @@ final class Archive_And_Special_Page_SEO_Settings_Updater_Test extends TestCase 
 			public function save( string $field_name, $value, array $context ): bool {
 				return $this->save_field( $field_name, $value, $context );
 			}
-
-			/**
-			 * Exposes get_field_value.
-			 *
-			 * @param string               $field_name The name of the field.
-			 * @param array<string, mixed> $context    The target, under 'target'.
-			 *
-			 * @return mixed The stored value.
-			 */
-			public function get( string $field_name, array $context ) {
-				return $this->get_field_value( $field_name, $context );
-			}
 		};
 
 		$this->assertFalse( $instance->save( 'noindex', true, [ 'target' => $target ] ) );
-		$this->assertNull( $instance->get( 'noindex', [ 'target' => $target ] ) );
 	}
 }

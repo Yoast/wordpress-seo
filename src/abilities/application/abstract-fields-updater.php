@@ -6,8 +6,7 @@ namespace Yoast\WP\SEO\Abilities\Application;
 /**
  * Validates and saves the fields an ability changes, one at a time.
  *
- * Fields that cannot be applied or saved, or are saved in a sanitized form, are collected in a single warning, while
- * the other fields are still saved.
+ * Fields that cannot be applied or saved are collected in a single warning, while the other fields are still saved.
  * How a field is saved is up to the extending class.
  */
 abstract class Abstract_Fields_Updater {
@@ -29,17 +28,6 @@ abstract class Abstract_Fields_Updater {
 	abstract protected function save_field( string $field_name, $value, array $context ): bool;
 
 	/**
-	 * Returns the stored value of a single field.
-	 *
-	 * @param string               $field_name The name of the field.
-	 * @param array<string, mixed> $context    What the extending class needs to read the field, as passed to
-	 *                                         update_fields().
-	 *
-	 * @return mixed The stored value.
-	 */
-	abstract protected function get_field_value( string $field_name, array $context );
-
-	/**
 	 * Validates and saves the fields present in the input (patch semantics).
 	 *
 	 * @param array<string, array<string, mixed>> $fields     The JSON schema of each field, keyed by field name.
@@ -53,29 +41,24 @@ abstract class Abstract_Fields_Updater {
 	 *                                                      whether any field was saved.
 	 */
 	protected function update_fields( array $fields, array $validators, array $input, array $context = [] ): array {
-		$warnings     = [];
-		$saved_any    = false;
-		$rejected_any = false;
+		$warnings  = [];
+		$saved_any = false;
 
 		foreach ( \array_keys( \array_intersect_key( $fields, $input ) ) as $field_name ) {
-			$update = $this->update_field( $validators, $field_name, $input[ $field_name ], $context );
-			if ( $update['saved'] ) {
+			$warning = $this->update_field( $validators, $field_name, $input[ $field_name ], $context );
+			if ( $warning === null ) {
 				$saved_any = true;
-			}
-			else {
-				$rejected_any = true;
+				continue;
 			}
 
-			if ( $update['warning'] !== null ) {
-				$warnings[] = $update['warning'];
-			}
+			$warnings[] = $warning;
 		}
 
-		if ( $rejected_any ) {
+		$warning = null;
+		if ( $warnings !== [] ) {
 			$warnings[] = ( $saved_any ) ? \__( 'The other settings were saved.', 'wordpress-seo' ) : \__( 'No other settings were saved.', 'wordpress-seo' );
+			$warning    = \implode( ' ', $warnings );
 		}
-
-		$warning = ( $warnings !== [] ) ? \implode( ' ', $warnings ) : null;
 
 		return [
 			'warning'   => $warning,
@@ -91,47 +74,25 @@ abstract class Abstract_Fields_Updater {
 	 * @param mixed                   $value      The value to save.
 	 * @param array<string, mixed>    $context    What the extending class needs to save the field.
 	 *
-	 * @return array{saved: bool, warning: string|null} Whether the field was saved, and a warning when it was not
-	 *                                                   saved as provided.
+	 * @return string|null A warning when the field could not be saved, null otherwise.
 	 */
-	protected function update_field( array $validators, string $field_name, $value, array $context ): array {
+	protected function update_field( array $validators, string $field_name, $value, array $context ): ?string {
 		$warning = $this->validate_field( $validators, $field_name, $value );
 		if ( $warning !== null ) {
-			return [
-				'saved'   => false,
-				'warning' => $warning,
-			];
+			return $warning;
 		}
 
-		$previous_value = $this->get_field_value( $field_name, $context );
-
-		if ( $this->save_field( $field_name, $value, $context ) ) {
-			return [
-				'saved'   => true,
-				'warning' => null,
-			];
-		}
-
-		// A value that got sanitized into something else is stored all the same, which only the stored value tells apart from a rejected one.
-		if ( $this->get_field_value( $field_name, $context ) !== $previous_value ) {
-			return [
-				'saved'   => true,
-				'warning' => \sprintf(
-					/* translators: %s expands to the name of a setting. */
-					\__( 'The %s setting was saved after being cleaned up, so its saved value differs from the one provided.', 'wordpress-seo' ),
-					$field_name,
-				),
-			];
-		}
-
-		return [
-			'saved'   => false,
-			'warning' => \sprintf(
+		if ( ! $this->save_field( $field_name, $value, $context ) ) {
+			// A failed save is also reported when the value was invalid or got sanitized into something else,
+			// so the warning points to the returned value rather than claiming nothing was stored.
+			return \sprintf(
 				/* translators: %s expands to the name of a setting. */
 				\__( 'The %s setting could not be saved as provided, so its current value is returned.', 'wordpress-seo' ),
 				$field_name,
-			),
-		];
+			);
+		}
+
+		return null;
 	}
 
 	/**
