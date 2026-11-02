@@ -74,7 +74,7 @@ function socialPreview( state = initialState, action ) {
 function createNamedWrapperReducer( reducerFunction, platformName ) {
 	return ( state, action ) => {
 		const { platform } = action;
-		// eslint-disable-next-line no-undefined
+
 		const isInitializationCall = state === undefined;
 		if ( isInitializationCall ) {
 			return initialState;

@@ -47,7 +47,9 @@ DataItem.propTypes = dataItemProps;
 const DataModel = ( props ) => (
 	<ul
 		className="yoast-data-model"
-		aria-label={ __( "Prominent words", "wordpress-seo" ) }
+		aria-label={
+			/* translators: Hidden accessibility text. */
+			__( "Prominent words", "wordpress-seo" ) }
 	>
 		{ props.items.map( DataItem ) }
 	</ul>

@@ -98,7 +98,9 @@ function Notification( props ) {
 			{ props.isDismissable && <DismissButton
 				onClick={ props.onClick }
 				type="button"
-				aria-label={ __( "Dismiss this notice", "wordpress-seo" ) }
+				aria-label={
+					/* translators: Hidden accessibility text. */
+					__( "Dismiss this notice", "wordpress-seo" ) }
 			>
 				<StyledIcon icon="times" color={ colors.$color_grey_text } size="24px" />
 			</DismissButton> }

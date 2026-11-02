@@ -168,11 +168,15 @@ const App = () => {
 				<SidebarNavigation.Mobile
 					openButtonId="button-open-settings-navigation-mobile"
 					closeButtonId="button-close-settings-navigation-mobile"
-					/* translators: Hidden accessibility text. */
-					openButtonScreenReaderText={ __( "Open settings navigation", "wordpress-seo" ) }
-					/* translators: Hidden accessibility text. */
-					closeButtonScreenReaderText={ __( "Close settings navigation", "wordpress-seo" ) }
-					aria-label={ __( "Settings navigation", "wordpress-seo" ) }
+					openButtonScreenReaderText={
+						/* translators: Hidden accessibility text. */
+						__( "Open settings navigation", "wordpress-seo" ) }
+					closeButtonScreenReaderText={
+						/* translators: Hidden accessibility text. */
+						__( "Close settings navigation", "wordpress-seo" ) }
+					aria-label={
+						/* translators: Hidden accessibility text. */
+						__( "Settings navigation", "wordpress-seo" ) }
 				>
 					<Menu idSuffix="-mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
