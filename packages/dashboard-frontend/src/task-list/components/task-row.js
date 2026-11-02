@@ -72,7 +72,13 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 	const cellBackground = useMemo( () => isButtonFocused ? "yst-bg-slate-50" : "group-hover:yst-bg-slate-50", [ isButtonFocused ] );
 
 	return (
-		<Table.Row className="yst-cursor-pointer yst-group" onClick={ onClick } aria-label={ __( "Open task modal", "wordpress-seo" ) }>
+		<Table.Row
+			className="yst-cursor-pointer yst-group"
+			onClick={ onClick }
+			aria-label={
+			/* translators: Hidden accessibility text. */
+				__( "Open task modal", "wordpress-seo" ) }
+		>
 			<Table.Cell className={ cellBackground }>
 				<SingleTaskButton
 					title={ title }
@@ -100,7 +106,9 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 					>
 						{ title }
 						<span className="yst-sr-only">
-							{ isCompleted ? __( "(Completed)", "wordpress-seo" ) : __( "(Not completed)", "wordpress-seo" ) }
+							{
+								/* translators: Hidden accessibility text. */
+								isCompleted ? __( "(Completed)", "wordpress-seo" ) : __( "(Not completed)", "wordpress-seo" ) }
 						</span>
 					</button>
 					{ badgeOptions.includes( badge ) && <TaskBadge type={ badge } /> }
