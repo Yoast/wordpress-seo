@@ -48,7 +48,6 @@ const TablePagination = ( {
 	screenReaderTextPrevious,
 	screenReaderTextNext,
 	summary = null,
-
 	maxPageButtons = undefined,
 	disabled = false,
 	className = "",

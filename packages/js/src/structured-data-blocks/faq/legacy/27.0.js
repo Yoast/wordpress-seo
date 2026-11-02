@@ -54,7 +54,6 @@ const migrateToStringFormat = ( attributes ) => {
 		questions: migratedQuestions,
 	};
 
-
 	return pickBy( migratedAttributes, ( value ) => value !== undefined );
 };
 

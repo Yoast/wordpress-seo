@@ -169,7 +169,6 @@ const WincherAccountUpgradeLink = makeOutboundLink();
  *
  * @returns {JSX.Element} The Wincher upgrade callout description.
  */
-
 const WincherUpgradeCalloutDescription = ( { discount = undefined, months = undefined } ) => {
 	const wincherAccountUpgradeLink = (
 		<WincherAccountUpgradeLink href={ wpseoAdminGlobalL10n[ "links.wincher.upgrade" ] } style={ { fontWeight: 600 } }>

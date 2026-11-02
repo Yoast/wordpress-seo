@@ -174,7 +174,6 @@ class WincherDashboardWidget extends Component {
 
 		const { url } = await getAuthorizationUrl();
 
-
 		if ( ! url || ( url === undefined ) ) {
 			this.onNetworkDisconnectionError();
 			return;

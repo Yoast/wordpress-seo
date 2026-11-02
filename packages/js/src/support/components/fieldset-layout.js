@@ -10,7 +10,6 @@ import { useSelectSupport } from "../hooks";
  * @returns {JSX.Element} The FieldsetLayout element.
  */
 export const FieldsetLayout = ( {
-
 	id = undefined,
 	children,
 	title,

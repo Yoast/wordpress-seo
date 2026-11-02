@@ -60,7 +60,6 @@ const migrateToStringFormat = ( attributes ) => {
 		migratedAttributes.jsonDescription = migratedAttributes.description;
 	}
 
-
 	return pickBy( migratedAttributes, ( value ) => value !== undefined );
 };
 

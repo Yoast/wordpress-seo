@@ -30,7 +30,6 @@ const classNameMap = {
  * @returns {JSX.Element} The FieldsetLayout element.
  */
 export const FieldsetLayout = ( {
-
 	id = undefined,
 	children,
 	title,

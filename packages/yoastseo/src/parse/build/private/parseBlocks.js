@@ -146,6 +146,5 @@ export default function( paper, node ) {
 
 	const rawBlocks = getAllBlocks( paper );
 
-
 	updateClientIdAndAttrIdForSubtree( node, rawBlocks, undefined );
 }
