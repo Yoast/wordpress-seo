@@ -21,6 +21,19 @@ import { letter, wordEnd, wordStart } from "../../../helpers/regex/wordBoundarie
  * from `wordBoundaries` instead. The research tests the pattern against the first sentence of the alt text only, so an
  * end-anchored rule cannot match past it.
  */
+/**
+ * Makes the i's in a word match their all-caps forms. With the `iu` flags, JavaScript folds case the simple,
+ * language-neutral way: "I" folds to "i" (never to "ı") and "İ" only to itself, so "fotoğrafı" would miss
+ * "FOTOĞRAFI" and "resmi" would miss "RESMİ". Each "ı" becomes "[ıi]" (the "i" also covers "I") and each "i"
+ * becomes "[iİ]", in one pass so a replacement is never rewritten. As a harmless side effect, "[ıi]" also
+ * accepts a plain "i" where Turkish spelling wants "ı", such as the typo "fotoğrafi".
+ *
+ * @param {string} word The word, or an alternation of words.
+ *
+ * @returns {string} The pattern.
+ */
+const tolerateTurkishIs = ( word ) => word.replace( /[ıi]/g, ( character ) => character === "ı" ? "[ıi]" : "[iİ]" );
+
 // A run of letters: the word carrying a participle ending in rule 1b.
 const letterRun = `${ letter }+`;
 // The ending of rule 1a and 1b: the end of the (first) sentence, or a clause break. A clause break is attached
@@ -49,24 +62,28 @@ const exceptions = {
  *
  * @returns {string} The pattern.
  */
-const addExceptionsGuard = ( noun ) => `(?<!(?:${ createAlternation( exceptions[ noun ] ) })\\s)${ noun }`;
+const addExceptionsGuard = ( noun ) =>
+	`(?<!(?:${ tolerateTurkishIs( createAlternation( exceptions[ noun ] ) ) })\\s)${ tolerateTurkishIs( noun ) }`;
 
 // "Its picture/pictures", "its image/images", "its photo/photos".
 const possessiveNouns =
-	`(?:${ addExceptionsGuard( "resmi" ) }|resimleri|${ addExceptionsGuard( "görseli" ) }|görselleri` +
-	`|${ addExceptionsGuard( "fotoğrafı" ) }|fotoğrafları)`;
+	`(?:${ addExceptionsGuard( "resmi" ) }|${ tolerateTurkishIs( "resimleri" ) }|${ addExceptionsGuard( "görseli" ) }` +
+	`|${ tolerateTurkishIs( "görselleri" ) }|${ addExceptionsGuard( "fotoğrafı" ) }|${ tolerateTurkishIs( "fotoğrafları" ) })`;
 // "Image", "picture", "photo".
-const bareNouns = "(?:görsel|resim|fotoğraf)";
+const bareNouns = `(?:${ tolerateTurkishIs( "görsel|resim|fotoğraf" ) })`;
 // "In the image/picture/photo".
-const locativeNouns = "(?:görselde|resimde|fotoğrafta)";
-const participleEndings = "(?:[ea]n|[dt][ıiuü]ğ[ıiuü])";
+const locativeNouns = `(?:${ tolerateTurkishIs( "görselde|resimde|fotoğrafta" ) })`;
+// The "i" in the class already covers "I"; "İ" has to be listed.
+const participleEndings = "(?:[ea]n|[dt][ıiİuü]ğ[ıiİuü])";
 // "Shows", "depicts" and "portrays", each in a plain and a formal register.
-const verbs = "(?:gösteriyor|göstermektedir|betimliyor|betimlemektedir|tasvir\\s+ediyor|tasvir\\s+etmektedir)";
+const verbs = `(?:${ tolerateTurkishIs( createAlternation( [
+	"gösteriyor", "göstermektedir", "betimliyor", "betimlemektedir", "tasvir ediyor", "tasvir etmektedir",
+] ) ) })`;
 
 // E.g. "Bir köpeğin resmi(dir)": a possessive noun and an optional copula at the end of the text or of a clause.
-const rule1a = `${ wordStart }${ possessiveNouns }(?:dır|dir)?${ clauseEnd }`;
+const rule1a = `${ wordStart }${ possessiveNouns }(?:${ tolerateTurkishIs( "dır|dir" ) })?${ clauseEnd }`;
 // E.g. "köpeği gösteren görsel": a word with a participle ending, a bare noun and an optional copula at a clause end.
-const rule1b = `${ letterRun }${ participleEndings }\\s+${ bareNouns }(?:dır|dir|tır|tir)?${ clauseEnd }`;
+const rule1b = `${ letterRun }${ participleEndings }\\s+${ bareNouns }(?:${ tolerateTurkishIs( "dır|dir|tır|tir" ) })?${ clauseEnd }`;
 // E.g. "Bu görselde": an optional "bu" and a locative noun at the start.
 const rule2a = `^(?:bu\\s+)?${ locativeNouns }${ wordEnd }`;
 // E.g. "Görsel bir köpeği gösteriyor": an optional "bu" and a bare noun at the start, with a depicting verb ending the sentence.

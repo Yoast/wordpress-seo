@@ -307,7 +307,9 @@ describe( "Counts images in a text", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( paper, researcher );
 
-		expect( altTagCountFunction( paper, researcher ) ).toEqual( { noAlt: 1, withAlt: 0, withAltKeyword: 0, withAltNonKeyword: 0 } );
+		expect( altTagCountFunction( paper, researcher ) ).toEqual(
+			{ noAlt: 1, withAlt: 0, withAltKeyword: 0, withAltNonKeyword: 0, flagged: [ "http://plaatje" ] }
+		);
 	} );
 } );
 

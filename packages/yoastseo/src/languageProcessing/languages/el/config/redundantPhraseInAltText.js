@@ -15,17 +15,33 @@ import { wordEnd } from "../../../helpers/regex/wordBoundaries";
  * is standardly dropped before its "φ" but often written anyway, while "εικόνα" starts with a vowel and so only
  * occurs with "στην".
  */
+// The unaccented vowel for each accented one.
+const unaccentedVowels = { ά: "α", έ: "ε", ή: "η", ί: "ι", ό: "ο", ύ: "υ", ώ: "ω" };
+
+/**
+ * Makes the accented vowels in a word also match their unaccented forms. Greek capitals are written without
+ * accents, and with the `iu` flags "Ο" folds to "ο", never to "ό", so "εικόνα" would miss "ΕΙΚΟΝΑ". Each
+ * accented vowel becomes a class with its unaccented form, which also covers the accented capitals that
+ * `toUpperCase()` produces ("ΕΙΚΌΝΑ") and unaccented lowercase writing ("εικονα").
+ *
+ * @param {string} word The word.
+ *
+ * @returns {string} The pattern.
+ */
+const tolerateMissingAccents = ( word ) =>
+	word.replace( /[άέήίόύώ]/g, ( vowel ) => `[${ vowel }${ unaccentedVowels[ vowel ] }]` );
+
 // "A" in its two spellings.
-const indefiniteArticles = [ "μια", "μία" ];
+const indefiniteArticles = [ "μια", "μία" ].map( tolerateMissingAccents );
 // "Image", "photo".
-const nouns = [ "εικόνα", "φωτογραφία" ];
+const nouns = [ "εικόνα", "φωτογραφία" ].map( tolerateMissingAccents );
 const [ image, photo ] = nouns;
 // "Of the" in its masculine, feminine and plural forms, "of a" in its masculine and feminine forms.
-const genitives = [ "του", "της", "των", "ενός", "μιας" ];
+const genitives = [ "του", "της", "των", "ενός", "μιας" ].map( tolerateMissingAccents );
 // "Depicts", "shows", "presents".
-const finiteVerbs = [ "απεικονίζει", "δείχνει", "παρουσιάζει" ];
+const finiteVerbs = [ "απεικονίζει", "δείχνει", "παρουσιάζει" ].map( tolerateMissingAccents );
 // "Appears", "appear", "is depicted".
-const prepositionalVerbs = [ "φαίνεται", "φαίνονται", "απεικονίζεται" ];
+const prepositionalVerbs = [ "φαίνεται", "φαίνονται", "απεικονίζεται" ].map( tolerateMissingAccents );
 
 const nounAlternation = createAlternation( nouns );
 const relativeClause = `που\\s+(?:${ createAlternation( finiteVerbs ) })`;
@@ -36,7 +52,7 @@ const relativeClause = `που\\s+(?:${ createAlternation( finiteVerbs ) })`;
  * advice.
  */
 // "Of Saint" in its masculine and feminine forms, "of the Virgin Mary".
-const iconExceptions = [ "του Αγίου", "της Αγίας", "της Παναγίας" ];
+const iconExceptions = [ "του Αγίου", "της Αγίας", "της Παναγίας" ].map( tolerateMissingAccents );
 const nounsWithExceptions =
 	`(?:${ image }\\s+(?!(?:${ createAlternation( iconExceptions ) })${ wordEnd })|${ photo }\\s+)`;
 
@@ -45,7 +61,7 @@ const connectorShape =
 	`(?:(?:${ createAlternation( indefiniteArticles ) })\\s+)?${ nounsWithExceptions }` +
 	`(?:${ createAlternation( genitives ) }|${ relativeClause })`;
 // Matches e.g. "αυτή η εικόνα δείχνει": an optional "αυτή", the definite article "η", a noun, and a finite verb.
-const finiteVerbShape = `(?:αυτή\\s+)?η\\s+(?:${ nounAlternation })\\s+(?:${ createAlternation( finiteVerbs ) })`;
+const finiteVerbShape = `(?:${ tolerateMissingAccents( "αυτή" ) }\\s+)?η\\s+(?:${ nounAlternation })\\s+(?:${ createAlternation( finiteVerbs ) })`;
 // Matches e.g. "στην εικόνα φαίνεται": "στη(ν)" with its noun, and a prepositional verb.
 const prepositionalShape =
 	`(?:στην\\s+${ image }|στην?\\s+${ photo })\\s+(?:${ createAlternation( prepositionalVerbs ) })`;
