@@ -14,7 +14,6 @@ import useMediaQuery from "../../../hooks/use-media-query";
  */
 const useResponsiveMaxPageButtons = ( maxPageButtons ) => {
 	const { matches: isLarge } = useMediaQuery( "(min-width: 640px)" );
-
 	if ( maxPageButtons !== undefined ) {
 		return maxPageButtons;
 	}

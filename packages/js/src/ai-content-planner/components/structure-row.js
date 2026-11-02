@@ -121,9 +121,8 @@ export const StructureRow = ( {
 		<span className="yst-text-slate-600">{ heading }</span>
 		<span className="yst-sr-only">
 			{
-				/* translators: Hidden accessibility text. */
+				/* translators: Hidden accessibility text. 1: current position, 2: total items. */
 				sprintf(
-					/* translators: 1: current position, 2: total items. */
 					__( "Position %1$d out of %2$d. Use Alt+Arrow Up/Down to reorder.", "wordpress-seo" ),
 					index + 1,
 					totalItems )

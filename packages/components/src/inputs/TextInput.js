@@ -92,13 +92,11 @@ TextInput.defaultProps = {
 	readOnly: false,
 	type: "text",
 	// React automatically removes these values when passed as props.
-
 	placeholder: undefined,
 	min: undefined,
 	max: undefined,
 	step: undefined,
 	onChange: undefined,
-
 	...FieldGroupDefaultProps,
 };
 

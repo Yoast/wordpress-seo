@@ -50,7 +50,6 @@ const Button = forwardRef( ( {
 	const svgAriaProps = useSvgAria();
 
 	return <Component
-
 		type={ type || ( Component === "button" && "button" ) || undefined }
 		disabled={ disabled }
 		ref={ ref }

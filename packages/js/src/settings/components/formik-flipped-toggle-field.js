@@ -11,7 +11,6 @@ import PropTypes from "prop-types";
  * @param {boolean} [props.checked=undefined] Whether the toggle is checked.
  * @returns {JSX.Element} The Formik compatible element.
  */
-
 const FormikFlippedToggleField = ( { name, checked = undefined, ...props } ) => {
 	const [ field, , { setTouched, setValue } ] = useField( { name, checked, ...props, type: "checkbox" } );
 

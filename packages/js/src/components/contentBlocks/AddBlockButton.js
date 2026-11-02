@@ -83,7 +83,6 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 							 */
 							insertBlock(
 								block,
-
 								undefined,
 								postContentBlock[ 0 ]
 							);

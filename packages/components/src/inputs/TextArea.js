@@ -52,9 +52,7 @@ TextArea.defaultProps = {
 	ariaDescribedBy: "",
 	onChange: () => {},
 	readOnly: false,
-
 	placeholder: undefined,
-
 	...FieldGroupDefaultProps,
 };
 

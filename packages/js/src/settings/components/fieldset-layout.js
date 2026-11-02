@@ -10,7 +10,6 @@ import { useSelectSettings } from "../hooks";
  * @returns {JSX.Element} The FieldsetLayout element.
  */
 const FieldsetLayout = ( {
-
 	id = undefined,
 	children,
 	title,
