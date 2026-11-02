@@ -50,7 +50,7 @@ const Button = forwardRef( ( {
 	const svgAriaProps = useSvgAria();
 
 	return <Component
-		// eslint-disable-next-line no-undefined
+
 		type={ type || ( Component === "button" && "button" ) || undefined }
 		disabled={ disabled }
 		ref={ ref }

@@ -14,7 +14,7 @@ import useMediaQuery from "../../../hooks/use-media-query";
  */
 const useResponsiveMaxPageButtons = ( maxPageButtons ) => {
 	const { matches: isLarge } = useMediaQuery( "(min-width: 640px)" );
-	// eslint-disable-next-line no-undefined
+
 	if ( maxPageButtons !== undefined ) {
 		return maxPageButtons;
 	}
@@ -49,7 +49,7 @@ const TablePagination = ( {
 	screenReaderTextPrevious,
 	screenReaderTextNext,
 	summary = null,
-	// eslint-disable-next-line no-undefined
+
 	maxPageButtons = undefined,
 	disabled = false,
 	className = "",
