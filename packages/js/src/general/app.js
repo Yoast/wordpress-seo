@@ -109,10 +109,12 @@ const App = () => {
 				<SidebarNavigation.Mobile
 					openButtonId="button-open-dashboard-navigation-mobile"
 					closeButtonId="button-close-dashboard-navigation-mobile"
-					/* translators: Hidden accessibility text. */
-					openButtonScreenReaderText={ __( "Open dashboard navigation", "wordpress-seo" ) }
-					/* translators: Hidden accessibility text. */
-					closeButtonScreenReaderText={ __( "Close dashboard navigation", "wordpress-seo" ) }
+					openButtonScreenReaderText={
+						/* translators: Hidden accessibility text. */
+						__( "Open dashboard navigation", "wordpress-seo" ) }
+					closeButtonScreenReaderText={
+						/* translators: Hidden accessibility text. */
+						__( "Close dashboard navigation", "wordpress-seo" ) }
 					aria-label={
 						/* translators: Hidden accessibility text. */
 						__( "Dashboard navigation", "wordpress-seo" ) }

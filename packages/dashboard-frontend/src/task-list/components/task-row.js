@@ -71,6 +71,14 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 
 	const cellBackground = useMemo( () => isButtonFocused ? "yst-bg-slate-50" : "group-hover:yst-bg-slate-50", [ isButtonFocused ] );
 
+	const screenReaderCompletedText =
+		/* translators: Hidden accessibility text. */
+		__( "(Completed)", "wordpress-seo" );
+
+	const screenReaderNotCompletedText =
+		/* translators: Hidden accessibility text. */
+		__( "(Not completed)", "wordpress-seo" );
+
 	return (
 		<Table.Row
 			className="yst-cursor-pointer yst-group"
@@ -106,9 +114,7 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 					>
 						{ title }
 						<span className="yst-sr-only">
-							{
-								/* translators: Hidden accessibility text. */
-								isCompleted ? __( "(Completed)", "wordpress-seo" ) : __( "(Not completed)", "wordpress-seo" ) }
+							{ isCompleted ? screenReaderCompletedText : screenReaderNotCompletedText }
 						</span>
 					</button>
 					{ badgeOptions.includes( badge ) && <TaskBadge type={ badge } /> }

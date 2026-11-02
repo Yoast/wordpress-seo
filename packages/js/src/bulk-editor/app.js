@@ -139,8 +139,12 @@ const App = ( { dataProvider, remoteDataProvider } ) => {
 			<SidebarNavigation.Mobile
 				openButtonId="button-open-bulk-editor-navigation-mobile"
 				closeButtonId="button-close-bulk-editor-navigation-mobile"
-				openButtonScreenReaderText={ __( "Open bulk editor navigation", "wordpress-seo" ) }
-				closeButtonScreenReaderText={ __( "Close bulk editor navigation", "wordpress-seo" ) }
+				openButtonScreenReaderText={
+					/* translators: Hidden accessibility text. */
+					__( "Open bulk editor navigation", "wordpress-seo" ) }
+				closeButtonScreenReaderText={
+					/* translators: Hidden accessibility text. */
+					__( "Close bulk editor navigation", "wordpress-seo" ) }
 				aria-label={
 					/* translators: Hidden accessibility text. */
 					__( "Bulk editor navigation", "wordpress-seo" ) }
