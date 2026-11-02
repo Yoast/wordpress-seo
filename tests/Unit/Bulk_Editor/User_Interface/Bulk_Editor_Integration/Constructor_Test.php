@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
+use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -84,6 +85,10 @@ final class Constructor_Test extends Abstract_Test {
 		$this->assertInstanceOf(
 			WPSEO_Addon_Manager::class,
 			$this->getPropertyValue( $this->instance, 'addon_manager' ),
+		);
+		$this->assertInstanceOf(
+			Keyphrase_Analysis::class,
+			$this->getPropertyValue( $this->instance, 'keyphrase_analysis' ),
 		);
 	}
 }

@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Bulk_Editor\Domain\Updates\Batch_Limit;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
+use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -154,6 +155,13 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	private $addon_manager;
 
 	/**
+	 * Tells whether the SEO analysis is on for the current user: on for the site and not turned off in their profile.
+	 *
+	 * @var Keyphrase_Analysis
+	 */
+	private $keyphrase_analysis;
+
+	/**
 	 * Constructs the instance.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager         $asset_manager                     The WPSEO_Admin_Asset_Manager.
@@ -169,6 +177,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 	 * @param WPSEO_Replace_Vars                $replace_vars                      The replace vars handler.
 	 * @param Woo_SEO_Inactive_Conditional      $woo_seo_inactive_conditional      The Yoast WooCommerce SEO inactive conditional.
 	 * @param WPSEO_Addon_Manager               $addon_manager                     The add-on manager.
+	 * @param Keyphrase_Analysis                $keyphrase_analysis                The keyphrase analysis feature.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -183,7 +192,8 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		Myyoast_Connection_Data_Presenter $myyoast_connection_data_presenter,
 		WPSEO_Replace_Vars $replace_vars,
 		Woo_SEO_Inactive_Conditional $woo_seo_inactive_conditional,
-		WPSEO_Addon_Manager $addon_manager
+		WPSEO_Addon_Manager $addon_manager,
+		Keyphrase_Analysis $keyphrase_analysis
 	) {
 		$this->asset_manager                     = $asset_manager;
 		$this->current_page_helper               = $current_page_helper;
@@ -198,6 +208,7 @@ class Bulk_Editor_Integration implements Integration_Interface {
 		$this->replace_vars                      = $replace_vars;
 		$this->woo_seo_inactive_conditional      = $woo_seo_inactive_conditional;
 		$this->addon_manager                     = $addon_manager;
+		$this->keyphrase_analysis                = $keyphrase_analysis;
 	}
 
 	/**
@@ -330,8 +341,9 @@ class Bulk_Editor_Integration implements Integration_Interface {
 			'linkParams'            => $this->short_link_helper->get_query_params(),
 			'analysis'              => [
 				'contentLocale'         => \get_locale(),
-				// Re-scoring only runs when SEO analysis is enabled, matching the post editor.
-				'keywordAnalysisActive' => $this->options_helper->get( 'keyword_analysis_active' ) === true,
+				// Re-scoring only runs when SEO analysis is enabled, matching the post editor: on for the site and not
+				// turned off in the user's profile.
+				'keywordAnalysisActive' => $this->keyphrase_analysis->is_enabled(),
 				// Used when collecting the AI prompt content, so shortcode delimiters are stripped from the
 				// text while the content they enclose is kept. Not gated on SEO analysis being enabled: the
 				// prompt content is collected for AI suggestions, which do not depend on the analysis.
