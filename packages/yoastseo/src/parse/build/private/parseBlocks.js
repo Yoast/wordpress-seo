@@ -146,6 +146,6 @@ export default function( paper, node ) {
 
 	const rawBlocks = getAllBlocks( paper );
 
-	// eslint-disable-next-line no-undefined
+
 	updateClientIdAndAttrIdForSubtree( node, rawBlocks, undefined );
 }
