@@ -420,9 +420,12 @@ describe( "the HTML entities in alt text from the text", () => {
 		[ "&nbsp;Product image&nbsp;", "non-breaking spaces around a phrase" ],
 		[ "&mdash;", "only a dash" ],
 		[ "&NDASH;", "only a dash, with the entity in uppercase" ],
-		[ "&nbsp;", "only a non-breaking space" ],
 	] )( "counts the alt attribute \"%s\": %s", ( alt ) => {
 		expect( researchParsedImage( alt ) ).toEqual( { count: 1, flagged: [ "https://example.com/photo.jpg" ] } );
+	} );
+
+	it( "does not count an alt attribute that is only a non-breaking space: it is empty, like a missing alt text", () => {
+		expect( researchParsedImage( "&nbsp;" ).count ).toBe( 0 );
 	} );
 
 	it( "does not count a description that contains non-breaking spaces", () => {

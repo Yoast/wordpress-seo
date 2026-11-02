@@ -300,6 +300,15 @@ describe( "Counts images in a text", function() {
 		expect( stringToCheck.withAltKeyword ).toBe( 2 );
 		expect( stringToCheck.withAltNonKeyword ).toBe( 3 );
 	} );
+
+	it( "counts an image whose alt text is only a non-breaking space as an image without alt text", function() {
+		const paper = new Paper( "string <img src='http://plaatje' alt='&nbsp;' />" );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( altTagCountFunction( paper, researcher ) ).toEqual( { noAlt: 1, withAlt: 0, withAltKeyword: 0, withAltNonKeyword: 0 } );
+	} );
 } );
 
 describe( "Counts alt-tags of the paper's provided images when the producer provides them", function() {

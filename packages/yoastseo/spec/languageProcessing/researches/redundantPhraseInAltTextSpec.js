@@ -152,6 +152,10 @@ describe( "a research that counts the images whose alt text starts with a redund
 
 		expect( research( paper ) ).toEqual( { count: 0, flagged: [] } );
 	} );
+
+	it( "counts a redundant phrase with a non-breaking space in the alt text of an image from the text", () => {
+		expect( research( buildPaperWithImages( [ "Image&nbsp;of a red bike on a beach" ] ) ) ).toEqual( { count: 1, flagged: [ buildSrc( 0 ) ] } );
+	} );
 } );
 
 describe( "the redundant alt text phrases for Spanish", () => {
