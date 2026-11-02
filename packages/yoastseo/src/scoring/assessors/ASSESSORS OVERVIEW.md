@@ -20,6 +20,7 @@ Overview of the used SEO assessors in the `yoastseo` package:
 - Duplicate alt text (`DuplicateAltTextAssessment`)
 - Redundant phrase in alt text (`RedundantPhraseInAltTextAssessment`)
 - Non-descriptive alt text (`NonDescriptiveAltTextAssessment`)
+- Keyphrase stuffing in alt text (`KeyphraseStuffingInAltTextAssessment`)
 - Text length (`TextLengthAssessment`) -> [Cornerstone scores and boundaries!](../assessments/SCORING%20SEO.md#1-text-length)
 - Outbound links (`OutboundLinksAssessment`)
 - SEO title width (`PageTitleWidthAssesment`)
@@ -44,6 +45,7 @@ Overview of the used SEO assessors in the `yoastseo` package:
 - Keyphrase length (`KeyphraseLengthAssessment`)
 - Keyphrase density (`KeywordDensityAssessment`)
 - Keyphrase in meta description (`MetaDescriptionKeywordAssessment`)
+- Keyphrase stuffing in alt text (`KeyphraseStuffingInAltTextAssessment`)
 - Competing links (`TextCompetingLinksAssessment`)
 - Previously used keyphrase (`previouslyUsedKeywords`)
 ### Related keywords taxonomy

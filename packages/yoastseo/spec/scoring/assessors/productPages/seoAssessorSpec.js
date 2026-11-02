@@ -89,6 +89,19 @@ describe( "the non-descriptive alt text assessment URLs", () => {
 	} );
 } );
 
+describe( "the keyphrase stuffing in alt text assessment URLs", () => {
+	test( "uses the platform's URLs when the options are set", () => {
+		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
+			keyphraseStuffingInAltTextUrlTitle: "https://yoast.com/33",
+			keyphraseStuffingInAltTextCTAUrl: "https://yoast.com/34",
+		} );
+		const assessment = configured.getAssessment( "keyphraseStuffingInAltText" );
+
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/33' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/34' target='_blank'>" );
+	} );
+} );
+
 describe( "has configuration overrides", () => {
 	test( "IntroductionKeywordAssessment", () => {
 		const assessment = assessor.getAssessment( "introductionKeyword" );

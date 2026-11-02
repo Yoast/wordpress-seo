@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.1
-Stable tag: 28.7
+Stable tag: 28.8
 Requires PHP: 7.4
 
 Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.
@@ -307,40 +307,38 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 28.9 =
+
+Release date: 2026-11-10
+
+#### Enhancements
+
+* Introduces a new Yoast ability that lets agents update author Schema data.
+* Introduces two new Yoast abilities that let agents get and set SEO data for specific terms.
+
 = 28.8 =
 
 Release date: 2026-10-27
 
+New Yoast Abilities for AI agents, Schema Feeds support, and the groundwork for Yoast AI Generate for image alt text in Yoast WooCommerce SEO 17.0. [Read the release post here](https://yoa.st/57v).
+
 #### Enhancements
 
 * Adds AI-powered image alt text generation for WooCommerce product images, including a dedicated Image alt text tab in the bulk editor for Yoast WooCommerce SEO.
+* Adds Yoast abilities that let agents turn site-wide features on and off: llms.txt, Open Graph data, Schema Aggregator, Schema Framework, X card data, and XML sitemaps.
+* Adds a Yoast ability that lets agents update Site representation settings.
 * Adds the `sf:contentType` element from NLWeb's Schema Feeds specification to the schema map.
-* Introduces a new Yoast Ability to allow agents to toggle the llms.txt feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the Open Graph data feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the Schema Aggregator feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the Schema Framework feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the X card data feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the XML sitemaps feature on and off.
-* Introduces a new Yoast Ability to allow agents to update Site representation settings.
 
 #### Bugfixes
 
+* Fixes a bug where AI Optimize buttons were shown in the content analysis when AI features were turned off.
 * Fixes a bug where the AI features' free trial was treated as already started after the Yoast SEO settings were saved.
+* Fixes a bug where the bulk editor kept the SEO analysis active when the user had turned it off in their profile.
 * Fixes a bug where the time the schema aggregation endpoint was enabled was not recorded when the setting was saved from the Site features page.
 
 #### Other
 
 * Sets the minimum supported WordPress version to 7.0.
-
-= 28.7 =
-
-Release date: 2026-10-13
-
-Yoast SEO 28.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Allows agents to update titles and descriptions via the respective Yoast Ability.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

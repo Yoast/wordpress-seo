@@ -17,6 +17,7 @@ import AltTextLengthAssessment from "../../assessments/seo/AltTextLengthAssessme
 import DuplicateAltTextAssessment from "../../assessments/seo/DuplicateAltTextAssessment.js";
 import RedundantPhraseInAltTextAssessment from "../../assessments/seo/RedundantPhraseInAltTextAssessment.js";
 import NonDescriptiveAltTextAssessment from "../../assessments/seo/NonDescriptiveAltTextAssessment.js";
+import KeyphraseStuffingInAltTextAssessment from "../../assessments/seo/KeyphraseStuffingInAltTextAssessment.js";
 import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
@@ -132,6 +133,12 @@ export default class ProductSEOAssessor extends SEOAssessor {
 				callbacks: { getResultTexts: options.nonDescriptiveAltTextResultTexts },
 				urlTitle: createAnchorOpeningTag( options.nonDescriptiveAltTextUrlTitle ),
 				urlCallToAction: createAnchorOpeningTag( options.nonDescriptiveAltTextCTAUrl ),
+			} ),
+			new KeyphraseStuffingInAltTextAssessment( {
+				// Optional: platforms can pass `keyphraseStuffingInAltTextResultTexts` to override the default feedback strings.
+				callbacks: { getResultTexts: options.keyphraseStuffingInAltTextResultTexts },
+				urlTitle: createAnchorOpeningTag( options.keyphraseStuffingInAltTextUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.keyphraseStuffingInAltTextCTAUrl ),
 			} ),
 		];
 	}

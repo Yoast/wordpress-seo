@@ -51,6 +51,7 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 - [Meta description length](SCORING%20SEO.md#5-meta-description-length)
 - [Single title](SCORING%20SEO.md#6-single-title)
 - [Function words in keyphrase](SCORING%20SEO.md#7-function-words-in-keyphrase)
+- [Keyphrase stuffing in alt text](SCORING%20SEO.md#12-keyphrase-stuffing-in-alt-text) (WooCommerce and Shopify can supply their own feedback strings and links through the assessor options)
 - [Title](SCORING%20SEO.md#13-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
 
 ### Assessments with different scoring criteria than with the regular SEO assessor

@@ -131,8 +131,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_field
 	 * @covers ::save_field
 	 * @covers ::save_logo
 	 * @covers ::get_settings
@@ -184,8 +182,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * were saved when none were.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_field
 	 *
 	 * @return void
 	 */
@@ -218,7 +214,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * others and clearing the cached meta of the changed logo.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_logo
 	 *
 	 * @return void
@@ -252,7 +247,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * Tests that update clears the URL of a logo whose ID is cleared, without looking it up.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_logo
 	 *
 	 * @return void
@@ -294,7 +288,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * to the same image.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_logo
 	 *
 	 * @return void
@@ -321,7 +314,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * warning, while still saving the other settings.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_field
 	 *
 	 * @return void
@@ -352,8 +344,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * returns that warning.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_field
 	 *
 	 * @return void
 	 */
@@ -400,8 +390,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * Tests that update saves a field when its validator returns something other than a non-empty string.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_field
 	 *
 	 * @dataProvider data_update_add_on_validator_no_warning
 	 *

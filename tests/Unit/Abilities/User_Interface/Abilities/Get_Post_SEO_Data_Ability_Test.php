@@ -87,7 +87,7 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 	/**
 	 * Tests that is_available follows whether the indexables are being built.
 	 *
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::is_available
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_SEO_Data_Ability::is_available
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
@@ -104,8 +104,8 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 	/**
 	 * Tests that can_edit_advanced_metadata checks the advanced metadata capability and returns its result.
 	 *
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::__construct
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::can_edit_advanced_metadata
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_SEO_Data_Ability::__construct
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_SEO_Data_Ability::can_edit_advanced_metadata
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *

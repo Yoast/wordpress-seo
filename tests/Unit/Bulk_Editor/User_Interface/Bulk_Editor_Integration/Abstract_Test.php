@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
 use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
+use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -128,6 +129,13 @@ abstract class Abstract_Test extends TestCase {
 	protected $addon_manager;
 
 	/**
+	 * Holds the Keyphrase_Analysis mock.
+	 *
+	 * @var Mockery\MockInterface|Keyphrase_Analysis
+	 */
+	protected $keyphrase_analysis;
+
+	/**
 	 * Stubs the WP globals and functions consumed by WPSEO_Admin_Editor_Specific_Replace_Vars::__construct().
 	 *
 	 * Must be called before any test that exercises get_script_data() / enqueue_assets().
@@ -165,6 +173,9 @@ abstract class Abstract_Test extends TestCase {
 		$this->replace_vars                      = Mockery::mock( WPSEO_Replace_Vars::class );
 		$this->woo_seo_inactive_conditional      = Mockery::mock( Woo_SEO_Inactive_Conditional::class );
 		$this->addon_manager                     = Mockery::mock( WPSEO_Addon_Manager::class );
+		$this->keyphrase_analysis                = Mockery::mock( Keyphrase_Analysis::class );
+		// The SEO analysis is on unless a test says otherwise.
+		$this->keyphrase_analysis->allows( 'is_enabled' )->andReturn( true )->byDefault();
 
 		$this->instance = new Bulk_Editor_Integration(
 			$this->asset_manager,
@@ -180,6 +191,7 @@ abstract class Abstract_Test extends TestCase {
 			$this->replace_vars,
 			$this->woo_seo_inactive_conditional,
 			$this->addon_manager,
+			$this->keyphrase_analysis,
 		);
 	}
 }
