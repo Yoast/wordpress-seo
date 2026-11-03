@@ -1,12 +1,15 @@
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 
 import { A11yNotice } from "../src/tests/A11yNotice";
 
 test( "the A11yNotice matches the snapshot", () => {
-	const component = renderer.create(
-		<A11yNotice>A11yNoticeValue</A11yNotice>
-	);
+	let component;
+	act( () => {
+		component = renderer.create(
+			<A11yNotice>A11yNoticeValue</A11yNotice>
+		);
+	} );
 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
@@ -16,9 +19,12 @@ test( "the A11yNotice matches the snapshot", () => {
 test( "the A11yNotice can be changed to a different element", () => {
 	const H2A11yNotice = A11yNotice.withComponent( "h2" );
 
-	const component = renderer.create(
-		<H2A11yNotice>H2A11yNoticeValue</H2A11yNotice>
-	);
+	let component;
+	act( () => {
+		component = renderer.create(
+			<H2A11yNotice>H2A11yNoticeValue</H2A11yNotice>
+		);
+	} );
 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();

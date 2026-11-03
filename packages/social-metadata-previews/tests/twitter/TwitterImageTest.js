@@ -1,5 +1,5 @@
 /* External dependencies */
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
@@ -24,9 +24,11 @@ describe( "TwitterImage Component", () => {
 			}
 		);
 
-		renderer.create(
-			<TwitterImage src={ imageUrl } isLarge={ true } />
-		);
+		act( () => {
+			renderer.create(
+				<TwitterImage src={ imageUrl } isLarge={ true } />
+			);
+		} );
 
 		expect( determineImageProperties.handleImage ).toBeCalledWith( imageUrl, "Twitter", true );
 	} );

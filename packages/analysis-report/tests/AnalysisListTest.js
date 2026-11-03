@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 import { AnalysisResult, AnalysisList } from "../src";
 
@@ -55,7 +55,10 @@ describe( "The AnalysisList component", () => {
 			},
 		];
 
-		const render = renderer.create( <AnalysisList results={ results } /> );
+		let render;
+		act( () => {
+			render = renderer.create( <AnalysisList results={ results } /> );
+		} );
 		const analysisResults = render.root.findAllByType( AnalysisResult );
 
 		expect( analysisResults ).toHaveLength( results.length );
@@ -88,7 +91,10 @@ describe( "The AnalysisList component", () => {
 			},
 		];
 
-		const render = renderer.create( <AnalysisList results={ results } marksButtonStatus={ "disabled" } /> );
+		let render;
+		act( () => {
+			render = renderer.create( <AnalysisList results={ results } marksButtonStatus={ "disabled" } /> );
+		} );
 		const analysisResults = render.root.findAllByType( AnalysisResult );
 
 		expect( analysisResults ).toHaveLength( results.length );
@@ -126,7 +132,10 @@ describe( "The AnalysisList component", () => {
 			},
 		];
 
-		const render = renderer.create( <AnalysisList results={ results } /> );
+		let render;
+		act( () => {
+			render = renderer.create( <AnalysisList results={ results } /> );
+		} );
 		const analysisResults = render.root.findAllByType( AnalysisResult );
 
 		expect( analysisResults ).toHaveLength( results.length );

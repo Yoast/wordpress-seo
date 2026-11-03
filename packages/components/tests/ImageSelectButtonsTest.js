@@ -1,15 +1,18 @@
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 
 import ImageSelectButtons from "../src/image-select/ImageSelectButtons";
 
 describe( "ImageSelectButtons", () => {
 	test( "ImageSelectButtons without image selected matches the snapshot", () => {
-		const component = renderer.create(
-			<ImageSelectButtons
-				imageSelected={ false }
-			/>
-		);
+		let component;
+		act( () => {
+			component = renderer.create(
+				<ImageSelectButtons
+					imageSelected={ false }
+				/>
+			);
+		} );
 
 		const tree = component.toJSON();
 
@@ -19,11 +22,14 @@ describe( "ImageSelectButtons", () => {
 	} );
 
 	test( "ImageSelectButtons with image selected matches the snapshot", () => {
-		const component = renderer.create(
-			<ImageSelectButtons
-				imageSelected={ true }
-			/>
-		);
+		let component;
+		act( () => {
+			component = renderer.create(
+				<ImageSelectButtons
+					imageSelected={ true }
+				/>
+			);
+		} );
 
 		const tree = component.toJSON();
 

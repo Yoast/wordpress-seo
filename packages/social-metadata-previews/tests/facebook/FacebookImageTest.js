@@ -1,5 +1,5 @@
 /* External dependencies */
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
@@ -19,9 +19,11 @@ describe( "FacebookImage Component", () => {
 			width: 300,
 		} ) );
 
-		renderer.create(
-			<FacebookImage src={ imageUrl } />
-		);
+		act( () => {
+			renderer.create(
+				<FacebookImage src={ imageUrl } />
+			);
+		} );
 
 		expect( determineImageProperties.handleImage ).toBeCalledWith( imageUrl, "Facebook" );
 	} );

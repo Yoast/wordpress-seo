@@ -27,4 +27,12 @@ export default [
 			],
 		},
 	},
+	{
+		files: [ "tools/jest/**" ],
+		languageOptions: {
+			globals: {
+				...globals.jest,
+			},
+		},
+	},
 ];
