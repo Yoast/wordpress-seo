@@ -66,10 +66,7 @@ class SEO_Data_Output_Schema {
 			'properties' => [
 				'user_id'                   => [ 'type' => 'integer' ],
 				'user_name'                 => $nullable_string,
-				'permalink'                 => [
-					'type'        => [ 'string', 'null' ],
-					'description' => \__( 'The permalink (URL) of the author archive. Null when the author archive is excluded, for example because author archives are disabled.', 'wordpress-seo' ),
-				],
+				'permalink'                 => $nullable_string,
 				'seo_title'                 => $this->raw( \__( 'SEO title', 'wordpress-seo' ) ),
 				'seo_title_rendered'        => $this->rendered( \__( 'SEO title', 'wordpress-seo' ) ),
 				'meta_description'          => $this->raw( \__( 'meta description', 'wordpress-seo' ) ),
@@ -77,10 +74,6 @@ class SEO_Data_Output_Schema {
 				'noindex'                   => [
 					'type'        => 'boolean',
 					'description' => \__( 'Whether search engines are told not to index this author archive. true means noindex (the archive is excluded from search results). When the site settings set all author archives to noindex, that setting applies regardless of this one.', 'wordpress-seo' ),
-				],
-				'warning'                   => [
-					'type'        => 'string',
-					'description' => \__( 'Only present when the author archive is excluded, for example because author archives are disabled: the settings are saved, but have no effect while it is. Meant to be relayed to the user.', 'wordpress-seo' ),
 				],
 			],
 		];

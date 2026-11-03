@@ -6,8 +6,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 use Brain\Monkey;
 use Mockery;
 use WP_Error;
-use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_Identifier_Resolver;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -27,6 +27,13 @@ final class Author_Identifier_Resolver_Test extends TestCase {
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
 	private $indexable_repository;
+
+	/**
+	 * The author archive helper mock.
+	 *
+	 * @var Mockery\MockInterface|Author_Archive_Helper
+	 */
+	private $author_archive_helper;
 
 	/**
 	 * The instance under test.
@@ -53,9 +60,12 @@ final class Author_Identifier_Resolver_Test extends TestCase {
 			],
 		);
 
-		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
+		$this->indexable_repository  = Mockery::mock( Indexable_Repository::class );
+		$this->author_archive_helper = Mockery::mock( Author_Archive_Helper::class );
 
-		$this->instance = new Author_Identifier_Resolver( $this->indexable_repository );
+		$this->author_archive_helper->allows( 'are_disabled' )->andReturnFalse();
+
+		$this->instance = new Author_Identifier_Resolver( $this->indexable_repository, $this->author_archive_helper );
 	}
 
 	/**
@@ -75,7 +85,7 @@ final class Author_Identifier_Resolver_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'find_by_id_and_type' )
 			->once()
-			->with( 7, 'user' )
+			->with( 7, 'user', false )
 			->andReturn( $indexable );
 
 		$this->assertSame( $indexable, $this->instance->resolve_one( [ 'user_id' => 7 ] ) );
@@ -98,36 +108,46 @@ final class Author_Identifier_Resolver_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that resolve_one by user ID returns an unsaved indexable when no indexable can be built for the user.
+	 * Tests that resolve_one by user ID returns an excluded error when the user exists but has no indexable.
 	 *
 	 * @covers ::resolve_one
 	 * @covers ::by_id
-	 * @covers ::unbuilt_indexable
 	 *
 	 * @return void
 	 */
-	public function test_resolve_one_by_id_without_indexable() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-		$orm       = Mockery::mock( ORM::class );
-
+	public function test_resolve_one_by_id_excluded() {
 		Monkey\Functions\expect( 'get_userdata' )->once()->with( 7 )->andReturn( Mockery::mock( 'WP_User' ) );
 		$this->indexable_repository
 			->expects( 'find_by_id_and_type' )
 			->once()
-			->with( 7, 'user' )
+			->with( 7, 'user', false )
 			->andReturnFalse();
-		$this->indexable_repository->expects( 'query' )->once()->andReturn( $orm );
-		$orm->expects( 'create' )
-			->once()
-			->with(
-				[
-					'object_id'   => 7,
-					'object_type' => 'user',
-				],
-			)
-			->andReturn( $indexable );
 
-		$this->assertSame( $indexable, $this->instance->resolve_one( [ 'user_id' => 7 ] ) );
+		$result = $this->instance->resolve_one( [ 'user_id' => 7 ] );
+
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'yoast_seo_author_archive_excluded', $result->get_error_code() );
+	}
+
+	/**
+	 * Tests that resolve_one returns an error without any lookup while author archives are disabled.
+	 *
+	 * @covers ::resolve_one
+	 *
+	 * @return void
+	 */
+	public function test_resolve_one_author_archives_disabled() {
+		$author_archive_helper = Mockery::mock( Author_Archive_Helper::class );
+		$author_archive_helper->expects( 'are_disabled' )->once()->andReturnTrue();
+		Monkey\Functions\expect( 'get_userdata' )->never();
+		$this->indexable_repository->expects( 'find_by_id_and_type' )->never();
+		$this->indexable_repository->expects( 'find_by_permalink' )->never();
+
+		$instance = new Author_Identifier_Resolver( $this->indexable_repository, $author_archive_helper );
+		$result   = $instance->resolve_one( [ 'user_id' => 7 ] );
+
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'yoast_seo_author_archives_disabled', $result->get_error_code() );
 	}
 
 	/**
@@ -145,7 +165,7 @@ final class Author_Identifier_Resolver_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'find_by_id_and_type' )
 			->once()
-			->with( 7, 'user' )
+			->with( 7, 'user', false )
 			->andReturn( $indexable );
 		$this->indexable_repository->expects( 'find_by_permalink' )->never();
 

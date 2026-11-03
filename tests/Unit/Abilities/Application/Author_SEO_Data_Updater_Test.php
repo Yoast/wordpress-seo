@@ -185,6 +185,7 @@ final class Author_SEO_Data_Updater_Test extends TestCase {
 	 * Tests that a failed user meta write returns an error and skips the rebuild.
 	 *
 	 * @covers ::update_author_seo_data
+	 * @covers ::unavailable_error
 	 *
 	 * @return void
 	 */
@@ -202,9 +203,10 @@ final class Author_SEO_Data_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that a failed rebuild, as when the author archive is not output, returns the saved state with a warning.
+	 * Tests that a failed rebuild after a successful write returns an error.
 	 *
 	 * @covers ::update_author_seo_data
+	 * @covers ::unavailable_error
 	 *
 	 * @return void
 	 */
@@ -222,12 +224,7 @@ final class Author_SEO_Data_Updater_Test extends TestCase {
 			->with( 7, 'user', $indexable )
 			->andReturnFalse();
 		$this->field_map->expects( 'to_seo_array' )->never();
-		$this->field_map
-			->expects( 'to_unbuilt_seo_array' )
-			->once()
-			->with( $indexable )
-			->andReturn( [ 'warning' => 'A warning' ] );
 
-		$this->assertSame( [ 'warning' => 'A warning' ], $this->instance->update_author_seo_data( [ 'user_id' => 7 ] ) );
+		$this->assertInstanceOf( WP_Error::class, $this->instance->update_author_seo_data( [ 'user_id' => 7 ] ) );
 	}
 }

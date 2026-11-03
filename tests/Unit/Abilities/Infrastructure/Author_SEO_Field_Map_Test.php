@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_SEO_Field_Map;
-use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -37,13 +36,6 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 	private $user_helper;
 
 	/**
-	 * The author archive helper.
-	 *
-	 * @var Mockery\MockInterface|Author_Archive_Helper
-	 */
-	private $author_archive_helper;
-
-	/**
 	 * The instance under test.
 	 *
 	 * @var Author_SEO_Field_Map
@@ -60,13 +52,12 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->meta_surface          = Mockery::mock( Meta_Surface::class );
-		$this->user_helper           = Mockery::mock( User_Helper::class );
-		$this->author_archive_helper = Mockery::mock( Author_Archive_Helper::class );
+		$this->meta_surface = Mockery::mock( Meta_Surface::class );
+		$this->user_helper  = Mockery::mock( User_Helper::class );
 
 		$this->user_helper->allows( 'get_the_author_meta' )->with( 'display_name', 7 )->andReturn( 'Jane' );
 
-		$this->instance = new Author_SEO_Field_Map( $this->meta_surface, $this->user_helper, $this->author_archive_helper );
+		$this->instance = new Author_SEO_Field_Map( $this->meta_surface, $this->user_helper );
 	}
 
 	/**
@@ -75,7 +66,6 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::to_seo_array
-	 * @covers ::build_seo_array
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered
 	 *
 	 * @return void
@@ -112,7 +102,6 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 	 * Tests that the user name is null when the user has no display name.
 	 *
 	 * @covers ::to_seo_array
-	 * @covers ::build_seo_array
 	 *
 	 * @return void
 	 */
@@ -127,57 +116,6 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 
 		$this->assertNull( $result['user_name'] );
 		$this->assertNull( $result['seo_title_rendered'] );
-	}
-
-	/**
-	 * Tests that to_unbuilt_seo_array returns the values stored in the user meta, not the outdated ones of the
-	 * indexable, without rendered companions or permalink, plus a warning naming why they have no effect.
-	 *
-	 * @covers ::to_unbuilt_seo_array
-	 * @covers ::build_seo_array
-	 * @covers ::get_string_meta
-	 *
-	 * @dataProvider provide_unbuilt_warnings
-	 *
-	 * @param bool   $are_disabled Whether author archives are disabled.
-	 * @param string $warning      The expected start of the warning.
-	 *
-	 * @return void
-	 */
-	public function test_to_unbuilt_seo_array( bool $are_disabled, string $warning ) {
-		$this->meta_surface->expects( 'for_indexable' )->never();
-		$this->author_archive_helper->expects( 'are_disabled' )->once()->andReturn( $are_disabled );
-		$this->user_helper->expects( 'get_meta' )->once()->with( 7, 'wpseo_title', true )->andReturn( 'Stored SEO title' );
-		$this->user_helper->expects( 'get_meta' )->once()->with( 7, 'wpseo_metadesc', true )->andReturn( '' );
-		$this->user_helper->expects( 'get_meta' )->once()->with( 7, 'wpseo_noindex_author', true )->andReturn( '' );
-
-		$result = $this->instance->to_unbuilt_seo_array( $this->make_indexable() );
-
-		$this->assertSame( 'Stored SEO title', $result['seo_title'] );
-		$this->assertNull( $result['meta_description'] );
-		$this->assertFalse( $result['noindex'] );
-		$this->assertNull( $result['permalink'] );
-		$this->assertNull( $result['seo_title_rendered'] );
-		$this->assertNull( $result['meta_description_rendered'] );
-		$this->assertStringStartsWith( $warning, $result['warning'] );
-	}
-
-	/**
-	 * Data provider for test_to_unbuilt_seo_array.
-	 *
-	 * @return array<string, array<string, bool|string>> The cases.
-	 */
-	public static function provide_unbuilt_warnings(): array {
-		return [
-			'author archives disabled' => [
-				'are_disabled' => true,
-				'warning'      => 'Author archives are disabled',
-			],
-			'author archive excluded'  => [
-				'are_disabled' => false,
-				'warning'      => 'These settings are saved, but have no effect while this author archive is excluded',
-			],
-		];
 	}
 
 	/**

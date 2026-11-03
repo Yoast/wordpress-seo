@@ -105,23 +105,28 @@ class Author_SEO_Data_Updater {
 		$changed_columns = $this->field_map->apply_to_indexable( $input, $indexable );
 
 		if ( ! $this->meta_writer->write_columns( $indexable, $changed_columns ) ) {
-			return new WP_Error(
-				'yoast_seo_author_data_unavailable',
-				\__( 'The author SEO data could not be saved.', 'wordpress-seo' ),
-				[ 'status' => 500 ],
-			);
+			return $this->unavailable_error( \__( 'The author SEO data could not be saved.', 'wordpress-seo' ) );
 		}
 
 		// A user meta write does not trigger the indexable watcher, so rebuild the read model
 		// explicitly from the meta we just wrote.
 		$rebuilt = $this->indexable_builder->build_for_id_and_type( (int) $indexable->object_id, 'user', $indexable );
 
-		// The author indexable is not built when the author archive is not output, like when author archives are
-		// disabled. The user profile saves the settings anyway, so the saved state is returned with a warning.
 		if ( ! $rebuilt ) {
-			return $this->field_map->to_unbuilt_seo_array( $indexable );
+			return $this->unavailable_error( \__( 'The author SEO data was saved but the indexable could not be rebuilt.', 'wordpress-seo' ) );
 		}
 
 		return $this->field_map->to_seo_array( $rebuilt );
+	}
+
+	/**
+	 * Builds the error for author SEO data that could not be persisted or reloaded.
+	 *
+	 * @param string $message The error message.
+	 *
+	 * @return WP_Error The error.
+	 */
+	private function unavailable_error( string $message ): WP_Error {
+		return new WP_Error( 'yoast_seo_author_data_unavailable', $message, [ 'status' => 500 ] );
 	}
 }

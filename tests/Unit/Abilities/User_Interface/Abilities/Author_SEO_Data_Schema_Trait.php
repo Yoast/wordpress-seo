@@ -50,10 +50,7 @@ trait Author_SEO_Data_Schema_Trait {
 			'properties' => [
 				'user_id'                   => [ 'type' => 'integer' ],
 				'user_name'                 => [ 'type' => [ 'string', 'null' ] ],
-				'permalink'                 => [
-					'type'        => [ 'string', 'null' ],
-					'description' => 'The permalink (URL) of the author archive. Null when the author archive is excluded, for example because author archives are disabled.',
-				],
+				'permalink'                 => [ 'type' => [ 'string', 'null' ] ],
 				'seo_title'                 => $raw( 'SEO title' ),
 				'seo_title_rendered'        => $rendered( 'SEO title' ),
 				'meta_description'          => $raw( 'meta description' ),
@@ -61,10 +58,6 @@ trait Author_SEO_Data_Schema_Trait {
 				'noindex'                   => [
 					'type'        => 'boolean',
 					'description' => 'Whether search engines are told not to index this author archive. true means noindex (the archive is excluded from search results). When the site settings set all author archives to noindex, that setting applies regardless of this one.',
-				],
-				'warning'                   => [
-					'type'        => 'string',
-					'description' => 'Only present when the author archive is excluded, for example because author archives are disabled: the settings are saved, but have no effect while it is. Meant to be relayed to the user.',
 				],
 			],
 		];

@@ -7,7 +7,6 @@ use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\SEO_Data_Output_Schema;
-use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities\Author_SEO_Data_Schema_Trait;
@@ -112,9 +111,8 @@ final class SEO_Data_Output_Schema_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the SEO data arrays built by the author field map expose exactly the
-	 * properties documented in the author output schema, the warning only being added
-	 * when the author archive is not built.
+	 * Tests that the SEO data array built by the author field map exposes exactly the
+	 * properties documented in the author output schema.
 	 *
 	 * @covers ::get_author_output_schema
 	 * @covers ::raw
@@ -127,27 +125,17 @@ final class SEO_Data_Output_Schema_Test extends TestCase {
 		$meta_surface->expects( 'for_indexable' )->andReturnFalse();
 		$user_helper = Mockery::mock( User_Helper::class );
 		$user_helper->allows( 'get_the_author_meta' )->andReturn( 'Jane' );
-		$user_helper->allows( 'get_meta' )->andReturn( '' );
-		$author_archive_helper = Mockery::mock( Author_Archive_Helper::class );
-		$author_archive_helper->allows( 'are_disabled' )->andReturnTrue();
-		$field_map = new Author_SEO_Field_Map( $meta_surface, $user_helper, $author_archive_helper );
+		$field_map = new Author_SEO_Field_Map( $meta_surface, $user_helper );
 
 		$schema_properties = \array_keys( $this->instance->get_author_output_schema()['properties'] );
-		$built_fields      = \array_keys( $field_map->to_seo_array( Mockery::mock( Indexable_Mock::class ) ) );
-		$unbuilt_fields    = \array_keys( $field_map->to_unbuilt_seo_array( Mockery::mock( Indexable_Mock::class ) ) );
+		$output_fields     = \array_keys( $field_map->to_seo_array( Mockery::mock( Indexable_Mock::class ) ) );
 		\sort( $schema_properties );
-		\sort( $built_fields );
-		\sort( $unbuilt_fields );
+		\sort( $output_fields );
 
 		$this->assertSame(
 			$schema_properties,
-			$unbuilt_fields,
-			'The output schema and Author_SEO_Field_Map::to_unbuilt_seo_array() must describe the same set of fields.',
-		);
-		$this->assertSame(
-			\array_values( \array_diff( $schema_properties, [ 'warning' ] ) ),
-			$built_fields,
-			'The output schema and Author_SEO_Field_Map::to_seo_array() must describe the same set of fields, but the warning.',
+			$output_fields,
+			'The output schema and Author_SEO_Field_Map::to_seo_array() must describe the same set of fields.',
 		);
 	}
 }
