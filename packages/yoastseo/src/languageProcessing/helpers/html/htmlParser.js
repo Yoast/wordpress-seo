@@ -2,7 +2,8 @@
  * This file provides HTML parsing for assessments that do NOT use the HTML Parser.
  * We use a (simpler) external library, which can be found here: https://github.com/fb55/htmlparser2.
  */
-import htmlparser from "htmlparser2";
+// Import the Parser directly: the package index also pulls in DOM handlers and streams we do not use.
+import Parser from "htmlparser2/lib/Parser";
 
 /**
  * The array containing the text parts without ignored HTML blocks.
@@ -51,7 +52,7 @@ const IGNORED_CLASSES = [
 /**
  * Parses the text.
  */
-const parser = new htmlparser.Parser( {
+const parser = new Parser( {
 	/**
 	 * Handles the opening tag.
 	 * If we are in an ignorable block, disregard the tag.

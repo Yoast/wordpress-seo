@@ -1,7 +1,7 @@
 /** @module stringProcessing/checkNofollow */
 
 // We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
-import htmlparser from "htmlparser2";
+import Parser from "htmlparser2/lib/Parser";
 
 /**
  * Checks if a link has a `rel` attribute with a `nofollow` value. If it has, returns Nofollow, otherwise Dofollow.
@@ -12,7 +12,7 @@ import htmlparser from "htmlparser2";
 export default function( anchorHTML ) {
 	let linkFollow = "Dofollow";
 
-	const parser = new htmlparser.Parser( {
+	const parser = new Parser( {
 		/**
 		 * Detects if there is a `nofollow` value in the `rel` attribute of a link.
 		 *
