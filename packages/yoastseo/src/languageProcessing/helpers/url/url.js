@@ -1,5 +1,5 @@
 const urlFromAnchorRegex = /href=(["'])([^"']+)\1/i;
-import urlMethods from "url";
+import parseUrl from "./parseUrl.js";
 
 /**
  * Removes a hash from a URL, assumes a well formed URL.
@@ -76,21 +76,19 @@ function areEqual( urlA, urlB ) {
  * @returns {string} The domain name of the URL.
  */
 function getHostname( url ) {
-	url = urlMethods.parse( url );
-
-	return url.hostname;
+	return parseUrl( url ).hostname;
 }
 
 /**
  * Returns the protocol of a URL.
  *
- * Note that the colon (http:) is also part of the protocol, conform to node's url.parse api.
+ * Note that the colon (http:) is also part of the protocol, conform to node's legacy url.parse api.
  *
  * @param {string} url The URL to retrieve the protocol of.
  * @returns {string|null} The protocol of the URL or null if no protocol is present.
  */
 function getProtocol( url ) {
-	return urlMethods.parse( url ).protocol;
+	return parseUrl( url ).protocol;
 }
 
 /**
@@ -102,7 +100,7 @@ function getProtocol( url ) {
  * @returns {boolean} Whether or not the anchor URL is internal.
  */
 function isInternalLink( anchorUrl, siteUrlOrDomain ) {
-	const parsedAnchorUrl = urlMethods.parse( anchorUrl, false, true );
+	const parsedAnchorUrl = parseUrl( anchorUrl, true );
 	const anchorUrlHostName = parsedAnchorUrl.hostname;
 
 	// Check if the anchor URL starts with a single slash.
@@ -126,7 +124,7 @@ function isInternalLink( anchorUrl, siteUrlOrDomain ) {
 	}
 
 	// If the siteUrlOrDomain variable is a URL and it shares the hostname with the anchor URL, it's an internal link.
-	const parsedSiteUrlOrDomain = urlMethods.parse( siteUrlOrDomain );
+	const parsedSiteUrlOrDomain = parseUrl( siteUrlOrDomain );
 	const siteUrlOrDomainHostName = parsedSiteUrlOrDomain.hostname;
 	return anchorUrlHostName === siteUrlOrDomainHostName;
 }

@@ -210,6 +210,18 @@ describe( "A URL helper", function() {
 
 			expect( actual ).toBe( true );
 		} );
+
+		it.each( [
+			[ "a protocol-relative link to the site", "//www.google.nl/test", true ],
+			[ "a protocol-relative link to another site", "//www.example.com/test", false ],
+			[ "a link with three slashes", "///test", true ],
+			[ "a bare domain", "www.example.com/test", true ],
+			[ "a link with an uppercase host", "HTTP://WWW.GOOGLE.NL/test", true ],
+			[ "a link with a protocol but no slashes", "http:test", true ],
+			[ "a link with an invalid host", "http://www.exa mple.com", false ],
+		] )( "classifies %s", function( _description, anchorUrl, expected ) {
+			expect( url.isInternalLink( anchorUrl, "http://www.google.nl" ) ).toBe( expected );
+		} );
 	} );
 
 	describe( "getProtocol", function() {
