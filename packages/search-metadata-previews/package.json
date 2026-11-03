@@ -33,7 +33,7 @@
     "@yoast/style-guide": "^0.14.0-alpha.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.6.0",
-    "react-transition-group": "^2.7.1",
+    "react-transition-group": "^4.4.5",
     "styled-components": "^5.3.6",
     "yoastseo": "^3.6.0"
   },
