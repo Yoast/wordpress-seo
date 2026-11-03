@@ -51,7 +51,9 @@
     "browserslist": "^4.7.3",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
-    "jest-styled-components": "^7.0.3"
+    "jest-styled-components": "^7.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "peerDependencies": {
     "@draft-js-plugins/mention": "^5.0.0",

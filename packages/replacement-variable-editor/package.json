@@ -56,6 +56,8 @@
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
     "jest-styled-components": "^7.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-test-renderer": "^18.2.0"
   },
   "peerDependencies": {
