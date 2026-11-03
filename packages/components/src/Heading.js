@@ -7,8 +7,8 @@ import PropTypes from "prop-types";
  * @param {Object} props The props to use.
  * @returns {ReactElement} The rendered component.
  */
-const Heading = ( props ) => {
-	const HeadingLevel = `h${ props.level }`;
+const Heading = ( { level = 1, ...props } ) => {
+	const HeadingLevel = `h${ level }`;
 
 	return (
 		<HeadingLevel className={ props.className }>
@@ -21,10 +21,6 @@ Heading.propTypes = {
 	level: PropTypes.number,
 	className: PropTypes.string,
 	children: PropTypes.any,
-};
-
-Heading.defaultProps = {
-	level: 1,
 };
 
 export default Heading;

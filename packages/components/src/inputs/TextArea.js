@@ -1,9 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import FieldGroup, { FieldGroupDefaultProps, FieldGroupProps } from "../field-group/FieldGroup";
+import FieldGroup, { FieldGroupProps } from "../field-group/FieldGroup";
 // Import the required CSS.
 import "./input.css";
 import "../base";
+
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_ON_CHANGE = () => {};
 
 /**
  * Renders a textarea for use in our HTML forms.
@@ -12,22 +15,30 @@ import "../base";
  *
  * @returns {React.Component} A react component that can be used in our forms.
  */
-const TextArea = ( props ) => {
+const TextArea = ( {
+	id = "",
+	name = "",
+	value = "",
+	ariaDescribedBy = "",
+	readOnly = false,
+	onChange = DEFAULT_ON_CHANGE,
+	...props
+} ) => {
 	const fieldGroupProps = { ...props };
-	if ( props.id ) {
-		fieldGroupProps.htmlFor = props.id;
+	if ( id ) {
+		fieldGroupProps.htmlFor = id;
 	}
 
 	return (
 		<FieldGroup { ...fieldGroupProps }>
 			<textarea
-				id={ props.id }
-				name={ props.name }
-				value={ props.value }
+				id={ id }
+				name={ name }
+				value={ value }
 				className="yoast-field-group__textarea"
-				aria-describedby={ props.ariaDescribedBy }
-				onChange={ props.onChange }
-				readOnly={ props.readOnly }
+				aria-describedby={ ariaDescribedBy }
+				onChange={ onChange }
+				readOnly={ readOnly }
 				placeholder={ props.placeholder }
 			/>
 		</FieldGroup>
@@ -43,17 +54,6 @@ TextArea.propTypes = {
 	readOnly: PropTypes.bool,
 	placeholder: PropTypes.string,
 	...FieldGroupProps,
-};
-
-TextArea.defaultProps = {
-	id: "",
-	name: "",
-	value: "",
-	ariaDescribedBy: "",
-	onChange: () => {},
-	readOnly: false,
-	placeholder: undefined,
-	...FieldGroupDefaultProps,
 };
 
 export default TextArea;

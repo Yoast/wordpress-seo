@@ -3,6 +3,9 @@ import { NewButton as Button } from "../button";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_NOOP = () => {};
+
 /**
  * The ImageSelectButtons component.
  *
@@ -10,17 +13,15 @@ import PropTypes from "prop-types";
  *
  * @returns {Element} The ImageSelectButtons component;
  */
-const ImageSelectButtons = ( props ) => {
-	const {
-		imageSelected,
-		onClick,
-		onRemoveImageClick,
-		selectImageButtonId,
-		replaceImageButtonId,
-		removeImageButtonId,
-		isDisabled,
-	} = props;
-
+const ImageSelectButtons = ( {
+	imageSelected = false,
+	onClick = DEFAULT_NOOP,
+	onRemoveImageClick = DEFAULT_NOOP,
+	selectImageButtonId = "",
+	replaceImageButtonId = "",
+	removeImageButtonId = "",
+	isDisabled = false,
+} ) => {
 	const removeImage = useCallback( ( event ) => {
 		event.target.previousElementSibling.focus();
 		onRemoveImageClick();
@@ -64,14 +65,4 @@ ImageSelectButtons.propTypes = {
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
 	isDisabled: PropTypes.bool,
-};
-
-ImageSelectButtons.defaultProps = {
-	imageSelected: false,
-	onClick: () => {},
-	onRemoveImageClick: () => {},
-	selectImageButtonId: "",
-	replaceImageButtonId: "",
-	removeImageButtonId: "",
-	isDisabled: false,
 };

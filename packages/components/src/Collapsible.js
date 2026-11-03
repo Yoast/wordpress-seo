@@ -89,6 +89,9 @@ export function wrapInHeading( Component, props ) {
 
 const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1rem", fontWeight: "normal" } );
 
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_RENDER_NEW_BADGE_LABEL = () => {};
+
 /**
  * Base collapsible panel. Optionally has a heading around the button.
  *
@@ -113,27 +116,25 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
  *
  * @returns {ReactElement} A collapsible panel.
  */
-export function CollapsibleStateless( props ) {
-	const {
-		children,
-		className,
-		hasPadding,
-		hasSeparator,
-		Heading,
-		id,
-		isOpen,
-		onToggle,
-		prefixIcon,
-		prefixIconCollapsed,
-		suffixIcon,
-		suffixIconCollapsed,
-		subTitle,
-		title,
-		titleScreenReaderText,
-		renderNewBadgeLabel,
-		hasNewBadgeLabel,
-	} = props;
-
+export function CollapsibleStateless( {
+	children = null,
+	className = null,
+	hasPadding = false,
+	hasSeparator = false,
+	Heading = StyledHeading,
+	id = null,
+	isOpen,
+	onToggle,
+	prefixIcon = null,
+	prefixIconCollapsed = null,
+	suffixIcon = null,
+	suffixIconCollapsed = null,
+	subTitle = null,
+	title,
+	titleScreenReaderText = null,
+	renderNewBadgeLabel = DEFAULT_RENDER_NEW_BADGE_LABEL,
+	hasNewBadgeLabel = false,
+} ) {
 	let wrappedChildren = children;
 	if ( isOpen && hasPadding ) {
 		wrappedChildren = <Content className="collapsible_content">{ children }</Content>;
@@ -203,23 +204,6 @@ CollapsibleStateless.propTypes = {
 	id: PropTypes.string,
 	renderNewBadgeLabel: PropTypes.func,
 	hasNewBadgeLabel: PropTypes.bool,
-};
-
-CollapsibleStateless.defaultProps = {
-	Heading: StyledHeading,
-	id: null,
-	children: null,
-	className: null,
-	subTitle: null,
-	titleScreenReaderText: null,
-	hasSeparator: false,
-	hasPadding: false,
-	prefixIcon: null,
-	prefixIconCollapsed: null,
-	suffixIcon: null,
-	suffixIconCollapsed: null,
-	renderNewBadgeLabel: () => {},
-	hasNewBadgeLabel: false,
 };
 
 /**

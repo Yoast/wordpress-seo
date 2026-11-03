@@ -5,6 +5,10 @@ import PropTypes from "prop-types";
 import FieldGroup from "../field-group/FieldGroup";
 import Alert from "../Alert";
 
+// Stable references matching the old defaultProps single instances, so they keep a constant identity across renders.
+const DEFAULT_NOOP = () => {};
+const DEFAULT_WARNINGS = [];
+
 /* eslint-disable complexity */
 /**
  * Renders ImageSelect component.
@@ -13,10 +17,27 @@ import Alert from "../Alert";
  *
  * @returns {React.Component} The ImageSelect.
  */
-function ImageSelect( props ) {
-	const imageSelected = props.usingFallback === false && props.imageUrl !== "";
-	const previewImageUrl = props.imageUrl || props.defaultImageUrl || "";
-	const showWarnings = props.warnings.length > 0 && ( imageSelected || props.usingFallback );
+function ImageSelect( {
+	defaultImageUrl = "",
+	imageUrl = "",
+	imageAltText = "",
+	onClick = DEFAULT_NOOP,
+	onMouseEnter = DEFAULT_NOOP,
+	onMouseLeave = DEFAULT_NOOP,
+	onRemoveImageClick = DEFAULT_NOOP,
+	selectImageButtonId = "",
+	replaceImageButtonId = "",
+	removeImageButtonId = "",
+	warnings = DEFAULT_WARNINGS,
+	hasNewBadge = false,
+	isDisabled = false,
+	usingFallback = false,
+	hasPremiumBadge = false,
+	...props
+} ) {
+	const imageSelected = usingFallback === false && imageUrl !== "";
+	const previewImageUrl = imageUrl || defaultImageUrl || "";
+	const showWarnings = warnings.length > 0 && ( imageSelected || usingFallback );
 	const imageClassNames = [ "yoast-image-select__preview" ];
 	if ( previewImageUrl === "" ) {
 		imageClassNames.push( "yoast-image-select__preview--no-preview" );
@@ -28,12 +49,12 @@ function ImageSelect( props ) {
 
 	const imageSelectButtonsProps = {
 		imageSelected: imageSelected,
-		onClick: props.onClick,
-		onRemoveImageClick: props.onRemoveImageClick,
-		selectImageButtonId: props.selectImageButtonId,
-		replaceImageButtonId: props.replaceImageButtonId,
-		removeImageButtonId: props.removeImageButtonId,
-		isDisabled: props.isDisabled,
+		onClick: onClick,
+		onRemoveImageClick: onRemoveImageClick,
+		selectImageButtonId: selectImageButtonId,
+		replaceImageButtonId: replaceImageButtonId,
+		removeImageButtonId: removeImageButtonId,
+		isDisabled: isDisabled,
 	};
 
 	/**
@@ -53,23 +74,23 @@ function ImageSelect( props ) {
 	return (
 		<div
 			className="yoast-image-select"
-			onMouseEnter={ props.onMouseEnter }
-			onMouseLeave={ props.onMouseLeave }
+			onMouseEnter={ onMouseEnter }
+			onMouseLeave={ onMouseLeave }
 		>
 			<FieldGroup
 				label={ props.label }
-				hasNewBadge={ props.hasNewBadge }
-				hasPremiumBadge={ props.hasPremiumBadge }
+				hasNewBadge={ hasNewBadge }
+				hasPremiumBadge={ hasPremiumBadge }
 			>
 				{ props.hasPreview &&
 					<button
 						className={ imageClassNames.join( " " ) }
-						onClick={ props.onClick }
+						onClick={ onClick }
 						type="button"
-						disabled={ props.isDisabled }
+						disabled={ isDisabled }
 					>
 						{ previewImageUrl !== "" &&
-							<img src={ previewImageUrl } alt={ props.imageAltText } className="yoast-image-select__preview--image" />
+							<img src={ previewImageUrl } alt={ imageAltText } className="yoast-image-select__preview--image" />
 						}
 						<ScreenReaderText />
 					</button>
@@ -77,7 +98,7 @@ function ImageSelect( props ) {
 				{
 					showWarnings && <div role="alert">
 						{
-							props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
+							warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
 								{ warning }
 							</Alert> )
 						}
@@ -111,22 +132,4 @@ ImageSelect.propTypes = {
 	isDisabled: PropTypes.bool,
 	usingFallback: PropTypes.bool,
 	hasPremiumBadge: PropTypes.bool,
-};
-
-ImageSelect.defaultProps = {
-	defaultImageUrl: "",
-	imageUrl: "",
-	imageAltText: "",
-	onClick: () => {},
-	onMouseEnter: () => {},
-	onMouseLeave: () => {},
-	onRemoveImageClick: () => {},
-	selectImageButtonId: "",
-	replaceImageButtonId: "",
-	removeImageButtonId: "",
-	warnings: [],
-	hasNewBadge: false,
-	isDisabled: false,
-	usingFallback: false,
-	hasPremiumBadge: false,
 };
