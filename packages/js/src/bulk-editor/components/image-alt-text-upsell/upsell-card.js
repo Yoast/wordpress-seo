@@ -72,7 +72,9 @@ export const ImageAltTextUpsellCard = () => {
 				>
 					<LockClosedIcon className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5" { ...svgAriaProps } />
 					{ upsellLabel }
-					<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
+					<span className="yst-sr-only">{
+						/* translators: Hidden accessibility text. */
+						__( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
 				</Button>
 			</div>
 		</section>

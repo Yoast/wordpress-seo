@@ -18,11 +18,15 @@ const App = () => {
 				<SidebarNavigation.Mobile
 					openButtonId="yst-button-open-redirects-navigation-mobile"
 					closeButtonId="yst-button-close-redirects-navigation-mobile"
-					/* translators: Hidden accessibility text. */
-					openButtonScreenReaderText={ __( "Open redirects navigation", "wordpress-seo" ) }
-					/* translators: Hidden accessibility text. */
-					closeButtonScreenReaderText={ __( "Close redirects navigation", "wordpress-seo" ) }
-					aria-label={ __( "Redirects navigation", "wordpress-seo" ) }
+					openButtonScreenReaderText={
+						/* translators: Hidden accessibility text. */
+						__( "Open redirects navigation", "wordpress-seo" ) }
+					closeButtonScreenReaderText={
+						/* translators: Hidden accessibility text. */
+						__( "Close redirects navigation", "wordpress-seo" ) }
+					aria-label={
+						/* translators: Hidden accessibility text. */
+						__( "Redirects navigation", "wordpress-seo" ) }
 				>
 					<Menu idSuffix="-mobile" />
 				</SidebarNavigation.Mobile>

@@ -56,7 +56,12 @@ export const BlackFridayPromotion = ( {
 					{ __( "BLACK FRIDAY", "wordpress-seo" ) } </Badge>
 				<button className="yst-absolute yst-top-4 yst-end-4" onClick={ onDismiss }>
 					<XIcon className="yst-w-4 yst-text-slate-400 yst-shrink-0 yst--mt-0.5" />
-					<div className="yst-sr-only">{ __( "Dismiss", "wordpress-seo" ) }</div>
+					<div className="yst-sr-only">
+						{
+							/* translators: Hidden accessibility text. */
+							__( "Dismiss", "wordpress-seo" )
+						}
+					</div>
 				</button>
 				<div
 					className={

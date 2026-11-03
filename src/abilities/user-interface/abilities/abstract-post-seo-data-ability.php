@@ -34,13 +34,13 @@ abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability 
 			];
 		};
 
-		// The rendered companion of a field carries the value as actually output on the front end: the global default template applied where no custom value is set, with replacement variables expanded.
+		// The rendered companion of a field carries the value as actually output on the front end: the global default template applied where no custom value is set, with snippet variables expanded.
 		$rendered = static function ( $field ) {
 			return [
 				'type'        => [ 'string', 'null' ],
 				'description' => \sprintf(
 					/* translators: %s expands to the name of the SEO field, e.g. "SEO title". */
-					\__( 'The %s as output on the front end: the global default template applied when no custom value is set, with replacement variables expanded. Null when nothing is output.', 'wordpress-seo' ),
+					\__( 'The %s as output on the front end: the global default template applied when no custom value is set, with snippet variables expanded. Null when nothing is output.', 'wordpress-seo' ),
 					$field,
 				),
 			];
@@ -52,7 +52,7 @@ abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability 
 				'type'        => [ 'string', 'null' ],
 				'description' => \sprintf(
 					/* translators: %s expands to the name of the SEO field, e.g. "SEO title". */
-					\__( 'The custom %s as stored for the post, which may contain unexpanded replacement variables. Null when no custom value is set; the rendered companion field carries what is actually output.', 'wordpress-seo' ),
+					\__( 'The custom %s as stored for the post, which may contain unexpanded snippet variables. Null when no custom value is set; the rendered companion field carries what is actually output.', 'wordpress-seo' ),
 					$field,
 				),
 			];

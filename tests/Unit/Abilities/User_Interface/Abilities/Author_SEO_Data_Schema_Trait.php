@@ -30,7 +30,7 @@ trait Author_SEO_Data_Schema_Trait {
 			return [
 				'type'        => [ 'string', 'null' ],
 				'description' => \sprintf(
-					'The %s as output on the front end: the global default template applied when no custom value is set, with replacement variables expanded. Null when nothing is output.',
+					'The %s as output on the front end: the global default template applied when no custom value is set, with snippet variables expanded. Null when nothing is output.',
 					$field,
 				),
 			];
@@ -39,7 +39,7 @@ trait Author_SEO_Data_Schema_Trait {
 			return [
 				'type'        => [ 'string', 'null' ],
 				'description' => \sprintf(
-					'The custom %s as stored, which may contain unexpanded replacement variables. Null when no custom value is set; the rendered companion field carries what is actually output.',
+					'The custom %s as stored, which may contain unexpanded snippet variables. Null when no custom value is set; the rendered companion field carries what is actually output.',
 					$field,
 				),
 			];

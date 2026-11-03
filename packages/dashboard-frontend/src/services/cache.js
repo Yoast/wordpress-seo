@@ -31,7 +31,7 @@ export const setSelectedStorageBackend = ( backend ) => {
  */
 export const setStorageOrder = ( order ) => {
 	storageOrder = [ ...order ];
-	setSelectedStorageBackend( undefined ); // eslint-disable-line no-undefined
+	setSelectedStorageBackend( undefined );
 };
 
 /**
@@ -43,7 +43,7 @@ export const setStorageOrder = ( order ) => {
  */
 export const resetDefaultStorageOrder = () => {
 	storageOrder = [ ...DEFAULT_ORDER ];
-	setSelectedStorageBackend( undefined ); // eslint-disable-line no-undefined
+	setSelectedStorageBackend( undefined );
 };
 
 /**
@@ -91,7 +91,7 @@ export const isStorageAvailable = ( type ) => {
  * @returns {Storage|null} A storage mechanism (`localStorage` or `sessionStorage`) if available; otherwise returns `null`.
  */
 export const getStorage = () => {
-	if ( storageBackend !== undefined ) { // eslint-disable-line no-undefined
+	if ( storageBackend !== undefined ) {
 		return storageBackend;
 	}
 
@@ -106,7 +106,7 @@ export const getStorage = () => {
 		}
 	}
 
-	if ( storageBackend === undefined ) { // eslint-disable-line no-undefined
+	if ( storageBackend === undefined ) {
 		storageBackend = null;
 	}
 
@@ -154,7 +154,7 @@ export const getItem = ( key ) => {
 
 	return {
 		cacheHit: false,
-		value: undefined, // eslint-disable-line no-undefined
+		value: undefined,
 	};
 };
 

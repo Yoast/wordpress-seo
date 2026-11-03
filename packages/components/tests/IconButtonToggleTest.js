@@ -51,3 +51,20 @@ test( "the disabled IconButtonToggle matches the snapshot", () => {
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
+
+test( "the IconButtonToggle logs a deprecation warning", () => {
+	const warn = jest.spyOn( console, "warn" ).mockImplementation( () => {} );
+
+	renderer.create(
+		<IconButtonToggle
+			id="RadioButton"
+			ariaLabel="important toggle"
+			icon="eye"
+			pressed={ false }
+			onClick={ jest.fn() }
+		/>
+	);
+
+	expect( warn ).toHaveBeenCalledWith( expect.stringContaining( "The IconButtonToggle component has been deprecated" ) );
+	warn.mockRestore();
+} );

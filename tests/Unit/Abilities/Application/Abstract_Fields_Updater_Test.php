@@ -294,10 +294,20 @@ final class Abstract_Fields_Updater_Test extends TestCase {
 				'schema'   => [ 'type' => 'array' ],
 				'expected' => [ 'https://example.com' ],
 			],
-			'Other type' => [
+			'Unset boolean' => [
+				'value'    => '',
+				'schema'   => [ 'type' => 'boolean' ],
+				'expected' => false,
+			],
+			'Boolean' => [
 				'value'    => true,
 				'schema'   => [ 'type' => 'boolean' ],
 				'expected' => true,
+			],
+			'Other type' => [
+				'value'    => 1.5,
+				'schema'   => [ 'type' => 'number' ],
+				'expected' => 1.5,
 			],
 			'No type' => [
 				'value'    => false,
