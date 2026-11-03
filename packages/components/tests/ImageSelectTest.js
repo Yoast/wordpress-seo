@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 
 import ImageSelect from "../src/image-select/ImageSelect";
@@ -29,14 +29,17 @@ describe( "ImageSelect", () => {
 		];
 
 		imageSelects.forEach( imageSelect => {
-			const component = renderer.create(
-				<ImageSelect
-					label={ imageSelect.label }
-					imageAltText={ "" }
-					hasPreview={ imageSelect.hasPreview }
-					imageUrl={ imageSelect.imageUrl }
-				/>
-			);
+			let component;
+			act( () => {
+				component = renderer.create(
+					<ImageSelect
+						label={ imageSelect.label }
+						imageAltText={ "" }
+						hasPreview={ imageSelect.hasPreview }
+						imageUrl={ imageSelect.imageUrl }
+					/>
+				);
+			} );
 			const tree = component.toJSON();
 
 			expect( tree ).toMatchSnapshot();

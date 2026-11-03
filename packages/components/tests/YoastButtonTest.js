@@ -1,26 +1,32 @@
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 import { YoastButton } from "../src/buttons/YoastButton";
 
 test( "the YoastButton matches the snapshot", () => {
-	const component = renderer.create(
-		<YoastButton backgroundColor="#c00" textColor="#fff">ButtonValue</YoastButton>
-	);
+	let component;
+	act( () => {
+		component = renderer.create(
+			<YoastButton backgroundColor="#c00" textColor="#fff">ButtonValue</YoastButton>
+		);
+	} );
 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
 test( "the YoastButton executes callback", () => {
-	const component = renderer.create(
-		<YoastButton
-			onClick={
-				() => {
-					return "clicked";
+	let component;
+	act( () => {
+		component = renderer.create(
+			<YoastButton
+				onClick={
+					() => {
+						return "clicked";
+					}
 				}
-			}
-		>ButtonValue</YoastButton>
-	);
+			>ButtonValue</YoastButton>
+		);
+	} );
 
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
