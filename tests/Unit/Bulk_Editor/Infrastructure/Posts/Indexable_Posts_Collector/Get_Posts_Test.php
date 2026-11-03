@@ -752,4 +752,54 @@ final class Get_Posts_Test extends Abstract_Test {
 		$this->assertStringContainsString( 'title IS NULL', $captured[0] );
 		$this->assertStringNotContainsString( 'BETWEEN', $captured[0] );
 	}
+
+	/**
+	 * Tests that extra pre-prepared clauses returned by the filter are OR-ed into the query.
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_needs_improvement_merges_extra_clauses_from_filter() {
+		$extra    = "object_id IN ( SELECT post_id FROM wp_postmeta WHERE meta_key = '_yoast_wpseo_alt_text_length' AND meta_value != '' )";
+		$captured = [];
+
+		Filters\expectApplied( 'wpseo_bulk_editor_needs_improvement_where_extra_clauses' )
+			->once()
+			->with( [], [ 'seo_title' ], 'product', 'indexable' )
+			->andReturn( [ $extra ] );
+
+		$query = Mockery::mock( ORM::class );
+		$query->allows( 'where' )->andReturnSelf();
+		$query->allows( 'where_in' )->andReturnSelf();
+		$query->allows( 'order_by_desc' )->andReturnSelf();
+		$query->allows( 'limit' )->andReturnSelf();
+		$query->allows( 'offset' )->andReturnSelf();
+		$query->allows( 'where_raw' )
+			->andReturnUsing(
+				static function ( $clause ) use ( &$captured ) {
+					$captured[] = $clause;
+
+					return Mockery::mock( ORM::class )->makePartial();
+				},
+			);
+		$query->allows( 'count' )->andReturn( 0 );
+		$query->expects( 'find_many' )->once()->andReturn( [] );
+
+		$this->indexable_repository->allows( 'query' )->andReturn( $query );
+		$this->post_editability_resolver->allows( 'resolve' )->andReturn( [] );
+
+		$this->instance->get_posts(
+			new Posts_Query(
+				'product',
+				1,
+				20,
+				'',
+				self::STATUSES,
+				null,
+				[ 'seo_title' ],
+			),
+		);
+
+		$this->assertNotEmpty( $captured );
+		$this->assertStringContainsString( '_yoast_wpseo_alt_text_length', $captured[0] );
+	}
 }
