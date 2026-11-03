@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
 /**
  * The ability that updates the SEO data of a single author archive.
  */
-class Update_Author_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
+class Update_Author_SEO_Data_Ability extends Abstract_Author_SEO_Data_Ability {
 
 	/**
 	 * The author SEO data updater.
@@ -57,18 +57,6 @@ class Update_Author_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 		return Ability_Categories_Integration::CATEGORY_SLUG . '/update-author-seo-data';
 	}
 
-	/**
-	 * Checks whether the current user can edit the advanced SEO metadata of other users.
-	 *
-	 * The user profile only shows these fields to users who can edit users, so this keeps the ability away from
-	 * users who could never use it. The capability helper is not used for edit_users, as it lets SEO managers pass.
-	 *
-	 * @return bool Whether the current user can edit the advanced SEO metadata of other users.
-	 */
-	public function can_edit_users_advanced_metadata(): bool {
-		return $this->can_edit_advanced_metadata() && \current_user_can( 'edit_users' );
-	}
-
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
 
 	/**
@@ -79,7 +67,7 @@ class Update_Author_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 	public function get_args(): array {
 		return [
 			'label'               => \__( 'Update Author SEO Data', 'wordpress-seo' ),
-			'description'         => \__( 'Update the SEO data for the author archive of a single user: its SEO title, meta description and whether search engines are told not to index it. Identify the user by user_id or by the permalink (URL) of their author archive. Only the fields you provide are changed; a provided empty value clears that field. Provide only the user ID or permalink to read the current values without changing anything. Only users who can edit other users can use this, and only on users they are allowed to edit.', 'wordpress-seo' ),
+			'description'         => \__( 'Update the SEO data for the author archive of a single user: its SEO title, meta description and whether search engines are told not to index it. Identify the user by user_id or by the permalink (URL) of their author archive. Only the fields you provide are changed; a provided empty value clears that field. Only users who can edit other users can use this, and only on users they are allowed to edit.', 'wordpress-seo' ),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => $this->get_update_author_seo_data_input_schema(),
 			'output_schema'       => $this->output_schema->get_author_output_schema(),
