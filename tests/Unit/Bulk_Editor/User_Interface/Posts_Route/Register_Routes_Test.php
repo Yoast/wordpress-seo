@@ -119,8 +119,8 @@ final class Register_Routes_Test extends Abstract_Test {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->once()
 			->andReturnUsing(
-				static function ( $namespace, $route, $args ) use ( &$registered_enum ) {
-					$registered_enum = $args['args']['needs_improvement']['items']['enum'] ?? null;
+				static function ( $ns, $route, $args ) use ( &$registered_enum ) {
+					$registered_enum = ( $args['args']['needs_improvement']['items']['enum'] ?? null );
 				},
 			);
 

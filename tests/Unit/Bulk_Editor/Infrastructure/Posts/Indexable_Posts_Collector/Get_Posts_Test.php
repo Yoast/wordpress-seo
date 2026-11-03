@@ -763,7 +763,7 @@ final class Get_Posts_Test extends Abstract_Test {
 		$captured = [];
 
 		Filters\expectApplied( 'wpseo_bulk_editor_needs_improvement_where_extra_clauses' )
-			->once()
+			->twice()
 			->with( [], [ 'seo_title' ], 'product', 'indexable' )
 			->andReturn( [ $extra ] );
 
