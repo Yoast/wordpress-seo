@@ -57,6 +57,18 @@ class Update_Author_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 		return Ability_Categories_Integration::CATEGORY_SLUG . '/update-author-seo-data';
 	}
 
+	/**
+	 * Checks whether the current user can edit the advanced SEO metadata of other users.
+	 *
+	 * The user profile only shows these fields to users who can edit users, so this keeps the ability away from
+	 * users who could never use it. The capability helper is not used for edit_users, as it lets SEO managers pass.
+	 *
+	 * @return bool Whether the current user can edit the advanced SEO metadata of other users.
+	 */
+	public function can_edit_users_advanced_metadata(): bool {
+		return $this->can_edit_advanced_metadata() && \current_user_can( 'edit_users' );
+	}
+
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
 
 	/**
@@ -71,7 +83,7 @@ class Update_Author_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => $this->get_update_author_seo_data_input_schema(),
 			'output_schema'       => $this->output_schema->get_author_output_schema(),
-			'permission_callback' => [ $this, 'can_edit_advanced_metadata' ],
+			'permission_callback' => [ $this, 'can_edit_users_advanced_metadata' ],
 			'execute_callback'    => [ $this->author_seo_data_updater, 'update_author_seo_data' ],
 			'meta'                => [
 				'show_in_rest' => true,

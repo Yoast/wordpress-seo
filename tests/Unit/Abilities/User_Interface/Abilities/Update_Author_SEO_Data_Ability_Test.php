@@ -125,6 +125,48 @@ final class Update_Author_SEO_Data_Ability_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that can_edit_users_advanced_metadata requires both the advanced metadata and the edit users capability.
+	 *
+	 * @covers ::can_edit_users_advanced_metadata
+	 *
+	 * @dataProvider provide_edit_users_advanced_metadata_capabilities
+	 *
+	 * @param bool $can_edit_advanced_metadata Whether the advanced metadata capability is granted.
+	 * @param bool $can_edit_users             Whether the edit users capability is granted.
+	 * @param bool $expected                   The expected result.
+	 *
+	 * @return void
+	 */
+	public function test_can_edit_users_advanced_metadata( bool $can_edit_advanced_metadata, bool $can_edit_users, bool $expected ) {
+		$this->capability_helper
+			->expects( 'current_user_can' )
+			->once()
+			->with( 'wpseo_edit_advanced_metadata' )
+			->andReturn( $can_edit_advanced_metadata );
+
+		Monkey\Functions\expect( 'current_user_can' )
+			->times( ( $can_edit_advanced_metadata ) ? 1 : 0 )
+			->with( 'edit_users' )
+			->andReturn( $can_edit_users );
+
+		$this->assertSame( $expected, $this->instance->can_edit_users_advanced_metadata() );
+	}
+
+	/**
+	 * Provides the capability combinations for the permission callback.
+	 *
+	 * @return array<string, array<bool>> The capability combinations and the expected result.
+	 */
+	public static function provide_edit_users_advanced_metadata_capabilities(): array {
+		return [
+			'both capabilities'               => [ true, true, true ],
+			'no edit users capability'        => [ true, false, false ],
+			'no advanced metadata capability' => [ false, true, false ],
+			'no capabilities'                 => [ false, false, false ],
+		];
+	}
+
+	/**
 	 * Tests that get_args returns the expected registration arguments.
 	 *
 	 * @covers ::__construct
@@ -145,7 +187,7 @@ final class Update_Author_SEO_Data_Ability_Test extends TestCase {
 				'category'            => 'yoast-seo',
 				'input_schema'        => $this->get_expected_update_input_schema(),
 				'output_schema'       => $output_schema,
-				'permission_callback' => [ $this->instance, 'can_edit_advanced_metadata' ],
+				'permission_callback' => [ $this->instance, 'can_edit_users_advanced_metadata' ],
 				'execute_callback'    => [ $this->author_seo_data_updater, 'update_author_seo_data' ],
 				'meta'                => [
 					'show_in_rest' => true,
