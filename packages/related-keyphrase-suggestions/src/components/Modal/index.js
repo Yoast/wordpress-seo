@@ -46,7 +46,9 @@ export const Modal = ( { isOpen, onClose, insightsLink, learnMoreLink, children 
 							__( "Get more insights at %s", "wordpress-seo" ),
 							"Semrush",
 						) }
-						<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
+						<span className="yst-sr-only">{
+							/* translators: Hidden accessibility text. */
+							__( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
 						<ExternalLinkIcon className="yst-link-icon rtl:yst-rotate-[270deg]" />
 					</Link>
 					<Link
@@ -55,7 +57,9 @@ export const Modal = ( { isOpen, onClose, insightsLink, learnMoreLink, children 
 						target="_blank"
 					>
 						{ __( "Learn more about the metrics", "wordpress-seo" ) }
-						<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
+						<span className="yst-sr-only">{
+							/* translators: Hidden accessibility text. */
+							__( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
 						<ArrowNarrowRightIcon className="yst-link-icon rtl:yst-rotate-180" />
 					</Link>
 				</BaseModal.Container.Footer>

@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
@@ -155,27 +154,6 @@ final class Robots_Helper_Test extends TestCase {
 					'follow' => 'follow',
 				],
 			),
-		);
-	}
-
-	/**
-	 * Tests setting 'index' to 'noindex' when a string is passed instead of an array.
-	 *
-	 * @covers ::set_robots_no_index
-	 *
-	 * @return void
-	 */
-	public function test_set_robots_no_index_string_given() {
-		Monkey\Functions\expect( '_deprecated_argument' )
-			->with(
-				Robots_Helper::class . '::set_robots_no_index',
-				'14.1',
-				'$robots has to be a key-value paired array.',
-			);
-
-		$this->assertEquals(
-			'noindex,follow',
-			$this->instance->set_robots_no_index( 'noindex,follow' ),
 		);
 	}
 }

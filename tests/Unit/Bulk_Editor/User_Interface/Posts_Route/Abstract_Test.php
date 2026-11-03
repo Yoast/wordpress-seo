@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Bulk_Editor\Application\Posts\Posts_Repository;
 use Yoast\WP\SEO\Bulk_Editor\User_Interface\Posts_Route;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -63,6 +64,13 @@ abstract class Abstract_Test extends TestCase {
 	protected $options_helper;
 
 	/**
+	 * Holds the post type helper.
+	 *
+	 * @var Mockery\MockInterface|Post_Type_Helper
+	 */
+	protected $post_type_helper;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -75,6 +83,7 @@ abstract class Abstract_Test extends TestCase {
 		$this->content_type_access_checker = Mockery::mock( Content_Type_Access_Checker_Interface::class );
 		$this->user_helper                 = Mockery::mock( User_Helper::class );
 		$this->options_helper              = Mockery::mock( Options_Helper::class );
+		$this->post_type_helper            = Mockery::mock( Post_Type_Helper::class );
 
 		$this->instance = new Posts_Route(
 			$this->posts_repository,
@@ -82,6 +91,7 @@ abstract class Abstract_Test extends TestCase {
 			$this->content_type_access_checker,
 			$this->user_helper,
 			$this->options_helper,
+			$this->post_type_helper,
 		);
 	}
 }

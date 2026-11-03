@@ -52,9 +52,7 @@ TextArea.defaultProps = {
 	ariaDescribedBy: "",
 	onChange: () => {},
 	readOnly: false,
-	/* eslint-disable no-undefined */
 	placeholder: undefined,
-	/* eslint-enable */
 	...FieldGroupDefaultProps,
 };
 

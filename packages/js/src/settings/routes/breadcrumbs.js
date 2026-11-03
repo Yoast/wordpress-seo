@@ -153,14 +153,18 @@ const Breadcrumbs = () => {
 							) }
 						</p>
 						<p>
-							{ __( "You can always choose to enable/disable them for your theme below. This setting will not apply to breadcrumbs inserted through a widget, a block or a shortcode.", "wordpress-seo" ) }
+							{ sprintf(
+								/* translators: %1$s expands to "Yoast SEO". */
+								__( "This setting only controls breadcrumbs added to your theme's template files with the %1$s PHP function. It doesn't affect breadcrumbs inserted through a block, widget, or shortcode, or the breadcrumbs structured data in your page source.", "wordpress-seo" ),
+								"Yoast SEO"
+							) }
 						</p>
 						<FormikValueChangeField
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo_titles.breadcrumbs-enable"
 							id="input-wpseo_titles-breadcrumbs-enable"
-							label={ __( "Enable breadcrumbs for your theme", "wordpress-seo" ) }
+							label={ __( "Enable breadcrumbs inserted in your theme's template", "wordpress-seo" ) }
 							className="yst-max-w-sm"
 						/>
 					</FieldsetLayout>

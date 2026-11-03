@@ -91,6 +91,7 @@ class WPSEO_Upgrade {
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
 			'22.6-RC0'   => 'upgrade_226',
+			'28.8-RC0'   => 'upgrade_288',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -1155,6 +1156,24 @@ class WPSEO_Upgrade {
 		if ( get_option( Cleanup_Integration::CURRENT_TASK_OPTION ) === false ) {
 			$cleanup_integration = YoastSEO()->classes->get( Cleanup_Integration::class );
 			$cleanup_integration->start_cron_job( 'clean_selected_empty_usermeta', DAY_IN_SECONDS );
+		}
+	}
+
+	/**
+	 * Performs the 28.8 upgrade routine.
+	 * Repairs the timestamps that the settings page stored as the text "null".
+	 * A site with the schema aggregation endpoint already enabled gets the upgrade time as its timestamp.
+	 *
+	 * @return void
+	 */
+	protected function upgrade_288() {
+		if ( ! is_numeric( WPSEO_Options::get( 'schema_aggregation_endpoint_enabled_on' ) ) ) {
+			$enabled_on = ( WPSEO_Options::get( 'enable_schema_aggregation_endpoint' ) ) ? time() : null;
+			WPSEO_Options::set( 'schema_aggregation_endpoint_enabled_on', $enabled_on, 'wpseo' );
+		}
+
+		if ( ! is_numeric( WPSEO_Options::get( 'ai_free_sparks_started_on' ) ) ) {
+			WPSEO_Options::set( 'ai_free_sparks_started_on', null, 'wpseo' );
 		}
 	}
 

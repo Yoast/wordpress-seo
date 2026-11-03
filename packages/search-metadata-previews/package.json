@@ -46,7 +46,7 @@
     "@testing-library/react": "^16.2.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@yoast/browserslist-config": "^1.2.5",
-    "@yoast/eslint-config": "^8.1.0",
+    "@yoast/eslint-config": "^8.3.0",
     "babel-plugin-styled-components": "^2.0.6",
     "browserslist": "^4.7.3",
     "eslint": "^9.16.0",
@@ -56,7 +56,7 @@
   "peerDependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
     "@heroicons/react": "^1.0.6",
-    "@yoast/ui-library": "^4.5.0",
+    "@yoast/ui-library": "^4.6.0",
     "draft-js": "^0.11.7",
     "react": "^18.3.1 || ^19.0.0",
     "react-dom": "^18.3.1 || ^19.0.0"

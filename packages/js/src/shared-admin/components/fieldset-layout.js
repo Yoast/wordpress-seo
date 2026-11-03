@@ -30,7 +30,6 @@ const classNameMap = {
  * @returns {JSX.Element} The FieldsetLayout element.
  */
 export const FieldsetLayout = ( {
-	// eslint-disable-next-line no-undefined
 	id = undefined,
 	children,
 	title,

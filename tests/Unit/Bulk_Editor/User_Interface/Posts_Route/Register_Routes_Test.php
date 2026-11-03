@@ -79,7 +79,7 @@ final class Register_Routes_Test extends Abstract_Test {
 								'type' => 'string',
 								'enum' => Posts_Collector_Interface::NEEDS_IMPROVEMENT_FIELDS,
 							],
-							'description' => 'The fields to filter posts by; a field matches when it is empty, or (for search fields with SEO analysis enabled) when its score needs improvement.',
+							'description' => 'The fields to filter posts by; a field matches when it is empty, or (for search fields, while SEO analysis is enabled and the content type shows Yoast\'s controls and assessments) when its score needs improvement.',
 						],
 						'include'           => [
 							'required'    => false,

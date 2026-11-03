@@ -171,7 +171,9 @@ const OrganicSessionsChart = ( { data } ) => (
 			/>
 		</div>
 		<table className="yst-sr-only yst-table-fixed">
-			<caption>{ __( "Organic sessions chart", "wordpress-seo" ) }</caption>
+			<caption>{
+				/* translators: Hidden accessibility text. */
+				__( "Organic sessions chart", "wordpress-seo" ) }</caption>
 			<thead>
 				<tr>
 					{ data.labels.map( ( label ) => (

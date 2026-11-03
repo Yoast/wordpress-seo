@@ -51,7 +51,7 @@
     "@storybook/theming": "^8.6.12",
     "@wordpress/jest-preset-default": "^8.0.1",
     "@yoast/browserslist-config": "^1.2.5",
-    "@yoast/eslint-config": "^8.1.0",
+    "@yoast/eslint-config": "^8.3.0",
     "@yoast/jest-preset": "^1.0.1",
     "@yoast/postcss-preset": "^1.2.1",
     "@yoast/tailwindcss-preset": "^2.6.0",
@@ -75,7 +75,7 @@
     "prop-types": "^15.8.1"
   },
   "peerDependencies": {
-    "@yoast/ui-library": "^4.5.0",
+    "@yoast/ui-library": "^4.6.0",
     "react": "^18.2.0 || ^19.0.0",
     "react-dom": "^18.2.0 || ^19.0.0"
   }

@@ -108,6 +108,15 @@ final class Upgrade_Double extends WPSEO_Upgrade {
 	}
 
 	/**
+	 * Test double. Upgrades the plugin to version 28.8.
+	 *
+	 * @return void
+	 */
+	public function upgrade_288() {
+		parent::upgrade_288();
+	}
+
+	/**
 	 * Test double. Upgrades the plugin to version 14.1.
 	 *
 	 * @return void

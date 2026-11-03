@@ -102,19 +102,6 @@ class Wincher_Publish implements Integration_Interface {
 	}
 
 	/**
-	 * Determines whether the current request is a REST request.
-	 *
-	 * @deprecated 23.6
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool Whether the request is a REST request.
-	 */
-	public function is_rest_request() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 23.6', 'wp_is_serving_rest_request' );
-		return \defined( 'REST_REQUEST' ) && \REST_REQUEST;
-	}
-
-	/**
 	 * Sends the keyphrases associated with the post to Wincher for automatic tracking.
 	 *
 	 * @param WP_Post $post The post to extract the keyphrases from.

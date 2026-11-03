@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.1
-Stable tag: 28.3
+Stable tag: 28.8
 Requires PHP: 7.4
 
 Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.
@@ -307,40 +307,45 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 28.4 =
+= 28.9 =
 
-Release date: 2026-09-01
-
-#### Enhancements
-
-* Adds the Yoast bulk editor to the WordPress admin bulk-actions menu, with needs-improvement filtering, smart selection, and AI-powered SEO title and description generation.
-
-#### Bugfixes
-
-* Fixes a bug where the AI generator's tip to write more content was not shown for posts whose content consisted mostly of block markup, because the markup was counted as content.
-
-= 28.3 =
-
-Release date: 2026-08-18
-
-Yoast SEO 28.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+Release date: 2026-11-17
 
 #### Enhancements
 
-* Adds a schemamap.xml file at the site root that exposes the aggregated schema map.
-* Adds the failing object's type and ID to the SEO data optimization error report when an indexable cannot be built.
-* Improves performance when running the SEO optimization by warming post and term caches in bulk.
-* Improves the performance of generating XML sitemaps by warming post, term and featured-image caches in bulk.
+* Introduces a new Yoast ability that lets agents update author Schema data.
+* Introduces two new Yoast abilities that let agents get and set SEO data for specific terms.
+* Introduces two new Yoast abilities that let agents get and set SEO settings for archives, special pages and non-static homepages.
+* Replaces the XSLT stylesheet of the XML sitemaps with a CSS one, so they keep rendering as a readable table after browsers drop XSLT support.
 
 #### Bugfixes
 
-* Fixes a bug where the AI Content Planner inserted an empty paragraph block before the template blocks when a post type had a block template registered.
+* Fixes a bug where the abilities to read and write the SEO data of posts could not find a static homepage by its URL.
+* Fixes a bug where the head REST endpoints exposed the content of private posts and pages to visitors who could not read them.
+
+= 28.8 =
+
+Release date: 2026-10-27
+
+New Yoast Abilities for AI agents, Schema Feeds support, and the groundwork for Yoast AI Generate for image alt text in Yoast WooCommerce SEO 17.0. [Read the release post here](https://yoa.st/57v).
+
+#### Enhancements
+
+* Adds AI-powered image alt text generation for WooCommerce product images, including a dedicated Image alt text tab in the bulk editor for Yoast WooCommerce SEO.
+* Adds Yoast abilities that let agents turn site-wide features on and off: llms.txt, Open Graph data, Schema Aggregator, Schema Framework, X card data, and XML sitemaps.
+* Adds a Yoast ability that lets agents update Site representation settings.
+* Adds the `sf:contentType` element from NLWeb's Schema Feeds specification to the schema map.
+
+#### Bugfixes
+
+* Fixes a bug where AI Optimize buttons were shown in the content analysis when AI features were turned off.
+* Fixes a bug where the AI features' free trial was treated as already started after the Yoast SEO settings were saved.
+* Fixes a bug where the bulk editor kept the SEO analysis active when the user had turned it off in their profile.
+* Fixes a bug where the time the schema aggregation endpoint was enabled was not recorded when the setting was saved from the Site features page.
 
 #### Other
 
-* Adds a first-time guided tour to the bulk editor.
-* Sets the minimum supported WordPress version to 6.9.
-* Sets the _WordPress tested up to_ version to 7.1.
+* Sets the minimum supported WordPress version to 7.0.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

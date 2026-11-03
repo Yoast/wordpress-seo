@@ -40,8 +40,9 @@ class Ability_Categories_Integration implements Integration_Interface {
 		\wp_register_ability_category(
 			self::CATEGORY_SLUG,
 			[
-				'label'       => \__( 'Yoast SEO', 'wordpress-seo' ),
-				'description' => \__( 'SEO analysis capabilities provided by Yoast SEO.', 'wordpress-seo' ),
+				'label'       => 'Yoast SEO',
+				/* translators: %s expands to Yoast SEO */
+				'description' => \sprintf( \__( 'Abilities for %s data and operations.', 'wordpress-seo' ), 'Yoast SEO' ),
 			],
 		);
 	}

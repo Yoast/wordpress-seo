@@ -22,9 +22,9 @@
         "8.1",
         "8.2"
       ],
-      "container": "bullseye",
+      "container": "trixie",
       "possible container values": [
-        "bullseye"
+        "trixie"
       ],
       "comment": "Used Jenkins container will be made of <version>-<container> see https://hub.docker.com/r/yoastseo/jenkins-plugin-release/tags"
     },

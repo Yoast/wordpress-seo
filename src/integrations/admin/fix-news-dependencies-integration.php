@@ -2,16 +2,32 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use WP_Screen;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\News_Conditional;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Fix_News_Dependencies_Integration class.
  */
 class Fix_News_Dependencies_Integration implements Integration_Interface {
+
+	/**
+	 * Holds the current page helper.
+	 *
+	 * @var Current_Page_Helper
+	 */
+	private $current_page_helper;
+
+	/**
+	 * Constructs the integration.
+	 *
+	 * @param Current_Page_Helper $current_page_helper The current page helper.
+	 */
+	public function __construct( Current_Page_Helper $current_page_helper ) {
+		$this->current_page_helper = $current_page_helper;
+	}
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -51,7 +67,7 @@ class Fix_News_Dependencies_Integration implements Integration_Interface {
 			return;
 		}
 
-		$is_block_editor  = WP_Screen::get()->is_block_editor();
+		$is_block_editor  = $this->current_page_helper->is_block_editor();
 		$post_edit_handle = 'post-edit';
 		if ( ! $is_block_editor ) {
 			$post_edit_handle = 'post-edit-classic';

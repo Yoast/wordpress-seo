@@ -63,6 +63,7 @@ export { default as Heading } from "./Heading";
 export { default as HelpText } from "./HelpText";
 export { default as Icon } from "./Icon";
 export { default as IconButtonBase } from "./IconButtonBase";
+// Deprecated, kept in place because moving them changes the generated styled-components class names.
 export { default as IconButtonToggle } from "./IconButtonToggle.js";
 export { default as IconCTAEditButton } from "./IconCTAEditButton.js";
 export { default as IFrame } from "./IFrame";
@@ -76,7 +77,7 @@ export { default as Notification } from "./Notification";
 export { default as Paper } from "./Paper";
 export { default as ProgressBar } from "./ProgressBar";
 export { default as Section } from "./Section";
-export { SectionTitle } from "./SectionTitle";
+export { SectionTitle, StyledTitle } from "./SectionTitle";
 export { default as ScoreAssessments } from "./ScoreAssessments";
 export { default as StackedProgressBar } from "./StackedProgressBar";
 export { default as SvgIcon, icons } from "./SvgIcon";

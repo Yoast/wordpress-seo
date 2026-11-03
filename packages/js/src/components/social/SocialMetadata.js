@@ -10,6 +10,7 @@ import styled from "styled-components";
 import FacebookContainer from "../../containers/FacebookEditor";
 import TwitterContainer from "../../containers/TwitterEditor";
 import { StyledDescription, StyledDescriptionTop } from "../../helpers/styledDescription";
+import SocialPreviewsHelpLink from "./SocialPreviewsHelpLink";
 
 const StyledSocialAppearanceMetabox = styled.div`
 	padding: 16px;
@@ -31,6 +32,7 @@ const SocialMetadata = ( { useOpenGraphData, useTwitterData } ) => {
 					/* translators: Social media appearance refers to a preview of how a page will be represented on social media. */
 					title={ __( "Social media appearance", "wordpress-seo" ) }
 					initialIsOpen={ true }
+					HeaderHelpLink={ SocialPreviewsHelpLink }
 				>
 					<StyledDescriptionTop>{
 						__( "Determine how your post should look on social media like Facebook, X, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
@@ -55,10 +57,12 @@ const SocialMetadata = ( { useOpenGraphData, useTwitterData } ) => {
 			{ ( useOpenGraphData && ! useTwitterData ) &&
 				// If X is not enabled, don't display Social appearance as a collapsible.
 				<StyledSocialAppearanceMetabox>
-					<StyledDescriptionTop>{
-						__( "Determine how your post should look on social media like Facebook, X, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
-							"wordpress-seo" )
-					}</StyledDescriptionTop>
+					<StyledDescriptionTop>
+						{ __( "Determine how your post should look on social media like Facebook, X, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
+							"wordpress-seo" ) }
+						{ /* Without X appearance this section is not a collapsible, so there is no header to put the link in. */ }
+						<SocialPreviewsHelpLink />
+					</StyledDescriptionTop>
 					<FacebookContainer />
 				</StyledSocialAppearanceMetabox>
 			}

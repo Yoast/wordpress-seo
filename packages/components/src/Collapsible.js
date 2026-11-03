@@ -232,6 +232,8 @@ export class Collapsible extends React.Component {
 	 * @param {Object}  props                       The properties for the component.
 	 * @param {string}  props.className             The name of the collapsible CSS class.
 	 * @param {Object}  props.headingProps          Props to use in the Heading.
+	 * @param {IconsButton} props.Heading           Optional replacement for the heading wrapped around the
+	 *                                              button here. Its caller owns the styling, headingProps included.
 	 * @param {boolean} props.initialIsOpen         Determines if the initial isOpen state is open or closed.
 	 * @param {Object}  props.prefixIcon            Heading icon before the title.
 	 * @param {Object}  props.prefixIconCollapsed   Prefix icon when in collapsed state.
@@ -307,13 +309,14 @@ export class Collapsible extends React.Component {
 	 */
 	render() {
 		const { isOpen } = this.state;
-		const { children } = this.props;
+		const { children, Heading } = this.props;
 
-		const newProps = omit( this.props, [ "children", "onToggle" ] );
+		const newProps = omit( this.props, [ "children", "onToggle", "Heading" ] );
 
 		return (
 			<CollapsibleStateless
-				Heading={ this.state.Heading }
+				// A heading passed in replaces the one wrapped in the constructor.
+				Heading={ Heading || this.state.Heading }
 				isOpen={ isOpen }
 				onToggle={ this.toggleCollapse }
 				{ ...newProps }
@@ -330,6 +333,7 @@ Collapsible.propTypes = {
 		PropTypes.node,
 	] ),
 	className: PropTypes.string,
+	Heading: PropTypes.func,
 	initialIsOpen: PropTypes.bool,
 	hasSeparator: PropTypes.bool,
 	hasPadding: PropTypes.bool,
@@ -368,6 +372,7 @@ Collapsible.propTypes = {
 };
 
 Collapsible.defaultProps = {
+	Heading: null,
 	hasSeparator: false,
 	hasPadding: false,
 	initialIsOpen: false,
