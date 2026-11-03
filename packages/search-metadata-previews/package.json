@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@wordpress/a11y": "^4.8.2",
-    "@wordpress/element": "^6.8.1",
+    "@wordpress/element": "^9.0.0",
     "@wordpress/i18n": "^5.8.2",
     "@yoast/components": "^3.0.0-alpha.3",
     "@yoast/helpers": "^0.17.0-alpha.2",
