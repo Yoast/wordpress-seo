@@ -4,20 +4,14 @@
 namespace Yoast\WP\SEO\Abilities\Application;
 
 use WP_Error;
-use Yoast\WP\SEO\Abilities\Domain\Exceptions\Unavailable_Global_Setting_Target_Exception;
+use Yoast\WP\SEO\Abilities\Domain\Global_Setting_Target_Interface;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
-use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Application service that updates the global settings of one target.
- *
- * The values are saved through the options helper, so they are sanitized and validated exactly like they are when
- * saved from the settings page.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ * Updates the global SEO settings of a target.
  */
-class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Updater {
+class Global_SEO_Settings_Updater extends Abstract_Fields_Updater {
 
 	/**
 	 * The global setting field map.
@@ -27,16 +21,9 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 	private $field_map;
 
 	/**
-	 * The global setting target repository.
+	 * The global SEO settings collector.
 	 *
-	 * @var Global_Setting_Target_Repository
-	 */
-	private $target_repository;
-
-	/**
-	 * The archive and special page SEO settings collector.
-	 *
-	 * @var Archive_And_Special_Page_SEO_Settings_Collector
+	 * @var Global_SEO_Settings_Collector
 	 */
 	private $collector;
 
@@ -50,21 +37,18 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 	/**
 	 * Constructor.
 	 *
-	 * @param Global_Setting_Field_Map                        $field_map         The global setting field map.
-	 * @param Global_Setting_Target_Repository                $target_repository The global setting target repository.
-	 * @param Archive_And_Special_Page_SEO_Settings_Collector $collector         The archive and special page SEO settings collector.
-	 * @param Options_Helper                                  $options_helper    The options helper.
+	 * @param Global_Setting_Field_Map      $field_map      The global setting field map.
+	 * @param Global_SEO_Settings_Collector $collector      The global SEO settings collector.
+	 * @param Options_Helper                $options_helper The options helper.
 	 */
 	public function __construct(
 		Global_Setting_Field_Map $field_map,
-		Global_Setting_Target_Repository $target_repository,
-		Archive_And_Special_Page_SEO_Settings_Collector $collector,
+		Global_SEO_Settings_Collector $collector,
 		Options_Helper $options_helper
 	) {
-		$this->field_map         = $field_map;
-		$this->target_repository = $target_repository;
-		$this->collector         = $collector;
-		$this->options_helper    = $options_helper;
+		$this->field_map      = $field_map;
+		$this->collector      = $collector;
+		$this->options_helper = $options_helper;
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The fields added through the filter can hold any option value.
@@ -72,28 +56,20 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 	/**
 	 * Updates the global settings of a target and returns its new state.
 	 *
-	 * Only fields present in the input are changed (patch semantics). Fields the target does not have, or that
-	 * cannot be saved, are reported in a warning, while the other fields are still saved. A post type is only used
-	 * for the archive of a content type, and ignored for the other targets.
+	 * Only fields present in the input are changed (patch semantics). Fields the target does not have or that
+	 * cannot be saved are reported in a warning, while the other fields are still saved. Anything in
+	 * the input that is not a field, like what identifies the target, is ignored.
 	 *
-	 * @param array<string, mixed> $input The target, the post type for the archive of a content type, and the fields
-	 *                                    to change.
+	 * @param Global_Setting_Target_Interface $target The target, which is expected to be available.
+	 * @param array<string, mixed>            $input  The fields to change.
 	 *
 	 * @return array<string, mixed>|WP_Error The new global settings of the target, plus a warning when some fields
-	 *                                       could not be changed, or an error when the target cannot be changed or
-	 *                                       no field is provided.
+	 *                                       could not be changed, or an error when no field is provided.
 	 */
-	public function update( array $input ) {
-		try {
-			$target = $this->target_repository->get( (string) ( $input['target'] ?? '' ), (string) ( $input['post_type'] ?? '' ) );
-			$target->ensure_available();
-		} catch ( Unavailable_Global_Setting_Target_Exception $exception ) {
-			return new WP_Error( $exception->get_error_code(), $exception->getMessage(), [ 'status' => $exception->getCode() ] );
-		}
-
+	public function update( Global_Setting_Target_Interface $target, array $input ) {
 		$fields = $this->field_map->get_fields();
 
-		// The post type identifies the target rather than being a setting, so the input schema cannot catch this.
+		// What identifies the target is not a setting, so the input schema cannot catch this.
 		if ( \array_intersect_key( $fields, $input ) === [] ) {
 			return new WP_Error(
 				'yoast_seo_no_settings',
@@ -123,8 +99,8 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 	}
 
 	/**
-	 * Validates and saves a single field, unless the target does not have it, which is never saved, whatever its
-	 * own validator would say.
+	 * Validates and saves a single field, unless the target does not have it, which is never saved, whatever its own
+	 * validator would say.
 	 *
 	 * @param array<string, callable> $validators The validator of each field that has one, keyed by field name.
 	 * @param string                  $field_name The name of the field.

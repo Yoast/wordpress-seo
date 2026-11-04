@@ -5,7 +5,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
 use stdClass;
-use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Settings_Collector;
+use Yoast\WP\SEO\Abilities\Application\Global_SEO_Settings_Collector;
+use Yoast\WP\SEO\Abilities\Domain\Global_Setting_Target_Interface;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Archive_And_Special_Page_SEO_Settings_Ability;
@@ -22,6 +23,13 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestCase {
+
+	/**
+	 * The names of the targets.
+	 *
+	 * @var array<string>
+	 */
+	private const TARGET_NAMES = [ 'homepage', 'post_type_archive', 'taxonomy_archive', 'author_archives', 'date_archives', 'search_page', 'not_found_page' ];
 
 	/**
 	 * The capability helper mock.
@@ -45,9 +53,9 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 	private $target_repository;
 
 	/**
-	 * The archive and special page SEO settings collector mock.
+	 * The global SEO settings collector mock.
 	 *
-	 * @var Mockery\MockInterface|Archive_And_Special_Page_SEO_Settings_Collector
+	 * @var Mockery\MockInterface|Global_SEO_Settings_Collector
 	 */
 	private $collector;
 
@@ -71,9 +79,9 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 		$this->capability_helper = Mockery::mock( Capability_Helper::class );
 		$this->field_map         = Mockery::mock( Global_Setting_Field_Map::class );
 		$this->target_repository = Mockery::mock( Global_Setting_Target_Repository::class );
-		$this->collector         = Mockery::mock( Archive_And_Special_Page_SEO_Settings_Collector::class );
+		$this->collector         = Mockery::mock( Global_SEO_Settings_Collector::class );
 
-		$this->target_repository->allows( 'get_names' )->andReturn( [ 'homepage', 'author_archives', 'date_archives', 'search_page', 'not_found_page', 'post_type_archive' ] );
+		$this->target_repository->allows( 'get_names' )->andReturn( self::TARGET_NAMES );
 
 		$this->instance = new Get_Archive_And_Special_Page_SEO_Settings_Ability( $this->capability_helper, $this->field_map, $this->target_repository, $this->collector );
 	}
@@ -92,7 +100,7 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 	/**
 	 * Tests that the ability is always available.
 	 *
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Settings_Ability::is_available
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Global_SEO_Settings_Ability::is_available
 	 *
 	 * @return void
 	 */
@@ -105,7 +113,8 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 	 *
 	 * @covers ::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Settings_Ability::__construct
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Settings_Ability::can_manage_seo
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Global_SEO_Settings_Ability::__construct
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Global_SEO_Settings_Ability::can_manage_seo
 	 *
 	 * @return void
 	 */
@@ -123,25 +132,36 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 	 * @return void
 	 */
 	public function test_execute() {
-		$data = [ 'homepage' => [ 'seo_title' => 'Home' ] ];
+		$first  = Mockery::mock( Global_Setting_Target_Interface::class );
+		$second = Mockery::mock( Global_Setting_Target_Interface::class );
 
-		$this->collector->expects( 'get_all' )->once()->andReturn( $data );
+		$this->target_repository->expects( 'get_all' )->once()->andReturn( [ $first, $second ] );
+		$this->collector->expects( 'get_target_settings' )->once()->with( $first )->andReturn( [ 'target' => 'homepage' ] );
+		$this->collector->expects( 'get_target_settings' )->once()->with( $second )->andReturn( [ 'target' => 'taxonomy_archive' ] );
 
-		$this->assertSame( $data, $this->instance->execute() );
+		$this->assertSame(
+			[
+				[ 'target' => 'homepage' ],
+				[ 'target' => 'taxonomy_archive' ],
+			],
+			$this->instance->execute(),
+		);
 	}
 
 	/**
-	 * Tests that get_args describes a list of targets with a single item schema, with the fields reduced to their
-	 * output schema, and registers the ability as read-only with an empty, optional input.
+	 * Tests that get_args describes a list of targets with only the fields of the archive and special page targets,
+	 * reduced to their output schema, and registers the ability as read-only with an empty, optional input.
 	 *
 	 * @covers ::get_args
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Settings_Ability::get_target_output_schema
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Settings_Ability::to_output_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Settings_Ability::get_targets_description
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Global_SEO_Settings_Ability::build_target_output_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Global_SEO_Settings_Ability::to_output_schema
 	 *
 	 * @return void
 	 */
 	public function test_get_args() {
-		$this->field_map->expects( 'get_fields' )->once()->andReturn(
+		$this->field_map->expects( 'get_fields_for_targets' )->once()->with( self::TARGET_NAMES )->andReturn(
 			[
 				'seo_title' => [
 					'type'        => 'string',
@@ -161,18 +181,18 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 			],
 			$args['input_schema'],
 		);
+		$this->assertStringContainsString( 'yoast-seo/get-content-type-seo-settings', $args['description'] );
+
 		$this->assertSame( 'array', $args['output_schema']['type'] );
 
 		$properties = $args['output_schema']['items']['properties'];
 
 		$this->assertSame(
-			[ 'target', 'post_type', 'label', 'seo_title', 'enabled', 'shared' ],
+			[ 'target', 'post_type', 'taxonomy', 'label', 'seo_title', 'enabled', 'shared' ],
 			\array_keys( $properties ),
 		);
-		$this->assertSame(
-			[ 'homepage', 'author_archives', 'date_archives', 'search_page', 'not_found_page', 'post_type_archive' ],
-			$properties['target']['enum'],
-		);
+		$this->assertSame( self::TARGET_NAMES, $properties['target']['enum'] );
+		$this->assertStringContainsString( 'Under "Categories & tags": taxonomy_archive holds the default settings', $properties['target']['description'] );
 		$this->assertSame(
 			[
 				'type'        => 'string',

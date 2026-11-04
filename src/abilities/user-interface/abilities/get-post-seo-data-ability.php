@@ -56,7 +56,11 @@ class Get_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	public function get_args(): array {
 		return [
 			'label'               => \__( 'Get Post SEO Data', 'wordpress-seo' ),
-			'description'         => \__( 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned.', 'wordpress-seo' ),
+			'description'         => \sprintf(
+				/* translators: %s: the name of an ability. */
+				\__( 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned. Settings the post does not set itself fall back to the default settings of its content type, which the %s ability returns.', 'wordpress-seo' ),
+				'yoast-seo/get-content-type-seo-settings',
+			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => $this->get_post_identifier_input_schema(),
 			'output_schema'       => [
