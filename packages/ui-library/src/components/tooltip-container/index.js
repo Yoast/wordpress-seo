@@ -155,9 +155,6 @@ export const TooltipWithContext = ( { className = "", children = null, ...props 
 	const tooltipRef = useRef();
 
 	useEffect( () => {
-		if ( ! tooltipRef.current ) {
-			return;
-		}
 		const rect = tooltipRef.current.getBoundingClientRect();
 		setTooltipPosition( {
 			top: rect.top,

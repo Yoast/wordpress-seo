@@ -313,6 +313,12 @@ Release date: 2026-11-17
 
 #### Enhancements
 
+* Adds a _Duplicate alt text_ assessment that flags when different images on the page share the same alt text.
+* Adds a _keyphrase stuffing in alt text_ assessment that flags images whose alt text overuses the keyphrase or its synonyms.
+* Adds an _alt text length_ assessment that flags images whose alt text is too short or too long.
+* Adds a _non-descriptive alt text_ assessment that flags images whose alt text is a placeholder, a file name or a generic default like \"Product image\".
+* Adds a _redundant phrase in alt text_ assessment that flags images whose alt text contains a phrase like \"Image of\".
+* Adds five new image alt text SEO assessments (alt text length, duplicate alt text, redundant phrase in alt text, non-descriptive alt text, and keyphrase stuffing in alt text), removes the _Keyphrase in image alt attributes_ assessment, and extends the bulk editor with image alt text filters.
 * Introduces a new Yoast ability that lets agents update author Schema data.
 * Introduces two new Yoast abilities that let agents get and set SEO data for specific terms.
 * Introduces two new Yoast abilities that let agents get and set SEO settings for archives, special pages and non-static homepages.
@@ -322,6 +328,11 @@ Release date: 2026-11-17
 
 * Fixes a bug where the abilities to read and write the SEO data of posts could not find a static homepage by its URL.
 * Fixes a bug where the head REST endpoints exposed the content of private posts and pages to visitors who could not read them.
+
+#### Other
+
+* Removes the _keyphrase in image alt attributes_ assessment, which is replaced by the alt text quality assessments.
+* Replaces legacy `IconButtonToggle` and `IconCTAEditButton` components with `@yoast/ui-library` `Button`, `TooltipContainer`, and `@heroicons/react` icons in content analysis results.
 
 = 28.8 =
 

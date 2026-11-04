@@ -1,6 +1,5 @@
 import SEOAssessor from "../seoAssessor";
 import MetaDescriptionLengthAssessment from "../../assessments/seo/MetaDescriptionLengthAssessment";
-import KeyphraseInImagesAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment";
 import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment";
 import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssessment";
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
@@ -21,9 +20,6 @@ export default class CornerstoneSEOAssessor extends SEOAssessor {
 
 		this.addAssessment( "metaDescriptionLength", new MetaDescriptionLengthAssessment( {
 			scores: { tooLong: 3, tooShort: 3 },
-		} ) );
-		this.addAssessment( "imageKeyphrase", new KeyphraseInImagesAssessment( {
-			scores: { withAltNonKeyword: 3, noAlt: 3 },
 		} ) );
 		this.addAssessment( "textLength", new TextLengthAssessment( {
 			recommendedMinimum: 900,

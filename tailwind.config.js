@@ -4,7 +4,6 @@ module.exports = {
 	presets: [ preset ],
 	content: [
 		"./packages/ui-library/src/**/!(stories).js",
-		"./packages/analysis-report/src/**/!(stories).js",
 		"./packages/related-keyphrase-suggestions/src/**/!(stories).js",
 		"./packages/dashboard-frontend/src/**/!(stories).js",
 		"./packages/js/src/**/*.js",
