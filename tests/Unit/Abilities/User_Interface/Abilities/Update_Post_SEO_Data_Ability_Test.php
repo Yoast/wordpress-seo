@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
@@ -58,6 +57,13 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	private $ai_generate_upsell;
 
 	/**
+	 * The schema types mock.
+	 *
+	 * @var Mockery\MockInterface|Schema_Types
+	 */
+	private $schema_types;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Update_Post_SEO_Data_Ability
@@ -74,19 +80,19 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		// The article-type enum is built from the documented filter; return the default unfiltered.
-		Monkey\Functions\when( 'apply_filters' )->returnArg( 2 );
-
 		$this->capability_helper                   = Mockery::mock( Capability_Helper::class );
 		$this->should_index_indexables_conditional = Mockery::mock( Should_Index_Indexables_Conditional::class );
 		$this->post_seo_data_updater               = Mockery::mock( Post_SEO_Data_Updater::class );
 		$this->ai_generate_upsell                  = Mockery::mock( AI_Generate_Upsell::class );
+		$this->schema_types                        = Mockery::mock( Schema_Types::class );
+		$this->schema_types->allows( 'get_article_types' )->andReturn( \array_keys( Schema_Types::ARTICLE_TYPES ) );
 
 		$this->instance = new Update_Post_SEO_Data_Ability(
 			$this->capability_helper,
 			$this->should_index_indexables_conditional,
 			$this->post_seo_data_updater,
 			$this->ai_generate_upsell,
+			$this->schema_types,
 		);
 	}
 
@@ -166,7 +172,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Update Post SEO Data',
-				'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.',
+				'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated. To change a setting for all posts of a content type, update its default with the yoast-seo/update-content-type-seo-settings ability instead.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => $this->get_expected_update_input_schema(),
 				'output_schema'       => $output_schema,

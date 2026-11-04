@@ -79,7 +79,11 @@ class Update_Term_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 	public function get_args(): array {
 		return [
 			'label'               => \__( 'Update Term SEO Data', 'wordpress-seo' ),
-			'description'         => \__( 'Update the SEO data for a single taxonomy term, such as a category or a tag. Identify the term by term_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only terms the current user is allowed to edit can be updated.', 'wordpress-seo' ),
+			'description'         => \sprintf(
+				/* translators: %s: the name of an ability. */
+				\__( 'Update the SEO data for a single taxonomy term, such as a category or a tag. Identify the term by term_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only terms the current user is allowed to edit can be updated. To change a setting for all terms of a taxonomy, update its default with the %s ability instead.', 'wordpress-seo' ),
+				'yoast-seo/update-archive-and-special-page-seo-settings',
+			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => $this->get_update_term_seo_data_input_schema(),
 			'output_schema'       => $this->ai_generate_upsell->add_to_schema( $this->output_schema->get_term_output_schema() ),

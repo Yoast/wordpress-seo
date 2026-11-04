@@ -5,8 +5,11 @@ namespace Yoast\WP\SEO\Abilities\Domain;
 use Yoast\WP\SEO\Abilities\Domain\Exceptions\Unavailable_Global_Setting_Target_Exception;
 
 /**
- * Describes a group of pages that are neither posts nor terms and share their SEO settings, like the homepage or
- * the author archives.
+ * Describes a group of pages that share SEO settings stored as global options, whether the pages can override them
+ * with their own settings, like the posts of a content type, or not, like the date archives.
+ *
+ * @internal Backs the global SEO settings abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 interface Global_Setting_Target_Interface {
 

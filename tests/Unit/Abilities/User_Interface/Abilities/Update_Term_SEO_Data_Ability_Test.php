@@ -152,7 +152,7 @@ final class Update_Term_SEO_Data_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Update Term SEO Data',
-				'description'         => 'Update the SEO data for a single taxonomy term, such as a category or a tag. Identify the term by term_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only terms the current user is allowed to edit can be updated.',
+				'description'         => 'Update the SEO data for a single taxonomy term, such as a category or a tag. Identify the term by term_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only terms the current user is allowed to edit can be updated. To change a setting for all terms of a taxonomy, update its default with the yoast-seo/update-archive-and-special-page-seo-settings ability instead.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => $this->get_expected_update_input_schema(),
 				'output_schema'       => $output_schema,
