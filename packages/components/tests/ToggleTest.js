@@ -17,8 +17,7 @@ describe( "Toggle", () => {
 
 		const result = container.firstChild;
 
-		expect( result ).not.toBeNull();
-		expect( result.querySelector( ".yoast-toggle" ) ).not.toBeNull();
+		expect( result.querySelector( ".yoast-toggle" ).parentElement ).toBe( result );
 	} );
 	it( "should fire the onChange event when the input is changed", () => {
 		const mockChange = jest.fn();

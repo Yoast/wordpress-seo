@@ -4,12 +4,12 @@ import Input from "../src/input/Input";
 
 describe( "Input", () => {
 	it( "generates an input based on the props", () => {
-		render( <Input type="text" name="textInput" /> );
+		render( <Input type="text" name="textInput" value="some value" /> );
 
 		const input = screen.getByRole( "textbox" );
 
 		expect( input.name ).toBe( "textInput" );
-		expect( input.defaultValue ).toBe( "" );
+		expect( input.defaultValue ).toBe( "some value" );
 	} );
 
 	it( "generates an input based on the defaults if required props are missing", () => {
@@ -19,7 +19,7 @@ describe( "Input", () => {
 
 		expect( input.name ).toBe( "input" );
 		expect( input.type ).toBe( "text" );
-		expect( input.defaultValue ).toBe( "" );
+		expect( input.getAttribute( "value" ) ).toBe( "" );
 	} );
 
 	it( "generates an input based on the defaults if required props are partially missing", () => {
@@ -29,7 +29,7 @@ describe( "Input", () => {
 
 		expect( input.name ).toBe( "textInput" );
 		expect( input.type ).toBe( "text" );
-		expect( input.defaultValue ).toBe( "" );
+		expect( input.getAttribute( "value" ) ).toBe( "" );
 	} );
 
 	it( "generates an input based on the defaults and additional, optional attributes", () => {
