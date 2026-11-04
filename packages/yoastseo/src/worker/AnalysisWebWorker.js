@@ -3,7 +3,8 @@
 import { enableFeatures } from "@yoast/feature-flag";
 import { setLocaleData } from "@wordpress/i18n";
 import { forEach, has, includes, isEmpty, isEqual, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash";
-import { getLogger } from "loglevel";
+// Default import: loglevel is CommonJS, so Node ESM can't import its named exports.
+import loglevel from "loglevel";
 
 // Internal dependencies.
 import { build } from "../parse/build";
@@ -28,7 +29,7 @@ import RelatedKeywordTaxonomyAssessor from "../scoring/assessors/relatedKeywordT
 import SEOAssessor from "../scoring/assessors/seoAssessor.js";
 import TaxonomyAssessor from "../scoring/assessors/taxonomyAssessor.js";
 
-const logger = getLogger( "yoast-analysis-worker" );
+const logger = loglevel.getLogger( "yoast-analysis-worker" );
 logger.setDefaultLevel( "error" );
 
 /**

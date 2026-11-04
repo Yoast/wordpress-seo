@@ -1,6 +1,6 @@
 import { isNaN, isUndefined, map } from "lodash";
 
-import core from "tokenizer2/core";
+import core from "tokenizer2/core.js";
 
 import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
