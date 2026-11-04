@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import React from "react";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import {
 	NewButton as Button,
 	ButtonStyledLink,
@@ -73,6 +73,14 @@ describe( "Primary variant", () => {
 		const result = container.firstChild;
 		expect( result ).toMatchSnapshot();
 		expect( result.className ).toBe( expectedClassName );
+	} );
+
+	it( "calls onClick when the Button is clicked", () => {
+		const onClick = jest.fn();
+		const { container } = render( <Button variant="primary" onClick={ onClick }>test</Button> );
+
+		fireEvent.click( container.firstChild );
+		expect( onClick ).toHaveBeenCalledTimes( 1 );
 	} );
 
 	it( "matches the Link snapshot", () => {
@@ -166,5 +174,13 @@ describe( "Icon", () => {
 		const result = container.firstChild;
 		expect( result ).toMatchSnapshot();
 		expect( result.className ).toBe( closeClassname );
+	} );
+
+	it( "calls onClick when the CloseButton is clicked", () => {
+		const onClick = jest.fn();
+		const { container } = render( <CloseButton onClick={ onClick }>test</CloseButton> );
+
+		fireEvent.click( container.firstChild );
+		expect( onClick ).toHaveBeenCalledTimes( 1 );
 	} );
 } );

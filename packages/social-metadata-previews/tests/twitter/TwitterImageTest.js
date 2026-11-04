@@ -10,7 +10,7 @@ import * as determineImageProperties from "../../src/helpers/determineImagePrope
 determineImageProperties.handleImage = jest.fn();
 
 describe( "TwitterImage Component", () => {
-	it( "calls determineImageProperties with the correct image URL", () => {
+	it( "calls determineImageProperties with the correct image URL", async() => {
 		const imageUrl = "https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg";
 
 		determineImageProperties.handleImage.mockReturnValueOnce(
@@ -24,7 +24,7 @@ describe( "TwitterImage Component", () => {
 			}
 		);
 
-		act( () => {
+		await act( async() => {
 			renderer.create(
 				<TwitterImage src={ imageUrl } isLarge={ true } />
 			);
