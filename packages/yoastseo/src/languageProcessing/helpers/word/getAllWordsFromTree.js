@@ -1,6 +1,6 @@
-import getSentencesFromTree from "../sentence/getSentencesFromTree";
+import getSentencesFromTree from "../sentence/getSentencesFromTree.js";
 import { flatMap } from "lodash";
-import removePunctuation from "../sanitize/removePunctuation";
+import removePunctuation from "../sanitize/removePunctuation.js";
 
 /**
  * @typedef {import("../../../parse/structure/Token").default} Token

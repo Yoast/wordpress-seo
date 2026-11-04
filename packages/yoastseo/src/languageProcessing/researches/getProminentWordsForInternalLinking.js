@@ -1,5 +1,5 @@
 import { take } from "lodash";
-import countWords from "../helpers/word/countWords";
+import countWords from "../helpers/word/countWords.js";
 import {
 	collapseProminentWordsOnStem,
 	filterProminentWords,
@@ -7,11 +7,11 @@ import {
 	getProminentWordsFromPaperAttributes,
 	retrieveAbbreviations,
 	sortProminentWords,
-} from "../helpers/prominentWords/determineProminentWords";
-import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../helpers/html/getSubheadings";
-import baseStemmer from "../helpers/morphology/baseStemmer";
+} from "../helpers/prominentWords/determineProminentWords.js";
+import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../helpers/html/getSubheadings.js";
+import baseStemmer from "../helpers/morphology/baseStemmer.js";
 import removeURLs from "../helpers/sanitize/removeURLs.js";
-import removeEmailAddresses from "../helpers/sanitize/removeEmailAddresses";
+import removeEmailAddresses from "../helpers/sanitize/removeEmailAddresses.js";
 
 /**
  * Removes URLs and email addresses from the text.

@@ -1,7 +1,7 @@
-import Node from "./Node";
-import Heading from "./Heading";
-import Paragraph from "./Paragraph";
-import Text from "./Text";
+import Node from "./Node.js";
+import Heading from "./Heading.js";
+import Paragraph from "./Paragraph.js";
+import Text from "./Text.js";
 
 /**
  * @module parse/structure

@@ -1,7 +1,7 @@
 /* eslint-disable max-statements, complexity */
 // The original stemmer is available at https://github.com/dmarman/lorca/blob/master/src/stemmer.js.
 import { languageProcessing } from "yoastseo";
-import checkVerbStemModifications from "./checkVerbStemModifications";
+import checkVerbStemModifications from "./checkVerbStemModifications.js";
 
 const {
 	buildFormRule,

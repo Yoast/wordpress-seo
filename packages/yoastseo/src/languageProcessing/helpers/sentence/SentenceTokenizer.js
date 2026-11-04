@@ -4,10 +4,10 @@ import core from "tokenizer2/core.js";
 
 import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
-import abbreviations from "../../languages/en/config/abbreviations";
+import abbreviations from "../../languages/en/config/abbreviations.js";
 
-import createRegexFromArray from "../regex/createRegexFromArray";
-import wordBoundaries from "../../../config/wordBoundaries";
+import createRegexFromArray from "../regex/createRegexFromArray.js";
+import wordBoundaries from "../../../config/wordBoundaries.js";
 
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";

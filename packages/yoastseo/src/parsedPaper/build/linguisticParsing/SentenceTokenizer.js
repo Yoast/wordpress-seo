@@ -1,9 +1,9 @@
 import { isNaN, isUndefined } from "lodash";
 
 import core from "tokenizer2/core.js";
-import { normalize as normalizeQuotes } from "../../../languageProcessing/helpers/sanitize/quotes";
+import { normalize as normalizeQuotes } from "../../../languageProcessing/helpers/sanitize/quotes.js";
 
-import Sentence from "./Sentence";
+import Sentence from "./Sentence.js";
 
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";

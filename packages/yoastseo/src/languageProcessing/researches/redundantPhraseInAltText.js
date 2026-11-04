@@ -1,7 +1,7 @@
-import getImagesInScope from "../helpers/image/getImagesInScope";
-import getAltAttribute from "../helpers/image/getAltAttribute";
-import getImageIdentifier from "../helpers/image/getImageIdentifier";
-import getSentences from "../helpers/sentence/getSentences";
+import getImagesInScope from "../helpers/image/getImagesInScope.js";
+import getAltAttribute from "../helpers/image/getAltAttribute.js";
+import getImageIdentifier from "../helpers/image/getImageIdentifier.js";
+import getSentences from "../helpers/sentence/getSentences.js";
 
 /**
  * @typedef {import("../AbstractResearcher").default } Researcher

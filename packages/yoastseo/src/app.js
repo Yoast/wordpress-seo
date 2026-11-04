@@ -2,7 +2,7 @@ import { setLocaleData } from "@wordpress/i18n";
 import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isUndefined, merge, noop, throttle } from "lodash";
 
 import AssessorPresenter from "./scoring/renderers/AssessorPresenter.js";
-import { measureTextWidth } from "./helpers";
+import { measureTextWidth } from "./helpers/index.js";
 import MissingArgument from "./errors/missingArgument.js";
 import Paper from "./values/Paper.js";
 import Pluggable from "./pluggable.js";

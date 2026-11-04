@@ -1,4 +1,4 @@
-import TurkishStemmer from "./turkishStemmer";
+import TurkishStemmer from "./turkishStemmer.js";
 
 /**
  * Stems Turkish words.

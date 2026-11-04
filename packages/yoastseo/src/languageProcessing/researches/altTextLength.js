@@ -1,6 +1,6 @@
-import getImagesInScope from "../helpers/image/getImagesInScope";
-import getAltAttribute from "../helpers/image/getAltAttribute";
-import getImageIdentifier from "../helpers/image/getImageIdentifier";
+import getImagesInScope from "../helpers/image/getImagesInScope.js";
+import getAltAttribute from "../helpers/image/getAltAttribute.js";
+import getImageIdentifier from "../helpers/image/getImageIdentifier.js";
 
 /**
  * @typedef {import("../AbstractResearcher").default } Researcher

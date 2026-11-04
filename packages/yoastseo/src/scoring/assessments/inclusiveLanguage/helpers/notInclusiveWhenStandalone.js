@@ -1,8 +1,8 @@
-import { isFollowedByException } from "./isFollowedByException";
-import { isFollowedByParticiple } from "./isFollowedByParticiple";
-import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
-import { punctuationList } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
-import { getWords } from "../../../../languageProcessing";
+import { isFollowedByException } from "./isFollowedByException.js";
+import { isFollowedByParticiple } from "./isFollowedByParticiple.js";
+import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords.js";
+import { punctuationList } from "../../../../languageProcessing/helpers/sanitize/removePunctuation.js";
+import { getWords } from "../../../../languageProcessing/index.js";
 
 // Filter tokens from the exception lists that cause trouble when passed to getWords.
 

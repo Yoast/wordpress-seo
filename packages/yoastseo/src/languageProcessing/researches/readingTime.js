@@ -1,6 +1,6 @@
-import getLanguage from "../../languageProcessing/helpers/language/getLanguage";
+import getLanguage from "../../languageProcessing/helpers/language/getLanguage.js";
 import wordCountInText from "./wordCountInText.js";
-import getImagesInTree from "../helpers/image/getImagesInTree";
+import getImagesInTree from "../helpers/image/getImagesInTree.js";
 
 /**
  * Calculates the expected reading time of a text.

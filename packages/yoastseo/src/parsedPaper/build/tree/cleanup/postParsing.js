@@ -1,5 +1,5 @@
-import { LeafNode } from "../../../structure/tree";
-import calculateTextIndices from "./calculateTextIndices";
+import { LeafNode } from "../../../structure/tree/index.js";
+import calculateTextIndices from "./calculateTextIndices.js";
 
 /**
  * Cleans up a node in the tree.

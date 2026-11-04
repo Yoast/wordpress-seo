@@ -1,4 +1,4 @@
-import ScoreAggregator from "./ScoreAggregator";
+import ScoreAggregator from "./ScoreAggregator.js";
 
 /**
  * The number to scale the score to.

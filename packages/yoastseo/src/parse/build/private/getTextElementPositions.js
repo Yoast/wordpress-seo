@@ -1,5 +1,5 @@
-import { Paragraph } from "../../structure";
-import { canBeChildOfParagraph as excludeFromAnalysis } from "./alwaysFilterElements";
+import { Paragraph } from "../../structure/index.js";
+import { canBeChildOfParagraph as excludeFromAnalysis } from "./alwaysFilterElements.js";
 
 /**
  * Gets the start and end positions of all descendant nodes' tags and stores them in an array.

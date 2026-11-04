@@ -1,8 +1,8 @@
-import getLanguage from "../../languageProcessing/helpers/language/getLanguage";
-import { scoreToRating } from "../interpreters";
+import getLanguage from "../../languageProcessing/helpers/language/getLanguage.js";
+import { scoreToRating } from "../interpreters/index.js";
 
 /* Internal dependencies */
-import ScoreAggregator from "./ScoreAggregator";
+import ScoreAggregator from "./ScoreAggregator.js";
 
 /**
  * Penalties that can be given on each assessment

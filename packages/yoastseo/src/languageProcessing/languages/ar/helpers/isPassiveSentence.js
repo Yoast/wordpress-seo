@@ -1,4 +1,4 @@
-import getPassiveVerbs from "../config/internal/passiveVerbsWithLongVowel";
+import getPassiveVerbs from "../config/internal/passiveVerbsWithLongVowel.js";
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
 

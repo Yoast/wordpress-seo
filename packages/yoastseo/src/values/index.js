@@ -1,6 +1,6 @@
-import AssessmentResult from "./AssessmentResult";
-import Mark from "./Mark";
-import Paper from "./Paper";
+import AssessmentResult from "./AssessmentResult.js";
+import Mark from "./Mark.js";
+import Paper from "./Paper.js";
 
 export {
 	AssessmentResult,

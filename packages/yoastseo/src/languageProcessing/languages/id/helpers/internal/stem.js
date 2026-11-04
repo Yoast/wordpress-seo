@@ -1,7 +1,7 @@
 import { languageProcessing } from "yoastseo";
 const { flattenSortLength, buildFormRule, createRulesFromArrays } = languageProcessing;
 
-import { calculateTotalNumberOfSyllables, removeEnding, checkBeginningsList } from "./stemHelpers";
+import { calculateTotalNumberOfSyllables, removeEnding, checkBeginningsList } from "./stemHelpers.js";
 
 /**
  * MIT License

@@ -2,8 +2,8 @@
  * Returns an object with exceptions for the prominent words researcher
  * @returns {Object} The object filled with exception arrays.
  */
-import { singleWords as transitionWords } from "./transitionWords";
-import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
+import { singleWords as transitionWords } from "./transitionWords.js";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens.js";
 
 const articles = [ "si", "sang", "kaum", "sri", "hang", "dang", "para" ];
 const cardinalNumerals = [ "nol", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan",

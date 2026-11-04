@@ -1,4 +1,4 @@
-import { letter, wordEnd, wordStart } from "../../../helpers/regex/wordBoundaries";
+import { letter, wordEnd, wordStart } from "../../../helpers/regex/wordBoundaries.js";
 
 /*
  * The Hungarian redundant phrases come in five reviewed rules. Unlike the other languages, two of them sit at

@@ -1,6 +1,6 @@
 import { languageProcessing } from "yoastseo";
-import { cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords";
-import getParticiples from "../helpers/internal/getParticiples";
+import { cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords.js";
+import getParticiples from "../helpers/internal/getParticiples.js";
 const { directPrecedenceException, values } = languageProcessing;
 const { Clause } = values;
 
