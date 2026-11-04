@@ -26,7 +26,6 @@ describe( "Button", () => {
 
 		const result = container.firstChild;
 
-		expect( result ).not.toBeNull();
 		expect( result.id ).toBe( "very-nice-id" );
 		expect( result.className ).toBe( "yoast-button yoast-button--primary" );
 		expect( result.tagName ).toBe( "BUTTON" );
@@ -44,7 +43,6 @@ describe( "Button", () => {
 
 		const result = container.firstChild;
 
-		expect( result ).not.toBeNull();
 		expect( result.className ).toBe( "yoast-button yoast-button--buy yoast-button--small" );
 	} );
 
@@ -60,7 +58,6 @@ describe( "Button", () => {
 
 		const result = container.firstChild;
 
-		expect( result ).not.toBeNull();
 		expect( result.className ).toBe( "yoast-button yoast-button--secondary" );
 	} );
 } );
@@ -102,6 +99,14 @@ describe( "Secondary variant", () => {
 		expect( result.className ).toBe( expectedClassName );
 	} );
 
+	it( "calls onClick when the Button is clicked", () => {
+		const onClick = jest.fn();
+		const { container } = render( <Button variant="secondary" onClick={ onClick }>test</Button> );
+
+		fireEvent.click( container.firstChild );
+		expect( onClick ).toHaveBeenCalledTimes( 1 );
+	} );
+
 	it( "matches the Link snapshot", () => {
 		const { container } = render( <ButtonStyledLink variant="secondary" href="#">test</ButtonStyledLink> );
 
@@ -119,6 +124,14 @@ describe( "Buy variant", () => {
 		const result = container.firstChild;
 		expect( result ).toMatchSnapshot();
 		expect( result.className ).toBe( expectedClassName );
+	} );
+
+	it( "calls onClick when the Button is clicked", () => {
+		const onClick = jest.fn();
+		const { container } = render( <Button variant="buy" onClick={ onClick }>test</Button> );
+
+		fireEvent.click( container.firstChild );
+		expect( onClick ).toHaveBeenCalledTimes( 1 );
 	} );
 
 	it( "matches the Link snapshot", () => {
@@ -140,6 +153,14 @@ describe( "Text variant", () => {
 		expect( result.className ).toBe( removeClassName );
 	} );
 
+	it( "calls onClick when the Remove Button is clicked", () => {
+		const onClick = jest.fn();
+		const { container } = render( <Button variant="remove" onClick={ onClick }>test</Button> );
+
+		fireEvent.click( container.firstChild );
+		expect( onClick ).toHaveBeenCalledTimes( 1 );
+	} );
+
 	it( "matches the Link snapshot", () => {
 		const { container } = render( <ButtonStyledLink variant="remove" href="#">test</ButtonStyledLink> );
 
@@ -155,6 +176,14 @@ describe( "Text variant", () => {
 		const result = container.firstChild;
 		expect( result ).toMatchSnapshot();
 		expect( result.className ).toBe( hideClassName );
+	} );
+
+	it( "calls onClick when the Hide Button is clicked", () => {
+		const onClick = jest.fn();
+		const { container } = render( <Button variant="hide" onClick={ onClick }>test</Button> );
+
+		fireEvent.click( container.firstChild );
+		expect( onClick ).toHaveBeenCalledTimes( 1 );
 	} );
 
 	it( "matches the Link snapshot", () => {

@@ -200,12 +200,10 @@ describe( "the MarkButton tooltip", () => {
 	beforeEach( () => {
 		jest.useFakeTimers();
 		act( () => {
-			act( () => {
-				component = renderer.create(
-					<MarkButton ariaLabel="Highlight this result in the text" id="testMark" onClick={ noop } isPressed={ false } />,
-					{ createNodeMock: () => ( { getBoundingClientRect: () => ( { top: 0, right: 0, bottom: 0, left: 0 } ) } ) }
-				);
-			} );
+			component = renderer.create(
+				<MarkButton ariaLabel="Highlight this result in the text" id="testMark" onClick={ noop } isPressed={ false } />,
+				{ createNodeMock: () => ( { getBoundingClientRect: () => ( { top: 0, right: 0, bottom: 0, left: 0 } ) } ) }
+			);
 		} );
 	} );
 

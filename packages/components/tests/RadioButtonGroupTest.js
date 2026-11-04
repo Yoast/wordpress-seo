@@ -27,7 +27,7 @@ describe( "RadioButtonGroup", () => {
 		const result = container.firstChild;
 
 		expect( result ).not.toBeNull();
-		expect( screen.getByText( "Nice label" ) ).not.toBeNull();
+		screen.getByText( "Nice label" );
 		screen.getAllByRole( "radio" ).forEach( radio => expect( radio.name ).toBe( "best-group" ) );
 	} );
 } );
