@@ -1,5 +1,4 @@
-import { ContentAnalysis } from "@yoast/analysis-report";
-import { IconButtonToggle } from "@yoast/components";
+import { ContentAnalysis, MarkButton } from "@yoast/analysis-report";
 import { Badge } from "@yoast/ui-library";
 import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon";
 import { __ } from "@wordpress/i18n";
@@ -12,6 +11,48 @@ import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
 import { PremiumSEOAnalysisModal } from "../modals/PremiumSEOAnalysisModal";
+
+/**
+ * Mark button with optional upsell badge and tooltip.
+ *
+ * @param {Object} props The component props.
+ *
+ * @returns {JSX.Element} The mark button.
+ */
+const MarkButtonWithUpsell = ( {
+	ariaLabel,
+	id,
+	className = "",
+	status = "enabled",
+	onClick,
+	isPressed,
+	shouldUpsellHighlighting = false,
+} ) => {
+	return <MarkButton
+		ariaLabel={ ariaLabel }
+		id={ id }
+		className={ className }
+		status={ status }
+		onClick={ onClick }
+		isPressed={ isPressed }
+	>
+		{ shouldUpsellHighlighting &&
+			<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
+				<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
+			</Badge>
+		}
+	</MarkButton>;
+};
+
+MarkButtonWithUpsell.propTypes = {
+	ariaLabel: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	status: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
+	isPressed: PropTypes.bool.isRequired,
+	shouldUpsellHighlighting: PropTypes.bool,
+};
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
@@ -84,24 +125,15 @@ class Results extends Component {
 		onClick,
 		isPressed,
 	} ) {
-		return <Fragment>
-			<IconButtonToggle
-				marksButtonStatus={ status }
-				className={ className }
-				onClick={ onClick }
-				id={ id }
-				icon="eye"
-				pressed={ isPressed }
-				ariaLabel={ ariaLabel }
-			/>
-			{ this.props.shouldUpsellHighlighting &&
-				<div className="yst-root">
-					<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
-						<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
-					</Badge>
-				</div>
-			}
-		</Fragment>;
+		return <MarkButtonWithUpsell
+			ariaLabel={ ariaLabel }
+			id={ id }
+			className={ className }
+			status={ status }
+			onClick={ onClick }
+			isPressed={ isPressed }
+			shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+		/>;
 	}
 
 	/**
