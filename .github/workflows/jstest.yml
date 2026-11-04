@@ -251,6 +251,7 @@ jobs:
           - 'components'
           - 'dashboard-frontend'
           - 'helpers'
+          - 'js'
           - 'replacement-variable-editor'
           - 'search-metadata-previews'
           - 'social-metadata-forms'
