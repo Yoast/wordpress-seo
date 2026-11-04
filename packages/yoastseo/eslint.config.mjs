@@ -75,6 +75,13 @@ export default [
 		},
 	},
 	{
+		// Node ESM needs full import paths: `./file.js` and `./folder/index.js`.
+		files: [ "src/**" ],
+		rules: {
+			"import/extensions": [ "error", "always", { ignorePackages: true } ],
+		},
+	},
+	{
 		files: [ "src/languageProcessing/**" ],
 		settings: {
 			"import/core-modules": [ "yoastseo" ],
