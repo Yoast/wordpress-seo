@@ -8,7 +8,7 @@ import redundantPhraseInAltText from "./config/redundantPhraseInAltText";
 import stopWords from "./config/stopWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
-import syllables from "./config/syllables.json";
+import syllables from "./config/syllables.js";
 import keyphraseLength from "./config/keyphraseLength";
 import memoizedTokenizer from "./helpers/memoizedSentenceTokenizer";
 

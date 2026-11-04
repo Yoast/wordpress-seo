@@ -7,7 +7,7 @@ import { all as functionWords } from "./config/functionWords";
 import redundantPhraseInAltText from "./config/redundantPhraseInAltText";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
-import syllables from "./config/syllables.json";
+import syllables from "./config/syllables.js";
 import fleschReadingEaseScores from "./config/fleschReadingEaseScores";
 import sentenceLength from "./config/sentenceLength";
 
