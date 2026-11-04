@@ -16,6 +16,9 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  * saved from the settings page.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ *
+ * @internal Backs the global SEO settings abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Updater {
 
