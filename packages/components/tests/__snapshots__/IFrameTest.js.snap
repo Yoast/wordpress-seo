@@ -2,7 +2,7 @@
 
 exports[`the IFrame with props matches the snapshot 1`] = `
 <iframe
-  className="test-class-name"
+  class="test-class-name"
   title="IFrame title"
 />
 `;

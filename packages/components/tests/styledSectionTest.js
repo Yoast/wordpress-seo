@@ -1,5 +1,5 @@
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { render } from "@testing-library/react";
 import forEach from "lodash/forEach";
 
 import StyledSection from "../src/StyledSection";
@@ -11,107 +11,94 @@ const icons = [
 
 describe( "StyledSection", () => {
 	test( "match the snapshot", () => {
-		let component;
-		act( () => {
-			component = renderer.create(
-				<StyledSection
-					headingText="Insights. Hello, this is a Styled Section heading."
-					headingColor="red"
-					headingLevel={ 2 }
-					headingIcon="file-text"
-					headingIconColor="blue"
-					headingIconSize="16"
-				>
-					<p>Keyword Suggestions</p>
-					<p>Hello, this is additional content</p>
-				</StyledSection>
-			);
-		} );
+		const { container } = render(
+			<StyledSection
+				headingText="Insights. Hello, this is a Styled Section heading."
+				headingColor="red"
+				headingLevel={ 2 }
+				headingIcon="file-text"
+				headingIconColor="blue"
+				headingIconSize="16"
+			>
+				<p>Keyword Suggestions</p>
+				<p>Hello, this is additional content</p>
+			</StyledSection>
+		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	test( "can change the heading level", () => {
-		let component;
-		act( () => {
-			component = renderer.create(
-				<StyledSection
-					headingText="Insights. Hello, this is a Styled Section heading."
-					headingColor="red"
-					headingLevel={ 4 }
-					headingIcon="file-text"
-					headingIconColor="blue"
-					headingIconSize="16"
-				>
-					<p>Keyword Suggestions</p>
-					<p>Hello, this is additional content</p>
-				</StyledSection>
-			);
-		} );
+		const { container } = render(
+			<StyledSection
+				headingText="Insights. Hello, this is a Styled Section heading."
+				headingColor="red"
+				headingLevel={ 4 }
+				headingIcon="file-text"
+				headingIconColor="blue"
+				headingIconSize="16"
+			>
+				<p>Keyword Suggestions</p>
+				<p>Hello, this is additional content</p>
+			</StyledSection>
+		);
 
-		const tree = component.toJSON();
+		const tree = container.firstChild;
 		expect( tree ).toMatchSnapshot();
-		expect( tree.children[ 0 ].type ).toBe( "h4" );
+		expect( tree.children[ 0 ].tagName ).toBe( "H4" );
 	} );
 
 	forEach( icons, function( icon ) {
 		test( `can change the icon to ${icon}`, () => {
-			let component;
-			act( () => {
-				component = renderer.create(
-					<StyledSection
-						headingText="Insights. Hello, this is a Styled Section heading."
-						headingColor="red"
-						headingLevel={ 2 }
-						headingIcon={ icon }
-						headingIconColor="blue"
-						headingIconSize="16"
-					>
-						<p>Icon { icon }</p>
-					</StyledSection>
-				);
-			} );
-
-			const tree = component.toJSON();
-			expect( tree ).toMatchSnapshot();
-			expect( tree.children ).toBeDefined();
-
-			// Child should be the Header
-			let child = tree.children[ 0 ];
-			expect( child ).toBeDefined();
-			expect( child.type ).toBe( "h2" );
-			expect( child.children ).toBeDefined();
-
-			// Child should be the SVG
-			child = child.children[ 0 ];
-			expect( child ).toBeDefined();
-			expect( child.type ).toBe( "svg" );
-			expect( child.children ).toBeDefined();
-			expect( child.props.className ).toContain( `yoast-svg-icon-${icon}` );
-		} );
-	} );
-
-	test( "have a red icon", () => {
-		let component;
-		act( () => {
-			component = renderer.create(
+			const { container } = render(
 				<StyledSection
 					headingText="Insights. Hello, this is a Styled Section heading."
 					headingColor="red"
 					headingLevel={ 2 }
-					headingIcon="search"
-					headingIconColor="red"
+					headingIcon={ icon }
+					headingIconColor="blue"
 					headingIconSize="16"
 				>
-					<p>Color red</p>
+					<p>Icon { icon }</p>
 				</StyledSection>
 			);
-		} );
 
-		const tree = component.toJSON();
+			const tree = container.firstChild;
+			expect( tree ).toMatchSnapshot();
+			expect( tree.children.length ).toBeGreaterThan( 0 );
+
+			// Child should be the Header
+			let child = tree.children[ 0 ];
+			expect( child ).toBeDefined();
+			expect( child.tagName ).toBe( "H2" );
+			expect( child.children.length ).toBeGreaterThan( 0 );
+
+			// Child should be the SVG
+			child = child.children[ 0 ];
+			expect( child ).toBeDefined();
+			expect( child.tagName ).toBe( "svg" );
+			expect( child.children.length ).toBeGreaterThan( 0 );
+			expect( child.getAttribute( "class" ) ).toContain( `yoast-svg-icon-${icon}` );
+		} );
+	} );
+
+	test( "have a red icon", () => {
+		const { container } = render(
+			<StyledSection
+				headingText="Insights. Hello, this is a Styled Section heading."
+				headingColor="red"
+				headingLevel={ 2 }
+				headingIcon="search"
+				headingIconColor="red"
+				headingIconSize="16"
+			>
+				<p>Color red</p>
+			</StyledSection>
+		);
+
+		const tree = container.firstChild;
 		expect( tree ).toMatchSnapshot();
 		const svg = tree.children[ 0 ].children[ 0 ];
-		expect( svg.props.fill ).toBe( "red" );
+		expect( svg.getAttribute( "fill" ) ).toBe( "red" );
 	} );
 } );

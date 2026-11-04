@@ -2,22 +2,18 @@
 
 exports[`ImageSelectButtons ImageSelectButtons with image selected matches the snapshot 1`] = `
 <div
-  className="yoast-image-select-buttons"
+  class="yoast-image-select-buttons"
 >
   <button
-    className="yoast-button yoast-button--secondary"
-    disabled={false}
+    class="yoast-button yoast-button--secondary"
     id=""
-    onClick={[Function]}
     type="button"
   >
     Replace image
   </button>
   <button
-    className="yoast-remove"
-    disabled={false}
+    class="yoast-remove"
     id=""
-    onClick={[Function]}
     type="button"
   >
     Remove image
@@ -27,13 +23,11 @@ exports[`ImageSelectButtons ImageSelectButtons with image selected matches the s
 
 exports[`ImageSelectButtons ImageSelectButtons without image selected matches the snapshot 1`] = `
 <div
-  className="yoast-image-select-buttons"
+  class="yoast-image-select-buttons"
 >
   <button
-    className="yoast-button yoast-button--secondary"
-    disabled={false}
+    class="yoast-button yoast-button--secondary"
     id=""
-    onClick={[Function]}
     type="button"
   >
     Select image

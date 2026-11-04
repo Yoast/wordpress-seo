@@ -1,100 +1,66 @@
 // External dependencies.
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { render, fireEvent } from "@testing-library/react";
 
 // Internal dependencies.
 import { IconButton, BaseButton, Button } from "../src/index";
 
 test( "the BaseButton matches the snapshot", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<BaseButton>ButtonValue</BaseButton>
-		);
-	} );
+	const { container } = render(
+		<BaseButton>ButtonValue</BaseButton>
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "BaseButton executes callback", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<BaseButton
-				onClick={
-					() => {
-						return "clicked";
-					}
-				}
-			>ButtonValue</BaseButton>
-		);
-	} );
+	const { container, asFragment } = render(
+		<BaseButton
+			onClick={ jest.fn() }
+		>ButtonValue</BaseButton>
+	);
 
-	let tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 
-	tree.props.onClick();
+	fireEvent.click( container.firstChild );
 
-	tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( asFragment().firstChild ).toMatchSnapshot();
 } );
 
 test( "the SnippetPreviewButton matches the snapshot", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<Button>ButtonValue</Button>
-		);
-	} );
+	const { container } = render(
+		<Button>ButtonValue</Button>
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "SnippetPreviewButton executes callback", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<Button
-				onClick={
-					() => {
-						return "clicked";
-					}
-				}
-			>ButtonValue</Button>
-		);
-	} );
+	const { container, asFragment } = render(
+		<Button
+			onClick={ jest.fn() }
+		>ButtonValue</Button>
+	);
 
-	let tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 
-	tree.props.onClick();
+	fireEvent.click( container.firstChild );
 
-	tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( asFragment().firstChild ).toMatchSnapshot();
 } );
 
 test( "the IconButton matches the snapshot", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<IconButton icon="edit" iconColor="black" />
-		);
-	} );
+	const { container } = render(
+		<IconButton icon="edit" iconColor="black" />
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the IconButton with text matches the snapshot", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<IconButton icon="edit" iconColor="black">Click</IconButton>
-		);
-	} );
+	const { container } = render(
+		<IconButton icon="edit" iconColor="black">Click</IconButton>
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
