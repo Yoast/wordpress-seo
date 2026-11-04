@@ -14,9 +14,10 @@ test( "the BaseButton matches the snapshot", () => {
 } );
 
 test( "BaseButton executes callback", () => {
+	const onClick = jest.fn();
 	const { container, asFragment } = render(
 		<BaseButton
-			onClick={ jest.fn() }
+			onClick={ onClick }
 		>ButtonValue</BaseButton>
 	);
 
@@ -24,6 +25,7 @@ test( "BaseButton executes callback", () => {
 
 	fireEvent.click( container.firstChild );
 
+	expect( onClick ).toHaveBeenCalledTimes( 1 );
 	expect( asFragment().firstChild ).toMatchSnapshot();
 } );
 
@@ -36,9 +38,10 @@ test( "the SnippetPreviewButton matches the snapshot", () => {
 } );
 
 test( "SnippetPreviewButton executes callback", () => {
+	const onClick = jest.fn();
 	const { container, asFragment } = render(
 		<Button
-			onClick={ jest.fn() }
+			onClick={ onClick }
 		>ButtonValue</Button>
 	);
 
@@ -46,6 +49,7 @@ test( "SnippetPreviewButton executes callback", () => {
 
 	fireEvent.click( container.firstChild );
 
+	expect( onClick ).toHaveBeenCalledTimes( 1 );
 	expect( asFragment().firstChild ).toMatchSnapshot();
 } );
 
