@@ -1,12 +1,10 @@
 import React from "react";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import FieldGroup, { FieldGroupProps } from "../field-group/FieldGroup";
 // Import the required CSS.
 import "./input.css";
 import "../base";
-
-// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
-const DEFAULT_ON_CHANGE = () => {};
 
 /**
  * Renders a textarea for use in our HTML forms.
@@ -21,7 +19,7 @@ const TextArea = ( {
 	value = "",
 	ariaDescribedBy = "",
 	readOnly = false,
-	onChange = DEFAULT_ON_CHANGE,
+	onChange = noop,
 	...props
 } ) => {
 	const fieldGroupProps = { ...props };

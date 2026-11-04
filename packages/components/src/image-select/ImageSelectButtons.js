@@ -1,10 +1,8 @@
 import React, { useCallback } from "react";
 import { NewButton as Button } from "../button";
 import { __ } from "@wordpress/i18n";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
-
-// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
-const DEFAULT_NOOP = () => {};
 
 /**
  * The ImageSelectButtons component.
@@ -15,8 +13,8 @@ const DEFAULT_NOOP = () => {};
  */
 const ImageSelectButtons = ( {
 	imageSelected = false,
-	onClick = DEFAULT_NOOP,
-	onRemoveImageClick = DEFAULT_NOOP,
+	onClick = noop,
+	onRemoveImageClick = noop,
 	selectImageButtonId = "",
 	replaceImageButtonId = "",
 	removeImageButtonId = "",

@@ -1,6 +1,6 @@
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
-import { omit } from "lodash";
+import { noop, omit } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
@@ -89,9 +89,6 @@ export function wrapInHeading( Component, props ) {
 
 const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1rem", fontWeight: "normal" } );
 
-// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
-const DEFAULT_RENDER_NEW_BADGE_LABEL = () => {};
-
 /**
  * Base collapsible panel. Optionally has a heading around the button.
  *
@@ -132,7 +129,7 @@ export function CollapsibleStateless( {
 	subTitle = null,
 	title,
 	titleScreenReaderText = null,
-	renderNewBadgeLabel = DEFAULT_RENDER_NEW_BADGE_LABEL,
+	renderNewBadgeLabel = noop,
 	hasNewBadgeLabel = false,
 } ) {
 	let wrappedChildren = children;

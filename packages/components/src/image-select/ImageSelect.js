@@ -1,12 +1,12 @@
 import React from "react";
 import { __ } from "@wordpress/i18n";
 import ImageSelectButtons from "./ImageSelectButtons";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import FieldGroup from "../field-group/FieldGroup";
 import Alert from "../Alert";
 
-// Stable references matching the old defaultProps single instances, so they keep a constant identity across renders.
-const DEFAULT_NOOP = () => {};
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
 const DEFAULT_WARNINGS = [];
 
 /* eslint-disable complexity */
@@ -21,10 +21,10 @@ function ImageSelect( {
 	defaultImageUrl = "",
 	imageUrl = "",
 	imageAltText = "",
-	onClick = DEFAULT_NOOP,
-	onMouseEnter = DEFAULT_NOOP,
-	onMouseLeave = DEFAULT_NOOP,
-	onRemoveImageClick = DEFAULT_NOOP,
+	onClick = noop,
+	onMouseEnter = noop,
+	onMouseLeave = noop,
+	onRemoveImageClick = noop,
 	selectImageButtonId = "",
 	replaceImageButtonId = "",
 	removeImageButtonId = "",
