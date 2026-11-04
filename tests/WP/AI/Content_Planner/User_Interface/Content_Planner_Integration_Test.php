@@ -32,8 +32,8 @@ final class Content_Planner_Integration_Test extends TestCase {
 	/**
 	 * Starts each test with a fresh scripts registry.
 	 *
-	 * The generated asset list is a stub in the test environment, so the block editor script is registered here. The
-	 * standalone content planner script is registered too, so enqueueing it would be detectable.
+	 * The generated asset list is a stub in the test environment, so the block editor script is registered here when
+	 * it is missing, in the header like the real one.
 	 *
 	 * @return void
 	 */
@@ -44,8 +44,9 @@ final class Content_Planner_Integration_Test extends TestCase {
 		$GLOBALS['wp_scripts']     = new WP_Scripts();
 
 		( new WPSEO_Admin_Asset_Manager() )->register_assets();
-		\wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'block-editor', 'http://example.org/js/dist/block-editor.js', [], 'test', true );
-		\wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'ai-content-planner', 'http://example.org/js/dist/ai-content-planner.js', [], 'test', true );
+		if ( ! \wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'block-editor', 'registered' ) ) {
+			\wp_register_script( WPSEO_Admin_Asset_Manager::PREFIX . 'block-editor', 'http://example.org/js/dist/block-editor.js', [], 'test', false );
+		}
 	}
 
 	/**
@@ -60,27 +61,32 @@ final class Content_Planner_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the content planner data is printed right before the block editor script, and that the standalone
-	 * content planner script is not enqueued.
+	 * Tests that, on admin_enqueue_scripts, the content planner data is printed in the header right before the block
+	 * editor script, which the post edit script depends on.
 	 *
+	 * @covers ::register_hooks
 	 * @covers ::enqueue_assets
 	 *
 	 * @return void
 	 */
 	public function test_enqueue_assets_localizes_the_block_editor_script() {
-		\YoastSEO()->classes->get( Content_Planner_Integration::class )->enqueue_assets();
+		\remove_all_actions( 'admin_enqueue_scripts' );
+		\YoastSEO()->classes->get( Content_Planner_Integration::class )->register_hooks();
+		\do_action( 'admin_enqueue_scripts', 'post.php' );
 
 		$block_editor_handle = WPSEO_Admin_Asset_Manager::PREFIX . 'block-editor';
-		$planner_handle      = WPSEO_Admin_Asset_Manager::PREFIX . 'ai-content-planner';
 
 		$this->assertStringContainsString(
 			'var wpseoContentPlanner = ',
 			\wp_scripts()->get_data( $block_editor_handle, 'data' ),
 		);
-		$this->assertFalse( \wp_script_is( $planner_handle, 'enqueued' ) );
+
+		$this->assertContains( $block_editor_handle, \wp_scripts()->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit' ]->deps );
+
+		\wp_enqueue_script( $block_editor_handle );
 
 		\ob_start();
-		\wp_scripts()->do_items( [ $block_editor_handle ] );
+		\wp_scripts()->do_head_items();
 		$output = \ob_get_clean();
 
 		$data_position   = \strpos( $output, 'var wpseoContentPlanner = ' );
