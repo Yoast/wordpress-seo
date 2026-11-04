@@ -3,7 +3,16 @@ import yoastConfig from "@yoast/eslint-config";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-	{ ignores: [ "build", "vendor", "examples", "researcher", "contract" ] },
+	{
+		ignores: [
+			"build",
+			"examples",
+			"researcher",
+			"contract",
+			// Third-party code (Snowball Turkish stemmer).
+			"src/languageProcessing/languages/tr/helpers/internal/turkishStemmer.js",
+		],
+	},
 	...yoastConfig,
 	{
 		languageOptions: {
