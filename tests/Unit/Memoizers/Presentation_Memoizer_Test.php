@@ -210,6 +210,22 @@ final class Presentation_Memoizer_Test extends TestCase {
 	}
 
 	/**
+	 * Tests clearing the memoization of an indexable whose id is null.
+	 *
+	 * @covers ::clear
+	 *
+	 * @return void
+	 */
+	public function test_clear_for_indexable_when_id_is_null() {
+		$this->indexable->id = null;
+		$this->instance->set_cache( 0, $this->meta_tags_context_mock->presentation );
+
+		$this->instance->clear( $this->indexable );
+
+		$this->assertArrayNotHasKey( 0, $this->instance->get_cache() );
+	}
+
+	/**
 	 * Tests clearing the memoization of an indexable when the ID is given.
 	 *
 	 * @covers ::clear

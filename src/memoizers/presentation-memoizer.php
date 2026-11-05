@@ -78,7 +78,7 @@ class Presentation_Memoizer {
 	 */
 	public function clear( $indexable = null ) {
 		if ( $indexable instanceof Indexable ) {
-			unset( $this->cache[ $indexable->id ] );
+			unset( $this->cache[ (int) $indexable->id ] );
 			return;
 		}
 		if ( \is_int( $indexable ) ) {

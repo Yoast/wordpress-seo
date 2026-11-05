@@ -169,8 +169,9 @@ class Meta_Tags_Context_Memoizer {
 	 */
 	public function clear( $indexable = null ) {
 		if ( $indexable instanceof Indexable ) {
-			unset( $this->cache[ $indexable->id ] );
-			$this->presentation_memoizer->clear( $indexable->id );
+			$cache_key = (int) $indexable->id;
+			unset( $this->cache[ $cache_key ] );
+			$this->presentation_memoizer->clear( $cache_key );
 			return;
 		}
 		if ( $indexable !== null ) {

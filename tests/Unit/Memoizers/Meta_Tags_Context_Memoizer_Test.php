@@ -328,6 +328,27 @@ final class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	}
 
 	/**
+	 * Tests clearing the memoization of an indexable whose id is null.
+	 *
+	 * @covers ::clear
+	 *
+	 * @return void
+	 */
+	public function test_clear_for_indexable_when_id_is_null() {
+		$this->indexable->id = null;
+		$this->instance->set_cache( 0, $this->meta_tags_context_mock );
+
+		$this->presentation_memoizer
+			->expects( 'clear' )
+			->once()
+			->with( 0 );
+
+		$this->instance->clear( $this->indexable );
+
+		$this->assertArrayNotHasKey( 0, $this->instance->get_cache() );
+	}
+
+	/**
 	 * Tests clearing the memoization of an indexable that is not an instance of Indexable.
 	 *
 	 * @covers ::clear
