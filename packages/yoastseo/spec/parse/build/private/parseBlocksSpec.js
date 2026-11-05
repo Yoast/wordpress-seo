@@ -292,6 +292,39 @@ describe( "The parseBlocks function", () => {
 		expect( node.findAll( childNode => childNode.name === "p" )[ 0 ].clientId ).toEqual( "block" );
 	} );
 
+	it( "should set the clientId of blocks nested more than one level deep", () => {
+		const paper = new Paper( "<!-- wp:columns -->\n" +
+			'<div class="wp-block-columns"><!-- wp:column -->\n' +
+			'<div class="wp-block-column"><!-- wp:paragraph -->\n' +
+			"<p>First paragraph.</p>\n" +
+			"<!-- /wp:paragraph --></div>\n" +
+			"<!-- /wp:column -->\n" +
+			"\n" +
+			"<!-- wp:column -->\n" +
+			'<div class="wp-block-column"><!-- wp:paragraph -->\n' +
+			"<p>Second paragraph.</p>\n" +
+			"<!-- /wp:paragraph --></div>\n" +
+			"<!-- /wp:column --></div>\n" +
+			"<!-- /wp:columns -->",
+		{ wpBlocks: [
+			{ clientId: "columns", name: "core/columns", isValid: true, innerBlocks: [
+				{ clientId: "first-column", name: "core/column", isValid: true, innerBlocks: [
+					{ clientId: "first-paragraph", name: "core/paragraph", isValid: true, innerBlocks: [] },
+				] },
+				{ clientId: "second-column", name: "core/column", isValid: true, innerBlocks: [
+					{ clientId: "second-paragraph", name: "core/paragraph", isValid: true, innerBlocks: [] },
+				] },
+			] },
+		] } );
+
+		const node = adapt( parseFragment( paper.getText(), { sourceCodeLocationInfo: true } ) );
+
+		parseBlocks( paper, node );
+
+		const paragraphs = node.findAll( childNode => childNode.name === "p" );
+		expect( paragraphs.map( paragraph => paragraph.clientId ) ).toEqual( [ "first-paragraph", "second-paragraph" ] );
+	} );
+
 	it( "should not give classic content the clientId of a self-closing block before it", () => {
 		const paper = new Paper( "<!-- wp:latest-posts /-->\n\n<p>Classic text.</p>",
 			{ wpBlocks: [

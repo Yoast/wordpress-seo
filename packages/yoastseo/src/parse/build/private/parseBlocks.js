@@ -3,30 +3,22 @@ const blockTokenizer = /<!--\s+wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?
 const leadingWhitespace = /\s*/y;
 
 /**
+ * Flattens the blocks and all their inner blocks, at any depth.
+ *
+ * @param {Object[]} blocks The blocks to flatten.
+ *
+ * @returns {Object[]} An array of blocks.
+ */
+const flattenBlocks = ( blocks ) => blocks.flatMap( block => [ block, ...flattenBlocks( block.innerBlocks || [] ) ] );
+
+/**
  * Get all the blocks including the inner blocks.
  *
  * @param {Paper} paper The paper to get all the blocks from.
  *
  * @returns {Object[]} An array of blocks.
  */
-const getAllBlocks = ( paper ) => {
-	const blocks = paper._attributes.wpBlocks;
-	const flattenBlocks = [];
-	if ( ! ( blocks && blocks.length > 0 ) ) {
-		return [];
-	}
-	blocks.forEach( ( block ) => {
-		if ( block.innerBlocks.length > 0 ) {
-			const innerBlocks = block.innerBlocks;
-			flattenBlocks.push(
-				block, ...innerBlocks
-			);
-		} else {
-			flattenBlocks.push( block );
-		}
-	} );
-	return flattenBlocks;
-};
+const getAllBlocks = ( paper ) => flattenBlocks( paper._attributes.wpBlocks || [] );
 
 
 /**
