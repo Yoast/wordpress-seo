@@ -13,6 +13,9 @@ use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
  *
  * The values are saved through the options helper, so they are sanitized and validated exactly like
  * they are when saved from the settings page.
+ *
+ * @internal Backs the site representation abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 class Site_Representation_Updater extends Abstract_Fields_Updater {
 
