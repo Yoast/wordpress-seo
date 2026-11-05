@@ -3,7 +3,7 @@
  * We use a (simpler) external library, which can be found here: https://github.com/fb55/htmlparser2.
  */
 // Import the Parser directly: the package index also pulls in DOM handlers and streams we do not use.
-import Parser from "htmlparser2/lib/Parser";
+import Parser from "htmlparser2/lib/Parser.js";
 
 /**
  * The array containing the text parts without ignored HTML blocks.

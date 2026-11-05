@@ -1,7 +1,7 @@
 /** @module stringProcessing/checkNofollow */
 
 // We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
-import Parser from "htmlparser2/lib/Parser";
+import Parser from "htmlparser2/lib/Parser.js";
 
 /**
  * Checks if a link has a `rel` attribute with a `nofollow` value. If it has, returns Nofollow, otherwise Dofollow.
