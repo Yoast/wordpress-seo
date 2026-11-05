@@ -1,6 +1,7 @@
 const protocolRegex = /^([a-z0-9.+-]+:)/i;
 // Like `url.parse()`, only a URL with two slashes after the protocol (or a protocol-relative URL) has a hostname.
 const authorityRegex = /^(?:[a-z0-9.+-]+:)?[/\\]{2}([^/\\?#]+)/i;
+const ipv6BracketsRegex = /^\[(.*)\]$/;
 
 /**
  * Gets the lowercase hostname of a URL that has two slashes after the protocol, or is protocol-relative.
@@ -20,6 +21,8 @@ function parseHostname( url, isProtocolRelative ) {
 	try {
 		// A protocol-relative URL needs a protocol to be parsed by the URL API.
 		hostname = new URL( isProtocolRelative ? "http:" + url : url ).hostname;
+		// Like `url.parse()`, return an IPv6 address without the brackets that the URL API keeps.
+		hostname = hostname.replace( ipv6BracketsRegex, "$1" );
 	} catch ( e ) {
 		// Keep the raw host of an invalid URL, so a broken link is not treated as internal.
 		hostname = authorityMatch[ 1 ];

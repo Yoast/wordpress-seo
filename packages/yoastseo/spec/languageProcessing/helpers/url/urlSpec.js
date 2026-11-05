@@ -222,6 +222,13 @@ describe( "A URL helper", function() {
 		] )( "classifies %s", function( _description, anchorUrl, expected ) {
 			expect( url.isInternalLink( anchorUrl, "http://www.google.nl" ) ).toBe( expected );
 		} );
+
+		it.each( [
+			[ "an IPv6 domain", "::1" ],
+			[ "an IPv6 site URL", "http://[::1]/" ],
+		] )( "classifies a link to the same IPv6 host as internal when the site is %s", function( _description, siteUrlOrDomain ) {
+			expect( url.isInternalLink( "http://[::1]/article", siteUrlOrDomain ) ).toBe( true );
+		} );
 	} );
 
 	describe( "getProtocol", function() {

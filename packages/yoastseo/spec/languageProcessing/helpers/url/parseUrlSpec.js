@@ -8,6 +8,8 @@ describe( "parseUrl", function() {
 		[ "http://münchen.de/", { protocol: "http:", hostname: "xn--mnchen-3ya.de", hash: null } ],
 		[ "http://user:pass@example.com:8080/", { protocol: "http:", hostname: "example.com", hash: null } ],
 		[ "http:\\\\example.com", { protocol: "http:", hostname: "example.com", hash: null } ],
+		[ "http://[::1]/article", { protocol: "http:", hostname: "::1", hash: null } ],
+		[ "https://[2001:DB8::1]:8080/page", { protocol: "https:", hostname: "2001:db8::1", hash: null } ],
 		[ "/page", { protocol: null, hostname: null, hash: null } ],
 		[ "../page#top", { protocol: null, hostname: null, hash: "#top" } ],
 		[ "example.com/page", { protocol: null, hostname: null, hash: null } ],
