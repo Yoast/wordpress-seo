@@ -4,6 +4,9 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions;
 
+use Brain\Monkey;
+use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
+
 /**
  * Tests the get_call_to_action method of the Improve Default Meta Descriptions task.
  *
@@ -14,11 +17,21 @@ namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Me
 final class Get_Call_To_Action_Test extends Abstract_Test {
 
 	/**
-	 * Tests that get_call_to_action always returns null.
+	 * Tests that get_call_to_action returns a link to the bulk editor.
 	 *
 	 * @return void
 	 */
-	public function test_get_call_to_action_returns_null() {
-		$this->assertNull( $this->instance->get_call_to_action() );
+	public function test_get_call_to_action_returns_link_to_bulk_editor() {
+		Monkey\Functions\expect( 'self_admin_url' )
+			->once()
+			->with( 'admin.php?page=wpseo_page_bulk_edit' )
+			->andReturn( 'https://example.com/wp-admin/admin.php?page=wpseo_page_bulk_edit' );
+
+		$call_to_action = $this->instance->get_call_to_action();
+
+		$this->assertInstanceOf( Call_To_Action_Entry::class, $call_to_action );
+		$this->assertSame( 'Edit in bulk', $call_to_action->get_label() );
+		$this->assertSame( 'link', $call_to_action->get_type() );
+		$this->assertSame( 'https://example.com/wp-admin/admin.php?page=wpseo_page_bulk_edit', $call_to_action->get_href() );
 	}
 }
