@@ -1,5 +1,6 @@
 import { isUndefined } from "lodash";
 const blockTokenizer = /<!--\s+wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g;
+const leadingWhitespace = /\s*/y;
 
 /**
  * Get all the blocks including the inner blocks.
@@ -59,12 +60,17 @@ export function updateBlocksOffset( blocks, text ) {
 			if ( null === matches ) {
 				return;
 			}
-			const [ match ] = matches;
+			const [ match, , , , , selfClosingSlash ] = matches;
 			const startedAt = matches.index;
 			const length = match.length;
 			currentBlock.startOffset = startedAt;
 			currentBlock.endOffset = startedAt + currentBlock.blockLength;
-			currentBlock.contentOffset = startedAt + length + 1;
+			// A self-closing block has no content, so its offset would land on whatever follows it.
+			if ( ! selfClosingSlash ) {
+				// The block comment is usually followed by a newline, but not always, e.g. in content saved through the REST API.
+				leadingWhitespace.lastIndex = startedAt + length;
+				currentBlock.contentOffset = startedAt + length + leadingWhitespace.exec( text )[ 0 ].length;
+			}
 		}
 
 		if ( currentBlock.innerBlocks && currentBlock.innerBlocks.length > 0 ) {
