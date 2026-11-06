@@ -1,8 +1,8 @@
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
 
-import passiveVerbs from "../config/internal/odikVerbs";
-import { verbPrefixes, odikSuffixes1, odikSuffixes2 } from "../config/internal/morphologicalPassiveAffixes";
+import passiveVerbs from "../config/internal/odikVerbs.js";
+import { verbPrefixes, odikSuffixes1, odikSuffixes2 } from "../config/internal/morphologicalPassiveAffixes.js";
 
 /**
  * Checks if the input word's root is in the Hungarian verb roots list.

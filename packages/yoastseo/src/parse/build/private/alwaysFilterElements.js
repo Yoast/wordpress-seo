@@ -2,7 +2,7 @@
  * A config file that contains filters that should always apply.
  */
 
-import { elementHasName, elementHasClass, elementHasID } from "./filterHelpers";
+import { elementHasName, elementHasClass, elementHasID } from "./filterHelpers.js";
 
 // These are elements that we don't want to include in the analysis and that can be child nodes of paragraphs or headings.
 export const canBeChildOfParagraph = [ "code", "kbd", "math", "q", "samp", "script", "var", "#comment", "cite", "form",

@@ -1,9 +1,9 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers";
-import AssessmentResult from "../../../values/AssessmentResult";
-import japaneseConfig from "../../../languageProcessing/languages/ja/config/metaDescriptionLength";
+import Assessment from "../assessment.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import japaneseConfig from "../../../languageProcessing/languages/ja/config/metaDescriptionLength.js";
 
 /**
  * Assessment for calculating the length of the meta description.

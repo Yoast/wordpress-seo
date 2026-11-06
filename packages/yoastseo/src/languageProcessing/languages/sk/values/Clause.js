@@ -1,8 +1,8 @@
 import { languageProcessing } from "yoastseo";
 const { values } = languageProcessing;
 const { Clause } = values;
-import getParticiples from "../helpers/internal/getParticiples";
-import nonPassives from "../../sk/config/internal/nonPassives";
+import getParticiples from "../helpers/internal/getParticiples.js";
+import nonPassives from "../../sk/config/internal/nonPassives.js";
 
 /**
  * Creates a Clause object for the Slovak language.

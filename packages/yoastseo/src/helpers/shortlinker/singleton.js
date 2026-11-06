@@ -1,4 +1,4 @@
-import Shortlinker from "./Shortlinker";
+import Shortlinker from "./Shortlinker.js";
 
 // Set global scope.
 let globalScope;

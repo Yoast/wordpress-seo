@@ -8,7 +8,7 @@ import PassiveVoice from "../assessments/readability/PassiveVoiceAssessment.js";
 import SentenceBeginnings from "../assessments/readability/SentenceBeginningsAssessment.js";
 import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
 import scoreToRating from "../interpreters/scoreToRating.js";
-import { ReadabilityScoreAggregator } from "../scoreAggregators";
+import { ReadabilityScoreAggregator } from "../scoreAggregators/index.js";
 
 /**
  * The ContentAssessor class is used for the readability analysis.

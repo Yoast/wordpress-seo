@@ -1,8 +1,8 @@
-import getSubheadingTexts from "../helpers/html/getSubheadingTexts";
-import countWords from "../helpers/word/countWords";
+import getSubheadingTexts from "../helpers/html/getSubheadingTexts.js";
+import countWords from "../helpers/word/countWords.js";
 import { forEach } from "lodash";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers";
+import removeHtmlBlocks from "../helpers/html/htmlParser.js";
+import { filterShortcodesFromHTML } from "../helpers/index.js";
 
 /**
  * @typedef {Object} SubheadingText The object containing the subheading and the text following the subheading.

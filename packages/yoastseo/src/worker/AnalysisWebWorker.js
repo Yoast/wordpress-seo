@@ -3,18 +3,19 @@
 import { enableFeatures } from "@yoast/feature-flag";
 import { setLocaleData } from "@wordpress/i18n";
 import { forEach, has, includes, isEmpty, isEqual, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash";
-import { getLogger } from "loglevel";
+// Default import: loglevel is CommonJS, so Node ESM can't import its named exports.
+import loglevel from "loglevel";
 
 // Internal dependencies.
-import { build } from "../parse/build";
-import { configureShortlinker } from "../helpers/shortlinker";
+import { build } from "../parse/build/index.js";
+import { configureShortlinker } from "../helpers/shortlinker/index.js";
 import InvalidTypeError from "../errors/invalidType.js";
 import includesAny from "../helpers/includesAny.js";
 import LanguageProcessor from "../parse/language/LanguageProcessor.js";
 import MissingArgumentError from "../errors/missingArgument.js";
 import Paper from "../values/Paper.js";
-import Scheduler from "./scheduler";
-import Transporter from "./transporter";
+import Scheduler from "./scheduler/index.js";
+import Transporter from "./transporter/index.js";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction.js";
 
 // Assessor classes.
@@ -28,7 +29,7 @@ import RelatedKeywordTaxonomyAssessor from "../scoring/assessors/relatedKeywordT
 import SEOAssessor from "../scoring/assessors/seoAssessor.js";
 import TaxonomyAssessor from "../scoring/assessors/taxonomyAssessor.js";
 
-const logger = getLogger( "yoast-analysis-worker" );
+const logger = loglevel.getLogger( "yoast-analysis-worker" );
 logger.setDefaultLevel( "error" );
 
 /**

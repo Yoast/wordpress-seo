@@ -1,5 +1,5 @@
-import { build } from "./build";
-import LanguageProcessor from "./language/LanguageProcessor";
+import { build } from "./build/index.js";
+import LanguageProcessor from "./language/LanguageProcessor.js";
 
 /**
  * Ensures the given paper has an HTML tree, building it if it doesn't.

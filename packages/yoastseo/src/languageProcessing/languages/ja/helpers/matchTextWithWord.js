@@ -1,6 +1,6 @@
-import getContentWords from "./getContentWords";
-import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest";
-import { normalizeSingle } from "../../../helpers/sanitize/quotes";
+import getContentWords from "./getContentWords.js";
+import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest.js";
+import { normalizeSingle } from "../../../helpers/sanitize/quotes.js";
 
 /**
  * Checks for word matches in a text and returns an array containing the matched word(s).

@@ -1,4 +1,4 @@
-import createAlternation from "../../../helpers/regex/createAlternation";
+import createAlternation from "../../../helpers/regex/createAlternation.js";
 
 /*
  * The English non-descriptive alt texts come in three shapes. The research strips a trailing number before testing,

@@ -1,7 +1,7 @@
 import { merge, isUndefined, isEmpty } from "lodash";
 
-import InvalidTypeError from "../errors/invalidType";
-import MissingArgument from "../errors/missingArgument";
+import InvalidTypeError from "../errors/invalidType.js";
+import MissingArgument from "../errors/missingArgument.js";
 
 // All researches in alphabetical order.
 import altTagCount from "./researches/altTagCount.js";
@@ -10,40 +10,40 @@ import altTextLength from "./researches/altTextLength.js";
 import countSentencesFromText from "./researches/countSentencesFromText.js";
 import duplicateAltText from "./researches/duplicateAltText.js";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
-import findKeyphraseInSEOTitle from "./researches/findKeyphraseInSEOTitle";
-import findTransitionWords from "./researches/findTransitionWords";
-import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
-import getAnchorsWithKeyphrase from "./researches/getAnchorsWithKeyphrase";
-import getFleschReadingScore from "./researches/getFleschReadingScore";
+import findKeyphraseInSEOTitle from "./researches/findKeyphraseInSEOTitle.js";
+import findTransitionWords from "./researches/findTransitionWords.js";
+import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase.js";
+import getAnchorsWithKeyphrase from "./researches/getAnchorsWithKeyphrase.js";
+import getFleschReadingScore from "./researches/getFleschReadingScore.js";
 import getKeyphraseDensity, { getKeywordDensity } from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
-import getLinkStatistics from "./researches/getLinkStatistics";
-import getParagraphs from "./researches/getParagraphs";
+import getLinkStatistics from "./researches/getLinkStatistics.js";
+import getParagraphs from "./researches/getParagraphs.js";
 import getParagraphLength from "./researches/getParagraphLength.js";
-import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
-import getProminentWordsForInsights from "./researches/getProminentWordsForInsights";
-import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking";
-import getSentenceBeginnings from "./researches/getSentenceBeginnings";
+import getPassiveVoiceResult from "./researches/getPassiveVoiceResult.js";
+import getProminentWordsForInsights from "./researches/getProminentWordsForInsights.js";
+import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking.js";
+import getSentenceBeginnings from "./researches/getSentenceBeginnings.js";
 import getSubheadingTextLengths from "./researches/getSubheadingTextLengths.js";
-import h1s from "./researches/h1s";
+import h1s from "./researches/h1s.js";
 import imageCount from "./researches/imageCount.js";
-import keyphraseLength from "./researches/keyphraseLength";
-import getKeyphraseCount, { keywordCount } from "./researches/keywordCount";
-import { keywordCountInSlug, keywordCountInUrl } from "./researches/keywordCountInUrl";
-import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings";
-import metaDescriptionKeyword from "./researches/metaDescriptionKeyword";
+import keyphraseLength from "./researches/keyphraseLength.js";
+import getKeyphraseCount, { keywordCount } from "./researches/keywordCount.js";
+import { keywordCountInSlug, keywordCountInUrl } from "./researches/keywordCountInUrl.js";
+import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings.js";
+import metaDescriptionKeyword from "./researches/metaDescriptionKeyword.js";
 import metaDescriptionLength from "./researches/metaDescriptionLength.js";
-import morphology from "./researches/getWordForms";
+import morphology from "./researches/getWordForms.js";
 import nonDescriptiveAltText from "./researches/nonDescriptiveAltText.js";
 import pageTitleWidth from "./researches/pageTitleWidth.js";
-import readingTime from "./researches/readingTime";
+import readingTime from "./researches/readingTime.js";
 import redundantPhraseInAltText from "./researches/redundantPhraseInAltText.js";
-import sentences from "./researches/sentences";
-import videoCount from "./researches/videoCount";
+import sentences from "./researches/sentences.js";
+import videoCount from "./researches/videoCount.js";
 import wordCountInText from "./researches/wordCountInText.js";
 
 // All helpers.
-import memoizedTokenizer from "./helpers/sentence/memoizedSentenceTokenizer";
+import memoizedTokenizer from "./helpers/sentence/memoizedSentenceTokenizer.js";
 
 /**
  * @typedef {import("../values/Paper").default} Paper

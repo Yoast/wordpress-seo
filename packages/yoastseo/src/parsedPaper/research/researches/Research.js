@@ -1,5 +1,5 @@
 import { flatten } from "lodash";
-import { LeafNode } from "../../structure/tree";
+import { LeafNode } from "../../structure/tree/index.js";
 
 /**
  * A research that can be applied to the tree.

@@ -1,6 +1,6 @@
 /** @module stringProcessing/matchTextWithArray */
 
-import matchTextWithWord from "./matchTextWithWord";
+import matchTextWithWord from "./matchTextWithWord.js";
 import { uniq as unique } from "lodash";
 
 /**

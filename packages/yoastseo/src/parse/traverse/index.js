@@ -1,6 +1,6 @@
-import findAllInTree from "./findAllInTree";
-import getParentNode from "./getParentNode";
-import innerText from "./innerText";
+import findAllInTree from "./findAllInTree.js";
+import getParentNode from "./getParentNode.js";
+import innerText from "./innerText.js";
 
 /**
  * @module parse/traverse

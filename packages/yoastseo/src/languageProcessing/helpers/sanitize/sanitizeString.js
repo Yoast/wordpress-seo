@@ -1,5 +1,5 @@
 import { stripFullTags as stripTags } from "./stripHTMLTags.js";
-import { unifyAllSpaces } from "./unifyWhitespace";
+import { unifyAllSpaces } from "./unifyWhitespace.js";
 
 /**
  * Sanitizes the text before we use the text for the analysis.

@@ -6,7 +6,7 @@ import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescript
 import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
 import KeyphraseStuffingInAltTextAssessment from "../../assessments/seo/KeyphraseStuffingInAltTextAssessment.js";
-import { createAnchorOpeningTag } from "../../../helpers";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 
 /**
  * The StorePostsAndPagesRelatedKeywordAssessor class is used for the related keyword analysis for store posts and pages.

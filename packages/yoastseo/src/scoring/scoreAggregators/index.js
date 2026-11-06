@@ -1,4 +1,4 @@
-export { default as ReadabilityScoreAggregator } from "./ReadabilityScoreAggregator";
-export { default as ValidOnlyResultsScoreAggregator } from "./ValidOnlyResultsScoreAggregator";
-export { default as ScoreAggregator } from "./ScoreAggregator";
-export { default as SEOScoreAggregator } from "./SEOScoreAggregator";
+export { default as ReadabilityScoreAggregator } from "./ReadabilityScoreAggregator.js";
+export { default as ValidOnlyResultsScoreAggregator } from "./ValidOnlyResultsScoreAggregator.js";
+export { default as ScoreAggregator } from "./ScoreAggregator.js";
+export { default as SEOScoreAggregator } from "./SEOScoreAggregator.js";

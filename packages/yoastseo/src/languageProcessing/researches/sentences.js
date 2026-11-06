@@ -1,6 +1,6 @@
-import getSentences from "../helpers/sentence/getSentences";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers";
+import getSentences from "../helpers/sentence/getSentences.js";
+import removeHtmlBlocks from "../helpers/html/htmlParser.js";
+import { filterShortcodesFromHTML } from "../helpers/index.js";
 
 /**
  * Returns the sentences from a paper.

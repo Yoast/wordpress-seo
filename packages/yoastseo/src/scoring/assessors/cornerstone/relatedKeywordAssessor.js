@@ -1,4 +1,4 @@
-import RelatedKeywordAssessor from "../relatedKeywordAssessor";
+import RelatedKeywordAssessor from "../relatedKeywordAssessor.js";
 
 /**
  * The CornerstoneRelatedKeywordAssessor class is used for the related keyword analysis for cornerstone content.

@@ -1,5 +1,5 @@
 /** @module stringProcessing/countWords */
-import sanitizeString from "../sanitize/sanitizeString";
+import sanitizeString from "../sanitize/sanitizeString.js";
 import { filter, flatMap } from "lodash";
 import removePunctuation, { punctuationRegexString } from "../sanitize/removePunctuation.js";
 
