@@ -9,6 +9,7 @@ const { dependencies } = require( "../../packages/js/package" );
 const legacyYoastPackages = [ "yoastseo" ];
 const additionalPackages = [
 	"draft-js",
+	"immutable",
 	"styled-components",
 	"jed",
 	"prop-types",

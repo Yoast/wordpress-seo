@@ -55,6 +55,7 @@
     "find-with-regex": "~1.0.2",
     "formik": "^2.2.9",
     "html-react-parser": "^5.2.11",
+    "immutable": "~3.7.4",
     "jed": "^1.1.1",
     "lodash": "^4.17.21",
     "marked": "^0.7.0",
