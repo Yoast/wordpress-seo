@@ -3,7 +3,7 @@ import { useEffect } from "@wordpress/element";
 import { SidebarNavigation, useNavigationContext } from "@yoast/ui-library";
 import { useLocation } from "react-router-dom";
 import { __ } from "@wordpress/i18n";
-import { MenuItemLink } from "../../shared-admin/components";
+import { MenuItemLink } from "../../shared-admin/components/menu-item-link";
 
 /**
  * The advanced menu component.

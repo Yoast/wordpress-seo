@@ -3,7 +3,6 @@ export { AIOptimizeUpsell } from "./ai-optimize-upsell";
 export { ErrorFallback } from "./error-fallback";
 export { FieldsetLayout } from "./fieldset-layout";
 export { ReactComponent as G2LogoWhite } from "./g2-logo-white.svg";
-export { MenuItemLink } from "./menu-item-link";
 export { OutboundLink } from "./outbound-link";
 export { PremiumUpsellCard } from "./premium-upsell-card";
 export { PremiumUpsellList } from "./premium-upsell-list";
