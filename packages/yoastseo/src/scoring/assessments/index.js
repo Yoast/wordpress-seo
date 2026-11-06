@@ -32,6 +32,11 @@ import KeyphraseInSEOTitleAssessment from "./seo/KeyphraseInSEOTitleAssessment";
 import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAssessment";
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
+import AltTextLengthAssessment from "./seo/AltTextLengthAssessment";
+import DuplicateAltTextAssessment from "./seo/DuplicateAltTextAssessment";
+import RedundantPhraseInAltTextAssessment from "./seo/RedundantPhraseInAltTextAssessment";
+import NonDescriptiveAltTextAssessment from "./seo/NonDescriptiveAltTextAssessment";
+import KeyphraseStuffingInAltTextAssessment from "./seo/KeyphraseStuffingInAltTextAssessment";
 
 // SEO assessments (premium)
 import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
@@ -59,6 +64,8 @@ const readability = {
 
 // We expose the deprecated assessments for backwards compatibility.
 const seo = {
+	AltTextLengthAssessment,
+	DuplicateAltTextAssessment,
 	FunctionWordsInKeyphraseAssessment,
 	ImageAltTagsAssessment,
 	ImageCountAssessment,
@@ -68,14 +75,17 @@ const seo = {
 	KeyphraseDistributionAssessment,
 	KeyphraseInSEOTitleAssessment,
 	KeyphraseLengthAssessment,
+	KeyphraseStuffingInAltTextAssessment,
 	KeyphraseDensityAssessment,
 	KeywordDensityAssessment,
 	MetaDescriptionKeywordAssessment,
 	MetaDescriptionLengthAssessment,
+	NonDescriptiveAltTextAssessment,
 	OutboundLinksAssessment,
 	PageTitleWidthAssessment,
 	ProductIdentifiersAssessment,
 	ProductSKUAssessment,
+	RedundantPhraseInAltTextAssessment,
 	SingleH1Assessment,
 	SubheadingsKeywordAssessment,
 	TextCompetingLinksAssessment,

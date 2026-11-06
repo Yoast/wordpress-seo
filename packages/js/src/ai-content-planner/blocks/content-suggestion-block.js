@@ -4,9 +4,6 @@ import { useEffect, useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { ContentSuggestionBlock } from "../components/content-suggestion-block";
 
-// Both the `ai-content-planner` and `block-editor` webpack bundles load this
-// module independently (each has its own module registry), so the call below
-// can execute twice on the same page. Guard against the duplicate warning.
 if ( ! getBlockType( "yoast-seo/content-suggestion" ) ) {
 	registerBlockType( "yoast-seo/content-suggestion", {
 		apiVersion: 3,

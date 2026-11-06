@@ -300,6 +300,17 @@ describe( "Counts images in a text", function() {
 		expect( stringToCheck.withAltKeyword ).toBe( 2 );
 		expect( stringToCheck.withAltNonKeyword ).toBe( 3 );
 	} );
+
+	it( "counts an image whose alt text is only a non-breaking space as an image without alt text", function() {
+		const paper = new Paper( "string <img src='http://plaatje' alt='&nbsp;' />" );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( altTagCountFunction( paper, researcher ) ).toEqual(
+			{ noAlt: 1, withAlt: 0, withAltKeyword: 0, withAltNonKeyword: 0, flagged: [ "http://plaatje" ] }
+		);
+	} );
 } );
 
 describe( "Counts alt-tags of the paper's provided images when the producer provides them", function() {
@@ -369,6 +380,60 @@ describe( "Counts alt-tags of the paper's provided images when the producer prov
 		expect( stringToCheck.withAlt ).toBe( 0 );
 		expect( stringToCheck.withAltKeyword ).toBe( 0 );
 		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
+	} );
+} );
+
+describe( "Flags the images without alt text", function() {
+	/**
+	 * Runs the research on a paper.
+	 *
+	 * @param {Paper} paper The paper.
+	 *
+	 * @returns {Object} The research result.
+	 */
+	const research = ( paper ) => {
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+		return altTagCountFunction( paper, researcher );
+	};
+
+	it( "flags the provided images without alt text by their ID", function() {
+		const paper = new Paper( "string", {
+			keyword: "keyword",
+			providedImages: [
+				{ id: 1, src: "https://example.com/featured.jpg", alt: "keyword" },
+				{ id: 2, src: "https://example.com/gallery.jpg", alt: "" },
+				{ id: 3, src: "https://example.com/variation.jpg", alt: "   " },
+			],
+		} );
+
+		expect( research( paper ).flagged ).toEqual( [ 2, 3 ] );
+	} );
+
+	it( "flags the images in the text without alt text by their src, each src once", function() {
+		const paper = new Paper(
+			"<img src='https://example.com/a.jpg' /> <img src='https://example.com/a.jpg' alt='' />" +
+			" <img src='https://example.com/b.jpg' alt='Has alt' />",
+			{ keyword: "" }
+		);
+
+		const result = research( paper );
+		expect( result.noAlt ).toBe( 2 );
+		expect( result.flagged ).toEqual( [ "https://example.com/a.jpg" ] );
+	} );
+
+	it( "flags nothing when every image has alt text", function() {
+		const paper = new Paper( "string", {
+			keyword: "",
+			providedImages: [ { id: 1, src: "https://example.com/featured.jpg", alt: "A featured image" } ],
+		} );
+
+		expect( research( paper ).flagged ).toEqual( [] );
+	} );
+
+	it( "flags nothing when there are no images", function() {
+		expect( research( new Paper( "string", { keyword: "" } ) ).flagged ).toEqual( [] );
 	} );
 } );
 

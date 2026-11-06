@@ -32,15 +32,15 @@ function addIconTextStyle( icon ) {
  *
  * @returns {ReactElement} styled icon button.
  */
-const IconButton = ( props ) => {
-	const { children: text, icon, iconColor } = props;
+const IconButton = ( { iconColor = "#000", ...props } ) => {
+	const { children: text, icon } = props;
 
 	let IconComponent = SvgIcon;
 	if ( text ) {
 		IconComponent = addIconTextStyle( IconComponent );
 	}
 
-	const newProps = omit( props, "icon" );
+	const newProps = omit( { ...props, iconColor }, "icon" );
 
 	return (
 		<Button { ...newProps }>
@@ -58,10 +58,6 @@ IconButton.propTypes = {
 		PropTypes.node,
 		PropTypes.string,
 	] ),
-};
-
-IconButton.defaultProps = {
-	iconColor: "#000",
 };
 
 export default IconButton;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 import forEach from "lodash/forEach";
 
@@ -11,38 +11,44 @@ const icons = [
 
 describe( "StyledSection", () => {
 	test( "match the snapshot", () => {
-		const component = renderer.create(
-			<StyledSection
-				headingText="Insights. Hello, this is a Styled Section heading."
-				headingColor="red"
-				headingLevel={ 2 }
-				headingIcon="file-text"
-				headingIconColor="blue"
-				headingIconSize="16"
-			>
-				<p>Keyword Suggestions</p>
-				<p>Hello, this is additional content</p>
-			</StyledSection>
-		);
+		let component;
+		act( () => {
+			component = renderer.create(
+				<StyledSection
+					headingText="Insights. Hello, this is a Styled Section heading."
+					headingColor="red"
+					headingLevel={ 2 }
+					headingIcon="file-text"
+					headingIconColor="blue"
+					headingIconSize="16"
+				>
+					<p>Keyword Suggestions</p>
+					<p>Hello, this is additional content</p>
+				</StyledSection>
+			);
+		} );
 
 		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 
 	test( "can change the heading level", () => {
-		const component = renderer.create(
-			<StyledSection
-				headingText="Insights. Hello, this is a Styled Section heading."
-				headingColor="red"
-				headingLevel={ 4 }
-				headingIcon="file-text"
-				headingIconColor="blue"
-				headingIconSize="16"
-			>
-				<p>Keyword Suggestions</p>
-				<p>Hello, this is additional content</p>
-			</StyledSection>
-		);
+		let component;
+		act( () => {
+			component = renderer.create(
+				<StyledSection
+					headingText="Insights. Hello, this is a Styled Section heading."
+					headingColor="red"
+					headingLevel={ 4 }
+					headingIcon="file-text"
+					headingIconColor="blue"
+					headingIconSize="16"
+				>
+					<p>Keyword Suggestions</p>
+					<p>Hello, this is additional content</p>
+				</StyledSection>
+			);
+		} );
 
 		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
@@ -51,18 +57,21 @@ describe( "StyledSection", () => {
 
 	forEach( icons, function( icon ) {
 		test( `can change the icon to ${icon}`, () => {
-			const component = renderer.create(
-				<StyledSection
-					headingText="Insights. Hello, this is a Styled Section heading."
-					headingColor="red"
-					headingLevel={ 2 }
-					headingIcon={ icon }
-					headingIconColor="blue"
-					headingIconSize="16"
-				>
-					<p>Icon { icon }</p>
-				</StyledSection>
-			);
+			let component;
+			act( () => {
+				component = renderer.create(
+					<StyledSection
+						headingText="Insights. Hello, this is a Styled Section heading."
+						headingColor="red"
+						headingLevel={ 2 }
+						headingIcon={ icon }
+						headingIconColor="blue"
+						headingIconSize="16"
+					>
+						<p>Icon { icon }</p>
+					</StyledSection>
+				);
+			} );
 
 			const tree = component.toJSON();
 			expect( tree ).toMatchSnapshot();
@@ -84,18 +93,21 @@ describe( "StyledSection", () => {
 	} );
 
 	test( "have a red icon", () => {
-		const component = renderer.create(
-			<StyledSection
-				headingText="Insights. Hello, this is a Styled Section heading."
-				headingColor="red"
-				headingLevel={ 2 }
-				headingIcon="search"
-				headingIconColor="red"
-				headingIconSize="16"
-			>
-				<p>Color red</p>
-			</StyledSection>
-		);
+		let component;
+		act( () => {
+			component = renderer.create(
+				<StyledSection
+					headingText="Insights. Hello, this is a Styled Section heading."
+					headingColor="red"
+					headingLevel={ 2 }
+					headingIcon="search"
+					headingIconColor="red"
+					headingIconSize="16"
+				>
+					<p>Color red</p>
+				</StyledSection>
+			);
+		} );
 
 		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();

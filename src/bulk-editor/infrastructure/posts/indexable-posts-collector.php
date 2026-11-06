@@ -231,11 +231,15 @@ class Indexable_Posts_Collector implements Posts_Collector_Interface {
 			$clauses[] = '( ' . ( ( $field_clauses !== [] ) ? \implode( ' OR ', $field_clauses ) : '1 = 0' ) . ' )';
 		}
 
+		$extra_clauses = \apply_filters( 'wpseo_bulk_editor_needs_improvement_where_extra_clauses', [], $fields, $post_type, 'indexable' );
+		$clauses       = \array_merge( $clauses, (array) $extra_clauses );
+
 		if ( $clauses === [] ) {
 			return;
 		}
 
 		// The column names come from the internal maps, never from input; only the empty string and score bounds are bound.
+		// Extra clauses from the filter are pre-prepared by their provider and have no additional bound values.
 		$builder->where_raw(
 			'( ' . \implode( ' OR ', $clauses ) . ' )',
 			$values,

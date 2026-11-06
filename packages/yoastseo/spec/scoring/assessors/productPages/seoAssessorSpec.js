@@ -32,8 +32,74 @@ const assessor = new Assessor( new EnglishResearcher( mockPaper ), {
 	singleH1CTAUrl: "https://yoast.com/26",
 	imageCountUrlTitle: "https://yoast.com/27",
 	imageCountCTAUrl: "https://yoast.com/28",
-	imageKeyphraseUrlTitle: "https://yoast.com/29",
-	imageKeyphraseCTAUrl: "https://yoast.com/30",
+} );
+
+describe( "the alt text length assessment URLs", () => {
+	test( "uses the platform's URLs when the options are set", () => {
+		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
+			altTextLengthUrlTitle: "https://yoast.com/31",
+			altTextLengthCTAUrl: "https://yoast.com/32",
+		} );
+		const assessment = configured.getAssessment( "altTextLength" );
+
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/31' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/32' target='_blank'>" );
+	} );
+} );
+
+describe( "the duplicate alt text assessment", () => {
+	test( "uses the platform's URLs and result texts when the options are set", () => {
+		const duplicateAltTextResultTexts = jest.fn();
+		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
+			duplicateAltTextUrlTitle: "https://yoast.com/31",
+			duplicateAltTextCTAUrl: "https://yoast.com/32",
+			duplicateAltTextResultTexts,
+		} );
+		const assessment = configured.getAssessment( "duplicateAltText" );
+
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/31' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/32' target='_blank'>" );
+		expect( assessment._config.callbacks.getResultTexts ).toBe( duplicateAltTextResultTexts );
+	} );
+} );
+
+describe( "the redundant phrase in alt text assessment URLs", () => {
+	test( "uses the platform's URLs when the options are set", () => {
+		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
+			redundantPhraseInAltTextUrlTitle: "https://yoast.com/33",
+			redundantPhraseInAltTextCTAUrl: "https://yoast.com/34",
+		} );
+		const assessment = configured.getAssessment( "redundantPhraseInAltText" );
+
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/33' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/34' target='_blank'>" );
+	} );
+} );
+
+describe( "the non-descriptive alt text assessment URLs", () => {
+	test( "uses the platform's URLs when the options are set", () => {
+		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
+			nonDescriptiveAltTextUrlTitle: "https://yoast.com/35",
+			nonDescriptiveAltTextCTAUrl: "https://yoast.com/36",
+		} );
+		const assessment = configured.getAssessment( "nonDescriptiveAltText" );
+
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/35' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/36' target='_blank'>" );
+	} );
+} );
+
+describe( "the keyphrase stuffing in alt text assessment URLs", () => {
+	test( "uses the platform's URLs when the options are set", () => {
+		const configured = new Assessor( new EnglishResearcher( mockPaper ), {
+			keyphraseStuffingInAltTextUrlTitle: "https://yoast.com/33",
+			keyphraseStuffingInAltTextCTAUrl: "https://yoast.com/34",
+		} );
+		const assessment = configured.getAssessment( "keyphraseStuffingInAltText" );
+
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/33' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/34' target='_blank'>" );
+	} );
 } );
 
 describe( "has configuration overrides", () => {
@@ -174,14 +240,5 @@ describe( "has configuration overrides", () => {
 		expect( assessment._config.recommendedCount ).toBe( 4 );
 		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/27' target='_blank'>" );
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/28' target='_blank'>" );
-	} );
-
-	test( "ImageKeyphrase", () => {
-		const assessment = assessor.getAssessment( "imageKeyphrase" );
-
-		expect( assessment ).toBeDefined();
-		expect( assessment._config ).toBeDefined();
-		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/29' target='_blank'>" );
-		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/30' target='_blank'>" );
 	} );
 } );
