@@ -35,7 +35,7 @@ final class Get_Copy_Set_Test extends Abstract_Test {
 			$array['about'],
 		);
 		$this->assertStringContainsString(
-			'Generate optimized meta descriptions and titles for your posts, pages and custom post types in bulk',
+			'Draft meta descriptions and titles for several items at once with AI in the Bulk Editor.',
 			$array['about'],
 		);
 	}
