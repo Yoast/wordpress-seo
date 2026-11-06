@@ -112,7 +112,7 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 			\sprintf( \__( 'Improve default meta descriptions of your recent content: %1$s', 'wordpress-seo' ), $post_type->label ),
 			\sprintf(
 				/* translators: %1$s expands to <p>, %2$s expands to </p>, %3$s expands to <p>, %4$s expands to </p>. */
-				\__( '%1$sDefault meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks. %2$s%3$sShort on time? Generate optimized meta descriptions and titles for your posts, pages and custom post types in bulk, or write them yourself whenever you want more control.%4$s', 'wordpress-seo' ),
+				\__( '%1$sDefault meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks. %2$s%3$sShort on time? Draft meta descriptions and titles for several items at once with AI in the Bulk Editor.%4$s', 'wordpress-seo' ),
 				'<p>',
 				'</p>',
 				'<p>',
