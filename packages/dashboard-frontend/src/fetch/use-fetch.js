@@ -38,7 +38,7 @@ export const useFetch = ( { dependencies, url, options, prepareData = identity, 
 		doFetch( ...args )
 			.then( ( result ) => {
 				setData( prepareData( result ) );
-				setError( undefined ); // eslint-disable-line no-undefined
+				setError( undefined );
 			} )
 			.catch( ( e ) => {
 				// Ignore abort errors, because they are expected.

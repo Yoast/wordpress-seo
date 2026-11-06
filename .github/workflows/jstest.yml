@@ -235,8 +235,8 @@ jobs:
   #########################################################################################
   # React 19 compatibility leg: run a package's tests against the React version that
   # WordPress 7.1 / the Gutenberg 23.3 RC ships (19.2.4), in addition to the default
-  # React 18.3 run in `yarn-test-full`. Scoped to ui-library for now; add packages to the
-  # matrix as they become React-19-ready (e.g. once `components` drops react-test-renderer).
+  # React 18.3 run in `yarn-test-full`. Add packages to the matrix once their tests pass under
+  # React 19.
   #########################################################################################
   yarn-test-react19:
     runs-on: ubuntu-latest
@@ -247,6 +247,14 @@ jobs:
       matrix:
         package:
           - 'ui-library'
+          - 'analysis-report'
+          - 'components'
+          - 'dashboard-frontend'
+          - 'helpers'
+          - 'replacement-variable-editor'
+          - 'search-metadata-previews'
+          - 'social-metadata-forms'
+          - 'social-metadata-previews'
         react:
           - '19.2.4'
 
@@ -266,14 +274,18 @@ jobs:
 
       # Force the target React across every workspace via a yarn resolution, then install.
       # A plain `yarn add -W` would not override packages that pin react@^18 in their own
-      # dependencies; `resolutions` overrides every range. @testing-library/react v16
-      # supports both React 18 and 19, so it is left untouched.
+      # dependencies; `resolutions` overrides every range. react-test-renderer must match the
+      # React version, so it is forced too. @testing-library/react v16 supports both React 18
+      # and 19, so it is left untouched.
       - name: Force React ${{ matrix.react }}
         env:
           REACT_VERSION: ${{ matrix.react }}
         run: |
-          node -e "const fs = require('fs'); const p = JSON.parse(fs.readFileSync('package.json', 'utf8')); const v = process.env.REACT_VERSION; p.resolutions = { ...(p.resolutions || {}), react: v, 'react-dom': v }; fs.writeFileSync('package.json', JSON.stringify(p, null, 2));"
+          node -e "const fs = require('fs'); const p = JSON.parse(fs.readFileSync('package.json', 'utf8')); const v = process.env.REACT_VERSION; p.resolutions = { ...(p.resolutions || {}), react: v, 'react-dom': v, 'react-test-renderer': v }; fs.writeFileSync('package.json', JSON.stringify(p, null, 2));"
           yarn install --force
+
+      - name: Build all packages
+        run: yarn run build --ignore "@yoast/wordpress-seo"
 
       - name: Run Javascript tests
         run: yarn test --ci

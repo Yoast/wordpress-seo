@@ -116,9 +116,11 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return void
 	 */
 	public function register_style( WPSEO_Admin_Asset $style ) {
+		$url = $style->get_src() ? $this->get_url( $style, WPSEO_Admin_Asset::TYPE_CSS ) : false;
+
 		wp_register_style(
 			$this->prefix . $style->get_name(),
-			$this->get_url( $style, WPSEO_Admin_Asset::TYPE_CSS ),
+			$url,
 			$style->get_deps(),
 			$style->get_version(),
 			$style->get_media(),
@@ -606,7 +608,6 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'ai-generator',
 				'src'  => 'ai-generator-' . $flat_version,
 				'deps' => [
-					self::PREFIX . 'ai-frontend',
 					self::PREFIX . 'tailwind',
 					self::PREFIX . 'introductions',
 				],
@@ -616,8 +617,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'ai-fix-assessments-' . $flat_version,
 			],
 			[
+				// The @yoast/ai-frontend styles are compiled into tailwind; this handle stays for add-ons that depend on it.
 				'name' => 'ai-frontend',
-				'src'  => 'ai-frontend-' . $flat_version,
+				'src'  => false,
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
 				'name' => 'introductions',

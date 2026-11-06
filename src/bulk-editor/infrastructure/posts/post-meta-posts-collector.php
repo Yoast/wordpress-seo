@@ -365,6 +365,9 @@ class Post_Meta_Posts_Collector implements Posts_Collector_Interface {
 			$clauses[] = '( ' . ( ( $field_clauses !== [] ) ? \implode( ' OR ', $field_clauses ) : '0 = 1' ) . ' )';
 		}
 
+		$extra_clauses = \apply_filters( 'wpseo_bulk_editor_needs_improvement_where_extra_clauses', [], $fields, $post_type, 'post_meta' );
+		$clauses       = \array_merge( $clauses, (array) $extra_clauses );
+
 		if ( $clauses === [] ) {
 			return '';
 		}

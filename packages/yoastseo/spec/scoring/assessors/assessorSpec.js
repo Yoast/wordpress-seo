@@ -85,7 +85,7 @@ describe( "an assessor object", function() {
 
 			const result = assessor.getAssessment( "testname" );
 
-			expect( result ).toEqual( undefined ); // eslint-disable-line no-undefined
+			expect( result ).toEqual( undefined );
 		} );
 	} );
 

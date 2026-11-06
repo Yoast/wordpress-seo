@@ -58,7 +58,7 @@ export const Scores = ( { analysisType, contentTypes, dataProvider, remoteDataPr
 
 	useEffect( () => {
 		// Reset the selected term when the selected content type changes.
-		setSelectedTerm( undefined ); // eslint-disable-line no-undefined
+		setSelectedTerm( undefined );
 	}, [ selectedContentType?.name ] );
 
 	return (

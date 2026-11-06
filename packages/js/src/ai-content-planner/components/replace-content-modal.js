@@ -18,7 +18,9 @@ export const ReplaceContentModal = ( { onConfirm, isOpen, onClose } ) => {
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose } className="yst-flex yst-items-center yst-justify-center">
 			<Modal.Panel
-				closeButtonScreenReaderText={ __( "Close replace content confirmation", "wordpress-seo" ) }
+				closeButtonScreenReaderText={
+					/* translators: Hidden accessibility text. */
+					__( "Close replace content confirmation", "wordpress-seo" ) }
 			>
 				<div className="yst-flex yst-items-start">
 					<div className="yst-flex-shrink-0 yst-flex yst-items-center yst-justify-center yst-h-10 yst-w-10 yst-rounded-full yst-bg-red-100">
