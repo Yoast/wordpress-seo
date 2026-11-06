@@ -9,13 +9,25 @@ import { getLanguage } from "../../index";
 /**
  * Creates a regex from the keyword with included wordboundaries.
  *
+ * Escaped periods (e.g. `\.` from version numbers like "26.04") are replaced with a pattern
+ * that matches either a literal period or a space. This ensures that keyphrase words
+ * containing periods can still match against slugs, where periods are converted to spaces
+ * by `parseSlug`.
+ *
  * @param {string} keyword  The keyword to create a regex from.
  * @param {string} language The language used to determine the word boundary.
  *
  * @returns {RegExp} Regular expression of the keyword with word boundaries.
  */
 const toRegex = function( keyword, language ) {
-	keyword = addWordBoundary( keyword, false, "", language );
+	/*
+	 * Replace escaped periods with a character class that matches either a literal period
+	 * or a space. This allows keyphrase words like "26.04" to match against slugs where
+	 * the period has been converted to a space (e.g. "26 04").
+	 */
+	const keywordWithPeriodAsWordBoundary = keyword.replace( /\\\./g, "[.\\u0020]" );
+
+	keyword = addWordBoundary( keywordWithPeriodAsWordBoundary, false, "", language );
 	return new RegExp( keyword, "ig" );
 };
 
