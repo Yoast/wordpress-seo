@@ -99,28 +99,27 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
 }
 
 <div
-  aria-atomic={true}
+  aria-atomic="true"
   aria-live="polite"
   aria-relevant="additions text"
-  className="c0"
+  class="c0"
   role="status"
 >
   <ol
-    className="c1"
+    class="c1"
   >
     <li
-      className="c2"
+      class="c2"
     >
       <span>
         This task has finished.
       </span>
       <svg
-        aria-hidden={true}
-        className="c3 yoast-svg-icon yoast-svg-icon-check"
+        aria-hidden="true"
+        class="c3 yoast-svg-icon yoast-svg-icon-check"
         fill="#64a60a"
         focusable="false"
         role="img"
-        size="16px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -130,18 +129,17 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
       </svg>
     </li>
     <li
-      className="c2"
+      class="c2"
     >
       <span>
         This task has failed.
       </span>
       <svg
-        aria-hidden={true}
-        className="c3 yoast-svg-icon yoast-svg-icon-times"
+        aria-hidden="true"
+        class="c3 yoast-svg-icon yoast-svg-icon-times"
         fill="#dc3232"
         focusable="false"
         role="img"
-        size="16px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -151,34 +149,33 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
       </svg>
     </li>
     <li
-      className="c2 c4"
+      class="c2 c4"
     >
       <span>
         This task is running.
       </span>
       <svg
-        aria-hidden={true}
-        className="c5 yoast-svg-icon yoast-svg-icon-loading-spinner"
+        aria-hidden="true"
+        class="c5 yoast-svg-icon yoast-svg-icon-loading-spinner"
         fill="currentColor"
         focusable="false"
         role="img"
-        size="16px"
         viewBox="0 0 66 66"
         xmlns="http://www.w3.org/2000/svg"
       >
         <circle
-          className="path"
+          class="path"
           cx="33"
           cy="33"
           fill="none"
           r="30"
-          strokeLinecap="round"
-          strokeWidth="6"
+          stroke-linecap="round"
+          stroke-width="6"
         />
       </svg>
     </li>
     <li
-      className="c2 c6"
+      class="c2 c6"
     >
       <span>
         This task is pending.

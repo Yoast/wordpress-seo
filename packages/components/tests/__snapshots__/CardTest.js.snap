@@ -35,11 +35,11 @@ exports[`The FullHeightCard is rendered including some props 1`] = `
 }
 
 <div
-  className="c0 c1 CourseCard_Empty"
+  class="c0 c1 CourseCard_Empty"
   id="Test01"
 >
   <div
-    className="c2"
+    class="c2"
   />
 </div>
 `;
@@ -220,80 +220,74 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
 }
 
 <div
-  className="c0 c1 CourseCard"
+  class="c0 c1 CourseCard"
   id="Test02"
 >
   <a
-    className="c2"
+    class="c2"
     href="https://yoast.com/academy/keyword-research-training/"
-    rel={null}
     target="_blank"
   >
     <img
       alt=""
-      className="c3"
+      class="c3"
       src="../wp-content/plugins/wordpress-seo/images/sample_course_card_header.png"
     />
     <h2
-      className="c4"
+      class="c4"
     >
       Keyword Research
     </h2>
     <span
-      className="c5"
+      class="c5"
     >
       (Opens in a new browser tab)
     </span>
   </a>
   <span
-    className="c6"
+    class="c6"
   >
     Free
   </span>
   <span
-    className="c7"
+    class="c7"
   />
   <div
-    className="c8"
+    class="c8"
   >
     <div
-      className="c9"
+      class="c9"
     >
       <div
-        className="c10"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
-you’ll learn how to research and select the keywords that will guide searchers to your pages.",
-          }
-        }
-      />
+        class="c10"
+      >
+        Do you know the essential first step of good SEO? It’s keyword research. In this training, 
+you’ll learn how to research and select the keywords that will guide searchers to your pages.
+      </div>
     </div>
     <div
-      className="c11"
+      class="c11"
     >
       <a
-        className="c12"
+        class="c12"
         href="https://yoast.com/cart/?add-to-cart=1311259"
-        rel={null}
         target="_blank"
       >
         Start your free trail
         <span
-          className="c5"
+          class="c5"
         >
           (Opens in a new browser tab)
         </span>
       </a>
       <a
-        className="c13"
+        class="c13"
         href="https://yoast.com/academy/keyword-research-training/"
-        rel={null}
         target="_blank"
       >
         Read more about this training »
         <span
-          className="c5"
+          class="c5"
         >
           (Opens in a new browser tab)
         </span>
@@ -334,11 +328,11 @@ exports[`The empty Card component matches the snapshot 1`] = `
 }
 
 <div
-  className="c0"
+  class="c0"
   id=""
 >
   <div
-    className="c1"
+    class="c1"
   />
 </div>
 `;

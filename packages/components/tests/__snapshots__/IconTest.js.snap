@@ -12,7 +12,7 @@ exports[`the Icon with props matches the snapshot 1`] = `
 
 <svg
   aria-hidden="true"
-  className="c0"
+  class="c0"
   focusable="false"
   role="img"
   viewBox="0 0 500 500"
@@ -71,7 +71,7 @@ exports[`the Icon without props matches the snapshot 1`] = `
 
 <svg
   aria-hidden="true"
-  className="c0"
+  class="c0"
   focusable="false"
   role="img"
   viewBox="0 0 500 500"
