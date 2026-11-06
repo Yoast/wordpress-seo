@@ -43,6 +43,8 @@ test( "the AnalysisResult component with html in the text matches the snapshot",
 	);
 
 	expect( container.firstChild ).toMatchSnapshot();
+	expect( container.querySelector( "b" ) ).not.toBeNull();
+	expect( container.querySelector( "b" ).textContent ).toBe( "great!" );
 } );
 
 test( "the AnalysisResult component with disabled buttons matches the snapshot", () => {
@@ -65,6 +67,7 @@ test( "the AnalysisResult component with disabled buttons matches the snapshot",
 	);
 
 	expect( container.firstChild ).toMatchSnapshot();
+	expect( screen.getByRole( "button", { name: "SEOResult" } ).disabled ).toBe( true );
 } );
 
 test( "the AnalysisResult component with hidden buttons matches the snapshot", () => {
@@ -87,6 +90,7 @@ test( "the AnalysisResult component with hidden buttons matches the snapshot", (
 	);
 
 	expect( container.firstChild ).toMatchSnapshot();
+	expect( screen.queryByRole( "button", { name: "SEOResult" } ) ).toBeNull();
 } );
 
 test( "the AnalysisResult component with suppressed text matches the snapshot", () => {

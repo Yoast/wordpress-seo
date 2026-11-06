@@ -9,6 +9,7 @@ test( "the A11yNotice matches the snapshot", () => {
 	);
 
 	expect( container.firstChild ).toMatchSnapshot();
+	expect( container.firstChild.textContent ).toBe( "A11yNoticeValue" );
 } );
 
 
@@ -21,4 +22,5 @@ test( "the A11yNotice can be changed to a different element", () => {
 
 	expect( container.firstChild ).toMatchSnapshot();
 	expect( container.firstChild.tagName ).toEqual( "H2" );
+	expect( container.firstChild.textContent ).toBe( "H2A11yNoticeValue" );
 } );
