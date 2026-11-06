@@ -119,7 +119,7 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 				],
 				'permalink'              => [
 					'type'        => 'string',
-					'description' => \__( 'The permalink (URL) of the post to update.', 'wordpress-seo' ),
+					'description' => \__( 'The full permalink (URL) of the post to update, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.', 'wordpress-seo' ),
 				],
 				'seo_title'              => $this->ai_generate_field_schema( \__( 'SEO title', 'wordpress-seo' ) ),
 				'meta_description'       => $this->ai_generate_field_schema( \__( 'meta description', 'wordpress-seo' ) ),

@@ -293,7 +293,7 @@ final class Update_Term_SEO_Data_Ability_Test extends TestCase {
 				],
 				'permalink'              => [
 					'type'        => 'string',
-					'description' => 'The permalink (URL) of the term archive to update.',
+					'description' => 'The full permalink (URL) of the term archive to update, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.',
 				],
 				'seo_title'              => $templated( 'SEO title' ),
 				'meta_description'       => $templated( 'meta description' ),
