@@ -252,6 +252,7 @@ jobs:
           - 'dashboard-frontend'
           - 'helpers'
           - 'replacement-variable-editor'
+          - 'search-metadata-previews'
           - 'social-metadata-forms'
           - 'social-metadata-previews'
         react:
