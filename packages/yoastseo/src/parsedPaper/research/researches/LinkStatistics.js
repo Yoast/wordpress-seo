@@ -1,4 +1,4 @@
-import urlMethods from "url";
+import parseUrl from "../../../languageProcessing/helpers/url/parseUrl.js";
 
 /* Internal dependencies */
 import Research from "./Research";
@@ -69,7 +69,7 @@ class LinkStatistics extends Research {
 			return "other";
 		}
 
-		const url = urlMethods.parse( link );
+		const url = parseUrl( link );
 
 		if ( ! this._isHttp( url.protocol ) || url.hash ) {
 			return "other";
@@ -111,7 +111,7 @@ class LinkStatistics extends Research {
 
 		// URL of the current page.
 		const permalink = this._getPermalink( metadata );
-		const url = urlMethods.parse( permalink );
+		const url = parseUrl( permalink );
 
 		// Collect statistics about the links.
 		const results = links.map( link => {
