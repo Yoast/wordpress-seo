@@ -112,7 +112,7 @@ exports[`Search modal should open 1`] = `
             </div>
           </div>
           <div
-            class="yst-border-t yst-border-slate-100 yst-p-6 yst-py-12 yst-space-3 yst-text-center yst-text-sm"
+            class="yst-border-t yst-border-slate-100 yst-p-6 yst-py-12 yst-space-3 yst-text-center yst-text-sm yst-border-solid"
           >
             <span
               class="yst-block yst-font-semibold yst-text-slate-900"
@@ -170,7 +170,7 @@ exports[`Search modal should show search results 1`] = `
 
 exports[`Search should have a search button 1`] = `
 <button
-  class="yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
+  class="yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500 yst-border-solid"
   id="button-search"
   type="button"
 >
