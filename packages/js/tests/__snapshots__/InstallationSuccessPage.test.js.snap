@@ -51,7 +51,7 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
           id="installation-success-card-configuration"
         >
           <h2
-            class="yst-my-0 yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold"
+            class="yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold"
           >
             Get better results with the First-time configuration
           </h2>
@@ -88,7 +88,7 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
             </a>
           </div>
           <p
-            class="yst-font-normal yst-italic yst-text-center yst-text-white yst-text-sm yst-mt-3 yst-mb-0"
+            class="yst-font-normal yst-italic yst-text-center yst-text-white yst-text-sm yst-mt-3"
           >
             Takes a few minutes · Recommended
           </p>
@@ -98,12 +98,12 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
           id="installation-success-card-optimized-site"
         >
           <h2
-            class="yst-my-0 yst-tracking-tight yst-text-primary-500 yst-text-lg yst-leading-8 yst-font-extrabold"
+            class="yst-tracking-tight yst-text-primary-500 yst-text-lg yst-leading-8 yst-font-extrabold"
           >
             Unlock more powerful SEO tools
           </h2>
           <p
-            class="yst-text-slate-600 yst-text-sm yst-mt-0 yst-mb-1"
+            class="yst-text-slate-600 yst-text-sm yst-mb-1"
           >
             Consider Yoast SEO Premium for faster, easier SEO with AI features that save time.
           </p>
@@ -136,7 +136,7 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
             </svg>
           </a>
           <p
-            class="yst-font-normal yst-italic yst-text-center yst-text-slate-500 yst-text-xs yst-mt-2 yst-mb-0"
+            class="yst-font-normal yst-italic yst-text-center yst-text-slate-500 yst-text-xs yst-mt-2"
           >
             Trusted by millions of site owners
             <br />

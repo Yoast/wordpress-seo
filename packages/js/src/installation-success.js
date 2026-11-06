@@ -48,7 +48,7 @@ export function InstallationSuccessPage() {
 			<div className="installation-success-content">
 				<div className="yst-flex yst-flex-col yst-justify-center yst-items-center yst-gap-8">
 					<div id="installation-success-card-configuration" className="yst-shrink-0 yst-shadow-xl yst-bg-primary-500 yst-rounded-lg yst-p-6 yst-flex yst-flex-col yst-max-w-sm yst-h-4/5 yst-leading-6">
-						<h2 className="yst-my-0 yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold">
+						<h2 className="yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold">
 							{
 								__( "Get better results with the First-time configuration", "wordpress-seo" )
 							}
@@ -69,17 +69,17 @@ export function InstallationSuccessPage() {
 								<ArrowNarrowRightIcon className="yst-w-5 yst-h-5 yst-ms-3 yst-me-1 rtl:yst-rotate-180" />
 							</a>
 						</div>
-						<p className="yst-font-normal yst-italic yst-text-center yst-text-white yst-text-sm yst-mt-3 yst-mb-0">
+						<p className="yst-font-normal yst-italic yst-text-center yst-text-white yst-text-sm yst-mt-3">
 							{
 								__( "Takes a few minutes · Recommended", "wordpress-seo" )
 							}
 						</p>
 					</div>
 					<div id="installation-success-card-optimized-site" className="yst-shrink-0 yst-bg-white yst-rounded-lg yst-p-4 yst-flex yst-flex-col yst-max-w-xs yst-shadow-md yst-h-4/5 yst-leading-6">
-						<h2 className="yst-my-0 yst-tracking-tight yst-text-primary-500 yst-text-lg yst-leading-8 yst-font-extrabold">
+						<h2 className="yst-tracking-tight yst-text-primary-500 yst-text-lg yst-leading-8 yst-font-extrabold">
 							{ __( "Unlock more powerful SEO tools", "wordpress-seo" ) }
 						</h2>
-						<p className="yst-text-slate-600 yst-text-sm yst-mt-0 yst-mb-1">
+						<p className="yst-text-slate-600 yst-text-sm yst-mb-1">
 							{ sprintf(
 								/* translators: %s expands to Yoast SEO Premium. */
 								__( "Consider %s for faster, easier SEO with AI features that save time.",
@@ -105,7 +105,7 @@ export function InstallationSuccessPage() {
 							</span>
 							<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-text-slate-400" />
 						</Button>
-						<p className="yst-font-normal yst-italic yst-text-center yst-text-slate-500 yst-text-xs yst-mt-2 yst-mb-0">
+						<p className="yst-font-normal yst-italic yst-text-center yst-text-slate-500 yst-text-xs yst-mt-2">
 							{
 								__( "Trusted by millions of site owners", "wordpress-seo" )
 							}
