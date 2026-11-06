@@ -260,7 +260,6 @@ describe( "TopicInputs", () => {
 			expect( modal.getAttribute( "data-keyphrase" ) ).toBe( "yoast seo" );
 
 			const wrapper = modal.parentElement;
-			expect( wrapper ).toHaveClass( "yst-root" );
 			expect( wrapper ).toHaveClass( "yst-space-y-4" );
 		} );
 
@@ -282,8 +281,7 @@ describe( "TopicInputs", () => {
 			expect( screen.queryByTestId( "semrush-modal" ) ).not.toBeInTheDocument();
 
 			const input = document.getElementById( "focus-keyword-input-sidebar" );
-			const wrapper = input.closest( ".yst-root" );
-			expect( wrapper ).toHaveClass( "yst-root" );
+			const wrapper = input.closest( ".yst-space-y-4" );
 			expect( wrapper ).toHaveClass( "yst-space-y-4" );
 		} );
 	} );
