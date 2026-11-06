@@ -159,6 +159,7 @@ class Post_Identifier_Resolver {
 	/**
 	 * Resolves posts by title keywords.
 	 *
+	 * Every post type is searched, matching the scope of the by-id and by-permalink resolvers.
 	 * A title search may match several posts; no match on the first page (or an
 	 * unexpected result that is not a list of indexables) is treated as not-found,
 	 * mirroring the by-id and by-permalink resolvers. An empty later page is valid
@@ -170,7 +171,12 @@ class Post_Identifier_Resolver {
 	 * @return Indexable[]|WP_Error The matching indexables, or a not-found error.
 	 */
 	private function by_title( string $title, int $page ) {
-		$indexables = $this->indexable_repository->find_posts_by_title_keywords( $title, $page );
+		$indexables = $this->indexable_repository->find_posts_by_title_keywords(
+			$title,
+			$page,
+			Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE,
+			null,
+		);
 
 		if ( $indexables === [] ) {
 			// An empty later page means the client paged past the last result, not a bad identifier.
