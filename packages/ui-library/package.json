@@ -58,7 +58,7 @@
     "@testing-library/react": "^16.2.0",
     "@wordpress/jest-preset-default": "^8.0.1",
     "@yoast/browserslist-config": "^1.2.5",
-    "@yoast/eslint-config": "^8.1.0",
+    "@yoast/eslint-config": "^8.3.0",
     "@yoast/jest-preset": "^1.0.1",
     "@yoast/postcss-preset": "^1.2.1",
     "@yoast/tailwindcss-preset": "^2.6.0",

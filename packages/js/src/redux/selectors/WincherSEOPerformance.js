@@ -48,7 +48,7 @@ function getPremiumKeyphrases() {
 	if ( ! getL10nObject().isPremium || ! premiumStore ) {
 		return [];
 	}
-	// eslint-disable-next-line no-undefined
+
 	return premiumStore.getKeywords().filter( k => k.keyword !== undefined ).map( k => k.keyword.trim() );
 }
 

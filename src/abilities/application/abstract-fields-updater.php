@@ -8,8 +8,13 @@ namespace Yoast\WP\SEO\Abilities\Application;
  *
  * Fields that cannot be applied or saved are collected in a single warning, while the other fields are still saved.
  * How a field is saved is up to the extending class.
+ *
+ * @internal Backs the abilities that update settings. Not meant to be used outside of Yoast SEO, so it can change at
+ *           any time without notice.
  */
 abstract class Abstract_Fields_Updater {
+
+	use Schema_Type_Cast_Trait;
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The fields added through filters can hold any value.
 
@@ -74,7 +79,7 @@ abstract class Abstract_Fields_Updater {
 	 *
 	 * @return string|null A warning when the field could not be saved, null otherwise.
 	 */
-	private function update_field( array $validators, string $field_name, $value, array $context ): ?string {
+	protected function update_field( array $validators, string $field_name, $value, array $context ): ?string {
 		$warning = $this->validate_field( $validators, $field_name, $value );
 		if ( $warning !== null ) {
 			return $warning;
@@ -115,30 +120,6 @@ abstract class Abstract_Fields_Updater {
 		}
 
 		return $warning;
-	}
-
-	/**
-	 * Casts a stored value to the type its schema declares.
-	 *
-	 * Unset settings come back as a default that is not always of the declared type, like an empty string for
-	 * user meta or false for some options, which would fail the output schema.
-	 *
-	 * @param mixed                $value  The stored value.
-	 * @param array<string, mixed> $schema The JSON schema of the field.
-	 *
-	 * @return mixed The value, cast to the declared type.
-	 */
-	protected function cast_to_schema_type( $value, array $schema ) {
-		switch ( ( $schema['type'] ?? null ) ) {
-			case 'integer':
-				return (int) $value;
-			case 'string':
-				return (string) $value;
-			case 'array':
-				return ( \is_array( $value ) ) ? $value : [];
-			default:
-				return $value;
-		}
 	}
 
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint

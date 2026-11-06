@@ -95,7 +95,7 @@ class SEO_Data_Output_Schema {
 			'type'        => [ 'string', 'null' ],
 			'description' => \sprintf(
 				/* translators: %s expands to the name of the SEO field, e.g. "SEO title". */
-				\__( 'The custom %s as stored, which may contain unexpanded replacement variables. Null when no custom value is set; the rendered companion field carries what is actually output.', 'wordpress-seo' ),
+				\__( 'The custom %s as stored, which may contain unexpanded snippet variables. Null when no custom value is set; the rendered companion field carries what is actually output.', 'wordpress-seo' ),
 				$field,
 			),
 		];
@@ -113,7 +113,7 @@ class SEO_Data_Output_Schema {
 			'type'        => [ 'string', 'null' ],
 			'description' => \sprintf(
 				/* translators: %s expands to the name of the SEO field, e.g. "SEO title". */
-				\__( 'The %s as output on the front end: the global default template applied when no custom value is set, with replacement variables expanded. Null when nothing is output.', 'wordpress-seo' ),
+				\__( 'The %s as output on the front end: the global default template applied when no custom value is set, with snippet variables expanded. Null when nothing is output.', 'wordpress-seo' ),
 				$field,
 			),
 		];

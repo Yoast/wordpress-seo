@@ -83,7 +83,6 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 							 */
 							insertBlock(
 								block,
-								// eslint-disable-next-line no-undefined
 								undefined,
 								postContentBlock[ 0 ]
 							);

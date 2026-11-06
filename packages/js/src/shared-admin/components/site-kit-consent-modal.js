@@ -32,7 +32,9 @@ export const SiteKitConsentModal = ( {
 				<Modal.CloseButton
 					className="yst-bg-transparent yst-text-gray-500 focus:yst-ring-offset-0"
 					onClick={ onClose }
-					screenReaderText={ __( "Close", "wordpress-seo" ) }
+					screenReaderText={
+						/* translators: Hidden accessibility text. */
+						__( "Close", "wordpress-seo" ) }
 				/>
 				<div className="yst-px-10 yst-pt-10 yst-bg-gradient-to-b yst-from-primary-500/25 yst-to-[80%]">
 					<YoastConnectSiteKit className="yst-aspect-video yst-max-w-[432px] yst-p-7 yst-bg-white yst-rounded-md yst-drop-shadow-md" />

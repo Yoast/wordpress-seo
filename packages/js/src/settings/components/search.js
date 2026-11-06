@@ -231,7 +231,9 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 			isOpen={ isOpen }
 			initialFocus={ inputRef }
 			position="top-center"
-			aria-label={ __( "Search", "wordpress-seo" ) }
+			aria-label={
+				/* translators: Hidden accessibility text. */
+				__( "Search", "wordpress-seo" ) }
 		>
 			<Modal.Panel hasCloseButton={ false }>
 				<LiveAnnouncer>
@@ -247,7 +249,9 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 							ref={ inputRef }
 							id="input-search"
 							placeholder={ __( "Search…", "wordpress-seo" ) }
-							aria-label={ __( "Search", "wordpress-seo" ) }
+							aria-label={
+								/* translators: Hidden accessibility text. */
+								__( "Search", "wordpress-seo" ) }
 							value={ query }
 							onChange={ handleQueryChange }
 							className="yst-h-12 yst-w-full yst-border-0 yst-rounded-lg sm:yst-text-sm yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-500 focus:yst-outline-none focus:yst-ring-inset focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-border-primary-500"
@@ -259,7 +263,12 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 								onClick={ setClose }
 								className="yst-modal__close-button"
 							>
-								<span className="yst-sr-only">{ __( "Close", "wordpress-seo" ) }</span>
+								<span className="yst-sr-only">
+									{
+										/* translators: Hidden accessibility text. */
+										__( "Close", "wordpress-seo" )
+									}
+								</span>
 								<XIcon className="yst-h-6 yst-w-6" { ...ariaSvgProps } />
 							</button>
 						</div>
