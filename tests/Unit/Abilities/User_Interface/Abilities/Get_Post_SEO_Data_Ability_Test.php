@@ -150,7 +150,7 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 						],
 						'permalink' => [
 							'type'        => 'string',
-							'description' => 'The permalink (URL) of the post to retrieve.',
+							'description' => 'The full permalink (URL) of the post to retrieve, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.',
 						],
 						'title'     => [
 							'type'        => 'string',
