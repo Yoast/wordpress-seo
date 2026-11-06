@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 
 import SiteSEOReport from "../src/SiteSEOReport";
@@ -22,14 +22,17 @@ describe( "The SiteSEOReport testing suite", () => {
 		},
 	];
 
-	const component = renderer.create(
-		<SiteSEOReport
-			className="test_SiteSEOReport"
-			seoAssessmentText="Test assessment"
-			seoAssessmentItems={ siteSEOReportItems }
-			barHeight={ "10" }
-		/>
-	);
+	let component;
+	act( () => {
+		component = renderer.create(
+			<SiteSEOReport
+				className="test_SiteSEOReport"
+				seoAssessmentText="Test assessment"
+				seoAssessmentItems={ siteSEOReportItems }
+				barHeight={ "10" }
+			/>
+		);
+	} );
 
 	const tree = component.toJSON();
 	it( "The SiteSEOReport should match the snapshot", function() {

@@ -1,12 +1,11 @@
 import React from "react";
-import ReactShallowRenderer from "react-test-renderer/shallow";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import Toggle from "../src/toggle/Toggle";
 
 describe( "Toggle", () => {
-	const renderer = new ReactShallowRenderer();
 	it( "should render with only the required props", () => {
-		renderer.render(
+		const { container } = render(
 			<Toggle
 				label="React Toggle"
 				offText="off"
@@ -16,14 +15,13 @@ describe( "Toggle", () => {
 			/>
 		);
 
-		const result = renderer.getRenderOutput();
+		const result = container.firstChild;
 
-		expect( result ).toBeDefined();
-		expect( result.props.children.props.className ).toBe( "yoast-toggle" );
+		expect( result.querySelector( ".yoast-toggle" ).parentElement ).toBe( result );
 	} );
 	it( "should fire the onChange event when the input is changed", () => {
 		const mockChange = jest.fn();
-		renderer.render(
+		render(
 			<Toggle
 				label="React Toggle"
 				offText="off"
@@ -34,13 +32,12 @@ describe( "Toggle", () => {
 			/>
 		);
 
-		const result = renderer.getRenderOutput();
-		const mockEvent = { target: { checked: true } };
-		const toggle = result.props.children.props;
-		const hiddenInput = toggle.children[ 0 ];
+		const hiddenInput = screen.getByRole( "checkbox" );
 
-		// Fire the onChange event on the input. This will trigger the onChangeHandler() which should call the onChange function passed as prop.
-		hiddenInput.props.onChange( mockEvent );
+		// Click the checkbox to fire its onChange event.
+		// This will trigger the onChangeHandler() which should call the onChange function passed as prop.
+		fireEvent.click( hiddenInput );
 		expect( mockChange ).toHaveBeenCalledTimes( 1 );
+		expect( mockChange ).toHaveBeenCalledWith( "on" );
 	} );
 } );

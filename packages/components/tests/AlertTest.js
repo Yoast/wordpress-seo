@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 
 import Alert from "../src/Alert";
@@ -34,11 +34,14 @@ describe( "Alert", () => {
 
 		alerts.forEach( alert => {
 			const content = `This is of the type: "${ alert.type }".`;
-			const component = renderer.create(
-				<Alert type={ alert.type }>
-					{ content }
-				</Alert>
-			);
+			let component;
+			act( () => {
+				component = renderer.create(
+					<Alert type={ alert.type }>
+						{ content }
+					</Alert>
+				);
+			} );
 			const tree = component.toJSON();
 
 			// Check the color of the alert.
@@ -67,11 +70,14 @@ describe( "Alert", () => {
 
 	test( "passing onDismissed makes the alert dismissable", () => {
 		const dismiss = jest.fn();
-		const component = renderer.create(
-			<Alert type="info" onDismissed={ dismiss }>
-				Dismissable alert.
-			</Alert>
-		);
+		let component;
+		act( () => {
+			component = renderer.create(
+				<Alert type="info" onDismissed={ dismiss }>
+					Dismissable alert.
+				</Alert>
+			);
+		} );
 		const tree = component.toJSON();
 
 		// 3 children: The type icon, the content and the dismiss button.

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 
 import ScoreAssessments from "../src/ScoreAssessments";
@@ -17,9 +17,12 @@ test( "the ScoreAssessments matches the snapshot", () => {
 		},
 	];
 
-	const component = renderer.create(
-		<ScoreAssessments items={ items } />
-	);
+	let component;
+	act( () => {
+		component = renderer.create(
+			<ScoreAssessments items={ items } />
+		);
+	} );
 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
@@ -37,9 +40,12 @@ test( "the ScoreAssessments without scores matches the snapshot", () => {
 		},
 	];
 
-	const component = renderer.create(
-		<ScoreAssessments items={ items } />
-	);
+	let component;
+	act( () => {
+		component = renderer.create(
+			<ScoreAssessments items={ items } />
+		);
+	} );
 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
@@ -58,9 +64,12 @@ test( "the ScoreAssessments with some scores matches the snapshot", () => {
 		},
 	];
 
-	const component = renderer.create(
-		<ScoreAssessments items={ items } />
-	);
+	let component;
+	act( () => {
+		component = renderer.create(
+			<ScoreAssessments items={ items } />
+		);
+	} );
 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
