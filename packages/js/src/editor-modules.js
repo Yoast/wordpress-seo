@@ -39,6 +39,7 @@ import {
 import { AIErrorModal, Introduction, SuggestionError, SparksLimitNotification, FeatureError } from "./ai-generator/components";
 import { removesLocaleVariantSuffixes, fetchSuggestions } from "./ai-generator/helpers";
 import SynonymsInputField from "./components/contentAnalysis/SynonymsInput";
+import { isRestMetaActive } from "./helpers/fields/rest-meta";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -119,5 +120,6 @@ window.yoast.editorModules = {
 		},
 		updateAdminBar,
 		updateTrafficLight,
+		isRestMetaActive,
 	},
 };
