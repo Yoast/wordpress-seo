@@ -209,25 +209,23 @@ class Article extends Abstract_Schema_Piece {
 		// Strips all other tags.
 		$post_content = \wp_strip_all_tags( $post_content );
 
-		$characters = '';
+		// Remove any HTML entities still present in the content.
+		$post_content = \preg_replace( '/&(?:[a-zA-Z][a-zA-Z0-9]*|#[0-9]+|#x[0-9a-fA-F]+);/', ' ', $post_content );
 
-		if ( \preg_match( '@[а-я]@ui', $post_content ) ) {
-			// Correct counting of the number of words in the Russian and Ukrainian languages.
-			$alphabet = [
-				'ru' => 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя',
-				'ua' => 'абвгґдеєжзиіїйклмнопрстуфхцчшщьюя',
-			];
+		// CJK scripts (e.g. Chinese, Japanese) don't separate words with spaces, so count their characters instead.
+		$cjk_pattern = '/[\p{Han}\p{Hiragana}\p{Katakana}]/u';
+		\preg_match_all( $cjk_pattern, $post_content, $cjk_matches );
+		$cjk_word_count = \count( $cjk_matches[0] );
+		$post_content   = \preg_replace( $cjk_pattern, ' ', $post_content );
 
-			$characters  = \implode( '', $alphabet );
-			$characters  = \preg_split( '//u', $characters, -1, \PREG_SPLIT_NO_EMPTY );
-			$characters  = \array_unique( $characters );
-			$characters  = \implode( '', $characters );
-			$characters .= \mb_strtoupper( $characters );
-		}
+		// Neutralize any other non-ASCII, non-letter characters so they can't be misread as word characters below.
+		$post_content = \preg_replace( '/[^\p{L}\x00-\x7F]/u', ' ', $post_content );
 
-		// Remove characters from HTML entities.
-		$post_content = \preg_replace( '@&[a-z0-9]+;@i', ' ', \htmlentities( $post_content ) );
+		// Any non-ASCII letters still present (Cyrillic, Arabic, Greek, Hebrew, etc.) need to be recognized
+		// as word characters, str_word_count() only knows Latin letters by default.
+		\preg_match_all( '/\p{L}/u', $post_content, $letter_matches );
+		$characters = \implode( '', \array_unique( $letter_matches[0] ) );
 
-		return \str_word_count( $post_content, 0, $characters );
+		return ( $cjk_word_count + \str_word_count( $post_content, 0, $characters ) );
 	}
 }
