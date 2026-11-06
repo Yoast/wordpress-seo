@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Term_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_SEO_Field_Map;
@@ -76,6 +77,9 @@ final class Update_Term_SEO_Data_Ability_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+
+		// The inputs are real booleans, which WordPress returns as is.
+		Monkey\Functions\when( 'rest_sanitize_boolean' )->alias( 'boolval' );
 
 		$this->stubTranslationFunctions();
 
