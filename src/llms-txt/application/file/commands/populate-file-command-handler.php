@@ -46,6 +46,13 @@ class Populate_File_Command_Handler {
 	private $markdown_builder;
 
 	/**
+	 * Whether a population is currently running.
+	 *
+	 * @var bool
+	 */
+	private $is_populating = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Options_Helper                     $options_helper      The options helper.
@@ -71,23 +78,38 @@ class Populate_File_Command_Handler {
 	 * @return void
 	 */
 	public function handle() {
-		if ( $this->permission_gate->is_managed_by_yoast_seo() ) {
-			$content      = $this->markdown_builder->render();
-			$content      = $this->encode_content( $content );
-			$file_written = $this->file_system_adapter->set_file_content( $content );
-
-			if ( $file_written ) {
-				// Maybe move this to a class if we need to handle this option more often.
-				\update_option( self::CONTENT_HASH_OPTION, \md5( $content ) );
-				\delete_option( self::GENERATION_FAILURE_OPTION );
-				return;
-			}
-
-			\update_option( self::GENERATION_FAILURE_OPTION, 'filesystem_permissions' );
+		/*
+		 * Bail when a population is already running. Pruning an invalid manual selection writes to the options,
+		 * which triggers this command again from within the running population. Running it then would build the
+		 * file from state that is still being rendered.
+		 */
+		if ( $this->is_populating ) {
 			return;
 		}
 
-		\update_option( self::GENERATION_FAILURE_OPTION, 'not_managed_by_yoast_seo' );
+		$this->is_populating = true;
+
+		try {
+			if ( $this->permission_gate->is_managed_by_yoast_seo() ) {
+				$content      = $this->markdown_builder->render();
+				$content      = $this->encode_content( $content );
+				$file_written = $this->file_system_adapter->set_file_content( $content );
+
+				if ( $file_written ) {
+					// Maybe move this to a class if we need to handle this option more often.
+					\update_option( self::CONTENT_HASH_OPTION, \md5( $content ) );
+					\delete_option( self::GENERATION_FAILURE_OPTION );
+					return;
+				}
+
+				\update_option( self::GENERATION_FAILURE_OPTION, 'filesystem_permissions' );
+				return;
+			}
+
+			\update_option( self::GENERATION_FAILURE_OPTION, 'not_managed_by_yoast_seo' );
+		} finally {
+			$this->is_populating = false;
+		}
 	}
 
 	/**
