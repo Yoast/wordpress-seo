@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 
 import MultiStepProgress from "../src/MultiStepProgress";
@@ -28,9 +28,13 @@ describe( "MultiStepProgress", () => {
 			},
 		];
 
-		const tree = renderer.create(
-			<MultiStepProgress steps={ steps } />
-		).toJSON();
+		let component;
+		act( () => {
+			component = renderer.create(
+				<MultiStepProgress steps={ steps } />
+			);
+		} );
+		const tree = component.toJSON();
 
 		expect( tree ).toMatchSnapshot();
 	} );

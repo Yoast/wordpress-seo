@@ -70,7 +70,6 @@ describe( "The createWorker module", () => {
 		} );
 
 		it( "uses the webkitURL as a fallback when URL is not available", async() => {
-			// eslint-disable-next-line no-undefined
 			global.URL = undefined;
 
 			global.webkitURL = jest.fn();

@@ -5,6 +5,18 @@ import styled from "styled-components";
 // Yoast dependencies.
 import { colors } from "@yoast/style-guide";
 
+// Internal dependencies.
+import { withDefaults } from "./withDefaults";
+
+const progressBarDefaults = {
+	max: 1,
+	value: 0,
+	progressColor: colors.$color_good,
+	backgroundColor: colors.$color_background_light,
+	borderColor: colors.$color_input_border,
+	"aria-hidden": "true",
+};
+
 /**
  * The ProgressBar component.
  *
@@ -12,7 +24,7 @@ import { colors } from "@yoast/style-guide";
  *
  * @returns {ReactElement} The ProgressBar component.
  */
-const ProgressBar = styled.progress`
+const ProgressBar = styled.progress.attrs( withDefaults( progressBarDefaults ) )`
 	box-sizing: border-box;
 	width: 100%;
 	height: 8px;
@@ -42,14 +54,8 @@ const ProgressBar = styled.progress`
 `;
 
 
-ProgressBar.defaultProps = {
-	max: 1,
-	value: 0,
-	progressColor: colors.$color_good,
-	backgroundColor: colors.$color_background_light,
-	borderColor: colors.$color_input_border,
-	"aria-hidden": "true",
-};
+// Kept for classic-runtime consumers; the `.attrs` above is what applies these on React 19.
+ProgressBar.defaultProps = progressBarDefaults;
 
 ProgressBar.propTypes = {
 	max: PropTypes.number,

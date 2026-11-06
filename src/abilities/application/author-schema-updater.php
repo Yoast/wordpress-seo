@@ -15,6 +15,9 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Social profiles are saved through the social profiles helper, so they are validated exactly like they are
  * in the first-time configuration. The other settings are saved by the repository they are registered with in the
  * field map.
+ *
+ * @internal Backs the author schema abilities. Not meant to be used outside of Yoast SEO, so it can change at any
+ *           time without notice.
  */
 class Author_Schema_Updater extends Abstract_Fields_Updater {
 

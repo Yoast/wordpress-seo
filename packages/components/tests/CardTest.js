@@ -1,21 +1,27 @@
-import React from "react";
+import React, { act } from "react";
 import renderer from "react-test-renderer";
 import Card, { FullHeightCard } from "../src/Card";
 import CourseDetails from "../src/CourseDetails";
 
 test( "The empty Card component matches the snapshot", () => {
-	const component = renderer.create(
-		<Card />
-	);
+	let component;
+	act( () => {
+		component = renderer.create(
+			<Card />
+		);
+	} );
 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
 test( "The FullHeightCard is rendered including some props", () => {
-	const component = renderer.create(
-		<FullHeightCard className={ "CourseCard_Empty" } id={ "Test01" } />
-	);
+	let component;
+	act( () => {
+		component = renderer.create(
+			<FullHeightCard className={ "CourseCard_Empty" } id={ "Test01" } />
+		);
+	} );
 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
@@ -43,22 +49,25 @@ test( "The FullHeightCard is rendered including the CardBanner and CardDetails c
 		link: course.courseUrl,
 	};
 
-	const component = renderer.create(
-		<FullHeightCard
-			className={ "CourseCard" }
-			id={ "Test02" }
-			header={ header }
-			banner={ course.banner }
-		>
-			<CourseDetails
-				title={ course.title }
-				description={ course.description }
-				courseUrl={ course.courseUrl }
-				ctaButtonData={ course.ctaButtonData }
-				readMoreLinkText={ course.readMoreLinkText }
-			/>
-		</FullHeightCard>
-	);
+	let component;
+	act( () => {
+		component = renderer.create(
+			<FullHeightCard
+				className={ "CourseCard" }
+				id={ "Test02" }
+				header={ header }
+				banner={ course.banner }
+			>
+				<CourseDetails
+					title={ course.title }
+					description={ course.description }
+					courseUrl={ course.courseUrl }
+					ctaButtonData={ course.ctaButtonData }
+					readMoreLinkText={ course.readMoreLinkText }
+				/>
+			</FullHeightCard>
+		);
+	} );
 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
