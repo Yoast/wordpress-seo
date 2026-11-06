@@ -12,15 +12,14 @@
 		before:yst-content-['']
 		before:yst-absolute
 		before:yst-border-8
-		before:yst-border-transparent 
-		yst-bg-gray-800 
+		before:yst-border-transparent
+		yst-bg-gray-800
 		yst-text-white;
-		
 
 		&.yst-tooltip--light {
 			@apply yst-bg-white
-			yst-text-slate-600 
-			yst-border-slate-200 
+			yst-text-slate-600
+			yst-border-slate-200
 			yst-border
 			after:yst-content-['']
 			after:yst-absolute
