@@ -101,10 +101,24 @@ class Handle_404 implements Integration_Interface {
 	 * @return void
 	 */
 	protected function set_404() {
+		global $wp;
+
 		$wp_query          = $this->query_wrapper->get_query();
 		$wp_query->is_feed = false;
 		$wp_query->set_404();
 		$this->query_wrapper->set_query( $wp_query );
+
+		/*
+		 * pre_handle_404 runs before WP::send_headers(). That method sets
+		 * Content-Type from the feed query var when error is empty, which
+		 * replaces the HTML type set below and serves the 404 template as RSS.
+		 */
+		if ( ! \is_object( $wp ) || ! isset( $wp->query_vars ) || ! \is_array( $wp->query_vars ) ) {
+			return;
+		}
+
+		unset( $wp->query_vars['feed'] );
+		$wp->query_vars['error'] = '404';
 	}
 
 	/**
