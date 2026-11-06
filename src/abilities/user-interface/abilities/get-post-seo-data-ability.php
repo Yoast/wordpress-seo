@@ -100,7 +100,7 @@ class Get_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 				],
 				'title'     => [
 					'type'        => 'string',
-					'description' => \__( 'Keywords to search for in post titles. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the post title, and a post matching any value is returned. At most 10 phrases are used per request; any beyond the first 10 are ignored. Results are paginated to 10 entities per page; see the page parameter.', 'wordpress-seo' ),
+					'description' => \__( 'Keywords to search for in post titles. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the breadcrumb title of the post when a custom one is set, otherwise the post title, and a post matching any value is returned. At most 10 phrases are used per request; any beyond the first 10 are ignored. Results are paginated to 10 entities per page; see the page parameter.', 'wordpress-seo' ),
 				],
 				'page'      => [
 					'type'        => 'integer',

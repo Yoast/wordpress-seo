@@ -62,10 +62,9 @@ abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability 
 			'type'       => 'object',
 			'properties' => [
 				'post_id'                         => [ 'type' => 'integer' ],
-				'post_title'                      => [
-					'type'        => [ 'string', 'null' ],
+				'post_title'                      => ( $nullable_string + [
 					'description' => \__( 'The breadcrumb title of the post when a custom one is set, otherwise the post title.', 'wordpress-seo' ),
-				],
+				] ),
 				'permalink'                       => $nullable_string,
 				'post_type'                       => [ 'type' => 'string' ],
 				'post_status'                     => $nullable_string,
