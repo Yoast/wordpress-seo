@@ -1,6 +1,4 @@
 @layer components {
-	.yst-checkbox-group {}
-
 	.yst-checkbox-group--disabled {
 		.yst-checkbox-group__label,
 		.yst-checkbox-group__description {

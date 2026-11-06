@@ -19,9 +19,6 @@
 	}
 
 	/* Variants */
-	.yst-link--default {
-	}
-
 	.yst-link--primary {
 		@apply yst-text-primary-600 hover:yst-text-primary-500 focus:yst-text-primary-500 focus-visible:yst-ring-primary-600;
 	}

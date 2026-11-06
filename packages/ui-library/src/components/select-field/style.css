@@ -1,6 +1,4 @@
 @layer components {
-	.yst-select-field {}
-
 	.yst-select-field--disabled {
 		.yst-select-field__label,
 		.yst-select-field__description {
