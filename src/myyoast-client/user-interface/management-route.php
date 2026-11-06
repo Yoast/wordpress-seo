@@ -7,7 +7,6 @@ namespace Yoast\WP\SEO\MyYoast_Client\User_Interface;
 use Throwable;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Authorization_Flow_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Discovery_Failed_Exception;
@@ -131,7 +130,7 @@ class Management_Route implements Route_Interface, LoggerAwareInterface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ MyYoast_Connection_Conditional::class ];
+		return [];
 	}
 
 	/**

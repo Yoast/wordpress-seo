@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\MyYoast_Client\User_Interface;
 
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client_Cleanup;
 
@@ -33,7 +32,7 @@ class MyYoast_Cleanup_Integration implements Integration_Interface {
 	 * @return array<string> The array of conditionals.
 	 */
 	public static function get_conditionals() {
-		return [ MyYoast_Connection_Conditional::class ];
+		return [];
 	}
 
 	/**

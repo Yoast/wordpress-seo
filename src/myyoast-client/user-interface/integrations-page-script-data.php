@@ -4,7 +4,6 @@
 
 namespace Yoast\WP\SEO\MyYoast_Client\User_Interface;
 
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\MyYoast_Client\Application\Callback_Outcome;
 use Yoast\WP\SEO\MyYoast_Client\Application\Management_Endpoints_Repository;
@@ -25,13 +24,6 @@ class Integrations_Page_Script_Data {
 	 * @var Status_Presenter
 	 */
 	private $status_presenter;
-
-	/**
-	 * The MyYoast connection feature-flag conditional.
-	 *
-	 * @var MyYoast_Connection_Conditional
-	 */
-	private $myyoast_connection_conditional;
 
 	/**
 	 * The callback handler — reads the pending OAuth callback outcome.
@@ -65,44 +57,36 @@ class Integrations_Page_Script_Data {
 	/**
 	 * Integrations_Page_Script_Data constructor.
 	 *
-	 * @param Status_Presenter                $status_presenter               The status presenter.
-	 * @param MyYoast_Connection_Conditional  $myyoast_connection_conditional The MyYoast connection feature-flag conditional.
-	 * @param OAuth_Callback_Handler          $callback_handler               The callback handler.
-	 * @param Short_Link_Helper               $short_link_helper              The short-link helper.
-	 * @param Management_Endpoints_Repository $endpoints_repository           The management endpoints repository.
-	 * @param Connection_Permission           $connection_permission          The MyYoast connection-management permission check.
+	 * @param Status_Presenter                $status_presenter      The status presenter.
+	 * @param OAuth_Callback_Handler          $callback_handler      The callback handler.
+	 * @param Short_Link_Helper               $short_link_helper     The short-link helper.
+	 * @param Management_Endpoints_Repository $endpoints_repository  The management endpoints repository.
+	 * @param Connection_Permission           $connection_permission The MyYoast connection-management permission check.
 	 */
 	public function __construct(
 		Status_Presenter $status_presenter,
-		MyYoast_Connection_Conditional $myyoast_connection_conditional,
 		OAuth_Callback_Handler $callback_handler,
 		Short_Link_Helper $short_link_helper,
 		Management_Endpoints_Repository $endpoints_repository,
 		Connection_Permission $connection_permission
 	) {
-		$this->status_presenter               = $status_presenter;
-		$this->myyoast_connection_conditional = $myyoast_connection_conditional;
-		$this->callback_handler               = $callback_handler;
-		$this->short_link_helper              = $short_link_helper;
-		$this->endpoints_repository           = $endpoints_repository;
-		$this->connection_permission          = $connection_permission;
+		$this->status_presenter      = $status_presenter;
+		$this->callback_handler      = $callback_handler;
+		$this->short_link_helper     = $short_link_helper;
+		$this->endpoints_repository  = $endpoints_repository;
+		$this->connection_permission = $connection_permission;
 	}
 
 	/**
-	 * Returns the MyYoast connection payload, or `null` when the feature flag
-	 * is disabled so the Integrations page can omit the key entirely.
+	 * Returns the MyYoast connection payload.
 	 *
 	 * The `callbackOutcome` slot is populated (and consumed) when an OAuth
 	 * callback finished for this user since the last time the Integrations page
 	 * was rendered, so the React app can surface a one-shot notification.
 	 *
-	 * @return array{initialStatus: array{is_provisioned: bool, is_registered: bool, registered_at: int|null, registered_at_iso: string|null, redirect_uris: array<int, array{uri: string, origin: string, is_verified: bool}>, redirect_uris_match: bool}, callbackOutcome: array{kind: string, key: string}|null, linkParams: array<string, string>, startConnection: bool, endpoints: array<string, string>}|null
+	 * @return array{initialStatus: array{is_provisioned: bool, is_registered: bool, registered_at: int|null, registered_at_iso: string|null, redirect_uris: array<int, array{uri: string, origin: string, is_verified: bool}>, redirect_uris_match: bool}, callbackOutcome: array{kind: string, key: string}|null, linkParams: array<string, string>, startConnection: bool, endpoints: array<string, string>}
 	 */
-	public function present(): ?array {
-		if ( ! $this->myyoast_connection_conditional->is_met() ) {
-			return null;
-		}
-
+	public function present(): array {
 		return [
 			'initialStatus'   => $this->status_presenter->present(),
 			'callbackOutcome' => $this->consume_callback_outcome(),
