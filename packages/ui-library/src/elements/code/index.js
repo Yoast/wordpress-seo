@@ -12,7 +12,7 @@ const classNameMap = {
 /**
  * @param {JSX.node} children The content.
  * @param {string} [variant] Optional variant. See `classNameMap.variant`.
- * @param {string} [className] Optional extra className.
+ * @param {string} [className=""] Optional extra className.
  * @param {Object} [props] Optional extra props.
  * @returns {JSX.Element} The Code element.
  */
