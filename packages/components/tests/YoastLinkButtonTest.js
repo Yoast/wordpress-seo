@@ -1,13 +1,12 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { YoastLinkButton } from "../src/buttons/YoastLinkButton";
 
 test( "the YoastLinkButton matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<YoastLinkButton>YoastLinkButtonValue</YoastLinkButton>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

@@ -14,6 +14,9 @@ export const SimulatedLabel = styled.div`
 	font-weight: 500;
 `;
 
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_OPTIONAL_ATTRIBUTES = {};
+
 /**
  * Represents the label HTML tag.
  *
@@ -21,12 +24,12 @@ export const SimulatedLabel = styled.div`
  * @returns {JSX} A representation of the label HTML element based on the passed props.
  * @constructor
  */
-const Label = ( props ) => {
+const Label = ( { className = "", optionalAttributes = DEFAULT_OPTIONAL_ATTRIBUTES, ...props } ) => {
 	return (
 		<label
 			htmlFor={ props.for }
-			className={ props.className }
-			{ ...props.optionalAttributes }
+			className={ className }
+			{ ...optionalAttributes }
 		>
 			{ props.children }
 		</label>
@@ -47,16 +50,6 @@ Label.propTypes = {
 	} ),
 	children: PropTypes.any.isRequired,
 	className: PropTypes.string,
-};
-
-/**
- * Defines the default values for the properties.
- *
- * @type {{for: string, text: string}}
- */
-Label.defaultProps = {
-	className: "",
-	optionalAttributes: {},
 };
 
 export default Label;

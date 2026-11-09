@@ -16,10 +16,8 @@ import PropTypes from "prop-types";
  *
  * @returns {JSX.Element} Rendered WordList component.
  */
-const WordList = ( props ) => {
+const WordList = ( { title, classNamePrefix = "", words, header = "", footer = "" } ) => {
 	console.warn( "The WordList component has been deprecated and will be removed in a future release." );
-
-	const { title, classNamePrefix, words, header, footer } = props;
 
 	const list = (
 		<ol className={ classNamePrefix + "__list" }>
@@ -52,12 +50,6 @@ WordList.propTypes = {
 	header: PropTypes.string,
 	footer: PropTypes.string,
 	classNamePrefix: PropTypes.string,
-};
-
-WordList.defaultProps = {
-	classNamePrefix: "",
-	header: "",
-	footer: "",
 };
 
 export default WordList;

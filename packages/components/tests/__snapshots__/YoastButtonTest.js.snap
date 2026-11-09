@@ -78,8 +78,7 @@ exports[`the YoastButton executes callback 1`] = `
 }
 
 <button
-  className="c0 c1"
-  onClick={[Function]}
+  class="c0 c1"
   type="button"
 >
   <span>
@@ -166,8 +165,7 @@ exports[`the YoastButton executes callback 2`] = `
 }
 
 <button
-  className="c0 c1"
-  onClick={[Function]}
+  class="c0 c1"
   type="button"
 >
   <span>
@@ -254,7 +252,7 @@ exports[`the YoastButton matches the snapshot 1`] = `
 }
 
 <button
-  className="c0 c1"
+  class="c0 c1"
   type="button"
 >
   <span>
