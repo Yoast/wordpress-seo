@@ -86,15 +86,16 @@ final class Update_Author_SEO_Data_Ability_Test extends TestCase {
 		$this->instance = new Update_Author_SEO_Data_Ability(
 			$this->capability_helper,
 			$this->should_index_indexables_conditional,
-			$this->author_seo_data_updater,
 			$this->output_schema,
+			$this->author_seo_data_updater,
 		);
 	}
 
 	/**
 	 * Tests that get_name returns the prefixed ability name.
 	 *
-	 * @covers ::get_name
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Author_SEO_Data_Ability::get_name
+	 * @covers ::get_slug
 	 *
 	 * @return void
 	 */
@@ -170,8 +171,13 @@ final class Update_Author_SEO_Data_Ability_Test extends TestCase {
 	 * Tests that get_args returns the expected registration arguments.
 	 *
 	 * @covers ::__construct
-	 * @covers ::get_args
-	 * @covers ::get_update_author_seo_data_input_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Author_SEO_Data_Ability::__construct
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Author_SEO_Data_Ability::get_args
+	 * @covers ::get_label
+	 * @covers ::get_description
+	 * @covers ::get_input_properties
+	 * @covers ::get_execute_callback
+	 * @covers ::get_annotations
 	 *
 	 * @return void
 	 */
@@ -215,8 +221,8 @@ final class Update_Author_SEO_Data_Ability_Test extends TestCase {
 	 * indexable column missing from the writer is skipped and then reverted by the
 	 * indexable rebuild. This test turns both drift paths into a failure.
 	 *
-	 * @covers ::get_args
-	 * @covers ::get_update_author_seo_data_input_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Author_SEO_Data_Ability::get_args
+	 * @covers ::get_input_properties
 	 *
 	 * @return void
 	 */
