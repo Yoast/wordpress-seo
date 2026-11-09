@@ -1,38 +1,25 @@
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { render, fireEvent } from "@testing-library/react";
 import { UpsellButton } from "../src/buttons/UpsellButton";
 
 test( "the YoastButton matches the snapshot", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<UpsellButton backgroundColor="#c00" textColor="#fff">ButtonValue</UpsellButton>
-		);
-	} );
+	const { container } = render(
+		<UpsellButton backgroundColor="#c00" textColor="#fff">ButtonValue</UpsellButton>
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the YoastButton executes callback", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<UpsellButton
-				onClick={
-					() => {
-						return "clicked";
-					}
-				}
-			>ButtonValue</UpsellButton>
-		);
-	} );
+	const onClick = jest.fn();
+	const { container, asFragment } = render(
+		<UpsellButton onClick={ onClick }>ButtonValue</UpsellButton>
+	);
 
-	let tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 
-	tree.props.onClick();
+	fireEvent.click( container.firstChild );
+	expect( onClick ).toHaveBeenCalledTimes( 1 );
 
-	tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( asFragment().firstChild ).toMatchSnapshot();
 } );

@@ -1,5 +1,5 @@
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { render } from "@testing-library/react";
 
 import ScoreAssessments from "../src/ScoreAssessments";
 
@@ -17,15 +17,11 @@ test( "the ScoreAssessments matches the snapshot", () => {
 		},
 	];
 
-	let component;
-	act( () => {
-		component = renderer.create(
-			<ScoreAssessments items={ items } />
-		);
-	} );
+	const { container } = render(
+		<ScoreAssessments items={ items } />
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the ScoreAssessments without scores matches the snapshot", () => {
@@ -40,15 +36,11 @@ test( "the ScoreAssessments without scores matches the snapshot", () => {
 		},
 	];
 
-	let component;
-	act( () => {
-		component = renderer.create(
-			<ScoreAssessments items={ items } />
-		);
-	} );
+	const { container } = render(
+		<ScoreAssessments items={ items } />
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the ScoreAssessments with some scores matches the snapshot", () => {
@@ -64,13 +56,9 @@ test( "the ScoreAssessments with some scores matches the snapshot", () => {
 		},
 	];
 
-	let component;
-	act( () => {
-		component = renderer.create(
-			<ScoreAssessments items={ items } />
-		);
-	} );
+	const { container } = render(
+		<ScoreAssessments items={ items } />
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

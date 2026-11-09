@@ -2,46 +2,42 @@
 
 exports[`CheckboxGroup should render with only the required props 1`] = `
 <div
-  className="yoast-field-group"
+  class="yoast-field-group"
 >
   <div
-    className="yoast-field-group__title"
+    class="yoast-field-group__title"
   >
     <label
-      htmlFor="test-id"
+      for="test-id"
     >
       Nice label
     </label>
   </div>
-  <div
-    onChange={[Function]}
-  >
+  <div>
     <div
-      className="yoast-field-group__checkbox"
+      class="yoast-field-group__checkbox"
     >
       <input
-        defaultChecked={false}
         id="hi"
         type="checkbox"
       />
       <label
-        className="yoast-field-group__checkbox"
-        htmlFor="hi"
+        class="yoast-field-group__checkbox"
+        for="hi"
       >
         Hi
       </label>
     </div>
     <div
-      className="yoast-field-group__checkbox"
+      class="yoast-field-group__checkbox"
     >
       <input
-        defaultChecked={false}
         id="hello"
         type="checkbox"
       />
       <label
-        className="yoast-field-group__checkbox"
-        htmlFor="hello"
+        class="yoast-field-group__checkbox"
+        for="hello"
       >
         Hello
       </label>

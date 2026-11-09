@@ -1,75 +1,55 @@
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { render } from "@testing-library/react";
 
 import { CellPrimary, CellFixedWidth, CellMinWidth, CellIcon, responsiveHeaders } from "../src/table/Cell";
 
 test( "the CellPrimary component matches the snapshot", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<CellPrimary headerLabel="PrimaryCell">
-				This is a primary cell
-			</CellPrimary>
-		);
-	} );
+	const { container } = render(
+		<CellPrimary headerLabel="PrimaryCell">
+			This is a primary cell
+		</CellPrimary>
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the CellFixedWidth component matches the snapshot", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<CellFixedWidth headerLabel="FixedWidthCell">
-				This is a cell with a fixed width
-			</CellFixedWidth>
-		);
-	} );
+	const { container } = render(
+		<CellFixedWidth headerLabel="FixedWidthCell">
+			This is a cell with a fixed width
+		</CellFixedWidth>
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the CellMinWidth component matches the snapshot", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<CellMinWidth headerLabel="MinWidthCell">
-				This is a call with a min width
-			</CellMinWidth>
-		);
-	} );
+	const { container } = render(
+		<CellMinWidth headerLabel="MinWidthCell">
+			This is a call with a min width
+		</CellMinWidth>
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the CellIcon component matches the snapshot", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<CellIcon headerLabel="IconCell">
-				Icon
-			</CellIcon>
-		);
-	} );
+	const { container } = render(
+		<CellIcon headerLabel="IconCell">
+			Icon
+		</CellIcon>
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the CellPrimary with responsiveHeaders matches the snapshot", () => {
 	const CellPrimaryResponsive = responsiveHeaders( CellPrimary );
-	let component;
-	act( () => {
-		component = renderer.create(
-			<CellPrimaryResponsive headerLabel="responsiveHeaders">
-				This is a primary cell with responsive headers
-			</CellPrimaryResponsive>
-		);
-	} );
+	const { container } = render(
+		<CellPrimaryResponsive headerLabel="responsiveHeaders">
+			This is a primary cell with responsive headers
+		</CellPrimaryResponsive>
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

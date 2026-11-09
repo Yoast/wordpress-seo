@@ -1,40 +1,31 @@
-import React, { act } from "react";
-
-import renderer from "react-test-renderer";
+import React from "react";
+import { render } from "@testing-library/react";
 import Notification from "../src/Notification.js";
 
 test( "the Notification without props matches the snapshot", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<Notification />
-		);
-	} );
+	const { container } = render(
+		<Notification />
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the Notification with props matches the snapshot", () => {
 	const html = "Get started with our <a href=\"#blabla\">Configuration Wizard!</a>";
 
-	let component;
-	act( () => {
-		component = renderer.create(
-			<Notification
-				title="New User?"
-				html={ html }
-				isDismissable={ true }
-				imageSrc="some-image.png"
-				imageWidth="40px"
-				imageHeight="40px"
-				onClick={ () => {
-					return "clicked";
-				} }
-			/>
-		);
-	} );
+	const { container } = render(
+		<Notification
+			title="New User?"
+			html={ html }
+			isDismissable={ true }
+			imageSrc="some-image.png"
+			imageWidth="40px"
+			imageHeight="40px"
+			onClick={ () => {
+				return "clicked";
+			} }
+		/>
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

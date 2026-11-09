@@ -1,6 +1,6 @@
 /* External dependencies */
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { act, render } from "@testing-library/react";
 
 /* Internal dependencies */
 import TwitterImage from "../../src/twitter/TwitterImage";
@@ -25,7 +25,7 @@ describe( "TwitterImage Component", () => {
 		);
 
 		await act( async() => {
-			renderer.create(
+			render(
 				<TwitterImage src={ imageUrl } isLarge={ true } />
 			);
 		} );
