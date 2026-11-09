@@ -9,6 +9,7 @@ import redundantPhraseInAltText from "./config/redundantPhraseInAltText";
 import stopWords from "./config/stopWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
+import inclusiveLanguage from "../../../scoring/assessments/inclusiveLanguage/configuration/index.js";
 import syllables from "./config/syllables.json";
 
 // All helpers
@@ -38,6 +39,7 @@ export default class Researcher extends AbstractResearcher {
 			stopWords,
 			transitionWords,
 			twoPartTransitionWords,
+			inclusiveLanguage,
 			syllables,
 		} );
 
