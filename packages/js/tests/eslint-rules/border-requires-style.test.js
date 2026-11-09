@@ -36,8 +36,9 @@ const run = ( code ) => {
 	};
 	visit( ast.program );
 
+	// Apply the fixes from the end, so earlier offsets stay valid.
 	let output = null;
-	reports.filter( ( report ) => report.fix ).forEach( ( report ) => {
+	reports.filter( ( report ) => report.fix ).sort( ( a, b ) => b.node.start - a.node.start ).forEach( ( report ) => {
 		report.fix( {
 			replaceText: ( node, text ) => {
 				const source = output ?? code;
@@ -54,7 +55,14 @@ describe( "border-requires-style", () => {
 		"<div className=\"yst-border-2 yst-border-dashed\" />",
 		"<div className=\"yst-border-0\" />",
 		"<div className=\"yst-border-slate-200 yst-rounded\" />",
-		"<div className={ classNames( \"yst-border-t\", isActive && \"yst-border-solid\" ) } />",
+		"<div className={ classNames( \"yst-border-solid\", isActive ? \"yst-border\" : \"yst-border-2\" ) } />",
+		"<div className={ classNames( { \"yst-border yst-border-solid\": isActive } ) } />",
+		"<div className=\"md:yst-border-2 yst-border-solid\" />",
+		"<div className=\"hover:yst-border hover:yst-border-solid\" />",
+		"<div className=\"yst-border-[#e5e7eb]\" />",
+		"<div className=\"yst-border-t-[color:var(--border-color)]\" />",
+		"<div className={ mode === \"yst-border\" ? \"yst-p-4\" : \"yst-p-2\" } />",
+		"<div className={ variants[ \"yst-border\" ] } />",
 		"<div className=\"yst-p-4\" />",
 		"<div title=\"yst-border\" />",
 	] )( "accepts %s", ( code ) => {
@@ -82,5 +90,36 @@ describe( "border-requires-style", () => {
 		expect( reports[ 0 ].data.width ).toBe( "yst-border-x" );
 		expect( reports[ 0 ].fix ).toBeNull();
 		expect( output ).toBeNull();
+	} );
+
+	it.each( [
+		[ "<div className=\"yst-border-[2px]\" />", "yst-border-[2px]" ],
+		[ "<div className=\"yst-border hover:yst-border-solid\" />", "yst-border" ],
+		[ "<div className={ classNames( \"yst-border-t\", isActive && \"yst-border-solid\" ) } />", "yst-border-t" ],
+	] )( "reports %s", ( code, width ) => {
+		const { reports } = run( code );
+
+		expect( reports ).toHaveLength( 1 );
+		expect( reports[ 0 ].data.width ).toBe( width );
+	} );
+
+	it( "checks each branch of a condition on its own", () => {
+		const { reports, output } = run( "<div className={ active ? \"yst-border yst-border-solid\" : \"yst-border-2\" } />" );
+
+		expect( reports ).toHaveLength( 1 );
+		expect( reports[ 0 ].data.width ).toBe( "yst-border-2" );
+		expect( output ).toBe( "<div className={ active ? \"yst-border yst-border-solid\" : \"yst-border-2 yst-border-solid\" } />" );
+	} );
+
+	it( "fixes a class name used as an object key", () => {
+		const { output } = run( "<div className={ classNames( { \"yst-border\": isActive } ) } />" );
+
+		expect( output ).toBe( "<div className={ classNames( { \"yst-border yst-border-solid\": isActive } ) } />" );
+	} );
+
+	it( "keeps escapes in the fixed string as written", () => {
+		const { output } = run( "<div className={ \"yst-border after:yst-content-['a\\\"b']\" } />" );
+
+		expect( output ).toBe( "<div className={ \"yst-border after:yst-content-['a\\\"b'] yst-border-solid\" } />" );
 	} );
 } );

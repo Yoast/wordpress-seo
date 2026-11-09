@@ -7,8 +7,9 @@
  */
 
 // A border width utility, optionally behind variants: `yst-border`, `yst-border-2`, `yst-border-t`, `md:yst-border-x-4`.
-const WIDTH = /^(?:[\w-]+:)*yst-border(?:-[trblxyse])?(?:-(\d+|\[[^\]]+\]))?$/;
-const STYLE = /^(?:[\w-]+:)*yst-border-(?:solid|dashed|dotted|double|none|hidden)$/;
+// Arbitrary values only count when they are a length, so a color like `yst-border-[#e5e7eb]` is left alone.
+const WIDTH = /^((?:[\w-]+:)*)yst-border(?:-[trblxyse])?(?:-(\d+|\[(?:(?:length|line-width):[^\]]+|[\d.]+[a-z%]*)\]))?$/;
+const STYLE = /^((?:[\w-]+:)*)yst-border-(?:solid|dashed|dotted|double|none|hidden)$/;
 
 /**
  * Whether a node holds class names as text.
@@ -31,14 +32,41 @@ const childrenOf = ( node ) => Object.keys( node )
 	.flatMap( ( key ) => [].concat( node[ key ] ) )
 	.filter( ( child ) => child && typeof child.type === "string" );
 
+// How each node type renders class names. Conditions, comparisons and lookups are skipped: their strings are never rendered.
+const CLASS_PARTS = {
+	ConditionalExpression: ( node ) => [ { node: node.consequent, conditional: true }, { node: node.alternate, conditional: true } ],
+	LogicalExpression: ( node ) => ( node.operator === "&&" ? [] : [ { node: node.left, conditional: true } ] )
+		.concat( { node: node.right, conditional: true } ),
+	BinaryExpression: ( node ) => ( node.operator === "+" ? [ { node: node.left }, { node: node.right } ] : [] ),
+	MemberExpression: () => [],
+	CallExpression: ( node ) => node.arguments.map( ( argument ) => ( { node: argument } ) ),
+	// In `classNames( { "yst-border": isActive } )` the key is the class and the value its condition.
+	Property: ( node ) => ( node.computed ? [] : [ { node: node.key, conditional: true } ] ),
+};
+
 /**
- * Collects the string literals and template parts inside a `className` value.
+ * Returns the parts of a node that render class names, and whether each one only renders under a condition.
  *
  * @param {Object} node The AST node.
  *
- * @returns {Object[]} The literal nodes.
+ * @returns {{node: Object, conditional: boolean}[]} The class-producing child nodes.
  */
-const collectStrings = ( node ) => ( isString( node ) ? [ node ] : childrenOf( node ).flatMap( collectStrings ) );
+const classPartsOf = ( node ) => ( CLASS_PARTS[ node.type ] || ( () => childrenOf( node ).map( ( child ) => ( { node: child } ) ) ) )( node );
+
+/**
+ * Collects the string literals and template parts inside a `className` value.
+ *
+ * @param {Object}  node                The AST node.
+ * @param {boolean} [conditional=false] Whether the node only renders under a condition.
+ *
+ * @returns {{node: Object, conditional: boolean}[]} The literal nodes.
+ */
+const collectStrings = ( node, conditional = false ) => {
+	if ( isString( node ) ) {
+		return [ { node, conditional } ];
+	}
+	return classPartsOf( node ).flatMap( ( part ) => collectStrings( part.node, conditional || Boolean( part.conditional ) ) );
+};
 
 /**
  * Returns the class tokens of a literal or template part.
@@ -50,16 +78,25 @@ const collectStrings = ( node ) => ( isString( node ) ? [ node ] : childrenOf( n
 const tokensOf = ( node ) => ( node.type === "Literal" ? node.value : node.value.cooked || "" ).split( /\s+/ ).filter( Boolean );
 
 /**
- * Whether a token is a non-zero border width utility.
+ * Returns the variant prefix of a non-zero border width utility.
  *
  * @param {string} token The class token.
  *
- * @returns {boolean} True for e.g. `yst-border` or `yst-border-b-2`, false for `yst-border-0`.
+ * @returns {string|null} The prefix, e.g. `md:` or an empty string, or null when the token is no width.
  */
-const isWidth = ( token ) => {
+const widthVariant = ( token ) => {
 	const match = WIDTH.exec( token );
-	return Boolean( match ) && match[ 1 ] !== "0";
+	return match && match[ 2 ] !== "0" ? match[ 1 ] : null;
 };
+
+/**
+ * Returns the variant prefixes of the border style utilities among tokens.
+ *
+ * @param {string[]} tokens The class tokens.
+ *
+ * @returns {string[]} The prefixes, e.g. `hover:` or an empty string.
+ */
+const styleVariants = ( tokens ) => tokens.map( ( token ) => STYLE.exec( token ) ).filter( Boolean ).map( ( match ) => match[ 1 ] );
 
 /**
  * Whether a JSX attribute is a `className` with a value.
@@ -84,15 +121,16 @@ module.exports = {
 	},
 	create( context ) {
 		/**
-		 * Appends `yst-border-solid` to a string literal.
+		 * Appends `yst-border-solid` to a string literal, keeping its source text as written.
 		 *
 		 * @param {Object} node The literal node.
 		 *
 		 * @returns {function} The fixer.
 		 */
 		const appendStyle = ( node ) => ( fixer ) => {
-			const quote = context.sourceCode.getText( node )[ 0 ];
-			return fixer.replaceText( node, quote + node.value.replace( /\s*$/, "" ) + " yst-border-solid" + quote );
+			const source = context.sourceCode.getText( node );
+			const quote = source[ 0 ];
+			return fixer.replaceText( node, quote + source.slice( 1, -1 ).replace( /\s*$/, "" ) + " yst-border-solid" + quote );
 		};
 
 		return {
@@ -101,18 +139,27 @@ module.exports = {
 					return;
 				}
 				const strings = collectStrings( attribute.value );
-				if ( strings.flatMap( tokensOf ).some( ( token ) => STYLE.test( token ) ) ) {
-					return;
-				}
-				const widthNode = strings.find( ( node ) => tokensOf( node ).some( isWidth ) );
-				if ( widthNode ) {
-					context.report( {
-						node: widthNode,
-						messageId: "missingStyle",
-						data: { width: tokensOf( widthNode ).find( isWidth ) },
-						fix: widthNode.type === "Literal" ? appendStyle( widthNode ) : null,
+				// A style in a string that always renders covers the widths in every other string.
+				const alwaysStyled = strings
+					.filter( ( string ) => ! string.conditional )
+					.flatMap( ( string ) => styleVariants( tokensOf( string.node ) ) );
+
+				strings.forEach( ( { node } ) => {
+					const tokens = tokensOf( node );
+					const styled = alwaysStyled.concat( styleVariants( tokens ) );
+					const width = tokens.find( ( token ) => {
+						const variant = widthVariant( token );
+						return variant !== null && ! styled.includes( "" ) && ! styled.includes( variant );
 					} );
-				}
+					if ( width ) {
+						context.report( {
+							node,
+							messageId: "missingStyle",
+							data: { width },
+							fix: node.type === "Literal" ? appendStyle( node ) : null,
+						} );
+					}
+				} );
 			},
 		};
 	},
