@@ -1,0 +1,238 @@
+import { _n, sprintf } from "@wordpress/i18n";
+import { merge } from "lodash";
+
+import Assessment from "../assessment";
+import { createAnchorOpeningTag } from "../../../helpers";
+import AssessmentResult from "../../../values/AssessmentResult";
+import { getAltTextLengthBoundaries } from "../../../languageProcessing/researches/altTextLength";
+
+/**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
+ * The data a `callbacks.getResultTexts` implementation is given, so a platform can word the feedback for the
+ * item it is analyzing without knowing how the assessment reaches its score.
+ *
+ * @typedef {Object} AltTextLengthResultTextsInput
+ * @property {string} urlTitleAnchorOpeningTag The anchor opening tag for the article about this assessment.
+ * @property {string} urlActionAnchorOpeningTag The anchor opening tag for the call to action.
+ * @property {number} tooShortCount The number of assessed images whose alt text is too short.
+ * @property {number} tooLongCount The number of assessed images whose alt text is too long.
+ * @property {number} tooShortBoundary The number of characters up to which alt text counts as too short.
+ * @property {number} tooLongBoundary The number of characters from which alt text counts as too long.
+ */
+
+/**
+ * The feedback strings for the three states this assessment can report, already formatted with their anchors.
+ *
+ * Every property is required: the object a callback returns is used as is, so an omitted key renders as an empty
+ * result text rather than falling back to the default string.
+ *
+ * @typedef {Object} AltTextLengthResultTexts
+ * @property {string} tooShort Only too short alt texts were found.
+ * @property {string} tooLong Only too long alt texts were found.
+ * @property {string} both Both too short and too long alt texts were found.
+ */
+
+/**
+ * Represents the assessment that checks whether the assessed images have alt text that is likely too short or
+ * too long: the images in the text, or the Paper's provided images when it supplies them.
+ */
+export default class AltTextLengthAssessment extends Assessment {
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {object} [config] The configuration to use.
+	 * @param {number} [config.scores.okay] The score to return when alt text is too short, too long, or both.
+	 * @param {string} [config.urlTitle] The URL to the article about this assessment.
+	 * @param {string} [config.urlCallToAction] The URL to the call-to-action article.
+	 * @param {object} [config.callbacks] The callbacks to use for the assessment.
+	 * @param {function(AltTextLengthResultTextsInput): AltTextLengthResultTexts} [config.callbacks.getResultTexts] Returns the feedback strings, replacing the defaults.
+	 */
+	constructor( config = {} ) {
+		super();
+
+		const defaultConfig = {
+			scores: {
+				okay: 6,
+			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/alt-text-length" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/alt-text-length-cta" ),
+			callbacks: {},
+		};
+
+		this.identifier = "altTextLength";
+		this._config = merge( defaultConfig, config );
+	}
+
+	/**
+	 * Executes the Assessment and returns a result.
+	 *
+	 * Returns an empty result — no score and no text — when no assessed image has alt text that is too short or
+	 * too long. There is no good range for alt text length, so there is nothing to praise: `Assessor.isValidResult`
+	 * drops a result without a score and a text, which keeps the assessment out of the list entirely.
+	 *
+	 * @param {Paper}       paper       The Paper object to assess. Unused: the research reads the images off it.
+	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
+	 *
+	 * @returns {AssessmentResult} The result of the assessment.
+	 */
+	getResult( paper, researcher ) {
+		const { tooShort, tooLong, flagged } = researcher.getResearch( "altTextLength" );
+
+		this.tooShortCount = tooShort;
+		this.tooLongCount = tooLong;
+		this.flagged = flagged;
+		// The same boundaries the research counted with, so the feedback names the limits that applied.
+		this.boundaries = getAltTextLengthBoundaries( researcher );
+
+		const assessmentResult = new AssessmentResult();
+
+		if ( this.tooShortCount === 0 && this.tooLongCount === 0 ) {
+			return assessmentResult;
+		}
+
+		const { tooShort: tooShortResultText, tooLong: tooLongResultText, both } = this.getFeedbackStrings();
+
+		assessmentResult.setScore( this._config.scores.okay );
+		/*
+		 * Carried on the result so a consumer can point at the images that need work, for example to filter them
+		 * in a product's image table. Only set when there is something to flag, so an empty result stays empty.
+		 */
+		assessmentResult.setFlaggedItems( this.flagged );
+
+		if ( this.tooShortCount > 0 && this.tooLongCount > 0 ) {
+			assessmentResult.setText( both );
+		} else if ( this.tooShortCount > 0 ) {
+			assessmentResult.setText( tooShortResultText );
+		} else {
+			assessmentResult.setText( tooLongResultText );
+		}
+
+		return assessmentResult;
+	}
+
+	/**
+	 * Returns the feedback strings for the assessment.
+	 *
+	 * A platform can replace them by passing a `callbacks.getResultTexts` in the config, of the shape
+	 * `(AltTextLengthResultTextsInput) => AltTextLengthResultTexts`. Without that callback the defaults below
+	 * apply, so the hook is opt-in and existing consumers are unaffected.
+	 *
+	 * @returns {AltTextLengthResultTexts} The feedback strings.
+	 */
+	getFeedbackStrings() {
+		// Both are already anchor opening tags: the config wraps the URLs before they get here.
+		const urlTitleAnchorOpeningTag = this._config.urlTitle;
+		const urlActionAnchorOpeningTag = this._config.urlCallToAction;
+		const { tooShortBoundary, tooLongBoundary } = this.boundaries;
+
+		if ( this._config.callbacks.getResultTexts ) {
+			return this._config.callbacks.getResultTexts( {
+				urlTitleAnchorOpeningTag,
+				urlActionAnchorOpeningTag,
+				tooShortCount: this.tooShortCount,
+				tooLongCount: this.tooLongCount,
+				// Handed over so a platform's own strings name the same limits without repeating the numbers.
+				tooShortBoundary,
+				tooLongBoundary,
+			} );
+		}
+
+		/*
+		 * Each text is a count sentence plus an action sentence, translated separately: the count and the character
+		 * limit each need their own plural form, which one combined string cannot give in every language.
+		 */
+		const tooShortCountSentence = sprintf(
+			/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+			 * %3$d expands to the number of images with very short alt text. */
+			_n(
+				"%1$sAlt text length%2$s: %3$d of your images has very short alt text.",
+				"%1$sAlt text length%2$s: %3$d of your images have very short alt text.",
+				this.tooShortCount,
+				"wordpress-seo"
+			),
+			urlTitleAnchorOpeningTag,
+			"</a>",
+			this.tooShortCount
+		);
+		const tooLongCountSentence = sprintf(
+			/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+			 * %3$d expands to the number of images with very long alt text. */
+			_n(
+				"%1$sAlt text length%2$s: %3$d of your images has very long alt text.",
+				"%1$sAlt text length%2$s: %3$d of your images have very long alt text.",
+				this.tooLongCount,
+				"wordpress-seo"
+			),
+			urlTitleAnchorOpeningTag,
+			"</a>",
+			this.tooLongCount
+		);
+		const bothCountSentence = sprintf(
+			/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+			 * %3$d expands to the number of images with very short or very long alt text. */
+			_n(
+				"%1$sAlt text length%2$s: %3$d of your images has very short or very long alt text.",
+				"%1$sAlt text length%2$s: %3$d of your images have very short or very long alt text.",
+				this.tooShortCount + this.tooLongCount,
+				"wordpress-seo"
+			),
+			urlTitleAnchorOpeningTag,
+			"</a>",
+			this.tooShortCount + this.tooLongCount
+		);
+
+		const tooShortActionSentence = sprintf(
+			/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+			 * %3$d expands to the minimum alt text length in characters. This value comes from the
+			 * SITE language, which can differ from the admin language this sentence appears in. */
+			_n(
+				"%1$sConsider making the alt text longer than %3$d character%2$s.",
+				"%1$sConsider making the alt text longer than %3$d characters%2$s.",
+				tooShortBoundary,
+				"wordpress-seo"
+			),
+			urlActionAnchorOpeningTag,
+			"</a>",
+			tooShortBoundary
+		);
+		const tooLongActionSentence = sprintf(
+			/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+			 * %3$d expands to the maximum alt text length in characters. This value comes from the
+			 * SITE language, which can differ from the admin language this sentence appears in. */
+			_n(
+				"%1$sConsider making the alt text shorter than %3$d character%2$s.",
+				"%1$sConsider making the alt text shorter than %3$d characters%2$s.",
+				tooLongBoundary,
+				"wordpress-seo"
+			),
+			urlActionAnchorOpeningTag,
+			"</a>",
+			tooLongBoundary
+		);
+		const bothActionSentence = sprintf(
+			/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+			 * %3$d expands to the minimum and %4$d to the maximum alt text length in characters. These values
+			 * come from the SITE language, which can differ from the admin language this sentence appears in. */
+			_n(
+				"%1$sConsider making the alt text longer than %3$d and shorter than %4$d character%2$s.",
+				"%1$sConsider making the alt text longer than %3$d and shorter than %4$d characters%2$s.",
+				tooLongBoundary,
+				"wordpress-seo"
+			),
+			urlActionAnchorOpeningTag,
+			"</a>",
+			tooShortBoundary,
+			tooLongBoundary
+		);
+
+		return {
+			tooShort: `${ tooShortCountSentence } ${ tooShortActionSentence }`,
+			tooLong: `${ tooLongCountSentence } ${ tooLongActionSentence }`,
+			both: `${ bothCountSentence } ${ bothActionSentence }`,
+		};
+	}
+}

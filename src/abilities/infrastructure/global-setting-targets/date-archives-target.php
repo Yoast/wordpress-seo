@@ -7,6 +7,9 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * The date archives, which share one template.
+ *
+ * @internal Backs the global SEO settings abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 class Date_Archives_Target extends Abstract_Global_Setting_Target {
 
