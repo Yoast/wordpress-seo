@@ -1,11 +1,11 @@
 import { isEmpty } from "lodash";
-import { findWordFormsInString } from "../../../helpers/match/findKeywordFormsInString";
-import wordMatch from "../../../helpers/match/matchTextWithArray";
+import { languageProcessing } from "yoastseo";
 import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest";
 import getContentWords from "../helpers/getContentWords";
 import japaneseWordMatchHelper from "../helpers/matchTextWithWord";
 import functionWords from "../config/functionWords";
 import getWords from "../helpers/getWords";
+const { findWordFormsInString, matchTextWithArray: wordMatch } = languageProcessing;
 
 /**
  * Checks the position of the keyphrase in the SEO title.
