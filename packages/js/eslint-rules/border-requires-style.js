@@ -1,9 +1,8 @@
 /**
  * Requires a border style next to any `yst-border*` width utility in a `className`.
  *
- * Tailwind's preflight gives every element `border-style: solid`, but ours is scoped to `.yst-root`. Outside a
- * `.yst-root` ancestor the browser default `none` applies, so a width utility alone draws no border.
- * See docs/ui-library-without-root.md.
+ * The preflight's `border-style: solid` has no specificity, so any host rule such as `.components-button { border: 0 }`
+ * resets the style to `none`, and a width utility alone then draws no border. See docs/ui-library-without-root.md.
  */
 
 // A border width utility, optionally behind variants: `yst-border`, `yst-border-2`, `yst-border-t`, `md:yst-border-x-4`.
@@ -116,12 +115,12 @@ module.exports = {
 		fixable: "code",
 		schema: [],
 		messages: {
-			missingStyle: "`{{ width }}` draws no border outside a .yst-root ancestor; add `yst-border-solid`.",
+			missingStyle: "`{{ width }}` draws no border once host CSS resets the border style; add `yst-border-solid`.",
 		},
 	},
 	create( context ) {
 		/**
-		 * Appends `yst-border-solid` to a string literal, keeping its source text as written.
+		 * Appends `yst-border-solid` to a string literal, keeping its source text and trailing whitespace as written.
 		 *
 		 * @param {Object} node The literal node.
 		 *
@@ -130,7 +129,8 @@ module.exports = {
 		const appendStyle = ( node ) => ( fixer ) => {
 			const source = context.sourceCode.getText( node );
 			const quote = source[ 0 ];
-			return fixer.replaceText( node, quote + source.slice( 1, -1 ).replace( /\s*$/, "" ) + " yst-border-solid" + quote );
+			// The trailing whitespace stays last, so `"yst-border " + extra` keeps the space before `extra`.
+			return fixer.replaceText( node, quote + source.slice( 1, -1 ).replace( /\s*$/, " yst-border-solid$&" ) + quote );
 		};
 
 		return {

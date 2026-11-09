@@ -1,8 +1,12 @@
 # Markup without a `.yst-root` ancestor
 
-Since the ui-library stopped scoping its component CSS to `.yst-root` (#23047), its components render correctly without a `Root` ancestor. Plain markup does not: the base styles (font, text color, line-height) and the Tailwind preflight resets are still scoped to `.yst-root`. Outside it, WordPress admin, Gutenberg and Elementor CSS apply instead.
+Since the ui-library stopped scoping its component CSS to `.yst-root` (#23047), its components render correctly without a `Root` ancestor. Outside a `Root`, plain markup gets less:
 
-Follow these rules for markup in `packages/js` that can render outside a `Root`, for example inside the block editor sidebar, the metabox, the Elementor panel, or a page without a top-level `Root`.
+- **Elements with a `yst-` class** get a copy of the Tailwind preflight resets, but at low specificity. Element resets like `p { margin: 0 }` are (0,0,1): they tie with host element rules and win by load order, but lose to more specific host CSS such as `.wrap h1` (0,1,1). The universal reset that sets `border-style: solid` is (0,0,0), so any host rule on the element beats it, for example Gutenberg's `.components-button { border: 0 }`.
+- **Bare elements** (no `yst-` class) get none of the resets.
+- **Base styles** (font, text color, line-height) are only set on `.yst-root` itself, so nothing outside it inherits them.
+
+Outside a `Root`, WordPress admin, Gutenberg and Elementor CSS fill the gaps. Follow these rules for markup in `packages/js` that can render outside a `Root`, for example inside the block editor sidebar, the metabox, the Elementor panel, or a page without a top-level `Root`.
 
 ## Base styles
 
@@ -12,7 +16,13 @@ Put the inherited base on the outermost element of the component, where a `yst-r
 yst-text-sm yst-font-normal yst-font-sans yst-text-slate-600 yst-leading-normal yst-antialiased
 ```
 
-## Resets the preflight used to provide
+## Border style
+
+Add `yst-border-solid` (or another style) next to any `yst-border*` width utility. The preflight's `border-style: solid` loses to any host rule, and a width alone draws nothing once the style is `none`. The `yoast-local/border-requires-style` lint rule enforces this.
+
+## Resets for bare elements
+
+Give the element a `yst-` class to get the preflight resets. If it has none, or if more specific host CSS applies, add the reset yourself:
 
 | Element | Add |
 | --- | --- |
@@ -21,7 +31,6 @@ yst-text-sm yst-font-normal yst-font-sans yst-text-slate-600 yst-leading-normal 
 | `ul`, `ol` | `yst-my-0 yst-p-0`, plus `yst-list-none` unless you want markers |
 | `li` | `yst-mb-0` unless you set a bottom margin (WordPress adds `6px`) |
 | `strong`, `b` | `yst-font-bold` (WordPress sets `600`) |
-| Any `yst-border*` width | `yst-border-solid` (enforced by the `yoast-local/border-requires-style` lint rule) |
 | Bare `a` | The link styles you need, e.g. `yst-underline yst-text-indigo-600 hover:yst-text-indigo-500 focus:yst-shadow-none focus:yst-outline focus:yst-outline-offset-1 focus:yst-outline-indigo-600` |
 | Bare `button` | `yst-m-0 yst-p-0 yst-border-0 yst-bg-transparent yst-cursor-pointer` |
 

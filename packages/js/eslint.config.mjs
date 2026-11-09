@@ -101,7 +101,7 @@ export default [
 			"yoast-local": { rules: { "border-requires-style": borderRequiresStyle } },
 		},
 		rules: {
-			// Our preflight, which sets `border-style: solid`, is scoped to `.yst-root`.
+			// The preflight's `border-style: solid` has no specificity, so host CSS can reset it.
 			"yoast-local/border-requires-style": "error",
 		},
 	},

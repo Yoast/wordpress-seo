@@ -122,4 +122,10 @@ describe( "border-requires-style", () => {
 
 		expect( output ).toBe( "<div className={ \"yst-border after:yst-content-['a\\\"b'] yst-border-solid\" } />" );
 	} );
+
+	it( "keeps the separator before a concatenated class", () => {
+		const { output } = run( "<div className={ \"yst-border \" + extra } />" );
+
+		expect( output ).toBe( "<div className={ \"yst-border yst-border-solid \" + extra } />" );
+	} );
 } );
