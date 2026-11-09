@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import FieldGroup, { FieldGroupDefaultProps, FieldGroupProps } from "../field-group/FieldGroup";
+import FieldGroup, { FieldGroupProps } from "../field-group/FieldGroup";
 // Import the required CSS.
 import "./input.css";
 
@@ -43,23 +43,31 @@ const onChangeHandler = onChange => {
  *
  * @returns {React.Component} Component that can be used inside a form.
  */
-const TextInput = ( props ) => {
+const TextInput = ( {
+	id = "",
+	name = "",
+	value = "",
+	ariaDescribedBy = "",
+	readOnly = false,
+	type = "text",
+	...props
+} ) => {
 	const fieldGroupProps = { ...props };
-	if ( props.id ) {
-		fieldGroupProps.htmlFor = props.id;
+	if ( id ) {
+		fieldGroupProps.htmlFor = id;
 	}
 
 	return (
 		<FieldGroup { ...fieldGroupProps }>
 			<input
-				id={ props.id }
-				name={ props.name }
-				value={ props.value }
-				type={ props.type }
+				id={ id }
+				name={ name }
+				value={ value }
+				type={ type }
 				className="yoast-field-group__inputfield"
-				aria-describedby={ props.ariaDescribedBy }
+				aria-describedby={ ariaDescribedBy }
 				placeholder={ props.placeholder }
-				readOnly={ props.readOnly }
+				readOnly={ readOnly }
 				min={ props.min }
 				max={ props.max }
 				step={ props.step }
@@ -82,22 +90,6 @@ TextInput.propTypes = {
 	step: PropTypes.number,
 	onChange: PropTypes.func,
 	...FieldGroupProps,
-};
-
-TextInput.defaultProps = {
-	id: "",
-	name: "",
-	value: "",
-	ariaDescribedBy: "",
-	readOnly: false,
-	type: "text",
-	// React automatically removes these values when passed as props.
-	placeholder: undefined,
-	min: undefined,
-	max: undefined,
-	step: undefined,
-	onChange: undefined,
-	...FieldGroupDefaultProps,
 };
 
 export default TextInput;

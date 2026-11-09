@@ -7,6 +7,9 @@ import HelpIcon, { helpIconDefaultProps, helpIconProps } from "../help-icon/Help
 import NewBadge from "../new-badge/NewBadge";
 import PremiumBadge from "../premium-badge/PremiumBadge";
 
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_CHILDREN = [];
+
 /**
  * FieldGroup component that can be used to wrap our form elements in.
  *
@@ -24,14 +27,14 @@ import PremiumBadge from "../premium-badge/PremiumBadge";
  * @returns {React.Component} A div with a label, icon and optional description that renders all children.
  */
 const FieldGroup = ( {
-	htmlFor,
-	label,
-	linkTo,
-	linkText,
-	description,
-	children,
-	wrapperClassName,
-	titleClassName,
+	htmlFor = "",
+	label = "",
+	linkTo = helpIconDefaultProps.linkTo,
+	linkText = helpIconDefaultProps.linkText,
+	description = "",
+	children = DEFAULT_CHILDREN,
+	wrapperClassName = "yoast-field-group",
+	titleClassName = "yoast-field-group__title",
 	hasNewBadge,
 	hasPremiumBadge,
 } ) => {
@@ -74,7 +77,7 @@ export const FieldGroupProps = {
 export const FieldGroupDefaultProps = {
 	label: "",
 	description: "",
-	children: [],
+	children: DEFAULT_CHILDREN,
 	wrapperClassName: "yoast-field-group",
 	titleClassName: "yoast-field-group__title",
 	htmlFor: "",
@@ -82,7 +85,5 @@ export const FieldGroupDefaultProps = {
 };
 
 FieldGroup.propTypes = FieldGroupProps;
-
-FieldGroup.defaultProps = FieldGroupDefaultProps;
 
 export default FieldGroup;
