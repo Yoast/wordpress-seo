@@ -142,7 +142,7 @@ class Author_Schema_Updater extends Abstract_Fields_Updater {
 			}
 
 			// The helper only reports invalid profiles, not failed saves, so the stored value is checked instead.
-			return $repository->get( $user_id, $field_name ) === $value;
+			return $this->get_field_value( $field_name, $context ) === $value;
 		}
 
 		return $repository->save( $user_id, $field_name, $value );
