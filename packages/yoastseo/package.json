@@ -9,6 +9,7 @@
     "inclusive language"
   ],
   "main": "build/index.js",
+  "module": "./esm/index.js",
   "types": "types",
   "license": "GPL-3.0",
   "version": "3.6.0",
@@ -19,6 +20,7 @@
   },
   "files": [
     "build",
+    "esm",
     "!*.map",
     "images",
     "researcher",
@@ -72,6 +74,7 @@
     "@yoast/feature-flag": "^0.6.0-alpha.2",
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "loglevel": "^1.9.2",
     "parse5": "^8.0.0",
     "tiny-segmenter": "^0.2.0",
