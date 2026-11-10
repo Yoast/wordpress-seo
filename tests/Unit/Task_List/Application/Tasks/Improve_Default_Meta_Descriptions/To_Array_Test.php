@@ -40,7 +40,7 @@ final class To_Array_Test extends Abstract_Test {
 			'isCompleted'  => true,
 			'callToAction' => null,
 			'title'        => 'Improve default meta descriptions of your recent content: Posts',
-			'about'        => '<p>Default meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks. </p><p>Short on time? Draft meta descriptions and titles for several items at once with AI in the Bulk Editor.</p>',
+			'about'        => '<p>Default meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks.</p><p>Short on time? Draft meta descriptions and titles for several items at once with AI in the Bulk Editor.</p>',
 			'isParentTask' => true,
 		];
 
@@ -90,7 +90,7 @@ final class To_Array_Test extends Abstract_Test {
 			'isCompleted'  => true,
 			'callToAction' => null,
 			'title'        => 'Improve default meta descriptions of your recent content: Posts',
-			'about'        => '<p>Default meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks. </p><p>Short on time? Draft meta descriptions and titles for several items at once with AI in the Bulk Editor.</p>',
+			'about'        => '<p>Default meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks.</p><p>Short on time? Draft meta descriptions and titles for several items at once with AI in the Bulk Editor.</p>',
 			'isParentTask' => true,
 		];
 
