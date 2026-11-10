@@ -61,7 +61,7 @@ const ImageCounts = ( { imageCount, missingAltCount } ) => (
  * @returns {JSX.Element} The checkbox shape.
  */
 const DummyCheckbox = () => (
-	<span className="yst-checkbox__input yst-block yst-border yst-bg-white" />
+	<span className="yst-checkbox__input yst-block yst-border yst-bg-white yst-border-solid" />
 );
 
 /**
@@ -75,9 +75,9 @@ const DummyCheckbox = () => (
 export const DummyImageAltTextTable = () => (
 	<div
 		aria-hidden="true"
-		className="yst-pointer-events-none yst-select-none yst-opacity-30 yst-overflow-hidden yst-rounded-lg yst-border yst-border-slate-300 yst-bg-white yst-shadow-sm"
+		className="yst-pointer-events-none yst-select-none yst-opacity-30 yst-overflow-hidden yst-rounded-lg yst-border yst-border-slate-300 yst-bg-white yst-shadow-sm yst-border-solid"
 	>
-		<div className="yst-flex yst-justify-end yst-border-b yst-border-slate-300 yst-bg-slate-50 yst-p-3">
+		<div className="yst-flex yst-justify-end yst-border-b yst-border-slate-300 yst-bg-slate-50 yst-p-3 yst-border-solid">
 			<span className="yst-button yst-button--secondary yst-button--small yst-gap-1.5">
 				{ __( "Filters", "wordpress-seo" ) }
 				<FilterIcon className="yst-h-4 yst-w-4" />
@@ -118,7 +118,7 @@ export const DummyImageAltTextTable = () => (
 						</div>
 						<div className="yst-flex yst-max-w-2xl yst-flex-col yst-gap-2">
 							<span className="yst-text-sm yst-font-medium yst-text-slate-800">{ __( "Focus keyphrase", "wordpress-seo" ) }</span>
-							<span className="yst-flex yst-h-10 yst-max-w-md yst-items-center yst-rounded-md yst-border yst-border-slate-300 yst-bg-white yst-px-3 yst-text-sm yst-text-slate-600 yst-shadow-sm">
+							<span className="yst-flex yst-h-10 yst-max-w-md yst-items-center yst-rounded-md yst-border yst-border-slate-300 yst-bg-white yst-px-3 yst-text-sm yst-text-slate-600 yst-shadow-sm yst-border-solid">
 								{ DUMMY_ACTIVE_PRODUCT.focusKeyphrase }
 							</span>
 							<span className="yst-text-sm yst-text-slate-600">

@@ -66,7 +66,7 @@ const DelayedPremiumUpsellContent = ( { buttonUpgradeLink, exploreFeaturesLink }
 				<ExternalLinkIcon className=" yst-inline yst--me-2 yst-ms-2 yst-h-3 yst-w-3 yst-text-indigo-600 rtl:yst-rotate-[270deg]" />
 			</div>
 
-			<div className="yst-mt-8 yst-mx-10 yst-text-slate-900 yst-text-[16px] yst-border-b yst-border-black yst-pb-2 yst-font-medium">
+			<div className="yst-mt-8 yst-mx-10 yst-text-slate-900 yst-text-[16px] yst-border-b yst-border-black yst-pb-2 yst-font-medium yst-border-solid">
 				{ __( "Extra perks & help to make SEO even easier", "wordpress-seo" ) }
 			</div>
 

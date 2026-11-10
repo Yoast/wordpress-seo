@@ -62,7 +62,7 @@ export const UpsellModal = ( {
 	>
 		<Modal.Panel className="yst-max-w-md yst-p-0" hasCloseButton={ false }>
 			<Modal.Container>
-				<Modal.Container.Header className="yst-p-6 yst-border-b-slate-200 yst-border-b yst-flex yst-justify-start yst-gap-3 yst-items-center">
+				<Modal.Container.Header className="yst-p-6 yst-border-b-slate-200 yst-border-b yst-flex yst-justify-start yst-gap-3 yst-items-center yst-border-solid">
 					{ isWooAd ? <ShoppingCartIcon className="yst-text-woo-light yst-w-6 yst-h-6 yst-scale-x-[-1]" />
 						: <YoastLogo className="yst-fill-primary-500 yst-w-5 yst-h-5" /> }
 					<Modal.Title

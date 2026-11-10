@@ -84,7 +84,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 
 	return (
 		<div
-			className={ classNames( "yst-p-6 yst-rounded-lg yst-text-slate-600 yst-bg-white yst-shadow yst-border",
+			className={ classNames( "yst-p-6 yst-rounded-lg yst-text-slate-600 yst-bg-white yst-shadow yst-border yst-border-solid",
 				isWooCommerceActive ? "yst-border-woo-light yst-border-opacity-50" : "yst-border-primary-300"
 			) }
 		>
@@ -116,7 +116,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 			<p className="yst-text-center yst-text-xs yst-font-normal yst-leading-5 yst-text-slate-500 yst-italic yst-mt-3 yst-mb-2">
 				{ microCopy }
 			</p>
-			<hr className="yst-border-t yst-border-slate-200 yst-my-4" />
+			<hr className="yst-border-t yst-border-slate-200 yst-my-4 yst-border-solid" />
 			<ul className="yst-text-center yst-text-xs yst-font-medium yst-text-slate-800 yst-list-none">
 				<li>{ __( "30-day money back guarantee", "wordpress-seo" ) }</li>
 				<li>{ __( "24/7 support", "wordpress-seo" ) }</li>

@@ -34,7 +34,7 @@ const FormLayout = ( { children } ) => {
 					height={ dirty ? "auto" : 0 }
 					animateOpacity={ true }
 				>
-					<div className="yst-bg-slate-50 yst-border-slate-200 yst-border-t yst-rounded-b-lg">
+					<div className="yst-bg-slate-50 yst-border-slate-200 yst-border-t yst-rounded-b-lg yst-border-solid">
 						<div className="yst-flex yst-align-middle yst-space-x-3 rtl:yst-space-x-reverse yst-p-8">
 							<Button
 								id="button-submit-settings"
