@@ -6,6 +6,7 @@ export default [
 	{
 		ignores: [
 			"build",
+			"esm",
 			"examples",
 			"researcher",
 			"contract",

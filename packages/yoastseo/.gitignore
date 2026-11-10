@@ -7,3 +7,4 @@ coverage/
 .tscache/
 types/
 /premium-configuration
+/esm/

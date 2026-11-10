@@ -27,16 +27,19 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "yarn clean && yarn build:js && yarn build:types",
+    "build": "yarn clean && yarn build:js && yarn build:esm && yarn build:types",
     "build:js": "babel src --copy-files --source-maps --out-dir build",
+    "build:esm": "yarn build:esm:package && babel src --env-name esm --copy-files --source-maps --out-dir esm",
+    "build:esm:package": "mkdir -p esm && echo '{ \"type\": \"module\" }' > esm/package.json",
     "build:types": "tsc",
-    "clean": "rm -rf build types",
+    "clean": "rm -rf build esm types",
     "pretest": "grunt get-premium-configuration",
     "export:inclusive-language": "jest exportInclusiveLanguage",
     "test": "jest",
     "lint": "eslint . --max-warnings 16",
-    "watch": "yarn clean && yarn watch:js",
+    "watch": "yarn clean && (yarn watch:js & yarn watch:esm)",
     "watch:js": "yarn build:js --watch",
+    "watch:esm": "yarn build:esm --watch",
     "watch:types": "tsc --watch"
   },
   "engines": {
