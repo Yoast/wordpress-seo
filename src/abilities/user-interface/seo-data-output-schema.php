@@ -28,7 +28,9 @@ class SEO_Data_Output_Schema {
 			'properties' => \array_merge(
 				[
 					'term_id'   => [ 'type' => 'integer' ],
-					'term_name' => $nullable_string,
+					'term_name' => ( $nullable_string + [
+						'description' => \__( 'The breadcrumb title of the term when a custom one is set, otherwise the term name.', 'wordpress-seo' ),
+					] ),
 					'permalink' => $nullable_string,
 					'taxonomy'  => [ 'type' => 'string' ],
 				],
