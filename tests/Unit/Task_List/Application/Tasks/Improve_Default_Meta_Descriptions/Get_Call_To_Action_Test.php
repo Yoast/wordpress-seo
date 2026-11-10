@@ -26,12 +26,7 @@ final class Get_Call_To_Action_Test extends Abstract_Test {
 
 		Monkey\Functions\expect( 'self_admin_url' )
 			->once()
-			->with( 'admin.php?page=wpseo_page_bulk_edit' )
-			->andReturn( 'https://example.com/wp-admin/admin.php?page=wpseo_page_bulk_edit' );
-
-		Monkey\Functions\expect( 'add_query_arg' )
-			->once()
-			->with( 'content_type', 'post', 'https://example.com/wp-admin/admin.php?page=wpseo_page_bulk_edit' )
+			->with( 'admin.php?page=wpseo_page_bulk_edit&content_type=post' )
 			->andReturn( 'https://example.com/wp-admin/admin.php?page=wpseo_page_bulk_edit&content_type=post' );
 
 		$call_to_action = $this->instance->get_call_to_action();

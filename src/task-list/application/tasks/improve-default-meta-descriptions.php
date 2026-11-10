@@ -2,7 +2,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
-use Yoast\WP\SEO\Bulk_Editor\User_Interface\Bulk_Editor_Integration;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Default_Meta_Descriptions_Child;
@@ -84,11 +83,7 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 	 * @return string|null
 	 */
 	public function get_link(): ?string {
-		return \add_query_arg(
-			Bulk_Editor_Integration::CONTENT_TYPE_PARAM,
-			$this->get_post_type(),
-			\self_admin_url( 'admin.php?page=' . Bulk_Editor_Integration::PAGE ),
-		);
+		return \self_admin_url( 'admin.php?page=wpseo_page_bulk_edit&content_type=' . $this->get_post_type() );
 	}
 
 	/**
