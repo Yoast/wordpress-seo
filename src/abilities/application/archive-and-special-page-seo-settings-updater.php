@@ -134,16 +134,20 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 	 * @param mixed                   $value      The value to save.
 	 * @param array<string, mixed>    $context    The target, under 'target'.
 	 *
-	 * @return string|null A warning when the field could not be saved, null otherwise.
+	 * @return array{saved: bool, warning: string|null} Whether the field was saved, and a warning when it was not
+	 *                                                   saved as provided.
 	 */
-	protected function update_field( array $validators, string $field_name, $value, array $context ): ?string {
+	protected function update_field( array $validators, string $field_name, $value, array $context ): array {
 		if ( ! $this->field_map->target_has_field( $field_name, $context['target'] ) ) {
-			return \sprintf(
-				/* translators: 1: the name of a setting, 2: the name of a target. */
-				\__( 'The %1$s setting is not available for %2$s, so it was not saved.', 'wordpress-seo' ),
-				$field_name,
-				$context['target']->get_name(),
-			);
+			return [
+				'saved'   => false,
+				'warning' => \sprintf(
+					/* translators: 1: the name of a setting, 2: the name of a target. */
+					\__( 'The %1$s setting is not available for %2$s, so it was not saved.', 'wordpress-seo' ),
+					$field_name,
+					$context['target']->get_name(),
+				),
+			];
 		}
 
 		return parent::update_field( $validators, $field_name, $value, $context );
@@ -156,7 +160,7 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 	 * @param mixed                $value      The value to save.
 	 * @param array<string, mixed> $context    The target, under 'target'.
 	 *
-	 * @return bool Whether the field was saved.
+	 * @return bool Whether the field was saved as provided.
 	 */
 	protected function save_field( string $field_name, $value, array $context ): bool {
 		$option_name = $this->field_map->get_option_name( $field_name, $context['target'] );
@@ -165,6 +169,23 @@ class Archive_And_Special_Page_SEO_Settings_Updater extends Abstract_Fields_Upda
 		}
 
 		return $this->options_helper->set( $option_name, $value ) === true;
+	}
+
+	/**
+	 * Returns the stored value of a single field, read from the option it is stored in for the target.
+	 *
+	 * @param string               $field_name The name of the field.
+	 * @param array<string, mixed> $context    The target, under 'target'.
+	 *
+	 * @return mixed The stored value, or null when the target does not store the field.
+	 */
+	protected function get_field_value( string $field_name, array $context ) {
+		$option_name = $this->field_map->get_option_name( $field_name, $context['target'] );
+		if ( $option_name === null ) {
+			return null;
+		}
+
+		return $this->options_helper->get( $option_name );
 	}
 
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
