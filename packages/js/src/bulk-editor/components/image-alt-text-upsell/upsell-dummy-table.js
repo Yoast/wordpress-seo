@@ -55,13 +55,13 @@ const ImageCounts = ( { imageCount, missingAltCount } ) => (
 /**
  * A checkbox that only looks the part.
  *
- * Borrows the ui-library's checkbox styling, but as a `span` rather than an input: nothing here is meant to be
- * operated, and a real input would need an id, a name and a disabled state that dims it out of step with the rest.
+ * Copies the ui-library checkbox's look onto a `span` rather than an input: nothing here is meant to be operated,
+ * and a real input would need an id, a name and a disabled state that dims it out of step with the rest.
  *
  * @returns {JSX.Element} The checkbox shape.
  */
 const DummyCheckbox = () => (
-	<span className="yst-checkbox__input yst-block yst-border yst-bg-white yst-border-solid" />
+	<span className="yst-block yst-h-4 yst-w-4 yst-rounded yst-border yst-border-solid yst-border-slate-300 yst-bg-white" />
 );
 
 /**
