@@ -120,8 +120,8 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
 
 		// Expect an empty list to be output.
-		$this->expectOutputContains(
-			'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\r\n" . '</urlset>',
+		$this->expectOutputRegex(
+			'#xmlns="http://www\.sitemaps\.org/schemas/sitemap/0\.9">\s*<script [^>]+></script>\s*</urlset>#',
 		);
 
 		// Remove the filter.

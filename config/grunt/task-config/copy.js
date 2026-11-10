@@ -22,6 +22,7 @@ module.exports = {
 					"admin/**",
 					"css/dist/**/*.css",
 					"css/main-sitemap.css",
+					"js/main-sitemap.js",
 					"deprecated/**",
 					"frontend/**",
 					"images/**",

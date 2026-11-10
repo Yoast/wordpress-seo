@@ -18,6 +18,13 @@ class WPSEO_Sitemaps_Renderer {
 	protected $stylesheet = '';
 
 	/**
+	 * The script element that makes the links in the sitemap clickable.
+	 *
+	 * @var string
+	 */
+	protected $script = '';
+
+	/**
 	 * Holds the get_bloginfo( 'charset' ) value to reuse for performance.
 	 *
 	 * @var string
@@ -46,6 +53,10 @@ class WPSEO_Sitemaps_Renderer {
 		$this->stylesheet     = '<?xml-stylesheet type="text/css" href="' . esc_url( $stylesheet_url ) . '"?>';
 		$this->charset        = get_bloginfo( 'charset' );
 		$this->output_charset = $this->charset;
+
+		$script_url = preg_replace( '/(^http[s]?:)/', '', plugin_dir_url( WPSEO_FILE ) . 'js/main-sitemap.js' );
+		// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- The script is part of an XML document, which has no enqueue mechanism.
+		$this->script = '<script type="text/javascript" src="' . esc_url( $script_url ) . '" xmlns="http://www.w3.org/1999/xhtml"></script>';
 
 		if (
 			$this->charset !== 'UTF-8'
@@ -151,7 +162,12 @@ class WPSEO_Sitemaps_Renderer {
 			 *
 			 * @param string $stylesheet Stylesheet URL.
 			 */
-			$output .= apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ) . "\n";
+			$stylesheet = apply_filters( 'wpseo_stylesheet_url', $this->stylesheet );
+			$output    .= $stylesheet . "\n";
+
+			if ( $stylesheet === $this->stylesheet ) {
+				$sitemap = $this->add_script( $sitemap );
+			}
 		}
 
 		$output .= $sitemap;
@@ -178,6 +194,22 @@ class WPSEO_Sitemaps_Renderer {
 	 */
 	public function set_stylesheet( $stylesheet ) {
 		$this->stylesheet = $stylesheet;
+		$this->script     = '';
+	}
+
+	/**
+	 * Adds the script element as the first child of the root element of the sitemap.
+	 *
+	 * @param string $sitemap Sitemap XML.
+	 *
+	 * @return string The sitemap XML with the script element.
+	 */
+	protected function add_script( $sitemap ) {
+		if ( $this->script === '' || preg_match( '/^<(?:urlset|sitemapindex)[\s>]/', $sitemap ) !== 1 ) {
+			return $sitemap;
+		}
+
+		return substr_replace( $sitemap, "\n" . $this->script, ( strpos( $sitemap, '>' ) + 1 ), 0 );
 	}
 
 	/**

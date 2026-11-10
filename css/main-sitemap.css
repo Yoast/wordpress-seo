@@ -1,5 +1,6 @@
 @namespace url(http://www.sitemaps.org/schemas/sitemap/0.9);
 @namespace image url(http://www.google.com/schemas/sitemap-image/1.1);
+@namespace html url(http://www.w3.org/1999/xhtml);
 
 sitemapindex,
 urlset {
@@ -114,4 +115,34 @@ url:first-of-type::after {
 
 image|image {
 	display: none;
+}
+
+sitemapindex[data-introduction]::after,
+urlset[data-introduction]::after {
+	display: none;
+}
+
+html|p {
+	order: -1;
+	margin: 18px 3px;
+	line-height: 1.2em;
+}
+
+html|p html|a,
+html|p html|a:visited {
+	color: #da3114;
+	font-weight: 600;
+}
+
+html|a {
+	color: #000;
+	text-decoration: none;
+}
+
+html|a:visited {
+	color: #545353;
+}
+
+html|a:hover {
+	text-decoration: underline;
 }
