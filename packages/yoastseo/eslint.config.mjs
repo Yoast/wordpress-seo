@@ -75,7 +75,8 @@ export default [
 		},
 	},
 	{
-		// Node ESM needs full import paths: `./file.js` and `./folder/index.js`.
+		// Node ESM needs full import paths: `./file.js` and `./folder/index.js`. This only checks relative imports;
+		// package subpaths (e.g. `tokenizer2/core.js`) need the extension added by hand.
 		files: [ "src/**" ],
 		rules: {
 			"import/extensions": [ "error", "always", { ignorePackages: true } ],
