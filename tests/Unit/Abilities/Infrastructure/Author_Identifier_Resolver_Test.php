@@ -8,6 +8,7 @@ use Mockery;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_Identifier_Resolver;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -36,6 +37,13 @@ final class Author_Identifier_Resolver_Test extends TestCase {
 	private $author_archive_helper;
 
 	/**
+	 * The URL helper mock.
+	 *
+	 * @var Mockery\MockInterface|Url_Helper
+	 */
+	private $url_helper;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Author_Identifier_Resolver
@@ -54,18 +62,23 @@ final class Author_Identifier_Resolver_Test extends TestCase {
 
 		Monkey\Functions\stubs(
 			[
-				'__' => static function ( $text ) {
+				'__'           => static function ( $text ) {
 					return $text;
+				},
+				'wp_parse_url' => static function ( $url, $component = -1 ) {
+					// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Mirrors the wrapped function.
+					return \parse_url( $url, $component );
 				},
 			],
 		);
 
 		$this->indexable_repository  = Mockery::mock( Indexable_Repository::class );
 		$this->author_archive_helper = Mockery::mock( Author_Archive_Helper::class );
+		$this->url_helper            = Mockery::mock( Url_Helper::class );
 
 		$this->author_archive_helper->allows( 'are_disabled' )->andReturnFalse();
 
-		$this->instance = new Author_Identifier_Resolver( $this->indexable_repository, $this->author_archive_helper );
+		$this->instance = new Author_Identifier_Resolver( $this->indexable_repository, $this->author_archive_helper, $this->url_helper );
 	}
 
 	/**
@@ -143,7 +156,7 @@ final class Author_Identifier_Resolver_Test extends TestCase {
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->never();
 		$this->indexable_repository->expects( 'find_by_permalink' )->never();
 
-		$instance = new Author_Identifier_Resolver( $this->indexable_repository, $author_archive_helper );
+		$instance = new Author_Identifier_Resolver( $this->indexable_repository, $author_archive_helper, $this->url_helper );
 		$result   = $instance->resolve_one( [ 'user_id' => 7 ] );
 
 		$this->assertInstanceOf( WP_Error::class, $result );
@@ -205,10 +218,11 @@ final class Author_Identifier_Resolver_Test extends TestCase {
 	}
 
 	/**
-	 * Tests resolve_one by permalink returns an error when nothing matches.
+	 * Tests resolve_one by permalink returns a not-found error when no indexable or author matches.
 	 *
 	 * @covers ::resolve_one
 	 * @covers ::by_permalink
+	 * @covers ::find_author_id_by_permalink
 	 * @covers ::invalid_identifier
 	 *
 	 * @return void
@@ -219,11 +233,222 @@ final class Author_Identifier_Resolver_Test extends TestCase {
 			->once()
 			->with( 'https://example.com/author/missing/' )
 			->andReturn( false );
+		Monkey\Functions\expect( 'get_user_by' )->once()->with( 'slug', 'missing' )->andReturnFalse();
+		Monkey\Functions\expect( 'get_author_posts_url' )->never();
 
-		$this->assertInstanceOf(
-			WP_Error::class,
-			$this->instance->resolve_one( [ 'permalink' => 'https://example.com/author/missing/' ] ),
-		);
+		$result = $this->instance->resolve_one( [ 'permalink' => 'https://example.com/author/missing/' ] );
+
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'yoast_seo_invalid_permalink', $result->get_error_code() );
+	}
+
+	/**
+	 * Tests that resolve_one by pretty permalink returns an excluded error for an author without an indexable.
+	 *
+	 * @covers ::resolve_one
+	 * @covers ::by_permalink
+	 * @covers ::find_author_id_by_permalink
+	 * @covers ::by_id
+	 *
+	 * @return void
+	 */
+	public function test_resolve_one_by_pretty_permalink_excluded() {
+		$permalink = 'https://example.com/author/jane/';
+		$user      = Mockery::mock( 'WP_User' );
+		$user->ID  = 7;
+
+		$this->indexable_repository->expects( 'find_by_permalink' )->once()->with( $permalink )->andReturn( false );
+		Monkey\Functions\expect( 'get_user_by' )->once()->with( 'slug', 'jane' )->andReturn( $user );
+		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 7 )->andReturn( $permalink );
+		Monkey\Functions\expect( 'get_userdata' )->once()->with( 7 )->andReturn( $user );
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 7, 'user', false )
+			->andReturnFalse();
+
+		$result = $this->instance->resolve_one( [ 'permalink' => $permalink ] );
+
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'yoast_seo_author_archive_excluded', $result->get_error_code() );
+	}
+
+	/**
+	 * Tests that resolve_one by plain permalink returns an excluded error for an author without an indexable.
+	 *
+	 * @covers ::resolve_one
+	 * @covers ::by_permalink
+	 * @covers ::find_author_id_by_permalink
+	 * @covers ::by_id
+	 *
+	 * @return void
+	 */
+	public function test_resolve_one_by_plain_permalink_excluded() {
+		$permalink = 'https://example.com/?author=7';
+		$user      = Mockery::mock( 'WP_User' );
+		$user->ID  = 7;
+
+		$this->indexable_repository->expects( 'find_by_permalink' )->once()->with( $permalink )->andReturn( false );
+		$this->url_helper->expects( 'parse_str_params' )->once()->with( 'author=7' )->andReturn( [ 'author' => '7' ] );
+		Monkey\Functions\expect( 'get_user_by' )->never();
+		Monkey\Functions\expect( 'get_userdata' )->twice()->with( 7 )->andReturn( $user );
+		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 7 )->andReturn( $permalink );
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 7, 'user', false )
+			->andReturnFalse();
+
+		$result = $this->instance->resolve_one( [ 'permalink' => $permalink ] );
+
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'yoast_seo_author_archive_excluded', $result->get_error_code() );
+	}
+
+	/**
+	 * Tests that resolve_one by plain permalink rejects an author query var on a site with pretty author URLs.
+	 *
+	 * @covers ::resolve_one
+	 * @covers ::by_permalink
+	 * @covers ::find_author_id_by_permalink
+	 * @covers ::invalid_identifier
+	 *
+	 * @return void
+	 */
+	public function test_resolve_one_by_plain_permalink_author_url_mismatch() {
+		$permalink = 'https://example.com/?author=7';
+		$user      = Mockery::mock( 'WP_User' );
+		$user->ID  = 7;
+
+		$this->indexable_repository->expects( 'find_by_permalink' )->once()->with( $permalink )->andReturn( false );
+		$this->url_helper->expects( 'parse_str_params' )->once()->with( 'author=7' )->andReturn( [ 'author' => '7' ] );
+		Monkey\Functions\expect( 'get_userdata' )->once()->with( 7 )->andReturn( $user );
+		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 7 )->andReturn( 'https://example.com/author/jane/' );
+		$this->indexable_repository->expects( 'find_by_id_and_type' )->never();
+
+		$result = $this->instance->resolve_one( [ 'permalink' => $permalink ] );
+
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'yoast_seo_invalid_permalink', $result->get_error_code() );
+	}
+
+	/**
+	 * Tests that resolve_one by permalink returns the indexable when its stored permalink is outdated.
+	 *
+	 * @covers ::resolve_one
+	 * @covers ::by_permalink
+	 * @covers ::find_author_id_by_permalink
+	 * @covers ::by_id
+	 *
+	 * @return void
+	 */
+	public function test_resolve_one_by_permalink_stale_indexable_permalink() {
+		$permalink = 'https://example.com/author/jane/';
+		$user      = Mockery::mock( 'WP_User' );
+		$user->ID  = 7;
+		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$this->indexable_repository->expects( 'find_by_permalink' )->once()->with( $permalink )->andReturn( false );
+		Monkey\Functions\expect( 'get_user_by' )->once()->with( 'slug', 'jane' )->andReturn( $user );
+		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 7 )->andReturn( $permalink );
+		Monkey\Functions\expect( 'get_userdata' )->once()->with( 7 )->andReturn( $user );
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 7, 'user', false )
+			->andReturn( $indexable );
+
+		$this->assertSame( $indexable, $this->instance->resolve_one( [ 'permalink' => $permalink ] ) );
+	}
+
+	/**
+	 * Tests that resolve_one by permalink rejects a candidate author whose archive URL differs from the permalink.
+	 *
+	 * @covers ::resolve_one
+	 * @covers ::by_permalink
+	 * @covers ::find_author_id_by_permalink
+	 * @covers ::invalid_identifier
+	 *
+	 * @dataProvider provide_non_author_archive_permalinks
+	 *
+	 * @param string $permalink The permalink whose last segment matches a user nicename.
+	 *
+	 * @return void
+	 */
+	public function test_resolve_one_by_permalink_author_url_mismatch( string $permalink ) {
+		$user     = Mockery::mock( 'WP_User' );
+		$user->ID = 7;
+
+		$this->indexable_repository->expects( 'find_by_permalink' )->once()->with( $permalink )->andReturn( false );
+		Monkey\Functions\expect( 'get_user_by' )->once()->with( 'slug', 'jane' )->andReturn( $user );
+		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 7 )->andReturn( 'https://example.com/author/jane/' );
+		Monkey\Functions\expect( 'get_userdata' )->never();
+		$this->indexable_repository->expects( 'find_by_id_and_type' )->never();
+
+		$result = $this->instance->resolve_one( [ 'permalink' => $permalink ] );
+
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'yoast_seo_invalid_permalink', $result->get_error_code() );
+	}
+
+	/**
+	 * Data provider for test_resolve_one_by_permalink_author_url_mismatch.
+	 *
+	 * @return array<string, array<string, string>> The permalinks.
+	 */
+	public static function provide_non_author_archive_permalinks(): array {
+		return [
+			'post with the same slug' => [ 'permalink' => 'https://example.com/jane/' ],
+			'other host'              => [ 'permalink' => 'https://other.com/author/jane/' ],
+		];
+	}
+
+	/**
+	 * Tests that resolve_one by plain permalink returns a not-found error when no author query var is present.
+	 *
+	 * @covers ::resolve_one
+	 * @covers ::by_permalink
+	 * @covers ::find_author_id_by_permalink
+	 * @covers ::invalid_identifier
+	 *
+	 * @dataProvider provide_plain_permalinks_without_author
+	 *
+	 * @param string                              $permalink  The plain permalink.
+	 * @param string                              $query      The query string of the permalink.
+	 * @param array<string, string|array<string>> $query_vars The parsed query vars.
+	 *
+	 * @return void
+	 */
+	public function test_resolve_one_by_plain_permalink_without_author( string $permalink, string $query, array $query_vars ) {
+		$this->indexable_repository->expects( 'find_by_permalink' )->once()->with( $permalink )->andReturn( false );
+		$this->url_helper->expects( 'parse_str_params' )->once()->with( $query )->andReturn( $query_vars );
+		Monkey\Functions\expect( 'get_userdata' )->never();
+		Monkey\Functions\expect( 'get_user_by' )->never();
+
+		$result = $this->instance->resolve_one( [ 'permalink' => $permalink ] );
+
+		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame( 'yoast_seo_invalid_permalink', $result->get_error_code() );
+	}
+
+	/**
+	 * Data provider for test_resolve_one_by_plain_permalink_without_author.
+	 *
+	 * @return array<string, array<string, string|array<string, string|array<string>>>> The permalinks with their parsed query.
+	 */
+	public static function provide_plain_permalinks_without_author(): array {
+		return [
+			'other query var'     => [
+				'permalink'  => 'https://example.com/?p=7',
+				'query'      => 'p=7',
+				'query_vars' => [ 'p' => '7' ],
+			],
+			'author var as array' => [
+				'permalink'  => 'https://example.com/?author[]=7',
+				'query'      => 'author[]=7',
+				'query_vars' => [ 'author' => [ '7' ] ],
+			],
+		];
 	}
 
 	/**
