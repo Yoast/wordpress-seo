@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_SEO_Field_Map;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
@@ -40,6 +41,9 @@ final class Term_SEO_Field_Map_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+
+		// The inputs are real booleans, which WordPress returns as is.
+		Monkey\Functions\when( 'rest_sanitize_boolean' )->alias( 'boolval' );
 
 		$this->meta_surface = Mockery::mock( Meta_Surface::class );
 		$this->instance     = new Term_SEO_Field_Map( $this->meta_surface );

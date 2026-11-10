@@ -77,14 +77,14 @@ abstract class Abstract_SEO_Field_Map {
 
 		foreach ( $this->get_boolean_fields() as $input_key => $column ) {
 			if ( \array_key_exists( $input_key, $input ) ) {
-				$indexable->{$column} = (bool) $input[ $input_key ];
+				$indexable->{$column} = \rest_sanitize_boolean( $input[ $input_key ] );
 				$changed_columns[]    = $column;
 			}
 		}
 
 		if ( \array_key_exists( 'noindex', $input ) ) {
 			// Tri-state: null resets to the default, true = noindex, false = index.
-			$indexable->is_robots_noindex = ( $input['noindex'] === null ) ? null : (bool) $input['noindex'];
+			$indexable->is_robots_noindex = ( $input['noindex'] === null ) ? null : \rest_sanitize_boolean( $input['noindex'] );
 			$changed_columns[]            = 'is_robots_noindex';
 		}
 

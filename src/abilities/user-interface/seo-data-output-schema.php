@@ -54,6 +54,34 @@ class SEO_Data_Output_Schema {
 	}
 
 	/**
+	 * Returns the output schema describing the SEO data of an author archive.
+	 *
+	 * @return array<string, mixed> The output schema.
+	 */
+	public function get_author_output_schema(): array {
+		$nullable_string = [
+			'type' => [ 'string', 'null' ],
+		];
+
+		return [
+			'type'       => 'object',
+			'properties' => [
+				'user_id'                   => [ 'type' => 'integer' ],
+				'user_name'                 => $nullable_string,
+				'permalink'                 => $nullable_string,
+				'seo_title'                 => $this->raw( \__( 'SEO title', 'wordpress-seo' ) ),
+				'seo_title_rendered'        => $this->rendered( \__( 'SEO title', 'wordpress-seo' ) ),
+				'meta_description'          => $this->raw( \__( 'meta description', 'wordpress-seo' ) ),
+				'meta_description_rendered' => $this->rendered( \__( 'meta description', 'wordpress-seo' ) ),
+				'noindex'                   => [
+					'type'        => 'boolean',
+					'description' => \__( 'Whether search engines are told not to index this author archive. true means noindex (the archive is excluded from search results). When the site settings set all author archives to noindex, that setting applies regardless of this one.', 'wordpress-seo' ),
+				],
+			],
+		];
+	}
+
+	/**
 	 * Returns the properties of the SEO fields every entity type shares.
 	 *
 	 * The descriptions don't name the entity type, as a noun inserted into a translatable
