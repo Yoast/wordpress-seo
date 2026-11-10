@@ -195,7 +195,7 @@ abstract class Abstract_Score_Ability implements Ability_Interface {
 			'properties' => [
 				'title' => [
 					'type'        => 'string',
-					'description' => \__( 'The post title.', 'wordpress-seo' ),
+					'description' => \__( 'The breadcrumb title of the post when a custom one is set, otherwise the post title.', 'wordpress-seo' ),
 				],
 				'score' => [
 					'type'        => 'string',

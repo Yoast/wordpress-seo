@@ -137,7 +137,7 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Get Post SEO Data',
-				'description'         => 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned.',
+				'description'         => 'Get the SEO data for a post of any post type. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',
@@ -150,11 +150,11 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 						],
 						'permalink' => [
 							'type'        => 'string',
-							'description' => 'The permalink (URL) of the post to retrieve.',
+							'description' => 'The full permalink (URL) of the post to retrieve, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.',
 						],
 						'title'     => [
 							'type'        => 'string',
-							'description' => 'Keywords to search for in post titles. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the post title, and a post matching any value is returned. At most 10 phrases are used per request; any beyond the first 10 are ignored. Results are paginated to 10 entities per page; see the page parameter.',
+							'description' => 'Keywords to search for in post titles. Every post type is searched. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the breadcrumb title of the post when a custom one is set, otherwise the post title, and a post matching any value is returned. At most 10 phrases are used per request; any beyond the first 10 are ignored. Results are paginated to 10 entities per page; see the page parameter.',
 						],
 						'page'      => [
 							'type'        => 'integer',

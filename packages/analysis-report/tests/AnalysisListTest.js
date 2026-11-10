@@ -1,6 +1,28 @@
-import React, { act } from "react";
-import renderer from "react-test-renderer";
-import { AnalysisResult, AnalysisList } from "../src";
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { AnalysisList } from "../src";
+
+/**
+ * Normalizes an HTML string the way the browser serializes it, so it can be compared to rendered innerHTML.
+ *
+ * @param {string} html The HTML string.
+ *
+ * @returns {string} The normalized HTML.
+ */
+const normalizeHtml = ( html ) => {
+	const element = document.createElement( "div" );
+	element.innerHTML = html;
+	return element.innerHTML;
+};
+
+/**
+ * Gets the rendered text of an analysis result.
+ *
+ * @param {HTMLElement} analysisResult The analysis result list item.
+ *
+ * @returns {string} The inner HTML of the result text.
+ */
+const getResultText = ( analysisResult ) => analysisResult.querySelector( "p > span" ).innerHTML;
 
 describe( "The AnalysisList component", () => {
 	it( "renders a list of analysis results", () => {
@@ -55,22 +77,19 @@ describe( "The AnalysisList component", () => {
 			},
 		];
 
-		let render;
-		act( () => {
-			render = renderer.create( <AnalysisList results={ results } /> );
-		} );
-		const analysisResults = render.root.findAllByType( AnalysisResult );
+		render( <AnalysisList results={ results } /> );
+		const analysisResults = screen.getAllByRole( "listitem" );
 
 		expect( analysisResults ).toHaveLength( results.length );
 
-		expect( analysisResults[ 0 ].props.bulletColor ).toEqual( "#7ad03a" );
-		expect( analysisResults[ 0 ].props.text ).toEqual( results[ 0 ].text );
+		expect( analysisResults[ 0 ].querySelector( "svg" ).getAttribute( "fill" ) ).toEqual( "#7ad03a" );
+		expect( getResultText( analysisResults[ 0 ] ) ).toEqual( normalizeHtml( results[ 0 ].text ) );
 
-		expect( analysisResults[ 1 ].props.bulletColor ).toEqual( "#ee7c1b" );
-		expect( analysisResults[ 1 ].props.text ).toEqual( results[ 1 ].text );
+		expect( analysisResults[ 1 ].querySelector( "svg" ).getAttribute( "fill" ) ).toEqual( "#ee7c1b" );
+		expect( getResultText( analysisResults[ 1 ] ) ).toEqual( normalizeHtml( results[ 1 ].text ) );
 
-		expect( analysisResults[ 2 ].props.bulletColor ).toEqual( "#dc3232" );
-		expect( analysisResults[ 2 ].props.text ).toEqual( results[ 2 ].text );
+		expect( analysisResults[ 2 ].querySelector( "svg" ).getAttribute( "fill" ) ).toEqual( "#dc3232" );
+		expect( getResultText( analysisResults[ 2 ] ) ).toEqual( normalizeHtml( results[ 2 ].text ) );
 	} );
 
 	it( "renders a list with the right aria-label when the mark buttons are disabled", () => {
@@ -78,7 +97,7 @@ describe( "The AnalysisList component", () => {
 			{
 				score: 9,
 				rating: "good",
-				hasMarks: false,
+				hasMarks: true,
 				hasJumps: false,
 				id: "sentenceBeginnings",
 				text: "<a href='https://yoa.st/35f?" +
@@ -91,15 +110,12 @@ describe( "The AnalysisList component", () => {
 			},
 		];
 
-		let render;
-		act( () => {
-			render = renderer.create( <AnalysisList results={ results } marksButtonStatus={ "disabled" } /> );
-		} );
-		const analysisResults = render.root.findAllByType( AnalysisResult );
+		render( <AnalysisList results={ results } marksButtonStatus={ "disabled" } /> );
+		const analysisResults = screen.getAllByRole( "listitem" );
 
 		expect( analysisResults ).toHaveLength( results.length );
 
-		expect( analysisResults[ 0 ].props.ariaLabelMarks ).toEqual( "Highlighting is currently disabled" );
+		expect( screen.getByRole( "button" ).getAttribute( "aria-label" ) ).toEqual( "Highlighting is currently disabled" );
 	} );
 
 	it( "renders a list of analysis results with one upsell result", () => {
@@ -132,14 +148,11 @@ describe( "The AnalysisList component", () => {
 			},
 		];
 
-		let render;
-		act( () => {
-			render = renderer.create( <AnalysisList results={ results } /> );
-		} );
-		const analysisResults = render.root.findAllByType( AnalysisResult );
+		render( <AnalysisList results={ results } /> );
+		const analysisResults = screen.getAllByRole( "listitem" );
 
 		expect( analysisResults ).toHaveLength( results.length );
 
-		expect( analysisResults[ 0 ].props.suppressedText ).toEqual( true );
+		expect( analysisResults[ 0 ].querySelector( "p" ) ).toHaveStyleRule( "color", "rgba(30,30,30,0.5)" );
 	} );
 } );

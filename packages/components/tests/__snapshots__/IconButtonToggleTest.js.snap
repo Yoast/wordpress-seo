@@ -46,20 +46,18 @@ exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
 
 <button
   aria-label="important toggle"
-  aria-pressed={false}
-  className="c0"
-  disabled={true}
+  aria-pressed="false"
+  class="c0"
+  disabled=""
   id="RadioButton2"
-  onClick={[Function]}
   type="button"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-eye"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-eye"
     fill="#ddd"
     focusable="false"
     role="img"
-    size="18px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -116,20 +114,17 @@ exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
 
 <button
   aria-label="important toggle"
-  aria-pressed={true}
-  className="c0"
-  disabled={false}
+  aria-pressed="true"
+  class="c0"
   id="RadioButton2"
-  onClick={[Function]}
   type="button"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-eye"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-eye"
     fill="#fff"
     focusable="false"
     role="img"
-    size="18px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -186,20 +181,17 @@ exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
 
 <button
   aria-label="important toggle"
-  aria-pressed={false}
-  className="c0"
-  disabled={false}
+  aria-pressed="false"
+  class="c0"
   id="RadioButton"
-  onClick={[Function]}
   type="button"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-eye"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-eye"
     fill="#555"
     focusable="false"
     role="img"
-    size="18px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >

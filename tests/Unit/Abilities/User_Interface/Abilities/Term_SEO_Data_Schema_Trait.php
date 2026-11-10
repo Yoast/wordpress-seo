@@ -60,7 +60,10 @@ trait Term_SEO_Data_Schema_Trait {
 			'type'       => 'object',
 			'properties' => [
 				'term_id'                         => [ 'type' => 'integer' ],
-				'term_name'                       => $nullable_string,
+				'term_name'                       => [
+					'type'        => [ 'string', 'null' ],
+					'description' => 'The breadcrumb title of the term when a custom one is set, otherwise the term name.',
+				],
 				'permalink'                       => $nullable_string,
 				'taxonomy'                        => [ 'type' => 'string' ],
 				'seo_title'                       => $raw( 'SEO title' ),
