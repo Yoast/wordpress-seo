@@ -37,6 +37,9 @@ const DataItem = ( props ) => {
 
 DataItem.propTypes = dataItemProps;
 
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_ITEMS = [];
+
 /**
  * Creates a DataModel based on props.
  *
@@ -44,23 +47,19 @@ DataItem.propTypes = dataItemProps;
  *
  * @returns {HTMLElement} A <ul> with <li> items.
  */
-const DataModel = ( props ) => (
+const DataModel = ( { items = DEFAULT_ITEMS } ) => (
 	<ul
 		className="yoast-data-model"
 		aria-label={
 			/* translators: Hidden accessibility text. */
 			__( "Prominent words", "wordpress-seo" ) }
 	>
-		{ props.items.map( DataItem ) }
+		{ items.map( DataItem ) }
 	</ul>
 );
 
 DataModel.propTypes = {
 	items: PropTypes.arrayOf( PropTypes.shape( dataItemProps ) ),
-};
-
-DataModel.defaultProps = {
-	items: [],
 };
 
 export default DataModel;

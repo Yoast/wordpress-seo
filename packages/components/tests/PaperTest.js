@@ -1,22 +1,20 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import Paper from "../src/Paper.js";
 
 test( "the Paper without props matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<Paper />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the Paper with props matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<Paper backgroundColor="#eee" minHeight="10em" />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

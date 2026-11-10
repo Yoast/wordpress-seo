@@ -8,6 +8,9 @@ namespace Yoast\WP\SEO\Abilities\Application;
  *
  * Fields that cannot be applied or saved are collected in a single warning, while the other fields are still saved.
  * How a field is saved is up to the extending class.
+ *
+ * @internal Backs the abilities that update settings. Not meant to be used outside of Yoast SEO, so it can change at
+ *           any time without notice.
  */
 abstract class Abstract_Fields_Updater {
 

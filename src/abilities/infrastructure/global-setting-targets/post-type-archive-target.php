@@ -12,6 +12,9 @@ use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
  * The archive of a content type, identified by its post type.
  *
  * Created per post type by the Post_Type_Archive_Target_Factory, so it is never injected by itself.
+ *
+ * @internal Backs the global SEO settings abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 class Post_Type_Archive_Target extends Abstract_Global_Setting_Target {
 

@@ -1,5 +1,5 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import ScoreAssessments from "../src/ScoreAssessments";
 
@@ -17,12 +17,11 @@ test( "the ScoreAssessments matches the snapshot", () => {
 		},
 	];
 
-	const component = renderer.create(
+	const { container } = render(
 		<ScoreAssessments items={ items } />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the ScoreAssessments without scores matches the snapshot", () => {
@@ -37,12 +36,11 @@ test( "the ScoreAssessments without scores matches the snapshot", () => {
 		},
 	];
 
-	const component = renderer.create(
+	const { container } = render(
 		<ScoreAssessments items={ items } />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the ScoreAssessments with some scores matches the snapshot", () => {
@@ -58,10 +56,9 @@ test( "the ScoreAssessments with some scores matches the snapshot", () => {
 		},
 	];
 
-	const component = renderer.create(
+	const { container } = render(
 		<ScoreAssessments items={ items } />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

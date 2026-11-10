@@ -1,6 +1,6 @@
 // External dependencies.
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 // Internal dependencies.
 import { BaseButton, LinkButton } from "../src/index";
@@ -30,7 +30,7 @@ const expectRendersWithoutDefaultProps = ( Component, renderElement ) => {
 		// Build the element here, after defaultProps is neutralised: the classic runtime applies
 		// defaultProps at element-creation time, not at render time, so an element created earlier
 		// would keep its defaults and mask the regression.
-		expect( () => renderer.create( renderElement() ) ).not.toThrow();
+		expect( () => render( renderElement() ) ).not.toThrow();
 	} finally {
 		Component.defaultProps = previousDefaults;
 	}
@@ -53,18 +53,19 @@ test( "IconButtonToggle keeps its default styling when its defaultProps are not 
 		pressed: false,
 		onClick: noop,
 	};
-	const withDefaults = renderer.create( <IconButtonToggle { ...props } /> ).toJSON();
+	const withDefaults = render( <IconButtonToggle { ...props } /> ).container.innerHTML;
 
 	const previousDefaults = IconButtonToggle.defaultProps;
 	// `null` makes React's reconciler skip defaultProps, mirroring the automatic runtime.
 	IconButtonToggle.defaultProps = null;
 	try {
-		const withoutDefaults = renderer.create( <IconButtonToggle { ...props } /> ).toJSON();
+		const withoutDefaults = render( <IconButtonToggle { ...props } /> ).container.innerHTML;
 		// IconButtonToggle merges its own defaults internally, so dropping defaultProps (which React
 		// 19's automatic runtime does) must still produce the same styled output. Comparing the full
 		// render, not just checking that it renders, guards those merged default colours against
-		// silent regressions.
-		expect( withoutDefaults ).toEqual( withDefaults );
+		// silent regressions: styled-components derives the class names from the generated CSS, so
+		// equal markup means equal styles.
+		expect( withoutDefaults ).toBe( withDefaults );
 	} finally {
 		IconButtonToggle.defaultProps = previousDefaults;
 	}
@@ -74,10 +75,10 @@ test( "BaseButton keeps type=button when its defaultProps are not applied (React
 	const previousDefaults = BaseButton.defaultProps;
 	BaseButton.defaultProps = null;
 	try {
-		const tree = renderer.create( <BaseButton>ButtonValue</BaseButton> ).toJSON();
+		const { container } = render( <BaseButton>ButtonValue</BaseButton> );
 		// A typeless <button> defaults to submit and would submit surrounding forms, so the
 		// runtime-safe default must keep type="button" even without defaultProps.
-		expect( tree.props.type ).toBe( "button" );
+		expect( container.firstChild.getAttribute( "type" ) ).toBe( "button" );
 	} finally {
 		BaseButton.defaultProps = previousDefaults;
 	}

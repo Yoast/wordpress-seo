@@ -1,6 +1,6 @@
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
-import { omit } from "lodash";
+import { noop, omit } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
@@ -113,27 +113,25 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
  *
  * @returns {ReactElement} A collapsible panel.
  */
-export function CollapsibleStateless( props ) {
-	const {
-		children,
-		className,
-		hasPadding,
-		hasSeparator,
-		Heading,
-		id,
-		isOpen,
-		onToggle,
-		prefixIcon,
-		prefixIconCollapsed,
-		suffixIcon,
-		suffixIconCollapsed,
-		subTitle,
-		title,
-		titleScreenReaderText,
-		renderNewBadgeLabel,
-		hasNewBadgeLabel,
-	} = props;
-
+export function CollapsibleStateless( {
+	children = null,
+	className = null,
+	hasPadding = false,
+	hasSeparator = false,
+	Heading = StyledHeading,
+	id = null,
+	isOpen,
+	onToggle,
+	prefixIcon = null,
+	prefixIconCollapsed = null,
+	suffixIcon = null,
+	suffixIconCollapsed = null,
+	subTitle = null,
+	title,
+	titleScreenReaderText = null,
+	renderNewBadgeLabel = noop,
+	hasNewBadgeLabel = false,
+} ) {
 	let wrappedChildren = children;
 	if ( isOpen && hasPadding ) {
 		wrappedChildren = <Content className="collapsible_content">{ children }</Content>;
@@ -203,23 +201,6 @@ CollapsibleStateless.propTypes = {
 	id: PropTypes.string,
 	renderNewBadgeLabel: PropTypes.func,
 	hasNewBadgeLabel: PropTypes.bool,
-};
-
-CollapsibleStateless.defaultProps = {
-	Heading: StyledHeading,
-	id: null,
-	children: null,
-	className: null,
-	subTitle: null,
-	titleScreenReaderText: null,
-	hasSeparator: false,
-	hasPadding: false,
-	prefixIcon: null,
-	prefixIconCollapsed: null,
-	suffixIcon: null,
-	suffixIconCollapsed: null,
-	renderNewBadgeLabel: () => {},
-	hasNewBadgeLabel: false,
 };
 
 /**

@@ -7,6 +7,9 @@ use Yoast\WP\SEO\Abilities\Domain\Exceptions\Unavailable_Global_Setting_Target_E
 /**
  * Describes a group of pages that are neither posts nor terms and share their SEO settings, like the homepage or
  * the author archives.
+ *
+ * @internal Backs the global SEO settings abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 interface Global_Setting_Target_Interface {
 
