@@ -185,6 +185,38 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							</> }
 							className="yst-max-w-sm"
 						/>
+						<FormikFlippedToggleField
+							name={ `wpseo_titles.noimageindex-${ name }` }
+							id={ `input-wpseo_titles-noimageindex-${ name }` }
+							label={ sprintf(
+								// translators: %1$s expands to the post type plural, e.g. posts.
+								__( "Allow search engines to index images on %1$s", "wordpress-seo" ),
+								labelLower
+							) }
+							description={ sprintf(
+								// translators: %1$s expands to the post type plural, e.g. posts. %2$s expands to "noimageindex".
+								__( "Disabling this adds %2$s to the robots meta tag of all your %1$s.", "wordpress-seo" ),
+								labelLower,
+								"noimageindex"
+							) }
+							className="yst-max-w-sm"
+						/>
+						<FormikFlippedToggleField
+							name={ `wpseo_titles.noarchive-${ name }` }
+							id={ `input-wpseo_titles-noarchive-${ name }` }
+							label={ sprintf(
+								// translators: %1$s expands to the post type plural, e.g. posts.
+								__( "Allow search engines to show cached copies of %1$s", "wordpress-seo" ),
+								labelLower
+							) }
+							description={ sprintf(
+								// translators: %1$s expands to the post type plural, e.g. posts. %2$s expands to "noarchive".
+								__( "Disabling this adds %2$s to the robots meta tag of all your %1$s.", "wordpress-seo" ),
+								labelLower,
+								"noarchive"
+							) }
+							className="yst-max-w-sm"
+						/>
 						<hr className="yst-my-8" />
 						<FormikReplacementVariableEditorField
 							type="title"
