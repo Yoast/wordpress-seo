@@ -27,7 +27,10 @@
     "contract",
     "docs/**/*.md"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "./build/helpers/shortlinker/singleton.js",
+    "./esm/helpers/shortlinker/singleton.js"
+  ],
   "scripts": {
     "build": "yarn clean && yarn build:js && yarn build:esm && yarn build:types",
     "build:js": "babel src --copy-files --source-maps --out-dir build",
