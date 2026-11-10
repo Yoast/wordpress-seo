@@ -189,7 +189,7 @@ final class Update_Author_SEO_Data_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Update Author SEO Data',
-				'description'         => 'Update the SEO data for the author archive of a single user: its SEO title, meta description and whether search engines are told not to index it. Identify the user by user_id or by the permalink (URL) of their author archive. Only the fields you provide are changed; a provided empty value clears that field. Only users who can edit other users can use this, and only on users they are allowed to edit.',
+				'description'         => 'Update the SEO data for the author archive of a single user. Identify the user by user_id or by the permalink (URL) of their author archive. Only the fields you provide are changed; a provided empty value clears that field. Only users who can edit other users can use this, and only on users they are allowed to edit.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => $this->get_expected_update_input_schema(),
 				'output_schema'       => $output_schema,

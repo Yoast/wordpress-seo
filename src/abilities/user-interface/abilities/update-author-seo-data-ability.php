@@ -63,7 +63,7 @@ class Update_Author_SEO_Data_Ability extends Abstract_Author_SEO_Data_Ability {
 	 * @return string The description.
 	 */
 	protected function get_description(): string {
-		return \__( 'Update the SEO data for the author archive of a single user: its SEO title, meta description and whether search engines are told not to index it. Identify the user by user_id or by the permalink (URL) of their author archive. Only the fields you provide are changed; a provided empty value clears that field. Only users who can edit other users can use this, and only on users they are allowed to edit.', 'wordpress-seo' );
+		return \__( 'Update the SEO data for the author archive of a single user. Identify the user by user_id or by the permalink (URL) of their author archive. Only the fields you provide are changed; a provided empty value clears that field. Only users who can edit other users can use this, and only on users they are allowed to edit.', 'wordpress-seo' );
 	}
 
 	/**
