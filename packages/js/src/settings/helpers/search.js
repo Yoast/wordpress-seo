@@ -35,6 +35,28 @@ export const createPostTypeSearchIndex = ( { name, label, route, hasArchive }, {
 		),
 		keywords: [],
 	},
+	[ `noimageindex-${ name }` ]: {
+		route: `/post-type/${ route }`,
+		routeLabel: label,
+		fieldId: `input-wpseo_titles-noimageindex-${ name }`,
+		fieldLabel: sprintf(
+			// translators: %1$s expands to the post type plural, e.g. Posts.
+			__( "Allow search engines to index images on %1$s", "wordpress-seo" ),
+			safeToLocaleLower( label, userLocale )
+		),
+		keywords: [ "robots", "noimageindex" ],
+	},
+	[ `noarchive-${ name }` ]: {
+		route: `/post-type/${ route }`,
+		routeLabel: label,
+		fieldId: `input-wpseo_titles-noarchive-${ name }`,
+		fieldLabel: sprintf(
+			// translators: %1$s expands to the post type plural, e.g. Posts.
+			__( "Allow search engines to show cached copies of %1$s", "wordpress-seo" ),
+			safeToLocaleLower( label, userLocale )
+		),
+		keywords: [ "robots", "noarchive" ],
+	},
 	[ `display-metabox-pt-${ name }` ]: {
 		route: `/post-type/${ route }`,
 		routeLabel: label,
