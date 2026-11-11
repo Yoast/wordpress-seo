@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use WP_Error;
 use WP_Post;
 use WP_Term;
 use WPSEO_Meta;
@@ -334,15 +335,24 @@ class Indexable_Hierarchy_Builder {
 	/**
 	 * Get a term's parents.
 	 *
-	 * @param WP_Term $term Term to get the parents for.
+	 * @param WP_Term|WP_Error|null $term Term to get the parents for.
 	 *
 	 * @return WP_Term[] An array of all this term's parents.
 	 */
 	private function get_term_parents( $term ) {
-		$tax     = $term->taxonomy;
 		$parents = [];
+		// get_term() returns a WP_Error or null for missing terms or unregistered taxonomies.
+		if ( ! isset( $term->taxonomy, $term->parent ) ) {
+			return $parents;
+		}
+
+		$tax = $term->taxonomy;
 		while ( (int) $term->parent !== 0 ) {
-			$term      = \get_term( $term->parent, $tax );
+			$term = \get_term( $term->parent, $tax );
+			if ( ! isset( $term->term_id, $term->parent ) ) {
+				break;
+			}
+
 			$parents[] = $term;
 		}
 
