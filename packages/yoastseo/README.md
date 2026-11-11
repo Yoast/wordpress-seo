@@ -40,31 +40,68 @@ You can either use YoastSEO.js using the web worker API or use the internal comp
 
 ### Entry points
 
-The package exposes three supported public entry points:
+The package exposes four supported public entry points:
 
 | Import                | Provides                                                                                                                                                                               | Use it for                                                                                                                      |
 |-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
 | `yoastseo`            | The core analysis library: `Paper`, the assessors, the web-worker API (`AnalysisWebWorker`, `AnalysisWorkerWrapper`), `AbstractResearcher`, `helpers`, and related building blocks.    | Orchestrating analysis.                                                                                                         |
 | `yoastseo/researcher` | A `getResearcher( language )` factory that returns the language-specific `Researcher` **class** (falling back to the default, language-agnostic Researcher for unsupported languages). | Resolving a per-language Researcher (Node, custom bundlers, web workers).                                                       |
 | `yoastseo/contract`   | The serializable input/output contract: `toPaper`/`paperDtoSchema` and `toResultDto`/`resultDtoSchema`, for validating and mapping analysis input and output.                           | Exchanging documented, serializable shapes with the engine from non-WordPress consumers. See [`CONTRACT.md`](docs/CONTRACT.md). |
+| `yoastseo/languages/<lang>` | One language-specific `Researcher` **class** as the default export, for example `yoastseo/languages/nl`. `<lang>` is a language code from [Supported languages](#supported-languages), or `_default` for the language-agnostic Researcher. | Loading a single language, for example one bundle per language.                                                                  |
 
 > **Why separate entry points?** The split is intentional. Each language `Researcher` transitively pulls in that language's data — function words, stemmers, transition words, and so on. Re-exporting the factory from the package root would bundle *every* language (~2.4 MB) into whatever bundle imports the root. That especially hurts consumers that load `yoastseo` as a bundler **external** — where the package root is provided once as a shared global (or shared chunk) rather than bundled into each consumer. (Yoast SEO for WordPress does this, exposing the root as the `window.yoast.analysis` global, but any webpack/Rollup setup can configure `yoastseo` as an external the same way.) Keeping `getResearcher` on its own entry keeps that shared root lean and lets consumers load only the languages they need. The `yoastseo/contract` entry follows the same principle: it isolates the contract's runtime dependency (`zod`) so only consumers that import the contract pay for it, keeping the shared root free of it.
 >
-> Deep imports such as `yoastseo/build/...` and `yoastseo/src/...` reach internal modules. They work, but they are implementation details — not part of the supported surface — so prefer the entry points above.
+> Deep imports such as `yoastseo/build/...` and `yoastseo/src/...` reach internal modules. They are not part of the supported surface, and they **stop working in version 4.0**, which adds an `exports` map. Use the entry points above instead.
 
 Resolving a language Researcher (the language codes are listed under [Supported languages](#supported-languages); see the `getResearcher` factory for the full set):
 
 ```js
 // CommonJS
 const getResearcher = require( "yoastseo/researcher" );
-// ESM
+// ESM (bundlers). In plain Node ESM, import "yoastseo/researcher/index.js" instead; see Module formats below.
 import getResearcher from "yoastseo/researcher";
 
 const DutchResearcher = getResearcher( "nl" ); // Returns the class, not an instance.
 const researcher = new DutchResearcher();
 ```
 
-> **Bundle-size note.** `getResearcher` statically references every supported language, so a bundler that follows this entry includes all of them (~2.4 MB of language data) — the map cannot be tree-shaken down to one language. Size-sensitive consumers that only ever need a single language can instead deep-import just that one (`yoastseo/build/languageProcessing/languages/<lang>/Researcher`), accepting that deep paths are internal and unsupported.
+> **Bundle-size note.** `getResearcher` statically references every supported language, so a bundler that follows this entry includes all of them (~2.4 MB of language data) — the map cannot be tree-shaken down to one language. To load only one language, import it from `yoastseo/languages/<lang>`.
+
+Loading a single language Researcher:
+
+```js
+// ESM (bundlers)
+import DutchResearcher from "yoastseo/languages/nl";
+// CommonJS: the class is the default export.
+const DutchResearcher = require( "yoastseo/languages/nl" ).default;
+
+const researcher = new DutchResearcher();
+```
+
+Which one to use:
+* `yoastseo/researcher` when the language is only known at runtime and bundle size does not matter, for example on a Node server.
+* `yoastseo/languages/<lang>` when you bundle one language at a time, for example one script per language.
+
+### Module formats
+
+The package ships two builds of the same code:
+
+* `build/`: CommonJS, used through the `main` field.
+* `esm/`: ES modules, used through the `module` field.
+
+Bundlers (webpack, Rollup, Vite) pick `esm/` automatically, which lets them leave out the code you do not use. Node ignores the `module` field, so Node loads `build/` for both `require()` and `import`.
+
+Until version 4.0, plain Node ESM cannot import the folder entry points (`yoastseo/researcher`, `yoastseo/contract`, `yoastseo/languages/<lang>`): Node fails with `ERR_UNSUPPORTED_DIR_IMPORT`. Bundlers are not affected. In plain Node ESM, use these paths instead:
+
+```js
+import getResearcher from "yoastseo/researcher/index.js";
+import { toPaper } from "yoastseo/contract/index.js";
+
+// For a single language, load the CommonJS entry with createRequire.
+import { createRequire } from "node:module";
+const require = createRequire( import.meta.url );
+const DutchResearcher = require( "yoastseo/languages/nl" ).default;
+```
 
 ### Web Worker API
 
