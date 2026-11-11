@@ -1,5 +1,5 @@
 import countSyllableFunction from "../../../../../src/languageProcessing/helpers/syllables/countSyllables.js";
-import frenchSyllables from "../../../../../src/languageProcessing/languages/fr/config/syllables.json";
+import frenchSyllables from "../../../../../src/languageProcessing/languages/fr/config/syllables.js";
 
 describe( "a syllable counter for French text strings", function() {
 	it( "returns the number of syllables of words containing the subtract syllable [ptf]aon(ne)?s?$", function() {

@@ -1,4 +1,4 @@
-import { letter, wordEnd } from "../../../helpers/regex/wordBoundaries";
+import { letter, wordEnd } from "../../../helpers/regex/wordBoundaries.js";
 
 /*
  * The Hebrew redundant openings come in three grammatical shapes, kept as word lists and small patterns so the

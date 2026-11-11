@@ -4,14 +4,14 @@ import {
 	alternative,
 	avoidDerogatory,
 	avoidHarmful,
-} from "./feedbackStrings/generalFeedbackStrings";
-import { orangeUnlessMedicalCondition } from "./feedbackStrings/disabilityAssessmentStrings";
-import { isPrecededByException, isNotPrecededByException } from "../helpers/isPrecededByException";
-import { isNotFollowedByException } from "../helpers/isFollowedByException";
-import { isNotFollowedAndPrecededByException } from "../helpers/isFollowedAndPrecededByException";
-import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
-import { SCORES } from "./scores";
-import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
+} from "./feedbackStrings/generalFeedbackStrings.js";
+import { orangeUnlessMedicalCondition } from "./feedbackStrings/disabilityAssessmentStrings.js";
+import { isPrecededByException, isNotPrecededByException } from "../helpers/isPrecededByException.js";
+import { isNotFollowedByException } from "../helpers/isFollowedByException.js";
+import { isNotFollowedAndPrecededByException } from "../helpers/isFollowedAndPrecededByException.js";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords.js";
+import { SCORES } from "./scores.js";
+import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone.js";
 import {
 	combinationsOfDriveAndObjectPronoun,
 	formsOfToBeAndToBeNotWithOptionalIntensifier,
@@ -23,14 +23,14 @@ import {
 	shouldNotPrecedeStandaloneCrazy,
 	shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
 	shouldPrecedeNutsBananasWithIntensifier,
-} from "./disabilityRulesData";
+} from "./disabilityRulesData.js";
 import { sprintf } from "@wordpress/i18n";
 import {
 	nonInclusiveWhenStandalone,
 	isPreceded,
 	notFollowed,
 	notPreceded,
-} from "../helpers/createRuleDescriptions";
+} from "../helpers/createRuleDescriptions.js";
 
 const disabilityAssessments = [
 	{

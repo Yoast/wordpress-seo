@@ -1,8 +1,8 @@
-import getImagesInScope from "../helpers/image/getImagesInScope";
-import getAltAttribute from "../helpers/image/getAltAttribute";
-import getImageIdentifier from "../helpers/image/getImageIdentifier";
-import { atMostFiveLetters } from "../helpers/regex/wordBoundaries";
-import { inOtherLanguages as englishPhrasesInOtherLanguages } from "../languages/en/config/nonDescriptiveAltText";
+import getImagesInScope from "../helpers/image/getImagesInScope.js";
+import getAltAttribute from "../helpers/image/getAltAttribute.js";
+import getImageIdentifier from "../helpers/image/getImageIdentifier.js";
+import { atMostFiveLetters } from "../helpers/regex/wordBoundaries.js";
+import { inOtherLanguages as englishPhrasesInOtherLanguages } from "../languages/en/config/nonDescriptiveAltText.js";
 
 /**
  * @typedef {import("../AbstractResearcher").default } Researcher

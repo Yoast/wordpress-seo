@@ -1,4 +1,4 @@
-import LanguageProcessor from "./LanguageProcessor";
+import LanguageProcessor from "./LanguageProcessor.js";
 
 export {
 	LanguageProcessor,

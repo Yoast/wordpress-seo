@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { sprintf } from "@wordpress/i18n";
-import { sanitizeString } from "../../languageProcessing";
-import { filterShortcodesFromHTML, removeHtmlBlocks } from "../../languageProcessing/helpers";
+import { sanitizeString } from "../../languageProcessing/index.js";
+import { filterShortcodesFromHTML, removeHtmlBlocks } from "../../languageProcessing/helpers/index.js";
 
 /**
  * The base class for an Assessment.

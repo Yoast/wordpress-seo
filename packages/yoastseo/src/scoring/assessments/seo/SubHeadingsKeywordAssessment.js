@@ -1,9 +1,9 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import Assessment from "../assessment.js";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker/index.js";
 import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange.js";
-import AssessmentResult from "../../../values/AssessmentResult";
+import AssessmentResult from "../../../values/AssessmentResult.js";
 
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher

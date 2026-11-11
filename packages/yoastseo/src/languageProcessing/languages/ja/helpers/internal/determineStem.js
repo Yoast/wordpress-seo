@@ -1,4 +1,4 @@
-import createWordForms from "./createWordForms";
+import createWordForms from "./createWordForms.js";
 
 /**
  * Determines the canonical stem from the word forms.

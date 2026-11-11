@@ -1,4 +1,4 @@
-import { getWordsFromTokens } from "../word/getAllWordsFromTree";
+import { getWordsFromTokens } from "../word/getAllWordsFromTree.js";
 
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default} Researcher

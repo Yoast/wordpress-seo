@@ -1,9 +1,9 @@
 import { mapValues, merge } from "lodash";
 
-import Assessment from "../assessment";
-import AssessmentResult from "../../../values/AssessmentResult";
-import { createAnchorOpeningTag } from "../../../helpers";
-import { unifyAllSpaces } from "../../../languageProcessing/helpers/sanitize/unifyWhitespace";
+import Assessment from "../assessment.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import { unifyAllSpaces } from "../../../languageProcessing/helpers/sanitize/unifyWhitespace.js";
 
 /**
  * Represents the assessment that checks whether a text has a title.

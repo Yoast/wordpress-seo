@@ -1,4 +1,4 @@
-import TreeResearcher from "./TreeResearcher";
+import TreeResearcher from "./TreeResearcher.js";
 
 /**
  * Module for applying researches to text, represented as a tree structure.

@@ -1,12 +1,12 @@
 import { flatten, uniq } from "lodash";
-import filterWordsFromArray from "../helpers/word/filterWordsFromArray";
-import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
-import getWords from "../helpers/word/getWords";
-import matchTextWithArray from "../helpers/match/matchTextWithArray";
-import parseSynonyms from "../helpers/sanitize/parseSynonyms";
-import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
+import filterWordsFromArray from "../helpers/word/filterWordsFromArray.js";
+import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
+import getWords from "../helpers/word/getWords.js";
+import matchTextWithArray from "../helpers/match/matchTextWithArray.js";
+import parseSynonyms from "../helpers/sanitize/parseSynonyms.js";
+import processExactMatchRequest from "../helpers/match/processExactMatchRequest.js";
 import urlHelper from "../helpers/url/url.js";
-import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../config/wordBoundariesWithoutPunctuation";
+import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../config/wordBoundariesWithoutPunctuation.js";
 
 let functionWords = [];
 

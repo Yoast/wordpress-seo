@@ -10,8 +10,8 @@ import KeyphraseInSEOTitleAssessment from "../../assessments/seo/KeyphraseInSEOT
 import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssessment.js";
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment.js";
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment.js";
-import { createAnchorOpeningTag } from "../../../helpers";
-import ValidOnlyResultsScoreAggregator from "../../scoreAggregators/ValidOnlyResultsScoreAggregator";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import ValidOnlyResultsScoreAggregator from "../../scoreAggregators/ValidOnlyResultsScoreAggregator.js";
 
 /**
  * The CollectionSEOAssessor class is used for the SEO analysis for collections.

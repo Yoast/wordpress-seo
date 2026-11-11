@@ -1,10 +1,10 @@
 import { isEmpty } from "lodash";
 import { languageProcessing } from "yoastseo";
-import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest";
-import getContentWords from "../helpers/getContentWords";
-import japaneseWordMatchHelper from "../helpers/matchTextWithWord";
-import functionWords from "../config/functionWords";
-import getWords from "../helpers/getWords";
+import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest.js";
+import getContentWords from "../helpers/getContentWords.js";
+import japaneseWordMatchHelper from "../helpers/matchTextWithWord.js";
+import functionWords from "../config/functionWords.js";
+import getWords from "../helpers/getWords.js";
 const { findWordFormsInString, matchTextWithArray: wordMatch } = languageProcessing;
 
 /**
@@ -16,7 +16,7 @@ const { findWordFormsInString, matchTextWithArray: wordMatch } = languageProcess
  * @returns {number} Potentially adjusted position of the keyphrase in the SEO title.
  */
 function adjustPosition( title, position ) {
-	// Don't do anything if position if already 0.
+	// Don't do anything if position is already 0.
 	if ( position === 0 ) {
 		return position;
 	}

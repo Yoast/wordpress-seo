@@ -78,7 +78,7 @@
   },
   "peerDependencies": {
     "@wordpress/element": "^6.0.1 || ^9.0.0",
-    "@yoast/ui-library": "^4.6.0",
+    "@yoast/ui-library": "^4.7.0",
     "chart.js": "^4.2.1",
     "react": "^18 || ^19",
     "react-chartjs-2": "^5.2.0",

@@ -1,6 +1,6 @@
 import { pullAll } from "lodash";
 
-import { ignoredHtmlElements } from "../html/htmlConstants";
+import { ignoredHtmlElements } from "../html/htmlConstants.js";
 
 /**
  * Gathers all elements that can be closed given the position of the current element in the source code.

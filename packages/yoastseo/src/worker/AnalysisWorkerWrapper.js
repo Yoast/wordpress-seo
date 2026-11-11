@@ -1,6 +1,6 @@
 // Internal dependencies.
-import Request from "./request";
-import Transporter from "./transporter";
+import Request from "./request/index.js";
+import Transporter from "./transporter/index.js";
 
 /**
  * Analysis worker is an API around the Web Worker.

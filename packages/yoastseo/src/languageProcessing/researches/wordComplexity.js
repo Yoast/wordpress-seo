@@ -1,10 +1,10 @@
 import { flatMap, get } from "lodash";
 
-import getSentences from "../helpers/sentence/getSentences";
-import getWords from "../helpers/word/getWords";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers";
-import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
+import getSentences from "../helpers/sentence/getSentences.js";
+import getWords from "../helpers/word/getWords.js";
+import removeHtmlBlocks from "../helpers/html/htmlParser.js";
+import { filterShortcodesFromHTML } from "../helpers/index.js";
+import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
 
 /**
  * An object containing the results of the complex words research for a single sentence.

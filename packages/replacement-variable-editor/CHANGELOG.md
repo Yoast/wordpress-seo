@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## Future Release
+### Non user facing
+* Bumps `@yoast/ui-library` to version `4.7.0` from `4.6.0`. [#23795](https://github.com/Yoast/wordpress-seo/pull/23795)
+
 ## 2.0.0 March 16th, 2026
 ### Enhancements
 * Update styling to match settings styling. [#20905](https://github.com/Yoast/wordpress-seo/pull/20905)

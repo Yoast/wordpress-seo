@@ -104,7 +104,7 @@ class Get_Term_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 				],
 				'permalink' => [
 					'type'        => 'string',
-					'description' => \__( 'The permalink (URL) of the term archive to retrieve.', 'wordpress-seo' ),
+					'description' => \__( 'The full permalink (URL) of the term archive to retrieve, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.', 'wordpress-seo' ),
 				],
 			],
 		];

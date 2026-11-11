@@ -2,12 +2,12 @@ import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
 
 // All config
-import transitionWords from "./config/transitionWords";
-import twoPartTransitionWords from "./config/twoPartTransitionWords";
-import sentenceLength from "./config/sentenceLength";
+import transitionWords from "./config/transitionWords.js";
+import twoPartTransitionWords from "./config/twoPartTransitionWords.js";
+import sentenceLength from "./config/sentenceLength.js";
 
 // All helpers
-import getStemmer from "./helpers/getStemmer";
+import getStemmer from "./helpers/getStemmer.js";
 
 /**
  * The researcher contains all the researches, helpers, data, and config.

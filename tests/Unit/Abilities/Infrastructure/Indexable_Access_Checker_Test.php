@@ -103,6 +103,64 @@ final class Indexable_Access_Checker_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that ensure_can_edit passes for a user the current user may edit, holding edit_users.
+	 *
+	 * @covers ::ensure_can_edit
+	 * @covers ::ensure_can_edit_user
+	 *
+	 * @return void
+	 */
+	public function test_ensure_can_edit_editable_user() {
+		Monkey\Functions\expect( 'current_user_can' )->once()->with( 'edit_users' )->andReturn( true );
+		Monkey\Functions\expect( 'current_user_can' )->once()->with( 'edit_user', 7 )->andReturn( true );
+
+		$this->assertTrue( $this->instance->ensure_can_edit( $this->make_indexable( 'user' ) ) );
+	}
+
+	/**
+	 * Tests that ensure_can_edit refuses a user the current user may not edit.
+	 *
+	 * @covers ::ensure_can_edit
+	 * @covers ::ensure_can_edit_user
+	 *
+	 * @dataProvider provide_user_capabilities
+	 *
+	 * @param bool $can_edit_users Whether the current user has edit_users.
+	 * @param bool $can_edit_user  Whether the current user may edit the given user.
+	 *
+	 * @return void
+	 */
+	public function test_ensure_can_edit_forbidden_user( bool $can_edit_users, bool $can_edit_user ) {
+		Monkey\Functions\when( 'current_user_can' )->alias(
+			static function ( $capability ) use ( $can_edit_users, $can_edit_user ) {
+				return ( $capability === 'edit_users' ) ? $can_edit_users : $can_edit_user;
+			},
+		);
+
+		// WP_Error is doubled as an empty class in unit context, so only the type is asserted.
+		$this->assertInstanceOf( WP_Error::class, $this->instance->ensure_can_edit( $this->make_indexable( 'user' ) ) );
+	}
+
+	/**
+	 * Data provider for test_ensure_can_edit_forbidden_user.
+	 *
+	 * @return array<string, array<string, bool>> The capabilities of the current user.
+	 */
+	public static function provide_user_capabilities(): array {
+		return [
+			// Like an author editing their own profile, which does not show the Yoast SEO fields.
+			'own user without edit_users' => [
+				'can_edit_users' => false,
+				'can_edit_user'  => true,
+			],
+			'other user not editable'     => [
+				'can_edit_users' => true,
+				'can_edit_user'  => false,
+			],
+		];
+	}
+
+	/**
 	 * Builds an indexable of the given object type, for the object with ID 7.
 	 *
 	 * @param string $object_type The object type.

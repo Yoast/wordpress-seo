@@ -20,7 +20,6 @@
   "files": [
     "build",
     "!*.map",
-    "vendor",
     "images",
     "researcher",
     "contract",

@@ -113,7 +113,7 @@ class Site_Representation_Updater extends Abstract_Fields_Updater {
 	 * @param mixed                $value      The value to save.
 	 * @param array<string, mixed> $context    Unused, as the settings are site-wide.
 	 *
-	 * @return bool Whether the field was saved.
+	 * @return bool Whether the field was saved as provided.
 	 */
 	protected function save_field( string $field_name, $value, array $context ): bool { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Required by the parent class; the settings are site-wide.
 		if ( \array_key_exists( $field_name, $this->social_profiles_helper->get_organization_social_profile_fields() ) ) {
@@ -126,6 +126,18 @@ class Site_Representation_Updater extends Abstract_Fields_Updater {
 		}
 
 		return $this->options_helper->set( $field_name, $value ) === true;
+	}
+
+	/**
+	 * Returns the stored value of a single field.
+	 *
+	 * @param string               $field_name The option name of the field.
+	 * @param array<string, mixed> $context    Unused, as the settings are site-wide.
+	 *
+	 * @return mixed The stored value.
+	 */
+	protected function get_field_value( string $field_name, array $context ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Required by the parent class; the settings are site-wide.
+		return $this->options_helper->get( $field_name );
 	}
 
 	/**
@@ -164,7 +176,7 @@ class Site_Representation_Updater extends Abstract_Fields_Updater {
 		$settings = [];
 
 		foreach ( $fields as $field_name => $schema ) {
-			$settings[ $field_name ] = $this->cast_to_schema_type( $this->options_helper->get( $field_name ), $schema );
+			$settings[ $field_name ] = $this->cast_to_schema_type( $this->get_field_value( $field_name, [] ), $schema );
 		}
 
 		return $settings;

@@ -2,9 +2,9 @@ import { includes, intersection, isEmpty } from "lodash";
 import {
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
 	cannotDirectlyPrecedePassiveParticiple,
-} from "../config/functionWords";
-import nonVerbsEndingEd from "../config/internal/passiveVoiceNonVerbEndingEd";
-import getParticiples from "../helpers/internal/getParticiples";
+} from "../config/functionWords.js";
+import nonVerbsEndingEd from "../config/internal/passiveVoiceNonVerbEndingEd.js";
+import getParticiples from "../helpers/internal/getParticiples.js";
 import { languageProcessing } from "yoastseo";
 const { precedenceException, directPrecedenceException, values } = languageProcessing;
 const Clause = values.Clause;

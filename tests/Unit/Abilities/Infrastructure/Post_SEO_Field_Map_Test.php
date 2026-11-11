@@ -42,6 +42,9 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		// The inputs are real booleans, which WordPress returns as is.
+		Monkey\Functions\when( 'rest_sanitize_boolean' )->alias( 'boolval' );
+
 		$this->meta_surface = Mockery::mock( Meta_Surface::class );
 		$this->instance     = new Post_SEO_Field_Map( $this->meta_surface );
 	}

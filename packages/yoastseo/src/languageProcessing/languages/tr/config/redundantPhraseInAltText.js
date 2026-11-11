@@ -1,5 +1,5 @@
-import createAlternation from "../../../helpers/regex/createAlternation";
-import { letter, wordEnd, wordStart } from "../../../helpers/regex/wordBoundaries";
+import createAlternation from "../../../helpers/regex/createAlternation.js";
+import { letter, wordEnd, wordStart } from "../../../helpers/regex/wordBoundaries.js";
 
 /*
  * The Turkish redundant phrases come in four reviewed rules. Two sit at the END of the alt text or of its first

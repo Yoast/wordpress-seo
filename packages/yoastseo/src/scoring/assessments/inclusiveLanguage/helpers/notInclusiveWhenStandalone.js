@@ -1,7 +1,7 @@
-import { isFollowedByException } from "./isFollowedByException";
-import { isFollowedByParticiple } from "./isFollowedByParticiple";
-import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
-import { punctuationList } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
+import { isFollowedByException } from "./isFollowedByException.js";
+import { isFollowedByParticiple } from "./isFollowedByParticiple.js";
+import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords.js";
+import { punctuationList } from "../../../../languageProcessing/helpers/sanitize/removePunctuation.js";
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
 

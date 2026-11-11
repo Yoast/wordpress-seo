@@ -1,4 +1,4 @@
-import countMetaDescriptionLength from "../helpers/word/countMetaDescriptionLength";
+import countMetaDescriptionLength from "../helpers/word/countMetaDescriptionLength.js";
 
 /**
  * Count the meta description length.

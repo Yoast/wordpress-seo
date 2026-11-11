@@ -72,6 +72,9 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		// The inputs are real booleans, which WordPress returns as is.
+		Monkey\Functions\when( 'rest_sanitize_boolean' )->alias( 'boolval' );
+
 		$this->stubTranslationFunctions();
 
 		// The article-type enum is built from the documented filter; return the default unfiltered.
@@ -311,7 +314,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 				],
 				'permalink'              => [
 					'type'        => 'string',
-					'description' => 'The permalink (URL) of the post to update.',
+					'description' => 'The full permalink (URL) of the post to update, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.',
 				],
 				'seo_title'              => $templated( 'SEO title' ),
 				'meta_description'       => $templated( 'meta description' ),

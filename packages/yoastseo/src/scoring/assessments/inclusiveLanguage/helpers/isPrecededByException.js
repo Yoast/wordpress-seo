@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-import { includesWordsAtPosition } from "./includesWordsAtPosition";
+import { includesWordsAtPosition } from "./includesWordsAtPosition.js";
 const { getWords } = languageProcessing;
 
 /**

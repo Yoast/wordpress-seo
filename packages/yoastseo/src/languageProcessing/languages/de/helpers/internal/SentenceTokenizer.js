@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-import wordBoundaries from "../../../../../config/wordBoundaries";
+import wordBoundaries from "../../../../../config/wordBoundaries.js";
 const { SentenceTokenizer } = languageProcessing;
 
 // The beginning of a string (^) or one of the word boundaries from the wordBoundaries helper.

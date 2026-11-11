@@ -1,4 +1,4 @@
-import presenter from "./presenter";
+import presenter from "./presenter.js";
 
 export {
 	presenter,

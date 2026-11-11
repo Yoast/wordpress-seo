@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-import syllables from "../../config/syllables.json";
+import syllables from "../../config/syllables.js";
 const { buildFormRule, createRulesFromArrays, countSyllablesInWord } = languageProcessing;
 
 /**

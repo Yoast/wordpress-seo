@@ -1,4 +1,4 @@
-import SourceCodeLocation from "./SourceCodeLocation";
+import SourceCodeLocation from "./SourceCodeLocation.js";
 /**
  * A text.
  */

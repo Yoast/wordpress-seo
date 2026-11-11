@@ -1,5 +1,5 @@
 import countSyllableFunction from "../../../../../src/languageProcessing/helpers/syllables/countSyllables.js";
-import germanSyllables from "../../../../../src/languageProcessing/languages/de/config/syllables.json";
+import germanSyllables from "../../../../../src/languageProcessing/languages/de/config/syllables.js";
 
 describe( "a syllable counter for German text strings", function() {
 	it( "returns the number of syllables of words containing the subtract syllable ouil", function() {

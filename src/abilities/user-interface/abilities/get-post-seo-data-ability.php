@@ -97,13 +97,13 @@ class Get_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 				],
 				'permalink' => [
 					'type'        => 'string',
-					'description' => \__( 'The permalink (URL) of the post to retrieve.', 'wordpress-seo' ),
+					'description' => \__( 'The full permalink (URL) of the post to retrieve, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.', 'wordpress-seo' ),
 				],
 				'title'     => [
 					'type'        => 'string',
 					'description' => \sprintf(
 						/* translators: 1: the maximum number of phrases used per request, 2: the number of results per page. */
-						\__( 'Keywords to search for in post titles. Every post type is searched. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the post title, and a post matching any value is returned. At most %1$d phrases are used per request; any beyond the first %1$d are ignored. Results are paginated to %2$d entities per page; see the page parameter.', 'wordpress-seo' ),
+						\__( 'Keywords to search for in post titles. Every post type is searched. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the breadcrumb title of the post when a custom one is set, otherwise the post title, and a post matching any value is returned. At most %1$d phrases are used per request; any beyond the first %1$d are ignored. Results are paginated to %2$d entities per page; see the page parameter.', 'wordpress-seo' ),
 						Indexable_Repository::MAX_TITLE_KEYWORD_PHRASES,
 						Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE,
 					),
