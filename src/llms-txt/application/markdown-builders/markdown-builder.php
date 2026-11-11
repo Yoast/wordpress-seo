@@ -109,6 +109,24 @@ class Markdown_Builder {
 			$section->escape_markdown( $this->markdown_escaper );
 		}
 
-		return $this->llms_txt_renderer->render();
+		$content = $this->llms_txt_renderer->render();
+
+		/**
+		 * Filter: 'wpseo_llmstxt_content' - Allows appending extra markdown content to the LLMs.txt file.
+		 *
+		 * Mirrors the behaviour of the `wpseo_sitemap_{$type}_content` filter used in the XML sitemaps:
+		 * the returned string is appended to the rendered llms.txt content as-is. Callers are responsible
+		 * for valid, escaped markdown. A common use case is adding extra `## Heading` link list sections
+		 * in bulk from code instead of through the admin UI, for example:
+		 *
+		 *     add_filter( 'wpseo_llmstxt_content', static function ( $content ) {
+		 *         return $content . "\n## My pages\n- [Page 1](https://example.com/1)\n";
+		 *     } );
+		 *
+		 * @param string $content The rendered LLMs.txt content so far.
+		 */
+		$content = (string) \apply_filters( 'wpseo_llmstxt_content', $content );
+
+		return $content;
 	}
 }
