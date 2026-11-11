@@ -4,6 +4,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions;
 
+use Brain\Monkey;
+
 /**
  * Tests the get_link method of the Improve Default Meta Descriptions task.
  *
@@ -14,11 +16,21 @@ namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Me
 final class Get_Link_Test extends Abstract_Test {
 
 	/**
-	 * Tests that get_link always returns null.
+	 * Tests that get_link returns the bulk editor URL with the post type pre-selected.
 	 *
 	 * @return void
 	 */
-	public function test_get_link_returns_null() {
-		$this->assertNull( $this->instance->get_link() );
+	public function test_get_link_returns_bulk_editor_url_with_post_type() {
+		$this->instance->set_post_type( 'post' );
+
+		Monkey\Functions\expect( 'self_admin_url' )
+			->once()
+			->with( 'admin.php?page=wpseo_page_bulk_edit&content_type=post' )
+			->andReturn( 'https://example.com/wp-admin/admin.php?page=wpseo_page_bulk_edit&content_type=post' );
+
+		$this->assertSame(
+			'https://example.com/wp-admin/admin.php?page=wpseo_page_bulk_edit&content_type=post',
+			$this->instance->get_link(),
+		);
 	}
 }
