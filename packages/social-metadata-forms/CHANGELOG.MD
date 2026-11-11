@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## Future Release
+### Non user facing
+* Bumps `@yoast/ui-library` to version `4.7.0` from `4.6.0`. [#23795](https://github.com/Yoast/wordpress-seo/pull/23795)
+
 ## 2.0.0 March 16th, 2026
 ### Enhancements:
 * Updates the image select field style. [#22580](https://github.com/Yoast/wordpress-seo/pull/22580)
