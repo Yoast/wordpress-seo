@@ -31,8 +31,8 @@
  * ---------------------------------
  *
  * MyYoast scopes each IAT to a single capability: calling the Dynamic
- * Client Registration endpoint, *and only when paired with the matching
- * software statement (SS) that MyYoast itself signed alongside it*. An
+ * Client Registration endpoint, *and only when paired with a software
+ * statement (SS) that MyYoast itself signed for Yoast SEO*. An
  * IAT cannot be used to read user data, write user data, mint access
  * tokens for arbitrary scopes, or authenticate as a user. It cannot
  * register an arbitrary OAuth client either, because the registration
@@ -164,26 +164,46 @@ const IAT_PATTERN = /(private const INITIAL_ACCESS_TOKEN = ')[^']*(';)/;
  */
 const SAFE_CREDENTIAL_PATTERN = /^[A-Za-z0-9._\-~=]+$/;
 
-const DEFAULT_ENDPOINT = "https://my.yoast.com/api/oauth/software-statements";
-const FETCH_TIMEOUT_MS = 30000;
+const DEFAULT_API_URL           = "https://my.yoast.com/api";
+const SOFTWARE_STATEMENT_PATH   = "/v2/oauth/software-statements";
+const INITIAL_ACCESS_TOKEN_PATH = "/oauth/initial-access-tokens";
+const FETCH_TIMEOUT_MS          = 30000;
+
+/*
+ * Lifetime of both credentials: ten Julian years, MyYoast's maximum for an
+ * IAT. Every release ships them, and installs register with them for as long
+ * as that release stays installed. MyYoast's v2 endpoint gives a statement
+ * without `exp` a 30-day lifetime, so the statement carries this one
+ * explicitly.
+ */
+const CREDENTIAL_LIFETIME_SECONDS = 315576000;
+
+/*
+ * The registration policies the IAT carries: registering requires a statement
+ * MyYoast signed for `yoast/wordpress-seo` (alias `yoast-seo`), and a
+ * registered client cannot change its `software_id` afterwards.
+ */
+const INITIAL_ACCESS_TOKEN_POLICIES = [ "require-software-statement:yoast-seo", "enforce-software-id-immutability" ];
 
 /*
  * The claims the plugin asks MyYoast to sign into the software statement.
- * MyYoast's signSoftwareStatement endpoint accepts these as the request body
- * and bakes them into the SS JWT. The runtime DCR request from the plugin
- * (Client_Registration::do_register) sends the SS along with the per-install
- * `redirect_uris` and `jwks` — those are NOT in the SS, by design.
+ * MyYoast's v2 software statement endpoint signs the request body as is.
+ * The runtime DCR request from the plugin (Client_Registration::do_register)
+ * sends the SS along with the per-install `redirect_uris` and `jwks` — those
+ * are NOT in the SS, by design.
  */
 const SOFTWARE_STATEMENT_CLAIMS = {
-	softwareId: "yoast/wordpress-seo",
-	clientName: "Yoast SEO",
-	logoUri: "https://yoast.com/app/uploads/2025/09/free_icon.svg",
-	clientUri: "https://yoast.com/product/yoast-seo-wordpress/",
-	tosUri: "https://yoast.com/terms-of-service/",
-	policyUri: "https://yoast.com/privacy-policy/",
+	/* eslint-disable camelcase -- RFC 7591 claim names. */
+	software_id: "yoast/wordpress-seo",
+	client_name: "Yoast SEO",
+	logo_uri: "https://yoast.com/app/uploads/2025/09/free_icon.svg",
+	client_uri: "https://yoast.com/product/yoast-seo-wordpress/",
+	tos_uri: "https://yoast.com/terms-of-service/",
+	policy_uri: "https://yoast.com/privacy-policy/",
 	contacts: [ "support@yoast.com" ],
-	cleanupWhenInactive: true,
-	tokenEndpointAuthMethod: "private_key_jwt",
+	cleanup_when_inactive: true,
+	token_endpoint_auth_method: "private_key_jwt",
+	/* eslint-enable camelcase */
 };
 
 const FALLBACK_SOFTWARE_VERSION = "0";
@@ -241,67 +261,101 @@ function readBakedSoftwareVersion( grunt ) {
 }
 
 /**
- * Attempts to fetch a fresh software statement + initial access token bound
- * to the current plugin version from MyYoast's signSoftwareStatement endpoint.
+ * POSTs a JSON body to a MyYoast endpoint and returns the parsed JSON response.
  *
- * Endpoint contract: POST /api/oauth/software-statements (admin-only,
- * Bearer-authenticated). Request body is `SignSoftwareStatementDto` and the
- * 200 response is `{ softwareStatement, kid, initialAccessToken }`.
+ * @param {string} url   The endpoint URL.
+ * @param {string} token The service-account bearer token.
+ * @param {Object} body  The request body.
  *
- * @param {string} endpoint The API endpoint URL.
- * @param {string} token    The service-account bearer token.
- * @param {string} version  The plugin version, sent as the `softwareVersion`
- *                          claim request.
+ * @returns {Promise<Object>} The parsed response body.
  *
- * @returns {Promise<{ softwareStatement: string, initialAccessToken: string }>}
- *          The fetched pair on success.
- *
- * @throws {Error} If the request fails, returns non-200, or returns a
- *                 malformed response. The caller is expected to catch and
- *                 fall back.
+ * @throws {Error} If the request fails or returns a non-2xx status.
  */
-async function fetchCredentials( endpoint, token, version ) {
+async function postJson( url, token, body ) {
 	const controller = new AbortController();
 	const timeout    = setTimeout( () => controller.abort(), FETCH_TIMEOUT_MS );
 
 	try {
 		const response = await fetch(
-			endpoint,
+			url,
 			{
 				method: "POST",
 				headers: {
 					Authorization: "Bearer " + token,
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify(
-					{
-						...SOFTWARE_STATEMENT_CLAIMS,
-						softwareVersion: version,
-					}
-				),
+				body: JSON.stringify( body ),
 				signal: controller.signal,
 			}
 		);
 
 		if ( ! response.ok ) {
-			throw new Error( "MyYoast credential endpoint returned HTTP " + response.status );
+			throw new Error( "MyYoast endpoint " + url + " returned HTTP " + response.status );
 		}
 
-		const body               = await response.json();
-		const softwareStatement  = body.softwareStatement;
-		const initialAccessToken = body.initialAccessToken;
-
-		if ( typeof softwareStatement !== "string" || softwareStatement === "" ) {
-			throw new Error( "MyYoast response missing or empty `softwareStatement`" );
-		}
-		if ( typeof initialAccessToken !== "string" || initialAccessToken === "" ) {
-			throw new Error( "MyYoast response missing or empty `initialAccessToken`" );
-		}
-
-		return { softwareStatement, initialAccessToken };
+		return await response.json();
 	} finally {
 		clearTimeout( timeout );
 	}
+}
+
+/**
+ * Attempts to fetch a fresh software statement bound to the current plugin
+ * version, plus an initial access token bound to Yoast SEO, from MyYoast.
+ *
+ * Endpoint contracts (both admin-only, Bearer-authenticated; a personal access
+ * token needs the `software-statements:create` and
+ * `initial-access-tokens:write` scopes):
+ *   - POST /api/v2/oauth/software-statements signs the body as claims and
+ *     answers 201 `{ software_statement, kid }`.
+ *   - POST /api/oauth/initial-access-tokens takes `{ policies, expires_in }`
+ *     and answers 201 `{ id, initial_access_token, policies, exp }`.
+ *
+ * The statement is signed first, so a failure leaves no unused IAT behind.
+ *
+ * @param {string} apiUrl  The MyYoast API base URL.
+ * @param {string} token   The service-account bearer token.
+ * @param {string} version The plugin version, sent as the `software_version`
+ *                         claim.
+ *
+ * @returns {Promise<{ softwareStatement: string, initialAccessToken: string, initialAccessTokenId: string }>}
+ *          The fetched pair, and the IAT's id for revoking it, on success.
+ *
+ * @throws {Error} If a request fails, returns non-2xx, or returns a
+ *                 malformed response. The caller is expected to catch and
+ *                 fall back.
+ */
+async function fetchCredentials( apiUrl, token, version ) {
+	const signed = await postJson(
+		apiUrl + SOFTWARE_STATEMENT_PATH,
+		token,
+		{
+			...SOFTWARE_STATEMENT_CLAIMS,
+			// eslint-disable-next-line camelcase -- RFC 7591 claim name.
+			software_version: version,
+			exp: Math.floor( Date.now() / 1000 ) + CREDENTIAL_LIFETIME_SECONDS,
+		}
+	);
+	const softwareStatement = signed.software_statement;
+	if ( typeof softwareStatement !== "string" || softwareStatement === "" ) {
+		throw new Error( "MyYoast response missing or empty `software_statement`" );
+	}
+
+	const issued = await postJson(
+		apiUrl + INITIAL_ACCESS_TOKEN_PATH,
+		token,
+		{
+			policies: INITIAL_ACCESS_TOKEN_POLICIES,
+			// eslint-disable-next-line camelcase -- MyYoast API field name.
+			expires_in: CREDENTIAL_LIFETIME_SECONDS,
+		}
+	);
+	const initialAccessToken = issued.initial_access_token;
+	if ( typeof initialAccessToken !== "string" || initialAccessToken === "" ) {
+		throw new Error( "MyYoast response missing or empty `initial_access_token`" );
+	}
+
+	return { softwareStatement, initialAccessToken, initialAccessTokenId: issued.id };
 }
 
 module.exports = function( grunt ) {
@@ -387,7 +441,7 @@ module.exports = function( grunt ) {
 			const done = this.async();
 
 			const token    = process.env.MYYOAST_SERVICE_ACCOUNT_TOKEN || "";
-			const endpoint = process.env.MYYOAST_CREDENTIAL_ENDPOINT || DEFAULT_ENDPOINT;
+			const apiUrl   = ( process.env.MYYOAST_API_URL || DEFAULT_API_URL ).replace( /\/+$/, "" );
 			const version  = grunt.config.data.pluginVersion;
 			const force    = grunt.option( "force-myyoast-credentials" ) === true;
 
@@ -420,19 +474,20 @@ module.exports = function( grunt ) {
 			}
 
 			try {
-				const { softwareStatement, initialAccessToken } = await fetchCredentials(
-					endpoint,
+				const { softwareStatement, initialAccessToken, initialAccessTokenId } = await fetchCredentials(
+					apiUrl,
 					token,
 					version
 				);
 				grunt.log.ok(
 					"Fetched fresh MyYoast credentials for software_version=" + version +
-					" from " + endpoint + "; baking into Issuer_Config."
+					" from " + apiUrl + " (initial access token id " + initialAccessTokenId +
+					"); baking into Issuer_Config."
 				);
 				bakeInto( softwareStatement, initialAccessToken );
 			} catch ( error ) {
 				grunt.log.warn(
-					"MyYoast credential fetch from " + endpoint + " failed (" + error.message +
+					"MyYoast credential fetch from " + apiUrl + " failed (" + error.message +
 					"); baking the public v0 fallback credentials instead."
 				);
 				bakeInto( FALLBACK_SOFTWARE_STATEMENT, FALLBACK_INITIAL_ACCESS_TOKEN );
@@ -449,7 +504,7 @@ module.exports = function( grunt ) {
 			const done = this.async();
 
 			const token    = process.env.MYYOAST_SERVICE_ACCOUNT_TOKEN || "";
-			const endpoint = process.env.MYYOAST_CREDENTIAL_ENDPOINT || DEFAULT_ENDPOINT;
+			const apiUrl   = ( process.env.MYYOAST_API_URL || DEFAULT_API_URL ).replace( /\/+$/, "" );
 
 			if ( token === "" ) {
 				grunt.fail.fatal(
@@ -461,7 +516,7 @@ module.exports = function( grunt ) {
 
 			try {
 				const { softwareStatement, initialAccessToken } = await fetchCredentials(
-					endpoint,
+					apiUrl,
 					token,
 					FALLBACK_SOFTWARE_VERSION
 				);
@@ -469,7 +524,7 @@ module.exports = function( grunt ) {
 				assertSafeCredential( "initial access token", initialAccessToken );
 
 				grunt.log.ok(
-					"Signed a v0 fallback pair against " + endpoint + ". " +
+					"Signed a v0 fallback pair against " + apiUrl + ". " +
 					"Paste the values below into FALLBACK_SOFTWARE_STATEMENT and " +
 					"FALLBACK_INITIAL_ACCESS_TOKEN at the top of this file, then commit."
 				);
