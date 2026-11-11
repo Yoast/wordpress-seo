@@ -7,7 +7,6 @@ use Exception;
 use Mockery;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Authorization_Flow_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Discovery_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Rate_Limited_Exception;
@@ -173,10 +172,7 @@ final class Management_Route_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_conditionals() {
-		$this->assertSame(
-			[ MyYoast_Connection_Conditional::class ],
-			Management_Route::get_conditionals(),
-		);
+		$this->assertSame( [], Management_Route::get_conditionals() );
 	}
 
 	/**

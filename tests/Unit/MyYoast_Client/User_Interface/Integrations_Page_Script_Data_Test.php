@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\MyYoast_Client\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\MyYoast_Client\Application\Callback_Outcome;
 use Yoast\WP\SEO\MyYoast_Client\Application\Management_Endpoints_Repository;
@@ -28,13 +27,6 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 	 * @var Status_Presenter|Mockery\MockInterface
 	 */
 	private $status_presenter;
-
-	/**
-	 * The MyYoast connection conditional mock.
-	 *
-	 * @var MyYoast_Connection_Conditional|Mockery\MockInterface
-	 */
-	private $myyoast_connection_conditional;
 
 	/**
 	 * The callback handler mock.
@@ -79,15 +71,13 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->status_presenter               = Mockery::mock( Status_Presenter::class );
-		$this->myyoast_connection_conditional = Mockery::mock( MyYoast_Connection_Conditional::class );
-		$this->callback_handler               = Mockery::mock( OAuth_Callback_Handler::class );
-		$this->short_link_helper              = Mockery::mock( Short_Link_Helper::class );
-		$this->endpoints_repository           = Mockery::mock( Management_Endpoints_Repository::class );
-		$this->connection_permission          = Mockery::mock( Connection_Permission::class );
-		$this->instance                       = new Integrations_Page_Script_Data(
+		$this->status_presenter      = Mockery::mock( Status_Presenter::class );
+		$this->callback_handler      = Mockery::mock( OAuth_Callback_Handler::class );
+		$this->short_link_helper     = Mockery::mock( Short_Link_Helper::class );
+		$this->endpoints_repository  = Mockery::mock( Management_Endpoints_Repository::class );
+		$this->connection_permission = Mockery::mock( Connection_Permission::class );
+		$this->instance              = new Integrations_Page_Script_Data(
 			$this->status_presenter,
-			$this->myyoast_connection_conditional,
 			$this->callback_handler,
 			$this->short_link_helper,
 			$this->endpoints_repository,
@@ -109,8 +99,7 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the payload is returned when the feature flag is enabled and no
-	 * callback outcome is pending.
+	 * Tests the payload is returned when no callback outcome is pending.
 	 *
 	 * @covers ::__construct
 	 * @covers ::present
@@ -118,7 +107,7 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_present_when_enabled() {
+	public function test_present() {
 		$status = [
 			'is_provisioned'    => true,
 			'is_registered'     => false,
@@ -127,7 +116,6 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 			'redirect_uris'     => [],
 		];
 
-		$this->myyoast_connection_conditional->shouldReceive( 'is_met' )->andReturn( true );
 		$this->status_presenter->shouldReceive( 'present' )->andReturn( $status );
 
 		Monkey\Functions\expect( 'get_current_user_id' )->andReturn( 42 );
@@ -161,7 +149,6 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 			'redirect_uris'     => [],
 		];
 
-		$this->myyoast_connection_conditional->shouldReceive( 'is_met' )->andReturn( true );
 		$this->status_presenter->shouldReceive( 'present' )->andReturn( $status );
 
 		Monkey\Functions\expect( 'get_current_user_id' )->andReturn( 7 );
@@ -204,7 +191,6 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 			'redirect_uris'     => [],
 		];
 
-		$this->myyoast_connection_conditional->shouldReceive( 'is_met' )->andReturn( true );
 		$this->status_presenter->shouldReceive( 'present' )->andReturn( $status );
 
 		Monkey\Functions\expect( 'get_current_user_id' )->andReturn( 7 );
@@ -254,7 +240,6 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 			'redirect_uris'     => [],
 		];
 
-		$this->myyoast_connection_conditional->shouldReceive( 'is_met' )->andReturn( true );
 		$this->status_presenter->shouldReceive( 'present' )->andReturn( $status );
 
 		Monkey\Functions\expect( 'get_current_user_id' )->andReturn( 0 );
@@ -265,20 +250,6 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 		$result = $this->instance->present();
 
 		$this->assertNull( $result['callbackOutcome'] );
-	}
-
-	/**
-	 * Tests `null` is returned when the feature flag is disabled.
-	 *
-	 * @covers ::present
-	 *
-	 * @return void
-	 */
-	public function test_present_when_disabled() {
-		$this->myyoast_connection_conditional->shouldReceive( 'is_met' )->andReturn( false );
-		$this->status_presenter->shouldNotReceive( 'present' );
-
-		$this->assertNull( $this->instance->present() );
 	}
 
 	/**
@@ -382,7 +353,6 @@ final class Integrations_Page_Script_Data_Test extends TestCase {
 	 * @return void
 	 */
 	private function prime_present(): void {
-		$this->myyoast_connection_conditional->shouldReceive( 'is_met' )->andReturn( true );
 		$this->status_presenter->shouldReceive( 'present' )->andReturn( [] );
 		Monkey\Functions\expect( 'get_current_user_id' )->andReturn( 1 );
 		$this->callback_handler->shouldReceive( 'consume_outcome' )->andReturn( null );
