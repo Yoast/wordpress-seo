@@ -156,13 +156,9 @@ PostDataCollector.prototype.getUrl = function() {
  * @returns {string} The excerpt.
  */
 PostDataCollector.prototype.getExcerpt = function() {
-	var val = "";
+	const excerptElement = document.getElementById( "excerpt" ) || document.getElementById( "attachment_caption" );
 
-	if ( document.getElementById( "excerpt" ) !== null ) {
-		val = document.getElementById( "excerpt" ) && document.getElementById( "excerpt" ).value || "";
-	}
-
-	return val;
+	return excerptElement && excerptElement.value || "";
 };
 
 /**
@@ -355,7 +351,7 @@ PostDataCollector.prototype.changeElementEventBinder = function( refreshAnalysis
  * @returns {void}
  */
 PostDataCollector.prototype.inputElementEventBinder = function( refreshAnalysis ) {
-	var elems = [ "excerpt", "content", "title" ];
+	var elems = [ "excerpt", "attachment_caption", "content", "attachment_content", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
 		if ( elem !== null ) {
