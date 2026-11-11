@@ -746,4 +746,9 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
   stroke: #ffffff;
 }
 
+/* The single select input has different height than the multi select input, so we need to set a min-height for it. */
+input.yoast-select__input {
+  min-height: 32px;
+}
+
 /*# sourceMappingURL=metabox.css.map */
