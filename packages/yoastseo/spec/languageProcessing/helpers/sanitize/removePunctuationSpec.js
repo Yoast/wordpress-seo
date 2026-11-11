@@ -1,4 +1,5 @@
-import removePunctuation from "../../../../src/languageProcessing/helpers/sanitize/removePunctuation.js";
+import removePunctuation, { punctuationRegexString } from "../../../../src/languageProcessing/helpers/sanitize/removePunctuation.js";
+import * as languageProcessing from "../../../../src/languageProcessing/index.js";
 
 describe( "a test for removing punctuation from a string", function() {
 	it( "returns string without dash at the end", function() {
@@ -79,3 +80,8 @@ describe( "Removing language-specific punctuation", function() {
 	} );
 } );
 
+describe( "the punctuationRegexString export", function() {
+	it( "is exposed on the languageProcessing namespace", function() {
+		expect( languageProcessing.punctuationRegexString ).toBe( punctuationRegexString );
+	} );
+} );
