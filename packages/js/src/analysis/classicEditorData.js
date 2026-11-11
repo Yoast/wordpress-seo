@@ -299,7 +299,7 @@ export default class ClassicEditorData {
 	 * @returns {string} The excerpt.
 	 */
 	getExcerpt( useFallBack = true ) {
-		const excerptElement = document.getElementById( "excerpt" );
+		const excerptElement = document.getElementById( "excerpt" ) || document.getElementById( "attachment_caption" );
 		const excerptValue = excerptElement && excerptElement.value || "";
 		const limit = ( getContentLocale() === "ja" ) ? 80 : 156;
 
@@ -330,12 +330,31 @@ export default class ClassicEditorData {
 	}
 
 	/**
+	 * Returns the DOM element ID used to retrieve content for the classic editor.
+	 *
+	 * Falls back to `attachment_content` on attachment edit screens where `#content` is not rendered.
+	 *
+	 * @returns {string} The content element ID.
+	 */
+	getContentElementId() {
+		if (
+			this._tinyMceId === tmceHelper.tmceId &&
+			document.getElementById( this._tinyMceId ) === null &&
+			document.getElementById( "attachment_content" ) !== null
+		) {
+			return "attachment_content";
+		}
+
+		return this._tinyMceId;
+	}
+
+	/**
 	 * Gets the content of the document after removing marks.
 	 *
 	 * @returns {string} The content of the document.
 	 */
 	getContent() {
-		return removeMarks( tmceHelper.getContentTinyMce( this._tinyMceId ) );
+		return removeMarks( tmceHelper.getContentTinyMce( this.getContentElementId() ) );
 	}
 
 	/**
@@ -347,6 +366,8 @@ export default class ClassicEditorData {
 		this.subscribeToInputElement( "title", "title" );
 		this.subscribeToInputElement( "excerpt", "excerpt" );
 		this.subscribeToInputElement( "excerpt", "excerpt_only" );
+		this.subscribeToInputElement( "attachment_caption", "excerpt" );
+		this.subscribeToInputElement( "attachment_caption", "excerpt_only" );
 	}
 
 	/**
