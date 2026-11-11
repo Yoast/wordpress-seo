@@ -546,4 +546,4 @@ export default class ClassicEditorData {
 			excerpt_only: this.getExcerpt( false ),
 		};
 	}
-			}
+}
