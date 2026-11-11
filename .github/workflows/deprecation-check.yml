@@ -27,7 +27,9 @@ jobs:
         with:
           persist-credentials: false
 
+      # Fork pull requests cannot create comments with the default token.
       - name: Place a comment on the PR
+        if: github.event.pull_request.head.repo.full_name == github.repository
         uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3.0.1
         with:
           message: |
@@ -43,4 +45,4 @@ jobs:
             | eslint-config-yoast | [packages/esling-config-yoast](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/eslint-config-yoast) |
 
             Please consider using [the other packages](https://github.com/Yoast/wordpress-seo/tree/trunk/packages) instead.
-          comment_tag: deprecation-check
+          comment-tag: deprecation-check
