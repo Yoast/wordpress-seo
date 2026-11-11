@@ -12,7 +12,7 @@ const rowClassNameMap = {
 
 /**
  * @param {JSX.node} children The content.
- * @param {string} [className] Optional class name.
+ * @param {string} [className=""] Optional class name.
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.
  */
@@ -30,7 +30,7 @@ Cell.propTypes = {
 /**
  * @param {JSX.node} children The content.
  * @param {string} [variant] Optional variant. See `rowClassNameMap.variant` for the options.
- * @param {string} [className] Optional class name.
+ * @param {string} [className=""] Optional class name.
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.
  */
@@ -48,7 +48,7 @@ Row.propTypes = {
 
 /**
  * @param {JSX.node} children The content.
- * @param {string} [className] Optional class name.
+ * @param {string} [className=""] Optional class name.
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.
  */
@@ -68,7 +68,7 @@ Header.propTypes = {
 
 /**
  * @param {JSX.node} children The content.
- * @param {string} [className] Optional class name.
+ * @param {string} [className=""] Optional class name.
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.
  */
@@ -83,7 +83,7 @@ Head.propTypes = {
 
 /**
  * @param {JSX.node} children The content.
- * @param {string} [className] Optional class name.
+ * @param {string} [className=""] Optional class name.
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.
  */
@@ -103,7 +103,7 @@ const tableVariants = {
 
 /**
  * @param {JSX.node} children The content.
- * @param {string} [className] Optional class name.
+ * @param {string} [className=""] Optional class name.
  * @param {string} [variant] The variant of the table.
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.

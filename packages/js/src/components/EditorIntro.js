@@ -25,7 +25,7 @@ export const EditorIntro = ( { children } ) => {
  * @returns {JSX.Element} The editor introduction text component.
  */
 export const EditorIntroText = ( { withPromptForContentSuggestions, className } ) => {
-	return <p className={ classNames( "yst-text-slate-600 yst-my-0", className ) }>
+	return <p className={ classNames( "yst-text-slate-600 yst-leading-normal yst-my-0", className ) }>
 		{ withPromptForContentSuggestions ? __( "Optimize your content for discovery or get new content suggestions.", "wordpress-seo" )
 			: __( "Optimize your content for discovery.", "wordpress-seo" ) }
 	</p>;

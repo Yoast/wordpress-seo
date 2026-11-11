@@ -15,7 +15,7 @@ const classNameMap = {
 /**
  * @param {JSX.node} children The children/content.
  * @param {boolean} [shouldUpsell] Whether to show the upsell.
- * @param {string} [className] Extra classname for the parent. Add your content padding here.
+ * @param {string} [className=""] Extra classname for the parent. Add your content padding here.
  * @param {string} [variant] The variant. See `classNameMap.variant`.
  * @param {string} [cardLink] The card' URL to link to. Required if the variant is `card`.
  * @param {string} [cardText] The card' button text. Used when the variant is `card`.

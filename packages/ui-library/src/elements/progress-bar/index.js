@@ -6,7 +6,7 @@ import React, { forwardRef, useMemo } from "react";
  * @param {number} min The minimal value.
  * @param {number} max The maximum value.
  * @param {number} progress The current progress value between min and max.
- * @param {string} [className] Additional class names for the progress bar container.
+ * @param {string} [className=""] Additional class names for the progress bar container.
  * @param {string} [progressClassName] Additional class names for the progress indicator.
  * @returns {JSX.Element} The ProgressBar component.
  */

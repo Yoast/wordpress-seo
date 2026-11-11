@@ -28,7 +28,7 @@ export const FeaturesSection = ( { id, title, features = [] } ) => {
 		<fieldset className="yst-group">
 			<button
 				type="button"
-				className={ classNames( "yst-flex yst-justify-between yst-items-center yst-py-3.5 yst-border-b-slate-200 yst-border-b yst-w-full group-first:yst-pt-0",
+				className={ classNames( "yst-flex yst-justify-between yst-items-center yst-py-3.5 yst-border-b-slate-200 yst-border-b yst-w-full group-first:yst-pt-0 yst-border-solid",
 					isOpen ? "" : "group-last:yst-border-none group-last:yst-pb-0"
 				) }
 				onClick={ handleToggle }
@@ -41,7 +41,7 @@ export const FeaturesSection = ( { id, title, features = [] } ) => {
 			</button>
 			{ isOpen && <ul className="yst-mb-2 group-last:yst-mb-0">
 				{ features.map( ( feature ) => (
-					<li key={ feature.id } className="yst-border-b-slate-200 yst-border-b last:yst-border-0 yst-py-4 group-last:last:yst-pb-0">
+					<li key={ feature.id } className="yst-border-b-slate-200 yst-border-b last:yst-border-0 yst-py-4 group-last:last:yst-pb-0 yst-border-solid">
 						<FeatureItem { ...feature } featureSectionId={ id } />
 					</li>
 				) ) }
