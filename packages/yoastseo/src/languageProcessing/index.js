@@ -25,7 +25,7 @@ import getClausesSplitOnStopWords from "./helpers/passiveVoice/periphrastic/free
 import { stripFullTags as stripHTMLTags, stripBlockTagsAtStartEnd } from "./helpers/sanitize/stripHTMLTags.js";
 import sanitizeString from "./helpers/sanitize/sanitizeString.js";
 import { unifyAllSpaces } from "./helpers/sanitize/unifyWhitespace.js";
-import removePunctuation from "./helpers/sanitize/removePunctuation.js";
+import removePunctuation, { punctuationRegexString } from "./helpers/sanitize/removePunctuation.js";
 import normalizeHTML from "./helpers/html/normalizeHTML.js";
 import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLength.js";
 import getLanguage from "./helpers/language/getLanguage.js";
@@ -70,6 +70,7 @@ export {
 	countMetaDescriptionLength,
 	sanitizeString,
 	removePunctuation,
+	punctuationRegexString,
 	getLanguage,
 	getSentences,
 	getFieldsToMark,

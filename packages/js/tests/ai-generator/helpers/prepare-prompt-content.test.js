@@ -6,6 +6,7 @@ import { select } from "@wordpress/data";
 jest.mock( "@wordpress/data" );
 
 jest.mock( "yoastseo", () => ( {
+	...jest.requireActual( "yoastseo" ),
 	Paper: {
 		parse: () => {},
 	},

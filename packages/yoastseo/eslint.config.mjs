@@ -6,6 +6,7 @@ export default [
 	{
 		ignores: [
 			"build",
+			"esm",
 			"examples",
 			"researcher",
 			"contract",
@@ -126,7 +127,7 @@ export default [
 		},
 	},
 	{
-		files: [ "Gruntfile.js", "grunt/**", "babel.config.js", "premium-configuration/**" ],
+		files: [ "Gruntfile.js", "grunt/**", "scripts/**", "babel.config.js", "premium-configuration/**" ],
 		languageOptions: {
 			globals: {
 				...globals.node,
