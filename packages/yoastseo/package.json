@@ -21,6 +21,7 @@
   "files": [
     "build",
     "esm",
+    "languages",
     "!*.map",
     "images",
     "researcher",
@@ -31,17 +32,18 @@
     "./build/helpers/shortlinker/singleton.js"
   ],
   "scripts": {
-    "build": "yarn clean && yarn build:js && yarn build:esm && yarn build:types",
+    "build": "yarn clean && yarn build:js && yarn build:esm && yarn build:languages && yarn build:types",
     "build:js": "babel src --copy-files --source-maps --out-dir build",
     "build:esm": "yarn build:esm:package && babel src --env-name esm --copy-files --source-maps --out-dir esm",
     "build:esm:package": "mkdir -p esm && echo '{ \"type\": \"module\", \"sideEffects\": [ \"./helpers/shortlinker/singleton.js\" ] }' > esm/package.json",
+    "build:languages": "node scripts/build-language-entries.js",
     "build:types": "tsc",
-    "clean": "rm -rf build esm types",
+    "clean": "rm -rf build esm languages types",
     "pretest": "grunt get-premium-configuration",
     "export:inclusive-language": "jest exportInclusiveLanguage",
     "test": "jest",
     "lint": "eslint . --max-warnings 16",
-    "watch": "yarn clean && (yarn watch:js & yarn watch:esm)",
+    "watch": "yarn clean && yarn build:languages && (yarn watch:js & yarn watch:esm)",
     "watch:js": "yarn build:js --watch",
     "watch:esm": "yarn build:esm --watch",
     "watch:types": "tsc --watch"
