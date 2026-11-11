@@ -25,7 +25,7 @@ if ( isset( $_POST['create_robots'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
 		$die_msg = sprintf(
 			/* translators: %s expands to robots.txt. */
-			__( 'You cannot create a %s file.', 'wordpress-seo' ),
+			__( 'Sorry, you are not allowed to create a %s file. Your user account does not have the capability to edit files.', 'wordpress-seo' ),
 			'robots.txt',
 		);
 		exit( esc_html( $die_msg ) );
@@ -39,14 +39,23 @@ if ( isset( $_POST['create_robots'] ) ) {
 	$robots_content = ob_get_clean();
 
 	$f = fopen( $robots_file, 'x' );
-	fwrite( $f, $robots_content );
+	if ( $f === false || fwrite( $f, $robots_content ) === false ) {
+		$error_msg = sprintf(
+			/* translators: %s expands to robots.txt. */
+			__( 'The %s file could not be created. Please check the file permissions of your site\'s root folder.', 'wordpress-seo' ),
+			'robots.txt',
+		);
+	}
+	if ( $f !== false ) {
+		fclose( $f );
+	}
 }
 
 if ( isset( $_POST['submitrobots'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
 		$die_msg = sprintf(
 			/* translators: %s expands to robots.txt. */
-			__( 'You cannot edit the %s file.', 'wordpress-seo' ),
+			__( 'Sorry, you are not allowed to edit the %s file. Your user account does not have the capability to edit files.', 'wordpress-seo' ),
 			'robots.txt',
 		);
 		exit( esc_html( $die_msg ) );
@@ -56,15 +65,23 @@ if ( isset( $_POST['submitrobots'] ) ) {
 
 	if ( isset( $_POST['robotsnew'] ) && file_exists( $robots_file ) ) {
 		$robotsnew = sanitize_textarea_field( wp_unslash( $_POST['robotsnew'] ) );
-		if ( is_writable( $robots_file ) ) {
-			$f = fopen( $robots_file, 'w+' );
-			fwrite( $f, $robotsnew );
-			fclose( $f );
+		$f = is_writable( $robots_file ) ? fopen( $robots_file, 'w+' ) : false;
+		if ( $f !== false && fwrite( $f, $robotsnew ) !== false ) {
 			$msg = sprintf(
 				/* translators: %s expands to robots.txt. */
 				__( 'Updated %s', 'wordpress-seo' ),
 				'robots.txt',
 			);
+		}
+		else {
+			$error_msg = sprintf(
+				/* translators: %s expands to robots.txt. */
+				__( 'The %s file could not be saved. Please check the file permissions.', 'wordpress-seo' ),
+				'robots.txt',
+			);
+		}
+		if ( $f !== false ) {
+			fclose( $f );
 		}
 	}
 }
@@ -73,7 +90,7 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
 		$die_msg = sprintf(
 			/* translators: %s expands to ".htaccess". */
-			__( 'You cannot edit the %s file.', 'wordpress-seo' ),
+			__( 'Sorry, you are not allowed to edit the %s file. Your user account does not have the capability to edit files.', 'wordpress-seo' ),
 			'.htaccess',
 		);
 		exit( esc_html( $die_msg ) );
@@ -83,9 +100,15 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 
 	if ( isset( $_POST['htaccessnew'] ) && file_exists( $ht_access_file ) ) {
 		$ht_access_new = wp_unslash( $_POST['htaccessnew'] );
-		if ( is_writable( $ht_access_file ) ) {
-			$f = fopen( $ht_access_file, 'w+' );
-			fwrite( $f, $ht_access_new );
+		$f = is_writable( $ht_access_file ) ? fopen( $ht_access_file, 'w+' ) : false;
+		if ( $f === false || fwrite( $f, $ht_access_new ) === false ) {
+			$error_msg = sprintf(
+				/* translators: %s expands to ".htaccess". */
+				__( 'The %s file could not be saved. Please check the file permissions.', 'wordpress-seo' ),
+				'.htaccess',
+			);
+		}
+		if ( $f !== false ) {
 			fclose( $f );
 		}
 	}
@@ -101,6 +124,10 @@ else {
 
 if ( isset( $msg ) && ! empty( $msg ) ) {
 	echo '<div id="message" class="notice notice-success"><p>', esc_html( $msg ), '</p></div>';
+}
+
+if ( isset( $error_msg ) && ! empty( $error_msg ) ) {
+	echo '<div class="notice notice-error"><p>', esc_html( $error_msg ), '</p></div>';
 }
 
 // N.B.: "robots.txt" is a fixed file name and should not be translatable.
