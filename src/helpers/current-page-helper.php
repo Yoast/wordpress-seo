@@ -129,7 +129,8 @@ class Current_Page_Helper {
 
 		if ( $wp_query->is_tax() || $wp_query->is_tag() || $wp_query->is_category() ) {
 			$queried_object = $wp_query->get_queried_object();
-			if ( $queried_object && ! \is_wp_error( $queried_object ) ) {
+			// Plugins can set is_tax/is_tag while the queried object is not a term, e.g. a WP_Post_Type.
+			if ( $queried_object && ! \is_wp_error( $queried_object ) && isset( $queried_object->term_id ) ) {
 				return $queried_object->term_id;
 			}
 		}
