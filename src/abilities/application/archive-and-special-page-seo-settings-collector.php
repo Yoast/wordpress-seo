@@ -12,6 +12,9 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  * Application service that collects the SEO data of the homepage, the archives and the special pages.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ *
+ * @internal Backs the global SEO settings abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 class Archive_And_Special_Page_SEO_Settings_Collector {
 

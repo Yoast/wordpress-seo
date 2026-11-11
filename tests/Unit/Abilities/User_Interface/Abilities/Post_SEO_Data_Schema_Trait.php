@@ -60,9 +60,15 @@ trait Post_SEO_Data_Schema_Trait {
 			'type'       => 'object',
 			'properties' => [
 				'post_id'                         => [ 'type' => 'integer' ],
-				'post_title'                      => $nullable_string,
+				'post_title'                      => [
+					'type'        => [ 'string', 'null' ],
+					'description' => 'The breadcrumb title of the post when a custom one is set, otherwise the post title.',
+				],
 				'permalink'                       => $nullable_string,
-				'post_type'                       => [ 'type' => 'string' ],
+				'post_type'                       => [
+					'type'        => 'string',
+					'description' => 'The post type of the post. Use it to tell apart posts that share a title.',
+				],
 				'post_status'                     => $nullable_string,
 				'seo_title'                       => $raw( 'SEO title' ),
 				'seo_title_rendered'              => $rendered( 'SEO title' ),

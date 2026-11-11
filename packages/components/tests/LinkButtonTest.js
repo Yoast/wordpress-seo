@@ -1,13 +1,12 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { LinkButton } from "../src/index";
 
 test( "the LinkButton matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<LinkButton>LinkButtonValue</LinkButton>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

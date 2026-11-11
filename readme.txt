@@ -332,7 +332,6 @@ Release date: 2026-11-17
 #### Other
 
 * Removes the _keyphrase in image alt attributes_ assessment, which is replaced by the alt text quality assessments.
-* Replaces legacy `IconButtonToggle` and `IconCTAEditButton` components with `@yoast/ui-library` `Button`, `TooltipContainer`, and `@heroicons/react` icons in content analysis results.
 
 = 28.8 =
 

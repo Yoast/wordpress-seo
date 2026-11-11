@@ -1,21 +1,19 @@
 import React from "react";
-
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import Notification from "../src/Notification.js";
 
 test( "the Notification without props matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<Notification />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the Notification with props matches the snapshot", () => {
 	const html = "Get started with our <a href=\"#blabla\">Configuration Wizard!</a>";
 
-	const component = renderer.create(
+	const { container } = render(
 		<Notification
 			title="New User?"
 			html={ html }
@@ -29,6 +27,5 @@ test( "the Notification with props matches the snapshot", () => {
 		/>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

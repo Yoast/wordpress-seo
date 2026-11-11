@@ -83,7 +83,7 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 	 * @return string|null
 	 */
 	public function get_link(): ?string {
-		return null;
+		return \self_admin_url( 'admin.php?page=wpseo_page_bulk_edit&content_type=' . $this->get_post_type() );
 	}
 
 	/**
@@ -92,7 +92,11 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 	 * @return Call_To_Action_Entry|null
 	 */
 	public function get_call_to_action(): ?Call_To_Action_Entry {
-		return null;
+		return new Call_To_Action_Entry(
+			\__( 'Edit in bulk', 'wordpress-seo' ),
+			'link',
+			$this->get_link(),
+		);
 	}
 
 	/**
@@ -107,16 +111,12 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 			/* translators: %1$s expands to the post type label this task is about */
 			\sprintf( \__( 'Improve default meta descriptions of your recent content: %1$s', 'wordpress-seo' ), $post_type->label ),
 			\sprintf(
-				/* translators: %1$s expands to <p>, %2$s expands to </p>, %3$s expands to <p>, %4$s expands to </p>, %5$s expands to <strong>, %6$s expands to </strong>, %7$s expands to <strong> and %8$s expands to </strong>. */
-				\__( '%1$sDefault meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks.%2$s%3$sShort on time? In %5$sYoast SEO Premium%6$s, use %7$sAI Generate%8$s to create tailored meta descriptions in seconds.%4$s', 'wordpress-seo' ),
+				/* translators: %1$s expands to <p>, %2$s expands to </p>, %3$s expands to <p>, %4$s expands to </p>. */
+				\__( '%1$sDefault meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks.%2$s%3$sShort on time? Draft meta descriptions and titles for several items at once with AI in the Bulk Editor.%4$s', 'wordpress-seo' ),
 				'<p>',
 				'</p>',
 				'<p>',
 				'</p>',
-				'<strong>',
-				'</strong>',
-				'<strong>',
-				'</strong>',
 			),
 		);
 	}

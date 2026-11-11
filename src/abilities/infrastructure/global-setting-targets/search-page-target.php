@@ -5,6 +5,9 @@ namespace Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets;
 
 /**
  * The search results pages, which share one template.
+ *
+ * @internal Backs the global SEO settings abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 class Search_Page_Target extends Abstract_Global_Setting_Target {
 
