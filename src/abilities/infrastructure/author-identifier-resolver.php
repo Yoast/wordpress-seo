@@ -171,7 +171,7 @@ class Author_Identifier_Resolver {
 			$user = \get_user_by( 'slug', \basename( (string) \wp_parse_url( $permalink, \PHP_URL_PATH ) ) );
 		}
 
-		if ( ! $user || \get_author_posts_url( $user->ID ) !== $permalink ) {
+		if ( $user === false || \get_author_posts_url( $user->ID ) !== $permalink ) {
 			return null;
 		}
 
