@@ -153,6 +153,6 @@ class WPSEO_Remote_Request {
 	 * @return WP_Error|array The response or WP_Error on failure.
 	 */
 	protected function get() {
-		return wp_remote_get( $this->endpoint, $this->args );
+		return WPSEO_Utils::wp_remote_get( $this->endpoint, $this->args );
 	}
 }
