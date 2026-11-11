@@ -28,14 +28,13 @@
     "docs/**/*.md"
   ],
   "sideEffects": [
-    "./build/helpers/shortlinker/singleton.js",
-    "./esm/helpers/shortlinker/singleton.js"
+    "./build/helpers/shortlinker/singleton.js"
   ],
   "scripts": {
     "build": "yarn clean && yarn build:js && yarn build:esm && yarn build:types",
     "build:js": "babel src --copy-files --source-maps --out-dir build",
     "build:esm": "yarn build:esm:package && babel src --env-name esm --copy-files --source-maps --out-dir esm",
-    "build:esm:package": "mkdir -p esm && echo '{ \"type\": \"module\" }' > esm/package.json",
+    "build:esm:package": "mkdir -p esm && echo '{ \"type\": \"module\", \"sideEffects\": [ \"./helpers/shortlinker/singleton.js\" ] }' > esm/package.json",
     "build:types": "tsc",
     "clean": "rm -rf build esm types",
     "pretest": "grunt get-premium-configuration",
