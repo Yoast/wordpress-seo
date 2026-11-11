@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "./test-utils";
+import { act, fireEvent, render } from "./test-utils";
 import ReplacementVariableEditorStandalone, { ReplacementVariableEditorStandaloneInnerComponent }
 	from "../src/ReplacementVariableEditorStandalone";
 
@@ -31,6 +31,61 @@ describe( "ReplacementVariableEditorStandalone", () => {
 		);
 
 		expect( container ).toMatchSnapshot();
+	} );
+
+	it( "shows a remove button on a replacement variable", () => {
+		const { getByRole } = render(
+			<ReplacementVariableEditorStandalone
+				replacementVariables={ [ { name: "title", label: "Title", value: "Hello world" } ] }
+				content="%%title%% page"
+				// eslint-disable-next-line react/jsx-no-bind
+				onChange={ () => {} }
+				ariaLabelledBy="id"
+				fieldId="test-field-id"
+				theme={ { isRtl: false } }
+			/>
+		);
+
+		expect( getByRole( "button", { name: "Remove Title" } ) ).toBeInTheDocument();
+	} );
+
+	it( "removes a replacement variable when its remove button is clicked", async() => {
+		const onChange = jest.fn();
+
+		const { getByRole } = render(
+			<ReplacementVariableEditorStandalone
+				replacementVariables={ [ { name: "title", label: "Title", value: "Hello world" } ] }
+				content="%%title%% page"
+				onChange={ onChange }
+				ariaLabelledBy="id"
+				fieldId="test-field-id"
+				theme={ { isRtl: false } }
+			/>
+		);
+
+		fireEvent.click( getByRole( "button", { name: "Remove Title" } ) );
+
+		// The editor focuses itself again once the new state has been set.
+		await act( async() => {} );
+
+		expect( onChange ).toHaveBeenCalledWith( " page" );
+	} );
+
+	it( "does not show a remove button when the editor is disabled", () => {
+		const { queryByRole } = render(
+			<ReplacementVariableEditorStandalone
+				replacementVariables={ [ { name: "title", label: "Title", value: "Hello world" } ] }
+				content="%%title%% page"
+				// eslint-disable-next-line react/jsx-no-bind
+				onChange={ () => {} }
+				ariaLabelledBy="id"
+				fieldId="test-field-id"
+				theme={ { isRtl: false } }
+				isDisabled={ true }
+			/>
+		);
+
+		expect( queryByRole( "button", { name: "Remove Title" } ) ).not.toBeInTheDocument();
 	} );
 } );
 
