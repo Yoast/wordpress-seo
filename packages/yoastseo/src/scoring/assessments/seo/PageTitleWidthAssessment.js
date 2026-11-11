@@ -1,10 +1,10 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
 
-import Assessment from "../assessment";
-import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
+import Assessment from "../assessment.js";
+import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange.js";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker/index.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
 
 const maximumLength = 600;
 

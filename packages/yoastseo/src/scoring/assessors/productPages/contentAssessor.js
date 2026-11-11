@@ -5,7 +5,7 @@ import SentenceLengthInTextAssessment from "../../assessments/readability/Senten
 import TransitionWordsAssessment from "../../assessments/readability/TransitionWordsAssessment.js";
 import PassiveVoiceAssessment from "../../assessments/readability/PassiveVoiceAssessment.js";
 import TextPresenceAssessment from "../../assessments/readability/TextPresenceAssessment.js";
-import { createAnchorOpeningTag } from "../../../helpers";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 
 /**
  * The ProductContentAssessor class is used for the readability analysis for products.

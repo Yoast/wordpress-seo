@@ -1,10 +1,10 @@
 import { mapValues, merge } from "lodash";
 
-import Assessment from "../assessment";
-import Mark from "../../../values/Mark";
-import AssessmentResult from "../../../values/AssessmentResult";
-import { createAnchorOpeningTag } from "../../../helpers";
-import { collectMarkingsInSentence } from "../../../languageProcessing/helpers/word/markWordsInSentences";
+import Assessment from "../assessment.js";
+import Mark from "../../../values/Mark.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import { collectMarkingsInSentence } from "../../../languageProcessing/helpers/word/markWordsInSentences.js";
 
 /**
  * Represents the assessment that checks whether there are too many complex words in the text.

@@ -1,5 +1,5 @@
-import { SCORES } from "./scores";
-import { orangeUnlessSomeoneWants } from "./feedbackStrings/generalFeedbackStrings";
+import { SCORES } from "./scores.js";
+import { orangeUnlessSomeoneWants } from "./feedbackStrings/generalFeedbackStrings.js";
 
 const sexualOrientationAssessments = [
 	{

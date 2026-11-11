@@ -2,9 +2,9 @@ import ProductSEOAssessor from "../seoAssessor.js";
 import MetaDescriptionLengthAssessment from "../../../assessments/seo/MetaDescriptionLengthAssessment.js";
 import TextLengthAssessment from "../../../assessments/seo/TextLengthAssessment.js";
 import SlugKeywordAssessment from "../../../assessments/seo/UrlKeywordAssessment.js";
-import SubHeadingsKeywordAssessment from "../../../assessments/seo/SubHeadingsKeywordAssessment";
+import SubHeadingsKeywordAssessment from "../../../assessments/seo/SubHeadingsKeywordAssessment.js";
 
-import { createAnchorOpeningTag } from "../../../../helpers";
+import { createAnchorOpeningTag } from "../../../../helpers/index.js";
 
 /**
  * The ProductCornerstoneSEOAssessor class is used for the SEO analysis for cornerstone products.

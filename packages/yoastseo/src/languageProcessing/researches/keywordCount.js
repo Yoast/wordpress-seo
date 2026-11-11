@@ -1,12 +1,12 @@
 import { flatten, flattenDeep } from "lodash";
-import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
-import { normalizeSingle } from "../helpers/sanitize/quotes";
-import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
-import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSentence";
-import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
-import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
-import getSentences from "../helpers/sentence/getSentences";
-import { filterShortcodesFromHTML } from "../helpers";
+import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree.js";
+import { normalizeSingle } from "../helpers/sanitize/quotes.js";
+import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence.js";
+import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSentence.js";
+import isDoubleQuoted from "../helpers/match/isDoubleQuoted.js";
+import { markWordsInASentence } from "../helpers/word/markWordsInSentences.js";
+import getSentences from "../helpers/sentence/getSentences.js";
+import { filterShortcodesFromHTML } from "../helpers/index.js";
 
 /**
  * Counts the occurrences of the keyphrase in the text and creates the Mark objects for the matches.

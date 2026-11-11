@@ -1,5 +1,5 @@
 import { filter, includes, isEqual, memoize } from "lodash";
-import getWords from "../word/getWords";
+import getWords from "../word/getWords.js";
 
 /**
  * Gets positions of the first character of a word in the input text.

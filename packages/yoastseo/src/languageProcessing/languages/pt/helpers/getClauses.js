@@ -1,7 +1,7 @@
 import { languageProcessing } from "yoastseo";
 const { createRegexFromArray, getClauses } = languageProcessing;
 
-import PortugueseClause from "../values/Clause";
+import PortugueseClause from "../values/Clause.js";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";
 const followingAuxiliaryExceptionWords = [ "o", "a", "os", "as", "um", "ums", "uma", "umas" ];

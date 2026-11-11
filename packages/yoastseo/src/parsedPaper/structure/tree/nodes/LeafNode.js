@@ -1,5 +1,5 @@
-import TextContainer from "../TextContainer";
-import Node from "./Node";
+import TextContainer from "../TextContainer.js";
+import Node from "./Node.js";
 /**
  * A node at the end of the tree that may only contain formatting elements,
  * these include headings and paragraphs.

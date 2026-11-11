@@ -1,7 +1,7 @@
-import Assessor from "./assessor";
+import Assessor from "./assessor.js";
 
-import PageTitleWidthAssessment from "../assessments/seo/PageTitleWidthAssessment";
-import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment";
+import PageTitleWidthAssessment from "../assessments/seo/PageTitleWidthAssessment.js";
+import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment.js";
 
 /**
  * The Assessor class that is used for the assessment of the SEO title.

@@ -2,7 +2,7 @@ import StorePostsAndPagesSEOAssessor from "../seoAssessor.js";
 import MetaDescriptionLengthAssessment from "../../../assessments/seo/MetaDescriptionLengthAssessment.js";
 import TextLengthAssessment from "../../../assessments/seo/TextLengthAssessment.js";
 import SlugKeywordAssessment from "../../../assessments/seo/UrlKeywordAssessment.js";
-import { createAnchorOpeningTag } from "../../../../helpers";
+import { createAnchorOpeningTag } from "../../../../helpers/index.js";
 
 /**
  * The StorePostsAndPagesCornerstoneSEOAssessor class is used for the SEO analysis for cornerstone products.

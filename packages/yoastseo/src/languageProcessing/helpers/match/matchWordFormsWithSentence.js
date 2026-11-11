@@ -1,5 +1,5 @@
-import matchTextWithTransliteration from "./matchTextWithTransliteration";
-import splitIntoTokens from "../word/splitIntoTokens";
+import matchTextWithTransliteration from "./matchTextWithTransliteration.js";
+import splitIntoTokens from "../word/splitIntoTokens.js";
 
 /**
  * @typedef {import ("../../../parse/structure/Sentence").default} Sentence

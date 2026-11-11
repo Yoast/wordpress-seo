@@ -1,4 +1,4 @@
-import LeafNode from "./LeafNode";
+import LeafNode from "./LeafNode.js";
 /**
  * Represents an item within a list.
  *

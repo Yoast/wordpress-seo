@@ -1,6 +1,6 @@
-import { FormattingElement, Heading, Paragraph, StructuredNode, List, ListItem } from "../../../structure/tree";
-import LeafNode from "../../../structure/tree/nodes/LeafNode";
-import { formattingElements, headings, ignoredHtmlElements } from "./htmlConstants";
+import { FormattingElement, Heading, Paragraph, StructuredNode, List, ListItem } from "../../../structure/tree/index.js";
+import LeafNode from "../../../structure/tree/nodes/LeafNode.js";
+import { formattingElements, headings, ignoredHtmlElements } from "./htmlConstants.js";
 
 /**
  * Converts a parse5 tree to a tree that can be analyzed.

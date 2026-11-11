@@ -7,7 +7,7 @@ const {
 	},
 } = languageProcessing;
 
-import { isVowelDoublingAllowed } from "./stemModificationHelpers";
+import { isVowelDoublingAllowed } from "./stemModificationHelpers.js";
 
 /**
  * Checks whether the word ends in suffixes -e or -en which are preceded by -t or -d, and the -t/-d is part of the stem.

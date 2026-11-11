@@ -1,4 +1,4 @@
-import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree";
+import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree.js";
 
 /**
  * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher

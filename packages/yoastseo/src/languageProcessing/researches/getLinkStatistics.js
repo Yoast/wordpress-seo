@@ -1,7 +1,7 @@
 import checkNofollow from "../helpers/link/checkNofollow.js";
 import getAnchors from "../helpers/link/getAnchorsFromText.js";
 import getLinkType from "../helpers/link/getLinkType.js";
-import removeHtmlBlocks from "../../languageProcessing/helpers/html/htmlParser";
+import removeHtmlBlocks from "../../languageProcessing/helpers/html/htmlParser.js";
 
 /**
  * @typedef {import("../../values/").Paper } Paper
