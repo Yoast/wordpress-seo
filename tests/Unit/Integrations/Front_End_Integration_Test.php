@@ -169,12 +169,14 @@ final class Front_End_Integration_Test extends TestCase {
 
 		$initial_wp_query = Mockery::mock( WP_Query::class );
 		$wp_query         = $initial_wp_query;
+		\add_action( 'wp_head', '_block_template_render_title_tag', 1 );
 		Monkey\Functions\expect( 'wp_reset_query' )->once();
 
 		$this->instance->call_wpseo_head();
 
 		$this->assertSame( 1, \did_action( 'wpseo_head' ) );
 		$this->assertSame( $initial_wp_query, $GLOBALS['wp_query'] );
+		$this->assertFalse( \has_action( 'wp_head', '_block_template_render_title_tag' ) );
 	}
 
 	/**
