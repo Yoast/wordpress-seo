@@ -2,7 +2,8 @@ import { isFollowedByException } from "./isFollowedByException.js";
 import { isFollowedByParticiple } from "./isFollowedByParticiple.js";
 import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords.js";
 import { punctuationList } from "../../../../languageProcessing/helpers/sanitize/removePunctuation.js";
-import { getWords } from "../../../../languageProcessing/index.js";
+import { languageProcessing } from "yoastseo";
+const { getWords } = languageProcessing;
 
 // Filter tokens from the exception lists that cause trouble when passed to getWords.
 

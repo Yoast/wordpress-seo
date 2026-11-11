@@ -1,6 +1,8 @@
 import Paper from "../../../src/values/Paper.js";
 import InclusiveLanguageAssessor from "../../../src/scoring/assessors/inclusiveLanguageAssessor.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher.js";
+import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher.js";
+import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher.js";
 
 // Note that the order of the testing suites is important because, "Jest executes all describe handlers before it executes any of the actual tests."
 // Source: https://jestjs.io/docs/setup-teardown
@@ -248,5 +250,25 @@ describe( "The inclusive language assessor", () => {
 		assessor.assess( paper );
 
 		expect( assessor.getValidResults() ).toHaveLength( 1 );
+	} );
+} );
+
+describe( "a test for the inclusive language assessor with a non-English researcher", () => {
+	it( "has no assessments for a German researcher", () => {
+		const mockPaper = new Paper( "Das ist ein Test mit dem Wort illegal immigrants." );
+		const assessor = new InclusiveLanguageAssessor( new GermanResearcher( mockPaper ) );
+		expect( assessor.getAvailableAssessments() ).toEqual( [] );
+	} );
+
+	it( "has no assessments for the default researcher", () => {
+		const mockPaper = new Paper( "This is a test with the non-inclusive phrase illegal immigrants." );
+		const assessor = new InclusiveLanguageAssessor( new DefaultResearcher( mockPaper ) );
+		expect( assessor.getAvailableAssessments() ).toEqual( [] );
+	} );
+
+	it( "has assessments for the English researcher", () => {
+		const mockPaper = new Paper( "This is a test with the non-inclusive phrase illegal immigrants." );
+		const assessor = new InclusiveLanguageAssessor( new EnglishResearcher( mockPaper ) );
+		expect( assessor.getAvailableAssessments().length ).toBeGreaterThan( 0 );
 	} );
 } );

@@ -35,6 +35,9 @@ import { normalizeSingle } from "./helpers/sanitize/quotes.js";
 import parseSynonyms from "./helpers/sanitize/parseSynonyms.js";
 import { mergeListItems } from "./helpers/sanitize/mergeListItems.js";
 import { findWordFormsInString } from "./helpers/match/findKeywordFormsInString.js";
+import matchTextWithArray from "./helpers/match/matchTextWithArray.js";
+import SentenceTokenizer from "./helpers/sentence/SentenceTokenizer.js";
+import { countSyllablesInWord } from "./helpers/syllables/countSyllables.js";
 import { collectMarkingsInSentence, markWordsInSentences } from "./helpers/word/markWordsInSentences.js";
 import * as helpers from "./helpers/index.js";
 import * as researches from "./researches/index.js";
@@ -80,6 +83,9 @@ export {
 	parseSynonyms,
 	mergeListItems,
 	findWordFormsInString,
+	matchTextWithArray,
+	SentenceTokenizer,
+	countSyllablesInWord,
 	markWordsInSentences,
 	helpers,
 	researches,
