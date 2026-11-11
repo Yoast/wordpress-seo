@@ -17,6 +17,13 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
 final class Get_Terms_Lists_Test extends Abstract_Test {
 
 	/**
+	 * Options covered by the shared test mock.
+	 *
+	 * @var string[]
+	 */
+	protected $mocked_options = [ 'wpseo', 'wpseo_titles', 'wpseo_social', 'wpseo_ms', 'wpseo_llmstxt', 'wpseo_tracking_only' ];
+
+	/**
 	 * Tests the get_terms_lists method.
 	 *
 	 * @param array<object>                               $indexable_taxonomy_objects The indexable taxonomy objects.
@@ -52,6 +59,8 @@ final class Get_Terms_Lists_Test extends Abstract_Test {
 			->times( $is_indexable_times )
 			->andReturn( ...$is_indexable );
 
+		Monkey\Functions\expect( 'get_option' )->with( 'wpseo_taxonomy_meta' )->zeroOrMoreTimes()->andReturn( [] );
+
 		Monkey\Functions\expect( 'get_categories' )
 			->with( $get_categories_args )
 			->times( $get_categories_times )
@@ -68,6 +77,49 @@ final class Get_Terms_Lists_Test extends Abstract_Test {
 		foreach ( $lists as $list ) {
 			$this->assertInstanceOf( Link_List::class, $list );
 		}
+	}
+
+	/**
+	 * Tests that individually noindexed terms are excluded.
+	 *
+	 * @return void
+	 */
+	public function test_excludes_individually_noindexed_terms() {
+		$this->taxonomy_helper->expects( 'get_indexable_taxonomy_objects' )->once()->andReturn(
+			[
+				(object) [
+					'name'  => 'category',
+					'label' => 'Categories',
+				],
+			],
+		);
+		$this->taxonomy_helper->expects( 'is_indexable' )->once()->with( 'category' )->andReturn( true );
+
+		Monkey\Functions\expect( 'get_option' )->with( 'wpseo_taxonomy_meta' )->zeroOrMoreTimes()->andReturn(
+			[
+				'category' => [
+					1 => [ 'wpseo_noindex' => 'noindex' ],
+					2 => [ 'wpseo_noindex' => 'index' ],
+				],
+			],
+		);
+		$public_category = (object) [
+			'term_id' => 2,
+			'name'    => 'Public Category',
+		];
+		Monkey\Functions\expect( 'get_categories' )->once()->with(
+			[
+				'taxonomy' => 'category',
+				'number'   => 5,
+				'orderby'  => 'count',
+				'order'    => 'DESC',
+				'exclude'  => [ 1 ],
+			],
+		)->andReturn( [ $public_category ] );
+		Monkey\Functions\expect( 'get_term_link' )->once()->with( $public_category, 'category' )->andReturn( 'https://example.com/2' );
+
+		$lists = $this->instance->get_terms_lists();
+		$this->assertSame( 'Categories' . \PHP_EOL . '- [Public Category](https://example.com/2)', $lists[0]->render() );
 	}
 
 	/**
@@ -91,6 +143,7 @@ final class Get_Terms_Lists_Test extends Abstract_Test {
 					'number'   => 5,
 					'orderby'  => 'count',
 					'order'    => 'DESC',
+					'exclude'  => [],
 				],
 			],
 			'get_categories_times'        => 1,
@@ -126,12 +179,14 @@ final class Get_Terms_Lists_Test extends Abstract_Test {
 					'number'   => 5,
 					'orderby'  => 'count',
 					'order'    => 'DESC',
+					'exclude'  => [],
 				],
 				[
 					'taxonomy' => 'tags',
 					'number'   => 5,
 					'orderby'  => 'count',
 					'order'    => 'DESC',
+					'exclude'  => [],
 				],
 			],
 			'get_categories_times'        => 2,
