@@ -111,6 +111,62 @@ final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the build does not error when the timestamp query returns no row.
+	 *
+	 * @covers ::build
+	 *
+	 * @return void
+	 */
+	public function test_build_with_null_timestamps() {
+		$options_mock = Mockery::mock( Options_Helper::class );
+		$options_mock->expects( 'get' )->with( 'title-ptarchive-my-post-type' )->andReturn( 'my_post_type_title' );
+		$options_mock->expects( 'get' )->with( 'metadesc-ptarchive-my-post-type' )->andReturn( 'my_post_type_meta_description' );
+		$options_mock->expects( 'get' )->with( 'bctitle-ptarchive-my-post-type' )->andReturn( 'my_post_type_breadcrumb_title' );
+		$options_mock->expects( 'get' )->with( 'noindex-ptarchive-my-post-type' )->andReturn( false );
+		Monkey\Functions\expect( 'get_post_type_archive_link' )->with( 'my-post-type' )->andReturn( 'https://permalink' );
+
+		$versions = Mockery::mock( Indexable_Builder_Versions::class );
+		$versions
+			->expects( 'get_latest_version_for_type' )
+			->with( 'post-type-archive' )
+			->andReturn( 1 );
+
+		$post_helper = Mockery::mock( Post_Helper::class );
+		$post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$post_type_helper->expects( 'is_post_type_archive_indexable' )->andReturnTrue();
+
+		$wpdb            = Mockery::mock( wpdb::class );
+		$wpdb->posts     = 'wp_posts';
+		$GLOBALS['wpdb'] = $wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
+
+		$wpdb->expects( 'prepare' )->once()->andReturn( 'PREPARED_QUERY' );
+		$wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturnNull();
+
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'post-type-archive' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_sub_type', 'my-post-type' );
+		$indexable_mock->orm->expects( 'set' )->with( 'title', 'my_post_type_title' );
+		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'my_post_type_breadcrumb_title' );
+		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
+		$indexable_mock->orm->expects( 'set' )->with( 'description', 'my_post_type_meta_description' );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_public', true );
+		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturnFalse();
+
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'version', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_published_at', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', null );
+
+		$builder = new Indexable_Post_Type_Archive_Builder( $options_mock, $versions, $post_helper, $post_type_helper, $wpdb );
+		$builder->build( 'my-post-type', $indexable_mock );
+	}
+
+	/**
 	 * Tests the formatting of the indexable data.
 	 *
 	 * @covers ::build
