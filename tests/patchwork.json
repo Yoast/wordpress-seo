@@ -1,5 +1,7 @@
 {
   "redefinable-internals": [
+    "str_shuffle",
+    "substr",
     "file_exists",
     "filesize",
     "class_exists",
