@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Abilities\Infrastructure;
 
 use WP_Error;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -32,14 +33,27 @@ class Author_Identifier_Resolver {
 	private $author_archive_helper;
 
 	/**
+	 * The URL helper.
+	 *
+	 * @var Url_Helper
+	 */
+	private $url_helper;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Indexable_Repository  $indexable_repository  The indexable repository.
 	 * @param Author_Archive_Helper $author_archive_helper The author archive helper.
+	 * @param Url_Helper            $url_helper            The URL helper.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository, Author_Archive_Helper $author_archive_helper ) {
+	public function __construct(
+		Indexable_Repository $indexable_repository,
+		Author_Archive_Helper $author_archive_helper,
+		Url_Helper $url_helper
+	) {
 		$this->indexable_repository  = $indexable_repository;
 		$this->author_archive_helper = $author_archive_helper;
+		$this->url_helper            = $url_helper;
 	}
 
 	/**
@@ -103,23 +117,65 @@ class Author_Identifier_Resolver {
 	/**
 	 * Resolves a user by the permalink of their author archive.
 	 *
-	 * Matches the permalink exactly against the indexable table; no WordPress URL
-	 * resolution is performed, so the exact stored permalink must be provided.
+	 * Matches the permalink exactly against the indexable table. Excluded authors have no indexable, so when
+	 * nothing matches, the permalink is traced back to a user and handed to by_id(), which tells an excluded
+	 * author apart from a nonexistent one.
 	 *
 	 * @param string $permalink The permalink.
 	 *
-	 * @return Indexable|WP_Error The matching indexable, or a not-found error.
+	 * @return Indexable|WP_Error The matching indexable, or a not-found or excluded error.
 	 */
 	private function by_permalink( string $permalink ) {
 		$indexable = $this->indexable_repository->find_by_permalink( $permalink );
 
+		if ( ! $indexable ) {
+			$user_id = $this->find_author_id_by_permalink( $permalink );
+
+			return ( $user_id === null ) ? $this->invalid_identifier( 'permalink' ) : $this->by_id( $user_id );
+		}
+
 		// The permalink lookup is not scoped by object type, so a post, term, or
 		// archive URL can match too; only authors are valid targets here.
-		if ( ! $indexable || $indexable->object_type !== 'user' ) {
+		if ( $indexable->object_type !== 'user' ) {
 			return $this->invalid_identifier( 'permalink' );
 		}
 
 		return $indexable;
+	}
+
+	/**
+	 * Finds the user whose author archive lives at the given permalink.
+	 *
+	 * The candidate comes from the author query var (plain permalinks) or the last path segment as the user
+	 * nicename (pretty permalinks). It is only accepted when its author archive URL equals the permalink exactly,
+	 * as that is how the author indexable permalink is built. This rules out posts or terms sharing the slug,
+	 * pagination URLs, and foreign hosts. Sites that filter author_link away from the nicename fall back to the
+	 * not-found error.
+	 *
+	 * @param string $permalink The permalink.
+	 *
+	 * @return int|null The user ID, or null when the permalink is not an author archive URL.
+	 */
+	private function find_author_id_by_permalink( string $permalink ): ?int {
+		$user  = false;
+		$query = \wp_parse_url( $permalink, \PHP_URL_QUERY );
+
+		if ( \is_string( $query ) ) {
+			$query_vars = $this->url_helper->parse_str_params( $query );
+
+			if ( isset( $query_vars['author'] ) && \is_string( $query_vars['author'] ) ) {
+				$user = \get_userdata( (int) $query_vars['author'] );
+			}
+		}
+		else {
+			$user = \get_user_by( 'slug', \basename( (string) \wp_parse_url( $permalink, \PHP_URL_PATH ) ) );
+		}
+
+		if ( $user === false || \get_author_posts_url( $user->ID ) !== $permalink ) {
+			return null;
+		}
+
+		return (int) $user->ID;
 	}
 
 	/**
