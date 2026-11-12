@@ -3,7 +3,6 @@ import { Fill } from "@wordpress/components";
 import { Fragment, useEffect } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import { InternalLinkingSuggestionsUpsell } from "../../../components/modals/InternalLinkingSuggestionsUpsell";
 
 // Internal dependencies.
@@ -28,6 +27,9 @@ import { EditorIntro, EditorIntroText } from "../../../components/EditorIntro";
  * Creates the ElementorFill component.
  *
  * @param {Object} props The props.
+ * @param {boolean} props.isLoading Whether the editor is still loading.
+ * @param {Function} props.onLoad Called on render while loading.
+ * @param {Object} props.settings The editor settings.
  *
  * @returns {wp.Element} The Sidebar component.
  *
@@ -136,9 +138,4 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	);
 }
 
-ElementorFill.propTypes = {
-	isLoading: PropTypes.bool.isRequired,
-	onLoad: PropTypes.func.isRequired,
-	settings: PropTypes.object.isRequired,
-};
 /* eslint-enable complexity */

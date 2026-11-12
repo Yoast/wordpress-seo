@@ -1,11 +1,12 @@
 import { Disclosure } from "@headlessui/react";
 import ChevronDownIcon from "@heroicons/react/outline/ChevronDownIcon";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 
 /**
- * @param {string} label The label of the collapsible.
- * @param {React.ReactNode} children The children of the collapsible.
+ * @param {Object} props Component props.
+ * @param {string} props.label The label of the collapsible.
+ * @param {React.ReactNode} props.children The children of the collapsible.
+ *
  * @returns {JSX.Element} The hidden alerts collapsible.
  */
 export const Collapsible = ( { label, children } ) => {
@@ -28,9 +29,4 @@ export const Collapsible = ( { label, children } ) => {
 			) }
 		</Disclosure>
 	);
-};
-
-Collapsible.propTypes = {
-	label: PropTypes.string.isRequired,
-	children: PropTypes.node.isRequired,
 };

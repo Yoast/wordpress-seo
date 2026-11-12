@@ -2,7 +2,6 @@ import { useSelect } from "@wordpress/data";
 import { createContext, useCallback, useContext, useEffect, useState } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
 import { find } from "lodash";
-import PropTypes from "prop-types";
 import { STORE_NAME_INTRODUCTIONS } from "../constants";
 
 // Prepare global.
@@ -16,8 +15,10 @@ const IntroductionsContext = createContext( {} );
 export const useIntroductionsContext = () => useContext( IntroductionsContext );
 
 /**
- * @param {JSX.node} children The children.
- * @param {Object} initialComponents The initial components.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.children The children.
+ * @param {Object} props.initialComponents The initial components.
+ *
  * @returns {JSX.Element} The element.
  */
 export const IntroductionProvider = ( { children, initialComponents } ) => {
@@ -45,8 +46,4 @@ export const IntroductionProvider = ( { children, initialComponents } ) => {
 			{ children }
 		</IntroductionsContext.Provider>
 	);
-};
-IntroductionProvider.propTypes = {
-	children: PropTypes.node.isRequired,
-	initialComponents: PropTypes.object.isRequired,
 };

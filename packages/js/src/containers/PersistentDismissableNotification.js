@@ -1,16 +1,18 @@
 /* eslint-disable complexity */
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import withPersistentDismiss from "./withPersistentDismiss";
 import classNames from "classnames";
 
 /**
- * @param {string} id The id.
- * @param {boolean} hasIcon Whether or not to show icon before title.
- * @param {object | string} title The title.
- * @param {JSX.Element|null} image The image or null if no image.
- * @param {boolean} isAlertDismissed Whether or not the notification is dismissed.
- * @param {Function} onDismissed The dismissal prop to be renamed for Notification component.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.children The notification content.
+ * @param {string} props.id The id.
+ * @param {boolean} [props.hasIcon=true] Whether or not to show icon before title.
+ * @param {*} props.title The title.
+ * @param {?import("react").ElementType} [props.image=null] The image component or null if no image.
+ * @param {boolean} props.isAlertDismissed Whether or not the notification is dismissed.
+ * @param {Function} props.onDismissed The dismissal prop to be renamed for Notification component.
+ * @param {string} [props.className=""] Additional class names.
  *
  * @returns {Component} The composed Notification component.
  */
@@ -50,17 +52,4 @@ export const PersistentDismissableNotification = ( {
 	);
 };
 
-PersistentDismissableNotification.propTypes = {
-	children: PropTypes.node.isRequired,
-	id: PropTypes.string.isRequired,
-	hasIcon: PropTypes.bool,
-	title: PropTypes.any.isRequired,
-	image: PropTypes.elementType,
-	isAlertDismissed: PropTypes.bool.isRequired,
-	onDismissed: PropTypes.func.isRequired,
-	className: PropTypes.string,
-};
-
 export default withPersistentDismiss( PersistentDismissableNotification );
-
-

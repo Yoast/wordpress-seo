@@ -3,7 +3,6 @@ import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import {
 	BadWPRequestAlert,
 	GenericAlert,
@@ -14,11 +13,13 @@ import {
 import { SiteUnreachableAlert } from "../../ai-generator/components/errors/site-unreachable-alert";
 
 /**
- * @param {number} errorCode The error code.
- * @param {string} [errorIdentifier=""] The error identifier.
- * @param {string} [errorMessage=""] The error message.
- * @param {string[]} [missingLicenses=[]] Products with an invalid subscription.
- * @param {function} [onRetry=noop] Called to retry.
+ * @param {Object} props Component props.
+ * @param {number} props.errorCode The error code.
+ * @param {string} [props.errorIdentifier=""] The error identifier.
+ * @param {string} [props.errorMessage=""] The error message.
+ * @param {string[]} [props.missingLicenses=[]] Products with an invalid subscription.
+ * @param {Function} [props.onRetry=noop] Called to retry.
+ *
  * @returns {JSX.Element} The element.
  */
 export const ContentPlannerError = ( {
@@ -84,12 +85,4 @@ export const ContentPlannerError = ( {
 			</div>
 		</>
 	);
-};
-
-ContentPlannerError.propTypes = {
-	errorCode: PropTypes.number.isRequired,
-	errorIdentifier: PropTypes.string,
-	errorMessage: PropTypes.string,
-	missingLicenses: PropTypes.arrayOf( PropTypes.string ),
-	onRetry: PropTypes.func,
 };

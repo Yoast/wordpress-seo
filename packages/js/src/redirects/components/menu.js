@@ -7,11 +7,12 @@ import { Link } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../../shared-admin/components";
 import { ROUTES } from "../constants";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 
 
 /**
- * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
+ * @param {Object} props Component props.
+ * @param {string} [props.idSuffix=""] Extra id suffix. Can prevent double IDs on the page.
+ *
  * @returns {JSX.Element} The menu element.
  */
 export const Menu = ( { idSuffix = "" } ) => {
@@ -80,8 +81,4 @@ export const Menu = ( { idSuffix = "" } ) => {
 			</li>
 		</ul>
 	</>;
-};
-
-Menu.propTypes = {
-	idSuffix: PropTypes.string,
 };
