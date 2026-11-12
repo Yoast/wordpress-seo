@@ -69,9 +69,9 @@ export const withCaretStyle = ( WithoutCaretComponent ) => {
 	/**
 	 * Adding a Caret around a component.
 	 *
-	 * @param {boolean} isActive Whether the component is active.
-	 * @param {boolean} isHovered Whether the component is hovered.
-	 * @param {Object} [withoutCaretProps] The props for the component.
+	 * @param {Object} props The props, the rest of which are passed to the wrapped component.
+	 * @param {boolean} props.isActive Whether the component is active.
+	 * @param {boolean} props.isHovered Whether the component is hovered.
 	 *
 	 * @returns {JSX.Element} The component with a Caret.
 	 */
@@ -84,12 +84,6 @@ export const withCaretStyle = ( WithoutCaretComponent ) => {
 		);
 	}
 
-	// Define function props.
-	ComponentWithCaret.propTypes = {
-		isActive: PropTypes.bool.isRequired,
-		isHovered: PropTypes.bool.isRequired,
-	};
-
 	return ComponentWithCaret;
 };
 
@@ -98,7 +92,7 @@ const ImageSelectWithCaret = withCaretStyle( SocialImageSelect );
 /**
  * A form with an image selection button, a title input field and a description field.
  *
- * @param {object} props The props for this component.
+ * @param {Object} props The props for this component.
  *
  * @returns {React.Component} Returns a Fragment that contains all input fields.
  */
@@ -131,7 +125,7 @@ class SocialMetadataPreviewForm extends Component {
 	/**
 	 * Handles the onSelect function for the editors.
 	 *
-	 * @param {String} field The field name of the editor to focus.
+	 * @param {string} field The field name of the editor to focus.
 	 *
 	 * @returns {void}
 	 */
@@ -142,8 +136,8 @@ class SocialMetadataPreviewForm extends Component {
 	/**
 	 * Handles the onSelect function for the editors.
 	 *
-	 * @param {String} field The field name of the editor to focus.
-	 * @param {String} ref The field name of the editor to focus.
+	 * @param {string} field The field name of the editor to focus.
+	 * @param {string} ref The field name of the editor to focus.
 	 *
 	 * @returns {void}
 	 */
@@ -154,7 +148,7 @@ class SocialMetadataPreviewForm extends Component {
 	/**
 	 * Returns the titles for the fields based on the social medium name.
 	 *
-	 * @param {String} socialMediumName The name of the social medium.
+	 * @param {string} socialMediumName The name of the social medium.
 	 *
 	 * @returns {Object} The titles for the fields.
 	 */
