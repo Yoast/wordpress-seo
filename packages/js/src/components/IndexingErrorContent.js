@@ -56,7 +56,7 @@ function ErrorBox( { title, value = "" } ) {
  *
  * @param {Object} props Component props.
  * @param {string} props.message The error message to show.
- * @param {(Error|RequestError|ParseError)} props.error The error itself.
+ * @param {(Error|import("../errors/RequestError").default|import("../errors/ParseError").default)} props.error The error itself.
  *
  * @returns {JSX.Element} The indexation error body.
  */
