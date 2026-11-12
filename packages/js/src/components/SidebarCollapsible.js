@@ -2,20 +2,20 @@
 import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
 import { BetaBadge, SvgIcon } from "@yoast/components";
 
-import PropTypes from "prop-types";
-
 /**
  * Sidebar Collapsible component with default padding and separator.
  *
- * @param {string} title The main title.
- * @param {React.ReactNode} children The collapsible content.
- * @param {?{icon: string, color: ?string, size: ?string}} [prefixIcon=null] The icon object for the prefix.
- * @param {string} [subTitle=""] The subtitle.
- * @param {boolean} [hasBetaBadgeLabel=false] Whether to show the beta badge.
- * @param {boolean} [hasNewBadgeLabel=false] Whether to show the new badge.
- * @param {?string} [buttonId=null] The button id.
- * @param {Function} [renderNewBadgeLabel] Function to render a "New" badge label.
- * @param {boolean} [initialIsOpen=false] Whether the collapsible should be initially open.
+ * @param {Object} props Component props.
+ * @param {string} props.title The main title.
+ * @param {React.ReactNode} props.children The collapsible content.
+ * @param {?string} [props.id=null] The id of the collapsible wrapper.
+ * @param {?{icon: string, color: ?string, size: ?string}} [props.prefixIcon=null] The icon object for the prefix.
+ * @param {string} [props.subTitle=""] The subtitle.
+ * @param {boolean} [props.hasBetaBadgeLabel=false] Whether to show the beta badge.
+ * @param {boolean} [props.hasNewBadgeLabel=false] Whether to show the new badge.
+ * @param {?string} [props.buttonId=null] The button id.
+ * @param {Function} [props.renderNewBadgeLabel] Function to render a "New" badge label.
+ * @param {boolean} [props.initialIsOpen=false] Whether the collapsible should be initially open.
  *
  * @returns {JSX.Element} The element.
  */
@@ -96,19 +96,3 @@ const SidebarCollapsible = ( {
 };
 
 export default SidebarCollapsible;
-
-SidebarCollapsible.propTypes = {
-	title: PropTypes.string.isRequired,
-	children: PropTypes.oneOfType( [
-		PropTypes.node,
-		PropTypes.arrayOf( PropTypes.node ),
-	] ).isRequired,
-	id: PropTypes.string,
-	prefixIcon: PropTypes.object,
-	subTitle: PropTypes.string,
-	hasBetaBadgeLabel: PropTypes.bool,
-	hasNewBadgeLabel: PropTypes.bool,
-	buttonId: PropTypes.string,
-	renderNewBadgeLabel: PropTypes.func,
-	initialIsOpen: PropTypes.bool,
-};

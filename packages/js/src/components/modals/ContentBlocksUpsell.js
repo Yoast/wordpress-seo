@@ -3,17 +3,18 @@ import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { useRootContext } from "@yoast/externals/contexts";
-import PropTypes from "prop-types";
 
 import { UpsellModal } from "./UpsellModal.js";
 import { BenefitItems } from "../contentBlocks/BenefitItems.js";
 
 /**
  * ContentBlocksUpsell component.
+ *
  * @param {Object} props Component props.
- * @param {boolean} isOpen  Whether the modal is open.
- * @param {function} closeModal Function to close the modal.
- * @param {string} location Location where the upsell is shown. Either "sidebar" or "metabox".
+ * @param {boolean} props.isOpen Whether the modal is open.
+ * @param {Function} props.closeModal Function to close the modal.
+ * @param {("sidebar"|"metabox")} props.location Location where the upsell is shown. Either "sidebar" or "metabox".
+ *
  * @returns {JSX.Element} The ContentBlocksUpsell component.
  */
 export const ContentBlocksUpsell = ( { isOpen, closeModal, location } ) => {
@@ -45,10 +46,4 @@ export const ContentBlocksUpsell = ( { isOpen, closeModal, location } ) => {
 		/>
 
 	);
-};
-
-ContentBlocksUpsell.propTypes = {
-	isOpen: PropTypes.bool.isRequired,
-	closeModal: PropTypes.func.isRequired,
-	location: PropTypes.oneOf( [ "sidebar", "metabox" ] ).isRequired,
 };

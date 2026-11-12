@@ -1,14 +1,16 @@
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 
 /**
  * Renders a table for an accessible representation of the SVG area chart.
  *
- * @param {Array} data Array of objects with X and Y coordinates for the SVG chart points.
- * @param {function} [mapChartDataToTableData=null] Function to adapt the chart points to meaningful data for the table.
- * @param {string} dataTableCaption The data table caption text.
- * @param {Array} dataTableHeaderLabels The text to be used for the data table headers.
- * @param {boolean} [isDataTableVisuallyHidden=true] Whether the data table is visually hidden.
+ * @param {Object} props Component props.
+ * @param {Object[]} props.data Array of objects with X and Y coordinates for the SVG chart points.
+ * @param {number} [props.data[].x] The X coordinate of the point.
+ * @param {number} [props.data[].y] The Y coordinate of the point.
+ * @param {Function} [props.mapChartDataToTableData=null] Function to adapt the chart points to meaningful data for the table.
+ * @param {string} props.dataTableCaption The data table caption text.
+ * @param {Array} props.dataTableHeaderLabels The text to be used for the data table headers.
+ * @param {boolean} [props.isDataTableVisuallyHidden=true] Whether the data table is visually hidden.
  *
  * @returns {JSX.Element} The data table for the SVG area chart.
  */
@@ -51,19 +53,6 @@ const AreaChartTable = ( {
 			</table>
 		</div>
 	);
-};
-
-AreaChartTable.propTypes = {
-	data: PropTypes.arrayOf(
-		PropTypes.shape( {
-			x: PropTypes.number,
-			y: PropTypes.number,
-		} )
-	).isRequired,
-	mapChartDataToTableData: PropTypes.func,
-	dataTableCaption: PropTypes.string.isRequired,
-	dataTableHeaderLabels: PropTypes.array.isRequired,
-	isDataTableVisuallyHidden: PropTypes.bool,
 };
 
 export default AreaChartTable;

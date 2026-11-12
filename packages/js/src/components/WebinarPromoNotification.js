@@ -1,14 +1,14 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { useSelect } from "@wordpress/data";
-import PropTypes from "prop-types";
 
 import ConnectedPersistentDismissableNotification from "../containers/PersistentDismissableNotification";
 
 /**
- * @param {string} store The Redux store identifier from which to determine dismissed state.
- * @param {JSX.Element} image The image or null if no image.
- * @param {string} url The URL for the register now link.
+ * @param {Object} props Component props.
+ * @param {string} [props.store="yoast-seo/editor"] The Redux store identifier from which to determine dismissed state.
+ * @param {import("react").ElementType} [props.image=null] The image or null if no image.
+ * @param {string} props.url The URL for the register now link.
  *
  * @returns {JSX.Element} The WebinarPromoNotification component.
  */
@@ -47,12 +47,6 @@ const WebinarPromoNotification = ( {
 			</a>
 		</ConnectedPersistentDismissableNotification>
 	);
-};
-
-WebinarPromoNotification.propTypes = {
-	store: PropTypes.string,
-	image: PropTypes.elementType,
-	url: PropTypes.string.isRequired,
 };
 
 export default WebinarPromoNotification;

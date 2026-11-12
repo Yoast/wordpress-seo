@@ -1,7 +1,5 @@
 import { __ } from "@wordpress/i18n";
 import { strings } from "@yoast/helpers";
-import PropTypes from "prop-types";
-import RequestError from "../errors/RequestError";
 
 const { stripTagsFromHtmlString } = strings;
 
@@ -12,8 +10,9 @@ const ALLOWED_TAGS = [ "a", "p" ];
  *
  * If the value is `undefined`, nothing is shown.
  *
- * @param {string} title The label for the value.
- * @param {any} [value=""] The value to show.
+ * @param {Object} props Component props.
+ * @param {string} props.title The label for the value.
+ * @param {*} [props.value=""] The value to show.
  *
  * @returns {JSX.Element|null} The error line component, or `null` if the value is `undefined`.
  */
@@ -27,16 +26,12 @@ function ErrorLine( { title, value = "" } ) {
 	</p>;
 }
 
-ErrorLine.propTypes = {
-	title: PropTypes.string.isRequired,
-	value: PropTypes.any,
-};
-
 /**
  * Renders a collapsible error box. For bigger error messages or stack traces.
  *
- * @param {string} title The label for the value.
- * @param {string} [value=""] The value.
+ * @param {Object} props Component props.
+ * @param {string} props.title The label for the value.
+ * @param {string} [props.value=""] The value.
  *
  * @returns {JSX.Element|null} The stack trace component, or `null` if no stack trace is available.
  */
@@ -53,19 +48,15 @@ function ErrorBox( { title, value = "" } ) {
 	</details>;
 }
 
-ErrorBox.propTypes = {
-	title: PropTypes.string.isRequired,
-	value: PropTypes.string,
-};
-
 /**
  * The body of an indexation error: the message plus the collapsible request/error details.
  *
  * Rendered inside an `Alert` by the styling-specific `IndexingError` wrappers; the inline styles
  * keep it neutral so it works in both the style-guide and the Tailwind contexts.
  *
- * @param {string} message The error message to show.
- * @param {Error|RequestError|ParseError} error The error itself.
+ * @param {Object} props Component props.
+ * @param {string} props.message The error message to show.
+ * @param {(Error|RequestError|ParseError)} props.error The error itself.
  *
  * @returns {JSX.Element} The indexation error body.
  */
@@ -95,11 +86,3 @@ export default function IndexingErrorContent( { message, error } ) {
 		</details>
 	</>;
 }
-
-IndexingErrorContent.propTypes = {
-	message: PropTypes.string.isRequired,
-	error: PropTypes.oneOfType( [
-		PropTypes.instanceOf( Error ),
-		PropTypes.instanceOf( RequestError ),
-	] ).isRequired,
-};

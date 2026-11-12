@@ -3,7 +3,6 @@ import { createPortal, Fragment, useCallback, useEffect, useState } from "@wordp
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, FieldGroup, Select } from "@yoast/components";
 import { makeOutboundLink, join } from "@yoast/helpers";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
 import WooCommerceUpsell from "./WooCommerceUpsell";
@@ -27,8 +26,9 @@ const STORE = "yoast-seo/editor";
 /**
  * The NewsAlert upsell.
  *
- * @param {string} location The location identifier.
- * @param {boolean} show Whether or not to show the NewsAlert.
+ * @param {Object} props Component props.
+ * @param {boolean} props.show Whether or not to show the NewsAlert.
+ * @param {string} props.location The location identifier.
  *
  * @returns {JSX.Element} The NewsAlert, or null if not showing.
  */
@@ -60,11 +60,6 @@ function NewsAlert( { location, show } ) {
 		</NewsLandingPageLink>
 	</Alert>;
 }
-
-NewsAlert.propTypes = {
-	show: PropTypes.bool.isRequired,
-	location: PropTypes.string.isRequired,
-};
 
 /**
  * Returns the schema type options with a default.
@@ -126,9 +121,10 @@ const footerWithLink = ( postTypeName, href ) => safeCreateInterpolateElement(
 /**
  * The 'normal' header for the Schema tab, for when the Schema blocks have not been enabled.
  *
- * @param {string} helpTextTitle The help text title.
- * @param {string} helpTextLink The help text link.
- * @param {string} helpTextDescription The help text description.
+ * @param {Object} props Component props.
+ * @param {string} props.helpTextTitle The help text title.
+ * @param {string} props.helpTextLink The help text link.
+ * @param {string} props.helpTextDescription The help text description.
  *
  * @returns {JSX.Element} The header.
  */
@@ -143,17 +139,11 @@ const Header = ( { helpTextTitle, helpTextLink, helpTextDescription } ) => {
 	/>;
 };
 
-Header.propTypes = {
-	helpTextTitle: PropTypes.string.isRequired,
-	helpTextLink: PropTypes.string.isRequired,
-	helpTextDescription: PropTypes.string.isRequired,
-};
-
 /**
  * Whether or not NewsArticle is the Article Type.
  * @param {string} selectedValue The value that is selected.
  * @param {string} defaultValue  The default value for this post type.
- * @returns {Boolean} Whether or not NewsArticle is the Article Type.
+ * @returns {boolean} Whether or not NewsArticle is the Article Type.
  */
 function isNewsArticleType( selectedValue, defaultValue ) {
 	if ( selectedValue === "NewsArticle" ) {
@@ -167,23 +157,24 @@ function isNewsArticleType( selectedValue, defaultValue ) {
 /**
  * Returns the content of the schema tab.
  *
- * @param {function} [schemaPageTypeChange=noop] Callback for page type change.
- * @param {?string} [schemaPageTypeSelected=null] The selected page type.
- * @param {Array<SchemaTypeOption>} pageTypeOptions The page type options.
- * @param {function} [schemaArticleTypeChange=noop] Callback for article type change.
- * @param {?string} [schemaArticleTypeSelected=null] The selected article type.
- * @param {Array<SchemaTypeOption>} articleTypeOptions The article type options.
- * @param {boolean} showArticleTypeInput Whether to show the article type input.
- * @param {string} additionalHelpTextLink The additional help text link.
- * @param {string} helpTextLink The help text link.
- * @param {string} helpTextTitle The help text title.
- * @param {string} helpTextDescription The help text description.
- * @param {string} postTypeName The post type name.
- * @param {boolean} [displayFooter=false] Whether to display the footer.
- * @param {string} defaultPageType The default page type.
- * @param {string} defaultArticleType The default article type.
- * @param {string} location The location identifier.
- * @param {boolean} [isNewsEnabled=false] Whether news is enabled.
+ * @param {Object} props Component props.
+ * @param {Function} [props.schemaPageTypeChange=noop] Callback for page type change.
+ * @param {?string} [props.schemaPageTypeSelected=null] The selected page type.
+ * @param {Array<SchemaTypeOption>} props.pageTypeOptions The page type options.
+ * @param {Function} [props.schemaArticleTypeChange=noop] Callback for article type change.
+ * @param {?string} [props.schemaArticleTypeSelected=null] The selected article type.
+ * @param {Array<SchemaTypeOption>} props.articleTypeOptions The article type options.
+ * @param {boolean} props.showArticleTypeInput Whether to show the article type input.
+ * @param {string} props.additionalHelpTextLink The additional help text link.
+ * @param {string} props.helpTextLink The help text link.
+ * @param {string} props.helpTextTitle The help text title.
+ * @param {string} props.helpTextDescription The help text description.
+ * @param {string} props.postTypeName The post type name.
+ * @param {boolean} [props.displayFooter=false] Whether to display the footer.
+ * @param {string} props.defaultPageType The default page type.
+ * @param {string} props.defaultArticleType The default article type.
+ * @param {string} props.location The location identifier.
+ * @param {boolean} [props.isNewsEnabled=false] Whether news is enabled.
  *
  * @returns {JSX.Element} The schema tab content.
  */
@@ -269,48 +260,23 @@ const Content = ( {
 	);
 };
 
-const schemaTypeOptionsPropType = PropTypes.arrayOf( PropTypes.shape( {
-	name: PropTypes.string,
-	value: PropTypes.string,
-} ) );
-
-Content.propTypes = {
-	schemaPageTypeChange: PropTypes.func,
-	schemaPageTypeSelected: PropTypes.string,
-	pageTypeOptions: schemaTypeOptionsPropType.isRequired,
-	schemaArticleTypeChange: PropTypes.func,
-	schemaArticleTypeSelected: PropTypes.string,
-	articleTypeOptions: schemaTypeOptionsPropType.isRequired,
-	showArticleTypeInput: PropTypes.bool.isRequired,
-	additionalHelpTextLink: PropTypes.string.isRequired,
-	helpTextLink: PropTypes.string.isRequired,
-	helpTextTitle: PropTypes.string.isRequired,
-	helpTextDescription: PropTypes.string.isRequired,
-	postTypeName: PropTypes.string.isRequired,
-	displayFooter: PropTypes.bool,
-	defaultPageType: PropTypes.string.isRequired,
-	defaultArticleType: PropTypes.string.isRequired,
-	location: PropTypes.string.isRequired,
-	isNewsEnabled: PropTypes.bool,
-};
-
 /**
  * Renders the schema tab.
  *
- * @param {boolean} [showArticleTypeInput=false] Whether to show the article type input.
- * @param {string} [articleTypeLabel=""] The article type label.
- * @param {string} [additionalHelpTextLink=""] The additional help text link.
- * @param {string} pageTypeLabel The page type label.
- * @param {string} helpTextLink The help text link.
- * @param {string} helpTextTitle The help text title.
- * @param {string} helpTextDescription The help text description.
- * @param {boolean} isMetabox Whether this is in the metabox.
- * @param {string} postTypeName The post type name.
- * @param {boolean} [displayFooter=false] Whether to display the footer.
- * @param {function} loadSchemaArticleData Callback to load schema article data.
- * @param {function} loadSchemaPageData Callback to load schema page data.
- * @param {string} location The location identifier.
- * @param {...Object} [props] Additional props.
+ * @param {Object} props Component props. Additional props are passed to the Content component.
+ * @param {boolean} props.isMetabox Whether this is in the metabox.
+ * @param {boolean} [props.showArticleTypeInput=false] Whether to show the article type input.
+ * @param {string} [props.articleTypeLabel=""] The article type label.
+ * @param {string} [props.additionalHelpTextLink=""] The additional help text link.
+ * @param {string} props.pageTypeLabel The page type label.
+ * @param {string} props.helpTextLink The help text link.
+ * @param {string} props.helpTextTitle The help text title.
+ * @param {string} props.helpTextDescription The help text description.
+ * @param {string} props.postTypeName The post type name.
+ * @param {boolean} [props.displayFooter=false] Whether to display the footer.
+ * @param {Function} props.loadSchemaArticleData Callback to load schema article data.
+ * @param {Function} props.loadSchemaPageData Callback to load schema page data.
+ * @param {string} props.location The location identifier.
  *
  * @returns {JSX.Element} The schema tab.
  */
@@ -357,22 +323,6 @@ const SchemaTab = ( {
 	}
 
 	return content;
-};
-
-SchemaTab.propTypes = {
-	isMetabox: PropTypes.bool.isRequired,
-	showArticleTypeInput: PropTypes.bool,
-	articleTypeLabel: PropTypes.string,
-	additionalHelpTextLink: PropTypes.string,
-	pageTypeLabel: PropTypes.string.isRequired,
-	helpTextLink: PropTypes.string.isRequired,
-	helpTextTitle: PropTypes.string.isRequired,
-	helpTextDescription: PropTypes.string.isRequired,
-	postTypeName: PropTypes.string.isRequired,
-	displayFooter: PropTypes.bool,
-	loadSchemaArticleData: PropTypes.func.isRequired,
-	loadSchemaPageData: PropTypes.func.isRequired,
-	location: PropTypes.string.isRequired,
 };
 
 export default SchemaTab;

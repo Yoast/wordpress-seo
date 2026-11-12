@@ -1,5 +1,4 @@
 /* global wpseoAdminL10n */
-import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { noop } from "lodash";
 import { FeatureUpsell, Label, Root, useRootContext } from "@yoast/ui-library";
@@ -12,9 +11,8 @@ const FeatureUpsellContainer = styled.div`
 `;
 
 /**
- *
  * @param {Object} props The properties passed to this component.
- * @param {string} props.socialMediumName The social medium platform.
+ * @param {("Social"|"Twitter"|"X")} props.socialMediumName The social medium platform.
  *
  * @returns {wp.Element} The FacebookView Component.
  */
@@ -67,10 +65,6 @@ const SocialUpsell = ( props ) => {
 			</FeatureUpsellContainer>
 		</Root>
 	);
-};
-
-SocialUpsell.propTypes = {
-	socialMediumName: PropTypes.oneOf( [ "Social", "Twitter", "X" ] ).isRequired,
 };
 
 export default SocialUpsell;

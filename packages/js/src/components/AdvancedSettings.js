@@ -6,12 +6,11 @@ import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/
 import { LocationConsumer } from "@yoast/externals/contexts";
 import { join } from "@yoast/helpers";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 
 /**
  * Boolean that tells whether the current object refers to a post or a taxonomy.
  *
- * @returns {Boolean} Whether this is a post or not.
+ * @returns {boolean} Whether this is a post or not.
  */
 const isPost = () => !! window.wpseoScriptData.isPost;
 
@@ -61,10 +60,11 @@ const getNoIndexOptions = ( editorContext ) => {
 /**
  * Functional component for the Meta Robots No-Index option.
  *
- * @param {string} noIndex The current noIndex value.
- * @param {function} onNoIndexChange Callback for when the noIndex value changes.
- * @param {Object} editorContext The editor context object.
- * @param {boolean} [isPrivateBlog=false] Whether the blog is private.
+ * @param {Object} props Component props.
+ * @param {string} props.noIndex The current noIndex value.
+ * @param {Function} props.onNoIndexChange Callback for when the noIndex value changes.
+ * @param {Object} props.editorContext The editor context object.
+ * @param {boolean} [props.isPrivateBlog=false] Whether the blog is private.
  *
  * @returns {JSX.Element} The Meta Robots No-Index.
  */
@@ -104,18 +104,12 @@ const MetaRobotsNoIndex = ( {
 	</LocationConsumer>;
 };
 
-MetaRobotsNoIndex.propTypes = {
-	noIndex: PropTypes.string.isRequired,
-	onNoIndexChange: PropTypes.func.isRequired,
-	editorContext: PropTypes.object.isRequired,
-	isPrivateBlog: PropTypes.bool,
-};
-
 /**
  * Functional component for the Meta Robots No-Follow option.
  *
- * @param {string} noFollow The current noFollow value.
- * @param {function} onNoFollowChange Callback for when the noFollow value changes.
+ * @param {Object} props Component props.
+ * @param {string} props.noFollow The current noFollow value.
+ * @param {Function} props.onNoFollowChange Callback for when the noFollow value changes.
  *
  * @returns {JSX.Element} The Meta Robots No-Follow option.
  */
@@ -140,16 +134,12 @@ const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange } ) => {
 	</LocationConsumer>;
 };
 
-MetaRobotsNoFollow.propTypes = {
-	noFollow: PropTypes.string.isRequired,
-	onNoFollowChange: PropTypes.func.isRequired,
-};
-
 /**
  * Functional component for the Meta Robots Advanced field.
  *
- * @param {Array} advanced The selected advanced options.
- * @param {function} onAdvancedChange Callback for when the advanced options change.
+ * @param {Object} props Component props.
+ * @param {Array} props.advanced The selected advanced options.
+ * @param {Function} props.onAdvancedChange Callback for when the advanced options change.
  *
  * @returns {JSX.Element} The Meta Robots advanced field.
  */
@@ -179,16 +169,12 @@ const MetaRobotsAdvanced = ( { advanced, onAdvancedChange } ) => {
 	</LocationConsumer>;
 };
 
-MetaRobotsAdvanced.propTypes = {
-	advanced: PropTypes.array.isRequired,
-	onAdvancedChange: PropTypes.func.isRequired,
-};
-
 /**
  * Functional component for the Breadcrumbs Title.
  *
- * @param {string} breadcrumbsTitle The breadcrumbs title value.
- * @param {function} onBreadcrumbsTitleChange Callback for when the breadcrumbs title changes.
+ * @param {Object} props Component props.
+ * @param {string} props.breadcrumbsTitle The breadcrumbs title value.
+ * @param {Function} props.onBreadcrumbsTitleChange Callback for when the breadcrumbs title changes.
  *
  * @returns {JSX.Element} The Breadcrumbs title.
  */
@@ -211,16 +197,12 @@ const BreadcrumbsTitle = ( { breadcrumbsTitle, onBreadcrumbsTitleChange } ) => {
 	</LocationConsumer>;
 };
 
-BreadcrumbsTitle.propTypes = {
-	breadcrumbsTitle: PropTypes.string.isRequired,
-	onBreadcrumbsTitleChange: PropTypes.func.isRequired,
-};
-
 /**
  * Functional component for the Canonical URL.
  *
- * @param {string} canonical The canonical URL value.
- * @param {function} onCanonicalChange Callback for when the canonical URL changes.
+ * @param {Object} props Component props.
+ * @param {string} props.canonical The canonical URL value.
+ * @param {Function} props.onCanonicalChange Callback for when the canonical URL changes.
  *
  * @returns {JSX.Element} The canonical URL.
  */
@@ -243,29 +225,25 @@ const CanonicalURL = ( { canonical, onCanonicalChange } ) => {
 	</LocationConsumer>;
 };
 
-CanonicalURL.propTypes = {
-	canonical: PropTypes.string.isRequired,
-	onCanonicalChange: PropTypes.func.isRequired,
-};
-
 /**
  * The Advanced Settings component.
  *
- * @param {string} noIndex The current noIndex value.
- * @param {string} canonical The canonical URL value.
- * @param {function} onNoIndexChange Callback for when the noIndex value changes.
- * @param {function} onCanonicalChange Callback for when the canonical URL changes.
- * @param {function} onLoad Callback for when the component loads.
- * @param {boolean} isLoading Whether the component is loading.
- * @param {Object} editorContext The editor context object.
- * @param {boolean} isBreadcrumbsDisabled Whether breadcrumbs are disabled.
- * @param {Array} [advanced=[]] The selected advanced options.
- * @param {function} [onAdvancedChange=noop] Callback for when the advanced options change.
- * @param {string} [noFollow=""] The current noFollow value.
- * @param {function} [onNoFollowChange=noop] Callback for when the noFollow value changes.
- * @param {string} [breadcrumbsTitle=""] The breadcrumbs title value.
- * @param {function} [onBreadcrumbsTitleChange=noop] Callback for when the breadcrumbs title changes.
- * @param {boolean} [isPrivateBlog=false] Whether the blog is private.
+ * @param {Object} props Component props.
+ * @param {string} props.noIndex The current noIndex value.
+ * @param {string} props.canonical The canonical URL value.
+ * @param {Function} props.onNoIndexChange Callback for when the noIndex value changes.
+ * @param {Function} props.onCanonicalChange Callback for when the canonical URL changes.
+ * @param {Function} props.onLoad Callback for when the component loads.
+ * @param {boolean} props.isLoading Whether the component is loading.
+ * @param {Object} props.editorContext The editor context object.
+ * @param {boolean} props.isBreadcrumbsDisabled Whether breadcrumbs are disabled.
+ * @param {boolean} [props.isPrivateBlog=false] Whether the blog is private.
+ * @param {Array} [props.advanced=[]] The selected advanced options.
+ * @param {Function} [props.onAdvancedChange=noop] Callback for when the advanced options change.
+ * @param {string} [props.noFollow=""] The current noFollow value.
+ * @param {Function} [props.onNoFollowChange=noop] Callback for when the noFollow value changes.
+ * @param {string} [props.breadcrumbsTitle=""] The breadcrumbs title value.
+ * @param {Function} [props.onBreadcrumbsTitleChange=noop] Callback for when the breadcrumbs title changes.
  *
  * @returns {JSX.Element} The AdvancedSettings component.
  */
@@ -335,24 +313,6 @@ const AdvancedSettings = ( {
 			<CanonicalURL { ...canonicalProps } />
 		</Fragment>
 	);
-};
-
-AdvancedSettings.propTypes = {
-	noIndex: PropTypes.string.isRequired,
-	canonical: PropTypes.string.isRequired,
-	onNoIndexChange: PropTypes.func.isRequired,
-	onCanonicalChange: PropTypes.func.isRequired,
-	onLoad: PropTypes.func.isRequired,
-	isLoading: PropTypes.bool.isRequired,
-	editorContext: PropTypes.object.isRequired,
-	isBreadcrumbsDisabled: PropTypes.bool.isRequired,
-	isPrivateBlog: PropTypes.bool,
-	advanced: PropTypes.array,
-	onAdvancedChange: PropTypes.func,
-	noFollow: PropTypes.string,
-	onNoFollowChange: PropTypes.func,
-	breadcrumbsTitle: PropTypes.string,
-	onBreadcrumbsTitleChange: PropTypes.func,
 };
 
 export default AdvancedSettings;

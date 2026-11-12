@@ -3,7 +3,6 @@ import { __ } from "@wordpress/i18n";
 import { HelpText } from "@yoast/components";
 import { join, makeOutboundLink } from "@yoast/helpers";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import { default as CornerstoneToggle } from "./CornerstoneToggle";
 import MetaboxCollapsible from "./MetaboxCollapsible";
 import SidebarCollapsible from "./SidebarCollapsible";
@@ -13,10 +12,11 @@ const LearnMoreLink = makeOutboundLink();
 /**
  * Renders the collapsible cornerstone toggle.
  *
- * @param {boolean} [isCornerstone=true] Whether the content is marked as cornerstone.
- * @param {function} [onChange=noop] Callback when the toggle changes.
- * @param {string} learnMoreUrl The URL for the "Learn more" link.
- * @param {string} [location=""] The location identifier.
+ * @param {Object} props Component props.
+ * @param {boolean} [props.isCornerstone=true] Whether the content is marked as cornerstone.
+ * @param {Function} [props.onChange=noop] Callback when the toggle changes.
+ * @param {string} props.learnMoreUrl The URL for the "Learn more" link.
+ * @param {string} [props.location=""] The location identifier.
  *
  * @returns {JSX.Element}
  */
@@ -48,10 +48,3 @@ export default function CollapsibleCornerstone( {
 		</Collapsible>
 	);
 }
-
-CollapsibleCornerstone.propTypes = {
-	isCornerstone: PropTypes.bool,
-	onChange: PropTypes.func,
-	learnMoreUrl: PropTypes.string.isRequired,
-	location: PropTypes.string,
-};

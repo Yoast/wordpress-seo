@@ -1,11 +1,12 @@
 import { useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { ErrorFallback } from "../shared-admin/components";
 
 /**
- * @param {Object} error The error instance.
+ * @param {Object} props Component props.
+ * @param {Object} props.error The error instance.
+ *
  * @returns {JSX.Element} The error fallback element.
  */
 export const SidebarErrorFallback = ( { error } ) => {
@@ -23,8 +24,4 @@ export const SidebarErrorFallback = ( { error } ) => {
 			</ErrorFallback>
 		</Root>
 	);
-};
-
-SidebarErrorFallback.propTypes = {
-	error: PropTypes.object.isRequired,
 };

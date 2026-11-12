@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import ExclamationCircleIcon from "@heroicons/react/solid/ExclamationCircleIcon";
 import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
@@ -14,7 +13,8 @@ const STORE_NAME_EDITOR = "yoast-seo/editor";
 /**
  * Renders the Default SEO Data Alert.
  *
- * @param {Object} isSeoDataDefault Whether SEO titles and meta descriptions are default.
+ * @param {Object} props Component props.
+ * @param {Object} props.isSeoDataDefault Whether SEO titles and meta descriptions are default.
  *
  * @returns {wp.Element} The Default SEO Data Alert.
  */
@@ -132,7 +132,3 @@ export default function DefaultSeoDataAlert( {
 		<Root><Button variant="secondary" size="small" className="yst-mt-2" onClick={ onClick }>{ __( "Write custom SEO data", "wordpress-seo" ) }</Button></Root>
 	</Fragment>;
 }
-
-DefaultSeoDataAlert.propTypes = {
-	isSeoDataDefault: PropTypes.object.isRequired,
-};
