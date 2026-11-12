@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "@wordpress/element";
 import { AutocompleteField } from "@yoast/ui-library";
 import { useField } from "formik";
-import PropTypes from "prop-types";
 
 /**
  * @param {Object} props The props object.
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
- * @param {Array} [props.options] The options.
+ * @param {Array} [props.options=[]] The options.
+ *
  * @returns {JSX.Element} The page select component.
  */
 const FormikAutocompleteField = ( { name, id, options = [], ...props } ) => {
@@ -59,12 +59,6 @@ const FormikAutocompleteField = ( { name, id, options = [], ...props } ) => {
 
 		</AutocompleteField>
 	);
-};
-
-FormikAutocompleteField.propTypes = {
-	name: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	options: PropTypes.array,
 };
 
 export default FormikAutocompleteField;

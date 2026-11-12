@@ -1,5 +1,4 @@
 import { Badge } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { useDisabledMessage } from "../hooks";
 
 /**
@@ -9,8 +8,9 @@ import { useDisabledMessage } from "../hooks";
  */
 const withDisabledMessageSupport = ( Component ) => {
 	/**
-	 * @param {string} name The field name.
 	 * @param {Object} props The props.
+	 * @param {string} props.name The field name.
+	 *
 	 * @returns {JSX.Element} The element.
 	 */
 	const WithDisabledMessageSupport = ( { name, ...props } ) => {
@@ -30,10 +30,6 @@ const withDisabledMessageSupport = ( Component ) => {
 			);
 		}
 		return <Component name={ name } { ...props } />;
-	};
-
-	WithDisabledMessageSupport.propTypes = {
-		name: PropTypes.string.isRequired,
 	};
 
 	return WithDisabledMessageSupport;

@@ -4,7 +4,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import { initial, last, map, values, isEmpty } from "lodash";
-import PropTypes from "prop-types";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -22,11 +21,13 @@ import { useSelectSettings, useDispatchSettings } from "../../hooks";
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
 /**
- * @param {string} name The taxonomy name.
- * @param {string} label The taxonomy label (plural).
- * @param {string[]} postTypes The connected post types.
- * @param {boolean} showUi Whether the taxonomy has a UI.
- * @param {boolean} isNew Whether the taxonomy is new.
+ * @param {Object} props Component props.
+ * @param {string} props.name The taxonomy name.
+ * @param {string} props.label The taxonomy label (plural).
+ * @param {string[]} props.postTypes The connected post types.
+ * @param {boolean} props.showUi Whether the taxonomy has a UI.
+ * @param {boolean} props.isNew Whether the taxonomy is new.
+ *
  * @returns {JSX.Element} The taxonomy element.
  */
 const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) => {
@@ -297,14 +298,6 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) =>
 			</FormLayout>
 		</RouteLayout>
 	);
-};
-
-Taxonomy.propTypes = {
-	name: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
-	postTypes: PropTypes.arrayOf( PropTypes.string ).isRequired,
-	showUi: PropTypes.bool.isRequired,
-	isNew: PropTypes.bool.isRequired,
 };
 
 export default Taxonomy;

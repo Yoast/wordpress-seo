@@ -1,13 +1,13 @@
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { useSelectSettings } from "../hooks";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { LLMS_TXT_GENERATION_FAILURE_REASONS } from "../constants";
 
 /**
- * @param {string} reason The reason for the alert to appear.
+ * @param {Object} props Component props.
+ * @param {string} props.reason The reason for the alert to appear.
  *
  * @returns {JSX.Element} The llms.txt alert.
  */
@@ -40,8 +40,4 @@ export const LlmsTxtAlert = ( { reason } ) => {
 			{ alertText }
 		</Alert>
 	);
-};
-
-LlmsTxtAlert.propTypes = {
-	reason: PropTypes.string.isRequired,
 };

@@ -1,6 +1,5 @@
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 import { OutboundLink } from "../../../../shared-admin/components";
 import { STORE_NAME_EDITOR } from "../../../constants";
@@ -12,10 +11,12 @@ export const title = __( "Something went wrong", "wordpress-seo" );
  * The copy for the generic fallback error (400 default, 403, 503, and any
  * unmapped code).
  *
- * @param {string} [linkStoreName] The store to read the common-errors and support links from.
+ * @param {Object} props Component props.
+ * @param {string} [props.linkStoreName] The store to read the common-errors and support links from.
  *                                  Defaults to the block editor's store; pass a different store
  *                                  name when rendering outside the block editor (e.g. the AI
  *                                  consent screen on the user profile page).
+ *
  * @returns {JSX.Element} The element.
  */
 export const Body = ( { linkStoreName = STORE_NAME_EDITOR } ) => {
@@ -44,4 +45,3 @@ export const Body = ( { linkStoreName = STORE_NAME_EDITOR } ) => {
 		</Paragraph>
 	);
 };
-Body.propTypes = { linkStoreName: PropTypes.string };

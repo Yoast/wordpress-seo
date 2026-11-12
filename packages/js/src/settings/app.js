@@ -10,7 +10,6 @@ import { Badge, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvg
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
-import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, PremiumUpsellList, SidebarRecommendations, YoastLogo } from "../shared-admin/components";
 import { ErrorFallback, Notifications, Search, AdvancedMenu } from "./components";
@@ -37,9 +36,11 @@ import {
 } from "./routes";
 
 /**
- * @param {Object[]} postTypes The post types to present.
- * @param {Object[]} taxonomies The taxonomies to present.
- * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
+ * @param {Object} props Component props.
+ * @param {Object} props.postTypes The post types to present.
+ * @param {Object} props.taxonomies The taxonomies to present.
+ * @param {string} [props.idSuffix=""] Extra id suffix. Can prevent double IDs on the page.
+ *
  * @returns {JSX.Element} The menu element.
  */
 const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
@@ -128,12 +129,6 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			<AdvancedMenu idSuffix={ idSuffix } />
 		</div>
 	</>;
-};
-
-Menu.propTypes = {
-	postTypes: PropTypes.object.isRequired,
-	taxonomies: PropTypes.object.isRequired,
-	idSuffix: PropTypes.string,
 };
 
 /**

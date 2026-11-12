@@ -1,9 +1,10 @@
 import { Alert } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { Body, title } from "./messages/bad-wp-request";
 
 /**
- * @param {string} [errorMessage=""] The error message to display.
+ * @param {Object} props Component props.
+ * @param {string} [props.errorMessage=""] The error message to display.
+ *
  * @returns {JSX.Element} The element.
  */
 export const BadWPRequestAlert = ( { errorMessage = "" } ) => (
@@ -12,7 +13,3 @@ export const BadWPRequestAlert = ( { errorMessage = "" } ) => (
 		<Body errorMessage={ errorMessage } />
 	</Alert>
 );
-
-BadWPRequestAlert.propTypes = {
-	errorMessage: PropTypes.string,
-};

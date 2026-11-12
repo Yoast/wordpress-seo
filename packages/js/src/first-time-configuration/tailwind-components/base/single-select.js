@@ -5,20 +5,25 @@ import SelectorIcon from "@heroicons/react/solid/SelectorIcon";
 import { Fragment, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
-import { PropTypes } from "prop-types";
 import { getErrorAriaProps, getErrorId, getOptionActiveStyles } from "../helpers";
 import MultiLineText from "./multi-line-text";
 
 /**
  * The Select component.
  *
- * @param {string} id ID attribute.
- * @param {string|number} value Current value.
- * @param {Object[]} choices Array of option objects.
- * @param {string} [label=""] Label. If left empty, no label will be rendered.
- * @param {function} onChange Change handler.
- * @param {{message: string, isVisible: boolean}} [error] Validation error object.
- * @param {boolean} [disabled=false] Whether the select is disabled.
+ * @param {Object} props Component props.
+ * @param {(string|number)} props.value Current value.
+ * @param {Object[]} props.choices Array of option objects.
+ * @param {(number|string)} props.choices[].id The option ID, used as the React key.
+ * @param {string} props.choices[].value The option value.
+ * @param {string} props.choices[].label The option label.
+ * @param {string} [props.label=""] Label. If left empty, no label will be rendered.
+ * @param {Function} props.onChange Change handler.
+ * @param {string} props.id ID attribute.
+ * @param {Object} [props.error] Validation error object.
+ * @param {string} [props.error.message] The error message.
+ * @param {boolean} [props.error.isVisible] Whether the error is shown.
+ * @param {boolean} [props.disabled=false] Whether the select is disabled.
  *
  * @returns {JSX.Element} The Select element.
  */
@@ -127,20 +132,3 @@ export default function Select( {
 		</Listbox>
 	);
 }
-
-Select.propTypes = {
-	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
-	choices: PropTypes.arrayOf( PropTypes.shape( {
-		id: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ).isRequired,
-		value: PropTypes.string.isRequired,
-		label: PropTypes.string.isRequired,
-	} ) ).isRequired,
-	label: PropTypes.string,
-	onChange: PropTypes.func.isRequired,
-	id: PropTypes.string.isRequired,
-	error: PropTypes.shape( {
-		message: PropTypes.string,
-		isVisible: PropTypes.bool,
-	} ),
-	disabled: PropTypes.bool,
-};

@@ -5,7 +5,6 @@ import { Fragment, useCallback, useEffect, useMemo, useState } from "@wordpress/
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, Label, Modal, Notifications, Pagination, useModalContext, usePrevious } from "@yoast/ui-library";
 import { map, noop } from "lodash";
-import PropTypes from "prop-types";
 import { SparksLimitNotification, SuggestionError, SuggestionsList, SuggestionsListSkeleton, TipNotification } from ".";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import {
@@ -53,7 +52,7 @@ const BETWEEN_BADGES = /(?<start><\/badge>|^(?!<badge>))(?<wrap>[\s\S]+?)(?<end>
  *
  * @param {number} current The current page. Start at 1.
  * @param {number} total The total pages.
- * @param {function} onNavigate Callback for requested page navigation.
+ * @param {Function} onNavigate Callback for requested page navigation.
  * @param {boolean} [disabled=false] Whether the buttons are disabled.
  * @param {...Object} [props] Extra pagination props.
  *
@@ -85,10 +84,12 @@ const SuggestionsFooter = ( { total, current, onNavigate, disabled = false, ...p
 };
 
 /**
- * @param {number} height The height of the scrolling container above.
- * @param {function} onFatalError Called with an error descriptor when the initial
+ * @param {Object} props Component props.
+ * @param {number} props.height The height of the scrolling container above.
+ * @param {Function} props.onFatalError Called with an error descriptor when the initial
  *                                fetch fails (or a subscription error occurs), so
  *                                the parent can close the modal and show a danger modal.
+ *
  * @returns {JSX.Element} The element.
  */
 export const ModalContent = ( { height, onFatalError } ) => {
@@ -434,8 +435,4 @@ export const ModalContent = ( { height, onFatalError } ) => {
 			</Notifications>
 		</Fragment>
 	);
-};
-ModalContent.propTypes = {
-	height: PropTypes.number.isRequired,
-	onFatalError: PropTypes.func.isRequired,
 };

@@ -1,15 +1,16 @@
 import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
-import PropTypes from "prop-types";
 import { STORE_NAME_EDITOR, STORE_NAME_AI, ASYNC_ACTION_STATUS } from "../constants";
 import { SeoAnalysisInactiveError, SubscriptionError } from "./errors";
 import { UsageCountError } from "./usage-count-error";
 
 /**
- * @param {Object} currentSubscriptions An object containing the information of product subscriptions validity status.
- * @param {boolean} currentSubscriptions.premiumSubscription The validity status of Yoast SEO Premium subscription.
- * @param {boolean} currentSubscriptions.wooCommerceSubscription The validity status of Yoast WooCommerce SEO subscription.
- * @param {boolean} [isSeoAnalysisActive=true] Whether SEO analysis feature is active.
+ * @param {Object} props Component props.
+ * @param {Object} props.currentSubscriptions An object containing the information of product subscriptions validity status.
+ * @param {boolean} props.currentSubscriptions.premiumSubscription The validity status of Yoast SEO Premium subscription.
+ * @param {boolean} props.currentSubscriptions.wooCommerceSubscription The validity status of Yoast WooCommerce SEO subscription.
+ * @param {boolean} [props.isSeoAnalysisActive=true] Whether SEO analysis feature is active.
+ *
  * @returns { JSX.Element } The element.
  */
 export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive = true } ) => {
@@ -52,9 +53,4 @@ export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive = true
 	if ( usageCountStatus === ASYNC_ACTION_STATUS.error ) {
 		return <UsageCountError { ...usageCountError } />;
 	}
-};
-
-FeatureError.propTypes = {
-	currentSubscriptions: PropTypes.object.isRequired,
-	isSeoAnalysisActive: PropTypes.bool,
 };

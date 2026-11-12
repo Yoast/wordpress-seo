@@ -1,18 +1,15 @@
 import { __ } from "@wordpress/i18n";
 import { Table, TextareaField } from "@yoast/ui-library";
 import { Field } from "formik";
-import PropTypes from "prop-types";
 import { FieldsetLayout, FormLayout, RouteLayout } from "../components";
 
 /**
- * @param {JSX.node} children The content.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.children The content.
+ *
  * @returns {JSX.Element} The element.
  */
 const VariableCell = ( { children } ) => <Table.Cell className="yst-font-medium"><span className="yst-text-slate-900">{ children }</span></Table.Cell>;
-
-VariableCell.propTypes = {
-	children: PropTypes.node.isRequired,
-};
 
 /**
  * @returns {JSX.Element} The RSS route.

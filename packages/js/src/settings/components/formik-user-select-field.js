@@ -8,15 +8,16 @@ import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useField } from "formik";
 import { debounce, find, isEmpty, map, values } from "lodash";
-import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS, FETCH_DELAY } from "../../shared-admin/constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 let abortController;
 
 /**
- * @param {JSX.node} children The children.
- * @param {string} [className] The className.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.children The children.
+ * @param {string} [props.className=""] The className.
+ *
  * @returns {JSX.Element} The user select options content decorator component.
  */
 const UserSelectOptionsContent = ( { children, className = "" } ) => (
@@ -25,16 +26,12 @@ const UserSelectOptionsContent = ( { children, className = "" } ) => (
 	</div>
 );
 
-UserSelectOptionsContent.propTypes = {
-	children: PropTypes.node.isRequired,
-	className: PropTypes.string,
-};
-
 /**
  * @param {Object} props The props object.
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
- * @param {string} props.className The className.
+ * @param {string} [props.className=""] The className.
+ *
  * @returns {JSX.Element} The user select component.
  */
 const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
@@ -152,12 +149,6 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 			</>
 		</AutocompleteField>
 	);
-};
-
-FormikUserSelectField.propTypes = {
-	name: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	className: PropTypes.string,
 };
 
 export default FormikUserSelectField;

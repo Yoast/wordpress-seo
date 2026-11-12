@@ -6,7 +6,6 @@ import { useCallback, useState, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { Badge, Button, Link, Modal, useSvgAria } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import {
 	STORE_NAME_AI,
@@ -25,7 +24,7 @@ import { useOpenYoastSidebarWhenPublishing } from "../../hooks/use-open-yoast-si
  * Component abstracting the main modal.
  *
  * @param {boolean} isOpen Whether the modal is open.
- * @param {function} onClose Callback for when the modal is closed.
+ * @param {Function} onClose Callback for when the modal is closed.
  * @param {string} closeButtonScreenReaderText The screen reader text for the close button.
  * @param {React.Ref} panelRef The reference to the panel.
  * @param {string} title The title of the modal.
@@ -76,7 +75,7 @@ const MainModal = ( { isOpen, onClose, closeButtonScreenReaderText, panelRef, ti
  * Component abstracting the introduction modal.
  *
  * @param {boolean} isOpen Whether the modal is open.
- * @param {function} onClose Callback for when the modal is closed.
+ * @param {Function} onClose Callback for when the modal is closed.
  * @param {string} closeButtonScreenReaderText The screen reader text for the close button.
  * @param {React.ReactNode} children The children of the modal.
  *
@@ -105,7 +104,9 @@ export const DISPLAY = {
 };
 
 /**
- * @param {function} onUseAi Callback for when the user clicks on the use AI button.
+ * @param {Object} props Component props.
+ * @param {Function} props.onUseAi Callback for when the user clicks on the use AI button.
+ *
  * @returns {JSX.Element} The element.
  */
 export const App = ( { onUseAi } ) => {
@@ -451,7 +452,4 @@ export const App = ( { onUseAi } ) => {
 			) }
 		</>
 	);
-};
-App.propTypes = {
-	onUseAi: PropTypes.func.isRequired,
 };

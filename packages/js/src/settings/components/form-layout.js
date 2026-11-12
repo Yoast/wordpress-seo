@@ -3,12 +3,14 @@ import { __ } from "@wordpress/i18n";
 import { Button, useToggleState } from "@yoast/ui-library";
 import { Form, useFormikContext } from "formik";
 import { includes, values } from "lodash";
-import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
 import { useSelectSettings } from "../hooks";
 import { UnsavedChangesModal } from "../../shared-admin/components";
 
 /**
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.children The form content.
+ *
  * @returns {JSX.Element} The form layout component.
  */
 const FormLayout = ( { children } ) => {
@@ -68,10 +70,6 @@ const FormLayout = ( { children } ) => {
 			</footer>
 		</Form>
 	);
-};
-
-FormLayout.propTypes = {
-	children: PropTypes.node.isRequired,
 };
 
 export default FormLayout;

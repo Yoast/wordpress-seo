@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useFormikError } from "../hooks";
 
 /**
@@ -8,17 +7,14 @@ import { useFormikError } from "../hooks";
  */
 const withFormikError = Component => {
 	/**
-	 * @param {string} name The name.
 	 * @param {Object} props The props.
+	 * @param {string} props.name The name.
+	 *
 	 * @returns {JSX.Element} The element.
 	 */
 	const ComponentWithFormikError = ( { name, ...props } ) => {
 		const { isTouched, error } = useFormikError( { name } );
 		return <Component name={ name } validation={ { variant: "error", message: isTouched && error } } { ...props } />;
-	};
-
-	ComponentWithFormikError.propTypes = {
-		name: PropTypes.string.isRequired,
 	};
 
 	return ComponentWithFormikError;

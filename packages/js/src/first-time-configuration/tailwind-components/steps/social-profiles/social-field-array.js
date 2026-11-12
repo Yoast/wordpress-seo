@@ -3,18 +3,18 @@ import PlusIcon from "@heroicons/react/solid/PlusIcon";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
  * The FieldArray component.
  *
- * @param {Array} items The array containing the organization's social profiles.
- * @param {function}  onAddProfile Function to call when a new field is added to the field array.
- * @param {function}  onRemoveProfile Function to call when a field is removed from the field array.
- * @param {function}  onChangeProfile Function to call when the content of a field is edited.
- * @param {Array} [errorFields=[]] The array containing the names of the fields with an invalid value.
- * @param {React.ElementType} fieldType The component to render each item with.
- * @param {React.ReactNode} [addButtonChildren] Children for the add item button.
+ * @param {Object} props Component props.
+ * @param {React.ElementType} props.fieldType The component to render each item with.
+ * @param {Array} props.items The array containing the organization's social profiles.
+ * @param {Function} props.onAddProfile Function to call when a new field is added to the field array.
+ * @param {Function} props.onRemoveProfile Function to call when a field is removed from the field array.
+ * @param {Function} props.onChangeProfile Function to call when the content of a field is edited.
+ * @param {Array} [props.errorFields=[]] The array containing the names of the fields with an invalid value.
+ * @param {React.ReactNode} [props.addButtonChildren] Children for the add item button.
  *
  * @returns {JSX.Element} The FieldArray component.
  */
@@ -83,13 +83,4 @@ const SocialFieldArray = ( {
 	);
 };
 
-SocialFieldArray.propTypes = {
-	fieldType: PropTypes.elementType.isRequired,
-	items: PropTypes.array.isRequired,
-	onAddProfile: PropTypes.func.isRequired,
-	onRemoveProfile: PropTypes.func.isRequired,
-	onChangeProfile: PropTypes.func.isRequired,
-	errorFields: PropTypes.array,
-	addButtonChildren: PropTypes.node,
-};
 export default SocialFieldArray;

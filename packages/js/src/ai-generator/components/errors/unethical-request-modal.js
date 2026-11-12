@@ -1,5 +1,4 @@
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import { Body, title } from "./messages/unethical-request";
 import { Actions, CloseButton, DangerModal, ModalDescription } from "./modal-parts";
 
@@ -7,8 +6,10 @@ import { Actions, CloseButton, DangerModal, ModalDescription } from "./modal-par
  * The content-filter error (400 / AI_CONTENT_FILTER) as a danger modal.
  * It offers no retry: the request itself is the problem.
  *
- * @param {boolean} [isOpen=true] Whether the modal is open.
- * @param {function} [onClose=noop] Dismisses the modal.
+ * @param {Object} props Component props.
+ * @param {boolean} [props.isOpen=true] Whether the modal is open.
+ * @param {Function} [props.onClose=noop] Dismisses the modal.
+ *
  * @returns {JSX.Element} The element.
  */
 export const UnethicalRequestModal = ( { isOpen = true, onClose = noop } ) => (
@@ -19,7 +20,3 @@ export const UnethicalRequestModal = ( { isOpen = true, onClose = noop } ) => (
 		</Actions>
 	</DangerModal>
 );
-UnethicalRequestModal.propTypes = {
-	isOpen: PropTypes.bool,
-	onClose: PropTypes.func,
-};

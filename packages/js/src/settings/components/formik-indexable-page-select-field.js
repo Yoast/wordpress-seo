@@ -5,15 +5,16 @@ import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useField } from "formik";
 import { debounce } from "lodash";
-import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS, FETCH_DELAY } from "../../shared-admin/constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 const MAX_INDEXABLE_PAGES = 10;
 
 /**
- * @param {JSX.node} children The children.
- * @param {string} [className] The className.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.children The children.
+ * @param {string} [props.className=""] The className.
+ *
  * @returns {JSX.Element} The indexable page select options content decorator component.
  */
 const IndexablePageSelectOptionsContent = ( { children, className = "" } ) => (
@@ -22,18 +23,13 @@ const IndexablePageSelectOptionsContent = ( { children, className = "" } ) => (
 	</div>
 );
 
-IndexablePageSelectOptionsContent.propTypes = {
-	children: PropTypes.node.isRequired,
-	className: PropTypes.string,
-};
-
 /**
- * @param {Object} props The props object.
+ * @param {Object} props The props object. Additional props are passed to the field.
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
  * @param {boolean} props.disabled Whether the field is disabled.
  * @param {number[]} [props.selectedIds=[]] The currently selected indexable page IDs, to filter the options.
- * @param {...Object} [props] Additional props to pass to the field.
+ *
  * @returns {JSX.Element} The indexable page select component.
  */
 const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [], ...props } ) => {
@@ -124,11 +120,6 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [],
 			</>
 		</AutocompleteField>
 	);
-};
-
-FormikIndexablePageSelectField.propTypes = {
-	name: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
 };
 
 export default FormikIndexablePageSelectField;

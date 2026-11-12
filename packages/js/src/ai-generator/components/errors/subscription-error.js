@@ -3,12 +3,13 @@ import { useSelect } from "@wordpress/data";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert, Button, useModalContext } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { STORE_NAME_AI } from "../../constants";
 import { Body, title } from "./messages/subscription";
 
 /**
- * @param {string[]} [invalidSubscriptions=[]] The array with the names of products with invalid subscription.
+ * @param {Object} props Component props.
+ * @param {string[]} [props.invalidSubscriptions=[]] The array with the names of products with invalid subscription.
+ *
  * @returns {JSX.Element} The element.
  */
 export const SubscriptionError = ( { invalidSubscriptions = [] } ) => {
@@ -45,8 +46,4 @@ export const SubscriptionError = ( { invalidSubscriptions = [] } ) => {
 			</div>
 		</Fragment>
 	);
-};
-
-SubscriptionError.propTypes = {
-	invalidSubscriptions: PropTypes.arrayOf( PropTypes.string ),
 };

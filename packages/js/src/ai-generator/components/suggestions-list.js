@@ -1,19 +1,17 @@
 import { useCallback } from "@wordpress/element";
 import { RadioGroup } from "@yoast/ui-library";
 import classNames from "classnames";
-import PropTypes from "prop-types";
-
-const suggestionShape = PropTypes.shape( {
-	value: PropTypes.string.isRequired,
-	label: PropTypes.node.isRequired,
-} );
 
 /**
- * @param {string} id The ID.
- * @param {string} name The name.
- * @param {{value: string, label: JSX.node}} suggestion The suggestion.
- * @param {boolean} isChecked Whether the suggestion is checked.
- * @param {function} onChange The change callback.
+ * @param {Object} props Component props.
+ * @param {string} props.id The ID.
+ * @param {string} props.name The name.
+ * @param {Object} props.suggestion The suggestion.
+ * @param {string} props.suggestion.value The suggestion value.
+ * @param {import("react").ReactNode} props.suggestion.label The suggestion label.
+ * @param {boolean} props.isChecked Whether the suggestion is checked.
+ * @param {Function} props.onChange The change callback.
+ *
  * @returns {JSX.Element} The element.
  */
 const Suggestion = ( { id, name, suggestion, isChecked, onChange } ) => {
@@ -47,19 +45,16 @@ const Suggestion = ( { id, name, suggestion, isChecked, onChange } ) => {
 		</label>
 	);
 };
-Suggestion.propTypes = {
-	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	suggestion: suggestionShape.isRequired,
-	isChecked: PropTypes.bool.isRequired,
-	onChange: PropTypes.func.isRequired,
-};
 
 /**
- * @param {string} idSuffix Suffix for the IDs, to make them unique.
- * @param {{value: string, label: JSX.node}[]} suggestions The suggestions.
- * @param {string} selected The selected suggestion.
- * @param {function} onChange The change handler, called when a user selects a suggestion.
+ * @param {Object} props Component props.
+ * @param {string} props.idSuffix Suffix for the IDs, to make them unique.
+ * @param {Object[]} props.suggestions The suggestions.
+ * @param {string} props.suggestions[].value The suggestion value.
+ * @param {import("react").ReactNode} props.suggestions[].label The suggestion label.
+ * @param {string} props.selected The selected suggestion.
+ * @param {Function} props.onChange The change handler, called when a user selects a suggestion.
+ *
  * @returns {JSX.Element} The element.
  */
 export const SuggestionsList = ( { idSuffix, suggestions, selected, onChange } ) => (
@@ -81,9 +76,3 @@ export const SuggestionsList = ( { idSuffix, suggestions, selected, onChange } )
 		</RadioGroup>
 	</div>
 );
-SuggestionsList.propTypes = {
-	idSuffix: PropTypes.string.isRequired,
-	suggestions: PropTypes.arrayOf( suggestionShape ).isRequired,
-	selected: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
-};

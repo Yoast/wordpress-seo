@@ -5,7 +5,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { Field, useFormikContext } from "formik";
-import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
 import {
 	FieldsetLayout,
@@ -27,12 +26,14 @@ const FormikTagFieldWithDummy = withFormikDummyTagField( FormikTagField );
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
 /**
- * @param {string} name The post type name.
- * @param {string} label The post type label (plural).
- * @param {string} singularLabel The post type label (singular).
- * @param {boolean} hasArchive Whether the post type has archive support.
- * @param {boolean} hasSchemaArticleType Whether the post type has schema article type support.
- * @param {boolean} isNew Whether the post type is new.
+ * @param {Object} props Component props.
+ * @param {string} props.name The post type name.
+ * @param {string} props.label The post type label (plural).
+ * @param {string} props.singularLabel The post type label (singular).
+ * @param {boolean} props.hasArchive Whether the post type has archive support.
+ * @param {boolean} props.hasSchemaArticleType Whether the post type has schema article type support.
+ * @param {boolean} props.isNew Whether the post type is new.
+ *
  * @returns {JSX.Element} The post type element.
  */
 const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleType, isNew } ) => {
@@ -471,15 +472,6 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 		</RouteLayout>
 
 	);
-};
-
-PostType.propTypes = {
-	name: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
-	singularLabel: PropTypes.string.isRequired,
-	hasArchive: PropTypes.bool.isRequired,
-	hasSchemaArticleType: PropTypes.bool.isRequired,
-	isNew: PropTypes.bool.isRequired,
 };
 
 export default PostType;

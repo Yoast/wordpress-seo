@@ -3,7 +3,6 @@ import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import {
 	BadWPRequestAlert,
 	GenericAlert,
@@ -17,8 +16,10 @@ import {
 import { SiteUnreachableAlert } from "./errors/site-unreachable-alert";
 
 /**
- * @param {JSX.node} children The content.
- * @param {function} onRetry Called to retry.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.children The content.
+ * @param {Function} props.onRetry Called to retry.
+ *
  * @returns {JSX.Element} The element.
  */
 export const WithActions = ( { children, onRetry } ) => {
@@ -38,18 +39,16 @@ export const WithActions = ( { children, onRetry } ) => {
 		</Fragment>
 	);
 };
-WithActions.propTypes = {
-	children: PropTypes.node.isRequired,
-	onRetry: PropTypes.func.isRequired,
-};
 
 /**
- * @param {number} errorCode The error code.
- * @param {string} errorIdentifier The error identifier.
- * @param {string[]} [invalidSubscriptions=[]] The array with names of products with an invalid subscription.
- * @param {boolean} [showActions=false] Whether to show actions.
- * @param {function} [onRetry=noop] Called to retry.
- * @param {string} [errorMessage=""] The error message.
+ * @param {Object} props Component props.
+ * @param {number} props.errorCode The error code.
+ * @param {string} props.errorIdentifier The error identifier.
+ * @param {string[]} [props.invalidSubscriptions=[]] The array with names of products with an invalid subscription.
+ * @param {boolean} [props.showActions=false] Whether to show actions.
+ * @param {Function} [props.onRetry=noop] Called to retry.
+ * @param {string} [props.errorMessage=""] The error message.
+ *
  * @returns {JSX.Element} The element.
  */
 export const SuggestionError = ( {
@@ -99,12 +98,4 @@ export const SuggestionError = ( {
 				? <WithActions onRetry={ onRetry }><GenericAlert /></WithActions>
 				: <GenericAlert />;
 	}
-};
-SuggestionError.propTypes = {
-	errorCode: PropTypes.number.isRequired,
-	errorIdentifier: PropTypes.string.isRequired,
-	invalidSubscriptions: PropTypes.array,
-	showActions: PropTypes.bool,
-	onRetry: PropTypes.func,
-	errorMessage: PropTypes.string,
 };

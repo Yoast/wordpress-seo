@@ -1,13 +1,13 @@
 import { useCallback, useState, useMemo } from "@wordpress/element";
 import { ReplacementVariableEditor } from "@yoast/replacement-variable-editor";
 import { useField } from "formik";
-import PropTypes from "prop-types";
 
 /**
  * @param {Object} props The props to pass down to the component.
  * @param {string} props.name The field name.
- * @param {string} [props.className] The field className.
- * @param {boolean} [props.disabled] Disabled state.
+ * @param {boolean} [props.disabled=false] Disabled state.
+ * @param {string} [props.className=""] The field className.
+ *
  * @returns {JSX.Element} The Formik compatible element.
  */
 const FormikReplacementVariableEditorField = ( { className = "", disabled = false, ...props } ) => {
@@ -45,12 +45,6 @@ const FormikReplacementVariableEditorField = ( { className = "", disabled = fals
 			/>
 		</div>
 	);
-};
-
-FormikReplacementVariableEditorField.propTypes = {
-	name: PropTypes.string.isRequired,
-	disabled: PropTypes.bool,
-	className: PropTypes.string,
 };
 
 export default FormikReplacementVariableEditorField;
