@@ -3,7 +3,6 @@ import CheckCircleIcon from "@heroicons/react/solid/CheckCircleIcon";
 import ExclamationCircleIcon from "@heroicons/react/solid/ExclamationCircleIcon";
 import { useMemo } from "@wordpress/element";
 import classNames from "classnames";
-import { PropTypes } from "prop-types";
 
 import { getErrorAriaProps } from "../helpers";
 import MultiLineText from "./multi-line-text";
@@ -11,8 +10,9 @@ import MultiLineText from "./multi-line-text";
 /**
  * An icon for when feedback should be shown.
  *
- * @param {boolean} [hasError=false] Whether there is an error icon.
- * @param {boolean} [hasSuccess=false] Whether there is a success icon.
+ * @param {Object} props Component props.
+ * @param {boolean} [props.hasError=false] Whether there is an error icon.
+ * @param {boolean} [props.hasSuccess=false] Whether there is a success icon.
  *
  * @returns {JSX.Element} Returns an icon or null.
  */
@@ -29,24 +29,22 @@ function FeedbackIcon( { hasError = false, hasSuccess = false } ) {
 	return null;
 }
 
-FeedbackIcon.propTypes = {
-	hasError: PropTypes.bool,
-	hasSuccess: PropTypes.bool,
-};
-
 /**
  * The Text Input component.
  *
- * @param {string} [className=""] The classname for the wrapper div.
- * @param {string} id The id for the label and input field.
- * @param {string} [label=""] The text for the label.
- * @param {React.ReactNode} [description=null] The text for the description.
- * @param {string} [value=""] The value for the input field.
- * @param {string} [placeholder=""] The placeholder for the input field.
- * @param {function} onChange The function which handles the onChange event.
- * @param {string} [type="text"] The type of the input, defaults to text.
- * @param {{type: string, message: [], isVisible: boolean}} [error] Validation error object.
- * @param {...Object} [inputProps] Additional props to pass to the input element.
+ * @param {Object} props Component props. Additional props are passed to the input element.
+ * @param {string} [props.className=""] The classname for the wrapper div.
+ * @param {string} props.id The id for the label and input field.
+ * @param {string} [props.label=""] The text for the label.
+ * @param {React.ReactNode} [props.description=null] The text for the description.
+ * @param {string} [props.value=""] The value for the input field.
+ * @param {Function} props.onChange The function which handles the onChange event.
+ * @param {string} [props.placeholder=""] The placeholder for the input field.
+ * @param {Object} [props.feedback] The validation feedback to show below the input.
+ * @param {string} [props.feedback.type] The feedback type: "error" or "success".
+ * @param {Array} [props.feedback.message] The feedback message lines.
+ * @param {boolean} [props.feedback.isVisible] Whether the feedback is shown.
+ * @param {string} [props.type="text"] The type of the input, defaults to text.
  *
  * @returns {JSX.Element} The Text Input component.
  */
@@ -107,19 +105,3 @@ export default function TextInput( {
 		</div>
 	);
 }
-
-TextInput.propTypes = {
-	className: PropTypes.string,
-	id: PropTypes.string.isRequired,
-	label: PropTypes.string,
-	description: PropTypes.node,
-	value: PropTypes.string,
-	onChange: PropTypes.func.isRequired,
-	placeholder: PropTypes.string,
-	feedback: PropTypes.shape( {
-		type: PropTypes.string,
-		message: PropTypes.array,
-		isVisible: PropTypes.bool,
-	} ),
-	type: PropTypes.string,
-};

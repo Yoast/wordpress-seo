@@ -1,7 +1,6 @@
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import { HIIVE_STEPS_NAMES } from "../constants";
 import { stepperTimingClasses } from "../stepper-helper";
 import { Step } from "./stepper";
@@ -9,11 +8,11 @@ import { Step } from "./stepper";
 /**
  * A ContinueButton that always goes to the next step.
  *
- * @param {string} stepId The ID of the step this button is associated with.
- * @param {string} [additionalClasses=""] Additional classes to apply to the button.
- * @param {?function} [beforeGo=null] A function to call before going to the next step.
- * @param {React.ReactNode} [children=null] The content of the button.
- * @param {...Object} [restProps] Additional properties to pass to the button.
+ * @param {Object} props Component props. Additional props are passed to the GoButton.
+ * @param {string} props.stepId The ID of the step this button is associated with.
+ * @param {string} [props.additionalClasses=""] Additional classes to apply to the button.
+ * @param {?Function} [props.beforeGo=null] A function to call before going to the next step.
+ * @param {React.ReactNode} [props.children=null] The content of the button.
  *
  * @returns {JSX.Element} The ContinueButton, that always goes to the next step.
  */
@@ -37,22 +36,15 @@ export function ContinueButton( {
 	</Step.GoButton> );
 }
 
-ContinueButton.propTypes = {
-	stepId: PropTypes.string.isRequired,
-	additionalClasses: PropTypes.string,
-	beforeGo: PropTypes.func,
-	children: PropTypes.node,
-};
-
 /**
  * A EditButton that opens the current step.
  *
- * @param {string} stepId The ID of the step this button is associated with.
- * @param {string} [additionalClasses=""] Additional classes to apply to the button.
- * @param {boolean} [isVisible=true] Whether the button is visible or not.
- * @param {?function} [beforeGo=null] A function to call before going to the step.
- * @param {React.ReactNode} [children=null] The content of the button.
- * @param {...Object} [restProps] Additional properties to pass to the button.
+ * @param {Object} props Component props. Additional props are passed to the GoButton.
+ * @param {string} props.stepId The ID of the step this button is associated with.
+ * @param {string} [props.additionalClasses=""] Additional classes to apply to the button.
+ * @param {boolean} [props.isVisible=true] Whether the button is visible or not.
+ * @param {?Function} [props.beforeGo=null] A function to call before going to the step.
+ * @param {React.ReactNode} [props.children=null] The content of the button.
  *
  * @returns {JSX.Element} The EditButton, that always goes to the step it is placed in.
  */
@@ -82,22 +74,14 @@ export function EditButton( {
 	</Step.GoButton> );
 }
 
-EditButton.propTypes = {
-	stepId: PropTypes.string.isRequired,
-	additionalClasses: PropTypes.string,
-	isVisible: PropTypes.bool,
-	beforeGo: PropTypes.func,
-	children: PropTypes.node,
-};
-
 /**
  * A BackButton that always goes to the previous step.
  *
- * @param {string} stepId The ID of the step this button is associated with.
- * @param {string} [additionalClasses=""] Additional classes to apply to the button.
- * @param {?function} [beforeGo=null] A function to call before going to the previous step.
- * @param {React.ReactNode} [children=null] The content of the button.
- * @param {...Object} [restProps] Additional properties to pass to the button.
+ * @param {Object} props Component props. Additional props are passed to the GoButton.
+ * @param {string} props.stepId The ID of the step this button is associated with.
+ * @param {string} [props.additionalClasses=""] Additional classes to apply to the button.
+ * @param {?Function} [props.beforeGo=null] A function to call before going to the previous step.
+ * @param {React.ReactNode} [props.children=null] The content of the button.
  *
  * @returns {JSX.Element} The BackButton, that always goes to the previous step.
  */
@@ -121,21 +105,15 @@ export function BackButton( {
 	</Step.GoButton> );
 }
 
-BackButton.propTypes = {
-	stepId: PropTypes.string.isRequired,
-	additionalClasses: PropTypes.string,
-	beforeGo: PropTypes.func,
-	children: PropTypes.node,
-};
-
 /**
  * A convenience class for the most common configuration of Stepper buttons: continue and back.
  *
- * @param {string} stepId The ID of the step this button is associated with.
- * @param {?function} [beforeContinue=null] A function to call before going to the next step.
- * @param {string} [continueLabel] The label for the continue button.
- * @param {?function} [beforeBack=null] A function to call before going to the previous step.
- * @param {string} [backLabel] The label for the back button.
+ * @param {Object} props Component props.
+ * @param {string} props.stepId The ID of the step this button is associated with.
+ * @param {?Function} [props.beforeContinue=null] A function to call before going to the next step.
+ * @param {string} [props.continueLabel] The label for the continue button.
+ * @param {?Function} [props.beforeBack=null] A function to call before going to the previous step.
+ * @param {string} [props.backLabel] The label for the back button.
  *
  * @returns {JSX.Element} The most common stepper buttons: continue and back.
  */
@@ -163,22 +141,15 @@ export function StepButtons( {
 	</div>;
 }
 
-StepButtons.propTypes = {
-	stepId: PropTypes.string.isRequired,
-	beforeContinue: PropTypes.func,
-	continueLabel: PropTypes.string,
-	beforeBack: PropTypes.func,
-	backLabel: PropTypes.string,
-};
-
 /**
  * A convenience class for the Configuration stepper buttons:
  * "Save and continue" and "Go back" when the stepper is in progress, "Save changes" when the Stepper has been completed once.
  *
- * @param {string} stepId The ID of the step this button is associated with.
- * @param {boolean} stepperFinishedOnce Whether the stepper has been completed at least once.
- * @param {function} saveFunction The function to call when saving the step.
- * @param {function} setEditState The function to set the edit state of the step.
+ * @param {Object} props Component props.
+ * @param {string} props.stepId The ID of the step this button is associated with.
+ * @param {boolean} props.stepperFinishedOnce Whether the stepper has been completed at least once.
+ * @param {Function} props.saveFunction The function to call when saving the step.
+ * @param {Function} props.setEditState The function to set the edit state of the step.
  *
  * @returns {JSX.Element} The most common stepper buttons: continue and back.
  */
@@ -206,10 +177,3 @@ export function ConfigurationStepButtons( { stepId, stepperFinishedOnce, saveFun
 
 	return <StepButtons stepId={ stepId } beforeContinue={ saveFunction } continueLabel={ __( "Save and continue", "wordpress-seo" ) } />;
 }
-
-ConfigurationStepButtons.propTypes = {
-	stepId: PropTypes.string.isRequired,
-	stepperFinishedOnce: PropTypes.bool.isRequired,
-	saveFunction: PropTypes.func.isRequired,
-	setEditState: PropTypes.func.isRequired,
-};

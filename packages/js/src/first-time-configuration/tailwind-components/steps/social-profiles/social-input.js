@@ -1,15 +1,15 @@
 import { useCallback } from "@wordpress/element";
-import PropTypes from "prop-types";
 import TextInput from "../../base/text-input";
 
 /**
  * A wrapped TextInput for the social inputs
  *
- * @param {string} id The id to associate to the text field element.
- * @param {function} onChange The function to update the container's state.
- * @param {string} [socialMedium=""] The social medium this field refers to.
- * @param {boolean} [isDisabled=false] A flag to disable the field.
- * @param {...Object} restProps The other props.
+ * @param {Object} props Component props. Additional props are passed to the TextInput.
+ * @param {string} props.id The id to associate to the text field element.
+ * @param {Function} props.onChange The function to update the container's state.
+ * @param {string} [props.socialMedium=""] The social medium this field refers to.
+ * @param {boolean} [props.isDisabled=false] A flag to disable the field.
+ *
  * @returns {JSX.Element} A wrapped TextInput for the social inputs.
  */
 export default function SocialInput( {
@@ -37,10 +37,3 @@ export default function SocialInput( {
 		{ ...restProps }
 	/>;
 }
-
-SocialInput.propTypes = {
-	id: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
-	socialMedium: PropTypes.string,
-	isDisabled: PropTypes.bool,
-};

@@ -4,7 +4,6 @@ import SelectorIcon from "@heroicons/react/solid/SelectorIcon";
 import { Fragment, useCallback, useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 
 import { getOptionActiveStyles } from "../helpers";
 import Spinner from "./spinner";
@@ -23,14 +22,17 @@ function getDisplayValue( selectedOption ) {
 /**
  * The Yoast version of a Tailwind Combobox.
  *
- * @param {string} id The id for this combo box.
- * @param {?{value: *, label: string}} [value=null] Selected option.
- * @param {string} [label=""] Combobox label.
- * @param {function} onChange Function to manage a selected option.
- * @param {function} [onQueryChange=null] Function to be called when the text inside the text input changes.
- * @param {Array} options Combobox select options.
- * @param {string} [placeholder] Combobox text input placeholder.
- * @param {boolean} [isLoading=false] Whether the combobox is loading.
+ * @param {Object} props Component props.
+ * @param {Function} props.onChange Function to manage a selected option.
+ * @param {Array} props.options Combobox select options.
+ * @param {string} props.id The id for this combo box.
+ * @param {?Object} [props.value=null] Selected option.
+ * @param {number} [props.value.value] The option value.
+ * @param {string} [props.value.label] The option label.
+ * @param {string} [props.label=""] Combobox label.
+ * @param {?Function} [props.onQueryChange=null] Function to be called when the text inside the text input changes.
+ * @param {string} [props.placeholder] Combobox text input placeholder.
+ * @param {boolean} [props.isLoading=false] Whether the combobox is loading.
  *
  * @returns {JSX.Element} The Yoast version of a Tailwind Combobox.
  */
@@ -154,17 +156,3 @@ export default function YoastComboBox( {
 		}
 	</Combobox>;
 }
-
-YoastComboBox.propTypes = {
-	onChange: PropTypes.func.isRequired,
-	options: PropTypes.array.isRequired,
-	id: PropTypes.string.isRequired,
-	value: PropTypes.shape( {
-		value: PropTypes.number,
-		label: PropTypes.string,
-	} ),
-	label: PropTypes.string,
-	onQueryChange: PropTypes.func,
-	placeholder: PropTypes.string,
-	isLoading: PropTypes.bool,
-};

@@ -4,7 +4,6 @@ import { __ } from "@wordpress/i18n";
 import { Button, Link } from "@yoast/ui-library";
 import classNames from "classnames";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import { getErrorAriaProps, getErrorId } from "../helpers";
 import MultiLineText from "./multi-line-text";
 import Spinner from "./spinner";
@@ -12,16 +11,19 @@ import Spinner from "./spinner";
 /**
  * The ImageSelect component.
  *
- * @param {string} id Id attribute.
- * @param {string} [imageAltText=""] Alternative text for image.
- * @param {string} [url=""] Url for image.
- * @param {string} [fallbackUrl=""] Fallback url for image.
- * @param {string} [label=""] Label.
- * @param {function} [onSelectImageClick=noop] Select image handler.
- * @param {function} [onRemoveImageClick=noop] Remove image handler.
- * @param {string} [className=""] CSS classnames.
- * @param {{message: string, isVisible: boolean}} [error] Validation error object.
- * @param {string} [status="idle"] Upload status.
+ * @param {Object} props Component props.
+ * @param {string} [props.label=""] Label.
+ * @param {string} props.id Id attribute.
+ * @param {string} [props.url=""] Url for image.
+ * @param {string} [props.fallbackUrl=""] Fallback url for image.
+ * @param {string} [props.imageAltText=""] Alternative text for image.
+ * @param {Function} [props.onRemoveImageClick=noop] Remove image handler.
+ * @param {Function} [props.onSelectImageClick=noop] Select image handler.
+ * @param {string} [props.className=""] CSS classnames.
+ * @param {Object} [props.error] Validation error object.
+ * @param {string} [props.error.message] The error message.
+ * @param {boolean} [props.error.isVisible] Whether the error is shown.
+ * @param {string} [props.status="idle"] Upload status.
  *
  * @returns {JSX.Element} The ImageSelect component.
  */
@@ -103,19 +105,3 @@ export default function ImageSelect( {
 		</div>
 	);
 }
-
-ImageSelect.propTypes = {
-	label: PropTypes.string,
-	id: PropTypes.string.isRequired,
-	url: PropTypes.string,
-	fallbackUrl: PropTypes.string,
-	imageAltText: PropTypes.string,
-	onRemoveImageClick: PropTypes.func,
-	onSelectImageClick: PropTypes.func,
-	className: PropTypes.string,
-	error: PropTypes.shape( {
-		message: PropTypes.string,
-		isVisible: PropTypes.bool,
-	} ),
-	status: PropTypes.string,
-};

@@ -3,7 +3,6 @@ import CheckIcon from "@heroicons/react/solid/CheckIcon";
 import XIcon from "@heroicons/react/solid/XIcon";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { useSelectSettings } from "../hooks";
 
@@ -12,13 +11,13 @@ import { useSelectSettings } from "../hooks";
  *
  * @param {Object} props The props.
  * @param {boolean} props.isActive Whether the integration is active.
- * @param {boolean} [props.isPremiumRequired] Whether premium is required.
- * @param {boolean} [props.hasPremium] Whether the user has premium.
- * @param {string} [props.upsellLink] The upsell link.
- * @param {string} [props.upsellLabel] The upsell button label.
+ * @param {boolean} [props.isPremiumRequired=false] Whether premium is required.
+ * @param {boolean} [props.hasPremium=false] Whether the user has premium.
+ * @param {string} [props.upsellLink=""] The upsell link.
+ * @param {string} [props.upsellLabel=""] The upsell button label.
+ *
  * @returns {JSX.Element} The status element.
  */
-
 // eslint-disable-next-line complexity
 const IntegrationStatus = ( {
 	isActive,
@@ -62,14 +61,6 @@ const IntegrationStatus = ( {
 	);
 };
 
-IntegrationStatus.propTypes = {
-	isActive: PropTypes.bool.isRequired,
-	isPremiumRequired: PropTypes.bool,
-	hasPremium: PropTypes.bool,
-	upsellLink: PropTypes.string,
-	upsellLabel: PropTypes.string,
-};
-
 /**
  * WooCommerce integration status component.
  *
@@ -79,6 +70,7 @@ IntegrationStatus.propTypes = {
  * @param {boolean} props.isInstalled Whether Yoast WooCommerce SEO is installed.
  * @param {string} props.activationLink The activation link.
  * @param {string} props.upsellLink The upsell link.
+ *
  * @returns {JSX.Element} The status element.
  */
 const WooCommerceStatus = ( {
@@ -143,19 +135,12 @@ const WooCommerceStatus = ( {
 	);
 };
 
-WooCommerceStatus.propTypes = {
-	isPrerequisiteActive: PropTypes.bool.isRequired,
-	isActive: PropTypes.bool.isRequired,
-	isInstalled: PropTypes.bool.isRequired,
-	activationLink: PropTypes.string.isRequired,
-	upsellLink: PropTypes.string.isRequired,
-};
-
 /**
  * Schema API integrations section component.
  *
  * @param {Object} props The props.
- * @param {boolean} [props.isDisabled] Whether the section list is disabled.
+ * @param {boolean} [props.isDisabled=false] Whether the section list is disabled.
+ *
  * @returns {JSX.Element} The section element.
  */
 const SchemaApiIntegrationsSection = ( { isDisabled = false } ) => {
@@ -275,10 +260,6 @@ const SchemaApiIntegrationsSection = ( { isDisabled = false } ) => {
 			</div>
 		</fieldset>
 	);
-};
-
-SchemaApiIntegrationsSection.propTypes = {
-	isDisabled: PropTypes.bool,
 };
 
 export { SchemaApiIntegrationsSection };

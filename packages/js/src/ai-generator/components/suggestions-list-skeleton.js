@@ -1,5 +1,4 @@
 import { SkeletonLoader } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 const DEFAULT_SUGGESTION_CLASSNAMES = [
 	[ "yst-h-3 yst-w-full", "yst-mt-2.5 yst-h-3 yst-w-9/12" ],
@@ -10,7 +9,9 @@ const DEFAULT_SUGGESTION_CLASSNAMES = [
 ];
 
 /**
- * @param {string[][]} [suggestionClassNames] Extra classes for the Skeletons.
+ * @param {Object} props Component props.
+ * @param {string[][]} [props.suggestionClassNames] Extra classes for the Skeletons.
+ *
  * @returns {JSX.Element} The element.
  */
 export const SuggestionsListSkeleton = ( { suggestionClassNames = DEFAULT_SUGGESTION_CLASSNAMES } ) => (
@@ -33,6 +34,3 @@ export const SuggestionsListSkeleton = ( { suggestionClassNames = DEFAULT_SUGGES
 		) ) }
 	</div>
 );
-SuggestionsListSkeleton.propTypes = {
-	suggestionClassNames: PropTypes.arrayOf( PropTypes.arrayOf( PropTypes.string ) ),
-};

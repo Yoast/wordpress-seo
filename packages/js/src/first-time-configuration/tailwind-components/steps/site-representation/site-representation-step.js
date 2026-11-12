@@ -1,7 +1,6 @@
 import { Fragment, useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import ReactAnimateHeight from "react-animate-height";
 
 import Alert, { FadeInAlert } from "../../base/alert";
@@ -16,10 +15,11 @@ import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 /**
  * The site representation step.
  *
- * @param {function} onOrganizationOrPersonChange Function to call when the organization/person select changes.
- * @param {function} dispatch                     A dispatch function to communicate with the Stepper store.
- * @param {Object}   state                        The Stepper store.
- * @param {boolean}  siteRepresentationEmpty      Whether the person or organization inputs are empty.
+ * @param {Object} props Component props.
+ * @param {Function} props.onOrganizationOrPersonChange Function to call when the organization/person select changes.
+ * @param {Function} props.dispatch A dispatch function to communicate with the Stepper store.
+ * @param {Object} props.state The Stepper store.
+ * @param {boolean} props.siteRepresentationEmpty Whether the person or organization inputs are empty.
  *
  * @returns {WPElement} The site representation step component.
  */
@@ -162,10 +162,3 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		</FadeInAlert>
 	</Fragment>;
 }
-
-SiteRepresentationStep.propTypes = {
-	onOrganizationOrPersonChange: PropTypes.func.isRequired,
-	dispatch: PropTypes.func.isRequired,
-	state: PropTypes.object.isRequired,
-	siteRepresentationEmpty: PropTypes.bool.isRequired,
-};

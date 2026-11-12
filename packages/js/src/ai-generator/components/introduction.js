@@ -1,11 +1,12 @@
-import PropTypes from "prop-types";
 import { AiGrantConsent } from "../../shared-admin/components";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
 
 /**
  * Introduction modal content for the AI generation of titles and descriptions.
  *
- * @param {Function} onStartGenerating Callback to signal the generating should start.
+ * @param {Object} props Component props.
+ * @param {Function} props.onStartGenerating Callback to signal the generating should start.
+ *
  * @returns {JSX.Element} The element.
  */
 export const Introduction = ( { onStartGenerating } ) => (
@@ -15,6 +16,3 @@ export const Introduction = ( { onStartGenerating } ) => (
 		onConsentGranted={ onStartGenerating }
 	/>
 );
-Introduction.propTypes = {
-	onStartGenerating: PropTypes.func.isRequired,
-};

@@ -3,13 +3,13 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import { get } from "lodash";
-import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
 import { useSelectSettings } from "../hooks";
 
 /**
- * @param {string} name The post type name.
- * @param {boolean} disabled Whether the alert is disabled.
+ * @param {Object} props Component props.
+ * @param {string} props.name The post type name.
+ * @param {boolean} [props.disabled=false] Whether the alert is disabled.
  *
  * @returns {JSX.Element|null} The news alert or null.
  */
@@ -55,11 +55,6 @@ const NewsSeoAlert = ( { name, disabled = false } ) => {
 			</Alert>
 		</AnimateHeight>
 	);
-};
-
-NewsSeoAlert.propTypes = {
-	name: PropTypes.string.isRequired,
-	disabled: PropTypes.bool,
 };
 
 export default NewsSeoAlert;

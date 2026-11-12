@@ -1,13 +1,13 @@
 import { __ } from "@wordpress/i18n";
 import { Label } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { SocialPreview, SocialPreviewSkeleton } from ".";
 
 /**
- * @param {string} title The title.
- * @param {string} description The description.
- * @param {string} status The fetch status.
- * @param {boolean} showPreviewSkeleton Whether to show the preview skeleton or the actual preview.
+ * @param {Object} props Component props.
+ * @param {string} props.title The title.
+ * @param {string} props.description The description.
+ * @param {boolean} props.showPreviewSkeleton Whether to show the preview skeleton or the actual preview.
+ *
  * @returns {JSX.Element} The element.
  */
 export const SocialContent = ( { title, description, showPreviewSkeleton } ) => (
@@ -23,8 +23,3 @@ export const SocialContent = ( { title, description, showPreviewSkeleton } ) => 
 		}
 	</div>
 );
-SocialContent.propTypes = {
-	title: PropTypes.string.isRequired,
-	description: PropTypes.string.isRequired,
-	showPreviewSkeleton: PropTypes.bool.isRequired,
-};

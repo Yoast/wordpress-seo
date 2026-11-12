@@ -5,8 +5,7 @@ import { __ } from "@wordpress/i18n";
 import { Button, Label, Link, useDescribedBy } from "@yoast/ui-library";
 import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
-import { get, join, keys, map } from "lodash";
-import PropTypes from "prop-types";
+import { get, join, map } from "lodash";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 const classNameMap = {
@@ -18,22 +17,24 @@ const classNameMap = {
 };
 
 /**
- * @param {string} [label] Label.
- * @param {string} [description] Description.
- * @param {JSX.Element} [icon] Icon to show in select.
- * @param {boolean} [disabled] Disabled.
- * @param {boolean} [isDummy] Wether component should be in dummy state.
- * @param {string} [libraryType] Media type that should show in WP library, ie. "image" or "video".
- * @param {string} [variant] Variant.
- * @param {string} id Id.
- * @param {string} mediaUrlName Name for the hidden media url field.
- * @param {string} mediaIdName Name for the hidden media id field.
- * @param {string} fallbackMediaId ID for the fallback media.
- * @param {string} previewLabel Label for the preview button.
- * @param {string} [selectLabel] Label for the select button.
- * @param {string} [replaceLabel] Label for the replace button.
- * @param {string} [removeLabel] Label for the remove button.
- * @param {string} [className] Classname.
+ * @param {Object} props Component props.
+ * @param {string} [props.label=""] Label.
+ * @param {import("react").ReactNode} [props.description=""] Description.
+ * @param {import("react").ElementType} [props.icon] Icon to show in select.
+ * @param {boolean} [props.disabled=false] Disabled.
+ * @param {boolean} [props.isDummy=false] Wether component should be in dummy state.
+ * @param {string} [props.libraryType="image"] Media type that should show in WP library, ie. "image" or "video".
+ * @param {("square"|"landscape"|"portrait")} [props.variant="landscape"] Variant.
+ * @param {string} props.id Id.
+ * @param {string} props.mediaUrlName Name for the hidden media url field.
+ * @param {string} props.mediaIdName Name for the hidden media id field.
+ * @param {string} [props.fallbackMediaId="0"] ID for the fallback media.
+ * @param {import("react").ReactNode} [props.previewLabel=""] Label for the preview button.
+ * @param {string} [props.selectLabel] Label for the select button.
+ * @param {string} [props.replaceLabel] Label for the replace button.
+ * @param {string} [props.removeLabel] Label for the remove button.
+ * @param {string} [props.className=""] Classname.
+ *
  * @returns {JSX.Element} The Formik compatible media select element.
  */
 const FormikMediaSelectField = ( {
@@ -241,25 +242,6 @@ const FormikMediaSelectField = ( {
 			) }
 		</fieldset>
 	);
-};
-
-FormikMediaSelectField.propTypes = {
-	label: PropTypes.string,
-	description: PropTypes.node,
-	icon: PropTypes.elementType,
-	disabled: PropTypes.bool,
-	isDummy: PropTypes.bool,
-	libraryType: PropTypes.string,
-	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
-	id: PropTypes.string.isRequired,
-	mediaUrlName: PropTypes.string.isRequired,
-	mediaIdName: PropTypes.string.isRequired,
-	fallbackMediaId: PropTypes.string,
-	previewLabel: PropTypes.node,
-	selectLabel: PropTypes.string,
-	replaceLabel: PropTypes.string,
-	removeLabel: PropTypes.string,
-	className: PropTypes.string,
 };
 
 export default FormikMediaSelectField;
