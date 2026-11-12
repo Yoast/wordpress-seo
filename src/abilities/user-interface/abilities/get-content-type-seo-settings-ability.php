@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
  * The ability that gets the default SEO settings of the content types.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Get_Content_Type_SEO_Settings_Ability extends Abstract_Content_Type_SEO_Settings_Ability {
 

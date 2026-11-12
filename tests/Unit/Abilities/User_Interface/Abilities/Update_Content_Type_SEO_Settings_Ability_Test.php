@@ -20,6 +20,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group abilities
  *
  * @coversDefaultClass \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Update_Content_Type_SEO_Settings_Ability
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 final class Update_Content_Type_SEO_Settings_Ability_Test extends TestCase {
 

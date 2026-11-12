@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
  * Shared base for the abilities that read and update the default SEO settings of the content types.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Abstract_Content_Type_SEO_Settings_Ability extends Abstract_Global_SEO_Settings_Ability {
 
