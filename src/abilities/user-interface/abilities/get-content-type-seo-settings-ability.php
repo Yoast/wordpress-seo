@@ -71,7 +71,7 @@ class Get_Content_Type_SEO_Settings_Ability extends Abstract_Content_Type_SEO_Se
 			'label'               => \__( 'Get SEO Settings for Content Types', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: 1: the name of an ability, 2: the name of an ability. */
-				\__( 'Get the default SEO settings of the content types, like posts, pages or products, as found under "Content types" in the Yoast SEO settings. They apply to each post of the content type that does not set its own value, which the %1$s ability returns. The archive of a content type and the homepage, which are on the same settings pages, are read with the %2$s ability. The title and description templates can contain snippet variables, and are returned as stored rather than as shown on the site.', 'wordpress-seo' ),
+				\__( 'Get the default SEO settings of the content types, like posts, pages or products. They apply to each post of the content type that does not set its own value, which the %1$s ability returns. The archive of a content type and the homepage are read with the %2$s ability. The title and description templates can contain snippet variables, and are returned as stored rather than as shown on the site.', 'wordpress-seo' ),
 				'yoast-seo/get-post-seo-data',
 				'yoast-seo/get-archive-and-special-page-seo-settings',
 			),

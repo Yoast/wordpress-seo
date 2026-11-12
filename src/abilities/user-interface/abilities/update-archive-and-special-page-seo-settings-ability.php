@@ -156,7 +156,7 @@ class Update_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Arch
 			'target'    => [
 				'type'        => 'string',
 				'enum'        => $this->target_repository->get_names(),
-				'description' => \__( 'The pages to update.', 'wordpress-seo' ) . ' ' . $this->get_targets_description(),
+				'description' => \__( 'The pages to update.', 'wordpress-seo' ),
 			],
 			'post_type' => [
 				'type'        => 'string',

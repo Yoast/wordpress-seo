@@ -54,7 +54,7 @@ abstract class Abstract_Content_Type_SEO_Settings_Ability extends Abstract_Globa
 				],
 				'label'     => [
 					'type'        => 'string',
-					'description' => \__( 'The name of the content type, as shown under "Content types" in the Yoast SEO settings.', 'wordpress-seo' ),
+					'description' => \__( 'The display name of the content type.', 'wordpress-seo' ),
 				],
 			],
 		);

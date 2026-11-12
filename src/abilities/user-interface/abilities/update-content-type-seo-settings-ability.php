@@ -104,7 +104,7 @@ class Update_Content_Type_SEO_Settings_Ability extends Abstract_Content_Type_SEO
 			'label'               => \__( 'Update SEO Settings for Content Types', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: 1: the name of an ability, 2: the name of an ability. */
-				\__( 'Update the default SEO settings of a content type, like posts, pages or products, as found under "Content types" in the Yoast SEO settings. Only the settings you provide are changed. They apply to each post of the content type that does not set its own value, so to change all posts of a content type, update its defaults here rather than each post with the %1$s ability. The archive of a content type and the homepage are updated with the %2$s ability. Only use snippet variables that apply to single posts, as the ones that do not are silently removed when the page is rendered.', 'wordpress-seo' ),
+				\__( 'Update the default SEO settings of a content type, like posts, pages or products. Only the settings you provide are changed. They apply to each post of the content type that does not set its own value, so to change all posts of a content type, update its defaults here rather than each post with the %1$s ability. The archive of a content type and the homepage are updated with the %2$s ability. Only use snippet variables that apply to single posts, as the ones that do not are silently removed when the page is rendered.', 'wordpress-seo' ),
 				'yoast-seo/update-post-seo-data',
 				'yoast-seo/update-archive-and-special-page-seo-settings',
 			),

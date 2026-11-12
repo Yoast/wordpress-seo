@@ -177,7 +177,6 @@ final class Update_Archive_And_Special_Page_SEO_Settings_Ability_Test extends Te
 	 *
 	 * @covers ::get_args
 	 * @covers ::get_identifier_input_schema
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Settings_Ability::get_targets_description
 	 *
 	 * @return void
 	 */
@@ -192,6 +191,7 @@ final class Update_Archive_And_Special_Page_SEO_Settings_Ability_Test extends Te
 		$args = $this->instance->get_args();
 
 		$this->assertSame( 'Update SEO Settings for Archives and Special Pages', $args['label'] );
+		$this->assertStringContainsString( 'yoast-seo/update-term-seo-data', $args['description'] );
 		$this->assertStringContainsString( 'yoast-seo/update-content-type-seo-settings', $args['description'] );
 		$this->assertSame( [ 'target' ], $args['input_schema']['required'] );
 		$this->assertSame( 2, $args['input_schema']['minProperties'] );
@@ -199,7 +199,6 @@ final class Update_Archive_And_Special_Page_SEO_Settings_Ability_Test extends Te
 		$this->assertSame( self::TARGET_NAMES, $args['input_schema']['properties']['target']['enum'] );
 		$this->assertSame( [ 'target', 'post_type', 'taxonomy', 'seo_title' ], \array_keys( $args['input_schema']['properties'] ) );
 		$this->assertStringContainsString( 'required for the taxonomy_archive target', $args['input_schema']['properties']['taxonomy']['description'] );
-		$this->assertStringContainsString( 'Under "Categories & tags": taxonomy_archive holds the default settings', $args['input_schema']['properties']['target']['description'] );
 		$this->assertSame( $seo_title, $args['input_schema']['properties']['seo_title'] );
 		$this->assertArrayHasKey( 'warning', $args['output_schema']['properties'] );
 		$this->assertArrayHasKey( 'enabled', $args['output_schema']['properties'] );

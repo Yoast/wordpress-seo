@@ -72,10 +72,9 @@ class Get_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Archive
 		return [
 			'label'               => \__( 'Get SEO Settings for Archives and Special Pages', 'wordpress-seo' ),
 			'description'         => \sprintf(
-				/* translators: 1: the name of an ability, 2: the name of an ability, 3: the name of an ability. */
-				\__( 'Get the SEO settings of the homepage when it shows the latest posts, the archives and the special pages. The settings of a taxonomy are the defaults of its term archives: they apply to each term that does not set its own value, which the %1$s ability returns. The default settings of the posts of a content type are read with the %2$s ability instead. A static homepage is not included either, as it is a page whose SEO data is read with the %3$s ability. The title and description templates can contain snippet variables, and are returned as stored rather than as shown on the site.', 'wordpress-seo' ),
+				/* translators: 1: the name of an ability, 2: the name of an ability. */
+				\__( 'Get the SEO settings of the homepage when it shows the latest posts, the archives and the special pages. The settings of a taxonomy are the defaults of its term archives: they apply to each term that does not set its own value, which the %1$s ability returns. A static homepage is not included, as it is a page whose SEO data is read with the %2$s ability. The title and description templates can contain snippet variables, and are returned as stored rather than as shown on the site.', 'wordpress-seo' ),
 				'yoast-seo/get-term-seo-data',
-				'yoast-seo/get-content-type-seo-settings',
 				'yoast-seo/get-post-seo-data',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,

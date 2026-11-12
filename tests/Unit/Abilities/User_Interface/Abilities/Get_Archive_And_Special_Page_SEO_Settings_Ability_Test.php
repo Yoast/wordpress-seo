@@ -154,7 +154,6 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 	 *
 	 * @covers ::get_args
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Settings_Ability::get_target_output_schema
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Archive_And_Special_Page_SEO_Settings_Ability::get_targets_description
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Global_SEO_Settings_Ability::build_target_output_schema
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Global_SEO_Settings_Ability::to_output_schema
 	 *
@@ -181,7 +180,7 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 			],
 			$args['input_schema'],
 		);
-		$this->assertStringContainsString( 'yoast-seo/get-content-type-seo-settings', $args['description'] );
+		$this->assertStringContainsString( 'yoast-seo/get-term-seo-data', $args['description'] );
 
 		$this->assertSame( 'array', $args['output_schema']['type'] );
 
@@ -192,7 +191,6 @@ final class Get_Archive_And_Special_Page_SEO_Settings_Ability_Test extends TestC
 			\array_keys( $properties ),
 		);
 		$this->assertSame( self::TARGET_NAMES, $properties['target']['enum'] );
-		$this->assertStringContainsString( 'Under "Categories & tags": taxonomy_archive holds the default settings', $properties['target']['description'] );
 		$this->assertSame(
 			[
 				'type'        => 'string',
