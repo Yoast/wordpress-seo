@@ -5,15 +5,18 @@ namespace Yoast\WP\SEO\Abilities\Infrastructure;
 
 use Yoast\WP\SEO\Abilities\Domain\Global_Setting_Target_Interface;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Author_Archives_Target;
+use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Content_Type_Target;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Date_Archives_Target;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Homepage_Target;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Not_Found_Page_Target;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Post_Type_Archive_Target;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Search_Page_Target;
+use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Taxonomy_Archive_Target;
+use Yoast\WP\SEO\Config\Schema_Types;
 
 /**
- * Describes the global settings of the homepage, the archives and the special pages that the abilities can write,
- * keyed by field name.
+ * Describes the global settings that the abilities can write, keyed by field name: the settings of the homepage, the
+ * archives and the special pages, and the default settings of the content types and the taxonomies.
  *
  * The map is the single source of truth for both the ability schemas and the updater, so a field
  * added through the filter is exposed, validated and written without further changes.
@@ -26,6 +29,22 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 	 * @var array<string, array<string, string>>
 	 */
 	private $option_patterns = [];
+
+	/**
+	 * The schema types.
+	 *
+	 * @var Schema_Types
+	 */
+	private $schema_types;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param Schema_Types $schema_types The schema types.
+	 */
+	public function __construct( Schema_Types $schema_types ) {
+		$this->schema_types = $schema_types;
+	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
 
@@ -43,6 +62,25 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 		}
 
 		return $target->format_option_name( $this->option_patterns[ $field_name ][ $target->get_name() ] );
+	}
+
+	/**
+	 * Returns the fields that at least one of the given targets has, so an ability only describes the fields of its
+	 * own targets.
+	 *
+	 * @param array<string> $target_names The names of the targets.
+	 *
+	 * @return array<string, array<string, mixed>> The JSON schema of each field, keyed by field name.
+	 */
+	public function get_fields_for_targets( array $target_names ): array {
+		$fields = [];
+		foreach ( $this->get_fields() as $field_name => $schema ) {
+			if ( \array_intersect( $target_names, \array_keys( $this->option_patterns[ $field_name ] ) ) !== [] ) {
+				$fields[ $field_name ] = $schema;
+			}
+		}
+
+		return $fields;
 	}
 
 	/**
@@ -69,14 +107,14 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 	 */
 	protected function get_filtered_fields( array $default_fields ) {
 		/**
-		 * Filter: 'wpseo_global_setting_ability_fields' - Allows adding fields to the archive and special page SEO settings
-		 * abilities.
+		 * Filter: 'wpseo_global_setting_ability_fields' - Allows adding fields to the global SEO settings abilities.
 		 *
 		 * Each field is keyed by its name and maps to the JSON schema of its value, along with an 'option_patterns'
 		 * key: the pattern of the Yoast SEO option the field is stored in, keyed by the name of each target that has
-		 * the field. The archive of a content type fills in its post type for the %s placeholder. A field without
-		 * valid option patterns is dropped, so it is never saved in the wrong place. The value is saved through the
-		 * options helper, so it is sanitized like it is when saved from the settings page.
+		 * the field. The targets that exist once per content type or taxonomy fill in their post type or taxonomy for
+		 * the %s placeholder. A field without valid option patterns is dropped, so it is never saved in the wrong
+		 * place. The value is saved through the options helper, so it is sanitized like it is when saved from the
+		 * settings page.
 		 *
 		 * Validation beyond the schema goes in an optional 'validate_callback' key next to the schema. It receives
 		 * the value and the field name, and returns a warning to skip saving the field or null to save it. The
@@ -127,7 +165,7 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 	 */
 	protected function get_default_fields(): array {
 		return [
-			'seo_title'        => [
+			'seo_title'           => [
 				'type'            => 'string',
 				'description'     => \sprintf(
 					/* translators: %s: the format of a snippet variable. */
@@ -136,14 +174,16 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 				),
 				'option_patterns' => [
 					Homepage_Target::NAME          => 'title-home-wpseo',
+					Content_Type_Target::NAME      => 'title-%s',
+					Post_Type_Archive_Target::NAME => 'title-ptarchive-%s',
+					Taxonomy_Archive_Target::NAME  => 'title-tax-%s',
 					Author_Archives_Target::NAME   => 'title-author-wpseo',
 					Date_Archives_Target::NAME     => 'title-archive-wpseo',
 					Search_Page_Target::NAME       => 'title-search-wpseo',
 					Not_Found_Page_Target::NAME    => 'title-404-wpseo',
-					Post_Type_Archive_Target::NAME => 'title-ptarchive-%s',
 				],
 			],
-			'meta_description' => [
+			'meta_description'    => [
 				'type'            => 'string',
 				'description'     => \sprintf(
 					/* translators: %s: the format of a snippet variable. */
@@ -152,18 +192,38 @@ class Global_Setting_Field_Map extends Abstract_Field_Map {
 				),
 				'option_patterns' => [
 					Homepage_Target::NAME          => 'metadesc-home-wpseo',
+					Content_Type_Target::NAME      => 'metadesc-%s',
+					Post_Type_Archive_Target::NAME => 'metadesc-ptarchive-%s',
+					Taxonomy_Archive_Target::NAME  => 'metadesc-tax-%s',
 					Author_Archives_Target::NAME   => 'metadesc-author-wpseo',
 					Date_Archives_Target::NAME     => 'metadesc-archive-wpseo',
-					Post_Type_Archive_Target::NAME => 'metadesc-ptarchive-%s',
 				],
 			],
-			'noindex'          => [
+			'noindex'             => [
 				'type'            => 'boolean',
 				'description'     => \__( 'Whether search engines are told not to index these pages. true hides them from search results; false lets them be shown in search results.', 'wordpress-seo' ),
 				'option_patterns' => [
+					Content_Type_Target::NAME      => 'noindex-%s',
+					Post_Type_Archive_Target::NAME => 'noindex-ptarchive-%s',
+					Taxonomy_Archive_Target::NAME  => 'noindex-tax-%s',
 					Author_Archives_Target::NAME   => 'noindex-author-wpseo',
 					Date_Archives_Target::NAME     => 'noindex-archive-wpseo',
-					Post_Type_Archive_Target::NAME => 'noindex-ptarchive-%s',
+				],
+			],
+			'schema_page_type'    => [
+				'type'            => 'string',
+				'enum'            => \array_keys( Schema_Types::PAGE_TYPES ),
+				'description'     => \__( 'The Schema.org page type of these pages.', 'wordpress-seo' ),
+				'option_patterns' => [
+					Content_Type_Target::NAME => 'schema-page-type-%s',
+				],
+			],
+			'schema_article_type' => [
+				'type'            => 'string',
+				'enum'            => $this->schema_types->get_article_types(),
+				'description'     => \__( 'The Schema.org article type of these pages. None means they are not described as an article.', 'wordpress-seo' ),
+				'option_patterns' => [
+					Content_Type_Target::NAME => 'schema-article-type-%s',
 				],
 			],
 		];
