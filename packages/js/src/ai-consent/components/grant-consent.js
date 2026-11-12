@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { AiGrantConsent } from "../../shared-admin/components";
 import { STORE_NAME_AI_CONSENT } from "../constants";
 
@@ -11,7 +10,8 @@ const LINKS = {
 /**
  * The modal content for granting consent to use the AI features.
  *
- * @param {function} onStartGenerating Callback to start generating content after consent is given.
+ * @param {Object} props Component props.
+ * @param {Function} props.onStartGenerating Callback to start generating content after consent is given.
  *
  * @returns {JSX.Element} The element.
  */
@@ -23,6 +23,3 @@ export const GrantConsent = ( { onStartGenerating } ) => (
 		links={ LINKS }
 	/>
 );
-GrantConsent.propTypes = {
-	onStartGenerating: PropTypes.func.isRequired,
-};

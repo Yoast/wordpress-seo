@@ -1,7 +1,5 @@
-/* eslint-disable react/require-default-props */
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 
 /* Internal dependencies */
 import buildDurationString from "./utils/8.2";
@@ -17,7 +15,7 @@ import buildDurationString from "./utils/8.2";
  * Returns the component of the given How-to step to be rendered in a WordPress post
  * (e.g. not in the editor).
  *
- * @param {object} step The how-to step.
+ * @param {Object} step The how-to step.
  *
  * @returns {Component} The component to be rendered.
  */
@@ -46,7 +44,8 @@ const LegacyHowToStep = ( step ) => {
  * Returns the component to be used to render
  * the How-to block on Wordpress (e.g. not in the editor).
  *
- * @param {object} props the attributes of the How-to block.
+ * @param {Object} props the attributes of the How-to block.
+ * @param {Object} [props.attributes] The block attributes.
  *
  * @returns {Component} The component representing a How-to block.
  */
@@ -99,7 +98,3 @@ export default function LegacyHowTo( props ) {
 		</div>
 	);
 }
-
-LegacyHowTo.propTypes = {
-	attributes: PropTypes.object,
-};

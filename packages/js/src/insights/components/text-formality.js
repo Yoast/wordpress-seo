@@ -2,7 +2,6 @@ import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import { HelpIcon } from "@yoast/components";
 import { get } from "lodash";
-import PropTypes from "prop-types";
 
 import TextFormalityUpsell from "./text-formality-upsell";
 import { useSelect } from "@wordpress/data";
@@ -11,8 +10,9 @@ import getL10nObject from "../../analysis/getL10nObject";
 /**
  * TextFormality component.
  *
- * @param {string} location The location of this component.
- * @param {string} name     The name of the Text Formality component to fill.
+ * @param {Object} props Component props.
+ * @param {string} props.location The location of this component.
+ * @param {string} props.name The name of the Text Formality component to fill.
  *
  * @returns {JSX.Element} The element.
  */
@@ -43,11 +43,6 @@ const TextFormality = ( { location, name } ) => {
 			{ isPremium ? <Slot name={ name } /> : <TextFormalityUpsell location={ location } /> }
 		</div>
 	);
-};
-
-TextFormality.propTypes = {
-	location: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
 };
 
 export default TextFormality;

@@ -3,7 +3,6 @@ import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import SchemaTab from "../components/SchemaTab";
 import SchemaFields from "../helpers/SchemaFields";
 import withLocation from "../helpers/withLocation";
@@ -13,7 +12,7 @@ import withLocation from "../helpers/withLocation";
  *
  * @param {string} location The location in which the component is rendered.
  *
- * @returns {object} Props for this location.
+ * @returns {Object} Props for this location.
  */
 const getLocationBasedProps = ( location ) => {
 	if ( location === "metabox" ) {
@@ -35,6 +34,16 @@ const getLocationBasedProps = ( location ) => {
  * Renders the SchemaComponent.
  *
  * @param {Object} props The props.
+ * @param {boolean} props.displayFooter Whether to display the footer.
+ * @param {string} props.schemaPageTypeSelected The selected page type.
+ * @param {string} props.schemaArticleTypeSelected The selected article type.
+ * @param {string} props.defaultArticleType The default article type.
+ * @param {string} props.defaultPageType The default page type.
+ * @param {Function} props.loadSchemaPageData Loads the schema page data.
+ * @param {Function} props.loadSchemaArticleData Loads the schema article data.
+ * @param {Function} props.schemaPageTypeChange Changes the selected page type.
+ * @param {Function} props.schemaArticleTypeChange Changes the selected article type.
+ * @param {string} props.location The location in which the component is rendered.
  *
  * @returns {JSX.Element} The SchemaTab.
  */
@@ -71,19 +80,6 @@ const SchemaTabContainer = ( props ) => {
 	};
 
 	return <SchemaTab { ...schemaTabProps } />;
-};
-
-SchemaTabContainer.propTypes = {
-	displayFooter: PropTypes.bool.isRequired,
-	schemaPageTypeSelected: PropTypes.string.isRequired,
-	schemaArticleTypeSelected: PropTypes.string.isRequired,
-	defaultArticleType: PropTypes.string.isRequired,
-	defaultPageType: PropTypes.string.isRequired,
-	loadSchemaPageData: PropTypes.func.isRequired,
-	loadSchemaArticleData: PropTypes.func.isRequired,
-	schemaPageTypeChange: PropTypes.func.isRequired,
-	schemaArticleTypeChange: PropTypes.func.isRequired,
-	location: PropTypes.string.isRequired,
 };
 
 export default compose( [

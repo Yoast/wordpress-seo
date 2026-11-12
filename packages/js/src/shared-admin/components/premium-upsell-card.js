@@ -4,7 +4,6 @@ import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { getPremiumBenefits, getWooSeoBenefits } from "../../helpers/get-premium-benefits";
 import { Button, Title } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { ReactComponent as YoastSeoLogo } from "../../../images/yoast-premium-logo-new.svg";
 import { ReactComponent as WooSeoLogo } from "../../../images/woo-seo-logo-new.svg";
 // Note that the same logo in images has a width and height, which we do not want here.
@@ -51,10 +50,12 @@ const UpsellTitle = ( { isWooCommerceActive } ) => <Title
 </Title>;
 
 /**
- * @param {string} link The link.
- * @param {Object} linkProps Extra link props.
- * @param {function} isPromotionActive Callback to get whether a promotion is active.
- * @param {boolean} isWooCommerceActive Whether WooCommerce is active.
+ * @param {Object} props Component props.
+ * @param {string} props.link The link.
+ * @param {Object} props.linkProps Extra link props.
+ * @param {Function} props.isPromotionActive Callback to get whether a promotion is active.
+ * @param {boolean} props.isWooCommerceActive Whether WooCommerce is active.
+ *
  * @returns {JSX.Element} The premium upsell card.
  */
 export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCommerceActive } ) => {
@@ -123,11 +124,4 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 			</ul>
 		</div>
 	);
-};
-
-PremiumUpsellCard.propTypes = {
-	link: PropTypes.string.isRequired,
-	linkProps: PropTypes.object.isRequired,
-	isPromotionActive: PropTypes.func.isRequired,
-	isWooCommerceActive: PropTypes.bool.isRequired,
 };

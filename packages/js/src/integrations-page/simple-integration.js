@@ -7,19 +7,29 @@ import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, Link } from "@yoast/ui-library";
 import { get } from "lodash";
-import { PropTypes } from "prop-types";
 import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
 import { Card } from "./tailwind-components/card";
 
 /**
  * Represents an integration.
  *
- * @param {Object} integration The integration.
- * @param {boolean} [isActive=true] The integration state.
- * @param {boolean} [isSchemaPartner=false] Whether the card is a Yoast Schema API partner.
- * @param {boolean} [showSchemaFrameworkAlertInBody=false] Whether a Schema API partner shows the Schema Framework alert in the card's
+ * @param {Object} props Component props.
+ * @param {Object} props.integration The integration.
+ * @param {string} [props.integration.name] The integration name.
+ * @param {import("react").ReactNode} [props.integration.claim] The integration claim, shown as the card heading.
+ * @param {string} [props.integration.learnMoreLink] The URL of the "Learn more" link.
+ * @param {string} [props.integration.logoLink] The URL the logo links to.
+ * @param {string} [props.integration.slug] The integration slug.
+ * @param {string} [props.integration.description] The integration description.
+ * @param {Array} [props.integration.usps] The unique selling points of the integration.
+ * @param {Function} props.integration.logo The logo component.
+ * @param {boolean} [props.integration.isNew] Whether to show the "New" badge.
+ * @param {string} [props.integration.upsellLink] The URL of the upsell button.
+ * @param {boolean} [props.isActive=true] The integration state.
+ * @param {boolean} [props.isSchemaPartner=false] Whether the card is a Yoast Schema API partner.
+ * @param {boolean} [props.showSchemaFrameworkAlertInBody=false] Whether a Schema API partner shows the Schema Framework alert in the card's
  *   body, alongside its children, instead of in the footer, in place of its children.
- * @param {React.ReactNode} [children=null] The child components.
+ * @param {React.ReactNode} [props.children=null] The child components.
  *
  * @returns {JSX.Element} A card representing an integration.
  */
@@ -163,26 +173,4 @@ export const SimpleIntegration = ( {
 			</Card.Footer>
 		</Card>
 	);
-};
-
-SimpleIntegration.propTypes = {
-	integration: PropTypes.shape( {
-		name: PropTypes.string,
-		claim: PropTypes.node,
-		learnMoreLink: PropTypes.string,
-		logoLink: PropTypes.string,
-		slug: PropTypes.string,
-		description: PropTypes.string,
-		usps: PropTypes.array,
-		logo: PropTypes.func.isRequired,
-		isNew: PropTypes.bool,
-		upsellLink: PropTypes.string,
-	} ).isRequired,
-	isActive: PropTypes.bool,
-	isSchemaPartner: PropTypes.bool,
-	showSchemaFrameworkAlertInBody: PropTypes.bool,
-	children: PropTypes.oneOfType( [
-		PropTypes.node,
-		PropTypes.arrayOf( PropTypes.node ),
-	] ),
 };

@@ -1,5 +1,4 @@
 /* External dependencies */
-import PropTypes from "prop-types";
 
 /* Internal dependencies */
 import buildDurationString from "./utils/8.2";
@@ -45,6 +44,7 @@ function LegacyHowToStep( step ) {
  * the How-to block on WordPress (e.g. not in the editor).
  *
  * @param {Object} props the attributes of the How-to block.
+ * @param {Object} props.attributes The block attributes.
  *
  * @returns {wp.Element} The component representing a How-to block.
  */
@@ -97,7 +97,3 @@ export default function LegacyHowTo( props ) { // eslint-disable-line complexity
 		</div>
 	);
 }
-
-LegacyHowTo.propTypes = {
-	attributes: PropTypes.object.isRequired,
-};

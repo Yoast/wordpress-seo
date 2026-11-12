@@ -1,17 +1,17 @@
 import ArrowSmRightIcon from "@heroicons/react/solid/ArrowSmRightIcon";
 import { __ } from "@wordpress/i18n";
 import { Button, Modal, useSvgAria } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { ReactComponent as YoastConnectSiteKit } from "../../../images/yoast-connect-google-site-kit.svg";
 import { OutboundLink } from "./outbound-link";
 
 /**
  * The Site Kit consent modal component.
  *
- * @param {boolean} isOpen Whether the modal is open.
- * @param {function} onClose Callback to close the modal.
- * @param {?function} onGrantConsent Callback to grant consent. If not provided, the modal will close on button click.
- * @param {string} [learnMoreLink] The learn more link.
+ * @param {Object} props Component props.
+ * @param {boolean} props.isOpen Whether the modal is open.
+ * @param {Function} props.onClose Callback to close the modal.
+ * @param {?Function} [props.onGrantConsent=null] Callback to grant consent. If not provided, the modal will close on button click.
+ * @param {string} [props.learnMoreLink=""] The learn more link.
  *
  * @returns {JSX.Element} The Site Kit consent modal component.
  */
@@ -72,11 +72,4 @@ export const SiteKitConsentModal = ( {
 			</Modal.Panel>
 		</Modal>
 	);
-};
-
-SiteKitConsentModal.propTypes = {
-	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func.isRequired,
-	onGrantConsent: PropTypes.func,
-	learnMoreLink: PropTypes.string,
 };

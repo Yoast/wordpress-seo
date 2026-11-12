@@ -8,7 +8,6 @@ import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { BulkEditorTourNotification, Notices } from "./components";
 import { STORE_NAME } from "./constants";
@@ -18,7 +17,9 @@ import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { ROUTES } from "./routes";
 
 /**
- * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
+ * @param {Object} props Component props.
+ * @param {string} [props.idSuffix=""] Extra id suffix. Can prevent double IDs on the page.
+ *
  * @returns {JSX.Element} The menu element.
  */
 const Menu = ( { idSuffix = "" } ) => {
@@ -76,9 +77,6 @@ const Menu = ( { idSuffix = "" } ) => {
 			/>
 		</ul>
 	</>;
-};
-Menu.propTypes = {
-	idSuffix: PropTypes.string,
 };
 
 /**

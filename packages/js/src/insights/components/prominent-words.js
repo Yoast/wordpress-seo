@@ -3,7 +3,6 @@ import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { makeOutboundLink } from "@yoast/helpers";
 import { get } from "lodash";
-import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import DataModel from "./data-model";
 import { addQueryArgs } from "@wordpress/url";
@@ -13,7 +12,10 @@ const OutboundLink = makeOutboundLink();
 
 /**
  * Prominent words component.
- * @param {string} location The location of this component.
+ *
+ * @param {Object} props Component props.
+ * @param {string} props.location The location of this component.
+ *
  * @returns {JSX.Element} The element.
  */
 const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
@@ -109,10 +111,6 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 			/>
 		</div>
 	);
-};
-
-ProminentWords.propTypes = {
-	location: PropTypes.string.isRequired,
 };
 
 export default ProminentWords;

@@ -1,8 +1,9 @@
 import classNames from "classnames";
-import { PropTypes } from "prop-types";
 
 /**
- * @param {Object} [children=null] The children.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} [props.children=null] The children.
+ *
  * @returns {JSX.Element} The header.
  */
 const Header = ( { children = null } ) => (
@@ -10,12 +11,11 @@ const Header = ( { children = null } ) => (
 		{ children }
 	</header>
 );
-Header.propTypes = {
-	children: PropTypes.node,
-};
 
 /**
- * @param {Object} [children=null] The children.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} [props.children=null] The children.
+ *
  * @returns {JSX.Element} The content.
  */
 const Content = ( { children = null } ) => (
@@ -23,12 +23,11 @@ const Content = ( { children = null } ) => (
 		{ children }
 	</div>
 );
-Content.propTypes = {
-	children: PropTypes.node,
-};
 
 /**
- * @param {Object} [children=null] The children.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} [props.children=null] The children.
+ *
  * @returns  {JSX.Element} The footer.
  */
 const Footer = ( { children = null } ) => (
@@ -36,13 +35,12 @@ const Footer = ( { children = null } ) => (
 		{ children }
 	</footer>
 );
-Footer.propTypes = {
-	children: PropTypes.node,
-};
 
 /**
- * @param {Object}      [children=null] The children.
- * @param {string}      [className=""]  Extra classes, appended so a consumer can override the defaults.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} [props.children=null] The children.
+ * @param {string} [props.className=""] Extra classes, appended so a consumer can override the defaults.
+ *
  * @returns {JSX.Element} The card.
  */
 export const Card = ( { children = null, className = "" } ) => (
@@ -55,10 +53,6 @@ export const Card = ( { children = null, className = "" } ) => (
 		{ children }
 	</div>
 );
-Card.propTypes = {
-	children: PropTypes.node,
-	className: PropTypes.string,
-};
 
 Card.Header = Header;
 Card.Content = Content;

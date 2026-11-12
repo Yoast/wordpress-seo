@@ -1,10 +1,11 @@
 import { __ } from "@wordpress/i18n";
 import { Alert, Button, Title } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
- * @param {Function} handleRefreshClick The function to be called when the "Refresh this page" button is clicked.
- * @param {String} supportLink The link to be used in the "Contact support" button.
+ * @param {Object} props Component props.
+ * @param {Function} props.handleRefreshClick The function to be called when the "Refresh this page" button is clicked.
+ * @param {string} props.supportLink The link to be used in the "Contact support" button.
+ *
  * @returns {JSX.Element} The vertical buttons element.
  */
 const HorizontalButtons = ( { handleRefreshClick, supportLink } ) => {
@@ -20,14 +21,11 @@ const HorizontalButtons = ( { handleRefreshClick, supportLink } ) => {
 	);
 };
 
-HorizontalButtons.propTypes = {
-	handleRefreshClick: PropTypes.func.isRequired,
-	supportLink: PropTypes.string.isRequired,
-};
-
 /**
- * @param {Function} handleRefreshClick The function to be called when the "Refresh this page" button is clicked.
- * @param {String} supportLink The link to be used in the "Contact support" button.
+ * @param {Object} props Component props.
+ * @param {Function} props.handleRefreshClick The function to be called when the "Refresh this page" button is clicked.
+ * @param {string} props.supportLink The link to be used in the "Contact support" button.
+ *
  * @returns {JSX.Element} The vertical buttons element.
  */
 const VerticalButtons = ( { handleRefreshClick, supportLink } ) => {
@@ -46,14 +44,11 @@ const VerticalButtons = ( { handleRefreshClick, supportLink } ) => {
 	);
 };
 
-VerticalButtons.propTypes = {
-	handleRefreshClick: PropTypes.func.isRequired,
-	supportLink: PropTypes.string.isRequired,
-};
-
 /**
- * @param {Object} error The error instance.
- * @param {React.ReactNode} [children=null] The children to render.
+ * @param {Object} props Component props.
+ * @param {Object} props.error The error instance.
+ * @param {React.ReactNode} [props.children=null] The children to render.
+ *
  * @returns {JSX.Element} The error fallback element.
  */
 export const ErrorFallback = ( { error, children = null } ) => {
@@ -66,11 +61,6 @@ export const ErrorFallback = ( { error, children = null } ) => {
 			{ children }
 		</div>
 	);
-};
-
-ErrorFallback.propTypes = {
-	error: PropTypes.object.isRequired,
-	children: PropTypes.node,
 };
 
 ErrorFallback.VerticalButtons = VerticalButtons;

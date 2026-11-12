@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { Slot } from "@wordpress/components";
 import { useEffect, useMemo } from "@wordpress/element";
@@ -50,7 +49,15 @@ const upsellWorkouts = {
 /**
  * Renders the workouts page.
  *
- * @param {object} props The props.
+ * @param {Object} props The props.
+ * @param {string} props.activeWorkout The key of the open workout, if any.
+ * @param {Function} props.clearActiveWorkout Closes the open workout.
+ * @param {Function} props.openWorkout Opens a workout by key.
+ * @param {Object} props.workouts The workouts state, keyed by workout.
+ * @param {boolean} props.loading Whether the workouts are still loading.
+ * @param {Function} props.initWorkouts Initializes the workouts from the saved setting.
+ * @param {Function} props.saveWorkouts Saves the workouts.
+ *
  * @returns {wp.Element} The workouts page.
  * @constructor
  */
@@ -124,13 +131,3 @@ export default function WorkoutsPage( props ) {
 		</div>
 	);
 }
-
-WorkoutsPage.propTypes = {
-	activeWorkout: PropTypes.string.isRequired,
-	clearActiveWorkout: PropTypes.func.isRequired,
-	openWorkout: PropTypes.func.isRequired,
-	workouts: PropTypes.object.isRequired,
-	loading: PropTypes.bool.isRequired,
-	initWorkouts: PropTypes.func.isRequired,
-	saveWorkouts: PropTypes.func.isRequired,
-};

@@ -1,5 +1,4 @@
 /* eslint-disable complexity */
-import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { useCallback, useRef, useLayoutEffect } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
@@ -35,8 +34,9 @@ const getEditorMode = () => {
 /**
  * The AI Optimize button component.
  *
- * @param {string} id The assessment ID which AI Optimize should be applied to.
- * @param {boolean} [isPremium=false] Whether the Premium add-on is active.
+ * @param {Object} props Component props.
+ * @param {string} props.id The assessment ID which AI Optimize should be applied to.
+ * @param {boolean} [props.isPremium=false] Whether the Premium add-on is active.
  *
  * @returns {JSX.Element} The AI Optimize button.
  */
@@ -246,10 +246,4 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	);
 };
 
-AIOptimizeButton.propTypes = {
-	id: PropTypes.string.isRequired,
-	isPremium: PropTypes.bool,
-};
-
 export default AIOptimizeButton;
-

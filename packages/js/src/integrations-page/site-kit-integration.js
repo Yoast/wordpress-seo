@@ -6,7 +6,6 @@ import { useCallback, useState } from "@wordpress/element";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useToggleState } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { ReactComponent as SiteKitLogo } from "../../images/site-kit-logo.svg";
 import { SiteKitConsentModal, UnsavedChangesModal as DisconnectModal } from "../shared-admin/components";
 import { SimpleIntegration } from "./simple-integration";
@@ -58,19 +57,16 @@ const fetchJson = async( options ) => {
 /**
  * The wrapper for content with bottom border.
  *
- * @param {JSX.Element} children The children.
- * @param {string} className The class name.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.children The children.
+ * @param {string} [props.className=""] The class name.
+ *
  * @returns {JSX.Element} The top footer wrapper.
  */
 const ContentWithBottomDivider = ( { children, className = "" } ) => {
 	return <span className={ classNames( "yst-pb-4 yst-border-b yst-mb-6 yst-border-slate-200 yst--mt-2", className ) }>
 		{ children }
 	</span>;
-};
-
-ContentWithBottomDivider.propTypes = {
-	children: PropTypes.node.isRequired,
-	className: PropTypes.string,
 };
 
 /**
@@ -90,10 +86,11 @@ const SuccessfullyConnected = () => {
 /**
  * Status info component.
  *
- * @param {CapabilitiesForSiteKit} capabilities The capabilities.
- * @param {number} currentStep The current step.
- * @param {boolean} successfullyConnected Whether the connection was successful.
- * @param {boolean} isVersionSupported Whether the version is supported.
+ * @param {Object} props Component props.
+ * @param {CapabilitiesForSiteKit} props.capabilities The capabilities.
+ * @param {number} props.currentStep The current step.
+ * @param {boolean} props.successfullyConnected Whether the connection was successful.
+ * @param {boolean} props.isVersionSupported Whether the version is supported.
  *
  * @returns {JSX.Element} The status info component.
  */
@@ -127,24 +124,18 @@ const StatusInfo = ( { capabilities, currentStep, successfullyConnected, isVersi
 	}
 };
 
-StatusInfo.propTypes = {
-	capabilities: PropTypes.objectOf( PropTypes.bool ).isRequired,
-	currentStep: PropTypes.number.isRequired,
-	successfullyConnected: PropTypes.bool.isRequired,
-	isVersionSupported: PropTypes.bool.isRequired,
-};
-
 /**
  * The Site Kit integration component.
  *
- * @param {import("../dashboard/index").SiteKitConnectionStepsStatuses} connectionStepsStatuses The Site Kit configuration.
- * @param {string} installUrl The installation url.
- * @param {string} activateUrl The activation url.
- * @param {string} setupUrl The setup url.
- * @param {string} updateUrl The update url.
- * @param {string} consentManagementUrl The consent management url.
- * @param {import("../dashboard/index").CapabilitiesForSiteKit} capabilities The user capabilities.
- * @param {boolean} isVersionSupported Whether the version is supported.
+ * @param {Object} props Component props.
+ * @param {string} props.installUrl The installation url.
+ * @param {string} props.activateUrl The activation url.
+ * @param {string} props.setupUrl The setup url.
+ * @param {string} props.updateUrl The update url.
+ * @param {string} props.consentManagementUrl The consent management url.
+ * @param {import("../dashboard/index").CapabilitiesForSiteKit} props.capabilities The user capabilities.
+ * @param {import("../dashboard/index").SiteKitConnectionStepsStatuses} props.connectionStepsStatuses The Site Kit configuration.
+ * @param {boolean} props.isVersionSupported Whether the version is supported.
  *
  * @returns {WPElement} The Site Kit integration component.
  */
@@ -278,15 +269,4 @@ export const SiteKitIntegration = ( {
 			/>
 		</>
 	);
-};
-
-SiteKitIntegration.propTypes = {
-	installUrl: PropTypes.string.isRequired,
-	activateUrl: PropTypes.string.isRequired,
-	setupUrl: PropTypes.string.isRequired,
-	updateUrl: PropTypes.string.isRequired,
-	consentManagementUrl: PropTypes.string.isRequired,
-	capabilities: PropTypes.objectOf( PropTypes.bool ).isRequired,
-	connectionStepsStatuses: PropTypes.objectOf( PropTypes.bool ).isRequired,
-	isVersionSupported: PropTypes.bool.isRequired,
 };

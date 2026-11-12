@@ -1,6 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { Title } from "@yoast/ui-library";
-import { PropTypes } from "prop-types";
 import { aiIntegrations } from "./ai-integrations";
 import { contentMediaIntegrations } from "./content-media-integrations";
 import { ecommerceIntegrations } from "./ecommerce-integrations";
@@ -12,9 +11,10 @@ import { verificationIntegrations } from "./verification-integrations";
 /**
  * Renders a section.
  *
- * @param {string} [title] The section title.
- * @param {JSX.Element} [description] The section description.
- * @param {Array<JSX.Element>} [elements] Array of elements to be rendered.
+ * @param {Object} props Component props.
+ * @param {string} [props.title=""] The section title.
+ * @param {import("react").ReactNode} [props.description=""] The section description.
+ * @param {Array<JSX.Element>} [props.elements=[]] Array of elements to be rendered.
  *
  * @returns {JSX.Element} The section.
  */
@@ -30,12 +30,6 @@ const Section = ( { title = "", description = "", elements = [] } ) => {
 			</div>
 		</section>
 	);
-};
-
-Section.propTypes = {
-	title: PropTypes.string,
-	description: PropTypes.node,
-	elements: PropTypes.array,
 };
 
 /**
