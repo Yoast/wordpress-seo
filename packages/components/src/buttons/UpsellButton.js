@@ -89,7 +89,7 @@ const upsellButtonBaseDefaults = {
  *
  * See the Safari 10 bug description in the YoastButtonBase JSDoc.
  *
- * @param {object} props The component's props.
+ * @param {Object} props The component's props.
  *
  * @returns {ReactElement} The upsell button.
  */
@@ -127,7 +127,11 @@ UpsellButtonBase.defaultProps = upsellButtonBaseDefaults;
 /**
  * The UpsellButton component.
  *
- * @param {object} props The component's props.
+ * @param {Object} props The component's props.
+ * @param {string} [props.backgroundColor] The background color of the button.
+ * @param {string} [props.hoverColor] The hover color of the button.
+ * @param {string} [props.textColor] The text color of the button.
+ * @param {import("react").ReactNode} [props.children] The content of the button.
  *
  * @returns {ReactElement} The UpsellButtonBase component.
  */
@@ -140,11 +144,4 @@ export const UpsellButton = ( props ) => {
 			<IconComponent icon={ "caret-right" } color={ colors.$color_black } size={ "16px" } />
 		</UpsellButtonBase>
 	);
-};
-
-UpsellButton.propTypes = {
-	backgroundColor: PropTypes.string,
-	hoverColor: PropTypes.string,
-	textColor: PropTypes.string,
-	children: PropTypes.oneOfType( [ PropTypes.arrayOf( PropTypes.node ), PropTypes.node ] ),
 };

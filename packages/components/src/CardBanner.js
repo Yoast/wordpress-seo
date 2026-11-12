@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Yoast dependencies */
@@ -34,6 +33,9 @@ const BannerTriangle = styled.span`
 /**
  * The banner component.
  * @param {Object} props The props.
+ * @param {string} [props.backgroundColor] The background color of the banner.
+ * @param {string} [props.textColor] The text color of the banner.
+ * @param {*} [props.children=null] The content of the banner.
  * @returns {ReactElement} The banner element.
  * @constructor
  */
@@ -45,9 +47,3 @@ export default function Banner( { backgroundColor = colors.$color_pink_dark, tex
 		<BannerTriangle />
 	</Fragment>;
 }
-
-Banner.propTypes = {
-	backgroundColor: PropTypes.string,
-	textColor: PropTypes.string,
-	children: PropTypes.any,
-};

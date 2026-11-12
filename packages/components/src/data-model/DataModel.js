@@ -1,22 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 
 import "./data-model.css";
 
 /**
- * Props for dataItem.
- */
-const dataItemProps = {
-	width: PropTypes.number.isRequired,
-	name: PropTypes.string.isRequired,
-	number: PropTypes.number.isRequired,
-};
-
-/**
  * Creates a list item from the props.
  *
- * @param {object} props The properties.
+ * @param {Object} props The properties.
+ * @param {number} props.width The width of the item bar, as a percentage.
+ * @param {string} props.name The name of the item.
+ * @param {number} props.number The number of occurrences of the item.
  *
  * @returns {HTMLElement} A list item.
  */
@@ -35,15 +28,17 @@ const DataItem = ( props ) => {
 	);
 };
 
-DataItem.propTypes = dataItemProps;
-
 // Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
 const DEFAULT_ITEMS = [];
 
 /**
  * Creates a DataModel based on props.
  *
- * @param {object} props The properties.
+ * @param {Object} props The properties.
+ * @param {Object[]} [props.items] The items to render.
+ * @param {number} props.items[].width The width of the item bar, as a percentage.
+ * @param {string} props.items[].name The name of the item.
+ * @param {number} props.items[].number The number of occurrences of the item.
  *
  * @returns {HTMLElement} A <ul> with <li> items.
  */
@@ -57,9 +52,5 @@ const DataModel = ( { items = DEFAULT_ITEMS } ) => (
 		{ items.map( DataItem ) }
 	</ul>
 );
-
-DataModel.propTypes = {
-	items: PropTypes.arrayOf( PropTypes.shape( dataItemProps ) ),
-};
 
 export default DataModel;

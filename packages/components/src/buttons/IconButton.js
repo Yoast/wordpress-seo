@@ -1,6 +1,5 @@
 // External dependencies.
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import omit from "lodash/omit";
 
@@ -28,7 +27,10 @@ function addIconTextStyle( icon ) {
 /**
  * Returns an icon button that can optionally contain text.
  *
- * @param {object} props Component props.
+ * @param {Object} props Component props.
+ * @param {string} props.icon The name of the icon.
+ * @param {string} [props.iconColor="#000"] The color of the icon.
+ * @param {(import("react").ReactNode[]|import("react").ReactNode|string)} [props.children] The text of the button.
  *
  * @returns {ReactElement} styled icon button.
  */
@@ -48,16 +50,6 @@ const IconButton = ( { iconColor = "#000", ...props } ) => {
 			{ text }
 		</Button>
 	);
-};
-
-IconButton.propTypes = {
-	icon: PropTypes.string.isRequired,
-	iconColor: PropTypes.string,
-	children: PropTypes.oneOfType( [
-		PropTypes.arrayOf( PropTypes.node ),
-		PropTypes.node,
-		PropTypes.string,
-	] ),
 };
 
 export default IconButton;

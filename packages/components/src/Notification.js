@@ -1,6 +1,5 @@
 /* External dependencies */
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
@@ -76,7 +75,15 @@ const StyledIcon = styled( SvgIcon )`
 /**
  * Returns a Notification wrapped in a styled Paper.
  *
- * @param {object} props Component props.
+ * @param {Object} props Component props.
+ * @param {string} [props.imageSrc] The source of the notification image.
+ * @param {string} [props.imageWidth] The width of the notification image.
+ * @param {string} [props.imageHeight] The height of the notification image.
+ * @param {string} [props.title] The title of the notification.
+ * @param {string} [props.html] The HTML content of the notification.
+ * @param {boolean} [props.isDismissable=false] Whether the notification can be dismissed.
+ * @param {Function} [props.onClick] The function to call when the dismiss button is clicked.
+ * @param {string} [props.headingLevel="h3"] The heading element to use for the title.
  *
  * @returns {ReactElement} styled notification.
  */
@@ -107,16 +114,5 @@ function Notification( { isDismissable = false, headingLevel = "h3", ...props } 
 		</NotificationContainer>
 	</Paper>;
 }
-
-Notification.propTypes = {
-	imageSrc: PropTypes.string,
-	imageWidth: PropTypes.string,
-	imageHeight: PropTypes.string,
-	title: PropTypes.string,
-	html: PropTypes.string,
-	isDismissable: PropTypes.bool,
-	onClick: PropTypes.func,
-	headingLevel: PropTypes.string,
-};
 
 export default Notification;
