@@ -3,6 +3,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
+use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
+
 /**
  * Base class for the abilities that read or write the SEO data of a post.
  *
@@ -10,6 +14,51 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
  *        built on its shared properties, inject it into the post abilities and have them extend Abstract_SEO_Data_Ability.
  */
 abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
+
+	/**
+	 * The Yoast WooCommerce SEO inactive conditional.
+	 *
+	 * @var Woo_SEO_Inactive_Conditional
+	 */
+	protected $woo_seo_inactive_conditional;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param Capability_Helper                   $capability_helper                   The capability helper.
+	 * @param Should_Index_Indexables_Conditional $should_index_indexables_conditional The should index indexables conditional.
+	 * @param Woo_SEO_Inactive_Conditional        $woo_seo_inactive_conditional        The Yoast WooCommerce SEO inactive conditional.
+	 */
+	public function __construct(
+		Capability_Helper $capability_helper,
+		Should_Index_Indexables_Conditional $should_index_indexables_conditional,
+		Woo_SEO_Inactive_Conditional $woo_seo_inactive_conditional
+	) {
+		parent::__construct( $capability_helper, $should_index_indexables_conditional );
+
+		$this->woo_seo_inactive_conditional = $woo_seo_inactive_conditional;
+	}
+
+	/**
+	 * Returns the description of the stored page type, which mentions that Yoast WooCommerce SEO adds ItemPage to the
+	 * page type of products on the front end, whatever is stored.
+	 *
+	 * @return string The description.
+	 */
+	private function get_stored_schema_page_type_description(): string {
+		$description = \__( 'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies.', 'wordpress-seo' );
+
+		if ( $this->woo_seo_inactive_conditional->is_met() ) {
+			return $description;
+		}
+
+		return $description . ' ' . \sprintf(
+			/* translators: 1: Yoast WooCommerce SEO, 2: the name of a Schema.org page type. */
+			\__( '%1$s is active on this site and always adds %2$s to the page type of products on the front end, next to the stored or default page type.', 'wordpress-seo' ),
+			'Yoast WooCommerce SEO',
+			'ItemPage',
+		);
+	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
 
@@ -103,7 +152,7 @@ abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability 
 				'twitter_description_rendered'    => $rendered( \__( 'X description', 'wordpress-seo' ) ),
 				'schema_page_type'                => [
 					'type'        => [ 'string', 'null' ],
-					'description' => \__( 'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies.', 'wordpress-seo' ),
+					'description' => $this->get_stored_schema_page_type_description(),
 				],
 				'schema_article_type'             => [
 					'type'        => [ 'string', 'null' ],

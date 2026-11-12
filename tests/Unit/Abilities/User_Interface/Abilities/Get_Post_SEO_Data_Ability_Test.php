@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Post_SEO_Data_Ability;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -46,6 +47,13 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 	private $post_seo_data_collector;
 
 	/**
+	 * The Yoast WooCommerce SEO inactive conditional mock.
+	 *
+	 * @var Mockery\MockInterface|Woo_SEO_Inactive_Conditional
+	 */
+	private $woo_seo_inactive_conditional;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Get_Post_SEO_Data_Ability
@@ -65,11 +73,14 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 		$this->capability_helper                   = Mockery::mock( Capability_Helper::class );
 		$this->should_index_indexables_conditional = Mockery::mock( Should_Index_Indexables_Conditional::class );
 		$this->post_seo_data_collector             = Mockery::mock( Post_SEO_Data_Collector::class );
+		$this->woo_seo_inactive_conditional        = Mockery::mock( Woo_SEO_Inactive_Conditional::class );
+		$this->woo_seo_inactive_conditional->allows( 'is_met' )->andReturnTrue()->byDefault();
 
 		$this->instance = new Get_Post_SEO_Data_Ability(
 			$this->capability_helper,
 			$this->should_index_indexables_conditional,
 			$this->post_seo_data_collector,
+			$this->woo_seo_inactive_conditional,
 		);
 	}
 
@@ -129,7 +140,9 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::get_args
 	 * @covers ::get_post_identifier_input_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::get_post_seo_data_output_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::get_stored_schema_page_type_description
 	 *
 	 * @return void
 	 */
@@ -183,6 +196,23 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 				],
 			],
 			$this->instance->get_args(),
+		);
+	}
+
+	/**
+	 * Tests that the description of the stored page type mentions that Yoast WooCommerce SEO adds ItemPage to the
+	 * page type of products on the front end.
+	 *
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::get_stored_schema_page_type_description
+	 *
+	 * @return void
+	 */
+	public function test_get_args_schema_page_type_description_with_woo_seo() {
+		$this->woo_seo_inactive_conditional->expects( 'is_met' )->once()->andReturnFalse();
+
+		$this->assertSame(
+			'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies. Yoast WooCommerce SEO is active on this site and always adds ItemPage to the page type of products on the front end, next to the stored or default page type.',
+			$this->instance->get_args()['output_schema']['items']['properties']['schema_page_type']['description'],
 		);
 	}
 

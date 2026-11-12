@@ -32,13 +32,6 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	private $ai_generate_upsell;
 
 	/**
-	 * The Yoast WooCommerce SEO inactive conditional.
-	 *
-	 * @var Woo_SEO_Inactive_Conditional
-	 */
-	private $woo_seo_inactive_conditional;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param Capability_Helper                   $capability_helper                   The capability helper.
@@ -54,11 +47,10 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 		AI_Generate_Upsell $ai_generate_upsell,
 		Woo_SEO_Inactive_Conditional $woo_seo_inactive_conditional
 	) {
-		parent::__construct( $capability_helper, $should_index_indexables_conditional );
+		parent::__construct( $capability_helper, $should_index_indexables_conditional, $woo_seo_inactive_conditional );
 
-		$this->post_seo_data_updater        = $post_seo_data_updater;
-		$this->ai_generate_upsell           = $ai_generate_upsell;
-		$this->woo_seo_inactive_conditional = $woo_seo_inactive_conditional;
+		$this->post_seo_data_updater = $post_seo_data_updater;
+		$this->ai_generate_upsell    = $ai_generate_upsell;
 	}
 
 	/**

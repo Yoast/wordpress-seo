@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -27,13 +28,15 @@ class Get_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	 * @param Capability_Helper                   $capability_helper                   The capability helper.
 	 * @param Should_Index_Indexables_Conditional $should_index_indexables_conditional The should index indexables conditional.
 	 * @param Post_SEO_Data_Collector             $post_seo_data_collector             The post SEO data collector.
+	 * @param Woo_SEO_Inactive_Conditional        $woo_seo_inactive_conditional        The Yoast WooCommerce SEO inactive conditional.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
 		Should_Index_Indexables_Conditional $should_index_indexables_conditional,
-		Post_SEO_Data_Collector $post_seo_data_collector
+		Post_SEO_Data_Collector $post_seo_data_collector,
+		Woo_SEO_Inactive_Conditional $woo_seo_inactive_conditional
 	) {
-		parent::__construct( $capability_helper, $should_index_indexables_conditional );
+		parent::__construct( $capability_helper, $should_index_indexables_conditional, $woo_seo_inactive_conditional );
 
 		$this->post_seo_data_collector = $post_seo_data_collector;
 	}
