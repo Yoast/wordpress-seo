@@ -2,7 +2,7 @@
 
 Readability analysis is a collection of assessments that check how easy to read a text is.
 
-This file describes the language-specific scoring criteria for readability assessments in Japanese. The assessments that are not available in Japanese are Consecutive sentences, Passive voice, Word complexity, and Text Alignment. To find more general information on the scoring criteria of the readability assessments, you can consult the following page:
+This file describes the language-specific scoring criteria for readability assessments in Japanese. The assessments that are not available in Japanese are Passive voice and Word complexity. To find more general information on the scoring criteria of the readability assessments, you can consult the following page:
 * [Scoring criteria for readability assessments](../SCORING%20READABILITY.md)
 
 ## Scoring criteria for the readability assessments
