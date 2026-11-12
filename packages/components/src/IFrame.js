@@ -1,10 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 /**
  * Creates an IFrame component.
  *
  * @param {Object} props The props to use with the component.
+ * @param {string} props.title The title of the iframe.
  *
  * @returns {ReactElement} The rendered IFrame component.
  *
@@ -13,7 +13,3 @@ import PropTypes from "prop-types";
 export default function IFrame( props ) {
 	return ( <iframe title={ props.title } { ...props } /> );
 }
-
-IFrame.propTypes = {
-	title: PropTypes.string.isRequired,
-};

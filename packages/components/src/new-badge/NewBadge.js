@@ -1,11 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
 /**
  * Function for the NewBadge component.
  *
- * @param {bool} inLabel Whether the NewBadge is displayed close to a Label.
+ * @param {Object} props Component props.
+ * @param {boolean} [props.inLabel=false] Whether the NewBadge is displayed close to a Label.
  *
  * @returns {React.Component} The NewBadge.
  */
@@ -14,9 +14,5 @@ const NewBadge = ( { inLabel = false } ) => (
 		{ __( "New", "wordpress-seo" ) }
 	</span>
 );
-
-NewBadge.propTypes = {
-	inLabel: PropTypes.bool,
-};
 
 export default NewBadge;

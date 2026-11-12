@@ -1,10 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 /**
  * Renders StarRating component.
  *
  * @param {Object} props The props.
+ * @param {number} props.rating The rating, between 0 and 5.
  *
  * @returns {React.Component} The StarRating Component displays a number between 0 and 5 as (partly) colored stars.
  */
@@ -35,7 +35,3 @@ function StarRating( props ) {
 }
 
 export default StarRating;
-
-StarRating.propTypes = {
-	rating: PropTypes.number.isRequired,
-};

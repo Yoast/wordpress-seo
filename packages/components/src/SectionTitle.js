@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Yoast dependencies */
@@ -40,12 +39,12 @@ const StyledTitleContainerWithBadge = styled.div`
 /**
  * The StyledTitleContainer component, consisting of a StyledTitle and a StyledSubTitle.
  *
- * @param {object} props The component's props.
+ * @param {Object} props The component's props.
  * @param {string} props.title The title text.
- * @param {string} [props.titleScreenReaderText] Optional additional text for screen readers.
- * @param {string} [props.subTitle] Optional subtitle text.
+ * @param {string} [props.titleScreenReaderText=""] Optional additional text for screen readers.
+ * @param {string} [props.subTitle=""] Optional subtitle text.
  * @param {Function} [props.renderNewBadgeLabel] Optional function to render a "New" badge label.
- * @param {boolean} [props.hasNewBadgeLabel] Whether to show a "New" badge label.
+ * @param {boolean} [props.hasNewBadgeLabel=false] Whether to show a "New" badge label.
  *
  * @returns {ReactElement} The StyledTitleContainer component.
  */
@@ -76,12 +75,4 @@ export const SectionTitle = ( { title, subTitle = "", titleScreenReaderText = ""
 			) }
 		</>
 	);
-};
-
-SectionTitle.propTypes = {
-	title: PropTypes.string.isRequired,
-	titleScreenReaderText: PropTypes.string,
-	subTitle: PropTypes.string,
-	renderNewBadgeLabel: PropTypes.func,
-	hasNewBadgeLabel: PropTypes.bool,
 };

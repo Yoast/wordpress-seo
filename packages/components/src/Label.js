@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /**
@@ -21,6 +20,13 @@ const DEFAULT_OPTIONAL_ATTRIBUTES = {};
  * Represents the label HTML tag.
  *
  * @param {Object} props The properties to use.
+ * @param {string} props.for The id of the element the label belongs to.
+ * @param {Object} [props.optionalAttributes] Additional attributes to add to the label element.
+ * @param {string} [props.optionalAttributes["aria-label"]] The aria-label of the label.
+ * @param {Function} [props.optionalAttributes.onClick] The function to call when the label is clicked.
+ * @param {string} [props.optionalAttributes.className] The class name of the label.
+ * @param {*} props.children The content of the label.
+ * @param {string} [props.className=""] The class name of the label.
  * @returns {JSX} A representation of the label HTML element based on the passed props.
  * @constructor
  */
@@ -34,22 +40,6 @@ const Label = ( { className = "", optionalAttributes = DEFAULT_OPTIONAL_ATTRIBUT
 			{ props.children }
 		</label>
 	);
-};
-
-/**
- * Adds validation for the properties.
- *
- * @type {{for: string, optionalAttributes.onClick: function, optionalAttributes.className: string, children: * }}
- */
-Label.propTypes = {
-	"for": PropTypes.string.isRequired,
-	optionalAttributes: PropTypes.shape( {
-		"aria-label": PropTypes.string,
-		onClick: PropTypes.func,
-		className: PropTypes.string,
-	} ),
-	children: PropTypes.any.isRequired,
-	className: PropTypes.string,
 };
 
 export default Label;

@@ -1,6 +1,5 @@
 // External dependencies.
 import React from "react";
-import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "./safeCreateInterpolateElement";
 
@@ -58,8 +57,9 @@ const getExplanation = keywords => {
 /**
  * @summary WordList component.
  *
- * @param {WordCombination[]|ProminentWord[]} words The relevant words.
- * @param {string} researchArticleLink The link to the article explaining keyword research.
+ * @param {Object} props Component props.
+ * @param {WordCombination[]|ProminentWord[]} props.words The relevant words.
+ * @param {string} props.researchArticleLink The link to the article explaining keyword research.
  *
  * @returns {JSX.Element} Rendered WordList component.
  */
@@ -75,11 +75,6 @@ const WordOccurrenceInsights = ( { words, researchArticleLink } ) => {
 			footer={ footer }
 		/>
 	);
-};
-
-WordOccurrenceInsights.propTypes = {
-	words: PropTypes.arrayOf( PropTypes.object ).isRequired,
-	researchArticleLink: PropTypes.string.isRequired,
 };
 
 export default WordOccurrenceInsights;
