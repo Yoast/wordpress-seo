@@ -6,7 +6,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { HelpIcon, NewButton } from "@yoast/components";
 import { difference, isEmpty, orderBy } from "lodash";
 import moment from "moment";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import WincherKeyphrasesTable from "../containers/WincherKeyphrasesTable";
 import { handleAPIResponse } from "../helpers/api";
@@ -27,8 +26,9 @@ import WincherRankingHistoryChart from "./WincherRankingHistoryChart";
 /**
  * Gets the proper error message component.
  *
- * @param {Object} response The response object to base the error message on.
- * @param {function} onLogin The onLogin callback used when reconnecting.
+ * @param {Object} props Component props.
+ * @param {Object} props.response The response object to base the error message on.
+ * @param {Function} props.onLogin The onLogin callback used when reconnecting.
  *
  * @returns {wp.Element} The error message component.
  */
@@ -40,20 +40,16 @@ const GetErrorMessage = ( { response, onLogin } ) => {
 	return <WincherRequestFailed />;
 };
 
-GetErrorMessage.propTypes = {
-	response: PropTypes.object.isRequired,
-	onLogin: PropTypes.func.isRequired,
-};
-
 /**
  * Gets a user message based on the passed props' values.
  *
- * @param {boolean} isSuccess Whether the request was successful.
- * @param {Object} [response={}] The response object.
- * @param {boolean} allKeyphrasesMissRanking Whether all keyphrases miss ranking.
- * @param {function} onLogin Callback for login.
- * @param {boolean} keyphraseLimitReached Whether the keyphrase limit is reached.
- * @param {number} limit The keyphrase limit.
+ * @param {Object} props Component props.
+ * @param {boolean} props.isSuccess Whether the request was successful.
+ * @param {boolean} props.allKeyphrasesMissRanking Whether all keyphrases miss ranking.
+ * @param {Object} [props.response={}] The response object.
+ * @param {Function} props.onLogin Callback for login.
+ * @param {boolean} props.keyphraseLimitReached Whether the keyphrase limit is reached.
+ * @param {number} props.limit The keyphrase limit.
  *
  * @returns {JSX.Element} The user message, null if no message.
  */
@@ -80,27 +76,18 @@ const GetUserMessage = ( {
 	return null;
 };
 
-GetUserMessage.propTypes = {
-	isSuccess: PropTypes.bool.isRequired,
-	allKeyphrasesMissRanking: PropTypes.bool.isRequired,
-	response: PropTypes.object,
-	onLogin: PropTypes.func.isRequired,
-	keyphraseLimitReached: PropTypes.bool.isRequired,
-	limit: PropTypes.number.isRequired,
-};
-
 let currentPopup = null;
 
 /**
  * Get the tokens using the provided code after user has granted authorization.
  *
  * @param {Object} props The props.
- * @param {function}  props.onAuthentication Callback to call when authentication is successful.
- * @param {function}  props.setRequestSucceeded Callback to call when the request is successful.
- * @param {function}  props.setRequestFailed Callback to call when the request fails.
+ * @param {Function}  props.onAuthentication Callback to call when authentication is successful.
+ * @param {Function}  props.setRequestSucceeded Callback to call when the request is successful.
+ * @param {Function}  props.setRequestFailed Callback to call when the request fails.
  * @param {Array} props.keyphrases The keyphrases to track.
- * @param {function}  props.addTrackedKeyphrase Callback to add a tracked keyphrase.
- * @param {function}  props.setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
+ * @param {Function}  props.addTrackedKeyphrase Callback to add a tracked keyphrase.
+ * @param {Function}  props.setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
  * @param {Object} data The message data.
  *
  * @returns {void}
@@ -150,12 +137,12 @@ const performAuthenticationRequest = async( {
  * Opens the popup window.
  *
  * @param {Object} props The props.
- * @param {function}  props.onAuthentication Callback to call when authentication is successful.
- * @param {function}  props.setRequestSucceeded Callback to call when the request is successful.
- * @param {function}  props.setRequestFailed Callback to call when the request fails.
+ * @param {Function}  props.onAuthentication Callback to call when authentication is successful.
+ * @param {Function}  props.setRequestSucceeded Callback to call when the request is successful.
+ * @param {Function}  props.setRequestFailed Callback to call when the request fails.
  * @param {Array} props.keyphrases The keyphrases to track.
- * @param {function}  props.addTrackedKeyphrase Callback to add a tracked keyphrase.
- * @param {function}  props.setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
+ * @param {Function}  props.addTrackedKeyphrase Callback to add a tracked keyphrase.
+ * @param {Function}  props.setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
  *
  * @returns {void}
  */
@@ -207,6 +194,8 @@ const onLoginOpen = async( {
  * Creates the Connect to Wincher button.
  *
  * @param {Object} props The props to use.
+ * @param {boolean} props.isLoggedIn Whether the user is logged in to Wincher.
+ * @param {Function} props.onLogin Callback for the connect button.
  *
  * @returns {void|wp.Element} The connect button or reconnect alert.
  */
@@ -224,11 +213,6 @@ const ConnectToWincher = ( props ) => {
 			) }
 		</NewButton>
 	</p>;
-};
-
-ConnectToWincher.propTypes = {
-	isLoggedIn: PropTypes.bool.isRequired,
-	onLogin: PropTypes.func.isRequired,
 };
 
 // We need this wrapper to get consistent paragraph margins in both Elementor and Gutenberg.
@@ -290,10 +274,11 @@ const WINCHER_PERIOD_OPTIONS = [
 /**
  * Displays the Wincher period picker.
  *
- * @param {function}  onSelect The callback to call when a period is selected.
- * @param {?{name: string, value: string, defaultIndex: number}} [selected=null] The currently selected period.
- * @param {{name: string, value: string, defaultIndex: number}[]} options The available period options.
- * @param {boolean} isLoggedIn Whether the user is logged in to Wincher.
+ * @param {Object} props Component props.
+ * @param {Function} props.onSelect The callback to call when a period is selected.
+ * @param {?{name: string, value: string, defaultIndex: number}} [props.selected=null] The currently selected period.
+ * @param {{name: string, value: string, defaultIndex: number}[]} props.options The available period options.
+ * @param {boolean} props.isLoggedIn Whether the user is logged in to Wincher.
  *
  * @returns {JSX.Element} The Wincher period picker, or null if not logged in or no options available.
  */
@@ -329,22 +314,16 @@ const WincherPeriodPicker = ( { onSelect, selected = null, options, isLoggedIn }
 	);
 };
 
-WincherPeriodPicker.propTypes = {
-	onSelect: PropTypes.func.isRequired,
-	selected: PropTypes.object,
-	options: PropTypes.array.isRequired,
-	isLoggedIn: PropTypes.bool.isRequired,
-};
-
 /**
  * Creates the table content.
  *
- * @param {?Object} [trackedKeyphrases=null] The tracked keyphrases.
- * @param {boolean} isLoggedIn Whether the user is logged in to Wincher.
- * @param {Array} keyphrases The keyphrases.
- * @param {boolean} shouldTrackAll Whether all keyphrases should be tracked.
- * @param {string} permalink The permalink of the post.
- * @param {number} [historyDaysLimit=0] The history days limit for the chart.
+ * @param {Object} props Component props.
+ * @param {?Object} [props.trackedKeyphrases=null] The tracked keyphrases.
+ * @param {Array} props.keyphrases The keyphrases.
+ * @param {boolean} props.isLoggedIn Whether the user is logged in to Wincher.
+ * @param {boolean} props.shouldTrackAll Whether all keyphrases should be tracked.
+ * @param {string} props.permalink The permalink of the post.
+ * @param {number} [props.historyDaysLimit=0] The history days limit for the chart.
  *
  * @returns {JSX.Element} The table content.
  */
@@ -445,35 +424,26 @@ const TableContent = ( {
 	</TableWrapper>;
 };
 
-TableContent.propTypes = {
-	trackedKeyphrases: PropTypes.object,
-	keyphrases: PropTypes.array.isRequired,
-	isLoggedIn: PropTypes.bool.isRequired,
-	shouldTrackAll: PropTypes.bool.isRequired,
-	permalink: PropTypes.string.isRequired,
-	historyDaysLimit: PropTypes.number,
-};
-
 /**
  * Renders the Wincher SEO Performance modal content.
  *
  * @param {Object} props The props to use within the content.
- * @param {Object} [trackedKeyphrases=null] The tracked keyphrases.
- * @param {function}  addTrackedKeyphrase Callback to add a tracked keyphrase.
- * @param {boolean} [isLoggedIn=false] Whether the user is logged in.
- * @param {boolean} [isNewlyAuthenticated=false] Whether the user is newly authenticated.
- * @param {Array} [keyphrases=[]] The keyphrases.
- * @param {Object} [response={}] The response object.
- * @param {boolean} [shouldTrackAll=false] Whether all keyphrases should be tracked.
- * @param {string} [permalink=""] The permalink.
- * @param {boolean} allKeyphrasesMissRanking Whether all keyphrases miss ranking.
- * @param {boolean} isSuccess Whether the request was successful.
- * @param {boolean} keyphraseLimitReached Whether the keyphrase limit is reached.
- * @param {number} limit The keyphrase limit.
- * @param {function}  setRequestSucceeded Callback to set the request succeeded state.
- * @param {function}  setRequestFailed Callback to set the request failed state.
- * @param {function}  setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
- * @param {function}  onAuthentication Callback to call when authentication is successful.
+ * @param {Object} [props.trackedKeyphrases=null] The tracked keyphrases.
+ * @param {Function} props.addTrackedKeyphrase Callback to add a tracked keyphrase.
+ * @param {boolean} [props.isLoggedIn=false] Whether the user is logged in.
+ * @param {boolean} [props.isNewlyAuthenticated=false] Whether the user is newly authenticated.
+ * @param {Array} [props.keyphrases=[]] The keyphrases.
+ * @param {Object} [props.response] The response object.
+ * @param {boolean} [props.shouldTrackAll=false] Whether all keyphrases should be tracked.
+ * @param {string} [props.permalink=""] The permalink.
+ * @param {boolean} props.allKeyphrasesMissRanking Whether all keyphrases miss ranking.
+ * @param {boolean} props.isSuccess Whether the request was successful.
+ * @param {boolean} props.keyphraseLimitReached Whether the keyphrase limit is reached.
+ * @param {number} props.limit The keyphrase limit.
+ * @param {Function} props.setRequestSucceeded Callback to set the request succeeded state.
+ * @param {Function} props.setRequestFailed Callback to set the request failed state.
+ * @param {Function} props.setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
+ * @param {Function} props.onAuthentication Callback to call when authentication is successful.
  *
  * @returns {JSX.Element} The Wincher SEO Performance modal content.
  */
@@ -544,22 +514,3 @@ export default function WincherSEOPerformance( {
 		</Wrapper>
 	);
 }
-
-WincherSEOPerformance.propTypes = {
-	trackedKeyphrases: PropTypes.object,
-	addTrackedKeyphrase: PropTypes.func.isRequired,
-	isLoggedIn: PropTypes.bool,
-	isNewlyAuthenticated: PropTypes.bool,
-	keyphrases: PropTypes.array,
-	response: PropTypes.object,
-	shouldTrackAll: PropTypes.bool,
-	permalink: PropTypes.string,
-	allKeyphrasesMissRanking: PropTypes.bool.isRequired,
-	isSuccess: PropTypes.bool.isRequired,
-	keyphraseLimitReached: PropTypes.bool.isRequired,
-	limit: PropTypes.number.isRequired,
-	setRequestSucceeded: PropTypes.func.isRequired,
-	setRequestFailed: PropTypes.func.isRequired,
-	setKeyphraseLimitReached: PropTypes.func.isRequired,
-	onAuthentication: PropTypes.func.isRequired,
-};

@@ -1,7 +1,6 @@
 /* global wpseoAdminL10n */
 import { __, sprintf } from "@wordpress/i18n";
 import { TextField } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { OutboundLink } from "../../shared-admin/components";
@@ -35,7 +34,9 @@ const getDescription = () => safeCreateInterpolateElement(
  * @param {Function} props.handleChange Change handler. Receives the raw change event from the input.
  * @param {Function} props.onFocusKeyword Focus handler.
  * @param {Function} props.onBlurKeyword Blur handler.
- * @param {Object|null} props.validation Validation state forwarded to TextField, or null when there are no errors.
+ * @param {Object|null} [props.validation=null] Validation state forwarded to TextField, or null when there are no errors.
+ * @param {string} [props.validation.variant] The validation variant, e.g. "error".
+ * @param {import("react").ReactNode} [props.validation.message] The validation message.
  *
  * @returns {JSX.Element} The keyphrase TextField.
  */
@@ -53,15 +54,3 @@ export const KeywordInput = ( { location, keyword, handleChange, onFocusKeyword,
 		description={ getDescription() }
 	/>
 );
-
-KeywordInput.propTypes = {
-	location: PropTypes.string.isRequired,
-	keyword: PropTypes.string.isRequired,
-	handleChange: PropTypes.func.isRequired,
-	onFocusKeyword: PropTypes.func.isRequired,
-	onBlurKeyword: PropTypes.func.isRequired,
-	validation: PropTypes.shape( {
-		variant: PropTypes.string,
-		message: PropTypes.node,
-	} ),
-};

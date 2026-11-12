@@ -1,5 +1,4 @@
 /* eslint-disable complexity */
-import PropTypes from "prop-types";
 import { useCallback, Fragment } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { isEmpty, noop } from "lodash";
@@ -106,7 +105,8 @@ export function mapAreaChartDataToTableData( y ) {
 /**
  *  Generates a chart based on the passed data.
  *
- * @param {Object} [chartData={}] The chart data entry.
+ * @param {Object} props Component props.
+ * @param {Object} [props.chartData={}] The chart data entry.
  *
  * @returns {JSX.Element|string} The chart containing the positions over time. If there is none, return "?".
  */
@@ -133,16 +133,12 @@ export function PositionOverTimeChart( { chartData = {} } ) {
 	/>;
 }
 
-PositionOverTimeChart.propTypes = {
-	chartData: PropTypes.object,
-};
-
 /**
  * Gets the toggles state of the keyphrase.
  *
  * @param {string}   keyphrase The toggle's associated keyphrase.
  * @param {boolean}  isEnabled Whether or not the toggle is enabled.
- * @param {function}  toggleAction The toggle action to call.
+ * @param {Function}  toggleAction The toggle action to call.
  * @param {boolean}  isLoading Whether or not we're still loading initial data.
  *
  * @returns {JSX.Element} The toggle.
@@ -190,7 +186,8 @@ const formatLastUpdated = ( dateString ) => moment( dateString ).fromNow();
 /**
  * Displays the position over time cell.
  *
- * @param {Object} [rowData={}] The position over time data.
+ * @param {Object} props Component props.
+ * @param {Object} [props.rowData={}] The position over time data.
  *
  * @returns {JSX.Element} The position over time table cell.
  */
@@ -213,17 +210,13 @@ export const PositionOverTimeCell = ( { rowData = {} } ) => {
 	);
 };
 
-PositionOverTimeCell.propTypes = {
-	rowData: PropTypes.object,
-};
-
 /**
  * Gets the positional data based on the current UI state and returns the appropriate UI element.
  *
  * @param {Object} rowData The row data containing position information.
  * @param {string} websiteId The ID of the website.
  * @param {string} keyphrase The keyphrase for which the position data is being displayed.
- * @param {function}  onSelectKeyphrases Callback function to handle keyphrase selection.
+ * @param {Function}  onSelectKeyphrases Callback function to handle keyphrase selection.
  *
  * @returns {JSX.Element} The rendered element.
  */
@@ -281,16 +274,17 @@ export function getPositionalDataByState( { rowData, websiteId, keyphrase, onSel
 /**
  * The WincherTableRow component.
  *
- * @param {string} keyphrase The keyphrase.
- * @param {Object} [rowData={}] The row data.
- * @param {function}  [onTrackKeyphrase=noop] Callback to track keyphrase.
- * @param {function}  [onUntrackKeyphrase=noop] Callback to untrack keyphrase.
- * @param {boolean} [isFocusKeyphrase=false] Whether this is the focus keyphrase.
- * @param {boolean} [isDisabled=false] Whether the row is disabled.
- * @param {boolean} [isLoading=false] Whether the row is loading.
- * @param {string} [websiteId=""] The website ID.
- * @param {boolean} isSelected Whether the keyphrase is selected.
- * @param {function}  onSelectKeyphrases Callback to select keyphrases.
+ * @param {Object} props Component props.
+ * @param {Object} [props.rowData] The row data.
+ * @param {string} props.keyphrase The keyphrase.
+ * @param {Function} [props.onTrackKeyphrase=noop] Callback to track keyphrase.
+ * @param {Function} [props.onUntrackKeyphrase=noop] Callback to untrack keyphrase.
+ * @param {boolean} [props.isFocusKeyphrase=false] Whether this is the focus keyphrase.
+ * @param {boolean} [props.isDisabled=false] Whether the row is disabled.
+ * @param {boolean} [props.isLoading=false] Whether the row is loading.
+ * @param {string} [props.websiteId=""] The website ID.
+ * @param {boolean} props.isSelected Whether the keyphrase is selected.
+ * @param {Function} props.onSelectKeyphrases Callback to select keyphrases.
  *
  * @returns {JSX.Element} The component.
  */
@@ -355,17 +349,3 @@ export default function WincherTableRow( {
 		</TrackingTdWrapper>
 	</WincherTableRowElement>;
 }
-
-WincherTableRow.propTypes = {
-	rowData: PropTypes.object,
-	keyphrase: PropTypes.string.isRequired,
-	onTrackKeyphrase: PropTypes.func,
-	onUntrackKeyphrase: PropTypes.func,
-	isFocusKeyphrase: PropTypes.bool,
-	isDisabled: PropTypes.bool,
-	isLoading: PropTypes.bool,
-	websiteId: PropTypes.string,
-	isSelected: PropTypes.bool.isRequired,
-	onSelectKeyphrases: PropTypes.func.isRequired,
-};
-

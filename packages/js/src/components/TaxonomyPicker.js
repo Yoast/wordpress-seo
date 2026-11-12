@@ -1,16 +1,18 @@
 import { SelectControl } from "@wordpress/components";
 import { useCallback } from "@wordpress/element";
 import { unescape } from "lodash";
-import PropTypes from "prop-types";
 
 /**
  * A select box for selecting a taxonomy.
  *
- * @param {string} id The ID of the select.
- * @param {number} value The selected term.
- * @param {{id: number, name: string}[]} terms The terms to choose from.
- * @param {string} label The label for the select.
- * @param {Function} onChange The function to call when the selected term changes.
+ * @param {Object} props Component props.
+ * @param {Object[]} [props.terms] The terms to choose from.
+ * @param {number} props.terms[].id The term ID.
+ * @param {string} props.terms[].name The term name.
+ * @param {Function} props.onChange The function to call when the selected term changes.
+ * @param {string} props.id The ID of the select.
+ * @param {string} props.label The label for the select.
+ * @param {number} props.value The selected term.
  *
  * @returns {JSX.Element} The rendered TaxonomyPicker component.
  */
@@ -33,17 +35,6 @@ const TaxonomyPicker = ( { id, value, terms = [], label, onChange } ) => {
 			} ) ) }
 		/>
 	);
-};
-
-TaxonomyPicker.propTypes = {
-	terms: PropTypes.arrayOf( PropTypes.shape( {
-		id: PropTypes.number.isRequired,
-		name: PropTypes.string.isRequired,
-	} ) ),
-	onChange: PropTypes.func.isRequired,
-	id: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
-	value: PropTypes.number.isRequired,
 };
 
 export default TaxonomyPicker;

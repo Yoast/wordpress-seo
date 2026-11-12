@@ -4,7 +4,6 @@ import { useSelect } from "@wordpress/data";
 import { useEffect, useState } from "@wordpress/element";
 import { SvgIcon } from "@yoast/components";
 import { Badge, useSvgAria } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 import { AddBlockButton } from "./AddBlockButton";
 
@@ -17,7 +16,8 @@ import { AddBlockButton } from "./AddBlockButton";
  * @param {boolean} props.isPremiumBlock Whether the block is a premium block.
  * @param {boolean} props.hasNewBadgeLabel Whether the block is newly introduced.
  * @param {Function} props.renderNewBadgeLabel Function to render the "New" badge label.
- * @param {string} props.location The location where the button is rendered, either 'metabox' or 'sidebar'.
+ * @param {("metabox"|"sidebar")} props.location The location where the button is rendered, either 'metabox' or 'sidebar'.
+ *
  * @returns {JSX.Element} The ContentBlock component.
  */
 export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBadgeLabel, renderNewBadgeLabel, location } ) => {
@@ -78,13 +78,4 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 			</div>
 		</>
 	);
-};
-
-ContentBlock.propTypes = {
-	blockTitle: PropTypes.string.isRequired,
-	blockName: PropTypes.string.isRequired,
-	isPremiumBlock: PropTypes.bool.isRequired,
-	hasNewBadgeLabel: PropTypes.bool.isRequired,
-	renderNewBadgeLabel: PropTypes.func.isRequired,
-	location: PropTypes.oneOf( [ "metabox", "sidebar" ] ).isRequired,
 };

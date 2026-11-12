@@ -2,7 +2,6 @@
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { ImageSelect } from "@yoast/components";
 import { validateFacebookImage } from "@yoast/helpers";
-import PropTypes from "prop-types";
 import { fetchAttachment, openMedia } from "../helpers/selectMedia";
 
 /**
@@ -10,11 +9,11 @@ import { fetchAttachment, openMedia } from "../helpers/selectMedia";
  *
  * Using WP media to get an attachment and syncing to hidden fields.
  *
- * @param {string} hiddenField The ID of the hidden field for the image URL.
- * @param {string} [hiddenFieldImageId=""] The ID of the hidden field for the image ID.
- * @param {string} [hiddenFieldFallbackImageId=""] The ID of the hidden field for the fallback image ID.
- * @param {boolean} [hasImageValidation=false] Whether to validate the image.
- * @param {...Object} [imageSelectProps] Additional props for the ImageSelect.
+ * @param {Object} props Component props. Additional props are passed to the ImageSelect.
+ * @param {string} props.hiddenField The ID of the hidden field for the image URL.
+ * @param {string} [props.hiddenFieldImageId=""] The ID of the hidden field for the image ID.
+ * @param {string} [props.hiddenFieldFallbackImageId=""] The ID of the hidden field for the fallback image ID.
+ * @param {boolean} [props.hasImageValidation=false] Whether to validate the image.
  *
  * @returns {JSX.Element} The element.
  */
@@ -89,13 +88,6 @@ const ImageSelectComponent = ( {
 		onRemoveImageClick={ removeImage }
 		warnings={ warnings }
 	/>;
-};
-
-ImageSelectComponent.propTypes = {
-	hiddenField: PropTypes.string.isRequired,
-	hiddenFieldImageId: PropTypes.string,
-	hiddenFieldFallbackImageId: PropTypes.string,
-	hasImageValidation: PropTypes.bool,
 };
 
 export default ImageSelectComponent;

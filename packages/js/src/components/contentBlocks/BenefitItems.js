@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import UserGroupIcon from "@heroicons/react/outline/UserGroupIcon";
 import CollectionIcon from "@heroicons/react/outline/CollectionIcon";
@@ -7,7 +6,10 @@ import { PREMIUM_CONTENT_BLOCKS, getPremiumBlocksForPages } from "./ContentBlock
 
 /**
  * BenefitItems component to render the list of benefits.
- * @param {string} id The id for the benefit items.
+ *
+ * @param {Object} props Component props.
+ * @param {string} props.id The id for the benefit items.
+ *
  * @returns {JSX.Element} The BenefitItems component.
  */
 export const BenefitItems = ( { id } ) => {
@@ -43,9 +45,4 @@ export const BenefitItems = ( { id } ) => {
 			} ) }
 		</ul>
 	);
-};
-
-
-BenefitItems.propTypes = {
-	id: PropTypes.string.isRequired,
 };

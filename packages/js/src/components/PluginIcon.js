@@ -1,5 +1,4 @@
 /* eslint-disable complexity */
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const PluginIconSVG = styled.svg`
@@ -24,13 +23,13 @@ const PluginIconSVG = styled.svg`
 /**
  * Renders the plugin icon SVG for Yoast SEO in the editor.
  *
- * @param {string} [readabilityScoreColor="#000000"] The color for the readability score circle.
- * @param {boolean} [isContentAnalysisActive=false] Whether the readability score circle is active.
- * @param {string} [seoScoreColor="#000000"] The color for the SEO score circle.
- * @param {boolean} [isKeywordAnalysisActive=false] Whether the SEO score circle is active.
- * @param {number} [size=20] The icon size in pixels.
- * @param {string} [color="#000001"] The main icon color.
- * @param {...Object} [props] Additional props.
+ * @param {Object} props Component props. Additional props are passed to the SVG element.
+ * @param {string} [props.readabilityScoreColor="#000000"] The color for the readability score circle.
+ * @param {boolean} [props.isContentAnalysisActive=false] Whether the readability score circle is active.
+ * @param {string} [props.seoScoreColor="#000000"] The color for the SEO score circle.
+ * @param {boolean} [props.isKeywordAnalysisActive=false] Whether the SEO score circle is active.
+ * @param {number} [props.size=20] The icon size in pixels.
+ * @param {string} [props.color="#000001"] The main icon color.
  *
  * @returns {JSX.Element} The component.
  */
@@ -83,15 +82,6 @@ const PluginIcon = ( {
 			strokeWidth="0.72"
 		/>
 	</PluginIconSVG>;
-};
-
-PluginIcon.propTypes = {
-	readabilityScoreColor: PropTypes.string,
-	isContentAnalysisActive: PropTypes.bool,
-	seoScoreColor: PropTypes.string,
-	isKeywordAnalysisActive: PropTypes.bool,
-	size: PropTypes.number,
-	color: PropTypes.string,
 };
 
 export default PluginIcon;

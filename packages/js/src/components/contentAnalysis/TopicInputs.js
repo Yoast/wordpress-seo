@@ -4,7 +4,6 @@ import { withDispatch, withSelect } from "@wordpress/data";
 import { useCallback, useContext } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { LocationContext } from "@yoast/externals/contexts";
-import PropTypes from "prop-types";
 import SEMrushModal from "../../containers/SEMrushRelatedKeyphrasesModal";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarCollapsible from "../SidebarCollapsible";
@@ -120,7 +119,7 @@ const renderSEMrushModal = ( isActive, location, keyphrase ) => {
  * @param {boolean} [props.isSEMrushIntegrationActive=false] Whether the SEMrush integration is active.
  * @param {boolean} [props.displayNoKeyphraseMessage=false] Whether to add the "no keyphrase" message for getting the related keyphrases.
  * @param {boolean} [props.displayNoKeyphrasForTrackingMessage=false] Whether to add the "no keyphrase" message for keyphrase tracking.
- * @param {Array} [props.errors=[]] The errors from the store.
+ * @param {string[]} [props.errors=[]] The errors from the store.
  *
  * @returns {JSX.Element} The collapsible of topic fields.
  */
@@ -164,17 +163,6 @@ const TopicInputs = ( {
 			<Slot name={ getSlotName( location ) } />
 		</Collapsible>
 	);
-};
-
-TopicInputs.propTypes = {
-	keyword: PropTypes.string,
-	onFocusKeywordChange: PropTypes.func.isRequired,
-	onFocusKeyword: PropTypes.func.isRequired,
-	onBlurKeyword: PropTypes.func.isRequired,
-	isSEMrushIntegrationActive: PropTypes.bool,
-	displayNoKeyphraseMessage: PropTypes.bool,
-	displayNoKeyphrasForTrackingMessage: PropTypes.bool,
-	errors: PropTypes.arrayOf( PropTypes.string ),
 };
 
 export { TopicInputs };

@@ -3,7 +3,6 @@
 import { Fragment } from "@wordpress/element";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Internal dependencies */
@@ -20,6 +19,8 @@ const StyledSocialAppearanceMetabox = styled.div`
  * Component that renders the social metadata collapsibles.
  *
  * @param {Object} props The props object.
+ * @param {boolean} props.useOpenGraphData Whether the Open Graph data is enabled in the settings.
+ * @param {boolean} props.useTwitterData Whether the Twitter card data is enabled in the settings.
  *
  * @returns {wp.Element} The social metadata collapsibles.
  */
@@ -78,11 +79,6 @@ const SocialMetadata = ( { useOpenGraphData, useTwitterData } ) => {
 			}
 		</Fragment>
 	);
-};
-
-SocialMetadata.propTypes = {
-	useOpenGraphData: PropTypes.bool.isRequired,
-	useTwitterData: PropTypes.bool.isRequired,
 };
 
 export default SocialMetadata;
