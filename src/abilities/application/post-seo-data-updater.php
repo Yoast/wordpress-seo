@@ -16,7 +16,8 @@ use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
  * The input is applied onto the resolved indexable (the desired state), cascaded
  * to post meta (the source of truth) via Indexable_To_Postmeta_Helper, and the
  * indexable is then rebuilt from that meta so reads and the rest of the plugin
- * stay consistent.
+ * stay consistent. Fields that cannot be saved for the post are skipped and reported in a warning, while the
+ * other fields are still saved.
  */
 class Post_SEO_Data_Updater {
 
@@ -103,24 +104,51 @@ class Post_SEO_Data_Updater {
 			return $can_edit;
 		}
 
-		$changed_columns = $this->field_map->apply_to_indexable( $input, $indexable );
+		$skipped_fields  = $this->field_map->get_skipped_fields( $input, $indexable );
+		$changed_columns = $this->field_map->apply_to_indexable( \array_diff_key( $input, $skipped_fields ), $indexable );
 
-		foreach ( $changed_columns as $column ) {
-			$this->indexable_to_postmeta->map_column_to_postmeta( $indexable, $column, true );
+		// When every field was skipped nothing was written, so the indexable still matches what is stored.
+		$rebuilt = $indexable;
+
+		if ( $changed_columns !== [] ) {
+			foreach ( $changed_columns as $column ) {
+				$this->indexable_to_postmeta->map_column_to_postmeta( $indexable, $column, true );
+			}
+
+			// A post-meta write does not trigger the indexable watcher, so rebuild the read model
+			// explicitly from the meta we just wrote.
+			$rebuilt = $this->indexable_builder->build_for_id_and_type( (int) $indexable->object_id, 'post', $indexable );
+
+			if ( ! $rebuilt ) {
+				return new WP_Error(
+					'yoast_seo_post_data_unavailable',
+					\__( 'The post SEO data was saved but the indexable could not be rebuilt.', 'wordpress-seo' ),
+					[ 'status' => 500 ],
+				);
+			}
 		}
 
-		// A post-meta write does not trigger the indexable watcher, so rebuild the read model
-		// explicitly from the meta we just wrote.
-		$rebuilt = $this->indexable_builder->build_for_id_and_type( (int) $indexable->object_id, 'post', $indexable );
+		$result = $this->field_map->to_seo_array( $rebuilt );
 
-		if ( ! $rebuilt ) {
-			return new WP_Error(
-				'yoast_seo_post_data_unavailable',
-				\__( 'The post SEO data was saved but the indexable could not be rebuilt.', 'wordpress-seo' ),
-				[ 'status' => 500 ],
-			);
+		if ( $skipped_fields !== [] ) {
+			$result['warning'] = $this->get_warning( $skipped_fields, $changed_columns !== [] );
 		}
 
-		return $this->field_map->to_seo_array( $rebuilt );
+		return $result;
+	}
+
+	/**
+	 * Returns the warning about the fields that were not saved.
+	 *
+	 * @param array<string, string> $skipped_fields The warning of each field that was not saved, keyed by field name.
+	 * @param bool                  $saved_any      Whether any other field was saved.
+	 *
+	 * @return string The warning.
+	 */
+	private function get_warning( array $skipped_fields, bool $saved_any ): string {
+		$warnings   = \array_values( $skipped_fields );
+		$warnings[] = ( $saved_any ) ? \__( 'The other settings were saved.', 'wordpress-seo' ) : \__( 'No other settings were saved.', 'wordpress-seo' );
+
+		return \implode( ' ', $warnings );
 	}
 }
