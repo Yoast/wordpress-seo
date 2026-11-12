@@ -364,7 +364,7 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 				],
 				'changed_columns' => [ 'title' ],
 				'rebuilds'        => true,
-				'warning'       => 'The page type was not saved. The other settings were saved.',
+				'warning'         => 'The page type was not saved. The other settings were saved.',
 			],
 			'No other field saved' => [
 				'input'           => [
@@ -374,7 +374,7 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 				'applied_input'   => [ 'post_id' => 42 ],
 				'changed_columns' => [],
 				'rebuilds'        => false,
-				'warning'       => 'The page type was not saved. No other settings were saved.',
+				'warning'         => 'The page type was not saved. No other settings were saved.',
 			],
 		];
 	}
