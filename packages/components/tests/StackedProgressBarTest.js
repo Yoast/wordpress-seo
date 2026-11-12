@@ -1,5 +1,5 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import StackedProgressBar from "../src/StackedProgressBar";
 
@@ -23,12 +23,11 @@ test( "the StackedProgressBar matches the snapshot", () => {
 		},
 	];
 
-	const component = renderer.create(
+	const { container } = render(
 		<StackedProgressBar
 			items={ items }
 		/>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

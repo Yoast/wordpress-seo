@@ -113,12 +113,15 @@ final class Global_SEO_Settings_Updater_Test extends TestCase {
 	 * @covers ::update
 	 * @covers ::update_field
 	 * @covers ::save_field
+	 * @covers ::get_field_value
 	 *
 	 * @return void
 	 */
 	public function test_update() {
 		$target = $this->mock_target( 'content_type', true );
 
+		$this->options_helper->expects( 'get' )->once()->with( 'seo_title-content_type' )->andReturn( '' );
+		$this->options_helper->expects( 'get' )->once()->with( 'noindex-content_type' )->andReturnFalse();
 		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-content_type', '%%title%%' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'noindex-content_type', true )->andReturnTrue();
 		$this->collector->expects( 'get_target_settings' )->once()->with( $target )->andReturn( [ 'seo_title' => '%%title%%' ] );
@@ -187,6 +190,7 @@ final class Global_SEO_Settings_Updater_Test extends TestCase {
 			[ 'noindex' ],
 		);
 
+		$this->options_helper->expects( 'get' )->once()->with( 'seo_title-content_type' )->andReturn( '' );
 		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-content_type', '%%title%%' )->andReturnTrue();
 		$this->collector->expects( 'get_target_settings' )->once()->with( $target )->andReturn( [ 'seo_title' => '%%title%%' ] );
 
@@ -212,12 +216,15 @@ final class Global_SEO_Settings_Updater_Test extends TestCase {
 	 *
 	 * @covers ::update
 	 * @covers ::save_field
+	 * @covers ::get_field_value
 	 *
 	 * @return void
 	 */
 	public function test_update_disabled_target_with_failed_save() {
 		$target = $this->mock_target( 'author_archives', false );
 
+		$this->options_helper->expects( 'get' )->once()->with( 'seo_title-author_archives' )->andReturn( '' );
+		$this->options_helper->expects( 'get' )->twice()->with( 'meta_description-author_archives' )->andReturn( 'Authors' );
 		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-author_archives', '%%name%%' )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->once()->with( 'meta_description-author_archives', '<b>Bold</b>' )->andReturnFalse();
 		$this->collector->expects( 'get_target_settings' )->once()->with( $target )->andReturn( [ 'seo_title' => '%%name%%' ] );
@@ -238,9 +245,40 @@ final class Global_SEO_Settings_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that save_field does not save a field the target does not have.
+	 * Tests that update reports a field that got sanitized into something else as saved, with a warning about it.
+	 *
+	 * @covers ::update
+	 * @covers ::save_field
+	 * @covers ::get_field_value
+	 *
+	 * @return void
+	 */
+	public function test_update_with_sanitized_save() {
+		$target = $this->mock_target( 'search_page', true );
+
+		$this->options_helper->expects( 'get' )->twice()->with( 'seo_title-search_page' )->andReturn( 'Search', 'Bold' );
+		$this->options_helper->expects( 'set' )->once()->with( 'seo_title-search_page', '<b>Bold</b>' )->andReturnFalse();
+		$this->collector->expects( 'get_target_settings' )->once()->with( $target )->andReturn( [ 'seo_title' => 'Bold' ] );
+
+		$this->assertSame(
+			[
+				'seo_title' => 'Bold',
+				'warning'   => 'The seo_title setting was saved after being cleaned up, so its saved value differs from the one provided.',
+			],
+			$this->instance->update(
+				$target,
+				[
+					'seo_title' => '<b>Bold</b>',
+				],
+			),
+		);
+	}
+
+	/**
+	 * Tests that save_field does not save, and get_field_value does not read, a field the target does not have.
 	 *
 	 * @covers ::save_field
+	 * @covers ::get_field_value
 	 *
 	 * @return void
 	 */
@@ -248,9 +286,10 @@ final class Global_SEO_Settings_Updater_Test extends TestCase {
 		$target = Mockery::mock( Global_Setting_Target_Interface::class );
 
 		$field_map = Mockery::mock( Global_Setting_Field_Map::class );
-		$field_map->expects( 'get_option_name' )->once()->with( 'noindex', $target )->andReturnNull();
+		$field_map->expects( 'get_option_name' )->twice()->with( 'noindex', $target )->andReturnNull();
 
 		$this->options_helper->expects( 'set' )->never();
+		$this->options_helper->expects( 'get' )->never();
 
 		$instance = new class( $field_map, $this->collector, $this->options_helper ) extends Global_SEO_Settings_Updater {
 
@@ -266,8 +305,21 @@ final class Global_SEO_Settings_Updater_Test extends TestCase {
 			public function save( string $field_name, $value, array $context ): bool {
 				return $this->save_field( $field_name, $value, $context );
 			}
+
+			/**
+			 * Exposes get_field_value.
+			 *
+			 * @param string               $field_name The name of the field.
+			 * @param array<string, mixed> $context    The target, under 'target'.
+			 *
+			 * @return mixed The stored value.
+			 */
+			public function get( string $field_name, array $context ) {
+				return $this->get_field_value( $field_name, $context );
+			}
 		};
 
 		$this->assertFalse( $instance->save( 'noindex', true, [ 'target' => $target ] ) );
+		$this->assertNull( $instance->get( 'noindex', [ 'target' => $target ] ) );
 	}
 }

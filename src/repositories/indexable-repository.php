@@ -34,6 +34,13 @@ class Indexable_Repository {
 	public const MAX_TITLE_KEYWORD_PAGE_SIZE = 100;
 
 	/**
+	 * The default page size of a title-keyword search.
+	 *
+	 * @var int
+	 */
+	public const DEFAULT_TITLE_KEYWORD_PAGE_SIZE = 10;
+
+	/**
 	 * The indexable builder.
 	 *
 	 * @var Indexable_Builder
@@ -553,14 +560,14 @@ class Indexable_Repository {
 	 * At most self::MAX_TITLE_KEYWORD_PHRASES phrases are honoured; any beyond that are ignored.
 	 * The page size is clamped to the range 1..self::MAX_TITLE_KEYWORD_PAGE_SIZE.
 	 *
-	 * @param string $keywords  The comma-separated phrases to match against the breadcrumb title.
-	 * @param int    $page      The page of results to return, 1-based.
-	 * @param int    $page_size The number of posts per page.
-	 * @param string $post_type The post type to restrict the search to.
+	 * @param string      $keywords  The comma-separated phrases to match against the breadcrumb title.
+	 * @param int         $page      The page of results to return, 1-based.
+	 * @param int         $page_size The number of posts per page.
+	 * @param string|null $post_type The post type to restrict the search to, or null to search every post type.
 	 *
 	 * @return Indexable[] The matching indexables for the requested page, ordered by most recently modified.
 	 */
-	public function find_posts_by_title_keywords( string $keywords, int $page = 1, int $page_size = 10, string $post_type = 'post' ) {
+	public function find_posts_by_title_keywords( string $keywords, int $page = 1, int $page_size = self::DEFAULT_TITLE_KEYWORD_PAGE_SIZE, ?string $post_type = 'post' ) {
 		$phrases = \array_map( 'trim', \explode( ',', $keywords ) );
 		$phrases = \array_filter(
 			$phrases,
@@ -586,9 +593,13 @@ class Indexable_Repository {
 		$page_size = \min( \max( 1, $page_size ), self::MAX_TITLE_KEYWORD_PAGE_SIZE );
 		$offset    = ( ( \max( 1, $page ) - 1 ) * $page_size );
 
-		$indexables = $this->query()
-			->where( 'object_type', 'post' )
-			->where( 'object_sub_type', $post_type )
+		$query = $this->query()->where( 'object_type', 'post' );
+
+		if ( $post_type !== null ) {
+			$query = $query->where( 'object_sub_type', $post_type );
+		}
+
+		$indexables = $query
 			->where_raw( '( ' . \implode( ' OR ', $likes ) . ' )', \array_values( $params ) )
 			->order_by_desc( 'object_last_modified' )
 			->order_by_desc( 'id' )

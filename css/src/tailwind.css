@@ -1,5 +1,6 @@
 @import "@yoast/ui-library";
 @import "@yoast/related-keyphrase-suggestions";
+@import "@yoast/ai-frontend";
 
 @tailwind base;
 @tailwind components;

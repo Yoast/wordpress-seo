@@ -1,82 +1,70 @@
 // External dependencies.
 import React from "react";
-import renderer from "react-test-renderer";
+import { render, fireEvent } from "@testing-library/react";
 
 // Internal dependencies.
 import { IconButton, BaseButton, Button } from "../src/index";
 
 test( "the BaseButton matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<BaseButton>ButtonValue</BaseButton>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "BaseButton executes callback", () => {
-	const component = renderer.create(
+	const onClick = jest.fn();
+	const { container, asFragment } = render(
 		<BaseButton
-			onClick={
-				() => {
-					return "clicked";
-				}
-			}
+			onClick={ onClick }
 		>ButtonValue</BaseButton>
 	);
 
-	let tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 
-	tree.props.onClick();
+	fireEvent.click( container.firstChild );
 
-	tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( onClick ).toHaveBeenCalledTimes( 1 );
+	expect( asFragment().firstChild ).toMatchSnapshot();
 } );
 
 test( "the SnippetPreviewButton matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<Button>ButtonValue</Button>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "SnippetPreviewButton executes callback", () => {
-	const component = renderer.create(
+	const onClick = jest.fn();
+	const { container, asFragment } = render(
 		<Button
-			onClick={
-				() => {
-					return "clicked";
-				}
-			}
+			onClick={ onClick }
 		>ButtonValue</Button>
 	);
 
-	let tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 
-	tree.props.onClick();
+	fireEvent.click( container.firstChild );
 
-	tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( onClick ).toHaveBeenCalledTimes( 1 );
+	expect( asFragment().firstChild ).toMatchSnapshot();
 } );
 
 test( "the IconButton matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<IconButton icon="edit" iconColor="black" />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the IconButton with text matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<IconButton icon="edit" iconColor="black">Click</IconButton>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

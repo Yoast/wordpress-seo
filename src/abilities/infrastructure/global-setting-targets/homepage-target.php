@@ -8,6 +8,9 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 
 /**
  * The homepage, when it shows the latest posts. A static homepage is a page, whose SEO data is set on that page.
+ *
+ * @internal Backs the global SEO settings abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 class Homepage_Target extends Abstract_Global_Setting_Target {
 

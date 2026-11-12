@@ -9,8 +9,12 @@ import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitl
 import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
-import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCount from "../assessments/seo/ImageCountAssessment";
+import AltTextLength from "../assessments/seo/AltTextLengthAssessment";
+import DuplicateAltText from "../assessments/seo/DuplicateAltTextAssessment";
+import RedundantPhraseInAltText from "../assessments/seo/RedundantPhraseInAltTextAssessment";
+import NonDescriptiveAltText from "../assessments/seo/NonDescriptiveAltTextAssessment";
+import KeyphraseStuffingInAltText from "../assessments/seo/KeyphraseStuffingInAltTextAssessment";
 import TextLength from "../assessments/seo/TextLengthAssessment";
 import OutboundLinks from "../assessments/seo/OutboundLinksAssessment";
 import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
@@ -39,8 +43,12 @@ export default class SEOAssessor extends Assessor {
 			new MetaDescriptionLength(),
 			new SubheadingsKeyword(),
 			new TextCompetingLinksAssessment(),
-			new ImageKeyphrase(),
 			new ImageCount(),
+			new AltTextLength(),
+			new DuplicateAltText(),
+			new RedundantPhraseInAltText(),
+			new NonDescriptiveAltText(),
+			new KeyphraseStuffingInAltText(),
 			new TextLength(),
 			new OutboundLinks(),
 			new KeyphraseInSEOTitleAssessment(),

@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { NewButton as Button } from "../button";
 import { __ } from "@wordpress/i18n";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 
 /**
@@ -10,17 +11,15 @@ import PropTypes from "prop-types";
  *
  * @returns {Element} The ImageSelectButtons component;
  */
-const ImageSelectButtons = ( props ) => {
-	const {
-		imageSelected,
-		onClick,
-		onRemoveImageClick,
-		selectImageButtonId,
-		replaceImageButtonId,
-		removeImageButtonId,
-		isDisabled,
-	} = props;
-
+const ImageSelectButtons = ( {
+	imageSelected = false,
+	onClick = noop,
+	onRemoveImageClick = noop,
+	selectImageButtonId = "",
+	replaceImageButtonId = "",
+	removeImageButtonId = "",
+	isDisabled = false,
+} ) => {
 	const removeImage = useCallback( ( event ) => {
 		event.target.previousElementSibling.focus();
 		onRemoveImageClick();
@@ -64,14 +63,4 @@ ImageSelectButtons.propTypes = {
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
 	isDisabled: PropTypes.bool,
-};
-
-ImageSelectButtons.defaultProps = {
-	imageSelected: false,
-	onClick: () => {},
-	onRemoveImageClick: () => {},
-	selectImageButtonId: "",
-	replaceImageButtonId: "",
-	removeImageButtonId: "",
-	isDisabled: false,
 };

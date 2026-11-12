@@ -1,5 +1,5 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import WordOccurrences from "../src/WordOccurrences";
 
@@ -30,38 +30,34 @@ const noWords = [];
 
 describe( "WordOccurrences", function() {
 	it( "renders WordOccurrences as list items", () => {
-		const wordOccurrences = renderer.create(
+		const { container } = render(
 			<WordOccurrences words={ words } header={ showBeforeList } introduction={ introductionText } footer={ showAfterList } />
 		);
 
-		const tree = wordOccurrences.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "renders correctly without items", () => {
-		const wordOccurrences = renderer.create(
+		const { container } = render(
 			<WordOccurrences words={ noWords } header={ showBeforeList } introduction={ introductionText } footer={ showAfterList } />
 		);
 
-		const tree = wordOccurrences.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "renders correctly without before and after elements", () => {
-		const wordOccurrences = renderer.create(
+		const { container } = render(
 			<WordOccurrences words={ words } />
 		);
 
-		const tree = wordOccurrences.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "renders correctly without words and without before and after elements", () => {
-		const wordOccurrences = renderer.create(
+		const { container } = render(
 			<WordOccurrences words={ noWords } />
 		);
 
-		const tree = wordOccurrences.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 } );

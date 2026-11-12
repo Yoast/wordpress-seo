@@ -9,6 +9,9 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Collects the global SEO settings of a target.
+ *
+ * @internal Backs the global SEO settings abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 class Global_SEO_Settings_Collector {
 

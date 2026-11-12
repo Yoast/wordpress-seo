@@ -81,7 +81,7 @@ exports[`the LinkButton matches the snapshot 1`] = `
 }
 
 <a
-  className="c0 c1 c2 c3 c4"
+  class="c0 c1 c2 c3 c4"
 >
   LinkButtonValue
 </a>

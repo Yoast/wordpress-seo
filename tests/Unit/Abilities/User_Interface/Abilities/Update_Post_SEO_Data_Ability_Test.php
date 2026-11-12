@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
@@ -77,6 +78,9 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+
+		// The inputs are real booleans, which WordPress returns as is.
+		Monkey\Functions\when( 'rest_sanitize_boolean' )->alias( 'boolval' );
 
 		$this->stubTranslationFunctions();
 
@@ -172,7 +176,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Update Post SEO Data',
-				'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated. To change a setting for all posts of a content type, update its default with the yoast-seo/update-content-type-seo-settings ability instead.',
+				'description'         => 'Update the SEO data for a single post of any post type. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated. To change a setting for all posts of a content type, update its default with the yoast-seo/update-content-type-seo-settings ability instead.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => $this->get_expected_update_input_schema(),
 				'output_schema'       => $output_schema,
@@ -317,7 +321,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 				],
 				'permalink'              => [
 					'type'        => 'string',
-					'description' => 'The permalink (URL) of the post to update.',
+					'description' => 'The full permalink (URL) of the post to update, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.',
 				],
 				'seo_title'              => $templated( 'SEO title' ),
 				'meta_description'       => $templated( 'meta description' ),
