@@ -1,5 +1,18 @@
 {
   "enabledPlugins": {
     "security-guidance@claude-plugins-official": true
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-trunk.js\""
+          }
+        ]
+      }
+    ]
   }
 }

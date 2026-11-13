@@ -30,7 +30,7 @@ export default [
 		},
 	},
 	{
-		files: [ "*.config.js", "config/**", "Gruntfile.js", ".github/scripts/**" ],
+		files: [ "*.config.js", "config/**", "Gruntfile.js", ".github/scripts/**", ".claude/hooks/**" ],
 		languageOptions: {
 			globals: {
 				...globals.node,
