@@ -97,7 +97,8 @@ abstract class Abstract_SEO_Field_Map {
 	 * Alongside the raw stored fields, each rendered companion (`*_rendered`)
 	 * carries the value as it is actually output on the front end: the global
 	 * default template is applied where no custom value is set, and replacement
-	 * variables are expanded.
+	 * variables are expanded. For noindex, the post-type or taxonomy default is
+	 * applied where no custom value is set.
 	 *
 	 * @param Indexable  $indexable The indexable to read from.
 	 * @param Meta|false $meta      The meta values for the entity, or false when unavailable.
@@ -115,6 +116,7 @@ abstract class Abstract_SEO_Field_Map {
 			'canonical_rendered'              => $this->rendered( $meta, 'canonical' ),
 			'is_cornerstone'                  => (bool) $indexable->is_cornerstone,
 			'noindex'                         => $indexable->is_robots_noindex,
+			'noindex_rendered'                => $this->rendered_noindex( $meta ),
 			'open_graph_title'                => $indexable->open_graph_title,
 			'open_graph_title_rendered'       => $this->rendered( $meta, 'open_graph_title' ),
 			'open_graph_description'          => $indexable->open_graph_description,
@@ -151,5 +153,28 @@ abstract class Abstract_SEO_Field_Map {
 		}
 
 		return (string) $value;
+	}
+
+	/**
+	 * Returns whether the front-end robots meta tag tells search engines not to index the entity.
+	 *
+	 * Reading the presented robots value rather than the stored one resolves a missing setting to
+	 * the post-type or taxonomy default, and includes the other rules that force a noindex, such as
+	 * private posts and the `wpseo_robots` filter.
+	 *
+	 * @param Meta|false $meta The meta values for the entity, or false when unavailable.
+	 *
+	 * @return bool|null Whether the entity is noindexed, or null when unavailable.
+	 */
+	protected function rendered_noindex( $meta ): ?bool {
+		if ( ! $meta instanceof Meta ) {
+			return null;
+		}
+
+		// Read into a local first: `??` on the magic property would consult `__isset()`, not `__get()`.
+		$robots = $meta->robots;
+
+		// No index directive, e.g. when a robots filter removed it, means search engines fall back to indexing the page.
+		return ( ( $robots['index'] ?? null ) === 'noindex' );
 	}
 }
