@@ -57,6 +57,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 * @covers ::to_seo_array
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::get_shared_seo_fields
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered
+	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered_noindex
 	 *
 	 * @return void
 	 */
@@ -73,6 +74,11 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 					'open_graph_description' => 'Rendered OG description',
 					'twitter_title'          => 'Rendered Twitter title',
 					'twitter_description'    => 'Rendered Twitter description',
+					// No noindex is stored for the post, so this comes from the post-type default.
+					'robots'                 => [
+						'index'  => 'noindex',
+						'follow' => 'follow',
+					],
 				],
 			),
 		);
@@ -95,6 +101,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 				'canonical_rendered'              => 'https://example.com/hello-world/',
 				'is_cornerstone'                  => true,
 				'noindex'                         => null,
+				'noindex_rendered'                => true,
 				'open_graph_title'                => 'OG title',
 				'open_graph_title_rendered'       => 'Rendered OG title',
 				'open_graph_description'          => 'OG description',
@@ -123,6 +130,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 * @covers ::to_seo_array
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::get_shared_seo_fields
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered
+	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered_noindex
 	 *
 	 * @return void
 	 */
@@ -140,6 +148,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 		$this->assertNull( $result['open_graph_description_rendered'] );
 		$this->assertNull( $result['twitter_title_rendered'] );
 		$this->assertNull( $result['twitter_description_rendered'] );
+		$this->assertNull( $result['noindex_rendered'] );
 
 		// The raw stored values are still mapped from the indexable.
 		$this->assertSame( 'My SEO title', $result['seo_title'] );
@@ -172,6 +181,60 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 		$result = $this->instance->to_seo_array( $indexable );
 
 		$this->assertNull( $result['meta_description_rendered'] );
+	}
+
+	/**
+	 * Tests that noindex_rendered reflects the index directive of the presented robots value.
+	 *
+	 * @dataProvider provider_to_seo_array_noindex_rendered
+	 *
+	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered_noindex
+	 *
+	 * @param array<string, string>|null $robots   The presented robots value.
+	 * @param bool                       $expected The expected noindex_rendered value.
+	 *
+	 * @return void
+	 */
+	public function test_to_seo_array_noindex_rendered( $robots, $expected ) {
+		$indexable = $this->make_indexable();
+
+		$this->meta_surface->expects( 'for_indexable' )->once()->with( $indexable, 'Post_Type' )->andReturn(
+			new Meta_Double( [ 'robots' => $robots ] ),
+		);
+
+		$this->assertSame( $expected, $this->instance->to_seo_array( $indexable )['noindex_rendered'] );
+	}
+
+	/**
+	 * Data provider for test_to_seo_array_noindex_rendered.
+	 *
+	 * @return array<string, array<string, array<string, string>|bool|null>>
+	 */
+	public static function provider_to_seo_array_noindex_rendered() {
+		return [
+			'noindex'                                   => [
+				'robots'   => [
+					'index'  => 'noindex',
+					'follow' => 'nofollow',
+				],
+				'expected' => true,
+			],
+			'index'                                     => [
+				'robots'   => [
+					'index'  => 'index',
+					'follow' => 'follow',
+				],
+				'expected' => false,
+			],
+			'robots emptied by the wpseo_robots filter' => [
+				'robots'   => [],
+				'expected' => false,
+			],
+			'no robots value'                           => [
+				'robots'   => null,
+				'expected' => false,
+			],
+		];
 	}
 
 	/**

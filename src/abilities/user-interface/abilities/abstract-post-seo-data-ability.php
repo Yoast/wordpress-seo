@@ -87,7 +87,11 @@ abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability 
 				'is_cornerstone'                  => [ 'type' => 'boolean' ],
 				'noindex'                         => [
 					'type'        => [ 'boolean', 'null' ],
-					'description' => \__( 'Whether search engines are told not to index this post. true means noindex (the post is excluded from search results); false means the post is forced to be indexed; null means no setting is stored and the post-type default applies.', 'wordpress-seo' ),
+					'description' => \__( 'Whether search engines are told not to index this post. true means noindex (the post is excluded from search results); false means the post is forced to be indexed; null means no setting is stored and the post-type default applies. The rendered companion field carries whether the post is actually noindexed.', 'wordpress-seo' ),
+				],
+				'noindex_rendered'                => [
+					'type'        => [ 'boolean', 'null' ],
+					'description' => \__( 'Whether search engines are actually told not to index this post, as output on the front end: the stored setting when set, otherwise the post-type default. Private posts are always noindexed. Null when unavailable.', 'wordpress-seo' ),
 				],
 				'nofollow'                        => [ 'type' => 'boolean' ],
 				'noimageindex'                    => [ 'type' => 'boolean' ],
