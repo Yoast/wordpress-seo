@@ -107,7 +107,7 @@ class Post_SEO_Data_Updater {
 		$skipped_fields  = $this->field_map->get_skipped_fields( $input, $indexable );
 		$changed_columns = $this->field_map->apply_to_indexable( \array_diff_key( $input, $skipped_fields ), $indexable );
 
-		// When every field was skipped nothing was written, so the indexable still matches what is stored.
+		// When no field was written, the indexable still matches what is stored, so it is not rebuilt.
 		$rebuilt = $indexable;
 
 		if ( $changed_columns !== [] ) {
