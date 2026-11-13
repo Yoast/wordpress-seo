@@ -46,7 +46,11 @@ class SEO_Data_Output_Schema {
 					],
 					'noindex'            => [
 						'type'        => [ 'boolean', 'null' ],
-						'description' => \__( 'Whether search engines are told not to index this term archive. true means noindex (the archive is excluded from search results); false means the archive is forced to be indexed; null means no setting is stored and the taxonomy default applies.', 'wordpress-seo' ),
+						'description' => \__( 'Whether search engines are told not to index this term archive. true means noindex (the archive is excluded from search results); false means the archive is forced to be indexed; null means no setting is stored and the taxonomy default applies. The rendered companion field carries whether the archive is actually noindexed.', 'wordpress-seo' ),
+					],
+					'noindex_rendered'   => [
+						'type'        => [ 'boolean', 'null' ],
+						'description' => \__( 'Whether search engines are actually told not to index this term archive, as output on the front end: the stored setting when set, otherwise the taxonomy default. Null when unavailable.', 'wordpress-seo' ),
 					],
 				],
 			),
