@@ -222,4 +222,93 @@ final class Renderer_Test extends TestCase {
 		$this->assertStringContainsString( 'main-sitemap.css"?>', $output );
 		$this->assertStringNotContainsString( 'text/xsl', $output );
 	}
+
+	/**
+	 * Tests that the output has the script element as the first child of the root element.
+	 *
+	 * @covers WPSEO_Sitemaps_Renderer::get_output
+	 * @covers WPSEO_Sitemaps_Renderer::add_script
+	 *
+	 * @dataProvider data_get_output_adds_script
+	 *
+	 * @param string $sitemap       The sitemap XML.
+	 * @param string $expected_root The expected opening tag of the root element.
+	 *
+	 * @return void
+	 */
+	public function test_get_output_adds_script( $sitemap, $expected_root ) {
+		$output = self::$class_instance->get_output( $sitemap );
+
+		$this->assertMatchesRegularExpression(
+			// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- The script is part of an XML document, which has no enqueue mechanism.
+			'#' . \preg_quote( $expected_root, '#' ) . '\n<script type="text/javascript" src="[^"]+/js/main-sitemap\.js" xmlns="http://www\.w3\.org/1999/xhtml"></script>\n#',
+			$output,
+		);
+		$this->assertSame( 1, \substr_count( $output, '<script' ) );
+	}
+
+	/**
+	 * Data provider for test_get_output_adds_script.
+	 *
+	 * @return array<string, array<string>>
+	 */
+	public static function data_get_output_adds_script() {
+		return [
+			'Sitemap index' => [
+				"<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n</sitemapindex>",
+				'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+			],
+			'Sitemap'       => [
+				"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n</urlset>",
+				'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+			],
+		];
+	}
+
+	/**
+	 * Tests that the output has no script element when a custom stylesheet is set.
+	 *
+	 * @covers WPSEO_Sitemaps_Renderer::get_output
+	 * @covers WPSEO_Sitemaps_Renderer::set_stylesheet
+	 * @covers WPSEO_Sitemaps_Renderer::add_script
+	 *
+	 * @return void
+	 */
+	public function test_get_output_has_no_script_with_custom_stylesheet() {
+		self::$class_instance->set_stylesheet( '<?xml-stylesheet type="text/xsl" href="http://example.org/custom.xsl"?>' );
+
+		$output = self::$class_instance->get_output( "<urlset>\n</urlset>" );
+
+		$this->assertStringContainsString( 'custom.xsl', $output );
+		$this->assertStringNotContainsString( '<script', $output );
+	}
+
+	/**
+	 * Tests that the output has no script element when the stylesheet is filtered.
+	 *
+	 * @covers WPSEO_Sitemaps_Renderer::get_output
+	 *
+	 * @return void
+	 */
+	public function test_get_output_has_no_script_with_filtered_stylesheet() {
+		\add_filter( 'wpseo_stylesheet_url', '__return_empty_string' );
+		$output = self::$class_instance->get_output( "<urlset>\n</urlset>" );
+		\remove_filter( 'wpseo_stylesheet_url', '__return_empty_string' );
+
+		$this->assertStringNotContainsString( '<script', $output );
+	}
+
+	/**
+	 * Tests that the output has no script element when the XML does not start with a sitemap root element.
+	 *
+	 * @covers WPSEO_Sitemaps_Renderer::get_output
+	 * @covers WPSEO_Sitemaps_Renderer::add_script
+	 *
+	 * @return void
+	 */
+	public function test_get_output_has_no_script_without_sitemap_root() {
+		$output = self::$class_instance->get_output( '<feed></feed>' );
+
+		$this->assertStringNotContainsString( '<script', $output );
+	}
 }
