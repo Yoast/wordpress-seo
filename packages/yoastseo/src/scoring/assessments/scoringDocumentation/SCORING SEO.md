@@ -25,7 +25,7 @@ Thus, this calculation make the overall score work on a 0-100/0-10 scale rather 
 
 ## Keyphrase-based SEO assessments scoring criteria
 
-Some of the SEO assessments are language-independent (e.g. keyphrase in introduction, keyphrase density), but many are language-specific (e.g. keyphrase length, text length) and are made available for different languages on a case-by-case basis.
+Some of the SEO assessments are language-independent (e.g. keyphrase in introduction, keyphrase density), but others are language-specific (e.g. keyphrase length, text length).
 
 ### 1) Keyphrase in introduction
 **What it does**: Checks whether words from the keyphrase can be found in the first paragraph of the text.
