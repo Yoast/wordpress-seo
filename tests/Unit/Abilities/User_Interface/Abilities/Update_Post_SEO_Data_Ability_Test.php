@@ -231,7 +231,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 			$args['input_schema']['properties']['schema_page_type']['description'],
 		);
 		$this->assertSame(
-			'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies. Yoast WooCommerce SEO is active on this site and always adds ItemPage to the page type of products on the front end, next to the stored or default page type.',
+			'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies. Yoast WooCommerce SEO is active on this site, so it adds ItemPage to the page type of products on the front end, next to the stored or default page type.',
 			$args['output_schema']['properties']['schema_page_type']['description'],
 		);
 	}

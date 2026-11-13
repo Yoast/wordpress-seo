@@ -41,7 +41,7 @@ abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability 
 
 	/**
 	 * Returns the description of the stored page type, which mentions that Yoast WooCommerce SEO adds ItemPage to the
-	 * page type of products on the front end, whatever is stored.
+	 * page type of products on the front end, next to the stored or default page type.
 	 *
 	 * @return string The description.
 	 */
@@ -54,7 +54,7 @@ abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability 
 
 		return $description . ' ' . \sprintf(
 			/* translators: 1: Yoast WooCommerce SEO, 2: the name of a Schema.org page type. */
-			\__( '%1$s is active on this site and always adds %2$s to the page type of products on the front end, next to the stored or default page type.', 'wordpress-seo' ),
+			\__( '%1$s is active on this site, so it adds %2$s to the page type of products on the front end, next to the stored or default page type.', 'wordpress-seo' ),
 			'Yoast WooCommerce SEO',
 			'ItemPage',
 		);
