@@ -1,7 +1,24 @@
 # Overview of the SEO assessments scoring criteria for Japanese
 
-This file describes the scoring criteria for SEO assessments in Japanese. To find more general information on the scoring criteria of the SEO assessments, you can consult the following pages:
-* [Scoring criteria for SEO assessments](../SCORING%20SEO.md)
+This file describes the scoring criteria for SEO assessments with scoring criteria adjusted for Japanese.
+
+The following assessments have the same scoring criteria in Japanese as in the SEO assessor for posts and pages:
+* [Keyphrase in introduction](../SCORING%20SEO.md#1-keyphrase-in-introduction)
+* [Keyphrase density](../SCORING%20SEO.md#3-keyphrase-density)
+* [Keyphrase in meta description](../SCORING%20SEO.md#4-keyphrase-in-meta-description)
+* [Competing links](../SCORING%20SEO.md#6-competing-links)
+* [Keyphrase in image alt attributes](../SCORING%20SEO.md#7-keyphrase-in-image-alt-attributes)
+* [Keyphrase in SEO title](../SCORING%20SEO.md#8-keyphrase-in-seo-title)
+* [Previously used keyphrase](../SCORING%20SEO.md#10-previously-used-keyphrase)
+* [Outbound links](../SCORING%20SEO.md#2-outbound-links)
+* [Internal links](../SCORING%20SEO.md#3-internal-links)
+* [SEO title width](../SCORING%20SEO.md#4-seo-title-width)
+* [Single title](../SCORING%20SEO.md#6-single-title)
+* [Function words in keyphrase](../SCORING%20SEO.md#7-function-words-in-keyphrase)
+* [Images](../SCORING%20SEO.md#8-images)
+* [Title (only in Premium)](../SCORING%20SEO.md#9-title-only-in-premium)
+
+The Keyphrase in slug assessment is not available in Japanese.
 
 
 ## Keyphrase-based SEO assessments scoring criteria
@@ -49,28 +66,7 @@ This file describes the scoring criteria for SEO assessments in Japanese. To fin
 | Green	            | 9	     | The only H2/H3 subheading used in the text reflects the topic		                                                                                                                                             | **Keyphrase in subheading**: Your higher-level subheading reflects the topic of your copy. Good job!                                              |
 | Green	            | 9	     | A text with 600 (cornerstone: 500) or less characters and no subheading is present.		   | **Keyphrase in subheading**: You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them.                                              |
 
-### 3) Previously used keyphrase
-
-**What it does**: Checks if the words from the keyphrase were previously used in a keyphrase for a different post.
-
-**Uses synonyms**: no
-
-**When it applies**: Always.
-
-**Name in code**: PreviouslyUsedKeyword
-
-**Title URL**: [https://yoa.st/33x](https://yoast.com/use-focus-keyword-once/#utm_source=yoast-seo&utm_medium=software&utm_term=previously-used-keywords-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
-
-**Call to action URL**: [https://yoa.st/33y](https://yoast.com/use-focus-keyword-once/#utm_source=yoast-seo&utm_medium=software&utm_term=previously-used-keywords-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
-
-| Traffic light   	 | Score	 | Criterion                                        | Feedback                                                                                                                                             |
-|-------------------|--------|--------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red	              | 1	     | There is no keyphrase	                           | **Previously used keyphrase**: No focus keyphrase was set for this page. **Please add a focus keyphrase you haven't used before on other content**.	 |
-| Red	              | 1	     | The keyphrase is previously used more than once	 | **Previously used keyphrase**: You've used this keyphrase X times before. **Do not use your keyphrase more than once.**	                             |
-| Orange	           | 6	     | The keyphrase is previously used once	           | **Previously used keyphrase**: You've used this keyphrase once before. **Do not use your keyphrase more than once.**	                                |
-| Green	            | 9	     | The keyphrase hasn't been used before	           | **Previously used keyphrase**: You've not used this keyphrase before, very good.	                                                                    |
-
-### 4) Keyphrase distribution (only in Premium)
+### 3) Keyphrase distribution (only in Premium)
 The only difference between the default and the Japanese assessment is the length of the keyphrase, explained here. Specifically, in Japanese for a short topic (< 7 characters), 100% of the keyphrase needs to be in a sentence. For a long topic (≥ 7 characters), ≥50% of the keyphrase needs to be in the sentence. Function words are not taken into account.
 **What it does**: Checks how well the words from the keyphrase are distributed throughout the text. For exact implementation check out https://github.com/Yoast/YoastSEO.js/issues/1558 and https://github.com/Yoast/YoastSEO.js/issues/1868.
 
@@ -100,7 +96,7 @@ Example: 6/15*100 = 0.4
 
 
 ## Other SEO assessments scoring criteria
-### 4) Text length
+### 1) Text length
 **What it does**: Checks if the text is long enough.
 
 **When it applies**: Always.
@@ -120,7 +116,7 @@ Example: 6/15*100 = 0.4
 | Green	            | 9	                       | More than or exactly 600 characters (cornerstone: 1800)		 | **Text length**: The text contains X words/characters. Good job!                                                                                                                                                                                                                                                          |
 
 
-### 5) Meta description length
+### 2) Meta description length
 **What it does**: Checks if the meta description has a good length. The date (and the separator ' - ') length are also included in the calculation, if the date is shown in the Google preview.
 
 **When it applies**: Always.

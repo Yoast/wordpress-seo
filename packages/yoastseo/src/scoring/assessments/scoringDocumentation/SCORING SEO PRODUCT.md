@@ -87,7 +87,7 @@ images, text videos are excluded from the count.
 
 **Name in code**: ImageCountAssessment
 
-**Product config**: `recommendedCount: 4`, `scores.okay: 6` (see `../assessors/productPages/seoAssessor.js`).
+**Product config**: `recommendedCount: 4`, `scores.okay: 6` (see `../../assessors/productPages/seoAssessor.js`).
 
 **Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
 `urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `mediaCount`, `recommendedCount`, `includeVideos` and
