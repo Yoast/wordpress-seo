@@ -171,34 +171,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | cat		             | no	                          | partial match of keyphrase not regarded as competing link                                                 |
 | cat and dog food	 | no 	                         | full match of keyphrase not regarded as competing link if the link text contains additional content words |
 
-### 7) Keyphrase in image alt attributes
-
-**What it does**: Checks if there are keyphrase or synonyms in the alt attributes of images.
-
-**Uses synonyms**: yes
-
-**When it applies**: Always, except in taxonomies.
-
-**Name in code**: ImageKeyphraseAssessment
-
-**Title URL**: [https://yoa.st/4f7](https://yoast.com/image-seo-alt-tag-and-title-tag-optimization/#utm_source=yoast-seo&utm_medium=software&utm_term=images-keyphrase-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
-
-**Call to action URL**: [https://yoa.st/4f6](https://yoast.com/image-seo-alt-tag-and-title-tag-optimization/#utm_source=yoast-seo&utm_medium=software&utm_term=images-keyphrase-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
-
-**What is counted as a keyphrase match**: ≥50% of all (content) words from the keyphrase in the alt attributes.
-
-| Traffic light   	           | Score	               | Criterion                                                                                                     | Feedback                                                                                                                                                                                                                |
-|-----------------------------|----------------------|---------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red		                       | 3		                  | No images or no keyphrase set		                                                                               | **Keyphrase in image alt attributes**: This page does not have images, a keyphrase, or both. **Add some images with alt attributes that include the keyphrase or synonyms!**                                            |
-| Orange (cornerstone: red)		 | 6 (cornerstone: 3)		 | No images with alt attributes while the keyphrase is set	                                                     | **Keyphrase in image alt attributes**: Images on this page do not have alt attributes that reflect the topic of your text. **Add your keyphrase or synonyms to the alt tags of relevant images!**                       |
-| Orange (cornerstone: red)		 | 6 (cornerstone: 3)		 | There are images with alt attributes, but they don't contain the keyphrase even though the keyphrase is set		 | **Keyphrase in image alt attributes**: Images on this page do not have alt attributes with at least half of the words from your keyphrase. **Fix that!**                                                                |
-| Orange	                     | 6	                   | There are at least 5 images and less than 30% have an alt-tag with keyphrase/synonym		                        | **Keyphrase in image alt attributes**: Out of X images on this page, only X have alt attribute that reflect the topic of your text. **Add your keyphrase or synonyms to the alt tags of more relevant images!**         |
-| Orange	                     | 6	                   | There are at least 5 images and more than 75% have an alt-tag with keyphrase/synonym		                        | **Keyphrase in image alt attributes**: Out of X images on this page, X have alt attributes with words from your keyphrase or synonyms. That's a bit much. **Only include the keyphrase when it really fits the image**. |
-| Green	                      | 9	                   | There are 5 images and 2-4 images have an alt-tag with keyphrase/synonym		                                    | **Keyphrase in image alt attributes**: Good job!                                                                                                                                                                        |
-| Green	                      | 9	                   | There are less than 5 images and at least one has an alt-tag with a keyphrase/synonym		                       | **Keyphrase in image alt attributes**: Good job!                                                                                                                                                                        |
-| Green	                      | 9	                   | There are at least 5 images and between 30 and 75% have an alt-tag with a keyphrase/synonym		                 | **Keyphrase in image alt attributes**: Good job!                                                                                                                                                                        |
-
-### 8) Keyphrase in SEO title
+### 7) Keyphrase in SEO title
 **What it does**: Checks if the keyphrase is used in the page title (when function words precede the keyphrase in the title they are filtered out when determining the position of the keyphrase in the title).
 
 **Uses synonyms**: no
@@ -220,7 +193,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Orange	           | 6	     | SEO title does not contain an exact match of your keyphrase		                                          | **Keyphrase in SEO title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.**                                                                                  |
 | Green	            | 9	     | SEO title contains the exact match of the focus keyphrase at beginning		                               | **Keyphrase in SEO title**: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!                                                                                                                                      |
 
-### 9) Keyphrase in slug
+### 8) Keyphrase in slug
 **What it does**: Checks if the keyphrase is used in the slug.
 
 **Uses synonyms**: no
@@ -240,7 +213,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	                         | 9	                      | For short keyphrases (1-2 content words): All content words are in the slug			           | **Keyphrase in slug**: Great work!                                                            |
 | Green	                         | 9	                      | For longer keyphrases (>2 content words): More than half content words are in the slug		 | **Keyphrase in slug**: More than half of your keyphrase appears in the slug. That's great!    |
 
-### 10) Previously used keyphrase
+### 9) Previously used keyphrase
 
 **What it does**: Checks if the words from the keyphrase were previously used in a keyphrase for a different post.
 
@@ -261,7 +234,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Orange	           | 6	     | The keyphrase is previously used once	           | **Previously used keyphrase**: You've used this keyphrase once before. **Do not use your keyphrase more than once.**	                                |
 | Green	            | 9	     | The keyphrase hasn't been used before	           | **Previously used keyphrase**: You've not used this keyphrase before, very good.	                                                                    |
 
-### 11) Keyphrase distribution (only in Premium)
+### 10) Keyphrase distribution (only in Premium)
 **What it does**: Checks how well the words from the keyphrase are distributed throughout the text. For exact implementation check out https://github.com/Yoast/YoastSEO.js/issues/1558 and https://github.com/Yoast/YoastSEO.js/issues/1868.
 
 **Uses synonyms**: yes
@@ -288,6 +261,35 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 (maximum number of consecutive sentences that don't contain the keyphrase)/(total number of sentences) * 100.
 
 Example: 6/15*100 = 0.4
+
+### 12) Keyphrase stuffing in alt text
+**What it does**: Checks whether the alt text of the assessed images uses the topic phrase (the keyphrase or its synonyms) too often. By default, it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
+
+**Uses synonyms**: yes. The keyphrase and synonym matches in one alt text are added up, so the keyphrase once plus a synonym once counts as 2. Words that one topic phrase matched are not matched again by the next one.
+
+**What is counted as a keyphrase match**: all (content) words of the keyphrase or of a synonym, within one sentence of the alt text. With exact matching (keyphrase in double quotes), the exact phrase.
+
+**When it applies**: Only when a keyphrase is set and at least one assessed image overuses it. Using the keyphrase once does not prove that the alt text is good: it can still read unnaturally, which we cannot judge without the context. A missing keyphrase is not good either. So there is no green traffic light: when nothing is flagged the assessment returns a result without a score and without a text, which `Assessor.isValidResult` drops, and the assessment is not shown at all. Red criteria are checked first.
+
+**Name in code**: KeyphraseStuffingInAltTextAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `overusedCount`, `twiceCount` and `exactMatchRequested`, and must
+return all four of `moreThanTwice`, `multipleTimes`, `twice` and `twiceOrMore`. The returned object is used as is, so an
+omitted key renders as an empty result text rather than falling back to the default.
+
+**Title URL**: https://yoa.st/alt-text-keyphrase-stuffing (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/alt-text-keyphrase-stuffing-cta (link placement is in bold in the feedback strings)
+
+X is the number of images, not the number of keyphrase occurrences.
+
+| Traffic light | Score | Criterion                                                                         | Feedback                                                                                                                                                       |
+|---------------|-------|-----------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red           | 3     | Images with more than 2 occurrences and images with exactly 2 on the same page    | **Keyphrase stuffing in alt text**: X of your images have alt text that uses the keyphrase or its synonym twice or more. **Do not overuse the keyphrase!**      |
+| Red           | 3     | X images with more than 2 occurrences                                             | **Keyphrase stuffing in alt text**: X of your images have alt text that uses the keyphrase or its synonym more than twice. **Do not overuse the keyphrase!**    |
+| Red           | 3     | X images with more than 1 occurrence, and exact matching is requested             | **Keyphrase stuffing in alt text**: X of your images have alt text that uses the keyphrase or its synonym multiple times. **Do not overuse the keyphrase!**     |
+| Orange        | 6     | X images with exactly 2 occurrences                                               | **Keyphrase stuffing in alt text**: X of your images have alt text that uses the keyphrase or its synonym twice. **Do not overuse the keyphrase!**               |
 
 
 ## Other SEO assessments scoring criteria
@@ -433,7 +435,96 @@ Example: 6/15*100 = 0.4
 | Red           | 3     | No images                  | **Images**: No images appear on this page. **Add some!** |
 | Green         | 9     | There are at least 1 image | **Images**: Good job!                                    |
 
-### 9) Title (only in Premium)
+### 9) Alt text length
+**What it does**: Checks whether the assessed images have alt text that is likely too short (10 characters or fewer; Japanese: 5) or too long (200 characters or more; Japanese: 100). By default, it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
+
+Images without alt text are not counted as too short: that case is covered by [Image alt attributes](SCORING%20SEO%20PRODUCT.md#1-image-alt-attributes).
+
+**When it applies**: Only when at least one assessed image has alt text that is too short or too long. There is no good range for alt text length, so there is no green traffic light: when nothing is flagged the assessment returns a result without a score and without a text, which `Assessor.isValidResult` drops, and the assessment is not shown at all.
+
+**Name in code**: AltTextLengthAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `tooShortCount`, `tooLongCount`, `tooShortBoundary` and
+`tooLongBoundary`, and must return all three of `tooShort`, `tooLong` and `both`. The returned object is used as is, so an omitted key
+renders as an empty result text rather than falling back to the default.
+
+Each feedback text is two separately translated sentences: the count, then the action with the character limit. For Japanese, the limits in the action sentence are 5 and 100.
+
+**Title URL**: https://yoa.st/alt-text-length (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/alt-text-length-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                                    | Feedback                                                                                                                                                              |
+|---------------|-------|--------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | X images have alt text of 10 characters or fewer             | **Alt text length**: X of your images have very short alt text. **Consider making the alt text longer than 10 characters.** |
+| Orange        | 6     | X images have alt text of 200 characters or more             | **Alt text length**: X of your images have very long alt text. **Consider making the alt text shorter than 200 characters.** |
+| Orange        | 6     | Both cases occur on the same page                            | **Alt text length**: X of your images have very short or very long alt text. **Consider making the alt text longer than 10 and shorter than 200 characters.** |
+
+### 10) Duplicate alt text
+**What it does**: Checks whether two or more different assessed images share the same alt text. Alt texts are compared trimmed and lowercased. By default it assesses the images in the text; a platform can scope all image assessments to the item's own images by providing the Paper's `providedImages` attribute.
+
+Two entries count as the same image, not as a duplicate, when they have the same `id` (provided images only), or else the same `src`. An image with neither counts as a different image. On the text path, the same image in two sizes has two `src` values, so it counts as two images. Images without alt text are not counted: several decorative images with an empty alt text are correct.
+
+X is the number of images that share their alt text with at least one other image. For example, three images with the same alt text count as 3.
+
+**Flagged items**: the result names the flagged images in `flaggedItems`, by their `id`, else their `src`. An image with neither is counted but not named.
+
+**When it applies**: Only when at least two different assessed images share the same alt text. There is no green traffic light: "all your images have unique alt text" would be misleading when some or all alt texts are empty. When nothing is flagged the assessment returns a result without a score and without a text, which `Assessor.isValidResult` drops, and the assessment is not shown at all.
+
+**Name in code**: DuplicateAltTextAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `duplicateCount`, and must return `duplicate`. The
+returned object is used as is, so an omitted key renders as an empty result text rather than falling back to the default.
+
+**Title URL**: https://yoa.st/duplicate-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/duplicate-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                            | Feedback                                                                                                                 |
+|---------------|-------|------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your images don't have unique alt text. **Give each image its own alt text.** |
+
+### 11) Redundant phrase in alt text
+**What it does**: Checks whether the assessed images have alt text with a redundant phrase such as "Image of", "A picture showing" or "This image depicts" — usually opening the alt text, but sometimes occurring in the middle or at the end in some languages (Hungarian, Japanese, Turkish).
+
+**When it applies**: Only when at least one assessed image has alt text with a redundant phrase.
+
+**Name in code**: RedundantPhraseInAltTextAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `redundantPhraseCount`, and must return `redundantPhrase`. The returned object is used as is.
+
+**Title URL**: https://yoa.st/redundant-phrase-in-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/redundant-phrase-in-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                             | Feedback                                                                                                                                                                                 |
+|---------------|-------|-------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | At least 1 image has alt text with a redundant phrase | **Redundant phrase in alt text**: X of your images have alt text with a phrase like "Image of" or similar. **Remove it as screen readers already announce that it's an image. You may keep phrases that describe the type of image (e.g. “photograph”, “illustration”, “screenshot”) if the type is worth pointing out.** |
+
+### 12) Non-descriptive alt text
+**What it does**: Checks whether the assessed images have alt text that consists only of a meaningless phrase: a placeholder ("Untitled", "N/A", "Alt text"), a file name ("IMG_1234", "red-shoes.jpg", or the image's own file name), or a generic default that says nothing about the image ("Product image", "Image 1"). The whole alt text is matched: "Product image" is flagged, "Product image of a red bike on a beach" is not.
+
+Some checks work in every language: only numbers or punctuation, a name ending in an image file extension, file names that cameras, phones or WhatsApp generate, English screenshot names ("Screenshot 2026-03-14 at 10.32.45"), and the image's own file name, also when the image is a resized, scaled or edited copy ("red-bike" for `red-bike-1024x576.jpg`). The English phrases are also checked in every other language that has a researcher of its own, without words that are ordinary words in other languages ("file", "pic", "alt", "null", "todo", "na"). Languages without a researcher of their own only get the checks above. Each language can add phrases of its own; only English has them for now.
+
+**When it applies**: Only when at least one assessed image has non-descriptive alt text. Empty alt text is not flagged: that case is covered by the _image alt attributes_ assessment.
+
+**Name in code**: NonDescriptiveAltTextAssessment
+
+**Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `nonDescriptiveCount`, and must return `nonDescriptive`. The returned object is used as is.
+
+**Title URL**: https://yoa.st/non-descriptive-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/non-descriptive-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                         | Feedback                                                                                                                                                              |
+|---------------|-------|---------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red           | 3     | At least 1 image has non-descriptive alt text     | **Non-descriptive alt text**: X of your images have alt text that doesn't describe the image. **Describe what the image shows, or leave the alt text empty if the image is decorative.** |
+
+### 13) Title (only in Premium)
 **What it does**: Checks for the presence of a title.
 
 **When it applies**: Always. Does not apply to taxonomies.

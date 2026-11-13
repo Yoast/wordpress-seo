@@ -1,4 +1,4 @@
-import { getWordsFromTokens } from "../helpers/word/getAllWordsFromTree";
+import { getWordsFromTokens } from "../helpers/word/getAllWordsFromTree.js";
 
 /**
  * @typedef {Object} ParagraphLength

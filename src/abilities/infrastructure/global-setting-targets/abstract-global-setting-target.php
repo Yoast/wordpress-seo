@@ -8,6 +8,9 @@ use Yoast\WP\SEO\Abilities\Domain\Global_Setting_Target_Interface;
 /**
  * Shared base for the global setting targets: a single page that is enabled and can always be changed, unless the extending
  * class says otherwise.
+ *
+ * @internal Backs the global SEO settings abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 abstract class Abstract_Global_Setting_Target implements Global_Setting_Target_Interface {
 

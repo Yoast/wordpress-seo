@@ -147,11 +147,6 @@ const expectedResults = {
 			"The text contains 4 consecutive sentences starting with the same word. " +
 			"<a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!",
 	},
-	imageKeyphrase: {
-		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!",
-	},
 	imageCount: {
 		isApplicable: true,
 		score: 3,

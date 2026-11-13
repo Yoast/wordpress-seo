@@ -20,7 +20,6 @@
   "files": [
     "build",
     "!*.map",
-    "vendor",
     "images",
     "researcher",
     "contract",
@@ -35,7 +34,7 @@
     "pretest": "grunt get-premium-configuration",
     "export:inclusive-language": "jest exportInclusiveLanguage",
     "test": "jest",
-    "lint": "eslint . --max-warnings 18",
+    "lint": "eslint . --max-warnings 16",
     "watch": "yarn clean && yarn watch:js",
     "watch:js": "yarn build:js --watch",
     "watch:types": "tsc --watch"
@@ -48,7 +47,7 @@
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@yoast/browserslist-config": "^1.2.5",
-    "@yoast/eslint-config": "^8.1.0",
+    "@yoast/eslint-config": "^8.3.0",
     "blob-polyfill": "^7.0.20220408",
     "console.table": "^0.10.0",
     "eslint": "^9.20.1",

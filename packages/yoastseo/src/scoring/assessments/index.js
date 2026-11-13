@@ -1,48 +1,53 @@
 // Readability assessments.
-import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment";
-import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment";
-import SentenceBeginningsAssessment from "./readability/SentenceBeginningsAssessment";
-import SentenceLengthInTextAssessment from "./readability/SentenceLengthInTextAssessment";
-import SubheadingDistributionTooLongAssessment from "./readability/SubheadingDistributionTooLongAssessment";
-import TextPresenceAssessment from "./readability/TextPresenceAssessment";
-import TransitionWordsAssessment from "./readability/TransitionWordsAssessment";
+import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment.js";
+import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment.js";
+import SentenceBeginningsAssessment from "./readability/SentenceBeginningsAssessment.js";
+import SentenceLengthInTextAssessment from "./readability/SentenceLengthInTextAssessment.js";
+import SubheadingDistributionTooLongAssessment from "./readability/SubheadingDistributionTooLongAssessment.js";
+import TextPresenceAssessment from "./readability/TextPresenceAssessment.js";
+import TransitionWordsAssessment from "./readability/TransitionWordsAssessment.js";
 
 // Readability assessments (premium)
-import TextAlignmentAssessment from "./readability/TextAlignmentAssessment";
-import WordComplexityAssessment from "./readability/WordComplexityAssessment";
+import TextAlignmentAssessment from "./readability/TextAlignmentAssessment.js";
+import WordComplexityAssessment from "./readability/WordComplexityAssessment.js";
 
 // Readability assessments (product)
-import ListAssessment from "./readability/ListAssessment";
+import ListAssessment from "./readability/ListAssessment.js";
 
 // SEO assessments.
-import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
-import InternalLinksAssessment from "./seo/InternalLinksAssessment";
-import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
-import KeyphraseDensityAssessment, { KeywordDensityAssessment } from "./seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment";
-import MetaDescriptionLengthAssessment from "./seo/MetaDescriptionLengthAssessment";
-import OutboundLinksAssessment from "./seo/OutboundLinksAssessment";
-import PageTitleWidthAssessment from "./seo/PageTitleWidthAssessment";
-import SingleH1Assessment from "./seo/SingleH1Assessment";
-import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
-import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
-import TextLengthAssessment from "./seo/TextLengthAssessment";
-import KeyphraseInSEOTitleAssessment from "./seo/KeyphraseInSEOTitleAssessment";
-import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAssessment";
-import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
-import ImageCountAssessment from "./seo/ImageCountAssessment";
+import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment.js";
+import InternalLinksAssessment from "./seo/InternalLinksAssessment.js";
+import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment.js";
+import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment.js";
+import KeyphraseDensityAssessment, { KeywordDensityAssessment } from "./seo/KeywordDensityAssessment.js";
+import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment.js";
+import MetaDescriptionLengthAssessment from "./seo/MetaDescriptionLengthAssessment.js";
+import OutboundLinksAssessment from "./seo/OutboundLinksAssessment.js";
+import PageTitleWidthAssessment from "./seo/PageTitleWidthAssessment.js";
+import SingleH1Assessment from "./seo/SingleH1Assessment.js";
+import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment.js";
+import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment.js";
+import TextLengthAssessment from "./seo/TextLengthAssessment.js";
+import KeyphraseInSEOTitleAssessment from "./seo/KeyphraseInSEOTitleAssessment.js";
+import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAssessment.js";
+import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment.js";
+import ImageCountAssessment from "./seo/ImageCountAssessment.js";
+import AltTextLengthAssessment from "./seo/AltTextLengthAssessment.js";
+import DuplicateAltTextAssessment from "./seo/DuplicateAltTextAssessment.js";
+import RedundantPhraseInAltTextAssessment from "./seo/RedundantPhraseInAltTextAssessment.js";
+import NonDescriptiveAltTextAssessment from "./seo/NonDescriptiveAltTextAssessment.js";
+import KeyphraseStuffingInAltTextAssessment from "./seo/KeyphraseStuffingInAltTextAssessment.js";
 
 // SEO assessments (premium)
-import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
-import TextTitleAssessment from "./seo/TextTitleAssessment";
+import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment.js";
+import TextTitleAssessment from "./seo/TextTitleAssessment.js";
 
 // SEO assessments (product)
-import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
-import ProductIdentifiersAssessment from "./seo/ProductIdentifiersAssessment";
-import ProductSKUAssessment from "./seo/ProductSKUAssessment";
+import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment.js";
+import ProductIdentifiersAssessment from "./seo/ProductIdentifiersAssessment.js";
+import ProductSKUAssessment from "./seo/ProductSKUAssessment.js";
 
-import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
+import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment.js";
 
 const readability = {
 	ListAssessment,
@@ -59,6 +64,8 @@ const readability = {
 
 // We expose the deprecated assessments for backwards compatibility.
 const seo = {
+	AltTextLengthAssessment,
+	DuplicateAltTextAssessment,
 	FunctionWordsInKeyphraseAssessment,
 	ImageAltTagsAssessment,
 	ImageCountAssessment,
@@ -68,14 +75,17 @@ const seo = {
 	KeyphraseDistributionAssessment,
 	KeyphraseInSEOTitleAssessment,
 	KeyphraseLengthAssessment,
+	KeyphraseStuffingInAltTextAssessment,
 	KeyphraseDensityAssessment,
 	KeywordDensityAssessment,
 	MetaDescriptionKeywordAssessment,
 	MetaDescriptionLengthAssessment,
+	NonDescriptiveAltTextAssessment,
 	OutboundLinksAssessment,
 	PageTitleWidthAssessment,
 	ProductIdentifiersAssessment,
 	ProductSKUAssessment,
+	RedundantPhraseInAltTextAssessment,
 	SingleH1Assessment,
 	SubheadingsKeywordAssessment,
 	TextCompetingLinksAssessment,

@@ -1,5 +1,5 @@
 import countSyllableFunction from "../../../../../src/languageProcessing/helpers/syllables/countSyllables.js";
-import spanishSyllables from "../../../../../src/languageProcessing/languages/es/config/syllables.json";
+import spanishSyllables from "../../../../../src/languageProcessing/languages/es/config/syllables.js";
 
 describe( "a syllable counter for Spanish text strings", function() {
 	it( "returns the number of syllables of words containing the add syllable i[ií]", function() {

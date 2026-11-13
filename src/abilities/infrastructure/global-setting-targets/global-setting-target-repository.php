@@ -8,6 +8,9 @@ use Yoast\WP\SEO\Abilities\Domain\Global_Setting_Target_Interface;
 
 /**
  * Provides the global setting targets: the ones that are a single group of pages each, and the content type archives.
+ *
+ * @internal Backs the global SEO settings abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 class Global_Setting_Target_Repository {
 

@@ -1,13 +1,13 @@
-import { SCORES } from "./scores";
+import { SCORES } from "./scores.js";
 import {
 	avoidHarmful,
 	beCarefulHarmful,
 	redHarmful,
 	orangeUnlessAnimalsObjects,
-} from "./feedbackStrings/generalFeedbackStrings";
-import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
-import { isNotPrecededByException } from "../helpers/isPrecededByException";
-import { notPreceded } from "../helpers/createRuleDescriptions";
+} from "./feedbackStrings/generalFeedbackStrings.js";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords.js";
+import { isNotPrecededByException } from "../helpers/isPrecededByException.js";
+import { notPreceded } from "../helpers/createRuleDescriptions.js";
 
 const otherAssessments = [
 	{

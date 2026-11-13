@@ -1,5 +1,5 @@
 import { isEmpty } from "lodash";
-import { canBeChildOfParagraph as excludeFromAnalysis } from "./alwaysFilterElements";
+import { canBeChildOfParagraph as excludeFromAnalysis } from "./alwaysFilterElements.js";
 
 /**
  * Removes all child nodes from nodes that we want to exclude from the analysis, and that can be children of a paragraph

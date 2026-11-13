@@ -62,9 +62,14 @@ abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability 
 			'type'       => 'object',
 			'properties' => [
 				'post_id'                         => [ 'type' => 'integer' ],
-				'post_title'                      => $nullable_string,
+				'post_title'                      => ( $nullable_string + [
+					'description' => \__( 'The breadcrumb title of the post when a custom one is set, otherwise the post title.', 'wordpress-seo' ),
+				] ),
 				'permalink'                       => $nullable_string,
-				'post_type'                       => [ 'type' => 'string' ],
+				'post_type'                       => [
+					'type'        => 'string',
+					'description' => \__( 'The post type of the post. Use it to tell apart posts that share a title.', 'wordpress-seo' ),
+				],
 				'post_status'                     => $nullable_string,
 				'seo_title'                       => $raw( \__( 'SEO title', 'wordpress-seo' ) ),
 				'seo_title_rendered'              => $rendered( \__( 'SEO title', 'wordpress-seo' ) ),

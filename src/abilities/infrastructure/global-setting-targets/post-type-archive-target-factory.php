@@ -8,6 +8,9 @@ use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 
 /**
  * Creates the targets of the content type archives, one per post type.
+ *
+ * @internal Backs the global SEO settings abilities. Not meant to be used outside of Yoast SEO, so it can change
+ *           at any time without notice.
  */
 class Post_Type_Archive_Target_Factory {
 

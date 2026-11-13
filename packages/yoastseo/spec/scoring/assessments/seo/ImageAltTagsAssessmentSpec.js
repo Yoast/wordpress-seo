@@ -276,3 +276,34 @@ describe( "tests for the product type passed to the feedback-strings callback.",
 		expect( getResultTexts.mock.calls[ 0 ][ 0 ].isVariableProduct ).toBe( false );
 	} );
 } );
+
+describe( "the flagged items of the image alt tags assessment", function() {
+	it( "reports the images without alt text that the research flagged", function() {
+		const result = imageAltTagsAssessment.getResult( new Paper( "" ), Factory.buildMockResearcher( {
+			imageCount: 3,
+			altTagCount: { noAlt: 2, withAlt: 1, flagged: [ 8, 12 ] },
+		}, true ) );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getFlaggedItems() ).toEqual( [ 8, 12 ] );
+	} );
+
+	it( "reports nothing when every image has alt text", function() {
+		const result = imageAltTagsAssessment.getResult( new Paper( "" ), Factory.buildMockResearcher( {
+			imageCount: 2,
+			altTagCount: { noAlt: 0, withAlt: 2, flagged: [] },
+		}, true ) );
+
+		expect( result.getScore() ).toEqual( 9 );
+		expect( result.getFlaggedItems() ).toEqual( [] );
+	} );
+
+	it( "reports nothing when the research does not list flagged images", function() {
+		const result = imageAltTagsAssessment.getResult( new Paper( "" ), Factory.buildMockResearcher( {
+			imageCount: 1,
+			altTagCount: { noAlt: 1, withAlt: 0 },
+		}, true ) );
+
+		expect( result.getFlaggedItems() ).toEqual( [] );
+	} );
+} );

@@ -17,11 +17,10 @@ In this document, only the shortlinks used in WordPress are listed.
 - [Keyphrase in meta description](SCORING%20SEO.md#4-keyphrase-in-meta-description)
 - [Keyphrase in subheadings](SCORING%20SEO.md#5-keyphrase-in-subheadings)
 - [Competing links](SCORING%20SEO.md#6-competing-links-link-keyphrase)
-- [Keyphrase in image alt attributes](SCORING%20SEO.md#7-keyphrase-in-image-alt-attributes)
-- [Keyphrase in SEO title](SCORING%20SEO.md#8-keyphrase-in-seo-title)
-- [Keyphrase in slug](SCORING%20SEO.md#9-keyphrase-in-slug)
-- [Previously used keyphrase](SCORING%20SEO.md#10-previously-used-keyphrase) (not available in Shopify)
-- [Keyphrase distribution](SCORING%20SEO.md#11-keyphrase-distribution-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
+- [Keyphrase in SEO title](SCORING%20SEO.md#7-keyphrase-in-seo-title)
+- [Keyphrase in slug](SCORING%20SEO.md#8-keyphrase-in-slug)
+- [Previously used keyphrase](SCORING%20SEO.md#9-previously-used-keyphrase) (not available in Shopify)
+- [Keyphrase distribution](SCORING%20SEO.md#10-keyphrase-distribution-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
 
 ### Assessments with different scoring criteria than with the regular SEO assessor
 ### 1) Keyphrase length
@@ -54,7 +53,8 @@ Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorte
 - [Meta description length](SCORING%20SEO.md#5-meta-description-length)
 - [Single title](SCORING%20SEO.md#6-single-title)
 - [Function words in keyphrase](SCORING%20SEO.md#7-function-words-in-keyphrase)
-- [Title](SCORING%20SEO.md#9-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
+- [Keyphrase stuffing in alt text](SCORING%20SEO.md#12-keyphrase-stuffing-in-alt-text) (WooCommerce and Shopify can supply their own feedback strings and links through the assessor options)
+- [Title](SCORING%20SEO.md#13-title-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
 
 ### Assessments with different scoring criteria than with the regular SEO assessor
 ### 1) Text length
@@ -106,6 +106,125 @@ shared defaults apply — the table below.
 | Green         | 9     | 4 or more images | **Images**: Good job!                                                                                     |
 
 
+### 3) Alt text length
+**What it does**: Checks whether the assessed images have alt text that is likely too short or too long. By default
+it assesses the images in the text; a platform can scope it to the product's own images (featured, gallery,
+variations) instead, by providing the Paper's `providedImages` attribute.
+
+Images without alt text are not counted as too short: that case is covered by [Image alt attributes](#1-image-alt-attributes).
+
+**When it applies**: Only when at least one assessed image has alt text that is too short or too long. There is no
+good range for alt text length, so there is no green traffic light: when nothing is flagged the assessment returns
+a result without a score and without a text, which `Assessor.isValidResult` drops, and the assessment is not shown.
+
+**Name in code**: AltTextLengthAssessment
+
+**Product config**: the limits and the score are the same as in the regular SEO assessor — 10 characters or fewer,
+200 characters or more (Japanese: 5 and 100), orange with a score of 6. Only the feedback strings differ: on a product page the images
+being assessed are the product's own, so they say "product images" where the defaults say "images".
+
+**Feedback strings**: a platform supplies these through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `tooShortCount`, `tooLongCount`, `tooShortBoundary` and
+`tooLongBoundary`, and must return all three of `tooShort`, `tooLong` and `both`. The returned object is used as is,
+so an omitted key renders as an empty result text rather than falling back to the default. Both WooCommerce and
+Shopify supply a callback, so the strings a user sees on a product page are the platform's, not the defaults in
+[the regular table](SCORING%20SEO.md#9-alt-text-length). The boundaries are handed over so a platform's strings name
+the same limits without repeating the numbers.
+
+**Title URL**: https://yoa.st/alt-text-length in WooCommerce, https://yoa.st/shopify-alt-text-length in Shopify (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/alt-text-length-cta in WooCommerce, https://yoa.st/shopify-alt-text-length-cta in Shopify (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                        | Feedback                                                                                                                                                                      |
+|---------------|-------|--------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | X images have alt text of 10 characters or fewer | **Alt text length**: X of your product images have very short alt text. **Consider making the alt text longer than 10 characters.** |
+| Orange        | 6     | X images have alt text of 200 characters or more | **Alt text length**: X of your product images have very long alt text. **Consider making the alt text shorter than 200 characters.** |
+| Orange        | 6     | Both cases occur on the same product             | **Alt text length**: X of your product images have very short or very long alt text. **Consider making the alt text longer than 10 and shorter than 200 characters.** |
+
+### 4) Duplicate alt text
+**What it does**: Checks whether two or more different assessed images share the same alt text. By default it
+assesses the images in the text; a platform can scope it to the product's own images (featured, gallery,
+variations) instead, by providing the Paper's `providedImages` attribute. Provided images with the same `id` count as
+one image, so a product image that is also in the gallery is not a duplicate.
+
+**When it applies**: Only when at least two different assessed images share the same alt text. There is no green
+traffic light; see [the regular assessment](SCORING%20SEO.md#10-duplicate-alt-text).
+
+**Name in code**: DuplicateAltTextAssessment
+
+**Product config**: the criterion and the score are the same as in the regular SEO assessor — orange with a score of 6.
+Only the feedback strings differ: on a product page the images being assessed are the product's own, so they say
+"product images" where the defaults say "images".
+
+**Feedback strings**: a platform supplies these through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `duplicateCount`, and must return `duplicate`. The
+returned object is used as is, so an omitted key renders as an empty result text rather than falling back to the
+default. Both WooCommerce and Shopify supply a callback, so the string a user sees on a product page is the
+platform's, not the default in [the regular table](SCORING%20SEO.md#10-duplicate-alt-text).
+
+**Title URL**: https://yoa.st/duplicate-alt-text in WooCommerce, https://yoa.st/shopify-duplicate-alt-text in Shopify (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/duplicate-alt-text-cta in WooCommerce, https://yoa.st/shopify-duplicate-alt-text-cta in Shopify (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                            | Feedback                                                                                                                         |
+|---------------|-------|------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | Two or more different images share the same alt text | **Duplicate alt text**: X of your product images don't have unique alt text. **Give each image its own alt text.** |
+
+### 5) Redundant phrase in alt text
+**What it does**: Checks whether the assessed images have alt text with a redundant phrase such as "Image of".
+By default it assesses the images in the text; a platform can scope it to the product's own images (featured, gallery,
+variations) instead, by providing the Paper's `providedImages` attribute.
+
+The phrases are language-specific.
+
+**When it applies**: Only when at least one assessed image has alt text with a redundant phrase.
+
+**Name in code**: RedundantPhraseInAltTextAssessment
+
+**Product config**: the phrases and the score are the same as in the regular SEO assessor — orange with a score of 6.
+Only the feedback strings differ: on a product page the images being assessed are the product's own, so a platform can
+say "product images" where the defaults say "images".
+
+**Feedback strings**: a platform supplies these through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `redundantPhraseCount`, and must return
+`redundantPhrase`. The returned object is used as is. Both WooCommerce and Shopify supply a callback, so the strings a user sees on a product page are the platform's, not the defaults
+
+**Title URL**: https://yoa.st/redundant-phrase-in-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/redundant-phrase-in-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                                | Feedback                                                                                                                                                                                                                                                                                                                          |
+|---------------|-------|----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Orange        | 6     | At least 1 image has alt text with a redundant phrase | **Redundant phrase in alt text**: X of your product images have alt text with a phrase like "Image of" or similar. **Remove it as screen readers already announce that it's an image. You may keep phrases that describe the type of image (e.g. “photograph”, “illustration”, “screenshot”) if the type is worth pointing out.** |
+
+### 5) Non-descriptive alt text
+**What it does**: Checks whether the assessed images have alt text that consists only of a meaningless phrase, such as
+a placeholder, a file name or "Product image". By default it assesses the images in the text; a platform can scope it to
+the product's own images (featured, gallery, variations) instead, by providing the Paper's `providedImages` attribute.
+
+Some checks work in every language; the phrases are language-specific. See
+[the regular assessment](SCORING%20SEO.md#12-non-descriptive-alt-text) for what is flagged.
+
+**When it applies**: Only when at least one assessed image has non-descriptive alt text.
+
+**Name in code**: NonDescriptiveAltTextAssessment
+
+**Product config**: the checks and the score are the same as in the regular SEO assessor — red with a score of 3.
+Only the feedback strings differ: on a product page the images being assessed are the product's own, so a platform can
+say "product images" where the defaults say "images".
+
+**Feedback strings**: a platform supplies these through `callbacks.getResultTexts`. It receives
+`urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag` and `nonDescriptiveCount`, and must return
+`nonDescriptive`. The returned object is used as is.
+
+**Title URL**: https://yoa.st/non-descriptive-alt-text (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/non-descriptive-alt-text-cta (link placement is in bold in the feedback strings)
+
+| Traffic light | Score | Criterion                                     | Feedback                                                                                                                                                                       |
+|---------------|-------|-----------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red           | 3     | At least 1 image has non-descriptive alt text | **Non-descriptive alt text**: X of your product images have alt text that doesn't describe the image. **Describe what the image shows, or leave the alt text empty if the image is decorative.** |
+
 ### Assessments unique to product pages
 ### 1) Image alt attributes
 **What it does**: Checks if all assessed images have alt attributes. By default it assesses the images in the text; a platform can scope all image assessments to the product's own images (featured, gallery, variations) instead, by providing the Paper's `providedImages` attribute — an empty array counts as a product without images.
@@ -113,6 +232,8 @@ shared defaults apply — the table below.
 **When it applies**: Always.
 
 **Name in code**: ImageAltTagsAssessment
+
+**Flagged items**: the result names the images without alt text in `flaggedItems`, each once, by their `id`, else their `src`. An image with neither is counted but not named. An alt text of only whitespace counts as missing.
 
 **Feedback strings**: a platform can supply its own through `callbacks.getResultTexts`. It receives
 `urlTitleAnchorOpeningTag`, `urlActionAnchorOpeningTag`, `numberOfImagesWithoutAlt`, `totalNumberOfImages` and

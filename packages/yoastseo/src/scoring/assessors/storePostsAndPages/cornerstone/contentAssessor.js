@@ -1,7 +1,7 @@
 import ContentAssessor from "../contentAssessor.js";
 import SubheadingDistributionTooLongAssessment from "../../../assessments/readability/SubheadingDistributionTooLongAssessment.js";
 import SentenceLengthInTextAssessment from "../../../assessments/readability/SentenceLengthInTextAssessment.js";
-import { createAnchorOpeningTag } from "../../../../helpers";
+import { createAnchorOpeningTag } from "../../../../helpers/index.js";
 
 /**
  * The StorePostsAndPagesCornerstoneContentAssessor class is used for the readability analysis for cornerstone store posts and pages.

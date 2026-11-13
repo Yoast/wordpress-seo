@@ -30,15 +30,14 @@ exports[`YoastWarning matches the snapshot 1`] = `
 }
 
 <div
-  className="c0"
+  class="c0"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-exclamation-triangle c2"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-exclamation-triangle c2"
     fill="currentColor"
     focusable="false"
     role="img"
-    size="16px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -47,7 +46,7 @@ exports[`YoastWarning matches the snapshot 1`] = `
     />
   </svg>
   <div
-    className="c3"
+    class="c3"
   >
     This is a warning message
     <a
@@ -91,15 +90,14 @@ exports[`YoastWarning with a right to left language matches the snapshot 1`] = `
 }
 
 <div
-  className="c0"
+  class="c0"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-exclamation-triangle c2"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-exclamation-triangle c2"
     fill="currentColor"
     focusable="false"
     role="img"
-    size="16px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -108,7 +106,7 @@ exports[`YoastWarning with a right to left language matches the snapshot 1`] = `
     />
   </svg>
   <div
-    className="c3"
+    class="c3"
   >
     This is a warning message
     <a

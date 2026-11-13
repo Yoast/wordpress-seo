@@ -9,7 +9,7 @@
  * Redistribution and use in source and binary forms, with or without modification, is covered by the standard BSD license.
  */
 
-import { isVowelDoublingAllowed, modifyStem } from "./stemModificationHelpers";
+import { isVowelDoublingAllowed, modifyStem } from "./stemModificationHelpers.js";
 
 /**
  * Determines the start index of the R1 region.

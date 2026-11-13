@@ -1,6 +1,6 @@
 import buildFormRule from "../../../../../languageProcessing/helpers/morphology/buildFormRule.js";
 import createRulesFromArrays from "../../../../../languageProcessing/helpers/morphology/createRulesFromArrays.js";
-import searchAndReplaceWithOneRegex from "../../../../../languageProcessing/helpers/regex/searchAndReplaceWithOneRegex";
+import searchAndReplaceWithOneRegex from "../../../../../languageProcessing/helpers/regex/searchAndReplaceWithOneRegex.js";
 
 /**
  * Checks whether a given word is a verb to which certain stem modifications need to be applied.

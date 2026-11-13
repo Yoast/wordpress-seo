@@ -1,15 +1,15 @@
 import { cloneDeep, flattenDeep, max } from "lodash";
-import parseSynonyms from "../helpers/sanitize/parseSynonyms";
-import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
-import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
-import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSentence";
-import getSentences from "../helpers/sentence/getSentences";
-import { filterShortcodesFromHTML } from "../helpers";
-import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
-import { mergeListItems } from "../helpers/sanitize/mergeListItems";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
-import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
-import SentenceTokenizer from "../helpers/sentence/SentenceTokenizer";
+import parseSynonyms from "../helpers/sanitize/parseSynonyms.js";
+import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree.js";
+import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence.js";
+import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSentence.js";
+import getSentences from "../helpers/sentence/getSentences.js";
+import { filterShortcodesFromHTML } from "../helpers/index.js";
+import { markWordsInASentence } from "../helpers/word/markWordsInSentences.js";
+import { mergeListItems } from "../helpers/sanitize/mergeListItems.js";
+import removeHtmlBlocks from "../helpers/html/htmlParser.js";
+import isDoubleQuoted from "../helpers/match/isDoubleQuoted.js";
+import SentenceTokenizer from "../helpers/sentence/SentenceTokenizer.js";
 
 /**
  * @typedef {import("../../values/Mark").default} Mark

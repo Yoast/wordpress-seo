@@ -15,6 +15,9 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Social profiles are saved through the social profiles helper, so they are validated exactly like they are
  * in the first-time configuration. The other settings are saved by the repository they are registered with in the
  * field map.
+ *
+ * @internal Backs the author schema abilities. Not meant to be used outside of Yoast SEO, so it can change at any
+ *           time without notice.
  */
 class Author_Schema_Updater extends Abstract_Fields_Updater {
 
@@ -142,10 +145,22 @@ class Author_Schema_Updater extends Abstract_Fields_Updater {
 			}
 
 			// The helper only reports invalid profiles, not failed saves, so the stored value is checked instead.
-			return $repository->get( $user_id, $field_name ) === $value;
+			return $this->get_field_value( $field_name, $context ) === $value;
 		}
 
 		return $repository->save( $user_id, $field_name, $value );
+	}
+
+	/**
+	 * Returns the stored value of a single field, read from its repository.
+	 *
+	 * @param string               $field_name The name of the field.
+	 * @param array<string, mixed> $context    The ID of the user, under 'user_id'.
+	 *
+	 * @return mixed The stored value.
+	 */
+	protected function get_field_value( string $field_name, array $context ) {
+		return $this->field_map->get_repositories()[ $field_name ]->get( $context['user_id'], $field_name );
 	}
 
 	/**
@@ -179,11 +194,10 @@ class Author_Schema_Updater extends Abstract_Fields_Updater {
 	 * @return array<string, mixed> The current value of each field.
 	 */
 	private function get_settings( int $user_id, array $fields ): array {
-		$settings     = [];
-		$repositories = $this->field_map->get_repositories();
+		$settings = [];
 
 		foreach ( $fields as $field_name => $schema ) {
-			$settings[ $field_name ] = $this->cast_to_schema_type( $repositories[ $field_name ]->get( $user_id, $field_name ), $schema );
+			$settings[ $field_name ] = $this->cast_to_schema_type( $this->get_field_value( $field_name, [ 'user_id' => $user_id ] ), $schema );
 		}
 
 		return $settings;

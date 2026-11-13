@@ -1,4 +1,4 @@
-import { Paragraph } from "../../structure";
+import { Paragraph } from "../../structure/index.js";
 
 /**
  * @typedef {import("../../structure").Node} Node

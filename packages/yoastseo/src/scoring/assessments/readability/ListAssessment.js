@@ -1,8 +1,8 @@
 import { mapValues, merge } from "lodash";
 
-import Assessment from "../assessment";
-import AssessmentResult from "../../../values/AssessmentResult";
-import { createAnchorOpeningTag } from "../../../helpers";
+import Assessment from "../assessment.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 
 /**
  * Represents the assessment that will look if the text has a list (only applicable for product pages).

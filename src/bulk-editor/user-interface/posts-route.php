@@ -179,7 +179,7 @@ class Posts_Route implements Route_Interface {
 						'default'     => [],
 						'items'       => [
 							'type' => 'string',
-							'enum' => Posts_Collector_Interface::NEEDS_IMPROVEMENT_FIELDS,
+							'enum' => \apply_filters( 'wpseo_bulk_editor_needs_improvement_fields', Posts_Collector_Interface::NEEDS_IMPROVEMENT_FIELDS ),
 						],
 						'description' => 'The fields to filter posts by; a field matches when it is empty, or (for search fields, while SEO analysis is enabled and the content type shows Yoast\'s controls and assessments) when its score needs improvement.',
 					],

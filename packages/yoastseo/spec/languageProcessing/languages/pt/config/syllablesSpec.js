@@ -1,5 +1,5 @@
 import countSyllableFunction from "../../../../../src/languageProcessing/helpers/syllables/countSyllables.js";
-import portugueseSyllables from "../../../../../src/languageProcessing/languages/pt/config/syllables.json";
+import portugueseSyllables from "../../../../../src/languageProcessing/languages/pt/config/syllables.js";
 
 describe( "a syllable counter for Portuguese text strings", function() {
 	it( "returns the number of syllables of words containing the substract syllable (gu|qu)[aeoáéíóúêã]", function() {

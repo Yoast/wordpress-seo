@@ -95,19 +95,17 @@ exports[`the YoastButton executes callback 1`] = `
 }
 
 <button
-  className="c0 c1"
-  onClick={[Function]}
+  class="c0 c1"
   type="button"
 >
   <span>
     ButtonValue
     <svg
-      aria-hidden={true}
-      className="c2 yoast-svg-icon yoast-svg-icon-caret-right c3"
+      aria-hidden="true"
+      class="c2 yoast-svg-icon yoast-svg-icon-caret-right c3"
       fill="#000"
       focusable="false"
       role="img"
-      size="16px"
       viewBox="0 0 192 512"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -214,19 +212,17 @@ exports[`the YoastButton executes callback 2`] = `
 }
 
 <button
-  className="c0 c1"
-  onClick={[Function]}
+  class="c0 c1"
   type="button"
 >
   <span>
     ButtonValue
     <svg
-      aria-hidden={true}
-      className="c2 yoast-svg-icon yoast-svg-icon-caret-right c3"
+      aria-hidden="true"
+      class="c2 yoast-svg-icon yoast-svg-icon-caret-right c3"
       fill="#000"
       focusable="false"
       role="img"
-      size="16px"
       viewBox="0 0 192 512"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -333,18 +329,17 @@ exports[`the YoastButton matches the snapshot 1`] = `
 }
 
 <button
-  className="c0 c1"
+  class="c0 c1"
   type="button"
 >
   <span>
     ButtonValue
     <svg
-      aria-hidden={true}
-      className="c2 yoast-svg-icon yoast-svg-icon-caret-right c3"
+      aria-hidden="true"
+      class="c2 yoast-svg-icon yoast-svg-icon-caret-right c3"
       fill="#000"
       focusable="false"
       role="img"
-      size="16px"
       viewBox="0 0 192 512"
       xmlns="http://www.w3.org/2000/svg"
     >
