@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Update_Post_SEO_Data_Ability;
 use Yoast\WP\SEO\Abilities\User_Interface\AI_Generate_Upsell;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
@@ -58,6 +59,13 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	private $ai_generate_upsell;
 
 	/**
+	 * The Yoast WooCommerce SEO inactive conditional mock.
+	 *
+	 * @var Mockery\MockInterface|Woo_SEO_Inactive_Conditional
+	 */
+	private $woo_seo_inactive_conditional;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Update_Post_SEO_Data_Ability
@@ -84,12 +92,15 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 		$this->should_index_indexables_conditional = Mockery::mock( Should_Index_Indexables_Conditional::class );
 		$this->post_seo_data_updater               = Mockery::mock( Post_SEO_Data_Updater::class );
 		$this->ai_generate_upsell                  = Mockery::mock( AI_Generate_Upsell::class );
+		$this->woo_seo_inactive_conditional        = Mockery::mock( Woo_SEO_Inactive_Conditional::class );
+		$this->woo_seo_inactive_conditional->allows( 'is_met' )->andReturnTrue()->byDefault();
 
 		$this->instance = new Update_Post_SEO_Data_Ability(
 			$this->capability_helper,
 			$this->should_index_indexables_conditional,
 			$this->post_seo_data_updater,
 			$this->ai_generate_upsell,
+			$this->woo_seo_inactive_conditional,
 		);
 	}
 
@@ -153,17 +164,26 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	 * @covers ::ai_generate_field_schema
 	 * @covers ::get_schema_article_types
 	 * @covers ::nullable_enum_schema
+	 * @covers ::get_schema_page_type_description
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::get_post_seo_data_output_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::get_stored_schema_page_type_description
 	 *
 	 * @return void
 	 */
 	public function test_get_args() {
 		$output_schema = [ 'decorated' => true ];
 
+		$expected_output_schema                          = $this->get_expected_output_schema();
+		$expected_output_schema['properties']['warning'] = [
+			'type'        => 'string',
+			'description' => 'Only present when some of the provided fields were not saved, for example the page type of a product while Yoast WooCommerce SEO is active. Meant to be relayed to the user.',
+		];
+
 		$this->ai_generate_upsell
 			->expects( 'add_to_schema' )
 			->once()
-			->with( $this->get_expected_output_schema() )
+			->with( $expected_output_schema )
 			->andReturn( $output_schema );
 
 		$this->assertSame(
@@ -188,6 +208,31 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 				],
 			],
 			$this->instance->get_args(),
+		);
+	}
+
+	/**
+	 * Tests that the descriptions of the input and output page type mention how Yoast WooCommerce SEO handles the
+	 * page type of products while it is active.
+	 *
+	 * @covers ::get_schema_page_type_description
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::get_stored_schema_page_type_description
+	 *
+	 * @return void
+	 */
+	public function test_get_args_schema_page_type_description_with_woo_seo() {
+		$this->woo_seo_inactive_conditional->expects( 'is_met' )->twice()->andReturnFalse();
+		$this->ai_generate_upsell->expects( 'add_to_schema' )->once()->andReturnArg( 0 );
+
+		$args = $this->instance->get_args();
+
+		$this->assertSame(
+			'The Schema.org page type for the post. Must be one of the supported page types. Use null or an empty string to clear it and fall back to the default. Yoast WooCommerce SEO is active on this site and sets the page type of products to ItemPage, so only ItemPage or an empty value is saved for products.',
+			$args['input_schema']['properties']['schema_page_type']['description'],
+		);
+		$this->assertSame(
+			'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies. Yoast WooCommerce SEO is active on this site, so it adds ItemPage to the page type of products on the front end, next to the stored or default page type.',
+			$args['output_schema']['properties']['schema_page_type']['description'],
 		);
 	}
 

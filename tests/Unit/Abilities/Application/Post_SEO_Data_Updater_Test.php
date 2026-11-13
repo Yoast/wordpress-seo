@@ -131,6 +131,12 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->andReturn( true );
 
 		$this->field_map
+			->expects( 'get_skipped_fields' )
+			->once()
+			->with( $input, $indexable )
+			->andReturn( [] );
+
+		$this->field_map
 			->expects( 'apply_to_indexable' )
 			->once()
 			->with( $input, $indexable )
@@ -212,6 +218,7 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->with( 42 )
 			->andReturn( $error );
 
+		$this->field_map->expects( 'get_skipped_fields' )->never();
 		$this->field_map->expects( 'apply_to_indexable' )->never();
 		$this->field_map->expects( 'to_seo_array' )->never();
 		$this->indexable_to_postmeta->expects( 'map_column_to_postmeta' )->never();
@@ -243,6 +250,12 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			->andReturn( true );
 
 		$this->field_map
+			->expects( 'get_skipped_fields' )
+			->once()
+			->with( [ 'post_id' => 42 ], $indexable )
+			->andReturn( [] );
+
+		$this->field_map
 			->expects( 'apply_to_indexable' )
 			->once()
 			->with( [ 'post_id' => 42 ], $indexable )
@@ -263,5 +276,106 @@ final class Post_SEO_Data_Updater_Test extends TestCase {
 			WP_Error::class,
 			$this->instance->update_post_seo_data( [ 'post_id' => 42 ] ),
 		);
+	}
+
+	/**
+	 * Tests that a field that cannot be saved for the post is skipped and reported in a warning, while the other
+	 * fields are still saved.
+	 *
+	 * @covers ::update_post_seo_data
+	 * @covers ::get_warning
+	 *
+	 * @dataProvider data_update_post_seo_data_skipped_field
+	 *
+	 * @param array<string, string|int> $input           The input.
+	 * @param array<string, string|int> $applied_input   The input that is applied to the indexable.
+	 * @param array<string>             $changed_columns The columns the applied input changes.
+	 * @param bool                      $rebuilds        Whether the indexable is expected to be rebuilt.
+	 * @param string                    $warning         The expected warning.
+	 *
+	 * @return void
+	 */
+	public function test_update_post_seo_data_skipped_field( array $input, array $applied_input, array $changed_columns, bool $rebuilds, string $warning ) {
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_id = 42;
+		$rebuilt              = Mockery::mock();
+
+		$this->resolver->expects( 'resolve_one' )->once()->with( $input )->andReturn( $indexable );
+		$this->post_access_checker->expects( 'ensure_can_edit' )->once()->with( 42 )->andReturn( true );
+
+		$this->field_map
+			->expects( 'get_skipped_fields' )
+			->once()
+			->with( $input, $indexable )
+			->andReturn( [ 'schema_page_type' => 'The page type was not saved.' ] );
+
+		$this->field_map
+			->expects( 'apply_to_indexable' )
+			->once()
+			->with( $applied_input, $indexable )
+			->andReturn( $changed_columns );
+
+		$this->indexable_to_postmeta
+			->expects( 'map_column_to_postmeta' )
+			->times( \count( $changed_columns ) );
+
+		if ( $rebuilds ) {
+			$this->indexable_builder
+				->expects( 'build_for_id_and_type' )
+				->once()
+				->with( 42, 'post', $indexable )
+				->andReturn( $rebuilt );
+		}
+		else {
+			$this->indexable_builder->expects( 'build_for_id_and_type' )->never();
+		}
+
+		$this->field_map
+			->expects( 'to_seo_array' )
+			->once()
+			->with( ( $rebuilds ) ? $rebuilt : $indexable )
+			->andReturn( [ 'post_id' => 42 ] );
+
+		$this->assertSame(
+			[
+				'post_id' => 42,
+				'warning' => $warning,
+			],
+			$this->instance->update_post_seo_data( $input ),
+		);
+	}
+
+	/**
+	 * Data provider for test_update_post_seo_data_skipped_field.
+	 *
+	 * @return array<string, array<string, array<string, string|int>|array<string>|bool|string>>
+	 */
+	public static function data_update_post_seo_data_skipped_field() {
+		return [
+			'Other fields saved' => [
+				'input'           => [
+					'post_id'          => 42,
+					'seo_title'        => 'A title',
+					'schema_page_type' => 'CollectionPage',
+				],
+				'applied_input'   => [
+					'post_id'   => 42,
+					'seo_title' => 'A title',
+				],
+				'changed_columns' => [ 'title' ],
+				'rebuilds'        => true,
+				'warning'         => 'The page type was not saved. The other settings were saved.',
+			],
+			'No other field saved' => [
+				'input'           => [
+					'post_id'          => 42,
+					'schema_page_type' => 'CollectionPage',
+				],
+				'applied_input'   => [ 'post_id' => 42 ],
+				'changed_columns' => [],
+				'rebuilds'        => false,
+				'warning'         => 'The page type was not saved. No other settings were saved.',
+			],
+		];
 	}
 }

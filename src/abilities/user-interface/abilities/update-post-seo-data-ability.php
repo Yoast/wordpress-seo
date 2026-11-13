@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Abilities\User_Interface\AI_Generate_Upsell;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
@@ -37,14 +38,16 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	 * @param Should_Index_Indexables_Conditional $should_index_indexables_conditional The should index indexables conditional.
 	 * @param Post_SEO_Data_Updater               $post_seo_data_updater               The post SEO data updater.
 	 * @param AI_Generate_Upsell                  $ai_generate_upsell                  The AI Generate upsell.
+	 * @param Woo_SEO_Inactive_Conditional        $woo_seo_inactive_conditional        The Yoast WooCommerce SEO inactive conditional.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
 		Should_Index_Indexables_Conditional $should_index_indexables_conditional,
 		Post_SEO_Data_Updater $post_seo_data_updater,
-		AI_Generate_Upsell $ai_generate_upsell
+		AI_Generate_Upsell $ai_generate_upsell,
+		Woo_SEO_Inactive_Conditional $woo_seo_inactive_conditional
 	) {
-		parent::__construct( $capability_helper, $should_index_indexables_conditional );
+		parent::__construct( $capability_helper, $should_index_indexables_conditional, $woo_seo_inactive_conditional );
 
 		$this->post_seo_data_updater = $post_seo_data_updater;
 		$this->ai_generate_upsell    = $ai_generate_upsell;
@@ -67,12 +70,18 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	 * @return array<string, mixed> The ability registration arguments.
 	 */
 	public function get_args(): array {
+		$output_schema                          = $this->get_post_seo_data_output_schema();
+		$output_schema['properties']['warning'] = [
+			'type'        => 'string',
+			'description' => \__( 'Only present when some of the provided fields were not saved, for example the page type of a product while Yoast WooCommerce SEO is active. Meant to be relayed to the user.', 'wordpress-seo' ),
+		];
+
 		return [
 			'label'               => \__( 'Update Post SEO Data', 'wordpress-seo' ),
 			'description'         => \__( 'Update the SEO data for a single post of any post type. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.', 'wordpress-seo' ),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => $this->get_update_post_seo_data_input_schema(),
-			'output_schema'       => $this->ai_generate_upsell->add_to_schema( $this->get_post_seo_data_output_schema() ),
+			'output_schema'       => $this->ai_generate_upsell->add_to_schema( $output_schema ),
 			'permission_callback' => [ $this, 'can_edit_advanced_metadata' ],
 			'execute_callback'    => [ $this, 'execute' ],
 			'meta'                => [
@@ -157,7 +166,7 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 				'twitter_description'    => $this->ai_generate_field_schema( \__( 'X description', 'wordpress-seo' ) ),
 				'schema_page_type'       => $this->nullable_enum_schema(
 					\array_keys( Schema_Types::PAGE_TYPES ),
-					\__( 'The Schema.org page type for the post. Must be one of the supported page types. Use null or an empty string to clear it and fall back to the default.', 'wordpress-seo' ),
+					$this->get_schema_page_type_description(),
 				),
 				'schema_article_type'    => $this->nullable_enum_schema(
 					$this->get_schema_article_types(),
@@ -165,6 +174,27 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 				),
 			],
 		];
+	}
+
+	/**
+	 * Returns the description of the page type, which mentions that the page type of products is locked while
+	 * Yoast WooCommerce SEO is active.
+	 *
+	 * @return string The description.
+	 */
+	private function get_schema_page_type_description(): string {
+		$description = \__( 'The Schema.org page type for the post. Must be one of the supported page types. Use null or an empty string to clear it and fall back to the default.', 'wordpress-seo' );
+
+		if ( $this->woo_seo_inactive_conditional->is_met() ) {
+			return $description;
+		}
+
+		return $description . ' ' . \sprintf(
+			/* translators: 1: Yoast WooCommerce SEO, 2: the name of a Schema.org page type. */
+			\__( '%1$s is active on this site and sets the page type of products to %2$s, so only %2$s or an empty value is saved for products.', 'wordpress-seo' ),
+			'Yoast WooCommerce SEO',
+			'ItemPage',
+		);
 	}
 
 	/**

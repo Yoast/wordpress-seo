@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\Infrastructure;
 
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Validators\Post_SEO_Field_Validator_Interface;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
@@ -59,12 +60,21 @@ class Post_SEO_Field_Map extends Abstract_SEO_Field_Map {
 	private $meta_surface;
 
 	/**
+	 * The validators of the post SEO fields.
+	 *
+	 * @var Post_SEO_Field_Validator_Interface[]
+	 */
+	private $field_validators;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param Meta_Surface $meta_surface The meta surface.
+	 * @param Meta_Surface                       $meta_surface        The meta surface.
+	 * @param Post_SEO_Field_Validator_Interface ...$field_validators The validators of the post SEO fields.
 	 */
-	public function __construct( Meta_Surface $meta_surface ) {
-		$this->meta_surface = $meta_surface;
+	public function __construct( Meta_Surface $meta_surface, Post_SEO_Field_Validator_Interface ...$field_validators ) {
+		$this->meta_surface     = $meta_surface;
+		$this->field_validators = $field_validators;
 	}
 
 	/**
@@ -118,6 +128,33 @@ class Post_SEO_Field_Map extends Abstract_SEO_Field_Map {
 		}
 
 		return \array_map( [ $this, 'to_seo_array' ], $indexables );
+	}
+
+	/**
+	 * Returns the input fields that cannot be saved for the post, along with the reason.
+	 *
+	 * @param array<string, int|string|bool|null> $input     The validated input patch.
+	 * @param Indexable                           $indexable The indexable of the post.
+	 *
+	 * @return array<string, string> The warning of each field that cannot be saved, keyed by field name.
+	 */
+	public function get_skipped_fields( array $input, Indexable $indexable ): array {
+		$skipped_fields = [];
+		foreach ( $this->field_validators as $field_validator ) {
+			$field_name = $field_validator->get_field_name();
+
+			// A field another validator already rejected keeps that warning.
+			if ( ! \array_key_exists( $field_name, $input ) || isset( $skipped_fields[ $field_name ] ) ) {
+				continue;
+			}
+
+			$warning = $field_validator->validate( $input[ $field_name ], $indexable );
+			if ( $warning !== null ) {
+				$skipped_fields[ $field_name ] = $warning;
+			}
+		}
+
+		return $skipped_fields;
 	}
 
 	/**
