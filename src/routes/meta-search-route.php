@@ -74,7 +74,7 @@ class Meta_Search_Route implements Route_Interface {
 				continue;
 			}
 
-			if ( empty( $query ) && \substr( $key, 0, 1 ) === '_' ) {
+			if ( \is_protected_meta( $key, 'post' ) ) {
 				continue;
 			}
 
