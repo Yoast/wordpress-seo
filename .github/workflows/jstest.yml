@@ -101,7 +101,7 @@ jobs:
           npm --version
           node --version
           yarn --version
-          grunt --version
+          yarn run grunt --version
           yarn run jest --version
 
       - name: Build all packages
@@ -200,7 +200,7 @@ jobs:
           npm --version
           node --version
           yarn --version
-          grunt --version
+          yarn run grunt --version
           yarn run jest --version
 
       - name: Build all packages

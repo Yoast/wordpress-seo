@@ -1,4 +1,4 @@
-/* global ajaxurl */
+/* global ajaxurl, wpseoAdminGlobalL10n */
 
 ( jQuery( function( $ ) {
 	const currentScreen      = $( location ).attr( "pathname" ).split( "/" ).pop();
@@ -42,6 +42,7 @@
 			ajaxurl,
 			{
 				action: "yoast_get_notifications",
+				nonce: wpseoAdminGlobalL10n.notificationsNonce,
 				version: 2,
 			},
 			function( response ) {
