@@ -30,6 +30,8 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @return array<string>
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class, Non_Multisite_Conditional::class ];
@@ -51,6 +53,8 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_notices', [ $this, 'premium_deactivated_notice' ] );
