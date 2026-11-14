@@ -116,7 +116,7 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	/**
 	 * Data provider for the test_first_time_configuration_notice method.
 	 *
-	 * @return array The data for the test.
+	 * @return array<array<string, bool|int>> The data for the test.
 	 */
 	public static function dismiss_first_time_configuration_notice_provider() {
 		return [
@@ -203,7 +203,7 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	/**
 	 * Data provider for test_first_time_configuration_notice.
 	 *
-	 * @return array The data for the test.
+	 * @return array<array<string, bool|string>> The data for the test.
 	 */
 	public static function first_time_configuration_notice_provider() {
 

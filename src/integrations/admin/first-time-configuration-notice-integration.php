@@ -37,6 +37,8 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @return array<string>
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -61,6 +63,8 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'wp_ajax_dismiss_first_time_configuration_notice', [ $this, 'dismiss_first_time_configuration_notice' ] );
