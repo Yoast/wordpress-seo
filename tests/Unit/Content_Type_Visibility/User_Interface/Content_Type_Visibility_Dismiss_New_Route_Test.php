@@ -76,13 +76,11 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 				'new-content-type-visibility/dismiss-post-type',
 				[
 					'methods'             => 'POST',
-					'callback'            => [ $this->dismiss_notifications, 'post_type_dismiss' ],
+					'callback'            => [ $this->instance, 'post_type_dismiss_callback' ],
 					'permission_callback' => [ $this->instance, 'can_dismiss' ],
 					'args'                => [
 						'postTypeName' => [
-							'validate_callback' => static function ( $param ) {
-								return \post_type_exists( $param );
-							},
+							'validate_callback' => [ $this->instance, 'validate_post_type' ],
 						],
 					],
 				],
@@ -95,13 +93,11 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 					'new-content-type-visibility/dismiss-taxonomy',
 					[
 						'methods'             => 'POST',
-						'callback'            => [ $this->dismiss_notifications, 'taxonomy_dismiss' ],
+						'callback'            => [ $this->instance, 'taxonomy_dismiss_callback' ],
 						'permission_callback' => [ $this->instance, 'can_dismiss' ],
 						'args'                => [
 							'taxonomyName' => [
-								'validate_callback' => static function ( $param ) {
-									return \taxonomy_exists( $param );
-								},
+								'validate_callback' => [ $this->instance, 'validate_taxonomy' ],
 							],
 						],
 					],
@@ -120,11 +116,28 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 	 */
 	public function test_can_dismiss() {
 		Monkey\Functions\expect( 'current_user_can' )
-			->with( 'edit_posts' )
+			->with( 'wpseo_manage_options' )
 			->once()
 			->andReturn( true );
 
 		$this->assertTrue( $this->instance->can_dismiss() );
+	}
+
+	/**
+	 * Tests that editing posts does not allow dismissing site-wide notices.
+	 *
+	 * @covers ::can_dismiss
+	 *
+	 * @return void
+	 */
+	public function test_cannot_dismiss_with_only_edit_posts() {
+		Monkey\Functions\when( 'current_user_can' )->alias(
+			static function ( $capability ) {
+				return $capability === 'edit_posts';
+			},
+		);
+
+		$this->assertFalse( $this->instance->can_dismiss() );
 	}
 
 	/**
