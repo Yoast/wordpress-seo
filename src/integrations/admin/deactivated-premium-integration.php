@@ -110,6 +110,7 @@ class Deactivated_Premium_Integration implements Integration_Interface {
                 function dismiss_premium_deactivated_notice(){
                     var data = {
                     'action': 'dismiss_premium_deactivated_notice',
+                    'nonce': '" . \esc_js( \wp_create_nonce( 'wpseo-dismiss-premium-deactivated-notice' ) ) . "',
                     };
 
                     jQuery( '#yoast-premium-deactivated-notice' ).hide();
@@ -131,6 +132,14 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 	 * @return bool
 	 */
 	public function dismiss_premium_deactivated_notice() {
+		if ( ! \check_ajax_referer( 'wpseo-dismiss-premium-deactivated-notice', 'nonce', false ) ) {
+			return false;
+		}
+
+		if ( ! \current_user_can( 'activate_plugin', 'wordpress-seo-premium/wp-seo-premium.php' ) ) {
+			return false;
+		}
+
 		return $this->options_helper->set( 'dismiss_premium_deactivated_notice', true );
 	}
 
