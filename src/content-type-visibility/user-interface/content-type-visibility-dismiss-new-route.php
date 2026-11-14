@@ -92,7 +92,7 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 	 * @return bool Whether or not the current user is allowed to dismiss alerts.
 	 */
 	public function can_dismiss() {
-		return \current_user_can( 'edit_posts' );
+		return \current_user_can( 'wpseo_manage_options' );
 	}
 
 	/**
