@@ -36,7 +36,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Notifications there are newly added.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	private $new = [];
 
@@ -50,7 +50,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Internal storage for transaction before notifications have been retrieved from storage.
 	 *
-	 * @var array
+	 * @var array<array{callable, array<Yoast_Notification|bool>}>
 	 */
 	private $queued_transactions = [];
 
@@ -531,10 +531,17 @@ class Yoast_Notification_Center {
 	 * @return void
 	 */
 	public function ajax_get_notifications() {
+		check_ajax_referer( 'yoast-get-notifications', 'nonce' );
+
+		if ( ! $this->current_user_can_get_notifications() ) {
+			wp_die( '-1', 403 );
+			return;
+		}
+
 		$echo = false;
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form data.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing the variable in a condition.
 		if ( isset( $_POST['version'] ) && is_string( $_POST['version'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing the variable in a condition.
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing the variable in a condition.
 			$echo = wp_unslash( $_POST['version'] ) === '2';
 		}
 
@@ -542,7 +549,32 @@ class Yoast_Notification_Center {
 		$this->display_notifications( $echo );
 
 		// AJAX die.
-		exit();
+		wp_die();
+	}
+
+	/**
+	 * Checks access for settings managers and content editors, including custom types.
+	 *
+	 * @return bool Whether the user can request notifications.
+	 */
+	private function current_user_can_get_notifications() {
+		if ( current_user_can( 'wpseo_manage_options' ) ) {
+			return true;
+		}
+
+		foreach ( get_post_types( [], 'objects' ) as $post_type ) {
+			if ( current_user_can( $post_type->cap->edit_posts ) ) {
+				return true;
+			}
+		}
+
+		foreach ( get_taxonomies( [], 'objects' ) as $taxonomy ) {
+			if ( current_user_can( $taxonomy->cap->edit_terms ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -578,7 +610,7 @@ class Yoast_Notification_Center {
 	 *
 	 * @param Yoast_Notification[] $notifications The notifications to split.
 	 *
-	 * @return array The notifications, split on user ID.
+	 * @return Yoast_Notification[][] The notifications, split on user ID.
 	 */
 	private function split_on_user_id( $notifications ) {
 		$split_notifications = [];
@@ -687,7 +719,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Get newly added notifications.
 	 *
-	 * @return array
+	 * @return array<Yoast_Notification|null>
 	 */
 	public function get_new_notifications() {
 
@@ -823,7 +855,7 @@ class Yoast_Notification_Center {
 	 *
 	 * @param Yoast_Notification $notification Notification to convert.
 	 *
-	 * @return array
+	 * @return array{message: string|Abstract_Presenter, options: array<string, scalar|array<scalar>|WP_User|null>}
 	 */
 	private function notification_to_array( Yoast_Notification $notification ) {
 
@@ -839,7 +871,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Convert stored array to Notification.
 	 *
-	 * @param array $notification_data Array to convert to Notification.
+	 * @param array{message: string|Abstract_Presenter, options: array<string, scalar|array<scalar>|WP_User|null>} $notification_data Array to convert to Notification.
 	 *
 	 * @return Yoast_Notification
 	 */
@@ -893,8 +925,8 @@ class Yoast_Notification_Center {
 	/**
 	 * Queues a notification transaction for later execution if notifications are not yet set up.
 	 *
-	 * @param callable $callback Callback that performs the transaction.
-	 * @param array    $args     Arguments to pass to the callback.
+	 * @param callable                       $callback Callback that performs the transaction.
+	 * @param array<Yoast_Notification|bool> $args     Arguments to pass to the callback.
 	 *
 	 * @return bool True if transaction was queued, false if it can be performed immediately.
 	 */
@@ -911,8 +943,8 @@ class Yoast_Notification_Center {
 	/**
 	 * Adds a notification transaction to the queue for later execution.
 	 *
-	 * @param callable $callback Callback that performs the transaction.
-	 * @param array    $args     Arguments to pass to the callback.
+	 * @param callable                       $callback Callback that performs the transaction.
+	 * @param array<Yoast_Notification|bool> $args     Arguments to pass to the callback.
 	 *
 	 * @return void
 	 */
@@ -950,7 +982,7 @@ class Yoast_Notification_Center {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return array|false Array with notifications or false when not set.
+	 * @return array<array{message: string|Abstract_Presenter, options: array<string, scalar|array<scalar>|WP_User|null>}>|false Array with notifications or false when not set.
 	 */
 	protected function get_stored_notifications() {
 		return get_user_option( self::STORAGE_KEY, get_current_user_id() );
