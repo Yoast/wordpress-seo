@@ -27,42 +27,42 @@ class Yoast_Notifications {
 	/**
 	 * All error notifications.
 	 *
-	 * @var array
+	 * @var Yoast_Notification[]
 	 */
 	private static $errors = [];
 
 	/**
 	 * Active errors.
 	 *
-	 * @var array
+	 * @var Yoast_Notification[]
 	 */
 	private static $active_errors = [];
 
 	/**
 	 * Dismissed errors.
 	 *
-	 * @var array
+	 * @var Yoast_Notification[]
 	 */
 	private static $dismissed_errors = [];
 
 	/**
 	 * All warning notifications.
 	 *
-	 * @var array
+	 * @var Yoast_Notification[]
 	 */
 	private static $warnings = [];
 
 	/**
 	 * Active warnings.
 	 *
-	 * @var array
+	 * @var Yoast_Notification[]
 	 */
 	private static $active_warnings = [];
 
 	/**
 	 * Dismissed warnings.
 	 *
-	 * @var array
+	 * @var Yoast_Notification[]
 	 */
 	private static $dismissed_warnings = [];
 
@@ -135,6 +135,8 @@ class Yoast_Notifications {
 
 		$notification = $this->get_notification_from_ajax_request();
 		if ( $notification ) {
+			check_ajax_referer( $notification->get_id(), 'nonce' );
+
 			$notification_center = Yoast_Notification_Center::get();
 			$notification_center->restore_notification( $notification );
 
@@ -247,7 +249,7 @@ class Yoast_Notifications {
 	/**
 	 * Get the variables needed in the views.
 	 *
-	 * @return array
+	 * @return array{metrics: array<string, int>, errors: array<string, Yoast_Notification[]>, warnings: array<string, Yoast_Notification[]>}
 	 */
 	public static function get_template_variables() {
 
