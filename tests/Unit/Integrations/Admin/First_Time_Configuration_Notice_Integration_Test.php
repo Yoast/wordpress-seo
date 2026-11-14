@@ -150,12 +150,38 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 			->with( 'wpseo-dismiss-first-time-configuration-notice', 'nonce', false )
 			->andReturn( $check_ajax_referer );
 
+		Monkey\Functions\expect( 'current_user_can' )
+			->times( (int) $check_ajax_referer )
+			->with( 'wpseo_manage_options' )
+			->andReturnTrue();
+
 		$this->options_helper
 			->expects( 'set' )
 			->times( $dismiss_configuration_workout_notice_times )
 			->with( 'dismiss_configuration_workout_notice', true );
 
 		$this->instance->dismiss_first_time_configuration_notice();
+	}
+
+	/**
+	 * Tests that users without configuration access cannot dismiss the notice.
+	 *
+	 * @covers ::dismiss_first_time_configuration_notice
+	 *
+	 * @return void
+	 */
+	public function test_dismiss_first_time_configuration_notice_without_capability() {
+		Monkey\Functions\expect( 'check_ajax_referer' )
+			->once()
+			->with( 'wpseo-dismiss-first-time-configuration-notice', 'nonce', false )
+			->andReturn( 1 );
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->with( 'wpseo_manage_options' )
+			->andReturnFalse();
+		$this->options_helper->shouldNotReceive( 'set' );
+
+		$this->assertFalse( $this->instance->dismiss_first_time_configuration_notice() );
 	}
 
 	/**

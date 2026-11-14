@@ -77,6 +77,10 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 		if ( ! \check_ajax_referer( 'wpseo-dismiss-first-time-configuration-notice', 'nonce', false ) ) {
 			return false;
 		}
+		if ( ! \current_user_can( 'wpseo_manage_options' ) ) {
+			return false;
+		}
+
 		return $this->options_helper->set( 'dismiss_configuration_workout_notice', true );
 	}
 
