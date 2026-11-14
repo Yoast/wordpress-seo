@@ -37,6 +37,8 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @return array<string>
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -61,6 +63,8 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'wp_ajax_dismiss_first_time_configuration_notice', [ $this, 'dismiss_first_time_configuration_notice' ] );
@@ -77,6 +81,10 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 		if ( ! \check_ajax_referer( 'wpseo-dismiss-first-time-configuration-notice', 'nonce', false ) ) {
 			return false;
 		}
+		if ( ! \current_user_can( 'wpseo_manage_options' ) ) {
+			return false;
+		}
+
 		return $this->options_helper->set( 'dismiss_configuration_workout_notice', true );
 	}
 
