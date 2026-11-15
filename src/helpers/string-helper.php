@@ -21,14 +21,15 @@ class String_Helper {
 	/**
 	 * Standardize whitespace in a string.
 	 *
-	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
+	 * Replace each run of spaces, line breaks, carriage returns, tabs and form feeds with a single space.
 	 *
 	 * @param string $text Text input to standardize.
 	 *
 	 * @return string
 	 */
 	public function standardize_whitespace( $text ) {
-		return \trim( \str_replace( '  ', ' ', \str_replace( [ "\t", "\n", "\r", "\f" ], ' ', $text ) ) );
+		// A single str_replace() pass on double spaces leaves runs of three or more spaces partly collapsed.
+		return \trim( \preg_replace( '/[ \t\n\r\f]+/', ' ', $text ) );
 	}
 
 	/**

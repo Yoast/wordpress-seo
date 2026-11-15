@@ -49,10 +49,53 @@ final class String_Helper_Test extends TestCase {
 	 *
 	 * @covers ::standardize_whitespace
 	 *
+	 * @dataProvider data_standardize_whitespace
+	 *
+	 * @param string $input    The text to standardize.
+	 * @param string $expected The expected result.
+	 *
 	 * @return void
 	 */
-	public function test_standardize_whitespace() {
-		$this->assertSame( 'this is a string', $this->instance->standardize_whitespace( " \nthis\r\ris  a string \t" ) );
+	public function test_standardize_whitespace( $input, $expected ) {
+		$this->assertSame( $expected, $this->instance->standardize_whitespace( $input ) );
+	}
+
+	/**
+	 * Data provider for test_standardize_whitespace().
+	 *
+	 * @return array<string, array<string, string>>
+	 */
+	public static function data_standardize_whitespace() {
+		return [
+			'mixed whitespace'                         => [
+				'input'    => " \nthis\r\ris  a string \t",
+				'expected' => 'this is a string',
+			],
+			'three spaces left by two empty variables' => [
+				'input'    => 'Post title   - Site name',
+				'expected' => 'Post title - Site name',
+			],
+			'four spaces'                              => [
+				'input'    => 'Post title    - Site name',
+				'expected' => 'Post title - Site name',
+			],
+			'windows line breaks between paragraphs'   => [
+				'input'    => "First paragraph.\r\n\r\nSecond paragraph.",
+				'expected' => 'First paragraph. Second paragraph.',
+			],
+			'space next to a line break'               => [
+				'input'    => "First line. \nSecond line.",
+				'expected' => 'First line. Second line.',
+			],
+			'non-breaking space is left alone'         => [
+				'input'    => "100\xC2\xA0km",
+				'expected' => "100\xC2\xA0km",
+			],
+			'empty string'                             => [
+				'input'    => '',
+				'expected' => '',
+			],
+		];
 	}
 
 	/**
