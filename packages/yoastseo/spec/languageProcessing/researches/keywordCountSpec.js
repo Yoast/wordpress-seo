@@ -2670,3 +2670,93 @@ describe( "Test for counting the keyphrase in a text for Japanese", () => {
 		] );
 	} );
 } );
+
+describe( "Test for counting keyphrases with repeated words", () => {
+	it( "counts a keyphrase with a repeated word once when the repeated word occurs twice", () => {
+		const mockPaper = new Paper( "<p>Holiday in bora bora.</p>", { keyword: "bora bora" } );
+		const researcher = buildMorphologyMockResearcher( [ [ "bora" ], [ "bora" ] ] );
+		buildTree( mockPaper, researcher );
+		const result = getKeyphraseCount( mockPaper, researcher );
+
+		expect( result.count ).toBe( 1 );
+		expect( result.markings ).toEqual( [
+			new Mark( {
+				marked: "Holiday in <yoastmark class='yoast-text-mark'>bora bora</yoastmark>.",
+				original: "Holiday in bora bora.",
+				position: {
+					startOffset: 14,
+					endOffset: 23,
+					startOffsetBlock: 11,
+					endOffsetBlock: 20,
+					attributeId: "",
+					clientId: "",
+					isFirstSection: false,
+				},
+			} ),
+		] );
+	} );
+
+	it( "counts multiple occurrences of a keyphrase with a repeated word accurately", () => {
+		const mockPaper = new Paper( "<p>Bora bora beach and a bora bora island.</p>", { keyword: "bora bora" } );
+		const researcher = buildMorphologyMockResearcher( [ [ "bora" ], [ "bora" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 2 );
+	} );
+
+	it( "does not count an incomplete extra repetition when the keyphrase repeats a word", () => {
+		const mockPaper = new Paper( "<p>Bora bora beach and a bora island.</p>", { keyword: "bora bora" } );
+		const researcher = buildMorphologyMockResearcher( [ [ "bora" ], [ "bora" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
+	} );
+
+	it( "returns 0 count and no markings when the repeated word occurs fewer times than in the keyphrase", () => {
+		const mockPaper = new Paper( "<p>A cat and a dog.</p>", { keyword: "cat cat dog" } );
+		const researcher = buildMorphologyMockResearcher( [ [ "cat" ], [ "cat" ], [ "dog" ] ] );
+		buildTree( mockPaper, researcher );
+		const result = getKeyphraseCount( mockPaper, researcher );
+
+		expect( result.count ).toBe( 0 );
+		expect( result.markings ).toEqual( [] );
+	} );
+
+	it( "counts 1 when a three-word keyphrase with two repeated words matches enough occurrences in a sentence", () => {
+		const mockPaper = new Paper( "<p>cat dog cat dog</p>", { keyword: "cat cat dog" } );
+		const researcher = buildMorphologyMockResearcher( [ [ "cat" ], [ "cat" ], [ "dog" ] ] );
+		buildTree( mockPaper, researcher );
+
+		expect( getKeyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
+	} );
+
+	it( "handles exact match keyphrases that repeat a word", () => {
+		const nonAdjacentPaper = new Paper( "<p>Holiday in bora and bora.</p>", { keyword: "\"bora bora\"" } );
+		const nonAdjacentResearcher = buildMorphologyMockResearcher( [ [ "bora bora" ] ] );
+		buildTree( nonAdjacentPaper, nonAdjacentResearcher );
+
+		expect( getKeyphraseCount( nonAdjacentPaper, nonAdjacentResearcher ).count ).toBe( 0 );
+		expect( getKeyphraseCount( nonAdjacentPaper, nonAdjacentResearcher ).markings ).toEqual( [] );
+
+		const repeatedPaper = new Paper( "<p>Bora bora beach and a bora bora island.</p>", { keyword: "\"bora bora\"" } );
+		const repeatedResearcher = buildMorphologyMockResearcher( [ [ "bora bora" ] ] );
+		buildTree( repeatedPaper, repeatedResearcher );
+
+		expect( getKeyphraseCount( repeatedPaper, repeatedResearcher ).count ).toBe( 2 );
+	} );
+
+	it( "handles Japanese keyphrases that repeat a word", () => {
+		const mockPaper = new Paper( "<p>私の猫はかわいい猫です。</p>", { locale: "ja", keyphrase: "猫 猫" } );
+		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "猫" ] ], wordsCountHelper, matchWordsHelper );
+		buildTree( mockPaper, researcher );
+		const result = getKeyphraseCount( mockPaper, researcher );
+
+		expect( result.count ).toBe( 1 );
+		expect( result.markings ).toEqual( [
+			new Mark( {
+				marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいい<yoastmark class='yoast-text-mark'>猫</yoastmark>です。",
+				original: "私の猫はかわいい猫です。",
+			} ),
+		] );
+	} );
+} );

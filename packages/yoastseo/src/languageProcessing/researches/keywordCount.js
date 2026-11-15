@@ -2,7 +2,7 @@ import { flatten, flattenDeep } from "lodash";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree.js";
 import { normalizeSingle } from "../helpers/sanitize/quotes.js";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence.js";
-import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSentence.js";
+import matchWordFormsWithSentence, { getUniqueWords } from "../helpers/match/matchWordFormsWithSentence.js";
 import isDoubleQuoted from "../helpers/match/isDoubleQuoted.js";
 import { markWordsInASentence } from "../helpers/word/markWordsInSentences.js";
 import getSentences from "../helpers/sentence/getSentences.js";
@@ -24,29 +24,35 @@ export function countKeyphraseInText( sentences, keyphraseForms, locale, matchWo
 	isExactMatchRequested, customSplitIntoTokensHelper ) {
 	const result = { count: 0, markings: [] };
 
+	if ( keyphraseForms.length === 0 ) {
+		return result;
+	}
+
+	const uniqueWords = getUniqueWords( keyphraseForms );
+
 	sentences.forEach( sentence => {
-		const matchesInSentence = keyphraseForms.map( wordForms => matchWordFormsWithSentence( sentence,
+		const matchesInSentence = uniqueWords.map( ( { wordForms } ) => matchWordFormsWithSentence( sentence,
 			wordForms, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper ) );
 
-		// A sentence has at least one full-match of the keyphrase if each word occurs at least once.
-		const isEachWordFound = matchesInSentence.every( wordForms => wordForms.count > 0 );
+		/*
+		 * Retrieve all the occurrences' count of each unique word of the keyphrase, divided by how often it repeats
+		 * in the keyphrase, so a repeated word requires a match for every repetition.
+		 * matches: [ [ { matches: ["red"], count: 1 } ], [ { matches: ["pandas"], count: 2 } ] ]
+		 * counts: [ 1, 2 ]
+		 */
+		const counts = matchesInSentence.map( ( match, index ) => Math.floor( match.count / uniqueWords[ index ].times ) );
+		/*
+		 * The number of the full-match count is the lowest count of the occurrences.
+		 * counts: [ 1, 2 ]
+		 * totalMatchCount: 1
+		 *
+		 * From the example above, the full-match is 1, because one of the "pandas" occurrences is not accompanied by "red"
+		 * to be counted as a full-match.
+		 */
+		const totalMatchCount = Math.min( ...counts );
 
-		if ( isEachWordFound ) {
-			/*
-			 * Retrieve all the occurrences' count of each word of the keyphrase and save it in an array.
-			 * matches: [ [ { matches: ["red"], count: 1 } ], [ { matches: ["pandas"], count: 2 } ] ]
-			 * counts: [ 1, 2 ]
-			 */
-			const counts = matchesInSentence.map( match => match.count );
-			/*
-			 * The number of the full-match count is the lowest count of the occurrences.
-			 * counts: [ 1, 2 ]
-			 * totalMatchCount: 1
-			 *
-			 * From the example above, the full-match is 1, because one of the "pandas" occurrences is not accompanied by "red"
-			 * to be counted as a full-match.
-			 */
-			const totalMatchCount = Math.min( ...counts );
+		// A sentence has at least one full-match of the keyphrase if each unique word occurs enough times for all its repetitions.
+		if ( totalMatchCount > 0 ) {
 			const foundWords = flattenDeep( matchesInSentence.map( match => match.matches ) );
 
 			let markings = [];
