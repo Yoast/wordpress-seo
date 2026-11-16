@@ -1,8 +1,8 @@
-import stripSpaces from "../helpers/sanitize/stripSpaces";
-import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
-import { getWordsFromTokens } from "../helpers/word/getAllWordsFromTree";
-import { elementHasClass, elementHasName } from "../../parse/build/private/filterHelpers";
-import filterTree from "../../parse/build/private/filterTree";
+import stripSpaces from "../helpers/sanitize/stripSpaces.js";
+import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree.js";
+import { getWordsFromTokens } from "../helpers/word/getAllWordsFromTree.js";
+import { elementHasClass, elementHasName } from "../../parse/build/private/filterHelpers.js";
+import filterTree from "../../parse/build/private/filterTree.js";
 import { cloneDeep } from "lodash";
 
 /**

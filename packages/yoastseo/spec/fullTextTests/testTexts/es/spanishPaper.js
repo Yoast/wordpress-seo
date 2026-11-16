@@ -144,11 +144,6 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings. " +
 			"That's great!",
 	},
-	imageKeyphrase: {
-		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!",
-	},
 	imageCount: {
 		isApplicable: true,
 		score: 3,

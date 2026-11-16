@@ -169,7 +169,6 @@ const WincherAccountUpgradeLink = makeOutboundLink();
  *
  * @returns {JSX.Element} The Wincher upgrade callout description.
  */
-// eslint-disable-next-line no-undefined
 const WincherUpgradeCalloutDescription = ( { discount = undefined, months = undefined } ) => {
 	const wincherAccountUpgradeLink = (
 		<WincherAccountUpgradeLink href={ wpseoAdminGlobalL10n[ "links.wincher.upgrade" ] } style={ { fontWeight: 600 } }>
@@ -243,7 +242,13 @@ const WincherUpgradeCallout = ( { onClose = null, isTitleShortened = false, trac
 	return (
 		<CalloutContainer isTitleShortened={ isTitleShortened }>
 			{ onClose && (
-				<CloseButton type="button" aria-label={ __( "Close the upgrade callout", "wordpress-seo" ) } onClick={ onClose }>
+				<CloseButton
+					type="button"
+					aria-label={
+						/* translators: Hidden accessibility text. */
+						__( "Close the upgrade callout", "wordpress-seo" ) }
+					onClick={ onClose }
+				>
 					<SvgIcon icon="times-circle" color={ colors.$color_pink_dark } size="14px" />
 				</CloseButton>
 			) }

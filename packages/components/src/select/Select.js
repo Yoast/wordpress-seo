@@ -66,19 +66,17 @@ const changeOptionFormatToReactSelect = ( options ) => {
  *
  * @returns {React.Component} The react-select ReactSelect component.
  */
-export const YoastReactSelect = ( props ) => {
-	const {
-		id,
-		isMulti,
-		isSearchable,
-		inputId,
-		selected,
-		options,
-		name,
-		onChange,
-		...fieldGroupProps
-	} = props;
-
+export const YoastReactSelect = ( {
+	id,
+	isMulti,
+	isSearchable,
+	inputId,
+	selected = selectDefaultProps.selected,
+	options,
+	name = selectDefaultProps.name,
+	onChange = selectDefaultProps.onChange,
+	...fieldGroupProps
+} ) => {
 	// Make sure to pass an array of options to the multiselect.
 	const selections = Array.isArray( selected ) ? selected : [ selected ];
 
@@ -110,7 +108,6 @@ export const YoastReactSelect = ( props ) => {
 };
 
 YoastReactSelect.propTypes = selectProps;
-YoastReactSelect.defaultProps = selectDefaultProps;
 
 /**
  * SingleSelect component.
@@ -118,9 +115,7 @@ YoastReactSelect.defaultProps = selectDefaultProps;
  *
  * @returns {React.Component} The react-select MultiSelect component.
  */
-export const SingleSelect = ( props ) => {
-	const { onChange } = props;
-
+export const SingleSelect = ( { onChange = selectDefaultProps.onChange, ...props } ) => {
 	const onChangeHandler = useCallback( selection => onChange( selection.value ) );
 	return <YoastReactSelect
 		{ ...props }
@@ -131,7 +126,6 @@ export const SingleSelect = ( props ) => {
 };
 
 SingleSelect.propTypes = selectProps;
-SingleSelect.defaultProps = selectDefaultProps;
 
 /**
  * MultiSelect component.
@@ -139,9 +133,7 @@ SingleSelect.defaultProps = selectDefaultProps;
  *
  * @returns {React.Component} The react-select MultiSelect component.
  */
-export const MultiSelect = ( props ) => {
-	const { onChange } = props;
-
+export const MultiSelect = ( { onChange = selectDefaultProps.onChange, ...props } ) => {
 	const onChangeHandler = useCallback( selection => {
 		// Make sure that selection is always an array.
 		if ( ! selection ) {
@@ -161,7 +153,6 @@ export const MultiSelect = ( props ) => {
 };
 
 MultiSelect.propTypes = selectProps;
-MultiSelect.defaultProps = selectDefaultProps;
 
 /**
  * React wrapper for a basic HTML select.

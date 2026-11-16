@@ -4,8 +4,16 @@ import styled from "styled-components";
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
 
+/* Internal dependencies */
+import { withDefaults } from "../withDefaults";
+
+const rowDefaults = {
+	background: colors.$color_white,
+	hasHeaderLabels: true,
+};
+
 // The Rows are flex containers.
-export const Row = styled.li`
+export const Row = styled.li.attrs( withDefaults( rowDefaults ) )`
 	background: ${ props => props.background };
 	display: flex;
 	min-height: ${ props => props.rowHeight };
@@ -19,10 +27,8 @@ Row.propTypes = {
 	rowHeight: PropTypes.string,
 };
 
-Row.defaultProps = {
-	background: colors.$color_white,
-	hasHeaderLabels: true,
-};
+// Kept for classic-runtime consumers; the `.attrs` above is what applies these on React 19.
+Row.defaultProps = rowDefaults;
 
 /*
  * A row with responsive wrap allows children to wrap in new lines in the responsive view.

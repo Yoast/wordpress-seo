@@ -68,7 +68,12 @@ export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsel
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
-			<Modal.Panel className="yst-text-center yst-w-96" closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }>
+			<Modal.Panel
+				className="yst-text-center yst-w-96"
+				closeButtonScreenReaderText={
+					/* translators: Hidden accessibility text. */
+					__( "Close modal", "wordpress-seo" ) }
+			>
 				<div className="yst-w-12 yst-h-12 yst-rounded-full yst-bg-ai-100 yst-flex yst-items-center yst-justify-center yst-mx-auto yst-mb-4">
 					<GradientSparklesIcon className="yst-h-6 yst-w-6" { ...svgAriaProps } />
 				</div>

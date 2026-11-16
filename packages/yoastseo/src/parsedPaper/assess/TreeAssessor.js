@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import AssessmentResult from "../../values/AssessmentResult";
+import AssessmentResult from "../../values/AssessmentResult.js";
 
 /**
  * Analyzes a paper by doing a list of assessments on a tree representation of a text and its metadata.

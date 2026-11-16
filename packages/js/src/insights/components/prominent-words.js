@@ -102,7 +102,9 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 					/* translators: Hidden accessibility text; %d expands to the number of occurrences. */
 					__( "%d occurrences", "wordpress-seo" )
 				}
-				aria-label={ __( "Prominent words", "wordpress-seo" ) }
+				aria-label={
+					/* translators: Hidden accessibility text. */
+					__( "Prominent words", "wordpress-seo" ) }
 				className={ shouldUpsell ? "yoast-data-model--upsell" : null }
 			/>
 		</div>

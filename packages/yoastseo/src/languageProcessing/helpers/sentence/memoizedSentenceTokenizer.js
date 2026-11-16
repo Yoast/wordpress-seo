@@ -1,4 +1,4 @@
-import SentenceTokenizer from "./SentenceTokenizer";
+import SentenceTokenizer from "./SentenceTokenizer.js";
 import { memoize } from "lodash";
 
 /**

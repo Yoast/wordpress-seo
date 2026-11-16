@@ -69,18 +69,17 @@ const getVariantIcons = variant => variantToIcon[ variant ] || null;
  *
  * @returns {HTMLButtonElement} A button.
  */
-export const Button = ( props ) => {
+export const Button = ( {
 	// Split Button.js specific props from all other props.
-	const {
-		children,
-		className,
-		variant,
-		small,
-		type,
-		buttonRef,
-		...restProps
-	} = props;
-
+	children = null,
+	className = "",
+	variant = "primary",
+	small = false,
+	type = "button",
+	buttonRef = null,
+	onClick = null,
+	...restProps
+} ) => {
 	const variantIcons = getVariantIcons( variant );
 	const iconBefore = variantIcons && variantIcons.iconBefore;
 	const iconAfter = variantIcons && variantIcons.iconAfter;
@@ -89,6 +88,7 @@ export const Button = ( props ) => {
 		ref={ buttonRef }
 		className={ className || getClassName( variant, small ) }
 		type={ type }
+		onClick={ onClick }
 		{ ...restProps }
 	>
 		{ ! ! iconBefore && <span className={ iconBefore } /> }
@@ -112,16 +112,6 @@ Button.propTypes = {
 	),
 };
 
-Button.defaultProps = {
-	className: "",
-	type: "button",
-	variant: "primary",
-	small: false,
-	children: null,
-	onClick: null,
-	buttonRef: null,
-};
-
 /**
  * A link, styled to look like a button.
  *
@@ -134,16 +124,14 @@ Button.defaultProps = {
  *
  * @returns {HTMLAnchorElement} An anchor tag, styled like a button.
  */
-export const ButtonStyledLink = ( props ) => {
-	const {
-		children,
-		className,
-		variant,
-		small,
-		buttonRef,
-		...restProps
-	} = props;
-
+export const ButtonStyledLink = ( {
+	children = null,
+	className = "",
+	variant = "primary",
+	small = false,
+	buttonRef = null,
+	...restProps
+} ) => {
 	const variantIcons = getVariantIcons( variant );
 	const iconBefore = variantIcons && variantIcons.iconBefore;
 	const iconAfter = variantIcons && variantIcons.iconAfter;
@@ -171,12 +159,4 @@ ButtonStyledLink.propTypes = {
 			PropTypes.arrayOf( PropTypes.node ),
 		]
 	),
-};
-
-ButtonStyledLink.defaultProps = {
-	className: "",
-	variant: "primary",
-	small: false,
-	children: null,
-	buttonRef: null,
 };

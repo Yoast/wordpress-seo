@@ -3,7 +3,16 @@ import yoastConfig from "@yoast/eslint-config";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-	{ ignores: [ "build", "vendor", "examples", "researcher", "contract" ] },
+	{
+		ignores: [
+			"build",
+			"examples",
+			"researcher",
+			"contract",
+			// Third-party code (Snowball Turkish stemmer).
+			"src/languageProcessing/languages/tr/helpers/internal/turkishStemmer.js",
+		],
+	},
 	...yoastConfig,
 	{
 		languageOptions: {
@@ -63,6 +72,14 @@ export default [
 
 			// Deviate from the Yoast config to allow for not using the error that is caught.
 			"no-unused-vars": [ "error", { caughtErrors: "none" } ],
+		},
+	},
+	{
+		// Node ESM needs full import paths: `./file.js` and `./folder/index.js`. This only checks relative imports;
+		// package subpaths (e.g. `tokenizer2/core.js`) need the extension added by hand.
+		files: [ "src/**" ],
+		rules: {
+			"import/extensions": [ "error", "always", { ignorePackages: true } ],
 		},
 	},
 	{

@@ -6,6 +6,7 @@ export { default as useRootContext } from "./use-root-context";
 export { default as useSvgAria } from "./use-svg-aria";
 export { default as useToggleState } from "./use-toggle-state";
 export { default as useMediaQuery } from "./use-media-query";
+export { default as useIsNarrowerThan } from "./use-is-narrower-than";
 
 export { useModalContext } from "../components/modal/hooks";
 export { useImageSelectContext } from "../components/image-select/hooks";

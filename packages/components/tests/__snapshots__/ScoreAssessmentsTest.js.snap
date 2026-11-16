@@ -47,38 +47,50 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
 }
 
 <ul
-  className="c0 score-assessments"
+  class="c0 score-assessments"
   role="list"
 >
   <li
-    className="c1 score-assessments__item"
+    class="c1 score-assessments__item"
   >
     <span
-      className="c2 c3 score-assessments__item-bullet"
+      class="c2 c3 score-assessments__item-bullet"
     />
     <span
-      className="c2 c4 score-assessments__item-text"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
-        }
-      }
-    />
+      class="c2 c4 score-assessments__item-text"
+    >
+      <a
+        href="http://google.com"
+      >
+        Posts with a 
+        <strong>
+          bad
+        </strong>
+         SEO score
+      </a>
+      :
+    </span>
   </li>
   <li
-    className="c1 score-assessments__item"
+    class="c1 score-assessments__item"
   >
     <span
-      className="c2 c5 score-assessments__item-bullet"
+      class="c2 c5 score-assessments__item-bullet"
     />
     <span
-      className="c2 c4 score-assessments__item-text"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
-        }
-      }
-    />
+      class="c2 c4 score-assessments__item-text"
+    >
+      <a
+        href="http://google.com"
+      >
+        Posts with an 
+        <strong>
+          OK
+        </strong>
+         SEO score
+      </a>
+      :
+    </span>
   </li>
 </ul>
 `;
@@ -130,38 +142,50 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
 }
 
 <ul
-  className="c0 score-assessments"
+  class="c0 score-assessments"
   role="list"
 >
   <li
-    className="c1 score-assessments__item"
+    class="c1 score-assessments__item"
   >
     <span
-      className="c2 c3 score-assessments__item-bullet"
+      class="c2 c3 score-assessments__item-bullet"
     />
     <span
-      className="c2 c4 score-assessments__item-text"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
-        }
-      }
-    />
+      class="c2 c4 score-assessments__item-text"
+    >
+      <a
+        href="http://google.com"
+      >
+        Posts with a 
+        <strong>
+          bad
+        </strong>
+         SEO score
+      </a>
+      :
+    </span>
   </li>
   <li
-    className="c1 score-assessments__item"
+    class="c1 score-assessments__item"
   >
     <span
-      className="c2 c5 score-assessments__item-bullet"
+      class="c2 c5 score-assessments__item-bullet"
     />
     <span
-      className="c2 c4 score-assessments__item-text"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
-        }
-      }
-    />
+      class="c2 c4 score-assessments__item-text"
+    >
+      <a
+        href="http://google.com"
+      >
+        Posts with an 
+        <strong>
+          OK
+        </strong>
+         SEO score
+      </a>
+      :
+    </span>
   </li>
 </ul>
 `;
@@ -213,38 +237,50 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
 }
 
 <ul
-  className="c0 score-assessments"
+  class="c0 score-assessments"
   role="list"
 >
   <li
-    className="c1 score-assessments__item"
+    class="c1 score-assessments__item"
   >
     <span
-      className="c2 c3 score-assessments__item-bullet"
+      class="c2 c3 score-assessments__item-bullet"
     />
     <span
-      className="c2 c4 score-assessments__item-text"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
-        }
-      }
-    />
+      class="c2 c4 score-assessments__item-text"
+    >
+      <a
+        href="http://google.com"
+      >
+        Posts with a 
+        <strong>
+          bad
+        </strong>
+         SEO score
+      </a>
+      :
+    </span>
   </li>
   <li
-    className="c1 score-assessments__item"
+    class="c1 score-assessments__item"
   >
     <span
-      className="c2 c5 score-assessments__item-bullet"
+      class="c2 c5 score-assessments__item-bullet"
     />
     <span
-      className="c2 c4 score-assessments__item-text"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
-        }
-      }
-    />
+      class="c2 c4 score-assessments__item-text"
+    >
+      <a
+        href="http://google.com"
+      >
+        Posts with an 
+        <strong>
+          OK
+        </strong>
+         SEO score
+      </a>
+      :
+    </span>
   </li>
 </ul>
 `;

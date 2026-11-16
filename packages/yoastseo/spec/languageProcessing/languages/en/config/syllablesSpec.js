@@ -1,5 +1,5 @@
 import countSyllableFunction from "../../../../../src/languageProcessing/helpers/syllables/countSyllables.js";
-import englishSyllables from "../../../../../src/languageProcessing/languages/en/config/syllables.json";
+import englishSyllables from "../../../../../src/languageProcessing/languages/en/config/syllables.js";
 
 describe( "a syllable counter for English text strings", function() {
 	it( "returns the number of syllables of words containing the subtract syllable cial", function() {

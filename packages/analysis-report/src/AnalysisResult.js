@@ -1,8 +1,12 @@
-import { BetaBadge, IconButtonToggle, IconCTAEditButton, SvgIcon } from "@yoast/components";
+import { BetaBadge, SvgIcon } from "@yoast/components";
 import { strings } from "@yoast/helpers";
+import { Button, Root, TooltipContainer, TooltipWithContext, useTooltipContext } from "@yoast/ui-library";
+import classNames from "classnames";
+import EyeIcon from "@heroicons/react/outline/EyeIcon";
+import PencilIcon from "@heroicons/react/outline/PencilIcon";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 const { stripTagsFromHtmlString } = strings;
@@ -49,8 +53,81 @@ const areMarkButtonsHidden = function( hasMarksButton, marksButtonStatus ) {
 	return ! hasMarksButton || marksButtonStatus === "hidden";
 };
 
+// Gives the pointer time to cross the gap between the trigger and the tooltip.
+const TOOLTIP_HIDE_DELAY = 100;
+
 /**
- * Factory method which creates a new instance of the default mark button.
+ * Whether the element got focus in a way the browser shows a focus ring for, e.g. the keyboard rather than a click.
+ *
+ * @param {HTMLElement} element The focused element.
+ *
+ * @returns {boolean} True if the element matches :focus-visible, or if the browser can't tell.
+ */
+const isFocusVisible = ( element ) => {
+	try {
+		return element.matches( ":focus-visible" );
+	} catch {
+		return true;
+	}
+};
+
+/**
+ * Keeps the tooltip visible while its trigger is hovered or focused.
+ *
+ * The hover props belong on an element that wraps both the trigger and the tooltip, so the pointer can move onto the
+ * tooltip without hiding it. Only keyboard focus keeps it open, so it closes after a click once the pointer leaves.
+ * Escape on the trigger dismisses the tooltip until the next pointer enter or focus.
+ *
+ * @returns {{hoverProps: Object, triggerProps: Object}} The props for the wrapping element and for the trigger.
+ */
+const useHoverFocusTooltip = () => {
+	const { show, hide } = useTooltipContext();
+	const [ isHovered, setIsHovered ] = useState( false );
+	const [ isFocused, setIsFocused ] = useState( false );
+	const [ isDismissed, setIsDismissed ] = useState( false );
+	const hideTimeout = useRef( null );
+
+	useEffect( () => {
+		if ( ( isHovered || isFocused ) && ! isDismissed ) {
+			show();
+		} else {
+			hide();
+		}
+	}, [ isHovered, isFocused, isDismissed, show, hide ] );
+
+	useEffect( () => () => clearTimeout( hideTimeout.current ), [] );
+
+	const handlePointerEnter = useCallback( () => {
+		clearTimeout( hideTimeout.current );
+		setIsHovered( true );
+		setIsDismissed( false );
+	}, [] );
+	const handlePointerLeave = useCallback( () => {
+		hideTimeout.current = setTimeout( () => setIsHovered( false ), TOOLTIP_HIDE_DELAY );
+	}, [] );
+	const handleFocus = useCallback( ( event ) => {
+		// A click also focuses the button; only keyboard focus should keep the tooltip open after the pointer leaves.
+		if ( ! isFocusVisible( event.target ) ) {
+			return;
+		}
+		setIsFocused( true );
+		setIsDismissed( false );
+	}, [] );
+	const handleBlur = useCallback( () => setIsFocused( false ), [] );
+	const handleKeyDown = useCallback( ( event ) => {
+		if ( event.key === "Escape" ) {
+			setIsDismissed( true );
+		}
+	}, [] );
+
+	return {
+		hoverProps: { onPointerEnter: handlePointerEnter, onPointerLeave: handlePointerLeave },
+		triggerProps: { onFocus: handleFocus, onBlur: handleBlur, onKeyDown: handleKeyDown },
+	};
+};
+
+/**
+ * Inner mark button that accesses the TooltipContainer context.
  *
  * @param {string} ariaLabel 	The button aria-label.
  * @param {string} id 			The button id.
@@ -59,25 +136,114 @@ const areMarkButtonsHidden = function( hasMarksButton, marksButtonStatus ) {
  * @param {function} onClick 	Onclick handler.
  * @param {boolean} isPressed 	Whether the button is in a pressed state.
  *
+ * @returns {JSX.Element} The inner mark button with tooltip context.
+ */
+const MarkButtonInner = ( { ariaLabel, id, className = "", status = "enabled", onClick, isPressed } ) => {
+	const { hoverProps, triggerProps } = useHoverFocusTooltip();
+
+	return <span className="yst-inline-flex" { ...hoverProps }>
+		<Button
+			variant={ isPressed ? "primary" : "secondary" }
+			size="small"
+			className={ classNames( className, "yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10" ) }
+			onClick={ onClick }
+			id={ id }
+			disabled={ status === "disabled" }
+			aria-pressed={ isPressed }
+			aria-label={ ariaLabel }
+			{ ...triggerProps }
+		>
+			<EyeIcon className="yst-w-4 yst-h-4" />
+		</Button>
+		<TooltipWithContext position="left">
+			{ ariaLabel }
+		</TooltipWithContext>
+	</span>;
+};
+
+MarkButtonInner.propTypes = {
+	ariaLabel: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	status: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
+	isPressed: PropTypes.bool.isRequired,
+};
+
+/**
+ * The default mark button component.
+ *
+ * @param {Object} props The mark button props.
+ * @param {JSX.node} [props.children] Extra content rendered next to the button, e.g. an upsell badge.
+ *
  * @returns {JSX.Element} A new mark button.
  */
-const createMarkButton = ( {
-	ariaLabel,
-	id,
-	className,
-	status,
-	onClick,
-	isPressed,
-} ) => {
-	return <IconButtonToggle
-		marksButtonStatus={ status }
-		className={ className }
-		onClick={ onClick }
-		id={ id }
-		icon="eye"
-		pressed={ isPressed }
-		ariaLabel={ ariaLabel }
-	/>;
+export const MarkButton = ( { className = "", status = "enabled", children = null, ...props } ) => {
+	return <Root>
+		<TooltipContainer as="div" className="yst-relative yst-inline-flex">
+			<MarkButtonInner className={ className } status={ status } { ...props } />
+		</TooltipContainer>
+		{ children }
+	</Root>;
+};
+
+MarkButton.propTypes = {
+	ariaLabel: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	status: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
+	isPressed: PropTypes.bool.isRequired,
+	children: PropTypes.node,
+};
+
+/**
+ * Inner edit button that accesses the TooltipContainer context.
+ *
+ * @param {string} ariaLabel 	The button aria-label.
+ * @param {string} id 			The button id.
+ * @param {string} className 	The button class name.
+ * @param {function} onClick 	Onclick handler.
+ *
+ * @returns {JSX.Element} The inner edit button with tooltip context.
+ */
+const EditButtonInner = ( { ariaLabel, id, className = "", onClick } ) => {
+	const { hoverProps, triggerProps } = useHoverFocusTooltip();
+
+	return <span className="yst-inline-flex" { ...hoverProps }>
+		<Button
+			variant="secondary"
+			size="small"
+			className={ classNames( className, "yst-px-2 yst-rounded-md yst-shadow-none yst-border-0" ) }
+			onClick={ onClick }
+			id={ id }
+			aria-label={ ariaLabel }
+			{ ...triggerProps }
+		>
+			<PencilIcon className="yst-w-4 yst-h-4" />
+		</Button>
+		<TooltipWithContext position="left">
+			{ ariaLabel }
+		</TooltipWithContext>
+	</span>;
+};
+
+EditButtonInner.propTypes = {
+	ariaLabel: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
+};
+
+/**
+ * The default mark button factory wrapping the MarkButton component.
+ *
+ * @param {Object} props The mark button props.
+ *
+ * @returns {JSX.Element} A new mark button.
+ */
+const createMarkButton = ( props ) => {
+	return <MarkButton { ...props } />;
 };
 
 /**
@@ -185,13 +351,16 @@ const AnalysisResult = ( {
 				{ renderHighlightingUpsell( isOpen, closeModal ) }
 				{
 					hasEditButton && isPremium &&
-					<IconCTAEditButton
-						className={ editButtonClassName }
-						onClick={ onButtonClickEdit }
-						id={ buttonIdEdit }
-						icon="edit"
-						ariaLabel={ ariaLabelEdit }
-					/>
+					<Root>
+						<TooltipContainer as="div" className="yst-relative yst-inline-flex">
+							<EditButtonInner
+								ariaLabel={ ariaLabelEdit }
+								id={ buttonIdEdit }
+								className={ editButtonClassName }
+								onClick={ onButtonClickEdit }
+							/>
+						</TooltipContainer>
+					</Root>
 				}
 				{ renderAIOptimizeButton( hasAIFixes, id ) }
 			</ResultButtonsContainer>

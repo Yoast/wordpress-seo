@@ -6,7 +6,7 @@ import functionWords from "../../../../src/languageProcessing/languages/ru/confi
 import firstWordExceptions from "../../../../src/languageProcessing/languages/ru/config/firstWordExceptions";
 import transitionWords from "../../../../src/languageProcessing/languages/ru/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/ru/config/twoPartTransitionWords";
-import syllables from "../../../../src/languageProcessing/languages/ru/config/syllables.json";
+import syllables from "../../../../src/languageProcessing/languages/ru/config/syllables.js";
 import fleschReadingEaseScores from "../../../../src/languageProcessing/languages/ru/config/fleschReadingEaseScores";
 import sentenceLength from "../../../../src/languageProcessing/languages/ru/config/sentenceLength";
 

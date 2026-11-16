@@ -1,6 +1,6 @@
-import getLongCenterAlignedTexts from "./getLongCenterAlignedTexts";
-import wordComplexity from "./wordComplexity";
-import keyphraseDistribution from "./keyphraseDistribution";
+import getLongCenterAlignedTexts from "./getLongCenterAlignedTexts.js";
+import wordComplexity from "./wordComplexity.js";
+import keyphraseDistribution from "./keyphraseDistribution.js";
 
 export {
 	getLongCenterAlignedTexts,

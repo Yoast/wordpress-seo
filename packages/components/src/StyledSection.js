@@ -68,16 +68,16 @@ export const StyledSectionBase = styled( Section )`
  *
  * @returns {ReactElement} The rendered component.
  */
-const StyledSection = ( props ) => {
+const StyledSection = ( { className = "yoast-section", headingLevel = 2, hasPaperStyle = true, ...props } ) => {
 	return (
 		<StyledSectionBase
-			className={ props.className }
+			className={ className }
 			headingColor={ props.headingColor }
-			hasPaperStyle={ props.hasPaperStyle }
+			hasPaperStyle={ hasPaperStyle }
 		>
 			{ props.headingText &&
 				<StyledHeading
-					level={ props.headingLevel }
+					level={ headingLevel }
 					className={ props.headingClassName }
 				>
 					{ props.headingIcon &&
@@ -106,12 +106,6 @@ StyledSection.propTypes = {
 	headingText: PropTypes.string,
 	hasPaperStyle: PropTypes.bool,
 	children: PropTypes.any,
-};
-
-StyledSection.defaultProps = {
-	className: "yoast-section",
-	headingLevel: 2,
-	hasPaperStyle: true,
 };
 
 export default StyledSection;

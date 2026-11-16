@@ -1,22 +1,26 @@
-import Assessor from "./assessor";
-import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
-import KeyphraseDensityAssessment from "../assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
-import TextCompetingLinksAssessment from "../assessments/seo/TextCompetingLinksAssessment";
-import InternalLinksAssessment from "../assessments/seo/InternalLinksAssessment";
-import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment";
-import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
-import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
-import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
-import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
-import ImageCount from "../assessments/seo/ImageCountAssessment";
-import TextLength from "../assessments/seo/TextLengthAssessment";
-import OutboundLinks from "../assessments/seo/OutboundLinksAssessment";
-import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
-import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
-import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
-import ValidOnlyResultsScoreAggregator from "../scoreAggregators/ValidOnlyResultsScoreAggregator";
+import Assessor from "./assessor.js";
+import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment.js";
+import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment.js";
+import KeyphraseDensityAssessment from "../assessments/seo/KeywordDensityAssessment.js";
+import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment.js";
+import TextCompetingLinksAssessment from "../assessments/seo/TextCompetingLinksAssessment.js";
+import InternalLinksAssessment from "../assessments/seo/InternalLinksAssessment.js";
+import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment.js";
+import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment.js";
+import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment.js";
+import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment.js";
+import ImageCount from "../assessments/seo/ImageCountAssessment.js";
+import AltTextLength from "../assessments/seo/AltTextLengthAssessment.js";
+import DuplicateAltText from "../assessments/seo/DuplicateAltTextAssessment.js";
+import RedundantPhraseInAltText from "../assessments/seo/RedundantPhraseInAltTextAssessment.js";
+import NonDescriptiveAltText from "../assessments/seo/NonDescriptiveAltTextAssessment.js";
+import KeyphraseStuffingInAltText from "../assessments/seo/KeyphraseStuffingInAltTextAssessment.js";
+import TextLength from "../assessments/seo/TextLengthAssessment.js";
+import OutboundLinks from "../assessments/seo/OutboundLinksAssessment.js";
+import TitleWidth from "../assessments/seo/PageTitleWidthAssessment.js";
+import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
+import SingleH1Assessment from "../assessments/seo/SingleH1Assessment.js";
+import ValidOnlyResultsScoreAggregator from "../scoreAggregators/ValidOnlyResultsScoreAggregator.js";
 
 /**
  * The SEOAssessor class is used for the general SEO analysis.
@@ -39,8 +43,12 @@ export default class SEOAssessor extends Assessor {
 			new MetaDescriptionLength(),
 			new SubheadingsKeyword(),
 			new TextCompetingLinksAssessment(),
-			new ImageKeyphrase(),
 			new ImageCount(),
+			new AltTextLength(),
+			new DuplicateAltText(),
+			new RedundantPhraseInAltText(),
+			new NonDescriptiveAltText(),
+			new KeyphraseStuffingInAltText(),
 			new TextLength(),
 			new OutboundLinks(),
 			new KeyphraseInSEOTitleAssessment(),

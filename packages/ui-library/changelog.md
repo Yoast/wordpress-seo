@@ -1,5 +1,28 @@
 # Changelog
 
+## 4.7.0
+
+### Enhancements:
+
+* Adds the `ContentTabs` component and its sub-components. [#23572](https://github.com/Yoast/wordpress-seo/pull/23572) [#23608](https://github.com/Yoast/wordpress-seo/pull/23608)
+* Adds an accordion mode to `ContentTabs`, which turns the tabs into an accordion when the component is narrower than `accordionBreakpoint`. [#23710](https://github.com/Yoast/wordpress-seo/pull/23710)
+* Adds a `useIsNarrowerThan` hook that tracks whether an element is narrower than a given width. [#23710](https://github.com/Yoast/wordpress-seo/pull/23710)
+* Adds `Table.CheckboxHeader` and `Table.CheckboxCell` sub-components to the `Table` element. [#23573](https://github.com/Yoast/wordpress-seo/pull/23573) [#23608](https://github.com/Yoast/wordpress-seo/pull/23608)
+* Adds a `Table.ImageCell` sub-component that renders a thumbnail, and a placeholder when no image source is given. [#23574](https://github.com/Yoast/wordpress-seo/pull/23574) [#23608](https://github.com/Yoast/wordpress-seo/pull/23608)
+* Adds a `Table.Pagination` sub-component to the `Table` element. [#23632](https://github.com/Yoast/wordpress-seo/pull/23632)
+
+### Bugfixes:
+
+* Fixes a bug where `TooltipWithContext` threw an error when its tooltip element was not rendered. [#23051](https://github.com/Yoast/wordpress-seo/pull/23051)
+
+### Other:
+
+* Widens the `react` and `react-dom` peer-dependency range to also allow React 19. [#23562](https://github.com/Yoast/wordpress-seo/pull/23562)
+
+### Non user facing:
+
+* Bumps `@yoast/eslint-config` to version `8.3.0` from `8.1.0`. [#23576](https://github.com/Yoast/wordpress-seo/pull/23576)
+
 ## 4.6.0
 
 ### Enhancements:

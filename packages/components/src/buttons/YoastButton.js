@@ -6,6 +6,9 @@ import styled from "styled-components";
 // Yoast dependencies.
 import { colors, rgba } from "@yoast/style-guide";
 
+// Internal dependencies.
+import { withDefaults } from "../withDefaults";
+
 const settings = {
 	minHeight: 48,
 	verticalPadding: 0,
@@ -20,12 +23,13 @@ const ieMinHeight = settings.minHeight - ( settings.verticalPadding * 2 ) - ( se
  * The styles provided here are meant to be applied to both button and link
  * elements that need to look like styled buttons.
  *
- * @param {ReactElement} component The original component.
+ * @param {ReactElement} component  The original component.
+ * @param {Object}       [defaults] Default prop values to apply via `.attrs`.
  *
  * @returns {ReactElement} Component with applied button styles.
  */
-export function addButtonStyles( component ) {
-	return styled( component )`
+export function addButtonStyles( component, defaults = {} ) {
+	return styled( component ).attrs( withDefaults( defaults ) )`
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -77,7 +81,7 @@ export function addButtonStyles( component ) {
  *
  * @returns {ReactElement} The button with inner span.
  */
-export const YoastButtonBase = ( { className, onClick, type, children, isExpanded } ) => (
+export const YoastButtonBase = ( { className, onClick, type = "button", children, isExpanded } ) => (
 	<button className={ className } onClick={ onClick } type={ type } aria-expanded={ isExpanded }>
 		<span>
 			{ children }
@@ -97,8 +101,10 @@ YoastButtonBase.propTypes = {
 	] ),
 };
 
-YoastButtonBase.defaultProps = {
-	type: "button",
+const yoastButtonDefaults = {
+	backgroundColor: colors.$color_green_medium_light,
+	textColor: colors.$color_white,
+	withTextShadow: true,
 };
 
 /**
@@ -130,7 +136,8 @@ export const YoastButton = addButtonStyles(
 			justify-content: inherit;
 			width: 100%;
 		}
-	`
+	`,
+	yoastButtonDefaults
 );
 
 YoastButton.propTypes = {
@@ -139,8 +146,5 @@ YoastButton.propTypes = {
 	withTextShadow: PropTypes.bool,
 };
 
-YoastButton.defaultProps = {
-	backgroundColor: colors.$color_green_medium_light,
-	textColor: colors.$color_white,
-	withTextShadow: true,
-};
+// Kept for classic-runtime consumers; addButtonStyles applies these via .attrs for React 19.
+YoastButton.defaultProps = yoastButtonDefaults;

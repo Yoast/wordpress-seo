@@ -112,6 +112,11 @@ final class Indexable_Head_Action_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_retrieving_meta_for_posts_page() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'page_for_posts' )
+			->andReturn( 0 );
+
 		$meta = Mockery::mock( Meta::class );
 		$meta
 			->expects( 'get_head' )
@@ -192,6 +197,11 @@ final class Indexable_Head_Action_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_retrieving_meta_for_posts_page_with_meta_not_found() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'page_for_posts' )
+			->andReturn( 0 );
+
 		$meta = Mockery::mock( Meta::class );
 		$meta
 			->expects( 'get_head' )
@@ -218,6 +228,127 @@ final class Indexable_Head_Action_Test extends TestCase {
 			],
 			$this->instance->for_posts_page(),
 		);
+	}
+
+	/**
+	 * Tests retrieval for a static posts page, depending on whether the current user can read it.
+	 *
+	 * @covers ::for_posts_page
+	 *
+	 * @dataProvider data_for_posts_page_with_static_page
+	 *
+	 * @param bool $is_readable Whether the posts page is readable.
+	 * @param int  $status      The expected status.
+	 *
+	 * @return void
+	 */
+	public function test_for_posts_page_with_static_page( $is_readable, $status ) {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'page_for_posts' )
+			->andReturn( 3 );
+
+		$this->meta_surface
+			->expects( 'is_post_readable' )
+			->once()
+			->with( 3 )
+			->andReturn( $is_readable );
+
+		$meta = Mockery::mock( Meta::class );
+		$meta
+			->expects( 'get_head' )
+			->andReturn( $this->get_head() );
+
+		$this->meta_surface
+			->expects( 'for_posts_page' )
+			->times( ( $status === 200 ) ? 1 : 0 )
+			->andReturn( $meta );
+
+		$this->meta_surface
+			->expects( 'for_404' )
+			->times( ( $status === 404 ) ? 1 : 0 )
+			->andReturn( $meta );
+
+		$this->assertSame( $status, $this->instance->for_posts_page()->status );
+	}
+
+	/**
+	 * Data provider for test_for_posts_page_with_static_page.
+	 *
+	 * @return array<string, array<bool|int>>
+	 */
+	public static function data_for_posts_page_with_static_page() {
+		return [
+			'Public posts page'  => [ true, 200 ],
+			'Private posts page' => [ false, 404 ],
+		];
+	}
+
+	/**
+	 * Tests retrieval for the home url, depending on the front page settings.
+	 *
+	 * @covers ::for_url
+	 * @covers ::is_front_page_readable
+	 *
+	 * @dataProvider data_for_url_with_home_url
+	 *
+	 * @param string    $show_on_front The show_on_front option value.
+	 * @param int       $page_on_front The page_on_front option value.
+	 * @param bool|null $is_readable   Whether the front page is readable, null if it is not checked.
+	 * @param int       $status        The expected status.
+	 *
+	 * @return void
+	 */
+	public function test_for_url_with_home_url( $show_on_front, $page_on_front, $is_readable, $status ) {
+		Monkey\Functions\expect( 'get_home_url' )
+			->once()
+			->andReturn( 'https://example.org' );
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'page_on_front' )
+			->andReturn( $page_on_front );
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'show_on_front' )
+			->andReturn( $show_on_front );
+
+		$this->meta_surface
+			->expects( 'is_post_readable' )
+			->times( ( $is_readable === null ) ? 0 : 1 )
+			->with( $page_on_front )
+			->andReturn( $is_readable );
+
+		$meta = Mockery::mock( Meta::class );
+		$meta
+			->expects( 'get_head' )
+			->andReturn( $this->get_head() );
+
+		$this->meta_surface
+			->expects( 'for_home_page' )
+			->times( ( $status === 200 ) ? 1 : 0 )
+			->andReturn( $meta );
+
+		$this->meta_surface
+			->expects( 'for_404' )
+			->times( ( $status === 404 ) ? 1 : 0 )
+			->andReturn( $meta );
+
+		$this->assertSame( $status, $this->instance->for_url( 'https://example.org/' )->status );
+	}
+
+	/**
+	 * Data provider for test_for_url_with_home_url.
+	 *
+	 * @return array<string, array<string|int|bool|null>>
+	 */
+	public static function data_for_url_with_home_url() {
+		return [
+			'Latest posts on front'     => [ 'posts', 0, null, 200 ],
+			'No front page selected'    => [ 'page', 0, null, 200 ],
+			'Public static front page'  => [ 'page', 2, true, 200 ],
+			'Private static front page' => [ 'page', 2, false, 404 ],
+		];
 	}
 
 	/**

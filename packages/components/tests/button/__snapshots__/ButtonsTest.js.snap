@@ -2,25 +2,24 @@
 
 exports[`Buy variant matches the Button snapshot 1`] = `
 <button
-  className="yoast-button yoast-button--buy"
-  onClick={[Function]}
+  class="yoast-button yoast-button--buy"
   type="button"
 >
   test
   <span
-    className="yoast-button--buy__caret"
+    class="yoast-button--buy__caret"
   />
 </button>
 `;
 
 exports[`Buy variant matches the Link snapshot 1`] = `
 <a
-  className="yoast-button yoast-button--buy"
+  class="yoast-button yoast-button--buy"
   href="#"
 >
   test
   <span
-    className="yoast-button--buy__caret"
+    class="yoast-button--buy__caret"
   />
 </a>
 `;
@@ -28,8 +27,7 @@ exports[`Buy variant matches the Link snapshot 1`] = `
 exports[`Icon CloseButton matches the Button snapshot 1`] = `
 <button
   aria-label="Close"
-  className="yoast-close"
-  onClick={[Function]}
+  class="yoast-close"
   type="button"
 >
   <svg
@@ -48,8 +46,7 @@ exports[`Icon CloseButton matches the Button snapshot 1`] = `
 
 exports[`Primary variant matches the Button snapshot 1`] = `
 <button
-  className="yoast-button yoast-button--primary"
-  onClick={[Function]}
+  class="yoast-button yoast-button--primary"
   type="button"
 >
   test
@@ -58,7 +55,7 @@ exports[`Primary variant matches the Button snapshot 1`] = `
 
 exports[`Primary variant matches the Link snapshot 1`] = `
 <a
-  className="yoast-button yoast-button--primary"
+  class="yoast-button yoast-button--primary"
   href="#"
 >
   test
@@ -67,8 +64,7 @@ exports[`Primary variant matches the Link snapshot 1`] = `
 
 exports[`Secondary variant matches the Button snapshot 1`] = `
 <button
-  className="yoast-button yoast-button--secondary"
-  onClick={[Function]}
+  class="yoast-button yoast-button--secondary"
   type="button"
 >
   test
@@ -77,7 +73,7 @@ exports[`Secondary variant matches the Button snapshot 1`] = `
 
 exports[`Secondary variant matches the Link snapshot 1`] = `
 <a
-  className="yoast-button yoast-button--secondary"
+  class="yoast-button yoast-button--secondary"
   href="#"
 >
   test
@@ -86,8 +82,7 @@ exports[`Secondary variant matches the Link snapshot 1`] = `
 
 exports[`Text variant matches the Button snapshot 1`] = `
 <button
-  className="yoast-remove"
-  onClick={[Function]}
+  class="yoast-remove"
   type="button"
 >
   test
@@ -96,8 +91,7 @@ exports[`Text variant matches the Button snapshot 1`] = `
 
 exports[`Text variant matches the Button snapshot 2`] = `
 <button
-  className="yoast-hide"
-  onClick={[Function]}
+  class="yoast-hide"
   type="button"
 >
   test
@@ -106,7 +100,7 @@ exports[`Text variant matches the Button snapshot 2`] = `
 
 exports[`Text variant matches the Link snapshot 1`] = `
 <a
-  className="yoast-remove"
+  class="yoast-remove"
   href="#"
 >
   test
@@ -115,7 +109,7 @@ exports[`Text variant matches the Link snapshot 1`] = `
 
 exports[`Text variant matches the Link snapshot 2`] = `
 <a
-  className="yoast-hide"
+  class="yoast-hide"
   href="#"
 >
   test

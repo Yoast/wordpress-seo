@@ -1,5 +1,5 @@
 import { includes } from "lodash";
-import getWords from "../../word/getWords";
+import getWords from "../../word/getWords.js";
 
 /**
  * Checks whether a word from the precedence exception list occurs anywhere in the clause before the participle.

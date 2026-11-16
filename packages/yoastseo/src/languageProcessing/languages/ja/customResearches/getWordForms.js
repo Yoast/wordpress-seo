@@ -1,8 +1,8 @@
 import { get } from "lodash";
-import parseSynonyms from "../../../helpers/sanitize/parseSynonyms";
-import getContentWords from "../helpers/getContentWords";
-import createWordForms from "../helpers/internal/createWordForms";
-import doubleQuotes from "../../../helpers/sanitize/doubleQuotes";
+import parseSynonyms from "../../../helpers/sanitize/parseSynonyms.js";
+import getContentWords from "../helpers/getContentWords.js";
+import createWordForms from "../helpers/internal/createWordForms.js";
+import doubleQuotes from "../../../helpers/sanitize/doubleQuotes.js";
 
 /**
  * Creates word forms for each word in the given keyphrase.

@@ -79,7 +79,10 @@ export const BulkEditorTable = ( {
 	return (
 		<>
 			<div role="status" className="yst-sr-only">
-				{ isLoading ? __( "Loading content…", "wordpress-seo" ) : "" }
+				{ isLoading ? (
+					/* translators: Hidden accessibility text. */
+					__( "Loading content…", "wordpress-seo" )
+				) : "" }
 			</div>
 			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ getTableClassName( isLoading ) }>
 				<colgroup>

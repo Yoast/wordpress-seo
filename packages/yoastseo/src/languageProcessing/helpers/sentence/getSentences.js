@@ -3,10 +3,10 @@ import { filter, flatMap, isEmpty, negate } from "lodash";
 
 // Internal dependencies.
 import { getBlocks } from "../html/html.js";
-import { imageRegex } from "../image/imageInText";
-import { stripBlockTagsAtStartEnd } from "../sanitize/stripHTMLTags";
-import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
-import defaultSentenceTokenizer from "./memoizedSentenceTokenizer";
+import { imageRegex } from "../image/imageInText.js";
+import { stripBlockTagsAtStartEnd } from "../sanitize/stripHTMLTags.js";
+import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace.js";
+import defaultSentenceTokenizer from "./memoizedSentenceTokenizer.js";
 
 // Character classes.
 const newLines = "\n\r|\n|\r";

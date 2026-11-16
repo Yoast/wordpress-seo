@@ -143,7 +143,9 @@ export const Redirects = () => {
 									<Checkbox
 										id="yst-select-all-redirects"
 										name="selectAllRedirects"
-										aria-label={ __( "Select all", "wordpress-seo" ) }
+										aria-label={
+											/* translators: Hidden accessibility text. */
+											__( "Select all", "wordpress-seo" ) }
 										disabled={ true }
 										value="dummy-value"
 									/>

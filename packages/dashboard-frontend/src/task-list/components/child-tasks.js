@@ -98,7 +98,7 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 						<ArrowNarrowLeftIcon className="yst-w-4 rtl:yst-rotate-180" { ...svgAriaProps } />
 						{ __( "Previous", "wordpress-seo" ) }
 						<span className="yst-sr-only">{ sprintf(
-							/* translators: %d: current page number */
+							/* translators: Hidden accessibility text. %d: current page number */
 							__( "Child tasks, current page %d", "wordpress-seo" ), currentPage ) }</span>
 					</Button>
 					<Button
@@ -110,7 +110,7 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 						{ __( "Next", "wordpress-seo" ) }
 						<ArrowNarrowRightIcon className="yst-w-4 rtl:yst-rotate-180" { ...svgAriaProps } />
 						<span className="yst-sr-only">{ sprintf(
-							/* translators: %d: current page number */
+							/* translators: Hidden accessibility text. %d: current page number */
 							__( "Child tasks, current page %d", "wordpress-seo" ), currentPage ) }</span>
 					</Button>
 				</div>

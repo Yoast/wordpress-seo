@@ -5,14 +5,14 @@ import { identity } from "lodash";
 const slice = createSlice( {
 	name: "data",
 	initialState: {
-		data: undefined, // eslint-disable-line no-undefined
-		error: undefined, // eslint-disable-line no-undefined
+		data: undefined,
+		error: undefined,
 		isPending: true,
 	},
 	reducers: {
 		setData( state, action ) {
 			state.data = action.payload;
-			state.error = undefined; // eslint-disable-line no-undefined
+			state.error = undefined;
 			state.isPending = false;
 		},
 		setError( state, action ) {

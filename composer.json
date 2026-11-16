@@ -33,7 +33,7 @@
 		"league/oauth2-client": "2.9.0",
 		"psr/container": "1.1.1",
 		"psr/log": "^1.0",
-		"symfony/config": "^5.4.46",
+		"symfony/config": "^5.4.56",
 		"symfony/dependency-injection": "^5.4.48",
 		"wpackagist-plugin/easy-digital-downloads": "dev-trunk",
 		"wpackagist-plugin/google-site-kit": "dev-trunk",

@@ -113,7 +113,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Expects the given settings to be read back once.
+	 * Expects the given settings to be read once.
 	 *
 	 * @param array<string, string|int|bool> $values The stored value of each field.
 	 *
@@ -131,8 +131,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_field
 	 * @covers ::save_field
 	 * @covers ::save_logo
 	 * @covers ::get_settings
@@ -150,6 +148,14 @@ final class Site_Representation_Updater_Test extends TestCase {
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue();
 		$this->options_helper->expects( 'set' )->never()->with( 'person_logo_meta', false );
 
+		$this->expect_settings_read(
+			[
+				'company_or_person' => 'person',
+				'company_name'      => '',
+				'company_logo_id'   => 0,
+				'facebook_site'     => '',
+			],
+		);
 		$this->expect_settings_read(
 			[
 				'company_or_person'         => 'company',
@@ -184,8 +190,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * were saved when none were.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_field
 	 *
 	 * @return void
 	 */
@@ -218,7 +222,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * others and clearing the cached meta of the changed logo.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_logo
 	 *
 	 * @return void
@@ -249,10 +252,34 @@ final class Site_Representation_Updater_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that update reports a setting whose value got sanitized as saved, instead of claiming its current value
+	 * was kept.
+	 *
+	 * @covers ::update
+	 * @covers ::save_field
+	 * @covers ::get_field_value
+	 *
+	 * @return void
+	 */
+	public function test_update_sanitized() {
+		$this->options_helper->expects( 'set' )->once()->with( 'company_name', '   ' )->andReturnFalse();
+
+		$this->expect_settings_read( [ 'company_name' => 'Acme B.V.' ] );
+		$this->options_helper->allows( 'get' )->andReturn( '' );
+
+		$result = $this->instance->update( [ 'company_name' => '   ' ] );
+
+		$this->assertSame( '', $result['company_name'] );
+		$this->assertSame(
+			'The company_name setting was saved after being cleaned up, so its saved value differs from the one provided.',
+			$result['warning'],
+		);
+	}
+
+	/**
 	 * Tests that update clears the URL of a logo whose ID is cleared, without looking it up.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_logo
 	 *
 	 * @return void
@@ -294,7 +321,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * to the same image.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_logo
 	 *
 	 * @return void
@@ -321,7 +347,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * warning, while still saving the other settings.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
 	 * @covers ::save_field
 	 *
 	 * @return void
@@ -352,8 +377,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * returns that warning.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_field
 	 *
 	 * @return void
 	 */
@@ -400,8 +423,6 @@ final class Site_Representation_Updater_Test extends TestCase {
 	 * Tests that update saves a field when its validator returns something other than a non-empty string.
 	 *
 	 * @covers ::update
-	 * @covers ::update_field
-	 * @covers ::validate_field
 	 *
 	 * @dataProvider data_update_add_on_validator_no_warning
 	 *

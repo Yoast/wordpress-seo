@@ -1,9 +1,9 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { escape, merge } from "lodash";
 
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
+import Assessment from "../assessment.js";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker/index.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
 
 /**
  * Assessment to check whether the keyphrase only contains function words.

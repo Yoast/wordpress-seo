@@ -1,24 +1,23 @@
 import React from "react";
-import ReactShallowRenderer from "react-test-renderer/shallow";
+import { render } from "@testing-library/react";
 import DurationInput from "../../src/inputs/DurationInput";
 const noop = () => {};
 describe( "DurationInput", () => {
-	const renderer = new ReactShallowRenderer();
 	it( "should render with only required props", () => {
-		renderer.render( <DurationInput
+		const { container } = render( <DurationInput
 			label="Duration"
 			duration={ 3661 }
 			id="very-nice-id"
 			onChange={ noop }
 		/> );
 
-		const result = renderer.getRenderOutput();
+		const result = container.firstChild;
 
-		expect( result ).toBeDefined();
+		expect( result ).not.toBeNull();
 	} );
 
 	it( "should render based on provided props", () => {
-		renderer.render(
+		const { container } = render(
 			<DurationInput
 				label="This is my label"
 				id="very-nice-id"
@@ -27,10 +26,12 @@ describe( "DurationInput", () => {
 			/>
 		);
 
-		const result = renderer.getRenderOutput();
+		const result = container.firstChild;
 
-		expect( result ).toBeDefined();
-		expect( result.props.duration ).toBe( 3661 );
-		expect( result.props.id ).toBe( "very-nice-id" );
+		expect( result ).not.toBeNull();
+		// A duration of 3661 seconds is 1 hour, 1 minute and 1 second.
+		expect( container.querySelector( "#very-nice-id-hours" ).value ).toBe( "1" );
+		expect( container.querySelector( "#very-nice-id-minutes" ).value ).toBe( "1" );
+		expect( container.querySelector( "#very-nice-id-seconds" ).value ).toBe( "1" );
 	} );
 } );

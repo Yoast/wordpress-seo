@@ -1,14 +1,13 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import CardBanner from "../src/CardBanner";
 
 test( "The empty CardBanner matches the snapshot", () => {
-	const component = renderer.create(
+	const { asFragment } = render(
 		<CardBanner />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( asFragment() ).toMatchSnapshot();
 } );
 
 test( "The CardBanner with specific props matches the snapshot", () => {
@@ -17,13 +16,11 @@ test( "The CardBanner with specific props matches the snapshot", () => {
 		textColor: "yellow",
 		text: "Free Trial Available.",
 	};
-	const component = renderer.create(
+	const { asFragment } = render(
 		<CardBanner { ...banner }>
 			{ banner.text }
 		</CardBanner>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( asFragment() ).toMatchSnapshot();
 } );
-

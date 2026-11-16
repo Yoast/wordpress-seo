@@ -1,14 +1,13 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import CourseDetails from "../src/CourseDetails";
 
 test( "The empty CardDetails component matches the snapshot", () => {
-	const component = renderer.create(
+	const { asFragment } = render(
 		<CourseDetails />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( asFragment() ).toMatchSnapshot();
 } );
 
 test( "The CardDetails component matches the snapshot when given specific props", () => {
@@ -25,7 +24,7 @@ test( "The CardDetails component matches the snapshot when given specific props"
 		readMoreLinkText: "Read more about this training »",
 	};
 
-	const component = renderer.create(
+	const { asFragment } = render(
 		<CourseDetails
 			title={ course.title }
 			description={ course.description }
@@ -35,6 +34,5 @@ test( "The CardDetails component matches the snapshot when given specific props"
 		/>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( asFragment() ).toMatchSnapshot();
 } );

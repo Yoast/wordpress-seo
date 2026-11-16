@@ -10,55 +10,43 @@ exports[`WordOccurrences renders WordOccurrences as list items 1`] = `
   </p>
   <ul
     aria-label="Prominent words"
-    className="yoast-data-model"
+    class="yoast-data-model"
   >
     <li
-      style={
-        Object {
-          "--yoast-width": "100%",
-        }
-      }
+      style="--yoast-width: 100%;"
     >
       reviewing
       <span>
         13
       </span>
       <span
-        className="screen-reader-text"
+        class="screen-reader-text"
       >
         13 occurrences
       </span>
     </li>
     <li
-      style={
-        Object {
-          "--yoast-width": "61.53846153846154%",
-        }
-      }
+      style="--yoast-width: 61.53846153846154%;"
     >
       code
       <span>
         8
       </span>
       <span
-        className="screen-reader-text"
+        class="screen-reader-text"
       >
         8 occurrences
       </span>
     </li>
     <li
-      style={
-        Object {
-          "--yoast-width": "46.15384615384615%",
-        }
-      }
+      style="--yoast-width: 46.15384615384615%;"
     >
       fun
       <span>
         6
       </span>
       <span
-        className="screen-reader-text"
+        class="screen-reader-text"
       >
         6 occurrences
       </span>
@@ -74,55 +62,43 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
 <div>
   <ul
     aria-label="Prominent words"
-    className="yoast-data-model"
+    class="yoast-data-model"
   >
     <li
-      style={
-        Object {
-          "--yoast-width": "100%",
-        }
-      }
+      style="--yoast-width: 100%;"
     >
       reviewing
       <span>
         13
       </span>
       <span
-        className="screen-reader-text"
+        class="screen-reader-text"
       >
         13 occurrences
       </span>
     </li>
     <li
-      style={
-        Object {
-          "--yoast-width": "61.53846153846154%",
-        }
-      }
+      style="--yoast-width: 61.53846153846154%;"
     >
       code
       <span>
         8
       </span>
       <span
-        className="screen-reader-text"
+        class="screen-reader-text"
       >
         8 occurrences
       </span>
     </li>
     <li
-      style={
-        Object {
-          "--yoast-width": "46.15384615384615%",
-        }
-      }
+      style="--yoast-width: 46.15384615384615%;"
     >
       fun
       <span>
         6
       </span>
       <span
-        className="screen-reader-text"
+        class="screen-reader-text"
       >
         6 occurrences
       </span>
@@ -141,7 +117,7 @@ exports[`WordOccurrences renders correctly without items 1`] = `
   </p>
   <ul
     aria-label="Prominent words"
-    className="yoast-data-model"
+    class="yoast-data-model"
   />
   <p>
     I'm an after list paragraph
@@ -153,7 +129,7 @@ exports[`WordOccurrences renders correctly without words and without before and 
 <div>
   <ul
     aria-label="Prominent words"
-    className="yoast-data-model"
+    class="yoast-data-model"
   />
 </div>
 `;

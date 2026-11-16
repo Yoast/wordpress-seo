@@ -80,11 +80,11 @@ const StyledIcon = styled( SvgIcon )`
  *
  * @returns {ReactElement} styled notification.
  */
-function Notification( props ) {
-	const Heading = `${ props.headingLevel }`;
+function Notification( { isDismissable = false, headingLevel = "h3", ...props } ) {
+	const Heading = `${ headingLevel }`;
 
 	return <Paper>
-		<NotificationContainer isDismissable={ props.isDismissable }>
+		<NotificationContainer isDismissable={ isDismissable }>
 			{ props.imageSrc && <NotificationImage
 				src={ props.imageSrc }
 				imageWidth={ props.imageWidth }
@@ -95,10 +95,12 @@ function Notification( props ) {
 				<Heading>{ props.title }</Heading>
 				<p className="prova" dangerouslySetInnerHTML={ { __html: props.html } } />
 			</NotificationContent>
-			{ props.isDismissable && <DismissButton
+			{ isDismissable && <DismissButton
 				onClick={ props.onClick }
 				type="button"
-				aria-label={ __( "Dismiss this notice", "wordpress-seo" ) }
+				aria-label={
+					/* translators: Hidden accessibility text. */
+					__( "Dismiss this notice", "wordpress-seo" ) }
 			>
 				<StyledIcon icon="times" color={ colors.$color_grey_text } size="24px" />
 			</DismissButton> }
@@ -115,11 +117,6 @@ Notification.propTypes = {
 	isDismissable: PropTypes.bool,
 	onClick: PropTypes.func,
 	headingLevel: PropTypes.string,
-};
-
-Notification.defaultProps = {
-	isDismissable: false,
-	headingLevel: "h3",
 };
 
 export default Notification;

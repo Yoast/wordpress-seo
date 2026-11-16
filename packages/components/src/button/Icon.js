@@ -17,7 +17,9 @@ const closeIcon = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" 
 export const CloseButton = ( props ) => {
 	return <button
 		className="yoast-close"
-		aria-label={ __( "Close", "wordpress-seo" ) }
+		aria-label={
+			/* translators: Hidden accessibility text. */
+			__( "Close", "wordpress-seo" ) }
 		type="button"
 		{ ...props }
 	>

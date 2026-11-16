@@ -52,7 +52,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/react-hooks": "^8.0.1",
-    "@yoast/eslint-config": "^8.1.0",
+    "@yoast/eslint-config": "^8.3.0",
     "@yoast/postcss-preset": "^1.2.1",
     "@yoast/tailwindcss-preset": "^2.6.0",
     "css-loader": "^7.1.2",
@@ -77,11 +77,11 @@
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
-    "@wordpress/element": "^6.0.1",
-    "@yoast/ui-library": "^4.6.0",
+    "@wordpress/element": "^6.0.1 || ^9.0.0",
+    "@yoast/ui-library": "^4.7.0",
     "chart.js": "^4.2.1",
-    "react": "^18",
+    "react": "^18 || ^19",
     "react-chartjs-2": "^5.2.0",
-    "react-dom": "^18"
+    "react-dom": "^18 || ^19"
   }
 }

@@ -2,8 +2,8 @@
 
 import { map } from "lodash";
 import addWordBoundary from "../word/addWordboundary.js";
-import replaceDiacritics from "../transliterate/replaceDiacritics";
-import sanitizeString from "../sanitize/sanitizeString";
+import replaceDiacritics from "../transliterate/replaceDiacritics.js";
+import sanitizeString from "../sanitize/sanitizeString.js";
 
 /**
  * Creates a regex of combined strings from the input array.

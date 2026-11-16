@@ -1,5 +1,5 @@
 import { singleWords as transitionWords } from "./transitionWords.js";
-import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens.js";
 
 const cardinalNumerals = [ "czterech", "czterem", "czterema", "czternaście", "czternastce", "czternastek", "czternastka",
 	"czternastką", "czternastkach", "czternastkami", "czternastkę", "czternastki", "czternastko", "czternastkom",

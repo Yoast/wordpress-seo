@@ -264,6 +264,82 @@ describe( "The parseBlocks function", () => {
 		expect( divNode.clientId ).toEqual( clientId );
 	} );
 
+	it( "should set the clientId for blocks without a newline after the block comment", () => {
+		const paper = new Paper( "<!-- wp:paragraph --><p>First paragraph.</p><!-- /wp:paragraph -->" +
+			"<!-- wp:paragraph --><p>Second paragraph.</p><!-- /wp:paragraph -->",
+		{ wpBlocks: [
+			{ clientId: "first-block", name: "core/paragraph", isValid: true, innerBlocks: [], blockLength: 69 },
+			{ clientId: "second-block", name: "core/paragraph", isValid: true, innerBlocks: [], blockLength: 70 },
+		] } );
+
+		const node = adapt( parseFragment( paper.getText(), { sourceCodeLocationInfo: true } ) );
+
+		parseBlocks( paper, node );
+
+		const paragraphs = node.findAll( childNode => childNode.name === "p" );
+		expect( paragraphs.map( paragraph => paragraph.clientId ) ).toEqual( [ "first-block", "second-block" ] );
+	} );
+
+	it( "should set the content offset after the line ending that follows the block comment", () => {
+		const paper = new Paper( "<!-- wp:paragraph -->\r\n<p>Some text.</p>\r\n<!-- /wp:paragraph -->",
+			{ wpBlocks: [ { clientId: "block", name: "core/paragraph", isValid: true, innerBlocks: [], blockLength: 62 } ] } );
+
+		const node = adapt( parseFragment( paper.getText(), { sourceCodeLocationInfo: true } ) );
+
+		parseBlocks( paper, node );
+
+		expect( paper._attributes.wpBlocks[ 0 ].contentOffset ).toEqual( 23 );
+		expect( node.findAll( childNode => childNode.name === "p" )[ 0 ].clientId ).toEqual( "block" );
+	} );
+
+	it( "should set the clientId of blocks nested more than one level deep", () => {
+		const paper = new Paper( "<!-- wp:columns -->\n" +
+			'<div class="wp-block-columns"><!-- wp:column -->\n' +
+			'<div class="wp-block-column"><!-- wp:paragraph -->\n' +
+			"<p>First paragraph.</p>\n" +
+			"<!-- /wp:paragraph --></div>\n" +
+			"<!-- /wp:column -->\n" +
+			"\n" +
+			"<!-- wp:column -->\n" +
+			'<div class="wp-block-column"><!-- wp:paragraph -->\n' +
+			"<p>Second paragraph.</p>\n" +
+			"<!-- /wp:paragraph --></div>\n" +
+			"<!-- /wp:column --></div>\n" +
+			"<!-- /wp:columns -->",
+		{ wpBlocks: [
+			{ clientId: "columns", name: "core/columns", isValid: true, innerBlocks: [
+				{ clientId: "first-column", name: "core/column", isValid: true, innerBlocks: [
+					{ clientId: "first-paragraph", name: "core/paragraph", isValid: true, innerBlocks: [] },
+				] },
+				{ clientId: "second-column", name: "core/column", isValid: true, innerBlocks: [
+					{ clientId: "second-paragraph", name: "core/paragraph", isValid: true, innerBlocks: [] },
+				] },
+			] },
+		] } );
+
+		const node = adapt( parseFragment( paper.getText(), { sourceCodeLocationInfo: true } ) );
+
+		parseBlocks( paper, node );
+
+		const paragraphs = node.findAll( childNode => childNode.name === "p" );
+		expect( paragraphs.map( paragraph => paragraph.clientId ) ).toEqual( [ "first-paragraph", "second-paragraph" ] );
+	} );
+
+	it( "should not give classic content the clientId of a self-closing block before it", () => {
+		const paper = new Paper( "<!-- wp:latest-posts /-->\n\n<p>Classic text.</p>",
+			{ wpBlocks: [
+				{ clientId: "latest-posts", name: "core/latest-posts", isValid: true, innerBlocks: [], blockLength: 25 },
+				{ clientId: "classic", name: "core/freeform", isValid: true, innerBlocks: [], blockLength: 21 },
+			] } );
+
+		const node = adapt( parseFragment( paper.getText(), { sourceCodeLocationInfo: true } ) );
+
+		parseBlocks( paper, node );
+
+		expect( paper._attributes.wpBlocks[ 0 ].contentOffset ).toBeUndefined();
+		expect( node.findAll( childNode => childNode.name === "p" )[ 0 ].clientId ).toEqual( "classic" );
+	} );
+
 	it( "should set the attributeId correctly correctly for a Yoast FAQ block", () => {
 		const attributeId = "faq-question-1698963671829";
 		const paper = new Paper( "<!-- wp:yoast/faq-block {\"questions\":" +
@@ -415,7 +491,7 @@ describe( "A test for updateBlocksOffset function", () => {
 		updateBlocksOffset( blocks, text );
 		expect( blocks[ 0 ].startOffset ).toEqual( 0 );
 		expect( blocks[ 0 ].endOffset ).toEqual( 54 );
-		expect( blocks[ 0 ].contentOffset ).toEqual( 22 );
+		expect( blocks[ 0 ].contentOffset ).toEqual( 21 );
 	} );
 
 	it( "should update offsets for inner blocks", () => {

@@ -26,13 +26,12 @@ const StyledYoastInputLabel = styled( InputLabel )`
  *
  * @returns {ReactElement} The rendered synonyms input element.
  */
-const SynonymsInput = ( props ) => {
-	const {
-		label,
-		helpLink,
-		...inputProps
-	} = props;
-
+const SynonymsInput = ( {
+	type = "text",
+	label = "",
+	helpLink = null,
+	...inputProps
+} ) => {
 	return (
 		<InputContainer>
 			<SynonymsFieldLabelContainer>
@@ -42,6 +41,7 @@ const SynonymsInput = ( props ) => {
 				{ helpLink }
 			</SynonymsFieldLabelContainer>
 			<InputField
+				type={ type }
 				{ ...inputProps }
 				autoComplete="off"
 			/>
@@ -54,12 +54,6 @@ SynonymsInput.propTypes = {
 	id: PropTypes.string.isRequired,
 	label: PropTypes.string,
 	helpLink: PropTypes.node,
-};
-
-SynonymsInput.defaultProps = {
-	type: "text",
-	label: "",
-	helpLink: null,
 };
 
 export default SynonymsInput;

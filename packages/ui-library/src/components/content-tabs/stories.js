@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import ContentTabs from ".";
 import { PRODUCTS } from "./constants";
 import { ProductDetail, ProductMeta, ProductTabButton, getContent, getProductTabId } from "./demo-components";
-import { component, factory, withMultiple } from "./docs";
+import { accordion, component, factory, withMultiple } from "./docs";
 
 export const Factory = {
 	render: ( { as, className } ) => {
@@ -159,6 +159,64 @@ export const WithADisabledTab = {
 	},
 };
 
+export const Accordion = {
+	render: ( { accordionBreakpoint, keepMounted } ) => (
+		// The starting width is an inline style: the `!important` width utility would block resizing, which sets the width inline.
+		<div className="yst-resize-x yst-overflow-auto yst-max-w-full yst-pe-2" style={ { width: "24rem" } }>
+			<ContentTabs
+				defaultActiveTab={ getProductTabId( "accordion", PRODUCTS[ 0 ] ) }
+				accordionBreakpoint={ accordionBreakpoint }
+				keepMounted={ keepMounted }
+			>
+				<ContentTabs.TabList aria-label="Products">
+					{ PRODUCTS.map( ( product ) => (
+						<ContentTabs.TabButton id={ getProductTabId( "accordion", product ) } key={ product.id }>
+							<ProductTabButton product={ product } />
+						</ContentTabs.TabButton>
+					) ) }
+				</ContentTabs.TabList>
+				<ContentTabs.Content>
+					{ PRODUCTS.map( ( product ) => (
+						<ContentTabs.Panel key={ product.id } tabId={ getProductTabId( "accordion", product ) }>
+							{ getContent( product, true ) }
+						</ContentTabs.Panel>
+					) ) }
+				</ContentTabs.Content>
+			</ContentTabs>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: accordion,
+			},
+			source: {
+				transform: () => `
+<ContentTabs defaultActiveTab={ products[ 0 ].id } accordionBreakpoint={ 640 }>
+	<ContentTabs.TabList aria-label="Products">
+		{ products.map( ( product ) => (
+			<ContentTabs.TabButton key={ product.id } id={ product.id }>
+				{ product.title }
+			</ContentTabs.TabButton>
+		) ) }
+	</ContentTabs.TabList>
+	<ContentTabs.Content>
+		{ products.map( ( product ) => (
+			<ContentTabs.Panel key={ product.id } tabId={ product.id }>
+				{ /* Below 640px, the panel opens right below its tab button. */ }
+			</ContentTabs.Panel>
+		) ) }
+	</ContentTabs.Content>
+</ContentTabs>
+				`.trim(),
+			},
+		},
+	},
+	args: {
+		accordionBreakpoint: 640,
+		keepMounted: true,
+	},
+};
 
 export default {
 	title: "2) Components/Content tabs",
@@ -183,6 +241,14 @@ export default {
 		onTabChange: {
 			control: { disable: true },
 			table: { type: { summary: "func" } },
+		},
+		accordionBreakpoint: {
+			control: "number",
+			table: { type: { summary: "number" } },
+		},
+		keepMounted: {
+			control: "boolean",
+			table: { type: { summary: "bool" }, defaultValue: { summary: true } },
 		},
 		as: {
 			control: { type: "select" },

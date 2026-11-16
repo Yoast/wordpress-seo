@@ -1,6 +1,6 @@
-import parseSynonyms from "../../../../languageProcessing/helpers/sanitize/parseSynonyms";
+import parseSynonyms from "../../../../languageProcessing/helpers/sanitize/parseSynonyms.js";
 
-import { MetadataMiscellaneous, MetadataText, StructuredNode } from "../../../structure/tree/nodes";
+import { MetadataMiscellaneous, MetadataText, StructuredNode } from "../../../structure/tree/nodes/index.js";
 
 /**
  * Parses the given paper attributes to a tree.

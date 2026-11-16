@@ -1,5 +1,5 @@
-import buildFormRule from "../../../helpers/morphology/buildFormRule";
-import createRulesFromArrays from "../../../helpers/morphology/createRulesFromArrays";
+import buildFormRule from "../../../helpers/morphology/buildFormRule.js";
+import createRulesFromArrays from "../../../helpers/morphology/createRulesFromArrays.js";
 
 /**
  * Checks if a word is complex.

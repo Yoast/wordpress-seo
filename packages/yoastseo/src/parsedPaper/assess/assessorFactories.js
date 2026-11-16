@@ -5,19 +5,19 @@ import {
 	constructRelatedKeyphraseTaxonomyAssessments,
 	constructSEOAssessments,
 	constructTaxonomyAssessments,
-} from "./assessmentListFactories";
+} from "./assessmentListFactories.js";
 
 import {
 	constructSEOAssessments as constructCornerstoneSEOAssessments,
 	constructRelatedKeyphraseAssessments as constructCornerstoneRelatedKeyphraseAssessments,
 	constructReadabilityAssessments as constructCornerstoneReadabilityAssessments,
-} from "./cornerstone/assessmentListFactories";
+} from "./cornerstone/assessmentListFactories.js";
 
 /* Score aggregators */
-import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../../scoring/scoreAggregators";
+import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../../scoring/scoreAggregators/index.js";
 
 /* Base TreeAssessor class */
-import TreeAssessor from "./TreeAssessor";
+import TreeAssessor from "./TreeAssessor.js";
 
 /**
  * Maps combinations of assessor parameters (if the assessor is for related keyphrases, cornerstone content and/or taxonomy pages)

@@ -1,4 +1,4 @@
-import ContentAssessor from "../contentAssessor";
+import ContentAssessor from "../contentAssessor.js";
 import SentenceLengthInText from "../../assessments/readability/SentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../../assessments/readability/SubheadingDistributionTooLongAssessment.js";
 

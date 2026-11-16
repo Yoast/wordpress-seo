@@ -1,5 +1,5 @@
 import countSyllableFunction from "../../../../../src/languageProcessing/helpers/syllables/countSyllables.js";
-import dutchSyllables from "../../../../../src/languageProcessing/languages/nl/config/syllables.json";
+import dutchSyllables from "../../../../../src/languageProcessing/languages/nl/config/syllables.js";
 
 describe( "a syllable counter for Dutch text strings", function() {
 	it( "returns the number of syllables of words containing the subtract syllable ue$", function() {

@@ -6,7 +6,7 @@ import {
 	irregularsRegular,
 	irregularsEndingInS,
 	irregularsIrregular,
-} from "../../config/internal/passiveVoiceIrregulars";
+} from "../../config/internal/passiveVoiceIrregulars.js";
 
 /**
  * Returns an array of matches of irregular participles with suffixes.

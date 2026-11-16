@@ -5,8 +5,8 @@ import KeyphraseDensityAssessment from "../../assessments/seo/KeywordDensityAsse
 import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment.js";
 import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
-import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment.js";
-import { createAnchorOpeningTag } from "../../../helpers";
+import KeyphraseStuffingInAltTextAssessment from "../../assessments/seo/KeyphraseStuffingInAltTextAssessment.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 
 /**
  * The StorePostsAndPagesRelatedKeywordAssessor class is used for the related keyword analysis for store posts and pages.
@@ -47,9 +47,9 @@ export default class StorePostsAndPagesRelatedKeywordAssessor extends RelatedKey
 				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
 			} ),
-			new ImageKeyphraseAssessment( {
-				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
-				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
+			new KeyphraseStuffingInAltTextAssessment( {
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-keyphrase-stuffing" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify-alt-text-keyphrase-stuffing-cta" ),
 			} ),
 		];
 	}
