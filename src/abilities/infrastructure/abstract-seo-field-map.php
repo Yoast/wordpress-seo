@@ -160,7 +160,7 @@ abstract class Abstract_SEO_Field_Map {
 	 *
 	 * Reading the presented robots value rather than the stored one resolves a missing setting to
 	 * the post-type or taxonomy default, and includes the other rules that force a noindex, such as
-	 * private posts and the `wpseo_robots` filter.
+	 * private posts, the site-wide author archive settings and the `wpseo_robots` filter.
 	 *
 	 * @param Meta|false $meta The meta values for the entity, or false when unavailable.
 	 *
