@@ -86,7 +86,7 @@ jobs:
         run: yarn install
 
       - name: "Grunt: create artifact"
-        run: grunt artifact
+        run: yarn grunt artifact
 
       - name: Set timestamp
         id: timestamp
