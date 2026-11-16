@@ -66,6 +66,20 @@ const preventMouseDown = ( event ) => {
 };
 
 /**
+ * Keeps key presses on the remove button away from the editor.
+ *
+ * The editor cancels the Enter key, which would stop Enter from pressing the
+ * button.
+ *
+ * @param {Event} event The keyboard event.
+ *
+ * @returns {void}
+ */
+const stopKeyPropagation = ( event ) => {
+	event.stopPropagation();
+};
+
+/**
  * The StyledMention component.
  *
  * @param {Object} props The component's props.
@@ -100,6 +114,7 @@ export const Mention = ( { entityKey, mention, decoratedText = "", children, cla
 			type="button"
 			onMouseDown={ preventMouseDown }
 			onClick={ handleRemove }
+			onKeyDown={ stopKeyPropagation }
 			contentEditable={ false }
 			aria-label={ sprintf(
 				/* translators: Hidden accessibility text; %s expands to the name of the replacement variable. */

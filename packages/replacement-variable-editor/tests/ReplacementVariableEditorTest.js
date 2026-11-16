@@ -71,6 +71,25 @@ describe( "ReplacementVariableEditorStandalone", () => {
 		expect( onChange ).toHaveBeenCalledWith( " page" );
 	} );
 
+	it( "keeps the editor from cancelling the Enter key on the remove button", () => {
+		const { getByRole } = render(
+			<ReplacementVariableEditorStandalone
+				replacementVariables={ [ { name: "title", label: "Title", value: "Hello world" } ] }
+				content="%%title%% page"
+				// eslint-disable-next-line react/jsx-no-bind
+				onChange={ () => {} }
+				ariaLabelledBy="id"
+				fieldId="test-field-id"
+				theme={ { isRtl: false } }
+			/>
+		);
+
+		// The Draft.js Return handler calls preventDefault, which would cancel the native click of the button.
+		const notCancelled = fireEvent.keyDown( getByRole( "button", { name: "Remove Title" } ), { key: "Enter", keyCode: 13 } );
+
+		expect( notCancelled ).toBe( true );
+	} );
+
 	it( "does not show a remove button when the editor is disabled", () => {
 		const { queryByRole } = render(
 			<ReplacementVariableEditorStandalone
