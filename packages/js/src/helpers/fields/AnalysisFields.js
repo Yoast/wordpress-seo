@@ -8,6 +8,7 @@ import {
 	metaKeyInclusiveLanguageScore,
 	metaKeyMetaDescriptionScore,
 	metaKeySeoTitleScore,
+	metaKeyEstimatedReadingTime,
 } from "../../shared-admin/constants";
 import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo, getMetaValue } from "./rest-meta";
 
@@ -120,6 +121,20 @@ function writeOrQueue( metaKey, value, undoIgnore = false ) {
  * Injected into the save payload by the editor.preSavePost filter.
  */
 const pendingScoreWrites = new Map();
+
+/**
+ * All meta keys managed as derived scores (never user-editable).
+ * Injected via the preSavePost filter and stripped from edits so stale load-time
+ * values never reach the server.
+ */
+const SCORE_KEYS = new Set( [
+	metaKeyLinkdex,
+	metaKeyContentScore,
+	metaKeyInclusiveLanguageScore,
+	metaKeySeoTitleScore,
+	metaKeyMetaDescriptionScore,
+	metaKeyEstimatedReadingTime,
+] );
 
 /**
  * Mirrors the PHP sanitizer: only non-negative integers are valid; anything else becomes "0".
@@ -400,3 +415,68 @@ addFilter( "editor.preSavePost", "yoast/analysis-scores", ( edits, options ) => 
 	pendingScoreWrites.clear();
 	return { ...edits, meta: { ...( edits.meta ?? {} ), ...scores } };
 } );
+
+/**
+ * Returns whether a meta key is managed by the preSavePost filters (scores, reading time,
+ * primary terms) and should be synced back after save.
+ *
+ * @param {string} key The meta key.
+ * @returns {boolean} True when the key is managed.
+ */
+function isManagedKey( key ) {
+	return SCORE_KEYS.has( key ) || key.startsWith( "_yoast_wpseo_primary_" );
+}
+
+/**
+ * Builds the map of managed keys whose edit value differs from the saved value.
+ *
+ * @param {Object} savedMeta The saved post meta.
+ * @param {Object} editMeta  The current edited post meta.
+ * @returns {Object} Keys and their saved values that need syncing.
+ */
+function buildSyncMap( savedMeta, editMeta ) {
+	const result = {};
+	for ( const [ key, savedValue ] of Object.entries( savedMeta ) ) {
+		if ( isManagedKey( key ) && editMeta[ key ] !== String( savedValue ) ) {
+			result[ key ] = String( savedValue );
+		}
+	}
+	return result;
+}
+
+/**
+ * Syncs score and primary-term meta from the saved post state back into the edit record
+ * (undoIgnore) after a manual save completes.
+ *
+ * When a user edits any Yoast field, WordPress bakes the entire merged meta object (all
+ * 30+ keys) into the edit record, including score keys at their stale load-time values.
+ * Without this sync, those stale values re-dirty the post immediately after save and
+ * overwrite the scores on the next save.
+ *
+ * @returns {void}
+ */
+function syncDerivedMetaAfterSave() {
+	const editor = select( "core/editor" );
+	const savedMeta = editor.getCurrentPost()?.meta ?? {};
+	const editMeta = editor.getEditedPostAttribute( "meta" ) ?? {};
+	const toSync = buildSyncMap( savedMeta, editMeta );
+	if ( Object.keys( toSync ).length > 0 ) {
+		writeMetaWithoutUndo( toSync );
+	}
+}
+
+let wasSaving = false;
+let wasAutosaving = false;
+subscribe( () => {
+	if ( ! isRestMetaActive() ) {
+		return;
+	}
+	const editor = select( "core/editor" );
+	const isSaving = editor.isSavingPost();
+	const isAutosaving = Boolean( editor.isAutosavingPost?.() );
+	if ( wasSaving && ! isSaving && ! wasAutosaving ) {
+		syncDerivedMetaAfterSave();
+	}
+	wasSaving = isSaving;
+	wasAutosaving = isAutosaving;
+}, "core/editor" );
