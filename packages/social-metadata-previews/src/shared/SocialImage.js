@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
@@ -31,10 +30,14 @@ const WrapperDiv = styled.div`
 /**
  * Renders the SocialImage.
  *
- * @param {{src: string, alt: string, aspectRatio: number}} imageProps The image properties.
- * @param {number} width The width of the image.
- * @param {number} height The height of the image.
- * @param {string} [imageMode="landscape"] The mode of the image (landscape or portrait).
+ * @param {Object} props Component props.
+ * @param {Object} props.imageProps The image properties.
+ * @param {string} props.imageProps.src The source of the image.
+ * @param {string} props.imageProps.alt The alt text of the image.
+ * @param {number} props.imageProps.aspectRatio The aspect ratio of the image, as a percentage.
+ * @param {number} props.width The width of the image.
+ * @param {number} props.height The height of the image.
+ * @param {string} [props.imageMode="landscape"] The mode of the image (landscape or portrait).
  *
  * @returns {JSX.Element} The SocialImage component.
  */
@@ -54,15 +57,4 @@ export const SocialImage = ( { imageProps, width, height, imageMode = "landscape
 		height={ height }
 		imageProperties={ imageProps }
 	/>;
-};
-
-SocialImage.propTypes = {
-	imageProps: PropTypes.shape( {
-		src: PropTypes.string.isRequired,
-		alt: PropTypes.string.isRequired,
-		aspectRatio: PropTypes.number.isRequired,
-	} ).isRequired,
-	width: PropTypes.number.isRequired,
-	height: PropTypes.number.isRequired,
-	imageMode: PropTypes.string,
 };

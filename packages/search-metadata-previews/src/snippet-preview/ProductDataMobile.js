@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { round, capitalize } from "lodash";
@@ -32,6 +31,12 @@ const ProductDataInnerLower = styled.div`
  * Renders ProductData component.
  *
  * @param {Object} props The props.
+ * @param {Object} props.shoppingData The shopping data to render.
+ * @param {number} [props.shoppingData.rating] The rating of the product.
+ * @param {number} [props.shoppingData.bestRating] The best possible rating.
+ * @param {number} [props.shoppingData.reviewCount] The number of reviews.
+ * @param {string} [props.shoppingData.availability] The availability of the product.
+ * @param {string} [props.shoppingData.price] The price of the product, as HTML.
  *
  * @returns {React.Component} The StarRating Component.
  */
@@ -73,13 +78,3 @@ function ProductDataMobile( props ) {
 }
 
 export default ProductDataMobile;
-
-ProductDataMobile.propTypes = {
-	shoppingData: PropTypes.shape( {
-		rating: PropTypes.number,
-		bestRating: PropTypes.number,
-		reviewCount: PropTypes.number,
-		availability: PropTypes.string,
-		price: PropTypes.string,
-	} ).isRequired,
-};
