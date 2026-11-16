@@ -6,6 +6,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
+use Yoast\WP\SEO\Helpers\Schema\Graph_Helper;
+use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Surfaces\Values\Meta_Double;
@@ -21,11 +25,39 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 final class Post_SEO_Field_Map_Test extends TestCase {
 
 	/**
+	 * The main Schema ID of the post, which is the ID of its WebPage piece.
+	 *
+	 * @var string
+	 */
+	private const MAIN_SCHEMA_ID = 'https://example.com/hello-world/';
+
+	/**
 	 * The meta surface.
 	 *
 	 * @var Mockery\MockInterface|Meta_Surface
 	 */
 	private $meta_surface;
+
+	/**
+	 * The Yoast WooCommerce SEO inactive conditional.
+	 *
+	 * @var Mockery\MockInterface|Woo_SEO_Inactive_Conditional
+	 */
+	private $woo_seo_inactive_conditional;
+
+	/**
+	 * The WooCommerce helper.
+	 *
+	 * @var Mockery\MockInterface|Woocommerce_Helper
+	 */
+	private $woocommerce_helper;
+
+	/**
+	 * The Schema configuration.
+	 *
+	 * @var Mockery\MockInterface|Schema_Configuration
+	 */
+	private $schema_configuration;
 
 	/**
 	 * The instance under test.
@@ -45,8 +77,24 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 		// The inputs are real booleans, which WordPress returns as is.
 		Monkey\Functions\when( 'rest_sanitize_boolean' )->alias( 'boolval' );
 
-		$this->meta_surface = Mockery::mock( Meta_Surface::class );
-		$this->instance     = new Post_SEO_Field_Map( $this->meta_surface );
+		$this->meta_surface                 = Mockery::mock( Meta_Surface::class );
+		$this->woo_seo_inactive_conditional = Mockery::mock( Woo_SEO_Inactive_Conditional::class );
+		$this->woocommerce_helper           = Mockery::mock( Woocommerce_Helper::class );
+		$this->schema_configuration         = Mockery::mock( Schema_Configuration::class );
+
+		// Schema output is on, Yoast WooCommerce SEO is inactive and the post is not the checkout page, unless a test says otherwise.
+		$this->schema_configuration->allows( 'is_schema_output_disabled' )->andReturnFalse()->byDefault();
+		$this->woo_seo_inactive_conditional->allows( 'is_met' )->andReturnTrue()->byDefault();
+		$this->woocommerce_helper->allows( 'get_checkout_page_id' )->andReturn( 99 )->byDefault();
+
+		// The graph helper is pure, so the real one is used to test the post SEO data against real-shaped graphs.
+		$this->instance = new Post_SEO_Field_Map(
+			$this->meta_surface,
+			new Graph_Helper(),
+			$this->woo_seo_inactive_conditional,
+			$this->woocommerce_helper,
+			$this->schema_configuration,
+		);
 	}
 
 	/**
@@ -58,11 +106,15 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::get_shared_seo_fields
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered_noindex
+	 * @covers ::rendered_schema_page_type
+	 * @covers ::rendered_schema_article_type
 	 *
 	 * @return void
 	 */
 	public function test_to_seo_array() {
 		$indexable = $this->make_indexable();
+
+		$this->woo_seo_inactive_conditional->expects( 'is_met' )->once()->andReturnTrue();
 
 		$this->meta_surface->expects( 'for_indexable' )->once()->with( $indexable, 'Post_Type' )->andReturn(
 			new Meta_Double(
@@ -79,6 +131,11 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 						'index'  => 'noindex',
 						'follow' => 'follow',
 					],
+					'main_schema_id'         => self::MAIN_SCHEMA_ID,
+					'schema'                 => $this->make_schema(
+						$this->make_webpage_piece( [ 'WebPage' ] ),
+						self::make_article_piece( [ 'Article', 'BlogPosting' ] ),
+					),
 				],
 			),
 		);
@@ -118,7 +175,9 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 				'noarchive'                       => true,
 				'nosnippet'                       => false,
 				'schema_page_type'                => 'WebPage',
+				'schema_page_type_rendered'       => [ 'WebPage' ],
 				'schema_article_type'             => 'BlogPosting',
+				'schema_article_type_rendered'    => [ 'Article', 'BlogPosting' ],
 			],
 			$result,
 		);
@@ -131,6 +190,8 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::get_shared_seo_fields
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered_noindex
+	 * @covers ::rendered_schema_page_type
+	 * @covers ::rendered_schema_article_type
 	 *
 	 * @return void
 	 */
@@ -149,6 +210,8 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 		$this->assertNull( $result['twitter_title_rendered'] );
 		$this->assertNull( $result['twitter_description_rendered'] );
 		$this->assertNull( $result['noindex_rendered'] );
+		$this->assertNull( $result['schema_page_type_rendered'] );
+		$this->assertNull( $result['schema_article_type_rendered'] );
 
 		// The raw stored values are still mapped from the indexable.
 		$this->assertSame( 'My SEO title', $result['seo_title'] );
@@ -235,6 +298,186 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 				'expected' => false,
 			],
 		];
+	}
+
+	/**
+	 * Tests that schema_page_type_rendered lists the types of the WebPage piece, applying the page types Yoast
+	 * WooCommerce SEO gives products and the checkout page while it is active.
+	 *
+	 * @dataProvider provider_to_seo_array_schema_page_type_rendered
+	 *
+	 * @covers ::rendered_schema_page_type
+	 * @covers ::add_woo_seo_page_types
+	 *
+	 * @param string|array<string>|null $type             The type of the WebPage piece.
+	 * @param string                    $post_type        The post type of the post.
+	 * @param int                       $post_id          The ID of the post.
+	 * @param bool                      $woo_seo_inactive Whether Yoast WooCommerce SEO is inactive.
+	 * @param array<string>             $expected         The expected schema_page_type_rendered value.
+	 *
+	 * @return void
+	 */
+	public function test_to_seo_array_schema_page_type_rendered( $type, $post_type, $post_id, $woo_seo_inactive, $expected ) {
+		$indexable                  = $this->make_indexable();
+		$indexable->object_sub_type = $post_type;
+		$indexable->object_id       = $post_id;
+
+		$this->expect_meta( $indexable, $this->make_schema( $this->make_webpage_piece( $type ) ) );
+		$this->woo_seo_inactive_conditional->expects( 'is_met' )->once()->andReturn( $woo_seo_inactive );
+
+		$this->assertSame( $expected, $this->instance->to_seo_array( $indexable )['schema_page_type_rendered'] );
+	}
+
+	/**
+	 * Data provider for test_to_seo_array_schema_page_type_rendered.
+	 *
+	 * @return array<string, array<string, string|array<string>|int|bool|null>>
+	 */
+	public static function provider_to_seo_array_schema_page_type_rendered() {
+		return [
+			'post'                                  => [
+				'type'             => [ 'WebPage', 'FAQPage' ],
+				'post_type'        => 'post',
+				'post_id'          => 42,
+				'woo_seo_inactive' => false,
+				'expected'         => [ 'WebPage', 'FAQPage' ],
+			],
+			'single type returned by a filter'      => [
+				'type'             => 'ContactPage',
+				'post_type'        => 'page',
+				'post_id'          => 42,
+				'woo_seo_inactive' => true,
+				'expected'         => [ 'ContactPage' ],
+			],
+			'product without Woo SEO'               => [
+				'type'             => [ 'WebPage' ],
+				'post_type'        => 'product',
+				'post_id'          => 42,
+				'woo_seo_inactive' => true,
+				'expected'         => [ 'WebPage' ],
+			],
+			'product with Woo SEO'                  => [
+				'type'             => [ 'WebPage', 'FAQPage' ],
+				'post_type'        => 'product',
+				'post_id'          => 42,
+				'woo_seo_inactive' => false,
+				'expected'         => [ 'WebPage', 'FAQPage', 'ItemPage' ],
+			],
+			'product with Woo SEO and ItemPage set' => [
+				'type'             => [ 'WebPage', 'ItemPage' ],
+				'post_type'        => 'product',
+				'post_id'          => 42,
+				'woo_seo_inactive' => false,
+				'expected'         => [ 'WebPage', 'ItemPage' ],
+			],
+			'checkout page without Woo SEO'         => [
+				'type'             => [ 'WebPage', 'FAQPage' ],
+				'post_type'        => 'page',
+				'post_id'          => 99,
+				'woo_seo_inactive' => true,
+				'expected'         => [ 'WebPage', 'FAQPage' ],
+			],
+			'checkout page with Woo SEO'            => [
+				'type'             => [ 'WebPage', 'FAQPage' ],
+				'post_type'        => 'page',
+				'post_id'          => 99,
+				'woo_seo_inactive' => false,
+				'expected'         => [ 'CheckoutPage' ],
+			],
+			'filter returned no type'               => [
+				'type'             => null,
+				'post_type'        => 'post',
+				'post_id'          => 42,
+				'woo_seo_inactive' => true,
+				'expected'         => [],
+			],
+		];
+	}
+
+	/**
+	 * Tests that schema_page_type_rendered is empty, without ItemPage, when the graph has no WebPage piece.
+	 *
+	 * @covers ::rendered_schema_page_type
+	 *
+	 * @return void
+	 */
+	public function test_to_seo_array_schema_page_type_rendered_without_webpage_piece() {
+		$indexable                  = $this->make_indexable();
+		$indexable->object_sub_type = 'product';
+
+		$this->expect_meta( $indexable, $this->make_schema() );
+		$this->woo_seo_inactive_conditional->expects( 'is_met' )->never();
+
+		$this->assertSame( [], $this->instance->to_seo_array( $indexable )['schema_page_type_rendered'] );
+	}
+
+	/**
+	 * Tests that schema_article_type_rendered lists the types of the Article piece of the post, or none when there is
+	 * no such piece.
+	 *
+	 * @dataProvider provider_to_seo_array_schema_article_type_rendered
+	 *
+	 * @covers ::rendered_schema_article_type
+	 *
+	 * @param array<array<string, string|array<string>>> $pieces   The graph pieces besides the WebPage piece.
+	 * @param array<string>                              $expected The expected schema_article_type_rendered value.
+	 *
+	 * @return void
+	 */
+	public function test_to_seo_array_schema_article_type_rendered( $pieces, $expected ) {
+		$indexable = $this->make_indexable();
+
+		$this->expect_meta( $indexable, $this->make_schema( $this->make_webpage_piece( [ 'WebPage' ] ), ...$pieces ) );
+
+		$this->assertSame( $expected, $this->instance->to_seo_array( $indexable )['schema_article_type_rendered'] );
+	}
+
+	/**
+	 * Data provider for test_to_seo_array_schema_article_type_rendered.
+	 *
+	 * @return array<string, array<string, array<array<string, string|array<string>>>|array<string>>>
+	 */
+	public static function provider_to_seo_array_schema_article_type_rendered() {
+		return [
+			'Article subtype' => [
+				'pieces'   => [ self::make_article_piece( 'NewsArticle' ) ],
+				'expected' => [ 'NewsArticle' ],
+			],
+			'type next to Article' => [
+				'pieces'   => [ self::make_article_piece( [ 'Article', 'BlogPosting' ] ) ],
+				'expected' => [ 'Article', 'BlogPosting' ],
+			],
+			'no Article piece' => [
+				'pieces'   => [],
+				'expected' => [],
+			],
+		];
+	}
+
+	/**
+	 * Tests that both rendered schema types are empty, without ItemPage, while Schema output is turned off.
+	 *
+	 * @covers ::rendered_schema_page_type
+	 * @covers ::rendered_schema_article_type
+	 * @covers ::get_graph_pieces
+	 *
+	 * @return void
+	 */
+	public function test_to_seo_array_schema_types_rendered_schema_disabled() {
+		$indexable                  = $this->make_indexable();
+		$indexable->object_sub_type = 'product';
+
+		$this->expect_meta(
+			$indexable,
+			$this->make_schema( $this->make_webpage_piece( [ 'WebPage' ] ), self::make_article_piece( 'Article' ) ),
+		);
+		$this->schema_configuration->allows( 'is_schema_output_disabled' )->andReturnTrue();
+		$this->woo_seo_inactive_conditional->expects( 'is_met' )->never();
+
+		$result = $this->instance->to_seo_array( $indexable );
+
+		$this->assertSame( [], $result['schema_page_type_rendered'] );
+		$this->assertSame( [], $result['schema_article_type_rendered'] );
 	}
 
 	/**
@@ -383,7 +626,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 * @return Mockery\MockInterface The indexable mock.
 	 */
 	private function make_indexable() {
-		$indexable                              = Mockery::mock();
+		$indexable                              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id                   = 42;
 		$indexable->breadcrumb_title            = 'Hello world';
 		$indexable->permalink                   = 'https://example.com/hello-world/';
@@ -410,5 +653,72 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 		$indexable->inclusive_language_score    = 0;
 
 		return $indexable;
+	}
+
+	/**
+	 * Expects the meta of the indexable to be requested once, carrying the given schema.
+	 *
+	 * @param Mockery\MockInterface $indexable The indexable.
+	 * @param mixed                 $schema    The schema of the post.
+	 *
+	 * @return void
+	 */
+	private function expect_meta( $indexable, $schema ) {
+		$this->meta_surface->expects( 'for_indexable' )->once()->with( $indexable, 'Post_Type' )->andReturn(
+			new Meta_Double(
+				[
+					'main_schema_id' => self::MAIN_SCHEMA_ID,
+					'schema'         => $schema,
+				],
+			),
+		);
+	}
+
+	/**
+	 * Builds a schema graph out of the given pieces, next to a piece the post SEO data does not read.
+	 *
+	 * @param array<string, string|array<string>> ...$pieces The graph pieces.
+	 *
+	 * @return array<string, string|array<array<string, string|array<string>>>> The schema.
+	 */
+	private function make_schema( array ...$pieces ) {
+		$pieces[] = [
+			'@type' => 'Organization',
+			'@id'   => 'https://example.com/#organization',
+		];
+
+		return [
+			'@context' => 'https://schema.org',
+			'@graph'   => $pieces,
+		];
+	}
+
+	/**
+	 * Builds the WebPage piece of the post.
+	 *
+	 * @param string|array<string>|null $type The type of the piece.
+	 *
+	 * @return array<string, string|array<string>|null> The piece.
+	 */
+	private function make_webpage_piece( $type ) {
+		return [
+			'@type' => $type,
+			'@id'   => self::MAIN_SCHEMA_ID,
+		];
+	}
+
+	/**
+	 * Builds the Article piece of the post.
+	 *
+	 * @param string|array<string> $type The type of the piece.
+	 *
+	 * @return array<string, string|array<string>> The piece.
+	 */
+	private static function make_article_piece( $type ) {
+		return [
+			'@type'    => $type,
+			'@id'      => self::MAIN_SCHEMA_ID . '#article',
+			'isPartOf' => [ '@id' => self::MAIN_SCHEMA_ID ],
+		];
 	}
 }

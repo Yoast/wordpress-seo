@@ -107,11 +107,21 @@ abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability 
 				'twitter_description_rendered'    => $rendered( \__( 'X description', 'wordpress-seo' ) ),
 				'schema_page_type'                => [
 					'type'        => [ 'string', 'null' ],
-					'description' => \__( 'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies.', 'wordpress-seo' ),
+					'description' => \__( 'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies. The rendered companion field carries the page types actually output.', 'wordpress-seo' ),
+				],
+				'schema_page_type_rendered'       => [
+					'type'        => [ 'array', 'null' ],
+					'items'       => [ 'type' => 'string' ],
+					'description' => \__( 'The Schema.org page types output on the front end for the post. Empty when no WebPage is output for the post.', 'wordpress-seo' ),
 				],
 				'schema_article_type'             => [
 					'type'        => [ 'string', 'null' ],
-					'description' => \__( 'The Schema.org article type stored for the post. Null means no override is set and the default for the post type applies.', 'wordpress-seo' ),
+					'description' => \__( 'The Schema.org article type stored for the post. Null means no override is set and the default for the post type applies. The rendered companion field carries the article types actually output.', 'wordpress-seo' ),
+				],
+				'schema_article_type_rendered'    => [
+					'type'        => [ 'array', 'null' ],
+					'items'       => [ 'type' => 'string' ],
+					'description' => \__( 'The Schema.org article types output on the front end for the post. Empty when no Article is output for the post.', 'wordpress-seo' ),
 				],
 				'seo_score'                       => $score( \__( 'SEO analysis', 'wordpress-seo' ) ),
 				'readability_score'               => $score( \__( 'readability analysis', 'wordpress-seo' ) ),
