@@ -5,9 +5,11 @@ namespace Yoast\WP\SEO\Initializers;
 use WP_Post;
 use WP_REST_Response;
 use WPSEO_Meta;
+use WPSEO_Primary_Term;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
@@ -24,6 +26,13 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 class Post_Meta_Rest_Fields implements Initializer_Interface {
 
 	use No_Conditionals;
+
+	/**
+	 * The primary term helper.
+	 *
+	 * @var Primary_Term_Helper
+	 */
+	private $primary_term_helper;
 
 	/**
 	 * The taxonomy helper.
@@ -49,14 +58,16 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param Taxonomy_Helper   $taxonomy_helper   The taxonomy helper.
-	 * @param Options_Helper    $options_helper    The options helper.
-	 * @param Capability_Helper $capability_helper The capability helper.
+	 * @param Primary_Term_Helper $primary_term_helper The primary term helper.
+	 * @param Taxonomy_Helper     $taxonomy_helper     The taxonomy helper.
+	 * @param Options_Helper      $options_helper      The options helper.
+	 * @param Capability_Helper   $capability_helper   The capability helper.
 	 */
-	public function __construct( Taxonomy_Helper $taxonomy_helper, Options_Helper $options_helper, Capability_Helper $capability_helper ) {
-		$this->taxonomy_helper   = $taxonomy_helper;
-		$this->options_helper    = $options_helper;
-		$this->capability_helper = $capability_helper;
+	public function __construct( Primary_Term_Helper $primary_term_helper, Taxonomy_Helper $taxonomy_helper, Options_Helper $options_helper, Capability_Helper $capability_helper ) {
+		$this->primary_term_helper = $primary_term_helper;
+		$this->taxonomy_helper     = $taxonomy_helper;
+		$this->options_helper      = $options_helper;
+		$this->capability_helper   = $capability_helper;
 	}
 
 	/**
@@ -129,7 +140,8 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 			if ( $metabox_disabled_in_block_editor ) {
 				\add_action(
 					'rest_after_insert_' . $post_type,
-					static function ( $post, $request, $creating ) {
+					function ( $post, $request, $creating ) {
+						$this->ensure_primary_terms( $post->ID );
 						if ( ! $creating ) {
 							\do_action( 'wpseo_saved_postdata' );
 						}
@@ -137,6 +149,30 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 					10,
 					3,
 				);
+			}
+		}
+	}
+
+	/**
+	 * Ensures a primary term is stored for every hierarchical taxonomy on the post.
+	 *
+	 * Called after a REST save. When no primary is set (or the stored primary is no longer
+	 * among the post's terms), picks the first assigned term so the client never needs to
+	 * write it back — matching the classic-editor metabox path in trunk.
+	 *
+	 * @param int $post_id The post ID.
+	 *
+	 * @return void
+	 */
+	private function ensure_primary_terms( int $post_id ): void {
+		foreach ( $this->primary_term_helper->get_primary_term_taxonomies( $post_id ) as $taxonomy ) {
+			$primary = new WPSEO_Primary_Term( $taxonomy->name, $post_id );
+			if ( $primary->get_primary_term() !== false ) {
+				continue;
+			}
+			$terms = \wp_get_object_terms( $post_id, $taxonomy->name, [ 'fields' => 'ids' ] );
+			if ( ! \is_wp_error( $terms ) && $terms !== [] ) {
+				$primary->set_primary_term( (string) $terms[0] );
 			}
 		}
 	}

@@ -461,6 +461,111 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 	}
 
 	// -------------------------------------------------------------------------
+	// ensure_primary_terms
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Tests that ensure_primary_terms stores the first assigned category as the
+	 * primary when no primary is stored and the post has a category.
+	 *
+	 * Covers the scenario where WordPress auto-assigns Uncategorized on the first
+	 * save of a post that had no category ticked. The hook fires after the save,
+	 * sees an empty primary, and writes the first term.
+	 *
+	 * @covers ::ensure_primary_terms
+	 *
+	 * @return void
+	 */
+	public function test_ensure_primary_terms_sets_primary_when_none_stored() {
+		\add_filter( 'wpseo_disable_metabox_in_block_editor', '__return_true' );
+		$this->instance->register_post_meta();
+
+		$post_id = $this->factory->post->create();
+		$cat_id  = self::factory()->category->create();
+		\wp_set_object_terms( $post_id, [ $cat_id ], 'category' );
+
+		\do_action( 'rest_after_insert_post', \get_post( $post_id ), null, false );
+
+		$stored = \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'primary_category', true );
+		$this->assertSame( (string) $cat_id, $stored );
+
+		\remove_filter( 'wpseo_disable_metabox_in_block_editor', '__return_true' );
+	}
+
+	/**
+	 * Tests that ensure_primary_terms does not overwrite a valid stored primary.
+	 *
+	 * @covers ::ensure_primary_terms
+	 *
+	 * @return void
+	 */
+	public function test_ensure_primary_terms_does_not_overwrite_valid_primary() {
+		\add_filter( 'wpseo_disable_metabox_in_block_editor', '__return_true' );
+		$this->instance->register_post_meta();
+
+		$post_id  = $this->factory->post->create();
+		$cat_id_1 = self::factory()->category->create();
+		$cat_id_2 = self::factory()->category->create();
+		\wp_set_object_terms( $post_id, [ $cat_id_1, $cat_id_2 ], 'category' );
+		\update_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'primary_category', (string) $cat_id_2 );
+
+		\do_action( 'rest_after_insert_post', \get_post( $post_id ), null, false );
+
+		$stored = \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'primary_category', true );
+		$this->assertSame( (string) $cat_id_2, $stored );
+
+		\remove_filter( 'wpseo_disable_metabox_in_block_editor', '__return_true' );
+	}
+
+	/**
+	 * Tests that ensure_primary_terms replaces a stored primary whose term is no
+	 * longer assigned to the post.
+	 *
+	 * @covers ::ensure_primary_terms
+	 *
+	 * @return void
+	 */
+	public function test_ensure_primary_terms_replaces_stale_primary() {
+		\add_filter( 'wpseo_disable_metabox_in_block_editor', '__return_true' );
+		$this->instance->register_post_meta();
+
+		$post_id    = $this->factory->post->create();
+		$stale_cat  = self::factory()->category->create();
+		$active_cat = self::factory()->category->create();
+		\wp_set_object_terms( $post_id, [ $active_cat ], 'category' );
+		\update_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'primary_category', (string) $stale_cat );
+
+		\do_action( 'rest_after_insert_post', \get_post( $post_id ), null, false );
+
+		$stored = \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'primary_category', true );
+		$this->assertSame( (string) $active_cat, $stored );
+
+		\remove_filter( 'wpseo_disable_metabox_in_block_editor', '__return_true' );
+	}
+
+	/**
+	 * Tests that ensure_primary_terms does nothing when the post has no categories.
+	 *
+	 * @covers ::ensure_primary_terms
+	 *
+	 * @return void
+	 */
+	public function test_ensure_primary_terms_does_nothing_when_post_has_no_categories() {
+		\add_filter( 'wpseo_disable_metabox_in_block_editor', '__return_true' );
+		$this->instance->register_post_meta();
+
+		$post_id = $this->factory->post->create();
+		\wp_set_object_terms( $post_id, [], 'category' );
+
+		\do_action( 'rest_after_insert_post', \get_post( $post_id ), null, false );
+
+		$stored = \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'primary_category', true );
+		$this->assertSame( '', $stored );
+
+		\remove_filter( 'wpseo_disable_metabox_in_block_editor', '__return_true' );
+	}
+
+	// -------------------------------------------------------------------------
 	// Helpers
 	// -------------------------------------------------------------------------
 
