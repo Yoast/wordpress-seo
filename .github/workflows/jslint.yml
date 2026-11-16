@@ -80,7 +80,7 @@ jobs:
           npm --version
           node --version
           yarn --version
-          yarn run grunt --version
+          yarn grunt --version
 
       - name: Run Javascript lint
         run: yarn lint
