@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
 /* Internal dependencies */
@@ -21,11 +20,30 @@ const changingIconButtonDefaults = {
 /**
  * Returns the ChangingIconButton component.
  *
+ * @deprecated Use the Button component from @yoast/ui-library instead.
+ *
  * @param {Object} componentProps Component props.
+ * @param {string} componentProps.id The id of the button.
+ * @param {string} componentProps.ariaLabel The aria-label of the button.
+ * @param {Function} componentProps.onClick The function to call when the button is clicked.
+ * @param {string} [componentProps.unpressedBoxShadowColor] The box shadow color when the button is not pressed.
+ * @param {string} [componentProps.pressedBoxShadowColor] The box shadow color when the button is pressed.
+ * @param {string} [componentProps.pressedBackground] The background color when the button is pressed.
+ * @param {string} [componentProps.unpressedBackground] The background color when the button is not pressed.
+ * @param {string} [componentProps.pressedIconColor] The icon color when the button is pressed.
+ * @param {string} [componentProps.unpressedIconColor] The icon color when the button is not pressed.
+ * @param {string} componentProps.icon The name of the icon.
+ * @param {boolean} componentProps.pressed Whether the button is pressed.
+ * @param {string} [componentProps.hoverBorderColor] The border color on hover.
+ * @param {string} [componentProps.marksButtonStatus="enabled"] The status of the button. The button is disabled when "disabled".
+ * @param {string} [componentProps.disabledIconColor] The icon color when the button is disabled.
+ * @param {string} [componentProps.className] The class name of the button.
  *
  * @returns {ReactElement} ChangingIconButton component.
  */
 const ChangingIconButton = function( componentProps ) {
+	console.warn( "The IconButtonToggle component has been deprecated and will be removed in a future release. Use the Button component from @yoast/ui-library instead." );
+
 	/*
 	 * React 19's automatic JSX runtime no longer applies defaultProps to function components, which
 	 * would drop these colours to undefined and render the button unstyled. Merging the defaults here
@@ -66,24 +84,6 @@ const ChangingIconButton = function( componentProps ) {
 			/>
 		</IconButtonBase>
 	);
-};
-
-ChangingIconButton.propTypes = {
-	id: PropTypes.string.isRequired,
-	ariaLabel: PropTypes.string.isRequired,
-	onClick: PropTypes.func.isRequired,
-	unpressedBoxShadowColor: PropTypes.string,
-	pressedBoxShadowColor: PropTypes.string,
-	pressedBackground: PropTypes.string,
-	unpressedBackground: PropTypes.string,
-	pressedIconColor: PropTypes.string,
-	unpressedIconColor: PropTypes.string,
-	icon: PropTypes.string.isRequired,
-	pressed: PropTypes.bool.isRequired,
-	hoverBorderColor: PropTypes.string,
-	marksButtonStatus: PropTypes.string,
-	disabledIconColor: PropTypes.string,
-	className: PropTypes.string,
 };
 
 // Kept for classic-runtime consumers; the in-component merge applies these on React 19.

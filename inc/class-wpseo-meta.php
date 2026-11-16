@@ -69,8 +69,6 @@ class WPSEO_Meta {
 	 * Meta box field definitions for the meta box form.
 	 *
 	 * {@internal
-	 * - Titles, help texts, description text and option labels are added via a translate_meta_boxes() method
-	 *   in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin) as they are only needed there.
 	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!}}
 	 *
 	 * @var array

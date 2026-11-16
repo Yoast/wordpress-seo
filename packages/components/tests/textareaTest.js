@@ -1,48 +1,24 @@
 import React from "react";
-import ReactShallowRenderer from "react-test-renderer/shallow";
+import { render, screen } from "@testing-library/react";
 import Textarea from "../src/Textarea";
 
 describe( "A Textarea component", () => {
-	var renderer = new ReactShallowRenderer();
-
 	it( "generates a textarea based on the props", () => {
-		renderer.render( <Textarea name="customTextarea" /> );
+		render( <Textarea name="customTextarea" /> );
 
-		const result = renderer.getRenderOutput();
+		const textarea = screen.getByRole( "textbox" );
 
-		expect( result.props.name ).toBe( "customTextarea" );
-		expect( result.props.value ).toBe( "" );
+		expect( textarea.name ).toBe( "customTextarea" );
+		expect( textarea.value ).toBe( "" );
 	} );
 
 	it( "generates an input based on the defaults if required props are missing", () => {
-		renderer.render( <Textarea /> );
+		render( <Textarea /> );
 
-		const result = renderer.getRenderOutput();
+		const textarea = screen.getByRole( "textbox" );
 
-		expect( result.props.name ).toBe( "textarea" );
-		expect( result.props.value ).toBe( "" );
-	} );
-
-	it( "generates a warning when a faulty value is passed", () => {
-		console.error = jest.fn();
-
-		renderer.render( <Textarea value={ 0 } /> );
-
-		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
-		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
-		expect( console.error.mock.calls[ 0 ][ 2 ] ).toBe( "Invalid prop `value` of type `number` supplied to `Textarea`, expected `string`." );
-	} );
-
-	it( "generates a warning when a faulty onChange callback is passed", () => {
-		console.error = jest.fn();
-
-		renderer.render( <Textarea name="customTextarea" onChange={ 0 } /> );
-
-		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
-		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
-		expect( console.error.mock.calls[ 0 ][ 2 ] ).toBe( "Invalid prop `onChange` of type `number` supplied to `Textarea`, expected `function`." );
+		expect( textarea.name ).toBe( "textarea" );
+		expect( textarea.value ).toBe( "" );
 	} );
 
 	it( "receives focus when it's focus property is set", () => {

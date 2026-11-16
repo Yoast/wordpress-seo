@@ -33,7 +33,7 @@
 		"league/oauth2-client": "2.9.0",
 		"psr/container": "1.1.1",
 		"psr/log": "^1.0",
-		"symfony/config": "^5.4.46",
+		"symfony/config": "^5.4.56",
 		"symfony/dependency-injection": "^5.4.48",
 		"wpackagist-plugin/easy-digital-downloads": "dev-trunk",
 		"wpackagist-plugin/google-site-kit": "dev-trunk",
@@ -111,8 +111,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=2216",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=254",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=2194",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=252",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs": [

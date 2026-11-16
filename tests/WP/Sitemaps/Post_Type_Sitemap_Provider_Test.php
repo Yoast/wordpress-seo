@@ -596,7 +596,7 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 				'loc'    => \get_permalink( $post_id ),
 				'chf'    => 'daily',
 				'pri'    => 1,
-				'images' => [ [ 'src' => 'http://example.org/wp-content/uploads/test.test/path/to/image.jpg' ] ],
+				'images' => [ [ 'src' => \wp_upload_dir()['baseurl'] . '/' . $image_path ] ],
 				'mod'    => WPSEO_Sitemaps::get_last_modified_gmt( 'page' ),
 			],
 		];

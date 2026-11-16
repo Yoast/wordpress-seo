@@ -1,22 +1,20 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import IFrame from "../src/IFrame.js";
 
 test( "the IFrame without props matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<IFrame title="IFrame title" />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the IFrame with props matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<IFrame title="IFrame title" className="test-class-name" />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

@@ -15,7 +15,7 @@ const withYoastSidebarPriority = ( WrappedComponent ) => {
 	 *
 	 * @returns {JSX.Element} The element.
 	 */
-	// eslint-disable-next-line no-unused-vars, no-undefined -- The renderPriority is consumed by the slot.
+	// eslint-disable-next-line no-unused-vars -- The renderPriority is consumed by the slot.
 	const YoastSidebarPriority = ( { renderPriority = undefined, ...props } ) => {
 		return <WrappedComponent { ...props } />;
 	};

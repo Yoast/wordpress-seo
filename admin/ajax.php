@@ -407,33 +407,3 @@ wpseo_register_ajax_integrations();
 new WPSEO_Shortcode_Filter();
 
 new WPSEO_Taxonomy_Columns();
-
-/* ********************* DEPRECATED FUNCTIONS ********************* */
-
-/**
- * Retrieves the keyword for the keyword doubles.
- *
- * @return void
- */
-function ajax_get_keyword_usage() {
-	_deprecated_function( __METHOD__, 'WPSEO 20.4' );
-	check_ajax_referer( 'wpseo-keyword-usage', 'nonce' );
-
-	if ( ! isset( $_POST['post_id'], $_POST['keyword'] ) || ! is_string( $_POST['keyword'] ) ) {
-		exit( '-1' );
-	}
-
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We are casting to an integer.
-	$post_id = (int) wp_unslash( $_POST['post_id'] );
-
-	if ( $post_id === 0 || ! current_user_can( 'edit_post', $post_id ) ) {
-		exit( '-1' );
-	}
-
-	$keyword = sanitize_text_field( wp_unslash( $_POST['keyword'] ) );
-
-	wp_die(
-		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
-		WPSEO_Utils::format_json_encode( WPSEO_Meta::keyword_usage( $keyword, $post_id ) ),
-	);
-}

@@ -5,10 +5,6 @@ import { __ } from "@wordpress/i18n";
 import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
 
-// Flag to check if the Schema Framework is enabled.
-// eslint-disable-next-line dot-notation
-const isSchemaFrameworkEnabled = Boolean( window.wpseoIntegrationsData[ "schema_framework_enabled" ] );
-
 /**
  * Represents an integration.
  *
@@ -18,26 +14,20 @@ const isSchemaFrameworkEnabled = Boolean( window.wpseoIntegrationsData[ "schema_
  *
  * @returns {JSX.Element} A card representing an integration.
  */
-// eslint-disable-next-line complexity
 export const PluginIntegration = ( { integration, isActive = true, isSchemaAPIIntegration = false } ) => {
-	const isSchemaFrameworkDisabled = isSchemaAPIIntegration && ! isSchemaFrameworkEnabled;
-
 	return (
 		<SimpleIntegration
 			integration={ integration }
 			isActive={ isActive }
-			isSchemaFrameworkDisabled={ isSchemaFrameworkDisabled }
+			isSchemaPartner={ isSchemaAPIIntegration }
 		>
-			{ isSchemaFrameworkDisabled && <Fragment>
-				<span className="yst-text-red-600 yst-font-medium">{ __( "Schema Framework disabled", "wordpress-seo" ) }</span>
-			</Fragment> }
-			{ ! isSchemaFrameworkDisabled && isActive && <Fragment>
+			{ isActive && <Fragment>
 				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
 				<CheckIcon
 					className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
 				/>
 			</Fragment> }
-			{ ! isSchemaFrameworkDisabled && ! isActive && <Fragment>
+			{ ! isActive && <Fragment>
 				<span className="yst-text-slate-700 yst-font-medium">
 					{
 						__( "Plugin not detected", "wordpress-seo" )

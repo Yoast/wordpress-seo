@@ -196,7 +196,7 @@ final class Renderer_Test extends TestCase {
 	/**
 	 * Tests getting the fallback url if the plugin is loaded from a different domain.
 	 *
-	 * @covers WPSEO_Sitemaps_Renderer::get_xsl_url
+	 * @covers WPSEO_Sitemaps_Renderer::get_stylesheet_url
 	 *
 	 * @return void
 	 */
@@ -204,7 +204,22 @@ final class Renderer_Test extends TestCase {
 		$class_instance = new Sitemaps_Renderer_Double();
 
 		\add_filter( 'plugins_url', [ $this, 'change_plugin_url' ] );
-		$this->assertEquals( 'http://example.org/main-sitemap.xsl', $class_instance->get_xsl_url() );
+		$this->assertEquals( 'http://example.org/main-sitemap.css', $class_instance->get_stylesheet_url() );
 		\remove_filter( 'plugins_url', [ $this, 'change_plugin_url' ] );
+	}
+
+	/**
+	 * Tests that the output links the CSS stylesheet instead of an XSLT one.
+	 *
+	 * @covers WPSEO_Sitemaps_Renderer::get_output
+	 *
+	 * @return void
+	 */
+	public function test_get_output_links_css_stylesheet() {
+		$output = self::$class_instance->get_output( '<urlset></urlset>' );
+
+		$this->assertStringContainsString( '<?xml-stylesheet type="text/css" href="', $output );
+		$this->assertStringContainsString( 'main-sitemap.css"?>', $output );
+		$this->assertStringNotContainsString( 'text/xsl', $output );
 	}
 }

@@ -1,7 +1,11 @@
-import React from "react";
+import { useArgs } from "@storybook/preview-api";
+import React, { useCallback } from "react";
 import Table from ".";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import { component, tableBody, tableCell, tableHead, tableHeader, tableImageCell, tableRow, minimal, tableCheckbox } from "./docs";
+import { component, tableBody, tableCell, tableHead, tableHeader, tableImageCell, tableRow, minimal, tableCheckbox, tablePagination } from "./docs";
+
+const STORY_PAGE_SIZE = 5;
+const STORY_TOTAL = 25;
 
 // A stand-in thumbnail, so the story does not depend on a remote image.
 const sampleImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 100'%3E%3Crect width='160' height='100' fill='%23e2e8f0'/%3E%3Ccircle cx='124' cy='28' r='14' fill='%23fbbf24'/%3E%3Cpath d='M0 100 L52 40 L104 100 Z' fill='%2394a3b8'/%3E%3Cpath d='M78 100 L118 58 L160 100 Z' fill='%23cbd5e1'/%3E%3C/svg%3E";
@@ -359,6 +363,62 @@ export const MinimalVariant = {
 	},
 };
 
+export const TablePaginationStory = {
+	name: "Table pagination",
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: tablePagination } },
+	},
+	render: ( args ) => {
+		const [ storyArgs, updateArgs ] = useArgs();
+		const handleNavigate = useCallback( ( targetPage ) => updateArgs( { page: targetPage } ), [ updateArgs ] );
+
+		const { page, totalPages } = storyArgs;
+		const from = ( page - 1 ) * STORY_PAGE_SIZE + 1;
+		const to = Math.min( page * STORY_PAGE_SIZE, STORY_TOTAL );
+
+		return (
+			<Table>
+				<Table.Head>
+					<Table.Row>
+						<Table.Header>Name</Table.Header>
+						<Table.Header>Status</Table.Header>
+						<Table.Header>Count</Table.Header>
+					</Table.Row>
+				</Table.Head>
+				<Table.Body>
+					{ [ ...Array( STORY_PAGE_SIZE ) ].map( ( _, i ) => (
+						<Table.Row key={ i }>
+							<Table.Cell>Item { from + i }</Table.Cell>
+							<Table.Cell>Active</Table.Cell>
+							<Table.Cell>{ from + i }</Table.Cell>
+						</Table.Row>
+					) ) }
+				</Table.Body>
+				<Table.Pagination
+					colSpan={ 3 }
+					page={ page }
+					totalPages={ totalPages }
+					onNavigate={ handleNavigate }
+					summary={ <>Showing <strong>{ from }</strong> to <strong>{ to }</strong> of <strong>{ STORY_TOTAL }</strong> results</> }
+					screenReaderTextPrevious="Previous page"
+					screenReaderTextNext="Next page"
+					{ ...args }
+				/>
+			</Table>
+		);
+	},
+	args: {
+		page: 1,
+		totalPages: 5,
+	},
+	argTypes: {
+		page: { control: { type: "number", min: 1 } },
+		totalPages: { control: { type: "number", min: 2 } },
+		children: { table: { disable: true } },
+	},
+};
+
 export const TableImageCell = {
 	name: "Table image cell",
 	parameters: {
@@ -412,6 +472,7 @@ export default {
 					CheckboxTable,
 					TableImageCell,
 					MinimalVariant,
+					TablePaginationStory,
 				] }
 			/>,
 		},

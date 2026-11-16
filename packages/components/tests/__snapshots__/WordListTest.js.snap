@@ -2,7 +2,7 @@
 
 exports[`WordList renders correctly without items 1`] = `
 <div
-  className=""
+  class=""
 >
   <p>
     <strong>
@@ -10,14 +10,14 @@ exports[`WordList renders correctly without items 1`] = `
     </strong>
   </p>
   <ol
-    className="__list"
+    class="__list"
   />
 </div>
 `;
 
 exports[`WordList renders wordlist as list items 1`] = `
 <div
-  className=""
+  class=""
 >
   <p>
     <strong>
@@ -25,20 +25,20 @@ exports[`WordList renders wordlist as list items 1`] = `
     </strong>
   </p>
   <ol
-    className="__list"
+    class="__list"
   >
     <li
-      className="__item"
+      class="__item"
     >
       word1
     </li>
     <li
-      className="__item"
+      class="__item"
     >
       word2
     </li>
     <li
-      className="__item"
+      class="__item"
     >
       word3
     </li>

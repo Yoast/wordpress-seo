@@ -32,16 +32,33 @@ const YoastSlideToggleContainer = styled.div`
  */
 export class YoastSlideToggle extends React.Component {
 	/**
+	 * Constructs the YoastSlideToggle.
+	 *
+	 * @param {Object} props The component props.
+	 *
+	 * @returns {void}
+	 */
+	constructor( props ) {
+		super( props );
+
+		// Passed as `nodeRef` so react-transition-group doesn't need `findDOMNode`, which React 19 removed.
+		this.nodeRef = React.createRef();
+
+		this.resetHeight = this.resetHeight.bind( this );
+		this.setHeight = this.setHeight.bind( this );
+		this.removeHeight = this.removeHeight.bind( this );
+	}
+
+	/**
 	 * Sets the animated element height to 0.
 	 *
 	 * We need to set the element height to 0 when it's first rendered and at the
 	 * next tick after the closing animation has started, .i.e. onEnter and onExiting.
 	 *
-	 * @param {HTMLElement} element The element to set the height to.
 	 * @returns {void}
 	 */
-	resetHeight( element ) {
-		element.style.height = "0";
+	resetHeight() {
+		this.nodeRef.current.style.height = "0";
 	}
 
 	/**
@@ -51,10 +68,10 @@ export class YoastSlideToggle extends React.Component {
 	 * element is initially rendered and again when the closing animation begins,
 	 * i.e. onEntering and onExit.
 	 *
-	 * @param {HTMLElement} element The element to set the height to.
 	 * @returns {void}
 	 */
-	setHeight( element ) {
+	setHeight() {
+		const element = this.nodeRef.current;
 		const height = getHeight( element );
 		element.style.height = height + "px";
 	}
@@ -64,11 +81,10 @@ export class YoastSlideToggle extends React.Component {
 	 *
 	 * This step occurs at the end of the expanding animation, i.e. onEntered.
 	 *
-	 * @param {HTMLElement} element The element to set the height to.
 	 * @returns {void}
 	 */
-	removeHeight( element ) {
-		element.style.height = null;
+	removeHeight() {
+		this.nodeRef.current.style.height = null;
 	}
 
 	/**
@@ -77,9 +93,12 @@ export class YoastSlideToggle extends React.Component {
 	 * @returns {ReactElement} The rendered YoastSlideToggle wrapper.
 	 */
 	render() {
+		const { children } = this.props;
+
 		return (
 			<YoastSlideToggleContainer duration={ this.props.duration }>
 				<CSSTransition
+					nodeRef={ this.nodeRef }
 					in={ this.props.isOpen }
 					timeout={ this.props.duration }
 					classNames="slide"
@@ -90,7 +109,7 @@ export class YoastSlideToggle extends React.Component {
 					onExit={ this.setHeight }
 					onExiting={ this.resetHeight }
 				>
-					{ this.props.children }
+					{ React.isValidElement( children ) ? React.cloneElement( children, { ref: this.nodeRef } ) : children }
 				</CSSTransition>
 			</YoastSlideToggleContainer>
 		);

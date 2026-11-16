@@ -1,87 +1,173 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snapshot 1`] = `
+.c6 {
+  display: table-row;
+  font-size: 14px;
+}
+
+.c7 {
+  display: table-cell;
+  padding: 2px;
+}
+
+.c8 {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: blue;
+}
+
+.c11 {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: red;
+}
+
+.c12 {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: yellow;
+}
+
+.c9 {
+  padding-left: 8px;
+  width: 100%;
+}
+
+.c10 {
+  font-weight: 600;
+  text-align: right;
+  padding-left: 16px;
+}
+
+.c5 {
+  display: table;
+  box-sizing: border-box;
+  list-style: none;
+  max-width: 100%;
+  min-width: 200px;
+  margin: 8px 0;
+  padding: 0 8px;
+}
+
+.c1 {
+  margin: 8px 0;
+  height: 10;
+  overflow: hidden;
+}
+
+.c2 {
+  display: inline-block;
+  vertical-align: top;
+  width: 22.22222222222222%;
+  background-color: blue;
+  height: 100%;
+}
+
+.c3 {
+  display: inline-block;
+  vertical-align: top;
+  width: 33.33333333333333%;
+  background-color: red;
+  height: 100%;
+}
+
+.c4 {
+  display: inline-block;
+  vertical-align: top;
+  width: 44.44444444444444%;
+  background-color: yellow;
+  height: 100%;
+}
+
+.c0 {
+  font-size: 14px;
+}
+
 <div
-  className="test_SiteSEOReport"
+  class="test_SiteSEOReport"
 >
   <p
-    className="kBVise test_SiteSEOReport__text"
+    class="c0 test_SiteSEOReport__text"
   >
     Test assessment
   </p>
   <div
-    className="bjXoTs progress"
+    class="c1 progress"
   >
     <span
-      className="zSbSj progress__part"
+      class="c2 progress__part"
     />
     <span
-      className="jFdQTa progress__part"
+      class="c3 progress__part"
     />
     <span
-      className="jnzOIl progress__part"
+      class="c4 progress__part"
     />
   </div>
   <ul
-    className="cVQvbD assessments"
+    class="c5 assessments"
     role="list"
   >
     <li
-      className="eYuGur assessments__item"
+      class="c6 assessments__item"
     >
       <span
-        className="hNYQft jLZaQs assessments__item-bullet"
+        class="c7 c8 assessments__item-bullet"
       />
       <span
-        className="hNYQft kXgChN assessments__item-text"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<div></div>",
-          }
-        }
-      />
+        class="c7 c9 assessments__item-text"
+      >
+        <div />
+      </span>
       <span
-        className="hNYQft cFTcQJ assessments__item-score"
+        class="c7 c10 assessments__item-score"
       >
         10
       </span>
     </li>
     <li
-      className="eYuGur assessments__item"
+      class="c6 assessments__item"
     >
       <span
-        className="hNYQft eEkVPZ assessments__item-bullet"
+        class="c7 c11 assessments__item-bullet"
       />
       <span
-        className="hNYQft kXgChN assessments__item-text"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<div></div>",
-          }
-        }
-      />
+        class="c7 c9 assessments__item-text"
+      >
+        <div />
+      </span>
       <span
-        className="hNYQft cFTcQJ assessments__item-score"
+        class="c7 c10 assessments__item-score"
       >
         15
       </span>
     </li>
     <li
-      className="eYuGur assessments__item"
+      class="c6 assessments__item"
     >
       <span
-        className="hNYQft kWkurS assessments__item-bullet"
+        class="c7 c12 assessments__item-bullet"
       />
       <span
-        className="hNYQft kXgChN assessments__item-text"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<div></div>",
-          }
-        }
-      />
+        class="c7 c9 assessments__item-text"
+      >
+        <div />
+      </span>
       <span
-        className="hNYQft cFTcQJ assessments__item-score"
+        class="c7 c10 assessments__item-score"
       >
         20
       </span>

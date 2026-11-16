@@ -8,6 +8,7 @@ use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Updater;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Update_Post_SEO_Data_Ability;
+use Yoast\WP\SEO\Abilities\User_Interface\AI_Generate_Upsell;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -50,6 +51,13 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	private $post_seo_data_updater;
 
 	/**
+	 * The AI Generate upsell mock.
+	 *
+	 * @var Mockery\MockInterface|AI_Generate_Upsell
+	 */
+	private $ai_generate_upsell;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Update_Post_SEO_Data_Ability
@@ -64,6 +72,9 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		// The inputs are real booleans, which WordPress returns as is.
+		Monkey\Functions\when( 'rest_sanitize_boolean' )->alias( 'boolval' );
+
 		$this->stubTranslationFunctions();
 
 		// The article-type enum is built from the documented filter; return the default unfiltered.
@@ -72,11 +83,13 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 		$this->capability_helper                   = Mockery::mock( Capability_Helper::class );
 		$this->should_index_indexables_conditional = Mockery::mock( Should_Index_Indexables_Conditional::class );
 		$this->post_seo_data_updater               = Mockery::mock( Post_SEO_Data_Updater::class );
+		$this->ai_generate_upsell                  = Mockery::mock( AI_Generate_Upsell::class );
 
 		$this->instance = new Update_Post_SEO_Data_Ability(
 			$this->capability_helper,
 			$this->should_index_indexables_conditional,
 			$this->post_seo_data_updater,
+			$this->ai_generate_upsell,
 		);
 	}
 
@@ -94,7 +107,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	/**
 	 * Tests that is_available follows whether the indexables are being built.
 	 *
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::is_available
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_SEO_Data_Ability::is_available
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
@@ -111,8 +124,8 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	/**
 	 * Tests that can_edit_advanced_metadata checks the advanced metadata capability and returns its result.
 	 *
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::__construct
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::can_edit_advanced_metadata
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_SEO_Data_Ability::__construct
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_SEO_Data_Ability::can_edit_advanced_metadata
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
@@ -131,11 +144,13 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get_args returns the expected registration arguments.
+	 * Tests that get_args returns the expected registration arguments, with the output schema
+	 * passed through the AI Generate upsell.
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_args
 	 * @covers ::get_update_post_seo_data_input_schema
+	 * @covers ::ai_generate_field_schema
 	 * @covers ::get_schema_article_types
 	 * @covers ::nullable_enum_schema
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::get_post_seo_data_output_schema
@@ -143,15 +158,23 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_args() {
+		$output_schema = [ 'decorated' => true ];
+
+		$this->ai_generate_upsell
+			->expects( 'add_to_schema' )
+			->once()
+			->with( $this->get_expected_output_schema() )
+			->andReturn( $output_schema );
+
 		$this->assertSame(
 			[
 				'label'               => 'Update Post SEO Data',
-				'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.',
+				'description'         => 'Update the SEO data for a single post of any post type. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => $this->get_expected_update_input_schema(),
-				'output_schema'       => $this->get_expected_output_schema(),
+				'output_schema'       => $output_schema,
 				'permission_callback' => [ $this->instance, 'can_edit_advanced_metadata' ],
-				'execute_callback'    => [ $this->post_seo_data_updater, 'update_post_seo_data' ],
+				'execute_callback'    => [ $this->instance, 'execute' ],
 				'meta'                => [
 					'show_in_rest' => true,
 					'annotations'  => [
@@ -166,6 +189,35 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 			],
 			$this->instance->get_args(),
 		);
+	}
+
+	/**
+	 * Tests that execute passes the updater result and the input through the AI Generate upsell.
+	 *
+	 * @covers ::execute
+	 *
+	 * @return void
+	 */
+	public function test_execute() {
+		$input   = [
+			'post_id'   => 42,
+			'seo_title' => 'A title',
+		];
+		$updated = \array_merge( $input, [ 'canonical' => '' ] );
+		$hinted  = \array_merge( $updated, [ 'ai_generate_hint' => 'A hint' ] );
+
+		$this->post_seo_data_updater
+			->expects( 'update_post_seo_data' )
+			->once()
+			->with( $input )
+			->andReturn( $updated );
+		$this->ai_generate_upsell
+			->expects( 'add_hint' )
+			->once()
+			->with( $updated, $input )
+			->andReturn( $hinted );
+
+		$this->assertSame( $hinted, $this->instance->execute( $input ) );
 	}
 
 	/**
@@ -185,6 +237,8 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_every_writable_input_field_cascades_to_post_meta() {
+		$this->ai_generate_upsell->expects( 'add_to_schema' )->once()->andReturnArg( 0 );
+
 		$input_schema = $this->instance->get_args()['input_schema'];
 
 		$writable_fields = \array_diff_key(
@@ -242,53 +296,66 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	 * @return array<string, mixed> The schema.
 	 */
 	private function get_expected_update_input_schema(): array {
+		$templated = static function ( $field ) {
+			return [
+				'type'        => [ 'string', 'null' ],
+				'description' => "The {$field} for the post.",
+			];
+		};
+
 		return [
 			'type'                 => 'object',
 			'additionalProperties' => false,
 			'properties'           => [
-				'post_id'             => [
+				'post_id'                => [
 					'type'        => 'integer',
 					'description' => 'The ID of the post to update.',
 					'minimum'     => 1,
 				],
-				'permalink'           => [
+				'permalink'              => [
 					'type'        => 'string',
-					'description' => 'The permalink (URL) of the post to update.',
+					'description' => 'The full permalink (URL) of the post to update, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.',
 				],
-				'canonical'           => [
+				'seo_title'              => $templated( 'SEO title' ),
+				'meta_description'       => $templated( 'meta description' ),
+				'canonical'              => [
 					'type'        => [ 'string', 'null' ],
 					'description' => 'The custom canonical URL for the post. Use null or an empty string to remove it and fall back to the default canonical.',
 				],
-				'is_cornerstone'      => [
+				'is_cornerstone'         => [
 					'type'        => 'boolean',
 					'description' => 'Whether the post is marked as cornerstone content.',
 				],
-				'noindex'             => [
+				'noindex'                => [
 					'type'        => [ 'boolean', 'null' ],
 					'description' => 'Whether search engines should be told not to index this post. true sets noindex (the post is excluded from search results); false forces the post to be indexed; null clears the setting and falls back to the post-type default.',
 				],
-				'nofollow'            => [
+				'nofollow'               => [
 					'type'        => 'boolean',
 					'description' => 'Whether search engines should be told not to follow the links on this post.',
 				],
-				'noimageindex'        => [
+				'noimageindex'           => [
 					'type'        => 'boolean',
 					'description' => 'Whether search engines should be told not to index the images on this post.',
 				],
-				'noarchive'           => [
+				'noarchive'              => [
 					'type'        => 'boolean',
 					'description' => 'Whether search engines should be told not to show a cached copy of this post.',
 				],
-				'nosnippet'           => [
+				'nosnippet'              => [
 					'type'        => 'boolean',
 					'description' => 'Whether search engines should be told not to show a snippet of this post in the search results.',
 				],
-				'schema_page_type'    => [
+				'open_graph_title'       => $templated( 'Open Graph title' ),
+				'open_graph_description' => $templated( 'Open Graph description' ),
+				'twitter_title'          => $templated( 'X title' ),
+				'twitter_description'    => $templated( 'X description' ),
+				'schema_page_type'       => [
 					'type'        => [ 'string', 'null' ],
 					'description' => 'The Schema.org page type for the post. Must be one of the supported page types. Use null or an empty string to clear it and fall back to the default.',
 					'enum'        => \array_merge( \array_keys( Schema_Types::PAGE_TYPES ), [ '', null ] ),
 				],
-				'schema_article_type' => [
+				'schema_article_type'    => [
 					'type'        => [ 'string', 'null' ],
 					'description' => 'The Schema.org article type for the post. Must be one of the supported article types. Use null or an empty string to clear it and fall back to the default.',
 					'enum'        => \array_merge( \array_keys( Schema_Types::ARTICLE_TYPES ), [ '', null ] ),

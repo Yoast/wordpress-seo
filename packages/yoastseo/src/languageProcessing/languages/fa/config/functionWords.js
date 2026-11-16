@@ -1,5 +1,5 @@
-import { singleWords as singleWordTransitionWords } from "./transitionWords";
-import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
+import { singleWords as singleWordTransitionWords } from "./transitionWords.js";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens.js";
 
 /**
  * Returns an array with function words.

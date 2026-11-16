@@ -3,10 +3,10 @@ import { languageProcessing } from "yoastseo";
 const { precedenceException, values } = languageProcessing;
 const { Clause } = values;
 
-import getParticiples from "../helpers/internal/getParticiples";
+import getParticiples from "../helpers/internal/getParticiples.js";
 import {
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
-} from "../../nb/config/functionWords";
+} from "../../nb/config/functionWords.js";
 
 /**
  * Creates a Clause object for the Norwegian language.

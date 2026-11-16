@@ -1,7 +1,7 @@
 import { parseFragment } from "parse5";
 
-import HTMLTreeConverter from "./HTMLTreeConverter";
-import cleanUpTree from "../cleanup/postParsing";
+import HTMLTreeConverter from "./HTMLTreeConverter.js";
+import cleanUpTree from "../cleanup/postParsing.js";
 
 
 /**

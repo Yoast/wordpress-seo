@@ -6,7 +6,7 @@ import TransitionWordsAssessment from "../../assessments/readability/TransitionW
 import PassiveVoiceAssessment from "../../assessments/readability/PassiveVoiceAssessment.js";
 import TextPresenceAssessment from "../../assessments/readability/TextPresenceAssessment.js";
 import SentenceBeginningsAssessment from "../../assessments/readability/SentenceBeginningsAssessment.js";
-import { createAnchorOpeningTag } from "../../../helpers";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 
 /**
  * The StorePostsAndPagesContentAssessor class is used for the readability analysis for store posts and pages.

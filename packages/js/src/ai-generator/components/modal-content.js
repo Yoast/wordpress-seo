@@ -333,7 +333,6 @@ export const ModalContent = ( { height, onFatalError } ) => {
 						</div>
 						{ showLoading ? <SuggestionsListSkeleton
 							idSuffix={ location }
-							// eslint-disable-next-line no-undefined
 							suggestionClassNames={ editType === EDIT_TYPE.title ? suggestionClassNames : undefined }
 						/> : <>
 							<SuggestionsList

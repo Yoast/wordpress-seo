@@ -66,6 +66,28 @@ const Component = () => {
 
 ~~~
 
+## useIsNarrowerThan
+The `useIsNarrowerThan` hook tracks whether an element is narrower than a given width. Unlike `useMediaQuery`, it measures the element itself (with a `ResizeObserver`), so it responds to the room the element actually gets.
+
+Accepts `width` (number) The width in pixels below which the element counts as narrow. Without it, the element never counts as narrow.
+Returns an array with a callback ref to put on the element, and a boolean that is true while the element is narrow.
+
+A hidden element (`display: none`) measures 0 wide and keeps the last result.
+
+### Related
+* https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
+
+### Usage/Examples
+~~~javascript
+import { useIsNarrowerThan } from "@yoast/ui-library";
+
+const Component = () => {
+    const [ ref, isNarrow ] = useIsNarrowerThan( 640 );
+
+    return <div ref={ ref }>{ isNarrow ? "Stacked" : "Side by side" }</div>;
+};
+~~~
+
 ## useMediaQuery
 The `useMediaQuery` hook creates a media query and returns a boolean that informs whether the query is met.
 

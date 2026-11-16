@@ -1,47 +1,35 @@
 import React from "react";
-import ReactShallowRenderer from "react-test-renderer/shallow";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Input from "../src/input/Input";
 
 describe( "Input", () => {
-	const renderer = new ReactShallowRenderer();
-
 	it( "generates an input based on the props", () => {
-		renderer.render( <Input type="text" name="textInput" /> );
+		render( <Input type="text" name="textInput" value="some value" /> );
 
-		const result = renderer.getRenderOutput();
+		const input = screen.getByRole( "textbox" );
 
-		expect( result.props.name ).toBe( "textInput" );
-		expect( result.props.defaultValue ).toBe( "" );
+		expect( input.name ).toBe( "textInput" );
+		expect( input.defaultValue ).toBe( "some value" );
 	} );
 
 	it( "generates an input based on the defaults if required props are missing", () => {
-		renderer.render( <Input /> );
+		render( <Input /> );
 
-		const result = renderer.getRenderOutput();
+		const input = screen.getByRole( "textbox" );
 
-		expect( result.props.name ).toBe( "input" );
-		expect( result.props.type ).toBe( "text" );
-		expect( result.props.defaultValue ).toBe( "" );
+		expect( input.name ).toBe( "input" );
+		expect( input.type ).toBe( "text" );
+		expect( input.getAttribute( "value" ) ).toBe( "" );
 	} );
 
 	it( "generates an input based on the defaults if required props are partially missing", () => {
-		renderer.render( <Input name="textInput" /> );
+		render( <Input name="textInput" /> );
 
-		const result = renderer.getRenderOutput();
+		const input = screen.getByRole( "textbox" );
 
-		expect( result.props.name ).toBe( "textInput" );
-		expect( result.props.type ).toBe( "text" );
-		expect( result.props.defaultValue ).toBe( "" );
-	} );
-
-	it( "generates a warning when a faulty input type is passed", () => {
-		console.error = jest.fn();
-		renderer.render( <Input type="invalidType" /> );
-
-		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
-		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
-		expect( console.error.mock.calls[ 0 ][ 2 ] ).toContain( "Invalid prop `type` of value `invalidType` supplied to `Input`" );
+		expect( input.name ).toBe( "textInput" );
+		expect( input.type ).toBe( "text" );
+		expect( input.getAttribute( "value" ) ).toBe( "" );
 	} );
 
 	it( "generates an input based on the defaults and additional, optional attributes", () => {
@@ -50,31 +38,20 @@ describe( "Input", () => {
 			id: "custom-input-identifier",
 		};
 
-		renderer.render( <Input name="textInput" optionalAttributes={ optionalAttributes } /> );
+		render( <Input name="textInput" optionalAttributes={ optionalAttributes } /> );
 
-		const result = renderer.getRenderOutput();
+		const input = screen.getByRole( "textbox" );
 
-		expect( result.props.className ).toBe( "custom-input-class" );
-		expect( result.props.id ).toBe( "custom-input-identifier" );
+		expect( input.className ).toBe( "custom-input-class" );
+		expect( input.id ).toBe( "custom-input-identifier" );
 	} );
 
 	it( "generates an input based on the defaults and an onChange event binding", () => {
-		renderer.render( <Input name="textInput" onChange={ () => {} } /> );
+		const onChange = jest.fn();
+		render( <Input name="textInput" onChange={ onChange } /> );
 
-		const result = renderer.getRenderOutput();
+		fireEvent.change( screen.getByRole( "textbox" ), { target: { value: "changed" } } );
 
-		expect( result.props.onChange ).toBeDefined();
-		expect( typeof result.props.onChange ).toBe( "function" );
-	} );
-
-	it( "generates a warning when a faulty onChange callback is passed", () => {
-		console.error = jest.fn();
-
-		renderer.render( <Input name="textInput" onChange={ 0 } /> );
-
-		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
-		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
-		expect( console.error.mock.calls[ 0 ][ 2 ] ).toBe( "Invalid prop `onChange` of type `number` supplied to `Input`, expected `function`." );
+		expect( onChange ).toHaveBeenCalledTimes( 1 );
 	} );
 } );

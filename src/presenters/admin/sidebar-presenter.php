@@ -83,7 +83,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							echo '<li>' . \esc_html__( 'Add product details to help your listings stand out', 'wordpress-seo' ) . '</li>';
 							echo '<li>' . \esc_html__( 'Make sure search engines show the right version of your product page', 'wordpress-seo' ) . '</li>';
 							echo '<li>' . \esc_html__( 'Create optimized SEO titles & meta descriptions with AI', 'wordpress-seo' ) . '</li>';
-							echo '<li>' . \esc_html__( 'Receive clear SEO and readability guidance to optimize your products', 'wordpress-seo' ) . '</li>';
+							echo '<li>' . \esc_html__( 'Bulk AI-generated alt text for product images', 'wordpress-seo' ) . '</li>';
 						}
 						else {
 							echo '<li>' . \esc_html__( 'Create optimized SEO titles & meta descriptions in seconds', 'wordpress-seo' ) . '</li>';

@@ -5,6 +5,8 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import buildTree from "../../../specHelpers/parse/buildTree";
 // import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";   // Variable is used in language specific test (and thus removed)
 
+// The assessment is deprecated and warns on construction; keep the test output clean.
+const warnSpy = jest.spyOn( console, "warn" ).mockImplementation( () => {} );
 const keyphraseInImagesAssessment = new KeyphraseInImagesAssessment();
 
 describe( "An image count assessment", function() {
@@ -100,6 +102,27 @@ describe( "An image count assessment", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
 			"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
 			"<a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!" );
+	} );
+
+	it( "assesses two images without alt attributes when a keyphrase is set", function() {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' /> <img src='image2.jpg' />", {
+			keyword: "Sample",
+		} );
+
+		const assessment = keyphraseInImagesAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 2,
+			altTagCount: {
+				noAlt: 2,
+				withAlt: 0,
+				withAltKeyword: 0,
+				withAltNonKeyword: 0,
+			},
+		}, true ) );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
+			"Images on this page do not have alt attributes that reflect the topic of your text. " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!" );
 	} );
 
 	it( "assesses four images, with an alt-tag without the presence of a keyword", function() {
@@ -357,5 +380,26 @@ describe( "tests for the assessment applicability.", function() {
 		expect( keyphraseInImagesAssessment.isApplicable( paper, Factory.buildMockResearcher( {
 			imageCount: 1,
 		}, true ) ) ).toBe( true );
+	} );
+} );
+
+describe( "tests for the provided-images scope.", function() {
+	it( "still assesses an empty text when the counted images come from the paper's provided images.", function() {
+		// When the paper provides its own images the researches count paper-level images, so an empty text must not zero the result.
+		const assessment = new KeyphraseInImagesAssessment().getResult( new Paper( "", { keyword: "keyword" } ), Factory.buildMockResearcher( {
+			imageCount: 4,
+			altTagCount: { noAlt: 0, withAlt: 0, withAltKeyword: 1, withAltNonKeyword: 3 },
+		}, true ) );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Good job!" );
+	} );
+} );
+
+describe( "tests for the deprecation.", function() {
+	it( "warns that the assessment is deprecated when it is constructed", function() {
+		warnSpy.mockClear();
+		new KeyphraseInImagesAssessment();
+		expect( warnSpy ).toHaveBeenCalledWith( "KeyphraseInImagesAssessment is deprecated and will be removed in a future major version." );
 	} );
 } );

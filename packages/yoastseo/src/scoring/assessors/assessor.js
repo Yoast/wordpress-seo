@@ -4,7 +4,7 @@ import { isFunction, isUndefined } from "lodash";
 
 // Internal dependencies.
 import AssessmentResult from "../../values/AssessmentResult.js";
-import { build } from "../../parse/build";
+import { build } from "../../parse/build/index.js";
 import LanguageProcessor from "../../parse/language/LanguageProcessor.js";
 import MissingArgument from "../../errors/missingArgument.js";
 import removeDuplicateMarks from "../../markers/removeDuplicateMarks.js";

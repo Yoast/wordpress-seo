@@ -1,5 +1,5 @@
-import removeMarks from "./removeMarks";
-import addMark from "./addMark";
+import removeMarks from "./removeMarks.js";
+import addMark from "./addMark.js";
 
 export {
 	addMark,

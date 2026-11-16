@@ -1,10 +1,10 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { escape, merge } from "lodash";
-import getLanguage from "../../../languageProcessing/helpers/language/getLanguage";
+import getLanguage from "../../../languageProcessing/helpers/language/getLanguage.js";
 
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers";
-import AssessmentResult from "../../../values/AssessmentResult";
+import Assessment from "../assessment.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
 
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher

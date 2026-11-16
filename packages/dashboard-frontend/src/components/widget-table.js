@@ -20,7 +20,9 @@ const DisabledScore = ( { tooltip, id } ) => (
 	<TooltipContainer className="yst-h-4">
 		<TooltipTrigger ariaDescribedby={ id }>
 			<XIcon className="yst-w-4 yst-h-4 yst-text-slate-400" />
-			<span className="yst-sr-only">{ __( "Disabled", "wordpress-seo" ) }</span>
+			<span className="yst-sr-only">{
+				/* translators: Hidden accessibility text. */
+				__( "Disabled", "wordpress-seo" ) }</span>
 		</TooltipTrigger>
 		{  tooltip && <TooltipWithContext position="left" id={ id }>{  tooltip }</TooltipWithContext> }
 	</TooltipContainer> );

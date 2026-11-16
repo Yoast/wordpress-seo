@@ -1,8 +1,8 @@
 import { flatten } from "lodash";
 import { languageProcessing } from "yoastseo";
-import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
+import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple.js";
 
-import stem from "./stem";
+import stem from "./stem.js";
 
 const { flattenSortLength } = languageProcessing;
 

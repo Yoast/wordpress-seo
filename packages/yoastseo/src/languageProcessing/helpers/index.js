@@ -1,7 +1,7 @@
-import { normalize } from "./sanitize/quotes";
-import { createShortcodeTagsRegex, filterShortcodesFromHTML } from "./sanitize/filterShortcodesFromTree";
-import processExactMatchRequest from "./match/processExactMatchRequest";
-import removeHtmlBlocks from "./html/htmlParser";
+import { normalize } from "./sanitize/quotes.js";
+import { createShortcodeTagsRegex, filterShortcodesFromHTML } from "./sanitize/filterShortcodesFromTree.js";
+import processExactMatchRequest from "./match/processExactMatchRequest.js";
+import removeHtmlBlocks from "./html/htmlParser.js";
 
 export {
 	normalize,

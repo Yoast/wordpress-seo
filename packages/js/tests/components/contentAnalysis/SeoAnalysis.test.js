@@ -1,0 +1,161 @@
+import { Fill, SlotFillProvider } from "@wordpress/components";
+import { LocationProvider } from "@yoast/externals/contexts";
+import { getAssessmentButtonSlotName } from "../../../src/analysis/constants";
+import { SeoAnalysis } from "../../../src/components/contentAnalysis/SeoAnalysis";
+import { render, screen } from "../../test-utils";
+
+jest.mock( "../../../src/ai-optimizer/components/ai-optimize-button", () => {
+	const { createElement } = require( "@wordpress/element" );
+	return {
+		__esModule: true,
+		"default": ( { id } ) => createElement( "button", { "data-testid": "ai-optimize-button", "data-id": id } ),
+	};
+} );
+
+/**
+ * Renders the output of `renderAIOptimizeButton` for the given props and assessment.
+ *
+ * A fill for each metabox slot is always present, so a rendered slot is visible as its button.
+ *
+ * The props are merged over `defaultProps`, which constructing the class directly does not apply. Without that,
+ * `isElementor` and `isTerm` would arrive as `undefined` rather than `false`.
+ *
+ * @param {Object} props The props to construct the component with, merged over the component's default props.
+ * @param {string} id The assessment ID to render the button for.
+ * @param {boolean} [hasAIFixes] Whether the assessment can be fixed through Yoast AI Optimize.
+ *
+ * @returns {import("@testing-library/react").RenderResult} The render result.
+ */
+const renderResultButton = ( props, id, hasAIFixes = true ) => render(
+	<SlotFillProvider>
+		<Fill name={ getAssessmentButtonSlotName( "imageAltTags", "metabox" ) }>
+			<button>Generate with AI</button>
+		</Fill>
+		<Fill name={ getAssessmentButtonSlotName( "altTextLength", "metabox" ) }>
+			<button>Improve alt text with AI</button>
+		</Fill>
+		<Fill name={ getAssessmentButtonSlotName( "nonDescriptiveAltText", "metabox" ) }>
+			<button>Fix alt text with AI</button>
+		</Fill>
+		<Fill name={ getAssessmentButtonSlotName( "duplicateAltText", "metabox" ) }>
+			<button>Fix duplicate alt text with AI</button>
+		</Fill>
+		<Fill name={ getAssessmentButtonSlotName( "keyphraseStuffingInAltText", "metabox" ) }>
+			<button>Rewrite alt text with AI</button>
+		</Fill>
+		<LocationProvider value="metabox">
+			{ new SeoAnalysis( { ...SeoAnalysis.defaultProps, ...props } ).renderAIOptimizeButton( hasAIFixes, id ) }
+		</LocationProvider>
+	</SlotFillProvider>
+);
+
+describe( "SeoAnalysis.renderAIOptimizeButton", () => {
+	it( "renders the image alt tags slot for the Image alt attributes assessment", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "imageAltTags" );
+
+		expect( screen.getByRole( "button", { name: "Generate with AI" } ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "does not render the image alt tags slot when the AI feature is disabled in Premium", () => {
+		// The slot offers an AI action, so it hides with the AI feature just like every other row's button.
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "imageAltTags", false );
+
+		expect( screen.queryByRole( "button", { name: "Generate with AI" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "renders the image alt tags slot when the AI feature is enabled in Free", () => {
+		renderResultButton( { isPremium: false, isAiFeatureEnabled: true }, "imageAltTags", false );
+
+		expect( screen.getByRole( "button", { name: "Generate with AI" } ) ).toBeInTheDocument();
+	} );
+
+	it( "does not render the image alt tags slot when the AI feature is disabled in Free", () => {
+		renderResultButton( { isPremium: false, isAiFeatureEnabled: false }, "imageAltTags", false );
+
+		expect( screen.queryByRole( "button", { name: "Generate with AI" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "renders the alt text length slot for the Alt text length assessment", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "altTextLength", false );
+
+		expect( screen.getByRole( "button", { name: "Improve alt text with AI" } ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Generate with AI" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "does not render the alt text length slot when the AI feature is disabled in Premium", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "altTextLength", false );
+
+		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "renders the non-descriptive alt text slot for the Non-descriptive alt text assessment", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "nonDescriptiveAltText", false );
+
+		expect( screen.getByRole( "button", { name: "Fix alt text with AI" } ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "does not render the non-descriptive alt text slot when the AI feature is disabled in Premium", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "nonDescriptiveAltText", false );
+
+		expect( screen.queryByRole( "button", { name: "Fix alt text with AI" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "renders the duplicate alt text slot for the Duplicate alt text assessment", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "duplicateAltText", false );
+
+		expect( screen.getByRole( "button", { name: "Fix duplicate alt text with AI" } ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "does not render the duplicate alt text slot when the AI feature is disabled in Premium", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "duplicateAltText", false );
+
+		expect( screen.queryByRole( "button", { name: "Fix duplicate alt text with AI" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "renders the keyphrase stuffing slot for the Keyphrase stuffing in alt text assessment", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "keyphraseStuffingInAltText", false );
+
+		expect( screen.getByRole( "button", { name: "Rewrite alt text with AI" } ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "does not render the keyphrase stuffing slot when the AI feature is disabled in Premium", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "keyphraseStuffingInAltText", false );
+
+		expect( screen.queryByRole( "button", { name: "Rewrite alt text with AI" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "still renders the AI Optimize button for the other assessments", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: true }, "keyphraseDensity" );
+
+		expect( screen.getByTestId( "ai-optimize-button" ) ).toHaveAttribute( "data-id", "keyphraseDensity" );
+		expect( screen.queryByRole( "button", { name: "Generate with AI" } ) ).not.toBeInTheDocument();
+		expect( screen.queryByRole( "button", { name: "Improve alt text with AI" } ) ).not.toBeInTheDocument();
+	} );
+
+	it( "does not render the AI Optimize button when the AI feature is disabled in Premium", () => {
+		renderResultButton( { isPremium: true, isAiFeatureEnabled: false }, "keyphraseDensity" );
+
+		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "renders the AI Optimize button when the AI feature is enabled in Free", () => {
+		renderResultButton( { isPremium: false, isAiFeatureEnabled: true }, "keyphraseDensity" );
+
+		expect( screen.getByTestId( "ai-optimize-button" ) ).toHaveAttribute( "data-id", "keyphraseDensity" );
+	} );
+
+	it( "does not render the AI Optimize button when the AI feature is disabled in Free", () => {
+		renderResultButton( { isPremium: false, isAiFeatureEnabled: false }, "keyphraseDensity" );
+
+		expect( screen.queryByTestId( "ai-optimize-button" ) ).not.toBeInTheDocument();
+	} );
+} );

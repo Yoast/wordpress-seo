@@ -10,11 +10,11 @@ const {
 	},
 } = languageProcessing;
 
-import detectAndStemSuffixes from "./detectAndStemSuffixes";
+import detectAndStemSuffixes from "./detectAndStemSuffixes.js";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";
-import checkExceptionsWithFullForms from "./checkExceptionsWithFullForms";
-import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
-import { modifyStem, isVowelDoublingAllowed } from "./stemModificationHelpers";
+import checkExceptionsWithFullForms from "./checkExceptionsWithFullForms.js";
+import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple.js";
+import { modifyStem, isVowelDoublingAllowed } from "./stemModificationHelpers.js";
 
 /**
  * Get the stem from noun diminutives and plurals exceptions.

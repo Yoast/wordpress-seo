@@ -1,4 +1,4 @@
-import doubleQuotes from "../sanitize/doubleQuotes";
+import doubleQuotes from "../sanitize/doubleQuotes.js";
 import { includes } from "lodash";
 
 /**

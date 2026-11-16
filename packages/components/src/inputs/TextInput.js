@@ -1,6 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import FieldGroup, { FieldGroupDefaultProps, FieldGroupProps } from "../field-group/FieldGroup";
+import FieldGroup from "../field-group/FieldGroup";
 // Import the required CSS.
 import "./input.css";
 
@@ -26,9 +25,9 @@ export const inputTypes = [
 /**
  * Handles the onChange event.
  *
- * @param {func} onChange The onChange function.
+ * @param {Function} onChange The onChange function.
  *
- * @returns {func} Function that call the onChange function with event.target.value.
+ * @returns {Function} Function that call the onChange function with event.target.value.
  */
 const onChangeHandler = onChange => {
 	return event => {
@@ -39,27 +38,46 @@ const onChangeHandler = onChange => {
 /**
  * Renders a input field of type text for use in our forms.
  *
- * @param {object} props The props required for rendering the component.
+ * @param {Object} props The props required for rendering the component. Also accepts the FieldGroup props (see field-group/FieldGroup.js).
+ * @param {string} [props.id=""] The id of the input.
+ * @param {string} [props.name=""] The name of the input.
+ * @param {string} [props.value=""] The value of the input.
+ * @param {string} [props.type="text"] The type of the input. One of the values in inputTypes.
+ * @param {string} [props.ariaDescribedBy=""] The id of the element that describes the input.
+ * @param {string} [props.placeholder] The placeholder text of the input.
+ * @param {boolean} [props.readOnly=false] Whether the input is read-only.
+ * @param {number} [props.min] The minimum value of the input.
+ * @param {number} [props.max] The maximum value of the input.
+ * @param {number} [props.step] The step interval of the input.
+ * @param {Function} [props.onChange] The function to call with the new value when the input changes.
  *
  * @returns {React.Component} Component that can be used inside a form.
  */
-const TextInput = ( props ) => {
+const TextInput = ( {
+	id = "",
+	name = "",
+	value = "",
+	ariaDescribedBy = "",
+	readOnly = false,
+	type = "text",
+	...props
+} ) => {
 	const fieldGroupProps = { ...props };
-	if ( props.id ) {
-		fieldGroupProps.htmlFor = props.id;
+	if ( id ) {
+		fieldGroupProps.htmlFor = id;
 	}
 
 	return (
 		<FieldGroup { ...fieldGroupProps }>
 			<input
-				id={ props.id }
-				name={ props.name }
-				value={ props.value }
-				type={ props.type }
+				id={ id }
+				name={ name }
+				value={ value }
+				type={ type }
 				className="yoast-field-group__inputfield"
-				aria-describedby={ props.ariaDescribedBy }
+				aria-describedby={ ariaDescribedBy }
 				placeholder={ props.placeholder }
-				readOnly={ props.readOnly }
+				readOnly={ readOnly }
 				min={ props.min }
 				max={ props.max }
 				step={ props.step }
@@ -67,39 +85,6 @@ const TextInput = ( props ) => {
 			/>
 		</FieldGroup>
 	);
-};
-
-TextInput.propTypes = {
-	id: PropTypes.string,
-	name: PropTypes.string,
-	value: PropTypes.string,
-	type: PropTypes.oneOf( inputTypes ),
-	ariaDescribedBy: PropTypes.string,
-	placeholder: PropTypes.string,
-	readOnly: PropTypes.bool,
-	min: PropTypes.number,
-	max: PropTypes.number,
-	step: PropTypes.number,
-	onChange: PropTypes.func,
-	...FieldGroupProps,
-};
-
-TextInput.defaultProps = {
-	id: "",
-	name: "",
-	value: "",
-	ariaDescribedBy: "",
-	readOnly: false,
-	type: "text",
-	// React automatically removes these values when passed as props.
-	/* eslint-disable no-undefined */
-	placeholder: undefined,
-	min: undefined,
-	max: undefined,
-	step: undefined,
-	onChange: undefined,
-	/* eslint-enable */
-	...FieldGroupDefaultProps,
 };
 
 export default TextInput;

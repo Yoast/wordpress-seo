@@ -22,7 +22,6 @@ import TitleWidthAssessment from "../../../../../src/scoring/assessments/seo/Pag
 import SlugKeywordAssessment from "../../../../../src/scoring/assessments/seo/UrlKeywordAssessment.js";
 import FunctionWordsInKeyphrase from "../../../../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment.js";
 import SingleH1Assessment from "../../../../../src/scoring/assessments/seo/SingleH1Assessment.js";
-import ImageKeyphraseAssessment from "../../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment.js";
 import ImageCountAssessment from "../../../../../src/scoring/assessments/seo/ImageCountAssessment.js";
 import ImageAltTags from "../../../../../src/scoring/assessments/seo/ImageAltTagsAssessment.js";
 import KeyphraseDistribution from "../../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment.js";
@@ -142,10 +141,6 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: "https://yoa.st/4lx",
 			assessVariants: true,
 			productType: "simple",
-		} );
-		const imageKeyphraseAssessment = new ImageKeyphraseAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
 		} );
 		const imageCountAssessment = new ImageCountAssessment( {
 			scores: {
@@ -373,17 +368,6 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		// Images-related assessments
-		it( "returns a score and the associated feedback text for the imageKeyphrase assessment", function() {
-			const isApplicable = imageKeyphraseAssessment.isApplicable( paper, researcher );
-			expect( isApplicable ).toBe( expectedResults.imageKeyphrase.isApplicable );
-
-			if ( isApplicable ) {
-				result.imageKeyphrase = imageKeyphraseAssessment.getResult( paper, researcher );
-				expect( result.imageKeyphrase.getScore() ).toBe( expectedResults.imageKeyphrase.score );
-				expect( result.imageKeyphrase.getText() ).toBe( expectedResults.imageKeyphrase.resultText );
-			}
-		} );
-
 		it( "returns a score and the associated feedback text for the imageCount assessment", function() {
 			const isApplicable = imageCountAssessment.isApplicable( paper );
 			expect( isApplicable ).toBe( expectedResults.imageCount.isApplicable );

@@ -136,8 +136,9 @@ const Header = ( { helpTextTitle, helpTextLink, helpTextDescription } ) => {
 	return <FieldGroup
 		label={ helpTextTitle }
 		linkTo={ helpTextLink }
-		/* translators: Hidden accessibility text. */
-		linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
+		linkText={
+			/* translators: Hidden accessibility text. */
+			__( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
 		description={ helpTextDescription }
 	/>;
 };
@@ -231,8 +232,9 @@ const Content = ( {
 			<FieldGroup
 				label={ __( "What type of page or content is this?", "wordpress-seo" ) }
 				linkTo={ additionalHelpTextLink }
-				/* translators: Hidden accessibility text. */
-				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
+				linkText={
+					/* translators: Hidden accessibility text. */
+					__( "Learn more about page or content types", "wordpress-seo" ) }
 			/>
 			{ woocommerceUpsell && <WooCommerceUpsell link={ woocommerceUpsellLink } text={ woocommerceUpsellText } /> }
 			<Select

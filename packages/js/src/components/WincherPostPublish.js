@@ -21,8 +21,9 @@ export default function WincherPostPublish( { trackAll = noop, hasTrackedKeyphra
 			<FieldGroup
 				label={ __( "SEO performance", "wordpress-seo" ) }
 				linkTo={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }
-				/* translators: Hidden accessibility text. */
-				linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
+				linkText={
+					/* translators: Hidden accessibility text. */
+					__( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
 				wrapperClassName={ "yoast-field-group yoast-wincher-post-publish" }
 			/>
 

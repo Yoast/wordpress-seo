@@ -1,0 +1,30 @@
+import { z } from "zod";
+
+/**
+ * Serializable contract for a single provided image consumed by the image assessments
+ * (Images, Image alt attributes). It is the image slice of the {@link PaperDto}
+ * input contract: a producer (WooCommerce, Shopify, or any headless consumer) maps the analyzed item's
+ * own images — e.g. a product's featured, gallery and variation images — onto this shape, and the
+ * assessments score from it without knowing the platform. Providing the `providedImages` array — even empty —
+ * opts the image assessments into scoring it instead of the images in the text.
+ *
+ * Field semantics that are load-bearing:
+ * - `alt` is the only field the researches read (via the mapped `img` pseudo-node); an empty string means
+ *   the image has no alt text and is scored accordingly.
+ * - `id` is how the producer names this image, and it is load-bearing in both directions: it is a producer-side
+ *   convenience (deduplication, UI affordances such as an AI button), and it is what the assessments hand back in
+ *   `flaggedItems` to point at the images that need work. A producer that omits it gets the `src` back instead,
+ *   which is weaker: two images sharing a src cannot be told apart.
+ * - `src` keeps the mapped node shape faithful to a real `img` node, and doubles as the fallback identifier.
+ *
+ * `.strict()` rejects unknown keys, catching typos.
+ */
+export const providedImageSchema = z.object( {
+	id: z.number().optional().describe( "The producer's ID for the image (e.g. the attachment/media ID). Echoed back in a result's `flaggedItems`." ),
+	src: z.string().optional().describe( "The URL of the image." ),
+	alt: z.string().describe( "The alt text of the image; an empty string means no alt text." ),
+} ).strict();
+
+/**
+ * @typedef {import("zod").infer<typeof providedImageSchema>} ProvidedImage
+ */

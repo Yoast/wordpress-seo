@@ -89,7 +89,9 @@ export const TermFilter = ( { idSuffix, taxonomy, selected, onChange } ) => {
 			onQueryChange={ handleQueryChange }
 			placeholder={ __( "All", "wordpress-seo" ) }
 			nullable={ true }
-			clearButtonScreenReaderText={ __( "Clear filter", "wordpress-seo" ) }
+			clearButtonScreenReaderText={
+				/* translators: Hidden accessibility text. */
+				__( "Clear filter", "wordpress-seo" ) }
 			validation={ error && {
 				variant: "error",
 				message: __( "Something went wrong.", "wordpress-seo" ),

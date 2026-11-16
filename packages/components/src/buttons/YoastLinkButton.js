@@ -8,6 +8,12 @@ import { colors } from "@yoast/style-guide";
 // Internal dependencies.
 import { addButtonStyles } from "./YoastButton";
 
+const yoastLinkButtonDefaults = {
+	backgroundColor: colors.$color_green_medium_light,
+	textColor: colors.$color_white,
+	withTextShadow: true,
+};
+
 /**
  * Returns a Link with the Yoast button style.
  *
@@ -22,7 +28,8 @@ export const YoastLinkButton = addButtonStyles(
 		background: ${ props => props.backgroundColor };
 		min-width: 152px;
 		${ props => props.withTextShadow ? `text-shadow: 0 0 2px ${ colors.$color_black }` : "" };
-	`
+	`,
+	yoastLinkButtonDefaults
 );
 
 YoastLinkButton.propTypes = {
@@ -31,8 +38,5 @@ YoastLinkButton.propTypes = {
 	withTextShadow: PropTypes.bool,
 };
 
-YoastLinkButton.defaultProps = {
-	backgroundColor: colors.$color_green_medium_light,
-	textColor: colors.$color_white,
-	withTextShadow: true,
-};
+// Kept for classic-runtime consumers; addButtonStyles applies these via .attrs for React 19.
+YoastLinkButton.defaultProps = yoastLinkButtonDefaults;

@@ -2,7 +2,7 @@ import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
 
 // All helpers
-import getStemmer from "./helpers/getStemmer";
+import getStemmer from "./helpers/getStemmer.js";
 
 /**
  * The researcher contains all the researches, helpers, data, and config.

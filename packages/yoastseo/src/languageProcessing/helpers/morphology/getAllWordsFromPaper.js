@@ -1,13 +1,13 @@
 import { escapeRegExp } from "lodash";
-import getAltAttribute from "../image/getAltAttribute";
-import { normalizeSingle } from "../sanitize/quotes";
-import parseSlug from "../url/parseSlug";
-import getWords from "../word/getWords";
-import getImagesInTree from "../image/getImagesInTree";
-import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../../config/wordBoundariesWithoutPunctuation";
+import getAltAttribute from "../image/getAltAttribute.js";
+import { normalizeSingle } from "../sanitize/quotes.js";
+import parseSlug from "../url/parseSlug.js";
+import getWords from "../word/getWords.js";
+import getImagesInScope from "../image/getImagesInScope.js";
+import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../../config/wordBoundariesWithoutPunctuation.js";
 
 /**
- * Gets all words found in the text, title, slug and meta description of a given paper.
+ * Gets all words found in the text, title, slug, meta description and image alts in scope of a given paper.
  *
  * @param {Paper} 	paper     					The paper for which to get the words.
  * @param {boolean}	areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
@@ -16,7 +16,8 @@ import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../.
  */
 export default function( paper, areHyphensWordBoundaries ) {
 	const paperText = paper.getText();
-	const altTagsInText = getImagesInTree( paper ).map( image => getAltAttribute( image ) );
+	// Use the same image scope as the image researches, so word forms are also collected from provided image alts.
+	const altTagsInText = getImagesInScope( paper ).map( image => getAltAttribute( image ) );
 
 	const paperContent = [
 		paperText,

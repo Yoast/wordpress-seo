@@ -1,7 +1,6 @@
 // External dependencies.
 import React, { useCallback, useContext } from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 import { __, sprintf } from "@wordpress/i18n";
 
@@ -69,11 +68,12 @@ const preventMouseDown = ( event ) => {
 /**
  * The StyledMention component.
  *
- * @param {object} props               The component's props.
- * @param {string} props.entityKey     The key of the entity that this mention represents.
- * @param {object} props.mention       The data of the entity that this mention represents.
- * @param {string} props.decoratedText The label that is shown for the mention.
- * @param {node}   props.children      The label of the mention.
+ * @param {Object} props The component's props.
+ * @param {string} props.entityKey The key of the entity that this mention represents.
+ * @param {Object} props.mention The data of the entity that this mention represents.
+ * @param {string} [props.decoratedText=""] The label that is shown for the mention.
+ * @param {import("react").ReactNode} props.children The content of the mention.
+ * @param {string} props.className The class name to add to the mention.
  *
  * @returns {ReactElement} The StyledMention component.
  */
@@ -122,12 +122,4 @@ export const Mention = ( { entityKey, mention, decoratedText = "", children, cla
 			</svg>
 		</StyledRemoveButton> }
 	</StyledMention>;
-};
-
-Mention.propTypes = {
-	entityKey: PropTypes.string.isRequired,
-	mention: PropTypes.object.isRequired,
-	decoratedText: PropTypes.string,
-	children: PropTypes.node.isRequired,
-	className: PropTypes.string.isRequired,
 };

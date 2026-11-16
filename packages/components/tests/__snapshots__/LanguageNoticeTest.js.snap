@@ -8,7 +8,7 @@ exports[`LanguageNotice matches the snapshot when showLanguageNotice equals true
 }
 
 <p
-  className="c0"
+  class="c0"
 >
   Your site language is set to 
   <strong>
@@ -46,7 +46,7 @@ exports[`LanguageNotice matches the snapshot with a changed language link 1`] = 
 }
 
 <p
-  className="c0"
+  class="c0"
 >
   Your site language is set to 
   <strong>
@@ -54,14 +54,14 @@ exports[`LanguageNotice matches the snapshot with a changed language link 1`] = 
   </strong>
   .
   <a
-    className="c1"
+    class="c1"
     href="http://www.example.com"
     rel="noopener"
     target="_blank"
   >
     Change language
     <span
-      className="c2"
+      class="c2"
     >
       (Opens in a new browser tab)
     </span>
@@ -97,7 +97,7 @@ exports[`LanguageNotice matches the snapshot with another language 1`] = `
 }
 
 <p
-  className="c0"
+  class="c0"
 >
   Your site language is set to 
   <strong>
@@ -105,14 +105,14 @@ exports[`LanguageNotice matches the snapshot with another language 1`] = `
   </strong>
   .
   <a
-    className="c1"
+    class="c1"
     href="http://www.example.com"
     rel="noopener"
     target="_blank"
   >
     Change language
     <span
-      className="c2"
+      class="c2"
     >
       (Opens in a new browser tab)
     </span>

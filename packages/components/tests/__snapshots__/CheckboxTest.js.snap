@@ -2,16 +2,14 @@
 
 exports[`Checkbox matches the snapshot 1`] = `
 <div
-  className="yoast-field-group yoast-field-group__checkbox"
+  class="yoast-field-group yoast-field-group__checkbox"
 >
   <input
-    checked={false}
     id="test-id"
-    onChange={[Function]}
     type="checkbox"
   />
   <label
-    htmlFor="test-id"
+    for="test-id"
   >
     test label
   </label>
@@ -20,16 +18,14 @@ exports[`Checkbox matches the snapshot 1`] = `
 
 exports[`Checkbox matches the snapshot when an array is provided as a label 1`] = `
 <div
-  className="yoast-field-group yoast-field-group__checkbox"
+  class="yoast-field-group yoast-field-group__checkbox"
 >
   <input
-    checked={false}
     id="test-id"
-    onChange={[Function]}
     type="checkbox"
   />
   <label
-    htmlFor="test-id"
+    for="test-id"
   >
     test label 
     using arrays

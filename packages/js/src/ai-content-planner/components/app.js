@@ -68,7 +68,9 @@ export const App = ( { hasConsent } ) => {
 			<Modal isOpen={ isConsentModalOpen } onClose={ closeModal } className="yst-introduction-modal">
 				<Modal.Panel
 					className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
-					closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }
+					closeButtonScreenReaderText={
+						/* translators: Hidden accessibility text. */
+						__( "Close modal", "wordpress-seo" ) }
 				>
 					<AiGrantConsent
 						storeName={ STORE_NAME_AI }

@@ -249,7 +249,9 @@ class PrimaryTaxonomyPicker extends Component {
 				<ExternalLink className="yst-inline-block yst-mt-2" href={ learnMoreLink }>
 					{ __( "Learn more", "wordpress-seo" ) }
 					<span className="screen-reader-text">
-						{ __( "Learn more about the primary category.", "wordpress-seo" ) }
+						{
+							/* translators: Hidden accessibility text. */
+							__( "Learn more about the primary category.", "wordpress-seo" ) }
 					</span>
 				</ExternalLink>
 			</PrimaryTaxonomyPickerField>

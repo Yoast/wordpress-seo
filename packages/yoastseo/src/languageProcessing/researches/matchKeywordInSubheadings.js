@@ -1,12 +1,12 @@
-import stripSomeTags from "../helpers/sanitize/stripNonTextTags";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers";
-import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree";
+import stripSomeTags from "../helpers/sanitize/stripNonTextTags.js";
+import removeHtmlBlocks from "../helpers/html/htmlParser.js";
+import { filterShortcodesFromHTML } from "../helpers/index.js";
+import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree.js";
 import { flattenDeep, isEmpty } from "lodash";
-import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSentence";
-import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
-import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
-import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
+import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSentence.js";
+import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence.js";
+import { markWordsInASentence } from "../helpers/word/markWordsInSentences.js";
+import isDoubleQuoted from "../helpers/match/isDoubleQuoted.js";
 
 /**
  * @typedef {import("../AbstractResearcher").default } Researcher

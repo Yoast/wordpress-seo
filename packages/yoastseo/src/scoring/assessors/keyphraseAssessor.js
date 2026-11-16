@@ -1,7 +1,7 @@
-import Assessor from "./assessor";
+import Assessor from "./assessor.js";
 
-import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
-import FunctionWordsInKeyphraseAssessment from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment.js";
+import FunctionWordsInKeyphraseAssessment from "../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
 /**
  * The Assessor class that is used for the assessments of the keyphrase.
  */

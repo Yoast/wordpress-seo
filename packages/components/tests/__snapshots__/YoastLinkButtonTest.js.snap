@@ -61,7 +61,7 @@ exports[`the YoastLinkButton matches the snapshot 1`] = `
 }
 
 <a
-  className="c0 c1"
+  class="c0 c1"
 >
   YoastLinkButtonValue
 </a>

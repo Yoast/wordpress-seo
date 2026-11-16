@@ -1,27 +1,27 @@
-import { AnalysisWebWorker, AnalysisWorkerWrapper, createWorker } from "./worker";
-import * as assessments from "./scoring/assessments";
-import * as bundledPlugins from "./bundledPlugins";
-import * as helpers from "./helpers";
-import * as markers from "./markers";
-import * as interpreters from "./scoring/interpreters";
-import * as config from "./config";
-import * as languageProcessing from "./languageProcessing";
-import * as values from "./values";
-import * as assessors from "./scoring/assessors";
-import App from "./app";
-import Assessor from "./scoring/assessors/assessor";
-import ContentAssessor from "./scoring/assessors/contentAssessor";
-import SeoAssessor from "./scoring/assessors/seoAssessor";
-import TaxonomyAssessor from "./scoring/assessors/taxonomyAssessor";
-import Pluggable from "./pluggable";
-import Paper from "./values/Paper";
-import { ensureTree } from "./parse/ensureTree";
-import { runAssessment } from "./scoring/runAssessment";
-import AssessmentResult from "./values/AssessmentResult";
-import Assessment from "./scoring/assessments/assessment";
-import { DIFFICULTY } from "./languageProcessing/researches/getFleschReadingScore";
+import { AnalysisWebWorker, AnalysisWorkerWrapper, createWorker } from "./worker/index.js";
+import * as assessments from "./scoring/assessments/index.js";
+import * as bundledPlugins from "./bundledPlugins/index.js";
+import * as helpers from "./helpers/index.js";
+import * as markers from "./markers/index.js";
+import * as interpreters from "./scoring/interpreters/index.js";
+import * as config from "./config/index.js";
+import * as languageProcessing from "./languageProcessing/index.js";
+import * as values from "./values/index.js";
+import * as assessors from "./scoring/assessors/index.js";
+import App from "./app.js";
+import Assessor from "./scoring/assessors/assessor.js";
+import ContentAssessor from "./scoring/assessors/contentAssessor.js";
+import SeoAssessor from "./scoring/assessors/seoAssessor.js";
+import TaxonomyAssessor from "./scoring/assessors/taxonomyAssessor.js";
+import Pluggable from "./pluggable.js";
+import Paper from "./values/Paper.js";
+import { ensureTree } from "./parse/ensureTree.js";
+import { runAssessment } from "./scoring/runAssessment.js";
+import AssessmentResult from "./values/AssessmentResult.js";
+import Assessment from "./scoring/assessments/assessment.js";
+import { DIFFICULTY } from "./languageProcessing/researches/getFleschReadingScore.js";
 
-import Factory from "./helpers/factory";
+import Factory from "./helpers/factory.js";
 
 /*
  * Everything exported here is put on the `yoast.analysis` global in the plugin.

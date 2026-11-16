@@ -14,6 +14,8 @@ import { getIconForScore } from "./mapResults";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 import { PremiumSeoAnalysisUpsellAd } from "./PremiumSeoAnalysisUpsellAd";
+import { ASSESSMENT_BUTTON_SLOT_IDS } from "../../analysis/constants";
+import AssessmentButtonSlot from "../slots/AssessmentButtonSlot";
 
 // Capture at module-load time, before `openGeneralSidebar` causes WordPress to replace the URL.
 const initialYoastTab = getQueryArg( window.location.href, "yoast-tab" );
@@ -52,10 +54,16 @@ class SeoAnalysis extends Component {
 	}
 
 	/**
-	 * Renders the Yoast AI Optimize button.
-	 * The button is shown when:
+	 * Renders the button that sits next to an assessment result.
+	 *
+	 * For the assessments in `ASSESSMENT_BUTTON_SLOT_IDS` this is a slot rather than a button. Yoast WooCommerce SEO
+	 * and Shopify SEO can fill these slots with their own alt text generation button.
+	 * Whether a button is warranted is the fill's decision, because it owns the image data that decision depends
+	 * on; without a fill the slot renders nothing. The slot is not offered while AI features are switched off.
+	 *
+	 * For every other assessment this is the Yoast AI Optimize button, which is shown when:
 	 * - The assessment can be fixed through Yoast AI Optimize.
-	 * - The AI feature is enabled (for Yoast SEO Premium users; for Free users, the button is shown with an upsell).
+	 * - The AI feature is enabled (in Free, the button is shown with an upsell).
 	 * - We are in the block editor or classic editor.
 	 * - We are not in the Elementor editor, nor in the Elementor in-between screen.
 	 * - We are not in a Taxonomy.
@@ -63,14 +71,18 @@ class SeoAnalysis extends Component {
 	 * @param {boolean} hasAIFixes Whether the assessment can be fixed through Yoast AI Optimize.
 	 * @param {string} id The assessment ID.
 	 *
-	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
+	 * @returns {void|JSX.Element} The button or slot, or nothing if nothing should be shown.
 	 */
 	renderAIOptimizeButton = ( hasAIFixes, id ) => {
 		const { isElementor, isAiFeatureEnabled, isPremium, isTerm } = this.props;
 
-		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
-		if ( isPremium && ! isAiFeatureEnabled ) {
+		// Don't show the button or slot if the AI feature is not enabled.
+		if ( ! isAiFeatureEnabled ) {
 			return;
+		}
+
+		if ( ASSESSMENT_BUTTON_SLOT_IDS.includes( id ) ) {
+			return <AssessmentButtonSlot id={ id } />;
 		}
 
 		const shouldRenderAIButton = shouldRenderAIOptimizeButton( hasAIFixes, isElementor, isTerm );
@@ -122,8 +134,6 @@ class SeoAnalysis extends Component {
 											</AnalysisHeader>
 											<Results
 												results={ this.props.results }
-												marksButtonClassName="yoast-tooltip yoast-tooltip-w"
-												editButtonClassName="yoast-tooltip yoast-tooltip-w"
 												marksButtonStatus={ this.props.marksButtonStatus }
 												location={ location }
 												id={ `yoast-seo-analysis-results-${ location }` }
@@ -169,6 +179,8 @@ SeoAnalysis.defaultProps = {
 	isPremium: false,
 	isTerm: false,
 };
+
+export { SeoAnalysis };
 
 export default withSelect( ( select, ownProps ) => {
 	const {
