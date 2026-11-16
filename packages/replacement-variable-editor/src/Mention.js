@@ -102,7 +102,7 @@ export const Mention = ( { entityKey, mention, decoratedText = "", children, cla
 			onClick={ handleRemove }
 			contentEditable={ false }
 			aria-label={ sprintf(
-				/* translators: %s expands to the name of the replacement variable. */
+				/* translators: Hidden accessibility text; %s expands to the name of the replacement variable. */
 				__( "Remove %s", "wordpress-seo" ),
 				label
 			) }
