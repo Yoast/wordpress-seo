@@ -311,6 +311,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-11-17
 
+Yoast SEO 28.9 brings five new assessments that show whether your image alt text describes the image, plus more abilities, readable XML sitemaps and a security fix. [Read the release post here](https://yoa.st/58b). 
+
 #### Enhancements
 
 * Adds a _Duplicate alt text_ assessment that flags when different images on the page share the same alt text.
