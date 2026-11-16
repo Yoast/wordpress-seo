@@ -79,6 +79,13 @@ export function addButtonStyles( component, defaults = {} ) {
  * will be possible to remove this component and directly style a button element.
  * See https://github.com/philipwalton/flexbugs#9-some-html-elements-cant-be-flex-containers
  *
+ * @param {Object} props Component props.
+ * @param {string} [props.className] The class name of the button.
+ * @param {Function} [props.onClick] The function to call when the button is clicked.
+ * @param {string} [props.type="button"] The type of the button.
+ * @param {boolean} [props.isExpanded] Whether the element controlled by the button is expanded.
+ * @param {(import("react").ReactNode[]|import("react").ReactNode|string)} [props.children] The content of the button.
+ *
  * @returns {ReactElement} The button with inner span.
  */
 export const YoastButtonBase = ( { className, onClick, type = "button", children, isExpanded } ) => (
@@ -88,18 +95,6 @@ export const YoastButtonBase = ( { className, onClick, type = "button", children
 		</span>
 	</button>
 );
-
-YoastButtonBase.propTypes = {
-	className: PropTypes.string,
-	onClick: PropTypes.func,
-	type: PropTypes.string,
-	isExpanded: PropTypes.bool,
-	children: PropTypes.oneOfType( [
-		PropTypes.arrayOf( PropTypes.node ),
-		PropTypes.node,
-		PropTypes.string,
-	] ),
-};
 
 const yoastButtonDefaults = {
 	backgroundColor: colors.$color_green_medium_light,
@@ -112,7 +107,7 @@ const yoastButtonDefaults = {
  *
  * See the Safari 10 bug description in the YoastButtonBase JSDoc.
  *
- * @param {object} props Component props.
+ * @param {Object} props Component props.
  *
  * @returns {ReactElement} styled button.
  */
