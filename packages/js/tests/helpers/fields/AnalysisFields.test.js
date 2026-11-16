@@ -9,7 +9,10 @@ const mockCurrentPostId = jest.fn().mockReturnValue( 1 );
 const mockGetPostType = jest.fn();
 const mockEditPost = jest.fn();
 const mockEditEntityRecord = jest.fn();
-const mockCapturedSubscribers = [];
+// var (not const/let) so the binding is hoisted without TDZ. The module-level
+// subscribe() in AnalysisFields runs before this line is evaluated due to Babel's
+// import hoisting; the lazy init below handles that first call.
+var mockCapturedSubscribers;
 
 jest.mock( "@wordpress/hooks", () => ( {
 	addFilter: jest.fn(),
@@ -39,6 +42,9 @@ jest.mock( "@wordpress/data", () => ( {
 		return {};
 	},
 	subscribe: jest.fn( ( fn ) => {
+		if ( ! mockCapturedSubscribers ) {
+			mockCapturedSubscribers = [];
+		}
 		mockCapturedSubscribers.push( fn );
 		return () => {
 			const index = mockCapturedSubscribers.indexOf( fn );
@@ -530,6 +536,17 @@ describe( "pending writes (REST meta mode)", () => {
 		expect( mockEditPost ).not.toHaveBeenCalled();
 	} );
 
+	it( "evicts a stale buffered value when the score reverts to the committed value", () => {
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "12" } );
+		// Buffer an intermediate score.
+		AnalysisFields.seoScore = "41";
+		// Revert — matches committed value, so buffer entry must be cleared.
+		AnalysisFields.seoScore = "12";
+
+		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+		expect( mockEditPost ).not.toHaveBeenCalled();
+	} );
+
 	it( "treats a committed empty string as equivalent to '0' and skips buffering", () => {
 		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "" } );
 		// -665 sanitizes to "0"; "" is treated as "0" → skip.
@@ -637,6 +654,17 @@ describe( "score inject filter", () => {
 	it( "clears the buffer after injecting so a second save does not re-inject stale scores", () => {
 		AnalysisFields.seoScore = "50";
 		getFilter()( { meta: {} }, {} );
+
+		const result = getFilter()( { meta: {} }, {} );
+
+		expect( result.meta[ metaKeyLinkdex ] ).toBeUndefined();
+	} );
+
+	it( "does not inject a score that was buffered then reverted to the committed value", () => {
+		// Scenario: score changes 12 → 41 → 12. The save should not send 41.
+		mockGetEditedPostAttribute.mockReturnValue( { [ metaKeyLinkdex ]: "12" } );
+		AnalysisFields.seoScore = "41";
+		AnalysisFields.seoScore = "12";
 
 		const result = getFilter()( { meta: {} }, {} );
 

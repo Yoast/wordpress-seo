@@ -166,9 +166,11 @@ const shouldSkipScoreWrite = ( metaKey, sanitized ) => {
 export const setScoreMeta = ( metaKey, element, value ) => {
 	if ( isRestMetaActive() ) {
 		const sanitized = sanitizeScore( value );
-		if ( ! shouldSkipScoreWrite( metaKey, sanitized ) ) {
-			pendingScoreWrites.set( metaKey, sanitized );
+		if ( shouldSkipScoreWrite( metaKey, sanitized ) ) {
+			pendingScoreWrites.delete( metaKey );
+			return;
 		}
+		pendingScoreWrites.set( metaKey, sanitized );
 		return;
 	}
 	if ( element ) {
