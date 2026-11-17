@@ -201,6 +201,9 @@ class Post_SEO_Field_Map extends Abstract_SEO_Field_Map {
 	 * Yoast WooCommerce SEO sets these in a filter on the WebPage piece that only acts on the product or checkout page
 	 * itself, so they are missing from a graph generated for the post anywhere else and are repeated here.
 	 *
+	 * Only the checkout page configured in WooCommerce is detected. Other posts that the front end treats as a checkout,
+	 * such as one holding the checkout shortcode or one flagged through the `woocommerce_is_checkout` filter, are not.
+	 *
 	 * @param Indexable     $indexable The indexable of the post.
 	 * @param array<string> $types     The page types read from the WebPage piece.
 	 *
