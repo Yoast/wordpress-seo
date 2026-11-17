@@ -36,7 +36,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	private $first_time_configuration_notice_helper;
 
 	/**
-	 * {@inheritDoc}
+	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array<string>
 	 */
@@ -62,7 +62,9 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
 	 *
 	 * @return void
 	 */
