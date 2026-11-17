@@ -29,7 +29,7 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 	private $admin_asset_manager;
 
 	/**
-	 * {@inheritDoc}
+	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array<string>
 	 */
@@ -52,7 +52,9 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
 	 *
 	 * @return void
 	 */
