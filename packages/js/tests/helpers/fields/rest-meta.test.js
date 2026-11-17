@@ -290,3 +290,100 @@ describe( "deferMetaWrite and deferred meta preSavePost filter", () => {
 		expect( result.meta?.[ metaKeyLinkdex ] ).toBeUndefined();
 	} );
 } );
+
+describe( "setMetaValue (REST active) evicts a pending deferred write for the same key", () => {
+	const metaKeyPrimaryCategory = "_yoast_wpseo_primary_category";
+	let setMetaValueEvict;
+	let deferMetaWriteEvict;
+	let capturedFilterEvict;
+	const mockEditPost = jest.fn();
+
+	beforeAll( () => {
+		jest.resetModules();
+		window.wpseoScriptData = { disableMetaboxInBlockEditor: true };
+		jest.doMock( "@wordpress/hooks", () => ( {
+			addFilter: ( _hookName, namespace, fn ) => {
+				if ( namespace === "yoast/deferred-meta" ) {
+					capturedFilterEvict = fn;
+				}
+			},
+		} ) );
+		jest.doMock( "@wordpress/data", () => ( {
+			select: jest.fn( () => ( {
+				getEditedPostAttribute: () => ( {} ),
+				getCurrentPostType: () => "post",
+				getCurrentPostId: () => 1,
+			} ) ),
+			dispatch: jest.fn( ( store ) => {
+				if ( store === "core/editor" ) {
+					return { editPost: mockEditPost };
+				}
+				return {};
+			} ),
+		} ) );
+		( { setMetaValue: setMetaValueEvict, deferMetaWrite: deferMetaWriteEvict } =
+			require( "../../../src/helpers/fields/rest-meta" ) );
+	} );
+
+	afterAll( () => {
+		delete window.wpseoScriptData;
+		jest.clearAllMocks();
+	} );
+
+	// Drain any leftover buffer before each test.
+	beforeEach( () => {
+		capturedFilterEvict?.( {}, {} );
+		mockEditPost.mockClear();
+	} );
+
+	it( "removes the deferred entry so it cannot override the user's explicit choice at save time", () => {
+		// Auto-selection queues term 2 as a deferred write.
+		deferMetaWriteEvict( metaKeyPrimaryCategory, "2" );
+
+		// User explicitly picks term 5 — this must evict the deferred "2".
+		setMetaValueEvict( metaKeyPrimaryCategory, null, "5" );
+
+		// Simulate preSavePost with the editPost value already in edits.meta.
+		const result = capturedFilterEvict( { meta: { [ metaKeyPrimaryCategory ]: "5" } }, {} );
+
+		expect( result.meta[ metaKeyPrimaryCategory ] ).toBe( "5" );
+	} );
+
+	it( "evicts the entry even when shouldSkipMetaWrite would suppress the editPost dispatch", () => {
+		// Pre-load the store value so the write is a no-op for shouldSkipMetaWrite.
+		jest.resetModules();
+		window.wpseoScriptData = { disableMetaboxInBlockEditor: true };
+		jest.doMock( "@wordpress/hooks", () => ( {
+			addFilter: ( _hookName, namespace, fn ) => {
+				if ( namespace === "yoast/deferred-meta" ) {
+					capturedFilterEvict = fn;
+				}
+			},
+		} ) );
+		jest.doMock( "@wordpress/data", () => ( {
+			select: jest.fn( () => ( {
+				getEditedPostAttribute: () => ( { [ metaKeyPrimaryCategory ]: "5" } ),
+				getCurrentPostType: () => "post",
+				getCurrentPostId: () => 1,
+			} ) ),
+			dispatch: jest.fn( ( store ) => {
+				if ( store === "core/editor" ) {
+					return { editPost: mockEditPost };
+				}
+				return {};
+			} ),
+		} ) );
+		( { setMetaValue: setMetaValueEvict, deferMetaWrite: deferMetaWriteEvict } =
+			require( "../../../src/helpers/fields/rest-meta" ) );
+
+		deferMetaWriteEvict( metaKeyPrimaryCategory, "2" );
+
+		// Value matches the store — shouldSkipMetaWrite skips the dispatch.
+		setMetaValueEvict( metaKeyPrimaryCategory, null, "5" );
+		expect( mockEditPost ).not.toHaveBeenCalled();
+
+		// Despite the skipped dispatch, the deferred entry must still be gone.
+		const result = capturedFilterEvict( { meta: { [ metaKeyPrimaryCategory ]: "5" } }, {} );
+		expect( result.meta[ metaKeyPrimaryCategory ] ).toBe( "5" );
+	} );
+} );

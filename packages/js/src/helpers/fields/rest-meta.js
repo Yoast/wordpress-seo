@@ -86,6 +86,12 @@ export const getMetaValue = ( metaKey, element, fallback = "" ) => {
 };
 
 /**
+ * Buffer for meta writes that should be injected at save time without dirtying the post.
+ * Keyed by meta key; holds the latest value as a string.
+ */
+const pendingDeferredMeta = new Map();
+
+/**
  * Writes a single meta value to the core/editor store.
  *
  * Always coerces value to a string — all Yoast meta fields are registered with type:string
@@ -98,16 +104,12 @@ export const getMetaValue = ( metaKey, element, fallback = "" ) => {
  */
 const writeMeta = ( metaKey, value ) => {
 	const stringValue = String( value );
+	// An explicit user write must win over any buffered auto-selection queued via deferMetaWrite.
+	pendingDeferredMeta.delete( metaKey );
 	if ( ! shouldSkipMetaWrite( metaKey, stringValue ) ) {
 		dispatch( "core/editor" ).editPost( { meta: { [ metaKey ]: stringValue } } );
 	}
 };
-
-/**
- * Buffer for meta writes that should be injected at save time without dirtying the post.
- * Keyed by meta key; holds the latest value as a string.
- */
-const pendingDeferredMeta = new Map();
 
 /**
  * Queues a meta value for injection into the next non-autosave payload via the editor.preSavePost
