@@ -20,7 +20,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	/**
 	 * List of notification identifiers that have been dismissed.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	private $dismissed_conflicts = [];
 
@@ -39,17 +39,23 @@ class Yoast_Plugin_Conflict_Ajax {
 	public function dismiss_notice() {
 		check_ajax_referer( 'dismiss-plugin-conflict' );
 
-		if ( ! isset( $_POST['data'] ) || ! is_array( $_POST['data'] ) ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: WPSEO_Utils::format_json_encode is considered safe.
-			wp_die( WPSEO_Utils::format_json_encode( [] ) );
+		if ( ! isset( $_POST['data']['section'], $_POST['data']['plugins'] )
+			|| ! is_string( $_POST['data']['section'] )
+			|| ! is_array( $_POST['data']['plugins'] )
+		) {
+			wp_die( '[]' );
 		}
 
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: $conflict_data is getting sanitized later.
 		$conflict_data = wp_unslash( $_POST['data'] );
 
+		if ( count( array_filter( $conflict_data['plugins'], 'is_string' ) ) !== count( $conflict_data['plugins'] ) ) {
+			wp_die( '[]' );
+		}
+
 		$conflict_data = [
 			'section' => sanitize_text_field( $conflict_data['section'] ),
-			'plugins' => sanitize_text_field( $conflict_data['plugins'] ),
+			'plugins' => array_map( 'sanitize_text_field', $conflict_data['plugins'] ),
 		];
 
 		$this->dismissed_conflicts = $this->get_dismissed_conflicts( $conflict_data['section'] );
@@ -64,10 +70,12 @@ class Yoast_Plugin_Conflict_Ajax {
 	/**
 	 * Getting the user option from the database.
 	 *
-	 * @return bool|array
+	 * @return array<string, string[]>
 	 */
 	private function get_dismissed_option() {
-		return get_user_meta( get_current_user_id(), $this->option_name, true );
+		$dismissed_conflicts = get_user_meta( get_current_user_id(), $this->option_name, true );
+
+		return is_array( $dismissed_conflicts ) ? $dismissed_conflicts : [];
 	}
 
 	/**
@@ -75,12 +83,12 @@ class Yoast_Plugin_Conflict_Ajax {
 	 *
 	 * @param string $plugin_section Type of conflict group (such as Open Graph or sitemap).
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	private function get_dismissed_conflicts( $plugin_section ) {
 		$dismissed_conflicts = $this->get_dismissed_option();
 
-		if ( is_array( $dismissed_conflicts ) && array_key_exists( $plugin_section, $dismissed_conflicts ) ) {
+		if ( isset( $dismissed_conflicts[ $plugin_section ] ) && is_array( $dismissed_conflicts[ $plugin_section ] ) ) {
 			return $dismissed_conflicts[ $plugin_section ];
 		}
 
@@ -105,7 +113,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	/**
 	 * Loop through the plugins to compare them with the already stored dismissed plugin conflicts.
 	 *
-	 * @param array $posted_plugins Plugin set to check.
+	 * @param string[] $posted_plugins Plugin set to check.
 	 *
 	 * @return void
 	 */
