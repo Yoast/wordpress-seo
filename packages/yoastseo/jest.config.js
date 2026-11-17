@@ -7,7 +7,7 @@ module.exports = {
 		"^.+\\.html$": "jest-html-loader",
 	},
 	transformIgnorePatterns: [
-		"<rootDir>/node_modules/(?!(lodash-es|parse5)/.*)",
+		"<rootDir>/node_modules/(?!(lodash-es|parse5|entities)/.*)",
 	],
 	testMatch: [
 		"**/spec/**/*.js",
