@@ -309,9 +309,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 28.9 =
 
-Release date: 2026-11-17
+Release date: 2026-11-18
 
-Yoast SEO 28.9 brings five new assessments that show whether your image alt text describes the image, plus more abilities, readable XML sitemaps and a security fix. [Read the release post here](https://yoa.st/58b). 
+Yoast SEO 28.9 brings five new assessments that show whether your image alt text describes the image, plus more abilities and a security fix. [Read the release post here](https://yoa.st/58b). 
 
 #### Enhancements
 
