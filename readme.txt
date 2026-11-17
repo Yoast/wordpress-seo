@@ -309,7 +309,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 28.9 =
 
-Release date: 2026-11-17
+Release date: 2026-11-18
+
+Yoast SEO 28.9 brings five new assessments that show whether your image alt text describes the image, plus more abilities and a security fix. [Read the release post here](https://yoa.st/58b). 
 
 #### Enhancements
 
@@ -322,7 +324,6 @@ Release date: 2026-11-17
 * Introduces a new Yoast ability that lets agents update author Schema data.
 * Introduces two new Yoast abilities that let agents get and set SEO data for specific terms.
 * Introduces two new Yoast abilities that let agents get and set SEO settings for archives, special pages and non-static homepages.
-* Replaces the XSLT stylesheet of the XML sitemaps with a CSS one, so they keep rendering as a readable table after browsers drop XSLT support.
 
 #### Bugfixes
 
@@ -332,6 +333,7 @@ Release date: 2026-11-17
 #### Other
 
 * Removes the _keyphrase in image alt attributes_ assessment, which is replaced by the alt text quality assessments.
+* Removes the stylesheet from the XML sitemaps as browsers drop XSLT support.
 
 = 28.8 =
 
