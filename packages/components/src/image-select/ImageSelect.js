@@ -2,7 +2,6 @@ import React from "react";
 import { __ } from "@wordpress/i18n";
 import ImageSelectButtons from "./ImageSelectButtons";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import FieldGroup from "../field-group/FieldGroup";
 import Alert from "../Alert";
 
@@ -14,6 +13,23 @@ const DEFAULT_WARNINGS = [];
  * Renders ImageSelect component.
  *
  * @param {Object} props The props.
+ * @param {string} [props.defaultImageUrl=""] The URL of the image to show when no image is selected.
+ * @param {string} [props.imageUrl=""] The URL of the selected image.
+ * @param {string} [props.imageAltText=""] The alt text of the preview image.
+ * @param {boolean} props.hasPreview Whether to show the image preview.
+ * @param {string} props.label The label of the field.
+ * @param {Function} [props.onClick=noop] The function to call when the select or replace image button is clicked.
+ * @param {Function} [props.onMouseEnter=noop] The function to call when the mouse enters the component.
+ * @param {Function} [props.onMouseLeave=noop] The function to call when the mouse leaves the component.
+ * @param {Function} [props.onRemoveImageClick=noop] The function to call when the remove image button is clicked.
+ * @param {string} [props.selectImageButtonId=""] The id of the select image button.
+ * @param {string} [props.replaceImageButtonId=""] The id of the replace image button.
+ * @param {string} [props.removeImageButtonId=""] The id of the remove image button.
+ * @param {string[]} [props.warnings] The warnings to show for the image.
+ * @param {boolean} [props.hasNewBadge=false] Whether the field has a 'New' badge.
+ * @param {boolean} [props.isDisabled=false] Whether the buttons are disabled.
+ * @param {boolean} [props.usingFallback=false] Whether a fallback image is used.
+ * @param {boolean} [props.hasPremiumBadge=false] Whether the field has a 'Premium' badge.
  *
  * @returns {React.Component} The ImageSelect.
  */
@@ -113,23 +129,3 @@ function ImageSelect( {
 /* eslint-enable complexity */
 
 export default ImageSelect;
-
-ImageSelect.propTypes = {
-	defaultImageUrl: PropTypes.string,
-	imageUrl: PropTypes.string,
-	imageAltText: PropTypes.string,
-	hasPreview: PropTypes.bool.isRequired,
-	label: PropTypes.string.isRequired,
-	onClick: PropTypes.func,
-	onMouseEnter: PropTypes.func,
-	onMouseLeave: PropTypes.func,
-	onRemoveImageClick: PropTypes.func,
-	selectImageButtonId: PropTypes.string,
-	replaceImageButtonId: PropTypes.string,
-	removeImageButtonId: PropTypes.string,
-	warnings: PropTypes.arrayOf( PropTypes.string ),
-	hasNewBadge: PropTypes.bool,
-	isDisabled: PropTypes.bool,
-	usingFallback: PropTypes.bool,
-	hasPremiumBadge: PropTypes.bool,
-};

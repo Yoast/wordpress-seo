@@ -1,6 +1,5 @@
 // External dependencies.
 import React from "react";
-import PropTypes from "prop-types";
 
 // Internal dependencies.
 import Styles from "./Styles";
@@ -10,6 +9,7 @@ import Styles from "./Styles";
  * Can be used to provide some extra context for users with screen readers.
  *
  * @param {Object} props The view properties.
+ * @param {string} props.children The text that is only shown to screen readers.
  * @returns {JSX} ScreenReaderText The div containing the screen reader text.
  * @constructor
  */
@@ -19,10 +19,6 @@ const ScreenReaderText = ( props ) => {
 			{ props.children }
 		</span>
 	);
-};
-
-ScreenReaderText.propTypes = {
-	children: PropTypes.string.isRequired,
 };
 
 export default ScreenReaderText;

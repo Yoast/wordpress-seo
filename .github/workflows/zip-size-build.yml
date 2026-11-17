@@ -164,7 +164,7 @@ jobs:
         run: |
           git checkout -f "$BASE_SHA"
           yarn install
-          grunt artifact
+          yarn grunt artifact
           "$MEASURE" artifact.zip "$BASE_SIZE"
         env:
           BASE_SHA: ${{ steps.merge-base.outputs.sha }}
@@ -175,7 +175,7 @@ jobs:
         run: |
           git checkout -f "$HEAD_SHA"
           yarn install
-          grunt artifact
+          yarn grunt artifact
           "$MEASURE" artifact.zip "$HEAD_SIZE"
         env:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
