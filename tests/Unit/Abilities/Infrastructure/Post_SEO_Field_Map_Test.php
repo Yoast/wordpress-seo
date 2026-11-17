@@ -491,34 +491,122 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that indexables_to_arrays primes the post cache once for all posts and
-	 * maps every indexable to its SEO data array.
+	 * Tests that indexables_to_arrays primes the post, term and post meta caches once for all posts, the post and post
+	 * meta caches once for their featured images and the user caches once for their authors, and maps every indexable
+	 * to its SEO data array.
 	 *
 	 * @covers ::indexables_to_arrays
+	 * @covers ::prime_caches
 	 *
 	 * @return void
 	 */
-	public function test_indexables_to_arrays_primes_post_caches_once() {
+	public function test_indexables_to_arrays_primes_caches_once() {
 		$first             = $this->make_indexable();
 		$second            = $this->make_indexable();
 		$second->object_id = 43;
+		$third             = $this->make_indexable();
+		$third->object_id  = 44;
+		$third->author_id  = 6;
 
 		Monkey\Functions\expect( '_prime_post_caches' )
 			->once()
-			->with( [ 42, 43 ], false, false );
+			->with( [ 42, 43, 44 ], true, true );
+
+		Monkey\Functions\expect( 'get_post_thumbnail_id' )->once()->with( 42 )->andReturn( 7 );
+		Monkey\Functions\expect( 'get_post_thumbnail_id' )->once()->with( 43 )->andReturnFalse();
+		Monkey\Functions\expect( 'get_post_thumbnail_id' )->once()->with( 44 )->andReturn( 8 );
+
+		Monkey\Functions\expect( '_prime_post_caches' )
+			->once()
+			->with( [ 7, 8 ], false, true );
+
+		Monkey\Functions\expect( 'cache_users' )
+			->once()
+			->with( [ 5, 5, 6 ] );
 
 		$this->meta_surface->expects( 'for_indexable' )->once()->with( $first, 'Post_Type' )->andReturnFalse();
 		$this->meta_surface->expects( 'for_indexable' )->once()->with( $second, 'Post_Type' )->andReturnFalse();
+		$this->meta_surface->expects( 'for_indexable' )->once()->with( $third, 'Post_Type' )->andReturnFalse();
 
-		$result = $this->instance->indexables_to_arrays( [ $first, $second ] );
+		$result = $this->instance->indexables_to_arrays( [ $first, $second, $third ] );
 
-		$this->assertCount( 2, $result );
+		$this->assertCount( 3, $result );
 		$this->assertSame( 42, $result[0]['post_id'] );
 		$this->assertSame( 43, $result[1]['post_id'] );
+		$this->assertSame( 44, $result[2]['post_id'] );
 	}
 
 	/**
-	 * Tests that indexables_to_arrays does not prime the post cache when there is nothing to map.
+	 * Tests that indexables_to_arrays does not prime any featured image cache when no post has a featured image.
+	 *
+	 * @covers ::indexables_to_arrays
+	 * @covers ::prime_caches
+	 *
+	 * @return void
+	 */
+	public function test_indexables_to_arrays_without_featured_images() {
+		$indexable = $this->make_indexable();
+
+		Monkey\Functions\expect( '_prime_post_caches' )
+			->once()
+			->with( [ 42 ], true, true );
+		Monkey\Functions\expect( 'get_post_thumbnail_id' )->once()->with( 42 )->andReturn( 0 );
+		Monkey\Functions\expect( 'cache_users' )->once()->with( [ 5 ] );
+
+		$this->meta_surface->expects( 'for_indexable' )->once()->with( $indexable, 'Post_Type' )->andReturnFalse();
+
+		$this->assertCount( 1, $this->instance->indexables_to_arrays( [ $indexable ] ) );
+	}
+
+	/**
+	 * Tests that indexables_to_arrays does not prime any user cache when no post has an author.
+	 *
+	 * @covers ::indexables_to_arrays
+	 * @covers ::prime_caches
+	 *
+	 * @return void
+	 */
+	public function test_indexables_to_arrays_without_authors() {
+		$indexable            = $this->make_indexable();
+		$indexable->author_id = 0;
+
+		Monkey\Functions\expect( '_prime_post_caches' )
+			->once()
+			->with( [ 42 ], true, true );
+		Monkey\Functions\expect( 'get_post_thumbnail_id' )->once()->with( 42 )->andReturn( 0 );
+		Monkey\Functions\expect( 'cache_users' )->never();
+
+		$this->meta_surface->expects( 'for_indexable' )->once()->with( $indexable, 'Post_Type' )->andReturnFalse();
+
+		$this->assertCount( 1, $this->instance->indexables_to_arrays( [ $indexable ] ) );
+	}
+
+	/**
+	 * Tests that indexables_to_arrays only primes the post cache while the Schema output is turned off.
+	 *
+	 * @covers ::indexables_to_arrays
+	 * @covers ::prime_caches
+	 *
+	 * @return void
+	 */
+	public function test_indexables_to_arrays_schema_output_disabled() {
+		$indexable = $this->make_indexable();
+
+		$this->schema_configuration->allows( 'is_schema_output_disabled' )->andReturnTrue();
+
+		Monkey\Functions\expect( '_prime_post_caches' )
+			->once()
+			->with( [ 42 ], false, false );
+		Monkey\Functions\expect( 'get_post_thumbnail_id' )->never();
+		Monkey\Functions\expect( 'cache_users' )->never();
+
+		$this->meta_surface->expects( 'for_indexable' )->once()->with( $indexable, 'Post_Type' )->andReturnFalse();
+
+		$this->assertCount( 1, $this->instance->indexables_to_arrays( [ $indexable ] ) );
+	}
+
+	/**
+	 * Tests that indexables_to_arrays does not prime any cache when there is nothing to map.
 	 *
 	 * @covers ::indexables_to_arrays
 	 *
@@ -526,6 +614,8 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	 */
 	public function test_indexables_to_arrays_empty() {
 		Monkey\Functions\expect( '_prime_post_caches' )->never();
+		Monkey\Functions\expect( 'get_post_thumbnail_id' )->never();
+		Monkey\Functions\expect( 'cache_users' )->never();
 
 		$this->assertSame( [], $this->instance->indexables_to_arrays( [] ) );
 	}
@@ -638,6 +728,7 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	private function make_indexable() {
 		$indexable                              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id                   = 42;
+		$indexable->author_id                   = 5;
 		$indexable->breadcrumb_title            = 'Hello world';
 		$indexable->permalink                   = 'https://example.com/hello-world/';
 		$indexable->object_sub_type             = 'post';

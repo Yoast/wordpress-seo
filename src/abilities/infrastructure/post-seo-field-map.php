@@ -155,18 +155,62 @@ class Post_SEO_Field_Map extends Abstract_SEO_Field_Map {
 	 */
 	public function indexables_to_arrays( array $indexables ): array {
 		if ( $indexables !== [] ) {
-			$object_ids = \array_map(
-				static function ( $indexable ) {
-					return (int) $indexable->object_id;
-				},
-				$indexables,
-			);
-
-			// Prime the post cache in one query, so each presentation build below reads its post from cache instead of issuing its own query.
-			\_prime_post_caches( $object_ids, false, false );
+			$this->prime_caches( $indexables );
 		}
 
 		return \array_map( [ $this, 'to_seo_array' ], $indexables );
+	}
+
+	/**
+	 * Primes, in bulk, the caches that building the presentation and the Schema graph of each post reads from.
+	 *
+	 * Without this, each post would issue its own queries for its post object, its terms, its meta, its featured image and
+	 * its author.
+	 *
+	 * @param Indexable[] $indexables The indexables of the posts.
+	 *
+	 * @return void
+	 */
+	private function prime_caches( array $indexables ): void {
+		$object_ids = \array_map(
+			static function ( $indexable ) {
+				return (int) $indexable->object_id;
+			},
+			$indexables,
+		);
+
+		// Terms, meta, featured images and authors are only read when building the Schema graph, which is skipped while its output is turned off.
+		$schema_output_disabled = $this->schema_configuration->is_schema_output_disabled();
+
+		\_prime_post_caches( $object_ids, ! $schema_output_disabled, ! $schema_output_disabled );
+
+		if ( $schema_output_disabled ) {
+			return;
+		}
+
+		// The featured image IDs are read from the meta primed above, so collecting them issues no queries.
+		$image_ids  = [];
+		$author_ids = [];
+		foreach ( $indexables as $indexable ) {
+			$image_id = \get_post_thumbnail_id( (int) $indexable->object_id );
+			if ( $image_id > 0 ) {
+				$image_ids[] = $image_id;
+			}
+
+			$author_id = (int) $indexable->author_id;
+			if ( $author_id > 0 ) {
+				$author_ids[] = $author_id;
+			}
+		}
+
+		if ( $image_ids !== [] ) {
+			\_prime_post_caches( $image_ids, false, true );
+		}
+
+		// Posts sharing an author need no deduplication, as cache_users() skips the users it has already cached.
+		if ( $author_ids !== [] ) {
+			\cache_users( $author_ids );
+		}
 	}
 
 	/**
