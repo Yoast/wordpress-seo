@@ -247,14 +247,14 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that noindex_rendered reflects the index directive of the presented robots value.
+	 * Tests that noindex_rendered reflects the noindex directive of the presented robots value.
 	 *
 	 * @dataProvider provider_to_seo_array_noindex_rendered
 	 *
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered_noindex
 	 *
-	 * @param array<string, string>|null $robots   The presented robots value.
-	 * @param bool                       $expected The expected noindex_rendered value.
+	 * @param array<int|string, string> $robots   The presented robots value.
+	 * @param bool                      $expected The expected noindex_rendered value.
 	 *
 	 * @return void
 	 */
@@ -271,30 +271,40 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 	/**
 	 * Data provider for test_to_seo_array_noindex_rendered.
 	 *
-	 * @return array<string, array<string, array<string, string>|bool|null>>
+	 * @return array<string, array<string, array<int|string, string>|bool>>
 	 */
 	public static function provider_to_seo_array_noindex_rendered() {
 		return [
-			'noindex'                                   => [
+			'noindex' => [
 				'robots'   => [
 					'index'  => 'noindex',
 					'follow' => 'nofollow',
 				],
 				'expected' => true,
 			],
-			'index'                                     => [
+			'index' => [
 				'robots'   => [
 					'index'  => 'index',
 					'follow' => 'follow',
 				],
 				'expected' => false,
 			],
-			'robots emptied by the wpseo_robots filter' => [
-				'robots'   => [],
+			'noindex added under a numeric key' => [
+				'robots'   => [
+					'index' => 'index',
+					0       => 'noindex',
+				],
+				'expected' => true,
+			],
+			'noimageindex is not noindex' => [
+				'robots'   => [
+					'index'      => 'index',
+					'imageindex' => 'noimageindex',
+				],
 				'expected' => false,
 			],
-			'no robots value'                           => [
-				'robots'   => null,
+			'robots emptied by the wpseo_robots filter' => [
+				'robots'   => [],
 				'expected' => false,
 			],
 		];

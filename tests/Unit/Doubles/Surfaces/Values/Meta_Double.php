@@ -25,7 +25,8 @@ final class Meta_Double extends Meta {
 	 * @param array<string, string|array<string, string>|null> $values The canned rendered values, keyed by Meta property name.
 	 */
 	public function __construct( array $values ) {
-		$this->rendered_values = $values;
+		// The real robots value is always an array, which consumers rely on.
+		$this->rendered_values = ( $values + [ 'robots' => [] ] );
 	}
 
 	/**

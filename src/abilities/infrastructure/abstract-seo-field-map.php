@@ -171,10 +171,7 @@ abstract class Abstract_SEO_Field_Map {
 			return null;
 		}
 
-		// Read into a local first: `??` on the magic property would consult `__isset()`, not `__get()`.
-		$robots = $meta->robots;
-
-		// No index directive, e.g. when a robots filter removed it, means search engines fall back to indexing the page.
-		return ( ( $robots['index'] ?? null ) === 'noindex' );
+		// Mirrors the noindex check of the canonical and rel prev/next presenters, to stay consistent with the front end.
+		return \in_array( 'noindex', $meta->robots, true );
 	}
 }
