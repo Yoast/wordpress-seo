@@ -24,7 +24,7 @@ class WPSEO_Admin {
 	/**
 	 * Array of classes that add admin functionality.
 	 *
-	 * @var array
+	 * @var object[]
 	 */
 	protected $admin_features;
 
@@ -124,7 +124,7 @@ class WPSEO_Admin {
 	/**
 	 * Returns all the classes for the admin features.
 	 *
-	 * @return array
+	 * @return object[]
 	 */
 	public function get_admin_features() {
 		return $this->admin_features;
@@ -194,10 +194,10 @@ class WPSEO_Admin {
 	/**
 	 * Adds links to Premium Support and FAQ under the plugin in the plugin overview page.
 	 *
-	 * @param array  $links Array of links for the plugins, adapted when the current plugin is found.
-	 * @param string $file  The filename for the current plugin, which the filter loops through.
+	 * @param string[] $links Array of links for the plugins, adapted when the current plugin is found.
+	 * @param string   $file  The filename for the current plugin, which the filter loops through.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function add_action_link( $links, $file ) {
 		$first_time_configuration_notice_helper = YoastSEO()->helpers->first_time_configuration_notice;
@@ -297,12 +297,13 @@ class WPSEO_Admin {
 	/**
 	 * Localization for the dismiss urls.
 	 *
-	 * @return array
+	 * @return array<string, string|bool>
 	 */
 	private function localize_admin_global_script() {
 		return array_merge(
 			[
 				'isRtl'                   => is_rtl(),
+				'notificationsNonce'      => wp_create_nonce( 'yoast-get-notifications' ),
 				'variable_warning'        => sprintf(
 				/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
 					__( 'Warning: the variable %1$s cannot be used in this template. See the %2$s for more info.', 'wordpress-seo' ),
