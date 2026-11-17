@@ -58,6 +58,11 @@ final class Router_Test extends TestCase {
 
 		\set_query_var( '$yoast_sitemap_xsl', 'xsl_value' );
 		$this->assertFalse( self::$class_instance->redirect_canonical( $url ) );
+
+		unset( $wp_query->query_vars['sitemap'] );
+		\set_query_var( 'yoast-sitemap-css', '1' );
+		$this->assertFalse( self::$class_instance->redirect_canonical( $url ) );
+		unset( $wp_query->query_vars['yoast-sitemap-css'] );
 	}
 
 	/**

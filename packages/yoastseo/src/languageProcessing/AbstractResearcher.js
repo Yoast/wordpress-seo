@@ -5,7 +5,10 @@ import MissingArgument from "../errors/missingArgument";
 
 // All researches in alphabetical order.
 import altTagCount from "./researches/altTagCount.js";
+import altTextKeyphraseCount from "./researches/altTextKeyphraseCount.js";
+import altTextLength from "./researches/altTextLength.js";
 import countSentencesFromText from "./researches/countSentencesFromText.js";
+import duplicateAltText from "./researches/duplicateAltText.js";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
 import findKeyphraseInSEOTitle from "./researches/findKeyphraseInSEOTitle";
 import findTransitionWords from "./researches/findTransitionWords";
@@ -31,8 +34,10 @@ import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings";
 import metaDescriptionKeyword from "./researches/metaDescriptionKeyword";
 import metaDescriptionLength from "./researches/metaDescriptionLength.js";
 import morphology from "./researches/getWordForms";
+import nonDescriptiveAltText from "./researches/nonDescriptiveAltText.js";
 import pageTitleWidth from "./researches/pageTitleWidth.js";
 import readingTime from "./researches/readingTime";
+import redundantPhraseInAltText from "./researches/redundantPhraseInAltText.js";
 import sentences from "./researches/sentences";
 import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
@@ -99,7 +104,10 @@ export default class AbstractResearcher {
 		// We expose the deprecated keywordCountInUrl for backwards compatibility.
 		this.defaultResearches = {
 			altTagCount,
+			altTextKeyphraseCount,
+			altTextLength,
 			countSentencesFromText,
+			duplicateAltText,
 			findKeywordInFirstParagraph,
 			findKeyphraseInSEOTitle,
 			findTransitionWords,
@@ -127,8 +135,10 @@ export default class AbstractResearcher {
 			metaDescriptionKeyword,
 			metaDescriptionLength,
 			morphology,
+			nonDescriptiveAltText,
 			pageTitleWidth,
 			readingTime,
+			redundantPhraseInAltText,
 			sentences,
 			wordCountInText,
 			videoCount,

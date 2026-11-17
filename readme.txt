@@ -307,6 +307,29 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 28.9 =
+
+Release date: 2026-11-18
+
+Yoast SEO 28.9 brings five new assessments that show whether your image alt text describes the image, plus more abilities and a security fix. [Read the release post here](https://yoa.st/58b). 
+
+#### Enhancements
+
+* Adds five new image alt text SEO assessments (alt text length, duplicate alt text, redundant phrase in alt text, non-descriptive alt text, and keyphrase stuffing in alt text), removes the _Keyphrase in image alt attributes_ assessment, and extends the bulk editor with image alt text filters.
+* Introduces a new Yoast ability that lets agents update author Schema data.
+* Introduces two new Yoast abilities that let agents get and set SEO data for specific terms.
+* Introduces two new Yoast abilities that let agents get and set SEO settings for archives, special pages and non-static homepages.
+
+#### Bugfixes
+
+* Fixes a bug where the abilities to read and write the SEO data of posts could not find a static homepage by its URL.
+* Fixes a bug where the head REST endpoints exposed the content of private posts and pages to visitors who could not read them.
+
+#### Other
+
+* Removes the _keyphrase in image alt attributes_ assessment, which is replaced by the alt text quality assessments.
+* Removes the stylesheet from the XML sitemaps as browsers drop XSLT support.
+
 = 28.8 =
 
 Release date: 2026-10-27
@@ -330,16 +353,6 @@ New Yoast Abilities for AI agents, Schema Feeds support, and the groundwork for 
 #### Other
 
 * Sets the minimum supported WordPress version to 7.0.
-
-= 28.7 =
-
-Release date: 2026-10-13
-
-Yoast SEO 28.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Allows agents to update titles and descriptions via the respective Yoast Ability.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

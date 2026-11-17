@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\User_Interface\Posts_Route;
 
 use Brain\Monkey;
+use Brain\Monkey\Filters;
 use Yoast\WP\SEO\Bulk_Editor\Application\Posts\Posts_Collector_Interface;
 use Yoast\WP\SEO\Bulk_Editor\User_Interface\Posts_Route;
 
@@ -99,6 +100,33 @@ final class Register_Routes_Test extends Abstract_Test {
 			);
 
 		$this->instance->register_routes();
+	}
+
+	/**
+	 * Tests that plugins can extend the needs-improvement field enum via the filter.
+	 *
+	 * @return void
+	 */
+	public function test_register_routes_applies_needs_improvement_fields_filter() {
+		$extended = \array_merge( Posts_Collector_Interface::NEEDS_IMPROVEMENT_FIELDS, [ 'alt_text_length' ] );
+
+		Filters\expectApplied( 'wpseo_bulk_editor_needs_improvement_fields' )
+			->once()
+			->with( Posts_Collector_Interface::NEEDS_IMPROVEMENT_FIELDS )
+			->andReturn( $extended );
+
+		$registered_enum = null;
+		Monkey\Functions\expect( 'register_rest_route' )
+			->once()
+			->andReturnUsing(
+				static function ( $ns, $route, $args ) use ( &$registered_enum ) {
+					$registered_enum = ( $args['args']['needs_improvement']['items']['enum'] ?? null );
+				},
+			);
+
+		$this->instance->register_routes();
+
+		$this->assertSame( $extended, $registered_enum );
 	}
 
 	/**
