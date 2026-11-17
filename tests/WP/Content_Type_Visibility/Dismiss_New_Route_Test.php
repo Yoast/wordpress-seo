@@ -95,9 +95,62 @@ final class Dismiss_New_Route_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that both routes require permission to manage SEO settings.
+	 *
+	 * @covers ::can_dismiss
+	 * @covers ::register_routes
+	 * @covers ::post_type_dismiss_callback
+	 * @covers ::taxonomy_dismiss_callback
+	 * @dataProvider data_provider_dismiss_permissions
+	 *
+	 * @param string $type       The content type to dismiss.
+	 * @param bool   $can_manage Whether the user can manage SEO settings.
+	 *
+	 * @return void
+	 */
+	public function test_dismiss_permissions( $type, $can_manage ) {
+		$user = self::factory()->user->create_and_get( [ 'role' => 'contributor' ] );
+		if ( $can_manage ) {
+			$user->add_cap( 'wpseo_manage_options' );
+		}
+		\wp_set_current_user( $user->ID );
+
+		$this->options->set( 'new_post_types', [ 'post' ] );
+		$this->options->set( 'new_taxonomies', [ 'category' ] );
+
+		$request = new WP_REST_Request( 'POST', '/yoast/v1/new-content-type-visibility/dismiss-' . $type );
+		if ( $type === 'post-type' ) {
+			$request->set_param( 'post_type_name', 'post' );
+		}
+		else {
+			$request->set_param( 'taxonomy_name', 'category' );
+		}
+
+		$response = \rest_get_server()->dispatch( $request );
+
+		$this->assertSame( ( $can_manage ) ? 200 : 403, $response->get_status() );
+		$this->assertSame( ( $can_manage && $type === 'post-type' ) ? [] : [ 'post' ], $this->options->get( 'new_post_types' ) );
+		$this->assertSame( ( $can_manage && $type === 'taxonomy' ) ? [] : [ 'category' ], $this->options->get( 'new_taxonomies' ) );
+	}
+
+	/**
+	 * Provides both dismissal routes with and without the settings capability.
+	 *
+	 * @return array<string, array<string|bool>>
+	 */
+	public static function data_provider_dismiss_permissions() {
+		return [
+			'contributor dismissing post type' => [ 'post-type', false ],
+			'contributor dismissing taxonomy'  => [ 'taxonomy', false ],
+			'SEO manager dismissing post type' => [ 'post-type', true ],
+			'SEO manager dismissing taxonomy'  => [ 'taxonomy', true ],
+		];
+	}
+
+	/**
 	 * Data provider for test_post_type_dismiss.
 	 *
-	 * @return array
+	 * @return array<string, array<string, array<string>|string>>
 	 */
 	public static function data_provider_post_type_dismiss() {
 		return [
@@ -121,9 +174,9 @@ final class Dismiss_New_Route_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_post_type_dismiss
 	 *
-	 * @param array  $new_post_types The new post types.
-	 * @param string $post_type_name The post type name.
-	 * @param string $message        The message.
+	 * @param array<string> $new_post_types The new post types.
+	 * @param string        $post_type_name The post type name.
+	 * @param string        $message        The message.
 	 *
 	 * @return void
 	 */
@@ -151,7 +204,7 @@ final class Dismiss_New_Route_Test extends TestCase {
 	/**
 	 * Data provider for test_taxonomy_dismiss.
 	 *
-	 * @return array
+	 * @return array<string, array<string, array<string>|string>>
 	 */
 	public static function data_provider_taxonomy_dismiss() {
 		return [
@@ -175,9 +228,9 @@ final class Dismiss_New_Route_Test extends TestCase {
 	 *
 	 * @dataProvider data_provider_taxonomy_dismiss
 	 *
-	 * @param array  $new_taxonomies The new post types.
-	 * @param string $taxonomy_name  The post type name.
-	 * @param string $message        The message.
+	 * @param array<string> $new_taxonomies The new post types.
+	 * @param string        $taxonomy_name  The post type name.
+	 * @param string        $message        The message.
 	 *
 	 * @return void
 	 */
