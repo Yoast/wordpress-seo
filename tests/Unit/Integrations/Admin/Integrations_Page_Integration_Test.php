@@ -231,7 +231,8 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->site_kit_consent_management_endpoint->expects( 'get_url' )
 			->andReturn( 'https://www.example.com/manage-consent' );
 		$this->schema_configuration->expects( 'is_schema_disabled_programmatically' )->andReturnFalse();
-		$this->myyoast_connection_script_data->expects( 'present' )->andReturnNull();
+		$myyoast_connection = [ 'startConnection' => false ];
+		$this->myyoast_connection_script_data->expects( 'present' )->andReturn( $myyoast_connection );
 		$this->abilities_api_conditional->expects( 'is_met' )->andReturnTrue();
 
 		$this->admin_asset_manager->expects( 'localize_script' )->with(
@@ -266,7 +267,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'site_kit_configuration'             => $site_kit_config,
 				'site_kit_consent_management_url'    => 'https://www.example.com/manage-consent',
 				'schema_framework_enabled'           => true,
-				'myyoast_connection'                 => null,
+				'myyoast_connection'                 => $myyoast_connection,
 				'schema_aggregation_active'          => true,
 				'abilities_api_active'               => true,
 			],

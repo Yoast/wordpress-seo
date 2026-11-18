@@ -1,28 +1,20 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
 import { noop } from "lodash";
-import FieldGroup, { FieldGroupProps } from "../field-group/FieldGroup";
+import FieldGroup from "../field-group/FieldGroup";
 import { getId } from "../GenerateId";
 
 import "./radiobutton.css";
 
-const radioButtonsProps = {
-	options: PropTypes.array.isRequired,
-	onChange: PropTypes.func.isRequired,
-	groupName: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	selected: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ),
-};
-
 /**
  * Function that returns a radiobutton with accompanying label.
  *
- * @param {string} value The value of the radiobutton.
- * @param {string} label The label that accompanies the radiobutton.
- * @param {boolean} checked Whether the radiobutton is checked.
- * @param {onChange} onChange A function for the onChange.
- * @param {string} groupName The name of the group of radio buttons.
- * @param {string} id The id of the radio button.
+ * @param {Object} props Component props.
+ * @param {(string|number)} props.value The value of the radiobutton.
+ * @param {string} props.label The label that accompanies the radiobutton.
+ * @param {boolean} [props.checked=false] Whether the radiobutton is checked.
+ * @param {string} props.groupName The name of the group of radio buttons.
+ * @param {Function} [props.onChange=noop] A function for the onChange.
+ * @param {string} props.id The id of the radio button.
  *
  * @returns {React.Component} A single radiobutton field with label.
  */
@@ -42,23 +34,15 @@ const LabeledRadioButton = ( { value, label, checked = false, onChange = noop, g
 	</label>
 </Fragment>;
 
-LabeledRadioButton.propTypes = {
-	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
-	label: PropTypes.string.isRequired,
-	checked: PropTypes.bool,
-	groupName: PropTypes.string.isRequired,
-	onChange: PropTypes.func,
-	id: PropTypes.string.isRequired,
-};
-
 /**
  * Returns a set of radiobuttons that are on the same line.
  *
- * @param {array} options An array of options for the radio buttons.
- * @param {function} onChange The onChange function.
- * @param {string} groupName The name of the radio button group.
- * @param {string} id The id of the component.
- * @param {string} selected Optional: the selected radio button.
+ * @param {Object} props Component props.
+ * @param {Array} props.options An array of options for the radio buttons.
+ * @param {Function} props.onChange The onChange function.
+ * @param {string} props.groupName The name of the radio button group.
+ * @param {string} props.id The id of the component.
+ * @param {(string|number)} [props.selected=null] Optional: the selected radio button.
  *
  * @returns {React.Component} A div with radiobuttons in it.
  */
@@ -79,16 +63,15 @@ const HorizontalRadioButtons = ( { options, onChange, groupName, id, selected = 
 	</div>
 );
 
-HorizontalRadioButtons.propTypes = radioButtonsProps;
-
 /**
  * Returns a set of radiobuttons that are vertically aligned.
  *
- * @param {array} options An array of options for the radio buttons.
- * @param {function} onChange The onChange function.
- * @param {string} groupName The name of the radio button group.
- * @param {string} id The id of the component.
- * @param {string} selected Optional: the selected radio button.
+ * @param {Object} props Component props.
+ * @param {Array} props.options An array of options for the radio buttons.
+ * @param {Function} props.onChange The onChange function.
+ * @param {string} props.groupName The name of the radio button group.
+ * @param {string} props.id The id of the component.
+ * @param {(string|number)} [props.selected=null] Optional: the selected radio button.
  *
  * @returns {React.Component} A lot of divs with one radiobutton in it.
  */
@@ -109,12 +92,18 @@ const VerticalRadioButtons = ( { options, onChange, groupName, id, selected = nu
 	</div>
 );
 
-VerticalRadioButtons.propTypes = radioButtonsProps;
-
 /**
  * Component that generates a group of radio buttons.
  *
- * @param {object} props The props for this component.
+ * @param {Object} props The props for this component. Also accepts the FieldGroup props (see field-group/FieldGroup.js).
+ * @param {string} [props.id=""] The id of the component.
+ * @param {string} props.groupName The name of the radio button group.
+ * @param {Object[]} props.options An array of options for the radio buttons.
+ * @param {(string|number)} props.options[].value The value of the radio button.
+ * @param {string} props.options[].label The label of the radio button.
+ * @param {(string|number)} [props.selected=null] The selected radio button.
+ * @param {Function} [props.onChange=noop] The function to call with the selected value when it changes.
+ * @param {boolean} [props.vertical=false] Whether to align the radio buttons vertically.
  *
  * @returns {React.Component} A RadioButtonGroup.
  */
@@ -147,19 +136,6 @@ const RadioButtonGroup = ( {
 			}
 		</FieldGroup>
 	);
-};
-
-RadioButtonGroup.propTypes = {
-	id: PropTypes.string,
-	groupName: PropTypes.string.isRequired,
-	options: PropTypes.arrayOf( PropTypes.shape( {
-		value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
-		label: PropTypes.string.isRequired,
-	} ) ).isRequired,
-	selected: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ),
-	onChange: PropTypes.func,
-	vertical: PropTypes.bool,
-	...FieldGroupProps,
 };
 
 export default RadioButtonGroup;

@@ -1,7 +1,6 @@
 /* External dependencies */
 import React, { Fragment } from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 const FacebookSiteUrlWrapper = styled.p`
 	color: #606770;
@@ -20,7 +19,7 @@ const FacebookSiteUrlWrapper = styled.p`
 /**
  * Renders a FacebookSiteUrl component.
  *
- * @param {object} props The props.
+ * @param {Object} props The props.
  * @param {string} props.siteUrl The site url.
  *
  * @returns {React.Element} The rendered element.
@@ -36,10 +35,6 @@ const FacebookSiteUrlComponent = ( props ) => {
 			</FacebookSiteUrlWrapper>
 		</Fragment>
 	);
-};
-
-FacebookSiteUrlComponent.propTypes = {
-	siteUrl: PropTypes.string.isRequired,
 };
 
 export default FacebookSiteUrlComponent;

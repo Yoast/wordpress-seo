@@ -25,5 +25,9 @@ final class Recent_Content_Indexable_Collector_Constructor_Test extends Abstract
 			'Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector',
 			$this->instance,
 		);
+		$this->assertInstanceOf(
+			'Yoast\WP\SEO\Task_List\Application\Recent_Content\Recent_Content_Collector_Interface',
+			$this->instance,
+		);
 	}
 }

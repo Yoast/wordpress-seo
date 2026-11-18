@@ -60,7 +60,7 @@
     "@draft-js-plugins/mention": "^5.0.0",
     "@heroicons/react": "^1.0.6",
     "@wordpress/components": ">=28.8.12",
-    "@yoast/ui-library": "^4.6.0",
+    "@yoast/ui-library": "^4.7.0",
     "draft-js": "^0.11.7",
     "react": "^18.3.1 || ^19.0.0",
     "react-dom": "^18.3.1 || ^19.0.0"

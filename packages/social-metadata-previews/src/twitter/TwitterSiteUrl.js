@@ -1,7 +1,6 @@
 /* External dependencies */
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 /**
  * Paragraph that contains the TwitterSiteUrl and the icon.
@@ -22,7 +21,8 @@ const TwitterSiteUrlWrapper = styled.div`
 /**
  * Renders a TwitterSiteUrl component.
  *
- * @param {object} props The props.
+ * @param {Object} props The props.
+ * @param {string} props.siteUrl The site url.
  *
  * @returns {React.Element} The rendered element.
  */
@@ -32,10 +32,6 @@ const TwitterSiteUrl = ( props ) => {
 			<span>{ props.siteUrl }</span>
 		</TwitterSiteUrlWrapper>
 	);
-};
-
-TwitterSiteUrl.propTypes = {
-	siteUrl: PropTypes.string.isRequired,
 };
 
 export default TwitterSiteUrl;

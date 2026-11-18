@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 7.1
-Stable tag: 28.8
+Stable tag: 28.9
 Requires PHP: 7.4
 
 Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.
@@ -309,20 +309,16 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 28.9 =
 
-Release date: 2026-11-17
+Release date: 2026-11-18
+
+Yoast SEO 28.9 brings five new assessments that show whether your image alt text describes the image, plus more abilities and a security fix. [Read the release post here](https://yoa.st/58b). 
 
 #### Enhancements
 
-* Adds a _Duplicate alt text_ assessment that flags when different images on the page share the same alt text.
-* Adds a _keyphrase stuffing in alt text_ assessment that flags images whose alt text overuses the keyphrase or its synonyms.
-* Adds an _alt text length_ assessment that flags images whose alt text is too short or too long.
-* Adds a _non-descriptive alt text_ assessment that flags images whose alt text is a placeholder, a file name or a generic default like \"Product image\".
-* Adds a _redundant phrase in alt text_ assessment that flags images whose alt text contains a phrase like \"Image of\".
 * Adds five new image alt text SEO assessments (alt text length, duplicate alt text, redundant phrase in alt text, non-descriptive alt text, and keyphrase stuffing in alt text), removes the _Keyphrase in image alt attributes_ assessment, and extends the bulk editor with image alt text filters.
 * Introduces a new Yoast ability that lets agents update author Schema data.
 * Introduces two new Yoast abilities that let agents get and set SEO data for specific terms.
 * Introduces two new Yoast abilities that let agents get and set SEO settings for archives, special pages and non-static homepages.
-* Replaces the XSLT stylesheet of the XML sitemaps with a CSS one, so they keep rendering as a readable table after browsers drop XSLT support.
 
 #### Bugfixes
 
@@ -332,6 +328,7 @@ Release date: 2026-11-17
 #### Other
 
 * Removes the _keyphrase in image alt attributes_ assessment, which is replaced by the alt text quality assessments.
+* Removes the stylesheet from the XML sitemaps as browsers drop XSLT support.
 
 = 28.8 =
 

@@ -4,12 +4,12 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Task_List\Application\Recent_Content\Recent_Content_Collector_Interface;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Default_Meta_Descriptions_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Post_Type_Parent_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Child_Task_Interface;
-use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 
 /**
  * Represents the task for setting custom meta descriptions on recent content.
@@ -42,7 +42,7 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 	/**
 	 * Holds the recent content indexable collector.
 	 *
-	 * @var Recent_Content_Indexable_Collector
+	 * @var Recent_Content_Collector_Interface
 	 */
 	private $recent_content_indexable_collector;
 
@@ -63,12 +63,12 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 	/**
 	 * Constructs the task.
 	 *
-	 * @param Recent_Content_Indexable_Collector $recent_content_indexable_collector The recent content indexable collector.
+	 * @param Recent_Content_Collector_Interface $recent_content_indexable_collector The recent content indexable collector.
 	 * @param Indexable_Helper                   $indexable_helper                   The indexable helper.
 	 * @param Options_Helper                     $options_helper                     The options helper.
 	 */
 	public function __construct(
-		Recent_Content_Indexable_Collector $recent_content_indexable_collector,
+		Recent_Content_Collector_Interface $recent_content_indexable_collector,
 		Indexable_Helper $indexable_helper,
 		Options_Helper $options_helper
 	) {

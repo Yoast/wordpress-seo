@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
@@ -32,6 +31,15 @@ const IconButtonBase = styled.button`
  * @deprecated Use the Button component from @yoast/ui-library instead.
  *
  * @param {Object} props Component props.
+ * @param {string} props.id The id of the button.
+ * @param {string} props.ariaLabel The aria-label of the button.
+ * @param {Function} props.onClick The function to call when the button is clicked.
+ * @param {string} [props.boxShadowColor] The box shadow color of the button.
+ * @param {string} [props.background] The background color of the button.
+ * @param {string} [props.iconColor] The color of the icon.
+ * @param {string} props.icon The name of the icon.
+ * @param {string} [props.hoverBorderColor] The border color on hover.
+ * @param {string} [props.className] The class name of the button.
  *
  * @returns {ReactElement} IconCTAEditButton component.
  */
@@ -63,18 +71,6 @@ const IconCTAEditButton = function( {
 			/>
 		</IconButtonBase>
 	);
-};
-
-IconCTAEditButton.propTypes = {
-	id: PropTypes.string.isRequired,
-	ariaLabel: PropTypes.string.isRequired,
-	onClick: PropTypes.func.isRequired,
-	boxShadowColor: PropTypes.string,
-	background: PropTypes.string,
-	iconColor: PropTypes.string,
-	icon: PropTypes.string.isRequired,
-	hoverBorderColor: PropTypes.string,
-	className: PropTypes.string,
 };
 
 export default IconCTAEditButton;
