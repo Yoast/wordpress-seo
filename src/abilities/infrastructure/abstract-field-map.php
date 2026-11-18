@@ -56,7 +56,7 @@ abstract class Abstract_Field_Map {
 	}
 
 	/**
-	 * Returns the writable fields, mapped to their JSON schema.
+	 * Returns the fields, mapped to their JSON schema.
 	 *
 	 * @return array<string, array<string, mixed>> The JSON schema of each field, keyed by field name.
 	 */

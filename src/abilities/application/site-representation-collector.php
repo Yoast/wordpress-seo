@@ -9,8 +9,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 /**
  * Application service that collects the site representation settings.
  *
- * The settings are returned as stored, which is also what the schema on the site is built from, so they can be
- * passed back to the update ability as they are.
+ * The settings are returned as stored, so an empty value means the setting is not set.
  *
  * @internal Backs the site representation abilities. Not meant to be used outside of Yoast SEO, so it can change
  *           at any time without notice.

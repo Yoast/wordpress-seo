@@ -6,10 +6,10 @@ namespace Yoast\WP\SEO\Abilities\Infrastructure;
 use Yoast\WP\SEO\Conditionals\Local_SEO_Active_Conditional;
 
 /**
- * Describes the site representation settings that the abilities can write, keyed by option name.
+ * Describes the site representation settings that the abilities can read and write, keyed by option name.
  *
- * The map is the single source of truth for both the ability schemas and the updater, so a field
- * added through the filter is exposed, validated and written without further changes.
+ * The map is the single source of truth for the ability schemas, the collector and the updater, so a field
+ * added through the filter is exposed, read, validated and written without further changes.
  */
 class Site_Representation_Field_Map extends Abstract_Field_Map {
 
