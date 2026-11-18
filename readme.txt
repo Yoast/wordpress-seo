@@ -334,7 +334,7 @@ Release date: 2026-12-01
 
 #### Other
 
-* Adds an \"Edit in bulk\" call-to-action button to the \"Improve default meta descriptions\" task in the task list, linking directly to the bulk editor.
+* Adds an "Edit in bulk" call-to-action button to the "Improve default meta descriptions" task in the task list, linking directly to the bulk editor.
 
 = 28.9 =
 
