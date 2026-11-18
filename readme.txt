@@ -307,6 +307,35 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 29.0 =
+
+Release date: 2026-12-01
+
+#### Enhancements
+
+* Adds the `wpseo_disable_metabox_in_block_editor` filter, which lets the block editor sidebar save post meta via the REST API instead of the metabox hidden fields.
+* Improves how Yoast abilities explain their responses, settings and limitations to agents.
+* Improves the way we describe post titles and term names to agents to cover cases where custom breadcrumb titles are set.
+* Improves the way we describe to agents how to use permalinks to get and set SEO data of specific posts and terms.
+* Introduces two new Yoast abilities that let agents get and set SEO data for specific author archives.
+* Makes the MyYoast connection available on all sites.
+
+#### Bugfixes
+
+* Fixes a bug where configuration notices were dismissed by users without settings access. Props to [@jdevalk](https://github.com/jdevalk).
+* Fixes a bug where dismissed notifications were restored without request verification. Props to [@jdevalk](https://github.com/jdevalk).
+* Fixes a bug where PHP deprecation notices were logged when editing a post on PHP 8.5 and later.
+* Fixes a bug where searching by title in the `get-post-seo-data` ability only returned posts and not pages or other post types.
+* Fixes a bug where site-wide notices were dismissed when contributors called the content-type dismissal routes. Props to [@jdevalk](https://github.com/jdevalk).
+* Fixes a bug where the highlight buttons of several assessments, e.g. the *consecutive sentences* assessment, would not highlight anything in the block editor when the post content had no line break after the block comments.
+* Fixes a bug where the highlight buttons would not highlight anything in blocks nested inside other blocks, e.g. paragraphs in columns.
+* Fixes a bug where the Premium activation notice was hidden by unverified dismissal requests. Props to [@jdevalk](https://github.com/jdevalk).
+* Fixes a bug where values that were cleaned up before saving were reported as not saved by the Yoast Abilities that update settings.
+
+#### Other
+
+* Adds an \"Edit in bulk\" call-to-action button to the \"Improve default meta descriptions\" task in the task list, linking directly to the bulk editor.
+
 = 28.9 =
 
 Release date: 2026-11-18
@@ -329,30 +358,6 @@ Yoast SEO 28.9 brings five new assessments that show whether your image alt text
 
 * Removes the _keyphrase in image alt attributes_ assessment, which is replaced by the alt text quality assessments.
 * Removes the stylesheet from the XML sitemaps as browsers drop XSLT support.
-
-= 28.8 =
-
-Release date: 2026-10-27
-
-New Yoast Abilities for AI agents, Schema Feeds support, and the groundwork for Yoast AI Generate for image alt text in Yoast WooCommerce SEO 17.0. [Read the release post here](https://yoa.st/57v).
-
-#### Enhancements
-
-* Adds AI-powered image alt text generation for WooCommerce product images, including a dedicated Image alt text tab in the bulk editor for Yoast WooCommerce SEO.
-* Adds Yoast abilities that let agents turn site-wide features on and off: llms.txt, Open Graph data, Schema Aggregator, Schema Framework, X card data, and XML sitemaps.
-* Adds a Yoast ability that lets agents update Site representation settings.
-* Adds the `sf:contentType` element from NLWeb's Schema Feeds specification to the schema map.
-
-#### Bugfixes
-
-* Fixes a bug where AI Optimize buttons were shown in the content analysis when AI features were turned off.
-* Fixes a bug where the AI features' free trial was treated as already started after the Yoast SEO settings were saved.
-* Fixes a bug where the bulk editor kept the SEO analysis active when the user had turned it off in their profile.
-* Fixes a bug where the time the schema aggregation endpoint was enabled was not recorded when the setting was saved from the Site features page.
-
-#### Other
-
-* Sets the minimum supported WordPress version to 7.0.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
