@@ -48,7 +48,7 @@ const StyledSvgSpinner = styled.svg`
 `;
 
 const DEFAULT_VIEWBOX = "0 0 1792 1792";
-/* eslint-disable max-len, quote-props */
+/* eslint-disable stylistic/quote-props */
 export const icons = {
 	"chevron-down": { viewbox: "0 0 24 24", width: "24px", path: [
 		<g key="1"><path fill="none" d="M0,0h24v24H0V0z" /></g>,

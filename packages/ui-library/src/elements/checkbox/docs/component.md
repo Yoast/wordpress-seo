@@ -1,4 +1,4 @@
-A checkbox is a graphical user interface element that can be used either as a single checkbox or in a list, and its usage can differ depending on the context and user's needs. 
+Checkboxes are graphical user interface elements that can be used either as single checkboxes or in lists, and their usage can differ depending on the context and users' needs.
 
 **Single checkbox**<br>
 A single checkbox is typically used for binary choices, such as:

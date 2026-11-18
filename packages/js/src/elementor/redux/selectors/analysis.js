@@ -1,8 +1,8 @@
+import { selectors } from "@yoast/externals/redux";
 import { strings } from "@yoast/helpers";
 import measureTextWidth from "../../../helpers/measureTextWidth";
-import { selectors } from "@yoast/externals/redux";
-
-import { applyModifications } from "../../initializers/pluggable";
+import { applyModifications } from "../../../initializers/pluggable";
+import { getSnippetEditorSlug } from "./snippet-editor";
 
 const {
 	getBaseUrlFromSettings,
@@ -10,7 +10,6 @@ const {
 	getEditorDataContent,
 	getFocusKeyphrase,
 	getSnippetEditorDescriptionWithTemplate,
-	getSnippetEditorSlug,
 	getSnippetEditorTitleWithTemplate,
 	getDateFromSettings,
 } = selectors;
@@ -25,6 +24,7 @@ const {
 export const getAnalysisData = ( state ) => {
 	let title = getSnippetEditorTitleWithTemplate( state );
 	let description = getSnippetEditorDescriptionWithTemplate( state );
+	// Use the Elementor override with fallbacks.
 	let slug = getSnippetEditorSlug( state );
 	const baseUrl = getBaseUrlFromSettings( state );
 

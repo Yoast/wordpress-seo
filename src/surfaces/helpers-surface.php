@@ -35,7 +35,6 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Primary_Term_Helper                    $primary_term
  * @property Helpers\Product_Helper                         $product
  * @property Helpers\Redirect_Helper                        $redirect
- * @property Helpers\Request_Helper                         $request
  * @property Helpers\Require_File_Helper                    $require_file
  * @property Helpers\Robots_Helper                          $robots
  * @property Helpers\Short_Link_Helper                      $short_link
@@ -131,7 +130,7 @@ class Helpers_Surface {
 	 *
 	 * @throws Forbidden_Property_Mutation_Exception Set is never meant to be called.
 	 */
-	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- __set must have a name and value.
+	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- __set must have a name and value - PHPCS #3715.
 		throw Forbidden_Property_Mutation_Exception::cannot_set_because_property_is_immutable( $name );
 	}
 

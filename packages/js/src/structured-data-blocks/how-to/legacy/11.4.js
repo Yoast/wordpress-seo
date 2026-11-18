@@ -42,13 +42,13 @@ function LegacyHowToStep( step ) {
 
 /**
  * Returns the component to be used to render
- * the How-to block on Wordpress (e.g. not in the editor).
+ * the How-to block on WordPress (e.g. not in the editor).
  *
  * @param {Object} props the attributes of the How-to block.
  *
  * @returns {wp.Element} The component representing a How-to block.
  */
-export default function LegacyHowTo( props ) {
+export default function LegacyHowTo( props ) { // eslint-disable-line complexity
 	const {
 		steps,
 		hasDuration,
@@ -68,9 +68,12 @@ export default function LegacyHowTo( props ) {
 
 	const timeString = buildDurationString( { days, hours, minutes } );
 
-	const stepElements = steps.map( step => {
-		return <LegacyHowToStep { ...step } key={ step.id } />;
-	} );
+	let stepElements = [];
+	if ( steps ) {
+		stepElements = steps.map( step => {
+			return <LegacyHowToStep { ...step } key={ step.id } />;
+		} );
+	}
 
 	return (
 		<div className={ classNames }>

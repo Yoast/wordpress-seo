@@ -1,9 +1,8 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
-import Assessment from "../assessment";
-import { merge } from "lodash-es";
-
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker/index.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import Assessment from "../assessment.js";
+import { merge } from "lodash";
 
 /**
  * Represents the assessment that checks whether there is enough text in the paper.
@@ -40,7 +39,7 @@ export default class TextPresenceAssessment extends Assessment {
 			const result = new AssessmentResult();
 
 			result.setText( sprintf(
-				/* Translators: %1$s and %3$s expand to links to articles on Yoast.com,
+				/* translators: %1$s and %3$s expand to links to articles on Yoast.com,
 				%2$s expands to the anchor end tag*/
 				__(
 					"%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s.",

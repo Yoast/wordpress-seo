@@ -1,46 +1,39 @@
-import { useMemo, forwardRef } from "@wordpress/element";
-import PropTypes from "prop-types";
 import classNames from "classnames";
+import PropTypes from "prop-types";
+import React, { forwardRef, useMemo } from "react";
 
 /**
  * @param {number} min The minimal value.
  * @param {number} max The maximum value.
  * @param {number} progress The current progress value between min and max.
+ * @param {string} [className] Additional class names for the progress bar container.
+ * @param {string} [progressClassName] Additional class names for the progress indicator.
  * @returns {JSX.Element} The ProgressBar component.
  */
 const ProgressBar = forwardRef( ( {
 	min,
 	max,
 	progress,
-	className,
+	className = "",
+	progressClassName = "",
 	...props
 }, ref ) => {
 	const percentage = useMemo( () => progress / ( max - min ) * 100, [ min, max, progress ] );
 
 	return (
 		<div ref={ ref } aria-hidden="true" className={ classNames( "yst-progress-bar", className ) } { ...props }>
-			<div className="yst-progress-bar__progress" style={ { width: `${ percentage }%` } } />
+			<div className={ classNames( "yst-progress-bar__progress", progressClassName ) } style={ { width: `${ percentage }%` } } />
 		</div>
 	);
 } );
 
-const propTypes = {
+ProgressBar.displayName = "ProgressBar";
+ProgressBar.propTypes = {
 	min: PropTypes.number.isRequired,
 	max: PropTypes.number.isRequired,
 	progress: PropTypes.number.isRequired,
+	progressClassName: PropTypes.string,
 	className: PropTypes.string,
 };
-
-ProgressBar.propTypes = propTypes;
-
-ProgressBar.defaultProps = {
-	className: "",
-};
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <ProgressBar { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = ProgressBar.defaultProps;
-StoryComponent.displayName = "ProgressBar";
 
 export default ProgressBar;

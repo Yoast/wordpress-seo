@@ -14,6 +14,30 @@ export async function getAuthorizationUrl() {
 }
 
 /**
+ * Checks the tracking limit.
+ *
+ * @returns {Promise} The API response promise.
+ */
+export async function checkLimit() {
+	return await callEndpoint( {
+		path: "yoast/v1/wincher/account/limit",
+		method: "GET",
+	} );
+}
+
+/**
+ * Gets the upgrade campaign.
+ *
+ * @returns {Promise} The API response promise.
+ */
+export async function getUpgradeCampaign() {
+	return await callEndpoint( {
+		path: "yoast/v1/wincher/account/upgrade-campaign",
+		method: "GET",
+	} );
+}
+
+/**
  * Authenticates the user with Wincher's OAuth server.
  *
  * @param {Object} responseData The message response data.
@@ -34,18 +58,20 @@ export async function authenticate( responseData ) {
  * Gets the tracked keyphrases data via POST.
  *
  * @param {Array}   keyphrases     The keyphrases to get the data for.
+ * @param {string}  startAt     The keyphrases to get the data for.
  * @param {String}  permalink  	The post's/page's permalink. Optional.
  * @param {AbortSignal} signal (optional) Abort signal.
  *
  * @returns {Promise} The API response promise.
  */
-export async function getKeyphrases( keyphrases = null, permalink = null, signal ) {
+export async function getKeyphrases( keyphrases = null, startAt = null, permalink = null, signal ) {
 	return await callEndpoint( {
 		path: "yoast/v1/wincher/keyphrases",
 		method: "POST",
 		data: {
 			keyphrases,
 			permalink,
+			startAt,
 		},
 		signal,
 	} );

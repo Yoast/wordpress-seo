@@ -3,8 +3,9 @@ import { SelectField, TextField, ToggleField, Code } from "@yoast/ui-library";
 import { Field } from "formik";
 import { map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
+import { FieldsetLayout, FormLayout, RouteLayout } from "../components";
 import { useSelectSettings } from "../hooks";
+import { FormikValueChangeField } from "../../shared-admin/components/form";
 
 /**
  * @returns {JSX.Element} The breadcrumbs route.
@@ -111,10 +112,8 @@ const Breadcrumbs = () => {
 							as={ SelectField }
 							name={ `wpseo_titles.post_types-${ postTypeName }-maintax` }
 							id={ `input-wpseo_titles-post_types-${ postTypeName }-maintax` }
-							label={ <>
-								{ postType.label }
-								<Code className="yst-ml-2">{ postTypeName }</Code>
-							</> }
+							label={ postType.label }
+							labelSuffix={ <Code className="yst-ml-2 rtl:yst-mr-2">{ postTypeName }</Code> }
 							options={ postType.options }
 							className="yst-max-w-sm"
 						/> ) }
@@ -131,12 +130,10 @@ const Breadcrumbs = () => {
 								as={ SelectField }
 								name={ `wpseo_titles.taxonomy-${ taxonomy.name }-ptparent` }
 								id={ `input-wpseo_titles-taxonomy-${ taxonomy.name }-ptparent` }
-								label={ <>
-									{ taxonomy.label }
-									<Code className="yst-ml-2">{ taxonomy.name }</Code>
-								</> }
+								label={ taxonomy.label }
 								options={ taxonomy.options }
 								className="yst-max-w-sm"
+								labelSuffix={ <Code className="yst-ml-2 rtl:yst-mr-2">{ taxonomy.name }</Code> }
 							/>
 						) ) }
 					</FieldsetLayout>
@@ -156,14 +153,18 @@ const Breadcrumbs = () => {
 							) }
 						</p>
 						<p>
-							{ __( "You can always choose to enable/disable them for your theme below. This setting will not apply to breadcrumbs inserted through a widget, a block or a shortcode.", "wordpress-seo" ) }
+							{ sprintf(
+								/* translators: %1$s expands to "Yoast SEO". */
+								__( "This setting only controls breadcrumbs added to your theme's template files with the %1$s PHP function. It doesn't affect breadcrumbs inserted through a block, widget, or shortcode, or the breadcrumbs structured data in your page source.", "wordpress-seo" ),
+								"Yoast SEO"
+							) }
 						</p>
 						<FormikValueChangeField
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo_titles.breadcrumbs-enable"
 							id="input-wpseo_titles-breadcrumbs-enable"
-							label={ __( "Enable breadcrumbs for your theme", "wordpress-seo" ) }
+							label={ __( "Enable breadcrumbs inserted in your theme's template", "wordpress-seo" ) }
 							className="yst-max-w-sm"
 						/>
 					</FieldsetLayout>

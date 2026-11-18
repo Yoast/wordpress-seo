@@ -56,6 +56,29 @@ describe( "gets the length of text segments", function() {
 		);
 		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 2 ].countLength ).toBe( 10 );
 	} );
+
+	it( "should not include a shortcode when calculating the text length", function() {
+		const mockPaper = new Paper( "<h2>heading with [shortcode]</h2>this is a text string with a [shortcode]",
+			{ shortcodes: [ "shortcode" ] } );
+		const englishResearcher = new EnglishResearcher( mockPaper );
+		// Check the total number of subheading blocks.
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).length ).toBe( 1 );
+		// Check the length of each individual text segment.
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 0 ].subheading ).toBe( "<h2>heading with </h2>" );
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 0 ].text ).toBe( "this is a text string with a " );
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 0 ].countLength ).toBe( 7 );
+	} );
+
+	it( "does not count text inside elements we want to exclude from the analysis ", function() {
+		const mockPaper = new Paper( "<h1>test</h1>one two three<code>one two three</code>" );
+		const englishResearcher = new EnglishResearcher( mockPaper );
+		// Check the total number of subheading blocks.
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).length ).toBe( 1 );
+		// Check the content and length of each individual text segment.
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 0 ].subheading ).toBe( "<h1>test</h1>" );
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 0 ].text ).toBe( "one two three" );
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher )[ 0 ].countLength ).toBe( 3 );
+	} );
 } );
 
 describe( "gets the length of text segments expressed in characters " +
@@ -70,7 +93,7 @@ describe( "gets the length of text segments expressed in characters " +
 		// Check the content and length of each individual text segment.
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 0 ].subheading ).toBe( "<h1>タイトル</h1>" );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 0 ].text ).toBe( "文章です。" );
-		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 0 ].countLength ).toBe( 5 );
+		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 0 ].countLength ).toBe( 4 );
 	} );
 
 	it( "returns an array with one text segment for a text without subheadings", function() {
@@ -86,10 +109,10 @@ describe( "gets the length of text segments expressed in characters " +
 		// Check the content and length of each individual text segment.
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 0 ].subheading ).toBe( "<h2>犬</h2>" );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 0 ].text ).toBe( "犬はかわいいです。" );
-		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 0 ].countLength ).toBe( 9 );
+		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 0 ].countLength ).toBe( 8 );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 1 ].subheading ).toBe( "<h3>子犬</h3>" );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 1 ].text ).toBe( "子犬が特にかわいいです。" );
-		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 1 ].countLength ).toBe( 12 );
+		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 1 ].countLength ).toBe( 11 );
 	} );
 
 	it( "returns an array with 3 entries for a text with two subheadings, two text segments, and one introductory segment", function() {
@@ -99,12 +122,12 @@ describe( "gets the length of text segments expressed in characters " +
 		// Check the length of each individual text segment.
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 0 ].subheading ).toBe( "" );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 0 ].text ).toBe( "トピックは犬です。" );
-		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 0 ].countLength ).toBe( 9 );
+		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 0 ].countLength ).toBe( 8 );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 1 ].subheading ).toBe( "<h2>犬</h2>" );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 1 ].text ).toBe( "犬はかわいいです。" );
-		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 1 ].countLength ).toBe( 9 );
+		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 1 ].countLength ).toBe( 8 );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 2 ].subheading ).toBe( "<h3>子犬</h3>" );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 2 ].text ).toBe( "子犬が特にかわいいです。" );
-		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 2 ].countLength ).toBe( 12 );
+		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher )[ 2 ].countLength ).toBe( 11 );
 	} );
 } );

@@ -23,6 +23,9 @@ const ErrorContainer = styled.div`
  * A component for filtering a primary taxonomy term.
  */
 class PrimaryTaxonomyFilter extends Component {
+	/**
+	 * Constructs a PrimaryTaxonomyFilter component.
+	 */
 	constructor() {
 		super();
 

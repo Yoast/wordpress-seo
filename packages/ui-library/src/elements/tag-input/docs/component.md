@@ -1,0 +1,1 @@
+Tag inputs are designed to simplify the input of multiple tags. They provide a seamless way for users to interact with and manage their selections by inserting and removing tags with ease.

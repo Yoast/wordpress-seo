@@ -3,21 +3,17 @@
 exports[`DataModel should render with only the required props 1`] = `
 <ul
   aria-label="Prominent words"
-  className="yoast-data-model"
+  class="yoast-data-model"
 >
   <li
-    style={
-      Object {
-        "--yoast-width": "60%",
-      }
-    }
+    style="--yoast-width: 60%;"
   >
     test
     <span>
       60
     </span>
     <span
-      className="screen-reader-text"
+      class="screen-reader-text"
     >
       60 occurrences
     </span>

@@ -2,7 +2,7 @@
  * Tailwind CSS preflight, but scoped to the Yoast root class.
  * This is added to the base layer by design.
  *
- * Source: https://github.com/tailwindlabs/tailwindcss/blob/v3.1.2/src/css/preflight.css
+ * Source: https://raw.githubusercontent.com/tailwindlabs/tailwindcss/refs/tags/v3.4.16/src/css/preflight.css
  * Changed `html` and `body` to affect the `.yst-root` instead.
  */
 @layer base {
@@ -31,19 +31,30 @@
 		2. Prevent adjustments of font size after orientation changes in iOS.
 		3. Use a more readable tab size.
 		4. Use the user's configured `sans` font-family by default.
+		5. Use the user's configured `sans` font-feature-settings by default.
+		6. Use the user's configured `sans` font-variation-settings by default.
+		7. Disable tap highlights on iOS
 		*/
 
-		line-height: 1.5; /* 1 */
-		-webkit-text-size-adjust: 100%; /* 2 */
-		-moz-tab-size: 4; /* 3 */
-		tab-size: 4; /* 3 */
-		font-family: theme('fontFamily.sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"); /* 4 */
+		&,
+		:host {
+			line-height: 1.5; /* 1 */
+			-webkit-text-size-adjust: 100%; /* 2 */
+			-moz-tab-size: 4; /* 3 */
+			tab-size: 4; /* 3 */
+			font-family: theme('fontFamily.sans', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"); /* 4 */
+			font-feature-settings: theme('fontFamily.sans[1].fontFeatureSettings', normal); /* 5 */
+			font-variation-settings: theme('fontFamily.sans[1].fontVariationSettings', normal); /* 6 */
+			-webkit-tap-highlight-color: transparent; /* 7 */
+		}
 
 		/*
 		1. Remove the margin in all browsers.
 		*/
 
-		margin: 0; /* 1 */
+		& {
+			margin: 0; /* 1 */
+		}
 
 		/*
 		1. Add the correct height in Firefox.
@@ -98,8 +109,10 @@
 		}
 
 		/*
-		1. Use the user's configured `mono` font family by default.
-		2. Correct the odd `em` font sizing in all browsers.
+		1. Use the user's configured `mono` font-family by default.
+		2. Use the user's configured `mono` font-feature-settings by default.
+		3. Use the user's configured `mono` font-variation-settings by default.
+		4. Correct the odd `em` font sizing in all browsers.
 		*/
 
 		code,
@@ -107,7 +120,9 @@
 		samp,
 		pre {
 			font-family: theme('fontFamily.mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace); /* 1 */
-			font-size: 1em; /* 2 */
+			font-feature-settings: theme('fontFamily.mono[1].fontFeatureSettings', normal); /* 2 */
+			font-variation-settings: theme('fontFamily.mono[1].fontVariationSettings', normal); /* 3 */
+			font-size: 1em; /* 4 */
 		}
 
 		/*
@@ -162,9 +177,12 @@
 		select,
 		textarea {
 			font-family: inherit; /* 1 */
+			font-feature-settings: inherit; /* 1 */
+			font-variation-settings: inherit; /* 1 */
 			font-size: 100%; /* 1 */
 			font-weight: inherit; /* 1 */
 			line-height: inherit; /* 1 */
+			letter-spacing: inherit; /* 1 */
 			color: inherit; /* 1 */
 			margin: 0; /* 2 */
 			padding: 0; /* 3 */
@@ -185,9 +203,9 @@
 		*/
 
 		button,
-		[type='button'],
-		[type='reset'],
-		[type='submit'] {
+		input:where([type='button']),
+		input:where([type='reset']),
+		input:where([type='submit']) {
 			-webkit-appearance: button; /* 1 */
 			background-color: transparent; /* 2 */
 			background-image: none; /* 2 */
@@ -300,6 +318,14 @@
 		}
 
 		/*
+		Reset default styling for dialogs.
+		*/
+
+		dialog {
+			padding: 0;
+		}
+
+		/*
 		Prevent resizing textareas horizontally by default.
 		*/
 
@@ -315,7 +341,7 @@
 		input::placeholder,
 		textarea::placeholder {
 			opacity: 1; /* 1 */
-			color: theme('colors.gray.500', #9ca3af); /* 2 */
+			color: theme('colors.gray.400', #9ca3af); /* 2 */
 		}
 
 		/*
@@ -330,6 +356,7 @@
 		/*
 		Make sure disabled buttons don't get the pointer cursor.
 		*/
+
 		:disabled {
 			cursor: default;
 		}
@@ -360,6 +387,12 @@
 		video {
 			max-width: 100%;
 			height: auto;
+		}
+
+		/* Make elements with the HTML hidden attribute stay hidden by default */
+
+		[hidden]:where(:not([hidden="until-found"])) {
+			display: none;
 		}
 	}
 }
@@ -428,18 +461,32 @@
 
 			hover:yst-text-indigo-500
 			focus:yst-text-indigo-500
-			focus:yst-outline-none
-			focus:yst-ring-1
-			focus:yst-ring-offset-1
-			focus:yst-ring-offset-transparent
-			focus:yst-ring-indigo-600
+			focus:yst-outline
+			focus:yst-outline-offset-1
+			focus:yst-outline-indigo-600
 			focus:yst-rounded-sm
 			visited:yst-text-primary-500
 			visited:hover:yst-text-primary-400;
 		}
 
+		[type='text'],
+		[type='email'],
+		[type='url'],
+		[type='password'],
+		[type='number'],
+		[type='date'],
+		[type='datetime-local'],
+		[type='month'],
+		[type='search'],
+		[type='tel'],
+		[type='time'],
+		[type='week'],
+		textarea {
+			@apply yst-placeholder-slate-500;
+		}
+
 		svg path {
-            stroke-width: inherit;
-        }
+			stroke-width: inherit;
+		}
 	}
 }

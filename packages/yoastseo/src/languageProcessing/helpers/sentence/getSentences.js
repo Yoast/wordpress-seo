@@ -1,42 +1,19 @@
 // Lodash imports.
-import { filter, flatMap, isEmpty, negate, memoize } from "lodash-es";
+import { filter, flatMap, isEmpty, negate } from "lodash";
 
 // Internal dependencies.
 import { getBlocks } from "../html/html.js";
-import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
-import excludeEstimatedReadingTime from "../sanitize/excludeEstimatedReadingTime";
-import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
-import SentenceTokenizer from "./SentenceTokenizer";
-import { stripBlockTagsAtStartEnd } from "../sanitize/stripHTMLTags";
-import { imageRegex } from "../image/imageInText";
+import { imageRegex } from "../image/imageInText.js";
+import { stripBlockTagsAtStartEnd } from "../sanitize/stripHTMLTags.js";
+import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace.js";
+import defaultSentenceTokenizer from "./memoizedSentenceTokenizer.js";
 
 // Character classes.
 const newLines = "\n\r|\n|\r";
 
 // Regular expressions.
 const newLineRegex = new RegExp( newLines );
-
-
-/**
- * Returns the sentences from a certain block.
- *
- * @param {string} block The HTML inside a HTML block.
- * @returns {Array<string>} The list of sentences in the block.
- */
-function getSentenceTokenizer( block ) {
-	const sentenceTokenizer = new SentenceTokenizer();
-	const { tokenizer, tokens } = sentenceTokenizer.createTokenizer();
-	sentenceTokenizer.tokenize( tokenizer, block );
-	const paragraphTagsRegex = new RegExp( "^(<p>|</p>)$" );
-	/*
-	 * Filter block that contain only paragraph tags. This step is necessary
-	 * since switching between editors might add extra paragraph tags with a new line tag in the end
-	 * that are incorrectly converted into separate blocks.
-	 */
-	return ( tokens.length === 0 || paragraphTagsRegex.test( block ) ) ? [] : sentenceTokenizer.getSentencesFromTokens( tokens );
-}
-
-const getSentencesFromBlockCached = memoize( getSentenceTokenizer );
+const paragraphTagsRegex = new RegExp( "^(<p>|</p>)$" );
 
 /**
  * Returns sentences in a string.
@@ -46,15 +23,8 @@ const getSentencesFromBlockCached = memoize( getSentenceTokenizer );
  *
  * @returns {Array} Sentences found in the text.
  */
-export default function( text, memoizedTokenizer ) {
-	if ( ! memoizedTokenizer ) {
-		memoizedTokenizer = getSentencesFromBlockCached;
-	}
+export default function( text, memoizedTokenizer = defaultSentenceTokenizer ) {
 	// We don't remove the other HTML tags here since removing them might lead to incorrect results when running the sentence tokenizer.
-	// Remove Table of Contents.
-	text = excludeTableOfContentsTag( text );
-	// Remove Estimated reading time.
-	text = excludeEstimatedReadingTime( text );
 	// Unify only non-breaking spaces and not the other whitespaces since a whitespace could signify a sentence break or a new line.
 	text = unifyNonBreakingSpace( text );
 	/*
@@ -71,7 +41,19 @@ export default function( text, memoizedTokenizer ) {
 		return block.split( newLineRegex );
 	} );
 
-	let sentences = flatMap( blocks, memoizedTokenizer );
+	/*
+	 * Filter blocks that contain only paragraph tags. This step is necessary
+	 * since switching between editors might add extra paragraph tags with a new line tag in the end
+	 * that are incorrectly converted into separate blocks.
+	 */
+	blocks = blocks.filter( block => ! paragraphTagsRegex.test( block ) );
+
+	/*
+	 * We use the `map` method followed by `flat` instead of `flatMap` because `flatMap` would override the second
+	 * argument of the memoizedTokenizer with the index of the iteratee.
+	 */
+	let sentences = blocks.map( block => memoizedTokenizer( block ) ).flat();
+
 	/*
 	 * Strip block tags from the start and/or the end of each sentence and whitespaces if present.
 	 * After tokenized, sometimes there are still block tags present in the beginning/end of a sentence.

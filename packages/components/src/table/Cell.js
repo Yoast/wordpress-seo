@@ -4,6 +4,9 @@ import styled from "styled-components";
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
 
+/* Internal dependencies */
+import { withDefaults } from "../withDefaults";
+
 /**
  * Separatifies an element.
  *
@@ -48,13 +51,20 @@ export function ellipsify() {
 	`;
 }
 
+const cellBaseDefaults = {
+	hideOnMobile: false,
+	hideOnTable: false,
+	separator: false,
+	ellipsis: false,
+};
+
 /*
  * The "Cells" are flex-items, their "flex" property is the initial `0 1 auto`
  * that translates to: cannot grow, can shrink, initial width based on the content.
  * A cell can be changed on a case by case basis wrapping the cells in a
  * styled component.
  */
-const CellBase = styled.span`
+const CellBase = styled.span.attrs( withDefaults( cellBaseDefaults ) )`
 	font-size: 14px;
 	padding-left: 40px;
 
@@ -93,12 +103,8 @@ CellBase.propTypes = {
 	ellipsis: PropTypes.bool,
 };
 
-CellBase.defaultProps = {
-	hideOnMobile: false,
-	hideOnTable: false,
-	separator: false,
-	ellipsis: false,
-};
+// Kept for classic-runtime consumers; the `.attrs` above is what applies these on React 19.
+CellBase.defaultProps = cellBaseDefaults;
 
 /*
  * Primary cell, the largest one in a row: can grow, cannot shrink, and the

@@ -1,22 +1,9 @@
-import AutocompleteField, { StoryComponent } from ".";
-import { useCallback, useMemo, useState } from "@wordpress/element";
-import { filter, find, includes, toLower, noop, map } from "lodash";
+import { useArgs } from "@storybook/preview-api";
+import { filter, find, includes, map, noop, toLower } from "lodash";
+import React, { useCallback, useMemo } from "react";
+import AutocompleteField from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { VALIDATION_VARIANTS } from "../../constants";
-
-export default {
-	title: "2) Components/Autocomplete field",
-	component: StoryComponent,
-	argTypes: {
-		description: { control: "text" },
-	},
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple autocomplete select component with error message and description message.",
-			},
-		},
-	},
-};
 
 const dummyOptions = [
 	{
@@ -31,115 +18,128 @@ const dummyOptions = [
 	},
 ];
 
-const Template = ( { ...args } ) => {
-	const [ value, setValue ] = useState( "" );
-	const [ query, setQuery ] = useState( "" );
+const Template = ( args ) => {
+	const [ { value, query }, updateArgs ] = useArgs();
 	const selectedOption = useMemo( () => find( dummyOptions, [ "value", value ] ), [ value ] );
 	const filteredOptions = useMemo( () => filter( dummyOptions, option => query
 		? includes( toLower( option.label ), toLower( query ) )
 		: true ), [ query ] );
 
-	const handleChange = useCallback( setValue, [ setValue ] );
-	const handleQueryChange = useCallback( event => setQuery( event.target.value ), [ setQuery ] );
+	const handleChange = useCallback( newValue => updateArgs( { value: newValue } ), [ updateArgs ] );
+	const handleQueryChange = useCallback( event => updateArgs( { query: event.target.value } ), [ updateArgs ] );
 
 	return (
-	// Min height to make room for options dropdown.
-		<div style={ { minHeight: 200 } }>
-			<StoryComponent
-				selectedLabel={ selectedOption?.label || "" }
-				{ ...args }
-				value={ value }
-				onChange={ handleChange }
-				onQueryChange={ handleQueryChange }
-			>
-				{ filteredOptions.map( option => (
-					<AutocompleteField.Option key={ option.value } value={ option.value }>
-						{ option.label }
-					</AutocompleteField.Option>
-				) ) }
-			</StoryComponent>
-		</div>
+		<AutocompleteField
+			{ ...args }
+			selectedLabel={ args?.selectedLabel || selectedOption?.label || "" }
+			value={ value }
+			onChange={ handleChange }
+			onQueryChange={ handleQueryChange }
+		>
+			{ filteredOptions.map( option => (
+				<AutocompleteField.Option key={ option.value } value={ option.value }>
+					{ option.label }
+				</AutocompleteField.Option>
+			) ) }
+		</AutocompleteField>
 	);
 };
 
-
-export const Factory = Template.bind( {} );
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	id: "factory",
-	name: "factory",
-	label: "Autocomplete field label",
-	description: "Autocomplete field description",
-	placeholder: "Search an option...",
-};
-
-export const WithDescription = Template.bind( {} );
-WithDescription.storyName = "With description";
-WithDescription.parameters = {
-	controls: { disable: false },
-	docs: { description: { story: "An exampe with description message using `description`." } },
-};
-WithDescription.args = {
-	id: "with-description",
-	name: "with-description",
-	label: "Example label",
-	description: "This is a description message",
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		id: "factory",
+		name: "factory",
+		label: "Autocomplete field label",
+		description: "Autocomplete field description",
+		placeholder: "Search an option...",
+	},
 };
 
-export const WithSelectedLabel = Template.bind( {} );
-WithSelectedLabel.storyName = "With selected label";
-WithSelectedLabel.parameters = {
-	controls: { disable: false },
-	docs: { description: { story: "When using `children` prop, `selectedLabel` prop is used to set default/selected value." } },
+export const WithDescription = {
+	render: Template.bind( {} ),
+	name: "With description",
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: "An example with description message using `description`." } },
+	},
+	args: {
+		id: "with-description",
+		name: "with-description",
+		label: "Example label",
+		description: "This is a description message",
+	},
 };
 
-WithSelectedLabel.args = {
-	id: "selected-label",
-	name: "selected-label",
-	label: "Example label",
-	selectedLabel: "Option 1",
-	children: <>
-		<AutocompleteField.Option value="child 1" label="Option 1" id="option-1" name="option-1" />
-		<AutocompleteField.Option value="child 2" label="Option 2" id="option-2" name="option-2" />
-		<AutocompleteField.Option value="child 3" label="Option 3" id="option-3" name="option-3" />
-	</>,
+export const WithSelectedLabel = {
+	render: Template.bind( {} ),
+	name: "With selected label",
+	parameters: {
+		controls: { disable: false },
+		docs: {
+			description: {
+				story: "When using `children` prop, `selectedLabel` prop is used to set default/selected value.",
+			},
+		},
+	},
+	args: {
+		id: "selected-label",
+		name: "selected-label",
+		label: "Example label",
+		selectedLabel: "Option 1",
+		children: <>
+			<AutocompleteField.Option value="child 1" label="Option 1" id="option-1" name="option-1" />
+			<AutocompleteField.Option value="child 2" label="Option 2" id="option-2" name="option-2" />
+			<AutocompleteField.Option value="child 3" label="Option 3" id="option-3" name="option-3" />
+		</>,
+	},
 };
 
-export const WithPlaceholder = Template.bind( {} );
-WithPlaceholder.storyName = "With placeholder";
-WithPlaceholder.parameters = {
-	controls: { disable: false },
-	docs: { description: { story: "An example with placeholder." } },
+export const WithPlaceholder = {
+	render: Template.bind( {} ),
+	name: "With placeholder",
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: "An example with placeholder." } },
+	},
+	args: {
+		id: "with-placeholder",
+		name: "with-placeholder",
+		label: "Example label",
+		placeholder: "Search a value...",
+	},
 };
 
-WithPlaceholder.args = {
-	id: "with-placeholder",
-	name: "with-placeholder",
-	label: "Example label",
-	placeholder: "Search a value...",
+export const ChildrenProp = {
+	render: Template.bind( {} ),
+	name: "Children prop",
+	parameters: {
+		controls: { disable: false },
+		docs: {
+			description: {
+				story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Option` (`AutocompleteField.Option` is equal to `Autocomplete` element). Default values should be set inside the child component and not the `selectedLabel` prop.",
+			},
+		},
+	},
+	args: {
+		id: "with-children-prop",
+		name: "with-children-prop",
+		label: "Example label",
+		children: <>
+			<AutocompleteField.Option value="child 1" label="Option 1" id="option-1" name="option-1" />
+			<AutocompleteField.Option value="child 2" label="Option 2" id="option-2" name="option-2" />
+			<AutocompleteField.Option value="child 3" label="Option 3" id="option-3" name="option-3" />
+		</>,
+	},
 };
-
-export const ChildrenProp = Template.bind();
-ChildrenProp.storyName = "Children prop";
-ChildrenProp.args = {
-	id: "with-children-prop",
-	name: "with-children-prop",
-	label: "Example label",
-	children: <>
-		<AutocompleteField.Option value="child 1" label="Option 1" id="option-1" name="option-1" />
-		<AutocompleteField.Option value="child 2" label="Option 2" id="option-2" name="option-2" />
-		<AutocompleteField.Option value="child 3" label="Option 3" id="option-3" name="option-3" />
-	</>,
-};
-
-ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Option` (`AutocompleteField.Option` is equal to `Autocomplete` element). Default values should be set inside the child component and not the `selectedLabel` prop." } } };
 
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<StoryComponent
+			<AutocompleteField
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }
@@ -167,3 +167,27 @@ export const Validation = () => (
 		) ) }
 	</div>
 );
+
+export default {
+	title: "2) Components/Autocomplete field",
+	component: AutocompleteField,
+	argTypes: {
+		description: { control: "text" },
+	},
+	parameters: {
+		docs: {
+			description: {
+				component: "A simple autocomplete select component with error message and description message.",
+			},
+			page: () => <InteractiveDocsPage stories={ [ WithDescription, WithSelectedLabel, WithPlaceholder, ChildrenProp, Validation ] } />,
+		},
+	},
+	decorators: [
+		( Story ) => (
+			// Min height to make room for options dropdown.
+			<div style={ { minHeight: 200 } }>
+				<Story />
+			</div>
+		),
+	],
+};

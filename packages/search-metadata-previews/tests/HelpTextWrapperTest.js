@@ -1,33 +1,21 @@
 /* External dependencies */
 import React from "react";
-import renderer from "react-test-renderer";
-import EnzymeAdapter from "enzyme-adapter-react-16";
-import Enzyme from "enzyme/build/index";
+import { fireEvent, render, screen } from "./test-utils";
 
 /* Internal dependencies */
 import HelpTextWrapper from "../src/snippet-preview/HelpTextWrapper";
 
-Enzyme.configure( { adapter: new EnzymeAdapter() } );
 
 describe( "HelpTextWrapper", () => {
 	it( "matches the snapshot by default", () => {
-		const component = renderer.create(
-			<HelpTextWrapper helpTextButtonLabel="Open help" />
-		);
-
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		const { container } = render( <HelpTextWrapper helpTextButtonLabel="Open help" /> );
+		expect( container ).toMatchSnapshot();
 	} );
 
-	it( "matches the snapshot when the help text button is focused", () => {
-		const wrapper = Enzyme.mount(
-			<HelpTextWrapper helpTextButtonLabel="Open help" />
-		);
-		wrapper.find( "button" ).simulate( "click", {
-			state: {
-				isExpanded: false,
-			},
-		} );
-		expect( wrapper.state().isExpanded ).toEqual( true );
+	it( "matches the snapshot when the help text button is focused", async() => {
+		const { container } = render( <HelpTextWrapper helpTextButtonLabel="Open help" /> );
+
+		fireEvent.click( screen.getByLabelText( "Open help" ) );
+		expect( container ).toMatchSnapshot();
 	} );
 } );

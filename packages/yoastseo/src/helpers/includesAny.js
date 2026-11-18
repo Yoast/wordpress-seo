@@ -1,4 +1,4 @@
-import { includes } from "lodash-es";
+import { includes } from "lodash";
 
 /**
  * Checks if any of the values is in the collection.

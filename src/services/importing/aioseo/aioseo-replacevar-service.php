@@ -11,9 +11,9 @@ class Aioseo_Replacevar_Service {
 	/**
 	 * Mapping between the AiOSEO replace vars and the Yoast replace vars.
 	 *
-	 * @var array
-	 *
 	 * @see https://yoast.com/help/list-available-snippet-variables-yoast-seo/
+	 *
+	 * @var array
 	 */
 	protected $replace_vars_map = [
 		// The key is the AiOSEO replace var, the value is the Yoast replace var (see class-wpseo-replace-vars).
@@ -81,7 +81,7 @@ class Aioseo_Replacevar_Service {
 			static function ( $cf_matches ) {
 				return '%%cf_' . $cf_matches[1] . '%%';
 			},
-			$yoast_replacevar
+			$yoast_replacevar,
 		);
 
 		// Transform the '#tax_name-<custom-tax-name>' tags into '%%ct_<custom-tax-name>%%' ones.
@@ -90,7 +90,7 @@ class Aioseo_Replacevar_Service {
 			static function ( $ct_matches ) {
 				return '%%ct_' . $ct_matches[1] . '%%';
 			},
-			$yoast_replacevar
+			$yoast_replacevar,
 		);
 
 		return $yoast_replacevar;

@@ -6,15 +6,14 @@ use Symfony\Component\DependencyInjection\Definition;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Breadcrumbs;
-use WPSEO_Frontend;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\Lib\Migrations\Adapter;
+use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
 use Yoast\WP\SEO\WordPress\Wrapper;
 use Yoast_Notification_Center;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
-use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
 
 /**
  * Holds the dependency injection container.
@@ -24,7 +23,7 @@ use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
  * @phpcs:disable PEAR.Files.IncludingFile.UseRequire
  */
 // WordPress factory functions.
-$container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] );
+$container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] )->setPublic( true );
 
 // Legacy classes.
 $container->register( WPSEO_Replace_Vars::class, WPSEO_Replace_Vars::class )->setFactory( [ Wrapper::class, 'get_replace_vars' ] )->setPublic( true );
@@ -36,7 +35,6 @@ $container->register( WPSEO_Utils::class, WPSEO_Utils::class )->setFactory( [ Wr
 
 // Backwards-compatibility classes in the global namespace.
 $container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true )->setPublic( true );
-$container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowired( true )->setPublic( true );
 
 // Non-excluded from excluded directories.
 $container->register( Robots_Txt_Presenter::class, Robots_Txt_Presenter::class )->setAutowired( true )->setPublic( false );
@@ -68,6 +66,7 @@ $yoast_seo_excluded_directories = [
 	'wordpress',
 	'values/oauth',
 	'values/robots',
+	'task-list/application/tasks/child-tasks',
 ];
 
 $yoast_seo_excluded = \implode( ',', \array_merge( $yoast_seo_excluded_directories, $yoast_seo_excluded_files ) );
@@ -77,7 +76,7 @@ $yoast_seo_base_definition = new Definition();
 $yoast_seo_base_definition
 	->setAutowired( true )
 	->setAutoconfigured( true )
-	->setPublic( true );
+	->setPublic( false );
 
 /**
  * Holds the dependency injection loader.

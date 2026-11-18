@@ -1,0 +1,1 @@
+Country selector component with autocomplete. The countries names are translated either by user locale prop or the browser language.

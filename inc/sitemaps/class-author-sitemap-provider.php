@@ -88,41 +88,49 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_users( $arguments = [] ) {
 
-		global $wpdb;
-
 		$defaults = [
-			'capability' => [ 'edit_posts' ],
 			'meta_key'   => '_yoast_wpseo_profile_updated',
 			'orderby'    => 'meta_value_num',
 			'order'      => 'DESC',
 			'meta_query' => [
-				'relation' => 'AND',
+				'relation' => 'OR',
 				[
-					'key'     => $wpdb->get_blog_prefix() . 'user_level',
-					'value'   => '0',
+					'key'     => 'wpseo_noindex_author',
+					'value'   => 'on',
 					'compare' => '!=',
 				],
 				[
-					'relation' => 'OR',
-					[
-						'key'     => 'wpseo_noindex_author',
-						'value'   => 'on',
-						'compare' => '!=',
-					],
-					[
-						'key'     => 'wpseo_noindex_author',
-						'compare' => 'NOT EXISTS',
-					],
+					'key'     => 'wpseo_noindex_author',
+					'compare' => 'NOT EXISTS',
 				],
 			],
 		];
 
-		if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', true ) ) {
-			unset( $defaults['capability'] ); // Otherwise it cancels out next argument.
-			$defaults['has_published_posts'] = YoastSEO()->helpers->author_archive->get_author_archive_post_types();
-		}
+		$defaults = $this->apply_author_eligibility_filter( $defaults );
 
 		return get_users( array_merge( $defaults, $arguments ) );
+	}
+
+	/**
+	 * Applies the author-eligibility clause (capability or has_published_posts) to a get_users() criteria array.
+	 *
+	 * Centralises the `noindex-author-noposts-wpseo` branching so the sitemap query and its
+	 * backfill counterpart always agree on which users are considered eligible.
+	 *
+	 * @param array<string, array<array<string, string>>> $criteria The get_users() criteria array to extend.
+	 *
+	 * @return array<string, array<array<string, string>>> The criteria array with the eligibility clause applied.
+	 */
+	protected function apply_author_eligibility_filter( array $criteria ) {
+		if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', true ) ) {
+			$criteria['has_published_posts'] = YoastSEO()->helpers->author_archive->get_author_archive_post_types();
+
+			return $criteria;
+		}
+
+		$criteria['capability'] = [ 'edit_posts' ];
+
+		return $criteria;
 	}
 
 	/**
@@ -205,7 +213,6 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	protected function update_user_meta() {
 
 		$user_criteria = [
-			'capability' => [ 'edit_posts' ],
 			'meta_query' => [
 				[
 					'key'     => '_yoast_wpseo_profile_updated',
@@ -213,6 +220,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				],
 			],
 		];
+
+		$user_criteria = $this->apply_author_eligibility_filter( $user_criteria );
 
 		$users = get_users( $user_criteria );
 

@@ -100,12 +100,12 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}tracking"                           => true,
 			"{$allow_prefix}enable_enhanced_slack_sharing"      => true,
 			"{$allow_prefix}semrush_integration_active"         => true,
-			"{$allow_prefix}zapier_integration_active"          => true,
 			"{$allow_prefix}wincher_integration_active"         => false,
 			"{$allow_prefix}remove_feed_global"                 => true,
 			"{$allow_prefix}remove_feed_global_comments"        => true,
 			"{$allow_prefix}remove_feed_post_comments"          => true,
 			"{$allow_prefix}enable_index_now"                   => true,
+			"{$allow_prefix}enable_ai_generator"                => true,
 			"{$allow_prefix}remove_feed_authors"                => true,
 			"{$allow_prefix}remove_feed_categories"             => true,
 			"{$allow_prefix}remove_feed_tags"                   => true,
@@ -127,7 +127,6 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}search_cleanup_emoji"               => true,
 			"{$allow_prefix}search_cleanup_patterns"            => true,
 			"{$allow_prefix}redirect_search_pretty_urls"        => true,
-			"{$allow_prefix}wordproof_integration_active"       => false,
 			"{$allow_prefix}algolia_integration_active"         => true,
 		];
 
@@ -207,11 +206,10 @@ class WPSEO_Option_MS extends WPSEO_Option {
 							$key, // Suffix-ID for the error message box.
 							/* translators: %1$s expands to the option name and %2$sexpands to Yoast SEO */
 							sprintf( __( '%1$s is not a valid choice for who should be allowed access to the %2$s settings. Value reset to the default.', 'wordpress-seo' ), esc_html( sanitize_text_field( $dirty[ $key ] ) ), 'Yoast SEO' ), // The error message.
-							'error' // Message type.
+							'error', // Message type.
 						);
 					}
 					break;
-
 
 				case 'defaultblog':
 					if ( isset( $dirty[ $key ] ) && ( $dirty[ $key ] !== '' && $dirty[ $key ] !== '-' ) ) {
@@ -231,9 +229,9 @@ class WPSEO_Option_MS extends WPSEO_Option {
 										. sprintf(
 											/* translators: %s is the ID number of a blog. */
 											esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ),
-											'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
+											'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>',
 										), // The error message.
-									'error' // Message type.
+									'error', // Message type.
 								);
 							}
 							unset( $exists );
@@ -243,7 +241,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 								$this->group_name, // Slug title of the setting.
 								$key, // Suffix-ID for the error message box.
 								esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . esc_html__( 'No numeric value was received.', 'wordpress-seo' ), // The error message.
-								'error' // Message type.
+								'error', // Message type.
 							);
 						}
 						unset( $int );

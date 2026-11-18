@@ -3,10 +3,10 @@
 namespace Yoast\WP\SEO\Initializers;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Url_Helper;
-use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Helpers\Crawl_Cleanup_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Redirect_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 
 /**
  * Class Crawl_Cleanup_Permalinks.
@@ -44,9 +44,9 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	/**
 	 * Crawl Cleanup Basic integration constructor.
 	 *
-	 * @param Options_Helper       $options_helper      The option helper.
-	 * @param Url_Helper           $url_helper          The URL helper.
-	 * @param Redirect_Helper      $redirect_helper     The Redirect Helper.
+	 * @param Options_Helper       $options_helper       The option helper.
+	 * @param Url_Helper           $url_helper           The URL helper.
+	 * @param Redirect_Helper      $redirect_helper      The Redirect Helper.
 	 * @param Crawl_Cleanup_Helper $crawl_cleanup_helper The Crawl_Cleanup_Helper.
 	 */
 	public function __construct(
@@ -98,6 +98,8 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 
 	/**
 	 * Redirect utm variables away.
+	 *
+	 * @return void
 	 */
 	public function utm_redirect() {
 		// Prevents WP CLI from throwing an error.
@@ -117,7 +119,6 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		$query      = \explode( '&', $parsed['query'] );
 		$utms       = [];
 		$other_args = [];
-
 
 		foreach ( $query as $query_arg ) {
 			if ( \stripos( $query_arg, 'utm_' ) === 0 ) {
@@ -141,7 +142,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		$message = \sprintf(
 			/* translators: %1$s: Yoast SEO */
 			\__( '%1$s: redirect utm variables to #', 'wordpress-seo' ),
-			'Yoast SEO'
+			'Yoast SEO',
 		);
 
 		$this->redirect_helper->do_safe_redirect( \trailingslashit( $this->url_helper->recreate_current_url( false ) ) . \ltrim( $new_path, '/' ), 301, $message );

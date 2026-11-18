@@ -1,9 +1,9 @@
-import { useCallback, useContext, createContext, useMemo, forwardRef } from "@wordpress/element";
-import { values, includes, isEmpty, isNull, capitalize } from "lodash";
-import { DocumentTextIcon, XIcon } from "@heroicons/react/outline";
-import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
-
+import DocumentTextIcon from "@heroicons/react/outline/DocumentTextIcon";
+import XIcon from "@heroicons/react/outline/XIcon";
+import { capitalize, includes, isEmpty, isNull, values } from "lodash";
+import PropTypes from "prop-types";
+import React, { createContext, forwardRef, useCallback, useContext, useMemo } from "react";
 import FileInput from "../../elements/file-input";
 import ProgressBar from "../../elements/progress-bar";
 import { ValidationIcon } from "../../elements/validation";
@@ -36,14 +36,14 @@ const statusIconTransitionProps = {
 
 /**
  * @param {string} status A valid file import status.
- * @returns {JSX.Element} Component that renders conditionally based on given file import status.
+ * @returns {React.ComponentType} Component that renders conditionally based on given file import status.
  */
 const createStatusConditionalRender = ( status ) => {
 	/**
-	 * @param {JSX.node} children The React children.
+	 * @param {React.ReactNode} [children=null] The React children.
 	 * @returns {JSX.Element} Component that renders conditionally based on given file import status.
 	 */
-	const HOC = ( { children } ) => {
+	const HOC = ( { children = null } ) => {
 		const { status: currentStatus } = useFileImportContext();
 		return (
 			<Transition
@@ -76,7 +76,7 @@ const createStatusConditionalRender = ( status ) => {
  * @param {string} abortScreenReaderLabel The screen reader label for the abort button.
  * @param {JSX.node} selectDescription The selectDescription.
  * @param {"idle"|"loading"|"success"|"failure"} status The status the component should be in.
- * @param {Function} onChange The callback for when a file is imported.
+ * @param {function(File)} onChange The callback for when a file is imported.
  * @param {Function} onAbort The callback for when an file import is aborted.
  * @param {string} feedbackTitle The import feedback title.
  * @param {string} feedbackDescription The import feedback selectDescription.
@@ -86,22 +86,22 @@ const createStatusConditionalRender = ( status ) => {
  * @returns {JSX.Element} The FileImport component.
  */
 const FileImport = forwardRef( ( {
-	children = "",
+	children = null,
 	id,
 	name,
 	selectLabel,
 	dropLabel,
 	screenReaderLabel,
 	abortScreenReaderLabel,
-	selectDescription,
-	status,
+	selectDescription = "",
+	status = FILE_IMPORT_STATUS.idle,
 	onChange,
 	onAbort,
 	feedbackTitle,
-	feedbackDescription,
-	progressMin,
-	progressMax,
-	progress,
+	feedbackDescription = "",
+	progressMin = null,
+	progressMax = null,
+	progress = null,
 }, ref ) => {
 	const isSelected = useMemo( () => status === FILE_IMPORT_STATUS.selected, [ status ] );
 	const isLoading = useMemo( () => status === FILE_IMPORT_STATUS.loading, [ status ] );
@@ -120,6 +120,15 @@ const FileImport = forwardRef( ( {
 		}
 	}, [ onChange ] );
 
+	const handleDrop = useCallback( ( event ) => {
+		if ( ! isEmpty( event.dataTransfer.files ) ) {
+			const file = event.dataTransfer.files[ 0 ];
+			if ( file ) {
+				onChange( file );
+			}
+		}
+	}, [ onChange ] );
+
 	return (
 		<FileImportContext.Provider value={ { status } }>
 			<div className="yst-file-import">
@@ -130,6 +139,7 @@ const FileImport = forwardRef( ( {
 					// Don't control value here to allow consecutive imports of the same file.
 					value=""
 					onChange={ handleChange }
+					onDrop={ handleDrop }
 					className="yst-file-import__input"
 					aria-labelledby={ screenReaderLabel }
 					disabled={ isLoading }
@@ -159,7 +169,7 @@ const FileImport = forwardRef( ( {
 									<ValidationIcon variant="info" className="yst-w-5 yst-h-5" />
 								</Transition>
 								<Transition show={ isLoading } { ...statusIconTransitionProps }>
-									<button onClick={ onAbort } className="yst-file-import__abort-button">
+									<button type="button" onClick={ onAbort } className="yst-file-import__abort-button">
 										<span className="yst-sr-only">{ abortScreenReaderLabel }</span>
 										<XIcon />
 									</button>
@@ -183,7 +193,8 @@ const FileImport = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+FileImport.displayName = "FileImport";
+FileImport.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
@@ -202,26 +213,10 @@ const propTypes = {
 	onAbort: PropTypes.func.isRequired,
 };
 
-FileImport.propTypes = propTypes;
-
-FileImport.defaultProps = {
-	feedbackDescription: "",
-	progressMin: null,
-	progressMax: null,
-	progress: null,
-	status: FILE_IMPORT_STATUS.idle,
-};
-
 FileImport.Selected = createStatusConditionalRender( FILE_IMPORT_STATUS.selected );
 FileImport.Loading = createStatusConditionalRender( FILE_IMPORT_STATUS.loading );
 FileImport.Success = createStatusConditionalRender( FILE_IMPORT_STATUS.success );
 FileImport.Aborted = createStatusConditionalRender( FILE_IMPORT_STATUS.aborted );
 FileImport.Error = createStatusConditionalRender( FILE_IMPORT_STATUS.error );
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <FileImport { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = FileImport.defaultProps;
-StoryComponent.displayName = "FileImport";
 
 export default FileImport;

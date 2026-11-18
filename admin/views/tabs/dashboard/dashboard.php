@@ -10,14 +10,14 @@
  *
  * @noinspection PhpUnusedLocalVariableInspection
  *
- * @var array
+ * @var array $notifications_data
  */
 $notifications_data = Yoast_Notifications::get_template_variables();
 
 $wpseo_contributors_phrase = sprintf(
 	/* translators: %1$s expands to Yoast SEO */
 	__( 'See who contributed to %1$s.', 'wordpress-seo' ),
-	'Yoast SEO'
+	'Yoast SEO',
 );
 
 ?>
@@ -39,6 +39,6 @@ $wpseo_contributors_phrase = sprintf(
 <div class="tab-block">
 	<h2><?php esc_html_e( 'Credits', 'wordpress-seo' ); ?></h2>
 	<p>
-		<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/yoast-seo-credits' ); ?>"><?php echo esc_html( $wpseo_contributors_phrase ); ?></a>
+		<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/yoast-seo-credits' ); ?>" target="_blank"><?php echo esc_html( $wpseo_contributors_phrase ); ?></a>
 	</p>
 </div>

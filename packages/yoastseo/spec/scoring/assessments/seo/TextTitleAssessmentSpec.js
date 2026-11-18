@@ -1,6 +1,6 @@
 import TextTitleAssessment from "../../../../src/scoring/assessments/seo/TextTitleAssessment";
 
-import { values } from "yoastseo";
+import { values } from "../../../../src";
 
 const { Paper } = values;
 
@@ -43,3 +43,16 @@ describe( "a test to check whether a text has a title or not", () => {
 	} );
 } );
 
+describe( "a test for retrieving the feedback texts", () => {
+	it( "should return the custom feedback texts when `callbacks.getResultTexts` is provided", () => {
+		const assessment = new TextTitleAssessment( {
+			callbacks: {
+				getResultTexts: () => ( {
+					good: "This text has a title.",
+					bad: "This text doesn't have a title.",
+				} ),
+			},
+		} );
+		expect( assessment.getFeedbackStrings() ).toEqual( { bad: "This text doesn't have a title.", good: "This text has a title." } );
+	} );
+} );

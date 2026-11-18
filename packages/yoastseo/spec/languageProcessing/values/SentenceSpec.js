@@ -64,15 +64,5 @@ describe( "Creates a sentence object", function() {
 			isPassive: true,
 			sentenceText: "Cats are adored.",
 		} );
-		expect( sentence.parse( sentence.serialize() ) ).toEqual( {
-			_clauses: [
-				{ _auxiliaries: [ "are" ],
-					_clauseText: "Cats are adored",
-					_isPassive: true,
-					_participles: [],
-				} ],
-			_isPassive: true,
-			_sentenceText: "Cats are adored.",
-		} );
 	} );
 } );

@@ -1,18 +1,13 @@
 /* External dependencies */
-import { Fragment, Component } from "@wordpress/element";
+import { Component } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import apiFetch from "@wordpress/api-fetch";
-import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-
-/* Yoast dependencies */
-import { NewButton, ButtonStyledLink } from "@yoast/components";
+import { Root } from "@yoast/ui-library";
 
 /* Internal dependencies */
-import { ModalContainer } from "./modals/Container";
-import Modal from "./modals/Modal";
-import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
-import { isCloseEvent } from "./modals/editorModals/EditorModal.js";
+import { Modal } from "@yoast/related-keyphrase-suggestions";
+import { RelatedKeyphraseButton } from "./RelatedKeyphraseButton";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
@@ -29,38 +24,31 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 		super( props );
 
 		this.onModalOpen      = this.onModalOpen.bind( this );
-		this.onModalClose     = this.onModalClose.bind( this );
 		this.onLinkClick      = this.onLinkClick.bind( this );
 		this.listenToMessages = this.listenToMessages.bind( this );
 	}
 
 	/**
-	 * Handles the click event on the "Get related keyphrases" button.
+	 * Handles the click event on the "Discover related keyphrases" button.
 	 *
 	 * @returns {void}
 	 */
 	onModalOpen() {
-		if ( ! this.props.keyphrase.trim() ) {
-			this.props.onOpenWithNoKeyphrase();
+		const {
+			keyphrase,
+			onOpenWithNoKeyphrase,
+			onOpen,
+			location,
+			newRequest,
+			countryCode,
+		} = this.props;
+		if ( ! keyphrase.trim() ) {
+			onOpenWithNoKeyphrase();
 			return;
 		}
 
-		this.props.onOpen( this.props.location );
-	}
-
-	/**
-	 * Handles the close event for the modal.
-	 *
-	 * @param {Event} event The event passed to the onRequestClose.
-	 *
-	 * @returns {void}
-	 */
-	onModalClose( event ) {
-		if ( ! isCloseEvent( event ) ) {
-			return;
-		}
-
-		this.props.onClose();
+		onOpen( location );
+		newRequest( countryCode, keyphrase );
 	}
 
 	/**
@@ -135,7 +123,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	}
 
 	/**
-	 * Get the tokens using the provided code after user has granted authorization.
+	 * Gets the tokens using the provided code after the user has granted authorization.
 	 *
 	 * @param {object} data The message data.
 	 *
@@ -160,7 +148,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 				console.error( response.error );
 			}
 		} catch ( e ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
+			// URL() constructor throws a TypeError exception if the url is malformed.
 			console.error( e.message );
 		}
 	}
@@ -168,53 +156,32 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	/**
 	 * Renders the RelatedKeyPhrasesModal modal component.
 	 *
-	 * @returns {wp.Element} The RelatedKeyPhrasesModal modal component.
+	 * @returns {JSX.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, whichModalOpen, isLoggedIn, shouldCloseOnClickOutside } = this.props;
+		const { keyphrase, location, whichModalOpen, onClose, countryCode, learnMoreLink, isLoggedIn } = this.props;
+
+		const insightsLink = new URL( "https://www.semrush.com/analytics/keywordoverview/" );
+		insightsLink.searchParams.append( "q", keyphrase );
+		insightsLink.searchParams.append( "db", countryCode );
 
 		return (
-			<Fragment>
-				{ isLoggedIn && <div className={ "yoast" }>
-					<NewButton
-						variant={ "secondary" }
-						id={ `yoast-get-related-keyphrases-${location}` }
-						onClick={ this.onModalOpen }
-					>
-						{ __( "Get related keyphrases", "wordpress-seo" ) }
-					</NewButton>
-				</div> }
-				{ keyphrase && whichModalOpen === location &&
-					<Modal
-						title={ __( "Related keyphrases", "wordpress-seo" ) }
-						onRequestClose={ this.onModalClose }
-						icon={ <YoastIcon /> }
-						additionalClassName="yoast-related-keyphrases-modal"
-						shouldCloseOnClickOutside={ shouldCloseOnClickOutside }
-					>
-						<ModalContainer
-							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
-						>
-							<Slot name="YoastRelatedKeyphrases" />
-						</ModalContainer>
-					</Modal>
-				}
-				{ ! isLoggedIn && <div className={ "yoast" }>
-					<ButtonStyledLink
-						variant={ "secondary" }
-						id={ `yoast-get-related-keyphrases-${location}` }
-						href={ "https://oauth.semrush.com/oauth2/authorize?" +
-							"ref=1513012826&client_id=yoast&redirect_uri=https%3A%2F%2Foauth.semrush.com%2Foauth2%2Fyoast%2Fsuccess&" +
-							"response_type=code&scope=user.id" }
-						onClick={ this.onLinkClick }
-					>
-						{ __( "Get related keyphrases", "wordpress-seo" ) }
-						<span className={ "screen-reader-text" }>
-							{ __( "(Opens in a new browser window)", "wordpress-seo" ) }
-						</span>
-					</ButtonStyledLink>
-				</div> }
-			</Fragment>
+			<Root>
+				<RelatedKeyphraseButton
+					isLoggedIn={ isLoggedIn }
+					location={ location }
+					onLinkClick={ this.onLinkClick }
+					onModalOpen={ this.onModalOpen }
+				/>
+				<Modal
+					isOpen={ Boolean( keyphrase ) && whichModalOpen === location }
+					onClose={ onClose }
+					insightsLink={ insightsLink.toString() }
+					learnMoreLink={ learnMoreLink }
+				>
+					<Slot name="YoastRelatedKeyphrases" />
+				</Modal>
+			</Root>
 		);
 	}
 }
@@ -232,7 +199,9 @@ SEMrushRelatedKeyphrasesModal.propTypes = {
 	onOpenWithNoKeyphrase: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
 	onAuthentication: PropTypes.func.isRequired,
-	shouldCloseOnClickOutside: PropTypes.bool,
+	countryCode: PropTypes.string,
+	learnMoreLink: PropTypes.string,
+	newRequest: PropTypes.func.isRequired,
 };
 
 SEMrushRelatedKeyphrasesModal.defaultProps = {
@@ -240,7 +209,8 @@ SEMrushRelatedKeyphrasesModal.defaultProps = {
 	location: "",
 	whichModalOpen: "none",
 	isLoggedIn: false,
-	shouldCloseOnClickOutside: true,
+	countryCode: "en_US",
+	learnMoreLink: "",
 };
 
 export default SEMrushRelatedKeyphrasesModal;

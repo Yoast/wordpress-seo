@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO;
 
-use Exception;
 use Throwable;
 use WP_CLI;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -164,10 +163,19 @@ class Loader {
 	/**
 	 * Loads all registered commands.
 	 *
+	 * Commands that opt in to conditional loading by implementing
+	 * Loadable_Interface are skipped when their conditionals are not met.
+	 *
 	 * @return void
 	 */
 	protected function load_commands() {
 		foreach ( $this->commands as $class ) {
+			if ( \is_subclass_of( $class, Loadable_Interface::class )
+				&& ! $this->conditionals_are_met( $class )
+			) {
+				continue;
+			}
+
 			$command = $this->get_class( $class );
 
 			if ( $command === null ) {
@@ -258,8 +266,8 @@ class Loader {
 						/* translators: %1$s expands to Yoast SEO, %2$s expands to the name of the class that could not be found. */
 						\__( '%1$s attempted to load the class %2$s but it could not be found.', 'wordpress-seo' ),
 						'Yoast SEO',
-						$loadable_class
-					)
+						$loadable_class,
+					),
 				);
 			}
 			return false;
@@ -279,16 +287,15 @@ class Loader {
 	/**
 	 * Gets a class from the container.
 	 *
-	 * @param string $class The class name.
+	 * @param string $class_name The class name.
 	 *
 	 * @return object|null The class or, in production environments, null if it does not exist.
 	 *
 	 * @throws Throwable If the class does not exist in development environments.
-	 * @throws Exception If the class does not exist in development environments.
 	 */
-	protected function get_class( $class ) {
+	protected function get_class( $class_name ) {
 		try {
-			return $this->container->get( $class );
+			return $this->container->get( $class_name );
 		} catch ( Throwable $e ) {
 			// In production environments do not fatal if the class could not be constructed but log and fail gracefully.
 			if ( \YOAST_ENVIRONMENT === 'production' ) {

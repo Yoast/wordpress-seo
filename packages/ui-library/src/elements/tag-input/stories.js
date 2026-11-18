@@ -1,50 +1,83 @@
-import { StoryComponent } from ".";
-import { useCallback, useState } from "@wordpress/element";
+import { useArgs } from "@storybook/preview-api";
+import React, { useCallback } from "react";
+import TagInput from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
+import { component } from "./docs";
+
+const Template = args => {
+	const [ { tags }, updateArgs ] = useArgs();
+	const addTag = useCallback( tag => {
+		updateArgs( { tags: [ ...tags, tag ] } );
+	}, [ tags, updateArgs ] );
+	const removeTag = useCallback( index => {
+		updateArgs( { tags: [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ] } );
+	}, [ tags, updateArgs ] );
+
+	return (
+		<TagInput { ...args } tags={ tags || [] } onAddTag={ addTag } onRemoveTag={ removeTag } />
+	);
+};
+
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
+};
 
 export default {
 	title: "1) Elements/Tag input",
-	component: StoryComponent,
+	component: TagInput,
 	parameters: {
 		docs: {
-			description: {
-				component: "A simple tag input component.",
-			},
+			description: { component },
+			page: InteractiveDocsPage,
 		},
 	},
 	argTypes: {
 		children: {
 			control: "text",
-			description: "`children`, override `tags`. You can pass Tag subcomponent instead (`TagInput.Tag`).",
+			description: "Overrides `tags`. You can pass Tag subcomponent instead (e.g. `TagInput.Tag`).",
 			table: { type: { summary: "JSX.node" } },
 		},
 		tags: { description: "Array of options to display." },
 		tag: {
 			control: "text",
-			description: "`TagInput.Tag` prop (tag label).",
+			description: "[`TagInput.Tag`] The tag (label).",
 			table: { type: { summary: "string" } },
 		},
 		index: {
-			description: "`TagInput.Tag` prop",
+			description: "[`TagInput.Tag`] The tag index.",
 			control: "number",
 			table: { type: { summary: "number" } },
 		},
 		disabled: {
 			control: "boolean",
-			description: "`TagInput.Tag` prop",
+			description: "Also for `TagInput.Tag`.",
 			table: { type: { summary: "boolean" }, defaultValue: { summary: false } },
 		},
+		onAddTag: {
+			control: "func",
+			description: "Callback when a tag is added.",
+			table: { type: { required: true, summary: "func" } },
+		},
 		onRemoveTag: {
-			control: "function",
-			description: "`TagInput.Tag` prop",
-			table: { type: { required: true, summary: "function"  } },
+			control: "func",
+			description: "Callback when a tag is removed. Also for `TagInput.Tag`.",
+			table: { type: { required: true, summary: "func" } },
 		},
 		onSetTags: {
-			control: "function",
+			control: "func",
 			description: "Sets the tags to the given array.",
-			table: { type: { required: true, summary: "function"  } },
+			table: { type: { required: true, summary: "func" } },
+		},
+		onBlur: {
+			control: "func",
+			description: "Callback when the input lost focus. A tag will be created from the current input value.",
+			table: { type: { required: true, summary: "func" } },
 		},
 		screenReaderRemoveTag: {
-			description: "`TagInput.Tag` prop",
+			description: "[`TagInput.Tag`] The screen reader text for the remove tag button.",
 			control: "text",
 			table: { type: { summary: "string" } },
 		},
@@ -66,23 +99,4 @@ export default {
 			"This is a longer tag that includes spaces!",
 		],
 	},
-};
-
-const Template = args => {
-	const [ tags, setTags ] = useState( args?.tags || [] );
-	const addTag = useCallback( tag => {
-		setTags( [ ...tags, tag ] );
-	}, [ tags, setTags ] );
-	const removeTag = useCallback( index => {
-		setTags( [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ] );
-	}, [ tags, setTags ] );
-	return (
-		<StoryComponent { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } onSetTags={ setTags } />
-	);
-};
-
-export const Factory = Template.bind( {} );
-
-Factory.parameters = {
-	controls: { disable: false },
 };

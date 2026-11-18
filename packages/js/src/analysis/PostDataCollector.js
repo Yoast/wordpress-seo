@@ -134,7 +134,7 @@ PostDataCollector.prototype.getTitle = function() {
  */
 PostDataCollector.prototype.getUrl = function() {
 	const editorSelectors = select( "core/editor" );
-	if ( editorSelectors ) {
+	if ( editorSelectors && editorSelectors.getCurrentPostAttribute( "slug" ) ) {
 		return editorSelectors.getCurrentPostAttribute( "slug" );
 	}
 

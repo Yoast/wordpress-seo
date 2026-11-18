@@ -1,23 +1,21 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { Row, RowResponsiveWrap } from "../src/table/Row";
 
 test( "the Row component matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<Row rowHeight="48px" />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the RowResponsiveWrap component matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<RowResponsiveWrap />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 

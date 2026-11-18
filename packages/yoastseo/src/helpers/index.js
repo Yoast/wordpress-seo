@@ -1,13 +1,11 @@
-import { measureTextWidth } from "./createMeasurementElement";
-import { getLanguagesWithWordFormSupport } from "./getLanguagesWithWordFormSupport";
-import formatNumber from "./formatNumber";
-import { getLanguagesWithWordComplexity } from "./getLanguagesWithWordComplexity";
-import { createAnchorOpeningTag } from "./shortlinker";
+export { measureTextWidth } from "./createMeasurementElement.js";
+export { getLanguagesWithWordFormSupport } from "./getLanguagesWithWordFormSupport.js";
+export { default as formatNumber } from "./formatNumber.js";
+export { getLanguagesWithWordComplexity } from "./getLanguagesWithWordComplexity.js";
+export { createAnchorOpeningTag } from "./shortlinker/index.js";
+export { default as getWordComplexityHelper } from "./getWordComplexityHelper.js";
+export { default as getWordComplexityConfig } from "./getWordComplexityConfig.js";
 
-export {
-	measureTextWidth,
-	getLanguagesWithWordFormSupport,
-	formatNumber,
-	getLanguagesWithWordComplexity,
-	createAnchorOpeningTag,
-};
+import * as htmlEntities from "./htmlEntities.js";
+
+export { htmlEntities };

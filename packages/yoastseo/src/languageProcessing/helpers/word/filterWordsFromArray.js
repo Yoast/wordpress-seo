@@ -1,4 +1,4 @@
-import { filter, includes } from "lodash-es";
+import { filter, includes } from "lodash";
 
 /**
  * Filters certain words from an array of words.

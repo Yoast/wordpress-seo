@@ -28,8 +28,8 @@ class Integrations_Action {
 	/**
 	 * Sets an integration state.
 	 *
-	 * @param string  $integration_name The name of the integration to activate/deactivate.
-	 * @param boolean $value            The value to store.
+	 * @param string $integration_name The name of the integration to activate/deactivate.
+	 * @param bool   $value            The value to store.
 	 *
 	 * @return object The response object.
 	 */

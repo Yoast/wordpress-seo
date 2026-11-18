@@ -2,7 +2,7 @@ import Paper from "../../../../../src/values/Paper";
 import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/appearanceAssessments";
-import Factory from "../../../../specHelpers/factory";
+import Factory from "../../../../../src/helpers/factory";
 import Mark from "../../../../../src/values/Mark";
 import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
@@ -121,7 +121,7 @@ describe( "A test for Appearance assessments", function() {
 	it( "should not target other grammatical forms of the phrases", function() {
 		const mockPaper = new Paper( "This ad is aimed at harelips." );
 		const mockResearcher = new EnglishResearcher( mockPaper );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "harelip" )  );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "harelip" ) );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 

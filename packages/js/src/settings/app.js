@@ -1,16 +1,20 @@
 /* eslint-disable react/jsx-max-depth */
 import { Transition } from "@headlessui/react";
-import { AdjustmentsIcon, ArrowNarrowRightIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
-import { useCallback, useMemo } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
-import { Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
+import ColorSwatchIcon from "@heroicons/react/outline/ColorSwatchIcon";
+import DesktopComputerIcon from "@heroicons/react/outline/DesktopComputerIcon";
+import NewspaperIcon from "@heroicons/react/outline/NewspaperIcon";
+import { useSelect } from "@wordpress/data";
+import { useEffect } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { Badge, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria, useNavigationContext } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { ErrorFallback, Notifications, Search, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
+import { MenuItemLink, PremiumUpsellList, SidebarRecommendations, YoastLogo } from "../shared-admin/components";
+import { ErrorFallback, Notifications, Search, AdvancedMenu } from "./components";
+import { STORE_NAME } from "./constants";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
 	AuthorArchives,
@@ -19,9 +23,11 @@ import {
 	DateArchives,
 	FormatArchives,
 	Homepage,
+	LlmTxt,
 	MediaPages,
 	PostType,
 	Rss,
+	SchemaFramework,
 	SiteBasics,
 	SiteConnections,
 	SiteFeatures,
@@ -38,102 +44,88 @@ import {
  */
 const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
+	const { pathname } = useLocation();
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const { history, setHistory } = useNavigationContext();
 
-	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
-		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
-
-		return (
-			<div className="yst-relative">
-				<hr className="yst-absolute yst-inset-x-0 yst-top-1/2 yst-bg-slate-200" />
-				<button
-					className="yst-relative yst-flex yst-items-center yst-gap-1.5 yst-px-2.5 yst-py-1 yst-mx-auto yst-text-xs yst-font-medium yst-text-slate-700 yst-bg-slate-50 yst-rounded-full yst-border yst-border-slate-300 hover:yst-bg-white hover:yst-text-slate-800 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-ring-offset-2"
-					onClick={ toggle }
-					{ ...ariaProps }
-				>
-					{ show ? __( "Show less", "wordpress-seo" ) : __( "Show more", "wordpress-seo" ) }
-					<ChevronIcon
-						className="yst-h-4 yst-w-4 yst-flex-shrink-0 yst-text-slate-400 group-hover:yst-text-slate-500 yst-stroke-3"
-						{ ...svgAriaProps }
-					/>
-				</button>
-			</div>
-		);
+	useEffect( () => {
+		setHistory( [ `menu-content-types${ idSuffix }`, `menu-categories-and-tags${ idSuffix }`, `menu-general${ idSuffix }` ] );
 	}, [] );
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
-			<Link id={ `link-yoast-logo${ idSuffix }` } to="/" className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500" aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }>
+			<Link
+				id={ `link-yoast-logo${ idSuffix }` }
+				to="/"
+				className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500"
+				aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }
+			>
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
 			<Search buttonId={ `button-search${ idSuffix }` } />
 		</header>
-		<div className="yst-px-0.5 yst-space-y-6">
+		<div className="yst-px-0.5 yst-space-y-6" key={ `menu-${ idSuffix }-${ pathname }` }>
 			<SidebarNavigation.MenuItem
 				id={ `menu-general${ idSuffix }` }
 				icon={ DesktopComputerIcon }
 				label={ __( "General", "wordpress-seo" ) }
+				defaultOpen={ history.includes( `menu-general${ idSuffix }` ) }
 			>
-				<SidebarNavigation.SubmenuItem to="/site-features" label={ __( "Site features", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/site-basics" label={ __( "Site basics", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem
+				<MenuItemLink to="/site-features" label={ __( "Site features", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink to="/site-basics" label={ __( "Site basics", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink
 					to="/site-representation"
 					label={ __( "Site representation", "wordpress-seo" ) }
 					idSuffix={ idSuffix }
 				/>
-				<SidebarNavigation.SubmenuItem to="/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<MenuItemLink to="/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
-			<SidebarNavigation.MenuItem
+			<SidebarNavigation.MenuItemWithLimiter
 				id={ `menu-content-types${ idSuffix }` }
 				icon={ NewspaperIcon }
 				label={ __( "Content types", "wordpress-seo" ) }
+				defaultOpen={ history.includes( `menu-content-types${ idSuffix }` ) }
+				limit={ 5 }
+				buttonId={ `more-content-types${ idSuffix }` }
+				showMoreLabel={ __( "Show more", "wordpress-seo" ) }
+				showLessLabel={ __( "Show less", "wordpress-seo" ) }
 			>
-				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
-					<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
-					{ map( postTypes, ( { name, route, label } ) => (
-						<SidebarNavigation.SubmenuItem
-							key={ `link-post-type-${ name }` }
-							to={ `/post-type/${ route }` }
-							label={ label }
-							idSuffix={ idSuffix }
-						/>
-					) ) }
-				</ChildrenLimiter>
-			</SidebarNavigation.MenuItem>
-			<SidebarNavigation.MenuItem
+				<MenuItemLink to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				{ map( postTypes, ( { name, route, label, isNew } ) => (
+					<MenuItemLink
+						key={ `link-post-type-${ name }` }
+						to={ `/post-type/${ route }` }
+						label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
+							{ label }
+							{ isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
+						</span> }
+						idSuffix={ idSuffix }
+					/>
+				) ) }
+			</SidebarNavigation.MenuItemWithLimiter>
+			<SidebarNavigation.MenuItemWithLimiter
 				id={ `menu-categories-and-tags${ idSuffix }` }
 				icon={ ColorSwatchIcon }
 				label={ __( "Categories & tags", "wordpress-seo" ) }
+				defaultOpen={ history.includes( `menu-categories-and-tags${ idSuffix }` ) }
+				limit={ 5 }
+				buttonId={ `more-categories${ idSuffix }` }
+				showMoreLabel={ __( "Show more", "wordpress-seo" ) }
+				showLessLabel={ __( "Show less", "wordpress-seo" ) }
 			>
-				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
-					{ map( taxonomies, taxonomy => (
-						<SidebarNavigation.SubmenuItem
-							to={ `/taxonomy/${ taxonomy.route }` }
-							label={ taxonomy.label }
-							idSuffix={ idSuffix }
-						/>
-					) ) }
-				</ChildrenLimiter>
-			</SidebarNavigation.MenuItem>
-			<SidebarNavigation.MenuItem
-				id={ `menu-advanced${ idSuffix }` }
-				icon={ AdjustmentsIcon }
-				label={ __( "Advanced", "wordpress-seo" ) }
-				defaultOpen={ false }
-			>
-				<SidebarNavigation.SubmenuItem
-					to="/crawl-optimization"
-					label={ __( "Crawl optimization", "wordpress-seo" ) }
-					idSuffix={ idSuffix }
-				/>
-				<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/format-archives" label={ __( "Format archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/special-pages" label={ __( "Special pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/media-pages" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			</SidebarNavigation.MenuItem>
+				{ map( taxonomies, taxonomy => (
+					<MenuItemLink
+						key={ `link-taxonomy-${ taxonomy.name }` }
+						to={ `/taxonomy/${ taxonomy.route }` }
+						label={ <span className="yst-inline-flex yst-items-center yst-gap-1.5">
+							{ taxonomy.label }
+							{ taxonomy.isNew && <Badge variant="info">{ __( "New", "wordpress-seo" ) }</Badge> }
+						</span> }
+						idSuffix={ idSuffix }
+					/>
+				) ) }
+			</SidebarNavigation.MenuItemWithLimiter>
+			<AdvancedMenu idSuffix={ idSuffix } />
 		</div>
 	</>;
 };
@@ -145,63 +137,6 @@ Menu.propTypes = {
 };
 
 /**
- * @returns {JSX.Element} The element.
- */
-const PremiumUpsellList = () => {
-	const premiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
-	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
-
-	return (
-		<div className="yst-p-6 xl:yst-max-w-3xl yst-rounded-lg yst-bg-white yst-shadow">
-			<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
-				{ sprintf(
-					/* translators: %s expands to "Yoast SEO" Premium */
-					__( "Upgrade to %s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				) }
-			</Title>
-			<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-pl-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
-				<li>
-					<span className="yst-font-semibold">{ __( "Multiple keyphrases", "wordpress-seo" ) }</span>
-					:&nbsp;
-					{ __( "Increase your SEO reach", "wordpress-seo" ) }
-				</li>
-				<li>
-					<span className="yst-font-semibold">{ __( "No more dead links", "wordpress-seo" ) }</span>
-					:&nbsp;
-					{ __( "Easy redirect manager", "wordpress-seo" ) }
-				</li>
-				<li><span className="yst-font-semibold">{ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</span></li>
-				<li>
-					<span className="yst-font-semibold">{ __( "Social media preview", "wordpress-seo" ) }</span>
-					:&nbsp;
-					{ __( "Facebook & Twitter", "wordpress-seo" ) }
-				</li>
-				<li><span className="yst-font-semibold">{ __( "24/7 email support", "wordpress-seo" ) }</span></li>
-				<li><span className="yst-font-semibold">{ __( "No ads!", "wordpress-seo" ) }</span></li>
-			</ul>
-			<Button
-				as="a"
-				variant="upsell"
-				size="large"
-				href={ premiumLink }
-				className="yst-gap-2 yst-mt-4"
-				target="_blank"
-				rel="noopener"
-				{ ...premiumUpsellConfig }
-			>
-				{ sprintf(
-					/* translators: %s expands to "Yoast SEO" Premium */
-					__( "Get %s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				) }
-				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
-			</Button>
-		</div>
-	);
-};
-
-/**
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
@@ -209,6 +144,15 @@ const App = () => {
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const premiumLinkList = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+	const wooLinkList = useSelectSettings( "selectLink", [], "https://yoa.st/admin-footer-upsell-woocommerce" );
+	const premiumLinkSidebar = useSelectSettings( "selectLink", [], "https://yoa.st/jj" );
+	const wooLinkSidebar = useSelectSettings( "selectLink", [], "https://yoa.st/admin-sidebar-upsell-woocommerce" );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
+	const academyLink = useSelectSettings( "selectLink", [], "https://yoa.st/3t6" );
+	const { isPromotionActive } = useSelect( STORE_NAME );
+	const isWooCommerceActive = useSelectSettings( "selectPreference", [], "isWooCommerceActive" );
+
 	useRouterScrollRestore();
 
 	const { dirty } = useFormikContext();
@@ -224,9 +168,15 @@ const App = () => {
 				<SidebarNavigation.Mobile
 					openButtonId="button-open-settings-navigation-mobile"
 					closeButtonId="button-close-settings-navigation-mobile"
-					openButtonScreenReaderText={ __( "Open settings navigation", "wordpress-seo" ) }
-					closeButtonScreenReaderText={ __( "Close settings navigation", "wordpress-seo" ) }
-					aria-label={ __( "Settings navigation", "wordpress-seo" ) }
+					openButtonScreenReaderText={
+						/* translators: Hidden accessibility text. */
+						__( "Open settings navigation", "wordpress-seo" ) }
+					closeButtonScreenReaderText={
+						/* translators: Hidden accessibility text. */
+						__( "Close settings navigation", "wordpress-seo" ) }
+					aria-label={
+						/* translators: Hidden accessibility text. */
+						__( "Settings navigation", "wordpress-seo" ) }
 				>
 					<Menu idSuffix="-mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
@@ -236,9 +186,9 @@ const App = () => {
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
 					</aside>
-					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
-						<div className="yst-grow yst-space-y-6 yst-mb-8 xl:yst-mb-0">
-							<main className="yst-rounded-lg yst-bg-white yst-shadow">
+					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pe-[17.5rem]" ) }>
+						<div className="yst-grow yst-max-w-page yst-space-y-6 yst-mb-8 xl:yst-mb-0">
+							<Paper as="main">
 								<ErrorBoundary FallbackComponent={ ErrorFallback }>
 									<Transition
 										key={ pathname }
@@ -255,6 +205,8 @@ const App = () => {
 											<Route path="date-archives" element={ <DateArchives /> } />
 											<Route path="homepage" element={ <Homepage /> } />
 											<Route path="format-archives" element={ <FormatArchives /> } />
+											<Route path="llms-txt" element={ <LlmTxt /> } />
+											<Route path="schema-framework" element={ <SchemaFramework /> } />
 											<Route path="media-pages" element={ <MediaPages /> } />
 											<Route path="rss" element={ <Rss /> } />
 											<Route path="site-basics" element={ <SiteBasics /> } />
@@ -284,10 +236,25 @@ const App = () => {
 										</Routes>
 									</Transition>
 								</ErrorBoundary>
-							</main>
-							{ ! isPremium && <PremiumUpsellList /> }
+							</Paper>
+							{ ! isPremium && <PremiumUpsellList
+								premiumLink={ isWooCommerceActive ? wooLinkList : premiumLinkList }
+								premiumUpsellConfig={ premiumUpsellConfig }
+								isPromotionActive={ isPromotionActive }
+								isWooCommerceActive={ isWooCommerceActive }
+							/> }
 						</div>
-						{ ! isPremium && <SidebarRecommendations /> }
+						{ ! isPremium &&
+							<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-end-8 xl:yst-w-[16rem]">
+								<SidebarRecommendations
+									premiumLink={ isWooCommerceActive ? wooLinkSidebar : premiumLinkSidebar }
+									premiumUpsellConfig={ premiumUpsellConfig }
+									academyLink={ academyLink }
+									isPromotionActive={ isPromotionActive }
+									isWooCommerceActive={ isWooCommerceActive }
+								/>
+							</div>
+						}
 					</div>
 				</div>
 			</SidebarNavigation>

@@ -15,9 +15,11 @@ return array(
 	 */
 	'finders'                    => [
 		Finder::create()->files()->in( 'vendor/symfony/dependency-injection' )->name( [
-			'Container.php', 'ContainerInterface.php', 'ResettableContainerInterface.php', 'LICENSE', 'composer.json'
+			'Container.php', 'ContainerInterface.php','ServiceLocator.php', 'ResettableContainerInterface.php', 'LICENSE', 'composer.json'
 		] ),
-		Finder::create()->files()->in( 'vendor/symfony/dependency-injection/Argument' )->name( [ 'RewindableGenerator.php' ] ),
+		Finder::create()->files()->in( 'vendor/symfony/dependency-injection/Argument' )->name( [
+			'RewindableGenerator.php','ServiceLocator.php' ,'ServiceLocatorArgument.php'
+		] ),
 		Finder::create()->files()->in( 'vendor/symfony/dependency-injection/Exception' )->name( [
 			'InvalidArgumentException.php', 'LogicException.php', 'RuntimeException.php',
 			'ServiceCircularReferenceException.php', 'ServiceNotFoundException.php', 'EnvNotFoundException.php',

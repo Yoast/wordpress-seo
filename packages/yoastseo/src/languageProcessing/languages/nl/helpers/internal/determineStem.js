@@ -1,4 +1,4 @@
-import { flatten } from "lodash-es";
+import { flatten } from "lodash";
 import { languageProcessing } from "yoastseo";
 const {
 	flattenSortLength,
@@ -7,8 +7,8 @@ const {
 	},
 } = languageProcessing;
 
-import stem from "./stem";
-import { stemTOrDFromEndOfWord } from "./stemTOrDFromEndOfWord";
+import stem from "./stem.js";
+import { stemTOrDFromEndOfWord } from "./stemTOrDFromEndOfWord.js";
 
 /**
  * Checks if the word checked is in the list of strong verbs exceptions. If it is, only return the first stem from the stem set.

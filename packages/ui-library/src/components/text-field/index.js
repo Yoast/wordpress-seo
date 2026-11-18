@@ -1,10 +1,14 @@
-import { forwardRef } from "@wordpress/element";
+/* eslint-disable complexity */
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Label from "../../elements/label";
 import TextInput from "../../elements/text-input";
 import { ValidationInput, ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
+
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_VALIDATION = {};
 
 /**
  * @param {string} id The ID of the input.
@@ -23,12 +27,12 @@ const TextField = forwardRef( ( {
 	id,
 	onChange,
 	label,
-	labelSuffix,
-	disabled,
-	readOnly,
-	className,
-	description,
-	validation,
+	labelSuffix = null,
+	disabled = false,
+	readOnly = false,
+	className = "",
+	description = null,
+	validation = DEFAULT_VALIDATION,
 	...props
 }, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
@@ -58,17 +62,20 @@ const TextField = forwardRef( ( {
 				validation={ validation }
 				{ ...props }
 			/>
+			{ /* yst-mt-2 is added as an inline class on both __validation and __description because the
+			 yst-mt-2 from style.css is part of a @layer, which loses specificity in the Yoast sidebar. */ }
 			{ validation?.message && (
-				<ValidationMessage variant={ validation?.variant } id={ ids.validation } className="yst-text-field__validation">
+				<ValidationMessage variant={ validation?.variant } id={ ids.validation } className="yst-text-field__validation yst-mt-2">
 					{ validation.message }
 				</ValidationMessage>
 			) }
-			{ description && <p id={ ids.description } className="yst-text-field__description">{ description }</p> }
+			{ description && <p id={ ids.description } className="yst-text-field__description yst-mt-2">{ description }</p> }
 		</div>
 	);
 } );
 
-const propTypes = {
+TextField.displayName = "TextField";
+TextField.propTypes = {
 	id: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	label: PropTypes.string.isRequired,
@@ -82,22 +89,5 @@ const propTypes = {
 		message: PropTypes.node,
 	} ),
 };
-
-TextField.propTypes = propTypes;
-
-TextField.defaultProps = {
-	labelSuffix: null,
-	disabled: false,
-	readOnly: false,
-	className: "",
-	description: null,
-	validation: {},
-};
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <TextField { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = TextField.defaultProps;
-StoryComponent.displayName = "TextField";
 
 export default TextField;

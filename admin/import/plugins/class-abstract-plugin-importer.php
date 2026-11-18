@@ -111,8 +111,8 @@ abstract class WPSEO_Plugin_Importer {
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE %s",
-				$this->meta_key
-			)
+				$this->meta_key,
+			),
 		);
 		$result = $wpdb->__get( 'result' );
 		if ( ! $result ) {
@@ -161,8 +161,8 @@ abstract class WPSEO_Plugin_Importer {
 				"SELECT COUNT(*) AS `count`
 					FROM {$wpdb->postmeta}
 					WHERE meta_key IN ( " . implode( ', ', array_fill( 0, count( $meta_keys ), '%s' ) ) . ' )',
-				$meta_keys
-			)
+				$meta_keys,
+			),
 		);
 
 		if ( $result === '0' ) {
@@ -189,8 +189,8 @@ abstract class WPSEO_Plugin_Importer {
 			$wpdb->prepare(
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- This is intentional + temporary.
 				"CREATE TEMPORARY TABLE tmp_meta_table SELECT * FROM {$wpdb->postmeta} WHERE meta_key = %s",
-				$old_key
-			)
+				$old_key,
+			),
 		);
 		if ( $result === false ) {
 			$this->set_missing_db_rights_status();
@@ -201,8 +201,8 @@ abstract class WPSEO_Plugin_Importer {
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM tmp_meta_table WHERE post_id IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s )",
-				WPSEO_Meta::$meta_prefix . $new_key
-			)
+				WPSEO_Meta::$meta_prefix . $new_key,
+			),
 		);
 
 		/*
@@ -215,8 +215,8 @@ abstract class WPSEO_Plugin_Importer {
 		$wpdb->query(
 			$wpdb->prepare(
 				'UPDATE tmp_meta_table SET meta_key = %s',
-				WPSEO_Meta::$meta_prefix . $new_key
-			)
+				WPSEO_Meta::$meta_prefix . $new_key,
+			),
 		);
 
 		$this->meta_key_clone_replace( $replace_values );
@@ -240,7 +240,7 @@ abstract class WPSEO_Plugin_Importer {
 	 */
 	protected function meta_keys_clone( $clone_keys ) {
 		foreach ( $clone_keys as $clone_key ) {
-			$result = $this->meta_key_clone( $clone_key['old_key'], $clone_key['new_key'], isset( $clone_key['convert'] ) ? $clone_key['convert'] : [] );
+			$result = $this->meta_key_clone( $clone_key['old_key'], $clone_key['new_key'], ( $clone_key['convert'] ?? [] ) );
 			if ( ! $result ) {
 				return false;
 			}
@@ -250,6 +250,8 @@ abstract class WPSEO_Plugin_Importer {
 
 	/**
 	 * Sets the import status to false and returns a message about why it failed.
+	 *
+	 * @return void
 	 */
 	protected function set_missing_db_rights_status() {
 		$this->status->set_status( false );
@@ -279,6 +281,8 @@ abstract class WPSEO_Plugin_Importer {
 	 * @param string $new_key The key to save.
 	 * @param mixed  $value   The value to set the key to.
 	 * @param int    $post_id The Post to save the meta for.
+	 *
+	 * @return void
 	 */
 	protected function maybe_save_post_meta( $new_key, $value, $post_id ) {
 		// Big. Fat. Sigh. Mostly used for _yst_is_cornerstone, but might be useful for other hidden meta's.
@@ -316,8 +320,8 @@ abstract class WPSEO_Plugin_Importer {
 					$wpdb->prepare(
 						'UPDATE tmp_meta_table SET meta_value = %s WHERE meta_value = %s',
 						$new_value,
-						$old_value
-					)
+						$old_value,
+					),
 				);
 			}
 		}

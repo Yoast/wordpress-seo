@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import { ReactComponent as FacebookIcon } from "../../images/icon-facebook.svg";
-import { ReactComponent as TwitterIcon } from "../../images/icon-twitter.svg";
+import { ReactComponent as TwitterIcon } from "../../images/x-logo.svg";
 
 /**
  * Renders the PostPublish Yoast integration.
@@ -21,14 +21,24 @@ export default function PostPublish( { permalink } ) {
 				<a href={ "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl } target="_blank" rel="noopener noreferrer">
 					<FacebookIcon />
 					{ __( "Facebook", "wordpress-seo" ) }
-					<span className="screen-reader-text">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
+					<span className="screen-reader-text">
+						{
+							/* translators: Hidden accessibility text. */
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
 				</a>
 			</li>
 			<li>
-				<a href={ "https://twitter.com/share?url=" + encodedUrl } target="_blank" rel="noopener noreferrer">
+				<a href={ "https://twitter.com/share?url=" + encodedUrl } target="_blank" rel="noopener noreferrer" className="x-share">
 					<TwitterIcon />
-					{ __( "Twitter", "wordpress-seo" ) }
-					<span className="screen-reader-text">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
+					{ __( "X", "wordpress-seo" ) }
+					<span className="screen-reader-text">
+						{
+							/* translators: Hidden accessibility text. */
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
 				</a>
 			</li>
 		</ul>

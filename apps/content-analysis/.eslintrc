@@ -1,4 +1,8 @@
 extends: yoast
+root: true
+
+settings:
+  react: { version: detect }
 
 rules:
   require-jsdoc: 0
@@ -6,6 +10,8 @@ rules:
   react/jsx-no-bind: 0
   no-unused-vars: 0
   complexity: 1
+  capitalized-comments: off
+  space-before-function-paren: [ error, { "anonymous": "never", "named": "never", "asyncArrow": "always" } ]
   # Longer grace period for Yoast config.
   no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
   no-useless-escape: 1

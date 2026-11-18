@@ -14,7 +14,7 @@ module.exports = {
 			"<%= files.config %>",
 		],
 		tasks: [
-			"eslint:grunt",
+			"shell:yarn:lint:tooling",
 		],
 	},
 	php: {
@@ -27,14 +27,11 @@ module.exports = {
 	},
 	js: {
 		files: [
-			"<%= files.js %>",
-			"<%= paths.js %>/**/*.js",
-			"packages/ui-library/src/**/*.js",
+			"packages/**/src/**/*.js",
 		],
 		tasks: [
-			"build:packages",
-			"build:js",
-			"eslint:plugin",
+			"shell:yarn:build",
+			"shell:yarn:lint:packages",
 		],
 	},
 	jsTests: {
@@ -42,7 +39,7 @@ module.exports = {
 			"<%= files.jsTests %>",
 		],
 		tasks: [
-			"eslint:tests",
+			"shell:yarn:lint:packages --scope @yoast/wordpress-seo",
 		],
 	},
 	css: {

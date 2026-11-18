@@ -1,5 +1,5 @@
-import { getWords } from "../../../../languageProcessing";
-import { includesWordsAtPosition } from "./includesWordsAtPosition";
+import { getWords } from "../../../../languageProcessing/index.js";
+import { includesWordsAtPosition } from "./includesWordsAtPosition.js";
 
 /**
  * Checks whether the given list of words contains another list of words in the given order,
@@ -11,8 +11,8 @@ import { includesWordsAtPosition } from "./includesWordsAtPosition";
  * @returns {function} A function that checks whether the given list of words is contained in another list of words in the given order.
  */
 export function isPrecededByException( words, exceptions ) {
-	const splitExceptions = exceptions.map( exception => getWords( exception, false ) );
-	return index => ! splitExceptions.some( exception => {
+	const splitExceptions = exceptions.map( exception => getWords( exception, "\\s", false ) );
+	return index => splitExceptions.some( exception => {
 		const startIndex = index - exception.length;
 		if ( startIndex >= 0 ) {
 			return includesWordsAtPosition( exception, startIndex, words );

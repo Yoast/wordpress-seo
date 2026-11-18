@@ -1,4 +1,4 @@
-import Node from "./Node";
+import Node from "./Node.js";
 /**
  * Represents a piece of structure that is present in the original text, but is not relevant for the further analysis
  * of the text.

@@ -17,7 +17,7 @@
 		}
 
 		.yst-modal__overlay {
-			@apply yst-absolute yst-inset-0 yst-bg-slate-500 yst-bg-opacity-75 yst-transition-opacity;
+			@apply yst-fixed yst-inset-0 yst-bg-slate-500 yst-bg-opacity-75 yst-transition-opacity;
 		}
 
 		.yst-modal__panel {
@@ -33,7 +33,7 @@
 		}
 
 		.yst-modal__close {
-			@apply yst-block yst-absolute yst-top-4 yst-right-4;
+			@apply yst-block yst-absolute yst-top-4 yst-end-4;
 		}
 
 		.yst-modal__close-button {
@@ -48,6 +48,29 @@
 			focus:yst-ring-2
 			focus:yst-ring-offset-2
 			focus:yst-ring-primary-500;
+		}
+
+		.yst-modal__container {
+			/* 100vh - the padding of yst-modal. */
+			@apply yst-flex yst-flex-col yst-max-h-[calc(100vh-2rem)] sm:yst-max-h-[calc(100vh-4rem)] md:yst-max-h-[calc(100vh-10rem)];
+		}
+
+		.yst-modal__panel .yst-modal__container {
+			/* 100vh - ( the padding of yst-modal + the padding of yst-modal__panel ). */
+			@apply yst-max-h-[calc(100vh-5rem)] sm:yst-max-h-[calc(100vh-7rem)] md:yst-max-h-[calc(100vh-13rem)];
+		}
+
+		.yst-modal__container-header, .yst-modal__container-footer {
+			@apply yst-shrink-0;
+		}
+
+		.yst-modal__container-content {
+			@apply yst-overflow-auto;
+		}
+
+		.yst-modal__panel .yst-modal__container-content {
+			/* Workaround the panel padding to have the scrollbar at the edge. */
+			@apply yst--mx-6 yst-px-6;
 		}
 	}
 }

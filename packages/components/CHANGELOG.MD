@@ -5,12 +5,26 @@ All notable changes to this project will be documented in this file. Releases wi
 We follow [Semantic Versioning](http://semver.org/).
 
 ## Future Release
+### Enhancements
+* Adds component `SparklesIcon`. [#21449](https://github.com/Yoast/wordpress-seo/pull/21449)
+* Adds component `IconButtonBase`. [#21348](https://github.com/Yoast/wordpress-seo/pull/21348)
+* Adds component `IconAIFixesButton`. [#21348](https://github.com/Yoast/wordpress-seo/pull/21348)
+* Refactors the logic used by `ImageSelect` to determine which styling to apply. [#21962](https://github.com/Yoast/wordpress-seo/pull/21962)
+
 ### Other
 * Adds a way to change the link in the `WordOccurenceInsights` component.
+* Removes the Tabs component. [#22492](https://github.com/Yoast/wordpress-seo/pull/22492)
+* Replaces the unmaintained `interpolate-components` package with the `createInterpolateElement` from `@wordpress/element`. [#22486](https://github.com/Yoast/wordpress-seo/pull/22486)
+* Upgrades `react-select` to v5 from v4. [#22493](https://github.com/Yoast/wordpress-seo/pull/22493)
+* Upgrades WP packages to minimum supported WP version 6.7. [#22466](https://github.com/Yoast/wordpress-seo/pull/22466)
 
 ### Non user facing
+* Now published as a transpiled package.
+* Now uses the latest version of `@yoast/eslint-config` instead of the deprecated `eslint-config-yoast`.
+* Uses a flat config for ESLint.
 * Changes the `imageAltText` prop from the `ImageSelect` component to no longer be required.
-
+* Bumps `@yoast/eslint-config` to version `8.1.0` from `8.0.0`. [#22256](https://github.com/Yoast/wordpress-seo/pull/22256)
+* Modifies styles in `SectionTitle` to properly handle layouts when the "New" badge label is present, using a new flex container for alignment. [#22564](https://github.com/Yoast/wordpress-seo/pull/22564)
 
 ## 2.20.0
 ### Enhancements

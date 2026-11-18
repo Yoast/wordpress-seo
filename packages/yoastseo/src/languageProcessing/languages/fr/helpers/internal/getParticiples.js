@@ -1,4 +1,4 @@
-import { forEach, includes } from "lodash-es";
+import { forEach, includes } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { getWords, matchRegularParticiples } = languageProcessing;
 
@@ -6,7 +6,7 @@ import {
 	irregularsRegular,
 	irregularsEndingInS,
 	irregularsIrregular,
-} from "../../config/internal/passiveVoiceIrregulars";
+} from "../../config/internal/passiveVoiceIrregulars.js";
 
 /**
  * Returns an array of matches of irregular participles with suffixes.

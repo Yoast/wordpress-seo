@@ -1,4 +1,4 @@
-import { isFunction, isNumber, isObject } from "lodash-es";
+import { isFunction, isNumber, isObject } from "lodash";
 
 /**
  * Represents a scheduler task.

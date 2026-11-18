@@ -210,6 +210,8 @@ if ( ! function_exists( 'ctype_digit' ) ) {
  * @param string $new_term_id      New term id of the taxonomy term that was splitted.
  * @param string $term_taxonomy_id Term taxonomy id for the taxonomy that was affected.
  * @param string $taxonomy         The taxonomy that the taxonomy term was splitted for.
+ *
+ * @return void
  */
 function wpseo_split_shared_term( $old_term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
 	$tax_meta = get_option( 'wpseo_taxonomy_meta', [] );

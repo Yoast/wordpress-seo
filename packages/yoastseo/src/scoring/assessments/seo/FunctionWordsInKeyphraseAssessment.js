@@ -1,9 +1,9 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { escape, merge } from "lodash-es";
+import { escape, merge } from "lodash";
 
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
+import Assessment from "../assessment.js";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker/index.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
 
 /**
  * Assessment to check whether the keyphrase only contains function words.
@@ -51,13 +51,12 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 			assessmentResult.setScore( this._config.scores.onlyFunctionWords );
 			assessmentResult.setText( sprintf(
 				/**
-				 * Translators:
+				 * translators:
 				 * %1$s and %2$s expand to links on yoast.com,
 				 * %3$s expands to the anchor end tag,
 				 * %4$s expands to the focus keyphrase of the article.
 				 */
 				__(
-					// eslint-disable-next-line max-len
 					"%1$sFunction words in keyphrase%3$s: Your keyphrase \"%4$s\" contains function words only. %2$sLearn more about what makes a good keyphrase.%3$s",
 					"wordpress-seo"
 				),
@@ -67,7 +66,8 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 				this._keyword
 			) );
 			assessmentResult.setHasJumps( true );
-			assessmentResult.setEditFieldName( __( "keyphrase", "wordpress-seo" ) );
+			assessmentResult.setEditFieldName( "keyphrase" );
+			assessmentResult.setEditFieldAriaLabel( __( "Edit your keyphrase", "wordpress-seo" ) );
 		}
 
 		return assessmentResult;

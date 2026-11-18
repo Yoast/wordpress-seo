@@ -80,17 +80,30 @@ export function isValidHref( href ) {
  *
  * @param {Object}  options                  The options object.
  * @param {string}  options.url              The href of the link.
+ * @param {string}  options.type             The type of the link.
+ * @param {string}  options.id               The id of the linked resource.
  * @param {boolean} options.opensInNewWindow Whether this link will open in a new window.
+ * @param {boolean} options.noFollow         Whether the link should have nofollow.
+ * @param {boolean} options.sponsored        Whether the link should be marked as sponsored.
+ * @param {string}  options.className        CSS classes for the link.
  *
  * @returns {Object} The final format object.
  */
-export function createLinkFormat( { url, opensInNewWindow, noFollow, sponsored } ) {
+export function createLinkFormat( { url, type, id, opensInNewWindow, noFollow, sponsored, className } ) {
 	const format = {
 		type: "core/link",
 		attributes: {
 			url,
 		},
 	};
+
+	if ( type ) {
+		format.attributes.type = type;
+	}
+
+	if ( id ) {
+		format.attributes.id = id;
+	}
 
 	let relAttributes = [];
 
@@ -112,6 +125,10 @@ export function createLinkFormat( { url, opensInNewWindow, noFollow, sponsored }
 	if ( relAttributes.length > 0 ) {
 		relAttributes = uniq( relAttributes );
 		format.attributes.rel = relAttributes.join( " " );
+	}
+
+	if ( className ) {
+		format.attributes.class = className;
 	}
 
 	return format;

@@ -1,4 +1,4 @@
-import LeafNode from "./LeafNode";
+import LeafNode from "./LeafNode.js";
 
 /**
  * Represents a paragraph with text within a document.

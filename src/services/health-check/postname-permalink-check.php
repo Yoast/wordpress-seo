@@ -27,24 +27,12 @@ class Postname_Permalink_Check extends Health_Check {
 	 * @param  Postname_Permalink_Runner  $runner  The object that implements the actual health check.
 	 * @param  Postname_Permalink_Reports $reports The object that generates WordPress-friendly results.
 	 */
-	public function __construct(
-		Postname_Permalink_Runner $runner,
-		Postname_Permalink_Reports $reports
-	) {
+	public function __construct( Postname_Permalink_Runner $runner, Postname_Permalink_Reports $reports ) {
 		$this->runner  = $runner;
 		$this->reports = $reports;
 		$this->reports->set_test_identifier( $this->get_test_identifier() );
 
 		$this->set_runner( $this->runner );
-	}
-
-	/**
-	 * Returns a human-readable label for this health check.
-	 *
-	 * @return string The human-readable label.
-	 */
-	public function get_test_label() {
-		return \__( 'Postname permalink', 'wordpress-seo' );
 	}
 
 	/**
@@ -58,5 +46,14 @@ class Postname_Permalink_Check extends Health_Check {
 		}
 
 		return $this->reports->get_has_no_postname_in_permalink_result();
+	}
+
+	/**
+	 * Returns whether the health check should be excluded from the results.
+	 *
+	 * @return bool false, because it's not excluded.
+	 */
+	public function is_excluded() {
+		return false;
 	}
 }

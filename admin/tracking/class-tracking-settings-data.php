@@ -21,6 +21,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'googleverify',
 		'msverify',
 		'yandexverify',
+		'ahrefsverify',
 		'myyoast-oauth',
 		'website_name',
 		'alternate_website_name',
@@ -53,7 +54,6 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'youtube_url',
 		'wikipedia_url',
 		'semrush_tokens',
-		'zapier_api_key',
 		'wincher_tokens',
 		'wincher_website_id',
 		'least_readability_ignore_list',
@@ -61,6 +61,13 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'most_linked_ignore_list',
 		'least_linked_ignore_list',
 		'indexables_page_reading_list',
+		'publishing_principles_id',
+		'ownership_funding_info_id',
+		'actionable_feedback_policy_id',
+		'corrections_policy_id',
+		'ethics_policy_id',
+		'diversity_policy_id',
+		'diversity_staffing_report_id',
 	];
 
 	/**
@@ -75,6 +82,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'ryte_indexability',
 		'baiduverify',
 		'googleverify',
+		'ahrefsverify',
 		'msverify',
 		'yandexverify',
 		'site_type',
@@ -180,11 +188,10 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'semrush_tokens',
 		'semrush_country_code',
 		'enable_enhanced_slack_sharing',
-		'zapier_integration_active',
-		'zapier_api_key',
 		'enable_metabox_insights',
 		'enable_link_suggestions',
 		'enable_index_now',
+		'enable_ai_generator',
 		'workouts',
 		'wincher_integration_active',
 		'wincher_tokens',
@@ -218,10 +225,30 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'search_cleanup_patterns',
 		'search_character_limit',
 		'redirect_search_pretty_urls',
-		'wordproof_integration_active',
 		'indexables_overview_state',
 		'deny_search_crawling',
 		'deny_wp_json_crawling',
+		'deny_adsbot_crawling',
+		'deny_ccbot_crawling',
+		'deny_google_extended_crawling',
+		'deny_gptbot_crawling',
+		'last_known_no_unindexed',
+		'site_kit_connected',
+		'site_kit_tracking_setup_widget_loaded',
+		'site_kit_tracking_first_interaction_stage',
+		'site_kit_tracking_last_interaction_stage',
+		'site_kit_tracking_setup_widget_temporarily_dismissed',
+		'site_kit_tracking_setup_widget_permanently_dismissed',
+		'google_site_kit_feature_enabled',
+		'ai_free_sparks_started_on',
+		'enable_llms_txt',
+		'llms_txt_selection_mode',
+		'configuration_finished_steps',
+		'enable_schema_aggregation_endpoint',
+		'schema_aggregation_endpoint_enabled_on',
+		'enable_task_list',
+		'enable_schema',
+		// No need to add anything from WPSEO_Option_Tracking_Only as they are added automatically below.
 	];
 
 	/**
@@ -233,9 +260,12 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		/**
 		 * Filter: 'wpseo_tracking_settings_include_list' - Allow filtering the settings included in tracking.
 		 *
-		 * @api string $include_list the list with included setting names.
+		 * @param string $include_list The list with included setting names.
 		 */
 		$this->include_list = apply_filters( 'wpseo_tracking_settings_include_list', $this->include_list );
+
+		// Always include the tracking only option keys.
+		$this->include_list = array_merge( $this->include_list, YoastSEO()->helpers->options->get_tracking_only_options() );
 
 		$options = WPSEO_Options::get_all();
 		// Returns the settings of which the keys intersect with the values of the include list.

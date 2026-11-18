@@ -1,4 +1,15 @@
+import { createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
+import { getDescription, getSeoTitle } from "./analysis";
+import { getEditorDataExcerptWithFallback } from "./editorData";
+import {
+	getReplacedExcerpt,
+	getSeoDescriptionTemplate,
+	getSeoTitleTemplate,
+	getSeoTitleTemplateNoFallback,
+	getSocialDescriptionTemplate,
+	getSocialTitleTemplate,
+} from "./fallbacks";
 
 /**
  * Gets the facebook title from the state.
@@ -53,3 +64,38 @@ export const getFacebookAltText = state => get( state, "facebookEditor.image.alt
  * @returns {String} Facebook warnings.
  */
 export const getFacebookWarnings = state => get( state, "facebookEditor.warnings", [] );
+
+export const getFacebookTitleFallback = createSelector(
+	[
+		getSocialTitleTemplate,
+		getSeoTitle,
+		getSeoTitleTemplateNoFallback,
+		getSeoTitleTemplate,
+	],
+	( ...titles ) => titles.find( Boolean ) || ""
+);
+export const getFacebookTitleOrFallback = createSelector(
+	[
+		getFacebookTitle,
+		getFacebookTitleFallback,
+	],
+	( title, fallback ) => title || fallback
+);
+
+export const getFacebookDescriptionFallback = createSelector(
+	[
+		getSocialDescriptionTemplate,
+		getDescription,
+		getSeoDescriptionTemplate,
+		getReplacedExcerpt,
+		getEditorDataExcerptWithFallback,
+	],
+	( ...descriptions ) => descriptions.find( Boolean ) ?? ""
+);
+export const getFacebookDescriptionOrFallback = createSelector(
+	[
+		getFacebookDescription,
+		getFacebookDescriptionFallback,
+	],
+	( description, fallback ) => description || fallback
+);

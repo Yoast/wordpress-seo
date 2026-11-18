@@ -1,53 +1,63 @@
 /** @module researches/imageAltTags */
 
-import imageInText from "../helpers/image/imageInText";
-import imageAlttag from "../helpers/image/getAlttagContent";
-import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
-import { isEmpty } from "lodash-es";
+import imageAltAttribute from "../helpers/image/getAltAttribute.js";
+import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
+import { isEmpty } from "lodash";
+import getImagesInScope from "../helpers/image/getImagesInScope.js";
+import getImageIdentifier from "../helpers/image/getImageIdentifier.js";
 
 /**
  * Matches the alt-tags in the images found in the text.
  * Returns an object with the totals and different alt-tags.
  *
- * @param {Array}       imageMatches        	Array with all the matched images in the text
+ * `flagged` lists the identifier of every image without alt text, each once, so a consumer can point at those images.
+ * An image without an identifier cannot be pointed at and is left out, so `flagged` can be shorter than `noAlt`.
+ *
+ * @param {Array}       imageNodes        		Array with all the image nodes in the text
  * @param {Object}      topicForms          	The object with the keyphrase and the synonyms forms from the paper.
  * @param {string}      locale              	The locale used for transliteration.
  * @param {function}    matchWordCustomHelper 	A language-specific helper function to match word in text.
  *
- * @returns {object} altProperties Object with all alt-tags that were found.
+ * @returns {{noAlt: number, withAlt: number, withAltKeyword: number, withAltNonKeyword: number,
+ *   flagged: Array<string|number>}} altProperties Object with all alt-tags that were found.
  */
-const matchAltProperties = function( imageMatches, topicForms, locale, matchWordCustomHelper ) {
+const matchAltProperties = function( imageNodes, topicForms, locale, matchWordCustomHelper ) {
 	const altProperties = {
 		noAlt: 0,
 		withAlt: 0,
 		withAltKeyword: 0,
 		withAltNonKeyword: 0,
+		flagged: [],
 	};
 
-	for ( let i = 0; i < imageMatches.length; i++ ) {
-		const alttag = imageAlttag( imageMatches[ i ] );
+	imageNodes.forEach( imageNode => {
+		const alttag = imageAltAttribute( imageNode );
 
 		// If no alt-tag is set
 		if ( alttag === "" ) {
 			altProperties.noAlt++;
-			continue;
+			const identifier = getImageIdentifier( imageNode );
+			if ( identifier !== "" && ! altProperties.flagged.includes( identifier ) ) {
+				altProperties.flagged.push( identifier );
+			}
+			return;
 		}
 
 		// If no keyword is set, but the alt-tag is
 		if ( isEmpty( topicForms.keyphraseForms ) ) {
 			altProperties.withAlt++;
-			continue;
+			return;
 		}
 
 		// If the keyword is matched in the alt tag
 		const keywordMatchedInAltTag = findTopicFormsInString( topicForms, alttag, true, locale, matchWordCustomHelper );
 		if ( keywordMatchedInAltTag.percentWordMatches >= 50 ) {
 			altProperties.withAltKeyword++;
-			continue;
+			return;
 		}
 
 		altProperties.withAltNonKeyword++;
-	}
+	} );
 
 	return altProperties;
 };
@@ -61,8 +71,10 @@ const matchAltProperties = function( imageMatches, topicForms, locale, matchWord
  * @returns {object} Object containing all types of found images
  */
 export default function altTagCount( paper, researcher ) {
+	const images = getImagesInScope( paper );
+
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 
-	return matchAltProperties( imageInText( paper.getText() ), topicForms, paper.getLocale(), matchWordCustomHelper );
+	return matchAltProperties( images, topicForms, paper.getLocale(), matchWordCustomHelper );
 }

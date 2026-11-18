@@ -65,13 +65,16 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_filter( 'robots_txt', [ $this, 'filter_robots' ], 99999 );
+		\add_filter( 'robots_txt', [ $this, 'filter_robots' ], 99_999 );
 
 		if ( $this->options_helper->get( 'deny_search_crawling' ) && ! \is_multisite() ) {
 			\add_action( 'Yoast\WP\SEO\register_robots_rules', [ $this, 'add_disallow_search_to_robots' ], 10, 1 );
 		}
 		if ( $this->options_helper->get( 'deny_wp_json_crawling' ) && ! \is_multisite() ) {
 			\add_action( 'Yoast\WP\SEO\register_robots_rules', [ $this, 'add_disallow_wp_json_to_robots' ], 10, 1 );
+		}
+		if ( $this->options_helper->get( 'deny_adsbot_crawling' ) && ! \is_multisite() ) {
+			\add_action( 'Yoast\WP\SEO\register_robots_rules', [ $this, 'add_disallow_adsbot' ], 10, 1 );
 		}
 	}
 
@@ -116,6 +119,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 */
 	public function add_disallow_search_to_robots( Robots_Txt_Helper $robots_txt_helper ) {
 		$robots_txt_helper->add_disallow( '*', '/?s=' );
+		$robots_txt_helper->add_disallow( '*', '/page/*/?s=' );
 		$robots_txt_helper->add_disallow( '*', '/search/' );
 	}
 
@@ -132,6 +136,17 @@ class Robots_Txt_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Add a disallow rule for AdsBot agents to robots.txt.
+	 *
+	 * @param Robots_Txt_Helper $robots_txt_helper The robots txt helper.
+	 *
+	 * @return void
+	 */
+	public function add_disallow_adsbot( Robots_Txt_Helper $robots_txt_helper ) {
+		$robots_txt_helper->add_disallow( 'AdsBot', '/' );
+	}
+
+	/**
 	 * Replaces the default WordPress robots.txt output.
 	 *
 	 * @param string $robots_txt Input robots.txt.
@@ -142,7 +157,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 		return \preg_replace(
 			'`User-agent: \*[\r\n]+Disallow: /wp-admin/[\r\n]+Allow: /wp-admin/admin-ajax\.php[\r\n]+`',
 			'',
-			$robots_txt
+			$robots_txt,
 		);
 	}
 

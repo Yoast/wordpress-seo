@@ -2,7 +2,7 @@ import { showTrace } from "../../src/helpers/errors";
 
 describe( "showTrace", function() {
 	beforeEach( function() {
-		spyOn( console, "trace" );
+		jest.spyOn( console, "trace" ).mockImplementation();
 	} );
 
 	it( "should send a message to console.trace", function() {

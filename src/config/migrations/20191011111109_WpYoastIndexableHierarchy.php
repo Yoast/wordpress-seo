@@ -19,6 +19,8 @@ class WpYoastIndexableHierarchy extends Migration {
 
 	/**
 	 * Migration up.
+	 *
+	 * @return void
 	 */
 	public function up() {
 		$table_name = $this->get_table_name();
@@ -33,7 +35,7 @@ class WpYoastIndexableHierarchy extends Migration {
 				'unsigned'    => true,
 				'null'        => true,
 				'limit'       => 11,
-			]
+			],
 		);
 		$indexable_table->column(
 			'ancestor_id',
@@ -43,7 +45,7 @@ class WpYoastIndexableHierarchy extends Migration {
 				'unsigned'    => true,
 				'null'        => true,
 				'limit'       => 11,
-			]
+			],
 		);
 		$indexable_table->column(
 			'depth',
@@ -52,7 +54,7 @@ class WpYoastIndexableHierarchy extends Migration {
 				'unsigned' => true,
 				'null'     => true,
 				'limit'    => 11,
-			]
+			],
 		);
 		$indexable_table->finish();
 
@@ -63,6 +65,8 @@ class WpYoastIndexableHierarchy extends Migration {
 
 	/**
 	 * Migration up.
+	 *
+	 * @return void
 	 */
 	public function down() {
 		$this->drop_table( $this->get_table_name() );

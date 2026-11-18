@@ -8,7 +8,6 @@ const morphologyDataJA = getMorphologyData( "ja" );
 const paper = new Paper(  "これは日本語のテキストです。", { keyword: "日本語のテキスト", locale: "ja" }  );
 
 describe( "Test for getting the helper to return a canonical stem for Japanese word", () => {
-	const mockResearcher = new Researcher( paper );
 	it( "returns the stem when the Japanese morphology data is available", function() {
 		const mockResearcher = new Researcher( paper );
 		mockResearcher.addResearchData( "morphology", morphologyDataJA );
@@ -16,6 +15,7 @@ describe( "Test for getting the helper to return a canonical stem for Japanese w
 	} );
 
 	it( "returns the input word if no morphology data is available", () => {
+		const mockResearcher = new Researcher( paper );
 		expect( customGetStemmer( mockResearcher )( "食べる" ) ).toBe( "食べる" );
 	} );
 } );

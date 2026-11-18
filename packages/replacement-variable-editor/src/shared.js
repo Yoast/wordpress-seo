@@ -62,9 +62,16 @@ export const StandardButton = styled( Button )`
 
 export const TriggerReplacementVariableSuggestionsButton = styled( StandardButton )`
 	font-size: 13px;
-	margin-left: auto;
+	margin-bottom: 0; /* Override StandardButton margin instead of changing that. */
 	& svg {
 		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;
 		fill: ${ colors.$color_grey_dark };
 	}
+`;
+
+export const ButtonsContainer = styled.div`
+	display: inline-flex;
+	gap: 0.5em;
+	margin-inline-start: auto;
+	margin-bottom: 5px;
 `;

@@ -29,14 +29,14 @@ class Main extends Abstract_Main {
 	 *
 	 * @var string
 	 */
-	const API_V1_NAMESPACE = 'yoast/v1';
+	public const API_V1_NAMESPACE = 'yoast/v1';
 
 	/**
 	 * The WP CLI namespace constant.
 	 *
 	 * @var string
 	 */
-	const WP_CLI_NAMESPACE = 'yoast';
+	public const WP_CLI_NAMESPACE = 'yoast';
 
 	/**
 	 * {@inheritDoc}
@@ -49,7 +49,7 @@ class Main extends Abstract_Main {
 				__DIR__ . '/generated/container.php',
 				__DIR__ . '/../config/dependency-injection/services.php',
 				__DIR__ . '/../vendor/composer/autoload_classmap.php',
-				'Yoast\WP\SEO\Generated'
+				'Yoast\WP\SEO\Generated',
 			);
 		}
 

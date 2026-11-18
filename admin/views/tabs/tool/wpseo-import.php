@@ -22,7 +22,7 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) || ! WPSEO_NAMESPACES ) {
 		/* translators: 1: expands to Yoast SEO, 2: expands to Import settings. */
 		esc_html__( 'Import settings from another %1$s installation by pasting them here and clicking "%2$s".', 'wordpress-seo' ),
 		'Yoast SEO',
-		esc_html__( 'Import settings', 'wordpress-seo' )
+		esc_html__( 'Import settings', 'wordpress-seo' ),
 	);
 	?>
 </p>
@@ -37,7 +37,7 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) || ! WPSEO_NAMESPACES ) {
 		printf(
 			/* translators: %s expands to Yoast SEO */
 			esc_html__( '%s settings to import:', 'wordpress-seo' ),
-			'Yoast SEO'
+			'Yoast SEO',
 		);
 		?>
 	</label><br />

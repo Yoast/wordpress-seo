@@ -47,24 +47,26 @@ export const mapEditorDataToPreview = function( data, context ) {
  *
  * @returns {wp.Element} The component.
  */
-const SnippetEditorWrapper = ( props ) => (
-	<LocationConsumer>
+const SnippetEditorWrapper = ( props ) => {
+	return <LocationConsumer>
 		{ location =>
 			<SnippetPreviewSection
 				icon="eye"
 				hasPaperStyle={ props.hasPaperStyle }
 			>
-				<SnippetEditor
-					{ ...props }
-					descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
-					mapEditorDataToPreview={ mapEditorDataToPreview }
-					showCloseButton={ false }
-					idSuffix={ location }
-				/>
+				<>
+					<SnippetEditor
+						{ ...props }
+						descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
+						mapEditorDataToPreview={ mapEditorDataToPreview }
+						showCloseButton={ false }
+						idSuffix={ location }
+					/>
+				</>
 			</SnippetPreviewSection>
 		}
-	</LocationConsumer>
-);
+	</LocationConsumer>;
+};
 
 /**
  * Maps the select function to props.

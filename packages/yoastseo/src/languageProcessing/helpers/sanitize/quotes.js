@@ -1,3 +1,6 @@
+const SINGLE_QUOTES_ARRAY = [ "'", "‘", "’", "‛", "`", "‹", "›" ];
+const SINGLE_QUOTES_REGEX = new RegExp( "[" + SINGLE_QUOTES_ARRAY.join( "" ) + "]", "g" );
+
 /**
  * Normalizes single quotes to 'regular' quotes.
  *
@@ -5,7 +8,7 @@
  * @returns {string} The normalized text.
  */
 function normalizeSingleQuotes( text ) {
-	return text.replace( /[‘’‛`‹›]/g, "'" );
+	return text.replace( SINGLE_QUOTES_REGEX, "'" );
 }
 
 /**
@@ -32,6 +35,8 @@ export {
 	normalizeSingleQuotes as normalizeSingle,
 	normalizeDoubleQuotes as normalizeDouble,
 	normalizeQuotes as normalize,
+	SINGLE_QUOTES_REGEX,
+	SINGLE_QUOTES_ARRAY,
 };
 
 export default {

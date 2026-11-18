@@ -1,6 +1,5 @@
 /* External dependencies */
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Yoast dependencies */
@@ -63,7 +62,11 @@ const ArticleListFooter = styled.div`
 /**
  * The WordpressFeedListItem component.
  *
- * @param {object} props The component's props.
+ * @param {Object} props The component's props.
+ * @param {string} props.className The class name of the list item.
+ * @param {string} props.title The title of the item.
+ * @param {string} props.link The link to the item.
+ * @param {string} props.description The description of the item.
  *
  * @returns {ReactElement} The WordpressFeedListItem component.
  */
@@ -85,41 +88,35 @@ const ArticleListItem = ( props ) => {
 	);
 };
 
-ArticleListItem.propTypes = {
-	className: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
-	link: PropTypes.string.isRequired,
-	description: PropTypes.string.isRequired,
-};
-
 /**
  * Displays a parsed wordpress feed.
  *
- * @param {Object} props                The component props.
- * @param {Feed}   props.feed           The feed object.
- * @param {string} props.title          The title. Defaults to feed title.
- * @param {string} props.footerLinkText The footer link text.
- * @param {string} props.feedLink       The footer link. Defaults to feed link.
+ * @param {Object} props The component props.
+ * @param {string} [props.className="articlelist-feed"] The class name of the list.
+ * @param {Feed} props.feed The feed object.
+ * @param {string} [props.title] The title. Defaults to feed title.
+ * @param {string} [props.footerLinkText] The footer link text.
+ * @param {string} [props.feedLink] The footer link. Defaults to feed link.
  *
  * @returns {ReactElement} The ArticleList component.
  */
-const ArticleList = ( props ) => {
+const ArticleList = ( { className = "articlelist-feed", ...props } ) => {
 	return (
 		<ArticleListContainer
-			className={ props.className }
+			className={ className }
 		>
 			<ArticleListHeader
-				className={ `${ props.className }__header` }
+				className={ `${ className }__header` }
 			>
 				{ props.title ? props.title : props.feed.title }
 			</ArticleListHeader>
 			<FeedList
-				className={ `${ props.className }__posts` }
+				className={ `${ className }__posts` }
 				role="list"
 			>
 				{ props.feed.items.map( item => (
 					<ArticleListItem
-						className={ `${ props.className }__post` }
+						className={ `${ className }__post` }
 						key={ item.link }
 						title={ item.title }
 						link={ item.link }
@@ -129,10 +126,10 @@ const ArticleList = ( props ) => {
 			</FeedList>
 			{ props.footerLinkText &&
 			<ArticleListFooter
-				className={ `${ props.className }__footer` }
+				className={ `${ className }__footer` }
 			>
 				<ArticleListLink
-					className={ `${ props.className }__footer-link` }
+					className={ `${ className }__footer-link` }
 					href={ props.feedLink ? props.feedLink : props.feed.link }
 				>
 					{ props.footerLinkText }
@@ -141,18 +138,6 @@ const ArticleList = ( props ) => {
 			}
 		</ArticleListContainer>
 	);
-};
-
-ArticleList.propTypes = {
-	className: PropTypes.string,
-	feed: PropTypes.object.isRequired,
-	title: PropTypes.string,
-	footerLinkText: PropTypes.string,
-	feedLink: PropTypes.string,
-};
-
-ArticleList.defaultProps = {
-	className: "articlelist-feed",
 };
 
 export default ArticleList;

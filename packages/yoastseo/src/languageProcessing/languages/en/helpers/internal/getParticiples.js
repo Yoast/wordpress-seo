@@ -1,8 +1,8 @@
-import { forEach, includes } from "lodash-es";
+import { forEach, includes } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { matchRegularParticiples, getWords } = languageProcessing;
 
-import irregularParticiples from "../../config/internal/passiveVoiceIrregulars";
+import irregularParticiples from "../../config/internal/passiveVoiceIrregulars.js";
 
 /**
  * Creates participle array for the participles found in a clause.

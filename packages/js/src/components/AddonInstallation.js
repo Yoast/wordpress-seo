@@ -1,13 +1,11 @@
-// External dependencies.
-import { useState } from "@wordpress/element";
-import PropTypes from "prop-types";
-import { Button } from "@yoast/components";
+import { useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { Button } from "@yoast/components";
+import PropTypes from "prop-types";
 import styled from "styled-components";
-import Modal from "./modals/Modal";
 import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
+import Modal from "./modals/Modal";
 
-// Internal dependencies.
 const ButtonPlacement = styled.div`
 	display: flex;
 	justify-content: flex-end;
@@ -17,11 +15,12 @@ const ButtonPlacement = styled.div`
 /**
  * Plugin installation modal.
  *
- * @param {Object} props The props.
+ * @param {string} nonce The nonce for installation.
+ * @param {Array} [addons=[]] The list of addons to install.
  *
- * @returns {React.Element} The Addon installation modal.
+ * @returns {JSX.Element} The Addon installation modal.
  */
-const AddonInstallation = props => {
+const AddonInstallation = ( { nonce, addons = [] } ) => {
 	const [ modalIsOpen, setIsOpen ] = useState( true );
 
 	/**
@@ -29,25 +28,25 @@ const AddonInstallation = props => {
 	 *
 	 * @returns {void}
 	 */
-	function closeModal() {
+	const closeModal = useCallback( () => {
 		setIsOpen( false );
-	}
+	}, [ setIsOpen ] );
 
 	/**
 	 * Starts the installation flow.
 	 *
 	 * @returns {void}
 	 */
-	function startInstallation() {
-		window.location.href = "admin.php?page=wpseo_licenses&action=install&nonce=" + props.nonce;
-	}
+	const startInstallation = useCallback( () => {
+		window.location.href = "admin.php?page=wpseo_licenses&action=install&nonce=" + nonce;
+	}, [ nonce ] );
 
 	/**
 	 * Renders the close button.
 	 *
 	 * @returns {React.Element} The close button.
 	 */
-	function renderCloseButton() {
+	const renderCloseButton = useCallback( () => {
 		return (
 			<Button
 				onClick={ closeModal }
@@ -56,7 +55,7 @@ const AddonInstallation = props => {
 				{ __( "Cancel", "wordpress-seo" ) }
 			</Button>
 		);
-	}
+	}, [ closeModal ] );
 
 	/**
 	 * Renders the install button.
@@ -84,15 +83,15 @@ const AddonInstallation = props => {
 	let installationTitle = __( "the following addons", "wordpress-seo" );
 	let list;
 
-	if ( props.addons.length === 1 ) {
-		installationTitle = props.addons[ 0 ];
+	if ( addons.length === 1 ) {
+		installationTitle = addons[ 0 ];
 	}
 
 	// Create a list of addons if there are more than one.
-	if ( props.addons.length !== 1 ) {
+	if ( addons.length !== 1 ) {
 		list = <ul className="ul-disc">
 			{
-				props.addons.map( ( addon, index ) => <li key={ "addon-" + index }>{ addon }</li> )
+				addons.map( ( addon, index ) => <li key={ "addon-" + index }>{ addon }</li> )
 			}
 		</ul>;
 	}
@@ -127,10 +126,6 @@ const AddonInstallation = props => {
 AddonInstallation.propTypes = {
 	nonce: PropTypes.string.isRequired,
 	addons: PropTypes.array,
-};
-
-AddonInstallation.defaultProps = {
-	addons: [],
 };
 
 export default AddonInstallation;

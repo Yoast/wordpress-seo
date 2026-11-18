@@ -17,14 +17,14 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 	/**
 	 * The transient cache key.
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_terms';
+	public const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_terms';
 
 	/**
 	 * The transient cache key for limited counts.
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
+	public const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
 
 	/**
 	 * The post type helper.
@@ -83,12 +83,12 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		$query = $this->get_select_query( $this->get_limit() );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
-		$term_ids = $this->wpdb->get_col( $query );
+		$term_ids = ( $query === '' ) ? [] : $this->wpdb->get_col( $query );
 
-		$indexables = [];
-		foreach ( $term_ids as $term_id ) {
-			$indexables[] = $this->repository->find_by_id_and_type( (int) $term_id, 'term' );
-		}
+		$indexables = $this->repository->find_by_multiple_ids_and_type(
+			\array_map( 'intval', $term_ids ),
+			'term',
+		);
 
 		if ( \count( $indexables ) > 0 ) {
 			\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
@@ -107,7 +107,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		/**
 		 * Filter 'wpseo_term_indexation_limit' - Allow filtering the number of terms indexed during each indexing pass.
 		 *
-		 * @api int The maximum number of terms indexed.
+		 * @param int $limit The maximum number of terms indexed.
 		 */
 		$limit = \apply_filters( 'wpseo_term_indexation_limit', 25 );
 
@@ -128,6 +128,10 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();
 
+		if ( empty( $public_taxonomies ) ) {
+			return '';
+		}
+
 		$taxonomies_placeholders = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 
 		$replacements = [ $this->version ];
@@ -144,7 +148,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 				AND I.version = %d
 			WHERE I.object_id IS NULL
 				AND taxonomy IN ($taxonomies_placeholders)",
-			$replacements
+			$replacements,
 		);
 	}
 
@@ -159,7 +163,12 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = $this->taxonomy->get_indexable_taxonomies();
-		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
+
+		if ( empty( $public_taxonomies ) ) {
+			return '';
+		}
+
+		$placeholders = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 
 		$replacements = [ $this->version ];
 		\array_push( $replacements, ...$public_taxonomies );
@@ -182,7 +191,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 			WHERE I.object_id IS NULL
 				AND taxonomy IN ($placeholders)
 			$limit_query",
-			$replacements
+			$replacements,
 		);
 	}
 }

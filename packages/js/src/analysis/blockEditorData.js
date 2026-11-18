@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+import { getBlockContent } from "@wordpress/blocks";
 import { select, subscribe } from "@wordpress/data";
 import { actions } from "@yoast/externals/redux";
 import { debounce } from "lodash";
@@ -66,7 +67,7 @@ export default class BlockEditorData {
 	 * @returns {Object} The initial data.
 	 */
 	getInitialData( replaceVars ) {
-		const gutenbergData = this.collectGutenbergData( this.getPostAttribute );
+		const gutenbergData = this.collectGutenbergData();
 
 		// Custom_fields and custom_taxonomies are objects instead of strings, which causes console errors.
 		replaceVars = mapCustomFields( replaceVars, this._store );
@@ -211,12 +212,22 @@ export default class BlockEditorData {
 	}
 
 	/**
-	 * Collects the content, title, slug and excerpt of a post from Gutenberg.
+	 * Collects the data of a post from Gutenberg.
 	 *
-	 * @returns {{content: string, title: string, slug: string, excerpt: string}} The content, title, slug and excerpt.
+	 * @returns {{content: string, title: string, slug: string, excerpt: string, excerpt_only: string,
+	 * 			snippetPreviewImageURL: string, contentImage: string, baseUrl: string}} The collected data.
 	 */
 	collectGutenbergData() {
-		const content = this.getPostAttribute( "content" );
+		let content = select( "core/editor" ).getEditedPostContent();
+
+		// Gutenberg applies the `autop` function under the hood to all Classic (core/freeform) blocks.
+		// The most likely situation for these to appear in posts is through converting a post from Classic to Block editor.
+		// We account for that below, but not for the (unlikely) case when a Classic block is added to a post consisting of other blocks.
+		const blocks = select( "core/editor" ).getEditorBlocks();
+		if ( blocks.length === 1 && blocks[ 0 ].name === "core/freeform" ) {
+			content = getBlockContent( blocks[ 0 ] );
+		}
+
 		const contentImage = this.calculateContentImage( content );
 		const excerpt = this.getPostAttribute( "excerpt" ) || "";
 
@@ -390,12 +401,21 @@ export default class BlockEditorData {
 	}
 
 	/**
-	 * Listens to the Gutenberg data.
+	 * Listens to the Gutenberg data and rendering mode changes.
 	 *
 	 * @returns {void}
 	 */
 	subscribeToGutenberg() {
-		this.subscriber = debounce( this.refreshYoastSEO, 500 );
+		this._previousRenderingMode = select( "core/editor" ).getRenderingMode && select( "core/editor" ).getRenderingMode();
+		this.subscriber = debounce( () => {
+			const currentRenderingMode = select( "core/editor" ).getRenderingMode && select( "core/editor" ).getRenderingMode();
+			if ( currentRenderingMode !== this._previousRenderingMode ) {
+				this._previousRenderingMode = currentRenderingMode;
+				this._refresh();
+				return;
+			}
+			this.refreshYoastSEO();
+		}, 500 );
 		subscribe( this.subscriber );
 	}
 

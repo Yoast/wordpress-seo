@@ -1,7 +1,22 @@
 @layer components {
 	.yst-root {
 
-		.yst-textarea-field__label {}
+		.yst-textarea-field--disabled {
+			.yst-textarea-field__label,
+			.yst-textarea-field__description {
+				@apply yst-opacity-50;
+			}
+
+			.yst-textarea-field__label {
+				@apply yst-cursor-not-allowed;
+			}
+		}
+
+		.yst-text-field--read-only {
+			.yst-textarea-field__label {
+				@apply yst-cursor-default;
+			}
+		}
 
 		.yst-textarea-field__description {
 			@apply yst-mt-2;

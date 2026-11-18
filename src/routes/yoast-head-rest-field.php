@@ -21,14 +21,14 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const YOAST_HEAD_ATTRIBUTE_NAME = 'yoast_head';
+	public const YOAST_HEAD_ATTRIBUTE_NAME = 'yoast_head';
 
 	/**
 	 * The name of the Yoast head JSON field.
 	 *
 	 * @var string
 	 */
-	const YOAST_JSON_HEAD_ATTRIBUTE_NAME = 'yoast_head_json';
+	public const YOAST_JSON_HEAD_ATTRIBUTE_NAME = 'yoast_head_json';
 
 	/**
 	 * The post type helper.

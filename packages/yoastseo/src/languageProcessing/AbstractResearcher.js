@@ -1,42 +1,95 @@
-import { merge, isUndefined, isEmpty } from "lodash-es";
+import { merge, isUndefined, isEmpty } from "lodash";
 
-import InvalidTypeError from "../errors/invalidType";
-import MissingArgument from "../errors/missingArgument";
+import InvalidTypeError from "../errors/invalidType.js";
+import MissingArgument from "../errors/missingArgument.js";
 
 // All researches in alphabetical order.
 import altTagCount from "./researches/altTagCount.js";
+import altTextKeyphraseCount from "./researches/altTextKeyphraseCount.js";
+import altTextLength from "./researches/altTextLength.js";
 import countSentencesFromText from "./researches/countSentencesFromText.js";
+import duplicateAltText from "./researches/duplicateAltText.js";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
-import findKeyphraseInSEOTitle from "./researches/findKeyphraseInSEOTitle";
-import findTransitionWords from "./researches/findTransitionWords";
-import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
-import getFleschReadingScore from "./researches/getFleschReadingScore";
-import getKeywordDensity from "./researches/getKeywordDensity.js";
+import findKeyphraseInSEOTitle from "./researches/findKeyphraseInSEOTitle.js";
+import findTransitionWords from "./researches/findTransitionWords.js";
+import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase.js";
+import getAnchorsWithKeyphrase from "./researches/getAnchorsWithKeyphrase.js";
+import getFleschReadingScore from "./researches/getFleschReadingScore.js";
+import getKeyphraseDensity, { getKeywordDensity } from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
-import getLinkStatistics from "./researches/getLinkStatistics";
+import getLinkStatistics from "./researches/getLinkStatistics.js";
+import getParagraphs from "./researches/getParagraphs.js";
 import getParagraphLength from "./researches/getParagraphLength.js";
-import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
-import getProminentWordsForInsights from "./researches/getProminentWordsForInsights";
-import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking";
-import getSentenceBeginnings from "./researches/getSentenceBeginnings";
+import getPassiveVoiceResult from "./researches/getPassiveVoiceResult.js";
+import getProminentWordsForInsights from "./researches/getProminentWordsForInsights.js";
+import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking.js";
+import getSentenceBeginnings from "./researches/getSentenceBeginnings.js";
 import getSubheadingTextLengths from "./researches/getSubheadingTextLengths.js";
-import h1s from "./researches/h1s";
+import h1s from "./researches/h1s.js";
 import imageCount from "./researches/imageCount.js";
-import keyphraseLength from "./researches/keyphraseLength";
-import keywordCount from "./researches/keywordCount";
-import { keywordCountInSlug, keywordCountInUrl } from "./researches/keywordCountInUrl";
-import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings";
-import metaDescriptionKeyword from "./researches/metaDescriptionKeyword";
+import keyphraseLength from "./researches/keyphraseLength.js";
+import getKeyphraseCount, { keywordCount } from "./researches/keywordCount.js";
+import { keywordCountInSlug, keywordCountInUrl } from "./researches/keywordCountInUrl.js";
+import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings.js";
+import metaDescriptionKeyword from "./researches/metaDescriptionKeyword.js";
 import metaDescriptionLength from "./researches/metaDescriptionLength.js";
-import morphology from "./researches/getWordForms";
+import morphology from "./researches/getWordForms.js";
+import nonDescriptiveAltText from "./researches/nonDescriptiveAltText.js";
 import pageTitleWidth from "./researches/pageTitleWidth.js";
-import readingTime from "./researches/readingTime";
-import sentences from "./researches/sentences";
-import videoCount from "./researches/videoCount";
+import readingTime from "./researches/readingTime.js";
+import redundantPhraseInAltText from "./researches/redundantPhraseInAltText.js";
+import sentences from "./researches/sentences.js";
+import videoCount from "./researches/videoCount.js";
 import wordCountInText from "./researches/wordCountInText.js";
 
+// All helpers.
+import memoizedTokenizer from "./helpers/sentence/memoizedSentenceTokenizer.js";
+
 /**
- * The researches contains all the researches
+ * @typedef {import("../values/Paper").default} Paper
+ */
+
+/**
+ * The public contract shared by every Researcher: the base `AbstractResearcher` and each
+ * language-specific subclass under `languageProcessing/languages/<lang>/Researcher`. A Researcher runs
+ * named "researches" (analysis primitives) against its {@link Paper} and stores the helpers,
+ * configuration, and research data those researches rely on.
+ *
+ * Use this type to annotate a Researcher *instance* in other modules — for example
+ * `@param {import("../AbstractResearcher").Researcher} researcher` (adjust the relative path). To type the
+ * Researcher *class* (a constructor), use `new (paper?: Paper) => Researcher`, e.g. as returned by
+ * the `getResearcher` factory.
+ *
+ * @typedef {Object} Researcher
+ *
+ * @property {Paper} paper The Paper the Researcher currently operates on.
+ *
+ * @property {(paper: Paper) => void} setPaper Associates a Paper with the Researcher.
+ * @property {(name: string, research: Function) => void} addResearch Registers a custom research by name.
+ * @property {(research: string, data: Object) => void} addResearchData Stores data for a research by name.
+ * @property {(name: string, helper: Function) => void} addHelper Registers a custom helper by name.
+ * @property {(name: string, config: *) => void} addConfig Registers a custom configuration by name.
+ *
+ * @property {(name: string) => boolean} hasResearch Whether a research with this name is available.
+ * @property {(name: string) => boolean} hasHelper Whether a helper with this name is available.
+ * @property {(name: string) => boolean} hasConfig Whether a configuration with this name is available.
+ * @property {(name: string) => boolean} hasResearchData Whether research data with this name is available.
+ *
+ * @property {() => Object} getAvailableResearches All available researches, keyed by name.
+ * @property {() => Object} getAvailableHelpers All available helpers, keyed by name.
+ * @property {() => Object} getAvailableConfig All available configuration.
+ * @property {() => Object} getAvailableResearchData All available research data.
+ *
+ * @property {(name: string) => *} getResearch Runs a research by name; returns its result, or `false` if unknown.
+ * @property {(research: string) => *} getData Returns stored research data by name, or `false` if unknown.
+ * @property {(name: string) => *} getConfig Returns a configuration value by name, or `false` if unknown.
+ * @property {(name: string) => (Function|false)} getHelper Returns a helper by name, or `false` if unknown.
+ */
+
+/**
+ * Base implementation of the {@link Researcher} contract: holds all the researches, helpers, data, and
+ * config. Each supported language extends this with its language-specific configuration (see
+ * `languageProcessing/languages/<lang>/Researcher`).
  */
 export default class AbstractResearcher {
 	/**
@@ -51,15 +104,22 @@ export default class AbstractResearcher {
 		// We expose the deprecated keywordCountInUrl for backwards compatibility.
 		this.defaultResearches = {
 			altTagCount,
+			altTextKeyphraseCount,
+			altTextLength,
 			countSentencesFromText,
+			duplicateAltText,
 			findKeywordInFirstParagraph,
 			findKeyphraseInSEOTitle,
 			findTransitionWords,
 			functionWordsInKeyphrase,
+			getAnchorsWithKeyphrase,
 			getFleschReadingScore,
+			getKeyphraseCount,
+			getKeyphraseDensity,
 			getKeywordDensity,
 			getLinks,
 			getLinkStatistics,
+			getParagraphs,
 			getParagraphLength,
 			getProminentWordsForInsights,
 			getProminentWordsForInternalLinking,
@@ -75,8 +135,10 @@ export default class AbstractResearcher {
 			metaDescriptionKeyword,
 			metaDescriptionLength,
 			morphology,
+			nonDescriptiveAltText,
 			pageTitleWidth,
 			readingTime,
+			redundantPhraseInAltText,
 			sentences,
 			wordCountInText,
 			videoCount,
@@ -87,9 +149,14 @@ export default class AbstractResearcher {
 
 		this.customResearches = {};
 
-		this.helpers = {};
+		this.helpers = {
+			memoizedTokenizer,
+		};
 
-		this.config = {};
+		this.config = {
+			areHyphensWordBoundaries: true,
+			centerClasses: [ "has-text-align-center" ],
+		};
 	}
 
 	/**
@@ -126,6 +193,18 @@ export default class AbstractResearcher {
 		}
 
 		this.customResearches[ name ] = research;
+	}
+
+	/**
+	 * Add research data to the researcher by the research name.
+	 *
+	 * @param {string} research The identifier of the research.
+	 * @param {Object} data     The data object.
+	 *
+	 * @returns {void}.
+	 */
+	addResearchData( research, data ) {
+		this._data[ research ] = data;
 	}
 
 	/**
@@ -166,7 +245,7 @@ export default class AbstractResearcher {
 			throw new MissingArgument( "Failed to add the custom researcher config. Config name cannot be empty." );
 		}
 
-		if ( isUndefined( config ) || isEmpty( config ) ) {
+		if ( isUndefined( config ) || ( isEmpty( config ) && config === Object( config ) ) ) {
 			throw new MissingArgument( "Failed to add the custom researcher config. Config cannot be empty." );
 		}
 
@@ -174,7 +253,7 @@ export default class AbstractResearcher {
 	}
 
 	/**
-	 * Check whether or not the research is known by the Researcher.
+	 * Check whether the research is known by the Researcher.
 	 *
 	 * @param {string} name The name to reference the research by.
 	 *
@@ -188,7 +267,7 @@ export default class AbstractResearcher {
 	}
 
 	/**
-	 * Check whether or not the helper is known by the Researcher.
+	 * Check whether the helper is known by the Researcher.
 	 *
 	 * @param {string} name The name to reference the helper by.
 	 *
@@ -202,7 +281,7 @@ export default class AbstractResearcher {
 	}
 
 	/**
-	 * Check whether or not the config is known by the Researcher.
+	 * Check whether the config is known by the Researcher.
 	 *
 	 * @param {string} name The name to reference the config by.
 	 *
@@ -212,6 +291,20 @@ export default class AbstractResearcher {
 		return Object.keys( this.getAvailableConfig() ).filter(
 			function( config ) {
 				return config === name;
+			} ).length > 0;
+	}
+
+	/**
+	 * Check whether the research data is known by the Researcher.
+	 *
+	 * @param {string} name The name to reference the research data by.
+	 *
+	 * @returns {boolean} Whether or not the research data is known by the Researcher.
+	 */
+	hasResearchData( name ) {
+		return Object.keys( this.getAvailableResearchData() ).filter(
+			function( data ) {
+				return data === name;
 			} ).length > 0;
 	}
 
@@ -243,6 +336,15 @@ export default class AbstractResearcher {
 	}
 
 	/**
+	 * Return all available research data.
+	 *
+	 * @returns {Object} An object containing all available research data.
+	 */
+	getAvailableResearchData() {
+		return this._data;
+	}
+
+	/**
 	 * Return the Research by name.
 	 *
 	 * @param {string} name The name to reference the research by.
@@ -264,18 +366,6 @@ export default class AbstractResearcher {
 	}
 
 	/**
-	 * Add research data to the researcher by the research name.
-	 *
-	 * @param {string} research The identifier of the research.
-	 * @param {Object} data     The data object.
-	 *
-	 * @returns {void}.
-	 */
-	addResearchData( research, data ) {
-		this._data[ research ] = data;
-	}
-
-	/**
 	 * Return the research data from a research data provider by research name.
 	 *
 	 * @param {string} research The identifier of the research.
@@ -283,7 +373,7 @@ export default class AbstractResearcher {
 	 * @returns {*} The data provided by the provider, false if the data do not exist
 	 */
 	getData( research ) {
-		if ( this._data.hasOwnProperty( research ) ) {
+		if ( this.hasResearchData( research ) ) {
 			return this._data[ research ];
 		}
 
@@ -298,7 +388,7 @@ export default class AbstractResearcher {
 	 * @returns {*} The configuration, false if the configuration does not exist.
 	 */
 	getConfig( name ) {
-		if ( this.config.hasOwnProperty( name ) ) {
+		if ( this.hasConfig( name ) ) {
 			return this.config[ name ];
 		}
 
@@ -313,7 +403,7 @@ export default class AbstractResearcher {
 	 * @returns {*} The helper, false if the helper does not exist.
 	 */
 	getHelper( name ) {
-		if ( this.helpers.hasOwnProperty( name ) ) {
+		if ( this.hasHelper( name ) ) {
 			return this.helpers[ name ];
 		}
 

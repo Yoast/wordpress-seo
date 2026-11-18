@@ -13,6 +13,7 @@ import { termsTmceId } from "../lib/tinymce";
 import Pluggable from "../lib/Pluggable";
 import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
 import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
+import YoastShortcodePlugin, { initShortcodePlugin } from "../analysis/plugins/shortcode-plugin";
 
 // UI dependencies.
 import { update as updateTrafficLight } from "../ui/trafficLight";
@@ -23,7 +24,6 @@ import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/work
 import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis";
 import collectAnalysisData from "../analysis/collectAnalysisData";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
-import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import {
@@ -40,6 +40,7 @@ import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
 import initializeUsedKeywords from "./used-keywords-assessment";
 import { actions } from "@yoast/externals/redux";
+import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
 
 const {
 	refreshSnippetEditor,
@@ -55,6 +56,7 @@ window.yoastHideMarkers = true;
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
 window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
+window.YoastShortcodePlugin = YoastShortcodePlugin;
 
 /**
  * @summary Initializes the term scraper script.
@@ -157,14 +159,10 @@ export default function initTermScraper( $, store, editorData ) {
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {TermDataCollector} termScraper The post scraper object.
-	 *
 	 * @returns {void}
 	 */
-	function initializeKeywordAnalysis( termScraper ) {
+	function initializeKeywordAnalysis() {
 		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
-
-		termScraper.initKeywordTabTemplate();
 
 		var indicator = getIndicatorForScore( savedKeywordScore );
 
@@ -181,6 +179,20 @@ export default function initTermScraper( $, store, editorData ) {
 		var savedContentScore = $( "#hidden_wpseo_content_score" ).val();
 
 		var indicator = getIndicatorForScore( savedContentScore );
+
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	}
+
+	/**
+	 * Initializes the inclusive language analysis.
+	 *
+	 * @returns {void}
+	 */
+	function initializeInclusiveLanguageAnalysis() {
+		const savedContentScore = $( "#hidden_wpseo_inclusive_language_score" ).val();
+
+		const indicator = getIndicatorForScore( savedContentScore );
 
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
@@ -260,7 +272,7 @@ export default function initTermScraper( $, store, editorData ) {
 	 * @returns {void}
 	 */
 	function initializeTermAnalysis() {
-		var args, termScraper, translations;
+		var args, termScraper;
 
 		insertTinyMCE();
 
@@ -276,7 +288,6 @@ export default function initTermScraper( $, store, editorData ) {
 			locale: wpseoScriptData.metabox.contentLocale,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			hasSnippetPreview: false,
 			debouncedRefresh: false,
 			// eslint-disable-next-line new-cap
 			researcher: new window.yoast.Researcher.default(),
@@ -302,11 +313,6 @@ export default function initTermScraper( $, store, editorData ) {
 				store.dispatch( setReadabilityResults( results ) );
 				store.dispatch( refreshSnippetEditor() );
 			};
-		}
-
-		translations = getTranslations();
-		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
-			args.translations = translations;
 		}
 
 		app = new App( args );
@@ -358,11 +364,10 @@ export default function initTermScraper( $, store, editorData ) {
 			app.seoAssessorPresenter.assessor = app.seoAssessor;
 		}
 
-		termScraper.initKeywordTabTemplate();
-
 		// Init Plugins.
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		initShortcodePlugin( app, store );
 
 		// For backwards compatibility.
 		window.YoastSEO.analyzerArgs = args;
@@ -377,11 +382,15 @@ export default function initTermScraper( $, store, editorData ) {
 		), refreshDelay ) );
 
 		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( termScraper );
+			initializeKeywordAnalysis();
 		}
 
 		if ( isContentAnalysisActive() ) {
 			initializeContentAnalysis();
+		}
+
+		if ( isInclusiveLanguageAnalysisActive() ) {
+			initializeInclusiveLanguageAnalysis();
 		}
 
 		// Initialize the analysis worker.

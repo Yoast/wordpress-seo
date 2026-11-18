@@ -5,9 +5,12 @@ export const MODES = [ MODE_DESKTOP, MODE_MOBILE ];
 
 export const DEFAULT_MODE = MODE_MOBILE;
 
+export const DEFAULT_BEST_RATING = 5;
+
 export default {
 	MODE_MOBILE,
 	MODE_DESKTOP,
 	MODES,
 	DEFAULT_MODE,
+	DEFAULT_BEST_RATING,
 };

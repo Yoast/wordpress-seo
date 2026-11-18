@@ -38,6 +38,8 @@ class HowTo extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data       Our How-To schema data.
 	 * @param array $attributes The block data attributes.
+	 *
+	 * @return void
 	 */
 	private function add_duration( &$data, $attributes ) {
 		if ( empty( $attributes['hasDuration'] ) ) {
@@ -58,6 +60,8 @@ class HowTo extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data  Our How-To schema data.
 	 * @param array $steps Our How-To block's steps.
+	 *
+	 * @return void
 	 */
 	private function add_steps( &$data, $steps ) {
 		foreach ( $steps as $step ) {
@@ -113,8 +117,19 @@ class HowTo extends Abstract_Schema_Piece {
 	 *
 	 * @param array  $schema_step Our Schema output for the Step.
 	 * @param string $json_text   The step text.
+	 *
+	 * @return void
 	 */
 	private function add_step_description( &$schema_step, $json_text ) {
+		// Decode HTML entities.
+		$json_text = \html_entity_decode( $json_text );
+		// Remove the image from the text if it exists. Search and replace the img tag.
+		$json_text = \preg_replace( '/<img[^>]+>/i', '', $json_text );
+		// Strip all HTML tags to ensure plain text for the JSON-LD output.
+		$json_text = \wp_strip_all_tags( $json_text );
+		// Trim whitespace.
+		$json_text = \trim( $json_text );
+
 		$schema_step['itemListElement'] = [
 			[
 				'@type' => 'HowToDirection',
@@ -128,9 +143,19 @@ class HowTo extends Abstract_Schema_Piece {
 	 *
 	 * @param array $schema_step Our Schema output for the Step.
 	 * @param array $step        The step block data.
+	 *
+	 * @return void
 	 */
 	private function add_step_image( &$schema_step, $step ) {
-		if ( isset( $step['text'] ) && is_array( $step['text'] ) ) {
+		if ( isset( $step['images'] ) && \is_array( $step['images'] ) ) {
+			foreach ( $step['images'] as $image ) {
+				if ( isset( $image['type'] ) && $image['type'] === 'img' ) {
+					$schema_step['image'] = $this->get_image_schema( \esc_url( $image['props']['src'] ) );
+				}
+			}
+		}
+		elseif ( isset( $step['text'] ) && \is_array( $step['text'] ) ) {
+			// Backwards compatibility for older How-To blocks.
 			foreach ( $step['text'] as $line ) {
 				if ( \is_array( $line ) && isset( $line['type'] ) && $line['type'] === 'img' ) {
 					$schema_step['image'] = $this->get_image_schema( \esc_url( $line['props']['src'] ) );
@@ -145,6 +170,8 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @param array $graph Our Schema data.
 	 * @param array $block The How-To block content.
 	 * @param int   $index The index of the current block.
+	 *
+	 * @return void
 	 */
 	protected function add_how_to( &$graph, $block, $index ) {
 		$data = [
@@ -164,7 +191,10 @@ class HowTo extends Abstract_Schema_Piece {
 		}
 
 		$this->add_duration( $data, $block['attrs'] );
-		$this->add_steps( $data, $block['attrs']['steps'] );
+
+		if ( isset( $block['attrs']['steps'] ) ) {
+			$this->add_steps( $data, $block['attrs']['steps'] );
+		}
 
 		$data = $this->helpers->schema->language->add_piece_language( $data );
 

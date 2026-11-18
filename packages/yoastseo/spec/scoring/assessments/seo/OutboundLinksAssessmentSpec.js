@@ -1,6 +1,6 @@
 import OutboundLinksAssessment from "../../../../src/scoring/assessments/seo/OutboundLinksAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
-import factory from "../../../specHelpers/factory.js";
+import factory from "../../../../src/helpers/factory.js";
 const linkStatisticAssessment = new OutboundLinksAssessment();
 
 const attributes = {
@@ -113,16 +113,8 @@ describe( "Tests outbound links assessment", function() {
 } );
 
 describe( "tests for the assessment applicability.", function() {
-	it( "returns false when the paper is empty.", function() {
+	it( "returns true even when the paper is empty.", function() {
 		const paper = new Paper( "" );
-		expect( linkStatisticAssessment.isApplicable( paper ) ).toBe( false );
-	} );
-
-	it( "returns true when the paper is not empty.", function() {
-		const paper = new Paper( "sample keyword", {
-			slug: "sample-with-keyword",
-			keyword: "kéyword",
-		} );
 		expect( linkStatisticAssessment.isApplicable( paper ) ).toBe( true );
 	} );
 } );

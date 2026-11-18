@@ -1,12 +1,14 @@
-import { useState, useCallback, forwardRef } from "@wordpress/element";
-import { isEmpty } from "lodash";
-import PropTypes from "prop-types";
+import DocumentAddIcon from "@heroicons/react/outline/DocumentAddIcon";
 import classNames from "classnames";
-import { DocumentAddIcon } from "@heroicons/react/outline";
+import { isEmpty, noop } from "lodash";
+import PropTypes from "prop-types";
+import React, { forwardRef, useCallback, useState } from "react";
 
 import Link from "../link";
 
 /**
+ * File input with drag-and-drop support.
+ *
  * @param {string} id Id.
  * @param {string} name Name.
  * @param {string} value Value.
@@ -17,6 +19,7 @@ import Link from "../link";
  * @param {boolean} disabled Disabled state.
  * @param {JSX.Element} iconAs Icon to show in select area.
  * @param {Function} onChange The callback for when a file is uploaded.
+ * @param {Function} onDrop The callback for when a file is dropped.
  * @param {string} className Classname.
  * @returns {JSX.Element} The FileInput component.
  */
@@ -27,11 +30,12 @@ const FileInput = forwardRef( ( {
 	selectLabel,
 	dropLabel,
 	screenReaderLabel,
-	selectDescription,
-	disabled,
-	iconAs: IconComponent,
+	selectDescription = "",
+	disabled = false,
+	iconAs: IconComponent = DocumentAddIcon,
 	onChange,
-	className,
+	onDrop = noop,
+	className = "",
 	...props
 }, ref ) => {
 	const [ isDragOver, setIsDragOver ] = useState( false );
@@ -55,10 +59,8 @@ const FileInput = forwardRef( ( {
 	const handleDrop = useCallback( ( event ) => {
 		event.preventDefault();
 		setIsDragOver( false );
-		if ( ! isEmpty( event.dataTransfer.files ) ) {
-			onChange( event.dataTransfer.files[ 0 ] );
-		}
-	}, [ setIsDragOver, onChange ] );
+		onDrop( event );
+	}, [ setIsDragOver, onDrop ] );
 
 	return (
 		<div
@@ -97,7 +99,8 @@ const FileInput = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+FileInput.displayName = "FileInput";
+FileInput.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
@@ -108,22 +111,8 @@ const propTypes = {
 	disabled: PropTypes.bool,
 	iconAs: PropTypes.elementType,
 	onChange: PropTypes.func.isRequired,
+	onDrop: PropTypes.func,
 	className: PropTypes.string,
 };
-
-FileInput.defaultProps = {
-	selectDescription: "",
-	disabled: false,
-	iconAs: DocumentAddIcon,
-	className: "",
-};
-
-FileInput.propTypes = propTypes;
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <FileInput { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = FileInput.defaultProps;
-StoryComponent.displayName = "FileInput";
 
 export default FileInput;

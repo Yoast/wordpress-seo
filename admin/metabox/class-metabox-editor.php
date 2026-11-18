@@ -14,6 +14,8 @@ class WPSEO_Metabox_Editor {
 	 * Registers hooks to WordPress.
 	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		// For the Classic editor.
@@ -51,6 +53,8 @@ class WPSEO_Metabox_Editor {
 
 	/**
 	 * Enqueues the CSS to use in the TinyMCE editor.
+	 *
+	 * @return void
 	 */
 	public function add_editor_styles() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();

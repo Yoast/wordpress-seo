@@ -1,5 +1,3 @@
-const colors = require( "colors/safe" );
-
 // See https://github.com/dylang/grunt-prompt
 /**
  * Provides the settings for prompts within a Grunt task.
@@ -29,36 +27,6 @@ module.exports = {
 						  "Otherwise, ask team Lingo to release the monorepo packages.";
 				}
 			},
-		},
-	},
-	slackEnvMissing: {
-		options: {
-			questions: [
-				{
-					config: "config.envMissing.promptInput",
-					type: "input",
-					message: colors.bgWhite( colors.inverse( colors.red(
-						"Missing or incorrect .env variables. See .env.example for hints about the required values.\r\n" +
-						`Not sending a notification to the Yoast Slack. ${
-							colors.green( " For now, notify the appropriate channel yourself." )
-						} Press enter to continue...`
-					) ) ),
-				},
-			],
-		},
-	},
-	slackMessageError: {
-		options: {
-			questions: [
-				{
-					config: "config.slackMessageError.promptInput",
-					type: "input",
-					message: colors.bgWhite( colors.inverse( colors.red(
-						"There was an error trying to send a notification to the Yoast Slack. " +
-						`${ colors.green( " For now, notify the appropriate channel yourself." ) } Press enter to continue...`
-					) ) ),
-				},
-			],
 		},
 	},
 };

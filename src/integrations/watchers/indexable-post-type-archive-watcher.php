@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -20,6 +21,13 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	 * @var Indexable_Repository
 	 */
 	protected $repository;
+
+	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
 
 	/**
 	 * The indexable builder.
@@ -40,18 +48,26 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Post_Type_Archive_Watcher constructor.
 	 *
-	 * @param Indexable_Repository $repository The repository to use.
-	 * @param Indexable_Builder    $builder    The post builder to use.
+	 * @param Indexable_Repository $repository       The repository to use.
+	 * @param Indexable_Helper     $indexable_helper The indexable helper.
+	 * @param Indexable_Builder    $builder          The post builder to use.
 	 */
-	public function __construct( Indexable_Repository $repository, Indexable_Builder $builder ) {
-		$this->repository = $repository;
-		$this->builder    = $builder;
+	public function __construct(
+		Indexable_Repository $repository,
+		Indexable_Helper $indexable_helper,
+		Indexable_Builder $builder
+	) {
+		$this->repository       = $repository;
+		$this->indexable_helper = $indexable_helper;
+		$this->builder          = $builder;
 	}
 
 	/**
 	 * Initializes the integration.
 	 *
 	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 2 );
@@ -125,7 +141,7 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 
 		if ( $indexable ) {
 			$indexable->object_last_modified = \max( $indexable->object_last_modified, \current_time( 'mysql' ) );
-			$indexable->save();
+			$this->indexable_helper->save_indexable( $indexable );
 		}
 	}
 }

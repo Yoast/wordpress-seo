@@ -1,21 +1,15 @@
 /* global wpseoAdminL10n */
-import { Fragment } from "@wordpress/element";
-import styled from "styled-components";
-import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert } from "@yoast/components";
-import { makeOutboundLink } from "@yoast/helpers";
+import { noop } from "lodash";
+import { FeatureUpsell, Label, Root, useRootContext } from "@yoast/ui-library";
+import styled from "styled-components";
 import { addQueryArgs } from "@wordpress/url";
-import { useRootContext }  from "@yoast/externals/contexts";
+import { FacebookPreview } from "../../../../social-metadata-previews/src";
 
-const PremiumInfoText = styled( Alert )`
-	p {
-		margin: 0;
-	}
+const FeatureUpsellContainer = styled.div`
+	max-width: calc(527px + 1.5rem);
 `;
-
-const YoastShortLink = makeOutboundLink();
 
 /**
  *
@@ -25,45 +19,58 @@ const YoastShortLink = makeOutboundLink();
  * @returns {wp.Element} The FacebookView Component.
  */
 const SocialUpsell = ( props ) => {
-	const previewText = sprintf(
-		/* Translators: %s expands to the social medium name, which is either Twitter or Facebook. %s expands to Yoast SEO Premium */
-		__(
-			"Want to see how your content will look when it’s shared on %s?", "wordpress-seo"
-		), props.socialMediumName
-	);
-	const upgradeText = sprintf(
-		/* Translators: %s expands to Yoast SEO Premium */
-		__(
-			"Get %s to unlock social previews!", "wordpress-seo"
-		), "Yoast SEO Premium"
-	);
+	const premiumUpsellConfig = {
+		"data-action": "load-nfd-ctb",
+		"data-ctb-id": "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
+	};
+
+	const labelText = props.socialMediumName === "X"
+		? __( "X share preview", "wordpress-seo" )
+		: __( "Social share preview", "wordpress-seo" );
 
 	const { locationContext } = useRootContext();
 
 	return (
-		<Fragment>
-			<PremiumInfoText type={ "info" }>
-				{
-					interpolateComponents( {
-						mixedString: previewText,
-						components: { strong: <b /> },
-					} )
-				}
-				<br />
-				<YoastShortLink
-					data-action="load-nfd-ctb"
-					data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
-					href={ addQueryArgs( wpseoAdminL10n[ "shortlinks.upsell.social_preview." + props.socialMediumName.toLowerCase() ], { context: locationContext } ) }
+		<Root>
+			<FeatureUpsellContainer>
+				<FeatureUpsell
+					shouldUpsell={ true }
+					variant="card"
+					cardLink={ addQueryArgs(
+						wpseoAdminL10n[ "shortlinks.upsell.social_preview." + props.socialMediumName.toLowerCase() ],
+						{ context: locationContext } ) }
+					cardText={ sprintf(
+						/* translators: %1$s expands to Yoast SEO Premium. */
+						__( "Unlock with %1$s", "wordpress-seo" ),
+						"Yoast SEO Premium"
+					) }
+					{ ...premiumUpsellConfig }
 				>
-					<p>{ upgradeText }</p>
-				</YoastShortLink>
-			</PremiumInfoText>
-		</Fragment>
+					<div className={ "yst-grayscale yst-opacity-50" }>
+						<Label>
+							{ labelText }
+						</Label>
+
+						<FacebookPreview
+							title={ "" }
+							description={ "" }
+							siteUrl={ "" }
+							imageUrl={ "" }
+							imageFallbackUrl={ "" }
+							alt={ "" }
+							onSelect={ noop }
+							onImageClick={ noop }
+							onMouseHover={ noop }
+						/>
+					</div>
+				</FeatureUpsell>
+			</FeatureUpsellContainer>
+		</Root>
 	);
 };
 
 SocialUpsell.propTypes = {
-	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
+	socialMediumName: PropTypes.oneOf( [ "Social", "Twitter", "X" ] ).isRequired,
 };
 
 export default SocialUpsell;

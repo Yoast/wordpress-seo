@@ -82,7 +82,7 @@ class Author extends Person {
 		/**
 		 * Filter: 'wpseo_schema_person_user_id' - Allows filtering of user ID used for person output.
 		 *
-		 * @api int|bool $user_id The user ID currently determined.
+		 * @param int|bool $user_id The user ID currently determined.
 		 */
 		$user_id = \apply_filters( 'wpseo_schema_person_user_id', $user_id );
 
@@ -96,10 +96,10 @@ class Author extends Person {
 	/**
 	 * An author should not have an image from options, this only applies to persons.
 	 *
-	 * @param array   $data      The Person schema.
-	 * @param string  $schema_id The string used in the `@id` for the schema.
-	 * @param bool    $add_hash  Whether or not the person's image url hash should be added to the image id.
-	 * @param WP_User $user_data User data.
+	 * @param array        $data      The Person schema.
+	 * @param string       $schema_id The string used in the `@id` for the schema.
+	 * @param bool         $add_hash  Whether or not the person's image url hash should be added to the image id.
+	 * @param WP_User|null $user_data User data.
 	 *
 	 * @return array The Person schema.
 	 */

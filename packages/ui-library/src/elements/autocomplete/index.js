@@ -1,22 +1,32 @@
-import PropTypes from "prop-types";
-import { forwardRef, Fragment, useCallback } from "@wordpress/element";
+/* eslint-disable complexity */
 import { Combobox, Transition } from "@headlessui/react";
-import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
+import XIcon from "@heroicons/react/outline/XIcon";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import SelectorIcon from "@heroicons/react/solid/SelectorIcon";
 import classNames from "classnames";
 import { constant } from "lodash";
+import PropTypes from "prop-types";
+import React, { forwardRef, Fragment, useCallback } from "react";
 import { useSvgAria } from "../../hooks";
+import Button from "../button";
 import { ValidationInput } from "../validation";
 
 // Render Combobox.Button as a div always.
 const AutocompleteButton = forwardRef( ( props, ref ) => <Combobox.Button as="div" ref={ ref } { ...props } /> );
+AutocompleteButton.displayName = "AutocompleteButton";
+
+// Stable references matching the old defaultProps single instance, so they keep a constant identity across renders.
+const DEFAULT_LABEL_PROPS = {};
+const DEFAULT_VALIDATION = {};
+const DEFAULT_BUTTON_PROPS = {};
 
 /**
- * @param {JSX.node} children The children.
+ * @param {React.ReactNode} [children=null] The children.
  * @param {string} value The value.
  * @returns {JSX.Element} The Option component.
  */
 const Option = ( {
-	children,
+	children = null,
 	value,
 } ) => {
 	const svgAriaProps = useSvgAria();
@@ -49,6 +59,31 @@ const optionPropType = {
 
 Option.propTypes = optionPropType;
 
+/**
+ * @param {Function} onClear Clear callback.
+ * @param {Object} svgAriaProps SVG aria props.
+ * @param {string} screenReaderText Screen reader text.
+ * @returns {JSX.Element} Select component.
+ */
+const ClearSelection = ( { onClear, svgAriaProps, screenReaderText } ) => {
+	const handleClear = useCallback( ( e ) => {
+		e.preventDefault();
+		onClear( null );
+	}, [ onClear ] );
+
+	return (
+		<Button variant="tertiary" className="yst-autocomplete__clear-action" onClick={ handleClear }>
+			<span className="yst-sr-only">{ screenReaderText }</span>
+			<XIcon className="yst-autocomplete__action-icon" { ...svgAriaProps } />
+		</Button>
+	);
+};
+
+ClearSelection.propTypes = {
+	onClear: PropTypes.func.isRequired,
+	svgAriaProps: PropTypes.object.isRequired,
+	screenReaderText: PropTypes.string.isRequired,
+};
 
 /**
  * @param {string} id Identifier.
@@ -60,31 +95,42 @@ Option.propTypes = optionPropType;
  * @param {JSX.node} [labelSuffix] Optional label suffix.
  * @param {Function} onChange Change callback.
  * @param {Function} onQueryChange Query change callback.
+ * @param {Function} [onClear] Clear callback.
  * @param {Object} [validation] The validation state.
  * @param {string} [placeholder] Input placeholder.
  * @param {string} [className] CSS class.
  * @param {Object} [buttonProps] Any extra props for the button.
+ * @param {string} [clearButtonScreenReaderText] Screen reader text for the clear button.
+ * @param {boolean} [nullable=false] Allow nullable values.
+ * @param {boolean} [disabled=false] Disable the autocomplete.
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} Select component.
  */
 const Autocomplete = forwardRef( ( {
 	id,
-	value,
-	children,
-	selectedLabel,
-	label,
-	labelProps,
-	labelSuffix,
+	value = null,
+	children = null,
+	selectedLabel = "",
+	label = "",
+	labelProps = DEFAULT_LABEL_PROPS,
+	labelSuffix = null,
 	onChange,
 	onQueryChange,
-	validation,
-	placeholder,
-	className,
-	buttonProps,
+	onClear = null,
+	validation = DEFAULT_VALIDATION,
+	placeholder = "",
+	className = "",
+	buttonProps = DEFAULT_BUTTON_PROPS,
+	clearButtonScreenReaderText = "Clear",
+	nullable = false,
+	disabled = false,
 	...props
 }, ref ) => {
 	const getDisplayValue = useCallback( constant( selectedLabel ), [ selectedLabel ] );
 	const svgAriaProps = useSvgAria();
+	const showClearSelection = nullable && selectedLabel;
+	const showSelectorIcon = ! validation?.message;
+	const showActionContainer = showClearSelection || showSelectorIcon;
 
 	return (
 		<Combobox
@@ -92,7 +138,12 @@ const Autocomplete = forwardRef( ( {
 			as="div"
 			value={ value }
 			onChange={ onChange }
-			className={ classNames( "yst-autocomplete", className ) }
+			className={ classNames(
+				"yst-autocomplete",
+				disabled && "yst-autocomplete--disabled",
+				className,
+			) }
+			disabled={ disabled }
 			{ ...props }
 		>
 			{ label && <div className="yst-flex yst-items-center yst-mb-2">
@@ -109,12 +160,27 @@ const Autocomplete = forwardRef( ( {
 				>
 					<Combobox.Input
 						className="yst-autocomplete__input"
+						autoComplete="off"
 						placeholder={ placeholder }
 						displayValue={ getDisplayValue }
 						onChange={ onQueryChange }
 					/>
-					{ ! validation?.message && (
-						<SelectorIcon className="yst-autocomplete__button-icon" { ...svgAriaProps } />
+					{ showActionContainer && (
+						<div className="yst-autocomplete__action-container">
+							{ showClearSelection && (
+								<>
+									<ClearSelection
+										onClear={ onClear || onChange }
+										svgAriaProps={ svgAriaProps }
+										screenReaderText={ clearButtonScreenReaderText }
+									/>
+									<hr className="yst-autocomplete__action-separator" />
+								</>
+							) }
+							{ showSelectorIcon && (
+								<SelectorIcon className="yst-autocomplete__action-icon yst-pointer-events-none" { ...svgAriaProps } />
+							) }
+						</div>
 					) }
 				</ValidationInput>
 				<Transition
@@ -135,13 +201,9 @@ const Autocomplete = forwardRef( ( {
 	);
 } );
 
-
-Autocomplete.Option = Option;
-Autocomplete.Option.displayName = "Autocomplete.Option";
-
 const propTypes = {
 	id: PropTypes.string.isRequired,
-	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
+	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ),
 	children: PropTypes.node,
 	selectedLabel: PropTypes.string,
 	label: PropTypes.string,
@@ -156,25 +218,16 @@ const propTypes = {
 	placeholder: PropTypes.string,
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
+	clearButtonScreenReaderText: PropTypes.string,
+	nullable: PropTypes.bool,
+	onClear: PropTypes.func,
+	disabled: PropTypes.bool,
 };
+
+Autocomplete.displayName = "Autocomplete";
 Autocomplete.propTypes = propTypes;
 
-Autocomplete.defaultProps = {
-	children: null,
-	selectedLabel: "",
-	label: "",
-	labelProps: {},
-	labelSuffix: null,
-	validation: {},
-	placeholder: "",
-	className: "",
-	buttonProps: {},
-};
+Autocomplete.Option = Option;
+Autocomplete.Option.displayName = "Autocomplete.Option";
 
 export default Autocomplete;
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Autocomplete { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Autocomplete.defaultProps;
-StoryComponent.displayName = "Autocomplete";

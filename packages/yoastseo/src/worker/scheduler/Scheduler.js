@@ -1,8 +1,8 @@
 // External dependencies.
-import { merge } from "lodash-es";
+import { merge } from "lodash";
 
 // Internal dependencies.
-import Task from "./Task";
+import Task from "./Task.js";
 
 
 const DEFAULT_CONFIGURATION = {

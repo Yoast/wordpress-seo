@@ -1,21 +1,30 @@
 /* eslint-disable complexity */
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Code, TextField, ToggleField } from "@yoast/ui-library";
+import { Alert, Badge, Code, FeatureUpsell, TextField, ToggleField } from "@yoast/ui-library";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Field, useFormikContext } from "formik";
-import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
-import { withDisabledMessageSupport, withFormikError } from "../hocs";
+import { OutboundLink } from "../../shared-admin/components";
+import { FieldsetLayout, FormikTagField, FormLayout, RouteLayout } from "../components";
+import { withDisabledMessageSupport, withFormikDummySelectField, withFormikError } from "../hocs";
 import { useSelectSettings } from "../hooks";
+import { FormikValueChangeField } from "../../shared-admin/components/form";
 
 const FormikFieldWithError = withFormikError( Field );
 const FormikValueChangeFieldWithDisabledMessage = withDisabledMessageSupport( FormikValueChangeField );
+const FormikValueChangeFieldWithDisabledMessageAndDummy = withFormikDummySelectField( FormikValueChangeFieldWithDisabledMessage );
 
 /**
  * @returns {JSX.Element} The crawl optimization route.
  */
 const CrawlOptimization = () => {
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium", false );
+	const isMultisite = useSelectSettings( "selectPreference", [], "isMultisite", false );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const crawlSettingsLink = useSelectSettings( "selectLink", [], "https://yoa.st/crawl-settings" );
 	const permalinkCleanupLink = useSelectSettings( "selectLink", [], "https://yoa.st/permalink-cleanup" );
+	const blockUnwantedBotsInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/block-unwanted-bots-info" );
+	const premiumBlockUnwantedBotsLink = useSelectSettings( "selectLink", [], "https://yoa.st/block-unwanted-bots-upsell" );
 
 	const codeExample = useMemo( () => sprintf(
 		/* translators: %1$s expands to an example within a code tag. */
@@ -30,7 +39,7 @@ const CrawlOptimization = () => {
 		"<code2/>"
 	), [] );
 	const descriptions = useMemo( () => ( {
-		page: createInterpolateElement(
+		page: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: %1$s and %2$s are replaced by opening and closing <a> tags. */
 				__( "Make your site more efficient and more environmentally friendly by preventing search engines from crawling things they don’t need to, and by removing unused WordPress features. %1$sLearn more about crawl settings and how they could benefit your site%2$s.", "wordpress-seo" ),
@@ -43,7 +52,7 @@ const CrawlOptimization = () => {
 		),
 
 		// Remove unwanted metadata.
-		removeUnwantedMetadata: createInterpolateElement(
+		removeUnwantedMetadata: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: %1$s expands to `<head>` within a <code> tag. */
 				__( "WordPress adds a lot of links and content to your site's %1$s and HTTP headers. For most websites you can safely disable all of these, which can help to save bytes, electricity, and trees.", "wordpress-seo" ),
@@ -53,17 +62,17 @@ const CrawlOptimization = () => {
 				code: <Code>{ "<head>" }</Code>,
 			}
 		),
-		removeShortlinks: createInterpolateElement( codeExample, {
+		removeShortlinks: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"shortlink\" href=\"https://www.example.com/?p=1\" />" }
 			</Code>,
 		} ),
-		removeRestApiLinks: createInterpolateElement( codeExample, {
+		removeRestApiLinks: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"https://api.w.org/\" href=\"https://www.example.com/wp-json/\" />" }
 			</Code>,
 		} ),
-		removeRsdWlwLinks: createInterpolateElement( codeExamples, {
+		removeRsdWlwLinks: safeCreateInterpolateElement( codeExamples, {
 			code1: <Code variant="block">
 				{ "<link rel=\"EditURI\" type=\"application/rsd+xml\" title=\"RSD\" href=\"https://www.example.com/xmlrpc.php?rsd\" />" }
 			</Code>,
@@ -71,81 +80,81 @@ const CrawlOptimization = () => {
 				{ "<link rel=\"wlwmanifest\" type=\"application/wlwmanifest+xml\" href=\"https://www.example.com/wp-includes/wlwmanifest.xml\" />" }
 			</Code>,
 		} ),
-		removeOembedLinks: createInterpolateElement( codeExample, {
+		removeOembedLinks: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/json+oembed\" href=\"https://www.example.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.example.com%2Fexample-post%2F\" />" }
 			</Code>,
 		} ),
-		removeGenerator: createInterpolateElement( codeExample, {
+		removeGenerator: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<meta name=\"generator\" content=\"WordPress 6.0.1\" />" }
 			</Code>,
 		} ),
-		removePingbackHeader: createInterpolateElement( codeExample, {
+		removePingbackHeader: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "X-Pingback: https://www.example.com/xmlrpc.php" }
 			</Code>,
 		} ),
-		removePoweredByHeader: createInterpolateElement( codeExample, {
+		removePoweredByHeader: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "X-Powered-By: PHP/7.4.1" }
 			</Code>,
 		} ),
 
 		// Disable unwanted content formats.
-		removeFeedGlobal: createInterpolateElement( codeExample, {
+		removeFeedGlobal: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Feed\" href=\"https://www.example.com/feed/\" />" }
 			</Code>,
 		} ),
-		removeFeedGlobalComments: createInterpolateElement( codeExample, {
+		removeFeedGlobalComments: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Comments Feed\" href=\"https://www.example.com/comments/feed/\" />" }
 			</Code>,
 		} ),
-		removeFeedPostComments: createInterpolateElement( codeExample, {
+		removeFeedPostComments: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Example post Comments Feed\" href=\"https://www.example.com/example-post/feed/\" />" }
 			</Code>,
 		} ),
-		removeFeedAuthors: createInterpolateElement( codeExample, {
+		removeFeedAuthors: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Posts by Example Author Feed\" href=\"https://www.example.com/author/example-author/feed/\" />" }
 			</Code>,
 		} ),
-		removeFeedPostTypes: createInterpolateElement( codeExample, {
+		removeFeedPostTypes: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Movies Feed\" href=\"https://www.example.com/movies/feed/\" />" }
 			</Code>,
 		} ),
-		removeFeedCategories: createInterpolateElement( codeExample, {
+		removeFeedCategories: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - News Category Feed\" href=\"https://www.example.com/category/news/feed/\" />" }
 			</Code>,
 		} ),
-		removeFeedTags: createInterpolateElement( codeExample, {
+		removeFeedTags: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Blue Tag Feed\" href=\"https://www.example.com/tag/blue/feed/\" />" }
 			</Code>,
 		} ),
-		removeFeedCustomTaxonomies: createInterpolateElement( codeExample, {
+		removeFeedCustomTaxonomies: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Large size Feed\" href=\"https://www.example.com/size/large/feed/\" />" }
 			</Code>,
 		} ),
-		removeFeedSearch: createInterpolateElement( codeExample, {
+		removeFeedSearch: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Search Results for 'example' Feed\" href=\"https://www.example.com/search/example/feed/rss2/\" />" }
 			</Code>,
 		} ),
-		removeAtomRdfFeeds: createInterpolateElement( codeExample, {
+		removeAtomRdfFeeds: safeCreateInterpolateElement( codeExample, {
 			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Feed\" href=\"https://www.example.com/feed/atom/\" />" }
 			</Code>,
 		} ),
 
 		// Remove unused resources.
-		denyWpJsonCrawling: createInterpolateElement( codeExamples, {
+		denyWpJsonCrawling: safeCreateInterpolateElement( codeExamples, {
 			code1: <Code variant="block">
 				{ "https://www.example.com/wp-json/" }
 			</Code>,
@@ -154,8 +163,21 @@ const CrawlOptimization = () => {
 			</Code>,
 		} ),
 
+		// Block unwanted bots.
+		blockUnwantedBots: safeCreateInterpolateElement(
+			sprintf(
+				/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+				__( "Lots of web traffic comes from bots crawling the web. Some can benefit your site or business, while other bots don't. Blocking unwanted bots can save energy, help with site performance, and protect copyrighted content. Learn more about %1$swhen to block unwanted bots%2$s.", "wordpress-seo" ),
+				"<a>",
+				"</a>"
+			),
+			{
+				a: <OutboundLink id="link-block-unwanted-bots-info" href={ blockUnwantedBotsInfoLink } />,
+			}
+		),
+
 		// Internal site search cleanup.
-		redirectSearchPrettyUrls: createInterpolateElement(
+		redirectSearchPrettyUrls: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: %1$s, %2$s and %3$s expand to example parts of a URL, surrounded by <code> tags. */
 				__( "Consolidates WordPress' multiple site search URL formats into the %1$s syntax. E.g., %2$s will redirect to %3$s", "wordpress-seo" ),
@@ -169,21 +191,23 @@ const CrawlOptimization = () => {
 				code3: <Code variant="block">https://www.example.com/?s=cats</Code>,
 			}
 		),
-		denySearchCrawling: createInterpolateElement(
+		denySearchCrawling: safeCreateInterpolateElement(
 			sprintf(
-				/* translators: %1$s and %2$s expand to example parts of a URL, surrounded by <code> tags. */
-				__( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling of %1$s and %2$s URLs.", "wordpress-seo" ),
+				/* translators: %1$s, %2$s and %3$s expand to example parts of a URL, surrounded by <code> tags. */
+				__( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling of URLs like %1$s, %2$s and %3$s.", "wordpress-seo" ),
 				"<code1/>",
-				"<code2/>"
+				"<code2/>",
+				"<code3/>"
 			),
 			{
 				code1: <Code>?s=</Code>,
 				code2: <Code>/search/</Code>,
+				code3: <Code>/page/*/?s=</Code>,
 			}
 		),
 
 		// Advanced: URL cleanup.
-		advancedUrlCleanup: createInterpolateElement(
+		advancedUrlCleanup: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: %1$s expands to an example part of a URL, surrounded by a <code> tag. */
 				__( "Users and search engines may often request your URLs whilst using query parameters, like %1$s. These can be helpful for tracking, filtering, and powering advanced functionality - but they come with a performance and SEO ‘cost’. Sites which don’t rely on URL parameters might benefit from using these options.", "wordpress-seo" ),
@@ -193,7 +217,7 @@ const CrawlOptimization = () => {
 				code: <Code>?color=red</Code>,
 			}
 		),
-		cleanCampaignTrackingUrls: createInterpolateElement(
+		cleanCampaignTrackingUrls: safeCreateInterpolateElement(
 			sprintf(
 				/**
 				 * translators:
@@ -217,7 +241,7 @@ const CrawlOptimization = () => {
 				code5: <Code variant="block">https://www.example.com/#utm_medium=organic</Code>,
 			}
 		),
-		cleanPermalinks: createInterpolateElement(
+		cleanPermalinks: safeCreateInterpolateElement(
 			sprintf(
 				/**
 				 * translators:
@@ -228,14 +252,36 @@ const CrawlOptimization = () => {
 				"<code1/>",
 				"<code2/>",
 				"<code3/>"
+			) +
+			sprintf(
+				/**
+				 * translators:
+				 * %1$s through %7$s each expand to a parameter name within a <code> tag. For example, <code>gclid</code>.
+				 */
+				__( "Note that the following commonly-used parameters will not be removed: %1$s, %2$s, %3$s, %4$s, %5$s, %6$s, and %7$s.",
+					"wordpress-seo" ),
+				"<code4/>",
+				"<code5/>",
+				"<code6/>",
+				"<code7/>",
+				"<code8/>",
+				"<code9/>",
+				"<code10/>"
 			),
 			{
 				code1: <Code>301</Code>,
 				code2: <Code variant="block">https://www.example.com/?unknown_parameter=yes</Code>,
 				code3: <Code variant="block">https://www.example.com</Code>,
+				code4: <Code>gclid</Code>,
+				code5: <Code>gtm_debug</Code>,
+				code6: <Code>utm_campaign</Code>,
+				code7: <Code>utm_content</Code>,
+				code8: <Code>utm_medium</Code>,
+				code9: <Code>utm_source</Code>,
+				code10: <Code>utm_term</Code>,
 			}
 		),
-		cleanPermalinksExtraVariables: createInterpolateElement(
+		cleanPermalinksExtraVariables: safeCreateInterpolateElement(
 			sprintf(
 				/**
 				 * translators:
@@ -519,6 +565,66 @@ const CrawlOptimization = () => {
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
+						title={ __( "Block unwanted bots", "wordpress-seo" ) }
+						description={ descriptions.blockUnwantedBots }
+					>
+						<FormikValueChangeFieldWithDisabledMessage
+							as={ ToggleField }
+							type="checkbox"
+							name="wpseo.deny_adsbot_crawling"
+							id="input-wpseo-deny_adsbot_crawling"
+							label={ __( "Prevent Google AdsBot from crawling", "wordpress-seo" ) }
+							description={ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling by Google AdsBot. You should only enable this setting if you're not using Google Ads on your site.", "wordpress-seo" ) }
+							className="yst-max-w-2xl"
+						/>
+						<FeatureUpsell
+							shouldUpsell={ ! isMultisite && ! isPremium }
+							variant="card"
+							cardLink={ premiumBlockUnwantedBotsLink }
+							cardText={ sprintf(
+								/* translators: %1$s expands to Premium. */
+								__( "Unlock with %1$s", "wordpress-seo" ),
+								"Premium"
+							) }
+							{ ...premiumUpsellConfig }
+						>
+							<FormikValueChangeFieldWithDisabledMessageAndDummy
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.deny_google_extended_crawling"
+								id="input-wpseo-deny_google_extended_crawling"
+								label={ __( "Prevent Google Gemini and Vertex AI bots from crawling", "wordpress-seo" ) }
+								description={ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling by the Google-Extended bot. Enabling this setting won’t prevent Google from indexing your website.", "wordpress-seo" ) }
+								labelSuffix={ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
+								className="yst-max-w-2xl"
+								isDummy={ ! isPremium }
+							/>
+							<FormikValueChangeFieldWithDisabledMessageAndDummy
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.deny_gptbot_crawling"
+								id="input-wpseo-deny_gptbot_crawling"
+								label={ __( "Prevent OpenAI GPTBot from crawling", "wordpress-seo" ) }
+								description={ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling by OpenAI GPTBot.", "wordpress-seo" ) }
+								labelSuffix={ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
+								className="yst-max-w-2xl"
+								isDummy={ ! isPremium }
+							/>
+							<FormikValueChangeFieldWithDisabledMessageAndDummy
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.deny_ccbot_crawling"
+								id="input-wpseo-deny_ccbot_crawling"
+								label={ __( "Prevent Common Crawl CCBot from crawling", "wordpress-seo" ) }
+								description={ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling by Common Crawl CCBot.", "wordpress-seo" ) }
+								labelSuffix={ isPremium && <Badge className="yst-ms-1.5" size="small" variant="upsell">Premium</Badge> }
+								className="yst-max-w-2xl"
+								isDummy={ ! isPremium }
+							/>
+						</FeatureUpsell>
+					</FieldsetLayout>
+					<hr className="yst-my-8" />
+					<FieldsetLayout
 						title={ __( "Internal site search cleanup", "wordpress-seo" ) }
 						description={ __( "Your internal site search can create lots of confusing URLs for search engines, and can even be used as a way for SEO spammers to attack your site. Most sites will benefit from experimenting with these protections and optimizations, even if you don’t have a search feature in your theme.", "wordpress-seo" ) }
 					>
@@ -587,7 +693,7 @@ const CrawlOptimization = () => {
 						description={ descriptions.advancedUrlCleanup }
 					>
 						<Alert id="alert-permalink-cleanup-settings" variant="error">
-							{ createInterpolateElement(
+							{ safeCreateInterpolateElement(
 								sprintf(
 									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 									__( "Warning! These are expert features, so make sure you know what you're doing before using this setting. You might break your site. %1$sRead more about how your site can be affected%2$s.", "wordpress-seo" ),

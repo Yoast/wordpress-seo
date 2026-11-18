@@ -1,6 +1,7 @@
-import PropTypes from "prop-types";
-import { keys } from "lodash";
 import classNames from "classnames";
+import { keys } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
 
 const CLASSNAME_MAP = {
 	variant: {
@@ -24,7 +25,7 @@ const ValidationMessage = ( {
 	children,
 	className = "",
 	...props
-} ) =>  (
+} ) => (
 	<Component { ...props } className={ classNames( "yst-validation-message", CLASSNAME_MAP.variant[ variant ], className ) }>
 		{ children }
 	</Component>

@@ -1,3 +1,6 @@
+import { stemPrefixedFunctionWords } from "../../../helpers/morphology/stemPrefixedFunctionWords.js";
+import { PREFIXED_FUNCTION_WORDS, PREFIXED_FUNCTION_WORDS_REGEX } from "../config/prefixedFunctionWords.js";
+
 /**
  * Creates basic word forms for a given Arabic word.
  *
@@ -6,9 +9,6 @@
  * @returns {Array}        Prefixed and de-prefixed variations of a word.
  */
 export function createBasicWordForms( word ) {
-	const prefixes = [ "ل", "ب", "ك", "و", "ف", "س", "أ", "ال", "وب", "ول", "لل", "فس", "فب", "فل", "وس",
-		 "وال", "بال", "فال", "كال", "ولل", "وبال" ];
-
 	const forms = [];
 
 	/*
@@ -16,23 +16,16 @@ export function createBasicWordForms( word ) {
 	 * beginning with a prefix-like letter might be exceptions where this is the
 	 * actual first letter of the word.
 	 */
-	forms.push( ...prefixes.map( prefix => prefix + word ) );
+	forms.push( ...PREFIXED_FUNCTION_WORDS.map( basicPrefix => basicPrefix + word ) );
 
-	let stemmedWord = "";
+	const { stem, prefix } = stemPrefixedFunctionWords( word, PREFIXED_FUNCTION_WORDS_REGEX );
 
-	/*
-	 * If a word starts with one of the prefixes, we strip it and create all possible
-	 * prefixed forms based on this stem.
-	 */
-	for ( const prefix of prefixes ) {
-		if ( word.startsWith( prefix ) ) {
-			stemmedWord = word.slice( prefix.length );
-		}
-	}
-
-	if ( stemmedWord.length > 0 ) {
-		forms.push( stemmedWord );
-		forms.push( ...prefixes.map( prefix => prefix + stemmedWord ) );
+	if ( prefix !== "" ) {
+		/*
+		If a word starts with one of the prefixes, we strip it and attach all prefixes to the stem.
+		*/
+		forms.push( stem );
+		forms.push( ...PREFIXED_FUNCTION_WORDS.map( basicPrefix => basicPrefix + stem ) );
 	}
 
 	return forms;

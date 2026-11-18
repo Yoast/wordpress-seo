@@ -18,21 +18,23 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_debug_markers' - Allow disabling the debug markers.
 		 *
-		 * @api bool $show_markers True when the debug markers should be shown.
+		 * @param bool $show_markers True when the debug markers should be shown.
 		 */
 		if ( ! \apply_filters( 'wpseo_debug_markers', true ) ) {
 			return '';
 		}
-		$version_info = 'v' . \WPSEO_VERSION;
+		$product_name = \esc_html( $this->helpers->product->get_name() );
+		$is_premium   = $this->helpers->product->is_premium();
 
-		if ( $this->helpers->product->is_premium() ) {
-			$version_info = $this->construct_version_info();
-		}
+		$version = ( $is_premium ) ? $this->construct_version_info() : 'v' . \WPSEO_VERSION;
+
+		$url = ( $is_premium ) ? 'https://yoast.com/product/yoast-seo-premium-wordpress/' : 'https://yoast.com/product/yoast-seo-wordpress/';
 
 		return \sprintf(
-			'<!-- This site is optimized with the %1$s %2$s - https://yoast.com/wordpress/plugins/seo/ -->',
-			\esc_html( $this->helpers->product->get_name() ),
-			$version_info
+			'<!-- This site is optimized with the %1$s %2$s - %3$s -->',
+			$product_name,
+			$version,
+			$url,
 		);
 	}
 
@@ -45,7 +47,7 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_hide_version' - can be used to hide the Yoast SEO version in the debug marker (only available in Yoast SEO Premium).
 		 *
-		 * @api bool
+		 * @param bool $hide_version
 		 */
 		if ( \apply_filters( 'wpseo_hide_version', false ) ) {
 			return '';

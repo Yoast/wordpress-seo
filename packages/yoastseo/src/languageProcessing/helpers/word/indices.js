@@ -1,4 +1,4 @@
-import { isUndefined, forEach } from "lodash-es";
+import { isUndefined, forEach } from "lodash";
 import stripSpaces from "../sanitize/stripSpaces.js";
 import { isWordInSentence as matchWordInSentence, characterInBoundary } from "./matchWordInSentence.js";
 

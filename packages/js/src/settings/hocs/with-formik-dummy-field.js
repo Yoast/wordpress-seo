@@ -26,10 +26,6 @@ const withFormikDummyField = Component => {
 				onChange={ noop }
 				// Specific override for checkbox type components.
 				checked={ defaultValue }
-				// Specific override for TagField components.
-				tags={ [] }
-				onAddTag={ noop }
-				onRemoveTag={ noop }
 				// Specific override for ReplacementVariableEditor components.
 				content={ defaultValue }
 			/>;

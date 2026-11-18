@@ -64,7 +64,10 @@ describe( "serialize", () => {
 		expect( serialize( thing ) ).toEqual( {
 			_hasBetaBadge: false,
 			_hasJumps: false,
+			_hasAIFixes: false,
 			_parseClass: "AssessmentResult",
+			editFieldAriaLabel: "",
+			flaggedItems: [],
 			editFieldName: "",
 			identifier: "",
 			marks: [],
@@ -92,6 +95,8 @@ describe( "serialize", () => {
 			keyword: "some keywords",
 			locale: "en_US",
 			permalink: "https://example.com/page-0",
+			productData: {},
+			providedImages: null,
 			title: "A text about a keyword.",
 			synonyms: "",
 			titleWidth: 0,
@@ -100,6 +105,9 @@ describe( "serialize", () => {
 			customData: { hasGlobalIdentifier: true, hasVariants: true },
 			textTitle: "The title of the text",
 			writingDirection: "LTR",
+			wpBlocks: [],
+			isFrontPage: false,
+			shortcodes: [],
 		} );
 	} );
 

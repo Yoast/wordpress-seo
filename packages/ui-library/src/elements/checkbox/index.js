@@ -1,24 +1,24 @@
-/* eslint-disable no-undefined */
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { forwardRef } from "@wordpress/element";
+import React, { forwardRef } from "react";
 import Label from "../label";
 
 /**
  * @param {string} id Identifier.
  * @param {string} name Name.
  * @param {string} value Value.
- * @param {string} label Label.
- * @param {string} [className] CSS class.
+ * @param {string} [label=""] Label.
+ * @param {boolean} [disabled=false] Whether the checkbox is disabled.
+ * @param {string} [className=""] CSS class.
  * @returns {JSX.Element} Checkbox component.
  */
 const Checkbox = forwardRef( ( {
 	id,
 	name,
 	value,
-	label,
-	disabled,
-	className,
+	label = "",
+	disabled = false,
+	className = "",
 	...props
 }, ref ) => (
 	<div
@@ -38,28 +38,18 @@ const Checkbox = forwardRef( ( {
 			className="yst-checkbox__input"
 			{ ...props }
 		/>
-		<Label htmlFor={ id } className="yst-checkbox__label" label={ label } />
+		{ label && <Label htmlFor={ id } className="yst-checkbox__label" label={ label } /> }
 	</div>
 ) );
 
-const propTypes = {
+Checkbox.displayName = "Checkbox";
+Checkbox.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
+	label: PropTypes.string,
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 };
-Checkbox.propTypes = propTypes;
-
-Checkbox.defaultProps = {
-	className: "",
-};
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Checkbox { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Checkbox.defaultProps;
-StoryComponent.displayName = "Checkbox";
 
 export default Checkbox;

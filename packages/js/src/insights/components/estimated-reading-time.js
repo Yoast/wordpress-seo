@@ -18,6 +18,7 @@ const EstimatedReadingTime = () => {
 			unit={ _n( "minute", "minutes", estimatedReadingTime, "wordpress-seo" ) }
 			title={ __( "Reading time", "wordpress-seo" ) }
 			linkTo={ estimatedReadingTimeLink }
+			/* translators: Hidden accessibility text. */
 			linkText={ __( "Learn more about reading time", "wordpress-seo" ) }
 		/>
 	);

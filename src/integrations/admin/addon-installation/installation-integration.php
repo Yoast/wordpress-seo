@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exceptio
 use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Activate_Plugins_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins_Exception;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Plans\User_Interface\Plans_Page_Integration;
 
 /**
  * Represents the Addon installation feature.
@@ -73,6 +74,8 @@ class Installation_Integration implements Integration_Interface {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_install_and_activate_addons', [ $this, 'install_and_activate_addons' ] );
@@ -100,7 +103,7 @@ class Installation_Integration implements Integration_Interface {
 
 		\printf(
 			'<h1 id="wpseo-title" class="yoast-h1">%s</h1>',
-			\esc_html__( 'Installing and activating addons', 'wordpress-seo' )
+			\esc_html__( 'Installing and activating addons', 'wordpress-seo' ),
 		);
 
 		$licensed_addons = $this->addon_manager->get_myyoast_site_information()->subscriptions;
@@ -108,7 +111,7 @@ class Installation_Integration implements Integration_Interface {
 		foreach ( $licensed_addons as $addon ) {
 			\printf( '<p><strong>%s</strong></p>', \esc_html( $addon->product->name ) );
 
-			list( $installed, $output ) = $this->install_addon( $addon->product->slug, $addon->product->download );
+			[ $installed, $output ] = $this->install_addon( $addon->product->slug, $addon->product->download );
 
 			if ( $installed ) {
 				$activation_output = $this->activate_addon( $addon->product->slug );
@@ -124,14 +127,14 @@ class Installation_Integration implements Integration_Interface {
 		\printf(
 			/* translators: %1$s expands to an anchor tag to the admin premium page, %2$s expands to Yoast SEO Premium, %3$s expands to a closing anchor tag */
 			\esc_html__( '%1$s Continue to %2$s%3$s', 'wordpress-seo' ),
-			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_licenses' ) ) . '">',
+			'<a href="' . \esc_url( \admin_url( 'admin.php?page=' . Plans_Page_Integration::PAGE ) ) . '">',
 			'Yoast SEO Premium',
-			'</a>'
+			'</a>',
 		);
 
 		echo '</div>';
 
-		exit;
+		exit();
 	}
 
 	/**
@@ -155,7 +158,7 @@ class Installation_Integration implements Integration_Interface {
 			$output[] = \sprintf(
 				/* Translators:%s expands to the error message. */
 				\__( 'Addon activation failed because of an error: %s.', 'wordpress-seo' ),
-				$exception->getMessage()
+				$exception->getMessage(),
 			);
 		}
 
@@ -187,7 +190,7 @@ class Installation_Integration implements Integration_Interface {
 			$output[] = \sprintf(
 				/* Translators: %s expands to the error message. */
 				\__( 'Addon installation failed because of an error: %s.', 'wordpress-seo' ),
-				$exception->getMessage()
+				$exception->getMessage(),
 			);
 		}
 

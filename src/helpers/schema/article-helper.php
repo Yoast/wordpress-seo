@@ -15,9 +15,7 @@ class Article_Helper {
 	 * @return bool True if it has Article schema, false if not.
 	 */
 	public function is_article_post_type( $post_type = null ) {
-		if ( \is_null( $post_type ) ) {
-			$post_type = \get_post_type();
-		}
+		$post_type ??= \get_post_type();
 
 		return $this->is_author_supported( $post_type );
 	}

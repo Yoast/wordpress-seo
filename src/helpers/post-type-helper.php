@@ -80,7 +80,7 @@ class Post_Type_Helper {
 		/**
 		 * Filter: 'wpseo_accessible_post_types' - Allow changing the accessible post types.
 		 *
-		 * @api array $post_types The public post types.
+		 * @param array $post_types The public post types.
 		 */
 		$post_types = \apply_filters( 'wpseo_accessible_post_types', $post_types );
 
@@ -103,7 +103,7 @@ class Post_Type_Helper {
 		 * Filter: 'wpseo_indexable_excluded_post_types' - Allows excluding posts of a certain post
 		 * type from being saved to the indexable table.
 		 *
-		 * @api array $excluded_post_types The currently excluded post types that indexables will not be created for.
+		 * @param array $excluded_post_types The currently excluded post types that indexables will not be created for.
 		 */
 		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [] );
 
@@ -156,6 +156,15 @@ class Post_Type_Helper {
 	}
 
 	/**
+	 * Returns all indexable post types with archive pages.
+	 *
+	 * @return array All post types which are indexable and have archive pages.
+	 */
+	public function get_indexable_post_archives() {
+		return \array_filter( $this->get_indexable_post_type_objects(), [ $this, 'has_archive' ] );
+	}
+
+	/**
 	 * Filters the post types that are included to be indexed.
 	 *
 	 * @param array $included_post_types The post types that are included to be indexed.
@@ -167,7 +176,7 @@ class Post_Type_Helper {
 		 * Filter: 'wpseo_indexable_forced_included_post_types' - Allows force including posts of a certain post
 		 * type to be saved to the indexable table.
 		 *
-		 * @api array $included_post_types The currently included post types that indexables will be created for.
+		 * @param array $included_post_types The currently included post types that indexables will be created for.
 		 */
 		$filtered_included_post_types = \apply_filters( 'wpseo_indexable_forced_included_post_types', $included_post_types );
 
@@ -185,6 +194,41 @@ class Post_Type_Helper {
 
 		// `array_values`, to make sure that the keys are reset.
 		return \array_values( $filtered_included_post_types );
+	}
+
+	/**
+	 * Checks if the given post type should be indexed.
+	 *
+	 * @param string $post_type The post type that is checked.
+	 *
+	 * @return bool
+	 */
+	public function is_of_indexable_post_type( $post_type ) {
+		$public_types = $this->get_indexable_post_types();
+		if ( ! \in_array( $post_type, $public_types, true ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if the archive of a post type is indexable.
+	 *
+	 * @param string $post_type The post type to check.
+	 *
+	 * @return bool if the archive is indexable.
+	 */
+	public function is_post_type_archive_indexable( $post_type ) {
+		$public_type_objects = $this->get_indexable_post_archives();
+		$public_types        = \array_map(
+			static function ( $post_type_object ) {
+				return $post_type_object->name;
+			},
+			$public_type_objects,
+		);
+
+		return \in_array( $post_type, $public_types, true );
 	}
 
 	/**

@@ -19,7 +19,7 @@ class SEMrush_Client extends OAuth_Client {
 	/**
 	 * The option's key.
 	 */
-	const TOKEN_OPTION = 'semrush_tokens';
+	public const TOKEN_OPTION = 'semrush_tokens';
 
 	/**
 	 * SEMrush_Client constructor.
@@ -29,10 +29,7 @@ class SEMrush_Client extends OAuth_Client {
 	 *
 	 * @throws Empty_Property_Exception Throws when one of the required properties is empty.
 	 */
-	public function __construct(
-		Options_Helper $options_helper,
-		WP_Remote_Handler $wp_remote_handler
-	) {
+	public function __construct( Options_Helper $options_helper, WP_Remote_Handler $wp_remote_handler ) {
 		$provider = new GenericProvider(
 			[
 				'clientId'                => 'yoast',
@@ -44,13 +41,13 @@ class SEMrush_Client extends OAuth_Client {
 			],
 			[
 				'httpClient' => new Client( [ 'handler' => $wp_remote_handler ] ),
-			]
+			],
 		);
 
 		parent::__construct(
 			self::TOKEN_OPTION,
 			$provider,
-			$options_helper
+			$options_helper,
 		);
 	}
 
@@ -78,7 +75,7 @@ class SEMrush_Client extends OAuth_Client {
 				'params' => [
 					'access_token' => $this->get_tokens()->access_token,
 				],
-			]
+			],
 		);
 
 		return parent::do_request( $method, $url, $options );

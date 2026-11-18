@@ -59,6 +59,19 @@
 	right: 16px;
 }
 
+.yoast-gutenberg-modal__box.components-modal__frame {
+	box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+	@media (min-width: 600px) {
+		border-radius: 8px;
+		max-height: calc( 100% - 48px );
+	}
+}
+
+.yoast-gutenberg-modal__no-padding .components-modal__content {
+	padding: 0;
+}
+
 .yoast-modal__heading h1,
 .yoast-gutenberg-modal .components-modal__header-heading {
 	font-size: 20px;
@@ -66,6 +79,10 @@
 	color: var(--yoast-color-primary);
 	line-height: 1.2;
 	margin: 0;
+}
+
+.yoast-gutenberg-modal .components-modal__content .components-modal__header {
+	border-bottom: 1px solid #e2e8f0 !important;
 }
 
 .yoast-gutenberg-modal .components-modal__icon-container {
@@ -401,6 +418,19 @@
 }
 
 /**
+ * As of WordPress 7.0, the div children of .components-modal__content have a class name.
+ * However, to maintain backward compatibility with older WordPress versions, we also need to target the
+ * divs without a class name.
+ * We can remove the :not selectors when we drop support for WordPress versions older than 7.0.
+ */
+.yoast-post-settings-modal .components-modal__content > div.components-modal__children-container,
+.yoast-post-settings-modal .components-modal__content > div:not([class]):not([class=""]) {
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+/**
  * Add a negative margin so that the hr will overlap with the border of the content above.
  *
  * As this is only needed when the content overflows, it is hard to make a good CSS rule for this case.
@@ -461,6 +491,10 @@
 	max-width: 712px;
 }
 
+.yoast-wincher-seo-performance-modal__content {
+	padding: 25px 32px 32px;
+}
+
 #yoast-get-related-keyphrases-sidebar,
 #yoast-get-related-keyphrases-metabox {
 	margin-top: 8px;
@@ -471,43 +505,6 @@
 	position: relative;
 }
 
-#yoast-semrush-country-selector {
-	position: relative;
-	border: none;
-}
-
 .yoast-related-keyphrases-modal__chart {
 	display: block;
-}
-
-.yoast-wordproof-modal {
-	max-width: 380px;
-	text-align: center;
-}
-
-.yoast-wordproof-modal-image {
-	display: flex;
-	justify-content: center;
-	margin-block: 40px;
-}
-
-.yoast-wordproof-modal-svg__webhook-failed {
-	width: 100%;
-}
-
-.yoast-wordproof-modal-svg__success {
-	width: 175px;
-}
-
-.yoast-wordproof-modal-action {
-	display: flex;
-	justify-content: center;
-	margin-top: 40px;
-	margin-bottom: 10px;
-}
-
-/* Override default button padding. */
-.yoast-wordproof-modal-action.yoast-wordproof-modal-action > button {
-	padding-left: 20px;
-	padding-right: 20px;
 }

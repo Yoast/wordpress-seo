@@ -72,6 +72,7 @@ export const makeOutboundLink = ( Component = "a" ) => {
 				React.createElement(
 					A11yNotice,
 					null,
+					/* translators: Hidden accessibility text. */
 					__( "(Opens in a new browser tab)", "wordpress-seo" )
 				)
 			);

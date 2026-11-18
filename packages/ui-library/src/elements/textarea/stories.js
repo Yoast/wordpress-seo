@@ -1,33 +1,20 @@
-// eslint-disable react/display-name
-import { StoryComponent } from ".";
+import Textarea from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
+import { component } from "./docs";
 
-export default {
-	title: "1) Elements/Textarea",
-	component: StoryComponent,
-	argTypes: {
-		cols: {
-			table: {
-				defaultValue: { summary: 20 },
-			},
-		},
-		rows: {
-			table: {
-				defaultValue: { summary: 2 },
-			},
-		},
-	},
+export const Factory = {
 	parameters: {
-		docs: {
-			description: {
-				component: "A simple textarea component.",
-			},
-		},
+		controls: { disable: false },
 	},
 };
 
-export const Factory = {
-	component: ( args ) => <StoryComponent { ...args } />,
+export default {
+	title: "1) Elements/Textarea",
+	component: Textarea,
 	parameters: {
-		controls: { disable: false },
+		docs: {
+			description: { component },
+			page: InteractiveDocsPage,
+		},
 	},
 };

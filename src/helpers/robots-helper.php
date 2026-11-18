@@ -29,10 +29,7 @@ class Robots_Helper {
 	 * @param Post_Type_Helper $post_type_helper The Post_Type_Helper.
 	 * @param Taxonomy_Helper  $taxonomy_helper  The Taxonomy_Helper.
 	 */
-	public function __construct(
-		Post_Type_Helper $post_type_helper,
-		Taxonomy_Helper $taxonomy_helper
-	) {
+	public function __construct( Post_Type_Helper $post_type_helper, Taxonomy_Helper $taxonomy_helper ) {
 		$this->post_type_helper = $post_type_helper;
 		$this->taxonomy_helper  = $taxonomy_helper;
 	}
@@ -66,11 +63,6 @@ class Robots_Helper {
 	 * @return array The altered robots string.
 	 */
 	public function set_robots_no_index( $robots ) {
-		if ( ! \is_array( $robots ) ) {
-			\_deprecated_argument( __METHOD__, '14.1', '$robots has to be a key-value paired array.' );
-			return $robots;
-		}
-
 		$robots['index'] = 'noindex';
 
 		return $robots;

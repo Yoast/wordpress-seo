@@ -19,6 +19,7 @@ const INITIAL_STATE = {
 	limit: 10,
 	trackAll: false,
 	automaticallyTrack: false,
+	historyDaysLimit: 0,
 };
 /**
  * A reducer for the Wincher request.
@@ -33,7 +34,7 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 		case WINCHER_NEW_REQUEST:
 			return {
 				...state,
-			    limitReached: false,
+				limitReached: false,
 				isSuccess: false,
 				response: null,
 				isNewlyAuthenticated: false,

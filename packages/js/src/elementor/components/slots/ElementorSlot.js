@@ -1,5 +1,7 @@
 import { Slot } from "@wordpress/components";
 import sortComponentsByRenderPriority from "../../../helpers/sortComponentsByRenderPriority";
+import { ErrorBoundary } from "@yoast/ui-library";
+import { ElementorErrorFallback } from "../elementor-error-fallback";
 
 /**
  * Renders the Elementor slot.
@@ -8,8 +10,10 @@ import sortComponentsByRenderPriority from "../../../helpers/sortComponentsByRen
  */
 export default function ElementorSlot() {
 	return (
-		<Slot name="YoastElementor">
-			{ ( fills ) => sortComponentsByRenderPriority( fills ) }
-		</Slot>
+		<ErrorBoundary FallbackComponent={ ElementorErrorFallback }>
+			<Slot name="YoastElementor">
+				{ ( fills ) => sortComponentsByRenderPriority( fills ) }
+			</Slot>
+		</ErrorBoundary>
 	);
 }

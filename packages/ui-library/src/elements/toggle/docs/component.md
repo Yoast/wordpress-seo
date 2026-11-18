@@ -1,4 +1,4 @@
-A toggle switch allows users to switch between two states (on and off) by clicking or tapping on it. Toggle switches are commonly used in settings or options menus to enable or disable certain features or functions.
+Toggle switches enable users to switch between two states (on and off) by clicking or tapping on it. These switches are commonly used in settings or options menus to enable or disable certain features or functions.
 
 A toggle switch should always have:
 - a clear visual indication of its current state. This toggle has a purple background with a purple checkmark icon to indicate the "on" state, and a gray background with a gray cross icon to indicate the "off" state.

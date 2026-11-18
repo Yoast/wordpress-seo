@@ -1,10 +1,10 @@
-import { includes, map } from "lodash-es";
+import { includes, map } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { indices, values } = languageProcessing;
 const { getIndicesByWord, getIndicesByWordList } = indices;
 const { Clause } = values;
 
-import getParticiples from "../helpers/internal/getParticiples";
+import getParticiples from "../helpers/internal/getParticiples.js";
 import exceptionsParticiplesActive from "../config/internal/exceptionsParticiplesActive.js";
 import { participleLike as participleLikeAuxiliaries } from "../config/internal/passiveVoiceAuxiliaries.js";
 

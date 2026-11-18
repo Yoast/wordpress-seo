@@ -1,5 +1,4 @@
-/* global ajaxurl, ClipboardJS */
-
+/* global ajaxurl */
 import { __ } from "@wordpress/i18n";
 import { debounce } from "lodash";
 
@@ -77,7 +76,7 @@ export default function initAdmin( jQuery ) {
 	 *
 	 * @returns {void}
 	 */
-	 function setInitialActiveTab() {
+	function setInitialActiveTab() {
 		var activeTabId = window.location.hash.replace( "#top#", "" );
 		/* In some cases, the second # gets replace by %23, which makes the tab
 		 * switching not work unless we do this. */
@@ -108,7 +107,7 @@ export default function initAdmin( jQuery ) {
 	jQuery( window ).on( "hashchange", function() {
 		setInitialActiveTab();
 		wpseoSetTabHash();
-	 } );
+	} );
 
 	/**
 	 * Hides or shows the Author without posts toggle.
@@ -193,32 +192,7 @@ export default function initAdmin( jQuery ) {
 	}
 
 	/**
-	 * Initializes the Copy to clipboard button for the Zapier API Key.
-	 *
-	 * @returns {void}
-	 */
-	function initCopyZapierKeyToClipboard() {
-		if ( typeof ClipboardJS !== "undefined" ) {
-			const copyZapierKeyToClipboard = new ClipboardJS( "#copy-zapier-api-key" );
-
-			/**
-			 * Copies the Zapier API Key to the clipboard.
-			 *
-			 * @param {MouseEvent} event The click event on the Copy button.
-			 *
-			 * @return {void}
-			 */
-			copyZapierKeyToClipboard.on( "success", function( event ) {
-				// Clear the selection and move focus back to the trigger.
-				event.clearSelection();
-				// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
-				jQuery( event.trigger ).trigger( "focus" );
-			} );
-		}
-	}
-
-	/**
-	 * Checks wether or not the confirmation dialog should be displayed upom switching tab.
+	 * Checks whether or not the confirmation dialog should be displayed upon switching tab.
 	 *
 	 * @param {object} target The clicked tab.
 	 *
@@ -241,10 +215,8 @@ export default function initAdmin( jQuery ) {
 
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
-	// eslint-disable-next-line
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
-	// eslint-disable-next-line
 	jQuery( document ).ready( function() {
 		/**
 		 * When the hash changes, get the base url from the action and then add the current hash.
@@ -305,22 +277,6 @@ export default function initAdmin( jQuery ) {
 			jQuery( "#post_format-titles-metas" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).trigger( "change" );
 
-		// Toggle the Zapier connection section.
-		jQuery( "#zapier_integration_active input[type='radio']" ).on( "change", function() {
-			// The value on is enabled, off is disabled.
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#zapier-connection" ).toggle( jQuery( this ).val() === "on" );
-			}
-		} ).trigger( "change" );
-
-		// Toggle the Wincher section.
-		jQuery( "#wincher_integration_active input[type='radio']" ).change( function() {
-			// The value on is enabled, off is disabled.
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#wincher-connection" ).toggle( jQuery( this ).val() === "on" );
-			}
-		} ).change();
-
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function( event ) {
 			var canChangeTab = true;
@@ -347,9 +303,17 @@ export default function initAdmin( jQuery ) {
 
 				jQuery( window ).trigger( "yoast-seo-tab-change" );
 				if ( id === "first-time-configuration" ) {
-					jQuery( "#yoast-first-time-configuration-notice" ).slideUp();
+					// All notices when in the first time configuration tab.
+					jQuery( ".notice-yoast" ).slideUp();
+					// Hide the premium upsell when in the first time configuration tab.
+					jQuery( ".yoast_premium_upsell" ).slideUp();
+					jQuery( "#sidebar-container" ).hide();
 				} else {
-					jQuery( "#yoast-first-time-configuration-notice" ).slideDown();
+					// Show the notices when not in the first time configuration tab.
+					jQuery( ".notice-yoast" ).slideDown();
+					// Show the premium upsell when not in the first time configuration tab.
+					jQuery( ".yoast_premium_upsell" ).slideDown();
+					jQuery( "#sidebar-container" ).show();
 				}
 			} else {
 				// Re-establish the focus on the first time configuration tab if the user clicks 'Cancel' on the pop-up
@@ -411,6 +375,5 @@ export default function initAdmin( jQuery ) {
 		initXmlSitemapsWarning();
 		// Should be called after the initial active tab has been set.
 		setFixedSubmitButtonVisibility();
-		initCopyZapierKeyToClipboard();
 	} );
 }

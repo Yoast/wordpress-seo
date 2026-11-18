@@ -1,4 +1,8 @@
-import { deConstructAnchor, markWordsInSentences, reConstructAnchor } from "../../../../src/languageProcessing/helpers/word/markWordsInSentences";
+import {
+	deConstructAnchor,
+	markWordsInSentences,
+	markWordsInASentence,
+	reConstructAnchor } from "../../../../src/languageProcessing/helpers/word/markWordsInSentences";
 import Mark from "../../../../src/values/Mark";
 import matchWordCustomHelper from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 
@@ -84,6 +88,53 @@ describe( "Adds Yoast marks to specific words in a sentence", function() {
 			"en_EN"
 		) ).toEqual( [] );
 	} );
+
+	it( "should add Yoast marks to all instances of specified words in a sentence", function() {
+		expect( markWordsInASentence(
+			"A cat and a turtle and a hamster.",
+			[ "turtle", "hamster" ]
+		) ).toEqual( [ new Mark( {
+			marked: "A cat and a <yoastmark class='yoast-text-mark'>turtle</yoastmark> " +
+					"and a <yoastmark class='yoast-text-mark'>hamster</yoastmark>.",
+			original: "A cat and a turtle and a hamster." } ) ] );
+	} );
+
+	it( "should find a match of words with different types of apostrophe and add Yoast marks for them", () => {
+		let sentences = "The red panda’s coat is mainly red or orange-brown with a black belly and legs.";
+		let wordsToMark = [ "red", "panda's" ];
+		expect( markWordsInASentence( sentences, wordsToMark, false ) ).toEqual(
+			[ new Mark( {
+				marked: "The <yoastmark class='yoast-text-mark'>red panda’s</yoastmark> coat is mainly" +
+					" <yoastmark class='yoast-text-mark'>red</yoastmark> or orange-brown with a black belly and legs.",
+				original: "The red panda’s coat is mainly red or orange-brown with a black belly and legs." } ) ]
+		);
+
+		sentences = "The red panda's coat is mainly red or orange-brown with a black belly and legs.";
+		wordsToMark = [ "red", "panda’s" ];
+		expect( markWordsInASentence( sentences, wordsToMark, false ) ).toEqual(
+			[ new Mark( {
+				marked: "The <yoastmark class='yoast-text-mark'>red panda's</yoastmark> coat is mainly" +
+					" <yoastmark class='yoast-text-mark'>red</yoastmark> or orange-brown with a black belly and legs.",
+				original: "The red panda's coat is mainly red or orange-brown with a black belly and legs." } ) ]
+		);
+
+		sentences = "« The ‹black-footed› cat has tawny fur that is entirely covered with black spots. »";
+		wordsToMark = [ "black-footed", "cat" ];
+		expect( markWordsInASentence( sentences, wordsToMark, false ) ).toEqual(
+			[ new Mark( {
+				marked: "« The ‹<yoastmark class='yoast-text-mark'>black-footed</yoastmark>› <yoastmark class='yoast-text-mark'>cat</yoastmark> " +
+					"has tawny fur that is entirely covered with black spots. »",
+				original: "« The ‹black-footed› cat has tawny fur that is entirely covered with black spots. »" } ) ]
+		);
+
+		sentences = "The fo'c'sle is the upper deck of a sailing ship forward of the foremast.";
+		wordsToMark = [ "fo’c’sle" ];
+		expect( markWordsInASentence( sentences, wordsToMark, false ) ).toEqual(
+			[ new Mark( {
+				marked: "The <yoastmark class='yoast-text-mark'>fo'c'sle</yoastmark> is the upper deck of a sailing ship forward of the foremast.",
+				original: "The fo'c'sle is the upper deck of a sailing ship forward of the foremast." } ) ]
+		);
+	} );
 } );
 
 describe( "Adds Yoast marks to specific words in a sentence for languages with custom helper to match words", function() {
@@ -115,7 +166,7 @@ describe( "Adds Yoast marks to specific words in a sentence for languages with c
 			new Mark( {
 				marked: "<yoastmark class='yoast-text-mark'>小さい花の刺繍</yoastmark>しかし、それは在庫切れでしたマキシドレス。",
 				original: "小さい花の刺繍しかし、それは在庫切れでしたマキシドレス。" } ),
-		 ]
+		]
 		);
 	} );
 

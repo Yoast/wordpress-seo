@@ -1,23 +1,8 @@
 # Grunt aliases
 ---
-# Build everything
-build:
-  - 'build:translations'
-'build:translations':
-  - 'shell:makepot'
-# Check health of the project
-check:
-  - 'eslint'
+# Retrieve the Premium configuration files.
 'get-premium-configuration':
   - 'shell:get-current-branch'
   - 'shell:clone-premium-configuration'
   - 'shell:checkout-premium-configuration'
   - 'shell:pull-premium-configuration'
-# Default task
-default:
-  - check
-  - build
-# Create folder for npm publishing
-publish:
-  - 'clean:publish'
-  - 'copy:publish'

@@ -71,6 +71,22 @@ class Robots_Txt_Helper {
 	}
 
 	/**
+	 * Add schema to robots.txt if it does not exist yet.
+	 *
+	 * @phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+	 *
+	 * @deprecated 27.5
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $absolute_path The absolute path to the sitemap to add.
+	 *
+	 * @return void
+	 */
+	public function add_schemamap( $absolute_path ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+		\_deprecated_function( __METHOD__, 'Yoast SEO 27.5' );
+	}
+
+	/**
 	 * Get all registered disallow directives per user agent.
 	 *
 	 * @return array The registered disallow directives per user agent.
@@ -91,10 +107,23 @@ class Robots_Txt_Helper {
 	/**
 	 * Get all registered sitemap rules.
 	 *
-	 * @return array The registered sitemap rules.
+	 * @return array<string> The registered sitemap rules.
 	 */
 	public function get_sitemap_rules() {
 		return $this->robots_txt_sitemaps;
+	}
+
+	/**
+	 * Get all registered schemamap rules.
+	 *
+	 * @deprecated 27.5
+	 * @codeCoverageIgnore
+	 *
+	 * @return array<string> The registered schemamap rules.
+	 */
+	public function get_schemamap_rules() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 27.5' );
+		return [];
 	}
 
 	/**

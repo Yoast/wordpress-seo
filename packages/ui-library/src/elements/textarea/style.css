@@ -5,17 +5,18 @@
 			yst-w-full
 			yst-py-2
 			yst-px-3
-			yst-border
-			yst-border-slate-300
+			yst-border-0
+			yst-ring-1
+			yst-ring-inset
+			yst-ring-slate-300
 			yst-rounded-md
 			yst-shadow-sm
 			yst-bg-white
 			yst-text-sm
 			yst-text-slate-800
-			yst-placeholder-slate-500
 			focus:yst-outline-none
 			focus:yst-ring-primary-500
-			focus:yst-border-primary-500;
+			focus:yst-ring-2;
 		}
 
 		.yst-textarea--disabled {

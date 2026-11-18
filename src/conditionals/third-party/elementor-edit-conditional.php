@@ -18,22 +18,52 @@ class Elementor_Edit_Conditional implements Conditional {
 	public function is_met() {
 		global $pagenow;
 
+		// Editing a post/page in Elementor.
+		if ( $pagenow === 'post.php' && $this->is_elementor_get_action() ) {
+			return true;
+		}
+
+		// Request for us saving a post/page in Elementor (submits our form via AJAX).
+		return \wp_doing_ajax() && $this->is_yoast_save_post_action();
+	}
+
+	/**
+	 * Checks if the current request' GET action is 'elementor'.
+	 *
+	 * @return bool True when the GET action is 'elementor'.
+	 */
+	private function is_elementor_get_action(): bool {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-		if ( isset( $_GET['action'] ) && \is_string( $_GET['action'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only strictly comparing.
-			$get_action = \wp_unslash( $_GET['action'] );
-			if ( $pagenow === 'post.php' && $get_action === 'elementor' ) {
-				return true;
-			}
+		if ( ! isset( $_GET['action'] ) ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( ! \is_string( $_GET['action'] ) ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, we are only strictly comparing.
+		return \wp_unslash( $_GET['action'] ) === 'elementor';
+	}
+
+	/**
+	 * Checks if the current request' POST action is 'wpseo_elementor_save'.
+	 *
+	 * @return bool True when the POST action is 'wpseo_elementor_save'.
+	 */
+	private function is_yoast_save_post_action(): bool {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
+		if ( ! isset( $_POST['action'] ) ) {
+			return false;
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
-		if ( isset( $_POST['action'] ) && \is_string( $_POST['action'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only strictly comparing.
-			$post_action = \wp_unslash( $_POST['action'] );
-			return \wp_doing_ajax() && $post_action === 'wpseo_elementor_save';
+		if ( ! \is_string( $_POST['action'] ) ) {
+			return false;
 		}
 
-		return false;
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, we are only strictly comparing.
+		return \wp_unslash( $_POST['action'] ) === 'wpseo_elementor_save';
 	}
 }

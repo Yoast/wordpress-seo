@@ -5,6 +5,9 @@
  * @package WPSEO\Admin\Tracking
  */
 
+use Yoast\WP\SEO\Analytics\Application\Missing_Indexables_Collector;
+use Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector;
+
 /**
  * This class handles the tracking routine.
  */
@@ -56,6 +59,8 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		if ( ! $this->tracking_enabled() ) {
@@ -107,6 +112,8 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 *
 	 * @param bool $force Whether to send the tracking data ignoring the two
 	 *                    weeks time threshold. Default false.
+	 *
+	 * @return void
 	 */
 	public function send( $force = false ) {
 		if ( ! $this->should_send_tracking( $force ) ) {
@@ -189,6 +196,8 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 		$collector->add_collection( new WPSEO_Tracking_Plugin_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Settings_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Addon_Data() );
+		$collector->add_collection( YoastSEO()->classes->get( Missing_Indexables_Collector::class ) );
+		$collector->add_collection( YoastSEO()->classes->get( To_Be_Cleaned_Indexables_Collector::class ) );
 
 		return $collector;
 	}
@@ -211,7 +220,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			/**
 			 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium and add-ons.
 			 *
-			 * @api string $is_enabled The enabled state. Default is false.
+			 * @param string|false $is_enabled The enabled state. Default is false.
 			 */
 			$tracking = apply_filters( 'wpseo_enable_tracking', false );
 

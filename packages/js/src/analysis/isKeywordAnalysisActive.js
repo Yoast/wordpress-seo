@@ -10,5 +10,5 @@ import { get } from "lodash";
 export default function isKeywordAnalysisActive() {
 	const l10nObject = getL10nObject();
 
-	return get( l10nObject, "keywordAnalysisActive", 0 ) === 1;
+	return get( l10nObject, "keywordAnalysisActive", false ) === true;
 }

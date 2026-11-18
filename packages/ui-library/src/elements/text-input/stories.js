@@ -1,21 +1,31 @@
-// eslint-disable react/display-name
-import { StoryComponent } from ".";
+import React from "react";
+import TextInput from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
+import { component } from "./docs";
 
-export default {
-	title: "1) Elements/Text input",
-	component: StoryComponent,
+export const Factory = {
 	parameters: {
-		docs: {
-			description: {
-				component: "A simple text input component. Accept all props of a regular input element.",
-			},
-		},
+		controls: { disable: false },
 	},
 };
 
-export const Factory = {
-	component: ( args ) => <StoryComponent { ...args } />,
+export const DatePicker = {
+	name: "Date picker input",
 	parameters: {
 		controls: { disable: false },
+	},
+	args: {
+		type: "date",
+	},
+};
+
+export default {
+	title: "1) Elements/Text input",
+	component: TextInput,
+	parameters: {
+		docs: {
+			description: { component },
+			page: () => <InteractiveDocsPage stories={ [ DatePicker ] } />,
+		},
 	},
 };

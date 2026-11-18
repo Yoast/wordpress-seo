@@ -1,5 +1,7 @@
-// eslint-disable-next-line max-len
-import { isParticiple, isFollowedByParticiple } from "../../../../../src/scoring/assessments/inclusiveLanguage/helpers/isFollowedByParticiple";
+import {
+	isParticiple,
+	isFollowedByParticiple,
+} from "../../../../../src/scoring/assessments/inclusiveLanguage/helpers/isFollowedByParticiple";
 
 describe( "test the isParticiple function", () => {
 	it( "returns true if a word is a regular participle", () => {
@@ -20,7 +22,7 @@ describe( "test isFollowedByParticiple and isNotFollowedByParticiple", () => {
 		const callback = isFollowedByParticiple( words, consecutiveWords );
 		const index = 1;
 
-		// eslint-disable-next-line callback-return
+
 		expect( callback( index ) ).toEqual( true );
 	} );
 	it( "returns the right value when term is NOT followed by a participle", () => {
@@ -29,7 +31,7 @@ describe( "test isFollowedByParticiple and isNotFollowedByParticiple", () => {
 		const callback = isFollowedByParticiple( words, consecutiveWords );
 		const index = 1;
 
-		// eslint-disable-next-line callback-return
+
 		expect( callback( index ) ).toEqual( false );
 	} );
 } );

@@ -1,12 +1,14 @@
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../specHelpers/getResearcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
-import getWordComplexityConfig from "../specHelpers/getWordComplexityConfig";
-import getWordComplexityHelper from "../specHelpers/getWordComplexityHelper";
-// Import SEO assessments.
+import getWordComplexityConfig from "../../src/helpers/getWordComplexityConfig";
+import getWordComplexityHelper from "../../src/helpers/getWordComplexityHelper";
+import buildTree from "../specHelpers/parse/buildTree";
+
+// Import SEO assessments
 import IntroductionKeywordAssessment from "../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "../../src/scoring/assessments/seo/KeywordDensityAssessment";
+import KeyphraseDensityAssessment from "../../src/scoring/assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeywordAssessment from "../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
@@ -18,9 +20,9 @@ import KeyphraseInSEOTitleAssessment from "../../src/scoring/assessments/seo/Key
 import TitleWidthAssessment from "../../src/scoring/assessments/seo/PageTitleWidthAssessment";
 import SlugKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
-import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";
 import TextTitleAssessment from "../../src/scoring/assessments/seo/TextTitleAssessment";
+
 // Import readability/content assessments.
 import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
@@ -42,7 +44,6 @@ import { getLanguagesWithWordComplexity } from "../../src/helpers";
 import testPapers from "./testTexts";
 
 testPapers.forEach( function( testPaper ) {
-	// eslint-disable-next-line max-statements
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
 		const locale = paper.getLocale();
@@ -59,6 +60,8 @@ testPapers.forEach( function( testPaper ) {
 			researcher.addConfig( "wordComplexity", getWordComplexityConfig( language ) );
 		}
 		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
+
+		buildTree( paper, researcher );
 
 		const expectedResults = testPaper.expectedResults;
 
@@ -91,7 +94,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the keywordDensity assessment", function() {
-			compare( new KeywordDensityAssessment(), expectedResults.keywordDensity );
+			compare( new KeyphraseDensityAssessment(), expectedResults.keywordDensity );
 		} );
 
 		it( "returns a score and the associated feedback text for the metaDescriptionKeyword assessment", function() {
@@ -169,10 +172,6 @@ testPapers.forEach( function( testPaper ) {
 
 		it( "returns a score and the associated feedback text for the sentenceBeginnings assessment", function() {
 			compare( new SentenceBeginningsAssessment(), expectedResults.sentenceBeginnings );
-		} );
-
-		it( "returns a score and the associated feedback text for the imageKeyphrase assessment", function() {
-			compare( new ImageKeyphraseAssessment(), expectedResults.imageKeyphrase );
 		} );
 
 		it( "returns a score and the associated feedback text for the imageCount assessment", function() {

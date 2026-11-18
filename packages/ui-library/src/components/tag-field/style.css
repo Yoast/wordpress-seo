@@ -3,7 +3,11 @@
 		.yst-tag-field--disabled {
 			.yst-tag-field__label,
 			.yst-tag-field__description {
-				@apply yst-opacity-50 yst-cursor-not-allowed;
+				@apply yst-opacity-50;
+			}
+
+			.yst-tag-field__label {
+				@apply yst-cursor-not-allowed;
 			}
 		}
 

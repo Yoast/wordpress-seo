@@ -1,4 +1,4 @@
-import SourceCodeLocation from "./SourceCodeLocation";
+import SourceCodeLocation from "./SourceCodeLocation.js";
 
 /**
  * Represents formatting elements (e.g. link, image, bold text) within a document.

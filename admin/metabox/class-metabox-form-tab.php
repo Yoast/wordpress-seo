@@ -115,7 +115,7 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 			( $this->link_class !== '' ) ? ' ' . esc_attr( $this->link_class ) : '',
 			( $this->link_title !== '' ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
 			( $this->link_aria_label !== '' ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
-			$this->link_content
+			$this->link_content,
 		);
 	}
 
@@ -129,7 +129,7 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 			'<div id="%1$s" class="wpseotab %2$s">%3$s</div>',
 			esc_attr( 'wpseo_' . $this->name ),
 			esc_attr( $this->name ),
-			$this->content
+			$this->content,
 		);
 	}
 }

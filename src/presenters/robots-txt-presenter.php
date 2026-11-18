@@ -9,37 +9,37 @@ use Yoast\WP\SEO\Helpers\Robots_Txt_Helper;
  */
 class Robots_Txt_Presenter extends Abstract_Presenter {
 
-	const YOAST_OUTPUT_BEFORE_COMMENT = '# START YOAST BLOCK' . \PHP_EOL . '# ---------------------------' . \PHP_EOL;
+	public const YOAST_OUTPUT_BEFORE_COMMENT = '# START YOAST BLOCK' . \PHP_EOL . '# ---------------------------' . \PHP_EOL;
 
-	const YOAST_OUTPUT_AFTER_COMMENT = '# ---------------------------' . \PHP_EOL . '# END YOAST BLOCK';
+	public const YOAST_OUTPUT_AFTER_COMMENT = '# ---------------------------' . \PHP_EOL . '# END YOAST BLOCK';
 
 	/**
 	 * Text to be outputted for the allow directive.
 	 *
 	 * @var string
 	 */
-	const ALLOW_DIRECTIVE = 'Allow';
+	public const ALLOW_DIRECTIVE = 'Allow';
 
 	/**
 	 * Text to be outputted for the disallow directive.
 	 *
 	 * @var string
 	 */
-	const DISALLOW_DIRECTIVE = 'Disallow';
+	public const DISALLOW_DIRECTIVE = 'Disallow';
 
 	/**
 	 * Text to be outputted for the user-agent rule.
 	 *
 	 * @var string
 	 */
-	const USER_AGENT_FIELD = 'User-agent';
+	public const USER_AGENT_FIELD = 'User-agent';
 
 	/**
 	 * Text to be outputted for the sitemap rule.
 	 *
 	 * @var string
 	 */
-	const SITEMAP_FIELD = 'Sitemap';
+	public const SITEMAP_FIELD = 'Sitemap';
 
 	/**
 	 * Holds the Robots_Txt_Helper.
@@ -121,13 +121,12 @@ class Robots_Txt_Presenter extends Abstract_Presenter {
 	private function handle_user_agents( $robots_txt_content ) {
 		$user_agents = $this->robots_txt_helper->get_robots_txt_user_agents();
 
-		if ( \count( $user_agents ) !== 0 ) {
-			$robots_txt_content = $this->add_user_agent_directives( $user_agents, $robots_txt_content );
-		}
-		else {
+		if ( ! isset( $user_agents['*'] ) ) {
 			$robots_txt_content .= 'User-agent: *' . \PHP_EOL;
 			$robots_txt_content .= 'Disallow:' . \PHP_EOL . \PHP_EOL;
 		}
+
+		$robots_txt_content = $this->add_user_agent_directives( $user_agents, $robots_txt_content );
 
 		return $robots_txt_content;
 	}
@@ -147,5 +146,22 @@ class Robots_Txt_Presenter extends Abstract_Presenter {
 		}
 
 		return $robots_txt_content;
+	}
+
+	/**
+	 * Handles adding schema map content to the robots txt content.
+	 *
+	 * @phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+	 *
+	 * @deprecated 27.5
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $robots_txt_content The current working robots txt string.
+	 *
+	 * @return string
+	 */
+	private function handle_schema_maps( $robots_txt_content ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 27.5' );
+		return '';
 	}
 }

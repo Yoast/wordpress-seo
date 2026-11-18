@@ -25,18 +25,19 @@ function fetchUsers( query = "" ) {
 }
 
 /**
- * A user selector based on a headlessui combobox.
+ * A user selector based on a HeadlessUI combobox.
  *
- * @param {Object}   props                    The props.
- * @param {Object}   props.initialValue       The option selected by default in the combo box select with shape {id, name}.
- * @param {number}   props.initialValue.value The id of the selected user.
- * @param {string}   props.initialValue.label The name of the selected user.
- * @param {function} props.onChangeCallback   Function to manage a selected option.
- * @param {string}   props.placeholder        YoastCombobox text input placeholder.
+ * @param {{id: number, name: string}} [initialValue] The option selected by default in the combo box select.
+ * @param {function} [onChangeCallback=noop] Function to manage a selected option.
+ * @param {string} [placeholder] YoastCombobox text input placeholder.
  *
- * @returns {WPElement} A user selector based on a headlessui combobox.
+ * @returns {JSX.Element} A user selector based on a HeadlessUI combobox.
  */
-export default function UserSelector( { initialValue, onChangeCallback, placeholder } ) {
+export default function UserSelector( {
+	initialValue = { id: 0, name: "" },
+	onChangeCallback = noop,
+	placeholder = __( "Select a user", "wordpress-seo" ),
+} ) {
 	const [ users, setUsers ] = useState( [] );
 	const [ selectedPerson, setSelectedPerson ] = useState( {
 		value: initialValue.id,
@@ -92,13 +93,4 @@ UserSelector.propTypes = {
 	} ),
 	onChangeCallback: PropTypes.func,
 	placeholder: PropTypes.string,
-};
-
-UserSelector.defaultProps = {
-	initialValue: {
-		id: 0,
-		name: "",
-	},
-	onChangeCallback: noop,
-	placeholder: __( "Select a user", "wordpress-seo" ),
 };

@@ -1,9 +1,14 @@
+/* eslint-disable complexity */
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Select from "../../elements/select";
 import { ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
-import { forwardRef } from "@wordpress/element";
+
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_VALIDATION = {};
+
 /**
  * @param {string} id Identifier.
  * @param {JSX.Element} error Error node.
@@ -17,10 +22,10 @@ import { forwardRef } from "@wordpress/element";
 const SelectField = forwardRef( ( {
 	id,
 	label,
-	description,
-	disabled,
-	validation,
-	className,
+	description = null,
+	disabled = false,
+	validation = DEFAULT_VALIDATION,
+	className = "",
 	...props
 }, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
@@ -51,9 +56,9 @@ const SelectField = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+SelectField.displayName = "SelectField";
+SelectField.propTypes = {
 	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	description: PropTypes.node,
 	disabled: PropTypes.bool,
@@ -64,21 +69,7 @@ const propTypes = {
 	className: PropTypes.string,
 };
 
-SelectField.propTypes = propTypes;
-
 SelectField.Option = Select.Option;
 SelectField.Option.displayName = "SelectField.Option";
-
-SelectField.defaultProps = {
-	disabled: false,
-	validation: {},
-	className: "",
-};
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <SelectField { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = SelectField.defaultProps;
-StoryComponent.displayName = "SelectField";
 
 export default SelectField;

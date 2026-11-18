@@ -62,6 +62,8 @@ class Yoast_Input_Select {
 
 	/**
 	 * Print the rendered view.
+	 *
+	 * @return void
 	 */
 	public function output_html() {
 		// Extract it, because we want each value accessible via a variable instead of accessing it as an array.
@@ -91,6 +93,8 @@ class Yoast_Input_Select {
 	 *
 	 * @param string $attribute The name of the attribute to add.
 	 * @param string $value     The value of the attribute.
+	 *
+	 * @return void
 	 */
 	public function add_attribute( $attribute, $value ) {
 		$this->select_attributes[ $attribute ] = $value;
@@ -133,6 +137,8 @@ class Yoast_Input_Select {
 	 *
 	 * @param string $value     The value of the attribute.
 	 * @param string $attribute The attribute to look for.
+	 *
+	 * @return void
 	 */
 	private function parse_attribute( &$value, $attribute ) {
 		$value = sprintf( '%s="%s"', sanitize_key( $attribute ), esc_attr( $value ) );

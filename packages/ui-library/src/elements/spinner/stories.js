@@ -1,9 +1,53 @@
-import { classNameMap, StoryComponent } from ".";
 import { keys } from "lodash";
+import React from "react";
+import Spinner, { classNameMap } from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
+import { component, sizes, variants } from "./docs";
+
+const WithBlackBackground = ( { withBlackBackground = true, children } ) => (
+	<div className="yst-relative yst-w-fit">
+		{ withBlackBackground && <div className="yst-absolute yst-inset-0 yst--m-2 yst-bg-black" /> }
+		{ children }
+	</div>
+);
+
+export const Factory = {
+	parameters: {
+		controls: { disable: false },
+	},
+};
+
+export const Variants = {
+	render: ( args ) => (
+		<div className="yst-flex yst-gap-5">
+			<Spinner variant="default" />
+			<Spinner variant="primary" />
+			<WithBlackBackground>
+				<Spinner variant="white" />
+			</WithBlackBackground>
+		</div>
+	),
+	parameters: {
+		docs: { description: { story: variants } },
+	},
+};
+
+export const Sizes = {
+	render: ( args ) => (
+		<div className="yst-flex yst-gap-5">
+			<Spinner size="3" />
+			<Spinner size="4" />
+			<Spinner size="8" />
+		</div>
+	),
+	parameters: {
+		docs: { description: { story: sizes } },
+	},
+};
 
 export default {
 	title: "1) Elements/Spinner",
-	component: StoryComponent,
+	component: Spinner,
 	argTypes: {
 		className: { control: "text" },
 		variant: {
@@ -24,33 +68,15 @@ export default {
 	},
 	parameters: {
 		docs: {
-			description: {
-				component: "A simple spinner component.",
-			},
+			description: { component },
+			page: () => <InteractiveDocsPage stories={ [ Variants, Sizes ] } />,
 		},
 	},
+	decorators: [
+		( Story, context ) => (
+			<WithBlackBackground withBlackBackground={ context.args.variant === "white" }>
+				<Story />
+			</WithBlackBackground>
+		),
+	],
 };
-
-export const Factory = ( args ) => (
-	<div className={ args.variant ? "white" && "yst-bg-black yst-w-14 yst-p-2" : "" }>
-		<StoryComponent { ...args } />
-	</div>
-);
-
-export const Variants = ( args ) => (
-	<div className="yst-flex yst-gap-5">
-		<StoryComponent variant="default" />
-		<StoryComponent variant="primary" />
-		<div className="yst-bg-black yst-p-2">
-			<StoryComponent variant="white" />
-		</div>
-	</div>
-);
-
-export const Sizes = ( args ) => (
-	<div className="yst-flex yst-gap-5">
-		<StoryComponent size="3" />
-		<StoryComponent size="4" />
-		<StoryComponent size="8" />
-	</div>
-);

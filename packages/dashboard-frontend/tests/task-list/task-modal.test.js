@@ -1,0 +1,354 @@
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { TaskModal } from "../../src/task-list/components/task-modal";
+import { TaskListProvider } from "../../src/task-list/task-list-context";
+
+describe( "TaskModal", () => {
+	const defaultProps = {
+		isOpen: true,
+		onClose: jest.fn(),
+		callToAction: {
+			label: "Start configuration",
+			onClick: jest.fn(),
+			type: "create",
+			href: null,
+		},
+		title: "Complete the First-time configuration",
+		duration: 15,
+		priority: "high",
+		taskId: "task-1",
+		about: "<p>Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs. Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively.</p>",
+		isCompleted: false,
+	};
+
+	it( "renders the modal when open", () => {
+		render(
+			<TaskListProvider locale="en-US">
+				<TaskModal { ...defaultProps } />
+			</TaskListProvider>
+		);
+		expect( screen.getByText( /Complete the First-time configuration/i ) ).toBeInTheDocument();
+	} );
+
+	it( "displays the duration and unit", () => {
+		render(
+			<TaskListProvider locale="en-US">
+				<TaskModal { ...defaultProps } />
+			</TaskListProvider>
+		);
+		expect( screen.queryByText( "15m" ) ).toBeInTheDocument();
+	} );
+
+	it( "shows the correct priority label", () => {
+		render(
+			<TaskListProvider locale="en-US">
+				<TaskModal { ...defaultProps } />
+			</TaskListProvider>
+		);
+		expect( screen.getByText( /High/i ) ).toBeInTheDocument();
+	} );
+
+	it( "renders the about copy", () => {
+		render(
+			<TaskListProvider locale="en-US">
+				<TaskModal { ...defaultProps } />
+			</TaskListProvider>
+		);
+		expect( screen.getByText( "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs. Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively." ) ).toBeInTheDocument();
+	} );
+
+	it( "calls onClose when Close button is clicked, for both header and footer", () => {
+		const onClose = jest.fn();
+		render(
+			<TaskListProvider locale="en-US">
+				<TaskModal { ...defaultProps } onClose={ onClose } isOpen={ true } />
+			</TaskListProvider>
+		);
+		const closeButton = screen.getAllByRole( "button", { name: /close/i } );
+		// Tests for each close button.
+		closeButton.forEach( button => {
+			fireEvent.click( button );
+			expect( onClose ).toHaveBeenCalled();
+		} );
+	} );
+
+	it( "calls callToAction onClick when CTA button is clicked", () => {
+		render(
+			<TaskListProvider locale="en-US">
+				<TaskModal { ...defaultProps } />
+			</TaskListProvider>
+		);
+		fireEvent.click( screen.getByText( /Start configuration/i ) );
+		expect( defaultProps.callToAction.onClick ).toHaveBeenCalled();
+	} );
+
+	describe( "when isCompleted is true", () => {
+		const completedProps = {
+			...defaultProps,
+			isCompleted: true,
+		};
+
+		it( "disables the CTA button", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...completedProps } />
+				</TaskListProvider>
+			);
+			const ctaButton = screen.getByText( /Start configuration/i ).closest( "button" );
+			expect( ctaButton ).toBeDisabled();
+		} );
+
+		it( "applies gray styling to the title", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...completedProps } />
+				</TaskListProvider>
+			);
+			const title = screen.getByText( /Complete the First-time configuration/i );
+			expect( title ).toHaveClass( "yst-text-slate-500" );
+		} );
+
+		it( "displays duration as 0m and priority information", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...completedProps } />
+				</TaskListProvider>
+			);
+			expect( screen.getByText( "0m" ) ).toBeInTheDocument();
+			expect( screen.getByText( /High/i ) ).toBeInTheDocument();
+		} );
+		it( "should display the correct status icon when isCompleted is true", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...completedProps } />
+				</TaskListProvider>
+			);
+			const statusIcon = screen.getByRole( "img", { name: /task completed/i } );
+			expect( statusIcon ).toBeInTheDocument();
+		} );
+	} );
+
+	describe( "when isCompleted is false", () => {
+		it( "does not apply gray styling to the title", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...defaultProps } />
+				</TaskListProvider>
+			);
+			const title = screen.getByText( /Complete the First-time configuration/i );
+			expect( title ).not.toHaveClass( "yst-text-slate-500" );
+		} );
+
+		it( "enables the CTA button", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...defaultProps } />
+				</TaskListProvider>
+			);
+			const ctaButton = screen.getByText( /Start configuration/i ).closest( "button" );
+			expect( ctaButton ).not.toBeDisabled();
+		} );
+
+		it( "should display the correct status icon when isCompleted is false", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...defaultProps } />
+				</TaskListProvider>
+			);
+			const statusIcon = screen.getByRole( "img", { name: /task not completed/i } );
+			expect( statusIcon ).toBeInTheDocument();
+		} );
+	} );
+
+	describe( "when isLoading is true", () => {
+		const loadingProps = {
+			...defaultProps,
+			isLoading: true,
+		};
+
+		it( "should display the loading status icon", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...loadingProps } />
+				</TaskListProvider>
+			);
+			const statusIcon = screen.getByRole( "img", { name: /task loading/i } );
+			expect( statusIcon ).toBeInTheDocument();
+		} );
+
+		it( "passes isLoading prop to the CallToActionButton", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...loadingProps } />
+				</TaskListProvider>
+			);
+			const ctaButton = screen.getByText( /Generating…/i ).closest( "button" );
+			expect( ctaButton ).toBeInTheDocument();
+		} );
+
+		it( "shows loading text instead of original CTA label", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...loadingProps } />
+				</TaskListProvider>
+			);
+			expect( screen.queryByText( /Start configuration/i ) ).not.toBeInTheDocument();
+			expect( screen.getByText( /Generating…/i ) ).toBeInTheDocument();
+		} );
+
+		it( "still renders modal content correctly while loading", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...loadingProps } />
+				</TaskListProvider>
+			);
+			expect( screen.getByText( /Complete the First-time configuration/i ) ).toBeInTheDocument();
+			expect( screen.getByText( "15m" ) ).toBeInTheDocument();
+			expect( screen.getByText( /High/i ) ).toBeInTheDocument();
+			expect(
+				screen.getByText( /Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs/i )
+			).toBeInTheDocument();
+		} );
+
+		describe( "with delete type CTA", () => {
+			const deleteLoadingProps = {
+				...loadingProps,
+				callToAction: {
+					...loadingProps.callToAction,
+					type: "delete",
+					label: "Delete task",
+				},
+			};
+
+			it( "shows 'Deleting…' text for delete type CTA when loading", () => {
+				render(
+					<TaskListProvider locale="en-US">
+						<TaskModal { ...deleteLoadingProps } />
+					</TaskListProvider>
+				);
+				expect( screen.queryByText( /Delete task/i ) ).not.toBeInTheDocument();
+				expect( screen.getByText( /Deleting…/i ) ).toBeInTheDocument();
+			} );
+		} );
+	} );
+	describe( "when isError is true", () => {
+		const errorProps = {
+			...defaultProps,
+			isError: true,
+			errorMessage: "Custom error message.",
+		};
+
+		it( "renders the error alert", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...errorProps } />
+				</TaskListProvider>
+			);
+			expect( screen.getByRole( "alert" ) ).toBeInTheDocument();
+			expect( screen.getByText( /Oops! Something went wrong./i ) ).toBeInTheDocument();
+			expect( screen.getByText( /Custom error message./i ) ).toBeInTheDocument();
+		} );
+
+		it( "displays default message when no errorMessage is provided", () => {
+			const noMessageProps = {
+				...defaultProps,
+				isError: true,
+			};
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...noMessageProps } />
+				</TaskListProvider>
+			);
+			expect( screen.getByRole( "alert" ) ).toBeInTheDocument();
+			expect( screen.getByText( /Oops! Something went wrong./i ) ).toBeInTheDocument();
+			expect( screen.getByText( /Please try again./i ) ).toBeInTheDocument();
+		} );
+	} );
+
+	describe( "when analyzer prop is provided", () => {
+		const analyzerProps = {
+			...defaultProps,
+			analyzer: {
+				type: "score",
+				title: "SEO Analysis",
+				result: "good",
+				resultLabel: "Good",
+				resultDescription: "This post's SEO is looking good. Your content should perform well across search engines and AI systems.",
+			},
+		};
+
+		it( "renders the TaskAnalyzer component", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...analyzerProps } />
+				</TaskListProvider>
+			);
+			expect( screen.getByText( "SEO Analysis" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Good" ) ).toBeInTheDocument();
+			expect( screen.getByText( "This post's SEO is looking good. Your content should perform well across search engines and AI systems." ) ).toBeInTheDocument();
+		} );
+
+		it( "renders TaskAnalyzer with readability score", () => {
+			const readabilityProps = {
+				...defaultProps,
+				analyzer: {
+					type: "score",
+					title: "Readability",
+					result: "bad",
+					resultLabel: "Needs improvement",
+					resultDescription: "This post's readability needs work. Consider simplifying sentences and using shorter paragraphs.",
+				},
+			};
+
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...readabilityProps } />
+				</TaskListProvider>
+			);
+			expect( screen.getByText( "Readability" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Needs improvement" ) ).toBeInTheDocument();
+			expect( screen.getByText( "This post's readability needs work. Consider simplifying sentences and using shorter paragraphs." ) ).toBeInTheDocument();
+		} );
+
+		it( "renders TaskAnalyzer with ok score", () => {
+			const okScoreProps = {
+				...defaultProps,
+				analyzer: {
+					type: "score",
+					title: "SEO Analysis",
+					result: "ok",
+					resultLabel: "OK",
+					resultDescription: "This post's SEO is okay, but there's room for improvement.",
+				},
+			};
+
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...okScoreProps } />
+				</TaskListProvider>
+			);
+			expect( screen.getByText( "SEO Analysis" ) ).toBeInTheDocument();
+			expect( screen.getByText( "OK" ) ).toBeInTheDocument();
+		} );
+
+		it( "does not render TaskAnalyzer when analyzer prop is null", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...defaultProps } analyzer={ null } />
+				</TaskListProvider>
+			);
+			expect( screen.queryByText( "SEO Analysis" ) ).not.toBeInTheDocument();
+			expect( screen.queryByText( "Readability" ) ).not.toBeInTheDocument();
+		} );
+
+		it( "does not render TaskAnalyzer when analyzer prop is undefined", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...defaultProps } />
+				</TaskListProvider>
+			);
+			expect( screen.queryByText( "SEO Analysis" ) ).not.toBeInTheDocument();
+			expect( screen.queryByText( "Readability" ) ).not.toBeInTheDocument();
+		} );
+	} );
+} );

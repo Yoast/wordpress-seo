@@ -78,7 +78,8 @@ class WPSEO_Premium_Popup {
 		$assets_uri = trailingslashit( plugin_dir_url( WPSEO_FILE ) );
 
 		/* translators: %s expands to Yoast SEO Premium */
-		$cta_text        = esc_html( sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ) );
+		$cta_text = esc_html( sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ) );
+		/* translators: Hidden accessibility text. */
 		$new_tab_message = '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>';
 		$caret_icon      = '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 		$classes         = '';
@@ -89,7 +90,7 @@ class WPSEO_Premium_Popup {
 
 		$popup = <<<EO_POPUP
 <div id="wpseo-{$this->identifier}-popup" class="wpseo-premium-popup wp-clearfix$classes">
-	<img class="alignright wpseo-premium-popup-icon" src="{$assets_uri}packages/js/images/Yoast_SEO_Icon.svg" width="150" height="150" alt="Yoast SEO"/>
+	<img class="alignright wpseo-premium-popup-icon" src="{$assets_uri}packages/js/images/Yoast_SEO_Icon.svg" width="150" height="150" alt="Yoast SEO" />
 	<{$this->heading_level} id="wpseo-contact-support-popup-title" class="wpseo-premium-popup-title">{$this->title}</{$this->heading_level}>
 	{$this->content}
 	<a id="wpseo-{$this->identifier}-popup-button" class="yoast-button-upsell" href="{$this->url}" target="_blank">

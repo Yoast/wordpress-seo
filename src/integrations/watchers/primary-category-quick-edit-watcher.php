@@ -104,6 +104,8 @@ class Primary_Category_Quick_Edit_Watcher implements Integration_Interface {
 	 * @param array  $terms     Unused. An array of object terms.
 	 * @param array  $tt_ids    An array of term taxonomy IDs.
 	 * @param string $taxonomy  Taxonomy slug.
+	 *
+	 * @return void
 	 */
 	public function validate_primary_category( $object_id, $terms, $tt_ids, $taxonomy ) {
 		$post = \get_post( $object_id );
@@ -159,6 +161,8 @@ class Primary_Category_Quick_Edit_Watcher implements Integration_Interface {
 	 *
 	 * @param int    $post_id       The post id to set primary taxonomy for.
 	 * @param string $main_taxonomy Name of the taxonomy that is set to be the primary one.
+	 *
+	 * @return void
 	 */
 	private function remove_primary_term( $post_id, $main_taxonomy ) {
 		$primary_term = $this->primary_term_repository->find_by_post_id_and_taxonomy( $post_id, $main_taxonomy, false );
@@ -174,6 +178,8 @@ class Primary_Category_Quick_Edit_Watcher implements Integration_Interface {
 	 * Builds the hierarchy for a post.
 	 *
 	 * @param WP_Post $post The post.
+	 *
+	 * @return void
 	 */
 	public function build_post_hierarchy( $post ) {
 		if ( $this->post_type_helper->is_excluded( $post->post_type ) ) {

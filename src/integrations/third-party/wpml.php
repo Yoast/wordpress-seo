@@ -35,6 +35,8 @@ class WPML implements Integration_Interface {
 
 	/**
 	 * Adds a filter to WPML's wpml_get_home_url filter to ensure we get the unmanipulated home URL.
+	 *
+	 * @return void
 	 */
 	public function filter_home_url_before() {
 		\add_filter( 'wpml_get_home_url', [ $this, 'wpml_get_home_url' ], 10, 2 );

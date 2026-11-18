@@ -8,11 +8,11 @@ import * as PropTypes from "prop-types";
  *
  * @param {"good"|"ok"|"bad"|"loading"} score The score, as a string.
  * @param {string} label The score's label, for example "SEO Analysis".
- * @param {string} scoreValue? The score's value, written out for screen readers, for example "Needs improvement".
+ * @param {string} [scoreValue=""] The score's value, written out for screen readers, for example "Needs improvement".
  *
  * @constructor
  */
-export default function AnalysisCheck( { score, label, scoreValue } ) {
+export default function AnalysisCheck( { score, label, scoreValue = "" } ) {
 	return <div className="yoast-analysis-check">
 		<SvgIcon { ...getIconForScore( score ) } />
 		<span> { label } { scoreValue && <strong>{ scoreValue }</strong> }</span>
@@ -23,8 +23,4 @@ AnalysisCheck.propTypes = {
 	score: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	scoreValue: PropTypes.string,
-};
-
-AnalysisCheck.defaultProps = {
-	scoreValue: "",
 };

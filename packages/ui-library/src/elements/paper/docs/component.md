@@ -1,0 +1,1 @@
+Papers can be used as containers, serving as visual representations of physical sheets of paper. This imparts familiarity and intuitiveness for users, aiding in organizing and containing settings or form elements within a defined area. Papers offer structure and clarity, providing a clean, minimalistic look that enhances readability and visual appeal.

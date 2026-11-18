@@ -1,14 +1,15 @@
-import { isFollowedByException } from "./isFollowedByException";
-import { isFollowedByParticiple } from "./isFollowedByParticiple";
-import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
-import { punctuationList } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
-import { getWords } from "../../../../languageProcessing";
+import { isFollowedByException } from "./isFollowedByException.js";
+import { isFollowedByParticiple } from "./isFollowedByParticiple.js";
+import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords.js";
+import { punctuationList } from "../../../../languageProcessing/helpers/sanitize/removePunctuation.js";
+import { getWords } from "../../../../languageProcessing/index.js";
 
 // Filter tokens from the exception lists that cause trouble when passed to getWords.
 
 // Some punctuation marks are still removed in getWords, as they are not in our punctuation list.
 // Those are filtered here out to prevent getWords returning an empty list.
-const filteredPunctuationList = punctuationList.filter( punctuationMark => getWords( punctuationMark, false ).length > 0  );
+const filteredPunctuationList = punctuationList.filter( punctuationMark => getWords( punctuationMark,
+	"\\s", false ).length > 0  );
 
 /**
  * Returns a callback that checks whether a non-inclusive word is standalone:

@@ -25,8 +25,8 @@ $network_tabs->add_tab(
 		__( 'Crawl settings', 'wordpress-seo' ),
 		[
 			'save_button' => true,
-		]
-	)
+		],
+	),
 );
 $network_tabs->add_tab( new WPSEO_Option_Tab( 'restore-site', __( 'Restore Site', 'wordpress-seo' ), [ 'save_button' => false ] ) );
 $network_tabs->display( $yform );

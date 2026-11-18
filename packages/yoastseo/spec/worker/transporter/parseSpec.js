@@ -82,6 +82,20 @@ describe( "parse", () => {
 		expect( parse( serialized ) ).toEqual( expected );
 	} );
 
+	it( "parses serialized Papers carrying provided images", () => {
+		const providedImages = [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" } ];
+		const serialized = {
+			_parseClass: "Paper",
+			text: "This is a sample text.",
+			providedImages,
+		};
+
+		const expected = new Paper( "This is a sample text.", { providedImages } );
+
+		expect( parse( serialized ) ).toEqual( expected );
+		expect( parse( serialized ).getProvidedImages() ).toEqual( providedImages );
+	} );
+
 	it( "parses serialized AssessmentResults", () => {
 		const serialized = {
 			_parseClass: "AssessmentResult",

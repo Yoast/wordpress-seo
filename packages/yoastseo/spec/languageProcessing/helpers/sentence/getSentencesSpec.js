@@ -1,7 +1,5 @@
-/**
- * @jest-environment jsdom
- */
 import getSentences from "../../../../src/languageProcessing/helpers/sentence/getSentences.js";
+import defaultSentenceTokenizer from "../../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import japaneseSentenceTokenizer from "../../../../src/languageProcessing/languages/ja/helpers/memoizedSentenceTokenizer";
 
 import {
@@ -17,7 +15,7 @@ import {
 	listParagraphsAndSentencesProcessed,
 } from "../sanitize/mergeListItemsSpec";
 
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
 
 /**
  * Helper to test sentence detection.
@@ -28,50 +26,50 @@ import { forEach } from "lodash-es";
  */
 function testGetSentences( testCases ) {
 	forEach( testCases, function( testCase ) {
-		expect( getSentences( testCase.input ) ).toEqual( testCase.expected );
+		expect( getSentences( testCase.input, defaultSentenceTokenizer ) ).toEqual( testCase.expected );
 	} );
 }
 
 describe( "Get sentences from text", function() {
 	it( "does not split sentences ending on a quotation mark without a preceding period", function() {
 		const sentence = "Hello. \"How are you\" Bye";
-		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you\" Bye" ] );
+		expect( getSentences( sentence, defaultSentenceTokenizer ) ).toEqual( [ "Hello.", "\"How are you\" Bye" ] );
 	} );
 	it( "splits sentences ending on a quotation mark preceded by a period", function() {
 		const sentence = "Hello. \"How are you.\" Bye";
-		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you.\"", "Bye" ] );
+		expect( getSentences( sentence, defaultSentenceTokenizer ) ).toEqual( [ "Hello.", "\"How are you.\"", "Bye" ] );
 	} );
 	it( "splits sentences ending on a quotation mark followed by a period", function() {
 		const sentence = "Hello. \"How are you\". Bye";
-		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you\".", "Bye" ] );
+		expect( getSentences( sentence, defaultSentenceTokenizer ) ).toEqual( [ "Hello.", "\"How are you\".", "Bye" ] );
 	} );
 	it( "returns sentences", function() {
 		const sentence = "Hello. How are you? Bye";
-		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "How are you?", "Bye" ] );
+		expect( getSentences( sentence, defaultSentenceTokenizer ) ).toEqual( [ "Hello.", "How are you?", "Bye" ] );
 	} );
 	it( "returns sentences with digits", function() {
 		const sentence = "Hello. 123 Bye";
-		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "123 Bye" ] );
+		expect( getSentences( sentence, defaultSentenceTokenizer ) ).toEqual( [ "Hello.", "123 Bye" ] );
 	} );
 
 	it( "returns sentences with abbreviations", function() {
 		const sentence = "It was a lot. Approx. two hundred";
-		expect( getSentences( sentence ) ).toEqual( [ "It was a lot.", "Approx. two hundred" ] );
+		expect( getSentences( sentence, defaultSentenceTokenizer ) ).toEqual( [ "It was a lot.", "Approx. two hundred" ] );
 	} );
 
 	it( "returns sentences with multiple sentence delimiters at the end", function() {
 		const sentence = "Was it a lot!?!??! Yes, it was!";
-		expect( getSentences( sentence ) ).toEqual( [ "Was it a lot!?!??!", "Yes, it was!" ] );
+		expect( getSentences( sentence, defaultSentenceTokenizer ) ).toEqual( [ "Was it a lot!?!??!", "Yes, it was!" ] );
 	} );
 
 	it( "returns sentences with multiple periods at the end", function() {
 		const sentence = "It was a lot... Approx. two hundred.";
-		expect( getSentences( sentence ) ).toEqual( [ "It was a lot...", "Approx. two hundred." ] );
+		expect( getSentences( sentence, defaultSentenceTokenizer ) ).toEqual( [ "It was a lot...", "Approx. two hundred." ] );
 	} );
 
 	it( "returns sentences, with :", function() {
 		const sentence = "One. Two. Three: Four! Five.";
-		expect( getSentences( sentence ).length ).toBe( 4 );
+		expect( getSentences( sentence, defaultSentenceTokenizer ).length ).toBe( 4 );
 	} );
 
 	it( "returns sentences with a text with H2 tags", function() {
@@ -82,7 +80,7 @@ describe( "Get sentences from text", function() {
 		const expected = [ "Four types of comments", "The comments people leave on blogs can be divided into four types:",
 			"Positive feedback", "First, the positive feedback." ];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, defaultSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -104,17 +102,17 @@ describe( "Get sentences from text", function() {
 
 	it( "returns a sentence with incomplete tags per sentence", function() {
 		const text = "<p><span>Some text. More Text.</span></p>";
-		expect( getSentences( text ) ).toEqual( [ "Some text.", "More Text." ] );
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [ "Some text.", "More Text." ] );
 	} );
 
 	it( "returns a sentence with incomplete tags with a link", function() {
 		const text = "Some text. More Text with <a href='http://yoast.com'>a link</a>.";
-		expect( getSentences( text ) ).toEqual( [ "Some text.", "More Text with <a href='http://yoast.com'>a link</a>." ] );
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [ "Some text.", "More Text with <a href='http://yoast.com'>a link</a>." ] );
 	} );
 
 	it( "can deal with self-closing tags", function() {
 		const text = "A sentence with an image <samp src='http://google.com' />";
-		expect( getSentences( text ) ).toEqual( [ "A sentence with an image <samp src='http://google.com' />" ] );
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [ "A sentence with an image <samp src='http://google.com' />" ] );
 	} );
 
 	it( "can deal with newlines", function() {
@@ -167,7 +165,7 @@ describe( "Get sentences from text", function() {
 			"[Third sentence.]",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, defaultSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -176,7 +174,7 @@ describe( "Get sentences from text", function() {
 		const text = "A sentence with (parentheses).";
 		const expected = [ "A sentence with (parentheses)." ];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, defaultSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -189,7 +187,7 @@ describe( "Get sentences from text", function() {
 			"Third sentence",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, defaultSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -209,7 +207,7 @@ describe( "Get sentences from text", function() {
 		];
 
 		for ( let i = 0; i < texts.length; i++ ) {
-			expect( getSentences( texts[ i ] ) ).toEqual( [ expected[ i ] ] );
+			expect( getSentences( texts[ i ], defaultSentenceTokenizer ) ).toEqual( [ expected[ i ] ] );
 		}
 	} );
 
@@ -219,7 +217,7 @@ describe( "Get sentences from text", function() {
 			"If you want to know something specific.\n" +
 			"    If you want to end the discussion you&#8217;re having in the car and need to know exactly how many people live in France.</p>";
 
-		expect( getSentences( texts ) ).toEqual( [
+		expect( getSentences( texts, defaultSentenceTokenizer ) ).toEqual( [
 			"The results that voice gives us are always singular.",
 			"Siri will set a timer, Google Home will play the song.",
 			"Joost:  &#8216;Voice results only make sense if you&#8217;re looking for a singular result.",
@@ -296,7 +294,7 @@ describe( "Get sentences from text", function() {
 			"Read more about the SEO copywriting training -- linken naar sales pagina",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, defaultSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -342,7 +340,7 @@ describe( "Get sentences from text", function() {
 			"<p>\n" +
 			"</p>\n";
 
-		expect( getSentences( text ) ).toEqual( [
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [
 			"Tempeh or tempe (/ˈtɛmpeɪ/; Javanese: ꦠꦺꦩ꧀ꦥꦺ, romanized: témpé, pronounced [tempe]) is a " +
 			"traditional Indonesian food made from fermented soybeans.",
 			"It is made by a natural culturing and controlled fermentation process that binds soybeans into a cake form.",
@@ -475,7 +473,7 @@ describe( "Get sentences from text", function() {
 
 	it( "should not split on semicolons", () => {
 		const text = "This house is built in 1990; a nice house. This house is built in 1990; A nice house.";
-		expect( getSentences( text ) ).toEqual( [
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [
 			"This house is built in 1990; a nice house.",
 			"This house is built in 1990; A nice house." ] );
 	} );
@@ -528,13 +526,13 @@ describe( "a test for when texts containing sentence delimiter", () => {
 	it( "should always break on ? and ! even when it's not followed by a valid sentence beginning", function() {
 		let text = "First sentence. second sentence! third sentence? fourth sentence";
 
-		expect( getSentences( text ) ).toEqual( [
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [
 			"First sentence. second sentence!",
 			"third sentence?",
 			"fourth sentence" ] );
 
 		text = "First sentence. Second sentence! Third sentence? Fourth sentence";
-		expect( getSentences( text ) ).toEqual( [
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [
 			"First sentence.",
 			"Second sentence!",
 			"Third sentence?",
@@ -544,27 +542,27 @@ describe( "a test for when texts containing sentence delimiter", () => {
 		"when the next character is valid sentence beginning", function() {
 		let text = "This is the first sentence… Followed by a second one.";
 
-		expect( getSentences( text ) ).toEqual( [ "This is the first sentence…", "Followed by a second one." ] );
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [ "This is the first sentence…", "Followed by a second one." ] );
 
 		text = "This is the first sentence\u2026 Followed by a second one.";
-		expect( getSentences( text ) ).toEqual( [ "This is the first sentence\u2026", "Followed by a second one." ] );
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [ "This is the first sentence\u2026", "Followed by a second one." ] );
 
 		text = "This is the first sentence... Followed by a second one.";
-		expect( getSentences( text ) ).toEqual( [ "This is the first sentence...", "Followed by a second one." ] );
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [ "This is the first sentence...", "Followed by a second one." ] );
 	} );
 	it( "should not split text into sentences if the next character after an ellipsis is not a valid sentence beginning", () => {
 		let text = "This house is built in 1990\u2026 a nice house.";
-		expect( getSentences( text ) ).toEqual( [
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [
 			"This house is built in 1990\u2026 a nice house.",
 		] );
 
 		text = "This house is built in 1990… a nice house.";
-		expect( getSentences( text ) ).toEqual( [
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [
 			"This house is built in 1990… a nice house.",
 		] );
 
 		text = "This house is built in 1990... a nice house.";
-		expect( getSentences( text ) ).toEqual( [
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [
 			"This house is built in 1990... a nice house.",
 		] );
 	} );
@@ -585,28 +583,28 @@ describe( "a test for when texts containing sentence delimiter", () => {
 
 	it( "can deal with the edge case of quotes around initials.", ()=>{
 		const text = "The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer.";
-		expect( getSentences( text ) ).toEqual(
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual(
 			[ "The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." ] );
 	} );
 
 	it( "should not break when the text starts with double quotation mark followed by space", ()=>{
 		let text = "\" This is a text with double quotation mark.";
-		expect( getSentences( text ) ).toEqual( [ "\"", "This is a text with double quotation mark." ] );
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [ "\"", "This is a text with double quotation mark." ] );
 
 		text = "\" \"This is a text with two double quotation marks.";
-		expect( getSentences( text ) ).toEqual(  [ "\"", "\"This is a text with two double quotation marks." ] );
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual(  [ "\"", "\"This is a text with two double quotation marks." ] );
 
 		text = "” This is a text with double quotation mark.";
-		expect( getSentences( text ) ).toEqual( [ "”", "This is a text with double quotation mark." ] );
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [ "”", "This is a text with double quotation mark." ] );
 
 		text = "„ This is a text with double quotation mark.";
-		expect( getSentences( text ) ).toEqual( [ "„", "This is a text with double quotation mark." ] );
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [ "„", "This is a text with double quotation mark." ] );
 
 		text = "» This is a text with double quotation mark.";
-		expect( getSentences( text ) ).toEqual( [ "»", "This is a text with double quotation mark." ] );
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [ "»", "This is a text with double quotation mark." ] );
 
 		text = "« »This is a text with two double quotation marks.";
-		expect( getSentences( text ) ).toEqual( [ "« »This is a text with two double quotation marks." ] );
+		expect( getSentences( text, defaultSentenceTokenizer ) ).toEqual( [ "« »This is a text with two double quotation marks." ] );
 	} );
 } );
 
@@ -716,7 +714,7 @@ describe( "parses Japanese text", () => {
 			"なにしようか？",
 			"」と言った。" ];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, defaultSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -796,7 +794,7 @@ describe( "Parse languages written right-to-left", function() {
 			" וזאת על בסיס עבודתו של ברט ובדומה לתאוריית ההתפתחות הקוגניטיבית של פיאז'ה; עבודתו זו מהווה עד היום בסיס לבחינת התפתחות ציורי ילדים.",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, defaultSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -862,7 +860,7 @@ describe( "Parse languages written right-to-left", function() {
 			"برزت عبر السنوات عدة شخصيات شريرة مناوئة لباتمان حقق بعضها شهرة واسعة بين محبي وهواة القصص المصورة، يبقى الجوكر أبرزها بلا منازع.",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, defaultSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -885,7 +883,7 @@ describe( "Parse languages written right-to-left", function() {
 			"أنَّ ليختنشتاين ألغت جيشها في عام 1868 لأنه كان مُكلفًا للغاية لها؟",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, defaultSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -928,7 +926,7 @@ describe( "Parse languages written right-to-left", function() {
 			"تابوت کوروش بین میز و نیمکت قرار داشت.",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, defaultSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -952,7 +950,7 @@ describe( "Parse languages written right-to-left", function() {
 			"1980ء میں یونیسکو نے اسے یونیسکو عالمی ثقافتی ورثہ قرار دیا۔",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, defaultSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );

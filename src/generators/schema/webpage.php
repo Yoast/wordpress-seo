@@ -25,7 +25,7 @@ class WebPage extends Abstract_Schema_Piece {
 	/**
 	 * Returns WebPage schema data.
 	 *
-	 * @return array WebPage schema data.
+	 * @return array<string|array<string>> WebPage schema data.
 	 */
 	public function generate() {
 		$data = [
@@ -48,11 +48,14 @@ class WebPage extends Abstract_Schema_Piece {
 			}
 		}
 
-		$this->add_image( $data );
+		$data = $this->add_image( $data );
 
 		if ( $this->context->indexable->object_type === 'post' ) {
 			$data['datePublished'] = $this->helpers->date->format( $this->context->post->post_date_gmt );
-			$data['dateModified']  = $this->helpers->date->format( $this->context->post->post_modified_gmt );
+
+			if ( \strtotime( $this->context->post->post_modified_gmt ) > \strtotime( $this->context->post->post_date_gmt ) ) {
+				$data['dateModified'] = $this->helpers->date->format( $this->context->post->post_modified_gmt );
+			}
 
 			if ( $this->context->indexable->object_sub_type === 'post' ) {
 				$data = $this->add_author( $data, $this->context->post );
@@ -82,10 +85,10 @@ class WebPage extends Abstract_Schema_Piece {
 	/**
 	 * Adds an author property to the $data if the WebPage is not represented.
 	 *
-	 * @param array   $data The WebPage schema.
-	 * @param WP_Post $post The post the context is representing.
+	 * @param array<string|array<string>> $data The WebPage schema.
+	 * @param WP_Post                     $post The post the context is representing.
 	 *
-	 * @return array The WebPage schema.
+	 * @return array<string|array<string>> The WebPage schema.
 	 */
 	public function add_author( $data, $post ) {
 		if ( $this->context->site_represents === false ) {
@@ -98,14 +101,17 @@ class WebPage extends Abstract_Schema_Piece {
 	/**
 	 * If we have an image, make it the primary image of the page.
 	 *
-	 * @param array $data WebPage schema data.
+	 * @param array<string|array<string>> $data WebPage schema data.
+	 *
+	 * @return array<string|array<string>>
 	 */
-	public function add_image( &$data ) {
+	public function add_image( $data ) {
 		if ( $this->context->has_image ) {
 			$data['primaryImageOfPage'] = [ '@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH ];
 			$data['image']              = [ '@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH ];
 			$data['thumbnailUrl']       = $this->context->main_image_url;
 		}
+		return $data;
 	}
 
 	/**
@@ -124,9 +130,9 @@ class WebPage extends Abstract_Schema_Piece {
 	/**
 	 * Adds the potential action property to the WebPage Schema piece.
 	 *
-	 * @param array $data The WebPage data.
+	 * @param array<string|array<string>> $data The WebPage data.
 	 *
-	 * @return array The WebPage data with the potential action added.
+	 * @return array<string|array<string>> The WebPage data with the potential action added.
 	 */
 	private function add_potential_action( $data ) {
 		$url = $this->context->canonical;
@@ -137,7 +143,7 @@ class WebPage extends Abstract_Schema_Piece {
 		/**
 		 * Filter: 'wpseo_schema_webpage_potential_action_target' - Allows filtering of the schema WebPage potentialAction target.
 		 *
-		 * @api array $targets The URLs for the WebPage potentialAction target.
+		 * @param array<string> $targets The URLs for the WebPage potentialAction target.
 		 */
 		$targets = \apply_filters( 'wpseo_schema_webpage_potential_action_target', [ $url ] );
 
@@ -155,6 +161,6 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return string Search URL.
 	 */
 	private function build_search_url() {
-		return $this->context->site_url . '?s=' . \get_search_query();
+		return $this->context->site_url . '?s=' . \rawurlencode( \get_search_query() );
 	}
 }

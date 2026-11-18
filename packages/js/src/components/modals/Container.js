@@ -12,6 +12,12 @@ export const ModalContainer = styled.div`
 	}
 `;
 
+export const ModalSmallContainer = styled.div`
+	@media screen and ( min-width: 600px ) {
+		max-width: 420px;
+	}
+`;
+
 export const ModalIcon = styled( Icon )`
 	float: ${ getRtlStyle( "right", "left" ) };
 	margin: ${ getRtlStyle( "0 0 16px 16px", "0 16px 16px 0" ) };

@@ -21,7 +21,7 @@ class WPSEO_File_Size_Exception extends Exception {
 		$message = sprintf(
 			/* translators: %1$s expands to the requested url */
 			__( 'Cannot get the size of %1$s because it is hosted externally.', 'wordpress-seo' ),
-			$file_url
+			$file_url,
 		);
 
 		return new self( $message );
@@ -38,7 +38,7 @@ class WPSEO_File_Size_Exception extends Exception {
 		$message = sprintf(
 			/* translators: %1$s expands to the requested url */
 			__( 'Cannot get the size of %1$s because of unknown reasons.', 'wordpress-seo' ),
-			$file_url
+			$file_url,
 		);
 
 		return new self( $message );

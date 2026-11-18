@@ -1,39 +1,32 @@
-// eslint-disable react/display-name
-import { StoryComponent } from ".";
+import React from "react";
+import Link from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
+import { anchor, button, component, customComponent } from "./docs";
 
-export default {
-	title: "1) Elements/Link",
-	component: StoryComponent,
-	argTypes: {
-		children: { control: "text" },
-		as: { options: [ "a", "button" ] },
-		className: { control: "text" },
+export const Factory = {
+	render: ( { children, ...args } ) => {
+		if ( args.as === "a" || typeof args.as === "undefined" ) {
+			args.href = "#!";
+		}
+
+		return (
+			<Link { ...args }>{ children }</Link>
+		);
 	},
 	parameters: {
-		docs: {
-			description: {
-				component: "Create a link. However, it is up to you to implement the needed properties. I.e. an anchor tag needs `href`, but a button needs an `onClick`. This component does not know about either one.",
-			},
-		},
+		controls: { disable: false },
 	},
-};
-
-export const Factory = ( { children, ...args } ) => (
-	<StoryComponent { ...args }>{ children }</StoryComponent>
-);
-Factory.parameters = {
-	controls: { disable: false },
-};
-Factory.args = {
-	children: "Link factory",
+	args: {
+		children: "Link factory",
+	},
 };
 
 export const Anchor = {
-	component: Factory.bind( {} ),
 	parameters: {
+		controls: { disable: false },
 		docs: {
 			description: {
-				story: "Pass the `href`, `target` and `rel` props to get the attributes.<br>When using target `_blank`, please add a visually hidden text inside the link to notify screen reader users to the fact that the link opens in a new tab.",
+				story: anchor,
 			},
 		},
 	},
@@ -46,22 +39,24 @@ export const Anchor = {
 };
 
 export const Button = {
-	component: Factory.bind( {} ),
 	parameters: {
+		controls: { disable: false },
 		docs: {
 			description: {
-				story: "When specifying `button`, pass the `onClick` prop to have a functional button.",
+				story: button,
 			},
-			transformSource: () => (
-				"const handleClick = () => alert( \"You clicked the button!\" )" +
-				"\n\n" +
-				"<Link\n" +
-				"  as=\"button\"\n" +
-				"  onClick={ handleClick }\n" +
-				">\n" +
-				"  Button\n" +
-				"</Link>"
-			),
+			source: {
+				transform: () => (
+					"const handleClick = () => alert( \"You clicked the button!\" )" +
+					"\n\n" +
+					"<Link\n" +
+					"  as=\"button\"\n" +
+					"  onClick={ handleClick }\n" +
+					">\n" +
+					"  Button\n" +
+					"</Link>"
+				),
+			},
 		},
 	},
 	args: {
@@ -73,19 +68,21 @@ export const Button = {
 };
 
 export const CustomComponent = {
-	component: Factory.bind( {} ),
+	name: "Custom component",
 	parameters: {
 		docs: {
 			description: {
-				story: "When using a custom component, that component will only look like a link by default. Please make sure the component behaves like a link.",
+				story: customComponent,
 			},
-			transformSource: () => (
-				"const Component = ( { className, children } ) => <span className={ className }>Custom { children }</span>" +
-				"\n\n" +
-				"<Link as={ Component }>\n" +
-				"  component\n" +
-				"</Link>"
-			),
+			source: {
+				transform: () => (
+					"const Component = ( { className, children } ) => <span className={ className }>Custom { children }</span>" +
+					"\n\n" +
+					"<Link as={ Component }>\n" +
+					"  component\n" +
+					"</Link>"
+				),
+			},
 		},
 	},
 	args: {
@@ -94,4 +91,18 @@ export const CustomComponent = {
 	},
 };
 
-CustomComponent.storyName = "Custom component";
+export default {
+	title: "1) Elements/Link",
+	component: Link,
+	argTypes: {
+		children: { control: "text" },
+		as: { options: [ "a", "button" ] },
+		className: { control: "text" },
+	},
+	parameters: {
+		docs: {
+			description: { component },
+			page: () => <InteractiveDocsPage stories={ [ Anchor, Button, CustomComponent ] } />,
+		},
+	},
+};

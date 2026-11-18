@@ -1,7 +1,6 @@
 // External dependencies.
 import React, { PureComponent } from "react";
 import styled from "styled-components";
-import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
 import { __ } from "@wordpress/i18n";
@@ -19,10 +18,11 @@ const {
 } = languageProcessing;
 
 // Internal dependencies.
+import { safeCreateInterpolateElement } from "../helpers/safeCreateInterpolateElement";
 import FixedWidthContainer from "./FixedWidthContainer";
 import ProductDataDesktop from "./ProductDataDesktop";
 import ProductDataMobile from "./ProductDataMobile";
-import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
+import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES, DEFAULT_BEST_RATING } from "./constants";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -64,10 +64,7 @@ const MAX_WIDTH                 = 600;
 const MAX_WIDTH_MOBILE          = 400;
 const WIDTH_PADDING             = 20;
 const DESCRIPTION_LIMIT         = 156;
-const DESKTOP_BREADCRUMBS_LIMIT = 240;
-const MOBILE_BREADCRUMBS_LIMIT  = 100;
 const MOBILE_SITENAME_LIMIT     = "300px";
-
 
 const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: #fff;
@@ -137,9 +134,9 @@ const TitleBounded = styled( Title )`
 	text-overflow: ellipsis;
 `;
 
-const BreacrumbsContainer = styled.span`
+const BreadcrumbsContainer = styled.span`
 	display: inline-block;
-	max-width: ${ props => props.screenMode === MODE_DESKTOP ? DESKTOP_BREADCRUMBS_LIMIT : MOBILE_BREADCRUMBS_LIMIT }px;
+	max-width: ${ ( 2 / 5 ) * MAX_WIDTH }px;
 	overflow: hidden;
 	vertical-align: top;
 
@@ -183,6 +180,7 @@ const BaseUrlOverflowContainer = styled( BaseUrl )`
 	padding-top: 1px;
 	line-height: 20px;
 	vertical-align: bottom;
+	column-gap: 12px;
 `;
 BaseUrlOverflowContainer.displayName = "BaseUrlOverflowContainer";
 
@@ -200,7 +198,6 @@ const UrlBaseContainer = styled.span`
 const FaviconContainer = styled.div`
 width: 28px;
 height: 28px;
-margin-right: 12px;
 border-radius: 50px;
 display: flex;
 align-items: center;
@@ -265,8 +262,8 @@ const MobilePartContainer = styled.div`
 `;
 
 const SiteName = styled.div`
-	line-height: 18x; 
-	font-size: 14px; 
+	line-height: 18px;
+	font-size: 14px;
 	color: black;
 	max-width: ${ props => props.screenMode === MODE_DESKTOP ? "100%" : MOBILE_SITENAME_LIMIT };
 	overflow: hidden;
@@ -386,24 +383,21 @@ function highlightWords( locale, wordsToHighlight, text, cleanText ) {
 	const keywordFormsMatcher = createRegexFromArray( wordsToHighlightCleaned, false, "", false );
 
 	textToUse = textToUse.replace( keywordFormsMatcher, function( matchedKeyword ) {
-		return `{{strong}}${ matchedKeyword }{{/strong}}`;
+		return `<strong>${ matchedKeyword }</strong>`;
 	} );
 
-	return interpolateComponents( {
-		mixedString: textToUse,
-		components: { strong: <strong /> },
-	} );
+	return safeCreateInterpolateElement( textToUse, { strong: <strong /> } );
 }
 
 /**
  * Renders Google vertical dots.
  *
- * @param {string} fillColor The color to render the vertical dots in.
+ * @param {Object} props Component props.
+ * @param {string} props.screenMode The screen mode, which determines the color of the vertical dots.
  *
  * @returns {ReactComponent} The vertical dots.
  */
 const VerticalDots = ( { screenMode } ) => {
-	/* eslint-disable max-len */
 	return <svg
 		xmlns="http://www.w3.org/2000/svg"
 		viewBox="0 0 24 24"
@@ -412,11 +406,6 @@ const VerticalDots = ( { screenMode } ) => {
 	>
 		<path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
 	</svg>;
-	/* eslint-enable max-len */
-};
-
-VerticalDots.propTypes = {
-	screenMode: PropTypes.string.isRequired,
 };
 
 /**
@@ -553,7 +542,6 @@ export default class SnippetPreview extends PureComponent {
 	getDescription() {
 		if ( ! this.props.description ) {
 			return __(
-				// eslint-disable-next-line max-len
 				"Please provide a meta description by editing the snippet below. If you don’t, Google will try to find a relevant part of your post to show in the search results.",
 				"wordpress-seo"
 			);
@@ -659,10 +647,12 @@ export default class SnippetPreview extends PureComponent {
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
 		 * However this is not relevant in this case, because the url is not focusable.
 		 */
-		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return <React.Fragment>
 			<ScreenReaderText>
-				{ __( "Url preview", "wordpress-seo" ) + ":" }
+				{
+					/* translators: Hidden accessibility text. */
+					__( "Url preview", "wordpress-seo" ) + ":"
+				}
 			</ScreenReaderText>
 			<Url>
 				<BaseUrlOverflowContainer
@@ -675,9 +665,9 @@ export default class SnippetPreview extends PureComponent {
 					<UrlContentContainer screenMode={ mode }>
 						<SiteName screenMode={ mode }>{ siteName }</SiteName>
 						<UrlBaseContainer screenMode={ mode }>{ hostname }</UrlBaseContainer>
-						<BreacrumbsContainer screenMode={ mode }>
+						{ ! isMobileMode && <BreadcrumbsContainer>
 							{ breadcrumbs }
-						</BreacrumbsContainer>
+						</BreadcrumbsContainer> }
 						{ ! isMobileMode && <VerticalDotsContainer>
 							<VerticalDots screenMode={ mode } />
 						</VerticalDotsContainer> }
@@ -686,38 +676,30 @@ export default class SnippetPreview extends PureComponent {
 				</BaseUrlOverflowContainer>
 			</Url>
 		</React.Fragment>;
-		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}
 
-	/**
-	 * Before we receive props we need to set the title and description in the
-	 * state.
-	 *
-	 * @param {Object} nextProps The props this component will receive.
-	 *
-	 * @returns {void}
-	 */
-	componentWillReceiveProps( nextProps ) {
-		const nextState = {};
-
-		if ( this.props.title !== nextProps.title ) {
-			nextState.title = nextProps.title;
-		}
-
-		if ( this.props.description !== nextProps.description ) {
-			nextState.description = nextProps.description;
-		}
-
-		this.setState( nextState );
-	}
 
 	/**
 	 * After a component updates we need to fit the title.
+	 * Before we receive props we need to set the title and description in the state.
+	 *
+	 * @param {Object} prevProps The previous props this component has received.
 	 *
 	 * @returns {void}
 	 */
-	componentDidUpdate() {
+	componentDidUpdate( prevProps ) {
+		const nextState = {};
+
+		if ( this.props.title !== prevProps.title ) {
+			nextState.title = this.props.title;
+		}
+
+		if ( this.props.description !== prevProps.description ) {
+			nextState.description = this.props.description;
+		}
+
 		this.setState( {
+			...nextState,
 			isDescriptionPlaceholder: ( ! this.props.description ),
 		} );
 
@@ -814,7 +796,7 @@ export default class SnippetPreview extends PureComponent {
 	/**
 	 * Renders the product / shopping data, in mobile or desktop view, based on the mode.
 	 *
-	 * @param {object} PartContainer the PartContainer component that needs to be rendered within the snippet preview container.
+	 * @param {Object} PartContainer the PartContainer component that needs to be rendered within the snippet preview container.
 	 *
 	 * @returns {ReactElement} The rendered description.
 	 */
@@ -829,6 +811,7 @@ export default class SnippetPreview extends PureComponent {
 			availability: shoppingData.availability || "",
 			price: shoppingData.price ? decodeHTML( shoppingData.price ) : "",
 			rating: shoppingData.rating || 0,
+			bestRating: shoppingData.bestRating || DEFAULT_BEST_RATING,
 			reviewCount: shoppingData.reviewCount || 0,
 		};
 
@@ -836,7 +819,10 @@ export default class SnippetPreview extends PureComponent {
 			return (
 				<PartContainer className="yoast-shopping-data-preview--desktop">
 					<ScreenReaderText>
-						{ __( "Shopping data preview:", "wordpress-seo" ) }
+						{
+							/* translators: Hidden accessibility text. */
+							__( "Shopping data preview:", "wordpress-seo" )
+						}
 					</ScreenReaderText>
 					<ProductDataDesktop shoppingData={ safeShoppingData } />
 				</PartContainer>
@@ -847,7 +833,10 @@ export default class SnippetPreview extends PureComponent {
 			return (
 				<PartContainer className="yoast-shopping-data-preview--mobile">
 					<ScreenReaderText>
-						{ __( "Shopping data preview:", "wordpress-seo" ) }
+						{
+							/* translators: Hidden accessibility text. */
+							__( "Shopping data preview:", "wordpress-seo" )
+						}
 					</ScreenReaderText>
 					<ProductDataMobile shoppingData={ safeShoppingData } />
 				</PartContainer>
@@ -886,11 +875,11 @@ export default class SnippetPreview extends PureComponent {
 		 * However this is not relevant in this case, because the title and description are
 		 * not focusable.
 		 */
-		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return (
-			<section>
+			<section className="yoast-snippet-preview-section">
 				<Container
 					id="yoast-snippet-preview-container"
+					className="yoast-snippet-preview-container"
 					/*
 					 * MobileContainer doesn't use the width prop: avoid to
 					 * render an invalid `width` HTML attribute on the DOM node.
@@ -901,7 +890,9 @@ export default class SnippetPreview extends PureComponent {
 					<PartContainer>
 						{ this.renderUrl() }
 						<ScreenReaderText>
-							{ __( "SEO title preview", "wordpress-seo" ) + ":" }
+							{
+								/* translators: Hidden accessibility text. */
+								__( "SEO title preview", "wordpress-seo" ) + ":" }
 						</ScreenReaderText>
 						<SnippetTitle
 							onMouseUp={ onMouseUp.bind( null, "title" ) }
@@ -918,7 +909,9 @@ export default class SnippetPreview extends PureComponent {
 					</PartContainer>
 					<PartContainer>
 						<ScreenReaderText>
-							{ __( "Meta description preview:", "wordpress-seo" ) }
+							{
+								/* translators: Hidden accessibility text. */
+								__( "Meta description preview:", "wordpress-seo" ) }
 						</ScreenReaderText>
 						{ this.renderDescription() }
 					</PartContainer>
@@ -926,7 +919,6 @@ export default class SnippetPreview extends PureComponent {
 				</Container>
 			</section>
 		);
-	/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}
 
 	/**

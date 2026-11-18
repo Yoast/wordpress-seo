@@ -1,4 +1,16 @@
+import { createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
+import { getDescription, getSeoTitle } from "./analysis";
+import { getEditorDataExcerptWithFallback } from "./editorData";
+import { getFacebookDescription, getFacebookTitle } from "./facebookEditor";
+import {
+	getReplacedExcerpt,
+	getSeoDescriptionTemplate,
+	getSeoTitleTemplate,
+	getSeoTitleTemplateNoFallback,
+	getSocialDescriptionTemplate,
+	getSocialTitleTemplate,
+} from "./fallbacks";
 
 /**
  * Gets the twitter title from the state.
@@ -62,3 +74,40 @@ export const getTwitterAltText = state => get( state, "twitterEditor.image.alt",
  * @returns {String} Twitter warnings.
  */
 export const getTwitterWarnings = state => get( state, "twitterEditor.warnings", [] );
+
+export const getTwitterTitleFallback = createSelector(
+	[
+		getSocialTitleTemplate,
+		getFacebookTitle,
+		getSeoTitle,
+		getSeoTitleTemplateNoFallback,
+		getSeoTitleTemplate,
+	],
+	( ...titles ) => titles.find( Boolean ) || ""
+);
+export const getTwitterTitleOrFallback = createSelector(
+	[
+		getTwitterTitle,
+		getTwitterTitleFallback,
+	],
+	( title, fallback ) => title || fallback
+);
+
+export const getTwitterDescriptionFallback = createSelector(
+	[
+		getSocialDescriptionTemplate,
+		getFacebookDescription,
+		getDescription,
+		getSeoDescriptionTemplate,
+		getReplacedExcerpt,
+		getEditorDataExcerptWithFallback,
+	],
+	( ...descriptions ) => descriptions.find( Boolean ) ?? ""
+);
+export const getTwitterDescriptionOrFallback = createSelector(
+	[
+		getTwitterDescription,
+		getTwitterDescriptionFallback,
+	],
+	( description, fallback ) => description || fallback
+);

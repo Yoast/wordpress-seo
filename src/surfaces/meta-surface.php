@@ -134,7 +134,6 @@ class Meta_Surface {
 			return false;
 		}
 
-
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Home_Page' ) );
 	}
 
@@ -146,9 +145,7 @@ class Meta_Surface {
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_post_type_archive( $post_type = null ) {
-		if ( $post_type === null ) {
-			$post_type = \get_post_type();
-		}
+		$post_type ??= \get_post_type();
 
 		$indexable = $this->repository->find_for_post_type_archive( $post_type );
 
@@ -185,7 +182,6 @@ class Meta_Surface {
 		if ( ! $indexable ) {
 			return false;
 		}
-
 
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Error_Page' ) );
 	}
@@ -225,10 +221,10 @@ class Meta_Surface {
 		$indexables = \array_filter( $indexables );
 
 		return \array_map(
-			function( $indexable ) {
+			function ( $indexable ) {
 				return $this->build_meta( $this->context_memoizer->get( $indexable, 'Post_Type' ) );
 			},
-			$indexables
+			$indexables,
 		);
 	}
 
@@ -279,9 +275,7 @@ class Meta_Surface {
 		if ( ! \is_a( $indexable, Indexable::class ) ) {
 			return false;
 		}
-		if ( \is_null( $page_type ) ) {
-			$page_type = $this->indexable_helper->get_page_type_for_indexable( $indexable );
-		}
+		$page_type ??= $this->indexable_helper->get_page_type_for_indexable( $indexable );
 
 		return $this->build_meta( $this->context_memoizer->get( $indexable, $page_type ) );
 	}
@@ -295,11 +289,9 @@ class Meta_Surface {
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_indexables( $indexables, $page_type = null ) {
-		$closure = function( $indexable ) use ( $page_type ) {
-			$this_page_type = $page_type;
-			if ( \is_null( $this_page_type ) ) {
-				$this_page_type = $this->indexable_helper->get_page_type_for_indexable( $indexable );
-			}
+		$closure = function ( $indexable ) use ( $page_type ) {
+			$this_page_type   = $page_type;
+			$this_page_type ??= $this->indexable_helper->get_page_type_for_indexable( $indexable );
 
 			return $this->build_meta( $this->context_memoizer->get( $indexable, $this_page_type ) );
 		};
@@ -341,6 +333,11 @@ class Meta_Surface {
 		if ( ! $indexable ) {
 			return false;
 		}
+
+		if ( $indexable->object_type === 'post' && ! $this->is_post_readable( (int) $indexable->object_id ) ) {
+			return false;
+		}
+
 		$page_type = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 
 		if ( $page_type === false ) {
@@ -375,6 +372,27 @@ class Meta_Surface {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Checks if the current user is allowed to read a given post.
+	 *
+	 * @param int $post_id The post ID.
+	 *
+	 * @return bool Whether the post is publicly viewable or readable by the current user.
+	 */
+	public function is_post_readable( $post_id ) {
+		$post = \get_post( $post_id );
+
+		if ( ! $post ) {
+			return false;
+		}
+
+		if ( \is_post_publicly_viewable( $post ) ) {
+			return true;
+		}
+
+		return \current_user_can( 'read_post', $post->ID );
 	}
 
 	/**

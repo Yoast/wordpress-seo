@@ -1,22 +1,24 @@
 import { __, sprintf } from "@wordpress/i18n";
+import { Title } from "@yoast/ui-library";
 import { PropTypes } from "prop-types";
-import { Title  } from "@yoast/ui-library";
-import { OtherIntegrations } from "./other-integrations";
-import { pluginIntegrations } from "./plugin-integrations";
-import { schemaAPIIntegrations } from "./schema-api-integrations";
+import { aiIntegrations } from "./ai-integrations";
+import { contentMediaIntegrations } from "./content-media-integrations";
+import { ecommerceIntegrations } from "./ecommerce-integrations";
 import { RecommendedIntegrations } from "./recommended-integrations";
-import { addLinkToString } from "../helpers/stringHelpers";
+import { searchAnalyticsIntegrations } from "./search-analytics-integrations";
+import { siteBuildingIntegrations } from "./site-building-integrations";
+import { verificationIntegrations } from "./verification-integrations";
 
 /**
  * Renders a section.
  *
- * @param {string} title       The section title.
- * @param {string} description The section description.
- * @param {array}  elements    Array of elements to be rendered.
+ * @param {string} [title] The section title.
+ * @param {JSX.Element} [description] The section description.
+ * @param {Array<JSX.Element>} [elements] Array of elements to be rendered.
  *
- * @returns {WPElement} The section.
+ * @returns {JSX.Element} The section.
  */
-const Section = ( { title, description, elements } ) => {
+const Section = ( { title = "", description = "", elements = [] } ) => {
 	return (
 		<section>
 			<div className="yst-mb-8">
@@ -32,15 +34,15 @@ const Section = ( { title, description, elements } ) => {
 
 Section.propTypes = {
 	title: PropTypes.string,
-	description: PropTypes.string,
+	description: PropTypes.node,
 	elements: PropTypes.array,
 };
 
 /**
  * Renders a grid of integrations subdivided into sections.
  *
- * @returns {WPElement} The integration grid.
-*/
+ * @returns {JSX.Element} The integration grid.
+ */
 export default function IntegrationsGrid() {
 	return (
 		<div className="yst-h-full yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-shadow">
@@ -75,34 +77,49 @@ export default function IntegrationsGrid() {
 				<hr className="yst-my-12" />
 
 				<Section
-					title={ __( "Schema API integrations", "wordpress-seo" ) }
-					description={
-						addLinkToString(
-							sprintf(
-								/* translators: 1: anchor tag linking to our schema API docs; 2: closing anchor tag. */
-								__( "Unlock rich results in Google search by using plugins that integrate with the %1$sYoast Schema API%2$s.", "wordpress-seo" ),
-								"<a>",
-								"</a>"
-							),
-							"https://developer.yoast.com/features/schema/api/",
-							"schema-api-link"
-						)
-					}
-					elements={ schemaAPIIntegrations }
+					title={ __( "Ecommerce", "wordpress-seo" ) }
+					description={ __( "Store platforms and product data.", "wordpress-seo" ) }
+					elements={ ecommerceIntegrations }
 				/>
 
 				<hr className="yst-my-12" />
 
 				<Section
-					title={ __( "Plugin integrations", "wordpress-seo" ) }
-					elements={ pluginIntegrations }
+					title={ __( "Content & media", "wordpress-seo" ) }
+					description={ __( "Rich results and custom content data.", "wordpress-seo" ) }
+					elements={ contentMediaIntegrations }
 				/>
 
 				<hr className="yst-my-12" />
 
 				<Section
-					title={ __( "Other integrations", "wordpress-seo" ) }
-					elements={ OtherIntegrations }
+					title={ __( "Site building & performance", "wordpress-seo" ) }
+					description={ __( "Builders and site management tools.", "wordpress-seo" ) }
+					elements={ siteBuildingIntegrations }
+				/>
+
+				<hr className="yst-my-12" />
+
+				<Section
+					title={ __( "Search & analytics", "wordpress-seo" ) }
+					description={ __( "Keyword research, rank tracking and site search.", "wordpress-seo" ) }
+					elements={ searchAnalyticsIntegrations }
+				/>
+
+				<hr className="yst-my-12" />
+
+				<Section
+					title={ __( "AI & agentic", "wordpress-seo" ) }
+					description={ __( "Making your site legible to AI agents.", "wordpress-seo" ) }
+					elements={ aiIntegrations }
+				/>
+
+				<hr className="yst-my-12" />
+
+				<Section
+					title={ __( "Verification", "wordpress-seo" ) }
+					description={ __( "Prove ownership on other platforms.", "wordpress-seo" ) }
+					elements={ verificationIntegrations }
 				/>
 
 			</div>

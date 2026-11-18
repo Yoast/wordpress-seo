@@ -13,10 +13,10 @@ class Term_Not_Built_Exception extends Not_Built_Exception {
 	 *
 	 * @param int $term_id ID of the term.
 	 *
-	 * @throws Term_Not_Built_Exception When the term is not built.
+	 * @return Term_Not_Built_Exception
 	 */
 	public static function because_not_indexable( $term_id ) {
 		/* translators: %s: expands to the term id */
-		return new Term_Not_Built_Exception( \sprintf( \__( 'The term %s could not be built because it\'s not indexable.', 'wordpress-seo' ), $term_id ) );
+		return new self( \sprintf( \__( 'The term %s could not be built because it\'s not indexable.', 'wordpress-seo' ), $term_id ) );
 	}
 }

@@ -24,7 +24,6 @@ describe( "stripTagsFromHtmlString", () => {
 		],
 		[
 			"removes all the tags in a full HTML document",
-			// eslint-disable-next-line max-len
 			"<html><head><title>title</title><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><link rel=\"icon\" type=\"image/x-icon\" href=\"/favicon.ico\"><style>.relative {position: relative}</style></head><body><div id=\"__app\"><div class=\"relative\"><h1 class=\"font-medium\">header</h1><ul class=\"text-white pt-3\"><li><a href=\"example.com\" target=\"_blank\" rel=\"noreferrer\">one</a></li><li><span class=\"two\">two</span></li><li><h2 data-three=\"3\">three</h2></li></ul></div><script type=\"application/javascript\" defer>console.log( \"boo\" );</script></div></body></html>",
 			"headeronetwothree",
 		],
@@ -41,7 +40,6 @@ describe( "stripTagsFromHtmlString", () => {
 		],
 		[
 			"removes all but the allowed tags",
-			// eslint-disable-next-line max-len
 			"<ul class=\"text-white pt-3\"><li><a href=\"example.com\" target=\"_blank\" rel=\"noreferrer\">one</a></li><li><span class=\"two\">two</span></li><li><h2 data-three=\"3\">three</h2></li></ul>",
 			"<a href=\"example.com\" target=\"_blank\" rel=\"noreferrer\">one</a>twothree",
 			[ "a" ],
@@ -53,7 +51,6 @@ describe( "stripTagsFromHtmlString", () => {
 		],
 		[
 			"removes all but the allowed tags, keeping allowed attributes",
-			// eslint-disable-next-line max-len
 			"<ul class=\"text-white pt-3\"><li><a href=\"example.com\" target=\"_blank\" rel=\"noreferrer\">one</a></li><li><span class=\"two\">two</span></li><li><h2 data-three=\"3\">three</h2></li></ul>",
 			"<a href=\"example.com\" rel=\"noreferrer\">one</a>twothree",
 			[ "a" ],

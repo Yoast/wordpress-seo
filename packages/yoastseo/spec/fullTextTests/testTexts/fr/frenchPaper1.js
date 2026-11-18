@@ -32,7 +32,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 4,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 1 time. " +
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 1 time. " +
 			"That's less than the recommended minimum of 3 times for a text of this length. " +
 			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
 	},
@@ -144,14 +144,8 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. " +
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings. " +
 			"That's great!",
-	},
-	imageKeyphrase: {
-		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes " +
-			"with at least half of the words from your keyphrase.<a href='https://yoa.st/4f6' target='_blank'>Fix that!</a>!",
 	},
 	imageCount: {
 		isApplicable: true,

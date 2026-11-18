@@ -1,4 +1,4 @@
-import { unifyNonBreakingSpace } from "./unifyWhitespace";
+import { unifyNonBreakingSpace } from "./unifyWhitespace.js";
 
 /**
  * String containing all the characters that we consider punctuation.
@@ -17,6 +17,9 @@ export const punctuationRegexString = "\\–\\-\\(\\)_\\[\\]’‘“”〝〞�
  * @type {string[]}
  */
 export const punctuationList = punctuationRegexString.split( "" );
+
+export const punctuationRegexStart = new RegExp( "^[" + punctuationRegexString + "]+" );
+export const punctuationRegexEnd = new RegExp( "[" + punctuationRegexString +  "]+$" );
 
 /*
  * \u2014 - em-dash
@@ -43,9 +46,6 @@ export default function( text ) {
 	// Remove &amp from the string. In some editors (a.o. Block and Elementor) the ampersand (&) is transformed into &amp.
 	// If it is not removed, then it is returned as "amp" and counted as a word in assessments downstream.
 	text = text.replace( "\u0026amp", "" );
-
-	const punctuationRegexStart = new RegExp( "^[" + punctuationRegexString + "]+" );
-	const punctuationRegexEnd = new RegExp( "[" + punctuationRegexString +  "]+$" );
 
 	/*
 	 * Remove backslash from the beginning and end of a word/text.

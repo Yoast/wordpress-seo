@@ -15,7 +15,7 @@ class WPSEO_GSC {
 	 *
 	 * @var string
 	 */
-	const OPTION_WPSEO_GSC = 'wpseo-gsc';
+	public const OPTION_WPSEO_GSC = 'wpseo-gsc';
 
 	/**
 	 * Outputs the HTML for the redirect page.

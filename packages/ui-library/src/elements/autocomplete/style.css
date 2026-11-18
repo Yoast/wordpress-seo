@@ -19,43 +19,79 @@
 			}
 		}
 
+		.yst-autocomplete--disabled {
+
+			@apply
+			yst-opacity-50
+			yst-cursor-not-allowed
+			focus:yst-ring-0;
+
+			.yst-autocomplete__input {
+				@apply
+				yst-cursor-not-allowed
+				focus:yst-ring-0;
+			}
+
+			.yst-autocomplete__button {
+				@apply
+				yst-cursor-not-allowed
+				focus-within:yst-border-slate-200
+				focus-within:yst-outline-none
+				focus-within:yst-ring-slate-200;
+			}
+		}
+
 		.yst-autocomplete__button {
 			@apply
 			yst-w-full
-			yst-h-full
 			yst-rounded-md
-			yst-border
-			yst-border-slate-300
+			yst-bg-white
+			yst-shadow-sm
+			yst-border-0
+			yst-ring-1
+			yst-ring-slate-300
 			yst-flex
 			yst-items-center
 			yst-px-3
 			focus-within:yst-border-primary-500
 			focus-within:yst-outline-none
-			focus-within:yst-ring-1
 			focus-within:yst-ring-primary-500;
 		}
 
-		.yst-autocomplete__button-icon {
-			@apply yst-absolute yst-top-[0.6875rem] yst-right-2.5 yst-text-slate-400 yst-pointer-events-none yst-w-5 yst-h-5;
+		.yst-autocomplete__action-container {
+			@apply yst-flex yst-items-center yst-gap-x-2 yst-ps-3;
+		}
+
+		/* Including .yst-button class for specificity: needing to override the px on the yst-button class. */
+
+		.yst-button.yst-autocomplete__clear-action {
+			@apply yst-px-0;
+		}
+
+		.yst-autocomplete__action-icon {
+			@apply yst-w-5 yst-h-5 yst-text-slate-400 yst-shrink-0;
+		}
+
+		.yst-autocomplete__action-separator {
+			@apply yst-ms-0.5 yst-w-0.5 yst-h-7 yst-bg-slate-200;
 		}
 
 		.yst-autocomplete__input {
 			@apply
 			yst-w-full
 			yst-border-0
-			yst-bg-white
+			yst-px-0
 			yst-py-2
-			yst-pl-0
-			yst-pr-10
 			yst-shadow-none
 			yst-text-sm
-			focus:yst-ring-0;
+			focus:yst-ring-0
+			yst-text-slate-800;
 		}
 
 		.yst-autocomplete__options {
 			@apply
 			yst-absolute
-			yst-z-10
+			yst-z-20
 			yst-w-full
 			yst-mt-1
 			yst-overflow-auto

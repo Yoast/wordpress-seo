@@ -15,6 +15,7 @@ export default compose( [
 			getWincherRequestIsSuccess,
 			getWincherRequestResponse,
 			getWincherTrackableKeyphrases,
+			getWincherTrackedKeyphrases,
 			getWincherAllKeyphrasesMissRanking,
 			getWincherPermalink,
 			shouldWincherAutomaticallyTrackAll,
@@ -22,6 +23,7 @@ export default compose( [
 
 		return {
 			keyphrases: getWincherTrackableKeyphrases(),
+			trackedKeyphrases: getWincherTrackedKeyphrases(),
 			allKeyphrasesMissRanking: getWincherAllKeyphrasesMissRanking(),
 			isLoggedIn: getWincherLoginStatus(),
 			isNewlyAuthenticated: isWincherNewlyAuthenticated(),

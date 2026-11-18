@@ -14,14 +14,14 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, 
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = null;
+	public const UNINDEXED_COUNT_TRANSIENT = null;
 
 	/**
 	 * The transient cache key for limited counts.
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
+	public const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
 
 	/**
 	 * Builds a query for selecting the ID's of unindexed posts.
@@ -57,7 +57,7 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, 
 		$query = $this->get_select_query( $limit );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
-		$unindexed_object_ids = $this->wpdb->get_col( $query );
+		$unindexed_object_ids = ( $query === '' ) ? [] : $this->wpdb->get_col( $query );
 		$count                = (int) \count( $unindexed_object_ids );
 
 		\set_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT, $count, ( \MINUTE_IN_SECONDS * 15 ) );
@@ -83,13 +83,20 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, 
 		$query = $this->get_count_query();
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
-		$count = $this->wpdb->get_var( $query );
+		$count = ( $query === '' ) ? 0 : $this->wpdb->get_var( $query );
 
-		if ( \is_null( $count ) ) {
+		if ( $count === null ) {
 			return false;
 		}
 
 		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $count, \DAY_IN_SECONDS );
+
+		/**
+		 * Action: 'wpseo_indexables_unindexed_calculated' - sets an option to timestamp when there are no unindexed indexables left.
+		 *
+		 * @internal
+		 */
+		\do_action( 'wpseo_indexables_unindexed_calculated', static::UNINDEXED_COUNT_TRANSIENT, $count );
 
 		return (int) $count;
 	}

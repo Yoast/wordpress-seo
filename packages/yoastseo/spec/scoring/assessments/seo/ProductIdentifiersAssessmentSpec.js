@@ -1,4 +1,4 @@
-import { createAnchorOpeningTag } from "../../../../src/helpers";
+import { __, sprintf } from "@wordpress/i18n";
 import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
 import Paper from "../../../../src/values/Paper";
 
@@ -6,7 +6,7 @@ const paper = new Paper( "" );
 
 
 describe( "a test for Product identifiers assessment for WooCommerce", function() {
-	const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+	const assessment = new ProductIdentifiersAssessment( { assessVariants: true, shouldShowEditButton: true } );
 
 	it( "returns the score 9 when a product has a global identifier and no variants", function() {
 		const customData = {
@@ -85,8 +85,8 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Your product is missing an identifier (like a GTIN code). You can add a product identifier via the \"Yoast SEO\" tab " +
-			"in the Product data box. <a href='https://yoa.st/4lz' target='_blank'>Include" +
+			" Your product is missing an identifier (like a GTIN code)." +
+			" <a href='https://yoa.st/4lz' target='_blank'>Include" +
 			" it if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
@@ -103,8 +103,8 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Not all your product variants have an identifier. You can add a product identifier via the \"Variations\" " +
-			"tab in the Product data box. <a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it " +
+			" Not all your product variants have an identifier. " +
+			"<a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it " +
 			"will help search engines to better understand your content.</a>" );
 	} );
 
@@ -121,11 +121,10 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Not all your product variants have an identifier. You can add a product identifier via the \"Variations\"" +
-			" tab in the Product data box. <a href='https://yoa.st/4lz' target='_blank'>Include" +
+			" Not all your product variants have an identifier." +
+			" <a href='https://yoa.st/4lz' target='_blank'>Include" +
 			" it if you can, as it will help search engines to better understand your content.</a>" );
 	} );
-
 
 	it( "returns the score 9 with the feedback for a simple product when a variable product has no variants but has a global identifier", function() {
 		const customData = {
@@ -156,17 +155,84 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Your product is missing an identifier (like a GTIN code). You can add a product identifier via the \"Yoast SEO\" tab " +
-			"in the Product data box. <a href='https://yoa.st/4lz' target='_blank'>Include" +
+			" Your product is missing an identifier (like a GTIN code)." +
+			" <a href='https://yoa.st/4lz' target='_blank'>Include" +
 			" it if you can, as it will help search engines to better understand your content.</a>" );
+	} );
+
+	it( "returns `hasJump` as true when `shouldEditButton` is set to true and the score is less than 9", function() {
+		const customData = {
+			hasGlobalIdentifier: true,
+			hasVariants: true,
+			doAllVariantsHaveIdentifier: false,
+			productType: "variable",
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
+
+		expect( assessmentResult.hasJumps() ).toBeTruthy();
 	} );
 } );
 
 describe( "a test for Product identifiers assessment for Shopify", () => {
-	const assessment = new ProductIdentifiersAssessment( { urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify81" ),
-		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify82" ),
-		assessVariants: false,
-		productIdentifierOrBarcode: "Barcode" } );
+	/**
+	 * Returns the result texts for the Barcode assessment.
+	 * @param {string} urlTitleAnchorOpeningTag The anchor opening tag to the article about this assessment.
+	 * @param {string} urlActionAnchorOpeningTag The anchor opening tag to the call to action URL to the help article of this assessment.
+	 * @returns {{good: {withoutVariants: string, withVariants: string}, okay: {withoutVariants: string, withVariants: string}}} The feedback strings.
+	 */
+	const getResultTexts = ( { urlTitleAnchorOpeningTag, urlActionAnchorOpeningTag } ) => {
+		return {
+			good: {
+				withoutVariants: sprintf(
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					__(
+						"%1$sBarcode%2$s: Your product has a barcode. Good job!",
+						"shopify-seo"
+					),
+					urlTitleAnchorOpeningTag,
+					"</a>"
+				),
+				withVariants: sprintf(
+					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					__(
+						"%1$sBarcode%2$s: All your product variants have a barcode. Good job!",
+						"shopify-seo"
+					),
+					urlTitleAnchorOpeningTag,
+					"</a>"
+				),
+			},
+			okay: {
+				withoutVariants: sprintf(
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					__(
+						"%1$sBarcode%3$s: Your product is missing a barcode (like a GTIN code). %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
+						"shopify-seo"
+					),
+					urlTitleAnchorOpeningTag,
+					urlActionAnchorOpeningTag,
+					"</a>"
+				),
+				withVariants: sprintf(
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					__(
+						"%1$sBarcode%3$s: Not all your product variants have a barcode. %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
+						"shopify-seo"
+					),
+					urlTitleAnchorOpeningTag,
+					urlActionAnchorOpeningTag,
+					"</a>"
+				),
+			},
+		};
+	};
+	const assessment = new ProductIdentifiersAssessment( {
+		urlTitle: "https://yoa.st/shopify81",
+		urlCallToAction: "https://yoa.st/shopify82",
+		callbacks: { getResultTexts },
+	} );
 
 	it( "returns with score 9 when the product has global identifier and no variants", () => {
 		const customData = {
@@ -185,7 +251,6 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 
 	it( "returns with score 6 when the product doesn't have a global identifier nor variants", () => {
 		const customData = {
-
 			hasGlobalIdentifier: false,
 			hasVariants: false,
 			productType: "simple",
@@ -198,6 +263,19 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>:" +
 			" Your product is missing a barcode (like a GTIN code). <a href='https://yoa.st/shopify82' target='_blank'>Include" +
 			" it if you can, as it will help search engines to better understand your content.</a>" );
+	} );
+
+	it( "returns `hasJumps` as false for shopify, since the `shouldEditButton` is set to false even though the score is less than 9", () => {
+		const customData = {
+			hasGlobalIdentifier: false,
+			hasVariants: false,
+			productType: "simple",
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
+
+		expect( assessmentResult.hasJumps() ).toBeFalsy();
 	} );
 } );
 
@@ -346,5 +424,38 @@ describe( "a test for the applicability of the assessment", function() {
 		const isApplicable = assessment.isApplicable( paperWithCustomData );
 
 		expect( isApplicable ).toBe( true );
+	} );
+
+	it( "stays applicable when canRetrieve keys are absent (undefined ≠ false)", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: false } );
+		// Mirrors Shopify, which never sets the canRetrieve* keys.
+		const productPaper = new Paper( "", { productData: { isVariableProduct: false, hasVariants: false, hasGlobalIdentifier: false } } );
+
+		expect( assessment.isApplicable( productPaper ) ).toBe( true );
+	} );
+} );
+
+describe( "a test for the Product identifiers assessment reading the first-class product field", () => {
+	const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+
+	it( "scores 9 for a single-unit product with a global identifier, without a legacy productType", () => {
+		const productPaper = new Paper( "", { productData: { isVariableProduct: false, hasVariants: false, hasGlobalIdentifier: true } } );
+		expect( assessment.getResult( productPaper ).getScore() ).toEqual( 9 );
+	} );
+
+	it( "scores 6 for a variable product with variants when not all variants have an identifier", () => {
+		const productPaper = new Paper( "", {
+			productData: { isVariableProduct: true, hasVariants: true, hasGlobalIdentifier: false, doAllVariantsHaveIdentifier: false },
+		} );
+		expect( assessment.getResult( productPaper ).getScore() ).toEqual( 6 );
+	} );
+
+	it( "prefers the product field over legacy customData", () => {
+		const productPaper = new Paper( "", {
+			productData: { isVariableProduct: false, hasVariants: false, hasGlobalIdentifier: true },
+			customData: { productType: "simple", hasVariants: false, hasGlobalIdentifier: false },
+		} );
+		// The product field reports a global identifier (score 9); the legacy customData would score 6.
+		expect( assessment.getResult( productPaper ).getScore() ).toEqual( 9 );
 	} );
 } );

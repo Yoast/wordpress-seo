@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 
 /**
- * Sidebar item with renderpriority.
+ * Sidebar item with render priority.
  *
  * @param {wp.Element} children The children.
  * @returns {wp.Element} the sidebar item.

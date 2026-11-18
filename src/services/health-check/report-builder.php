@@ -10,17 +10,17 @@ class Report_Builder {
 	/**
 	 * Passed health check.
 	 */
-	const STATUS_GOOD = 'good';
+	public const STATUS_GOOD = 'good';
 
 	/**
 	 * Changes are recommended but not necessary.
 	 */
-	const STATUS_RECOMMENDED = 'recommended';
+	public const STATUS_RECOMMENDED = 'recommended';
 
 	/**
 	 * Significant issues that the user should consider fixing.
 	 */
-	const STATUS_CRITICAL = 'critical';
+	public const STATUS_CRITICAL = 'critical';
 
 	/**
 	 * The user-facing label.
@@ -201,7 +201,7 @@ class Report_Builder {
 			\esc_html__( '%1$sThis was reported by the %2$s plugin%3$s', 'wordpress-seo' ),
 			'<p class="yoast-site-health__signature"><img src="' . \esc_url( \plugin_dir_url( \WPSEO_FILE ) . 'packages/js/images/Yoast_SEO_Icon.svg' ) . '" alt="" height="20" width="20" class="yoast-site-health__signature-icon">',
 			'Yoast SEO',
-			'</p>'
+			'</p>',
 		);
 	}
 }

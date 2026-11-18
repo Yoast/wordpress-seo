@@ -1,11 +1,58 @@
+import { ContentAnalysis, MarkButton } from "@yoast/analysis-report";
+import { Badge } from "@yoast/ui-library";
+import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
-import { ContentAnalysis } from "@yoast/analysis-report";
 import { Component, Fragment } from "@wordpress/element";
+import { doAction } from "@wordpress/hooks";
+
 import { isUndefined } from "lodash";
+import PropTypes from "prop-types";
 import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
+import { PremiumSEOAnalysisModal } from "../modals/PremiumSEOAnalysisModal";
+
+/**
+ * Mark button with optional upsell badge and tooltip.
+ *
+ * @param {Object} props The component props.
+ *
+ * @returns {JSX.Element} The mark button.
+ */
+const MarkButtonWithUpsell = ( {
+	ariaLabel,
+	id,
+	className = "",
+	status = "enabled",
+	onClick,
+	isPressed,
+	shouldUpsellHighlighting = false,
+} ) => {
+	return <MarkButton
+		ariaLabel={ ariaLabel }
+		id={ id }
+		className={ className }
+		status={ status }
+		onClick={ onClick }
+		isPressed={ isPressed }
+	>
+		{ shouldUpsellHighlighting &&
+			<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
+				<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
+			</Badge>
+		}
+	</MarkButton>;
+};
+
+MarkButtonWithUpsell.propTypes = {
+	ariaLabel: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	status: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
+	isPressed: PropTypes.bool.isRequired,
+	shouldUpsellHighlighting: PropTypes.bool,
+};
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
@@ -36,6 +83,8 @@ class Results extends Component {
 		this.handleMarkButtonClick = this.handleMarkButtonClick.bind( this );
 		this.handleEditButtonClick = this.handleEditButtonClick.bind( this );
 		this.handleResultsChange   = this.handleResultsChange.bind( this );
+		this.renderHighlightingUpsell = this.renderHighlightingUpsell.bind( this );
+		this.createMarkButton = this.createMarkButton.bind( this );
 	}
 
 	/**
@@ -54,6 +103,37 @@ class Results extends Component {
 				mappedResults: mapResults( this.props.results, this.props.keywordKey ),
 			} );
 		}
+	}
+
+	/**
+	 * Factory method which creates a new instance of the default mark button.
+	 *
+	 * @param {string} ariaLabel 	The button aria-label.
+	 * @param {string} id 			The button id.
+	 * @param {string} className 	The button class name.
+	 * @param {string} status 		Status of the buttons. Supports: "enabled", "disabled", "hidden".
+	 * @param {function} onClick 	Onclick handler.
+	 * @param {boolean} isPressed 	Whether the button is in a pressed state.
+	 *
+	 * @returns {JSX.Element} A new mark button.
+	 */
+	createMarkButton( {
+		ariaLabel,
+		id,
+		className,
+		status,
+		onClick,
+		isPressed,
+	} ) {
+		return <MarkButtonWithUpsell
+			ariaLabel={ ariaLabel }
+			id={ id }
+			className={ className }
+			status={ status }
+			onClick={ onClick }
+			isPressed={ isPressed }
+			shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+		/>;
 	}
 
 	/**
@@ -89,6 +169,11 @@ class Results extends Component {
 	handleMarkButtonClick( id, marker ) {
 		// To see a difference between keyphrases: Prepend the keyword key when applicable.
 		const markerId = this.props.keywordKey.length > 0 ? `${this.props.keywordKey}:${id}` : id;
+
+		// If AI Fixes button is active while the Mark button is clicked, set the active AI Fixes button ID to null.
+		if ( this.props.activeAIFixesButton ) {
+			this.props.setActiveAIFixesButton( null );
+		}
 
 		// If marker button is clicked while active, disable markers.
 		if ( markerId === this.props.activeMarker ) {
@@ -131,8 +216,7 @@ class Results extends Component {
 		// The keyword key is used for labelling the related keyphrase(s).
 		const keywordKey = this.props.keywordKey;
 		const elementID = keywordKey === "" ? "focus-keyword-input-" + inputFieldLocation
-			: "yoast-keyword-input-" + keywordKey + "-" +  inputFieldLocation;
-
+			: "yoast-keyword-input-" + keywordKey + "-" + inputFieldLocation;
 
 		const element = document.getElementById( elementID );
 		element.focus();
@@ -146,23 +230,13 @@ class Results extends Component {
 	/**
      * Focuses on a Google preview input field (meta description, title or slug).
 	 *
-	 * @param {string}	id     				Result id which determines which input field should be focused on.
+	 * @param {string}	inputFieldName     	The input field name which determines which input field should be focused on.
 	 * @param {string}	inputFieldLocation	The location of the input field that should be focused on (metabox or modal).
 	 *
 	 * @returns {void}
 	 */
-	focusOnGooglePreviewField( id, inputFieldLocation ) {
-		let inputField;
-
-		if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
-			inputField = "description";
-		} else if ( id === "titleWidth" || id === "keyphraseInSEOTitle" ) {
-			inputField = "title";
-		} else {
-			inputField = "slug";
-		}
-
-		const element = document.getElementById( "yoast-google-preview-" + inputField + "-" + inputFieldLocation );
+	focusOnGooglePreviewField( inputFieldName, inputFieldLocation ) {
+		const element = document.getElementById( "yoast-google-preview-" + inputFieldName + "-" + inputFieldLocation );
 		element.focus();
 		element.scrollIntoView( {
 			behavior: "auto",
@@ -174,29 +248,49 @@ class Results extends Component {
 	/**
 	 * Handles a click on an edit button to jump to a relevant edit field.
 	 *
-	 * @param {string}   id     Result id which determines which edit field should be focused on.
+	 * @param {Object}   event             The event object.
+	 * @param {string}   editFieldName     The name of the edit field which determines which edit field should be focused on.
 	 *
 	 * @returns {void}
 	 */
-	handleEditButtonClick( id ) {
-		// Whether the user is in the metabox or sidebar.
-		let inputFieldLocation = this.props.location;
+	handleEditButtonClick( editFieldName, event ) {
+		// Remove focus from the clicked button.
+		event?.currentTarget?.blur();
 
-		if ( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
+		// Whether the user is in the metabox or sidebar.
+		const inputFieldLocation = this.props.location;
+
+		if ( editFieldName === "keyphrase" ) {
 			this.focusOnKeyphraseField( inputFieldLocation );
 			return;
 		}
+
 		/*
 		 * For all the other assessments that have an edit button, we need to jump to the relevant Google preview fields.
 		 * (metadescription, slug, or title). If the user is in the sidebar, these are accessed through a modal. So if the
 		 * inputFieldLocation string is 'sidebar' it should now be changed to 'modal'.
-	     */
+		 */
+		if ( [ "description", "title", "slug" ].includes( editFieldName ) ) {
+			this.handleGooglePreviewFocus( inputFieldLocation, editFieldName );
+		}
+
+		doAction( "yoast.focus.input", editFieldName );
+	}
+
+	/**
+	 * Handles focus on Google Preview elements, when an edit button is clicked.
+	 *
+	 * @param {string} inputFieldLocation The location of the input field.
+	 * @param {string} id The id of the input field.
+	 *
+	 * @returns {void}
+	 */
+	handleGooglePreviewFocus( inputFieldLocation, id ) {
 		if ( inputFieldLocation === "sidebar" ) {
-			inputFieldLocation = "modal";
 			// Open the modal.
-			document.getElementById( "yoast-google-preview-modal-open-button" ).click();
+			document.getElementById( "yoast-search-appearance-modal-open-button" ).click();
 			// Wait for the input field elements to become available, then focus on the relevant field.
-			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 500 );
+			setTimeout( () => this.focusOnGooglePreviewField( id, "modal" ), 500 );
 		} else {
 			const googlePreviewCollapsible = document.getElementById( "yoast-snippet-editor-metabox" );
 			// Check if the collapsible is closed before clicking on it.
@@ -218,6 +312,26 @@ class Results extends Component {
 	 */
 	removeMarkers() {
 		window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
+	}
+
+	/**
+	 * Renders the modal for the highlighting upsell.
+	 *
+	 * @param {boolean} isOpen Whether the modal should be opened.
+	 * @param {function} closeModal A callback function invoked when the modal is closed.
+	 * @returns {boolean|wp.Element} The modal for the highlighting upsell element, or false if the modal is closed.
+	 */
+	renderHighlightingUpsell( isOpen, closeModal ) {
+		const upsellDescription = __(
+			"Highlight areas of improvement in your text, no more searching for a needle in a haystack, straight to optimizing! Now also in Elementor!",
+			"wordpress-seo" );
+
+		return <PremiumSEOAnalysisModal
+			isOpen={ isOpen }
+			closeModal={ closeModal }
+			id="yoast-premium-seo-analysis-highlighting-modal"
+			upsellLink={ this.props.highlightingUpsellLink } description={ upsellDescription }
+		/>;
 	}
 
 	/**
@@ -247,6 +361,12 @@ class Results extends Component {
 
 		const labels = Object.assign( defaultLabels, resultCategoryLabels );
 
+		let marksButtonStatus = this.props.marksButtonStatus;
+		// If the marks are enabled, but we are also parsing shortcodes, disable the markers.
+		if ( marksButtonStatus === "enabled" && this.props.shortcodesForParsing.length > 0 ) {
+			marksButtonStatus = "disabled";
+		}
+
 		return (
 			<Fragment>
 				<ContentAnalysis
@@ -261,12 +381,17 @@ class Results extends Component {
 					onEditButtonClick={ this.handleEditButtonClick }
 					marksButtonClassName={ this.props.marksButtonClassName }
 					editButtonClassName={ this.props.editButtonClassName }
-					marksButtonStatus={ this.props.marksButtonStatus }
+					marksButtonStatus={ marksButtonStatus }
 					headingLevel={ 3 }
 					keywordKey={ this.props.keywordKey }
+					id={ this.props.id }
 					isPremium={ this.props.isPremium }
 					resultCategoryLabels={ labels }
 					onResultChange={ this.handleResultsChange }
+					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+					renderAIOptimizeButton={ this.props.renderAIOptimizeButton }
+					renderHighlightingUpsell={ this.renderHighlightingUpsell }
+					markButtonFactory={ this.createMarkButton }
 				/>
 			</Fragment>
 		);
@@ -278,12 +403,15 @@ Results.propTypes = {
 	upsellResults: PropTypes.array,
 	marksButtonClassName: PropTypes.string,
 	editButtonClassName: PropTypes.string,
-	marksButtonStatus: PropTypes.string,
+	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ),
 	setActiveMarker: PropTypes.func.isRequired,
 	setMarkerPauseStatus: PropTypes.func.isRequired,
+	setActiveAIFixesButton: PropTypes.func.isRequired,
 	activeMarker: PropTypes.string,
+	activeAIFixesButton: PropTypes.string,
 	keywordKey: PropTypes.string,
 	location: PropTypes.string,
+	id: PropTypes.string,
 	isPremium: PropTypes.bool,
 	resultCategoryLabels: PropTypes.shape( {
 		errors: PropTypes.string,
@@ -292,6 +420,10 @@ Results.propTypes = {
 		considerations: PropTypes.string,
 		goodResults: PropTypes.string,
 	} ),
+	shortcodesForParsing: PropTypes.array,
+	shouldUpsellHighlighting: PropTypes.bool,
+	highlightingUpsellLink: PropTypes.string,
+	renderAIOptimizeButton: PropTypes.func,
 };
 
 Results.defaultProps = {
@@ -301,10 +433,16 @@ Results.defaultProps = {
 	marksButtonClassName: "",
 	editButtonClassName: "",
 	activeMarker: null,
+	activeAIFixesButton: null,
 	keywordKey: "",
 	location: "",
+	id: "",
 	isPremium: false,
 	resultCategoryLabels: {},
+	shortcodesForParsing: [],
+	shouldUpsellHighlighting: false,
+	highlightingUpsellLink: "",
+	renderAIOptimizeButton: () => {},
 };
 
 export default Results;

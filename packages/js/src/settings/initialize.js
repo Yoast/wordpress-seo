@@ -1,16 +1,19 @@
 import { SlotFillProvider } from "@wordpress/components";
 import { dispatch, select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { Formik } from "formik";
 import { chunk, filter, forEach, get, includes, reduce } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
+import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
+import { LINK_PARAMS_NAME, REPLACEMENT_VARIABLES_NAME, getReplacementVariablesInitialState } from "../shared-admin/store";
 import App from "./app";
 import { STORE_NAME } from "./constants";
 import { createValidationSchema, handleSubmit } from "./helpers";
 import registerStore from "./store";
+import { __ } from "@wordpress/i18n";
 
 /**
  * @param {Object} settings The settings.
@@ -46,6 +49,20 @@ const preloadUsers = async( { settings } ) => {
 };
 
 /**
+ * Preloads the indexable pages that are selected by the user.
+ *
+ * @returns {void}
+ */
+const preloadIndexablePages = () => {
+	const initialIndexablePages = Object.values( get( window, "wpseoScriptData.initialLlmTxtPages", {} ) );
+	if ( initialIndexablePages.length === 0 ) {
+		return;
+	}
+
+	dispatch( STORE_NAME ).addIndexablePages( initialIndexablePages );
+};
+
+/**
  * Fixes the WordPress skip links.
  *
  * By disabling the default behavior of the links and focusing the elements.
@@ -71,19 +88,6 @@ const fixFocusLinkCompatibility = () => {
 	} );
 };
 
-/**
- * Enforce a minimum height on the WP content that is the height of the WP menu.
- *
- * This prevents it from going into the fixed mode.
- *
- * @returns {void}
- */
-const matchWpMenuHeight = () => {
-	const wpcontent = document.getElementById( "wpcontent" );
-	const menu = document.getElementById( "adminmenuwrap" );
-	wpcontent.style.minHeight = `${ menu.offsetHeight }px`;
-};
-
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-settings" );
 	if ( ! root ) {
@@ -100,15 +104,38 @@ domReady( () => {
 	const postTypes = get( window, "wpseoScriptData.postTypes", {} );
 	const taxonomies = get( window, "wpseoScriptData.taxonomies", {} );
 
-	registerStore();
+	const showNewContentTypeNotification = get( window, "wpseoScriptData.showNewContentTypeNotification", false );
+	const notifications = ( showNewContentTypeNotification )
+		? { [ "new-content-type" ]: {
+			id: "new-content-type",
+			variant: "info",
+			size: "large",
+			title: __( "New type of content added to your site!", "wordpress-seo" ),
+			description: __( "Please see the “New” badges and review the Search appearance settings.", "wordpress-seo" ),
+		} } : {};
+
+	const replacementVariables = get( window, "wpseoScriptData.replacementVariables", {} );
+
+	registerStore( {
+		initialState: {
+			notifications,
+			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
+			currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
+			llmsTxt: get( window, "wpseoScriptData.llmsTxt", {} ),
+			schemaFramework: get( window, "wpseoScriptData.schemaFrameworkConfiguration", {} ),
+			[ REPLACEMENT_VARIABLES_NAME ]: getReplacementVariablesInitialState( replacementVariables ),
+		},
+	} );
+
 	preloadMedia( { settings, fallbacks } );
 	preloadUsers( { settings } );
+	preloadIndexablePages();
 	fixFocusLinkCompatibility();
-	matchWpMenuHeight();
+	fixWordPressMenuScrolling();
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
-	render(
+	createRoot( root ).render(
 		<Root context={ { isRtl } }>
 			<StyleSheetManager target={ shadowRoot }>
 				<SlotFillProvider>
@@ -123,7 +150,6 @@ domReady( () => {
 					</HashRouter>
 				</SlotFillProvider>
 			</StyleSheetManager>
-		</Root>,
-		root
+		</Root>
 	);
 } );

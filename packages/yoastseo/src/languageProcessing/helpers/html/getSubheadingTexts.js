@@ -1,4 +1,4 @@
-import { isUndefined } from "lodash-es";
+import { isUndefined } from "lodash";
 
 /**
  * Returns An array of found subheadings including the following text.

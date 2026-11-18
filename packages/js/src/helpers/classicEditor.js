@@ -1,4 +1,4 @@
-import { render, Component as wpComponent, createRef } from "@wordpress/element";
+import { Component as wpComponent, createRef, createRoot } from "@wordpress/element";
 import { SlotFillProvider } from "@wordpress/components";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
 import getL10nObject from "../analysis/getL10nObject";
@@ -8,7 +8,7 @@ const registeredComponents = [];
 let containerRef = null;
 
 /**
- * Container used to render registerd components when wp.plugins is not available.
+ * Container used to render registered components when wp.plugins is not available.
  */
 class RegisteredComponentsContainer extends wpComponent {
 	/**
@@ -20,7 +20,8 @@ class RegisteredComponentsContainer extends wpComponent {
 		super( props );
 
 		this.state = {
-			registeredComponents: [],
+			// Start with the array of registered components from the module!
+			registeredComponents: [ ...registeredComponents ],
 		};
 	}
 
@@ -35,15 +36,16 @@ class RegisteredComponentsContainer extends wpComponent {
 	 * @returns {void}
 	 */
 	registerComponent( key, Component ) {
-		this.setState( {
+		this.setState( ( state ) => ( {
+			...state,
 			registeredComponents: [
-				...this.state.registeredComponents,
+				...state.registeredComponents,
 				{
 					key,
 					Component,
 				},
 			],
-		} );
+		} ) );
 	}
 
 	/**
@@ -73,25 +75,18 @@ export function renderClassicEditorMetabox( store ) {
 		isRtl: localizedData.isRtl,
 	};
 
-	render(
-		(
-			<SlotFillProvider>
-				<Root context={ classicMetaboxContext }>
-					<MetaboxPortal
-						target="wpseo-metabox-root"
-						store={ store }
-						theme={ theme }
-					/>
-				</Root>
-				<RegisteredComponentsContainer ref={ containerRef } />
-			</SlotFillProvider>
-		),
-		document.getElementById( "wpseo-metabox-root" )
+	createRoot( document.getElementById( "wpseo-metabox-root" ) ).render(
+		<SlotFillProvider>
+			<Root context={ classicMetaboxContext }>
+				<MetaboxPortal
+					target="wpseo-metabox-root"
+					store={ store }
+					theme={ theme }
+				/>
+			</Root>
+			<RegisteredComponentsContainer ref={ containerRef } />
+		</SlotFillProvider>
 	);
-
-	registeredComponents.forEach( ( registered ) => {
-		containerRef.current.registerComponent( registered.key, registered.Component );
-	} );
 }
 
 /**

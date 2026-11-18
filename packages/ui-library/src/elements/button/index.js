@@ -1,20 +1,27 @@
+/* eslint-disable complexity */
 import classNames from "classnames";
 import { keys } from "lodash";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Spinner from "../spinner";
-import { forwardRef } from "@wordpress/element";
+import { SparklesIcon } from "./sparkles-icon";
+import { useSvgAria } from "../../hooks";
 
 export const classNameMap = {
 	variant: {
 		primary: "yst-button--primary",
 		secondary: "yst-button--secondary",
+		tertiary: "yst-button--tertiary",
 		error: "yst-button--error",
 		upsell: "yst-button--upsell",
+		"ai-primary": "yst-button--ai-primary",
+		"ai-secondary": "yst-button--ai-secondary yst-ai-gradient-border",
 	},
 	size: {
 		"default": "",
 		small: "yst-button--small",
 		large: "yst-button--large",
+		"extra-large": "yst-button--extra-large",
 	},
 };
 
@@ -31,17 +38,18 @@ export const classNameMap = {
  */
 const Button = forwardRef( ( {
 	children,
-	as: Component,
+	as: Component = "button",
 	type,
-	variant,
-	size,
-	isLoading,
-	disabled,
-	className,
+	variant = "primary",
+	size = "default",
+	isLoading = false,
+	disabled = false,
+	className = "",
 	...props
-}, ref ) => (
-	<Component
-		// eslint-disable-next-line no-undefined
+}, ref ) => {
+	const svgAriaProps = useSvgAria();
+
+	return <Component
 		type={ type || ( Component === "button" && "button" ) || undefined }
 		disabled={ disabled }
 		ref={ ref }
@@ -55,39 +63,21 @@ const Button = forwardRef( ( {
 		) }
 		{ ...props }
 	>
-		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst-mr-2" /> }
+		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst-button--loading"  { ...svgAriaProps } /> }
+		{ variant.startsWith( "ai-" ) && <SparklesIcon className="yst-button--sparkles-icon yst-shrink-0" { ...svgAriaProps } /> }
 		{ children }
-	</Component>
-) );
+	</Component>;
+} );
 
-const propTypes = {
+Button.displayName = "Button";
+Button.propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
-	type: PropTypes.oneOf( [ "button", "submit" ] ),
+	type: PropTypes.oneOf( [ "button", "submit", "reset" ] ),
 	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
 	size: PropTypes.oneOf( keys( classNameMap.size ) ),
 	isLoading: PropTypes.bool,
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
-
-Button.propTypes = propTypes;
-
-Button.defaultProps = {
-	as: "button",
-	// eslint-disable-next-line no-undefined
-	type: undefined,
-	variant: "primary",
-	size: "default",
-	isLoading: false,
-	disabled: false,
-	className: "",
-};
-
 export default Button;
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Button { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Button.defaultProps;
-StoryComponent.displayName = "Button";

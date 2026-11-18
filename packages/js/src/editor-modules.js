@@ -3,10 +3,10 @@ import * as constants from "./analysis/constants";
 import getContentLocale from "./analysis/getContentLocale";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getL10nObject from "./analysis/getL10nObject";
-import isZapierConnected from "./analysis/isZapierConnected";
-import isZapierIntegrationActive from "./analysis/isZapierIntegrationActive";
 import * as refreshAnalysis from "./analysis/refreshAnalysis";
+import KeywordInput from "./components/contentAnalysis/KeywordInputComponent";
 import * as mapResults from "./components/contentAnalysis/mapResults";
+import RelatedKeyphraseInputField from "./components/contentAnalysis/RelatedKeyphraseInputField";
 import HelpLink from "./components/HelpLink";
 import withYoastSidebarPriority from "./components/higherorder/withYoastSidebarPriority";
 import MetaboxCollapsible from "./components/MetaboxCollapsible";
@@ -21,16 +21,24 @@ import EditorModal from "./containers/EditorModal";
 import PersistentDismissableAlert from "./containers/PersistentDismissableAlert";
 import Results from "./containers/Results";
 import SEMrushRelatedKeyphrases from "./containers/SEMrushRelatedKeyphrases";
-import WincherSEOPerformance from "./containers/WincherSEOPerformance";
 import * as ajaxHelper from "./helpers/ajaxHelper";
 import createWatcher from "./helpers/create-watcher";
-import createInterpolateElement from "./helpers/createInterpolateElement";
-import * as i18n from "./helpers/i18n";
+import { safeCreateInterpolateElement, setTextdomainL10n } from "./helpers/i18n";
 import isBlockEditor from "./helpers/isBlockEditor";
 import * as replacementVariableHelpers from "./helpers/replacementVariableHelpers";
 import { update as updateAdminBar } from "./ui/adminBar";
-import { updateScore, createScoresInPublishBox, scrollToCollapsible } from "./ui/publishBox";
+import { createScoresInPublishBox, scrollToCollapsible, updateScore } from "./ui/publishBox";
 import { update as updateTrafficLight } from "./ui/trafficLight";
+import {
+	FieldsetLayout,
+	UnsavedChangesModal,
+	YoastLogo,
+	SidebarLayout,
+	ErrorFallback,
+} from "./shared-admin/components";
+import { AIErrorModal, Introduction, SuggestionError, SparksLimitNotification, FeatureError } from "./ai-generator/components";
+import { removesLocaleVariantSuffixes, fetchSuggestions } from "./ai-generator/helpers";
+import SynonymsInputField from "./components/contentAnalysis/SynonymsInput";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -38,10 +46,21 @@ window.yoast.editorModules = {
 		getL10nObject,
 		getContentLocale,
 		getIndicatorForScore,
-		isZapierConnected,
-		isZapierIntegrationActive,
 		constants,
 		refreshAnalysis,
+	},
+	aiGenerator: {
+		components: {
+			AIErrorModal,
+			Introduction,
+			SuggestionError,
+			SparksLimitNotification,
+			FeatureError,
+		},
+		helpers: {
+			removesLocaleVariantSuffixes,
+			fetchSuggestions,
+		},
 	},
 	components: {
 		HelpLink,
@@ -50,6 +69,9 @@ window.yoast.editorModules = {
 			withYoastSidebarPriority,
 		},
 		contentAnalysis: {
+			KeywordInput,
+			RelatedKeyphraseInputField,
+			SynonymsInputField,
 			mapResults,
 		},
 		contexts: {
@@ -68,20 +90,27 @@ window.yoast.editorModules = {
 			ImageSelectPortal,
 			ScoreIconPortal,
 		},
+		FieldsetLayout,
+		UnsavedChangesModal,
+		YoastLogo,
+		SidebarLayout,
+		ErrorFallback,
 	},
 	containers: {
 		EditorModal,
 		PersistentDismissableAlert,
 		Results,
 		SEMrushRelatedKeyphrases,
-		WincherSEOPerformance,
 	},
 	helpers: {
 		ajaxHelper,
-		createInterpolateElement,
+		// To support the legacy code, we need to use the old function name.
+		createInterpolateElement: safeCreateInterpolateElement,
 		createWatcher,
 		isBlockEditor,
-		i18n,
+		i18n: {
+			setTextdomainL10n,
+		},
 		replacementVariableHelpers,
 		publishBox: {
 			updateScore,

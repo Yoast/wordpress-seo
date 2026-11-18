@@ -9,8 +9,8 @@ import {
 	sortProminentWords,
 } from "yoastseo/src/languageProcessing/helpers/prominentWords/determineProminentWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "yoastseo/src/languageProcessing/helpers/html/getSubheadings";
-import getMorphologyData from "yoastseo/spec/specHelpers/getMorphologyData";
-import getResearcher from "yoastseo/spec/specHelpers/getResearcher";
+import getMorphologyData from "yoastspec/specHelpers/getMorphologyData";
+import getResearcher from "yoastspec/specHelpers/getResearcher";
 
 // Cache the relevant words.
 let previousProminentWordsInternalLinking = {

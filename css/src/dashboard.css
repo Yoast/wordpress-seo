@@ -7,7 +7,7 @@
   padding-left: 0;
 }
 
-#yoast-seo-dashboard-widget .wordpress-feed, #yoast-seo-dashboard-widget .wincher-seo-performance {
+#yoast-seo-dashboard-widget .wordpress-feed {
   margin: 16px -12px 0;
   padding: 12px 12px 0;
   border-top: 1px solid #eee;
@@ -23,7 +23,7 @@
   border-top: 1px solid #eee;
 }
 
-#yoast-seo-dashboard-widget:empty:before {
+#yoast-seo-dashboard-widget:empty:before, #yoast-seo-wincher-dashboard-widget:empty:before {
   display: block;
   content: "";
   width: 40px;

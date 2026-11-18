@@ -17,7 +17,13 @@ import { LocationConsumer, RootContext } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers";
-import { addQueryArgs } from "@wordpress/url";
+import { addQueryArgs, getQueryArg } from "@wordpress/url";
+import getL10nObject from "../../analysis/getL10nObject";
+import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
+import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
+
+// Capture at module-load time, before `openGeneralSidebar` causes WordPress to replace the URL.
+const initialYoastTab = getQueryArg( window.location.href, "yoast-tab" );
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -42,10 +48,13 @@ class ReadabilityAnalysis extends Component {
 	 * Renders the Readability Analysis results.
 	 *
 	 * @param {Array} upsellResults The array of upsell results.
+	 * @param {string} location Where this component is rendered (metabox or sidebar).
 	 *
 	 * @returns {wp.Element} The Readability Analysis results.
 	 */
-	renderResults( upsellResults ) {
+	renderResults( upsellResults, location ) {
+		const highlightingUpsellLink = "shortlinks.upsell.sidebar.highlighting_readability_analysis";
+
 		return (
 			<Fragment>
 				<AnalysisHeader>
@@ -55,15 +64,22 @@ class ReadabilityAnalysis extends Component {
 						className="dashicons"
 					>
 						<span className="screen-reader-text">
-							{ __( "Learn more about the readability analysis", "wordpress-seo" ) }
+							{
+								/* translators: Hidden accessibility text. */
+								__( "Learn more about the readability analysis", "wordpress-seo" )
+							}
 						</span>
 					</StyledHelpLink>
 				</AnalysisHeader>
 				<Results
 					results={ this.props.results }
 					upsellResults={ upsellResults }
-					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ this.props.marksButtonStatus }
+					location={ location }
+					id={ location ? `yoast-readability-analysis-results-${ location }` : "" }
+					highlightingUpsellLink={ highlightingUpsellLink }
+					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+					renderAIOptimizeButton={ this.renderAIOptimizeButton }
 				/>
 			</Fragment>
 		);
@@ -117,6 +133,35 @@ class ReadabilityAnalysis extends Component {
 		];
 	}
 
+
+	/**
+	 * Renders the Yoast AI Optimize button.
+	 * The button is shown when:
+	 * - The assessment can be fixed through Yoast AI Optimize.
+	 * - The AI feature is enabled (in Free, the button is shown with an upsell).
+	 * - We are in the block editor or classic editor.
+	 * - We are not in the Elementor editor, nor in the Elementor in-between screen.
+	 * - We are not in a Taxonomy.
+	 *
+	 * @param {boolean} hasAIFixes Whether the assessment can be fixed through Yoast AI Optimize.
+	 * @param {string} id The assessment ID.
+	 *
+	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
+	 */
+	renderAIOptimizeButton = ( hasAIFixes, id ) => {
+		const { isElementor, isAiFeatureEnabled, isTerm } = this.props;
+		const isPremium = getL10nObject().isPremium;
+
+		// Don't show the button if the AI feature is not enabled.
+		if ( ! isAiFeatureEnabled ) {
+			return;
+		}
+		const shouldRenderAIButton = shouldRenderAIOptimizeButton( hasAIFixes, isElementor, isTerm );
+		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor, or Taxonomy.
+		return shouldRenderAIButton && ( <AIOptimizeButton id={ id } isPremium={ isPremium } /> );
+	};
+
+
 	/**
 	 * Renders the Readability Analysis component.
 	 *
@@ -140,6 +185,7 @@ class ReadabilityAnalysis extends Component {
 									upsellResults = this.getUpsellResults( location, locationContext );
 								}
 								if ( location === "sidebar" ) {
+									const initialIsOpen = initialYoastTab === "readability";
 									return (
 										<Collapsible
 											title={ __( "Readability analysis", "wordpress-seo" ) }
@@ -147,8 +193,9 @@ class ReadabilityAnalysis extends Component {
 											prefixIcon={ getIconForScore( score.className ) }
 											prefixIconCollapsed={ getIconForScore( score.className ) }
 											id={ `yoast-readability-analysis-collapsible-${ location }` }
+											initialIsOpen={ initialIsOpen }
 										>
-											{ this.renderResults( upsellResults ) }
+											{ this.renderResults( upsellResults, location ) }
 										</Collapsible>
 									);
 								}
@@ -161,7 +208,7 @@ class ReadabilityAnalysis extends Component {
 													target="wpseo-readability-score-icon"
 													scoreIndicator={ score.className }
 												/>
-												{ this.renderResults( upsellResults ) }
+												{ this.renderResults( upsellResults, location ) }
 											</ReadabilityResultsTabContainer>
 										</ReadabilityResultsPortal>
 									);
@@ -180,21 +227,35 @@ ReadabilityAnalysis.propTypes = {
 	marksButtonStatus: PropTypes.string.isRequired,
 	overallScore: PropTypes.number,
 	shouldUpsell: PropTypes.bool,
+	shouldUpsellHighlighting: PropTypes.bool,
+	isAiFeatureEnabled: PropTypes.bool,
+	isElementor: PropTypes.bool,
+	isTerm: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 	shouldUpsell: false,
+	shouldUpsellHighlighting: false,
+	isAiFeatureEnabled: false,
+	isElementor: false,
+	isTerm: false,
 };
 
 export default withSelect( select => {
 	const {
 		getReadabilityResults,
 		getMarkButtonStatus,
+		getIsElementorEditor,
+		getIsAiFeatureEnabled,
+		getIsTerm,
 	} = select( "yoast-seo/editor" );
 
 	return {
 		...getReadabilityResults(),
 		marksButtonStatus: getMarkButtonStatus(),
+		isElementor: getIsElementorEditor(),
+		isAiFeatureEnabled: getIsAiFeatureEnabled(),
+		isTerm: getIsTerm(),
 	};
 } )( ReadabilityAnalysis );

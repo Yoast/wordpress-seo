@@ -2,7 +2,7 @@ import Paper from "../../../../../src/values/Paper";
 import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/sesAssessments";
-import Factory from "../../../../specHelpers/factory";
+import Factory from "../../../../../src/helpers/factory";
 import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
 describe( "A test for SES assessments", function() {
@@ -15,10 +15,9 @@ describe( "A test for SES assessments", function() {
 
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>the poor</i> as it is potentially overgeneralizing. " +
-			"Consider using <i>people whose income is below the poverty threshold</i> or <i>people with low-income</i> instead. " +
-			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.getText() ).toEqual( "Avoid using <i>the poor</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>people whose income is below the poverty threshold, people with low-income</i>." +
+			" <a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "The poor worked, the better they are.",
@@ -35,10 +34,9 @@ describe( "A test for SES assessments", function() {
 
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>the poor</i> as it is potentially overgeneralizing. " +
-			"Consider using <i>people whose income is below the poverty threshold</i> or <i>people with low-income</i> instead. " +
-			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.getText() ).toEqual( "Avoid using <i>the poor</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>people whose income is below the poverty threshold, people with low-income</i>." +
+			" <a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "The poor however, did not go to the zoo.",
@@ -55,10 +53,9 @@ describe( "A test for SES assessments", function() {
 
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>the poor</i> as it is potentially overgeneralizing. " +
-			"Consider using <i>people whose income is below the poverty threshold</i> or <i>people with low-income</i> instead. " +
-			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.getText() ).toEqual( "Avoid using <i>the poor</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>people whose income is below the poverty threshold, people with low-income</i>." +
+			" <a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "I have always loved the poor!",
@@ -182,18 +179,18 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 			{
 				identifier: "felon",
 				text: "That person is a felon",
-				expectedFeedback: "Be careful when using <i>felon</i> as it is potentially harmful. Consider using an alternative, such as " +
-					"<i>person with felony convictions, person who has been incarcerated</i>. " +
+				expectedFeedback: "Avoid using <i>felon</i> as it is potentially harmful. Consider using an alternative," +
+					" such as <i>person with felony convictions, person who has been incarcerated</i>. " +
 					"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
-				expectedScore: 6,
+				expectedScore: 3,
 			},
 			{
 				identifier: "felons",
 				text: "Those group of people are all felons",
-				expectedFeedback: "Be careful when using <i>felons</i> as it is potentially harmful. Consider using an alternative, such as " +
+				expectedFeedback: "Avoid using <i>felons</i> as it is potentially harmful. Consider using an alternative, such as " +
 					"<i>people with felony convictions, people who have been incarcerated</i>. " +
 					"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
-				expectedScore: 6,
+				expectedScore: 3,
 			},
 		];
 
@@ -247,49 +244,49 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 			{
 				identifier: "theHomeless",
 				text: "This ad is aimed at the homeless in LA. The target word is followed by a preposition.",
-				expectedFeedback: "Avoid using <i>the homeless</i> as it is generalizing. " +
-					"Consider using <i>people experiencing homelessness </i> instead. " +
-					"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
+				expectedFeedback: "Avoid using <i>the homeless</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>people experiencing homelessness</i>. <a href='https://yoa.st/inclusive-language-ses'" +
+					" target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 			{
 				identifier: "theUndocumented",
 				text: "This targets the undocumented across the US. The target word is followed by a preposition.",
-				expectedFeedback: "Avoid using <i>the undocumented</i> as it is potentially overgeneralizing. " +
-					"Consider using <i>people who are undocumented, undocumented people, people without papers </i> instead." +
-					" <a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
+				expectedFeedback: "Avoid using <i>the undocumented</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>people who are undocumented, undocumented people, people without papers</i>. " +
+					"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 			{
 				identifier: "theHomeless",
 				text: "This ad is aimed at the homeless. The target word is followed by a punctuation mark.",
-				expectedFeedback: "Avoid using <i>the homeless</i> as it is generalizing. " +
-					"Consider using <i>people experiencing homelessness </i> instead. " +
-					"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
+				expectedFeedback: "Avoid using <i>the homeless</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>people experiencing homelessness</i>. <a href='https://yoa.st/inclusive-language-ses'" +
+					" target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 			{
 				identifier: "theUndocumented",
 				text: "This will be a major blow to the undocumented. The target word is followed by a punctuation mark.",
-				expectedFeedback: "Avoid using <i>the undocumented</i> as it is potentially overgeneralizing. " +
-					"Consider using <i>people who are undocumented, undocumented people, people without papers </i> instead." +
-					" <a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
+				expectedFeedback: "Avoid using <i>the undocumented</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>people who are undocumented, undocumented people, people without papers</i>. " +
+					"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 			{
 				identifier: "theHomeless",
 				text: "The homeless faced staggering discrimination. The target word is followed by a past participle.",
-				expectedFeedback: "Avoid using <i>the homeless</i> as it is generalizing. " +
-					"Consider using <i>people experiencing homelessness </i> instead. " +
-					"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
+				expectedFeedback: "Avoid using <i>the homeless</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>people experiencing homelessness</i>. <a href='https://yoa.st/inclusive-language-ses'" +
+					" target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 			{
 				identifier: "theUndocumented",
 				text: "The undocumented didn't receive a fair trial. The target word is followed by a past participle.",
-				expectedFeedback: "Avoid using <i>the undocumented</i> as it is potentially overgeneralizing. " +
-					"Consider using <i>people who are undocumented, undocumented people, people without papers </i> instead." +
-					" <a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
+				expectedFeedback: "Avoid using <i>the undocumented</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>people who are undocumented, undocumented people, people without papers</i>. " +
+					"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 		];
@@ -306,13 +303,12 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 		expect( isApplicable ).toBeTruthy();
 		const assessmentResult = assessor.getResult();
 		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>the undocumented</i> as it is potentially overgeneralizing. " +
-			"Consider using <i>people who are undocumented, undocumented people, people without papers </i> instead. " +
-			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>"
+		expect( assessmentResult.getText() ).toEqual( "Avoid using <i>the undocumented</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>people who are undocumented, undocumented people, people without papers</i>." +
+			" <a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains the undocumented.</yoastmark>",
 			original: "This sentence contains the undocumented." } } ]

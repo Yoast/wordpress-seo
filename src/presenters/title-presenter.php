@@ -69,8 +69,7 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 		/**
 		 * Filter: 'wpseo_title' - Allow changing the Yoast SEO generated title.
 		 *
-		 * @api string $title The title.
-		 *
+		 * @param string                 $title        The title.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		$title = \apply_filters( 'wpseo_title', $title, $this->presentation );

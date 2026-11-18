@@ -33,10 +33,7 @@ class Schema_Generator implements Generator_Interface {
 	 * @param Helpers_Surface     $helpers                    The helpers surface.
 	 * @param Replace_Vars_Helper $schema_replace_vars_helper The replace vars helper.
 	 */
-	public function __construct(
-		Helpers_Surface $helpers,
-		Replace_Vars_Helper $schema_replace_vars_helper
-	) {
+	public function __construct( Helpers_Surface $helpers, Replace_Vars_Helper $schema_replace_vars_helper ) {
 		$this->helpers                    = $helpers;
 		$this->schema_replace_vars_helper = $schema_replace_vars_helper;
 	}
@@ -57,7 +54,6 @@ class Schema_Generator implements Generator_Interface {
 			/**
 			 * Filter: 'wpseo_pre_schema_block_type_<block-type>' - Allows hooking things to change graph output based on the blocks on the page.
 			 *
-			 * @param string                  $block_type The block type.
 			 * @param WP_Block_Parser_Block[] $blocks     All the blocks of this block type.
 			 * @param Meta_Tags_Context       $context    A value object with context variables.
 			 */
@@ -102,7 +98,7 @@ class Schema_Generator implements Generator_Interface {
 			/**
 			 * Filter: 'wpseo_schema_needs_<identifier>' - Allows changing which graph pieces we output.
 			 *
-			 * @api bool $is_needed Whether or not to show a graph piece.
+			 * @param bool $is_needed Whether or not to show a graph piece.
 			 */
 			$is_needed = \apply_filters( 'wpseo_schema_needs_' . $identifier, $piece->is_needed() );
 			if ( ! $is_needed ) {
@@ -141,10 +137,9 @@ class Schema_Generator implements Generator_Interface {
 				 * Filter: 'wpseo_schema_<identifier>' - Allows changing graph piece output.
 				 * This filter can be called with either an identifier or a block type (see `add_schema_blocks_graph_pieces()`).
 				 *
-				 * @api array $graph_piece The graph piece to filter.
-				 *
-				 * @param Meta_Tags_Context $context A value object with context variables.
-				 * @param Abstract_Schema_Piece $graph_piece_generator A value object with context variables.
+				 * @param array                   $graph_piece            The graph piece to filter.
+				 * @param Meta_Tags_Context       $context                A value object with context variables.
+				 * @param Abstract_Schema_Piece   $graph_piece_generator  A value object with context variables.
 				 * @param Abstract_Schema_Piece[] $graph_piece_generators A value object with context variables.
 				 */
 				$graph_piece = \apply_filters( 'wpseo_schema_' . $identifier, $graph_piece, $context, $graph_piece_generator, $graph_piece_generators );
@@ -160,8 +155,7 @@ class Schema_Generator implements Generator_Interface {
 		/**
 		 * Filter: 'wpseo_schema_graph' - Allows changing graph output.
 		 *
-		 * @api array $graph The graph to filter.
-		 *
+		 * @param array             $graph   The graph to filter.
 		 * @param Meta_Tags_Context $context A value object with context variables.
 		 */
 		$graph = \apply_filters( 'wpseo_schema_graph', $graph, $context );
@@ -184,6 +178,7 @@ class Schema_Generator implements Generator_Interface {
 		foreach ( $context->blocks as $block_type => $blocks ) {
 			foreach ( $blocks as $block ) {
 				$block_type = \strtolower( $block['blockName'] );
+
 				/**
 				 * Filter: 'wpseo_schema_block_<block-type>'.
 				 * This filter is documented in the `generate_graph()` function in this class.
@@ -277,7 +272,7 @@ class Schema_Generator implements Generator_Interface {
 				'datePublished',
 				'dateModified',
 				'breadcrumb',
-			]
+			],
 		);
 
 		$graph_piece          = \array_intersect_key( $graph_piece, $properties_to_show );
@@ -321,9 +316,8 @@ class Schema_Generator implements Generator_Interface {
 		/**
 		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
 		 *
+		 * @param array             $pieces  The schema pieces.
 		 * @param Meta_Tags_Context $context An object with context variables.
-		 *
-		 * @api array $pieces The schema pieces.
 		 */
 		return \apply_filters( 'wpseo_schema_graph_pieces', $schema_pieces, $context );
 	}
@@ -352,10 +346,9 @@ class Schema_Generator implements Generator_Interface {
 				/**
 				 * Filter: 'wpseo_schema_<type>' - Allows changing graph piece output by @type.
 				 *
-				 * @api array $graph_piece The graph piece to filter.
-				 *
-				 * @param Meta_Tags_Context $context A value object with context variables.
-				 * @param Abstract_Schema_Piece $graph_piece_generator A value object with context variables.
+				 * @param array                   $graph_piece            The graph piece to filter.
+				 * @param Meta_Tags_Context       $context                A value object with context variables.
+				 * @param Abstract_Schema_Piece   $graph_piece_generator  A value object with context variables.
 				 * @param Abstract_Schema_Piece[] $graph_piece_generators A value object with context variables.
 				 */
 				$graph_piece = \apply_filters( 'wpseo_schema_' . $type, $graph_piece, $context, $graph_piece_generator, $graph_piece_generators );

@@ -17,7 +17,7 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @var string
 	 */
-	const PAGE_IDENTIFIER = 'wpseo_dashboard';
+	public const PAGE_IDENTIFIER = 'wpseo_dashboard';
 
 	/**
 	 * List of classes that add admin functionality.
@@ -80,16 +80,11 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 				require_once WPSEO_PATH . 'admin/pages/tools.php';
 				break;
 
-			case 'wpseo_licenses':
-				require_once WPSEO_PATH . 'admin/pages/licenses.php';
-				break;
-
 			case 'wpseo_files':
 				require_once WPSEO_PATH . 'admin/views/tool-file-editor.php';
 				break;
 
 			default:
-				require_once WPSEO_PATH . 'admin/pages/dashboard.php';
 				break;
 		}
 	}

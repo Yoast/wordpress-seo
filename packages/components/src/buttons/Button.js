@@ -1,11 +1,13 @@
 // External dependencies.
 import styled from "styled-components";
-import flow from "lodash/flow";
 import PropTypes from "prop-types";
 
 // Yoast dependencies.
 import { colors, rgba } from "@yoast/style-guide";
 import { getDirectionalStyle } from "@yoast/helpers";
+
+// Internal dependencies.
+import { withDefaults } from "../withDefaults";
 
 const settings = {
 	minHeight: 32,
@@ -18,12 +20,18 @@ const ieMinHeight = settings.minHeight - ( settings.verticalPadding * 2 ) - ( se
 /**
  * Returns a component with applied base button styles.
  *
- * @param {ReactElement} component The original component.
+ * The defaults are applied here, on the outermost styled layer, via `.attrs`. Because this is the
+ * outermost layer the defaulted props propagate to every inner style layer (hover/focus/active),
+ * so each button keeps its own defaults on the React 19 automatic runtime, which ignores
+ * `defaultProps`.
+ *
+ * @param {ReactElement} component   The original component.
+ * @param {Object}       [defaults]  Default prop values to apply via `.attrs`.
  *
  * @returns {ReactElement} Component with applied base button styles.
  */
-export function addBaseStyle( component ) {
-	return styled( component )`
+export function addBaseStyle( component, defaults = {} ) {
+	return styled( component ).attrs( withDefaults( defaults ) )`
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -124,16 +132,30 @@ export function addActiveStyle( component ) {
  *
  * @returns {ReactElement} Component with applied styles.
  */
-export const addButtonStyles = flow( [
+export const addButtonStyles = ( component, defaults ) =>
 	/*
-	 * Styled-components applies the generated CSS classes in a reversed order,
-	 * but we want them in the order: base - hover - focus - active.
+	 * Styled-components applies the generated CSS classes in a reversed order, but we want them in
+	 * the order: base - hover - focus - active. The defaults are applied on the outermost (base)
+	 * layer so they reach every inner layer's interpolations on the React 19 automatic runtime.
 	 */
-	addActiveStyle,
-	addFocusStyle,
-	addHoverStyle,
-	addBaseStyle,
-] );
+	addBaseStyle( addHoverStyle( addFocusStyle( addActiveStyle( component ) ) ), defaults );
+
+const baseButtonDefaults = {
+	type: "button",
+	backgroundColor: colors.$color_button,
+	textColor: colors.$color_button_text,
+	borderColor: colors.$color_button_border,
+	boxShadowColor: colors.$color_button_border,
+	hoverColor: colors.$color_button_text_hover,
+	hoverBackgroundColor: colors.$color_button_hover,
+	activeColor: colors.$color_button_text_hover,
+	activeBackgroundColor: colors.$color_button,
+	activeBorderColor: colors.$color_button_border_active,
+	focusColor: colors.$color_button_text_hover,
+	focusBackgroundColor: colors.$color_white,
+	focusBorderColor: colors.$color_blue,
+	focusBoxShadowColor: colors.$color_blue_dark,
+};
 
 /**
  * Returns a basic styled button.
@@ -148,7 +170,8 @@ export const BaseButton = addButtonStyles(
 		border-color: ${ props => props.borderColor };
 		background: ${ props => props.backgroundColor };
 		box-shadow: 0 1px 0 ${ props => rgba( props.boxShadowColor, 1 ) };
-	`
+	`,
+	baseButtonDefaults
 );
 
 BaseButton.propTypes = {
@@ -168,22 +191,8 @@ BaseButton.propTypes = {
 	focusBoxShadowColor: PropTypes.string,
 };
 
-BaseButton.defaultProps = {
-	type: "button",
-	backgroundColor: colors.$color_button,
-	textColor: colors.$color_button_text,
-	borderColor: colors.$color_button_border,
-	boxShadowColor: colors.$color_button_border,
-	hoverColor: colors.$color_button_text_hover,
-	hoverBackgroundColor: colors.$color_button_hover,
-	activeColor: colors.$color_button_text_hover,
-	activeBackgroundColor: colors.$color_button,
-	activeBorderColor: colors.$color_button_border_active,
-	focusColor: colors.$color_button_text_hover,
-	focusBackgroundColor: colors.$color_white,
-	focusBorderColor: colors.$color_blue,
-	focusBoxShadowColor: colors.$color_blue_dark,
-};
+// Kept for classic-runtime consumers; addButtonStyles applies these via .attrs for React 19.
+BaseButton.defaultProps = baseButtonDefaults;
 
 /**
  * Returns a styled Button with set font size.

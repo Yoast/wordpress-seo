@@ -1,34 +1,30 @@
 @layer components {
-    .yst-root {
+	.yst-root {
 
-        .yst-notifications {
-            max-width: calc(100% - 4rem); /* 100% - top and left of 2rem = 4rem. */
-            max-height: calc(100% - 4rem); /* 100% - ( top of 2rem * 2 )  = 4rem. */
-            @apply yst-fixed yst-w-full yst-z-20 yst-pointer-events-none yst-flex yst-flex-col yst-space-y-4;
-        }
+		.yst-notifications {
+			max-width: calc(100vw - 4rem); /* 100vw - top and left of 2rem = 4rem. */
+			max-height: calc(100vh - 4rem); /* 100vh - ( top of 2rem * 2 )  = 4rem. */
+			@apply yst-fixed yst-w-full yst-z-20 yst-pointer-events-none yst-flex yst-flex-col yst-space-y-4;
+		}
 
-        .yst-notifications--bottom-center {
-            @apply yst-bottom-8 yst-items-center;
-        }
+		.yst-notifications--bottom-center {
+			@apply yst-bottom-8 yst-items-center;
+		}
 
-        .yst-notifications--bottom-left {
-            @apply yst-bottom-8 yst-left-8;
-        }
+		.yst-notifications--bottom-left {
+			@apply yst-bottom-8 yst-start-8;
+		}
 
-        .yst-notifications--top-center {
-            @apply yst-top-8 yst-items-center;
-        }
+		.yst-notifications--top-center {
+			@apply yst-top-8 yst-items-center;
+		}
 
-        .yst-notification {
-            @apply yst-w-80 yst-max-w-full yst-overflow-y-auto yst-p-4 yst-bg-white yst-shadow-lg yst-rounded-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-z-20 yst-pointer-events-auto;
-        }
+		.yst-notification--large {
+			@apply yst-w-96;
+		}
 
-        .yst-notification--large {
-            @apply yst-w-96;
-        }
-
-        .yst-notification__icon {
-            @apply yst-w-5 yst-h-5;
-        }
-    }
+		.yst-notification__icon {
+			@apply yst-w-5 yst-h-5;
+		}
+	}
 }

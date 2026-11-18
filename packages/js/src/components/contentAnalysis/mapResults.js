@@ -5,6 +5,7 @@ import { interpreters } from "yoastseo";
  * Mapped result definition.
  * @typedef {Object} MappedResult
  * @property {string} rating
+ * @property {Array<string|number>} flaggedItems The identifiers of the content items this result is about.
  * @property {bool} hasMarks
  * @property {string} text
  * @property {string} id
@@ -14,6 +15,7 @@ import { interpreters } from "yoastseo";
  * @property {bool} hasBetaBadge
  * @property {bool} hasJumps
  * @property {string} editFieldName
+ * @property {string} editFieldAriaLabel
  */
 
 /**
@@ -44,9 +46,12 @@ function mapResult( result, key = "" ) {
 		id,
 		text: result.text,
 		markerId: key.length > 0 ? `${key}:${id}` : id,
-		hasBetaBadge: result.hasBetaBadge(),
+		hasBetaBadge: result.isBeta(),
 		hasJumps: result.hasJumps(),
+		hasAIFixes: result.isOptimizable(),
 		editFieldName: result.editFieldName,
+		editFieldAriaLabel: result.editFieldAriaLabel,
+		flaggedItems: result.getFlaggedItems(),
 	};
 
 	// Because of inconsistency between YoastSEO and yoast-components.
@@ -93,7 +98,7 @@ function processResult( mappedResult, mappedResults ) {
  *
  * @returns {Object} The icon and color for the score.
  */
-export function getIconForScore( score ) { // eslint-disable-line complexity
+export function getIconForScore( score ) {
 	switch ( score ) {
 		case "loading":
 			return { icon: "loading-spinner", color: colors.$color_green_medium_light };
@@ -105,10 +110,9 @@ export function getIconForScore( score ) { // eslint-disable-line complexity
 			return { icon: "seo-score-good", color: colors.$color_green_medium };
 		case "ok":
 			return { icon: "seo-score-ok", color: colors.$color_ok };
-		case "bad":
-			return { icon: "seo-score-bad", color: colors.$color_red };
+		// The default case includes "bad" score cases.
 		default:
-			return { icon: "seo-score-none", color: colors.$color_red };
+			return { icon: "seo-score-bad", color: colors.$color_red };
 	}
 }
 

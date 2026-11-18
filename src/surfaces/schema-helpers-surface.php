@@ -75,7 +75,7 @@ class Schema_Helpers_Surface {
 	 *
 	 * @throws Forbidden_Property_Mutation_Exception Set is never meant to be called.
 	 */
-	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- __set must have a name and value.
+	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- __set must have a name and value - PHPCS #3715.
 		throw Forbidden_Property_Mutation_Exception::cannot_set_because_property_is_immutable( $name );
 	}
 

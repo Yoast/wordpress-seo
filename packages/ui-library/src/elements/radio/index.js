@@ -1,9 +1,10 @@
-import { CheckCircleIcon } from "@heroicons/react/solid";
+/* eslint-disable complexity */
+import CheckCircleIcon from "@heroicons/react/solid/CheckCircleIcon";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import { useSvgAria } from "../../hooks";
 import Label from "../label";
-import { forwardRef } from "@wordpress/element";
 
 const classNameMap = {
 	variant: {
@@ -29,11 +30,11 @@ const Radio = forwardRef( ( {
 	name,
 	value,
 	label,
-	screenReaderLabel,
-	variant,
-	disabled,
-	className,
-	isLabelDangerousHtml,
+	screenReaderLabel = "",
+	variant = "default",
+	disabled = false,
+	className = "",
+	isLabelDangerousHtml = false,
 	...props
 }, ref ) => {
 	const svgAriaProps = useSvgAria();
@@ -99,7 +100,8 @@ const Radio = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+Radio.displayName = "Radio";
+Radio.propTypes = {
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
@@ -110,21 +112,5 @@ const propTypes = {
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
-
-Radio.propTypes = propTypes;
-
-Radio.defaultProps = {
-	screenReaderLabel: "",
-	variant: "default",
-	disabled: false,
-	className: "",
-	isLabelDangerousHtml: false,
-};
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Radio { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Radio.defaultProps;
-StoryComponent.displayName = "Radio";
 
 export default Radio;

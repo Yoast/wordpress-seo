@@ -1,10 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { round, capitalize } from "lodash";
 
 import { StarRating } from "@yoast/components";
+
+import { DEFAULT_BEST_RATING } from "./constants";
 
 const ProductData = styled.div`
 	display: flex;
@@ -30,38 +31,45 @@ const ProductDataInnerLower = styled.div`
  * Renders ProductData component.
  *
  * @param {Object} props The props.
+ * @param {Object} props.shoppingData The shopping data to render.
+ * @param {number} [props.shoppingData.rating] The rating of the product.
+ * @param {number} [props.shoppingData.bestRating] The best possible rating.
+ * @param {number} [props.shoppingData.reviewCount] The number of reviews.
+ * @param {string} [props.shoppingData.availability] The availability of the product.
+ * @param {string} [props.shoppingData.price] The price of the product, as HTML.
  *
  * @returns {React.Component} The StarRating Component.
  */
 function ProductDataMobile( props ) {
 	const { shoppingData } = props;
+	const { rating, bestRating = DEFAULT_BEST_RATING, reviewCount, availability, price } = shoppingData;
 
 	return (
 		<ProductData>
-			{ ( shoppingData.rating > 0 ) &&
+			{ ( rating > 0 && rating <= bestRating && reviewCount > 0 ) &&
 				<ProductDataCell50 className="yoast-shopping-data-preview__column">
 					<div className="yoast-shopping-data-preview__upper">{ __( "Rating", "wordpress-seo" ) }</div>
 					<ProductDataInnerLower className="yoast-shopping-data-preview__lower">
-						<span>{ round( ( shoppingData.rating * 2 ), 1 ) }/10 </span>
-						<StarRating rating={ shoppingData.rating } />
-						<span> ({ shoppingData.reviewCount })</span>
+						<span>{ round( rating, 1 ) }{ bestRating === DEFAULT_BEST_RATING ? "" : `/${bestRating}` } </span>
+						<StarRating rating={ rating / bestRating * DEFAULT_BEST_RATING } />
+						<span> ({ reviewCount })</span>
 					</ProductDataInnerLower>
 				</ProductDataCell50>
 			}
-			{ ( shoppingData.price ) &&
+			{ ( price ) &&
 				<ProductDataCell25 className="yoast-shopping-data-preview__column">
 					<div className="yoast-shopping-data-preview__upper">{ __( "Price", "wordpress-seo" ) }</div>
 					<ProductDataInnerLower
 						className="yoast-shopping-data-preview__lower"
-						dangerouslySetInnerHTML={ { __html: shoppingData.price } }
+						dangerouslySetInnerHTML={ { __html: price } }
 					/>
 				</ProductDataCell25>
 			}
-			{ ( shoppingData.availability ) &&
+			{ ( availability ) &&
 				<ProductDataCell25 className="yoast-shopping-data-preview__column">
 					<div className="yoast-shopping-data-preview__upper">{ __( "Availability", "wordpress-seo" ) }</div>
 					<ProductDataInnerLower className="yoast-shopping-data-preview__lower">
-						{ capitalize( shoppingData.availability ) }
+						{ capitalize( availability ) }
 					</ProductDataInnerLower>
 				</ProductDataCell25>
 			}
@@ -70,12 +78,3 @@ function ProductDataMobile( props ) {
 }
 
 export default ProductDataMobile;
-
-ProductDataMobile.propTypes = {
-	shoppingData: PropTypes.shape( {
-		rating: PropTypes.number,
-		reviewCount: PropTypes.number,
-		availability: PropTypes.string,
-		price: PropTypes.string,
-	} ).isRequired,
-};

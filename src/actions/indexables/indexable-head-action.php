@@ -42,6 +42,10 @@ class Indexable_Head_Action {
 	 */
 	public function for_url( $url ) {
 		if ( $url === \trailingslashit( \get_home_url() ) ) {
+			if ( ! $this->is_front_page_readable() ) {
+				return $this->for_404();
+			}
+
 			return $this->with_404_fallback( $this->with_cache( 'home_page' ) );
 		}
 		return $this->with_404_fallback( $this->with_cache( 'url', $url ) );
@@ -97,6 +101,11 @@ class Indexable_Head_Action {
 	 * @return object Object with head and status properties.
 	 */
 	public function for_posts_page() {
+		$posts_page_id = (int) \get_option( 'page_for_posts' );
+		if ( $posts_page_id !== 0 && ! $this->meta_surface->is_post_readable( $posts_page_id ) ) {
+			return $this->for_404();
+		}
+
 		return $this->with_404_fallback( $this->with_cache( 'posts_page' ) );
 	}
 
@@ -123,6 +132,20 @@ class Indexable_Head_Action {
 			'json'   => $head->json,
 			'status' => 404,
 		];
+	}
+
+	/**
+	 * Checks if the current user is allowed to read the static front page, if one is set.
+	 *
+	 * @return bool Whether the front page is readable by the current user.
+	 */
+	protected function is_front_page_readable() {
+		$front_page_id = (int) \get_option( 'page_on_front' );
+		if ( \get_option( 'show_on_front' ) !== 'page' || $front_page_id === 0 ) {
+			return true;
+		}
+
+		return $this->meta_surface->is_post_readable( $front_page_id );
 	}
 
 	/**

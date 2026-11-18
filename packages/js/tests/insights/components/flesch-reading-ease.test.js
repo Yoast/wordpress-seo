@@ -1,23 +1,9 @@
-import React from "react";
-import { shallow } from "enzyme";
 import { useSelect } from "@wordpress/data";
-import { set } from "lodash";
-
-import FleschReadingEase from "../../../src/insights/components/flesch-reading-ease";
 import { DIFFICULTY } from "yoastseo";
+import FleschReadingEase from "../../../src/insights/components/flesch-reading-ease";
+import { render, screen } from "../../test-utils";
 
-jest.mock( "@wordpress/data", () => (
-	{
-		useSelect: jest.fn(),
-	}
-) );
-
-jest.mock( "@wordpress/element", () => (
-	{
-		...jest.requireActual( "@wordpress/element" ),
-		useMemo: jest.fn( fn => fn() ),
-	}
-) );
+jest.mock( "@wordpress/data", () => ( { useSelect: jest.fn() } ) );
 
 /**
  * Mocks the WordPress `useSelect` hook.
@@ -25,125 +11,86 @@ jest.mock( "@wordpress/element", () => (
  * @param {number} score The Flesch reading ease score to use.
  * @param {DIFFICULTY} difficulty The Flesch reading ease difficulty to use.
  *
- * @returns {void}
+ * @returns {function} The mock.
  */
-function mockSelect( score, difficulty ) {
-	const select = jest.fn(
-		() => (
-			{
-				getFleschReadingEaseScore: jest.fn( () => score ),
-				getFleschReadingEaseDifficulty: jest.fn( () => difficulty ),
-			}
-		)
-	);
+const mockSelect = ( score, difficulty ) => useSelect.mockImplementation( select => select( () => ( {
+	getFleschReadingEaseScore: () => score,
+	getFleschReadingEaseDifficulty: () => difficulty,
+} ) ) );
 
-	useSelect.mockImplementation(
-		selectFunction => selectFunction( select )
-	);
-}
+beforeAll( () => {
+	global.wpseoAdminL10n = {
+		"shortlinks-insights-flesch_reading_ease": "https://example.org/link",
+		"shortlinks-insights-flesch_reading_ease_article": "https://example.org/article",
+	};
+} );
+afterAll( () => {
+	delete global.wpseoAdminL10n;
+} );
 
-describe( "The FleschReadingEase component", () => {
-	set( window, "wpseoAdminL10n.shortlinks-insights-flesch_reading_ease", "https://example.org/link" );
-	set( window, "wpseoAdminL10n.shortlinks-insights-flesch_reading_ease_article", "https://example.org/article" );
-
-	it( "renders the component when the text is considered very difficult.", () => {
-		mockSelect( 10, DIFFICULTY.VERY_DIFFICULT );
-
-		const element = shallow( <FleschReadingEase /> );
-
-		const description = element.prop( "description" ).props.children;
-
-		// Test the description feedback string.
-		expect( description ).toContain(
-			"The copy scores 10 in the test, which is considered very difficult to read."
-		);
-		// Test the call to action string of the feedback.
-		expect( description[ 2 ].props.children ).toContain( "Try to make shorter sentences, using less difficult words to improve readability." );
-
-		expect( element.prop( "amount" ) ).toEqual( 10 );
-		expect( element.prop( "unit" ) ).toEqual( "out of 100" );
-		expect( element.prop( "title" ) ).toEqual( "Flesch reading ease" );
-		expect( element.prop( "linkTo" ) ).toEqual( "https://example.org/link" );
-		expect( element.prop( "linkText" ) ).toEqual( "Learn more about Flesch reading ease" );
+describe( "FleschReadingEase", () => {
+	afterEach( () => {
+		useSelect.mockRestore();
 	} );
-	it( "renders the component when the text is considered very easy.", () => {
-		mockSelect( 90, DIFFICULTY.VERY_EASY );
 
-		const element = shallow( <FleschReadingEase /> );
+	it( "renders the title, help link and unit", () => {
+		mockSelect( 0, DIFFICULTY.NO_DATA );
 
-		const description = element.prop( "description" ).props.children;
+		render( <FleschReadingEase /> );
 
-		// Test the description feedback string.
-		expect( description ).toContain(
-			"The copy scores 90 in the test, which is considered very easy to read."
-		);
-		// Test the call to action string of the feedback.
-		expect( description ).toContain( "Good job!" );
-		expect( element.prop( "amount" ) ).toEqual( 90 );
+		expect( screen.getByText( "Flesch reading ease" ) ).toBeInTheDocument();
+
+		const link = screen.getByText( "Learn more about Flesch reading ease" );
+		expect( link ).toBeInTheDocument();
+		expect( link.parentElement ).toBeInstanceOf( HTMLAnchorElement );
+		expect( link.parentElement.href ).toBe( "https://example.org/link" );
+
+		expect( screen.getByText( "out of 100" ) ).toBeInTheDocument();
 	} );
-	it( "renders the component when the text is considered easy.", () => {
-		mockSelect( 80, DIFFICULTY.EASY );
 
-		const element = shallow( <FleschReadingEase /> );
-		const description = element.prop( "description" ).props.children;
+	test.each( [
+		[ "very easy", 90, DIFFICULTY.VERY_EASY, "The copy scores 90 in the test, which is considered very easy to read. Good job!", "" ],
+		[ "easy", 80, DIFFICULTY.EASY, "The copy scores 80 in the test, which is considered easy to read. Good job!", "" ],
+		[ "fairly easy", 70, DIFFICULTY.FAIRLY_EASY, "The copy scores 70 in the test, which is considered fairly easy to read. Good job!", "" ],
+		[ "okay", 60, DIFFICULTY.OKAY, "The copy scores 60 in the test, which is considered okay to read. Good job!", "" ],
+		[
+			"fairly difficult",
+			50,
+			DIFFICULTY.FAIRLY_DIFFICULT,
+			"The copy scores 50 in the test, which is considered fairly difficult to read.",
+			"Try to make shorter sentences, using less difficult words to improve readability.",
+		],
+		[
+			"difficult",
+			30,
+			DIFFICULTY.DIFFICULT,
+			"The copy scores 30 in the test, which is considered difficult to read.",
+			"Try to make shorter sentences, using less difficult words to improve readability.",
+		],
+		[
+			"very difficult",
+			10,
+			DIFFICULTY.VERY_DIFFICULT,
+			"The copy scores 10 in the test, which is considered very difficult to read.",
+			"Try to make shorter sentences, using less difficult words to improve readability.",
+		],
+	] )( "renders the component when the text is considered %s.", ( title, score, difficulty, description, ctaText ) => {
+		mockSelect( score, difficulty );
 
-		// Test the description feedback string.
-		expect( description ).toContain(
-			"The copy scores 80 in the test, which is considered easy to read."
-		);
-		// Test the call to action string of the feedback.
-		expect( description[ 2 ] ).toContain( "Good job!" );
-	} );
-	it( "renders the component when the text is considered fairly easy.", () => {
-		mockSelect( 70, DIFFICULTY.FAIRLY_EASY );
-
-		const element = shallow( <FleschReadingEase /> );
-		const description = element.prop( "description" ).props.children;
-
-		// Test the description feedback string.
-		expect( description ).toContain(
-			"The copy scores 70 in the test, which is considered fairly easy to read."
-		);
-		// Test the call to action string of the feedback.
-		expect( description[ 2 ] ).toContain( "Good job!" );
-	} );
-	it( "renders the component when the text is considered okay.", () => {
-		mockSelect( 60, DIFFICULTY.OKAY );
-
-		const element = shallow( <FleschReadingEase /> );
-		const description = element.prop( "description" ).props.children;
-
-		// Test the description feedback string.
-		expect( description ).toContain(
-			"The copy scores 60 in the test, which is considered okay to read."
-		);
-		// Test the call to action string of the feedback.
-		expect( description[ 2 ] ).toContain( "Good job!" );
-	} );
-	it( "renders the component when the text is considered fairly difficult.", () => {
-		mockSelect( 50, DIFFICULTY.FAIRLY_DIFFICULT );
-
-		const element = shallow( <FleschReadingEase /> );
-		const description = element.prop( "description" ).props.children;
+		render( <FleschReadingEase /> );
 
 		// Test the description feedback string.
-		expect( description ).toContain(
-			"The copy scores 50 in the test, which is considered fairly difficult to read."
-		);
-		// Test the call to action string of the feedback.
-		expect( description[ 2 ].props.children ).toContain( "Try to make shorter sentences, using less difficult words to improve readability." );
-	} );
-	it( "renders the component when the text is considered difficult.", () => {
-		mockSelect( 30, DIFFICULTY.DIFFICULT );
+		expect( screen.getByText( description ) ).toBeInTheDocument();
 
-		const element = shallow( <FleschReadingEase /> );
-		const description = element.prop( "description" ).props.children;
-
-		// Test the description feedback string.
-		expect( description ).toContain(
-			"The copy scores 30 in the test, which is considered difficult to read."
-		);
 		// Test the call to action string of the feedback.
-		expect( description[ 2 ].props.children ).toContain( "Try to make shorter sentences, using less difficult words to improve readability." );
+		if ( ctaText ) {
+			const cta = screen.getByText( ctaText );
+			expect( cta ).toBeInTheDocument();
+			expect( cta ).toBeInstanceOf( HTMLAnchorElement );
+			expect( cta.href ).toBe( "https://example.org/article" );
+		}
+
+		// Test the score.
+		expect( screen.getByText( score.toString() ) ).toBeInTheDocument();
 	} );
 } );

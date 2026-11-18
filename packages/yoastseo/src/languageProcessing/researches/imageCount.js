@@ -1,14 +1,17 @@
 /** @module researches/imageInText */
 
-import imageInText from "../helpers/image/imageInText";
+import getImagesInScope from "../helpers/image/getImagesInScope.js";
 
 /**
- * Checks the amount of images in the text.
+ * Checks the amount of images in scope: the images in the text, unless the Paper
+ * carries a `providedImages` attribute (see `getImagesInScope`).
  *
  * @param {Paper} paper The paper to check for images.
  *
  * @returns {number} The amount of found images.
  */
 export default function imageCount( paper ) {
-	return imageInText( paper.getText() ).length;
+	const images = getImagesInScope( paper );
+
+	return images.length;
 }

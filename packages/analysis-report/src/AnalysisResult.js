@@ -1,29 +1,42 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { noop } from "lodash";
-
-import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge } from "@yoast/components";
+import { BetaBadge, SvgIcon } from "@yoast/components";
 import { strings } from "@yoast/helpers";
+import { Button, Root, TooltipContainer, TooltipWithContext, useTooltipContext } from "@yoast/ui-library";
+import classNames from "classnames";
+import EyeIcon from "@heroicons/react/outline/EyeIcon";
+import PencilIcon from "@heroicons/react/outline/PencilIcon";
+import { noop } from "lodash";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import styled from "styled-components";
 
 const { stripTagsFromHtmlString } = strings;
 
 const ALLOWED_TAGS = [ "a", "b", "strong", "em", "i" ];
 
+const ResultButtonsContainer = styled.div`
+	display: grid;
+	grid-template-rows: 1fr;
+	max-width: 32px;
+	// This gap value is half the gap value between assessment result list items, which is 12px.
+	gap: 6px;
+`;
+
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
 	min-height: 24px;
+	margin-bottom: 12px;
 	padding: 0;
 	display: flex;
 	align-items: flex-start;
+	position: relative;
+	gap: 12px;
 `;
 
 const ScoreIcon = styled( SvgIcon )`
-	margin: 3px 11px 0 0; // icon 13 + 11 right margin = 24 for the 8px grid.
+	margin: 3px 0 0 0;
 `;
 
 const AnalysisResultText = styled.p`
-	margin: 0 16px 0 0;
+	margin: 0;
 	flex: 1 1 auto;
 	color: ${ props => props.suppressedText ? "rgba(30,30,30,0.5)" : "inherit" };
 `;
@@ -31,67 +44,265 @@ const AnalysisResultText = styled.p`
 /**
  * Determines whether the mark buttons should be hidden.
  *
- * @param {Object} props The component's props.
- * @param {String} props.marksButtonStatus The status for the mark buttons.
- * @param {boolean} props.hasMarksButton Whether a mark button exists.
+ * @param {boolean} hasMarksButton Whether a mark button exists.
+ * @param {string} marksButtonStatus The status for the mark buttons.
  * @returns {boolean} True if mark buttons should be hidden.
  */
-const areMarkButtonsHidden = function( props ) {
-	return ( ! props.hasMarksButton ) || props.marksButtonStatus === "hidden";
+const areMarkButtonsHidden = function( hasMarksButton, marksButtonStatus ) {
+	return ! hasMarksButton || marksButtonStatus === "hidden";
+};
+
+// Gives the pointer time to cross the gap between the trigger and the tooltip.
+const TOOLTIP_HIDE_DELAY = 100;
+
+/**
+ * Whether the element got focus in a way the browser shows a focus ring for, e.g. the keyboard rather than a click.
+ *
+ * @param {HTMLElement} element The focused element.
+ *
+ * @returns {boolean} True if the element matches :focus-visible, or if the browser can't tell.
+ */
+const isFocusVisible = ( element ) => {
+	try {
+		return element.matches( ":focus-visible" );
+	} catch {
+		return true;
+	}
 };
 
 /**
- * Factory method which creates a new instance of the default mark button.
+ * Keeps the tooltip visible while its trigger is hovered or focused.
  *
- * @param {String} ariaLabel The button aria-label.
- * @param {String} id The button id.
- * @param {String} className The button class name.
- * @param {String} status Status of the buttons. Supports: "enabled", "disabled".
- * @param {Function} onClick Onclick handler.
- * @param {Boolean} isPressed Whether the button is in a pressed state.
+ * The hover props belong on an element that wraps both the trigger and the tooltip, so the pointer can move onto the
+ * tooltip without hiding it. Only keyboard focus keeps it open, so it closes after a click once the pointer leaves.
+ * Escape on the trigger dismisses the tooltip until the next pointer enter or focus.
+ *
+ * @returns {{hoverProps: Object, triggerProps: Object}} The props for the wrapping element and for the trigger.
+ */
+const useHoverFocusTooltip = () => {
+	const { show, hide } = useTooltipContext();
+	const [ isHovered, setIsHovered ] = useState( false );
+	const [ isFocused, setIsFocused ] = useState( false );
+	const [ isDismissed, setIsDismissed ] = useState( false );
+	const hideTimeout = useRef( null );
+
+	useEffect( () => {
+		if ( ( isHovered || isFocused ) && ! isDismissed ) {
+			show();
+		} else {
+			hide();
+		}
+	}, [ isHovered, isFocused, isDismissed, show, hide ] );
+
+	useEffect( () => () => clearTimeout( hideTimeout.current ), [] );
+
+	const handlePointerEnter = useCallback( () => {
+		clearTimeout( hideTimeout.current );
+		setIsHovered( true );
+		setIsDismissed( false );
+	}, [] );
+	const handlePointerLeave = useCallback( () => {
+		hideTimeout.current = setTimeout( () => setIsHovered( false ), TOOLTIP_HIDE_DELAY );
+	}, [] );
+	const handleFocus = useCallback( ( event ) => {
+		// A click also focuses the button; only keyboard focus should keep the tooltip open after the pointer leaves.
+		if ( ! isFocusVisible( event.target ) ) {
+			return;
+		}
+		setIsFocused( true );
+		setIsDismissed( false );
+	}, [] );
+	const handleBlur = useCallback( () => setIsFocused( false ), [] );
+	const handleKeyDown = useCallback( ( event ) => {
+		if ( event.key === "Escape" ) {
+			setIsDismissed( true );
+		}
+	}, [] );
+
+	return {
+		hoverProps: { onPointerEnter: handlePointerEnter, onPointerLeave: handlePointerLeave },
+		triggerProps: { onFocus: handleFocus, onBlur: handleBlur, onKeyDown: handleKeyDown },
+	};
+};
+
+/**
+ * Inner mark button that accesses the TooltipContainer context.
+ *
+ * @param {Object} props Component props.
+ * @param {string} props.ariaLabel The button aria-label.
+ * @param {string} props.id The button id.
+ * @param {string} [props.className=""] The button class name.
+ * @param {string} [props.status="enabled"] Status of the buttons. Supports: "enabled", "disabled", "hidden".
+ * @param {Function} props.onClick Onclick handler.
+ * @param {boolean} props.isPressed Whether the button is in a pressed state.
+ *
+ * @returns {JSX.Element} The inner mark button with tooltip context.
+ */
+const MarkButtonInner = ( { ariaLabel, id, className = "", status = "enabled", onClick, isPressed } ) => {
+	const { hoverProps, triggerProps } = useHoverFocusTooltip();
+
+	return <span className="yst-inline-flex" { ...hoverProps }>
+		<Button
+			variant={ isPressed ? "primary" : "secondary" }
+			size="small"
+			className={ classNames( className, "yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10" ) }
+			onClick={ onClick }
+			id={ id }
+			disabled={ status === "disabled" }
+			aria-pressed={ isPressed }
+			aria-label={ ariaLabel }
+			{ ...triggerProps }
+		>
+			<EyeIcon className="yst-w-4 yst-h-4" />
+		</Button>
+		<TooltipWithContext position="left">
+			{ ariaLabel }
+		</TooltipWithContext>
+	</span>;
+};
+
+/**
+ * The default mark button component.
+ *
+ * @param {Object} props The mark button props.
+ * @param {string} props.ariaLabel The button aria-label.
+ * @param {string} props.id The button id.
+ * @param {string} [props.className=""] The button class name.
+ * @param {string} [props.status="enabled"] Status of the buttons. Supports: "enabled", "disabled", "hidden".
+ * @param {Function} props.onClick Onclick handler.
+ * @param {boolean} props.isPressed Whether the button is in a pressed state.
+ * @param {import("react").ReactNode} [props.children=null] Extra content rendered next to the button, e.g. an upsell badge.
+ *
  * @returns {JSX.Element} A new mark button.
  */
-const createMarkButton = ( {
-	ariaLabel,
-	id,
-	className,
-	status,
-	onClick,
-	isPressed,
-} ) => {
-	return <IconButtonToggle
-		marksButtonStatus={ status }
-		className={ className }
-		onClick={ onClick }
-		id={ id }
-		icon="eye"
-		pressed={ isPressed }
-		ariaLabel={ ariaLabel }
-	/>;
+export const MarkButton = ( { className = "", status = "enabled", children = null, ...props } ) => {
+	return <Root>
+		<TooltipContainer as="div" className="yst-relative yst-inline-flex">
+			<MarkButtonInner className={ className } status={ status } { ...props } />
+		</TooltipContainer>
+		{ children }
+	</Root>;
+};
+
+/**
+ * Inner edit button that accesses the TooltipContainer context.
+ *
+ * @param {Object} props Component props.
+ * @param {string} props.ariaLabel The button aria-label.
+ * @param {string} props.id The button id.
+ * @param {string} [props.className=""] The button class name.
+ * @param {Function} props.onClick Onclick handler.
+ *
+ * @returns {JSX.Element} The inner edit button with tooltip context.
+ */
+const EditButtonInner = ( { ariaLabel, id, className = "", onClick } ) => {
+	const { hoverProps, triggerProps } = useHoverFocusTooltip();
+
+	return <span className="yst-inline-flex" { ...hoverProps }>
+		<Button
+			variant="secondary"
+			size="small"
+			className={ classNames( className, "yst-px-2 yst-rounded-md yst-shadow-none yst-border-0" ) }
+			onClick={ onClick }
+			id={ id }
+			aria-label={ ariaLabel }
+			{ ...triggerProps }
+		>
+			<PencilIcon className="yst-w-4 yst-h-4" />
+		</Button>
+		<TooltipWithContext position="left">
+			{ ariaLabel }
+		</TooltipWithContext>
+	</span>;
+};
+
+/**
+ * The default mark button factory wrapping the MarkButton component.
+ *
+ * @param {Object} props The mark button props.
+ *
+ * @returns {JSX.Element} A new mark button.
+ */
+const createMarkButton = ( props ) => {
+	return <MarkButton { ...props } />;
 };
 
 /**
  * Returns an AnalysisResult component.
  *
- * @param {object} props Component props.
- * @param {Function} [markButtonFactory] Injectable factory to create mark button.
+ * @param {Object} props Component props.
+ * @param {string} props.text The text to be displayed in the result.
+ * @param {boolean} [props.suppressedText=false] Whether the text should be suppressed.
+ * @param {string} props.bulletColor The color of the bullet icon.
+ * @param {boolean} props.hasMarksButton Whether the result has a marks button.
+ * @param {boolean} [props.hasEditButton=false] Whether the result has an edit button.
+ * @param {boolean} [props.hasAIFixes=false] Whether the result has AI fixes.
+ * @param {string} props.buttonIdMarks The id of the marks button.
+ * @param {string} [props.buttonIdEdit=""] The id of the edit button.
+ * @param {boolean} props.pressed Whether the marks button is pressed.
+ * @param {string} props.ariaLabelMarks The aria-label for the marks button.
+ * @param {string} [props.ariaLabelEdit=""] The aria-label for the edit button.
+ * @param {Function} props.onButtonClickMarks The function to call when the marks button is clicked.
+ * @param {Function} [props.onButtonClickEdit=noop] The function to call when the edit button is clicked.
+ * @param {string} [props.marksButtonStatus="enabled"] The status of the marks button.
+ * @param {string} [props.marksButtonClassName=""] The class name for the marks button.
+ * @param {Function} [props.markButtonFactory=null] Injectable factory to create mark button.
+ * @param {string} [props.editButtonClassName=""] The class name for the edit button.
+ * @param {boolean} [props.hasBetaBadgeLabel=false] Whether the result has a beta badge label.
+ * @param {boolean} [props.isPremium=false] Whether the user has a premium subscription.
+ * @param {Function} [props.onResultChange=noop] The function to call when the result changes.
+ * @param {string} [props.id=""] The id of the result.
+ * @param {(Function|Array)} [props.marker=noop] The function or array to mark the result.
+ * @param {boolean} [props.shouldUpsellHighlighting=false] Whether to show the upsell for highlighting.
+ * @param {Function} [props.renderHighlightingUpsell=noop] The function to render the highlighting upsell.
+ * @param {Function} [props.renderAIOptimizeButton=noop] The function to render the AI optimize button.
  *
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
-const AnalysisResult = ( { markButtonFactory, ...props } ) => {
+const AnalysisResult = ( {
+	ariaLabelMarks,
+	ariaLabelEdit = "",
+	bulletColor,
+	buttonIdMarks,
+	buttonIdEdit = "",
+	editButtonClassName = "",
+	hasAIFixes = false,
+	hasBetaBadgeLabel = false,
+	hasEditButton = false,
+	hasMarksButton,
+	id = "",
+	isPremium = false,
+	marker = noop,
+	markButtonFactory = null,
+	marksButtonStatus = "enabled",
+	marksButtonClassName = "",
+	onButtonClickMarks,
+	onButtonClickEdit = noop,
+	onResultChange = noop,
+	pressed,
+	renderHighlightingUpsell = noop,
+	renderAIOptimizeButton = noop,
+	shouldUpsellHighlighting = false,
+	suppressedText = false,
+	text,
+} ) => {
+	const [ isOpen, setIsOpen ] = useState( false );
+
+	const closeModal = useCallback( () => setIsOpen( false ), [] );
+	const openModal = useCallback( () => setIsOpen( true ), [] );
+
 	markButtonFactory = markButtonFactory || createMarkButton;
-	const { id, marker, hasMarksButton } = props;
 
 	let marksButton = null;
-	if ( ! areMarkButtonsHidden( props ) ) {
+	if ( ! areMarkButtonsHidden( hasMarksButton, marksButtonStatus ) ) {
 		marksButton = markButtonFactory(
 			{
-				onClick: props.onButtonClickMarks,
-				status: props.marksButtonStatus,
-				className: props.marksButtonClassName,
-				id: props.buttonIdMarks,
-				isPressed: props.pressed,
-				ariaLabel: props.ariaLabelMarks,
+				onClick: shouldUpsellHighlighting ? openModal : onButtonClickMarks,
+				status: marksButtonStatus,
+				className: marksButtonClassName,
+				id: buttonIdMarks,
+				isPressed: pressed,
+				ariaLabel: ariaLabelMarks,
 			}
 		);
 	}
@@ -103,76 +314,40 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 	 * c) the information whether there is an object to be marked for the current result.
 	 */
 	useEffect( () => {
-		props.onResultChange( id, marker, hasMarksButton );
+		onResultChange( id, marker, hasMarksButton );
 	}, [ id, marker, hasMarksButton ] );
 
 	return (
 		<AnalysisResultBase>
 			<ScoreIcon
 				icon="circle"
-				color={ props.bulletColor }
+				color={ bulletColor }
 				size="13px"
 			/>
-			<AnalysisResultText suppressedText={ props.suppressedText }>
-				{ props.hasBetaBadgeLabel && <BetaBadge /> }
-				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
+			<AnalysisResultText suppressedText={ suppressedText }>
+				{ hasBetaBadgeLabel && <BetaBadge /> }
+				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
-			{ marksButton }
-			{
-				props.hasEditButton && props.isPremium &&
-				<IconCTAEditButton
-					className={ props.editButtonClassName }
-					onClick={ props.onButtonClickEdit }
-					id={ props.buttonIdEdit }
-					icon="edit"
-					ariaLabel={ props.ariaLabelEdit }
-				/>
-			}
+			<ResultButtonsContainer>
+				{ marksButton }
+				{ renderHighlightingUpsell( isOpen, closeModal ) }
+				{
+					hasEditButton && isPremium &&
+					<Root>
+						<TooltipContainer as="div" className="yst-relative yst-inline-flex">
+							<EditButtonInner
+								ariaLabel={ ariaLabelEdit }
+								id={ buttonIdEdit }
+								className={ editButtonClassName }
+								onClick={ onButtonClickEdit }
+							/>
+						</TooltipContainer>
+					</Root>
+				}
+				{ renderAIOptimizeButton( hasAIFixes, id ) }
+			</ResultButtonsContainer>
 		</AnalysisResultBase>
 	);
-};
-
-AnalysisResult.propTypes = {
-	text: PropTypes.string.isRequired,
-	suppressedText: PropTypes.bool,
-	bulletColor: PropTypes.string.isRequired,
-	hasMarksButton: PropTypes.bool.isRequired,
-	hasEditButton: PropTypes.bool,
-	buttonIdMarks: PropTypes.string.isRequired,
-	buttonIdEdit: PropTypes.string,
-	pressed: PropTypes.bool.isRequired,
-	ariaLabelMarks: PropTypes.string.isRequired,
-	ariaLabelEdit: PropTypes.string,
-	onButtonClickMarks: PropTypes.func.isRequired,
-	onButtonClickEdit: PropTypes.func,
-	marksButtonStatus: PropTypes.string,
-	marksButtonClassName: PropTypes.string,
-	markButtonFactory: PropTypes.func,
-	editButtonClassName: PropTypes.string,
-	hasBetaBadgeLabel: PropTypes.bool,
-	isPremium: PropTypes.bool,
-	onResultChange: PropTypes.func,
-	id: PropTypes.string,
-	marker: PropTypes.oneOfType( [
-		PropTypes.func,
-		PropTypes.array,
-	] ),
-};
-
-AnalysisResult.defaultProps = {
-	suppressedText: false,
-	marksButtonStatus: "enabled",
-	marksButtonClassName: "",
-	editButtonClassName: "",
-	hasBetaBadgeLabel: false,
-	hasEditButton: false,
-	buttonIdEdit: "",
-	ariaLabelEdit: "",
-	onButtonClickEdit: noop,
-	isPremium: false,
-	onResultChange: noop,
-	id: "",
-	marker: noop,
 };
 
 export default AnalysisResult;

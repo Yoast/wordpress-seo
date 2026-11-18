@@ -1,25 +1,10 @@
-import { useState, useCallback } from "@wordpress/element";
 import { noop, values } from "lodash";
+import React, { useCallback, useState } from "react";
+import FileImport, { FILE_IMPORT_STATUS } from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import Alert from "../../elements/alert";
-
-import FileImport, { FILE_IMPORT_STATUS, StoryComponent } from ".";
-
-export default {
-	title: "2) Components/File import",
-	component: StoryComponent,
-	argTypes: {
-		children: { control: "text" },
-		status: { options: values( FILE_IMPORT_STATUS ) },
-		endStatus: { options: values( FILE_IMPORT_STATUS ), type: "select", description: "The status to end the import with (only for testing)." },
-	},
-	parameters: {
-		docs: {
-			description: {
-				component: "A file import component.",
-			},
-		},
-	},
-};
+import { success } from "../notifications/docs";
+import { aborted, component, error, loading, selected } from "./docs";
 
 const defaultArgs = {
 	selectLabel: "Select a file",
@@ -85,120 +70,155 @@ const Template = ( { endStatus, ...args } ) => {
 	);
 };
 
-const FeedbackTemplate = ( args ) => <FileImport { ...args } />;
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		children: (
+			<>
+				<FileImport.Success>
+					Success message
+				</FileImport.Success>
+				<FileImport.Error>
+					Error message
+				</FileImport.Error>
+			</>
+		),
+		id: "file-import-1",
+		name: "file-import-1",
+		...defaultArgs,
+		endStatus: FILE_IMPORT_STATUS.success,
+	},
+};
 
-export const Factory = Template.bind( {} );
-Factory.controls = { disable: false };
-Factory.args = {
-	children: (
-		<>
+export const Selected = {
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: selected } },
+	},
+	args: {
+		children: (
+			<FileImport.Selected>
+				<Alert variant="info" role="alert">
+					A file has been selected for import.
+				</Alert>
+			</FileImport.Selected>
+		),
+		id: "file-import-selected",
+		name: "file-import-selected",
+		...defaultArgs,
+		progress: 60,
+		status: FILE_IMPORT_STATUS.selected,
+	},
+};
+
+export const Loading = {
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: loading } },
+	},
+	args: {
+		children: (
+			<FileImport.Loading>
+				<Alert variant="info" role="alert">
+					The import is loading.
+				</Alert>
+			</FileImport.Loading>
+		),
+		id: "file-import-loading",
+		name: "file-import-loading",
+		...defaultArgs,
+		progress: 60,
+		status: FILE_IMPORT_STATUS.loading,
+	},
+};
+
+export const Aborted = {
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: aborted } },
+	},
+	args: {
+		children: (
+			<FileImport.Aborted>
+				<Alert variant="warning" role="alert">
+					The import was aborted.
+				</Alert>
+			</FileImport.Aborted>
+		),
+		id: "file-import-aborted",
+		name: "file-import-aborted",
+		...defaultArgs,
+		progress: 60,
+		status: FILE_IMPORT_STATUS.aborted,
+	},
+};
+
+export const Success = {
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: success } },
+	},
+	args: {
+		children: (
 			<FileImport.Success>
-				Success message
+				<Alert variant="success" role="alert" className="yst-mb-2">SEO data successfully imported!</Alert>
+				<Alert variant="warning" role="alert">
+					However, there were some slight problems with the following data:
+					<ul className="yst-list-disc yst-ms-4 yst-mt-4 yst-space-y-2">
+						<li>This went wrong</li>
+						<li>This also went wrong</li>
+					</ul>
+				</Alert>
 			</FileImport.Success>
+		),
+		id: "file-import-success",
+		name: "file-import-success",
+		...defaultArgs,
+		progress: 100,
+		status: FILE_IMPORT_STATUS.success,
+	},
+};
+
+export const Error = {
+	parameters: {
+		controls: { disable: false },
+		docs: { description: { story: error } },
+	},
+	args: {
+		children: (
 			<FileImport.Error>
-				Error message
+				<Alert variant="error" role="alert">Whoops! Something went terribly wrong.</Alert>
 			</FileImport.Error>
-		</>
-	),
-	id: "file-import-1",
-	name: "file-import-1",
-	...defaultArgs,
-	endStatus: FILE_IMPORT_STATUS.success,
+		),
+		id: "file-import-error",
+		name: "file-import-error",
+		...defaultArgs,
+		progress: 60,
+		status: FILE_IMPORT_STATUS.error,
+	},
 };
 
-
-export const Selected = FeedbackTemplate.bind( {} );
-
-Selected.parameters = { docs: { description: { story: "When file is selected." } } };
-
-Selected.args = {
-	children: (
-		<FileImport.Selected>
-			<Alert variant="info" role="alert">
-				A file has been selected for import.
-			</Alert>
-		</FileImport.Selected>
-	),
-	id: "file-import-selected",
-	name: "file-import-selected",
-	...defaultArgs,
-	progress: 60,
-	status: FILE_IMPORT_STATUS.selected,
-};
-
-export const Loading = FeedbackTemplate.bind( {} );
-
-Loading.parameters = { docs: { description: { story: "When file in loading." } } };
-
-Loading.args = {
-	children: (
-		<FileImport.Loading>
-			<Alert variant="info" role="alert">
-				The import is loading.
-			</Alert>
-		</FileImport.Loading>
-	),
-	id: "file-import-loading",
-	name: "file-import-loading",
-	...defaultArgs,
-	progress: 60,
-	status: FILE_IMPORT_STATUS.loading,
-};
-
-export const Aborted = FeedbackTemplate.bind( {} );
-
-Aborted.parameters = { docs: { description: { story: "When file loading is aborted." } } };
-
-Aborted.args = {
-	children: (
-		<FileImport.Aborted>
-			<Alert variant="warning" role="alert">
-				The import was aborted.
-			</Alert>
-		</FileImport.Aborted>
-	),
-	id: "file-import-aborted",
-	name: "file-import-aborted",
-	...defaultArgs,
-	progress: 60,
-	status: FILE_IMPORT_STATUS.aborted,
-};
-
-
-export const Success = FeedbackTemplate.bind( {} );
-Success.args = {
-	children: (
-		<FileImport.Success>
-			<Alert variant="success" role="alert" className="yst-mb-2">SEO data successfully imported!</Alert>
-			<Alert variant="warning" role="alert">
-				However, there were some slight problems with the following data:
-				<ul className="yst-list-disc yst-ml-4 yst-mt-4 yst-space-y-2">
-					<li>This went wrong</li>
-					<li>This also went wrong</li>
-				</ul>
-			</Alert>
-		</FileImport.Success>
-	),
-	id: "file-import-success",
-	name: "file-import-success",
-	...defaultArgs,
-	progress: 100,
-	status: FILE_IMPORT_STATUS.success,
-};
-
-export const Error = FeedbackTemplate.bind( {} );
-
-Error.parameters = { docs: { description: { story: "Error will appear when `status` prop is error." } } };
-
-Error.args = {
-	children: (
-		<FileImport.Error>
-			<Alert variant="error" role="alert">Whoops! Something went terribly wrong.</Alert>
-		</FileImport.Error>
-	),
-	id: "file-import-error",
-	name: "file-import-error",
-	...defaultArgs,
-	progress: 60,
-	status: FILE_IMPORT_STATUS.error,
+export default {
+	title: "2) Components/File import",
+	component: FileImport,
+	argTypes: {
+		children: { control: "text" },
+		status: { options: values( FILE_IMPORT_STATUS ) },
+		endStatus: {
+			options: values( FILE_IMPORT_STATUS ),
+			type: "select",
+			description: "The status to end the import with (only for testing).",
+		},
+	},
+	parameters: {
+		docs: {
+			description: {
+				component,
+			},
+			page: () => <InteractiveDocsPage stories={ [ Selected, Loading, Aborted, Success, Error ] } />,
+		},
+	},
 };

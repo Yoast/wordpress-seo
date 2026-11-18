@@ -9,11 +9,12 @@
 			hover:yst-text-indigo-500
 			focus:yst-text-indigo-500
 			focus:yst-outline-none
-			focus:yst-ring-1
-			focus:yst-ring-offset-1
-			focus:yst-ring-offset-transparent
-			focus:yst-ring-indigo-600
-			focus:yst-rounded-sm
+			focus:yst-ring-0
+			focus-visible:yst-ring-1
+			focus-visible:yst-ring-offset-1
+			focus-visible:yst-ring-offset-transparent
+			focus-visible:yst-ring-indigo-600
+			focus-visible:yst-rounded-sm
 			visited:yst-text-primary-500
 			visited:hover:yst-text-primary-400;
 		}
@@ -23,11 +24,11 @@
 		}
 
 		.yst-link--primary {
-			@apply yst-text-primary-600 hover:yst-text-primary-500 focus:yst-text-primary-500 focus:yst-ring-primary-600;
+			@apply yst-text-primary-600 hover:yst-text-primary-500 focus:yst-text-primary-500 focus-visible:yst-ring-primary-600;
 		}
 
 		.yst-link--error {
-			@apply yst-text-red-600 hover:yst-text-red-500 focus:yst-text-red-500 focus:yst-ring-red-600;
+			@apply yst-text-red-600 hover:yst-text-red-500 focus:yst-text-red-500 focus-visible:yst-ring-red-600;
 		}
 	}
 }

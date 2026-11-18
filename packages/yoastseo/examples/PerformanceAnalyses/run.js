@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const merge = require( "lodash-es" ).merge;
+const merge = require( "lodash" ).merge;
 const analysis = require( "./analysis" );
 
 const texts = [
