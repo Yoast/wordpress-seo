@@ -12,6 +12,8 @@ import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as tmceHelper from "../lib/tinymce";
+import AnalysisFields from "../helpers/fields/AnalysisFields";
+import SearchMetadataFields from "../helpers/fields/SearchMetadataFields";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import isContentAnalysisActive from "./isContentAnalysisActive";
@@ -80,9 +82,7 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	var val = document.getElementById( "yoast_wpseo_focuskw" ) && document.getElementById( "yoast_wpseo_focuskw" ).value || "";
-
-	return val;
+	return AnalysisFields.keyphrase;
 };
 
 /**
@@ -106,7 +106,7 @@ PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
  * @returns {string} The meta description.
  */
 PostDataCollector.prototype.getMeta = function() {
-	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
+	return SearchMetadataFields.description;
 };
 
 /**
@@ -171,7 +171,7 @@ PostDataCollector.prototype.getExcerpt = function() {
  * @returns {string} The snippet title.
  */
 PostDataCollector.prototype.getSnippetTitle = function() {
-	return document.getElementById( "yoast_wpseo_title" ) && document.getElementById( "yoast_wpseo_title" ).value || "";
+	return SearchMetadataFields.title;
 };
 
 /**
@@ -180,7 +180,7 @@ PostDataCollector.prototype.getSnippetTitle = function() {
  * @returns {string} The snippet meta.
  */
 PostDataCollector.prototype.getSnippetMeta = function() {
-	return document.getElementById( "yoast_wpseo_metadesc" ) && document.getElementById( "yoast_wpseo_metadesc" ).value || "";
+	return SearchMetadataFields.description;
 };
 
 /**
@@ -264,6 +264,55 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
 };
 
 /**
+ * Updates the snippet meta description field.
+ *
+ * @param {string} value The value to set.
+ *
+ * @returns {void}
+ */
+PostDataCollector.prototype.setSnippetMeta = function( value ) {
+	SearchMetadataFields.description = value;
+};
+
+/**
+ * Updates the snippet slug field.
+ *
+ * WordPress leaves the post name empty to signify that it should be generated from the title once the
+ * post is saved. So when we receive an auto generated slug from WordPress we should be
+ * able to not save this to the UI. This conditional makes that possible.
+ *
+ * @param {string} value The value to set.
+ *
+ * @returns {void}
+ */
+PostDataCollector.prototype.setSnippetCite = function( value ) {
+	if ( this.leavePostNameUntouched ) {
+		this.leavePostNameUntouched = false;
+		return;
+	}
+	if ( document.getElementById( "post_name" ) !== null ) {
+		document.getElementById( "post_name" ).value = value;
+	}
+	if (
+		document.getElementById( "editable-post-name" ) !== null &&
+		document.getElementById( "editable-post-name-full" ) !== null ) {
+		document.getElementById( "editable-post-name" ).textContent = value;
+		document.getElementById( "editable-post-name-full" ).textContent = value;
+	}
+};
+
+/**
+ * Updates the snippet title field.
+ *
+ * @param {string} value The value to set.
+ *
+ * @returns {void}
+ */
+PostDataCollector.prototype.setSnippetTitle = function( value ) {
+	SearchMetadataFields.title = value;
+};
+
+/**
  * When the snippet is updated, update the (hidden) fields on the page.
  *
  * @param {Object} value The value to set.
@@ -274,31 +323,13 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
 PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 	switch ( type ) {
 		case "snippet_meta":
-			document.getElementById( "yoast_wpseo_metadesc" ).value = value;
+			this.setSnippetMeta( value );
 			break;
 		case "snippet_cite":
-
-			/*
-			 * WordPress leaves the post name empty to signify that it should be generated from the title once the
-			 * post is saved. So when we receive an auto generated slug from WordPress we should be
-			 * able to not save this to the UI. This conditional makes that possible.
-			 */
-			if ( this.leavePostNameUntouched ) {
-				this.leavePostNameUntouched = false;
-				return;
-			}
-			if ( document.getElementById( "post_name" ) !== null ) {
-				document.getElementById( "post_name" ).value = value;
-			}
-			if (
-				document.getElementById( "editable-post-name" ) !== null &&
-				document.getElementById( "editable-post-name-full" ) !== null ) {
-				document.getElementById( "editable-post-name" ).textContent = value;
-				document.getElementById( "editable-post-name-full" ).textContent = value;
-			}
+			this.setSnippetCite( value );
 			break;
 		case "snippet_title":
-			document.getElementById( "yoast_wpseo_title" ).value = value;
+			this.setSnippetTitle( value );
 			break;
 		default:
 			break;
@@ -380,7 +411,7 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 
 	publishBox.updateScore( "content", indicator.className );
 
-	document.getElementById( "yoast_wpseo_linkdex" ).value = score;
+	AnalysisFields.seoScore = score;
 
 	if ( "" === keyword ) {
 		indicator.className = "na";
@@ -414,7 +445,7 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
 		updateAdminBar( indicator );
 	}
 
-	$( "#yoast_wpseo_content_score" ).val( score );
+	AnalysisFields.readabilityScore = score;
 };
 
 /**
@@ -433,7 +464,7 @@ PostDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
 		updateAdminBar( indicator );
 	}
 
-	$( "#yoast_wpseo_inclusive_language_score" ).val( score );
+	AnalysisFields.inclusiveLanguageScore = score;
 };
 
 
