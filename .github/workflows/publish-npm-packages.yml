@@ -67,6 +67,33 @@ jobs:
             echo "::error::No packages found in PR body before '## Context'."
             exit 1
           fi
+          # Publish in dependency order (dependencies first), whatever order the PR body uses.
+          read -ra UNSORTED <<< "$PACKAGES"
+          PACKAGES=$(node -e '
+            const fs = require("fs");
+            const wanted = process.argv.slice(1);
+            const deps = {};
+            for (const d of fs.readdirSync("packages")) {
+              try {
+                const p = JSON.parse(fs.readFileSync("packages/" + d + "/package.json", "utf8"));
+                deps[p.name] = Object.keys({ ...p.dependencies, ...p.peerDependencies });
+              } catch {}
+            }
+            const out = [], state = {};
+            const visit = (name, path) => {
+              if (state[name] === "done") return;
+              if (state[name] === "visiting") {
+                console.error("::error::Dependency cycle: " + [...path, name].join(" -> "));
+                process.exit(1);
+              }
+              state[name] = "visiting";
+              for (const dep of deps[name] || []) if (wanted.includes(dep)) visit(dep, [...path, name]);
+              state[name] = "done";
+              out.push(name);
+            };
+            wanted.forEach(name => visit(name, []));
+            console.log(out.join(" "));
+          ' "${UNSORTED[@]}")
           echo "Packages to release: $PACKAGES"
           echo "list=$PACKAGES" >> "$GITHUB_OUTPUT"
 
