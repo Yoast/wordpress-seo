@@ -31,23 +31,33 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	private $ai_generate_upsell;
 
 	/**
+	 * The schema types.
+	 *
+	 * @var Schema_Types
+	 */
+	private $schema_types;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Capability_Helper                   $capability_helper                   The capability helper.
 	 * @param Should_Index_Indexables_Conditional $should_index_indexables_conditional The should index indexables conditional.
 	 * @param Post_SEO_Data_Updater               $post_seo_data_updater               The post SEO data updater.
 	 * @param AI_Generate_Upsell                  $ai_generate_upsell                  The AI Generate upsell.
+	 * @param Schema_Types                        $schema_types                        The schema types.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
 		Should_Index_Indexables_Conditional $should_index_indexables_conditional,
 		Post_SEO_Data_Updater $post_seo_data_updater,
-		AI_Generate_Upsell $ai_generate_upsell
+		AI_Generate_Upsell $ai_generate_upsell,
+		Schema_Types $schema_types
 	) {
 		parent::__construct( $capability_helper, $should_index_indexables_conditional );
 
 		$this->post_seo_data_updater = $post_seo_data_updater;
 		$this->ai_generate_upsell    = $ai_generate_upsell;
+		$this->schema_types          = $schema_types;
 	}
 
 	/**
@@ -69,7 +79,11 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	public function get_args(): array {
 		return [
 			'label'               => \__( 'Update Post SEO Data', 'wordpress-seo' ),
-			'description'         => \__( 'Update the SEO data for a single post of any post type. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.', 'wordpress-seo' ),
+			'description'         => \sprintf(
+				/* translators: %s: the name of an ability. */
+				\__( 'Update the SEO data for a single post of any post type. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated. To change a setting for all posts of a content type, update its default with the %s ability instead.', 'wordpress-seo' ),
+				'yoast-seo/update-content-type-seo-settings',
+			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => $this->get_update_post_seo_data_input_schema(),
 			'output_schema'       => $this->ai_generate_upsell->add_to_schema( $this->get_post_seo_data_output_schema() ),
@@ -160,7 +174,7 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 					\__( 'The Schema.org page type for the post. Must be one of the supported page types. Use null or an empty string to clear it and fall back to the default.', 'wordpress-seo' ),
 				),
 				'schema_article_type'    => $this->nullable_enum_schema(
-					$this->get_schema_article_types(),
+					$this->schema_types->get_article_types(),
 					\__( 'The Schema.org article type for the post. Must be one of the supported article types. Use null or an empty string to clear it and fall back to the default.', 'wordpress-seo' ),
 				),
 			],
@@ -184,25 +198,6 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 				$field,
 			),
 		];
-	}
-
-	/**
-	 * Returns the allowed Schema.org article type values.
-	 *
-	 * Mirrors the validation in WPSEO_Option_Titles so the ability accepts exactly the
-	 * article types the editor does, including any registered through the filter.
-	 *
-	 * @return array<int, string> The allowed article type values.
-	 */
-	private function get_schema_article_types(): array {
-		/**
-		 * Filter: 'wpseo_schema_article_types' - Allow developers to filter the available article types.
-		 *
-		 * Make sure when you filter this to also filter `wpseo_schema_article_types_labels`.
-		 *
-		 * @param array $schema_article_types The available schema article types.
-		 */
-		return \array_keys( \apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES ) );
 	}
 
 	/**

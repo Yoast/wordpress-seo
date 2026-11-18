@@ -147,7 +147,7 @@ final class Get_Term_SEO_Data_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Get Term SEO Data',
-				'description'         => 'Get the SEO data for a single taxonomy term, such as a category or a tag. Identify the term by term_id or by permalink (URL). Only terms the current user is allowed to edit are returned.',
+				'description'         => 'Get the SEO data for a single taxonomy term, such as a category or a tag. Identify the term by term_id or by permalink (URL). Only terms the current user is allowed to edit are returned. Settings the term does not set itself fall back to the default settings of its taxonomy, which the yoast-seo/get-archive-and-special-page-seo-settings ability returns.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',

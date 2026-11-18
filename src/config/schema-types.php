@@ -50,6 +50,29 @@ class Schema_Types {
 	];
 
 	/**
+	 * Gets the article types, including the ones added through the filter.
+	 *
+	 * @return array<string> The schema article types.
+	 */
+	public function get_article_types(): array {
+		/**
+		 * Filter: 'wpseo_schema_article_types' - Allow developers to filter the available article types.
+		 *
+		 * Make sure when you filter this to also filter `wpseo_schema_article_types_labels`.
+		 *
+		 * @param array $schema_article_types The available schema article types.
+		 */
+		$article_types = \apply_filters( 'wpseo_schema_article_types', self::ARTICLE_TYPES );
+
+		// A filter that returns anything but an array would otherwise leave no article type to choose from.
+		if ( ! \is_array( $article_types ) ) {
+			$article_types = self::ARTICLE_TYPES;
+		}
+
+		return \array_map( 'strval', \array_keys( $article_types ) );
+	}
+
+	/**
 	 * Gets the page type options.
 	 *
 	 * @return array[] The schema page type options.

@@ -67,7 +67,11 @@ class Get_Term_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 	public function get_args(): array {
 		return [
 			'label'               => \__( 'Get Term SEO Data', 'wordpress-seo' ),
-			'description'         => \__( 'Get the SEO data for a single taxonomy term, such as a category or a tag. Identify the term by term_id or by permalink (URL). Only terms the current user is allowed to edit are returned.', 'wordpress-seo' ),
+			'description'         => \sprintf(
+				/* translators: %s: the name of an ability. */
+				\__( 'Get the SEO data for a single taxonomy term, such as a category or a tag. Identify the term by term_id or by permalink (URL). Only terms the current user is allowed to edit are returned. Settings the term does not set itself fall back to the default settings of its taxonomy, which the %s ability returns.', 'wordpress-seo' ),
+				'yoast-seo/get-archive-and-special-page-seo-settings',
+			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => $this->get_term_identifier_input_schema(),
 			'output_schema'       => $this->output_schema->get_term_output_schema(),

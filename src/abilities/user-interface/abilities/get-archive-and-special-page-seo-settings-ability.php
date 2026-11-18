@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use stdClass;
-use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Settings_Collector;
+use Yoast\WP\SEO\Abilities\Application\Global_SEO_Settings_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
@@ -18,25 +18,25 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
 class Get_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Archive_And_Special_Page_SEO_Settings_Ability {
 
 	/**
-	 * The archive and special page SEO settings collector.
+	 * The global SEO settings collector.
 	 *
-	 * @var Archive_And_Special_Page_SEO_Settings_Collector
+	 * @var Global_SEO_Settings_Collector
 	 */
 	private $collector;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param Capability_Helper                               $capability_helper The capability helper.
-	 * @param Global_Setting_Field_Map                        $field_map         The global setting field map.
-	 * @param Global_Setting_Target_Repository                $target_repository The global setting target repository.
-	 * @param Archive_And_Special_Page_SEO_Settings_Collector $collector         The archive and special page SEO settings collector.
+	 * @param Capability_Helper                $capability_helper The capability helper.
+	 * @param Global_Setting_Field_Map         $field_map         The global setting field map.
+	 * @param Global_Setting_Target_Repository $target_repository The global setting target repository.
+	 * @param Global_SEO_Settings_Collector    $collector         The global SEO settings collector.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
 		Global_Setting_Field_Map $field_map,
 		Global_Setting_Target_Repository $target_repository,
-		Archive_And_Special_Page_SEO_Settings_Collector $collector
+		Global_SEO_Settings_Collector $collector
 	) {
 		parent::__construct( $capability_helper, $field_map, $target_repository );
 
@@ -60,7 +60,7 @@ class Get_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Archive
 	 * @return array<array<string, mixed>> The global settings of each target.
 	 */
 	public function execute(): array {
-		return $this->collector->get_all();
+		return \array_map( [ $this->collector, 'get_target_settings' ], $this->target_repository->get_all() );
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Get_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Archive
 			'label'               => \__( 'Get SEO Settings for Archives and Special Pages', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: 1: the name of an ability, 2: the name of an ability. */
-				\__( 'Get the SEO settings of the homepage when it shows the latest posts, the archives and the special pages. Category, tag and other taxonomy archives are not included; use the %1$s ability for their individual terms. A static homepage is not included either, as it is a page whose SEO data is read with the %2$s ability. The title and description templates can contain snippet variables, and are returned as stored rather than as shown on the site.', 'wordpress-seo' ),
+				\__( 'Get the SEO settings of the homepage when it shows the latest posts, the archives and the special pages. The settings of a taxonomy are the defaults of its term archives: they apply to each term that does not set its own value, which the %1$s ability returns. A static homepage is not included, as it is a page whose SEO data is read with the %2$s ability. The title and description templates can contain snippet variables, and are returned as stored rather than as shown on the site.', 'wordpress-seo' ),
 				'yoast-seo/get-term-seo-data',
 				'yoast-seo/get-post-seo-data',
 			),

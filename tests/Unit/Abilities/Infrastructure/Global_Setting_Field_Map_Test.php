@@ -7,6 +7,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Domain\Global_Setting_Target_Interface;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -35,11 +36,14 @@ final class Global_Setting_Field_Map_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->instance = new Global_Setting_Field_Map();
+		$schema_types = Mockery::mock( Schema_Types::class );
+		$schema_types->allows( 'get_article_types' )->andReturn( [ 'Article', 'None' ] );
+
+		$this->instance = new Global_Setting_Field_Map( $schema_types );
 	}
 
 	/**
-	 * Creates a target mock that fills the `portfolio` post type into option patterns.
+	 * Creates a target mock that fills `portfolio` into option patterns, as a post type or a taxonomy.
 	 *
 	 * @param string $target_name The name of the target.
 	 *
@@ -61,6 +65,7 @@ final class Global_Setting_Field_Map_Test extends TestCase {
 	 * Tests that get_fields returns the global setting fields of Yoast SEO with their schema, without their option
 	 * patterns.
 	 *
+	 * @covers ::__construct
 	 * @covers ::get_filtered_fields
 	 * @covers ::get_default_fields
 	 * @covers ::resolve_extra_keys
@@ -70,14 +75,40 @@ final class Global_Setting_Field_Map_Test extends TestCase {
 	public function test_get_fields_defaults() {
 		$fields = $this->instance->get_fields();
 
-		$this->assertSame( [ 'seo_title', 'meta_description', 'noindex' ], \array_keys( $fields ) );
+		$this->assertSame( [ 'seo_title', 'meta_description', 'noindex', 'schema_page_type', 'schema_article_type' ], \array_keys( $fields ) );
 		$this->assertSame( 'string', $fields['seo_title']['type'] );
 		$this->assertSame( 'string', $fields['meta_description']['type'] );
 		$this->assertSame( 'boolean', $fields['noindex']['type'] );
+		$this->assertSame( \array_keys( Schema_Types::PAGE_TYPES ), $fields['schema_page_type']['enum'] );
+		$this->assertSame( [ 'Article', 'None' ], $fields['schema_article_type']['enum'] );
 
-		foreach ( $fields as $schema ) {
-			$this->assertSame( [ 'type', 'description' ], \array_keys( $schema ) );
+		foreach ( [ 'seo_title', 'meta_description', 'noindex' ] as $field_name ) {
+			$this->assertSame( [ 'type', 'description' ], \array_keys( $fields[ $field_name ] ) );
 		}
+		foreach ( [ 'schema_page_type', 'schema_article_type' ] as $field_name ) {
+			$this->assertSame( [ 'type', 'enum', 'description' ], \array_keys( $fields[ $field_name ] ) );
+		}
+	}
+
+	/**
+	 * Tests that get_fields_for_targets only returns the fields that at least one of the targets has, so the schema
+	 * type fields of the content types do not show up for the archives.
+	 *
+	 * @covers ::get_fields_for_targets
+	 *
+	 * @return void
+	 */
+	public function test_get_fields_for_targets() {
+		$this->assertSame( [ 'seo_title' ], \array_keys( $this->instance->get_fields_for_targets( [ 'search_page', 'not_found_page' ] ) ) );
+		$this->assertSame(
+			[ 'seo_title', 'meta_description', 'noindex' ],
+			\array_keys( $this->instance->get_fields_for_targets( [ 'homepage', 'post_type_archive', 'taxonomy_archive' ] ) ),
+		);
+		$this->assertSame(
+			[ 'seo_title', 'meta_description', 'noindex', 'schema_page_type', 'schema_article_type' ],
+			\array_keys( $this->instance->get_fields_for_targets( [ 'content_type' ] ) ),
+		);
+		$this->assertSame( [], $this->instance->get_fields_for_targets( [ 'unknown' ] ) );
 	}
 
 	/**
@@ -87,29 +118,55 @@ final class Global_Setting_Field_Map_Test extends TestCase {
 	 */
 	public static function data_get_option_name() {
 		$expected = [
-			'seo_title'        => [
+			'seo_title'           => [
 				'homepage'          => 'title-home-wpseo',
+				'content_type'      => 'title-portfolio',
+				'post_type_archive' => 'title-ptarchive-portfolio',
+				'taxonomy_archive'  => 'title-tax-portfolio',
 				'author_archives'   => 'title-author-wpseo',
 				'date_archives'     => 'title-archive-wpseo',
 				'search_page'       => 'title-search-wpseo',
 				'not_found_page'    => 'title-404-wpseo',
-				'post_type_archive' => 'title-ptarchive-portfolio',
 			],
-			'meta_description' => [
+			'meta_description'    => [
 				'homepage'          => 'metadesc-home-wpseo',
+				'content_type'      => 'metadesc-portfolio',
+				'post_type_archive' => 'metadesc-ptarchive-portfolio',
+				'taxonomy_archive'  => 'metadesc-tax-portfolio',
 				'author_archives'   => 'metadesc-author-wpseo',
 				'date_archives'     => 'metadesc-archive-wpseo',
 				'search_page'       => null,
 				'not_found_page'    => null,
-				'post_type_archive' => 'metadesc-ptarchive-portfolio',
 			],
-			'noindex'          => [
+			'noindex'             => [
 				'homepage'          => null,
+				'content_type'      => 'noindex-portfolio',
+				'post_type_archive' => 'noindex-ptarchive-portfolio',
+				'taxonomy_archive'  => 'noindex-tax-portfolio',
 				'author_archives'   => 'noindex-author-wpseo',
 				'date_archives'     => 'noindex-archive-wpseo',
 				'search_page'       => null,
 				'not_found_page'    => null,
-				'post_type_archive' => 'noindex-ptarchive-portfolio',
+			],
+			'schema_page_type'    => [
+				'homepage'          => null,
+				'content_type'      => 'schema-page-type-portfolio',
+				'post_type_archive' => null,
+				'taxonomy_archive'  => null,
+				'author_archives'   => null,
+				'date_archives'     => null,
+				'search_page'       => null,
+				'not_found_page'    => null,
+			],
+			'schema_article_type' => [
+				'homepage'          => null,
+				'content_type'      => 'schema-article-type-portfolio',
+				'post_type_archive' => null,
+				'taxonomy_archive'  => null,
+				'author_archives'   => null,
+				'date_archives'     => null,
+				'search_page'       => null,
+				'not_found_page'    => null,
 			],
 		];
 
