@@ -13,6 +13,9 @@ use Yoast\WP\SEO\Models\Indexable;
  * must not grant access to posts the user could not otherwise edit. This
  * checker applies the exact per-post WordPress check, current_user_can( 'edit_post', $id ),
  * mirroring the bulk editor's access rules.
+ *
+ * @TODO: Deprecate in favour of Indexable_Access_Checker, which already covers posts. It first needs a
+ *        filter_editable() equivalent and a way to return the post forbidden error for the post SEO data collector.
  */
 class Post_Access_Checker {
 

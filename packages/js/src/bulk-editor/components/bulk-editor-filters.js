@@ -73,11 +73,15 @@ const NeedsImprovementFilter = ( { values, onChange } ) => {
  * group is left out entirely on the "Image alt text" tab.
  *
  * WooCommerce SEO renders this same component in the "Image alt text" tab it fills, through
- * `window.yoast.bulkEditor.components` — prop-free and store-driven so both callers stay in sync.
+ * `window.yoast.bulkEditor.components`, passing its own image assessment filter as `children`.
+ *
+ * @param {Object}         props          The props.
+ * @param {React.ReactNode} [props.children] Extra filter groups appended after the built-in ones (used by
+ *                                          WooCommerce SEO to inject the image assessment filter).
  *
  * @returns {JSX.Element} The filters control.
  */
-export const BulkEditorFilters = () => {
+export const BulkEditorFilters = ( { children } ) => {
 	const statuses = useSelect( ( select ) => select( STORE_NAME ).selectStatuses(), [] );
 	const needsImprovement = useSelect( ( select ) => select( STORE_NAME ).selectNeedsImprovement(), [] );
 	const overviewIds = useSelect( ( select ) => select( STORE_NAME ).selectOverviewIds(), [] );
@@ -169,6 +173,7 @@ export const BulkEditorFilters = () => {
 					values={ needsImprovement }
 					onChange={ setNeedsImprovement }
 				/>
+				{ children }
 			</Popover>
 		</div>
 	);

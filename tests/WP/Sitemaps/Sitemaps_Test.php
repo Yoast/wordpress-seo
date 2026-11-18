@@ -103,6 +103,39 @@ final class Sitemaps_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that requesting the stylesheet outputs the CSS file.
+	 *
+	 * @covers WPSEO_Sitemaps::redirect
+	 * @covers WPSEO_Sitemaps::css_output
+	 *
+	 * @return void
+	 */
+	public function test_css_output() {
+		self::$class_instance->reset();
+
+		\set_query_var( 'yoast-sitemap-css', '1' );
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		unset( $GLOBALS['wp_the_query']->query_vars['yoast-sitemap-css'] );
+
+		$this->expectOutputRegex( '/^@namespace url\(http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9\);.*image\|image \{\s*display: none;/s' );
+	}
+
+	/**
+	 * Tests that the main sitemap no longer ships an XSL stylesheet.
+	 *
+	 * @covers WPSEO_Sitemaps::xsl_output
+	 *
+	 * @return void
+	 */
+	public function test_xsl_output_main_outputs_nothing() {
+		self::$class_instance->xsl_output( 'main' );
+
+		$this->expectOutputString( '' );
+	}
+
+	/**
 	 * Tests the wpseo_sitemap_index_links filter.
 	 *
 	 * @covers WPSEO_Sitemaps::build_root_map

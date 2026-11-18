@@ -196,7 +196,7 @@ final class Renderer_Test extends TestCase {
 	/**
 	 * Tests getting the fallback url if the plugin is loaded from a different domain.
 	 *
-	 * @covers WPSEO_Sitemaps_Renderer::get_xsl_url
+	 * @covers WPSEO_Sitemaps_Renderer::get_stylesheet_url
 	 *
 	 * @return void
 	 */
@@ -204,7 +204,36 @@ final class Renderer_Test extends TestCase {
 		$class_instance = new Sitemaps_Renderer_Double();
 
 		\add_filter( 'plugins_url', [ $this, 'change_plugin_url' ] );
-		$this->assertEquals( 'http://example.org/main-sitemap.xsl', $class_instance->get_xsl_url() );
+		$this->assertEquals( 'http://example.org/main-sitemap.css', $class_instance->get_stylesheet_url() );
 		\remove_filter( 'plugins_url', [ $this, 'change_plugin_url' ] );
+	}
+
+	/**
+	 * Tests that the output has no stylesheet processing instruction.
+	 *
+	 * @covers WPSEO_Sitemaps_Renderer::get_output
+	 *
+	 * @return void
+	 */
+	public function test_get_output_has_no_stylesheet() {
+		$output = self::$class_instance->get_output( '<urlset></urlset>' );
+
+		$this->assertStringNotContainsString( '<?xml-stylesheet', $output );
+		$this->assertStringStartsWith( '<?xml version="1.0" encoding="UTF-8"?><urlset></urlset>', $output );
+	}
+
+	/**
+	 * Tests that the output has no stylesheet processing instruction when a custom stylesheet is set.
+	 *
+	 * @covers WPSEO_Sitemaps_Renderer::get_output
+	 *
+	 * @return void
+	 */
+	public function test_get_output_has_no_custom_stylesheet() {
+		self::$class_instance->set_stylesheet( '<?xml-stylesheet type="text/xsl" href="http://example.org/custom-sitemap.xsl"?>' );
+
+		$output = self::$class_instance->get_output( '<urlset></urlset>' );
+
+		$this->assertStringNotContainsString( '<?xml-stylesheet', $output );
 	}
 }
