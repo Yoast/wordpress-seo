@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\WP\Initializers;
 
+use WP_REST_Request;
 use WP_REST_Response;
 use WPSEO_Meta;
 use WPSEO_Options;
@@ -458,6 +459,72 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 		$this->assertArrayNotHasKey( $prefix . 'title', $data['meta'] );
 		$this->assertArrayNotHasKey( $prefix . 'schema_page_type', $data['meta'] );
 		$this->assertArrayHasKey( 'unrelated_meta_key', $data['meta'] );
+	}
+
+	// -------------------------------------------------------------------------
+	// add_meta_defaults_to_rest_response
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Tests that add_meta_defaults_to_rest_response fills empty Yoast meta values with their
+	 * defaults, and leaves stored values, missing keys and fields without a default alone.
+	 *
+	 * @covers ::add_meta_defaults_to_rest_response
+	 *
+	 * @return void
+	 */
+	public function test_add_meta_defaults_fills_empty_values() {
+		$prefix   = WPSEO_Meta::$meta_prefix;
+		$response = new WP_REST_Response(
+			[
+				'meta' => [
+					$prefix . 'is_cornerstone'       => '',
+					$prefix . 'meta-robots-noindex'  => '2',
+					$prefix . 'title'                => '',
+					'unrelated_meta_key'             => '',
+				],
+			],
+		);
+
+		$data = $this->instance->add_meta_defaults_to_rest_response( $response )->get_data();
+
+		$this->assertSame(
+			[
+				$prefix . 'is_cornerstone'       => '0',
+				$prefix . 'meta-robots-noindex'  => '2',
+				$prefix . 'title'                => '',
+				'unrelated_meta_key'             => '',
+			],
+			$data['meta'],
+		);
+	}
+
+	/**
+	 * Tests that the rest_prepare filter fills the defaults for unset Yoast meta,
+	 * while get_post_meta() keeps returning an empty string for them.
+	 *
+	 * @covers ::add_meta_defaults_to_rest_response
+	 * @covers ::register_post_meta
+	 *
+	 * @return void
+	 */
+	public function test_rest_prepare_fills_defaults_without_changing_get_post_meta() {
+		$admin_id = $this->factory->user->create( [ 'role' => 'administrator' ] );
+		$post_id  = $this->factory->post->create();
+		\wp_set_current_user( $admin_id );
+		$prefix = WPSEO_Meta::$meta_prefix;
+
+		$this->instance->register_post_meta();
+		$response = \apply_filters(
+			'rest_prepare_post',
+			new WP_REST_Response( [ 'meta' => [ $prefix . 'is_cornerstone' => '' ] ] ),
+			\get_post( $post_id ),
+			new WP_REST_Request(),
+		);
+
+		$this->assertSame( '0', $response->get_data()['meta'][ $prefix . 'is_cornerstone' ] );
+		$this->assertSame( '', \get_post_meta( $post_id, $prefix . 'is_cornerstone', true ) );
+		$this->assertSame( '', \get_post_meta( $post_id, $prefix . 'meta-robots-noindex', true ) );
 	}
 
 	// -------------------------------------------------------------------------

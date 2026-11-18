@@ -133,6 +133,7 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 
 			// Add a filter to strip REST-exposed Yoast meta fields from the response for users without edit_post capability.
 			\add_filter( 'rest_prepare_' . $post_type, [ $this, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
+			\add_filter( 'rest_prepare_' . $post_type, [ $this, 'add_meta_defaults_to_rest_response' ] );
 
 			// Add a filter to trigger wpseo_saved_postdata after a post is updated via REST API, same as in WPSEO_Metabox::save_postdata.
 			// The $creating guard ensures it only fires on updates (not on new post creation via REST), matching the
@@ -233,7 +234,6 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 			'show_in_rest'      => $show_in_rest,
 			'single'            => true,
 			'type'              => 'string',
-			'default'           => ( $field_def['default_value'] ?? '' ),
 			'sanitize_callback' => [ WPSEO_Meta::class, 'sanitize_post_meta' ],
 		];
 
@@ -298,6 +298,35 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 				// Mirror the show_in_rest logic from register_meta(): only expose fields whose type is not null.
 				if ( ! \array_key_exists( 'type', $field_def ) || $field_def['type'] !== null ) {
 					unset( $data['meta'][ WPSEO_Meta::$meta_prefix . $key ] );
+				}
+			}
+		}
+		$response->set_data( $data );
+		return $response;
+	}
+
+	/**
+	 * Fills unset Yoast meta fields in the REST response with their default values.
+	 *
+	 * Defaults are not passed to register_post_meta(), because WordPress would then return them from
+	 * get_post_meta() for unset keys site-wide. WPSEO_Meta deletes values equal to their default on save,
+	 * so without this the editor would read "" where it writes the default, and the post would stay dirty.
+	 *
+	 * @param WP_REST_Response $response The REST response.
+	 *
+	 * @return WP_REST_Response The (possibly modified) response.
+	 */
+	public function add_meta_defaults_to_rest_response( $response ) {
+		$data = $response->get_data();
+		if ( empty( $data['meta'] ) || ! \is_array( $data['meta'] ) ) {
+			return $response;
+		}
+
+		foreach ( WPSEO_Meta::$meta_fields as $field_group ) {
+			foreach ( $field_group as $key => $field_def ) {
+				$full_key = WPSEO_Meta::$meta_prefix . $key;
+				if ( isset( $field_def['default_value'] ) && $field_def['default_value'] !== '' && ( $data['meta'][ $full_key ] ?? null ) === '' ) {
+					$data['meta'][ $full_key ] = $field_def['default_value'];
 				}
 			}
 		}
