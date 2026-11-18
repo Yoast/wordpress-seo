@@ -83,7 +83,7 @@ jobs:
           read -ra PACKAGES <<< "$PACKAGE_LIST"
           for PACKAGE in "${PACKAGES[@]}"; do
             # Find the workspace folder by the package.json name, since folder names do not always match (e.g. yoastseo, @yoast/wordpress-seo).
-            PKG_DIR=$(node -e 'const fs = require("fs"); const dir = fs.readdirSync("packages").find(d => { try { return JSON.parse(fs.readFileSync(`packages/${d}/package.json`, "utf8")).name === process.argv[1]; } catch { return false; } }); if (!dir) { process.exit(1); } console.log(`packages/${dir}`);' "$PACKAGE") || {
+            PKG_DIR=$(node -e 'const fs = require("fs"); const dir = fs.readdirSync("packages").find(d => { try { return JSON.parse(fs.readFileSync("packages/" + d + "/package.json", "utf8")).name === process.argv[1]; } catch { return false; } }); if (!dir) { process.exit(1); } console.log("packages/" + dir);' "$PACKAGE") || {
               echo "::error::No folder under packages/ has a package.json named $PACKAGE"
               exit 1
             }
