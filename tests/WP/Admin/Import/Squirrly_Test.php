@@ -135,7 +135,7 @@ final class Squirrly_Test extends TestCase {
 
 		$this->assertEquals( 'Test title', $seo_title );
 		$this->assertEquals( 'Test description', $seo_desc );
-		$this->assertEquals( '', $robots_noindex );
+		$this->assertEquals( '0', $robots_noindex );
 		$this->assertEquals( 1, $robots_nofollow );
 		$this->assertEquals( 'http://local.wordpress.test/wp-content/uploads/2018/01/actionable-seo.png', $opengraph_image );
 		$this->assertEquals( 'OpenGraph AIOSEO title', $opengraph_title );
