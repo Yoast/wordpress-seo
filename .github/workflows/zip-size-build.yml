@@ -26,7 +26,7 @@ concurrency:
 jobs:
   build:
     name: Build and measure zip size
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Don't run on forks: the base build is cached per base SHA and reporting needs a
     # same-repo context. Fork PRs simply get no zip-size report.
     if: >
@@ -164,7 +164,7 @@ jobs:
         run: |
           git checkout -f "$BASE_SHA"
           yarn install
-          yarn grunt artifact
+          grunt artifact
           "$MEASURE" artifact.zip "$BASE_SIZE"
         env:
           BASE_SHA: ${{ steps.merge-base.outputs.sha }}
@@ -175,7 +175,7 @@ jobs:
         run: |
           git checkout -f "$HEAD_SHA"
           yarn install
-          yarn grunt artifact
+          grunt artifact
           "$MEASURE" artifact.zip "$HEAD_SIZE"
         env:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}

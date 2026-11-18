@@ -51,7 +51,7 @@ concurrency:
 
 jobs:
   yarn-lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     name: "LintJS"
 
@@ -80,7 +80,7 @@ jobs:
           npm --version
           node --version
           yarn --version
-          yarn grunt --version
+          grunt --version
 
       - name: Run Javascript lint
         run: yarn lint

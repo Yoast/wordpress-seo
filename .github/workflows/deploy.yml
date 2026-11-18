@@ -52,7 +52,7 @@ jobs:
     # Don't run on forks.
     if: github.repository_owner == 'Yoast'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -83,7 +83,7 @@ jobs:
           node --version
           npm --version
           yarn --version
-          yarn grunt --version
+          grunt --version
           git --version
 
       # The Grunt artifact creation will run `composer install` twice (first: no-dev, then dev).
@@ -100,14 +100,14 @@ jobs:
         if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
         env:
           REF_NAME: ${{ github.ref_name }}
-        run: yarn grunt set-version -new-version="$REF_NAME"
+        run: grunt set-version -new-version="$REF_NAME"
 
       - name: "Grunt: update package version (tags only)"
         if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
-        run: yarn grunt update-version
+        run: grunt update-version
 
       - name: "Grunt: create artifact"
-        run: yarn grunt artifact
+        run: grunt artifact
 
       - name: "Copy composer.json"
         run: cp composer.json ./artifact
