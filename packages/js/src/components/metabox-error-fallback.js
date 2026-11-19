@@ -1,13 +1,14 @@
 import { useSelect } from "@wordpress/data";
 import { useCallback, useEffect } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { disableMetaboxTabs } from "../helpers/disableMetaboxTabs";
 import { ErrorFallback } from "../shared-admin/components";
 import ScoreIconPortal from "./portals/ScoreIconPortal";
 
 /**
- * @param {Object} error The error instance.
+ * @param {Object} props Component props.
+ * @param {Object} props.error The error instance.
+ *
  * @returns {JSX.Element} The error fallback element.
  */
 export const MetaboxErrorFallback = ( { error } ) => {
@@ -41,8 +42,4 @@ export const MetaboxErrorFallback = ( { error } ) => {
 			</ErrorFallback>
 		</Root>
 	);
-};
-
-MetaboxErrorFallback.propTypes = {
-	error: PropTypes.object.isRequired,
 };

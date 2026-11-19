@@ -1,18 +1,18 @@
 /* eslint-disable complexity */
 import { SvgIcon } from "@yoast/components";
-import PropTypes from "prop-types";
 
 /**
  * Sidebar Collapsible component with default padding and separator.
  *
- * @param {function} onClick The click handler.
- * @param {string} title The button title.
- * @param {string} [id=""] The button id.
- * @param {string} [subTitle=""] The subtitle.
- * @param {Object} [suffixIcon=null] The suffix icon object.
- * @param {JSX.Element} [SuffixHeroIcon=null] Optional hero icon component.
- * @param {Object} [prefixIcon=null] The prefix icon object.
- * @param {React.ReactNode} [children=null] Optional children.
+ * @param {Object} props Component props.
+ * @param {Function} props.onClick The click handler.
+ * @param {string} props.title The button title.
+ * @param {string} [props.id=""] The button id.
+ * @param {string} [props.subTitle=""] The subtitle.
+ * @param {Object} [props.suffixIcon=null] The suffix icon object.
+ * @param {JSX.Element} [props.SuffixHeroIcon=null] Optional hero icon component.
+ * @param {Object} [props.prefixIcon=null] The prefix icon object.
+ * @param {React.ReactNode} [props.children=null] Optional children.
  *
  * @returns {JSX.Element} The Collapsible component.
  */
@@ -64,14 +64,3 @@ const SidebarButton = ( {
 };
 
 export default SidebarButton;
-
-SidebarButton.propTypes = {
-	onClick: PropTypes.func.isRequired,
-	title: PropTypes.string.isRequired,
-	id: PropTypes.string,
-	subTitle: PropTypes.string,
-	suffixIcon: PropTypes.object,
-	SuffixHeroIcon: PropTypes.element,
-	prefixIcon: PropTypes.object,
-	children: PropTypes.node,
-};

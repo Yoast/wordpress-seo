@@ -5,7 +5,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Checkbox } from "@yoast/components";
 import { getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
 import { difference, filter, isEmpty, orderBy, without } from "lodash";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { handleAPIResponse } from "../helpers/api";
 import { getKeyphrases, trackKeyphrases, untrackKeyphrase } from "../helpers/wincherEndpoints";
@@ -60,25 +59,26 @@ const usePrevious = ( value ) => {
 /**
  * The WincherKeyphrasesTable component.
  *
- * @param {function} addTrackedKeyphrase Callback to add a tracked keyphrase.
- * @param {boolean} [isLoggedIn=false] Whether the user is logged in.
- * @param {boolean} [isNewlyAuthenticated=false] Whether the user is newly authenticated.
- * @param {Array} [keyphrases=[]] The keyphrases.
- * @param {function} newRequest Callback for new request.
- * @param {function} removeTrackedKeyphrase Callback to remove a tracked keyphrase.
- * @param {function} setRequestFailed Callback to set request failed.
- * @param {function} setKeyphraseLimitReached Callback to set keyphrase limit reached.
- * @param {function} setRequestSucceeded Callback to set request succeeded.
- * @param {function} setTrackedKeyphrases Callback to set tracked keyphrases.
- * @param {function} setHasTrackedAll Callback to set has tracked all.
- * @param {boolean} [trackAll=false] Whether to track all keyphrases.
- * @param {?Object} [trackedKeyphrases=null] The tracked keyphrases.
- * @param {string} [websiteId=""] The website ID.
- * @param {string} permalink The permalink.
- * @param {string} [focusKeyphrase=""] The focus keyphrase.
- * @param {?string} [startAt=null] The start date.
- * @param {Array<string>} selectedKeyphrases The selected keyphrases.
- * @param {function} onSelectKeyphrases Callback to select keyphrases.
+ * @param {Object} props Component props.
+ * @param {Function} props.addTrackedKeyphrase Callback to add a tracked keyphrase.
+ * @param {boolean} [props.isLoggedIn=false] Whether the user is logged in.
+ * @param {boolean} [props.isNewlyAuthenticated=false] Whether the user is newly authenticated.
+ * @param {Array} [props.keyphrases=[]] The keyphrases.
+ * @param {Function} props.newRequest Callback for new request.
+ * @param {Function} props.removeTrackedKeyphrase Callback to remove a tracked keyphrase.
+ * @param {Function} props.setRequestFailed Callback to set request failed.
+ * @param {Function} props.setKeyphraseLimitReached Callback to set keyphrase limit reached.
+ * @param {Function} props.setRequestSucceeded Callback to set request succeeded.
+ * @param {Function} props.setTrackedKeyphrases Callback to set tracked keyphrases.
+ * @param {Function} props.setHasTrackedAll Callback to set has tracked all.
+ * @param {boolean} [props.trackAll=false] Whether to track all keyphrases.
+ * @param {?Object} [props.trackedKeyphrases=null] The tracked keyphrases.
+ * @param {string} [props.websiteId=""] The website ID.
+ * @param {string} props.permalink The permalink.
+ * @param {string} [props.focusKeyphrase=""] The focus keyphrase.
+ * @param {?string} [props.startAt=null] The start date.
+ * @param {string[]} props.selectedKeyphrases The selected keyphrases.
+ * @param {Function} props.onSelectKeyphrases Callback to select keyphrases.
  *
  * @returns {JSX.Element} The WincherKeyphrasesTable.
  */
@@ -425,28 +425,6 @@ const WincherKeyphrasesTable = ( {
 			</p>
 		</Fragment>
 	);
-};
-
-WincherKeyphrasesTable.propTypes = {
-	addTrackedKeyphrase: PropTypes.func.isRequired,
-	isLoggedIn: PropTypes.bool,
-	isNewlyAuthenticated: PropTypes.bool,
-	keyphrases: PropTypes.array,
-	newRequest: PropTypes.func.isRequired,
-	removeTrackedKeyphrase: PropTypes.func.isRequired,
-	setRequestFailed: PropTypes.func.isRequired,
-	setKeyphraseLimitReached: PropTypes.func.isRequired,
-	setRequestSucceeded: PropTypes.func.isRequired,
-	setTrackedKeyphrases: PropTypes.func.isRequired,
-	setHasTrackedAll: PropTypes.func.isRequired,
-	trackAll: PropTypes.bool,
-	trackedKeyphrases: PropTypes.object,
-	websiteId: PropTypes.string,
-	permalink: PropTypes.string.isRequired,
-	focusKeyphrase: PropTypes.string,
-	startAt: PropTypes.string,
-	selectedKeyphrases: PropTypes.arrayOf( PropTypes.string ).isRequired,
-	onSelectKeyphrases: PropTypes.func.isRequired,
 };
 
 export default WincherKeyphrasesTable;

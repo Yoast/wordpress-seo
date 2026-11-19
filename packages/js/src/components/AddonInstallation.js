@@ -1,7 +1,6 @@
 import { useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/components";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
 import Modal from "./modals/Modal";
@@ -15,8 +14,9 @@ const ButtonPlacement = styled.div`
 /**
  * Plugin installation modal.
  *
- * @param {string} nonce The nonce for installation.
- * @param {Array} [addons=[]] The list of addons to install.
+ * @param {Object} props Component props.
+ * @param {string} props.nonce The nonce for installation.
+ * @param {Array} [props.addons=[]] The list of addons to install.
  *
  * @returns {JSX.Element} The Addon installation modal.
  */
@@ -121,11 +121,6 @@ const AddonInstallation = ( { nonce, addons = [] } ) => {
 			</ButtonPlacement>
 		</Modal>
 	);
-};
-
-AddonInstallation.propTypes = {
-	nonce: PropTypes.string.isRequired,
-	addons: PropTypes.array,
 };
 
 export default AddonInstallation;
