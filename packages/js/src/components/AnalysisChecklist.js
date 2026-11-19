@@ -8,7 +8,9 @@ import AnalysisCheck from "./AnalysisCheck";
  * Renders the analysis checklist.
  *
  * @param {Object} props Component props.
- * @param {Array} props.checklist The analysis checks to render, each passed to AnalysisCheck.
+ * @param {Object[]} props.checklist The analysis checks to render, each passed to AnalysisCheck.
+ * @param {string} props.checklist[].label The label of the check.
+ * @param {("good"|"ok"|"bad"|"loading")} props.checklist[].score The score of the check.
  * @param {Function} props.onClick Callback for the "Improve your post" button.
  *
  * @returns {wp.Element} The analysis checklist.

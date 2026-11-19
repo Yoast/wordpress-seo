@@ -275,7 +275,7 @@ export function getPositionalDataByState( { rowData, websiteId, keyphrase, onSel
  * The WincherTableRow component.
  *
  * @param {Object} props Component props.
- * @param {Object} [props.rowData] The row data.
+ * @param {Object} [props.rowData={}] The row data.
  * @param {string} props.keyphrase The keyphrase.
  * @param {Function} [props.onTrackKeyphrase=noop] Callback to track keyphrase.
  * @param {Function} [props.onUntrackKeyphrase=noop] Callback to untrack keyphrase.

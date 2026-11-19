@@ -160,10 +160,10 @@ function isNewsArticleType( selectedValue, defaultValue ) {
  * @param {Object} props Component props.
  * @param {Function} [props.schemaPageTypeChange=noop] Callback for page type change.
  * @param {?string} [props.schemaPageTypeSelected=null] The selected page type.
- * @param {Array<SchemaTypeOption>} props.pageTypeOptions The page type options.
+ * @param {SchemaTypeOption[]} props.pageTypeOptions The page type options.
  * @param {Function} [props.schemaArticleTypeChange=noop] Callback for article type change.
  * @param {?string} [props.schemaArticleTypeSelected=null] The selected article type.
- * @param {Array<SchemaTypeOption>} props.articleTypeOptions The article type options.
+ * @param {SchemaTypeOption[]} props.articleTypeOptions The article type options.
  * @param {boolean} props.showArticleTypeInput Whether to show the article type input.
  * @param {string} props.additionalHelpTextLink The additional help text link.
  * @param {string} props.helpTextLink The help text link.

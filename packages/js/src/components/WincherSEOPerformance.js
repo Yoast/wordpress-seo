@@ -433,7 +433,7 @@ const TableContent = ( {
  * @param {boolean} [props.isLoggedIn=false] Whether the user is logged in.
  * @param {boolean} [props.isNewlyAuthenticated=false] Whether the user is newly authenticated.
  * @param {Array} [props.keyphrases=[]] The keyphrases.
- * @param {Object} [props.response] The response object.
+ * @param {Object} [props.response={}] The response object.
  * @param {boolean} [props.shouldTrackAll=false] Whether all keyphrases should be tracked.
  * @param {string} [props.permalink=""] The permalink.
  * @param {boolean} props.allKeyphrasesMissRanking Whether all keyphrases miss ranking.

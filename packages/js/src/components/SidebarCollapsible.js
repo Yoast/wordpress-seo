@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
 import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
 import { BetaBadge, SvgIcon } from "@yoast/components";
+import { noop } from "lodash";
 
 /**
  * Sidebar Collapsible component with default padding and separator.
@@ -14,7 +15,7 @@ import { BetaBadge, SvgIcon } from "@yoast/components";
  * @param {boolean} [props.hasBetaBadgeLabel=false] Whether to show the beta badge.
  * @param {boolean} [props.hasNewBadgeLabel=false] Whether to show the new badge.
  * @param {?string} [props.buttonId=null] The button id.
- * @param {Function} [props.renderNewBadgeLabel] Function to render a "New" badge label.
+ * @param {Function} [props.renderNewBadgeLabel=noop] Function to render a "New" badge label.
  * @param {boolean} [props.initialIsOpen=false] Whether the collapsible should be initially open.
  *
  * @returns {JSX.Element} The element.
@@ -28,7 +29,7 @@ const SidebarCollapsible = ( {
 	hasBetaBadgeLabel = false,
 	hasNewBadgeLabel = false,
 	buttonId = null,
-	renderNewBadgeLabel = () => {},
+	renderNewBadgeLabel = noop,
 	initialIsOpen = false,
 } ) => {
 	const [ isOpen, toggleOpen ] = useState( initialIsOpen );

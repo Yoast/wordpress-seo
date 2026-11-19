@@ -9,7 +9,9 @@ import DefaultSeoDataAlert from "./DefaultSeoDataAlert";
  * Renders the analysis checklist.
  *
  * @param {Object} props Component props.
- * @param {Array} props.checklist The analysis checks to render in the checklist.
+ * @param {Object[]} props.checklist The analysis checks to render in the checklist.
+ * @param {string} props.checklist[].label The label of the check.
+ * @param {("good"|"ok"|"bad"|"loading")} props.checklist[].score The score of the check.
  * @param {Function} props.onClick Callback for the "Improve your post" button.
  * @param {Object} props.isSeoDataDefault Whether SEO titles and meta descriptions are default.
  *
