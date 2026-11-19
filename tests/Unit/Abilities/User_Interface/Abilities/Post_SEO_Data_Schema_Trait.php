@@ -86,7 +86,11 @@ trait Post_SEO_Data_Schema_Trait {
 				'is_cornerstone'                  => [ 'type' => 'boolean' ],
 				'noindex'                         => [
 					'type'        => [ 'boolean', 'null' ],
-					'description' => 'Whether search engines are told not to index this post. true means noindex (the post is excluded from search results); false means the post is forced to be indexed; null means no setting is stored and the post-type default applies.',
+					'description' => 'Whether search engines are told not to index this post. true means noindex (the post is excluded from search results); false means the post is forced to be indexed; null means no setting is stored and the post-type default applies. The rendered companion field carries whether the post is actually noindexed.',
+				],
+				'noindex_rendered'                => [
+					'type'        => [ 'boolean', 'null' ],
+					'description' => 'Whether search engines are actually told not to index this post, as output on the front end.',
 				],
 				'nofollow'                        => [ 'type' => 'boolean' ],
 				'noimageindex'                    => [ 'type' => 'boolean' ],
@@ -102,11 +106,21 @@ trait Post_SEO_Data_Schema_Trait {
 				'twitter_description_rendered'    => $rendered( 'X description' ),
 				'schema_page_type'                => [
 					'type'        => [ 'string', 'null' ],
-					'description' => 'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies.',
+					'description' => 'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies. The rendered companion field carries the page types actually output.',
+				],
+				'schema_page_type_rendered'       => [
+					'type'        => [ 'array', 'null' ],
+					'items'       => [ 'type' => 'string' ],
+					'description' => 'The Schema.org page types output on the front end for the post. Empty when no WebPage is output for the post.',
 				],
 				'schema_article_type'             => [
 					'type'        => [ 'string', 'null' ],
-					'description' => 'The Schema.org article type stored for the post. Null means no override is set and the default for the post type applies.',
+					'description' => 'The Schema.org article type stored for the post. Null means no override is set and the default for the post type applies. The rendered companion field carries the article types actually output.',
+				],
+				'schema_article_type_rendered'    => [
+					'type'        => [ 'array', 'null' ],
+					'items'       => [ 'type' => 'string' ],
+					'description' => 'The Schema.org article types output on the front end for the post. Empty when no Article is output for the post.',
 				],
 				'seo_score'                       => $score( 'SEO analysis' ),
 				'readability_score'               => $score( 'readability analysis' ),

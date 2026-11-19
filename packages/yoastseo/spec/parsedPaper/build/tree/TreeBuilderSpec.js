@@ -18,7 +18,7 @@ describe( "TreeBuilder", () => {
 		// Build the tree using the registered builder.
 		treeBuilder.build( "some input", { language: "my-language" } );
 
-		expect( myBuilder ).toBeCalled();
+		expect( myBuilder ).toHaveBeenCalled();
 	} );
 
 	it( "defaults to the default options when build is called with no options given", () => {
@@ -29,6 +29,6 @@ describe( "TreeBuilder", () => {
 		// Defaults to the HTML parser.
 		treeBuilder.build( "<p>A paragraph</p>" );
 
-		expect( htmlMockBuilder ).toBeCalled();
+		expect( htmlMockBuilder ).toHaveBeenCalled();
 	} );
 } );

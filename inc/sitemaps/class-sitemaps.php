@@ -483,7 +483,7 @@ class WPSEO_Sitemaps {
 			header( 'Content-Type: text/css; charset=UTF-8' );
 
 			// Make the browser cache this file properly.
-			$expires = YEAR_IN_SECONDS;
+			$expires = MONTH_IN_SECONDS;
 			header( 'Pragma: public' );
 			header( 'Cache-Control: max-age=' . $expires );
 			header( 'Expires: ' . YoastSEO()->helpers->date->format_timestamp( ( time() + $expires ), 'D, d M Y H:i:s' ) . ' GMT' );

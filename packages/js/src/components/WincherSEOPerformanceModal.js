@@ -4,7 +4,6 @@ import ChartBarIcon from "@heroicons/react/solid/ChartBarIcon";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { useSvgAria } from "@yoast/ui-library/src";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Yoast dependencies */
@@ -28,8 +27,8 @@ const StyledHeroIcon = styled( ChartBarIcon )`
  * Handles the click event on the "Track SEO performance" button.
  *
  * @param {Array} keyphrases The keyphrases array.
- * @param {function}  onNoKeyphraseSet Callback when no keyphrase is set.
- * @param {function}  onOpen Callback to open the modal.
+ * @param {Function}  onNoKeyphraseSet Callback when no keyphrase is set.
+ * @param {Function}  onOpen Callback to open the modal.
  * @param {string} location The location identifier.
  *
  * @returns {void}
@@ -55,13 +54,14 @@ function openModal( { keyphrases, onNoKeyphraseSet, onOpen, location } ) {
 /**
  * The WincherSEOPerformanceModal modal.
  *
- * @param {string} [location=""] The location identifier.
- * @param {"none"|"metabox"|"sidebar"|"postpublish"} [whichModalOpen="none"] Which modal is open.
- * @param {boolean} [shouldCloseOnClickOutside=true] Whether the modal should close when clicking outside.
- * @param {Array} keyphrases The keyphrases array.
- * @param {function}  onNoKeyphraseSet Callback when no keyphrase is set.
- * @param {function}  onOpen Callback to open the modal.
- * @param {function}  onClose Callback to close the modal.
+ * @param {Object} props Component props.
+ * @param {string} [props.location=""] The location identifier.
+ * @param {("none"|"metabox"|"sidebar"|"postpublish")} [props.whichModalOpen="none"] Which modal is open.
+ * @param {boolean} [props.shouldCloseOnClickOutside=true] Whether the modal should close when clicking outside.
+ * @param {Array} props.keyphrases The keyphrases array.
+ * @param {Function} props.onNoKeyphraseSet Callback when no keyphrase is set.
+ * @param {Function} props.onOpen Callback to open the modal.
+ * @param {Function} props.onClose Callback to close the modal.
  *
  * @returns {JSX.Element}
  */
@@ -123,18 +123,3 @@ export default function WincherSEOPerformanceModal( {
 		</Fragment>
 	);
 }
-
-WincherSEOPerformanceModal.propTypes = {
-	location: PropTypes.string,
-	whichModalOpen: PropTypes.oneOf( [
-		"none",
-		"metabox",
-		"sidebar",
-		"postpublish",
-	] ),
-	shouldCloseOnClickOutside: PropTypes.bool,
-	keyphrases: PropTypes.array.isRequired,
-	onNoKeyphraseSet: PropTypes.func.isRequired,
-	onOpen: PropTypes.func.isRequired,
-	onClose: PropTypes.func.isRequired,
-};

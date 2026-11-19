@@ -8,7 +8,11 @@ use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Post_SEO_Data_Ability;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Graph_Helper;
+use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -205,7 +209,7 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 
 		$meta_surface = Mockery::mock( Meta_Surface::class );
 		$meta_surface->expects( 'for_indexable' )->andReturnFalse();
-		$field_map = new Post_SEO_Field_Map( $meta_surface );
+		$field_map = new Post_SEO_Field_Map( $meta_surface, Mockery::mock( Graph_Helper::class ), Mockery::mock( Woo_SEO_Inactive_Conditional::class ), Mockery::mock( Woocommerce_Helper::class ), Mockery::mock( Schema_Configuration::class ) );
 
 		$schema_properties = \array_keys( $output_schema['properties'] );
 		$output_fields     = \array_keys( $field_map->to_seo_array( Mockery::mock( Indexable_Mock::class ) ) );

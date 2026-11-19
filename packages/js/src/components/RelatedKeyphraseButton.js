@@ -1,7 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import SearchIcon from "@heroicons/react/outline/SearchIcon";
 import { Button } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
  * Renders the "Discover related keyphrases" button.
@@ -9,10 +8,12 @@ import PropTypes from "prop-types";
  * When logged in the button triggers the modal directly.
  * When not logged in it opens the SEMrush OAuth popup first.
  *
- * @param {boolean} [isLoggedIn=false] Whether a user has logged into their Semrush account.
- * @param {string} location The location of the button, either "metabox" or "sidebar".
- * @param {Function} onModalOpen The function to call when the modal should be opened.
- * @param {Function} onLinkClick The function to call when the link is clicked.
+ * @param {Object} props Component props.
+ * @param {boolean} [props.isLoggedIn=false] Whether a user has logged into their Semrush account.
+ * @param {string} props.location The location of the button, either "metabox" or "sidebar".
+ * @param {Function} props.onModalOpen The function to call when the modal should be opened.
+ * @param {Function} props.onLinkClick The function to call when the link is clicked.
+ *
  * @returns {JSX.Element} The "Discover related keyphrases" button.
  */
 export const RelatedKeyphraseButton = ( { isLoggedIn = false, location, onModalOpen, onLinkClick } ) => {
@@ -47,11 +48,4 @@ export const RelatedKeyphraseButton = ( { isLoggedIn = false, location, onModalO
 			</Button>
 		</div>
 	);
-};
-
-RelatedKeyphraseButton.propTypes = {
-	isLoggedIn: PropTypes.bool,
-	location: PropTypes.string.isRequired,
-	onModalOpen: PropTypes.func.isRequired,
-	onLinkClick: PropTypes.func.isRequired,
 };

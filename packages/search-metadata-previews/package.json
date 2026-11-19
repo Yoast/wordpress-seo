@@ -35,7 +35,7 @@
     "prop-types": "^15.6.0",
     "react-transition-group": "^4.4.5",
     "styled-components": "^5.3.6",
-    "yoastseo": "^3.6.0"
+    "yoastseo": "^3.7.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",

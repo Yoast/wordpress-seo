@@ -107,6 +107,8 @@ final class Deactivated_Premium_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->with( 'yoast-seo-notifications' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( 'https://example.org/wp-content/plugins/' );
 
+		Monkey\Functions\expect( 'wp_create_nonce' )->once()->with( 'wpseo-dismiss-premium-deactivated-notice' )->andReturn( '123456' );
+
 		// Output should contain the nonce URL.
 		$this->expectOutputContains( 'plugins.php?action=activate&plugin=' . $premium_file );
 
@@ -116,6 +118,7 @@ final class Deactivated_Premium_Integration_Test extends TestCase {
                 function dismiss_premium_deactivated_notice(){
                     var data = {
                     'action': 'dismiss_premium_deactivated_notice',
+                    'nonce': '123456',
                     };
                     jQuery( '#yoast-premium-deactivated-notice' ).hide();
                     jQuery.post( ajaxurl, data, function( response ) {});
@@ -210,14 +213,47 @@ final class Deactivated_Premium_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests dimsissing the notice.
+	 * Tests dismissing the notice.
 	 *
 	 * @covers ::dismiss_premium_deactivated_notice
 	 *
 	 * @return void
 	 */
 	public function test_dismiss_premium_deactivated_notice() {
-		$this->options_helper->expects( 'set' )->with( 'dismiss_premium_deactivated_notice', true );
-		$this->instance->dismiss_premium_deactivated_notice();
+		Monkey\Functions\expect( 'check_ajax_referer' )->once()->with( 'wpseo-dismiss-premium-deactivated-notice', 'nonce', false )->andReturn( 1 );
+		Monkey\Functions\expect( 'current_user_can' )->once()->with( 'activate_plugin', 'wordpress-seo-premium/wp-seo-premium.php' )->andReturnTrue();
+		$this->options_helper->expects( 'set' )->with( 'dismiss_premium_deactivated_notice', true )->andReturnTrue();
+
+		$this->assertTrue( $this->instance->dismiss_premium_deactivated_notice() );
+	}
+
+	/**
+	 * Tests that invalid nonces cannot dismiss the notice.
+	 *
+	 * @covers ::dismiss_premium_deactivated_notice
+	 *
+	 * @return void
+	 */
+	public function test_dismiss_premium_deactivated_notice_invalid_nonce() {
+		Monkey\Functions\expect( 'check_ajax_referer' )->once()->with( 'wpseo-dismiss-premium-deactivated-notice', 'nonce', false )->andReturnFalse();
+		Monkey\Functions\expect( 'current_user_can' )->never();
+		$this->options_helper->shouldNotReceive( 'set' );
+
+		$this->assertFalse( $this->instance->dismiss_premium_deactivated_notice() );
+	}
+
+	/**
+	 * Tests that users unable to activate Premium cannot dismiss the notice.
+	 *
+	 * @covers ::dismiss_premium_deactivated_notice
+	 *
+	 * @return void
+	 */
+	public function test_dismiss_premium_deactivated_notice_without_capability() {
+		Monkey\Functions\expect( 'check_ajax_referer' )->once()->with( 'wpseo-dismiss-premium-deactivated-notice', 'nonce', false )->andReturn( 1 );
+		Monkey\Functions\expect( 'current_user_can' )->once()->with( 'activate_plugin', 'wordpress-seo-premium/wp-seo-premium.php' )->andReturnFalse();
+		$this->options_helper->shouldNotReceive( 'set' );
+
+		$this->assertFalse( $this->instance->dismiss_premium_deactivated_notice() );
 	}
 }

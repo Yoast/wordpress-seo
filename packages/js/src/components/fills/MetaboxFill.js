@@ -3,7 +3,6 @@ import { useSelect } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 
 /* Internal dependencies */
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
@@ -34,7 +33,8 @@ const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( B
 /**
  * Creates the Metabox component.
  *
- * @param {Object} settings The feature toggles.
+ * @param {Object} props Component props.
+ * @param {Object} props.settings The feature toggles.
  *
  * @returns {wp.Element} The Metabox component.
  */
@@ -144,9 +144,5 @@ export default function MetaboxFill( { settings } ) {
 		</>
 	);
 }
-
-MetaboxFill.propTypes = {
-	settings: PropTypes.object.isRequired,
-};
 
 /* eslint-enable complexity */
