@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 use Brain\Monkey;
 use Mockery;
 use WP_Error;
+use Yoast\WP\SEO\Abilities\Application\Author_Schema_Collector;
 use Yoast\WP\SEO\Abilities\Application\Author_Schema_Updater;
 use Yoast\WP\SEO\Abilities\Domain\Author_Schema_Field_Repository_Interface;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_Schema_Field_Map;
@@ -86,13 +87,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	private $repositories = [];
 
 	/**
-	 * The schema of the fields registered with their own repository, when it is not a string.
-	 *
-	 * @var array<string, array<string, string>>
-	 */
-	private $repository_schemas = [];
-
-	/**
 	 * The validators the field map returns.
 	 *
 	 * @var array<string, callable>
@@ -128,7 +122,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 				return \array_merge(
 					self::FIELDS,
 					\array_fill_keys( \array_keys( $this->repositories ), [ 'type' => 'string' ] ),
-					$this->repository_schemas,
 				);
 			},
 		);
@@ -156,6 +149,8 @@ final class Author_Schema_Updater_Test extends TestCase {
 			$this->social_profiles_helper,
 			$this->options_helper,
 			$this->user_helper,
+			// The real collector, so the tests cover what is read back after saving.
+			new Author_Schema_Collector( $this->field_map ),
 		);
 	}
 
@@ -197,7 +192,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::update
 	 * @covers ::save_field
-	 * @covers ::get_settings
 	 *
 	 * @return void
 	 */
@@ -244,7 +238,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 * Tests that update only reads the settings when the input has no fields to change.
 	 *
 	 * @covers ::update
-	 * @covers ::get_settings
 	 *
 	 * @return void
 	 */
@@ -528,7 +521,6 @@ final class Author_Schema_Updater_Test extends TestCase {
 	 *
 	 * @covers ::update
 	 * @covers ::save_field
-	 * @covers ::get_settings
 	 *
 	 * @return void
 	 */
@@ -604,48 +596,5 @@ final class Author_Schema_Updater_Test extends TestCase {
 			'The jobTitle setting was saved after being cleaned up, so its saved value differs from the one provided.',
 			$result['warning'],
 		);
-	}
-
-	/**
-	 * Data provider for test_update_array_field.
-	 *
-	 * @return array<string, array<string, string|array<string>>>
-	 */
-	public static function data_update_array_field() {
-		return [
-			'Set'   => [
-				'stored'   => [ 'PHP', 'SEO' ],
-				'expected' => [ 'PHP', 'SEO' ],
-			],
-			'Unset' => [
-				'stored'   => '',
-				'expected' => [],
-			],
-		];
-	}
-
-	/**
-	 * Tests that update returns an array field as an array, also when it is not set.
-	 *
-	 * @covers ::update
-	 * @covers ::get_settings
-	 *
-	 * @dataProvider data_update_array_field
-	 *
-	 * @param string|array<string> $stored   The value the repository returns.
-	 * @param array<string>        $expected The value that is returned.
-	 *
-	 * @return void
-	 */
-	public function test_update_array_field( $stored, $expected ) {
-		$repository                             = Mockery::mock( Author_Schema_Field_Repository_Interface::class );
-		$this->repositories['knowsAbout']       = $repository;
-		$this->repository_schemas['knowsAbout'] = [ 'type' => 'array' ];
-
-		$repository->expects( 'get' )->once()->with( self::USER_ID, 'knowsAbout' )->andReturn( $stored );
-
-		$this->user_helper->allows( 'get_meta' )->andReturn( '' );
-
-		$this->assertSame( $expected, $this->instance->update( self::USER_ID, [] )['knowsAbout'] );
 	}
 }

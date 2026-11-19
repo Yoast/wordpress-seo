@@ -85,7 +85,7 @@ final class Update_Author_Schema_Ability_Test extends TestCase {
 	/**
 	 * Tests that the ability is always available.
 	 *
-	 * @covers ::is_available
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Author_Schema_Ability::is_available
 	 *
 	 * @return void
 	 */
@@ -97,7 +97,8 @@ final class Update_Author_Schema_Ability_Test extends TestCase {
 	 * Tests that can_edit_user checks whether the current user can edit the user in the input.
 	 *
 	 * @covers ::__construct
-	 * @covers ::can_edit_user
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Author_Schema_Ability::__construct
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Author_Schema_Ability::can_edit_user
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
@@ -145,12 +146,14 @@ final class Update_Author_Schema_Ability_Test extends TestCase {
 	 * output schema, which also describes the warning.
 	 *
 	 * @covers ::get_args
-	 * @covers ::to_output_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Author_Schema_Ability::get_user_id_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Author_Schema_Ability::get_settings_output_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Author_Schema_Ability::to_output_schema
 	 *
 	 * @return void
 	 */
 	public function test_get_args() {
-		$this->field_map->expects( 'get_fields' )->once()->andReturn(
+		$this->field_map->expects( 'get_fields' )->twice()->andReturn(
 			[
 				'wpseo_pronouns' => [
 					'type'        => 'string',
@@ -166,7 +169,7 @@ final class Update_Author_Schema_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Update Author Schema',
-				'description'         => 'Update Yoast SEO\'s author schema settings of a user, which provide their pronouns, social profiles and, depending on the active add-ons, other details for the user\'s Person schema. That schema describes the user as the author of their posts, on their author archive, and as the site itself when the site represents this user. Only the settings you provide are changed; a provided empty string clears that setting. Provide only the user ID to read the current settings without changing anything. These settings are published as personal details about the user: only use values you were given, never guessed, inferred (for example pronouns from a name) or found elsewhere, and confirm them before saving.',
+				'description'         => 'Update Yoast SEO\'s author schema settings of a user, which provide their pronouns, social profiles and, depending on the active add-ons, other details for the user\'s Person schema. That schema describes the user as the author of their posts, on their author archive, and as the site itself when the site represents this user. Only the settings you provide are changed; a provided empty string clears that setting. These settings are published as personal details about the user: only use values you were given, never guessed, inferred (for example pronouns from a name) or found elsewhere, and confirm them before saving.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',
