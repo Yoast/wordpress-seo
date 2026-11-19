@@ -8,10 +8,10 @@ use Yoast\WP\SEO\Conditionals\User_Can_Edit_Users_Conditional;
 use Yoast\WP\SEO\User_Meta\Framework\Custom_Meta\Author_Pronouns;
 
 /**
- * Describes the author schema settings of a user that the abilities can write, keyed by field name.
+ * Describes the author schema settings of a user that the abilities can read and write, keyed by field name.
  *
- * The map is the single source of truth for both the ability schemas and the updater, so a field
- * added through the filter is exposed, validated and written without further changes.
+ * The map is the single source of truth for the ability schemas, the collector and the updater, so a field
+ * added through the filter is exposed, read, validated and written without further changes.
  */
 class Author_Schema_Field_Map extends Abstract_Field_Map {
 
@@ -86,7 +86,7 @@ class Author_Schema_Field_Map extends Abstract_Field_Map {
 	protected function get_filtered_fields( array $default_fields ) {
 		/**
 		 * Filter: 'wpseo_author_schema_ability_fields' - Allows adding author schema settings that the author
-		 * schema abilities can write.
+		 * schema abilities can read and write.
 		 *
 		 * Each field is keyed by its name and maps to the JSON schema of its value. By default, the value is saved
 		 * as a single user meta value, keyed by the name of the field. That only works for a field whose schema
