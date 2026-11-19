@@ -55,7 +55,7 @@ final class Feature_Status_Collector_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get_all returns whether each available feature is enabled, keyed by feature key, treating anything
+	 * Tests that get_all returns whether each feature is enabled, keyed by feature key, treating anything
 	 * but a stored true as disabled, and a feature that code turns off despite its setting as disabled too.
 	 *
 	 * The features whose setting is off are mocked without `is_disabled_programmatically`, so the test fails if it is
@@ -68,7 +68,7 @@ final class Feature_Status_Collector_Test extends TestCase {
 	 */
 	public function test_get_all() {
 		$this->feature_repository
-			->expects( 'get_available' )
+			->expects( 'get_all' )
 			->once()
 			->andReturn(
 				[
@@ -126,14 +126,14 @@ final class Feature_Status_Collector_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get_all returns an empty array when no feature can be changed on the site.
+	 * Tests that get_all returns an empty array when there are no features.
 	 *
 	 * @covers ::get_all
 	 *
 	 * @return void
 	 */
-	public function test_get_all_without_available_features() {
-		$this->feature_repository->expects( 'get_available' )->once()->andReturn( [] );
+	public function test_get_all_without_features() {
+		$this->feature_repository->expects( 'get_all' )->once()->andReturn( [] );
 		$this->options_helper->expects( 'get' )->never();
 
 		$this->assertSame( [], $this->instance->get_all() );

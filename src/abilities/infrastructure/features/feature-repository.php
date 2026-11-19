@@ -40,19 +40,11 @@ class Feature_Repository {
 	}
 
 	/**
-	 * Returns the features that can be changed on the site.
+	 * Returns all the features.
 	 *
 	 * @return array<Feature_Interface> The features.
 	 */
-	public function get_available(): array {
-		$features = [];
-
-		foreach ( $this->features as $feature ) {
-			if ( $feature->is_available() ) {
-				$features[] = $feature;
-			}
-		}
-
-		return $features;
+	public function get_all(): array {
+		return \array_values( $this->features );
 	}
 }

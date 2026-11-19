@@ -18,18 +18,18 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 final class Feature_Repository_Test extends TestCase {
 
 	/**
-	 * An available feature.
+	 * The Open Graph feature.
 	 *
 	 * @var Mockery\MockInterface|Feature_Interface
 	 */
-	private $available_feature;
+	private $open_graph_feature;
 
 	/**
-	 * A feature that cannot be changed on the site.
+	 * The llms.txt feature.
 	 *
 	 * @var Mockery\MockInterface|Feature_Interface
 	 */
-	private $unavailable_feature;
+	private $llms_txt_feature;
 
 	/**
 	 * The instance under test.
@@ -46,26 +46,14 @@ final class Feature_Repository_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->available_feature   = Mockery::mock(
-			Feature_Interface::class,
-			[
-				'get_key'      => 'open_graph',
-				'is_available' => true,
-			],
-		);
-		$this->unavailable_feature = Mockery::mock(
-			Feature_Interface::class,
-			[
-				'get_key'      => 'llms_txt',
-				'is_available' => false,
-			],
-		);
+		$this->open_graph_feature = Mockery::mock( Feature_Interface::class, [ 'get_key' => 'open_graph' ] );
+		$this->llms_txt_feature   = Mockery::mock( Feature_Interface::class, [ 'get_key' => 'llms_txt' ] );
 
-		$this->instance = new Feature_Repository( $this->available_feature, $this->unavailable_feature );
+		$this->instance = new Feature_Repository( $this->open_graph_feature, $this->llms_txt_feature );
 	}
 
 	/**
-	 * Tests that get returns the feature with the given key, whether it is available or not.
+	 * Tests that get returns the feature with the given key.
 	 *
 	 * @covers ::__construct
 	 * @covers ::get
@@ -73,8 +61,8 @@ final class Feature_Repository_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get() {
-		$this->assertSame( $this->available_feature, $this->instance->get( 'open_graph' ) );
-		$this->assertSame( $this->unavailable_feature, $this->instance->get( 'llms_txt' ) );
+		$this->assertSame( $this->open_graph_feature, $this->instance->get( 'open_graph' ) );
+		$this->assertSame( $this->llms_txt_feature, $this->instance->get( 'llms_txt' ) );
 	}
 
 	/**
@@ -89,13 +77,13 @@ final class Feature_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get_available leaves out the features that cannot be changed on the site.
+	 * Tests that get_all returns all the features, as a list.
 	 *
-	 * @covers ::get_available
+	 * @covers ::get_all
 	 *
 	 * @return void
 	 */
-	public function test_get_available() {
-		$this->assertSame( [ $this->available_feature ], $this->instance->get_available() );
+	public function test_get_all() {
+		$this->assertSame( [ $this->open_graph_feature, $this->llms_txt_feature ], $this->instance->get_all() );
 	}
 }

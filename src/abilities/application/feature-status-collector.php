@@ -37,7 +37,7 @@ class Feature_Status_Collector {
 	}
 
 	/**
-	 * Returns whether each feature is enabled, leaving out the features that cannot be changed on the site.
+	 * Returns whether each feature is enabled.
 	 *
 	 * A feature that is turned on in its setting but turned off by code, like a filter, counts as disabled, as it
 	 * has no effect on the site.
@@ -47,7 +47,7 @@ class Feature_Status_Collector {
 	public function get_all(): array {
 		$statuses = [];
 
-		foreach ( $this->feature_repository->get_available() as $feature ) {
+		foreach ( $this->feature_repository->get_all() as $feature ) {
 			$statuses[ $feature->get_key() ] = ( $this->options_helper->get( $feature->get_option_name(), false ) === true
 				&& ! $feature->is_disabled_programmatically() );
 		}

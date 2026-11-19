@@ -153,7 +153,7 @@ final class Get_Feature_Statuses_Ability_Test extends TestCase {
 	 */
 	public function test_get_args() {
 		$this->feature_repository
-			->expects( 'get_available' )
+			->expects( 'get_all' )
 			->once()
 			->andReturn(
 				[
@@ -179,7 +179,7 @@ final class Get_Feature_Statuses_Ability_Test extends TestCase {
 		$this->assertEquals(
 			[
 				'label'               => 'Get Feature Statuses',
-				'description'         => 'Get whether each of the Yoast SEO features that can be enabled or disabled with the yoast-seo/set-*-status abilities is enabled. Features that cannot be changed on this site are left out.',
+				'description'         => 'Get whether each of the Yoast SEO features that can be enabled or disabled with the yoast-seo/set-*-status abilities is enabled. A feature that cannot be changed on this site, like llms.txt on multisite, is still listed, but has no such ability.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',

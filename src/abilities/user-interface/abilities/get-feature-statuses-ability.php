@@ -101,7 +101,7 @@ class Get_Feature_Statuses_Ability implements Ability_Interface {
 	public function get_args(): array {
 		$properties = [];
 
-		foreach ( $this->feature_repository->get_available() as $feature ) {
+		foreach ( $this->feature_repository->get_all() as $feature ) {
 			$properties[ $feature->get_key() ] = [
 				'type'        => 'boolean',
 				'description' => \sprintf(
@@ -117,7 +117,7 @@ class Get_Feature_Statuses_Ability implements Ability_Interface {
 			'label'               => \__( 'Get Feature Statuses', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: 1: Yoast SEO, 2: the name pattern of the abilities that enable or disable a feature. */
-				\__( 'Get whether each of the %1$s features that can be enabled or disabled with the %2$s abilities is enabled. Features that cannot be changed on this site are left out.', 'wordpress-seo' ),
+				\__( 'Get whether each of the %1$s features that can be enabled or disabled with the %2$s abilities is enabled. A feature that cannot be changed on this site, like llms.txt on multisite, is still listed, but has no such ability.', 'wordpress-seo' ),
 				'Yoast SEO',
 				'yoast-seo/set-*-status',
 			),
