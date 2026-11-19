@@ -178,7 +178,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 		$expected_output_schema                          = $this->get_expected_output_schema();
 		$expected_output_schema['properties']['warning'] = [
 			'type'        => 'string',
-			'description' => 'Only present when some of the provided fields were not saved, for example the page type of a product while Yoast WooCommerce SEO is active. Meant to be relayed to the user.',
+			'description' => 'Only present when some of the provided fields could not be saved for this post. Explains why. Meant to be relayed to the user.',
 		];
 
 		$this->ai_generate_upsell

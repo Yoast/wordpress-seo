@@ -81,7 +81,7 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 		$output_schema                          = $this->get_post_seo_data_output_schema();
 		$output_schema['properties']['warning'] = [
 			'type'        => 'string',
-			'description' => \__( 'Only present when some of the provided fields were not saved, for example the page type of a product while Yoast WooCommerce SEO is active. Meant to be relayed to the user.', 'wordpress-seo' ),
+			'description' => \__( 'Only present when some of the provided fields could not be saved for this post. Explains why. Meant to be relayed to the user.', 'wordpress-seo' ),
 		];
 
 		return [
