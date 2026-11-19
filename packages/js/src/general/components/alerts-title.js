@@ -2,13 +2,14 @@ import ExclamationCircleIcon from "@heroicons/react/outline/ExclamationCircleIco
 import { useContext } from "@wordpress/element";
 import { Title } from "@yoast/ui-library";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import { AlertsContext } from "../contexts/alerts-context";
 
 /**
- * @param {string} title The title of alerts.
- * @param {number} [counts=0] The count of the alerts.
- * @param {React.ReactNode} [children=null] The children.
+ * @param {Object} props Component props.
+ * @param {string} props.title The title of alerts.
+ * @param {number} [props.counts=0] The count of the alerts.
+ * @param {React.ReactNode} [props.children=null] The children.
+ *
  * @returns {JSX.Element} The alert title element.
  */
 export const AlertsTitle = ( {
@@ -27,10 +28,4 @@ export const AlertsTitle = ( {
 			{ children }
 		</div>
 	);
-};
-
-AlertsTitle.propTypes = {
-	title: PropTypes.string.isRequired,
-	counts: PropTypes.number,
-	children: PropTypes.node,
 };

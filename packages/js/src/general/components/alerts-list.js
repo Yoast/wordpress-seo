@@ -5,7 +5,6 @@ import { useDispatch } from "@wordpress/data";
 import { useCallback, useContext } from "@wordpress/element";
 import { Button } from "@yoast/ui-library";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import { STORE_NAME } from "../constants";
 import { AlertsContext } from "../contexts/alerts-context";
 import { AlertContent } from "./alert-items/alert-content";
@@ -13,11 +12,12 @@ import { AlertContent } from "./alert-items/alert-content";
 /**
  * The alert item object.
  *
- * @param {string} [id=""] The alert id.
- * @param {string} [nonce=""] The alert nonce.
- * @param {boolean} [dismissed=false] Whether the alert is dismissed or not.
- * @param {string} [message=""] The alert message.
- * @param {string} [resolveNonce=""] The nonce to resolve the alert.
+ * @param {Object} props Component props.
+ * @param {string} [props.id=""] The alert id.
+ * @param {string} [props.nonce=""] The alert nonce.
+ * @param {boolean} [props.dismissed=false] Whether the alert is dismissed or not.
+ * @param {string} [props.message=""] The alert message.
+ * @param {string} [props.resolveNonce=""] The nonce to resolve the alert.
  *
  * @returns {JSX.Element} The alert item component.
  */
@@ -52,17 +52,15 @@ const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "", reso
 	);
 };
 
-AlertItem.propTypes = {
-	id: PropTypes.string,
-	nonce: PropTypes.string,
-	dismissed: PropTypes.bool,
-	message: PropTypes.string,
-	resolveNonce: PropTypes.string,
-};
-
 /**
- * @param {string} [className=""] The class name.
- * @param {Object[]} [items=[]] The list of items.
+ * @param {Object} props Component props.
+ * @param {string} [props.className=""] The class name.
+ * @param {Object[]} [props.items=[]] The list of items.
+ * @param {string} [props.items[].message] The alert message.
+ * @param {string} [props.items[].id] The alert id.
+ * @param {string} [props.items[].nonce] The alert nonce.
+ * @param {boolean} [props.items[].dismissed] Whether the alert is dismissed or not.
+ * @param {string} [props.items[].resolveNonce] The nonce to resolve the alert.
  *
  * @returns {JSX.Element} The list component.
  */
@@ -85,15 +83,4 @@ export const AlertsList = ( { className = "", items = [] } ) => {
 			) ) }
 		</ul>
 	);
-};
-
-AlertsList.propTypes = {
-	className: PropTypes.string,
-	items: PropTypes.arrayOf( PropTypes.shape( {
-		message: PropTypes.string,
-		id: PropTypes.string,
-		nonce: PropTypes.string,
-		dismissed: PropTypes.bool,
-		resolveNonce: PropTypes.string,
-	} ) ),
 };

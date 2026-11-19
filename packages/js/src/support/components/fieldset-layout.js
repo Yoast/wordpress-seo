@@ -1,12 +1,13 @@
-import PropTypes from "prop-types";
 import { FieldsetLayout as PureFieldsetLayout } from "../../shared-admin/components/fieldset-layout";
 import { useSelectSupport } from "../hooks";
 
 /**
- * @param {string} [id] The ID.
- * @param {React.ReactNode} children The children nodes.
- * @param {React.ReactNode} title The title.
- * @param {React.ReactNode} [description] The description.
+ * @param {Object} props Component props.
+ * @param {string} [props.id=undefined] The ID.
+ * @param {React.ReactNode} props.children The children nodes.
+ * @param {React.ReactNode} props.title The title.
+ * @param {React.ReactNode} [props.description=null] The description.
+ *
  * @returns {JSX.Element} The FieldsetLayout element.
  */
 export const FieldsetLayout = ( {
@@ -27,11 +28,4 @@ export const FieldsetLayout = ( {
 			{ children }
 		</PureFieldsetLayout>
 	);
-};
-
-FieldsetLayout.propTypes = {
-	id: PropTypes.string,
-	children: PropTypes.node.isRequired,
-	title: PropTypes.node.isRequired,
-	description: PropTypes.node,
 };
