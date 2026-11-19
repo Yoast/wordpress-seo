@@ -134,7 +134,7 @@ final class Sitemaps_Router_Test extends TestCase {
 			->once();
 
 		$dynamic_rewrites->expects( 'add_rule' )
-			->with( 'main-sitemap\.css$', 'index.php?yoast-sitemap-css=1', 'top' )
+			->with( '([a-z]+)-sitemap\.css$', 'index.php?yoast-sitemap-css=$matches[1]', 'top' )
 			->once();
 
 		$this->instance->add_rewrite_rules( $dynamic_rewrites );

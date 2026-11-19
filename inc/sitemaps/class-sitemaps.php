@@ -186,6 +186,28 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
+	 * Register your own CSS stylesheet. Call this during 'init'.
+	 *
+	 * The stylesheet is served from `<name>-sitemap.css` on the home URL, with the right headers.
+	 * Pass `$rewrite` only when `$name` has other characters than lowercase letters. A rewrite of the form
+	 * `<letters>-sitemap.css` is matched as the stylesheet named `<letters>`, not as `$name`.
+	 *
+	 * @since 29.0
+	 *
+	 * @param string   $name              The name of the CSS stylesheet.
+	 * @param callback $building_function Function to output the content of your CSS stylesheet.
+	 * @param string   $rewrite           Optional. Regular expression to match your stylesheet with.
+	 *
+	 * @return void
+	 */
+	public function register_css( $name, $building_function, $rewrite = '' ) {
+		add_action( 'wpseo_css_' . $name, $building_function );
+		if ( $rewrite ) {
+			Yoast_Dynamic_Rewrites::instance()->add_rule( $rewrite, 'index.php?yoast-sitemap-css=' . $name, 'top' );
+		}
+	}
+
+	/**
 	 * Set the sitemap current page to allow creating partial sitemaps with WP-CLI
 	 * in a one-off process.
 	 *
@@ -246,12 +268,14 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		if ( ! empty( get_query_var( 'yoast-sitemap-css' ) ) ) {
+		$yoast_sitemap_css = get_query_var( 'yoast-sitemap-css' );
+
+		if ( ! empty( $yoast_sitemap_css ) ) {
 			/*
 			 * This is a method to provide the stylesheet via the home_url.
 			 * Needed when the site_url and home_url are not the same.
 			 */
-			$this->css_output();
+			$this->css_output( $yoast_sitemap_css );
 			$this->sitemap_close();
 
 			return;
@@ -471,11 +495,23 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Spits out the CSS for the XML sitemap.
+	 * Spits out the CSS for the XML sitemap, or for XML sitemaps registered through `register_css()`.
+	 *
+	 * @param string $type Optional. Type to output. Defaults to the main XML sitemap.
 	 *
 	 * @return void
 	 */
-	public function css_output() {
+	public function css_output( $type = 'main' ) {
+		$is_main = in_array( (string) $type, [ 'main', '1' ], true );
+
+		if ( ! $is_main && ! has_action( 'wpseo_css_' . $type ) ) {
+			if ( ! headers_sent() ) {
+				header( $this->http_protocol . ' 404 Not Found', true, 404 );
+			}
+
+			return;
+		}
+
 		if ( ! headers_sent() ) {
 			header( $this->http_protocol . ' 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
@@ -487,6 +523,15 @@ class WPSEO_Sitemaps {
 			header( 'Pragma: public' );
 			header( 'Cache-Control: max-age=' . $expires );
 			header( 'Expires: ' . YoastSEO()->helpers->date->format_timestamp( ( time() + $expires ), 'D, d M Y H:i:s' ) . ' GMT' );
+		}
+
+		if ( ! $is_main ) {
+			/**
+			 * Fires for the output of the CSS for XML sitemaps, other than type "main".
+			 */
+			do_action( 'wpseo_css_' . $type );
+
+			return;
 		}
 
 		// Don't use WP_Filesystem() here because that's not initialized yet. See https://yoast.atlassian.net/browse/QAK-2043.
