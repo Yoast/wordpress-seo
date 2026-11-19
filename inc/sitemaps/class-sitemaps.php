@@ -171,6 +171,8 @@ class WPSEO_Sitemaps {
 	 * Register your own XSL file. Call this during 'init'.
 	 *
 	 * @since 1.4.23
+	 * @deprecated 29.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param string   $name              The name of the XSL file.
 	 * @param callback $building_function Function to build your XSL file.
@@ -179,6 +181,8 @@ class WPSEO_Sitemaps {
 	 * @return void
 	 */
 	public function register_xsl( $name, $building_function, $rewrite = '' ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 29.0', 'WPSEO_Sitemaps::register_css' );
+
 		add_action( 'wpseo_xsl_' . $name, $building_function );
 		if ( $rewrite ) {
 			Yoast_Dynamic_Rewrites::instance()->add_rule( $rewrite, 'index.php?yoast-sitemap-xsl=' . $name, 'top' );
@@ -291,7 +295,7 @@ class WPSEO_Sitemaps {
 			 *
 			 * Whenever home_url and site_url are the same, the file can be loaded directly.
 			 */
-			$this->xsl_output( $yoast_sitemap_xsl );
+			$this->output_xsl( $yoast_sitemap_xsl );
 			$this->sitemap_close();
 
 			return;
@@ -472,19 +476,36 @@ class WPSEO_Sitemaps {
 	 * The main XML sitemap is styled with CSS, see `css_output()`.
 	 *
 	 * @since 1.4.13
+	 * @deprecated 29.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $type Type to output.
 	 *
 	 * @return void
 	 */
 	public function xsl_output( $type ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 29.0', 'WPSEO_Sitemaps::css_output' );
+
+		$this->output_xsl( $type );
+	}
+
+	/**
+	 * Spits out the XSL for XML sitemaps that still hook into the deprecated `wpseo_xsl_<type>` action.
+	 *
+	 * @param string $type Type to output.
+	 *
+	 * @return void
+	 */
+	private function output_xsl( $type ) {
 
 		if ( $type !== 'main' ) {
 
 			/**
 			 * Fires for the output of XSL for XML sitemaps, other than type "main".
+			 *
+			 * @deprecated 29.0. Use the {@see 'wpseo_css_<type>'} action instead.
 			 */
-			do_action( 'wpseo_xsl_' . $type );
+			do_action_deprecated( 'wpseo_xsl_' . $type, [], 'Yoast SEO 29.0', 'wpseo_css_' . $type );
 
 			return;
 		}

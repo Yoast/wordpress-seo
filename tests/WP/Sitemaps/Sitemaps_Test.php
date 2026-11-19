@@ -199,14 +199,50 @@ final class Sitemaps_Test extends TestCase {
 	/**
 	 * Tests that the main sitemap no longer ships an XSL stylesheet.
 	 *
-	 * @covers WPSEO_Sitemaps::xsl_output
+	 * @covers WPSEO_Sitemaps::redirect
+	 * @covers WPSEO_Sitemaps::output_xsl
 	 *
 	 * @return void
 	 */
 	public function test_xsl_output_main_outputs_nothing() {
-		self::$class_instance->xsl_output( 'main' );
+		self::$class_instance->reset();
+
+		\set_query_var( 'yoast-sitemap-xsl', 'main' );
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		unset( $GLOBALS['wp_the_query']->query_vars['yoast-sitemap-xsl'] );
 
 		$this->expectOutputString( '' );
+	}
+
+	/**
+	 * Tests that an XSL stylesheet hooked into the deprecated action is still output.
+	 *
+	 * @covers WPSEO_Sitemaps::redirect
+	 * @covers WPSEO_Sitemaps::output_xsl
+	 *
+	 * @return void
+	 */
+	public function test_xsl_output_runs_deprecated_action() {
+		self::$class_instance->reset();
+
+		$this->setExpectedDeprecated( 'wpseo_xsl_custom' );
+
+		$building_function = static function () {
+			echo '<xsl:stylesheet></xsl:stylesheet>';
+		};
+
+		\add_action( 'wpseo_xsl_custom', $building_function );
+
+		\set_query_var( 'yoast-sitemap-xsl', 'custom' );
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		unset( $GLOBALS['wp_the_query']->query_vars['yoast-sitemap-xsl'] );
+		\remove_action( 'wpseo_xsl_custom', $building_function );
+
+		$this->expectOutputString( '<xsl:stylesheet></xsl:stylesheet>' );
 	}
 
 	/**
