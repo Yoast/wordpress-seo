@@ -168,9 +168,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	 * @covers ::get_schema_article_types
 	 * @covers ::nullable_enum_schema
 	 * @covers ::get_schema_page_type_description
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::get_post_seo_data_output_schema
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::get_stored_schema_page_type_description
 	 *
 	 * @return void
 	 */
@@ -215,27 +213,20 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the descriptions of the input and output page type mention how Yoast WooCommerce SEO handles the
-	 * page type of products while it is active.
+	 * Tests that the description of the input page type mentions that the page type of products is locked while
+	 * Yoast WooCommerce SEO is active.
 	 *
 	 * @covers ::get_schema_page_type_description
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Post_SEO_Data_Ability::get_stored_schema_page_type_description
 	 *
 	 * @return void
 	 */
 	public function test_get_args_schema_page_type_description_with_woo_seo() {
-		$this->woo_seo_inactive_conditional->expects( 'is_met' )->twice()->andReturnFalse();
+		$this->woo_seo_inactive_conditional->expects( 'is_met' )->once()->andReturnFalse();
 		$this->ai_generate_upsell->expects( 'add_to_schema' )->once()->andReturnArg( 0 );
-
-		$args = $this->instance->get_args();
 
 		$this->assertSame(
 			'The Schema.org page type for the post. Must be one of the supported page types. Use null or an empty string to clear it and fall back to the default. Yoast WooCommerce SEO is active on this site and sets the page type of products to ItemPage, so only ItemPage or an empty value is saved for products.',
-			$args['input_schema']['properties']['schema_page_type']['description'],
-		);
-		$this->assertSame(
-			'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies. The rendered companion field carries the page types actually output. Yoast WooCommerce SEO is active on this site, so it adds ItemPage to the page type of products on the front end, next to the stored or default page type.',
-			$args['output_schema']['properties']['schema_page_type']['description'],
+			$this->instance->get_args()['input_schema']['properties']['schema_page_type']['description'],
 		);
 	}
 
