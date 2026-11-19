@@ -3,6 +3,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Schema_Framework_Feature;
+
 /**
  * The ability that enables or disables the Schema Framework feature.
  *
@@ -21,21 +23,12 @@ class Set_Schema_Framework_Status_Ability extends Abstract_Set_Option_Status_Abi
 	}
 
 	/**
-	 * Returns the name of the option that enables the Schema Framework feature.
+	 * Returns the key of the feature in the feature repository.
 	 *
-	 * @return string The option name.
+	 * @return string The feature key.
 	 */
-	protected function get_option_name(): string {
-		return 'enable_schema';
-	}
-
-	/**
-	 * Returns the human-readable name of the feature.
-	 *
-	 * @return string The feature name.
-	 */
-	protected function get_feature_name(): string {
-		return 'Schema Framework';
+	protected function get_feature_key(): string {
+		return Schema_Framework_Feature::KEY;
 	}
 
 	/**

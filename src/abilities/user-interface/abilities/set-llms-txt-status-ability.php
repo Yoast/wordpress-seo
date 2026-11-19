@@ -5,7 +5,8 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Llms_Txt_Status_Updater;
-use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Feature_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Llms_Txt_Feature;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
@@ -14,13 +15,6 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
  * Disabling removes the generated file and re-enabling regenerates it.
  */
 class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
-
-	/**
-	 * The non-multisite conditional.
-	 *
-	 * @var Non_Multisite_Conditional
-	 */
-	private $non_multisite_conditional;
 
 	/**
 	 * The llms.txt status updater.
@@ -32,29 +26,18 @@ class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 	/**
 	 * Constructor.
 	 *
-	 * @param Capability_Helper         $capability_helper         The capability helper.
-	 * @param Non_Multisite_Conditional $non_multisite_conditional The non-multisite conditional.
-	 * @param Llms_Txt_Status_Updater   $llms_txt_status_updater   The llms.txt status updater.
+	 * @param Capability_Helper       $capability_helper       The capability helper.
+	 * @param Feature_Repository      $feature_repository      The feature repository.
+	 * @param Llms_Txt_Status_Updater $llms_txt_status_updater The llms.txt status updater.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
-		Non_Multisite_Conditional $non_multisite_conditional,
+		Feature_Repository $feature_repository,
 		Llms_Txt_Status_Updater $llms_txt_status_updater
 	) {
-		parent::__construct( $capability_helper );
+		parent::__construct( $capability_helper, $feature_repository );
 
-		$this->non_multisite_conditional = $non_multisite_conditional;
-		$this->llms_txt_status_updater   = $llms_txt_status_updater;
-	}
-
-	/**
-	 * Returns whether the ability is available: the llms.txt feature cannot be enabled on
-	 * multisite installations, so the ability is only offered outside of them.
-	 *
-	 * @return bool Whether the ability is available.
-	 */
-	public function is_available(): bool {
-		return $this->non_multisite_conditional->is_met();
+		$this->llms_txt_status_updater = $llms_txt_status_updater;
 	}
 
 	/**
@@ -78,12 +61,12 @@ class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 	}
 
 	/**
-	 * Returns the human-readable name of the feature.
+	 * Returns the key of the feature in the feature repository.
 	 *
-	 * @return string The feature name.
+	 * @return string The feature key.
 	 */
-	protected function get_feature_name(): string {
-		return 'llms.txt';
+	protected function get_feature_key(): string {
+		return Llms_Txt_Feature::KEY;
 	}
 
 	/**

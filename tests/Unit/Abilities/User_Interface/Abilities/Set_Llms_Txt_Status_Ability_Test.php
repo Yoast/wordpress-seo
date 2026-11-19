@@ -6,8 +6,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 use Mockery;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Llms_Txt_Status_Updater;
+use Yoast\WP\SEO\Abilities\Domain\Feature_Interface;
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Feature_Repository;
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Llms_Txt_Feature;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Set_Llms_Txt_Status_Ability;
-use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -28,11 +30,11 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 	private $capability_helper;
 
 	/**
-	 * The non-multisite conditional mock.
+	 * The feature repository mock.
 	 *
-	 * @var Mockery\MockInterface|Non_Multisite_Conditional
+	 * @var Mockery\MockInterface|Feature_Repository
 	 */
-	private $non_multisite_conditional;
+	private $feature_repository;
 
 	/**
 	 * The llms.txt status updater mock.
@@ -58,13 +60,13 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->capability_helper         = Mockery::mock( Capability_Helper::class );
-		$this->non_multisite_conditional = Mockery::mock( Non_Multisite_Conditional::class );
-		$this->llms_txt_status_updater   = Mockery::mock( Llms_Txt_Status_Updater::class );
+		$this->capability_helper       = Mockery::mock( Capability_Helper::class );
+		$this->feature_repository      = Mockery::mock( Feature_Repository::class );
+		$this->llms_txt_status_updater = Mockery::mock( Llms_Txt_Status_Updater::class );
 
 		$this->instance = new Set_Llms_Txt_Status_Ability(
 			$this->capability_helper,
-			$this->non_multisite_conditional,
+			$this->feature_repository,
 			$this->llms_txt_status_updater,
 		);
 	}
@@ -94,26 +96,32 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that is_available follows the non-multisite conditional.
+	 * Tests that is_available follows whether the feature can be changed on the site.
 	 *
-	 * @covers ::__construct
-	 * @covers ::is_available
+	 * @covers ::get_feature_key
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_feature
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::is_available
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
-	 * @param bool $is_met Whether the site is not a multisite.
+	 * @param bool $available Whether the feature can be changed on the site.
 	 *
 	 * @return void
 	 */
-	public function test_is_available( bool $is_met ) {
-		$this->non_multisite_conditional->expects( 'is_met' )->once()->andReturn( $is_met );
+	public function test_is_available( bool $available ) {
+		$this->feature_repository
+			->expects( 'get' )
+			->once()
+			->with( Llms_Txt_Feature::KEY )
+			->andReturn( Mockery::mock( Feature_Interface::class, [ 'is_available' => $available ] ) );
 
-		$this->assertSame( $is_met, $this->instance->is_available() );
+		$this->assertSame( $available, $this->instance->is_available() );
 	}
 
 	/**
 	 * Tests that can_manage_seo checks the management capability and returns its result.
 	 *
+	 * @covers ::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::can_manage_seo
 	 *
@@ -194,7 +202,8 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 	/**
 	 * Tests that get_args returns the expected registration arguments.
 	 *
-	 * @covers ::get_feature_name
+	 * @covers ::get_feature_key
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_feature
 	 * @covers ::get_label
 	 * @covers ::get_description
 	 * @covers ::get_additional_output_properties
@@ -203,6 +212,21 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_args() {
+		$this->feature_repository
+			->expects( 'get' )
+			->once()
+			->with( Llms_Txt_Feature::KEY )
+			->andReturn(
+				Mockery::mock(
+					Feature_Interface::class,
+					[
+						'get_key'         => 'llms_txt',
+						'get_option_name' => 'enable_llms_txt',
+						'get_name'        => 'llms.txt',
+					],
+				),
+			);
+
 		$this->assertSame(
 			[
 				'label'               => 'Set llms.txt Status',

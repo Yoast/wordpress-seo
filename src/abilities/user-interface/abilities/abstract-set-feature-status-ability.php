@@ -5,6 +5,8 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Domain\Ability_Interface;
+use Yoast\WP\SEO\Abilities\Domain\Feature_Interface;
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Feature_Repository;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
@@ -24,12 +26,21 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 	private $capability_helper;
 
 	/**
+	 * The feature repository.
+	 *
+	 * @var Feature_Repository
+	 */
+	private $feature_repository;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param Capability_Helper $capability_helper The capability helper.
+	 * @param Capability_Helper  $capability_helper  The capability helper.
+	 * @param Feature_Repository $feature_repository The feature repository.
 	 */
-	public function __construct( Capability_Helper $capability_helper ) {
-		$this->capability_helper = $capability_helper;
+	public function __construct( Capability_Helper $capability_helper, Feature_Repository $feature_repository ) {
+		$this->capability_helper  = $capability_helper;
+		$this->feature_repository = $feature_repository;
 	}
 
 	/**
@@ -49,11 +60,11 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 	abstract protected function get_slug(): string;
 
 	/**
-	 * Returns the human-readable name of the feature, used in the schema descriptions.
+	 * Returns the key of the feature in the feature repository.
 	 *
-	 * @return string The feature name.
+	 * @return string The feature key.
 	 */
-	abstract protected function get_feature_name(): string;
+	abstract protected function get_feature_key(): string;
 
 	/**
 	 * Returns the label of the ability.
@@ -79,13 +90,27 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 	}
 
 	/**
-	 * Returns whether the ability is available. Features that cannot be enabled in every
-	 * environment override this.
+	 * Returns the feature the ability enables or disables.
+	 *
+	 * Only returns null when the feature is not registered. The ability is then not available, so it is never
+	 * registered and its other methods never run.
+	 *
+	 * @return Feature_Interface|null The feature, or null if it is not registered.
+	 */
+	protected function get_feature(): ?Feature_Interface {
+		return $this->feature_repository->get( $this->get_feature_key() );
+	}
+
+	/**
+	 * Returns whether the ability is available: only features that are registered and can be changed on the site
+	 * are offered.
 	 *
 	 * @return bool Whether the ability is available.
 	 */
 	public function is_available(): bool {
-		return true;
+		$feature = $this->get_feature();
+
+		return ( $feature !== null && $feature->is_available() );
 	}
 
 	/**
@@ -118,7 +143,7 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 	 * @return array<string, mixed> The ability registration arguments.
 	 */
 	public function get_args(): array {
-		$feature_name = $this->get_feature_name();
+		$feature_name = $this->get_feature()->get_name();
 
 		return [
 			'label'               => $this->get_label(),

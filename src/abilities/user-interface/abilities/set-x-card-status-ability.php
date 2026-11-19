@@ -3,6 +3,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\X_Card_Feature;
+
 /**
  * The ability that enables or disables the X card data feature.
  *
@@ -21,21 +23,12 @@ class Set_X_Card_Status_Ability extends Abstract_Set_Option_Status_Ability {
 	}
 
 	/**
-	 * Returns the name of the option that enables the X card data feature.
+	 * Returns the key of the feature in the feature repository.
 	 *
-	 * @return string The option name.
+	 * @return string The feature key.
 	 */
-	protected function get_option_name(): string {
-		return 'twitter';
-	}
-
-	/**
-	 * Returns the human-readable name of the feature.
-	 *
-	 * @return string The feature name.
-	 */
-	protected function get_feature_name(): string {
-		return 'X card data';
+	protected function get_feature_key(): string {
+		return X_Card_Feature::KEY;
 	}
 
 	/**
