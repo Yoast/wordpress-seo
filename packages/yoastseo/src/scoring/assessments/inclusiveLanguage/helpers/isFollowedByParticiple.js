@@ -1,8 +1,8 @@
 import { includes, isNull } from "lodash";
 
-import irregularParticiples from  "../../../../languageProcessing/languages/en/config/internal/passiveVoiceIrregulars";
+import irregularParticiples from  "../../../../languageProcessing/languages/en/config/internal/passiveVoiceIrregulars.js";
 
-import { regularParticiplesRegex } from "../../../../languageProcessing/languages/en/config/regularParticiplesRegex";
+import { regularParticiplesRegex } from "../../../../languageProcessing/languages/en/config/regularParticiplesRegex.js";
 
 
 /**

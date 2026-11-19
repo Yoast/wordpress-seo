@@ -1,5 +1,5 @@
-import getWords from "./getWords";
-import functionWords from "../config/functionWords";
+import getWords from "./getWords.js";
+import functionWords from "../config/functionWords.js";
 
 /**
  * Filters out function words and removes じゃ ending if a words ends in it.

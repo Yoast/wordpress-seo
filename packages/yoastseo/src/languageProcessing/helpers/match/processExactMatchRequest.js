@@ -1,4 +1,4 @@
-import isDoubleQuoted from "./isDoubleQuoted";
+import isDoubleQuoted from "./isDoubleQuoted.js";
 
 /**
  * Checks if exact match functionality is requested by enclosing the keyphrase in double quotation marks.

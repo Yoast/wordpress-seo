@@ -1,10 +1,10 @@
 import { escapeRegExp } from "lodash";
-import getAltAttribute from "../image/getAltAttribute";
-import { normalizeSingle } from "../sanitize/quotes";
-import parseSlug from "../url/parseSlug";
-import getWords from "../word/getWords";
-import getImagesInScope from "../image/getImagesInScope";
-import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../../config/wordBoundariesWithoutPunctuation";
+import getAltAttribute from "../image/getAltAttribute.js";
+import { normalizeSingle } from "../sanitize/quotes.js";
+import parseSlug from "../url/parseSlug.js";
+import getWords from "../word/getWords.js";
+import getImagesInScope from "../image/getImagesInScope.js";
+import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../../config/wordBoundariesWithoutPunctuation.js";
 
 /**
  * Gets all words found in the text, title, slug, meta description and image alts in scope of a given paper.

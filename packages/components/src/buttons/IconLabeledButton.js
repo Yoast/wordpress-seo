@@ -1,7 +1,6 @@
 // External dependencies.
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import flow from "lodash/flow";
 import omit from "lodash/omit";
 
@@ -32,7 +31,7 @@ const addButtonStyles = flow( [
 /**
  * Returns a basic styled button.
  *
- * @param {object} props Component props.
+ * @param {Object} props Component props.
  *
  * @returns {ReactElement} Styled button.
  */
@@ -71,7 +70,24 @@ const IconLabelledBaseButton = addButtonStyles(
 /**
  * Returns an icon button that can optionally contain text.
  *
- * @param {object} props Component props.
+ * @param {Object} props Component props.
+ * @param {string} [props.type="button"] The type of the button.
+ * @param {string} props.icon The name of the icon.
+ * @param {string} [props.textColor] The color of the text and the icon.
+ * @param {string} [props.textFontSize="inherit"] The font size of the text.
+ * @param {string} [props.backgroundColor="transparent"] The background color of the button.
+ * @param {string} [props.borderColor="transparent"] The border color of the button.
+ * @param {string} [props.hoverColor] The text color on hover.
+ * @param {string} [props.hoverBackgroundColor] The background color on hover.
+ * @param {string} [props.hoverBorderColor] The border color on hover.
+ * @param {string} [props.activeColor] The text color when active.
+ * @param {string} [props.activeBackgroundColor] The background color when active.
+ * @param {string} [props.activeBorderColor] The border color when active.
+ * @param {string} [props.focusColor] The text color on focus.
+ * @param {string} [props.focusBackgroundColor] The background color on focus.
+ * @param {string} [props.focusBorderColor] The border color on focus.
+ * @param {string} [props.focusBoxShadowColor] The box shadow color on focus.
+ * @param {(import("react").ReactNode[]|import("react").ReactNode|string)} props.children The label of the button.
  *
  * @returns {ReactElement} Styled icon button.
  */
@@ -120,30 +136,6 @@ const IconLabeledButton = ( {
 			{ children }
 		</IconLabelledBaseButton>
 	);
-};
-
-IconLabeledButton.propTypes = {
-	type: PropTypes.string,
-	icon: PropTypes.string.isRequired,
-	textColor: PropTypes.string,
-	textFontSize: PropTypes.string,
-	backgroundColor: PropTypes.string,
-	borderColor: PropTypes.string,
-	hoverColor: PropTypes.string,
-	hoverBackgroundColor: PropTypes.string,
-	hoverBorderColor: PropTypes.string,
-	activeColor: PropTypes.string,
-	activeBackgroundColor: PropTypes.string,
-	activeBorderColor: PropTypes.string,
-	focusColor: PropTypes.string,
-	focusBackgroundColor: PropTypes.string,
-	focusBorderColor: PropTypes.string,
-	focusBoxShadowColor: PropTypes.string,
-	children: PropTypes.oneOfType( [
-		PropTypes.arrayOf( PropTypes.node ),
-		PropTypes.node,
-		PropTypes.string,
-	] ).isRequired,
 };
 
 export default IconLabeledButton;

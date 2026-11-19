@@ -1,5 +1,5 @@
-import createAlternation from "../../../helpers/regex/createAlternation";
-import { letter, wordEnd } from "../../../helpers/regex/wordBoundaries";
+import createAlternation from "../../../helpers/regex/createAlternation.js";
+import { letter, wordEnd } from "../../../helpers/regex/wordBoundaries.js";
 
 /*
  * The Indonesian redundant openings come in two grammatical shapes, kept as word lists so the config encodes

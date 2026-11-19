@@ -1,4 +1,4 @@
-import { includesWordsAtPosition } from "./includesWordsAtPosition";
+import { includesWordsAtPosition } from "./includesWordsAtPosition.js";
 
 /**
  * Checks whether a list of words contains a sequence of words in the given order.

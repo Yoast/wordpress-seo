@@ -2,7 +2,7 @@ import { languageProcessing } from "yoastseo";
 const { regexHelpers: { doesWordMatchRegex } } = languageProcessing;
 
 import nonParticiples from "../../config/internal/nonParticiples.js";
-import { modifyStem } from "./stemModificationHelpers";
+import { modifyStem } from "./stemModificationHelpers.js";
 
 /**
  * Checks whether the word is on an exception list of participles that do not have a ge- prefix. If it is found on the list,

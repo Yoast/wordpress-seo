@@ -8,8 +8,8 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Task_List\Application\Recent_Content\Recent_Content_Collector_Interface;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions;
-use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -20,7 +20,7 @@ abstract class Abstract_Test extends TestCase {
 	/**
 	 * The recent content indexable collector mock.
 	 *
-	 * @var Mockery\MockInterface|Recent_Content_Indexable_Collector
+	 * @var Mockery\MockInterface|Recent_Content_Collector_Interface
 	 */
 	protected $recent_content_indexable_collector;
 
@@ -61,7 +61,7 @@ abstract class Abstract_Test extends TestCase {
 			],
 		);
 
-		$this->recent_content_indexable_collector = Mockery::mock( Recent_Content_Indexable_Collector::class );
+		$this->recent_content_indexable_collector = Mockery::mock( Recent_Content_Collector_Interface::class );
 		$this->indexable_helper                   = Mockery::mock( Indexable_Helper::class );
 		$this->options_helper                     = Mockery::mock( Options_Helper::class );
 

@@ -1,12 +1,12 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
 
-import Assessment from "../assessment";
-import formatNumber from "../../../helpers/formatNumber";
-import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
-import { createAnchorOpeningTag } from "../../../helpers";
-import AssessmentResult from "../../../values/AssessmentResult";
-import Mark from "../../../values/Mark";
+import Assessment from "../assessment.js";
+import formatNumber from "../../../helpers/formatNumber.js";
+import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import Mark from "../../../values/Mark.js";
 
 /**
  * Represents the assessment that will calculate the length of sentences in the text.

@@ -1,8 +1,8 @@
-import combineIntoImplicitParagraphs from "./combineIntoImplicitParagraphs";
-import adaptAttributes from "./adaptAttributes";
-import isPhrasingContent from "./isPhrasingContent";
+import combineIntoImplicitParagraphs from "./combineIntoImplicitParagraphs.js";
+import adaptAttributes from "./adaptAttributes.js";
+import isPhrasingContent from "./isPhrasingContent.js";
 import { isEmpty } from "lodash";
-import { Paragraph, Text, Heading, Node } from "../../structure";
+import { Paragraph, Text, Heading, Node } from "../../structure/index.js";
 
 /**
  * Whether the element with the specified name is a paragraph.

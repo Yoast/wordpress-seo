@@ -38,6 +38,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI_HTTP_Request\Application\Response_Parser;
 use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Conditionals\New_Premium_Or_Free_AI_Conditional;
 use Yoast\WP\SEO\Conditionals\Old_Premium_AI_Conditional;
 
@@ -63,6 +64,7 @@ $deprecated_classes = [
 	Bust_Subscription_Cache_Route::class                => '28.4',
 	Consent_Route::class                                => '28.4',
 	Consent_Handler::class                              => '28.4',
+	MyYoast_Connection_Conditional::class               => '29.0',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {

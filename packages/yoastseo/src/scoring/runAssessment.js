@@ -1,10 +1,10 @@
 import { __, sprintf } from "@wordpress/i18n";
 
-import AssessmentResult from "../values/AssessmentResult";
-import { ensureTree } from "../parse/ensureTree";
-import removeDuplicateMarks from "../markers/removeDuplicateMarks";
-import MissingArgument from "../errors/missingArgument";
-import { showTrace } from "../helpers/errors";
+import AssessmentResult from "../values/AssessmentResult.js";
+import { ensureTree } from "../parse/ensureTree.js";
+import removeDuplicateMarks from "../markers/removeDuplicateMarks.js";
+import MissingArgument from "../errors/missingArgument.js";
+import { showTrace } from "../helpers/errors.js";
 
 /**
  * Asserts that the required `runAssessment` arguments are all present.

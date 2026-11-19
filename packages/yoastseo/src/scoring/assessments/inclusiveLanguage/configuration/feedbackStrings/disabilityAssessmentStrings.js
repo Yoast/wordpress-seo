@@ -1,4 +1,4 @@
-import { beCarefulHarmful } from "./generalFeedbackStrings";
+import { beCarefulHarmful } from "./generalFeedbackStrings.js";
 
 // Guidelines for adding feedback strings:
 // 1) This file is for strings that can only be used for disability assessments. If a string can be also used for other

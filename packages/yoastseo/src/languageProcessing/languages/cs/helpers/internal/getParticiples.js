@@ -1,6 +1,6 @@
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
-import getPassiveEndingsCzech from "../../config/internal/passiveVoiceEndings";
+import getPassiveEndingsCzech from "../../config/internal/passiveVoiceEndings.js";
 
 /**
  * Creates an array of participles found in a clause.

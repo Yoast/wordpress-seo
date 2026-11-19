@@ -1,8 +1,8 @@
-import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
-import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers/sanitize/filterShortcodesFromTree";
-import { includesConsecutiveWords } from "../../scoring/assessments/inclusiveLanguage/helpers/includesConsecutiveWords";
+import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree.js";
+import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree.js";
+import removeHtmlBlocks from "../helpers/html/htmlParser.js";
+import { filterShortcodesFromHTML } from "../helpers/sanitize/filterShortcodesFromTree.js";
+import { includesConsecutiveWords } from "../../scoring/assessments/inclusiveLanguage/helpers/includesConsecutiveWords.js";
 
 /**
  * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher

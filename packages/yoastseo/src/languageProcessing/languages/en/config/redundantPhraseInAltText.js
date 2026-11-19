@@ -1,5 +1,5 @@
-import createAlternation from "../../../helpers/regex/createAlternation";
-import { wordEnd } from "../../../helpers/regex/wordBoundaries";
+import createAlternation from "../../../helpers/regex/createAlternation.js";
+import { wordEnd } from "../../../helpers/regex/wordBoundaries.js";
 
 /*
  * The English redundant openings come in two grammatical shapes, kept as separate word lists so the config

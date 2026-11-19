@@ -1,5 +1,5 @@
-import createAlternation from "../../../helpers/regex/createAlternation";
-import { wordEnd } from "../../../helpers/regex/wordBoundaries";
+import createAlternation from "../../../helpers/regex/createAlternation.js";
+import { wordEnd } from "../../../helpers/regex/wordBoundaries.js";
 
 /*
  * The Dutch redundant openings come in three grammatical shapes, kept as word lists and small patterns so the

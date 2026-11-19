@@ -20,7 +20,7 @@ export const StyledSvg = styled.svg`
 /**
  * Returns the SvgIconSet component.
  *
- * @param {object} props Component props.
+ * @param {Object} props Component props.
  *
  * @returns {React.Element} SvgIconSet component.
  */
@@ -103,13 +103,6 @@ export default ( iconSet ) => {
 			color={ color }
 			size={ size }
 		/>;
-	};
-
-	SvgIcon.propTypes = {
-		icon: PropTypes.string.isRequired,
-		color: PropTypes.string,
-		size: PropTypes.string,
-		className: PropTypes.string,
 	};
 
 	return SvgIcon;

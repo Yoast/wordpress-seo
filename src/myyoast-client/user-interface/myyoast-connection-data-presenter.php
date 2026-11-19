@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\MyYoast_Client\User_Interface;
 
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Integrations_Page;
 
@@ -10,20 +9,11 @@ use Yoast\WP\SEO\Integrations\Admin\Integrations_Page;
  * Builds the read-only MyYoast connection payload consumed by editor scripts
  * to pick the correct "Yoast AI cannot reach your site" notification variant.
  *
- * Returns `null` when the feature flag is disabled, so consumers treat the
- * connection as unavailable and show the informational-only variant. The
- * payload is deliberately minimal — no store, actions, or tokens reach the
+ * The payload is deliberately minimal — no store, actions, or tokens reach the
  * editor; the connect call-to-action is just a nonce-protected link that
  * auto-starts the flow on the Integrations page in a new tab.
  */
 class Myyoast_Connection_Data_Presenter {
-
-	/**
-	 * The MyYoast connection feature-flag conditional.
-	 *
-	 * @var MyYoast_Connection_Conditional
-	 */
-	private $myyoast_connection_conditional;
 
 	/**
 	 * The MyYoast connection status presenter.
@@ -49,33 +39,26 @@ class Myyoast_Connection_Data_Presenter {
 	/**
 	 * Constructs the instance.
 	 *
-	 * @param MyYoast_Connection_Conditional $myyoast_connection_conditional The MyYoast connection feature-flag conditional.
-	 * @param Status_Presenter               $status_presenter               The MyYoast connection status presenter.
-	 * @param Connection_Permission          $connection_permission          The MyYoast connection-management permission check.
-	 * @param Short_Link_Helper              $short_link_helper              The short-link helper.
+	 * @param Status_Presenter      $status_presenter      The MyYoast connection status presenter.
+	 * @param Connection_Permission $connection_permission The MyYoast connection-management permission check.
+	 * @param Short_Link_Helper     $short_link_helper     The short-link helper.
 	 */
 	public function __construct(
-		MyYoast_Connection_Conditional $myyoast_connection_conditional,
 		Status_Presenter $status_presenter,
 		Connection_Permission $connection_permission,
 		Short_Link_Helper $short_link_helper
 	) {
-		$this->myyoast_connection_conditional = $myyoast_connection_conditional;
-		$this->status_presenter               = $status_presenter;
-		$this->connection_permission          = $connection_permission;
-		$this->short_link_helper              = $short_link_helper;
+		$this->status_presenter      = $status_presenter;
+		$this->connection_permission = $connection_permission;
+		$this->short_link_helper     = $short_link_helper;
 	}
 
 	/**
-	 * Returns the connection payload, or `null` when the feature flag is disabled.
+	 * Returns the connection payload.
 	 *
-	 * @return array{isProvisioned: bool, canConnect: bool, connectUrl: string|null, learnMoreUrl: string}|null
+	 * @return array{isProvisioned: bool, canConnect: bool, connectUrl: string|null, learnMoreUrl: string}
 	 */
 	public function present() {
-		if ( ! $this->myyoast_connection_conditional->is_met() ) {
-			return null;
-		}
-
 		$status      = $this->status_presenter->present();
 		$can_connect = $this->connection_permission->can_manage();
 

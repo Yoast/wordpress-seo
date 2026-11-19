@@ -31,13 +31,13 @@ describe( "the pluggable interface", function() {
 		it( "should throw an error on adding an invalid assessment", function() {
 			expect( function() {
 				pluggable._registerAssessment( false );
-			} ).toThrowError( InvalidTypeError );
+			} ).toThrow( InvalidTypeError );
 			expect( function() {
 				pluggable._registerAssessment( "name", false );
-			} ).toThrowError( InvalidTypeError );
+			} ).toThrow( InvalidTypeError );
 			expect( function() {
 				pluggable._registerAssessment( "name", function() {}, false );
-			} ).toThrowError( InvalidTypeError );
+			} ).toThrow( InvalidTypeError );
 		} );
 
 		it( "should be able to add an assessment", function() {

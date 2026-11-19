@@ -1,9 +1,9 @@
-import { normalizeSingle } from "../helpers/sanitize/quotes";
-import { collectStems, StemOriginalPair } from "../helpers/morphology/buildTopicStems";
+import { normalizeSingle } from "../helpers/sanitize/quotes.js";
+import { collectStems, StemOriginalPair } from "../helpers/morphology/buildTopicStems.js";
 
 import { escapeRegExp, flattenDeep } from "lodash";
-import getAllWordsFromPaper from "../helpers/morphology/getAllWordsFromPaper";
-import parseSynonyms from "../helpers/sanitize/parseSynonyms";
+import getAllWordsFromPaper from "../helpers/morphology/getAllWordsFromPaper.js";
+import parseSynonyms from "../helpers/sanitize/parseSynonyms.js";
 
 /**
  * @typedef {import ("../../languageProcessing/AbstractResearcher").default } Researcher

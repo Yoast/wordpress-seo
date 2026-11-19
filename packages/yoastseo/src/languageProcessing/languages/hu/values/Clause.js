@@ -2,8 +2,8 @@ import { languageProcessing } from "yoastseo";
 const { values } = languageProcessing;
 const { Clause } = values;
 
-import getParticiples from "../helpers/internal/getParticiples";
-import nonPassivesInVaAndVe from "../config/internal/nonPassivesInVaAndVe";
+import getParticiples from "../helpers/internal/getParticiples.js";
+import nonPassivesInVaAndVe from "../config/internal/nonPassivesInVaAndVe.js";
 
 /**
  * Creates a Clause object for the Hungarian language.

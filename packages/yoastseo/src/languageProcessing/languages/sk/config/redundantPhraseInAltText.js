@@ -1,4 +1,4 @@
-import { letter, wordEnd } from "../../../helpers/regex/wordBoundaries";
+import { letter, wordEnd } from "../../../helpers/regex/wordBoundaries.js";
 
 /*
  * The Slovak redundant openings come in five grammatical shapes, kept as word lists and small patterns so the

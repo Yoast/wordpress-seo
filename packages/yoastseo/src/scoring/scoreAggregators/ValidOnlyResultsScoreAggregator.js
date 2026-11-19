@@ -1,4 +1,4 @@
-import SEOScoreAggregator from "./SEOScoreAggregator";
+import SEOScoreAggregator from "./SEOScoreAggregator.js";
 
 /**
  * Aggregates SEO assessment results into a single score.

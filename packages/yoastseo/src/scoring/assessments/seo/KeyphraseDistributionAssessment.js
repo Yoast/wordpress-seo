@@ -1,8 +1,8 @@
 import { mapValues, merge } from "lodash";
 
-import Assessment from "../assessment";
-import AssessmentResult from "../../../values/AssessmentResult";
-import { createAnchorOpeningTag } from "../../../helpers";
+import Assessment from "../assessment.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher

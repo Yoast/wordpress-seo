@@ -2,18 +2,18 @@ import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
 
 // All config
-import functionWords from "./config/functionWords";
-import redundantPhraseInAltText from "./config/redundantPhraseInAltText";
-import transitionWords from "./config/transitionWords";
-import twoPartTransitionWords from "./config/twoPartTransitionWords";
-import firstWordExceptions from "./config/firstWordExceptions";
-import sentenceLength from "./config/sentenceLength";
+import functionWords from "./config/functionWords.js";
+import redundantPhraseInAltText from "./config/redundantPhraseInAltText.js";
+import transitionWords from "./config/transitionWords.js";
+import twoPartTransitionWords from "./config/twoPartTransitionWords.js";
+import firstWordExceptions from "./config/firstWordExceptions.js";
+import sentenceLength from "./config/sentenceLength.js";
 
 // All helpers
-import { createBasicWordForms } from "./helpers/createBasicWordForms";
-import getStemmer from "./helpers/getStemmer";
-import isPassiveSentence from "./helpers/isPassiveSentence";
-import { PREFIXED_FUNCTION_WORDS_REGEX } from "./config/prefixedFunctionWords";
+import { createBasicWordForms } from "./helpers/createBasicWordForms.js";
+import getStemmer from "./helpers/getStemmer.js";
+import isPassiveSentence from "./helpers/isPassiveSentence.js";
+import { PREFIXED_FUNCTION_WORDS_REGEX } from "./config/prefixedFunctionWords.js";
 
 /**
  * The researcher contains all the researches, helpers, data, and config.

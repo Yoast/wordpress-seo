@@ -15,6 +15,9 @@ use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Graph_Helper;
+use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -231,7 +234,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 			$args['input_schema']['properties']['schema_page_type']['description'],
 		);
 		$this->assertSame(
-			'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies. Yoast WooCommerce SEO is active on this site, so it adds ItemPage to the page type of products on the front end, next to the stored or default page type.',
+			'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies. The rendered companion field carries the page types actually output. Yoast WooCommerce SEO is active on this site, so it adds ItemPage to the page type of products on the front end, next to the stored or default page type.',
 			$args['output_schema']['properties']['schema_page_type']['description'],
 		);
 	}
@@ -294,7 +297,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 			],
 		);
 
-		$field_map            = new Post_SEO_Field_Map( Mockery::mock( Meta_Surface::class ) );
+		$field_map            = new Post_SEO_Field_Map( Mockery::mock( Meta_Surface::class ), Mockery::mock( Graph_Helper::class ), Mockery::mock( Woo_SEO_Inactive_Conditional::class ), Mockery::mock( Woocommerce_Helper::class ), Mockery::mock( Schema_Configuration::class ) );
 		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 42;
 

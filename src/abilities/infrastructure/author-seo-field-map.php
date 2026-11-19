@@ -71,6 +71,7 @@ class Author_SEO_Field_Map extends Abstract_SEO_Field_Map {
 			'meta_description'          => $indexable->description,
 			'meta_description_rendered' => $this->rendered( $meta, 'meta_description' ),
 			'noindex'                   => (bool) $indexable->is_robots_noindex,
+			'noindex_rendered'          => $this->rendered_noindex( $meta ),
 		];
 	}
 

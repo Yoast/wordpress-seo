@@ -1,7 +1,7 @@
 import { isNaN } from "lodash";
 
 import { normalize as normalizeQuotes } from "../../../../helpers/sanitize/quotes.js";
-import SentenceTokenizer from "../../../../helpers/sentence/SentenceTokenizer";
+import SentenceTokenizer from "../../../../helpers/sentence/SentenceTokenizer.js";
 
 /*
  * \u2026 - ellipsis.

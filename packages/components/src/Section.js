@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import Heading from "./Heading";
 
@@ -7,6 +6,11 @@ import Heading from "./Heading";
  * Creates a HTML section element with an optional heading.
  *
  * @param {Object} props The props to use.
+ * @param {string} [props.className] The class name of the section.
+ * @param {string} [props.headingText] The heading text.
+ * @param {number} [props.headingLevel=1] The level of the heading element.
+ * @param {string} [props.headingClassName] The class name of the heading.
+ * @param {*} [props.children] The content of the section.
  * @returns {ReactElement} The rendered component.
  */
 const Section = ( { headingLevel = 1, ...props } ) => {
@@ -20,14 +24,6 @@ const Section = ( { headingLevel = 1, ...props } ) => {
 			{ props.children }
 		</section>
 	);
-};
-
-Section.propTypes = {
-	className: PropTypes.string,
-	headingText: PropTypes.string,
-	headingLevel: PropTypes.number,
-	headingClassName: PropTypes.string,
-	children: PropTypes.any,
 };
 
 export default Section;

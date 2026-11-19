@@ -1,12 +1,12 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
 
-import formatNumber from "../../../helpers/formatNumber";
-import { inRangeStartInclusive as inRange } from "../../helpers/assessments/inRange";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
+import formatNumber from "../../../helpers/formatNumber.js";
+import { inRangeStartInclusive as inRange } from "../../helpers/assessments/inRange.js";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker/index.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
 import Mark from "../../../values/Mark.js";
-import Assessment from "../assessment";
+import Assessment from "../assessment.js";
 
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher

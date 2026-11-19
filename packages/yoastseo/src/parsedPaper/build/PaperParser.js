@@ -1,4 +1,4 @@
-import ParsedPaper from "../ParsedPaper";
+import ParsedPaper from "../ParsedPaper.js";
 import { forEach } from "lodash";
 
 /**

@@ -1,7 +1,6 @@
 // External dependencies.
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 
 const StyledMention = styled.span`
@@ -24,7 +23,9 @@ const StyledMention = styled.span`
 /**
  * The StyledMention component.
  *
- * @param {object} props The component's props.
+ * @param {Object} props The component's props.
+ * @param {import("react").ReactNode} props.children The content of the mention.
+ * @param {string} props.className The class name to add to the mention.
  *
  * @returns {ReactElement} The StyledMention component.
  */
@@ -35,9 +36,4 @@ export const Mention = ( { children, className } ) => {
 	>
 		{ children }
 	</StyledMention>;
-};
-
-Mention.propTypes = {
-	children: PropTypes.node.isRequired,
-	className: PropTypes.string.isRequired,
 };

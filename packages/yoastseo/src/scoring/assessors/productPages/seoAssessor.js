@@ -1,4 +1,4 @@
-import SEOAssessor from "../seoAssessor";
+import SEOAssessor from "../seoAssessor.js";
 import IntroductionKeywordAssessment from "../../assessments/seo/IntroductionKeywordAssessment.js";
 import KeyphraseLengthAssessment from "../../assessments/seo/KeyphraseLengthAssessment.js";
 import KeyphraseDensityAssessment from "../../assessments/seo/KeywordDensityAssessment.js";
@@ -18,7 +18,7 @@ import DuplicateAltTextAssessment from "../../assessments/seo/DuplicateAltTextAs
 import RedundantPhraseInAltTextAssessment from "../../assessments/seo/RedundantPhraseInAltTextAssessment.js";
 import NonDescriptiveAltTextAssessment from "../../assessments/seo/NonDescriptiveAltTextAssessment.js";
 import KeyphraseStuffingInAltTextAssessment from "../../assessments/seo/KeyphraseStuffingInAltTextAssessment.js";
-import { createAnchorOpeningTag } from "../../../helpers";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 
 /**
  * The ProductSEOAssessor class is used for the SEO analysis for products.
