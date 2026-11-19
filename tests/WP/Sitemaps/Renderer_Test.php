@@ -209,31 +209,17 @@ final class Renderer_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the output has no stylesheet processing instruction.
+	 * Tests that the output links the CSS stylesheet instead of an XSLT one.
 	 *
 	 * @covers WPSEO_Sitemaps_Renderer::get_output
 	 *
 	 * @return void
 	 */
-	public function test_get_output_has_no_stylesheet() {
+	public function test_get_output_links_css_stylesheet() {
 		$output = self::$class_instance->get_output( '<urlset></urlset>' );
 
-		$this->assertStringNotContainsString( '<?xml-stylesheet', $output );
-		$this->assertStringStartsWith( '<?xml version="1.0" encoding="UTF-8"?><urlset></urlset>', $output );
-	}
-
-	/**
-	 * Tests that the output has no stylesheet processing instruction when a custom stylesheet is set.
-	 *
-	 * @covers WPSEO_Sitemaps_Renderer::get_output
-	 *
-	 * @return void
-	 */
-	public function test_get_output_has_no_custom_stylesheet() {
-		self::$class_instance->set_stylesheet( '<?xml-stylesheet type="text/xsl" href="http://example.org/custom-sitemap.xsl"?>' );
-
-		$output = self::$class_instance->get_output( '<urlset></urlset>' );
-
-		$this->assertStringNotContainsString( '<?xml-stylesheet', $output );
+		$this->assertStringContainsString( '<?xml-stylesheet type="text/css" href="', $output );
+		$this->assertStringContainsString( 'main-sitemap.css"?>', $output );
+		$this->assertStringNotContainsString( 'text/xsl', $output );
 	}
 }
