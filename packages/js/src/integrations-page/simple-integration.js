@@ -11,20 +11,26 @@ import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
 import { Card } from "./tailwind-components/card";
 
 /**
+ * @typedef {Object} Integration
+ * @property {string} [name] The integration name.
+ * @property {import("react").ReactNode} [claim] The integration claim, shown as the card heading.
+ * @property {string} [learnMoreLink] The URL of the "Learn more" link.
+ * @property {string} [logoLink] The URL the logo links to.
+ * @property {string} [slug] The integration slug.
+ * @property {string} [description] The integration description.
+ * @property {Array} [usps] The unique selling points of the integration.
+ * @property {Function} logo The logo component.
+ * @property {boolean} [isPremium] Whether the integration requires Yoast SEO Premium.
+ * @property {boolean} [isNew] Whether to show the "New" badge.
+ * @property {boolean} [isMultisiteAvailable] Whether the integration is available on multisites.
+ * @property {string} [upsellLink] The URL of the upsell button.
+ */
+
+/**
  * Represents an integration.
  *
  * @param {Object} props Component props.
- * @param {Object} props.integration The integration.
- * @param {string} [props.integration.name] The integration name.
- * @param {import("react").ReactNode} [props.integration.claim] The integration claim, shown as the card heading.
- * @param {string} [props.integration.learnMoreLink] The URL of the "Learn more" link.
- * @param {string} [props.integration.logoLink] The URL the logo links to.
- * @param {string} [props.integration.slug] The integration slug.
- * @param {string} [props.integration.description] The integration description.
- * @param {Array} [props.integration.usps] The unique selling points of the integration.
- * @param {Function} props.integration.logo The logo component.
- * @param {boolean} [props.integration.isNew] Whether to show the "New" badge.
- * @param {string} [props.integration.upsellLink] The URL of the upsell button.
+ * @param {Integration} props.integration The integration.
  * @param {boolean} [props.isActive=true] The integration state.
  * @param {boolean} [props.isSchemaPartner=false] Whether the card is a Yoast Schema API partner.
  * @param {boolean} [props.showSchemaFrameworkAlertInBody=false] Whether a Schema API partner shows the Schema Framework alert in the card's

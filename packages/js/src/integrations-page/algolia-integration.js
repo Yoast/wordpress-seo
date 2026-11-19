@@ -9,23 +9,13 @@ import { Badge, Button, Link, ToggleField } from "@yoast/ui-library";
 import { getIsCardActive, getIsFreeIntegrationOrPremiumAvailable, getIsMultisiteAvailable } from "./helper";
 import { Card } from "./tailwind-components/card";
 
+/** @typedef {import("./simple-integration").Integration} Integration */
+
 /**
  * An integration which can be toggled on and off.
  *
  * @param {Object} props Component props.
- * @param {Object} props.integration The integration.
- * @param {string} [props.integration.name] The integration name.
- * @param {import("react").ReactNode} [props.integration.claim] The integration claim, shown as the card heading.
- * @param {string} [props.integration.learnMoreLink] The URL of the "Learn more" link.
- * @param {string} [props.integration.logoLink] The URL the logo links to.
- * @param {string} [props.integration.slug] The integration slug.
- * @param {string} [props.integration.description] The integration description.
- * @param {Array} [props.integration.usps] The unique selling points of the integration.
- * @param {Function} [props.integration.logo] The logo component.
- * @param {boolean} [props.integration.isPremium] Whether the integration requires Yoast SEO Premium.
- * @param {boolean} [props.integration.isNew] Whether to show the "New" badge.
- * @param {boolean} [props.integration.isMultisiteAvailable] Whether the integration is available on multisites.
- * @param {string} [props.integration.upsellLink] The URL of the upsell button.
+ * @param {Integration} props.integration The integration.
  * @param {boolean} props.initialActivationState True if the integration has been activated by the user.
  * @param {boolean} props.isNetworkControlEnabled True if the integration is network-enabled.
  * @param {boolean} props.isMultisiteAvailable True if the integration is available on multisites.

@@ -6,6 +6,8 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
 import { SimpleIntegration } from "./simple-integration";
 
+/** @typedef {import("./simple-integration").Integration} Integration */
+
 /**
  * Represents the ACF logo.
  *
@@ -36,14 +38,7 @@ const AcfLogo = ( props ) => {
  * Represents an integration.
  *
  * @param {Object} props Component props.
- * @param {Object} props.integration The integration.
- * @param {string} [props.integration.name] The integration name.
- * @param {import("react").ReactNode} [props.integration.claim] The integration claim, shown as the card heading.
- * @param {string} [props.integration.slug] The integration slug.
- * @param {string} [props.integration.description] The integration description.
- * @param {Array} [props.integration.usps] The unique selling points of the integration.
- * @param {Function} [props.integration.logo] The logo component.
- * @param {boolean} [props.integration.isNew] Whether to show the "New" badge.
+ * @param {Integration} props.integration The integration.
  * @param {boolean} [props.isActive=true] The integration state.
  * @param {boolean} [props.isInstalled=true] The integration state.
  * @param {boolean} props.isPrerequisiteActive Whether the plugin to which we want to integrate is active.

@@ -8,7 +8,7 @@ import { useField } from "formik";
  * @param {Object} props The props to pass down to the component.
  * @param {import("react").ElementType} props.as The field component.
  * @param {string} props.name The field name.
- * @param {Function} [props.transformValue] Transforms the incoming change value before Formik receives it.
+ * @param {Function} [props.transformValue=identity] Transforms the incoming change value before Formik receives it.
  *
  * @returns {JSX.Element} The Formik compatible element.
  */

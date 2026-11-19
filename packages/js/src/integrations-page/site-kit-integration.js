@@ -87,7 +87,7 @@ const SuccessfullyConnected = () => {
  * Status info component.
  *
  * @param {Object} props Component props.
- * @param {CapabilitiesForSiteKit} props.capabilities The capabilities.
+ * @param {import("../dashboard/index").CapabilitiesForSiteKit} props.capabilities The capabilities.
  * @param {number} props.currentStep The current step.
  * @param {boolean} props.successfullyConnected Whether the connection was successful.
  * @param {boolean} props.isVersionSupported Whether the version is supported.

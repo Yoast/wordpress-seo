@@ -14,7 +14,7 @@ import { verificationIntegrations } from "./verification-integrations";
  * @param {Object} props Component props.
  * @param {string} [props.title=""] The section title.
  * @param {import("react").ReactNode} [props.description=""] The section description.
- * @param {Array<JSX.Element>} [props.elements=[]] Array of elements to be rendered.
+ * @param {JSX.Element[]} [props.elements=[]] Array of elements to be rendered.
  *
  * @returns {JSX.Element} The section.
  */
