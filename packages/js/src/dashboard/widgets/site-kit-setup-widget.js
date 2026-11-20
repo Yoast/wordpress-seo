@@ -305,7 +305,7 @@ export const SiteKitSetupWidget = ( { dataProvider, remoteDataProvider, dataTrac
 			<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
 				<DropdownMenu.IconTrigger
 					screenReaderTriggerLabel={
-					/* translators: Hidden accessibility text. */
+						/* translators: Hidden accessibility text. */
 						__( "Open Site Kit widget dropdown menu", "wordpress-seo" )
 					}
 					className="yst-float-end"

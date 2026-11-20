@@ -109,7 +109,7 @@ export const BulkEditorTourNotification = () => {
 				<div>
 					<ModalNotification.Close
 						dismissScreenReaderLabel={
-						/* translators: Hidden accessibility text. */
+							/* translators: Hidden accessibility text. */
 							__( "Dismiss", "wordpress-seo" )
 						}
 					/>

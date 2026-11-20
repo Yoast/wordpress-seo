@@ -75,8 +75,10 @@ export const UpsellModal = ( {
 						{ modalTitle }
 					</Modal.Title>
 					<Modal.CloseButton
-						className="yst-top-2" onClick={ onClose } screenReaderText={
-						/* translators: Hidden accessibility text. */
+						className="yst-top-2"
+						onClick={ onClose }
+						screenReaderText={
+							/* translators: Hidden accessibility text. */
 							__( "Close modal", "wordpress-seo" )
 						}
 					/>

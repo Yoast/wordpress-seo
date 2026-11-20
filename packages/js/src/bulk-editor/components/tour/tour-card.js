@@ -111,7 +111,7 @@ export const TourCard = ( {
 				</div>
 				<Popover.CloseButton
 					screenReaderLabel={
-					/* translators: Hidden accessibility text. */
+						/* translators: Hidden accessibility text. */
 						__( "Close the tour", "wordpress-seo" )
 					}
 				/>

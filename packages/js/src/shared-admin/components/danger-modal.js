@@ -58,8 +58,9 @@ export const DangerModal = ( { isOpen, title, onClose = noop, children } ) => {
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
 			<Modal.Panel
-				className="yst-max-w-lg" closeButtonScreenReaderText={
-				/* translators: Hidden accessibility text. */
+				className="yst-max-w-lg"
+				closeButtonScreenReaderText={
+					/* translators: Hidden accessibility text. */
 					__( "Dismiss", "wordpress-seo" )
 				}
 			>

@@ -30,8 +30,9 @@ export const UpsellModal = ( {
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose } initialFocus={ upsellRef }>
 			<Modal.Panel
-				className="yst-max-w-sm yst-p-6" closeButtonScreenReaderText={
-				/* translators: Hidden accessibility text. */
+				className="yst-max-w-sm yst-p-6"
+				closeButtonScreenReaderText={
+					/* translators: Hidden accessibility text. */
 					__( "Close", "wordpress-seo" )
 				}
 			>
