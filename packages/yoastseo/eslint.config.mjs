@@ -83,7 +83,8 @@ export default [
 		},
 	},
 	{
-		files: [ "src/languageProcessing/**" ],
+		// The English bundle includes the inclusive language helpers, so they import shared code from "yoastseo" too.
+		files: [ "src/languageProcessing/**", "src/scoring/assessments/inclusiveLanguage/helpers/**" ],
 		settings: {
 			"import/core-modules": [ "yoastseo" ],
 		},
