@@ -153,6 +153,7 @@ final class Update_Author_Schema_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_args() {
+		$this->field_map->expects( 'get_pronouns_update_rule' )->once()->andReturn( 'The pronouns rule.' );
 		$this->field_map->expects( 'get_fields' )->twice()->andReturn(
 			[
 				'wpseo_pronouns' => [
@@ -169,7 +170,7 @@ final class Update_Author_Schema_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Update Author Schema',
-				'description'         => 'Update Yoast SEO\'s author schema settings of a user, which provide their pronouns, social profiles and, depending on the active add-ons, other details for the user\'s Person schema. That schema describes the user as the author of their posts, on their author archive, and as the site itself when the site represents this user. Only the settings you provide are changed; a provided empty string clears that setting. These settings are published as personal details about the user: only use values you were given, never guessed, inferred (for example pronouns from a name) or found elsewhere, and confirm them before saving.',
+				'description'         => 'Update Yoast SEO\'s author schema settings of a user, which provide their pronouns, social profiles and, depending on the active add-ons, other details for the user\'s Person schema. That schema describes the user as the author of their posts, on their author archive, and as the site itself when the site represents this user. Only the settings you provide are changed; a provided empty string clears that setting. These settings are published as personal details about the user: only use values you were given, never guessed, inferred (for example pronouns from a name) or found elsewhere, and confirm them before saving. A leading @ is removed from the X username, and an X profile URL is also accepted and saved as the username. The pronouns rule.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',

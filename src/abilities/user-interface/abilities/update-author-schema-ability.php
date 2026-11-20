@@ -72,7 +72,7 @@ class Update_Author_Schema_Ability extends Abstract_Author_Schema_Ability {
 				/* translators: %s expands to Yoast SEO. */
 				\__( 'Update %s\'s author schema settings of a user, which provide their pronouns, social profiles and, depending on the active add-ons, other details for the user\'s Person schema. That schema describes the user as the author of their posts, on their author archive, and as the site itself when the site represents this user. Only the settings you provide are changed; a provided empty string clears that setting. These settings are published as personal details about the user: only use values you were given, never guessed, inferred (for example pronouns from a name) or found elsewhere, and confirm them before saving.', 'wordpress-seo' ),
 				'Yoast SEO',
-			),
+			) . ' ' . \__( 'A leading @ is removed from the X username, and an X profile URL is also accepted and saved as the username.', 'wordpress-seo' ) . ' ' . $this->field_map->get_pronouns_update_rule(),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => [
 				'type'                 => 'object',

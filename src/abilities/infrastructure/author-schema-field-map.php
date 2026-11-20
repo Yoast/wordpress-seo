@@ -152,7 +152,7 @@ class Author_Schema_Field_Map extends Abstract_Field_Map {
 		return [
 			'wpseo_pronouns' => [
 				'type'              => 'string',
-				'description'       => $this->get_pronouns_description(),
+				'description'       => \__( 'The pronouns of the user, like "she/her", "he/him" or "they/them".', 'wordpress-seo' ),
 				'validate_callback' => [ $this, 'validate_pronouns' ],
 			],
 			'facebook'       => [
@@ -185,7 +185,7 @@ class Author_Schema_Field_Map extends Abstract_Field_Map {
 			],
 			'twitter'        => [
 				'type'        => 'string',
-				'description' => \__( 'The X username of the user. A leading @ is removed, and an X profile URL is also accepted and saved as the username. It is also used in the X card meta tags: as the creator of the user\'s posts, and as the site\'s X account when the site represents this user.', 'wordpress-seo' ),
+				'description' => \__( 'The X username of the user. It is also used in the X card meta tags: as the creator of the user\'s posts, and as the site\'s X account when the site represents this user.', 'wordpress-seo' ),
 			],
 			'youtube'        => [
 				'type'        => 'string',
@@ -231,18 +231,19 @@ class Author_Schema_Field_Map extends Abstract_Field_Map {
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
 
 	/**
-	 * Returns the description of the pronouns field, which tells agents upfront when the pronouns cannot be set.
+	 * Returns when the pronouns can be changed, which tells agents upfront when they cannot be set.
 	 *
-	 * @return string The description.
+	 * It is part of the update ability's description rather than the field's, so it does not reach agents that
+	 * only read the pronouns.
+	 *
+	 * @return string When the pronouns can be changed.
 	 */
-	private function get_pronouns_description(): string {
-		$description = \__( 'The pronouns of the user, like "she/her", "he/him" or "they/them".', 'wordpress-seo' );
-
+	public function get_pronouns_update_rule(): string {
 		if ( ! $this->author_pronouns->is_setting_enabled() ) {
-			return $description . ' ' . \__( 'Author archives are disabled on this site, so the pronouns cannot be changed.', 'wordpress-seo' );
+			return \__( 'Author archives are disabled on this site, so the pronouns cannot be changed.', 'wordpress-seo' );
 		}
 
 		// The current user is not known yet when the abilities are registered, so this cannot depend on them.
-		return $description . ' ' . \__( 'Only users who can edit other users can change them.', 'wordpress-seo' );
+		return \__( 'Only users who can edit other users can change the pronouns.', 'wordpress-seo' );
 	}
 }
