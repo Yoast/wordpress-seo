@@ -54,7 +54,7 @@ final class Open_Graph_Article_Published_Time_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that no published time is returned for a page.
+	 * Tests that the published time is returned for a page.
 	 *
 	 * @covers ::generate_open_graph_article_published_time
 	 *
@@ -63,26 +63,51 @@ final class Open_Graph_Article_Published_Time_Test extends TestCase {
 	public function test_generate_open_graph_article_published_time_page() {
 		$this->indexable->object_sub_type = 'page';
 
+		$source = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
+		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
+
+		$this->date
+			->expects( 'format' )
+			->with( '2019-10-08T12:26:31+00:00' )
+			->once()
+			->andReturn( '2019-10-08T12:26:31+00:00' );
+
+		$actual   = $this->instance->generate_open_graph_article_published_time();
+		$expected = '2019-10-08T12:26:31+00:00';
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests that no published time is returned for a custom post type.
+	 *
+	 * @covers ::generate_open_graph_article_published_time
+	 *
+	 * @return void
+	 */
+	public function test_generate_open_graph_article_published_time_custom_post_type() {
+		$this->indexable->object_sub_type = 'book';
+
 		$this->instance->expects( 'generate_source' )->andReturn( (object) [] );
 
 		$this->post
 			->expects( 'get_post_type' )
 			->once()
-			->andReturn( 'page' );
+			->andReturn( 'book' );
 
 		$actual = $this->instance->generate_open_graph_article_published_time();
 		$this->assertEmpty( $actual );
 	}
 
 	/**
-	 * Tests that a published time is returned for a page when the publish date is enabled with the wpseo_opengraph_show_publish_date filter.
+	 * Tests that a published time is returned for a custom post type when the publish date is enabled with the wpseo_opengraph_show_publish_date filter.
 	 *
 	 * @covers ::generate_open_graph_article_published_time
 	 *
 	 * @return void
 	 */
-	public function test_generate_open_graph_article_published_time_page_enabled() {
-		$this->indexable->object_sub_type = 'page';
+	public function test_generate_open_graph_article_published_time_custom_post_type_enabled() {
+		$this->indexable->object_sub_type = 'book';
 
 		$source = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
 		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
@@ -96,7 +121,7 @@ final class Open_Graph_Article_Published_Time_Test extends TestCase {
 		$this->post
 			->expects( 'get_post_type' )
 			->once()
-			->andReturn( 'page' );
+			->andReturn( 'book' );
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_show_publish_date' )
 			->once()
