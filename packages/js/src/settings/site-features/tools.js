@@ -12,6 +12,7 @@ export const toolsFeatures = {
 		description: __( "The task list guides you through important SEO tasks and helps you to manage your site’s SEO.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/site-features-task-list",
 		learnMoreLinkId: "link-task-list",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "Task list", "wordpress-seo" ),
 	},
 	adminBarMenu: {
@@ -27,6 +28,7 @@ export const toolsFeatures = {
 		),
 		learnMoreUrl: "https://yoa.st/site-features-admin-bar",
 		learnMoreLinkId: "link-admin-bar",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "Admin bar menu", "wordpress-seo" ),
 	},
 };

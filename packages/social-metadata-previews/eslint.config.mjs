@@ -3,7 +3,7 @@ import yoastConfig, { reactConfig } from "@yoast/eslint-config";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-	{ ignores: [ "build" ] },
+	{ ignores: [ "build", "coverage", "dist" ] },
 	...yoastConfig,
 	...reactConfig,
 	{

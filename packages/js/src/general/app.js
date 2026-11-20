@@ -156,7 +156,10 @@ const App = () => {
 					id="toggle-alert-error"
 					title={ __( "Something went wrong", "wordpress-seo" ) }
 					variant="error"
-					dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
+					dismissScreenReaderLabel={
+						/* translators: Hidden accessibility text. */
+						__( "Dismiss", "wordpress-seo" )
+					}
 					size="large"
 					autoDismiss={ 4000 }
 					onDismiss={ handleDismiss }

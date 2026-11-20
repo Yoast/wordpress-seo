@@ -43,7 +43,7 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
     "@yoast/babel-preset": "^1.1.3",
-    "@yoast/eslint-config": "^8.3.0",
+    "@yoast/eslint-config": "^8.4.0",
     "@yoast/jest-preset": "^1.0.1",
     "babel-plugin-styled-components": "^2.0.6",
     "eslint": "^9.16.0",

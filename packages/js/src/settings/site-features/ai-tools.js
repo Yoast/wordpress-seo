@@ -14,6 +14,7 @@ export const aiToolsFeatures = {
 		description: __( "The AI features help you create better content by providing optimization suggestions that you can apply as you wish.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/ai-generator-feature",
 		learnMoreLinkId: "link-ai-generator",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "AI title & description generator", "wordpress-seo" ),
 	},
 	llmsTxt: {
@@ -26,6 +27,7 @@ export const aiToolsFeatures = {
 		description: __( "Generate a file that points to your website's most relevant content. Designed to help AI Assistants understand your website better.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/site-features-llmstxt-learn-more",
 		learnMoreLinkId: "link-llms-txt",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "llms.txt", "wordpress-seo" ),
 	},
 	schemaAggregation: {
@@ -38,6 +40,7 @@ export const aiToolsFeatures = {
 		description: __( "Provides everything required to connect with your site's public structured data. This enables conversational interfaces like NLWeb to power natural language queries on your content.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/schema-aggregation-toggle",
 		learnMoreLinkId: "link-schema-aggregation-endpoint",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "Schema aggregation endpoint", "wordpress-seo" ),
 	},
 };

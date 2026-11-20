@@ -13,6 +13,7 @@ export const socialSharingFeatures = {
 		description: __( "Allows for Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared. Keep this feature enabled to optimize your site for social media.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/site-features-open-graph-data",
 		learnMoreLinkId: "link-open-graph-data",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "Open Graph data", "wordpress-seo" ),
 	},
 	xCardData: {
@@ -24,6 +25,7 @@ export const socialSharingFeatures = {
 		description: __( "Allows for X to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/site-features-twitter-card-data",
 		learnMoreLinkId: "link-twitter-card-data",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "X card data", "wordpress-seo" ),
 	},
 	slackSharing: {
@@ -35,6 +37,7 @@ export const socialSharingFeatures = {
 		description: __( "This adds an author byline and reading time estimate to the article’s snippet when shared on Slack.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/help-slack-share",
 		learnMoreLinkId: "link-slack-sharing",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "Slack sharing", "wordpress-seo" ),
 	},
 };

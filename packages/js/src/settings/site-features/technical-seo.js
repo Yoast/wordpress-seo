@@ -14,6 +14,7 @@ export const technicalSeoFeatures = {
 		description: __( "Outputs a single graph the web can understand. Makes every person, product, organization, and piece of content consistently readable to search engines and language models.", "wordpress-seo" ),
 		learnMoreLinkId: "link-schema-framework",
 		learnMoreUrl: "https://yoa.st/site-features-schema-framework",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "Schema Framework", "wordpress-seo" ),
 	},
 	xmlSitemaps: {
@@ -29,6 +30,7 @@ export const technicalSeoFeatures = {
 		),
 		learnMoreUrl: "https://yoa.st/2a-",
 		learnMoreLinkId: "link-xml-sitemaps",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "XML sitemaps", "wordpress-seo" ),
 	},
 	restApiEndpoint: {
@@ -40,6 +42,7 @@ export const technicalSeoFeatures = {
 		description: __( "This Yoast SEO REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use Yoast SEO for all their SEO meta output.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/site-features-rest-api-endpoint",
 		learnMoreLinkId: "link-rest-api-endpoint",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "REST API endpoint", "wordpress-seo" ),
 	},
 	indexNow: {
@@ -53,6 +56,7 @@ export const technicalSeoFeatures = {
 		description: __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/index-now-feature",
 		learnMoreLinkId: "link-index-now",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "IndexNow", "wordpress-seo" ),
 	},
 };

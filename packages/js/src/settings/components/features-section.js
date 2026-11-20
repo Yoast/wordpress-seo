@@ -24,6 +24,10 @@ export const FeaturesSection = ( { id, title, features = [] } ) => {
 	const featureCount = features.length;
 	const ChevronIcon = isOpen ? ChevronUpIcon : ChevronDownIcon;
 	const svgAriaProps = useSvgAria();
+	/* translators: Hidden accessibility text for the expand/collapse feature section button. */
+	const collapseLabel = __( "Collapse", "wordpress-seo" );
+	/* translators: Hidden accessibility text for the expand/collapse feature section button. */
+	const expandLabel = __( "Expand", "wordpress-seo" );
 	return (
 		<fieldset className="yst-group">
 			<button
@@ -36,7 +40,7 @@ export const FeaturesSection = ( { id, title, features = [] } ) => {
 				<Title size="4" as="h2">{ `${title} (${featureCount})` }</Title>
 				<span>
 					<ChevronIcon className="yst-h-6 yst-w-6 yst-text-slate-400 yst-shrink-0 yst-me-3" { ...svgAriaProps } />
-					<span className="yst-sr-only">{ `${isOpen ? __( "Collapse", "wordpress-seo" ) : __( "Expand", "wordpress-seo" )} ${title}` }</span>
+					<span className="yst-sr-only">{ `${isOpen ? collapseLabel : expandLabel} ${title}` }</span>
 				</span>
 			</button>
 			{ isOpen && <ul className="yst-mb-2 group-last:yst-mb-0">
