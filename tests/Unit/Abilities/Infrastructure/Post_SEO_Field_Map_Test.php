@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
+use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Validators\Post_SEO_Field_Validator_Interface;
 use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Helpers\Schema\Graph_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
@@ -718,6 +719,89 @@ final class Post_SEO_Field_Map_Test extends TestCase {
 
 		$this->assertSame( 'Untouched', $indexable->title );
 		$this->assertSame( [], $changed );
+	}
+
+	/**
+	 * Creates a validator mock for the given field.
+	 *
+	 * @param string $field_name The name of the field the validator validates.
+	 *
+	 * @return Mockery\MockInterface|Post_SEO_Field_Validator_Interface The validator mock.
+	 */
+	private function make_validator( string $field_name ) {
+		$validator = Mockery::mock( Post_SEO_Field_Validator_Interface::class );
+		$validator->allows( 'get_field_name' )->andReturn( $field_name );
+
+		return $validator;
+	}
+
+	/**
+	 * Tests that only the fields their validator rejects are returned, with the warning of the validator, and that
+	 * fields absent from the input are not validated.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_skipped_fields
+	 *
+	 * @return void
+	 */
+	public function test_get_skipped_fields() {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+		$input     = [
+			'post_id'          => 42,
+			'seo_title'        => 'A title',
+			'schema_page_type' => 'CollectionPage',
+		];
+
+		$rejecting_validator = $this->make_validator( 'schema_page_type' );
+		$rejecting_validator->expects( 'validate' )->once()->with( 'CollectionPage', $indexable )->andReturn( 'A warning.' );
+
+		$accepting_validator = $this->make_validator( 'seo_title' );
+		$accepting_validator->expects( 'validate' )->once()->with( 'A title', $indexable )->andReturnNull();
+
+		$absent_field_validator = $this->make_validator( 'canonical' );
+		$absent_field_validator->expects( 'validate' )->never();
+
+		$instance = new Post_SEO_Field_Map( $this->meta_surface, new Graph_Helper(), $this->woo_seo_inactive_conditional, $this->woocommerce_helper, $this->schema_configuration, $rejecting_validator, $accepting_validator, $absent_field_validator );
+
+		$this->assertSame( [ 'schema_page_type' => 'A warning.' ], $instance->get_skipped_fields( $input, $indexable ) );
+	}
+
+	/**
+	 * Tests that a field that a validator rejected is not validated again by another validator of the same field.
+	 *
+	 * @covers ::get_skipped_fields
+	 *
+	 * @return void
+	 */
+	public function test_get_skipped_fields_first_rejection_wins() {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$first_validator = $this->make_validator( 'schema_page_type' );
+		$first_validator->expects( 'validate' )->once()->andReturn( 'The first warning.' );
+
+		$second_validator = $this->make_validator( 'schema_page_type' );
+		$second_validator->expects( 'validate' )->never();
+
+		$instance = new Post_SEO_Field_Map( $this->meta_surface, new Graph_Helper(), $this->woo_seo_inactive_conditional, $this->woocommerce_helper, $this->schema_configuration, $first_validator, $second_validator );
+
+		$this->assertSame(
+			[ 'schema_page_type' => 'The first warning.' ],
+			$instance->get_skipped_fields( [ 'schema_page_type' => 'CollectionPage' ], $indexable ),
+		);
+	}
+
+	/**
+	 * Tests that no field is skipped without validators.
+	 *
+	 * @covers ::get_skipped_fields
+	 *
+	 * @return void
+	 */
+	public function test_get_skipped_fields_without_validators() {
+		$this->assertSame(
+			[],
+			$this->instance->get_skipped_fields( [ 'schema_page_type' => 'CollectionPage' ], Mockery::mock( Indexable_Mock::class ) ),
+		);
 	}
 
 	/**
