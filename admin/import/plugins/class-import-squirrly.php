@@ -156,7 +156,7 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 		}
 
 		if ( ! is_numeric( $post_identifier ) ) {
-			$post_id = url_to_postid( $post_identifier );
+			$post_id = WPSEO_Utils::url_to_postid( $post_identifier );
 		}
 
 		if ( is_numeric( $post_identifier ) ) {
