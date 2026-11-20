@@ -1,6 +1,5 @@
 /* eslint-disable complexity */
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import {
 	BadWPRequestModal,
 	GenericModal,
@@ -24,14 +23,16 @@ import {
  * inline alert can evolve independently. A drift-guardrail test keeps the case
  * coverage aligned.
  *
- * @param {number} errorCode The error code.
- * @param {string} [errorIdentifier=""] The error identifier.
- * @param {boolean} [isOpen=true] Whether the modal is open.
- * @param {string[]} [invalidSubscriptions=[]] The products with an invalid subscription.
- * @param {boolean} [showActions=false] Whether to show retry/close actions for retryable errors.
- * @param {function} [onRetry=noop] Called to retry the request.
- * @param {string} [errorMessage=""] The raw error message (WP request errors).
- * @param {function} [onClose=noop] Dismisses the modal.
+ * @param {Object} props Component props.
+ * @param {number} props.errorCode The error code.
+ * @param {string} [props.errorIdentifier=""] The error identifier.
+ * @param {boolean} [props.isOpen=true] Whether the modal is open.
+ * @param {string[]} [props.invalidSubscriptions=[]] The products with an invalid subscription.
+ * @param {boolean} [props.showActions=false] Whether to show retry/close actions for retryable errors.
+ * @param {Function} [props.onRetry=noop] Called to retry the request.
+ * @param {string} [props.errorMessage=""] The raw error message (WP request errors).
+ * @param {Function} [props.onClose=noop] Dismisses the modal.
+ *
  * @returns {JSX.Element} The element.
  */
 export const AIErrorModal = ( {
@@ -84,14 +85,4 @@ export const AIErrorModal = ( {
 		default:
 			return <GenericModal isOpen={ isOpen } showActions={ showActions } onRetry={ onRetry } onClose={ onClose } />;
 	}
-};
-AIErrorModal.propTypes = {
-	errorCode: PropTypes.number.isRequired,
-	errorIdentifier: PropTypes.string,
-	isOpen: PropTypes.bool,
-	invalidSubscriptions: PropTypes.arrayOf( PropTypes.string ),
-	showActions: PropTypes.bool,
-	onRetry: PropTypes.func,
-	errorMessage: PropTypes.string,
-	onClose: PropTypes.func,
 };

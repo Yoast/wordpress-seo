@@ -1,6 +1,5 @@
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 import { OutboundLink } from "../../../../shared-admin/components";
 import { STORE_NAME_EDITOR } from "../../../constants";
@@ -11,7 +10,9 @@ export const title = __( "Something went wrong", "wordpress-seo" );
 /**
  * The copy for the bad-WP-request error (400 / WP_HTTP_REQUEST_ERROR).
  *
- * @param {string} [errorMessage=""] The raw error message returned by the request.
+ * @param {Object} props Component props.
+ * @param {string} [props.errorMessage=""] The raw error message returned by the request.
+ *
  * @returns {JSX.Element} The element.
  */
 export const Body = ( { errorMessage = "" } ) => {
@@ -40,4 +41,3 @@ export const Body = ( { errorMessage = "" } ) => {
 		</>
 	);
 };
-Body.propTypes = { errorMessage: PropTypes.string };

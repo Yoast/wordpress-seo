@@ -1,17 +1,17 @@
 import ExclamationIcon from "@heroicons/react/outline/ExclamationIcon";
 import { Button, Modal, useSvgAria } from "@yoast/ui-library";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 
 /**
  * The unsaved changes modal.
  *
- * @param {boolean} isOpen Whether the modal is open.
- * @param {function} [onClose] The function to call when the modal is closed.
- * @param {function} [onDiscard] The function to call when the changes are discarded.
- * @param {string} title The title of the modal.
- * @param {string} description The description of the modal.
- * @param {string} dismissLabel The label for the dismiss button.
+ * @param {Object} props Component props.
+ * @param {boolean} props.isOpen Whether the modal is open.
+ * @param {Function} [props.onClose=noop] The function to call when the modal is closed.
+ * @param {Function} [props.onDiscard=noop] The function to call when the changes are discarded.
+ * @param {string} props.title The title of the modal.
+ * @param {string} props.description The description of the modal.
+ * @param {string} props.dismissLabel The label for the dismiss button.
  *
  * @returns {JSX.Element} The unsaved changes modal.
  */
@@ -42,13 +42,4 @@ export const LlmsTxtUnsavedChangesModal = ( { isOpen, onClose = noop, onDiscard 
 			</div>
 		</Modal.Panel>
 	</Modal>;
-};
-
-LlmsTxtUnsavedChangesModal.propTypes = {
-	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func,
-	onDiscard: PropTypes.func,
-	title: PropTypes.string.isRequired,
-	description: PropTypes.string.isRequired,
-	dismissLabel: PropTypes.string.isRequired,
 };

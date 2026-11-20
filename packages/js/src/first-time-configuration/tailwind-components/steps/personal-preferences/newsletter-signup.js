@@ -1,7 +1,6 @@
 import { useCallback, useState, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { isEmail } from "@wordpress/url";
-import PropTypes from "prop-types";
 
 import { buildNewsletterSource } from "../../../../helpers/buildNewsletterSource";
 import { addLinkToString } from "../../../../helpers/stringHelpers";
@@ -50,7 +49,9 @@ const subscribedFeedback = __( "Thank you! Check your inbox for the confirmation
 /**
  * The newsletter signup section.
  *
- * @param {string} [gdprLink=""] Shortlink to the Yoast privacy policy.
+ * @param {Object} props Component props.
+ * @param {string} [props.gdprLink=""] Shortlink to the Yoast privacy policy.
+ *
  * @returns {JSX.Element} An element.
  */
 export function NewsletterSignup( { gdprLink = "" } ) {
@@ -157,7 +158,3 @@ export function NewsletterSignup( { gdprLink = "" } ) {
 		</Fragment>
 	);
 }
-
-NewsletterSignup.propTypes = {
-	gdprLink: PropTypes.string,
-};

@@ -8,15 +8,16 @@ import InformationCircleIcon from "@heroicons/react/solid/InformationCircleIcon"
 import XCircleIcon from "@heroicons/react/solid/XCircleIcon";
 import { useCallback, useState } from "@wordpress/element";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
 
 /**
  * Renders the alert component.
  *
- * @param {string} [type="info"] The type of the alert.
- * @param {React.ReactNode} children The content of the alert.
- * @param {string} [className=""] The class name for the alert.
+ * @param {Object} props Component props.
+ * @param {("info"|"warning"|"error"|"success")} [props.type="info"] The type of the alert.
+ * @param {React.ReactNode} props.children The content of the alert.
+ * @param {string} [props.className=""] The class name for the alert.
+ *
  * @returns {JSX.Element} The Alert.
  */
 export default function Alert( { type = "info", children, className = "" } ) {
@@ -52,24 +53,16 @@ export default function Alert( { type = "info", children, className = "" } ) {
 	);
 }
 
-Alert.propTypes = {
-	type: PropTypes.oneOf( [ "info", "warning", "error", "success" ] ),
-	children: PropTypes.oneOfType( [
-		PropTypes.arrayOf( PropTypes.node ),
-		PropTypes.node,
-	] ).isRequired,
-	className: PropTypes.string,
-};
-
 /**
  * An Alert that expands and fades in.
  *
- * @param {string} id The id for the alert.
- * @param {boolean} isVisible Whether the alert is visible.
- * @param {number} [expandDuration=400] The expand animation duration.
- * @param {string} [type="info"] The type of the alert.
- * @param {React.ReactNode} children The content of the alert.
- * @param {string} [className=""] The class name for the alert.
+ * @param {Object} props Component props.
+ * @param {string} props.id The id for the alert.
+ * @param {boolean} props.isVisible Whether the alert is visible.
+ * @param {("info"|"warning"|"error"|"success")} [props.type="info"] The type of the alert.
+ * @param {React.ReactNode} props.children The content of the alert.
+ * @param {number} [props.expandDuration=400] The expand animation duration.
+ * @param {string} [props.className=""] The class name for the alert.
  *
  * @returns {JSX.Element} An Alert that expands and fades in.
  */
@@ -101,15 +94,3 @@ export function FadeInAlert( {
 		</Alert>
 	</AnimateHeight>;
 }
-
-FadeInAlert.propTypes = {
-	id: PropTypes.string.isRequired,
-	isVisible: PropTypes.bool.isRequired,
-	type: PropTypes.oneOf( [ "info", "warning", "error", "success" ] ),
-	children: PropTypes.oneOfType( [
-		PropTypes.arrayOf( PropTypes.node ),
-		PropTypes.node,
-	] ).isRequired,
-	expandDuration: PropTypes.number,
-	className: PropTypes.string,
-};

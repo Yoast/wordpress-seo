@@ -2,19 +2,20 @@ import { useSelect } from "@wordpress/data";
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Label } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { ModeSwitcher } from "@yoast/search-metadata-previews";
 import { GooglePreview, GooglePreviewSkeleton, LengthProgressBar } from ".";
 import { ASYNC_ACTION_STATUS, EDIT_TYPE, STORE_NAME_EDITOR } from "../constants";
 import { useLocation, useTitleOrDescriptionLengthProgress, useTypeContext } from "../hooks";
 
 /**
- * @param {string} title The title.
- * @param {string} description The description.
- * @param {string} status The fetch status.
- * @param {string} titleForLength The title for the length calculation (no separator or site name).
- * @param {boolean} showPreviewSkeleton Whether to show the preview skeleton or the actual preview.
- * @param {boolean} showLengthProgress Whether to show the actual progress or 0.
+ * @param {Object} props Component props.
+ * @param {string} props.title The title.
+ * @param {string} props.description The description.
+ * @param {("idle"|"loading"|"success"|"error")} props.status The fetch status.
+ * @param {string} props.titleForLength The title for the length calculation (no separator or site name).
+ * @param {boolean} props.showPreviewSkeleton Whether to show the preview skeleton or the actual preview.
+ * @param {boolean} props.showLengthProgress Whether to show the actual progress or 0.
+ *
  * @returns {JSX.Element} The element.
  */
 export const GoogleContent = ( { title, description, status, titleForLength, showPreviewSkeleton, showLengthProgress } ) => {
@@ -49,12 +50,4 @@ export const GoogleContent = ( { title, description, status, titleForLength, sho
 			</div>
 		</>
 	);
-};
-GoogleContent.propTypes = {
-	title: PropTypes.string.isRequired,
-	description: PropTypes.string.isRequired,
-	status: PropTypes.oneOf( Object.keys( ASYNC_ACTION_STATUS ) ).isRequired,
-	titleForLength: PropTypes.string.isRequired,
-	showPreviewSkeleton: PropTypes.bool.isRequired,
-	showLengthProgress: PropTypes.bool.isRequired,
 };

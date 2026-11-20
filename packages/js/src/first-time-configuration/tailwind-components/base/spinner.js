@@ -1,9 +1,11 @@
 import classNames from "classnames";
-import PropTypes from "prop-types";
 
 /**
  * The Spinner component.
- * @param {string} [className=""] Additional CSS class names.
+ *
+ * @param {Object} props Component props.
+ * @param {string} [props.className=""] Additional CSS class names.
+ *
  * @returns {JSX.Element} The Spinner.
  */
 const Spinner = ( { className = "" } ) => {
@@ -25,10 +27,6 @@ const Spinner = ( { className = "" } ) => {
 			/>
 		</svg>
 	);
-};
-
-Spinner.propTypes = {
-	className: PropTypes.string,
 };
 
 export default Spinner;

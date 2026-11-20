@@ -1,6 +1,5 @@
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 import { OutboundLink } from "../../../../shared-admin/components";
 import { STORE_NAME_EDITOR } from "../../../constants";
@@ -14,7 +13,9 @@ export const title = __( "Subscription required", "wordpress-seo" );
  * The "Refresh page" action that accompanies this error lives in the alert and
  * modal chrome, not here.
  *
- * @param {string[]} [invalidSubscriptions=[]] The products with an invalid subscription.
+ * @param {Object} props Component props.
+ * @param {string[]} [props.invalidSubscriptions=[]] The products with an invalid subscription.
+ *
  * @returns {JSX.Element} The element.
  */
 export const Body = ( { invalidSubscriptions = [] } ) => {
@@ -97,4 +98,3 @@ export const Body = ( { invalidSubscriptions = [] } ) => {
 		</Paragraph>
 	);
 };
-Body.propTypes = { invalidSubscriptions: PropTypes.arrayOf( PropTypes.string ) };

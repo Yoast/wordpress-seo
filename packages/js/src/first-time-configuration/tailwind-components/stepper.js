@@ -2,7 +2,6 @@ import { createContext, Fragment, useCallback, useContext, useEffect, useState }
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
 import { stepperTimingClasses, stepperTimings } from "../stepper-helper";
 import { FadeInAlert } from "../tailwind-components/base/alert";
@@ -37,10 +36,10 @@ export function useStepperContext() {
 /**
  * The component button used to navigate the steps.
  *
- * @param {function} [beforeGo=null] A function to call when the button is clicked.
- * @param {React.ReactNode} [children] The children of the component.
- * @param {number|string} [destination=1] A number of steps to take relative to the current step or "first" or "last".
- * @param {...Object} [restProps] Additional properties to pass to the button.
+ * @param {Object} props Component props. Additional props are passed to the button.
+ * @param {?Function} [props.beforeGo=null] A function to call when the button is clicked.
+ * @param {React.ReactNode} [props.children] The children of the component.
+ * @param {(number|"first"|"last")} [props.destination=1] A number of steps to take relative to the current step or "first" or "last".
  *
  * @returns {JSX.Element} The button element.
  */
@@ -78,20 +77,12 @@ function GoButton( {
 	</Button>;
 }
 
-GoButton.propTypes = {
-	beforeGo: PropTypes.func,
-	children: PropTypes.node,
-	destination: PropTypes.oneOfType( [
-		PropTypes.number,
-		PropTypes.oneOf( [ "first", "last" ] ),
-	] ),
-};
-
 /**
  * The StepButtons component.
  *
- * @param {React.ReactNode} [children] The children of the component.
- * @param {...Object} [restProps] Additional properties to pass to the button.
+ * @param {Object} props Component props. Additional props are passed to the button.
+ * @param {React.ReactNode} [props.children] The children of the component.
+ *
  * @returns {JSX.Element} The EditButton component.
  */
 function EditButton( {
@@ -114,14 +105,11 @@ function EditButton( {
 	</Button>;
 }
 
-EditButton.propTypes = {
-	children: PropTypes.node,
-};
-
 /**
  * The Step Element.
  *
- * @param {React.ReactNode} children The children of the component.
+ * @param {Object} props Component props.
+ * @param {React.ReactNode} props.children The children of the component.
  *
  * @returns {JSX.Element} The Step.
  */
@@ -151,16 +139,13 @@ export function Step( { children } ) {
 	</Fragment>;
 }
 
-Step.propTypes = {
-	children: PropTypes.node.isRequired,
-};
-
 /**
  * Provides a way to provide error messages at the Step level.
  *
- * @param {string} id The id for the error.
- * @param {string} message The error message.
- * @param {string} [className=""] The class name for the error.
+ * @param {Object} props Component props.
+ * @param {string} props.id The id for the error.
+ * @param {string} props.message The error message.
+ * @param {string} [props.className=""] The class name for the error.
  *
  * @returns {JSX.Element} The StepError component.
  */
@@ -184,16 +169,11 @@ export function StepError( { id, message, className = "" } ) {
 	</FadeInAlert>;
 }
 
-StepError.propTypes = {
-	id: PropTypes.string.isRequired,
-	message: PropTypes.string.isRequired,
-	className: PropTypes.string,
-};
-
 /**
  * The (Tailwind) Step component.
  *
- * @param {React.ReactNode} children The children.
+ * @param {Object} props Component props.
+ * @param {React.ReactNode} props.children The children.
  *
  * @returns {JSX.Element} The Step component.
  */
@@ -239,17 +219,14 @@ function Content( { children } ) {
 	);
 }
 
-Content.propTypes = {
-	children: PropTypes.node.isRequired,
-};
-
 /**
  * The Tailwind Stepper component.
  *
- * @param {function} setActiveStepIndex The function to set the active step index.
- * @param {number} activeStepIndex The active step index.
- * @param {boolean} [isStepperFinished=false] Whether the stepper is finished.
- * @param {React.ReactNode} children The stepper steps.
+ * @param {Object} props Component props.
+ * @param {Function} props.setActiveStepIndex The function to set the active step index.
+ * @param {number} props.activeStepIndex The active step index.
+ * @param {boolean} [props.isStepperFinished=false] Whether the stepper is finished.
+ * @param {React.ReactNode} props.children The stepper steps.
  *
  * @returns {JSX.Element} The Stepper.
  */
@@ -276,13 +253,6 @@ export default function Stepper( {
 		</ol>
 	);
 }
-
-Stepper.propTypes = {
-	setActiveStepIndex: PropTypes.func.isRequired,
-	activeStepIndex: PropTypes.number.isRequired,
-	isStepperFinished: PropTypes.bool,
-	children: PropTypes.node.isRequired,
-};
 
 Step.Content = Content;
 Step.Error = StepError;

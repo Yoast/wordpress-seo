@@ -1,7 +1,6 @@
 import apiFetch from "@wordpress/api-fetch";
 import { Fragment, useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 import { openMedia } from "../../../../helpers/selectMedia";
 import { FadeInAlert } from "../../base/alert";
@@ -11,11 +10,15 @@ import UserSelector from "./user-selector";
 /**
  * The Person section.
  *
- * @param {function} dispatch The function to update the container's state.
- * @param {string} [imageUrl=""] The image URL.
- * @param {string} [fallbackImageUrl=""] The fallback image URL for when there is no image.
- * @param {{id: number, name: string}} [person] The user.
- * @param {boolean} canEditUser Whether the current user can edit the selected person's profile.
+ * @param {Object} props Component props.
+ * @param {Function} props.dispatch The function to update the container's state.
+ * @param {string} [props.imageUrl=""] The image URL.
+ * @param {string} [props.fallbackImageUrl=""] The fallback image URL for when there is no image.
+ * @param {Object} [props.person] The user.
+ * @param {number} [props.person.id] The user ID.
+ * @param {string} [props.person.name] The user name.
+ * @param {boolean} props.canEditUser Whether the current user can edit the selected person's profile.
+ *
  * @returns {JSX.Element} The person section.
  */
 export function PersonSection( {
@@ -112,14 +115,3 @@ export function PersonSection( {
 		</Fragment>
 	);
 }
-
-PersonSection.propTypes = {
-	dispatch: PropTypes.func.isRequired,
-	imageUrl: PropTypes.string,
-	fallbackImageUrl: PropTypes.string,
-	person: PropTypes.shape( {
-		id: PropTypes.number,
-		name: PropTypes.string,
-	} ),
-	canEditUser: PropTypes.bool.isRequired,
-};

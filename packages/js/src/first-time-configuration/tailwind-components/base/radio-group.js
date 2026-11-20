@@ -1,7 +1,6 @@
 /* eslint-disable complexity */
 import { useCallback } from "@wordpress/element";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 
 const radioClassNameMap = {
 	variant: {
@@ -19,13 +18,14 @@ const classNameMap = {
 };
 
 /**
- * @param {string} id Identifier.
- * @param {string} name Name.
- * @param {string|number} value Value.
- * @param {string} label Label.
- * @param {string} [variant="default"] Variant.
- * @param {string} [className=""] CSS class.
- * @param {...Object} [props] Additional properties.
+ * @param {Object} props Component props. Additional props are passed to the input element.
+ * @param {string} props.name Name.
+ * @param {string} props.id Identifier.
+ * @param {(string|number)} props.value Value.
+ * @param {string} props.label Label.
+ * @param {("default"|"inline-block")} [props.variant="default"] Variant.
+ * @param {string} [props.className=""] CSS class.
+ *
  * @returns {JSX.Element} Radio element.
  */
 const Radio = ( {
@@ -58,19 +58,12 @@ const Radio = ( {
 	);
 };
 
-Radio.propTypes = {
-	name: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
-	label: PropTypes.string.isRequired,
-	variant: PropTypes.oneOf( Object.keys( radioClassNameMap.variant ) ),
-	className: PropTypes.string,
-};
-
 /**
- * @param {React.ReactNode} children Content of the Label.
- * @param {string|function} [as="label"] Base component.
- * @param {string} [className=""] CSS class.
+ * @param {Object} props Component props.
+ * @param {React.ReactNode} props.children Content of the Label.
+ * @param {import("react").ElementType} [props.as="label"] Base component.
+ * @param {string} [props.className=""] CSS class.
+ *
  * @returns {JSX.Element} Label component.
  */
 const Label = ( {
@@ -87,23 +80,20 @@ const Label = ( {
 	</Component>
 );
 
-Label.propTypes = {
-	children: PropTypes.node.isRequired,
-	as: PropTypes.elementType,
-	className: PropTypes.string,
-};
-
 /**
- * @param {React.ReactNode} [children=null] Children are rendered below the radio group.
- * @param {string} id Identifier.
- * @param {string} name Name.
- * @param {string|number} value Value.
- * @param {React.ReactNode} [label=null] Label.
- * @param {{value: string|number, label: string}[]} options Options to choose from.
- * @param {function}  onChange Change handler.
- * @param {string} [variant="default"] Variant.
- * @param {string} [className=""] CSS class.
- * @param {...Object} [props] Additional properties.
+ * @param {Object} props Component props. Additional props are passed to each Radio.
+ * @param {React.ReactNode} [props.children=null] Children are rendered below the radio group.
+ * @param {string} props.id Identifier.
+ * @param {string} props.name Name.
+ * @param {(string|number)} props.value Value.
+ * @param {Object[]} props.options Options to choose from.
+ * @param {(string|number)} props.options[].value The option value.
+ * @param {string} props.options[].label The option label.
+ * @param {Function} props.onChange Change handler.
+ * @param {React.ReactNode} [props.label=null] Label.
+ * @param {("default"|"inline-block")} [props.variant="default"] Variant.
+ * @param {string} [props.className=""] CSS class.
+ *
  * @returns {JSX.Element} RadioGroup component.
  */
 const RadioGroup = ( {
@@ -148,21 +138,6 @@ const RadioGroup = ( {
 			</div>
 		</fieldset>
 	);
-};
-
-RadioGroup.propTypes = {
-	children: PropTypes.node,
-	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
-	options: PropTypes.arrayOf( PropTypes.shape( {
-		value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
-		label: PropTypes.string.isRequired,
-	} ) ).isRequired,
-	onChange: PropTypes.func.isRequired,
-	label: PropTypes.node,
-	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
-	className: PropTypes.string,
 };
 
 export default RadioGroup;

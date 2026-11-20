@@ -1,5 +1,4 @@
 /* eslint-disable complexity */
-import PropTypes from "prop-types";
 import {
 	BadWPRequestAlert,
 	GenericAlert,
@@ -8,9 +7,11 @@ import {
 import { SiteUnreachableAlert } from "./errors/site-unreachable-alert";
 
 /**
- * @param {number} errorCode The error code.
- * @param {string} [errorIdentifier=""] The error identifier.
- * @param {string} [errorMessage=""] The error message.
+ * @param {Object} props Component props.
+ * @param {number} props.errorCode The error code.
+ * @param {string} [props.errorIdentifier=""] The error identifier.
+ * @param {string} [props.errorMessage=""] The error message.
+ *
  * @returns {JSX.Element} The element.
  */
 export const UsageCountError = ( {
@@ -33,9 +34,4 @@ export const UsageCountError = ( {
 		default:
 			return <GenericAlert />;
 	}
-};
-UsageCountError.propTypes = {
-	errorCode: PropTypes.number.isRequired,
-	errorIdentifier: PropTypes.string,
-	errorMessage: PropTypes.string,
 };

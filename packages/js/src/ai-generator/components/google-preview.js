@@ -2,15 +2,16 @@ import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { SnippetPreview } from "@yoast/search-metadata-previews";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
-import { PREVIEW_MODE, STORE_NAME_EDITOR } from "../constants";
+import { STORE_NAME_EDITOR } from "../constants";
 
 const isMobileUserAgentRegExp = /mobi/i;
 
 /**
- * @param {string} mode Either mobile or desktop.
- * @param {string} title The raw title.
- * @param {string} description The raw description.
+ * @param {Object} props Component props.
+ * @param {("mobile"|"desktop")} props.mode Either mobile or desktop.
+ * @param {string} props.title The raw title.
+ * @param {string} props.description The raw description.
+ *
  * @returns {JSX.Element} The element.
  */
 export const GooglePreview = ( { mode, title, description } ) => {
@@ -46,10 +47,4 @@ export const GooglePreview = ( { mode, title, description } ) => {
 			/>
 		</div>
 	);
-};
-
-GooglePreview.propTypes = {
-	mode: PropTypes.oneOf( Object.keys( PREVIEW_MODE ) ).isRequired,
-	title: PropTypes.string.isRequired,
-	description: PropTypes.string.isRequired,
 };

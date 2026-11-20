@@ -1,5 +1,4 @@
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import { useSelectSettings } from "../hooks";
 
 /**
@@ -8,9 +7,10 @@ import { useSelectSettings } from "../hooks";
  */
 const withFormikDummySelectField = Component => {
 	/**
-	 * @param {string} name The name.
-	 * @param {boolean} isDummy Whether this is a dummy field.
-	 * @param {Object} [props] Any extra props.
+	 * @param {Object} props Any extra props.
+	 * @param {string} props.name The name.
+	 * @param {boolean} [props.isDummy=false] Whether this is a dummy field.
+	 *
 	 * @returns {JSX.Element} The element.
 	 */
 	const ComponentWithFormikDummySelectField = ( { name, isDummy = false, ...props } ) => {
@@ -28,11 +28,6 @@ const withFormikDummySelectField = Component => {
 		}
 
 		return <Component name={ name } { ...props } />;
-	};
-
-	ComponentWithFormikDummySelectField.propTypes = {
-		name: PropTypes.string.isRequired,
-		isDummy: PropTypes.bool,
 	};
 
 	return ComponentWithFormikDummySelectField;

@@ -1,11 +1,11 @@
 import { Fragment, useMemo } from "@wordpress/element";
 import { last } from "lodash";
-import PropTypes from "prop-types";
 
 /**
- * @param {string[]} texts Array of text strings to render in multi-line format.
- * @param {string} id An unique identifier id to use in keying.
- * @param {string|React.ReactNode} [as="p"] Component to render as.
+ * @param {Object} props Component props.
+ * @param {string[]} props.texts Array of text strings to render in multi-line format.
+ * @param {string} props.id An unique identifier id to use in keying.
+ * @param {(string|import("react").ElementType)} [props.as="p"] Component to render as.
  *
  * @returns {JSX.Element} The MultiLineText component.
  */
@@ -21,12 +21,6 @@ const MultiLineText = ( { texts, id, as: Component = "p", ...rest } ) => {
 			) ) }
 		</Component>
 	);
-};
-
-MultiLineText.propTypes = {
-	texts: PropTypes.arrayOf( PropTypes.string ).isRequired,
-	id: PropTypes.string.isRequired,
-	as: PropTypes.oneOfType( [ PropTypes.string, PropTypes.elementType ] ),
 };
 
 export default MultiLineText;

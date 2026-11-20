@@ -1,17 +1,16 @@
 import { Fragment } from "@wordpress/element";
 import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import SocialInputSection from "./social-input-section";
 import Alert from "../../base/alert";
 
 /**
  * Social profiles step component
  *
- * @param {Object}   props                The props object.
- * @param {Object}   props.state          The container's state.
- * @param {function} props.dispatch       The function to update the container's state.
- * @param {function} props.setErrorFields The function to keep track of which text fields are not valid.
+ * @param {Object} props The props object.
+ * @param {Object} props.state The container's state.
+ * @param {Function} props.dispatch The function to update the container's state.
+ * @param {Function} props.setErrorFields The function to keep track of which text fields are not valid.
  *
  * @returns {WPElement} The social profiles step.
  */
@@ -101,9 +100,3 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 			</p>
 		</Fragment>;
 }
-
-SocialProfilesStep.propTypes = {
-	state: PropTypes.object.isRequired,
-	dispatch: PropTypes.func.isRequired,
-	setErrorFields: PropTypes.func.isRequired,
-};

@@ -1,15 +1,16 @@
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import SocialFieldArray from "./social-field-array";
 import SocialInput from "./social-input";
 
 /**
  * A wrapper that combines all the SocialInputs. Intended for use in the first time configuration.
  *
- * @param {Object} socialProfiles An associative array containing { socialmedium : url } pairs.
- * @param {Array} [errorFields=[]] The array containing the names of the fields with an invalid value.
- * @param {function}  dispatch A dispatch function to communicate with the Stepper store.
+ * @param {Object} props Component props.
+ * @param {Object} props.socialProfiles An associative array containing { socialmedium : url } pairs.
+ * @param {Function} props.dispatch A dispatch function to communicate with the Stepper store.
+ * @param {Array} [props.errorFields=[]] The array containing the names of the fields with an invalid value.
+ *
  * @returns {JSX.Element} The SocialInputSectionContainer.
  */
 export default function SocialInputSectionContainer( { socialProfiles, errorFields = [], dispatch } ) {
@@ -51,21 +52,17 @@ export default function SocialInputSectionContainer( { socialProfiles, errorFiel
 	);
 }
 
-SocialInputSectionContainer.propTypes = {
-	socialProfiles: PropTypes.object.isRequired,
-	dispatch: PropTypes.func.isRequired,
-	errorFields: PropTypes.array,
-};
-
 /**
  * The social input section.
  *
- * @param {Object} socialProfiles The social profiles object.
- * @param {function}  onChangeHandler Handler for changing a social profile.
- * @param {function}  onChangeOthersHandler Handler for changing other social profiles.
- * @param {function}  onAddProfileHandler Handler for adding a social profile.
- * @param {function}  onRemoveProfileHandler Handler for removing a social profile.
- * @param {Array} errorFields The array containing the names of the fields with an invalid value.
+ * @param {Object} props Component props.
+ * @param {Object} props.socialProfiles The social profiles object.
+ * @param {Function} props.onChangeHandler Handler for changing a social profile.
+ * @param {Function} props.onChangeOthersHandler Handler for changing other social profiles.
+ * @param {Function} props.onAddProfileHandler Handler for adding a social profile.
+ * @param {Function} props.onRemoveProfileHandler Handler for removing a social profile.
+ * @param {Array} props.errorFields The array containing the names of the fields with an invalid value.
+ *
  * @returns {JSX.Element} The Social Input Section.
  */
 function SocialInputSection( {
@@ -117,12 +114,3 @@ function SocialInputSection( {
 		</div>
 	);
 }
-
-SocialInputSection.propTypes = {
-	socialProfiles: PropTypes.object.isRequired,
-	onChangeHandler: PropTypes.func.isRequired,
-	onChangeOthersHandler: PropTypes.func.isRequired,
-	onAddProfileHandler: PropTypes.func.isRequired,
-	onRemoveProfileHandler: PropTypes.func.isRequired,
-	errorFields: PropTypes.array.isRequired,
-};

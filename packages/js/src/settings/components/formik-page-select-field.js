@@ -6,13 +6,14 @@ import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useField } from "formik";
 import { debounce, find, isEmpty, map, values } from "lodash";
-import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS, FETCH_DELAY } from "../../shared-admin/constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 /**
- * @param {JSX.node} children The children.
- * @param {string} [className] The className.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.children The children.
+ * @param {string} [props.className=""] The className.
+ *
  * @returns {JSX.Element} The page select options content decorator component.
  */
 const PageSelectOptionsContent = ( { children, className = "" } ) => (
@@ -21,15 +22,11 @@ const PageSelectOptionsContent = ( { children, className = "" } ) => (
 	</div>
 );
 
-PageSelectOptionsContent.propTypes = {
-	children: PropTypes.node.isRequired,
-	className: PropTypes.string,
-};
-
 /**
  * @param {Object} props The props object.
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
+ *
  * @returns {JSX.Element} The page select component.
  */
 const FormikPageSelectField = ( { name, id, ...props } ) => {
@@ -136,11 +133,6 @@ const FormikPageSelectField = ( { name, id, ...props } ) => {
 			</>
 		</AutocompleteField>
 	);
-};
-
-FormikPageSelectField.propTypes = {
-	name: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
 };
 
 export default FormikPageSelectField;
