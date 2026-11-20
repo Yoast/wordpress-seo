@@ -8,9 +8,12 @@ use Yoast\WP\SEO\Bulk_Editor\Application\Content_Types\Content_Type_Access_Check
 /**
  * Checks the current user's editing rights for a content type through the WordPress APIs.
  *
- * For post types that map meta capabilities, the editing primitives (edit_posts, edit_published_posts,
- * edit_others_posts) are used. For post types that do not, WordPress maps editing straight to the singular
- * edit_post capability and never registers those primitives, so that single capability is used instead.
+ * The primitive capabilities (edit_posts, edit_published_posts, edit_others_posts) are used for
+ * every post type, mirroring what WordPress itself checks before showing a post type's edit
+ * screen. The singular edit_post capability is never checked here: it is a meta capability that
+ * requires a post ID, and passing it without one triggers "Undefined array key 0" warnings on
+ * every request in plugins - such as bbPress and BuddyBoss - that map their own meta capabilities
+ * for post types registered with `map_meta_cap` set to false.
  */
 class Content_Type_Access_Checker implements Content_Type_Access_Checker_Interface {
 
@@ -28,7 +31,7 @@ class Content_Type_Access_Checker implements Content_Type_Access_Checker_Interfa
 		}
 
 		if ( ! $post_type_object->map_meta_cap ) {
-			return \current_user_can( $post_type_object->cap->edit_post );
+			return \current_user_can( $post_type_object->cap->edit_posts );
 		}
 
 		return \current_user_can( $post_type_object->cap->edit_posts )
@@ -47,10 +50,6 @@ class Content_Type_Access_Checker implements Content_Type_Access_Checker_Interfa
 		$post_type_object = \get_post_type_object( $content_type );
 		if ( $post_type_object === null ) {
 			return false;
-		}
-
-		if ( ! $post_type_object->map_meta_cap ) {
-			return \current_user_can( $post_type_object->cap->edit_post );
 		}
 
 		return \current_user_can( $post_type_object->cap->edit_others_posts );
