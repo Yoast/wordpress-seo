@@ -3,6 +3,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Schema_Aggregation_Endpoint_Feature;
+
 /**
  * The ability that enables or disables the Schema aggregation endpoint feature.
  *
@@ -26,7 +28,7 @@ class Set_Schema_Aggregation_Status_Ability extends Abstract_Set_Option_Status_A
 	 * @return string The option name.
 	 */
 	protected function get_option_name(): string {
-		return 'enable_schema_aggregation_endpoint';
+		return Schema_Aggregation_Endpoint_Feature::OPTION_NAME;
 	}
 
 	/**
@@ -35,7 +37,7 @@ class Set_Schema_Aggregation_Status_Ability extends Abstract_Set_Option_Status_A
 	 * @return string The feature name.
 	 */
 	protected function get_feature_name(): string {
-		return 'Schema aggregation endpoint';
+		return Schema_Aggregation_Endpoint_Feature::NAME;
 	}
 
 	/**

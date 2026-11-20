@@ -4,7 +4,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
+use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\X_Card_Feature;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Set_X_Card_Status_Ability;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -33,6 +35,13 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 	private $feature_status_updater;
 
 	/**
+	 * The X card data feature mock.
+	 *
+	 * @var Mockery\MockInterface|X_Card_Feature
+	 */
+	private $x_card_feature;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Set_X_Card_Status_Ability
@@ -51,10 +60,12 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 
 		$this->capability_helper      = Mockery::mock( Capability_Helper::class );
 		$this->feature_status_updater = Mockery::mock( Feature_Status_Updater::class );
+		$this->x_card_feature         = Mockery::mock( X_Card_Feature::class );
 
 		$this->instance = new Set_X_Card_Status_Ability(
 			$this->capability_helper,
 			$this->feature_status_updater,
+			$this->x_card_feature,
 		);
 	}
 
@@ -96,6 +107,7 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 	/**
 	 * Tests that can_manage_seo checks the management capability and returns its result.
 	 *
+	 * @covers ::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Option_Status_Ability::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::can_manage_seo
@@ -117,21 +129,93 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that execute delegates to the updater with the X card data option and returns its result.
+	 * Expects the X card data option to be written once with the given input.
 	 *
+	 * @param bool                         $enabled The requested status.
+	 * @param array<string, bool>|WP_Error $result  What the feature status updater returns.
+	 *
+	 * @return void
+	 */
+	private function expect_status_write( bool $enabled, $result ): void {
+		$this->feature_status_updater
+			->expects( 'set_status' )
+			->once()
+			->with( 'twitter', [ 'enabled' => $enabled ] )
+			->andReturn( $result );
+	}
+
+	/**
+	 * Tests that execute returns the enabled status without a warning when no code turns the tags off.
+	 *
+	 * @covers ::execute
 	 * @covers ::get_option_name
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Option_Status_Ability::execute
 	 *
 	 * @return void
 	 */
-	public function test_execute() {
-		$this->feature_status_updater
-			->expects( 'set_status' )
+	public function test_execute_enable() {
+		$this->expect_status_write( true, [ 'enabled' => true ] );
+		$this->x_card_feature
+			->expects( 'is_disabled_programmatically' )
 			->once()
-			->with( 'twitter', [ 'enabled' => true ] )
-			->andReturn( [ 'enabled' => true ] );
+			->andReturnFalse();
 
 		$this->assertSame( [ 'enabled' => true ], $this->instance->execute( [ 'enabled' => true ] ) );
+	}
+
+	/**
+	 * Tests that execute returns the enabled status with a warning when code turns the tags off.
+	 *
+	 * @covers ::execute
+	 *
+	 * @return void
+	 */
+	public function test_execute_enable_when_disabled_programmatically() {
+		$this->expect_status_write( true, [ 'enabled' => true ] );
+		$this->x_card_feature
+			->expects( 'is_disabled_programmatically' )
+			->once()
+			->andReturnTrue();
+
+		$this->assertSame(
+			[
+				'enabled' => true,
+				'warning' => 'The X card data feature is enabled, but code on the site, like a filter, turns the X card meta tags off, so the tags are not output until that code is removed.',
+			],
+			$this->instance->execute( [ 'enabled' => true ] ),
+		);
+	}
+
+	/**
+	 * Tests that execute returns the disabled status without checking whether code turns the tags off, as the
+	 * warning is only relevant while the feature is enabled.
+	 *
+	 * @covers ::execute
+	 *
+	 * @return void
+	 */
+	public function test_execute_disable() {
+		$this->expect_status_write( false, [ 'enabled' => false ] );
+		$this->x_card_feature->expects( 'is_disabled_programmatically' )->never();
+
+		$this->assertSame( [ 'enabled' => false ], $this->instance->execute( [ 'enabled' => false ] ) );
+	}
+
+	/**
+	 * Tests that execute passes an error from the feature status updater through without checking whether code
+	 * turns the tags off.
+	 *
+	 * @covers ::execute
+	 *
+	 * @return void
+	 */
+	public function test_execute_passes_errors_through() {
+		$error = Mockery::mock( WP_Error::class );
+
+		$this->expect_status_write( true, $error );
+		$this->x_card_feature->expects( 'is_disabled_programmatically' )->never();
+
+		$this->assertSame( $error, $this->instance->execute( [ 'enabled' => true ] ) );
 	}
 
 	/**
@@ -140,8 +224,8 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 	 * @covers ::get_feature_name
 	 * @covers ::get_label
 	 * @covers ::get_description
+	 * @covers ::get_additional_output_properties
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_args
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_additional_output_properties
 	 *
 	 * @return void
 	 */
@@ -149,7 +233,7 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Set X Card Data Status',
-				'description'         => 'Enable or disable Yoast SEO\'s X card data feature. Enabling it outputs X card meta tags on the site\'s pages, so X can display a preview with an image and a text excerpt when a link to the site is shared; disabling it stops outputting the tags.',
+				'description'         => 'Enable or disable Yoast SEO\'s X card data feature. Enabling it outputs X card meta tags on the site\'s pages, so X can display a preview with an image and a text excerpt when a link to the site is shared; disabling it stops outputting the tags. If code on the site, like a filter, turns the tags off, enabling it has no effect until that code is removed.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',
@@ -168,6 +252,10 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 						'enabled' => [
 							'type'        => 'boolean',
 							'description' => 'Whether Yoast SEO\'s X card data feature is enabled.',
+						],
+						'warning' => [
+							'type'        => 'string',
+							'description' => 'Only present when the feature is enabled but code on the site turns the X card meta tags off. Meant to be relayed to the user.',
 						],
 					],
 				],
