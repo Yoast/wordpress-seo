@@ -18,6 +18,20 @@ class Xml_Sitemap_Feature extends Abstract_Feature {
 	public const KEY = 'xml_sitemap';
 
 	/**
+	 * The name of the boolean option that enables the feature.
+	 *
+	 * @var string
+	 */
+	public const OPTION_NAME = 'enable_xml_sitemap';
+
+	/**
+	 * The human-readable name of the feature.
+	 *
+	 * @var string
+	 */
+	public const NAME = 'XML sitemap';
+
+	/**
 	 * The options helper.
 	 *
 	 * @var Options_Helper
@@ -48,7 +62,7 @@ class Xml_Sitemap_Feature extends Abstract_Feature {
 	 * @return string The option name.
 	 */
 	public function get_option_name(): string {
-		return 'enable_xml_sitemap';
+		return self::OPTION_NAME;
 	}
 
 	/**
@@ -57,7 +71,7 @@ class Xml_Sitemap_Feature extends Abstract_Feature {
 	 * @return string The name.
 	 */
 	public function get_name(): string {
-		return 'XML sitemap';
+		return self::NAME;
 	}
 
 	/**

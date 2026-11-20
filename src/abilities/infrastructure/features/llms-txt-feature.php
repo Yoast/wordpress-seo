@@ -19,6 +19,13 @@ class Llms_Txt_Feature extends Abstract_Feature {
 	public const KEY = 'llms_txt';
 
 	/**
+	 * The human-readable name of the feature.
+	 *
+	 * @var string
+	 */
+	public const NAME = 'llms.txt';
+
+	/**
 	 * The non-multisite conditional.
 	 *
 	 * @var Non_Multisite_Conditional
@@ -58,7 +65,7 @@ class Llms_Txt_Feature extends Abstract_Feature {
 	 * @return string The name.
 	 */
 	public function get_name(): string {
-		return 'llms.txt';
+		return self::NAME;
 	}
 
 	/**

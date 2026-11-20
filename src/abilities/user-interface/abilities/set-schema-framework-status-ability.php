@@ -23,12 +23,21 @@ class Set_Schema_Framework_Status_Ability extends Abstract_Set_Option_Status_Abi
 	}
 
 	/**
-	 * Returns the key of the feature in the feature repository.
+	 * Returns the name of the option that enables the Schema Framework feature.
 	 *
-	 * @return string The feature key.
+	 * @return string The option name.
 	 */
-	protected function get_feature_key(): string {
-		return Schema_Framework_Feature::KEY;
+	protected function get_option_name(): string {
+		return Schema_Framework_Feature::OPTION_NAME;
+	}
+
+	/**
+	 * Returns the human-readable name of the feature.
+	 *
+	 * @return string The feature name.
+	 */
+	protected function get_feature_name(): string {
+		return Schema_Framework_Feature::NAME;
 	}
 
 	/**

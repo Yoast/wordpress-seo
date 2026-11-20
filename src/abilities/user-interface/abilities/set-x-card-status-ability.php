@@ -23,12 +23,21 @@ class Set_X_Card_Status_Ability extends Abstract_Set_Option_Status_Ability {
 	}
 
 	/**
-	 * Returns the key of the feature in the feature repository.
+	 * Returns the name of the option that enables the X card data feature.
 	 *
-	 * @return string The feature key.
+	 * @return string The option name.
 	 */
-	protected function get_feature_key(): string {
-		return X_Card_Feature::KEY;
+	protected function get_option_name(): string {
+		return X_Card_Feature::OPTION_NAME;
+	}
+
+	/**
+	 * Returns the human-readable name of the feature.
+	 *
+	 * @return string The feature name.
+	 */
+	protected function get_feature_name(): string {
+		return X_Card_Feature::NAME;
 	}
 
 	/**

@@ -18,6 +18,20 @@ class Schema_Framework_Feature extends Abstract_Feature {
 	public const KEY = 'schema_framework';
 
 	/**
+	 * The name of the boolean option that enables the feature.
+	 *
+	 * @var string
+	 */
+	public const OPTION_NAME = 'enable_schema';
+
+	/**
+	 * The human-readable name of the feature.
+	 *
+	 * @var string
+	 */
+	public const NAME = 'Schema Framework';
+
+	/**
 	 * The Schema configuration.
 	 *
 	 * @var Schema_Configuration
@@ -48,7 +62,7 @@ class Schema_Framework_Feature extends Abstract_Feature {
 	 * @return string The option name.
 	 */
 	public function get_option_name(): string {
-		return 'enable_schema';
+		return self::OPTION_NAME;
 	}
 
 	/**
@@ -57,7 +71,7 @@ class Schema_Framework_Feature extends Abstract_Feature {
 	 * @return string The name.
 	 */
 	public function get_name(): string {
-		return 'Schema Framework';
+		return self::NAME;
 	}
 
 	/**

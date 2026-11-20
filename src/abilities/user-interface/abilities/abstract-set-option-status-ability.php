@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
-use Yoast\WP\SEO\Abilities\Infrastructure\Features\Feature_Repository;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
@@ -24,18 +23,20 @@ abstract class Abstract_Set_Option_Status_Ability extends Abstract_Set_Feature_S
 	 * Constructor.
 	 *
 	 * @param Capability_Helper      $capability_helper      The capability helper.
-	 * @param Feature_Repository     $feature_repository     The feature repository.
 	 * @param Feature_Status_Updater $feature_status_updater The feature status updater.
 	 */
-	public function __construct(
-		Capability_Helper $capability_helper,
-		Feature_Repository $feature_repository,
-		Feature_Status_Updater $feature_status_updater
-	) {
-		parent::__construct( $capability_helper, $feature_repository );
+	public function __construct( Capability_Helper $capability_helper, Feature_Status_Updater $feature_status_updater ) {
+		parent::__construct( $capability_helper );
 
 		$this->feature_status_updater = $feature_status_updater;
 	}
+
+	/**
+	 * Returns the name of the boolean option that enables the feature.
+	 *
+	 * @return string The option name.
+	 */
+	abstract protected function get_option_name(): string;
 
 	/**
 	 * Enables or disables the feature by writing its option and returns its new status.
@@ -45,6 +46,6 @@ abstract class Abstract_Set_Option_Status_Ability extends Abstract_Set_Feature_S
 	 * @return array<string, bool>|WP_Error The new status, or an error when it could not be saved.
 	 */
 	public function execute( array $input ) {
-		return $this->feature_status_updater->set_status( $this->get_feature()->get_option_name(), $input );
+		return $this->feature_status_updater->set_status( $this->get_option_name(), $input );
 	}
 }

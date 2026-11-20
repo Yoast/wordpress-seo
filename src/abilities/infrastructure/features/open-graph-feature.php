@@ -16,6 +16,20 @@ class Open_Graph_Feature extends Abstract_Feature {
 	public const KEY = 'open_graph';
 
 	/**
+	 * The name of the boolean option that enables the feature.
+	 *
+	 * @var string
+	 */
+	public const OPTION_NAME = 'opengraph';
+
+	/**
+	 * The human-readable name of the feature.
+	 *
+	 * @var string
+	 */
+	public const NAME = 'Open Graph data';
+
+	/**
 	 * Returns the key of the feature.
 	 *
 	 * @return string The key.
@@ -30,7 +44,7 @@ class Open_Graph_Feature extends Abstract_Feature {
 	 * @return string The option name.
 	 */
 	public function get_option_name(): string {
-		return 'opengraph';
+		return self::OPTION_NAME;
 	}
 
 	/**
@@ -39,6 +53,6 @@ class Open_Graph_Feature extends Abstract_Feature {
 	 * @return string The name.
 	 */
 	public function get_name(): string {
-		return 'Open Graph data';
+		return self::NAME;
 	}
 }

@@ -5,8 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
-use Yoast\WP\SEO\Abilities\Domain\Feature_Interface;
-use Yoast\WP\SEO\Abilities\Infrastructure\Features\Feature_Repository;
 use Yoast\WP\SEO\Abilities\Infrastructure\Features\Xml_Sitemap_Feature;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Set_Xml_Sitemap_Status_Ability;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -29,18 +27,18 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	private $capability_helper;
 
 	/**
-	 * The feature repository mock.
-	 *
-	 * @var Mockery\MockInterface|Feature_Repository
-	 */
-	private $feature_repository;
-
-	/**
 	 * The feature status updater mock.
 	 *
 	 * @var Mockery\MockInterface|Feature_Status_Updater
 	 */
 	private $feature_status_updater;
+
+	/**
+	 * The XML sitemap feature mock.
+	 *
+	 * @var Mockery\MockInterface|Xml_Sitemap_Feature
+	 */
+	private $xml_sitemap_feature;
 
 	/**
 	 * The instance under test.
@@ -60,13 +58,13 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 		$this->stubTranslationFunctions();
 
 		$this->capability_helper      = Mockery::mock( Capability_Helper::class );
-		$this->feature_repository     = Mockery::mock( Feature_Repository::class );
 		$this->feature_status_updater = Mockery::mock( Feature_Status_Updater::class );
+		$this->xml_sitemap_feature    = Mockery::mock( Xml_Sitemap_Feature::class );
 
 		$this->instance = new Set_Xml_Sitemap_Status_Ability(
 			$this->capability_helper,
-			$this->feature_repository,
 			$this->feature_status_updater,
+			$this->xml_sitemap_feature,
 		);
 	}
 
@@ -95,11 +93,10 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that is_available follows whether the feature can be changed on the site.
+	 * Tests that is_available follows whether the XML sitemap feature can be changed on the site.
 	 *
-	 * @covers ::get_feature_key
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_feature
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::is_available
+	 * @covers ::__construct
+	 * @covers ::is_available
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
@@ -108,11 +105,7 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_is_available( bool $available ) {
-		$this->feature_repository
-			->expects( 'get' )
-			->once()
-			->with( Xml_Sitemap_Feature::KEY )
-			->andReturn( Mockery::mock( Feature_Interface::class, [ 'is_available' => $available ] ) );
+		$this->xml_sitemap_feature->expects( 'is_available' )->once()->andReturn( $available );
 
 		$this->assertSame( $available, $this->instance->is_available() );
 	}
@@ -143,28 +136,12 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	/**
 	 * Tests that execute delegates to the updater with the XML sitemap option and returns its result.
 	 *
-	 * @covers ::get_feature_key
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_feature
+	 * @covers ::get_option_name
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Option_Status_Ability::execute
 	 *
 	 * @return void
 	 */
 	public function test_execute() {
-		$this->feature_repository
-			->expects( 'get' )
-			->once()
-			->with( Xml_Sitemap_Feature::KEY )
-			->andReturn(
-				Mockery::mock(
-					Feature_Interface::class,
-					[
-						'get_key'         => 'xml_sitemap',
-						'get_option_name' => 'enable_xml_sitemap',
-						'get_name'        => 'XML sitemap',
-					],
-				),
-			);
-
 		$this->feature_status_updater
 			->expects( 'set_status' )
 			->once()
@@ -177,8 +154,7 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	/**
 	 * Tests that get_args returns the expected registration arguments.
 	 *
-	 * @covers ::get_feature_key
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_feature
+	 * @covers ::get_feature_name
 	 * @covers ::get_label
 	 * @covers ::get_description
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_args
@@ -187,21 +163,6 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_args() {
-		$this->feature_repository
-			->expects( 'get' )
-			->once()
-			->with( Xml_Sitemap_Feature::KEY )
-			->andReturn(
-				Mockery::mock(
-					Feature_Interface::class,
-					[
-						'get_key'         => 'xml_sitemap',
-						'get_option_name' => 'enable_xml_sitemap',
-						'get_name'        => 'XML sitemap',
-					],
-				),
-			);
-
 		$this->assertSame(
 			[
 				'label'               => 'Set XML Sitemap Status',

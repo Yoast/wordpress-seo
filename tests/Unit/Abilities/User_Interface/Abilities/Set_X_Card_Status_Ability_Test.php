@@ -5,9 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
-use Yoast\WP\SEO\Abilities\Domain\Feature_Interface;
-use Yoast\WP\SEO\Abilities\Infrastructure\Features\Feature_Repository;
-use Yoast\WP\SEO\Abilities\Infrastructure\Features\X_Card_Feature;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Set_X_Card_Status_Ability;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -27,13 +24,6 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 	 * @var Mockery\MockInterface|Capability_Helper
 	 */
 	private $capability_helper;
-
-	/**
-	 * The feature repository mock.
-	 *
-	 * @var Mockery\MockInterface|Feature_Repository
-	 */
-	private $feature_repository;
 
 	/**
 	 * The feature status updater mock.
@@ -60,12 +50,10 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 		$this->stubTranslationFunctions();
 
 		$this->capability_helper      = Mockery::mock( Capability_Helper::class );
-		$this->feature_repository     = Mockery::mock( Feature_Repository::class );
 		$this->feature_status_updater = Mockery::mock( Feature_Status_Updater::class );
 
 		$this->instance = new Set_X_Card_Status_Ability(
 			$this->capability_helper,
-			$this->feature_repository,
 			$this->feature_status_updater,
 		);
 	}
@@ -95,26 +83,14 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that is_available follows whether the feature can be changed on the site.
+	 * Tests that is_available always returns true, as the feature has no network-level restriction.
 	 *
-	 * @covers ::get_feature_key
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_feature
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::is_available
-	 *
-	 * @dataProvider provide_boolean_outcomes
-	 *
-	 * @param bool $available Whether the feature can be changed on the site.
 	 *
 	 * @return void
 	 */
-	public function test_is_available( bool $available ) {
-		$this->feature_repository
-			->expects( 'get' )
-			->once()
-			->with( X_Card_Feature::KEY )
-			->andReturn( Mockery::mock( Feature_Interface::class, [ 'is_available' => $available ] ) );
-
-		$this->assertSame( $available, $this->instance->is_available() );
+	public function test_is_available() {
+		$this->assertTrue( $this->instance->is_available() );
 	}
 
 	/**
@@ -143,28 +119,12 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 	/**
 	 * Tests that execute delegates to the updater with the X card data option and returns its result.
 	 *
-	 * @covers ::get_feature_key
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_feature
+	 * @covers ::get_option_name
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Option_Status_Ability::execute
 	 *
 	 * @return void
 	 */
 	public function test_execute() {
-		$this->feature_repository
-			->expects( 'get' )
-			->once()
-			->with( X_Card_Feature::KEY )
-			->andReturn(
-				Mockery::mock(
-					Feature_Interface::class,
-					[
-						'get_key'         => 'x_card',
-						'get_option_name' => 'twitter',
-						'get_name'        => 'X card data',
-					],
-				),
-			);
-
 		$this->feature_status_updater
 			->expects( 'set_status' )
 			->once()
@@ -177,8 +137,7 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 	/**
 	 * Tests that get_args returns the expected registration arguments.
 	 *
-	 * @covers ::get_feature_key
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_feature
+	 * @covers ::get_feature_name
 	 * @covers ::get_label
 	 * @covers ::get_description
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_args
@@ -187,21 +146,6 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_args() {
-		$this->feature_repository
-			->expects( 'get' )
-			->once()
-			->with( X_Card_Feature::KEY )
-			->andReturn(
-				Mockery::mock(
-					Feature_Interface::class,
-					[
-						'get_key'         => 'x_card',
-						'get_option_name' => 'twitter',
-						'get_name'        => 'X card data',
-					],
-				),
-			);
-
 		$this->assertSame(
 			[
 				'label'               => 'Set X Card Data Status',

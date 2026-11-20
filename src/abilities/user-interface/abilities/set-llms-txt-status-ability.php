@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Llms_Txt_Status_Updater;
-use Yoast\WP\SEO\Abilities\Infrastructure\Features\Feature_Repository;
 use Yoast\WP\SEO\Abilities\Infrastructure\Features\Llms_Txt_Feature;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
@@ -15,6 +14,13 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
  * Disabling removes the generated file and re-enabling regenerates it.
  */
 class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
+
+	/**
+	 * The llms.txt feature.
+	 *
+	 * @var Llms_Txt_Feature
+	 */
+	private $llms_txt_feature;
 
 	/**
 	 * The llms.txt status updater.
@@ -27,17 +33,28 @@ class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 	 * Constructor.
 	 *
 	 * @param Capability_Helper       $capability_helper       The capability helper.
-	 * @param Feature_Repository      $feature_repository      The feature repository.
+	 * @param Llms_Txt_Feature        $llms_txt_feature        The llms.txt feature.
 	 * @param Llms_Txt_Status_Updater $llms_txt_status_updater The llms.txt status updater.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
-		Feature_Repository $feature_repository,
+		Llms_Txt_Feature $llms_txt_feature,
 		Llms_Txt_Status_Updater $llms_txt_status_updater
 	) {
-		parent::__construct( $capability_helper, $feature_repository );
+		parent::__construct( $capability_helper );
 
+		$this->llms_txt_feature        = $llms_txt_feature;
 		$this->llms_txt_status_updater = $llms_txt_status_updater;
+	}
+
+	/**
+	 * Returns whether the ability is available: the llms.txt feature cannot be enabled on
+	 * multisite installations, so the ability is only offered outside of them.
+	 *
+	 * @return bool Whether the ability is available.
+	 */
+	public function is_available(): bool {
+		return $this->llms_txt_feature->is_available();
 	}
 
 	/**
@@ -61,12 +78,12 @@ class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 	}
 
 	/**
-	 * Returns the key of the feature in the feature repository.
+	 * Returns the human-readable name of the feature.
 	 *
-	 * @return string The feature key.
+	 * @return string The feature name.
 	 */
-	protected function get_feature_key(): string {
-		return Llms_Txt_Feature::KEY;
+	protected function get_feature_name(): string {
+		return Llms_Txt_Feature::NAME;
 	}
 
 	/**
