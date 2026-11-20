@@ -603,4 +603,72 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 
 		$this->assertEquals( $expected, $sitemap_provider->get_first_links( 'page' ) );
 	}
+
+	/**
+	 * Posts that share post_modified must not be repeated or skipped across offsets.
+	 *
+	 * @covers ::get_posts
+	 *
+	 * @return void
+	 */
+	public function test_get_posts_pages_are_stable_when_post_modified_ties() {
+		global $wpdb;
+
+		$post_type = 'yoast_tie_test';
+		$ids       = [];
+
+		for ( $i = 0; $i < 5; $i++ ) {
+			$ids[] = $this->factory->post->create(
+				[
+					'post_type'   => $post_type,
+					'post_status' => 'publish',
+				],
+			);
+		}
+
+		$tied = '2020-01-01 00:00:00';
+
+		foreach ( $ids as $id ) {
+			$wpdb->update(
+				$wpdb->posts,
+				[
+					'post_modified'     => $tied,
+					'post_modified_gmt' => $tied,
+				],
+				[ 'ID' => $id ],
+				[ '%s', '%s' ],
+				[ '%d' ],
+			);
+		}
+
+		$provider = new Post_Type_Sitemap_Provider_Double();
+		$seen     = [];
+		$queries  = [];
+		$order_by = "{$wpdb->posts}.post_modified ASC, {$wpdb->posts}.ID ASC";
+		$listener = static function ( $query ) use ( &$queries, $order_by ) {
+			if ( \strpos( $query, $order_by ) !== false ) {
+				$queries[] = $query;
+			}
+
+			return $query;
+		};
+
+		\add_filter( 'query', $listener );
+
+		for ( $offset = 0; $offset < 6; $offset += 2 ) {
+			foreach ( $provider->get_posts( $post_type, 2, $offset ) as $post ) {
+				$seen[] = (int) $post->ID;
+			}
+		}
+
+		\remove_filter( 'query', $listener );
+
+		\sort( $ids );
+		$unique = $seen;
+		\sort( $unique );
+
+		$this->assertNotEmpty( $queries );
+		$this->assertSame( $ids, \array_values( \array_unique( $unique ) ) );
+		$this->assertCount( \count( $ids ), $seen );
+	}
 }

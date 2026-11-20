@@ -41,4 +41,17 @@ final class Post_Type_Sitemap_Provider_Double extends WPSEO_Post_Type_Sitemap_Pr
 	public function get_first_links( $post_type ) {
 		return parent::get_first_links( $post_type );
 	}
+
+	/**
+	 * Retrieve set of posts with optimized query routine.
+	 *
+	 * @param string $post_type Post type to retrieve.
+	 * @param int    $count     Count of posts to retrieve.
+	 * @param int    $offset    Starting offset.
+	 *
+	 * @return object[]
+	 */
+	public function get_posts( $post_type, $count, $offset ) {
+		return parent::get_posts( $post_type, $count, $offset );
+	}
 }
