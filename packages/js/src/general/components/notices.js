@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import classNames from "classnames";
 import { STORE_NAME } from "../constants";
 import WebinarPromoNotification from "../../components/WebinarPromoNotification";
@@ -6,9 +5,16 @@ import { Notice } from ".";
 
 /**
  * The notices component that renders the notices on the general page.
- * @param {object} props
- * @param {object[]} props.notices The notices to render.
+ *
+ * @param {Object} props Component props.
+ * @param {Object[]} props.notices The notices to render.
+ * @param {string} [props.notices[].id] The notice id.
+ * @param {string} props.notices[].header The notice title.
+ * @param {string} props.notices[].content The notice content.
+ * @param {boolean} props.notices[].isDismissable Whether the notice can be dismissed.
+ * @param {boolean} props.notices[].isDismissed Whether the notice is dismissed.
  * @param {string} props.webinarIntroSettingsUrl The URL to the webinar intro settings page.
+ *
  * @returns {JSX.Element} The notices component.
  */
 export const Notices = ( { notices, webinarIntroSettingsUrl } ) => ( <div>
@@ -37,14 +43,3 @@ export const Notices = ( { notices, webinarIntroSettingsUrl } ) => ( <div>
 	}
 	</div> }
 </div> );
-
-Notices.propTypes = {
-	notices: PropTypes.arrayOf( PropTypes.shape( {
-		id: PropTypes.string,
-		header: PropTypes.string.isRequired,
-		content: PropTypes.string.isRequired,
-		isDismissable: PropTypes.bool.isRequired,
-		isDismissed: PropTypes.bool.isRequired,
-	} ) ).isRequired,
-	webinarIntroSettingsUrl: PropTypes.string.isRequired,
-};

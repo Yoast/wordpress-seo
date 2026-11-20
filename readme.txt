@@ -313,17 +313,22 @@ Release date: 2026-12-01
 
 #### Enhancements
 
+* Adds an \"Edit in bulk\" call-to-action button to the \"Improve default meta descriptions\" task in the task list, linking directly to the bulk editor.
 * Adds the `wpseo_disable_metabox_in_block_editor` filter, which lets the block editor sidebar save post meta via the REST API instead of the metabox hidden fields.
+* Adds `WPSEO_Sitemaps::register_css()` to let add-ons serve a CSS stylesheet for their XML sitemaps.
+* Deprecates `WPSEO_Sitemaps::register_xsl()`, `WPSEO_Sitemaps::xsl_output()` and the `wpseo_xsl_<type>` action.
 * Improves how Yoast abilities explain their responses, settings and limitations to agents.
 * Improves the way we describe post titles and term names to agents to cover cases where custom breadcrumb titles are set.
 * Improves the way we describe to agents how to use permalinks to get and set SEO data of specific posts and terms.
 * Introduces two new Yoast abilities that let agents get and set SEO data for specific author archives.
 * Makes the MyYoast connection available on all sites.
+* Styles the XML sitemaps with a CSS stylesheet.
 
 #### Bugfixes
 
 * Fixes a bug where configuration notices were dismissed by users without settings access. Props to [@jdevalk](https://github.com/jdevalk).
 * Fixes a bug where dismissed notifications were restored without request verification. Props to [@jdevalk](https://github.com/jdevalk).
+* Fixes a bug where elements other than the intended settings tab were clicked when the URL fragment contained selector syntax. Props to jellyo.
 * Fixes a bug where PHP deprecation notices were logged when editing a post on PHP 8.5 and later.
 * Fixes a bug where searching by title in the `get-post-seo-data` ability only returned posts and not pages or other post types.
 * Fixes a bug where site-wide notices were dismissed when contributors called the content-type dismissal routes. Props to [@jdevalk](https://github.com/jdevalk).
@@ -331,10 +336,6 @@ Release date: 2026-12-01
 * Fixes a bug where the highlight buttons would not highlight anything in blocks nested inside other blocks, e.g. paragraphs in columns.
 * Fixes a bug where the Premium activation notice was hidden by unverified dismissal requests. Props to [@jdevalk](https://github.com/jdevalk).
 * Fixes a bug where values that were cleaned up before saving were reported as not saved by the Yoast Abilities that update settings.
-
-#### Other
-
-* Adds an "Edit in bulk" call-to-action button to the "Improve default meta descriptions" task in the task list, linking directly to the bulk editor.
 
 = 28.9 =
 

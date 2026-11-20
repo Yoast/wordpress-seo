@@ -3,7 +3,6 @@ import { useMemo } from "@wordpress/element";
 import { Line } from "react-chartjs-2";
 import { CategoryScale, Chart, LineController,	LineElement, LinearScale, PointElement, TimeScale, Legend, Tooltip, Interaction } from "chart.js";
 import "chartjs-adapter-moment";
-import PropTypes from "prop-types";
 import { noop } from "lodash";
 import moment from "moment";
 import { getRelativePosition } from "chart.js/helpers";
@@ -75,6 +74,14 @@ Interaction.modes.xPoint = ( chart, e, _, useFinalPosition ) => {
  * Renders the Wincher ranking history chart.
  *
  * @param {Object} props The ranking history props.
+ * @param {Object[]} props.datasets The ranking history per keyphrase.
+ * @param {string} props.datasets[].label The keyphrase the dataset belongs to.
+ * @param {Object[]} props.datasets[].data The ranking history points.
+ * @param {string} props.datasets[].data[].datetime The date and time of the ranking.
+ * @param {number} props.datasets[].data[].value The ranking position.
+ * @param {boolean} [props.datasets[].selected] Whether the dataset is shown. Only `false` hides it.
+ * @param {boolean} props.isChartShown Whether to render the chart.
+ * @param {Array} props.keyphrases The keyphrases, used to assign a stable color to each dataset.
  *
  * @returns {null|wp.Element} The Wincher ranking history chart.
  */
@@ -171,20 +178,3 @@ export default function WincherRankingHistoryChart( { datasets, isChartShown, ke
 		/>
 	);
 }
-
-WincherRankingHistoryChart.propTypes = {
-	datasets: PropTypes.arrayOf(
-		PropTypes.shape( {
-			label: PropTypes.string.isRequired,
-			data: PropTypes.arrayOf(
-				PropTypes.shape( {
-					datetime: PropTypes.string.isRequired,
-					value: PropTypes.number.isRequired,
-				} )
-			).isRequired,
-			selected: PropTypes.bool,
-		} )
-	).isRequired,
-	isChartShown: PropTypes.bool.isRequired,
-	keyphrases: PropTypes.array.isRequired,
-};
