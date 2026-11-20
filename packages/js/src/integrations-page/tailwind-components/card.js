@@ -31,7 +31,7 @@ const Content = ( { children = null } ) => (
  * @returns  {JSX.Element} The footer.
  */
 const Footer = ( { children = null } ) => (
-	<footer className="yst-border-t yst-border-slate-200 yst-pt-6">
+	<footer className="yst-border-t yst-border-slate-200 yst-pt-6 yst-border-solid">
 		{ children }
 	</footer>
 );
@@ -46,7 +46,7 @@ const Footer = ( { children = null } ) => (
 export const Card = ( { children = null, className = "" } ) => (
 	<div
 		className={ classNames(
-			"yst-relative yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-border yst-p-6 yst-space-y-6 yst-overflow-hidden yst-transition-transform yst-ease-in-out yst-duration-200 yst-shadow-sm",
+			"yst-relative yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-border yst-p-6 yst-space-y-6 yst-overflow-hidden yst-transition-transform yst-ease-in-out yst-duration-200 yst-shadow-sm yst-border-solid",
 			className
 		) }
 	>

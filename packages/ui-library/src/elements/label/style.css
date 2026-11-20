@@ -1,10 +1,8 @@
 @layer components {
-	.yst-root {
-		.yst-label {
-			@apply
-			yst-text-sm
-			yst-font-medium
-			yst-text-slate-800;
-		}
+	.yst-label {
+		@apply
+		yst-text-sm
+		yst-font-medium
+		yst-text-slate-800;
 	}
 }

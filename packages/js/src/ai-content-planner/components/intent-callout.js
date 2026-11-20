@@ -20,7 +20,7 @@ export const IntentCallout = ( { intent, description } ) => {
 	return (
 		<div
 			role="note"
-			className={ classNames( "yst-border yst-rounded-md yst-p-4 yst-flex yst-flex-col yst-gap-2", calloutClasses ) }
+			className={ classNames( "yst-border yst-rounded-md yst-p-4 yst-flex yst-flex-col yst-gap-2 yst-border-solid", calloutClasses ) }
 		>
 			<div className="yst-flex yst-items-center yst-gap-2">
 				<IntentBadge intent={ intent } tooltipPosition="bottom-right" />

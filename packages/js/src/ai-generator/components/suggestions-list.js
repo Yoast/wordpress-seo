@@ -23,7 +23,7 @@ const Suggestion = ( { id, name, suggestion, isChecked, onChange } ) => {
 		<label
 			htmlFor={ id }
 			className={ classNames(
-				"yst-flex yst-p-4 yst-items-center yst-border first:yst-rounded-t-md last:yst-rounded-b-md",
+				"yst-flex yst-p-4 yst-items-center yst-border first:yst-rounded-t-md last:yst-rounded-b-md yst-border-solid",
 				isChecked && "yst-z-10 yst-border-primary-500"
 			) }
 		>

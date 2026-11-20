@@ -4,6 +4,11 @@
  *
  * Source: https://raw.githubusercontent.com/tailwindlabs/tailwindcss/refs/tags/v3.4.16/src/css/preflight.css
  * Changed `html` and `body` to affect the `.yst-root` instead.
+ *
+ * Element and pseudo-class selectors are wrapped in `:where()`, so each reset has the
+ * specificity of `.yst-root` alone (0,1,0), the same as a component class like `.yst-button`.
+ * Tailwind emits the base layer before the components layer, so on that tie the component wins
+ * by source order. Pseudo-elements cannot go inside `:where()` and are left as they are.
  */
 @layer base {
 	.yst-root {
@@ -62,7 +67,7 @@
 		3. Ensure horizontal rules are visible by default.
 		*/
 
-		hr {
+		:where(hr) {
 			height: 0; /* 1 */
 			color: inherit; /* 2 */
 			border-top-width: 1px; /* 3 */
@@ -72,7 +77,7 @@
 		Add the correct text decoration in Chrome, Edge, and Safari.
 		*/
 
-		abbr:where([title]) {
+		:where(abbr[title]) {
 			text-decoration: underline dotted;
 		}
 
@@ -80,12 +85,7 @@
 		Remove the default font size and weight for headings.
 		*/
 
-		h1,
-		h2,
-		h3,
-		h4,
-		h5,
-		h6 {
+		:where(h1, h2, h3, h4, h5, h6) {
 			font-size: inherit;
 			font-weight: inherit;
 		}
@@ -94,7 +94,7 @@
 		Reset links to optimize for opt-in styling instead of opt-out.
 		*/
 
-		a {
+		:where(a) {
 			color: inherit;
 			text-decoration: inherit;
 		}
@@ -103,8 +103,7 @@
 		Add the correct font weight in Edge and Safari.
 		*/
 
-		b,
-		strong {
+		:where(b, strong) {
 			font-weight: bolder;
 		}
 
@@ -115,10 +114,7 @@
 		4. Correct the odd `em` font sizing in all browsers.
 		*/
 
-		code,
-		kbd,
-		samp,
-		pre {
+		:where(code, kbd, samp, pre) {
 			font-family: theme('fontFamily.mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace); /* 1 */
 			font-feature-settings: theme('fontFamily.mono[1].fontFeatureSettings', normal); /* 2 */
 			font-variation-settings: theme('fontFamily.mono[1].fontVariationSettings', normal); /* 3 */
@@ -129,7 +125,7 @@
 		Add the correct font size in all browsers.
 		*/
 
-		small {
+		:where(small) {
 			font-size: 80%;
 		}
 
@@ -137,19 +133,18 @@
 		Prevent `sub` and `sup` elements from affecting the line height in all browsers.
 		*/
 
-		sub,
-		sup {
+		:where(sub, sup) {
 			font-size: 75%;
 			line-height: 0;
 			position: relative;
 			vertical-align: baseline;
 		}
 
-		sub {
+		:where(sub) {
 			bottom: -0.25em;
 		}
 
-		sup {
+		:where(sup) {
 			top: -0.5em;
 		}
 
@@ -159,7 +154,7 @@
 		3. Remove gaps between table borders by default.
 		*/
 
-		table {
+		:where(table) {
 			text-indent: 0; /* 1 */
 			border-color: inherit; /* 2 */
 			border-collapse: collapse; /* 3 */
@@ -171,11 +166,7 @@
 		3. Remove default padding in all browsers.
 		*/
 
-		button,
-		input,
-		optgroup,
-		select,
-		textarea {
+		:where(button, input, optgroup, select, textarea) {
 			font-family: inherit; /* 1 */
 			font-feature-settings: inherit; /* 1 */
 			font-variation-settings: inherit; /* 1 */
@@ -192,8 +183,7 @@
 		Remove the inheritance of text transform in Edge and Firefox.
 		*/
 
-		button,
-		select {
+		:where(button, select) {
 			text-transform: none;
 		}
 
@@ -202,10 +192,7 @@
 		2. Remove default button styles.
 		*/
 
-		button,
-		input:where([type='button']),
-		input:where([type='reset']),
-		input:where([type='submit']) {
+		:where(button, input[type='button'], input[type='reset'], input[type='submit']) {
 			-webkit-appearance: button; /* 1 */
 			background-color: transparent; /* 2 */
 			background-image: none; /* 2 */
@@ -215,7 +202,7 @@
 		Use the modern Firefox focus style for all focusable elements.
 		*/
 
-		:-moz-focusring {
+		:where(:-moz-focusring) {
 			outline: auto;
 		}
 
@@ -223,7 +210,7 @@
 		Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
 		*/
 
-		:-moz-ui-invalid {
+		:where(:-moz-ui-invalid) {
 			box-shadow: none;
 		}
 
@@ -231,7 +218,7 @@
 		Add the correct vertical alignment in Chrome and Firefox.
 		*/
 
-		progress {
+		:where(progress) {
 			vertical-align: baseline;
 		}
 
@@ -249,7 +236,7 @@
 		2. Correct the outline style in Safari.
 		*/
 
-		[type='search'] {
+		:where([type='search']) {
 			-webkit-appearance: textfield; /* 1 */
 			outline-offset: -2px; /* 2 */
 		}
@@ -276,7 +263,7 @@
 		Add the correct display in Chrome and Safari.
 		*/
 
-		summary {
+		:where(summary) {
 			display: list-item;
 		}
 
@@ -284,34 +271,20 @@
 		Removes the default spacing and border for appropriate elements.
 		*/
 
-		blockquote,
-		dl,
-		dd,
-		h1,
-		h2,
-		h3,
-		h4,
-		h5,
-		h6,
-		hr,
-		figure,
-		p,
-		pre {
+		:where(blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre) {
 			margin: 0;
 		}
 
-		fieldset {
+		:where(fieldset) {
 			margin: 0;
 			padding: 0;
 		}
 
-		legend {
+		:where(legend) {
 			padding: 0;
 		}
 
-		ol,
-		ul,
-		menu {
+		:where(ol, ul, menu) {
 			list-style: none;
 			margin: 0;
 			padding: 0;
@@ -321,7 +294,7 @@
 		Reset default styling for dialogs.
 		*/
 
-		dialog {
+		:where(dialog) {
 			padding: 0;
 		}
 
@@ -329,7 +302,7 @@
 		Prevent resizing textareas horizontally by default.
 		*/
 
-		textarea {
+		:where(textarea) {
 			resize: vertical;
 		}
 
@@ -338,8 +311,8 @@
 		2. Set the default placeholder color to the user's configured gray 400 color.
 		*/
 
-		input::placeholder,
-		textarea::placeholder {
+		:where(input)::placeholder,
+		:where(textarea)::placeholder {
 			opacity: 1; /* 1 */
 			color: theme('colors.gray.400', #9ca3af); /* 2 */
 		}
@@ -348,8 +321,7 @@
 		Set the default cursor for buttons.
 		*/
 
-		button,
-		[role="button"] {
+		:where(button, [role="button"]) {
 			cursor: pointer;
 		}
 
@@ -357,7 +329,7 @@
 		Make sure disabled buttons don't get the pointer cursor.
 		*/
 
-		:disabled {
+		:where(:disabled) {
 			cursor: default;
 		}
 
@@ -367,14 +339,7 @@
 		   This can trigger a poorly considered lint error in some tools but is included by design.
 		*/
 
-		img,
-		svg,
-		video,
-		canvas,
-		audio,
-		iframe,
-		embed,
-		object {
+		:where(img, svg, video, canvas, audio, iframe, embed, object) {
 			display: block; /* 1 */
 			vertical-align: middle; /* 2 */
 		}
@@ -383,8 +348,7 @@
 		Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
 		*/
 
-		img,
-		video {
+		:where(img, video) {
 			max-width: 100%;
 			height: auto;
 		}
@@ -398,44 +362,261 @@
 }
 
 /**
+ * The same preflight, for elements that carry a yst- class themselves, so components also render without a
+ * `.yst-root` ancestor. Element selectors are (0,0,1): they tie with host element rules such as WordPress's
+ * `p { margin: 1em 0 }` and win by load order, while any component class (0,1,0) or utility still overrides
+ * them. The typography `.yst-root` sets on itself is left out, so components keep inheriting it.
+ */
+@layer base {
+	:where([class^="yst-"], [class*=" yst-"]),
+	:where([class^="yst-"], [class*=" yst-"])::before,
+	:where([class^="yst-"], [class*=" yst-"])::after {
+		box-sizing: border-box; /* 1 */
+		border-width: 0; /* 2 */
+		border-style: solid; /* 2 */
+		border-color: theme('borderColor.DEFAULT', currentColor); /* 2 */
+	}
+
+	:where([class^="yst-"], [class*=" yst-"])::before,
+	:where([class^="yst-"], [class*=" yst-"])::after {
+		--tw-content: '';
+	}
+
+	hr:where([class^="yst-"], [class*=" yst-"]) {
+		height: 0; /* 1 */
+		color: inherit; /* 2 */
+		border-top-width: 1px; /* 3 */
+	}
+
+	abbr:where([title]):where([class^="yst-"], [class*=" yst-"]) {
+		text-decoration: underline dotted;
+	}
+
+	h1:where([class^="yst-"], [class*=" yst-"]),
+	h2:where([class^="yst-"], [class*=" yst-"]),
+	h3:where([class^="yst-"], [class*=" yst-"]),
+	h4:where([class^="yst-"], [class*=" yst-"]),
+	h5:where([class^="yst-"], [class*=" yst-"]),
+	h6:where([class^="yst-"], [class*=" yst-"]) {
+		font-size: inherit;
+		font-weight: inherit;
+	}
+
+	a:where([class^="yst-"], [class*=" yst-"]) {
+		color: inherit;
+		text-decoration: inherit;
+	}
+
+	b:where([class^="yst-"], [class*=" yst-"]),
+	strong:where([class^="yst-"], [class*=" yst-"]) {
+		font-weight: bolder;
+	}
+
+	code:where([class^="yst-"], [class*=" yst-"]),
+	kbd:where([class^="yst-"], [class*=" yst-"]),
+	samp:where([class^="yst-"], [class*=" yst-"]),
+	pre:where([class^="yst-"], [class*=" yst-"]) {
+		font-family: theme('fontFamily.mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace); /* 1 */
+		font-feature-settings: theme('fontFamily.mono[1].fontFeatureSettings', normal); /* 2 */
+		font-variation-settings: theme('fontFamily.mono[1].fontVariationSettings', normal); /* 3 */
+		font-size: 1em; /* 4 */
+	}
+
+	small:where([class^="yst-"], [class*=" yst-"]) {
+		font-size: 80%;
+	}
+
+	sub:where([class^="yst-"], [class*=" yst-"]),
+	sup:where([class^="yst-"], [class*=" yst-"]) {
+		font-size: 75%;
+		line-height: 0;
+		position: relative;
+		vertical-align: baseline;
+	}
+
+	sub:where([class^="yst-"], [class*=" yst-"]) {
+		bottom: -0.25em;
+	}
+
+	sup:where([class^="yst-"], [class*=" yst-"]) {
+		top: -0.5em;
+	}
+
+	table:where([class^="yst-"], [class*=" yst-"]) {
+		text-indent: 0; /* 1 */
+		border-color: inherit; /* 2 */
+		border-collapse: collapse; /* 3 */
+	}
+
+	button:where([class^="yst-"], [class*=" yst-"]),
+	input:where([class^="yst-"], [class*=" yst-"]),
+	optgroup:where([class^="yst-"], [class*=" yst-"]),
+	select:where([class^="yst-"], [class*=" yst-"]),
+	textarea:where([class^="yst-"], [class*=" yst-"]) {
+		font-family: inherit; /* 1 */
+		font-feature-settings: inherit; /* 1 */
+		font-variation-settings: inherit; /* 1 */
+		font-size: 100%; /* 1 */
+		font-weight: inherit; /* 1 */
+		line-height: inherit; /* 1 */
+		letter-spacing: inherit; /* 1 */
+		color: inherit; /* 1 */
+		margin: 0; /* 2 */
+		padding: 0; /* 3 */
+	}
+
+	button:where([class^="yst-"], [class*=" yst-"]),
+	select:where([class^="yst-"], [class*=" yst-"]) {
+		text-transform: none;
+	}
+
+	button:where([class^="yst-"], [class*=" yst-"]),
+	input:where([type='button']):where([class^="yst-"], [class*=" yst-"]),
+	input:where([type='reset']):where([class^="yst-"], [class*=" yst-"]),
+	input:where([type='submit']):where([class^="yst-"], [class*=" yst-"]) {
+		-webkit-appearance: button; /* 1 */
+		background-color: transparent; /* 2 */
+		background-image: none; /* 2 */
+	}
+
+	:where(:-moz-focusring):where([class^="yst-"], [class*=" yst-"]) {
+		outline: auto;
+	}
+
+	:where(:-moz-ui-invalid):where([class^="yst-"], [class*=" yst-"]) {
+		box-shadow: none;
+	}
+
+	progress:where([class^="yst-"], [class*=" yst-"]) {
+		vertical-align: baseline;
+	}
+
+	:where([class^="yst-"], [class*=" yst-"])::-webkit-inner-spin-button,
+	:where([class^="yst-"], [class*=" yst-"])::-webkit-outer-spin-button {
+		height: auto;
+	}
+
+	:where([type='search']):where([class^="yst-"], [class*=" yst-"]) {
+		-webkit-appearance: textfield; /* 1 */
+		outline-offset: -2px; /* 2 */
+	}
+
+	:where([class^="yst-"], [class*=" yst-"])::-webkit-search-decoration {
+		-webkit-appearance: none;
+	}
+
+	:where([class^="yst-"], [class*=" yst-"])::-webkit-file-upload-button {
+		-webkit-appearance: button; /* 1 */
+		font: inherit; /* 2 */
+	}
+
+	summary:where([class^="yst-"], [class*=" yst-"]) {
+		display: list-item;
+	}
+
+	blockquote:where([class^="yst-"], [class*=" yst-"]),
+	dl:where([class^="yst-"], [class*=" yst-"]),
+	dd:where([class^="yst-"], [class*=" yst-"]),
+	h1:where([class^="yst-"], [class*=" yst-"]),
+	h2:where([class^="yst-"], [class*=" yst-"]),
+	h3:where([class^="yst-"], [class*=" yst-"]),
+	h4:where([class^="yst-"], [class*=" yst-"]),
+	h5:where([class^="yst-"], [class*=" yst-"]),
+	h6:where([class^="yst-"], [class*=" yst-"]),
+	hr:where([class^="yst-"], [class*=" yst-"]),
+	figure:where([class^="yst-"], [class*=" yst-"]),
+	p:where([class^="yst-"], [class*=" yst-"]),
+	pre:where([class^="yst-"], [class*=" yst-"]) {
+		margin: 0;
+	}
+
+	fieldset:where([class^="yst-"], [class*=" yst-"]) {
+		margin: 0;
+		padding: 0;
+	}
+
+	legend:where([class^="yst-"], [class*=" yst-"]) {
+		padding: 0;
+	}
+
+	ol:where([class^="yst-"], [class*=" yst-"]),
+	ul:where([class^="yst-"], [class*=" yst-"]),
+	menu:where([class^="yst-"], [class*=" yst-"]) {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	dialog:where([class^="yst-"], [class*=" yst-"]) {
+		padding: 0;
+	}
+
+	textarea:where([class^="yst-"], [class*=" yst-"]) {
+		resize: vertical;
+	}
+
+	input:where([class^="yst-"], [class*=" yst-"])::placeholder,
+	textarea:where([class^="yst-"], [class*=" yst-"])::placeholder {
+		opacity: 1; /* 1 */
+		color: theme('colors.gray.400', #9ca3af); /* 2 */
+	}
+
+	button:where([class^="yst-"], [class*=" yst-"]),
+	:where([role="button"]):where([class^="yst-"], [class*=" yst-"]) {
+		cursor: pointer;
+	}
+
+	:where(:disabled):where([class^="yst-"], [class*=" yst-"]) {
+		cursor: default;
+	}
+
+	img:where([class^="yst-"], [class*=" yst-"]),
+	svg:where([class^="yst-"], [class*=" yst-"]),
+	video:where([class^="yst-"], [class*=" yst-"]),
+	canvas:where([class^="yst-"], [class*=" yst-"]),
+	audio:where([class^="yst-"], [class*=" yst-"]),
+	iframe:where([class^="yst-"], [class*=" yst-"]),
+	embed:where([class^="yst-"], [class*=" yst-"]),
+	object:where([class^="yst-"], [class*=" yst-"]) {
+		display: block; /* 1 */
+		vertical-align: middle; /* 2 */
+	}
+
+	img:where([class^="yst-"], [class*=" yst-"]),
+	video:where([class^="yst-"], [class*=" yst-"]) {
+		max-width: 100%;
+		height: auto;
+	}
+}
+
+/**
  * Styles from Tailwind CSS forms, but scoped to the Yoast root class.
  *
  * See: https://github.com/tailwindlabs/tailwindcss-forms#using-classes-to-style
  */
 @layer base {
 	.yst-root {
-		[type='text'],
-		[type='email'],
-		[type='url'],
-		[type='password'],
-		[type='number'],
-		[type='date'],
-		[type='datetime-local'],
-		[type='month'],
-		[type='search'],
-		[type='tel'],
-		[type='time'],
-		[type='week'] {
+		:where([type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week']) {
 			@apply yst-form-input;
 		}
 
-		textarea {
+		:where(textarea) {
 			@apply yst-form-textarea;
 		}
 
-		select {
+		:where(select) {
 			@apply yst-form-select;
 		}
 
-		select[multiple] {
+		:where(select[multiple]) {
 			@apply yst-form-multiselect;
 		}
 
-		[type='checkbox'] {
+		:where([type='checkbox']) {
 			@apply yst-form-checkbox;
 		}
 
-		[type='radio'] {
+		:where([type='radio']) {
 			@apply yst-form-radio;
 		}
 	}
@@ -454,7 +635,7 @@
 		yst-leading-normal
 		yst-antialiased;
 
-		a {
+		:where(a) {
 			@apply
 			yst-underline
 			yst-text-indigo-600
@@ -469,23 +650,11 @@
 			visited:hover:yst-text-primary-400;
 		}
 
-		[type='text'],
-		[type='email'],
-		[type='url'],
-		[type='password'],
-		[type='number'],
-		[type='date'],
-		[type='datetime-local'],
-		[type='month'],
-		[type='search'],
-		[type='tel'],
-		[type='time'],
-		[type='week'],
-		textarea {
+		:where([type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], textarea) {
 			@apply yst-placeholder-slate-500;
 		}
 
-		svg path {
+		:where(svg) path {
 			stroke-width: inherit;
 		}
 	}

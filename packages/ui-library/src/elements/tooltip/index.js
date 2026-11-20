@@ -21,7 +21,7 @@ const variantClassNameMap = {
 /**
  * @param {JSX.node} children Content of the tooltip.
  * @param {string|JSX.Element} [as] Base component.
- * @param {string} [className] CSS class.
+ * @param {string} [className=""] CSS class.
  * @param {string} [position] Position of the tooltip.
  * @param {string} [variant] Variant of the tooltip.
  * @returns {JSX.Element} Tooltip component.

@@ -18,7 +18,7 @@ export const SuggestionsListSkeleton = ( { suggestionClassNames = DEFAULT_SUGGES
 		{ suggestionClassNames.map( ( suggestions, index ) => (
 			<div
 				key={ `yst-ai-suggestion-radio-skeleton__${ index }` }
-				className="yst-flex yst-p-4 yst-gap-x-3 yst-items-center yst-border first:yst-rounded-t-md last:yst-rounded-b-md"
+				className="yst-flex yst-p-4 yst-gap-x-3 yst-items-center yst-border first:yst-rounded-t-md last:yst-rounded-b-md yst-border-solid"
 			>
 				<input type="radio" disabled={ true } className="yst-my-0.5" />
 				<div className="yst-flex yst-flex-col yst-w-full">

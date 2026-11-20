@@ -10,7 +10,7 @@ import { Title } from "@yoast/ui-library";
  * @returns {JSX.Element} The page header.
  */
 export const BulkEditorPageHeader = ( { title, description = null } ) => (
-	<header className="yst-p-8 yst-border-b yst-border-slate-200">
+	<header className="yst-p-8 yst-border-b yst-border-slate-200 yst-border-solid">
 		<div className="yst-max-w-screen-sm">
 			<Title>{ title }</Title>
 			{ description && <p className="yst-text-tiny yst-mt-3">{ description }</p> }
