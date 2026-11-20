@@ -55,4 +55,14 @@ class X_Card_Feature extends Abstract_Feature {
 	public function get_name(): string {
 		return self::NAME;
 	}
+
+	/**
+	 * Returns whether code other than the setting turns the feature off, through the `wpseo_output_twitter_card`
+	 * filter.
+	 *
+	 * @return bool Whether the feature is turned off programmatically.
+	 */
+	public function is_disabled_programmatically(): bool {
+		return \apply_filters( 'wpseo_output_twitter_card', true ) === false;
+	}
 }

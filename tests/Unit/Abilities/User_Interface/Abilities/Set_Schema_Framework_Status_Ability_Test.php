@@ -4,7 +4,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
+use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Schema_Framework_Feature;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Set_Schema_Framework_Status_Ability;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -33,6 +35,13 @@ final class Set_Schema_Framework_Status_Ability_Test extends TestCase {
 	private $feature_status_updater;
 
 	/**
+	 * The Schema Framework feature mock.
+	 *
+	 * @var Mockery\MockInterface|Schema_Framework_Feature
+	 */
+	private $schema_framework_feature;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Set_Schema_Framework_Status_Ability
@@ -49,12 +58,14 @@ final class Set_Schema_Framework_Status_Ability_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->capability_helper      = Mockery::mock( Capability_Helper::class );
-		$this->feature_status_updater = Mockery::mock( Feature_Status_Updater::class );
+		$this->capability_helper        = Mockery::mock( Capability_Helper::class );
+		$this->feature_status_updater   = Mockery::mock( Feature_Status_Updater::class );
+		$this->schema_framework_feature = Mockery::mock( Schema_Framework_Feature::class );
 
 		$this->instance = new Set_Schema_Framework_Status_Ability(
 			$this->capability_helper,
 			$this->feature_status_updater,
+			$this->schema_framework_feature,
 		);
 	}
 
@@ -96,6 +107,7 @@ final class Set_Schema_Framework_Status_Ability_Test extends TestCase {
 	/**
 	 * Tests that can_manage_seo checks the management capability and returns its result.
 	 *
+	 * @covers ::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Option_Status_Ability::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::__construct
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::can_manage_seo
@@ -117,21 +129,93 @@ final class Set_Schema_Framework_Status_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that execute delegates to the updater with the Schema Framework option and returns its result.
+	 * Expects the Schema Framework option to be written once with the given input.
 	 *
+	 * @param bool                         $enabled The requested status.
+	 * @param array<string, bool>|WP_Error $result  What the feature status updater returns.
+	 *
+	 * @return void
+	 */
+	private function expect_status_write( bool $enabled, $result ): void {
+		$this->feature_status_updater
+			->expects( 'set_status' )
+			->once()
+			->with( 'enable_schema', [ 'enabled' => $enabled ] )
+			->andReturn( $result );
+	}
+
+	/**
+	 * Tests that execute returns the enabled status without a warning when no code turns the graph off.
+	 *
+	 * @covers ::execute
 	 * @covers ::get_option_name
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Option_Status_Ability::execute
 	 *
 	 * @return void
 	 */
-	public function test_execute() {
-		$this->feature_status_updater
-			->expects( 'set_status' )
+	public function test_execute_enable() {
+		$this->expect_status_write( true, [ 'enabled' => true ] );
+		$this->schema_framework_feature
+			->expects( 'is_disabled_programmatically' )
 			->once()
-			->with( 'enable_schema', [ 'enabled' => true ] )
-			->andReturn( [ 'enabled' => true ] );
+			->andReturnFalse();
 
 		$this->assertSame( [ 'enabled' => true ], $this->instance->execute( [ 'enabled' => true ] ) );
+	}
+
+	/**
+	 * Tests that execute returns the enabled status with a warning when code turns the graph off.
+	 *
+	 * @covers ::execute
+	 *
+	 * @return void
+	 */
+	public function test_execute_enable_when_disabled_programmatically() {
+		$this->expect_status_write( true, [ 'enabled' => true ] );
+		$this->schema_framework_feature
+			->expects( 'is_disabled_programmatically' )
+			->once()
+			->andReturnTrue();
+
+		$this->assertSame(
+			[
+				'enabled' => true,
+				'warning' => 'The Schema Framework feature is enabled, but code on the site, like a filter, turns the structured data graph off, so the graph is not output until that code is removed.',
+			],
+			$this->instance->execute( [ 'enabled' => true ] ),
+		);
+	}
+
+	/**
+	 * Tests that execute returns the disabled status without checking whether code turns the graph off, as the
+	 * warning is only relevant while the feature is enabled.
+	 *
+	 * @covers ::execute
+	 *
+	 * @return void
+	 */
+	public function test_execute_disable() {
+		$this->expect_status_write( false, [ 'enabled' => false ] );
+		$this->schema_framework_feature->expects( 'is_disabled_programmatically' )->never();
+
+		$this->assertSame( [ 'enabled' => false ], $this->instance->execute( [ 'enabled' => false ] ) );
+	}
+
+	/**
+	 * Tests that execute passes an error from the feature status updater through without checking whether code
+	 * turns the graph off.
+	 *
+	 * @covers ::execute
+	 *
+	 * @return void
+	 */
+	public function test_execute_passes_errors_through() {
+		$error = Mockery::mock( WP_Error::class );
+
+		$this->expect_status_write( true, $error );
+		$this->schema_framework_feature->expects( 'is_disabled_programmatically' )->never();
+
+		$this->assertSame( $error, $this->instance->execute( [ 'enabled' => true ] ) );
 	}
 
 	/**
@@ -140,8 +224,8 @@ final class Set_Schema_Framework_Status_Ability_Test extends TestCase {
 	 * @covers ::get_feature_name
 	 * @covers ::get_label
 	 * @covers ::get_description
+	 * @covers ::get_additional_output_properties
 	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_args
-	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Set_Feature_Status_Ability::get_additional_output_properties
 	 *
 	 * @return void
 	 */
@@ -149,7 +233,7 @@ final class Set_Schema_Framework_Status_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Set Schema Framework Status',
-				'description'         => 'Enable or disable Yoast SEO\'s Schema Framework feature. Enabling it outputs a single structured data graph (JSON-LD) on the site\'s pages, so search engines and language models can consistently read every person, product, organization, and piece of content; disabling it stops outputting the graph.',
+				'description'         => 'Enable or disable Yoast SEO\'s Schema Framework feature. Enabling it outputs a single structured data graph (JSON-LD) on the site\'s pages, so search engines and language models can consistently read every person, product, organization, and piece of content; disabling it stops outputting the graph. If code on the site, like a filter, turns the graph off, enabling it has no effect until that code is removed.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',
@@ -168,6 +252,10 @@ final class Set_Schema_Framework_Status_Ability_Test extends TestCase {
 						'enabled' => [
 							'type'        => 'boolean',
 							'description' => 'Whether Yoast SEO\'s Schema Framework feature is enabled.',
+						],
+						'warning' => [
+							'type'        => 'string',
+							'description' => 'Only present when the feature is enabled but code on the site turns the structured data graph off. Meant to be relayed to the user.',
 						],
 					],
 				],
