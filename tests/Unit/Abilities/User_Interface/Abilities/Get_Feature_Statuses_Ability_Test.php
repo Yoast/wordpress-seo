@@ -179,7 +179,7 @@ final class Get_Feature_Statuses_Ability_Test extends TestCase {
 		$this->assertEquals(
 			[
 				'label'               => 'Get Feature Statuses',
-				'description'         => 'Get whether Yoast SEO features like the XML sitemap and Open Graph data are enabled. A feature that cannot be turned on or off on this site, like llms.txt on multisite, is listed too. A feature counts as disabled when code on the site, like a filter, turns it off, even if its setting is on.',
+				'description'         => 'Get whether Yoast SEO features like the XML sitemap and Open Graph data are enabled. A feature that cannot be turned on or off on this site is listed too: for example, llms.txt on multisite, or XML sitemaps when a network admin has disallowed them for the sites of the network. A feature counts as disabled when code on the site, like a filter, turns it off, even if its setting is on.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',

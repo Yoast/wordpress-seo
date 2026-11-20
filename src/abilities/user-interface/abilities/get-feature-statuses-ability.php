@@ -117,7 +117,7 @@ class Get_Feature_Statuses_Ability implements Ability_Interface {
 			'label'               => \__( 'Get Feature Statuses', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: %s expands to Yoast SEO. */
-				\__( 'Get whether %s features like the XML sitemap and Open Graph data are enabled. A feature that cannot be turned on or off on this site, like llms.txt on multisite, is listed too. A feature counts as disabled when code on the site, like a filter, turns it off, even if its setting is on.', 'wordpress-seo' ),
+				\__( 'Get whether %s features like the XML sitemap and Open Graph data are enabled. A feature that cannot be turned on or off on this site is listed too: for example, llms.txt on multisite, or XML sitemaps when a network admin has disallowed them for the sites of the network. A feature counts as disabled when code on the site, like a filter, turns it off, even if its setting is on.', 'wordpress-seo' ),
 				'Yoast SEO',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
