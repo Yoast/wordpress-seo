@@ -29,7 +29,6 @@
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
     "styled-components": "^5.3.6",
-    "tokenizer2": "^2.0.1",
     "whatwg-fetch": "1.1.1",
     "wicked-good-xpath": "^1.3.0"
   },
