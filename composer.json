@@ -65,6 +65,9 @@
 			"vendor_prefixed/",
 			"src/",
 			"lib/"
+		],
+		"exclude-from-classmap": [
+			"vendor/composer/installers/"
 		]
 	},
 	"autoload-dev": {
