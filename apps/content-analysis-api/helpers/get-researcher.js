@@ -1,5 +1,5 @@
 const { helpers, languageProcessing } = require( "yoastseo" );
-const getLanguageResearcher = require( "yoastseo/researcher" );
+const getLanguageResearcher = require( "yoastseo/researcher" ).default;
 
 // Premium researches and helpers
 const keyphraseDistribution = languageProcessing.researches.keyphraseDistribution;
