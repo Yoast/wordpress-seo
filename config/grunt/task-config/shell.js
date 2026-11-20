@@ -21,7 +21,7 @@ module.exports = function( grunt ) {
 
 	return {
 		"composer-install-production": {
-			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
+			command: "composer install --prefer-dist --optimize-autoloader --classmap-authoritative --no-dev --no-scripts",
 		},
 
 		"composer-install": {
