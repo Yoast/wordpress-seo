@@ -8,6 +8,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command;
 use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command_Handler;
+use Yoast\WP\SEO\AI\Content_Planner\Domain\Post;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
@@ -147,12 +148,12 @@ class Get_Outline_Route implements Route_Interface {
 								'title'       => [
 									'type'      => 'string',
 									'required'  => true,
-									'maxLength' => 500,
+									'maxLength' => Post::MAX_TITLE_LENGTH,
 								],
 								'description' => [
 									'type'      => 'string',
 									'required'  => true,
-									'maxLength' => 1000,
+									'maxLength' => Post::MAX_DESCRIPTION_LENGTH,
 								],
 							],
 							'additionalProperties' => false,
