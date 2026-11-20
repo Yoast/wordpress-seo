@@ -57,23 +57,33 @@ class Author_Schema_Updater extends Abstract_Fields_Updater {
 	private $user_helper;
 
 	/**
+	 * The author schema collector.
+	 *
+	 * @var Author_Schema_Collector
+	 */
+	private $collector;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Author_Schema_Field_Map $field_map              The author schema field map.
 	 * @param Social_Profiles_Helper  $social_profiles_helper The social profiles helper.
 	 * @param Options_Helper          $options_helper         The options helper.
 	 * @param User_Helper             $user_helper            The user helper.
+	 * @param Author_Schema_Collector $collector              The author schema collector.
 	 */
 	public function __construct(
 		Author_Schema_Field_Map $field_map,
 		Social_Profiles_Helper $social_profiles_helper,
 		Options_Helper $options_helper,
-		User_Helper $user_helper
+		User_Helper $user_helper,
+		Author_Schema_Collector $collector
 	) {
 		$this->field_map              = $field_map;
 		$this->social_profiles_helper = $social_profiles_helper;
 		$this->options_helper         = $options_helper;
 		$this->user_helper            = $user_helper;
+		$this->collector              = $collector;
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The fields added through the filter can hold any user meta value.
@@ -81,9 +91,8 @@ class Author_Schema_Updater extends Abstract_Fields_Updater {
 	/**
 	 * Updates the author schema settings of a user in the input and returns the new state of all of them.
 	 *
-	 * Only fields present in the input are changed (patch semantics), so an input without fields only reads
-	 * the settings. Settings that cannot be applied or saved are reported in a warning, while the other
-	 * settings are still saved.
+	 * Only fields present in the input are changed (patch semantics). Settings that cannot be applied or saved are
+	 * reported in a warning, while the other settings are still saved.
 	 *
 	 * @param int                  $user_id The ID of the user.
 	 * @param array<string, mixed> $input   The author schema settings to change, keyed by field name.
@@ -100,17 +109,17 @@ class Author_Schema_Updater extends Abstract_Fields_Updater {
 			);
 		}
 
-		$fields = $this->field_map->get_fields();
-		$update = $this->update_fields( $fields, $this->field_map->get_validators(), $input, [ 'user_id' => $user_id ] );
+		$update = $this->update_fields( $this->field_map->get_fields(), $this->field_map->get_validators(), $input, [ 'user_id' => $user_id ] );
 
 		if ( $update['saved_any'] ) {
 			// Like saving the user profile page does, so the author sitemap gets the right last modified date.
 			$this->user_helper->update_meta( $user_id, '_yoast_wpseo_profile_updated', \time() );
 		}
 
-		$result = \array_merge( [ 'user_id' => $user_id ], $this->get_settings( $user_id, $fields ) );
+		$result = $this->collector->get( $user_id );
 
-		if ( $update['warning'] !== null ) {
+		// The collector only returns an error when the user got deleted in the meantime.
+		if ( \is_array( $result ) && $update['warning'] !== null ) {
 			$result['warning'] = $update['warning'];
 		}
 
@@ -183,24 +192,6 @@ class Author_Schema_Updater extends Abstract_Fields_Updater {
 		$x_username = $this->options_helper->get_twitter_id( $value );
 
 		return ( \is_string( $x_username ) ) ? $x_username : $value;
-	}
-
-	/**
-	 * Returns the current value of each field, read from its repository and cast to the type its schema declares.
-	 *
-	 * @param int                                 $user_id The ID of the user.
-	 * @param array<string, array<string, mixed>> $fields  The JSON schema of each field, keyed by field name.
-	 *
-	 * @return array<string, mixed> The current value of each field.
-	 */
-	private function get_settings( int $user_id, array $fields ): array {
-		$settings = [];
-
-		foreach ( $fields as $field_name => $schema ) {
-			$settings[ $field_name ] = $this->cast_to_schema_type( $this->get_field_value( $field_name, [ 'user_id' => $user_id ] ), $schema );
-		}
-
-		return $settings;
 	}
 
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
