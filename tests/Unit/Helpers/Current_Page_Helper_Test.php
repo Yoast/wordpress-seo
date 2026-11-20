@@ -404,6 +404,95 @@ final class Current_Page_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a plain post type archive is detected as such.
+	 *
+	 * @covers ::get_page_type
+	 *
+	 * @return void
+	 */
+	public function test_get_page_type_for_post_type_archive() {
+		$this->mock_page_type_checks(
+			[
+				'is_post_type_archive' => true,
+			],
+		);
+
+		$this->assertSame( 'Post_Type_Archive', $this->instance->get_page_type() );
+	}
+
+	/**
+	 * Tests that a plain term archive is detected as such.
+	 *
+	 * @covers ::get_page_type
+	 *
+	 * @return void
+	 */
+	public function test_get_page_type_for_term_archive() {
+		$this->mock_page_type_checks(
+			[
+				'is_term_archive' => true,
+			],
+		);
+
+		$this->assertSame( 'Term_Archive', $this->instance->get_page_type() );
+	}
+
+	/**
+	 * Tests that a request which is a term archive *and* a post type archive at the same time
+	 * (e.g. `index.php?post_type=event&event_category=concerts`) is treated as a term archive.
+	 *
+	 * On such a request WP_Query sets both `is_tax` and `is_post_type_archive`. WordPress core
+	 * (`WP_Query::get_queried_object()`) and `Indexable_Repository::for_current_page()` both
+	 * resolve the term first, so the page type has to do the same. Otherwise the term indexable
+	 * would be rendered through the post type archive presentation and the term (title template,
+	 * `%%term_title%%`, ...) would not be available.
+	 *
+	 * @covers ::get_page_type
+	 *
+	 * @return void
+	 */
+	public function test_get_page_type_prefers_term_archive_over_post_type_archive() {
+		$this->mock_page_type_checks(
+			[
+				'is_term_archive'      => true,
+				'is_post_type_archive' => true,
+			],
+		);
+
+		$this->assertSame( 'Term_Archive', $this->instance->get_page_type() );
+	}
+
+	/**
+	 * Mocks all the checks `get_page_type()` relies on.
+	 *
+	 * Every check returns false, unless overridden in `$overrides`.
+	 *
+	 * @param array<string, bool> $overrides Checks that should return true.
+	 *
+	 * @return void
+	 */
+	private function mock_page_type_checks( array $overrides ) {
+		$checks = [
+			'is_search_result',
+			'is_static_posts_page',
+			'is_home_static_page',
+			'is_home_posts_page',
+			'is_simple_page',
+			'is_post_type_archive',
+			'is_term_archive',
+			'is_author_archive',
+			'is_date_archive',
+			'is_404',
+		];
+
+		foreach ( $checks as $check ) {
+			$this->instance
+				->allows( $check )
+				->andReturn( ! empty( $overrides[ $check ] ) );
+		}
+	}
+
+	/**
 	 * Tests is page is the home page and shows posts.
 	 *
 	 * @covers ::is_home_posts_page
