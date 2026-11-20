@@ -1,0 +1,27 @@
+{
+    "landingPage": "/wp-admin/post.php?post=1&action=edit",
+    "steps": [
+        {
+            "step": "login",
+            "username": "admin"
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "disable-fullscreen-and-welcome-guide"
+            }
+        },
+        {
+            "step": "installPlugin",
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "wordpress-seo"
+            }
+        },
+        {
+            "step": "runPHP",
+            "code": "<?php require_once '/wordpress/wp-load.php'; \nWPSEO_Options::set( 'should_redirect_after_install_free', false );"
+        }
+    ]
+}
