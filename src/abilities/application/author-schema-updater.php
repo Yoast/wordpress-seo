@@ -91,9 +91,8 @@ class Author_Schema_Updater extends Abstract_Fields_Updater {
 	/**
 	 * Updates the author schema settings of a user in the input and returns the new state of all of them.
 	 *
-	 * Only fields present in the input are changed (patch semantics), so an input without fields only reads
-	 * the settings. Settings that cannot be applied or saved are reported in a warning, while the other
-	 * settings are still saved.
+	 * Only fields present in the input are changed (patch semantics). Settings that cannot be applied or saved are
+	 * reported in a warning, while the other settings are still saved.
 	 *
 	 * @param int                  $user_id The ID of the user.
 	 * @param array<string, mixed> $input   The author schema settings to change, keyed by field name.

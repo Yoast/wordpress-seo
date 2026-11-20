@@ -180,7 +180,7 @@ final class Update_Author_Schema_Ability_Test extends TestCase {
 						'user_id'        => [
 							'type'        => 'integer',
 							'minimum'     => 1,
-							'description' => 'The ID of the user whose settings to update or read.',
+							'description' => 'The ID of the user whose settings to update.',
 						],
 						'wpseo_pronouns' => [
 							'type'        => 'string',
@@ -197,7 +197,7 @@ final class Update_Author_Schema_Ability_Test extends TestCase {
 					'properties' => [
 						'user_id'        => [
 							'type'        => 'integer',
-							'description' => 'The ID of the user whose settings to update or read.',
+							'description' => 'The ID of the user whose settings to update.',
 						],
 						'wpseo_pronouns' => [
 							'type'        => 'string',

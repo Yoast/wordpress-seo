@@ -64,7 +64,7 @@ class Update_Author_Schema_Ability extends Abstract_Author_Schema_Ability {
 	 * @return array<string, mixed> The ability registration arguments.
 	 */
 	public function get_args(): array {
-		$user_id = $this->get_user_id_schema( \__( 'The ID of the user whose settings to update or read.', 'wordpress-seo' ) );
+		$user_id = $this->get_user_id_schema( \__( 'The ID of the user whose settings to update.', 'wordpress-seo' ) );
 
 		return [
 			'label'               => \__( 'Update Author Schema', 'wordpress-seo' ),
