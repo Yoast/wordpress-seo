@@ -107,7 +107,12 @@ export const BulkEditorTourNotification = () => {
 					/>
 				</div>
 				<div>
-					<ModalNotification.Close dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) } />
+					<ModalNotification.Close
+						dismissScreenReaderLabel={
+						/* translators: Hidden accessibility text. */
+							__( "Dismiss", "wordpress-seo" )
+						}
+					/>
 				</div>
 			</div>
 			<NotificationButtons bulkEditorUrl={ bulkEditorUrl } />

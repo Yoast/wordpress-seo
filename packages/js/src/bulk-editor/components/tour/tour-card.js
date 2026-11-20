@@ -109,7 +109,12 @@ export const TourCard = ( {
 						) }
 					</Popover.Title>
 				</div>
-				<Popover.CloseButton screenReaderLabel={ __( "Close the tour", "wordpress-seo" ) } />
+				<Popover.CloseButton
+					screenReaderLabel={
+					/* translators: Hidden accessibility text. */
+						__( "Close the tour", "wordpress-seo" )
+					}
+				/>
 			</div>
 			<Popover.Content id={ `${ id }-content` } className="yst-font-normal yst-ms-8 yst-me-5 yst-mt-1" style={ { textAlign: "start" } }>
 				{ content }

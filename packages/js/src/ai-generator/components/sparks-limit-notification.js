@@ -167,7 +167,10 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 			id="ai-sparks-limit"
 			className={ className }
 			variant="info"
-			dismissScreenReaderLabel={ __( "Close", "wordpress-seo" ) }
+			dismissScreenReaderLabel={
+				/* translators: Hidden accessibility text. */
+				__( "Close", "wordpress-seo" )
+			}
 			title={ getTitle() }
 			size={ hasUnlimitedSparks ? "default" : "large" }
 		>

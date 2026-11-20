@@ -122,6 +122,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			if ( ! hasValidKeyphrase || ! hasContent ) {
 				return {
 					isEnabled: false,
+					/* translators: Hidden accessibility text. */
 					ariaLabel: __( "Please add both a keyphrase and some text to your content.", "wordpress-seo" ),
 				};
 			}
@@ -141,6 +142,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		if ( currentActiveAIButton && currentActiveAIButton !== aiOptimizeId ) {
 			return {
 				isEnabled: false,
+				/* translators: Hidden accessibility text. */
 				ariaLabel: __( "Please apply or discard the current AI suggestion.", "wordpress-seo" ),
 			};
 		}

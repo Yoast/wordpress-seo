@@ -29,7 +29,12 @@ export const UpsellModal = ( {
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose } initialFocus={ upsellRef }>
-			<Modal.Panel className="yst-max-w-sm yst-p-6" closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
+			<Modal.Panel
+				className="yst-max-w-sm yst-p-6" closeButtonScreenReaderText={
+				/* translators: Hidden accessibility text. */
+					__( "Close", "wordpress-seo" )
+				}
+			>
 				<div className="yst-flex yst-flex-col yst-items-center yst-gap-6 yst-text-center">
 					<div className="yst-flex yst-flex-col yst-items-center yst-gap-4">
 						<span className="yst-flex yst-h-12 yst-w-12 yst-items-center yst-justify-center yst-rounded-full yst-bg-ai-100">

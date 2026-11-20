@@ -29,7 +29,10 @@ export const InlineBanner = ( { isPremium, onDismiss, onDismissPermanently, onCl
 	>
 		<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
 			<DropdownMenu.IconTrigger
-				screenReaderTriggerLabel={ __( "Open banner options", "wordpress-seo" ) }
+				screenReaderTriggerLabel={
+					/* translators: Hidden accessibility text. */
+					__( "Open banner options", "wordpress-seo" )
+				}
 				className="yst-float-end"
 			/>
 			<DropdownMenu.List className="yst-mt-8 yst-w-56">

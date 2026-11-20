@@ -57,7 +57,12 @@ export const DangerModal = ( { isOpen, title, onClose = noop, children } ) => {
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
-			<Modal.Panel className="yst-max-w-lg" closeButtonScreenReaderText={ __( "Dismiss", "wordpress-seo" ) }>
+			<Modal.Panel
+				className="yst-max-w-lg" closeButtonScreenReaderText={
+				/* translators: Hidden accessibility text. */
+					__( "Dismiss", "wordpress-seo" )
+				}
+			>
 				{ /*
 					* An unconditional row (icon | title + body), not the `sm:`-gated
 					* stack-then-row other danger modals use. This modal is portaled inside

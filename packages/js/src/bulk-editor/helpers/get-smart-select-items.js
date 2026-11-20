@@ -26,22 +26,26 @@ export const getSmartSelectItems = ( { activeFieldSet, items, isPending, selectA
 		selectAll( items.filter( ( item ) => item.editable && item.needsImprovement?.[ fieldParam ] ).map( ( item ) => item.id ) );
 	};
 	const isSocial = activeFieldSet === FIELD_SET_SOCIAL;
+	/* translators: Hidden accessibility text. */
+	const socialTitlesAriaLabel = __( "Select pages with social titles that need improvement", "wordpress-seo" );
+	/* translators: Hidden accessibility text. */
+	const seoTitlesAriaLabel = __( "Select pages with SEO titles that need improvement", "wordpress-seo" );
+	/* translators: Hidden accessibility text. */
+	const socialDescriptionsAriaLabel = __( "Select pages with social descriptions that need improvement", "wordpress-seo" );
+	/* translators: Hidden accessibility text. */
+	const metaDescriptionsAriaLabel = __( "Select pages with meta descriptions that need improvement", "wordpress-seo" );
 	return [
 		{
 			key: "select-title-needs-improvement",
 			label: isSocial ? __( "Social titles", "wordpress-seo" ) : __( "SEO titles", "wordpress-seo" ),
-			ariaLabel: isSocial
-				? __( "Select pages with social titles that need improvement", "wordpress-seo" )
-				: __( "Select pages with SEO titles that need improvement", "wordpress-seo" ),
+			ariaLabel: isSocial ? socialTitlesAriaLabel : seoTitlesAriaLabel,
 			icon: <BadScoreIcon />,
 			onClick: () => selectNeedingImprovement( params[ NEEDS_IMPROVEMENT_TITLE ] ),
 		},
 		{
 			key: "select-description-needs-improvement",
 			label: isSocial ? __( "Social descriptions", "wordpress-seo" ) : __( "Meta descriptions", "wordpress-seo" ),
-			ariaLabel: isSocial
-				? __( "Select pages with social descriptions that need improvement", "wordpress-seo" )
-				: __( "Select pages with meta descriptions that need improvement", "wordpress-seo" ),
+			ariaLabel: isSocial ? socialDescriptionsAriaLabel : metaDescriptionsAriaLabel,
 			icon: <BadScoreIcon />,
 			onClick: () => selectNeedingImprovement( params[ NEEDS_IMPROVEMENT_DESCRIPTION ] ),
 		},
