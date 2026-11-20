@@ -88,11 +88,11 @@ final class X_Card_Feature_Test extends TestCase {
 	 */
 	public static function provide_is_disabled_programmatically_cases() {
 		return [
-			'Disabled by the filter'        => [
+			'Disabled by the filter' => [
 				'filtered' => false,
 				'expected' => true,
 			],
-			'Not disabled by the filter'    => [
+			'Not disabled by the filter' => [
 				'filtered' => true,
 				'expected' => false,
 			],
