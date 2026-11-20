@@ -116,10 +116,9 @@ class Get_Feature_Statuses_Ability implements Ability_Interface {
 		return [
 			'label'               => \__( 'Get Feature Statuses', 'wordpress-seo' ),
 			'description'         => \sprintf(
-				/* translators: 1: Yoast SEO, 2: the name pattern of the abilities that enable or disable a feature. */
-				\__( 'Get whether each of the %1$s features that can be enabled or disabled with the %2$s abilities is enabled. A feature that cannot be changed on this site, like llms.txt on multisite, is still listed, but has no such ability.', 'wordpress-seo' ),
+				/* translators: %s expands to Yoast SEO. */
+				\__( 'Get whether %s features like the XML sitemap and Open Graph data are enabled. A feature that cannot be turned on or off on this site, like llms.txt on multisite, is listed too. A feature counts as disabled when code on the site, like a filter, turns it off, even if its setting is on.', 'wordpress-seo' ),
 				'Yoast SEO',
-				'yoast-seo/set-*-status',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			// Core rejects any input for an ability without an input schema, and some callers always send `{}`. The
